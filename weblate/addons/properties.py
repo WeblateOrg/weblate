@@ -145,7 +145,7 @@ class PropertiesSortAddon(BaseAddon):
     icon = "sort-alphabetical.svg"
     settings_form = PropertiesSortAddonForm
 
-    def pre_commit(self, translation, author: str, store_hash: bool) -> None:
+    def pre_commit(self, translation, author: str, store_hash: bool, **kwargs) -> None:
         case_sensitive = self.instance.configuration.get("case_sensitive", False)
         changed = format_file(translation.get_filename(), case_sensitive)
         if changed and store_hash:

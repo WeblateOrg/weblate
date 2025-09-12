@@ -27,7 +27,7 @@ from weblate.utils.render import render_template
 from weblate.utils.validators import validate_filename
 
 if TYPE_CHECKING:
-    from collections.abc import Generator
+    from collections.abc import Callable, Generator
 
     from django_stubs_ext import StrOrPromise
 
@@ -186,6 +186,18 @@ class BaseAddon:
                 if self.can_install(component, None):
                     self.post_configure_run_component(component)
 
+    def run_handler(self, handler: Callable, event: AddonEvent, **kwargs) -> None:
+        from weblate.addons.models import AddonActivityLog
+
+        activity_log = AddonActivityLog.objects.create(
+            addon=self.instance,
+            component=kwargs.get("component"),
+            event=event,
+            pending=True,
+        )
+        handler(**kwargs, activity_log_id=activity_log.pk)
+        AddonActivityLog.objects.filter(id=activity_log.pk).update(pending=False)
+
     def post_configure_run_component(self, component: Component) -> None:
         # Trigger post configure event for a VCS component
         previous = component.repository.last_revision
@@ -194,21 +206,38 @@ class BaseAddon:
 
         if AddonEvent.EVENT_POST_COMMIT in self.events:
             component.log_debug("running post_commit add-on: %s", self.name)
-            self.post_commit(component, True)
+            self.run_handler(
+                self.post_commit,
+                AddonEvent.EVENT_POST_COMMIT,
+                component=component,
+                store_hash=True,
+            )
         if AddonEvent.EVENT_POST_UPDATE in self.events:
             component.log_debug("running post_update add-on: %s", self.name)
             # The post_update typically operates on files, so make sure these are updated
             component.commit_pending("add-on", None)
-            self.post_update(component, "", False)
+            self.run_handler(
+                self.post_update,
+                AddonEvent.EVENT_POST_UPDATE,
+                component=component,
+                previous_head="",
+                skip_push=False,
+            )
         if AddonEvent.EVENT_COMPONENT_UPDATE in self.events:
             component.log_debug("running component_update add-on: %s", self.name)
-            self.component_update(component)
+            self.run_handler(
+                self.component_update,
+                AddonEvent.EVENT_COMPONENT_UPDATE,
+                component=component,
+            )
         if AddonEvent.EVENT_POST_PUSH in self.events:
             component.log_debug("running post_push add-on: %s", self.name)
-            self.post_push(component)
+            self.run_handler(
+                self.post_push, AddonEvent.EVENT_POST_PUSH, component=component
+            )
         if AddonEvent.EVENT_DAILY in self.events:
             component.log_debug("running daily add-on: %s", self.name)
-            self.daily(component)
+            self.run_handler(self.daily, AddonEvent.EVENT_DAILY, component=component)
 
         current = component.repository.last_revision
         if previous != current:
@@ -232,20 +261,31 @@ class BaseAddon:
             for key, values in cls.compat.items()
         )
 
-    def pre_push(self, component: Component) -> None:
+    def pre_push(
+        self, component: Component, *, activity_log_id: int | None = None
+    ) -> None:
         """Event handler before repository is pushed upstream."""
         # To be implemented in a subclass
 
-    def post_push(self, component: Component) -> None:
+    def post_push(
+        self, component: Component, *, activity_log_id: int | None = None
+    ) -> None:
         """Event handler after repository is pushed upstream."""
         # To be implemented in a subclass
 
-    def pre_update(self, component: Component) -> None:
+    def pre_update(
+        self, component: Component, *, activity_log_id: int | None = None
+    ) -> None:
         """Event handler before repository is updated from upstream."""
         # To be implemented in a subclass
 
     def post_update(
-        self, component: Component, previous_head: str, skip_push: bool
+        self,
+        component: Component,
+        previous_head: str,
+        skip_push: bool,
+        *,
+        activity_log_id: int | None = None,
     ) -> None:
         """
         Event handler after repository is updated from upstream.
@@ -260,32 +300,53 @@ class BaseAddon:
         # To be implemented in a subclass
 
     def pre_commit(
-        self, translation: Translation, author: str, store_hash: bool
+        self,
+        translation: Translation,
+        author: str,
+        store_hash: bool,
+        *,
+        activity_log_id: int | None = None,
     ) -> None:
         """Event handler before changes are committed to the repository."""
         # To be implemented in a subclass
 
-    def post_commit(self, component: Component, store_hash: bool) -> None:
+    def post_commit(
+        self,
+        component: Component,
+        store_hash: bool,
+        *,
+        activity_log_id: int | None = None,
+    ) -> None:
         """Event handler after changes are committed to the repository."""
         # To be implemented in a subclass
 
-    def post_add(self, translation: Translation) -> None:
+    def post_add(
+        self, translation: Translation, *, activity_log_id: int | None = None
+    ) -> None:
         """Event handler after new translation is added."""
         # To be implemented in a subclass
 
-    def unit_pre_create(self, unit: Unit) -> None:
+    def unit_pre_create(
+        self, unit: Unit, *, activity_log_id: int | None = None
+    ) -> None:
         """Event handler before new unit is created."""
         # To be implemented in a subclass
 
-    def daily(self, component: Component) -> None:
+    def daily(
+        self, component: Component, *, activity_log_id: int | None = None
+    ) -> None:
         """Event handler daily."""
         # To be implemented in a subclass
 
-    def component_update(self, component: Component) -> None:
+    def component_update(
+        self, component: Component, *, activity_log_id: int | None = None
+    ) -> None:
         """Event handler for component update."""
         # To be implemented in a subclass
 
-    def change_event(self, change: Change) -> None:
+    def change_event(
+        self, change: Change, *, activity_log_id: int | None = None
+    ) -> None:
         """Event handler for change event."""
         # To be implemented in a subclass
 
@@ -447,7 +508,12 @@ class UpdateBaseAddon(BaseAddon):
         raise NotImplementedError
 
     def post_update(
-        self, component: Component, previous_head: str, skip_push: bool
+        self,
+        component: Component,
+        previous_head: str,
+        skip_push: bool,
+        *,
+        activity_log_id: int | None = None,
     ) -> None:
         # Ignore file parse error, it will be properly tracked as an alert
         with component.repository.lock:

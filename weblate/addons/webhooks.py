@@ -64,7 +64,7 @@ class JSONWebhookBaseAddon(ChangeBaseAddon):
         except requests.exceptions.ConnectionError as error:
             raise MessageNotDeliveredError from error
 
-    def change_event(self, change: Change) -> dict | None:
+    def change_event(self, change: Change, **kwargs) -> dict | None:
         """Deliver notification message."""
         config = self.instance.configuration
         events = {int(event) for event in config["events"]}

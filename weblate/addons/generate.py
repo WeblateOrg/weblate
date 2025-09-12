@@ -47,7 +47,7 @@ class GenerateFileAddon(BaseAddon):
             return False
         return super().can_install(component, user)
 
-    def pre_commit(self, translation, author: str, store_hash: bool) -> None:
+    def pre_commit(self, translation, author: str, store_hash: bool, **kwargs) -> None:
         filename = self.render_repo_filename(
             self.instance.configuration["filename"], translation
         )
@@ -122,10 +122,10 @@ class LocaleGenerateAddonBase(BaseAddon):
             target_translation.invalidate_cache()
         return updated
 
-    def daily(self, component) -> None:
+    def daily(self, component, **kwargs) -> None:
         raise NotImplementedError
 
-    def component_update(self, component) -> None:
+    def component_update(self, component, **kwargs) -> None:
         raise NotImplementedError
 
 
@@ -140,14 +140,14 @@ class PseudolocaleAddon(LocaleGenerateAddonBase):
     user_name = "pseudolocale"
     user_verbose = "Pseudolocale add-on"
 
-    def daily(self, component) -> None:
+    def daily(self, component, **kwargs) -> None:
         # Check all strings
         query = Q(state__lte=STATE_TRANSLATED)
         if self.instance.configuration.get("include_readonly", False):
             query |= Q(state=STATE_READONLY)
         self.do_update(component, query)
 
-    def component_update(self, component) -> None:
+    def component_update(self, component, **kwargs) -> None:
         # Update only untranslated strings
         self.do_update(component, Q(state__lt=STATE_TRANSLATED))
 
@@ -210,11 +210,11 @@ class PrefillAddon(LocaleGenerateAddonBase):
     user_name = "prefill"
     user_verbose = "Prefill add-on"
 
-    def daily(self, component) -> None:
+    def daily(self, component, **kwargs) -> None:
         # Check all strings
         self.do_update(component)
 
-    def component_update(self, component) -> None:
+    def component_update(self, component, **kwargs) -> None:
         # Update only untranslated strings
         self.do_update(component)
 
@@ -244,10 +244,10 @@ class FillReadOnlyAddon(LocaleGenerateAddonBase):
     user_name = "fill"
     user_verbose = "Fill read-only add-on"
 
-    def daily(self, component) -> None:
+    def daily(self, component, **kwargs) -> None:
         self.do_update(component)
 
-    def component_update(self, component) -> None:
+    def component_update(self, component, **kwargs) -> None:
         self.do_update(component)
 
     def do_update(self, component) -> None:
