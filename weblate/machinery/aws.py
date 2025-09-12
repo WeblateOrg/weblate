@@ -1,18 +1,23 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
+from __future__ import annotations
 
 import operator
+from typing import TYPE_CHECKING
 
 from django.utils.functional import cached_property
 
 from .base import (
-    DownloadTranslations,
     GlossaryDoesNotExistError,
     GlossaryMachineTranslationMixin,
 )
 from .forms import AWSMachineryForm
+
+if TYPE_CHECKING:
+    from .base import (
+        DownloadTranslations,
+    )
 
 
 class AWSTranslation(GlossaryMachineTranslationMixin):

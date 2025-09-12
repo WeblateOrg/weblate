@@ -38,7 +38,7 @@ from weblate.fonts.tests.utils import FONT
 from weblate.lang.models import Language
 from weblate.screenshots.views import ensure_tesseract_language
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Change, Component, Project, Translation, Unit
+from weblate.trans.models import Change, Component, Project, Unit
 from weblate.trans.tests.test_models import BaseLiveServerTestCase
 from weblate.trans.tests.test_views import RegistrationTestMixin
 from weblate.trans.tests.utils import (
@@ -59,6 +59,7 @@ if TYPE_CHECKING:
     from selenium.webdriver.remote.webelement import WebElement
 
     from weblate.auth.models import User
+    from weblate.trans.models import Translation
 
 TEST_BACKENDS = (
     "social_core.backends.email.EmailAuth",

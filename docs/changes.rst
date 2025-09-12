@@ -12,14 +12,14 @@ Weblate 5.14
 
 .. rubric:: Improvements
 
+* New global permissions have been added to control viewing teams, users and roles without edit rights, see :ref:`privileges`.
+
 * :ref:`date-search`.
 * Last changed loookup in :ref:`search-strings`.
-* Text on the registration page informs about possible use of user’s data in more detail.
 
 .. rubric:: Bug fixes
 
 * Plurals and :ref:`file_format_params` handling on file upload.
-* Components pagination.
 
 .. rubric:: Compatibility
 
@@ -32,6 +32,35 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 .. include:: changes/contributors/5.14.rst
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/149?closed=1>`__.
+
+Weblate 5.13.3
+--------------
+
+*Released on September 12th 2025.*
+
+.. rubric:: Improvements
+
+* Text on the registration page informs about possible use of user’s data in more detail.
+* Clarified account removal view.
+
+.. rubric:: Bug fixes
+
+* Components pagination.
+* :ref:`projectbackup` with same named components in different categories.
+* Source string location display.
+* Correctly track team adding via invitation in :ref:`audit-log`.
+* :ref:`addon-weblate.consistency.languages` no longer includes shared component languages.
+* :ref:`azure-devops-push` API URL parsing.
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.13.3.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/153?closed=1>`__.
 
 Weblate 5.13.2
 --------------

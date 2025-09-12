@@ -130,9 +130,15 @@ GLOBAL_PERMISSIONS = (
     # Translators: Permission name
     ("group.edit", gettext_noop("Manage teams")),
     # Translators: Permission name
+    ("group.view", gettext_noop("View team info")),
+    # Translators: Permission name
     ("user.edit", gettext_noop("Manage users")),
     # Translators: Permission name
+    ("user.view", gettext_noop("View user info")),
+    # Translators: Permission name
     ("role.edit", gettext_noop("Manage roles")),
+    # Translators: Permission name
+    ("role.view", gettext_noop("View role info")),
     # Translators: Permission name
     ("announcement.edit", gettext_noop("Manage announcements")),
     # Translators: Permission name

@@ -4,6 +4,8 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from crispy_forms.helper import FormHelper
 from django import forms
 from django.core.exceptions import ValidationError
@@ -13,7 +15,6 @@ from weblate.accounts.forms import UniqueEmailMixin
 from weblate.accounts.models import AuditLog
 from weblate.auth.data import GLOBAL_PERM_NAMES, SELECTION_MANUAL
 from weblate.auth.models import (
-    AuthenticatedHttpRequest,
     Group,
     Invitation,
     Role,
@@ -23,6 +24,11 @@ from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change
 from weblate.utils import messages
 from weblate.utils.forms import UserField
+
+if TYPE_CHECKING:
+    from weblate.auth.models import (
+        AuthenticatedHttpRequest,
+    )
 
 
 class InviteUserForm(forms.ModelForm):

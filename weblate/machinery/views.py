@@ -23,12 +23,10 @@ from django.views.generic.edit import FormView
 
 from weblate.configuration.models import Setting, SettingCategory
 from weblate.machinery.base import (
-    BatchMachineTranslation,
     MachineTranslationError,
-    SettingsDict,
 )
 from weblate.machinery.models import MACHINERY
-from weblate.trans.models import Project, Translation, Unit
+from weblate.trans.models import Project, Unit
 from weblate.trans.templatetags.translations import format_language_string
 from weblate.utils.diff import Differ
 from weblate.utils.errors import report_error
@@ -37,6 +35,11 @@ from weblate.wladmin.views import MENU as MANAGE_MENU
 
 if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
+    from weblate.machinery.base import (
+        BatchMachineTranslation,
+        SettingsDict,
+    )
+    from weblate.trans.models import Translation
 
 
 class MachineryMixin:

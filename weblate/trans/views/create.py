@@ -13,7 +13,7 @@ from zipfile import BadZipfile
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
-from django.forms import Form, HiddenInput
+from django.forms import HiddenInput
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.decorators import method_decorator
@@ -29,7 +29,6 @@ from weblate.trans.forms import (
     ComponentDiscoverForm,
     ComponentDocCreateForm,
     ComponentInitCreateForm,
-    ComponentProjectForm,
     ComponentScratchCreateForm,
     ComponentSelectForm,
     ComponentZipCreateForm,
@@ -48,7 +47,12 @@ from weblate.utils.views import create_component_from_doc, create_component_from
 from weblate.vcs.models import VCS_REGISTRY
 
 if TYPE_CHECKING:
+    from django.forms import Form
+
     from weblate.auth.models import AuthenticatedHttpRequest
+    from weblate.trans.forms import (
+        ComponentProjectForm,
+    )
     from weblate.trans.models.component import ComponentQuerySet
 
 SESSION_CREATE_KEY = "session_component"

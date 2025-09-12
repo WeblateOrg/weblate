@@ -11,7 +11,7 @@ import sentry_sdk
 from appconf import AppConf
 from django.db import Error as DjangoDatabaseError
 from django.db import models, transaction
-from django.db.models import Q, QuerySet
+from django.db.models import Q
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.urls import reverse
@@ -19,7 +19,7 @@ from django.utils.functional import cached_property
 
 from weblate.logger import LOGGER
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Alert, Change, Component, Project, Translation, Unit
+from weblate.trans.models import Alert, Change, Component, Project, Unit
 from weblate.trans.signals import (
     change_bulk_create,
     component_post_update,
@@ -43,9 +43,11 @@ from .events import AddonEvent
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
 
+    from django.db.models import QuerySet
     from django_stubs_ext import StrOrPromise
 
     from weblate.auth.models import User
+    from weblate.trans.models import Translation
 
 # Initialize addons registry
 ADDONS = ClassLoader("WEBLATE_ADDONS", construct=False, base_class=BaseAddon)

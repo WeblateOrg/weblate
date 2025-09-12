@@ -6,13 +6,15 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from django.apps import AppConfig
-from django.core.checks import CheckMessage, register
 from django.core.checks import Warning as DjangoWarning
+from django.core.checks import register
 
 from weblate.utils.checks import weblate_check
 
 if TYPE_CHECKING:
     from collections.abc import Iterable, Sequence
+
+    from django.core.checks import CheckMessage
 
 
 @register

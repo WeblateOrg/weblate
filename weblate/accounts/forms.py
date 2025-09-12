@@ -11,7 +11,7 @@ from datetime import datetime, timedelta
 from time import time
 from typing import TYPE_CHECKING, cast
 
-from altcha import Challenge, ChallengeOptions, create_challenge, verify_solution
+from altcha import ChallengeOptions, create_challenge, verify_solution
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import HTML, Div, Field, Fieldset, Layout, Submit
 from django import forms
@@ -39,7 +39,7 @@ from weblate.accounts.utils import (
     get_all_user_mails,
     invalidate_reset_codes,
 )
-from weblate.auth.models import AuthenticatedHttpRequest, Group, User
+from weblate.auth.models import Group, User
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
 from weblate.trans.defines import FULLNAME_LENGTH
@@ -57,7 +57,10 @@ from weblate.utils.ratelimit import check_rate_limit, get_rate_setting, reset_ra
 from weblate.utils.validators import validate_fullname
 
 if TYPE_CHECKING:
+    from altcha import Challenge
     from django_otp.models import Device
+
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 
 class UniqueEmailMixin(forms.Form):

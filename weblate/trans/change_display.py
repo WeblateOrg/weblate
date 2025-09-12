@@ -14,7 +14,7 @@ from weblate.addons.models import ADDONS
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models.alert import ALERTS
-from weblate.trans.models.change import COMPONENT_ORIGINS, Change
+from weblate.trans.models.change import COMPONENT_ORIGINS
 from weblate.trans.models.project import Project
 from weblate.trans.templatetags.translations import (
     format_language_string,
@@ -27,6 +27,8 @@ from weblate.utils.pii import mask_email
 
 if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
+
+    from weblate.trans.models.change import Change
 
 AUTO_ACTIONS = {
     # Translators: Name of event in the history

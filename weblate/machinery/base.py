@@ -33,12 +33,7 @@ from weblate.utils.similarity import Comparer
 from weblate.utils.site import get_site_url
 
 from .types import (
-    DownloadMultipleTranslations,
-    DownloadTranslations,
-    SettingsDict,
     SourceLanguageChoices,
-    TranslationResultDict,
-    UnitMemoryResultDict,
 )
 
 if TYPE_CHECKING:
@@ -49,6 +44,14 @@ if TYPE_CHECKING:
     from weblate.auth.models import User
     from weblate.trans.models import Translation, Unit
     from weblate.trans.models.unit import UnitQuerySet
+
+    from .types import (
+        DownloadMultipleTranslations,
+        DownloadTranslations,
+        SettingsDict,
+        TranslationResultDict,
+        UnitMemoryResultDict,
+    )
 
 
 def get_machinery_language(language: Language) -> Language:
@@ -950,14 +953,15 @@ class ResponseStatusMachineTranslation(MachineTranslation):
         # Check response status
         response_status = payload.get("responseStatus", payload.get("code", None))
         if response_status and response_status != 200:
-            raise MachineTranslationError(
+            error_text = payload.get(
+                "responseDetails",
                 payload.get(
-                    "responseDetails",
-                    payload.get(
-                        "message",
-                        payload.get("status", f"Response status {response_status}"),
-                    ),
-                )
+                    "message",
+                    payload.get("status", f"Response status {response_status}"),
+                ),
             )
+            if response_status == 429:
+                raise MachineryRateLimitError(error_text)
+            raise MachineTranslationError(error_text)
 
         super().check_failure(response)

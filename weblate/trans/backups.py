@@ -391,7 +391,9 @@ class ProjectBackup:
 
         validate_schema(data, "weblate-component.schema.json")
         self.backup_json(
-            backupzip, data, f"{self.COMPONENTS_PREFIX}{component.slug}.json"
+            backupzip,
+            data,
+            f"{self.COMPONENTS_PREFIX}{self.full_slug_without_project(component)}.json",
         )
 
         # Store VCS repo in case it is present

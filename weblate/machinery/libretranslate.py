@@ -8,11 +8,13 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from .base import BatchMachineTranslation, DownloadMultipleTranslations
+from .base import BatchMachineTranslation
 from .forms import LibreTranslateMachineryForm
 
 if TYPE_CHECKING:
     from weblate.trans.models import Unit
+
+    from .base import DownloadMultipleTranslations
 
 
 class LibreTranslateTranslation(BatchMachineTranslation):

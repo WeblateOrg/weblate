@@ -27,7 +27,7 @@ from django import forms
 from django.conf import settings
 from django.core.exceptions import NON_FIELD_ERRORS, PermissionDenied, ValidationError
 from django.core.validators import FileExtensionValidator, validate_slug
-from django.db.models import Count, Model, Q, QuerySet
+from django.db.models import Count, Q
 from django.forms import model_to_dict
 from django.forms.utils import from_current_timezone
 from django.template.loader import render_to_string
@@ -40,7 +40,7 @@ from django.utils.text import normalize_newlines, slugify
 from django.utils.translation import gettext, gettext_lazy
 from translation_finder import DiscoveryResult, discover
 
-from weblate.auth.models import AuthenticatedHttpRequest, Group, User
+from weblate.auth.models import Group, User
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.checks.utils import highlight_string
@@ -69,7 +69,6 @@ from weblate.trans.models import (
     Component,
     Label,
     Project,
-    Translation,
     Unit,
     WorkflowSetting,
 )
@@ -106,8 +105,14 @@ from weblate.utils.views import get_sort_name
 from weblate.vcs.models import VCS_REGISTRY
 
 if TYPE_CHECKING:
+    from django.db.models import Model, QuerySet
+
     from weblate.accounts.models import Profile
+    from weblate.auth.models import AuthenticatedHttpRequest
     from weblate.trans.mixins import BaseURLMixin, URLMixin
+    from weblate.trans.models import (
+        Translation,
+    )
     from weblate.trans.models.translation import NewUnitParams
 
 BUTTON_TEMPLATE = """

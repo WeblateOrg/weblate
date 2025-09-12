@@ -4,16 +4,22 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from django.core.checks import (
-    CheckMessage,
     Critical,
-    Debug,
-    Error,
-    Info,
-    Warning,  # noqa: A004
 )
 
 from weblate.utils.docs import get_doc_url
+
+if TYPE_CHECKING:
+    from django.core.checks import (
+        CheckMessage,
+        Debug,
+        Error,
+        Info,
+        Warning,  # noqa: A004
+    )
 
 DOC_LINKS: dict[str, str | tuple[str] | tuple[str, str]] = {
     "security.W001": ("admin/upgdade", "up-3-1"),

@@ -264,7 +264,7 @@ class UnitQuerySet(models.QuerySet):
         if not sort_list:
             if hasattr(obj, "component") and obj.component.is_glossary:
                 sort_list = ["source"]
-            elif isinstance(obj, Project | Category):
+            elif isinstance(obj, (Project, Category)):
                 sort_list = [
                     "translation__component__priority",
                     "translation__component__is_glossary",

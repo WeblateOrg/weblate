@@ -6,7 +6,7 @@ from __future__ import annotations
 from datetime import UTC, datetime, timedelta, timezone
 from typing import TYPE_CHECKING, ClassVar, Literal
 
-from django.db.models import Count, Expression, F, Q
+from django.db.models import Count, F, Q
 from django.test import TestCase
 from django.utils.timezone import get_current_timezone
 
@@ -27,6 +27,8 @@ from weblate.utils.state import (
 
 if TYPE_CHECKING:
     from collections.abc import Mapping
+
+    from django.db.models import Expression
 
 
 class SearchTestCase(TestCase):

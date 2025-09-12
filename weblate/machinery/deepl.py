@@ -12,7 +12,6 @@ from requests.exceptions import HTTPError, RequestException
 
 from .base import (
     BatchMachineTranslation,
-    DownloadMultipleTranslations,
     GlossaryDoesNotExistError,
     GlossaryMachineTranslationMixin,
     XMLMachineTranslationMixin,
@@ -25,6 +24,10 @@ if TYPE_CHECKING:
     from weblate.auth.models import User
     from weblate.lang.models import Language
     from weblate.trans.models import Unit
+
+    from .base import (
+        DownloadMultipleTranslations,
+    )
 
 
 class DeepLTranslation(

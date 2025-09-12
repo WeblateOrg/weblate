@@ -81,10 +81,12 @@ from .properties import PropertiesSortAddon
 from .removal import RemoveComments, RemoveSuggestions
 from .resx import ResxUpdateAddon
 from .tasks import cleanup_addon_activity_log, daily_addons
-from .webhooks import JSONWebhookBaseAddon, SlackWebhookAddon, WebhookAddon
+from .webhooks import SlackWebhookAddon, WebhookAddon
 
 if TYPE_CHECKING:
     from weblate.auth.models import User
+
+    from .webhooks import JSONWebhookBaseAddon
 
 
 class NoOpAddon(BaseAddon):

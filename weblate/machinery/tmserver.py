@@ -4,10 +4,16 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from requests.exceptions import HTTPError
 
-from .base import DownloadTranslations, MachineTranslation
-from .forms import BaseMachineryForm, URLMachineryForm
+from .base import MachineTranslation
+from .forms import URLMachineryForm
+
+if TYPE_CHECKING:
+    from .base import DownloadTranslations
+    from .forms import BaseMachineryForm
 
 
 class TMServerTranslation(MachineTranslation):

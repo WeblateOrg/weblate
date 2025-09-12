@@ -2,15 +2,21 @@
 # Copyright © Sun Zhigang <hzsunzhigang@corp.netease.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
+from typing import TYPE_CHECKING
 
 from .base import (
-    DownloadTranslations,
     MachineryRateLimitError,
     MachineTranslation,
     MachineTranslationError,
 )
 from .forms import KeySecretMachineryForm
+
+if TYPE_CHECKING:
+    from .base import (
+        DownloadTranslations,
+    )
 
 BAIDU_API = "http://api.fanyi.baidu.com/api/trans/vip/translate"
 

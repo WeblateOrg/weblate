@@ -277,7 +277,7 @@ Add missing languages
 :Triggers: :ref:`addon-event-install`, :ref:`addon-event-daily`, :ref:`addon-event-repository-post-add`
 
 Ensures a consistent set of languages is used for all components within a
-project.
+project. The components shared from other projects are not considered in this.
 
 Missing languages are checked once every 24 hours, and when new languages
 are added in Weblate.

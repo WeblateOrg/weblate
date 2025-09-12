@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import threading
+import warnings
 from datetime import datetime
 from functools import lru_cache, reduce
 from itertools import chain
@@ -14,7 +15,7 @@ from typing import TYPE_CHECKING, Any, Literal, cast, overload
 from dateutil.parser import ParserError
 from dateutil.parser import parse as dateutil_parse
 from django.db import transaction
-from django.db.models import Count, Expression, F, Q, Value
+from django.db.models import Count, F, Q, Value
 from django.db.utils import DataError, OperationalError
 from django.http import Http404
 from django.utils import timezone
@@ -23,7 +24,6 @@ from pyparsing import (
     CaselessKeyword,
     OpAssoc,
     Optional,
-    ParserElement,
     ParseResults,
     Regex,
     Word,
@@ -49,6 +49,11 @@ from weblate.utils.views import parse_path
 
 if TYPE_CHECKING:
     from collections.abc import Callable
+
+    from django.db.models import Expression
+    from pyparsing import (
+        ParserElement,
+    )
 
 
 # Helper parsing objects
@@ -362,7 +367,15 @@ class BaseTermExpr:
             )
 
         try:
-            result = dateutil_parse(text, default=default)
+            with warnings.catch_warnings():
+                # Ignore ambiguous date warning, it is gracefully handled by datetutil
+                # or raises exception.
+                warnings.filterwarnings(
+                    "ignore",
+                    "Parsing dates involving a day of month without a year specified",
+                    DeprecationWarning,
+                )
+                result = dateutil_parse(text, default=default)
         except ParserError:
             result = None
 

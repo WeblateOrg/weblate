@@ -1,17 +1,23 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
 from itertools import chain
+from typing import TYPE_CHECKING
 
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext
 
 from .base import (
-    DownloadTranslations,
     ResponseStatusMachineTranslation,
 )
 from .forms import URLMachineryForm
+
+if TYPE_CHECKING:
+    from .base import (
+        DownloadTranslations,
+    )
 
 LANGUAGE_MAP = {
     "ca": "cat",

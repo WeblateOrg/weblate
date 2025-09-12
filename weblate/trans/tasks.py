@@ -20,7 +20,6 @@ from django.db import IntegrityError, transaction
 from django.db.models import (
     Count,
     DateTimeField,
-    Expression,
     ExpressionWrapper,
     F,
     Value,
@@ -62,6 +61,10 @@ from weblate.vcs.base import RepositoryError
 
 if TYPE_CHECKING:
     from collections.abc import Callable
+
+    from django.db.models import (
+        Expression,
+    )
 
 
 @app.task(

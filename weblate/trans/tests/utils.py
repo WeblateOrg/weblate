@@ -430,19 +430,22 @@ class RepoTestMixin:
                 new_lang="contact",
             )
 
-    def create_link_existing(self) -> Component:
+    def create_link_existing(
+        self, name: str = "Test2", slug: str = "test2", **kwargs
+    ) -> Component:
         component = self.component
         if "linked_children" in component.__dict__:
             del component.__dict__["linked_children"]
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             return Component.objects.create(
-                name="Test2",
-                slug="test2",
+                name=name,
+                slug=slug,
                 project=self.project,
                 repo=component.get_repo_link_url(),
                 file_format="po",
                 filemask="po-duplicates/*.dpo",
                 new_lang="contact",
+                **kwargs,
             )
 
 

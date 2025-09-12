@@ -26,7 +26,7 @@ from django.utils.translation import gettext, ngettext
 
 from weblate.checks.flags import Flags
 from weblate.formats.auto import try_load
-from weblate.formats.base import TranslationFormat, TranslationUnit, UnitNotFoundError
+from weblate.formats.base import UnitNotFoundError
 from weblate.formats.helpers import CONTROLCHARS, NamedBytesIO
 from weblate.lang.models import Language, Plural
 from weblate.trans.actions import ActionEvents
@@ -57,7 +57,6 @@ from weblate.utils.state import (
     STATE_FUZZY,
     STATE_READONLY,
     STATE_TRANSLATED,
-    StringState,
 )
 from weblate.utils.stats import GhostStats, TranslationStats
 from weblate.utils.version import GIT_VERSION
@@ -66,6 +65,10 @@ if TYPE_CHECKING:
     from datetime import datetime
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
+    from weblate.formats.base import TranslationFormat, TranslationUnit
+    from weblate.utils.state import (
+        StringState,
+    )
 
     from .project import Project
 

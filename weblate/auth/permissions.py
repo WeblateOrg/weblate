@@ -11,7 +11,6 @@ from django.utils.translation import gettext
 
 from weblate.lang.models import Language
 from weblate.trans.models import (
-    Announcement,
     Category,
     Component,
     ComponentList,
@@ -22,7 +21,7 @@ from weblate.trans.models import (
 )
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 
-from .results import Allowed, Denied, PermissionResult
+from .results import Allowed, Denied
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -33,7 +32,13 @@ if TYPE_CHECKING:
     from weblate.billing.models import Billing
     from weblate.checks.models import Check
     from weblate.memory.models import Memory
-    from weblate.trans.models import Comment, Suggestion
+    from weblate.trans.models import (
+        Announcement,
+        Comment,
+        Suggestion,
+    )
+
+    from .results import PermissionResult
 
 SPECIALS: dict[str, Callable[[User, str, Model], bool | PermissionResult]] = {}
 

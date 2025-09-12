@@ -5,6 +5,7 @@ from __future__ import annotations
 
 from datetime import timedelta
 from itertools import chain
+from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
@@ -20,7 +21,7 @@ from weblate.accounts.models import AuditLog
 from weblate.accounts.utils import remove_user
 from weblate.auth.data import SELECTION_ALL
 from weblate.auth.forms import InviteEmailForm, InviteUserForm, ProjectTeamForm
-from weblate.auth.models import AuthenticatedHttpRequest, Invitation, User
+from weblate.auth.models import Invitation, User
 from weblate.trans.actions import ActionEvents
 from weblate.trans.forms import (
     ProjectTokenCreateForm,
@@ -33,6 +34,9 @@ from weblate.trans.util import redirect_param, render
 from weblate.utils import messages
 from weblate.utils.views import parse_path, show_form_errors
 from weblate.vcs.ssh import get_all_key_data
+
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 
 def check_user_form(

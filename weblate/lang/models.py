@@ -459,8 +459,8 @@ class LanguageQuerySet(models.QuerySet):
                 return self.get(code__iexact=accept_lang)
             except Language.DoesNotExist:
                 try:
-                    return self.get(code__iexact=accept_lang.replace("-", "_"))
-                except Language.DoesNotExist:
+                    return self.filter(code__iexact=accept_lang.replace("-", "_"))[0]
+                except IndexError:
                     continue
         return None
 

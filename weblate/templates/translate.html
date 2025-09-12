@@ -837,7 +837,7 @@
                 </div>
               </div>
             {% endif %}
-            {% if unit.location %}
+            {% if unit.location or unit.source_unit.location %}
               <div class="list-group-item">
                 <h5>{% translate "Source string location" %}</h5>
                 {% get_location_links user unit %}

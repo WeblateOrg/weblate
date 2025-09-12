@@ -79,6 +79,10 @@ List of privileges
                     ],
                 ]
             )
+        # Fill in blank tables when there is no role
+        for row in rows:
+            if len(row[1]) == 0:
+                row[1].append([""])
         table.append([GROUP_NAMES[last], rows])
 
         rows = [
@@ -92,6 +96,10 @@ List of privileges
             ]
             for key, name in GLOBAL_PERMISSIONS
         ]
+        # Fill in blank tables when there is no role
+        for row in rows:
+            if len(row[1]) == 0:
+                row[1].append([""])
         table.append(["Site wide privileges", rows])
 
         self.stdout.writelines(

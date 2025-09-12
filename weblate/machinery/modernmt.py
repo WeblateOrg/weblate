@@ -1,11 +1,13 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
 import csv
 import json
 import os
 import tempfile
+from typing import TYPE_CHECKING
 
 from dateutil.parser import isoparse
 from requests.exceptions import HTTPError
@@ -13,12 +15,16 @@ from requests.exceptions import HTTPError
 import weblate.utils.version
 
 from .base import (
-    DownloadTranslations,
     GlossaryDoesNotExistError,
     GlossaryMachineTranslationMixin,
     MachineTranslationError,
 )
 from .forms import ModernMTMachineryForm
+
+if TYPE_CHECKING:
+    from .base import (
+        DownloadTranslations,
+    )
 
 
 class ModernMTTranslation(GlossaryMachineTranslationMixin):

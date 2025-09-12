@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 from io import BytesIO
+from typing import TYPE_CHECKING
 from unittest import TestCase
 from urllib.parse import urlsplit
 from zipfile import ZipFile
@@ -23,9 +24,9 @@ from django.utils.translation import activate
 from openpyxl import load_workbook
 from PIL import Image
 
-from weblate.auth.models import Group, User, get_anonymous, setup_project_groups
+from weblate.auth.models import Group, get_anonymous, setup_project_groups
 from weblate.lang.models import Language
-from weblate.trans.models import Component, ComponentList, Project, Translation, Unit
+from weblate.trans.models import Component, ComponentList, Project
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.utils import (
     create_another_user,
@@ -34,6 +35,10 @@ from weblate.trans.tests.utils import (
 )
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.xml import parse_xml
+
+if TYPE_CHECKING:
+    from weblate.auth.models import User
+    from weblate.trans.models import Translation, Unit
 
 
 class RegistrationTestMixin(TestCase):

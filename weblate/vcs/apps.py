@@ -7,8 +7,8 @@ import os
 from typing import TYPE_CHECKING
 
 from django.apps import AppConfig
-from django.core.checks import CheckMessage, register
 from django.core.checks import Warning as DjangoWarning
+from django.core.checks import register
 from django.db.models.signals import post_migrate
 
 import weblate.vcs.gpg
@@ -22,6 +22,8 @@ from weblate.vcs.ssh import ensure_ssh_key
 
 if TYPE_CHECKING:
     from collections.abc import Iterable, Sequence
+
+    from django.core.checks import CheckMessage
 
 GIT_ERRORS: list[str] = []
 

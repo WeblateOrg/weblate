@@ -1,16 +1,20 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-
+from __future__ import annotations
 
 import json
+from typing import TYPE_CHECKING
 
 from aliyunsdkalimt.request.v20181012 import TranslateGeneralRequest
 from aliyunsdkcore.client import AcsClient
 from django.utils.functional import cached_property
 
-from .base import DownloadTranslations, MachineTranslation, MachineTranslationError
+from .base import MachineTranslation, MachineTranslationError
 from .forms import AlibabaMachineryForm
+
+if TYPE_CHECKING:
+    from .base import DownloadTranslations
 
 
 class AlibabaTranslation(MachineTranslation):

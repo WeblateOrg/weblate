@@ -1,11 +1,17 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from requests.exceptions import RequestException
 
-from .base import DownloadTranslations, MachineTranslation, MachineTranslationError
+from .base import MachineTranslation, MachineTranslationError
 from .forms import KeyMachineryForm
+
+if TYPE_CHECKING:
+    from .base import DownloadTranslations
 
 GOOGLE_API_ROOT = "https://translation.googleapis.com/language/translate/v2/"
 

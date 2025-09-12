@@ -7,11 +7,13 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from .base import DownloadTranslations, MachineTranslation
+from .base import MachineTranslation
 from .forms import SAPMachineryForm
 
 if TYPE_CHECKING:
     from requests.auth import AuthBase
+
+    from .base import DownloadTranslations
 
 
 class SAPTranslationHub(MachineTranslation):

@@ -1,8 +1,14 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
-from .base import DownloadTranslations, MachineTranslation
+from typing import TYPE_CHECKING
+
+from .base import MachineTranslation
+
+if TYPE_CHECKING:
+    from .base import DownloadTranslations
 
 
 class GlosbeTranslation(MachineTranslation):

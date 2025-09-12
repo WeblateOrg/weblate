@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-09-03 14:08+0200\n"
-"PO-Revision-Date: 2025-09-09 17:07+0000\n"
+"PO-Revision-Date: 2025-09-11 12:02+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -14481,12 +14481,17 @@ msgid ""
 "You can set configuration for any rate limiter scopes. To do that add "
 "``WEBLATE_`` prefix to any of setting described in :ref:`rate-limit`."
 msgstr ""
+"Puede establecer la configuración para cualquier ámbito limitador de "
+"velocidad. Para hacer eso, añada el prefijo ``WEBLATE_`` a cualquiera de los "
+"ajustes descritos en :ref:`rate-limit`."
 
 #: ../../admin/install/docker.rst:979
 msgid ""
 "Configures API rate limiting. Defaults to ``100/day`` for anonymous and "
 "``5000/hour`` for authenticated users."
 msgstr ""
+"Configura la limitación de la tasa de API. El valor predeterminado es ``100/"
+"day`` para usuarios anónimos y ``5000/hour`` para autenticados."
 
 #: ../../admin/install/docker.rst:990
 msgid "Configures :setting:`ENABLE_HOOKS`."
@@ -14627,40 +14632,28 @@ msgid "Configures :ref:`vcs-pagure` by changing :setting:`PAGURE_CREDENTIALS`."
 msgstr "Configurar :ref:`vcs-pagure` cambiando :setting:`PAGURE_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:1199
-#, fuzzy
-#| msgid ""
-#| "This configuration is insecure, it is recommended to switch to :setting:"
-#| "`GITHUB_CREDENTIALS`."
 msgid ""
 "Configures :ref:`vcs-bitbucket-data-center` by changing :setting:"
 "`BITBUCKETSERVER_CREDENTIALS`."
 msgstr ""
-"Esta configuración es insegura, se recomienda cambiar a :setting:"
-"`GITHUB_CREDENTIALS`."
+"Configurar :ref:`vcs-bitbucket-data-center` cambiando "
+":setting:`BITBUCKETSERVER_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:1207
-#, fuzzy
-#| msgid ""
-#| "This configuration is insecure, it is recommended to switch to :setting:"
-#| "`GITHUB_CREDENTIALS`."
 msgid ""
 "Configures :ref:`vcs-bitbucket-cloud` by changing :setting:"
 "`BITBUCKETCLOUD_CREDENTIALS`."
 msgstr ""
-"Esta configuración es insegura, se recomienda cambiar a :setting:"
-"`GITHUB_CREDENTIALS`."
+"Configurar :ref:`vcs-bitbucket-cloud` cambiando "
+":setting:`BITBUCKETCLOUD_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:1219
-#, fuzzy
-#| msgid ""
-#| "This configuration is insecure, it is recommended to switch to :setting:"
-#| "`GITEA_CREDENTIALS`."
 msgid ""
 "Configures :ref:`vcs-azure-devops` by changing :setting:"
 "`AZURE_DEVOPS_CREDENTIALS`."
 msgstr ""
-"Esta configuración es insegura, se recomienda cambiar a :setting:"
-"`GITEA_CREDENTIALS`."
+"Configurar :ref:`vcs-azure-devops` cambiando "
+":setting:`AZURE_DEVOPS_CREDENTIALS`."
 
 #: ../../admin/install/docker.rst:1228
 msgid "Automatic suggestion settings"
@@ -14679,6 +14672,8 @@ msgid ""
 "The existing environment variables are imported during the migration to "
 "Weblate 4.13, but changing them will not have any further effect."
 msgstr ""
+"Las variables de entorno existentes se importan durante la migración a "
+"Weblate 4.13, pero cambiarlas no tendrá ningún efecto adicional."
 
 #: ../../admin/install/docker.rst:1241
 msgid "Authentication settings"
@@ -14810,15 +14805,16 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1430
 msgid "Enables Slack authentication, see :ref:`slack-auth`."
-msgstr ""
+msgstr "Habilita la autenticación de Slack, ver :ref:`slack-auth`."
 
 #: ../../admin/install/docker.rst:1434
+#, fuzzy
 msgid "OpenID Connect"
-msgstr ""
+msgstr "OpenID Connect"
 
 #: ../../admin/install/docker.rst:1445
 msgid "Configures generic OpenID Connect integration."
-msgstr ""
+msgstr "Configura la integración genérica de OpenID Connect."
 
 #: ../../admin/install/docker.rst:1454
 msgid "SAML"
@@ -14830,14 +14826,18 @@ msgid ""
 "startup. In case you want to use own keys, place the certificate and private "
 "key in :file:`/app/data/ssl/saml.crt` and :file:`/app/data/ssl/saml.key`."
 msgstr ""
+"Las claves SAML autofirmadas se generan automáticamente en el primer inicio "
+"del contenedor. En caso de que desee utilizar claves propias, coloque el "
+"certificado y la clave privada en :file:`/app/data/ssl/saml.crt` y :file:`/"
+"app/data/ssl/saml.key`."
 
 #: ../../admin/install/docker.rst:1466
 msgid "SAML Identity Provider settings, see :ref:`saml-auth`."
-msgstr ""
+msgstr "Configuración del proveedor de identidades SAML, ver :ref:`saml-auth`."
 
 #: ../../admin/install/docker.rst:1475
 msgid "SAML attributes mapping."
-msgstr ""
+msgstr "Asignación de atributos SAML."
 
 #: ../../admin/install/docker.rst:1479
 msgid "Other authentication settings"
@@ -14857,6 +14857,10 @@ msgid ""
 "dwolfhub/zxcvbn-python>`_ password strength estimator. Defaults to 3, set to "
 "0 to disable strength checking."
 msgstr ""
+"Puntuación mínima de contraseñas según lo evaluado por el estimador de "
+"seguridad de contraseñas`zxcvbn <https://github.com/dwolfhub/zxcvbn-python>`"
+"_ . El valor predeterminado es 3, establecido en 0 para deshabilitar la "
+"comprobación de la fuerza."
 
 #: ../../admin/install/docker.rst:1500
 msgid "PostgreSQL database setup"
@@ -14867,6 +14871,8 @@ msgid ""
 "The database is created by :file:`docker-compose.yml`, so these settings "
 "affect both Weblate and PostgreSQL containers."
 msgstr ""
+"La base de datos la crea :file:`docker-compose.yml`, por lo que esta "
+"configuración afecta tanto a los contenedores Weblate como PostgreSQL."
 
 #: ../../admin/install/docker.rst:1511
 msgid "PostgreSQL password."
@@ -14967,10 +14973,8 @@ msgstr ""
 "para configurar la conexión de la base de datos manualmente."
 
 #: ../../admin/install/docker.rst:1598
-#, fuzzy
-#| msgid "MySQL and MariaDB"
 msgid "MySQL or MariaDB server"
-msgstr "MySQL y MariaDB"
+msgstr "Servidor MySQL o MariaDB"
 
 #: ../../admin/install/docker.rst:1600
 msgid ""

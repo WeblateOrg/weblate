@@ -4,13 +4,13 @@
 
 from __future__ import annotations
 
-from typing import NoReturn
+from typing import TYPE_CHECKING, NoReturn
 
 from django.conf import settings
 from django.contrib import admin
 from django.utils.translation import gettext_lazy
 
-from weblate.auth.models import AuthenticatedHttpRequest, User
+from weblate.auth.models import User
 from weblate.trans.models import (
     Announcement,
     AutoComponentList,
@@ -27,6 +27,9 @@ from weblate.trans.models import (
 from weblate.trans.util import sort_choices
 from weblate.utils.html import format_html_join_comma
 from weblate.wladmin.models import WeblateModelAdmin
+
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 
 class RepoAdminMixin:

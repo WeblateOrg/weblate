@@ -26,12 +26,11 @@ from docutils.nodes import (
     problematic,
     reference,
     strong,
-    system_message,
 )
 from docutils.parsers.rst import languages
 from docutils.parsers.rst.states import Inliner, Struct
 
-from weblate.checks.base import MissingExtraDict, TargetCheck
+from weblate.checks.base import TargetCheck
 from weblate.utils.html import (
     MD_BROKEN_LINK,
     MD_LINK,
@@ -46,8 +45,12 @@ if TYPE_CHECKING:
     from collections.abc import Iterable
 
     from django_stubs_ext import StrOrPromise
+    from docutils.nodes import (
+        system_message,
+    )
     from lxml.etree import _Element
 
+    from weblate.checks.base import MissingExtraDict
     from weblate.trans.models import Unit
 
     from .models import Check

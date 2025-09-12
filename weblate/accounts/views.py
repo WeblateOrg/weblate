@@ -97,7 +97,6 @@ from weblate.accounts.forms import (
     NotificationForm,
     OTPTokenForm,
     PasswordConfirmForm,
-    ProfileBaseForm,
     ProfileForm,
     RegistrationForm,
     ResetForm,
@@ -147,10 +146,14 @@ from weblate.utils.ratelimit import check_rate_limit, session_ratelimit_post
 from weblate.utils.request import get_ip_address, get_user_agent
 from weblate.utils.stats import prefetch_stats
 from weblate.utils.token import get_token
+from weblate.utils.version import USER_AGENT
 from weblate.utils.views import get_paginator, parse_path
 from weblate.utils.zammad import ZammadError, submit_zammad_ticket
 
 if TYPE_CHECKING:
+    from weblate.accounts.forms import (
+        ProfileBaseForm,
+    )
     from weblate.accounts.types import DeviceType
     from weblate.auth.models import AuthenticatedHttpRequest
 
@@ -181,6 +184,9 @@ CONTACT_SUBJECTS = {
 ANCHOR_RE = re.compile(r"^#[a-z]+$")
 
 NOTIFICATION_PREFIX_TEMPLATE = "notifications__{}"
+
+# Override python-social-auth User-Agent header
+settings.SOCIAL_AUTH_USER_AGENT = USER_AGENT
 
 
 class EmailSentView(TemplateView):

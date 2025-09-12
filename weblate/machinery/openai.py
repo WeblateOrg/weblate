@@ -20,7 +20,6 @@ from weblate.utils.errors import add_breadcrumb
 
 from .base import (
     BatchMachineTranslation,
-    DownloadMultipleTranslations,
     MachineryRateLimitError,
     MachineTranslationError,
 )
@@ -32,6 +31,10 @@ if TYPE_CHECKING:
     from openai import OpenAI
 
     from weblate.trans.models import Unit
+
+    from .base import (
+        DownloadMultipleTranslations,
+    )
 
 
 PROMPT = """

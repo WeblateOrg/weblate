@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import fnmatch
 import os
-from typing import IO, Any
+from typing import IO, TYPE_CHECKING, Any
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -19,7 +19,7 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.translation import gettext_lazy
 
-from weblate.auth.models import User, get_anonymous
+from weblate.auth.models import get_anonymous
 from weblate.checks.flags import Flags
 from weblate.screenshots.fields import ScreenshotField
 from weblate.trans.mixins import UserDisplayMixin
@@ -29,6 +29,9 @@ from weblate.trans.signals import vcs_post_update
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
 from weblate.utils.validators import validate_bitmap
+
+if TYPE_CHECKING:
+    from weblate.auth.models import User
 
 
 class ScreenshotQuerySet(models.QuerySet):

@@ -12,7 +12,7 @@ import shutil
 from abc import ABC, abstractmethod
 from io import BytesIO
 from pathlib import Path
-from typing import NoReturn
+from typing import TYPE_CHECKING, NoReturn
 from unittest import TestCase
 
 from lxml import etree
@@ -20,7 +20,7 @@ from translate.storage.pypo import pofile
 
 from weblate.checks.flags import Flags
 from weblate.formats.auto import AutodetectFormat, detect_filename, try_load
-from weblate.formats.base import TranslationFormat, UpdateError
+from weblate.formats.base import UpdateError
 from weblate.formats.models import FILE_FORMATS
 from weblate.formats.ttkit import (
     AndroidFormat,
@@ -62,6 +62,9 @@ from weblate.lang.models import Language, Plural
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import TempDirMixin, get_test_file
 from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
+
+if TYPE_CHECKING:
+    from weblate.formats.base import TranslationFormat
 
 TEST_PO = get_test_file("cs.po")
 TEST_CSV = get_test_file("cs-mono.csv")
