@@ -31,7 +31,9 @@ class LanguageConsistencyAddon(BaseAddon):
     user_name = "languages"
     user_verbose = "Languages add-on"
 
-    def daily(self, component: Component, **kwargs) -> None:
+    def daily(
+        self, component: Component, activity_log_id: int | None = None, **kwargs
+    ) -> None:
         # The languages list is built here because we want to exclude shared
         # component's languages that are included in Project.languages
         language_consistency.delay_on_commit(
@@ -42,13 +44,17 @@ class LanguageConsistencyAddon(BaseAddon):
                 ).values_list("id", flat=True)
             ),
             component.project_id,
+            activity_log_id=activity_log_id,
         )
 
-    def post_add(self, translation: Translation, **kwargs) -> None:
+    def post_add(
+        self, translation: Translation, activity_log_id: int | None = None, **kwargs
+    ) -> None:
         language_consistency.delay_on_commit(
             self.instance.id,
             [translation.language_id],
             translation.component.project_id,
+            activity_log_id=activity_log_id,
         )
 
 

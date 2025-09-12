@@ -27,7 +27,7 @@ from weblate.utils.render import render_template
 from weblate.utils.validators import validate_filename
 
 if TYPE_CHECKING:
-    from collections.abc import Generator
+    from collections.abc import Callable, Generator
 
     from django_stubs_ext import StrOrPromise
 
@@ -186,6 +186,18 @@ class BaseAddon:
                 if self.can_install(component, None):
                     self.post_configure_run_component(component)
 
+    def run_handler(self, handler: Callable, event: AddonEvent, **kwargs) -> None:
+        from weblate.addons.models import AddonActivityLog
+
+        activity_log = AddonActivityLog.objects.create(
+            addon=self.instance,
+            component=kwargs.get("component"),
+            event=event,
+            pending=True,
+        )
+        handler(**kwargs, activity_log_id=activity_log.pk)
+        AddonActivityLog.objects.filter(id=activity_log.pk).update(pending=False)
+
     def post_configure_run_component(self, component: Component) -> None:
         # Trigger post configure event for a VCS component
         previous = component.repository.last_revision
@@ -194,21 +206,38 @@ class BaseAddon:
 
         if AddonEvent.EVENT_POST_COMMIT in self.events:
             component.log_debug("running post_commit add-on: %s", self.name)
-            self.post_commit(component, True)
+            self.run_handler(
+                self.post_commit,
+                AddonEvent.EVENT_POST_COMMIT,
+                component=component,
+                store_hash=True,
+            )
         if AddonEvent.EVENT_POST_UPDATE in self.events:
             component.log_debug("running post_update add-on: %s", self.name)
             # The post_update typically operates on files, so make sure these are updated
             component.commit_pending("add-on", None)
-            self.post_update(component, "", False)
+            self.run_handler(
+                self.post_update,
+                AddonEvent.EVENT_POST_UPDATE,
+                component=component,
+                previous_head="",
+                skip_push=False,
+            )
         if AddonEvent.EVENT_COMPONENT_UPDATE in self.events:
             component.log_debug("running component_update add-on: %s", self.name)
-            self.component_update(component)
+            self.run_handler(
+                self.component_update,
+                AddonEvent.EVENT_COMPONENT_UPDATE,
+                component=component,
+            )
         if AddonEvent.EVENT_POST_PUSH in self.events:
             component.log_debug("running post_push add-on: %s", self.name)
-            self.post_push(component)
+            self.run_handler(
+                self.post_push, AddonEvent.EVENT_POST_PUSH, component=component
+            )
         if AddonEvent.EVENT_DAILY in self.events:
             component.log_debug("running daily add-on: %s", self.name)
-            self.daily(component)
+            self.run_handler(self.daily, AddonEvent.EVENT_DAILY, component=component)
 
         current = component.repository.last_revision
         if previous != current:

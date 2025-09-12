@@ -17,7 +17,7 @@ from django.utils.timezone import now
 from lxml import html
 
 from weblate.addons.events import AddonEvent
-from weblate.addons.models import Addon, handle_addon_event
+from weblate.addons.models import Addon, AddonActivityLog, handle_addon_event
 from weblate.lang.models import Language
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import Change, Component, Project
@@ -94,7 +94,10 @@ def cdn_parse_html(addon_id: int, component_id: int) -> None:
 )
 @transaction.atomic
 def language_consistency(
-    addon_id: int, language_ids: list[int], project_id: int
+    addon_id: int,
+    language_ids: list[int],
+    project_id: int,
+    activity_log_id: int | None = None,
 ) -> None:
     try:
         addon = Addon.objects.get(pk=addon_id)
@@ -111,6 +114,8 @@ def language_consistency(
             "translation", filter=Q(translation__language__in=languages)
         )
     ).exclude(translation_count=languages.count())
+
+    log_result = ""
 
     for component in components.iterator():
         # Avoid two language consistency add-ons working at same on a single component
@@ -129,17 +134,16 @@ def language_consistency(
                     create_translations=False,
                 )
                 if new_lang is None:
-                    component.log_warning(
-                        "could not add %s language for language consistency: %s",
-                        language,
-                        component.new_lang_error_message,
-                    )
+                    log_result += f"{component.full_slug}: Could not add {language} language consistency: {component.new_lang_error_message}\n"
                 else:
-                    new_lang.log_info("added for language consistency")
+                    log_result += f"{component.full_slug}: Added {language} for language consistency\n"
             try:
                 component.create_translations_immediate()
             except FileParseError as error:
-                component.log_error("could not parse translation files: %s", error)
+                log_result += f"{component.full_slug}: Could not parse translation files: {error}\n"
+
+    if activity_log_id and log_result:
+        update_addon_activity_log.delay_on_commit(activity_log_id, log_result)
 
 
 @app.task(trail=False)
@@ -159,6 +163,20 @@ def daily_addons(modulo: bool = True) -> None:
         addon_queryset=addons,
         auto_scope=True,
     )
+
+
+@app.task(trail=False)
+def update_addon_activity_log(
+    pk: int, result: str = "", error_occurred: bool = False, pending: bool | None = None
+) -> None:
+    addon_activity_log = AddonActivityLog.objects.select_for_update().get(id=pk)
+    if result:
+        addon_activity_log.update_result(result, save=False)
+    if pending is not None:
+        addon_activity_log.pending = pending
+    if error_occurred is not None:
+        addon_activity_log.details["error"] = error_occurred
+    addon_activity_log.save()
 
 
 @app.task(trail=False)

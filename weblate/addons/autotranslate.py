@@ -34,7 +34,7 @@ class AutoTranslateAddon(BaseAddon):
     multiple = True
     icon = "language.svg"
 
-    def component_update(self, component: Component) -> None:
+    def component_update(self, component: Component, **kwargs) -> None:
         conf = self.instance.configuration
         auto_translate_component.delay_on_commit(
             component.pk,
@@ -45,7 +45,7 @@ class AutoTranslateAddon(BaseAddon):
             threshold=conf["threshold"],
         )
 
-    def daily(self, component: Component) -> None:
+    def daily(self, component: Component, **kwargs) -> None:
         # Translate every component less frequenctly to reduce load.
         # The translation is anyway triggered on update, so it should
         # not matter that much that we run this less often.

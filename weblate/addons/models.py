@@ -302,7 +302,7 @@ REPO_EVENTS = {
 
 class AddonCallbackMethod(Protocol):
     def __call__(
-        self, addon: Addon, component: Component, *, activity_log_id: int | None = None
+        self, addon: Addon, component: Component, *, activity_log_id: int
     ) -> None: ...
 
 
@@ -314,6 +314,8 @@ def execute_addon_event(
     method: str | AddonCallbackMethod,
     args: tuple | None = None,
 ) -> None:
+    from weblate.addons.tasks import update_addon_activity_log
+
     # Trigger repository scoped add-ons only on the main component
     if (
         addon.repo_scope
@@ -401,12 +403,12 @@ def execute_addon_event(
         finally:
             # Check if add-on is still installed and log activity
             if event not in NO_LOG_EVENTS and addon.pk is not None:
-                activity_log = AddonActivityLog.objects.get(pk=activity_log.pk)
-                if log_result:
-                    activity_log.update_result(log_result, save=False)
-                activity_log.pending = False
-                activity_log.details["error"] = error_occurred
-                activity_log.save()
+                update_addon_activity_log.delay_on_commit(
+                    activity_log.pk,
+                    log_result,
+                    pending=False,
+                    error_occurred=error_occurred,
+                )
 
 
 @overload

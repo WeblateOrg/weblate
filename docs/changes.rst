@@ -14,7 +14,8 @@ Weblate 5.14
 * New global permissions have been added to control viewing teams, users and roles without edit rights, see :ref:`privileges`.
 
 * :ref:`date-search`.
-* Last changed loookup in :ref:`search-strings`.
+* Last changed lookup in :ref:`search-strings`.
+* Improved activity logging for :ref:`addon-weblate.consistency.languages` add-on.
 
 .. rubric:: Bug fixes
 
