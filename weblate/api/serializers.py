@@ -671,6 +671,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
             "intermediate",
             "new_base",
             "file_format",
+            "file_format_params",
             "license",
             "license_url",
             "agreement",

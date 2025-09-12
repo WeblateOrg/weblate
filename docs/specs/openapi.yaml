@@ -45638,6 +45638,8 @@ components:
           maxLength: 400
         file_format:
           $ref: '#/components/schemas/FileFormatEnum'
+        file_format_params:
+          title: File format parameters
         license:
           title: Translation license
           oneOf:
@@ -47012,6 +47014,7 @@ components:
       - $ref: '#/components/schemas/ComponentsAddonsCreateIntermediateErrorComponent'
       - $ref: '#/components/schemas/ComponentsAddonsCreateNewBaseErrorComponent'
       - $ref: '#/components/schemas/ComponentsAddonsCreateFileFormatErrorComponent'
+      - $ref: '#/components/schemas/ComponentsAddonsCreateFileFormatParamsErrorComponent'
       - $ref: '#/components/schemas/ComponentsAddonsCreateLicenseErrorComponent'
       - $ref: '#/components/schemas/ComponentsAddonsCreateAgreementErrorComponent'
       - $ref: '#/components/schemas/ComponentsAddonsCreateNewLangErrorComponent'
@@ -47075,6 +47078,7 @@ components:
           intermediate: '#/components/schemas/ComponentsAddonsCreateIntermediateErrorComponent'
           new_base: '#/components/schemas/ComponentsAddonsCreateNewBaseErrorComponent'
           file_format: '#/components/schemas/ComponentsAddonsCreateFileFormatErrorComponent'
+          file_format_params: '#/components/schemas/ComponentsAddonsCreateFileFormatParamsErrorComponent'
           license: '#/components/schemas/ComponentsAddonsCreateLicenseErrorComponent'
           agreement: '#/components/schemas/ComponentsAddonsCreateAgreementErrorComponent'
           new_lang: '#/components/schemas/ComponentsAddonsCreateNewLangErrorComponent'
@@ -47138,6 +47142,28 @@ components:
             * `invalid_choice` - invalid_choice
             * `null` - null
             * `required` - required
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ComponentsAddonsCreateFileFormatParamsErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - file_format_params
+          type: string
+          description: '* `file_format_params` - file_format_params'
+        code:
+          enum:
+          - invalid
+          - 'null'
+          type: string
+          description: |-
+            * `invalid` - invalid
+            * `null` - null
         detail:
           type: string
       required:
@@ -48740,6 +48766,7 @@ components:
       - $ref: '#/components/schemas/ComponentsLinksCreateIntermediateErrorComponent'
       - $ref: '#/components/schemas/ComponentsLinksCreateNewBaseErrorComponent'
       - $ref: '#/components/schemas/ComponentsLinksCreateFileFormatErrorComponent'
+      - $ref: '#/components/schemas/ComponentsLinksCreateFileFormatParamsErrorComponent'
       - $ref: '#/components/schemas/ComponentsLinksCreateLicenseErrorComponent'
       - $ref: '#/components/schemas/ComponentsLinksCreateAgreementErrorComponent'
       - $ref: '#/components/schemas/ComponentsLinksCreateNewLangErrorComponent'
@@ -48803,6 +48830,7 @@ components:
           intermediate: '#/components/schemas/ComponentsLinksCreateIntermediateErrorComponent'
           new_base: '#/components/schemas/ComponentsLinksCreateNewBaseErrorComponent'
           file_format: '#/components/schemas/ComponentsLinksCreateFileFormatErrorComponent'
+          file_format_params: '#/components/schemas/ComponentsLinksCreateFileFormatParamsErrorComponent'
           license: '#/components/schemas/ComponentsLinksCreateLicenseErrorComponent'
           agreement: '#/components/schemas/ComponentsLinksCreateAgreementErrorComponent'
           new_lang: '#/components/schemas/ComponentsLinksCreateNewLangErrorComponent'
@@ -48866,6 +48894,28 @@ components:
             * `invalid_choice` - invalid_choice
             * `null` - null
             * `required` - required
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ComponentsLinksCreateFileFormatParamsErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - file_format_params
+          type: string
+          description: '* `file_format_params` - file_format_params'
+        code:
+          enum:
+          - invalid
+          - 'null'
+          type: string
+          description: |-
+            * `invalid` - invalid
+            * `null` - null
         detail:
           type: string
       required:
@@ -50558,6 +50608,7 @@ components:
       - $ref: '#/components/schemas/ComponentsPartialUpdateIntermediateErrorComponent'
       - $ref: '#/components/schemas/ComponentsPartialUpdateNewBaseErrorComponent'
       - $ref: '#/components/schemas/ComponentsPartialUpdateFileFormatErrorComponent'
+      - $ref: '#/components/schemas/ComponentsPartialUpdateFileFormatParamsErrorComponent'
       - $ref: '#/components/schemas/ComponentsPartialUpdateLicenseErrorComponent'
       - $ref: '#/components/schemas/ComponentsPartialUpdateAgreementErrorComponent'
       - $ref: '#/components/schemas/ComponentsPartialUpdateNewLangErrorComponent'
@@ -50621,6 +50672,7 @@ components:
           intermediate: '#/components/schemas/ComponentsPartialUpdateIntermediateErrorComponent'
           new_base: '#/components/schemas/ComponentsPartialUpdateNewBaseErrorComponent'
           file_format: '#/components/schemas/ComponentsPartialUpdateFileFormatErrorComponent'
+          file_format_params: '#/components/schemas/ComponentsPartialUpdateFileFormatParamsErrorComponent'
           license: '#/components/schemas/ComponentsPartialUpdateLicenseErrorComponent'
           agreement: '#/components/schemas/ComponentsPartialUpdateAgreementErrorComponent'
           new_lang: '#/components/schemas/ComponentsPartialUpdateNewLangErrorComponent'
@@ -50684,6 +50736,28 @@ components:
             * `invalid_choice` - invalid_choice
             * `null` - null
             * `required` - required
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ComponentsPartialUpdateFileFormatParamsErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - file_format_params
+          type: string
+          description: '* `file_format_params` - file_format_params'
+        code:
+          enum:
+          - invalid
+          - 'null'
+          type: string
+          description: |-
+            * `invalid` - invalid
+            * `null` - null
         detail:
           type: string
       required:
@@ -52362,6 +52436,7 @@ components:
       - $ref: '#/components/schemas/ComponentsTranslationsCreateIntermediateErrorComponent'
       - $ref: '#/components/schemas/ComponentsTranslationsCreateNewBaseErrorComponent'
       - $ref: '#/components/schemas/ComponentsTranslationsCreateFileFormatErrorComponent'
+      - $ref: '#/components/schemas/ComponentsTranslationsCreateFileFormatParamsErrorComponent'
       - $ref: '#/components/schemas/ComponentsTranslationsCreateLicenseErrorComponent'
       - $ref: '#/components/schemas/ComponentsTranslationsCreateAgreementErrorComponent'
       - $ref: '#/components/schemas/ComponentsTranslationsCreateNewLangErrorComponent'
@@ -52425,6 +52500,7 @@ components:
           intermediate: '#/components/schemas/ComponentsTranslationsCreateIntermediateErrorComponent'
           new_base: '#/components/schemas/ComponentsTranslationsCreateNewBaseErrorComponent'
           file_format: '#/components/schemas/ComponentsTranslationsCreateFileFormatErrorComponent'
+          file_format_params: '#/components/schemas/ComponentsTranslationsCreateFileFormatParamsErrorComponent'
           license: '#/components/schemas/ComponentsTranslationsCreateLicenseErrorComponent'
           agreement: '#/components/schemas/ComponentsTranslationsCreateAgreementErrorComponent'
           new_lang: '#/components/schemas/ComponentsTranslationsCreateNewLangErrorComponent'
@@ -52488,6 +52564,28 @@ components:
             * `invalid_choice` - invalid_choice
             * `null` - null
             * `required` - required
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ComponentsTranslationsCreateFileFormatParamsErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - file_format_params
+          type: string
+          description: '* `file_format_params` - file_format_params'
+        code:
+          enum:
+          - invalid
+          - 'null'
+          type: string
+          description: |-
+            * `invalid` - invalid
+            * `null` - null
         detail:
           type: string
       required:
@@ -54069,6 +54167,7 @@ components:
       - $ref: '#/components/schemas/ComponentsUpdateIntermediateErrorComponent'
       - $ref: '#/components/schemas/ComponentsUpdateNewBaseErrorComponent'
       - $ref: '#/components/schemas/ComponentsUpdateFileFormatErrorComponent'
+      - $ref: '#/components/schemas/ComponentsUpdateFileFormatParamsErrorComponent'
       - $ref: '#/components/schemas/ComponentsUpdateLicenseErrorComponent'
       - $ref: '#/components/schemas/ComponentsUpdateAgreementErrorComponent'
       - $ref: '#/components/schemas/ComponentsUpdateNewLangErrorComponent'
@@ -54132,6 +54231,7 @@ components:
           intermediate: '#/components/schemas/ComponentsUpdateIntermediateErrorComponent'
           new_base: '#/components/schemas/ComponentsUpdateNewBaseErrorComponent'
           file_format: '#/components/schemas/ComponentsUpdateFileFormatErrorComponent'
+          file_format_params: '#/components/schemas/ComponentsUpdateFileFormatParamsErrorComponent'
           license: '#/components/schemas/ComponentsUpdateLicenseErrorComponent'
           agreement: '#/components/schemas/ComponentsUpdateAgreementErrorComponent'
           new_lang: '#/components/schemas/ComponentsUpdateNewLangErrorComponent'
@@ -54195,6 +54295,28 @@ components:
             * `invalid_choice` - invalid_choice
             * `null` - null
             * `required` - required
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ComponentsUpdateFileFormatParamsErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - file_format_params
+          type: string
+          description: '* `file_format_params` - file_format_params'
+        code:
+          enum:
+          - invalid
+          - 'null'
+          type: string
+          description: |-
+            * `invalid` - invalid
+            * `null` - null
         detail:
           type: string
       required:
@@ -61600,6 +61722,8 @@ components:
           maxLength: 400
         file_format:
           $ref: '#/components/schemas/FileFormatEnum'
+        file_format_params:
+          title: File format parameters
         license:
           title: Translation license
           oneOf:
@@ -63287,6 +63411,7 @@ components:
       - $ref: '#/components/schemas/ProjectsComponentsCreateIntermediateErrorComponent'
       - $ref: '#/components/schemas/ProjectsComponentsCreateNewBaseErrorComponent'
       - $ref: '#/components/schemas/ProjectsComponentsCreateFileFormatErrorComponent'
+      - $ref: '#/components/schemas/ProjectsComponentsCreateFileFormatParamsErrorComponent'
       - $ref: '#/components/schemas/ProjectsComponentsCreateLicenseErrorComponent'
       - $ref: '#/components/schemas/ProjectsComponentsCreateAgreementErrorComponent'
       - $ref: '#/components/schemas/ProjectsComponentsCreateNewLangErrorComponent'
@@ -63350,6 +63475,7 @@ components:
           intermediate: '#/components/schemas/ProjectsComponentsCreateIntermediateErrorComponent'
           new_base: '#/components/schemas/ProjectsComponentsCreateNewBaseErrorComponent'
           file_format: '#/components/schemas/ProjectsComponentsCreateFileFormatErrorComponent'
+          file_format_params: '#/components/schemas/ProjectsComponentsCreateFileFormatParamsErrorComponent'
           license: '#/components/schemas/ProjectsComponentsCreateLicenseErrorComponent'
           agreement: '#/components/schemas/ProjectsComponentsCreateAgreementErrorComponent'
           new_lang: '#/components/schemas/ProjectsComponentsCreateNewLangErrorComponent'
@@ -63413,6 +63539,28 @@ components:
             * `invalid_choice` - invalid_choice
             * `null` - null
             * `required` - required
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ProjectsComponentsCreateFileFormatParamsErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - file_format_params
+          type: string
+          description: '* `file_format_params` - file_format_params'
+        code:
+          enum:
+          - invalid
+          - 'null'
+          type: string
+          description: |-
+            * `invalid` - invalid
+            * `null` - null
         detail:
           type: string
       required:
