@@ -1,9 +1,7 @@
 Weblate 5.13.3
 --------------
 
-*Not yet released.*
-
-.. rubric:: New features
+*Released on September 12th 2025.*
 
 .. rubric:: Improvements
 
@@ -18,8 +16,6 @@ Weblate 5.13.3
 * Correctly track team adding via invitation in :ref:`audit-log`.
 * :ref:`addon-weblate.consistency.languages` no longer includes shared component languages.
 * :ref:`azure-devops-push` API URL parsing.
-
-.. rubric:: Compatibility
 
 .. rubric:: Upgrading
 
