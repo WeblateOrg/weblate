@@ -685,40 +685,42 @@
         {% endif %}
 
 
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
-              {% for glossary in unit.translation.get_glossaries %}
-                <a class="pull-right flip btn btn-link btn-xs btn-{{ glossary.component.glossary_color }}"
-                   title="{% blocktranslate with name=glossary.component.name %}Browse glossary {{ name }}{% endblocktranslate %}"
-                   href="{% url 'browse' glossary.get_url_path %}">{% icon "folder-search-outline.svg" %}</a>
-              {% endfor %}
-              {% loading_icon "glossary-add" %}
-              {% translate "Glossary" %}
-            </h4>
-          </div>
-          <table class="table table-condensed table-simple">
-            <thead>
-              <tr>
-                <th>{{ unit.translation.component.source_language }}</th>
-                <th>{{ unit.translation.language }}</th>
-                <th></th>
-                <th></th>
-              </tr>
-            </thead>
-            <tbody id="glossary-terms">
-              {% include "snippets/glossary.html" %}
-            </tbody>
-          </table>
-          {% if user_can_add_glossary and addterm_form.fields.translation.queryset %}
-            <div class="panel-footer panel-footer-links">
-              <a class="btn btn-link green"
-                 href="#"
-                 data-toggle="modal"
-                 data-target="#add-glossary-form">{% icon "plus-circle.svg" %} {% translate "Add term to glossary" %}</a>
+        {% if not unit.translation.component.hide_glossary_matches %}
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h4 class="panel-title">
+                {% for glossary in unit.translation.get_glossaries %}
+                  <a class="pull-right flip btn btn-link btn-xs btn-{{ glossary.component.glossary_color }}"
+                     title="{% blocktranslate with name=glossary.component.name %}Browse glossary {{ name }}{% endblocktranslate %}"
+                     href="{% url 'browse' glossary.get_url_path %}">{% icon "folder-search-outline.svg" %}</a>
+                {% endfor %}
+                {% loading_icon "glossary-add" %}
+                {% translate "Glossary" %}
+              </h4>
             </div>
-          {% endif %}
-        </div>
+            <table class="table table-condensed table-simple">
+              <thead>
+                <tr>
+                  <th>{{ unit.translation.component.source_language }}</th>
+                  <th>{{ unit.translation.language }}</th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="glossary-terms">
+                {% include "snippets/glossary.html" %}
+              </tbody>
+            </table>
+            {% if user_can_add_glossary and addterm_form.fields.translation.queryset %}
+              <div class="panel-footer panel-footer-links">
+                <a class="btn btn-link green"
+                   href="#"
+                   data-toggle="modal"
+                   data-target="#add-glossary-form">{% icon "plus-circle.svg" %} {% translate "Add term to glossary" %}</a>
+              </div>
+            {% endif %}
+          </div>
+        {% endif %}
 
         <div class="panel panel-default string-info">
           <div class="panel-heading">
@@ -1015,7 +1017,7 @@
       <!-- /.modal -->
     </form>
   {% endif %}
-  {% if user_can_add_glossary and addterm_form.fields.translation.queryset %}
+  {% if not unit.translation.component.hide_glossary_matches and user_can_add_glossary and addterm_form.fields.translation.queryset %}
     <form action="{% url 'js-add-glossary' unit_id=unit.id %}"
           method="post"
           class="add-dict-inline double-submission">
