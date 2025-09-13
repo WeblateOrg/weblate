@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-09-03 14:08+0200\n"
-"PO-Revision-Date: 2025-09-13 02:11+0000\n"
+"PO-Revision-Date: 2025-09-14 03:02+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -15410,6 +15410,10 @@ msgid ""
 "weblate-docker_weblate-data/_data/` (the path consist of name of your docker-"
 "compose directory, container, and volume names)."
 msgstr ""
+"La ubicación del volumen Docker en el sistema host depende de la "
+"configuración de Docker, pero generalmente se almacena en :file:`/var/lib/"
+"docker/volumes/weblate-docker_weblate-data/_data/` (la ruta consta del "
+"nombre de su directorio docker-compose, contenedor y nombres de volumen)."
 
 #: ../../admin/install/docker.rst:2083
 msgid ""
@@ -15418,12 +15422,18 @@ msgid ""
 "container startup and the volume can be mounted using ephemeral filesystem "
 "such as `tmpfs`."
 msgstr ""
+"El volumen :file:`cache` se monta como :file:`/app/cache` y se usa para "
+"almacenar archivos estáticos y :setting:`CACHE_DIR`. Su contenido se crea de "
+"nuevo al iniciar el contenedor y el volumen se puede montar utilizando un "
+"sistema de archivos efímero como `tmpfs`."
 
 #: ../../admin/install/docker.rst:2087
 msgid ""
 "When creating the volumes manually, the directories should be owned by UID "
 "1000 as that is user used inside the container."
 msgstr ""
+"Al crear los volúmenes manualmente, los directorios deben ser propiedad del "
+"UID 1000, ya que es el usuario que se usa dentro del contenedor."
 
 #: ../../admin/install/docker.rst:2090
 msgid ""
@@ -15431,6 +15441,9 @@ msgid ""
 "this case, two additional ``tmpfs`` volumes should be mounted: :file:`/tmp` "
 "and :file:`/run`."
 msgstr ""
+"El contenedor Weblate también se puede ejecutar con un sistema de archivos "
+"raíz de solo lectura. En este caso, se deben montar dos volúmenes ``tmpfs`` "
+"adicionales: :file:`/tmp` y :file:`/run`."
 
 #: ../../admin/install/docker.rst:2096
 #, fuzzy
@@ -15441,8 +15454,8 @@ msgid ""
 "`Docker volumes documentation <https://docs.docker.com/engine/storage/"
 "volumes/>`_"
 msgstr ""
-"`Documentación del traductor de Google <https://cloud.google.com/translate/"
-"docs>`_"
+"`Docker volumes documentation <https://docs.docker.com/engine/storage/"
+"volumes/>`_"
 
 #: ../../admin/install/docker.rst:2101
 msgid "Read-only root filesystem"
@@ -15516,16 +15529,21 @@ msgid ""
 "To override settings at the Docker image level instead of from the data "
 "volume:"
 msgstr ""
+"Para anular la configuración a nivel de imagen de Docker en lugar de desde "
+"el volumen de datos:"
 
 #: ../../admin/install/docker.rst:2148
+#, fuzzy
 msgid ":ref:`Create a custom Python package <custom-module>`."
-msgstr ""
+msgstr ":ref:`Create a custom Python package <custom-module>`."
 
 #: ../../admin/install/docker.rst:2150
 msgid ""
 "Add a module to your package that imports all settings from ``weblate."
 "settings_docker``."
 msgstr ""
+"Agregar un módulo al paquete que importe todas las configuraciones desde "
+"``weblate.settings_docker``."
 
 #: ../../admin/install/docker.rst:2153
 msgid ""
@@ -15533,6 +15551,9 @@ msgid ""
 "module`, you could create a file at ``weblate_customization/"
 "weblate_customization/settings.py`` with the following initial code:"
 msgstr ""
+"Por ejemplo, dentro de la estructura del paquete de ejemplo definida en :ref"
+":`custom-module`, puede crear un archivo en ``weblate_customization/"
+"weblate_customization/settings.py`` con el siguiente código inicial:"
 
 #: ../../admin/install/docker.rst:2162
 msgid ""
