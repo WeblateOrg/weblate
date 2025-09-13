@@ -25,7 +25,9 @@ class PagesSitemap(Sitemap):
 
     def lastmod(self, item):
         try:
-            return Change.objects.values_list("timestamp", flat=True).order()[0]
+            return Change.objects.values_list("timestamp", flat=True).latest(
+                "timestamp"
+            )
         except Change.DoesNotExist:
             return None
 
