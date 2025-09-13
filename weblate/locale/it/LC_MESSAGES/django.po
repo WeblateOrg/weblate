@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-09-03 12:07+0000\n"
-"PO-Revision-Date: 2025-08-15 01:02+0000\n"
+"PO-Revision-Date: 2025-09-14 03:02+0000\n"
 "Last-Translator: Massimo Pissarello <mapi68@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.13-dev\n"
+"X-Generator: Weblate 5.14-dev\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: weblate/accounts/avatar.py:89
@@ -607,10 +607,9 @@ msgid "Two-factor authentication sign in using {device}"
 msgstr "Accedi con l'autenticazione a due fattori tramite {device}"
 
 #: weblate/accounts/models.py:303
-#, fuzzy, python-brace-format
-#| msgid "Two-factor authentication sign in using {device}"
+#, python-brace-format
 msgid "Two-factor authentication failed using {device_type}"
-msgstr "Accedi con l'autenticazione a due fattori tramite {device}"
+msgstr "Autenticazione a due fattori non riuscita tramite {device_type}"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:311
@@ -4113,10 +4112,8 @@ msgid "The Vue I18n formatting does not match source."
 msgstr "La formattazione Vue I18n non corrisponde al sorgente."
 
 #: weblate/checks/format.py:827
-#, fuzzy
-#| msgid "Automattic Components"
 msgid "Automattic components formatting"
-msgstr "Componenti automatici"
+msgstr "Formattazione dei componenti Automattic"
 
 #: weblate/checks/format.py:829
 msgid "The Automattic components' placeholders do not match the source."
@@ -14239,17 +14236,14 @@ msgid "No line wrapping"
 msgstr "Nessun ritorno a capo"
 
 #: weblate/trans/file_format_params.py:196
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 characters and at newlines. With the "
-#| "--no-wrap parameter, wrapping is only done at newlines."
 msgid ""
 "By default, gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
-"Per impostazione predefinita gettext separa le linee dopo 77 caratteri con "
-"un ritorno a capo. Con il parametro --no-wrap considererà solo il ritorno a "
-"capo."
+"Per impostazione predefinita, gettext esegue il ritorno a capo automatico "
+"ogni 77 caratteri e in corrispondenza delle nuove righe. Con il parametro "
+"--no-wrap, il ritorno a capo automatico avviene solo in corrispondenza delle "
+"nuove righe."
 
 #: weblate/trans/file_format_params.py:211
 msgid "Keep previous msgids of translated strings"
@@ -14304,22 +14298,16 @@ msgid "Include closing tag for blank XML tags"
 msgstr "Includi tag di chiusura per tag XML vuoti"
 
 #: weblate/trans/file_format_params.py:322
-#, fuzzy
-#| msgid "Flat XML file"
 msgid "FlatXML Root name"
-msgstr "File YAML semplice"
+msgstr "Nome radice FlatXML"
 
 #: weblate/trans/file_format_params.py:331
-#, fuzzy
-#| msgid "Flat XML file"
 msgid "FlatXML value name"
-msgstr "File YAML semplice"
+msgstr "Nome valore FlatXML"
 
 #: weblate/trans/file_format_params.py:340
-#, fuzzy
-#| msgid "Category name"
 msgid "FlatXML key name"
-msgstr "Nome categoria"
+msgstr "Nome chiave FlatXML"
 
 #: weblate/trans/filter.py:23 weblate/trans/filter.py:121
 msgid "All strings"
@@ -14870,10 +14858,9 @@ msgid "String will be part of the glossary in all languages"
 msgstr "La stringa farà parte del glossario in tutte le lingue"
 
 #: weblate/trans/forms.py:2734
-#, fuzzy
-#| msgid "Project is now open for translation updates."
 msgid "Mark this option for translations that should not be used."
-msgstr "Il progetto è ora aperto per gli aggiornamenti della traduzione."
+msgstr ""
+"Contrassegna questa opzione per le traduzioni che non devono essere usate."
 
 #: weblate/trans/forms.py:2739
 msgid "Untranslatable term"
@@ -14884,6 +14871,8 @@ msgid ""
 "Mark this option if the sentence should stay as in the source language, "
 "without change."
 msgstr ""
+"Contrassegna questa opzione se la frase deve rimanere così com'è nella "
+"lingua di origine, senza modifiche."
 
 #: weblate/trans/forms.py:2770
 msgid "You do not have permission to create terminology."
