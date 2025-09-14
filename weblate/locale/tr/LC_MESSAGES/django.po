@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-09-03 12:07+0000\n"
-"PO-Revision-Date: 2025-08-13 22:17+0000\n"
+"PO-Revision-Date: 2025-09-15 13:02+0000\n"
 "Last-Translator: Emin Tufan Çetin <etcetin@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "application/tr/>\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.13-dev\n"
+"X-Generator: Weblate 5.14-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -610,10 +610,9 @@ msgid "Two-factor authentication sign in using {device}"
 msgstr "{device} kullanarak iki adımlı doğrulama ile oturum açma"
 
 #: weblate/accounts/models.py:303
-#, fuzzy, python-brace-format
-#| msgid "Two-factor authentication sign in using {device}"
+#, python-brace-format
 msgid "Two-factor authentication failed using {device_type}"
-msgstr "{device} kullanarak iki adımlı doğrulama ile oturum açma"
+msgstr "{device_type} kullanarak iki adımlı doğrulama başarısız"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:311
@@ -4062,10 +4061,8 @@ msgid "The Vue I18n formatting does not match source."
 msgstr "Vue I18n biçimlendirmesi kaynaktaki ile aynı değil."
 
 #: weblate/checks/format.py:827
-#, fuzzy
-#| msgid "Automattic Components"
 msgid "Automattic components formatting"
-msgstr "Automattic Bileşenleri"
+msgstr "Automattic bileşenleri biçimi"
 
 #: weblate/checks/format.py:829
 msgid "The Automattic components' placeholders do not match the source."
@@ -14086,15 +14083,11 @@ msgid "No line wrapping"
 msgstr "Satırlar kaydırılmaz"
 
 #: weblate/trans/file_format_params.py:196
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 characters and at newlines. With the "
-#| "--no-wrap parameter, wrapping is only done at newlines."
 msgid ""
 "By default, gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
-"Varsayılan olarak gettext satırları 77 karakterden sonra ve yeni satır "
+"Öntanımlı olarak, gettext satırları 77 karakterden sonra ve yeni satır "
 "karakterlerinde kaydırır. --no-wrap parametresi kullanıldığında kaydırma "
 "yalnızca yeni satır karakterlerinde yapılır."
 
@@ -14151,22 +14144,16 @@ msgid "Include closing tag for blank XML tags"
 msgstr "Boş XML kod imlerine kapanış kod imini ekler"
 
 #: weblate/trans/file_format_params.py:322
-#, fuzzy
-#| msgid "Flat XML file"
 msgid "FlatXML Root name"
-msgstr "Düz XML dosyası"
+msgstr "FlatXML Root adı"
 
 #: weblate/trans/file_format_params.py:331
-#, fuzzy
-#| msgid "Flat XML file"
 msgid "FlatXML value name"
-msgstr "Düz XML dosyası"
+msgstr "FlatXML değer adı"
 
 #: weblate/trans/file_format_params.py:340
-#, fuzzy
-#| msgid "Category name"
 msgid "FlatXML key name"
-msgstr "Kategori adı"
+msgstr "FlatXML anahtar adı"
 
 #: weblate/trans/filter.py:23 weblate/trans/filter.py:121
 msgid "All strings"
@@ -14707,10 +14694,8 @@ msgid "String will be part of the glossary in all languages"
 msgstr "Dizge, tüm dillerde sözlüğün bir parçası olacaktır"
 
 #: weblate/trans/forms.py:2734
-#, fuzzy
-#| msgid "Project is now open for translation updates."
 msgid "Mark this option for translations that should not be used."
-msgstr "Proje çeviri güncellemelerine açık."
+msgstr "Kullanılmaması gereken çeviriler için bu seçeneği imleyin."
 
 #: weblate/trans/forms.py:2739
 msgid "Untranslatable term"
@@ -14721,6 +14706,7 @@ msgid ""
 "Mark this option if the sentence should stay as in the source language, "
 "without change."
 msgstr ""
+"Eğer tümce değişmeden kaynak dildeki gibi kalmalıysa bu seçeneği imleyin."
 
 #: weblate/trans/forms.py:2770
 msgid "You do not have permission to create terminology."
