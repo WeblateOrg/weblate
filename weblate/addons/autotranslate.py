@@ -13,16 +13,18 @@ from django.utils.translation import gettext_lazy
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import AddonEvent
 from weblate.addons.forms import AutoAddonForm
-from weblate.trans.tasks import auto_translate_component
+from weblate.trans.actions import ACTIONS_CONTENT, ActionEvents
+from weblate.trans.tasks import auto_translate, auto_translate_component
 
 if TYPE_CHECKING:
-    from weblate.trans.models import Component
+    from weblate.trans.models import Change, Component
 
 
 class AutoTranslateAddon(BaseAddon):
     events: set[AddonEvent] = {
         AddonEvent.EVENT_COMPONENT_UPDATE,
         AddonEvent.EVENT_DAILY,
+        AddonEvent.EVENT_CHANGE,
     }
     name = "weblate.autotranslate.autotranslate"
     verbose = gettext_lazy("Automatic translation")
@@ -61,3 +63,41 @@ class AutoTranslateAddon(BaseAddon):
             return
 
         self.component_update(component)
+
+    def change_event(self, change: Change) -> None:
+        translation_ids = set()
+        if change.action in ACTIONS_CONTENT:
+            if change.unit is not None:
+                translation_ids.add(change.unit.translation.id)
+        elif change.action in {
+            ActionEvents.SCREENSHOT_UPLOADED,
+            ActionEvents.SCREENSHOT_ADDED,
+        }:
+            if change.screenshot is not None:
+                translation_ids.update(
+                    change.screenshot.units.values_list("translation_id", flat=True)
+                )
+        elif change.action in {
+            ActionEvents.SUGGESTION,
+            ActionEvents.SUGGESTION_CLEANUP,
+            ActionEvents.SUGGESTION_DELETE,
+        }:
+            if change.suggestion is not None:
+                translation_ids.add(change.suggestion.unit.translation.id)
+        elif (
+            change.action
+            in {
+                ActionEvents.COMMENT,
+                ActionEvents.COMMENT_RESOLVE,
+                ActionEvents.COMMENT_DELETE,
+            }
+            and change.comment is not None
+        ):
+            translation_ids.add(change.comment.unit.translation.id)
+
+        for translation_id in translation_ids:
+            auto_translate.delay(
+                user_id=change.user_id,
+                translation_id=translation_id,
+                **self.instance.configuration,
+            )
