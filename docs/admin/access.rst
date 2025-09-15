@@ -148,14 +148,15 @@ the project’s menu :guilabel:`Operations` ↓ :guilabel:`Users`.
     You can limit teams to languages or components,
     and assign them designated access roles (see :ref:`privileges`).
 
+.. _team-admins:
 
 Team administrators
 +++++++++++++++++++
 
 .. versionadded:: 4.15
 
-Each team can have team administrator,
-who can add and remove users within the team.
+Each team can have a team administrator, who can add and remove users within the team.
+
 This is useful in case you want to build self-governed teams.
 
 .. _invite-user:

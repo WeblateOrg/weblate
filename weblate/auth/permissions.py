@@ -551,19 +551,18 @@ def check_repository_status(
 def check_team_edit(user: User, permission: str, obj: Group) -> bool:
     from weblate.auth.models import Group
 
-    if check_global_permission(user, "group.edit"):
-        return True
-
-    if isinstance(obj, Group):
-        return (
-            obj.defining_project
+    return (
+        check_global_permission(user, "group.edit")
+        or (
+            isinstance(obj, Group)
+            and obj.defining_project
             and check_permission(user, "project.permissions", obj.defining_project)
-        ) or obj.admins.filter(pk=user.pk).exists()
-
-    if isinstance(obj, Project):
-        return check_permission(user, "project.permissions", obj)
-
-    return False
+        )
+        or (
+            isinstance(obj, Project)
+            and check_permission(user, "project.permissions", obj)
+        )
+    )
 
 
 @register_perm("meta:team.users")
