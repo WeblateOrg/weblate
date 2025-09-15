@@ -39,7 +39,7 @@ jobs:
     - run: make -C docs update-schemas
     - run: |
         # shellcheck disable=SC2046
-        pre-commit run --files $(git diff --name-only)
+        uv run --no-sync pre-commit run --files $(git diff --name-only)
       continue-on-error: true
     - name: Update renovate branch
       if: github.ref != 'refs/heads/main'
