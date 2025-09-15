@@ -109,6 +109,10 @@ def fetch_glossary_terms(  # noqa: C901
         project = component.project
         source_language = component.source_language
 
+        # Do not get glossary matches when display is disabled
+        if component.hide_glossary_matches:
+            continue
+
         # Short circuit source language
         if language == source_language:
             continue
