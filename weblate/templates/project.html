@@ -91,7 +91,7 @@
             <a href="#bulk-edit" data-toggle="tab">{% translate "Bulk edit" %}</a>
           </li>
         {% endif %}
-        <li role="separator" class="divider"></li>
+        {% if replace_form and bulk_state_form %}<li role="separator" class="divider"></li>{% endif %}
         {% if user_can_see_repository_status %}
           <li>
             <a href="#repository"
@@ -137,6 +137,12 @@
           <li>
             <a href="{% url 'manage-access' project=object.slug %}#api">{% translate "API access" %}</a>
           </li>
+        {% elif managed_teams %}
+          {% for team in managed_teams %}
+            <li>
+              <a href="{{ team.get_absolute_url }}">{% blocktranslate %}Manage {{ team }}{% endblocktranslate %}</a>
+            </li>
+          {% endfor %}
         {% endif %}
         {% if user_can_edit_project %}
           <li>
