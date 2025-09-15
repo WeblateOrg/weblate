@@ -15,7 +15,8 @@ from django.urls import reverse
 from jsonschema import validate
 from weblate_schemas import load_schema
 
-from weblate.lang.models import Language
+from weblate.lang.data import FORMULA_WITH_ZERO
+from weblate.lang.models import Language, Plural
 from weblate.memory.machine import WeblateMemory
 from weblate.memory.models import Memory
 from weblate.memory.tasks import (
@@ -30,12 +31,12 @@ from weblate.utils.hash import hash_to_checksum
 from weblate.utils.state import STATE_TRANSLATED
 
 
-def add_document() -> None:
+def add_document(source: str = "Hello", target: str = "Ahoj") -> None:
     Memory.objects.create(
         source_language=Language.objects.get(code="en"),
         target_language=Language.objects.get(code="cs"),
-        source="Hello",
-        target="Ahoj",
+        source=source,
+        target=target,
         origin="test",
         from_file=True,
         shared=False,
@@ -91,6 +92,42 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
         machinery = unit.machinery
         del machinery["origin"]
         self.assertEqual(machinery, {"quality": [100], "translation": ["Ahoj"]})
+
+    def test_machine_plurals(self) -> None:
+        unit = self.get_unit("Orangutan has %d banana.\n")
+
+        # Use plural with zero
+        translation = unit.translation
+        language = translation.language
+        plural = translation.plural
+        translation.plural = language.plural_set.get_or_create(
+            source=Plural.SOURCE_CLDR_ZERO,
+            defaults={
+                "formula": FORMULA_WITH_ZERO[plural.formula],
+                "number": plural.number + 1,
+            },
+        )[0]
+        translation.save()
+
+        add_document("Orangutan has banana.", "Orangutan má banán.")
+        machine_translation = WeblateMemory({})
+        # Use ridiculously low threshold to get matches on all PostgreSQL versions
+        # while testing as this behavior differs.
+        machine_translation.batch_translate([unit], threshold=1)
+        machinery = unit.machinery
+        del machinery["origin"]
+        self.assertEqual(
+            machinery,
+            {
+                "quality": [89, 91, 89, 89],
+                "translation": [
+                    "Orangutan má banán.",
+                    "Orangutan má banán.",
+                    "Orangutan má banán.",
+                    "Orangutan má banán.",
+                ],
+            },
+        )
 
     def test_import_tmx_command(self) -> None:
         call_command("import_memory", get_test_file("memory.tmx"))
