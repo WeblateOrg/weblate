@@ -821,6 +821,10 @@ List for credentials for GitLab servers.
         },
     }
 
+.. note::
+
+   The personal access token needs the :guilabel:`api` scope to be able to use the API.
+
 .. include:: /snippets/vcs-credentials.rst
 
 .. seealso::
