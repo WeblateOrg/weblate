@@ -614,7 +614,7 @@ class ContactForm(CaptchaForm):
         widget=forms.Textarea,
     )
 
-    field_order = ["subject", "name", "email", "message", "captcha"]
+    field_order = ["subject", "name", "email", "message", "captcha", "altcha"]
 
 
 class EmailForm(CaptchaForm, UniqueEmailMixin):
@@ -628,7 +628,7 @@ class EmailForm(CaptchaForm, UniqueEmailMixin):
         help_text=gettext_lazy("An e-mail with a confirmation link will be sent here."),
     )
 
-    field_order = ["email", "captcha"]
+    field_order = ["email", "captcha", "altcha"]
 
 
 class RegistrationForm(EmailForm):
@@ -641,8 +641,6 @@ class RegistrationForm(EmailForm):
     # This has to be without underscore for social-auth
     fullname = FullNameField()
 
-    field_order = ["email", "username", "fullname", "captcha"]
-
     def __init__(
         self, request=None, data=None, initial=None, hide_captcha: bool = False
     ) -> None:
@@ -651,6 +649,16 @@ class RegistrationForm(EmailForm):
         self.request = request
         super().__init__(
             request=request, data=data, initial=initial, hide_captcha=hide_captcha
+        )
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+        self.helper.layout = Layout(
+            "email",
+            "username",
+            "fullname",
+            "captcha",
+            "altcha",
+            ContextDiv(template="accounts/register-password.html"),
         )
 
     def clean(self):
