@@ -7,7 +7,6 @@ import json
 import os
 import subprocess
 from contextlib import suppress
-from functools import lru_cache
 from typing import TYPE_CHECKING
 from zipfile import BadZipfile
 
@@ -493,13 +492,8 @@ class CreateFromDoc(CreateComponent):
         return self.get(self.request)
 
 
-@lru_cache(maxsize=1024)
 def component_branches(repo: str) -> set[str]:
     return set(Component.objects.filter(repo=repo).values_list("branch", flat=True))
-
-
-def branch_exists(repo: str, branch: str) -> bool:
-    return branch in component_branches(repo)
 
 
 class CreateComponentSelection(CreateComponent):
@@ -512,12 +506,15 @@ class CreateComponentSelection(CreateComponent):
     @cached_property
     def branch_data(self):
         result = {}
+        existing_branches: dict[str, set[str]] = {}
         for component in self.components:
             repo = component.repo
+            if repo not in existing_branches:
+                existing_branches[repo] = component_branches(repo)
             branches = [
                 branch
                 for branch in component.repository.list_remote_branches()
-                if branch != component.branch and not branch_exists(repo, branch)
+                if branch != component.branch and branch not in existing_branches[repo]
             ]
             if branches:
                 result[component.pk] = branches
