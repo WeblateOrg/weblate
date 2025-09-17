@@ -1456,6 +1456,11 @@ class Component(
         return is_repo_link(self.repo)
 
     @property
+    def is_repo_local(self) -> bool:
+        """Check whether a repository is local-only."""
+        return self.vcs == "local"
+
+    @property
     def repository_class(self) -> type[Repository]:
         return VCS_REGISTRY[self.vcs]
 
@@ -1469,7 +1474,7 @@ class Component(
     @perform_on_link
     def get_last_remote_commit(self):
         """Return latest locally known remote commit."""
-        if self.vcs == "local" or not self.remote_revision:
+        if self.is_repo_local or not self.remote_revision:
             return None
         try:
             return self.repository.get_revision_info(self.remote_revision)
@@ -1478,7 +1483,7 @@ class Component(
 
     def get_last_commit(self):
         """Return latest locally known remote commit."""
-        if self.vcs == "local" or not self.local_revision:
+        if self.is_repo_local or not self.local_revision:
             return None
         try:
             return self.repository.get_revision_info(self.local_revision)
@@ -1761,7 +1766,7 @@ class Component(
         if self.is_repo_link:
             return
 
-        if self.vcs == "local":
+        if self.is_repo_local:
             if not os.path.exists(os.path.join(self.full_path, ".git")):
                 if (
                     not self.template
@@ -1985,7 +1990,7 @@ class Component(
     ) -> bool:
         """Push changes to remote repo."""
         # Skip push for local only repo
-        if self.vcs == "local":
+        if self.is_repo_local:
             return True
 
         # Do we have push configured
@@ -3219,12 +3224,12 @@ class Component(
         if self.repo is None:
             return
 
-        if self.vcs != "local" and self.repo == "local:":
+        if not self.is_repo_local and self.repo == "local:":
             raise ValidationError(
                 {"vcs": gettext("Choose No remote repository for local: URL.")}
             )
 
-        if self.vcs == "local" and self.push:
+        if self.is_repo_local and self.push:
             raise ValidationError(
                 {"push": gettext("Push URL is not used without a remote repository.")}
             )
@@ -4026,7 +4031,7 @@ class Component(
         return gettext("Add new translation string")
 
     def suggest_repo_link(self):
-        if self.is_repo_link or self.vcs == "local":
+        if self.is_repo_link or self.is_repo_local:
             return None
 
         same_repo = self.project.component_set.filter(
