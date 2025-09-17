@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-09-03 14:08+0200\n"
-"PO-Revision-Date: 2025-09-17 10:02+0000\n"
+"PO-Revision-Date: 2025-09-18 11:02+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -16172,12 +16172,16 @@ msgid ""
 "Collect the static files for your web server (see :ref:`server` and :ref:"
 "`static-files`):"
 msgstr ""
+"Recopile los archivos estáticos para su servidor web (ver :ref:`server` y "
+":ref:`static-files`):"
 
 #: ../../admin/install/steps/install-configure.rst:52
 msgid ""
 "Compress the JavaScript and CSS files (optional, see :ref:`production-"
 "compress`):"
 msgstr ""
+"Comprime los archivos JavaScript y CSS (opcional, ver :ref:`production-"
+"compress`):"
 
 #: ../../admin/install/steps/install-configure.rst:58
 msgid ""
@@ -16247,16 +16251,12 @@ msgstr ""
 "(ver :ref:`requirements`):"
 
 #: ../../admin/install/steps/install-system-optional.rst:1
-#, fuzzy
-#| msgid ""
-#| "Install wanted optional dependencies depending on features you intend to "
-#| "use (see :ref:`optional-deps`):"
 msgid ""
 "Install wanted optional dependencies depending on features you intend to use "
 "(see :ref:`python-deps`):"
 msgstr ""
-"Instale las dependencias opcionales que desee en función de las "
-"funcionalidades que vaya a utilizar (ver :ref:`optional-deps`):"
+"Instalar las dependencias opcionales que se desee en función de las "
+"funcionalidades que se utilicen (ver :ref:`python-deps`):"
 
 #: ../../admin/install/steps/install-system-server.rst:1
 msgid ""
@@ -16282,9 +16282,11 @@ msgid "We're using uv package manager to install Weblate."
 msgstr "Estamos usando el gestor de paquetes uv para instalar Weblate."
 
 #: ../../admin/install/steps/install-uv.rst:15
+#, fuzzy
 msgid ""
 "`Installing uv <https://docs.astral.sh/uv/getting-started/installation/>`_"
 msgstr ""
+"`Installing uv <https://docs.astral.sh/uv/getting-started/installation/>`_"
 
 #: ../../admin/install/venv-debian.rst:2
 msgid "Installing on Debian and Ubuntu"
@@ -16295,6 +16297,8 @@ msgid ""
 "Older distributions do not have ``libgirepository-2.0-dev``, use "
 "``libgirepository1.0-dev`` instead. See also :ref:`troubleshoot-pip-install`."
 msgstr ""
+"Las distribuciones más antiguas no tienen ``libgirepository-2.0-dev``, usar "
+"en su lugar ``libgirepository1.0-dev``. Ver :ref:`troubleshoot-pip-install`."
 
 #: ../../admin/install/venv-macos.rst:2
 msgid "Installing on macOS"
@@ -16333,6 +16337,11 @@ msgid ""
 "instructions`) the database of languages is updated to include all language "
 "definitions shipped in Weblate."
 msgstr ""
+"Se incluyen en Weblate las definiciones de unos 650 idiomas y la lista se "
+"amplía con cada versión. Cada vez que se actualiza Weblate (más "
+"específicamente cada vez que se ejecuta :wladmin:`migrate` , ver :ref"
+":`generic-upgrade-instructions`) la base de datos de idiomas se actualiza "
+"para incluir todas las definiciones de idiomas incluidas en Weblate."
 
 #: ../../admin/languages.rst:20
 msgid ""
@@ -16340,18 +16349,17 @@ msgid ""
 "enforce updating the database to match Weblate built-in data using :wladmin:"
 "`setuplang`."
 msgstr ""
+"Esta función se puede deshabilitar usando :setting:`UPDATE_LANGUAGES`. "
+"También puede forzar la actualización de la base de datos para que coincida "
+"con los datos integrados de Weblate utilizando :wladmin:`setuplang`."
 
 #: ../../admin/languages.rst:27
-#, fuzzy
-#| msgid ""
-#| "`language-data <https://github.com/WeblateOrg/language-data/>`_, language "
-#| "definitions for Weblate, see :ref:`languages`"
 msgid ""
 "`Current language definitions <https://github.com/WeblateOrg/language-data/"
 "blob/main/languages.csv>`_"
 msgstr ""
-"`language-data <https://github.com/WeblateOrg/language-data/>`_, "
-"definiciones de idioma para Weblate, consulte :ref:`languages`"
+"`Definiciones actuales del idioma <https://github.com/WeblateOrg/"
+"language-data/blob/main/languages.csv>`_"
 
 #: ../../admin/languages.rst:32
 msgid "Parsing language codes"
@@ -16363,18 +16371,25 @@ msgid ""
 "the ISO 639-1 one) from the :ref:`component-filemask` to any existing "
 "language object."
 msgstr ""
+"Al analizar las traducciones, Weblate intenta mapear el código de idioma ("
+"generalmente el ISO 639-1) de :ref:`component-filemask` a cualquier objeto "
+"de idioma existente."
 
 #: ../../admin/languages.rst:38
 msgid ""
 "You can further adjust this mapping at project level by :ref:`project-"
 "language_aliases`."
 msgstr ""
+"Puede ajustar aún más esta asignación a nivel de proyecto mediante :ref"
+":`project-language_aliases`."
 
 #: ../../admin/languages.rst:40
 msgid ""
 "If no exact match can be found, an attempt will be made to best fit it into "
 "an existing language. Following steps are tried:"
 msgstr ""
+"Si no se puede encontrar una coincidencia exacta, se intentará adaptarla "
+"mejor a un idioma existente. Se prueban los siguientes pasos:"
 
 #: ../../admin/languages.rst:43
 msgid "Case insensitive lookups."
