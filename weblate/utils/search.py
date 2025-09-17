@@ -841,7 +841,7 @@ def parser_annotations(
     return result
 
 
-@lru_cache(maxsize=512)
+@lru_cache(maxsize=32)
 def parse_string(
     text: str, parser: Literal["unit", "user", "superuser"]
 ) -> ParseResults:
