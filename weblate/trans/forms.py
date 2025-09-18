@@ -59,6 +59,7 @@ from weblate.trans.defines import (
 from weblate.trans.file_format_params import (
     FILE_FORMATS_PARAMS,
     get_params_for_file_format,
+    strip_unused_file_format_params,
 )
 from weblate.trans.filter import FILTERS
 from weblate.trans.models import (
@@ -1802,6 +1803,11 @@ class ComponentSettingsForm(
         if self.hide_restricted:
             data["restricted"] = self.instance.restricted
 
+        if "file_format_params" in data:
+            data["file_format_params"] = strip_unused_file_format_params(
+                data["file_format"], data["file_format_params"]
+            )
+
 
 class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispamMixin):
     """Component creation form."""
@@ -1866,6 +1872,13 @@ class ComponentCreateForm(SettingsBaseForm, ComponentDocsMixin, ComponentAntispa
                     ]
                 }
         super().__init__(request, *args, **kwargs)
+
+    def clean(self) -> None:
+        data = self.cleaned_data
+        if "file_format_params" in data:
+            data["file_format_params"] = strip_unused_file_format_params(
+                data["file_format"], data["file_format_params"]
+            )
 
 
 class ComponentNameForm(ComponentDocsMixin, ComponentAntispamMixin):
