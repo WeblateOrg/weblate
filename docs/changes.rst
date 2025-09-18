@@ -23,6 +23,8 @@ Weblate 5.14
 
 .. rubric:: Compatibility
 
+* The default attributes for :ref:`saml-auth` in Docker container now matches non-Docker defaults.
+
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.

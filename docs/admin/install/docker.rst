@@ -1478,7 +1478,9 @@ In case you want to use own keys, place the certificate and private key in
 
     SAML Identity Provider settings, see :ref:`saml-auth`.
 
-.. envvar:: WEBLATE_SAML_ID_ATTR_NAME
+.. envvar:: WEBLATE_SAML_ID_ATTR_FULL_NAME
+.. envvar:: WEBLATE_SAML_ID_ATTR_FIRST_NAME
+.. envvar:: WEBLATE_SAML_ID_ATTR_LAST_NAME
 .. envvar:: WEBLATE_SAML_ID_ATTR_USERNAME
 .. envvar:: WEBLATE_SAML_ID_ATTR_EMAIL
 .. envvar:: WEBLATE_SAML_ID_ATTR_USER_PERMANENT_ID
