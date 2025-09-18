@@ -33,7 +33,7 @@ class Label(models.Model):
 
     class Meta:
         app_label = "trans"
-        unique_together = [("project", "name")]
+        unique_together = [("project", "name")]  # noqa: RUF012
         verbose_name = "label"
         verbose_name_plural = "label"
 

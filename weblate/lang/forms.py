@@ -14,7 +14,12 @@ from weblate.utils.forms import ContextDiv
 class LanguageForm(forms.ModelForm):
     class Meta:
         model = Language
-        fields = ["code", "name", "direction", "population"]
+        fields = [  # noqa: RUF012
+            "code",
+            "name",
+            "direction",
+            "population",
+        ]
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
@@ -39,7 +44,10 @@ class LanguageForm(forms.ModelForm):
 class PluralForm(forms.ModelForm):
     class Meta:
         model = Plural
-        fields = ["number", "formula"]
+        fields = [  # noqa: RUF012
+            "number",
+            "formula",
+        ]
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)

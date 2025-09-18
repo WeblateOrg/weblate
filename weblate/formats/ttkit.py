@@ -14,7 +14,7 @@ import os
 import re
 import subprocess
 from io import StringIO
-from typing import TYPE_CHECKING, Any, BinaryIO
+from typing import TYPE_CHECKING, Any, BinaryIO, ClassVar
 
 from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
@@ -1505,7 +1505,7 @@ class AndroidFormat(TTKitFormat):
     autoload: tuple[str, ...] = ("strings*.xml", "values*.xml")
     language_format = "android"
     check_flags = ("java-printf-format",)
-    autoaddon = {"weblate.cleanup.blank": {}}
+    autoaddon: ClassVar[dict[str, dict[str, Any]]] = {"weblate.cleanup.blank": {}}
     plural_preference = (
         Plural.SOURCE_ANDROID,
         Plural.SOURCE_CLDR,
@@ -1876,7 +1876,7 @@ class SubRipFormat(TTKitFormat):
     unit_class = SubtitleUnit
     autoload: tuple[str, ...] = ("*.srt",)
     monolingual = True
-    autoaddon = {"weblate.flags.same_edit": {}}
+    autoaddon: ClassVar[dict[str, dict[str, Any]]] = {"weblate.flags.same_edit": {}}
 
     @staticmethod
     def mimetype() -> str:

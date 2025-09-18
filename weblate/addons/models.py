@@ -235,7 +235,9 @@ class Event(models.Model):
     event = models.IntegerField(choices=AddonEvent.choices)
 
     class Meta:
-        unique_together = [("addon", "event")]
+        unique_together = [  # noqa: RUF012
+            ("addon", "event"),
+        ]
         verbose_name = "add-on event"
         verbose_name_plural = "add-on events"
 
@@ -623,7 +625,9 @@ class AddonActivityLog(models.Model):
     class Meta:
         verbose_name = "add-on activity log"
         verbose_name_plural = "add-on activity logs"
-        ordering = ["-created"]
+        ordering = [  # noqa: RUF012
+            "-created"
+        ]
 
     def __str__(self) -> str:
         return f"{self.addon}: {self.get_event_display()} at {self.created}"

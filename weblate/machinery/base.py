@@ -14,7 +14,7 @@ from collections import defaultdict
 from hashlib import md5
 from html import escape, unescape
 from itertools import chain
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar
 from urllib.parse import quote
 
 from django.core.cache import cache
@@ -87,7 +87,7 @@ class BatchMachineTranslation:
     max_score = 100
     rank_boost = 0
     cache_translations = True
-    language_map: dict[str, str] = {}
+    language_map: ClassVar[dict[str, str]] = {}
     same_languages = False
     do_cleanup = True
     # Batch size is currently used in autotranslate

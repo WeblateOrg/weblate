@@ -10,7 +10,7 @@ from django.core.management.base import BaseCommand as DjangoBaseCommand
 
 
 class BaseCommand(DjangoBaseCommand):
-    requires_system_checks = []
+    requires_system_checks = ()
 
     def execute(self, *args, **options):
         logger = logging.getLogger("weblate")

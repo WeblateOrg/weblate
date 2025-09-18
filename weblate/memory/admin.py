@@ -9,19 +9,19 @@ from .models import Memory
 
 @admin.register(Memory)
 class MemoryAdmin(admin.ModelAdmin):
-    list_display = [
+    list_display = (
         "source_language",
         "target_language",
         "source",
         "origin",
         "from_file",
         "shared",
-    ]
-    search_fields = [
+    )
+    search_fields = (
         "source_language__code",
         "target_language__code",
         "source",
         "target",
         "origin",
-    ]
-    list_filter = [("project", admin.RelatedOnlyFieldListFilter), "shared", "from_file"]
+    )
+    list_filter = (("project", admin.RelatedOnlyFieldListFilter), "shared", "from_file")

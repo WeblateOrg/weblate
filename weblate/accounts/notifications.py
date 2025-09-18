@@ -7,7 +7,7 @@ from __future__ import annotations
 from collections import defaultdict
 from copy import copy
 from email.utils import formataddr
-from typing import TYPE_CHECKING, Any, cast
+from typing import TYPE_CHECKING, Any, ClassVar, cast
 from uuid import uuid4
 
 from dateutil.relativedelta import relativedelta
@@ -122,7 +122,7 @@ class Notification:
     ignore_watched: bool = False
     any_watched: bool = False
     required_attr: str | None = None
-    skip_when_notify: list[type[Notification]] = []
+    skip_when_notify: ClassVar[set[type[Notification]]] = set()
 
     def __init__(
         self,
@@ -676,7 +676,7 @@ class MentionCommentNotificaton(Notification):
     template_name = "new_comment"
     ignore_watched = True
     required_attr = "comment"
-    skip_when_notify = [NewCommentNotificaton]
+    skip_when_notify: ClassVar[set[type[Notification]]] = {NewCommentNotificaton}
 
     def get_users(
         self,
@@ -710,7 +710,7 @@ class LastAuthorCommentNotificaton(Notification):
     template_name = "new_comment"
     ignore_watched = True
     required_attr = "comment"
-    skip_when_notify = [MentionCommentNotificaton]
+    skip_when_notify: ClassVar[set[type[Notification]]] = {MentionCommentNotificaton}
 
     def get_users(
         self,
@@ -757,7 +757,10 @@ class ChangedStringNotificaton(Notification):
     verbose = pgettext_lazy("Notification name", "String was changed")
     template_name = "changed_translation"
     filter_languages = True
-    skip_when_notify = [TranslatedStringNotificaton, ApprovedStringNotificaton]
+    skip_when_notify: ClassVar[set[type[Notification]]] = {
+        TranslatedStringNotificaton,
+        ApprovedStringNotificaton,
+    }
 
 
 @register_notification
@@ -874,7 +877,7 @@ class MergeFailureNotification(Notification):
     )
     verbose = pgettext_lazy("Notification name", "Repository operation failed")
     template_name = "repository_error"
-    skip_when_notify = [NewAlertNotificaton]
+    skip_when_notify: ClassVar[set[type[Notification]]] = {NewAlertNotificaton}
 
     def _convert_change_skip(self, change: Change) -> Change:
         fake = copy(change)

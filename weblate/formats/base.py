@@ -334,7 +334,7 @@ class TranslationFormat:
     language_format: str = "posix"
     simple_filename: bool = True
     new_translation: str | bytes | None = None
-    autoaddon: dict[str, dict[str, str]] = {}
+    autoaddon: ClassVar[dict[str, dict[str, Any]]] = {}
     create_empty_bilingual: bool = False
     bilingual_class: type[TranslationFormat] | None = None
     create_style = "create"

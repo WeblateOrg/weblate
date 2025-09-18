@@ -6,7 +6,7 @@ from __future__ import annotations
 
 from collections import defaultdict
 from functools import reduce
-from typing import TYPE_CHECKING, Literal
+from typing import TYPE_CHECKING, ClassVar, Literal
 
 from django.db.models import Count, Prefetch, Q, Value
 from django.db.models.functions import MD5, Lower
@@ -260,12 +260,12 @@ class TranslatedCheck(TargetCheck, BatchCheckMixin):
     ignore_untranslated = False
     skip_suggestions = True
 
-    SOURCE_ACTIONS = {
+    SOURCE_ACTIONS: ClassVar[set[ActionEvents]] = {
         ActionEvents.SOURCE_CHANGE,
         ActionEvents.MARKED_EDIT,
     }
 
-    TRACK_ACTIONS = ACTIONS_REVERTABLE | SOURCE_ACTIONS
+    TRACK_ACTIONS: ClassVar[set[ActionEvents]] = ACTIONS_REVERTABLE | SOURCE_ACTIONS
 
     def get_description(self, check_obj):
         unit = check_obj.unit

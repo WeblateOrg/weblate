@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import json
 import os
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar
 from uuid import uuid4
 
 from django.conf import settings
@@ -26,7 +26,7 @@ if TYPE_CHECKING:
 
 
 class CDNJSAddon(BaseAddon):
-    events = {
+    events: ClassVar[set[AddonEvent]] = {
         AddonEvent.EVENT_DAILY,
         AddonEvent.EVENT_POST_COMMIT,
         AddonEvent.EVENT_POST_UPDATE,

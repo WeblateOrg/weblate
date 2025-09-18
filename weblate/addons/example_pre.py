@@ -4,6 +4,10 @@
 
 """Example pre commit script."""
 
+from __future__ import annotations
+
+from typing import ClassVar
+
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.events import AddonEvent
@@ -12,7 +16,7 @@ from weblate.addons.scripts import BaseScriptAddon
 
 class ExamplePreAddon(BaseScriptAddon):
     # Event used to trigger the script
-    events: set[AddonEvent] = {
+    events: ClassVar[set[AddonEvent]] = {
         AddonEvent.EVENT_PRE_COMMIT,
     }
     # Name of the addon, has to be unique

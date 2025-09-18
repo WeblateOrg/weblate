@@ -10,4 +10,4 @@ from weblate.utils.validators import validate_bitmap
 class ScreenshotField(ImageField):
     """File field which forces certain image types."""
 
-    default_validators = [validate_bitmap]
+    default_validators = [validate_bitmap]  # noqa: RUF012

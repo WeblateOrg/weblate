@@ -2,6 +2,9 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
+from typing import ClassVar
 
 from django.db import models
 from django.utils.translation import gettext_lazy
@@ -14,7 +17,7 @@ from weblate.utils.validators import validate_email
 class CaseInsensitiveField(models.CharField):
     """Field mixin that uses case-insensitive lookup alternatives if they exist."""
 
-    LOOKUP_CONVERSIONS = {
+    LOOKUP_CONVERSIONS: ClassVar[dict[str, str]] = {
         "exact": "iexact",
         "contains": "icontains",
         "startswith": "istartswith",
@@ -32,10 +35,10 @@ class UsernameField(CaseInsensitiveField):
 
 
 class EmailField(CaseInsensitiveField):
-    default_validators = [validate_email]
+    default_validators = [validate_email]  # noqa: RUF012
     description = gettext_lazy("E-mail")
-    default_error_messages = {
-        "unique": gettext_lazy("A user with this e-mail already exists.")
+    default_error_messages = {  # noqa: RUF012
+        "unique": gettext_lazy("A user with this e-mail already exists."),
     }
 
     def __init__(self, *args, **kwargs) -> None:

@@ -55,7 +55,7 @@ class BaseCheck(ClassLoaderProtocol):
     always_display = False
     batch_project_wide = False
     skip_suggestions = False
-    extra_enable_strings: list[str] = []
+    extra_enable_strings: tuple[str, ...] = ()
 
     def get_identifier(self) -> str:
         return self.check_id

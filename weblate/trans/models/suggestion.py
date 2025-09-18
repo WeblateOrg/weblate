@@ -257,7 +257,7 @@ class Vote(models.Model):
     NEGATIVE = -1
 
     class Meta:
-        unique_together = [("suggestion", "user")]
+        unique_together = [("suggestion", "user")]  # noqa: RUF012
         app_label = "trans"
         verbose_name = "suggestion vote"
         verbose_name_plural = "suggestion votes"

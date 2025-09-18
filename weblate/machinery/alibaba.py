@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 import json
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar
 
 from aliyunsdkalimt.request.v20181012 import TranslateGeneralRequest
 from aliyunsdkcore.client import AcsClient
@@ -23,7 +23,7 @@ class AlibabaTranslation(MachineTranslation):
     name = "Alibaba"
     max_score = 80
 
-    language_map = {
+    language_map: ClassVar[dict[str, str]] = {
         "zh_Hans": "zh",
         "zh_Hant": "zh-tw",
     }

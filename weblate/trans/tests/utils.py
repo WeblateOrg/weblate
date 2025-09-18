@@ -66,7 +66,7 @@ def create_another_user() -> User:
 class RepoTestMixin:
     """Mixin for testing with test repositories."""
 
-    updated_base_repos: set[str] = set()
+    updated_base_repos: set[str] = set()  # noqa: RUF012
     CREATE_GLOSSARIES: bool = False
 
     local_repo_path = "local:"

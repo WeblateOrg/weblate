@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import re
 import unicodedata
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar
 
 from django.utils.translation import gettext_lazy
 
@@ -109,7 +109,7 @@ class KabyleCharactersCheck(TargetCheck):
         "Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ instead of ε)."
     )
 
-    confusable_to_standard = {
+    confusable_to_standard: ClassVar[dict[str, str]] = {
         "\u03b3": "\u0263",
         "\u0393": "\u0194",
         "\u03b5": "\u025b",

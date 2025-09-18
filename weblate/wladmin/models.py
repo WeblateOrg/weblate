@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import json
-from typing import TYPE_CHECKING, TypedDict
+from typing import TYPE_CHECKING, ClassVar, TypedDict
 
 import dateutil.parser
 from appconf import AppConf
@@ -114,7 +114,7 @@ class ConfigurationError(models.Model):
     objects = ConfigurationErrorManager()
 
     class Meta:
-        indexes = [
+        indexes: ClassVar = [
             models.Index(fields=["ignored", "timestamp"]),
         ]
         verbose_name = "Configuration error"

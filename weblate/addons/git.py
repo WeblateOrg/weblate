@@ -5,7 +5,7 @@ from __future__ import annotations
 
 from collections import defaultdict
 from itertools import chain
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING, ClassVar, cast
 
 from django.utils.translation import gettext_lazy
 
@@ -17,6 +17,7 @@ from weblate.vcs.base import RepositoryError
 from weblate.vcs.models import VCS_REGISTRY
 
 if TYPE_CHECKING:
+    from weblate.addons.base import CompatDict
     from weblate.trans.models import Component
     from weblate.vcs.git import GitRepository
 
@@ -26,10 +27,10 @@ class GitSquashAddon(BaseAddon):
     verbose = gettext_lazy("Squash Git commits")
     description = gettext_lazy("Squash Git commits prior to pushing changes.")
     settings_form = GitSquashForm
-    compat = {
+    compat: ClassVar[CompatDict] = {
         "vcs": VCS_REGISTRY.git_based,
     }
-    events: set[AddonEvent] = {
+    events: ClassVar[set[AddonEvent]] = {
         AddonEvent.EVENT_POST_COMMIT,
     }
     icon = "compress.svg"

@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import os.path
 from io import StringIO
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar, Literal, TypedDict
 
 import cairo
 import gi
@@ -72,6 +72,16 @@ def register_widget(widget):
     return widget
 
 
+class ExtraParametersDict(TypedDict):
+    name: str
+    label: StrOrPromise
+    type: Literal["number"]
+    default: int
+    min: int
+    max: int
+    step: int
+
+
 class Widget:
     """Generic widget class."""
 
@@ -81,7 +91,7 @@ class Widget:
     extension = "png"
     content_type = "image/png"
     order = 100
-    extra_parameters: list[dict] = []
+    extra_parameters: ClassVar[list[ExtraParametersDict]] = []
 
     def __init__(self, obj, color=None, lang=None) -> None:
         """Create Widget object."""
@@ -451,7 +461,12 @@ class MultiLanguageWidget(SVGWidget):
     template_name = "svg/multi-language-badge.svg"
     verbose = pgettext_lazy("Status widget name", "Vertical language bar chart")
 
-    COLOR_MAP = {"red": "#fa3939", "green": "#3fed48", "blue": "#3f85ed", "auto": None}
+    COLOR_MAP: ClassVar[dict[str, str | None]] = {
+        "red": "#fa3939",
+        "green": "#3fed48",
+        "blue": "#3f85ed",
+        "auto": None,
+    }
 
     def render(self, request: HttpRequest, response: HttpResponse) -> None:
         translations = []
@@ -473,7 +488,7 @@ class MultiLanguageWidget(SVGWidget):
                 continue
             language = stats.language
             percent = stats.translated_percent
-            if self.color == "auto":
+            if color is None:
                 color = get_percent_color(percent)
             language_name = str(language)
 
@@ -539,7 +554,7 @@ class LanguageBadgeWidget(BaseSVGBadgeWidget):
     order = 83
     # Translators: status widget name
     verbose = gettext_lazy("Language count badge")
-    extra_parameters = [
+    extra_parameters: ClassVar[list[ExtraParametersDict]] = [
         {
             "name": "threshold",
             "label": gettext("Threshold"),
