@@ -536,7 +536,7 @@ Example configuration:
     }
 
 The default configuration extracts user details from following attributes,
-configure your IDP to provide them:
+configure your IdP to provide them:
 
 +--------------+-----------------------------------------+
 | Attribute    | SAML URI reference                      |
@@ -552,10 +552,13 @@ configure your IDP to provide them:
 | Username     | ``urn:oid:0.9.2342.19200300.100.1.1``   |
 +--------------+-----------------------------------------+
 
+When configuring Weblate SP in your IdP, it is recommended to choose persistent
+:guilabel:`Name ID format`.
+
 .. hint::
 
-   The example above and the Docker image define an IDP called ``weblate``.
-   You might need to configure this string as :guilabel:`Relay` in your IDP.
+   The example above and the Docker image define an IdP called ``weblate``.
+   You might need to configure this string as :guilabel:`Relay` in your IdP.
 
 .. note::
 
