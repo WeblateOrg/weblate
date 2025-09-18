@@ -155,7 +155,7 @@ Team administrators
 
 .. versionadded:: 4.15
 
-Each team can have a team administrator, who can add and remove users within the team.
+Each team can have team administrators, who can add and remove users within the team.
 
 This is useful in case you want to build self-governed teams.
 
