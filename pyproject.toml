@@ -521,7 +521,6 @@ ignore = [
   "PT",  # CONFIG: Not using pytest
   "PTH",  # TODO: Not using pathlib
   "RUF001",  # WONTFIX: String contains ambiguous unicode character, we are using Unicode
-  "RUF012",  # TODO: Mutable class attributes should be annotated with `typing.ClassVar`
   "S404",  # CONFIG: `subprocess` module is possibly insecure
   "S603",  # CONFIG: `subprocess` call: check for execution of untrusted input
   "S607",  # CONFIG: executing system installed tools
@@ -551,6 +550,7 @@ max-complexity = 16  # TODO: should be lower
 "docs/_ext/djangodocs.py" = ["INP001"]
 "docs/conf.py" = ["ERA001", "INP001"]
 "scripts/*" = ["T201", "T203"]
+"weblate/*/migrations/*.py" = ["RUF012"]
 "weblate/*/tests**.py" = ["ANN001", "S105", "S106"]
 "weblate/auth/migrations/0003_fixup_teams.py" = ["T201"]
 "weblate/examples/*.py" = ["CPY001", "INP001"]

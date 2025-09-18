@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, cast
+from typing import TYPE_CHECKING, Any, ClassVar, cast
 
 from django.template.loader import render_to_string
 from django.utils.html import escape, format_html
@@ -76,7 +76,7 @@ def register_details_display_strategy(
 
 
 class BaseDetailsRenderStrategy:
-    actions: set[ActionEvents] = set()
+    actions: ClassVar[set[ActionEvents]] = set()
     details_required: bool = False
 
     def render_details(self, change: Change) -> StrOrPromise:
@@ -91,7 +91,7 @@ class RenderEmptyDetails(BaseDetailsRenderStrategy):
 
 @register_details_display_strategy
 class RenderFileUploadDetails(BaseDetailsRenderStrategy):
-    actions = {ActionEvents.FILE_UPLOAD}
+    actions: ClassVar[set[ActionEvents]] = {ActionEvents.FILE_UPLOAD}
 
     def render_details(self, change: Change) -> StrOrPromise:
         details = change.details
@@ -114,7 +114,10 @@ class RenderFileUploadDetails(BaseDetailsRenderStrategy):
 
 @register_details_display_strategy
 class RenderTarget(BaseDetailsRenderStrategy):
-    actions = {ActionEvents.ANNOUNCEMENT, ActionEvents.AGREEMENT_CHANGE}
+    actions: ClassVar[set[ActionEvents]] = {
+        ActionEvents.ANNOUNCEMENT,
+        ActionEvents.AGREEMENT_CHANGE,
+    }
 
     def render_details(self, change: Change) -> StrOrPromise:
         return render_markdown(change.target)
@@ -122,7 +125,10 @@ class RenderTarget(BaseDetailsRenderStrategy):
 
 @register_details_display_strategy
 class RenderComment(BaseDetailsRenderStrategy):
-    actions = {ActionEvents.COMMENT_DELETE, ActionEvents.COMMENT}
+    actions: ClassVar[set[ActionEvents]] = {
+        ActionEvents.COMMENT_DELETE,
+        ActionEvents.COMMENT,
+    }
 
     def render_details(self, change: Change) -> StrOrPromise:
         if "comment" in change.details:
@@ -132,7 +138,7 @@ class RenderComment(BaseDetailsRenderStrategy):
 
 @register_details_display_strategy
 class RenderAddon(BaseDetailsRenderStrategy):
-    actions = {
+    actions: ClassVar[set[ActionEvents]] = {
         ActionEvents.ADDON_CREATE,
         ActionEvents.ADDON_CHANGE,
         ActionEvents.ADDON_REMOVE,
@@ -149,7 +155,7 @@ class RenderAddon(BaseDetailsRenderStrategy):
 class RenderUpdateEventDetails(BaseDetailsRenderStrategy):
     """Strategy for displaying details of an update event."""
 
-    actions = {ActionEvents.UPDATE}
+    actions: ClassVar[set[ActionEvents]] = {ActionEvents.UPDATE}
 
     def render_details(self, change: Change) -> StrOrPromise:
         details = change.details
@@ -177,7 +183,7 @@ class RenderUpdateEventDetails(BaseDetailsRenderStrategy):
 class RenderLicenceChangeDetails(BaseDetailsRenderStrategy):
     """Strategy for displaying details of a license change event."""
 
-    actions = {ActionEvents.LICENSE_CHANGE}
+    actions: ClassVar[set[ActionEvents]] = {ActionEvents.LICENSE_CHANGE}
 
     def render_details(self, change: Change) -> StrOrPromise:
         not_available = pgettext("License information not available", "N/A")
@@ -193,7 +199,7 @@ class RenderLicenceChangeDetails(BaseDetailsRenderStrategy):
 
 @register_details_display_strategy
 class RenderAutoActions(BaseDetailsRenderStrategy):
-    actions = set(AUTO_ACTIONS.keys())
+    actions: ClassVar[set[ActionEvents]] = set(AUTO_ACTIONS.keys())
 
     def render_details(self, change: Change) -> StrOrPromise:
         if change.auto_status:
@@ -206,7 +212,7 @@ class RenderAccessEdit(BaseDetailsRenderStrategy):
     """Strategy for displaying details of an access edit event."""
 
     details_required = True
-    actions = {ActionEvents.ACCESS_EDIT}
+    actions: ClassVar[set[ActionEvents]] = {ActionEvents.ACCESS_EDIT}
 
     def render_details(self, change: Change) -> StrOrPromise:
         details = change.details
@@ -220,7 +226,7 @@ class RenderAccessEdit(BaseDetailsRenderStrategy):
 class RenderUserActions(BaseDetailsRenderStrategy):
     """Strategy for displaying details of user actions."""
 
-    actions = {
+    actions: ClassVar[set[ActionEvents]] = {
         ActionEvents.ADD_USER,
         ActionEvents.INVITE_USER,
         ActionEvents.REMOVE_USER,
@@ -242,7 +248,7 @@ class RenderUserActions(BaseDetailsRenderStrategy):
 class RenderLanguage(BaseDetailsRenderStrategy):
     """Strategy for displaying details of language actions."""
 
-    actions = {
+    actions: ClassVar[set[ActionEvents]] = {
         ActionEvents.ADDED_LANGUAGE,
         ActionEvents.REQUESTED_LANGUAGE,
     }
@@ -259,7 +265,7 @@ class RenderLanguage(BaseDetailsRenderStrategy):
 class RenderAlert(BaseDetailsRenderStrategy):
     """Strategy for displaying details of an alert event."""
 
-    actions = {ActionEvents.ALERT}
+    actions: ClassVar[set[ActionEvents]] = {ActionEvents.ALERT}
     details_required = True
 
     def render_details(self, change: Change) -> StrOrPromise:
@@ -273,7 +279,7 @@ class RenderAlert(BaseDetailsRenderStrategy):
 class RenderRepositoryDetails(BaseDetailsRenderStrategy):
     """Strategy for displaying details of repository events."""
 
-    actions = {
+    actions: ClassVar[set[ActionEvents]] = {
         ActionEvents.RESET,
         ActionEvents.MERGE,
         ActionEvents.REBASE,
@@ -298,7 +304,7 @@ class RenderRepositoryDetails(BaseDetailsRenderStrategy):
 class RenderParseError(BaseDetailsRenderStrategy):
     """Strategy for displaying details of a parse error event."""
 
-    actions = {ActionEvents.PARSE_ERROR}
+    actions: ClassVar[set[ActionEvents]] = {ActionEvents.PARSE_ERROR}
     details_required = True
 
     def render_details(self, change: Change) -> StrOrPromise:
@@ -309,7 +315,7 @@ class RenderParseError(BaseDetailsRenderStrategy):
 class RenderHook(BaseDetailsRenderStrategy):
     """Strategy for displaying details of a hook event."""
 
-    actions = {ActionEvents.HOOK}
+    actions: ClassVar[set[ActionEvents]] = {ActionEvents.HOOK}
     details_required = True
 
     def render_details(self, change: Change) -> StrOrPromise:
@@ -320,7 +326,7 @@ class RenderHook(BaseDetailsRenderStrategy):
 class RenderCreateComponent(BaseDetailsRenderStrategy):
     """Strategy for displaying details of a component creation event."""
 
-    actions = {ActionEvents.CREATE_COMPONENT}
+    actions: ClassVar[set[ActionEvents]] = {ActionEvents.CREATE_COMPONENT}
 
     def render_details(self, change: Change) -> StrOrPromise:
         try:

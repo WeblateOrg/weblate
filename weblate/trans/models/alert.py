@@ -73,7 +73,7 @@ class Alert(models.Model):
     details = models.JSONField(default=dict)
 
     class Meta:
-        unique_together = [("component", "name")]
+        unique_together = [("component", "name")]  # noqa: RUF012
         verbose_name = "component alert"
         verbose_name_plural = "component alerts"
 

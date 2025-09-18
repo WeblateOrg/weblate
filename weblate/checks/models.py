@@ -152,7 +152,9 @@ class Check(models.Model):
     objects = CheckQuerySet.as_manager()
 
     class Meta:
-        unique_together = [("unit", "name")]
+        unique_together = [  # noqa: RUF012
+            ("unit", "name"),
+        ]
         verbose_name = "Quality check"
         verbose_name_plural = "Quality checks"
 

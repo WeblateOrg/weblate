@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 import time
 from unittest.mock import patch
 
@@ -16,7 +18,7 @@ from weblate.utils.classloader import ClassLoader
 
 
 class CeleryQueueTest(SimpleTestCase):
-    databases = {"default"}
+    databases = {"default"}  # noqa: RUF012
 
     @staticmethod
     def set_cache(value) -> None:

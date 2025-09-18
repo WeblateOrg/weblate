@@ -60,7 +60,7 @@ class QueryField(forms.CharField):
 
 
 class UsernameField(forms.CharField):
-    default_validators = [validate_username]
+    default_validators = [validate_username]  # noqa: RUF012
 
     def __init__(
         self,
@@ -141,7 +141,7 @@ class EmailField(forms.EmailField):
     We block some additional local parts and customize error messages.
     """
 
-    default_validators = [validate_email]
+    default_validators = [validate_email]  # noqa: RUF012
 
     def __init__(self, *args, **kwargs) -> None:
         kwargs.setdefault("max_length", EMAIL_LENGTH)
@@ -253,7 +253,7 @@ class CachedModelMultipleChoiceField(
 
 
 class WeblateServiceURLField(forms.URLField):
-    default_validators = [WeblateServiceURLValidator()]
+    default_validators = [WeblateServiceURLValidator()]  # noqa: RUF012
 
 
 class NormalizedNewlineCharField(forms.CharField):

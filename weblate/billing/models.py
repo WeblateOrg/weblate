@@ -9,6 +9,7 @@ from contextlib import suppress
 from datetime import timedelta
 from functools import partial
 from pathlib import Path
+from typing import ClassVar
 
 from appconf import AppConf
 from django.conf import settings
@@ -159,8 +160,8 @@ class Billing(models.Model):
     STATE_TRIAL = 1
     STATE_TERMINATED = 3
 
-    EXPIRING_STATES = {STATE_TRIAL}
-    ACTIVE_STATES = {STATE_ACTIVE, STATE_TRIAL}
+    EXPIRING_STATES: ClassVar[set[int]] = {STATE_TRIAL}
+    ACTIVE_STATES: ClassVar[set[int]] = {STATE_ACTIVE, STATE_TRIAL}
 
     plan = models.ForeignKey(
         Plan,

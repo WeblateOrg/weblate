@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar
 
 from .base import (
     MachineryRateLimitError,
@@ -28,7 +28,7 @@ class BaiduTranslation(MachineTranslation):
     max_score = 90
 
     # Map codes used by Baidu to codes used by Weblate
-    language_map = {
+    language_map: ClassVar[dict[str, str]] = {
         "zh_Hans": "zh",
         "ja": "jp",
         "ko": "kor",

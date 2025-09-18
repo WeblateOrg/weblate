@@ -89,7 +89,10 @@ class WeblateUserChangeForm(UserChangeForm):
     class Meta:
         model = User
         fields = "__all__"
-        field_classes = {"username": UniqueUsernameField, "full_name": FullNameField}
+        field_classes = {  # noqa: RUF012
+            "username": UniqueUsernameField,
+            "full_name": FullNameField,
+        }
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
@@ -103,7 +106,10 @@ class WeblateUserCreationForm(UserCreationForm, UniqueEmailMixin):
     class Meta:
         model = User
         fields = ("username", "email", "full_name")
-        field_classes = {"username": UniqueUsernameField, "full_name": FullNameField}
+        field_classes = {  # noqa: RUF012
+            "username": UniqueUsernameField,
+            "full_name": FullNameField,
+        }
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
@@ -236,7 +242,7 @@ class WeblateGroupAdmin(WeblateAuthAdmin):
     save_as = True
     model = Group
     form = GroupChangeForm
-    inlines = [InlineAutoGroupAdmin]
+    inlines = (InlineAutoGroupAdmin,)
     search_fields = ("name", "defining_project__name")
     ordering = ("defining_project__name", "name")
     list_filter = ("internal", "project_selection", "language_selection")

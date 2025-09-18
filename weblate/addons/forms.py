@@ -587,7 +587,10 @@ class BaseWebhooksAddonForm(ChangeBaseAddonForm):
         required=True,
     )
 
-    field_order = ["webhook_url", "events"]
+    field_order = [  # noqa: RUF012
+        "webhook_url",
+        "events",
+    ]
 
 
 class WebhooksAddonForm(BaseWebhooksAddonForm):
@@ -602,4 +605,8 @@ class WebhooksAddonForm(BaseWebhooksAddonForm):
         help_text=gettext_lazy("A Base64 encoded string"),
     )
 
-    field_order = ["webhook_url", "secret", "events"]
+    field_order = [  # noqa: RUF012
+        "webhook_url",
+        "secret",
+        "events",
+    ]

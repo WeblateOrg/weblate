@@ -851,10 +851,10 @@ class Component(
         app_label = "trans"
         verbose_name = "Component"
         verbose_name_plural = "Components"
-        indexes = [
+        indexes = [  # noqa: RUF012
             models.Index(fields=["project", "allow_translation_propagation"]),
         ]
-        constraints = [
+        constraints = [  # noqa: RUF012
             models.UniqueConstraint(
                 name="component_slug_unique",
                 fields=["project", "category", "slug"],

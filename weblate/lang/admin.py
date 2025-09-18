@@ -18,16 +18,16 @@ if TYPE_CHECKING:
 class PluralAdmin(admin.TabularInline):
     model = Plural
     extra = 0
-    ordering = ["source"]
+    ordering = ("source",)
 
 
 @admin.register(Language)
 class LanguageAdmin(WeblateModelAdmin):
-    list_display = ["name", "code", "direction"]
-    search_fields = ["name", "code"]
+    list_display = ("name", "code", "direction")
+    search_fields = ("name", "code")
     list_filter = ("direction",)
-    inlines = [PluralAdmin]
-    ordering = ["name"]
+    inlines = (PluralAdmin,)
+    ordering = ("name",)
 
     def save_related(
         self, request: AuthenticatedHttpRequest, form, formsets, change

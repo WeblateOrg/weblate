@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from datetime import timedelta
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar
 
 from django.utils import timezone
 
@@ -39,7 +39,7 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
     max_score = 90
     settings_form = MicrosoftMachineryForm
 
-    language_map = {
+    language_map: ClassVar[dict[str, str]] = {
         "zh_TW": "zh-Hant",
         "zh_CN": "zh-Hans",
         "yue_Hant": "yue",

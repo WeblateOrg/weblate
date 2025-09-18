@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar
 
 from dateutil.parser import isoparse
 from django.core.cache import cache
@@ -39,7 +39,7 @@ class DeepLTranslation(
     # This seems to be currently best MT service, so score it a bit
     # better than other ones.
     max_score = 91
-    language_map = {
+    language_map: ClassVar[dict[str, str]] = {
         "zh_Hans": "zh",
         "zh_Hant": "",  # Traditional Chinese not supported but would map to zh
         "pt": "pt-pt",

@@ -27,7 +27,7 @@ class InvalidString(UserString):
 
 
 class RestrictedEngine(Engine):
-    default_builtins = [
+    default_builtins: list[str] = [  # noqa: RUF012
         "django.template.defaultfilters",
         "weblate.utils.templatetags.safe_render",
     ]

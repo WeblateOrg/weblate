@@ -10,7 +10,7 @@ from base64 import b32encode
 from binascii import unhexlify
 from collections import defaultdict
 from datetime import timedelta
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, ClassVar
 from urllib.parse import quote
 
 import qrcode
@@ -151,9 +151,9 @@ from weblate.utils.views import get_paginator, parse_path
 from weblate.utils.zammad import ZammadError, submit_zammad_ticket
 
 if TYPE_CHECKING:
-    from weblate.accounts.forms import (
-        ProfileBaseForm,
-    )
+    from django.forms import Form
+
+    from weblate.accounts.forms import ProfileBaseForm
     from weblate.accounts.types import DeviceType
     from weblate.auth.models import AuthenticatedHttpRequest
 
@@ -909,7 +909,7 @@ class WeblateLogoutView(TemplateView):
     - login_required decorator
     """
 
-    http_method_names = ["post", "options"]
+    http_method_names = ["post", "options"]  # noqa: RUF012
     template_name = "registration/logged_out.html"
     request: AuthenticatedHttpRequest
 
@@ -1831,7 +1831,7 @@ class SecondFactorMixin(View):
 class SecondFactorLoginView(SecondFactorMixin, RedirectURLMixin, FormView):
     template_name = "accounts/2fa.html"
     next_page = settings.LOGIN_REDIRECT_URL
-    forms = {
+    forms: ClassVar[dict[str, Form]] = {
         "totp": TOTPTokenForm,
         "webauthn": WebAuthnTokenForm,
         "recovery": OTPTokenForm,

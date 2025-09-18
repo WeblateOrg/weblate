@@ -7,7 +7,7 @@ from __future__ import annotations
 import random
 import time
 from hashlib import sha1
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar
 
 from .base import MachineTranslation, MachineTranslationError
 from .forms import KeySecretMachineryForm
@@ -25,7 +25,7 @@ class NeteaseSightTranslation(MachineTranslation):
     max_score = 90
 
     # Map codes used by Netease Sight to codes used by Weblate
-    language_map = {"zh_Hans": "zh"}
+    language_map: ClassVar[dict[str, str]] = {"zh_Hans": "zh"}
     settings_form = KeySecretMachineryForm
 
     def download_languages(self):

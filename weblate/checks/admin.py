@@ -11,9 +11,9 @@ from .models import Check
 
 
 class CheckAdmin(WeblateModelAdmin):
-    list_display = ["name", "unit", "dismissed"]
-    search_fields = ["unit__source", "name"]
-    list_filter = ["name", "dismissed"]
+    list_display = ("name", "unit", "dismissed")
+    search_fields = ("unit__source", "name")
+    list_filter = ("name", "dismissed")
 
 
 # Show some controls only in debug mode

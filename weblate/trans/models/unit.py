@@ -462,10 +462,10 @@ class Unit(models.Model, LoggerMixin):
 
     class Meta:
         app_label = "trans"
-        unique_together = [("translation", "id_hash")]
+        unique_together = [("translation", "id_hash")]  # noqa: RUF012
         verbose_name = "string"
         verbose_name_plural = "strings"
-        indexes = [
+        indexes = [  # noqa: RUF012
             models.Index(
                 MD5(Lower("source")), "translation", name="trans_unit_source_md5"
             ),

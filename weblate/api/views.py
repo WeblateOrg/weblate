@@ -415,7 +415,7 @@ class UserFilter(filters.FilterSet):
 
     class Meta:
         model = User
-        fields = ["username", "id"]
+        fields = ("username", "id")
 
 
 @extend_schema_view(
@@ -2373,7 +2373,7 @@ class ChangeFilter(filters.FilterSet):
 
     class Meta:
         model = Change
-        fields = ["action", "user", "timestamp"]
+        fields = ("action", "user", "timestamp")
 
 
 class ChangesFilterBackend(filters.DjangoFilterBackend):

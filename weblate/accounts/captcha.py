@@ -13,7 +13,7 @@ import operator
 import time
 import urllib.parse
 from random import SystemRandom
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar
 
 from altcha import solve_challenge
 from django.utils.html import format_html
@@ -33,7 +33,7 @@ class MathCaptcha:
     """Simple match captcha object."""
 
     operators = ("+", "-", "*")
-    operators_display = {}
+    operators_display: ClassVar[dict[str, str]] = {}
     interval = (1, 10)
 
     def __init__(self, question=None, timestamp=None) -> None:
