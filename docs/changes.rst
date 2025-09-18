@@ -20,6 +20,7 @@ Weblate 5.14
 .. rubric:: Bug fixes
 
 * Plurals and :ref:`file_format_params` handling on file upload.
+* :ref:`team-admins` can no longer edit teams besides membership.
 
 .. rubric:: Compatibility
 

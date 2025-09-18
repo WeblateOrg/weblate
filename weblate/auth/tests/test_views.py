@@ -115,3 +115,37 @@ class TeamsTest(ViewTestCase):
         )
         self.assertEqual(group.user_set.count(), 2)
         self.assertEqual(group.admins.count(), 1)
+
+    def test_admin_access(self) -> None:
+        group = Group.objects.create(name="Test group", defining_project=self.project)
+        self.user.groups.add(group)
+        group.admins.add(self.user)
+
+        response = self.client.get(group.get_absolute_url())
+
+        self.assertNotContains(response, "Enforced two-factor authentication")
+        self.assertContains(response, "Add a user")
+
+        # Add user should work
+        self.client.post(
+            group.get_absolute_url(),
+            {"add_user": "1", "user": self.anotheruser.username},
+        )
+        self.assertEqual(group.user_set.count(), 2)
+        self.assertEqual(group.admins.count(), 1)
+
+        # Edit should not work
+        edit_payload = {
+            "name": "Other",
+            "language_selection": "1",
+            "autogroup_set-TOTAL_FORMS": "0",
+            "autogroup_set-INITIAL_FORMS": "0",
+        }
+
+        # Edit not allowed
+        response = self.client.post(group.get_absolute_url(), edit_payload)
+        self.assertEqual(response.status_code, 403)
+
+        # Verify no changes were done
+        group.refresh_from_db()
+        self.assertEqual(group.name, "Test group")

@@ -916,7 +916,8 @@ class GroupViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=["post"], url_path="admins")
     def grant_admin(self, request: Request, id):  # noqa: A002
         group = self.get_object()
-        self.perm_check(request, group)
+        if not request.user.has_perm("meta:team.users", group):
+            self.perm_check(request, group)
         user_id = request.data.get("user_id")
         if not user_id:
             msg = "User ID is required"
@@ -935,7 +936,8 @@ class GroupViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=["delete"], url_path="admins/(?P<user_pk>[0-9]+)")
     def revoke_admin(self, request: Request, id, user_pk):  # noqa: A002
         group = self.get_object()
-        self.perm_check(request, group)
+        if not request.user.has_perm("meta:team.users", group):
+            self.perm_check(request, group)
         try:
             user = group.admins.get(pk=user_pk)  # Using user_pk from the URL path
         except User.DoesNotExist as error:

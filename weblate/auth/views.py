@@ -139,7 +139,7 @@ class TeamUpdateView(UpdateView):
 
         form = self.get_form()
         if form is None:
-            return self.form_invalid(form, None)
+            raise PermissionDenied
 
         if "delete" in request.POST:
             return self.handle_delete(request)

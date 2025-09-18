@@ -2088,6 +2088,10 @@ The :file:`data` volume is mounted as :file:`/app/data` and is used to store
 Weblate persistent data such as cloned repositories or to customize Weblate
 installation. :setting:`DATA_DIR` describes in more detail what is stored here.
 
+The :file:`data` volume is also place to store Weblate customization such as
+:ref:`docker-settings-override`, :ref:`docker-static-override` or
+:ref:`docker-python-override`.
+
 The placement of the Docker volume on host system depends on your Docker
 configuration, but usually it is stored in
 :file:`/var/lib/docker/volumes/weblate-docker_weblate-data/_data/` (the path
@@ -2222,6 +2226,8 @@ To override settings at the Docker image level instead of from the data volume:
    such as exposing settings as environment variables, or allow overriding
    settings from Python files in the data volume.
 
+.. _docker-static-override:
+
 Replacing logo and other static files
 +++++++++++++++++++++++++++++++++++++
 
@@ -2250,6 +2256,8 @@ it as separate volume to the Docker container, for example:
       - ./weblate_customization/weblate_customization:/app/data/python/weblate_customization
     environment:
       WEBLATE_ADD_APPS: weblate_customization
+
+.. _docker-python-override:
 
 Customizing code
 ++++++++++++++++
