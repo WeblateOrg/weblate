@@ -2956,7 +2956,23 @@ class ComponentAPITest(APIBaseTest):
             reverse("api:component-detail", kwargs=self.component_kwargs), format="json"
         ).json()
         component["name"] = "New Name"
-        component["file_format_params"] = {"po_line_wrap": -1, "yaml_indent": 8}
+
+        # put invalid parameter
+        component["file_format_params"] = {"yaml_indent": 8}
+        response = self.do_request(
+            "api:component-detail",
+            self.component_kwargs,
+            method="put",
+            superuser=True,
+            code=400,
+            format="json",
+            request=component,
+        )
+        self.component.refresh_from_db()
+        self.assertNotIn("yaml_indent", self.component.file_format_params)
+
+        # put valid parameter
+        component["file_format_params"] = {"po_line_wrap": -1}
         response = self.do_request(
             "api:component-detail",
             self.component_kwargs,
@@ -2968,7 +2984,6 @@ class ComponentAPITest(APIBaseTest):
         )
         self.assertEqual(response.data["name"], "New Name")
         self.assertEqual(response.data["file_format_params"]["po_line_wrap"], -1)
-        self.assertNotIn("xml_closing_tags", response.data["file_format_params"])
 
     def test_delete(self) -> None:
         self.assertEqual(Component.objects.count(), 2)
