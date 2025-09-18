@@ -317,7 +317,6 @@ function pgettext(context, msgid) {
   }
   return msgid;
 }
-// biome-ignore lint/correctness/noUnusedVariables: Global function
 function interpolate(fmt, obj, named) {
   if (typeof django !== "undefined") {
     return django.interpolate(fmt, obj, named);
@@ -1724,5 +1723,51 @@ $(function () {
     const tab = document.querySelector("[data-bs-target='#new'");
     bootstrap.Tab.getOrCreateInstance(tab).show();
     tab.closest(".dropdown-menu").classList.remove("show");
+  });
+
+  /* Datetime formatting */
+  const dateFormatter = new Intl.DateTimeFormat(document.documentElement.lang, {
+    timeStyle: "medium",
+    dateStyle: "short",
+  });
+  document.querySelectorAll(".naturaltime").forEach((timespan) => {
+    const timestamp = Date.parse(timespan.getAttribute("data-datetime"));
+    const difference = (Date.now() - timestamp) / 1000;
+    let value = "";
+    if (Math.abs(difference) < 2) {
+      value = gettext("just now");
+    } else if (difference > 0) {
+      if (difference < 60) {
+        const seconds = Math.floor(difference);
+        value = interpolate(
+          ngettext("%s second ago", "%s seconds ago", seconds),
+          [seconds],
+        );
+      } else if (difference < 60 * 60) {
+        const minutes = Math.floor(difference / 60);
+        if (minutes === 1) {
+          value = gettext("a minute ago");
+        } else {
+          value = interpolate(
+            ngettext("%s minute ago", "%s minutes ago", minutes),
+            [minutes],
+          );
+        }
+      } else if (difference < 60 * 60 * 24) {
+        const hours = Math.floor(difference / (60 * 60));
+        if (hours === 1) {
+          value = gettext("a hour ago");
+        } else {
+          value = interpolate(ngettext("%s hour ago", "%s hours ago", hours), [
+            hours,
+          ]);
+        }
+      }
+    }
+    if (value === "") {
+      value = dateFormatter.format(new Date(timestamp));
+    }
+    console.log(timestamp, value);
+    timespan.textContent = value;
   });
 });
