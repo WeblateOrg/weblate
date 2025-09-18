@@ -341,6 +341,8 @@ def execute_addon_event(
     # Log logging result and error flag for add-on activity log
     log_result = None
     error_occurred = False
+    if args is None:
+        args = ()
 
     activity_log = AddonActivityLog.objects.create(
         addon=addon,
@@ -403,7 +405,7 @@ def execute_addon_event(
         finally:
             # Check if add-on is still installed and log activity
             if event not in NO_LOG_EVENTS and addon.pk is not None:
-                update_addon_activity_log.delay_on_commit(
+                update_addon_activity_log(
                     activity_log.pk,
                     log_result,
                     pending=False,

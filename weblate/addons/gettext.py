@@ -37,7 +37,13 @@ class GenerateMoAddon(GettextBaseAddon):
     )
     settings_form = GenerateMoForm
 
-    def pre_commit(self, translation, author: str, store_hash: bool, **kwargs) -> None:
+    def pre_commit(
+        self,
+        translation,
+        author: str,
+        store_hash: bool,
+        activity_log_id: int | None = None,
+    ) -> None:
         exporter = MoExporter(translation=translation)
 
         if self.instance.configuration.get("fuzzy"):
@@ -141,13 +147,13 @@ class UpdateLinguasAddon(GettextBaseAddon):
 
         return changed
 
-    def post_add(self, translation, **kwargs) -> None:
+    def post_add(self, translation, activity_log_id: int | None = None) -> None:
         with translation.component.repository.lock:
             path = self.get_linguas_path(translation.component)
             if self.sync_linguas(translation.component, path):
                 translation.addon_commit_files.append(path)
 
-    def daily(self, component, **kwargs) -> None:
+    def daily(self, component, activity_log_id: int | None = None) -> None:
         with component.repository.lock:
             path = self.get_linguas_path(component)
             if self.sync_linguas(component, path):
@@ -213,13 +219,13 @@ class UpdateConfigureAddon(GettextBaseAddon):
 
         return added
 
-    def post_add(self, translation, **kwargs) -> None:
+    def post_add(self, translation, activity_log_id: int | None = None) -> None:
         with translation.component.repository.lock:
             paths = list(self.get_configure_paths(translation.component))
             if self.sync_linguas(translation.component, paths):
                 translation.addon_commit_files.extend(paths)
 
-    def daily(self, component, **kwargs) -> None:
+    def daily(self, component, activity_log_id: int | None = None) -> None:
         with component.repository.lock:
             paths = list(self.get_configure_paths(component))
             if self.sync_linguas(component, paths):
@@ -320,7 +326,11 @@ class GettextAuthorComments(GettextBaseAddon):
     )
 
     def pre_commit(
-        self, translation: Translation, author: str, store_hash: bool, **kwargs
+        self,
+        translation: Translation,
+        author: str,
+        store_hash: bool,
+        activity_log_id: int | None = None,
     ) -> None:
         if "noreply@weblate.org" in author:
             return

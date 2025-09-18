@@ -35,7 +35,11 @@ class DiscoveryAddon(BaseAddon):
     trigger_update = True
 
     def post_update(
-        self, component, previous_head: str, skip_push: bool, **kwargs
+        self,
+        component,
+        previous_head: str,
+        skip_push: bool,
+        activity_log_id: int | None = None,
     ) -> None:
         discovery = self.get_discovery(component)
         discovery.perform(

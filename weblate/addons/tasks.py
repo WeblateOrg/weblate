@@ -115,7 +115,7 @@ def language_consistency(
         )
     ).exclude(translation_count=languages.count())
 
-    log_result = ""
+    log_result: list[str] = []
 
     for component in components.iterator():
         # Avoid two language consistency add-ons working at same on a single component
@@ -134,16 +134,22 @@ def language_consistency(
                     create_translations=False,
                 )
                 if new_lang is None:
-                    log_result += f"{component.full_slug}: Could not add {language} language consistency: {component.new_lang_error_message}\n"
+                    log_result.append(
+                        f"{component.full_slug}: Could not add {language} language consistency: {component.new_lang_error_message}"
+                    )
                 else:
-                    log_result += f"{component.full_slug}: Added {language} for language consistency\n"
+                    log_result.append(
+                        f"{component.full_slug}: Added {language} for language consistency"
+                    )
             try:
                 component.create_translations_immediate()
             except FileParseError as error:
-                log_result += f"{component.full_slug}: Could not parse translation files: {error}\n"
+                log_result.append(
+                    f"{component.full_slug}: Could not parse translation files: {error}"
+                )
 
     if activity_log_id and log_result:
-        update_addon_activity_log.delay_on_commit(activity_log_id, log_result)
+        update_addon_activity_log(activity_log_id, "\n".join(log_result))
 
 
 @app.task(trail=False)
@@ -165,7 +171,6 @@ def daily_addons(modulo: bool = True) -> None:
     )
 
 
-@app.task(trail=False)
 def update_addon_activity_log(
     pk: int, result: str = "", error_occurred: bool = False, pending: bool | None = None
 ) -> None:
@@ -175,7 +180,7 @@ def update_addon_activity_log(
         addon_activity_log.update_result(result)
     if pending is not None:
         addon_activity_log.pending = pending
-    addon_activity_log.save()
+    addon_activity_log.save(update_fields=["details", "pending"])
 
 
 @app.task(trail=False)
