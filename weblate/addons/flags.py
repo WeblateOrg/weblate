@@ -46,7 +46,7 @@ class SourceEditAddon(FlagBase):
         "edit_template": {True},
     }
 
-    def unit_pre_create(self, unit) -> None:
+    def unit_pre_create(self, unit, activity_log_id: int | None = None) -> None:
         if (
             unit.translation.is_template
             and unit.state >= STATE_TRANSLATED
@@ -64,7 +64,7 @@ class TargetEditAddon(FlagBase):
         "filter and edit translations created by the developers."
     )
 
-    def unit_pre_create(self, unit) -> None:
+    def unit_pre_create(self, unit, activity_log_id: int | None = None) -> None:
         if (
             not unit.translation.is_template
             and unit.state >= STATE_TRANSLATED
@@ -82,7 +82,7 @@ class SameEditAddon(FlagBase):
         "useful for file formats that include source strings for untranslated strings."
     )
 
-    def unit_pre_create(self, unit) -> None:
+    def unit_pre_create(self, unit, activity_log_id: int | None = None) -> None:
         if (
             not unit.translation.is_template
             and unit.source == unit.target
@@ -103,7 +103,7 @@ class BulkEditAddon(BaseAddon):
     settings_form = BulkEditAddonForm
     multiple = True
 
-    def component_update(self, component) -> None:
+    def component_update(self, component, activity_log_id: int | None = None) -> None:
         label_set = component.project.label_set
         bulk_perform(
             None,
