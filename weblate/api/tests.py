@@ -2412,27 +2412,66 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(component.enforced_checks, ["same"])
 
     def test_create_component_with_file_format_params(self) -> None:
+        payload = {
+            "name": "API project",
+            "slug": "api-project",
+            "repo": self.format_local_path(self.git_repo_path),
+            "filemask": "po/*.po",
+            "file_format": "po",
+            "push": "https://username:password@github.com/example/push.git",
+            "new_lang": "none",
+        }
+
+        # attempt create with invalid params
+        payload |= {"file_format_params": "not a dict"}
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request=payload,
+            format="json",
+        )
+
+        payload |= {"file_format_params": {"po_line_wrap": "invalid"}}
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request=payload,
+            format="json",
+        )
+
+        # attempt create with params that don't match format
+        payload |= {
+            "file_format_params": {"po_line_wrap": -1, "yaml_indent": 8},
+        }
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request=payload,
+            format="json",
+        )
+
+        # create with valid params
+        payload["file_format_params"] = {"po_line_wrap": -1}
         self.do_request(
             "api:project-components",
             self.project_kwargs,
             method="post",
             code=201,
             superuser=True,
-            request={
-                "name": "API project",
-                "slug": "api-project",
-                "repo": self.format_local_path(self.git_repo_path),
-                "filemask": "po/*.po",
-                "file_format": "po",
-                "file_format_params": {"po_line_wrap": -1, "yaml_indent": 8},
-                "push": "https://username:password@github.com/example/push.git",
-                "new_lang": "none",
-            },
+            request=payload,
             format="json",
         )
         component = Component.objects.get(slug="api-project", project__slug="test")
         self.assertEqual(component.file_format_params["po_line_wrap"], -1)
-        self.assertNotIn("yaml_indent", component.file_format_params)
 
     def test_download_private_project_translations(self) -> None:
         project = self.component.project
