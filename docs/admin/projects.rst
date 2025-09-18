@@ -623,6 +623,13 @@ File format
 
 Translation file format, see also :ref:`formats`.
 
+.. _component-file_format_params:
+
+File format parameters
+++++++++++++++++++++++
+
+Parameters used to configure how translation files are processed, see also :ref:`file_format_params`.
+
 .. _component-report_source_bugs:
 
 Source string bug reporting address
