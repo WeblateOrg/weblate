@@ -177,7 +177,7 @@ Weblate 5.13
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
-* The distributed locking now uses a different implementation and that introduced several changes in :file:`settings_example.py`.
+* The distributed locking now uses a different implementation and that introduced several changes in :file:`settings_example.py`, most notably ``BACKEND`` in ``CACHES`` needs to be changed.
 * There are several changes in :file:`settings_example.py`, most notable are changed settings ``CRISPY_ALLOWED_TEMPLATE_PACKS`` and ``INSTALLED_APPS``; please adjust your settings accordingly.
 * The Docker container is now using :program:`granian`. This now requires explicit configuration of proxy trusted headers, including client protocol.
   :envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER` typically needs to be added to avoid redirect loop, for example:
