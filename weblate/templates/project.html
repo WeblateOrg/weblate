@@ -157,7 +157,7 @@
         {% elif managed_teams %}
           {% for team in managed_teams %}
             <li>
-              <a href="{{ team.get_absolute_url }}">{% blocktranslate %}Manage {{ team }}{% endblocktranslate %}</a>
+              <a class="dropdown-item" href="{{ team.get_absolute_url }}">{% blocktranslate %}Manage {{ team }}{% endblocktranslate %}</a>
             </li>
           {% endfor %}
         {% endif %}
