@@ -118,7 +118,7 @@ from weblate.utils.validators import (
     validate_re_nonempty,
     validate_slug,
 )
-from weblate.vcs.base import Repository, RepositoryError
+from weblate.vcs.base import RepositoryError
 from weblate.vcs.git import GitMergeRequestBase, LocalRepository
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.vcs.ssh import add_host_key
@@ -131,6 +131,7 @@ if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.checks.base import BaseCheck
     from weblate.trans.models.unit import UnitAttributesDict
+    from weblate.vcs.base import Repository
 
 NEW_LANG_CHOICES = (
     # Translators: Action when adding new translation
@@ -850,10 +851,10 @@ class Component(
         app_label = "trans"
         verbose_name = "Component"
         verbose_name_plural = "Components"
-        indexes = [
+        indexes = [  # noqa: RUF012
             models.Index(fields=["project", "allow_translation_propagation"]),
         ]
-        constraints = [
+        constraints = [  # noqa: RUF012
             models.UniqueConstraint(
                 name="component_slug_unique",
                 fields=["project", "category", "slug"],
@@ -1455,6 +1456,11 @@ class Component(
         return is_repo_link(self.repo)
 
     @property
+    def is_repo_local(self) -> bool:
+        """Check whether a repository is local-only."""
+        return self.vcs == "local"
+
+    @property
     def repository_class(self) -> type[Repository]:
         return VCS_REGISTRY[self.vcs]
 
@@ -1468,7 +1474,7 @@ class Component(
     @perform_on_link
     def get_last_remote_commit(self):
         """Return latest locally known remote commit."""
-        if self.vcs == "local" or not self.remote_revision:
+        if self.is_repo_local or not self.remote_revision:
             return None
         try:
             return self.repository.get_revision_info(self.remote_revision)
@@ -1477,7 +1483,7 @@ class Component(
 
     def get_last_commit(self):
         """Return latest locally known remote commit."""
-        if self.vcs == "local" or not self.local_revision:
+        if self.is_repo_local or not self.local_revision:
             return None
         try:
             return self.repository.get_revision_info(self.local_revision)
@@ -1760,7 +1766,7 @@ class Component(
         if self.is_repo_link:
             return
 
-        if self.vcs == "local":
+        if self.is_repo_local:
             if not os.path.exists(os.path.join(self.full_path, ".git")):
                 if (
                     not self.template
@@ -1984,7 +1990,7 @@ class Component(
     ) -> bool:
         """Push changes to remote repo."""
         # Skip push for local only repo
-        if self.vcs == "local":
+        if self.is_repo_local:
             return True
 
         # Do we have push configured
@@ -3218,12 +3224,12 @@ class Component(
         if self.repo is None:
             return
 
-        if self.vcs != "local" and self.repo == "local:":
+        if not self.is_repo_local and self.repo == "local:":
             raise ValidationError(
                 {"vcs": gettext("Choose No remote repository for local: URL.")}
             )
 
-        if self.vcs == "local" and self.push:
+        if self.is_repo_local and self.push:
             raise ValidationError(
                 {"push": gettext("Push URL is not used without a remote repository.")}
             )
@@ -3776,8 +3782,8 @@ class Component(
     @transaction.atomic
     def add_new_language(  # noqa: C901
         self,
-        language,
-        request,
+        language: Language,
+        request: AuthenticatedHttpRequest | None,
         send_signal: bool = True,
         create_translations: bool = True,
         show_messages: bool = True,
@@ -4025,7 +4031,7 @@ class Component(
         return gettext("Add new translation string")
 
     def suggest_repo_link(self):
-        if self.is_repo_link or self.vcs == "local":
+        if self.is_repo_link or self.is_repo_local:
             return None
 
         same_repo = self.project.component_set.filter(

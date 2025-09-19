@@ -21,7 +21,6 @@ from google.cloud.translate_v3 import (
 from google.oauth2 import service_account
 
 from .base import (
-    DownloadTranslations,
     GlossaryAlreadyExistsError,
     GlossaryDoesNotExistError,
     GlossaryMachineTranslationMixin,
@@ -32,6 +31,10 @@ from .google import GoogleBaseTranslation
 
 if TYPE_CHECKING:
     from weblate.trans.models import Unit
+
+    from .base import (
+        DownloadTranslations,
+    )
 
 
 class GoogleV3Translation(

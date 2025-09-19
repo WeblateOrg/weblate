@@ -8,6 +8,7 @@ from datetime import UTC, datetime, timedelta
 from io import BytesIO
 
 import responses
+from django.conf import settings
 from django.core.files import File
 from django.test.utils import modify_settings
 from django.urls import reverse
@@ -16,7 +17,7 @@ from weblate_language_data.languages import LANGUAGES
 
 from weblate.accounts.models import Subscription
 from weblate.api.serializers import CommentSerializer
-from weblate.auth.models import Group, Role, User
+from weblate.auth.models import Group, Permission, Role, User
 from weblate.lang.models import Language
 from weblate.memory.models import Memory
 from weblate.screenshots.models import Screenshot
@@ -75,8 +76,8 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         self.tearDown()
         self.user = User.objects.create_user("apitest", "apitest@example.org", "x")
         self.user.profile.languages.add(Language.objects.get(code="cs"))
-        group = Group.objects.get(name="Users")
-        self.user.groups.add(group)
+        self.group = Group.objects.get(name="Users")
+        self.user.groups.add(self.group)
 
     def create_acl(self):
         project = Project.objects.create(
@@ -127,16 +128,34 @@ class APIBaseTest(APITestCase, RepoTestMixin):
             self.assertEqual(response.data, data)
         return response
 
+    def grant_perm_to_user(
+        self, perm: str, group_name: str = "Permission group"
+    ) -> None:
+        permission = Permission.objects.get(codename=perm)
+        group = Group.objects.get_or_create(name=group_name)[0]
+        role = Role.objects.create(name="Permission role")
+        role.permissions.add(permission)
+        group.roles.add(role)
+        self.user.groups.add(group)
+
 
 class UserAPITest(APIBaseTest):
     def test_list(self) -> None:
         response = self.client.get(reverse("api:user-list"))
         self.assertEqual(response.data["count"], 0)
+
         self.authenticate(False)
         response = self.client.get(reverse("api:user-list"))
         self.assertEqual(response.data["count"], 1)
         self.assertNotIn("email", response.data["results"][0])
+
         self.authenticate(True)
+        response = self.client.get(reverse("api:user-list"))
+        self.assertEqual(response.data["count"], 3)
+        self.assertIsNotNone(response.data["results"][0]["email"])
+
+        self.authenticate(False)
+        self.grant_perm_to_user("user.view")
         response = self.client.get(reverse("api:user-list"))
         self.assertEqual(response.data["count"], 3)
         self.assertIsNotNone(response.data["results"][0]["email"])
@@ -145,7 +164,7 @@ class UserAPITest(APIBaseTest):
         language = Language.objects.get(code="cs")
         response = self.do_request(
             "api:user-detail",
-            kwargs={"username": User.objects.filter(is_active=True)[0].username},
+            kwargs={"username": "apitest"},
             method="get",
             superuser=True,
             code=200,
@@ -156,9 +175,89 @@ class UserAPITest(APIBaseTest):
             response.data["languages"],
         )
 
+        # user without permission can only see basic information
+        response = self.do_request(
+            "api:user-detail",
+            kwargs={"username": "apitest"},
+            method="get",
+            superuser=False,
+            code=200,
+        )
+        self.assertNotIn("languages", response.data)
+
+        # user with right permission can see detailed information
+        self.grant_perm_to_user("user.view")
+        response = self.do_request(
+            "api:user-detail",
+            kwargs={"username": "apitest"},
+            method="get",
+            superuser=False,
+            code=200,
+        )
+        self.assertEqual(response.data["username"], "apitest")
+        self.assertIn(
+            f"http://example.com/api/languages/{language.code}/",
+            response.data["languages"],
+        )
+
+    def test_get_anonymous(self) -> None:
+        # User info not accessible without auth
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": settings.ANONYMOUS_USER_NAME},
+            method="get",
+            authenticated=False,
+            code=404,
+        )
+        # User is able to get another user basic info, but not full details
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": settings.ANONYMOUS_USER_NAME},
+            method="get",
+            superuser=False,
+            code=200,
+            data={"full_name": "Anonymous", "username": settings.ANONYMOUS_USER_NAME},
+            skip=("id",),
+        )
+        # Admin can get full details
+        self.do_request(
+            "api:user-detail",
+            kwargs={"username": settings.ANONYMOUS_USER_NAME},
+            method="get",
+            superuser=True,
+            code=200,
+            data={
+                "email": "noreply@weblate.org",
+                "full_name": "Anonymous",
+                "username": settings.ANONYMOUS_USER_NAME,
+                "is_superuser": False,
+                "is_active": False,
+                "is_bot": False,
+                "last_login": None,
+            },
+            skip=(
+                "id",
+                "groups",
+                "languages",
+                "notifications",
+                "date_joined",
+                "url",
+                "statistics_url",
+                "contributions_url",
+            ),
+        )
+
     def test_filter(self) -> None:
+        """Front-end autocompletion interface."""
         self.authenticate(True)
-        response = self.client.get(reverse("api:user-list"), {"username": "api"})
+        response = self.client.get(
+            reverse("api:user-list"), {"username": settings.ANONYMOUS_USER_NAME}
+        )
+        self.assertEqual(response.data["count"], 1)
+        self.authenticate(False)
+        response = self.client.get(
+            reverse("api:user-list"), {"username": settings.ANONYMOUS_USER_NAME}
+        )
         self.assertEqual(response.data["count"], 1)
 
     def test_create(self) -> None:
@@ -430,19 +529,39 @@ class GroupAPITest(APIBaseTest):
     def test_list(self) -> None:
         response = self.client.get(reverse("api:group-list"))
         self.assertEqual(response.data["count"], 2)
-        self.authenticate(True)
+
+        self.grant_perm_to_user("group.view", "Viewers")
+        self.authenticate(False)
         response = self.client.get(reverse("api:group-list"))
         self.assertEqual(response.data["count"], 7)
 
     def test_get(self) -> None:
+        # user can see details of group they are member of
         response = self.do_request(
             "api:group-detail",
             kwargs={"id": Group.objects.get(name="Users").id},
             method="get",
-            superuser=True,
             code=200,
         )
         self.assertEqual(response.data["name"], "Users")
+
+        # user without view permission can't see other group details
+        Group.objects.create(name="Test Group")
+        response = self.do_request(
+            "api:group-detail",
+            kwargs={"id": Group.objects.get(name="Test Group").id},
+            method="get",
+            code=404,
+        )
+
+        # user with view permission can see other group details
+        self.grant_perm_to_user("group.view", "Viewers")
+        response = self.do_request(
+            "api:group-detail",
+            kwargs={"id": Group.objects.get(name="Test Group").id},
+            method="get",
+            code=200,
+        )
 
     def test_get_user(self) -> None:
         response = self.do_request(
@@ -999,14 +1118,29 @@ class RoleAPITest(APIBaseTest):
     def test_list_roles(self) -> None:
         response = self.client.get(reverse("api:role-list"))
         self.assertEqual(response.data["count"], 2)
+
         self.authenticate(True)
         response = self.client.get(reverse("api:role-list"))
         self.assertEqual(response.data["count"], 16)
 
+        self.authenticate(False)
+        self.grant_perm_to_user("role.view")  # also creates a new role
+        response = self.client.get(reverse("api:role-list"))
+        self.assertEqual(response.data["count"], 17)
+
     def test_get_role(self) -> None:
+        # user can view details of a role they have
         role = Role.objects.get(name="Access repository")
         response = self.client.get(reverse("api:role-detail", kwargs={"id": role.pk}))
         self.assertEqual(response.data["name"], role.name)
+
+        # user without view permission can't see other role details
+        new_role = Role.objects.create(name="Test Role")
+        self.do_request("api:role-detail", kwargs={"id": new_role.pk}, code=404)
+
+        # user with view permission can view other role details
+        self.grant_perm_to_user("role.view")
+        self.do_request("api:role-detail", kwargs={"id": new_role.pk}, code=200)
 
     def test_create(self) -> None:
         self.do_request("api:role-list", method="post", code=403)
@@ -3370,6 +3504,28 @@ class TranslationAPITest(APIBaseTest):
 
         self.check_upload_changes(changes_start, 1)
 
+        # Non-compatible component
+        self.create_po_mono(name="mono", project=self.component.project)
+
+        with open(TEST_POT, "rb") as handle:
+            response = self.client.put(
+                reverse(
+                    "api:translation-file",
+                    kwargs={
+                        "language__code": "en",
+                        "component__slug": "mono",
+                        "component__project__slug": "test",
+                    },
+                ),
+                {"file": handle, "method": "source"},
+            )
+        self.assertEqual(response.status_code, 400)
+        self.assertEqual("method", response.data["errors"][0]["attr"])
+        self.assertIn(
+            "Update source strings upload is not supported with this format.",
+            response.data["errors"][0]["detail"],
+        )
+
     def test_upload_content(self) -> None:
         self.authenticate()
         with open(TEST_PO, "rb") as handle:
@@ -5496,14 +5652,14 @@ class LabelAPITest(APIBaseTest):
             code=200,
         )
 
-        self.assertEqual(len(response.data["results"]), 1)
-
-        response_label = response.data["results"][0]
-
-        self.assertEqual(response_label["id"], label.id)
-        self.assertEqual(response_label["name"], label.name)
-        self.assertEqual(response_label["description"], label.description)
-        self.assertEqual(response_label["color"], label.color)
+        found = False
+        for response_label in response.data["results"]:
+            if response_label["id"] == label.id:
+                self.assertEqual(response_label["name"], label.name)
+                self.assertEqual(response_label["description"], label.description)
+                self.assertEqual(response_label["color"], label.color)
+                found = True
+        self.assertTrue(found, "Created label not found in response")
 
     def test_create_label(self) -> None:
         self.do_request(
@@ -5531,6 +5687,79 @@ class LabelAPITest(APIBaseTest):
             },
             code=403,
         )
+
+    def test_delete_label(self) -> None:
+        """Test deleting a label from a project."""
+        # First create a label
+        label = self.component.project.label_set.create(
+            name="Test Label to Delete", color="red"
+        )
+
+        # Add it to some units
+        for unit in self.component.source_translation.unit_set.all():
+            unit.labels.add(label)
+
+        # Test successful deletion
+        self.do_request(
+            "api:project-delete-labels",
+            kwargs={"slug": self.component.project.slug, "label_id": label.id},
+            method="delete",
+            superuser=True,
+            code=204,
+        )
+
+        # Verify label was deleted
+        self.assertFalse(self.component.project.label_set.filter(id=label.id).exists())
+
+    def test_delete_label_permission_denied(self) -> None:
+        """Test that non-admin users cannot delete labels."""
+        label = self.component.project.label_set.create(
+            name="Test Label to Delete", color="red"
+        )
+
+        self.do_request(
+            "api:project-delete-labels",
+            kwargs={"slug": self.component.project.slug, "label_id": label.id},
+            method="delete",
+            superuser=False,
+            code=403,
+        )
+
+        # Verify label still exists
+        self.assertTrue(self.component.project.label_set.filter(id=label.id).exists())
+
+    def test_delete_nonexistent_label(self) -> None:
+        """Test deleting a label that doesn't exist."""
+        self.do_request(
+            "api:project-delete-labels",
+            kwargs={"slug": self.component.project.slug, "label_id": 99999},
+            method="delete",
+            superuser=True,
+            code=404,
+        )
+
+    def test_delete_label_wrong_project(self) -> None:
+        """Test deleting a label from wrong project returns error."""
+        # Create a label in one project
+        label = self.component.project.label_set.create(name="Test Label", color="red")
+
+        # Create another project for testing
+        project2 = Project.objects.create(
+            name="Test Project 2",
+            slug="test-project-2",
+            access_control=Project.ACCESS_PRIVATE,
+        )
+
+        self.do_request(
+            "api:project-delete-labels",
+            kwargs={"slug": project2.slug, "label_id": label.id},
+            method="delete",
+            superuser=True,
+            code=404,
+        )
+
+        # Verify label still exists in original project
+        self.assertTrue(self.component.project.label_set.filter(id=label.id).exists())
 
 
 class OpenAPITest(APIBaseTest):

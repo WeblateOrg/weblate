@@ -116,6 +116,13 @@ Unit post-save
 
 Triggered just after the string is saved.
 
+.. _addon-event-unit-post-sync:
+
+Unit post-sync
+--------------
+
+Triggered after the string is synchronized with the VCS.
+
 .. _addon-event-unit-pre-create:
 
 Unit pre-create
@@ -270,7 +277,7 @@ Add missing languages
 :Triggers: :ref:`addon-event-install`, :ref:`addon-event-daily`, :ref:`addon-event-repository-post-add`
 
 Ensures a consistent set of languages is used for all components within a
-project.
+project. The components shared from other projects are not considered in this.
 
 Missing languages are checked once every 24 hours, and when new languages
 are added in Weblate.
@@ -571,6 +578,23 @@ translations created by the developers.
 
    :ref:`states`
 
+.. _addon-weblate.flags.target_repo_update:
+
+Flag updated translations from repository as "Needs editing"
+------------------------------------------------------------
+
+:Add-on ID: ``weblate.flags.target_repo_update``
+:Configuration: `This add-on has no configuration.`
+:Triggers: :ref:`addon-event-unit-post-sync`
+
+Whenever a string translation is changed from the VCS, it is flagged as needing
+editing in Weblate. Especially useful if translation files are often updated
+manually or by an external service.
+
+.. seealso::
+
+   :ref:`states`
+
 .. _addon-weblate.generate.fill_read_only:
 
 Fill read-only strings with source
@@ -821,7 +845,7 @@ Update PO files to match POT (msgmerge)
 
 .. versionchanged:: 5.13
 
-   :guilabel: Settings configuration has been moved to :ref:`file_format_params`.
+   :guilabel:`Settings` configuration has been moved to :ref:`file_format_params`.
 
 :Add-on ID: ``weblate.gettext.msgmerge``
 :Configuration: `This add-on has no configuration.`

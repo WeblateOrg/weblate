@@ -17,13 +17,13 @@ from celery.exceptions import TimeoutError as CeleryTimeoutError
 from django.apps import AppConfig
 from django.conf import settings
 from django.core.cache import cache
-from django.core.checks import CheckMessage, Error, Info, register
+from django.core.checks import Error, Info, register
 from django.core.exceptions import ImproperlyConfigured
 from django.core.mail import get_connection
 from django.db import DatabaseError
 from django.db.models import CharField, TextField
 from django.db.models.functions import MD5, Lower
-from django.db.models.lookups import Lookup, Regex
+from django.db.models.lookups import Regex
 from django.utils import timezone
 from packaging.version import Version
 
@@ -48,6 +48,9 @@ from .version import VERSION_BASE, get_latest_version
 
 if TYPE_CHECKING:
     from collections.abc import Iterable, Sequence
+
+    from django.core.checks import CheckMessage
+    from django.db.models.lookups import Lookup
 
 
 GOOD_CACHE = {"MemcachedCache", "PyLibMCCache", "DatabaseCache", "RedisCache"}

@@ -11,7 +11,6 @@ from django.utils.translation import gettext
 
 from weblate.lang.models import Language
 from weblate.trans.models import (
-    Announcement,
     Category,
     Component,
     ComponentList,
@@ -22,7 +21,7 @@ from weblate.trans.models import (
 )
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 
-from .results import Allowed, Denied, PermissionResult
+from .results import Allowed, Denied
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -33,7 +32,13 @@ if TYPE_CHECKING:
     from weblate.billing.models import Billing
     from weblate.checks.models import Check
     from weblate.memory.models import Memory
-    from weblate.trans.models import Comment, Suggestion
+    from weblate.trans.models import (
+        Announcement,
+        Comment,
+        Suggestion,
+    )
+
+    from .results import PermissionResult
 
 SPECIALS: dict[str, Callable[[User, str, Model], bool | PermissionResult]] = {}
 
@@ -546,19 +551,18 @@ def check_repository_status(
 def check_team_edit(user: User, permission: str, obj: Group) -> bool:
     from weblate.auth.models import Group
 
-    if check_global_permission(user, "group.edit"):
-        return True
-
-    if isinstance(obj, Group):
-        return (
-            obj.defining_project
+    return (
+        check_global_permission(user, "group.edit")
+        or (
+            isinstance(obj, Group)
+            and obj.defining_project
             and check_permission(user, "project.permissions", obj.defining_project)
-        ) or obj.admins.filter(pk=user.pk).exists()
-
-    if isinstance(obj, Project):
-        return check_permission(user, "project.permissions", obj)
-
-    return False
+        )
+        or (
+            isinstance(obj, Project)
+            and check_permission(user, "project.permissions", obj)
+        )
+    )
 
 
 @register_perm("meta:team.users")

@@ -1,6 +1,6 @@
 {% load i18n translations %}
 
-{% if unit.location %}
+{% if unit.location or unit.source_unit.location %}
   <h2>{% translate "Source string location" %}</h2>
 
   <p>{% get_location_links subscription_user unit %}</p>

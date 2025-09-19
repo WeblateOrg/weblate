@@ -1,10 +1,15 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
+from typing import TYPE_CHECKING
 
-from .base import DownloadTranslations, MachineTranslation, MachineTranslationError
+from .base import MachineTranslation, MachineTranslationError
 from .forms import KeyMachineryForm
+
+if TYPE_CHECKING:
+    from .base import DownloadTranslations
 
 
 class YandexTranslation(MachineTranslation):

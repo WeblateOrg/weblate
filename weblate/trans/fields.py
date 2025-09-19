@@ -8,4 +8,4 @@ from weblate.utils.validators import validate_re
 
 
 class RegexField(CharField):
-    default_validators = [validate_re]
+    default_validators = [validate_re]  # noqa: RUF012

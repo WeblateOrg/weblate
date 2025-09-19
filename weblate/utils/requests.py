@@ -4,12 +4,16 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 import requests
 from django.core.cache import cache
-from requests import Response
 
 from weblate.logger import LOGGER
 from weblate.utils.version import USER_AGENT
+
+if TYPE_CHECKING:
+    from requests import Response
 
 
 def request(

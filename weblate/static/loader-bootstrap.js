@@ -764,9 +764,15 @@ $(function () {
     $("#screenshotModal").text($this.attr("title"));
 
     const detailsLink = $("#modalDetailsLink");
-    detailsLink.attr("href", this.getAttribute("data-details-url"));
-    if (this.getAttribute("data-can-edit")) {
-      detailsLink.text(detailsLink.getAttribute("data-edit-text"));
+    const detailsUrl = this.getAttribute("data-details-url");
+    if (detailsUrl) {
+      detailsLink.attr("href", detailsUrl).show();
+      if (this.getAttribute("data-can-edit")) {
+        detailsLink.text(detailsLink.getAttribute("data-edit-text"));
+      }
+    } else {
+      // No details for generic images (static pages) — hide the button
+      detailsLink.hide();
     }
 
     $("#imagemodal").modal("show");
@@ -1626,6 +1632,21 @@ $(function () {
     elm.setAttribute("value", deviceInput.value);
     form.appendChild(elm);
     form.submit();
+  });
+
+  /* Allow styling of auth icons that we ship */
+  document.querySelectorAll(".auth-image").forEach((el) => {
+    src = el.getAttribute("src");
+    if (src !== null) {
+      if (
+        src.endsWith("password.svg") ||
+        src.endsWith("email.svg") ||
+        src.endsWith("twitter.svg") ||
+        src.endsWith("github.svg")
+      ) {
+        el.classList.add("auth-image-filter");
+      }
+    }
   });
 
   /* Warn users that they do not want to use developer console in most cases */

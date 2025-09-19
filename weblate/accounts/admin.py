@@ -17,8 +17,8 @@ if TYPE_CHECKING:
 
 @admin.register(AuditLog)
 class AuditLogAdmin(WeblateModelAdmin):
-    list_display = ["get_message", "user", "address", "user_agent", "timestamp"]
-    search_fields = ["user__username", "user__email", "address", "activity"]
+    list_display = ("get_message", "user", "address", "user_agent", "timestamp")
+    search_fields = ("user__username", "user__email", "address", "activity")
     date_hierarchy = "timestamp"
     ordering = ("-timestamp",)
 
@@ -38,9 +38,9 @@ class AuditLogAdmin(WeblateModelAdmin):
 
 @admin.register(Profile)
 class ProfileAdmin(WeblateModelAdmin):
-    list_display = ["user", "full_name", "language", "suggested", "translated"]
-    search_fields = ["user__username", "user__email", "user__full_name"]
-    list_filter = ["language"]
+    list_display = ("user", "full_name", "language", "suggested", "translated")
+    search_fields = ("user__username", "user__email", "user__full_name")
+    list_filter = ("language",)
     filter_horizontal = ("languages", "secondary_languages", "watched")
 
     def has_delete_permission(

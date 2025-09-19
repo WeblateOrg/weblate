@@ -7,6 +7,7 @@ from __future__ import annotations
 import base64
 import json
 import os
+import tempfile
 from datetime import timedelta
 from io import StringIO
 from typing import TYPE_CHECKING, ClassVar
@@ -37,7 +38,12 @@ from weblate.trans.models import (
     Vote,
 )
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.utils.state import STATE_EMPTY, STATE_FUZZY, STATE_READONLY
+from weblate.utils.state import (
+    STATE_EMPTY,
+    STATE_FUZZY,
+    STATE_READONLY,
+    STATE_TRANSLATED,
+)
 from weblate.utils.unittest import tempdir_setting
 
 from .autotranslate import AutoTranslateAddon
@@ -48,7 +54,13 @@ from .consistency import LanguageConsistencyAddon
 from .discovery import DiscoveryAddon
 from .example import ExampleAddon
 from .example_pre import ExamplePreAddon
-from .flags import BulkEditAddon, SameEditAddon, SourceEditAddon, TargetEditAddon
+from .flags import (
+    BulkEditAddon,
+    SameEditAddon,
+    SourceEditAddon,
+    TargetEditAddon,
+    TargetRepoUpdateAddon,
+)
 from .forms import BaseAddonForm
 from .generate import (
     FillReadOnlyAddon,
@@ -69,10 +81,12 @@ from .properties import PropertiesSortAddon
 from .removal import RemoveComments, RemoveSuggestions
 from .resx import ResxUpdateAddon
 from .tasks import cleanup_addon_activity_log, daily_addons
-from .webhooks import JSONWebhookBaseAddon, SlackWebhookAddon, WebhookAddon
+from .webhooks import SlackWebhookAddon, WebhookAddon
 
 if TYPE_CHECKING:
     from weblate.auth.models import User
+
+    from .webhooks import JSONWebhookBaseAddon
 
 
 class NoOpAddon(BaseAddon):
@@ -622,6 +636,28 @@ class ViewTests(ViewTestCase):
     def test_list(self) -> None:
         response = self.client.get(reverse("addons", kwargs=self.kw_component))
         self.assertContains(response, "Generate MO files")
+
+    def test_nonexisting(self) -> None:
+        identifier = "weblate.addon.nonexisting"
+        # Use bulk_create to avoid hitting save() which relies on class existence
+        Addon.objects.bulk_create([Addon(component=self.component, name=identifier)])
+
+        # Listing of unknown add-on should not crash
+        response = self.client.get(reverse("addons", kwargs=self.kw_component))
+        self.assertContains(response, "Generate MO files")
+        self.assertContains(response, identifier)
+
+        # Deleting unknown add-on should work
+        addon = Addon.objects.get(name=identifier)
+        response = self.client.post(
+            addon.get_absolute_url(), {"delete": "1"}, follow=True
+        )
+        self.assertContains(response, "No add-ons currently installed")
+        self.assertContains(response, "Generate MO files")
+        # History entry
+        self.assertContains(response, identifier)
+
+        self.assertFalse(Addon.objects.filter(name=identifier).exists())
 
     def test_addon_logs(self) -> None:
         response = self.client.post(
@@ -1482,6 +1518,64 @@ class SiteWideAddonsTest(ViewTestCase):
         self.get_translation().commit_pending("test", None)
 
         self.assertNotEqual(rev, self.component.repository.last_revision)
+
+
+class TargetChangeAddonTest(ViewTestCase):
+    def create_component(self):
+        return self.create_json_mono(suffix="mono-sync")
+
+    def update_unit_from_repo(self) -> Unit:
+        unit = self.get_unit("Hello, world!\n")
+        unit.translate(self.user, ["Nazdar svete!"], STATE_TRANSLATED)
+
+        request = self.get_request()
+        self.component.do_push(request)
+
+        translation = self.get_translation("cs")
+        updated_json_content = """
+        {
+            "hello": "Nazdar svete! edit",
+            "orangutan": "",
+            "try": "",
+            "thanks": ""
+        }
+        """
+
+        # edit the translation on remote repo
+        with tempfile.TemporaryDirectory() as tempdir:
+            repo = self.component.repository.__class__.clone(
+                self.format_local_path(self.git_repo_path),
+                tempdir,
+                "main",
+                component=self.component,
+            )
+            translation_remote_file = os.path.join(tempdir, translation.filename)
+            with open(translation_remote_file, "w") as handle:
+                handle.write(updated_json_content)
+            with repo.lock:
+                repo.set_committer("Toast", "toast@example.net")
+                repo.commit(
+                    "Simulate commit directly into remote repo",
+                    "Toast <test@example.net>",
+                    files=[translation_remote_file],
+                )
+                repo.push("")
+
+        # pull changes from remote, check unit has been updated
+        translation.do_update(request)
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, "Nazdar svete! edit")
+        return unit
+
+    def test_fuzzy_string_from_repo(self) -> None:
+        self.assertTrue(TargetRepoUpdateAddon.can_install(self.component, None))
+        TargetRepoUpdateAddon.create(component=self.component)
+        unit = self.update_unit_from_repo()
+        self.assertEqual(unit.state, STATE_FUZZY)
+
+    def test_non_fuzzy_string_from_repo(self) -> None:
+        unit = self.update_unit_from_repo()
+        self.assertEqual(unit.state, STATE_TRANSLATED)
 
 
 class TasksTest(TestCase):

@@ -4,7 +4,10 @@
 
 """Components list."""
 
+from __future__ import annotations
+
 import re
+from typing import TYPE_CHECKING
 
 from django.db import models
 from django.urls import reverse
@@ -13,6 +16,9 @@ from django.utils.translation import gettext_lazy
 from weblate.trans.fields import RegexField
 from weblate.trans.mixins import CacheKeyMixin
 from weblate.utils.stats import ComponentListStats
+
+if TYPE_CHECKING:
+    from weblate.trans.models.translation import Translation
 
 
 class ComponentListQuerySet(models.QuerySet):
@@ -45,6 +51,9 @@ class ComponentList(models.Model, CacheKeyMixin):
     )
 
     components = models.ManyToManyField("trans.Component", blank=True)
+
+    # Used on dashboard
+    translations: list[Translation]
 
     objects = ComponentListQuerySet.as_manager()
 

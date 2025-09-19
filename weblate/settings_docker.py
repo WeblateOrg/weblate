@@ -7,10 +7,17 @@ from logging.handlers import SysLogHandler
 
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
+from social_core.backends.saml import (
+    OID_COMMON_NAME,
+    OID_GIVEN_NAME,
+    OID_MAIL,
+    OID_SURNAME,
+    OID_USERID,
+)
 
 from weblate.api.spectacular import (
     get_drf_settings,
-    get_drf_standardized_errors_sertings,
+    get_drf_standardized_errors_settings,
     get_spectacular_settings,
 )
 from weblate.utils.environment import (
@@ -417,12 +424,19 @@ if WEBLATE_SAML_IDP_ENTITY_ID:
             "entity_id": WEBLATE_SAML_IDP_ENTITY_ID,
             "url": get_env_str("WEBLATE_SAML_IDP_URL"),
             "x509cert": get_env_str("WEBLATE_SAML_IDP_X509CERT"),
-            "attr_name": get_env_str("WEBLATE_SAML_ID_ATTR_NAME", "full_name"),
-            "attr_username": get_env_str("WEBLATE_SAML_ID_ATTR_USERNAME", "username"),
-            "attr_email": get_env_str("WEBLATE_SAML_ID_ATTR_EMAIL", "email"),
+            "attr_full_name": get_env_str(
+                "WEBLATE_SAML_ID_ATTR_FULL_NAME", OID_COMMON_NAME
+            ),
+            "attr_first_name": get_env_str(
+                "WEBLATE_SAML_ID_ATTR_FIRST_NAME", OID_GIVEN_NAME
+            ),
+            "attr_last_name": get_env_str(
+                "WEBLATE_SAML_ID_ATTR_LAST_NAME", OID_SURNAME
+            ),
+            "attr_username": get_env_str("WEBLATE_SAML_ID_ATTR_USERNAME", OID_USERID),
+            "attr_email": get_env_str("WEBLATE_SAML_ID_ATTR_EMAIL", OID_MAIL),
             "attr_user_permanent_id": get_env_str(
-                "WEBLATE_SAML_ID_ATTR_USER_PERMANENT_ID",
-                "urn:oid:0.9.2342.19200300.100.1.1",
+                "WEBLATE_SAML_ID_ATTR_USER_PERMANENT_ID", OID_USERID
             ),
         }
     }
@@ -707,7 +721,6 @@ MIDDLEWARE = [
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "weblate.accounts.middleware.AuthenticationMiddleware",
-    "django_otp.middleware.OTPMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "social_django.middleware.SocialAuthExceptionMiddleware",
@@ -1171,6 +1184,7 @@ WEBLATE_ADDONS = [
     "weblate.addons.flags.TargetEditAddon",
     "weblate.addons.flags.SameEditAddon",
     "weblate.addons.flags.BulkEditAddon",
+    "weblate.addons.flags.TargetRepoUpdateAddon",
     "weblate.addons.generate.GenerateFileAddon",
     "weblate.addons.generate.PseudolocaleAddon",
     "weblate.addons.generate.PrefillAddon",
@@ -1206,7 +1220,6 @@ WEBLATE_MACHINERY = [
     "weblate.machinery.yandexv2.YandexV2Translation",
     "weblate.machinery.saptranslationhub.SAPTranslationHub",
     "weblate.machinery.youdao.YoudaoTranslation",
-    "weblate.machinery.ibm.IBMTranslation",
     "weblate.machinery.systran.SystranTranslation",
     "weblate.machinery.openai.OpenAITranslation",
     "weblate.machinery.openai.AzureOpenAITranslation",
@@ -1284,7 +1297,7 @@ REST_FRAMEWORK = get_drf_settings(
     anon_throttle=get_env_ratelimit("WEBLATE_API_RATELIMIT_ANON", "100/day"),
     user_throttle=get_env_ratelimit("WEBLATE_API_RATELIMIT_USER", "5000/hour"),
 )
-DRF_STANDARDIZED_ERRORS = get_drf_standardized_errors_sertings()
+DRF_STANDARDIZED_ERRORS = get_drf_standardized_errors_settings()
 SPECTACULAR_SETTINGS = get_spectacular_settings(INSTALLED_APPS, SITE_URL, SITE_TITLE)
 
 # Fonts CDN URL

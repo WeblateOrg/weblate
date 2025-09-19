@@ -1,4 +1,6 @@
 .. _js-i18next:
+.. _i18next:
+.. _i18nextv4:
 
 i18next JSON files
 ------------------
@@ -16,9 +18,8 @@ i18next JSON files
     handling with CLDR. Older versions have different plural rules for some
     languages which are not correct.
 
-`i18next <https://www.i18next.com/>`_ is an internationalization framework
-written in and for JavaScript. Weblate supports its localization files with
-features such as plurals.
+i18next is an internationalization framework written in and for JavaScript.
+Weblate supports its localization files with features such as plurals.
 
 i18next translations are monolingual, so it is recommended to specify a base file
 with (what is most often the) English strings.
@@ -41,6 +42,7 @@ Use for legacy projects which are using numeric suffixes for plurals.
 .. seealso::
 
    * :doc:`tt:formats/json`
+   * https://www.i18next.com/
    * `i18next JSON Format <https://www.i18next.com/misc/json-format>`_
    * :ref:`updating-target-files`
    * :ref:`addon-weblate.json.customize`

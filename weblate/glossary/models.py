@@ -154,6 +154,11 @@ def fetch_glossary_terms(  # noqa: C901
             # Variant is used for variant grouping below, source unit for flags
             base_units = base_units.select_related("source_unit", "variant")
 
+            # Exclude currently edited unit items to prevent self-referencing glossary items
+            current_unit_ids = [u.pk for u in translation_units[translation_id] if u.pk]
+            if current_unit_ids:
+                base_units = base_units.exclude(pk__in=current_unit_ids)
+
             if full:
                 # Include full details needed for rendering
                 base_units = base_units.prefetch()

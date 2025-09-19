@@ -16,7 +16,7 @@ from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import transaction
-from django.db.models import Count, F, Model, Q
+from django.db.models import Count, F, Q
 from django.db.models.functions import Length
 from django.urls import reverse
 from django.utils import timezone
@@ -39,6 +39,8 @@ from weblate.utils.state import (
 
 if TYPE_CHECKING:
     from collections.abc import Generator, Iterable
+
+    from django.db.models import Model
 
     from weblate.trans.models import Category, Component, Project
 
@@ -122,7 +124,7 @@ def prefetch_stats(queryset):
     # is returned.
     # This is needed to allow using such querysets further and to support
     # processing iterator when it is more effective.
-    result = objects if isinstance(queryset, chain | GeneratorType) else queryset
+    result = objects if isinstance(queryset, (chain, GeneratorType)) else queryset
 
     # Bail out in case the query is empty
     if not objects:
@@ -274,8 +276,12 @@ class BaseStats:
     def ensure_loaded(self) -> None:
         """Load from cache if not already done."""
         if not self._loaded:
-            self._data = self.load()
-            self._loaded = True
+            self.force_load()
+
+    def force_load(self) -> None:
+        """Enforced loading of stats."""
+        self._data = self.load()
+        self._loaded = True
 
     def aggregate_get(self, name: str) -> StatItem:
         """
@@ -330,6 +336,7 @@ class BaseStats:
             self.calculate_by_name(name)
             if name not in self._data:
                 msg = f"Unsupported stats for {self}: {name}"
+                self._pending_save = was_pending
                 raise AttributeError(msg)
             if not was_pending:
                 self.save()
@@ -527,6 +534,10 @@ class TranslationStats(BaseStats):
 
         # Project / language
         yield component.project.stats.get_single_language_stats(translation.language)
+
+        # Linked project / language
+        for link in component.links.all():
+            yield link.stats.get_single_language_stats(translation.language)
 
         # Category / language
         category = component.category
@@ -992,6 +1003,10 @@ class ComponentStats(AggregatingStats):
         for clist in self._object.componentlist_set.all():
             yield clist.stats
 
+        # Shared components
+        for link in self._object.links.all():
+            yield link.stats
+
         if self._object.category:
             # Category
             yield self._object.category.stats
@@ -1182,7 +1197,10 @@ class ChecklistStats(SingleLanguageStats):
         for key in keys:
             for suffix in suffixes:
                 name = f"{key}{suffix}"
-                values = (getattr(stats_obj, name) for stats_obj in all_stats)
+                # The attribute might be missing in some corner cases such as
+                # when component is shared in different project and calculating
+                # label stats.
+                values = (getattr(stats_obj, name, 0) for stats_obj in all_stats)
                 self.store(name, sum(values))
         self.save()
 
@@ -1210,9 +1228,13 @@ class ProjectLanguageStats(ChecklistStats):
         return self.project.source_review or self.project.translation_review
 
     def get_child_objects(self):
-        return self.language.translation_set.filter(
-            component__project=self.project
-        ).only("id", "language")
+        return (
+            self.language.translation_set.filter(
+                Q(component__project=self.project) | Q(component__links=self.project)
+            )
+            .distinct()
+            .only("id", "language")
+        )
 
 
 class CategoryLanguage(BaseURLMixin, TranslationChecklistMixin):
@@ -1351,12 +1373,16 @@ class ProjectStats(ParentAggregatingStats):
         return self._object.enable_review
 
     def get_child_objects(self):
-        return self._object.component_set.only("id", "project", "check_flags")
+        own = self._object.component_set.only("id", "project", "check_flags")
+        shared = self._object.shared_components.only("id", "project", "check_flags")
+        if shared:
+            return (own | shared).distinct()
+        return own
 
-    def get_single_language_stats(self, language):
+    def get_single_language_stats(self, language: Language) -> ProjectLanguageStats:
         return ProjectLanguageStats(ProjectLanguage(self._object, language))
 
-    def get_language_stats(self):
+    def get_language_stats(self) -> list[ProjectLanguageStats]:
         return prefetch_stats(
             self.get_single_language_stats(language)
             for language in self._object.languages

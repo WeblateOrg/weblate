@@ -1,12 +1,17 @@
 # Copyright © AlexEbenrode <alexebenrode@gmail.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
 import json
+from typing import TYPE_CHECKING
 from urllib.parse import unquote_plus
 
-from .base import DownloadTranslations, MachineTranslation, MachineTranslationError
+from .base import MachineTranslation, MachineTranslationError
 from .forms import KeyMachineryForm
+
+if TYPE_CHECKING:
+    from .base import DownloadTranslations
 
 
 class YandexV2Translation(MachineTranslation):

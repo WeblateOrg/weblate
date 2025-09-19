@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar
 
 from django.utils.translation import gettext_lazy
 
@@ -18,7 +18,7 @@ if TYPE_CHECKING:
 
 
 class DiscoveryAddon(BaseAddon):
-    events: set[AddonEvent] = {
+    events: ClassVar[set[AddonEvent]] = {
         AddonEvent.EVENT_POST_UPDATE,
     }
     name = "weblate.discovery.discovery"

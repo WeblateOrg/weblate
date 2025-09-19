@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING
 
 from weblate.checks.format import BaseFormatCheck
 from weblate.checks.models import CHECKS
+from weblate.formats.models import FILE_FORMATS
 from weblate.utils.management.base import BaseCommand
 
 if TYPE_CHECKING:
@@ -48,10 +49,9 @@ class Command(BaseCommand):
         for check in sorted(CHECKS.values(), key=sorter):
             check_class = check.__class__
             is_format = isinstance(check, BaseFormatCheck)
-            # Output immediately
-            self.stdout.write(f".. _{check.doc_id}:\n")
             if not lines:
                 lines.append("\n")
+            lines.append(f".. _{check.doc_id}:\n")
             name = escape(check.name)
             lines.append(name)
             if is_format:
@@ -75,11 +75,27 @@ class Command(BaseCommand):
                 )
             )
             if check.default_disabled:
-                flags = ", ".join(
-                    f"``{flag}``"
-                    for flag in [check.enable_string, *check.extra_enable_strings]
+                enable_flags: list[str] = {
+                    check.enable_string,
+                    *check.extra_enable_strings,
+                }
+                flags = ", ".join(f"``{flag}``" for flag in sorted(enable_flags))
+                lines.append(":Trigger: This check needs to be enabled using a flag.")
+
+                file_formats = ", ".join(
+                    f":ref:`{file_format.format_id}`"
+                    for file_format in FILE_FORMATS.values()
+                    if set(file_format.check_flags) & enable_flags
                 )
+                if file_formats:
+                    lines.append(
+                        f":File formats automatically enabling this check: {file_formats}"
+                    )
                 lines.append(f":Flag to enable: {flags}")
+            else:
+                lines.append(
+                    ":Trigger: This check is always enabled but can be ignored using a flag."
+                )
             lines.extend((f":Flag to ignore: ``{check.ignore_string}``", "\n"))
 
             self.flush_lines(lines)

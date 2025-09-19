@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import Any
+from typing import TYPE_CHECKING, Any
 
 from django.conf import settings
 from django.db.models import Value
@@ -14,7 +14,10 @@ from weblate.trans.models import Unit
 from weblate.utils.db import adjust_similarity_threshold
 from weblate.utils.state import STATE_TRANSLATED
 
-from .base import DownloadTranslations, InternalMachineTranslation
+from .base import InternalMachineTranslation
+
+if TYPE_CHECKING:
+    from .base import DownloadTranslations
 
 
 class WeblateTranslation(InternalMachineTranslation):
@@ -55,12 +58,19 @@ class WeblateTranslation(InternalMachineTranslation):
             lookup["source__lower__md5"] = MD5(Lower(Value(text)))
             lookup["source"] = text
 
-        matching_units = base.filter(
-            translation__component__source_language=source_language,
-            translation__language=target_language,
-            state__gte=STATE_TRANSLATED,
-            **lookup,
-        ).prefetch()
+        matching_units = (
+            base.filter(
+                translation__component__source_language=source_language,
+                translation__language=target_language,
+                state__gte=STATE_TRANSLATED,
+                **lookup,
+            )
+            .exclude(
+                # The read-only strings can be possibly blank
+                target__lower__md5=MD5(Lower(Value("")))
+            )
+            .prefetch()
+        )
 
         # We want only close matches here
         adjust_similarity_threshold(0.98)

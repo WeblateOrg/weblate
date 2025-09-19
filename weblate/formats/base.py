@@ -32,7 +32,7 @@ if TYPE_CHECKING:
 
     from django_stubs_ext import StrOrPromise
 
-    from weblate.trans.models import Unit
+    from weblate.trans.models import Translation, Unit
 
 
 EXPAND_LANGS = {code[:2]: f"{code[:2]}_{code[3:].upper()}" for code in DEFAULT_LANGS}
@@ -334,7 +334,7 @@ class TranslationFormat:
     language_format: str = "posix"
     simple_filename: bool = True
     new_translation: str | bytes | None = None
-    autoaddon: dict[str, dict[str, str]] = {}
+    autoaddon: ClassVar[dict[str, dict[str, Any]]] = {}
     create_empty_bilingual: bool = False
     bilingual_class: type[TranslationFormat] | None = None
     create_style = "create"
@@ -977,7 +977,7 @@ class BaseExporter:
         self.fieldnames = fieldnames
 
     @staticmethod
-    def supports(translation) -> bool:  # noqa: ARG004
+    def supports(translation: Translation) -> bool:  # noqa: ARG004
         return True
 
     @cached_property

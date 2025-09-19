@@ -1,4 +1,5 @@
 .. _resourcedict:
+.. _resourcedictionary:
 
 ResourceDictionary files
 ------------------------

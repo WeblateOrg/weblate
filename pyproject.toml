@@ -16,7 +16,7 @@ dev = [
 docs = [
   "furo==2025.7.19",
   "jinja2==3.1.6",
-  "matplotlib==3.10.5",
+  "matplotlib==3.10.6",
   "Pillow>=11.0.0,<12",
   "Pygments>=2.19.0,<3.0",
   "sphinx-copybutton==0.5.2",
@@ -24,7 +24,7 @@ docs = [
   "sphinx-reredirects==1.0.0",
   "Sphinx==8.2.3",
   "sphinxcontrib-httpdomain==1.8.1",
-  "sphinxext-opengraph==0.12.0"
+  "sphinxext-opengraph==0.13.0"
 ]
 lint = [
   {include-group = "pre-commit"},
@@ -36,43 +36,46 @@ pre-commit = [
 pylint = [
   "pylint==3.3.8"
 ]
+schemas = [
+  "weblate-schemas==2025.5"
+]
 scripts = [
   "django-debug-toolbar==6.0.0",
-  "PyICU==2.15.2",
-  "reuse==5.0.2",
+  "PyICU==2.15.3",
+  "reuse==5.1.1",
   "scour==0.38.2",
   "tinyunicodeblock==1.3"
 ]
 test = [
-  "coverage==7.10.3",
-  "pytest-cov==6.2.1",
+  "coverage==7.10.6",
+  "pytest-cov==7.0.0",
   "pytest-django==4.11.1",
   "pytest-github-actions-annotate-failures==0.3.0",
   "pytest-profiling==1.8.1",
   "pytest-xdist==3.8.0",
-  "pytest==8.4.1",
+  "pytest==8.4.2",
   "responses==0.25.8",
   "respx==0.22.0",
   "selenium==4.35.0"
 ]
 types = [
-  "boto3-stubs==1.40.10",
+  "boto3-stubs==1.40.34",
   "celery-types==0.23.0",
-  "django-stubs-ext==5.2.2",
-  "django-stubs[compatible-mypy]==5.2.2",
-  "djangorestframework-stubs==3.16.2",
-  "mypy==1.17.1",
+  "django-stubs-ext==5.2.5",
+  "django-stubs[compatible-mypy]==5.2.5",
+  "djangorestframework-stubs==3.16.3",
+  "mypy==1.18.2",
   "PyGObject-stubs==2.13.0",
   "types-dateparser==1.2.2.20250809",
-  "types-docutils==0.22.0.20250814",
-  "types-jsonschema==4.25.0.20250809",
-  "types-lxml==2025.3.30",
-  "types-openpyxl==3.1.5.20250809",
+  "types-docutils==0.22.0.20250919",
+  "types-jsonschema==4.25.1.20250822",
+  "types-lxml==2025.8.25",
+  "types-openpyxl==3.1.5.20250919",
   "types-Pillow==10.2.0.20240822",
-  "types-python-dateutil==2.9.0.20250809",
-  "types-regex==2025.7.34.20250809",
-  "types-requests==2.32.4.20250809",
-  "types-setuptools==80.9.0.20250809"
+  "types-python-dateutil==2.9.0.20250822",
+  "types-regex==2025.9.1.20250903",
+  "types-requests==2.32.4.20250913",
+  "types-setuptools==80.9.0.20250822"
 ]
 
 [project]
@@ -117,7 +120,7 @@ dependencies = [
   "django-appconf>=1.1.0,<1.2",
   "django-celery-beat>=2.8.0,<2.9",
   "django-compressor>=4.5.1,<5",
-  "django-cors-headers>=4.7.0,<4.8",
+  "django-cors-headers>=4.7.0,<4.10",
   "django-crispy-forms>=2.4,<2.5",
   "django-filter>=24.3,<25.2",
   "django-otp-webauthn>=0.6.0,<0.7",
@@ -145,12 +148,12 @@ dependencies = [
   "Pillow>=11.0.0,<12",
   "pycairo>=1.20.0",
   "Pygments>=2.19.0,<3.0",
-  "PyGObject>=3.40.1,<3.53.0",
+  "PyGObject>=3.40.1,<3.55.0",
   "pyicumessageformat>=1.0.0,<1.1",
   "pyparsing>=3.2.0,<3.3",
   "python-dateutil>=2.8.2",
   "qrcode>=8.2,<8.3",
-  "rapidfuzz>=3.12.1,<3.14",
+  "rapidfuzz>=3.12.1,<3.15",
   "redis>=5.2.0,<7.0.0",
   "regex>=2024.11.6,<2026",
   "requests>=2.32.2,<2.33",
@@ -161,7 +164,7 @@ dependencies = [
   "social-auth-core>=4.7.0,<5.0.0",
   "standardwebhooks>=1.0.0,<1.1",
   "tesserocr>=2.8.0,<2.9.0",
-  "translate-toolkit>=3.15.5,<3.16",
+  "translate-toolkit>=3.16.1,<3.17",
   "translation-finder>=2.22,<3.0",
   "unidecode>=1.4.0,<1.5",
   "user-agents>=2.2.0,<2.3",
@@ -181,7 +184,7 @@ license = "GPL-3.0-or-later"
 license-files = ["LICENSE"]
 name = "weblate"
 requires-python = ">=3.11"
-version = "5.13.1"
+version = "5.14"
 
 [project.optional-dependencies]
 alibaba = [
@@ -204,7 +207,7 @@ gerrit = [
   "git-review>=2.4.0,<2.6.0"
 ]
 google = [
-  "google-cloud-storage>=2.18.2,<3.4",
+  "google-cloud-storage>=2.18.2,<3.5",
   "google-cloud-translate>=3.13.0,<4.0"
 ]
 ldap = [
@@ -235,12 +238,10 @@ wllegal = [
   "wllegal>=2024.6"
 ]
 wsgi = [
-  "granian==2.5.0",
-  # TODO: Remove gunicorn once dev-docker is based on the Weblate 5.13 container
-  "gunicorn==23.0.0"
+  "granian==2.5.4"
 ]
 zxcvbn = [
-  "django-zxcvbn-password-validator>=1.4.5,<1.5"
+  "django-zxcvbn-password-validator>=1.4.5,<1.6"
 ]
 
 [project.readme]
@@ -475,6 +476,7 @@ extend-safe-fixes = [
   "TCH",
   "UP"
 ]
+future-annotations = true
 # CONFIG - intentional configuration
 # TODO - needs decision whether intention, add noqa tags or fix
 # WONTFIX - not fixable in current codebase, might be better to go for noqa
@@ -519,7 +521,6 @@ ignore = [
   "PT",  # CONFIG: Not using pytest
   "PTH",  # TODO: Not using pathlib
   "RUF001",  # WONTFIX: String contains ambiguous unicode character, we are using Unicode
-  "RUF012",  # TODO: Mutable class attributes should be annotated with `typing.ClassVar`
   "S404",  # CONFIG: `subprocess` module is possibly insecure
   "S603",  # CONFIG: `subprocess` call: check for execution of untrusted input
   "S607",  # CONFIG: executing system installed tools
@@ -549,6 +550,7 @@ max-complexity = 16  # TODO: should be lower
 "docs/_ext/djangodocs.py" = ["INP001"]
 "docs/conf.py" = ["ERA001", "INP001"]
 "scripts/*" = ["T201", "T203"]
+"weblate/*/migrations/*.py" = ["RUF012"]
 "weblate/*/tests**.py" = ["ANN001", "S105", "S106"]
 "weblate/auth/migrations/0003_fixup_teams.py" = ["T201"]
 "weblate/examples/*.py" = ["CPY001", "INP001"]
@@ -633,7 +635,6 @@ extend-exclude = [
   "docs/specs",
   "scripts/codespell.txt",
   "scripts/spdx-license-list",
-  "weblate/**/migrations",
   "weblate/static/js/vendor",
   "weblate/static/vendor",
   "weblate/trans/fixtures/simple-project.json",

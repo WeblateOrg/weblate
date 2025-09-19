@@ -61,26 +61,25 @@ class RepositoryError(Exception):
 class Repository:
     """Basic repository object."""
 
-    _cmd = "false"
-    _cmd_last_revision: list[str]
-    _cmd_last_remote_revision: list[str]
-    _cmd_status = ["status"]
-    _cmd_list_changed_files: list[str]
+    _cmd: ClassVar[str] = "false"
+    _cmd_last_revision: ClassVar[list[str]]
+    _cmd_last_remote_revision: ClassVar[list[str]]
+    _cmd_status: ClassVar[list[str]] = ["status"]
+    _cmd_list_changed_files: ClassVar[list[str]]
 
-    name: StrOrPromise = ""
-    identifier: str = ""
-    req_version: str | None = None
-    default_branch: str = ""
-    needs_push_url: bool = True
-    supports_push: bool = True
+    name: ClassVar[StrOrPromise] = ""
+    identifier: ClassVar[str] = ""
+    req_version: ClassVar[str | None] = None
+    default_branch: ClassVar[str] = ""
+    needs_push_url: ClassVar[bool] = True
+    supports_push: ClassVar[bool] = True
     pushes_to_different_location: ClassVar[bool] = False
-    push_label: StrOrPromise = gettext_lazy(
+    push_label: ClassVar[StrOrPromise] = gettext_lazy(
         "This will push changes to the upstream repository."
     )
-    ref_to_remote: str
-    ref_from_remote: str
-
-    _version = None
+    ref_to_remote: ClassVar[str]
+    ref_from_remote: ClassVar[str]
+    _version: ClassVar[str | None] = None
 
     @classmethod
     def get_identifier(cls) -> str:
@@ -95,7 +94,7 @@ class Repository:
         local: bool = False,
         skip_init: bool = False,
     ) -> None:
-        self.path = path
+        self.path: str = path
         if branch is None:
             self.branch = self.default_branch
         else:

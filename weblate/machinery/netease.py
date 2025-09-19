@@ -2,13 +2,18 @@
 # Copyright © Sun Zhigang <hzsunzhigang@corp.netease.com>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
 import random
 import time
 from hashlib import sha1
+from typing import TYPE_CHECKING, ClassVar
 
-from .base import DownloadTranslations, MachineTranslation, MachineTranslationError
+from .base import MachineTranslation, MachineTranslationError
 from .forms import KeySecretMachineryForm
+
+if TYPE_CHECKING:
+    from .base import DownloadTranslations
 
 NETEASE_API_ROOT = "https://jianwai.netease.com/api/text/trans"
 
@@ -20,7 +25,7 @@ class NeteaseSightTranslation(MachineTranslation):
     max_score = 90
 
     # Map codes used by Netease Sight to codes used by Weblate
-    language_map = {"zh_Hans": "zh"}
+    language_map: ClassVar[dict[str, str]] = {"zh_Hans": "zh"}
     settings_form = KeySecretMachineryForm
 
     def download_languages(self):

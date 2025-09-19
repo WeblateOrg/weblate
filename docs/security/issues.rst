@@ -32,9 +32,11 @@ depending on what action is taken, you may get more follow-up emails.
    **Sending encrypted reports**
 
    If you want to send an encrypted email (*optional*), please use the public
-   key for michal@weblate.org with ID ``3CB 1DF1 EF12 CF2A C0EE 5A32 9C27 B313
-   42B7 511D``. This public key is available on the most commonly used key servers,
-   and from `Keybase <https://keybase.io/nijel>`_.
+   key for security@weblate.org with ID ``8EA7 6E43 0976 3323 C2E3 D5A0 C472 9F23 8A80 EA93``.
+
+   This public key is available on the most commonly used key servers, using
+   WKD or `directly from weblate.org
+   <https://weblate.org/.well-known/openpgpkey/hu/t5s8ztdbon8yzntexy6oz5y48etqsnbb?l=security>`_.
 
 .. hint::
 
@@ -47,6 +49,10 @@ depending on what action is taken, you may get more follow-up emails.
     * :doc:`Django <django:internals/security>`
     * `Django REST framework <https://www.django-rest-framework.org/#security>`_
     * `Python Social Auth <https://github.com/python-social-auth>`_
+
+.. seealso::
+
+   * :doc:`/contributing/issues`
 
 .. _vulnerability-disclosure-policy:
 

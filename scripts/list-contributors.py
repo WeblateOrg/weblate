@@ -3,16 +3,20 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
 import argparse
 from collections import defaultdict
 from pathlib import Path
-from typing import Literal
+from typing import TYPE_CHECKING, Literal
 
-from git import Commit, Repo
-from git.diff import Diff
+from git import Repo
 
 import weblate.utils.version
+
+if TYPE_CHECKING:
+    from git import Commit
+    from git.diff import Diff
 
 VERSION = weblate.utils.version.VERSION_BASE
 ROOT_DIR = Path(__file__).parent.parent
@@ -77,7 +81,10 @@ def get_commit_authors(commit: Commit) -> set[str]:
 def get_contributors() -> dict[CategoryType, list[str]]:
     contributors: dict[CategoryType, list[str]] = defaultdict(list)
     repo = Repo.init(ROOT_DIR)
-    tags = sorted(repo.tags, key=lambda tag: tag.commit.committed_date)
+    tags = sorted(
+        (tag for tag in repo.tags if tag.name.startswith("weblate-")),
+        key=lambda tag: tag.commit.committed_date,
+    )
     recent_tag = tags[-1]
     commits = list(repo.iter_commits(f"{recent_tag}..HEAD"))
     previous = recent_tag.object.object

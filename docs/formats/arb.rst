@@ -15,12 +15,12 @@ with (what is most often the) English strings.
 
    * :doc:`tt:formats/json`
    * `Application Resource Bundle Specification`_
-   * `Internationalizing Flutter apps`_
+   * `Internationalization of Flutter apps`_
    * :ref:`updating-target-files`
    * :ref:`addon-weblate.json.customize`
    * :ref:`addon-weblate.cleanup.generic`
 
-.. _Internationalizing Flutter apps: https://docs.flutter.dev/ui/accessibility-and-internationalization/internationalization
+.. _Internationalization of Flutter apps: https://docs.flutter.dev/ui/accessibility-and-internationalization/internationalization
 .. _Application Resource Bundle Specification: https://github.com/google/app-resource-bundle/wiki/ApplicationResourceBundleSpecification
 
 Weblate configuration

@@ -148,14 +148,15 @@ the project’s menu :guilabel:`Operations` ↓ :guilabel:`Users`.
     You can limit teams to languages or components,
     and assign them designated access roles (see :ref:`privileges`).
 
+.. _team-admins:
 
 Team administrators
 +++++++++++++++++++
 
 .. versionadded:: 4.15
 
-Each team can have team administrator,
-who can add and remove users within the team.
+Each team can have team administrators, who can add and remove users within the team.
+
 This is useful in case you want to build self-governed teams.
 
 .. _invite-user:
@@ -800,7 +801,37 @@ List of privileges
 |                              |                                           +---------------------------------------+
 |                              |                                           | :guilabel:`Translation coordinator`   |
 +------------------------------+-------------------------------------------+---------------------------------------+
-| Site wide privileges         | Add new projects                          | :guilabel:`Add new projects`          |
+| Site wide privileges         | Use management interface                  |                                       |
+|                              +-------------------------------------------+---------------------------------------+
+|                              | Add new projects                          | :guilabel:`Add new projects`          |
+|                              +-------------------------------------------+---------------------------------------+
+|                              | Add language definitions                  |                                       |
+|                              +-------------------------------------------+---------------------------------------+
+|                              | Manage language definitions               |                                       |
+|                              +-------------------------------------------+---------------------------------------+
+|                              | Manage teams                              |                                       |
+|                              +-------------------------------------------+---------------------------------------+
+|                              | View team info                            |                                       |
+|                              +-------------------------------------------+---------------------------------------+
+|                              | Manage users                              |                                       |
+|                              +-------------------------------------------+---------------------------------------+
+|                              | View user info                            |                                       |
+|                              +-------------------------------------------+---------------------------------------+
+|                              | Manage roles                              |                                       |
+|                              +-------------------------------------------+---------------------------------------+
+|                              | View role info                            |                                       |
+|                              +-------------------------------------------+---------------------------------------+
+|                              | Manage announcements                      |                                       |
+|                              +-------------------------------------------+---------------------------------------+
+|                              | Manage translation memory                 |                                       |
+|                              +-------------------------------------------+---------------------------------------+
+|                              | Manage machinery                          |                                       |
+|                              +-------------------------------------------+---------------------------------------+
+|                              | Manage component lists                    |                                       |
+|                              +-------------------------------------------+---------------------------------------+
+|                              | Manage billing                            |                                       |
+|                              +-------------------------------------------+---------------------------------------+
+|                              | Manage site-wide add-ons                  |                                       |
 +------------------------------+-------------------------------------------+---------------------------------------+
 
 .. note::

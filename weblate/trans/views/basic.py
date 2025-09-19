@@ -427,6 +427,7 @@ def show_project(request: AuthenticatedHttpRequest, obj):
             "delete_form": optional_form(
                 ProjectDeleteForm, user, "project.edit", obj, obj=obj
             ),
+            "managed_teams": obj.defined_groups.filter(admins=request.user),
             "rename_form": optional_form(
                 ProjectRenameForm,
                 user,

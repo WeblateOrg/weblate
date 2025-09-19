@@ -12,7 +12,7 @@ import shutil
 from abc import ABC, abstractmethod
 from io import BytesIO
 from pathlib import Path
-from typing import NoReturn
+from typing import TYPE_CHECKING, ClassVar, NoReturn
 from unittest import TestCase
 
 from lxml import etree
@@ -20,7 +20,7 @@ from translate.storage.pypo import pofile
 
 from weblate.checks.flags import Flags
 from weblate.formats.auto import AutodetectFormat, detect_filename, try_load
-from weblate.formats.base import TranslationFormat, UpdateError
+from weblate.formats.base import UpdateError
 from weblate.formats.models import FILE_FORMATS
 from weblate.formats.ttkit import (
     AndroidFormat,
@@ -62,6 +62,9 @@ from weblate.lang.models import Language, Plural
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import TempDirMixin, get_test_file
 from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
+
+if TYPE_CHECKING:
+    from weblate.formats.base import TranslationFormat
 
 TEST_PO = get_test_file("cs.po")
 TEST_CSV = get_test_file("cs-mono.csv")
@@ -190,11 +193,11 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
     SUPPORTS_FLAG = True
     SUPPORTS_NOTES = True
     NOTE_FOR_TEST = "template note for test"
-    EXPECTED_FLAGS: str | list[str] = "c-format, max-length:100"
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = "c-format, max-length:100"
     EDIT_OFFSET = 0
-    EDIT_TARGET: str | list[str] = "Nazdar, svete!\n"
+    EDIT_TARGET: ClassVar[str | list[str]] = "Nazdar, svete!\n"
     MONOLINGUAL = False
-    FILE_FORMAT_PARAMS: dict[str, int | str | bool] = {}
+    FILE_FORMAT_PARAMS: ClassVar[dict[str, int | str | bool]] = {}
 
     def setUp(self) -> None:
         super().setUp()
@@ -570,7 +573,7 @@ class PropertiesFormatTest(BaseFormatTest):
     FIND_MATCH = "Ignore"
     MATCH = "\n"
     NEW_UNIT_MATCH = b"\nkey=Source string\n"
-    EXPECTED_FLAGS = ""
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
     MONOLINGUAL = True
 
     def assert_same(self, newdata, testdata) -> None:
@@ -597,9 +600,9 @@ class CatkeysFormatTest(BaseFormatTest):
     NEW_UNIT_KEY = "NewSource"
     SUPPORTS_FLAG = False
     SUPPORTS_NOTES = True
-    EXPECTED_FLAGS = ""
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
     EDIT_OFFSET = 0
-    EDIT_TARGET = "není"
+    EDIT_TARGET: ClassVar[str | list[str]] = "není"
     MONOLINGUAL = False
 
     def test_get_language_filename(self) -> None:
@@ -646,13 +649,13 @@ class GWTFormatTest(BaseFormatTest):
         "There is {0,number} item in your cart.\x1e\x1e"
         "There are {0,number} items in your cart."
     )
-    EDIT_TARGET = [
+    EDIT_TARGET: ClassVar[str | list[str]] = [
         "There is {0,number} good in your cart.",
         "There are {0,number} goods in your cart.",
     ]
     MATCH = "\n"
     NEW_UNIT_MATCH = b"\nkey=Source string\n"
-    EXPECTED_FLAGS = ""
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
     BASE = ""
     MONOLINGUAL = True
 
@@ -681,7 +684,7 @@ class JoomlaFormatTest(BaseFormatTest):
     FIND_CONTEXT = "HELLO"
     FIND_MATCH = 'Ahoj "světe"!\n'
     NEW_UNIT_MATCH = b'\nkey="Source string"\n'
-    EXPECTED_FLAGS = ""
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
     MONOLINGUAL = True
 
 
@@ -709,7 +712,7 @@ class JSONNestedFormatTest(JSONFormatTest):
     MASK = "json-nested/*.json"
     EXPECTED_PATH = "json-nested/cs_CZ.json"
     FIND_CONTEXT = "weblate.hello"
-    EXPECTED_FLAGS = ""
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
     MONOLINGUAL = True
     NEW_UNIT_MATCH = b'\n    "key": "Source string"\n'
     SUPPORTS_NOTES = False
@@ -723,7 +726,7 @@ class WebExtensionJSONFormatTest(JSONFormatTest):
     EXPECTED_PATH = "webextension/_locales/cs_CZ/messages.json"
     FIND_CONTEXT = "hello"
     NEW_UNIT_MATCH = b'\n    "key": {\n        "message": "Source string"\n    }\n'
-    EXPECTED_FLAGS = [
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = [
         "placeholders:$URL$,case-insensitive",
         "placeholders:$COUNT$,case-insensitive",
     ]
@@ -770,7 +773,7 @@ class PhpFormatTest(BaseFormatTest):
     BASE = ""
     NEW_UNIT_KEY = "$LANG['key']"
     NEW_UNIT_MATCH = b"\n$LANG['key'] = 'Source string';\n"
-    EXPECTED_FLAGS = ""
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
     MONOLINGUAL = True
     NOTE_FOR_TEST = "// template note for test"
 
@@ -824,7 +827,7 @@ class XliffFormatTest(XMLMixin, BaseFormatTest):
         b'<trans-unit xml:space="preserve" id="key" approved="no">',
         b"<source>Source string</source>",
     )
-    EXPECTED_FLAGS = "c-format, max-length:100"
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = "c-format, max-length:100"
 
     def test_set_state(self) -> None:
         # Read test content
@@ -865,14 +868,14 @@ class XliffFormatTest(XMLMixin, BaseFormatTest):
 
 class RichXliffFormatTest(XliffFormatTest):
     format_class = RichXliffFormat
-    EXPECTED_FLAGS = "c-format, max-length:100, xml-text"
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = "c-format, max-length:100, xml-text"
 
 
 class XliffIdFormatTest(RichXliffFormatTest):
     FILE = TEST_XLIFF_ID
     BASE = TEST_XLIFF_ID
     FIND_CONTEXT = "hello"
-    EXPECTED_FLAGS = "xml-text"
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = "xml-text"
     COUNT = 5
 
     def test_edit_xliff(self) -> None:
@@ -944,13 +947,13 @@ class PoXliffFormatTest(XMLMixin, BaseFormatTest):
         b'<trans-unit xml:space="preserve" id="key" approved="no">',
         b"<source>Source string</source>",
     )
-    EXPECTED_FLAGS = "c-format, max-length:100"
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = "c-format, max-length:100"
 
 
 class PoXliffFormatTest2(PoXliffFormatTest):
     FILE = TEST_POXLIFF
     BASE = TEST_POXLIFF
-    EXPECTED_FLAGS = (
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = (
         "c-format, font-family:ubuntu, font-size:22, font-weight:bold, max-size:100"
     )
     FIND_CONTEXT = "cs.po///2"
@@ -992,7 +995,7 @@ class YAMLFormatTest(BaseFormatTest):
     FIND_MATCH = ""
     MATCH = "weblate:"
     NEW_UNIT_MATCH = b"\nkey: Source string\n"
-    EXPECTED_FLAGS = ""
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
     MONOLINGUAL = True
     SUPPORTS_NOTES = False
 
@@ -1010,7 +1013,7 @@ class RubyYAMLFormatTest(YAMLFormatTest):
     FILE = TEST_RUBY_YAML
     BASE = TEST_RUBY_YAML
     NEW_UNIT_MATCH = b"\n  key: Source string\n"
-    EXPECTED_FLAGS = ""
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
     MONOLINGUAL = True
 
 
@@ -1033,6 +1036,15 @@ class TSFormatTest(XMLMixin, BaseFormatTest):
         testdata = testdata.replace(b"<!DOCTYPE TS>", b"")
         super().assert_same(newdata, testdata)
 
+    def test_default_self_closing_tag(self) -> None:
+        """Test that location tag is self-closed by default."""
+        storage = self.parse_file(self.FILE)
+        unit = storage.all_units[0]
+        unit.mainunit.addlocation("main.c:11")
+        serialized = self.format_class.serialize(storage.store)
+        self.assertIn(b'<location filename="main.c" line="11"/>', serialized)
+        self.assertNotIn(rb"<\location>", serialized)
+
 
 class DTDFormatTest(BaseFormatTest):
     format_class = DTDFormat
@@ -1047,7 +1059,7 @@ class DTDFormatTest(BaseFormatTest):
     FIND_CONTEXT = "hello"
     FIND_MATCH = ""
     NEW_UNIT_MATCH = b'<!ENTITY key "Source string">'
-    EXPECTED_FLAGS = ""
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
     MONOLINGUAL = True
     SUPPORTS_NOTES = False
 
@@ -1065,7 +1077,7 @@ class CSVFormatTest(BaseFormatTest):
     FIND = "HELLO"
     FIND_MATCH = "Hello, world!\r\n"
     NEW_UNIT_MATCH = b'"Source string",""\r\n'
-    EXPECTED_FLAGS = ""
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
 
 
 class CSVFormatNoHeadTest(CSVFormatTest):
@@ -1073,7 +1085,7 @@ class CSVFormatNoHeadTest(CSVFormatTest):
     COUNT = 1
     FIND = "Thank you for using Weblate."
     FIND_MATCH = "Děkujeme za použití Weblate."
-    EXPECTED_FLAGS = ""
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
     NEW_UNIT_MATCH = b'"Source string",""\r\n'
 
     def _test_save(self, edit=False) -> NoReturn:
@@ -1082,7 +1094,7 @@ class CSVFormatNoHeadTest(CSVFormatTest):
 
 class CSVSimpleFormatNoHeadTest(CSVFormatNoHeadTest):
     format_class = CSVSimpleFormat
-    EXPECTED_FLAGS = ""
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
 
 
 class FlatXMLFormatTest(BaseFormatTest):
@@ -1099,7 +1111,7 @@ class FlatXMLFormatTest(BaseFormatTest):
     FIND_CONTEXT = "hello_world"
     FIND_MATCH = "Hello World!"
     NEW_UNIT_MATCH = b'<str key="key">Source string</str>\n'
-    EXPECTED_FLAGS = ""
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
     MONOLINGUAL = True
     SUPPORTS_NOTES = False
 
@@ -1108,7 +1120,7 @@ class CustomFlatXMLFormatTest(FlatXMLFormatTest):
     FILE = TEST_CUSTOM_FLATXML
     BASE = TEST_CUSTOM_FLATXML
     NEW_UNIT_MATCH = b'<entry name="key">Source string</entry>\n'
-    FILE_FORMAT_PARAMS = {
+    FILE_FORMAT_PARAMS: ClassVar[dict[str, int | str | bool]] = {
         "flatxml_root_name": "dictionary",
         "flatxml_value_name": "entry",
         "flatxml_key_name": "name",
@@ -1129,7 +1141,7 @@ class ResourceDictionaryFormatTest(BaseFormatTest):
     FIND_CONTEXT = "hello_world"
     FIND_MATCH = "Hello World!"
     NEW_UNIT_MATCH = b'<system:String x:Key="key">Source string</system:String>\n'
-    EXPECTED_FLAGS = ""
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
     MONOLINGUAL = True
     SUPPORTS_NOTES = False
 
@@ -1149,7 +1161,7 @@ class INIFormatTest(BaseFormatTest):
     FIND_MATCH = 'Ahoj "světe"!\\n'
     NEW_UNIT_MATCH = b"\nkey = Source string"
     NEW_UNIT_KEY = "[test]key"
-    EXPECTED_FLAGS = ""
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
     MONOLINGUAL = True
     SUPPORTS_NOTES = False
 
@@ -1174,8 +1186,8 @@ class XWikiPropertiesFormatTest(PropertiesFormatTest):
     FIND_MATCH = "Confirm the operation {0}"
     MATCH = "\n"
     NEW_UNIT_MATCH = b"\nkey=Source string\n"
-    EXPECTED_FLAGS = ""
-    EDIT_TARGET = "[{0}] تىپتىكى خىزمەتنى باشلاش"
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
+    EDIT_TARGET: ClassVar[str | list[str]] = "[{0}] تىپتىكى خىزمەتنى باشلاش"
     EDIT_OFFSET = 3
 
     def test_new_language(self) -> None:
@@ -1217,7 +1229,7 @@ class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):
     FIND_MATCH = "User account disabled"
     MATCH = "\n"
     NEW_UNIT_MATCH = b"\nkey=Source string\n"
-    EXPECTED_FLAGS = ""
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
 
     def test_get_language_filename(self) -> None:
         self.assertEqual(
@@ -1325,9 +1337,9 @@ class XWikiFullPageFormatTest(XMLMixin, BaseFormatTest):
     FIND_MATCH = "Bac à sable"
     MATCH = "\n"
     NEW_UNIT_MATCH = b"\nkey=Source string\n"
-    EXPECTED_FLAGS = ""
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
     MONOLINGUAL = True
-    EDIT_TARGET = """= Titre=\n"
+    EDIT_TARGET: ClassVar[str | list[str]] = """= Titre=\n"
                 "\n"
                 "* [[Bac à sable>>Sandbox.TestPage1]]\n"
                 "{{info}}\n"
@@ -1441,7 +1453,7 @@ class TBXFormatTest(XMLMixin, BaseFormatTest):
     FIND = "address bar"
     FIND_MATCH = "adresní řádek"
     NEW_UNIT_MATCH = b"<term>Source string</term>"
-    EXPECTED_FLAGS = ""
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
 
     def test_extended_metadata(self) -> None:
         storage = self.parse_file(get_test_file("fr-extended-metadata.tbx"))
@@ -1487,7 +1499,7 @@ class StringsdictFormatTest(XMLMixin, BaseFormatTest):
     BASE = ""
     NEW_UNIT_MATCH = b"<string>Source string</string>"
     MONOLINGUAL = True
-    EXPECTED_FLAGS = ""
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
     SUPPORTS_NOTES = False
 
     def test_get_plural(self) -> None:
@@ -1529,4 +1541,4 @@ class FluentFormatTest(BaseFormatTest):
     FIND_MATCH = 'Ahoj "světe"!\\n'
     NEW_UNIT_MATCH = b"\nkey = Source string"
     MONOLINGUAL = True
-    EXPECTED_FLAGS = "fluent-type:Message"
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = "fluent-type:Message"

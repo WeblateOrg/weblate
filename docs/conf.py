@@ -77,7 +77,7 @@ project_copyright = "Michal Čihař"
 author = "Michal Čihař"
 
 # The full version, including alpha/beta/rc tags
-release = "5.13.1"
+release = "5.14"
 
 # -- General configuration ---------------------------------------------------
 
@@ -335,7 +335,6 @@ intersphinx_mapping = {
     "rtd": ("https://docs.readthedocs.io/en/latest/", None),
     "venv": ("https://virtualenv.pypa.io/en/stable/", None),
     "borg": ("https://borgbackup.readthedocs.io/en/stable/", None),
-    "pip": ("https://pip.pypa.io/en/stable/", None),
     "compressor": ("https://django-compressor.readthedocs.io/en/stable/", None),
     "drf-standardized-error": (
         "https://drf-standardized-errors.readthedocs.io/en/latest/",
@@ -388,6 +387,8 @@ linkcheck_ignore = [
     "https://azure.microsoft.com/en-us/products/ai-services/ai-translator",
     "https://wiki.gnupg.org/",
     "https://www.bis.doc.gov/",
+    "https://www.libravatar.org/",
+    "https://akismet.com/",
     # These seems to block bots/GitHub
     "https://docs.github.com/",
     "https://translate.yandex.com/",

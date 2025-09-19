@@ -105,6 +105,16 @@ def translation_post_delete(sender, instance, **kwargs) -> None:
     transaction.on_commit(instance.stats.delete)
 
 
+@receiver(m2m_changed, sender=Component.links.through)
+@disable_for_loaddata
+def update_project_stats_link(sender, instance, action, pk_set, **kwargs) -> None:
+    from weblate.utils.tasks import update_project_stats_link
+
+    if action in {"post_add", "post_remove", "post_clear"}:
+        for pk in pk_set:
+            update_project_stats_link.delay_on_commit(pk)
+
+
 @receiver(m2m_changed, sender=Unit.labels.through)
 @disable_for_loaddata
 def change_labels(sender, instance, action, pk_set, **kwargs) -> None:

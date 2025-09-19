@@ -9,7 +9,7 @@ import logging
 import re
 from datetime import timedelta
 from ipaddress import IPv6Network, ip_network
-from typing import TYPE_CHECKING, Any, Literal
+from typing import TYPE_CHECKING, Any, ClassVar, Literal
 from urllib.parse import urlparse
 
 from appconf import AppConf
@@ -43,10 +43,10 @@ from weblate.accounts.notifications import (
     NotificationScope,
 )
 from weblate.accounts.tasks import notify_auditlog
-from weblate.auth.models import AuthenticatedHttpRequest, User
+from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.trans.defines import EMAIL_LENGTH
-from weblate.trans.models import Change, ComponentList, Translation, Unit
+from weblate.trans.models import Change, ComponentList, Translation
 from weblate.trans.models.translation import GhostTranslation
 from weblate.utils import messages
 from weblate.utils.decorators import disable_for_loaddata
@@ -72,6 +72,10 @@ if TYPE_CHECKING:
     from django.http.request import HttpRequest
     from django_otp.models import Device
 
+    from weblate.accounts.types import DeviceType
+    from weblate.auth.models import AuthenticatedHttpRequest
+    from weblate.trans.models import Unit
+
 LOGGER = logging.getLogger("weblate.audit")
 
 
@@ -92,7 +96,7 @@ class WeblateAccountsConf(AppConf):
     REGISTRATION_OPEN = True
 
     # Allow registration from certain backends
-    REGISTRATION_ALLOW_BACKENDS = []
+    REGISTRATION_ALLOW_BACKENDS: ClassVar[list[str]] = []
 
     # Allow rebinding to existing accounts
     REGISTRATION_REBIND = False
@@ -105,7 +109,7 @@ class WeblateAccountsConf(AppConf):
 
     ALTCHA_MAX_NUMBER = 1_000_000
 
-    REGISTRATION_HINTS = {}
+    REGISTRATION_HINTS: ClassVar[dict[str, str]] = {}
 
     # How long to keep auditlog entries
     AUDITLOG_EXPIRY = 180
@@ -130,7 +134,7 @@ class WeblateAccountsConf(AppConf):
     MAXIMAL_PASSWORD_LENGTH = 72
 
     # Login required URLs
-    LOGIN_REQUIRED_URLS = []
+    LOGIN_REQUIRED_URLS: ClassVar[list[str]] = []
     LOGIN_REQUIRED_URLS_EXCEPTIONS = (
         r"{URL_PREFIX}/accounts/(.*)$",  # Required for login
         r"{URL_PREFIX}/admin/login/(.*)$",  # Required for admin login
@@ -206,7 +210,7 @@ class Subscription(models.Model):
     class Meta:
         verbose_name = "Notification subscription"
         verbose_name_plural = "Notification subscriptions"
-        constraints = [
+        constraints = [  # noqa: RUF012
             models.UniqueConstraint(
                 name="accounts_subscription_notification_unique",
                 fields=("notification", "scope", "project", "component", "user"),
@@ -296,8 +300,12 @@ ACCOUNT_ACTIVITY = {
     "twofactor-remove": gettext_lazy("Two-factor authentication removed: {device}"),
     # Translators: Audit log entry
     "twofactor-login": gettext_lazy("Two-factor authentication sign in using {device}"),
+    # Translators: Audit log entry
+    "twofactor-failed": gettext_lazy(
+        "Two-factor authentication failed using {device_type}"
+    ),
 }
-AUDIT_WARNING = {"locked", "removed", "failed-auth", "admin-locked"}
+AUDIT_WARNING = {"locked", "removed", "failed-auth", "admin-locked", "twofactor-failed"}
 # Override activity messages based on method
 ACCOUNT_ACTIVITY_METHOD = {
     "password": {
@@ -357,6 +365,7 @@ NOTIFY_ACTIVITY = {
     "recovery-show",
     "twofactor-add",
     "twofactor-remove",
+    "twofactor-failed",
 }
 
 
@@ -392,7 +401,7 @@ class AuditLogManager(models.Manager):
 
 
 class AuditLogQuerySet(models.QuerySet["AuditLog"]):
-    def get_after(self, user: User, after, activity):
+    def get_after(self, user: User, after: str, activity: str) -> AuditLogQuerySet:
         """
         Get user activities of given type after another activity.
 
@@ -400,7 +409,9 @@ class AuditLogQuerySet(models.QuerySet["AuditLog"]):
         authentication attempts since last login.
         """
         try:
-            latest_login = self.filter(user=user, activity=after).order()[0]
+            latest_login = self.filter(
+                user=user, activity__in={after, "reset"}
+            ).order()[0]
             kwargs = {"timestamp__gte": latest_login.timestamp}
         except IndexError:
             kwargs = {}
@@ -518,6 +529,18 @@ class AuditLog(models.Model):
                 lock_user(self.user, "locked", request)
                 return True
 
+        elif (
+            self.activity == "twofactor-failed"
+            and self.user
+            and self.user.has_usable_password()
+        ):
+            failures = AuditLog.objects.get_after(
+                self.user, "twofactor-login", "twofactor-failed"
+            )
+            if failures.count() >= settings.AUTH_LOCK_ATTEMPTS:
+                lock_user(self.user, "locked", request)
+                return True
+
         elif self.activity == "reset-request":
             failures = AuditLog.objects.filter(
                 user=self.user,
@@ -549,7 +572,7 @@ class VerifiedEmail(models.Model):
     class Meta:
         verbose_name = "Verified e-mail"
         verbose_name_plural = "Verified e-mails"
-        indexes = [
+        indexes = [  # noqa: RUF012
             models.Index(
                 Upper("email"),
                 name="accounts_verifiedemail_email",
@@ -697,7 +720,7 @@ class Profile(models.Model):
         (DASHBOARD_MANAGED, gettext_lazy("Managed projects")),
     )
 
-    DASHBOARD_SLUGS = {
+    DASHBOARD_SLUGS: ClassVar[dict[int, str]] = {
         DASHBOARD_WATCHED: "your-subscriptions",
         DASHBOARD_COMPONENT_LIST: "list",
         DASHBOARD_SUGGESTIONS: "suggestions",
@@ -1106,7 +1129,7 @@ class Profile(models.Model):
     @property
     def has_2fa(self) -> bool:
         return any(
-            isinstance(device, TOTPDevice | WebAuthnCredential)
+            isinstance(device, (TOTPDevice, WebAuthnCredential))
             for device in self.second_factors
         )
 
@@ -1122,6 +1145,13 @@ class Profile(models.Model):
         if device_type not in {self.last_2fa, "recovery"}:
             self.last_2fa = device_type
             self.save(update_fields=["last_2fa"])
+
+    def log_2fa_failed(
+        self, request: AuthenticatedHttpRequest, device_type: DeviceType
+    ) -> None:
+        AuditLog.objects.create(
+            self.user, request, "twofactor-failed", device_type=device_type
+        )
 
     def get_second_factor_type(self) -> Literal["totp", "webauthn"]:
         if self.last_2fa in self.second_factor_types:

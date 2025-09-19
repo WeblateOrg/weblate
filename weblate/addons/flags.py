@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar
 
 from django.utils.translation import gettext_lazy
 
@@ -16,11 +16,12 @@ from weblate.trans.models import Unit
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
 if TYPE_CHECKING:
+    from weblate.addons.base import CompatDict
     from weblate.auth.models import User
 
 
 class FlagBase(BaseAddon):
-    events: set[AddonEvent] = {
+    events: ClassVar[set[AddonEvent]] = {
         AddonEvent.EVENT_UNIT_PRE_CREATE,
     }
     icon = "flag.svg"
@@ -41,7 +42,7 @@ class SourceEditAddon(FlagBase):
         "flagged as needing editing in Weblate. This way you can easily "
         "filter and edit source strings written by the developers."
     )
-    compat = {
+    compat: ClassVar[CompatDict] = {
         "edit_template": {True},
     }
 
@@ -93,7 +94,7 @@ class SameEditAddon(FlagBase):
 
 
 class BulkEditAddon(BaseAddon):
-    events: set[AddonEvent] = {
+    events: ClassVar[set[AddonEvent]] = {
         AddonEvent.EVENT_COMPONENT_UPDATE,
     }
     name = "weblate.flags.bulk"
@@ -120,3 +121,21 @@ class BulkEditAddon(BaseAddon):
             ),
             project=component.project,
         )
+
+
+class TargetRepoUpdateAddon(BaseAddon):
+    events: ClassVar[set[AddonEvent]] = {AddonEvent.EVENT_UNIT_POST_SYNC}
+    icon = "flag.svg"
+    name = "weblate.flags.target_repo_update"
+    verbose = gettext_lazy(
+        'Flag updated translations from repository as "Needs editing"'
+    )
+    description = gettext_lazy(
+        "Whenever a string translation is changed from the VCS, "
+        "it is flagged as needing editing in Weblate. Especially useful if "
+        "translation files are often updated manually or by an external service."
+    )
+
+    def unit_post_sync(self, unit: Unit, changed_attr: str, **kwargs) -> None:
+        if changed_attr == "target":
+            unit.state = STATE_FUZZY

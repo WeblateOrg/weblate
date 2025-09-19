@@ -83,7 +83,10 @@ def try_load(
     content: bytes,
     original_format: type[TranslationFormat] | None,
     template_store: TranslationFormat | None,
+    language_code: str | None = None,
+    source_language: str | None = None,
     is_template: bool = False,
+    file_format_params: dict[str, Any] | None = None,
 ) -> TranslationFormat:
     """Try to load file by guessing type."""
     failure = None
@@ -91,7 +94,15 @@ def try_load(
         for kwargs, validate in params_iter(file_format, template_store, is_template):
             handle = NamedBytesIO(filename, content)
             try:
-                result = file_format(handle, **kwargs)
+                result = file_format(
+                    handle,
+                    language_code=language_code,
+                    source_language=language_code
+                    if kwargs.get("is_template", False)
+                    else source_language,
+                    file_format_params=file_format_params,
+                    **kwargs,
+                )
                 result.check_valid()
             except Exception as error:
                 if failure is None:

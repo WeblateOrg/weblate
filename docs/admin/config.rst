@@ -821,6 +821,10 @@ List for credentials for GitLab servers.
         },
     }
 
+.. note::
+
+   The personal access token needs the :guilabel:`api` scope to be able to use the API.
+
 .. include:: /snippets/vcs-credentials.rst
 
 .. seealso::
@@ -1811,6 +1815,16 @@ Configure sampling rate for profiling monitoring. Set to 1 to trace all events, 
 .. seealso::
 
    `Sentry Profiling <https://docs.sentry.io/product/explore/profiling/>`_
+
+.. setting:: SESSION_COOKIE_AGE_2FA
+
+SESSION_COOKIE_AGE_2FA
+----------------------
+
+.. versionadded:: 5.13.1
+
+Set session expiry while in :ref:`2fa`. This complements
+:setting:`django:SESSION_COOKIE_AGE` which is used for unauthenticated users.
 
 .. setting:: SESSION_COOKIE_AGE_AUTHENTICATED
 

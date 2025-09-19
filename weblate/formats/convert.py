@@ -11,7 +11,7 @@ import os
 import shutil
 from collections import defaultdict
 from io import BytesIO
-from typing import TYPE_CHECKING, Any, BinaryIO, NoReturn
+from typing import TYPE_CHECKING, Any, BinaryIO, ClassVar, NoReturn
 from zipfile import ZipFile
 
 from django.utils.functional import cached_property
@@ -40,7 +40,6 @@ from translate.storage.xml_extract.extract import (
 
 from weblate.formats.base import (
     TranslationFormat,
-    TranslationUnit,
 )
 from weblate.formats.helpers import NamedBytesIO
 from weblate.formats.ttkit import PoUnit, XliffUnit
@@ -54,6 +53,9 @@ if TYPE_CHECKING:
     from translate.storage.base import TranslationStore
     from translate.storage.base import TranslationUnit as TranslateToolkitUnit
 
+    from weblate.formats.base import (
+        TranslationUnit,
+    )
     from weblate.trans.models import Unit
 
 
@@ -116,7 +118,10 @@ class ConvertFormat(TranslationFormat):
     can_delete_unit = False
     can_edit_base: bool = False
     unit_class: type[TranslationUnit] = ConvertPoUnit
-    autoaddon = {"weblate.flags.same_edit": {}, "weblate.cleanup.generic": {}}
+    autoaddon: ClassVar[dict[str, dict[str, Any]]] = {
+        "weblate.flags.same_edit": {},
+        "weblate.cleanup.generic": {},
+    }
     create_style = "copy"
     units: list[TranslateToolkitUnit]
     store: TranslationStore

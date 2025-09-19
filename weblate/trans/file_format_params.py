@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING, ClassVar, TypedDict, cast
 
 from django import forms
 from django.utils.functional import classproperty
@@ -21,14 +21,20 @@ if TYPE_CHECKING:
     from translate.storage.yaml import YAMLFile
 
 
+class FieldKwargsDict(TypedDict, total=False):
+    min_value: int
+    max_value: int
+    min_length: int
+
+
 class BaseFileFormatParam:
     name: str = ""
     file_formats: Sequence[str] = []
     field_class: type[forms.Field] = forms.CharField
     label: StrOrPromise = ""
     default: str | int | bool
-    field_kwargs: dict = {}
-    choices: list[tuple[str | int, StrOrPromise]] | None = None
+    field_kwargs: ClassVar[FieldKwargsDict] = {}
+    choices: ClassVar[list[tuple[str | int, StrOrPromise]] | None] = None
     help_text: StrOrPromise | None = None
 
     @classmethod
@@ -53,7 +59,7 @@ class BaseFileFormatParam:
         }
 
     def get_field_kwargs(self) -> dict:
-        kwargs = self.field_kwargs.copy()
+        kwargs = cast("dict", self.field_kwargs.copy())
         kwargs.update({"required": False, "initial": self.default})
         if self.choices is not None:
             kwargs["choices"] = self.choices
@@ -63,6 +69,15 @@ class BaseFileFormatParam:
 
     def setup_store(self, store: TranslationStore, **file_format_params) -> None:
         """Configure store with this file format parameters."""
+
+    @classmethod
+    def get_value(cls, file_format_params: dict):
+        value = file_format_params.get(cls.name, cls.default)
+        cast = type(cls.default)
+        try:
+            return cast(value)
+        except (ValueError, TypeError):
+            return cls.default
 
 
 FILE_FORMATS_PARAMS: list[type[BaseFileFormatParam]] = []
@@ -110,8 +125,8 @@ class JSONOutputSortKeys(JSONOutputCustomizationBaseParam):
     default = False
 
     def setup_store(self, store: TranslationStore, **file_format_params) -> None:
-        cast("JsonFile", store).dump_args["sort_keys"] = file_format_params.get(
-            self.name, self.default
+        cast("JsonFile", store).dump_args["sort_keys"] = self.get_value(
+            file_format_params
         )
 
 
@@ -121,7 +136,7 @@ class JSONOutputIndentation(JSONOutputCustomizationBaseParam):
     label = gettext_lazy("JSON indentation")
     field_class = forms.IntegerField
     default = 4
-    field_kwargs = {"min_value": 0}
+    field_kwargs: ClassVar[FieldKwargsDict] = {"min_value": 0}
 
 
 @register_file_format_param
@@ -129,21 +144,16 @@ class JSONOutputIndentStyle(JSONOutputCustomizationBaseParam):
     name = "json_indent_style"
     label = gettext_lazy("JSON indentation style")
     field_class = forms.ChoiceField
-    choices = [
+    choices: ClassVar[list[tuple[str | int, StrOrPromise]] | None] = [
         ("spaces", gettext_lazy("Spaces")),
         ("tabs", gettext_lazy("Tabs")),
     ]
     default = "spaces"
 
     def setup_store(self, store: TranslationStore, **file_format_params) -> None:
-        indent = int(
-            file_format_params.get(
-                JSONOutputIndentation.name, JSONOutputIndentation.default
-            )
-            or JSONOutputIndentation.default
-        )
+        indent = JSONOutputIndentation.get_value(file_format_params)
         dump_args = cast("JsonFile", store).dump_args
-        if file_format_params.get(self.name, self.default) == "tabs":
+        if self.get_value(file_format_params) == "tabs":
             dump_args["indent"] = "\t" * indent
         else:
             dump_args["indent"] = indent
@@ -158,7 +168,7 @@ class JSONOutputCompactSeparators(JSONOutputCustomizationBaseParam):
 
     def setup_store(self, store: TranslationStore, **file_format_params) -> None:
         dump_args = cast("JsonFile", store).dump_args
-        use_compact_separators = file_format_params.get(self.name, self.default)
+        use_compact_separators = self.get_value(file_format_params)
         dump_args["separators"] = (
             ",",
             ":" if use_compact_separators else ": ",
@@ -174,7 +184,7 @@ class GettextPoLineWrap(BaseFileFormatParam):
     name = "po_line_wrap"
     label = gettext_lazy("Long lines wrapping")
     field_class = forms.ChoiceField
-    choices = [
+    choices: ClassVar[list[tuple[str | int, StrOrPromise]] | None] = [
         (
             77,
             gettext_lazy(
@@ -194,9 +204,7 @@ class GettextPoLineWrap(BaseFileFormatParam):
     )
 
     def setup_store(self, store: TranslationStore, **file_format_params) -> None:
-        cast("pofile", store).wrapper.width = int(
-            file_format_params.get(self.name, self.default) or self.default
-        )
+        cast("pofile", store).wrapper.width = int(self.get_value(file_format_params))
 
 
 class BaseGettextFormatParam(BaseFileFormatParam):
@@ -216,7 +224,7 @@ class GettextNoLocation(BaseGettextFormatParam):
     name = "po_no_location"
     label = gettext_lazy("Do not include location information in the file")
     field_class = forms.BooleanField
-    default = False
+    default = True
 
 
 @register_file_format_param
@@ -224,7 +232,7 @@ class GettextFuzzyMatching(BaseGettextFormatParam):
     name = "po_fuzzy_matching"
     label = gettext_lazy("Use fuzzy matching")
     field_class = forms.BooleanField
-    default = True
+    default = False
 
 
 class BaseYAMLFormatParam(BaseFileFormatParam):
@@ -240,11 +248,11 @@ class YAMLOutputIndentation(BaseYAMLFormatParam):
     label = gettext_lazy("YAML indentation")
     field_class = forms.IntegerField
     default = 2
-    field_kwargs = {"min_value": 0, "max_value": 10}
+    field_kwargs: ClassVar[FieldKwargsDict] = {"min_value": 1, "max_value": 10}
 
     def setup_store(self, store: TranslationStore, **file_format_params) -> None:
         cast("YAMLFile", store).dump_args["indent"] = int(  # type: ignore[assignment]
-            file_format_params.get(self.name, self.default) or self.default
+            self.get_value(file_format_params)
         )
 
 
@@ -254,7 +262,7 @@ class YAMLLineWrap(BaseYAMLFormatParam):
     label = gettext_lazy("Long lines wrapping")
     field_class = forms.ChoiceField
     default = 80
-    choices = [
+    choices: ClassVar[list[tuple[str | int, StrOrPromise]] | None] = [
         (80, gettext_lazy("Wrap lines at 80 chars")),
         (100, gettext_lazy("Wrap lines at 100 chars")),
         (120, gettext_lazy("Wrap lines at 120 chars")),
@@ -264,7 +272,7 @@ class YAMLLineWrap(BaseYAMLFormatParam):
 
     def setup_store(self, store: TranslationStore, **file_format_params) -> None:
         cast("YAMLFile", store).dump_args["width"] = int(  # type: ignore[assignment]
-            file_format_params.get(self.name, self.default) or self.default
+            self.get_value(file_format_params)
         )
 
 
@@ -273,7 +281,7 @@ class YAMLLineBreak(BaseYAMLFormatParam):
     name = "yaml_line_break"
     label = gettext_lazy("Line breaks")
     field_class = forms.ChoiceField
-    choices = [
+    choices: ClassVar[list[tuple[str | int, StrOrPromise]] | None] = [
         ("dos", gettext_lazy("DOS (\\r\\n)")),
         ("unix", gettext_lazy("UNIX (\\n)")),
         ("mac", gettext_lazy("MAC (\\r)")),
@@ -282,7 +290,7 @@ class YAMLLineBreak(BaseYAMLFormatParam):
 
     def setup_store(self, store: TranslationStore, **file_format_params) -> None:
         breaks = {"dos": "\r\n", "mac": "\r", "unix": "\n"}
-        line_break = file_format_params.get(self.name, self.default)
+        line_break = self.get_value(file_format_params)
         cast("YAMLFile", store).dump_args["line_break"] = breaks[line_break]  # type: ignore[assignment]
 
 
@@ -291,7 +299,7 @@ class XMLClosingTags(BaseFileFormatParam):
     name = "xml_closing_tags"
     label = gettext_lazy("Include closing tag for blank XML tags")
     field_class = forms.BooleanField
-    default = True
+    default = False
 
     @classproperty
     def file_formats(self) -> Sequence[str]:
@@ -305,8 +313,8 @@ class XMLClosingTags(BaseFileFormatParam):
         return result
 
     def setup_store(self, store: TranslationStore, **file_format_params) -> None:
-        cast("LISAfile", store).XMLSelfClosingTags = not file_format_params.get(
-            self.name, self.default
+        cast("LISAfile", store).XMLSelfClosingTags = not self.get_value(
+            file_format_params
         )
 
 
@@ -320,7 +328,7 @@ class FlatXMLRootName(BaseFlatXMLFormatParam):
     label = gettext_lazy("FlatXML Root name")
     field_class = forms.CharField
     default = "root"
-    field_kwargs = {"min_length": 1}
+    field_kwargs: ClassVar[FieldKwargsDict] = {"min_length": 1}
 
 
 @register_file_format_param
@@ -329,7 +337,7 @@ class FlatXMLValueName(BaseFlatXMLFormatParam):
     label = gettext_lazy("FlatXML value name")
     field_class = forms.CharField
     default = "str"
-    field_kwargs = {"min_length": 1}
+    field_kwargs: ClassVar[FieldKwargsDict] = {"min_length": 1}
 
 
 @register_file_format_param
@@ -338,4 +346,4 @@ class FlatXMLKeyName(BaseFlatXMLFormatParam):
     label = gettext_lazy("FlatXML key name")
     field_class = forms.CharField
     default = "key"
-    field_kwargs = {"min_length": 1}
+    field_kwargs: ClassVar[FieldKwargsDict] = {"min_length": 1}

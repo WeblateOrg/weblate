@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 from io import BytesIO
+from typing import TYPE_CHECKING
 from unittest import TestCase
 from urllib.parse import urlsplit
 from zipfile import ZipFile
@@ -23,9 +24,9 @@ from django.utils.translation import activate
 from openpyxl import load_workbook
 from PIL import Image
 
-from weblate.auth.models import Group, User, get_anonymous, setup_project_groups
+from weblate.auth.models import Group, get_anonymous, setup_project_groups
 from weblate.lang.models import Language
-from weblate.trans.models import Component, ComponentList, Project, Translation, Unit
+from weblate.trans.models import Component, ComponentList, Project
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.utils import (
     create_another_user,
@@ -34,6 +35,10 @@ from weblate.trans.tests.utils import (
 )
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.xml import parse_xml
+
+if TYPE_CHECKING:
+    from weblate.auth.models import User
+    from weblate.trans.models import Translation, Unit
 
 
 class RegistrationTestMixin(TestCase):
@@ -382,7 +387,7 @@ class ProjectLanguageAdditionTest(ViewTestCase):
     def create_component(self):
         return self.create_po_new_base()
 
-    def test_no_eligible_components(self):
+    def test_no_eligible_components(self) -> None:
         self.project.component_set.update(new_lang="none")
         response = self.client.get(self.url, follow=True)
         self.assertRedirects(response, self.project.get_absolute_url())
@@ -406,13 +411,13 @@ class ProjectLanguageAdditionTest(ViewTestCase):
         )
         self.assertIn("form", response.context)
 
-    def test_permission(self):
+    def test_permission(self) -> None:
         self.project.access_control = Project.ACCESS_PROTECTED
         self.project.save(update_fields=["access_control"])
         response = self.client.get(self.url, follow=True)
         self.assertEqual(response.status_code, 403)
 
-    def test_existing_language_excluded(self):
+    def test_existing_language_excluded(self) -> None:
         self.user.is_superuser = True
         self.user.save()
 
@@ -601,7 +606,7 @@ class BasicViewTest(ViewTestCase):
         self.assertContains(response, "TestCL")
         self.assertContains(response, self.component.name)
 
-    def test_view_category(self):
+    def test_view_category(self) -> None:
         category = self.create_category(self.project)
         cat_component = self.create_po(
             project=self.project, category=category, name="Category Component"

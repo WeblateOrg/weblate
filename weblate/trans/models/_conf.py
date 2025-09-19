@@ -3,6 +3,9 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 # mypy: disable-error-code="var-annotated"
+from __future__ import annotations
+
+from typing import ClassVar
 
 from appconf import AppConf
 
@@ -159,14 +162,14 @@ Current translation status:
     AUTH_PASSWORD_DAYS = 180
 
     # Mail customization
-    ADMINS_CONTACT = []
-    ADMINS_HOSTING = []
-    ADMINS_BILLING = []
+    ADMINS_CONTACT: ClassVar[list] = []
+    ADMINS_HOSTING: ClassVar[list] = []
+    ADMINS_BILLING: ClassVar[list] = []
 
     # Special chars for visual keyboard
     SPECIAL_CHARS = ("\t", "\n", "\u00a0", "…")
 
-    DEFAULT_ADDONS = {}
+    DEFAULT_ADDONS: ClassVar[dict] = {}
 
     SUGGESTION_CLEANUP_DAYS = None
     COMMENT_CLEANUP_DAYS = None
@@ -175,7 +178,7 @@ Current translation status:
     BACKGROUND_TASKS = "monthly"
 
     SINGLE_PROJECT = False
-    LICENSE_EXTRA = []
+    LICENSE_EXTRA: ClassVar[list] = []
     LICENSE_FILTER = None
     LICENSE_REQUIRED = False
     WEBSITE_REQUIRED = True
@@ -185,7 +188,7 @@ Current translation status:
 
     EXTRA_HTML_HEAD = ""
 
-    IP_ADDRESSES = []
+    IP_ADDRESSES: ClassVar[list] = []
 
     class Meta:
         prefix = ""

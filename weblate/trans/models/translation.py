@@ -26,7 +26,7 @@ from django.utils.translation import gettext, ngettext
 
 from weblate.checks.flags import Flags
 from weblate.formats.auto import try_load
-from weblate.formats.base import TranslationFormat, TranslationUnit, UnitNotFoundError
+from weblate.formats.base import UnitNotFoundError
 from weblate.formats.helpers import CONTROLCHARS, NamedBytesIO
 from weblate.lang.models import Language, Plural
 from weblate.trans.actions import ActionEvents
@@ -57,14 +57,18 @@ from weblate.utils.state import (
     STATE_FUZZY,
     STATE_READONLY,
     STATE_TRANSLATED,
-    StringState,
 )
 from weblate.utils.stats import GhostStats, TranslationStats
+from weblate.utils.version import GIT_VERSION
 
 if TYPE_CHECKING:
     from datetime import datetime
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
+    from weblate.formats.base import TranslationFormat, TranslationUnit
+    from weblate.utils.state import (
+        StringState,
+    )
 
     from .project import Project
 
@@ -207,7 +211,7 @@ class Translation(
 
     class Meta:
         app_label = "trans"
-        unique_together = [("component", "language")]
+        unique_together = [("component", "language")]  # noqa: RUF012
         verbose_name = "translation"
         verbose_name_plural = "translations"
 
@@ -749,19 +753,23 @@ class Translation(
         # 1. Always, if it has been applied successfully.
         # 2. If it failed to apply, it can be removed only if a newer pending
         #    change targeting the same unit has since been successfully applied.
-        changes_to_delete = []
-        units_updated = set()
-        # iterate the pending changes in reverse order to ensure only changes made after
-        # a failed change are considered.
-        for change in reversed(pending_changes):
-            status = all_changes_status[change.pk]
-            if status:
-                changes_to_delete.append(change.pk)
-                units_updated.add(change.unit.pk)
-            elif change.unit.pk in units_updated:
-                changes_to_delete.append(change.pk)
+        # In some cases, a previously failed change may be resolved by a subsequent
+        # change to the unit. Failed pending changes are not retried on every commit
+        # attempt and hence may be absent from the list of pending changes being
+        # currently processed. Hence, we track the latest timestamp up to which
+        # changes to a unit have been applied successfully and delete all pending
+        # changes for the unit until that timestamp.
+        success_times = {}
+        for change in pending_changes:
+            if all_changes_status.get(change.pk):
+                prev = success_times.get(change.unit_id)
+                if prev is None or change.timestamp > prev:
+                    success_times[change.unit_id] = change.timestamp
 
-        PendingUnitChange.objects.filter(pk__in=changes_to_delete).delete()
+        for unit_id, ts in success_times.items():
+            PendingUnitChange.objects.filter(
+                unit_id=unit_id, timestamp__lte=ts
+            ).delete()
 
         # Update stats (the translated flag might have changed)
         self.invalidate_cache()
@@ -963,6 +971,15 @@ class Translation(
                         action=ActionEvents.SAVE_FAILED,
                         target="Could not find string in the translation file",
                     )
+                    pending_change.metadata.update(
+                        {
+                            "last_failed": timezone.now().isoformat(),
+                            "failed_revision": self.revision,
+                            "weblate_version": GIT_VERSION,
+                            "blocking_unit": True,
+                        }
+                    )
+                    pending_change.save()
                     # this should be kept as pending, so that the changes are not lost
                     changes_status[pending_change.pk] = False
                     continue
@@ -994,6 +1011,16 @@ class Translation(
                         action=ActionEvents.SAVE_FAILED,
                         target=self.component.get_parse_error_message(error),
                     )
+
+                    pending_change.metadata.update(
+                        {
+                            "last_failed": timezone.now().isoformat(),
+                            "failed_revision": self.revision,
+                            "weblate_version": GIT_VERSION,
+                            "blocking_unit": False,
+                        }
+                    )
+                    pending_change.save()
                     # this should be kept as pending, so that the changes are not lost
                     changes_status[pending_change.pk] = False
                     continue
@@ -1429,6 +1456,9 @@ class Translation(
                 component.file_format_cls,
                 None,
                 is_template=True,
+                language_code=self.language_code,
+                source_language=self.component.source_language.code,
+                file_format_params=self.component.file_format_params,
             )
 
         else:
@@ -1438,6 +1468,9 @@ class Translation(
             filecopy,
             component.file_format_cls,
             template_store,
+            language_code=self.language_code,
+            source_language=self.component.source_language.code,
+            file_format_params=self.component.file_format_params,
         )
 
         # Check valid plural forms

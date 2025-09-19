@@ -78,7 +78,7 @@ class WeblateAdminSite(AdminSite):
         return BaseLoginView.as_view(**defaults)(request)
 
     @property
-    def site_url(self):  # type: ignore[override]
+    def site_url(self) -> str:  # type: ignore[override]
         if settings.URL_PREFIX:
             return settings.URL_PREFIX
         return "/"

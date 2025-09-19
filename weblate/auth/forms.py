@@ -4,6 +4,8 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from crispy_forms.helper import FormHelper
 from django import forms
 from django.core.exceptions import ValidationError
@@ -13,7 +15,6 @@ from weblate.accounts.forms import UniqueEmailMixin
 from weblate.accounts.models import AuditLog
 from weblate.auth.data import GLOBAL_PERM_NAMES, SELECTION_MANUAL
 from weblate.auth.models import (
-    AuthenticatedHttpRequest,
     Group,
     Invitation,
     Role,
@@ -24,12 +25,19 @@ from weblate.trans.models import Change
 from weblate.utils import messages
 from weblate.utils.forms import UserField
 
+if TYPE_CHECKING:
+    from weblate.auth.models import (
+        AuthenticatedHttpRequest,
+    )
+
 
 class InviteUserForm(forms.ModelForm):
     class Meta:
         model = Invitation
-        fields = ["user", "group"]
-        field_classes = {"user": UserField}
+        fields = ("user", "group")
+        field_classes = {  # noqa: RUF012
+            "user": UserField
+        }
 
     def __init__(
         self,
@@ -94,38 +102,38 @@ class InviteUserForm(forms.ModelForm):
 class InviteEmailForm(InviteUserForm, UniqueEmailMixin):
     class Meta:
         model = Invitation
-        fields = ["email", "username", "full_name", "group"]
+        fields = ("email", "username", "full_name", "group")
 
 
 class AdminInviteUserForm(InviteUserForm):
     class Meta:
         model = Invitation
-        fields = ["email", "username", "full_name", "group", "is_superuser"]
+        fields = ("email", "username", "full_name", "group", "is_superuser")
 
 
 class UserEditForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ["username", "full_name", "email", "is_superuser", "is_active"]
+        fields = ("username", "full_name", "email", "is_superuser", "is_active")
 
 
 class BaseTeamForm(forms.ModelForm):
     class Meta:
         model = Group
-        fields = [
+        fields = (
             "name",
             "roles",
             "language_selection",
             "languages",
             "components",
             "enforced_2fa",
-        ]
+        )
 
-    internal_fields = [
+    internal_fields = (
         "name",
         "project_selection",
         "language_selection",
-    ]
+    )
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
@@ -177,7 +185,7 @@ class ProjectTeamForm(BaseTeamForm):
 class SitewideTeamForm(BaseTeamForm):
     class Meta:
         model = Group
-        fields = [
+        fields = (
             "name",
             "roles",
             "project_selection",
@@ -186,4 +194,4 @@ class SitewideTeamForm(BaseTeamForm):
             "language_selection",
             "languages",
             "enforced_2fa",
-        ]
+        )

@@ -5,16 +5,17 @@
 from __future__ import annotations
 
 import threading
+import warnings
 from datetime import datetime
 from functools import lru_cache, reduce
 from itertools import chain
 from operator import and_, or_
-from typing import TYPE_CHECKING, Any, Literal, cast, overload
+from typing import TYPE_CHECKING, Any, ClassVar, Literal, cast, overload
 
 from dateutil.parser import ParserError
 from dateutil.parser import parse as dateutil_parse
 from django.db import transaction
-from django.db.models import Count, Expression, F, Q, Value
+from django.db.models import Count, F, Q, Value
 from django.db.utils import DataError, OperationalError
 from django.http import Http404
 from django.utils import timezone
@@ -23,10 +24,10 @@ from pyparsing import (
     CaselessKeyword,
     OpAssoc,
     Optional,
-    ParserElement,
     ParseResults,
     Regex,
     Word,
+    alphanums,
     infix_notation,
     one_of,
 )
@@ -48,6 +49,11 @@ from weblate.utils.views import parse_path
 
 if TYPE_CHECKING:
     from collections.abc import Callable
+
+    from django.db.models import Expression
+    from pyparsing import (
+        ParserElement,
+    )
 
 
 # Helper parsing objects
@@ -87,7 +93,7 @@ def build_parser(term_expression: type[BaseTermExpr]) -> ParserElement:
 
     # Match token
     word = Regex(r"""[^ \r\n\(\)]([^ \r\n'"]*[^ \r\n'"\)])?""")
-    date = Word("0123456789:.-T")
+    date = Word(alphanums + ":._-")
 
     # Date range
     date_range = "[" + date + "to" + date + "]"
@@ -128,11 +134,11 @@ def build_parser(term_expression: type[BaseTermExpr]) -> ParserElement:
 
 
 class BaseTermExpr:
-    PLAIN_FIELDS: set[str] = set()
-    NONTEXT_FIELDS: dict[str, str] = {}
-    STRING_FIELD_MAP: dict[str, str] = {}
-    EXACT_FIELD_MAP: dict[str, str] = {}
-    enable_fulltext = True
+    PLAIN_FIELDS: ClassVar[set[str]] = set()
+    NONTEXT_FIELDS: ClassVar[dict[str, str]] = {}
+    STRING_FIELD_MAP: ClassVar[dict[str, str]] = {}
+    EXACT_FIELD_MAP: ClassVar[dict[str, str]] = {}
+    enable_fulltext: ClassVar[bool] = True
 
     def __init__(self, tokens) -> None:
         if len(tokens) == 1:
@@ -192,32 +198,22 @@ class BaseTermExpr:
     def convert_datetime(
         self,
         text: RangeExpr,
-        hour: int = 5,
-        minute: int = 55,
-        second: int = 55,
-        microsecond: int = 0,
     ) -> tuple[datetime, datetime]: ...
     @overload
     def convert_datetime(
         self,
         text: str,
-        hour: int = 5,
-        minute: int = 55,
-        second: int = 55,
-        microsecond: int = 0,
     ) -> datetime: ...
-    def convert_datetime(self, text, hour=5, minute=55, second=55, microsecond=0):
-        tzinfo = timezone.get_current_timezone()
+    def convert_datetime(self, text):
         if isinstance(text, RangeExpr):
             return (
-                self.convert_datetime(
-                    text.start, hour=0, minute=0, second=0, microsecond=0
-                ),
-                self.convert_datetime(
+                self.date_parse(text.start, hour=0, minute=0, second=0, microsecond=0),
+                self.date_parse(
                     text.end, hour=23, minute=59, second=59, microsecond=999999
                 ),
             )
         if text.isdigit() and len(text) == 4:
+            tzinfo = timezone.get_current_timezone()
             year = int(text)
             return (
                 datetime(
@@ -242,49 +238,161 @@ class BaseTermExpr:
                 ),
             )
 
-        return self.human_date_parse(text, hour, minute, second, microsecond)
+        return self.date_parse(text)
 
-    def human_date_parse(
+    def get_day_range(self, timestamp: datetime) -> tuple[datetime, datetime]:
+        return (
+            timestamp.replace(hour=0, minute=0, second=0, microsecond=0),
+            timestamp.replace(hour=23, minute=59, second=59, microsecond=999999),
+        )
+
+    @overload
+    def date_parse_human(
         self,
         text: str,
-        hour: int = 5,
-        minute: int = 55,
-        second: int = 55,
-        microsecond: int = 0,
-    ) -> datetime | tuple[datetime, datetime]:
-        tzinfo = timezone.get_current_timezone()
+        hour: None = None,
+        minute: None = None,
+        second: None = None,
+        microsecond: None = None,
+    ) -> datetime | tuple[datetime, datetime]: ...
+    @overload
+    def date_parse_human(
+        self,
+        text: str,
+        hour: int,
+        minute: int,
+        second: int,
+        microsecond: int,
+    ) -> datetime: ...
+    def date_parse_human(
+        self,
+        text,
+        hour=None,
+        minute=None,
+        second=None,
+        microsecond=None,
+    ):
+        # Lazily import as this can be expensive
+        from dateparser.date import DateDataParser
 
-        result: datetime | None
+        # Custom RELATIVE_BASE allows to base "1 day ago" from the midnight instead
+        # of the current time
+        parser = DateDataParser(
+            locales=["en"],
+            settings={
+                "RELATIVE_BASE": timezone.now().replace(
+                    hour=0, minute=0, second=0, microsecond=0
+                )
+            },
+        )
 
-        try:
-            # Here we inject 5:55:55 time and if that was not changed
-            # during parsing, we assume it was not specified while
-            # generating the query
-            result = dateutil_parse(
-                text,
-                default=timezone.now().replace(
-                    hour=hour, minute=minute, second=second, microsecond=microsecond
-                ),
-            )
-        except ParserError:
-            # Lazily import as this can be expensive
-            from dateparser import parse as dateparser_parse
+        # Attempts to parse the text using dateparser
+        # If the text is unparsable it will return None
+        data = parser.get_date_data(text)
 
-            # Attempts to parse the text using dateparser
-            # If the text is unparsable it will return None
-            result = dateparser_parse(text, locales=["en"])
-        if not result:
+        date_obj: datetime | None = data.date_obj
+
+        if date_obj is None:
             msg = "Could not parse timestamp"
             raise ValueError(msg)
 
-        result = result.replace(
-            hour=hour,
-            minute=minute,
-            second=second,
-            microsecond=microsecond,
-            tzinfo=tzinfo,
-        )
-        if result.hour == 5 and result.minute == 55 and result.second == 55:
+        # Always include timezone
+        if date_obj.tzinfo is None:
+            date_obj = date_obj.replace(tzinfo=timezone.get_current_timezone())
+
+        if data.period == "day":
+            if (
+                hour is not None
+                and minute is not None
+                and second is not None
+                and microsecond is not None
+            ):
+                # Replace timestamp when parsing range
+                return date_obj.replace(
+                    hour=hour,
+                    minute=minute,
+                    second=second,
+                    microsecond=microsecond,
+                    tzinfo=timezone.get_current_timezone(),
+                )
+            # Create one day range from date only
+            if (
+                date_obj.hour == 0
+                and date_obj.minute == 0
+                and date_obj.second == 0
+                and date_obj.microsecond == 0
+            ):
+                return self.get_day_range(date_obj)
+
+        return date_obj
+
+    @overload
+    def date_parse(
+        self,
+        text: str,
+        hour: None = None,
+        minute: None = None,
+        second: None = None,
+        microsecond: None = None,
+    ) -> datetime | tuple[datetime, datetime]: ...
+    @overload
+    def date_parse(
+        self,
+        text: str,
+        hour: int,
+        minute: int,
+        second: int,
+        microsecond: int,
+    ) -> datetime: ...
+    def date_parse(
+        self,
+        text,
+        hour=None,
+        minute=None,
+        second=None,
+        microsecond=None,
+    ):
+        result: datetime | None
+
+        default = timezone.now()
+        if hour is None or minute is None or second is None or microsecond is None:
+            # Here we inject 5:55:55 time and if that was not changed
+            # during parsing, we assume it was not specified while
+            # generating the query
+            default = default.replace(hour=5, minute=5, second=5, microsecond=5)
+        else:
+            # Apply real defaults
+            default = default.replace(
+                hour=hour, minute=minute, second=second, microsecond=microsecond
+            )
+
+        try:
+            with warnings.catch_warnings():
+                # Ignore ambiguous date warning, it is gracefully handled by datetutil
+                # or raises exception.
+                warnings.filterwarnings(
+                    "ignore",
+                    "Parsing dates involving a day of month without a year specified",
+                    DeprecationWarning,
+                )
+                result = dateutil_parse(text, default=default)
+        except ParserError:
+            result = None
+
+        if not result:
+            return self.date_parse_human(
+                text, hour=hour, minute=minute, second=second, microsecond=microsecond
+            )
+            msg = "Could not parse timestamp"
+            raise ValueError(msg)
+
+        if (
+            hour is None
+            and result.hour == 5
+            and result.minute == 5
+            and result.second == 5
+            and result.microsecond == 5
+        ):
             return (
                 result.replace(hour=0, minute=0, second=0, microsecond=0),
                 result.replace(hour=23, minute=59, second=59, microsecond=999999),
@@ -400,8 +508,14 @@ class BaseTermExpr:
 
 
 class UnitTermExpr(BaseTermExpr):
-    PLAIN_FIELDS: set[str] = {"source", "target", "context", "note", "location"}
-    NONTEXT_FIELDS: dict[str, str] = {
+    PLAIN_FIELDS: ClassVar[set[str]] = {
+        "source",
+        "target",
+        "context",
+        "note",
+        "location",
+    }
+    NONTEXT_FIELDS: ClassVar[dict[str, str]] = {
         "priority": "priority",
         "id": "id",
         "state": "state",
@@ -410,19 +524,20 @@ class UnitTermExpr(BaseTermExpr):
         "pending": "pending_changes__isnull",
         "changed": "change__timestamp",
         "source_changed": "source_unit__last_updated",
+        "last_changed": "last_updated",
         "change_time": "change__timestamp",
         "added": "timestamp",
         "change_action": "change__action",
         "labels_count": "labels_count",
     }
-    STRING_FIELD_MAP: dict[str, str] = {
+    STRING_FIELD_MAP: ClassVar[dict[str, str]] = {
         "suggestion": "suggestion__target",
         "comment": "comment__comment",
         "resolved_comment": "comment__comment",
         "key": "context",
         "explanation": "source_unit__explanation",
     }
-    EXACT_FIELD_MAP: dict[str, str] = {
+    EXACT_FIELD_MAP: ClassVar[dict[str, str]] = {
         "check": "check__name",
         "dismissed_check": "check__name",
         "language": "translation__language__code",
@@ -575,6 +690,9 @@ class UnitTermExpr(BaseTermExpr):
     def convert_source_changed(self, text: str) -> datetime | tuple[datetime, datetime]:
         return self.convert_datetime(text)
 
+    def convert_last_changed(self, text: str) -> datetime | tuple[datetime, datetime]:
+        return self.convert_datetime(text)
+
     def convert_added(self, text: str) -> datetime | tuple[datetime, datetime]:
         return self.convert_datetime(text)
 
@@ -621,17 +739,17 @@ class UnitTermExpr(BaseTermExpr):
 
 
 class UserTermExpr(BaseTermExpr):
-    PLAIN_FIELDS: set[str] = {"username", "full_name"}
-    NONTEXT_FIELDS: dict[str, str] = {
+    PLAIN_FIELDS: ClassVar[set[str]] = {"username", "full_name"}
+    NONTEXT_FIELDS: ClassVar[dict[str, str]] = {
         "joined": "date_joined",
         "change_time": "change__timestamp",
         "change_action": "change__action",
     }
-    EXACT_FIELD_MAP: dict[str, str] = {
+    EXACT_FIELD_MAP: ClassVar[dict[str, str]] = {
         "language": "profile__languages__code",
         "translates": "change__language__code",
     }
-    enable_fulltext = False
+    enable_fulltext: ClassVar[bool] = False
 
     def convert_joined(self, text: str) -> datetime | tuple[datetime, datetime]:
         return self.convert_datetime(text)
@@ -652,7 +770,7 @@ class UserTermExpr(BaseTermExpr):
 
 
 class SuperuserUserTermExpr(UserTermExpr):
-    STRING_FIELD_MAP: dict[str, str] = {
+    STRING_FIELD_MAP: ClassVar[dict[str, str]] = {
         "email": "social_auth__verifiedemail__email",
     }
 
@@ -729,7 +847,7 @@ def parser_annotations(
     return result
 
 
-@lru_cache(maxsize=512)
+@lru_cache(maxsize=32)
 def parse_string(
     text: str, parser: Literal["unit", "user", "superuser"]
 ) -> ParseResults:

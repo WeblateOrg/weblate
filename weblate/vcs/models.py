@@ -4,6 +4,8 @@
 
 from __future__ import annotations
 
+from typing import ClassVar
+
 from appconf import AppConf
 from django.utils.functional import cached_property
 
@@ -33,25 +35,25 @@ class VCSConf(AppConf):
     VCS_FILE_PROTOCOL = False
 
     # GitHub username for sending pull requests
-    GITHUB_CREDENTIALS = {}
+    GITHUB_CREDENTIALS: ClassVar[dict] = {}
 
     # Azure DevOps username for sending pull requests
-    AZURE_DEVOPS_CREDENTIALS = {}
+    AZURE_DEVOPS_CREDENTIALS: ClassVar[dict] = {}
 
     # GitLab username for sending merge requests
-    GITLAB_CREDENTIALS = {}
+    GITLAB_CREDENTIALS: ClassVar[dict] = {}
 
     # Pagure username for sending merge requests
-    PAGURE_CREDENTIALS = {}
+    PAGURE_CREDENTIALS: ClassVar[dict] = {}
 
     # Gitea username for sending pull requests
-    GITEA_CREDENTIALS = {}
+    GITEA_CREDENTIALS: ClassVar[dict] = {}
 
     # Bitbucket username for sending pull requests
-    BITBUCKETSERVER_CREDENTIALS = {}
+    BITBUCKETSERVER_CREDENTIALS: ClassVar[dict] = {}
 
     # Bitbucket username for sending pull requests
-    BITBUCKETCLOUD_CREDENTIALS = {}
+    BITBUCKETCLOUD_CREDENTIALS: ClassVar[dict] = {}
 
     SSH_EXTRA_ARGS = ""
 

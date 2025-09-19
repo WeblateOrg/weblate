@@ -1,3 +1,5 @@
+.. _cmp-resource:
+
 Compose Multiplatform resources
 -------------------------------
 

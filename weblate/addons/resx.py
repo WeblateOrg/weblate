@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar
 
 from django.utils.translation import gettext_lazy
 from translate.storage.resx import RESXFile
@@ -12,6 +12,7 @@ from translate.storage.resx import RESXFile
 from weblate.addons.cleanup import BaseCleanupAddon
 
 if TYPE_CHECKING:
+    from weblate.addons.base import CompatDict
     from weblate.trans.models import Component, Translation, Unit
 
     IndexType = dict[int, Unit]
@@ -26,7 +27,9 @@ class ResxUpdateAddon(BaseCleanupAddon):
         "string."
     )
     icon = "refresh.svg"
-    compat = {"file_format": {"resx"}}
+    compat: ClassVar[CompatDict] = {
+        "file_format": {"resx"},
+    }
 
     @staticmethod
     def build_index(storage) -> IndexType:

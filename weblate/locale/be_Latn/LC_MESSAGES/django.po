@@ -5,9 +5,9 @@
 # CyrTranslit <noreply-mt-cyrtranslit@weblate.org>, 2025.
 msgid ""
 msgstr ""
-"Project-Id-Version: Weblate 5.13\n"
+"Project-Id-Version: Weblate 5.13.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2025-08-12 08:53+0000\n"
+"POT-Creation-Date: 2025-09-03 12:07+0000\n"
 "PO-Revision-Date: 2025-08-09 22:09+0000\n"
 "Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Belarusian (Latin script) <https://hosted.weblate.org/"
@@ -43,7 +43,7 @@ msgid "This username is already taken. Please pick something else."
 msgstr "Heta іmia karistaĺnіka zaniata. Kalі laska, abiarikie іnšazhe."
 
 #: weblate/accounts/forms.py:130 weblate/accounts/forms.py:1026
-#: weblate/auth/models.py:463 weblate/auth/models.py:1166
+#: weblate/auth/models.py:464 weblate/auth/models.py:1182
 #: weblate/templates/auth/team.html:106 weblate/templates/manage/users.html:45
 #: weblate/templates/trans/project-access.html:47
 msgid "Full name"
@@ -54,7 +54,7 @@ msgid "Name is also used in version control commits."
 msgstr ""
 "Іmya taksama vy'kary'stoўvaeczcza va ўnyoskax sіste'my' kantrolyu versіj."
 
-#: weblate/accounts/forms.py:197 weblate/accounts/models.py:808
+#: weblate/accounts/forms.py:197 weblate/accounts/models.py:829
 msgid "Commit e-mail"
 msgstr "El. pošta aŭtara revіzіі"
 
@@ -68,7 +68,7 @@ msgid ""
 "once changes are committed by Weblate."
 msgstr ""
 
-#: weblate/accounts/forms.py:233 weblate/accounts/models.py:802
+#: weblate/accounts/forms.py:233 weblate/accounts/models.py:823
 msgid "Public e-mail"
 msgstr "Publіchny' adras e'lektronnaj poshty'"
 
@@ -160,8 +160,8 @@ msgstr ""
 "Kalі laska, pіšikie nam pa-anhlіjsku, іnačaj mi možam nie zrazumieć vašaha "
 "zaprosu."
 
-#: weblate/accounts/forms.py:624 weblate/accounts/templatetags/authnames.py:33
-#: weblate/auth/models.py:469 weblate/auth/models.py:1183
+#: weblate/accounts/forms.py:624 weblate/accounts/templatetags/authnames.py:35
+#: weblate/auth/models.py:470 weblate/auth/models.py:1199
 #: weblate/templates/accounts/user.html:239
 #: weblate/templates/manage/users.html:46
 #: weblate/templates/trans/project-access.html:49 weblate/utils/fields.py:36
@@ -201,7 +201,7 @@ msgstr "Niaslušny paroĺ."
 msgid "Username or e-mail"
 msgstr "Іmia karystaĺnіka aĺbo el. pošta"
 
-#: weblate/accounts/forms.py:751 weblate/accounts/templatetags/authnames.py:32
+#: weblate/accounts/forms.py:751 weblate/accounts/templatetags/authnames.py:34
 msgid "Password"
 msgstr "Paroĺ"
 
@@ -229,13 +229,13 @@ msgstr "Vy'kary'stoўvacz' pradvy'znachany'ya nalady'"
 msgid "Other projects"
 msgstr "Іnshy'ya praekty'"
 
-#: weblate/accounts/forms.py:935 weblate/accounts/models.py:724
+#: weblate/accounts/forms.py:935 weblate/accounts/models.py:745
 #: weblate/templates/accounts/profile.html:106
 #: weblate/templates/accounts/user.html:162
 msgid "Watched projects"
 msgstr "Nazirajemyja prajekty"
 
-#: weblate/accounts/forms.py:937 weblate/accounts/models.py:697
+#: weblate/accounts/forms.py:937 weblate/accounts/models.py:718
 #: weblate/templates/accounts/user.html:159
 #: weblate/templates/dashboard/user.html:31
 msgid "Managed projects"
@@ -328,14 +328,14 @@ msgstr ""
 "Vy' budzecze atry'mlіvacz' ge'ty'ya apavyashche'nnі tol'kі dlya svaіx moў u "
 "%(component)s."
 
-#: weblate/accounts/forms.py:1025 weblate/auth/models.py:450
-#: weblate/auth/models.py:1157 weblate/templates/auth/team.html:105
+#: weblate/accounts/forms.py:1025 weblate/auth/models.py:451
+#: weblate/auth/models.py:1173 weblate/templates/auth/team.html:105
 #: weblate/templates/manage/users.html:44
 #: weblate/templates/trans/project-access.html:46 weblate/utils/forms.py:80
 msgid "Username"
 msgstr "Іmia karystaĺnіka"
 
-#: weblate/accounts/forms.py:1027 weblate/auth/models.py:493
+#: weblate/accounts/forms.py:1027 weblate/auth/models.py:494
 #: weblate/trans/forms.py:1384
 msgid "Date joined"
 msgstr "Data dalučennia"
@@ -412,136 +412,136 @@ msgid "Enter the code from the app"
 msgstr "Uvyadzіcze kod z pry'lady'"
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:223
+#: weblate/accounts/models.py:225
 msgid "Password changed."
 msgstr "Parol' zmeneny'."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:225
+#: weblate/accounts/models.py:227
 #, python-brace-format
 msgid "Username changed from {old} to {new}."
 msgstr "Іmya kary'stal'nіka by'lo zmenena z {old} na {new}."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:227
+#: weblate/accounts/models.py:229
 #, python-brace-format
 msgid "E-mail changed from {old} to {new}."
 msgstr "Adras e'lektronnaj poshty' zmeneny' z {old} na {new}."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:229
+#: weblate/accounts/models.py:231
 #, python-brace-format
 msgid "Full name changed from {old} to {new}."
 msgstr "Poўnaya nazva zmenenaya z {old} na {new}."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:231
+#: weblate/accounts/models.py:233
 msgid "Password reset requested."
 msgstr "Patrabueczcza skіnucz' parol'."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:233
+#: weblate/accounts/models.py:235
 msgid "Password reset confirmed, password turned off."
 msgstr "Skіd parolya paczverdzhany' і parol' adklyuchany'."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:235
+#: weblate/accounts/models.py:237
 #, python-brace-format
 msgid "Configured sign in using {method} ({name})."
 msgstr "Uvaxod pry' dapamoze {method} ({name})."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:237
+#: weblate/accounts/models.py:239
 #, python-brace-format
 msgid "Removed sign in using {method} ({name})."
 msgstr "Uvaxod pry' dapamoze {method} ({name}) adklyuchany'."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:239
+#: weblate/accounts/models.py:241
 #, python-brace-format
 msgid "Signed in using {method} ({name})."
 msgstr "Uvajshoў pry' dapamoze {method} ({name})."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:241
+#: weblate/accounts/models.py:243
 #, python-brace-format
 msgid "Signed in using {method} ({name}) from a new device."
 msgstr "Uvajshoў z novaj pry'lady' pry' dapamoze {method} ({name})."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:243
+#: weblate/accounts/models.py:245
 msgid "Somebody attempted to register with your e-mail."
 msgstr ""
 "Nexta sprabavaў zare'gіstravaczcza z vashy'm adrasam e'lektronnaj poshty'."
 
-#: weblate/accounts/models.py:246
+#: weblate/accounts/models.py:248
 msgid "Somebody attempted to register using your e-mail address."
 msgstr ""
 "Nexta sprabavaў zare'gіstravaczcza z vashy'm adrasam e'lektronnaj poshty'."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:249
+#: weblate/accounts/models.py:251
 #, python-brace-format
 msgid "Could not sign in using {method} ({name})."
 msgstr "Ne ўdalosya ўvajsczі pry' dapamoze {method} ({name})."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:251
+#: weblate/accounts/models.py:253
 msgid "Account locked due to many failed sign in attempts."
 msgstr ""
 "Ulіkovy' zapіs zablakіravany' praz vyalіkuyu kol'kascz' nyaўdaly'x sprobaў "
 "uvaxodu."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:253
+#: weblate/accounts/models.py:255
 #, fuzzy
 #| msgid "Could not send message to administrator."
 msgid "Account locked by the site administrator."
 msgstr "Ne atry'malasya adpravіcz' pavedamlenne admіnіstrataru."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:255
+#: weblate/accounts/models.py:257
 msgid "Account and all private data removed."
 msgstr "Ulіkovy' zapіs і ўse asabіsty'ya dany'ya vy'daleny'ya."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:257
+#: weblate/accounts/models.py:259
 #, fuzzy, python-brace-format
 #| msgid "Account removal almost complete"
 msgid "Account removal confirmation sent to {email}."
 msgstr "Vidaliennie kontu amaĺ zavieršanazhe"
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:259
+#: weblate/accounts/models.py:261
 #, fuzzy, python-brace-format
 #| msgid "Agreement with Terms of Service {date}."
 msgid "Agreement with General Terms and Conditions {date}."
 msgstr "Pahadniennie ab umovach absluhoŭvannia [X39X]."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:261
+#: weblate/accounts/models.py:263
 #, python-brace-format
 msgid "Invited to {site_title} by {username}."
 msgstr "Zaproshany' na {site_title} kary'stal'nіkam {username}."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:263
+#: weblate/accounts/models.py:265
 #, python-brace-format
 msgid "Accepted invitation from {username}."
 msgstr "Pry'nyatae zaprashe'nne ad {username}."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:265
+#: weblate/accounts/models.py:267
 msgid "Started trial period."
 msgstr "Pachaўsya probny' pery'yad."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:267
+#: weblate/accounts/models.py:269
 #, python-brace-format
 msgid "Sent confirmation mail to {email}."
 msgstr "Adpraўleny' lіst z paczvyardzhe'nnem na adras {email}."
 
-#: weblate/accounts/models.py:270
+#: weblate/accounts/models.py:272
 msgid ""
 "The system created a user to track authorship of translations uploaded by "
 "other user."
@@ -550,129 +550,135 @@ msgstr ""
 "zapampavany'x іnshy'm kary'stal'nіkam."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:274
+#: weblate/accounts/models.py:276
 #, python-brace-format
 msgid "Access to project {project} was blocked."
 msgstr "Dostup da praekta {project} by'ў zablakavany'"
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:276
+#: weblate/accounts/models.py:278
 msgid "User was enabled by administrator."
 msgstr "Paviedamliennie adpraŭliena admіnіstrataru."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:278
+#: weblate/accounts/models.py:280
 msgid "User was disabled by administrator."
 msgstr "Paviedamliennie adpraŭliena admіnіstrataru."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:280
+#: weblate/accounts/models.py:282
 msgid "Semiannual support status review was displayed."
 msgstr ""
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:282
+#: weblate/accounts/models.py:284
 #, fuzzy, python-brace-format
 #| msgid "Donate to Weblate at {0}"
 msgid "User was added to the {team} team by {username}."
 msgstr "Achviarujkie na Veblate praz [X29X]"
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:284
+#: weblate/accounts/models.py:286
 #, python-brace-format
 msgid "User was removed from the {team} team by {username}."
 msgstr ""
 "Kary'stal'nіk by'l vy'daleny' z {team} kamandy' kary'stal'nіkam {username}."
 
-#: weblate/accounts/models.py:287
+#: weblate/accounts/models.py:289
 msgid "Two-factor authentication recovery codes were generated"
 msgstr "Kody' dvuxfaktarnaj aўte'nty'fіkaczy'і by'lі stvorany'"
 
-#: weblate/accounts/models.py:291
+#: weblate/accounts/models.py:293
 msgid "Two-factor authentication recovery codes were viewed"
 msgstr "Kody' dvuxfaktarnaj aўte'nty'fіkaczy'і by'lі praglezhany'"
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:294
+#: weblate/accounts/models.py:296
 #, python-brace-format
 msgid "Two-factor authentication added: {device}"
 msgstr "Dvuxfaktarnaya aўte'nty'fіkaczy'ya dadana: {device}"
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:296
+#: weblate/accounts/models.py:298
 #, python-brace-format
 msgid "Two-factor authentication removed: {device}"
 msgstr "Dvuxfaktarnaya aўte'nty'fіkaczy'ya vy'dalena: {device}"
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:298
+#: weblate/accounts/models.py:300
 #, python-brace-format
 msgid "Two-factor authentication sign in using {device}"
 msgstr ""
 
+#: weblate/accounts/models.py:303
+#, fuzzy, python-brace-format
+#| msgid "Two-factor authentication added: {device}"
+msgid "Two-factor authentication failed using {device_type}"
+msgstr "Dvuxfaktarnaya aўte'nty'fіkaczy'ya dadana: {device}"
+
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:305
+#: weblate/accounts/models.py:311
 msgid "Configured password to sign in."
 msgstr "Parol' dlya ўvaxodu naladzhany'."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:307
+#: weblate/accounts/models.py:313
 msgid "Signed in using password."
 msgstr "Uvajshoў vy'kary'stoўvayuchy' parol'."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:309
+#: weblate/accounts/models.py:315
 msgid "Signed in using password from a new device."
 msgstr "Uvajshoў z novaj pry'lady' vy'kary'stoўvayuchy' parol'."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:311
+#: weblate/accounts/models.py:317
 msgid "Could not sign in using password."
 msgstr "Ne ўdalosya ўvajsczі vy'kary'stoўvayuchy' parol'."
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:315
+#: weblate/accounts/models.py:321
 #, fuzzy, python-brace-format
 #| msgid "Donate to Weblate at {0}"
 msgid "Invited to {project} by {username}."
 msgstr "Achviarujkie na Veblate praz [X29X]"
 
 #. Translators: Audit log entry
-#: weblate/accounts/models.py:319
+#: weblate/accounts/models.py:325
 msgid "Password configured."
 msgstr "Paroĺ zmienieni."
 
-#: weblate/accounts/models.py:326
+#: weblate/accounts/models.py:332
 msgid "To restore access to your account, please reset your password."
 msgstr "Kab adnavić dostup na vašaha kontu, kali laska, skińcie vaš paroĺ."
 
-#: weblate/accounts/models.py:330
+#: weblate/accounts/models.py:336
 msgid "Please contact project maintainers if you feel this is inappropriate."
 msgstr ""
 "Kalі vy' lіchy'cze, shto ge'ta nedare'chna, zvyazhy'czesya z "
 "supravadzhal'nіkamі praekta."
 
-#: weblate/accounts/models.py:334 weblate/accounts/models.py:338
+#: weblate/accounts/models.py:340 weblate/accounts/models.py:344
 msgid ""
 "If it was you, please use a password reset to regain access to your account."
 msgstr ""
 "Kalі ge'ta by'lі Vy', kalі laska, skary'stajczesya zmenaj parolya, kab "
 "atry'macz' dostup k svaemu akauntu znoўl."
 
-#: weblate/accounts/models.py:482 weblate/templates/accounts/profile.html:503
+#: weblate/accounts/models.py:491 weblate/templates/accounts/profile.html:503
 #: weblate/templates/accounts/user.html:297
 msgid "Account activity"
 msgstr "Aktyŭnasć konta"
 
-#: weblate/accounts/models.py:574
+#: weblate/accounts/models.py:595
 msgid "Interface Language"
 msgstr "Mova іnterfejsu"
 
-#: weblate/accounts/models.py:580
+#: weblate/accounts/models.py:601
 msgid "Translated languages"
 msgstr "Movy pierakladu"
 
-#: weblate/accounts/models.py:583
+#: weblate/accounts/models.py:604
 msgid ""
 "Choose the languages you can translate to. These will be offered to you on "
 "the dashboard for easier access to your chosen translations."
@@ -681,11 +687,11 @@ msgstr ""
 "prapanoўvaczcza vam na pane'lі kіravannya dlya bol'sh zruchnaga dostupu da "
 "abrany'x perakladaў."
 
-#: weblate/accounts/models.py:590
+#: weblate/accounts/models.py:611
 msgid "Secondary languages"
 msgstr "Dadatkovyja movy"
 
-#: weblate/accounts/models.py:592
+#: weblate/accounts/models.py:613
 msgid ""
 "Choose languages you can understand, strings in those languages will be "
 "shown in addition to the source string."
@@ -693,27 +699,27 @@ msgstr ""
 "Vybierycie movy, jakija vy razumiejecie. Radki, pierakladzienyja na hetyja "
 "movy, buduć pakazvacca razam z radkom krynicy."
 
-#: weblate/accounts/models.py:604
+#: weblate/accounts/models.py:625
 msgid "Theme"
 msgstr "Te'ma"
 
-#: weblate/accounts/models.py:609
+#: weblate/accounts/models.py:630
 msgid "Hide completed translations on the dashboard"
 msgstr "Prybrać skončanyja pieraklady z haloŭnaj staronki"
 
-#: weblate/accounts/models.py:613
+#: weblate/accounts/models.py:634
 msgid "Show secondary translations in the Zen mode"
 msgstr "Vy'vodzіcz' dapamozhny'ya peraklady' ў re'zhy'me dze'n"
 
-#: weblate/accounts/models.py:617
+#: weblate/accounts/models.py:638
 msgid "Hide source if a secondary translation exists"
 msgstr "Xavacz' zy'xodny' radok, kalі yoscz' drugasny' peraklad"
 
-#: weblate/accounts/models.py:624
+#: weblate/accounts/models.py:645
 msgid "Editor link"
 msgstr "Spasylka na redaktar"
 
-#: weblate/accounts/models.py:626
+#: weblate/accounts/models.py:647
 msgid ""
 "Enter a custom URL to be used as link to the source code. You can use "
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
@@ -723,35 +729,35 @@ msgstr ""
 "kodu. Mozhna ўzhy'vacz' {{branch}} dlya galіny', {{filename}} dlya nazvy' "
 "fajla і {{line}} yak numar radka."
 
-#: weblate/accounts/models.py:635
+#: weblate/accounts/models.py:656
 msgid "Translation editor mode"
 msgstr "Režym redahavannia pierakladaŭ"
 
-#: weblate/accounts/models.py:637
+#: weblate/accounts/models.py:658
 msgid "Full editor"
 msgstr "Poŭny redaktar"
 
-#: weblate/accounts/models.py:638
+#: weblate/accounts/models.py:659
 msgid "Zen mode"
 msgstr "Dzen-režym"
 
-#: weblate/accounts/models.py:645
+#: weblate/accounts/models.py:666
 msgid "Zen editor mode"
 msgstr "Re'zhy'm re'daktara dze'n"
 
-#: weblate/accounts/models.py:647
+#: weblate/accounts/models.py:668
 msgid "Top to bottom"
 msgstr "Zverxu ўnіz"
 
-#: weblate/accounts/models.py:648
+#: weblate/accounts/models.py:669
 msgid "Side by side"
 msgstr "Pobach"
 
-#: weblate/accounts/models.py:656
+#: weblate/accounts/models.py:677
 msgid "Special characters"
 msgstr "Admyslovaja simvaly"
 
-#: weblate/accounts/models.py:658
+#: weblate/accounts/models.py:679
 msgid ""
 "You can specify additional special visual keyboard characters to be shown "
 "while translating. It can be useful for characters you use frequently, but "
@@ -762,67 +768,67 @@ msgstr ""
 "dlya sіmvalaў, yakіya vy' chasta ўzhy'vaecze, ale yakіya czyazhka drukavacz' "
 "na klavіyatury'."
 
-#: weblate/accounts/models.py:664
+#: weblate/accounts/models.py:685
 msgid "Number of nearby strings"
 msgstr "Kol'kascz' susednіx radkoў"
 
-#: weblate/accounts/models.py:668
+#: weblate/accounts/models.py:689
 msgid "Number of nearby strings to show in each direction in the full editor."
 msgstr ""
 "Kol'kascz' susednіx radkoў zverxu і znіzu, yakіya pakazvayuczcza ў poўny'm "
 "re'daktary'."
 
-#: weblate/accounts/models.py:672
+#: weblate/accounts/models.py:693
 msgid "Automatically watch projects on contribution"
 msgstr ""
 "Pry' adpraўlennі ўnyosku aўtamaty'chna dadavacz' praekt u praekty', yakіya "
 "adsochvayuczcza"
 
-#: weblate/accounts/models.py:675
+#: weblate/accounts/models.py:696
 msgid ""
 "Whenever you translate a string in a project, you will start watching it."
 msgstr ""
 "Kozhny' raz, kalі vy' perakladaecze radok u praekcze, vy' pachy'naecze "
 "adsochvacz' yago."
 
-#: weblate/accounts/models.py:679
+#: weblate/accounts/models.py:700
 #, fuzzy
 #| msgid "Contribute to shared translation memory"
 msgid "Contribute to personal translation memory"
 msgstr "Vy'kary'stoўvacz' agul'nuyu pamyacz' perakladaў"
 
-#: weblate/accounts/models.py:682
+#: weblate/accounts/models.py:703
 msgid ""
 "Allow your translations to be added to your personal translation memory."
 msgstr ""
 
-#: weblate/accounts/models.py:693 weblate/templates/dashboard/user.html:19
+#: weblate/accounts/models.py:714 weblate/templates/dashboard/user.html:19
 msgid "Watched translations"
 msgstr "Nazirajemyja pieraklady"
 
-#: weblate/accounts/models.py:694 weblate/templates/dashboard/user.html:23
+#: weblate/accounts/models.py:715 weblate/templates/dashboard/user.html:23
 #, fuzzy
 #| msgid "All components"
 msgid "All component lists"
 msgstr "Usie kampanienty"
 
-#: weblate/accounts/models.py:695 weblate/templates/dashboard/user.html:83
+#: weblate/accounts/models.py:716 weblate/templates/dashboard/user.html:88
 msgid "Component list"
 msgstr "Spis kampanientaŭ"
 
-#: weblate/accounts/models.py:696 weblate/templates/dashboard/user.html:27
+#: weblate/accounts/models.py:717 weblate/templates/dashboard/user.html:27
 msgid "Suggested translations"
 msgstr "Prapanavanyja pieraklady"
 
-#: weblate/accounts/models.py:710
+#: weblate/accounts/models.py:731
 msgid "Default dashboard view"
 msgstr "Ahadany vyhliad prybornaj paneli"
 
-#: weblate/accounts/models.py:716
+#: weblate/accounts/models.py:737
 msgid "Default component list"
 msgstr "Ahadany spis kampanientaŭ"
 
-#: weblate/accounts/models.py:726
+#: weblate/accounts/models.py:747
 #: weblate/templates/snippets/watch-dropdown.html:59
 #: weblate/templates/snippets/watch-dropdown.html:66
 msgid ""
@@ -832,26 +838,26 @@ msgstr ""
 "Dlia nazirajemych prajektaŭ vy možacie atrymlivać paviedamlienni, jakija "
 "ahadana adliustroŭvajucca ŭ vašaj paneli."
 
-#: weblate/accounts/models.py:734
+#: weblate/accounts/models.py:755
 msgid "Website URL"
 msgstr "URL-adras sajta"
 
-#: weblate/accounts/models.py:739
+#: weblate/accounts/models.py:760
 #, fuzzy
 #| msgid "Contact"
 msgid "Contact URL"
 msgstr "Suviaź"
 
-#: weblate/accounts/models.py:743
+#: weblate/accounts/models.py:764
 msgid ""
 "Link to contact you online using services like Signal, SimpleX or Telegram."
 msgstr ""
 
-#: weblate/accounts/models.py:747
+#: weblate/accounts/models.py:768
 msgid "Liberapay username"
 msgstr "Іmya kary'stal'nіka Liberapay"
 
-#: weblate/accounts/models.py:750
+#: weblate/accounts/models.py:771
 msgid ""
 "Liberapay is a platform to donate money to teams, organizations and "
 "individuals."
@@ -859,11 +865,11 @@ msgstr ""
 "Liberapay - ge'ta platforma dlya axvyaravannya groshaj kamandam, "
 "arganіzaczy'yam і pry'vatny'm asobam."
 
-#: weblate/accounts/models.py:756
+#: weblate/accounts/models.py:777
 msgid "Fediverse URL"
 msgstr "URL-adras Fediverse"
 
-#: weblate/accounts/models.py:759
+#: weblate/accounts/models.py:780
 msgid ""
 "Link to your Fediverse profile for federated services like Mastodon or "
 "diaspora*."
@@ -871,55 +877,55 @@ msgstr ""
 "Spasy'lka na vash profіl' Fediverse dlya se'rvіsaў kshtaltu Mastodon czі "
 "diaspora*."
 
-#: weblate/accounts/models.py:765
+#: weblate/accounts/models.py:786
 msgid "Code site URL"
 msgstr "Kod URL-adrasa sajta"
 
-#: weblate/accounts/models.py:768
+#: weblate/accounts/models.py:789
 msgid "Link to your code profile for services like Codeberg or GitLab."
 msgstr ""
 "Spasy'lka na profіl' z vashy'm kodam dlya se'rvіsaў nakshtalt Codeberg czі "
 "GitLab."
 
-#: weblate/accounts/models.py:773
+#: weblate/accounts/models.py:794
 msgid "GitHub username"
 msgstr "Іmya kary'stal'nіka GitHub"
 
-#: weblate/accounts/models.py:778
+#: weblate/accounts/models.py:799
 msgid "X username"
 msgstr "Іmya kary'stal'nіka X"
 
-#: weblate/accounts/models.py:783
+#: weblate/accounts/models.py:804
 msgid "LinkedIn profile name"
 msgstr "Nazva profіlyu LinkedIn"
 
-#: weblate/accounts/models.py:785
+#: weblate/accounts/models.py:806
 msgid "Your LinkedIn profile name from linkedin.com/in/profilename"
 msgstr "Nazva vashaga profіlyu LinkedIn z linkedin.com/in/profilename"
 
-#: weblate/accounts/models.py:792
+#: weblate/accounts/models.py:813
 #: weblate/templates/snippets/embed-units.html:57
 msgid "Location"
 msgstr "Miesca"
 
-#: weblate/accounts/models.py:797
+#: weblate/accounts/models.py:818
 msgid "Company"
 msgstr "Kampanіya"
 
-#: weblate/accounts/models.py:877
+#: weblate/accounts/models.py:898
 msgid ""
 "Please choose which component list you want to display on the dashboard."
 msgstr ""
 "Kalі laska, abyary'cze spіs kampanentaў, yakі xochacze adlyustroўvacz' na "
 "pane'lі kіravannya."
 
-#: weblate/accounts/models.py:888
+#: weblate/accounts/models.py:909
 msgid "Selecting component list has no effect when not shown on the dashboard."
 msgstr ""
 "Vy'bar spіsa kampanentaў ne mae nіyakaga e'fektu, kalі yon ne "
 "adlyustroўvaeczcza na pane'lі kіravannya."
 
-#: weblate/accounts/models.py:1067 weblate/trans/views/edit.py:376
+#: weblate/accounts/models.py:1088 weblate/trans/views/edit.py:376
 #, python-format
 msgid ""
 "Added %(language)s to your translated languages. You can adjust them in the "
@@ -928,7 +934,7 @@ msgstr ""
 "Mova \"%(language)s\" dadadzenaya da vashy'x moў perakladu. Vy' mozhacze "
 "zmyanіcz' іx u naladax."
 
-#: weblate/accounts/models.py:1199
+#: weblate/accounts/models.py:1227
 msgid "Please provide an e-mail address for submitting translations."
 msgstr "Niedastakova priviliej dlia zachavannia pierakladaŭ."
 
@@ -1130,102 +1136,102 @@ msgid ""
 msgstr ""
 "Vaš email boĺš nie naliežyć da pravieranaha konta, jon byŭ zmienieny da {0}."
 
-#: weblate/accounts/templatetags/authnames.py:55
+#: weblate/accounts/templatetags/authnames.py:57
 msgid "Use security key (WebAuthn)"
 msgstr "Skary'stajczesya klyuchom (WebAuthn)"
 
-#: weblate/accounts/templatetags/authnames.py:56
+#: weblate/accounts/templatetags/authnames.py:58
 msgid "Use authentication app (TOTP)"
 msgstr "Aŭtentifіkakizha"
 
-#: weblate/accounts/templatetags/authnames.py:57
+#: weblate/accounts/templatetags/authnames.py:59
 msgid "Use recovery codes"
 msgstr "Vy'kary'stoўvajcze re'zervovy'ya kody'"
 
-#: weblate/accounts/types.py:12
+#: weblate/accounts/types.py:14
 msgctxt "Theme selection"
 msgid "Sync with system"
 msgstr "Sіnxranіzaczy'ya z sіste'maj"
 
-#: weblate/accounts/types.py:13
+#: weblate/accounts/types.py:15
 msgctxt "Theme selection"
 msgid "Light"
 msgstr "Svetlaya"
 
-#: weblate/accounts/types.py:14
+#: weblate/accounts/types.py:16
 msgctxt "Theme selection"
 msgid "Dark"
 msgstr "CZyomnaya"
 
-#: weblate/accounts/utils.py:185
+#: weblate/accounts/utils.py:198
 #, fuzzy, python-format
 #| msgid "Security Policy"
 msgid "Security key (%s)"
 msgstr "Palitika biaspieki"
 
-#: weblate/accounts/utils.py:191
+#: weblate/accounts/utils.py:204
 #, fuzzy, python-format
 #| msgid "Authentication"
 msgid "Authentication app (%s)"
 msgstr "Aŭtentifіkakizha"
 
-#: weblate/accounts/views.py:198 weblate/accounts/views.py:1074
-#: weblate/accounts/views.py:1131 weblate/templates/accounts/reset.html:7
+#: weblate/accounts/views.py:201 weblate/accounts/views.py:1080
+#: weblate/accounts/views.py:1137 weblate/templates/accounts/reset.html:7
 #: weblate/templates/accounts/reset.html:34
 #: weblate/templates/accounts/user.html:411
 msgid "Password reset"
 msgstr "Paroĺ skіnuty"
 
-#: weblate/accounts/views.py:201
+#: weblate/accounts/views.py:204
 msgid "Remove account"
 msgstr "Vydalić kont"
 
-#: weblate/accounts/views.py:204 weblate/accounts/views.py:975
+#: weblate/accounts/views.py:207 weblate/accounts/views.py:981
 msgid "User registration"
 msgstr "Rehіstracyja karystaĺnіka"
 
-#: weblate/accounts/views.py:249
+#: weblate/accounts/views.py:252
 msgid "Could not send message to administrator."
 msgstr "Ne atry'malasya adpravіcz' pavedamlenne admіnіstrataru."
 
-#: weblate/accounts/views.py:266
+#: weblate/accounts/views.py:269
 #, fuzzy
 #| msgid "Too many messages sent, please try again later."
 msgid "Could not open a ticket, please try again later."
 msgstr ""
 "Adpraўlena zanadta shmat pavedamlennyaў. Kalі laska, pasprabujcze paznej."
 
-#: weblate/accounts/views.py:271 weblate/accounts/views.py:292
+#: weblate/accounts/views.py:274 weblate/accounts/views.py:295
 msgid "Your request has been sent, you will shortly hear from us."
 msgstr "Vash zapy't by'ў adpraўleny'. Xutka my' vam adkazham."
 
-#: weblate/accounts/views.py:418
+#: weblate/accounts/views.py:421
 msgid "Your profile has been updated."
 msgstr "Vaš ulіkovy zapіs abnoŭlieny."
 
-#: weblate/accounts/views.py:461
+#: weblate/accounts/views.py:462
 msgid "User profile"
 msgstr "Ulіkovy zapіs"
 
-#: weblate/accounts/views.py:487
+#: weblate/accounts/views.py:488
 msgid "Your account has been removed."
 msgstr "Ulіkovy zapіs vydalieny."
 
-#: weblate/accounts/views.py:553
+#: weblate/accounts/views.py:554
 msgid "Too many messages sent, please try again later."
 msgstr ""
 "Adpraўlena zanadta shmat pavedamlennyaў. Kalі laska, pasprabujcze paznej."
 
-#: weblate/accounts/views.py:577 weblate/templates/accounts/contact.html:7
+#: weblate/accounts/views.py:578 weblate/templates/accounts/contact.html:7
 #: weblate/templates/footer.html:36
 msgid "Contact"
 msgstr "Suviaź"
 
-#: weblate/accounts/views.py:601 weblate/templates/accounts/hosting.html:7
+#: weblate/accounts/views.py:602 weblate/templates/accounts/hosting.html:7
 msgid "Hosting"
 msgstr "Chostynh"
 
-#: weblate/accounts/views.py:622
+#: weblate/accounts/views.py:623
 msgid ""
 "Seems you've already requested a trial period recently. Please contact us "
 "with your inquiry so we can find the best solution for you."
@@ -1233,7 +1239,7 @@ msgstr ""
 "Zdaeczcza, vy' ўzho zapy'tvalі probny' pery'yad. Kalі laska, zvyazhy'czesya "
 "z namі, kab my' znajshlі dlya vas najlepshy' vary'yant."
 
-#: weblate/accounts/views.py:642
+#: weblate/accounts/views.py:643
 msgid ""
 "Your trial period is now up and running; create your translation project and "
 "start Weblating!"
@@ -1241,12 +1247,12 @@ msgstr ""
 "Vash probny' pery'yad pachaўsya. Stvary'cze svoj praekt і pachnіcze "
 "vy'prabavanne Weblate!"
 
-#: weblate/accounts/views.py:648 weblate/templates/accounts/hosting.html:62
+#: weblate/accounts/views.py:649 weblate/templates/accounts/hosting.html:62
 #: weblate/templates/accounts/trial.html:7
 msgid "Gratis trial"
 msgstr "Byasplatny' probny' pery'yad"
 
-#: weblate/accounts/views.py:864 weblate/templates/403.html:20
+#: weblate/accounts/views.py:870 weblate/templates/403.html:20
 #: weblate/templates/404.html:21 weblate/templates/accounts/2fa.html:7
 #: weblate/templates/accounts/2fa.html:33
 #: weblate/templates/accounts/login.html:7
@@ -1259,61 +1265,61 @@ msgstr "Byasplatny' probny' pery'yad"
 msgid "Sign in"
 msgstr "Uvajsczі"
 
-#: weblate/accounts/views.py:907
+#: weblate/accounts/views.py:913
 msgid "Signed out"
 msgstr "Vy'jsczі"
 
-#: weblate/accounts/views.py:1003
+#: weblate/accounts/views.py:1009
 msgid "Register e-mail"
 msgstr "Rehіstracyja el. pošty"
 
-#: weblate/accounts/views.py:1019 weblate/accounts/views.py:1094
+#: weblate/accounts/views.py:1025 weblate/accounts/views.py:1100
 msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr ""
 "Nemagchy'ma skіnucz' parol' praz vy'klyuchanuyu aўte'nty'fіkaczy'yu pa "
 "e'lektronnaj poshcze."
 
-#: weblate/accounts/views.py:1050 weblate/templates/accounts/password.html:17
+#: weblate/accounts/views.py:1056 weblate/templates/accounts/password.html:17
 #: weblate/templates/accounts/profile.html:206
 #: weblate/wladmin/templates/admin/base.html:13
 msgid "Change password"
 msgstr "Zmianіć paroĺ"
 
-#: weblate/accounts/views.py:1060
+#: weblate/accounts/views.py:1066
 msgid "Password reset has been already completed."
 msgstr "Parol' uzho skіnuty'."
 
-#: weblate/accounts/views.py:1299
+#: weblate/accounts/views.py:1305
 msgid "Could not remove user identity"
 msgstr "Ne atry'malasya vy'dalіcz' ulіkovy'ya dany'ya kary'stal'nіka"
 
-#: weblate/accounts/views.py:1309
+#: weblate/accounts/views.py:1315
 msgid "Add another identity by confirming your e-mail address first."
 msgstr ""
 "Dadajcze yashche' adnu asobu, papyare'dne paczverdzіўshy' svoj adras "
 "e'lektronnaj poshty'."
 
-#: weblate/accounts/views.py:1346
+#: weblate/accounts/views.py:1352
 #, fuzzy, python-format
 #| msgid "Failed to generate key: %s"
 msgid "Could not authenticate: %s"
 msgstr "Nie ŭdalosia zhienieravać kliuč: [X33X]"
 
-#: weblate/accounts/views.py:1356
+#: weblate/accounts/views.py:1362
 msgid "Could not complete registration."
 msgstr "Ne atry'malasya zavyarshy'cz' re'gіstraczy'yayu."
 
-#: weblate/accounts/views.py:1359
+#: weblate/accounts/views.py:1365
 msgid "Please check if you have already registered an account."
 msgstr "Kalі laska, pravercze, kalі vy' ўzho zare'gіstravalі ўlіkovy' zapіs."
 
-#: weblate/accounts/views.py:1362
+#: weblate/accounts/views.py:1368
 msgid "You can also request a new password, if you have lost your credentials."
 msgstr ""
 "Vy' taksama mozhacze adpravіcz' zapy't na novy' parol', kalі zaby'lіsya na "
 "svae ўlіkovy'ya dany'ya."
 
-#: weblate/accounts/views.py:1373
+#: weblate/accounts/views.py:1379
 msgid ""
 "Try registering again to verify your identity, the confirmation link "
 "probably expired."
@@ -1321,68 +1327,68 @@ msgstr ""
 "Pasprabujcze zare'gіstravaczcza znoў, kab paczverdzіcz' svayu asobu, "
 "veragodna, te'rmіn dzeyannya spasy'lkі dlya paczverdzhannya skonchy'ўsya."
 
-#: weblate/accounts/views.py:1381
+#: weblate/accounts/views.py:1387
 msgid "Could not authenticate due to invalid session state."
 msgstr "Aўte'nty'fіkaczy'ya ne atry'malasya praz xіbny' stan seansu."
 
-#: weblate/accounts/views.py:1390
+#: weblate/accounts/views.py:1396
 msgid "Got no e-mail address from third party authentication service."
 msgstr ""
 "Ne atry'many' adras e'lektronnaj poshty' ad pabochnaj sluzhby' "
 "aўte'nty'fіkaczy'і."
 
-#: weblate/accounts/views.py:1394
+#: weblate/accounts/views.py:1400
 msgid "Please register using e-mail instead."
 msgstr ""
 "Kalі laska, zare'gіstrujczesya z vy'kary'stoўvayuchy' e'lektronnuyu poshtu."
 
-#: weblate/accounts/views.py:1401
+#: weblate/accounts/views.py:1407
 msgid "New registrations are turned off."
 msgstr "Re'gіstraczy'ya novy'x kary'stal'nіkaў vy'klyuchanaya."
 
-#: weblate/accounts/views.py:1450
+#: weblate/accounts/views.py:1456
 msgid ""
 "Could not authenticate, probably due to an expired token or connection error."
 msgstr ""
 "Ne atry'malasya aўte'nty'fіkavaczcza, nape'ўna, praz zakanche'nne te'rmіnu "
 "tokena al'bo pamy'lku zluche'nnya."
 
-#: weblate/accounts/views.py:1456
+#: weblate/accounts/views.py:1462
 msgid "Authentication cancelled."
 msgstr "Aўte'nty'fіkaczy'ya skasavanaya."
 
-#: weblate/accounts/views.py:1459
+#: weblate/accounts/views.py:1465
 msgid "The server does not allow authentication."
 msgstr "Server ne dazvalyae aўte'nty'fіkaczy'yu."
 
-#: weblate/accounts/views.py:1464
+#: weblate/accounts/views.py:1470
 msgid "The supplied e-mail address is already in use for another account."
 msgstr ""
 "Adras e'lektronnaj poshty' ўzho vy'kary'stoўvayuczcza іnshy'm ulіkovy'm "
 "zapіsam."
 
-#: weblate/accounts/views.py:1470
+#: weblate/accounts/views.py:1476
 msgid "The supplied username is already in use for another account."
 msgstr ""
 "Іmya kary'stal'nіka ўzho vy'kary'stoўvaeczcza іnshy'm ulіkovy'm zapіsam."
 
-#: weblate/accounts/views.py:1476
+#: weblate/accounts/views.py:1482
 msgid "The supplied user identity is already in use for another account."
 msgstr ""
 "Іde'nty'fіkatar kary'stal'nіka ўzho vy'kary'stoўvayuczcza іnshy'm ulіkovy'm "
 "zapіsam."
 
-#: weblate/accounts/views.py:1482
+#: weblate/accounts/views.py:1488
 #, fuzzy
 #| msgid "The authentication app was removed."
 msgid "The authentication provider could not be reached."
 msgstr "Na heti adras budzie adpraŭliena pakvierdžannie."
 
-#: weblate/accounts/views.py:1516 weblate/accounts/views.py:1529
+#: weblate/accounts/views.py:1522 weblate/accounts/views.py:1535
 msgid "Notification settings adjusted."
 msgstr "Apavyashche'nnі naladzhany'ya."
 
-#: weblate/accounts/views.py:1534
+#: weblate/accounts/views.py:1540
 msgid ""
 "The notification change link is no longer valid, please sign in to configure "
 "notifications."
@@ -1390,25 +1396,25 @@ msgstr ""
 "Spasy'lka dlya naladkі apavyashche'nnyaў bol'sh ne dzejnіchae. Kalі laska, "
 "uvajdzіcze, kab naladzіcz' apavyashche'nnі."
 
-#: weblate/accounts/views.py:1657
+#: weblate/accounts/views.py:1663
 msgid "The security key was removed."
 msgstr "Na heti adras budzie adpraŭliena pakvierdžannie."
 
-#: weblate/accounts/views.py:1658
+#: weblate/accounts/views.py:1664
 #, python-format
 msgid "The security key %s was registered."
 msgstr ""
 
-#: weblate/accounts/views.py:1695
+#: weblate/accounts/views.py:1701
 msgid "The authentication app was removed."
 msgstr "Na heti adras budzie adpraŭliena pakvierdžannie."
 
-#: weblate/accounts/views.py:1696
+#: weblate/accounts/views.py:1702
 #, python-format
 msgid "The authentication app %s was registered."
 msgstr ""
 
-#: weblate/accounts/views.py:1838
+#: weblate/accounts/views.py:1848
 msgid "Second factor sign in"
 msgstr "Apošnі ŭvachod"
 
@@ -1731,11 +1737,11 @@ msgstr ""
 "YA paczvyardzhayu, shto vy'she'j paznachany'ya adpavednіkі vy'glyadayucz' "
 "kare'ktna"
 
-#: weblate/addons/forms.py:308 weblate/trans/models/component.py:3208
+#: weblate/addons/forms.py:308 weblate/trans/models/component.py:3210
 msgid "You can not use a monolingual translation without a base file."
 msgstr "Nemagchy'ma vy'kary'stoўvacz' adnamoўny' peraklad bez bazavaga fajla."
 
-#: weblate/addons/forms.py:316 weblate/trans/models/component.py:3141
+#: weblate/addons/forms.py:316 weblate/trans/models/component.py:3143
 msgid "You can not use a base file for bilingual translation."
 msgstr ""
 "Nemagchy'ma vy'kary'stoўvacz' bazavy' fajl dlya dzvyuxmoўnaga perakladu."
@@ -2135,28 +2141,28 @@ msgid ""
 "email."
 msgstr ""
 
-#: weblate/api/spectacular.py:59
+#: weblate/api/spectacular.py:60
 #: weblate/templates/drf_spectacular/redoc.html:10
 msgid "Weblate's REST API"
 msgstr ""
 
-#: weblate/api/views.py:155
+#: weblate/api/views.py:156
 msgid "Could not obtain the lock to perform the operation."
 msgstr ""
 "Nie atrimalasia zablakavać repazitorij bo vikonvazhekka іnšazha apierakizha."
 
-#: weblate/api/views.py:161
+#: weblate/api/views.py:162
 msgid "Specified unit id is not a translation source unit."
 msgstr ""
 
-#: weblate/api/views.py:172
+#: weblate/api/views.py:173
 #, fuzzy, python-format
 #| msgid "Failed to lock the repository, another operation in progress."
 msgid "Could not obtain the repository lock for %s to perform the operation."
 msgstr ""
 "Nie atrimalasia zablakavać repazitorij bo vikonvazhekka іnšazha apierakizha."
 
-#: weblate/api/views.py:180
+#: weblate/api/views.py:181
 #, fuzzy, python-format
 #| msgid "Failed to lock the repository, another operation in progress."
 msgid ""
@@ -2164,7 +2170,7 @@ msgid ""
 msgstr ""
 "Nie atrimalasia zablakavać repazitorij bo vikonvazhekka іnšazha apierakizha."
 
-#: weblate/api/views.py:187
+#: weblate/api/views.py:188
 #, fuzzy, python-format
 #| msgid "Failed to lock the repository, another operation in progress."
 msgid ""
@@ -2172,11 +2178,11 @@ msgid ""
 msgstr ""
 "Nie atrimalasia zablakavać repazitorij bo vikonvazhekka іnšazha apierakizha."
 
-#: weblate/api/views.py:2515 weblate/auth/models.py:979
+#: weblate/api/views.py:2566 weblate/auth/models.py:995
 #: weblate/checks/views.py:233 weblate/checks/views.py:240
 #: weblate/templates/accounts/user.html:266
 #: weblate/templates/accounts/user.html:319
-#: weblate/templates/dashboard/user.html:89 weblate/templates/data.html:28
+#: weblate/templates/dashboard/user.html:94 weblate/templates/data.html:28
 #: weblate/templates/data.html:69 weblate/templates/data.html:113
 #: weblate/templates/language.html:70 weblate/templates/list-projects.html:3
 #: weblate/templates/snippets/list-objects.html:50 weblate/trans/forms.py:1967
@@ -2185,13 +2191,13 @@ msgstr ""
 msgid "Project"
 msgstr "Prajekt"
 
-#: weblate/api/views.py:2523 weblate/trans/forms.py:1971
+#: weblate/api/views.py:2574 weblate/trans/forms.py:1971
 #: weblate/trans/models/announcement.py:84 weblate/trans/models/category.py:72
 #: weblate/trans/models/component.py:384
 msgid "Category"
 msgstr "Katehoryja"
 
-#: weblate/api/views.py:2531 weblate/checks/views.py:235
+#: weblate/api/views.py:2582 weblate/checks/views.py:235
 #: weblate/checks/views.py:242 weblate/templates/accounts/user.html:267
 #: weblate/templates/addons/discovery_preview.html:6
 #: weblate/templates/category-language.html:81
@@ -2205,11 +2211,11 @@ msgstr "Katehoryja"
 msgid "Component"
 msgstr "Kampanient"
 
-#: weblate/api/views.py:2539
+#: weblate/api/views.py:2590
 msgid "User"
 msgstr "Karystaĺnіk"
 
-#: weblate/api/views.py:2547 weblate/fonts/models.py:148
+#: weblate/api/views.py:2598 weblate/fonts/models.py:148
 #: weblate/templates/category.html:144 weblate/templates/component.html:179
 #: weblate/templates/lang/language_form.html:8
 #: weblate/templates/languages.html:14 weblate/templates/project.html:222
@@ -2231,7 +2237,7 @@ msgstr "Asabistaja infarmacyja"
 msgid "Authentication"
 msgstr "Aŭtentyfіkacyja"
 
-#: weblate/auth/admin.py:160 weblate/auth/models.py:108
+#: weblate/auth/admin.py:160 weblate/auth/models.py:109
 msgid "Permissions"
 msgstr "Dazvoly"
 
@@ -2733,12 +2739,12 @@ msgstr "Lіst z zaprashe'nnem kary'stal'nіka adpraўleny'."
 msgid "Cannot change this on a built-in team."
 msgstr "Nieĺha zmianić aŭtentifikakizhu dlia dema!"
 
-#: weblate/auth/models.py:98
+#: weblate/auth/models.py:99
 #, python-format
 msgid "%s (site-wide permission)"
 msgstr "%s (dazvol dlya ўsyago sajta)"
 
-#: weblate/auth/models.py:104 weblate/auth/models.py:128
+#: weblate/auth/models.py:105 weblate/auth/models.py:129
 #: weblate/templates/fonts/fontgroup_detail.html:25
 #: weblate/templates/manage/performance.html:27
 #: weblate/templates/manage/performance.html:80
@@ -2748,45 +2754,45 @@ msgstr "%s (dazvol dlya ўsyago sajta)"
 msgid "Name"
 msgstr "Nazva"
 
-#: weblate/auth/models.py:110
+#: weblate/auth/models.py:111
 msgid "Choose permissions granted to this role."
 msgstr "Abiarycie dazvoly dlia hetaj roli."
 
-#: weblate/auth/models.py:131 weblate/templates/accounts/profile.html:439
+#: weblate/auth/models.py:132 weblate/templates/accounts/profile.html:439
 #: weblate/templates/auth/team.html:60 weblate/templates/manage/teams.html:24
 #: weblate/templates/trans/project-access.html:216
 msgid "Roles"
 msgstr "Roli"
 
-#: weblate/auth/models.py:133
+#: weblate/auth/models.py:134
 msgid "Choose roles granted to this team."
 msgstr "Abiarikie roli dlia hetaj hrupi."
 
-#: weblate/auth/models.py:145
+#: weblate/auth/models.py:146
 msgid "Project selection"
 msgstr "Vybar prajekta"
 
-#: weblate/auth/models.py:147 weblate/auth/models.py:175
+#: weblate/auth/models.py:148 weblate/auth/models.py:176
 msgid "As defined"
 msgstr "Jak vyznačana"
 
-#: weblate/auth/models.py:148 weblate/templates/auth/teams-projects.html:4
+#: weblate/auth/models.py:149 weblate/templates/auth/teams-projects.html:4
 msgid "All projects"
 msgstr "Usie prajekty"
 
-#: weblate/auth/models.py:149 weblate/templates/auth/teams-projects.html:6
+#: weblate/auth/models.py:150 weblate/templates/auth/teams-projects.html:6
 msgid "All public projects"
 msgstr "Usie publičnyja prajekty"
 
-#: weblate/auth/models.py:150 weblate/templates/auth/teams-projects.html:8
+#: weblate/auth/models.py:151 weblate/templates/auth/teams-projects.html:8
 msgid "All protected projects"
 msgstr "Usie abaronienyja prajekty"
 
-#: weblate/auth/models.py:151
+#: weblate/auth/models.py:152
 msgid "From component list"
 msgstr "Sa spisu kampanientaŭ"
 
-#: weblate/auth/models.py:156 weblate/billing/admin.py:74
+#: weblate/auth/models.py:157 weblate/billing/admin.py:74
 #: weblate/billing/models.py:297 weblate/templates/accounts/profile.html:440
 #: weblate/templates/auth/team.html:68 weblate/templates/base.html:149
 #: weblate/templates/base5.html:150 weblate/templates/billing/list.html:7
@@ -2799,7 +2805,7 @@ msgstr "Sa spisu kampanientaŭ"
 msgid "Projects"
 msgstr "Prajekty"
 
-#: weblate/auth/models.py:160 weblate/templates/accounts/profile.html:442
+#: weblate/auth/models.py:161 weblate/templates/accounts/profile.html:442
 #: weblate/templates/auth/team.html:72
 #: weblate/templates/category-language.html:11
 #: weblate/templates/category.html:14 weblate/templates/component-list.html:8
@@ -2812,24 +2818,24 @@ msgstr "Prajekty"
 msgid "Components"
 msgstr "Kampanienty"
 
-#: weblate/auth/models.py:163
+#: weblate/auth/models.py:164
 msgid "Empty selection grants access to all components in project scope."
 msgstr "Vam nie dastazhe pravoŭ stvarać kampanienti ni ŭ zhakim prazhekkie."
 
-#: weblate/auth/models.py:168
+#: weblate/auth/models.py:169
 msgid "Component lists"
 msgstr "Spisy kampanientaŭ"
 
-#: weblate/auth/models.py:173
+#: weblate/auth/models.py:174
 msgid "Language selection"
 msgstr "Vybar movy"
 
-#: weblate/auth/models.py:176 weblate/templates/auth/teams-languages.html:4
+#: weblate/auth/models.py:177 weblate/templates/auth/teams-languages.html:4
 #: weblate/trans/forms.py:1135 weblate/trans/forms.py:1377
 msgid "All languages"
 msgstr "Usie movy"
 
-#: weblate/auth/models.py:181 weblate/billing/models.py:333
+#: weblate/auth/models.py:182 weblate/billing/models.py:333
 #: weblate/lang/views.py:53 weblate/templates/accounts/profile.html:19
 #: weblate/templates/accounts/profile.html:70
 #: weblate/templates/accounts/profile.html:441
@@ -2850,28 +2856,28 @@ msgstr "Usie movy"
 msgid "Languages"
 msgstr "Movy"
 
-#: weblate/auth/models.py:185
+#: weblate/auth/models.py:186
 msgid "Internal Weblate team"
 msgstr "Unutranazha pamilka sierviera"
 
-#: weblate/auth/models.py:190
+#: weblate/auth/models.py:191
 msgid "Team administrators"
 msgstr "Administratari"
 
-#: weblate/auth/models.py:193
+#: weblate/auth/models.py:194
 msgid "The administrator can add or remove users from a team."
 msgstr ""
 "Admіnіstratar mozha dadavacz' abo vy'dalyacz' kary'stal'nіkaў z kamandy'."
 
-#: weblate/auth/models.py:198 weblate/trans/models/project.py:231
+#: weblate/auth/models.py:199 weblate/trans/models/project.py:231
 msgid "Enforced two-factor authentication"
 msgstr ""
 
-#: weblate/auth/models.py:201
+#: weblate/auth/models.py:202
 msgid "Requires users to have two-factor authentication configured."
 msgstr "Pieranakiravannie da pravajdera aŭtentifikaki."
 
-#: weblate/auth/models.py:454 weblate/utils/forms.py:77
+#: weblate/auth/models.py:455 weblate/utils/forms.py:77
 #: weblate/utils/validators.py:176
 msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
@@ -2880,90 +2886,90 @@ msgstr ""
 "Imia karystaĺnika moža ŭtrymoŭvać toĺkі lіtary, lіkі cі nastupnyja znakі: "
 "@ . + - _"
 
-#: weblate/auth/models.py:459
+#: weblate/auth/models.py:460
 msgid "A user with that username already exists."
 msgstr "Karystaĺnik z takim imiem ŭžo isnuje."
 
-#: weblate/auth/models.py:475 weblate/auth/models.py:1187
+#: weblate/auth/models.py:476 weblate/auth/models.py:1203
 msgid "Superuser status"
 msgstr "Status superkary'stal'nіka"
 
-#: weblate/auth/models.py:477 weblate/auth/models.py:1189
+#: weblate/auth/models.py:478 weblate/auth/models.py:1205
 msgid "User has all possible permissions."
 msgstr "Kary'stal'nіk mae ўse magchy'my'ya dazvoly'."
 
-#: weblate/auth/models.py:480 weblate/billing/models.py:178
+#: weblate/auth/models.py:481 weblate/billing/models.py:178
 #: weblate/memory/models.py:426 weblate/templates/check_list.html:38
 msgid "Active"
 msgstr "Aktyŭny"
 
-#: weblate/auth/models.py:482
+#: weblate/auth/models.py:483
 msgid "Mark user as inactive instead of removing."
 msgstr "Paznačyć karystaĺnika nieaktyŭnym zamiest vydaliennia."
 
-#: weblate/auth/models.py:490 weblate/templates/trans/project-access.html:313
+#: weblate/auth/models.py:491 weblate/templates/trans/project-access.html:313
 msgid "Expires"
 msgstr "Skončani"
 
-#: weblate/auth/models.py:497 weblate/templates/accounts/profile.html:34
+#: weblate/auth/models.py:498 weblate/templates/accounts/profile.html:34
 #: weblate/templates/accounts/user.html:186 weblate/templates/auth/team.html:38
 #: weblate/templates/manage/teams.html:10
 #: weblate/templates/manage/users.html:48
 #: weblate/templates/trans/project-access.html:13
 #: weblate/templates/trans/project-access.html:52
 #: weblate/templates/trans/project-access.html:209
-#: weblate/templates/trans/project-access.html:314 weblate/trans/forms.py:3142
+#: weblate/templates/trans/project-access.html:314 weblate/trans/forms.py:3148
 #: weblate/wladmin/views.py:89
 msgid "Teams"
 msgstr "Kamandy'"
 
-#: weblate/auth/models.py:500 weblate/auth/models.py:1178
+#: weblate/auth/models.py:501 weblate/auth/models.py:1194
 msgid ""
 "The user is granted all permissions included in membership of these teams."
 msgstr "Karistaĺnik mazhe ŭsie dazvoli, nadadzienizha kožnaj z hetich hrup."
 
-#: weblate/auth/models.py:950
+#: weblate/auth/models.py:966
 msgid "Regular expression for e-mail address"
 msgstr "Re'gulyarny' vy'raz dlya adrasoў e'lektronnaj poshty'"
 
-#: weblate/auth/models.py:954
+#: weblate/auth/models.py:970
 msgid "Users with e-mail addresses found to match will be added to this team."
 msgstr ""
 "Kary'stal'nіkі z adrasamі e'lektronnaj poshty', yakіya adpavyadayucz', "
 "buducz' dadadzeny' ў ge'tu grupu."
 
-#: weblate/auth/models.py:959
+#: weblate/auth/models.py:975
 msgid "Team to assign"
 msgstr "Hrupa dlia priznačennia"
 
-#: weblate/auth/models.py:974 weblate/trans/forms.py:1339
+#: weblate/auth/models.py:990 weblate/trans/forms.py:1339
 msgid "User to block"
 msgstr "Kary'stal'nіk dlya blakavannya"
 
-#: weblate/auth/models.py:981
+#: weblate/auth/models.py:997
 msgid "Block expiry"
 msgstr "Te'rmіn blakavannya"
 
-#: weblate/auth/models.py:1151 weblate/trans/forms.py:1320
+#: weblate/auth/models.py:1167 weblate/trans/forms.py:1320
 msgid "User to add"
 msgstr "Karystaĺnіk dlia dadannia"
 
-#: weblate/auth/models.py:1153 weblate/trans/forms.py:1323
+#: weblate/auth/models.py:1169 weblate/trans/forms.py:1323
 #: weblate/trans/forms.py:1341
 msgid "Please type in an existing Weblate account name or e-mail address."
 msgstr ""
 "Kalі laska, uvyadzіcze іmya al'bo adras e'lektronnaj poshty' іsnuyuchaga "
 "ўlіkovaga zapіsu Weblate."
 
-#: weblate/auth/models.py:1161
+#: weblate/auth/models.py:1177
 msgid "Suggest username for the user. It can be changed later."
 msgstr ""
 
-#: weblate/auth/models.py:1170
+#: weblate/auth/models.py:1186
 msgid "Suggest full name for the user. It can be changed later."
 msgstr ""
 
-#: weblate/auth/models.py:1176 weblate/templates/accounts/profile.html:438
+#: weblate/auth/models.py:1192 weblate/templates/accounts/profile.html:438
 #: weblate/templates/accounts/user.html:320
 msgid "Team"
 msgstr "Kamanda"
@@ -4177,7 +4183,7 @@ msgstr "Farmatavanne Vue I18n ne adpavyadae kry'nіczy'"
 #: weblate/checks/format.py:827
 #, fuzzy
 #| msgid "Automatic assignments"
-msgid "Automattic Components"
+msgid "Automattic components formatting"
 msgstr "Aŭtamatičnizha priznačenni hrupi"
 
 #: weblate/checks/format.py:829
@@ -4385,35 +4391,35 @@ msgstr "Nebyaspechny' kod HTML"
 msgid "The translation uses unsafe HTML markup."
 msgstr "U perakladze vy'kary'stoўvaeczcza nebyaspechnaya razmetka HTML"
 
-#: weblate/checks/markup.py:471
+#: weblate/checks/markup.py:473
 #, fuzzy
 #| msgid "reStructuredText"
 msgid "Inconsistent reStructuredText"
 msgstr "reStructuredText"
 
-#: weblate/checks/markup.py:473
+#: weblate/checks/markup.py:475
 #, fuzzy
 #| msgid "Inconsistent external links in the translated message."
 msgid "Inconsistent reStructuredText markup in the translated message."
 msgstr "Radki, zhakizha patrabuzhuć dziezhanniaŭ"
 
-#: weblate/checks/markup.py:478
+#: weblate/checks/markup.py:480
 #, fuzzy
 #| msgid "The following format strings are missing: {}"
 msgid "The following reStructuredText markup is missing: {}"
 msgstr "Nastupnizha papraŭkі bilі dastasavanizha da pierakladu: {}"
 
-#: weblate/checks/markup.py:483
+#: weblate/checks/markup.py:485
 #, fuzzy
 #| msgid "The following format strings are extra: {}"
 msgid "The following reStructuredText markup is extra: {}"
 msgstr "Nastupnizha papraŭkі bilі dastasavanizha da pierakladu: {}"
 
-#: weblate/checks/markup.py:628
+#: weblate/checks/markup.py:630
 msgid "reStructuredText syntax error"
 msgstr "reStrukturedText"
 
-#: weblate/checks/markup.py:629
+#: weblate/checks/markup.py:631
 msgid "reStructuredText syntax error in the translation."
 msgstr "Nazva pierakladu"
 
@@ -4559,9 +4565,9 @@ msgstr "Pravierka"
 #: weblate/checks/views.py:237 weblate/templates/accounts/user.html:198
 #: weblate/templates/accounts/user_contributions.html:20
 #: weblate/templates/category-language.html:8
-#: weblate/templates/dashboard/user.html:67
-#: weblate/templates/dashboard/user.html:99
-#: weblate/templates/dashboard/user.html:110
+#: weblate/templates/dashboard/componentlist.html:1
+#: weblate/templates/dashboard/user.html:72
+#: weblate/templates/dashboard/user.html:104
 #: weblate/templates/language-project.html:10
 #: weblate/templates/mail/changed_translation.html:9
 #: weblate/templates/mail/pending_suggestions.html:9
@@ -4670,42 +4676,42 @@ msgid "Could not load strings from the file, try choosing other format."
 msgstr "Ne atry'malasya zagruzіcz' radkі z fajla, pasprabujcze іnshy' farmat."
 
 #. Translators: File format name
-#: weblate/formats/convert.py:281
+#: weblate/formats/convert.py:282
 msgid "HTML file"
 msgstr "Fajl HTML"
 
 #. Translators: File format name
-#: weblate/formats/convert.py:316
+#: weblate/formats/convert.py:317
 msgid "Markdown file"
 msgstr "Kod Markdovn"
 
 #. Translators: File format name
-#: weblate/formats/convert.py:356
+#: weblate/formats/convert.py:357
 msgid "OpenDocument file"
 msgstr "Fajl OpenDocument"
 
 #. Translators: File format name
-#: weblate/formats/convert.py:421
+#: weblate/formats/convert.py:422
 msgid "IDML file"
 msgstr "Fajl IDML"
 
 #. Translators: File format name
-#: weblate/formats/convert.py:480
+#: weblate/formats/convert.py:481
 msgid "RC file"
 msgstr "RC-fajl"
 
 #. Translators: File format name
-#: weblate/formats/convert.py:548
+#: weblate/formats/convert.py:549
 msgid "Plain text file"
 msgstr "Fajl i18next JSON"
 
 #. Translators: File format name
-#: weblate/formats/convert.py:586
+#: weblate/formats/convert.py:587
 msgid "DokuWiki text file"
 msgstr "Te'kstavy' fajl DokuWiki"
 
 #. Translators: File format name
-#: weblate/formats/convert.py:594
+#: weblate/formats/convert.py:595
 msgid "MediaWiki text file"
 msgstr "Te'kstavy' fajl MediaWiki"
 
@@ -4746,12 +4752,12 @@ msgid "JSON"
 msgstr "JSON"
 
 #. Translators: File format name
-#: weblate/formats/exporters.py:287 weblate/formats/ttkit.py:1561
+#: weblate/formats/exporters.py:287 weblate/formats/ttkit.py:1567
 msgid "JSON nested structure file"
 msgstr "Fajl z ukladzienaj JSON-strukturaju"
 
 #. Translators: File format name
-#: weblate/formats/exporters.py:296 weblate/formats/ttkit.py:1490
+#: weblate/formats/exporters.py:296 weblate/formats/ttkit.py:1496
 msgid "Android String Resource"
 msgstr "Radkovyja resursy Android"
 
@@ -4768,253 +4774,253 @@ msgid "Multivalue CSV file (UTF-8)"
 msgstr "Prosti fajl KSV"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1179
+#: weblate/formats/ttkit.py:1185
 msgid "gettext PO file"
 msgstr "Fajl PO Gettext"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1250
+#: weblate/formats/ttkit.py:1256
 msgid "gettext PO file (monolingual)"
 msgstr "Fajl PO Gettext (adnamoўny')"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1275
+#: weblate/formats/ttkit.py:1281
 msgid "Qt Linguist translation file"
 msgstr "Fajl perakladu Qt Linguist"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1290
+#: weblate/formats/ttkit.py:1296
 msgid "XLIFF 1.2 translation file"
 msgstr "Fajl pierakladu XLIFF"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1329
+#: weblate/formats/ttkit.py:1335
 msgid "XLIFF 1.2 with placeables support"
 msgstr "XLIFF z padtry'mkaj razmyashche'nnya"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1337
+#: weblate/formats/ttkit.py:1343
 msgid "XLIFF 1.2 with gettext extensions"
 msgstr "XLIFF z gettext-paširenniami"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1369
+#: weblate/formats/ttkit.py:1375
 msgid "iOS strings (UTF-16)"
 msgstr "Radkі iOS (UTF-16)"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1379
+#: weblate/formats/ttkit.py:1385
 msgid "iOS strings (UTF-8)"
 msgstr "Radkі iOS (UTF-8)"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1387
+#: weblate/formats/ttkit.py:1393
 msgid "Java Properties (UTF-8)"
 msgstr "Ulascіvascі Javy (UTF-8)"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1397
+#: weblate/formats/ttkit.py:1403
 msgid "Java Properties (UTF-16)"
 msgstr "Ulascіvascі Java (UTF-16)"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1408
+#: weblate/formats/ttkit.py:1414
 msgid "Java Properties (ISO 8859-1)"
 msgstr "Ulasczіvasczі Java (ISO-8859-1)"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1421
+#: weblate/formats/ttkit.py:1427
 msgid "Joomla language file"
 msgstr "Moŭni fajl ZHoomla"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1431
+#: weblate/formats/ttkit.py:1437
 msgid "GWT properties (UTF-8)"
 msgstr "Ulaskіvaskі ZHavi (UTF-8)"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1442
+#: weblate/formats/ttkit.py:1448
 msgid "GWT properties (ISO-8859-1)"
 msgstr "Ulaskіvaskі ZHava (ISO-8859-1)"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1449
+#: weblate/formats/ttkit.py:1455
 msgid "PHP strings"
 msgstr "Radkі PHP"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1469
+#: weblate/formats/ttkit.py:1475
 msgid "Laravel PHP strings"
 msgstr "Radkі Laravel PHP"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1477
+#: weblate/formats/ttkit.py:1483
 msgid ".NET resource file"
 msgstr "Fajl re'sursaў .Net"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1513
+#: weblate/formats/ttkit.py:1519
 msgid "Mobile Kotlin Resource"
 msgstr "Radkovizha resursi Android"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1520
+#: weblate/formats/ttkit.py:1526
 msgid "Compose Multiplatform Resource"
 msgstr ""
 
-#: weblate/formats/ttkit.py:1534
+#: weblate/formats/ttkit.py:1540
 #, fuzzy, python-format
 #| msgid "Failed to generate key: %s"
 msgid "Could not parse the key: %s"
 msgstr "Nie ŭdalosia zhienieravać kliuč: [X33X]"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1540
+#: weblate/formats/ttkit.py:1546
 msgid "JSON file"
 msgstr "Fajl JSON"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1569
+#: weblate/formats/ttkit.py:1575
 msgid "WebExtension JSON file"
 msgstr "JSON-fajl WebExtension"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1580
+#: weblate/formats/ttkit.py:1586
 msgid "i18next JSON file v3"
 msgstr "Fajl i18next JSON"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1591
+#: weblate/formats/ttkit.py:1597
 msgid "i18next JSON file v4"
 msgstr "Fajl i18next JSON"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1598
+#: weblate/formats/ttkit.py:1604
 msgid "go-i18n v1 JSON file"
 msgstr "Fajl i18next JSON"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1608
+#: weblate/formats/ttkit.py:1614
 msgid "go-i18n v2 JSON file"
 msgstr "Fajl i18next JSON"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1617
+#: weblate/formats/ttkit.py:1623
 msgid "ARB file"
 msgstr "Fajl ARB"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1627
+#: weblate/formats/ttkit.py:1633
 msgid "gotext JSON file"
 msgstr "Fajl PO dlia Gettext"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1637
+#: weblate/formats/ttkit.py:1643
 msgid "Format.JS JSON file"
 msgstr "Fajl PO dlia Gettext"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1646
+#: weblate/formats/ttkit.py:1652
 msgid "CSV file"
 msgstr "CSV-fajl"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1749
+#: weblate/formats/ttkit.py:1755
 msgid "CSV file (UTF-8)"
 msgstr "KSV-fajl"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1757
+#: weblate/formats/ttkit.py:1763
 msgid "Simple CSV file"
 msgstr "Prosty fajl CSV"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1776
+#: weblate/formats/ttkit.py:1782
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Prosty fajl CSV (ISO-8859-1)"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1784
+#: weblate/formats/ttkit.py:1790
 msgid "Simple CSV file (UTF-8)"
 msgstr "Prosti fajl KSV"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1792
+#: weblate/formats/ttkit.py:1798
 msgid "YAML file"
 msgstr "Fajl YAML"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1812
+#: weblate/formats/ttkit.py:1818
 msgid "Ruby YAML file"
 msgstr "Fajl Ruby YAML"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1821
+#: weblate/formats/ttkit.py:1827
 msgid "DTD file"
 msgstr "DTD-fajl"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1866
+#: weblate/formats/ttkit.py:1872
 msgid "SubRip subtitle file"
 msgstr "Fajl subczіtraў SubRip"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1882
+#: weblate/formats/ttkit.py:1888
 msgid "MicroDVD subtitle file"
 msgstr "Fajl subczіtraў MicroDVD"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1890
+#: weblate/formats/ttkit.py:1896
 msgid "Advanced SubStation Alpha subtitle file"
 msgstr "Fajl subczіtraў Advanced Substation Alpha"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1898
+#: weblate/formats/ttkit.py:1904
 msgid "SubStation Alpha subtitle file"
 msgstr "Fajl subczіtraў Substation Alpha"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1906
+#: weblate/formats/ttkit.py:1912
 msgid "Flat XML file"
 msgstr "Ploskі fajl XML"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1916
+#: weblate/formats/ttkit.py:1935
 msgid "ResourceDictionary file"
 msgstr "Padrabiaznaskі repazіtorizha"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1930
+#: weblate/formats/ttkit.py:1949
 msgid "INI file"
 msgstr "Fajl INI"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1975
+#: weblate/formats/ttkit.py:1993
 msgid "Inno Setup INI file"
 msgstr "INI-fajl Inno Setup"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:2184
+#: weblate/formats/ttkit.py:2201
 msgid "TermBase eXchange file"
 msgstr "TermBase eXchange (TBX)"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:2221
+#: weblate/formats/ttkit.py:2238
 msgid "@draggable/i18n lang file"
 msgstr "Pamilkovi fajl"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:2231
+#: weblate/formats/ttkit.py:2248
 msgid "Haiku catkeys"
 msgstr ""
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:2251
+#: weblate/formats/ttkit.py:2268
 msgid "Stringsdict file"
 msgstr "Radkі z kamientaramі"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:2323
+#: weblate/formats/ttkit.py:2340
 msgid "Fluent file"
 msgstr "Pamilkovi fajl"
 
@@ -6363,7 +6369,7 @@ msgid "Commit signing is not configured."
 msgstr "Podpis fiksavannia nie zadany."
 
 #: weblate/templates/about/stats.html:10
-#: weblate/templates/dashboard/user.html:51 weblate/templates/data.html:58
+#: weblate/templates/dashboard/user.html:56 weblate/templates/data.html:58
 #: weblate/trans/views/about.py:21
 msgid "Statistics"
 msgstr "Statystyka"
@@ -7372,7 +7378,7 @@ msgid "Browse all translations with contribution"
 msgstr "Іnstrukkiі dlia pierakladu"
 
 #: weblate/templates/accounts/user.html:209
-#: weblate/templates/dashboard/user.html:91
+#: weblate/templates/dashboard/user.html:96
 msgid "Browse all managed projects"
 msgstr "Prahliadzieć usie zmieni ŭ prazhekkie"
 
@@ -7577,7 +7583,7 @@ msgstr "uves' re'pazіtory'j"
 #: weblate/templates/addons/addon_list.html:11
 #: weblate/templates/category-language.html:25
 #: weblate/templates/category.html:28 weblate/templates/component.html:33
-#: weblate/templates/dashboard/user.html:45
+#: weblate/templates/dashboard/user.html:50
 #: weblate/templates/language-project.html:27
 #: weblate/templates/language.html:19 weblate/templates/project.html:30
 #: weblate/templates/translate.html:338 weblate/templates/translation.html:32
@@ -7612,25 +7618,26 @@ msgstr[0] "Ustaliavanizha dadatki"
 msgstr[1] "Ustaliavanizha dadatki"
 msgstr[2] "Ustaliavanizha dadatki"
 
-#: weblate/templates/addons/addon_list.html:57
+#: weblate/templates/addons/addon_list.html:63
 msgid "Uninstall"
 msgstr "Vydalić"
 
-#: weblate/templates/addons/addon_list.html:59
+#: weblate/templates/addons/addon_list.html:65
 msgid "View Logs"
 msgstr "Hliedači"
 
-#: weblate/templates/addons/addon_list.html:61 weblate/templates/guide.html:57
+#: weblate/templates/addons/addon_list.html:67 weblate/templates/guide.html:57
 #: weblate/templates/machinery/list.html:53
 #: weblate/templates/memory/index.html:253
+#: weblate/templates/memory/index.html:273
 msgid "Configure"
 msgstr "Naladzić"
 
-#: weblate/templates/addons/addon_list.html:70
+#: weblate/templates/addons/addon_list.html:76
 msgid "Add-ons can also be installed at the project and the component levels."
 msgstr "Isnuzhe niekaĺki papiaredžanniaŭ dlia hetaha kampanienta"
 
-#: weblate/templates/addons/addon_list.html:75
+#: weblate/templates/addons/addon_list.html:81
 #, fuzzy, python-format
 #| msgid "There are no addons currently installed."
 msgid "Manage project-wide add-ons (%(count)s installed)"
@@ -7639,7 +7646,7 @@ msgstr[0] "Niama ŭstaliavanich dadatkaŭ."
 msgstr[1] "Niama ŭstaliavanich dadatkaŭ."
 msgstr[2] "Niama ŭstaliavanich dadatkaŭ."
 
-#: weblate/templates/addons/addon_list.html:83
+#: weblate/templates/addons/addon_list.html:89
 #, python-format
 msgid "Manage site-wide add-ons (%(count)s installed)"
 msgid_plural "Manage site-wide add-ons (%(count)s installed)"
@@ -7647,21 +7654,21 @@ msgstr[0] ""
 msgstr[1] ""
 msgstr[2] ""
 
-#: weblate/templates/addons/addon_list.html:93
+#: weblate/templates/addons/addon_list.html:99
 msgid "Available add-ons"
 msgstr "Dastupnizha dadatki"
 
-#: weblate/templates/addons/addon_list.html:105
+#: weblate/templates/addons/addon_list.html:111
 msgid "The add-on can only be installed on the component level."
 msgstr "Isnuzhe niekaĺki papiaredžanniaŭ dlia hetaha kampanienta"
 
-#: weblate/templates/addons/addon_list.html:106
 #: weblate/templates/addons/addon_list.html:112
+#: weblate/templates/addons/addon_list.html:118
 #: weblate/templates/machinery/list.html:85
 msgid "Install"
 msgstr "Ustaliavać"
 
-#: weblate/templates/addons/addon_list.html:122
+#: weblate/templates/addons/addon_list.html:128
 msgid ""
 "Could not find any additional add-ons compatible with this translation "
 "component."
@@ -7669,13 +7676,13 @@ msgstr ""
 "Nie atrimalasia znajski anizhakich dadatkaŭ, sumiaskimich z hetim "
 "pierakladam."
 
-#: weblate/templates/addons/addon_list.html:124
+#: weblate/templates/addons/addon_list.html:130
 msgid "Some add-ons will ask for additional configuration during installation."
 msgstr ""
 "Nekatory'm dapaўnennyam spatre'bіczcza dadatkovae naladzhvanne padchas "
 "ustalyavannya."
 
-#: weblate/templates/addons/addon_list.html:133
+#: weblate/templates/addons/addon_list.html:139
 msgid "Browse all add-on changes"
 msgstr "Prahliadzieć zmieni dlia ŭsich moŭ"
 
@@ -7988,7 +7995,7 @@ msgstr "Pierakliučyć nakіrunak ruchu"
 #: weblate/templates/base.html:141 weblate/templates/base5.html:138
 #: weblate/templates/category-language.html:17
 #: weblate/templates/category.html:20 weblate/templates/component.html:25
-#: weblate/templates/dashboard/user.html:59
+#: weblate/templates/dashboard/user.html:64
 #: weblate/templates/language-project.html:19
 #: weblate/templates/language.html:16 weblate/templates/manage/users.html:109
 #: weblate/templates/project.html:22
@@ -8503,7 +8510,7 @@ msgstr "Žadnaha slova nie znojdziena!"
 
 #: weblate/templates/category-language.html:21
 #: weblate/templates/category.html:24 weblate/templates/component.html:29
-#: weblate/templates/dashboard/user.html:41
+#: weblate/templates/dashboard/user.html:46
 #: weblate/templates/language-project.html:23 weblate/templates/project.html:26
 #: weblate/templates/translation.html:28
 msgid "Insights"
@@ -8594,7 +8601,7 @@ msgid "Announcements"
 msgstr "Abvestkі"
 
 #: weblate/templates/category.html:40 weblate/templates/component.html:46
-#: weblate/templates/dashboard/user.html:54 weblate/templates/project.html:48
+#: weblate/templates/dashboard/user.html:59 weblate/templates/project.html:48
 msgid "Translation reports"
 msgstr "Spravazdačy pierakladu"
 
@@ -8676,7 +8683,7 @@ msgstr ""
 "te'rmіn praekta al'bo zaўsyody', pakul' praekt ne budze vy'daleny'."
 
 #: weblate/templates/category.html:296 weblate/templates/component.html:350
-#: weblate/templates/dashboard/user.html:124 weblate/templates/project.html:382
+#: weblate/templates/dashboard/user.html:130 weblate/templates/project.html:382
 msgid ""
 "You don't have permission to view reports for all users, only your "
 "contributions will be listed."
@@ -8685,7 +8692,7 @@ msgstr ""
 "pakazhuczcza tol'kі vashy'ya dzeyannі."
 
 #: weblate/templates/category.html:308 weblate/templates/component.html:362
-#: weblate/templates/dashboard/user.html:134 weblate/templates/project.html:394
+#: weblate/templates/dashboard/user.html:140 weblate/templates/project.html:394
 msgid "Credits"
 msgstr "Padziaki"
 
@@ -8701,19 +8708,19 @@ msgstr ""
 
 #: weblate/templates/category.html:318 weblate/templates/category.html:339
 #: weblate/templates/component.html:372 weblate/templates/component.html:393
-#: weblate/templates/dashboard/user.html:144
-#: weblate/templates/dashboard/user.html:163 weblate/templates/project.html:404
+#: weblate/templates/dashboard/user.html:150
+#: weblate/templates/dashboard/user.html:169 weblate/templates/project.html:404
 #: weblate/templates/project.html:425
 msgid "Generate"
 msgstr "Zhienieravać"
 
 #: weblate/templates/category.html:331 weblate/templates/component.html:385
-#: weblate/templates/dashboard/user.html:155 weblate/templates/project.html:417
+#: weblate/templates/dashboard/user.html:161 weblate/templates/project.html:417
 msgid "Contributor stats"
 msgstr "Statystyka ŭdzieĺnika"
 
 #: weblate/templates/category.html:335 weblate/templates/component.html:389
-#: weblate/templates/dashboard/user.html:159 weblate/templates/project.html:421
+#: weblate/templates/dashboard/user.html:165 weblate/templates/project.html:421
 msgid "Reports the number of strings and words translated by each translator."
 msgstr ""
 "Pavedamlyae kol'kascz' radkoў abo sloў, perakladzeny'x kozhny'm "
@@ -8847,7 +8854,8 @@ msgstr "Stvarić kampanient"
 msgid "Moving or renaming the component will also change its URLs."
 msgstr "Vy'praўcze ge'ty' kampanent, kab achy'sczіcz' yago apavyashche'nnі."
 
-#: weblate/templates/component.html:343 weblate/templates/project.html:375
+#: weblate/templates/component.html:343
+#: weblate/templates/dashboard/user.html:116 weblate/templates/project.html:375
 #: weblate/templates/translate.html:462 weblate/templates/translation.html:437
 msgid "Loading…"
 msgstr "Zahruzka…"
@@ -8908,11 +8916,11 @@ msgstr[2] "Prahliadzieć %(count)s prajektaŭ"
 msgid "Configure dashboard"
 msgstr "Naladzіcz' pane'l' kіravannya"
 
-#: weblate/templates/dashboard/user.html:48
+#: weblate/templates/dashboard/user.html:53
 msgid "Recent additions"
 msgstr "Nyadaўnіya dadannі"
 
-#: weblate/templates/dashboard/user.html:75
+#: weblate/templates/dashboard/user.html:80
 msgid ""
 "Choose what languages you want in the preferences, to see overview of "
 "available translations for those languages in your watched projects."
@@ -8920,7 +8928,7 @@ msgstr ""
 "Vybierycie ŭ naladach jaki movy vy chočacie mieć, kab bačyć ahliad najaŭnych "
 "pierakladaŭ dlia hetych moŭ u prajektach, za jakimi vy nazirajecie."
 
-#: weblate/templates/dashboard/user.html:102
+#: weblate/templates/dashboard/user.html:107
 msgid ""
 "Could not find any suggestions for you, please choose your languages in the "
 "preferences to get some."
@@ -8928,7 +8936,7 @@ msgstr ""
 "Nie atrymalasia znajsci anijakich prapanoŭ dlia vas. Kali laska, abiarycie "
 "vašy movy ŭ naladach dlia atrymannia prapanoŭ."
 
-#: weblate/templates/dashboard/user.html:139
+#: weblate/templates/dashboard/user.html:145
 msgid ""
 "Lists all translators contributing in a given time period. Useful for "
 "inclusion in documentation or the app itself, to thank translators and "
@@ -9226,7 +9234,7 @@ msgid "Add font"
 msgstr "Dadacz' shry'ft"
 
 #: weblate/templates/fonts/font_list.html:114
-#: weblate/templates/memory/index.html:295
+#: weblate/templates/memory/index.html:315
 #: weblate/templates/screenshots/screenshot_list.html:38
 #: weblate/templates/translate.html:1009 weblate/templates/translation.html:385
 #: weblate/templates/translation.html:399
@@ -9533,7 +9541,7 @@ msgstr "Prahliadzieć usie zmieni"
 msgid "Shortcut"
 msgstr ""
 
-#: weblate/templates/keyboard-shortcuts.html:25 weblate/trans/forms.py:3026
+#: weblate/templates/keyboard-shortcuts.html:25 weblate/trans/forms.py:3032
 msgid "Action"
 msgstr "Dziejannie"
 
@@ -10849,16 +10857,16 @@ msgstr "Koĺkasć vašych zapisaŭ"
 #: weblate/templates/memory/index.html:53
 #: weblate/templates/memory/index.html:138
 #: weblate/templates/memory/index.html:230
-#: weblate/templates/memory/index.html:266
-#: weblate/templates/memory/index.html:278
+#: weblate/templates/memory/index.html:286
+#: weblate/templates/memory/index.html:298
 msgid "Download as JSON"
 msgstr "Sciahnuć jak JSON"
 
 #: weblate/templates/memory/index.html:54
 #: weblate/templates/memory/index.html:140
 #: weblate/templates/memory/index.html:232
-#: weblate/templates/memory/index.html:267
-#: weblate/templates/memory/index.html:279
+#: weblate/templates/memory/index.html:287
+#: weblate/templates/memory/index.html:299
 msgid "Download as TMX"
 msgstr "Sciahnuć jak TMX"
 
@@ -10892,29 +10900,37 @@ msgstr "Zahružani fajl budzie zzhadnani z hetim pierakladam."
 msgid "Entries for %(source_language)s to %(target_language)s"
 msgstr ""
 
-#: weblate/templates/memory/index.html:238
+#: weblate/templates/memory/index.html:239
 msgid "Shared translation memory"
 msgstr "Ahuĺnaja pamiać pierakladu"
 
 #. Translators: Shared translation memory is enabled
-#: weblate/templates/memory/index.html:243
+#: weblate/templates/memory/index.html:244
+#: weblate/templates/memory/index.html:264
 msgid "on"
 msgstr "uklyuchana"
 
 #. Translators: Shared translation memory is disabled
-#: weblate/templates/memory/index.html:246
+#: weblate/templates/memory/index.html:247
+#: weblate/templates/memory/index.html:267
 msgid "off"
 msgstr "vy'klyuchana"
 
-#: weblate/templates/memory/index.html:261
+#: weblate/templates/memory/index.html:259 weblate/trans/models/project.py:215
+#, fuzzy
+#| msgid "Wipe translation memory"
+msgid "Autoclean translation memory"
+msgstr "Vycierci pamiać pierakladu"
+
+#: weblate/templates/memory/index.html:281
 msgid "Number of shared entries in this Weblate instance"
 msgstr "Koĺkasć vašich zapisaŭ"
 
-#: weblate/templates/memory/index.html:273
+#: weblate/templates/memory/index.html:293
 msgid "Total number of entries in this Weblate instance"
 msgstr "Ahuĺnazha koĺkasć zapisaŭ"
 
-#: weblate/templates/memory/index.html:291
+#: weblate/templates/memory/index.html:311
 msgid "Import translation memory"
 msgstr "Impartavać pamiać pierakladu"
 
@@ -13417,7 +13433,7 @@ msgid "Browse glossary %(name)s"
 msgstr "Praglyadzecz' glasary'j %(name)s"
 
 #: weblate/templates/translate.html:719 weblate/templates/translate.html:1035
-#: weblate/trans/models/component.py:4022
+#: weblate/trans/models/component.py:4024
 msgid "Add term to glossary"
 msgstr "Dadacz' te'rmіn u glasary'j"
 
@@ -13776,7 +13792,7 @@ msgid "Translation added"
 msgstr "Zroblienizha pierakladi"
 
 #. Translators: Name of event in the history
-#: weblate/trans/actions.py:24 weblate/trans/models/project.py:755
+#: weblate/trans/actions.py:24 weblate/trans/models/project.py:758
 msgid "Automatically translated"
 msgstr "Aŭtamatični pieraklad"
 
@@ -14339,108 +14355,130 @@ msgstr "Niadaŭnіja zmieny ŭ %s"
 msgid "All recent changes made using Weblate in %s."
 msgstr "Usie niadaŭnіja zmieny, zroblienyja cieraz Weblate u %s."
 
-#: weblate/trans/file_format_params.py:105
+#: weblate/trans/file_format_params.py:117
 msgid "Sort JSON keys"
 msgstr "Sartavać JSON-kliučy"
 
-#: weblate/trans/file_format_params.py:118
+#: weblate/trans/file_format_params.py:130
 msgid "JSON indentation"
 msgstr "Vodstupy JSON"
 
-#: weblate/trans/file_format_params.py:127
+#: weblate/trans/file_format_params.py:139
 msgid "JSON indentation style"
 msgstr "Sty'l' vodstupaў JSON"
 
-#: weblate/trans/file_format_params.py:130
+#: weblate/trans/file_format_params.py:142
 msgid "Spaces"
 msgstr "Pragaly'"
 
-#: weblate/trans/file_format_params.py:131
+#: weblate/trans/file_format_params.py:143
 msgid "Tabs"
 msgstr "Tabulyaczy'і"
 
-#: weblate/trans/file_format_params.py:152
+#: weblate/trans/file_format_params.py:159
 msgid "Avoid spaces after separators"
 msgstr ""
 
-#: weblate/trans/file_format_params.py:172
-#: weblate/trans/file_format_params.py:251
+#: weblate/trans/file_format_params.py:179
+#: weblate/trans/file_format_params.py:256
 msgid "Long lines wrapping"
 msgstr "Pieranos doŭhich radkoŭ"
 
-#: weblate/trans/file_format_params.py:178
+#: weblate/trans/file_format_params.py:185
 msgid "Wrap lines at 77 characters and at newlines (xgettext default)"
 msgstr "Pieranos radkoŭ paslia 77 simvalaŭ ki simvala novaha radka"
 
-#: weblate/trans/file_format_params.py:183
+#: weblate/trans/file_format_params.py:190
 msgid "Only wrap lines at newlines (like 'xgettext --no-wrap')"
 msgstr "Pieranos radkoŭ toĺki paslia simvala novaha radka"
 
-#: weblate/trans/file_format_params.py:185
-#: weblate/trans/file_format_params.py:259
+#: weblate/trans/file_format_params.py:192
+#: weblate/trans/file_format_params.py:264
 msgid "No line wrapping"
 msgstr "Biez pieranosu radkoŭ"
 
-#: weblate/trans/file_format_params.py:189
+#: weblate/trans/file_format_params.py:196
+#, fuzzy
+#| msgid ""
+#| "By default gettext wraps lines at 77 characters and at newlines. With the "
+#| "--no-wrap parameter, wrapping is only done at newlines."
 msgid ""
-"By default gettext wraps lines at 77 characters and at newlines. With the --"
+"By default, gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
 "Pradvy'znachana gettext peranosіcz' radkі paslya 77 sіmvalaў czі sіmvala "
 "novaga radka, a z parametram --no-wrap yon peranosіcz' tol'kі paslya sіmvala "
 "novaga radka."
 
-#: weblate/trans/file_format_params.py:206
+#: weblate/trans/file_format_params.py:211
 msgid "Keep previous msgids of translated strings"
 msgstr "Zaxoўvacz' papyare'dnіya msgid perakladzeny'x radkoў"
 
-#: weblate/trans/file_format_params.py:214
+#: weblate/trans/file_format_params.py:219
 msgid "Do not include location information in the file"
 msgstr ""
 
-#: weblate/trans/file_format_params.py:222
+#: weblate/trans/file_format_params.py:227
 msgid "Use fuzzy matching"
 msgstr "Vy'kary'stoўvacz' nedakladnae supadzenne"
 
-#: weblate/trans/file_format_params.py:237
+#: weblate/trans/file_format_params.py:242
 msgid "YAML indentation"
 msgstr "Vodstupy' YAML"
 
-#: weblate/trans/file_format_params.py:255
+#: weblate/trans/file_format_params.py:260
 msgid "Wrap lines at 80 chars"
 msgstr "Peranosіcz' radok paslya 80 znakaў"
 
-#: weblate/trans/file_format_params.py:256
+#: weblate/trans/file_format_params.py:261
 msgid "Wrap lines at 100 chars"
 msgstr "Peranosіcz' radok paslya 100 znakaў"
 
-#: weblate/trans/file_format_params.py:257
+#: weblate/trans/file_format_params.py:262
 msgid "Wrap lines at 120 chars"
 msgstr "Peranosіcz' radok paslya 120 znakaў"
 
-#: weblate/trans/file_format_params.py:258
+#: weblate/trans/file_format_params.py:263
 msgid "Wrap lines at 180 chars"
 msgstr "Peranosіcz' radok paslya 180 znakaў"
 
-#: weblate/trans/file_format_params.py:271
+#: weblate/trans/file_format_params.py:276
 msgid "Line breaks"
 msgstr "Znak peranosu radka"
 
-#: weblate/trans/file_format_params.py:274
+#: weblate/trans/file_format_params.py:279
 msgid "DOS (\\r\\n)"
 msgstr "DOS (\\r\\n)"
 
-#: weblate/trans/file_format_params.py:275
+#: weblate/trans/file_format_params.py:280
 msgid "UNIX (\\n)"
 msgstr "UNIX (\\n)"
 
-#: weblate/trans/file_format_params.py:276
+#: weblate/trans/file_format_params.py:281
 msgid "MAC (\\r)"
 msgstr "MAC (\\r)"
 
-#: weblate/trans/file_format_params.py:289
+#: weblate/trans/file_format_params.py:294
 msgid "Include closing tag for blank XML tags"
 msgstr "Uklyuchy'cze zachy'nyal'ny' te'g dlya pusty'x te'gaў XML"
+
+#: weblate/trans/file_format_params.py:322
+#, fuzzy
+#| msgid "Flat XML file"
+msgid "FlatXML Root name"
+msgstr "Ploskі fajl XML"
+
+#: weblate/trans/file_format_params.py:331
+#, fuzzy
+#| msgid "Flat XML file"
+msgid "FlatXML value name"
+msgstr "Ploskі fajl XML"
+
+#: weblate/trans/file_format_params.py:340
+#, fuzzy
+#| msgid "Category name"
+msgid "FlatXML key name"
+msgstr "Katehorizha"
 
 #: weblate/trans/filter.py:23 weblate/trans/filter.py:121
 msgid "All strings"
@@ -14957,7 +14995,7 @@ msgstr ""
 "Vy možacie adredahavać heta pazniej, jak i inšyja radki zychodnaj movy."
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/forms.py:2683 weblate/trans/models/component.py:3934
+#: weblate/trans/forms.py:2683 weblate/trans/models/component.py:3936
 msgid "Context"
 msgstr "Kantekst"
 
@@ -14984,114 +15022,126 @@ msgstr ""
 msgid "String will be part of the glossary in all languages"
 msgstr "Kiravannie movami"
 
-#: weblate/trans/forms.py:2736
+#: weblate/trans/forms.py:2734
+#, fuzzy
+#| msgid "Project is now open for translation updates."
+msgid "Mark this option for translations that should not be used."
+msgstr "Prajekt ciapier adkryty dlia abnaŭliennia pierakladu."
+
+#: weblate/trans/forms.py:2739
 msgid "Untranslatable term"
 msgstr "Nie pierakladziena"
 
-#: weblate/trans/forms.py:2764
+#: weblate/trans/forms.py:2741
+msgid ""
+"Mark this option if the sentence should stay as in the source language, "
+"without change."
+msgstr ""
+
+#: weblate/trans/forms.py:2770
 msgid "You do not have permission to create terminology."
 msgstr "Vam nie dastazhe pravoŭ, kab stvarać prazhekti."
 
-#: weblate/trans/forms.py:2830
+#: weblate/trans/forms.py:2836
 msgid "State to set"
 msgstr "Stan dlia ŭstanaŭliennia"
 
-#: weblate/trans/forms.py:2831
+#: weblate/trans/forms.py:2837
 msgid "Do not change"
 msgstr "Ne zmyanyacz'"
 
-#: weblate/trans/forms.py:2835
+#: weblate/trans/forms.py:2841
 msgid "Translation flags to add"
 msgstr "Adznakі perakladu dlya dadannya"
 
-#: weblate/trans/forms.py:2838
+#: weblate/trans/forms.py:2844
 msgid "Translation flags to remove"
 msgstr "Adznakі perakladu dlya vy'dalennya"
 
-#: weblate/trans/forms.py:2842
+#: weblate/trans/forms.py:2848
 msgid "Labels to add"
 msgstr "Admeczіny' dlya dadannya"
 
-#: weblate/trans/forms.py:2848
+#: weblate/trans/forms.py:2854
 msgid "Labels to remove"
 msgstr "Admeczіny' dlya vy'dalennya"
 
-#: weblate/trans/forms.py:2902
+#: weblate/trans/forms.py:2908
 msgid "I accept the contributor license agreement"
 msgstr "ZHa zhodni z pahadnienniem z udzieĺnikam"
 
-#: weblate/trans/forms.py:2931
+#: weblate/trans/forms.py:2937
 msgid "The slug does not match the one marked for deletion!"
 msgstr ""
 "Uvedzeny' іde'nty'fіkatar adroznіvaeczcza ad іde'nty'fіkatara ab’ekta, "
 "paznachanaga na vy'dalenne!"
 
-#: weblate/trans/forms.py:2937 weblate/trans/forms.py:2956
-#: weblate/trans/forms.py:2967 weblate/trans/forms.py:2983
-#: weblate/trans/forms.py:2992 weblate/trans/forms.py:3003
+#: weblate/trans/forms.py:2943 weblate/trans/forms.py:2962
+#: weblate/trans/forms.py:2973 weblate/trans/forms.py:2989
+#: weblate/trans/forms.py:2998 weblate/trans/forms.py:3009
 msgid "Removal confirmation"
 msgstr "Paczvyardzhe'nne vy'dalennya"
 
-#: weblate/trans/forms.py:2939
+#: weblate/trans/forms.py:2945
 msgid "Please type in the full slug of the translation to confirm."
 msgstr ""
 "Kalі laska, uvyadzіcze іde'nty'fіkatar perakladu dlya paczvyardzhe'nnya."
 
-#: weblate/trans/forms.py:2958
+#: weblate/trans/forms.py:2964
 msgid "Please type in the full slug of the component to confirm."
 msgstr ""
 "Kalі laska, uvyadzіcze poўny' іde'nty'fіkatar kampanenta dlya "
 "paczvyardzhe'nnya."
 
-#: weblate/trans/forms.py:2968
+#: weblate/trans/forms.py:2974
 msgid "Please type in the slug of the project to confirm."
 msgstr "Kalі laska, uvyadzіcze іde'nty'fіkatar praekta dlya paczvyardzhe'nnya."
 
-#: weblate/trans/forms.py:2984
+#: weblate/trans/forms.py:2990
 msgid "Please type in the slug of the category to confirm."
 msgstr "Kali laska, uviadzikie nazvu pierakladu dlia pakviardžennia."
 
-#: weblate/trans/forms.py:2994
+#: weblate/trans/forms.py:3000
 msgid "Please type in the slug of the project and language to confirm."
 msgstr "Kali laska, uviadzikie nazvu pierakladu dlia pakviardžennia."
 
-#: weblate/trans/forms.py:3005
+#: weblate/trans/forms.py:3011
 msgid "Please type in the slug of the category and language to confirm."
 msgstr "Kali laska, uviadzikie nazvu pierakladu dlia pakviardžennia."
 
-#: weblate/trans/forms.py:3032
+#: weblate/trans/forms.py:3038
 msgid "Author username"
 msgstr "Іmya kary'stal'nіka aўtara"
 
-#: weblate/trans/forms.py:3035
+#: weblate/trans/forms.py:3041
 #, fuzzy
 #| msgid "Author username"
 msgid "Exclude author (username)"
 msgstr "Іmya kary'stal'nіka aўtara"
 
-#: weblate/trans/forms.py:3038
+#: weblate/trans/forms.py:3044
 msgid "Change period"
 msgstr "Zmianіć paroĺ"
 
-#: weblate/trans/forms.py:3121
+#: weblate/trans/forms.py:3127
 msgid "Expiry cannot be in the past."
 msgstr "Nazva fajla ne mozha by'cz' absalyutny'm shlyaxam."
 
-#: weblate/trans/forms.py:3160
+#: weblate/trans/forms.py:3166
 msgid "Customize translation workflow for this language"
 msgstr "Pačać novi pieraklad na boĺš moŭ"
 
-#: weblate/trans/forms.py:3162
+#: weblate/trans/forms.py:3168
 msgid ""
 "The translation workflow is configured at project and component. By enabling "
 "customization here, you override these settings for this language."
 msgstr ""
 
-#: weblate/trans/forms.py:3205
+#: weblate/trans/forms.py:3211
 msgid "Customize translation workflow for this language in this project"
 msgstr "Pačać novi pieraklad na boĺš moŭ"
 
-#: weblate/trans/forms.py:3208
+#: weblate/trans/forms.py:3214
 msgid ""
 "The translation workflow is configured at project, component, and language. "
 "By enabling customization here, you override these settings for this "
@@ -15338,17 +15388,17 @@ msgid "Category name"
 msgstr "Katehorizha"
 
 #: weblate/trans/models/category.py:57 weblate/trans/models/component.py:368
-#: weblate/trans/models/componentlist.py:28 weblate/trans/models/project.py:171
+#: weblate/trans/models/componentlist.py:34 weblate/trans/models/project.py:171
 msgid "Display name"
 msgstr "Adlyustroўvaemaya nazva"
 
 #: weblate/trans/models/category.py:60 weblate/trans/models/component.py:371
-#: weblate/trans/models/componentlist.py:32 weblate/trans/models/project.py:175
+#: weblate/trans/models/componentlist.py:38 weblate/trans/models/project.py:175
 msgid "URL slug"
 msgstr "URL slug"
 
 #: weblate/trans/models/category.py:62 weblate/trans/models/component.py:373
-#: weblate/trans/models/componentlist.py:36 weblate/trans/models/project.py:178
+#: weblate/trans/models/componentlist.py:42 weblate/trans/models/project.py:178
 msgid "Name used in URLs and filenames."
 msgstr "Іmia dlia ŭžyccia ŭ URL-ach і іmionach fajlaŭ."
 
@@ -15951,8 +16001,8 @@ msgid "Could not fetch the repository: %s"
 msgstr "Ne ўdalosya atry'macz' re'pazіtory'j: %s"
 
 #: weblate/trans/models/component.py:1773
-#: weblate/trans/models/component.py:3122
-#: weblate/trans/models/component.py:3186
+#: weblate/trans/models/component.py:3124
+#: weblate/trans/models/component.py:3188
 msgid "File does not exist."
 msgstr "Fajl ne іsnue."
 
@@ -15977,53 +16027,53 @@ msgstr "Ne atry'malasya skіnucz' adlegluyu galіnu na %s."
 msgid "Could not clean the repository on %s."
 msgstr "Ne atry'malasya achy'sczіcz' re'pazіtory'j na %s."
 
-#: weblate/trans/models/component.py:2361
+#: weblate/trans/models/component.py:2363
 #, python-format
 msgid "Could not rebase local branch onto remote branch %s."
 msgstr "Ne atry'malasya zmyanіcz' bazu z lakal'naj galіny' na adlegluyu %s."
 
-#: weblate/trans/models/component.py:2367
+#: weblate/trans/models/component.py:2369
 #, python-format
 msgid "Could not merge remote branch into %s."
 msgstr "Ne atry'malasya ab’yadnacz' adlegluyu galіnu z %s."
 
-#: weblate/trans/models/component.py:2966
+#: weblate/trans/models/component.py:2968
 msgid "Category does not belong to this project."
 msgstr "Karistaĺnіk biŭ dadadzieni da hetaha prazhektu."
 
-#: weblate/trans/models/component.py:2970
+#: weblate/trans/models/component.py:2972
 msgid "Categorized component can not be shared."
 msgstr "Spis kampanientaŭ nie moža bić abrani, kali nie vikaristoŭvazhekka."
 
-#: weblate/trans/models/component.py:2982
+#: weblate/trans/models/component.py:2984
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 "Niadziejsnaja spasylka na prajekt Weblate. Užyvajcie weblate://prajekt/"
 "kampanient."
 
-#: weblate/trans/models/component.py:2992
+#: weblate/trans/models/component.py:2994
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
 msgstr ""
 "Xіbnaya spasy'lka na praekt Weblate, nemagchy'ma stvary'cz' spasy'lku na "
 "zvyazany' re'pazіtory'j!"
 
-#: weblate/trans/models/component.py:3001
+#: weblate/trans/models/component.py:3003
 msgid "Invalid link to a Weblate project, cannot link it to itself!"
 msgstr ""
 "Xіbnaya spasy'lka na praekt Weblate, nemagchy'ma stvary'cz' spasy'lku na "
 "samago syabe!"
 
-#: weblate/trans/models/component.py:3012
+#: weblate/trans/models/component.py:3014
 msgid ""
 "Option is not available for linked repositories. Setting from linked "
 "component will be used."
 msgstr "URL ekspartu nie vikaristoŭvazhekka dlia zviazanaha repazіtorizha!"
 
-#: weblate/trans/models/component.py:3024
+#: weblate/trans/models/component.py:3026
 msgid "The file mask did not match any files."
 msgstr "Maska nie vilučila nіvodnaha fajla!"
 
-#: weblate/trans/models/component.py:3034
+#: weblate/trans/models/component.py:3036
 #, fuzzy, python-format
 #| msgid ""
 #| "There are more files for single language (%s), please adjust the mask and "
@@ -16037,17 +16087,17 @@ msgstr ""
 "adrehuliujkie masku i vikaristoŭvajkie kampanienti dlia pierakladu roznich "
 "fajlaŭ."
 
-#: weblate/trans/models/component.py:3052
+#: weblate/trans/models/component.py:3054
 msgid "Could not find any matching language, please check the file mask."
 msgstr "Kod movi «%s» zanadta doŭhi, kali laska, pravierkie masku!"
 
-#: weblate/trans/models/component.py:3073
+#: weblate/trans/models/component.py:3075
 #, fuzzy, python-brace-format
 #| msgid "Failed to parse file %(file)s: %(error)s"
 msgid "Could not parse {file}: {error}"
 msgstr "Nie ŭdalosia pračitać fajl %(file)s: %(error)s"
 
-#: weblate/trans/models/component.py:3081
+#: weblate/trans/models/component.py:3083
 #, python-format
 msgid "Could not parse %d matched file."
 msgid_plural "Could not parse %d matched files."
@@ -16055,7 +16105,7 @@ msgstr[0] "Ne atry'malasya razabracz' %d supastaўleny' fajl."
 msgstr[1] "Ne atry'malasya razabracz' %d supastaўleny'x fajlaў."
 msgstr[2] "Ne atry'malasya razabracz' %d supastaўleny'x fajlaў."
 
-#: weblate/trans/models/component.py:3115
+#: weblate/trans/models/component.py:3117
 msgid ""
 "You have set up Weblate to add new translation files, but did not provide a "
 "base file to do that."
@@ -16063,29 +16113,29 @@ msgstr ""
 "Vy' skanfіguravalі Weblate na dadanne novy'x fajlaў perakladaў, ale ne "
 "padalі asnoўnaga fajla."
 
-#: weblate/trans/models/component.py:3126
+#: weblate/trans/models/component.py:3128
 #, fuzzy, python-format
 #| msgid "Define the base file for new translations"
 msgid "Could not parse base file for new translations: %s"
 msgstr "Viznačić bazavi fajl dlia novich pierakladaŭ"
 
-#: weblate/trans/models/component.py:3130
+#: weblate/trans/models/component.py:3132
 msgid "Unrecognized base file for new translations."
 msgstr "Neraspaznany' bazavy' fajl dlya novy'x perakladaў."
 
-#: weblate/trans/models/component.py:3145
+#: weblate/trans/models/component.py:3147
 msgid "Editing template is not supported with this file format."
 msgstr ""
 
-#: weblate/trans/models/component.py:3151
-#: weblate/trans/models/component.py:3168
+#: weblate/trans/models/component.py:3153
+#: weblate/trans/models/component.py:3170
 msgid ""
 "An intermediate language file can not be used without an editing template."
 msgstr ""
 "Fajl pramezhkavaj movy' nemagchy'ma vy'kary'stacz' bez re'dagavannya "
 "shablona."
 
-#: weblate/trans/models/component.py:3160
+#: weblate/trans/models/component.py:3162
 msgid ""
 "An intermediate language file has to be different from monolingual base "
 "language file. You can probably keep it empty."
@@ -16093,45 +16143,45 @@ msgstr ""
 "Fajl pramezhkavaj movy' musіcz' adroznіvaczcza ad bazavaga adnamoўnaga "
 "fajla. Mozhna pakіnucz' pusty'm."
 
-#: weblate/trans/models/component.py:3175
+#: weblate/trans/models/component.py:3177
 msgid "Using a .pot file as base file is unsupported."
 msgstr "Vy'kary'stanne fajla .pot yak bazavaga ne padtry'mlіvaeczcza."
 
-#: weblate/trans/models/component.py:3191
+#: weblate/trans/models/component.py:3193
 #, python-format
 msgid "Could not parse translation base file: %s"
 msgstr "Ne ўdalosya razabracz' bazavy' fajl perakladu: %s"
 
-#: weblate/trans/models/component.py:3202
+#: weblate/trans/models/component.py:3204
 #, python-brace-format
 msgid "Template language ({0}) does not match source language ({1})!"
 msgstr "Mova shablona ({0}) ne adpavyadae zy'xodnaj move ({1})!"
 
-#: weblate/trans/models/component.py:3221
+#: weblate/trans/models/component.py:3223
 msgid "Choose No remote repository for local: URL."
 msgstr "Repazіtorij zichodnaha koda"
 
-#: weblate/trans/models/component.py:3226
+#: weblate/trans/models/component.py:3228
 msgid "Push URL is not used without a remote repository."
 msgstr ""
 "URL dlia adsilannia nie vikaristoŭvazhekka dlia zviazanaha repazіtorizha!"
 
-#: weblate/trans/models/component.py:3240
+#: weblate/trans/models/component.py:3242
 msgid ""
 "Your push URL seems to miss credentials. Either provide them in the URL or "
 "use SSH with key based authentication."
 msgstr ""
 
-#: weblate/trans/models/component.py:3245
+#: weblate/trans/models/component.py:3247
 #, python-format
 msgid "Could not update repository: %s"
 msgstr "Ne atry'malasya abnavіcz' re'pazіtory'j: %s"
 
-#: weblate/trans/models/component.py:3254
+#: weblate/trans/models/component.py:3256
 msgid "Pull and push branches cannot be the same when using merge requests."
 msgstr "Chіbnazhe zapitannie na zlіkkio!"
 
-#: weblate/trans/models/component.py:3267
+#: weblate/trans/models/component.py:3269
 msgid ""
 "Please either fill in an instruction URL or use a different option for "
 "adding a new language."
@@ -16139,113 +16189,113 @@ msgstr ""
 "Al'bo zaponіcze ў URL z іnstrukczy'і, al'bo vy'kary'stajcze іnshy' parametr "
 "dlya dadannya novaj movy'."
 
-#: weblate/trans/models/component.py:3298
+#: weblate/trans/models/component.py:3300
 msgid ""
 "Source language can not be changed, please recreate the component instead."
 msgstr ""
 "Zy'xodnuyu movu nemagchy'ma zmyanіcz'. Kalі laska, stvary'cze kampanent "
 "nanova."
 
-#: weblate/trans/models/component.py:3330
+#: weblate/trans/models/component.py:3332
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
 "Nie atrymalasia pravieryć supadzienni fajlaŭ z-za niekarektnaha rehuliarnaha "
 "vyrazu."
 
-#: weblate/trans/models/component.py:3341 weblate/trans/models/workflow.py:58
+#: weblate/trans/models/component.py:3343 weblate/trans/models/workflow.py:58
 msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr ""
 "Aўtamaty'chnae ўxvalenne prapanoў praczue tol'kі z uklyuchany'm galasavannem."
 
-#: weblate/trans/models/component.py:3349
+#: weblate/trans/models/component.py:3351
 msgid "To use the key filter, the file format must be monolingual."
 msgstr ""
 
-#: weblate/trans/models/component.py:3728
+#: weblate/trans/models/component.py:3730
 msgid "Could not add new translation file."
 msgstr "Ne atry'malasya dadacz' novy' fajl perakladu."
 
-#: weblate/trans/models/component.py:3735
+#: weblate/trans/models/component.py:3737
 msgid "You do not have permissions to add new translation file."
 msgstr "U vas nyama pravoў dostupu na dadanne novaga fajla perakladu."
 
-#: weblate/trans/models/component.py:3743
-#: weblate/trans/models/component.py:3751
+#: weblate/trans/models/component.py:3745
+#: weblate/trans/models/component.py:3753
 msgid "The monolingual base language file is invalid."
 msgstr "Xіbny' bazavy' adnamoўny' fajl perakladu."
 
-#: weblate/trans/models/component.py:3756
+#: weblate/trans/models/component.py:3758
 msgid "The template for new translations is invalid."
 msgstr "Xіbny' shablon dlya novy'x perakladaў."
 
-#: weblate/trans/models/component.py:3801
+#: weblate/trans/models/component.py:3803
 msgid "The given language is used as a source language."
 msgstr "Zadanazha mova fiĺtruzhekka moŭnim fiĺtram!"
 
-#: weblate/trans/models/component.py:3808
+#: weblate/trans/models/component.py:3810
 msgid "The given language already exists."
 msgstr "Zadanazha mova fiĺtruzhekka moŭnim fiĺtram!"
 
-#: weblate/trans/models/component.py:3817
+#: weblate/trans/models/component.py:3819
 msgid "The given language is filtered by the language filter."
 msgstr "Padadzenaya mova fіl'trueczcza moўny'm fіl'tram."
 
-#: weblate/trans/models/component.py:3850
+#: weblate/trans/models/component.py:3852
 msgid "Translation file already exists!"
 msgstr "Fajl pierakladu ŭžo isnuje!"
 
-#: weblate/trans/models/component.py:3874
+#: weblate/trans/models/component.py:3876
 msgid "The translation will be updated in the background."
 msgstr "Pieraklad padijšoŭ da kanka."
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:3936 weblate/utils/views.py:215
+#: weblate/trans/models/component.py:3938 weblate/utils/views.py:215
 msgctxt "Translation key"
 msgid "Key"
 msgstr "Klyuch"
 
-#: weblate/trans/models/component.py:4023
+#: weblate/trans/models/component.py:4025
 msgid "Add new translation string"
 msgstr "Dadać novy radok pierakladu"
 
-#: weblate/trans/models/component.py:4072
+#: weblate/trans/models/component.py:4074
 msgid "Could not get repository status!"
 msgstr "Nie atrimalasia abzhadnać repazitorij."
 
-#: weblate/trans/models/componentlist.py:25
+#: weblate/trans/models/componentlist.py:31
 msgid "Component list name"
 msgstr "Nazva spisu kampanientaŭ"
 
-#: weblate/trans/models/componentlist.py:39
+#: weblate/trans/models/componentlist.py:45
 msgid "Show on dashboard"
 msgstr "Pakazvać na haloŭnaj"
 
-#: weblate/trans/models/componentlist.py:43
+#: weblate/trans/models/componentlist.py:49
 msgid ""
 "When enabled this component list will be shown as a tab on the dashboard"
 msgstr ""
 "Pry ŭkliučenni hety spis kampanientaŭ budzie pakazany ŭkladkaj na haloŭnaj"
 
-#: weblate/trans/models/componentlist.py:71
+#: weblate/trans/models/componentlist.py:80
 msgid "Project regular expression"
 msgstr "Rehuliarny vyraz prajekta"
 
-#: weblate/trans/models/componentlist.py:75
+#: weblate/trans/models/componentlist.py:84
 msgid "Regular expression which is used to match project slug."
 msgstr ""
 "Rehuliarny vyraz, jaki vykarystoŭvajecca dlia supastaŭliennia slaha prajekta."
 
-#: weblate/trans/models/componentlist.py:79
+#: weblate/trans/models/componentlist.py:88
 msgid "Component regular expression"
 msgstr "Rehuliarny vyraz kampanienta"
 
-#: weblate/trans/models/componentlist.py:83
+#: weblate/trans/models/componentlist.py:92
 msgid "Regular expression which is used to match component slug."
 msgstr ""
 "Rehuliarny vyraz, jaki vykarystoŭvajecca dlia supastaŭliennia slaha "
 "kampanienta."
 
-#: weblate/trans/models/componentlist.py:88
+#: weblate/trans/models/componentlist.py:97
 msgid "Component list to assign"
 msgstr "Spis kampanientaŭ dlia pryznačennia"
 
@@ -16318,12 +16368,6 @@ msgstr "Vy'kary'stoўvacz' agul'nuyu pamyacz' perakladaў"
 msgid "Contributes to the pool of shared translations between projects."
 msgstr "Papaўnyae nabor agul'ny'x perakladaў rozny'x praektaў."
 
-#: weblate/trans/models/project.py:215
-#, fuzzy
-#| msgid "Wipe translation memory"
-msgid "Autoclean translation memory"
-msgstr "Vycierci pamiać pierakladu"
-
 #: weblate/trans/models/project.py:218
 msgid ""
 "Automatically removes outdated and obsolete entries from translation memory."
@@ -16393,7 +16437,7 @@ msgstr ""
 msgid "Could not accept suggestion!"
 msgstr "Nie atrimalasia priniać prapanovu!"
 
-#: weblate/trans/models/translation.py:278
+#: weblate/trans/models/translation.py:281
 #, python-format
 msgid ""
 "Filename %s not found in repository! To add new translation, add language "
@@ -16402,21 +16446,21 @@ msgstr ""
 "Fajl %s nie znojdzieny ŭ repazіtoryі! Kab dadać novy pieraklad, dadajcie "
 "movu ŭ repazіtoryj."
 
-#: weblate/trans/models/translation.py:287
+#: weblate/trans/models/translation.py:290
 #, fuzzy, python-format
 #| msgid "Failed to parse file %(file)s: %(error)s"
 msgid "Could not parse file %(file)s: %(error)s"
 msgstr "Nie ŭdalosia pračitać fajl [X27X]: [X37X]"
 
-#: weblate/trans/models/translation.py:1090
+#: weblate/trans/models/translation.py:1115
 msgid "“{}”"
 msgstr ""
 
-#: weblate/trans/models/translation.py:1093
+#: weblate/trans/models/translation.py:1118
 msgid "…"
 msgstr ""
 
-#: weblate/trans/models/translation.py:1100
+#: weblate/trans/models/translation.py:1125
 #, fuzzy, python-format
 #| msgid "Could not find merged string."
 msgid "Could not find %d string:"
@@ -16425,43 +16469,43 @@ msgstr[0] "Nie atrymalasia znajsci zlityja radki."
 msgstr[1] "Nie atrymalasia znajsci zlityja radki."
 msgstr[2] "Nie atrymalasia znajsci zlityja radki."
 
-#: weblate/trans/models/translation.py:1284
-#: weblate/trans/models/translation.py:1337
-#: weblate/trans/models/translation.py:1419
+#: weblate/trans/models/translation.py:1309
+#: weblate/trans/models/translation.py:1362
+#: weblate/trans/models/translation.py:1444
 #, fuzzy, python-format
 #| msgid "Commit pending changes"
 msgid "Could not commit pending changes: %s"
 msgstr "Zapisać čarhu zmien"
 
-#: weblate/trans/models/translation.py:1981
+#: weblate/trans/models/translation.py:2006
 #, fuzzy
 #| msgid "Plurals are not supported by the file format!"
 msgid "Plurals are not supported by the file format."
 msgstr "Niepadtrimlivazhemi farmat fajla."
 
-#: weblate/trans/models/translation.py:1986 weblate/trans/models/unit.py:752
+#: weblate/trans/models/translation.py:2011 weblate/trans/models/unit.py:752
 #: weblate/utils/forms.py:127
 #, python-format
 msgid "String contains control character: %s"
 msgstr "Radok zmyashchae kіroўny' znak: %s"
 
-#: weblate/trans/models/translation.py:1991
+#: weblate/trans/models/translation.py:2016
 msgid "Empty state is supported for blank strings only."
 msgstr ""
 
-#: weblate/trans/models/translation.py:1994
+#: weblate/trans/models/translation.py:2019
 msgid "Blank strings require an empty state."
 msgstr ""
 
-#: weblate/trans/models/translation.py:1998
+#: weblate/trans/models/translation.py:2023
 msgid "Approved state is not available as reviews are not enabled."
 msgstr ""
 
-#: weblate/trans/models/translation.py:2006
+#: weblate/trans/models/translation.py:2031
 msgid "This string seems to already exist."
 msgstr "Takі radok uzho іsnue."
 
-#: weblate/trans/models/translation.py:2013
+#: weblate/trans/models/translation.py:2038
 msgid "Failed adding string, no translation found."
 msgstr "Dubliavani radok dlia pierakladu."
 
@@ -17094,7 +17138,7 @@ msgstr "Vy'yaўlena lіcze'nzіya %s. Kalі laska, pravercze czі pravіl'naya y
 msgid "Could not parse uploaded ZIP file."
 msgstr "Nie ŭdalosia razabrać TMX-fajl!"
 
-#: weblate/trans/views/dashboard.py:157
+#: weblate/trans/views/dashboard.py:162
 msgid ""
 "The project you were looking for has been removed, however you are welcome "
 "to contribute to other ones."
@@ -17102,7 +17146,7 @@ msgstr ""
 "Prajekt, što vy šukali, vydalieny. Adnak my zaprašajem vas paŭdzieĺničać u "
 "inšych prajektach."
 
-#: weblate/trans/views/dashboard.py:166
+#: weblate/trans/views/dashboard.py:171
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to sign in next time."
@@ -17110,7 +17154,7 @@ msgstr ""
 "Vash ulіkovy' zapіs akty'ўny'. CZyaper pry'znachcze parol' dlya nastupnaga "
 "ўvaxodu."
 
-#: weblate/trans/views/dashboard.py:180
+#: weblate/trans/views/dashboard.py:185
 msgid "Please set your full name and e-mail in your profile."
 msgstr ""
 "Kali laska, paznačcie svajo poŭnaje imia dy eliektronnyju poštu ŭ profili."
@@ -18938,9 +18982,6 @@ msgstr "Ne atry'malasya adxіlіcz' pamy'lku kanfіguraczy'і!"
 #~| msgid "User has been added to this project."
 #~ msgid "User has been invited to this project."
 #~ msgstr "Karystaĺnіk byŭ dadadzieny da hetaha prajektu."
-
-#~ msgid "Project is now open for translation updates."
-#~ msgstr "Prajekt ciapier adkryty dlia abnaŭliennia pierakladu."
 
 #, fuzzy
 #~| msgid "Delete this account"

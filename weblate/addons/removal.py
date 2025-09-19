@@ -2,7 +2,10 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from __future__ import annotations
+
 from datetime import timedelta
+from typing import ClassVar
 
 from django.db.models import Q, Sum
 from django.utils import timezone
@@ -16,7 +19,7 @@ from weblate.trans.models import Comment, Suggestion
 
 class RemovalAddon(BaseAddon):
     project_scope = True
-    events: set[AddonEvent] = {
+    events: ClassVar[set[AddonEvent]] = {
         AddonEvent.EVENT_DAILY,
     }
     settings_form = RemoveForm

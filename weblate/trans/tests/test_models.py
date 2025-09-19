@@ -6,7 +6,6 @@
 
 import os
 from datetime import timedelta
-from unittest.mock import patch
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core.management.color import no_style
@@ -17,7 +16,6 @@ from django.utils import timezone
 
 from weblate.auth.models import Group, User
 from weblate.checks.models import Check
-from weblate.formats.base import UnitNotFoundError
 from weblate.lang.models import Language, Plural
 from weblate.trans.actions import ActionEvents
 from weblate.trans.exceptions import SuggestionSimilarToTranslationError
@@ -44,6 +42,7 @@ from weblate.trans.tests.utils import (
 from weblate.utils.django_hacks import immediate_on_commit, immediate_on_commit_leave
 from weblate.utils.files import remove_tree
 from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
+from weblate.utils.version import GIT_VERSION
 
 
 def fixup_languages_seq() -> None:
@@ -290,15 +289,6 @@ class TranslationTest(RepoTestCase):
         self.assertEqual(start_rev, component.repository.last_revision)
         self.assertEqual(translation.count_pending_units, 4)
 
-        with patch.object(
-            translation.store, "find_unit", side_effect=UnitNotFoundError("test error")
-        ):
-            # Check failure in committing pending changes retains them in db
-            # use _commit_pending, patching won't work if the Translation object
-            # is loaded from the db
-            translation._commit_pending("test", None)  # noqa: SLF001
-            self.assertEqual(translation.count_pending_units, 4)
-
         # Commit pending changes
         translation.commit_pending("test", None)
         self.assertNotEqual(start_rev, component.repository.last_revision)
@@ -370,7 +360,7 @@ class TranslationTest(RepoTestCase):
             [units[0], units[1], units[2], units[1], units[3]],
         )
 
-    def test_commit_explanation(self):
+    def test_commit_explanation(self) -> None:
         user = create_test_user()
         component = self.create_tbx()
 
@@ -396,7 +386,7 @@ class TranslationTest(RepoTestCase):
         # only adds pending change for target unit's translation file
         self.assertEqual(PendingUnitChange.objects.count(), 1)
 
-    def test_commit_policy(self):
+    def test_commit_policy(self) -> None:
         component = self.create_component()
         translation = component.translation_set.get(language_code="cs")
         user = create_test_user()
@@ -449,6 +439,111 @@ class TranslationTest(RepoTestCase):
         self.assertEqual([STATE_FUZZY, STATE_FUZZY], [p.state for p in changes])
         component.commit_pending("test", None)
         self.assertEqual(PendingUnitChange.objects.count(), 0)
+
+    def test_commit_retry_unit_not_found(self) -> None:
+        """Test retry logic for units failing due to UnitFoundError works correctly."""
+        user = create_test_user()
+        component = self.create_po_new_base()
+
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        ttk_unit, _ = translation.store.find_unit(unit.context, unit.source)
+        translation.store.remove_unit(ttk_unit.unit)
+
+        unit.translate(user, "Ahoj Země!\n", STATE_TRANSLATED)
+
+        self.assertEqual(translation.count_pending_units, 1)
+        component.commit_pending("test", None)
+        # failed unit, ineligible for commit doesn't count in pending units
+        self.assertEqual(translation.count_pending_units, 0)
+
+        change = PendingUnitChange.objects.get(unit=unit)
+        self.assertIn("last_failed", change.metadata)
+        self.assertEqual(change.metadata["failed_revision"], translation.revision)
+        self.assertEqual(change.metadata["weblate_version"], GIT_VERSION)
+        self.assertEqual(change.metadata["blocking_unit"], True)
+
+        unit.translate(user, "Ahoj Vesmíre!\n", STATE_TRANSLATED)
+        # blocking failed change makes future changes to same unit ineligible for commit
+        self.assertEqual(translation.count_pending_units, 0)
+
+        # add back missing unit and update revision to make changes eligible for commit
+        translation.store.new_unit(unit.context, unit.get_source_plurals())
+        translation.store.save()
+        translation.store_hash()
+
+        self.assertEqual(translation.count_pending_units, 2)
+        component.commit_pending("test", None)
+        self.assertEqual(PendingUnitChange.objects.count(), 0)
+
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        self.assertEqual(unit.target, "Ahoj Vesmíre!\n")
+
+    def test_commit_retry_unit_ttk_failure(self) -> None:
+        """Test retry logic for units failing due to TTK failure works correctly."""
+        user = create_test_user()
+        component = self.create_ftl()
+        project = component.project
+        project.commit_policy = CommitPolicyChoices.APPROVED_ONLY
+        project.save()
+
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, ${ name }!")
+        unit.translate(user, "Ahoj, ${ jméno }!", STATE_APPROVED)
+
+        self.assertEqual(translation.count_pending_units, 1)
+
+        component.commit_pending("test", None)
+
+        # failed unit, ineligible for commit doesn't count in pending units
+        self.assertEqual(translation.count_pending_units, 0)
+
+        change = PendingUnitChange.objects.get(unit=unit)
+        self.assertIn("last_failed", change.metadata)
+        self.assertEqual(change.metadata["failed_revision"], translation.revision)
+        self.assertEqual(change.metadata["weblate_version"], GIT_VERSION)
+        self.assertEqual(change.metadata["blocking_unit"], False)
+
+        unit.translate(user, "Ahoj, ${ name }!", STATE_APPROVED)
+
+        # this change is not expected to be applied as it is in translated
+        # state only. it is here to ensure that changes newer than the last
+        # successful change for the unit are not deleted.
+        unit.translate(user, "Ahoj ${ name }", STATE_TRANSLATED)
+        self.assertEqual(PendingUnitChange.objects.count(), 3)
+
+        # failed change is not blocking so future changes can be committed
+        changes = list(PendingUnitChange.objects.for_translation(translation))
+        self.assertEqual(len(changes), 1)
+        self.assertEqual(changes[0].target, "Ahoj, ${ name }!")
+        self.assertEqual(changes[0].metadata, {})
+
+        component.commit_pending("test", None)
+
+        # when successful changes to a unit are applied, pending changes for the unit
+        # earlier than the last successful change are removed
+        self.assertEqual(PendingUnitChange.objects.count(), 1)
+
+        ttk_unit, _ = translation.store.find_unit(unit.context, "Hello, ${ name }!")
+        self.assertEqual(ttk_unit.target, "Ahoj, ${ name }!")
+
+    def test_commit_successful_deletes_failed_changes(self) -> None:
+        """Test that failed changes are deleted when a subsequent successful change to the unit is applied."""
+        user = create_test_user()
+        component = self.create_ftl()
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, ${ name }!")
+
+        unit.translate(user, "Ahoj, ${ jméno }!", STATE_TRANSLATED)
+        unit.translate(user, "Ahoj, ${ name }!", STATE_TRANSLATED)
+        self.assertEqual(translation.count_pending_units, 2)
+
+        component.commit_pending("test", None)
+
+        # second change applied and first deleted as a result
+        self.assertEqual(translation.count_pending_units, 0)
+        ttk_unit, _ = translation.store.find_unit(unit.context, "Hello, ${ name }!")
+        self.assertEqual(ttk_unit.target, "Ahoj, ${ name }!")
 
 
 class ComponentListTest(RepoTestCase):

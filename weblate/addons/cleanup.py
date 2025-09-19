@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar
 
 from django.utils.translation import gettext_lazy
 
@@ -39,7 +39,7 @@ class CleanupAddon(BaseCleanupAddon):
         "no longer present in the base file."
     )
     icon = "eraser.svg"
-    events: set[AddonEvent] = {
+    events: ClassVar[set[AddonEvent]] = {
         AddonEvent.EVENT_PRE_COMMIT,
         AddonEvent.EVENT_POST_UPDATE,
     }
@@ -79,7 +79,7 @@ class RemoveBlankAddon(BaseCleanupAddon):
     description = gettext_lazy(
         "Removes strings without a translation from translation files."
     )
-    events: set[AddonEvent] = {
+    events: ClassVar[set[AddonEvent]] = {
         AddonEvent.EVENT_POST_COMMIT,
         AddonEvent.EVENT_POST_UPDATE,
     }

@@ -448,7 +448,10 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     def languages(self):
         """Return list of all languages used in project."""
         return (
-            Language.objects.filter(translation__component__project=self)
+            Language.objects.filter(
+                Q(translation__component__project=self)
+                | Q(translation__component__links=self)
+            )
             .distinct()
             .order()
         )

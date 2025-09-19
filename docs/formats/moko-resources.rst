@@ -1,3 +1,5 @@
+.. _moko-resource:
+
 Mobile Kotlin resources
 -----------------------
 

@@ -94,3 +94,12 @@ Description: Fake package - module manually installed in site_perl
             ),
             "由 {username} 邀请至 {<del>site_title}</del><ins>project} 项目</ins>。",
         )
+
+    def test_github_15995(self) -> None:
+        self.assertEqual(
+            self.differ.highlight(
+                "تُثبَّت التحديثات...",
+                "تُثبّت التحديثات...",
+            ),
+            "تُث<del>بّ</del><ins>بَّ</ins>ت التحديثات...",
+        )

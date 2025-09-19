@@ -187,7 +187,46 @@ approach is also used for Hosted Weblate, there is dedicated
 
 .. seealso::
 
-    :ref:`hosted-push`
+   * :ref:`vcs-github`
+   * :ref:`hosted-push`
+   * :setting:`GITHUB_CREDENTIALS`
+
+.. _vcs-repos-gitlab:
+
+GitLab repositories
++++++++++++++++++++
+
+Access via SSH is possible (see :ref:`ssh-repos`), but in case you need to
+access more than one repository, you will hit a GitLab limitation on allowed
+SSH key usage (since each key can be used only once).
+
+In case the :ref:`component-push_branch` is not set, the project is forked and
+changes pushed through a fork. In case it is set, changes are pushed to the
+upstream repository and chosen branch.
+
+Using personal or project access tokens is possible as well. The token needs
+:guilabel:`write_repository` scope to be able to push changes to the
+repository. The project access token requires :guilabel:`Developer` role for
+pushing.
+
+The URL needs to contain an username, for personal access token it is the
+actual username (
+``https://user:personal_access_token@gitlab.com/example/example.git``) for
+project access tokens it can be non-blank value
+(``https://example:project_access_token@gitlab.com/example/example.git``).
+
+.. note::
+
+   The rules for using project access tokens has changed between GitLab
+   releases, the non-blank value is the current requirement, but older versions
+   had different expectations (project name, bot user name). Check GitLab
+   documentation matching your version if unsure.
+
+.. seealso::
+
+   * :ref:`vcs-gitlab`
+   * :ref:`hosted-push`
+   * :setting:`GITLAB_CREDENTIALS`
 
 .. _internal-urls:
 
@@ -217,6 +256,11 @@ Reasons to use this:
 
 HTTPS repositories
 ++++++++++++++++++
+
+.. seealso::
+
+   * :ref:`vcs-repos-github`
+   * :ref:`vcs-repos-gitlab`
 
 To access protected HTTPS repositories, include the username and password
 in the URL. Don't worry, Weblate will strip this info when the URL is shown

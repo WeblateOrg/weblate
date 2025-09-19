@@ -66,7 +66,7 @@ def create_another_user() -> User:
 class RepoTestMixin:
     """Mixin for testing with test repositories."""
 
-    updated_base_repos: set[str] = set()
+    updated_base_repos: set[str] = set()  # noqa: RUF012
     CREATE_GLOSSARIES: bool = False
 
     local_repo_path = "local:"
@@ -323,6 +323,11 @@ class RepoTestMixin:
             "webextension/_locales/en/messages.json",
         )
 
+    def create_ftl(self, **kwargs) -> Component:
+        return self._create_component(
+            "fluent", "ftl/locales/*/test.ftl", "ftl/locales/en/test.ftl", **kwargs
+        )
+
     def create_json_intermediate(self, **kwargs) -> Component:
         return self._create_component(
             "json",
@@ -425,19 +430,22 @@ class RepoTestMixin:
                 new_lang="contact",
             )
 
-    def create_link_existing(self) -> Component:
+    def create_link_existing(
+        self, name: str = "Test2", slug: str = "test2", **kwargs
+    ) -> Component:
         component = self.component
         if "linked_children" in component.__dict__:
             del component.__dict__["linked_children"]
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             return Component.objects.create(
-                name="Test2",
-                slug="test2",
+                name=name,
+                slug=slug,
                 project=self.project,
                 repo=component.get_repo_link_url(),
                 file_format="po",
                 filemask="po-duplicates/*.dpo",
                 new_lang="contact",
+                **kwargs,
             )
 
 

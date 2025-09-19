@@ -8,7 +8,8 @@ from typing import TYPE_CHECKING
 
 from weblate.lang.models import Language
 
-from .base import MachineTranslation, TranslationResultDict
+from .base import MachineTranslation
+from .types import TranslationResultDict
 
 if TYPE_CHECKING:
     from weblate.trans.models import Translation

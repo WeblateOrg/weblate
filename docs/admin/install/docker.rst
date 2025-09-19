@@ -1410,6 +1410,19 @@ Keycloak
 
     Enables Keycloak authentication, see :doc:`psa:backends/keycloak`.
 
+    .. hint::
+
+       When Keycloak is configured to abstract third-party IDP, you will need
+       to configure :envvar:`WEBLATE_CSP_FORM_SRC` for the third-party IDP domain.
+
+       .. code-block:: yaml
+          :caption: Example when Keycloak is passing authentication to Microsoft.
+
+          environment:
+            WEBLATE_CSP_FORM_SRC: login.microsoftonline.com
+
+
+
 Linux vendors
 ~~~~~~~~~~~~~
 
@@ -1465,7 +1478,9 @@ In case you want to use own keys, place the certificate and private key in
 
     SAML Identity Provider settings, see :ref:`saml-auth`.
 
-.. envvar:: WEBLATE_SAML_ID_ATTR_NAME
+.. envvar:: WEBLATE_SAML_ID_ATTR_FULL_NAME
+.. envvar:: WEBLATE_SAML_ID_ATTR_FIRST_NAME
+.. envvar:: WEBLATE_SAML_ID_ATTR_LAST_NAME
 .. envvar:: WEBLATE_SAML_ID_ATTR_USERNAME
 .. envvar:: WEBLATE_SAML_ID_ATTR_EMAIL
 .. envvar:: WEBLATE_SAML_ID_ATTR_USER_PERMANENT_ID
@@ -1988,19 +2003,18 @@ Container settings
 
     Configure how many WSGI workers should be executed.
 
-    It defaults to :envvar:`WEBLATE_WORKERS`.
+    It defaults to half of :envvar:`WEBLATE_WORKERS`, but is always at least 2.
 
     **Example:**
 
     .. code-block:: yaml
 
         environment:
-          WEB_WORKERS: 32
+          WEB_WORKERS: 4
 
-   .. versionchanged:: 5.9
+   .. versionchanged:: 5.13
 
-      The Docker container runs two WSGI processes since 5.9 and
-      :envvar:`WEB_WORKERS` configures how many threads each process will have.
+      :envvar:`WEB_WORKERS` configures how many worker processes will used by :program:`granian`.
 
 .. envvar:: WEBLATE_SERVICE
 
@@ -2075,6 +2089,10 @@ but those are not covered by this document.
 The :file:`data` volume is mounted as :file:`/app/data` and is used to store
 Weblate persistent data such as cloned repositories or to customize Weblate
 installation. :setting:`DATA_DIR` describes in more detail what is stored here.
+
+The :file:`data` volume is also place to store Weblate customization such as
+:ref:`docker-settings-override`, :ref:`docker-static-override` or
+:ref:`docker-python-override`.
 
 The placement of the Docker volume on host system depends on your Docker
 configuration, but usually it is stored in
@@ -2210,6 +2228,8 @@ To override settings at the Docker image level instead of from the data volume:
    such as exposing settings as environment variables, or allow overriding
    settings from Python files in the data volume.
 
+.. _docker-static-override:
+
 Replacing logo and other static files
 +++++++++++++++++++++++++++++++++++++
 
@@ -2238,6 +2258,8 @@ it as separate volume to the Docker container, for example:
       - ./weblate_customization/weblate_customization:/app/data/python/weblate_customization
     environment:
       WEBLATE_ADD_APPS: weblate_customization
+
+.. _docker-python-override:
 
 Customizing code
 ++++++++++++++++

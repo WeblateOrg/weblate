@@ -3,16 +3,21 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from django.utils.translation import gettext_lazy
 from django.views.decorators.cache import never_cache
 from django.views.generic import TemplateView
 
-from weblate.auth.models import AuthenticatedHttpRequest, User
+from weblate.auth.models import User
 from weblate.legal.forms import TOSForm
 from weblate.legal.models import Agreement
 from weblate.trans.util import redirect_next
+
+if TYPE_CHECKING:
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 MENU = (
     ("index", "legal:index", gettext_lazy("Overview")),

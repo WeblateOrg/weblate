@@ -99,7 +99,7 @@
             <a class="dropdown-item" data-bs-target="#bulk-edit" data-bs-toggle="tab">{% translate "Bulk edit" %}</a>
           </li>
         {% endif %}
-        <hr class="dropdown-divider">
+        {% if replace_form and bulk_state_form %}<hr class="dropdown-divider">{% endif %}
         {% if user_can_see_repository_status %}
           <li>
             <a class="dropdown-item"
@@ -154,6 +154,12 @@
           <li>
             <a class="dropdown-item" href="{% url 'manage-access' project=object.slug %}#api">{% translate "API access" %}</a>
           </li>
+        {% elif managed_teams %}
+          {% for team in managed_teams %}
+            <li>
+              <a href="{{ team.get_absolute_url }}">{% blocktranslate %}Manage {{ team }}{% endblocktranslate %}</a>
+            </li>
+          {% endfor %}
         {% endif %}
         {% if user_can_edit_project %}
           <li>
@@ -226,7 +232,7 @@
 
       {% include "snippets/list-objects.html" with objects=components list_categories=categories name_source="name" label=_("Component") add_link="component" %}
 
-      {% include "paginator.html" with page_obj=components %}
+      {% include "paginator.html" with page_obj=components anchor="components" %}
 
     </div>
 

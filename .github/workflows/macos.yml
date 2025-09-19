@@ -11,6 +11,10 @@ on:
     - weblate
   pull_request:
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.ref || github.run_id }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
@@ -66,7 +70,7 @@ jobs:
         export CI_DB_USER="$(id -nu)"
         source .venv/bin/activate
         pytest --junitxml=junit.xml --cov=weblate --cov-report=xml --numprocesses=auto weblate
-    - uses: codecov/codecov-action@18283e04ce6e62d37312384ff67231eb8fd56d24 # v5.4.3
+    - uses: codecov/codecov-action@5a1091511ad55cbe89839c7260b706298ca349f7 # v5.5.1
       with:
         token: ${{secrets.CODECOV_TOKEN}}
         flags: unittests

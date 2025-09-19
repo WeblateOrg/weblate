@@ -42,7 +42,7 @@ class ContributorAgreement(models.Model):
     objects = ContributorAgreementManager()
 
     class Meta:
-        unique_together = [("user", "component")]
+        unique_together = [("user", "component")]  # noqa: RUF012
         verbose_name = "contributor license agreement"
         verbose_name_plural = "contributor license agreements"
 

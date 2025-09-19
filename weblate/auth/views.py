@@ -3,6 +3,8 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from django.core.exceptions import PermissionDenied
 from django.forms import inlineformset_factory
 from django.http import Http404, HttpResponseRedirect
@@ -13,17 +15,21 @@ from django.views.generic import DetailView, UpdateView
 
 from weblate.auth.forms import ProjectTeamForm, SitewideTeamForm
 from weblate.auth.models import (
-    AuthenticatedHttpRequest,
     AutoGroup,
     Group,
     Invitation,
-    User,
 )
 from weblate.trans.forms import UserAddTeamForm, UserManageForm
-from weblate.trans.util import redirect_next
+from weblate.trans.util import redirect_next, redirect_param
 from weblate.utils import messages
 from weblate.utils.views import get_paginator, show_form_errors
 from weblate.wladmin.forms import ChangedCharField
+
+if TYPE_CHECKING:
+    from weblate.auth.models import (
+        AuthenticatedHttpRequest,
+        User,
+    )
 
 
 class TeamUpdateView(UpdateView):
@@ -133,7 +139,7 @@ class TeamUpdateView(UpdateView):
 
         form = self.get_form()
         if form is None:
-            return self.form_invalid(form, None)
+            raise PermissionDenied
 
         if "delete" in request.POST:
             return self.handle_delete(request)
@@ -156,6 +162,15 @@ class InvitationView(DetailView):
 
     def get(self, request: AuthenticatedHttpRequest, *args, **kwargs):
         self.object = self.get_object()
+        if request.user.is_authenticated and self.object.user != request.user:
+            # Invitation not for this user (either is for email and user is None or different user)
+            messages.error(
+                request,
+                gettext(
+                    "This invitation can be accepted only by the e-mail address chosen by the inviter; it can't be used by your account."
+                ),
+            )
+            return redirect_param("profile", "#account")
         if not self.object.user:
             # When inviting new user go through registration
             request.session["invitation_link"] = str(self.object.pk)

@@ -18,12 +18,12 @@ class OpenMetricsRenderer(BaseRenderer):
             if isinstance(value, str):
                 # Strings not supported
                 continue
-            if isinstance(value, int | float):
+            if isinstance(value, (int, float)):
                 result.append(f"{key} {value}")
             elif isinstance(value, dict):
                 # Celery queues
                 for queue, stat in value.items():
-                    result.append(f'{key}(queue="{queue}") {stat}')
+                    result.append(f'{key}{{queue="{queue}"}} {stat}')
 
         result.append("# EOF")
         return "\n".join(result)

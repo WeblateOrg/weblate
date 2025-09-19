@@ -25,7 +25,7 @@ from rest_framework import serializers
 
 from weblate.accounts.models import Subscription
 from weblate.addons.models import ADDONS, Addon
-from weblate.auth.models import AuthenticatedHttpRequest, Group, Permission, Role, User
+from weblate.auth.models import Group, Permission, Role, User
 from weblate.auth.results import PermissionResult
 from weblate.checks.models import CHECKS
 from weblate.lang.models import Language, Plural
@@ -59,6 +59,8 @@ from weblate.utils.views import (
 if TYPE_CHECKING:
     from drf_spectacular.openapi import AutoSchema
     from rest_framework.request import Request
+
+    from weblate.auth.models import AuthenticatedHttpRequest
 
 _MT = TypeVar("_MT", bound=Model)  # Model Type
 
@@ -167,7 +169,7 @@ class LanguageSerializer(serializers.ModelSerializer[Language]):
             "url",
             "statistics_url",
         )
-        extra_kwargs = {
+        extra_kwargs = {  # noqa: RUF012
             "url": {"view_name": "api:language-detail", "lookup_field": "code"},
             "code": {"validators": []},
         }
@@ -266,7 +268,7 @@ class FullUserSerializer(serializers.ModelSerializer[User]):
             "statistics_url",
             "contributions_url",
         )
-        extra_kwargs = {
+        extra_kwargs = {  # noqa: RUF012
             "url": {"view_name": "api:user-detail", "lookup_field": "username"}
         }
 
@@ -311,7 +313,9 @@ class RoleSerializer(serializers.ModelSerializer[Role]):
             "permissions",
             "url",
         )
-        extra_kwargs = {"url": {"view_name": "api:role-detail", "lookup_field": "id"}}
+        extra_kwargs = {  # noqa: RUF012
+            "url": {"view_name": "api:role-detail", "lookup_field": "id"},
+        }
 
     def create(self, validated_data):
         permissions_validated = validated_data.pop("permissions", [])
@@ -373,7 +377,7 @@ class CommentSerializer(serializers.Serializer[Comment]):
 
     class Meta:
         model = Comment
-        fields = ["scope", "comment", "timestamp", "user_email", "id", "user"]
+        fields = ("scope", "comment", "timestamp", "user_email", "id", "user")
 
     def validate_scope(self, value):
         unit: Unit | None = self.context.get("unit", None)
@@ -471,7 +475,9 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
             "components",
             "enforced_2fa",
         )
-        extra_kwargs = {"url": {"view_name": "api:group-detail", "lookup_field": "id"}}
+        extra_kwargs = {  # noqa: RUF012
+            "url": {"view_name": "api:group-detail", "lookup_field": "id"},
+        }
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
@@ -544,7 +550,7 @@ class ProjectSerializer(serializers.ModelSerializer[Project]):
             "machinery_settings",
             "locked",
         )
-        extra_kwargs = {
+        extra_kwargs = {  # noqa: RUF012
             "url": {"view_name": "api:project-detail", "lookup_field": "slug"}
         }
 
@@ -720,7 +726,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
             "linked_component",
             "locked",
         )
-        extra_kwargs = {
+        extra_kwargs = {  # noqa: RUF012
             "url": {
                 "view_name": "api:component-detail",
                 "lookup_field": ("project__slug", "slug"),
@@ -962,7 +968,7 @@ class TranslationSerializer(RemovableSerializer[Translation]):
             "changes_list_url",
             "units_list_url",
         )
-        extra_kwargs = {
+        extra_kwargs = {  # noqa: RUF012
             "url": {
                 "view_name": "api:translation-detail",
                 "lookup_field": (
@@ -1247,7 +1253,9 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
             "timestamp",
             "last_updated",
         )
-        extra_kwargs = {"url": {"view_name": "api:unit-detail"}}
+        extra_kwargs = {  # noqa: RUF012
+            "url": {"view_name": "api:unit-detail"},
+        }
 
 
 class UnitWriteSerializer(serializers.ModelSerializer[Unit]):
@@ -1357,7 +1365,9 @@ class CategorySerializer(RemovableSerializer[Category]):
             "url",
             "statistics_url",
         )
-        extra_kwargs = {"url": {"view_name": "api:category-detail"}}
+        extra_kwargs = {  # noqa: RUF012
+            "url": {"view_name": "api:category-detail"},
+        }
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
@@ -1421,7 +1431,9 @@ class ScreenshotSerializer(RemovableSerializer[Screenshot]):
             "units",
             "url",
         )
-        extra_kwargs = {"url": {"view_name": "api:screenshot-detail"}}
+        extra_kwargs = {  # noqa: RUF012
+            "url": {"view_name": "api:screenshot-detail"}
+        }
 
 
 class ScreenshotCreateSerializer(ScreenshotSerializer):
@@ -1436,7 +1448,9 @@ class ScreenshotCreateSerializer(ScreenshotSerializer):
             "url",
             "image",
         )
-        extra_kwargs = {"url": {"view_name": "api:screenshot-detail"}}
+        extra_kwargs = {  # noqa: RUF012
+            "url": {"view_name": "api:screenshot-detail"}
+        }
 
 
 class ScreenshotFileSerializer(serializers.ModelSerializer[Screenshot]):
@@ -1445,7 +1459,9 @@ class ScreenshotFileSerializer(serializers.ModelSerializer[Screenshot]):
     class Meta:
         model = Screenshot
         fields = ("image",)
-        extra_kwargs = {"url": {"view_name": "api:screenshot-file"}}
+        extra_kwargs = {  # noqa: RUF012
+            "url": {"view_name": "api:screenshot-file"}
+        }
 
 
 class ChangeSerializer(RemovableSerializer[Change]):
@@ -1491,7 +1507,9 @@ class ChangeSerializer(RemovableSerializer[Change]):
             "action_name",
             "url",
         )
-        extra_kwargs = {"url": {"view_name": "api:change-detail"}}
+        extra_kwargs = {  # noqa: RUF012
+            "url": {"view_name": "api:change-detail"}
+        }
 
 
 class AutoComponentListSerializer(serializers.ModelSerializer[AutoComponentList]):
@@ -1525,7 +1543,7 @@ class ComponentListSerializer(serializers.ModelSerializer[ComponentList]):
             "auto_assign",
             "url",
         )
-        extra_kwargs = {
+        extra_kwargs = {  # noqa: RUF012
             "url": {"view_name": "api:componentlist-detail", "lookup_field": "slug"}
         }
 
@@ -1554,7 +1572,9 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
             "configuration",
             "url",
         )
-        extra_kwargs = {"url": {"view_name": "api:addon-detail"}}
+        extra_kwargs = {  # noqa: RUF012
+            "url": {"view_name": "api:addon-detail"}
+        }
 
     @staticmethod
     def check_addon(name, queryset) -> None:

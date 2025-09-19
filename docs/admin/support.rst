@@ -44,10 +44,41 @@ Integration services
 * See if your support package is still valid
 * :ref:`cloudbackup`
 * :ref:`discover-weblate`
+* :ref:`support-contact`
 
 .. hint::
 
    Purchased support packages are already activated upon purchase and can be used without integrating them.
+
+.. _support-contact:
+
+Contacting customer care
+------------------------
+
+.. hint::
+
+   If you do not have a support package yet, please refer to the
+   :doc:`/contributing/issues` section for available community resources.
+
+Subscribers can reach Weblate Care directly through the following channels:
+
+* Email support at care@weblate.org.
+* The `customer care portal <https://care.weblate.org/>`_
+* The support form is available in the Weblate management interface after :ref:`activate-support`.
+
+A subscription ensures timely and reliable help with setup, maintenance, and troubleshooting.
+
+.. note::
+
+   **Sending encrypted content**
+
+   If you want to send an encrypted content, please use the public key for
+   care@weblate.org with ID ``0961 62CE 141D 7FE4 B15D A9FA 73D9 298A CB26
+   03F0``.
+
+   This public key is available on the most commonly used key servers, using
+   WKD or `directly from weblate.org
+   <https://weblate.org/.well-known/openpgpkey/hu/7oq6zfqsndhzsmw94xm1e5yu8me8sjsx?l=care>`_.
 
 .. _discover-weblate:
 

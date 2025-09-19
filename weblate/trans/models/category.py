@@ -85,7 +85,7 @@ class Category(
         app_label = "trans"
         verbose_name = "Category"
         verbose_name_plural = "Categories"
-        constraints = [
+        constraints = [  # noqa: RUF012
             models.UniqueConstraint(
                 name="category_slug_unique",
                 fields=["project", "category", "slug"],

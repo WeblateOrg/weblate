@@ -6,8 +6,8 @@ from __future__ import annotations
 
 import logging
 from datetime import date, datetime, timedelta
-from typing import TYPE_CHECKING, overload
-from uuid import UUID, uuid5
+from typing import TYPE_CHECKING, ClassVar, overload
+from uuid import uuid5
 
 import sentry_sdk
 from django.conf import settings
@@ -39,6 +39,9 @@ from weblate.utils.state import StringState
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
+    from uuid import UUID
+
+    from django_stubs_ext import StrOrPromise
 
     from weblate.auth.models import User
     from weblate.trans.models import Translation
@@ -52,6 +55,7 @@ PREFETCH_FIELDS = (
     "author",
     "translation",
     "component",
+    "category",
     "project",
     "component__source_language",
     "unit",
@@ -160,6 +164,11 @@ class ChangeQuerySet(models.QuerySet["Change"]):
         return base.count_stats(days, step, dtstart)
 
     def prefetch_for_render(self) -> ChangeQuerySet:
+        """
+        Prefetch needed related fields for rendering.
+
+        Might be used with Change.fill_in_prefetched.
+        """
         return self.prefetch().select_related(
             "alert",
             "screenshot",
@@ -398,8 +407,10 @@ class ChangeManager(models.Manager["Change"]):
 
 
 class Change(models.Model, UserDisplayMixin):
-    ACTIONS_DICT = dict(ActionEvents.choices)
-    ACTION_STRINGS = {
+    ACTIONS_DICT: ClassVar[dict[ActionEvents, StrOrPromise]] = dict(
+        ActionEvents.choices
+    )
+    ACTION_STRINGS: ClassVar[dict[str, int]] = {
         name.lower().replace(" ", "-"): value for value, name in ActionEvents.choices
     }
 
@@ -410,8 +421,10 @@ class Change(models.Model, UserDisplayMixin):
     ACTIONS_MERGE_FAILURE = ACTIONS_MERGE_FAILURE
     ACTIONS_ADDON = ACTIONS_ADDON
 
-    ACTION_NAMES = {str(name): value for value, name in ActionEvents.choices}
-    AUTO_ACTIONS = {
+    ACTION_NAMES: ClassVar[set[str]] = {
+        str(name): value for value, name in ActionEvents.choices
+    }
+    AUTO_ACTIONS: ClassVar[dict[ActionEvents, StrOrPromise]] = {
         # Translators: Name of event in the history
         ActionEvents.LOCK: gettext_lazy(
             "The component was automatically locked because of an alert."
@@ -482,7 +495,7 @@ class Change(models.Model, UserDisplayMixin):
 
     class Meta:
         app_label = "trans"
-        indexes = [
+        indexes = [  # noqa: RUF012
             models.Index(
                 fields=["-timestamp", "action"],
                 name="trans_change_action_idx",
@@ -511,6 +524,11 @@ class Change(models.Model, UserDisplayMixin):
                 fields=["translation", "-timestamp", "action"],
                 condition=Q(translation__isnull=False),
                 name="trans_change_translation_idx",
+            ),
+            models.Index(
+                fields=["category", "-timestamp", "action"],
+                condition=Q(category__isnull=False),
+                name="trans_change_category_idx",
             ),
             models.Index(
                 fields=["unit", "-timestamp", "action"],
@@ -638,7 +656,11 @@ class Change(models.Model, UserDisplayMixin):
         self.store_last_change(self.translation, self)
 
     def fixup_references(self) -> None:
-        """Update references based to least specific one."""
+        """
+        Update references based to least specific one.
+
+        Update Change.fill_in_prefetched together with this one
+        """
         if self.unit:
             self.translation = self.unit.translation
         if self.screenshot:
@@ -732,6 +754,24 @@ class Change(models.Model, UserDisplayMixin):
     def get_uuid(self) -> UUID:
         """Return uuid for this change."""
         return uuid5(WEBLATE_UUID_NAMESPACE, f"{self.action}.{self.id}")
+
+    def fill_in_prefetched(self) -> None:
+        """
+        Fill in prefetched data into nested objects.
+
+        - Based on fixup_references.
+        - Uses data from prefetch_for_render
+        """
+        if self.unit:
+            self.unit.translation = self.translation
+        if self.screenshot:
+            self.screenshot.translation = self.translation
+        if self.translation:
+            self.translation.component = self.component
+            self.translation.language = self.language
+        if self.component:
+            self.component.project = self.project
+            self.component.category = self.category
 
 
 @receiver(post_save, sender=Change)

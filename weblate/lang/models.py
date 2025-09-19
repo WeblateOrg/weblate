@@ -459,8 +459,8 @@ class LanguageQuerySet(models.QuerySet):
                 return self.get(code__iexact=accept_lang)
             except Language.DoesNotExist:
                 try:
-                    return self.get(code__iexact=accept_lang.replace("-", "_"))
-                except Language.DoesNotExist:
+                    return self.filter(code__iexact=accept_lang.replace("-", "_"))[0]
+                except IndexError:
                     continue
         return None
 
@@ -1172,6 +1172,9 @@ class PluralMapper:
         self.source_plural = source_plural
         self.target_plural = target_plural
         self.same_plurals = source_plural.same_as(target_plural)
+
+    def __str__(self):
+        return f"<PluralMapper '{self.source_plural}' -> '{self.target_plural}'>"
 
     @cached_property
     def target_map(self) -> tuple[tuple[int | None, int | None], ...]:

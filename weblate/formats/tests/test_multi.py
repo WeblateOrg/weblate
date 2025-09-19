@@ -4,6 +4,10 @@
 
 """File format specific behavior."""
 
+from __future__ import annotations
+
+from typing import ClassVar
+
 from weblate.formats.multi import MultiCSVUtf8Format
 from weblate.trans.tests.utils import get_test_file
 from weblate.trans.util import join_plural
@@ -32,16 +36,19 @@ class MultiCSVUtf8FormatTest(BaseFormatTest):
     )
     NEW_UNIT_MATCH = b'"Source string",""\r\n'
     EXPECTED_FLAGS = ""
-    EDIT_TARGET = ["Infarctus myocardique", "Infarctus du myocarde"]
+    EDIT_TARGET: ClassVar[list[str]] = [
+        "Infarctus myocardique",
+        "Infarctus du myocarde",
+    ]
 
-    EXPECTED_EDIT = [
+    EXPECTED_EDIT: ClassVar[list[str]] = [
         '"context","source","target"',
         '"22298006","Myocardial infarction (disorder)","Infarctus myocardique"',  # codespell:ignore infarction
         '"22298006","Myocardial infarction (disorder)","Infarctus du myocarde"',  # codespell:ignore infarction
         '"271681002","Stomach ache (finding)","douleur à l\'estomac"',
         '"271681002","Stomach ache (finding)","douleur gastrique"',
     ]
-    EXPECTED_ADD = [
+    EXPECTED_ADD: ClassVar[list[str]] = [
         '"context","source","target"',
         '"22298006","Myocardial infarction (disorder)","Infarctus myocardique"',  # codespell:ignore infarction
         '"22298006","Myocardial infarction (disorder)","Infarctus du myocarde"',  # codespell:ignore infarction
@@ -89,14 +96,14 @@ class MonoMultiCSVUtf8FormatTest(MultiCSVUtf8FormatTest):
     BASE = TEST_MONO_BASE_CSV
     TEMPLATE = TEST_MONO_BASE_CSV
     SUPPORTS_NOTES = False
-    EXPECTED_EDIT = [
+    EXPECTED_EDIT: ClassVar[list[str]] = [
         '"context","target"',
         '"22298006","Infarctus myocardique"',
         '"22298006","Infarctus du myocarde"',
         '"271681002","douleur à l\'estomac"',
         '"271681002","douleur gastrique"',
     ]
-    EXPECTED_ADD = [
+    EXPECTED_ADD: ClassVar[list[str]] = [
         '"context","target"',
         '"22298006","Infarctus myocardique"',
         '"22298006","Infarctus du myocarde"',

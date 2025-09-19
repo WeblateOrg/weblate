@@ -12,7 +12,7 @@ from collections.abc import (
 from contextvars import ContextVar
 from functools import cache as functools_cache
 from itertools import chain
-from typing import TYPE_CHECKING, Any, Literal, TypedDict, cast
+from typing import TYPE_CHECKING, Any, ClassVar, Literal, TypedDict, cast
 
 import sentry_sdk
 from appconf import AppConf
@@ -62,6 +62,7 @@ from weblate.utils.validators import CRUD_RE, validate_fullname, validate_userna
 if TYPE_CHECKING:
     from collections.abc import Iterable, Mapping
 
+    from django_otp.models import Device
     from social_core.backends.base import BaseAuth
     from social_django.models import DjangoStorage
     from social_django.strategy import DjangoStrategy
@@ -506,15 +507,18 @@ class User(AbstractBaseUser):
     # social_auth integration
     social_auth: DjangoStorage
 
+    # django_otp integration (via OTPMiddleware)
+    otp_device: Device
+
     EMAIL_FIELD = "email"
     USERNAME_FIELD = "username"
-    REQUIRED_FIELDS = ["email", "full_name"]
+    REQUIRED_FIELDS = ["email", "full_name"]  # noqa: RUF012
     DUMMY_FIELDS = ("first_name", "last_name", "is_staff")
 
     class Meta:
         verbose_name = "User"
         verbose_name_plural = "Users"
-        constraints = [
+        constraints = [  # noqa: RUF012
             UniqueConstraint(Upper("username"), name="weblate_auth_user_username_ci"),
             UniqueConstraint(Upper("email"), name="weblate_auth_user_email_ci"),
         ]
@@ -593,6 +597,10 @@ class User(AbstractBaseUser):
     @cached_property
     def is_anonymous(self):
         return self.username == settings.ANONYMOUS_USER_NAME
+
+    def is_verified(self) -> bool:
+        # django_otp overrides this method in OTPMiddleware
+        return False
 
     @cached_property
     def is_authenticated(self) -> bool:  # type: ignore[override]
@@ -914,17 +922,30 @@ class User(AbstractBaseUser):
             self.get_visible_name(), address or self.profile.get_commit_email()
         )
 
-    def add_team(self, request: AuthenticatedHttpRequest | None, team: Group) -> None:
+    def add_team(
+        self,
+        request: AuthenticatedHttpRequest | None,
+        team: Group,
+        *,
+        user: User | None = None,
+    ) -> None:
         from weblate.accounts.models import AuditLog
 
         self.groups.add(team)
+
+        username: str | None
+        if user is not None:
+            username = user.username
+        elif request is not None:
+            username = request.user.username
+        else:
+            username = None
+
         AuditLog.objects.create(
             user=self,
             request=request if request is not None and request.user == self else None,
             activity="team-add",
-            username=request.user.username
-            if request is not None and request.user
-            else None,
+            username=username,
             team=team.name,
         )
 
@@ -991,7 +1012,9 @@ class UserBlock(models.Model):
     class Meta:
         verbose_name = "Blocked user"
         verbose_name_plural = "Blocked users"
-        unique_together = [("user", "project")]
+        unique_together = [  # noqa: RUF012
+            ("user", "project"),
+        ]
 
     def __str__(self) -> str:
         return f"{self.user} blocked for {self.project}"
@@ -1241,7 +1264,7 @@ class Invitation(models.Model):
             username=self.author.username,
         )
 
-        user.add_team(request, self.group)
+        user.add_team(request, self.group, user=self.author)
 
         self.delete()
 
@@ -1249,11 +1272,13 @@ class Invitation(models.Model):
 class WeblateAuthConf(AppConf):
     """Authentication settings."""
 
-    AUTH_RESTRICT_ADMINS = {}
+    AUTH_RESTRICT_ADMINS: ClassVar[dict] = {}
 
     # Anonymous user name
     ANONYMOUS_USER_NAME = "anonymous"
+
     SESSION_COOKIE_AGE_AUTHENTICATED = 1209600
+    SESSION_COOKIE_AGE_2FA = 180
 
     class Meta:
         prefix = ""

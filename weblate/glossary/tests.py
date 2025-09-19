@@ -9,6 +9,7 @@ from __future__ import annotations
 import csv
 import json
 from io import StringIO
+from typing import TYPE_CHECKING
 
 from django.db import transaction
 from django.urls import reverse
@@ -19,12 +20,15 @@ from weblate.glossary.tasks import (
     sync_terminology,
 )
 from weblate.lang.models import Language
-from weblate.trans.models import Translation, Unit
+from weblate.trans.models import Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.db import TransactionsTestMixin
 from weblate.utils.hash import calculate_hash
 from weblate.utils.state import STATE_READONLY, STATE_TRANSLATED
+
+if TYPE_CHECKING:
+    from weblate.trans.models import Translation
 
 TEST_TBX = get_test_file("terms.tbx")
 TEST_CSV = get_test_file("terms.csv")

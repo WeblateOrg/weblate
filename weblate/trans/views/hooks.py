@@ -6,14 +6,13 @@ from __future__ import annotations
 import json
 import re
 from collections.abc import Callable
-from typing import TypedDict
+from typing import TYPE_CHECKING, TypedDict
 from urllib.parse import quote, urlparse
 
 from django.conf import settings
 from django.db.models import Q
 from django.http import (
     Http404,
-    HttpResponse,
     HttpResponseBadRequest,
     HttpResponseNotAllowed,
     JsonResponse,
@@ -28,6 +27,11 @@ from weblate.trans.models import Component, Project
 from weblate.trans.tasks import perform_update
 from weblate.utils.errors import report_error
 from weblate.utils.views import parse_path
+
+if TYPE_CHECKING:
+    from django.http import (
+        HttpResponse,
+    )
 
 BITBUCKET_GIT_REPOS = (
     "ssh://git@{server}/{full_name}.git",
