@@ -1,8 +1,8 @@
 {% load humanize i18n %}
 
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <span class="pull-right flip">
+<div class="{% if bootstrap_5 %} card {% else %} panel panel-default {% endif %}">
+  <div class="{% if bootstrap_5 %} card-header {% else %} panel-heading {% endif %}">
+    <span class="{% if bootstrap_5 %} float-end {% else %} pull-right flip {% endif %}">
       <svg height="8" width="8">
         <rect x="0" y="0" width="8" height="8" fill="#2ECCAA"></rect>
       </svg>
@@ -12,7 +12,9 @@
       </svg>
       {% blocktranslate context "Previous 12 months" %}Previous{% endblocktranslate %}
     </span>
-    <h4 class="panel-title">{% translate "Activity in last 12 months" %}</h4>
+    <h4 class="{% if bootstrap_5 %} card-title {% else %} panel-title {% endif %}">
+      {% translate "Activity in last 12 months" %}
+    </h4>
   </div>
   <table class="table table-activity">
     <tr>
