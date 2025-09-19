@@ -100,7 +100,9 @@ def show_language(request: AuthenticatedHttpRequest, lang):
             "allow_index": True,
             "object": obj,
             "last_changes": last_changes,
-            "search_form": SearchForm(request=request, language=obj, obj=obj, bootstrap_5=True),
+            "search_form": SearchForm(
+                request=request, language=obj, obj=obj, bootstrap_5=True
+            ),
             "projects": projects,
             "project_languages": project_languages,
             "bootstrap_5": True,

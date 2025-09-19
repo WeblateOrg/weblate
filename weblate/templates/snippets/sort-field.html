@@ -5,11 +5,7 @@
     <button type="button"
             id="query-sort-dropdown"
             class="btn {% if bootstrap_5 %}btn-outline-primary{% else %}btn-default{% endif %} dropdown-toggle search-field"
-            {% if bootstrap_5 %}
-              data-bs-toggle="dropdown"
-            {% else %}
-              data-toggle="dropdown"
-            {% endif %}
+            {% if bootstrap_5 %} data-bs-toggle="dropdown" {% else %} data-toggle="dropdown" {% endif %}
             aria-haspopup="true"
             aria-expanded="false">
       {% if form.sort_name %}
@@ -28,13 +24,16 @@
       {% sort_choices as sort_choices %}
       {% for key, name in sort_choices %}
         <li>
-          <a {% if bootstrap_5 %}class="dropdown-item" {% endif %}href="#" data-sort="{{ key }}">{{ name }}</a>
+          <a {% if bootstrap_5 %}class="dropdown-item"{% endif %}
+             href="#"
+             data-sort="{{ key }}">{{ name }}</a>
         </li>
       {% endfor %}
     </ul>
   </div>
   <div class="btn-group" role="group">
-    <button type="button" class="btn {% if bootstrap_5 %}btn-outline-primary{% else %}btn-default{% endif %} search-field query-sort-toggle">
+    <button type="button"
+            class="btn {% if bootstrap_5 %}btn-outline-primary{% else %}btn-default{% endif %} search-field query-sort-toggle">
       <span title="{% translate 'Ascending' %}" class="search-icon asc active">{% icon "sort-ascending.svg" %}</span>
       <span title="{% translate 'Descending' %}" class="search-icon desc">{% icon "sort-descending.svg" %}</span>
     </button>
