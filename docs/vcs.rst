@@ -187,7 +187,9 @@ approach is also used for Hosted Weblate, there is dedicated
 
 .. seealso::
 
-    :ref:`hosted-push`
+   * :ref:`vcs-github`
+   * :ref:`hosted-push`
+   * :setting:`GITHUB_CREDENTIALS`
 
 .. _vcs-repos-gitlab:
 
@@ -222,7 +224,9 @@ project access tokens it can be non-blank value
 
 .. seealso::
 
-    :ref:`hosted-push`
+   * :ref:`vcs-gitlab`
+   * :ref:`hosted-push`
+   * :setting:`GITLAB_CREDENTIALS`
 
 .. _internal-urls:
 
