@@ -37,9 +37,9 @@
     {% for componentlist in componentlists %}
       <li {% active_link componentlist.tab_slug %}>
         <a data-bs-target="#{{ componentlist.tab_slug }}"
-          data-bs-toggle="tab"
-          data-href="{% url 'component-list-dashboard' name=componentlist.slug %}"
-          href="#">
+           data-bs-toggle="tab"
+           data-href="{% url 'component-list-dashboard' name=componentlist.slug %}"
+           href="#">
           {{ componentlist.name }}
           <span class="badge text-bg-secondary">{{ componentlist.translations|length }}</span>
         </a>
