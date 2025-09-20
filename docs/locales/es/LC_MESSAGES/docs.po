@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-09-03 14:08+0200\n"
-"PO-Revision-Date: 2025-09-19 12:02+0000\n"
+"PO-Revision-Date: 2025-09-20 13:36+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -16656,6 +16656,7 @@ msgstr ""
 msgid ""
 "Prior to Weblate 4.13, the services were configured in the :ref:`config`."
 msgstr ""
+"Antes de Weblate 4.13, los servicios se configuraban en la :ref:`config`."
 
 #: ../../admin/machine.rst:10
 msgid ""
@@ -16674,6 +16675,8 @@ msgid ""
 "They come subject to their terms of use, so ensure you are allowed to use "
 "them how you want."
 msgstr ""
+"Están sujetos a sus términos de uso, así que asegúrese de poder usarlos como "
+"desee."
 
 #: ../../admin/machine.rst:22
 msgid ""
@@ -16687,12 +16690,13 @@ msgstr ""
 msgid ""
 "Per-project automatic suggestion can also be configured via the :ref:`api`."
 msgstr ""
+"La sugerencia automática por proyecto también se puede configurar a través "
+"del :ref:`api`."
 
 #: ../../admin/machine.rst:34
-#, fuzzy
-#| msgid "Integration of machine translation services."
 msgid "Priority of machine translation and translation memory services"
-msgstr "Integración de servicios de traducción automática."
+msgstr ""
+"Prioridad de los servicios de traducción automática y memoria de traducción"
 
 #: ../../admin/machine.rst:36
 msgid ""
@@ -16701,6 +16705,11 @@ msgid ""
 "found, no machine translation is performed. If several 100% matches occur, "
 "the first one returned by the database is used."
 msgstr ""
+":ref:`mt-weblate-translation-memory` las coincidencias con una puntuación "
+"del 100% tienen prioridad sobre los servicios de traducción automática. Si "
+"se encuentra una coincidencia del 100% en la memoria de traducción, no se "
+"realiza traducción automática. Si se producen varias coincidencias del 100%, "
+"se utiliza la primera devuelta por la base de datos."
 
 #: ../../admin/machine.rst:38
 msgid ""
@@ -16710,12 +16719,16 @@ msgid ""
 "service's maximum, the service is asked to produce a translation. "
 "Translations with a score exceeding the current one are accepted."
 msgstr ""
+"Cada servicio de traducción automática tiene una puntuación máxima "
+"predefinida que puede generar. El uso de los servicios de traducción "
+"instalados se ordena según su puntuación máxima. Para cada cadena con una "
+"puntuación de traducción inferior al máximo del servicio, se le solicita al "
+"servicio que produzca una traducción. Se aceptan traducciones con una "
+"puntuación superior a la actual."
 
 #: ../../admin/machine.rst:43
-#, fuzzy
-#| msgid "Huge translation memory with machine translation."
 msgid "Source strings for the machine translation"
-msgstr "Enorme memoria de traducción que ofrece traducciones automáticas."
+msgstr "Cadenas de origen para la traducción automática"
 
 #: ../../admin/machine.rst:47
 msgid ""
@@ -16723,16 +16736,19 @@ msgid ""
 "This can be used to tweak the service to get the best results. Following "
 "choices are available:"
 msgstr ""
+"Se puede configurar el origen de las cadenas de origen para todos los "
+"servicios de terceros. Esto se puede utilizar para modificar el servicio y "
+"obtener los mejores resultados. Las siguientes opciones están disponibles:"
 
 #: ../../admin/machine.rst:50
 #, fuzzy
 #| msgid ":guilabel:`Use automatic suggestions`"
 msgid ":guilabel:`Automatic selection`"
-msgstr ":guilabel:`Utilizar sugerencias automáticas`"
+msgstr ":guilabel:`Automatic selection`"
 
 #: ../../admin/machine.rst:51
 msgid "Chooses the best source language automatically."
-msgstr ""
+msgstr "Elige el mejor idioma de origen automáticamente."
 
 #: ../../admin/machine.rst:53
 #, fuzzy
@@ -16814,10 +16830,8 @@ msgstr "Selección del idioma origen"
 #: ../../admin/machine.rst:795 ../../admin/machine.rst:819
 #: ../../admin/machine.rst:899 ../../admin/machine.rst:929
 #: ../../admin/machine.rst:957
-#, fuzzy
-#| msgid "Automatic detection"
 msgid "``auto`` -- Automatic selection"
-msgstr "Detección automática"
+msgstr "``auto`` -- Selección automática"
 
 #: ../../admin/machine.rst:77 ../../admin/machine.rst:107
 #: ../../admin/machine.rst:138 ../../admin/machine.rst:174
@@ -16830,10 +16844,8 @@ msgstr "Detección automática"
 #: ../../admin/machine.rst:748 ../../admin/machine.rst:797
 #: ../../admin/machine.rst:821 ../../admin/machine.rst:901
 #: ../../admin/machine.rst:931 ../../admin/machine.rst:959
-#, fuzzy
-#| msgid "Component renamed"
 msgid "``source`` -- Component source language"
-msgstr "Componente renombrado"
+msgstr "``source`` -- Idioma de origen del componente"
 
 #: ../../admin/machine.rst:79 ../../admin/machine.rst:109
 #: ../../admin/machine.rst:140 ../../admin/machine.rst:176
@@ -16846,10 +16858,8 @@ msgstr "Componente renombrado"
 #: ../../admin/machine.rst:750 ../../admin/machine.rst:799
 #: ../../admin/machine.rst:823 ../../admin/machine.rst:903
 #: ../../admin/machine.rst:933 ../../admin/machine.rst:961
-#, fuzzy
-#| msgid "New language added to %(component)s"
 msgid "``secondary`` -- Secondary language defined in project or component"
-msgstr "Se añadió un idioma nuevo a %(component)s"
+msgstr "``secondary`` -- Idioma secundario definido en el proyecto o componente"
 
 #: ../../admin/machine.rst:81 ../../admin/machine.rst:142
 msgid "Access key ID"
@@ -16894,26 +16904,26 @@ msgid ""
 "A libre software machine translation platform providing translations to a "
 "limited set of languages."
 msgstr ""
+"Una plataforma de traducción automática de software libre que proporciona "
+"traducciones a un conjunto limitado de idiomas."
 
 #: ../../admin/machine.rst:117
 msgid ""
 "The recommended way to use Apertium is to run your own Apertium-APy server."
 msgstr ""
+"La forma recomendada de usar Apertium es ejecutar su propio servidor "
+"Apertium-APy."
 
 #: ../../admin/machine.rst:121
 msgid "`Apertium website <https://www.apertium.org/>`_"
-msgstr ""
+msgstr "`Sitio web de Apertium <https://www.apertium.org/>`_"
 
 #: ../../admin/machine.rst:122
-#, fuzzy
-#| msgid ""
-#| "`Apertium website <https://www.apertium.org/>`_, `Apertium APy "
-#| "documentation <https://wiki.apertium.org/wiki/Apertium-apy>`_"
 msgid ""
 "`Apertium APy documentation <https://wiki.apertium.org/wiki/Apertium-apy>`_"
 msgstr ""
-"`Página web de Apertium <https://www.apertium.org/>`_, `Documentación de "
-"Apertium APy <https://wiki.apertium.org/wiki/Apertium-apy>`_"
+"`Documentación APy de Apertium <https://wiki.apertium.org/wiki/Apertium-"
+"apy>`_"
 
 #: ../../admin/machine.rst:129
 msgid "Amazon Translate"
@@ -16928,10 +16938,6 @@ msgid "Region name"
 msgstr "Nombre de la región"
 
 #: ../../admin/machine.rst:149
-#, fuzzy
-#| msgid ""
-#| "Amazon Translate is a neural machine translation service for translating "
-#| "text to and from English across a breadth of supported languages."
 msgid ""
 "Amazon Translate is a neural machine translation service for translating "
 "text to and from English across a breadth of supported languages. The "
@@ -16939,12 +16945,14 @@ msgid ""
 msgstr ""
 "El traductor de Amazon es un servicio de traducción automática neuronal para "
 "traducir texto desde y hacia el inglés en una amplia gama de idiomas "
-"compatibles."
+"compatibles. El servicio requiere la Política de Gestión "
+"'TranslateFullAccess'`"
 
 #: ../../admin/machine.rst:153 ../../admin/machine.rst:311
 #: ../../admin/machine.rst:588 ../../admin/machine.rst:723
 msgid "The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`."
 msgstr ""
+"El servicio utiliza automáticamente :ref:`glossary`, ver :ref:`glossary-mt`."
 
 #: ../../admin/machine.rst:157
 msgid ""
@@ -16958,6 +16966,8 @@ msgid ""
 "`AWS TranslateFullAccess Policy <https://docs.aws.amazon.com/aws-managed-"
 "policy/latest/reference/TranslateFullAccess.html>`_"
 msgstr ""
+"`Política de AWS TranslateFullAccess <https://docs.aws.amazon.com/"
+"aws-managed-policy/latest/reference/TranslateFullAccess.html>`_"
 
 #: ../../admin/machine.rst:163
 #, fuzzy
