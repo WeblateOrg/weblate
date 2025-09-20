@@ -710,13 +710,17 @@ class PluralMapperTestCase(FixtureTestCase):
         english = Language.objects.get(code="en")
         czech = Language.objects.get(code="cs")
         mapper = PluralMapper(english.plural, czech.plural)
-        self.assertEqual(mapper.target_map, ((0, None), (None, None), (-1, None)))
+        self.assertEqual(mapper.target_map, ((0, None), (1, None), (-1, None)))
         unit = Unit.objects.get(
             translation__language=english, id_hash=2097404709965985808
         )
         self.assertEqual(
             mapper.map(unit),
-            ["Orangutan has %d banana.\n", "", "Orangutan has %d bananas.\n"],
+            [
+                "Orangutan has %d banana.\n",
+                "Orangutan has %d bananas.\n",
+                "Orangutan has %d bananas.\n",
+            ],
         )
 
     def test_czech_german(self) -> None:
