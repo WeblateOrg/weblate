@@ -2306,60 +2306,69 @@ LibreTranslate Integration
 translation service that can be self-hosted. Integrating it with Weblate provides
 offline machine translation capabilities without relying on external services.
 
-To add LibreTranslate to your Weblate setup, extend your :file:`docker-compose.yml`
-or create a :file:`docker-compose.override.yml` with the following configuration:
+The setup is surprisingly simple - you can add LibreTranslate to your Weblate deployment
+by creating a :file:`docker-compose.override.yml` file with the LibreTranslate service.
+Since it runs within the Docker network, it's only accessible to Weblate and not exposed
+to the public internet.
+
+Basic setup using :file:`docker-compose.override.yml`:
 
 .. code-block:: yaml
 
-   version: '3'
    services:
      libretranslate:
+       container_name: libretranslate
        image: libretranslate/libretranslate:latest
-       restart: unless-stopped
-       ports:
-         - "5000:5000"
+       command: --disable-web-ui
        environment:
-         LT_HOST: 0.0.0.0
-         LT_PORT: 5000
-         # Uncomment and set API key for production use
-         # LT_API_KEYS: true
-         # LT_API_KEYS_DB_PATH: /app/db/api_keys.db
-         # LT_REQUIRE_API_KEY_ORIGIN: true
+         LT_UPDATE_MODELS: true
        volumes:
-         - libretranslate-data:/app/db
-       healthcheck:
-         test: ["CMD-SHELL", "curl -f http://localhost:5000/health || exit 1"]
-         interval: 30s
-         timeout: 10s
-         retries: 3
-       # Uncomment to limit resources
-       # deploy:
-       #   resources:
-       #     limits:
-       #       memory: 2G
-       #       cpus: '1.0'
+         - ./libretranslate_db:/app/db
+         - ./libretranslate_data:/root/.local:rw
 
-   volumes:
-     libretranslate-data:
+For GPU-accelerated translation (if you have NVIDIA GPU available):
 
-After starting the services, configure LibreTranslate in Weblate:
+.. code-block:: yaml
+
+   services:
+     libretranslate:
+       container_name: libretranslate
+       image: libretranslate/libretranslate:v1.7.3-cuda
+       command: --disable-web-ui
+       environment:
+         LT_UPDATE_MODELS: true
+         PUID: root
+       volumes:
+         - ./libretranslate_db:/app/db
+         - ./libretranslate_data:/root/.local:rw
+       deploy:
+         resources:
+           reservations:
+             devices:
+               - driver: nvidia
+                 count: 1
+                 capabilities: [gpu]
+
+After starting the services with ``docker compose down && docker compose up -d``, 
+configure LibreTranslate in Weblate:
 
 1. Access the Weblate admin interface
 2. Navigate to :guilabel:`Machine translation` → :guilabel:`Automatic suggestions`
 3. Add a new LibreTranslate service with:
 
    * **Service**: LibreTranslate
-   * **API URL**: ``http://libretranslate:5000`` (or ``http://localhost:5000`` if accessing from outside Docker)
-   * **API key**: Leave empty for basic setup, or provide a key if :envvar:`LT_API_KEYS` is enabled
+   * **API URL**: ``http://libretranslate:5000``
+   * **API key**: Leave empty
+
+And that's it - LibreTranslate is now configured and available for machine translation in Weblate! 🎉
 
 .. note::
 
-   For production deployments, it's recommended to:
-
-   * Enable API key authentication by setting ``LT_API_KEYS=true``
-   * Use a reverse proxy to handle SSL termination
-   * Configure resource limits to prevent excessive memory usage
-   * Consider using a dedicated network for container communication
+   * The LibreTranslate service runs without the web UI (``--disable-web-ui``) and is only accessible via the API within the Docker network
+   * Models are automatically updated when the container starts (``LT_UPDATE_MODELS: true``)
+   * Data is persisted in local directories (``./libretranslate_db`` and ``./libretranslate_data``)
+   * For GPU acceleration, use the CUDA image variant and ensure your system has NVIDIA Docker support
+   * No external ports are exposed, making the setup secure by default
 
 .. seealso::
 
