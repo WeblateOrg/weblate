@@ -334,7 +334,8 @@ def perform_translation(unit, form, request: AuthenticatedHttpRequest) -> bool:
     """Handle translation and stores it to a backend."""
     user = request.user
     profile = user.profile
-    project = unit.translation.component.project
+    component = unit.translation.component
+    project = component.project
     # Remember old checks
     oldchecks = unit.all_checks_names
     # Alternative translations handling
@@ -342,8 +343,7 @@ def perform_translation(unit, form, request: AuthenticatedHttpRequest) -> bool:
 
     # Update explanation for glossary
     change_explanation = (
-        unit.translation.component.is_glossary
-        and unit.explanation != form.cleaned_data["explanation"]
+        component.is_glossary and unit.explanation != form.cleaned_data["explanation"]
     )
     # Save
     saved = unit.translate(
@@ -396,7 +396,13 @@ def perform_translation(unit, form, request: AuthenticatedHttpRequest) -> bool:
     if (
         saved
         and form.cleaned_data["state"] >= STATE_TRANSLATED
-        and newchecks > oldchecks
+        and (
+            # Any new checks?
+            newchecks > oldchecks
+            or
+            # Any enforced check?
+            (component.enforced_checks and newchecks & set(component.enforced_checks))
+        )
     ):
         # Show message to user
         messages.error(
