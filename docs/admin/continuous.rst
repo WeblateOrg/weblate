@@ -262,6 +262,13 @@ Weblate has support for GitLab hooks, add a project webhook
 with destination to ``/hooks/gitlab/`` URL on your Weblate installation
 (for example ``https://hosted.weblate.org/hooks/gitlab/``).
 
+.. admonition:: Troubleshooting
+
+   * Check `GitLab webhook request history`_ if webhooks are delivered.
+   * The response payload contains information about matched components.
+
+.. _GitLab webhook request history: https://docs.gitlab.com/user/project/integrations/webhooks/#view-webhook-request-history
+
 .. seealso::
 
    * :http:post:`/hooks/gitlab/`
