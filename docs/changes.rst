@@ -17,7 +17,7 @@ Weblate 5.14
   * Available in the OpenAPI.
   * Dropped long-deprecated endpoints.
 * :ref:`date-search`.
-* Last changed loookup in :ref:`search-strings`.
+* Last changed lookup in :ref:`search-strings`.
 
 .. rubric:: Bug fixes
 
