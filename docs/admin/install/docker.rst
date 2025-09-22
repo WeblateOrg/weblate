@@ -2282,6 +2282,91 @@ custom maintenance tasks to the Celery task scheduler.
    :language: python
    :caption: An example of custom scheduled tasks in :file:`/app/data/python/customize/tasks.py`.
 
+Integrating third-party containers
+----------------------------------
+
+The Weblate Docker setup can be extended with additional containers to provide
+complementary services such as machine translation, spell checking, or other
+tools that enhance the translation workflow. These services can be integrated
+into your :file:`docker-compose.yml` file and configured to work alongside
+Weblate.
+
+When adding third-party containers, consider the following:
+
+* **Network connectivity**: Ensure containers can communicate with each other by placing them on the same Docker network
+* **Data persistence**: Use volumes for services that need to persist data
+* **Security**: Configure appropriate access controls and avoid exposing unnecessary ports
+* **Resource allocation**: Set appropriate memory and CPU limits for additional services
+* **Dependencies**: Use ``depends_on`` to ensure services start in the correct order
+
+LibreTranslate Integration
+++++++++++++++++++++++++++
+
+`LibreTranslate <https://libretranslate.com/>`_ is a free and open-source machine
+translation service that can be self-hosted. Integrating it with Weblate provides
+offline machine translation capabilities without relying on external services.
+
+To add LibreTranslate to your Weblate setup, extend your :file:`docker-compose.yml`
+or create a :file:`docker-compose.override.yml` with the following configuration:
+
+.. code-block:: yaml
+
+   version: '3'
+   services:
+     libretranslate:
+       image: libretranslate/libretranslate:latest
+       restart: unless-stopped
+       ports:
+         - "5000:5000"
+       environment:
+         LT_HOST: 0.0.0.0
+         LT_PORT: 5000
+         # Uncomment and set API key for production use
+         # LT_API_KEYS: true
+         # LT_API_KEYS_DB_PATH: /app/db/api_keys.db
+         # LT_REQUIRE_API_KEY_ORIGIN: true
+       volumes:
+         - libretranslate-data:/app/db
+       healthcheck:
+         test: ["CMD-SHELL", "curl -f http://localhost:5000/health || exit 1"]
+         interval: 30s
+         timeout: 10s
+         retries: 3
+       # Uncomment to limit resources
+       # deploy:
+       #   resources:
+       #     limits:
+       #       memory: 2G
+       #       cpus: '1.0'
+
+   volumes:
+     libretranslate-data:
+
+After starting the services, configure LibreTranslate in Weblate:
+
+1. Access the Weblate admin interface
+2. Navigate to :guilabel:`Machine translation` → :guilabel:`Automatic suggestions`
+3. Add a new LibreTranslate service with:
+
+   * **Service**: LibreTranslate
+   * **API URL**: ``http://libretranslate:5000`` (or ``http://localhost:5000`` if accessing from outside Docker)
+   * **API key**: Leave empty for basic setup, or provide a key if :envvar:`LT_API_KEYS` is enabled
+
+.. note::
+
+   For production deployments, it's recommended to:
+
+   * Enable API key authentication by setting ``LT_API_KEYS=true``
+   * Use a reverse proxy to handle SSL termination
+   * Configure resource limits to prevent excessive memory usage
+   * Consider using a dedicated network for container communication
+
+.. seealso::
+
+   * :ref:`mt-libretranslate`
+   * `LibreTranslate Docker documentation <https://github.com/LibreTranslate/LibreTranslate#docker>`_
+   * :ref:`machine-translation-setup`
+
 Configuring PostgreSQL server
 -----------------------------
 
