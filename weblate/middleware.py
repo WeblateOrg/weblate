@@ -355,10 +355,10 @@ class CSPBuilder:
         return domain
 
     def build_csp_redoc(self) -> None:
-        if (
-            self.request.resolver_match
-            and self.request.resolver_match.view_name == "redoc"
-        ):
+        if self.request.resolver_match and self.request.resolver_match.view_name in {
+            "redoc",
+            "swagger",
+        }:
             self.directives["script-src"].add("'unsafe-inline'")
             self.directives["img-src"].add("data:")
 
