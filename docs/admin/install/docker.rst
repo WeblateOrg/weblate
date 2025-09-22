@@ -2317,14 +2317,22 @@ Basic setup using :file:`docker-compose.override.yml`:
 
    services:
      libretranslate:
-       container_name: libretranslate
        image: libretranslate/libretranslate:latest
        command: --disable-web-ui
        environment:
          LT_UPDATE_MODELS: true
        volumes:
          - ./libretranslate_db:/app/db
-         - ./libretranslate_data:/root/.local:rw
+         - libretranslate_models:/home/libretranslate/.local:rw
+       healthcheck:
+         test: ['CMD-SHELL', './venv/bin/python scripts/healthcheck.py']
+         interval: 10s
+         timeout: 4s
+         retries: 4
+         start_period: 5s
+
+   volumes:
+     libretranslate_models:
 
 For GPU-accelerated translation (if you have NVIDIA GPU available):
 
@@ -2332,15 +2340,19 @@ For GPU-accelerated translation (if you have NVIDIA GPU available):
 
    services:
      libretranslate:
-       container_name: libretranslate
-       image: libretranslate/libretranslate:v1.7.3-cuda
+       image: libretranslate/libretranslate:latest-cuda
        command: --disable-web-ui
        environment:
          LT_UPDATE_MODELS: true
-         PUID: root
        volumes:
          - ./libretranslate_db:/app/db
-         - ./libretranslate_data:/root/.local:rw
+         - libretranslate_models:/home/libretranslate/.local:rw
+       healthcheck:
+         test: ['CMD-SHELL', './venv/bin/python scripts/healthcheck.py']
+         interval: 10s
+         timeout: 4s
+         retries: 4
+         start_period: 5s
        deploy:
          resources:
            reservations:
@@ -2348,6 +2360,9 @@ For GPU-accelerated translation (if you have NVIDIA GPU available):
                - driver: nvidia
                  count: 1
                  capabilities: [gpu]
+
+   volumes:
+     libretranslate_models:
 
 After starting the services with ``docker compose down && docker compose up -d``, 
 configure LibreTranslate in Weblate:
@@ -2360,13 +2375,14 @@ configure LibreTranslate in Weblate:
    * **API URL**: ``http://libretranslate:5000``
    * **API key**: Leave empty
 
-And that's it - LibreTranslate is now configured and available for machine translation in Weblate! 🎉
+LibreTranslate is now configured and available for machine translation in Weblate.
 
 .. note::
 
    * The LibreTranslate service runs without the web UI (``--disable-web-ui``) and is only accessible via the API within the Docker network
    * Models are automatically updated when the container starts (``LT_UPDATE_MODELS: true``)
-   * Data is persisted in local directories (``./libretranslate_db`` and ``./libretranslate_data``)
+   * Data is persisted using Docker volumes for optimal performance and data safety
+   * Health checks ensure the service is running correctly before Weblate attempts to use it
    * For GPU acceleration, use the CUDA image variant and ensure your system has NVIDIA Docker support
    * No external ports are exposed, making the setup secure by default
 
