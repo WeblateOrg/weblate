@@ -50,13 +50,14 @@ def get_spectacular_settings(
                 },
             },
         },
+        "SWAGGER_UI_DIST": "SIDECAR",
+        "DEFAULT_GENERATOR_CLASS": "weblate.api.generators.WeblateSchemaGenerator",
         # OpenAPI Specification version: 'webhooks' field is supported from 3.1.0
         "OAS_VERSION": "3.1.1",
         "SERVERS": [
             {"url": site_url.rstrip("/"), "description": site_title},
         ],
-        # Document only API (not webauthn and other drf endpoints)
-        "SERVE_URLCONF": "weblate.api.urls",
+        "SERVE_URLCONF": "weblate.urls",
         "TITLE": gettext_lazy("Weblate's REST API"),
         "LICENSE": {
             "name": "GNU General Public License v3 or later",
@@ -272,5 +273,5 @@ def get_drf_settings(
         "VIEW_DESCRIPTION_FUNCTION": "weblate.api.views.get_view_description",
         "EXCEPTION_HANDLER": "drf_standardized_errors.handler.exception_handler",
         "UNAUTHENTICATED_USER": "weblate.auth.models.get_anonymous",
-        "DEFAULT_SCHEMA_CLASS": "drf_standardized_errors.openapi.AutoSchema",
+        "DEFAULT_SCHEMA_CLASS": "weblate.api.generators.WeblateAutoSchema",
     }

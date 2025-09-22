@@ -8,6 +8,7 @@ import json
 from abc import ABC, abstractmethod
 from typing import Never
 from unittest.mock import patch
+from urllib.parse import urlencode
 
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
@@ -1287,18 +1288,6 @@ class HooksViewTest(ViewTestCase):
         self.addCleanup(self.patcher.stop)
 
     @override_settings(ENABLE_HOOKS=True)
-    def test_hook_project(self) -> None:
-        response = self.client.get(
-            reverse("update-hook", kwargs={"path": self.project.get_url_path()})
-        )
-        self.assertContains(response, "Update triggered")
-
-    @override_settings(ENABLE_HOOKS=True)
-    def test_hook_component(self) -> None:
-        response = self.client.get(reverse("update-hook", kwargs=self.kw_component))
-        self.assertContains(response, "Update triggered")
-
-    @override_settings(ENABLE_HOOKS=True)
     def test_hook_github_exists(self) -> None:
         # Adjust matching repo
         self.component.repo = "git://github.com/defunkt/github.git"
@@ -1492,8 +1481,6 @@ class HooksViewTest(ViewTestCase):
     @override_settings(ENABLE_HOOKS=False)
     def test_disabled(self) -> None:
         """Test for hooks disabling."""
-        self.assert_disabled()
-
         response = self.client.post(
             reverse("webhook", kwargs={"service": "github"}),
             {"payload": GITHUB_PAYLOAD},
@@ -1511,33 +1498,27 @@ class HooksViewTest(ViewTestCase):
         )
         self.assertEqual(response.status_code, 405)
 
-    def test_project_disabled(self) -> None:
-        self.project.enable_hooks = False
-        self.project.save()
-        self.assert_disabled()
-
-    def assert_disabled(self) -> None:
-        response = self.client.get(
-            reverse("update-hook", kwargs={"path": self.project.get_url_path()})
-        )
-        self.assertEqual(response.status_code, 405)
-        response = self.client.get(reverse("update-hook", kwargs=self.kw_component))
-        self.assertEqual(response.status_code, 405)
-
     @override_settings(ENABLE_HOOKS=True)
     def test_wrong_payload_github(self) -> None:
         """Test for invalid payloads with github."""
         # missing
         response = self.client.post(reverse("webhook", kwargs={"service": "github"}))
-        self.assertContains(response, "Could not parse JSON payload!", status_code=400)
+        self.assertContains(response, "Missing payload parameter!", status_code=400)
         # wrong
         response = self.client.post(
             reverse("webhook", kwargs={"service": "github"}), {"payload": "XX"}
         )
-        self.assertContains(response, "Could not parse JSON payload!", status_code=400)
+        self.assertContains(response, "JSON parse error", status_code=400)
         # missing data
         response = self.client.post(
             reverse("webhook", kwargs={"service": "github"}), {"payload": "{}"}
+        )
+        self.assertContains(response, "Invalid data in json payload!", status_code=400)
+        # application/x-www-form-urlencoded
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "github"}),
+            urlencode({"payload": "{}"}),
+            content_type="application/x-www-form-urlencoded",
         )
         self.assertContains(response, "Invalid data in json payload!", status_code=400)
 
@@ -1546,19 +1527,19 @@ class HooksViewTest(ViewTestCase):
         """Test for invalid payloads with gitlab."""
         # missing
         response = self.client.post(reverse("webhook", kwargs={"service": "gitlab"}))
-        self.assertContains(response, "Could not parse JSON payload!", status_code=400)
+        self.assertContains(response, "Missing payload parameter!", status_code=400)
         # missing content-type header
         response = self.client.post(
             reverse("webhook", kwargs={"service": "gitlab"}), {"payload": "anything"}
         )
-        self.assertContains(response, "Could not parse JSON payload!", status_code=400)
+        self.assertContains(response, "JSON parse error", status_code=400)
         # wrong
         response = self.client.post(
             reverse("webhook", kwargs={"service": "gitlab"}),
             "xx",
             content_type="application/json",
         )
-        self.assertContains(response, "Could not parse JSON payload!", status_code=400)
+        self.assertContains(response, "JSON parse error", status_code=400)
         # missing params
         response = self.client.post(
             reverse("webhook", kwargs={"service": "gitlab"}),

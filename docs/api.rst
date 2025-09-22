@@ -2845,8 +2845,7 @@ update individual repositories; see
         Please use :http:post:`/api/components/(string:project)/(string:component)/repository/`
         instead which works properly with authentication for ACL limited projects.
 
-   Triggers update of a component (pulling from VCS and scanning for
-   translation changes).
+   .. versionremoved:: 5.14
 
 .. http:get:: /hooks/update/(string:project)/
 
@@ -2855,8 +2854,7 @@ update individual repositories; see
         Please use :http:post:`/api/projects/(string:project)/repository/`
         instead which works properly with authentication for ACL limited projects.
 
-   Triggers update of all components in a project (pulling from VCS and
-   scanning for translation changes).
+   .. versionremoved:: 5.14
 
 .. http:post:: /hooks/github/
 

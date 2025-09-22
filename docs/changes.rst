@@ -12,7 +12,10 @@ Weblate 5.14
 .. rubric:: Improvements
 
 * New global permissions have been added to control viewing teams, users and roles without edit rights, see :ref:`privileges`.
-
+* :ref:`hooks` improvements.
+  * Now follows :ref:`api-errors`.
+  * Available in the OpenAPI.
+  * Dropped long-deprecated endpoints.
 * :ref:`date-search`.
 * Last changed loookup in :ref:`search-strings`.
 
@@ -24,6 +27,7 @@ Weblate 5.14
 .. rubric:: Compatibility
 
 * The default attributes for :ref:`saml-auth` in Docker container now matches non-Docker defaults.
+* Dropped long-deprecated :http:get:`/hooks/update/(string:project)/(string:component)/` and :http:get:`/hooks/update/(string:project)/`.
 
 .. rubric:: Upgrading
 
