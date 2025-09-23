@@ -40,7 +40,18 @@ class RateLimitTest(SimpleTestCase):
     def setUp(self) -> None:
         # Ensure no rate limits are there, across combinations used in tests
         request = self.get_request()
-        for attempts, window in [(5, 60), (1, 2), (2, 2), (1, 1)]:
+        # These combinations are chosen to cover the different test scenarios below:
+        # (5, 60): Basic limit test (5 attempts per 60 seconds)
+        # (1, 2): Window and lockout tests (1 attempt per 2 seconds)
+        # (2, 2): Interval and revert tests (2 attempts per 2 seconds)
+        # (1, 1): Post test (1 attempt per 1 second)
+        RATE_LIMIT_COMBINATIONS = [
+            (5, 60),  # Basic limit
+            (1, 2),   # Window/lockout
+            (2, 2),   # Interval/revert
+            (1, 1),   # Post
+        ]
+        for attempts, window in RATE_LIMIT_COMBINATIONS:
             with override_settings(
                 RATELIMIT_ATTEMPTS=attempts, RATELIMIT_WINDOW=window
             ):
