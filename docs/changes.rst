@@ -18,6 +18,7 @@ Weblate 5.14
   * Dropped long-deprecated endpoints.
 * :ref:`date-search`.
 * Last changed lookup in :ref:`search-strings`.
+* :doc:`/security/localization-threat` documentation.
 
 .. rubric:: Bug fixes
 
