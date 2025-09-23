@@ -76,7 +76,7 @@ from .gettext import (
     UpdateLinguasAddon,
 )
 from .git import GitSquashAddon
-from .models import ADDONS, Addon
+from .models import ADDONS, Addon, AddonActivityLog
 from .properties import PropertiesSortAddon
 from .removal import RemoveComments, RemoveSuggestions
 from .resx import ResxUpdateAddon
@@ -1130,7 +1130,7 @@ class LanguageConsistencyTest(ViewTestCase):
         self.component.new_lang = "add"
         self.component.new_base = "po/hello.pot"
         self.component.save()
-        self.create_ts(
+        ts_component = self.create_ts(
             name="TS",
             new_lang="add",
             new_base="ts/cs.ts",
@@ -1141,6 +1141,21 @@ class LanguageConsistencyTest(ViewTestCase):
         # Installation should make languages consistent
         addon = LanguageConsistencyAddon.create(component=self.component)
         self.assertEqual(Translation.objects.count(), 12)
+
+        # check that activity is correctly logged
+        activity_logs = (
+            AddonActivityLog.objects.filter(addon__name=addon.name)
+            .order_by("created")
+            .first()
+        )
+        self.assertIn(
+            f"{ts_component.full_slug}: Added German for language consistency",
+            activity_logs.details["result"],
+        )
+        self.assertIn(
+            f"{ts_component.full_slug}: Added Italian for language consistency",
+            activity_logs.details["result"],
+        )
 
         # Add one language
         language = Language.objects.get(code="af")

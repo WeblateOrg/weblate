@@ -33,5 +33,11 @@ class ExampleAddon(BaseAddon):
     description = gettext_lazy("This add-on does nothing it is just an example.")
 
     # Callback to implement custom behavior
-    def pre_commit(self, translation, author: str, store_hash: bool) -> None:
+    def pre_commit(
+        self,
+        translation,
+        author: str,
+        store_hash: bool,
+        activity_log_id: int | None = None,
+    ) -> None:
         return

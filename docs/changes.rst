@@ -19,6 +19,7 @@ Weblate 5.14
 * :ref:`date-search`.
 * Last changed lookup in :ref:`search-strings`.
 * :doc:`/security/localization-threat` documentation.
+* Improved activity logging for :ref:`addon-weblate.consistency.languages` add-on.
 
 .. rubric:: Bug fixes
 

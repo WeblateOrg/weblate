@@ -245,7 +245,9 @@ class GitSquashAddon(BaseAddon):
             repository.execute(["checkout", repository.branch])
             repository.delete_branch(tmp)
 
-    def post_commit(self, component: Component, store_hash: bool) -> None:
+    def post_commit(
+        self, component: Component, store_hash: bool, activity_log_id: int | None = None
+    ) -> None:
         # Operate on parent
         if component.linked_component:
             component = component.linked_component
