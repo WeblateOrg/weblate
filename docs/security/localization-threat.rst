@@ -112,7 +112,7 @@ Trust Boundaries
 - **Organization ↔ Translators:** Authentication and role-based access must be enforced.
 - **Translation Platform ↔ Source Control:** Synchronization requires secured tokens/keys.
 - **Translators ↔ Translation Platform:** All input must be sanitized before integration into builds.
-- **Platform ↔ End Users:** Ensures that translations cannot be weaponized for code injection.
+- **Platform ↔ End Users:** Translations must be validated to prevent code injection.
 
 Mitigation Summary
 ------------------
