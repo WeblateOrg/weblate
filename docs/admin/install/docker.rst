@@ -2296,6 +2296,8 @@ When adding third-party containers, consider the following:
 * **Data persistence**: Use volumes for services that need to persist data
 * **Security**: Configure appropriate access controls and avoid exposing unnecessary ports
 
+.. _docker-libretranslate:
+
 LibreTranslate Docker container integration
 +++++++++++++++++++++++++++++++++++++++++++
 
@@ -2384,8 +2386,10 @@ LibreTranslate is now configured and available for machine translation in Weblat
 .. seealso::
 
    * :ref:`mt-libretranslate`
-   * `LibreTranslate Docker documentation <https://github.com/LibreTranslate/LibreTranslate#docker>`_
+   * `LibreTranslate Docker documentation`_
    * :ref:`machine-translation-setup`
+
+.. _LibreTranslate Docker documentation: https://github.com/LibreTranslate/LibreTranslate#docker
 
 Configuring PostgreSQL server
 -----------------------------

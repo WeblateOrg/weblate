@@ -468,6 +468,7 @@ and there are several mirrors available to use the API for free.
 
    * `LibreTranslate website <https://libretranslate.com/>`_
    * `LibreTranslate repository <https://github.com/LibreTranslate/LibreTranslate>`_
+   * :ref:`docker-libretranslate`
 
 .. _mt-microsoft-translator:
 
