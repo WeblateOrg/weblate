@@ -1656,6 +1656,26 @@ class ProjectAPITest(APIBaseTest):
     def test_create_with_source_language_string_multipart(self) -> None:
         self.test_create_with_source_language_string(format="multipart")
 
+    def test_create_local_component(self) -> None:
+        Component.objects.all().delete()
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=201,
+            superuser=True,
+            request={
+                "file_format": "tbx",
+                "filemask": "*.tbx",
+                "name": "Glossary",
+                "new_lang": "add",
+                "repo": "local:",
+                "slug": "glossary",
+                "vcs": "local",
+            },
+        )
+        self.assertEqual(Component.objects.count(), 1)
+
     def test_create_component(self) -> None:
         self.do_request(
             "api:project-components",
