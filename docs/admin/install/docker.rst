@@ -2356,7 +2356,7 @@ For GPU-accelerated translation (if you have NVIDIA GPU available):
    volumes:
      libretranslate_models:
 
-After starting the services with ``docker compose down && docker compose up -d``, 
+After starting the services with ``docker compose down && docker compose up -d``,
 configure LibreTranslate in Weblate:
 
 1. Access the Weblate admin interface
