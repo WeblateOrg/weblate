@@ -2394,7 +2394,7 @@ Anubis can be deployed using Docker Compose:
          DIFFICULTY: "4"
          METRICS_BIND: ":9090"
          SERVE_ROBOTS_TXT: "false"
-         # The single space in TARGET enables subrequest authentication 
+         # The single space in TARGET enables subrequest authentication
          TARGET: " "
          OG_PASSTHROUGH: "false"
          ED25519_PRIVATE_KEY_HEX: "$(openssl rand -hex 32)"
