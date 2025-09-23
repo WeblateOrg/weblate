@@ -2288,16 +2288,13 @@ Integrating third-party containers
 The Weblate Docker setup can be extended with additional containers to provide
 complementary services such as machine translation, spell checking, or other
 tools that enhance the translation workflow. These services can be integrated
-into your :file:`docker-compose.yml` file and configured to work alongside
-Weblate.
+into your Docker Compose configuration and work alongside Weblate.
 
 When adding third-party containers, consider the following:
 
 * **Network connectivity**: Ensure containers can communicate with each other by placing them on the same Docker network
 * **Data persistence**: Use volumes for services that need to persist data
 * **Security**: Configure appropriate access controls and avoid exposing unnecessary ports
-* **Resource allocation**: Set appropriate memory and CPU limits for additional services
-* **Dependencies**: Use ``depends_on`` to ensure services start in the correct order
 
 LibreTranslate Integration
 ++++++++++++++++++++++++++
@@ -2306,10 +2303,7 @@ LibreTranslate Integration
 translation service that can be self-hosted. Integrating it with Weblate provides
 offline machine translation capabilities without relying on external services.
 
-The setup is surprisingly simple - you can add LibreTranslate to your Weblate deployment
-by creating a :file:`docker-compose.override.yml` file with the LibreTranslate service.
-Since it runs within the Docker network, it's only accessible to Weblate and not exposed
-to the public internet.
+You can incorporate the LibreTranslate service into your Weblate deployment by including it in a :file:`docker-compose.override.yml` file. Since it runs within the Docker network, it's only accessible to Weblate and not exposed to the public internet.
 
 Basic setup using :file:`docker-compose.override.yml`:
 
@@ -2322,7 +2316,6 @@ Basic setup using :file:`docker-compose.override.yml`:
        environment:
          LT_UPDATE_MODELS: true
        volumes:
-         - ./libretranslate_db:/app/db
          - libretranslate_models:/home/libretranslate/.local:rw
        healthcheck:
          test: ['CMD-SHELL', './venv/bin/python scripts/healthcheck.py']
@@ -2345,7 +2338,6 @@ For GPU-accelerated translation (if you have NVIDIA GPU available):
        environment:
          LT_UPDATE_MODELS: true
        volumes:
-         - ./libretranslate_db:/app/db
          - libretranslate_models:/home/libretranslate/.local:rw
        healthcheck:
          test: ['CMD-SHELL', './venv/bin/python scripts/healthcheck.py']
@@ -2379,12 +2371,12 @@ LibreTranslate is now configured and available for machine translation in Weblat
 
 .. note::
 
-   * The LibreTranslate service runs without the web UI (``--disable-web-ui``) and is only accessible via the API within the Docker network
-   * Models are automatically updated when the container starts (``LT_UPDATE_MODELS: true``)
-   * Data is persisted using Docker volumes for optimal performance and data safety
-   * Health checks ensure the service is running correctly before Weblate attempts to use it
-   * For GPU acceleration, use the CUDA image variant and ensure your system has NVIDIA Docker support
-   * No external ports are exposed, making the setup secure by default
+   * The LibreTranslate service runs without the web UI (``--disable-web-ui``) and is only accessible via the API within the Docker network.
+   * Models are automatically updated when the container starts. (``LT_UPDATE_MODELS: true``)
+   * Data is persisted using Docker volumes for optimal performance and data safety.
+   * Health checks ensure that the Docker engine properly observes the state of the service.
+   * For GPU acceleration, use the CUDA image variant and ensure your system has NVIDIA Docker support. This container runs as a privileged user to be able to use the GPU.
+   * No external ports are exposed, making the setup secure by default.
 
 .. seealso::
 
