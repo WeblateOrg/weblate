@@ -176,6 +176,7 @@ class RateLimitHttpRequest(RateLimitBase):
     ):
         if request is not None and request.user.is_authenticated and user is None:
             user = request.user
+        key: int | str
         if user is not None:
             key = user.id
             origin = "user"
