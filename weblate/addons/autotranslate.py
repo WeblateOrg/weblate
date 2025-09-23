@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar
 
 from django.conf import settings
 from django.utils import timezone
@@ -20,7 +20,7 @@ if TYPE_CHECKING:
 
 
 class AutoTranslateAddon(BaseAddon):
-    events: set[AddonEvent] = {
+    events: ClassVar[set[AddonEvent]] = {
         AddonEvent.EVENT_COMPONENT_UPDATE,
         AddonEvent.EVENT_DAILY,
     }

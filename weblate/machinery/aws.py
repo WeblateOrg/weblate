@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 import operator
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar
 
 from django.utils.functional import cached_property
 
@@ -25,7 +25,7 @@ class AWSTranslation(GlossaryMachineTranslationMixin):
 
     name = "Amazon Translate"
     max_score = 88
-    language_map = {
+    language_map: ClassVar[dict[str, str]] = {
         "zh_Hant": "zh-TW",
         "zh_Hans": "zh",
         "nb_NO": "no",

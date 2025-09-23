@@ -45,40 +45,40 @@ is also added to the interpreter search path.
 Better yet, turn your customization into a proper Python package:
 
 1. Create a folder for your package (we will use `weblate_customization`).
-2. Within it, create a :file:`setup.py` file to describe the package:
+2. Within it, create a :file:`pyproject.toml` file to describe the package:
 
-    .. code-block:: python
+   .. code-block:: toml
 
-        from setuptools import setup
+      [build-system]
+      requires = ["uv_build>=0.8.18,<0.9.0"]
+      build-backend = "uv_build"
 
-        setup(
-            name="weblate_customization",
-            version="0.0.1",
-            author="Your name",
-            author_email="yourname@example.com",
-            description="Sample Custom check for Weblate.",
-            license="GPLv3+",
-            keywords="Weblate check example",
-            packages=["weblate_customization"],
-        )
+      [project]
+      name = "weblate-customization"
+      version = "0.1.0"
+      description = "Add your description here"
+      requires-python = ">=3.13"
+      dependencies = []
 
-3. Create a folder for the Python module (also called ``weblate_customization``)
-   for the customization code.
+3. Create a folder for the Python module: :file:`src/weblate_customization`
 4. Within it, create a :file:`__init__.py` file to ensure Python can import the module.
-5. This package can now be installed using :command:`pip install -e`. More info to be found in :ref:`pip:editable-installs`.
+5. This package can now be installed using :command:`uv pip install -e`. More info to be found in `Editable packages documentation`_.
 6. Once installed, the module can be used in the Weblate configuration
    (for example ``weblate_customization.checks.FooCheck``).
+
+.. _Editable packages documentation: https://docs.astral.sh/uv/pip/packages/#editable-packages
 
 Your package structure should look like this:
 
 .. code-block:: text
 
     weblate_customization
-    ├── setup.py
-    └── weblate_customization
-        ├── __init__.py
-        ├── addons.py
-        └── checks.py
+    ├── pyproject.toml
+    └── src
+        └── weblate_customization
+            ├── __init__.py
+            ├── addons.py
+            └── checks.py
 
 You can find an example of customizing Weblate at
 <https://github.com/WeblateOrg/customize-example>, it covers all the topics

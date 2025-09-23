@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar
 
 from requests.exceptions import RequestException
 
@@ -18,7 +18,7 @@ GOOGLE_API_ROOT = "https://translation.googleapis.com/language/translate/v2/"
 
 class GoogleBaseTranslation(MachineTranslation):
     # Map codes used by Google to the ones used by Weblate
-    language_map = {
+    language_map: ClassVar[dict[str, str]] = {
         "nb": "no",
         "nb_NO": "no",
         "fil": "tl",

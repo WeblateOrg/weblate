@@ -289,18 +289,12 @@ as well as a free and a paid version of the v2 API.
 ``https://api.deepl.com/v1/``
     Is meant for CAT tools and is usable with a per-user subscription.
 
-Previously Weblate was classified as a CAT tool by DeepL, so it was supposed to
-use the v1 API, but now is supposed to use the v2 API.
-Therefore it defaults to v2, and you can change it to v1 in case you have
-an existing CAT subscription and want Weblate to use that.
+.. note::
 
-The easiest way to find out which one to use is to open an URL like the
-following in your browser:
-
-https://api.deepl.com/v2/translate?text=Hello&target_lang=FR&auth_key=XXX
-
-Replace the XXX with your auth_key. If you receive a JSON object which contains
-"Bonjour", you have the correct URL; if not, try the other three.
+   Previously Weblate was classified as a CAT tool by DeepL, so it was supposed
+   to use the v1 API, but now is supposed to use the v2 API. Therefore it
+   defaults to v2, and you can change it to v1 in case you have an existing CAT
+   subscription and want Weblate to use that.
 
 Weblate supports DeepL formality, it will choose matching one based on the
 language (for example, there is ``de@formal`` and ``de@informal``).
@@ -474,6 +468,7 @@ and there are several mirrors available to use the API for free.
 
    * `LibreTranslate website <https://libretranslate.com/>`_
    * `LibreTranslate repository <https://github.com/LibreTranslate/LibreTranslate>`_
+   * :ref:`docker-libretranslate`
 
 .. _mt-microsoft-translator:
 

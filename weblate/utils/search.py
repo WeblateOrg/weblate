@@ -10,7 +10,7 @@ from datetime import datetime
 from functools import lru_cache, reduce
 from itertools import chain
 from operator import and_, or_
-from typing import TYPE_CHECKING, Any, Literal, cast, overload
+from typing import TYPE_CHECKING, Any, ClassVar, Literal, cast, overload
 
 from dateutil.parser import ParserError
 from dateutil.parser import parse as dateutil_parse
@@ -134,11 +134,11 @@ def build_parser(term_expression: type[BaseTermExpr]) -> ParserElement:
 
 
 class BaseTermExpr:
-    PLAIN_FIELDS: set[str] = set()
-    NONTEXT_FIELDS: dict[str, str] = {}
-    STRING_FIELD_MAP: dict[str, str] = {}
-    EXACT_FIELD_MAP: dict[str, str] = {}
-    enable_fulltext = True
+    PLAIN_FIELDS: ClassVar[set[str]] = set()
+    NONTEXT_FIELDS: ClassVar[dict[str, str]] = {}
+    STRING_FIELD_MAP: ClassVar[dict[str, str]] = {}
+    EXACT_FIELD_MAP: ClassVar[dict[str, str]] = {}
+    enable_fulltext: ClassVar[bool] = True
 
     def __init__(self, tokens) -> None:
         if len(tokens) == 1:
@@ -508,8 +508,14 @@ class BaseTermExpr:
 
 
 class UnitTermExpr(BaseTermExpr):
-    PLAIN_FIELDS: set[str] = {"source", "target", "context", "note", "location"}
-    NONTEXT_FIELDS: dict[str, str] = {
+    PLAIN_FIELDS: ClassVar[set[str]] = {
+        "source",
+        "target",
+        "context",
+        "note",
+        "location",
+    }
+    NONTEXT_FIELDS: ClassVar[dict[str, str]] = {
         "priority": "priority",
         "id": "id",
         "state": "state",
@@ -524,14 +530,14 @@ class UnitTermExpr(BaseTermExpr):
         "change_action": "change__action",
         "labels_count": "labels_count",
     }
-    STRING_FIELD_MAP: dict[str, str] = {
+    STRING_FIELD_MAP: ClassVar[dict[str, str]] = {
         "suggestion": "suggestion__target",
         "comment": "comment__comment",
         "resolved_comment": "comment__comment",
         "key": "context",
         "explanation": "source_unit__explanation",
     }
-    EXACT_FIELD_MAP: dict[str, str] = {
+    EXACT_FIELD_MAP: ClassVar[dict[str, str]] = {
         "check": "check__name",
         "dismissed_check": "check__name",
         "language": "translation__language__code",
@@ -733,17 +739,17 @@ class UnitTermExpr(BaseTermExpr):
 
 
 class UserTermExpr(BaseTermExpr):
-    PLAIN_FIELDS: set[str] = {"username", "full_name"}
-    NONTEXT_FIELDS: dict[str, str] = {
+    PLAIN_FIELDS: ClassVar[set[str]] = {"username", "full_name"}
+    NONTEXT_FIELDS: ClassVar[dict[str, str]] = {
         "joined": "date_joined",
         "change_time": "change__timestamp",
         "change_action": "change__action",
     }
-    EXACT_FIELD_MAP: dict[str, str] = {
+    EXACT_FIELD_MAP: ClassVar[dict[str, str]] = {
         "language": "profile__languages__code",
         "translates": "change__language__code",
     }
-    enable_fulltext = False
+    enable_fulltext: ClassVar[bool] = False
 
     def convert_joined(self, text: str) -> datetime | tuple[datetime, datetime]:
         return self.convert_datetime(text)
@@ -764,7 +770,7 @@ class UserTermExpr(BaseTermExpr):
 
 
 class SuperuserUserTermExpr(UserTermExpr):
-    STRING_FIELD_MAP: dict[str, str] = {
+    STRING_FIELD_MAP: ClassVar[dict[str, str]] = {
         "email": "social_auth__verifiedemail__email",
     }
 
@@ -841,7 +847,7 @@ def parser_annotations(
     return result
 
 
-@lru_cache(maxsize=512)
+@lru_cache(maxsize=32)
 def parse_string(
     text: str, parser: Literal["unit", "user", "superuser"]
 ) -> ParseResults:

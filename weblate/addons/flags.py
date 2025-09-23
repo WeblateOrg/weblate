@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar
 
 from django.utils.translation import gettext_lazy
 
@@ -16,11 +16,12 @@ from weblate.trans.models import Unit
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
 if TYPE_CHECKING:
+    from weblate.addons.base import CompatDict
     from weblate.auth.models import User
 
 
 class FlagBase(BaseAddon):
-    events: set[AddonEvent] = {
+    events: ClassVar[set[AddonEvent]] = {
         AddonEvent.EVENT_UNIT_PRE_CREATE,
     }
     icon = "flag.svg"
@@ -41,7 +42,7 @@ class SourceEditAddon(FlagBase):
         "flagged as needing editing in Weblate. This way you can easily "
         "filter and edit source strings written by the developers."
     )
-    compat = {
+    compat: ClassVar[CompatDict] = {
         "edit_template": {True},
     }
 
@@ -93,7 +94,7 @@ class SameEditAddon(FlagBase):
 
 
 class BulkEditAddon(BaseAddon):
-    events: set[AddonEvent] = {
+    events: ClassVar[set[AddonEvent]] = {
         AddonEvent.EVENT_COMPONENT_UPDATE,
     }
     name = "weblate.flags.bulk"
@@ -123,7 +124,7 @@ class BulkEditAddon(BaseAddon):
 
 
 class TargetRepoUpdateAddon(BaseAddon):
-    events: set[AddonEvent] = {AddonEvent.EVENT_UNIT_POST_SYNC}
+    events: ClassVar[set[AddonEvent]] = {AddonEvent.EVENT_UNIT_POST_SYNC}
     icon = "flag.svg"
     name = "weblate.flags.target_repo_update"
     verbose = gettext_lazy(

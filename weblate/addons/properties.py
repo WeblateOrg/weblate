@@ -13,12 +13,16 @@ src/main/java/org/freeplane/ant/FormatTranslation.java
 from __future__ import annotations
 
 import re
+from typing import TYPE_CHECKING, ClassVar
 
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon
 from weblate.addons.events import AddonEvent
 from weblate.addons.forms import PropertiesSortAddonForm
+
+if TYPE_CHECKING:
+    from weblate.addons.base import CompatDict
 
 SPLITTER = re.compile(r"\s*=\s*")
 UNICODE = re.compile(r"\\[uU][0-9a-fA-F]{4}")
@@ -135,13 +139,15 @@ def format_file(filename: str, case_sensitive: bool) -> bool:
 
 
 class PropertiesSortAddon(BaseAddon):
-    events: set[AddonEvent] = {
+    events: ClassVar[set[AddonEvent]] = {
         AddonEvent.EVENT_PRE_COMMIT,
     }
     name = "weblate.properties.sort"
     verbose = gettext_lazy("Format the Java properties file")
     description = gettext_lazy("Formats and sorts the Java properties file.")
-    compat = {"file_format": {"properties-utf8", "properties", "gwt"}}
+    compat: ClassVar[CompatDict] = {
+        "file_format": {"properties-utf8", "properties", "gwt"},
+    }
     icon = "sort-alphabetical.svg"
     settings_form = PropertiesSortAddonForm
 

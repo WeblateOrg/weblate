@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-09-03 14:08+0200\n"
-"PO-Revision-Date: 2025-09-07 18:02+0000\n"
+"PO-Revision-Date: 2025-09-18 11:02+0000\n"
 "Last-Translator: amano <amano@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -3793,12 +3793,11 @@ msgid "A Base64 encoded string"
 msgstr "base64 エンコード文字列"
 
 #: ../../admin/addons.rst:1352
-#, fuzzy
-#| msgid "Sends notification to external service based on selected events."
 msgid ""
 "Sends notifications to external services based on selected events, following "
 "the Standard Webhooks specification."
-msgstr "選択したイベントに基づいて外部サービスに通知を送信します。"
+msgstr "Standard Webhooks "
+"仕様に準拠して、選択したイベントに基づいて外部サービスに通知を送信します。"
 
 #: ../../admin/addons.rst:1355
 msgid ""
@@ -16894,9 +16893,7 @@ msgstr "フォーマリティ"
 
 #: ../../admin/machine.rst:271
 msgid "Uses the specified formality if language is not specified as (in)formal"
-msgstr ""
-"言語が（イン）フォーマルとして指定されていない場合は、指定された形式を使用し"
-"ます"
+msgstr "言語が敬称または親称として指定されていない場合は、指定された語調を使用します"
 
 #: ../../admin/machine.rst:273 ../../user/translating.rst:291
 msgid "Translation context"
@@ -19008,30 +19005,21 @@ msgid ""
 msgstr ""
 
 #: ../../admin/memory.rst:82 ../../admin/projects.rst:197
-#, fuzzy
-#| msgid "Use translation memory"
 msgid "Autoclean translation memory"
-msgstr "翻訳メモリの使用"
+msgstr "翻訳メモリの自動整理"
 
 #: ../../admin/memory.rst:86
-#, fuzzy
-#| msgid "The translation was automatically locked due to following alerts:"
 msgid ""
 "The translation memory is automatically cleaned up by removing obsolete and "
 "outdated entries."
-msgstr "翻訳は、次の警告により自動的にロックされました:"
+msgstr "翻訳メモリの古く使われていない項目を削除することで、自動的に整理します。"
 
 #: ../../admin/memory.rst:88
-#, fuzzy
-#| msgid ""
-#| "In the Docker container this can be configured using :envvar:"
-#| "`WEBLATE_API_RATELIMIT_ANON` and :envvar:`WEBLATE_API_RATELIMIT_USER`."
 msgid ""
 "In the Docker container this can be configured using :envvar:"
 "`WEBLATE_DEFAULT_AUTOCLEAN_TM`."
-msgstr ""
-"Docker コンテナでは、:envvar:`WEBLATE_API_RATELIMIT_ANON` および :envvar:"
-"`WEBLATE_API_RATELIMIT_USER` を使用して設定します。"
+msgstr "Docker コンテナでは、 :envvar:`WEBLATE_DEFAULT_AUTOCLEAN_TM` "
+"を使用して設定します。"
 
 #: ../../admin/memory.rst:95
 msgid "Managing the Translation Memory"
@@ -29264,7 +29252,7 @@ msgstr ":ref:`autofix` が提案にも適用されるよう改良。"
 
 #: ../../changes.rst:1333
 msgid ":ref:`mt-deepl` can now configure default formality for translations."
-msgstr ":ref:`mt-deepl` 、翻訳のデフォルト形式の設定に対応。"
+msgstr ":ref:`mt-deepl` でデフォルトの語調の設定に対応。"
 
 #: ../../changes.rst:1334
 msgid "Use neutral colors for progress bars and translation unit states."
@@ -49060,10 +49048,8 @@ msgid "Consecutive duplicated words"
 msgstr "重複単語の連続"
 
 #: ../../user/checks.rst:148
-#, fuzzy
-#| msgid "Text contains the same word twice in a row:"
 msgid "Text contains the same word twice in a row."
-msgstr "翻訳文で同じ単語が 2 回連続した文字列:"
+msgstr "翻訳文で同じ単語が 2 回連続した文字列。"
 
 #: ../../user/checks.rst:152 ../../user/checks.rst:201
 #: ../../user/checks.rst:1015 ../../user/checks.rst:1031
@@ -49141,10 +49127,8 @@ msgid "Double space"
 msgstr "連続スペース"
 
 #: ../../user/checks.rst:197
-#, fuzzy
-#| msgid "Translation contains double space"
 msgid "Translation contains double space."
-msgstr "翻訳文に連続したスペースが含まれている"
+msgstr "翻訳文に連続したスペースが含まれている。"
 
 #: ../../user/checks.rst:204
 msgid ""
@@ -49319,11 +49303,8 @@ msgid "Fluent translation inner HTML"
 msgstr "Fluent 翻訳内部の HTML"
 
 #: ../../user/checks.rst:330
-#, fuzzy
-#| msgid "Fluent target should be valid inner HTML that matches"
 msgid "Fluent target should be valid inner HTML that matches."
-msgstr ""
-"Fluent の対象は有効な内部 HTML である必要があり、一致することが必要です"
+msgstr "Fluent の対象は有効な内部 HTML である必要があり、整合することが必要です。"
 
 #: ../../user/checks.rst:339
 msgid ""
@@ -50253,10 +50234,8 @@ msgid "Has been translated"
 msgstr "過去に翻訳済み"
 
 #: ../../user/checks.rst:1011
-#, fuzzy
-#| msgid "This string has been translated in the past"
 msgid "This string has been translated in the past."
-msgstr "過去に翻訳済みのもの"
+msgstr "過去に翻訳済みのもの。"
 
 #: ../../user/checks.rst:1012 ../../user/checks.rst:1028
 msgid "all strings"
@@ -50396,10 +50375,8 @@ msgid "Kashida letter used"
 msgstr "Kashida 文字の使用"
 
 #: ../../user/checks.rst:1099
-#, fuzzy
-#| msgid "The decorative kashida letters should not be used"
 msgid "The decorative kashida letters should not be used."
-msgstr "装飾的なカシーダが使用されている翻訳文"
+msgstr "装飾的なカシーダは使用すべきでない。"
 
 #: ../../user/checks.rst:1107
 msgid ""
@@ -50462,10 +50439,8 @@ msgid "Maximum length of translation"
 msgstr "翻訳の最大文字数"
 
 #: ../../user/checks.rst:1184
-#, fuzzy
-#| msgid "Translation should not exceed given length"
 msgid "Translation should not exceed given length."
-msgstr "翻訳文は、設定した文字数を超えてはいけない"
+msgstr "翻訳文は、設定した文字数を超えてはいけない。"
 
 #: ../../user/checks.rst:1192
 msgid ""
@@ -50579,10 +50554,8 @@ msgid "Mismatched colon"
 msgstr "コロンの不一致"
 
 #: ../../user/checks.rst:1278
-#, fuzzy
-#| msgid "Source and translation do not both end with a colon"
 msgid "Source and translation do not both end with a colon."
-msgstr "原文と翻訳文で一致しない文末のコロン"
+msgstr "原文と翻訳文で一致しない文末のコロン。"
 
 #: ../../user/checks.rst:1285
 msgid ""
@@ -50605,10 +50578,8 @@ msgid "Mismatched ellipsis"
 msgstr "省略記号の不一致"
 
 #: ../../user/checks.rst:1300
-#, fuzzy
-#| msgid "Source and translation do not both end with an ellipsis"
 msgid "Source and translation do not both end with an ellipsis."
-msgstr "原文と翻訳文で一致しない文末の省略記号"
+msgstr "原文と翻訳文で一致しない文末の省略記号。"
 
 #: ../../user/checks.rst:1307
 msgid ""
@@ -50638,10 +50609,8 @@ msgid "Mismatched exclamation mark"
 msgstr "感嘆符の不一致"
 
 #: ../../user/checks.rst:1323
-#, fuzzy
-#| msgid "Source and translation do not both end with an exclamation mark"
 msgid "Source and translation do not both end with an exclamation mark."
-msgstr "原文と翻訳文で一致しない文末の感嘆符"
+msgstr "原文と翻訳文で一致しない文末の感嘆符。"
 
 #: ../../user/checks.rst:1330
 msgid ""
@@ -50667,10 +50636,8 @@ msgid "Mismatched full stop"
 msgstr "終止符の不一致"
 
 #: ../../user/checks.rst:1345
-#, fuzzy
-#| msgid "Source and translation do not both end with a full stop"
 msgid "Source and translation do not both end with a full stop."
-msgstr "原文と翻訳文で一致しない文末の終止符"
+msgstr "原文と翻訳文で一致しない文末の終止符。"
 
 #: ../../user/checks.rst:1352
 msgid ""
@@ -50693,11 +50660,8 @@ msgid "Mismatched interrobang"
 msgstr "感嘆符疑問符の不一致"
 
 #: ../../user/checks.rst:1366
-#, fuzzy
-#| msgid ""
-#| "Source and translation do not both end with an interrobang expression"
 msgid "Source and translation do not both end with an interrobang expression."
-msgstr "原文と翻訳文で一致しない文末の感嘆符疑問符"
+msgstr "原文と翻訳文で一致しない文末の感嘆符疑問符。"
 
 #: ../../user/checks.rst:1373
 msgid ""
@@ -50718,10 +50682,8 @@ msgid "Mismatched question mark"
 msgstr "疑問符の不一致"
 
 #: ../../user/checks.rst:1386
-#, fuzzy
-#| msgid "Source and translation do not both end with a question mark"
 msgid "Source and translation do not both end with a question mark."
-msgstr "原文と翻訳文で一致しない文末の疑問符"
+msgstr "原文と翻訳文で一致しない文末の疑問符。"
 
 #: ../../user/checks.rst:1393
 msgid ""
@@ -50746,10 +50708,8 @@ msgid "Mismatched semicolon"
 msgstr "セミコロンの不一致"
 
 #: ../../user/checks.rst:1409
-#, fuzzy
-#| msgid "Source and translation do not both end with a semicolon"
 msgid "Source and translation do not both end with a semicolon."
-msgstr "原文と翻訳文で一致しない文末のセミコロン"
+msgstr "原文と翻訳文で一致しない文末のセミコロン。"
 
 #: ../../user/checks.rst:1416
 msgid ""
@@ -50768,10 +50728,8 @@ msgid "Mismatching line breaks"
 msgstr "改行数の不一致"
 
 #: ../../user/checks.rst:1428
-#, fuzzy
-#| msgid "Number of new lines in translation does not match source"
 msgid "Number of new lines in translation does not match source."
-msgstr "改行の数が原文と一致しないもの"
+msgstr "改行の数が原文と一致しない。"
 
 #: ../../user/checks.rst:1435
 msgid ""
@@ -50786,10 +50744,8 @@ msgid "Missing plurals"
 msgstr "複数形の不足"
 
 #: ../../user/checks.rst:1445
-#, fuzzy
-#| msgid "Some plural forms are untranslated"
 msgid "Some plural forms are untranslated."
-msgstr "翻訳されなかった複数形がある"
+msgstr "翻訳されなかった複数形がある。"
 
 #: ../../user/checks.rst:1452
 msgid ""
@@ -50891,10 +50847,8 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:1548
-#, fuzzy
-#| msgid "Missing non breakable space before double punctuation sign"
 msgid "Missing non breakable space before double punctuation sign."
-msgstr "二重句読点の前に、改行できないスペースがありません"
+msgstr "二重句読点の前に改行しないスペースがない。"
 
 #: ../../user/checks.rst:1557
 msgid ""
@@ -51000,10 +50954,8 @@ msgid "Same plurals"
 msgstr "同一の複数形"
 
 #: ../../user/checks.rst:1654
-#, fuzzy
-#| msgid "Some plural forms are translated in the same way"
 msgid "Some plural forms are translated in the same way."
-msgstr "同じように翻訳されている複数形のもの"
+msgstr "同じように翻訳されている複数形がある。"
 
 #: ../../user/checks.rst:1661
 msgid ""
@@ -51018,10 +50970,8 @@ msgid "Starting newline"
 msgstr "文頭の改行"
 
 #: ../../user/checks.rst:1670
-#, fuzzy
-#| msgid "Source and translation do not both start with a newline"
 msgid "Source and translation do not both start with a newline."
-msgstr "原文と翻訳文で一致しない文頭の改行"
+msgstr "原文と翻訳文で一致しない文頭の改行。"
 
 #: ../../user/checks.rst:1677 ../../user/checks.rst:1713
 msgid ""
@@ -51037,10 +50987,8 @@ msgid "Starting spaces"
 msgstr "先頭の空白"
 
 #: ../../user/checks.rst:1690
-#, fuzzy
-#| msgid "Source and translation do not both start with same number of spaces"
 msgid "Source and translation do not both start with same number of spaces."
-msgstr "原文と翻訳文で一致しない文頭のスペース数"
+msgstr "原文と翻訳文で一致しない文頭のスペース数。"
 
 #: ../../user/checks.rst:1697
 msgid ""
@@ -51055,20 +51003,16 @@ msgid "Trailing newline"
 msgstr "文末の改行"
 
 #: ../../user/checks.rst:1706
-#, fuzzy
-#| msgid "Source and translation do not both end with a newline"
 msgid "Source and translation do not both end with a newline."
-msgstr "原文と翻訳文で一致しない末尾の改行"
+msgstr "原文と翻訳文で一致しない末尾の改行。"
 
 #: ../../user/checks.rst:1723
 msgid "Trailing space"
 msgstr "文末の空白"
 
 #: ../../user/checks.rst:1726
-#, fuzzy
-#| msgid "Source and translation do not both end with a space"
 msgid "Source and translation do not both end with a space."
-msgstr "原文と翻訳文で一致しない末尾のスペース"
+msgstr "原文と翻訳文で一致しない末尾のスペース。"
 
 #: ../../user/checks.rst:1733
 msgid ""
@@ -51267,10 +51211,8 @@ msgid "Zero-width space"
 msgstr "ゼロ幅スペース"
 
 #: ../../user/checks.rst:1878
-#, fuzzy
-#| msgid "Translation contains extra zero-width space character"
 msgid "Translation contains extra zero-width space character."
-msgstr "ゼロ幅スペース文字を含む翻訳文"
+msgstr "ゼロ幅スペース文字を含む翻訳文。"
 
 #: ../../user/checks.rst:1885
 msgid ""
@@ -51347,10 +51289,8 @@ msgid "Fluent source inner HTML"
 msgstr "Fluent ソース内部の HTML"
 
 #: ../../user/checks.rst:1930
-#, fuzzy
-#| msgid "Fluent source should be valid inner HTML"
 msgid "Fluent source should be valid inner HTML."
-msgstr "Fluent ソースは有効な内部 HTML であることが必要です"
+msgstr "Fluent ソースは有効な内部 HTML であることが必要です。"
 
 #: ../../user/checks.rst:1939
 msgid ""

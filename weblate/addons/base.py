@@ -8,7 +8,7 @@ import os
 import subprocess
 from contextlib import suppress
 from itertools import chain
-from typing import TYPE_CHECKING, Any, TypedDict, cast
+from typing import TYPE_CHECKING, Any, ClassVar, TypedDict, cast
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -46,10 +46,10 @@ class CompatDict(TypedDict, total=False):
 class BaseAddon:
     """Base class for Weblate add-ons."""
 
-    events: set[AddonEvent] = set()
+    events: ClassVar[set[AddonEvent]] = set()
     settings_form: type[BaseAddonForm] | None = None
     name = ""
-    compat: CompatDict = {}
+    compat: ClassVar[CompatDict] = {}
     multiple = False
     verbose: StrOrPromise = "Base add-on"
     description: StrOrPromise = "Base add-on"
@@ -484,7 +484,7 @@ class UpdateBaseAddon(BaseAddon):
     It hooks to post update and commits all changed translations.
     """
 
-    events: set[AddonEvent] = {
+    events: ClassVar[set[AddonEvent]] = {
         AddonEvent.EVENT_POST_UPDATE,
     }
 
@@ -514,7 +514,7 @@ class UpdateBaseAddon(BaseAddon):
 class ChangeBaseAddon(BaseAddon):
     """Base class for add-ons that listen for Change notifications."""
 
-    events: set[AddonEvent] = {
+    events: ClassVar[set[AddonEvent]] = {
         AddonEvent.EVENT_CHANGE,
     }
 

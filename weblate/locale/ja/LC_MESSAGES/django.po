@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-09-03 12:07+0000\n"
-"PO-Revision-Date: 2025-09-07 18:02+0000\n"
+"PO-Revision-Date: 2025-09-18 11:02+0000\n"
 "Last-Translator: amano <amano@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -379,10 +379,8 @@ msgid "Verify the code from the app"
 msgstr "アプリからコードを検証する"
 
 #: weblate/accounts/forms.py:1117
-#, fuzzy
-#| msgid "Name your authentication app"
 msgid "Discard previously configured authentication apps"
-msgstr "認証アプリに名前を付ける"
+msgstr "以前に設定された認証アプリを無効にする"
 
 #: weblate/accounts/forms.py:1121
 msgid ""
@@ -1946,12 +1944,11 @@ msgid "Webhook"
 msgstr "ウェブフック"
 
 #: weblate/addons/webhooks.py:93
-#, fuzzy
-#| msgid "Sends notification to external service based on selected events."
 msgid ""
 "Sends notifications to external services based on selected events, following "
 "the Standard Webhooks specification."
-msgstr "選択したイベントに基づいて外部サービスに通知を送信します。"
+msgstr "Standard Webhooks "
+"仕様に準拠して、選択したイベントに基づいて外部サービスに通知を送信します。"
 
 #: weblate/addons/webhooks.py:177
 msgid "Slack Webhooks"
@@ -2972,10 +2969,8 @@ msgid "This component is currently locked."
 msgstr "このコンポーネントは現在ロックされています。"
 
 #: weblate/auth/permissions.py:477
-#, fuzzy
-#| msgid "The file format does not support this."
 msgid "The file format does not support updating source strings."
-msgstr "ファイル形式がこの操作に対応していません。"
+msgstr "このファイル形式は原文の更新に対応していません。"
 
 #: weblate/auth/views.py:121
 msgid "Cannot remove built-in team!"
@@ -3152,30 +3147,24 @@ msgid "Starting newline"
 msgstr "文頭の改行"
 
 #: weblate/checks/chars.py:49
-#, fuzzy
-#| msgid "Source and translation do not both start with a newline"
 msgid "Source and translation do not both start with a newline."
-msgstr "原文と翻訳文で一致しない文頭の改行"
+msgstr "原文と翻訳文で一致しない文頭の改行。"
 
 #: weblate/checks/chars.py:60
 msgid "Trailing newline"
 msgstr "文末の改行"
 
 #: weblate/checks/chars.py:61
-#, fuzzy
-#| msgid "Source and translation do not both end with a newline"
 msgid "Source and translation do not both end with a newline."
-msgstr "原文と翻訳文で一致しない末尾の改行"
+msgstr "原文と翻訳文で一致しない末尾の改行。"
 
 #: weblate/checks/chars.py:71
 msgid "Starting spaces"
 msgstr "先頭の空白"
 
 #: weblate/checks/chars.py:73
-#, fuzzy
-#| msgid "Source and translation do not both start with same number of spaces"
 msgid "Source and translation do not both start with same number of spaces."
-msgstr "原文と翻訳文で一致しない文頭のスペース数"
+msgstr "原文と翻訳文で一致しない文頭のスペース数。"
 
 #: weblate/checks/chars.py:107
 msgid "Non‑standard characters in Kabyle"
@@ -3192,171 +3181,138 @@ msgid "Trailing space"
 msgstr "文末の空白"
 
 #: weblate/checks/chars.py:143
-#, fuzzy
-#| msgid "Source and translation do not both end with a space"
 msgid "Source and translation do not both end with a space."
-msgstr "原文と翻訳文で一致しない末尾のスペース"
+msgstr "原文と翻訳文で一致しない末尾のスペース。"
 
 #: weblate/checks/chars.py:178
 msgid "Double space"
 msgstr "連続スペース"
 
 #: weblate/checks/chars.py:179
-#, fuzzy
-#| msgid "Translation contains double space"
 msgid "Translation contains double space."
-msgstr "翻訳文に連続したスペースが含まれている"
+msgstr "翻訳文に連続したスペースが含まれている。"
 
 #: weblate/checks/chars.py:200
 msgid "Mismatched full stop"
 msgstr "終止符の不一致"
 
 #: weblate/checks/chars.py:202
-#, fuzzy
-#| msgid "Source and translation do not both end with a full stop"
 msgid "Source and translation do not both end with a full stop."
-msgstr "原文と翻訳文で一致しない文末の終止符"
+msgstr "原文と翻訳文で一致しない文末の終止符。"
 
 #: weblate/checks/chars.py:256
 msgid "Mismatched colon"
 msgstr "コロンの不一致"
 
 #: weblate/checks/chars.py:257
-#, fuzzy
-#| msgid "Source and translation do not both end with a colon"
 msgid "Source and translation do not both end with a colon."
-msgstr "原文と翻訳文で一致しない文末のコロン"
+msgstr "原文と翻訳文で一致しない文末のコロン。"
 
 #: weblate/checks/chars.py:291
 msgid "Mismatched question mark"
 msgstr "疑問符の不一致"
 
 #: weblate/checks/chars.py:293
-#, fuzzy
-#| msgid "Source and translation do not both end with a question mark"
 msgid "Source and translation do not both end with a question mark."
-msgstr "原文と翻訳文で一致しない文末の疑問符"
+msgstr "原文と翻訳文で一致しない文末の疑問符。"
 
 #: weblate/checks/chars.py:337
 msgid "Mismatched exclamation mark"
 msgstr "感嘆符の不一致"
 
 #: weblate/checks/chars.py:339
-#, fuzzy
-#| msgid "Source and translation do not both end with an exclamation mark"
 msgid "Source and translation do not both end with an exclamation mark."
-msgstr "原文と翻訳文で一致しない文末の感嘆符"
+msgstr "原文と翻訳文で一致しない文末の感嘆符。"
 
 #: weblate/checks/chars.py:371
 msgid "Mismatched interrobang"
 msgstr "感嘆符疑問符の不一致"
 
 #: weblate/checks/chars.py:373
-#, fuzzy
-#| msgid ""
-#| "Source and translation do not both end with an interrobang expression"
 msgid "Source and translation do not both end with an interrobang expression."
-msgstr "原文と翻訳文で一致しない文末の感嘆符疑問符"
+msgstr "原文と翻訳文で一致しない文末の感嘆符疑問符。"
 
 #: weblate/checks/chars.py:387
 msgid "Mismatched ellipsis"
 msgstr "省略記号の不一致"
 
 #: weblate/checks/chars.py:389
-#, fuzzy
-#| msgid "Source and translation do not both end with an ellipsis"
 msgid "Source and translation do not both end with an ellipsis."
-msgstr "原文と翻訳文で一致しない文末の省略記号"
+msgstr "原文と翻訳文で一致しない文末の省略記号。"
 
 #: weblate/checks/chars.py:412
 msgid "Mismatched \\n"
 msgstr "\\n 数の不一致"
 
 #: weblate/checks/chars.py:414
-#, fuzzy
-#| msgid "Number of \\n literals in translation does not match source"
 msgid "Number of \\n literals in translation does not match source."
-msgstr "改行文字（\\n）の数が原文と一致しないもの"
+msgstr ""
+"改行文字（\\n"
+"）の数が原文と一致しないもの。"
 
 #: weblate/checks/chars.py:433
 msgid "Mismatching line breaks"
 msgstr "改行数の不一致"
 
 #: weblate/checks/chars.py:435
-#, fuzzy
-#| msgid "Number of new lines in translation does not match source"
 msgid "Number of new lines in translation does not match source."
-msgstr "改行の数が原文と一致しないもの"
+msgstr "改行の数が原文と一致しない。"
 
 #: weblate/checks/chars.py:443 weblate/trans/autofixes/chars.py:49
 msgid "Zero-width space"
 msgstr "ゼロ幅スペース"
 
 #: weblate/checks/chars.py:444
-#, fuzzy
-#| msgid "Translation contains extra zero-width space character"
 msgid "Translation contains extra zero-width space character."
-msgstr "ゼロ幅スペース文字を含む翻訳文"
+msgstr "ゼロ幅スペース文字を含む翻訳文。"
 
 #: weblate/checks/chars.py:461 weblate/checks/flags.py:86
 msgid "Maximum length of translation"
 msgstr "翻訳の最大文字数"
 
 #: weblate/checks/chars.py:462
-#, fuzzy
-#| msgid "Translation should not exceed given length"
 msgid "Translation should not exceed given length."
-msgstr "翻訳文は、設定した文字数を超えてはいけない"
+msgstr "翻訳文は、設定した文字数を超えてはいけない。"
 
 #: weblate/checks/chars.py:480
 msgid "Mismatched semicolon"
 msgstr "セミコロンの不一致"
 
 #: weblate/checks/chars.py:482
-#, fuzzy
-#| msgid "Source and translation do not both end with a semicolon"
 msgid "Source and translation do not both end with a semicolon."
-msgstr "原文と翻訳文で一致しない文末のセミコロン"
+msgstr "原文と翻訳文で一致しない文末のセミコロン。"
 
 #: weblate/checks/chars.py:496
 msgid "Kashida letter used"
 msgstr "Kashida 文字の使用"
 
 #: weblate/checks/chars.py:497
-#, fuzzy
-#| msgid "The decorative kashida letters should not be used"
 msgid "The decorative kashida letters should not be used."
-msgstr "装飾的なカシーダが使用されている翻訳文"
+msgstr "装飾的なカシーダは使用すべきでない。"
 
 #: weblate/checks/chars.py:516 weblate/trans/autofixes/chars.py:101
 msgid "Punctuation spacing"
 msgstr "句読点のスペース"
 
 #: weblate/checks/chars.py:518
-#, fuzzy
-#| msgid "Missing non breakable space before double punctuation sign"
 msgid "Missing non breakable space before double punctuation sign."
-msgstr "二重句読点の前に、改行できないスペースがありません"
+msgstr "二重句読点の前に改行しないスペースがない。"
 
 #: weblate/checks/consistency.py:30
 msgid "Missing plurals"
 msgstr "複数形の不足"
 
 #: weblate/checks/consistency.py:31
-#, fuzzy
-#| msgid "Some plural forms are untranslated"
 msgid "Some plural forms are untranslated."
-msgstr "翻訳されなかった複数形がある"
+msgstr "翻訳されなかった複数形がある。"
 
 #: weblate/checks/consistency.py:57
 msgid "Same plurals"
 msgstr "同一の複数形"
 
 #: weblate/checks/consistency.py:58
-#, fuzzy
-#| msgid "Some plural forms are translated in the same way"
 msgid "Some plural forms are translated in the same way."
-msgstr "同じように翻訳されている複数形のもの"
+msgstr "同じように翻訳されている複数形がある。"
 
 #: weblate/checks/consistency.py:77
 msgid "Inconsistent"
@@ -3394,10 +3350,8 @@ msgid "Has been translated"
 msgstr "過去に翻訳済み"
 
 #: weblate/checks/consistency.py:259
-#, fuzzy
-#| msgid "This string has been translated in the past"
 msgid "This string has been translated in the past."
-msgstr "過去に翻訳済みのもの"
+msgstr "過去に翻訳済みのもの。"
 
 #: weblate/checks/consistency.py:275
 #, python-format
@@ -3409,10 +3363,8 @@ msgid "Consecutive duplicated words"
 msgstr "重複単語の連続"
 
 #: weblate/checks/duplicate.py:39
-#, fuzzy
-#| msgid "Text contains the same word twice in a row:"
 msgid "Text contains the same word twice in a row."
-msgstr "翻訳文で同じ単語が 2 回連続した文字列:"
+msgstr "翻訳文で同じ単語が 2 回連続した文字列。"
 
 #: weblate/checks/duplicate.py:102
 msgid "The following word is duplicated:"
@@ -3670,10 +3622,8 @@ msgid "Fluent source inner HTML"
 msgstr "Fluent ソース内部の HTML"
 
 #: weblate/checks/fluent/inner_html.py:945
-#, fuzzy
-#| msgid "Fluent source should be valid inner HTML"
 msgid "Fluent source should be valid inner HTML."
-msgstr "Fluent ソースは有効な内部 HTML であることが必要です"
+msgstr "Fluent ソースは有効な内部 HTML であることが必要です。"
 
 #: weblate/checks/fluent/inner_html.py:1016
 #, python-brace-format
@@ -3734,11 +3684,8 @@ msgid "Fluent translation inner HTML"
 msgstr "Fluent 翻訳内部の HTML"
 
 #: weblate/checks/fluent/inner_html.py:1223
-#, fuzzy
-#| msgid "Fluent target should be valid inner HTML that matches"
 msgid "Fluent target should be valid inner HTML that matches."
-msgstr ""
-"Fluent の対象は有効な内部 HTML である必要があり、一致することが必要です"
+msgstr "Fluent の対象は有効な内部 HTML である必要があり、整合することが必要です。"
 
 #: weblate/checks/fluent/parts.py:63
 msgid "Fluent value is empty."
@@ -5611,13 +5558,11 @@ msgstr "ウェイトの値は 0 から 1 の間である必要があります: %
 #: weblate/machinery/forms.py:317
 msgctxt "Automatic suggestion service configuration"
 msgid "Formality"
-msgstr "フォーマリティ"
+msgstr "語調"
 
 #: weblate/machinery/forms.py:319
 msgid "Uses the specified formality if language is not specified as (in)formal"
-msgstr ""
-"言語が（イン）フォーマルとして指定されていない場合は、指定された形式を使用し"
-"ます"
+msgstr "言語が敬称または親称として指定されていない場合は、指定された語調を使用します"
 
 #: weblate/machinery/forms.py:334
 msgctxt "Automatic suggestion service configuration"
@@ -10642,10 +10587,8 @@ msgid "off"
 msgstr "OFF"
 
 #: weblate/templates/memory/index.html:259 weblate/trans/models/project.py:215
-#, fuzzy
-#| msgid "Use translation memory"
 msgid "Autoclean translation memory"
-msgstr "翻訳メモリの使用"
+msgstr "翻訳メモリの自動整理"
 
 #: weblate/templates/memory/index.html:281
 msgid "Number of shared entries in this Weblate instance"
@@ -14692,10 +14635,8 @@ msgid "String will be part of the glossary in all languages"
 msgstr "用語集のすべての言語に文字列を追加します"
 
 #: weblate/trans/forms.py:2734
-#, fuzzy
-#| msgid "Project is now open for translation updates."
 msgid "Mark this option for translations that should not be used."
-msgstr "プロジェクトを翻訳更新用に公開しました。"
+msgstr "使用すべきでない訳語の場合はこのオプションを選んでください。"
 
 #: weblate/trans/forms.py:2739
 msgid "Untranslatable term"
@@ -14705,7 +14646,7 @@ msgstr "翻訳禁止の用語"
 msgid ""
 "Mark this option if the sentence should stay as in the source language, "
 "without change."
-msgstr ""
+msgstr "原文のまま変更しないべき文章の場合はこのオプションを選んでください。"
 
 #: weblate/trans/forms.py:2770
 msgid "You do not have permission to create terminology."
@@ -16998,7 +16939,7 @@ msgstr "横型の言語棒グラフ"
 #. Translators: status widget name
 #: weblate/trans/widgets.py:538
 msgid "Language count badge"
-msgstr ""
+msgstr "言語数バッジ"
 
 #: weblate/trans/widgets.py:542
 msgid "Threshold"

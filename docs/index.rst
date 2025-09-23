@@ -155,6 +155,7 @@ Learn more about :ref:`contributing`.
    security/disaster-recovery-plan
    security/threat-model
    security/privacy-compliance
+   security/localization-threat
 
 .. toctree::
    :caption: File formats

@@ -2,11 +2,14 @@
 
 {% for item in glossary %}
   <tr class="glossary-embed {% if "forbidden" in item.all_flags %}unclickable-row danger{% elif "read-only" in item.all_flags %}clickable-row warning{% else %}clickable-row{% endif %}"
-      title=" {% if "forbidden" in item.all_flags %} {% translate "This translation is forbidden." %} {% elif "read-only" in item.all_flags %} {% translate "This term should not be translated." %} {% else %} {% translate "Copy word into translation" %} {% endif %} ">
+      title=" {% if "forbidden" in item.all_flags %} {% translate "This translation is forbidden." %} {% elif "read-only" in item.all_flags %} {% translate "This term should not be translated." %} {% elif item.fuzzy %} {% translate "This translation needs editing." %}  {% else %} {% translate "Copy word into translation" %} {% endif %} ">
     <td class="source">{{ item.source }}</td>
     <td class="target">
       {% if "forbidden" in item.all_flags %}
         <span class="red forbidden-term">{% icon "cancel.svg" %}</span>
+      {% endif %}
+      {% if item.fuzzy %}
+        <span class="red forbidden-term">{% icon "alert.svg" %}</span>
       {% endif %}
       {% format_unit_target unit value=item.target simple=True %}
     </td>

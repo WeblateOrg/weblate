@@ -13,7 +13,10 @@ from django.urls import include, path, re_path
 from django.views.decorators.cache import cache_control, cache_page
 from django.views.decorators.vary import vary_on_cookie
 from django.views.generic import RedirectView, TemplateView
-from drf_spectacular.views import SpectacularAPIView, SpectacularRedocView
+from drf_spectacular.views import (
+    SpectacularAPIView,
+    SpectacularRedocView,
+)
 
 import weblate.accounts.urls
 import weblate.accounts.views
@@ -38,7 +41,6 @@ import weblate.trans.views.edit
 import weblate.trans.views.error
 import weblate.trans.views.files
 import weblate.trans.views.git
-import weblate.trans.views.hooks
 import weblate.trans.views.js
 import weblate.trans.views.labels
 import weblate.trans.views.lock
@@ -53,6 +55,7 @@ from weblate.configuration.views import CustomCSSView
 from weblate.sitemaps import SITEMAPS
 from weblate.trans.feeds import ChangesFeed, LanguageChangesFeed, TranslationChangesFeed
 from weblate.trans.views.changes import ChangesCSVView, ChangesView, show_change
+from weblate.trans.views.hooks import ServiceHookView
 from weblate.utils.version import VERSION
 
 handler400 = weblate.trans.views.error.bad_request
@@ -631,19 +634,14 @@ real_patterns = [
     path("changes/render/<int:pk>/", show_change, name="show_change"),
     # Notification hooks
     path(
-        "hooks/update/<object_path:path>",
-        weblate.trans.views.hooks.update,
-        name="update-hook",
-    ),
-    path(
         "hooks/<slug:service>/",
-        weblate.trans.views.hooks.vcs_service_hook,
+        ServiceHookView.as_view(),
         name="webhook",
     ),
     # Compatibility URL with no trailing slash
     path(
         "hooks/<slug:service>",
-        weblate.trans.views.hooks.vcs_service_hook,
+        ServiceHookView.as_view(),
     ),
     # RSS exports
     path("exports/rss/", ChangesFeed(), name="rss"),

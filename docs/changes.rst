@@ -12,16 +12,24 @@ Weblate 5.14
 .. rubric:: Improvements
 
 * New global permissions have been added to control viewing teams, users and roles without edit rights, see :ref:`privileges`.
-
+* :ref:`hooks` improvements.
+  * Now follows :ref:`api-errors`.
+  * Available in the OpenAPI.
+  * Dropped long-deprecated endpoints.
 * :ref:`date-search`.
 * Last changed lookup in :ref:`search-strings`.
+* :doc:`/security/localization-threat` documentation.
 * Improved activity logging for :ref:`addon-weblate.consistency.languages` add-on.
 
 .. rubric:: Bug fixes
 
 * Plurals and :ref:`file_format_params` handling on file upload.
+* :ref:`team-admins` can no longer edit teams besides membership.
 
 .. rubric:: Compatibility
+
+* The default attributes for :ref:`saml-auth` in Docker container now matches non-Docker defaults.
+* Dropped long-deprecated :http:get:`/hooks/update/(string:project)/(string:component)/` and :http:get:`/hooks/update/(string:project)/`.
 
 .. rubric:: Upgrading
 
@@ -175,7 +183,7 @@ Weblate 5.13
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
-* The distributed locking now uses a different implementation and that introduced several changes in :file:`settings_example.py`.
+* The distributed locking now uses a different implementation and that introduced several changes in :file:`settings_example.py`, most notably ``BACKEND`` in ``CACHES`` needs to be changed.
 * There are several changes in :file:`settings_example.py`, most notable are changed settings ``CRISPY_ALLOWED_TEMPLATE_PACKS`` and ``INSTALLED_APPS``; please adjust your settings accordingly.
 * The Docker container is now using :program:`granian`. This now requires explicit configuration of proxy trusted headers, including client protocol.
   :envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER` typically needs to be added to avoid redirect loop, for example:

@@ -4,7 +4,10 @@
 
 # mypy: disable-error-code="var-annotated"
 
+from __future__ import annotations
+
 import os
+from typing import ClassVar
 
 from appconf import AppConf
 
@@ -50,11 +53,11 @@ class WeblateConf(AppConf):
     SENTRY_MONITOR_BEAT_TASKS = True
     SENTRY_TOKEN = None
     SENTRY_SEND_PII = False
-    SENTRY_PROJECTS = ["weblate"]
+    SENTRY_PROJECTS: ClassVar[list[str]] = ["weblate"]
     SENTRY_RELEASES_API_URL = (
         "https://sentry.io/api/0/organizations/4507304895905792/releases/"
     )
-    SENTRY_EXTRA_ARGS = {}
+    SENTRY_EXTRA_ARGS: ClassVar[dict] = {}
     SENTRY_TRACES_SAMPLE_RATE = 0
     SENTRY_PROFILES_SAMPLE_RATE = 0
 
@@ -71,19 +74,19 @@ class WeblateConf(AppConf):
 
     HIDE_VERSION = "WEBLATE_HIDE_VERSION" in os.environ
 
-    CSP_SCRIPT_SRC = []
-    CSP_IMG_SRC = []
-    CSP_CONNECT_SRC = []
-    CSP_STYLE_SRC = []
-    CSP_FONT_SRC = []
-    CSP_FORM_SRC = []
+    CSP_SCRIPT_SRC: ClassVar[list[str]] = []
+    CSP_IMG_SRC: ClassVar[list[str]] = []
+    CSP_CONNECT_SRC: ClassVar[list[str]] = []
+    CSP_STYLE_SRC: ClassVar[list[str]] = []
+    CSP_FONT_SRC: ClassVar[list[str]] = []
+    CSP_FORM_SRC: ClassVar[list[str]] = []
 
-    INTERLEDGER_PAYMENT_POINTERS = []
+    INTERLEDGER_PAYMENT_POINTERS: ClassVar[list[str]] = []
     INTERLEDGER_PAYMENT_BUILTIN = True
 
     PROJECT_NAME_RESTRICT_RE = None
     PROJECT_WEB_RESTRICT_RE = None
-    PROJECT_WEB_RESTRICT_HOST = {"localhost"}
+    PROJECT_WEB_RESTRICT_HOST: ClassVar[set[str]] = {"localhost"}
     PROJECT_WEB_RESTRICT_NUMERIC = True
 
     LOCALE_FILTER_FILES = True

@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar
 
 from django.db.models import F, Q
 from django.utils.translation import gettext_lazy
@@ -29,7 +29,7 @@ if TYPE_CHECKING:
 
 
 class GenerateFileAddon(BaseAddon):
-    events: set[AddonEvent] = {
+    events: ClassVar[set[AddonEvent]] = {
         AddonEvent.EVENT_PRE_COMMIT,
     }
     name = "weblate.generate.generate"
@@ -68,7 +68,7 @@ class GenerateFileAddon(BaseAddon):
 
 
 class LocaleGenerateAddonBase(BaseAddon):
-    events: set[AddonEvent] = {
+    events: ClassVar[set[AddonEvent]] = {
         AddonEvent.EVENT_COMPONENT_UPDATE,
         AddonEvent.EVENT_DAILY,
     }

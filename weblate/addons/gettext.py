@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import os
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar
 
 from django.core.management.utils import find_command
 from django.utils.translation import gettext_lazy
@@ -18,16 +18,17 @@ from weblate.formats.exporters import MoExporter
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
 if TYPE_CHECKING:
+    from weblate.addons.base import CompatDict
     from weblate.auth.models import User
     from weblate.trans.models import Component, Translation
 
 
 class GettextBaseAddon(BaseAddon):
-    compat = {"file_format": {"po", "po-mono"}}
+    compat: ClassVar[CompatDict] = {"file_format": {"po", "po-mono"}}
 
 
 class GenerateMoAddon(GettextBaseAddon):
-    events: set[AddonEvent] = {
+    events: ClassVar[set[AddonEvent]] = {
         AddonEvent.EVENT_PRE_COMMIT,
     }
     name = "weblate.gettext.mo"
@@ -68,7 +69,10 @@ class GenerateMoAddon(GettextBaseAddon):
 
 
 class UpdateLinguasAddon(GettextBaseAddon):
-    events: set[AddonEvent] = {AddonEvent.EVENT_POST_ADD, AddonEvent.EVENT_DAILY}
+    events: ClassVar[set[AddonEvent]] = {
+        AddonEvent.EVENT_POST_ADD,
+        AddonEvent.EVENT_DAILY,
+    }
     name = "weblate.gettext.linguas"
     verbose = gettext_lazy("Update LINGUAS file")
     description = gettext_lazy(
@@ -161,7 +165,10 @@ class UpdateLinguasAddon(GettextBaseAddon):
 
 
 class UpdateConfigureAddon(GettextBaseAddon):
-    events: set[AddonEvent] = {AddonEvent.EVENT_POST_ADD, AddonEvent.EVENT_DAILY}
+    events: ClassVar[set[AddonEvent]] = {
+        AddonEvent.EVENT_POST_ADD,
+        AddonEvent.EVENT_DAILY,
+    }
     name = "weblate.gettext.configure"
     verbose = gettext_lazy('Update ALL_LINGUAS variable in the "configure" file')
     description = gettext_lazy(
@@ -240,7 +247,7 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
         'POT file (as configured by "Template for new translations") using msgmerge.'
     )
     alert = "MsgmergeAddonError"
-    compat = {"file_format": {"po"}}
+    compat: ClassVar[CompatDict] = {"file_format": {"po"}}
 
     @classmethod
     def can_install(cls, component: Component, user: User | None):
@@ -315,7 +322,7 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
 
 
 class GettextAuthorComments(GettextBaseAddon):
-    events: set[AddonEvent] = {
+    events: ClassVar[set[AddonEvent]] = {
         AddonEvent.EVENT_PRE_COMMIT,
     }
     name = "weblate.gettext.authors"

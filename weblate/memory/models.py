@@ -421,10 +421,10 @@ class Memory(models.Model):
     # Status choices for the memory entry
     STATUS_PENDING = 0
     STATUS_ACTIVE = 1
-    STATUS_CHOICES = [
+    STATUS_CHOICES = (
         (STATUS_PENDING, gettext_lazy("Pending")),
         (STATUS_ACTIVE, gettext_lazy("Active")),
-    ]
+    )
 
     source_language = models.ForeignKey(
         "lang.Language",
@@ -466,7 +466,7 @@ class Memory(models.Model):
     class Meta:
         verbose_name = "Translation memory entry"
         verbose_name_plural = "Translation memory entries"
-        indexes = [
+        indexes = [  # noqa: RUF012
             # Additional indexes are created manually in the migration for full text search
             # Use MD5 to index text fields, applied in MemoryQuerySet.filter
             models.Index(

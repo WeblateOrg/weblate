@@ -839,6 +839,7 @@ legend {
 }
 
 .forbidden-term svg,
+.forbidden-term svg,
 .search-icon svg {
   height: 16px;
   width: 16px;
@@ -2215,6 +2216,9 @@ h5.list-group-item-heading {
 }
 
 #show-linked-repo-toggle:not(:checked) ~ .repo-linked {
+  display: none;
+}
+#show-local-repo-toggle:not(:checked) ~ .repo-local {
   display: none;
 }
 label .text-muted {

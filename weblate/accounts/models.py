@@ -9,7 +9,7 @@ import logging
 import re
 from datetime import timedelta
 from ipaddress import IPv6Network, ip_network
-from typing import TYPE_CHECKING, Any, Literal
+from typing import TYPE_CHECKING, Any, ClassVar, Literal
 from urllib.parse import urlparse
 
 from appconf import AppConf
@@ -96,7 +96,7 @@ class WeblateAccountsConf(AppConf):
     REGISTRATION_OPEN = True
 
     # Allow registration from certain backends
-    REGISTRATION_ALLOW_BACKENDS = []
+    REGISTRATION_ALLOW_BACKENDS: ClassVar[list[str]] = []
 
     # Allow rebinding to existing accounts
     REGISTRATION_REBIND = False
@@ -109,7 +109,7 @@ class WeblateAccountsConf(AppConf):
 
     ALTCHA_MAX_NUMBER = 1_000_000
 
-    REGISTRATION_HINTS = {}
+    REGISTRATION_HINTS: ClassVar[dict[str, str]] = {}
 
     # How long to keep auditlog entries
     AUDITLOG_EXPIRY = 180
@@ -134,7 +134,7 @@ class WeblateAccountsConf(AppConf):
     MAXIMAL_PASSWORD_LENGTH = 72
 
     # Login required URLs
-    LOGIN_REQUIRED_URLS = []
+    LOGIN_REQUIRED_URLS: ClassVar[list[str]] = []
     LOGIN_REQUIRED_URLS_EXCEPTIONS = (
         r"{URL_PREFIX}/accounts/(.*)$",  # Required for login
         r"{URL_PREFIX}/admin/login/(.*)$",  # Required for admin login
@@ -210,7 +210,7 @@ class Subscription(models.Model):
     class Meta:
         verbose_name = "Notification subscription"
         verbose_name_plural = "Notification subscriptions"
-        constraints = [
+        constraints = [  # noqa: RUF012
             models.UniqueConstraint(
                 name="accounts_subscription_notification_unique",
                 fields=("notification", "scope", "project", "component", "user"),
@@ -572,7 +572,7 @@ class VerifiedEmail(models.Model):
     class Meta:
         verbose_name = "Verified e-mail"
         verbose_name_plural = "Verified e-mails"
-        indexes = [
+        indexes = [  # noqa: RUF012
             models.Index(
                 Upper("email"),
                 name="accounts_verifiedemail_email",
@@ -720,7 +720,7 @@ class Profile(models.Model):
         (DASHBOARD_MANAGED, gettext_lazy("Managed projects")),
     )
 
-    DASHBOARD_SLUGS = {
+    DASHBOARD_SLUGS: ClassVar[dict[int, str]] = {
         DASHBOARD_WATCHED: "your-subscriptions",
         DASHBOARD_COMPONENT_LIST: "list",
         DASHBOARD_SUGGESTIONS: "suggestions",

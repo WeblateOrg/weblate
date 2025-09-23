@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 import warnings
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar
 
 from django.utils.translation import gettext_lazy
 
@@ -19,7 +19,10 @@ if TYPE_CHECKING:
 
 
 class LanguageConsistencyAddon(BaseAddon):
-    events: set[AddonEvent] = {AddonEvent.EVENT_DAILY, AddonEvent.EVENT_POST_ADD}
+    events: ClassVar[set[AddonEvent]] = {
+        AddonEvent.EVENT_DAILY,
+        AddonEvent.EVENT_POST_ADD,
+    }
     name = "weblate.consistency.languages"
     verbose = gettext_lazy("Add missing languages")
     description = gettext_lazy(

@@ -12,7 +12,7 @@ from collections.abc import (
 from contextvars import ContextVar
 from functools import cache as functools_cache
 from itertools import chain
-from typing import TYPE_CHECKING, Any, Literal, TypedDict, cast
+from typing import TYPE_CHECKING, Any, ClassVar, Literal, TypedDict, cast
 
 import sentry_sdk
 from appconf import AppConf
@@ -512,13 +512,13 @@ class User(AbstractBaseUser):
 
     EMAIL_FIELD = "email"
     USERNAME_FIELD = "username"
-    REQUIRED_FIELDS = ["email", "full_name"]
+    REQUIRED_FIELDS = ["email", "full_name"]  # noqa: RUF012
     DUMMY_FIELDS = ("first_name", "last_name", "is_staff")
 
     class Meta:
         verbose_name = "User"
         verbose_name_plural = "Users"
-        constraints = [
+        constraints = [  # noqa: RUF012
             UniqueConstraint(Upper("username"), name="weblate_auth_user_username_ci"),
             UniqueConstraint(Upper("email"), name="weblate_auth_user_email_ci"),
         ]
@@ -1012,7 +1012,9 @@ class UserBlock(models.Model):
     class Meta:
         verbose_name = "Blocked user"
         verbose_name_plural = "Blocked users"
-        unique_together = [("user", "project")]
+        unique_together = [  # noqa: RUF012
+            ("user", "project"),
+        ]
 
     def __str__(self) -> str:
         return f"{self.user} blocked for {self.project}"
@@ -1270,7 +1272,7 @@ class Invitation(models.Model):
 class WeblateAuthConf(AppConf):
     """Authentication settings."""
 
-    AUTH_RESTRICT_ADMINS = {}
+    AUTH_RESTRICT_ADMINS: ClassVar[dict] = {}
 
     # Anonymous user name
     ANONYMOUS_USER_NAME = "anonymous"

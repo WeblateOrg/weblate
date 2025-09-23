@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import logging
 from datetime import date, datetime, timedelta
-from typing import TYPE_CHECKING, overload
+from typing import TYPE_CHECKING, ClassVar, overload
 from uuid import uuid5
 
 import sentry_sdk
@@ -40,6 +40,8 @@ from weblate.utils.state import StringState
 if TYPE_CHECKING:
     from collections.abc import Iterable
     from uuid import UUID
+
+    from django_stubs_ext import StrOrPromise
 
     from weblate.auth.models import User
     from weblate.trans.models import Translation
@@ -405,8 +407,10 @@ class ChangeManager(models.Manager["Change"]):
 
 
 class Change(models.Model, UserDisplayMixin):
-    ACTIONS_DICT = dict(ActionEvents.choices)
-    ACTION_STRINGS = {
+    ACTIONS_DICT: ClassVar[dict[ActionEvents, StrOrPromise]] = dict(
+        ActionEvents.choices
+    )
+    ACTION_STRINGS: ClassVar[dict[str, int]] = {
         name.lower().replace(" ", "-"): value for value, name in ActionEvents.choices
     }
 
@@ -417,8 +421,10 @@ class Change(models.Model, UserDisplayMixin):
     ACTIONS_MERGE_FAILURE = ACTIONS_MERGE_FAILURE
     ACTIONS_ADDON = ACTIONS_ADDON
 
-    ACTION_NAMES = {str(name): value for value, name in ActionEvents.choices}
-    AUTO_ACTIONS = {
+    ACTION_NAMES: ClassVar[set[str]] = {
+        str(name): value for value, name in ActionEvents.choices
+    }
+    AUTO_ACTIONS: ClassVar[dict[ActionEvents, StrOrPromise]] = {
         # Translators: Name of event in the history
         ActionEvents.LOCK: gettext_lazy(
             "The component was automatically locked because of an alert."
@@ -489,7 +495,7 @@ class Change(models.Model, UserDisplayMixin):
 
     class Meta:
         app_label = "trans"
-        indexes = [
+        indexes = [  # noqa: RUF012
             models.Index(
                 fields=["-timestamp", "action"],
                 name="trans_change_action_idx",

@@ -7,7 +7,7 @@ import csv
 import json
 import os
 import tempfile
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar
 
 from dateutil.parser import isoparse
 from requests.exceptions import HTTPError
@@ -34,7 +34,7 @@ class ModernMTTranslation(GlossaryMachineTranslationMixin):
     max_score = 90
     settings_form = ModernMTMachineryForm
 
-    language_map = {
+    language_map: ClassVar[dict[str, str]] = {
         "fa": "pes",
         "pt": "pt-PT",
         "sr": "sr-Cyrl",

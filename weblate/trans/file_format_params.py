@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING, ClassVar, TypedDict, cast
 
 from django import forms
 from django.utils.functional import classproperty
@@ -21,14 +21,20 @@ if TYPE_CHECKING:
     from translate.storage.yaml import YAMLFile
 
 
+class FieldKwargsDict(TypedDict, total=False):
+    min_value: int
+    max_value: int
+    min_length: int
+
+
 class BaseFileFormatParam:
     name: str = ""
     file_formats: Sequence[str] = []
     field_class: type[forms.Field] = forms.CharField
     label: StrOrPromise = ""
     default: str | int | bool
-    field_kwargs: dict = {}
-    choices: list[tuple[str | int, StrOrPromise]] | None = None
+    field_kwargs: ClassVar[FieldKwargsDict] = {}
+    choices: ClassVar[list[tuple[str | int, StrOrPromise]] | None] = None
     help_text: StrOrPromise | None = None
 
     @classmethod
@@ -53,7 +59,7 @@ class BaseFileFormatParam:
         }
 
     def get_field_kwargs(self) -> dict:
-        kwargs = self.field_kwargs.copy()
+        kwargs = cast("dict", self.field_kwargs.copy())
         kwargs.update({"required": False, "initial": self.default})
         if self.choices is not None:
             kwargs["choices"] = self.choices
@@ -130,7 +136,7 @@ class JSONOutputIndentation(JSONOutputCustomizationBaseParam):
     label = gettext_lazy("JSON indentation")
     field_class = forms.IntegerField
     default = 4
-    field_kwargs = {"min_value": 0}
+    field_kwargs: ClassVar[FieldKwargsDict] = {"min_value": 0}
 
 
 @register_file_format_param
@@ -138,7 +144,7 @@ class JSONOutputIndentStyle(JSONOutputCustomizationBaseParam):
     name = "json_indent_style"
     label = gettext_lazy("JSON indentation style")
     field_class = forms.ChoiceField
-    choices = [
+    choices: ClassVar[list[tuple[str | int, StrOrPromise]] | None] = [
         ("spaces", gettext_lazy("Spaces")),
         ("tabs", gettext_lazy("Tabs")),
     ]
@@ -178,7 +184,7 @@ class GettextPoLineWrap(BaseFileFormatParam):
     name = "po_line_wrap"
     label = gettext_lazy("Long lines wrapping")
     field_class = forms.ChoiceField
-    choices = [
+    choices: ClassVar[list[tuple[str | int, StrOrPromise]] | None] = [
         (
             77,
             gettext_lazy(
@@ -242,7 +248,7 @@ class YAMLOutputIndentation(BaseYAMLFormatParam):
     label = gettext_lazy("YAML indentation")
     field_class = forms.IntegerField
     default = 2
-    field_kwargs = {"min_value": 1, "max_value": 10}
+    field_kwargs: ClassVar[FieldKwargsDict] = {"min_value": 1, "max_value": 10}
 
     def setup_store(self, store: TranslationStore, **file_format_params) -> None:
         cast("YAMLFile", store).dump_args["indent"] = int(  # type: ignore[assignment]
@@ -256,7 +262,7 @@ class YAMLLineWrap(BaseYAMLFormatParam):
     label = gettext_lazy("Long lines wrapping")
     field_class = forms.ChoiceField
     default = 80
-    choices = [
+    choices: ClassVar[list[tuple[str | int, StrOrPromise]] | None] = [
         (80, gettext_lazy("Wrap lines at 80 chars")),
         (100, gettext_lazy("Wrap lines at 100 chars")),
         (120, gettext_lazy("Wrap lines at 120 chars")),
@@ -275,7 +281,7 @@ class YAMLLineBreak(BaseYAMLFormatParam):
     name = "yaml_line_break"
     label = gettext_lazy("Line breaks")
     field_class = forms.ChoiceField
-    choices = [
+    choices: ClassVar[list[tuple[str | int, StrOrPromise]] | None] = [
         ("dos", gettext_lazy("DOS (\\r\\n)")),
         ("unix", gettext_lazy("UNIX (\\n)")),
         ("mac", gettext_lazy("MAC (\\r)")),
@@ -322,7 +328,7 @@ class FlatXMLRootName(BaseFlatXMLFormatParam):
     label = gettext_lazy("FlatXML Root name")
     field_class = forms.CharField
     default = "root"
-    field_kwargs = {"min_length": 1}
+    field_kwargs: ClassVar[FieldKwargsDict] = {"min_length": 1}
 
 
 @register_file_format_param
@@ -331,7 +337,7 @@ class FlatXMLValueName(BaseFlatXMLFormatParam):
     label = gettext_lazy("FlatXML value name")
     field_class = forms.CharField
     default = "str"
-    field_kwargs = {"min_length": 1}
+    field_kwargs: ClassVar[FieldKwargsDict] = {"min_length": 1}
 
 
 @register_file_format_param
@@ -340,4 +346,4 @@ class FlatXMLKeyName(BaseFlatXMLFormatParam):
     label = gettext_lazy("FlatXML key name")
     field_class = forms.CharField
     default = "key"
-    field_kwargs = {"min_length": 1}
+    field_kwargs: ClassVar[FieldKwargsDict] = {"min_length": 1}

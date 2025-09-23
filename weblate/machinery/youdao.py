@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, ClassVar
 
 from .base import MachineTranslation, MachineTranslationError
 from .forms import KeySecretMachineryForm
@@ -22,7 +22,11 @@ class YoudaoTranslation(MachineTranslation):
     max_score = 90
 
     # Map codes used by Youdao to codes used by Weblate
-    language_map = {"zh_Hans": "zh-CHS", "zh": "zh-CHS", "en": "EN"}
+    language_map: ClassVar[dict[str, str]] = {
+        "zh_Hans": "zh-CHS",
+        "zh": "zh-CHS",
+        "en": "EN",
+    }
     settings_form = KeySecretMachineryForm
 
     def download_languages(self):
