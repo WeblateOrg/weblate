@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-09-03 14:08+0200\n"
-"PO-Revision-Date: 2025-08-25 04:03+0000\n"
+"PO-Revision-Date: 2025-09-24 13:02+0000\n"
 "Last-Translator: 이정희 <daemul72@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "documentation/ko/>\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.13\n"
+"X-Generator: Weblate 5.14-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:215
@@ -145,23 +145,19 @@ msgstr ""
 "Weblate 인스턴스에서 이 옵션을 선택합니다.**"
 
 #: ../../admin/access.rst:62
-#, fuzzy
 msgid ""
 ":guilabel:`Access control` can be changed in the :guilabel:`Access` tab of "
 "the configuration (:guilabel:`Operations` ↓ :guilabel:`Settings`) of each "
 "respective project."
 msgstr ""
-":guilabel:`Access control`는 각 프로젝트의 구성(:guilabel:`Manage` ↓ :"
-"guilabel:`Settings`)의 :guilabel:`Access` 탭에서 변경할 수 있습니다."
+":guilabel:`액세스 제어` 는 각 프로젝트의 구성(:guilabel:`관리하기` ↓ "
+":guilabel:`설정`)의 :guilabel:`액세스` 탭에서 변경할 수 있습니다."
 
 #: ../../admin/access.rst:68
-#, fuzzy
-#| msgid ""
-#| "The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
 msgid ""
 "The default can also be changed by setting :setting:`DEFAULT_ACCESS_CONTROL`."
-msgstr ""
-":setting:`DEFAULT_ACCESS_CONTROL`를 설정하여 기본값을 변경할 수도 있습니다."
+msgstr "기본값은 :setting:`DEFAULT_ACCESS_CONTROL` (으)로 설정하여 변경할 수도 "
+"있습니다."
 
 #: ../../admin/access.rst:72
 msgid ""
@@ -172,15 +168,14 @@ msgstr ""
 "트 이름이나 다른 정보는 공개되지 않습니다."
 
 #: ../../admin/access.rst:78
-#, fuzzy
 msgid ""
 "Instance administrators can modify the default permission sets available to "
 "users in `Public`, `Protected`, and `Private` projects by using :ref:`custom "
 "settings <custom-acl>`."
 msgstr ""
-"기본적으로 `공개`, `보호됨` 및 `비공개` 프로젝트에서 사용자가 사용할 수 있는 "
-"실제 권한 집합은 웨브레이트 인스턴스 관리자가 :ref:`사용자 정의 설정 <custom-"
-"acl>` 를 사용하여 재정의할 수 있습니다."
+"인스턴스 관리자는 :ref:`맞춤 설정 <custom-acl>` 을 사용하여 `공개`, `보호됨` "
+"및 `비공개` 프로젝트에서 사용자에게 제공되는 기본 권한 집합을 수정할 수 "
+"있습니다."
 
 #: ../../admin/access.rst:88
 msgid "Managing per-project access control"
@@ -248,16 +243,12 @@ msgid "`Sources`"
 msgstr "`원문`"
 
 #: ../../admin/access.rst:116
-#, fuzzy
-#| msgid ""
-#| "Can edit source strings (if allowed in the :ref:`project settings "
-#| "<component-manage_units>`) and source string info."
 msgid ""
 "Edit source strings (if allowed in the :ref:`project settings <component-"
 "manage_units>`) and source-string info."
 msgstr ""
-"소스 문자열(:ref:`project settings <component-manage_units>`에서 허용되는 경"
-"우)과 소스 문자열 정보를 편집합니다."
+"원문 문자열(:ref:`프로젝트 설정 <component-manage_units>` 에서 허용되는 경우)"
+"과 원문 문자열 정보를 편집합니다."
 
 #: ../../admin/access.rst:119
 msgid "`Languages`"
@@ -427,7 +418,6 @@ msgstr ""
 "로젝트별로 :ref:`사용자 액세스 관리 <manage-acl>` 로 설정할 수 있습니다."
 
 #: ../../admin/access.rst:205
-#, fuzzy
 msgid ""
 "By default this prevents Weblate from granting access provided by `Users` "
 "and `Viewers` :ref:`default teams <default-teams>` due to these teams’ own "
@@ -436,12 +426,11 @@ msgid ""
 "creating additional custom settings for individual component as described "
 "in :ref:`custom-acl` below."
 msgstr ""
-"기본적으로 이것은 Weblate가 `Users` 및 `Viewers` :ref:`default groups "
-"<default-teams>` 가 제공하는 접속 권한을 부여하는 것을 방지합니다. 이는 이러"
-"한 그룹의 자체 구성으로 인해 발생합니다. 이는 기본 그룹을 변경하거나, 새 그룹"
-"을 생성하거나, 아래의 :ref:`custom-acl` 에 설명된 대로 개별 구성요소에 대한 "
-"추가 사용자 지정 설정을 생성하여 사이트 전체에서 해당 프로젝트에 권한을 부여"
-"하는 것을 방지하지 않습니다."
+"기본적으로 이 설정은 Weblate가 `사용자` 및 `열람자` :ref:`기본 팀 <default-"
+"teams>` 의 자체 구성으로 인해 해당 팀에서 제공하는 액세스 권한을 부여하지 "
+"못하도록 합니다. 하지만 기본 팀을 변경하거나, 새 팀을 만들거나, 아래 :ref"
+":`custom-acl` 에 설명된 대로 개별 구성요소에 대한 추가 맞춤 설정을 생성하여 "
+"사이트 전체 프로젝트에 권한을 부여하는 것은 허용합니다."
 
 #: ../../admin/access.rst:211
 msgid ""
@@ -474,18 +463,13 @@ msgid "This feature is unavailable on Hosted Weblate."
 msgstr "이 기능은 Hosted Weblate에서 사용할 수 없습니다."
 
 #: ../../admin/access.rst:238
-#, fuzzy
-#| msgid ""
-#| "The permission system based on groups and roles, where roles define a set "
-#| "of permissions, and groups assign them to users and translations, see :"
-#| "ref:`auth-model` for more details."
 msgid ""
 "The permission system is based on roles defining a set of permissions, and "
 "teams linking roles to users and translations, read :ref:`auth-model` for "
 "more details."
 msgstr ""
-"권한 시스템은 권한 집합을 정의하는 역할과 역할을 사용자 및 번역에 연결하는 팀"
-"을 기반으로 합니다. 자세한 내용은 :ref:`인증 모델`를 참조하세요."
+"권한 시스템은 일련의 권한을 정의하는 역할과 역할을 사용자 및 번역에 연결하는 "
+"팀을 기반으로 합니다. 자세한 내용은 :ref:`auth-model` 을 참조하세요."
 
 #: ../../admin/access.rst:242
 msgid ""
@@ -534,12 +518,11 @@ msgstr ""
 "`Users`(:ref:`automatic team assignment <autoteam>` 을 기본으로 처리됩니다)."
 
 #: ../../admin/access.rst:261
-#, fuzzy
 msgid ""
 "`Reviewers` (if you are using :ref:`review workflow <reviews>` with "
 "dedicated reviewers)."
-msgstr ""
-"`검토자` (전담 리뷰어와 함께 :ref:`워크플로 검토 <reviews>`를 사용하는 경우)."
+msgstr "`검토자` (전담 리뷰어와 함께 :ref:`워크플로 검토 <reviews>` 를 사용하는 "
+"경우)."
 
 #: ../../admin/access.rst:263
 msgid ""
@@ -554,19 +537,17 @@ msgid ""
 "otherwise the site-wide permissions provided by membership in the `Users` "
 "and `Reviewers` teams won’t have any effect."
 msgstr ""
-"모든 프로젝트를 `퍼블릭`(:ref:`acl` 을 참고하세요)으로 유지하지 않으면 `유저"
-"` 및 `리뷰어` 팀의 멤버십으로 주어지는 전체 사이트 권한이 주어지지 않습니다."
+"모든 프로젝트를 `공개`(:ref:`acl` 을 참고하세요)으로 유지하지 않으면 `사용자`"
+" 및 `검토자` 팀의 멤버십으로 주어지는 전체 사이트 권한이 주어지지 않습니다."
 
 #: ../../admin/access.rst:270
-#, fuzzy
 msgid ""
 "You may also grant some additional permissions of your choice to the default "
 "teams. For example, you may want to give a permission to manage screenshots "
 "to all the `Users`."
 msgstr ""
-"또한 기본 팀에 여러분의 선택에 따른 추가 권한을 부여할 수도 있습니다. 예를 들"
-"어, 여러분은 모든 `사용자`에게 스크린숏 관리 권한을 부여하고 싶어할 수 있습니"
-"다."
+"또한 기본 팀에 여러분의 선택에 따른 추가 권한을 부여할 수도 있습니다. 예를 "
+"들어, 여러분은 모든 `사용자` 에게 스크린숏 관리 권한을 부여할 수 있습니다."
 
 #: ../../admin/access.rst:274
 msgid ""
@@ -751,6 +732,10 @@ msgid ""
 "are needed to browse the project (this is used in the default `Viewers` "
 "team, see :ref:`default-teams`)."
 msgstr ""
+"사용자는 프로젝트 또는 해당 프로젝트 내의 구성 요소에 연결된 팀의 "
+"구성원이어야 합니다. 구성원 자격만 있으면 되며, 프로젝트를 탐색하는 데 "
+"특별한 권한이 필요하지 않습니다(기본 `열람자` 팀에서 사용됩니다. :ref"
+":`default-teams` 참조)."
 
 #: ../../admin/access.rst:370
 #, fuzzy
@@ -833,7 +818,7 @@ msgstr ""
 
 #: ../../admin/access.rst:421
 msgid "Group `Spanish Admin-Reviewers`"
-msgstr ""
+msgstr "그룹 `스페인어 관리-검토자`"
 
 #: ../../admin/access.rst:425
 #, fuzzy
@@ -914,6 +899,9 @@ msgid ""
 "upgrading from one Weblate version to another. If you want to turn it off, "
 "set the regular expression to ``^$`` (which won’t match anything)."
 msgstr ""
+"Weblate 버전 간에 업그레이드할 때마다 `사용자` 및 `열람자` 에 대한 자동 팀 "
+"할당이 항상 다시 생성됩니다. 이 기능을 끄려면 정규 표현식을 ``^$`` 로 "
+"설정하세요(이 설정은 아무것도 일치하지 않습니다)."
 
 #: ../../admin/access.rst:467
 msgid ""
@@ -1833,11 +1821,11 @@ msgstr ""
 
 #: ../../admin/access.rst:1012
 msgid "Default roles: `Add suggestion`, `Access repository`"
-msgstr "기본 역할: `제안 추가`, `리포지토리 접근`"
+msgstr "기본 역할: `제안 추가`, `저장소 접근`"
 
 #: ../../admin/access.rst:1014
 msgid "`Viewers`"
-msgstr "`뷰어`"
+msgstr "`열람자`"
 
 #: ../../admin/access.rst:1015
 msgid ""
@@ -1870,11 +1858,11 @@ msgstr "기본 역할: `파워 유저`"
 
 #: ../../admin/access.rst:1031 ../../workflows.rst:190
 msgid "`Reviewers`"
-msgstr "`리뷰어`"
+msgstr "`검토자`"
 
 #: ../../admin/access.rst:1032
 msgid "Group for reviewers (see :ref:`workflows`)."
-msgstr "리뷰어를 위한 그룹 (:ref:`workflows` 참조)."
+msgstr "검토자를 위한 그룹 (:ref:`workflows` 참조)."
 
 #: ../../admin/access.rst:1034
 msgid "Default roles: `Review strings`"
@@ -2233,7 +2221,7 @@ msgstr "번역엔진"
 
 #: ../../admin/addons.rst:163 ../../api.rst:2085
 msgid "Score threshold"
-msgstr "점수 한계값"
+msgstr "점수 임계치"
 
 #: ../../admin/addons.rst:0
 msgid "Triggers"
@@ -2260,13 +2248,13 @@ msgstr "자바스크립트 현지화 CDN"
 
 #: ../../admin/addons.rst:184 ../../devel/html.rst:49
 msgid "Translation threshold"
-msgstr "번역 임곗값"
+msgstr "번역 임계치"
 
 #: ../../admin/addons.rst:184
 msgid ""
 "The percentage of translated strings that must be present for translation to "
 "be included."
-msgstr ""
+msgstr "번역에 포함되기 위해 반드시 존재해야 하는 번역된 문자열의 비율입니다."
 
 #: ../../admin/addons.rst:186 ../../devel/html.rst:51
 msgid "CSS selector"
@@ -2706,7 +2694,6 @@ msgid ""
 msgstr ""
 
 #: ../../admin/addons.rst:427
-#, fuzzy
 msgid ""
 "Component discovery add-on uses :ref:`internal-urls`. It’s a convenient way "
 "to share VCS setup between multiple components. Linked components use the "
@@ -2716,12 +2703,12 @@ msgid ""
 "each respective component. This saves time with configuration and system "
 "resources too."
 msgstr ""
-"구성요소 검색 애드온은 :ref:`internal-urls`를 사용합니다. 이는 여러 구성요소 "
-"간에 VCS 설정을 공유하는 편리한 방법입니다. 연결된 구성 요소는 각 구성요소"
-"의 :ref:`component-repo` 필드(:guilabel:`관리하기` ↓ :guilabel:`설정` ↓ :"
-"guilabel:`버전 제어 시스템`)에 ``weblate://project/main-component``를 채워서 "
-"설정한 주요 구성요소의 로컬 저장소를 사용합니다. 이렇게 하면 구성 및 시스템 "
-"리소스에 소요되는 시간도 절약됩니다."
+"구성요소 검색 애드온은 :ref:`internal-urls` 를 사용합니다. 이는 여러 "
+"구성요소 간에 VCS 설정을 공유하는 편리한 방법입니다. 연결된 구성요소는 각 "
+"구성요소의 :ref:`component-repo` 필드(:guilabel:`운용` ↓ :guilabel:`설정` ↓ "
+":guilabel:`버전 제어 시스템`)에 ``weblate://project/main-component`` 를 "
+"입력하여 설정된 기본 구성요소의 로컬 저장소를 사용합니다. 이렇게 하면 구성 "
+"및 시스템 리소스에 소요되는 시간도 절약됩니다."
 
 #: ../../admin/addons.rst:436
 msgid ""
@@ -3439,13 +3426,12 @@ msgstr "오래된 제안 제거"
 
 #: ../../admin/addons.rst:967
 msgid "Voting threshold"
-msgstr "투표 한계값"
+msgstr "투표 임계치"
 
 #: ../../admin/addons.rst:967
 msgid "Threshold for removal. This field has no effect with voting turned off."
-msgstr ""
-"삭제하기 쉬운 값을 지정합니다. 이 영역은 투표 기능이 해제된 상태에서는 효과"
-"가 없습니다."
+msgstr "제거를 위한 임계치입니다. 이 영역은 투표 기능이 꺼져 있을 때는 효과가 "
+"없습니다."
 
 #: ../../admin/addons.rst:971
 msgid "Set a timeframe for removal of suggestions."
@@ -3485,10 +3471,8 @@ msgid "Slack Webhooks"
 msgstr ""
 
 #: ../../admin/addons.rst:1007 ../../admin/addons.rst:1188
-#, fuzzy
-#| msgid "Website URL"
 msgid "Webhook URL"
-msgstr "Weblate URL"
+msgstr "Webhook URL"
 
 #: ../../admin/addons.rst:1009 ../../admin/addons.rst:1192
 #, fuzzy
@@ -7142,9 +7126,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/config.rst:302
-#, fuzzy
 msgid "OCR trained data for :ref:`screenshots`."
-msgstr ":ref:`screenshots`에 대한 OCR 훈련 데이터입니다."
+msgstr ":ref:`screenshots` 에 대한 OCR 훈련 데이터입니다."
 
 #: ../../admin/config.rst:312
 msgid ""
@@ -7252,13 +7235,12 @@ msgid "SSH keys and configuration."
 msgstr ""
 
 #: ../../admin/config.rst:436
-#, fuzzy
 msgid ""
 "Default location for Django media files, specified by :setting:`django:"
 "MEDIA_ROOT`. Contains uploaded screenshots, see :ref:`screenshots`."
 msgstr ""
-":setting:`django:MEDIA_ROOT`로 지정된, Django 미디어 파일의 기본 위치입니다. "
-"업로드된 스크린숏을 포함합니다. :ref:`screenshots`를 참조하세요."
+":setting:`django:MEDIA_ROOT` 로 지정된, Django 미디어 파일의 기본 "
+"위치입니다. 업로드된 스크린숏을 포함합니다. :ref:`screenshots` 를 참조하세요."
 
 #: ../../admin/config.rst:438
 #, fuzzy
@@ -8150,7 +8132,8 @@ msgstr ""
 msgid ""
 "Threshold for triggering an alert for outdated repositories, or ones that "
 "contain too many changes. Defaults to 25."
-msgstr ""
+msgstr "오래된 저장소 또는 변경사항이 너무 많은 저장소에 대한 알림을 트리거하는 "
+"임계치입니다. 기본값은 25입니다."
 
 #: ../../admin/config.rst:1747
 msgid ""
@@ -8807,19 +8790,14 @@ msgid ""
 msgstr ""
 
 #: ../../admin/continuous.rst:227
-#, fuzzy
-#| msgid ""
-#| "For the payload URL, append ``/hooks/github/`` to your Weblate URL, for "
-#| "example for the Hosted Weblate service, this is ``https://hosted.weblate."
-#| "org/hooks/github/``."
 msgid ""
 "The :guilabel:`Payload URL` consists of your Weblate URL appended by ``/"
 "hooks/github/``, for example for the Hosted Weblate service, this is "
 "``https://hosted.weblate.org/hooks/github/``."
 msgstr ""
-":guilabel:`페이로드 URL`은 Weblate URL 뒤에 ``/hooks/github/``를 덧붙인 형태"
-"로 구성됩니다. 예를 들어 호스팅 Weblate 서비스의 경우 ``https://hosted."
-"weblate.org/hooks/github/``입니다."
+":guilabel:`페이로드 URL` 은 Weblate URL 뒤에 ``/hooks/github/`` 를 덧붙인 "
+"형태로 구성됩니다. 예를 들어 호스팅 Weblate 서비스의 경우 ``https://"
+"hosted.weblate.org/hooks/github/`` 입니다."
 
 #: ../../admin/continuous.rst:231
 msgid ""
@@ -8847,10 +8825,8 @@ msgstr ""
 "저장소 푸시 시 트리거되는 웹훅을 추가합니다."
 
 #: ../../admin/continuous.rst:253
-#, fuzzy
-#| msgid ":doc:`psa:backends/bitbucket`"
 msgid ":http:post:`/hooks/bitbucket/`"
-msgstr ":doc:`psa:backends/bitbucket`"
+msgstr ":http:post:`/hooks/bitbucket/`"
 
 #: ../../admin/continuous.rst:259
 msgid "Automatically receiving changes from GitLab"
@@ -8875,7 +8851,6 @@ msgid "Automatically receiving changes from Pagure"
 msgstr ""
 
 #: ../../admin/continuous.rst:275
-#, fuzzy
 msgid ""
 "Weblate has support for Pagure hooks, add a webhook with destination to ``/"
 "hooks/pagure/`` URL on your Weblate installation (for example ``https://"
@@ -8884,8 +8859,8 @@ msgid ""
 msgstr ""
 "Weblate는 Pagure hooks를 지원하며, 사용자의 Weblate 설치 시 목적지가 ``/"
 "hooks/pagure/`` URL인 웹훅을 추가합니다(예: ``https://hosted.weblate.org/"
-"hooks/pagure/``). 이는 :guilabel:`프로젝트 옵션`의 :guilabel:`웹훅 활성화`에"
-"서 수행할 수 있습니다:"
+"hooks/pagure/``). 이는 :guilabel:`프로젝트 옵션` 의 :guilabel:`웹훅 활성화` "
+"에서 수행할 수 있습니다:"
 
 #: ../../admin/continuous.rst:284
 msgid ":http:post:`/hooks/pagure/`"
@@ -9270,10 +9245,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/continuous.rst:569
-#, fuzzy
-#| msgid "Translations with contribution"
 msgid "Propagation preconditions:"
-msgstr "기여한 번역 프로젝트"
+msgstr "전파 전제조건:"
 
 #: ../../admin/continuous.rst:571
 msgid ""
@@ -10882,22 +10855,16 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install.rst:1222
-#, fuzzy
-#| msgid ":setting:`django:EMAIL_PORT`"
 msgid ":std:setting:`django:EMAIL_BACKEND`"
-msgstr ":setting:`django:EMAIL_PORT`"
+msgstr ":std:setting:`django:EMAIL_BACKEND`"
 
 #: ../../admin/install.rst:1223 ../../admin/install/docker.rst:610
-#, fuzzy
-#| msgid ":setting:`django:DEFAULT_FROM_EMAIL`"
 msgid ":std:setting:`django:DEFAULT_FROM_EMAIL`"
-msgstr ":setting:`django:DEFAULT_FROM_EMAIL`"
+msgstr ":std:setting:`django:DEFAULT_FROM_EMAIL`"
 
 #: ../../admin/install.rst:1224 ../../admin/install/docker.rst:601
-#, fuzzy
-#| msgid ":setting:`django:SERVER_EMAIL`"
 msgid ":std:setting:`django:SERVER_EMAIL`"
-msgstr ":setting:`django:SERVER_EMAIL`"
+msgstr ":std:setting:`django:SERVER_EMAIL`"
 
 #: ../../admin/install.rst:1230
 msgid "Allowed hosts setup"
@@ -15741,7 +15708,7 @@ msgstr ""
 
 #: ../../admin/management.rst:139
 msgid "Similarity threshold for machine translation, defaults to 80."
-msgstr ""
+msgstr "기계 번역의 유사도 임계치이며, 기본값은 80입니다."
 
 #: ../../admin/management.rst:143
 msgid ""
@@ -16309,10 +16276,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/management.rst:833
-#, fuzzy
-#| msgid ":wladmin:`migrate`"
 msgid ":djadmin:`django:migrate`"
-msgstr ":wladmin:`migrate`"
+msgstr ":djadmin:`django:migrate`"
 
 #: ../../admin/management.rst:841
 msgid ""
@@ -17025,10 +16990,8 @@ msgid "Sending message to admins"
 msgstr ""
 
 #: ../../admin/optionals.rst:291
-#, fuzzy
-#| msgid ":ref:`password-authentication`"
 msgid "Password authentication on sign-in"
-msgstr ":ref:`password-authentication`"
+msgstr "로그인 시 비밀번호 인증"
 
 #: ../../admin/optionals.rst:293
 #, fuzzy
@@ -17349,7 +17312,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:173
 msgid "Use shared translation memory"
-msgstr "공유된 번역 메모리 사용"
+msgstr "공유된 번역 메모리 사용하기"
 
 #: ../../admin/projects.rst:175
 msgid ""
@@ -17358,15 +17321,12 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:177 ../../admin/projects.rst:188
-#, fuzzy
-#| msgid ""
-#| "The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
 msgid "The default value can be changed by :setting:`DEFAULT_SHARED_TM`."
-msgstr "기본값은 :setting:`DEFAULT_SHARED_TM`을 통해 변경할 수 있습니다."
+msgstr "기본값은 :setting:`DEFAULT_SHARED_TM` 을 통해 변경할 수 있습니다."
 
 #: ../../admin/projects.rst:182
 msgid "Contribute to shared translation memory"
-msgstr "공유된 번역 메모리에 기여"
+msgstr "공유된 번역 메모리에 기여하기"
 
 #: ../../admin/projects.rst:184
 msgid ""
@@ -17464,6 +17424,8 @@ msgid ""
 "approved by a reviewer will be committed. This option requires :ref:`project-"
 "translation_review` to be enabled."
 msgstr ""
+"**승인된 번역만 포함**: 검토자가 승인한 번역만 커밋됩니다. 이 옵션을 "
+"사용하려면 :ref:`project-translation_review` 를 활성화해야 합니다."
 
 #: ../../admin/projects.rst:277
 msgid "Enable hooks"
@@ -17984,15 +17946,11 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:649
-#, fuzzy
-#| msgid ""
-#| "The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
 msgid ""
 "The default value can be changed by :setting:"
 "`DEFAULT_TRANSLATION_PROPAGATION`."
-msgstr ""
-"기본값은 :setting:`DEFAULT_TRANSLATION_PROPAGATION`을 통해 변경할 수 있습니"
-"다."
+msgstr "기본값은 :setting:`DEFAULT_TRANSLATION_PROPAGATION` 을 통해 변경할 수 "
+"있습니다."
 
 #: ../../admin/projects.rst:658 ../../workflows.rst:114 ../../workflows.rst:146
 #: ../../workflows.rst:179
@@ -18346,11 +18304,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:871
-#, fuzzy
-#| msgid ""
-#| "The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
 msgid "The default value can be changed by :setting:`DEFAULT_MERGE_STYLE`."
-msgstr "기본값은 :setting:`DEFAULT_MERGE_STYLE`을 통해 변경할 수 있습니다."
+msgstr "기본값은 :setting:`DEFAULT_MERGE_STYLE` 을 통해 변경할 수 있습니다."
 
 #: ../../admin/projects.rst:881
 #, fuzzy
@@ -18395,11 +18350,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:911
-#, fuzzy
-#| msgid ""
-#| "The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
 msgid "The default value can be changed by :setting:`COMMIT_PENDING_HOURS`."
-msgstr "기본값은 :setting:`COMMIT_PENDING_HOURS`를 통해 변경할 수 있습니다."
+msgstr "기본값은 :setting:`COMMIT_PENDING_HOURS` 를 통해 변경할 수 있습니다."
 
 #: ../../admin/projects.rst:915
 msgid ""
@@ -18618,16 +18570,11 @@ msgid "Use as a glossary"
 msgstr "용어집으로 사용"
 
 #: ../../admin/projects.rst:1101
-#, fuzzy
-#| msgid ""
-#| "Allows using this component as a glossary. You can configure how it will "
-#| "be listed using :ref:`component-glossary_color`."
 msgid ""
 "Allows using this component as a glossary. Use when you want to manage "
 "terminology separately from normal translations."
-msgstr ""
-"이 구성요소를 용어집으로 사용할 수 있습니다. :ref:`component-glossary_color` "
-"를 사용하여 나열되는 방식을 구성할 수 있습니다."
+msgstr "이 구성요소를 용어집으로 사용할 수 있습니다. 일반 번역과 별도로 용어를 "
+"관리하려는 경우 사용하세요."
 
 #: ../../admin/projects.rst:1104
 msgid "Glossaries are best for:"
@@ -23541,10 +23488,8 @@ msgid "Fixed captcha verification when some time zone was configured."
 msgstr ""
 
 #: ../../changes.rst:350
-#, fuzzy
-#| msgid ":ref:`workflow-customization`"
 msgid "Improved translation propagation performance."
-msgstr ":ref:`workflow-customization`"
+msgstr "번역 전파 성능이 향상되었습니다."
 
 #: ../../changes.rst:351
 msgid ""
@@ -24138,10 +24083,8 @@ msgid "Editor in :ref:`zen-mode` is now stick to bottom of screen."
 msgstr ""
 
 #: ../../changes.rst:617
-#, fuzzy
-#| msgid "Added integration with :ref:`discover-weblate`."
 msgid "Added page navigation while :ref:`translating`."
-msgstr ":ref:`translating`하는 동안 페이지 탐색 기능이 추가되었습니다."
+msgstr ":ref:`translating` 하는 동안 페이지 탐색 기능이 추가되었습니다."
 
 #: ../../changes.rst:618
 msgid ":ref:`manage-appearance` now has distinct settings for dark mode."
@@ -24659,11 +24602,8 @@ msgid ":ref:`check-python-brace-format` detects extra curly braces."
 msgstr "캐쉬된 템플릿 로더"
 
 #: ../../changes.rst:865
-#, fuzzy
-#| msgid "Added support for localized screenshots."
 msgid "Screenshots now can be pasted from the clipboard in :ref:`screenshots`."
-msgstr ""
-"이제 :ref:`screenshots`에서 클립보드에서 스크린숏을 붙여넣을 수 있습니다."
+msgstr "이제 :ref:`screenshots` 에서 클립보드에서 스크린숏을 붙여넣을 수 있습니다."
 
 #: ../../changes.rst:869
 msgid "Accessibility of keyboard navigation."
@@ -25947,10 +25887,8 @@ msgid "New string notification can now be triggered for each string."
 msgstr ""
 
 #: ../../changes.rst:1413
-#, fuzzy
-#| msgid "Approved translation in %(translation)s"
 msgid "Improved OCR error handling in :ref:`screenshots`."
-msgstr ":ref:`screenshots`에서 OCR 오류 처리가 개선되었습니다."
+msgstr ":ref:`screenshots` 에서 OCR 오류 처리가 개선되었습니다."
 
 #: ../../changes.rst:1414
 msgid ":ref:`autofix` gracefully handle strings from :ref:`multivalue-csv`."
@@ -26212,10 +26150,8 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:1518
-#, fuzzy
-#| msgid "Added support for localized screenshots."
 msgid "WebP is now supported for :ref:`screenshots`."
-msgstr ":ref:`screenshots`에 대해 WebP가 지원됩니다."
+msgstr ":ref:`screenshots` 에 대해 WebP가 지원됩니다."
 
 #: ../../changes.rst:1519
 msgid ""
@@ -26223,10 +26159,8 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:1520
-#, fuzzy
-#| msgid "Added support for localized screenshots."
 msgid "OCR support for non-English languages in :ref:`screenshots`."
-msgstr ":ref:`screenshots`에서 영어 이외의 언어에 대한 OCR을 지원합니다."
+msgstr ":ref:`screenshots` 에서 영어 이외의 언어에 대한 OCR을 지원합니다."
 
 #: ../../changes.rst:1521
 #, fuzzy
@@ -27521,7 +27455,7 @@ msgstr ""
 
 #: ../../changes/v2.rst:73
 msgid "Added support for translation workflows with dedicated reviewers."
-msgstr ""
+msgstr "전담 검토자를 통한 번역 워크플로우에 대한 지원이 추가되었습니다."
 
 #: ../../changes/v2.rst:76
 msgid "Weblate 2.17.1"
@@ -36912,6 +36846,11 @@ msgid ""
 "best review. Screenshots, explanations also help to review the strings in "
 "context."
 msgstr ""
+"번역은 사후 편집 후 다른 검토자가 검토해야 합니다. 공정하고 유능한 검토자가 "
+"함께 작업하면 두 사람의 검토 원칙이 오류를 줄이고 콘텐츠의 품질과 일관성을 "
+"향상시킵니다. 검토자에게 미리보기나 알파 번역본을 제공하면 최상의 검토가 "
+"가능합니다. 스크린샷과 설명 또한 문자열을 맥락에 맞춰 검토하는 데 도움이 "
+"됩니다."
 
 #: ../../devel/community.rst:37
 #, fuzzy
@@ -37269,7 +37208,7 @@ msgstr ""
 #: ../../devel/html.rst:50
 msgid ""
 "Translations translated above this threshold will be included in the CDN."
-msgstr ""
+msgstr "이 임계치를 초과하여 번역된 번역은 CDN에 포함될 것입니다."
 
 #: ../../devel/html.rst:52
 msgid ""
@@ -41230,14 +41169,8 @@ msgid "TBX is an XML format for the exchange of terminology data."
 msgstr "TBX는 전문용어 데이터 교환을 위한 XML 형식입니다."
 
 #: ../../formats/tbx.rst:27
-#, fuzzy
-#| msgid ""
-#| "`TBX on Wikipedia <https://en.wikipedia.org/wiki/TermBase_eXchange>`_, :"
-#| "doc:`tt:formats/tbx`, :ref:`glossary`"
 msgid "`TBX on Wikipedia <https://en.wikipedia.org/wiki/TermBase_eXchange>`_"
-msgstr ""
-"`위키피디아의 TBX <https://en.wikipedia.org/wiki/TermBase_eXchange>`_, :doc:"
-"`tt:formats/tbx`, :ref:`glossary`"
+msgstr "`위키피디아의 TBX <https://en.wikipedia.org/wiki/TermBase_eXchange>`_"
 
 #: ../../formats/tbx.rst:32
 #, fuzzy
@@ -41427,14 +41360,8 @@ msgid "`XLIFF 1.2 Representation Guide for Gettext PO`_"
 msgstr ""
 
 #: ../../formats/xliff.rst:32
-#, fuzzy
-#| msgid ""
-#| "`TBX on Wikipedia <https://en.wikipedia.org/wiki/TermBase_eXchange>`_, :"
-#| "doc:`tt:formats/tbx`, :ref:`glossary`"
 msgid "`XLIFF on Wikipedia <https://en.wikipedia.org/wiki/XLIFF>`_"
-msgstr ""
-"`위키피디아의 TBX <https://en.wikipedia.org/wiki/TermBase_eXchange>`_, :doc:"
-"`tt:formats/tbx`, :ref:`glossary`"
+msgstr "`위키피디아의 TBX <https://en.wikipedia.org/wiki/XLIFF>`_"
 
 #: ../../formats/xliff.rst:40 ../../workflows.rst:59
 msgid "Translation states"
@@ -42469,17 +42396,12 @@ msgstr ""
 "입니다."
 
 #: ../../security/index.rst:8
-#, fuzzy
-#| msgid ""
-#| "Development of Weblate adheres to the `Best Practices of the Linux "
-#| "Foundation's Core Infrastructure Initiative <https://bestpractices."
-#| "coreinfrastructure.org/projects/552>`_."
 msgid ""
 "Development of Weblate adheres to the `Best Practices of the Open Source "
 "Security Foundation <https://www.bestpractices.dev/en/projects/552>`_."
 msgstr ""
-"Weblate의 개발은 `리눅스 재단의 핵심 인프라 이니셔티브<https://bestpractices."
-"coreinfrastructure.org/projects/552>`_의 모범 사례를 준수합니다."
+"Weblate의 개발은 `오픈 소스 보안 재단의 모범 사례 <https://"
+"www.bestpractices.dev/en/projects/552>`_ 를 준수합니다."
 
 #: ../../security/index.rst:12
 msgid "Discovered a security issue in Weblate? Please read :ref:`security`."
@@ -48026,14 +47948,12 @@ msgid ""
 msgstr ""
 
 #: ../../user/translating.rst:298
-#, fuzzy
 msgid ""
 "Screenshots can be uploaded to Weblate to better inform translators of where "
 "and how the string is used, see :ref:`screenshots`."
 msgstr ""
 "번역자에게 문자열이 어디서 어떻게 사용되는지 더 잘 알려주기 위해 스크린숏을 "
-"Weblate에 업로드할 수 있습니다. 자세한 내용은 :ref:`screenshots`을 참조하세"
-"요."
+"Weblate에 업로드할 수 있습니다. :ref:`screenshots` 을 참조하세요."
 
 #: ../../user/translating.rst:300
 msgid "Nearby strings"
@@ -48170,7 +48090,8 @@ msgstr ""
 msgid ""
 "Using selected machine translation services with translations above a "
 "certain quality threshold."
-msgstr ""
+msgstr "특정 품질 임계치 이상의 번역을 제공하는 선택된 기계 번역 서비스들을 "
+"사용합니다."
 
 #: ../../user/translating.rst:375
 msgid "You can also choose which strings are to be auto-translated."
@@ -49572,6 +49493,8 @@ msgid ""
 "translators, but only by reviewers. Translators can only add suggestions to "
 "it."
 msgstr ""
+"번역이 검토에서 승인되었습니다. 더 이상 번역자는 번역을 변경할 수 없으며, "
+"검토자만 번역을 변경할 수 있습니다. 번역자는 제안만 추가할 수 있습니다."
 
 #: ../../workflows.rst:78
 msgid "This state is only available when reviews are enabled."
@@ -49665,7 +49588,7 @@ msgstr "프로젝트 별 액세스 제어"
 
 #: ../../workflows.rst:125 ../../workflows.rst:157 ../../workflows.rst:190
 msgid "Reviewers group"
-msgstr ""
+msgstr "검토자 그룹"
 
 #: ../../workflows.rst:125 ../../workflows.rst:157
 msgid "N/A"
@@ -49708,7 +49631,7 @@ msgstr ""
 
 #: ../../workflows.rst:163
 msgid "Dedicated reviewers"
-msgstr ""
+msgstr "전담 검토자"
 
 #: ../../workflows.rst:165
 msgid ""
@@ -49716,6 +49639,9 @@ msgid ""
 "translations, and one able to review them to ensure translations are "
 "consistent and that the quality is good."
 msgstr ""
+"전담 검토자가 있으면 사용자는 두 그룹으로 나뉩니다. 한 그룹은 번역을 제출할 "
+"수 있고, 다른 그룹은 번역의 일관성과 품질이 좋은지 확인하기 위해 검토할 수 "
+"있습니다."
 
 #: ../../workflows.rst:169
 msgid "*Any user* can edit unapproved translations."
@@ -49725,11 +49651,12 @@ msgstr ""
 #, fuzzy
 #| msgid "Requires dedicated reviewers to approve source strings."
 msgid "*Reviewer* can approve / unapprove strings."
-msgstr "원본 문자열 승인을 위한 전용 검토자가 필요합니다."
+msgstr "*검토자*는 문자열을 승인/승인 취소할 수 있습니다."
 
 #: ../../workflows.rst:171
+#, fuzzy
 msgid "*Reviewer* can edit all translations (including approved ones)."
-msgstr ""
+msgstr "*검토자*는 모든 번역(승인된 번역 포함)을 편집할 수 있습니다."
 
 #: ../../workflows.rst:172
 msgid "Suggestions can also be used to suggest changes for approved strings."
