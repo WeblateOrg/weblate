@@ -916,7 +916,7 @@ List for credentials for Bitbucket Cloud servers.
         "bitbucket.org": {
             "username": "your-username",
             "workspace": "your-workspace-slug",
-            "token": "your-app-password",
+            "token": "your-api-token",
         },
     }
 
@@ -931,15 +931,15 @@ The following configuration is available for each host:
 ``workspace``
     The user workspace slug.
 ``token``
-    The App password with `pullrequest:write` permission.
+    The API token with `pullrequest:write` permission.
 
 Additional settings not described here can be found at :ref:`settings-credentials`.
 
 .. seealso::
 
    * :ref:`vcs-bitbucket-cloud`
-   * `Create an App password <https://support.atlassian.com/bitbucket-cloud/docs/create-an-app-password/>`_
-   * `App password permissions <https://support.atlassian.com/bitbucket-cloud/docs/app-password-permissions/>`_
+   * `Create an API token <https://support.atlassian.com/bitbucket-cloud/docs/create-an-api-token/>`_
+   * `API token permissions <https://support.atlassian.com/bitbucket-cloud/docs/api-token-permissions/>`_
 
 .. setting:: AZURE_DEVOPS_CREDENTIALS
 

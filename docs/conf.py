@@ -389,6 +389,7 @@ linkcheck_ignore = [
     "https://www.bis.doc.gov/",
     "https://www.libravatar.org/",
     "https://akismet.com/",
+    "https://glosbe.com/",
     # These seems to block bots/GitHub
     "https://docs.github.com/",
     "https://translate.yandex.com/",
