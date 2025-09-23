@@ -2296,8 +2296,8 @@ When adding third-party containers, consider the following:
 * **Data persistence**: Use volumes for services that need to persist data
 * **Security**: Configure appropriate access controls and avoid exposing unnecessary ports
 
-LibreTranslate Integration
-++++++++++++++++++++++++++
+LibreTranslate Docker container integration
++++++++++++++++++++++++++++++++++++++++++++
 
 `LibreTranslate <https://libretranslate.com/>`_ is a free and open-source machine
 translation service that can be self-hosted. Integrating it with Weblate provides
