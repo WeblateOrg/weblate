@@ -2282,6 +2282,115 @@ custom maintenance tasks to the Celery task scheduler.
    :language: python
    :caption: An example of custom scheduled tasks in :file:`/app/data/python/customize/tasks.py`.
 
+Integrating third-party containers
+----------------------------------
+
+The Weblate Docker setup can be extended with additional containers to provide
+complementary services such as machine translation, spell checking, or other
+tools that enhance the translation workflow. These services can be integrated
+into your Docker Compose configuration and work alongside Weblate.
+
+When adding third-party containers, consider the following:
+
+* **Network connectivity**: Ensure containers can communicate with each other by placing them on the same Docker network
+* **Data persistence**: Use volumes for services that need to persist data
+* **Security**: Configure appropriate access controls and avoid exposing unnecessary ports
+
+.. _docker-libretranslate:
+
+LibreTranslate Docker container integration
++++++++++++++++++++++++++++++++++++++++++++
+
+`LibreTranslate <https://libretranslate.com/>`_ is a free and open-source machine
+translation service that can be self-hosted. Integrating it with Weblate provides
+offline machine translation capabilities without relying on external services.
+
+You can incorporate the LibreTranslate service into your Weblate deployment by including it in a :file:`docker-compose.override.yml` file. Since it runs within the Docker network, it's only accessible to Weblate and not exposed to the public internet.
+
+Basic setup using :file:`docker-compose.override.yml`:
+
+.. code-block:: yaml
+
+   services:
+     libretranslate:
+       image: libretranslate/libretranslate:latest
+       command: --disable-web-ui
+       restart: unless-stopped
+       environment:
+         LT_UPDATE_MODELS: true
+       volumes:
+         - libretranslate_models:/home/libretranslate/.local:rw
+       healthcheck:
+         test: ['CMD-SHELL', './venv/bin/python scripts/healthcheck.py']
+         interval: 10s
+         timeout: 4s
+         retries: 4
+         start_period: 5s
+
+   volumes:
+     libretranslate_models:
+
+For GPU-accelerated translation (if you have NVIDIA GPU available):
+
+.. code-block:: yaml
+
+   services:
+     libretranslate:
+       image: libretranslate/libretranslate:latest-cuda
+       command: --disable-web-ui
+       restart: unless-stopped
+       environment:
+         LT_UPDATE_MODELS: true
+         PUID: root
+       volumes:
+         - libretranslate_models:/home/libretranslate/.local:rw
+       healthcheck:
+         test: ['CMD-SHELL', './venv/bin/python scripts/healthcheck.py']
+         interval: 10s
+         timeout: 4s
+         retries: 4
+         start_period: 5s
+       deploy:
+         resources:
+           reservations:
+             devices:
+               - driver: nvidia
+                 count: 1
+                 capabilities: [gpu]
+
+   volumes:
+     libretranslate_models:
+
+After starting the services with ``docker compose down && docker compose up -d``,
+configure LibreTranslate in Weblate:
+
+1. Access the Weblate admin interface
+2. Navigate to :guilabel:`Machine translation` → :guilabel:`Automatic suggestions`
+3. Add a new LibreTranslate service with:
+
+   * **Service**: LibreTranslate
+   * **API URL**: ``http://libretranslate:5000``
+   * **API key**: Leave empty
+
+LibreTranslate is now configured and available for machine translation in Weblate.
+
+.. note::
+
+   * The LibreTranslate service runs without the web UI (``--disable-web-ui``) and is only accessible via the API within the Docker network.
+   * Models are automatically updated when the container starts. (``LT_UPDATE_MODELS: true``)
+   * Data is persisted using Docker volumes for optimal performance and data safety.
+   * Health checks ensure that the Docker engine properly observes the state of the service.
+   * For GPU acceleration, use the CUDA image variant and ensure your system has NVIDIA Docker support. This container runs as a privileged user to be able to use the GPU.
+   * No external ports are exposed, making the setup secure by default.
+
+.. seealso::
+
+   * :ref:`mt-libretranslate`
+   * `LibreTranslate Docker documentation`_
+   * :ref:`machine-translation-setup`
+
+.. _LibreTranslate Docker documentation: https://docs.libretranslate.com/guides/installation/#with-docker
+
 Configuring PostgreSQL server
 -----------------------------
 
