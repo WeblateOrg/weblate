@@ -2389,7 +2389,7 @@ LibreTranslate is now configured and available for machine translation in Weblat
    * `LibreTranslate Docker documentation`_
    * :ref:`machine-translation-setup`
 
-.. _LibreTranslate Docker documentation: https://github.com/LibreTranslate/LibreTranslate#docker
+.. _LibreTranslate Docker documentation: https://docs.libretranslate.com/guides/installation/#with-docker
 
 Configuring PostgreSQL server
 -----------------------------
