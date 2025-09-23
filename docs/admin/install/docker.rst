@@ -2052,27 +2052,10 @@ Container settings
    crawlers. You need to configure `Anubis for Subrequest Authentication`_ to
    make it work.
 
-   This can be done using docker compose, for example:
+   .. seealso::
 
-   .. code-block:: yaml
-
-      anubis:
-         image: ghcr.io/techarohq/anubis:latest
-         environment:
-            BIND: ":8923"
-            DIFFICULTY: "4"
-            METRICS_BIND: ":9090"
-            SERVE_ROBOTS_TXT: "false"
-            TARGET: " "
-            OG_PASSTHROUGH: "false"
-            ED25519_PRIVATE_KEY_HEX: "$(openssl rand -hex 32)"
-
-   You can then turn on the Anubis usage in Weblate using:
-
-   .. code-block:: yaml
-
-      environment:
-         WEBLATE_ANUBIS_URL: http://anubis:8923
+      * :ref:`docker-anubis`
+      * `Anubis`_
 
 .. _Anubis: https://anubis.techaro.lol/
 .. _Anubis for Subrequest Authentication: https://anubis.techaro.lol/docs/admin/configuration/subrequest-auth
@@ -2390,6 +2373,41 @@ LibreTranslate is now configured and available for machine translation in Weblat
    * :ref:`machine-translation-setup`
 
 .. _LibreTranslate Docker documentation: https://docs.libretranslate.com/guides/installation/#with-docker
+
+.. _docker-anubis:
+
+Anubis Docker container integration
++++++++++++++++++++++++++++++++++++
+
+`Anubis`_ is a web AI firewall utility to block AI scrapers and other disruptive
+traffic on the server. It is typically needed for publicly open Weblate
+installations to avoid excessive load caused by scraping.
+
+Anubis can be deployed using Docker Compose:
+
+.. code-block:: yaml
+
+   anubis:
+      image: ghcr.io/techarohq/anubis:latest
+      environment:
+         BIND: ":8923"
+         DIFFICULTY: "4"
+         METRICS_BIND: ":9090"
+         SERVE_ROBOTS_TXT: "false"
+         TARGET: " "
+         OG_PASSTHROUGH: "false"
+         ED25519_PRIVATE_KEY_HEX: "$(openssl rand -hex 32)"
+
+You can then turn on the Anubis usage in Weblate using:
+
+.. code-block:: yaml
+
+   environment:
+      WEBLATE_ANUBIS_URL: http://anubis:8923
+
+.. seealso::
+
+   :envvar:`WEBLATE_ANUBIS_URL`
 
 Configuring PostgreSQL server
 -----------------------------
