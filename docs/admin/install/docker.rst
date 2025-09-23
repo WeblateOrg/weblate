@@ -2313,6 +2313,7 @@ Basic setup using :file:`docker-compose.override.yml`:
      libretranslate:
        image: libretranslate/libretranslate:latest
        command: --disable-web-ui
+       restart: unless-stopped
        environment:
          LT_UPDATE_MODELS: true
        volumes:
@@ -2335,8 +2336,10 @@ For GPU-accelerated translation (if you have NVIDIA GPU available):
      libretranslate:
        image: libretranslate/libretranslate:latest-cuda
        command: --disable-web-ui
+       restart: unless-stopped
        environment:
          LT_UPDATE_MODELS: true
+         PUID: root
        volumes:
          - libretranslate_models:/home/libretranslate/.local:rw
        healthcheck:
