@@ -135,7 +135,7 @@ class GitStreamingHttpResponse(StreamingHttpResponse):
     def close(self) -> None:
         if self.wrapper.process.poll() is None:
             self.wrapper.process.kill()
-        self.wrapper.process.wait()
+        self.wrapper.wait()
         super().close()
 
 
@@ -258,10 +258,15 @@ class GitHTTPBackendWrapper:
 
         # Handle status in response
         if "status" in message:
-            self.process.wait()
+            self.wait()
             return HttpResponse(status=int(message["status"].split()[0]))
 
         # Send streaming content as response
         return GitStreamingHttpResponse(
             streaming_content=self, content_type=message["content-type"]
         )
+
+    def wait(self):
+        self.process.wait()
+        self.process.stdout.close()
+        self.process.stderr.close()
