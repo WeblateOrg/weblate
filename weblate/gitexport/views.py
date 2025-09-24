@@ -268,5 +268,7 @@ class GitHTTPBackendWrapper:
 
     def wait(self):
         self.process.wait()
-        self.process.stdout.close()
-        self.process.stderr.close()
+        if self.process.stdout is not None:
+            self.process.stdout.close()
+        if self.process.stderr is not None:
+            self.process.stderr.close()
