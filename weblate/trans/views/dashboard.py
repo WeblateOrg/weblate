@@ -312,7 +312,7 @@ def dashboard_user(request: AuthenticatedHttpRequest) -> HttpResponse:
         {
             "allow_index": True,
             "suggestions": suggestions,
-            "search_form": SearchForm(request=request),
+            "search_form": SearchForm(request=request, bootstrap_5=True),
             "usersubscriptions": usersubscriptions,
             "componentlists": componentlists,
             "all_componentlists": prefetch_stats(

@@ -200,7 +200,7 @@
         <div class="list-group">
           {% include "snippets/list-objects.html" with objects=page_user_translations label=_("Translation") show_admin_badge=True name_source="translation" empty_message=_("No recent contributions found.") %}
           <a href="{% url 'user_contributions' user=page_user.username %}"
-             class="btn btn-primary">{% translate "Browse all translations with contribution" %}</a>
+             class="me-auto btn btn-primary">{% translate "Browse all translations with contribution" %}</a>
         </div>
       </div>
 
