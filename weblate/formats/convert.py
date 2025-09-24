@@ -148,8 +148,8 @@ class ConvertFormat(TranslationFormat):
     ) -> TranslationStore:
         # Did we get file or filename?
         if not hasattr(storefile, "read"):
-            with open(storefile, "rb") as f:
-                store = self.convertfile(f, template_store)
+            with open(storefile, "rb") as handle:
+                store = self.convertfile(handle, template_store)
         else:
             store = self.convertfile(storefile, template_store)
         if self.needs_target_sync(template_store):
