@@ -152,6 +152,7 @@ class ConvertFormat(TranslationFormat):
                 store = self.convertfile(handle, template_store)
         else:
             store = self.convertfile(storefile, template_store)
+        # Adjust store to have translations
         if self.needs_target_sync(template_store):
             for unit in store.units:
                 if unit.isheader():
