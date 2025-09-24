@@ -147,14 +147,11 @@ class ConvertFormat(TranslationFormat):
         template_store: TranslationFormat | None,
     ) -> TranslationStore:
         # Did we get file or filename?
-        close = False
         if not hasattr(storefile, "read"):
-            close = True
-            storefile = open(storefile, "rb")  # noqa: SIM115
-        # Adjust store to have translations
-        store = self.convertfile(storefile, template_store)
-        if close:
-            storefile.close()
+            with open(storefile, "rb") as f:
+                store = self.convertfile(f, template_store)
+        else:
+            store = self.convertfile(storefile, template_store)
         if self.needs_target_sync(template_store):
             for unit in store.units:
                 if unit.isheader():
