@@ -777,6 +777,40 @@ class RSTReferencesCheckTest(CheckTestCase):
             ),
         )
 
+    def test_substitution(self) -> None:
+        self.do_test(
+            False,
+            (
+                "|regular| Small",
+                "|regular| Small",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "|regular| Small",
+                "|other| Small",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "|regular| Small",
+                "Small",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "Small",
+                "|regular| Small",
+                "rst-text",
+            ),
+        )
+
 
 class RSTSyntaxCheckTest(CheckTestCase):
     check = RSTSyntaxCheck()
@@ -865,4 +899,14 @@ class RSTSyntaxCheckTest(CheckTestCase):
             The following errors were found:<br>
             Inline interpreted text or phrase reference start-string without end-string.
             """,
+        )
+
+    def test_substitution(self) -> None:
+        self.do_test(
+            False,
+            (
+                "|regular| Small",
+                "|regular| Small",
+                "rst-text",
+            ),
         )

@@ -20,6 +20,7 @@ Weblate 5.14
 * Last changed lookup in :ref:`search-strings`.
 * :doc:`/security/localization-threat` documentation.
 * Improved activity logging for :ref:`addon-weblate.consistency.languages` add-on.
+* :ref:`check-rst-references` and :ref:`check-rst-syntax` now support substitutions.
 
 .. rubric:: Bug fixes
 

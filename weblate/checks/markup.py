@@ -26,6 +26,7 @@ from docutils.nodes import (
     problematic,
     reference,
     strong,
+    substitution_reference,
 )
 from docutils.parsers.rst import languages
 from docutils.parsers.rst.states import Inliner, Struct
@@ -450,7 +451,7 @@ def extract_rst_references(text: str) -> tuple[dict[str, str], Counter, list[str
 
                     result.append((name, node.rawsource))
                     break
-        elif isinstance(node, footnote_reference):
+        elif isinstance(node, (footnote_reference, substitution_reference)):
             result.append((node.rawsource, node.rawsource))
             alltags.append(node.rawsource)
         elif isinstance(node, reference):
@@ -591,6 +592,8 @@ def validate_rst_snippet(
                 "Too many autonumbered footnote",
                 # Can not work on snippets
                 "Enumerated list start value not ordinal",
+                # Substitutions are typically defined at the document level
+                "Undefined substitution referenced",
             )
         ):
             return
