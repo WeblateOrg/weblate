@@ -4,7 +4,6 @@
 
 from __future__ import annotations
 
-from operator import itemgetter
 from typing import TYPE_CHECKING
 
 from weblate.checks.models import CHECKS
@@ -65,23 +64,26 @@ def highlight_string(
     # Remove empty strings
     highlights = [highlight for highlight in highlights if highlight[2]]
 
-    # Sort by order in string
-    highlights.sort(key=itemgetter(0))
+    # Sort by order in string, longest first
+    highlights.sort(key=lambda item: (item[0], -item[1]))
 
     # Remove overlapping ones
     for hl_idx in range(len(highlights)):
         if hl_idx >= len(highlights):
             break
         elref = highlights[hl_idx]
-        for hl_idx_next in range(hl_idx + 1, len(highlights)):
-            if hl_idx_next >= len(highlights):
-                break
+        hl_idx_next = hl_idx + 1
+        while hl_idx_next < len(highlights):
             eltest = highlights[hl_idx_next]
-            if eltest[0] >= elref[0] and eltest[0] < elref[1]:
+            if eltest[0] >= elref[0] and eltest[1] <= elref[1]:
                 # Elements overlap, remove inner one
                 highlights.pop(hl_idx_next)
+                # Do not increment index here as we've removed the current element
             elif eltest[0] > elref[1]:
                 # This is not an overlapping element
                 break
+            else:
+                # Increase index to test
+                hl_idx_next += 1
 
     return highlights

@@ -157,6 +157,21 @@ class PlaceholdersTest(CheckTestCase):
             )
         )
 
+    def test_escaped_markup(self) -> None:
+        unit = MockUnit(
+            None,
+            'icu-message-format, placeholders:r"&lt;[a-z/]+&gt;", xml-text',
+            self.default_lang,
+            "&lt;strong&gt;Not limit the amount of videos&lt;/strong&gt; new users can upload",
+        )
+        self.assertEqual(
+            list(self.check.check_highlight(unit.source, unit)),
+            [
+                (0, 14, "&lt;strong&gt;"),
+                (44, 59, "&lt;/strong&gt;"),
+            ],
+        )
+
 
 class PluralPlaceholdersTest(FixtureTestCase):
     def test_plural(self) -> None:
