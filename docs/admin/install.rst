@@ -729,7 +729,7 @@ Weblate. When using reverse proxy, please make sure that the needed information
 is correctly passed.
 
 Client IP address
-   This is needed for :ref:`rate-limit`, :ref:`spam-protection` or :ref:`audit-log`.
+   This is needed for :ref:`rate-limit` or :ref:`audit-log`.
 
    Weblate parses IP address from the ``REMOTE_ADDR``, which is set by the WSGI
    handler. This might be empty (when using socket for WSGI) or contain a
@@ -788,7 +788,6 @@ Client protocol
 .. seealso::
 
    * :ref:`docker-ssl-proxy`
-   * :ref:`spam-protection`
    * :ref:`rate-limit`
    * :ref:`audit-log`
    * :ref:`nginx-granian`
