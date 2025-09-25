@@ -17,9 +17,6 @@ class WeblateConf(AppConf):
     # Cache directory
     CACHE_DIR = None
 
-    # Akismet API key
-    AKISMET_API_KEY = None
-
     # Title of site to use
     SITE_TITLE = "Weblate"
 

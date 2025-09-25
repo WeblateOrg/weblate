@@ -388,7 +388,6 @@ linkcheck_ignore = [
     "https://wiki.gnupg.org/",
     "https://www.bis.doc.gov/",
     "https://www.libravatar.org/",
-    "https://akismet.com/",
     "https://glosbe.com/",
     # These seems to block bots/GitHub
     "https://docs.github.com/",

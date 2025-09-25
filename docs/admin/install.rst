@@ -218,10 +218,6 @@ Django REST Framework
        - | `boto3 <https://pypi.org/project/boto3>`_
        - :ref:`mt-aws`
 
-     * - ``antispam``
-       - | `python-akismet <https://pypi.org/project/python-akismet>`_
-       - :ref:`spam-protection`
-
      * - ``gelf``
        - | `logging-gelf <https://pypi.org/project/logging-gelf>`_
        - :ref:`graylog`

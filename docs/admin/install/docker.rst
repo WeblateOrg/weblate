@@ -877,10 +877,6 @@ Generic settings
 
    Configures :setting:`DEFAULT_AUTOCLEAN_TM`.
 
-.. envvar:: WEBLATE_AKISMET_API_KEY
-
-    Configures the Akismet API key, see :setting:`AKISMET_API_KEY`.
-
 .. envvar:: WEBLATE_GPG_IDENTITY
 
    Configures GPG signing of commits, see :setting:`WEBLATE_GPG_IDENTITY`.
