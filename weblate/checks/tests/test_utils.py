@@ -62,3 +62,16 @@ class HighlightTestCase(SimpleTestCase):
             highlight_string("Hello *world*", unit, highlight_syntax=True),
             [(6, 7, "*"), (12, 13, "*")],
         )
+
+    def test_escaped_markup(self) -> None:
+        unit = MockUnit(
+            source="&lt;strong&gt;Not limit the amount of videos&lt;/strong&gt; new users can upload",
+            flags='icu-message-format, placeholders:r"&lt;[a-z/]+&gt;", xml-text',
+        )
+        self.assertEqual(
+            highlight_string(unit.source, unit, highlight_syntax=True),
+            [
+                (0, 14, "&lt;strong&gt;"),
+                (44, 59, "&lt;/strong&gt;"),
+            ],
+        )
