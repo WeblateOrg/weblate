@@ -288,7 +288,7 @@ class BaseStats:
         Fast getter for aggregation.
 
         - expects data is present
-        - expects valid basic keys only
+        - expects valid §asic keys only
         - maps source keys
         """
         try:
