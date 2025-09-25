@@ -7,7 +7,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("trans", "0045_alter_change_action"),
+        ("trans", "0048_change_trans_change_category_idx"),
     ]
 
     operations = [
