@@ -31,7 +31,7 @@ class PostgreSQLOperatorTest(TestCase):
         queryset = Unit.objects.filter(source__search="'''").only("id")
         self.assertEqual(
             str(queryset.query),
-            BASE_SQL + """"trans_unit"."source" || '' LIKE %'''%""",
+            BASE_SQL + """UPPER("trans_unit"."source") LIKE UPPER(%'''%)""",
         )
 
     def test_substring(self) -> None:
@@ -43,7 +43,7 @@ class PostgreSQLOperatorTest(TestCase):
         queryset = Unit.objects.filter(source__substring="'''").only("id")
         self.assertEqual(
             str(queryset.query),
-            BASE_SQL + """"trans_unit"."source" || '' LIKE %'''%""",
+            BASE_SQL + """UPPER("trans_unit"."source") LIKE UPPER(%'''%)""",
         )
 
 
