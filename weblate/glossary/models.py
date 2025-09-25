@@ -97,6 +97,9 @@ def fetch_glossary_terms(  # noqa: C901
     for translation_id, translation in translations.items():
         language = translation.language
         component = translation.component
+        # Do not get glossary matches when display is disabled
+        if component.hide_glossary_matches:
+            continue
         project = component.project
         source_language = component.source_language
 

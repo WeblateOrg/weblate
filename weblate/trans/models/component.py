@@ -546,6 +546,11 @@ class Component(
             "Locked component will not get any translation updates."
         ),
     )
+    hide_glossary_matches = models.BooleanField(
+        verbose_name=gettext_lazy("Do not show glossary matches"),
+        default=False,
+        help_text=gettext_lazy("Hides the glossary panel in the translation editor."),
+    )
     allow_translation_propagation = models.BooleanField(
         verbose_name=gettext_lazy("Allow translation propagation"),
         default=settings.DEFAULT_TRANSLATION_PROPAGATION,

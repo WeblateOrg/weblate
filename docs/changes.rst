@@ -22,6 +22,7 @@ Weblate 5.14
 * Improved activity logging for :ref:`addon-weblate.consistency.languages` add-on.
 * :ref:`check-rst-references` and :ref:`check-rst-syntax` now support substitutions.
 * Improved performance for :ref:`check-multiple-failures` and :ref:`check-long-untranslated` checks with batch operations.
+* :ref:`component-hide_glossary_matches` component setting.
 
 .. rubric:: Bug fixes
 
