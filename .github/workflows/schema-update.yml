@@ -37,29 +37,37 @@ jobs:
       run: |
         uv sync --only-group schemas --only-group pre-commit
     - run: make -C docs update-schemas
-    - run: |
-        # shellcheck disable=SC2046
-        uv run --no-sync pre-commit run --files $(git diff --name-only)
+    - run: uv run --only-group pre-commit pre-commit run --all
       continue-on-error: true
-    - name: Update renovate branch
-      if: github.ref != 'refs/heads/main'
+
+    - run: git diff
+
+    - uses: pre-commit-ci/lite-action@5d6cc0eb514c891a40562a58a8e71576c5c7fb43 # v1.1.0
+      if: github.event_name == 'pull_request' && github.actor != 'renovate[bot]'
+      with:
+        msg: 'docs: Update JSON schemas'
+
+    - name: Update current branch
+      if: github.event_name == 'push' && github.ref_name != 'main'
       uses: stefanzweifel/git-auto-commit-action@778341af668090896ca464160c2def5d1d1a3eb0 # v6.0.1
       with:
         commit_message: 'docs: Update JSON schemas'
+
     - name: Create Pull Request
       id: cpr
-      if: github.ref == 'refs/heads/main'
+      if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.ref_name == 'main'
       uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7.0.8
       with:
         branch: create-pull-request/jsonschema-update
         title: 'docs: Update JSON schemas'
         commit-message: 'docs: Update JSON schemas'
+
         token: ${{ secrets.WEBLATE_CI_TOKEN }}
         labels: |
           dependencies
 
     - name: Enable Pull Request Automerge
-      if: github.ref == 'refs/heads/main' && steps.cpr.outputs.pull-request-operation != 'none'
+      if: steps.cpr.outputs.pull-request-operation && steps.cpr.outputs.pull-request-operation != 'none'
       run: gh pr merge --rebase --auto "$PR_NUMBER"
       env:
         GH_TOKEN: ${{ secrets.WEBLATE_CI_TOKEN }}
