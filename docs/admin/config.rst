@@ -37,15 +37,6 @@ Configure this as a list of e-mail addresses:
    * :setting:`CONTACT_FORM`
    * :setting:`ADMINS`
 
-.. setting:: AKISMET_API_KEY
-
-AKISMET_API_KEY
----------------
-
-Weblate can use Akismet to check incoming anonymous suggestions for spam.
-Visit `akismet.com <https://akismet.com/>`_ to purchase an API key
-and associate it with a site.
-
 .. setting:: ALTCHA_MAX_NUMBER
 
 ALTCHA_MAX_NUMBER

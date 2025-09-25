@@ -66,7 +66,6 @@ OPTIONAL = [
     "phply",
     "ruamel.yaml",
     "tesserocr",
-    "akismet",
     "boto3",
     "aeidon",
     "iniparse",

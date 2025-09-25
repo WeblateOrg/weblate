@@ -200,35 +200,6 @@ Weblate currently supports:
    * :setting:`AVATAR_URL_PREFIX`
    * :setting:`ENABLE_AVATARS`
 
-.. _spam-protection:
-
-Spam protection
----------------
-
-You can protect against spamming by users by using the `Akismet
-<https://akismet.com/>`_ service.
-
-1. Install the `akismet` Python module (this is already included in the official Docker image).
-2. Obtain the Akismet API key.
-3. Store it as :setting:`AKISMET_API_KEY` or :envvar:`WEBLATE_AKISMET_API_KEY` in Docker.
-
-Following content is sent to Akismet for checking:
-
-* Suggestions from unauthenticated users
-* Project and component descriptions and links
-
-.. note::
-
-   This (among other things) relies on IP address of the client, please see
-   :ref:`reverse-proxy` for properly configuring that.
-
-.. seealso::
-
-    * :ref:`reverse-proxy`
-    * :setting:`AKISMET_API_KEY`
-    * :envvar:`WEBLATE_AKISMET_API_KEY`
-
-
 .. _gpg-sign:
 
 Signing Git commits with GnuPG
