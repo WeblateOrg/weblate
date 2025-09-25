@@ -1138,7 +1138,6 @@ class Component(
             is_glossary=True,
             has_template=False,
             allow_translation_propagation=False,
-            hide_glossary_matches=True,
             license=self.license,
         )
 
