@@ -13,6 +13,7 @@ Weblate is a libre software web-based continuous localization system used by ove
 ## Code Style and Standards
 
 ### Python Code
+
 - Follow PEP 8 standards with line length of 88 characters (Black formatter)
 - Use Django best practices and conventions
 - Type hints are required (project uses `py.typed` and mypy)
@@ -24,12 +25,14 @@ Weblate is a libre software web-based continuous localization system used by ove
 - Use `TYPE_CHECKING` imports for type-only imports to avoid circular dependencies
 
 ### Frontend Code
+
 - Use Bootstrap 4/5 classes for styling
 - Follow existing JavaScript patterns in the codebase
 - Use jQuery for DOM manipulation (existing pattern)
 - Maintain accessibility standards
 
 ### Templates
+
 - Use Django template syntax with proper escaping
 - Follow existing template structure and patterns
 - Use `{% translate %}` and `{% blocktranslate %}` for i18n
@@ -38,8 +41,9 @@ Weblate is a libre software web-based continuous localization system used by ove
 ## Development Workflow
 
 ### Testing
+
 - Use pytest with Django integration (`pytest-django`)
-- Test files are located in `*/tests/` directories  
+- Test files are located in `*/tests/` directories
 - Run tests with: `python manage.py test` or `pytest`
 - Use Django's TestCase and TransactionTestCase appropriately
 - Mock external VCS operations and API calls
@@ -48,6 +52,7 @@ Weblate is a libre software web-based continuous localization system used by ove
 - Write unit tests for new functionality and integration tests for complex features
 
 ### Development Commands
+
 - `python manage.py runserver` - Start development server
 - `python manage.py shell` - Django shell with Weblate models loaded
 - `python manage.py makemigrations` - Create database migrations
@@ -56,12 +61,14 @@ Weblate is a libre software web-based continuous localization system used by ove
 - `python manage.py test` - Run test suite
 
 ### Linting and Formatting
+
 - Pre-commit hooks are configured (`.pre-commit-config.yaml`)
 - Use pylint for Python code quality
 - Follow existing code formatting patterns
 - Run `pre-commit run --all-files` before committing
 
 ### Dependencies
+
 - Manage dependencies in `pyproject.toml`
 - Use dependency groups for different environments (dev, test, docs, etc.)
 - Keep dependencies up to date with security considerations
@@ -69,6 +76,7 @@ Weblate is a libre software web-based continuous localization system used by ove
 ### Weblate-Specific Patterns
 
 #### Model Hierarchy
+
 - **Project**: Top-level container for related components
 - **Component**: Individual translatable resource (e.g., a software module)
 - **Translation**: Language-specific version of a component
@@ -76,14 +84,16 @@ Weblate is a libre software web-based continuous localization system used by ove
 - **Change**: Audit trail of all modifications
 
 #### Key Mixins and Base Classes
+
 - `ComponentViewMixin`: For views that operate on translation components
-- `ProjectViewMixin`: For views that operate on projects  
+- `ProjectViewMixin`: For views that operate on projects
 - `TranslationViewMixin`: For views that operate on translations
 - `CacheKeyMixin`: Provides caching functionality
 - `LockMixin`: Handles repository locking
 - `PathMixin`: URL path handling utilities
 
 #### VCS Integration Patterns
+
 ```python
 # Always use try/except for VCS operations
 try:
@@ -94,6 +104,7 @@ except Exception:
 ```
 
 ### Internationalization (i18n)
+
 - All user-facing strings must be translatable
 - Use `gettext_lazy` for model fields and forms
 - Use `{% translate %}` in templates
@@ -101,18 +112,21 @@ except Exception:
 - Consider RTL language support
 
 ### Version Control Integration
+
 - Understand VCS abstraction layer in `weblate/vcs/`
 - Support for Git, Mercurial, Subversion
 - Repository operations should be atomic and safe
 - Handle merge conflicts gracefully
 
 ### Translation Formats
+
 - Support multiple file formats (PO, XLIFF, JSON, etc.)
 - Format handlers are in `weblate/formats/`
 - Maintain format integrity during operations
 - Handle encoding issues properly
 
 ### Security Considerations
+
 - Sanitize all user inputs, especially translation content
 - Use Django's built-in security features (CSRF, XSS protection)
 - Be extremely careful with file uploads and VCS operations
@@ -127,12 +141,14 @@ except Exception:
 ## API and Integration
 
 ### REST API
+
 - Django REST Framework patterns
 - API versioning considerations
 - Proper authentication and permissions
 - Rate limiting awareness
 
 ### Webhooks and Automation
+
 - GitHub, GitLab, Bitbucket integration
 - Webhook security (signature verification)
 - Asynchronous processing with Celery
@@ -140,12 +156,14 @@ except Exception:
 ## Documentation
 
 ### Code Documentation
+
 - Use docstrings for all public methods
-- Include type hints where beneficial  
+- Include type hints where beneficial
 - Document complex algorithms and business logic
 - Reference Django and Weblate documentation
 
 ### User Documentation
+
 - Update docs in `docs/` directory (reStructuredText)
 - Follow existing documentation structure
 - Include examples and use cases
@@ -155,25 +173,29 @@ except Exception:
 ## Common Patterns to Follow
 
 ### Models
+
 ```python
 from django.db import models
 from django.utils.translation import gettext_lazy
 
+
 class MyModel(models.Model):
     name = models.CharField(max_length=100, verbose_name=gettext_lazy("Name"))
-    
+
     class Meta:
         verbose_name = gettext_lazy("My Model")
 ```
 
 ### Views
+
 ```python
 from django.contrib.auth.decorators import login_required
 from weblate.utils.views import ComponentViewMixin
 
+
 class MyComponentView(ComponentViewMixin, TemplateView):
     template_name = "my_template.html"
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         # Add component-specific context
@@ -181,6 +203,7 @@ class MyComponentView(ComponentViewMixin, TemplateView):
 ```
 
 ### Models with Proper Structure
+
 ```python
 # Copyright © Michal Čihař <michal@weblate.org>
 #
@@ -196,22 +219,25 @@ from django.utils.translation import gettext_lazy
 if TYPE_CHECKING:
     from weblate.auth.models import User
 
+
 class MyModel(models.Model):
     name = models.CharField(
-        max_length=100, 
+        max_length=100,
         verbose_name=gettext_lazy("Name"),
-        help_text=gettext_lazy("Human readable name of the object")
+        help_text=gettext_lazy("Human readable name of the object"),
     )
-    
+
     class Meta:
         verbose_name = gettext_lazy("My Model")
         verbose_name_plural = gettext_lazy("My Models")
 ```
 
 ### Forms
+
 ```python
 from django import forms
 from django.utils.translation import gettext_lazy
+
 
 class MyForm(forms.Form):
     field = forms.CharField(label=gettext_lazy("Field"))
@@ -230,11 +256,13 @@ class MyForm(forms.Form):
 ## Supported Integrations
 
 ### Version Control Systems
+
 - Git (primary), Mercurial, Subversion
 - GitHub, GitLab, Bitbucket, Gitea, Azure DevOps
 - Repository webhooks for automatic updates
 
 ### Translation Formats
+
 - GNU gettext PO files
 - XLIFF 1.2 and 2.1
 - JSON (various flavors)
@@ -243,6 +271,7 @@ class MyForm(forms.Form):
 - And many more in `weblate/formats/`
 
 ### Machine Translation Services
+
 - Google Translate, Microsoft Translator
 - DeepL, Amazon Translate
 - LibreTranslate, ModernMT
@@ -261,6 +290,7 @@ class MyForm(forms.Form):
 ## Error Handling and Logging
 
 ### Error Reporting
+
 ```python
 from weblate.utils.errors import report_error
 
@@ -273,8 +303,10 @@ except Exception as error:
 ```
 
 ### Background Tasks with Celery
+
 ```python
 from celery import shared_task
+
 
 @shared_task(bind=True)
 def my_background_task(self, component_id):
@@ -288,7 +320,7 @@ def my_background_task(self, component_id):
 ## Contribution Guidelines
 
 - Follow the existing code patterns and conventions
-- Write tests for new features and bug fixes  
+- Write tests for new features and bug fixes
 - Update documentation when adding new features
 - Consider backwards compatibility
 - Be mindful of security implications
@@ -298,24 +330,28 @@ def my_background_task(self, component_id):
 ## Common Gotchas and Best Practices
 
 ### Translation Handling
+
 - Always check for plural forms when dealing with translations
 - Be aware of RTL (Right-to-Left) language requirements
 - Handle translation conflicts gracefully
 - Consider context and disambiguation in translation keys
 
 ### VCS Operations
+
 - Repository operations should be atomic when possible
 - Always handle VCS exceptions and provide user feedback
 - Use proper file locking for concurrent access
 - Test with different repository states (clean, dirty, conflicts)
 
-### Database Operations  
+### Database Operations
+
 - Use transactions for multi-model operations
 - Be careful with large datasets and memory usage
 - Consider database performance with complex joins
 - Use appropriate indexes for frequent queries
 
 ### Internationalization
+
 - Never hardcode strings that users will see
 - Use proper pluralization rules
 - Consider cultural differences in date/time formatting
