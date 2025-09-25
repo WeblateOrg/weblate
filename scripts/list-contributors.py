@@ -23,7 +23,21 @@ ROOT_DIR = Path(__file__).parent.parent
 
 CategoryType = Literal["code", "translations", "docs"]
 
-IGNORE_AUTHORS: set[str] = {"GitHub", "Anonymous", "Hosted Weblate"}
+# Ignore known bots
+IGNORE_AUTHORS: set[str] = {
+    "GitHub",
+    "Anonymous",
+    "Hosted Weblate",
+    "Copilot",
+}
+
+# GitHub sometimes uses username instead of full name
+MAP_AUTHORS: dict[str, str] = {
+    "nijel": "Michal Čihař",
+    "gersona": "Gersona",
+    "gers": "Gersona",
+    "KarenKonou": "Karen Konou",
+}
 
 CATEGORIES: dict[CategoryType, str] = {
     "code": "Code contributions",
@@ -75,7 +89,9 @@ def get_commit_authors(commit: Commit) -> set[str]:
         for line in str(commit.message).splitlines()
         if line.lower().startswith("co-authored-by:")
     )
-    return {author for author in authors if is_valid_author(author)}
+    return {
+        MAP_AUTHORS.get(author, author) for author in authors if is_valid_author(author)
+    }
 
 
 def get_contributors() -> dict[CategoryType, list[str]]:
