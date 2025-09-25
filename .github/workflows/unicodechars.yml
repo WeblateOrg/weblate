@@ -1,0 +1,83 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: unicodechars update
+
+on:
+  push:
+    branches:
+    - renovate/**
+    - main
+    paths:
+    - .github/workflows/unicodechars.yml
+    - scripts/generate-unicodechars.py
+  workflow_dispatch:
+  pull_request:
+    paths:
+    - .github/workflows/unicodechars.yml
+    - scripts/generate-unicodechars.py
+
+permissions:
+  contents: read
+
+jobs:
+  unicodechars-update:
+    runs-on: ubuntu-24.04
+
+    steps:
+    - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      if: github.event_name != 'pull_request'
+      with:
+        token: ${{ secrets.WEBLATE_CI_TOKEN }}
+        persist-credentials: true
+    - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+      if: github.event_name == 'pull_request'
+      with:
+        persist-credentials: false
+    - uses: astral-sh/setup-uv@b75a909f75acd358c2196fb9a5f1299a9a8868a4 # v6.7.0
+      with:
+        enable-cache: false
+    - name: Set up Python
+      uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6.0.0
+      with:
+        python-version: '3.13'
+    - name: Install Python dependencies
+      run: |
+        uv sync --only-group schemas --only-group pre-commit
+    - run: ./scripts/generate-unicodechars.py > weblate/utils/unicodechars.py
+    - run: uv run --only-group pre-commit pre-commit run --all
+      continue-on-error: true
+
+    - run: git diff
+
+    - uses: pre-commit-ci/lite-action@5d6cc0eb514c891a40562a58a8e71576c5c7fb43 # v1.1.0
+      if: github.event_name == 'pull_request' && github.actor != 'renovate[bot]'
+      with:
+        msg: 'docs: update unicode characters data'
+
+    - name: Update current branch
+      if: github.event_name == 'push' && github.ref_name != 'main'
+      uses: stefanzweifel/git-auto-commit-action@778341af668090896ca464160c2def5d1d1a3eb0 # v6.0.1
+      with:
+        commit_message: 'docs: update unicode characters data'
+
+    - name: Create Pull Request
+      id: cpr
+      if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.ref_name == 'main'
+      uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7.0.8
+      with:
+        branch: create-pull-request/jsonschema-update
+        title: 'docs: update unicode characters data'
+        commit-message: 'docs: update unicode characters data'
+
+        token: ${{ secrets.WEBLATE_CI_TOKEN }}
+        labels: |
+          dependencies
+
+    - name: Enable Pull Request Automerge
+      if: steps.cpr.outputs.pull-request-operation && steps.cpr.outputs.pull-request-operation != 'none'
+      run: gh pr merge --rebase --auto "$PR_NUMBER"
+      env:
+        GH_TOKEN: ${{ secrets.WEBLATE_CI_TOKEN }}
+        PR_NUMBER: ${{ steps.cpr.outputs.pull-request-number }}

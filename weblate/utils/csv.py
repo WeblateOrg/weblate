@@ -5,17 +5,16 @@
 # The following characters are considered problematic for CSV files
 # - due to how they are interpreted by Excel
 # - due to the risk of CSV injection attacks
-import sys
-import unicodedata
 
-csv_formula_triggers = {"=", "+", "-", "@", "|", "%"}
-unicode_whitespaces = {
-    chr(c) for c in range(sys.maxunicode + 1) if unicodedata.category(chr(c)) == "Zs"
-}
+from weblate.utils.unicodechars import WHITESPACE_CHARS
 
-PROHIBITED_INITIAL_CHARS = csv_formula_triggers | unicode_whitespaces
+CSV_FORMULA_TRIGGERS: set[str] = {"=", "+", "-", "@", "|", "%"}
 
-# escape the whitespaces so they are rendered as their string representation instead of an actual character
-PROHIBITED_INITIAL_CHARS_FOR_DISPLAY = csv_formula_triggers | {
-    (f"\\u{ord(char):04x}",) for char in unicode_whitespaces
-}
+PROHIBITED_INITIAL_CHARS: set[str] = CSV_FORMULA_TRIGGERS | WHITESPACE_CHARS
+
+# Escape the whitespaces so they are rendered as their string representation instead of an actual character
+# This is later passed to format_html_join_comma
+PROHIBITED_INITIAL_CHARS_FOR_DISPLAY: tuple[tuple[str], ...] = tuple(
+    (char if char in CSV_FORMULA_TRIGGERS else f"\\u{ord(char):04x}",)
+    for char in PROHIBITED_INITIAL_CHARS
+)
