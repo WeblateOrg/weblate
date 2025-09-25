@@ -21,6 +21,7 @@ Weblate 5.14
 * :doc:`/security/localization-threat` documentation.
 * Improved activity logging for :ref:`addon-weblate.consistency.languages` add-on.
 * :ref:`check-rst-references` and :ref:`check-rst-syntax` now support substitutions.
+* Improved performance for :ref:`check-multiple-failures` and :ref:`check-long-untranslated` checks with batch operations.
 
 .. rubric:: Bug fixes
 
