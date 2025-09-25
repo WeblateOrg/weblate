@@ -11,9 +11,9 @@ from django.utils.html import format_html
 from django.utils.translation import gettext_lazy, ngettext
 
 from weblate.checks.base import TargetCheck
-from weblate.checks.data import NON_WORD_CHARS
 from weblate.checks.same import replace_format_placeholder, strip_format
 from weblate.utils.html import format_html_join_comma
+from weblate.utils.unicodechars import NON_WORD_CHARS
 
 if TYPE_CHECKING:
     from weblate.trans.models import Unit

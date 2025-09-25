@@ -5,8 +5,6 @@
 from __future__ import annotations
 
 import re
-import sys
-import unicodedata
 from collections import defaultdict
 from copy import copy
 from itertools import chain
@@ -21,20 +19,13 @@ from django.db.models.functions import MD5, Lower
 from weblate.trans.models.unit import Unit
 from weblate.utils.csv import PROHIBITED_INITIAL_CHARS
 from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.unicodechars import CONTROLCHARS
 
 if TYPE_CHECKING:
     from weblate.trans.models.translation import Translation
 
 SPLIT_RE = re.compile(r"[\s,.:!?]+")
 NON_WORD_RE = re.compile(r"\W")
-# All control chars including tab and newline, this is different from
-# weblate.formats.helpers.CONTROLCHARS which contains only chars
-# problematic in XML or SQL scopes.
-CONTROLCHARS = [
-    char
-    for char in map(chr, range(sys.maxunicode + 1))
-    if unicodedata.category(char) in {"Zl", "Cc"}
-]
 CONTROLCHARS_TRANS = str.maketrans(dict.fromkeys(CONTROLCHARS))
 
 
