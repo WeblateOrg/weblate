@@ -590,6 +590,35 @@ $(function () {
     },
   );
 
+  /* Same for Bootstrap 5 */
+  $document.on(
+    "show.bs.tab",
+    '[data-bs-toggle="tab"][data-href], [data-bs-toggle="pill"][data-href]',
+    (e) => {
+      const $target = $(e.target);
+      let $content = $($target.attr("href"));
+      if ($target.data("loaded")) {
+        return;
+      }
+      if ($content.find(".card-body").length > 0) {
+        $content = $content.find(".card-body");
+      }
+      $content.load($target.data("href"), (_responseText, status, xhr) => {
+        if (status !== "success") {
+          const msg = gettext("Error while loading page:");
+          $content.html(
+            `<div class="alert alert-danger" role="alert">
+                ${msg} ${xhr.statusText} (${xhr.status})
+              </div>
+            `,
+          );
+        }
+        $target.data("loaded", 1);
+        loadTableSorting();
+      });
+    },
+  );
+
   if ($("#form-activetab").length > 0) {
     $document.on("show.bs.tab", '[data-toggle="tab"]', (e) => {
       const $target = $(e.target);
