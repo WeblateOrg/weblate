@@ -141,7 +141,7 @@ class RequireLoginMiddleware:
         if "weblate.gitexport" in settings.INSTALLED_APPS:
             import weblate.gitexport.views
 
-            if request.path.startswith("/git/"):
+            if request.path.startswith(f"{settings.URL_PREFIX}/git/"):
                 if request.headers.get("authorization"):
                     return None
                 return weblate.gitexport.views.response_authenticate()
