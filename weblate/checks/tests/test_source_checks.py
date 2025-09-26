@@ -56,7 +56,6 @@ class LongUntranslatedCheckTestCase(FixtureTestCase):
         unit = self.get_unit(language="en")
         unit.timestamp = timezone.now()
         unit.save()
-        LongUntranslatedCheck().perform_batch(self.component)
         unit.run_checks()
         self.assertNotIn("long_untranslated", unit.all_checks_names)
 
@@ -64,11 +63,19 @@ class LongUntranslatedCheckTestCase(FixtureTestCase):
         unit = self.get_unit(language="en")
         unit.timestamp = timezone.now() - timedelta(days=100)
         unit.save()
-        LongUntranslatedCheck().perform_batch(self.component)
         unit.run_checks()
         self.assertNotIn("long_untranslated", unit.all_checks_names)
 
     def test_old_untranslated(self) -> None:
+        unit = self.get_unit(language="en")
+        unit.timestamp = timezone.now() - timedelta(days=100)
+        unit.save()
+        unit.translation.component.stats.set_data({"translated": 1, "all": 1})
+        unit.translation.component.stats.save()
+        unit.run_checks()
+        self.assertIn("long_untranslated", unit.all_checks_names)
+
+    def test_old_untranslated_batched(self) -> None:
         unit = self.get_unit(language="en")
         unit.timestamp = timezone.now() - timedelta(days=100)
         unit.save()
@@ -111,5 +118,25 @@ class MultipleFailingCheckTestCase(FixtureTestCase):
         child_unit = unit.unit_set.exclude(pk=source_unit.id).first()
         child_unit.run_checks()
         self.assertIn("same", child_unit.all_checks_names)
+        source_unit.run_checks()
+        self.assertTrue(self.check.check_source([], source_unit))
+
+    def test_multiple_failures_batched(self) -> None:
+        # Create multiple units with the same source to trigger the "same" check
+        for unit in Unit.objects.filter(
+            translation__component=self.component, source__startswith="Hello, world!\n"
+        ):
+            if not unit.is_source:
+                self.edit_unit(
+                    unit.source,
+                    unit.source,
+                    unit.translation.language.code,
+                    True,
+                    unit.translation,
+                )
+        source_unit = self.get_unit(language="en")
+        child_unit = unit.unit_set.exclude(pk=source_unit.id).first()
+        child_unit.run_checks()
+        self.assertIn("same", child_unit.all_checks_names)
         self.check.perform_batch(self.component)
-        self.assertIn("multiple_failures", source_unit.all_checks_names)
+        self.assertTrue(self.check.check_source([], source_unit))

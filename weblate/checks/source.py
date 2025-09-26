@@ -10,6 +10,7 @@ from collections.abc import Iterable
 from datetime import timedelta
 from typing import TYPE_CHECKING
 
+from django.db.models import Q
 from django.utils import timezone
 from django.utils.html import format_html, format_html_join
 from django.utils.translation import gettext, gettext_lazy
@@ -67,12 +68,22 @@ class MultipleFailingCheck(SourceCheck, BatchCheckMixin):
     def get_related_checks(self, unit_ids: Iterable[int]):
         from weblate.checks.models import Check
 
-        return Check.objects.filter(unit_id__in=unit_ids).select_related(
-            "unit__translation"
-        )
+        return Check.objects.filter(
+            Q(unit_id__in=unit_ids) | Q(unit__source_unit_id__in=unit_ids)
+        ).select_related("unit__translation")
 
     def check_source_unit(self, sources: list[str], unit: Unit):
-        return self.handle_batch(unit, unit.translation.component)
+        if unit.translation.component.batch_checks:
+            return self.handle_batch(unit, unit.translation.component)
+        return self._check_unit(unit)
+
+    def _check_unit(self, unit: Unit) -> bool:
+        related = (
+            self.get_related_checks([unit.pk])
+            .values_list("unit__translation", flat=True)
+            .distinct()
+        )
+        return related.count() >= 2
 
     def check_component(self, component: Component) -> Iterable[Unit]:
         from weblate.trans.models import Unit
@@ -144,7 +155,24 @@ class LongUntranslatedCheck(SourceCheck, BatchCheckMixin):
     description = gettext_lazy("The string has not been translated for a long time.")
 
     def check_source_unit(self, sources: list[str], unit: Unit) -> bool:
-        return self.handle_batch(unit, unit.translation.component)
+        component = unit.translation.component
+        if component.batch_checks:
+            return self.handle_batch(unit, component)
+        return self._check_unit(unit)
+
+    def _check_unit(self, unit: Unit) -> bool:
+        if unit.timestamp > timezone.now() - timedelta(days=90):
+            return False
+
+        states = list(unit.unit_set.values_list("state", flat=True))
+        total = len(states)
+        not_translated = states.count(STATE_EMPTY) + states.count(STATE_FUZZY)
+        translated_percent = 100 * (total - not_translated) / total
+        return (
+            total
+            and 2 * translated_percent
+            < unit.translation.component.stats.translated_percent
+        )
 
     def check_component(self, component: Component) -> Iterable[Unit]:
         from weblate.trans.models import Unit
@@ -152,7 +180,7 @@ class LongUntranslatedCheck(SourceCheck, BatchCheckMixin):
         units = Unit.objects.filter(
             translation__component=component,
             source_unit__timestamp__lt=timezone.now() - timedelta(days=90),
-        ).select_related("source_unit__translation__component")
+        ).prefetch_related("source_unit__translation")
         source_unit_to_states = defaultdict(list)
         source_units: set[Unit] = set()
         for unit in units:
@@ -160,14 +188,12 @@ class LongUntranslatedCheck(SourceCheck, BatchCheckMixin):
             source_units.add(unit.source_unit)
 
         result = []
+        component_translated_percent: float = component.stats.translated_percent
         for unit in source_units:
             if states := source_unit_to_states[unit.pk]:
                 total = len(states)
                 not_translated = states.count(STATE_EMPTY) + states.count(STATE_FUZZY)
                 translated_percent = 100 * (total - not_translated) / total
-                if (
-                    2 * translated_percent
-                    < unit.translation.component.stats.translated_percent
-                ):
+                if 2 * translated_percent < component_translated_percent:
                     result.append(unit)
         return result
