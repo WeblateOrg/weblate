@@ -9,10 +9,10 @@
   {% perm 'component.lock' object as user_can_lock_component %}
 
 
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
-        {% documentation_icon 'devel/integration' 'manage-vcs' right=True %}
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">
+        {% documentation_icon5 'devel/integration' 'manage-vcs' right=True %}
         {% translate "Repository status" %}
       </h4>
     </div>
@@ -20,7 +20,7 @@
       <li class="list-group-item">
         {% if user_can_commit_translation %}
           <a href=""
-             class="pull-right flip link-post btn btn-primary"
+             class="float-end link-post btn btn-primary"
              data-href="{% url "commit" path=object.get_url_path %}"
              {% if not pending_units %}disabled="disabled"{% endif %}>{% translate "Commit" %}</a>
         {% endif %}
@@ -35,7 +35,7 @@
         <li class="list-group-item">
           {% if user_can_push_translation %}
             <a href=""
-               class="pull-right flip link-post btn btn-primary"
+               class="float-end link-post btn btn-primary"
                data-href="{% url "push" path=object.get_url_path %}"
                {% if not object.can_push %}disabled="disabled"{% endif %}>{% translate "Push" %}</a>
           {% endif %}
@@ -50,32 +50,31 @@
       {% endif %}
       <li class="list-group-item">
         {% if user_can_update_translation %}
-          <div class="btn-group pull-right flip">
+          <div class="btn-group float-end">
             <a href=""
                class="btn btn-primary link-post"
                data-href="{% url "update" path=object.get_url_path %}">{% translate "Update" %}</a>
             <button type="button"
                     class="btn btn-primary dropdown-toggle"
-                    data-toggle="dropdown"
+                    data-bs-toggle="dropdown"
                     aria-haspopup="true"
                     aria-expanded="false">
-              <span class="caret"></span>
-              <span class="sr-only">Toggle Dropdown</span>
+              <span class="visually-hidden">Toggle Dropdown</span>
             </button>
             <ul class="dropdown-menu dropdown-menu-right">
               <li>
                 <a href=""
-                   class="link-post"
+                   class="dropdown-item link-post"
                    data-href="{% url "update" path=object.get_url_path %}?method=merge">{% translate "Update with merge" %}</a>
               </li>
               <li>
                 <a href=""
-                   class="link-post"
+                   class="dropdown-item link-post"
                    data-href="{% url "update" path=object.get_url_path %}?method=rebase">{% translate "Update with rebase" %}</a>
               </li>
               <li>
                 <a href=""
-                   class="link-post"
+                   class="dropdown-item link-post"
                    data-href="{% url "update" path=object.get_url_path %}?method=merge_noff">{% translate "Update with merge without fast-forward" %}</a>
               </li>
             </ul>
@@ -93,13 +92,13 @@
           {% if user_can_lock_component %}
             {% if object.can_unlock %}
               <a href=""
-                 class="pull-right flip btn btn-primary link-post"
+                 class="float-end btn btn-primary link-post"
                  data-href="{% url "unlock" path=object.get_url_path %}"
                  title="{% translate "Allow changes to the Weblate repository" %}">{% translate "Unlock" %}</a>
             {% endif %}
             {% if object.can_lock %}
               <a href=""
-                 class="pull-right flip btn btn-primary link-post"
+                 class="float-end btn btn-primary link-post"
                  data-href="{% url "lock" path=object.get_url_path %}"
                  title="{% translate "Prevent any changes in the Weblate repository" %}">{% translate "Lock" %}</a>
             {% endif %}
@@ -131,27 +130,27 @@
   </div>
 
   {% if user_can_reset_translation %}
-    <div class="panel panel-danger">
-      <div class="panel-heading">
-        <h4 class="panel-title">
-          {% documentation_icon 'devel/integration' 'manage-vcs' right=True %}
+    <div class="card">
+      <div class="card-header text-bg-danger">
+        <h4 class="card-title">
+          {% documentation_icon5 'devel/integration' 'manage-vcs' right=True %}
           {% translate "Danger zone" %}
         </h4>
       </div>
       <ul class="list-group">
         <li class="list-group-item">
           <a href=""
-             class="pull-right flip link-post btn btn-danger"
+             class="float-end link-post btn btn-danger"
              data-href="{% url "reset" path=object.get_url_path %}">{% translate "Reset" %}</a>
           <h5 class="list-group-item-heading">{% translate "Reset all changes in the Weblate repository" %}</h5>
           <p class="list-group-item-text">
             {% translate "Resetting removes all changes in Weblate so that the repository matches upstream." %}
-            {% translate "Use when you want to discard changes in Weblate and bring it in sync with upstream repository." %}
+            {% translate "Use when you want to discardchanges in Weblate and bring it in sync with upstream repository." %}
           </p>
         </li>
         <li class="list-group-item">
           <a href=""
-             class="pull-right flip link-post btn btn-danger"
+             class="float-end link-post btn btn-danger"
              data-href="{% url "cleanup" path=object.get_url_path %}">{% translate "Cleanup" %}</a>
           <h5 class="list-group-item-heading">{% translate "Cleanup all untracked files in the Weblate repository" %}</h5>
           <p class="list-group-item-text">
@@ -162,7 +161,7 @@
         </li>
         <li class="list-group-item">
           <a href=""
-             class="pull-right flip link-post btn btn-danger"
+             class="float-end link-post btn btn-danger"
              data-href="{% url "file_sync" path=object.get_url_path %}">{% translate "Synchronize" %}</a>
           <h5 class="list-group-item-heading">{% translate "Force writing all translations to the Weblate repository" %}</h5>
           <p class="list-group-item-text">
@@ -172,7 +171,7 @@
         </li>
         <li class="list-group-item">
           <a href=""
-             class="pull-right flip link-post btn btn-danger"
+             class="float-end link-post btn btn-danger"
              data-href="{% url "file_scan" path=object.get_url_path %}">{% translate "Rescan" %}</a>
           <h5 class="list-group-item-heading">{% translate "Rescan all translation files in the Weblate repository" %}</h5>
           <p class="list-group-item-text">
@@ -181,14 +180,14 @@
           </p>
         </li>
       </ul>
-      <div class="panel-footer">{% translate "Use these operations with caution, they can lead to data loss." %}</div>
+      <div class="card-footer">{% translate "Use these operations with caution, they can lead to data loss." %}</div>
     </div>
   {% endif %}
 
   {% for component in repositories %}
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">
           <a href="{{ component.get_absolute_url }}#repository">{% blocktranslate %}Repository for {{ component }}{% endblocktranslate %}</a>
         </h4>
       </div>
@@ -204,12 +203,12 @@
     </div>
   {% endfor %}
 
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">{% translate "Repository changes" %}</h4>
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">{% translate "Repository changes" %}</h4>
     </div>
-    <div class="panel-body">{% format_last_changes_content last_changes=changes user=user %}</div>
-    <div class="panel-footer">
+    <div class="card-body">{% format_last_changes_content last_changes=changes user=user bootstrap_5=True %}</div>
+    <div class="card-footer">
       <a class="btn btn-primary"
          href="{% url 'changes' path=object.get_url_path %}?{{ changes_url_query }}">{% translate "Browse all repository changes" %}</a>
     </div>
