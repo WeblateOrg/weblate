@@ -35,6 +35,7 @@ Weblate 5.14
 * The default attributes for :ref:`saml-auth` in Docker container now matches non-Docker defaults.
 * Dropped long-deprecated :http:get:`/hooks/update/(string:project)/(string:component)/` and :http:get:`/hooks/update/(string:project)/`.
 * Removed Akismet spam protection integration as it was no longer effective and used an unmaintained Python library.
+* New positional argument (`activity_log_id`) passed to the add-on event handlers, see :class:`weblate.addons.base.BaseAddon`. Adjust any custom subclass accordingly.
 
 .. rubric:: Upgrading
 
