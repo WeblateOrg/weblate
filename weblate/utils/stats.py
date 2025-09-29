@@ -1018,7 +1018,7 @@ class ComponentStats(AggregatingStats):
         # Component lists
         yield from yield_stats(self._object.componentlist_set.only("id"))
 
-        # Projects component is shared to
+        # Projects this component is shared to
         yield from yield_stats(self._object.links.only("id"))
 
         if self._object.category:
