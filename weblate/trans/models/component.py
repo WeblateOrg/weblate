@@ -1035,11 +1035,15 @@ class Component(
         # Invalidate source language cache just to be sure, as it is relatively
         # cheap to update
         self.project.invalidate_source_language_cache()
-        for project in self.links.all():
+        for project in self.cached_links:
             project.invalidate_source_language_cache()
 
         if update_tm:
             import_memory.delay_on_commit(self.project.id, self.pk)
+
+    @cached_property
+    def cached_links(self) -> models.QuerySet[Component]:
+        return self.links.all()
 
     def generate_changes(self, old) -> None:
         def getvalue(base, attribute):
@@ -2918,7 +2922,7 @@ class Component(
             return
         cache.delete(self.glossary_sources_key)
         self.project.invalidate_glossary_cache()
-        for project in self.links.all():
+        for project in self.cached_links:
             project.invalidate_glossary_cache()
         if "glossary_sources" in self.__dict__:
             del self.__dict__["glossary_sources"]
