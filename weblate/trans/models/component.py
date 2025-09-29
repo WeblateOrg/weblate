@@ -3277,7 +3277,7 @@ class Component(
         ]:
             if self.file_format not in param.file_formats:
                 message = gettext(
-                    "The parameter '%(param)s' is not applicable for the '%(format)s'"
+                    "The parameter '%(param)s' is not applicable for the file format '%(format)s'."
                 ) % {"param": param.name, "format": self.file_format}
                 raise ValidationError({"file_format_params": message})
 
