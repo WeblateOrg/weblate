@@ -369,7 +369,7 @@ class BaseStats:
         """Save stats to cache."""
         cache.set(self.cache_key, self._data, 30 * 86400)
 
-    def get_update_objects(self):
+    def get_update_objects(self, *, full: bool = True) -> Generator[BaseStats]:
         yield GlobalStats()
 
     def collect_update_objects(self) -> None:
@@ -541,7 +541,7 @@ class TranslationStats(BaseStats):
                 pk = self._object.pk
                 update_translation_stats_parents.delay_on_commit(pk)
 
-    def get_update_objects(self, *, full: bool = True):
+    def get_update_objects(self, *, full: bool = True) -> Generator[BaseStats]:
         translation = self._object
         component = translation.component
 
@@ -552,7 +552,7 @@ class TranslationStats(BaseStats):
         yield component.project.stats.get_single_language_stats(translation.language)
 
         # Linked project / language
-        for link in component.links.all():
+        for link in component.cached_links:
             yield link.stats.get_single_language_stats(translation.language)
 
         # Category / language
@@ -1014,12 +1014,12 @@ class ComponentStats(AggregatingStats):
                 stats["source_strings"] = obj.all
                 break
 
-    def get_update_objects(self) -> Iterable[BaseStats]:
+    def get_update_objects(self, *, full: bool = True) -> Generator[BaseStats]:
         # Component lists
         yield from yield_stats(self._object.componentlist_set.only("id"))
 
         # Projects this component is shared to
-        yield from yield_stats(self._object.links.only("id"))
+        yield from yield_stats(self._object.cached_links)
 
         if self._object.category:
             # Category
@@ -1357,7 +1357,7 @@ class CategoryLanguageStats(ChecklistStats):
 
 
 class CategoryStats(ParentAggregatingStats):
-    def get_update_objects(self):
+    def get_update_objects(self, *, full: bool = True) -> Generator[BaseStats]:
         if self._object.category:
             yield self._object.category.stats
             yield from self._object.category.stats.get_update_objects()
