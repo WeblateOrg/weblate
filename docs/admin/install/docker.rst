@@ -2397,6 +2397,31 @@ Anubis can be deployed using Docker Compose:
          REDIRECT_DOMAINS: weblate.example.com
          # Generate a random private key using: openssl rand -hex 32
          ED25519_PRIVATE_KEY_HEX: "..."
+         # Customize your Anubis policy
+         POLICY_FNAME: /data/botPolicies.yaml
+      healthcheck:
+         test: ["CMD", "anubis", "--healthcheck"]
+         interval: 5s
+         timeout: 30s
+         retries: 5
+         start_period: 500ms
+      volumes:
+         - anubis-data:/data
+
+   volumes:
+      anubis-data:
+
+.. note::
+
+   The ``anubis-data`` volume in the above configuration is expected to contain
+   :file:`botPolicies.yaml` with a bot policy configured to your needs.
+
+   At minimum, you need to adjust status codes as described in
+   https://anubis.techaro.lol/docs/admin/configuration/subrequest-auth.
+
+   It is also recommended to configure persistent storage backend as described in
+   https://anubis.techaro.lol/docs/admin/policies/#storage-backends.
+
 
 You can then turn on the Anubis usage in Weblate using:
 
