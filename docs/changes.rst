@@ -1,28 +1,5 @@
 Weblate 5.14
 ------------
---------------
-
-*Not yet released.*
-
-.. rubric:: New features
-
-.. rubric:: Improvements
-
-* :ref:`file_format_params` can now be configured via the :ref:`api`.
-
-.. rubric:: Bug fixes
-
-.. rubric:: Compatibility
-
-.. rubric:: Upgrading
-
-Please follow :ref:`generic-upgrade-instructions` in order to perform update.
-
-.. rubric:: Contributors
-
-
-Weblate 5.13.1
---------------
 
 *Not yet released.*
 
@@ -45,6 +22,7 @@ Weblate 5.13.1
 * Improved activity logging for :ref:`addon-weblate.consistency.languages` add-on.
 * :ref:`check-rst-references` and :ref:`check-rst-syntax` now support substitutions.
 * :ref:`component-hide_glossary_matches` component setting.
+* :ref:`file_format_params` can now be configured via the :ref:`api`.
 
 .. rubric:: Bug fixes
 
