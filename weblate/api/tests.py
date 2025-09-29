@@ -2411,6 +2411,80 @@ class ProjectAPITest(APIBaseTest):
         component = Component.objects.get(slug="local-project")
         self.assertEqual(component.enforced_checks, ["same"])
 
+    def test_create_component_with_file_format_params(self) -> None:
+        payload = {
+            "name": "API project",
+            "slug": "api-project",
+            "repo": self.format_local_path(self.git_repo_path),
+            "filemask": "po/*.po",
+            "file_format": "po",
+            "push": "https://username:password@github.com/example/push.git",
+            "new_lang": "none",
+        }
+
+        # attempt create with invalid params
+        payload |= {"file_format_params": "not a dict"}
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request=payload,
+            format="json",
+        )
+
+        payload |= {"file_format_params": {"po_line_wrap": "invalid"}}
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request=payload,
+            format="json",
+        )
+
+        # attempt create with params that don't match format
+        payload |= {
+            "file_format_params": {"po_line_wrap": -1, "yaml_indent": 8},
+        }
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request=payload,
+            format="json",
+        )
+
+        # attempt create with non-existing parameter
+        payload["file_format_params"] = {"unknown_param_name": 1234}
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request=payload,
+            format="json",
+        )
+
+        # create with valid params
+        payload["file_format_params"] = {"po_line_wrap": -1}
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=201,
+            superuser=True,
+            request=payload,
+            format="json",
+        )
+        component = Component.objects.get(slug="api-project", project__slug="test")
+        self.assertEqual(component.file_format_params["po_line_wrap"], -1)
+
     def test_download_private_project_translations(self) -> None:
         project = self.component.project
         project.access_control = Project.ACCESS_PRIVATE
@@ -2894,6 +2968,23 @@ class ComponentAPITest(APIBaseTest):
             reverse("api:component-detail", kwargs=self.component_kwargs), format="json"
         ).json()
         component["name"] = "New Name"
+
+        # put invalid parameter
+        component["file_format_params"] = {"yaml_indent": 8}
+        response = self.do_request(
+            "api:component-detail",
+            self.component_kwargs,
+            method="put",
+            superuser=True,
+            code=400,
+            format="json",
+            request=component,
+        )
+        self.component.refresh_from_db()
+        self.assertNotIn("yaml_indent", self.component.file_format_params)
+
+        # put valid parameter
+        component["file_format_params"] = {"po_line_wrap": -1}
         response = self.do_request(
             "api:component-detail",
             self.component_kwargs,
@@ -2904,6 +2995,7 @@ class ComponentAPITest(APIBaseTest):
             request=component,
         )
         self.assertEqual(response.data["name"], "New Name")
+        self.assertEqual(response.data["file_format_params"]["po_line_wrap"], -1)
 
     def test_delete(self) -> None:
         self.assertEqual(Component.objects.count(), 2)

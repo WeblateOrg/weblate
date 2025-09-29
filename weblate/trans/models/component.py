@@ -48,6 +48,7 @@ from weblate.trans.defines import (
 )
 from weblate.trans.exceptions import FileParseError, InvalidTemplateError
 from weblate.trans.fields import RegexField
+from weblate.trans.file_format_params import FILE_FORMATS_PARAMS
 from weblate.trans.mixins import (
     CacheKeyMixin,
     ComponentCategoryMixin,
@@ -80,6 +81,7 @@ from weblate.trans.util import (
 from weblate.trans.validators import (
     validate_autoaccept,
     validate_check_flags,
+    validate_file_format_parameters,
     validate_filemask,
     validate_language_code,
 )
@@ -537,6 +539,7 @@ class Component(
         verbose_name=gettext_lazy("File format parameters"),
         default=dict,
         blank=True,
+        validators=[validate_file_format_parameters],
     )
 
     locked = models.BooleanField(
@@ -3268,9 +3271,19 @@ class Component(
             )
             raise ValidationError({"push_branch": msg})
 
+    def clean_file_format_params(self) -> None:
+        for param in [
+            p for p in FILE_FORMATS_PARAMS if p.name in self.file_format_params
+        ]:
+            if self.file_format not in param.file_formats:
+                message = gettext(
+                    "The parameter '%(param)s' is not applicable for the file format '%(format)s'."
+                ) % {"param": param.name, "format": self.file_format}
+                raise ValidationError({"file_format_params": message})
+
     def clean(self) -> None:
         """
-        Validate component parameter.
+        Validate component parameters.
 
         - validation fetches repository
         - it tries to find translation files and checks that they are valid
@@ -3328,6 +3341,9 @@ class Component(
 
         # New language options
         self.clean_new_lang()
+
+        # File format parameters
+        self.clean_file_format_params()
 
         try:
             matches = self.get_mask_matches()
