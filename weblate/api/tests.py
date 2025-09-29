@@ -2459,6 +2459,18 @@ class ProjectAPITest(APIBaseTest):
             format="json",
         )
 
+        # attempt create with non-existing parameter
+        payload["file_format_params"] = {"unknown_param_name": 1234}
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            request=payload,
+            format="json",
+        )
+
         # create with valid params
         payload["file_format_params"] = {"po_line_wrap": -1}
         self.do_request(

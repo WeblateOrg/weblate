@@ -11,7 +11,7 @@ import weblate.trans.validators
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("trans", "0048_change_trans_change_category_idx"),
+        ("trans", "0049_component_hide_glossary_matches"),
     ]
 
     operations = [
