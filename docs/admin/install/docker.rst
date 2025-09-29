@@ -2390,10 +2390,13 @@ Anubis can be deployed using Docker Compose:
          DIFFICULTY: "4"
          METRICS_BIND: ":9090"
          SERVE_ROBOTS_TXT: "false"
+         OG_PASSTHROUGH: "false"
          # The single space in TARGET enables subrequest authentication
          TARGET: " "
-         OG_PASSTHROUGH: "false"
-         ED25519_PRIVATE_KEY_HEX: "$(openssl rand -hex 32)"
+         # The redirect domain has to match WEBLATE_SITE_DOMAIN
+         REDIRECT_DOMAINS: weblate.example.com
+         # Generate a random private key using: openssl rand -hex 32
+         ED25519_PRIVATE_KEY_HEX: "..."
 
 You can then turn on the Anubis usage in Weblate using:
 
