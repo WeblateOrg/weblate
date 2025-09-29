@@ -11,7 +11,7 @@ text direction, plural definitions and language code is needed.
 Built-in language definitions
 -----------------------------
 
-Definitions for about 650 languages are included in Weblate and the list is
+Definitions for about 800 languages are included in Weblate and the list is
 extended in every release. Whenever Weblate is upgraded (more specifically
 whenever :wladmin:`migrate` is executed, see
 :ref:`generic-upgrade-instructions`) the database of languages is updated to
@@ -78,6 +78,10 @@ While editing, ensure all fields are correct (especially plurals and
 text direction), otherwise translators will be unable to properly edit
 those translations.
 
+.. hint::
+
+   Please consider contributing your changes back, see :ref:`extending-languages`.
+
 .. _ambiguous-languages:
 
 Ambiguous language codes and macrolanguages
@@ -92,6 +96,8 @@ only and avoid macrolanguages.
 .. seealso::
 
    `Macrolanguages at Wikipedia <https://en.wikipedia.org/wiki/ISO_639_macrolanguage>`_
+
+.. _language-definitions:
 
 Language definitions
 --------------------

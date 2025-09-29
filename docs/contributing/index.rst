@@ -30,17 +30,6 @@ This way, it can be discussed and corrected. If you’re certain, you can also c
 :guilabel:`Source string location` section and submit a PR with your correction.
 
 
-.. _extending-languages:
-
-Extending built-in language definitions
----------------------------------------
-
-The language definitions are in the `weblate-language-data repository
-<https://github.com/WeblateOrg/language-data/>`_.
-
-You are welcome to add missing language definitions to :file:`languages.csv`,
-other files are generated from that file.
-
 .. _discussions:
 
 Weblate discussions
