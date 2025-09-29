@@ -20,7 +20,7 @@ Extending built-in language definitions
 The language definitions are in the `language-data`_ repository.
 
 You are welcome to add missing language definitions to :file:`languages.csv`,
-other files are generated from that file. The columns in the CSV file correspond do
+other files are generated from that file. The columns in the CSV file correspond to
 :ref:`language-definitions`.
 
 .. seealso::
