@@ -26,10 +26,12 @@ on:
     - client/*
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   yarn-update:
+    permissions:
+      contents: write
     if: startsWith(github.repository, 'WeblateOrg/')
     runs-on: ubuntu-24.04
 
