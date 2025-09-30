@@ -1043,7 +1043,7 @@ class TSFormatTest(XMLMixin, BaseFormatTest):
         unit.mainunit.addlocation("main.c:11")
         serialized = self.format_class.serialize(storage.store)
         self.assertIn(b'<location filename="main.c" line="11"/>', serialized)
-        self.assertNotIn(rb"<\location>", serialized)
+        self.assertNotIn(rb"</location>", serialized)
 
 
 class DTDFormatTest(BaseFormatTest):
