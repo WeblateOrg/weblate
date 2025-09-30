@@ -170,7 +170,7 @@
 
 {% block content %}
 
-  {% announcements component=object %}
+  {% announcements component=object bootstrap_5=True %}
 
   {% include "snippets/component/state.html" %}
 
@@ -210,7 +210,7 @@
                   <input type="hidden" value="{{ alert.name }}" name="dismiss" />
                   <input type="submit"
                          value="{% translate "Dismiss" %}"
-                         class="pull-right flip btn btn-danger" />
+                         class="float-end btn btn-danger" />
                   <div class="clearfix"></div>
                 {% endif %}
               </div>

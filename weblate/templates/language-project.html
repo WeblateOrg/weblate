@@ -116,7 +116,7 @@
 
 {% block content %}
 
-  {% announcements language=language project=project %}
+  {% announcements language=language project=project bootstrap_5=True %}
   {% perm 'project.edit' object.project as user_can_edit_project %}
 
   <div class="tab-content">

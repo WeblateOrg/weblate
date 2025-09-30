@@ -1082,7 +1082,7 @@ def get_location_links(user: User | None, unit):
 
 
 @register.simple_tag(takes_context=True)
-def announcements(context: Context, project=None, component=None, language=None):
+def announcements(context: Context, project=None, component=None, language=None, bootstrap_5=False):
     """Display announcement messages for given context."""
     user = context["user"]
 
@@ -1097,6 +1097,7 @@ def announcements(context: Context, project=None, component=None, language=None)
                         "tags": f"{announcement.severity} announcement",
                         "message": render_markdown(announcement.message),
                         "announcement": announcement,
+                        "bootstrap_5": bootstrap_5,
                         "can_delete": user.has_perm(
                             "announcement.delete", announcement
                         ),
