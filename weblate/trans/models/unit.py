@@ -2090,7 +2090,7 @@ class Unit(models.Model, LoggerMixin):
         # Always generate change for self
         units = [*units, self]
         if save:
-            self.save(update_fields=["extra_flags"], only_save=True)
+            self.save(update_fields=["extra_flags"], same_content=True)
 
         for unit in units:
             unit.generate_change(

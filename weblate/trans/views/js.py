@@ -81,8 +81,7 @@ def ignore_check_source(request: AuthenticatedHttpRequest, check_id):
     flags = Flags(unit.extra_flags)
     if ignore not in flags:
         flags.merge(ignore)
-        unit.extra_flags = flags.format()
-        unit.save(same_content=True)
+        unit.update_extra_flags(flags.format(), request.user)
 
     # response for AJAX
     return JsonResponse(
