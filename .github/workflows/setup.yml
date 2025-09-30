@@ -46,7 +46,7 @@ jobs:
         echo "::remove-matcher owner=setuptools::"
         rm -f dist/.gitignore
     - name: Sign the dists with Sigstore
-      if: github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags/weblate')
+      if: github.event_name == 'push'
       uses: sigstore/gh-action-sigstore-python@f7ad0af51a5648d09a20d00370f0a91c3bdf8f84 # v3.0.1
       with:
         inputs: dist/*
@@ -193,4 +193,5 @@ jobs:
       with:
         artifacts: dist/*
         bodyFile: notes.md
+        immutableCreate: true
         name: ${{ steps.get-name.outputs.name }}
