@@ -986,17 +986,26 @@ class JavaMessageFormatCheckTest(CheckTestCase):
     def test_quotes(self) -> None:
         self.assertFalse(
             self.check.check_format(
-                "{0} string {1}", "'{1}' strin''g '{0}'", False, self.unit
+                "{0} string {1}",
+                "'{1}' strin''g '{0}'",  # codespell:ignore
+                False,
+                self.unit,
             )
         )
         self.assertTrue(
             self.check.check_format(
-                "{0} string {1}", "'{1}' strin''g '{0}", False, self.unit
+                "{0} string {1}",
+                "'{1}' strin''g '{0}",  # codespell:ignore
+                False,
+                self.unit,
             )
         )
         self.assertTrue(
             self.check.check_format(
-                "{0} string {1}", "'{1}' strin'g '{0}'", False, self.unit
+                "{0} string {1}",
+                "'{1}' strin'g '{0}'",  # codespell:ignore
+                False,
+                self.unit,
             )
         )
 
