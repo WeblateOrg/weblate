@@ -20,6 +20,7 @@ from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import Group as DjangoGroup
+from django.core.validators import MinValueValidator
 from django.db import models
 from django.db.models import Prefetch, Q, UniqueConstraint
 from django.db.models.functions import Upper
@@ -488,7 +489,12 @@ class User(AbstractBaseUser):
         db_index=True,
     )
     date_expires = models.DateTimeField(
-        gettext_lazy("Expires"), null=True, blank=True, default=None
+        gettext_lazy("Expires"),
+        null=True,
+        blank=True,
+        default=None,
+        validators=[MinValueValidator(timezone.now)],
+        help_text=gettext_lazy("The account will be disabled after the expiry."),
     )
     date_joined = models.DateTimeField(
         gettext_lazy("Date joined"), default=timezone.now
