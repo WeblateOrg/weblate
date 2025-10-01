@@ -168,7 +168,7 @@ except Exception:
 - Follow existing documentation structure
 - Include examples and use cases
 - Consider translation workflow impact
-- Include changelog entry for all user visible changes
+- Include changelog entry in the top section of docs/changes.rst for all user visible changes
 
 ## Common Patterns to Follow
 
