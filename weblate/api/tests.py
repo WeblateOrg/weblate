@@ -244,6 +244,7 @@ class UserAPITest(APIBaseTest):
                 "url",
                 "statistics_url",
                 "contributions_url",
+                "date_expires",
             ),
         )
 

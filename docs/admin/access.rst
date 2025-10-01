@@ -227,7 +227,8 @@ team memberships same as with users.
 
 .. seealso::
 
-   :ref:`api-tokens`
+   * :ref:`api-tokens`
+   * :ref:`expiring-accounts`
 
 .. _custom-acl:
 
@@ -1095,3 +1096,12 @@ all the site pages. This is basically the way to lock your Weblate installation.
 .. hint::
 
     You can use built-in :ref:`invite-user` to add new users.
+
+.. _expiring-accounts:
+
+Expiring user accounts
+----------------------
+
+Each account can have an expiry set. After the expiration, the account will be
+automatically disabled. This is used for :ref:`project-api`, but can be
+utilized for regular users as well.

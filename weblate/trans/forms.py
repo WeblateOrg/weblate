@@ -89,6 +89,7 @@ from weblate.utils.forms import (
     SortedSelect,
     SortedSelectMultiple,
     UserField,
+    WeblateDateInput,
 )
 from weblate.utils.hash import checksum_to_hash, hash_to_checksum
 from weblate.utils.html import format_html_join_comma
@@ -146,10 +147,6 @@ class MarkdownTextarea(forms.Textarea):
             "data-mode": "markdown",
         }
         super().__init__(**kwargs)
-
-
-class WeblateDateInput(forms.DateInput):
-    input_type = "date"
 
 
 class DateRangeField(forms.CharField):

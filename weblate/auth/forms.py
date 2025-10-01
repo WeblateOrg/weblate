@@ -23,7 +23,7 @@ from weblate.auth.models import (
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change
 from weblate.utils import messages
-from weblate.utils.forms import UserField
+from weblate.utils.forms import UserField, WeblateDateInput
 
 if TYPE_CHECKING:
     from weblate.auth.models import (
@@ -114,7 +114,17 @@ class AdminInviteUserForm(InviteUserForm):
 class UserEditForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ("username", "full_name", "email", "is_superuser", "is_active")
+        fields = (
+            "username",
+            "full_name",
+            "email",
+            "is_superuser",
+            "is_active",
+            "date_expires",
+        )
+        widgets = {  # noqa: RUF012
+            "date_expires": WeblateDateInput(),
+        }
 
 
 class BaseTeamForm(forms.ModelForm):
