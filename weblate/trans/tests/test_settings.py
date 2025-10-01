@@ -4,7 +4,7 @@
 
 """Test for settings management."""
 
-from django.test.utils import modify_settings
+from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 
 from weblate.checks.models import Check
@@ -75,6 +75,7 @@ class SettingsTest(ViewTestCase):
         )
 
     @modify_settings(INSTALLED_APPS={"append": "weblate.billing"})
+    @override_settings(LICENSE_REQUIRED=True)
     def test_change_access(self) -> None:
         self.project.add_user(self.user, "Administration")
         url = reverse("settings", kwargs={"path": self.project.get_url_path()})

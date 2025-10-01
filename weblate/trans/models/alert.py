@@ -416,13 +416,7 @@ class MissingLicense(BaseAlert):
 
     @staticmethod
     def check_component(component: Component) -> bool | dict | None:
-        return (
-            component.project.access_control == component.project.ACCESS_PUBLIC
-            and settings.LICENSE_REQUIRED
-            and not component.license
-            and not settings.LOGIN_REQUIRED_URLS
-            and (settings.LICENSE_FILTER is None or settings.LICENSE_FILTER)
-        )
+        return component.project.needs_license() and not component.license
 
 
 @register

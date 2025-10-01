@@ -786,3 +786,20 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             return qs.exclude(filter_)
 
         return self.get_child_components_access(user, filter_callback)
+
+    def needs_license(self, access_control: int | None = None) -> bool:
+        """
+        Whether the project components need a license.
+
+        License is needed on publicly accessible projects when
+        enforced by configuration and any licenses are available.
+        """
+        if access_control is None:
+            access_control = self.access_control
+
+        return (
+            access_control in {Project.ACCESS_PUBLIC, Project.ACCESS_PROTECTED}
+            and settings.LICENSE_REQUIRED
+            and not settings.LOGIN_REQUIRED_URLS
+            and (settings.LICENSE_FILTER is None or settings.LICENSE_FILTER)
+        )
