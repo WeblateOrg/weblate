@@ -290,7 +290,7 @@ class TSParamsTest(BaseFileFormatsTest):
         units = [
             u for u in self.translation.store.all_units if "Hello, world!\n" in u.source
         ]
-        unit = units[0]  # noqa: RUF015
+        unit = units[0]
         unit.mainunit.addlocation("main.c:11")
         file_path = os.path.join(self.component.full_path, self.translation.filename)
         with open(file_path, "wb") as handle:
