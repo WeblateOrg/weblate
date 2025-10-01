@@ -545,6 +545,8 @@ class User(AbstractBaseUser):
             self.full_name = self.extra_data["last_name"]
         if not self.email:
             self.email = None
+        if not self.is_active:
+            self.date_expires = None
         super().save(*args, **kwargs)
         self.clear_cache()
         if (
@@ -553,11 +555,14 @@ class User(AbstractBaseUser):
             and self.full_name != "Deleted User"
             and not self.is_anonymous
         ):
-            AuditLog.objects.create(
-                user=self,
-                request=None,
-                activity="enabled" if self.is_active else "disabled",
-            )
+            activity: str
+            if original.date_expires and not self.is_active:
+                activity = "disabled-expiry"
+            elif self.is_active:
+                activity = "enabled"
+            else:
+                activity = "disabled"
+            AuditLog.objects.create(user=self, request=None, activity=activity)
 
     def get_absolute_url(self) -> str:
         return reverse("user_page", kwargs={"user": self.username})
