@@ -2306,10 +2306,7 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
                     )
                 }
             )
-        if self.changed_access and access in {
-            Project.ACCESS_PUBLIC,
-            Project.ACCESS_PROTECTED,
-        }:
+        if self.changed_access and self.instance.needs_license(access):
             unlicensed = self.instance.component_set.filter(license="")
             if unlicensed:
                 raise ValidationError(
