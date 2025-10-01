@@ -3117,7 +3117,11 @@ class Component(
         filename = self.get_new_base_filename()
         template = self.has_template()
         return self.file_format_cls.is_valid_base_for_new(
-            filename, template, errors, fast=fast
+            filename,
+            template,
+            errors,
+            fast=fast,
+            file_format_params=self.file_format_params,
         )
 
     def clean_new_lang(self) -> None:
@@ -3407,7 +3411,10 @@ class Component(
         ):
             return
         self.file_format_cls.add_language(
-            fullname, self.source_language, self.get_new_base_filename()
+            fullname,
+            self.source_language,
+            self.get_new_base_filename(),
+            file_format_params=self.file_format_params,
         )
 
         # Skip commit in case Component is not yet saved (called during validation)
@@ -3882,7 +3889,12 @@ class Component(
                 if show_messages:
                     messages.error(request, gettext("Translation file already exists!"))
             else:
-                file_format.add_language(fullname, language, base_filename)
+                file_format.add_language(
+                    fullname,
+                    language,
+                    base_filename,
+                    file_format_params=self.file_format_params,
+                )
                 if send_signal:
                     translation_post_add.send(
                         sender=self.__class__, translation=translation

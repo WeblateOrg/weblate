@@ -31,6 +31,7 @@ Weblate 5.14
 * :ref:`team-admins` can no longer edit teams besides membership.
 * Highlighting syntax of overlapping elements.
 * Searching case sensitivity for short strings.
+* Inconsistent file formatting for new translations.
 
 .. rubric:: Compatibility
 
