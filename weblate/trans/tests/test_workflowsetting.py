@@ -9,7 +9,7 @@ from weblate.trans.models import Translation, WorkflowSetting
 from weblate.trans.tests.test_views import ViewTestCase
 
 
-class WorkflowSettinTestCase(ViewTestCase):
+class WorkflowSettingsTestCase(ViewTestCase):
     def assert_workflow(self, **kwargs) -> None:
         self.assertFalse(self.translation.enable_review)
         self.assertTrue(self.translation.enable_suggestions)
