@@ -1094,7 +1094,7 @@ def announcements(context: Context, project=None, component=None, language=None)
                         "message": render_markdown(announcement.message),
                         "announcement": announcement,
                         "can_delete": user.has_perm(
-                            "announcement.delete", announcement
+                            "meta:announcement.delete", announcement
                         ),
                     },
                 ),

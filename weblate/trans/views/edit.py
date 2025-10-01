@@ -437,7 +437,7 @@ def handle_translate(
     if "suggest" in request.POST:
         go_next = perform_suggestion(unit, form, request)
     elif not request.user.has_perm("unit.edit", unit):
-        if request.user.has_perm("unit.flag", unit):
+        if request.user.has_perm("meta:unit.flag", unit):
             unit.update_explanation(form.cleaned_data["explanation"], request.user)
         else:
             messages.error(
@@ -1005,7 +1005,7 @@ def save_zen(request: AuthenticatedHttpRequest, path):
     if not form.is_valid():
         show_form_errors(request, form)
     elif not request.user.has_perm("unit.edit", unit):
-        if request.user.has_perm("unit.flag", unit):
+        if request.user.has_perm("meta:unit.flag", unit):
             unit.update_explanation(form.cleaned_data["explanation"], request.user)
         else:
             messages.error(

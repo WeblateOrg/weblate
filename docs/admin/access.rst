@@ -642,6 +642,10 @@ List of privileges
 |                              |                                           +---------------------------------------+
 |                              |                                           | :guilabel:`Review strings`            |
 |                              +-------------------------------------------+---------------------------------------+
+|                              | Bulk edit strings                         | :guilabel:`Administration`            |
+|                              |                                           +---------------------------------------+
+|                              |                                           | :guilabel:`Bulk editing`              |
+|                              +-------------------------------------------+---------------------------------------+
 |                              | Edit string when suggestions are enforced | :guilabel:`Administration`            |
 |                              |                                           +---------------------------------------+
 |                              |                                           | :guilabel:`Translation coordinator`   |
@@ -883,6 +887,7 @@ List of built-in roles
        * :guilabel:`Delete existing translation`
        * :guilabel:`Download translation file`
        * :guilabel:`Add new string`
+       * :guilabel:`Bulk edit strings`
        * :guilabel:`Dismiss failing check`
        * :guilabel:`Remove a string`
        * :guilabel:`Edit strings`
@@ -1001,6 +1006,8 @@ List of built-in roles
        * :guilabel:`Add several languages for translation`
        * :guilabel:`Delete existing translation`
        * :guilabel:`Download translation file`
+   * - `Bulk editing`
+     - * :guilabel:`Bulk edit strings`
    * - `Automatic translation`
      - * :guilabel:`Perform automatic translation`
    * - `Manage translation memory`

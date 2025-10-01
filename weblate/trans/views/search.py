@@ -212,7 +212,7 @@ def bulk_edit(request: AuthenticatedHttpRequest, path):
         (Translation, Component, Project, ProjectLanguage, Category, CategoryLanguage),
     )
 
-    if not request.user.has_perm("translation.auto", obj) or not request.user.has_perm(
+    if not request.user.has_perm("unit.bulk_edit", obj) or not request.user.has_perm(
         "unit.edit", obj
     ):
         raise PermissionDenied
