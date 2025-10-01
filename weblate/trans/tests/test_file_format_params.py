@@ -287,14 +287,10 @@ class TSParamsTest(BaseFileFormatsTest):
 
     def _test_closing_tags(self, closing_tags_active: bool = True) -> None:
         """Check that effect of xml_closing_tags file format param on the location tag."""
-        unit = next(
-            (
-                u
-                for u in self.translation.store.all_units
-                if "Hello, world!\n" in u.source
-            ),
-            None,
-        )
+        units = [
+            u for u in self.translation.store.all_units if "Hello, world!\n" in u.source
+        ]
+        unit = units[0]  # noqa: RUF015
         unit.mainunit.addlocation("main.c:11")
         file_path = os.path.join(self.component.full_path, self.translation.filename)
         with open(file_path, "wb") as handle:
@@ -313,7 +309,6 @@ class TSParamsTest(BaseFileFormatsTest):
 
         # check that parameter is applied when a new language is added
         self.component.add_new_language(Language.objects.get(code="de"), None)
-        translation = self.get_translation("de")
         new_revision = self.component.repository.last_revision
         self.assertNotEqual(rev, new_revision)
         new_commit = self.component.repository.show(new_revision)
@@ -331,7 +326,7 @@ class TSParamsTest(BaseFileFormatsTest):
         self._test_closing_tags(True)
 
     def test_closing_tags_off(self):
-        """Check that closings tags are turned off as default behavior."""
+        """Check that closing tags are turned off as default behavior."""
         self._test_closing_tags(False)
 
 
