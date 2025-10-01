@@ -420,10 +420,12 @@ def check_translation_add(
     return check_permission(user, permission, obj)
 
 
-@register_perm("translation.auto")
+@register_perm("translation.auto", "unit.bulk_edit")
 def check_autotranslate(
-    user: User, permission: str, translation: Translation | Component | Project
+    user: User, permission: str, translation: Unit | Translation | Component | Project
 ) -> bool | PermissionResult:
+    if isinstance(translation, Unit):
+        translation = translation.translation
     if isinstance(translation, Translation) and (
         (translation.is_source and not translation.component.intermediate)
         or translation.is_readonly
@@ -605,7 +607,7 @@ def check_billing(user: User, permission: str, obj: Project) -> bool | Permissio
 
 
 # This does not exist for real
-@register_perm("announcement.delete")
+@register_perm("meta:announcement.delete")
 def check_announcement_delete(
     user: User, permission: str, obj: Announcement
 ) -> bool | PermissionResult:
@@ -619,7 +621,7 @@ def check_announcement_delete(
 
 
 # This does not exist for real
-@register_perm("unit.flag")
+@register_perm("meta:unit.flag")
 def check_unit_flag(
     user: User, permission: str, obj: Unit | Translation
 ) -> bool | PermissionResult:

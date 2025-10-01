@@ -1122,12 +1122,12 @@ class RoleAPITest(APIBaseTest):
 
         self.authenticate(True)
         response = self.client.get(reverse("api:role-list"))
-        self.assertEqual(response.data["count"], 16)
+        self.assertEqual(response.data["count"], 17)
 
         self.authenticate(False)
         self.grant_perm_to_user("role.view")  # also creates a new role
         response = self.client.get(reverse("api:role-list"))
-        self.assertEqual(response.data["count"], 17)
+        self.assertEqual(response.data["count"], 18)
 
     def test_get_role(self) -> None:
         # user can view details of a role they have
@@ -1161,7 +1161,7 @@ class RoleAPITest(APIBaseTest):
             format="json",
             request={"name": "Role", "permissions": ["suggestion.add", "comment.add"]},
         )
-        self.assertEqual(Role.objects.count(), 17)
+        self.assertEqual(Role.objects.count(), 18)
         self.assertEqual(Role.objects.get(name="Role").permissions.count(), 2)
 
     def test_delete(self) -> None:
@@ -1172,7 +1172,7 @@ class RoleAPITest(APIBaseTest):
             superuser=True,
             code=204,
         )
-        self.assertEqual(Role.objects.count(), 15)
+        self.assertEqual(Role.objects.count(), 16)
 
     def test_put(self) -> None:
         self.do_request(
