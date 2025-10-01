@@ -171,7 +171,10 @@ class WeblateUserAdmin(WeblateAuthAdmin, UserAdmin):
             gettext_lazy("Permissions"),
             {"fields": ("is_active", "is_bot", "is_superuser", "groups")},
         ),
-        (gettext_lazy("Important dates"), {"fields": ("last_login", "date_joined")}),
+        (
+            gettext_lazy("Important dates"),
+            {"fields": ("last_login", "date_joined", "date_expires")},
+        ),
     )
     list_filter = ("is_superuser", "is_active", "is_bot", "groups")
     filter_horizontal = ("groups",)
