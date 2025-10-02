@@ -6,6 +6,7 @@
 
 from __future__ import annotations
 
+from time import sleep
 from unittest import mock
 
 from django.conf import settings
@@ -100,12 +101,13 @@ class ViewTest(RepoTestCase):
         response = self.client.post(reverse("contact"), CONTACT_DATA)
         self.assertContains(response, "Too many messages sent, please try again later.")
 
-    @override_settings(RATELIMIT_MESSAGE_ATTEMPTS=1, RATELIMIT_WINDOW=0)
+    @override_settings(RATELIMIT_MESSAGE_ATTEMPTS=1, RATELIMIT_WINDOW=1)
     def test_contact_rate_window(self) -> None:
         """Test for contact form rate limiting."""
         message = "Too many messages sent, please try again later."
         response = self.client.post(reverse("contact"), CONTACT_DATA)
         self.assertNotContains(response, message)
+        sleep(1)
         response = self.client.post(reverse("contact"), CONTACT_DATA)
         self.assertNotContains(response, message)
 
