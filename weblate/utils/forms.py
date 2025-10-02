@@ -259,3 +259,7 @@ class WeblateServiceURLField(forms.URLField):
 class NormalizedNewlineCharField(forms.CharField):
     def to_python(self, value):
         return normalize_newlines(str(super().to_python(value)))
+
+
+class WeblateDateInput(forms.DateInput):
+    input_type = "date"

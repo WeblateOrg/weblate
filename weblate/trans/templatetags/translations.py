@@ -1831,3 +1831,16 @@ def format_last_changes_content(
         "search_url": search_url,
         "offset": offset,
     }
+
+
+@register.simple_tag
+def get_git_export_example_url() -> str:
+    url = reverse(
+        "git-export",
+        kwargs={
+            "path": ["PROJECT", "COMPONENT"],
+            "git_request": "info/refs",
+        },
+    )
+    # Strip trailing info/refs part:
+    return url[:-9]

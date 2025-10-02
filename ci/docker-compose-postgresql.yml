@@ -9,7 +9,7 @@ services:
     - 60001:6379
     restart: always
   database:
-    image: postgres:17.6-alpine@sha256:855021a5b10954343902a8c22a15f8464233126c1d12d9ad84d4a14c5af07a80
+    image: postgres:18.0-alpine@sha256:fadc2b63607986d054ccb7302ca6fedc7bb9b6586d03f2110ae3fbc1ce806693
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: weblate

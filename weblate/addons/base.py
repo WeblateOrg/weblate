@@ -467,7 +467,8 @@ class BaseAddon:
         )
 
     def render_activity_log(self, activity: AddonActivityLog) -> str:
-        result = activity.details["result"]
+        # The details might be empty for pending entries
+        result = activity.details.get("result")
         if result is None:
             return ""
         if isinstance(result, str):

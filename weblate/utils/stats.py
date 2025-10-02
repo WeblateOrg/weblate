@@ -114,6 +114,16 @@ def zero_stats(keys: Iterable[str]) -> StatDict:
     return stats
 
 
+def yield_stats(queryset) -> Iterable[BaseStats]:
+    """
+    Yield stats attribute from the iterable.
+
+    This is an effective wrapper to use iterator over queryset
+    to generate all stats items.
+    """
+    yield from (item.stats for item in queryset.iterator())
+
+
 def prefetch_stats(queryset):
     """Fetch stats from cache for a queryset."""
     # Force evaluating queryset/iterator, we need all objects
@@ -359,16 +369,22 @@ class BaseStats:
         """Save stats to cache."""
         cache.set(self.cache_key, self._data, 30 * 86400)
 
-    def get_update_objects(self):
+    def get_update_objects(self, *, full: bool = True) -> Generator[BaseStats]:
         yield GlobalStats()
 
     def collect_update_objects(self) -> None:
+        """
+        Collect update objects.
+
+        This is used on the pre_delete signal as the objects
+        cannot be collected once the object is deleted.
+        """
         # Use list to force materializing the generator
         self._collected_update_objects = list(self.get_update_objects())
 
     def _iterate_update_objects(
         self, *, extra_objects: Iterable[BaseStats] | None = None
-    ):
+    ) -> Generator[BaseStats]:
         """Get list of stats to update."""
         stat_objects: Iterable[BaseStats]
         if self._collected_update_objects is not None:
@@ -525,7 +541,7 @@ class TranslationStats(BaseStats):
                 pk = self._object.pk
                 update_translation_stats_parents.delay_on_commit(pk)
 
-    def get_update_objects(self, *, full: bool = True):
+    def get_update_objects(self, *, full: bool = True) -> Generator[BaseStats]:
         translation = self._object
         component = translation.component
 
@@ -536,7 +552,7 @@ class TranslationStats(BaseStats):
         yield component.project.stats.get_single_language_stats(translation.language)
 
         # Linked project / language
-        for link in component.links.all():
+        for link in component.cached_links:
             yield link.stats.get_single_language_stats(translation.language)
 
         # Category / language
@@ -998,14 +1014,12 @@ class ComponentStats(AggregatingStats):
                 stats["source_strings"] = obj.all
                 break
 
-    def get_update_objects(self) -> Iterable[BaseStats]:
+    def get_update_objects(self, *, full: bool = True) -> Generator[BaseStats]:
         # Component lists
-        for clist in self._object.componentlist_set.all():
-            yield clist.stats
+        yield from yield_stats(self._object.componentlist_set.only("id"))
 
-        # Shared components
-        for link in self._object.links.all():
-            yield link.stats
+        # Projects this component is shared to
+        yield from yield_stats(self._object.cached_links)
 
         if self._object.category:
             # Category
@@ -1343,7 +1357,7 @@ class CategoryLanguageStats(ChecklistStats):
 
 
 class CategoryStats(ParentAggregatingStats):
-    def get_update_objects(self):
+    def get_update_objects(self, *, full: bool = True) -> Generator[BaseStats]:
         if self._object.category:
             yield self._object.category.stats
             yield from self._object.category.stats.get_update_objects()

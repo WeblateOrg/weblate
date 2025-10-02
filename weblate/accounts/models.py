@@ -281,6 +281,10 @@ ACCOUNT_ACTIVITY = {
     # Translators: Audit log entry
     "disabled": gettext_lazy("User was disabled by administrator."),
     # Translators: Audit log entry
+    "disabled-expiry": gettext_lazy(
+        "User was disabled because the access has expired."
+    ),
+    # Translators: Audit log entry
     "donate": gettext_lazy("Semiannual support status review was displayed."),
     # Translators: Audit log entry
     "team-add": gettext_lazy("User was added to the {team} team by {username}."),

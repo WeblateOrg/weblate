@@ -5,11 +5,13 @@
 
 """Test for File format params."""
 
+import os.path
+
 from django.test.utils import override_settings
 from django.urls import reverse
 
 from weblate.addons.gettext import MsgmergeAddon
-from weblate.lang.models import get_default_lang
+from weblate.lang.models import Language, get_default_lang
 from weblate.trans.file_format_params import get_default_params_for_file_format
 from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
@@ -277,6 +279,55 @@ class XMLParamsTest(BaseFileFormatsTest):
 
     def test_closing_tags_off(self) -> None:
         self.test_closing_tags(closing_tags_active=False)
+
+
+class TSParamsTest(BaseFileFormatsTest):
+    def create_component(self) -> Component:
+        return self.create_ts(name="TS", new_lang="add", new_base="ts/cs.ts")
+
+    def _test_closing_tags(self, closing_tags_active: bool = True) -> None:
+        """Check that effect of xml_closing_tags file format param on the location tag."""
+        units = [
+            u for u in self.translation.store.all_units if "Hello, world!\n" in u.source
+        ]
+        unit = units[0]
+        unit.mainunit.addlocation("main.c:11")
+        file_path = os.path.join(self.component.full_path, self.translation.filename)
+        with open(file_path, "wb") as handle:
+            self.translation.store.save_content(handle)
+        self.edit_unit("Hello, world!\n", "Ahoj svete!\n")
+        translation = self.get_translation()
+
+        translation.commit_pending("test", None)
+        rev = self.component.repository.last_revision
+        commit = self.component.repository.show(rev)
+        if closing_tags_active:
+            self.assertIn('<location filename="main.c" line="11"></location>', commit)
+        else:
+            self.assertIn('<location filename="main.c" line="11"/>', commit)
+            self.assertNotIn("</location>", commit)
+
+        # check that parameter is applied when a new language is added
+        self.component.add_new_language(Language.objects.get(code="de"), None)
+        new_revision = self.component.repository.last_revision
+        self.assertNotEqual(rev, new_revision)
+        new_commit = self.component.repository.show(new_revision)
+        self.assertIn("Added translation using Weblate (German)", new_commit)
+        if closing_tags_active:
+            self.assertIn(
+                '<location filename="main.c" line="11"></location>', new_commit
+            )
+        else:
+            self.assertIn('<location filename="main.c" line="11"/>', new_commit)
+            self.assertNotIn("</location>", new_commit)
+
+    def test_closing_tags(self):
+        self.update_component_file_params(xml_closing_tags=True)
+        self._test_closing_tags(True)
+
+    def test_closing_tags_off(self):
+        """Check that closing tags are turned off as default behavior."""
+        self._test_closing_tags(False)
 
 
 class GettextParamsTest(BaseFileFormatsTest):

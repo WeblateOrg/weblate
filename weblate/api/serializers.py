@@ -263,10 +263,16 @@ class FullUserSerializer(serializers.ModelSerializer[User]):
             "is_active",
             "is_bot",
             "date_joined",
+            "date_expires",
             "last_login",
             "url",
             "statistics_url",
             "contributions_url",
+        )
+        read_only_fields = (
+            "id",
+            "date_joined",
+            "last_login",
         )
         extra_kwargs = {  # noqa: RUF012
             "url": {"view_name": "api:user-detail", "lookup_field": "username"}
@@ -675,6 +681,7 @@ class ComponentSerializer(RemovableSerializer[Component]):
             "intermediate",
             "new_base",
             "file_format",
+            "file_format_params",
             "license",
             "license_url",
             "agreement",

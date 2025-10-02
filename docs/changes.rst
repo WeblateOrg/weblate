@@ -23,6 +23,8 @@ Weblate 5.14
 * :ref:`check-rst-references` and :ref:`check-rst-syntax` now support substitutions.
 * Improved performance for :ref:`check-multiple-failures` and :ref:`check-long-untranslated` checks with batch operations.
 * :ref:`component-hide_glossary_matches` component setting.
+* :ref:`file_format_params` can now be configured via the :ref:`api`.
+* Admins can configure :ref:`expiring-accounts`.
 
 .. rubric:: Bug fixes
 
@@ -30,6 +32,7 @@ Weblate 5.14
 * :ref:`team-admins` can no longer edit teams besides membership.
 * Highlighting syntax of overlapping elements.
 * Searching case sensitivity for short strings.
+* Inconsistent file formatting for new translations.
 
 .. rubric:: Compatibility
 

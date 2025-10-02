@@ -20,6 +20,7 @@ from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser, BaseUserManager
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import Group as DjangoGroup
+from django.core.validators import MinValueValidator
 from django.db import models
 from django.db.models import Prefetch, Q, UniqueConstraint
 from django.db.models.functions import Upper
@@ -488,7 +489,12 @@ class User(AbstractBaseUser):
         db_index=True,
     )
     date_expires = models.DateTimeField(
-        gettext_lazy("Expires"), null=True, blank=True, default=None
+        gettext_lazy("Expires"),
+        null=True,
+        blank=True,
+        default=None,
+        validators=[MinValueValidator(timezone.now)],
+        help_text=gettext_lazy("The account will be disabled after the expiry."),
     )
     date_joined = models.DateTimeField(
         gettext_lazy("Date joined"), default=timezone.now
@@ -545,6 +551,8 @@ class User(AbstractBaseUser):
             self.full_name = self.extra_data["last_name"]
         if not self.email:
             self.email = None
+        if not self.is_active:
+            self.date_expires = None
         super().save(*args, **kwargs)
         self.clear_cache()
         if (
@@ -553,11 +561,14 @@ class User(AbstractBaseUser):
             and self.full_name != "Deleted User"
             and not self.is_anonymous
         ):
-            AuditLog.objects.create(
-                user=self,
-                request=None,
-                activity="enabled" if self.is_active else "disabled",
-            )
+            activity: str
+            if original.date_expires and not self.is_active:
+                activity = "disabled-expiry"
+            elif self.is_active:
+                activity = "enabled"
+            else:
+                activity = "disabled"
+            AuditLog.objects.create(user=self, request=None, activity=activity)
 
     def get_absolute_url(self) -> str:
         return reverse("user_page", kwargs={"user": self.username})

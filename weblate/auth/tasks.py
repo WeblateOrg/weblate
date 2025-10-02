@@ -14,9 +14,10 @@ from weblate.utils.celery import app
 
 @app.task(trail=False)
 def disable_expired() -> None:
-    User.objects.filter(date_expires__lte=timezone.now(), is_active=True).update(
-        is_active=False
-    )
+    for user in User.objects.filter(date_expires__lte=timezone.now(), is_active=True):
+        # Use save() to create audit log entry
+        user.is_active = False
+        user.save()
 
 
 @app.task(trail=False)

@@ -47024,6 +47024,7 @@ components:
       - $ref: '#/components/schemas/ApiComponentsAddonsCreateIntermediateErrorComponent'
       - $ref: '#/components/schemas/ApiComponentsAddonsCreateNewBaseErrorComponent'
       - $ref: '#/components/schemas/ApiComponentsAddonsCreateFileFormatErrorComponent'
+      - $ref: '#/components/schemas/ApiComponentsAddonsCreateFileFormatParamsErrorComponent'
       - $ref: '#/components/schemas/ApiComponentsAddonsCreateLicenseErrorComponent'
       - $ref: '#/components/schemas/ApiComponentsAddonsCreateAgreementErrorComponent'
       - $ref: '#/components/schemas/ApiComponentsAddonsCreateNewLangErrorComponent'
@@ -47087,6 +47088,7 @@ components:
           intermediate: '#/components/schemas/ApiComponentsAddonsCreateIntermediateErrorComponent'
           new_base: '#/components/schemas/ApiComponentsAddonsCreateNewBaseErrorComponent'
           file_format: '#/components/schemas/ApiComponentsAddonsCreateFileFormatErrorComponent'
+          file_format_params: '#/components/schemas/ApiComponentsAddonsCreateFileFormatParamsErrorComponent'
           license: '#/components/schemas/ApiComponentsAddonsCreateLicenseErrorComponent'
           agreement: '#/components/schemas/ApiComponentsAddonsCreateAgreementErrorComponent'
           new_lang: '#/components/schemas/ApiComponentsAddonsCreateNewLangErrorComponent'
@@ -47150,6 +47152,28 @@ components:
             * `invalid_choice` - invalid_choice
             * `null` - null
             * `required` - required
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiComponentsAddonsCreateFileFormatParamsErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - file_format_params
+          type: string
+          description: '* `file_format_params` - file_format_params'
+        code:
+          enum:
+          - invalid
+          - 'null'
+          type: string
+          description: |-
+            * `invalid` - invalid
+            * `null` - null
         detail:
           type: string
       required:
@@ -48752,6 +48776,7 @@ components:
       - $ref: '#/components/schemas/ApiComponentsLinksCreateIntermediateErrorComponent'
       - $ref: '#/components/schemas/ApiComponentsLinksCreateNewBaseErrorComponent'
       - $ref: '#/components/schemas/ApiComponentsLinksCreateFileFormatErrorComponent'
+      - $ref: '#/components/schemas/ApiComponentsLinksCreateFileFormatParamsErrorComponent'
       - $ref: '#/components/schemas/ApiComponentsLinksCreateLicenseErrorComponent'
       - $ref: '#/components/schemas/ApiComponentsLinksCreateAgreementErrorComponent'
       - $ref: '#/components/schemas/ApiComponentsLinksCreateNewLangErrorComponent'
@@ -48815,6 +48840,7 @@ components:
           intermediate: '#/components/schemas/ApiComponentsLinksCreateIntermediateErrorComponent'
           new_base: '#/components/schemas/ApiComponentsLinksCreateNewBaseErrorComponent'
           file_format: '#/components/schemas/ApiComponentsLinksCreateFileFormatErrorComponent'
+          file_format_params: '#/components/schemas/ApiComponentsLinksCreateFileFormatParamsErrorComponent'
           license: '#/components/schemas/ApiComponentsLinksCreateLicenseErrorComponent'
           agreement: '#/components/schemas/ApiComponentsLinksCreateAgreementErrorComponent'
           new_lang: '#/components/schemas/ApiComponentsLinksCreateNewLangErrorComponent'
@@ -48878,6 +48904,28 @@ components:
             * `invalid_choice` - invalid_choice
             * `null` - null
             * `required` - required
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiComponentsLinksCreateFileFormatParamsErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - file_format_params
+          type: string
+          description: '* `file_format_params` - file_format_params'
+        code:
+          enum:
+          - invalid
+          - 'null'
+          type: string
+          description: |-
+            * `invalid` - invalid
+            * `null` - null
         detail:
           type: string
       required:
@@ -50570,6 +50618,7 @@ components:
       - $ref: '#/components/schemas/ApiComponentsPartialUpdateIntermediateErrorComponent'
       - $ref: '#/components/schemas/ApiComponentsPartialUpdateNewBaseErrorComponent'
       - $ref: '#/components/schemas/ApiComponentsPartialUpdateFileFormatErrorComponent'
+      - $ref: '#/components/schemas/ApiComponentsPartialUpdateFileFormatParamsErrorComponent'
       - $ref: '#/components/schemas/ApiComponentsPartialUpdateLicenseErrorComponent'
       - $ref: '#/components/schemas/ApiComponentsPartialUpdateAgreementErrorComponent'
       - $ref: '#/components/schemas/ApiComponentsPartialUpdateNewLangErrorComponent'
@@ -50633,6 +50682,7 @@ components:
           intermediate: '#/components/schemas/ApiComponentsPartialUpdateIntermediateErrorComponent'
           new_base: '#/components/schemas/ApiComponentsPartialUpdateNewBaseErrorComponent'
           file_format: '#/components/schemas/ApiComponentsPartialUpdateFileFormatErrorComponent'
+          file_format_params: '#/components/schemas/ApiComponentsPartialUpdateFileFormatParamsErrorComponent'
           license: '#/components/schemas/ApiComponentsPartialUpdateLicenseErrorComponent'
           agreement: '#/components/schemas/ApiComponentsPartialUpdateAgreementErrorComponent'
           new_lang: '#/components/schemas/ApiComponentsPartialUpdateNewLangErrorComponent'
@@ -50696,6 +50746,28 @@ components:
             * `invalid_choice` - invalid_choice
             * `null` - null
             * `required` - required
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiComponentsPartialUpdateFileFormatParamsErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - file_format_params
+          type: string
+          description: '* `file_format_params` - file_format_params'
+        code:
+          enum:
+          - invalid
+          - 'null'
+          type: string
+          description: |-
+            * `invalid` - invalid
+            * `null` - null
         detail:
           type: string
       required:
@@ -52374,6 +52446,7 @@ components:
       - $ref: '#/components/schemas/ApiComponentsTranslationsCreateIntermediateErrorComponent'
       - $ref: '#/components/schemas/ApiComponentsTranslationsCreateNewBaseErrorComponent'
       - $ref: '#/components/schemas/ApiComponentsTranslationsCreateFileFormatErrorComponent'
+      - $ref: '#/components/schemas/ApiComponentsTranslationsCreateFileFormatParamsErrorComponent'
       - $ref: '#/components/schemas/ApiComponentsTranslationsCreateLicenseErrorComponent'
       - $ref: '#/components/schemas/ApiComponentsTranslationsCreateAgreementErrorComponent'
       - $ref: '#/components/schemas/ApiComponentsTranslationsCreateNewLangErrorComponent'
@@ -52437,6 +52510,7 @@ components:
           intermediate: '#/components/schemas/ApiComponentsTranslationsCreateIntermediateErrorComponent'
           new_base: '#/components/schemas/ApiComponentsTranslationsCreateNewBaseErrorComponent'
           file_format: '#/components/schemas/ApiComponentsTranslationsCreateFileFormatErrorComponent'
+          file_format_params: '#/components/schemas/ApiComponentsTranslationsCreateFileFormatParamsErrorComponent'
           license: '#/components/schemas/ApiComponentsTranslationsCreateLicenseErrorComponent'
           agreement: '#/components/schemas/ApiComponentsTranslationsCreateAgreementErrorComponent'
           new_lang: '#/components/schemas/ApiComponentsTranslationsCreateNewLangErrorComponent'
@@ -52500,6 +52574,28 @@ components:
             * `invalid_choice` - invalid_choice
             * `null` - null
             * `required` - required
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiComponentsTranslationsCreateFileFormatParamsErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - file_format_params
+          type: string
+          description: '* `file_format_params` - file_format_params'
+        code:
+          enum:
+          - invalid
+          - 'null'
+          type: string
+          description: |-
+            * `invalid` - invalid
+            * `null` - null
         detail:
           type: string
       required:
@@ -54081,6 +54177,7 @@ components:
       - $ref: '#/components/schemas/ApiComponentsUpdateIntermediateErrorComponent'
       - $ref: '#/components/schemas/ApiComponentsUpdateNewBaseErrorComponent'
       - $ref: '#/components/schemas/ApiComponentsUpdateFileFormatErrorComponent'
+      - $ref: '#/components/schemas/ApiComponentsUpdateFileFormatParamsErrorComponent'
       - $ref: '#/components/schemas/ApiComponentsUpdateLicenseErrorComponent'
       - $ref: '#/components/schemas/ApiComponentsUpdateAgreementErrorComponent'
       - $ref: '#/components/schemas/ApiComponentsUpdateNewLangErrorComponent'
@@ -54144,6 +54241,7 @@ components:
           intermediate: '#/components/schemas/ApiComponentsUpdateIntermediateErrorComponent'
           new_base: '#/components/schemas/ApiComponentsUpdateNewBaseErrorComponent'
           file_format: '#/components/schemas/ApiComponentsUpdateFileFormatErrorComponent'
+          file_format_params: '#/components/schemas/ApiComponentsUpdateFileFormatParamsErrorComponent'
           license: '#/components/schemas/ApiComponentsUpdateLicenseErrorComponent'
           agreement: '#/components/schemas/ApiComponentsUpdateAgreementErrorComponent'
           new_lang: '#/components/schemas/ApiComponentsUpdateNewLangErrorComponent'
@@ -54207,6 +54305,28 @@ components:
             * `invalid_choice` - invalid_choice
             * `null` - null
             * `required` - required
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiComponentsUpdateFileFormatParamsErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - file_format_params
+          type: string
+          description: '* `file_format_params` - file_format_params'
+        code:
+          enum:
+          - invalid
+          - 'null'
+          type: string
+          description: |-
+            * `invalid` - invalid
+            * `null` - null
         detail:
           type: string
       required:
@@ -59740,6 +59860,7 @@ components:
       - $ref: '#/components/schemas/ApiProjectsComponentsCreateIntermediateErrorComponent'
       - $ref: '#/components/schemas/ApiProjectsComponentsCreateNewBaseErrorComponent'
       - $ref: '#/components/schemas/ApiProjectsComponentsCreateFileFormatErrorComponent'
+      - $ref: '#/components/schemas/ApiProjectsComponentsCreateFileFormatParamsErrorComponent'
       - $ref: '#/components/schemas/ApiProjectsComponentsCreateLicenseErrorComponent'
       - $ref: '#/components/schemas/ApiProjectsComponentsCreateAgreementErrorComponent'
       - $ref: '#/components/schemas/ApiProjectsComponentsCreateNewLangErrorComponent'
@@ -59803,6 +59924,7 @@ components:
           intermediate: '#/components/schemas/ApiProjectsComponentsCreateIntermediateErrorComponent'
           new_base: '#/components/schemas/ApiProjectsComponentsCreateNewBaseErrorComponent'
           file_format: '#/components/schemas/ApiProjectsComponentsCreateFileFormatErrorComponent'
+          file_format_params: '#/components/schemas/ApiProjectsComponentsCreateFileFormatParamsErrorComponent'
           license: '#/components/schemas/ApiProjectsComponentsCreateLicenseErrorComponent'
           agreement: '#/components/schemas/ApiProjectsComponentsCreateAgreementErrorComponent'
           new_lang: '#/components/schemas/ApiProjectsComponentsCreateNewLangErrorComponent'
@@ -59866,6 +59988,28 @@ components:
             * `invalid_choice` - invalid_choice
             * `null` - null
             * `required` - required
+        detail:
+          type: string
+      required:
+      - attr
+      - code
+      - detail
+    ApiProjectsComponentsCreateFileFormatParamsErrorComponent:
+      type: object
+      properties:
+        attr:
+          enum:
+          - file_format_params
+          type: string
+          description: '* `file_format_params` - file_format_params'
+        code:
+          enum:
+          - invalid
+          - 'null'
+          type: string
+          description: |-
+            * `invalid` - invalid
+            * `null` - null
         detail:
           type: string
       required:
@@ -66827,6 +66971,8 @@ components:
           maxLength: 400
         file_format:
           $ref: '#/components/schemas/FileFormatEnum'
+        file_format_params:
+          title: File format parameters
         license:
           title: Translation license
           oneOf:
@@ -67906,6 +68052,7 @@ components:
       - APAFML
       - Adobe-2006
       - Adobe-Utopia
+      - Advanced-Cryptics-Dictionary
       - AGPL-1.0-only
       - AGPL-1.0-or-later
       - Afmparse
@@ -67970,11 +68117,13 @@ components:
       - BSD-3-Clause-No-Nuclear-Warranty
       - BSD-3-Clause-Open-MPI
       - BSD-3-Clause-Sun
+      - BSD-3-Clause-Tso
       - BSD-4-Clause-Shortened
       - BSD-4-Clause
       - BSD-4.3RENO
       - BSD-4.3TAHOE
       - BSD-Advertising-Acknowledgement
+      - BSD-Mark-Modifications
       - BSD-Protection
       - BSD-Source-Code
       - BSD-Source-beginning-file
@@ -68102,6 +68251,7 @@ components:
       - DRL-1.1
       - D-FSL-1.0
       - diffmark
+      - WTFNMFPL
       - WTFPL
       - DOC
       - DocBook-DTD
@@ -68126,6 +68276,8 @@ components:
       - ErlPL-1.1
       - etalab-2.0
       - EUDatagrid
+      - ESA-PL-permissive-2.4
+      - ESA-PL-weak-copyleft-2.4
       - EUPL-1.0
       - EUPL-1.1
       - EUPL-1.2
@@ -68577,6 +68729,7 @@ components:
         * `APAFML` - Adobe Postscript AFM License
         * `Adobe-2006` - Adobe Systems Incorporated Source Code License Agreement
         * `Adobe-Utopia` - Adobe Utopia Font License
+        * `Advanced-Cryptics-Dictionary` - Advanced Cryptics Dictionary License
         * `AGPL-1.0-only` - Affero General Public License v1.0 only
         * `AGPL-1.0-or-later` - Affero General Public License v1.0 or later
         * `Afmparse` - Afmparse License
@@ -68641,11 +68794,13 @@ components:
         * `BSD-3-Clause-No-Nuclear-Warranty` - BSD 3-Clause No Nuclear Warranty
         * `BSD-3-Clause-Open-MPI` - BSD 3-Clause Open MPI variant
         * `BSD-3-Clause-Sun` - BSD 3-Clause Sun Microsystems
+        * `BSD-3-Clause-Tso` - BSD 3-Clause Tso variant
         * `BSD-4-Clause-Shortened` - BSD 4 Clause Shortened
         * `BSD-4-Clause` - BSD 4-Clause "Original" or "Old" License
         * `BSD-4.3RENO` - BSD 4.3 RENO License
         * `BSD-4.3TAHOE` - BSD 4.3 TAHOE License
         * `BSD-Advertising-Acknowledgement` - BSD Advertising Acknowledgement License
+        * `BSD-Mark-Modifications` - BSD Mark Modifications License
         * `BSD-Protection` - BSD Protection License
         * `BSD-Source-Code` - BSD Source Code Attribution
         * `BSD-Source-beginning-file` - BSD Source Code Attribution - beginning of file variant
@@ -68773,6 +68928,7 @@ components:
         * `DRL-1.1` - Detection Rule License 1.1
         * `D-FSL-1.0` - Deutsche Freie Software Lizenz
         * `diffmark` - diffmark license
+        * `WTFNMFPL` - Do What The F*ck You Want To But It's Not My Fault Public License
         * `WTFPL` - Do What The F*ck You Want To Public License
         * `DOC` - DOC License
         * `DocBook-DTD` - DocBook DTD License
@@ -68797,6 +68953,8 @@ components:
         * `ErlPL-1.1` - Erlang Public License v1.1
         * `etalab-2.0` - Etalab Open License 2.0
         * `EUDatagrid` - EU DataGrid Software License
+        * `ESA-PL-permissive-2.4` - European Space Agency Public License – v2.4 – Permissive (Type 3)
+        * `ESA-PL-weak-copyleft-2.4` - European Space Agency Public License – v2.4 – Weak Copyleft (Type 2)
         * `EUPL-1.0` - European Union Public License 1.0
         * `EUPL-1.1` - European Union Public License 1.1
         * `EUPL-1.2` - European Union Public License 1.2
@@ -69963,6 +70121,8 @@ components:
           maxLength: 400
         file_format:
           $ref: '#/components/schemas/FileFormatEnum'
+        file_format_params:
+          title: File format parameters
         license:
           title: Translation license
           oneOf:

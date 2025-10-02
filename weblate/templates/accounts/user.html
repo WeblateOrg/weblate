@@ -32,6 +32,11 @@
               <em>{% translate "Never signed-in" %}</em>
             {% endif %}
           </span>
+          {% if page_user.date_expires %}
+            <span class="middle-dot-divider">
+              {% blocktranslate with date=page_user.date_expires|date:"DATE_FORMAT" %}Account expires on {{ date }}{% endblocktranslate %}
+            </span>
+          {% endif %}
         {% endif %}
         {% if page_profile.company %}
           <span class="middle-dot-divider">

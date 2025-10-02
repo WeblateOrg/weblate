@@ -382,6 +382,8 @@ linkcheck_ignore = [
     "https://platform.openai.com/api-keys",
     "https://platform.openai.com/docs/models",
     "https://translate.systran.net/en/account",
+    # Protected by Anubis
+    "https://anubis.techaro.lol/",
     # Seems unstable
     "https://pagure.io/",
     "https://azure.microsoft.com/en-us/products/ai-services/ai-translator",

@@ -60,3 +60,27 @@ def validate_language_code(code: str | None, filename: str, required: bool = Fal
         raise ValidationError({"filemask": message})
 
     return Language.objects.auto_get_or_create(code=code, create=False)
+
+
+def validate_file_format_parameters(value: dict | None) -> None:
+    from weblate.trans.file_format_params import FILE_FORMATS_PARAMS
+
+    name_to_file_format_params = {param.name: param for param in FILE_FORMATS_PARAMS}
+
+    if value is None:
+        return
+
+    if not isinstance(value, dict):
+        raise ValidationError(
+            gettext("File format parameters must be a dictionary of key-value pairs.")
+        )
+
+    for param_name, param_value in value.items():
+        if param_name in name_to_file_format_params:
+            param = name_to_file_format_params[param_name]
+            param().get_field().clean(param_value)
+        else:
+            raise ValidationError(
+                gettext('Unknown file format parameter: "%(param_name)s".')
+                % {"param_name": param_name}
+            )
