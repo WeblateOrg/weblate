@@ -26,6 +26,7 @@ Weblate 5.14
 * :ref:`component-hide_glossary_matches` component setting.
 * :ref:`file_format_params` can now be configured via the :ref:`api`.
 * Admins can configure :ref:`expiring-accounts`.
+* Rate limiting of notification e-mails, configurable by :setting:`RATELIMIT_NOTIFICATION_LIMITS`.
 
 .. rubric:: Bug fixes
 
