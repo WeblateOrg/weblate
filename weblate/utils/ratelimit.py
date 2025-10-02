@@ -117,7 +117,7 @@ def rate_limit_notify(address: str) -> tuple[bool, str]:
 
     Returns: tuple: (is_blocked, reason)
     """
-    rate_limits = getattr(settings, "RATELIMIT_NOTIFICATION_LIMITS", [(1000, 86400)])
+    rate_limits = settings.RATELIMIT_NOTIFICATION_LIMITS
     encoded_email = siphash("Weblate notifier", address)
     limiter = RateLimitNotify(f"{encoded_email}", rate_limits)
     return limiter.is_limit_exceeded()
