@@ -151,6 +151,17 @@ class WeblateAccountsConf(AppConf):
         r"{URL_PREFIX}/site.webmanifest$",  # The request for the manifest is made without credentials
     )
 
+    # Multi-level rate limiting for email notifications
+    # Each tuple contains (max_emails, time_window_seconds)
+    RATELIMIT_NOTIFICATION_LIMITS = [
+        # Prevent burst sends - 3 emails per 2 minutes
+        (3, 120),
+        # Equalize to avoid getting blocked for too long - 10 emails per hour
+        (10, 3600),
+        # Daily limit: 50 emails per day
+        (50, 86400),
+    ]
+
     class Meta:
         prefix = ""
 
