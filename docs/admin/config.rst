@@ -1569,6 +1569,31 @@ Defines a regular expression to limit what can be entered as :ref:`project-web`.
    * :setting:`PROJECT_WEB_RESTRICT_HOST`
    * :setting:`PROJECT_WEB_RESTRICT_NUMERIC`
 
+.. setting:: RATELIMIT_NOTIFICATION_LIMITS
+
+RATELIMIT_NOTIFICATION_LIMITS
+-----------------------------
+
+.. versionadded:: 5.14
+
+Limits how many notifications for a single user will be sent out.
+
+The default setting is:
+
+.. code-block:: python
+
+    # Multi-level rate limiting for email notifications
+    # Each tuple contains (max_emails, time_window_seconds)
+    RATELIMIT_NOTIFICATION_LIMITS = [
+        # Prevent burst sends - 3 emails per 2 minutes
+        (3, 120),
+        # Equalize to avoid getting blocked for too long - 10 emails per hour
+        (10, 3600),
+        # Daily limit: 50 emails per day
+        (50, 86400),
+    ]
+
+
 .. setting:: RATELIMIT_ATTEMPTS
 
 RATELIMIT_ATTEMPTS
