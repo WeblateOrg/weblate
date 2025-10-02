@@ -11,7 +11,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-09-03 12:07+0000\n"
 "PO-Revision-Date: 2025-10-02 15:28+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"Last-Translator: Marija Grineviciute <marijagrine@protonmail.com>\n"
 "Language-Team: Lithuanian <https://hosted.weblate.org/projects/weblate/"
 "application/lt/>\n"
 "Language: lt\n"
@@ -140,11 +140,11 @@ msgstr "Atsakymas neteisingas, bandykite dar kartą."
 
 #: weblate/accounts/forms.py:571 weblate/accounts/forms.py:578
 msgid "Validation failed, please try again."
-msgstr ""
+msgstr "Nepavyko patvirtinti, prašome bandyti dar kartą."
 
 #: weblate/accounts/forms.py:597
 msgid "Subject"
-msgstr ""
+msgstr "Tema"
 
 #: weblate/accounts/forms.py:600
 msgid "Your name"
@@ -222,7 +222,7 @@ msgstr "Ši paskyra neaktyvi."
 
 #: weblate/accounts/forms.py:877
 msgid "Component wide notifications"
-msgstr ""
+msgstr "Pranešimai apie visus komponento įvykius"
 
 #: weblate/accounts/forms.py:882
 msgid "Translation notifications"
@@ -259,61 +259,68 @@ msgstr "Komponentas: {}"
 #: weblate/accounts/forms.py:946
 msgid ""
 "You will receive a notification for every such event in non-watched projects."
-msgstr ""
+msgstr "Gausite pranešimą apie kiekvieną tokį įvykį nestebimuose projektuose."
 
 #: weblate/accounts/forms.py:951
 msgid ""
 "You will receive a notification for every such event in your watched "
 "projects."
-msgstr ""
+msgstr "Gausite pranešimą apie kiekvieną tokį įvykį stebimuose projektuose."
 
 #: weblate/accounts/forms.py:956
 msgid ""
 "You will receive a notification for every such event in projects where you "
 "have admin permissions."
 msgstr ""
+"Gausite pranešimą apie kiekvieną tokį įvykį projektuose, kuriuose turite "
+"administratoriaus leidimus."
 
 #: weblate/accounts/forms.py:961
 #, python-format
 msgid "You will receive a notification for every such event in %(project)s."
-msgstr ""
+msgstr "Gausite pranešimą apie kiekvieną tokį įvykį %(project)s."
 
 #: weblate/accounts/forms.py:964
 #, python-format
 msgid "You will receive a notification for every such event in %(component)s."
-msgstr ""
+msgstr "Gausite pranešimą apie kiekvieną tokį įvykį %(component)s."
 
 #: weblate/accounts/forms.py:971
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "non-watched projects."
 msgstr ""
+"Šiuos pranešimus gausite tik dėl jūsų verčiamų kalbų nestebimuose "
+"projektuose."
 
 #: weblate/accounts/forms.py:976
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "your watched projects."
 msgstr ""
+"Šiuos pranešimus gausite tik dėl jūsų verčiamų kalbų stebimuose projektuose."
 
 #: weblate/accounts/forms.py:981
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "projects where you have admin permissions."
 msgstr ""
+"Šiuos pranešimus gausite tik dėl jūsų verčiamų kalbų projektuose, kuriuose "
+"turite administratoriaus leidimus."
 
 #: weblate/accounts/forms.py:986
 #, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(project)s."
-msgstr ""
+msgstr "Šiuos pranešimus gausite tik dėl jūsų verčiamų kalbų %(project)s."
 
 #: weblate/accounts/forms.py:990
 #, python-format
 msgid ""
 "You will only receive these notifications for your translated languages in "
 "%(component)s."
-msgstr ""
+msgstr "Šiuos pranešimus gausite tik dėl jūsų verčiamų kalbų %(component)s."
 
 #: weblate/accounts/forms.py:1025 weblate/auth/models.py:451
 #: weblate/auth/models.py:1173 weblate/templates/auth/team.html:105
@@ -356,49 +363,51 @@ msgid "Add team"
 msgstr "Įtraukti komandą"
 
 #: weblate/accounts/forms.py:1098
-#, fuzzy
-#| msgid "Watched translations"
 msgid "Name your authentication app"
-msgstr "Stebimi vertimai"
+msgstr "Pavadinkite savo autentifikacijos programą"
 
 #: weblate/accounts/forms.py:1101
 msgid "Verify the code from the app"
-msgstr ""
+msgstr "Patikrinkite kodą iš programos"
 
 #: weblate/accounts/forms.py:1117
 msgid "Discard previously configured authentication apps"
-msgstr "Pašalinti anksčiau sukonfigūruotas autentifikacijos programas"
+msgstr "Pašalinkite anksčiau sukonfigūruotas autentifikacijos programas"
 
 #: weblate/accounts/forms.py:1121
 msgid ""
 "All previously configured authentication apps will be discarded upon "
 "verification of the new app."
 msgstr ""
+"Visos anksčiau sukonfigūruotos autentifikacijos programos, bus pašalintos "
+"patvirtinus naują programą."
 
 #: weblate/accounts/forms.py:1124
 msgid ""
 "Other two-factor methods (such as WebAuthn and security keys) won't be "
 "affected."
 msgstr ""
+"Kiti dviejų faktorių autentifikacijos metodai (pvz., WebAuthn ir saugos "
+"raktai) nebus paveikti."
 
 #: weblate/accounts/forms.py:1130
-#, fuzzy
-#| msgid "Translation status"
 msgid "The entered token is not valid."
-msgstr "Vertimų būsena"
+msgstr "Įvestas žetonas netinkamas."
 
 #: weblate/accounts/forms.py:1200
 msgid "Recovery token"
-msgstr ""
+msgstr "Atkūrimo žetonas"
 
 #: weblate/accounts/forms.py:1202
 msgid ""
 "Recovery codes can only be used once. Remember to mark used ones as expired."
 msgstr ""
+"Atkūrimo kodus galima panaudoti tik kartą. Atminkite, kad galite pažymėti "
+"nebegaliojančius kodus."
 
 #: weblate/accounts/forms.py:1259
 msgid "Enter the code from the app"
-msgstr "Įveskite kodą iš programėlės"
+msgstr "Įveskite kodą iš programos"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:225
@@ -520,19 +529,21 @@ msgstr "Pradėtas bandomasis laikotarpis."
 #: weblate/accounts/models.py:269
 #, python-brace-format
 msgid "Sent confirmation mail to {email}."
-msgstr ""
+msgstr "Patvirtinimo laiškas išsiųstas adresu {email}."
 
 #: weblate/accounts/models.py:272
 msgid ""
 "The system created a user to track authorship of translations uploaded by "
 "other user."
 msgstr ""
+"Sistema sukūrė vartotoją, kuris stebi kito vartotojo įkeltų vertimų "
+"autorystę."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:276
 #, python-brace-format
 msgid "Access to project {project} was blocked."
-msgstr ""
+msgstr "Projekto {project} prieiga buvo užblokuota."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:278
