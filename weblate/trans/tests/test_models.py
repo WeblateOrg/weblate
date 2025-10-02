@@ -612,6 +612,8 @@ class SourceUnitTest(ModelTestCase):
         self.assertEqual(Check.objects.count(), 3)
         check = Check.objects.all()[0]
         unit = check.unit
+        # reload component to clear stats cache
+        self.component = unit.translation.component
         self.assertEqual(self.component.stats.allchecks, 3)
         source = unit.source_unit
         source.extra_flags = f"ignore-{check.name}"

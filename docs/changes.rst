@@ -22,6 +22,7 @@ Weblate 5.14
 * :doc:`/security/localization-threat` documentation.
 * Improved activity logging for :ref:`addon-weblate.consistency.languages` add-on.
 * :ref:`check-rst-references` and :ref:`check-rst-syntax` now support substitutions.
+* Improved performance for :ref:`check-multiple-failures` and :ref:`check-long-untranslated` checks with batch operations.
 * :ref:`component-hide_glossary_matches` component setting.
 * :ref:`file_format_params` can now be configured via the :ref:`api`.
 * Admins can configure :ref:`expiring-accounts`.
