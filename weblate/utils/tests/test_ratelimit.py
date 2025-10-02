@@ -4,7 +4,7 @@
 
 from time import sleep
 
-from django.contrib.auth.models import AnonymousUser, User
+from django.conf import settings
 from django.contrib.messages.middleware import MessageMiddleware
 from django.contrib.messages.storage import default_storage
 from django.contrib.sessions.backends.signed_cookies import SessionStore
@@ -13,6 +13,7 @@ from django.http.response import HttpResponse
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
 
+from weblate.auth.models import User
 from weblate.utils.ratelimit import (
     RateLimitNotify,
     check_rate_limit,
@@ -29,7 +30,7 @@ class RateLimitTest(SimpleTestCase):
         request.META["REMOTE_ADDR"] = "1.2.3.4"
         request.method = "POST"
         request.session = SessionStore()
-        request.user = AnonymousUser()
+        request.user = User(username=settings.ANONYMOUS_USER_NAME)
 
         # Initialize messages storage using fake middleware
         middleware = MessageMiddleware(lambda _request: HttpResponse())
@@ -195,7 +196,7 @@ class RateLimitHttpBehaviorTest(SimpleTestCase):
         request.method = "POST"
         request.session = SessionStore()
         request._messages = default_storage(request)  # noqa: SLF001
-        request.user = AnonymousUser()
+        request.user = User(username=settings.ANONYMOUS_USER_NAME)
         return request
 
     @override_settings(RATELIMIT_ATTEMPTS=1, RATELIMIT_WINDOW=60)
