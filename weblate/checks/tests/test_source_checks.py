@@ -115,7 +115,7 @@ class MultipleFailingCheckTestCase(FixtureTestCase):
                     unit.translation,
                 )
         source_unit = self.get_unit(language="en")
-        child_unit = unit.unit_set.exclude(pk=source_unit.id).first()
+        child_unit = source_unit.unit_set.exclude(pk=source_unit.id).first()
         child_unit.run_checks()
         self.assertIn("same", child_unit.all_checks_names)
         source_unit.run_checks()
@@ -135,7 +135,7 @@ class MultipleFailingCheckTestCase(FixtureTestCase):
                     unit.translation,
                 )
         source_unit = self.get_unit(language="en")
-        child_unit = unit.unit_set.exclude(pk=source_unit.id).first()
+        child_unit = source_unit.unit_set.exclude(pk=source_unit.id).first()
         child_unit.run_checks()
         self.assertIn("same", child_unit.all_checks_names)
         self.check.perform_batch(self.component)
