@@ -9,6 +9,7 @@ import subprocess
 import tempfile
 from typing import TYPE_CHECKING
 
+import pytest
 from django.contrib.auth.models import AnonymousUser
 from django.test import RequestFactory
 
@@ -124,6 +125,7 @@ class PoExporterTest(BaseTestCase):
             source="xxx", target="yyy", location="docs/config.md:block 1 (header)"
         )
 
+    @pytest.mark.filterwarnings("ignore:String contains control characters:UserWarning")
     def test_unit_special(self) -> None:
         self.check_unit(source="bar\x1e\x1efoo", target="br\x1eff")
 
