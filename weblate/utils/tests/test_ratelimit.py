@@ -45,13 +45,13 @@ class RateLimitTest(SimpleTestCase):
         # (1, 2): Window and lockout tests (1 attempt per 2 seconds)
         # (2, 2): Interval and revert tests (2 attempts per 2 seconds)
         # (1, 1): Post test (1 attempt per 1 second)
-        RATE_LIMIT_COMBINATIONS = [
+        rate_limit_combinations = [
             (5, 60),  # Basic limit
-            (1, 2),   # Window/lockout
-            (2, 2),   # Interval/revert
-            (1, 1),   # Post
+            (1, 2),  # Window/lockout
+            (2, 2),  # Interval/revert
+            (1, 1),  # Post
         ]
-        for attempts, window in RATE_LIMIT_COMBINATIONS:
+        for attempts, window in rate_limit_combinations:
             with override_settings(
                 RATELIMIT_ATTEMPTS=attempts, RATELIMIT_WINDOW=window
             ):

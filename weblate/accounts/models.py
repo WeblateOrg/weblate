@@ -153,7 +153,7 @@ class WeblateAccountsConf(AppConf):
 
     # Multi-level rate limiting for email notifications
     # Each tuple contains (max_emails, time_window_seconds)
-    RATELIMIT_NOTIFICATION_LIMITS = [
+    RATELIMIT_NOTIFICATION_LIMITS: ClassVar[list[tuple[int, int]]] = [
         # Prevent burst sends - 3 emails per 2 minutes
         (3, 120),
         # Equalize to avoid getting blocked for too long - 10 emails per hour
