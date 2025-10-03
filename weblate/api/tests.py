@@ -1273,14 +1273,17 @@ class ProjectAPITest(APIBaseTest):
         )
         self.assertEqual(response.data["slug"], "test")
 
-    def test_repo_op_denied(self) -> None:
+    def test_repo_ops(self) -> None:
         for operation in (
             "push",
             "pull",
             "reset",
             "cleanup",
             "commit",
+            "file-sync",
+            "file-scan",
         ):
+            # No access for regular user
             self.do_request(
                 "api:project-repository",
                 self.project_kwargs,
@@ -1288,9 +1291,7 @@ class ProjectAPITest(APIBaseTest):
                 method="post",
                 request={"operation": operation},
             )
-
-    def test_repo_ops(self) -> None:
-        for operation in ("push", "pull", "reset", "cleanup", "commit"):
+            # Admin access
             self.do_request(
                 "api:project-repository",
                 self.project_kwargs,
