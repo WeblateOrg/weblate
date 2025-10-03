@@ -283,6 +283,7 @@
               {% if not user.is_authenticated %}
                 {% if registration_open %}
                   <li class="nav-item">
+                    {# Translators: Register on the site #}
                     <a class="nav-link button" id="register-button" href="{% url 'register' %}">{% translate "Register" %}</a>
                   </li>
                 {% endif %}
