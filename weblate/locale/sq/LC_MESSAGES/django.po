@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-09-03 12:07+0000\n"
-"PO-Revision-Date: 2025-08-09 22:09+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-10-03 23:02+0000\n"
+"Last-Translator: Besnik Bleta <besnik@programeshqip.org>\n"
 "Language-Team: Albanian <https://hosted.weblate.org/projects/weblate/"
 "application/sq/>\n"
 "Language: sq\n"
@@ -17,7 +17,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.13-dev\n"
+"X-Generator: Weblate 5.14-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -378,10 +378,8 @@ msgid "Verify the code from the app"
 msgstr "Verifikoni kodin prej aplikacionit"
 
 #: weblate/accounts/forms.py:1117
-#, fuzzy
-#| msgid "Name your authentication app"
 msgid "Discard previously configured authentication apps"
-msgstr "Emërtoni aplikacionin tuaj të mirëfilltësimit"
+msgstr ""
 
 #: weblate/accounts/forms.py:1121
 msgid ""
@@ -605,10 +603,9 @@ msgid "Two-factor authentication sign in using {device}"
 msgstr "Hyrje me mirëfilltësim dyfaktorësh duke përdorur {device}"
 
 #: weblate/accounts/models.py:303
-#, fuzzy, python-brace-format
-#| msgid "Two-factor authentication sign in using {device}"
+#, python-brace-format
 msgid "Two-factor authentication failed using {device_type}"
-msgstr "Hyrje me mirëfilltësim dyfaktorësh duke përdorur {device}"
+msgstr "Mirëfilltësimi dyfaktorësh dështoi duke përdorur {device_type}"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:311
@@ -780,10 +777,8 @@ msgid ""
 msgstr "Kurdo që përktheni një varg në një projekt, do të filloni ta vëzhgoni."
 
 #: weblate/accounts/models.py:700
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgid "Contribute to personal translation memory"
-msgstr "Kontribuoni te kujtesë përkthimesh të përbashkët"
+msgstr "Kontribuoni te kujtesë përkthimesh personale"
 
 #: weblate/accounts/models.py:703
 msgid ""
@@ -795,10 +790,8 @@ msgid "Watched translations"
 msgstr "Përkthime të mbikëqyrur"
 
 #: weblate/accounts/models.py:715 weblate/templates/dashboard/user.html:23
-#, fuzzy
-#| msgid "All components"
 msgid "All component lists"
-msgstr "Krejt përbërësit"
+msgstr "Krejt listat e përbërësve"
 
 #: weblate/accounts/models.py:716 weblate/templates/dashboard/user.html:88
 msgid "Component list"
@@ -1351,10 +1344,8 @@ msgstr ""
 "tjetër."
 
 #: weblate/accounts/views.py:1488
-#, fuzzy
-#| msgid "The authentication app was removed."
 msgid "The authentication provider could not be reached."
-msgstr "Aplikacioni i mirëfilltësimit u hoq."
+msgstr "S’u kap dot shërbimi i mirëfilltësimit."
 
 #: weblate/accounts/views.py:1522 weblate/accounts/views.py:1535
 msgid "Notification settings adjusted."
@@ -1838,10 +1829,8 @@ msgid "Secret"
 msgstr "E fshehtë"
 
 #: weblate/addons/forms.py:601
-#, fuzzy
-#| msgid "Invalid base64 encoded string"
 msgid "A Base64 encoded string"
-msgstr "Varg i koduar si base64 i pavlefshëm"
+msgstr "Një varg i koduar si Base64"
 
 #: weblate/addons/generate.py:36
 msgid "Statistics generator"
@@ -1988,10 +1977,9 @@ msgid "Invalid add-on name: ”%s”"
 msgstr "Emër i pavlefshëm shtese: “%s”"
 
 #: weblate/addons/views.py:130
-#, fuzzy, python-format
-#| msgid "Add-on uninstalled"
+#, python-format
 msgid "Add-on cannot be installed: ”%s”"
-msgstr "Shtesa u çinstalua"
+msgstr "Shtesa s’instalohet dot: ”%s”"
 
 #: weblate/addons/views.py:151
 msgid "Add-on installed, please review integration instructions."
@@ -2002,24 +1990,21 @@ msgid "Webhook"
 msgstr ""
 
 #: weblate/addons/webhooks.py:93
-#, fuzzy
-#| msgid "Sends notification to external service based on selected events."
 msgid ""
 "Sends notifications to external services based on selected events, following "
 "the Standard Webhooks specification."
 msgstr ""
-"Dërgon njoftim shërbimeve të jashtëm bazuar në veprimtaritë e përzgjedhura."
+"Dërgon njoftime shërbimeve të jashtëm bazuar në veprimtaritë e përzgjedhura, "
+"duke zbatuar specifikimet Standard Webhooks."
 
 #: weblate/addons/webhooks.py:177
 msgid "Slack Webhooks"
 msgstr ""
 
 #: weblate/addons/webhooks.py:179
-#, fuzzy
-#| msgid "Sends notification to external service based on selected events."
 msgid "Sends notification to a Slack channel based on selected events."
 msgstr ""
-"Dërgon njoftim shërbimeve të jashtëm bazuar në veprimtaritë e përzgjedhura."
+"Dërgon njoftim te një kanal Slack, bazuar në veprimtaritë e përzgjedhura."
 
 #: weblate/api/authentication.py:27
 msgid "Session-based authentication used when user is signed in."
@@ -2453,10 +2438,8 @@ msgstr "Të përditësojë depon e brendshme"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:115
-#, fuzzy
-#| msgid "Post announcement"
 msgid "Post announcements"
-msgstr "Njoftim postimi"
+msgstr "Njoftime postimi"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:123
@@ -2555,11 +2538,9 @@ msgid "Power user"
 msgstr "Përdorues i sprovuar"
 
 #: weblate/auth/data.py:207
-#, fuzzy
-#| msgid "Translation comment"
 msgctxt "Access-control role"
 msgid "Translation coordinator"
-msgstr "Koment përkthimi"
+msgstr "Bashkërendues përkthimesh"
 
 #: weblate/auth/data.py:224
 msgctxt "Access-control role"
@@ -3053,10 +3034,8 @@ msgid "This component is currently locked."
 msgstr "Ky përbërës është hëpërhë i kyçur."
 
 #: weblate/auth/permissions.py:477
-#, fuzzy
-#| msgid "The file format does not support this."
 msgid "The file format does not support updating source strings."
-msgstr "Formati i kartelave nuk e mbulon këtë."
+msgstr "Formati i kartelave s’mbulon përditësim vargjesh burim."
 
 #: weblate/auth/views.py:121
 msgid "Cannot remove built-in team!"
@@ -4111,10 +4090,8 @@ msgid "The Vue I18n formatting does not match source."
 msgstr "Fomatimi l18n Vue s’përputhet me burimin."
 
 #: weblate/checks/format.py:827
-#, fuzzy
-#| msgid "Automattic Components"
 msgid "Automattic components formatting"
-msgstr "Përbërës Automattic"
+msgstr "Formatim përbërësish Automattic"
 
 #: weblate/checks/format.py:829
 msgid "The Automattic components' placeholders do not match the source."
@@ -4298,30 +4275,21 @@ msgid "The translation uses unsafe HTML markup."
 msgstr "Përkthimi përdor elementë HTML jo të parrezik."
 
 #: weblate/checks/markup.py:473
-#, fuzzy
-#| msgid "Inconsistent reStructuredText references"
 msgid "Inconsistent reStructuredText"
-msgstr "Referenca reStructuredText që s’përputhen"
+msgstr "reStructuredText që s’përputhen"
 
 #: weblate/checks/markup.py:475
-#, fuzzy
-#| msgid ""
-#| "Inconsistent reStructuredText term references in the translated message."
 msgid "Inconsistent reStructuredText markup in the translated message."
 msgstr ""
-"Referenca reStructuredText termi që s’përputhen, te mesazhi i përkthyer."
+"Elementë markup-i reStructuredText që s’përputhen, te mesazhi i përkthyer."
 
 #: weblate/checks/markup.py:480
-#, fuzzy
-#| msgid "The following format strings are missing: {}"
 msgid "The following reStructuredText markup is missing: {}"
-msgstr "Mungojnë vargje formati vijuese: {}"
+msgstr ""
 
 #: weblate/checks/markup.py:485
-#, fuzzy
-#| msgid "The following format strings are extra: {}"
 msgid "The following reStructuredText markup is extra: {}"
-msgstr "Vargjet vijuese formatesh janë shtesë: {}"
+msgstr ""
 
 #: weblate/checks/markup.py:630
 msgid "reStructuredText syntax error"
@@ -4530,10 +4498,8 @@ msgid ""
 msgstr ""
 
 #: weblate/fonts/views.py:149
-#, fuzzy
-#| msgid "The uploaded file will be merged with the current translation."
 msgid "The uploaded font file is identical to the current one."
-msgstr "Kartela e ngarkuar do të përzihet me përkthimin e tanishëm."
+msgstr "Kartela e ngarkuar e shkronjave është identike me të tanishmen."
 
 #: weblate/fonts/views.py:161
 msgid "Font updated successfully."
@@ -5815,10 +5781,8 @@ msgid "Missing source or target language in file!"
 msgstr "Te kartela mungon gjuhë burim ose e synuar!"
 
 #: weblate/memory/models.py:425
-#, fuzzy
-#| msgid "pending"
 msgid "Pending"
-msgstr "pezull"
+msgstr "Pezull"
 
 #: weblate/memory/models.py:494
 msgctxt "Translation memory category"
@@ -6482,10 +6446,9 @@ msgstr ""
 "S’ u gjet kjo ndërthurje emër përdoruesi/fjalëkalim. Ju lutemi, riprovoni."
 
 #: weblate/templates/accounts/login.html:28
-#, fuzzy, python-format
-#| msgid "Invitation to %(site_title)s"
+#, python-format
 msgid "Sign in to %(formatted_site_title)s"
-msgstr "Ftesë për te %(site_title)s"
+msgstr "Bëni hyrjen te %(formatted_site_title)s"
 
 #: weblate/templates/accounts/login.html:47
 msgid "Sign in with:"
@@ -6969,10 +6932,9 @@ msgid "Please complete the registration to accept the invitation."
 msgstr "Ju lutemi, plotësoni regjistrimin, që të pranoni ftesën."
 
 #: weblate/templates/accounts/register.html:36
-#, fuzzy, python-format
-#| msgid "Your registration on %(site_title)s"
+#, python-format
 msgid "Register in %(formatted_site_title)s"
-msgstr "Regjistrimi juaj në %(site_title)s"
+msgstr "Regjistrohuni te %(formatted_site_title)s"
 
 #: weblate/templates/accounts/register.html:56
 msgid "Create an account using:"
@@ -7069,10 +7031,8 @@ msgstr ""
 "përcaktuar nga secili projekt përkthimi."
 
 #: weblate/templates/accounts/snippets/login-title.html:4
-#, fuzzy
-#| msgid "Weblate version"
 msgid "Weblate single sign on"
-msgstr "Version Weblate-i"
+msgstr ""
 
 #: weblate/templates/accounts/snippets/login-title.html:5
 msgctxt "Badge for site title for Hosted Weblate"
@@ -7080,11 +7040,9 @@ msgid "Cloud"
 msgstr "Re"
 
 #: weblate/templates/accounts/snippets/login-title.html:9
-#, fuzzy
-#| msgid "Terminated"
 msgctxt "Badge for site title for dedicated instances"
 msgid "Dedicated"
-msgstr "I përfunduar"
+msgstr ""
 
 #: weblate/templates/accounts/snippets/login-title.html:11
 msgctxt "Badge for site title for self-hosted instances"
@@ -7217,10 +7175,8 @@ msgstr[1] "%(count)s komente"
 #. Translators: Name of a tab which lists translations the user has contributed to
 #: weblate/templates/accounts/user.html:156
 #: weblate/templates/accounts/user_contributions.html:14
-#, fuzzy
-#| msgid "Translate"
 msgid "Translates"
-msgstr "Përktheni"
+msgstr "Përkthime"
 
 #: weblate/templates/accounts/user.html:165
 msgid "Activity"
@@ -7912,10 +7868,8 @@ msgid "Failing checks in %(language)s"
 msgstr "Dështim kontrollesh te %(language)s"
 
 #: weblate/templates/base.html:225
-#, fuzzy
-#| msgid "Multiple failing checks"
 msgid "All failing checks"
-msgstr "Dështime të shumta kontrollesh"
+msgstr "Krejt kontrollet me dështim"
 
 #: weblate/templates/base.html:241 weblate/templates/base.html:243
 #: weblate/templates/base5.html:263 weblate/templates/base5.html:265
@@ -7994,26 +7948,20 @@ msgid "Get help"
 msgstr "Merrni ndihmë"
 
 #: weblate/templates/base.html:379 weblate/templates/base5.html:403
-#, fuzzy
-#| msgid "Contact server administrators"
 msgid "Contact server admins"
 msgstr "Lidhuni me përgjegjësit e shërbyesit"
 
 #: weblate/templates/base.html:382 weblate/templates/base5.html:406
-#, fuzzy
-#| msgid "Community support"
 msgid "Community discussions"
-msgstr "Asistencë nga bashkësia"
+msgstr "Diskutime nga bashkësia"
 
 #: weblate/templates/base.html:386 weblate/templates/base5.html:410
 msgid "Professional support"
 msgstr ""
 
 #: weblate/templates/base.html:390 weblate/templates/base5.html:414
-#, fuzzy
-#| msgid "Get support"
 msgid "Get professional support"
-msgstr "Merrni asistencë"
+msgstr "Merrni asistencë profesionale"
 
 #: weblate/templates/base.html:399 weblate/templates/base.html:401
 #: weblate/templates/base5.html:423 weblate/templates/base5.html:425
@@ -8036,10 +7984,8 @@ msgid "Keyboard shortcuts"
 msgstr "Shkurtore tastiere"
 
 #: weblate/templates/base.html:407 weblate/templates/base5.html:431
-#, fuzzy
-#| msgid "Create project"
 msgid "Weblate project"
-msgstr "Krijoni projekt"
+msgstr "Projekt Weblate"
 
 #: weblate/templates/base.html:409
 msgctxt "Contribute to Weblate"
@@ -8047,11 +7993,9 @@ msgid "Contribute"
 msgstr "Ndihmesë"
 
 #: weblate/templates/base.html:413
-#, fuzzy
-#| msgid "Get support"
 msgctxt "Support Weblate financially"
 msgid "Become a supporter"
-msgstr "Merrni asistencë"
+msgstr "Bëhuni një përkrahës"
 
 #: weblate/templates/base.html:417 weblate/templates/footer.html:9
 msgctxt "About this server"
@@ -8059,11 +8003,9 @@ msgid "About"
 msgstr "Mbi"
 
 #: weblate/templates/base.html:420
-#, fuzzy
-#| msgid "Website URL"
 msgctxt "Weblate website"
 msgid "Website"
-msgstr "URL Sajti"
+msgstr "Sajt"
 
 #: weblate/templates/base.html:449 weblate/templates/base5.html:474
 #: weblate/templates/manage/index.html:43
@@ -8087,20 +8029,16 @@ msgid "Contribute"
 msgstr "Ndihmesë"
 
 #: weblate/templates/base5.html:438
-#, fuzzy
-#| msgid "Get support"
 msgid "Become a supporter"
-msgstr "Merrni asistencë"
+msgstr "Bëhuni një përkrahës"
 
 #: weblate/templates/base5.html:442
 msgid "About"
 msgstr "Mbi"
 
 #: weblate/templates/base5.html:445
-#, fuzzy
-#| msgid "Website URL"
 msgid "Website"
-msgstr "URL Sajti"
+msgstr "Sajt"
 
 #: weblate/templates/billing/detail.html:27
 msgid "Recurring payment"
@@ -8312,10 +8250,8 @@ msgid "Any authenticated user can contribute."
 msgstr "Mund të kontribuojë cilido përdorues që ka bërë mirëfilltësimin."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:42
-#, fuzzy
-#| msgid "VCS repository might be exposed to everybody."
 msgid "VCS repository is accessible to everybody."
-msgstr "Depoja VCS duhet të jetë e ekspozuar për gjithkënd."
+msgstr "Depoja VCS është e përdorshme nga gjithkush."
 
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:47
 #: weblate/templates/bootstrap3/layout/radioselect_access.html:55
@@ -8410,10 +8346,8 @@ msgstr "Shkarkojini kartelat origjinale të përkthimit si kartelë ZIP"
 #: weblate/templates/category.html:70 weblate/templates/component.html:82
 #: weblate/templates/language-project.html:64 weblate/templates/project.html:81
 #: weblate/templates/translation.html:70
-#, fuzzy
-#| msgid "Versions"
 msgid "Operations"
-msgstr "Versione"
+msgstr "Veprime"
 
 #: weblate/templates/category-language.html:50
 #: weblate/templates/category-language.html:116
@@ -9052,8 +8986,6 @@ msgid "Font groups"
 msgstr "Grupe shkronjash"
 
 #: weblate/templates/fonts/font_detail.html:57
-#, fuzzy
-#| msgid "Edit font group"
 msgid "Edit font"
 msgstr "Përpunoni grup shkronjash"
 
@@ -9124,15 +9056,11 @@ msgid "Privacy"
 msgstr "Privatësi"
 
 #: weblate/templates/footer.html:21
-#, fuzzy
-#| msgid "Legal"
 msgctxt "Link to legal documents"
 msgid "Legal"
 msgstr "Ligjore"
 
 #: weblate/templates/footer.html:32
-#, fuzzy
-#| msgid "Status"
 msgctxt "Service status"
 msgid "Status"
 msgstr "Gjendje"
@@ -9378,10 +9306,8 @@ msgid "Repository changes"
 msgstr "Ndryshime në depo"
 
 #: weblate/templates/js/git-status.html:214
-#, fuzzy
-#| msgid "Browse all string changes"
 msgid "Browse all repository changes"
-msgstr "Shfletoni krejt ndryshimet e vargjeve"
+msgstr "Shfletoni krejt ndryshimet e depos"
 
 #: weblate/templates/keyboard-shortcuts.html:24
 msgid "Shortcut"
@@ -9429,10 +9355,8 @@ msgid "or"
 msgstr "ose"
 
 #: weblate/templates/keyboard-shortcuts.html:58
-#, fuzzy
-#| msgid "Navigate to the first translation in the current search."
 msgid "Navigate to the previous translation in the current search."
-msgstr "Kalo te përkthimi i parë te kërkimi i tanishëm."
+msgstr "Kalo te përkthimi i mëparshëm te kërkimi i tanishëm."
 
 #: weblate/templates/keyboard-shortcuts.html:71
 msgid "Navigate to the next translation in the current search."
@@ -10129,10 +10053,8 @@ msgstr ""
 "mbi butonin më poshtë."
 
 #: weblate/templates/mail/shared-activity.html:26
-#, fuzzy
-#| msgid "Audit log"
 msgid "View audit log"
-msgstr "Auditim regjistri"
+msgstr "Shihni regjistër auditimesh"
 
 #: weblate/templates/mail/shared-activity.html:27
 msgid "Report"
@@ -10372,10 +10294,8 @@ msgid "Manage support package"
 msgstr "Administroni paketë asistence"
 
 #: weblate/templates/manage/index.html:97
-#, fuzzy
-#| msgid "Manage support package"
 msgid "Unlink support package"
-msgstr "Administroni paketë asistence"
+msgstr ""
 
 #: weblate/templates/manage/index.html:100
 #: weblate/templates/manage/snippets/activation-form.html:20
@@ -10750,10 +10670,8 @@ msgid "off"
 msgstr "off"
 
 #: weblate/templates/memory/index.html:259 weblate/trans/models/project.py:215
-#, fuzzy
-#| msgid "Use translation memory"
 msgid "Autoclean translation memory"
-msgstr "Të përdorë kujtesë përkthimesh"
+msgstr "Të pastrojë automatikisht kujtesë përkthimesh"
 
 #: weblate/templates/memory/index.html:281
 msgid "Number of shared entries in this Weblate instance"
@@ -11275,10 +11193,8 @@ msgid "No related strings found in the glossary."
 msgstr "Te fjalorthi s’u gjetën vargje me lidhje."
 
 #: weblate/templates/snippets/info.html:9
-#, fuzzy
-#| msgid "Your summary"
 msgid "Summary"
-msgstr "Përmbledhja juaj"
+msgstr "Përmbledhje"
 
 #: weblate/templates/snippets/info.html:16 weblate/trans/models/project.py:182
 msgid "Project website"
@@ -11936,10 +11852,8 @@ msgstr ""
 "identifikuesi URL i tij, ose hiqeni."
 
 #: weblate/templates/snippets/share-menu.html:6
-#, fuzzy
-#| msgid "Commit"
 msgid "Community"
-msgstr "Parashtrim"
+msgstr "Bashkësi"
 
 #: weblate/templates/snippets/share-menu.html:11
 #: weblate/templates/snippets/share-menu.html:16
@@ -12610,10 +12524,8 @@ msgid "Update the repository"
 msgstr "Përditësoni depon"
 
 #: weblate/templates/trans/backups.html:17
-#, fuzzy
-#| msgid "Importing backup"
 msgid "Existing backups"
-msgstr "Importim kopjeruajtjeje"
+msgstr "Kopjeruajtje ekzistuese"
 
 #: weblate/templates/trans/backups.html:32
 msgid "There are currently no backups."
@@ -12657,10 +12569,8 @@ msgstr "Prej kontrolli versionesh"
 
 #. Translators: Create a component from existing component
 #: weblate/templates/trans/component_create.html:16
-#, fuzzy
-#| msgid "From existing component"
 msgid "From an existing component"
-msgstr "Prej përbërësi ekzistues"
+msgstr "Prej një përbërësi ekzistues"
 
 #. Translators: Create a component as additional branch
 #: weblate/templates/trans/component_create.html:22
@@ -14011,38 +13921,28 @@ msgstr ""
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:166
-#, fuzzy
-#| msgid "File uploaded"
 msgid "Font uploaded"
-msgstr "Kartela u ngarkua"
+msgstr "Shkronjat u ngarkuan"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:168
-#, fuzzy
-#| msgid "Do not change"
 msgid "Font changed"
-msgstr "Mos e ndryshoni"
+msgstr "Ndryshuan shkronjat"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:170
-#, fuzzy
-#| msgid "Comment removed"
 msgid "Font removed"
-msgstr "U hoq koment"
+msgstr "U hoqën shkronja"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:172
-#, fuzzy
-#| msgid "Force synchronization"
 msgid "Forced synchronization of translations"
-msgstr "Njëkohësim i detyruar"
+msgstr "Njëkohësim i detyruar përkthimesh"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:174
-#, fuzzy
-#| msgid "Forbidden translation"
 msgid "Forced rescan of translations"
-msgstr "Përkthim i ndaluar"
+msgstr "Riskanim i detyruar përkthimesh"
 
 #: weblate/trans/admin.py:33
 msgid "Commit pending changes"
@@ -14150,14 +14050,12 @@ msgid "New revision: {}"
 msgstr "Rishikim i ri: {}"
 
 #: weblate/trans/change_display.py:404
-#, fuzzy, python-format
-#| msgid "%(count)s character edited"
-#| msgid_plural "%(count)s characters edited"
+#, python-format
 msgctxt "Number of edits on a change in Damerau–Levenshtein distance"
 msgid "%(count)d character edited"
 msgid_plural "%(count)d characters edited"
-msgstr[0] "%(count)s shenjë e përpunuar"
-msgstr[1] "%(count)s shenja të përpunuara"
+msgstr[0] "%(count)d shenjë e përpunuar"
+msgstr[1] "%(count)d shenja të përpunuara"
 
 #: weblate/trans/change_display.py:470
 msgid "Current translation"
@@ -14192,17 +14090,15 @@ msgstr "{filename} ({parameter}) s’ekziston."
 
 #. Translators: %s is site title here
 #: weblate/trans/feeds.py:32
-#, fuzzy, python-format
-#| msgid "Recent changes in %s"
+#, python-format
 msgid "Recent changes on %s"
-msgstr "Ndryshime së fundi në %s"
+msgstr "Ndryshime së fundi te %s"
 
 #. Translators: %s is site title here
 #: weblate/trans/feeds.py:36
-#, fuzzy, python-format
-#| msgid "All recent changes made using Weblate in %s."
+#, python-format
 msgid "All recent changes made using Weblate on %s."
-msgstr "Krejt ndryshimet së fundi të bëra duke përdorur Weblate-in në %s."
+msgstr "Krejt ndryshimet së fundi te %s të bëra duke përdorur Weblate-in."
 
 #. Translators: %s is translation name
 #: weblate/trans/feeds.py:71
@@ -14262,10 +14158,6 @@ msgid "No line wrapping"
 msgstr "Pa mbështjellje rreshtash"
 
 #: weblate/trans/file_format_params.py:196
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 characters and at newlines. With the "
-#| "--no-wrap parameter, wrapping is only done at newlines."
 msgid ""
 "By default, gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
@@ -14327,22 +14219,16 @@ msgid "Include closing tag for blank XML tags"
 msgstr "Përfshi etiketë mbyllëse për etiketa XML të zbrazëta"
 
 #: weblate/trans/file_format_params.py:322
-#, fuzzy
-#| msgid "Flat XML file"
 msgid "FlatXML Root name"
-msgstr "Kartelë XML e sheshtë"
+msgstr ""
 
 #: weblate/trans/file_format_params.py:331
-#, fuzzy
-#| msgid "Flat XML file"
 msgid "FlatXML value name"
-msgstr "Kartelë XML e sheshtë"
+msgstr ""
 
 #: weblate/trans/file_format_params.py:340
-#, fuzzy
-#| msgid "Category name"
 msgid "FlatXML key name"
-msgstr "Emër kategorie"
+msgstr ""
 
 #: weblate/trans/filter.py:23 weblate/trans/filter.py:121
 msgid "All strings"
@@ -14878,10 +14764,8 @@ msgid "String will be part of the glossary in all languages"
 msgstr "Vargu do të jetë pjesë e fjalorthit në krejt gjuhët"
 
 #: weblate/trans/forms.py:2734
-#, fuzzy
-#| msgid "Project is now open for translation updates."
 msgid "Mark this option for translations that should not be used."
-msgstr "Projekti tani është i hapur për përditësime përkthimesh."
+msgstr "I vini shenjë kësaj mundësie për përkthime që s’duhen përdorur."
 
 #: weblate/trans/forms.py:2739
 msgid "Untranslatable term"
@@ -14968,10 +14852,8 @@ msgid "Author username"
 msgstr "Emër përdoruesi i autorit"
 
 #: weblate/trans/forms.py:3041
-#, fuzzy
-#| msgid "Author username"
 msgid "Exclude author (username)"
-msgstr "Emër përdoruesi i autorit"
+msgstr "Përjashto autorin (emër përdoruesi)"
 
 #: weblate/trans/forms.py:3044
 msgid "Change period"
@@ -15275,34 +15157,24 @@ msgid "Component created from scratch"
 msgstr "U krijua përbërës nga fillimi"
 
 #: weblate/trans/models/change.py:65
-#, fuzzy
-#| msgid "Component created"
 msgid "Component created as a branch"
-msgstr "U krijua përbërës"
+msgstr "Përbërës i krijuar si një degë"
 
 #: weblate/trans/models/change.py:66
-#, fuzzy
-#| msgid "Component created"
 msgid "Component created via API"
-msgstr "U krijua përbërës"
+msgstr "Përbërës i krijuar përmes API-t"
 
 #: weblate/trans/models/change.py:67
-#, fuzzy
-#| msgid "From version control"
 msgid "Component created from version control"
-msgstr "Prej kontrolli versionesh"
+msgstr "Përbërës i krijuar prej kontrolli versionesh"
 
 #: weblate/trans/models/change.py:68
-#, fuzzy
-#| msgid "Component created"
 msgid "Component created via ZIP upload"
-msgstr "U krijua përbërës"
+msgstr "Përbërës i krijuar përmes ngarkimi ZIP-i"
 
 #: weblate/trans/models/change.py:69
-#, fuzzy
-#| msgid "Component created"
 msgid "Component created via document upload"
-msgstr "U krijua përbërës"
+msgstr "Përbërës i krijuar përmes ngarkimi dokumenti"
 
 #. Translators: condensed rendering of a change action in history
 #: weblate/trans/models/change.py:531
@@ -15529,10 +15401,8 @@ msgstr ""
 "përkthime njëgjuhëshe."
 
 #: weblate/trans/models/component.py:536
-#, fuzzy
-#| msgid "File format"
 msgid "File format parameters"
-msgstr "Format kartelash"
+msgstr "Parametra formati kartelash"
 
 #: weblate/trans/models/component.py:545
 msgid "Locked component will not get any translation updates."
@@ -15551,21 +15421,16 @@ msgstr ""
 "përkthim automatik edhe te ky këtu"
 
 #: weblate/trans/models/component.py:557
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgid "Contribute to project translation memory"
-msgstr "Kontribuoni te kujtesë përkthimesh të përbashkët"
+msgstr "Kontribuoni te kujtesë përkthimesh të një projekti"
 
 #: weblate/trans/models/component.py:560
-#, fuzzy
-#| msgid ""
-#| "A request for a new translation has been sent to the project's "
-#| "maintainers."
 msgid ""
 "Allow this component's translations to be added to the project-level "
 "translation memory."
 msgstr ""
-"Te mirëmbajtësit e projektit është dërguar një kërkesë për përkthim të ri."
+"Lejoni që përkthimet e këtij përbërësi të shtohen te kujtesë përkthimesh në "
+"shkallë projekti."
 
 #: weblate/trans/models/component.py:566 weblate/trans/models/workflow.py:29
 msgid "Turn on suggestions"
@@ -15612,10 +15477,8 @@ msgid "Enforced checks"
 msgstr "Kontrolle me detyrim"
 
 #: weblate/trans/models/component.py:599
-#, fuzzy
-#| msgid "List of checks which can not be ignored."
 msgid "List of checks which can not be dismissed."
-msgstr "Listë kontrollesh që s’mund të shpërfillen."
+msgstr "Listë kontrollesh që s’mund të hidhen tej."
 
 #: weblate/trans/models/component.py:617
 msgid ""
@@ -16142,16 +16005,12 @@ msgid "Commit all translations regardless of quality"
 msgstr ""
 
 #: weblate/trans/models/project.py:53
-#, fuzzy
-#| msgid "Strings with comments"
 msgid "Skip translations marked as needing editing"
-msgstr "Vargje me komente"
+msgstr "Anashkalo përkthime të shënuar si të tillë që lypin përpunim"
 
 #: weblate/trans/models/project.py:55
-#, fuzzy
-#| msgid "Add as approved translation"
 msgid "Only include approved translations"
-msgstr "Shtoje si përkthim të miratuar"
+msgstr "Përfshi vetëm përkthime të miratuar"
 
 #: weblate/trans/models/project.py:161
 msgid "Public"
@@ -16239,10 +16098,8 @@ msgid "Requires dedicated reviewers to approve source strings."
 msgstr "Lyp shqyrtues enkas për miratim vargjesh burim."
 
 #: weblate/trans/models/project.py:251
-#, fuzzy
-#| msgid "Translation file"
 msgid "Translation quality filter"
-msgstr "Kartelë përkthimi"
+msgstr "Filtër cilësie përkthimesh"
 
 #: weblate/trans/models/project.py:255
 msgid ""
@@ -16766,11 +16623,8 @@ msgstr ""
 "përkthim, ose nisni përkthimin e projektit tuaj."
 
 #: weblate/trans/util.py:369
-#, fuzzy
-#| msgid ""
-#| "You can edit this later, as with any other string in the source language."
 msgid "Source upload is only supported on the source language."
-msgstr "Këtë mund ta përpunoni më vonë, si për çdo var tjetër te gjuha burim."
+msgstr "Ngarkimi i burimit mbulohet vetëm te gjuha burim."
 
 #: weblate/trans/validators.py:22
 msgid "File mask does not contain * as a language placeholder!"
@@ -16848,32 +16702,29 @@ msgid "Language addition is not supported by any of the components."
 msgstr ""
 
 #: weblate/trans/views/basic.py:801
-#, fuzzy, python-format
-#| msgid "New language added to %(component)s"
+#, python-format
 msgid "Language %(language)s added to %(count)d component."
 msgid_plural "Language %(language)s added to %(count)d components."
-msgstr[0] "U shtua gjuhë e re te %(component)s"
-msgstr[1] "U shtua gjuhë e re te %(component)s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: weblate/trans/views/basic.py:815
-#, fuzzy, python-format
-#| msgid "New language request in %(component)s"
+#, python-format
 msgid "Language %(language)s requested for %(count)d component."
 msgid_plural "Language %(language)s requested for %(count)d components."
-msgstr[0] "Kërkesë gjuhe të re te %(component)s"
-msgstr[1] "Kërkesë gjuhe të re te %(component)s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: weblate/trans/views/basic.py:829
-#, fuzzy, python-format
-#| msgid "New language added to %(component)s"
+#, python-format
 msgid ""
 "Language %(language)s could not be added to %(count)d component. Please "
 "check the component's configuration."
 msgid_plural ""
 "Language %(language)s could not be added to %(count)d components. Please "
 "check the components' configuration."
-msgstr[0] "U shtua gjuhë e re te %(component)s"
-msgstr[1] "U shtua gjuhë e re te %(component)s"
+msgstr[0] ""
+msgstr[1] ""
 
 #: weblate/trans/views/basic.py:905
 msgid ""
