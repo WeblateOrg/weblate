@@ -278,7 +278,7 @@
                 {% if component %}
                   {% perm 'translation.add' component as user_can_add_translation %}
                 {% endif %}
-                {% if user_can_add_project or user.managed_projects.exists or user_can_add_translation|default:False or offer_hosting %}
+                {% if user_can_add_project or user.managed_projects or user_can_add_translation|default:False or offer_hosting %}
                   <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                       <span class="hidden-xs">{% icon "plus.svg" %}</span>
@@ -291,7 +291,7 @@
                           <a href="{% url 'create-project' %}">{% translate "Add new translation project" %}</a>
                         </li>
                       {% endif %}
-                      {% if user.managed_projects.exists or offer_hosting %}
+                      {% if user.managed_projects %}
                         <li>
                           <a href="{% url 'create-component' %}{% if project %}?project={{ project.id }}{% endif %}">{% translate "Add new translation component" %}</a>
                         </li>
