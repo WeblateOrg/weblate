@@ -1,4 +1,4 @@
-{% extends "base.html" %}
+{% extends "base5.html" %}
 
 {% load i18n metrics permissions translations %}
 
@@ -6,28 +6,31 @@
   {% perm 'language.edit' as user_can_edit_language %}
 
   <ul class="nav nav-pills">
-    <li class="active">
-      <a href="#overview" data-toggle="tab">{% translate "Projects" %}</a>
+    <li class="nav-item">
+      <a class="nav-link active"
+         data-bs-target="#overview"
+         data-bs-toggle="tab"
+         href="#">{% translate "Projects" %}</a>
     </li>
-    <li>
-      <a href="#information" data-toggle="tab">{% translate "Overview" %}</a>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-target="#information" data-bs-toggle="tab" href="#">{% translate "Overview" %}</a>
     </li>
-    <li>
-      <a href="#search" data-toggle="tab">{% translate "Search" %}</a>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-target="#search" data-bs-toggle="tab" href="#">{% translate "Search" %}</a>
     </li>
-    <li>
-      <a href="#history" data-toggle="tab">{% translate "History" %}</a>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-target="#history" data-bs-toggle="tab" href="#">{% translate "History" %}</a>
     </li>
-    <li class="dropdown">
-      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
         {% translate "Tools" %} <span class="caret"></span>
       </a>
-      <ul class="dropdown-menu">
+      <ul class="dropdown-menu shadow">
         <li>
-          <a href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
+          <a class="dropdown-item" href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
         </li>
         {% if user_can_edit_language %}
-          <li role="separator" class="divider"></li>
+          <hr class="dropdown-divider">
           {% if not object.translation_set.exists %}
             <li>
               <a href=""
@@ -36,7 +39,7 @@
             </li>
           {% endif %}
           <li>
-            <a href="{% url 'edit-language' pk=object.pk %}">{% translate "Edit" %}</a>
+            <a class="dropdown-item" href="{% url 'edit-language' pk=object.pk %}">{% translate "Edit" %}</a>
           </li>
         {% endif %}
       </ul>
@@ -45,21 +48,21 @@
 {% endblock nav_pills %}
 
 {% block breadcrumbs %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'languages' %}">{% translate "Languages" %}</a>
   </li>
-  <li>
+  <li class="breadcrumb-item">
     <a href="{{ object.get_absolute_url }}">{{ object }}</a>
   </li>
 
-  <a class="pull-right flip">
+  <a class="ms-auto">
     <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
   </a>
 {% endblock breadcrumbs %}
 
 {% block content %}
 
-  {% announcements language=object %}
+  {% announcements language=object bootstrap_5=True %}
 
   {% perm 'language.edit' as user_can_edit_language %}
 
@@ -73,10 +76,10 @@
 
     </div>
 
-    <div class="tab-pane" id="information">{% show_info language=object stats=object.stats metrics=object|metrics %}</div>
+    <div class="tab-pane" id="information">{% show_info5 language=object stats=object.stats metrics=object|metrics %}</div>
 
     <div class="tab-pane" id="history">
-      {% format_last_changes_content last_changes=last_changes user=user %}
+      {% format_last_changes_content last_changes=last_changes user=user bootstrap_5=True %}
       <a class="btn btn-primary" href="{% url 'changes' path=object.get_url_path %}">{% translate "Browse all changes for this language" %}</a>
     </div>
 

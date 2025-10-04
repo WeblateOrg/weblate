@@ -20,6 +20,7 @@ from django.urls import reverse
 from django.utils.functional import cached_property
 from selenium import webdriver
 from selenium.common.exceptions import (
+    ElementClickInterceptedException,
     ElementNotVisibleException,
     NoSuchElementException,
     WebDriverException,
@@ -224,6 +225,11 @@ class SeleniumTests(
         try:
             element.click()
         except ElementNotVisibleException:
+            self.actions.move_to_element(element).perform()
+            element.click()
+        except ElementClickInterceptedException:
+            wait = WebDriverWait(self._driver, timeout=2)
+            wait.until(lambda _: element.is_displayed())
             self.actions.move_to_element(element).perform()
             element.click()
 
