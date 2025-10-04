@@ -510,6 +510,7 @@ def auto_translate(
     engines: list[str],
     threshold: int,
     component_wide: bool = False,
+    unit_ids: list[int] | None = None,
 ):
     translation = Translation.objects.get(pk=translation_id)
     user = User.objects.get(pk=user_id) if user_id else None
@@ -520,6 +521,7 @@ def auto_translate(
             q=q,
             mode=mode,
             component_wide=component_wide,
+            unit_ids=unit_ids,
         )
         message = auto.perform(
             auto_source=auto_source,
