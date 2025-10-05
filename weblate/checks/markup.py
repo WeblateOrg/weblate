@@ -54,6 +54,7 @@ if TYPE_CHECKING:
     from weblate.checks.base import MissingExtraDict
     from weblate.trans.models import Unit
 
+    from .base import FixupType
     from .models import Check
 
 BBCODE_MATCH = re.compile(
@@ -326,9 +327,9 @@ class MarkdownLinkCheck(MarkdownBaseCheck):
         src_anchors = {x[2] for x in src_match if x[2] and x[2][0] in link_start}
         return tgt_anchors != src_anchors
 
-    def get_fixup(self, unit: Unit) -> Iterable[tuple[str, str, str]] | None:
+    def get_fixup(self, unit: Unit) -> Iterable[FixupType] | None:
         if MD_BROKEN_LINK.findall(unit.target):
-            return [(MD_BROKEN_LINK.pattern, "](", "u")]
+            return [("regex", MD_BROKEN_LINK.pattern, "](", "u")]
         return None
 
 

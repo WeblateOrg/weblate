@@ -17,10 +17,14 @@ from weblate.utils.classloader import ClassLoader
 from .base import BaseCheck
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
+    from collections.abc import Generator, Iterable
+
+    from django_stubs_ext import StrOrPromise
 
     from weblate.auth.models import User
     from weblate.trans.models import Unit
+
+    from .base import FixupType
 
 
 class ChecksLoader(ClassLoader[BaseCheck]):
@@ -170,31 +174,31 @@ class Check(models.Model):
         except KeyError:
             return None
 
-    def is_enforced(self):
+    def is_enforced(self) -> bool:
         return self.name in self.unit.translation.component.enforced_checks
 
-    def get_description(self):
+    def get_description(self) -> StrOrPromise:
         if self.check_obj:
             return self.check_obj.get_description(self)
         return self.name
 
-    def get_fixup(self) -> Iterable[tuple[str, str, str]] | None:
+    def get_fixup(self) -> Iterable[FixupType] | None:
         if self.check_obj:
             return self.check_obj.get_fixup(self.unit)
         return None
 
-    def get_fixup_json(self):
+    def get_fixup_json(self) -> str | None:
         fixup = self.get_fixup()
         if not fixup:
             return None
         return json.dumps(fixup)
 
-    def get_name(self):
+    def get_name(self) -> StrOrPromise:
         if self.check_obj:
             return self.check_obj.name
         return self.name
 
-    def get_doc_url(self, user=None):
+    def get_doc_url(self, user: User | None = None) -> str:
         if self.check_obj:
             return self.check_obj.get_doc_url(user=user)
         return ""
@@ -214,7 +218,7 @@ class Check(models.Model):
                 child.set_dismiss(state=state, recurse=False)
 
 
-def get_display_checks(unit: Unit):
+def get_display_checks(unit: Unit) -> Generator[Check]:
     check_objects = {check.name: check for check in unit.all_checks}
     for check, check_obj in CHECKS.target.items():
         if check_obj.should_display(unit):

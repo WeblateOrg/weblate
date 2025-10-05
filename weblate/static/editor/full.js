@@ -416,11 +416,17 @@
     this.$editor.on("click", "[data-check-fixup]", (e) => {
       const $el = $(e.currentTarget);
       const fixups = $el.data("check-fixup");
-      this.$translationArea.each(function () {
+      this.$translationArea.each(function (plural) {
         const $this = $(this);
-        $.each(fixups, (_key, value) => {
-          const re = new RegExp(value[0], value[2]);
-          $this.replaceValue($this.val().replace(re, value[1]));
+        $.each(fixups, (_idx, value) => {
+          if (value[0] === "regex") {
+            const re = new RegExp(value[1], value[3]);
+            $this.replaceValue($this.val().replace(re, value[2]));
+          } else if (value[0] === "plurals") {
+            $this.replaceValue(value[1][plural]);
+          } else {
+            addAlert(`Unknown fixup: ${value}`);
+          }
         });
       });
       return false;
