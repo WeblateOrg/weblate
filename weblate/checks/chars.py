@@ -92,7 +92,7 @@ class BeginSpaceCheck(TargetCheck):
         # Compare numbers
         return source_space != target_space
 
-    def get_fixup(self, unit: Unit):
+    def get_fixup(self, unit: Unit) -> Iterable[tuple[str, str, str]] | None:
         source = unit.source_string
         stripped_source = source.lstrip(" ")
         spaces = len(source) - len(stripped_source)
@@ -128,7 +128,7 @@ class KabyleCharactersCheck(TargetCheck):
         # by now we know it's Kabyle, so just look for confusables
         return any(char in target for char in self.confusable_to_standard)
 
-    def get_fixup(self, unit: Unit) -> Iterable[tuple[str, str, str]]:
+    def get_fixup(self, unit: Unit) -> Iterable[tuple[str, str, str]] | None:
         return [
             (re.escape(confusable), standard, "gu")
             for confusable, standard in self.confusable_to_standard.items()
@@ -163,7 +163,7 @@ class EndSpaceCheck(TargetCheck):
         # Compare numbers
         return source_space != target_space
 
-    def get_fixup(self, unit: Unit):
+    def get_fixup(self, unit: Unit) -> Iterable[tuple[str, str, str]] | None:
         source = unit.source_string
         stripped_source = source.rstrip(" ")
         spaces = len(source) - len(stripped_source)
@@ -189,8 +189,8 @@ class DoubleSpaceCheck(TargetCheck):
         # Check if target contains double space
         return "  " in target
 
-    def get_fixup(self, unit: Unit):
-        return [(" {2,}", " ")]
+    def get_fixup(self, unit: Unit) -> Iterable[tuple[str, str, str]] | None:
+        return [(" {2,}", " ", "u")]
 
 
 class EndStopCheck(TargetCheck):
@@ -450,7 +450,7 @@ class ZeroWidthSpaceCheck(TargetCheck):
             return False
         return "\u200b" in target
 
-    def get_fixup(self, unit: Unit):
+    def get_fixup(self, unit: Unit) -> Iterable[tuple[str, str, str]] | None:
         return [("\u200b", "", "gu")]
 
 
@@ -462,9 +462,7 @@ class MaxLengthCheck(TargetCheckParametrized):
     description = gettext_lazy("Translation should not exceed given length.")
     default_disabled = True
 
-    @property
-    def param_type(self):
-        return single_value_flag(int)
+    param_type = single_value_flag(int)
 
     def check_target_params(
         self, sources: list[str], targets: list[str], unit: Unit, value
@@ -507,7 +505,7 @@ class KashidaCheck(TargetCheck):
     def check_single(self, source: str, target: str, unit: Unit):
         return self.kashida_re.search(target)
 
-    def get_fixup(self, unit: Unit):
+    def get_fixup(self, unit: Unit) -> Iterable[tuple[str, str, str]] | None:
         return [(self.kashida_regex, "", "gu")]
 
 
