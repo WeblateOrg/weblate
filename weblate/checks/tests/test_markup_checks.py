@@ -216,7 +216,7 @@ class MarkdownLinkCheckTest(CheckTestCase):
             target="[Moje stránka] (http://example.com)",
         )
 
-        self.assertEqual(self.check.get_fixup(unit), [(r"\] +\(", "](")])
+        self.assertEqual(self.check.get_fixup(unit), [(r"\] +\(", "](", "u")])
 
         unit = Unit(
             source="[My Home Page](http://example.com)",

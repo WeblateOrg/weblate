@@ -317,7 +317,7 @@ class TranslatedCheck(TargetCheck, BatchCheckMixin):
         """Target strings are checked in check_target_unit."""
         return False
 
-    def get_fixup(self, unit: Unit):
+    def get_fixup(self, unit: Unit) -> Iterable[tuple[str, str, str]] | None:
         target = self.check_target_unit(
             unit.get_source_plurals(), unit.get_target_plurals(), unit
         )

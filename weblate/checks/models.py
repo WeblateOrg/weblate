@@ -17,6 +17,8 @@ from weblate.utils.classloader import ClassLoader
 from .base import BaseCheck
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
+
     from weblate.auth.models import User
     from weblate.trans.models import Unit
 
@@ -176,7 +178,7 @@ class Check(models.Model):
             return self.check_obj.get_description(self)
         return self.name
 
-    def get_fixup(self):
+    def get_fixup(self) -> Iterable[tuple[str, str, str]] | None:
         if self.check_obj:
             return self.check_obj.get_fixup(self.unit)
         return None
