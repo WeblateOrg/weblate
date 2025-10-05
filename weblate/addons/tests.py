@@ -691,6 +691,8 @@ class ViewTests(ViewTestCase):
             follow=True,
         )
         self.assertContains(response, "Installed 1 add-on")
+        change = self.component.change_set.get(action=ActionEvents.ADDON_CREATE)
+        self.assertEqual(change.user, self.user)
 
     def test_add_simple_project_addon(self) -> None:
         response = self.client.post(
@@ -758,6 +760,8 @@ class ViewTests(ViewTestCase):
             follow=True,
         )
         self.assertContains(response, "Installed 1 add-on")
+        change = self.component.change_set.get(action=ActionEvents.ADDON_CREATE)
+        self.assertEqual(change.user, self.user)
 
     def test_add_config_site_wide_addon(self) -> None:
         response = self.client.post(
