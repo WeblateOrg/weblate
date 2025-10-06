@@ -11,7 +11,7 @@ from django.utils import timezone
 from django.utils.translation import gettext
 
 from weblate.accounts.notifications import send_notification_email
-from weblate.billing.models import Billing
+from weblate.billing.models import Billing, BillingEvent
 from weblate.trans.tasks import project_removal
 from weblate.utils.celery import app
 
@@ -79,6 +79,9 @@ def notify_expired() -> None:
             )
 
         for user in bill.get_notify_users():
+            bill.billinglog_set.create(
+                event=BillingEvent.EMAIL, summary="Billing expired", user=user
+            )
             send_notification_email(
                 user.profile.language,
                 [user.email],
@@ -98,6 +101,10 @@ def schedule_removal() -> None:
     for bill in Billing.objects.filter(state=Billing.STATE_ACTIVE, removal=None):
         if bill.check_payment_status():
             continue
+        bill.billinglog_set.create(
+            event=BillingEvent.UNPAID,
+            summary=f"Scheduled removal at {removal.isoformat()}",
+        )
         bill.removal = removal
         bill.save(update_fields=["removal"])
 
@@ -106,6 +113,9 @@ def schedule_removal() -> None:
 def remove_single_billing(billing_id: int) -> None:
     bill = Billing.objects.get(pk=billing_id)
     for user in bill.get_notify_users():
+        bill.billinglog_set.create(
+            event=BillingEvent.EMAIL, summary="Billing removed", user=user
+        )
         send_notification_email(
             user.profile.language,
             [user.email],
@@ -114,11 +124,15 @@ def remove_single_billing(billing_id: int) -> None:
             info=bill,
         )
     for prj in bill.projects.iterator():
+        bill.billinglog_set.create(
+            event=BillingEvent.REMOVED, summary=f"Removed project {prj}"
+        )
         prj.log_warning("removing due to unpaid billing")
         project_removal(prj.id, None)
     bill.removal = None
     bill.state = Billing.STATE_TERMINATED
     bill.save()
+    bill.billinglog_set.create(event=BillingEvent.REMOVED, summary="Terminated billing")
 
 
 @app.task(trail=False)

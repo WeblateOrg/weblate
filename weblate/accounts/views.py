@@ -634,7 +634,7 @@ def trial(request: AuthenticatedHttpRequest):
         return redirect(reverse("contact") + "?t=trial")
 
     if request.method == "POST":
-        from weblate.billing.models import Billing, Plan
+        from weblate.billing.models import Billing, BillingEvent, Plan
 
         AuditLog.objects.create(request.user, request, "trial")
         billing = Billing.objects.create(
@@ -642,6 +642,7 @@ def trial(request: AuthenticatedHttpRequest):
             state=Billing.STATE_TRIAL,
             expiry=timezone.now() + timedelta(days=14),
         )
+        billing.billinglog_set.create(event=BillingEvent.CREATED, user=request.user)
         billing.owners.add(request.user)
         messages.info(
             request,
