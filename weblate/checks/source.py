@@ -9,7 +9,7 @@ from collections import defaultdict
 from datetime import timedelta
 from typing import TYPE_CHECKING
 
-from django.db.models import Q
+from django.db.models import Count, F, Q
 from django.utils import timezone
 from django.utils.html import format_html, format_html_join
 from django.utils.translation import gettext, gettext_lazy
@@ -87,23 +87,21 @@ class MultipleFailingCheck(SourceCheck, BatchCheckMixin):
     def check_component(self, component: Component) -> Iterable[Unit]:
         from weblate.trans.models import Unit
 
-        pk_to_unit = {
-            unit.pk: unit
-            for unit in Unit.objects.filter(translation__component=component)
-        }
-        checks = self.get_related_checks(pk_to_unit.keys())
-
-        source_unit_to_translations = defaultdict(set)
-        for unit_source_id, translation_id in checks.values_list(
-            "unit__source_unit_id", "unit__translation_id"
-        ):
-            source_unit_to_translations[unit_source_id].add(translation_id)
-
-        return [
-            pk_to_unit[source_unit_pk]
-            for source_unit_pk, translations in source_unit_to_translations.items()
-            if len(translations) >= 2
-        ]
+        unit_id_and_check_count = (
+            self.get_related_checks(
+                Unit.objects.filter(translation__component=component).values_list(
+                    "pk", flat=True
+                )
+            )
+            .values_list("unit__source_unit_id")
+            .annotate(translation_count=Count("unit__translation_id", distinct=True))
+            .filter(translation_count__gte=2)
+        )
+        return Unit.objects.filter(
+            id__in=unit_id_and_check_count.values_list(
+                "unit__source_unit_id", flat=True
+            )
+        )
 
     def get_description(self, check_obj):
         unit_ids = check_obj.unit.unit_set.exclude(pk=check_obj.unit.id).values_list(
@@ -174,23 +172,21 @@ class LongUntranslatedCheck(SourceCheck, BatchCheckMixin):
     def check_component(self, component: Component) -> Iterable[Unit]:
         from weblate.trans.models import Unit
 
-        units = Unit.objects.filter(
-            translation__component=component,
-            source_unit__timestamp__lt=timezone.now() - timedelta(days=90),
-        ).prefetch_related("source_unit__translation")
-        source_unit_to_states = defaultdict(list)
-        source_units: set[Unit] = set()
-        for unit in units:
-            source_unit_to_states[unit.source_unit_id].append(unit.state)
-            source_units.add(unit.source_unit)
-
-        result = []
-        component_translated_percent: float = component.stats.translated_percent
-        for unit in source_units:
-            if states := source_unit_to_states[unit.pk]:
-                total = len(states)
-                not_translated = states.count(STATE_EMPTY) + states.count(STATE_FUZZY)
-                translated_percent = 100 * (total - not_translated) / total
-                if 2 * translated_percent < component_translated_percent:
-                    result.append(unit)
-        return result
+        result = (
+            Unit.objects.filter(
+                translation__component=component,
+                source_unit__timestamp__lt=timezone.now() - timedelta(days=90),
+            )
+            .values_list("source_unit_id")
+            .annotate(
+                total=Count("state"),
+                not_translated=Count("state", filter=Q(state__lte=STATE_FUZZY)),
+            )
+            .filter(total__gt=0)
+            .annotate(
+                translated_percent=100 * (F("total") - F("not_translated")) / F("total")
+            )
+        ).filter(translated_percent__lt=component.stats.translated_percent / 2)
+        return Unit.objects.filter(
+            id__in=result.values_list("source_unit_id", flat=True)
+        )
