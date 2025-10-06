@@ -421,6 +421,7 @@ class Billing(models.Model):
             or self.state == Billing.STATE_TRIAL
         )
 
+    @transaction.atomic
     def check_limits(self, save=True) -> bool:
         self.flush_cache()
         in_limits = self.check_in_limits()
@@ -449,6 +450,7 @@ class Billing(models.Model):
 
         if save:
             if modified:
+                Billing.objects.select_for_update().get(pk=self.pk)
                 self.save(skip_limits=True)
             self.update_alerts()
 
