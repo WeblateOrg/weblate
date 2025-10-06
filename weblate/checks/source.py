@@ -91,14 +91,12 @@ class MultipleFailingCheck(SourceCheck, BatchCheckMixin):
             unit.pk: unit
             for unit in Unit.objects.filter(translation__component=component)
         }
-        checks = self.get_related_checks(pk_to_unit.keys()).select_related(
-            "unit__source_unit"
-        )
+        checks = self.get_related_checks(pk_to_unit.keys())
 
         source_unit_to_translations = defaultdict(set)
         for check in checks:
-            source_unit_to_translations[check.unit.source_unit.pk].add(
-                check.unit.translation.pk
+            source_unit_to_translations[check.unit.source_unit_id].add(
+                check.unit.translation_id
             )
 
         return [
@@ -183,7 +181,7 @@ class LongUntranslatedCheck(SourceCheck, BatchCheckMixin):
         source_unit_to_states = defaultdict(list)
         source_units: set[Unit] = set()
         for unit in units:
-            source_unit_to_states[unit.source_unit.pk].append(unit.state)
+            source_unit_to_states[unit.source_unit_id].append(unit.state)
             source_units.add(unit.source_unit)
 
         result = []
