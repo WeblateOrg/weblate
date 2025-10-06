@@ -618,14 +618,21 @@ class Translation(
         Change.objects.bulk_create(self.update_changes, batch_size=500)
         self.update_changes.clear()
 
-    def do_update(self, request: AuthenticatedHttpRequest | None = None, method=None):
+    def do_update(
+        self, request: AuthenticatedHttpRequest | None = None, method: str | None = None
+    ):
         return self.component.do_update(request, method=method)
 
     def do_push(self, request: AuthenticatedHttpRequest | None = None):
         return self.component.do_push(request)
 
-    def do_reset(self, request: AuthenticatedHttpRequest | None = None):
-        return self.component.do_reset(request)
+    def do_reset(
+        self,
+        request: AuthenticatedHttpRequest | None = None,
+        *,
+        keep_changes: bool = False,
+    ) -> bool:
+        return self.component.do_reset(request, keep_changes=keep_changes)
 
     def do_cleanup(self, request: AuthenticatedHttpRequest | None = None):
         return self.component.do_cleanup(request)
@@ -1644,7 +1651,10 @@ class Translation(
             self.check_sync(request=request, change=change, author=user)
             self.invalidate_cache()
         # Trigger post-update signal
-        self.component.trigger_post_update(previous_revision, False)
+        self.component.trigger_post_update(
+            previous_head=previous_revision,
+            skip_push=False,
+        )
 
     def get_store_change_translations(self) -> list[Translation]:
         component = self.component

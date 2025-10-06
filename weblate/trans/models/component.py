@@ -1840,7 +1840,7 @@ class Component(
         return False
 
     @perform_on_link
-    def do_update(self, request=None, method=None):
+    def do_update(self, request: AuthenticatedHttpRequest | None = None, method=None):
         """Perform repository update."""
         self.translations_progress = 0
         self.translations_count = 0
@@ -2050,12 +2050,23 @@ class Component(
         return True
 
     @perform_on_link
-    def do_reset(self, request=None) -> bool:
+    def do_reset(
+        self,
+        request: AuthenticatedHttpRequest | None = None,
+        *,
+        keep_changes: bool = False,
+    ) -> bool:
         """Reset repo to match remote."""
+        from weblate.trans.tasks import perform_commit
+
         with self.repository.lock:
             previous_head = self.repository.last_revision
             # First check we're up to date
             self.update_remote_branch()
+
+            # Mark all strings as pending
+            if keep_changes:
+                self.do_file_sync(request, do_commit=False)
 
             # Do actual reset
             try:
@@ -2085,14 +2096,28 @@ class Component(
             self.delete_alert("RepositoryOutdated")
             self.delete_alert("PushFailure")
 
-            self.trigger_post_update(previous_head, False)
+            if not keep_changes:
+                self.trigger_post_update(
+                    previous_head=previous_head,
+                    skip_push=False,
+                )
 
-            # create translation objects for all files
-            self.create_translations(request=request, force=True)
-            return True
+                # create translation objects for all files
+                self.create_translations(request=request, force=True)
+
+        if keep_changes:
+            # Trigger commit and scan in the background
+            perform_commit.delay_on_commit(
+                self.pk,
+                "reset-sync",
+                user_id=request.user.id if request else None,
+                force_scan=True,
+                previous_head=previous_head,
+            )
+        return True
 
     @perform_on_link
-    def do_cleanup(self, request=None) -> bool:
+    def do_cleanup(self, request: AuthenticatedHttpRequest | None = None) -> bool:
         """Clean up the repository."""
         with self.repository.lock:
             try:
@@ -2114,7 +2139,9 @@ class Component(
 
     @perform_on_link
     @transaction.atomic
-    def do_file_sync(self, request: AuthenticatedHttpRequest | None = None) -> None:
+    def do_file_sync(
+        self, request: AuthenticatedHttpRequest | None = None, *, do_commit: bool = True
+    ) -> None:
         from weblate.trans.models import Unit
         from weblate.trans.tasks import perform_commit
 
@@ -2131,9 +2158,10 @@ class Component(
             user=self.acting_user or (request.user if request else None),
         )
 
-        perform_commit.delay_on_commit(
-            self.pk, "file-sync", user_id=request.user.id if request else None
-        )
+        if do_commit:
+            perform_commit.delay_on_commit(
+                self.pk, "file-sync", user_id=request.user.id if request else None
+            )
 
     @perform_on_link
     @transaction.atomic
@@ -2364,7 +2392,10 @@ class Component(
 
     @perform_on_link
     def update_branch(
-        self, request=None, method: str | None = None, skip_push: bool = False
+        self,
+        request: AuthenticatedHttpRequest | None = None,
+        method: str | None = None,
+        skip_push: bool = False,
     ) -> bool:
         """Update current branch to match remote (if possible)."""
         if method is None:
@@ -2457,11 +2488,14 @@ class Component(
 
                 # Run post update hook, this should be done with repo lock held
                 # to avoid possible race with another update
-                self.trigger_post_update(previous_head, skip_push)
+                self.trigger_post_update(
+                    previous_head=previous_head,
+                    skip_push=skip_push,
+                )
         return True
 
     @perform_on_link
-    def trigger_post_update(self, previous_head: str, skip_push: bool) -> None:
+    def trigger_post_update(self, *, previous_head: str, skip_push: bool) -> None:
         vcs_post_update.send(
             sender=self.__class__,
             component=self,
@@ -2596,7 +2630,7 @@ class Component(
         force: bool = False,
         force_scan: bool = False,
         langs: list[str] | None = None,
-        request=None,
+        request: AuthenticatedHttpRequest | None = None,
         changed_template: bool = False,
         from_link: bool = False,
         change: int | None = None,
@@ -2637,7 +2671,7 @@ class Component(
         force: bool = False,
         force_scan: bool = False,
         langs: list[str] | None = None,
-        request=None,
+        request: AuthenticatedHttpRequest | None = None,
         changed_template: bool = False,
         from_link: bool = False,
         change: int | None = None,
@@ -2676,7 +2710,7 @@ class Component(
         force: bool = False,
         force_scan: bool = False,
         langs: list[str] | None = None,
-        request=None,
+        request: AuthenticatedHttpRequest | None = None,
         changed_template: bool = False,
         from_link: bool = False,
         change: int | None = None,

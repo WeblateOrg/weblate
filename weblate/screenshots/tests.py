@@ -267,7 +267,10 @@ class ScreenshotVCSTest(APITestCase, RepoTestCase):
             repository.commit(
                 "Test commit", "Foo Bar <foo@bar.com>", timezone.now(), filenames
             )
-            self.component.trigger_post_update(last_revision, skip_push=True)
+            self.component.trigger_post_update(
+                previous_head=last_revision,
+                skip_push=True,
+            )
 
         # Verify that screenshot has been updated after the signal.
         self.assertEqual(
@@ -294,7 +297,10 @@ class ScreenshotVCSTest(APITestCase, RepoTestCase):
             repository.commit(
                 "Test commit", "Foo Bar <foo@bar.com>", timezone.now(), filenames
             )
-            self.component.trigger_post_update(last_revision, skip_push=True)
+            self.component.trigger_post_update(
+                previous_head=last_revision,
+                skip_push=True,
+            )
 
         # Verify that screenshot has been added after the signal.
         self.assertEqual(
