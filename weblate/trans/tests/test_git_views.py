@@ -65,6 +65,18 @@ class GitNoChangeProjectTest(ViewTestCase):
             fetch_redirect_response=False,
         )
 
+    def test_reset_keep(self) -> None:
+        response = self.client.post(self.get_test_url("reset"), {"keep_changes": "1"})
+        self.assertRedirects(
+            response,
+            self.get_expected_redirect_progress(),
+            # Do not attempt to retrieve the redirected URL, the answer
+            # to the `show_progress` view can differ depending on whether
+            # there is actually (still) some on-going background processing for
+            # the current component, or not.
+            fetch_redirect_response=False,
+        )
+
     def test_cleanup(self) -> None:
         response = self.client.post(self.get_test_url("cleanup"))
         self.assertRedirects(response, self.get_expected_redirect())

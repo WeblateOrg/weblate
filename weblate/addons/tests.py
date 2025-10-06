@@ -229,7 +229,8 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
         self.assertNotEqual(rev, self.component.repository.last_revision)
         rev = self.component.repository.last_revision
         self.component.trigger_post_update(
-            self.component.repository.last_revision, False
+            previous_head=self.component.repository.last_revision,
+            skip_push=False,
         )
         self.assertEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
@@ -249,7 +250,8 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
 
         # The crash should be handled here and addon uninstalled
         self.component.trigger_post_update(
-            self.component.repository.last_revision, False
+            previous_head=self.component.repository.last_revision,
+            skip_push=False,
         )
 
         self.assertEqual([], self.component.addons_cache["__names__"])

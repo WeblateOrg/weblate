@@ -10,7 +10,7 @@ from zipfile import BadZipfile
 
 from django.conf import settings
 from django.db import models
-from django.db.models import Model
+from django.db.models import Model, TextChoices
 from django.utils.translation import gettext_lazy
 from drf_spectacular.extensions import OpenApiSerializerExtension
 from drf_spectacular.plumbing import build_basic_type, build_object_type
@@ -1063,9 +1063,35 @@ class UploadRequestSerializer(ReadOnlySerializer):
             )
 
 
+class RepoOperations(TextChoices):
+    COMMIT = "commit", gettext_lazy("Commit")
+    PULL = "pull", gettext_lazy("Update")
+    PULL_REBASE = "pull-rebase", gettext_lazy("Update with rebase")
+    PULL_MERGE = "pull-merge", gettext_lazy("Update with merge")
+    PULL_MERGE_NOFF = (
+        "pull-merge-noff",
+        gettext_lazy("Update with merge without fast-forward"),
+    )
+    PUSH = "push", gettext_lazy("Push")
+    RESET = "reset", gettext_lazy("Reset all changes in the Weblate repository")
+    RESET_KEEP = "reset-keep", gettext_lazy("Reset the Weblate repository and reapply translations")
+    CLEANUP = (
+        "cleanup",
+        gettext_lazy("Cleanup all untracked files in the Weblate repository"),
+    )
+    FILE_SYNC = (
+        "file-sync",
+        gettext_lazy("Force writing all translations to the Weblate repository"),
+    )
+    FILE_SCAN = (
+        "file-scan",
+        gettext_lazy("Rescan all translation files in the Weblate repository"),
+    )
+
+
 class RepoRequestSerializer(ReadOnlySerializer):
     operation = serializers.ChoiceField(
-        choices=("commit", "pull", "push", "reset", "cleanup", "file-sync", "file-scan")
+        choices=RepoOperations.choices,
     )
 
 

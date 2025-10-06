@@ -69609,20 +69609,28 @@ components:
       enum:
       - commit
       - pull
+      - pull-rebase
+      - pull-merge
+      - pull-merge-noff
       - push
       - reset
+      - reset-keep
       - cleanup
       - file-sync
       - file-scan
       type: string
       description: |-
-        * `commit` - commit
-        * `pull` - pull
-        * `push` - push
-        * `reset` - reset
-        * `cleanup` - cleanup
-        * `file-sync` - file-sync
-        * `file-scan` - file-scan
+        * `commit` - Commit
+        * `pull` - Update
+        * `pull-rebase` - Update with rebase
+        * `pull-merge` - Update with merge
+        * `pull-merge-noff` - Update with merge without fast-forward
+        * `push` - Push
+        * `reset` - Reset all changes in the Weblate repository
+        * `reset-keep` - Reset the Weblate repository and reapply translations
+        * `cleanup` - Cleanup all untracked files in the Weblate repository
+        * `file-sync` - Force writing all translations to the Weblate repository
+        * `file-scan` - Rescan all translation files in the Weblate repository
     PaginatedAddonList:
       type: object
       required:
