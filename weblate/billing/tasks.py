@@ -6,6 +6,7 @@ from datetime import timedelta
 
 from celery.schedules import crontab
 from django.conf import settings
+from django.db import transaction
 from django.db.models import Count, Q
 from django.utils import timezone
 from django.utils.translation import gettext
@@ -96,9 +97,12 @@ def notify_expired() -> None:
 
 
 @app.task(trail=False)
+@transaction.atomic
 def schedule_removal() -> None:
     removal = timezone.now() + timedelta(days=settings.BILLING_REMOVAL_PERIOD)
-    for bill in Billing.objects.filter(state=Billing.STATE_ACTIVE, removal=None):
+    for bill in Billing.objects.filter(
+        state=Billing.STATE_ACTIVE, removal=None
+    ).select_for_update():
         if bill.check_payment_status():
             continue
         bill.billinglog_set.create(
@@ -110,8 +114,9 @@ def schedule_removal() -> None:
 
 
 @app.task(trail=False)
+@transaction.atomic
 def remove_single_billing(billing_id: int) -> None:
-    bill = Billing.objects.get(pk=billing_id)
+    bill = Billing.objects.select_for_update().get(pk=billing_id)
     for user in bill.get_notify_users():
         bill.billinglog_set.create(
             event=BillingEvent.EMAIL, summary="Billing removed", user=user
