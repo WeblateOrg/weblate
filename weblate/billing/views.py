@@ -15,7 +15,7 @@ from django.utils import timezone
 
 from weblate.accounts.views import mail_admins_contact
 from weblate.billing.forms import HostingForm
-from weblate.billing.models import Billing, Invoice, Plan
+from weblate.billing.models import Billing, BillingEvent, Invoice, Plan
 from weblate.utils.views import show_form_errors
 
 if TYPE_CHECKING:
@@ -75,30 +75,44 @@ def handle_post(request: AuthenticatedHttpRequest, billing) -> None:
         elif billing.removal:
             billing.removal = now + timedelta(days=14)
             billing.save(update_fields=["removal"])
+        billing.billinglog_set.create(
+            event=BillingEvent.EXTENDED_TRIAL, user=request.user
+        )
     elif "recurring" in request.POST:
         if "recurring" in billing.payment:
             del billing.payment["recurring"]
         billing.save()
+        billing.billinglog_set.create(
+            event=BillingEvent.DISABLED_RECURRING, user=request.user
+        )
     elif "terminate" in request.POST:
         billing.state = Billing.STATE_TERMINATED
         billing.expiry = None
         billing.removal = None
         billing.save()
+        billing.billinglog_set.create(event=BillingEvent.TERMINATED, user=request.user)
     elif billing.valid_libre:
         if "approve" in request.POST and request.user.has_perm("billing.manage"):
             billing.state = Billing.STATE_ACTIVE
             billing.plan = Plan.objects.get(slug="libre")
             billing.removal = None
             billing.save(update_fields=["state", "plan", "removal"])
+            billing.billinglog_set.create(
+                event=BillingEvent.LIBRE_APPROVED, user=request.user
+            )
         elif "request" in request.POST and billing.is_libre_trial:
             form = HostingForm(request.POST)
             if form.is_valid():
                 project = billing.projects.get()
+                subject = f"Hosting request for {project}"
                 billing.payment["libre_request"] = True
                 billing.save(update_fields=["payment"])
+                billing.billinglog_set.create(
+                    event=BillingEvent.LIBRE_REQUEST, summary=subject, user=request.user
+                )
                 mail_admins_contact(
                     request,
-                    subject=f"Hosting request for {project}",
+                    subject=subject,
                     message=HOSTING_TEMPLATE,
                     context={
                         "billing": billing,
