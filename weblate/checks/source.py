@@ -94,10 +94,10 @@ class MultipleFailingCheck(SourceCheck, BatchCheckMixin):
         checks = self.get_related_checks(pk_to_unit.keys())
 
         source_unit_to_translations = defaultdict(set)
-        for check in checks:
-            source_unit_to_translations[check.unit.source_unit_id].add(
-                check.unit.translation_id
-            )
+        for unit_source_id, translation_id in checks.values_list(
+            "unit__source_unit_id", "unit__translation_id"
+        ):
+            source_unit_to_translations[unit_source_id].add(translation_id)
 
         return [
             pk_to_unit[source_unit_pk]
