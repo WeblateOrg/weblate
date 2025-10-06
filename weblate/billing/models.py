@@ -656,6 +656,10 @@ class BillingEvent(models.IntegerChoices):
     UNPAID = 5, "Unpaid billing"
     CREATED = 6, "Created billing"
     DISABLED_RECURRING = 7, "Disabled recurring payment"
+    LIBRE_REQUEST = 8, "Requested Libre hosting"
+    LIBRE_APPROVED = 9, "Approved Libre hosting"
+    TERMINATED = 10, "Billing terminated"
+    EXTENDED_TRIAL = 11, "Trial extended"
 
 
 class BillingLogQuerySet(models.QuerySet["BillingLog"]):
