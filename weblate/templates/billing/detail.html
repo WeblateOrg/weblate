@@ -106,6 +106,36 @@
         {% endif %}
       {% endwith %}
 
+      {% if user.is_superuser %}
+
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">{% translate "Audit log" %}</h4>
+          </div>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>{% translate "When" %}</th>
+                <th>{% translate "Billing event" %}</th>
+                <th>{% translate "Event details" %}</th>
+                <th>{% translate "User" %}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for log in billing.billinglog_set.recent %}
+                <tr>
+                  <td>{{ log.timestamp|naturaltime }}</td>
+                  <td>{{ log.get_event_display }}</td>
+                  <td>{{ log.summary }}</td>
+                  <td>{{ log.user }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+      {% endif %}
+
       {% if offer_hosting and billing.plan.price == 0 %}
         <form method="post">
           <div class="panel panel-default">

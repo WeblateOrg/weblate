@@ -46,7 +46,7 @@ class LibreCheck:
         return self.message
 
 
-class PlanQuerySet(models.QuerySet):
+class PlanQuerySet(models.QuerySet["Plan"]):
     def public(self, user=None):
         """List of public paid plans which are available."""
         base = self.exclude(Q(price=0) & Q(yearly_price=0))
@@ -380,6 +380,7 @@ class Billing(models.Model):
         return f"{invoice.start} - {invoice.end}"
 
     @admin.display(
+        # Translators: Whether the package is inside displayed (soft) limits
         description=gettext_lazy("In display limits"),
         boolean=True,
     )
@@ -405,9 +406,7 @@ class Billing(models.Model):
             )
         )
 
-    # Translators: Whether the package is inside displayed (soft) limits
-
-    def check_payment_status(self, now: bool = False):
+    def check_payment_status(self, now: bool = False) -> bool:
         """
         Check current payment status.
 
@@ -422,7 +421,7 @@ class Billing(models.Model):
             or self.state == Billing.STATE_TRIAL
         )
 
-    def check_limits(self, save=True):
+    def check_limits(self, save=True) -> bool:
         self.flush_cache()
         in_limits = self.check_in_limits()
         paid = self.check_payment_status()
@@ -432,6 +431,10 @@ class Billing(models.Model):
             self.expiry = None
             self.removal = timezone.now() + timedelta(
                 days=settings.BILLING_REMOVAL_PERIOD
+            )
+            self.billinglog_set.create(
+                event=BillingEvent.EXPIRED,
+                summary=f"Scheduled removal at {self.removal.isoformat()}",
             )
             modified = True
 
@@ -546,7 +549,7 @@ class Billing(models.Model):
         return all(self.libre_checklist)
 
 
-class InvoiceQuerySet(models.QuerySet):
+class InvoiceQuerySet(models.QuerySet["Invoice"]):
     def order(self):
         return self.order_by("-start")
 
@@ -557,7 +560,7 @@ class Invoice(models.Model):
     CURRENCY_USD = 2
     CURRENCY_CZK = 3
 
-    billing = models.ForeignKey(Billing, on_delete=models.deletion.CASCADE)
+    billing = models.ForeignKey(Billing, on_delete=models.deletion.RESTRICT)
     start = models.DateField()
     end = models.DateField()
     amount = models.FloatField()
@@ -641,6 +644,43 @@ class Invoice(models.Model):
                 format_html_join_comma("{}", list_to_tuples(overlapping))
             )
             raise ValidationError(msg)
+
+
+class BillingEvent(models.IntegerChoices):
+    EMAIL = 1, "Outbound e-mail"
+    EXPIRED = 2, "Trial expired"
+    REMOVED = 3, "Projects removed"
+    PAYMENT = 4, "Payment received"
+    UNPAID = 5, "Unpaid billing"
+    CREATED = 6, "Created billing"
+    DISABLED_RECURRING = 7, "Disabled recurring payment"
+
+
+class BillingLogQuerySet(models.QuerySet["BillingLog"]):
+    def order(self) -> BillingLogQuerySet:
+        return self.order_by("-timestamp")
+
+    def recent(self) -> BillingLogQuerySet:
+        return self.order()[:20]
+
+
+class BillingLog(models.Model):
+    billing = models.ForeignKey(
+        Billing,
+        on_delete=models.deletion.RESTRICT,
+        verbose_name=gettext_lazy("Billing"),
+    )
+    timestamp = models.DateTimeField(default=timezone.now, verbose_name="Timestamp")
+    event = models.IntegerField(
+        choices=BillingEvent, verbose_name=gettext_lazy("Billing event")
+    )
+    summary = models.CharField(max_length=200, verbose_name="Summary")
+    user = models.ForeignKey(User, null=True, on_delete=models.RESTRICT)
+
+    objects = BillingLogQuerySet.as_manager()
+
+    def __str__(self) -> str:
+        return f"{self.timestamp.isoformat()}: {self.billing}: {self.get_event_display()} {self.summary}"
 
 
 @receiver(post_save, sender=Component)
