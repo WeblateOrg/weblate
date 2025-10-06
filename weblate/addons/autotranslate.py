@@ -67,7 +67,7 @@ class AutoTranslateAddon(BaseAddon):
 
         self.component_update(component)
 
-    def change_event(self, change: Change) -> None:
+    def change_event(self, change: Change, activity_log_id: int | None = None) -> None:
         units = []
         if change.action in ACTIONS_CONTENT:
             if change.unit is not None:
