@@ -13,6 +13,7 @@ from weblate.addons.cleanup import BaseCleanupAddon
 
 if TYPE_CHECKING:
     from weblate.addons.base import CompatDict
+    from weblate.formats.ttkit import RESXFormat
     from weblate.trans.models import Component, Translation, Unit
 
     IndexType = dict[int, Unit]
@@ -35,7 +36,7 @@ class ResxUpdateAddon(BaseCleanupAddon):
     def build_index(storage) -> IndexType:
         return {unit.getid(): unit for unit in storage.units}
 
-    def build_indexes(self, component: Component):
+    def build_indexes(self, component: Component) -> tuple[IndexType, IndexType]:
         index = self.build_index(component.template_store.store)
         if component.intermediate:
             intermediate = self.build_index(component.intermediate_store.store)
@@ -44,13 +45,19 @@ class ResxUpdateAddon(BaseCleanupAddon):
         return index, intermediate
 
     @staticmethod
-    def get_index(index: IndexType, intermediate: IndexType, translation: Translation):
+    def get_index(
+        index: IndexType, intermediate: IndexType, translation: Translation
+    ) -> IndexType:
         if intermediate and translation.is_source:
             return intermediate
         return index
 
     def update_resx(
-        self, index: IndexType, translation: Translation, storage, changes: set[int]
+        self,
+        index: IndexType,
+        translation: Translation,
+        storage: RESXFormat,
+        changes: set[int],
     ) -> None:
         """
         Filter obsolete units in RESX storage.
@@ -70,7 +77,7 @@ class ResxUpdateAddon(BaseCleanupAddon):
         # Remove extra units and apply target changes
         for unit in storage.store.units:
             unitid = unit.getid()
-            if unitid not in index:
+            if unitid not in index and storage.store.body is not None:
                 storage.store.body.remove(unit.xmlelement)
                 changed = True
             if unitid in changes:
@@ -81,7 +88,7 @@ class ResxUpdateAddon(BaseCleanupAddon):
             storage.save()
 
     @staticmethod
-    def find_changes(index: IndexType, storage) -> set[int]:
+    def find_changes(index: IndexType, storage: RESXFile) -> set[int]:
         """Find changed string IDs in upstream repository."""
         result = set()
 

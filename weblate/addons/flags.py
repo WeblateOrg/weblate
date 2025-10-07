@@ -18,6 +18,7 @@ from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 if TYPE_CHECKING:
     from weblate.addons.base import CompatDict
     from weblate.auth.models import User
+    from weblate.trans.models import Component
 
 
 class FlagBase(BaseAddon):
@@ -27,7 +28,7 @@ class FlagBase(BaseAddon):
     icon = "flag.svg"
 
     @classmethod
-    def can_install(cls, component, user: User | None):
+    def can_install(cls, component: Component, user: User | None) -> bool:
         # Following formats support fuzzy flag, so avoid messing up with them
         if component.file_format in {"ts", "po", "po-mono"}:
             return False
@@ -46,7 +47,7 @@ class SourceEditAddon(FlagBase):
         "edit_template": {True},
     }
 
-    def unit_pre_create(self, unit, activity_log_id: int | None = None) -> None:
+    def unit_pre_create(self, unit: Unit, activity_log_id: int | None = None) -> None:
         if (
             unit.translation.is_template
             and unit.state >= STATE_TRANSLATED
@@ -64,7 +65,7 @@ class TargetEditAddon(FlagBase):
         "filter and edit translations created by the developers."
     )
 
-    def unit_pre_create(self, unit, activity_log_id: int | None = None) -> None:
+    def unit_pre_create(self, unit: Unit, activity_log_id: int | None = None) -> None:
         if (
             not unit.translation.is_template
             and unit.state >= STATE_TRANSLATED
@@ -82,7 +83,7 @@ class SameEditAddon(FlagBase):
         "useful for file formats that include source strings for untranslated strings."
     )
 
-    def unit_pre_create(self, unit, activity_log_id: int | None = None) -> None:
+    def unit_pre_create(self, unit: Unit, activity_log_id: int | None = None) -> None:
         if (
             not unit.translation.is_template
             and unit.source == unit.target
@@ -103,7 +104,9 @@ class BulkEditAddon(BaseAddon):
     settings_form = BulkEditAddonForm
     multiple = True
 
-    def component_update(self, component, activity_log_id: int | None = None) -> None:
+    def component_update(
+        self, component: Component, activity_log_id: int | None = None
+    ) -> None:
         label_set = component.project.label_set
         bulk_perform(
             None,

@@ -18,6 +18,8 @@ from weblate.formats.exporters import MoExporter
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
 if TYPE_CHECKING:
+    from collections.abc import Generator
+
     from weblate.addons.base import CompatDict
     from weblate.auth.models import User
     from weblate.trans.models import Component, Translation
@@ -40,7 +42,7 @@ class GenerateMoAddon(GettextBaseAddon):
 
     def pre_commit(
         self,
-        translation,
+        translation: Translation,
         author: str,
         store_hash: bool,
         activity_log_id: int | None = None,
@@ -80,7 +82,7 @@ class UpdateLinguasAddon(GettextBaseAddon):
     )
 
     @staticmethod
-    def get_linguas_path(component: Component):
+    def get_linguas_path(component: Component) -> str:
         base = component.get_new_base_filename()
         if not base:
             base = os.path.join(
@@ -89,14 +91,14 @@ class UpdateLinguasAddon(GettextBaseAddon):
         return os.path.join(os.path.dirname(base), "LINGUAS")
 
     @classmethod
-    def can_install(cls, component: Component, user: User | None):
+    def can_install(cls, component: Component, user: User | None) -> bool:
         if not super().can_install(component, user):
             return False
         path = cls.get_linguas_path(component)
-        return path and os.path.exists(path)
+        return bool(path) and os.path.exists(path)
 
     @staticmethod
-    def update_linguas(lines: list[str], codes: set[str]):
+    def update_linguas(lines: list[str], codes: set[str]) -> tuple[bool, list[str]]:
         changed = False
         remove = []
 
@@ -133,7 +135,7 @@ class UpdateLinguasAddon(GettextBaseAddon):
 
         return changed, lines
 
-    def sync_linguas(self, component, path):
+    def sync_linguas(self, component: Component, path: str) -> bool:
         with open(path) as handle:
             lines = handle.readlines()
 
@@ -151,13 +153,15 @@ class UpdateLinguasAddon(GettextBaseAddon):
 
         return changed
 
-    def post_add(self, translation, activity_log_id: int | None = None) -> None:
+    def post_add(
+        self, translation: Translation, activity_log_id: int | None = None
+    ) -> None:
         with translation.component.repository.lock:
             path = self.get_linguas_path(translation.component)
             if self.sync_linguas(translation.component, path):
                 translation.addon_commit_files.append(path)
 
-    def daily(self, component, activity_log_id: int | None = None) -> None:
+    def daily(self, component: Component, activity_log_id: int | None = None) -> None:
         with component.repository.lock:
             path = self.get_linguas_path(component)
             if self.sync_linguas(component, path):
@@ -177,7 +181,7 @@ class UpdateConfigureAddon(GettextBaseAddon):
     )
 
     @staticmethod
-    def get_configure_paths(component):
+    def get_configure_paths(component: Component) -> Generator[str]:
         base = component.full_path
         for name in ("configure", "configure.in", "configure.ac"):
             path = os.path.join(base, name)
@@ -185,7 +189,7 @@ class UpdateConfigureAddon(GettextBaseAddon):
                 yield path
 
     @classmethod
-    def can_install(cls, component, user: User | None) -> bool:
+    def can_install(cls, component: Component, user: User | None) -> bool:
         if not super().can_install(component, user):
             return False
         for name in cls.get_configure_paths(component):
@@ -197,7 +201,7 @@ class UpdateConfigureAddon(GettextBaseAddon):
                 continue
         return False
 
-    def sync_linguas(self, component, paths):
+    def sync_linguas(self, component: Component, paths: list[str]) -> bool:
         added = False
         codes = " ".join(
             component.translation_set.exclude(language_id=component.source_language_id)
@@ -226,13 +230,15 @@ class UpdateConfigureAddon(GettextBaseAddon):
 
         return added
 
-    def post_add(self, translation, activity_log_id: int | None = None) -> None:
+    def post_add(
+        self, translation: Translation, activity_log_id: int | None = None
+    ) -> None:
         with translation.component.repository.lock:
             paths = list(self.get_configure_paths(translation.component))
             if self.sync_linguas(translation.component, paths):
                 translation.addon_commit_files.extend(paths)
 
-    def daily(self, component, activity_log_id: int | None = None) -> None:
+    def daily(self, component: Component, activity_log_id: int | None = None) -> None:
         with component.repository.lock:
             paths = list(self.get_configure_paths(component))
             if self.sync_linguas(component, paths):
@@ -250,7 +256,7 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
     compat: ClassVar[CompatDict] = {"file_format": {"po"}}
 
     @classmethod
-    def can_install(cls, component: Component, user: User | None):
+    def can_install(cls, component: Component, user: User | None) -> bool:
         if find_command("msgmerge") is None:
             return False
         return super().can_install(component, user)

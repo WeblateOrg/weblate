@@ -14,7 +14,9 @@ from weblate.addons.forms import DiscoveryForm
 from weblate.trans.discovery import ComponentDiscovery
 
 if TYPE_CHECKING:
+    from weblate.addons.forms import BaseAddonForm
     from weblate.auth.models import User
+    from weblate.trans.models import Component
 
 
 class DiscoveryAddon(BaseAddon):
@@ -36,7 +38,7 @@ class DiscoveryAddon(BaseAddon):
 
     def post_update(
         self,
-        component,
+        component: Component,
         previous_head: str,
         skip_push: bool,
         activity_log_id: int | None = None,
@@ -46,14 +48,14 @@ class DiscoveryAddon(BaseAddon):
             remove=self.instance.configuration.get("remove"), background=True
         )
 
-    def get_settings_form(self, user: User | None, **kwargs):
+    def get_settings_form(self, user: User | None, **kwargs) -> BaseAddonForm | None:
         """Return configuration form for this addon."""
         if "data" not in kwargs:
             kwargs["data"] = self.instance.configuration
             kwargs["data"]["confirm"] = False
         return super().get_settings_form(user, **kwargs)
 
-    def get_discovery(self, component):
+    def get_discovery(self, component: Component) -> ComponentDiscovery:
         # Handle old settings which did not have this set
         if "new_base_template" not in self.instance.configuration:
             self.instance.configuration["new_base_template"] = ""

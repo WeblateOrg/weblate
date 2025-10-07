@@ -63,7 +63,13 @@ class GitSquashAddon(BaseAddon):
                 languages[code].extend(translation.filenames)
         return languages
 
-    def get_git_commit_messages(self, repository, log_format, remote, filenames):
+    def get_git_commit_messages(
+        self,
+        repository: GitRepository,
+        log_format: str,
+        remote: str,
+        filenames: list[str] | None,
+    ) -> str:
         command = [
             "log",
             f"--format={log_format}",

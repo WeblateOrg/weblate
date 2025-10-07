@@ -24,8 +24,12 @@ from weblate.utils.site import get_site_url
 from weblate.utils.views import key_name
 
 if TYPE_CHECKING:
+    from collections.abc import Mapping
+
     from weblate.addons.models import AddonActivityLog
     from weblate.trans.models import Change
+
+    PayloadType = Mapping[str, int | str | list]
 
 
 class MessageNotDeliveredError(Exception):
@@ -35,12 +39,10 @@ class MessageNotDeliveredError(Exception):
 class JSONWebhookBaseAddon(ChangeBaseAddon):
     icon = "webhook.svg"
 
-    def build_webhook_payload(self, change: Change) -> dict[str, int | str | list]:
+    def build_webhook_payload(self, change: Change) -> PayloadType:
         raise NotImplementedError
 
-    def build_headers(
-        self, change: Change, payload: dict[str, int | str | list]
-    ) -> dict[str, str]:
+    def build_headers(self, change: Change, payload: PayloadType) -> dict[str, str]:
         return {}
 
     def render_activity_log(self, activity: AddonActivityLog) -> str:
@@ -50,7 +52,7 @@ class JSONWebhookBaseAddon(ChangeBaseAddon):
         )
 
     def send_message(
-        self, change: Change, headers: dict, payload: dict[str, int | str | list[str]]
+        self, change: Change, headers: dict, payload: PayloadType
     ) -> requests.Response:
         try:
             return request(
@@ -97,7 +99,7 @@ class WebhookAddon(JSONWebhookBaseAddon):
 
     settings_form = WebhooksAddonForm
 
-    def build_webhook_payload(self, change: Change) -> dict[str, int | str | list]:
+    def build_webhook_payload(self, change: Change) -> PayloadType:
         """Build a Schema-valid payload from change event."""
         data: dict[str, int | str | list] = {
             "change_id": change.id,
@@ -132,9 +134,7 @@ class WebhookAddon(JSONWebhookBaseAddon):
         self.validate_payload(data)
         return data
 
-    def build_headers(
-        self, change: Change, payload: dict[str, int | str | list]
-    ) -> dict[str, str]:
+    def build_headers(self, change: Change, payload: PayloadType) -> dict[str, str]:
         """Build headers following Standard Webhooks specifications."""
         webhook_id = change.get_uuid().hex
         attempt_time = dj_timezone.now()
@@ -183,7 +183,7 @@ class SlackWebhookAddon(JSONWebhookBaseAddon):
     icon = "slack.svg"
     settings_form = BaseWebhooksAddonForm
 
-    def build_webhook_payload(self, change: Change) -> dict[str, int | str | list]:
+    def build_webhook_payload(self, change: Change) -> PayloadType:
         message_header = ""
         if change.path_object:
             message_header += key_name(change.path_object) + " - "

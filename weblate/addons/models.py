@@ -305,7 +305,7 @@ REPO_EVENTS = {
 class AddonCallbackMethod(Protocol):
     def __call__(
         self, addon: Addon, component: Component, *, activity_log_id: int
-    ) -> None: ...
+    ) -> dict | None: ...
 
 
 def execute_addon_event(

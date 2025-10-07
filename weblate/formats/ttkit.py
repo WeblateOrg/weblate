@@ -1490,6 +1490,7 @@ class RESXFormat(TTKitFormat):
     autoload: tuple[str, ...] = ("*.resx",)
     language_format = "bcp"
     supports_plural: bool = True
+    store: RESXFile
 
 
 class AndroidFormat(TTKitFormat):
