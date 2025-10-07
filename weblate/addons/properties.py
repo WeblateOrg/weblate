@@ -73,7 +73,7 @@ def value_quality(value) -> int:
     return 3
 
 
-def filter_lines(lines):
+def filter_lines(lines: list[str]) -> list[str]:
     """Filter comments, empty lines and duplicate strings."""
     result: list[str] = []
     lastkey = None

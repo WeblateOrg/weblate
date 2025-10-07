@@ -21,8 +21,9 @@ from weblate.addons.tasks import cdn_parse_html
 from weblate.utils.state import STATE_TRANSLATED
 
 if TYPE_CHECKING:
+    from weblate.addons.models import Addon
     from weblate.auth.models import User
-    from weblate.trans.models import Component
+    from weblate.trans.models import Component, Project
 
 
 class CDNJSAddon(BaseAddon):
@@ -45,14 +46,23 @@ class CDNJSAddon(BaseAddon):
     stay_on_create = True
 
     @classmethod
-    def create_object(cls, component, **kwargs):
+    def create_object(
+        cls,
+        *,
+        component: Component | None = None,
+        project: Project | None = None,
+        acting_user: User | None = None,
+        **kwargs,
+    ) -> Addon:
         # Generate UUID for the CDN
         if "state" not in kwargs:
             kwargs["state"] = {"uuid": uuid4().hex}
-        return super().create_object(component=component, **kwargs)
+        return super().create_object(
+            component=component, project=project, acting_user=acting_user, **kwargs
+        )
 
     @classmethod
-    def can_install(cls, component, user: User | None):
+    def can_install(cls, component: Component, user: User | None) -> bool:
         if (
             not settings.LOCALIZE_CDN_URL
             or not settings.LOCALIZE_CDN_PATH
@@ -62,13 +72,13 @@ class CDNJSAddon(BaseAddon):
             return False
         return super().can_install(component, user)
 
-    def cdn_path(self, filename):
+    def cdn_path(self, filename: str) -> str:
         return os.path.join(
             settings.LOCALIZE_CDN_PATH, self.instance.state["uuid"], filename
         )
 
     @cached_property
-    def cdn_js_url(self):
+    def cdn_js_url(self) -> str:
         return os.path.join(
             settings.LOCALIZE_CDN_URL, self.instance.state["uuid"], "weblate.js"
         )
@@ -126,7 +136,7 @@ class CDNJSAddon(BaseAddon):
                     handle,
                 )
 
-    def daily(self, component, activity_log_id: int | None = None) -> None:
+    def daily(self, component: Component, activity_log_id: int | None = None) -> None:
         if not self.instance.configuration["files"].strip():
             return
         # Trigger parsing files
@@ -134,7 +144,7 @@ class CDNJSAddon(BaseAddon):
 
     def post_update(
         self,
-        component,
+        component: Component,
         previous_head: str,
         skip_push: bool,
         activity_log_id: int | None = None,
