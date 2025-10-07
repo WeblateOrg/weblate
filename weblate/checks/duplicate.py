@@ -28,6 +28,7 @@ IGNORES = {
     "hi": {"कर"},
     "tr": {"tek", "adım", "gıcır", "sık"},
     "sq": {"të"},
+    "vi": {"luôn", "song"},
 }
 
 
