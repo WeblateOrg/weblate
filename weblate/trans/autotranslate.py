@@ -49,10 +49,13 @@ class AutoTranslate:
         q: str,
         mode: str,
         component_wide: bool = False,
+        unit_ids: list[int] | None = None,
     ) -> None:
         self.user: User | None = user
         self.translation: Translation = translation
         translation.component.batch_checks = True
+
+        self.unit_ids: list[int] | None = unit_ids
 
         self.q: str = q
         self.mode: str = mode
@@ -68,6 +71,8 @@ class AutoTranslate:
 
     def get_units(self):
         units = self.translation.unit_set.exclude(state=STATE_READONLY)
+        if self.unit_ids is not None:
+            units = units.filter(pk__in=self.unit_ids)
         if self.mode == "suggest":
             units = units.filter(suggestion__isnull=True)
         return units.search(self.q, parser="unit")
