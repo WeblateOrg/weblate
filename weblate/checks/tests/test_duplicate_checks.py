@@ -72,9 +72,13 @@ class DuplicateCheckTest(CheckTestCase):
 
     def test_check_duplicated_language_ignore(self) -> None:
         self.assertFalse(self._run_check("Si vous vous interrogez", lang="fr"))
-        
+
         self.assertFalse(self._run_check("luôn luôn", source="always", lang="vi"))
-        self.assertFalse(self._run_check("thao tác song song", source="parallel operations", lang="vi"))
+        self.assertFalse(
+            self._run_check(
+                "thao tác song song", source="parallel operations", lang="vi"
+            )
+        )
 
     def test_description(self) -> None:
         unit = Unit(
