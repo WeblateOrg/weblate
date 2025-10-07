@@ -17,12 +17,3 @@ visit Discussions and can also be mentioned by their GitHub usernames.
 Weblate on Mastodon
 -------------------
 If you want to attract a wide community of Weblate users, fans, and developers to your case, you can follow and mention `@weblate@fosstodon.org <https://fosstodon.org/@weblate>`_ on Mastodon. The Weblate team boosts good moods and bright ideas!
-
-Libera.Chat
------------
-`Libera.Chat <https://web.libera.chat/#weblate>`_ is an IRC network for FOSS projects. It can be used to informally ask basic
-questions or start conversations of the community there. This platform can be thought of as being similar to in person communication,
-where only the people who are currently in the room (channel) are likely to respond to your message.
-This place can be used when posting in GitHub Discussions or GitHub Issues is not advised per the guidelines above.
-No account is required; users can enter the chat by specifying a nickname or as a guest by default.
-Weblate team members do not visit here.
