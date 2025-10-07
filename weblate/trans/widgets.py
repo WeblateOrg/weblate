@@ -488,7 +488,7 @@ class MultiLanguageWidget(SVGWidget):
                 continue
             language = stats.language
             percent = stats.translated_percent
-            if color is None:
+            if self.color == "auto" or color is None:
                 color = get_percent_color(percent)
             language_name = str(language)
 
