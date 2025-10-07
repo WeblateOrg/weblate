@@ -15,7 +15,7 @@ def add_autotranslate_change_event(apps, schema_editor) -> None:
         schema_editor,
         ["weblate.autotranslate.autotranslate"],
         [AddonEvent.EVENT_CHANGE],
-        False,
+        [],
     )
 
 
