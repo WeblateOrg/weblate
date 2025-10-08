@@ -53,6 +53,11 @@ jobs:
           requirements: edge
           database: postgresql
           experimental: true
+        # Test with Python 3.14.
+        - python-version: '3.14'
+          requirements: latest
+          database: postgresql
+          experimental: true
         # Test with Python 3.12.
         - python-version: '3.12'
           requirements: latest
