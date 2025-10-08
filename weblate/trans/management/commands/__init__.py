@@ -6,6 +6,8 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from django.core.management.base import CommandError
 from django.db import transaction
 
@@ -13,13 +15,16 @@ from weblate.lang.models import Language
 from weblate.trans.models import Component, Translation, Unit
 from weblate.utils.management.base import BaseCommand
 
+if TYPE_CHECKING:
+    from django.core.management.base import CommandParser
+
 
 class WeblateComponentCommand(BaseCommand):
     """Command which accepts project/component/--all params to process."""
 
     needs_repo = False
 
-    def add_arguments(self, parser) -> None:
+    def add_arguments(self, parser: CommandParser) -> None:
         parser.add_argument(
             "--all",
             action="store_true",
@@ -129,7 +134,7 @@ class WeblateLangCommand(WeblateComponentCommand):
     It can filter list of languages to process.
     """
 
-    def add_arguments(self, parser) -> None:
+    def add_arguments(self, parser: CommandParser) -> None:
         super().add_arguments(parser)
         parser.add_argument(
             "--lang",
@@ -165,7 +170,7 @@ class WeblateLangCommand(WeblateComponentCommand):
 class WeblateTranslationCommand(BaseCommand):
     """Command with target of one translation."""
 
-    def add_arguments(self, parser) -> None:
+    def add_arguments(self, parser: CommandParser) -> None:
         parser.add_argument("project", help="Slug of project")
         parser.add_argument("component", help="Slug of component")
         parser.add_argument("language", help="Slug of language")

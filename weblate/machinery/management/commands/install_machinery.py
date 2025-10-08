@@ -1,6 +1,9 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
 
 from django.core.management.base import CommandError
 
@@ -8,11 +11,14 @@ from weblate.configuration.models import Setting, SettingCategory
 from weblate.machinery.models import validate_service_configuration
 from weblate.utils.management.base import BaseCommand
 
+if TYPE_CHECKING:
+    from django.core.management.base import CommandParser
+
 
 class Command(BaseCommand):
     help = "installs site-wide automatic suggestion service"
 
-    def add_arguments(self, parser) -> None:
+    def add_arguments(self, parser: CommandParser) -> None:
         super().add_arguments(parser)
         parser.add_argument("--service", required=True, help="Service name")
         parser.add_argument(
