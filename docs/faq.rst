@@ -362,7 +362,7 @@ keep the file formatted your way, please use a pre-commit hook for that.
    :ref:`updating-target-files`
 
 How do I merge updated POT file with PO translations?
-------------------------------------------------------
+-----------------------------------------------------
 
 See :ref:`updating-target-files` for information on updating PO files when
 the POT template changes.
