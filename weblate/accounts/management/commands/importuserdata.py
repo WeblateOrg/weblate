@@ -1,23 +1,30 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
-import argparse
 import json
+from pathlib import Path
+from typing import TYPE_CHECKING
+
+from django.core.management.base import CommandError
 
 from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.trans.models import Project
 from weblate.utils.management.base import BaseCommand
 
+if TYPE_CHECKING:
+    from django.core.management.base import CommandParser
+
 
 class Command(BaseCommand):
     help = "imports userdata from JSON dump of database"
 
-    def add_arguments(self, parser) -> None:
+    def add_arguments(self, parser: CommandParser) -> None:
         parser.add_argument(
             "json-file",
-            type=argparse.FileType("r"),
+            type=Path,
             help="JSON file containing user data to import",
         )
 
@@ -61,8 +68,12 @@ class Command(BaseCommand):
 
         Also ptionally updates them and moves users around to default group.
         """
-        userdata = json.load(options["json-file"])
-        options["json-file"].close()
+        try:
+            with options["json-file"].open("r") as handle:
+                userdata = json.load(handle)
+        except OSError as error:
+            msg = f"Could not open file: {error}"
+            raise CommandError(msg) from error
 
         for userprofile in userdata:
             self.handle_compat(userprofile)

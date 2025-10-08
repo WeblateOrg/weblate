@@ -4,14 +4,19 @@
 
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from weblate.lang.models import Language
 from weblate.utils.management.base import BaseCommand
+
+if TYPE_CHECKING:
+    from django.core.management.base import CommandParser
 
 
 class Command(BaseCommand):
     help = "Populates language definitions"
 
-    def add_arguments(self, parser) -> None:
+    def add_arguments(self, parser: CommandParser) -> None:
         parser.add_argument(
             "--no-update",
             action="store_false",

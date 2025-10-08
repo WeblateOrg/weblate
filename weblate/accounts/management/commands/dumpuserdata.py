@@ -1,23 +1,27 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
-import argparse
 import json
+from pathlib import Path
+from typing import TYPE_CHECKING
 
+from django.core.management.base import CommandError
 from django.core.serializers.json import DjangoJSONEncoder
 
 from weblate.accounts.models import Profile
 from weblate.utils.management.base import BaseCommand
 
+if TYPE_CHECKING:
+    from django.core.management.base import CommandParser
+
 
 class Command(BaseCommand):
     help = "dumps user data to JSON file"
 
-    def add_arguments(self, parser) -> None:
-        parser.add_argument(
-            "json-file", type=argparse.FileType("w"), help="File where to export"
-        )
+    def add_arguments(self, parser: CommandParser) -> None:
+        parser.add_argument("json-file", type=Path, help="File where to export")
 
     def handle(self, *args, **options) -> None:
         data = []
@@ -31,5 +35,9 @@ class Command(BaseCommand):
                 continue
             data.append(profile.dump_data())
 
-        json.dump(data, options["json-file"], indent=2, cls=DjangoJSONEncoder)
-        options["json-file"].close()
+        try:
+            with options["json-file"].open("w") as handle:
+                json.dump(data, handle, indent=2, cls=DjangoJSONEncoder)
+        except OSError as error:
+            msg = f"Could not open file: {error}"
+            raise CommandError(msg) from error

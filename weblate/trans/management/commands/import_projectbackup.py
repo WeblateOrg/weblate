@@ -3,9 +3,14 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
+from typing import TYPE_CHECKING
+
 from weblate.auth.models import User
 from weblate.trans.backups import ProjectBackup
 from weblate.utils.management.base import BaseCommand
+
+if TYPE_CHECKING:
+    from django.core.management.base import CommandParser
 
 
 class Command(BaseCommand):
@@ -13,7 +18,7 @@ class Command(BaseCommand):
 
     help = "imports project backup"
 
-    def add_arguments(self, parser) -> None:
+    def add_arguments(self, parser: CommandParser) -> None:
         super().add_arguments(parser)
         parser.add_argument("project_name", help="Project name")
         parser.add_argument("project_slug", help="Project slug")

@@ -1,8 +1,10 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
 from time import sleep
+from typing import TYPE_CHECKING
 
 from django.test.utils import override_settings
 
@@ -11,13 +13,16 @@ from weblate.trans.models import Component, Project
 from weblate.trans.tasks import actual_project_removal
 from weblate.utils.management.base import BaseCommand
 
+if TYPE_CHECKING:
+    from django.core.management.base import CommandParser
+
 
 class Command(BaseCommand):
     """Command for creating demo project."""
 
     help = "imports demo project and components"
 
-    def add_arguments(self, parser) -> None:
+    def add_arguments(self, parser: CommandParser) -> None:
         super().add_arguments(parser)
         parser.add_argument(
             "--additional", type=int, default=0, help="number of additional components"

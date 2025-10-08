@@ -6,6 +6,7 @@ from __future__ import annotations
 import os
 import re
 import tempfile
+from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.core.management.base import CommandError
@@ -21,13 +22,16 @@ from weblate.utils.management.base import BaseCommand
 from weblate.vcs.base import RepositoryError
 from weblate.vcs.models import VCS_REGISTRY
 
+if TYPE_CHECKING:
+    from django.core.management.base import CommandParser
+
 
 class Command(BaseCommand):
     """Command for mass importing of repositories into Weblate."""
 
     help = "imports projects with more components"
 
-    def add_arguments(self, parser) -> None:
+    def add_arguments(self, parser: CommandParser) -> None:
         super().add_arguments(parser)
         parser.add_argument(
             "--name-template",
