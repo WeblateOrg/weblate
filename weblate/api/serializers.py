@@ -1649,6 +1649,10 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
                 )
         return attrs
 
+    def create(self, validated_data):
+        validated_data["acting_user"] = self.context["request"].user
+        return super().create(validated_data)
+
     def save(self, **kwargs):
         result = super().save(**kwargs)
         self.instance.addon.post_configure()
