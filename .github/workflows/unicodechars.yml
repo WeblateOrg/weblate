@@ -54,13 +54,13 @@ jobs:
     - uses: pre-commit-ci/lite-action@5d6cc0eb514c891a40562a58a8e71576c5c7fb43 # v1.1.0
       if: github.event_name == 'pull_request' && github.actor != 'renovate[bot]'
       with:
-        msg: 'docs: update unicode characters data'
+        msg: 'chore: update unicode characters data'
 
     - name: Update current branch
       if: github.event_name == 'push' && github.ref_name != 'main'
       uses: stefanzweifel/git-auto-commit-action@778341af668090896ca464160c2def5d1d1a3eb0 # v6.0.1
       with:
-        commit_message: 'docs: update unicode characters data'
+        commit_message: 'chore: update unicode characters data'
 
     - name: Create Pull Request
       id: cpr
@@ -68,8 +68,8 @@ jobs:
       uses: peter-evans/create-pull-request@271a8d0340265f705b14b6d32b9829c1cb33d45e # v7.0.8
       with:
         branch: create-pull-request/jsonschema-update
-        title: 'docs: update unicode characters data'
-        commit-message: 'docs: update unicode characters data'
+        title: 'chore: update unicode characters data'
+        commit-message: 'chore: update unicode characters data'
 
         token: ${{ secrets.WEBLATE_CI_TOKEN }}
         labels: |
