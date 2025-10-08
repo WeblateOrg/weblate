@@ -43,8 +43,7 @@ jobs:
       with:
         python-version: '3.14'
     - name: Install Python dependencies
-      run: |
-        uv sync --only-group schemas --only-group pre-commit
+      run: uv sync --only-group pre-commit
     - run: ./scripts/generate-unicodechars.py > weblate/utils/unicodechars.py
     - run: uv run --only-group pre-commit pre-commit run --all
       continue-on-error: true
