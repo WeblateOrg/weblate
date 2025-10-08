@@ -101,9 +101,13 @@ the :ref:`addon-weblate.cleanup.generic` add-on, which handles
 cleanup according to your requirements.
 
 Weblate will also not try to update bilingual files when the source changes,
-so if you need :file:`po` files to be updated from :file:`pot`, do it yourself by
-using :guilabel:`Update source strings` :ref:`upload-method`, or by using
-the :ref:`addon-weblate.gettext.msgmerge` add-on.
+so if you need :file:`po` files to be updated from :file:`pot`, you have two options:
+
+* **Automatically with an add-on** (recommended for continuous updates):
+  Install the :ref:`addon-weblate.gettext.msgmerge` add-on, which automatically
+  runs :program:`msgmerge` to update all PO files whenever the POT file changes.
+* **Manually via upload**: Use the :guilabel:`Update source strings` :ref:`upload-method`
+  to upload your POT file, which will merge it with existing translations.
 
 .. hint::
 

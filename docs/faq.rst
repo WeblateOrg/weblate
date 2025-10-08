@@ -361,6 +361,25 @@ keep the file formatted your way, please use a pre-commit hook for that.
 
    :ref:`updating-target-files`
 
+How do I merge updated POT file with PO translations?
+------------------------------------------------------
+
+When your POT (template) file is updated with new strings, you need to merge
+these changes into the language PO files so that translators can see the new
+strings. Weblate provides two ways to do this:
+
+* **Install the msgmerge add-on** (recommended): The :ref:`addon-weblate.gettext.msgmerge`
+  add-on automatically updates all PO files whenever the POT file changes in your repository.
+* **Upload via the web interface**: Navigate to any language translation, click
+  :guilabel:`Files` → :guilabel:`Upload translation`, select your POT file,
+  and choose :guilabel:`Update source strings` as the import method.
+
+.. seealso::
+
+   * :ref:`addon-weblate.gettext.msgmerge`
+   * :ref:`updating-target-files`
+   * :ref:`upload-method`
+
 
 Where do language definitions come from and how can I add my own?
 -----------------------------------------------------------------
