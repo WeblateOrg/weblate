@@ -70,12 +70,12 @@
       <ul class="dropdown-menu shadow">
         {% if replace_form %}
           <li>
-            <a class="dropdown-item" href="#replace" data-toggle="tab">{% translate "Search and replace" %}</a>
+            <a class="dropdown-item" data-bs-target="#replace" data-bs-toggle="tab" href="#">{% translate "Search and replace" %}</a>
           </li>
         {% endif %}
         {% if bulk_state_form %}
           <li>
-            <a class="dropdown-item" href="#bulk-edit" data-toggle="tab">{% translate "Bulk edit" %}</a>
+            <a class="dropdown-item" data-bs-target="#bulk-edit" data-bs-toggle="tab" href="#">{% translate "Bulk edit" %}</a>
           </li>
         {% endif %}
         <li>
@@ -88,7 +88,7 @@
         {% endif %}
         {% if announcement_form %}
           <li>
-            <a class="dropdown-item" href="#announcement" data-toggle="tab">{% translate "Post announcement" %}</a>
+            <a class="dropdown-item" data-bs-target="#announcement" data-bs-toggle="tab" href="#">{% translate "Post announcement" %}</a>
           </li>
         {% endif %}
         {% if delete_form %}
@@ -96,7 +96,7 @@
             <hr class="dropdown-divider">
           </li>
           <li>
-            <a class="dropdown-item" href="#organize" data-toggle="tab">{% translate "Organize or remove" %}</a>
+            <a class="dropdown-item" data-bs-target="#organize" data-bs-toggle="tab" href="#">{% translate "Organize or remove" %}</a>
           </li>
         {% endif %}
       </ul>

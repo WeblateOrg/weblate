@@ -596,7 +596,7 @@ $(function () {
     '[data-bs-toggle="tab"][data-href], [data-bs-toggle="pill"][data-href]',
     (e) => {
       const $target = $(e.target);
-      let $content = $($target.attr("href"));
+      let $content = $($target.attr("data-bs-target"));
       if ($target.data("loaded")) {
         return;
       }
@@ -904,6 +904,24 @@ $(function () {
         },
         () => {
           addAlert(gettext("Please press Ctrl+C to copy."), "danger");
+        },
+      );
+  });
+
+  /* Same for Bootstrap 5 */
+  $(document).on("click", "[data-bs-clipboard-value]", function (e) {
+    e.preventDefault();
+    navigator.clipboard
+      .writeText(this.getAttribute("data-clipboard-value"))
+      .then(
+        () => {
+          const text =
+            this.getAttribute("data-clipboard-message") ||
+            gettext("Text copied to clipboard.");
+          addAlert(text, "info", 3000, true);
+        },
+        () => {
+          addAlert(gettext("Please press Ctrl+C to copy."), "danger", 3000, true);
         },
       );
   });

@@ -93,7 +93,7 @@
         {% endif %}
         {% if bulk_state_form %}
           <li>
-            <a class="dropdown-item" href="#bulk-edit" data-toggle="tab">{% translate "Bulk edit" %}</a>
+            <a class="dropdown-item" data-bs-target="#bulk-edit" data-bs-toggle="tab" href="#">{% translate "Bulk edit" %}</a>
           </li>
         {% endif %}
         <li>
@@ -108,9 +108,10 @@
         {% if user_can_see_repository_status %}
           <li>
             <a class="dropdown-item"
-               href="#repository"
-               data-toggle="tab"
-               data-href="{% url 'git_status' path=object.get_url_path %}">{% translate "Repository maintenance" %}</a>
+               data-bs-target="#repository"
+               data-bs-toggle="tab"
+               data-href="{% url 'git_status' path=object.get_url_path %}"
+               href="#">{% translate "Repository maintenance" %}</a>
           </li>
           <hr class="dropdown-divider">
         {% endif %}
@@ -122,7 +123,7 @@
         </li>
         {% if announcement_form %}
           <li>
-            <a class="dropdown-item" href="#announcement" data-toggle="tab">{% translate "Post announcement" %}</a>
+            <a class="dropdown-item" data-bs-target="#announcement" data-bs-toggle="tab" href="#">{% translate "Post announcement" %}</a>
           </li>
         {% endif %}
         {% if user_can_manage_acl %}
@@ -149,7 +150,7 @@
           {% endif %}
           {% if delete_form or rename_form %}
             <li>
-              <a class="dropdown-item" href="#organize" data-toggle="tab">{% translate "Organize or remove" %}</a>
+              <a class="dropdown-item" data-bs-target="#organize" data-bs-toggle="tab" href="#">{% translate "Organize or remove" %}</a>
             </li>
           {% endif %}
         {% endif %}
