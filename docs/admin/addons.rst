@@ -854,12 +854,22 @@ Update PO files to match POT (msgmerge)
 Updates all PO files (as configured by :ref:`component-filemask`) to match the
 POT file (as configured by :ref:`component-new_base`) using :program:`msgmerge`.
 
+This add-on is essential when working with gettext PO files where the POT
+(template) file is updated with new strings or changes to existing strings.
+When the POT file is updated in the repository, this add-on automatically
+merges those changes into all language PO files, ensuring that:
+
+* New translatable strings appear in all languages
+* Removed strings are marked as obsolete
+* Modified strings are marked as needing review (fuzzy)
+
 Most msgmerge command-line options can be set up through file format parameters
 configuration.
 
 .. seealso::
 
-   :ref:`faq-cleanup`
+   * :ref:`faq-cleanup`
+   * :ref:`updating-target-files`
 
 .. _addon-weblate.git.squash:
 

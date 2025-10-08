@@ -211,6 +211,13 @@ Then you can update individual translation files to match newly created template
 
     $ msgmerge --previous --update po/cs.po po/hello.pot
 
+.. note::
+
+   When using Weblate, you typically don't need to run msgmerge manually.
+   Weblate can handle this automatically through the :ref:`addon-weblate.gettext.msgmerge`
+   add-on, or you can upload the updated POT file using the :guilabel:`Update source strings`
+   upload method. See :ref:`updating-target-files` for details.
+
 Importing to Weblate
 ++++++++++++++++++++
 
