@@ -21,6 +21,7 @@ from weblate.auth.models import Group, Permission, Role, User
 from weblate.lang.models import Language
 from weblate.memory.models import Memory
 from weblate.screenshots.models import Screenshot
+from weblate.trans.actions import ActionEvents
 from weblate.trans.models import (
     Category,
     Change,
@@ -5511,6 +5512,8 @@ class AddonAPITest(APIBaseTest):
         self.assertTrue(
             self.component.addon_set.filter(pk=response.data["id"]).exists()
         )
+        change = self.component.change_set.get(action=ActionEvents.ADDON_CREATE)
+        self.assertEqual(change.user, self.user)
         # Existing
         response = self.create_addon(code=400)
 
