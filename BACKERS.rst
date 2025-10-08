@@ -27,5 +27,8 @@ List of Weblate supporters:
    * `Newpipe e.V. <https://newpipe-ev.de>`_
    * Daniel Leidert
    * ELSA-X
+   * Port 443 Inc.
+   * Alexander Schartz
+   * aidX
 
 Do you want to be in the list? Please see options on the `Donate to Weblate <https://weblate.org/donate/>`_.
