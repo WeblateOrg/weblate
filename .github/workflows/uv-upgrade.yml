@@ -66,7 +66,8 @@ jobs:
       if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
       run: uv lock --upgrade
 
-    - run: uv sync --all-extras
+    - run: uv sync --all-extras --upgrade
+      name: Update lock file
       if: hashFiles('uv.lock') != ''
 
     - name: Update SBOM
