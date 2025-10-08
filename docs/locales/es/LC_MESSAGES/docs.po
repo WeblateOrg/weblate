@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-09-03 14:08+0200\n"
-"PO-Revision-Date: 2025-10-06 15:12+0000\n"
+"PO-Revision-Date: 2025-10-08 16:07+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -18941,6 +18941,9 @@ msgid ""
 "Prevents automatic updates of groups for existing projects. This allows "
 "adding newly added groups to existing projects, see :ref:`acl`."
 msgstr ""
+"Evitar las actualizaciones automáticas de grupos para proyectos existentes. "
+"Esto permite agregar grupos recién agregados a proyectos existentes, ver "
+":ref:`acl`."
 
 #: ../../admin/management.rst:918
 msgid "Updates list of defined languages in Weblate."
@@ -18959,28 +18962,29 @@ msgstr "Actualiza todas las comprobaciones para todas las cadenas."
 #: ../../admin/management.rst:933
 msgid "Useful for upgrades which do major changes to checks."
 msgstr ""
+"Útil para actualizaciones que realizan cambios importantes en las "
+"comprobaciones."
 
 #: ../../admin/management.rst:940
-#, fuzzy
-#| msgid ""
-#| "Once in a month for every component, this can be configured using :"
-#| "setting:`BACKGROUND_TASKS`."
 msgid ""
 "Checks are recalculated regularly by Weblate in the background, the "
 "frequency can be configured via :setting:`BACKGROUND_TASKS`."
 msgstr ""
-"Una vez al mes por cada componente; esto puede configurarse mediante las :"
-"setting:`BACKGROUND_TASKS`."
+"Weblate recalcula regularmente los controles en segundo plano, la frecuencia "
+"se puede configurar a través de :setting:`BACKGROUND_TASKS`."
 
 #: ../../admin/management.rst:948
 msgid "Fetches remote VCS repositories and updates the internal cache."
-msgstr ""
+msgstr "Recupera repositorios remotos de VCS y actualiza la caché interna."
 
 #: ../../admin/management.rst:955
 msgid ""
 "Usually it is better to configure hooks in the repository to trigger :ref:"
 "`hooks`, instead of regular triggering the updates by :wladmin:`updategit`."
 msgstr ""
+"Por lo general, es mejor configurar ganchos en el repositorio para que se "
+"activen :ref:`hooks`, en lugar de activar regularmente las actualizaciones "
+"mediante :wladmin:`updategit`."
 
 #: ../../admin/memory.rst:5
 msgid "Translation Memory"
@@ -18998,7 +19002,7 @@ msgstr ""
 
 #: ../../admin/memory.rst:9
 msgid "Manually imported translation memory (see :ref:`memory-user`)."
-msgstr ""
+msgstr "Memoria de traducción importada manualmente (ver :ref:`memory-user`)."
 
 #: ../../admin/memory.rst:10
 msgid ""
@@ -19074,6 +19078,9 @@ msgid ""
 "`import_memory` command makes memory content available to all users and "
 "projects."
 msgstr ""
+"Al importar datos arbitrarios de la memoria de traducción con el comando "
+":wladmin:`import_memory` el contenido de la memoria está disponible para "
+"todos los usuarios y proyectos."
 
 #: ../../admin/memory.rst:38
 #, fuzzy
@@ -19086,6 +19093,8 @@ msgid ""
 "Stores all user translations automatically in the personal translation "
 "memory of each respective user."
 msgstr ""
+"Almacena todas las traducciones de los usuarios automáticamente en la "
+"memoria de traducción personal de cada usuario respectivo."
 
 #: ../../admin/memory.rst:43
 #, fuzzy
@@ -19098,6 +19107,9 @@ msgid ""
 "All translations within a project are automatically stored in a project "
 "translation memory only available for this project."
 msgstr ""
+"Todas las traducciones dentro de un proyecto se almacenan automáticamente en "
+"una memoria de traducción del proyecto que solo está disponible para este "
+"proyecto."
 
 #: ../../admin/memory.rst:51
 msgid "Shared translation memory"
@@ -19134,7 +19146,7 @@ msgstr "Esto podría causar la revelación de información secreta."
 
 #: ../../admin/memory.rst:61
 msgid "Make sure the translations you share have good quality."
-msgstr ""
+msgstr "Asegúrate de que las traducciones que compartas sean de buena calidad."
 
 #: ../../admin/memory.rst:71
 msgid "Translation memory status"
@@ -19148,31 +19160,32 @@ msgid ""
 "entries with pending status are automatically removed when a translation is "
 "approved."
 msgstr ""
+"Las entradas de la memoria de traducción pueden tener dos estados diferentes:"
+" **active** y **pending**. Las entradas pendientes se incluyen en las "
+"sugerencias, pero con una penalización de calidad aplicada. Si :ref"
+":`autoclean-tm` está habilitado, las entradas antiguas y obsoletas con "
+"estado pendiente se eliminan automáticamente cuando se aprueba una "
+"traducción."
 
 #: ../../admin/memory.rst:82 ../../admin/projects.rst:197
 msgid "Autoclean translation memory"
 msgstr "Memoria de traducción autoclean"
 
 #: ../../admin/memory.rst:86
-#, fuzzy
-#| msgid "The translation was automatically locked due to following alerts:"
 msgid ""
 "The translation memory is automatically cleaned up by removing obsolete and "
 "outdated entries."
 msgstr ""
-"Esta traducción se bloqueó automáticamente a causa de las alertas siguientes:"
+"La memoria de traducción se limpia automáticamente eliminando entradas "
+"obsoletas y no actualizadas."
 
 #: ../../admin/memory.rst:88
-#, fuzzy
-#| msgid ""
-#| "In the Docker container this can be configured using :envvar:"
-#| "`WEBLATE_API_RATELIMIT_ANON` and :envvar:`WEBLATE_API_RATELIMIT_USER`."
 msgid ""
 "In the Docker container this can be configured using :envvar:"
 "`WEBLATE_DEFAULT_AUTOCLEAN_TM`."
 msgstr ""
-"En el contenedor de Docker, esto se puede configurar usando :envvar:"
-"`WEBLATE_API_RATELIMIT_ANON` y :envvar:`WEBLATE_API_RATELIMIT_USER`."
+"En el contenedor de Docker, esto se puede configurar usando "
+":envvar:`WEBLATE_DEFAULT_AUTOCLEAN_TM`."
 
 #: ../../admin/memory.rst:95
 #, fuzzy
