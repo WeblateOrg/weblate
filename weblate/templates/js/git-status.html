@@ -19,7 +19,7 @@
     <ul class="list-group">
       <li class="list-group-item">
         {% if user_can_commit_translation %}
-          <a {% if pending_units %} href="#" {% endif %}
+          <a {% if pending_units %}href="#"{% endif %}
              class="float-end link-post btn btn-primary {% if not pending_units %}disabled{% endif %}"
              data-href="{% url "commit" path=object.get_url_path %}"
              {% if not pending_unit %}aria-disabled="true"{% endif %}>{% translate "Commit" %}</a>
@@ -83,9 +83,7 @@
         <h6 class="mb-1 fw-bold">
           {% blocktranslate count units=missing_commits with count=missing_commits|intcomma %}{{ count }} missing commit{% plural %}{{ count }} missing commits{% endblocktranslate %}
         </h6>
-        <p class="mb-0">
-          {% translate "This will update the Weblate repository with the upstream changes." %}
-        </p>
+        <p class="mb-0">{% translate "This will update the Weblate repository with the upstream changes." %}</p>
       </li>
       {% if object.is_lockable %}
         <li class="list-group-item">

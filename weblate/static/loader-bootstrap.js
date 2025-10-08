@@ -921,7 +921,12 @@ $(function () {
           addAlert(text, "info", 3000, true);
         },
         () => {
-          addAlert(gettext("Please press Ctrl+C to copy."), "danger", 3000, true);
+          addAlert(
+            gettext("Please press Ctrl+C to copy."),
+            "danger",
+            3000,
+            true,
+          );
         },
       );
   });
