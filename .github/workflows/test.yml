@@ -58,6 +58,11 @@ jobs:
           requirements: latest
           database: postgresql
           experimental: true
+        # Test with free-threaded Python 3.14.
+        - python-version: 3.14t
+          requirements: latest
+          database: postgresql
+          experimental: true
         # Test with Python 3.12.
         - python-version: '3.12'
           requirements: latest
