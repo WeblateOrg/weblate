@@ -132,6 +132,7 @@ if TYPE_CHECKING:
     from weblate.addons.models import Addon
     from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.checks.base import BaseCheck
+    from weblate.formats.base import TranslationFormat
     from weblate.trans.models.unit import UnitAttributesDict
     from weblate.vcs.base import Repository
 
@@ -911,6 +912,7 @@ class Component(
         """
         from weblate.trans.tasks import component_after_save
 
+        self.drop_file_format_cache()
         self.set_default_branch()
 
         # Linked component cache
@@ -3079,7 +3081,7 @@ class Component(
         dir_path = self.full_path
         for match in matches:
             try:
-                store = self.file_format_cls(
+                store = self.file_format_cls(  # pylint: disable=too-many-function-args,unexpected-keyword-arg
                     os.path.join(dir_path, match),
                     self.template_store,
                     file_format_params=self.file_format_params,
@@ -3296,6 +3298,7 @@ class Component(
         - validation fetches repository
         - it tries to find translation files and checks that they are valid
         """
+        self.drop_file_format_cache()
         if self.new_lang == "url" and not self.project.instructions:
             msg = gettext(
                 "Please either fill in an instruction URL "
@@ -3665,12 +3668,10 @@ class Component(
     def file_format_flags(self):
         return Flags(self.file_format_cls.check_flags)
 
-    @property
-    def file_format_cls(self):
+    @cached_property
+    def file_format_cls(self) -> type[TranslationFormat]:
         """Return file format object."""
-        if self._file_format is None or self._file_format.name != self.file_format:
-            self._file_format = FILE_FORMATS[self.file_format]
-        return self._file_format
+        return FILE_FORMATS[self.file_format]
 
     def has_template(self) -> bool:
         """Return true if component is using template for translation."""
@@ -3696,9 +3697,12 @@ class Component(
         if "key_filter_re" in self.__dict__:
             del self.__dict__["key_filter_re"]
 
+    def drop_file_format_cache(self) -> None:
+        self.__dict__.pop("file_format_cls", None)
+
     def load_intermediate_store(self):
         """Load translate-toolkit store for intermediate."""
-        return self.file_format_cls(
+        return self.file_format_cls(  # pylint: disable=too-many-function-args,unexpected-keyword-arg
             self.get_intermediate_filename(),
             language_code=self.source_language.code,
             source_language=self.source_language.code,
@@ -3720,7 +3724,7 @@ class Component(
     def load_template_store(self, fileobj=None):
         """Load translate-toolkit store for template."""
         with self.start_sentry_span("load_template_store"):
-            return self.file_format_cls(
+            return self.file_format_cls(  # pylint: disable=too-many-function-args,unexpected-keyword-arg
                 fileobj or self.get_template_filename(),
                 language_code=self.source_language.code,
                 source_language=self.source_language.code,
