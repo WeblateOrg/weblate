@@ -14,5 +14,23 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: weblate
     ports:
-    - 60000:5432     # make postgres faster and non-durable, see https://www.postgresql.org/docs/current/non-durability.html
-    command: [postgres, -c, fsync=off, -c, synchronous_commit=off, -c, full_page_writes=off, -c, checkpoint_timeout=7200, -c, wal_level=minimal, -c, max_wal_senders=0]
+    - 60000:5432
+    # make postgres faster and non-durable, see https://www.postgresql.org/docs/current/non-durability.html
+    command:
+    - postgres
+    - -c
+    - fsync=off
+    - -c
+    - synchronous_commit=off
+    - -c
+    - full_page_writes=off
+    - -c
+    - checkpoint_timeout=7200
+    - -c
+    - wal_level=minimal
+    - -c
+    - max_wal_senders=0
+    - -c
+    - shared_buffers=1GB
+    - -c
+    - work_mem=150MB
