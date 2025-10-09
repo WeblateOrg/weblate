@@ -9,7 +9,7 @@ from __future__ import annotations
 import os
 from functools import cache, lru_cache
 from io import BytesIO
-from typing import NamedTuple
+from typing import TYPE_CHECKING, NamedTuple
 
 import cairo
 import gi
@@ -23,6 +23,9 @@ from weblate.utils.icons import find_static_file
 gi.require_version("PangoCairo", "1.0")
 gi.require_version("Pango", "1.0")
 from gi.repository import Pango, PangoCairo  # noqa: E402
+
+if TYPE_CHECKING:
+    from django.core.files.base import File
 
 
 class Dimensions(NamedTuple):
@@ -298,14 +301,20 @@ def check_render_size(
     return rendered_size.width <= width and actual_lines <= lines
 
 
-def get_font_name(filelike):
+def get_font_name(filelike: FieldFile | File) -> str:
     """Return tuple of font family and style, for example ('Ubuntu', 'Regular')."""
     from PIL import ImageFont
+
+    close = False
 
     # Form uploaded file
     if isinstance(filelike, FieldFile):
         filelike = filelike.file
+        close = True
 
     if not hasattr(filelike, "loaded_font"):
         filelike.loaded_font = ImageFont.truetype(filelike)
+
+    if close:
+        filelike.close()
     return filelike.loaded_font.getname()
