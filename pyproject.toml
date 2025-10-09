@@ -465,6 +465,8 @@ FAIL_INVALID_TEMPLATE_VARS = true
 filterwarnings = [
   # Treat all unfiltered warnings as errors
   "error",
+  # Warning in the third-party module (drf_spectacular)
+  "ignore:'_UnionGenericAlias':DeprecationWarning:drf_spectacular.plumbing",
   # Warning in the third-party module (python3-saml)
   "ignore:datetime.datetime.utcnow:DeprecationWarning:onelogin.saml2.utils",
   # Warning in the third-party module (openid)
