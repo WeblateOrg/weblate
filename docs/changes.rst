@@ -14,9 +14,11 @@ Weblate 5.14
 
 * New global permissions have been added to control viewing teams, users and roles without edit rights, see :ref:`privileges`.
 * :ref:`hooks` improvements.
+
   * Now follows :ref:`api-errors`.
   * Available in the OpenAPI.
   * Dropped long-deprecated endpoints.
+
 * :ref:`date-search`.
 * Last changed lookup in :ref:`search-strings`.
 * :doc:`/security/localization-threat` documentation.
