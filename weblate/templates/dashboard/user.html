@@ -1,12 +1,12 @@
-{% extends "base.html" %}
+{% extends "base5.html" %}
 
 {% load compress crispy_forms_tags i18n icons permissions static translations %}
 
 {% block content %}
 
-  {% announcements %}
+  {% announcements bootstrap_5=True %}
 
-  <div class="btn-group pull-right flip btn-group-settings" role="group">
+  <div class="btn-group float-end btn-group-settings" role="group">
     <a href="{% url 'profile' %}#preferences"
        class="btn btn-link"
        title="{% translate "Configure dashboard" %}">{% icon "settings.svg" %}</a>
@@ -15,53 +15,65 @@
   {% perm 'reports.view' None as user_can_view_reports %}
 
   <ul class="nav nav-pills">
-    <li {% active_link "your-subscriptions" %}>
-      <a href="#your-subscriptions" data-toggle="tab">{% translate "Watched translations" %} <span class="badge">{{ usersubscriptions.paginator.count }}</span></a>
+    <li class="nav-item">
+      <a data-bs-target="#your-subscriptions"
+         data-bs-toggle="tab"
+         href="#"
+         {% active_link "your-subscriptions" %}>{% translate "Watched translations" %} <span class="badge text-bg-secondary">{{ usersubscriptions.paginator.count }}</span></a>
     </li>
     {% if all_componentlists %}
-      <li {% active_link "componentlists" %}>
-        <a href="#componentlists" data-toggle="tab">{% translate "All component lists" %} <span class="badge">{{ all_componentlists|length }}</span></a>
+      <li class="nav-item">
+        <a data-bs-target="#componentlists"
+           data-bs-toggle="tab"
+           href="#"
+           {% active_link "componentlists" %}>{% translate "All component lists" %} <span class="badge text-bg-secondary">{{ all_componentlists|length }}</span></a>
       </li>
     {% endif %}
-    <li {% active_link "suggestions" %}>
-      <a href="#suggestions" data-toggle="tab">{% translate "Suggested translations" %} <span class="badge">{{ suggestions|length }}</span></a>
+    <li class="nav-item">
+      <a data-bs-target="#suggestions"
+         data-bs-toggle="tab"
+         href="#"
+         {% active_link "suggestions" %}>{% translate "Suggested translations" %} <span class="badge text-bg-secondary">{{ suggestions|length }}</span></a>
     </li>
     {% if owned_projects %}
-      <li {% active_link "managed" %}>
-        <a href="#managed" data-toggle="tab">{% translate "Managed projects" %} <span class="badge">{{ all_owned_projects|length }}</span></a>
+      <li class="nav-item">
+        <a data-bs-target="#managed"
+           data-bs-toggle="tab"
+           href="#"
+           {% active_link "managed" %}>{% translate "Managed projects" %} <span class="badge text-bg-secondary">{{ all_owned_projects|length }}</span></a>
       </li>
     {% endif %}
     {% for componentlist in componentlists %}
-      <li {% active_link componentlist.tab_slug %}>
-        <a href="#{{ componentlist.tab_slug }}"
-           data-toggle="tab"
-           data-href="{% url 'component-list-dashboard' name=componentlist.slug %}">
+      <li class="nav-item">
+        <a data-bs-target="#{{ componentlist.tab_slug }}"
+           data-bs-toggle="tab"
+           data-href="{% url 'component-list-dashboard' name=componentlist.slug %}"
+           href="#"
+           {% active_link componentlist.tab_slug %}>
           {{ componentlist.name }}
-          <span class="badge">{{ componentlist.translations|length }}</span>
+          <span class="badge text-bg-secondary">{{ componentlist.translations|length }}</span>
         </a>
       </li>
     {% endfor %}
-    <li class="dropdown">
-      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-        {% translate "Insights" %} <span class="caret"></span>
-      </a>
-      <ul class="dropdown-menu">
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{% translate "Insights" %}</a>
+      <ul class="dropdown-menu shadow">
         <li>
-          <a href="{% url 'changes' %}">{% translate "History" %}</a>
+          <a class="dropdown-item" href="{% url 'changes' %}">{% translate "History" %}</a>
         </li>
         <li>
-          <a href="{% url 'changes' %}?action=51&amp;action=50">{% translate "Recent additions" %}</a>
+          <a class="dropdown-item" href="{% url 'changes' %}?action=51&amp;action=50">{% translate "Recent additions" %}</a>
         </li>
         <li>
-          <a href="{% url 'stats' %}">{% translate "Statistics" %}</a>
+          <a class="dropdown-item" href="{% url 'stats' %}">{% translate "Statistics" %}</a>
         </li>
         <li>
-          <a href="#reports" data-toggle="tab">{% translate "Translation reports" %}</a>
+          <a class="dropdown-item" data-bs-target="#reports" data-bs-toggle="tab" href="#">{% translate "Translation reports" %}</a>
         </li>
       </ul>
     </li>
-    <li>
-      <a href="#search" data-toggle="tab">{% translate "Search" %}</a>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-target="#search" data-bs-toggle="tab" href="#">{% translate "Search" %}</a>
     </li>
   </ul>
 
@@ -133,20 +145,20 @@
       <div class="row">
         <div class="col-lg-6">
           <form action="{% url 'credits' %}" method="post" enctype="multipart/form-data">
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4 class="panel-title">
-                  {% documentation_icon 'devel/reporting' 'credits' right=True %}
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">
+                  {% documentation_icon5 'devel/reporting' 'credits' right=True %}
                   {% translate "Credits" %}
                 </h4>
               </div>
-              <div class="panel-body">
+              <div class="card-body">
                 <p>
                   {% translate "Lists all translators contributing in a given time period. Useful for inclusion in documentation or the app itself, to thank translators and generate feedback to them." %}
                 </p>
                 {% crispy reports_form %}
               </div>
-              <div class="panel-footer">
+              <div class="card-footer">
                 <input type="submit" value="{% translate "Generate" %}" class="btn btn-primary" />
               </div>
             </div>
@@ -154,18 +166,18 @@
         </div>
         <div class="col-lg-6">
           <form action="{% url 'counts' %}" method="post" enctype="multipart/form-data">
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4 class="panel-title">
-                  {% documentation_icon 'devel/reporting' 'stats' right=True %}
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">
+                  {% documentation_icon5 'devel/reporting' 'stats' right=True %}
                   {% translate "Contributor stats" %}
                 </h4>
               </div>
-              <div class="panel-body">
+              <div class="card-body">
                 <p>{% translate "Reports the number of strings and words translated by each translator." %}</p>
                 {% crispy reports_form %}
               </div>
-              <div class="panel-footer">
+              <div class="card-footer">
                 <input type="submit" value="{% translate "Generate" %}" class="btn btn-primary" />
               </div>
             </div>

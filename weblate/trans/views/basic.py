@@ -115,6 +115,7 @@ def list_projects(request: AuthenticatedHttpRequest):
             ),
             "title": gettext("Projects"),
             "query_string": query_string,
+            "bootstrap_5": True,
         },
     )
 
@@ -275,6 +276,7 @@ def show_project_language(request: AuthenticatedHttpRequest, obj: ProjectLanguag
                 language=language_object,
                 initial=SearchForm.get_initial(request),
                 obj=obj,
+                bootstrap_5=True,
             ),
             "announcement_form": optional_form(
                 AnnouncementForm, user, "announcement.add", project_object
@@ -295,6 +297,7 @@ def show_project_language(request: AuthenticatedHttpRequest, obj: ProjectLanguag
                 obj=obj,
                 project=obj.project,
             ),
+            "bootstrap_5": True,
         },
     )
 
@@ -345,6 +348,7 @@ def show_category_language(request: AuthenticatedHttpRequest, obj):
                 language=language_object,
                 initial=SearchForm.get_initial(request),
                 obj=obj,
+                bootstrap_5=True,
             ),
             "language_stats": category_object.stats.get_single_language_stats(
                 language_object
@@ -362,6 +366,7 @@ def show_category_language(request: AuthenticatedHttpRequest, obj):
                 obj=obj,
                 project=obj.category.project,
             ),
+            "bootstrap_5": True,
         },
     )
 
@@ -410,7 +415,10 @@ def show_project(request: AuthenticatedHttpRequest, obj):
             "reports_form": ReportsForm({"project": obj}),
             "language_stats": [stat.obj or stat for stat in language_stats],
             "search_form": SearchForm(
-                request=request, initial=SearchForm.get_initial(request), obj=obj
+                request=request,
+                initial=SearchForm.get_initial(request),
+                obj=obj,
+                bootstrap_5=True,
             ),
             "announcement_form": optional_form(
                 AnnouncementForm, user, "announcement.add", obj
@@ -441,6 +449,7 @@ def show_project(request: AuthenticatedHttpRequest, obj):
             "components": components,
             "categories": prefetch_stats(obj.category_set.filter(category=None)),
             "user_can_add_translation": user_can_add_translation,
+            "bootstrap_5": True,
         },
     )
 
@@ -491,7 +500,10 @@ def show_category(request: AuthenticatedHttpRequest, obj):
             "reports_form": ReportsForm({"category": obj}),
             "language_stats": [stat.obj or stat for stat in language_stats],
             "search_form": SearchForm(
-                request=request, initial=SearchForm.get_initial(request), obj=obj
+                request=request,
+                initial=SearchForm.get_initial(request),
+                obj=obj,
+                bootstrap_5=True,
             ),
             "announcement_form": optional_form(
                 AnnouncementForm, user, "announcement.add", obj.project
@@ -520,6 +532,7 @@ def show_category(request: AuthenticatedHttpRequest, obj):
             "components": components,
             "categories": prefetch_stats(obj.category_set.all()),
             "user_can_add_translation": user_can_add_translation,
+            "bootstrap_5": True,
         },
     )
 
@@ -585,12 +598,16 @@ def show_component(request: AuthenticatedHttpRequest, obj: Component):
                 instance=obj,
             ),
             "search_form": SearchForm(
-                request=request, initial=SearchForm.get_initial(request), obj=obj
+                request=request,
+                initial=SearchForm.get_initial(request),
+                obj=obj,
+                bootstrap_5=True,
             ),
             "alerts": obj.all_active_alerts
             if "alerts" not in request.GET
             else obj.alert_set.all(),
             "user_can_add_translation": user_can_add_translation,
+            "bootstrap_5": True,
         },
     )
 
@@ -609,6 +626,7 @@ def show_translation(request: AuthenticatedHttpRequest, obj):
         language=obj.language,
         initial=SearchForm.get_initial(request),
         obj=obj,
+        bootstrap_5=True,
     )
 
     # Translations to same language from other components in this project
@@ -688,6 +706,7 @@ def show_translation(request: AuthenticatedHttpRequest, obj):
             "last_changes": last_changes,
             "other_translations": other_translations,
             "exporters": EXPORTERS.list_exporters(obj),
+            "bootstrap_5": True,
         },
     )
 

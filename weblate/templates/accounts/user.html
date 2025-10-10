@@ -1,12 +1,12 @@
-{% extends "base.html" %}
+{% extends "base5.html" %}
 
 {% load authnames crispy_forms_tags humanize i18n icons metrics permissions translations urlformat %}
 
 {% block breadcrumbs %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url "user_list" %}">{% translate "Users" %}</a>
   </li>
-  <li>
+  <li class="breadcrumb-item">
     <a href="{{ page_profile.get_absolute_url }}">{{ page_profile.get_user_name }}</a>
   </li>
 {% endblock breadcrumbs %}
@@ -155,43 +155,46 @@
       {% endif %}
     </div>
 
-    <ul class="nav nav-pills nav-center">
-      <li class="active">
+    <ul class="nav nav-pills justify-content-center">
+      <li class="nav-item">
         {# Translators: Name of a tab which lists translations the user has contributed to #}
-        <a data-toggle="tab" href="#contributed">{% translate "Translates" %}</a>
+        <a class="nav-link active"
+           data-bs-toggle="tab"
+           data-bs-target="#contributed"
+           href="#">{% translate "Translates" %}</a>
       </li>
-      <li>
-        <a data-toggle="tab" href="#managed">{% translate "Managed projects" %}</a>
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" data-bs-target="#managed" href="#">{% translate "Managed projects" %}</a>
       </li>
-      <li>
-        <a data-toggle="tab" href="#watched">{% translate "Watched projects" %}</a>
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" data-bs-target="#watched" href="#">{% translate "Watched projects" %}</a>
       </li>
-      <li>
-        <a data-toggle="tab" href="#activity">{% translate "Activity" %}</a>
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" data-bs-target="#activity" href="#">{% translate "Activity" %}</a>
       </li>
-      <li>
-        <a data-toggle="tab" href="#changes">{% translate "Recent changes" %}</a>
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" data-bs-target="#changes" href="#">{% translate "Recent changes" %}</a>
       </li>
       {% if can_edit_user %}
-        <li>
-          <a data-toggle="tab" href="#identities">{% translate "User identities" %}</a>
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="tab" data-bs-target="#identities" href="#">{% translate "User identities" %}</a>
         </li>
-        <li>
-          <a data-toggle="tab" href="#notifications">{% translate "Notifications" %}</a>
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="tab" data-bs-target="#notifications" href="#">{% translate "Notifications" %}</a>
         </li>
         {% if billings %}
-          <li>
-            <a data-toggle="tab" href="#billing">{% translate "Billing" %}</a>
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#billing" href="#">{% translate "Billing" %}</a>
           </li>
         {% endif %}
-        <li>
-          <a data-toggle="tab" href="#audit">{% translate "Audit log" %}</a>
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="tab" data-bs-target="#audit" href="#">{% translate "Audit log" %}</a>
         </li>
-        <li>
-          <a data-toggle="tab" href="#groups">{% translate "Teams" %}</a>
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="tab" data-bs-target="#groups" href="#">{% translate "Teams" %}</a>
         </li>
-        <li>
-          <a data-toggle="tab" href="#edit">{% translate "Edit" %}</a>
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="tab" data-bs-target="#edit" href="#">{% translate "Edit" %}</a>
         </li>
       {% endif %}
     </ul>
@@ -202,7 +205,7 @@
         <div class="list-group">
           {% include "snippets/list-objects.html" with objects=page_user_translations label=_("Translation") show_admin_badge=True name_source="translation" empty_message=_("No recent contributions found.") %}
           <a href="{% url 'user_contributions' user=page_user.username %}"
-             class="btn btn-primary">{% translate "Browse all translations with contribution" %}</a>
+             class="me-auto btn btn-primary">{% translate "Browse all translations with contribution" %}</a>
         </div>
       </div>
 
@@ -229,7 +232,7 @@
       <div class="tab-pane" id="activity">{% include "snippets/activity.html" with metrics=page_user|metrics %}</div>
 
       <div class="tab-pane" id="changes">
-        {% format_last_changes_content last_changes=last_changes user=user %}
+        {% format_last_changes_content last_changes=last_changes user=user bootstrap_5=True %}
         <a class="btn btn-primary" href="{% url 'changes' %}?{{ last_changes_url }}">{% translate "Browse all changes made by this user" %}</a>
       </div>
 
@@ -376,26 +379,26 @@
         <div class="tab-pane" id="edit">
           <form method="post">
             {% csrf_token %}
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4 class="panel-title">{% translate "Edit user" %}</h4>
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">{% translate "Edit user" %}</h4>
               </div>
-              <div class="panel-body">{{ form|crispy }}</div>
-              <div class="panel-footer">
+              <div class="card-body">{{ form|crispy }}</div>
+              <div class="card-footer">
                 <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
               </div>
             </div>
           </form>
           <form method="post">
             {% csrf_token %}
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4 class="panel-title">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">
                   {% documentation_icon 'admin/auth' '2fa' right=True %}
                   {% translate "Two-factor authentication" %}
                 </h4>
               </div>
-              <div class="panel-body">
+              <div class="card-body">
                 {% if page_user.profile.has_2fa %}
                   {% translate "The user has two-factor authentication." %}
                 {% else %}
@@ -403,7 +406,7 @@
                 {% endif %}
               </div>
               {% if page_user.profile.has_2fa %}
-                <div class="panel-footer">
+                <div class="card-footer">
                   <input type="submit"
                          name="remove_2fa"
                          value="{% translate "Turn off two-factor authentication" %}"
@@ -411,30 +414,30 @@
                 </div>
               {% endif %}
             </div>
-            <div class="panel panel-danger">
-              <div class="panel-heading">
-                <h4 class="panel-title">{% translate "Password reset" %}</h4>
+            <div class="card">
+              <div class="card-header text-bg-danger">
+                <h4 class="card-title">{% translate "Password reset" %}</h4>
               </div>
-              <div class="panel-body">{% translate "Disables password authentication for the user." %}</div>
-              <div class="panel-footer">
+              <div class="card-body">{% translate "Disables password authentication for the user." %}</div>
+              <div class="card-footer">
                 <input type="submit"
                        name="disable_password"
                        value="{% translate "Disable password" %}"
-                       class="btn-danger red">
+                       class="btn btn-danger red">
               </div>
             </div>
-            <div class="panel panel-danger">
-              <div class="panel-heading">
-                <h4 class="panel-title">{% translate "Removal" %}</h4>
+            <div class="card">
+              <div class="card-header text-bg-danger">
+                <h4 class="card-title">{% translate "Removal" %}</h4>
               </div>
-              <div class="panel-body">{% translate "Account removal deletes all user private data." %}</div>
-              <div class="panel-footer">
+              <div class="card-body">{% translate "Account removal deletes all user private data." %}</div>
+              <div class="card-footer">
                 <input type="button"
                        name="remove_user"
                        value="{% translate "Delete" %}"
-                       class="btn-danger red"
-                       data-toggle="modal"
-                       data-target="#delete_user_{{ page_user.id }}">
+                       class="btn btn-danger red"
+                       data-bs-toggle="modal"
+                       data-bs-target="#delete_user_{{ page_user.id }}">
               </div>
             </div>
             <div class="modal fade"
@@ -446,7 +449,7 @@
                   <div class="modal-header">
                     <button type="button"
                             class="close"
-                            data-dismiss="modal"
+                            data-bs-dismiss="modal"
                             aria-label="{% translate "Close" %}">
                       <span aria-hidden="true">×</span>
                     </button>

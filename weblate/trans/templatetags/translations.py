@@ -911,13 +911,15 @@ def translation_progress_render(
     if approved_percent > 0.1:
         approved_tag = format_html(
             """
-            <div class="progress-bar"
-                role="progressbar"
-                aria-valuenow="{approved}"
-                aria-valuemin="0"
-                aria-valuemax="100"
-                style="width: {approved}%"
-                title="{title}"></div>
+            <div class="progress progress5"
+                 role="progressbar"
+                 aria-valuenow="{approved}"
+                 aria-valuemin="0"
+                 aria-valuemax="100"
+                 style="width: {approved}%"
+                 title="{title}">
+                    <div class="progress-bar"></div>
+            </div>
             """,
             approved=f"{approved_percent:.1f}",
             title=gettext("Approved"),
@@ -925,20 +927,22 @@ def translation_progress_render(
     if good_percent > 0.1:
         good_tag = format_html(
             """
-            <div class="progress-bar progress-bar-success"
-                role="progressbar"
-                aria-valuenow="{good}"
-                aria-valuemin="0"
-                aria-valuemax="100"
-                style="width: {good}%"
-                title="{title}"></div>
+            <div class="progress progress5"
+                 role="progressbar"
+                 aria-valuenow="{good}"
+                 aria-valuemin="0"
+                 aria-valuemax="100"
+                 style="width: {good}%"
+                 title="{title}">
+                    <div class="progress-bar progress-bar-success"></div>
+            </div>
             """,
             good=f"{good_percent:.1f}",
             title=gettext("Translated without any problems"),
         )
 
     return format_html(
-        """<div class="progress" title="{}">{}{}</div>""",
+        """<div class="progress-stacked progress5" title="{}">{}{}</div>""",
         gettext("Needs attention"),
         approved_tag,
         good_tag,
@@ -1078,7 +1082,9 @@ def get_location_links(user: User | None, unit):
 
 
 @register.simple_tag(takes_context=True)
-def announcements(context: Context, project=None, component=None, language=None):
+def announcements(
+    context: Context, project=None, component=None, language=None, bootstrap_5=False
+):
     """Display announcement messages for given context."""
     user = context["user"]
 
@@ -1093,6 +1099,7 @@ def announcements(context: Context, project=None, component=None, language=None)
                         "tags": f"{announcement.severity} announcement",
                         "message": render_markdown(announcement.message),
                         "announcement": announcement,
+                        "bootstrap_5": bootstrap_5,
                         "can_delete": user.has_perm(
                             "meta:announcement.delete", announcement
                         ),
@@ -1114,9 +1121,8 @@ def active_tab(context: Context, slug):
 
 @register.simple_tag(takes_context=True)
 def active_link(context: Context, slug):
-    if slug == context["active_tab_slug"]:
-        return mark_safe('class="active"')
-    return ""
+    active = "active" if slug == context["active_tab_slug"] else ""
+    return format_html('class="nav-link {}"', active)
 
 
 def _needs_agreement(component, user: User) -> bool:
@@ -1609,6 +1615,15 @@ def path_object_breadcrumbs(path_object, flags: bool = True):
 
 
 @register.simple_tag
+def path_object_breadcrumbs5(path_object, flags: bool = True):
+    return format_html_join(
+        "\n",
+        '<li class="breadcrumb-item"><a href="{}">{}</a></li>',
+        get_breadcrumbs(path_object, flags=flags),
+    )
+
+
+@register.simple_tag
 def get_projectlanguage(project: Project, language: Language) -> ProjectLanguage:
     return ProjectLanguage(project=project, language=language)
 
@@ -1644,7 +1659,9 @@ def list_objects_number(
     url_end: str | SafeString
     url_start = url_end = ""
     if value == 0 and not show_zero:
-        value_formatted = format_html("""<span class="sr-only">{}</span>""", value)
+        value_formatted = format_html(
+            """<span class="visually-hidden">{}</span>""", value
+        )
     else:
         if search_url or translate_url:
             url_start = format_html(
@@ -1731,6 +1748,46 @@ def list_objects_percent(
     )
 
 
+@register.inclusion_tag("snippets/info5.html", takes_context=True)
+def show_info5(  # noqa: PLR0913
+    context: Context,
+    *,
+    project: Project | None = None,
+    component: Component | None = None,
+    translation: Translation | None = None,
+    language: Language | None = None,
+    componentlist: ComponentList | None = None,
+    stats: BaseStats | None = None,
+    metrics: MetricsWrapper | None = None,
+    show_source: bool = False,
+    show_global: bool = False,
+    show_full_language: bool = True,
+    top_users: QuerySet[Profile] | None = None,
+    total_translations: int | None = None,
+):
+    """
+    Render project information table.
+
+    This merely exists to be able to pass default values to {% include %}.
+    """
+    return {
+        "user": context["user"],
+        "project": project,
+        "component": component,
+        "translation": translation,
+        "language": language,
+        "componentlist": componentlist,
+        "stats": stats,
+        "metrics": metrics,
+        "show_source": show_source,
+        "show_global": show_global,
+        "show_full_language": show_full_language,
+        "top_users": top_users,
+        "total_translations": total_translations,
+        "bootstrap_5": True,
+    }
+
+
 @register.inclusion_tag("snippets/info.html", takes_context=True)
 def show_info(  # noqa: PLR0913
     context: Context,
@@ -1790,6 +1847,7 @@ def format_last_changes_content(
     debug: bool = False,
     search_url: str | None = None,
     offset: int | None = None,
+    bootstrap_5: bool = False,
 ):
     """
     Format last changes content for display.
@@ -1830,6 +1888,7 @@ def format_last_changes_content(
         "debug": debug,
         "search_url": search_url,
         "offset": offset,
+        "bootstrap_5": bootstrap_5,
     }
 
 
