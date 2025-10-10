@@ -132,6 +132,7 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
     def test_import_tmx_command(self) -> None:
         call_command("import_memory", get_test_file("memory.tmx"))
         self.assertEqual(Memory.objects.count(), 2)
+        self.assertEqual(Memory.objects.filter(status=Memory.STATUS_PENDING).count(), 0)
 
     def test_import_tmx2_command(self) -> None:
         call_command("import_memory", get_test_file("memory2.tmx"))
@@ -174,6 +175,7 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
     def test_import_json_command(self) -> None:
         call_command("import_memory", get_test_file("memory.json"))
         self.assertEqual(Memory.objects.count(), 1)
+        self.assertEqual(Memory.objects.filter(status=Memory.STATUS_PENDING).count(), 0)
 
     def test_import_broken_json_command(self) -> None:
         with self.assertRaises(CommandError):
@@ -232,6 +234,7 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
             target_language="cs",
         )
         self.assertEqual(Memory.objects.count(), expected_result)
+        self.assertEqual(Memory.objects.filter(status=Memory.STATUS_PENDING).count(), 0)
 
     def test_import_xliff(self) -> None:
         """Test the import of an XLIFF file."""
