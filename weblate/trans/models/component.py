@@ -19,7 +19,11 @@ from celery import current_task
 from celery.result import AsyncResult
 from django.conf import settings
 from django.core.cache import cache
-from django.core.exceptions import ObjectDoesNotExist, ValidationError
+from django.core.exceptions import (
+    ImproperlyConfigured,
+    ObjectDoesNotExist,
+    ValidationError,
+)
 from django.core.validators import MaxValueValidator
 from django.db import IntegrityError, connection, models, transaction
 from django.db.models import Count, Q
@@ -1474,7 +1478,11 @@ class Component(
 
     @property
     def repository_class(self) -> type[Repository]:
-        return VCS_REGISTRY[self.vcs]
+        try:
+            return VCS_REGISTRY[self.vcs]
+        except KeyError as error:
+            msg = f"Component using VCS {self.vcs}, but it not configured"
+            raise ImproperlyConfigured(msg) from error
 
     @cached_property
     def repository(self) -> Repository:
@@ -2977,7 +2985,7 @@ class Component(
     def set_default_branch(self) -> None:
         """Set default VCS branch if empty."""
         if not self.branch and not self.is_repo_link:
-            self.branch = VCS_REGISTRY[self.vcs].get_remote_branch(self.repo)
+            self.branch = self.repository_class.get_remote_branch(self.repo)
 
     def clean_category(self) -> None:
         if self.category:
