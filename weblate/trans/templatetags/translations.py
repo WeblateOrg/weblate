@@ -1121,9 +1121,8 @@ def active_tab(context: Context, slug):
 
 @register.simple_tag(takes_context=True)
 def active_link(context: Context, slug):
-    if slug == context["active_tab_slug"]:
-        return mark_safe('class="active"')
-    return ""
+    active = "active" if slug == context["active_tab_slug"] else ""
+    return format_html('class="nav-link {}"', active)
 
 
 def _needs_agreement(component, user: User) -> bool:

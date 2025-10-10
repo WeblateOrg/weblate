@@ -15,32 +15,32 @@
   {% perm 'reports.view' None as user_can_view_reports %}
 
   <ul class="nav nav-pills">
-    <li class="nav-item" {% active_link "your-subscriptions" %}>
-      <a class="nav-link active"
-         data-bs-target="#your-subscriptions"
+    <li class="nav-item">
+      <a data-bs-target="#your-subscriptions"
          data-bs-toggle="tab"
-         href="#">{% translate "Watched translations" %} <span class="badge text-bg-secondary">{{ usersubscriptions.paginator.count }}</span></a>
+         href="#"
+         {% active_link "your-subscriptions" %}>{% translate "Watched translations" %} <span class="badge text-bg-secondary">{{ usersubscriptions.paginator.count }}</span></a>
     </li>
     {% if all_componentlists %}
-      <li class="nav-item" {% active_link "componentlists" %}>
-        <a class="nav-link" data-bs-target="#componentlists" data-bs-toggle="tab" href="#">{% translate "All component lists" %} <span class="badge text-bg-secondary">{{ all_componentlists|length }}</span></a>
+      <li class="nav-item">
+        <a data-bs-target="#componentlists" data-bs-toggle="tab" href="#" {% active_link "componentlists" %}>{% translate "All component lists" %} <span class="badge text-bg-secondary">{{ all_componentlists|length }}</span></a>
       </li>
     {% endif %}
-    <li class="nav-item" {% active_link "suggestions" %}>
-      <a class="nav-link" data-bs-target="#suggestions" data-bs-toggle="tab" href="#">{% translate "Suggested translations" %} <span class="badge text-bg-secondary">{{ suggestions|length }}</span></a>
+    <li class="nav-item">
+      <a data-bs-target="#suggestions" data-bs-toggle="tab" href="#" {% active_link "suggestions" %}>{% translate "Suggested translations" %} <span class="badge text-bg-secondary">{{ suggestions|length }}</span></a>
     </li>
     {% if owned_projects %}
-      <li class="nav-item" {% active_link "managed" %}>
-        <a class="nav-link" data-bs-target="#managed" data-bs-toggle="tab" href="#">{% translate "Managed projects" %} <span class="badge text-bg-secondary">{{ all_owned_projects|length }}</span></a>
+      <li class="nav-item">
+        <a data-bs-target="#managed" data-bs-toggle="tab" href="#" {% active_link "managed" %}>{% translate "Managed projects" %} <span class="badge text-bg-secondary">{{ all_owned_projects|length }}</span></a>
       </li>
     {% endif %}
     {% for componentlist in componentlists %}
-      <li class="nav-item" {% active_link componentlist.tab_slug %}>
-        <a class="nav-link"
-           data-bs-target="#{{ componentlist.tab_slug }}"
+      <li class="nav-item">
+        <a data-bs-target="#{{ componentlist.tab_slug }}"
            data-bs-toggle="tab"
            data-href="{% url 'component-list-dashboard' name=componentlist.slug %}"
-           href="#">
+           href="#"
+           {% active_link componentlist.tab_slug %}>
           {{ componentlist.name }}
           <span class="badge text-bg-secondary">{{ componentlist.translations|length }}</span>
         </a>
