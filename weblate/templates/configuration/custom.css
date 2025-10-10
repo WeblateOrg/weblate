@@ -1,23 +1,46 @@
+{% load colors %}
+
 {% comment %} Light theme color variables {% endcomment %}
 {% if header_color_light %}
 @media (prefers-color-scheme: light) {
   body {
     --header-color: {{ header_color_light }};
   }
+
+  :root {
+    --bs-dark: {{ header_color_light }}!;
+    --bs-dark-rgb: {{ header_color_light|hex_to_rgb }}!;
+  }
 }
+
 body[data-theme="light"] {
 --header-color: {{ header_color_light }}!important;
+}
+
+:root[data-bs-theme="light"] {
+  --bs-dark: {{ header_color_light }}!important;
+  --bs-dark-rgb: {{ header_color_light|hex_to_rgb }}!important;
 }
 {% endif %}
 
 {% if header_text_color_light %}
 @media (prefers-color-scheme: light) {
   body {
-    --header-text-color: {{ header_text_color_light }};    
+    --header-text-color: {{ header_text_color_light }};
+  }
+
+  .navbar {
+    --bs-navbar-color: {{ header_text_color_light }};
+    --bs-navbar-brand-color: {{ header_text_color_light }};
   }
 }
 body[data-theme="light"] {
 --header-text-color: {{ header_text_color_light }}!important;
+
+  .navbar {
+    --bs-navbar-color: {{ header_text_color_light }}!important;
+    --bs-navbar-brand-color: {{ header_text_color_light }}!important;
+  }
 }
 {% endif %}
 
@@ -71,9 +94,19 @@ body[data-theme="light"] {
   body {
     --header-color: {{ header_color_dark }};
   }
+
+  :root {
+    --bs-dark: {{ header_color_dark }}!;
+    --bs-dark-rgb: {{ header_color_dark|hex_to_rgb }}!;
+  }
 }
 body[data-theme="dark"] {
 --header-color: {{ header_color_dark }}!important;
+}
+
+:root[data-bs-theme="dark"] {
+  --bs-dark: {{ header_color_dark }}!important;
+  --bs-dark-rgb: {{ header_color_dark|hex_to_rgb }}!important;
 }
 {% endif %}
 
@@ -82,9 +115,19 @@ body[data-theme="dark"] {
   body {
     --header-text-color: {{ header_text_color_dark }};
   }
+
+  .navbar {
+    --bs-navbar-color: {{ header_text_color_dark }};
+    --bs-navbar-brand-color: {{ header_text_color_dark }};
+  }
 }
 body[data-theme="dark"] {
 --header-text-color: {{ header_text_color_dark }}!important;
+
+.navbar {
+    --bs-navbar-color: {{ header_text_color_dark }}!important;
+    --bs-navbar-brand-color: {{ header_text_color_dark }}!important;
+  }
 }
 {% endif %}
 
@@ -495,6 +538,10 @@ body[data-theme="dark"] {
 {% if page_font %}
   body {
     font-family: {{ page_font }};
+  }
+
+  :root {
+    --bs-font-sans-serif: {{ page_font }}!important;
   }
 {% endif %}
 {% if brand_font %}
