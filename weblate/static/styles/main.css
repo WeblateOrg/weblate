@@ -697,6 +697,7 @@ form + .login-label {
   display: flex;
   flex-direction: column;
   gap: 30px;
+  overflow-x: visible; 
 }
 
 .btn-float {
@@ -716,7 +717,6 @@ form + .login-label {
 #keys,
 #others,
 #translations,
-#history,
 #machinery,
 #comments {
   overflow-x: auto;
@@ -2188,6 +2188,7 @@ a.language:hover {
 .second-factor h5,
 h5.list-group-item-heading {
   font-weight: bolder;
+  margin-bottom: 5px;
 }
 
 .table-supportstatus .progress {
@@ -2570,4 +2571,14 @@ table.table-simple tbody#glossary-terms td {
 
 .card label {
   font-weight: bold;
+}
+
+.comment-content strong {
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.list-group:has(+.card-footer) {
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
 }

@@ -1,6 +1,6 @@
 {% load i18n icons permissions translations %}
 
-<table id="changes-table" class="table table-autowidth">
+<table id="changes-table" class="table table-autowidth {% if bootstrap_5 %}container-fluid{% endif %}">
   <tbody id="changes-list">
     {% for item in changes_with_context %}
       <tr id="changes-item"
