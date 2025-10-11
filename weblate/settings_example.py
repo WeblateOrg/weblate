@@ -697,6 +697,9 @@ LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH = True
 # Use simple language codes for default language/country combinations
 SIMPLIFY_LANGUAGES = True
 
+# This allows to hide glossary components when shared to other projects
+HIDE_SHARED_GLOSSARY_COMPONENTS = False
+
 # Render forms using bootstrap
 CRISPY_ALLOWED_TEMPLATE_PACKS = ["bootstrap3", "bootstrap5"]
 CRISPY_TEMPLATE_PACK = "bootstrap3"
