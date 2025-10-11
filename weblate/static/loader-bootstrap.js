@@ -590,6 +590,35 @@ $(function () {
     },
   );
 
+  /* Same for Bootstrap 5 */
+  $document.on(
+    "show.bs.tab",
+    '[data-bs-toggle="tab"][data-href], [data-bs-toggle="pill"][data-href]',
+    (e) => {
+      const $target = $(e.target);
+      let $content = $($target.attr("data-bs-target"));
+      if ($target.data("loaded")) {
+        return;
+      }
+      if ($content.find(".card-body").length > 0) {
+        $content = $content.find(".card-body");
+      }
+      $content.load($target.data("href"), (_responseText, status, xhr) => {
+        if (status !== "success") {
+          const msg = gettext("Error while loading page:");
+          $content.html(
+            `<div class="alert alert-danger" role="alert">
+                ${msg} ${xhr.statusText} (${xhr.status})
+              </div>
+            `,
+          );
+        }
+        $target.data("loaded", 1);
+        loadTableSorting();
+      });
+    },
+  );
+
   if ($("#form-activetab").length > 0) {
     $document.on("show.bs.tab", '[data-toggle="tab"]', (e) => {
       const $target = $(e.target);
@@ -875,6 +904,29 @@ $(function () {
         },
         () => {
           addAlert(gettext("Please press Ctrl+C to copy."), "danger");
+        },
+      );
+  });
+
+  /* Same for Bootstrap 5 */
+  $(document).on("click", "[data-bs-clipboard-value]", function (e) {
+    e.preventDefault();
+    navigator.clipboard
+      .writeText(this.getAttribute("data-clipboard-value"))
+      .then(
+        () => {
+          const text =
+            this.getAttribute("data-clipboard-message") ||
+            gettext("Text copied to clipboard.");
+          addAlert(text, "info", 3000, true);
+        },
+        () => {
+          addAlert(
+            gettext("Please press Ctrl+C to copy."),
+            "danger",
+            3000,
+            true,
+          );
         },
       );
   });
@@ -1426,7 +1478,7 @@ $(function () {
     selector: "#sitewide-search",
     debounce: 300,
     resultsList: {
-      class: "autoComplete dropdown-menu",
+      class: "autoComplete dropdown-menu shadow",
     },
     resultItem: {
       class: "autoComplete_result",
@@ -1435,6 +1487,7 @@ $(function () {
         const child = document.createElement("a");
         child.setAttribute("href", data.value.url);
         child.textContent = `${data.value.name} `;
+        child.addClass("dropdown-item");
         const category = document.createElement("span");
         category.setAttribute("class", "badge");
         category.textContent = data.value.category;

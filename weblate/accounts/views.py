@@ -751,6 +751,7 @@ class UserPage(UpdateView):
             .prefetch_related("defining_project")
             .order()
         )
+        context["bootstrap_5"] = True
         return context
 
 

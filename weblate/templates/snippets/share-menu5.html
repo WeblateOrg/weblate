@@ -1,0 +1,37 @@
+{% load i18n %}
+
+{% if enable_sharing %}
+  <li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{% translate "Community" %}</a>
+    <ul class="dropdown-menu shadow">
+      {% with share_url=object.get_share_url widgets_url=object.get_widgets_url %}
+        <li>
+          <a class="dropdown-item"
+             href="https://bsky.app/intent/compose?text={% blocktranslate %}Translate {{ object }} using %23Weblate at {{ share_url }}!{% endblocktranslate %}">{% translate "Share on Bluesky" %}</a>
+        </li>
+        {% with fediverse_url=user.profile.get_fediverse_share %}
+          {% if fediverse_url %}
+            <li>
+              <a class="dropdown-item"
+                 href="{{ fediverse_url }}{% blocktranslate %}Translate {{ object }} using %23Weblate at {{ share_url }}!{% endblocktranslate %}">{% translate "Share on Fediverse" %}</a>
+            </li>
+          {% endif %}
+        {% endwith %}
+        <li>
+          <a class="dropdown-item"
+             href="https://www.facebook.com/sharer.php?u={{ share_url }}">{% translate "Share on Facebook" %}</a>
+        </li>
+        <li>
+          <a class="dropdown-item"
+             href="https://x.com/share?text={% blocktranslate %}Translate {{ object }} using %23Weblate at {{ share_url }}!{% endblocktranslate %}">{% translate "Share on X" %}</a>
+        </li>
+        <li>
+          <a class="dropdown-item" href="{{ share_url }}">{% translate "Engage page" %}</a>
+        </li>
+        <li>
+          <a class="dropdown-item" href="{{ widgets_url }}">{% translate "Status widgets" %}</a>
+        </li>
+      {% endwith %}
+    </ul>
+  </li>
+{% endif %}

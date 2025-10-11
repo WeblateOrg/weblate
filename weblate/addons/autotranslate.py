@@ -40,15 +40,39 @@ class AutoTranslateAddon(BaseAddon):
     def component_update(
         self, component: Component, activity_log_id: int | None = None
     ) -> None:
+        self.trigger_autotranslate(component=component)
+
+    def trigger_autotranslate(
+        self,
+        *,
+        component: Component | None = None,
+        user_id: int | None = None,
+        translation_id: int | None = None,
+        unit_ids: list[int] | None = None,
+    ) -> None:
         conf = self.instance.configuration
-        auto_translate_component.delay_on_commit(
-            component.pk,
-            mode=conf["mode"],
-            q=conf["q"],
-            auto_source=conf["auto_source"],
-            engines=conf["engines"],
-            threshold=conf["threshold"],
-        )
+        if component is None:
+            auto_translate.delay_on_commit(
+                mode=conf["mode"],
+                q=conf["q"],
+                auto_source=conf["auto_source"],
+                engines=conf["engines"],
+                threshold=conf["threshold"],
+                component=conf["component"],
+                user_id=user_id,
+                translation_id=translation_id,
+                unit_ids=unit_ids,
+            )
+        else:
+            auto_translate_component.delay_on_commit(
+                component.pk,
+                mode=conf["mode"],
+                q=conf["q"],
+                auto_source=conf["auto_source"],
+                engines=conf["engines"],
+                threshold=conf["threshold"],
+                component=conf["component"],
+            )
 
     def daily(self, component: Component, activity_log_id: int | None = None) -> None:
         # Translate every component less frequenctly to reduce load.
@@ -65,7 +89,7 @@ class AutoTranslateAddon(BaseAddon):
         ):
             return
 
-        self.component_update(component)
+        self.trigger_autotranslate(component=component)
 
     def change_event(self, change: Change, activity_log_id: int | None = None) -> None:
         units = []
@@ -108,9 +132,8 @@ class AutoTranslateAddon(BaseAddon):
             translation_with_unit_ids[unit.translation.id].append(unit.pk)
 
         for translation_id, unit_ids in translation_with_unit_ids.items():
-            auto_translate.delay(
+            self.trigger_autotranslate(
                 user_id=change.user_id,
                 translation_id=translation_id,
                 unit_ids=unit_ids,
-                **self.instance.configuration,
             )
