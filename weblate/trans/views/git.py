@@ -100,6 +100,7 @@ def reset(request: AuthenticatedHttpRequest, path):
         ),
         obj.do_reset,
         request,
+        keep_changes="keep_changes" in request.POST,
     )
     if result:
         return redirect(

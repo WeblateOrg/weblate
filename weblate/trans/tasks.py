@@ -26,13 +26,12 @@ from django.db.models import (
 )
 from django.db.models.functions import Now
 from django.http import Http404
-from django.http.request import HttpRequest
 from django.utils import timezone
 from django.utils.timezone import make_aware
 from django.utils.translation import override
 
 from weblate.addons.models import Addon
-from weblate.auth.models import User, get_anonymous
+from weblate.auth.models import AuthenticatedHttpRequest, User, get_anonymous
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
 from weblate.trans.actions import ActionEvents
@@ -80,9 +79,9 @@ def perform_update(
     obj=None,
     user_id: int = 0,
 ) -> None:
-    request: HttpRequest | None = None
+    request: AuthenticatedHttpRequest | None = None
     if user_id:
-        request = HttpRequest()
+        request = AuthenticatedHttpRequest()
         request.user = User.objects.get(pk=user_id)
     try:
         if obj is None:
@@ -116,9 +115,9 @@ def perform_load(
     change: int | None = None,
     user_id: int | None = None,
 ) -> None:
-    request: HttpRequest | None = None
+    request: AuthenticatedHttpRequest | None = None
     if user_id:
-        request = HttpRequest()
+        request = AuthenticatedHttpRequest()
         request.user = User.objects.get(pk=user_id)
     component = Component.objects.get(pk=pk)
     component.create_translations_immediate(
@@ -138,10 +137,24 @@ def perform_load(
     retry_backoff=600,
     retry_backoff_max=3600,
 )
-def perform_commit(pk, reason: str, *, user_id: int | None = None) -> None:
+def perform_commit(
+    pk,
+    reason: str,
+    *,
+    user_id: int | None = None,
+    force_scan: bool = False,
+    previous_head: str | None = None,
+) -> None:
     user = User.objects.get(pk=user_id) if user_id else None
     component = Component.objects.get(pk=pk)
-    component.commit_pending(reason, user=user)
+    with component.repository.lock:
+        component.commit_pending(reason, user=user)
+        if force_scan:
+            component.trigger_post_update(
+                previous_head=previous_head,
+                skip_push=False,
+            )
+            component.create_translations(force=True)
 
 
 @app.task(
