@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-09-03 14:08+0200\n"
-"PO-Revision-Date: 2025-10-12 13:31+0000\n"
+"PO-Revision-Date: 2025-10-12 15:43+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -19782,10 +19782,16 @@ msgid ""
 "``WEBLATE_`` prefix to the setting name, for example :setting:"
 "`RATELIMIT_ATTEMPTS` becomes :envvar:`WEBLATE_RATELIMIT_ATTEMPTS`."
 msgstr ""
+"La configuración también se puede aplicar en el contenedor Docker agregando "
+"el prefijo ``WEBLATE_`` al nombre de la configuración, por ejemplo "
+":setting:`RATELIMIT_ATTEMPTS` se convierte en "
+":envvar:`WEBLATE_RATELIMIT_ATTEMPTS`."
 
 #: ../../admin/optionals.rst:313
 msgid "The API has separate rate limiting settings, see :ref:`api-rate`."
 msgstr ""
+"La API tiene configuraciones de limitación de velocidad separadas, ver :ref"
+":`api-rate`."
 
 #: ../../admin/optionals.rst:324
 msgid "Fedora Messaging integration"
@@ -19820,17 +19826,15 @@ msgid "Translation organization"
 msgstr "Organización de traducción"
 
 #: ../../admin/projects.rst:7
-#, fuzzy
-#| msgid ""
-#| "Weblate organizes translatable VCS content of project/components into a "
-#| "tree-like structure."
 msgid ""
 "Weblate organizes translatable VCS content of project/components into a tree-"
 "like structure. You can additionally organize components within a project "
 "using categories."
 msgstr ""
-"Weblate organiza el contenido traducible del sistema de control de versiones "
-"del proyecto o los componentes en una estructura semejante a un árbol."
+"Weblate organiza el contenido VCS traducible del sistema de control de "
+"versiones del proyecto o los componentes en una estructura semejante a un "
+"árbol. Además, puede organizar componentes dentro de un proyecto mediante "
+"categorías."
 
 #: ../../admin/projects.rst:11
 msgid ""
@@ -19838,12 +19842,17 @@ msgid ""
 "translations belonging together (for example translation of an application "
 "in several versions and/or accompanying documentation)."
 msgstr ""
+"El objeto de nivel inferior es :ref:`project`, que debe contener todas las "
+"traducciones pertenecientes juntas (por ejemplo, traducción de una "
+"aplicación en varias versiones y/o documentación adjunta)."
 
 #: ../../admin/projects.rst:15
 msgid ""
 "The middle level is optionally created by :ref:`category`. The categories "
 "can be nested to achieve more complex structure."
 msgstr ""
+"El nivel medio se crea opcionalmente mediante :ref:`category`. Las "
+"categorías se pueden anidar para lograr una estructura más compleja."
 
 #: ../../admin/projects.rst:18
 msgid ""
@@ -19851,6 +19860,9 @@ msgid ""
 "translate, you define the VCS repository to use, and the mask of files to "
 "translate."
 msgstr ""
+"En el nivel anterior, :ref:`component`, que en realidad es el componente a "
+"traducir, define el repositorio de VCS a utilizar y la máscara de archivos a "
+"traducir."
 
 #: ../../admin/projects.rst:22
 msgid ""
@@ -19858,6 +19870,10 @@ msgid ""
 "automatically by Weblate as translation files (which match :ref:`component-"
 "filemask` defined in :ref:`component`) appear in the VCS repository."
 msgstr ""
+"Sobre :ref:`component` hay traducciones individuales, manejadas "
+"automáticamente por Weblate como archivos de traducción "
+"(que coinciden :ref:`component-filemask` definidos en :ref:`component`) "
+"aparecen en el repositorio de VCS."
 
 #: ../../admin/projects.rst:25
 msgid ""
@@ -19873,6 +19889,10 @@ msgid ""
 "feature is highly recommended when you have many components sharing the same "
 "VCS. It improves performance and decreases required disk space."
 msgstr ""
+"Puede compartir repositorios de VCS clonados usando :ref:`internal-urls`. Se "
+"recomienda encarecidamente utilizar esta función cuando tiene muchos "
+"componentes que comparten el mismo VCS. Mejora el rendimiento y disminuye el "
+"espacio en disco requerido."
 
 #: ../../admin/projects.rst:38
 msgid "Adding translation projects and components"
