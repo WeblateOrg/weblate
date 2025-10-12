@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.13.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-09-03 14:08+0200\n"
-"PO-Revision-Date: 2025-08-25 04:03+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-10-12 15:43+0000\n"
+"Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
 "Language: nl\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.13\n"
+"X-Generator: Weblate 5.14-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:215
@@ -2711,6 +2711,8 @@ msgid ""
 "Ensure the new component contains the full set of translatable languages "
 "with :ref:`addon-weblate.consistency.languages`."
 msgstr ""
+"Zorg ervoor dat het nieuwe onderdeel de volledige set van te vertalen talen "
+"bevat met :ref:`addon-weblate.consistency.languages`."
 
 #: ../../admin/addons.rst:441
 msgid ""
@@ -2719,6 +2721,11 @@ msgid ""
 "``match`` -- i.e., the component must contain a base language file and at "
 "least one existing translation. Otherwise, it will be ignored."
 msgstr ""
+"Om te worden opgemerkt moet een nieuw onderdeel ene bestand bevatten dat "
+"overeenkomt met het ``base_file_template`` **en** ten minste een bestand met "
+"een naam die overeenkomt met ``match`` -- d.i. het onderdeel met een basis "
+"taalbestand bevatten en ten minste een bestaande vertaling. Anders zal het "
+"worden genegeerd."
 
 #: ../../admin/addons.rst:454 ../../user/translating.rst:423
 msgid "Bulk edit"
@@ -3095,16 +3102,12 @@ msgid "Long lines wrapping"
 msgstr "Tekstterugloop"
 
 #: ../../admin/addons.rst:754 ../../snippets/file-format-parameters.rst:37
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 characters and at newlines. With the "
-#| "--no-wrap parameter, wrapping is only done at newlines."
 msgid ""
 "By default, gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
 msgstr ""
 "Gettext breekt regels standaard af bij 77 tekens en nieuwe regels. Met de "
-"opdrachtregeloptie --no-wrap wordt tekst enkel afgebroken op nieuwe regels."
+"parameter --no-wrap wordt tekst alleen afgebroken bij nieuwe regels."
 
 #: ../../admin/addons.rst:760 ../../snippets/file-format-parameters.rst:42
 msgid "Wrap lines at 77 characters and at newlines (xgettext default)"
@@ -3220,6 +3223,7 @@ msgstr "Label aanpassen"
 #: ../../admin/addons.rst:824
 msgid "Settings configuration has been moved to :ref:`file_format_params`."
 msgstr ""
+"Configureren van instellingen is verplaatst naar :ref:`file_format_params`."
 
 #: ../../admin/addons.rst:830
 msgid ""
@@ -3306,6 +3310,9 @@ msgid ""
 "To avoid unnecessary conflicts, it is recommended to configure automatic "
 "receiving of upstream changes by webhooks or API, see :ref:`update-vcs`."
 msgstr ""
+"Om onnodige conflicten te vermijden wordt aanbevolen om het automatisch "
+"ontvangen van wijzigingen upstream te configureren door webhooks of API, "
+"bekijk :ref:`update-vcs`."
 
 #: ../../admin/addons.rst:872
 msgid ""
@@ -6949,18 +6956,25 @@ msgid ""
 "means that certain checks will be automatically enabled depending on where "
 "the string is used."
 msgstr ""
+"Sommige vlaggen worden standaard aan tekenreeksen toegevoegd, gebaseerd op "
+"hun locaties. Dat betekent dat bepaalde controles automatisch zullen worden "
+"ingeschakeld, afhankelijk van waar de tekenreeks wordt gebruikt."
 
 #: ../../admin/checks.rst:363
 msgid ""
 "``rst-text``: This flag is automatically added to strings in "
 "reStructuredText files, if location extension is ``.rst``."
 msgstr ""
+"``rst-text``: Deze vlag wordt automatisch toegevoegd in bestanden met "
+"reStructuredText, als de extensie van de locatie ``.rst`` is."
 
 #: ../../admin/checks.rst:364
 msgid ""
 "``md-text``: This flag is automatically added to strings in Markdown files, "
 "if location extension is ``.md`` or ``.markdown``."
 msgstr ""
+"``md-text``: Deze vlag wordt automatisch toegevoegd in bestanden met "
+"Markdown, als de extensie van de locatie ``.md`` of ``.markdown`` is."
 
 #: ../../admin/checks.rst:369
 msgid "Enforcing checks"
@@ -6972,6 +6986,9 @@ msgid ""
 "editing` (see :ref:`states`). This prevents translators from hiding such "
 "checks."
 msgstr ""
+"De afgedwongen controles kunnen niet worden uitgeschakeld en markeren een "
+"tekenreeks met :guilabel:`Bewerken nodig` (bekijk :ref:`states`). Dit "
+"voorkomt dat vertalers dergelijke controles verbergen."
 
 #: ../../admin/checks.rst:377
 #, fuzzy
@@ -6995,12 +7012,19 @@ msgid ""
 "same` is not recommended because dismissal is sometimes a reasonable "
 "approach in these."
 msgstr ""
+"Dit kan het beste worden gebruikt met controles zoals voor :ref:`check-"
+"formats`. Gebruiken van controles voor opmaak, zoals :ref:`check-same`, "
+"wordt niet aanbevolen, omdat in deze het uitschakelen een redelijke "
+"benadering is."
 
 #: ../../admin/checks.rst:385
 msgid ""
 "The :ref:`project-commit_policy` can then be used to exclude strings needing "
 "editing from being committed to the version control."
 msgstr ""
+"De :ref:`project-commit_policy` kan dan worden gebruikt om tekenreeksen uit "
+"te sluiten dat tekenreeksen, die moeten worden bewerkt, worden ingediend bij "
+"versiebeheer."
 
 #: ../../admin/checks.rst:400
 msgid "Managing fonts"
@@ -8086,6 +8110,11 @@ msgid ""
 "organization, so it won't work if you want Weblate to fork a repository "
 "outside the organization (typically to the user namespace)."
 msgstr ""
+"Het is mogelijk om zowel fijn afgestemde persoonlijke toegangstokens en "
+"klassieke persoonlijke toegangstokens te gebruiken. De fijn afgestemde "
+"tokens zijn beperkt tot een enkele organisatie, dus dat zal niet werken als "
+"u Weblate wilt forken naar een opslagplaats buiten de organisatie "
+"(gewoonlijk naar de naamruimte van de gebruiker)."
 
 #: ../../admin/config.rst:856
 #, fuzzy
@@ -8976,7 +9005,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1818
 msgid "SESSION_COOKIE_AGE_2FA"
-msgstr ""
+msgstr "SESSION_COOKIE_AGE_2FA"
 
 #: ../../admin/config.rst:1822
 #, fuzzy
@@ -11834,6 +11863,9 @@ msgid ""
 "SECURE_PROXY_SSL_HEADER` (:file:`settings.py`) or :envvar:"
 "`WEBLATE_SECURE_PROXY_SSL_HEADER` (Docker environment)."
 msgstr ""
+"Deze koptekst moet dan worden geconfigureerd in "
+":setting:`django:SECURE_PROXY_SSL_HEADER` (:file:`settings.py`) of "
+":envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER` (Docker-omgeving)."
 
 #: ../../admin/install.rst:771
 msgid ""
@@ -11842,6 +11874,10 @@ msgid ""
 "``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,HTTPS`` are not "
 "interchangeable."
 msgstr ""
+"De waarde van de koptekst is hoofdlettergevoelig in de configuratie, dus "
+"``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,https`` en "
+"``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,HTTPS`` zijn niet "
+"hetzelfde."
 
 #: ../../admin/install.rst:778
 msgid ""
@@ -11849,6 +11885,9 @@ msgid ""
 "most likely caused by mismatch between the actual protocol (HTTPS) and what "
 "is observed by Weblate."
 msgstr ""
+"Als u een fout \"Teveel verwijzingen\" van de browser krijgt, wordt dat "
+"hoogstwaarschijnlijk veroorzaakt door het niet overeenkomen van het "
+"feitelijke protocol (HTTPS) en wat door Weblate wordt waargenomen."
 
 #: ../../admin/install.rst:784
 msgid ""
@@ -11856,6 +11895,10 @@ msgid ""
 "in the default configuration, but other WSGI servers have more secure "
 "configuration and require explicit setting of this."
 msgstr ""
+"De protocol proxy-kopteksten worden automatisch afgehandeld door "
+":program:`gunicorn` in de standaard configuratie, maar anders servers van "
+"WSGI hebben een meer veilige configuratie en vereisen dat dit expliciet is "
+"ingesteld."
 
 #: ../../admin/install.rst:788
 msgid ""
@@ -11863,6 +11906,9 @@ msgid ""
 "now requires the explicit configuration of :envvar:"
 "`WEBLATE_SECURE_PROXY_SSL_HEADER`."
 msgstr ""
+"Vanaf Weblate 5.13 gebruikt de Docker- container :program:`granian` en het "
+"vereist nu de expliciete configuratie van "
+":envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER`."
 
 #: ../../admin/install.rst:811
 msgid "HTTP proxy"
@@ -12712,7 +12758,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1507
 msgid "weblate/examples/weblate.nginx.granian.conf"
-msgstr ""
+msgstr "weblate/examples/weblate.nginx.granian.conf"
 
 #: ../../admin/install.rst:1514 ../../admin/install.rst:1626
 #, fuzzy
@@ -12859,7 +12905,7 @@ msgstr "Voorbeeld configuratie om Gunicorn op te starten"
 
 #: ../../admin/install.rst:1634
 msgid "Gunicorn has to be installed separately:"
-msgstr ""
+msgstr "Gunicorn moet afzonderlijk zijn geïnstalleerd:"
 
 #: ../../admin/install.rst:1640
 msgid ""
@@ -15109,6 +15155,8 @@ msgstr ""
 #: ../../admin/install/docker.rst:1831
 msgid "Whether to monitor Celery Beat tasks with Sentry, defaults to ``True``."
 msgstr ""
+"Of taken van Celery Beat moeten worden gemonitord met Sentry, standaard "
+"``True``."
 
 #: ../../admin/install/docker.rst:1835
 msgid "Configures :setting:`SENTRY_TRACES_SAMPLE_RATE`."
@@ -15646,6 +15694,9 @@ msgid ""
 "meant to be stable. Please review your custom code interacting with Weblate "
 "internals on each upgrade."
 msgstr ""
+"De interne Weblate API kan significant variëren tussen uitgaven en is niet "
+"bedoeld om stabiel te zijn. Bekijk uw aangepaste code die interacteert met "
+"het interne van Weblate bij elke upgrade."
 
 #: ../../admin/install/docker.rst:2250
 msgid ""
@@ -15654,18 +15705,27 @@ msgid ""
 "inside Weblate (this is used for customizing templates and static files as "
 "described above)."
 msgstr ""
+"U kunt aanvullende code van Python plaatsen in :file:`/app/data/python/"
+"customize` (bekijk :ref:`docker-volume`). Het is al geïnstalleerd als een "
+"toepassing voor Django binnen Weblate (dit wordt gebruikt voor het aanpassen "
+"van sjablonen en statische bestanden, zoals hierboven beschreven)."
 
 #: ../../admin/install/docker.rst:2255
 msgid ""
 "This can be used to place any code (for example :ref:`own-checks`) or to add "
 "custom maintenance tasks to the Celery task scheduler."
 msgstr ""
+"Dit kan worden gebruikt om elke code te plaatsen "
+"(bijvoorbeeld :ref:`own-checks`) of om aangepaste taken voor onderhoud toe "
+"te voegen aan het taakschema van Celery."
 
 #: ../../admin/install/docker.rst:2258
 msgid ""
 "An example of custom scheduled tasks in :file:`/app/data/python/customize/"
 "tasks.py`."
 msgstr ""
+"Een voorbeeld van aangepaste taken in het schema in :file:`/app/data/python/"
+"customize/tasks.py`."
 
 #: ../../admin/install/docker.rst:2263
 msgid "Configuring PostgreSQL server"
@@ -16577,11 +16637,11 @@ msgstr ""
 
 #: ../../admin/languages.rst:177
 msgid "`Additional functions for plural forms in GNU gettext`_"
-msgstr ""
+msgstr "`Aanvullende functies voor meervoudsvormen in GNU gettext`_"
 
 #: ../../admin/languages.rst:178
 msgid "`Language Plural Rules by the Unicode Consortium`_"
-msgstr ""
+msgstr "`Regels voor meervouden in talen door het Unicode Consortium`_"
 
 #: ../../admin/licensing.rst:2
 msgid "Licensing translations"
@@ -17379,12 +17439,16 @@ msgid ""
 "`Authenticate to Cloud services using client libraries <https://cloud.google."
 "com/docs/authentication/client-libraries>`_"
 msgstr ""
+"`Authenticeren bij Cloud-services met cliëntbibliotheken <https://"
+"cloud.google.com/docs/authentication/client-libraries>`_"
 
 #: ../../admin/machine.rst:431
 msgid ""
 "`Creating Google Translate project <https://cloud.google.com/appengine/docs/"
 "standard/nodejs/building-app/creating-project>`_"
 msgstr ""
+"`Google Translate-project maken <https://cloud.google.com/appengine/docs/"
+"standard/nodejs/building-app/creating-project>`_"
 
 #: ../../admin/machine.rst:432
 #, fuzzy
@@ -17580,16 +17644,20 @@ msgid ""
 "`Cognitive Services - Text Translation API <https://azure.microsoft.com/en-"
 "us/products/ai-services/ai-translator>`_"
 msgstr ""
+"`Cognitieve services - tekst vertalen API <https://azure.microsoft.com/en-us/"
+"products/ai-services/ai-translator>`_"
 
 #: ../../admin/machine.rst:557
 msgid "`Microsoft Azure Portal <https://portal.azure.com/>`_"
-msgstr ""
+msgstr "`Microsoft Azure portaal <https://portal.azure.com/>`_"
 
 #: ../../admin/machine.rst:558
 msgid ""
 "`Base URLs <https://learn.microsoft.com/en-us/azure/ai-services/translator/"
 "text-translation/reference/v3/reference#base-urls>`_"
 msgstr ""
+"`Basis URL's <https://learn.microsoft.com/en-us/azure/ai-services/translator/"
+"text-translation/reference/v3/reference#base-urls>`_"
 
 #: ../../admin/machine.rst:559
 msgid ""
@@ -17597,6 +17665,9 @@ msgid ""
 "com/en-us/azure/ai-services/translator/text-translation/reference/v3/"
 "reference#authenticating-with-a-multi-service-resource>`_"
 msgstr ""
+"`\"Authenticeren met een bron voor Multi-service\" <https://"
+"learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/"
+"reference/v3/reference#authenticating-with-a-multi-service-resource>`_"
 
 #: ../../admin/machine.rst:560
 msgid ""
@@ -18217,7 +18288,7 @@ msgstr ""
 
 #: ../../admin/management.rst:161
 msgid "Imports given content into Weblate, useful for benchmarking."
-msgstr ""
+msgstr "Import die inhoud aan Weblate geeft, nuttig voor benchmarking."
 
 #: ../../admin/management.rst:163
 #, fuzzy
@@ -19167,12 +19238,15 @@ msgid ""
 "entries with pending status are automatically removed when a translation is "
 "approved."
 msgstr ""
+"Items voor vertaalgeheugens kunnen twee verschillende statussen hebben: "
+"**actief** en **openstaand**. Openstaande items worden opgenomen in "
+"suggesties, maar met een toegepaste aftrek voor de kwaliteit. Als :ref"
+":`autoclean-tm` is ingeschakeld, worden hangende en overbodige items met de "
+"status openstaand automatisch verwijderd als een vertaling wordt goedgekeurd."
 
 #: ../../admin/memory.rst:82 ../../admin/projects.rst:197
-#, fuzzy
-#| msgid "Use translation memory"
 msgid "Autoclean translation memory"
-msgstr "Vertaalgeheugen gebruiken"
+msgstr "Vertaalgeheugen automatisch opschonen"
 
 #: ../../admin/memory.rst:86
 msgid ""
@@ -20228,7 +20302,7 @@ msgstr "Toegevoegde ondersteuning voor verwijderen van items vertaalgeheugen."
 
 #: ../../admin/projects.rst:205
 msgid "This does not affect manually uploaded memory entries."
-msgstr ""
+msgstr "Dit beïnvloedt geen handmatig geüploade items in geheugens."
 
 #: ../../admin/projects.rst:217
 msgid "Configure per project access control, see :ref:`acl` for more details."
@@ -20288,18 +20362,27 @@ msgid ""
 "changes to the version control system. This setting is available at the "
 "project level and supports the following options:"
 msgstr ""
+"Het beleid voor indienen bepaalt welke vertalingen worden opgenomen bij het "
+"indienen van wijzigingen bij het versiebeheersysteem. Deze instelling is "
+"beschikbaar op projectniveau en ondersteunt de volgende opties:"
 
 #: ../../admin/projects.rst:265
 msgid ""
 "**Commit all translations regardless of quality**: All translations will be "
 "committed, including those marked as needing editing or not reviewed."
 msgstr ""
+"**Alle vertalingen indienen, ongeacht de kwaliteit**: Alle vertalingen "
+"zullen worden ingediend, inclusief die welke zijn gemarkeerd met Bewerken "
+"nodig of die niet zijn nagekeken."
 
 #: ../../admin/projects.rst:267
 msgid ""
 "**Skip translations marked as needing editing**: Only translations that "
 "don't have the \"needs editing\" flag will be committed."
 msgstr ""
+"**Vertalingen overslaan die zijn gemarkeerd met Bewerken nodig**: Alleen "
+"vertalingen, die niet de vlag \"Bewerken nodig\" hebben, zullen worden "
+"ingediend."
 
 #: ../../admin/projects.rst:269
 msgid ""
@@ -20307,6 +20390,9 @@ msgid ""
 "approved by a reviewer will be committed. This option requires :ref:`project-"
 "translation_review` to be enabled."
 msgstr ""
+"**Alleen goedgekeurde vertalingen opnemen**: Alleen vertalingen die zijn "
+"goedgekeurd door een nakijker zullen worden ingediend. Deze optie vereist "
+"dat :ref:`project-translation_review` is ingeschakeld."
 
 #: ../../admin/projects.rst:277
 msgid "Enable hooks"
@@ -20979,10 +21065,8 @@ msgid "Enforced checks"
 msgstr "Afgedwongen controles"
 
 #: ../../admin/projects.rst:700
-#, fuzzy
-#| msgid "List of checks which can not be ignored."
 msgid "List of checks which can not be dismissed."
-msgstr "Lijst met controles die niet kunnen worden overgeslagen."
+msgstr "Lijst met controles die niet kunnen worden uitgeschakeld."
 
 #: ../../admin/projects.rst:709
 msgid "Translation license"
@@ -24591,6 +24675,8 @@ msgid ""
 "The ``filter_type`` parameter is no longer supported and filtering is done "
 "by the ``q`` parameter."
 msgstr ""
+"De parameter ``filter_type`` wordt niet langer ondersteund en filteren wordt "
+"uitgevoerd door de parameter ``q``."
 
 #: ../../api.rst:2072
 msgid "Trigger automatic translation."
@@ -25543,7 +25629,7 @@ msgstr ""
 
 #: ../../api.rst:2737
 msgid "The search looks for:"
-msgstr ""
+msgstr "De zoekactie zoekt naar:"
 
 #: ../../api.rst:2740 ../../api.rst:2751
 msgid "Categories"
@@ -25937,7 +26023,7 @@ msgstr "Verbeterd renderen van alarmen in wijzigingen."
 
 #: ../../changes.rst:11
 msgid "Failed :ref:`2fa` is visible in :ref:`audit-log`."
-msgstr ""
+msgstr "Mislukte :ref:`2fa` is zichtbaar in :ref:`audit-log`."
 
 #: ../../changes.rst:14 ../../changes.rst:75 ../../changes.rst:123
 #: ../../changes.rst:143 ../../changes.rst:196 ../../changes.rst:230
@@ -25960,7 +26046,7 @@ msgstr "Gerepareerde bugs"
 
 #: ../../changes.rst:15
 msgid "Sign-in form not shown for LDAP."
-msgstr ""
+msgstr "Formulier inloggen niet weergegeven voor LDAP."
 
 #: ../../changes.rst:16
 #, fuzzy
@@ -25984,6 +26070,7 @@ msgstr ""
 #: ../../changes.rst:18
 msgid ":ref:`file_format_params` were not properly applied in some situations."
 msgstr ""
+":ref:`file_format_params` werden in sommige situaties niet juist toegepast."
 
 #: ../../changes.rst:19
 #, fuzzy
@@ -26006,15 +26093,16 @@ msgstr "Notificeren van gebruikers vermeld in opmerkingen."
 
 #: ../../changes.rst:22
 msgid "Shorten session expiry while in :ref:`2fa`."
-msgstr ""
+msgstr "Verkorte sessie verloopt terwijl in :ref:`2fa`."
 
 #: ../../changes.rst:23
 msgid "Statistics when using :ref:`component-links`."
-msgstr ""
+msgstr "Statistieken bij gebruiken van :ref:`component-links`."
 
 #: ../../changes.rst:24
 msgid ":ref:`componentlists` are no longer blocking dashboard loading."
 msgstr ""
+":ref:`componentlists` blokkeren niet langer het laden van het dashboard."
 
 #: ../../changes.rst:27 ../../changes.rst:82 ../../changes.rst:205
 #: ../../changes.rst:355 ../../changes.rst:438 ../../changes.rst:528
@@ -26141,12 +26229,16 @@ msgid ""
 "Enhanced :ref:`translation-memory` management with configurable status "
 "control, see :ref:`memory-status`."
 msgstr ""
+"Verbeterd beheer :ref:`translation-memory` met te configureren "
+"statuscontrole, bekijk :ref:`memory-status`."
 
 #: ../../changes.rst:50
 msgid ""
 "Added :wladmin:`cleanup_memory` management command to remove obsolete "
 "translation memory entries."
 msgstr ""
+"Toegevoegde beheersopdracht :wladmin:`cleanup_memory` om overbodige items in "
+"vertaalgeheugens te verwijderen."
 
 #: ../../changes.rst:51
 msgid ":doc:`/formats/catkeys`."
@@ -26157,12 +26249,16 @@ msgid ""
 "Some flags are now added to a string by default, based on locations; see :"
 "ref:`location-based-flags`."
 msgstr ""
+"Sommige vlaggen worden nu standaard aan brontekenreeksen toegevoegd, "
+"gebaseerd op hun locaties; bekijk :ref:`location-based-flags`."
 
 #: ../../changes.rst:53
 msgid ""
 "Added :ref:`project-commit_policy` setting to control which translations are "
 "included when committing changes."
 msgstr ""
+"Toegevoegde instelling :ref:`project-commit_policy` om te beheren welke "
+"vertalingen worden opgenomen bij het indienen van wijzigingen."
 
 #: ../../changes.rst:54
 msgid ":ref:`file_format_params` can now be configured at the component level."
@@ -26175,12 +26271,16 @@ msgid ""
 "New management command :wladmin:`list_file_format_params` to list all "
 "available file format parameters."
 msgstr ""
+"Nieuwe beheersopdracht :wladmin:`list_file_format_params` om alle "
+"beschikbare parameters voor bestandsindelingen te vermelden."
 
 #: ../../changes.rst:56
 msgid ""
 "Tag and attribute names can now be customized for :ref:`flatxml` with :ref:"
 "`file_format_params`."
 msgstr ""
+"Tag- en attribuutnamen mogen nu worden aangepast voor :ref:`flatxml` met "
+":ref:`file_format_params`."
 
 #: ../../changes.rst:60
 #, fuzzy
@@ -26193,6 +26293,8 @@ msgid ""
 "A new :envvar:`SENTRY_MONITOR_BEAT_TASKS` setting allows disabling Sentry "
 "monitoring of Celery Beat tasks."
 msgstr ""
+"Een nieuwe instelling :envvar:`SENTRY_MONITOR_BEAT_TASKS` maakt het "
+"uitschakelen van het monitoren met Sentry van taken van Celery Beat mogelijk."
 
 #: ../../changes.rst:62
 msgid ""
@@ -26200,10 +26302,15 @@ msgid ""
 "`WEBLATE_SOCIAL_AUTH_OIDC_IMAGE` allow configuring the appearance of the "
 "generic OIDC authentication."
 msgstr ""
+":envvar:`WEBLATE_SOCIAL_AUTH_OIDC_TITLE` en "
+":envvar:`WEBLATE_SOCIAL_AUTH_OIDC_IMAGE` staan nu het configureren van het "
+"uiterlijk van de algemene OIDC-authenticatie toe."
 
 #: ../../changes.rst:63
 msgid "Background commits are now identified by an internal user."
 msgstr ""
+"Indieningen op de achtergrond worden nu geïdentificeerd door een interne "
+"gebruiker."
 
 #: ../../changes.rst:64
 msgid "Reorganized navigation menu."
@@ -26214,22 +26321,28 @@ msgid ""
 "When editing a language definition, a warning about automated updates is "
 "shown; see :ref:`included-languages`."
 msgstr ""
+"Bij het bewerken van een taaldefinitie wordt een waarschuwing over "
+"geautomatiseerde updates weergegeven; bekijk :ref:`included-languages`."
 
 #: ../../changes.rst:66
 msgid "Avatars for API and internal accounts."
-msgstr ""
+msgstr "Avatars voor API- en interne accounts."
 
 #: ../../changes.rst:67
 msgid ""
 "Adding a new TOTP device removes the existing one by default; checkbox for "
 "not removing previous ones available."
 msgstr ""
+"Toevoegen van een nieuw apparaat voor TOTP verwijdert standaard het "
+"bestaande; keuzevak voor het niet verwijderen van eerdere is beschikbaar."
 
 #: ../../changes.rst:68
 msgid ""
 "Creating pull or merge requests to remote repositories is no longer blocked "
 "by merge conflicts."
 msgstr ""
+"Maken van pull of merge requests om opslagplaatsen te verwijderen worden "
+"niet langer geblokkeerd door conflicten bij samenvoegen."
 
 #: ../../changes.rst:69
 #, fuzzy
@@ -26247,6 +26360,8 @@ msgid ""
 "Migration towards Bootstrap 5 has started, selected views now use Bootstrap "
 "5."
 msgstr ""
+"Migratie naar Bootstrap 5 is begonnen, geselecteerde weergaven gebruiken nu "
+"Bootstrap 5."
 
 #: ../../changes.rst:71
 msgid ""
@@ -26263,6 +26378,8 @@ msgid ""
 ":ref:`upload` correctly tracks authorship when using :guilabel:`Replace "
 "existing translation file`."
 msgstr ""
+":ref:`upload` houdt nu correct auteurschap bij, bij het gebruiken van "
+":guilabel:`Replace existing translation file`."
 
 #: ../../changes.rst:77
 #, fuzzy
@@ -26275,7 +26392,7 @@ msgstr ""
 
 #: ../../changes.rst:78
 msgid "Possible crash on macOS 15 in :samp:`strxfrm`."
-msgstr ""
+msgstr "Mogelijke crash op macOS 15 in :samp:`strxfrm`."
 
 #: ../../changes.rst:79
 #, fuzzy
@@ -26289,6 +26406,9 @@ msgid ""
 "ref:`addon-weblate.gettext.customize`, :ref:`addon-weblate.json.customize`, :"
 "ref:`addon-weblate.yaml.customize`, :ref:`addon-weblate.xml.customize`."
 msgstr ""
+"Sommige add-ons zijn vervallen en vervangen door :ref:`file_format_params`: "
+":ref:`addon-weblate.gettext.customize`, :ref:`addon-weblate.json.customize`, "
+":ref:`addon-weblate.yaml.customize`, :ref:`addon-weblate.xml.customize`."
 
 #: ../../changes.rst:84
 msgid ""
@@ -45028,10 +45148,8 @@ msgstr ""
 
 #: ../../formats.rst:513 ../../formats/gettext.rst:166
 #: ../../formats/json.rst:85 ../../formats/yaml.rst:42
-#, fuzzy
-#| msgid "File format"
 msgid "File format parameters"
-msgstr "Bestandsformaat"
+msgstr "Parameters bestandsindeling"
 
 #: ../../formats.rst:515
 msgid ""
@@ -45073,20 +45191,16 @@ msgid "flatxml_key_name"
 msgstr ""
 
 #: ../../snippets/file-format-parameters.rst:7
-#, fuzzy
-#| msgid "Category name"
 msgid "FlatXML key name"
-msgstr "Categorienaam"
+msgstr "FlatXML sleutelnaam"
 
 #: ../../snippets/file-format-parameters.rst:9
 msgid "flatxml_root_name"
 msgstr ""
 
 #: ../../snippets/file-format-parameters.rst:9
-#, fuzzy
-#| msgid "Flat XML file"
 msgid "FlatXML Root name"
-msgstr "Plat XML-bestand"
+msgstr "FlatXML bronnaam"
 
 #: ../../snippets/file-format-parameters.rst:11
 #, fuzzy
@@ -45095,10 +45209,8 @@ msgid "flatxml_value_name"
 msgstr "Plat XML-bestand"
 
 #: ../../snippets/file-format-parameters.rst:11
-#, fuzzy
-#| msgid "Flat XML file"
 msgid "FlatXML value name"
-msgstr "Plat XML-bestand"
+msgstr "FlatXML waardenaam"
 
 #: ../../snippets/file-format-parameters.rst:13
 msgid "json_indent"
@@ -45161,7 +45273,7 @@ msgstr "Locatie"
 
 #: ../../snippets/file-format-parameters.rst:50
 msgid "Do not include location information in the file"
-msgstr ""
+msgstr "Neem geen locatie-informatie in het bestand op"
 
 #: ../../snippets/file-format-parameters.rst:52
 msgid "xml_closing_tags"
@@ -50948,19 +51060,12 @@ msgstr ""
 "een ander onderdeel, te automatiseren."
 
 #: ../../user/checks.rst:1068
-#, fuzzy
-#| msgid "Inconsistent reStructuredText references"
 msgid "Inconsistent reStructuredText"
-msgstr "Inconsistente verwijzingen reStructuredText"
+msgstr "Inconsistente reStructuredText"
 
 #: ../../user/checks.rst:1072
-#, fuzzy
-#| msgid ""
-#| "Inconsistent reStructuredText term references in the translated message."
 msgid "Inconsistent reStructuredText markup in the translated message."
-msgstr ""
-"Inconsistente verwijzingen naar termen van reStructuredText in het vertaalde "
-"bericht."
+msgstr "Inconsistente opmaak van reStructuredText in het vertaalde bericht."
 
 #: ../../user/checks.rst:1080
 #, fuzzy
