@@ -208,9 +208,6 @@ class MemoryManager(models.Manager):
         if len(name) > 25:
             origin = f"{name[:25]}...{extension}"
 
-        # Imported translation entries are always marked active
-        kwargs |= {"status": Memory.STATUS_ACTIVE}
-
         if extension == ".tmx":
             result = self.import_tmx(request, fileobj, origin, langmap, **kwargs)
         elif extension == ".json":

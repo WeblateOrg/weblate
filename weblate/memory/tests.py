@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import json
+import tempfile
 from io import StringIO
 from typing import Any
 
@@ -137,6 +138,35 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
     def test_import_tmx2_command(self) -> None:
         call_command("import_memory", get_test_file("memory2.tmx"))
         self.assertEqual(Memory.objects.count(), 1)
+
+    def test_imported_memory_status(self) -> None:
+        self.project.translation_review = True
+        self.project.save()
+        machine_translation = WeblateMemory({})
+        with tempfile.NamedTemporaryFile(suffix=".json") as temp_file:
+            temp_file.write(
+                json.dumps(
+                    [
+                        {
+                            "source_language": "en",
+                            "target_language": "cs",
+                            "source": "Hello, world!\n",
+                            "target": "Ahoj!",
+                            "origin": "Project",
+                            "category": 1,
+                        }
+                    ]
+                ).encode("utf-8")
+            )
+            temp_file.flush()
+            call_command("import_memory", temp_file.name)
+        self.assertEqual(Memory.objects.count(), 1)
+        unit = self.get_unit()
+        suggestion = self.search_suggestion(
+            machine_translation, unit, "Hello, world!\n", origin="File"
+        )
+        # quality of imported memory is not affected by penalty
+        self.assertEqual(suggestion["quality"], 100)
 
     def test_import_map(self) -> None:
         call_command(
@@ -392,7 +422,8 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
         origin: str = "Project",
     ) -> dict:
         results = mt.search(unit, source, user)
-        origin = f"{origin}: {self.component.full_slug}"
+        if origin != "File":
+            origin = f"{origin}: {self.component.full_slug}"
         results = [r for r in results if origin in r["origin"]]
         if text:
             results = [r for r in results if text in r["text"]]
