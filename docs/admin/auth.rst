@@ -514,9 +514,6 @@ Example configuration:
             "entity_id": "https://idp.testshib.org/idp/shibboleth",
             "url": "https://idp.testshib.org/idp/profile/SAML2/Redirect/SSO",
             "x509cert": "MIIEDjCCAvagAwIBAgIBADA ... 8Bbnl+ev0peYzxFyF5sQA==",
-            "attr_name": "full_name",
-            "attr_username": "username",
-            "attr_email": "email",
         }
     }
     SOCIAL_AUTH_SAML_ORG_INFO = {

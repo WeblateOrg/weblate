@@ -7,13 +7,6 @@ from logging.handlers import SysLogHandler
 
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
-from social_core.backends.saml import (
-    OID_COMMON_NAME,
-    OID_GIVEN_NAME,
-    OID_MAIL,
-    OID_SURNAME,
-    OID_USERID,
-)
 
 from weblate.api.spectacular import (
     get_drf_settings,
@@ -419,27 +412,26 @@ if WEBLATE_SAML_IDP_ENTITY_ID:
         SOCIAL_AUTH_SAML_SP_PRIVATE_KEY = handle.read()
     SOCIAL_AUTH_SAML_SP_ENTITY_ID = f"{SITE_URL}/accounts/metadata/saml/"
     # Identity Provider
-    SOCIAL_AUTH_SAML_ENABLED_IDPS = {
-        "weblate": {
-            "entity_id": WEBLATE_SAML_IDP_ENTITY_ID,
-            "url": get_env_str("WEBLATE_SAML_IDP_URL"),
-            "x509cert": get_env_str("WEBLATE_SAML_IDP_X509CERT"),
-            "attr_full_name": get_env_str(
-                "WEBLATE_SAML_ID_ATTR_FULL_NAME", OID_COMMON_NAME
-            ),
-            "attr_first_name": get_env_str(
-                "WEBLATE_SAML_ID_ATTR_FIRST_NAME", OID_GIVEN_NAME
-            ),
-            "attr_last_name": get_env_str(
-                "WEBLATE_SAML_ID_ATTR_LAST_NAME", OID_SURNAME
-            ),
-            "attr_username": get_env_str("WEBLATE_SAML_ID_ATTR_USERNAME", OID_USERID),
-            "attr_email": get_env_str("WEBLATE_SAML_ID_ATTR_EMAIL", OID_MAIL),
-            "attr_user_permanent_id": get_env_str(
-                "WEBLATE_SAML_ID_ATTR_USER_PERMANENT_ID", OID_USERID
-            ),
-        }
+    WEBLATE_SAML_IDP = {
+        "entity_id": WEBLATE_SAML_IDP_ENTITY_ID,
+        "url": get_env_str("WEBLATE_SAML_IDP_URL"),
+        "x508cert": get_env_str("WEBLATE_SAML_IDP_X509CERT"),
     }
+
+    for field in (
+        "attr_full_name",
+        "attr_first_name",
+        "attr_last_name",
+        "attr_username",
+        "attr_email",
+        "attr_user_permanent_id",
+    ):
+        env_name = f"WEBLATE_SAML_ID_{field.upper()}"
+        value = get_env_str(env_name)
+        if env_name:
+            WEBLATE_SAML_IDP[field] = env_name
+
+    SOCIAL_AUTH_SAML_ENABLED_IDPS = {"weblate": WEBLATE_SAML_IDP}
     SOCIAL_AUTH_SAML_SUPPORT_CONTACT = SOCIAL_AUTH_SAML_TECHNICAL_CONTACT = {
         "givenName": ADMINS[0][0],
         "emailAddress": ADMINS[0][1],
