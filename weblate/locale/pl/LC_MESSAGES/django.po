@@ -10,22 +10,23 @@
 # Michal Čihař <michal@weblate.org>, 2025.
 # Matthaiks <kitynska@gmail.com>, 2025.
 # Michał Korczak <omikorin@users.noreply.hosted.weblate.org>, 2025.
+# Graaati <wbcwknvstb@proton.me>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-13 14:01+0000\n"
-"PO-Revision-Date: 2025-09-04 11:55+0000\n"
-"Last-Translator: Agnieszka C <aga_04@o2.pl>\n"
+"PO-Revision-Date: 2025-10-14 16:07+0000\n"
+"Last-Translator: Graaati <wbcwknvstb@proton.me>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
-"|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.13.1-rc\n"
+"Plural-Forms: nplurals=3; plural="
+"(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"X-Generator: Weblate 5.14-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -569,7 +570,7 @@ msgstr "Użytkownik został wyłączony przez administratora."
 
 #: weblate/accounts/models.py:296
 msgid "User was disabled because the access has expired."
-msgstr ""
+msgstr "Użytkownik został wyłączony, ponieważ dostęp wygasł."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:299
@@ -1548,25 +1549,19 @@ msgid "Bulk edit flags, labels, or states of strings."
 msgstr "Zbiorcza edycja flag, etykiet lub stanów ciągów."
 
 #: weblate/addons/flags.py:134
-#, fuzzy
-#| msgid "Flag unchanged translations as \"Needs editing\""
 msgid "Flag updated translations from repository as \"Needs editing\""
-msgstr "Oznacz niezmienione tłumaczenia jako „Wymaga edycji”"
+msgstr "Oznacz zaktualizowane tłumaczenia z repozytorium jako „Wymaga edycji”"
 
 #: weblate/addons/flags.py:137
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS, it is "
-#| "flagged as needing editing in Weblate. This way you can easily filter and "
-#| "edit translations created by the developers."
 msgid ""
 "Whenever a string translation is changed from the VCS, it is flagged as "
 "needing editing in Weblate. Especially useful if translation files are often "
 "updated manually or by an external service."
 msgstr ""
-"Za każdym razem, gdy zaimportowany zostanie nowy łańcuch do przetłumaczenia "
-"z VCS, zostanie oznaczony jako wymagający edycji w Weblate. W ten sposób "
-"możesz łatwo filtrować i edytować tłumaczenia stworzone przez programistów."
+"Za każdym razem, gdy tłumaczenie ciągu znaków zostanie zmienione w systemie "
+"VCS, jest ono oznaczane jako wymagające edycji w Weblate. Jest to "
+"szczególnie przydatne, gdy pliki tłumaczeń są często aktualizowane ręcznie "
+"lub przez usługę zewnętrzną."
 
 #: weblate/addons/forms.py:59
 msgid "Path of generated MO file"
@@ -2370,10 +2365,8 @@ msgstr "Przejrzyj ciągi"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:75
-#, fuzzy
-#| msgid "Edit strings"
 msgid "Bulk edit strings"
-msgstr "Edytuj ciągi"
+msgstr "Edytuj ciągi zbiorczo"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:77
@@ -2507,10 +2500,8 @@ msgstr "Zarządzaj zespołami"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:135
-#, fuzzy
-#| msgid "View billing info"
 msgid "View team info"
-msgstr "Wyświetl informacje rozliczeniowe"
+msgstr "Wyświetl informacje o zespole"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:137 weblate/templates/manage/users.html:18
@@ -2519,10 +2510,8 @@ msgstr "Zarządzaj użytkownikami"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:139
-#, fuzzy
-#| msgid "View billing info"
 msgid "View user info"
-msgstr "Wyświetl informacje rozliczeniowe"
+msgstr "Wyświetl informacje o użytkowniku"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:141
@@ -2531,10 +2520,8 @@ msgstr "Zarządzaj rolami"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:143
-#, fuzzy
-#| msgid "View billing info"
 msgid "View role info"
-msgstr "Wyświetl informacje rozliczeniowe"
+msgstr "Wyświetl informacje o roli"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:145
@@ -2618,11 +2605,9 @@ msgid "Manage languages"
 msgstr "Zarządzaj językami"
 
 #: weblate/auth/data.py:241
-#, fuzzy
-#| msgid "Bulk edit"
 msgctxt "Access-control role"
 msgid "Bulk editing"
-msgstr "Edycja zbiorcza"
+msgstr "Edytowanie zbiorcze"
 
 #: weblate/auth/data.py:245
 msgctxt "Access-control role"
@@ -2725,11 +2710,9 @@ msgid "Screenshots"
 msgstr "Zrzuty ekranu"
 
 #: weblate/auth/data.py:315
-#, fuzzy
-#| msgid "Bulk edit"
 msgctxt "Per-project access-control team name"
 msgid "Bulk editing"
-msgstr "Edycja zbiorcza"
+msgstr "Edytowanie zbiorcze"
 
 #: weblate/auth/data.py:318
 msgctxt "Per-project access-control team name"
@@ -2937,7 +2920,7 @@ msgstr "Wygasa"
 
 #: weblate/auth/models.py:497
 msgid "The account will be disabled after the expiry."
-msgstr ""
+msgstr "Konto zostanie zablokowane po upływie terminu."
 
 #: weblate/auth/models.py:504 weblate/templates/accounts/profile.html:34
 #: weblate/templates/accounts/user.html:194 weblate/templates/auth/team.html:38
@@ -3131,6 +3114,8 @@ msgid ""
 "This invitation can be accepted only by the e-mail address chosen by the "
 "inviter; it can't be used by your account."
 msgstr ""
+"Zaproszenie może zostać przyjęte wyłącznie za pośrednictwem adresu e-mail "
+"wybranego przez osobę zapraszającą. Nie można go używać na swoim koncie."
 
 #: weblate/auth/views.py:201
 msgid "User invitation was removed."
@@ -3277,10 +3262,8 @@ msgid "Billing"
 msgstr "Rozliczenia"
 
 #: weblate/billing/models.py:681 weblate/templates/billing/detail.html:119
-#, fuzzy
-#| msgid "Billing overview"
 msgid "Billing event"
-msgstr "Przegląd płatności"
+msgstr "Zdarzenie płatności"
 
 #: weblate/billing/tasks.py:73
 msgid ""
@@ -4708,10 +4691,8 @@ msgid "CSV"
 msgstr "CSV"
 
 #: weblate/formats/exporters.py:258
-#, fuzzy
-#| msgid "Multivalue CSV file (UTF-8)"
 msgid "Multivalue CSV"
-msgstr "Wielowartościowy plik CSV (UTF-8)"
+msgstr "Wielowartościowy plik CSV"
 
 #: weblate/formats/exporters.py:325
 msgid "XLSX"
@@ -7074,13 +7055,15 @@ msgstr "Przekierowywanie do dostawcy uwierzytelniania."
 
 #: weblate/templates/accounts/register-password.html:4
 msgid "Registration without a password:"
-msgstr ""
+msgstr "Rejestracja bez hasła:"
 
 #: weblate/templates/accounts/register-password.html:5
 msgid ""
 "You can set your password later by clicking on the link in the verification "
 "email."
 msgstr ""
+"Możesz ustawić hasło później, klikając link w wiadomości e-mail z "
+"potwierdzeniem."
 
 #: weblate/templates/accounts/register.html:20
 msgid "Please complete the registration to accept the invitation."
@@ -7112,18 +7095,17 @@ msgid ""
 "You will lose access to the projects you manage. Projects themselves will "
 "not be removed."
 msgstr ""
+"Utracisz dostęp do zarządzanych przez siebie projektów. Same projekty nie "
+"zostaną usunięte."
 
 #: weblate/templates/accounts/removal.html:35
 msgid ""
 "Any billing you might have created will not be terminated by this account "
 "removal."
 msgstr ""
+"Wszelkie utworzone płatności nie zostaną anulowane w wyniku usunięcia konta."
 
 #: weblate/templates/accounts/removal.html:39
-#, fuzzy
-#| msgid ""
-#| "By pressing following button, your will no longer be able to use this "
-#| "account."
 msgid ""
 "By pressing the following button, you will no longer be able to use this "
 "account."
@@ -7131,16 +7113,12 @@ msgstr ""
 "Naciskając poniższy przycisk, nie będziesz już mógł korzystać z tego konta."
 
 #: weblate/templates/accounts/removal.html:43
-#, fuzzy
-#| msgid ""
-#| "You will have to confirm account removal by clicking link in e-mail you "
-#| "will receive."
 msgid ""
 "You will have to confirm the account removal by clicking the link in the e-"
 "mail you will receive."
 msgstr ""
-"Będziesz musiał potwierdzić usunięcie konta, poprzez kliknięcie odnośnika "
-"który otrzymasz w wiadomości e-mail."
+"Będziesz musiał potwierdzić usunięcie konta, klikając link w otrzymanej "
+"wiadomości e-mail."
 
 #: weblate/templates/accounts/removal.html:50
 msgid "Delete this account"
@@ -7188,6 +7166,8 @@ msgid ""
 "By registering, you agree that your name and username will be visible "
 "publicly as long as your account exists."
 msgstr ""
+"Rejestrując się wyrażasz zgodę na to, że imię i nazwisko oraz nazwa "
+"użytkownika będą widoczne publicznie przez cały okres istnienia konta."
 
 #: weblate/templates/accounts/snippets/login-info.html:30
 msgid ""
@@ -7195,24 +7175,32 @@ msgid ""
 "commits to author the changes you made; they can be stored there "
 "indefinitely."
 msgstr ""
+"Ponadto imię i nazwisko oraz adres e-mail mogą zostać wykorzystane w "
+"systemie kontroli wersji do zatwierdzenia zmian, które wprowadziłeś; dane te "
+"mogą być tam przechowywane bezterminowo."
 
 #: weblate/templates/accounts/snippets/login-info.html:32
-#, fuzzy
-#| msgid "Please set your full name and e-mail in your profile."
 msgid "You can enable the use of a private commit e-mail in your profile."
-msgstr "Ustaw swoje imię i nazwisko oraz adres e-mail w swoim profilu."
+msgstr ""
+"W swoim profilu możesz włączyć opcję używania prywatnego adresu e-mail do "
+"potwierdzania transakcji."
 
 #: weblate/templates/accounts/snippets/login-info.html:35
 msgid ""
 "Additionally, your name can be used in version control system commits to "
 "author the changes you made; it can be stored there indefinitely."
 msgstr ""
+"Ponadto imię i nazwisko może zostać użyte w systemie kontroli wersji do "
+"zatwierdzenia zmian, które wprowadziłeś; może być tam przechowywane "
+"bezterminowo."
 
 #: weblate/templates/accounts/snippets/login-info.html:38
 msgid ""
 "You provide your contribution under the license defined by each project you "
 "contributed to."
 msgstr ""
+"Swój wkład udostępniasz na podstawie licencji określonej przez każdy "
+"projekt, do którego się przyczyniłeś."
 
 #: weblate/templates/accounts/snippets/login-title.html:4
 msgid "Weblate single sign on"
@@ -7321,10 +7309,9 @@ msgid "Never signed-in"
 msgstr "Nigdy nie zalogowany"
 
 #: weblate/templates/accounts/user.html:37
-#, fuzzy, python-format
-#| msgid "Joined on %(date)s"
+#, python-format
 msgid "Account expires on %(date)s"
-msgstr "Dołączył(a) %(date)s"
+msgstr "Konto wygasa %(date)s"
 
 #: weblate/templates/accounts/user.html:57
 #: weblate/templates/snippets/plural.html:11
@@ -8306,10 +8293,8 @@ msgid "No invoices found."
 msgstr "Nie znaleziono faktur."
 
 #: weblate/templates/billing/detail.html:120
-#, fuzzy
-#| msgid "View details"
 msgid "Event details"
-msgstr "Zobacz szczegóły"
+msgstr "Szczegóły zdarzenia"
 
 #: weblate/templates/billing/detail.html:144
 msgid "Libre hosting"
@@ -9446,10 +9431,6 @@ msgstr ""
 "zgodne ze źródłowym."
 
 #: weblate/templates/js/git-status.html:146
-#, fuzzy
-#| msgid ""
-#| "Use when you want to discard changes in Weblate and bring it in sync with "
-#| "upstream repository."
 msgid ""
 "Use when you want to discardchanges in Weblate and bring it in sync with "
 "upstream repository."
@@ -10642,10 +10623,8 @@ msgid "Show components with linked repositories"
 msgstr "Pokaż komponenty z połączonymi repozytoriami"
 
 #: weblate/templates/manage/repos.html:19
-#, fuzzy
-#| msgid "Show components with linked repositories"
 msgid "Show components without a remote VCS"
-msgstr "Pokaż komponenty z połączonymi repozytoriami"
+msgstr "Pokaż komponenty bez zdalnego VCS"
 
 #: weblate/templates/manage/repos.html:27
 msgid "This repository is linked to:"
@@ -11088,10 +11067,9 @@ msgid "Add label"
 msgstr "Dodaj etykietę"
 
 #: weblate/templates/project.html:167
-#, fuzzy, python-format
-#| msgid "Manage teams"
+#, python-format
 msgid "Manage %(team)s"
-msgstr "Zarządzaj zespołami"
+msgstr "Zarządzaj %(team)s"
 
 #: weblate/templates/project.html:379
 msgid "Organize project"
@@ -11435,10 +11413,8 @@ msgid "This term should not be translated."
 msgstr "Tego terminu nie należy tłumaczyć."
 
 #: weblate/templates/snippets/glossary.html:5
-#, fuzzy
-#| msgid "This translation is locked."
 msgid "This translation needs editing."
-msgstr "Tłumaczenie jest zablokowane."
+msgstr "To tłumaczenie wymaga edycji."
 
 #: weblate/templates/snippets/glossary.html:5
 msgid "Copy word into translation"
@@ -15811,16 +15787,12 @@ msgid "Locked component will not get any translation updates."
 msgstr "Zablokowany komponent nie otrzyma żadnych aktualizacji tłumaczeń."
 
 #: weblate/trans/models/component.py:558
-#, fuzzy
-#| msgid "Does not follow glossary"
 msgid "Do not show glossary matches"
-msgstr "Nie jest zgodny z słownikiem"
+msgstr "Nie pokazuj dopasowań ze słownika"
 
 #: weblate/trans/models/component.py:560
-#, fuzzy
-#| msgid "Focus on translation editor."
 msgid "Hides the glossary panel in the translation editor."
-msgstr "Skup się na edytorze tłumaczeń."
+msgstr "Ukrywa panel słownika w edytorze tłumaczeń."
 
 #: weblate/trans/models/component.py:563
 msgid "Allow translation propagation"
@@ -16304,7 +16276,7 @@ msgstr ""
 #, python-format
 msgid ""
 "The parameter '%(param)s' is not applicable for the file format '%(format)s'."
-msgstr ""
+msgstr "Parametr '%(param)s' nie ma zastosowania do formatu pliku '%(format)s'."
 
 #: weblate/trans/models/component.py:3312
 msgid ""
@@ -17078,10 +17050,10 @@ msgid "Source upload is only supported on the source language."
 msgstr "Przesyłanie źródła jest możliwe tylko w języku źródłowym."
 
 #: weblate/trans/util.py:388
-#, fuzzy
-#| msgid "Editing template is not supported with this file format."
 msgid "Update source strings upload is not supported with this format."
-msgstr "Edycja szablonu nie jest obsługiwana dla tego formatu pliku."
+msgstr ""
+"Przesyłanie ciągów źródłowych aktualizacji nie jest obsługiwane w tym "
+"formacie."
 
 #: weblate/trans/validators.py:22
 msgid "File mask does not contain * as a language placeholder!"
@@ -17116,13 +17088,12 @@ msgstr ""
 
 #: weblate/trans/validators.py:75
 msgid "File format parameters must be a dictionary of key-value pairs."
-msgstr ""
+msgstr "Parametry formatu pliku muszą być słownikiem par klucz-wartość."
 
 #: weblate/trans/validators.py:84
-#, fuzzy, python-format
-#| msgid "File format parameters"
+#, python-format
 msgid "Unknown file format parameter: \"%(param_name)s\"."
-msgstr "Parametry formatu pliku"
+msgstr "Nieznany parametr formatu pliku: \"%(param_name)s\"."
 
 #: weblate/trans/views/about.py:22
 msgid "Keys"
