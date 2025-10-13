@@ -298,8 +298,34 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
 
     def test_import_po(self) -> None:
         """Test the import of an GNU PO file."""
-        self.import_file_with_languages_test(get_test_file("cs.po"), "en", "cs", 1)
-        memory = Memory.objects.first()
+        with tempfile.NamedTemporaryFile(suffix=".po") as temp_file:
+            temp_file.write(
+                rb"""
+msgid ""
+msgstr ""
+"Project-Id-Version: Weblate Hello World 2012\n"
+"Report-Msgid-Bugs-To: <noreply@example.net>\n"
+"POT-Creation-Date: 2012-03-14 15:54+0100\n"
+"PO-Revision-Date: 2013-08-25 15:23+0200\n"
+"Last-Translator: testuser <>\n"
+"Language-Team: Czech <http://example.com/projects/test/test/cs/>\n"
+"Language: cs\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"X-Generator: Weblate 1.7-dev\n"
+
+#: main.c:11
+#, c-format
+msgctxt "Greeting"
+msgid "Hello, world!\n"
+msgstr "Nazdar svete!\n"
+"""
+            )
+            temp_file.flush()
+            self.import_file_with_languages_test(temp_file.name, "en", "cs", 1)
+        memory = Memory.objects.get()
         self.assertEqual(memory.context, "Greeting")
 
     def test_import_unsupported_format(self) -> None:
