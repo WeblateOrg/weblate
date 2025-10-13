@@ -2347,9 +2347,9 @@ configure LibreTranslate in Weblate:
 2. Navigate to :guilabel:`Machine translation` → :guilabel:`Automatic suggestions`
 3. Add a new LibreTranslate service with:
 
-   * **Service**: LibreTranslate
-   * **API URL**: ``http://libretranslate:5000``
-   * **API key**: Leave empty
+   :Service: LibreTranslate
+   :API URL: ``http://libretranslate:5000``
+   :API key: Leave empty
 
 LibreTranslate is now configured and available for machine translation in Weblate.
 
