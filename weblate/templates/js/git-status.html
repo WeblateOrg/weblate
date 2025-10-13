@@ -139,11 +139,22 @@
         <li class="list-group-item">
           <a href=""
              class="float-end link-post btn btn-danger"
-             data-href="{% url "reset" path=object.get_url_path %}">{% translate "Reset" %}</a>
+             data-href="{% url "reset" path=object.get_url_path %}">{% translate "Reset and discard" %}</a>
           <h6 class="mb-1 fw-bold">{% translate "Reset all changes in the Weblate repository" %}</h6>
           <p class="mb-0">
-            {% translate "Resetting removes all changes in Weblate so that the repository matches upstream." %}
-            {% translate "Use when you want to discardchanges in Weblate and bring it in sync with upstream repository." %}
+            {% translate "Resets Weblate’s repository to match upstream and discards any pending changes in Weblate." %}
+            {% translate "Use when you want the upstream to be the authority for translations. It will discard changes in Weblate repo and bring it in sync with the upstream repository." %}
+          </p>
+        </li>
+        <li class="list-group-item">
+          <a href=""
+             class="float-end link-post btn btn-danger"
+             data-href="{% url "reset" path=object.get_url_path %}"
+             data-params='{"keep_changes": "1"}'>{% translate "Reset and reapply" %}</a>
+          <h6 class="mb-1 fw-bold">{% translate "Reset the Weblate repository and reapply translations" %}</h6>
+          <p class="mb-0">
+            {% translate "Resets Weblate’s repository to match upstream and replace upstream translations with the current state from Weblate." %}
+            {% translate "Use when you want Weblate to be the authority for translations. It will keep changes from Weblate but bring its repository in sync with the upstream repository." %}
           </p>
         </li>
         <li class="list-group-item">
