@@ -8,24 +8,24 @@ Weblate 5.14
 * :ref:`addon-weblate.flags.target_repo_update` is now available as an add-on.
 * :http:delete:`/api/projects/(string:project)/labels/(int:label_id)/`.
 * Added multivalue CSV in :ref:`download` for multivalue formats.
+* New global permissions have been added to control viewing teams, users and roles without edit rights, see :ref:`privileges`.
 * New ``unit.bulk_edit`` permission for bulk editing operations, replacing the overloaded use of ``translation.auto`` permission, see :ref:`privileges`.
+* :ref:`date-search`.
+* Last changed lookup in :ref:`search-strings`.
+* :doc:`/security/localization-threat` documentation.
+* :ref:`component-hide_glossary_matches` component setting.
 
 .. rubric:: Improvements
 
-* New global permissions have been added to control viewing teams, users and roles without edit rights, see :ref:`privileges`.
 * :ref:`hooks` improvements.
 
   * Now follows :ref:`api-errors`.
   * Available in the OpenAPI.
   * Dropped long-deprecated endpoints.
 
-* :ref:`date-search`.
-* Last changed lookup in :ref:`search-strings`.
-* :doc:`/security/localization-threat` documentation.
 * Improved activity logging for :ref:`addon-weblate.consistency.languages` add-on.
 * :ref:`check-rst-references` and :ref:`check-rst-syntax` now support substitutions.
 * Improved performance for :ref:`check-multiple-failures` and :ref:`check-long-untranslated` checks with batch operations.
-* :ref:`component-hide_glossary_matches` component setting.
 * :ref:`file_format_params` can now be configured via the :ref:`api`.
 * Admins can configure :ref:`expiring-accounts`.
 * Rate limiting of notification e-mails, configurable by :setting:`RATELIMIT_NOTIFICATION_LIMITS`.
