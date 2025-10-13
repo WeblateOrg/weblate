@@ -753,6 +753,11 @@ Server host name
    reverse proxy (for example use ``ProxyPreserveHost On`` for Apache or
    ``proxy_set_header Host $host;`` with nginx).
 
+   .. hint::
+
+      CSRF verification failed errors are often caused by a mismatch between
+      the :http:header:`Host` header and configured :setting:`SITE_DOMAIN`.
+
 Client protocol
    Not passing correct protocol may cause Weblate to end up in redirection
    loop trying to upgrade client to HTTPS. Make sure it is correctly exposed by
