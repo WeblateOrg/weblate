@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-13 14:01+0000\n"
-"PO-Revision-Date: 2025-10-06 19:09+0000\n"
+"PO-Revision-Date: 2025-10-14 16:07+0000\n"
 "Last-Translator: Besnik Bleta <besnik@programeshqip.org>\n"
 "Language-Team: Albanian <https://hosted.weblate.org/projects/weblate/"
 "application/sq/>\n"
@@ -565,7 +565,7 @@ msgstr "Përdoruesi u çaktivizua nga përgjegjësi."
 
 #: weblate/accounts/models.py:296
 msgid "User was disabled because the access has expired."
-msgstr ""
+msgstr "Përdoruesi qe çaktivizuar, sepse hyrja ka skaduar."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:299
@@ -1547,25 +1547,18 @@ msgid "Bulk edit flags, labels, or states of strings."
 msgstr "Përpunim në masë vargjesh shenjash, etiketash ose gjendjesh."
 
 #: weblate/addons/flags.py:134
-#, fuzzy
-#| msgid "Flag unchanged translations as \"Needs editing\""
 msgid "Flag updated translations from repository as \"Needs editing\""
-msgstr "Vëru shenjë përkthimeve të pandryshuara si “Lyp përditësim”"
+msgstr "Vëru shenjë përkthimeve të përditësuara në depo “Lyp përditësim”"
 
 #: weblate/addons/flags.py:137
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS, it is "
-#| "flagged as needing editing in Weblate. This way you can easily filter and "
-#| "edit translations created by the developers."
 msgid ""
 "Whenever a string translation is changed from the VCS, it is flagged as "
 "needing editing in Weblate. Especially useful if translation files are often "
 "updated manually or by an external service."
 msgstr ""
-"Kurdo që importohet një varg i ri i përkthyeshëm nga VCS-ja, në Weblate i "
-"vihet shenjë si “Lyp përpunim”. Në këtë mënyrë mund të filtroni lehtësisht "
-"dhe përpunoni vargje të përkthyeshëm krijuar nga zhvilluesit."
+"Kurdo që ndryshohet nga VCS-ja një përkthim vargu, në Weblate i vihet shenjë "
+"si një që lyp përpunim. Veçanërisht e posaçme nëse kartelat e përkthimeve "
+"përditësohen shpesh."
 
 #: weblate/addons/forms.py:59
 msgid "Path of generated MO file"
@@ -2138,7 +2131,7 @@ msgstr "S’u mor dot kyçje, për të kryer veprimin."
 
 #: weblate/api/views.py:169
 msgid "Specified unit id is not a translation source unit."
-msgstr ""
+msgstr "ID-ja e dhënë e njësisë s’është njësi burimi përkthimesh."
 
 #: weblate/api/views.py:180
 #, python-format
@@ -2374,10 +2367,8 @@ msgstr "Të shqyrtojë vargje"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:75
-#, fuzzy
-#| msgid "Edit strings"
 msgid "Bulk edit strings"
-msgstr "Të përpunojë vargje"
+msgstr "Të përpunojë vargje në masë"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:77
@@ -2511,10 +2502,8 @@ msgstr "Të administrojë ekipe"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:135
-#, fuzzy
-#| msgid "View billing info"
 msgid "View team info"
-msgstr "Të shohë të dhëna faturimi"
+msgstr "Të shohë të dhëna ekipi"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:137 weblate/templates/manage/users.html:18
@@ -2523,10 +2512,8 @@ msgstr "Të administrojë përdorues"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:139
-#, fuzzy
-#| msgid "View billing info"
 msgid "View user info"
-msgstr "Të shohë të dhëna faturimi"
+msgstr "Të shohë hollësi përdoruesi"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:141
@@ -2535,10 +2522,8 @@ msgstr "Të administrojë role"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:143
-#, fuzzy
-#| msgid "View billing info"
 msgid "View role info"
-msgstr "Të shohë të dhëna faturimi"
+msgstr "Të shohë hollësi roli"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:145
@@ -2622,8 +2607,6 @@ msgid "Manage languages"
 msgstr "Të administrojë gjuhë"
 
 #: weblate/auth/data.py:241
-#, fuzzy
-#| msgid "Bulk edit"
 msgctxt "Access-control role"
 msgid "Bulk editing"
 msgstr "Përpunim në masë"
@@ -2729,8 +2712,6 @@ msgid "Screenshots"
 msgstr "Foto ekrani"
 
 #: weblate/auth/data.py:315
-#, fuzzy
-#| msgid "Bulk edit"
 msgctxt "Per-project access-control team name"
 msgid "Bulk editing"
 msgstr "Përpunim në masë"
@@ -2941,7 +2922,7 @@ msgstr "Skadon më"
 
 #: weblate/auth/models.py:497
 msgid "The account will be disabled after the expiry."
-msgstr ""
+msgstr "Llogaria do të çaktivizohet pas skadimit."
 
 #: weblate/auth/models.py:504 weblate/templates/accounts/profile.html:34
 #: weblate/templates/accounts/user.html:194 weblate/templates/auth/team.html:38
@@ -3136,6 +3117,8 @@ msgid ""
 "This invitation can be accepted only by the e-mail address chosen by the "
 "inviter; it can't be used by your account."
 msgstr ""
+"Kjo ftesë mund të pranohet vetëm nga adresa email e zgjedhur nga ftuesi; s’"
+"mund të përdoret nga llogaria juaj."
 
 #: weblate/auth/views.py:201
 msgid "User invitation was removed."
@@ -3282,10 +3265,8 @@ msgid "Billing"
 msgstr "Faturim"
 
 #: weblate/billing/models.py:681 weblate/templates/billing/detail.html:119
-#, fuzzy
-#| msgid "Billing overview"
 msgid "Billing event"
-msgstr "Përmbledhje faturimi"
+msgstr "Akt faturimi"
 
 #: weblate/billing/tasks.py:73
 msgid ""
@@ -4709,10 +4690,8 @@ msgid "CSV"
 msgstr "CSV"
 
 #: weblate/formats/exporters.py:258
-#, fuzzy
-#| msgid "Multivalue CSV file (UTF-8)"
 msgid "Multivalue CSV"
-msgstr "Kartelë CSV shumëvlerëshe (UTF-8)"
+msgstr "Kartelë CSV shumëvlerëshe"
 
 #: weblate/formats/exporters.py:325
 msgid "XLSX"
@@ -7063,13 +7042,15 @@ msgstr "Po ridrejtoheni te furnizuesi i mirëfilltësimit."
 
 #: weblate/templates/accounts/register-password.html:4
 msgid "Registration without a password:"
-msgstr ""
+msgstr "Regjistrim pa një fjalëkalim:"
 
 #: weblate/templates/accounts/register-password.html:5
 msgid ""
 "You can set your password later by clicking on the link in the verification "
 "email."
 msgstr ""
+"Fjalëkalimin mund ta ujdisni më vonë duke klikuar mbi lidhjen te email-i i "
+"verifikimit."
 
 #: weblate/templates/accounts/register.html:20
 msgid "Please complete the registration to accept the invitation."
@@ -7101,18 +7082,18 @@ msgid ""
 "You will lose access to the projects you manage. Projects themselves will "
 "not be removed."
 msgstr ""
+"Do të humbni hyrje te projektet që administroni. Vetë projektet s’do të "
+"hiqen."
 
 #: weblate/templates/accounts/removal.html:35
 msgid ""
 "Any billing you might have created will not be terminated by this account "
 "removal."
 msgstr ""
+"Çfarëdo faturimi që mund të keni krijuar, s’do të përfundohet nga kjo heqje "
+"llogarie."
 
 #: weblate/templates/accounts/removal.html:39
-#, fuzzy
-#| msgid ""
-#| "By pressing following button, your will no longer be able to use this "
-#| "account."
 msgid ""
 "By pressing the following button, you will no longer be able to use this "
 "account."
@@ -7121,16 +7102,12 @@ msgstr ""
 "llogari."
 
 #: weblate/templates/accounts/removal.html:43
-#, fuzzy
-#| msgid ""
-#| "You will have to confirm account removal by clicking link in e-mail you "
-#| "will receive."
 msgid ""
 "You will have to confirm the account removal by clicking the link in the e-"
 "mail you will receive."
 msgstr ""
-"Do t’ju duhet të ripohoni heqje llogarie duke klikuar mbi lidhjen te email-i "
-"që do të merrni."
+"Do t’ju duhet të ripohoni heqjen e llogarisë duke klikuar mbi lidhjen te "
+"email-i që do të merrni."
 
 #: weblate/templates/accounts/removal.html:50
 msgid "Delete this account"
@@ -7179,6 +7156,9 @@ msgid ""
 "By registering, you agree that your name and username will be visible "
 "publicly as long as your account exists."
 msgstr ""
+"Duke u regjistruar, pajtoheni me faktin se emri juaj dhe emri juaj i "
+"përdoruesit do të jenë publikisht të dukshëm për aq kohë sa ekziston "
+"llogaria juaj."
 
 #: weblate/templates/accounts/snippets/login-info.html:30
 msgid ""
@@ -7186,24 +7166,32 @@ msgid ""
 "commits to author the changes you made; they can be stored there "
 "indefinitely."
 msgstr ""
+"Për më tepër, emri dhe email-i juaj mund të përdoren në parashtrime në "
+"sisteme kontrolli versionesh si autor i ndryshimeve që bëtë; mund të "
+"depozitohen atje për një kohë të papërcaktuar."
 
 #: weblate/templates/accounts/snippets/login-info.html:32
-#, fuzzy
-#| msgid "Please set your full name and e-mail in your profile."
 msgid "You can enable the use of a private commit e-mail in your profile."
-msgstr "Ju lutemi, caktoni te profili juaj emrin tuaj të plotë dhe email-in."
+msgstr ""
+"Te profili juaj mund të aktivizoni përdorimin e një email-i privat "
+"parashtrimesh."
 
 #: weblate/templates/accounts/snippets/login-info.html:35
 msgid ""
 "Additionally, your name can be used in version control system commits to "
 "author the changes you made; it can be stored there indefinitely."
 msgstr ""
+"Për më tepër, emri juaj mund të përdoren në parashtrime në sisteme kontrolli "
+"versionesh si autor i ndryshimeve që bëtë; mund të depozitohet atje për një "
+"kohë të papërcaktuar."
 
 #: weblate/templates/accounts/snippets/login-info.html:38
 msgid ""
 "You provide your contribution under the license defined by each project you "
 "contributed to."
 msgstr ""
+"Kontributin tuaj e jepni sipas licencës së përcaktuar nga secili projekt në "
+"të cilin kontribuoni."
 
 #: weblate/templates/accounts/snippets/login-title.html:4
 msgid "Weblate single sign on"
@@ -7312,10 +7300,9 @@ msgid "Never signed-in"
 msgstr "S’ka bërë hyrjen kurrë"
 
 #: weblate/templates/accounts/user.html:37
-#, fuzzy, python-format
-#| msgid "Joined on %(date)s"
+#, python-format
 msgid "Account expires on %(date)s"
-msgstr "U bë pjesë më %(date)s"
+msgstr "Llogaria skadon më %(date)s"
 
 #: weblate/templates/accounts/user.html:57
 #: weblate/templates/snippets/plural.html:11
@@ -8289,10 +8276,8 @@ msgid "No invoices found."
 msgstr "S’u gjetën fatura."
 
 #: weblate/templates/billing/detail.html:120
-#, fuzzy
-#| msgid "View details"
 msgid "Event details"
-msgstr "Shihni hollësitë"
+msgstr "Hollësi akti"
 
 #: weblate/templates/billing/detail.html:144
 msgid "Libre hosting"
@@ -9421,10 +9406,6 @@ msgstr ""
 "përputhet me atë të burimit."
 
 #: weblate/templates/js/git-status.html:146
-#, fuzzy
-#| msgid ""
-#| "Use when you want to discard changes in Weblate and bring it in sync with "
-#| "upstream repository."
 msgid ""
 "Use when you want to discardchanges in Weblate and bring it in sync with "
 "upstream repository."
@@ -10613,10 +10594,8 @@ msgid "Show components with linked repositories"
 msgstr "Shfaq përbërës me depo të lidhura"
 
 #: weblate/templates/manage/repos.html:19
-#, fuzzy
-#| msgid "Show components with linked repositories"
 msgid "Show components without a remote VCS"
-msgstr "Shfaq përbërës me depo të lidhura"
+msgstr "Shfaq përbërës pa VCS të largët"
 
 #: weblate/templates/manage/repos.html:27
 msgid "This repository is linked to:"
@@ -11057,10 +11036,9 @@ msgid "Add label"
 msgstr "Shtoni etiketë"
 
 #: weblate/templates/project.html:167
-#, fuzzy, python-format
-#| msgid "Manage teams"
+#, python-format
 msgid "Manage %(team)s"
-msgstr "Të administrojë ekipe"
+msgstr "Administroni %(team)s"
 
 #: weblate/templates/project.html:379
 msgid "Organize project"
@@ -11402,10 +11380,8 @@ msgid "This term should not be translated."
 msgstr "Ky term s’duhet përkthyer."
 
 #: weblate/templates/snippets/glossary.html:5
-#, fuzzy
-#| msgid "This translation is locked."
 msgid "This translation needs editing."
-msgstr "Ky përkthim është i kyçur."
+msgstr "Ky përkthim lyp përpunim."
 
 #: weblate/templates/snippets/glossary.html:5
 msgid "Copy word into translation"
@@ -14253,7 +14229,7 @@ msgstr "Kartela u ngarkua"
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:164
 msgid "Extra flags updated"
-msgstr ""
+msgstr "U përditësuan flamurka shtesë"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:166
@@ -15755,16 +15731,12 @@ msgid "Locked component will not get any translation updates."
 msgstr "Përbërësi i kyçur nuk do të ketë ndonjë përditësim përkthimesh."
 
 #: weblate/trans/models/component.py:558
-#, fuzzy
-#| msgid "Does not follow glossary"
 msgid "Do not show glossary matches"
-msgstr "S’ndjek fjalorthin"
+msgstr "Mos shfaq përkime fjalorthi"
 
 #: weblate/trans/models/component.py:560
-#, fuzzy
-#| msgid "Focus on translation editor."
 msgid "Hides the glossary panel in the translation editor."
-msgstr "Fokusi te përpunues përkthimesh."
+msgstr "Bën fshehjen e panelit të fjalorthit te përpunuesi i përkthimeve."
 
 #: weblate/trans/models/component.py:563
 msgid "Allow translation propagation"
@@ -16241,6 +16213,8 @@ msgstr ""
 msgid ""
 "The parameter '%(param)s' is not applicable for the file format '%(format)s'."
 msgstr ""
+"Parametri '%(param)s' s’është i zbatueshëm për formatin e kartelave '%"
+"(format)s'."
 
 #: weblate/trans/models/component.py:3312
 msgid ""
@@ -16996,10 +16970,8 @@ msgid "Source upload is only supported on the source language."
 msgstr "Ngarkimi i burimit mbulohet vetëm te gjuha burim."
 
 #: weblate/trans/util.py:388
-#, fuzzy
-#| msgid "Editing template is not supported with this file format."
 msgid "Update source strings upload is not supported with this format."
-msgstr "Për këtë format kartelash s’mbulohet përpunim gjedhesh."
+msgstr "Ngarkimi për përditësim vargjesh burim s’mbulohet me këtë format."
 
 #: weblate/trans/validators.py:22
 msgid "File mask does not contain * as a language placeholder!"
@@ -17038,12 +17010,12 @@ msgstr ""
 #: weblate/trans/validators.py:75
 msgid "File format parameters must be a dictionary of key-value pairs."
 msgstr ""
+"Parametrat për format kartelash duhet të jenë çifte zë-vlerë të një fjalori."
 
 #: weblate/trans/validators.py:84
-#, fuzzy, python-format
-#| msgid "File format parameters"
+#, python-format
 msgid "Unknown file format parameter: \"%(param_name)s\"."
-msgstr "Parametra formati kartelash"
+msgstr "Parametër i panjohur formati kartelash: \"%(param_name)s\"."
 
 #: weblate/trans/views/about.py:22
 msgid "Keys"
