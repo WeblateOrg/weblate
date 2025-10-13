@@ -54,8 +54,6 @@ class Command(BaseCommand):
                         langmap,
                         source_language=options["source_language"],
                         target_language=options["target_language"],
-                        from_file=True,
-                        status=Memory.STATUS_ACTIVE,
                     )
                 except MemoryImportError as error:
                     msg = f"Import failed: {error}"

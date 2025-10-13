@@ -130,16 +130,25 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
             },
         )
 
+    def do_import_file_command_test(
+        self, filename: str, expected_count: int, **cmd_kwargs
+    ) -> None:
+        call_command("import_memory", filename, **cmd_kwargs)
+        self.assertEqual(
+            Memory.objects.filter(status=Memory.STATUS_ACTIVE, from_file=True).count(),
+            expected_count,
+        )
+
     def test_import_tmx_command(self) -> None:
-        call_command("import_memory", get_test_file("memory.tmx"))
-        self.assertEqual(Memory.objects.count(), 2)
-        self.assertEqual(Memory.objects.filter(status=Memory.STATUS_PENDING).count(), 0)
+        self.do_import_file_command_test(get_test_file("memory.tmx"), 2)
 
     def test_import_tmx2_command(self) -> None:
-        call_command("import_memory", get_test_file("memory2.tmx"))
-        self.assertEqual(Memory.objects.count(), 1)
+        self.do_import_file_command_test(get_test_file("memory2.tmx"), 1)
 
     def test_imported_memory_status(self) -> None:
+        unit = self.get_unit()
+        unit.context = "Unit Context"
+        unit.save()
         self.project.translation_review = True
         self.project.save()
         machine_translation = WeblateMemory({})
@@ -153,6 +162,7 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
                             "source": "Hello, world!\n",
                             "target": "Ahoj!",
                             "origin": "Project",
+                            "context": "Unit Context",
                             "category": 1,
                         }
                     ]
@@ -161,12 +171,19 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
             temp_file.flush()
             call_command("import_memory", temp_file.name)
         self.assertEqual(Memory.objects.count(), 1)
-        unit = self.get_unit()
         suggestion = self.search_suggestion(
             machine_translation, unit, "Hello, world!\n", origin="File"
         )
         # quality of imported memory is not affected by penalty
         self.assertEqual(suggestion["quality"], 100)
+
+        unit.context = "Different context"
+        unit.save()
+        unit.refresh_from_db()
+        suggestion = self.search_suggestion(
+            machine_translation, unit, "Hello, world!\n", origin="File"
+        )
+        self.assertEqual(suggestion["quality"], 95)
 
     def test_import_map(self) -> None:
         call_command(
@@ -203,9 +220,7 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
         self.assertEqual(Memory.objects.count(), 0)
 
     def test_import_json_command(self) -> None:
-        call_command("import_memory", get_test_file("memory.json"))
-        self.assertEqual(Memory.objects.count(), 1)
-        self.assertEqual(Memory.objects.filter(status=Memory.STATUS_PENDING).count(), 0)
+        self.do_import_file_command_test(get_test_file("memory.json"), 1)
 
     def test_import_broken_json_command(self) -> None:
         with self.assertRaises(CommandError):
@@ -219,7 +234,7 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
 
     def import_file_with_languages_test(
         self,
-        filename: str,
+        filepath: str,
         source_language: str,
         target_language: str,
         expected_result: int,
@@ -227,13 +242,13 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
         """Test memory file upload requiring source and target languages."""
         # check source and target languages are required
         with self.assertRaises(CommandError):
-            call_command("import_memory", get_test_file(filename))
+            call_command("import_memory", filepath)
         self.assertEqual(Memory.objects.count(), 0)
 
         with self.assertRaises(CommandError):
             call_command(
                 "import_memory",
-                get_test_file(filename),
+                filepath,
                 source_language=source_language,
             )
         self.assertEqual(Memory.objects.count(), 0)
@@ -241,7 +256,7 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
         with self.assertRaises(CommandError):
             call_command(
                 "import_memory",
-                get_test_file(filename),
+                filepath,
                 target_language=target_language,
             )
         self.assertEqual(Memory.objects.count(), 0)
@@ -250,21 +265,19 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
         with self.assertRaises(CommandError):
             call_command(
                 "import_memory",
-                get_test_file(filename),
+                filepath,
                 source_language=source_language,
                 target_language="zzz",
             )
         self.assertEqual(Memory.objects.count(), 0)
 
         # successful import
-        call_command(
-            "import_memory",
-            get_test_file(filename),
+        self.do_import_file_command_test(
+            filepath,
+            expected_result,
             source_language="en",
             target_language="cs",
         )
-        self.assertEqual(Memory.objects.count(), expected_result)
-        self.assertEqual(Memory.objects.filter(status=Memory.STATUS_PENDING).count(), 0)
 
     def test_import_xliff(self) -> None:
         """Test the import of an XLIFF file."""
@@ -279,16 +292,20 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
 
         self.assertEqual(Memory.objects.count(), 0)
 
-        self.import_file_with_languages_test("ids-translated.xliff", "en", "cs", 2)
+        self.import_file_with_languages_test(
+            get_test_file("ids-translated.xliff"), "en", "cs", 2
+        )
 
     def test_import_po(self) -> None:
         """Test the import of an GNU PO file."""
-        self.import_file_with_languages_test("cs.po", "en", "cs", 1)
+        self.import_file_with_languages_test(get_test_file("cs.po"), "en", "cs", 1)
+        memory = Memory.objects.first()
+        self.assertEqual(memory.context, "Greeting")
 
     def test_import_unsupported_format(self) -> None:
         """Test the import of an unsupported file."""
         with self.assertRaises(CommandError):
-            self.import_file_with_languages_test("cs.ts", "en", "cs", 0)
+            self.import_file_with_languages_test(get_test_file("cs.ts"), "en", "cs", 0)
 
     def test_import_project(self) -> None:
         import_memory(self.project.id)
