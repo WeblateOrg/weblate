@@ -149,7 +149,8 @@
         <li class="list-group-item">
           <a href=""
              class="float-end link-post btn btn-danger"
-             data-href="{% url "reset" path=object.get_url_path %}" data-params='{"keep_changes": "1"}'>{% translate "Reset and reapply" %}</a>
+             data-href="{% url "reset" path=object.get_url_path %}"
+             data-params='{"keep_changes": "1"}'>{% translate "Reset and reapply" %}</a>
           <h6 class="mb-1 fw-bold">{% translate "Reset the Weblate repository and reapply translations" %}</h6>
           <p class="mb-0">
             {% translate "Resets the Weblate repository to upstream and replays translations in Weblate." %}

@@ -1074,7 +1074,10 @@ class RepoOperations(TextChoices):
     )
     PUSH = "push", gettext_lazy("Push")
     RESET = "reset", gettext_lazy("Reset all changes in the Weblate repository")
-    RESET_KEEP = "reset-keep", gettext_lazy("Reset the Weblate repository and reapply translations")
+    RESET_KEEP = (
+        "reset-keep",
+        gettext_lazy("Reset the Weblate repository and reapply translations"),
+    )
     CLEANUP = (
         "cleanup",
         gettext_lazy("Cleanup all untracked files in the Weblate repository"),
