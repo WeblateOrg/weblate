@@ -15,10 +15,14 @@ from weblate.addons.base import BaseAddon
 from weblate.addons.events import AddonEvent
 from weblate.addons.forms import AutoAddonForm
 from weblate.trans.actions import ACTIONS_CONTENT, ActionEvents
+from weblate.trans.models import Component
 from weblate.trans.tasks import auto_translate, auto_translate_component
 
 if TYPE_CHECKING:
-    from weblate.trans.models import Change, Component
+    from django.forms.boundfield import BoundField
+    from django_stubs_ext import StrOrPromise
+
+    from weblate.trans.models import Change
 
 
 class AutoTranslateAddon(BaseAddon):
@@ -137,3 +141,18 @@ class AutoTranslateAddon(BaseAddon):
                 translation_id=translation_id,
                 unit_ids=unit_ids,
             )
+
+    def show_setting_field(self, field: BoundField) -> bool:
+        auto_source = self.instance.configuration["auto_source"]
+        # Do not show UI hidden fields
+        if (auto_source == "mt" and field.name == "component") or (
+            auto_source == "others" and field.name in {"engines", "threshold"}
+        ):
+            return False
+        return not field.is_hidden and field.value()
+
+    def get_setting_value(self, field: BoundField) -> StrOrPromise:
+        if field.name == "component" and not hasattr(field.field, "choices"):
+            # Manually handle char field
+            return str(Component.objects.get(pk=field.value()))
+        return super().get_setting_value(field)

@@ -30,6 +30,7 @@ Weblate 5.14
 * Admins can configure :ref:`expiring-accounts`.
 * Rate limiting of notification e-mails, configurable by :setting:`RATELIMIT_NOTIFICATION_LIMITS`.
 * :guilabel:`Repository maintenance` now supports resetting the repository while keeping the current state of translations in Weblate.
+* Improved listing of :ref:`addon-weblate.autotranslate.autotranslate` configuration.
 
 .. rubric:: Bug fixes
 
