@@ -1297,7 +1297,7 @@ class XliffFormat(TTKitFormat):
     name = gettext_lazy("XLIFF 1.2 translation file")
     format_id = "plainxliff"
     loader = xlifffile
-    autoload: tuple[str, ...] = ()
+    autoload: tuple[str, ...] = ("*.xlf", "*.xliff")
     unit_class = XliffUnit
     language_format = "bcp"
     use_settarget = True
@@ -1335,7 +1335,7 @@ class RichXliffFormat(XliffFormat):
     # Translators: File format name
     name = gettext_lazy("XLIFF 1.2 with placeables support")
     format_id = "xliff"
-    autoload: tuple[str, ...] = ("*.xlf", "*.xliff", "*.sdlxliff", "*.mxliff")
+    autoload: tuple[str, ...] = ("*.sdlxliff", "*.mxliff")
     unit_class = RichXliffUnit
 
 
