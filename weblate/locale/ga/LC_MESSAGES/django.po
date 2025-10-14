@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-13 14:01+0000\n"
-"PO-Revision-Date: 2025-09-08 18:02+0000\n"
+"PO-Revision-Date: 2025-10-14 16:10+0000\n"
 "Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
 "application/ga/>\n"
@@ -575,7 +575,7 @@ msgstr "Dhíchumasaigh an riarthóir an t-úsáideoir."
 
 #: weblate/accounts/models.py:296
 msgid "User was disabled because the access has expired."
-msgstr ""
+msgstr "Díchumasaíodh an t-úsáideoir mar gheall gur imigh an rochtain in éag."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:299
@@ -1577,26 +1577,21 @@ msgid "Bulk edit flags, labels, or states of strings."
 msgstr "Bulceagrú bratacha, lipéid, nó stáit teaghráin."
 
 #: weblate/addons/flags.py:134
-#, fuzzy
-#| msgid "Flag unchanged translations as \"Needs editing\""
 msgid "Flag updated translations from repository as \"Needs editing\""
-msgstr "Bratach aistriúcháin gan athrú mar \"Tá eagarthóireacht de dhíth\""
+msgstr ""
+"Brataigh aistriúcháin nuashonraithe ón stór mar "
+"\"Riachtanas eagarthóireachta\""
 
 #: weblate/addons/flags.py:137
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS, it is "
-#| "flagged as needing editing in Weblate. This way you can easily filter and "
-#| "edit translations created by the developers."
 msgid ""
 "Whenever a string translation is changed from the VCS, it is flagged as "
 "needing editing in Weblate. Especially useful if translation files are often "
 "updated manually or by an external service."
 msgstr ""
-"Aon uair a allmhairítear teaghrán nua inaistrithe ón VCS, cuirtear in iúl go "
-"bhfuil gá le heagrú in Weblate. Ar an mbealach seo is féidir leat "
-"aistriúcháin atá cruthaithe ag na forbróirí a scagadh agus a chur in eagar "
-"go héasca."
+"Aon uair a athraítear aistriúchán teaghráin ón VCS, cuirtear in iúl go "
+"bhfuil gá é a chur in eagar i Weblate. Tá sé seo an-úsáideach go háirithe má "
+"dhéantar comhaid aistriúcháin a nuashonrú de láimh nó má dhéanann seirbhís "
+"sheachtrach é."
 
 #: weblate/addons/forms.py:59
 msgid "Path of generated MO file"
@@ -2406,10 +2401,8 @@ msgstr "Teaghráin athbhreithnithe"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:75
-#, fuzzy
-#| msgid "Edit strings"
 msgid "Bulk edit strings"
-msgstr "Cuir teaghráin in eagar"
+msgstr "Teaghráin eagarthóireachta mórchóir"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:77
@@ -2543,10 +2536,8 @@ msgstr "Bainistigh foirne"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:135
-#, fuzzy
-#| msgid "View billing info"
 msgid "View team info"
-msgstr "Féach ar fhaisnéis bhilleála"
+msgstr "Féach ar fhaisnéis na foirne"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:137 weblate/templates/manage/users.html:18
@@ -2555,10 +2546,8 @@ msgstr "Bainistigh úsáideoirí"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:139
-#, fuzzy
-#| msgid "View billing info"
 msgid "View user info"
-msgstr "Féach ar fhaisnéis bhilleála"
+msgstr "Féach ar fhaisnéis úsáideora"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:141
@@ -2567,10 +2556,8 @@ msgstr "Bainistigh róil"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:143
-#, fuzzy
-#| msgid "View billing info"
 msgid "View role info"
-msgstr "Féach ar fhaisnéis bhilleála"
+msgstr "Féach ar fhaisnéis róil"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:145
@@ -2654,11 +2641,9 @@ msgid "Manage languages"
 msgstr "Bainistigh teangacha"
 
 #: weblate/auth/data.py:241
-#, fuzzy
-#| msgid "Bulk edit"
 msgctxt "Access-control role"
 msgid "Bulk editing"
-msgstr "Bulc eagarthóireacht"
+msgstr "Eagarthóireacht mhórchóir"
 
 #: weblate/auth/data.py:245
 msgctxt "Access-control role"
@@ -2761,11 +2746,9 @@ msgid "Screenshots"
 msgstr "Gabhálacha scáileáin"
 
 #: weblate/auth/data.py:315
-#, fuzzy
-#| msgid "Bulk edit"
 msgctxt "Per-project access-control team name"
 msgid "Bulk editing"
-msgstr "Bulc eagarthóireacht"
+msgstr "Eagarthóireacht mhórchóir"
 
 #: weblate/auth/data.py:318
 msgctxt "Per-project access-control team name"
@@ -2975,7 +2958,7 @@ msgstr "Téigh in éag"
 
 #: weblate/auth/models.py:497
 msgid "The account will be disabled after the expiry."
-msgstr ""
+msgstr "Díchumasófar an cuntas tar éis don dáta dul in éag."
 
 #: weblate/auth/models.py:504 weblate/templates/accounts/profile.html:34
 #: weblate/templates/accounts/user.html:194 weblate/templates/auth/team.html:38
@@ -3173,6 +3156,8 @@ msgid ""
 "This invitation can be accepted only by the e-mail address chosen by the "
 "inviter; it can't be used by your account."
 msgstr ""
+"Ní féidir glacadh leis an gcuireadh seo ach leis an seoladh ríomhphoist a "
+"roghnaigh an cuireadhóir; ní féidir le do chuntas é a úsáid."
 
 #: weblate/auth/views.py:201
 msgid "User invitation was removed."
@@ -3325,10 +3310,8 @@ msgid "Billing"
 msgstr "Billeáil"
 
 #: weblate/billing/models.py:681 weblate/templates/billing/detail.html:119
-#, fuzzy
-#| msgid "Billing overview"
 msgid "Billing event"
-msgstr "Forbhreathnú billeála"
+msgstr "Imeacht billeála"
 
 #: weblate/billing/tasks.py:73
 msgid ""
@@ -4765,10 +4748,8 @@ msgid "CSV"
 msgstr "CSV"
 
 #: weblate/formats/exporters.py:258
-#, fuzzy
-#| msgid "Multivalue CSV file (UTF-8)"
 msgid "Multivalue CSV"
-msgstr "Comhad CSV illuach (UTF-8)"
+msgstr "CSV illuachanna"
 
 #: weblate/formats/exporters.py:325
 msgid "XLSX"
@@ -7158,13 +7139,15 @@ msgstr "Tú a atreorú chuig an soláthraí fíordheimhnithe."
 
 #: weblate/templates/accounts/register-password.html:4
 msgid "Registration without a password:"
-msgstr ""
+msgstr "Clárú gan focal faire:"
 
 #: weblate/templates/accounts/register-password.html:5
 msgid ""
 "You can set your password later by clicking on the link in the verification "
 "email."
 msgstr ""
+"Is féidir leat do phasfhocal a shocrú níos déanaí trí chliceáil ar an nasc "
+"sa ríomhphost fíoraithe."
 
 #: weblate/templates/accounts/register.html:20
 msgid "Please complete the registration to accept the invitation."
@@ -7196,36 +7179,32 @@ msgid ""
 "You will lose access to the projects you manage. Projects themselves will "
 "not be removed."
 msgstr ""
+"Caillfidh tú rochtain ar na tionscadail a bhainistíonn tú. Ní bhainfear na "
+"tionscadail féin."
 
 #: weblate/templates/accounts/removal.html:35
 msgid ""
 "Any billing you might have created will not be terminated by this account "
 "removal."
 msgstr ""
+"Ní chuirfear deireadh le haon bhilleáil a d'fhéadfadh a bheith cruthaithe "
+"agat leis an mbaint seo den chuntas."
 
 #: weblate/templates/accounts/removal.html:39
-#, fuzzy
-#| msgid ""
-#| "By pressing following button, your will no longer be able to use this "
-#| "account."
 msgid ""
 "By pressing the following button, you will no longer be able to use this "
 "account."
 msgstr ""
-"Má bhrúnn tú an cnaipe seo a leanas, ní bheidh tú in ann an cuntas seo a "
+"Trí bhrú ar an gcnaipe seo a leanas, ní bheidh tú in ann an cuntas seo a "
 "úsáid a thuilleadh."
 
 #: weblate/templates/accounts/removal.html:43
-#, fuzzy
-#| msgid ""
-#| "You will have to confirm account removal by clicking link in e-mail you "
-#| "will receive."
 msgid ""
 "You will have to confirm the account removal by clicking the link in the e-"
 "mail you will receive."
 msgstr ""
-"Beidh ort baint an chuntais a dhearbhú trí chliceáil ar an nasc sa "
-"ríomhphost a gheobhaidh tú."
+"Beidh ort a dheimhniú go bhfuil an cuntas bainte amach trí chliceáil ar an "
+"nasc sa ríomhphost a gheobhaidh tú."
 
 #: weblate/templates/accounts/removal.html:50
 msgid "Delete this account"
@@ -7276,6 +7255,8 @@ msgid ""
 "By registering, you agree that your name and username will be visible "
 "publicly as long as your account exists."
 msgstr ""
+"Trí chlárú, aontaíonn tú go mbeidh d’ainm agus d’ainm úsáideora le feiceáil "
+"go poiblí fad a bheidh do chuntas ann."
 
 #: weblate/templates/accounts/snippets/login-info.html:30
 msgid ""
@@ -7283,24 +7264,32 @@ msgid ""
 "commits to author the changes you made; they can be stored there "
 "indefinitely."
 msgstr ""
+"Ina theannta sin, is féidir d’ainm agus do r-phost a úsáid i ngealltanais "
+"chórais rialaithe leaganacha chun na hathruithe a rinne tú a scríobh; is "
+"féidir iad a stóráil ansin go ceann tréimhse éiginnte."
 
 #: weblate/templates/accounts/snippets/login-info.html:32
-#, fuzzy
-#| msgid "Please set your full name and e-mail in your profile."
 msgid "You can enable the use of a private commit e-mail in your profile."
-msgstr "Cuir d'ainm iomlán agus do r-phost i do phróifíl le do thoil."
+msgstr ""
+"Is féidir leat úsáid ríomhphoist tiomantais phríobháidigh a chumasú i do "
+"phróifíl."
 
 #: weblate/templates/accounts/snippets/login-info.html:35
 msgid ""
 "Additionally, your name can be used in version control system commits to "
 "author the changes you made; it can be stored there indefinitely."
 msgstr ""
+"Ina theannta sin, is féidir d’ainm a úsáid i ngealltanais chórais rialaithe "
+"leaganacha chun na hathruithe a rinne tú a údarú; is féidir é a stóráil "
+"ansin go ceann tréimhse éiginnte."
 
 #: weblate/templates/accounts/snippets/login-info.html:38
 msgid ""
 "You provide your contribution under the license defined by each project you "
 "contributed to."
 msgstr ""
+"Cuireann tú do ranníocaíocht ar fáil faoin gceadúnas a shainmhínítear le "
+"gach tionscadal ar chuir tú leis."
 
 #: weblate/templates/accounts/snippets/login-title.html:4
 msgid "Weblate single sign on"
@@ -7409,10 +7398,9 @@ msgid "Never signed-in"
 msgstr "Ná síníodh isteach riamh"
 
 #: weblate/templates/accounts/user.html:37
-#, fuzzy, python-format
-#| msgid "Joined on %(date)s"
+#, python-format
 msgid "Account expires on %(date)s"
-msgstr "Glacadh leis ar %(date)s"
+msgstr "Rachaidh an cuntas in éag ar %(date)s"
 
 #: weblate/templates/accounts/user.html:57
 #: weblate/templates/snippets/plural.html:11
@@ -8416,10 +8404,8 @@ msgid "No invoices found."
 msgstr "Níor aimsíodh aon sonraisc."
 
 #: weblate/templates/billing/detail.html:120
-#, fuzzy
-#| msgid "View details"
 msgid "Event details"
-msgstr "Féach ar na sonraí"
+msgstr "Sonraí an imeachta"
 
 #: weblate/templates/billing/detail.html:144
 msgid "Libre hosting"
@@ -9600,16 +9586,12 @@ msgstr ""
 "ag teacht le chéile in aghaidh an tsrutha."
 
 #: weblate/templates/js/git-status.html:146
-#, fuzzy
-#| msgid ""
-#| "Use when you want to discard changes in Weblate and bring it in sync with "
-#| "upstream repository."
 msgid ""
 "Use when you want to discardchanges in Weblate and bring it in sync with "
 "upstream repository."
 msgstr ""
-"Bain úsáid as nuair is mian leat athruithe i Weblate a scriosadh agus é a "
-"chur i gcomhshioncronú leis an stór in aghaidh an tsrutha."
+"Úsáid é nuair is mian leat athruithe i Weblate a dhíscríobh agus é a "
+"thabhairt i sioncrón leis an stórlann suas an srutha."
 
 #: weblate/templates/js/git-status.html:152
 msgid "Cleanup"
@@ -10811,10 +10793,8 @@ msgid "Show components with linked repositories"
 msgstr "Taispeáin comhpháirteanna le stórtha nasctha"
 
 #: weblate/templates/manage/repos.html:19
-#, fuzzy
-#| msgid "Show components with linked repositories"
 msgid "Show components without a remote VCS"
-msgstr "Taispeáin comhpháirteanna le stórtha nasctha"
+msgstr "Taispeáin comhpháirteanna gan VCS iargúlta"
 
 #: weblate/templates/manage/repos.html:27
 msgid "This repository is linked to:"
@@ -11270,10 +11250,9 @@ msgid "Add label"
 msgstr "Cuir lipéad leis"
 
 #: weblate/templates/project.html:167
-#, fuzzy, python-format
-#| msgid "Manage teams"
+#, python-format
 msgid "Manage %(team)s"
-msgstr "Bainistigh foirne"
+msgstr "Bainistigh %(team)s"
 
 #: weblate/templates/project.html:379
 msgid "Organize project"
@@ -11621,10 +11600,8 @@ msgid "This term should not be translated."
 msgstr "Níor cheart an téarma seo a aistriú."
 
 #: weblate/templates/snippets/glossary.html:5
-#, fuzzy
-#| msgid "This translation is locked."
 msgid "This translation needs editing."
-msgstr "Tá an t-aistriúchán seo faoi ghlas."
+msgstr "Tá gá le heagarthóireacht ar an aistriúchán seo."
 
 #: weblate/templates/snippets/glossary.html:5
 msgid "Copy word into translation"
@@ -16087,16 +16064,12 @@ msgstr ""
 "Ní bhfaighidh an chomhpháirt faoi ghlas aon nuashonruithe aistriúcháin."
 
 #: weblate/trans/models/component.py:558
-#, fuzzy
-#| msgid "Does not follow glossary"
 msgid "Do not show glossary matches"
-msgstr "Ní leanann gluais"
+msgstr "Ná taispeáin cluichí glosaire"
 
 #: weblate/trans/models/component.py:560
-#, fuzzy
-#| msgid "Focus on translation editor."
 msgid "Hides the glossary panel in the translation editor."
-msgstr "Fócas ar eagarthóir aistriúcháin."
+msgstr "Folaíonn sé an painéal gluaise san eagarthóir aistriúcháin."
 
 #: weblate/trans/models/component.py:563
 msgid "Allow translation propagation"
@@ -16586,6 +16559,8 @@ msgstr ""
 msgid ""
 "The parameter '%(param)s' is not applicable for the file format '%(format)s'."
 msgstr ""
+"Ní bhaineann an paraiméadar '%(param)s' leis an bhformáid comhaid '%(format)"
+"s'."
 
 #: weblate/trans/models/component.py:3312
 msgid ""
@@ -17404,11 +17379,10 @@ msgid "Source upload is only supported on the source language."
 msgstr "Ní thacaítear le huaslódáil foinse ach amháin sa teanga foinse."
 
 #: weblate/trans/util.py:388
-#, fuzzy
-#| msgid "Editing template is not supported with this file format."
 msgid "Update source strings upload is not supported with this format."
 msgstr ""
-"Ní thacaítear leis an bhformáid comhaid seo le teimpléad a chur in eagar."
+"Ní thacaítear le huaslódáil teaghráin foinse nuashonraithe leis an bhformáid "
+"seo."
 
 #: weblate/trans/validators.py:22
 msgid "File mask does not contain * as a language placeholder!"
@@ -17447,12 +17421,13 @@ msgstr ""
 #: weblate/trans/validators.py:75
 msgid "File format parameters must be a dictionary of key-value pairs."
 msgstr ""
+"Ní mór do pharaiméadair formáide comhaid a bheith ina bhfoclóir de phéirí "
+"eochrach-luachanna."
 
 #: weblate/trans/validators.py:84
-#, fuzzy, python-format
-#| msgid "File format parameters"
+#, python-format
 msgid "Unknown file format parameter: \"%(param_name)s\"."
-msgstr "Paraiméadair formáid comhaid"
+msgstr "Paraiméadar formáid comhaid anaithnid: \"%(param_name)s\"."
 
 #: weblate/trans/views/about.py:22
 msgid "Keys"
