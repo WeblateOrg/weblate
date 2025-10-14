@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-13 14:01+0000\n"
-"PO-Revision-Date: 2025-10-14 16:07+0000\n"
+"PO-Revision-Date: 2025-10-15 06:58+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -565,7 +565,7 @@ msgstr "De gebruiker is uitgeschakeld door de beheerder."
 
 #: weblate/accounts/models.py:296
 msgid "User was disabled because the access has expired."
-msgstr ""
+msgstr "Gebruiker werd uitgeschakeld omdat de toegang is verlopen."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:299
@@ -2604,11 +2604,9 @@ msgid "Manage languages"
 msgstr "Talen beheren"
 
 #: weblate/auth/data.py:241
-#, fuzzy
-#| msgid "Bulk edit"
 msgctxt "Access-control role"
 msgid "Bulk editing"
-msgstr "Bulk bewerken"
+msgstr "In massa bewerken"
 
 #: weblate/auth/data.py:245
 msgctxt "Access-control role"
@@ -2711,11 +2709,9 @@ msgid "Screenshots"
 msgstr "Schermfoto's"
 
 #: weblate/auth/data.py:315
-#, fuzzy
-#| msgid "Bulk edit"
 msgctxt "Per-project access-control team name"
 msgid "Bulk editing"
-msgstr "Bulk bewerken"
+msgstr "In massa bewerken"
 
 #: weblate/auth/data.py:318
 msgctxt "Per-project access-control team name"
@@ -2923,7 +2919,7 @@ msgstr "Verloopt op"
 
 #: weblate/auth/models.py:497
 msgid "The account will be disabled after the expiry."
-msgstr ""
+msgstr "Het account zal na het verlopen worden uitgeschakeld."
 
 #: weblate/auth/models.py:504 weblate/templates/accounts/profile.html:34
 #: weblate/templates/accounts/user.html:194 weblate/templates/auth/team.html:38
@@ -3126,6 +3122,9 @@ msgid ""
 "This invitation can be accepted only by the e-mail address chosen by the "
 "inviter; it can't be used by your account."
 msgstr ""
+"Deze invitatie kan alleen worden geaccepteerd door het e-mailadres dat is "
+"gekozen door degene die uitnodigt; het kan niet door uw account worden "
+"gebruikt."
 
 #: weblate/auth/views.py:201
 msgid "User invitation was removed."
@@ -3270,10 +3269,8 @@ msgid "Billing"
 msgstr "Facturatie"
 
 #: weblate/billing/models.py:681 weblate/templates/billing/detail.html:119
-#, fuzzy
-#| msgid "Billing overview"
 msgid "Billing event"
-msgstr "Facturatie-overzicht"
+msgstr "Facturatie gebeurtenis"
 
 #: weblate/billing/tasks.py:73
 msgid ""
@@ -4730,10 +4727,8 @@ msgid "CSV"
 msgstr "Csv"
 
 #: weblate/formats/exporters.py:258
-#, fuzzy
-#| msgid "Multivalue CSV file (UTF-8)"
 msgid "Multivalue CSV"
-msgstr "Csv-bestand met meerdere waarden (UTF-8)"
+msgstr "CSV-bestand met meerdere waarden"
 
 #: weblate/formats/exporters.py:325
 msgid "XLSX"
@@ -7077,13 +7072,15 @@ msgstr "U wordt doorverwezen naar de verificatieleverancier."
 
 #: weblate/templates/accounts/register-password.html:4
 msgid "Registration without a password:"
-msgstr ""
+msgstr "Registreren zonder wachtwoord:"
 
 #: weblate/templates/accounts/register-password.html:5
 msgid ""
 "You can set your password later by clicking on the link in the verification "
 "email."
 msgstr ""
+"U kunt later uw wachtwoord instellen door te klikken op de koppeling in de e-"
+"mail voor de verificatie."
 
 #: weblate/templates/accounts/register.html:20
 msgid "Please complete the registration to accept the invitation."
@@ -7115,35 +7112,32 @@ msgid ""
 "You will lose access to the projects you manage. Projects themselves will "
 "not be removed."
 msgstr ""
+"U zult de toegang tot projecten die u beheert verliezen. Projecten zelf "
+"zullen niet worden verwijderd."
 
 #: weblate/templates/accounts/removal.html:35
 msgid ""
 "Any billing you might have created will not be terminated by this account "
 "removal."
 msgstr ""
+"Facturatie die u hebt gemaakt zal door het verwijderen van het account niet "
+"worden beëindigd."
 
 #: weblate/templates/accounts/removal.html:39
-#, fuzzy
-#| msgid ""
-#| "By pressing following button, your will no longer be able to use this "
-#| "account."
 msgid ""
 "By pressing the following button, you will no longer be able to use this "
 "account."
 msgstr ""
-"Door op de volgende-knop te klikken, kunt u dit account niet meer gebruiken."
+"Door op de volgende knop te klikken, zult u dit account niet meer kunnen "
+"gebruiken."
 
 #: weblate/templates/accounts/removal.html:43
-#, fuzzy
-#| msgid ""
-#| "You will have to confirm account removal by clicking link in e-mail you "
-#| "will receive."
 msgid ""
 "You will have to confirm the account removal by clicking the link in the e-"
 "mail you will receive."
 msgstr ""
-"U dient uw accountverwijdering te bevestigen door te klikken op de link in "
-"de e-mail die u zult ontvangen."
+"U dient het verwijderen van uw account te bevestigen door te klikken op de "
+"link in de e-mail die u zult ontvangen."
 
 #: weblate/templates/accounts/removal.html:50
 msgid "Delete this account"
@@ -7192,6 +7186,8 @@ msgid ""
 "By registering, you agree that your name and username will be visible "
 "publicly as long as your account exists."
 msgstr ""
+"Door te registreren, gaat u ermee akkoord dat uw naam en gebruikersnaam "
+"publiekelijk zichtbaar zijn, zolang uw account bestaat."
 
 #: weblate/templates/accounts/snippets/login-info.html:30
 msgid ""
@@ -7199,24 +7195,32 @@ msgid ""
 "commits to author the changes you made; they can be stored there "
 "indefinitely."
 msgstr ""
+"Aanvullend kunnen uw naam en e-mail worden gebruikt in indieningen bij het "
+"versiebeheersysteem om de wijzigingen die u hebt gemaakt op naam te stellen; "
+"ze kunnen daar oneindig worden opgeslagen."
 
 #: weblate/templates/accounts/snippets/login-info.html:32
-#, fuzzy
-#| msgid "Please set your full name and e-mail in your profile."
 msgid "You can enable the use of a private commit e-mail in your profile."
-msgstr "Vermeld uw volledige naam en e-mailadres in uw profiel."
+msgstr ""
+"U kunt het gebruiken van een privé e-mail voor indieningen in uw profiel "
+"inschakelen."
 
 #: weblate/templates/accounts/snippets/login-info.html:35
 msgid ""
 "Additionally, your name can be used in version control system commits to "
 "author the changes you made; it can be stored there indefinitely."
 msgstr ""
+"Aanvullend kan uw naam worden gebruikt in indieningen bij het "
+"versiebeheersysteem om de wijzigingen die u hebt gemaakt op naam te stellen; "
+"die kan daar oneindig worden opgeslagen."
 
 #: weblate/templates/accounts/snippets/login-info.html:38
 msgid ""
 "You provide your contribution under the license defined by each project you "
 "contributed to."
 msgstr ""
+"U levert uw bijdrage onder de termen van de licentie die wordt gedefinieerd "
+"voor elk project waaraan u bijdraagt."
 
 #: weblate/templates/accounts/snippets/login-title.html:4
 msgid "Weblate single sign on"
@@ -7325,10 +7329,9 @@ msgid "Never signed-in"
 msgstr "Nog nooit ingelogd"
 
 #: weblate/templates/accounts/user.html:37
-#, fuzzy, python-format
-#| msgid "Joined on %(date)s"
+#, python-format
 msgid "Account expires on %(date)s"
-msgstr "Lid geworden op %(date)s"
+msgstr "Account verloopt op %(date)s"
 
 #: weblate/templates/accounts/user.html:57
 #: weblate/templates/snippets/plural.html:11
@@ -8312,10 +8315,8 @@ msgid "No invoices found."
 msgstr "Geen facturen gevonden."
 
 #: weblate/templates/billing/detail.html:120
-#, fuzzy
-#| msgid "View details"
 msgid "Event details"
-msgstr "Details tonen"
+msgstr "Details gebeurtenis"
 
 #: weblate/templates/billing/detail.html:144
 msgid "Libre hosting"
@@ -9439,16 +9440,12 @@ msgstr ""
 "gemaakt om overeen te komen met de bovenstroomse opslagruimte."
 
 #: weblate/templates/js/git-status.html:146
-#, fuzzy
-#| msgid ""
-#| "Use when you want to discard changes in Weblate and bring it in sync with "
-#| "upstream repository."
 msgid ""
 "Use when you want to discardchanges in Weblate and bring it in sync with "
 "upstream repository."
 msgstr ""
-"Gebruik dit als u aanpassingen op Weblate wilt negeren en wilt "
-"synchroniseren met de bovenstroomse opslagruimte."
+"Gebruik dit als u wijzigingen wilt negeren in Weblate en breng die in sync "
+"met de opslagruimte upstream."
 
 #: weblate/templates/js/git-status.html:152
 msgid "Cleanup"
@@ -10638,10 +10635,8 @@ msgid "Show components with linked repositories"
 msgstr "Onderdelen gekoppeld aan opslagruimten tonen"
 
 #: weblate/templates/manage/repos.html:19
-#, fuzzy
-#| msgid "Show components with linked repositories"
 msgid "Show components without a remote VCS"
-msgstr "Onderdelen gekoppeld aan opslagruimten tonen"
+msgstr "Geef onderdelen weer zonder een VCS op afstand"
 
 #: weblate/templates/manage/repos.html:27
 msgid "This repository is linked to:"
@@ -11078,10 +11073,9 @@ msgid "Add label"
 msgstr "Label toevoegen"
 
 #: weblate/templates/project.html:167
-#, fuzzy, python-format
-#| msgid "Manage teams"
+#, python-format
 msgid "Manage %(team)s"
-msgstr "Teams beheren"
+msgstr "%(team)s beheren"
 
 #: weblate/templates/project.html:379
 msgid "Organize project"
@@ -11422,10 +11416,8 @@ msgid "This term should not be translated."
 msgstr "Deze term mag niet worden vertaald."
 
 #: weblate/templates/snippets/glossary.html:5
-#, fuzzy
-#| msgid "This translation is locked."
 msgid "This translation needs editing."
-msgstr "Deze vertaling is vergrendeld."
+msgstr "Deze vertaling moet bewerkt worden."
 
 #: weblate/templates/snippets/glossary.html:5
 msgid "Copy word into translation"
@@ -15793,10 +15785,8 @@ msgid "Do not show glossary matches"
 msgstr "Geen overeenkomsten woordenlijst weergeven"
 
 #: weblate/trans/models/component.py:560
-#, fuzzy
-#| msgid "Focus on translation editor."
 msgid "Hides the glossary panel in the translation editor."
-msgstr "Focus op de vertalingsbewerker."
+msgstr "Verbergt de woordenlijst in de vertaalbewerker."
 
 #: weblate/trans/models/component.py:563
 msgid "Allow translation propagation"
@@ -16281,6 +16271,8 @@ msgstr ""
 msgid ""
 "The parameter '%(param)s' is not applicable for the file format '%(format)s'."
 msgstr ""
+"De parameter '%(param)s' is niet van toepassing voor de bestandsindeling '%"
+"(format)s'."
 
 #: weblate/trans/models/component.py:3312
 msgid ""
@@ -17035,10 +17027,10 @@ msgid "Source upload is only supported on the source language."
 msgstr "Uploaden van bron wordt alleen ondersteund voor de brontaal."
 
 #: weblate/trans/util.py:388
-#, fuzzy
-#| msgid "Editing template is not supported with this file format."
 msgid "Update source strings upload is not supported with this format."
-msgstr "Het sjabloon kan niet worden verwerkt omwille van het bestandsformaat."
+msgstr ""
+"Bijwerken van geüploade brontekenreeksen wordt niet ondersteund met deze "
+"indeling."
 
 #: weblate/trans/validators.py:22
 msgid "File mask does not contain * as a language placeholder!"
@@ -17076,12 +17068,13 @@ msgstr ""
 #: weblate/trans/validators.py:75
 msgid "File format parameters must be a dictionary of key-value pairs."
 msgstr ""
+"Parameters voor bestandsindelingen moeten een woordenboek zijn van paren "
+"sleutel-waarde."
 
 #: weblate/trans/validators.py:84
-#, fuzzy, python-format
-#| msgid "File format parameters"
+#, python-format
 msgid "Unknown file format parameter: \"%(param_name)s\"."
-msgstr "Parameters bestandsindeling"
+msgstr "Parameter voor onbekende bestandsindeling: \"%(param_name)s\"."
 
 #: weblate/trans/views/about.py:22
 msgid "Keys"
