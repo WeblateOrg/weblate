@@ -75,6 +75,7 @@ from social_core.exceptions import (
     AuthMissingParameter,
     AuthStateForbidden,
     AuthStateMissing,
+    AuthTokenError,
     AuthUnreachableProvider,
     InvalidEmail,
     MissingBackend,
@@ -1490,6 +1491,12 @@ def social_complete(request: AuthenticatedHttpRequest, backend: str):
         return registration_fail(
             request,
             gettext("The supplied username is already in use for another account."),
+        )
+    except AuthTokenError as error:
+        report_error("Could not authenticate")
+        return registration_fail(
+            request,
+            gettext("Authentication failed: %s") % error,
         )
     except AuthAlreadyAssociated:
         return registration_fail(
