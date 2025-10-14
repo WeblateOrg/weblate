@@ -39,6 +39,7 @@ Weblate 5.14
 * Searching case sensitivity for short strings.
 * Inconsistent file formatting for new translations.
 * Memory contents imported via the :wladmin:`import_memory` command are marked as active.
+* Importing some strings from :doc:`/formats/xliff`.
 
 .. rubric:: Compatibility
 
