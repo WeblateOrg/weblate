@@ -615,8 +615,6 @@ class Unit(models.Model, LoggerMixin):
 
         Only stores the state if it doesn't already exist (first pending change).
         """
-        # TODO: ensure this function is called before all relevant PendingChange creations
-        #  and before the unit in memory/db is updated
         if self.old_unit is None:
             msg = "`store_old_unit` should be called before saving disk state."
             raise ValueError(msg)
@@ -1057,7 +1055,6 @@ class Unit(models.Model, LoggerMixin):
                 only_save=True,
                 update_fields=["location", "explanation", "note", "position"],
             )
-            # TODO: delete pending changes and details for the unit in that case ?
             return
 
         # Sanitize number of plurals
@@ -1076,7 +1073,9 @@ class Unit(models.Model, LoggerMixin):
             same_content=same_source and same_target,
             run_checks=not same_source or not same_target or not same_state,
         )
-        # TODO: delete pending changes and details for the unit in that case ?
+        self.clear_disk_state()
+        PendingUnitChange.objects.filter(unit=self).delete()
+
         if pending:
             PendingUnitChange.store_unit_change(unit=self)
         # Track updated sources for source checks
