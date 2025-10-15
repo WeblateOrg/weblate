@@ -757,7 +757,13 @@ class Unit(models.Model, LoggerMixin):
             else:
                 component.needs_variants_update = True
 
-    def get_unit_state(self, unit, flags: str | None, string_changed: bool = False):
+    def get_unit_state(
+        self,
+        unit,
+        flags: str | None,
+        string_changed: bool = False,
+        disk_unit_state: StringState | None = None,
+    ) -> StringState:
         """Calculate translated and fuzzy status."""
         # Read-only from the file format
         if unit.is_readonly():
@@ -778,14 +784,16 @@ class Unit(models.Model, LoggerMixin):
 
         # We need to keep approved/fuzzy state for formats which do not
         # support saving it
-        if unit.is_fuzzy(self.fuzzy and not string_changed):
+        is_existing_fuzzy_state = self.fuzzy or disk_unit_state == STATE_FUZZY
+        if unit.is_fuzzy(is_existing_fuzzy_state and not string_changed):
             return STATE_FUZZY
 
         if not unit.is_translated():
             return STATE_EMPTY
 
+        is_existing_approved_state = self.approved or disk_unit_state == STATE_APPROVED
         if (
-            unit.is_approved(self.approved and not string_changed)
+            unit.is_approved(is_existing_approved_state and not string_changed)
             and self.translation.enable_review
         ):
             return STATE_APPROVED
@@ -958,7 +966,10 @@ class Unit(models.Model, LoggerMixin):
 
         # Calculate state
         state = self.get_unit_state(
-            unit, flags, string_changed=not same_source or not same_target
+            unit,
+            flags,
+            string_changed=not same_source or not same_target,
+            disk_unit_state=comparison_state["state"],
         )
         original_state = self.get_unit_state(unit, None)
 
