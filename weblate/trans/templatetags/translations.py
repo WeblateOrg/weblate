@@ -1498,7 +1498,7 @@ def urlize_ugc(value: str, autoescape: bool = True) -> str:
 def get_glossary_badge(component: Component | GhostStats) -> StrOrPromise:
     if isinstance(component, Component) and component.is_glossary:
         return format_html(
-            '<span class="label label-{}">{}</span>',
+            '<span class="badge label-{}">{}</span>',
             component.glossary_color,
             gettext("Glossary"),
         )
