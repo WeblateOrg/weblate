@@ -163,6 +163,10 @@ class PendingUnitChange(models.Model):
         timestamp: datetime | None = None,
     ) -> PendingUnitChange:
         """Store complete change data for a unit by a specific author."""
+        # update current fields in disk_state details for comparison of
+        # uncommitted disk state with incoming changes during check_sync.
+        unit.store_disk_state()
+
         if target is None:
             target = unit.target
         if explanation is None:
