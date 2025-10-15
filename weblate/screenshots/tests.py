@@ -7,7 +7,9 @@ import tempfile
 from difflib import get_close_matches
 from itertools import chain
 from shutil import copyfile
+from unittest.mock import patch
 
+import requests
 from django.core.files import File
 from django.urls import reverse
 from django.utils import timezone
@@ -218,6 +220,98 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
             {"source": source_pk},
         )
         self.assertEqual(screenshot.units.count(), 0)
+
+    @patch("weblate.screenshots.forms.requests.get")
+    def test_upload_with_image_url(self, mock_get) -> None:
+        # Mock the response
+        with open(TEST_SCREENSHOT, "rb") as img_handle:
+            mock_get.return_value.status_code = 200
+            mock_get.return_value.content = img_handle.read()
+            mock_get.return_value.headers = {"Content-Type": "image/png"}
+
+        self.make_manager()
+        data = {
+            "image": "",
+            "name": "Obrazek",
+            "translation": self.component.source_translation.pk,
+            "image_url": "https://example.com/test-image.png",
+        }
+        response = self.client.post(
+            reverse("screenshots", kwargs=self.kw_component),
+            data,
+            follow=True,
+        )
+        self.assertContains(response, "Obrazek")
+        self.assertEqual(Screenshot.objects.count(), 1)
+
+    @patch("weblate.screenshots.forms.requests.get")
+    def test_image_url_download_failure(self, mock_requests_get):
+        """Test handling of image download failures."""
+        # Mock request failure
+        mock_requests_get.side_effect = requests.RequestException("Network error")
+        self.make_manager()
+        data = {
+            "image": "",
+            "name": "Failed Screenshot",
+            "translation": self.component.source_translation.pk,
+            "image_url": "https://example.com/broken-image.png",
+        }
+
+        response = self.client.post(
+            reverse("screenshots", kwargs=self.kw_component),
+            data,
+            follow=True,
+        )
+        self.assertContains(
+            response, ">Unable to download image from the provided URL (network error)"
+        )
+
+    def test_no_image_or_url_validation(self):
+        """Test validation when neither image nor URL is provided."""
+        self.make_manager()
+        data = {
+            "name": "Invalid Screenshot",
+            "translation": self.component.source_translation.pk,
+        }
+        response = self.client.post(
+            reverse("screenshots", kwargs=self.kw_component),
+            data,
+            follow=True,
+        )
+        self.assertContains(
+            response, "You need to provide either image file or image URL."
+        )
+
+    @patch("weblate.screenshots.forms.requests.get")
+    def test_both_image_and_url_provided(self, mock_requests_get):
+        """Test that providing both image file and URL prioritizes the file."""
+        self.make_manager()
+        self.do_upload(image_url="https://example.com/should-be-ignored.png")
+        # screenshot from URL should not be downloaded
+        mock_requests_get.assert_not_called()
+        self.assertEqual(Screenshot.objects.count(), 1)
+
+    @patch("weblate.screenshots.forms.requests.get")
+    def test_invalid_image_url_content_type(self, mock_requests_get):
+        self.make_manager()
+        # Mock a non-image content type
+        mock_requests_get.return_value.status_code = 200
+        mock_requests_get.return_value.content = b"Not an image content"
+        mock_requests_get.return_value.headers = {"Content-Type": "text/html"}
+
+        data = {
+            "image": "",
+            "name": "Obrazek",
+            "translation": self.component.source_translation.pk,
+            "image_url": "https://example.com/test-image.png",
+        }
+
+        response = self.client.post(
+            reverse("screenshots", kwargs=self.kw_component),
+            data,
+            follow=True,
+        )
+        self.assertContains(response, "The uploaded image was invalid.")
 
 
 class ScreenshotVCSTest(APITestCase, RepoTestCase):
