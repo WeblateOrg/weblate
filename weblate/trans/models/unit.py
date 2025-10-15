@@ -1784,7 +1784,7 @@ class Unit(models.Model, LoggerMixin):
 
         return saved
 
-    def get_all_flags(self, override=None):
+    def get_all_flags(self, override: Flags | str | None = None) -> Flags:
         """Return union of own and component flags."""
         # Validate flags from the unit to avoid crash
         try:
@@ -1805,10 +1805,10 @@ class Unit(models.Model, LoggerMixin):
         )
 
     @cached_property
-    def all_flags(self):
+    def all_flags(self) -> Flags:
         return self.get_all_flags()
 
-    def get_unit_flags(self):
+    def get_unit_flags(self) -> Flags:
         return Flags(self.extra_flags)
 
     @cached_property
