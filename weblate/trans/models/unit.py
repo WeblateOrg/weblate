@@ -609,6 +609,52 @@ class Unit(models.Model, LoggerMixin):
             "explanation": unit.explanation,
         }
 
+    def store_disk_state(self) -> None:
+        """
+        Store a snapshot of unit state before pending changes are created.
+
+        Only stores the state if it doesn't already exist (first pending change).
+        """
+        # TODO: ensure this function is called before all relevant PendingChange creations
+        #  and before the unit in memory/db is updated
+        if "disk_state" not in self.details:
+            self.details["disk_state"] = {
+                "target": self.target,
+                "state": self.state,
+                "explanation": self.explanation,
+            }
+            self.save(update_fields=["details"])
+
+    def clear_disk_state(self) -> None:
+        """
+        Clear the disk_state snapshot from the details field.
+
+        This should be called after all pending changes for this unit have been committed.
+        """
+        if "disk_state" in self.details:
+            del self.details["disk_state"]
+            self.save(update_fields=["details"])
+
+    def get_comparison_state(self) -> dict[str, Any]:
+        """
+        Get the fields that can differ in database and disk to compare against during check_sync.
+
+        If disk_state exists, returns it. Otherwise, returns the current unit state.
+        This allows comparing file contents against the state before pending changes.
+
+        Returns:
+            Dictionary containing unit state fields.
+
+        """
+        if "disk_state" in self.details:
+            return self.details["disk_state"]
+
+        return {
+            "target": self.target,
+            "state": self.state,
+            "explanation": self.explanation,
+        }
+
     @property
     def approved(self) -> bool:
         return self.state == STATE_APPROVED
@@ -903,9 +949,12 @@ class Unit(models.Model, LoggerMixin):
                 source_explanation,
             )
 
+        # Get comparison state (disk_state if exists, otherwise current state)
+        comparison_state = self.get_comparison_state()
+
         # Has source/target changed
         same_source = source == self.source and context == self.context
-        same_target = target == self.target
+        same_target = target == comparison_state["target"]
 
         # Calculate state
         state = self.get_unit_state(
@@ -921,7 +970,10 @@ class Unit(models.Model, LoggerMixin):
             and same_target
         ):
             if not same_source and state in {STATE_TRANSLATED, STATE_APPROVED}:
-                if self.previous_source == source and self.fuzzy:
+                if (
+                    self.previous_source == source
+                    and comparison_state["state"] == STATE_FUZZY
+                ):
                     # Source change was reverted
                     source_change = self.source
                     previous_source = ""
@@ -937,7 +989,7 @@ class Unit(models.Model, LoggerMixin):
                     state = STATE_FUZZY
                 pending = True
             elif (
-                self.state == STATE_FUZZY
+                comparison_state["state"] == STATE_FUZZY
                 and state == STATE_FUZZY
                 and not previous_source
             ):
@@ -945,10 +997,10 @@ class Unit(models.Model, LoggerMixin):
                 previous_source = self.previous_source
 
         # Update checks on fuzzy update or on content change
-        same_state = state == self.state and flags == Flags(self.flags)
+        same_state = state == comparison_state["state"] and flags == Flags(self.flags)
         same_metadata = (
             location == self.location
-            and explanation == self.explanation
+            and explanation == comparison_state["explanation"]
             and note == self.note
             and pos == self.position
             and not pending
@@ -991,6 +1043,7 @@ class Unit(models.Model, LoggerMixin):
                 only_save=True,
                 update_fields=["location", "explanation", "note", "position"],
             )
+            # TODO: delete pending changes and details for the unit in that case ?
             return
 
         # Sanitize number of plurals
@@ -1009,6 +1062,7 @@ class Unit(models.Model, LoggerMixin):
             same_content=same_source and same_target,
             run_checks=not same_source or not same_target or not same_state,
         )
+        # TODO: delete pending changes and details for the unit in that case ?
         if pending:
             PendingUnitChange.store_unit_change(unit=self)
         # Track updated sources for source checks
@@ -1168,6 +1222,7 @@ class Unit(models.Model, LoggerMixin):
                     continue
 
                 # Update unit attributes for the current instance, the database is bulk updated later
+                unit.store_disk_state()
                 unit.target = self.target
                 unit.state = self.state
 
@@ -1364,6 +1419,7 @@ class Unit(models.Model, LoggerMixin):
                 ):
                     # Unset fuzzy on reverted
                     unit.original_state = unit.state = STATE_TRANSLATED
+                    unit.store_disk_state()
                     PendingUnitChange.store_unit_change(
                         unit=unit,
                         author=author,
@@ -1382,6 +1438,7 @@ class Unit(models.Model, LoggerMixin):
                     unit.original_state = STATE_FUZZY
                     if unit.state < STATE_READONLY:
                         unit.state = STATE_FUZZY
+                        unit.store_disk_state()
                         PendingUnitChange.store_unit_change(
                             unit=unit,
                             author=author,
@@ -1715,6 +1772,10 @@ class Unit(models.Model, LoggerMixin):
         # Fetch current copy from database and lock it for update
         old_unit = Unit.objects.select_for_update().get(pk=self.pk)
         self.store_old_unit(old_unit)
+
+        # update current fields in disk_state details for comparison of
+        # uncommitted disk state with incoming changes during check_sync.
+        self.store_disk_state()
 
         # Handle simple string units
         new_target_list = [new_target] if isinstance(new_target, str) else new_target
@@ -2053,6 +2114,7 @@ class Unit(models.Model, LoggerMixin):
         # Mark change as pending if file format supports this
         if file_format_support:
             for unit in units:
+                unit.store_disk_state()
                 PendingUnitChange.store_unit_change(
                     unit=unit,
                     author=user,
@@ -2063,6 +2125,7 @@ class Unit(models.Model, LoggerMixin):
                 not self.is_source
                 or self.translation.component.file_format_cls.monolingual
             ):
+                self.store_disk_state()
                 PendingUnitChange.store_unit_change(
                     unit=self,
                     author=user,

@@ -2161,6 +2161,7 @@ class Component(
         ).exclude(
             translation__language_id=self.source_language_id, translation__filename=""
         ):
+            unit.store_disk_state()
             PendingUnitChange.store_unit_change(unit)
 
         self.change_set.create(
