@@ -1487,9 +1487,10 @@ $(function () {
         const child = document.createElement("a");
         child.setAttribute("href", data.value.url);
         child.textContent = `${data.value.name} `;
-        child.addClass("dropdown-item");
+        child.classList.add("dropdown-item");
         const category = document.createElement("span");
         category.setAttribute("class", "badge");
+        category.classList.add("text-bg-secondary");
         category.textContent = data.value.category;
         child.appendChild(category);
         item.appendChild(child);
