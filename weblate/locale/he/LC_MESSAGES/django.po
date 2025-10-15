@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-13 14:01+0000\n"
-"PO-Revision-Date: 2025-09-04 11:55+0000\n"
+"PO-Revision-Date: 2025-10-15 06:58+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -18,9 +18,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
-"n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Weblate 5.13.1-rc\n"
+"Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : "
+"((n > 10 && n % 10 == 0) ? 2 : 3));\n"
+"X-Generator: Weblate 5.14-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -546,7 +546,7 @@ msgstr "המשתמש הושבת על ידי ההנהלה."
 
 #: weblate/accounts/models.py:296
 msgid "User was disabled because the access has expired."
-msgstr ""
+msgstr "המשתמש הושבת כי תוקף הגישה פג."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:299
@@ -1480,10 +1480,8 @@ msgid "Bulk edit flags, labels, or states of strings."
 msgstr "עריכה כמותית של דגלונים, תוויות או מצבים של מחרוזות."
 
 #: weblate/addons/flags.py:134
-#, fuzzy
-#| msgid "Flag unchanged translations as \"Needs editing\""
 msgid "Flag updated translations from repository as \"Needs editing\""
-msgstr "סימון תרגומים ללא שינוי כ„טעוני שיפור”"
+msgstr "סימון תרגומים שעודכנו מהמאגר כ„טעוני שיפור”"
 
 #: weblate/addons/flags.py:137
 #, fuzzy
@@ -2272,10 +2270,8 @@ msgstr "סקירת מחרוזות"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:75
-#, fuzzy
-#| msgid "Edit strings"
 msgid "Bulk edit strings"
-msgstr "עריכת מחרוזות"
+msgstr "עריכת מחרוזות במרוכז"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:77
@@ -2409,10 +2405,8 @@ msgstr "ניהול צוותים"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:135
-#, fuzzy
-#| msgid "View billing info"
 msgid "View team info"
-msgstr "הצגת פרטי חיוב"
+msgstr "הצגת פרטי צוות"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:137 weblate/templates/manage/users.html:18
@@ -2421,10 +2415,8 @@ msgstr "ניהול משתמשים"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:139
-#, fuzzy
-#| msgid "View billing info"
 msgid "View user info"
-msgstr "הצגת פרטי חיוב"
+msgstr "הצגת פרטי משתמש"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:141
@@ -2433,10 +2425,8 @@ msgstr "ניהול תפקידים"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:143
-#, fuzzy
-#| msgid "View billing info"
 msgid "View role info"
-msgstr "הצגת פרטי חיוב"
+msgstr "הצגת פרטי תפקיד"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:145
@@ -2520,11 +2510,9 @@ msgid "Manage languages"
 msgstr "ניהול שפות"
 
 #: weblate/auth/data.py:241
-#, fuzzy
-#| msgid "Bulk edit"
 msgctxt "Access-control role"
 msgid "Bulk editing"
-msgstr "עריכה כמותית"
+msgstr "עריכה במרוכז"
 
 #: weblate/auth/data.py:245
 msgctxt "Access-control role"
@@ -2627,11 +2615,9 @@ msgid "Screenshots"
 msgstr "צילומי מסך"
 
 #: weblate/auth/data.py:315
-#, fuzzy
-#| msgid "Bulk edit"
 msgctxt "Per-project access-control team name"
 msgid "Bulk editing"
-msgstr "עריכה כמותית"
+msgstr "עריכה במרוכז"
 
 #: weblate/auth/data.py:318
 msgctxt "Per-project access-control team name"
@@ -2835,7 +2821,7 @@ msgstr "תפוגת התוקף"
 
 #: weblate/auth/models.py:497
 msgid "The account will be disabled after the expiry."
-msgstr ""
+msgstr "החשבון יושבת אחרי תפוגת התוקף."
 
 #: weblate/auth/models.py:504 weblate/templates/accounts/profile.html:34
 #: weblate/templates/accounts/user.html:194 weblate/templates/auth/team.html:38
@@ -3020,6 +3006,8 @@ msgid ""
 "This invitation can be accepted only by the e-mail address chosen by the "
 "inviter; it can't be used by your account."
 msgstr ""
+"את ההזמנה הזאת אפשר לאשר רק דרך חשבון הדוא״ל שנבחר על ידי מי שהזמין או "
+"הזמינה, אי אפשר להשתמש בה עם החשבון שלך."
 
 #: weblate/auth/views.py:201
 msgid "User invitation was removed."
@@ -3168,10 +3156,8 @@ msgid "Billing"
 msgstr "חיוב"
 
 #: weblate/billing/models.py:681 weblate/templates/billing/detail.html:119
-#, fuzzy
-#| msgid "Billing overview"
 msgid "Billing event"
-msgstr "סקירת חיוב"
+msgstr "אירוע חיוב"
 
 #: weblate/billing/tasks.py:73
 msgid ""
@@ -4553,10 +4539,8 @@ msgid "CSV"
 msgstr "CSV"
 
 #: weblate/formats/exporters.py:258
-#, fuzzy
-#| msgid "Multivalue CSV file (UTF-8)"
 msgid "Multivalue CSV"
-msgstr "קובץ CSV מרובה ערכים (UTF-8)"
+msgstr "CSV מרובה ערכים"
 
 #: weblate/formats/exporters.py:325
 msgid "XLSX"
@@ -6850,13 +6834,13 @@ msgstr "הופנית לספק האימות."
 
 #: weblate/templates/accounts/register-password.html:4
 msgid "Registration without a password:"
-msgstr ""
+msgstr "רישום ללא סיסמה:"
 
 #: weblate/templates/accounts/register-password.html:5
 msgid ""
 "You can set your password later by clicking on the link in the verification "
 "email."
-msgstr ""
+msgstr "אפשר להגדיר את הסיסמה שלך בהמשך על ידי לחיצה על הקישור בהודעת האימות."
 
 #: weblate/templates/accounts/register.html:20
 msgid "Please complete the registration to accept the invitation."
