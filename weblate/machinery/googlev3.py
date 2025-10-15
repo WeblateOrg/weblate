@@ -10,7 +10,7 @@ from typing import TYPE_CHECKING
 
 from django.utils.functional import cached_property
 from google.api_core.exceptions import AlreadyExists, NotFound
-from google.cloud import storage
+from google.cloud import storage  # type: ignore[attr-defined]
 from google.cloud.translate_v3 import (
     GcsSource,
     Glossary,

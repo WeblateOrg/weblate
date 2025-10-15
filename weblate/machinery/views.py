@@ -129,7 +129,7 @@ class MachineryConfiguration:
 class ListMachineryView(TemplateView):
     template_name = "machinery/list.html"
 
-    def setup(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
+    def setup(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:  # type: ignore[override]
         super().setup(request, *args, **kwargs)
         self.project = None
         self.post_setup(request, kwargs)
@@ -200,7 +200,7 @@ class ListMachineryProjectView(MachineryProjectMixin, ListMachineryView):
                     machinery, configuration, sitewide=True, project=self.project
                 )
 
-    def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):
+    def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         if not request.user.has_perm("project.edit", self.project):
             raise PermissionDenied
         return super().dispatch(request, *args, **kwargs)
@@ -216,7 +216,7 @@ class EditMachineryView(FormView):
 
     machinery: DeprecatedMachinery | BatchMachineTranslation
 
-    def setup(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
+    def setup(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:  # type: ignore[override]
         super().setup(request, *args, **kwargs)
         self.machinery_id = kwargs["machinery"]
         try:
@@ -272,7 +272,7 @@ class EditMachineryView(FormView):
             return reverse("machinery-list", kwargs={"project": self.project.slug})
         return reverse("manage-machinery")
 
-    def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):
+    def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         if "delete" in request.POST:
             self.delete_service()
             return HttpResponseRedirect(self.get_success_url())
@@ -292,7 +292,7 @@ class EditMachineryView(FormView):
             return HttpResponseRedirect(self.get_success_url())
         return super().post(request, *args, **kwargs)
 
-    def get(self, request: AuthenticatedHttpRequest, *args, **kwargs):
+    def get(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         if not self.machinery.is_available:
             msg = "Invalid service specified"
             raise Http404(msg)
@@ -320,7 +320,7 @@ class EditMachineryGlobalView(MachineryGlobalMixin, EditMachineryView):
         self.save_settings(form.cleaned_data)
         return super().form_valid(form)
 
-    def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):
+    def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         if not request.user.has_perm("machinery.edit"):
             raise PermissionDenied
         return super().dispatch(request, *args, **kwargs)
@@ -341,11 +341,11 @@ class EditMachineryProjectView(MachineryProjectMixin, EditMachineryView):
         del self.project.machinery_settings[self.machinery_id]
         self.project.save(update_fields=["machinery_settings"])
 
-    def setup(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:
+    def setup(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> None:  # type: ignore[override]
         super().setup(request, *args, **kwargs)
         self.project = parse_path(request, [kwargs["project"]], (Project,))
 
-    def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):
+    def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         if not request.user.has_perm("project.edit", self.project):
             raise PermissionDenied
         return super().dispatch(request, *args, **kwargs)
