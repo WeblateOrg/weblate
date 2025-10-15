@@ -1164,6 +1164,30 @@ class EditComplexTest(ViewTestCase):
         self.assertFalse(Unit.objects.filter(pk=source_unit.pk).exists())
         self.assertEqual(unit_count - 4, Unit.objects.count())
 
+    def test_remove_source_unit(self) -> None:
+        self.component.manage_units = True
+        self.component.save()
+        self.user.is_superuser = True
+        self.user.save()
+
+        unit_count = Unit.objects.count()
+        unit = self.get_unit()
+        source_unit = unit.source_unit
+
+        response = self.client.post(
+            reverse("delete-unit", kwargs={"unit_id": source_unit.pk})
+        )
+        self.assertEqual(response.status_code, 302)
+
+        # The source unit should be now removed as well
+        self.assertFalse(Unit.objects.filter(pk=source_unit.pk).exists())
+        self.assertEqual(unit_count - 4, Unit.objects.count())
+
+        # Verify that reparsing will not bring the unit back
+        self.component.create_translations_immediate(force=True)
+        self.assertFalse(Unit.objects.filter(pk=source_unit.pk).exists())
+        self.assertEqual(unit_count - 4, Unit.objects.count())
+
 
 class EditSourceTest(ViewTestCase):
     def create_component(self):

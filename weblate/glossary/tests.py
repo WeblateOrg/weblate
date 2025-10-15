@@ -564,22 +564,46 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
         )
         self.assertNotContains(response, "Prohibited initial character")
 
-    def removal_test(self, translation: Translation, *, commit: bool = False) -> None:
+    def removal_test(
+        self,
+        translation: Translation,
+        *,
+        commit: bool = False,
+        expected_source: int = 0,
+        **kwargs,
+    ) -> None:
+        self.make_manager()
         self.assertEqual(translation.unit_set.count(), 0)
-        self.add_term("hello", "ahoj")
+        self.do_add_unit(**kwargs)
         if commit:
             self.glossary_component.commit_pending("test", None)
         self.assertEqual(translation.unit_set.count(), 1)
-        unit = translation.unit_set.get(source="hello")
+        unit = translation.unit_set.get(source="source")
         translation.delete_unit(None, unit)
         self.assertEqual(translation.unit_set.count(), 0)
-        self.assertEqual(self.glossary_component.source_translation.unit_set.count(), 0)
+        self.assertEqual(
+            self.glossary_component.source_translation.unit_set.count(), expected_source
+        )
+
+        # Verify that reparsing will not bring the unit back
+        self.glossary_component.create_translations_immediate(force=True)
+        # For terminology strings, the string will reappear here
+        self.assertEqual(translation.unit_set.count(), expected_source)
+        self.assertEqual(
+            self.glossary_component.source_translation.unit_set.count(), expected_source
+        )
 
     def test_string_removal(self) -> None:
         self.removal_test(self.glossary)
 
     def test_source_string_removal(self) -> None:
         self.removal_test(self.glossary_component.source_translation)
+
+    def test_string_removal_terminology(self) -> None:
+        self.removal_test(self.glossary, terminology=1, expected_source=1)
+
+    def test_source_string_removal_terminology(self) -> None:
+        self.removal_test(self.glossary_component.source_translation, terminology=1)
 
     def test_string_removal_commit(self) -> None:
         self.removal_test(self.glossary, commit=True)
