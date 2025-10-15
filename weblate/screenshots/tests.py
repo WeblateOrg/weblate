@@ -11,6 +11,7 @@ from unittest.mock import patch
 
 import requests
 from django.core.files import File
+from django.test.utils import override_settings
 from django.urls import reverse
 from django.utils import timezone
 from rest_framework.test import APITestCase
@@ -223,23 +224,14 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
 
     @patch("weblate.screenshots.forms.requests.get")
     def test_upload_with_image_url(self, mock_get) -> None:
-        # Mock the response
         with open(TEST_SCREENSHOT, "rb") as img_handle:
             mock_get.return_value.status_code = 200
             mock_get.return_value.content = img_handle.read()
             mock_get.return_value.headers = {"Content-Type": "image/png"}
 
         self.make_manager()
-        data = {
-            "image": "",
-            "name": "Obrazek",
-            "translation": self.component.source_translation.pk,
-            "image_url": "https://example.com/test-image.png",
-        }
-        response = self.client.post(
-            reverse("screenshots", kwargs=self.kw_component),
-            data,
-            follow=True,
+        response = self.do_upload(
+            image="", image_url="https://example.com/test-image.png"
         )
         self.assertContains(response, "Obrazek")
         self.assertEqual(Screenshot.objects.count(), 1)
@@ -247,20 +239,10 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
     @patch("weblate.screenshots.forms.requests.get")
     def test_image_url_download_failure(self, mock_requests_get):
         """Test handling of image download failures."""
-        # Mock request failure
         mock_requests_get.side_effect = requests.RequestException("Network error")
         self.make_manager()
-        data = {
-            "image": "",
-            "name": "Failed Screenshot",
-            "translation": self.component.source_translation.pk,
-            "image_url": "https://example.com/broken-image.png",
-        }
-
-        response = self.client.post(
-            reverse("screenshots", kwargs=self.kw_component),
-            data,
-            follow=True,
+        response = self.do_upload(
+            image="", image_url="https://example.com/broken-image.png"
         )
         self.assertContains(
             response, ">Unable to download image from the provided URL (network error)"
@@ -269,15 +251,7 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
     def test_no_image_or_url_validation(self):
         """Test validation when neither image nor URL is provided."""
         self.make_manager()
-        data = {
-            "name": "Invalid Screenshot",
-            "translation": self.component.source_translation.pk,
-        }
-        response = self.client.post(
-            reverse("screenshots", kwargs=self.kw_component),
-            data,
-            follow=True,
-        )
+        response = self.do_upload(image="")
         self.assertContains(
             response, "You need to provide either image file or image URL."
         )
@@ -298,20 +272,21 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
         mock_requests_get.return_value.status_code = 200
         mock_requests_get.return_value.content = b"Not an image content"
         mock_requests_get.return_value.headers = {"Content-Type": "text/html"}
-
-        data = {
-            "image": "",
-            "name": "Obrazek",
-            "translation": self.component.source_translation.pk,
-            "image_url": "https://example.com/test-image.png",
-        }
-
-        response = self.client.post(
-            reverse("screenshots", kwargs=self.kw_component),
-            data,
-            follow=True,
+        response = self.do_upload(
+            image="", image_url="https://example.com/not-an-image.png"
         )
         self.assertContains(response, "The uploaded image was invalid.")
+
+    @patch("weblate.screenshots.forms.requests.get")
+    @override_settings(ALLOWED_ASSET_DOMAINS=[".allowed.com"])
+    def test_disallowed_image_url_domain(self, mock_requests_get):
+        """Test validation when image URL domain is not allowed."""
+        self.make_manager()
+        response = self.do_upload(
+            image="", image_url="https://example.com/not-allowed-image.png"
+        )
+        mock_requests_get.assert_not_called()
+        self.assertContains(response, "Image URL domain is not allowed.")
 
 
 class ScreenshotVCSTest(APITestCase, RepoTestCase):

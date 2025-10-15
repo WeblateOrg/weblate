@@ -4,10 +4,13 @@
 
 import io
 from typing import Any
+from urllib.parse import urlparse
 
 import requests
 from django import forms
+from django.conf import settings
 from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.http.request import validate_host
 from django.template.loader import render_to_string
 from django.utils.html import format_html
 from django.utils.translation import gettext_lazy
@@ -38,32 +41,39 @@ class ScreenshotImageValidationMixin:
         return cleaned_data
 
     def download_image(self, url: str) -> InMemoryUploadedFile:
+        """Download image from the provided URL."""
+        if not validate_host(
+            urlparse(url).hostname or "", settings.ALLOWED_ASSET_DOMAINS
+        ):
+            raise forms.ValidationError(
+                gettext_lazy("Image URL domain is not allowed.")
+            )
         try:
             response = requests.get(url, timeout=2.0)
-            if not (200 <= response.status_code < 300):
-                raise forms.ValidationError(
-                    gettext_lazy(
-                        "Unable to download image from the provided URL (HTTP status code: %(code)s)."
-                    )
-                    % {"code": response.status_code}
-                )
-            content = response.content
-            content_type = response.headers.get("Content-Type")
-            filename = url.rsplit("/", maxsplit=1)[-1] or "screenshot"
-            return InMemoryUploadedFile(
-                file=io.BytesIO(content),
-                field_name="image",
-                name=filename,
-                content_type=content_type,
-                size=len(content),
-                charset=None,
-            )
         except requests.RequestException as e:
             raise forms.ValidationError(
                 gettext_lazy(
                     "Unable to download image from the provided URL (network error)."
                 )
             ) from e
+        if not (200 <= response.status_code < 300):
+            raise forms.ValidationError(
+                gettext_lazy(
+                    "Unable to download image from the provided URL (HTTP status code: %(code)s)."
+                )
+                % {"code": response.status_code}
+            )
+        content = response.content
+        content_type = response.headers.get("Content-Type")
+        filename = url.rsplit("/", maxsplit=1)[-1] or "screenshot"
+        return InMemoryUploadedFile(
+            file=io.BytesIO(content),
+            field_name="image",
+            name=filename,
+            content_type=content_type,
+            size=len(content),
+            charset=None,
+        )
 
 
 class ScreenshotInput(forms.FileInput):
