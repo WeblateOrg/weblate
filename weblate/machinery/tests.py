@@ -2270,7 +2270,7 @@ class AWSTranslationTest(BaseMachineTranslationTest):
         self.skipTest("Not tested")
 
     def setup_stubber_with_glossaries(
-        self, machine: BatchMachineTranslation, fail_delete: bool = True
+        self, machine: AWSTranslation, fail_delete: bool = True
     ) -> Stubber:
         """Set up stubber for translation with glossary test."""
         stubber = Stubber(machine.client)
@@ -2580,19 +2580,19 @@ class OpenAICustomTranslationTest(OpenAITranslationTest):
         self.mock_response()
         settings = self.CONFIGURATION.copy()
         machine = self.MACHINE_CLS
-        form = self.MACHINE_CLS.settings_form(machine, settings)
+        form = machine.settings_form(machine, settings)
         self.assertTrue(form.is_valid())
 
         settings["model"] = "custom"
-        form = self.MACHINE_CLS.settings_form(machine, settings)
+        form = machine.settings_form(machine, settings)
         self.assertFalse(form.is_valid())
 
         settings["custom_model"] = "custom"
-        form = self.MACHINE_CLS.settings_form(machine, settings)
+        form = machine.settings_form(machine, settings)
         self.assertTrue(form.is_valid())
 
         settings["model"] = "auto"
-        form = self.MACHINE_CLS.settings_form(machine, settings)
+        form = machine.settings_form(machine, settings)
         self.assertFalse(form.is_valid())
 
 
