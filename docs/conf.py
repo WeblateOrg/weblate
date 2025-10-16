@@ -452,4 +452,5 @@ redirects = {
     "devel/thirdparty": "third-party.html",  # codespell:ignore thirdparty
     "contributing/security": "security/index.html",
     "formats/moko": "formats/moko-resources.html",
+    "legal": "security/index.html",
 }

@@ -1,11 +1,16 @@
-License
--------
+Weblate license
+---------------
+
+Machine readable licensing information
+++++++++++++++++++++++++++++++++++++++
+
+Weblate comes with `REUSE 3.3 <https://reuse.software/>`_ compliant license
+specification in the source code.
+
+To review licensing of Weblate dependencies please see :ref:`sbom`.
 
 Weblate license
 +++++++++++++++
-
-More detailed licensing information is available in the Weblate source code and
-follows `REUSE 3.0 specification <https://reuse.software/>`_.
 
 Copyright © Michal Čihař michal@weblate.org
 

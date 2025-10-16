@@ -117,7 +117,6 @@ Learn more about :ref:`contributing`.
     admin/customize
     admin/admin
     admin/support
-    legal
 
 .. toctree::
     :caption: Contributor docs
@@ -156,6 +155,7 @@ Learn more about :ref:`contributing`.
    security/disaster-recovery-plan
    security/threat-model
    security/privacy-compliance
+   security/us-compliance
    security/localization-threat
 
 .. toctree::

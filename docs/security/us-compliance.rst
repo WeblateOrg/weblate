@@ -1,19 +1,7 @@
-Legal documents
-===============
+US controls compliance
+======================
 
-.. note::
-
-   Herein you will find various legal information you might need to
-   operate Weblate in certain legal jurisdictions. It is provided as a means of guidance,
-   without any warranty of accuracy or correctness. It is ultimately your
-   responsibility to ensure that your use of Weblate complies with all applicable
-   laws and regulations.
-
-Licensing compliance
---------------------
-
-Weblate comes with `REUSE 3.0 <https://reuse.software/>`_ compliant license
-specification.
+.. include:: /snippets/compliance-warning.rst
 
 ITAR and other export controls
 ------------------------------
