@@ -1036,7 +1036,7 @@ class Translation(
                 updated = True
 
             # Update fuzzy/approved flag
-            pounit.set_state(unit.state)
+            pounit.set_state(pending_change.state)
 
         # Did we do any updates?
         if not updated:
