@@ -9,8 +9,8 @@ specification in the source code.
 
 To review licensing of Weblate dependencies please see :ref:`sbom`.
 
-Weblate license
-+++++++++++++++
+License terms
++++++++++++++
 
 Copyright © Michal Čihař michal@weblate.org
 
