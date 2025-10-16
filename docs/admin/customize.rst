@@ -151,7 +151,7 @@ To install your code for :ref:`custom-autofix`, :ref:`own-checks`,
     # Add-ons
     WEBLATE_ADDONS += ("weblate_customization.addons.ExamplePreAddon",)
 
-    # Automatic suggestion
+    # Automatic suggestions
     WEBLATE_MACHINERY += ("weblate_customization.machinery.SampleTranslation",)
 
 .. seealso::
