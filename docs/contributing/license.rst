@@ -1,7 +1,7 @@
 Weblate license
 ---------------
 
-Machine readable licensing information
+Machine-readable licensing information
 ++++++++++++++++++++++++++++++++++++++
 
 Weblate comes with `REUSE 3.3 <https://reuse.software/>`_ compliant license
