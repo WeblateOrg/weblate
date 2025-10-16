@@ -223,9 +223,11 @@ class MultiRepoTest(ViewTestCase):
         translation = self.component2.translation_set.get(language_code="cs")
         self.assertEqual(translation.stats.all, 1)
 
+
+class FileScanTest(ViewTestCase):
     def test_file_scan_commit_policy(self) -> None:
         """Test file scan does not discard pending changes blocked by commit policy."""
-        self.component2.delete()
+        request = self.get_request()
         self.project.commit_policy = CommitPolicyChoices.APPROVED_ONLY
         self.project.translation_review = True
         self.project.save()
@@ -299,9 +301,9 @@ class MultiRepoTest(ViewTestCase):
         ttk_unit.set_target(disk_target)
         translation.store.save()
         with transaction.atomic():
-            translation.git_commit(self.request.user, "TEST <test@example.net>")
+            translation.git_commit(request.user, "TEST <test@example.net>")
 
-        self.component.do_file_scan(self.request)
+        self.component.do_file_scan(request)
 
         # check that changes are not lost and disk state is retained for future
         unit_1 = Unit.objects.get(pk=unit_1.pk)
