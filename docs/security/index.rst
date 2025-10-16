@@ -1,5 +1,5 @@
-Security and privacy
-====================
+Security, privacy and compliance
+================================
 
 .. tip::
 
@@ -35,7 +35,11 @@ Security policies
 Compliance
 ----------
 
+.. include:: /snippets/compliance-warning.rst
+
 * :doc:`privacy-compliance`
+* :doc:`us-compliance`
+* :doc:`/contributing/license`
 
 Terms of service and privacy policy
 -----------------------------------
