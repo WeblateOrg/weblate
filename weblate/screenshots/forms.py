@@ -92,7 +92,7 @@ class ScreenshotEditForm(forms.ModelForm, ScreenshotImageValidationMixin):
 
     class Meta:
         model = Screenshot
-        fields = ("name", "image", "repository_filename", "image_url")
+        fields = ("name", "image", "image_url", "repository_filename")
         widgets = {  # noqa: RUF012
             "image": ScreenshotInput,
         }
@@ -116,7 +116,7 @@ class ScreenshotForm(forms.ModelForm, ScreenshotImageValidationMixin):
 
     class Meta:
         model = Screenshot
-        fields = ("name", "repository_filename", "image", "translation", "image_url")
+        fields = ("name", "repository_filename", "image", "image_url", "translation")
         widgets = {  # noqa: RUF012
             "translation": SortedSelect,
             "image": ScreenshotInput,
