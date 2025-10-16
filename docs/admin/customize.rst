@@ -123,17 +123,22 @@ Changing the logo
 
 .. _custom-addon-modules:
 .. _custom-check-modules:
+.. _custom-modules:
 
-Custom quality checks, add-ons and auto-fixes
----------------------------------------------
+Custom quality checks, add-ons, automatic suggestions and auto-fixes
+--------------------------------------------------------------------
 
-To install your code for :ref:`custom-autofix`, :ref:`own-checks` or
-:ref:`own-addon` in Weblate:
+To install your code for :ref:`custom-autofix`, :ref:`own-checks`,
+:ref:`custom-machinery` or :ref:`own-addon` in Weblate:
 
 1. Place the files into your Python module containing the Weblate customization
-   (see :ref:`custom-module`).
-2. Add its fully-qualified path to the Python class in the dedicated settings
-   (:setting:`WEBLATE_ADDONS`, :setting:`CHECK_LIST` or :setting:`AUTOFIX_LIST`):
+   (see :ref:`custom-module` or :ref:`docker-python-override`).
+2. Add its fully-qualified path to the Python class in the dedicated settings:
+
+   * :setting:`WEBLATE_ADDONS`
+   * :setting:`CHECK_LIST`
+   * :setting:`WEBLATE_MACHINERY`
+   * :setting:`AUTOFIX_LIST`
 
 .. code-block:: python
 
@@ -145,6 +150,9 @@ To install your code for :ref:`custom-autofix`, :ref:`own-checks` or
 
     # Add-ons
     WEBLATE_ADDONS += ("weblate_customization.addons.ExamplePreAddon",)
+
+    # Automatic suggestion
+    WEBLATE_MACHINERY += ("weblate_customization.machinery.SampleTranslation",)
 
 .. seealso::
 
