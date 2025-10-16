@@ -507,6 +507,8 @@ class Unit(models.Model, LoggerMixin):
         self.old_unit: OldUnit
         # Unit attributes used when parsing
         self.unit_attributes: UnitAttributesDict | None = None
+        # To handle pending update for enforced checks
+        self.pending_unit_change: PendingUnitChange | None = None
         # Avoid loading self-referencing source unit from the database
         # Skip this when deferred fields are present to avoid database access
         if (
@@ -1270,7 +1272,7 @@ class Unit(models.Model, LoggerMixin):
             update_fields.extend(["source"])
 
         # Unit is pending for write
-        PendingUnitChange.store_unit_change(
+        self.pending_unit_change = PendingUnitChange.store_unit_change(
             unit=self,
             author=author,
         )
@@ -1772,6 +1774,15 @@ class Unit(models.Model, LoggerMixin):
                 same_content=True,
                 update_fields=["state", "original_state"],
             )
+            self.generate_change(
+                user or author, author, ActionEvents.ENFORCED_CHECK, check_new=False
+            )
+            # Update PendingUnitChange
+            if self.pending_unit_change is None:
+                msg = "Updating unit, but pending unit change is not set!"
+                raise ValueError(msg)
+            self.pending_unit_change.state = STATE_FUZZY
+            self.pending_unit_change.save(update_fields=["state"])
 
         self.update_translation_memory(user)
 
