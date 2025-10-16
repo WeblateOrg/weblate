@@ -219,7 +219,7 @@ This service uses an API and you need to obtain an ID and API key from Baidu to 
 
 .. seealso::
 
-    `Baidu Translate API <https://api.fanyi.baidu.com/api/trans/product/index>`_
+    `Baidu Translate API <https://fanyi-api.baidu.com/product/11>`_
 
 .. _mt-cyrtranslit:
 
