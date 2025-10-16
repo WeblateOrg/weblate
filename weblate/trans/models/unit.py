@@ -84,7 +84,7 @@ def fill_in_source_translation(units: Iterable[Unit]) -> None:
         unit.translation.component.source_translation = unit.source_unit.translation
 
 
-class UnitQuerySet(models.QuerySet):
+class UnitQuerySet(models.QuerySet["Unit"]):
     def prefetch(self):
         from weblate.trans.models import Component
 
