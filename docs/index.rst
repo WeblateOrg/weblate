@@ -86,6 +86,7 @@ Learn more about :ref:`contributing`.
     devel/review
     devel/share
     devel/reporting
+    devel/success-stories
 
 
 .. toctree::
