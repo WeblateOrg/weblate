@@ -761,7 +761,7 @@ class Unit(models.Model, LoggerMixin):
     def get_unit_state(
         self,
         unit,
-        flags: str | None,
+        flags: Flags | str | None,
         string_changed: bool = False,
         disk_unit_state: StringState | None = None,
     ) -> StringState:

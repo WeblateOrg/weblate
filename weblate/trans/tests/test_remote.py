@@ -9,11 +9,11 @@ import os
 from django.db import transaction
 from django.test.utils import override_settings
 
-from weblate.trans.models import Component
+from weblate.trans.models import CommitPolicyChoices, Component, PendingUnitChange, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import REPOWEB_URL
 from weblate.utils.files import remove_tree
-from weblate.utils.state import STATE_TRANSLATED
+from weblate.utils.state import STATE_APPROVED, STATE_EMPTY, STATE_TRANSLATED
 from weblate.vcs.models import VCS_REGISTRY
 
 EXTRA_PO = """
@@ -222,6 +222,113 @@ class MultiRepoTest(ViewTestCase):
 
         translation = self.component2.translation_set.get(language_code="cs")
         self.assertEqual(translation.stats.all, 1)
+
+    def test_file_scan_commit_policy(self) -> None:
+        """Test file scan does not discard pending changes blocked by commit policy."""
+        self.component2.delete()
+        self.project.commit_policy = CommitPolicyChoices.APPROVED_ONLY
+        self.project.translation_review = True
+        self.project.save()
+
+        # TODO: add tests for the monolingual and monolingual with intermediate.
+
+        translation = self.component.translation_set.get(language_code="cs")
+
+        unit_1 = translation.unit_set.get(source="Hello, world!\n")
+        unit_2 = translation.unit_set.get(source="Thank you for using Weblate.")
+        unit_3 = translation.unit_set.get(
+            source="Try Weblate at <https://demo.weblate.org/>!\n"
+        )
+
+        target_1 = "Ahoj svete!\n"
+        explanation_1 = unit_1.explanation
+        unit_1.translate(self.user, target_1, STATE_APPROVED)
+
+        self.component.commit_pending("test", None)
+
+        new_target_1 = "Ahoj Vesmíre!\n"
+        unit_1 = Unit.objects.get(pk=unit_1.pk)
+        unit_1.translate(self.user, new_target_1, STATE_TRANSLATED)
+
+        # check that disk state is written correctly when creating a new change
+        unit_1 = Unit.objects.get(pk=unit_1.pk)
+        self.assertEqual(unit_1.target, new_target_1)
+        self.assertEqual(unit_1.state, STATE_TRANSLATED)
+        self.assertEqual(
+            unit_1.details["disk_state"],
+            {"target": target_1, "state": STATE_APPROVED, "explanation": explanation_1},
+        )
+        self.assertEqual(PendingUnitChange.objects.filter(unit=unit_1).count(), 1)
+
+        target_2 = "Děkujeme, že používáte Weblate."
+        explanation_2 = unit_2.explanation
+        unit_2.translate(self.user, target_2, STATE_APPROVED)
+
+        unit_2 = Unit.objects.get(pk=unit_2.pk)
+        new_target_2 = "Děkuju"
+        unit_2.translate(self.user, new_target_2, STATE_TRANSLATED)
+
+        # check that disk state is not overwritten when updating a unit
+        # with unflushed changes
+        unit_2 = Unit.objects.get(pk=unit_2.pk)
+        self.assertEqual(unit_2.target, new_target_2)
+        self.assertEqual(unit_2.state, STATE_TRANSLATED)
+        self.assertEqual(
+            unit_2.details["disk_state"],
+            {"target": "", "state": STATE_EMPTY, "explanation": explanation_2},
+        )
+        self.assertEqual(PendingUnitChange.objects.filter(unit=unit_2).count(), 2)
+
+        # translate this unit but introduce a conflict by manually editing the translation file
+        # before this change is written
+        explanation_3 = unit_3.explanation
+        unit_3.translate(
+            self.user,
+            "Vyzkoušejte Weblate na <https://demo.weblate.org/>!\n",
+            STATE_TRANSLATED,
+        )
+        self.assertEqual(
+            unit_3.details["disk_state"],
+            {"target": "", "state": STATE_EMPTY, "explanation": explanation_3},
+        )
+        self.assertEqual(PendingUnitChange.objects.filter(unit=unit_3).count(), 1)
+
+        # update translation file directly to introduce conflict with unit in weblate
+        disk_target = "Vyzkoušejte Weblate!\n"
+        ttk_unit, _ = translation.store.find_unit(unit_3.context, unit_3.source)
+        ttk_unit.set_target(disk_target)
+        translation.store.save()
+        with transaction.atomic():
+            translation.git_commit(self.request.user, "TEST <test@example.net>")
+
+        self.component.do_file_scan(self.request)
+
+        # check that changes are not lost and disk state is retained for future
+        unit_1 = Unit.objects.get(pk=unit_1.pk)
+        self.assertEqual(unit_1.target, new_target_1)
+        self.assertEqual(unit_1.state, STATE_TRANSLATED)
+        self.assertEqual(
+            unit_1.details["disk_state"],
+            {"target": target_1, "state": STATE_APPROVED, "explanation": explanation_1},
+        )
+        self.assertEqual(PendingUnitChange.objects.filter(unit=unit_1).count(), 1)
+
+        # check that disk state is moved forward when a PendingUnitChange is committed
+        # there were initially two changes for this unit, the approved one got committed
+        # and the disk state was updated here as a result.
+        unit_2 = Unit.objects.get(pk=unit_2.pk)
+        self.assertEqual(unit_2.target, new_target_2)
+        self.assertEqual(unit_2.state, STATE_TRANSLATED)
+        self.assertEqual(
+            unit_2.details["disk_state"],
+            {"target": target_2, "state": STATE_APPROVED, "explanation": explanation_2},
+        )
+        self.assertEqual(PendingUnitChange.objects.filter(unit=unit_2).count(), 1)
+
+        unit_3 = Unit.objects.get(pk=unit_3.pk)
+        self.assertEqual(unit_3.target, disk_target)
+        self.assertNotIn("disk_state", unit_3.details)
+        self.assertEqual(PendingUnitChange.objects.filter(unit=unit_3).count(), 0)
 
 
 class GitBranchMultiRepoTest(MultiRepoTest):

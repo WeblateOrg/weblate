@@ -1071,7 +1071,7 @@ class Translation(
             # Update disk state from the file to the unit
             unit.details["disk_state"] = {
                 "target": pounit.target,
-                "state": unit.state,
+                "state": pending_change.state,
                 "explanation": pounit.explanation,
             }
             unit.save(update_fields=["details"])
