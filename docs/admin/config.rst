@@ -37,6 +37,35 @@ Configure this as a list of e-mail addresses:
    * :setting:`CONTACT_FORM`
    * :setting:`ADMINS`
 
+
+.. setting:: ALLOWED_ASSET_DOMAINS
+
+ALLOWED_ASSET_DOMAINS
+---------------------
+
+.. versionadded:: 5.15
+
+Configures which domains are allowed to server assets in Weblate.
+
+It is used to enhance security by preventing loading assets from untrusted sources.
+
+It expects a list of host/domain names. You can use fully qualified names
+(e.g ``www.example.com``) or prepend with a period as a wildcard to match
+all subdomains (e.g ``.example.com`` will match ``cdn.example.com`` or ``static.example.com``).
+
+Defaults to `[*]` which will allow all domains.
+
+**Example**
+
+.. code-block:: python
+
+   ALLOWED_ASSET_DOMAINS = [
+       # Allows only cdn.anotherdomain.org
+       "cdn.anotherdomain.org",
+       # Allows example.com and all its subdomains
+       ".example.com",
+   ]
+
 .. setting:: ALTCHA_MAX_NUMBER
 
 ALTCHA_MAX_NUMBER

@@ -1,3 +1,10 @@
+Weblate 5.15
+------------
+
+.. rubric:: New features
+
+* Screenshots now can be uploaded from a URL, see :ref:`screenshots`.
+
 Weblate 5.14
 ------------
 
