@@ -164,6 +164,3 @@ warnings.filterwarnings(
     RuntimeWarning,
     r"django\.db\.models\.fields",
 )
-
-# Asset domains
-ALLOWED_ASSET_DOMAINS = ["*"]

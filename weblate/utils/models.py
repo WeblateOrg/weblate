@@ -91,5 +91,7 @@ class WeblateConf(AppConf):
 
     LOCALE_FILTER_FILES = True
 
+    ALLOWED_ASSET_DOMAINS: ClassVar[list[str]] = ["*"]
+
     class Meta:
         prefix = ""

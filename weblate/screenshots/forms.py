@@ -18,13 +18,14 @@ from django.utils.translation import gettext_lazy
 from weblate.screenshots.models import Screenshot
 from weblate.trans.forms import QueryField
 from weblate.utils.forms import SortedSelect
+from weblate.utils.requests import request
 from weblate.utils.validators import WeblateURLValidator
 
 
 class ScreenshotImageValidationMixin:
-    def clean_images(self, cleaned_data: dict[str, Any] | None) -> dict[str, Any]:
-        if cleaned_data is None:
-            cleaned_data = {}
+    def clean_images(
+        self, cleaned_data: dict[str, Any], edit: bool = False
+    ) -> dict[str, Any]:
         image = cleaned_data.get("image")
         image_url = cleaned_data.get("image_url")
         if not image and not image_url:
@@ -32,7 +33,10 @@ class ScreenshotImageValidationMixin:
                 gettext_lazy("You need to provide either image file or image URL.")
             )
 
-        if image_url and not image:
+        if (edit and ("image" not in self.changed_data) and image_url) or (
+            not edit and image_url and not image
+        ):
+            # download from image_url only if image is not provided and not updated
             cleaned_data["image"] = self.download_image(image_url)
             image_field = Screenshot._meta.get_field("image")  # noqa: SLF001
             image_field.run_validators(cleaned_data["image"])
@@ -49,14 +53,12 @@ class ScreenshotImageValidationMixin:
                 gettext_lazy("Image URL domain is not allowed.")
             )
         try:
-            response = requests.get(url, timeout=2.0)
+            response = request("get", url)
         except requests.RequestException as e:
             raise forms.ValidationError(
-                gettext_lazy(
-                    "Unable to download image from the provided URL (network error)."
-                )
+                gettext_lazy("Unable to download image from the provided URL.")
             ) from e
-        if not (200 <= response.status_code < 300):
+        if response.status_code != 200:
             raise forms.ValidationError(
                 gettext_lazy(
                     "Unable to download image from the provided URL (HTTP status code: %(code)s)."
@@ -97,9 +99,7 @@ class ScreenshotEditForm(forms.ModelForm, ScreenshotImageValidationMixin):
 
     def clean(self):
         cleaned_data = super().clean()
-        if cleaned_data is None:
-            cleaned_data = {}
-        return self.clean_images(cleaned_data)
+        return self.clean_images(cleaned_data or {}, edit=True)
 
 
 class LanguageChoiceField(forms.ModelChoiceField):
@@ -144,7 +144,7 @@ class ScreenshotForm(forms.ModelForm, ScreenshotImageValidationMixin):
 
     def clean(self):
         cleaned_data = super().clean()
-        return self.clean_images(cleaned_data)
+        return self.clean_images(cleaned_data or {})
 
 
 class SearchForm(forms.Form):

@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os.path
+import shutil
 import tempfile
 from difflib import get_close_matches
 from itertools import chain
@@ -222,12 +223,12 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
         )
         self.assertEqual(screenshot.units.count(), 0)
 
-    @patch("weblate.screenshots.forms.requests.get")
-    def test_upload_with_image_url(self, mock_get) -> None:
+    @patch("weblate.screenshots.forms.request")
+    def test_upload_with_image_url(self, mock_requests_get) -> None:
         with open(TEST_SCREENSHOT, "rb") as img_handle:
-            mock_get.return_value.status_code = 200
-            mock_get.return_value.content = img_handle.read()
-            mock_get.return_value.headers = {"Content-Type": "image/png"}
+            mock_requests_get.return_value.status_code = 200
+            mock_requests_get.return_value.content = img_handle.read()
+            mock_requests_get.return_value.headers = {"Content-Type": "image/png"}
 
         self.make_manager()
         response = self.do_upload(
@@ -236,7 +237,36 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
         self.assertContains(response, "Obrazek")
         self.assertEqual(Screenshot.objects.count(), 1)
 
-    @patch("weblate.screenshots.forms.requests.get")
+    @patch("weblate.screenshots.forms.request")
+    def test_edit_with_image_url(self, mock_requests_get) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.all()[0]
+        old_name = screenshot.image.name
+        old_filename = screenshot.image.file.name
+
+        with tempfile.NamedTemporaryFile(suffix=".png") as temp_file:
+            shutil.copy(TEST_SCREENSHOT, temp_file.name)
+            # temp_path now contains a copy of the screenshot file
+
+            mock_requests_get.return_value.status_code = 200
+            with open(temp_file.name, "rb") as img_handle:
+                mock_requests_get.return_value.content = img_handle.read()
+            mock_requests_get.return_value.headers = {"Content-Type": "image/png"}
+
+        self.client.post(
+            screenshot.get_absolute_url(),
+            {
+                "image_url": "https://example.com/test-image.png",
+                "name": "Updated screenshot",
+            },
+            follow=True,
+        )
+        screenshot.refresh_from_db()
+        self.assertNotEqual(screenshot.image.name, old_name)
+        self.assertNotEqual(screenshot.image.file.name, old_filename)
+
+    @patch("weblate.screenshots.forms.request")
     def test_image_url_download_failure(self, mock_requests_get):
         """Test handling of image download failures."""
         mock_requests_get.side_effect = requests.RequestException("Network error")
@@ -244,9 +274,16 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
         response = self.do_upload(
             image="", image_url="https://example.com/broken-image.png"
         )
-        self.assertContains(
-            response, ">Unable to download image from the provided URL (network error)"
+        self.assertContains(response, ">Unable to download image from the provided URL")
+
+        mock_requests_get.reset_mock()
+        mock_requests_get.return_value.status_code = 301
+        mock_requests_get.return_value.content = b"redirected-content"
+        mock_requests_get.return_value.headers = {"Content-Type": "html/text"}
+        response = self.do_upload(
+            image="", image_url="https://example.com/missing-image.png"
         )
+        self.assertContains(response, "Unable to download image from the provided URL.")
 
     def test_no_image_or_url_validation(self):
         """Test validation when neither image nor URL is provided."""
@@ -256,7 +293,7 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
             response, "You need to provide either image file or image URL."
         )
 
-    @patch("weblate.screenshots.forms.requests.get")
+    @patch("weblate.screenshots.forms.request")
     def test_both_image_and_url_provided(self, mock_requests_get):
         """Test that providing both image file and URL prioritizes the file."""
         self.make_manager()
@@ -265,7 +302,7 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
         mock_requests_get.assert_not_called()
         self.assertEqual(Screenshot.objects.count(), 1)
 
-    @patch("weblate.screenshots.forms.requests.get")
+    @patch("weblate.screenshots.forms.request")
     def test_invalid_image_url_content_type(self, mock_requests_get):
         self.make_manager()
         # Mock a non-image content type
@@ -277,7 +314,7 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
         )
         self.assertContains(response, "The uploaded image was invalid.")
 
-    @patch("weblate.screenshots.forms.requests.get")
+    @patch("weblate.screenshots.forms.request")
     @override_settings(ALLOWED_ASSET_DOMAINS=[".allowed.com"])
     def test_disallowed_image_url_domain(self, mock_requests_get):
         """Test validation when image URL domain is not allowed."""
