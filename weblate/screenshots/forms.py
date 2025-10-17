@@ -49,9 +49,7 @@ class ScreenshotImageValidationMixin:
         if not validate_host(
             urlparse(url).hostname or "", settings.ALLOWED_ASSET_DOMAINS
         ):
-            raise forms.ValidationError(
-                gettext("Image URL domain is not allowed.")
-            )
+            raise forms.ValidationError(gettext("Image URL domain is not allowed."))
         try:
             with request("get", url, stream=True) as response:
                 content = b""
