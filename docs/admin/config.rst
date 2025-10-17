@@ -43,7 +43,7 @@ Configure this as a list of e-mail addresses:
 ALLOWED_ASSET_DOMAINS
 ---------------------
 
-.. versionadded:: 5.15
+.. versionadded:: 5.14
 
 Configures which domains are allowed for fetching assets in Weblate.
 
