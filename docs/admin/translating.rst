@@ -137,8 +137,10 @@ management and source string association:
 
 .. image:: /screenshots/screenshot-ocr.webp
 
-You can upload a screenshot from a local file or provide a URL to an image
-from a trusted source, see :setting:`ALLOWED_ASSET_DOMAINS`
+You can upload a screenshot from a local file or provide a URL to download an image
+from an external source. URL-based uploads may be restricted based on the
+:setting:`ALLOWED_ASSET_DOMAINS` setting, which controls which domains are trusted
+for downloading external assets.
 
 You can add or update screenshots directly from your
 Version Control System (VCS) repository.

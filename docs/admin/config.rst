@@ -45,9 +45,11 @@ ALLOWED_ASSET_DOMAINS
 
 .. versionadded:: 5.15
 
-Configures which domains are allowed to server assets in Weblate.
+Configures which domains are allowed for fetching assets in Weblate.
 
-It is used to enhance security by preventing loading assets from untrusted sources.
+This enhances security by preventing loading assets from untrusted sources.
+Assets are downloaded once by the Weblate server and stored locally, rather than
+being served directly from external domains to users.
 
 It expects a list of host/domain names. You can use fully qualified names
 (e.g ``www.example.com``) or prepend with a period as a wildcard to match
@@ -65,6 +67,10 @@ Defaults to `[*]` which will allow all domains.
        # Allows example.com and all its subdomains
        ".example.com",
    ]
+
+This is currently used in the following places:
+
+* Screenshot uploads, see :ref:`screenshots`
 
 .. setting:: ALTCHA_MAX_NUMBER
 

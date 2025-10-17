@@ -269,19 +269,22 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
     @patch("weblate.screenshots.forms.request")
     def test_image_url_download_failure(self, mock_requests_get):
         """Test handling of image download failures."""
-        mock_requests_get.side_effect = requests.RequestException("Network error")
         self.make_manager()
-        response = self.do_upload(
-            image="", image_url="https://example.com/broken-image.png"
-        )
-        self.assertContains(response, ">Unable to download image from the provided URL")
-
-        mock_requests_get.reset_mock()
         mock_requests_get.return_value.status_code = 301
         mock_requests_get.return_value.content = b"redirected-content"
         mock_requests_get.return_value.headers = {"Content-Type": "html/text"}
         response = self.do_upload(
             image="", image_url="https://example.com/missing-image.png"
+        )
+        self.assertContains(
+            response,
+            "Unable to download image from the provided URL (HTTP status code: 301).",
+        )
+
+        mock_requests_get.reset_mock()
+        mock_requests_get.side_effect = requests.RequestException("Network error")
+        response = self.do_upload(
+            image="", image_url="https://example.com/broken-image.png"
         )
         self.assertContains(response, "Unable to download image from the provided URL.")
 
