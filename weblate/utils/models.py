@@ -92,6 +92,7 @@ class WeblateConf(AppConf):
     LOCALE_FILTER_FILES = True
 
     ALLOWED_ASSET_DOMAINS: ClassVar[list[str]] = ["*"]
+    ALLOWED_ASSET_SIZE: ClassVar[int] = 4194304
 
     class Meta:
         prefix = ""

@@ -72,6 +72,22 @@ This is currently used in the following places:
 
 * Screenshot uploads, see :ref:`screenshots`
 
+.. seealso::
+
+   * :setting:`ALLOWED_ASSET_SIZE`
+
+.. setting:: ALLOWED_ASSET_SIZE
+
+ALLOWED_ASSET_SIZE
+------------------
+
+.. versionadded:: 5.14
+
+Configures size limit for fetching assets in Weblate. Defaults to 4 MB.
+
+.. seealso::
+
+   * :setting:`ALLOWED_ASSET_DOMAINS`
 .. setting:: ALTCHA_MAX_NUMBER
 
 ALTCHA_MAX_NUMBER
