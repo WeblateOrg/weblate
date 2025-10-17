@@ -62,7 +62,7 @@ class ScreenshotImageValidationMixin:
                          # This can be slow, but it typically won't happen
                          content += chunk
                      if len(content) > settings.ALLOWED_ASSET_SIZE:
-                         raise forms.ValidationError(gettext_lazy("Image is too big.")
+                         raise forms.ValidationError(gettext_lazy("Image is too big."))
                  content_type = response.headers.get("Content-Type")
                  if not content_type or content_type not in ALLOWED_IMAGES:
                          raise forms.ValidationError(
