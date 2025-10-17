@@ -1701,9 +1701,12 @@ $(function () {
     }
   });
 
-  const theme = document.querySelector("body").getAttribute("data-theme")
-  if (theme === "auto" & window.matchMedia('(prefers-color-scheme: dark)').matches === true) {
-    document.documentElement.setAttribute('data-bs-theme', "dark")
+  const theme = document.querySelector("body").getAttribute("data-theme");
+  if (
+    (theme === "auto") &
+    (window.matchMedia("(prefers-color-scheme: dark)").matches === true)
+  ) {
+    document.documentElement.setAttribute("data-bs-theme", "dark");
   }
 
   /* Warn users that they do not want to use developer console in most cases */
