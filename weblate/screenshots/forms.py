@@ -88,7 +88,7 @@ class ScreenshotInput(forms.FileInput):
 class ScreenshotEditForm(forms.ModelForm, ScreenshotImageValidationMixin):
     """Screenshot editing."""
 
-    image_url = forms.URLField(required=False, label="Image URL")
+    image_url = forms.URLField(required=False, label=gettext_lazy("Image URL"), help_text=gettext_lazy("The image will be downloaded and stored."), validators=[WeblateURLValidator()])
 
     class Meta:
         model = Screenshot
@@ -111,7 +111,7 @@ class ScreenshotForm(forms.ModelForm, ScreenshotImageValidationMixin):
     """Screenshot upload."""
 
     image_url = forms.URLField(
-        required=False, label="Image URL", validators=[WeblateURLValidator()]
+        required=False, label=gettext_lazy("Image URL"), help_text=gettext_lazy("The image will be downloaded and stored."), validators=[WeblateURLValidator()]
     )
 
     class Meta:
