@@ -1079,6 +1079,28 @@ class EditComplexTest(ViewTestCase):
         self.assertEqual(len(pending_changes), 1)
         self.assertEqual(pending_changes[0].state, STATE_FUZZY)
 
+    def test_enforced_check_noop(self) -> None:
+        # Update unit object to match edits in test_enforced_check
+        unit = self.get_unit()
+        unit.state = STATE_TRANSLATED
+        unit.target = "Hello, world!\n"
+        unit.save_backend(None)
+        unit.pending_changes.all().delete()
+
+        # Enforce same check, the unit should become fuzzy with pending change
+        self.component.enforced_checks = ["same"]
+        self.component.save(update_fields=["enforced_checks"])
+        self.assertEqual(unit.pending_changes.count(), 1)
+        unit = self.get_unit()
+        self.assertEqual(unit.state, STATE_FUZZY)
+
+        # Remove pneding units and make the string in the database translated
+        unit.pending_changes.all().delete()
+        Unit.objects.filter(pk=unit.pk).update(state=STATE_TRANSLATED)
+
+        # Now test the actual no-op edit
+        self.test_enforced_check()
+
     def test_commit_push(self) -> None:
         response = self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         # We should get to second message

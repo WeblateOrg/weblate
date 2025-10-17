@@ -1845,12 +1845,19 @@ class Unit(models.Model, LoggerMixin):
             self.generate_change(
                 user or author, author, ActionEvents.ENFORCED_CHECK, check_new=False
             )
-            # Update PendingUnitChange
-            if self.pending_unit_change is None:
+            if self.pending_unit_change is not None:
+                # Update PendingUnitChange if there is one
+                self.pending_unit_change.state = STATE_FUZZY
+                self.pending_unit_change.save(update_fields=["state"])
+            elif saved:
+                # There should be a pending unit if saved
                 msg = "Updating unit, but pending unit change is not set!"
                 raise ValueError(msg)
-            self.pending_unit_change.state = STATE_FUZZY
-            self.pending_unit_change.save(update_fields=["state"])
+            else:
+                # Generate pending unit change otherwise
+                PendingUnitChange.store_unit_change(unit=self, author=author)
+                # Indicate as saved
+                saved = True
 
         self.update_translation_memory(user)
 
