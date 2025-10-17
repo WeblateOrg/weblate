@@ -275,7 +275,7 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
         responses.add(
             responses.GET,
             "https://example.com/missing-image.png",
-            content_type="text_html",
+            content_type="text/html",
             status=301,
         )
         responses.add(
