@@ -1559,12 +1559,12 @@ class FormParamsField(forms.MultiValueField):
 
 class ComponentDocsMixin(FieldDocsMixin):
     def get_field_doc(self, field: forms.Field) -> tuple[str, str] | None:
-        return ("admin/projects", f"component-{field.name}")
+        return ("admin/projects", f"component-{field.name.replace('_', '-')}")
 
 
 class ProjectDocsMixin(FieldDocsMixin):
     def get_field_doc(self, field: forms.Field) -> tuple[str, str] | None:
-        return ("admin/projects", f"project-{field.name}")
+        return ("admin/projects", f"project-{field.name.replace('_', '-')}")
 
 
 class SpamCheckMixin(forms.Form):
@@ -3056,7 +3056,7 @@ class ChangesForm(forms.Form):
         label=gettext_lazy("Exclude author (username)"), required=False, help_text=None
     )
     period = DateRangeField(
-        label=gettext_lazy("Change period"),
+        label=gettext_lazy("Date range"),
         required=False,
     )
 

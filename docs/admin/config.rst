@@ -224,6 +224,7 @@ You can select which ones to use:
 
    * :ref:`autofix`
    * :ref:`custom-autofix`
+   * :ref:`custom-modules`
 
 .. setting:: BACKGROUND_TASKS
 
@@ -398,7 +399,8 @@ You can turn on only a few:
 .. seealso::
 
    * :ref:`checks`
-   * :ref:`custom-checks`
+   * :ref:`own-checks`
+   * :ref:`custom-modules`
 
 .. setting:: COMMENT_CLEANUP_DAYS
 
@@ -2204,6 +2206,7 @@ example:
 .. seealso::
 
    * :ref:`addons`
+   * :ref:`custom-modules`
    * :setting:`DEFAULT_ADDONS`
    * :setting:`ADDON_ACTIVITY_LOG_EXPIRY`
 
@@ -2257,7 +2260,9 @@ List of machinery services available for use.
 
 .. seealso::
 
-   :doc:`/admin/machine`
+   * :doc:`/admin/machine`
+   * :ref:`custom-machinery`
+   * :ref:`custom-modules`
 
 .. setting:: WEBLATE_GPG_IDENTITY
 

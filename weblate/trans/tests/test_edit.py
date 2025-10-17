@@ -1070,6 +1070,14 @@ class EditComplexTest(ViewTestCase):
         self.assertEqual(len(unit.all_checks), 1)
         self.assertEqual(len(unit.active_checks), 1)
         self.assertEqual(unit.translation.stats.allchecks, 1)
+        # There should be a change for enforced check
+        self.assertTrue(
+            unit.change_set.filter(action=ActionEvents.ENFORCED_CHECK).exists()
+        )
+        # The pending change should be only fuzzy
+        pending_changes = unit.pending_changes.all()
+        self.assertEqual(len(pending_changes), 1)
+        self.assertEqual(pending_changes[0].state, STATE_FUZZY)
 
     def test_commit_push(self) -> None:
         response = self.edit_unit("Hello, world!\n", "Nazdar svete!\n")

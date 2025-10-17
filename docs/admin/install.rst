@@ -437,7 +437,7 @@ PostgreSQL 13 and higher is supported. PostgreSQL 15 or newer is recommended.
 
 :ref:`mysql` is supported, but not recommended for new installs.
 
-
+.. include:: /snippets/mysql-warning.rst
 
 .. note::
 
@@ -576,6 +576,8 @@ role Weblate should alter during the database migration.
 
 MySQL and MariaDB
 +++++++++++++++++
+
+.. include:: /snippets/mysql-warning.rst
 
 .. warning::
 
@@ -1105,6 +1107,8 @@ sets the :ref:`django:http-strict-transport-security` header on all responses th
 
 Use a powerful database engine
 ++++++++++++++++++++++++++++++
+
+.. include:: /snippets/mysql-warning.rst
 
 * Please use PostgreSQL for a production environment, see :ref:`database-setup`
   for more info.
