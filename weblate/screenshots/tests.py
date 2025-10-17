@@ -272,7 +272,7 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
         self.make_manager()
         mock_requests_get.return_value.status_code = 301
         mock_requests_get.return_value.content = b"redirected-content"
-        mock_requests_get.return_value.headers = {"Content-Type": "html/text"}
+        mock_requests_get.return_value.headers = {"Content-Type": "text/html"}
         response = self.do_upload(
             image="", image_url="https://example.com/missing-image.png"
         )
