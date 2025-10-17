@@ -21,6 +21,7 @@ from weblate.utils.environment import (
     get_env_list,
     get_env_map,
     get_env_ratelimit,
+    get_env_redis_url,
     get_env_str,
     modify_env_list,
 )
@@ -1232,24 +1233,8 @@ DEFAULT_FROM_EMAIL = get_env_str("WEBLATE_DEFAULT_FROM_EMAIL", SERVER_EMAIL)
 # List of URLs your site is supposed to serve
 ALLOWED_HOSTS = get_env_list("WEBLATE_ALLOWED_HOSTS", ["*"])
 
-# Extract redis password
-REDIS_PASSWORD = get_env_str("REDIS_PASSWORD")
-REDIS_USER = get_env_str("REDIS_USER")
-REDIS_USER_PASSWORD = (
-    f"{REDIS_USER}:{REDIS_PASSWORD}"
-    if REDIS_USER and REDIS_PASSWORD
-    else f":{REDIS_PASSWORD}"
-    if REDIS_PASSWORD
-    else REDIS_USER  # can be None
-)
-REDIS_PROTO = "rediss" if get_env_bool("REDIS_TLS") else "redis"
-REDIS_URL = "{}://{}{}:{}/{}".format(
-    REDIS_PROTO,
-    f"{REDIS_USER_PASSWORD}@" if REDIS_USER_PASSWORD else "",
-    get_env_str("REDIS_HOST", "cache", required=True),
-    get_env_int("REDIS_PORT", 6379),
-    get_env_int("REDIS_DB", 1),
-)
+# Extract redis URL
+REDIS_URL = get_env_redis_url()
 
 # Configuration for caching
 CACHES = {
@@ -1272,7 +1257,7 @@ CACHES = {
         "OPTIONS": {"MAX_ENTRIES": 1000},
     },
 }
-if not get_env_bool("REDIS_VERIFY_SSL", True) and REDIS_PROTO == "rediss":
+if not get_env_bool("REDIS_VERIFY_SSL", True) and REDIS_URL.startswith("rediss://"):
     CACHES["default"]["OPTIONS"]["CONNECTION_POOL_KWARGS"]["ssl_cert_reqs"] = None  # type: ignore[index]
 
 
@@ -1375,7 +1360,7 @@ SILENCED_SYSTEM_CHECKS.extend(get_env_list("WEBLATE_SILENCED_SYSTEM_CHECKS"))
 # Celery worker configuration for production
 CELERY_TASK_ALWAYS_EAGER = get_env_bool("WEBLATE_CELERY_EAGER")
 CELERY_BROKER_URL = REDIS_URL
-if REDIS_PROTO == "rediss":
+if REDIS_URL.startswith("rediss://"):
     CELERY_BROKER_URL = "{}?ssl_cert_reqs={}".format(
         CELERY_BROKER_URL,
         "CERT_REQUIRED" if get_env_bool("REDIS_VERIFY_SSL", True) else "CERT_NONE",

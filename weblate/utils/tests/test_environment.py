@@ -4,6 +4,7 @@
 
 import os
 
+from django.core.exceptions import ImproperlyConfigured
 from django.test import SimpleTestCase
 
 from weblate.utils.environment import (
@@ -13,6 +14,7 @@ from weblate.utils.environment import (
     get_env_list,
     get_env_map,
     get_env_ratelimit,
+    get_env_redis_url,
     modify_env_list,
 )
 
@@ -71,7 +73,7 @@ class EnvTest(SimpleTestCase):
         os.environ["WEBLATE_TEST_USERNAME"] = "user"
         os.environ["WEBLATE_TEST_TOKEN"] = "token"
         os.environ["WEBLATE_TEST_ORGANIZATION"] = "organization"
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ImproperlyConfigured):
             get_env_credentials("TEST")
 
         os.environ["WEBLATE_TEST_HOST"] = "host"
@@ -98,7 +100,7 @@ class EnvTest(SimpleTestCase):
         del os.environ["WEBLATE_TEST_HOST"]
 
         os.environ["WEBLATE_TEST_CREDENTIALS"] = "{invalid-syntax}"
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ImproperlyConfigured):
             get_env_credentials("TEST")
 
         os.environ["WEBLATE_TEST_CREDENTIALS"] = (
@@ -118,6 +120,49 @@ class EnvTest(SimpleTestCase):
             "1/hour",
         )
         os.environ["RATELIMIT_ANON"] = "1"
-        with self.assertRaises(ValueError):
+        with self.assertRaises(ImproperlyConfigured):
             get_env_ratelimit("RATELIMIT_ANON", "")
         del os.environ["RATELIMIT_ANON"]
+
+    def test_redis_url(self):
+        def cleanup():
+            toremove = [name for name in os.environ if name.startswith("REDIS_")]
+            for name in toremove:
+                del os.environ[name]
+
+        cleanup()
+        try:
+            self.assertEqual(get_env_redis_url(), "redis://cache:6379/1")
+
+            os.environ["REDIS_TLS"] = "1"
+            self.assertEqual(get_env_redis_url(), "rediss://cache:6379/1")
+
+            os.environ["REDIS_PASSWORD"] = "pass:word"
+            self.assertEqual(get_env_redis_url(), "rediss://:pass%3Aword@cache:6379/1")
+
+            os.environ["REDIS_USER"] = "user@example.com"
+            self.assertEqual(
+                get_env_redis_url(),
+                "rediss://user%40example.com:pass%3Aword@cache:6379/1",
+            )
+
+            del os.environ["REDIS_PASSWORD"]
+            self.assertEqual(
+                get_env_redis_url(), "rediss://user%40example.com@cache:6379/1"
+            )
+
+            os.environ["REDIS_PORT"] = "1234"
+            self.assertEqual(
+                get_env_redis_url(), "rediss://user%40example.com@cache:1234/1"
+            )
+
+            os.environ["REDIS_PORT"] = "invalid"
+            with self.assertRaises(ImproperlyConfigured):
+                get_env_redis_url()
+            del os.environ["REDIS_PORT"]
+
+            os.environ["REDIS_HOST"] = ""
+            with self.assertRaises(ImproperlyConfigured):
+                get_env_redis_url()
+        finally:
+            cleanup()
