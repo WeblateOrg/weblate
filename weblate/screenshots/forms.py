@@ -52,6 +52,13 @@ class ScreenshotImageValidationMixin:
             raise forms.ValidationError(gettext("Image URL domain is not allowed."))
         try:
             with request("get", url, stream=True) as response:
+                if response.status_code != 200:
+                    raise forms.ValidationError(
+                        gettext(
+                            "Unable to download image from the provided URL (HTTP status code: %(code)s)."
+                        )
+                        % {"code": response.status_code}
+                    )
                 content = b""
                 for chunk in response.iter_content(
                     chunk_size=settings.ALLOWED_ASSET_SIZE + 1
@@ -72,13 +79,6 @@ class ScreenshotImageValidationMixin:
             raise forms.ValidationError(
                 gettext("Unable to download image from the provided URL.")
             ) from e
-        if response.status_code != 200:
-            raise forms.ValidationError(
-                gettext(
-                    "Unable to download image from the provided URL (HTTP status code: %(code)s)."
-                )
-                % {"code": response.status_code}
-            )
         filename = url.rsplit("/", maxsplit=1)[-1] or "screenshot"
         return InMemoryUploadedFile(
             file=io.BytesIO(content),
