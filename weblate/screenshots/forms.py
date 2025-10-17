@@ -30,7 +30,7 @@ class ScreenshotImageValidationMixin:
         image_url = cleaned_data.get("image_url")
         if not image and not image_url:
             raise forms.ValidationError(
-                gettext_lazy("You need to provide either image file or image URL.")
+                gettext("You need to provide either image file or image URL.")
             )
 
         if (edit and ("image" not in self.changed_data) and image_url) or (
@@ -50,7 +50,7 @@ class ScreenshotImageValidationMixin:
             urlparse(url).hostname or "", settings.ALLOWED_ASSET_DOMAINS
         ):
             raise forms.ValidationError(
-                gettext_lazy("Image URL domain is not allowed.")
+                gettext("Image URL domain is not allowed.")
             )
         try:
             with request("get", url, stream=True) as response:
@@ -64,7 +64,7 @@ class ScreenshotImageValidationMixin:
                         # This can be slow, but it typically won't happen
                         content += chunk
                     if len(content) > settings.ALLOWED_ASSET_SIZE:
-                        raise forms.ValidationError(gettext_lazy("Image is too big."))
+                        raise forms.ValidationError(gettext("Image is too big."))
                 content_type = response.headers.get("Content-Type")
                 if not content_type or content_type not in ALLOWED_IMAGES:
                     raise forms.ValidationError(
@@ -72,11 +72,11 @@ class ScreenshotImageValidationMixin:
                     )
         except requests.RequestException as e:
             raise forms.ValidationError(
-                gettext_lazy("Unable to download image from the provided URL.")
+                gettext("Unable to download image from the provided URL.")
             ) from e
         if response.status_code != 200:
             raise forms.ValidationError(
-                gettext_lazy(
+                gettext(
                     "Unable to download image from the provided URL (HTTP status code: %(code)s)."
                 )
                 % {"code": response.status_code}
