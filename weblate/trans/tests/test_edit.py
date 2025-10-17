@@ -1094,7 +1094,7 @@ class EditComplexTest(ViewTestCase):
         unit = self.get_unit()
         self.assertEqual(unit.state, STATE_FUZZY)
 
-        # Remove pneding units and make the string in the database translated
+        # Remove pending units and make the string in the database translated
         unit.pending_changes.all().delete()
         Unit.objects.filter(pk=unit.pk).update(state=STATE_TRANSLATED)
 
