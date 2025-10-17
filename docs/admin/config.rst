@@ -88,7 +88,7 @@ Configures size limit for fetching assets in Weblate. Defaults to 4 MB.
 .. seealso::
 
    * :setting:`ALLOWED_ASSET_DOMAINS`
-   
+
 .. setting:: ALTCHA_MAX_NUMBER
 
 ALTCHA_MAX_NUMBER
