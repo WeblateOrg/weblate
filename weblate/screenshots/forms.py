@@ -49,15 +49,19 @@ class ScreenshotImageValidationMixin:
         if not validate_host(
             urlparse(url).hostname or "", settings.ALLOWED_ASSET_DOMAINS
         ):
-            raise forms.ValidationError(gettext("Image URL domain is not allowed."))
+            raise forms.ValidationError(
+                {"image_url": gettext("Image URL domain is not allowed.")}
+            )
         try:
             with request("get", url, stream=True) as response:
                 if response.status_code != 200:
                     raise forms.ValidationError(
-                        gettext(
-                            "Unable to download image from the provided URL (HTTP status code: %(code)s)."
-                        )
-                        % {"code": response.status_code}
+                        {
+                            "image_url": gettext(
+                                "Unable to download image from the provided URL (HTTP status code: %(code)s)."
+                            )
+                            % {"code": response.status_code}
+                        }
                     )
                 content = b""
                 for chunk in response.iter_content(
@@ -71,15 +75,24 @@ class ScreenshotImageValidationMixin:
                     if len(content) > settings.ALLOWED_ASSET_SIZE:
                         break
                 if len(content) > settings.ALLOWED_ASSET_SIZE:
-                    raise forms.ValidationError(gettext("Image is too big."))
+                    raise forms.ValidationError(
+                        {"image_url": gettext("Image is too big.")}
+                    )
                 content_type = response.headers.get("Content-Type")
                 if not content_type or content_type not in ALLOWED_IMAGES:
                     raise forms.ValidationError(
-                        gettext("Unsupported image type: %s") % content_type
+                        {
+                            "image_url": gettext("Unsupported image type: %s")
+                            % content_type
+                        }
                     )
         except requests.RequestException as e:
             raise forms.ValidationError(
-                gettext("Unable to download image from the provided URL.")
+                {
+                    "image_url": gettext(
+                        "Unable to download image from the provided URL."
+                    )
+                }
             ) from e
         filename = url.rsplit("/", maxsplit=1)[-1] or "screenshot"
         return InMemoryUploadedFile(
