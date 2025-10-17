@@ -1,22 +1,23 @@
-{% extends "base.html" %}
+{% extends "base5.html" %}
 
 {% load crispy_forms_tags humanize i18n metrics translations %}
 
 {% block nav_pills %}
   <ul class="nav nav-pills">
-    <li class="active">
-      <a href="#overview" data-toggle="tab">{% translate "Components" %}</a>
+    <li class="nav-item">
+      <a class="nav-link active" data-bs-target="#overview" data-bs-toggle="tab" href="#">{% translate "Components" %}</a>
     </li>
-    <li>
-      <a href="#information" data-toggle="tab">{% translate "Overview" %}</a>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-target="#information" data-bs-toggle="tab" href="#">{% translate "Overview" %}</a>
     </li>
-    <li class="dropdown">
-      <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
         {% translate "Files" %} <span class="caret"></span>
       </a>
-      <ul class="dropdown-menu">
+      <ul class="dropdown-menu shadow">
         <li>
-          <a href="{% url "download_component_list" name=object.slug %}?format=zip"
+          <a class="dropdown-item"
+             href="{% url "download_component_list" name=object.slug %}?format=zip"
              title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download original translation files as ZIP file{% endblocktranslate %}</a>
         </li>
       </ul>
@@ -25,7 +26,7 @@
 {% endblock nav_pills %}
 
 {% block breadcrumbs %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{{ object.get_absolute_url }}">{{ object }}</a>
   </li>
 {% endblock breadcrumbs %}
@@ -41,7 +42,7 @@
     </div>
 
     <div class="tab-pane" id="information">
-      {% show_info componentlist=object stats=object.stats metrics=object|metrics show_source=True %}
+      {% show_info5 componentlist=object stats=object.stats metrics=object|metrics show_source=True %}
     </div>
 
   </div>
