@@ -13,7 +13,7 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.http.request import validate_host
 from django.template.loader import render_to_string
 from django.utils.html import format_html
-from django.utils.translation import gettext_lazy
+from django.utils.translation import gettext, gettext_lazy
 
 from weblate.screenshots.models import Screenshot
 from weblate.trans.forms import QueryField
