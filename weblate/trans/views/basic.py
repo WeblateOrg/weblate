@@ -981,6 +981,7 @@ def show_component_list(request: AuthenticatedHttpRequest, name) -> HttpResponse
         {
             "object": obj,
             "components": components,
+            "bootstrap_5": True,
         },
     )
 

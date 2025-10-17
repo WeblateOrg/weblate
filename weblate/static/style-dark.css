@@ -13,27 +13,29 @@
   --altcha-color-border: #484d50;
 
   --widget-card-box-shadow-color: rgba(255, 255, 255, 0.1);
-
-  --bs-body-bg: #1a1d1e;
-  --bs-body-color: #fffdfa;
-  --bs-border-color: #484d50;
 }
 
-.card {
-  color-scheme: only dark;
-  --bs-card-color: #d9d3cc !important;
-}
+[data-bs-theme="dark"] {
+  --bs-body-bg: #1a1d1e !important;
+  --bs-body-color: #fffdfa !important;
+  --bs-border-color: #484d50 !important;
 
-.table {
-  --bs-table-color: #d9d3cc;
-}
+  .card {
+    --bs-card-color: #d9d3cc !important;
+    --bs-card-cap-color: #d9d3cc;
+  }
 
-.btn-outline-primary {
-  --bs-btn-color: #6cf8d8;
-  --bs-btn-bg: #1a1d1e;
-  --bs-btn-border-color: #484d50;
-  --bs-btn-border-radius: 4px;
-  border-color: var(--bs-btn-border-color) !important;
+  .table {
+    --bs-table-color: #d9d3cc;
+  }
+
+  .btn-outline-primary {
+    --bs-btn-color: #6cf8d8;
+    --bs-btn-bg: #1a1d1e;
+    --bs-btn-border-color: #484d50;
+    --bs-btn-border-radius: 4px;
+    border-color: var(--bs-btn-border-color) !important;
+  }
 }
 
 /* User-Agent Style */
