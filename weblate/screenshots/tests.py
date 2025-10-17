@@ -8,7 +8,11 @@ from difflib import get_close_matches
 from itertools import chain
 from shutil import copyfile
 
+import requests
+import responses
+from django.conf import settings
 from django.core.files import File
+from django.test.utils import override_settings
 from django.urls import reverse
 from django.utils import timezone
 from rest_framework.test import APITestCase
@@ -218,6 +222,149 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
             {"source": source_pk},
         )
         self.assertEqual(screenshot.units.count(), 0)
+
+    @responses.activate
+    def test_upload_with_image_url(self) -> None:
+        with open(TEST_SCREENSHOT, "rb") as img_handle:
+            responses.add(
+                responses.GET,
+                "https://example.com/test-image.png",
+                content_type="image/png",
+                body=img_handle.read(),
+            )
+
+        self.make_manager()
+        response = self.do_upload(
+            image="", image_url="https://example.com/test-image.png"
+        )
+        self.assertContains(response, "Obrazek")
+        self.assertEqual(Screenshot.objects.count(), 1)
+
+    @responses.activate
+    def test_edit_with_image_url(self) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.all()[0]
+        old_name = screenshot.image.name
+        old_filename = screenshot.image.file.name
+
+        with open(TEST_SCREENSHOT, "rb") as img_handle:
+            responses.add(
+                responses.GET,
+                "https://example.com/test-image.png",
+                content_type="image/png",
+                body=img_handle.read(),
+            )
+
+        self.client.post(
+            screenshot.get_absolute_url(),
+            {
+                "image_url": "https://example.com/test-image.png",
+                "name": "Updated screenshot",
+            },
+            follow=True,
+        )
+        screenshot.refresh_from_db()
+        self.assertNotEqual(screenshot.image.name, old_name)
+        self.assertNotEqual(screenshot.image.file.name, old_filename)
+
+    @responses.activate
+    def test_image_url_download_failure(self):
+        """Test handling of image download failures."""
+        self.make_manager()
+        responses.add(
+            responses.GET,
+            "https://example.com/missing-image.png",
+            content_type="text/html",
+            status=301,
+        )
+        responses.add(
+            responses.GET,
+            "https://example.com/broken-image.png",
+            body=requests.RequestException("Network error"),
+        )
+        response = self.do_upload(
+            image="", image_url="https://example.com/missing-image.png"
+        )
+        self.assertContains(
+            response,
+            "Unable to download image from the provided URL (HTTP status code: 301).",
+        )
+
+        response = self.do_upload(
+            image="", image_url="https://example.com/broken-image.png"
+        )
+        self.assertContains(response, "Unable to download image from the provided URL.")
+
+    @responses.activate
+    def test_no_image_or_url_validation(self):
+        """Test validation when neither image nor URL is provided."""
+        self.make_manager()
+        response = self.do_upload(image="")
+        self.assertContains(
+            response, "You need to provide either image file or image URL."
+        )
+
+    @responses.activate
+    def test_both_image_and_url_provided(self):
+        """Test that providing both image file and URL prioritizes the file."""
+        self.make_manager()
+        self.do_upload(image_url="https://example.com/should-be-ignored.png")
+        self.assertEqual(Screenshot.objects.count(), 1)
+
+    @responses.activate
+    def test_invalid_image_url_content_type(self):
+        self.make_manager()
+        # Mock a non-image content type
+        responses.add(
+            responses.GET,
+            "https://example.com/not-an-image.png",
+            content_type="text/html",
+        )
+        response = self.do_upload(
+            image="", image_url="https://example.com/not-an-image.png"
+        )
+        self.assertContains(response, "Unsupported image type")
+
+    @responses.activate
+    def test_invalid_image_url_size(self):
+        self.make_manager()
+        # Mock a too big image
+        responses.add(
+            responses.GET,
+            "https://example.com/big-image.png",
+            content_type="image/png",
+            body=b"x" * (settings.ALLOWED_ASSET_SIZE + 1),
+        )
+        response = self.do_upload(
+            image="", image_url="https://example.com/big-image.png"
+        )
+        self.assertContains(response, "Image is too big")
+
+    @responses.activate
+    def test_invalid_image_url_content(self):
+        self.make_manager()
+        # Mock a non-image content
+        responses.add(
+            responses.GET,
+            "https://example.com/invalid-image.png",
+            content_type="image/png",
+            body=b"x",
+        )
+        response = self.do_upload(
+            image="", image_url="https://example.com/invalid-image.png"
+        )
+        self.assertContains(response, "Upload a valid image.")
+
+    @responses.activate
+    @override_settings(ALLOWED_ASSET_DOMAINS=[".allowed.com"])
+    def test_disallowed_image_url_domain(self):
+        """Test validation when image URL domain is not allowed."""
+        self.make_manager()
+        response = self.do_upload(
+            image="", image_url="https://example.com/not-allowed-image.png"
+        )
+        self.assertContains(response, "Image URL domain is not allowed.")
 
 
 class ScreenshotVCSTest(APITestCase, RepoTestCase):

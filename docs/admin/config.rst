@@ -37,6 +37,58 @@ Configure this as a list of e-mail addresses:
    * :setting:`CONTACT_FORM`
    * :setting:`ADMINS`
 
+
+.. setting:: ALLOWED_ASSET_DOMAINS
+
+ALLOWED_ASSET_DOMAINS
+---------------------
+
+.. versionadded:: 5.14
+
+Configures which domains are allowed for fetching assets in Weblate.
+
+This enhances security by preventing loading assets from untrusted sources.
+Assets are downloaded once by the Weblate server and stored locally, rather than
+being served directly from external domains to users.
+
+It expects a list of host/domain names. You can use fully qualified names
+(e.g ``www.example.com``) or prepend with a period as a wildcard to match
+all subdomains (e.g ``.example.com`` will match ``cdn.example.com`` or ``static.example.com``).
+
+Defaults to `[*]` which will allow all domains.
+
+**Example**
+
+.. code-block:: python
+
+   ALLOWED_ASSET_DOMAINS = [
+       # Allows only cdn.anotherdomain.org
+       "cdn.anotherdomain.org",
+       # Allows example.com and all its subdomains
+       ".example.com",
+   ]
+
+This is currently used in the following places:
+
+* Screenshot uploads, see :ref:`screenshots`
+
+.. seealso::
+
+   * :setting:`ALLOWED_ASSET_SIZE`
+
+.. setting:: ALLOWED_ASSET_SIZE
+
+ALLOWED_ASSET_SIZE
+------------------
+
+.. versionadded:: 5.14
+
+Configures size limit for fetching assets in Weblate. Defaults to 4 MB.
+
+.. seealso::
+
+   * :setting:`ALLOWED_ASSET_DOMAINS`
+
 .. setting:: ALTCHA_MAX_NUMBER
 
 ALTCHA_MAX_NUMBER
