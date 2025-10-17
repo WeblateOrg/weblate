@@ -20,7 +20,7 @@
     <tr>
       <th class="number">{{ object.stats.all|intcomma }}</th>
       <td>{% translate "Strings" %}</td>
-      <td class="progress-cell align-middle">{% translation_progress object %}</td>
+      <td class="progress-cell align-middle d-none d-sm-block">{% translation_progress object %}</td>
       <td class="percent">{{ object.stats.translated_without_checks_percent|percent_format }}</td>
       <td rowspan="3" class="buttons-cell full-cell">
         <div class="float-end">
@@ -37,14 +37,14 @@
     <tr>
       <th class="number">{{ object.stats.all_words|intcomma }}</th>
       <td>{% translate "Words" %}</td>
-      <td class="progress-cell align-middle">{% words_progress object %}</td>
+      <td class="progress-cell align-middle d-none d-sm-block">{% words_progress object %}</td>
       <td class="percent">{{ object.stats.translated_without_checks_words_percent|percent_format }}</td>
     </tr>
 
     <tr>
       <th class="number">{{ object.stats.all_chars|intcomma }}</th>
       <td>{% translate "Characters" %}</td>
-      <td class="progress-cell align-middle">{% chars_progress object %}</td>
+      <td class="progress-cell align-middle d-none d-sm-block">{% chars_progress object %}</td>
       <td class="percent">{{ object.stats.translated_without_checks_chars_percent|percent_format }}</td>
     </tr>
   </table>
