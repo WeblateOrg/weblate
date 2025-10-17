@@ -1,10 +1,3 @@
-Weblate 5.15
-------------
-
-.. rubric:: New features
-
-* Screenshots now can be uploaded from a URL, see :ref:`screenshots`.
-
 Weblate 5.14
 ------------
 
@@ -21,6 +14,7 @@ Weblate 5.14
 * Last changed lookup in :ref:`search-strings`.
 * :doc:`/security/localization-threat` documentation.
 * :ref:`component-hide_glossary_matches` component setting.
+* Screenshots now can be uploaded from a URL, see :ref:`screenshots`.
 
 .. rubric:: Improvements
 
