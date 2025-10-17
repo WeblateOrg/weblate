@@ -19,7 +19,7 @@ from weblate.screenshots.models import Screenshot
 from weblate.trans.forms import QueryField
 from weblate.utils.forms import SortedSelect
 from weblate.utils.requests import request
-from weblate.utils.validators import WeblateURLValidator, ALLOWED_IMAGES
+from weblate.utils.validators import ALLOWED_IMAGES, WeblateURLValidator
 
 
 class ScreenshotImageValidationMixin:
@@ -54,20 +54,22 @@ class ScreenshotImageValidationMixin:
             )
         try:
             with request("get", url, stream=True) as response:
-                 content = b""
-                 for chunk in response.iter_content(chunk_size=settings.ALLOWED_ASSET_SIZE + 1):
-                     if not content:
-                         content = chunk
-                     else:
-                         # This can be slow, but it typically won't happen
-                         content += chunk
-                     if len(content) > settings.ALLOWED_ASSET_SIZE:
-                         raise forms.ValidationError(gettext_lazy("Image is too big."))
-                 content_type = response.headers.get("Content-Type")
-                 if not content_type or content_type not in ALLOWED_IMAGES:
-                         raise forms.ValidationError(
-                             gettext("Unsupported image type: %s") % content_type
-                         )
+                content = b""
+                for chunk in response.iter_content(
+                    chunk_size=settings.ALLOWED_ASSET_SIZE + 1
+                ):
+                    if not content:
+                        content = chunk
+                    else:
+                        # This can be slow, but it typically won't happen
+                        content += chunk
+                    if len(content) > settings.ALLOWED_ASSET_SIZE:
+                        raise forms.ValidationError(gettext_lazy("Image is too big."))
+                content_type = response.headers.get("Content-Type")
+                if not content_type or content_type not in ALLOWED_IMAGES:
+                    raise forms.ValidationError(
+                        gettext("Unsupported image type: %s") % content_type
+                    )
         except requests.RequestException as e:
             raise forms.ValidationError(
                 gettext_lazy("Unable to download image from the provided URL.")
