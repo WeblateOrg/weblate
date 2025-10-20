@@ -24,6 +24,8 @@ if TYPE_CHECKING:
 
     from weblate.trans.models import Change
 
+SKIP_ACTIONS = {ActionEvents.AUTO, ActionEvents.ENFORCED_CHECK}
+
 
 class AutoTranslateAddon(BaseAddon):
     events: ClassVar[set[AddonEvent]] = {
@@ -97,7 +99,7 @@ class AutoTranslateAddon(BaseAddon):
 
     def change_event(self, change: Change, activity_log_id: int | None = None) -> None:
         units = []
-        if change.action in ACTIONS_CONTENT:
+        if change.action in ACTIONS_CONTENT and change.action not in SKIP_ACTIONS:
             if change.unit is not None:
                 units.append(change.unit)
         elif change.action in {
@@ -133,6 +135,10 @@ class AutoTranslateAddon(BaseAddon):
 
         translation_with_unit_ids = defaultdict(list)
         for unit in all_units:
+            if unit.labels.filter(name="Automatically translated").exists():
+                # Skip already automatically translated strings here to avoid repeated
+                # translating, for example with enforced checks.
+                continue
             translation_with_unit_ids[unit.translation.id].append(unit.pk)
 
         for translation_id, unit_ids in translation_with_unit_ids.items():
