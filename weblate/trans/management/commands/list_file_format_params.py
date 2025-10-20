@@ -18,11 +18,7 @@ class Command(BaseCommand):
     help = "List file format parameters"
 
     def format_file_formats(self, file_formats: Sequence[str]) -> str:
-        lines = [
-            " ".join([f"``{f}``" for f in file_formats[i * 4 : (i + 1) * 4]])
-            for i in range((len(file_formats) // 4) + 1)
-        ]
-        return "\n".join(lines)
+        return "\n".join(f"* ``{f}``" for f in file_formats)
 
     def get_help_text(self, param) -> str:
         result = []
