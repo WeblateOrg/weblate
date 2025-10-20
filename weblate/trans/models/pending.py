@@ -33,17 +33,17 @@ class PendingChangeQuerySet(models.QuerySet):
     def for_component(self, component: Component):
         """Return pending changes for a specific component."""
         from weblate.trans.models import Unit
-        
+
         # Optimize query by using unit_id IN subquery to force PostgreSQL
         # to filter by component first before joining with pending changes.
         # Without this, PostgreSQL tends to scan all pending changes and
         # join with units, leading to expensive nested loop joins.
         # The index on unit.translation_id (added in migration 0051) combined
         # with this subquery approach ensures efficient query execution.
-        unit_subquery = Unit.objects.filter(
-            translation__component=component
-        ).values('id')
-        
+        unit_subquery = Unit.objects.filter(translation__component=component).values(
+            "id"
+        )
+
         return self.filter(unit_id__in=Subquery(unit_subquery))
 
     def for_translation(self, translation: Translation):

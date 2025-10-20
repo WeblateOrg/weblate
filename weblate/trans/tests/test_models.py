@@ -556,6 +556,40 @@ class TranslationTest(RepoTestCase):
         ttk_unit, _ = translation.store.find_unit(unit.context, "Hello, ${ name }!")
         self.assertEqual(ttk_unit.target, "Ahoj, ${ name }!")
 
+    def test_component_count_pending_units(self) -> None:
+        """Test that component.count_pending_units works correctly."""
+        component = self.create_component()
+        translation1 = component.translation_set.get(language_code="cs")
+        translation2 = component.translation_set.get(language_code="de")
+        user = create_test_user()
+
+        # Initially no pending changes
+        self.assertEqual(component.count_pending_units, 0)
+
+        # Add changes to first translation
+        units1 = list(translation1.unit_set.all())
+        units1[0].translate(user, "test1", STATE_TRANSLATED)
+        units1[1].translate(user, "test2", STATE_TRANSLATED)
+        self.assertEqual(translation1.count_pending_units, 2)
+        self.assertEqual(component.count_pending_units, 2)
+
+        # Add changes to second translation
+        units2 = list(translation2.unit_set.all())
+        units2[0].translate(user, "test3", STATE_TRANSLATED)
+        self.assertEqual(translation2.count_pending_units, 1)
+        # Component should count all pending units across all translations
+        self.assertEqual(component.count_pending_units, 3)
+
+        # Commit first translation
+        translation1.commit_pending("test", None)
+        self.assertEqual(translation1.count_pending_units, 0)
+        self.assertEqual(translation2.count_pending_units, 1)
+        self.assertEqual(component.count_pending_units, 1)
+
+        # Commit second translation
+        translation2.commit_pending("test", None)
+        self.assertEqual(component.count_pending_units, 0)
+
 
 class ComponentListTest(RepoTestCase):
     """Test(s) for ComponentList model."""
