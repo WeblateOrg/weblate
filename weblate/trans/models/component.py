@@ -3636,14 +3636,13 @@ class Component(
         return self.translation_set.filter(language__code__in=AMBIGUOUS.keys())
 
     @property
-    def pending_units(self):
-        """Return queryset with pending units."""
-        return PendingUnitChange.objects.for_component(self)
-
-    @property
     def count_pending_units(self):
         """Return count of pending units."""
-        return PendingUnitChange.objects.for_component(self).count()
+        from weblate.trans.models import Unit
+
+        return Unit.objects.filter(
+            translation__component=self, pending_changes__isnull=False
+        ).count()
 
     @property
     def count_repo_missing(self):

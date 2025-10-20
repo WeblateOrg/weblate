@@ -22,14 +22,10 @@ if TYPE_CHECKING:
     from datetime import datetime
 
     from weblate.auth.models import User
-    from weblate.trans.models import Component, Project, Translation, Unit
+    from weblate.trans.models import Component, Translation, Unit
 
 
 class PendingChangeQuerySet(models.QuerySet):
-    def for_project(self, project: Project):
-        """Return pending changes for a specific component."""
-        return self.filter(unit__translation__component__project=project)
-
     def for_component(self, component: Component):
         """Return pending changes for a specific component."""
         return self.filter(unit__translation__component=component)
