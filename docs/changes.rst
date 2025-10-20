@@ -32,6 +32,7 @@ Weblate 5.14
 * Rate limiting of notification e-mails, configurable by :setting:`RATELIMIT_NOTIFICATION_LIMITS`.
 * :guilabel:`Repository maintenance` now supports resetting the repository while keeping the current state of translations in Weblate.
 * Improved listing of :ref:`addon-weblate.autotranslate.autotranslate` configuration.
+* Optimized performance for counting pending changes in components with many translations.
 
 .. rubric:: Bug fixes
 
