@@ -86,6 +86,8 @@ jobs:
       with:
         save-cache: ${{ github.ref == 'refs/heads/main' }}
         cache-suffix: ${{ steps.setup_python.outputs.python-version }}
+        # renovate: datasource=pypi depName=uv versioning=pep440
+        version: 0.9.4
     - name: Start services
       run: ./ci/services-up ${{ matrix.database }}
     - name: Install apt dependencies

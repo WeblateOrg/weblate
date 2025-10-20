@@ -55,6 +55,8 @@ jobs:
         save-cache: ${{ github.ref == 'refs/heads/main' }}
         cache-suffix: ${{ steps.setup_python.outputs.python-version }}
 
+        # renovate: datasource=pypi depName=uv versioning=pep440
+        version: 0.9.4
     - name: Install apt dependencies
       run: |
         if [ -f ./ci/apt-install ] ; then
