@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-21 09:35+0000\n"
-"PO-Revision-Date: 2025-10-21 13:29+0000\n"
+"PO-Revision-Date: 2025-10-21 15:12+0000\n"
 "Last-Translator: Sketch6580 <sketch6580@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/application/zh_Hans/>\n"
@@ -362,21 +362,21 @@ msgstr "添加团队"
 
 #: weblate/accounts/forms.py:1123
 msgid "Name your authentication app"
-msgstr "命名您的身份验证应用程序"
+msgstr "命名您的身份验证应用"
 
 #: weblate/accounts/forms.py:1126
 msgid "Verify the code from the app"
-msgstr "验证应用程序中的代码"
+msgstr "验证来自应用的代码"
 
 #: weblate/accounts/forms.py:1142
 msgid "Discard previously configured authentication apps"
-msgstr "解除先前配置的身份认证应用"
+msgstr "舍弃之前配置的身份验证应用"
 
 #: weblate/accounts/forms.py:1146
 msgid ""
 "All previously configured authentication apps will be discarded upon "
 "verification of the new app."
-msgstr "验证新应用后所有之前配置的身份认证应用都将被解除权限。"
+msgstr "验证新应用后，所有之前配置的身份验证应用都将舍弃。"
 
 #: weblate/accounts/forms.py:1149
 msgid ""
@@ -1076,7 +1076,7 @@ msgstr "使用安全密钥（WebAuthn）"
 
 #: weblate/accounts/templatetags/authnames.py:58
 msgid "Use authentication app (TOTP)"
-msgstr "使用身份验证应用程序（TOTP）"
+msgstr "使用身份验证应用（TOTP）"
 
 #: weblate/accounts/templatetags/authnames.py:59
 msgid "Use recovery codes"
@@ -1105,7 +1105,7 @@ msgstr "安全密钥（%s）"
 #: weblate/accounts/utils.py:205
 #, python-format
 msgid "Authentication app (%s)"
-msgstr "身份验证应用程序（%s）"
+msgstr "身份验证应用（%s）"
 
 #: weblate/accounts/views.py:208 weblate/accounts/views.py:1097
 #: weblate/accounts/views.py:1154 weblate/templates/accounts/reset.html:7
@@ -1306,7 +1306,7 @@ msgstr "通知更改链接不再有效，请登录以配置通知。"
 
 #: weblate/accounts/views.py:1686
 msgid "The security key was removed."
-msgstr "安全密钥已删除。"
+msgstr "安全密钥已移除。"
 
 #: weblate/accounts/views.py:1687
 #, python-format
@@ -1315,12 +1315,12 @@ msgstr "安全密钥 %s 已注册。"
 
 #: weblate/accounts/views.py:1724
 msgid "The authentication app was removed."
-msgstr "身份验证应用程序已被删除。"
+msgstr "身份验证应用已移除。"
 
 #: weblate/accounts/views.py:1725
 #, python-format
 msgid "The authentication app %s was registered."
-msgstr "身份验证应用程序 %s 已注册。"
+msgstr "身份验证应用 %s 已注册。"
 
 #: weblate/accounts/views.py:1871
 msgid "Second factor sign in"
@@ -2031,26 +2031,20 @@ msgid "Reset all changes in the Weblate repository"
 msgstr "重置Weblate仓库中的所有更改"
 
 #: weblate/api/serializers.py:1079 weblate/templates/js/git-status.html:155
-#, fuzzy
-#| msgid "Define the base file for new translations"
 msgid "Reset the Weblate repository and reapply translations"
-msgstr "为新的翻译条目指定翻译模版文件"
+msgstr "重置 Weblate 仓库并重新应用译文"
 
 #: weblate/api/serializers.py:1083 weblate/templates/js/git-status.html:166
 msgid "Cleanup all untracked files in the Weblate repository"
 msgstr "清理 Weblate 仓库中所有无路径的文件"
 
 #: weblate/api/serializers.py:1087 weblate/templates/js/git-status.html:177
-#, fuzzy
-#| msgid "Reset all changes in the Weblate repository"
 msgid "Force writing all translations to the Weblate repository"
-msgstr "重置Weblate仓库中的所有更改"
+msgstr "强制将所有译文写入 Weblate 仓库"
 
 #: weblate/api/serializers.py:1091 weblate/templates/js/git-status.html:187
-#, fuzzy
-#| msgid "Cleanup all untracked files in the Weblate repository"
 msgid "Rescan all translation files in the Weblate repository"
-msgstr "清理 Weblate 仓库中所有无路径的文件"
+msgstr "重新扫描 Weblate 仓库中的所有翻译文件"
 
 #: weblate/api/spectacular.py:61
 #: weblate/templates/drf_spectacular/redoc.html:10
@@ -3535,7 +3529,7 @@ msgstr "Fluent 类型"
 
 #: weblate/checks/flags.py:96
 msgid "Discard flag"
-msgstr "丢弃标记"
+msgstr "舍弃标记"
 
 #: weblate/checks/flags.py:337
 #, python-format
@@ -5816,21 +5810,21 @@ msgstr "%s 翻译当前不可用，但可添加。"
 
 #: weblate/screenshots/forms.py:33
 msgid "You need to provide either image file or image URL."
-msgstr ""
+msgstr "您需要提供图片文件或图片 URL。"
 
 #: weblate/screenshots/forms.py:53
 msgid "Image URL domain is not allowed."
-msgstr ""
+msgstr "图片 URL 域名不被允许。"
 
 #: weblate/screenshots/forms.py:61
 #, python-format
 msgid ""
 "Unable to download image from the provided URL (HTTP status code: %(code)s)."
-msgstr ""
+msgstr "无法从提供的 URL 下载图片（HTTP 状态码：%(code)s）。"
 
 #: weblate/screenshots/forms.py:79
 msgid "Image is too big."
-msgstr ""
+msgstr "图片太大。"
 
 #: weblate/screenshots/forms.py:85 weblate/utils/validators.py:126
 #, python-format
@@ -5839,7 +5833,7 @@ msgstr "不支持的图片类型：%s"
 
 #: weblate/screenshots/forms.py:93
 msgid "Unable to download image from the provided URL."
-msgstr ""
+msgstr "无法从提供的 URL 下载图片。"
 
 #: weblate/screenshots/forms.py:120 weblate/screenshots/forms.py:147
 #: weblate/templates/widgets.html:64
@@ -5848,7 +5842,7 @@ msgstr "图片 URL"
 
 #: weblate/screenshots/forms.py:121 weblate/screenshots/forms.py:148
 msgid "The image will be downloaded and stored."
-msgstr ""
+msgstr "图片将被下载并存储。"
 
 #: weblate/screenshots/models.py:57
 #: weblate/templates/screenshots/screenshot_list.html:47
@@ -8952,13 +8946,13 @@ msgstr "仓库状态"
 #, python-format
 msgid "%(count)s pending change"
 msgid_plural "%(count)s pending changes"
-msgstr[0] "%(count)s 个待定更改"
+msgstr[0] "%(count)s 个待处理的更改"
 
 #: weblate/templates/js/git-status.html:31
 msgid ""
 "This will commit any pending changes present in Weblate and not in the "
 "repository."
-msgstr "这会提交任何存在于 Weblate 但不存在于仓库中的待定更改。"
+msgstr "这将提交任何存在于 Weblate 但不存在于仓库中的待处理的更改。"
 
 #: weblate/templates/js/git-status.html:43
 #, python-format
@@ -9035,21 +9029,17 @@ msgstr "危险区域"
 
 #: weblate/templates/js/git-status.html:142
 msgid "Reset and discard"
-msgstr ""
+msgstr "重置并舍弃"
 
 #: weblate/templates/js/git-status.html:145
 msgid ""
 "Resets Weblate’s repository to match upstream and discards any pending "
 "changes in Weblate."
-msgstr ""
+msgstr "将 Weblate 的仓库重置以匹配上游，并舍弃 Weblate 中任何待处理的更改。"
 
 #: weblate/templates/js/git-status.html:146
-#, fuzzy
-#| msgid ""
-#| "Describe the context of the translation to improve the accuracy of the "
-#| "translation."
 msgid "Use when you want the upstream to be the authority for translations."
-msgstr "描述翻译上下文改进翻译准确性。"
+msgstr "当您希望上游成为译文的权威时使用。"
 
 #: weblate/templates/js/git-status.html:147
 msgid ""
@@ -9059,29 +9049,23 @@ msgstr "当您想舍弃 Weblate 中的更改并使其与上游仓库保持同步
 
 #: weblate/templates/js/git-status.html:154
 msgid "Reset and reapply"
-msgstr ""
+msgstr "重置并重新应用"
 
 #: weblate/templates/js/git-status.html:157
 msgid ""
 "Resets Weblate’s repository to match upstream and replace upstream "
 "translations with the current state from Weblate."
-msgstr ""
+msgstr "将 Weblate 的仓库重置以匹配上游，并用 Weblate 的当前状态替换上游译文。"
 
 #: weblate/templates/js/git-status.html:158
-#, fuzzy
-#| msgid "Whether Weblate should keep history of translations"
 msgid "Use when you want Weblate to be the authority for translations."
-msgstr "是否让 Weblate 保留翻译的历史记录"
+msgstr "当您希望 Weblate 成为译文的权威时使用。"
 
 #: weblate/templates/js/git-status.html:159
-#, fuzzy
-#| msgid ""
-#| "Use when you want to discard changes in Weblate and bring it in sync with "
-#| "upstream repository."
 msgid ""
 "It will keep changes from Weblate but bring its repository in sync with the "
 "upstream repository."
-msgstr "在你想丢弃 Weblate 中更改并使其与上游仓库保持同步时使用。"
+msgstr "它将保留来自 Weblate 的更改，但会使其仓库与上游仓库同步。"
 
 #: weblate/templates/js/git-status.html:165
 msgid "Cleanup"
@@ -14118,7 +14102,7 @@ msgstr "自动翻译模式"
 msgid ""
 "Please note that translating all strings will discard all existing "
 "translations."
-msgstr "请注意，翻译所有字符串将丢弃所有现有的译文。"
+msgstr "请注意，翻译所有字符串将舍弃所有现有的译文。"
 
 #: weblate/trans/forms.py:935
 msgid "Source of automated translations"
@@ -14519,10 +14503,8 @@ msgid "Exclude author (username)"
 msgstr "排除作者（用户名）"
 
 #: weblate/trans/forms.py:3059
-#, fuzzy
-#| msgid "Date joined"
 msgid "Date range"
-msgstr "加入日期"
+msgstr "日期范围"
 
 #: weblate/trans/forms.py:3142
 msgid "Expiry cannot be in the past."
