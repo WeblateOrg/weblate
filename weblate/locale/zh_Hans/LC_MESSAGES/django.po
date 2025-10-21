@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-13 14:01+0000\n"
-"PO-Revision-Date: 2025-10-14 16:07+0000\n"
+"PO-Revision-Date: 2025-10-21 03:25+0000\n"
 "Last-Translator: Sketch6580 <sketch6580@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/application/zh_Hans/>\n"
@@ -50,7 +50,7 @@ msgstr "用户头像"
 msgid ""
 "This e-mail address is already in use. Please supply a different e-mail "
 "address."
-msgstr "此电子邮箱地址已被使用。请提供其他邮箱地址。"
+msgstr "此电子邮件地址已被使用。请提供其他电子邮件地址。"
 
 #: weblate/accounts/forms.py:122
 msgid "This username is already taken. Please pick something else."
@@ -69,11 +69,11 @@ msgstr "名称同样用于版本控制提交。"
 
 #: weblate/accounts/forms.py:201 weblate/accounts/models.py:846
 msgid "Commit e-mail"
-msgstr "代码提交电子邮箱"
+msgstr "代码提交邮箱"
 
 #: weblate/accounts/forms.py:202
 msgid "Use account e-mail address"
-msgstr "使用账户电子邮箱地址"
+msgstr "使用账户电子邮件地址"
 
 #: weblate/accounts/forms.py:204
 msgid ""
@@ -84,7 +84,7 @@ msgstr ""
 
 #: weblate/accounts/forms.py:237 weblate/accounts/models.py:840
 msgid "Public e-mail"
-msgstr "公开的电子邮箱"
+msgstr "公开的电子邮件地址"
 
 #: weblate/accounts/forms.py:238
 msgid "Hide e-mail address from public view"
@@ -103,7 +103,7 @@ msgstr "账户邮箱"
 msgid ""
 "Used for e-mail notifications and as a commit e-mail if it is not configured "
 "below."
-msgstr "用于电子邮件通知，如未在下方进行配置则作为提交的电子邮箱。"
+msgstr "用于邮件通知，如果未在下方配置，则用作代码提交邮箱。"
 
 #: weblate/accounts/forms.py:455
 msgid "Verification failed. Try again later."
@@ -155,11 +155,11 @@ msgstr "主题"
 
 #: weblate/accounts/forms.py:606
 msgid "Your name"
-msgstr "您的姓名"
+msgstr "您的名称"
 
 #: weblate/accounts/forms.py:608
 msgid "Your e-mail"
-msgstr "您的电子邮箱"
+msgstr "您的电子邮件地址"
 
 #: weblate/accounts/forms.py:610 weblate/templates/manage/performance.html:28
 #: weblate/templates/manage/performance.html:81
@@ -211,7 +211,7 @@ msgstr "您输入的密码无效。"
 
 #: weblate/accounts/forms.py:775
 msgid "Username or e-mail"
-msgstr "用户名或电子邮箱地址"
+msgstr "用户名或电子邮件地址"
 
 #: weblate/accounts/forms.py:776 weblate/accounts/templatetags/authnames.py:34
 msgid "Password"
@@ -416,7 +416,7 @@ msgstr "用户名已从 {old} 更改为 {new}。"
 #: weblate/accounts/models.py:242
 #, python-brace-format
 msgid "E-mail changed from {old} to {new}."
-msgstr "电子邮箱地址已从 {old} 更改为 {new}。"
+msgstr "电子邮件地址已从 {old} 更改为 {new}。"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:244
@@ -465,7 +465,7 @@ msgstr "有人试图使用您的电子邮箱进行注册。"
 
 #: weblate/accounts/models.py:261
 msgid "Somebody attempted to register using your e-mail address."
-msgstr "有人试图使用您的电子邮箱地址进行注册。"
+msgstr "有人试图使用您的电子邮件地址进行注册。"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:264
@@ -547,7 +547,7 @@ msgstr "管理员禁用了用户。"
 
 #: weblate/accounts/models.py:296
 msgid "User was disabled because the access has expired."
-msgstr ""
+msgstr "用户已被禁用，因为访问权限已过期。"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:299
@@ -881,7 +881,7 @@ msgstr "已将 %(language)s 添加到你的翻译语言。你可以在设置中�
 
 #: weblate/accounts/models.py:1244
 msgid "Please provide an e-mail address for submitting translations."
-msgstr "要提交译文请提供一个电子邮箱地址。"
+msgstr "请提供用于提交译文的电子邮件地址。"
 
 #: weblate/accounts/notifications.py:64
 msgid "No notification"
@@ -1275,7 +1275,7 @@ msgstr "服务器不允许验证。"
 
 #: weblate/accounts/views.py:1486
 msgid "The supplied e-mail address is already in use for another account."
-msgstr "提供的电子邮箱地址已被另一个账户使用。"
+msgstr "提供的电子邮件地址已被其他账户使用。"
 
 #: weblate/accounts/views.py:1492
 msgid "The supplied username is already in use for another account."
@@ -1464,18 +1464,13 @@ msgid "Flag updated translations from repository as \"Needs editing\""
 msgstr "将仓库中更新的译文标记为“需要编辑”"
 
 #: weblate/addons/flags.py:137
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS, it is "
-#| "flagged as needing editing in Weblate. This way you can easily filter and "
-#| "edit translations created by the developers."
 msgid ""
 "Whenever a string translation is changed from the VCS, it is flagged as "
 "needing editing in Weblate. Especially useful if translation files are often "
 "updated manually or by an external service."
 msgstr ""
-"每当一个新的可翻译字符串从版本控制系统中导入时，它将在 Weblate 中被标记为需要"
-"编辑。这样就可以简单地筛选并编辑开发者创建的翻译。"
+"每当一个字符串翻译在版本控制系统中被更改后，它会在 Weblate 中被标记为需要编辑"
+"。如果翻译文件经常被手动更新或由外部服务更新，此功能尤其有用。"
 
 #: weblate/addons/forms.py:59
 msgid "Path of generated MO file"
@@ -2794,7 +2789,7 @@ msgstr "过期"
 
 #: weblate/auth/models.py:497
 msgid "The account will be disabled after the expiry."
-msgstr ""
+msgstr "账户将在过期后被禁用。"
 
 #: weblate/auth/models.py:504 weblate/templates/accounts/profile.html:34
 #: weblate/templates/accounts/user.html:194 weblate/templates/auth/team.html:38
@@ -2815,11 +2810,11 @@ msgstr "用户被授予了团队成员资格包含的所有权限。"
 
 #: weblate/auth/models.py:990
 msgid "Regular expression for e-mail address"
-msgstr "电子邮箱地址的正则表达式"
+msgstr "电子邮件地址的正则表达式"
 
 #: weblate/auth/models.py:994
 msgid "Users with e-mail addresses found to match will be added to this team."
-msgstr "有匹配电子邮箱地址的用户将被添加到此团队。"
+msgstr "电子邮件地址匹配成功的用户将被添加到此团队。"
 
 #: weblate/auth/models.py:999
 msgid "Team to assign"
@@ -2840,7 +2835,7 @@ msgstr "要添加的用户"
 #: weblate/auth/models.py:1195 weblate/trans/forms.py:1332
 #: weblate/trans/forms.py:1350
 msgid "Please type in an existing Weblate account name or e-mail address."
-msgstr "请输入一个已存在的 Weblate 用户名或电子邮箱地址。"
+msgstr "请输入一个已存在的 Weblate 用户名或电子邮件地址。"
 
 #: weblate/auth/models.py:1203
 msgid "Suggest username for the user. It can be changed later."
@@ -2976,7 +2971,7 @@ msgstr "无法删除内置的团队！"
 msgid ""
 "This invitation can be accepted only by the e-mail address chosen by the "
 "inviter; it can't be used by your account."
-msgstr ""
+msgstr "此邀请只能由邀请者选择的电子邮件地址接受；您的账户无法使用它。"
 
 #: weblate/auth/views.py:201
 msgid "User invitation was removed."
@@ -3119,10 +3114,8 @@ msgid "Billing"
 msgstr "账单"
 
 #: weblate/billing/models.py:681 weblate/templates/billing/detail.html:119
-#, fuzzy
-#| msgid "Billing overview"
 msgid "Billing event"
-msgstr "账单概览"
+msgstr "计费事件"
 
 #: weblate/billing/tasks.py:73
 msgid ""
@@ -4487,10 +4480,8 @@ msgid "CSV"
 msgstr "CSV"
 
 #: weblate/formats/exporters.py:258
-#, fuzzy
-#| msgid "Multivalue CSV file (UTF-8)"
 msgid "Multivalue CSV"
-msgstr "多值 CSV 文件（UTF-8）"
+msgstr "多值 CSV"
 
 #: weblate/formats/exporters.py:325
 msgid "XLSX"
@@ -6428,7 +6419,7 @@ msgstr "删除此通知设置"
 
 #: weblate/templates/accounts/profile.html:184
 msgid "The e-mail address can be chosen from verified addresses only."
-msgstr "只能从已验证地址中选择电子邮箱地址。"
+msgstr "电子邮件地址只能从已验证的地址中选择。"
 
 #: weblate/templates/accounts/profile.html:198
 msgid "Current user identities"
@@ -6780,33 +6771,25 @@ msgstr "删除账户"
 msgid ""
 "You will lose access to the projects you manage. Projects themselves will "
 "not be removed."
-msgstr ""
+msgstr "您将失去对您所管理项目的访问权限。项目本身不会被移除。"
 
 #: weblate/templates/accounts/removal.html:35
 msgid ""
 "Any billing you might have created will not be terminated by this account "
 "removal."
-msgstr ""
+msgstr "您可能已创建的任何计费不会因此账户移除而终止。"
 
 #: weblate/templates/accounts/removal.html:39
-#, fuzzy
-#| msgid ""
-#| "By pressing following button, your will no longer be able to use this "
-#| "account."
 msgid ""
 "By pressing the following button, you will no longer be able to use this "
 "account."
-msgstr "按下下方的按钮后，您将不能再使用这一账户。"
+msgstr "按下下方的按钮后，您将无法再使用此账户。"
 
 #: weblate/templates/accounts/removal.html:43
-#, fuzzy
-#| msgid ""
-#| "You will have to confirm account removal by clicking link in e-mail you "
-#| "will receive."
 msgid ""
 "You will have to confirm the account removal by clicking the link in the e-"
 "mail you will receive."
-msgstr "您将收到电子邮件并需要点击链接以确认删除账户。"
+msgstr "您必须点击您将收到的邮件中的链接来确认账户移除。"
 
 #: weblate/templates/accounts/removal.html:50
 msgid "Delete this account"
@@ -6850,14 +6833,15 @@ msgstr ""
 msgid ""
 "By registering, you agree that your name and username will be visible "
 "publicly as long as your account exists."
-msgstr ""
+msgstr "注册即表示您同意，只要您的账户存在，您的名称和用户名将被公开可见。"
 
 #: weblate/templates/accounts/snippets/login-info.html:30
 msgid ""
 "Additionally, your name and e-mail can be used in version control system "
 "commits to author the changes you made; they can be stored there "
 "indefinitely."
-msgstr ""
+msgstr "此外，您的名称和电子邮件地址可能会在版本控制系统的提交中用作您所做更改的作者"
+"信息；这些信息可能被无限期存储。"
 
 #: weblate/templates/accounts/snippets/login-info.html:32
 #, fuzzy
@@ -14030,11 +14014,11 @@ msgstr "更改已翻译和已核准的字符串"
 
 #: weblate/trans/forms.py:720
 msgid "Author name"
-msgstr "作者姓名"
+msgstr "作者名称"
 
 #: weblate/trans/forms.py:721
 msgid "Author e-mail"
-msgstr "作者电子邮箱"
+msgstr "作者电子邮件地址"
 
 #: weblate/trans/forms.py:890 weblate/trans/forms.py:895
 msgid "Could not find the merged string."
@@ -16757,7 +16741,7 @@ msgstr "无法解析查询字符串：{}"
 
 #: weblate/utils/forms.py:123
 msgid "Missing username or e-mail."
-msgstr "缺少用户名或电子邮箱地址。"
+msgstr "缺少用户名或电子邮件地址。"
 
 #: weblate/utils/forms.py:134
 msgid "More possible users were found."
@@ -16859,7 +16843,7 @@ msgstr "用户名不能以句点开头。"
 
 #: weblate/utils/validators.py:183 weblate/utils/validators.py:191
 msgid "Enter a valid e-mail address."
-msgstr "输入一个有效的电子邮箱地址。"
+msgstr "请输入有效的电子邮件地址。"
 
 #: weblate/utils/validators.py:193
 msgid "This e-mail address is disallowed."
