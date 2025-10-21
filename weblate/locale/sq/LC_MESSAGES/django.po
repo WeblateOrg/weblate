@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-21 09:35+0000\n"
-"PO-Revision-Date: 2025-10-14 16:07+0000\n"
+"PO-Revision-Date: 2025-10-22 07:39+0000\n"
 "Last-Translator: Besnik Bleta <besnik@programeshqip.org>\n"
 "Language-Team: Albanian <https://hosted.weblate.org/projects/weblate/"
 "application/sq/>\n"
@@ -1350,10 +1350,9 @@ msgstr ""
 "Emri i dhënë i përdoruesit është tashmë në përdorim për një llogari tjetër."
 
 #: weblate/accounts/views.py:1499
-#, fuzzy, python-format
-#| msgid "Authentication app (%s)"
+#, python-format
 msgid "Authentication failed: %s"
-msgstr "Aplikacion mirëfilltësimi (%s)"
+msgstr "Mirëfilltësimi dështoi: %s"
 
 #: weblate/accounts/views.py:1505
 msgid "The supplied user identity is already in use for another account."
@@ -2160,10 +2159,8 @@ msgid "Reset all changes in the Weblate repository"
 msgstr "Zero krejt ndryshimet te depoja Weblate"
 
 #: weblate/api/serializers.py:1079 weblate/templates/js/git-status.html:155
-#, fuzzy
-#| msgid "Define the base file for new translations"
 msgid "Reset the Weblate repository and reapply translations"
-msgstr "Përcaktoni kartelën bazë për përkthime të reja"
+msgstr "Rikthe te parazgjedhjet depon Weblate dhe riapliko përkthimet"
 
 #: weblate/api/serializers.py:1083 weblate/templates/js/git-status.html:166
 msgid "Cleanup all untracked files in the Weblate repository"
@@ -6055,21 +6052,23 @@ msgstr "Përkthimi në %s hëpërhë s’ekziston, por mund të shtohet."
 
 #: weblate/screenshots/forms.py:33
 msgid "You need to provide either image file or image URL."
-msgstr ""
+msgstr "Lypset të jepni ose kartelë figure, ose URL figure."
 
 #: weblate/screenshots/forms.py:53
 msgid "Image URL domain is not allowed."
-msgstr ""
+msgstr "Përkatësia e URL-së së figurës nuk lejohet."
 
 #: weblate/screenshots/forms.py:61
 #, python-format
 msgid ""
 "Unable to download image from the provided URL (HTTP status code: %(code)s)."
 msgstr ""
+"S’arrihet të shkarkohet figurë nga URL-ja e dhënë "
+"(Kod gjendjeje HTTP: %(code)s)."
 
 #: weblate/screenshots/forms.py:79
 msgid "Image is too big."
-msgstr ""
+msgstr "Figura është shumë e madhe."
 
 #: weblate/screenshots/forms.py:85 weblate/utils/validators.py:126
 #, python-format
@@ -6078,7 +6077,7 @@ msgstr "Lloj i pambuluar figure: %s"
 
 #: weblate/screenshots/forms.py:93
 msgid "Unable to download image from the provided URL."
-msgstr ""
+msgstr "S’arrihet të shkarkohet figurë nga URL-ja e dhënë."
 
 #: weblate/screenshots/forms.py:120 weblate/screenshots/forms.py:147
 #: weblate/templates/widgets.html:64
@@ -6087,7 +6086,7 @@ msgstr "URL Figure"
 
 #: weblate/screenshots/forms.py:121 weblate/screenshots/forms.py:148
 msgid "The image will be downloaded and stored."
-msgstr ""
+msgstr "Figura do të shkarkohet dhe depozitohet."
 
 #: weblate/screenshots/models.py:57
 #: weblate/templates/screenshots/screenshot_list.html:47
@@ -9466,55 +9465,46 @@ msgid ""
 "Resets Weblate’s repository to match upstream and discards any pending "
 "changes in Weblate."
 msgstr ""
+"E kthen depon Weblate të përputhet me depon e zhvillimit dhe hedh tej "
+"çfarëdo ndryshime pezull në Weblate."
 
 #: weblate/templates/js/git-status.html:146
-#, fuzzy
-#| msgid ""
-#| "Describe the context of the translation to improve the accuracy of the "
-#| "translation."
 msgid "Use when you want the upstream to be the authority for translations."
 msgstr ""
-"Përshkruani kontekstin e përkthimit, për të përmirësuar përpikërinë e tij."
+"Përdoreni kur dëshironi që depoja e zhvillimit të jetë autoriteti për "
+"përkthimet."
 
 #: weblate/templates/js/git-status.html:147
-#, fuzzy
-#| msgid ""
-#| "Use when you want to discardchanges in Weblate and bring it in sync with "
-#| "upstream repository."
 msgid ""
 "It will discard changes in Weblate repo and bring it in sync with the "
 "upstream repository."
 msgstr ""
-"Përdoreni kur doni të hidhni tej ndryshime në Weblate dhe për të sjellë "
-"njëkohësim me depon e zhvillimit."
+"Do të sjellë hedhjen tej të ndryshimeve në depon Weblate dhe njëkohësim me "
+"depon e zhvillimit."
 
 #: weblate/templates/js/git-status.html:154
 msgid "Reset and reapply"
-msgstr ""
+msgstr "Riktheje dhe riaplikoji"
 
 #: weblate/templates/js/git-status.html:157
 msgid ""
 "Resets Weblate’s repository to match upstream and replace upstream "
 "translations with the current state from Weblate."
 msgstr ""
+"E kthen depon Weblate të përputhet me depon e zhvillimit dhe zëvendëson "
+"përkthimet te dega e zhvillimit me gjendjen aktuale nga Weblate."
 
 #: weblate/templates/js/git-status.html:158
-#, fuzzy
-#| msgid "Memory will be then populated with the current translations."
 msgid "Use when you want Weblate to be the authority for translations."
-msgstr "Kujtesa mandej do të popullohet me përkthimet e tanishme."
+msgstr "Përdoreni kur dëshironi që Weblate-i të jetë autoriteti për përkthimet."
 
 #: weblate/templates/js/git-status.html:159
-#, fuzzy
-#| msgid ""
-#| "Use when you want to discardchanges in Weblate and bring it in sync with "
-#| "upstream repository."
 msgid ""
 "It will keep changes from Weblate but bring its repository in sync with the "
 "upstream repository."
 msgstr ""
-"Përdoreni kur doni të hidhni tej ndryshime në Weblate dhe për të sjellë "
-"njëkohësim me depon e zhvillimit."
+"Do të mbajë ndryshimet nga Weblate-i, por do të bëjë njëkohësim të depos me "
+"depon e zhvillimit."
 
 #: weblate/templates/js/git-status.html:165
 msgid "Cleanup"
@@ -15269,10 +15259,8 @@ msgid "Exclude author (username)"
 msgstr "Përjashto autorin (emër përdoruesi)"
 
 #: weblate/trans/forms.py:3059
-#, fuzzy
-#| msgid "Date joined"
 msgid "Date range"
-msgstr "Datë anëtarësimi"
+msgstr "Interval datash"
 
 #: weblate/trans/forms.py:3142
 msgid "Expiry cannot be in the past."
