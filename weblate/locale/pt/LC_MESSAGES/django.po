@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-21 09:35+0000\n"
-"PO-Revision-Date: 2025-10-21 13:29+0000\n"
+"PO-Revision-Date: 2025-10-21 15:11+0000\n"
 "Last-Translator: Manuela Silva <mmsrs@sky.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "application/pt/>\n"
@@ -379,7 +379,7 @@ msgstr "Adicionar equipa"
 
 #: weblate/accounts/forms.py:1123
 msgid "Name your authentication app"
-msgstr "Dê um nome à sua aplicação de autenticação"
+msgstr "Nomeie a sua aplicação de autenticação"
 
 #: weblate/accounts/forms.py:1126
 msgid "Verify the code from the app"
@@ -407,18 +407,18 @@ msgstr ""
 
 #: weblate/accounts/forms.py:1155
 msgid "The entered token is not valid."
-msgstr "O token inserido não é válido."
+msgstr "O código inserido não é válido."
 
 #: weblate/accounts/forms.py:1225
 msgid "Recovery token"
-msgstr "Token de recuperação"
+msgstr "Código de recuperação"
 
 #: weblate/accounts/forms.py:1227
 msgid ""
 "Recovery codes can only be used once. Remember to mark used ones as expired."
 msgstr ""
 "Os códigos de recuperação só podem ser utilizados uma vez. Lembre-se de "
-"marcar os usados como expirados."
+"marcar os utilizados como expirados."
 
 #: weblate/accounts/forms.py:1284
 msgid "Enter the code from the app"
@@ -439,7 +439,7 @@ msgstr "O nome de utilizador foi alterado de {old} para {new}."
 #: weblate/accounts/models.py:242
 #, python-brace-format
 msgid "E-mail changed from {old} to {new}."
-msgstr "O e-mail foi alterado de {old} para {new}."
+msgstr "O ''e-mail'' foi alterado de {old} para {new}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:244
@@ -2794,8 +2794,6 @@ msgid "Screenshots"
 msgstr "Capturas de ecrã"
 
 #: weblate/auth/data.py:315
-#, fuzzy
-#| msgid "Bulk edit"
 msgctxt "Per-project access-control team name"
 msgid "Bulk editing"
 msgstr "Edição em série"
@@ -6112,7 +6110,7 @@ msgid "Image URL domain is not allowed."
 msgstr "O domínio do URL da imagem não é permitido."
 
 #: weblate/screenshots/forms.py:61
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "Unable to download image from the provided URL (HTTP status code: %(code)s)."
 msgstr ""
@@ -7234,12 +7232,16 @@ msgid ""
 "You will lose access to the projects you manage. Projects themselves will "
 "not be removed."
 msgstr ""
+"Perderá o acesso aos projetos que gere. Os projetos em si não serão "
+"removidos."
 
 #: weblate/templates/accounts/removal.html:35
 msgid ""
 "Any billing you might have created will not be terminated by this account "
 "removal."
 msgstr ""
+"Qualquer faturação que possa ter criado não será terminada por esta remoção "
+"de conta."
 
 #: weblate/templates/accounts/removal.html:39
 #, fuzzy
@@ -7311,6 +7313,8 @@ msgid ""
 "By registering, you agree that your name and username will be visible "
 "publicly as long as your account exists."
 msgstr ""
+"Ao registar-se, concorda que o seu nome e nome de utilizador irão estar "
+"visíveis enquanto a sua conta existir."
 
 #: weblate/templates/accounts/snippets/login-info.html:30
 msgid ""
@@ -7318,6 +7322,9 @@ msgid ""
 "commits to author the changes you made; they can be stored there "
 "indefinitely."
 msgstr ""
+"Adicionalmente, o seu nome e ''e-mail'' podem ser utilizados pelas "
+"submissões do sistema de controlo de versão para criar as alterações "
+"efetuadas por si; eles podem ser guardados lá indefinidamente."
 
 #: weblate/templates/accounts/snippets/login-info.html:32
 #, fuzzy
@@ -7330,12 +7337,17 @@ msgid ""
 "Additionally, your name can be used in version control system commits to "
 "author the changes you made; it can be stored there indefinitely."
 msgstr ""
+"Adicionalmente, o seu nome pode ser utilizado pelas submissões do sistema de "
+"controlo de versão para criar as alterações efetuadas por si; este pode ser "
+"guardado lá indefinidamente."
 
 #: weblate/templates/accounts/snippets/login-info.html:38
 msgid ""
 "You provide your contribution under the license defined by each project you "
 "contributed to."
 msgstr ""
+"Você fornece a sua contribuição sob a licença definida por cada projeto para "
+"o qual contribuiu."
 
 #: weblate/templates/accounts/snippets/login-title.html:4
 msgid "Weblate single sign on"
@@ -9507,7 +9519,7 @@ msgstr "As traduções do Weblate estão bloqueadas"
 
 #: weblate/templates/js/git-status.html:124
 msgid "Locking prevents translators from doing changes."
-msgstr "O bloqueio impede que os tradutores façam alterações."
+msgstr "O bloqueio impede que os tradutores efetuem alterações."
 
 #: weblate/templates/js/git-status.html:135
 msgid "Danger zone"
@@ -9515,61 +9527,52 @@ msgstr "Zona de perigo"
 
 #: weblate/templates/js/git-status.html:142
 msgid "Reset and discard"
-msgstr ""
+msgstr "Reiniciar e rejeitar"
 
 #: weblate/templates/js/git-status.html:145
 msgid ""
 "Resets Weblate’s repository to match upstream and discards any pending "
 "changes in Weblate."
 msgstr ""
+"Reinicia o repositório do Weblate para corresponder à fonte e rejeita "
+"quaisquer alterações pendentes no Weblate."
 
 #: weblate/templates/js/git-status.html:146
-#, fuzzy
-#| msgid ""
-#| "Describe the context of the translation to improve the accuracy of the "
-#| "translation."
 msgid "Use when you want the upstream to be the authority for translations."
-msgstr "Descreva o contexto da tradução para melhorar a precisão da tradução."
+msgstr "Utilize quando quiser que a fonte seja a autoridade para as traduções."
 
 #: weblate/templates/js/git-status.html:147
-#, fuzzy
-#| msgid ""
-#| "Use when you want to discard changes in Weblate and bring it in sync with "
-#| "upstream repository."
 msgid ""
 "It will discard changes in Weblate repo and bring it in sync with the "
 "upstream repository."
 msgstr ""
-"Use quando quiser descartar alterações no Weblate e sincronizá-las com o "
-"repositório upstream."
+"Isto irá rejeitar as alterações no repositório do Weblate e sincroniza-as "
+"com o repositório fonte."
 
 #: weblate/templates/js/git-status.html:154
 msgid "Reset and reapply"
-msgstr ""
+msgstr "Reiniciar e reaplicar"
 
 #: weblate/templates/js/git-status.html:157
 msgid ""
 "Resets Weblate’s repository to match upstream and replace upstream "
 "translations with the current state from Weblate."
 msgstr ""
+"Reinicia o repositório do Weblate para corresponder à fonte e substitui as "
+"traduções com o estado atual do Weblate."
 
 #: weblate/templates/js/git-status.html:158
-#, fuzzy
-#| msgid "Whether Weblate should keep track of old translations."
 msgid "Use when you want Weblate to be the authority for translations."
-msgstr "Se Weblate deve manter o controle de traduções antigas."
+msgstr ""
+"Utilize quando quiser que o Weblate seja a autoridade para as traduções."
 
 #: weblate/templates/js/git-status.html:159
-#, fuzzy
-#| msgid ""
-#| "Use when you want to discard changes in Weblate and bring it in sync with "
-#| "upstream repository."
 msgid ""
 "It will keep changes from Weblate but bring its repository in sync with the "
 "upstream repository."
 msgstr ""
-"Use quando quiser descartar alterações no Weblate e sincronizá-las com o "
-"repositório upstream."
+"Isto irá manter as alterações do Weblate mas sincroniza o seu repositório "
+"com o repositório fonte."
 
 #: weblate/templates/js/git-status.html:165
 msgid "Cleanup"
@@ -9580,16 +9583,17 @@ msgid ""
 "Cleanup removes all files which are not tracked by the version control from "
 "the repository."
 msgstr ""
-"A limpeza remove do repositório todos os ficheiros que não sejam rastreados "
-"pelo controlo de versão."
+"A limpeza remove todos os ficheiros que não sejam rastreados pelo controlo "
+"de versão do repositório."
 
 #: weblate/templates/js/git-status.html:169
 msgid "It also removes stale branches which are not used by Weblate."
-msgstr "Também remove ramos obsoletos que não são utilizados pelo Weblate."
+msgstr ""
+"Isto também remove os ramos obsoletos que não são utilizados pelo Weblate."
 
 #: weblate/templates/js/git-status.html:170
 msgid "Use when there is some garbage left in the Weblate repository."
-msgstr "Usar quando houver algum lixo restante no repositório do Weblate."
+msgstr "Utilize quando houver algum lixo restante no repositório do Weblate."
 
 #: weblate/templates/js/git-status.html:176
 msgid "Synchronize"
@@ -9605,22 +9609,23 @@ msgid ""
 "Use this when repository files became out of sync with Weblate for some "
 "reason."
 msgstr ""
-"Use isto quando os ficheiros do repositório ficarem fora de sincronia com o "
-"Weblate por algum motivo."
+"Utilize isto quando os ficheiros do repositório ficarem dessincronizados com "
+"o Weblate por algum motivo."
 
 #: weblate/templates/js/git-status.html:186
 msgid "Rescan"
-msgstr "Verificar novamente"
+msgstr "Reverificar"
 
 #: weblate/templates/js/git-status.html:189
 msgid "Loads translations from the files into Weblate."
-msgstr "Carrega traduções dos ficheiros para o Weblate."
+msgstr "Carrega as traduções dos ficheiros para o Weblate."
 
 #: weblate/templates/js/git-status.html:190
 msgid ""
 "Use when Weblate missed some of the strings after updating the repository."
 msgstr ""
-"Use quando o Weblate perdeu algumas das cadeias após atualizar o repositório."
+"Utilize quando o Weblate perdeu algumas das cadeias de carateres depois de "
+"atualizar o repositório."
 
 #: weblate/templates/js/git-status.html:195
 msgid "Use these operations with caution, they can lead to data loss."
@@ -9658,7 +9663,7 @@ msgstr "Abrir atalhos de teclado disponíveis."
 
 #: weblate/templates/keyboard-shortcuts.html:39
 msgid "Navigate to the first translation in the current search."
-msgstr "Navegar para a primeira tradução na pesquisa atual."
+msgstr "Navegar para a primeira tradução na procura atual."
 
 #: weblate/templates/keyboard-shortcuts.html:45
 msgid "Navigate to the last translation in the current search."
@@ -9691,11 +9696,11 @@ msgstr "ou"
 
 #: weblate/templates/keyboard-shortcuts.html:58
 msgid "Navigate to the previous translation in the current search."
-msgstr "Navegue para a tradução anterior na pesquisa atual."
+msgstr "Navegue para a tradução anterior na procura atual."
 
 #: weblate/templates/keyboard-shortcuts.html:71
 msgid "Navigate to the next translation in the current search."
-msgstr "Navegar para a tradução seguinte na pesquisa atual."
+msgstr "Navegue para a tradução seguinte na procura atual."
 
 #: weblate/templates/keyboard-shortcuts.html:81
 msgid ""
@@ -9707,15 +9712,15 @@ msgstr ""
 
 #: weblate/templates/keyboard-shortcuts.html:90
 msgid "Unmark translation as Needing edit and submit it."
-msgstr "Desmarque a tradução como \"Precisar de edição\" e submeta-a."
+msgstr "Desmarque a tradução como \"Precisa de edição\" e submeta-a."
 
 #: weblate/templates/keyboard-shortcuts.html:99
 msgid ""
 "Submit the string as a suggestion; this works the same as pressing Suggest "
 "while editing translation."
 msgstr ""
-"Envie a cadeia como uma sugestão; isto funciona da mesma forma que "
-"pressionar Sugerir ao editar a tradução."
+"Submeta a cadeia de carateres como uma sugestão; isto funciona da mesma "
+"forma que clicar em \"Sugerir\" enquanto edita a tradução."
 
 #: weblate/templates/keyboard-shortcuts.html:108
 msgid "Focus on translation editor."
@@ -16422,6 +16427,8 @@ msgstr ""
 msgid ""
 "The parameter '%(param)s' is not applicable for the file format '%(format)s'."
 msgstr ""
+"O parâmetro '%(param)s' não é aplicável para o formato de ficheiro '%(format)"
+"s'."
 
 #: weblate/trans/models/component.py:3346
 msgid ""
@@ -17216,6 +17223,8 @@ msgstr ""
 #: weblate/trans/validators.py:75
 msgid "File format parameters must be a dictionary of key-value pairs."
 msgstr ""
+"Os parâmetros do formato de ficheiro devem ser um dicionário de pares chave-"
+"valor."
 
 #: weblate/trans/validators.py:84
 #, fuzzy, python-format
