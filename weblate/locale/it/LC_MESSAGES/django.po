@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-21 09:35+0000\n"
-"PO-Revision-Date: 2025-10-15 06:57+0000\n"
+"PO-Revision-Date: 2025-10-21 15:12+0000\n"
 "Last-Translator: Massimo Pissarello <mapi68@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
@@ -1348,10 +1348,9 @@ msgid "The supplied username is already in use for another account."
 msgstr "Il nome utente fornito è già associato ad un altro account."
 
 #: weblate/accounts/views.py:1499
-#, fuzzy, python-format
-#| msgid "Authentication app (%s)"
+#, python-format
 msgid "Authentication failed: %s"
-msgstr "App di autenticazione (%s)"
+msgstr "Autenticazione non riuscita: %s"
 
 #: weblate/accounts/views.py:1505
 msgid "The supplied user identity is already in use for another account."
@@ -2155,10 +2154,8 @@ msgid "Reset all changes in the Weblate repository"
 msgstr "Reimposta tutte le modifiche nel repository Weblate"
 
 #: weblate/api/serializers.py:1079 weblate/templates/js/git-status.html:155
-#, fuzzy
-#| msgid "Define the base file for new translations"
 msgid "Reset the Weblate repository and reapply translations"
-msgstr "Definisci il file di base per le nuove traduzioni"
+msgstr "Reimposta il repository Weblate e riapplica le traduzioni"
 
 #: weblate/api/serializers.py:1083 weblate/templates/js/git-status.html:166
 msgid "Cleanup all untracked files in the Weblate repository"
@@ -6082,21 +6079,23 @@ msgstr ""
 
 #: weblate/screenshots/forms.py:33
 msgid "You need to provide either image file or image URL."
-msgstr ""
+msgstr "È necessario fornire il file immagine o l'URL dell'immagine."
 
 #: weblate/screenshots/forms.py:53
 msgid "Image URL domain is not allowed."
-msgstr ""
+msgstr "Il dominio URL dell'immagine non è consentito."
 
 #: weblate/screenshots/forms.py:61
 #, python-format
 msgid ""
 "Unable to download image from the provided URL (HTTP status code: %(code)s)."
 msgstr ""
+"Impossibile scaricare l'immagine dall'URL fornito "
+"(codice di stato HTTP: %(code)s)."
 
 #: weblate/screenshots/forms.py:79
 msgid "Image is too big."
-msgstr ""
+msgstr "L'immagine è troppo grande."
 
 #: weblate/screenshots/forms.py:85 weblate/utils/validators.py:126
 #, python-format
@@ -6105,7 +6104,7 @@ msgstr "Tipo immagine non supportato: %s"
 
 #: weblate/screenshots/forms.py:93
 msgid "Unable to download image from the provided URL."
-msgstr ""
+msgstr "Impossibile scaricare l'immagine dall'URL fornito."
 
 #: weblate/screenshots/forms.py:120 weblate/screenshots/forms.py:147
 #: weblate/templates/widgets.html:64
@@ -6114,7 +6113,7 @@ msgstr "URL immagine"
 
 #: weblate/screenshots/forms.py:121 weblate/screenshots/forms.py:148
 msgid "The image will be downloaded and stored."
-msgstr ""
+msgstr "L'immagine verrà scaricata e archiviata."
 
 #: weblate/screenshots/models.py:57
 #: weblate/templates/screenshots/screenshot_list.html:47
@@ -9479,63 +9478,53 @@ msgstr "Zona pericolosa"
 
 #: weblate/templates/js/git-status.html:142
 msgid "Reset and discard"
-msgstr ""
+msgstr "Reimposta e scarta"
 
 #: weblate/templates/js/git-status.html:145
 msgid ""
 "Resets Weblate’s repository to match upstream and discards any pending "
 "changes in Weblate."
 msgstr ""
+"Reimposta il repository di Weblate in modo che corrisponda a quello upstream "
+"e ignora tutte le modifiche in sospeso in Weblate."
 
 #: weblate/templates/js/git-status.html:146
-#, fuzzy
-#| msgid ""
-#| "Describe the context of the translation to improve the accuracy of the "
-#| "translation."
 msgid "Use when you want the upstream to be the authority for translations."
 msgstr ""
-"Descrivi il contesto della traduzione per migliorare la precisione della "
-"traduzione."
+"Utilizza quando si desidera che l'upstream sia l'autorità per le traduzioni."
 
 #: weblate/templates/js/git-status.html:147
-#, fuzzy
-#| msgid ""
-#| "Use when you want to discardchanges in Weblate and bring it in sync with "
-#| "upstream repository."
 msgid ""
 "It will discard changes in Weblate repo and bring it in sync with the "
 "upstream repository."
 msgstr ""
-"Da usare quando si desidera scartare le modifiche in Weblate e "
-"sincronizzarle con il repository upstream."
+"Scarterà le modifiche nel repository Weblate e lo sincronizzerà con il "
+"repository upstream."
 
 #: weblate/templates/js/git-status.html:154
 msgid "Reset and reapply"
-msgstr ""
+msgstr "Reimposta e riapplica"
 
 #: weblate/templates/js/git-status.html:157
 msgid ""
 "Resets Weblate’s repository to match upstream and replace upstream "
 "translations with the current state from Weblate."
 msgstr ""
+"Reimposta il repository di Weblate per farlo corrispondere all'upstream e "
+"sostituisce le traduzioni dell'upstream con lo stato attuale di Weblate."
 
 #: weblate/templates/js/git-status.html:158
-#, fuzzy
-#| msgid "Whether Weblate should keep track of old translations."
 msgid "Use when you want Weblate to be the authority for translations."
-msgstr "Se Weblate deve mantenere traccia delle vecchie traduzioni."
+msgstr ""
+"Utilizza quando si desidera che Weblate sia l'autorità per le traduzioni."
 
 #: weblate/templates/js/git-status.html:159
-#, fuzzy
-#| msgid ""
-#| "Use when you want to discardchanges in Weblate and bring it in sync with "
-#| "upstream repository."
 msgid ""
 "It will keep changes from Weblate but bring its repository in sync with the "
 "upstream repository."
 msgstr ""
-"Da usare quando si desidera scartare le modifiche in Weblate e "
-"sincronizzarle con il repository upstream."
+"Manterrà le modifiche apportate da Weblate ma sincronizzerà il suo "
+"repository con il repository upstream."
 
 #: weblate/templates/js/git-status.html:165
 msgid "Cleanup"
@@ -15336,10 +15325,8 @@ msgid "Exclude author (username)"
 msgstr "Escludi autore (nome utente)"
 
 #: weblate/trans/forms.py:3059
-#, fuzzy
-#| msgid "Date joined"
 msgid "Date range"
-msgstr "Data di iscrizione"
+msgstr "Intervallo di date"
 
 #: weblate/trans/forms.py:3142
 msgid "Expiry cannot be in the past."
