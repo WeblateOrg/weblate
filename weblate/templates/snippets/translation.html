@@ -25,7 +25,7 @@
       <td rowspan="3" class="buttons-cell full-cell">
         <div class="float-end">
           {% if user_can_add_unit %}
-            <a id="glossary-add" class="btn btn-info" href="#">{{ object.component.get_add_label }}</a>
+            <a id="string-add" class="btn btn-info" href="#">{{ object.component.get_add_label }}</a>
           {% endif %}
           <a href="{{ browse_url }}" class="btn btn-info">{% translate "Browse" %}</a>
           <a href="{% get_translate_url object glossary_browse=False %}{% if object.stats.todo > 0 %}?q=state:&lt;translated{% endif %}"
