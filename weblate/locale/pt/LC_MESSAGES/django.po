@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-21 09:35+0000\n"
-"PO-Revision-Date: 2025-10-08 16:07+0000\n"
+"PO-Revision-Date: 2025-10-21 13:29+0000\n"
 "Last-Translator: Manuela Silva <mmsrs@sky.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "application/pt/>\n"
@@ -573,7 +573,7 @@ msgstr "O utilizador foi desativado pelo administrador."
 
 #: weblate/accounts/models.py:296
 msgid "User was disabled because the access has expired."
-msgstr ""
+msgstr "O utilizador foi desativado porque o acesso expirou."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:299
@@ -1369,10 +1369,9 @@ msgid "The supplied username is already in use for another account."
 msgstr "O nome de utilizador fornecido já está em uso por outra conta."
 
 #: weblate/accounts/views.py:1499
-#, fuzzy, python-format
-#| msgid "Authentication app (%s)"
+#, python-format
 msgid "Authentication failed: %s"
-msgstr "Aplicação de autenticação (%s)"
+msgstr "Autenticação falhou: %s"
 
 #: weblate/accounts/views.py:1505
 msgid "The supplied user identity is already in use for another account."
@@ -1578,25 +1577,20 @@ msgstr ""
 "carateres."
 
 #: weblate/addons/flags.py:134
-#, fuzzy
-#| msgid "Flag unchanged translations as \"Needs editing\""
 msgid "Flag updated translations from repository as \"Needs editing\""
-msgstr "Sinalizar as traduções inalteradas como \"Precisa de edição\""
+msgstr ""
+"Sinalizar traduções atualizadas do repositório como \"Precisa de edição\""
 
 #: weblate/addons/flags.py:137
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS, it is "
-#| "flagged as needing editing in Weblate. This way you can easily filter and "
-#| "edit translations created by the developers."
 msgid ""
 "Whenever a string translation is changed from the VCS, it is flagged as "
 "needing editing in Weblate. Especially useful if translation files are often "
 "updated manually or by an external service."
 msgstr ""
-"Sempre que uma nova cadeia de tradução é importada de VCS, esta é sinalizada "
-"como precisa de edição no Weblate. Deste modo pode filtrar e editar "
-"facilmente as traduções criadas pelos programadores."
+"Sempre que uma tradução da cadeia de carateres é alterada a partir de VCS, "
+"esta é sinalizada como precisa de edição no Weblate. Especialmente útil se "
+"os ficheiros de tradução são atualizados com frequência ou por um serviço "
+"externo."
 
 #: weblate/addons/forms.py:59
 msgid "Path of generated MO file"
@@ -2186,10 +2180,8 @@ msgid "Reset all changes in the Weblate repository"
 msgstr "Redefinir todas as alterações no repositório Weblate"
 
 #: weblate/api/serializers.py:1079 weblate/templates/js/git-status.html:155
-#, fuzzy
-#| msgid "Define the base file for new translations"
 msgid "Reset the Weblate repository and reapply translations"
-msgstr "Defina o ficheiro base para as novas traduções"
+msgstr "Reiniciar o repositório do Weblate e reaplicar as traduções"
 
 #: weblate/api/serializers.py:1083 weblate/templates/js/git-status.html:166
 msgid "Cleanup all untracked files in the Weblate repository"
@@ -2457,10 +2449,8 @@ msgstr "Rever cadeias de carateres"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:75
-#, fuzzy
-#| msgid "Edit strings"
 msgid "Bulk edit strings"
-msgstr "Editar cadeias"
+msgstr "Edição em série das cadeias de carateres"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:77
@@ -2594,10 +2584,8 @@ msgstr "Gerir equipas"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:135
-#, fuzzy
-#| msgid "View billing info"
 msgid "View team info"
-msgstr "Ver informação de faturação"
+msgstr "Ver informação da equipa"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:137 weblate/templates/manage/users.html:18
@@ -2606,10 +2594,8 @@ msgstr "Gerir utilizadores"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:139
-#, fuzzy
-#| msgid "View billing info"
 msgid "View user info"
-msgstr "Ver informação de faturação"
+msgstr "Ver informação do utilizador"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:141
@@ -2618,10 +2604,8 @@ msgstr "Gerir funções"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:143
-#, fuzzy
-#| msgid "View billing info"
 msgid "View role info"
-msgstr "Ver informação de faturação"
+msgstr "Ver informação da função"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:145
@@ -2705,8 +2689,6 @@ msgid "Manage languages"
 msgstr "Gerir idiomas"
 
 #: weblate/auth/data.py:241
-#, fuzzy
-#| msgid "Bulk edit"
 msgctxt "Access-control role"
 msgid "Bulk editing"
 msgstr "Edição em série"
@@ -3024,7 +3006,7 @@ msgstr "Expira em"
 
 #: weblate/auth/models.py:497
 msgid "The account will be disabled after the expiry."
-msgstr ""
+msgstr "A conta será desativada depois de expirar."
 
 #: weblate/auth/models.py:504 weblate/templates/accounts/profile.html:34
 #: weblate/templates/accounts/user.html:194 weblate/templates/auth/team.html:38
@@ -3224,6 +3206,8 @@ msgid ""
 "This invitation can be accepted only by the e-mail address chosen by the "
 "inviter; it can't be used by your account."
 msgstr ""
+"Este convite pode ser aceite apenas pelo endereço de correio eletrónico "
+"escolhido pelo anfitrião; este não pode ser utilizado pela sua conta."
 
 #: weblate/auth/views.py:201
 msgid "User invitation was removed."
@@ -6121,21 +6105,23 @@ msgstr "A tradução %s não está disponível atualmente, mas pode ser adiciona
 
 #: weblate/screenshots/forms.py:33
 msgid "You need to provide either image file or image URL."
-msgstr ""
+msgstr "Tem de fornecer o ficheiro da imagem ou o URL da imagem."
 
 #: weblate/screenshots/forms.py:53
 msgid "Image URL domain is not allowed."
-msgstr ""
+msgstr "O domínio do URL da imagem não é permitido."
 
 #: weblate/screenshots/forms.py:61
 #, python-format
 msgid ""
 "Unable to download image from the provided URL (HTTP status code: %(code)s)."
 msgstr ""
+"Não é possível transferir a imagem do URL fornecido "
+"(código de estado HTTP: %(code)s."
 
 #: weblate/screenshots/forms.py:79
 msgid "Image is too big."
-msgstr ""
+msgstr "A imagem é muito grande."
 
 #: weblate/screenshots/forms.py:85 weblate/utils/validators.py:126
 #, python-format
@@ -6144,7 +6130,7 @@ msgstr "Tipo de imagem não suportado: %s"
 
 #: weblate/screenshots/forms.py:93
 msgid "Unable to download image from the provided URL."
-msgstr ""
+msgstr "Não é possível transferir a imagem do URL fornecido."
 
 #: weblate/screenshots/forms.py:120 weblate/screenshots/forms.py:147
 #: weblate/templates/widgets.html:64
@@ -6153,7 +6139,7 @@ msgstr "URL da imagem"
 
 #: weblate/screenshots/forms.py:121 weblate/screenshots/forms.py:148
 msgid "The image will be downloaded and stored."
-msgstr ""
+msgstr "A imagem será transferida e guardada."
 
 #: weblate/screenshots/models.py:57
 #: weblate/templates/screenshots/screenshot_list.html:47
@@ -7208,13 +7194,15 @@ msgstr "A redirecioná-lo para o fornecedor de autenticação."
 
 #: weblate/templates/accounts/register-password.html:4
 msgid "Registration without a password:"
-msgstr ""
+msgstr "Registo sem uma palavra-passe:"
 
 #: weblate/templates/accounts/register-password.html:5
 msgid ""
 "You can set your password later by clicking on the link in the verification "
 "email."
 msgstr ""
+"Pode definir a sua palavra-passe mais tarde, clicando na hiperligação na "
+"mensagem de confirmação."
 
 #: weblate/templates/accounts/register.html:20
 msgid "Please complete the registration to accept the invitation."
