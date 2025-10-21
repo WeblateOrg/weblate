@@ -1774,8 +1774,8 @@ $(function () {
       });
     });
 
-    document.querySelector("#glossary-add").addEventListener("click", (_e) => {
-      const tab = document.querySelector("[data-bs-target='#new'");
-      bootstrap.Tab.getOrCreateInstance(tab).show();
-    })
+  document.querySelector("#glossary-add").addEventListener("click", (_e) => {
+    const tab = document.querySelector("[data-bs-target='#new'");
+    bootstrap.Tab.getOrCreateInstance(tab).show();
+  });
 });
