@@ -16,16 +16,16 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-21 09:35+0000\n"
-"PO-Revision-Date: 2025-10-21 08:28+0000\n"
-"Last-Translator: Agnieszka C <aga_04@o2.pl>\n"
+"PO-Revision-Date: 2025-10-22 07:39+0000\n"
+"Last-Translator: Graaati <wbcwknvstb@proton.me>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
-"|| n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural="
+"(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 "X-Generator: Weblate 5.14-dev\n"
 
 #: weblate/accounts/avatar.py:89
@@ -1352,10 +1352,9 @@ msgid "The supplied username is already in use for another account."
 msgstr "Ta nazwa użytkownika jest już zajęta."
 
 #: weblate/accounts/views.py:1499
-#, fuzzy, python-format
-#| msgid "Authentication app (%s)"
+#, python-format
 msgid "Authentication failed: %s"
-msgstr "Aplikacja uwierzytelniająca (%s)"
+msgstr "Uwierzytelnianie się nie powiodło: %s"
 
 #: weblate/accounts/views.py:1505
 msgid "The supplied user identity is already in use for another account."
@@ -2153,10 +2152,8 @@ msgid "Reset all changes in the Weblate repository"
 msgstr "Zresetuj wszystkie zmiany w repozytorium Weblate"
 
 #: weblate/api/serializers.py:1079 weblate/templates/js/git-status.html:155
-#, fuzzy
-#| msgid "Define the base file for new translations"
 msgid "Reset the Weblate repository and reapply translations"
-msgstr "Zdefiniuj plik bazowy dla nowych tłumaczeń"
+msgstr "Zresetuj repozytorium Weblate i ponownie zastosuj tłumaczenia"
 
 #: weblate/api/serializers.py:1083 weblate/templates/js/git-status.html:166
 msgid "Cleanup all untracked files in the Weblate repository"
@@ -6059,21 +6056,22 @@ msgstr "Tłumaczenie na %s jest obecnie niedostępne, ale może zostać dodane."
 
 #: weblate/screenshots/forms.py:33
 msgid "You need to provide either image file or image URL."
-msgstr ""
+msgstr "Należy podać plik obrazu lub jego adres URL."
 
 #: weblate/screenshots/forms.py:53
 msgid "Image URL domain is not allowed."
-msgstr ""
+msgstr "Domena adresu URL obrazu jest niedozwolona."
 
 #: weblate/screenshots/forms.py:61
 #, python-format
 msgid ""
 "Unable to download image from the provided URL (HTTP status code: %(code)s)."
 msgstr ""
+"Nie można pobrać obrazu z podanego adresu URL (kod stanu HTTP: %(code)s)."
 
 #: weblate/screenshots/forms.py:79
 msgid "Image is too big."
-msgstr ""
+msgstr "Obraz jest za duży."
 
 #: weblate/screenshots/forms.py:85 weblate/utils/validators.py:126
 #, python-format
@@ -6082,7 +6080,7 @@ msgstr "Nieobsługiwany typ obrazu: %s"
 
 #: weblate/screenshots/forms.py:93
 msgid "Unable to download image from the provided URL."
-msgstr ""
+msgstr "Nie można pobrać obrazu z podanego adresu URL."
 
 #: weblate/screenshots/forms.py:120 weblate/screenshots/forms.py:147
 #: weblate/templates/widgets.html:64
@@ -6091,7 +6089,7 @@ msgstr "URL obrazu"
 
 #: weblate/screenshots/forms.py:121 weblate/screenshots/forms.py:148
 msgid "The image will be downloaded and stored."
-msgstr ""
+msgstr "Obraz zostanie pobrany i zapisany."
 
 #: weblate/screenshots/models.py:57
 #: weblate/templates/screenshots/screenshot_list.html:47
@@ -9485,60 +9483,54 @@ msgstr "Strefa zagrożenia"
 
 #: weblate/templates/js/git-status.html:142
 msgid "Reset and discard"
-msgstr ""
+msgstr "Zresetuj i odrzuć"
 
 #: weblate/templates/js/git-status.html:145
 msgid ""
 "Resets Weblate’s repository to match upstream and discards any pending "
 "changes in Weblate."
 msgstr ""
+"Resetuje repozytorium Weblate, aby odpowiadało pierwotnemu stanowi i usuwa "
+"wszelkie oczekujące zmiany w Weblate."
 
 #: weblate/templates/js/git-status.html:146
-#, fuzzy
-#| msgid ""
-#| "Describe the context of the translation to improve the accuracy of the "
-#| "translation."
 msgid "Use when you want the upstream to be the authority for translations."
-msgstr "Opisz kontekst tłumaczenia, aby zwiększyć dokładność tłumaczenia."
+msgstr ""
+"Używaj tej opcji, gdy chcesz, aby źródło miało zwierzchnictwo nad "
+"tłumaczeniami."
 
 #: weblate/templates/js/git-status.html:147
-#, fuzzy
-#| msgid ""
-#| "Use when you want to discardchanges in Weblate and bring it in sync with "
-#| "upstream repository."
 msgid ""
 "It will discard changes in Weblate repo and bring it in sync with the "
 "upstream repository."
 msgstr ""
-"Użyj, gdy chcesz odrzucić zmiany w Weblate i zsynchronizować je z "
-"repozytorium źródłowym."
+"Spowoduje to odrzucenie zmian w repozytorium Weblate i zsynchronizowanie ich "
+"z repozytorium źródłowym."
 
 #: weblate/templates/js/git-status.html:154
 msgid "Reset and reapply"
-msgstr ""
+msgstr "Zresetuj i zastosuj ponownie"
 
 #: weblate/templates/js/git-status.html:157
 msgid ""
 "Resets Weblate’s repository to match upstream and replace upstream "
 "translations with the current state from Weblate."
 msgstr ""
+"Resetuje repozytorium Weblate, aby dopasować je do pierwotnego stanu, i "
+"zastępuje pierwotne tłumaczenia bieżącym stanem z Weblate."
 
 #: weblate/templates/js/git-status.html:158
-#, fuzzy
-#| msgid "Whether Weblate should keep track of old translations."
 msgid "Use when you want Weblate to be the authority for translations."
-msgstr "Czy Weblate powinien śledzić stare tłumaczenia."
+msgstr ""
+"Użyj tej opcji, jeśli chcesz, aby Weblate miał zwierzchnictwo nad "
+"tłumaczeniami."
 
 #: weblate/templates/js/git-status.html:159
-#, fuzzy
-#| msgid ""
-#| "Use when you want to discardchanges in Weblate and bring it in sync with "
-#| "upstream repository."
 msgid ""
 "It will keep changes from Weblate but bring its repository in sync with the "
 "upstream repository."
 msgstr ""
-"Użyj, gdy chcesz odrzucić zmiany w Weblate i zsynchronizować je z "
+"Zachowa zmiany z Weblate, ale zsynchronizuje swoje repozytorium z "
 "repozytorium źródłowym."
 
 #: weblate/templates/js/git-status.html:165
@@ -15324,10 +15316,8 @@ msgid "Exclude author (username)"
 msgstr "Wyklucz autora (nazwa użytkownika)"
 
 #: weblate/trans/forms.py:3059
-#, fuzzy
-#| msgid "Date joined"
 msgid "Date range"
-msgstr "Data dołączenia"
+msgstr "Zakres dat"
 
 #: weblate/trans/forms.py:3142
 msgid "Expiry cannot be in the past."
