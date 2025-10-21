@@ -748,11 +748,17 @@ class AnnouncementTest(ModelTestCase):
 
     def setUp(self) -> None:
         super().setUp()
+        self.second_project = self.create_project("Other", "other")
         Announcement.objects.create(
             language=Language.objects.get(code="cs"), message="test cs"
         )
         Announcement.objects.create(
             language=Language.objects.get(code="de"), message="test de"
+        )
+        Announcement.objects.create(
+            project=self.second_project,
+            language=Language.objects.get(code="cs"),
+            message="test other cs",
         )
         Announcement.objects.create(
             project=self.component.project, message="test project"

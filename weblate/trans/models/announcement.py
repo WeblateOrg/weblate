@@ -28,7 +28,7 @@ class AnnouncementManager(models.Manager["Announcement"]):
             if language:
                 return base.filter(
                     (Q(component=component) & Q(language=language))
-                    | (Q(component=None) & Q(language=language))
+                    | (Q(project=None) & Q(component=None) & Q(language=language))
                     | (Q(component=component) & Q(language=None))
                     | (Q(project=component.project) & Q(component=None))
                 )
