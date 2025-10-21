@@ -36,7 +36,7 @@ jobs:
       with:
         enable-cache: false
         # renovate: datasource=pypi depName=uv versioning=pep440
-        version: 0.9.4
+        version: 0.9.5
     - name: Setup Python
       uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6.0.0
       with:
@@ -89,7 +89,7 @@ jobs:
       with:
         enable-cache: false
         # renovate: datasource=pypi depName=uv versioning=pep440
-        version: 0.9.4
+        version: 0.9.5
     - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
       with:
         name: dist
@@ -128,7 +128,7 @@ jobs:
       with:
         enable-cache: false
         # renovate: datasource=pypi depName=uv versioning=pep440
-        version: 0.9.4
+        version: 0.9.5
     - name: Set up Python
       uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6.0.0
       with:
@@ -177,7 +177,7 @@ jobs:
       with:
         enable-cache: false
         # renovate: datasource=pypi depName=uv versioning=pep440
-        version: 0.9.4
+        version: 0.9.5
     - run: uv publish --trusted-publishing always
 
   publish_github:

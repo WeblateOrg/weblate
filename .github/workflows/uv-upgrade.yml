@@ -56,7 +56,7 @@ jobs:
         cache-suffix: ${{ steps.setup_python.outputs.python-version }}
 
         # renovate: datasource=pypi depName=uv versioning=pep440
-        version: 0.9.4
+        version: 0.9.5
     - name: Install apt dependencies
       run: |
         if [ -f ./ci/apt-install ] ; then
