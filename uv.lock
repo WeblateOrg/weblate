@@ -2093,6 +2093,18 @@ wheels = [
 ]
 
 [[package]]
+name = "isoduration"
+version = "20.11.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "arrow" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/7c/1a/3c8edc664e06e6bd06cce40c6b22da5f1429aa4224d0c590f3be21c91ead/isoduration-20.11.0.tar.gz", hash = "sha256:ac2f9015137935279eac671f94f89eb00584f940f5dc49462a0c4ee692ba1bd9", size = 11649, upload-time = "2020-11-01T11:00:00.312Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/7b/55/e5326141505c5d5e34c5e0935d2908a74e4561eca44108fbfb9c13d2911a/isoduration-20.11.0-py3-none-any.whl", hash = "sha256:b2904c2a4228c3d44f409c8ae8e2370eb21a26f7ac2ec5446df141dde3452042", size = 11321, upload-time = "2020-11-01T10:59:58.02Z" },
+]
+
+[[package]]
 name = "isort"
 version = "6.1.0"
 source = { registry = "https://pypi.org/simple" }
@@ -2205,6 +2217,18 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/74/69/f7185de793a29082a9f3c7728268ffb31cb5095131a9c139a74078e27336/jsonschema-4.25.1.tar.gz", hash = "sha256:e4a9655ce0da0c0b67a085847e00a3a51449e1157f4f75e9fb5aa545e122eb85", size = 357342, upload-time = "2025-08-18T17:03:50.038Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/bf/9c/8c95d856233c1f82500c2450b8c68576b4cf1c871db3afac5c34ff84e6fd/jsonschema-4.25.1-py3-none-any.whl", hash = "sha256:3fba0169e345c7175110351d456342c364814cfcf3b964ba4587f22915230a63", size = 90040, upload-time = "2025-08-18T17:03:48.373Z" },
+]
+
+[package.optional-dependencies]
+format = [
+    { name = "fqdn" },
+    { name = "idna" },
+    { name = "isoduration" },
+    { name = "jsonpointer" },
+    { name = "rfc3339-validator" },
+    { name = "rfc3987" },
+    { name = "uri-template" },
+    { name = "webcolors" },
 ]
 
 [[package]]
@@ -4025,6 +4049,18 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/76/b0/ffd3a8978504763982db4735b7d87fc16b57f4b511c49a38ca25a7cb9ad3/reuse-6.1.2.tar.gz", hash = "sha256:6019a75f4ca18ad5b2506e0f3ec1b926b27ba6cdc9da88492e7fc65e3ff12c39", size = 453827, upload-time = "2025-10-07T22:03:58.415Z" }
 
 [[package]]
+name = "rfc3339-validator"
+version = "0.1.4"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "six" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/28/ea/a9387748e2d111c3c2b275ba970b735e04e15cdb1eb30693b6b5708c4dbd/rfc3339_validator-0.1.4.tar.gz", hash = "sha256:138a2abdf93304ad60530167e51d2dfb9549521a836871b88d7f4695d0022f6b", size = 5513, upload-time = "2021-05-12T16:37:54.178Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/7b/44/4e421b96b67b2daff264473f7465db72fbdf36a07e05494f50300cc7b0c6/rfc3339_validator-0.1.4-py2.py3-none-any.whl", hash = "sha256:24f6ec1eda14ef823da9e36ec7113124b39c04d50a4d3d3a3c2859577e7791fa", size = 3490, upload-time = "2021-05-12T16:37:52.536Z" },
+]
+
+[[package]]
 name = "rfc3987"
 version = "1.3.8"
 source = { registry = "https://pypi.org/simple" }
@@ -4592,12 +4628,6 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/48/c8/4c9705c0499c8b5ac54a082539d4cdf1c6b3977b7475d60fcb7c666efc86/standardwebhooks-1.0.0.tar.gz", hash = "sha256:d94b99c0dcea84156e03adad94f8dba32d5454cc68e12ec2c824051b55bb67ff", size = 4919, upload-time = "2024-01-12T14:57:43.193Z" }
 
 [[package]]
-name = "strict-rfc3339"
-version = "0.7"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/56/e4/879ef1dbd6ddea1c77c0078cd59b503368b0456bcca7d063a870ca2119d3/strict-rfc3339-0.7.tar.gz", hash = "sha256:5cad17bedfc3af57b399db0fed32771f18fc54bbd917e85546088607ac5e1277", size = 17552, upload-time = "2016-04-24T04:24:04.403Z" }
-
-[[package]]
 name = "tesserocr"
 version = "2.9.1"
 source = { registry = "https://pypi.org/simple" }
@@ -4976,6 +5006,15 @@ wheels = [
 ]
 
 [[package]]
+name = "uri-template"
+version = "1.3.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/31/c7/0336f2bd0bcbada6ccef7aaa25e443c118a704f828a0620c6fa0207c1b64/uri-template-1.3.0.tar.gz", hash = "sha256:0e00f8eb65e18c7de20d595a14336e9f337ead580c70934141624b6d1ffdacc7", size = 21678, upload-time = "2023-06-21T01:49:05.374Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/e7/00/3fca040d7cf8a32776d3d81a00c8ee7457e00f80c649f1e4a863c8321ae9/uri_template-1.3.0-py3-none-any.whl", hash = "sha256:a44a133ea12d44a0c0f06d7d42a52d71282e77e2f937d8abd5655b8d56fc1363", size = 11140, upload-time = "2023-06-21T01:49:03.467Z" },
+]
+
+[[package]]
 name = "uritemplate"
 version = "4.2.0"
 source = { registry = "https://pypi.org/simple" }
@@ -5055,6 +5094,15 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/a4/f0/e1036df8842782a2947e5f41e76a4accb92e3dba972dba882321ebe15af0/webauthn-2.7.0.tar.gz", hash = "sha256:3c45c25e75a7d7d419220ccd10b8b899984de8012732e10d898f0a8f8c480575", size = 123770, upload-time = "2025-09-04T23:19:21.602Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/73/b1/3f380d02552f1d75d3db789f761a1ee0dafd6181ebc07dd4b9ded61225a4/webauthn-2.7.0-py3-none-any.whl", hash = "sha256:2ecfee7959b09ebeaaffee9f8982ecdbbdc369a11766d20d4bc0637b36e235b7", size = 71311, upload-time = "2025-09-04T23:19:20.269Z" },
+]
+
+[[package]]
+name = "webcolors"
+version = "24.11.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/7b/29/061ec845fb58521848f3739e466efd8250b4b7b98c1b6c5bf4d40b419b7e/webcolors-24.11.1.tar.gz", hash = "sha256:ecb3d768f32202af770477b8b65f318fa4f566c22948673a977b00d589dd80f6", size = 45064, upload-time = "2024-11-11T07:43:24.224Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/60/e8/c0e05e4684d13459f93d312077a9a2efbe04d59c393bc2b8802248c908d4/webcolors-24.11.1-py3-none-any.whl", hash = "sha256:515291393b4cdf0eb19c155749a096f779f7d909f7cceea072791cb9095b92e9", size = 14934, upload-time = "2024-11-11T07:43:22.529Z" },
 ]
 
 [[package]]
@@ -5405,7 +5453,7 @@ requires-dist = [
     { name = "user-agents", specifier = ">=2.2.0,<2.3" },
     { name = "weblate", extras = ["alibaba", "amazon", "antispam", "gerrit", "gelf", "google", "ldap", "mercurial", "openai", "postgres", "zxcvbn"], marker = "extra == 'all'" },
     { name = "weblate-language-data", specifier = ">=2025.8" },
-    { name = "weblate-schemas", specifier = "==2025.5" },
+    { name = "weblate-schemas", specifier = "==2025.6" },
     { name = "wlhosted", marker = "extra == 'wlhosted'" },
     { name = "wllegal", marker = "extra == 'wllegal'", specifier = ">=2025.7" },
 ]
@@ -5478,7 +5526,7 @@ lint = [
 ]
 pre-commit = [{ name = "pre-commit", specifier = "==4.3.0" }]
 pylint = [{ name = "pylint", specifier = "==4.0.2" }]
-schemas = [{ name = "weblate-schemas", specifier = "==2025.5" }]
+schemas = [{ name = "weblate-schemas", specifier = "==2025.6" }]
 scripts = [
     { name = "django-debug-toolbar", specifier = "==6.0.0" },
     { name = "pyicu", specifier = "==2.15.3" },
@@ -5529,17 +5577,14 @@ wheels = [
 
 [[package]]
 name = "weblate-schemas"
-version = "2025.5"
+version = "2025.6"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
-    { name = "fqdn" },
-    { name = "jsonschema" },
-    { name = "rfc3987" },
-    { name = "strict-rfc3339" },
+    { name = "jsonschema", extra = ["format"] },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/12/8c/99fc6ac74f1cab61fa8fdb87745f2f7bb1669ad953ff6d78592c19b1cc2f/weblate_schemas-2025.5.tar.gz", hash = "sha256:661145dd40fb957fca5d50d914e9fe19cd70fdca73cd5615adba55789f7fc221", size = 18057, upload-time = "2025-07-16T08:44:40.589Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/9f/5f/9130d2d259544c73bf4afec973ff7e91e7493d17d0e1249716dc3499762e/weblate_schemas-2025.6.tar.gz", hash = "sha256:2b1bbef02889df8dcf982758e6b49b4eab1699530b9f3f629c01fbdba8394d04", size = 17964, upload-time = "2025-09-09T11:57:34.486Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/c8/95/e87b4d030260e3df1e46aa226551822a82f6fe616e08f37fce4d5994315f/weblate_schemas-2025.5-py3-none-any.whl", hash = "sha256:4864d89c3cf2c0f375b977533749778b01587bea5acb469f6b3fa487f96f469e", size = 19327, upload-time = "2025-07-16T08:44:39.208Z" },
+    { url = "https://files.pythonhosted.org/packages/9e/f5/e427fbe27f380dbdc250c75c4e37515be784732893ad42c0cd27a9cb4717/weblate_schemas-2025.6-py3-none-any.whl", hash = "sha256:c6dabf51f6b8a31d4a40ed5b87ef565cb2feca4f592d9f3d5b3f881d8de6cc9c", size = 19288, upload-time = "2025-09-09T11:57:33.332Z" },
 ]
 
 [[package]]
