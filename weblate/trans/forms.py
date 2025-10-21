@@ -2875,6 +2875,7 @@ class BulkEditForm(forms.Form):
         self, user: User | None, obj: URLMixin | None, *args, **kwargs
     ) -> None:
         project = kwargs.pop("project", None)
+        bootstrap_5 = kwargs.pop("bootstrap_5", False)
         kwargs["auto_id"] = "id_bulk_%s"
         if obj is not None:
             kwargs["initial"] = {"path": obj.full_slug}
@@ -2916,6 +2917,8 @@ class BulkEditForm(forms.Form):
         if labels:
             self.helper.layout.append(InlineCheckboxes("add_labels"))
             self.helper.layout.append(InlineCheckboxes("remove_labels"))
+        if bootstrap_5:
+            self.helper.template_pack = "bootstrap5"
 
 
 class ContributorAgreementForm(forms.Form):
