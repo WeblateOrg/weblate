@@ -650,6 +650,7 @@ $(function () {
         );
         if (activeTab.length > 0) {
           bootstrap.Tab.getOrCreateInstance(activeTab).show();
+          activeTab.closest(".dropdown-menu").removeClass("show");
         }
       }
     }
@@ -668,6 +669,7 @@ $(function () {
       );
       if (activeTab.length > 0) {
         bootstrap.Tab.getOrCreateInstance(activeTab).show();
+        activeTab.closest(".dropdown-menu").removeClass("show");
         window.scrollTo(0, 0);
       }
     }
@@ -1774,8 +1776,9 @@ $(function () {
       });
     });
 
-  document.querySelector("#string-add").addEventListener("click", (_e) => {
+  document.querySelector("#string-add")?.addEventListener("click", (_e) => {
     const tab = document.querySelector("[data-bs-target='#new'");
     bootstrap.Tab.getOrCreateInstance(tab).show();
+    tab.closest(".dropdown-menu").classList.remove("show");
   });
 });
