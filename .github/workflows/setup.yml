@@ -35,7 +35,7 @@ jobs:
     - uses: astral-sh/setup-uv@2ddd2b9cb38ad8efd50337e8ab201519a34c9f24 # v7.1.1
       with:
         enable-cache: false
-        version: 0.9.4
+        version: 0.9.5
     - name: Setup Python
       uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6.0.0
       with:
@@ -87,7 +87,7 @@ jobs:
     - uses: astral-sh/setup-uv@2ddd2b9cb38ad8efd50337e8ab201519a34c9f24 # v7.1.1
       with:
         enable-cache: false
-        version: 0.9.4
+        version: 0.9.5
     - uses: actions/download-artifact@634f93cb2916e3fdff6788551b99b062d0335ce0 # v5.0.0
       with:
         name: dist
@@ -125,7 +125,7 @@ jobs:
     - uses: astral-sh/setup-uv@2ddd2b9cb38ad8efd50337e8ab201519a34c9f24 # v7.1.1
       with:
         enable-cache: false
-        version: 0.9.4
+        version: 0.9.5
     - name: Set up Python
       uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6.0.0
       with:
@@ -173,7 +173,7 @@ jobs:
     - uses: astral-sh/setup-uv@2ddd2b9cb38ad8efd50337e8ab201519a34c9f24 # v7.1.1
       with:
         enable-cache: false
-        version: 0.9.4
+        version: 0.9.5
     - run: uv publish --trusted-publishing always
 
   publish_github:
