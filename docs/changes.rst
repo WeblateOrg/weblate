@@ -7,6 +7,8 @@ Weblate 5.14.1
 
 .. rubric:: Improvements
 
+* Document using Valkey in :ref:`celery` and :ref:`production-cache`.
+
 .. rubric:: Bug fixes
 
 .. rubric:: Compatibility

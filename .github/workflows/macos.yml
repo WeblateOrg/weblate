@@ -47,12 +47,12 @@ jobs:
         brew install python pango cairo gobject-introspection glib libyaml pkgconf zstd lz4 xxhash libxmlsec1 librsvg uv
     - name: Install test dependencies
       run: |
-        brew install mysql icu4c redis postgresql
+        brew install mysql icu4c valkey postgresql
         brew link --force icu4c
     - name: Start services
       run: |
         brew services start postgresql
-        brew services start redis
+        brew services start valkey
     - name: Install Weblate
       run: |
         uv venv .venv
