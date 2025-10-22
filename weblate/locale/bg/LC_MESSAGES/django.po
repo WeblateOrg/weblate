@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-21 09:35+0000\n"
-"PO-Revision-Date: 2025-10-14 16:07+0000\n"
+"PO-Revision-Date: 2025-10-22 07:39+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -1344,10 +1344,9 @@ msgid "The supplied username is already in use for another account."
 msgstr "Посоченото потребителско име е заето."
 
 #: weblate/accounts/views.py:1499
-#, fuzzy, python-format
-#| msgid "Authentication app (%s)"
+#, python-format
 msgid "Authentication failed: %s"
-msgstr "Удостоверително приложение (%s)"
+msgstr "Удостоверяването беше неуспешно: (%s)"
 
 #: weblate/accounts/views.py:1505
 msgid "The supplied user identity is already in use for another account."
@@ -2156,10 +2155,8 @@ msgid "Reset all changes in the Weblate repository"
 msgstr "Нулиране на всички промени в хранилището на Weblate"
 
 #: weblate/api/serializers.py:1079 weblate/templates/js/git-status.html:155
-#, fuzzy
-#| msgid "Define the base file for new translations"
 msgid "Reset the Weblate repository and reapply translations"
-msgstr "Определяне на базовия файл за новите преводи"
+msgstr "Нулиране на хранилището на Weblate и повторно прилагане на преводите"
 
 #: weblate/api/serializers.py:1083 weblate/templates/js/git-status.html:166
 msgid "Cleanup all untracked files in the Weblate repository"
@@ -6069,21 +6066,23 @@ msgstr "В момента няма наличен превод на %s, но м�
 
 #: weblate/screenshots/forms.py:33
 msgid "You need to provide either image file or image URL."
-msgstr ""
+msgstr "Трябва да добавите файл с изображение или адрес към такова."
 
 #: weblate/screenshots/forms.py:53
 msgid "Image URL domain is not allowed."
-msgstr ""
+msgstr "Домейнът в адреса на изображението е забранен."
 
 #: weblate/screenshots/forms.py:61
 #, python-format
 msgid ""
 "Unable to download image from the provided URL (HTTP status code: %(code)s)."
 msgstr ""
+"Изображението не може да бъде свалено от посочения адрес "
+"(Код на грешката на HTTP: %(code)s)."
 
 #: weblate/screenshots/forms.py:79
 msgid "Image is too big."
-msgstr ""
+msgstr "Изображението е твърде голямо."
 
 #: weblate/screenshots/forms.py:85 weblate/utils/validators.py:126
 #, python-format
@@ -6092,7 +6091,7 @@ msgstr "Неподдържан тип изображение: %s"
 
 #: weblate/screenshots/forms.py:93
 msgid "Unable to download image from the provided URL."
-msgstr ""
+msgstr "Изображението не може да бъде свалено от посочения адрес."
 
 #: weblate/screenshots/forms.py:120 weblate/screenshots/forms.py:147
 #: weblate/templates/widgets.html:64
@@ -6101,7 +6100,7 @@ msgstr "Адрес на изображението"
 
 #: weblate/screenshots/forms.py:121 weblate/screenshots/forms.py:148
 msgid "The image will be downloaded and stored."
-msgstr ""
+msgstr "Изображението ще бъде свалено и запазено."
 
 #: weblate/screenshots/models.py:57
 #: weblate/templates/screenshots/screenshot_list.html:47
@@ -9474,61 +9473,55 @@ msgstr "Опасна зона"
 
 #: weblate/templates/js/git-status.html:142
 msgid "Reset and discard"
-msgstr ""
+msgstr "Нулиране и отхвърляне"
 
 #: weblate/templates/js/git-status.html:145
 msgid ""
 "Resets Weblate’s repository to match upstream and discards any pending "
 "changes in Weblate."
 msgstr ""
+"Нулира хранилището на Weblate, така че да съвпада с отдалечения сървър, и "
+"отхвърля всички чакащи промени в Weblate."
 
 #: weblate/templates/js/git-status.html:146
-#, fuzzy
-#| msgid ""
-#| "Describe the context of the translation to improve the accuracy of the "
-#| "translation."
 msgid "Use when you want the upstream to be the authority for translations."
-msgstr "Опишете контекста на превода, за да подобрите точността му."
+msgstr ""
+"Използвайте това, когато искате отдалеченият сървър да бъде приет като "
+"източник на правилни преводи."
 
 #: weblate/templates/js/git-status.html:147
-#, fuzzy
-#| msgid ""
-#| "Use when you want to discardchanges in Weblate and bring it in sync with "
-#| "upstream repository."
 msgid ""
 "It will discard changes in Weblate repo and bring it in sync with the "
 "upstream repository."
 msgstr ""
-"Използвайте това, когато искате да анулирате всички промени в Weblate и да "
-"върнете текстовете в състоянието, в което са те в отдалеченото хранилище."
+"По този начин ще анулирате всички промени в хранилището на Weblate и ще го "
+"синхронизирате с отдалечения сървър."
 
 #: weblate/templates/js/git-status.html:154
 msgid "Reset and reapply"
-msgstr ""
+msgstr "Нулиране и повторно прилагане"
 
 #: weblate/templates/js/git-status.html:157
 msgid ""
 "Resets Weblate’s repository to match upstream and replace upstream "
 "translations with the current state from Weblate."
 msgstr ""
+"Нулира хранилището на Weblate, така че да съвпада с отдалечения сървър, и "
+"заменя преводите на отдалечения сървър с тези, които в момента са в Weblate."
 
 #: weblate/templates/js/git-status.html:158
-#, fuzzy
-#| msgid "Whether Weblate should keep history of translations"
 msgid "Use when you want Weblate to be the authority for translations."
-msgstr "Дали Weblate да пази история на преводите"
+msgstr ""
+"Използвайте това, когато искате Weblate да бъде приет като източник на "
+"правилни преводи."
 
 #: weblate/templates/js/git-status.html:159
-#, fuzzy
-#| msgid ""
-#| "Use when you want to discardchanges in Weblate and bring it in sync with "
-#| "upstream repository."
 msgid ""
 "It will keep changes from Weblate but bring its repository in sync with the "
 "upstream repository."
 msgstr ""
-"Използвайте това, когато искате да анулирате всички промени в Weblate и да "
-"върнете текстовете в състоянието, в което са те в отдалеченото хранилище."
+"По този начин ще запазите промените на Weblate, но все пак ще го "
+"синхронизирате с отдалеченото хранилище."
 
 #: weblate/templates/js/git-status.html:165
 msgid "Cleanup"
@@ -15290,10 +15283,8 @@ msgid "Exclude author (username)"
 msgstr "Изключване на автора (потребителско име)"
 
 #: weblate/trans/forms.py:3059
-#, fuzzy
-#| msgid "Date joined"
 msgid "Date range"
-msgstr "Дата на присъединяване"
+msgstr "Интервал от дати"
 
 #: weblate/trans/forms.py:3142
 msgid "Expiry cannot be in the past."
@@ -17097,10 +17088,10 @@ msgid "Source upload is only supported on the source language."
 msgstr "Качването на изходни файлове се поддържа само за изходния език."
 
 #: weblate/trans/util.py:388
-#, fuzzy
-#| msgid "Editing template is not supported with this file format."
 msgid "Update source strings upload is not supported with this format."
-msgstr "Редактирането на шаблони не се поддържа при този файлов формат."
+msgstr ""
+"Обновяването на изходните низове чрез качване на нов файл не се поддържа за "
+"този файлов формат."
 
 #: weblate/trans/validators.py:22
 msgid "File mask does not contain * as a language placeholder!"
