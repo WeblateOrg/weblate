@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-21 11:36+0200\n"
-"PO-Revision-Date: 2025-10-14 16:08+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"PO-Revision-Date: 2025-10-22 07:39+0000\n"
+"Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
 "Language: de\n"
@@ -2263,16 +2263,12 @@ msgid "Triggers"
 msgstr "Trigger"
 
 #: ../../admin/addons.rst:164
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-event-install`, :ref:`addon-event-component-"
-#| "update`, :ref:`addon-event-daily`"
 msgid ""
 ":ref:`addon-event-install`, :ref:`addon-event-component-update`, :ref:`addon-"
 "event-daily`, :ref:`addon-event-event-change`"
 msgstr ""
 ":ref:`addon-event-install`, :ref:`addon-event-component-update`, :ref:`addon-"
-"event-daily`"
+"event-daily`, :ref:`addon-event-event-change`"
 
 #: ../../admin/addons.rst:166
 msgid ""
@@ -2473,16 +2469,10 @@ msgstr ""
 "innerhalb eines Projekts verwendet wird."
 
 #: ../../admin/addons.rst:277
-#, fuzzy
-#| msgid ""
-#| "Ensures a consistent set of languages is used for all components within a "
-#| "project. The components shared from other projects are not considered in "
-#| "this."
 msgid "The components shared from other projects are not considered in this."
 msgstr ""
-"Stellt sicher, dass ein konsistenter Satz von Sprachen für alle Komponenten "
-"innerhalb eines Projekts verwendet wird. Die von anderen Projekten gemeinsam "
-"genutzten Komponenten werden dabei nicht berücksichtigt."
+"Die von anderen Projekten gemeinsam genutzten Komponenten werden dabei nicht "
+"berücksichtigt."
 
 #: ../../admin/addons.rst:279
 msgid ""
@@ -7358,6 +7348,7 @@ msgstr "Konfigurieren Sie dies als eine Liste von E-Mail-Adressen:"
 #: ../../admin/config.rst:48
 msgid "Configures which domains are allowed for fetching assets in Weblate."
 msgstr ""
+"Legt fest, welche Domains zum Abrufen von Assets in Weblate zugelassen sind."
 
 #: ../../admin/config.rst:50
 msgid ""
@@ -7365,6 +7356,10 @@ msgid ""
 "Assets are downloaded once by the Weblate server and stored locally, rather "
 "than being served directly from external domains to users."
 msgstr ""
+"Dies erhöht die Sicherheit, da das Laden von Inhalten aus nicht "
+"vertrauenswürdigen Quellen verhindert wird. Assets werden einmal vom Weblate-"
+"Server heruntergeladen und lokal gespeichert, anstatt direkt von externen "
+"Domains an die Benutzer ausgeliefert zu werden."
 
 #: ../../admin/config.rst:54
 msgid ""
@@ -7373,34 +7368,32 @@ msgid ""
 "all subdomains (e.g ``.example.com`` will match ``cdn.example.com`` or "
 "``static.example.com``)."
 msgstr ""
+"Es wird eine Liste von Host/Domain-Namen erwartet. Sie können voll "
+"qualifizierte Namen verwenden (z. B. ``www.example.com``) oder einen Punkt "
+"als Platzhalter voranstellen, um alle Subdomains zu finden (z. B. "
+"``.example.com`` passt zu ``cdn.example.com`` oder ``static.example.com``)."
 
 #: ../../admin/config.rst:58
-#, fuzzy
-#| msgid "Defaults to ``*`` which allows all hostnames."
 msgid "Defaults to `[*]` which will allow all domains."
-msgstr "Der Standardwert ist ``*``, der alle Hostnamen zulässt."
+msgstr "Der Standardwert ist `[*]` , der alle Domains zulässt."
 
 #: ../../admin/config.rst:60
-#, fuzzy
-#| msgid "**Example:**"
 msgid "**Example**"
-msgstr "**Beispiel:**"
+msgstr "**Beispiel**"
 
 #: ../../admin/config.rst:71
-#, fuzzy
-#| msgid "This is currently applied in the following locations:"
 msgid "This is currently used in the following places:"
-msgstr "Dies wird derzeit an den folgenden Standorten angewandt:"
+msgstr "Dies wird derzeit an folgenden Stellen verwendet:"
 
 #: ../../admin/config.rst:73
-#, fuzzy
-#| msgid "WebP is now supported for :ref:`screenshots`."
 msgid "Screenshot uploads, see :ref:`screenshots`"
-msgstr ":ref:`screenshots` unterstützt nun WebP."
+msgstr "Bildschirmfoto-Uploads, siehe :ref:`screenshots`"
 
 #: ../../admin/config.rst:86
 msgid "Configures size limit for fetching assets in Weblate. Defaults to 4 MB."
 msgstr ""
+"Konfiguriert das Größenlimit für den Abruf von Assets in Weblate. Der "
+"Standardwert ist 4 MB."
 
 #: ../../admin/config.rst:99
 msgid "Configures a maximal number for ALTCHA proof-of-work mechanism."
@@ -10647,36 +10640,26 @@ msgstr ""
 "zu sammeln, die an Clients geliefert werden."
 
 #: ../../admin/customize.rst:129
-#, fuzzy
-#| msgid "Custom quality checks, add-ons and auto-fixes"
 msgid "Custom quality checks, add-ons, automatic suggestions and auto-fixes"
 msgstr ""
-"Benutzerdefinierte Qualitätsprüfungen, Erweiterungen und automatische "
-"Korrekturen"
+"Benutzerdefinierte Qualitätsprüfungen, Erweiterungen, automatische "
+"Vorschläge und automatische Korrekturen"
 
 #: ../../admin/customize.rst:131
-#, fuzzy
-#| msgid ""
-#| "To install your code for :ref:`custom-autofix`, :ref:`own-checks` "
-#| "or :ref:`own-addon` in Weblate:"
 msgid ""
 "To install your code for :ref:`custom-autofix`, :ref:`own-"
 "checks`, :ref:`custom-machinery` or :ref:`own-addon` in Weblate:"
 msgstr ""
-"So installieren Sie Ihren Code für :ref:`custom-autofix`, :ref:`own-checks` "
-"oder :ref:`own-addon` in Weblate:"
+"So installieren Sie Ihren Code für :ref:`custom-autofix`, :ref:`own-checks`, "
+":ref:`custom-machinery` oder :ref:`own-addon` in Weblate:"
 
 #: ../../admin/customize.rst:134
-#, fuzzy
-#| msgid ""
-#| "Place the files into your Python module containing the Weblate "
-#| "customization (see :ref:`custom-module`)."
 msgid ""
 "Place the files into your Python module containing the Weblate customization "
 "(see :ref:`custom-module` or :ref:`docker-python-override`)."
 msgstr ""
 "Platzieren Sie die Dateien in Ihr Python-Modul, das die Weblate-Anpassung "
-"enthält (siehe :ref:`custom-module`)."
+"enthält (siehe :ref:`custom-module` oder :ref:`docker-python-override`)."
 
 #: ../../admin/customize.rst:136
 #, fuzzy
@@ -14879,7 +14862,7 @@ msgid ""
 "configure :envvar:`WEBLATE_CSP_FORM_SRC` for the third-party IDP domain."
 msgstr ""
 "Wenn Keycloak für die abstrakte IDP eines Drittanbieters konfiguriert ist, "
-"müssen Sie :envvar:`WEBLATE_CSP_FORM_SRC` für die IDP-Domäne des "
+"müssen Sie :envvar:`WEBLATE_CSP_FORM_SRC` für die IDP-Domain des "
 "Drittanbieters konfigurieren."
 
 #: ../../admin/install/docker.rst:1414
