@@ -730,6 +730,9 @@ Several features in Weblate rely on correct HTTP headers being passed to
 Weblate. When using reverse proxy, please make sure that the needed information
 is correctly passed.
 
+To debug this configuration, you can look at :guilabel:`HTTP environment` in
+:ref:`manage-performance`.
+
 Client IP address
    This is needed for :ref:`rate-limit` or :ref:`audit-log`.
 

@@ -8,6 +8,7 @@ Weblate 5.14.1
 .. rubric:: Improvements
 
 * Document using Valkey in :ref:`celery` and :ref:`production-cache`.
+* Added HTTP environment overview in :ref:`manage-performance`.
 
 .. rubric:: Bug fixes
 
