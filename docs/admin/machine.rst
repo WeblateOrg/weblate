@@ -130,6 +130,7 @@ Amazon Translate
 
 :Service ID: ``aws``
 :Maximal score: 88
+:Advanced features: * :ref:`glossary-mt`
 :Configuration: +---------------------+---------------------------+---------------------------------------------------------------------+
                 | ``source_language`` | Source language selection | Available choices:                                                  |
                 |                     |                           |                                                                     |
@@ -166,6 +167,7 @@ Azure OpenAI
 
 :Service ID: ``azure-openai``
 :Maximal score: 90
+:Advanced features: * :ref:`glossary-mt`
 :Configuration: +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
                 | ``source_language`` | Source language selection | Available choices:                                                                                                        |
                 |                     |                           |                                                                                                                           |
@@ -255,6 +257,8 @@ DeepL
 
 :Service ID: ``deepl``
 :Maximal score: 91
+:Advanced features: * :ref:`placeables-mt`
+                    * :ref:`glossary-mt`
 :Configuration: +---------------------+---------------------------+-------------------------------------------------------------------------------------+
                 | ``source_language`` | Source language selection | Available choices:                                                                  |
                 |                     |                           |                                                                                     |
@@ -372,6 +376,8 @@ Google Cloud Translation Advanced
 
 :Service ID: ``google-translate-api-v3``
 :Maximal score: 90
+:Advanced features: * :ref:`placeables-mt`
+                    * :ref:`glossary-mt`
 :Configuration: +---------------------+---------------------------------------+----------------------------------------------------------------------------------------------------------+
                 | ``source_language`` | Source language selection             | Available choices:                                                                                       |
                 |                     |                                       |                                                                                                          |
@@ -481,6 +487,8 @@ Azure AI Translator
 
 :Service ID: ``microsoft-translator``
 :Maximal score: 90
+:Advanced features: * :ref:`placeables-mt`
+                    * :ref:`glossary-mt`
 :Configuration: +---------------------+-------------------------------+---------------------------------------------------------------------------+
                 | ``source_language`` | Source language selection     | Available choices:                                                        |
                 |                     |                               |                                                                           |
@@ -564,6 +572,7 @@ ModernMT
 
 :Service ID: ``modernmt``
 :Maximal score: 90
+:Advanced features: * :ref:`glossary-mt`
 :Configuration: +---------------------+---------------------------+-----------------------------------------------------------------------+
                 | ``source_language`` | Source language selection | Available choices:                                                    |
                 |                     |                           |                                                                       |
@@ -659,6 +668,7 @@ OpenAI
 
 :Service ID: ``openai``
 :Maximal score: 90
+:Advanced features: * :ref:`glossary-mt`
 :Configuration: +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
                 | ``source_language`` | Source language selection | Available choices:                                                                                                        |
                 |                     |                           |                                                                                                                           |
@@ -680,25 +690,31 @@ OpenAI
                 |                     |                           |                                                                                                                           |
                 |                     |                           | ``auto`` -- Automatic selection                                                                                           |
                 |                     |                           |                                                                                                                           |
+                |                     |                           | ``gpt-5-nano`` -- GPT-5-nano                                                                                              |
+                |                     |                           |                                                                                                                           |
+                |                     |                           | ``gpt-5-mini`` -- GPT-5-mini                                                                                              |
+                |                     |                           |                                                                                                                           |
+                |                     |                           | ``gpt-5`` -- GPT-5                                                                                                        |
+                |                     |                           |                                                                                                                           |
+                |                     |                           | ``gpt-4.1-nano`` -- GPT-4.1-nano                                                                                          |
+                |                     |                           |                                                                                                                           |
+                |                     |                           | ``gpt-4.1-mini`` -- GPT-4.1-mini                                                                                          |
+                |                     |                           |                                                                                                                           |
+                |                     |                           | ``gpt-4.1`` -- GPT-4.1                                                                                                    |
+                |                     |                           |                                                                                                                           |
                 |                     |                           | ``gpt-4o-mini`` -- GPT-4o mini                                                                                            |
                 |                     |                           |                                                                                                                           |
                 |                     |                           | ``gpt-4o`` -- GPT-4o                                                                                                      |
                 |                     |                           |                                                                                                                           |
-                |                     |                           | ``o3-mini`` -- OpenAI o3-mini                                                                                             |
+                |                     |                           | ``o3-mini`` -- o3-mini                                                                                                    |
                 |                     |                           |                                                                                                                           |
-                |                     |                           | ``o3`` -- OpenAI o3                                                                                                       |
+                |                     |                           | ``o3`` -- o3                                                                                                              |
                 |                     |                           |                                                                                                                           |
-                |                     |                           | ``o1-mini`` -- OpenAI o1-mini                                                                                             |
+                |                     |                           | ``o1-mini`` -- o1-mini                                                                                                    |
                 |                     |                           |                                                                                                                           |
-                |                     |                           | ``o1`` -- OpenAI o1                                                                                                       |
+                |                     |                           | ``o1`` -- o1                                                                                                              |
                 |                     |                           |                                                                                                                           |
-                |                     |                           | ``gpt-4.5-preview`` -- GPT-4.5                                                                                            |
-                |                     |                           |                                                                                                                           |
-                |                     |                           | ``gpt-4-turbo`` -- GPT-4 Turbo                                                                                            |
-                |                     |                           |                                                                                                                           |
-                |                     |                           | ``gpt-4`` -- GPT-4                                                                                                        |
-                |                     |                           |                                                                                                                           |
-                |                     |                           | ``gpt-3.5-turbo`` -- GPT-3.5 Turbo                                                                                        |
+                |                     |                           | ``o1-pro`` -- o1-pro                                                                                                      |
                 |                     |                           |                                                                                                                           |
                 |                     |                           | ``custom`` -- Custom model                                                                                                |
                 +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
