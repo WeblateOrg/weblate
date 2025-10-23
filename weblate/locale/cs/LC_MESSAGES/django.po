@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-21 09:35+0000\n"
-"PO-Revision-Date: 2025-10-21 08:28+0000\n"
+"PO-Revision-Date: 2025-10-24 05:50+0000\n"
 "Last-Translator: Fjuro <fjuro@alius.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
-"X-Generator: Weblate 5.14-dev\n"
+"X-Generator: Weblate 5.14.1-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -1327,10 +1327,9 @@ msgid "The supplied username is already in use for another account."
 msgstr "Toto uživatelské jméno již použité u jiného účtu."
 
 #: weblate/accounts/views.py:1499
-#, fuzzy, python-format
-#| msgid "Authentication app (%s)"
+#, python-format
 msgid "Authentication failed: %s"
-msgstr "Autentifikátor (%s)"
+msgstr "Autentifikace selhala: %s"
 
 #: weblate/accounts/views.py:1505
 msgid "The supplied user identity is already in use for another account."
@@ -1536,19 +1535,14 @@ msgid "Flag updated translations from repository as \"Needs editing\""
 msgstr "Označit upravené překlady z repozitáře jako „Potřebuje upravit“"
 
 #: weblate/addons/flags.py:137
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS, it is "
-#| "flagged as needing editing in Weblate. This way you can easily filter and "
-#| "edit translations created by the developers."
 msgid ""
 "Whenever a string translation is changed from the VCS, it is flagged as "
 "needing editing in Weblate. Especially useful if translation files are often "
 "updated manually or by an external service."
 msgstr ""
-"Kdykoli je ze systému správy verzí zdrojových kódů importován nový "
-"přeložitelný řetězec, je ve Weblate označen jako vyžadující úpravu. Takto je "
-"možné snadno vyfiltrovat a upravit překlady vytvořené vývojáři."
+"Kdykoli je v systému VCS změněn překlad řetězce, je ve Weblate označen jako "
+"vyžadující úpravu. Užitečné, pokud jsou soubory překladů často aktualizovány "
+"ručně nebo externí službou."
 
 #: weblate/addons/forms.py:59
 msgid "Path of generated MO file"
@@ -2123,10 +2117,8 @@ msgid "Reset all changes in the Weblate repository"
 msgstr "Vrátit všechny změny v Weblate repozitáři"
 
 #: weblate/api/serializers.py:1079 weblate/templates/js/git-status.html:155
-#, fuzzy
-#| msgid "Define the base file for new translations"
 msgid "Reset the Weblate repository and reapply translations"
-msgstr "Určit základní soubor pro nové překlady"
+msgstr "Resetovat repozitář Weblate a znovu použít překlady"
 
 #: weblate/api/serializers.py:1083 weblate/templates/js/git-status.html:166
 msgid "Cleanup all untracked files in the Weblate repository"
@@ -2387,10 +2379,8 @@ msgstr "Zkontrolovat řetězce"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:75
-#, fuzzy
-#| msgid "Edit strings"
 msgid "Bulk edit strings"
-msgstr "Upravit řetězce"
+msgstr "Hromadně upravit řetězce"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:77
@@ -2524,10 +2514,8 @@ msgstr "Spravovat týmy"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:135
-#, fuzzy
-#| msgid "View billing info"
 msgid "View team info"
-msgstr "Zobrazit předplatné"
+msgstr "Zobrazit informace o týmu"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:137 weblate/templates/manage/users.html:18
@@ -2536,10 +2524,8 @@ msgstr "Spravovat uživatele"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:139
-#, fuzzy
-#| msgid "View billing info"
 msgid "View user info"
-msgstr "Zobrazit předplatné"
+msgstr "Zobrazit informace o uživateli"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:141
@@ -2548,10 +2534,8 @@ msgstr "Spravovat role"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:143
-#, fuzzy
-#| msgid "View billing info"
 msgid "View role info"
-msgstr "Zobrazit předplatné"
+msgstr "Zobrazit informace o roli"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:145
@@ -2635,8 +2619,6 @@ msgid "Manage languages"
 msgstr "Spravovat jazyky"
 
 #: weblate/auth/data.py:241
-#, fuzzy
-#| msgid "Bulk edit"
 msgctxt "Access-control role"
 msgid "Bulk editing"
 msgstr "Hromadné úpravy"
@@ -2742,8 +2724,6 @@ msgid "Screenshots"
 msgstr "Obrázky"
 
 #: weblate/auth/data.py:315
-#, fuzzy
-#| msgid "Bulk edit"
 msgctxt "Per-project access-control team name"
 msgid "Bulk editing"
 msgstr "Hromadné úpravy"
@@ -2952,7 +2932,7 @@ msgstr "Platnost"
 
 #: weblate/auth/models.py:497
 msgid "The account will be disabled after the expiry."
-msgstr ""
+msgstr "Účet bude po vypršení zakázán."
 
 #: weblate/auth/models.py:504 weblate/templates/accounts/profile.html:34
 #: weblate/templates/accounts/user.html:194 weblate/templates/auth/team.html:38
@@ -3144,6 +3124,8 @@ msgid ""
 "This invitation can be accepted only by the e-mail address chosen by the "
 "inviter; it can't be used by your account."
 msgstr ""
+"Tuto pozvánku lze přijmout pouze z e-mailové adresy vybrané tvůrcem pozvánky;"
+" nemůže být použita vaším účtem."
 
 #: weblate/auth/views.py:201
 msgid "User invitation was removed."
@@ -3290,10 +3272,8 @@ msgid "Billing"
 msgstr "Fakturace"
 
 #: weblate/billing/models.py:681 weblate/templates/billing/detail.html:119
-#, fuzzy
-#| msgid "Billing overview"
 msgid "Billing event"
-msgstr "Přehled předplatného"
+msgstr "Fakturační událost"
 
 #: weblate/billing/tasks.py:73
 msgid ""
@@ -4702,10 +4682,8 @@ msgid "CSV"
 msgstr "CSV"
 
 #: weblate/formats/exporters.py:258
-#, fuzzy
-#| msgid "Multivalue CSV file (UTF-8)"
 msgid "Multivalue CSV"
-msgstr "Vícehodnotový soubor CSV (UTF-8)"
+msgstr "Vícehodnotový soubor CSV"
 
 #: weblate/formats/exporters.py:325
 msgid "XLSX"
@@ -6005,21 +5983,23 @@ msgstr "Překlad do %s momentálně není k dispozici, ale lze jej přidat."
 
 #: weblate/screenshots/forms.py:33
 msgid "You need to provide either image file or image URL."
-msgstr ""
+msgstr "Musíte poskytnout soubor obrázku nebo adresu URL obrázku."
 
 #: weblate/screenshots/forms.py:53
 msgid "Image URL domain is not allowed."
-msgstr ""
+msgstr "Doména adresy URL obrázku není povolena."
 
 #: weblate/screenshots/forms.py:61
 #, python-format
 msgid ""
 "Unable to download image from the provided URL (HTTP status code: %(code)s)."
 msgstr ""
+"Nepodařilo se stáhnout obrázek ze zadané adresy URL "
+"(stavový kód HTTP: %(code)s)."
 
 #: weblate/screenshots/forms.py:79
 msgid "Image is too big."
-msgstr ""
+msgstr "Obrázek je příliš velký."
 
 #: weblate/screenshots/forms.py:85 weblate/utils/validators.py:126
 #, python-format
@@ -6028,7 +6008,7 @@ msgstr "Nepodporovaný typ obrázku: %s"
 
 #: weblate/screenshots/forms.py:93
 msgid "Unable to download image from the provided URL."
-msgstr ""
+msgstr "Nepodařilo se stáhnout obrázek ze zadané adresy URL."
 
 #: weblate/screenshots/forms.py:120 weblate/screenshots/forms.py:147
 #: weblate/templates/widgets.html:64
@@ -6037,7 +6017,7 @@ msgstr "URL adresa obrázku"
 
 #: weblate/screenshots/forms.py:121 weblate/screenshots/forms.py:148
 msgid "The image will be downloaded and stored."
-msgstr ""
+msgstr "Obrázek bude stažen a uložen."
 
 #: weblate/screenshots/models.py:57
 #: weblate/templates/screenshots/screenshot_list.html:47
@@ -7072,13 +7052,14 @@ msgstr "Probíhá přesměrování na poskytovatele přihlašování."
 
 #: weblate/templates/accounts/register-password.html:4
 msgid "Registration without a password:"
-msgstr ""
+msgstr "Registrace bez hesla:"
 
 #: weblate/templates/accounts/register-password.html:5
 msgid ""
 "You can set your password later by clicking on the link in the verification "
 "email."
 msgstr ""
+"Své heslo můžete nastavit později kliknutím na odkaz v ověřovacím e-mailu."
 
 #: weblate/templates/accounts/register.html:20
 msgid "Please complete the registration to accept the invitation."
@@ -7110,35 +7091,31 @@ msgid ""
 "You will lose access to the projects you manage. Projects themselves will "
 "not be removed."
 msgstr ""
+"Ztratíte přístup k projektům, které spravujete. Projekty samotné nebudou "
+"odstraněny."
 
 #: weblate/templates/accounts/removal.html:35
 msgid ""
 "Any billing you might have created will not be terminated by this account "
 "removal."
 msgstr ""
+"Jakékoli fakturace, které jste vytvořili, nebudou ukončeny smazáním tohoto "
+"účtu."
 
 #: weblate/templates/accounts/removal.html:39
-#, fuzzy
-#| msgid ""
-#| "By pressing following button, your will no longer be able to use this "
-#| "account."
 msgid ""
 "By pressing the following button, you will no longer be able to use this "
 "account."
 msgstr ""
-"Po stisknutí následujícího tlačítka už nebude možné používat tento účet."
+"Po stisknutí následujícího tlačítka již nebude možné používat tento účet."
 
 #: weblate/templates/accounts/removal.html:43
-#, fuzzy
-#| msgid ""
-#| "You will have to confirm account removal by clicking link in e-mail you "
-#| "will receive."
 msgid ""
 "You will have to confirm the account removal by clicking the link in the e-"
 "mail you will receive."
 msgstr ""
-"Odstranění účtu budete muset potvrdit kliknutím na odkaz v mailu, který vám "
-"pošleme."
+"Odstranění účtu budete muset potvrdit kliknutím na odkaz v e-mailu, který "
+"vám pošleme."
 
 #: weblate/templates/accounts/removal.html:50
 msgid "Delete this account"
@@ -7186,6 +7163,8 @@ msgid ""
 "By registering, you agree that your name and username will be visible "
 "publicly as long as your account exists."
 msgstr ""
+"Registrací souhlasíte, že bude vaše jméno a uživatelské jméno veřejně "
+"viditelné, dokud bude váš účet existovat."
 
 #: weblate/templates/accounts/snippets/login-info.html:30
 msgid ""
