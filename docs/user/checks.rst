@@ -2195,7 +2195,7 @@ Placeables in automatic suggestion
 Checks for placeables expose information on current placeables and this can be
 used to instruct automatic suggestion engines to keep them. The support for
 this varies in different services and in many cases there is no way to enforce
-keeping placeabls intact.
+keeping placeables intact.
 
 .. seealso::
 
