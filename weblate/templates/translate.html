@@ -100,9 +100,6 @@
                 {% for secondary_unit in secondary %}
                   <div class="form-group">
                     <a class="language" href="{{ secondary_unit.get_absolute_url }}">{{ secondary_unit.translation.language }}</a>
-                    {% if user.profile.hide_source_secondary %}
-                      {% include "snippets/note-badge.html" with unit=unit %}
-                    {% endif %}
                     {% format_unit_target secondary_unit search_match=search_query show_copy=True %}
                   </div>
                 {% endfor %}
@@ -177,7 +174,6 @@
                            href="#"
                            class="btn btn-link btn-xs bug-comment">{% icon "bug.svg" %}</a>
                       {% endif %}
-                      {% include "snippets/note-badge.html" with unit=unit %}
                       <div class="clearfix"></div>
                     </div>
                     {% format_unit_source unit search_match=search_query glossary=glossary show_copy=True %}
