@@ -884,6 +884,19 @@ class GitMergeRequestBase(GitForcePushRepository):
             self.execute(cmd)
         self.clean_revision_cache()
 
+    def count_outgoing(self, branch: str | None = None):
+        """Count outgoing commits."""
+        if branch and branch != self.branch:
+            # Need to use different remote when using pull requests
+            credentials = self.get_credentials()
+            fork_remote = credentials["username"]
+            return len(
+                self.log_revisions(
+                    self.ref_from_remote.format(f"{fork_remote}/{branch}")
+                )
+            )
+        return super().count_outgoing(branch)
+
     def parse_repo_url(
         self, repo: str | None = None
     ) -> tuple[str | None, str | None, str | None, str, str, str]:
