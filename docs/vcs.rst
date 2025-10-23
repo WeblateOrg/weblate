@@ -269,6 +269,12 @@ to users (if even allowed to see the repository URL at all).
 For example the GitHub URL with authentication added might look like:
 ``https://user:your_access_token@github.com/WeblateOrg/weblate.git``.
 
+In case you don't provide credentials in the URL and repository requires it, the Git will fail with an error:
+
+.. code-block:: text
+
+   fatal: could not read Username for 'https://github.com': terminal prompts disabled
+
 .. versionchanged:: 5.10.2
 
    Weblate uses proactive authentication with Git 2.46.0 and newer when HTTP
