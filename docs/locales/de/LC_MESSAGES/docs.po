@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-21 11:36+0200\n"
-"PO-Revision-Date: 2025-10-23 08:02+0000\n"
+"PO-Revision-Date: 2025-10-24 05:50+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14-dev\n"
+"X-Generator: Weblate 5.14.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:215
@@ -16046,18 +16046,26 @@ msgid ""
 "The ``anubis-data`` volume in the above configuration is expected to "
 "contain :file:`botPolicies.yaml` with a bot policy configured to your needs."
 msgstr ""
+"Das Volume ``anubis-data`` in der obigen Konfiguration sollte die Datei "
+":file:`botPolicies.yaml` mit einer entsprechend Ihren Anforderungen "
+"konfigurierten Bot-Richtlinie enthalten."
 
 #: ../../admin/install/docker.rst:2419
 msgid ""
 "At minimum, you need to adjust status codes as described in https://"
 "anubis.techaro.lol/docs/admin/configuration/subrequest-auth."
 msgstr ""
+"Zumindest müssen Sie die Statuscodes wie in https://anubis.techaro.lol/docs/"
+"admin/configuration/subrequest-auth beschrieben anpassen."
 
 #: ../../admin/install/docker.rst:2422
 msgid ""
 "It is also recommended to configure persistent storage backend as described "
 "in https://anubis.techaro.lol/docs/admin/policies/#storage-backends."
 msgstr ""
+"Es wird auch empfohlen, das persistente Speicher-Backend wie unter https://"
+"anubis.techaro.lol/docs/admin/policies/#storage-backends beschrieben zu "
+"konfigurieren."
 
 #: ../../admin/install/docker.rst:2426
 msgid "You can then turn on the Anubis usage in Weblate using:"
@@ -16843,6 +16851,8 @@ msgid ""
 "Please consider contributing your changes back, see :ref:`extending-"
 "languages`."
 msgstr ""
+"Bitte denken Sie daran, Ihre Änderungen wieder beizusteuern, siehe :ref"
+":`extending-languages`."
 
 #: ../../admin/languages.rst:88
 msgid "Ambiguous language codes and macrolanguages"
@@ -17443,13 +17453,8 @@ msgstr ""
 "Schlüssel von Baidu erhalten, um ihn zu nutzen."
 
 #: ../../admin/machine.rst:222
-#, fuzzy
-#| msgid ""
-#| "`Baidu Translate API <https://api.fanyi.baidu.com/api/trans/product/"
-#| "index>`_"
 msgid "`Baidu Translate API <https://fanyi-api.baidu.com/product/11>`_"
-msgstr ""
-"`Baidu-Translate-API <https://api.fanyi.baidu.com/api/trans/product/index>`_"
+msgstr "`Baidu-Translate-API <https://fanyi-api.baidu.com/product/11>`_"
 
 #: ../../admin/machine.rst:227
 msgid "CyrTranslit"
@@ -18414,6 +18419,12 @@ msgid ""
 "(see :ref:`custom-module` or :ref:`docker-python-override`) and add fully "
 "qualified class name to :setting:`WEBLATE_MACHINERY`."
 msgstr ""
+"Sie können auch Ihre eigenen maschinellen Übersetzungsdienste mit ein paar "
+"Zeilen Python-Code implementieren. Platzieren Sie den Code in einem Modul, "
+"das Weblate importieren kann "
+"(siehe :ref:`custom-module` oder :ref:`docker-python-override`), und fügen "
+"Sie den voll qualifizierten Klassennamen zu :setting:`WEBLATE_MACHINERY` "
+"hinzu."
 
 #: ../../admin/management.rst:4
 msgid "Management commands"
@@ -21265,14 +21276,12 @@ msgid "File format parameters"
 msgstr "Dateiformat-Parameter"
 
 #: ../../admin/projects.rst:631
-#, fuzzy
-#| msgid "Settings configuration has been moved to :ref:`file_format_params`."
 msgid ""
 "Parameters used to configure how translation files are processed, see "
 "also :ref:`file_format_params`."
 msgstr ""
-"Die Konfiguration der Einstellungen wurde nach :ref:`file_format_params` "
-"verschoben."
+"Parameter zum Konfigurieren der Verarbeitung von Übersetzungsdateien, siehe "
+"auch :ref:`file_format_params`."
 
 #: ../../admin/projects.rst:636
 msgid "Source string bug reporting address"
@@ -21306,12 +21315,19 @@ msgid ""
 "computed, and the Glossary panel (including its “Add term to glossary” "
 "action) is hidden in the editor."
 msgstr ""
+"Blendet das Glossar-Panel und seine Übereinstimmungen im Übersetzungseditor "
+"für diese Komponente aus. Wenn diese Option aktiviert ist, werden keine "
+"Übersetzungsvorschläge für diese Komponente berechnet, und das Glossar-Panel "
+"(einschließlich der Aktion „Begriff zum Glossar hinzufügen“) wird im Editor "
+"ausgeblendet."
 
 #: ../../admin/projects.rst:655
 msgid ""
 "Glossary self-references are always excluded from matches even when this "
 "option is disabled."
 msgstr ""
+"Glossar-Selbstreferenzen werden immer von Übereinstimmungen ausgeschlossen, "
+"auch wenn diese Option deaktiviert ist."
 
 #: ../../admin/projects.rst:665
 msgid "Allow translation propagation"
@@ -22566,6 +22582,8 @@ msgid ""
 "If you do not have a support package yet, please refer to the :doc:`/"
 "contributing/issues` section for available community resources."
 msgstr ""
+"Wenn Sie noch kein Supportpaket haben, finden Sie unter :doc:`/contributing/"
+"issues` die verfügbaren Community-Ressourcen."
 
 #: ../../admin/support.rst:63
 msgid ""
@@ -22582,28 +22600,24 @@ msgid "The `customer care portal <https://care.weblate.org/>`_"
 msgstr "Das Kundenbetreuungsportal ` <https://care.weblate.org/>`_"
 
 #: ../../admin/support.rst:67
-#, fuzzy
-#| msgid ""
-#| "Enter the obtained key in the management interface, see :ref:`activate-"
-#| "support`."
 msgid ""
 "The support form is available in the Weblate management interface "
 "after :ref:`activate-support`."
 msgstr ""
-"Geben Sie den erhaltenen Schlüssel in die Verwaltungsoberfläche ein, "
-"siehe :ref:`activate-support`."
+"Das Support-Formular ist in der Weblate-Verwaltungsoberfläche nach :ref"
+":`activate-support` verfügbar."
 
 #: ../../admin/support.rst:69
 msgid ""
 "A subscription ensures timely and reliable help with setup, maintenance, and "
 "troubleshooting."
 msgstr ""
+"Ein Abonnement gewährleistet eine zeitnahe und zuverlässige Hilfe bei der "
+"Einrichtung, Wartung und Fehlerbehebung."
 
 #: ../../admin/support.rst:73
-#, fuzzy
-#| msgid "**Sending encrypted reports**"
 msgid "**Sending encrypted content**"
-msgstr "**Senden verschlüsselter Berichte**"
+msgstr "**Senden verschlüsselter Inhalte**"
 
 #: ../../admin/support.rst:75
 msgid ""
@@ -22611,6 +22625,9 @@ msgid ""
 "care@weblate.org with ID ``0961 62CE 141D 7FE4 B15D A9FA 73D9 298A CB26 "
 "03F0``."
 msgstr ""
+"Wenn Sie einen verschlüsselten Inhalt senden möchten, verwenden Sie bitte "
+"den öffentlichen Schlüssel für care@weblate.org mit der ID ``0961 62CE 141D "
+"7FE4 B15D A9FA 73D9 298A CB26 03F0``."
 
 #: ../../admin/support.rst:79
 msgid ""
@@ -22618,6 +22635,9 @@ msgid ""
 "WKD or `directly from weblate.org <https://weblate.org/.well-known/"
 "openpgpkey/hu/7oq6zfqsndhzsmw94xm1e5yu8me8sjsx?l=care>`_."
 msgstr ""
+"Dieser öffentliche Schlüssel ist auf den gebräuchlichsten Schlüsselservern "
+"verfügbar, mit WKD oder `direkt von weblate.org <https://weblate.org/"
+".well-known/openpgpkey/hu/7oq6zfqsndhzsmw94xm1e5yu8me8sjsx?l=care>`_."
 
 #: ../../admin/support.rst:86
 msgid "Discover Weblate"
@@ -22916,6 +22936,12 @@ msgid ""
 "domains are trusted for downloading external assets, "
 "and :setting:`ALLOWED_ASSET_SIZE` which limits maximal size for the asset."
 msgstr ""
+"Sie können ein Bildschirmfoto aus einer lokalen Datei hochladen oder eine "
+"URL angeben, um ein Bild aus einer externen Quelle herunterzuladen. URL-"
+"basierte Uploads können mit der Einstellung :setting:`ALLOWED_ASSET_DOMAINS` "
+"eingeschränkt werden, dies steuert, welche Domains für das Herunterladen von "
+"externen Assets vertrauenswürdig sind, und :setting:`ALLOWED_ASSET_SIZE`, "
+"welches die maximale Größe für das Asset begrenzt."
 
 #: ../../admin/translating.rst:146
 msgid ""
@@ -24451,11 +24477,11 @@ msgstr ""
 
 #: ../../api.rst:0
 msgid "param project"
-msgstr "param project"
+msgstr "Parameter project"
 
 #: ../../api.rst:0
 msgid "type project"
-msgstr "type project"
+msgstr "Typ project"
 
 #: ../../api.rst:1251 ../../api.rst:1260 ../../api.rst:1272 ../../api.rst:1283
 #: ../../api.rst:2633
@@ -24483,28 +24509,20 @@ msgid "Creates a label for a project."
 msgstr "Erstellt ein Label für ein Projekt."
 
 #: ../../api.rst:1280
-#, fuzzy
-#| msgid "Creates a label for a project."
 msgid "Deletes a label from a project."
-msgstr "Erstellt ein Label für ein Projekt."
+msgstr "Löscht ein Label aus einem Projekt."
 
 #: ../../api.rst:0
-#, fuzzy
-#| msgid "param id"
 msgid "param label_id"
-msgstr "Parameter-ID"
+msgstr "Parameter label_id"
 
 #: ../../api.rst:1284
-#, fuzzy
-#| msgid "ID of the label"
 msgid "ID of the label to delete"
-msgstr "ID des Labels"
+msgstr "ID des zu löschenden Labels"
 
 #: ../../api.rst:0
-#, fuzzy
-#| msgid "type id"
 msgid "type label_id"
-msgstr "Typ-ID"
+msgstr "Typ label_id"
 
 #: ../../api.rst:1285
 msgid "integer"
@@ -24726,7 +24744,7 @@ msgstr "Dateiformat der Übersetzungen"
 
 #: ../../api.rst:1552
 msgid "parameters related to the file"
-msgstr ""
+msgstr "Der Datei zugehörige Parameter"
 
 #: ../../api.rst:1553
 msgid "mask of translation files in the repository"
@@ -25770,11 +25788,11 @@ msgstr "Auflisten von Komponenten in einer Komponentenliste."
 
 #: ../../api.rst:0
 msgid "param slug"
-msgstr "Parameter-Slug"
+msgstr "Parameter slug"
 
 #: ../../api.rst:0
 msgid "type slug"
-msgstr "Typ-Slug"
+msgstr "Typ slug"
 
 #: ../../api.rst:0
 msgid "form string component_id"
@@ -26135,11 +26153,11 @@ msgstr "Bearbeitet Teilinformationen zur Kategorie."
 
 #: ../../api.rst:0
 msgid "param id"
-msgstr "Parameter-ID"
+msgstr "Parameter id"
 
 #: ../../api.rst:0
 msgid "type id"
-msgstr "Typ-ID"
+msgstr "Typ id"
 
 #: ../../api.rst:2821 ../../api.rst:2831
 msgid "Optional category configuration"
@@ -26459,10 +26477,8 @@ msgid ":ref:`date-search`."
 msgstr ":ref:`date-search`."
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Same as in :ref:`search-strings`."
 msgid "Last changed lookup in :ref:`search-strings`."
-msgstr "Gleich wie in :ref:`search-strings`."
+msgstr "Suche nach letztem Änderungsdatum in :ref:`search-strings`."
 
 #: ../../changes.rst:15
 msgid ":doc:`/security/localization-threat` documentation."
@@ -26473,13 +26489,10 @@ msgid ":ref:`component-hide_glossary_matches` component setting."
 msgstr ":ref:`component-hide_glossary_matches`-Komponenteneinstellung."
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid ""
-#| "Screenshots now can be pasted from the clipboard in :ref:`screenshots`."
 msgid "Screenshots now can be uploaded from a URL, see :ref:`screenshots`."
 msgstr ""
-"Bildschirmfotos können jetzt aus der Zwischenablage in :ref:`screenshots` "
-"eingefügt werden."
+"Bildschirmfotos können jetzt von einer URL hochgeladen werden, siehe "
+":ref:`screenshots`."
 
 #: ../../changes.rst:20 ../../changes.rst:69 ../../changes.rst:98
 #: ../../changes.rst:123 ../../changes.rst:174 ../../changes.rst:234
@@ -26514,27 +26527,28 @@ msgid "Dropped long-deprecated endpoints."
 msgstr "Längst veraltete Endpunkte entfernt."
 
 #: ../../changes.rst:27
-#, fuzzy
-#| msgid ""
-#| "Renamed :ref:`addon-weblate.consistency.languages` to clarify the purpose."
 msgid ""
 "Improved activity logging for :ref:`addon-weblate.consistency.languages` add-"
 "on."
 msgstr ""
-":ref:`addon-weblate.consistency.languages` umbenannt, um den Zweck zu "
-"verdeutlichen."
+"Verbesserte Aktivitätsprotokollierung für die Erweiterung :ref:`addon-"
+"weblate.consistency.languages`."
 
 #: ../../changes.rst:28
 msgid ""
 ":ref:`check-rst-references` and :ref:`check-rst-syntax` now support "
 "substitutions."
 msgstr ""
+":ref:`check-rst-references` und :ref:`check-rst-syntax` unterstützen jetzt "
+"Substitutionen."
 
 #: ../../changes.rst:29
 msgid ""
 "Improved performance for :ref:`check-multiple-failures` and :ref:`check-long-"
 "untranslated` checks with batch operations."
 msgstr ""
+"Verbesserte Leistung für die Prüfungen :ref:`check-multiple-failures` und "
+":ref:`check-long-untranslated` mit Stapelverarbeitung."
 
 #: ../../changes.rst:30
 msgid ":ref:`file_format_params` can now be configured via the :ref:`api`."
@@ -26542,27 +26556,32 @@ msgstr ":ref:`file_format_params` können über :ref:`api` konfiguriert werden."
 
 #: ../../changes.rst:31
 msgid "Admins can configure :ref:`expiring-accounts`."
-msgstr ""
+msgstr "Administratoren können :ref:`expiring-accounts` konfigurieren."
 
 #: ../../changes.rst:32
 msgid ""
 "Rate limiting of notification e-mails, configurable "
 "by :setting:`RATELIMIT_NOTIFICATION_LIMITS`."
 msgstr ""
+"Ratenbegrenzung für Benachrichtigungen per E-Mail, konfigurierbar über "
+":setting:`RATELIMIT_NOTIFICATION_LIMITS`."
 
 #: ../../changes.rst:33
 msgid ""
 ":guilabel:`Repository maintenance` now supports resetting the repository "
 "while keeping the current state of translations in Weblate."
 msgstr ""
+":guilabel:`Repository-Wartung` unterstützt nun das Zurücksetzen des "
+"Repositorys, wobei der aktuelle Stand der Übersetzungen in Weblate erhalten "
+"bleibt."
 
 #: ../../changes.rst:34
-#, fuzzy
-#| msgid ":ref:`addon-weblate.autotranslate.autotranslate` add-on"
 msgid ""
 "Improved listing of :ref:`addon-weblate.autotranslate.autotranslate` "
 "configuration."
-msgstr ":ref:`addon-weblate.autotranslate.autotranslate`-Erweiterung"
+msgstr ""
+"Verbesserte Auflistung der Konfiguration von :ref:`addon-"
+"weblate.autotranslate.autotranslate`."
 
 #: ../../changes.rst:37 ../../changes.rst:74 ../../changes.rst:103
 #: ../../changes.rst:128 ../../changes.rst:190 ../../changes.rst:238
@@ -26585,42 +26604,40 @@ msgid "Bug fixes"
 msgstr "Fehlerbehebungen"
 
 #: ../../changes.rst:38
-#, fuzzy
-#| msgid "Replaced by :ref:`file_format_params`."
 msgid "Plurals and :ref:`file_format_params` handling on file upload."
-msgstr "Ersetzt durch :ref:`file_format_params`."
+msgstr ""
+"Behandlung von Pluralformen und :ref:`file_format_params` beim Hochladen von "
+"Dateien."
 
 #: ../../changes.rst:39
 msgid ":ref:`team-admins` can no longer edit teams besides membership."
 msgstr ""
+":ref:`team-admins` können außer der Mitgliedschaft keine Teams mehr "
+"bearbeiten."
 
 #: ../../changes.rst:40
 msgid "Highlighting syntax of overlapping elements."
-msgstr ""
+msgstr "Hervorhebung der Syntax von sich überschneidenden Elementen."
 
 #: ../../changes.rst:41
-#, fuzzy
-#| msgid "Searching for strings"
 msgid "Searching case sensitivity for short strings."
-msgstr "Suche nach Zeichenketten"
+msgstr "Groß- und Kleinschreibung bei Suche nach kurzen Zeichenketten."
 
 #: ../../changes.rst:42
-#, fuzzy
-#| msgid "Inno Setup INI file format for translations."
 msgid "Inconsistent file formatting for new translations."
-msgstr "Inno-Setup-INI-Dateiformat für Übersetzungen."
+msgstr "Inkonsistente Dateiformatierung für neue Übersetzungen."
 
 #: ../../changes.rst:43
 msgid ""
 "Memory contents imported via the :wladmin:`import_memory` command are marked "
 "as active."
 msgstr ""
+"Mit dem Befehl :wladmin:`import_memory` importierte Speicherinhalte werden "
+"als aktiv gekennzeichnet."
 
 #: ../../changes.rst:44
-#, fuzzy
-#| msgid "Creating new translations in :doc:`/formats/appstore`."
 msgid "Importing some strings from :doc:`/formats/xliff`."
-msgstr "Erstellen neuer Übersetzungen in :doc:`/formats/appstore`."
+msgstr "Importieren einiger Zeichenketten aus :doc:`/formats/xliff`."
 
 #: ../../changes.rst:47 ../../changes.rst:142 ../../changes.rst:197
 #: ../../changes.rst:320 ../../changes.rst:470 ../../changes.rst:553
@@ -26636,26 +26653,25 @@ msgid ""
 "The default attributes for :ref:`saml-auth` in Docker container now matches "
 "non-Docker defaults."
 msgstr ""
+"Die Standardattribute für :ref:`saml-auth` in Docker-Containern stimmen "
+"jetzt mit den Standardwerten für Nicht-Docker-Container überein."
 
 #: ../../changes.rst:49
-#, fuzzy
-#| msgid ""
-#| ":http:get:`/api/components/(string:project)/(string:component)/credits/` "
-#| "and :http:get:`/api/projects/(string:project)/credits/` API endpoints for "
-#| "components and projects."
 msgid ""
 "Dropped long-deprecated :http:get:`/hooks/update/(string:project)/"
 "(string:component)/` and :http:get:`/hooks/update/(string:project)/`."
 msgstr ""
-":http:get:`/api/components/(string:project)/(string:component)/credits/` "
-"und :http:get:`/api/projects/(string:project)/credits/` API-Endpunkte für "
-"Komponenten und Projekte."
+"Die lange veralteten :http:get:`/hooks/update/(string:project)/"
+"(string:component)/` und :http:get:`/hooks/update/(string:project)/` wurden "
+"entfernt."
 
 #: ../../changes.rst:50
 msgid ""
 "Removed Akismet spam protection integration as it was no longer effective "
 "and used an unmaintained Python library."
 msgstr ""
+"Die Integration des Akismet-Spamschutzes wurde entfernt, da sie nicht mehr "
+"effektiv war und eine nicht gewartete Python-Bibliothek verwendete."
 
 #: ../../changes.rst:51
 msgid ""
@@ -26663,6 +26679,9 @@ msgid ""
 "handlers, see :class:`weblate.addons.base.BaseAddon`. Adjust any custom "
 "subclass accordingly."
 msgstr ""
+"Neues Positionsargument (`activity_log_id`), das an die Ereignis-Handler der "
+"Erweiterungen übergeben wird, siehe :class:`weblate.addons.base.BaseAddon`. "
+"Passen Sie jede benutzerdefinierte Unterklasse entsprechend an."
 
 #: ../../changes.rst:54 ../../changes.rst:83 ../../changes.rst:108
 #: ../../changes.rst:146 ../../changes.rst:202 ../../changes.rst:243
@@ -26755,53 +26774,45 @@ msgid ""
 "Text on the registration page informs about possible use of user’s data in "
 "more detail."
 msgstr ""
+"Der Text auf der Registrierungsseite informiert ausführlicher über die "
+"mögliche Verwendung der Benutzerdaten."
 
 #: ../../changes.rst:71
-#, fuzzy
-#| msgid "Confirm account removal"
 msgid "Clarified account removal view."
-msgstr "Kontolöschung bestätigen"
+msgstr "Ansicht zum Entfernen von Benutzerkonten überarbeitet."
 
 #: ../../changes.rst:75
-#, fuzzy
-#| msgid "Component Information"
 msgid "Components pagination."
-msgstr "Komponenteninformation"
+msgstr "Komponenten-Seitenumbruch."
 
 #: ../../changes.rst:76
-#, fuzzy
-#| msgid ":ref:`projectbackup` now include teams and categories."
 msgid ""
 ":ref:`projectbackup` with same named components in different categories."
-msgstr ":ref:`projectbackup` enthalten jetzt auch Teams und Kategorien."
+msgstr ""
+":ref:`projectbackup` mit gleichnamigen Komponenten in verschiedenen "
+"Kategorien."
 
 #: ../../changes.rst:77
-#, fuzzy
-#| msgid "Source string location"
 msgid "Source string location display."
-msgstr "Ort der Ausgangszeichenkette"
+msgstr "Anzeige des Orts der Ausgangszeichenkette."
 
 #: ../../changes.rst:78
 msgid "Correctly track team adding via invitation in :ref:`audit-log`."
 msgstr ""
+"Korrektes Nachverfolgen beim Hinzufügen von Teams per Einladung im :ref"
+":`audit-log`."
 
 #: ../../changes.rst:79
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.consistency.languages` add-on could miss some "
-#| "languages."
 msgid ""
 ":ref:`addon-weblate.consistency.languages` no longer includes shared "
 "component languages."
 msgstr ""
-"Die Erweiterung :ref:`addon-weblate.consistency.languages` konnte einige "
-"Sprachen übersehen."
+":ref:`addon-weblate.consistency.languages` enthält keine gemeinsamen "
+"Sprachen für Komponenten mehr."
 
 #: ../../changes.rst:80
-#, fuzzy
-#| msgid ":ref:`vcs-azure-devops`."
 msgid ":ref:`azure-devops-push` API URL parsing."
-msgstr ":ref:`vcs-azure-devops`."
+msgstr ":ref:`azure-devops-push` API-URL-Analyse."
 
 #: ../../changes/contributors/5.10.1.rst:2
 #: ../../changes/contributors/5.10.2.rst:2
@@ -26898,26 +26909,21 @@ msgstr "*Veröffentlicht am 5. September 2025.*"
 
 #: ../../changes.rst:99
 msgid "Error reporting upon validation of the file upload method."
-msgstr ""
+msgstr "Fehlerberichterstattung beim Validieren der Dateiupload-Methode."
 
 #: ../../changes.rst:100
-#, fuzzy
-#| msgid "Include language detailed information on language page."
 msgid "Detailed language information in new language notifications."
 msgstr ""
-"Detaillierte Informationen zur Sprache auf der Sprachenseite eingefügt."
+"Detaillierte Sprachinformationen in den Benachrichtigungen über neue "
+"Sprachen."
 
 #: ../../changes.rst:104
-#, fuzzy
-#| msgid "Sign-in form not shown for LDAP."
 msgid "Sign-in could not be completed with LDAP."
-msgstr "Anmeldeformular wird für LDAP nicht angezeigt."
+msgstr "Die Anmeldung konnte mit LDAP nicht abgeschlossen werden."
 
 #: ../../changes.rst:105
-#, fuzzy
-#| msgid "Track add-on changes in a history."
 msgid "Nonspacing mark changes highlighting in history."
-msgstr "Nachverfolgung der Änderungen an Erweiterungen in einem Verlauf."
+msgstr "Hervorheben von Nonspacing-Mark-Änderungen im Verlauf."
 
 #: ../../changes.rst:115
 msgid ""
@@ -40215,10 +40221,8 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/code_of_conduct.rst:41
-#, fuzzy
-#| msgid "Other translations"
 msgid "Other Restrictions"
-msgstr "Andere Übersetzungen"
+msgstr "Sonstige Einschränkungen"
 
 #: ../../contributing/code_of_conduct.rst:43
 msgid ""
@@ -41547,32 +41551,24 @@ msgid "Weblate license"
 msgstr "Weblate-Lizenz"
 
 #: ../../contributing/license.rst:5
-#, fuzzy
-#| msgid "Machine-readable data"
 msgid "Machine-readable licensing information"
-msgstr "Maschinenlesbare Daten"
+msgstr "Maschinenlesbare Lizenzinformationen"
 
 #: ../../contributing/license.rst:7
-#, fuzzy
-#| msgid ""
-#| "Weblate comes with `REUSE 3.0 <https://reuse.software/>`_ compliant "
-#| "license specification."
 msgid ""
 "Weblate comes with `REUSE 3.3 <https://reuse.software/>`_ compliant license "
 "specification in the source code."
 msgstr ""
-"Weblate wird mit einer `REUSE 3.0 <https://reuse.software/>`_ konformen "
-"Lizenzspezifikation geliefert."
+"Weblate wird mit einer `REUSE 3.3 <https://reuse.software/>`_ konformen "
+"Lizenzspezifikation im Quellcode geliefert."
 
 #: ../../contributing/license.rst:10
 msgid "To review licensing of Weblate dependencies please see :ref:`sbom`."
 msgstr ""
 
 #: ../../contributing/license.rst:13
-#, fuzzy
-#| msgid "Licenses"
 msgid "License terms"
-msgstr "Lizenzen"
+msgstr "Lizenzbedingungen"
 
 #: ../../contributing/license.rst:15
 msgid "Copyright © Michal Čihař michal@weblate.org"
@@ -44709,10 +44705,8 @@ msgstr ""
 "Kapiteln beschrieben:"
 
 #: ../../devel/success-stories.rst:2
-#, fuzzy
-#| msgid "Accessing repositories"
 msgid "Success stories"
-msgstr "Zugriff auf Repositorys"
+msgstr "Erfolgsgeschichten"
 
 #: ../../devel/success-stories.rst:6
 msgid ""
@@ -45679,10 +45673,9 @@ msgstr ""
 "formatieren möchten, verwenden Sie bitte einen Pre-Commit-Hook dafür."
 
 #: ../../faq.rst:365
-#, fuzzy
-#| msgid "How to fix merge conflicts in translations?"
 msgid "How do I merge updated POT file with PO translations?"
-msgstr "Wie behebt man Merge-Konflikte in Übersetzungen?"
+msgstr ""
+"Wie kann ich aktualisierte POT-Dateien mit PO-Übersetzungen zusammenführen?"
 
 #: ../../faq.rst:367
 msgid ""
@@ -49524,10 +49517,8 @@ msgstr ""
 "Überprüfen Sie die Wirksamkeit der Erkennungs- und Eindämmungsmechanismen."
 
 #: ../../security/index.rst:2
-#, fuzzy
-#| msgid "Security and privacy"
 msgid "Security, privacy and compliance"
-msgstr "Sicherheit und Datenschutz"
+msgstr "Sicherheit, Datenschutz und Compliance"
 
 #: ../../security/index.rst:6
 msgid ""
@@ -49577,7 +49568,7 @@ msgstr "Sicherheitsrichtlinien"
 
 #: ../../security/index.rst:36
 msgid "Compliance"
-msgstr "Konformität"
+msgstr "Compliance"
 
 #: ../../snippets/compliance-warning.rst:3
 msgid ""
@@ -49620,10 +49611,8 @@ msgstr ""
 "Der Auftragsverarbeitungsvertrag kann im `Kundenbereich`_ eingesehen werden."
 
 #: ../../security/index.rst:60
-#, fuzzy
-#| msgid "AI guidelines"
 msgid "Guidelines"
-msgstr "KI-Richtlinien"
+msgstr "Richtlinien"
 
 #: ../../security/issues.rst:2
 msgid "Vulnerability and incident handling"
@@ -50055,8 +50044,6 @@ msgid "**Access Credentials:** Accounts for translators, agencies, or bots."
 msgstr ""
 
 #: ../../security/localization-threat.rst:110
-#, fuzzy
-#| msgid "Trust boundaries"
 msgid "Trust Boundaries"
 msgstr "Vertrauensgrenzen"
 
@@ -52931,7 +52918,7 @@ msgstr "Verwenden von Anführungszeichen anstelle von Gravis."
 
 #: ../../user/checks.rst:1087
 msgid "Mismatched substitutions or footnote references."
-msgstr ""
+msgstr "Nicht übereinstimmende Substitutionen oder Fußnotenverweise."
 
 #: ../../user/checks.rst:1091 ../../user/checks.rst:1629
 msgid "`reStructuredText Primer`_"
