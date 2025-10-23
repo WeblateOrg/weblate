@@ -269,7 +269,7 @@ to users (if even allowed to see the repository URL at all).
 For example the GitHub URL with authentication added might look like:
 ``https://user:your_access_token@github.com/WeblateOrg/weblate.git``.
 
-In case you don't provide credentials in the URL and repository requires it, the Git will fail with an error:
+In case you don't provide credentials in the URL and repository requires it, Git will fail with an error:
 
 .. code-block:: text
 
