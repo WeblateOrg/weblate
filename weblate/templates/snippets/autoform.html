@@ -1,0 +1,29 @@
+{# requires 'autoform', 'object' in context #}
+
+{% load crispy_forms_tags i18n translations %}
+
+<form action="{% url 'auto_translation' path=object.get_url_path %}"
+      method="post"
+      enctype="multipart/form-data"
+      data-persist="auto-translation">
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">
+        {% documentation_icon5 'user/translating' 'auto-translation' right=True %}
+        {% translate "Automatic translation" %}
+      </h4>
+    </div>
+    <div class="card-body">
+      <p>
+        {% translate "Automatic translation takes existing translations in this project and applies them to the current component. It can be used to push translations to a different branch, to fix inconsistent translations or to translate a new component using translation memory." %}
+      </p>
+      <p>
+        {% translate "Automatic translation via machine translation uses active machine translation engines to get the best possible translations and applies them in this project." %}
+      </p>
+      {% crispy autoform %}
+    </div>
+    <div class="card-footer">
+      <input type="submit" value="{% translate " Apply" %}" class="btn btn-primary" />
+    </div>
+  </div>
+</form>
