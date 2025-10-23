@@ -41,6 +41,18 @@ class Command(BaseCommand):
             self.stdout.write("\n")
             self.stdout.write(f":Service ID: ``{obj.get_identifier()}``")
             self.stdout.write(f":Maximal score: {obj.max_score}")
+            features = []
+            if obj.highlight_syntax:
+                features.append(":ref:`placeables-mt`")
+            if obj.glossary_support:
+                features.append(":ref:`glossary-mt`")
+            if features:
+                prefix = ":Advanced features: "
+                for feature in features:
+                    self.stdout.write(f"{prefix}* {feature}")
+                    if not prefix.isspace():
+                        prefix = " " * len(prefix)
+
             if obj.settings_form:
                 form = obj.settings_form(obj)
                 table: list[list[str | list[list[str]]]] = [
@@ -48,7 +60,7 @@ class Command(BaseCommand):
                     for name, field in form.fields.items()
                 ]
                 prefix = ":Configuration: "
-                for table_row in format_table(table, [""] * 3):
+                for table_row in format_table(table, None):
                     self.stdout.write(f"{prefix}{table_row}")
                     if not prefix.isspace():
                         prefix = " " * len(prefix)
