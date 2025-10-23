@@ -28,7 +28,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-21 11:36+0200\n"
-"PO-Revision-Date: 2025-10-23 08:48+0000\n"
+"PO-Revision-Date: 2025-10-24 05:50+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -19290,7 +19290,7 @@ msgstr ""
 #, fuzzy
 #| msgid ":wladmin:`migrate`"
 msgid ":djadmin:`django:migrate`"
-msgstr ":wladmin:`migrate`"
+msgstr ":djadmin:`django:migrate`"
 
 #: ../../admin/management.rst:849
 msgid ""
@@ -19299,6 +19299,10 @@ msgid ""
 "been created with the :samp:`(generated)` suffix. It moves all content from "
 "the `source` language to the `target` one."
 msgstr ""
+"Permite fusionar contenido de idioma. Esto es útil cuando se actualiza a una "
+"nueva versión que contiene alias para idiomas previamente desconocidos que "
+"se han creado con el sufijo :samp:`(generated)`. Mueve todo el contenido del "
+"idioma de `source` al de `target`."
 
 #: ../../admin/management.rst:860
 msgid ""
@@ -19306,20 +19310,25 @@ msgid ""
 "(this is subject to race conditions when somebody updates the repository "
 "meanwhile) and remove the :samp:`(generated)` language."
 msgstr ""
+"Después de mover el contenido, debe verificar si queda algo (esto está "
+"sujeto a las condiciones de carrera cuando alguien actualiza el repositorio "
+"mientras tanto) y eliminar el lenguaje :samp:`(generated)`."
 
 #: ../../admin/management.rst:869
 msgid "Pushes committed changes to the upstream VCS repository."
-msgstr ""
+msgstr "Empuja los cambios confirmados al repositorio de VCS ascendente."
 
 #: ../../admin/management.rst:873
 msgid "Force commits any pending changes, prior to pushing."
-msgstr ""
+msgstr "Force confirma cualquier cambio pendiente, antes de presionar."
 
 #: ../../admin/management.rst:880
 msgid ""
 "Weblate pushes changes automatically if :ref:`component-push_on_commit` "
 "in :ref:`component` is turned on, which is the default."
 msgstr ""
+"Weblate envía los cambios automáticamente si: :ref:`component-push_on_commit`"
+" en :ref:`component` está activado, que es el valor predeterminado."
 
 #: ../../admin/management.rst:888
 msgid "Unlocks a given component, making it available for translation."
@@ -19413,6 +19422,8 @@ msgid ""
 "Automatically stored translations performed in Weblate (depending "
 "on :ref:`memory-scopes`)."
 msgstr ""
+"Traducciones almacenadas automáticamente realizadas en Weblate "
+"(dependiendo de :ref:`memory-scopes`)."
 
 #: ../../admin/memory.rst:11
 msgid "Automatically imported past translations."
