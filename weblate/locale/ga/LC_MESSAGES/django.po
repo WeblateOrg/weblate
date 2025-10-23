@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-21 09:35+0000\n"
-"PO-Revision-Date: 2025-10-14 16:10+0000\n"
+"PO-Revision-Date: 2025-10-24 05:50+0000\n"
 "Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
 "application/ga/>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :"
 "(n>6 && n<11) ? 3 : 4;\n"
-"X-Generator: Weblate 5.14-dev\n"
+"X-Generator: Weblate 5.14.1-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -1379,10 +1379,9 @@ msgid "The supplied username is already in use for another account."
 msgstr "Tá an t-ainm úsáideora sin in úsáid ag cuntas eile cheana féin."
 
 #: weblate/accounts/views.py:1499
-#, fuzzy, python-format
-#| msgid "Authentication app (%s)"
+#, python-format
 msgid "Authentication failed: %s"
-msgstr "Aip fíordheimhnithe (%s)"
+msgstr "Theip ar fhíordheimhniú: %s"
 
 #: weblate/accounts/views.py:1505
 msgid "The supplied user identity is already in use for another account."
@@ -2189,10 +2188,8 @@ msgid "Reset all changes in the Weblate repository"
 msgstr "Athshocraigh gach athrú sa stór Weblate"
 
 #: weblate/api/serializers.py:1079 weblate/templates/js/git-status.html:155
-#, fuzzy
-#| msgid "Define the base file for new translations"
 msgid "Reset the Weblate repository and reapply translations"
-msgstr "Sainmhínigh an bunchomhad le haghaidh aistriúcháin nua"
+msgstr "Athshocraigh stórlann Weblate agus cuir aistriúcháin i bhfeidhm arís"
 
 #: weblate/api/serializers.py:1083 weblate/templates/js/git-status.html:166
 msgid "Cleanup all untracked files in the Weblate repository"
@@ -6119,21 +6116,23 @@ msgstr "Níl aistriúchán %s ar fáil faoi láthair, ach is féidir é a chur l
 
 #: weblate/screenshots/forms.py:33
 msgid "You need to provide either image file or image URL."
-msgstr ""
+msgstr "Ní mór duit comhad íomhá nó URL íomhá a sholáthar."
 
 #: weblate/screenshots/forms.py:53
 msgid "Image URL domain is not allowed."
-msgstr ""
+msgstr "Ní cheadaítear fearann URL íomhá."
 
 #: weblate/screenshots/forms.py:61
 #, python-format
 msgid ""
 "Unable to download image from the provided URL (HTTP status code: %(code)s)."
 msgstr ""
+"Ní féidir an íomhá a íoslódáil ón URL a cuireadh ar fáil "
+"(cód stádais HTTP: %(code)s)."
 
 #: weblate/screenshots/forms.py:79
 msgid "Image is too big."
-msgstr ""
+msgstr "Tá an íomhá rómhór."
 
 #: weblate/screenshots/forms.py:85 weblate/utils/validators.py:126
 #, python-format
@@ -6142,7 +6141,7 @@ msgstr "Ní cheadaítear an cineál íomhá: %s"
 
 #: weblate/screenshots/forms.py:93
 msgid "Unable to download image from the provided URL."
-msgstr ""
+msgstr "Ní féidir an íomhá a íoslódáil ón URL a cuireadh ar fáil."
 
 #: weblate/screenshots/forms.py:120 weblate/screenshots/forms.py:147
 #: weblate/templates/widgets.html:64
@@ -6151,7 +6150,7 @@ msgstr "URL íomhá"
 
 #: weblate/screenshots/forms.py:121 weblate/screenshots/forms.py:148
 msgid "The image will be downloaded and stored."
-msgstr ""
+msgstr "Íoslódálfar agus stórálfar an íomhá."
 
 #: weblate/screenshots/models.py:57
 #: weblate/templates/screenshots/screenshot_list.html:47
@@ -9639,63 +9638,56 @@ msgstr "Crios contúirte"
 
 #: weblate/templates/js/git-status.html:142
 msgid "Reset and discard"
-msgstr ""
+msgstr "Athshocraigh agus caith amach"
 
 #: weblate/templates/js/git-status.html:145
 msgid ""
 "Resets Weblate’s repository to match upstream and discards any pending "
 "changes in Weblate."
 msgstr ""
+"Athshocraíonn sé stórlann Weblate chun meaitseáil suas an sruth agus "
+"caitheann sé aon athruithe atá ar feitheamh i Weblate i leataobh."
 
 #: weblate/templates/js/git-status.html:146
-#, fuzzy
-#| msgid ""
-#| "Describe the context of the translation to improve the accuracy of the "
-#| "translation."
 msgid "Use when you want the upstream to be the authority for translations."
 msgstr ""
-"Déan cur síos ar chomhthéacs an aistriúcháin chun cruinneas an aistriúcháin "
-"a fheabhsú."
+"Úsáid nuair is mian leat go mbeadh an t-údarás uas-srutha le haghaidh "
+"aistriúcháin."
 
 #: weblate/templates/js/git-status.html:147
-#, fuzzy
-#| msgid ""
-#| "Use when you want to discardchanges in Weblate and bring it in sync with "
-#| "upstream repository."
 msgid ""
 "It will discard changes in Weblate repo and bring it in sync with the "
 "upstream repository."
 msgstr ""
-"Úsáid é nuair is mian leat athruithe i Weblate a dhíscríobh agus é a "
-"thabhairt i sioncrón leis an stórlann suas an srutha."
+"Caillfidh sé athruithe i stór Weblate agus cuirfidh sé i sioncrón é leis an "
+"stór thuasluaite."
 
 #: weblate/templates/js/git-status.html:154
 msgid "Reset and reapply"
-msgstr ""
+msgstr "Athshocraigh agus cuir i bhfeidhm arís"
 
 #: weblate/templates/js/git-status.html:157
 msgid ""
 "Resets Weblate’s repository to match upstream and replace upstream "
 "translations with the current state from Weblate."
 msgstr ""
+"Athshocraíonn sé stórlann Weblate chun meaitseáil suas an sruth agus "
+"athsholáthraíonn sé aistriúcháin suas an sruth leis an staid reatha ó "
+"Weblate."
 
 #: weblate/templates/js/git-status.html:158
-#, fuzzy
-#| msgid "Memory will be then populated with the current translations."
 msgid "Use when you want Weblate to be the authority for translations."
-msgstr "Cuirfear na haistriúcháin reatha i gcuimhne ansin."
+msgstr ""
+"Bain úsáid as nuair is mian leat go mbeadh Weblate mar údarás le haghaidh "
+"aistriúcháin."
 
 #: weblate/templates/js/git-status.html:159
-#, fuzzy
-#| msgid ""
-#| "Use when you want to discardchanges in Weblate and bring it in sync with "
-#| "upstream repository."
 msgid ""
 "It will keep changes from Weblate but bring its repository in sync with the "
 "upstream repository."
 msgstr ""
-"Úsáid é nuair is mian leat athruithe i Weblate a dhíscríobh agus é a "
-"thabhairt i sioncrón leis an stórlann suas an srutha."
+"Coinneoidh sé athruithe ó Weblate ach tabharfaidh sé a stór sioncrónaithe "
+"leis an stór thuasluaite."
 
 #: weblate/templates/js/git-status.html:165
 msgid "Cleanup"
@@ -15592,10 +15584,8 @@ msgid "Exclude author (username)"
 msgstr "Eisiamh údar (ainm úsáideora)"
 
 #: weblate/trans/forms.py:3059
-#, fuzzy
-#| msgid "Date joined"
 msgid "Date range"
-msgstr "Dáta a cláraíodh"
+msgstr "Raon dáta"
 
 #: weblate/trans/forms.py:3142
 msgid "Expiry cannot be in the past."
