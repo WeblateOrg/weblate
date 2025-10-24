@@ -12,6 +12,9 @@ Weblate 5.14.1
 
 .. rubric:: Bug fixes
 
+* Counting outgoing commits in the repository status.
+* Listing of other translations.
+
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading
