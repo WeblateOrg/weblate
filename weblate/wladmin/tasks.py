@@ -30,7 +30,11 @@ def backup() -> None:
 
 @app.task(trail=False, autoretry_for=(WeblateLockTimeoutError,))
 def backup_service(pk: int) -> None:
-    service = BackupService.objects.get(pk=pk)
+    try:
+        service = BackupService.objects.get(pk=pk)
+    except BackupService.DoesNotExist:
+        # The service was removed meanwhile
+        return
     service.ensure_init()
     service.backup()
     service.prune()
