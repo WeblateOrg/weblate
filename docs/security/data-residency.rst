@@ -5,7 +5,7 @@ All **Weblate Cloud** and **Hosted Weblate** services are hosted entirely within
 This ensures strong data protection, clear jurisdiction, and compliance with European privacy standards.
 
 Our infrastructure is provided by **Hetzner Online GmbH**, a German data center operator with a long-standing reputation for reliability and sustainability.
-Hetzner’s facilities are certified under **ISO 27001** (information security), **ISO 9001** (quality management), and is working on getting certified under **ISO 50001** (energy management).
+Hetzner’s facilities are certified under **ISO 27001** (information security) and **ISO 9001** (quality management), and are pursuing **ISO 50001** (energy management) certification.
 
 Where data lives
 ----------------
