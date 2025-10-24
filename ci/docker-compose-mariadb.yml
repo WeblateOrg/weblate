@@ -4,7 +4,7 @@
 
 services:
   cache:
-    image: redis:8.2.2-alpine@sha256:b4ab73ca1f4e12c803845e561c07ccc365d2be7c9b048459e679b8ce73da4056
+    image: valkey/valkey:9.0.0-alpine@sha256:b4ee67d73e00393e712accc72cfd7003b87d0fcd63f0eba798b23251bfc9c394
     ports:
     - 60001:6379
     restart: always

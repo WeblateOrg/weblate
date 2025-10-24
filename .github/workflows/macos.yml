@@ -36,13 +36,7 @@ jobs:
       with:
         persist-credentials: false
     - run: brew update
-    - run: brew uninstall openssl@1.1
-    - run: brew uninstall python@3.12 azure-cli
-    - run: brew untap homebrew/cask
-    - run: brew untap homebrew/core
-    - run: brew untap aws/tap
     - run: brew upgrade
-    - run: brew cleanup
     - run: brew list --versions
     - run: brew deps --tree --installed
     - run: brew config
@@ -50,18 +44,18 @@ jobs:
       continue-on-error: true
     - name: Install brew dependencies
       run: |
-        brew install pango cairo gobject-introspection glib libyaml pkgconf zstd xxhash librsvg uv libxmlsec1
+        brew install python pango cairo gobject-introspection glib libyaml pkgconf zstd lz4 xxhash libxmlsec1 librsvg uv
     - name: Install test dependencies
       run: |
-        brew install mysql icu4c redis postgresql
+        brew install mysql icu4c valkey postgresql
         brew link --force icu4c
     - name: Start services
       run: |
         brew services start postgresql
-        brew services start redis
+        brew services start valkey
     - name: Install Weblate
       run: |
-        uv venv --python python3.13 .venv
+        uv venv .venv
         source .venv/bin/activate
         uv sync --frozen --all-extras --dev --no-binary-package lxml --no-binary-package xmlsec
     - name: Test with Django

@@ -46,8 +46,9 @@ class WeblateMemory(InternalMachineTranslation):
             quality = self.comparer.similarity(text, result.source)
             if result.status == Memory.STATUS_PENDING:
                 quality = round(quality * PENDING_MEMORY_PENALTY_FACTOR)
-
-            if unit.context != result.context:
+            if unit.context != result.context and not (
+                result.from_file and not result.context
+            ):
                 quality = round(quality * DIFFERENT_CONTEXT_PENALTY_FACTOR)
 
             if quality < threshold:

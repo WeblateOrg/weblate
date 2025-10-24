@@ -15,10 +15,16 @@ from weblate.addons.base import BaseAddon
 from weblate.addons.events import AddonEvent
 from weblate.addons.forms import AutoAddonForm
 from weblate.trans.actions import ACTIONS_CONTENT, ActionEvents
+from weblate.trans.models import Component
 from weblate.trans.tasks import auto_translate, auto_translate_component
 
 if TYPE_CHECKING:
-    from weblate.trans.models import Change, Component
+    from django.forms.boundfield import BoundField
+    from django_stubs_ext import StrOrPromise
+
+    from weblate.trans.models import Change
+
+SKIP_ACTIONS = {ActionEvents.AUTO, ActionEvents.ENFORCED_CHECK}
 
 
 class AutoTranslateAddon(BaseAddon):
@@ -40,15 +46,39 @@ class AutoTranslateAddon(BaseAddon):
     def component_update(
         self, component: Component, activity_log_id: int | None = None
     ) -> None:
+        self.trigger_autotranslate(component=component)
+
+    def trigger_autotranslate(
+        self,
+        *,
+        component: Component | None = None,
+        user_id: int | None = None,
+        translation_id: int | None = None,
+        unit_ids: list[int] | None = None,
+    ) -> None:
         conf = self.instance.configuration
-        auto_translate_component.delay_on_commit(
-            component.pk,
-            mode=conf["mode"],
-            q=conf["q"],
-            auto_source=conf["auto_source"],
-            engines=conf["engines"],
-            threshold=conf["threshold"],
-        )
+        if component is None:
+            auto_translate.delay_on_commit(
+                mode=conf["mode"],
+                q=conf["q"],
+                auto_source=conf["auto_source"],
+                engines=conf["engines"],
+                threshold=conf["threshold"],
+                component=conf["component"],
+                user_id=user_id,
+                translation_id=translation_id,
+                unit_ids=unit_ids,
+            )
+        else:
+            auto_translate_component.delay_on_commit(
+                component.pk,
+                mode=conf["mode"],
+                q=conf["q"],
+                auto_source=conf["auto_source"],
+                engines=conf["engines"],
+                threshold=conf["threshold"],
+                component=conf["component"],
+            )
 
     def daily(self, component: Component, activity_log_id: int | None = None) -> None:
         # Translate every component less frequenctly to reduce load.
@@ -65,11 +95,11 @@ class AutoTranslateAddon(BaseAddon):
         ):
             return
 
-        self.component_update(component)
+        self.trigger_autotranslate(component=component)
 
     def change_event(self, change: Change, activity_log_id: int | None = None) -> None:
         units = []
-        if change.action in ACTIONS_CONTENT:
+        if change.action in ACTIONS_CONTENT and change.action not in SKIP_ACTIONS:
             if change.unit is not None:
                 units.append(change.unit)
         elif change.action in {
@@ -105,12 +135,30 @@ class AutoTranslateAddon(BaseAddon):
 
         translation_with_unit_ids = defaultdict(list)
         for unit in all_units:
+            if unit.labels.filter(name="Automatically translated").exists():
+                # Skip already automatically translated strings here to avoid repeated
+                # translating, for example with enforced checks.
+                continue
             translation_with_unit_ids[unit.translation.id].append(unit.pk)
 
         for translation_id, unit_ids in translation_with_unit_ids.items():
-            auto_translate.delay(
+            self.trigger_autotranslate(
                 user_id=change.user_id,
                 translation_id=translation_id,
                 unit_ids=unit_ids,
-                **self.instance.configuration,
             )
+
+    def show_setting_field(self, field: BoundField) -> bool:
+        auto_source = self.instance.configuration["auto_source"]
+        # Do not show UI hidden fields
+        if (auto_source == "mt" and field.name == "component") or (
+            auto_source == "others" and field.name in {"engines", "threshold"}
+        ):
+            return False
+        return not field.is_hidden and field.value()
+
+    def get_setting_value(self, field: BoundField) -> StrOrPromise:
+        if field.name == "component" and not hasattr(field.field, "choices"):
+            # Manually handle char field
+            return str(Component.objects.get(pk=field.value()))
+        return super().get_setting_value(field)

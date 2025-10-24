@@ -6,6 +6,9 @@ from __future__ import annotations
 
 import ast
 import os
+from urllib.parse import quote
+
+from django.core.exceptions import ImproperlyConfigured
 
 
 def get_env_str(
@@ -21,7 +24,7 @@ def get_env_str(
                 result = handle.read()
         except OSError as error:
             msg = f"Failed to open {filename} as specified by {file_env}: {error}"
-            raise ValueError(msg) from error
+            raise ImproperlyConfigured(msg) from error
     else:
         if fallback_name and name not in os.environ:
             name = fallback_name
@@ -31,7 +34,7 @@ def get_env_str(
         )
     if required and not result:
         msg = f"{name} has to be configured!"
-        raise ValueError(msg)
+        raise ImproperlyConfigured(msg)
     return result
 
 
@@ -61,7 +64,7 @@ def get_env_int(name: str, default: int = 0) -> int:
         return int(os.environ[name])
     except ValueError as error:
         msg = f"{name} is not an integer: {error}"
-        raise ValueError(msg) from error
+        raise ImproperlyConfigured(msg) from error
 
 
 def get_env_float(name: str, default: float = 0.0) -> float:
@@ -72,7 +75,7 @@ def get_env_float(name: str, default: float = 0.0) -> float:
         return float(os.environ[name])
     except ValueError as error:
         msg = f"{name} is not an float: {error}"
-        raise ValueError(msg) from error
+        raise ImproperlyConfigured(msg) from error
 
 
 def get_env_bool(name: str, default: bool = False) -> bool:
@@ -97,7 +100,12 @@ def get_env_credentials(
 ) -> dict[str, dict[str, str]]:
     """Get VCS integration credentials from environment."""
     if found_env_credentials := get_env_str(f"WEBLATE_{name}_CREDENTIALS"):
-        return ast.literal_eval(found_env_credentials)
+        try:
+            return ast.literal_eval(found_env_credentials)
+        except ValueError as error:
+            msg = f"Could not parse {name}_CREDENTIALS: {error}"
+            raise ImproperlyConfigured(msg) from error
+
     username = os.environ.get(f"WEBLATE_{name}_USERNAME", "")
     token = os.environ.get(f"WEBLATE_{name}_TOKEN", "")
     host = os.environ.get(f"WEBLATE_{name}_HOST")
@@ -106,7 +114,7 @@ def get_env_credentials(
     if not host:
         if username or token:
             msg = f"Incomplete {name}_CREDENTIALS configuration: missing WEBLATE_{name}_HOST"
-            raise ValueError(msg)
+            raise ImproperlyConfigured(msg)
         return {}
 
     credentials = {host: {"username": username, "token": token}}
@@ -128,12 +136,39 @@ def get_env_ratelimit(name: str, default: str) -> str:
         num, period = value.split("/")
     except ValueError as error:
         msg = f"Could not parse {name}: {error}"
-        raise ValueError(msg) from error
+        raise ImproperlyConfigured(msg) from error
     if not num.isdigit():
         msg = f"Could not parse {name}: rate is not numeric: {num}"
-        raise ValueError(msg)
+        raise ImproperlyConfigured(msg)
     if period[0] not in {"s", "m", "h", "d"}:
         msg = f"Could not parse {name}: unknown period: {period}"
-        raise ValueError(msg)
+        raise ImproperlyConfigured(msg)
 
     return value
+
+
+def url_quote_part(value: str) -> str:
+    return quote(value, safe="")
+
+
+def get_env_redis_url() -> str:
+    # Get values from the environment
+    redis_proto = "rediss" if get_env_bool("REDIS_TLS") else "redis"
+    redis_host = url_quote_part(get_env_str("REDIS_HOST", "cache", required=True))
+    redis_port = get_env_int("REDIS_PORT", 6379)
+    redis_db = get_env_int("REDIS_DB", 1)
+    redis_password = url_quote_part(get_env_str("REDIS_PASSWORD", ""))
+    redis_user = url_quote_part(get_env_str("REDIS_USER", ""))
+
+    # Build user/password part of the URL
+    redis_user_password: str | None
+    if redis_user and redis_password:
+        redis_user_password = f"{redis_user}:{redis_password}@"
+    elif redis_password:
+        redis_user_password = f":{redis_password}@"
+    elif redis_user:
+        redis_user_password = f"{redis_user}@"
+    else:
+        redis_user_password = ""
+
+    return f"{redis_proto}://{redis_user_password}{redis_host}:{redis_port}/{redis_db}"

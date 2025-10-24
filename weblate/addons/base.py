@@ -23,12 +23,14 @@ from weblate.trans.util import get_clean_env
 from weblate.utils import messages
 from weblate.utils.errors import report_error
 from weblate.utils.files import cleanup_error_message
+from weblate.utils.html import format_html_join_comma, list_to_tuples
 from weblate.utils.render import render_template
 from weblate.utils.validators import validate_filename
 
 if TYPE_CHECKING:
     from collections.abc import Generator
 
+    from django.forms.boundfield import BoundField
     from django_stubs_ext import StrOrPromise
 
     from weblate.addons.forms import BaseAddonForm
@@ -68,6 +70,9 @@ class BaseAddon:
         self.instance: Addon = storage
         self.alerts: list[dict[str, str]] = []
         self.extra_files: list[str] = []
+
+    def __repr__(self) -> str:
+        return f"<{self.__class__.__name__} instance={self.instance}>"
 
     @cached_property
     def doc_anchor(self) -> str:
@@ -151,8 +156,38 @@ class BaseAddon:
             kwargs["data"] = self.instance.configuration
         return self.settings_form(user, self, **kwargs)
 
-    def get_ui_form(self) -> BaseAddonForm | None:
-        return self.get_settings_form(None)
+    def show_setting_field(self, field: BoundField) -> bool:
+        return not field.is_hidden and field.value()
+
+    def get_setting_value(self, field: BoundField) -> StrOrPromise:
+        value = field.value()
+        if value is True:
+            return gettext("enabled")
+        if field_choices := getattr(field.field, "choices", None):
+            choices: dict[str, str] = {
+                str(choice): value for choice, value in field_choices
+            }
+            if isinstance(value, list):
+                return format_html_join_comma(
+                    "{}",
+                    list_to_tuples(choices.get(val, val) for val in value),
+                )
+            return choices.get(value, value)
+        return value
+
+    def get_settings_fields(self) -> list[tuple[StrOrPromise, StrOrPromise]]:
+        form = self.get_settings_form(None)
+        if form is None:
+            return []
+
+        return [
+            (
+                field.label,
+                self.get_setting_value(field),
+            )
+            for field in form
+            if self.show_setting_field(field)
+        ]
 
     def configure(self, configuration: dict[str, Any]) -> None:
         """Save configuration."""

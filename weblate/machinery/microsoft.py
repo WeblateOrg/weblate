@@ -38,6 +38,7 @@ class MicrosoftCognitiveTranslation(XMLMachineTranslationMixin, MachineTranslati
     name = "Azure AI Translator"
     max_score = 90
     settings_form = MicrosoftMachineryForm
+    glossary_support = True
 
     language_map: ClassVar[dict[str, str]] = {
         "zh_TW": "zh-Hant",

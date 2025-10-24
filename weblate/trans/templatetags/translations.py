@@ -65,7 +65,6 @@ if TYPE_CHECKING:
 
     from django import forms
     from django.db.models import Model, QuerySet
-    from django.forms.boundfield import BoundField
     from django.template.context import Context
     from django.utils.safestring import SafeString
     from django_stubs_ext import StrOrPromise
@@ -1397,30 +1396,6 @@ def markdown(text: str) -> str:
 
 
 @register.filter
-def choiceval(boundfield: BoundField) -> str:
-    """
-    Get literal value from a field's choices.
-
-    Empty value is returned if value is not selected or invalid.
-    """
-    value = boundfield.value()
-    if value is None:
-        return ""
-    if value is True:
-        return gettext("enabled")
-    if not hasattr(boundfield.field, "choices"):
-        return value
-    choices: dict[str, str] = {
-        str(choice): value for choice, value in boundfield.field.choices
-    }
-    if isinstance(value, list):
-        return format_html_join_comma(
-            "{}", list_to_tuples(choices.get(val, val) for val in value)
-        )
-    return choices.get(value, value)
-
-
-@register.filter
 def format_commit_author(commit) -> str:
     users = User.objects.filter(
         social_auth__verifiedemail__email=commit["author_email"]
@@ -1523,7 +1498,7 @@ def urlize_ugc(value: str, autoescape: bool = True) -> str:
 def get_glossary_badge(component: Component | GhostStats) -> StrOrPromise:
     if isinstance(component, Component) and component.is_glossary:
         return format_html(
-            '<span class="label label-{}">{}</span>',
+            '<span class="badge label-{}">{}</span>',
             component.glossary_color,
             gettext("Glossary"),
         )

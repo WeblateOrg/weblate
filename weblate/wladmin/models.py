@@ -84,6 +84,7 @@ class ConfigurationErrorManager(models.Manager["ConfigurationError"]):
             "weblate.C038",
             "weblate.C040",
             "weblate.C041",
+            "weblate.E006",
         }
         removals = []
         existing = {error.name: error for error in self.all()}

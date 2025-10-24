@@ -146,7 +146,7 @@ class AutoLoadTest(TestCase):
         self.single_test(TEST_ANDROID, AndroidFormat)
 
     def test_xliff(self) -> None:
-        self.single_test(TEST_XLIFF, RichXliffFormat)
+        self.single_test(TEST_XLIFF, XliffFormat)
 
     def test_resx(self) -> None:
         self.single_test(TEST_RESX, RESXFormat)

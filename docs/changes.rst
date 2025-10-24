@@ -1,34 +1,66 @@
+Weblate 5.14.1
+--------------
+
+*Not yet released.*
+
+.. rubric:: New features
+
+.. rubric:: Improvements
+
+* Document using Valkey in :ref:`celery` and :ref:`production-cache`.
+* Added HTTP environment overview in :ref:`manage-performance`.
+
+.. rubric:: Bug fixes
+
+* Counting outgoing commits in the repository status.
+* Listing of other translations.
+
+.. rubric:: Compatibility
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.14.1.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/154?closed=1>`__.
+
 Weblate 5.14
 ------------
 
-*Not yet released.*
+*Released on October 22nd 2025.*
 
 .. rubric:: New features
 
 * :ref:`addon-weblate.flags.target_repo_update` is now available as an add-on.
 * :http:delete:`/api/projects/(string:project)/labels/(int:label_id)/`.
 * Added multivalue CSV in :ref:`download` for multivalue formats.
+* New global permissions have been added to control viewing teams, users and roles without edit rights, see :ref:`privileges`.
 * New ``unit.bulk_edit`` permission for bulk editing operations, replacing the overloaded use of ``translation.auto`` permission, see :ref:`privileges`.
+* :ref:`date-search`.
+* Last changed lookup in :ref:`search-strings`.
+* :doc:`/security/localization-threat` documentation.
+* :ref:`component-hide_glossary_matches` component setting.
+* Screenshots now can be uploaded from a URL, see :ref:`screenshots`.
 
 .. rubric:: Improvements
 
-* New global permissions have been added to control viewing teams, users and roles without edit rights, see :ref:`privileges`.
 * :ref:`hooks` improvements.
 
   * Now follows :ref:`api-errors`.
   * Available in the OpenAPI.
   * Dropped long-deprecated endpoints.
 
-* :ref:`date-search`.
-* Last changed lookup in :ref:`search-strings`.
-* :doc:`/security/localization-threat` documentation.
 * Improved activity logging for :ref:`addon-weblate.consistency.languages` add-on.
 * :ref:`check-rst-references` and :ref:`check-rst-syntax` now support substitutions.
 * Improved performance for :ref:`check-multiple-failures` and :ref:`check-long-untranslated` checks with batch operations.
-* :ref:`component-hide_glossary_matches` component setting.
 * :ref:`file_format_params` can now be configured via the :ref:`api`.
 * Admins can configure :ref:`expiring-accounts`.
 * Rate limiting of notification e-mails, configurable by :setting:`RATELIMIT_NOTIFICATION_LIMITS`.
+* :guilabel:`Repository maintenance` now supports resetting the repository while keeping the current state of translations in Weblate.
+* Improved listing of :ref:`addon-weblate.autotranslate.autotranslate` configuration.
 
 .. rubric:: Bug fixes
 
@@ -37,6 +69,8 @@ Weblate 5.14
 * Highlighting syntax of overlapping elements.
 * Searching case sensitivity for short strings.
 * Inconsistent file formatting for new translations.
+* Memory contents imported via the :wladmin:`import_memory` command are marked as active.
+* Importing some strings from :doc:`/formats/xliff`.
 
 .. rubric:: Compatibility
 

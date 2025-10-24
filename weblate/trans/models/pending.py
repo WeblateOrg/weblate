@@ -22,14 +22,10 @@ if TYPE_CHECKING:
     from datetime import datetime
 
     from weblate.auth.models import User
-    from weblate.trans.models import Component, Project, Translation, Unit
+    from weblate.trans.models import Component, Translation, Unit
 
 
 class PendingChangeQuerySet(models.QuerySet):
-    def for_project(self, project: Project):
-        """Return pending changes for a specific component."""
-        return self.filter(unit__translation__component__project=project)
-
     def for_component(self, component: Component):
         """Return pending changes for a specific component."""
         return self.filter(unit__translation__component=component)
@@ -163,6 +159,10 @@ class PendingUnitChange(models.Model):
         timestamp: datetime | None = None,
     ) -> PendingUnitChange:
         """Store complete change data for a unit by a specific author."""
+        # update current fields in disk_state details for comparison of
+        # uncommitted disk state with incoming changes during check_sync.
+        unit.store_disk_state()
+
         if target is None:
             target = unit.target
         if explanation is None:

@@ -11,7 +11,7 @@ from weblate.addons.events import POST_CONFIGURE_EVENTS, AddonEvent
 from weblate.addons.models import ADDONS, Addon
 from weblate.trans.models import Component, Project
 from weblate.utils.management.base import BaseCommand
-from weblate.utils.rst import format_table
+from weblate.utils.rst import format_rst_string, format_table
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -36,7 +36,7 @@ class Command(BaseCommand):
     def get_help_text(field, name: str) -> str:
         result = []
         if field.help_text:
-            result.append(str(field.help_text))
+            result.append(format_rst_string(field.help_text))
         choices = getattr(field, "choices", None)
         if choices and name not in {
             "component",
@@ -59,7 +59,9 @@ class Command(BaseCommand):
                 result.extend(
                     (
                         f"   * - ``{value}``".replace("\\", "\\\\"),
-                        f"     - {description}".replace("\\", "\\\\"),
+                        f"     - {format_rst_string(description)}".replace(
+                            "\\", "\\\\"
+                        ),
                     )
                 )
         return "\n".join(result)
@@ -99,7 +101,7 @@ class Command(BaseCommand):
                     if (addon_name, name) not in SKIP_FIELDS
                 ]
 
-                for table_row in format_table(table, [""] * 3):
+                for table_row in format_table(table, None):
                     self.stdout.write(f"{prefix}{table_row}")
                     if not prefix.isspace():
                         prefix = " " * len(prefix)

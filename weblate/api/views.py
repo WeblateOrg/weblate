@@ -142,14 +142,18 @@ if TYPE_CHECKING:
     )
     from weblate.auth.models import AuthenticatedHttpRequest
 
-REPO_OPERATIONS = {
-    "push": ("vcs.push", "do_push", (), True),
-    "pull": ("vcs.update", "do_update", (), True),
-    "reset": ("vcs.reset", "do_reset", (), True),
-    "cleanup": ("vcs.reset", "do_cleanup", (), True),
-    "commit": ("vcs.commit", "commit_pending", ("api",), False),
-    "file-sync": ("vcs.reset", "do_file_sync", (), True),
-    "file-scan": ("vcs.reset", "do_file_scan", (), True),
+REPO_OPERATIONS: dict[str, tuple[str, str, tuple, dict, bool]] = {
+    "push": ("vcs.push", "do_push", (), {}, True),
+    "pull": ("vcs.update", "do_update", (), {}, True),
+    "pull-rebase": ("vcs.update", "do_update", (), {"method": "rebase"}, True),
+    "pull-merge": ("vcs.update", "do_update", (), {"method": "merge"}, True),
+    "pull-merge-noff": ("vcs.update", "do_update", (), {"method": "merge_noff"}, True),
+    "reset": ("vcs.reset", "do_reset", (), {}, True),
+    "reset-keep": ("vcs.reset", "do_reset", (), {"keep_changes": True}, True),
+    "cleanup": ("vcs.reset", "do_cleanup", (), {}, True),
+    "commit": ("vcs.commit", "commit_pending", ("api",), {}, False),
+    "file-sync": ("vcs.reset", "do_file_sync", (), {}, True),
+    "file-scan": ("vcs.reset", "do_file_scan", (), {}, True),
 }
 
 DOC_TEXT = """
@@ -271,7 +275,7 @@ class WeblateViewSet(DownloadViewSet):
     def repository_operation(
         self, request: Request, obj, project: Project, operation: str
     ):
-        permission, method, args, takes_request = REPO_OPERATIONS[operation]
+        permission, method, args, kwargs, takes_request = REPO_OPERATIONS[operation]
 
         if not request.user.has_perm(permission, project):
             raise PermissionDenied
@@ -279,8 +283,8 @@ class WeblateViewSet(DownloadViewSet):
         obj.acting_user = request.user
 
         if takes_request:
-            return getattr(obj, method)(*args, request)
-        return getattr(obj, method)(*args, request.user)
+            return getattr(obj, method)(*args, request, **kwargs)
+        return getattr(obj, method)(*args, request.user, **kwargs)
 
     @extend_schema(
         description="Return information about VCS repository status.", methods=["get"]

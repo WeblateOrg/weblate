@@ -869,3 +869,35 @@ class ImportExportAddTest(ViewTestCase):
             follow=True,
         )
         self.assertContains(response, "(skipped: 0, not found: 0, updated: 1)")
+
+    def test_xliff(self) -> None:
+        self.component.source_translation.add_unit(
+            None, "amp", "Source & translation", author=self.user
+        )
+        response = self.client.get(
+            reverse("download", kwargs=self.kw_translation),
+            {"format": "xliff11"},
+        )
+        content = response.text
+        placeholder = """<source>Source &amp; translation</source>
+        <target></target>"""
+        translation = """<source>Source &amp; translation</source>
+        <target>Zdroj &amp; překlad</target>"""
+
+        self.assertIn(placeholder, content)
+
+        handle = NamedBytesIO(
+            "test.xliff", content.replace(placeholder, translation).encode()
+        )
+        params = {
+            "file": handle,
+            "method": "translate",
+            "author_name": self.user.full_name,
+            "author_email": self.user.email,
+        }
+        response = self.client.post(
+            reverse("upload", kwargs=self.kw_translation),
+            params,
+            follow=True,
+        )
+        self.assertContains(response, "(skipped: 0, not found: 0, updated: 1)")

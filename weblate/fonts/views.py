@@ -141,7 +141,7 @@ class FontDetailView(ProjectViewMixin, DetailView):
 
         # Compare file content
         current_content = self.object.font.read()
-        self.object.font.seek(0)
+        self.object.font.close()
 
         if new_file.loaded_font.font_bytes == current_content:
             messages.info(

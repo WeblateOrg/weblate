@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING
 
 from weblate.trans.file_format_params import FILE_FORMATS_PARAMS
 from weblate.utils.management.base import BaseCommand
-from weblate.utils.rst import format_table
+from weblate.utils.rst import format_rst_string, format_table
 
 if TYPE_CHECKING:
     from collections.abc import Sequence
@@ -18,16 +18,12 @@ class Command(BaseCommand):
     help = "List file format parameters"
 
     def format_file_formats(self, file_formats: Sequence[str]) -> str:
-        lines = [
-            " ".join([f"``{f}``" for f in file_formats[i * 4 : (i + 1) * 4]])
-            for i in range((len(file_formats) // 4) + 1)
-        ]
-        return "\n".join(lines)
+        return "\n".join(f"* ``{f}``" for f in file_formats)
 
     def get_help_text(self, param) -> str:
         result = []
         if param.help_text:
-            result.append(str(param.help_text))
+            result.append(format_rst_string(param.help_text))
         if param.choices:
             if result:
                 result.append("")
@@ -37,7 +33,7 @@ class Command(BaseCommand):
                     (
                         "",
                         f"``{value}``".replace("\\", "\\\\"),
-                        f"  {description}".replace("\\", "\\\\"),
+                        f"  {format_rst_string(description)}".replace("\\", "\\\\"),
                     )
                 )
         return "\n".join(result)

@@ -1297,7 +1297,7 @@ class XliffFormat(TTKitFormat):
     name = gettext_lazy("XLIFF 1.2 translation file")
     format_id = "plainxliff"
     loader = xlifffile
-    autoload: tuple[str, ...] = ()
+    autoload: tuple[str, ...] = ("*.xlf", "*.xliff")
     unit_class = XliffUnit
     language_format = "bcp"
     use_settarget = True
@@ -1335,7 +1335,7 @@ class RichXliffFormat(XliffFormat):
     # Translators: File format name
     name = gettext_lazy("XLIFF 1.2 with placeables support")
     format_id = "xliff"
-    autoload: tuple[str, ...] = ("*.xlf", "*.xliff", "*.sdlxliff", "*.mxliff")
+    autoload: tuple[str, ...] = ("*.sdlxliff", "*.mxliff")
     unit_class = RichXliffUnit
 
 
@@ -2204,7 +2204,21 @@ class TBXFormat(TTKitFormat):
     format_id = "tbx"
     loader = tbxfile
     autoload: tuple[str, ...] = ("*.tbx",)
-    new_translation = tbxfile.XMLskeleton
+    new_translation = """<?xml version="1.0"?>
+<!DOCTYPE martif PUBLIC "ISO 12200:1999A//DTD MARTIF core (DXFcdV04)//EN" "TBXcdv04.dtd">
+<martif type="TBX">
+    <martifHeader>
+        <fileDesc>
+            <sourceDesc>
+                <p>Weblate Glossary</p>
+            </sourceDesc>
+        </fileDesc>
+    </martifHeader>
+    <text>
+        <body>
+        </body>
+    </text>
+</martif>"""
     unit_class = TBXUnit
     create_empty_bilingual: bool = True
     use_settarget = True

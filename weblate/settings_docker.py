@@ -7,13 +7,6 @@ from logging.handlers import SysLogHandler
 
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
-from social_core.backends.saml import (
-    OID_COMMON_NAME,
-    OID_GIVEN_NAME,
-    OID_MAIL,
-    OID_SURNAME,
-    OID_USERID,
-)
 
 from weblate.api.spectacular import (
     get_drf_settings,
@@ -28,6 +21,7 @@ from weblate.utils.environment import (
     get_env_list,
     get_env_map,
     get_env_ratelimit,
+    get_env_redis_url,
     get_env_str,
     modify_env_list,
 )
@@ -419,27 +413,26 @@ if WEBLATE_SAML_IDP_ENTITY_ID:
         SOCIAL_AUTH_SAML_SP_PRIVATE_KEY = handle.read()
     SOCIAL_AUTH_SAML_SP_ENTITY_ID = f"{SITE_URL}/accounts/metadata/saml/"
     # Identity Provider
-    SOCIAL_AUTH_SAML_ENABLED_IDPS = {
-        "weblate": {
-            "entity_id": WEBLATE_SAML_IDP_ENTITY_ID,
-            "url": get_env_str("WEBLATE_SAML_IDP_URL"),
-            "x509cert": get_env_str("WEBLATE_SAML_IDP_X509CERT"),
-            "attr_full_name": get_env_str(
-                "WEBLATE_SAML_ID_ATTR_FULL_NAME", OID_COMMON_NAME
-            ),
-            "attr_first_name": get_env_str(
-                "WEBLATE_SAML_ID_ATTR_FIRST_NAME", OID_GIVEN_NAME
-            ),
-            "attr_last_name": get_env_str(
-                "WEBLATE_SAML_ID_ATTR_LAST_NAME", OID_SURNAME
-            ),
-            "attr_username": get_env_str("WEBLATE_SAML_ID_ATTR_USERNAME", OID_USERID),
-            "attr_email": get_env_str("WEBLATE_SAML_ID_ATTR_EMAIL", OID_MAIL),
-            "attr_user_permanent_id": get_env_str(
-                "WEBLATE_SAML_ID_ATTR_USER_PERMANENT_ID", OID_USERID
-            ),
-        }
+    WEBLATE_SAML_IDP = {
+        "entity_id": WEBLATE_SAML_IDP_ENTITY_ID,
+        "url": get_env_str("WEBLATE_SAML_IDP_URL"),
+        "x508cert": get_env_str("WEBLATE_SAML_IDP_X509CERT"),
     }
+
+    for field in (
+        "attr_full_name",
+        "attr_first_name",
+        "attr_last_name",
+        "attr_username",
+        "attr_email",
+        "attr_user_permanent_id",
+    ):
+        env_name = f"WEBLATE_SAML_ID_{field.upper()}"
+        value = get_env_str(env_name)
+        if env_name:
+            WEBLATE_SAML_IDP[field] = env_name
+
+    SOCIAL_AUTH_SAML_ENABLED_IDPS = {"weblate": WEBLATE_SAML_IDP}
     SOCIAL_AUTH_SAML_SUPPORT_CONTACT = SOCIAL_AUTH_SAML_TECHNICAL_CONTACT = {
         "givenName": ADMINS[0][0],
         "emailAddress": ADMINS[0][1],
@@ -1240,24 +1233,8 @@ DEFAULT_FROM_EMAIL = get_env_str("WEBLATE_DEFAULT_FROM_EMAIL", SERVER_EMAIL)
 # List of URLs your site is supposed to serve
 ALLOWED_HOSTS = get_env_list("WEBLATE_ALLOWED_HOSTS", ["*"])
 
-# Extract redis password
-REDIS_PASSWORD = get_env_str("REDIS_PASSWORD")
-REDIS_USER = get_env_str("REDIS_USER")
-REDIS_USER_PASSWORD = (
-    f"{REDIS_USER}:{REDIS_PASSWORD}"
-    if REDIS_USER and REDIS_PASSWORD
-    else f":{REDIS_PASSWORD}"
-    if REDIS_PASSWORD
-    else REDIS_USER  # can be None
-)
-REDIS_PROTO = "rediss" if get_env_bool("REDIS_TLS") else "redis"
-REDIS_URL = "{}://{}{}:{}/{}".format(
-    REDIS_PROTO,
-    f"{REDIS_USER_PASSWORD}@" if REDIS_USER_PASSWORD else "",
-    get_env_str("REDIS_HOST", "cache", required=True),
-    get_env_int("REDIS_PORT", 6379),
-    get_env_int("REDIS_DB", 1),
-)
+# Extract redis URL
+REDIS_URL = get_env_redis_url()
 
 # Configuration for caching
 CACHES = {
@@ -1280,7 +1257,7 @@ CACHES = {
         "OPTIONS": {"MAX_ENTRIES": 1000},
     },
 }
-if not get_env_bool("REDIS_VERIFY_SSL", True) and REDIS_PROTO == "rediss":
+if not get_env_bool("REDIS_VERIFY_SSL", True) and REDIS_URL.startswith("rediss://"):
     CACHES["default"]["OPTIONS"]["CONNECTION_POOL_KWARGS"]["ssl_cert_reqs"] = None  # type: ignore[index]
 
 
@@ -1383,7 +1360,7 @@ SILENCED_SYSTEM_CHECKS.extend(get_env_list("WEBLATE_SILENCED_SYSTEM_CHECKS"))
 # Celery worker configuration for production
 CELERY_TASK_ALWAYS_EAGER = get_env_bool("WEBLATE_CELERY_EAGER")
 CELERY_BROKER_URL = REDIS_URL
-if REDIS_PROTO == "rediss":
+if REDIS_URL.startswith("rediss://"):
     CELERY_BROKER_URL = "{}?ssl_cert_reqs={}".format(
         CELERY_BROKER_URL,
         "CERT_REQUIRED" if get_env_bool("REDIS_VERIFY_SSL", True) else "CERT_NONE",

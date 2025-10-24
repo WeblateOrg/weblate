@@ -618,14 +618,21 @@ class Translation(
         Change.objects.bulk_create(self.update_changes, batch_size=500)
         self.update_changes.clear()
 
-    def do_update(self, request: AuthenticatedHttpRequest | None = None, method=None):
+    def do_update(
+        self, request: AuthenticatedHttpRequest | None = None, method: str | None = None
+    ):
         return self.component.do_update(request, method=method)
 
     def do_push(self, request: AuthenticatedHttpRequest | None = None):
         return self.component.do_push(request)
 
-    def do_reset(self, request: AuthenticatedHttpRequest | None = None):
-        return self.component.do_reset(request)
+    def do_reset(
+        self,
+        request: AuthenticatedHttpRequest | None = None,
+        *,
+        keep_changes: bool = False,
+    ) -> bool:
+        return self.component.do_reset(request, keep_changes=keep_changes)
 
     def do_cleanup(self, request: AuthenticatedHttpRequest | None = None):
         return self.component.do_cleanup(request)
@@ -729,6 +736,7 @@ class Translation(
         )
 
         all_changes_status = {}
+        units_to_clear_disk_state = set()  # Track units for disk_state clearing
 
         commit_groups = self._group_changes_by_author(pending_changes)
         for author, changes in commit_groups:
@@ -738,6 +746,11 @@ class Translation(
             # Flush the grouped pending changes for this author
             changes_status = self.update_units(changes, store, author_name)
             all_changes_status.update(changes_status)
+
+            # Track successful units
+            for change in changes:
+                if changes_status.get(change.pk):
+                    units_to_clear_disk_state.add(change.unit_id)
 
             # Commit changes if there was anything written out
             if any(changes_status.values()):
@@ -770,6 +783,30 @@ class Translation(
             PendingUnitChange.objects.filter(
                 unit_id=unit_id, timestamp__lte=ts
             ).delete()
+
+        # Clear disk states for units that have no more pending changes
+        units_with_remaining_changes = set(
+            PendingUnitChange.objects.filter(
+                unit_id__in=units_to_clear_disk_state
+            ).values_list("unit_id", flat=True)
+        )
+
+        units_to_actually_clear = (
+            units_to_clear_disk_state - units_with_remaining_changes
+        )
+
+        if units_to_actually_clear:
+            units_to_update = list(
+                Unit.objects.filter(
+                    id__in=units_to_actually_clear, details__has_key="disk_state"
+                ).select_for_update()
+            )
+
+            for unit in units_to_update:
+                del unit.details["disk_state"]
+
+            if units_to_update:
+                Unit.objects.bulk_update(units_to_update, ["details"], batch_size=500)
 
         # Update stats (the translated flag might have changed)
         self.invalidate_cache()
@@ -1029,7 +1066,15 @@ class Translation(
                 updated = True
 
             # Update fuzzy/approved flag
-            pounit.set_state(unit.state)
+            pounit.set_state(pending_change.state)
+
+            # Update disk state from the file to the unit
+            unit.details["disk_state"] = {
+                "target": pounit.target,
+                "state": pending_change.state,
+                "explanation": pounit.explanation,
+            }
+            unit.save(update_fields=["details"])
 
         # Did we do any updates?
         if not updated:
@@ -1644,7 +1689,10 @@ class Translation(
             self.check_sync(request=request, change=change, author=user)
             self.invalidate_cache()
         # Trigger post-update signal
-        self.component.trigger_post_update(previous_revision, False)
+        self.component.trigger_post_update(
+            previous_head=previous_revision,
+            skip_push=False,
+        )
 
     def get_store_change_translations(self) -> list[Translation]:
         component = self.component

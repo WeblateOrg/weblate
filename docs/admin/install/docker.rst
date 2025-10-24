@@ -3,7 +3,7 @@ Installing using Docker
 
 With dockerized Weblate deployment you can get your personal Weblate instance
 up and running in seconds. All of Weblate's dependencies are already included.
-PostgreSQL is set up as the default database and Redis as a caching backend.
+PostgreSQL is set up as the default database and Valkey as a caching backend.
 
 .. include:: steps/hw.rst
 
@@ -1623,11 +1623,11 @@ Database backup settings
     Configures the daily database dump using :setting:`DATABASE_BACKUP`. Defaults to ``plain``.
 
 
-Caching server setup
-++++++++++++++++++++
+Datastore server setup
+++++++++++++++++++++++
 
-Using Redis is strongly recommended by Weblate and you have to provide a Redis
-instance when running Weblate in Docker.
+Using Valkey or Redis is required by the Weblate container and you have to
+provide a connection parameters when running Weblate in Docker.
 
 .. seealso::
 
@@ -1635,25 +1635,25 @@ instance when running Weblate in Docker.
 
 .. envvar:: REDIS_HOST
 
-   The Redis server hostname or IP address. Defaults to ``cache``.
+   The datastore server hostname or IP address. Defaults to ``cache``.
 
 .. envvar:: REDIS_PORT
 
-    The Redis server port. Defaults to ``6379``.
+    The datastore server port. Defaults to ``6379``.
 
 .. envvar:: REDIS_DB
 
-    The Redis database number, defaults to ``1``.
+    The datastore database number, defaults to ``1``.
 
 .. envvar:: REDIS_USER
 
    .. versionadded:: 5.13
 
-    The Redis database user, not used by default.
+    The datastore database user, not used by default.
 
 .. envvar:: REDIS_PASSWORD
 
-    The Redis server password, not used by default.
+    The datastore server password, not used by default.
 
     .. seealso::
 
@@ -1661,11 +1661,11 @@ instance when running Weblate in Docker.
 
 .. envvar:: REDIS_TLS
 
-    Enables using SSL for Redis connection.
+    Enables using SSL for the datastore connection.
 
 .. envvar:: REDIS_VERIFY_SSL
 
-    Can be used to disable SSL certificate verification for Redis connection.
+    Can be used to disable SSL certificate verification for the datastore connection.
 
 .. _docker-mail:
 
@@ -2062,7 +2062,7 @@ Docker container volumes
 ------------------------
 
 There are two volumes (:file:`data` and :file:`cache`) exported by the Weblate container. The
-other service containers (PostgreSQL or Redis) have their data volumes as well,
+other service containers (PostgreSQL or Valkey) have their data volumes as well,
 but those are not covered by this document.
 
 The :file:`data` volume is mounted as :file:`/app/data` and is used to store
@@ -2347,9 +2347,9 @@ configure LibreTranslate in Weblate:
 2. Navigate to :guilabel:`Machine translation` → :guilabel:`Automatic suggestions`
 3. Add a new LibreTranslate service with:
 
-   * **Service**: LibreTranslate
-   * **API URL**: ``http://libretranslate:5000``
-   * **API key**: Leave empty
+   :Service: LibreTranslate
+   :API URL: ``http://libretranslate:5000``
+   :API key: Leave empty
 
 LibreTranslate is now configured and available for machine translation in Weblate.
 

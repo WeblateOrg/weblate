@@ -135,14 +135,8 @@ Glossaries in automatic suggestion
 
 .. versionadded:: 5.3
 
-Following automatic suggestion services utilize glossaries during the translation:
-
-* :ref:`mt-openai`
-* :ref:`mt-deepl`
-* :ref:`mt-microsoft-translator`
-* :ref:`mt-modernmt`
-* :ref:`mt-aws`
-* :ref:`mt-google-translate-api-v3`
+Some automatic suggestion services utilize glossaries during the translation,
+please consult their documentation in :doc:`/admin/machine` to see the support.
 
 The glossary is processed before exposed to the service:
 

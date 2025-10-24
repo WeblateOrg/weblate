@@ -1,0 +1,36 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+services:
+  cache:
+    image: redis:8.2.2-alpine@sha256:59b6e694653476de2c992937ebe1c64182af4728e54bb49e9b7a6c26614d8933
+    ports:
+    - 60001:6379
+    restart: always
+  database:
+    image: postgres:18.0-alpine@sha256:0ce0d1fa5bf54b7b338e09829ab76b479dbd0702da50bf0cdf5c258208e47f40
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: weblate
+    ports:
+    - 60000:5432
+    # make postgres faster and non-durable, see https://www.postgresql.org/docs/current/non-durability.html
+    command:
+    - postgres
+    - -c
+    - fsync=off
+    - -c
+    - synchronous_commit=off
+    - -c
+    - full_page_writes=off
+    - -c
+    - checkpoint_timeout=7200
+    - -c
+    - wal_level=minimal
+    - -c
+    - max_wal_senders=0
+    - -c
+    - shared_buffers=1GB
+    - -c
+    - work_mem=150MB

@@ -77,7 +77,7 @@ project_copyright = "Michal Čihař"
 author = "Michal Čihař"
 
 # The full version, including alpha/beta/rc tags
-release = "5.14"
+release = "5.14.1"
 
 # -- General configuration ---------------------------------------------------
 
@@ -452,4 +452,5 @@ redirects = {
     "devel/thirdparty": "third-party.html",  # codespell:ignore thirdparty
     "contributing/security": "security/index.html",
     "formats/moko": "formats/moko-resources.html",
+    "legal": "security/index.html",
 }

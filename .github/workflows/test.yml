@@ -33,6 +33,8 @@ jobs:
         - latest
         database:
         - postgresql
+        datastore:
+        - valkey
         experimental:
         - false
         include:
@@ -40,23 +42,33 @@ jobs:
         - python-version: '3.14'
           requirements: latest
           database: mysql
+          datastore: valkey
           experimental: false
         # Reduced testing for mariadb
         - python-version: '3.14'
           requirements: latest
           database: mariadb
+          datastore: valkey
+          experimental: false
+        # Reduced testing for redis
+        - python-version: '3.14'
+          requirements: latest
+          database: postgresql
+          datastore: redis
           experimental: false
         # Reduced testing for minimal deps
         - python-version: '3.11'
           requirements: minimal
           database: postgresql
+          datastore: valkey
           experimental: false
         # Reduced testing for edge deps
         - python-version: '3.14'
           requirements: edge
           database: postgresql
+          datastore: valkey
           experimental: true
-    name: py${{ matrix.python-version }}, ${{ matrix.database }}, ${{ matrix.requirements }} deps
+    name: py${{ matrix.python-version }}, ${{ matrix.database }}, ${{ matrix.datastore }}, ${{ matrix.requirements }} deps
     env:
       CI_DATABASE: ${{ matrix.database }}
       CI_REDIS_HOST: 127.0.0.1
@@ -82,12 +94,13 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
         allow-prereleases: true
-    - uses: astral-sh/setup-uv@eb1897b8dc4b5d5bfe39a428a8f2304605e0983c # v7.0.0
+    - uses: astral-sh/setup-uv@2ddd2b9cb38ad8efd50337e8ab201519a34c9f24 # v7.1.1
       with:
         save-cache: ${{ github.ref == 'refs/heads/main' }}
         cache-suffix: ${{ steps.setup_python.outputs.python-version }}
+        version: 0.9.5
     - name: Start services
-      run: ./ci/services-up ${{ matrix.database }}
+      run: ./ci/services-up ${{ matrix.database }} ${{ matrix.datastore }}
     - name: Install apt dependencies
       run: sudo ./ci/apt-install "$CI_DATABASE"
     - name: Install Python dependencies
@@ -138,4 +151,4 @@ jobs:
         token: ${{ secrets.CODECOV_TOKEN }}
     - name: Stop services
       if: always()
-      run: ./ci/services-down ${{ matrix.database }}
+      run: ./ci/services-down ${{ matrix.database }} ${{ matrix.datastore }}

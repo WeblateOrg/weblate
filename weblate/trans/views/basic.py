@@ -8,6 +8,7 @@ from typing import TYPE_CHECKING, Any
 
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
+from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
@@ -239,9 +240,9 @@ def show_project_language(request: AuthenticatedHttpRequest, obj: ProjectLanguag
 
     # Add ghost translations
     if user.is_authenticated and translations.paginator.num_pages == 1:
-        existing = {translation.component.slug for translation in obj.translation_set}
+        existing = {translation.component.id for translation in obj.translation_set}
         missing = project_object.get_child_components_filter(
-            lambda qs: qs.exclude(slug__in=existing)
+            lambda qs: qs.exclude(id__in=existing)
             .prefetch()
             .prefetch_related("source_language")
         )
@@ -296,6 +297,7 @@ def show_project_language(request: AuthenticatedHttpRequest, obj: ProjectLanguag
                 user=user,
                 obj=obj,
                 project=obj.project,
+                bootstrap_5=True,
             ),
             "bootstrap_5": True,
         },
@@ -318,8 +320,8 @@ def show_category_language(request: AuthenticatedHttpRequest, obj):
 
     # Add ghost translations
     if user.is_authenticated and translations.paginator.num_pages == 1:
-        existing = {translation.component.slug for translation in obj.translation_set}
-        missing = category_object.component_set.exclude(slug__in=existing)
+        existing = {translation.component.id for translation in obj.translation_set}
+        missing = category_object.component_set.exclude(id__in=existing)
         extra_translations = [
             GhostTranslation(obj.project, language_object, component)
             for component in missing
@@ -365,6 +367,7 @@ def show_category_language(request: AuthenticatedHttpRequest, obj):
                 user=user,
                 obj=obj,
                 project=obj.category.project,
+                bootstrap_5=True,
             ),
             "bootstrap_5": True,
         },
@@ -445,6 +448,7 @@ def show_project(request: AuthenticatedHttpRequest, obj):
                 user=user,
                 obj=obj,
                 project=obj,
+                bootstrap_5=True,
             ),
             "components": components,
             "categories": prefetch_stats(obj.category_set.filter(category=None)),
@@ -528,6 +532,7 @@ def show_category(request: AuthenticatedHttpRequest, obj):
                 user=user,
                 obj=obj,
                 project=obj.project,
+                bootstrap_5=True,
             ),
             "components": components,
             "categories": prefetch_stats(obj.category_set.all()),
@@ -582,6 +587,7 @@ def show_component(request: AuthenticatedHttpRequest, obj: Component):
                 user=user,
                 obj=obj,
                 project=obj.project,
+                bootstrap_5=True,
             ),
             "announcement_form": optional_form(
                 AnnouncementForm, user, "announcement.add", obj
@@ -633,7 +639,10 @@ def show_translation(request: AuthenticatedHttpRequest, obj):
     # Show up to 10 of them, needs to be list to append ghost ones later
     other_translations = list(
         Translation.objects.prefetch()
-        .filter(component__project=project, language=obj.language)
+        .filter(
+            Q(component__project=project) | Q(component__links=project),
+            language=obj.language,
+        )
         .exclude(component__is_glossary=True)
         .order_by("component__name")
         .exclude(pk=obj.pk)[:10]
@@ -649,15 +658,19 @@ def show_translation(request: AuthenticatedHttpRequest, obj):
         )
         # Include ghost translations for other components, this
         # adds quick way to create translations in other components
-        existing = {translation.component.slug for translation in other_translations}
-        existing.add(component.slug)
+        existing = {translation.component.id for translation in other_translations}
+        existing.add(component.id)
 
         # Figure out missing components
-        all_components = {c.slug for c in project.child_components}
+        available_components = [
+            c for c in project.child_components if not c.is_glossary
+        ]
+
+        all_components = {c.id for c in available_components}
         missing = all_components - existing
-        if len(missing) < 5:
-            for test_component in project.child_components:
-                if test_component.slug in existing:
+        if 0 < len(missing) < 5:
+            for test_component in available_components:
+                if test_component.id in existing:
                     continue
                 if test_component.can_add_new_language(user, fast=True):
                     other_translations.append(
@@ -694,6 +707,7 @@ def show_translation(request: AuthenticatedHttpRequest, obj):
                 user=user,
                 obj=obj,
                 project=project,
+                bootstrap_5=True,
             ),
             "new_unit_form": get_new_unit_form(obj, user),
             "new_unit_plural_form": get_new_unit_form(obj, user, is_source_plural=True),
@@ -981,6 +995,7 @@ def show_component_list(request: AuthenticatedHttpRequest, name) -> HttpResponse
         {
             "object": obj,
             "components": components,
+            "bootstrap_5": True,
         },
     )
 

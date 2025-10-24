@@ -39,7 +39,9 @@ class Label(models.Model):
 
     def __str__(self) -> str:
         return format_html(
-            '<span class="label label-{}">{}</span>', self.color, self.name
+            '<span class="align-middle badge label label-{}">{}</span>',
+            self.color,
+            self.name,
         )
 
     @property

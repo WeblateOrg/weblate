@@ -650,6 +650,7 @@ $(function () {
         );
         if (activeTab.length > 0) {
           bootstrap.Tab.getOrCreateInstance(activeTab).show();
+          activeTab.closest(".dropdown-menu").removeClass("show");
         }
       }
     }
@@ -668,6 +669,7 @@ $(function () {
       );
       if (activeTab.length > 0) {
         bootstrap.Tab.getOrCreateInstance(activeTab).show();
+        activeTab.closest(".dropdown-menu").removeClass("show");
         window.scrollTo(0, 0);
       }
     }
@@ -1487,9 +1489,10 @@ $(function () {
         const child = document.createElement("a");
         child.setAttribute("href", data.value.url);
         child.textContent = `${data.value.name} `;
-        child.addClass("dropdown-item");
+        child.classList.add("dropdown-item");
         const category = document.createElement("span");
         category.setAttribute("class", "badge");
+        category.classList.add("text-bg-secondary");
         category.textContent = data.value.category;
         child.appendChild(category);
         item.appendChild(child);
@@ -1701,6 +1704,14 @@ $(function () {
     }
   });
 
+  const theme = document.querySelector("body").getAttribute("data-theme");
+  if (
+    (theme === "auto") &
+    (window.matchMedia("(prefers-color-scheme: dark)").matches === true)
+  ) {
+    document.documentElement.setAttribute("data-bs-theme", "dark");
+  }
+
   /* Warn users that they do not want to use developer console in most cases */
   console.log(
     "%c%s",
@@ -1764,4 +1775,10 @@ $(function () {
         displayRelevantFileFormatParams(fileFormatForm, newValue);
       });
     });
+
+  document.querySelector("#string-add")?.addEventListener("click", (_e) => {
+    const tab = document.querySelector("[data-bs-target='#new'");
+    bootstrap.Tab.getOrCreateInstance(tab).show();
+    tab.closest(".dropdown-menu").classList.remove("show");
+  });
 });

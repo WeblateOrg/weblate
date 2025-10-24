@@ -16,7 +16,7 @@ from rest_framework.test import APITestCase
 from weblate_language_data.languages import LANGUAGES
 
 from weblate.accounts.models import Subscription
-from weblate.api.serializers import CommentSerializer
+from weblate.api.serializers import CommentSerializer, RepoOperations
 from weblate.auth.models import Group, Permission, Role, User
 from weblate.lang.models import Language
 from weblate.memory.models import Memory
@@ -1275,15 +1275,7 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(response.data["slug"], "test")
 
     def test_repo_ops(self) -> None:
-        for operation in (
-            "push",
-            "pull",
-            "reset",
-            "cleanup",
-            "commit",
-            "file-sync",
-            "file-scan",
-        ):
+        for operation in RepoOperations.values:
             # No access for regular user
             self.do_request(
                 "api:project-repository",
@@ -3637,7 +3629,7 @@ class TranslationAPITest(APIBaseTest):
         self.assertEqual(response.status_code, 400)
         self.assertEqual("method", response.data["errors"][0]["attr"])
         self.assertIn(
-            "Update source strings upload is not supported with this format.",
+            "Source upload is only supported for bilingual translations, you might want to use replace upload instead.",
             response.data["errors"][0]["detail"],
         )
 

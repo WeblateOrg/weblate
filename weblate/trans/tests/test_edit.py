@@ -1070,6 +1070,36 @@ class EditComplexTest(ViewTestCase):
         self.assertEqual(len(unit.all_checks), 1)
         self.assertEqual(len(unit.active_checks), 1)
         self.assertEqual(unit.translation.stats.allchecks, 1)
+        # There should be a change for enforced check
+        self.assertTrue(
+            unit.change_set.filter(action=ActionEvents.ENFORCED_CHECK).exists()
+        )
+        # The pending change should be only fuzzy
+        pending_changes = unit.pending_changes.all()
+        self.assertEqual(len(pending_changes), 1)
+        self.assertEqual(pending_changes[0].state, STATE_FUZZY)
+
+    def test_enforced_check_noop(self) -> None:
+        # Update unit object to match edits in test_enforced_check
+        unit = self.get_unit()
+        unit.state = STATE_TRANSLATED
+        unit.target = "Hello, world!\n"
+        unit.save_backend(None)
+        unit.pending_changes.all().delete()
+
+        # Enforce same check, the unit should become fuzzy with pending change
+        self.component.enforced_checks = ["same"]
+        self.component.save(update_fields=["enforced_checks"])
+        self.assertEqual(unit.pending_changes.count(), 1)
+        unit = self.get_unit()
+        self.assertEqual(unit.state, STATE_FUZZY)
+
+        # Remove pending units and make the string in the database translated
+        unit.pending_changes.all().delete()
+        Unit.objects.filter(pk=unit.pk).update(state=STATE_TRANSLATED)
+
+        # Now test the actual no-op edit
+        self.test_enforced_check()
 
     def test_commit_push(self) -> None:
         response = self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
@@ -1161,6 +1191,30 @@ class EditComplexTest(ViewTestCase):
         self.assertEqual(response.status_code, 302)
 
         # The source unit should be now removed as well
+        self.assertFalse(Unit.objects.filter(pk=source_unit.pk).exists())
+        self.assertEqual(unit_count - 4, Unit.objects.count())
+
+    def test_remove_source_unit(self) -> None:
+        self.component.manage_units = True
+        self.component.save()
+        self.user.is_superuser = True
+        self.user.save()
+
+        unit_count = Unit.objects.count()
+        unit = self.get_unit()
+        source_unit = unit.source_unit
+
+        response = self.client.post(
+            reverse("delete-unit", kwargs={"unit_id": source_unit.pk})
+        )
+        self.assertEqual(response.status_code, 302)
+
+        # The source unit should be now removed as well
+        self.assertFalse(Unit.objects.filter(pk=source_unit.pk).exists())
+        self.assertEqual(unit_count - 4, Unit.objects.count())
+
+        # Verify that reparsing will not bring the unit back
+        self.component.create_translations_immediate(force=True)
         self.assertFalse(Unit.objects.filter(pk=source_unit.pk).exists())
         self.assertEqual(unit_count - 4, Unit.objects.count())
 

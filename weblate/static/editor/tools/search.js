@@ -20,7 +20,7 @@ $(document).ready(() => {
 
     // Create the preview element
     const $searchPreview = $('<div id="search-preview"></div>');
-    $searchElement.parent().parent().after($searchPreview);
+    $searchElement.parent().parent().parent().after($searchPreview);
 
     let debounceTimeout = null;
 

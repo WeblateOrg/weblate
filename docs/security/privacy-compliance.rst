@@ -1,6 +1,8 @@
 Privacy regulations compliance
 ++++++++++++++++++++++++++++++
 
+.. include:: /snippets/compliance-warning.rst
+
 .. tip::
 
    Weblate enables organizations to operate within privacy frameworks such as

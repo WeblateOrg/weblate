@@ -24,7 +24,6 @@ from weblate.memory.tasks import import_memory
 from weblate.trans.actions import ActionEvents
 from weblate.trans.defines import PROJECT_NAME_LENGTH
 from weblate.trans.mixins import CacheKeyMixin, LockMixin, PathMixin
-from weblate.trans.models.pending import PendingUnitChange
 from weblate.trans.validators import validate_check_flags
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import ProjectLanguage, ProjectStats, prefetch_stats
@@ -39,7 +38,7 @@ from weblate.utils.validators import (
 if TYPE_CHECKING:
     from collections.abc import Iterable
 
-    from weblate.auth.models import Group, User
+    from weblate.auth.models import AuthenticatedHttpRequest, Group, User
     from weblate.machinery.types import SettingsDict
     from weblate.trans.models.component import Component, ComponentQuerySet
     from weblate.trans.models.label import Label
@@ -459,7 +458,11 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     @property
     def count_pending_units(self):
         """Check whether there are any uncommitted changes."""
-        return PendingUnitChange.objects.for_project(self).count()
+        from weblate.trans.models import Unit
+
+        return Unit.objects.filter(
+            translation__component__project=self, pending_changes__isnull=False
+        ).count()
 
     def needs_commit(self):
         """Check whether there are some not committed changes."""
@@ -487,27 +490,36 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     def repo_needs_push(self):
         return self.on_repo_components(False, "repo_needs_push")
 
-    def do_update(self, request=None, method=None):
+    def do_update(
+        self, request: AuthenticatedHttpRequest | None = None, method: str | None = None
+    ):
         """Update all Git repos."""
         return self.on_repo_components(True, "do_update", request, method=method)
 
-    def do_push(self, request=None):
+    def do_push(self, request: AuthenticatedHttpRequest | None = None):
         """Push all Git repos."""
         return self.on_repo_components(True, "do_push", request)
 
-    def do_reset(self, request=None):
+    def do_reset(
+        self,
+        request: AuthenticatedHttpRequest | None = None,
+        *,
+        keep_changes: bool = False,
+    ) -> bool:
         """Push all Git repos."""
-        return self.on_repo_components(True, "do_reset", request)
+        return self.on_repo_components(
+            True, "do_reset", request, keep_changes=keep_changes
+        )
 
-    def do_cleanup(self, request=None):
+    def do_cleanup(self, request: AuthenticatedHttpRequest | None = None):
         """Push all Git repos."""
         return self.on_repo_components(True, "do_cleanup", request)
 
-    def do_file_sync(self, request=None):
+    def do_file_sync(self, request: AuthenticatedHttpRequest | None = None):
         """Force updating of all files."""
         return self.on_repo_components(True, "do_file_sync", request)
 
-    def do_file_scan(self, request=None):
+    def do_file_scan(self, request: AuthenticatedHttpRequest | None = None):
         """Rescanls all VCS repos."""
         return self.on_repo_components(True, "do_file_scan", request)
 

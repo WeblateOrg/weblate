@@ -35,6 +35,7 @@ from selenium.webdriver.support.expected_conditions import (
 )
 from selenium.webdriver.support.ui import Select, WebDriverWait
 
+from weblate.auth.models import User
 from weblate.fonts.tests.utils import FONT
 from weblate.lang.models import Language
 from weblate.screenshots.views import ensure_tesseract_language
@@ -59,7 +60,6 @@ if TYPE_CHECKING:
     from selenium.webdriver.remote.webdriver import WebDriver
     from selenium.webdriver.remote.webelement import WebElement
 
-    from weblate.auth.models import User
     from weblate.trans.models import Translation
 
 TEST_BACKENDS = (
@@ -772,8 +772,15 @@ class SeleniumTests(
             self.click("Users")
         element = self.driver.find_element(By.ID, "id_user")
         element.send_keys("testuser")
+        Select(self.driver.find_element(By.ID, "id_group")).select_by_index(1)
         with self.wait_for_page_load():
             element.submit()
+        user = User.objects.get(username="testuser")
+        self.assertTrue(
+            user.invitation_set.filter(
+                group__defining_project__name="WeblateOrg"
+            ).exists()
+        )
         with self.wait_for_page_load():
             self.click("Access control")
         self.screenshot("manage-users.png")
@@ -1165,8 +1172,12 @@ class SeleniumTests(
     def test_manage(self) -> None:
         self.open_manage()
         self.screenshot("support.png")
-        self.click("Appearance")
+        with self.wait_for_page_load():
+            self.click("Appearance")
         self.screenshot("appearance-settings.png")
+        with self.wait_for_page_load():
+            self.click("Performance report")
+        self.screenshot("performance-report.png")
 
     def test_explanation(self) -> None:
         project = self.create_component()

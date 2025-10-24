@@ -36,8 +36,8 @@ Installing on Debian and Ubuntu
     # Web server option 2: Apache with ``mod_wsgi``
     apt install -y apache2 libapache2-mod-wsgi-py3
 
-    # Caching backend: Redis
-    apt install -y redis-server
+    # Caching backend: Valkey
+    apt install -y valkey-server
 
     # Database server: PostgreSQL
     apt install -y postgresql postgresql-contrib
