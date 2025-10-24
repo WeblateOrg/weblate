@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-21 09:35+0000\n"
-"PO-Revision-Date: 2025-09-18 11:02+0000\n"
-"Last-Translator: amano <amano@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2025-10-25 07:03+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
 "Language: ja\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.14-dev\n"
+"X-Generator: Weblate 5.14.1-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -386,13 +386,14 @@ msgstr "以前に設定された認証アプリを無効にする"
 msgid ""
 "All previously configured authentication apps will be discarded upon "
 "verification of the new app."
-msgstr ""
+msgstr "新しい認証アプリの確認が完了すると、以前に設定していた認証アプリはすべて無効"
+"になります。"
 
 #: weblate/accounts/forms.py:1149
 msgid ""
 "Other two-factor methods (such as WebAuthn and security keys) won't be "
 "affected."
-msgstr ""
+msgstr "他の二要素認証方式（WebAuthn やセキュリティキーなど）には影響しません。"
 
 #: weblate/accounts/forms.py:1155
 msgid "The entered token is not valid."
@@ -561,7 +562,7 @@ msgstr "ユーザーは管理者によって無効化されました。"
 
 #: weblate/accounts/models.py:296
 msgid "User was disabled because the access has expired."
-msgstr ""
+msgstr "アクセスの有効期限が切れたため、ユーザーは無効化されました。"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:299
@@ -1318,10 +1319,9 @@ msgid "The supplied username is already in use for another account."
 msgstr "指定したユーザー名は、すでに別のアカウントで使用されています。"
 
 #: weblate/accounts/views.py:1499
-#, fuzzy, python-format
-#| msgid "Authentication app (%s)"
+#, python-format
 msgid "Authentication failed: %s"
-msgstr "認証アプリ（%s）"
+msgstr "認証に失敗: %s"
 
 #: weblate/accounts/views.py:1505
 msgid "The supplied user identity is already in use for another account."
@@ -1516,25 +1516,18 @@ msgid "Bulk edit flags, labels, or states of strings."
 msgstr "文字列のフラグ、ラベル、状態を一括編集します。"
 
 #: weblate/addons/flags.py:134
-#, fuzzy
-#| msgid "Flag unchanged translations as \"Needs editing\""
 msgid "Flag updated translations from repository as \"Needs editing\""
-msgstr "未翻訳の翻訳文に \"要編集\" フラグを付ける"
+msgstr "リポジトリから更新された翻訳文に \"要編集\" フラグを付ける"
 
 #: weblate/addons/flags.py:137
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS, it is "
-#| "flagged as needing editing in Weblate. This way you can easily filter and "
-#| "edit translations created by the developers."
 msgid ""
 "Whenever a string translation is changed from the VCS, it is flagged as "
 "needing editing in Weblate. Especially useful if translation files are often "
 "updated manually or by an external service."
 msgstr ""
-"新しい翻訳可能な文章を VCS からインポートするときに、Weblate で \"要編集\" フ"
-"ラグを付けます。これにより、開発者が作成した翻訳文を簡単に絞り込んで編集でき"
-"ます。"
+"VCS（バージョン管理システム）で文字列の翻訳文が変更されると、Weblate では \""
+"要編集\" フラグが付けられます。 翻訳ファイルを手動で更新したり、外部サービス"
+"で更新したりする場合に特に便利です."
 
 #: weblate/addons/forms.py:59
 msgid "Path of generated MO file"
@@ -1721,7 +1714,7 @@ msgstr "翻訳率のしきい値"
 msgid ""
 "The percentage of translated strings that must be present for translation to "
 "be included."
-msgstr ""
+msgstr "翻訳を有効と見なすために必要な翻訳済み文字列の割合。"
 
 #: weblate/addons/forms.py:424
 msgid "CSS selector"
@@ -1776,33 +1769,29 @@ msgstr "この言語の翻訳は全て上書きされます"
 
 #: weblate/addons/forms.py:493 weblate/templates/addons/pseudolocale.html:9
 msgid "Prepended static text"
-msgstr ""
+msgstr "先頭に追加する定型文"
 
 #: weblate/addons/forms.py:498 weblate/templates/addons/pseudolocale.html:10
 msgid "Prepended variable text"
-msgstr ""
+msgstr "先頭に追加する可変文言"
 
 #: weblate/addons/forms.py:503 weblate/templates/addons/pseudolocale.html:13
 msgid "Appended static text"
-msgstr ""
+msgstr "末尾に追加する定型文"
 
 #: weblate/addons/forms.py:508 weblate/templates/addons/pseudolocale.html:12
 msgid "Appended variable text"
-msgstr ""
+msgstr "末尾に追加する可変文言"
 
 #: weblate/addons/forms.py:513
 msgid "Variable text multiplier"
-msgstr ""
+msgstr "可変文言を繰り返す回数"
 
 #: weblate/addons/forms.py:517
-#, fuzzy
-#| msgid ""
-#| "How many times to repeat the variable part depending on the length of the "
-#| "source string."
 msgid ""
 "How many times to repeat the variable text depending on the length of the "
 "source string."
-msgstr "可変部分を繰り返す回数を、原文の長さの何倍にするか。"
+msgstr "原文の文字列の長さに応じて、可変文言を繰り返す回数。"
 
 #: weblate/addons/forms.py:522
 msgid "Include read-only strings"
@@ -1992,15 +1981,15 @@ msgstr ""
 
 #: weblate/addons/webhooks.py:179
 msgid "Slack Webhooks"
-msgstr "Slackウェブフック"
+msgstr "Slack 用 Webhook"
 
 #: weblate/addons/webhooks.py:181
 msgid "Sends notification to a Slack channel based on selected events."
-msgstr "選択したイベントに基づいてSlackチャンネルに通知を送信します。"
+msgstr "選択したイベントに基づいて Slack チャンネルに通知を送信します。"
 
 #: weblate/api/authentication.py:27
 msgid "Session-based authentication used when user is signed in."
-msgstr ""
+msgstr "サインイン中はセッション ベース認証を使用する。"
 
 #: weblate/api/authentication.py:39
 #, python-format
@@ -2064,7 +2053,7 @@ msgstr ""
 
 #: weblate/api/serializers.py:372
 msgid "Commenter’s email"
-msgstr "コメント者のEメール"
+msgstr "コメント投稿者のメールアドレス"
 
 #: weblate/api/serializers.py:374
 msgid ""
