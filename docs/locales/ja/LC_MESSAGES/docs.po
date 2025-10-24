@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-21 11:36+0200\n"
-"PO-Revision-Date: 2025-10-21 15:12+0000\n"
-"Last-Translator: amano <amano@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2025-10-25 07:03+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.14-dev\n"
+"X-Generator: Weblate 5.14.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:215
@@ -2287,7 +2287,7 @@ msgstr "翻訳率のしきい値"
 msgid ""
 "The percentage of translated strings that must be present for translation to "
 "be included."
-msgstr ""
+msgstr "翻訳を有効と見なすために必要な翻訳済み文字列の割合。"
 
 #: ../../admin/addons.rst:186 ../../devel/html.rst:51
 msgid "CSS selector"
@@ -2932,25 +2932,18 @@ msgstr ""
 "ます。"
 
 #: ../../admin/addons.rst:581
-#, fuzzy
-#| msgid "Flag unchanged translations as \"Needs editing\""
 msgid "Flag updated translations from repository as \"Needs editing\""
-msgstr "未翻訳の翻訳文に \"要編集\" フラグを付ける"
+msgstr "リポジトリから更新された翻訳文に \"要編集\" フラグを付ける"
 
 #: ../../admin/addons.rst:587
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS, it is "
-#| "flagged as needing editing in Weblate. This way you can easily filter and "
-#| "edit translations created by the developers."
 msgid ""
 "Whenever a string translation is changed from the VCS, it is flagged as "
 "needing editing in Weblate. Especially useful if translation files are often "
 "updated manually or by an external service."
 msgstr ""
-"新しい翻訳可能な文章を VCS からインポートするときに、Weblate で \"要編集\" フ"
-"ラグを付けます。これにより、開発者が作成した翻訳文を簡単に絞り込んで編集でき"
-"ます。"
+"VCS（バージョン管理システム）で文字列の翻訳文が変更されると、Weblate では \""
+"要編集\" フラグが付けられます。 翻訳ファイルを手動で更新したり、外部サービス"
+"で更新したりする場合に特に便利です."
 
 #: ../../admin/addons.rst:598
 msgid "Fill read-only strings with source"
@@ -3032,33 +3025,29 @@ msgstr "この言語の翻訳は全て上書きされます"
 
 #: ../../admin/addons.rst:676
 msgid "Prepended static text"
-msgstr ""
+msgstr "先頭に追加する定型文"
 
 #: ../../admin/addons.rst:678
 msgid "Prepended variable text"
-msgstr ""
+msgstr "先頭に追加する可変文言"
 
 #: ../../admin/addons.rst:680
 msgid "Appended static text"
-msgstr ""
+msgstr "末尾に追加する定型文"
 
 #: ../../admin/addons.rst:682
 msgid "Appended variable text"
-msgstr ""
+msgstr "末尾に追加する可変文言"
 
 #: ../../admin/addons.rst:684
 msgid "Variable text multiplier"
-msgstr ""
+msgstr "可変文言を繰り返す回数"
 
 #: ../../admin/addons.rst:684
-#, fuzzy
-#| msgid ""
-#| "How many times to repeat the variable part depending on the length of the "
-#| "source string."
 msgid ""
 "How many times to repeat the variable text depending on the length of the "
 "source string."
-msgstr "可変部分を繰り返す回数を、原文の長さの何倍にするか。"
+msgstr "原文の文字列の長さに応じて、可変文言を繰り返す回数。"
 
 #: ../../admin/addons.rst:686
 msgid "Include read-only strings"
@@ -3524,7 +3513,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:981
 msgid "Slack Webhooks"
-msgstr "Slackウェブフック"
+msgstr "Slack 用 Webhook"
 
 #: ../../admin/addons.rst:987 ../../admin/addons.rst:1172
 msgid "Webhook URL"
@@ -3857,7 +3846,7 @@ msgstr "使用禁止の訳語"
 
 #: ../../admin/addons.rst:1153
 msgid "Sends notification to a Slack channel based on selected events."
-msgstr "選択したイベントに基づいてSlackチャンネルに通知を送信します。"
+msgstr "選択したイベントに基づいて Slack チャンネルに通知を送信します。"
 
 #: ../../admin/addons.rst:1157
 msgid ""
