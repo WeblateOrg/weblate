@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-21 09:35+0000\n"
-"PO-Revision-Date: 2025-10-15 06:58+0000\n"
+"PO-Revision-Date: 2025-10-25 07:03+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14-dev\n"
+"X-Generator: Weblate 5.14.1-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -1341,10 +1341,9 @@ msgid "The supplied username is already in use for another account."
 msgstr "De opgegeven gebruikersnaam is al in gebruik op een ander account."
 
 #: weblate/accounts/views.py:1499
-#, fuzzy, python-format
-#| msgid "Authentication app (%s)"
+#, python-format
 msgid "Authentication failed: %s"
-msgstr "App voor authenticatie (%s)"
+msgstr "Authenticatie mislukt: (%s)"
 
 #: weblate/accounts/views.py:1505
 msgid "The supplied user identity is already in use for another account."
@@ -2152,10 +2151,8 @@ msgid "Reset all changes in the Weblate repository"
 msgstr "Alle aanpassingen in de Weblate-opslagruimte herstellen"
 
 #: weblate/api/serializers.py:1079 weblate/templates/js/git-status.html:155
-#, fuzzy
-#| msgid "Define the base file for new translations"
 msgid "Reset the Weblate repository and reapply translations"
-msgstr "Geef het basisbestand voor nieuwe vertalingen op"
+msgstr "Herstel de opslagruimte voor Weblate en pas vertalingen opnieuw toe"
 
 #: weblate/api/serializers.py:1083 weblate/templates/js/git-status.html:166
 msgid "Cleanup all untracked files in the Weblate repository"
@@ -9502,25 +9499,16 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/js/git-status.html:146
-#, fuzzy
-#| msgid ""
-#| "Describe the context of the translation to improve the accuracy of the "
-#| "translation."
 msgid "Use when you want the upstream to be the authority for translations."
-msgstr ""
-"Beschrijf de context van de vertaling om de nauwkeurigheid te verbeteren."
+msgstr "Gebruiken als u wilt dat de upstream de autoriteit voor vertalingen is."
 
 #: weblate/templates/js/git-status.html:147
-#, fuzzy
-#| msgid ""
-#| "Use when you want to discardchanges in Weblate and bring it in sync with "
-#| "upstream repository."
 msgid ""
 "It will discard changes in Weblate repo and bring it in sync with the "
 "upstream repository."
 msgstr ""
-"Gebruik dit als u wijzigingen wilt negeren in Weblate en breng die in sync "
-"met de opslagruimte upstream."
+"Het zal wijzigingen in de opslagruimte van Weblate negeren en het "
+"synchroniseren met de opslagruimte upstream."
 
 #: weblate/templates/js/git-status.html:154
 msgid "Reset and reapply"
@@ -9533,22 +9521,16 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/js/git-status.html:158
-#, fuzzy
-#| msgid "Whether Weblate should keep track of old translations."
 msgid "Use when you want Weblate to be the authority for translations."
-msgstr "Of Weblate oude vertalingen moet bijhouden."
+msgstr "Gebruiken als u Weblate de autoriteit voor vertalingen wilt laten zijn."
 
 #: weblate/templates/js/git-status.html:159
-#, fuzzy
-#| msgid ""
-#| "Use when you want to discardchanges in Weblate and bring it in sync with "
-#| "upstream repository."
 msgid ""
 "It will keep changes from Weblate but bring its repository in sync with the "
 "upstream repository."
 msgstr ""
-"Gebruik dit als u wijzigingen wilt negeren in Weblate en breng die in sync "
-"met de opslagruimte upstream."
+"Het zal wijzigingen in Weblate negeren, maar de opslagruimte ervan "
+"synchroniseren met de opslagruimte upstream."
 
 #: weblate/templates/js/git-status.html:165
 msgid "Cleanup"
@@ -15318,10 +15300,8 @@ msgid "Exclude author (username)"
 msgstr "Auteur uitsluiten (gebruikersnaam)"
 
 #: weblate/trans/forms.py:3059
-#, fuzzy
-#| msgid "Date joined"
 msgid "Date range"
-msgstr "Lid sinds"
+msgstr "Datumbereik"
 
 #: weblate/trans/forms.py:3142
 msgid "Expiry cannot be in the past."
