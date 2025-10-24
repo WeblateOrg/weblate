@@ -2074,9 +2074,14 @@ class Component(
             # First check we're up to date
             self.update_remote_branch()
 
-            # Mark all strings as pending
             if keep_changes:
+                # Mark all strings as pending when keeping changes
                 self.do_file_sync(request, do_commit=False)
+            else:
+                # Explicitly remove all pending changes
+                PendingUnitChange.objects.filter(
+                    unit__translation__component=self
+                ).delete()
 
             # Do actual reset
             try:
