@@ -1,0 +1,209 @@
+{% load i18n %}
+
+<!-- Modal that shows available keyboard shortcuts  -->
+<div class="modal fade"
+     id="shortcuts-modal5"
+     tabindex="-1"
+     role="dialog"
+     aria-labelledby="shortcutsModal5">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="shortcutsModal5" class="modal-title">{% translate "Keyboard shortcuts" %}</h5>
+        <button type="button"
+                class="btn-close float-end"
+                data-bs-dismiss="modal"
+                aria-label="{% translate "Close" %}"></button>
+      </div>
+      <div class="modal-body" id="shortcuts-table5-container">
+        <table class="table table-striped">
+          <thead class="thead-dark">
+            <tr>
+              <th scope="col" id="t-head">{% translate "Shortcut" %}</th>
+              <th scope="col" id="t-head">{% translate "Action" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr id="shortcut">
+              <td>
+                <kbd>?</kbd>
+              </td>
+              <td>{% translate "Open available keyboard shortcuts." %}</td>
+            </tr>
+            <tr>
+              <td>
+                <kbd>Alt</kbd> + <kbd>Home</kbd>
+              </td>
+              <td>{% translate "Navigate to the first translation in the current search." %}</td>
+            </tr>
+            <tr>
+              <td>
+                <kbd>Alt</kbd> + <kbd>End</kbd>
+              </td>
+              <td>{% translate "Navigate to the last translation in the current search." %}</td>
+            </tr>
+            <tr>
+              <td>
+                <kbd>Alt</kbd> + <kbd>PageUp</kbd> {% translate "or" context "between keyboard shortcuts" %}
+                <br>
+                <kbd>Ctrl</kbd> + <kbd>↑</kbd> {% translate "or" context "between keyboard shortcuts" %}
+                <br>
+                <kbd>Alt</kbd> + <kbd>↑</kbd> {% translate "or" context "between keyboard shortcuts" %}
+                <br>
+                <kbd>Cmd</kbd> + <kbd>↑</kbd> {% translate "or" context "between keyboard shortcuts" %}
+                <br>
+              </td>
+              <td>{% translate "Navigate to the previous translation in the current search." %}</td>
+            </tr>
+            <tr>
+              <td>
+                <kbd>Alt</kbd> + <kbd>PageDown</kbd> {% translate "or" context "between keyboard shortcuts" %}
+                <br>
+                <kbd>Ctrl</kbd> + <kbd>↓</kbd> {% translate "or" context "between keyboard shortcuts" %}
+                <br>
+                <kbd>Alt</kbd> + <kbd>↓</kbd> {% translate "or" context "between keyboard shortcuts" %}
+                <br>
+                <kbd>Cmd</kbd> + <kbd>↓</kbd> {% translate "or" context "between keyboard shortcuts" %}
+                <br>
+              </td>
+              <td>{% translate "Navigate to the next translation in the current search." %}</td>
+            </tr>
+
+            <tr>
+              <td>
+                <kbd>Ctrl</kbd> + <kbd>Enter</kbd> {% translate "or" context "between keyboard shortcuts" %}
+                <br>
+                <kbd>Cmd</kbd> + <kbd>Enter</kbd>
+              </td>
+              <td>
+                {% translate "Submit current form; this works the same as pressing Save and continue while editing translation." %}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>Enter</kbd> {% translate "or" context "between keyboard shortcuts" %}
+                <br>
+                <kbd>Cmd</kbd> + <kbd>Shift</kbd> +<kbd>Enter</kbd>
+              </td>
+              <td>{% translate "Unmark translation as Needing edit and submit it." %}</td>
+            </tr>
+            <tr>
+              <td>
+                <kbd>Alt</kbd> + <kbd>Enter</kbd> {% translate "or" context "between keyboard shortcuts" %}
+                <br>
+                <kbd>Option</kbd> + <kbd>Enter</kbd>
+              </td>
+              <td>
+                {% translate "Submit the string as a suggestion; this works the same as pressing Suggest while editing translation." %}
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <kbd>Ctrl</kbd> + <kbd>E</kbd> {% translate "or" context "between keyboard shortcuts" %}
+                <br>
+                <kbd>Cmd</kbd> + <kbd>E</kbd>
+              </td>
+              <td>{% translate "Focus on translation editor." %}</td>
+            </tr>
+            <tr>
+              <td>
+                <kbd>Ctrl</kbd> + <kbd>U</kbd> {% translate "or" context "between keyboard shortcuts" %}
+                <br>
+                <kbd>Cmd</kbd> + <kbd>U</kbd>
+              </td>
+              <td>{% translate "Focus on comment editor." %}</td>
+            </tr>
+            <tr>
+              <td>
+                <kbd>Ctrl</kbd> + <kbd>M</kbd> {% translate "or" context "between keyboard shortcuts" %}
+                <br>
+                <kbd>Cmd</kbd> + <kbd>M</kbd>
+              </td>
+              <td>{% translate "Shows Automatic suggestions tab." %}</td>
+            </tr>
+            <tr>
+              <td>
+                <kbd>Ctrl</kbd> + <kbd>1</kbd> {% translate "to" context "between keyboard shortcuts" %}
+                <kbd>Ctrl</kbd> + <kbd>9</kbd> {% translate "or" context "between keyboard shortcuts" %}
+                <br>
+                <kbd>Cmd</kbd> + <kbd>1</kbd> {% translate "to" context "between keyboard shortcuts" %}
+                <kbd>Cmd</kbd> + <kbd>9</kbd>
+              </td>
+              <td>{% translate "Copies placeable of a given number from source string." %}</td>
+            </tr>
+            <tr>
+              <td>
+                <kbd>Ctrl</kbd> + <kbd>M</kbd> {% translate "followed by" %}
+                <kbd>1</kbd> {% translate "to" context "between keyboard shortcuts" %} <kbd>9</kbd> {% translate "or" context "between keyboard shortcuts" %}
+                <br>
+                <kbd>Cmd</kbd> + <kbd>M</kbd> {% translate "followed by" %}
+                <kbd>1</kbd> {% translate "to" context "between keyboard shortcuts" %}
+                <kbd>9</kbd>
+              </td>
+              <td>{% translate "Copy the machine translation of a given number to current translation." %}</td>
+            </tr>
+            <tr>
+              <td>
+                <kbd>Ctrl</kbd> + <kbd>I</kbd> {% translate "followed by" %}
+                <kbd>1</kbd> {% translate "to" context "between keyboard shortcuts" %}
+                <kbd>9</kbd> {% translate "or" context "between keyboard shortcuts" %}
+                <br>
+                <kbd>Cmd</kbd> + <kbd>I</kbd> {% translate "followed by" %}
+                <kbd>1</kbd> {% translate "to" context "between keyboard shortcuts" %}
+                <kbd>9</kbd>
+              </td>
+              <td>{% translate "Ignore one item in the list of failing checks." %}</td>
+            </tr>
+            <tr>
+              <td>
+                <kbd>Ctrl</kbd> + <kbd>J</kbd> {% translate "or" context "between keyboard shortcuts" %}
+                <br>
+                <kbd>Cmd</kbd> + <kbd>J</kbd>
+              </td>
+              <td>{% translate "Shows the Nearby strings tab." %}</td>
+            </tr>
+            <tr>
+              <td>
+                <kbd>Ctrl</kbd> + <kbd>S</kbd> {% translate "or" context "between keyboard shortcuts" %}
+                <br>
+                <kbd>Cmd</kbd> + <kbd>S</kbd>
+              </td>
+              <td>{% translate "Focus on search field." %}</td>
+            </tr>
+            <tr>
+              <td>
+                <kbd>Ctrl</kbd> + <kbd>O</kbd> {% translate "or" context "between keyboard shortcuts" %}
+                <br>
+                <kbd>Cmd</kbd> + <kbd>O</kbd>
+              </td>
+              <td>{% translate "Copy the source string." %}</td>
+            </tr>
+            <tr>
+              <td>
+                <kbd>Ctrl</kbd> + <kbd>Y</kbd> {% translate "or" context "between keyboard shortcuts" %}
+                <br>
+                <kbd>Cmd</kbd> + <kbd>Y</kbd>
+              </td>
+              <td>{% translate "Toggle the Needs editing checkbox." %}</td>
+            </tr>
+            <tr>
+              <td>
+                <kbd>→</kbd>
+              </td>
+              <td>{% translate "Browse the next translation string." %}</td>
+            </tr>
+            <tr>
+              <td>
+                <kbd>←</kbd>
+              </td>
+              <td>{% translate "Browse the previous translation string." %}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">{% translate "Close" %}</button>
+      </div>
+    </div>
+  </div>
+</div>

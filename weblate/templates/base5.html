@@ -433,7 +433,7 @@
                     <a class="dropdown-item" href="{% documentation 'index' %}">{% translate "Documentation" %}</a>
                   </li>
                   <li>
-                    <a class="dropdown-item" id="shortcuts-btn" href="#">{% translate "Keyboard shortcuts" %}</a>
+                    <a class="dropdown-item" id="shortcuts-btn5" href="#">{% translate "Keyboard shortcuts" %}</a>
                   </li>
                   <li>
                     <li class="dropdown-header">{% translate "Weblate project" %}</li>
@@ -515,9 +515,10 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button" class="btn-close" data-dismiss="modal">
-              <span aria-hidden="true">×</span><span class="visually-hidden">{% translate "Close" %}</span>
-            </button>
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="{% translate "Close" %}"></button>
             <h4 class="modal-title" id="screenshotModal"></h4>
           </div>
           <div class="modal-body">
@@ -527,12 +528,12 @@
             <a class="btn btn-warning"
                id="modalDetailsLink"
                data-edit-text="{% translate 'Edit screenshot' %}">{% translate "Screenshot details" %}</a>
-            <button type="button" class="btn btn-primary" data-dismiss="modal">{% translate "Close" %}</button>
+            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">{% translate "Close" %}</button>
           </div>
         </div>
       </div>
     </div>
-    {% include 'keyboard-shortcuts.html' %}
+    {% include 'keyboard-shortcuts5.html' %}
     {% include 'footer.html' %}
   </body>
 </html>
