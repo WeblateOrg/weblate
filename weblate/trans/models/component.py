@@ -2075,7 +2075,7 @@ class Component(
             self.update_remote_branch()
 
             if keep_changes:
-                # Mark all strings as pending
+                # Mark all strings as pending when keeping changes
                 self.do_file_sync(request, do_commit=False)
             else:
                 # Explicitly remove all pending changes
