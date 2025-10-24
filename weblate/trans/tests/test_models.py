@@ -213,9 +213,30 @@ class ProjectTest(RepoTestCase):
         # Create project
         project = self.create_project()
 
+        self.assertEqual(
+            {"Administration"},
+            set(project.defined_groups.values_list("name", flat=True)),
+        )
+
         # Enable ACL
         project.access_control = Project.ACCESS_PRIVATE
         project.save()
+        self.assertEqual(
+            {
+                "Administration",
+                "Automatic translation",
+                "Billing",
+                "Bulk editing",
+                "Glossary",
+                "Languages",
+                "Memory",
+                "Screenshots",
+                "Sources",
+                "Translate",
+                "VCS",
+            },
+            set(project.defined_groups.values_list("name", flat=True)),
+        )
 
         # Check user does not have access
         self.assertFalse(user.can_access_project(project))
@@ -228,6 +249,27 @@ class ProjectTest(RepoTestCase):
 
         # We now should have access
         self.assertTrue(user.can_access_project(project))
+
+        project.translation_review = True
+        project.save()
+
+        self.assertEqual(
+            {
+                "Administration",
+                "Automatic translation",
+                "Billing",
+                "Bulk editing",
+                "Glossary",
+                "Languages",
+                "Memory",
+                "Review",
+                "Screenshots",
+                "Sources",
+                "Translate",
+                "VCS",
+            },
+            set(project.defined_groups.values_list("name", flat=True)),
+        )
 
 
 class TranslationTest(RepoTestCase):

@@ -798,7 +798,7 @@ class User(AbstractBaseUser):
             # The name and slug are used when rendering the groups
             Prefetch(
                 "projects",
-                queryset=Project.objects.only("id", "access_control", "name", "slug"),
+                queryset=Project.objects.only("id", "name", "slug"),
             ),
             # The name and code are used when rendering the groups
             Prefetch("languages", queryset=Language.objects.only("id", "name", "code")),
@@ -1119,15 +1119,24 @@ def setup_project_groups(
     old_access_control = instance.old_access_control
     instance.old_access_control = instance.access_control
 
+    changed_review = (
+        instance.old_translation_review != instance.translation_review
+        or instance.old_source_review != instance.source_review
+    )
     # Handle no groups as newly created project
     if not created and not instance.defined_groups.exists():
         created = True
 
     # No changes needed
-    if old_access_control == instance.access_control and not created and not new_roles:
+    if (
+        old_access_control == instance.access_control
+        and not changed_review
+        and not created
+        and not new_roles
+    ):
         return
 
-    # Do not pefrom anything with custom ACL
+    # Do not perform anything with custom ACL
     if instance.access_control == Project.ACCESS_CUSTOM:
         return
 
@@ -1150,9 +1159,13 @@ def setup_project_groups(
         groups = {group for group in groups if ACL_GROUPS[group] in new_roles}
 
     # Access control changed
-    elif not created and (
-        instance.access_control == Project.ACCESS_PUBLIC
-        or old_access_control in {Project.ACCESS_PROTECTED, Project.ACCESS_PRIVATE}
+    elif (
+        not created
+        and (
+            instance.access_control == Project.ACCESS_PUBLIC
+            or old_access_control in {Project.ACCESS_PROTECTED, Project.ACCESS_PRIVATE}
+        )
+        and not changed_review
     ):
         # Avoid changing groups on some access control changes:
         # - Public groups are always present, so skip change on changing to public

@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from collections import UserDict
-from typing import TYPE_CHECKING, ClassVar, cast
+from typing import TYPE_CHECKING, ClassVar, Self, cast
 
 from django.conf import settings
 from django.core.cache import cache
@@ -90,9 +90,15 @@ class ProjectLanguageFactory(UserDict):
             instance.__dict__["workflow_settings"] = None
 
 
-class ProjectQuerySet(models.QuerySet):
+class ProjectQuerySet(models.QuerySet["Project"]):
     def order(self):
         return self.order_by("name")
+
+    def only(self, *fields: str) -> Self:
+        only_fields = set(fields)
+        # These are used in Project.__init__
+        only_fields.update(("access_control", "translation_review", "source_review"))
+        return super().only(*only_fields)
 
     def search(self, query: str):
         return self.filter(Q(name__icontains=query) | Q(slug__icontains=query))
@@ -317,6 +323,8 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.old_access_control = self.access_control
+        self.old_translation_review = self.translation_review
+        self.old_source_review = self.source_review
         self.stats = ProjectStats(self)
         self.acting_user: User | None = None
         self.project_languages = ProjectLanguageFactory(self)
