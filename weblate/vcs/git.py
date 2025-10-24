@@ -884,19 +884,6 @@ class GitMergeRequestBase(GitForcePushRepository):
             self.execute(cmd)
         self.clean_revision_cache()
 
-    def count_outgoing(self, branch: str | None = None):
-        """Count outgoing commits."""
-        if branch and branch != self.branch:
-            # Need to use different remote when using pull requests
-            credentials = self.get_credentials()
-            fork_remote = credentials["username"]
-            return len(
-                self.log_revisions(
-                    self.ref_from_remote.format(f"{fork_remote}/{branch}")
-                )
-            )
-        return super().count_outgoing(branch)
-
     def parse_repo_url(
         self, repo: str | None = None
     ) -> tuple[str | None, str | None, str | None, str, str, str]:
@@ -1058,9 +1045,12 @@ class GitMergeRequestBase(GitForcePushRepository):
             (f'remote "{remote_name}"', "pushurl", push_url),
         )
 
+    def should_use_fork(self, branch: str | None = None) -> bool:
+        return not branch or branch == self.branch
+
     def get_remote_branch_name(self, branch: str | None = None) -> str:
         remote = "origin"
-        if branch is not None:
+        if branch is not None and self.should_use_fork(branch):
             credentials = self.get_credentials()
             remote = credentials["username"]
         return f"{remote}/{self.branch if branch is None else branch}"
@@ -1079,7 +1069,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         original repository.
         """
         credentials = self.get_credentials()
-        if branch and branch != self.branch:
+        if not self.should_use_fork(branch):
             fork_remote = "origin"
             fork_branch = branch
             super().push(branch)
