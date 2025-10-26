@@ -66,9 +66,9 @@ if TYPE_CHECKING:
     from django_otp.models import Device
     from social_core.backends.base import BaseAuth
     from social_django.models import DjangoStorage
-    from social_django.strategy import DjangoStrategy
 
     from weblate.accounts.models import Subscription
+    from weblate.accounts.strategy import WeblateStrategy
     from weblate.auth.results import PermissionResult
     from weblate.wladmin.models import SupportStatusDict
 
@@ -1314,7 +1314,7 @@ class AuthenticatedHttpRequest(HttpRequest):
     accepted_language: Language
 
     # type hint for social_auth
-    social_strategy: DjangoStrategy
+    social_strategy: WeblateStrategy
 
     # type hint for auth
     backend: BaseAuth | None
