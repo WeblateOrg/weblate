@@ -28,8 +28,9 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-21 11:36+0200\n"
-"PO-Revision-Date: 2025-10-21 15:12+0000\n"
-"Last-Translator: Sketch6580 <sketch6580@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2025-10-26 07:35+0000\n"
+"Last-Translator: 大王叫我来巡山 "
+"<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -37,7 +38,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.14-dev\n"
+"X-Generator: Weblate 5.14.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:215
@@ -661,7 +662,7 @@ msgstr "用户、角色、团队和权限"
 
 #: ../../admin/access.rst:331
 msgid "The authentication models consist of several objects:"
-msgstr "身份验证模型由几个对象组成："
+msgstr "身份认证模型由几个对象组成："
 
 #: ../../admin/access.rst:333
 msgid "`Permission`"
@@ -2015,16 +2016,12 @@ msgid "Triggered just after the string is saved."
 msgstr "字符串被保存后即刻触发。"
 
 #: ../../admin/addons.rst:115
-#, fuzzy
-#| msgid "Unit post-save"
 msgid "Unit post-sync"
-msgstr "保存字符串"
+msgstr "Unit post-sync"
 
 #: ../../admin/addons.rst:117
-#, fuzzy
-#| msgid "Triggered just after the string is saved."
 msgid "Triggered after the string is synchronized with the VCS."
-msgstr "字符串被保存后即刻触发。"
+msgstr "字符串与 VCS 同步后触发。"
 
 #: ../../admin/addons.rst:122
 msgid "Unit pre-create"
@@ -2133,16 +2130,12 @@ msgid "Triggers"
 msgstr "触发器"
 
 #: ../../admin/addons.rst:164
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-event-install`, :ref:`addon-event-component-"
-#| "update`, :ref:`addon-event-daily`"
 msgid ""
 ":ref:`addon-event-install`, :ref:`addon-event-component-update`, :ref:`addon-"
 "event-daily`, :ref:`addon-event-event-change`"
 msgstr ""
 ":ref:`addon-event-install`, :ref:`addon-event-component-update`, :ref:`addon-"
-"event-daily`"
+"event-daily`, :ref:`addon-event-event-change`"
 
 #: ../../admin/addons.rst:166
 msgid ""
@@ -2324,12 +2317,8 @@ msgid ""
 msgstr "确保对一个项目内所有部件使用一致的一组语言。"
 
 #: ../../admin/addons.rst:277
-#, fuzzy
-#| msgid ""
-#| "Ensures a consistent set of languages is used for all components within a "
-#| "project."
 msgid "The components shared from other projects are not considered in this."
-msgstr "确保对一个项目内所有部件使用一致的一组语言。"
+msgstr "不考虑分享自其他项目的部件。"
 
 #: ../../admin/addons.rst:279
 msgid ""
@@ -3077,18 +3066,17 @@ msgid ""
 "When the POT file is updated in the repository, this add-on automatically "
 "merges those changes into all language PO files, ensuring that:"
 msgstr ""
+"处理 POT 模板文件有更新（有新字符串或现有字符串有更改）的 gettext PO 文件时，"
+"该附加组件必不可少。当 POT 文件在仓库中更新时，该附加组件会自动将其更改合并入"
+"所有语言的 PO 文件，确保："
 
 #: ../../admin/addons.rst:829
-#, fuzzy
-#| msgid "Translated strings in a certain language"
 msgid "New translatable strings appear in all languages"
-msgstr "在某种语言中已翻译的字符串"
+msgstr "新的可翻译字符串出现在所有语言中"
 
 #: ../../admin/addons.rst:830
-#, fuzzy
-#| msgid "Required fields are marked in bold."
 msgid "Removed strings are marked as obsolete"
-msgstr "必填字段已用粗体标记。"
+msgstr "删除的字符串被标记为过时"
 
 #: ../../admin/addons.rst:831
 msgid "Modified strings are marked as needing review (fuzzy)"
@@ -4215,7 +4203,7 @@ msgstr "图片显示在捷克语概览有一条公告：“捷克翻译棒极了
 
 #: ../../admin/auth.rst:2
 msgid "Authentication"
-msgstr "身份验证"
+msgstr "身份认证"
 
 #: ../../admin/auth.rst:5
 msgid "User registration"
@@ -4239,45 +4227,43 @@ msgstr "还可以使用 :setting:`REGISTRATION_OPEN` 关闭新用户注册。"
 
 #: ../../admin/auth.rst:14
 msgid "The authentication attempts are subject to :ref:`rate-limit`."
-msgstr "身份验证尝试服从于 :ref:`rate-limit`。"
+msgstr "身份认证尝试服从于 :ref:`rate-limit`。"
 
 #: ../../admin/auth.rst:18
 msgid "Authentication backends"
-msgstr "身份验证后端"
+msgstr "身份认证后端"
 
 #: ../../admin/auth.rst:20
 msgid ""
 "Weblate relies on Django for the authentication. This includes built-in "
 "password-based authentication, social authentication, and third-party "
 "authentication backends for Django."
-msgstr ""
-"Weblate 依赖 Django 进行身份验证。这包括内置的基于密码的身份验证、社媒身份验"
-"证，以及 Django 的第三方身份验证后端。"
+msgstr "Weblate 依赖 Django 进行身份认证。这包括内置的基于密码的身份认证、社媒身份认"
+"证，以及 Django 的第三方身份认证后端。"
 
 #: ../../admin/auth.rst:24
 msgid ""
 "Using Django's built-in authentication means you can import the user "
 "database of other Django-based projects (see :ref:`pootle-migration`)."
 msgstr ""
-"使用 Django 内置身份验证意味着可以导入其他基于 Django 项目的用户数据库（请参"
+"使用 Django 内置身份认证意味着可以导入其他基于 Django 项目的用户数据库（请参"
 "见 :ref:`pootle-migration`）。"
 
 #: ../../admin/auth.rst:29
 msgid ""
 ":ref:`docker-auth` describes how to configure authentication in the official "
 "Docker image."
-msgstr ":ref:`docker-auth` 描述了如何配置官方 Docker 镜像的身份验证。"
+msgstr ":ref:`docker-auth` 描述了如何配置官方 Docker 镜像的身份认证。"
 
 #: ../../admin/auth.rst:33
 msgid "Social authentication"
-msgstr "社交身份验证"
+msgstr "社交身份认证"
 
 #: ../../admin/auth.rst:35
 msgid ""
 "Thanks to :doc:`psa:index`, Weblate support authentication using many third "
 "party services such as GitLab, Ubuntu, Fedora, etc."
-msgstr ""
-"由于 :doc:`psa:index`，Weblate 支持很多使用第三方服务的身份验证，如 GitLab、"
+msgstr "由于 :doc:`psa:index`，Weblate 支持很多使用第三方服务的身份认证，如 GitLab、"
 "Ubuntu、Fedora 等。"
 
 #: ../../admin/auth.rst:38
@@ -4293,7 +4279,7 @@ msgid ""
 "support this, please enforce e-mail validation on the Weblate side by "
 "configuring FORCE_EMAIL_VALIDATION for them. For example:"
 msgstr ""
-"Weblate 默认依赖于第三方身份验证服务来提供合法的电子邮箱地址。如果想要使用的"
+"Weblate 默认依赖于第三方身份认证服务来提供合法的电子邮箱地址。如果想要使用的"
 "一些服务不支持，请通过为其配置 FORCE_EMAIL_VALIDATION，来强制 Weblate 网站上"
 "的电子邮箱验证："
 
@@ -4318,9 +4304,9 @@ msgid ""
 "using :setting:`ENABLE_HTTPS`, or by :envvar:`WEBLATE_ENABLE_HTTPS` in the "
 "Docker container."
 msgstr ""
-"大多数身份验证后端都需要 HTTPS。在您的 Web 服务器中启用 HTTPS 后，请使"
-"用 :setting:`ENABLE_HTTPS` 或 Docker 容器中的 :envvar:`WEBLATE_ENABLE_HTTPS` "
-"配置 Weblate 以正确报告它。"
+"大多数身份认证后端都需要 HTTPS。在您的 Web 服务器中启用 HTTPS 后，请使用 "
+":setting:`ENABLE_HTTPS` 或 Docker 容器中的 :envvar:`WEBLATE_ENABLE_HTTPS` 配"
+"置 Weblate 以正确报告它。"
 
 #: ../../admin/auth.rst:70
 msgid ":doc:`Python Social Auth backend <psa:backends/index>`"
@@ -4328,7 +4314,7 @@ msgstr ":doc:`Python Social Auth backend <psa:backends/index>`"
 
 #: ../../admin/auth.rst:73
 msgid "OpenID authentication"
-msgstr "OpenID 身份验证"
+msgstr "OpenID 身份认证"
 
 #: ../../admin/auth.rst:75
 msgid ""
@@ -4337,11 +4323,11 @@ msgid ""
 "Ubuntu:"
 msgstr ""
 "对于基于 OpenID 的服务，通常只要启用它们就行了。后面的部分关于对于 OpenSUSE、"
-"Fedora 和 Ubuntu 允许 OpenID 身份验证："
+"Fedora 和 Ubuntu 允许 OpenID 身份认证："
 
 #: ../../admin/auth.rst:96
 msgid "GitHub authentication"
-msgstr "GitHub 身份验证"
+msgstr "GitHub 身份认证"
 
 #: ../../admin/auth.rst:98
 msgid ""
@@ -4379,12 +4365,12 @@ msgid ""
 "domain. In case you get errors about URL mismatch, you might want to fix "
 "this, see :ref:`production-site`."
 msgstr ""
-"Weblate 在身份验证时提供的回调 URL。在得到 URL 不匹配的错误时，可以根据需要来"
+"Weblate 在身份认证时提供的回调 URL。在得到 URL 不匹配的错误时，可以根据需要来"
 "修复，请参见 :ref:`production-site`。"
 
 #: ../../admin/auth.rst:133
 msgid "GitHub EE authentication"
-msgstr "GitHub 企业身份验证"
+msgstr "GitHub 企业身份认证"
 
 #: ../../admin/auth.rst:135
 msgid ""
@@ -4415,7 +4401,7 @@ msgstr ""
 
 #: ../../admin/auth.rst:170
 msgid "Bitbucket authentication"
-msgstr "Bitbucket 身份验证"
+msgstr "Bitbucket 身份认证"
 
 #: ../../admin/auth.rst:172
 msgid ""
@@ -4513,7 +4499,7 @@ msgstr "Microsoft Azure Active Directory"
 msgid ""
 "Weblate can be configured to use common or specific tenants for "
 "authentication."
-msgstr "可以配置 Weblate，使用一般或特定租户进行身份验证。"
+msgstr "可以配置 Weblate，使用一般或特定租户进行身份认证。"
 
 #: ../../admin/auth.rst:333
 msgid ""
@@ -4521,9 +4507,9 @@ msgid ""
 "oauth2/`` for common and ``https://WEBLATE SERVER/accounts/complete/azuread-"
 "tenant-oauth2/`` for tenant-specific authentication."
 msgstr ""
-"常见的重定向 URL 为 ``https://WEBLATE SERVER/accounts/complete/azuread-"
-"oauth2/``，``https://WEBLATE SERVER/accounts/complete/azuread-tenant-oauth2/"
-"`` 用于租户特定身份验证。"
+"常见的重定向 URL 为 ``https://WEBLATE SERVER/accounts/complete/"
+"azuread-oauth2/``，``https://WEBLATE SERVER/accounts/complete/"
+"azuread-tenant-oauth2/`` 用于租户特定身份认证。"
 
 #: ../../admin/auth.rst:337
 msgid "You will need following:"
@@ -4540,8 +4526,7 @@ msgstr ""
 msgid ""
 "*Directory (tenant) ID* is needed for tenant scoped authentication, what is "
 "usually desired."
-msgstr ""
-"租户范围的身份验证（通常情况下的理想选择）需要用到 *Directory (tenant) ID*."
+msgstr "租户范围的身份认证（通常情况下的理想选择）需要用到 *Directory (tenant) ID*."
 
 #: ../../admin/auth.rst:341
 msgid ""
@@ -4568,7 +4553,7 @@ msgstr "重定向 URL 为 ``https://WEBLATE SERVER/accounts/complete/slack/``。
 
 #: ../../admin/auth.rst:413
 msgid "Overriding authentication method names and icons"
-msgstr "覆盖身份验证方法名称和图标"
+msgstr "覆盖身份认证方法名称和图标"
 
 #: ../../admin/auth.rst:415
 msgid ""
@@ -4577,11 +4562,11 @@ msgid ""
 "For example overriding naming for Auth0 would look like:"
 msgstr ""
 "您可以使用 ``SOCIAL_AUTH_<NAME>_IMAGE`` 和 ``SOCIAL_AUTH_<NAME>_TITLE`` 等设"
-"置覆盖身份验证方法显示名称和图标。例如，Auth0 的覆盖命名如下所示："
+"置覆盖身份认证方法显示名称和图标。例如，Auth0 的覆盖命名如下所示："
 
 #: ../../admin/auth.rst:427
 msgid "Turning off password authentication"
-msgstr "关闭密码身份验证"
+msgstr "关闭密码身份认证"
 
 #: ../../admin/auth.rst:429
 msgid ""
@@ -4592,7 +4577,7 @@ msgid ""
 "Weblate functionality."
 msgstr ""
 "通过从 :setting:`django:AUTHENTICATION_BACKENDS` 删除 "
-"``social_core.backends.email.EmailAuth``，可以关闭电子邮箱和密码身份验证。总"
+"``social_core.backends.email.EmailAuth``，可以关闭电子邮箱和密码身份认证。总"
 "是将 ``weblate.accounts.auth.WeblateUserBackend`` 保留在那里，它用于 Weblate "
 "核心功能。"
 
@@ -4600,26 +4585,24 @@ msgstr ""
 msgid ""
 "Disabling e-mail authentication will disable all e-mail related "
 "functionality – user invitation or password reset feature."
-msgstr ""
-"禁用电子邮件身份验证将禁用所有电子邮件相关的功能 - 用户邀请或密码重置功能。"
+msgstr "禁用电子邮件身份认证将禁用所有电子邮件相关的功能 - 用户邀请或密码重置功能。"
 
 #: ../../admin/auth.rst:440
 msgid ""
 "You can still use password authentication for the admin interface, for users "
 "you manually create there. Just navigate to ``/admin/login/``."
-msgstr ""
-"对于手动建立的用户，可以仍然在管理界面使用密码身份验证。只需导航到 ``/admin/"
+msgstr "对于手动建立的用户，可以仍然在管理界面使用密码身份认证。只需导航到 ``/admin/"
 "login/``。"
 
 #: ../../admin/auth.rst:443
 msgid ""
 "For example authentication using only the openSUSE Open ID provider can be "
 "achieved using the following:"
-msgstr "例如，使用后面的设置可以实现只是用 openSUSE Open ID 的身份验证："
+msgstr "例如，使用后面的设置可以实现只是用 openSUSE Open ID 的身份认证："
 
 #: ../../admin/auth.rst:457
 msgid "Password authentication"
-msgstr "密码身份验证"
+msgstr "密码身份认证"
 
 #: ../../admin/auth.rst:459
 msgid ""
@@ -4645,7 +4628,7 @@ msgstr ""
 
 #: ../../admin/auth.rst:478
 msgid "SAML authentication"
-msgstr "SAML 身份验证"
+msgstr "SAML 身份认证"
 
 #: ../../admin/auth.rst:484
 msgid ""
@@ -4653,9 +4636,9 @@ msgid ""
 "default ``all`` extras. You need to include ``saml`` while installing the "
 "Weblate package using pip (``uv pip install Weblate[all,saml]``)."
 msgstr ""
-"SAML 身份验证的依赖项不再包括在默认的 ``all`` 附加项中。在使用 pip 安装 "
-"Weblate 软件包时，您需要包括 ``saml``\\ （``uv pip install "
-"Weblate[all,saml]``）。"
+"SAML 身份认证的依赖项不再包括在默认的 ``all`` 附加项中。在使用 pip 安装 "
+"Weblate 软件包时，您需要包括 ``saml``\\ （``uv pip install Weblate[all,saml]`"
+"`）。"
 
 #: ../../admin/auth.rst:488
 msgid ""
@@ -4690,14 +4673,10 @@ msgid "Example configuration:"
 msgstr "配置的示例："
 
 #: ../../admin/auth.rst:535
-#, fuzzy
-#| msgid ""
-#| "The default configuration extracts user details from following "
-#| "attributes, configure your IDP to provide them:"
 msgid ""
 "The default configuration extracts user details from following attributes, "
 "configure your IdP to provide them:"
-msgstr "默认配置从以下属性提取用户详细信息，通过配置您的IDP来配置它们："
+msgstr "默认配置从以下属性提取用户详细信息，配置您的IdP来提供它们："
 
 #: ../../admin/auth.rst:539
 msgid "Attribute"
@@ -4734,15 +4713,11 @@ msgid ""
 msgstr ""
 
 #: ../../admin/auth.rst:557
-#, fuzzy
-#| msgid ""
-#| "The example above and the Docker image define an IDP called ``weblate``. "
-#| "You might need to configure this string as :guilabel:`Relay` in your IDP."
 msgid ""
 "The example above and the Docker image define an IdP called ``weblate``. You "
 "might need to configure this string as :guilabel:`Relay` in your IdP."
 msgstr ""
-"上面的示例和 Docker 镜像定义了一个 叫做 ``weblate`` 的 IDP。您可能需要在 IDP "
+"上面的示例和 Docker 镜像定义了一个 叫做 ``weblate`` 的 IdP。您可能需要在 IdP "
 "中将此字符串配置为 :guilabel:`Relay`。"
 
 #: ../../admin/auth.rst:562
@@ -4750,7 +4725,8 @@ msgid ""
 "Weblate authentication relies on the ``RelayState`` parameter to be passed "
 "through the authentication process. This needs to be configured with some "
 "identity providers:"
-msgstr ""
+msgstr "Weblate 身份认证依赖通过身份认证过程传递 ``RelayState`` 参数。这需要对一些身"
+"份提供商进行配置："
 
 #: ../../admin/auth.rst:566
 msgid "`How to Send a Custom RelayState with Okta`_"
@@ -4762,14 +4738,13 @@ msgstr ":ref:`在 Docker 中配置 SAML <docker-saml>`"
 
 #: ../../admin/auth.rst:578
 msgid "LDAP authentication"
-msgstr "LDAP 身份验证"
+msgstr "LDAP 身份认证"
 
 #: ../../admin/auth.rst:580
 msgid ""
 "LDAP authentication can be best achieved using the `django-auth-ldap` "
 "package. You can install it via usual means:"
-msgstr ""
-"LDAP 身份验证可以使用 `django-auth-ldap` 软件包而最好地实现。可以使用通常的方"
+msgstr "LDAP 身份认证可以使用 `django-auth-ldap` 软件包而最好地实现。可以使用通常的方"
 "式安装："
 
 #: ../../admin/auth.rst:593
@@ -4794,7 +4769,7 @@ msgstr ""
 msgid ""
 "Once you have the package installed, you can hook it into the Django "
 "authentication:"
-msgstr "一旦安装了软件包，就可以将其钩入 Django 身份验证了："
+msgstr "一旦安装了软件包，就可以将其钩入 Django 身份认证了："
 
 #: ../../admin/auth.rst:640
 msgid ""
@@ -4808,7 +4783,7 @@ msgid ""
 msgstr ""
 "你应当从设置的 :setting:`django:AUTHENTICATION_BACKENDS` 部分移除 "
 "``'social_core.backends.email.EmailAuth'``，否则用户不能够在 Weblate 中设置他"
-"们的密码，并使用它进行身份验证。为了生成权限和方便匿名用户，仍需保留 "
+"们的密码，并使用它进行身份认证。为了生成权限和方便匿名用户，仍需保留 "
 "``'weblate.accounts.auth.WeblateUserBackend'``。它还允许你使用一个本地管理账"
 "户登录，如果你已经创建了它（如通过使用 :wladmin:`createadmin`）。"
 
@@ -4820,9 +4795,8 @@ msgstr "使用绑定密码"
 msgid ""
 "If you can not use direct bind for authentication, you will need to use "
 "search, and provide a user to bind for the search. For example:"
-msgstr ""
-"如果可以为身份验证使用直接绑定，那么需要使用搜索，并为用户搜索提供绑定，例"
-"如："
+msgstr "如果可以为身份认证使用直接绑定，那么需要使用搜索，并为用户搜索提供绑定，例如"
+"："
 
 #: ../../admin/auth.rst:666
 msgid "Active Directory integration"
@@ -4830,12 +4804,12 @@ msgstr "Active Directory 集成"
 
 #: ../../admin/auth.rst:707
 msgid "CAS authentication"
-msgstr "CAS 身份验证"
+msgstr "CAS 身份认证"
 
 #: ../../admin/auth.rst:709
 msgid ""
 "CAS authentication can be achieved using a package such as `Django CAS NG`_."
-msgstr "可以使用诸如 `Django CAS NG`_ 之类的软件包来实现 CAS 身份验证。"
+msgstr "可以使用诸如 `Django CAS NG`_ 之类的软件包来实现 CAS 身份认证。"
 
 #: ../../admin/auth.rst:711
 msgid ""
@@ -4858,9 +4832,8 @@ msgstr "安装 `Django CAS NG`_："
 msgid ""
 "Once you have the package installed you can hook it up to the Django "
 "authentication system by modifying the :file:`settings.py` file:"
-msgstr ""
-"一旦安装了软件包，就可以通过修改 :file:`settings.py` 文件将其钩连到 Django 身"
-"份验证系统："
+msgstr "一旦安装了软件包，就可以通过修改 :file:`settings.py` 文件将其钩连到 Django 身"
+"份认证系统："
 
 #: ../../admin/auth.rst:741
 msgid ""
@@ -4884,7 +4857,7 @@ msgstr "在项目的 :file:`urls.py` 文件中（当没有模块存在时）"
 
 #: ../../admin/auth.rst:765
 msgid "Configuring third party Django authentication"
-msgstr "配置第三方 Django 身份验证"
+msgstr "配置第三方 Django 身份认证"
 
 #: ../../admin/auth.rst:767
 msgid ""
@@ -4901,19 +4874,19 @@ msgid ""
 "to :setting:`django:AUTHENTICATION_BACKENDS` and installing an "
 "authentication app (if there is any) into :setting:`django:INSTALLED_APPS`:"
 msgstr ""
-"典型的安装包括，将身份验证后台添加"
-"到 :setting:`django:AUTHENTICATION_BACKENDS`，并将身份验证 app（如果有的话）"
-"安装到 :setting:`django:INSTALLED_APPS`："
+"典型的安装包括，将身份认证后台添加到 "
+":setting:`django:AUTHENTICATION_BACKENDS`，并将身份认证 app（如果有的话）安装"
+"到 :setting:`django:INSTALLED_APPS`："
 
 #: ../../admin/auth.rst:795
 msgid "Two-factor authentication"
-msgstr "双因素身份验证"
+msgstr "双因素身份认证"
 
 #: ../../admin/auth.rst:801
 msgid ""
 "Two-factor authentication adds another layer of security to your account by "
 "requiring more than just a password to sign in."
-msgstr "由于登录时不仅需要密码，双因素身份验证为您的帐户增加了另一层安全性。"
+msgstr "由于登录时不仅需要密码，双因素身份认证为您的帐户增加了另一层安全性。"
 
 #: ../../admin/auth.rst:803
 msgid "Weblate supports the following second factors:"
@@ -4945,7 +4918,7 @@ msgstr ""
 
 #: ../../admin/auth.rst:812
 msgid "Authenticator apps (TOTP)"
-msgstr "身份验证器应用程序（TOTP）"
+msgstr "身份认证器应用程序（TOTP）"
 
 #: ../../admin/auth.rst:813
 msgid ""
@@ -4956,7 +4929,7 @@ msgid ""
 msgstr ""
 "身份认证应用和浏览器扩展，比如 Aegis、Bitwarden、Google Authenticator、"
 "1Password、Authy、Microsoft Authenticator 等在登录期间系统提示时生成用作身份"
-"验证第二因素的基于时间的一次性密码。"
+"认证第二因素的基于时间的一次性密码。"
 
 #: ../../admin/auth.rst:818
 msgid "Recovery codes"
@@ -4966,9 +4939,8 @@ msgstr "恢复代码"
 msgid ""
 "Recovery codes can be used to access your account if you lose access to your "
 "device and cannot receive two-factor authentication codes."
-msgstr ""
-"如果您无法访问设备并且无法接收双因素身份验证码，则可以使用恢复码访问您的帐"
-"户。"
+msgstr "如果您无法访问设备并且无法接收双因素身份认证码，则可以使用恢复码访问您的帐户"
+"。"
 
 #: ../../admin/auth.rst:821
 msgid ""
@@ -6637,8 +6609,7 @@ msgstr ""
 msgid ""
 "Change dashboard settings for anonymous users from the admin interface, "
 "altering what dashboard is presented to unauthenticated users."
-msgstr ""
-"从管理界面更改匿名用户的操作面板设置，修改操作面板向未经身份验证用户展示的内"
+msgstr "从管理界面更改匿名用户的操作面板设置，修改操作面板向未经身份认证用户展示的内"
 "容。"
 
 #: ../../admin/componentlists.rst:26
@@ -6742,28 +6713,20 @@ msgid ""
 msgstr ""
 
 #: ../../admin/config.rst:58
-#, fuzzy
-#| msgid "Defaults to ``*`` which allows all hostnames."
 msgid "Defaults to `[*]` which will allow all domains."
-msgstr "默认为 ``*`` 来允许所有的主机名称。"
+msgstr "默认为 `[*]` 允许所有的主机。"
 
 #: ../../admin/config.rst:60
-#, fuzzy
-#| msgid "**Example:**"
 msgid "**Example**"
-msgstr "**示例：**"
+msgstr "**示例**"
 
 #: ../../admin/config.rst:71
-#, fuzzy
-#| msgid "This is currently applied in the following locations:"
 msgid "This is currently used in the following places:"
-msgstr "当前，这应用在后面的位置："
+msgstr "当前，这应用在下列地方："
 
 #: ../../admin/config.rst:73
-#, fuzzy
-#| msgid "WebP is now supported for :ref:`screenshots`."
 msgid "Screenshot uploads, see :ref:`screenshots`"
-msgstr ":ref:`screenshots` 现已支持 WebP 格式。"
+msgstr "截屏上传，见 :ref:`screenshots`"
 
 #: ../../admin/config.rst:86
 msgid "Configures size limit for fetching assets in Weblate. Defaults to 4 MB."
@@ -6887,8 +6850,7 @@ msgid ""
 "How long the authentication token and temporary password from password reset "
 "e-mails is valid for. Set in number of seconds, defaulting to 172800 (2 "
 "days)."
-msgstr ""
-"身份验证令牌和密码重置电子邮件中临时密码的有效时间。以秒为单位，默认为 172800"
+msgstr "身份认证令牌和密码重置电子邮件中临时密码的有效时间。以秒为单位，默认为 172800"
 "（2 天）。"
 
 #: ../../admin/config.rst:206
@@ -7512,10 +7474,8 @@ msgid "The user workspace slug."
 msgstr "用户工作区标识符。"
 
 #: ../../admin/config.rst:979
-#, fuzzy
-#| msgid "The App password with `pullrequest:write` permission."
 msgid "The API token with `pullrequest:write` permission."
-msgstr "有 `pullrequest:write` 权限的应用密码。"
+msgstr "有 `pullrequest:write` 权限的 API 令牌。"
 
 #: ../../admin/config.rst:981 ../../admin/config.rst:1024
 msgid ""
@@ -7524,28 +7484,20 @@ msgid ""
 msgstr "此处未说明的其他设置可以在 :ref:`settings-credentials` 中找到。"
 
 #: ../../admin/config.rst:986
-#, fuzzy
-#| msgid ""
-#| "`Create an App password <https://support.atlassian.com/bitbucket-cloud/"
-#| "docs/create-an-app-password/>`_"
 msgid ""
 "`Create an API token <https://support.atlassian.com/bitbucket-cloud/docs/"
 "create-an-api-token/>`_"
 msgstr ""
-"`创建应用密码 <https://support.atlassian.com/bitbucket-cloud/docs/create-an-"
-"app-password/>`_"
+"`创建 API 令牌 <https://support.atlassian.com/bitbucket-cloud/docs/"
+"create-an-app-password/>`_"
 
 #: ../../admin/config.rst:987
-#, fuzzy
-#| msgid ""
-#| "`App password permissions <https://support.atlassian.com/bitbucket-cloud/"
-#| "docs/app-password-permissions/>`_"
 msgid ""
 "`API token permissions <https://support.atlassian.com/bitbucket-cloud/docs/"
 "api-token-permissions/>`_"
 msgstr ""
-"`应用密码权限 <https://support.atlassian.com/bitbucket-cloud/docs/app-"
-"password-permissions/>`_"
+"` API 令牌权限 <https://support.atlassian.com/bitbucket-cloud/docs/"
+"app-password-permissions/>`_"
 
 #: ../../admin/config.rst:996
 msgid "List for credentials for Azure DevOps servers."
@@ -7622,8 +7574,7 @@ msgid ""
 "Hides version info from unauthenticated users. This also makes all "
 "documentation links point to the latest version instead of the documentation "
 "matching the currently installed version."
-msgstr ""
-"对未经身份验证用户隐藏版本信息。这也会使所有文档链接都指向最新的版本，而不是"
+msgstr "对未经身份认证用户隐藏版本信息。这也会使所有文档链接都指向最新的版本，而不是"
 "与当前安装版本相匹配的文档。"
 
 #: ../../admin/config.rst:1071
@@ -8047,9 +7998,8 @@ msgid ""
 "List of authentication backends to allow registration from. This only limits "
 "new registrations, users can still authenticate and add authentication using "
 "all configured authentication backends."
-msgstr ""
-"身份验证后端的列表，允许从中注册。这只限制新的注册，用户可以使用配置的身份验"
-"证后端，来进行身份验证和添加身份验证。"
+msgstr "身份认证后端的列表，允许从中注册。这只限制新的注册，用户可以使用配置的身份认"
+"证后端，来进行身份认证和添加身份认证。"
 
 #: ../../admin/config.rst:1707
 msgid ""
@@ -8062,7 +8012,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1719
 msgid "The backend names match names used in the URL for authentication."
-msgstr "与身份验证 URL 中使用的名称匹配的后端名称。"
+msgstr "与身份认证 URL 中使用的名称匹配的后端名称。"
 
 #: ../../admin/config.rst:1731
 msgid ""
@@ -8131,7 +8081,7 @@ msgid ""
 "the Python Social Auth (you can allow certain back-ends "
 "using :setting:`REGISTRATION_ALLOW_BACKENDS`)."
 msgstr ""
-"这个设置影响了内建的通过电子邮箱地址或通过 Python 社交认证的身份验证（可以允"
+"这个设置影响了内建的通过电子邮箱地址或通过 Python 社交认证的身份认证（可以允"
 "许某些后端使用 :setting:`REGISTRATION_ALLOW_BACKENDS`）。"
 
 #: ../../admin/config.rst:1774
@@ -8139,16 +8089,14 @@ msgid ""
 "If using third-party authentication methods such as :ref:`ldap-auth`, it "
 "just hides the registration form, but new users might still be able to sign "
 "in and create accounts."
-msgstr ""
-"如果使用第三方身份验证方法，如 :ref:`ldap-auth`，只是隐藏注册表单，而新用户仍"
+msgstr "如果使用第三方身份认证方法，如 :ref:`ldap-auth`，只是隐藏注册表单，而新用户仍"
 "然能够登录并建立账户。"
 
 #: ../../admin/config.rst:1791
 msgid ""
 "Allow rebinding authentication backends for existing users. Turn this on "
 "when migrating between authentication providers."
-msgstr ""
-"允许为现有用户重新绑定身份验证后端。在不同身份验证提供者之间迁移时请打开此选"
+msgstr "允许为现有用户重新绑定身份认证后端。在不同身份认证提供者之间迁移时请打开此选"
 "项。"
 
 #: ../../admin/config.rst:1796
@@ -8156,9 +8104,8 @@ msgid ""
 "Off by default to not allow adding other authentication backends to an "
 "existing account. Rebinding can lead to account compromise when using more "
 "third-party authentication backends."
-msgstr ""
-"默认禁用，不允许添加其他身份验证后端到现有账户。使用更多第三方身份验证后端"
-"时，重新绑定可导致账户沦陷。"
+msgstr "默认禁用，不允许添加其他身份认证后端到现有账户。使用更多第三方身份认证后端时"
+"，重新绑定可导致账户沦陷。"
 
 #: ../../admin/config.rst:1807
 msgid ""
@@ -8258,8 +8205,8 @@ msgid ""
 "complements :setting:`django:SESSION_COOKIE_AGE` which is used for "
 "unauthenticated users."
 msgstr ""
-"对身份已验证用户设置会话过期时间。这是对用于未经身份验证用户"
-"的 :setting:`django:SESSION_COOKIE_AGE` 的补充。"
+"对身份已验证用户设置会话过期时间。这是对用于未经身份认证用户的 "
+":setting:`django:SESSION_COOKIE_AGE` 的补充。"
 
 #: ../../admin/config.rst:1918
 msgid ""
@@ -8963,10 +8910,8 @@ msgid "Check `GitLab webhook request history`_ if webhooks are delivered."
 msgstr ""
 
 #: ../../admin/continuous.rst:268
-#, fuzzy
-#| msgid "Please review and confirm the matched components."
 msgid "The response payload contains information about matched components."
-msgstr "请审校并确认匹配部件。"
+msgstr "响应载荷包含匹配部件的信息。"
 
 #: ../../admin/continuous.rst:274
 msgid ":http:post:`/hooks/gitlab/`"
@@ -9534,19 +9479,14 @@ msgid "Create a folder for your package (we will use `weblate_customization`)."
 msgstr "为你的包建立文件夹（我们会使用 `weblate_customization`）。"
 
 #: ../../admin/customize.rst:48
-#, fuzzy
-#| msgid "Within it, create a :file:`setup.py` file to describe the package:"
 msgid ""
 "Within it, create a :file:`pyproject.toml` file to describe the package:"
-msgstr "在里面新建 :file:`setup.py` 文件来描述包："
+msgstr "在里面新建 :file:`pyproject.toml` 文件来描述包："
 
 #: ../../admin/customize.rst:63
-#, fuzzy
-#| msgid ""
-#| "Create a folder for your package (we will use `weblate_customization`)."
 msgid ""
 "Create a folder for the Python module: :file:`src/weblate_customization`"
-msgstr "为你的包建立文件夹（我们会使用 `weblate_customization`）。"
+msgstr "为 Python 模块建立文件夹：:file:`src/weblate_customization`"
 
 #: ../../admin/customize.rst:64
 msgid ""
@@ -9555,16 +9495,12 @@ msgid ""
 msgstr "在里面建立 :file:`__init__.py` 文件来确认 Python 可以导入模块。"
 
 #: ../../admin/customize.rst:65
-#, fuzzy
-#| msgid ""
-#| "This package can now be installed using :command:`pip install -e`. More "
-#| "info to be found in :ref:`pip:editable-installs`."
 msgid ""
 "This package can now be installed using :command:`uv pip install -e`. More "
 "info to be found in `Editable packages documentation`_."
 msgstr ""
-"现在可以使用 :command:`pip install -e` 安装这个包。更多信息可以"
-"在 :ref:`pip:editable-installs` 中找到。"
+"现在可以使用 :command:`uv pip install -e` 安装这个包。可以在 `Editable "
+"packages documentation`_ 中找到更多信息。"
 
 #: ../../admin/customize.rst:66
 msgid ""
@@ -9636,43 +9572,29 @@ msgstr ""
 "运行 :samp:`weblate collectstatic --noinput`，来收集提供给客户端的静态文件。"
 
 #: ../../admin/customize.rst:129
-#, fuzzy
-#| msgid "Custom quality checks, add-ons and auto-fixes"
 msgid "Custom quality checks, add-ons, automatic suggestions and auto-fixes"
-msgstr "定制的质量检查、附加组件和自动修复"
+msgstr "定制的质量检查、附加组件、自动建议和自动修复"
 
 #: ../../admin/customize.rst:131
-#, fuzzy
-#| msgid ""
-#| "To install your code for :ref:`custom-autofix`, :ref:`own-checks` "
-#| "or :ref:`own-addon` in Weblate:"
 msgid ""
 "To install your code for :ref:`custom-autofix`, :ref:`own-"
 "checks`, :ref:`custom-machinery` or :ref:`own-addon` in Weblate:"
 msgstr ""
-"要在 Weblate 中安装你的 :ref:`custom-autofix`，:ref:`own-checks` "
-"或 :ref:`own-addon` 代码："
+"要在 Weblate 中安装你的 :ref:`custom-autofix`，:ref:`own-checks` ，:ref"
+":`custom-machinery` 或 :ref:`own-addon` 代码："
 
 #: ../../admin/customize.rst:134
-#, fuzzy
-#| msgid ""
-#| "Place the files into your Python module containing the Weblate "
-#| "customization (see :ref:`custom-module`)."
 msgid ""
 "Place the files into your Python module containing the Weblate customization "
 "(see :ref:`custom-module` or :ref:`docker-python-override`)."
 msgstr ""
-"将文件放进你的包含 Weblate 定制的 Python 模块中（请参见 :ref:`custom-"
-"module`）。"
+"将文件放进包含 Weblate 定制的 Python 模块中（见 :ref:`custom-module` 或 :ref"
+":`docker-python-override`）。"
 
 #: ../../admin/customize.rst:136
-#, fuzzy
-#| msgid ""
-#| "Provide a fully-qualified path to the Python class implementing the check "
-#| "interface."
 msgid ""
 "Add its fully-qualified path to the Python class in the dedicated settings:"
-msgstr "提供一个实现了检查接口的 Python 类的完全合规路径。"
+msgstr "在专用设置中将其完全合格的路径添加到 Python 类中："
 
 #: ../../admin/deployments.rst:4
 msgid "Weblate deployments"
@@ -10425,16 +10347,12 @@ msgid ":ref:`mysql` is supported, but not recommended for new installs."
 msgstr ":ref:`mysql` 受支持，但不推荐新安装使用它。"
 
 #: ../../snippets/mysql-warning.rst:3
-#, fuzzy
-#| msgid ""
-#| "Google Analytics 4 integration is currently not available for Weblate, "
-#| "please see https://github.com/WeblateOrg/weblate/issues/14015."
 msgid ""
 "The support for MySQL and MariaDB is being considered for removal. Please "
 "see https://github.com/WeblateOrg/weblate/issues/16140 for more info."
 msgstr ""
-"Google Analytics 4 集成当前对 Weblate 不可用，请见 https://github.com/"
-"WeblateOrg/weblate/issues/14015。"
+"我们正在考虑移除对 MySQL 和 MariaDB 的支持。更多信息请参阅 https://"
+"github.com/WeblateOrg/weblate/issues/16140。"
 
 #: ../../admin/install.rst:444
 msgid ""
@@ -10738,7 +10656,7 @@ msgid ""
 "authenticate this way. Try enabling :setting:`django:EMAIL_USE_TLS` in such "
 "case."
 msgstr ""
-"如果你收到不受支持的身份验证的错误（例如，:samp:`SMTP AUTH extension not "
+"如果你收到不受支持的身份认证的错误（例如，:samp:`SMTP AUTH extension not "
 "supported by server`），这最可能因为使用不安全的链接并且服务器拒绝以这种方式"
 "认证而导致。在这种情况下尝试启动 :setting:`django:EMAIL_USE_TLS`。"
 
@@ -10764,13 +10682,8 @@ msgid "Client IP address"
 msgstr "客户端 IP 地址"
 
 #: ../../admin/install.rst:734
-#, fuzzy
-#| msgid ""
-#| "This is needed for :ref:`rate-limit`, :ref:`spam-protection` "
-#| "or :ref:`audit-log`."
 msgid "This is needed for :ref:`rate-limit` or :ref:`audit-log`."
-msgstr ""
-":ref:`rate-limit`、:ref:`spam-protection` 或 :ref:`audit-log` 需要这个。"
+msgstr ":ref:`rate-limit` 或 :ref:`audit-log` 需要这个。"
 
 #: ../../admin/install.rst:736
 msgid ""
@@ -12162,8 +12075,7 @@ msgstr "其他注意事项"
 msgid ""
 "Don't forget to move other services Weblate might have been using like "
 "Redis, Cron jobs or custom authentication backends."
-msgstr ""
-"不要忘记移动 Weblate 会使用的其他服务，如 Redis、Cron 任务或自定义的身份验证"
+msgstr "不要忘记移动 Weblate 会使用的其他服务，如 Redis、Cron 任务或自定义的身份认证"
 "后端。"
 
 #: ../../admin/install/docker.rst:2
@@ -12873,16 +12785,14 @@ msgstr "通过切换 :std:setting:`REGISTRATION_OPEN` 配置是否打开注册�
 msgid ""
 "Configures whether captcha is used for registration and other "
 "unauthenticated actions, see :std:setting:`REGISTRATION_CAPTCHA`."
-msgstr ""
-"配置是否将人机验证码用于账户注册和其他未经身份验证的操作，"
-"见 :std:setting:`REGISTRATION_CAPTCHA`。"
+msgstr "配置是否将人机验证码用于账户注册和其他未经身份认证的操作，见 "
+":std:setting:`REGISTRATION_CAPTCHA`。"
 
 #: ../../admin/install/docker.rst:666
 msgid ""
 "Configure which authentication methods can be used to create new account "
 "via :setting:`REGISTRATION_ALLOW_BACKENDS`."
-msgstr ""
-"配置可用于通过 :setting:`REGISTRATION_ALLOW_BACKENDS` 创建新账户的身份验证方"
+msgstr "配置可用于通过 :setting:`REGISTRATION_ALLOW_BACKENDS` 创建新账户的身份认证方"
 "法。"
 
 #: ../../admin/install/docker.rst:682
@@ -13012,7 +12922,7 @@ msgid ""
 "installation using :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS`."
 msgstr ""
 "使用 :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` 来为整个 Weblate 安装所需的身"
-"份验证添加 URL 例外。"
+"份认证添加 URL 例外。"
 
 #: ../../admin/install/docker.rst:826
 msgid ""
@@ -13022,7 +12932,7 @@ msgstr "可以替换整个设置，或者使用 ``ADD`` 和 ``REMOVE`` 变量修
 
 #: ../../admin/install/docker.rst:828
 msgid "To enforce authentication for the contact form, do:"
-msgstr "对联系表单强制使用身份验证的方法："
+msgstr "对联系表单强制使用身份认证的方法："
 
 #: ../../admin/install/docker.rst:837
 msgid ""
@@ -13334,7 +13244,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:1237
 msgid "Authentication settings"
-msgstr "身份验证设置"
+msgstr "身份认证设置"
 
 #: ../../admin/install/docker.rst:1240
 msgid "LDAP"
@@ -13342,7 +13252,7 @@ msgstr "LDAP"
 
 #: ../../admin/install/docker.rst:1253
 msgid "LDAP authentication configuration."
-msgstr "LDAP 身份验证配置。"
+msgstr "LDAP 身份认证配置。"
 
 #: ../../admin/install/docker.rst:1255
 msgid "**Example for direct bind:**"
@@ -13414,7 +13324,7 @@ msgstr "Gitea"
 
 #: ../../admin/install/docker.rst:1375
 msgid "Enables Gitea authentication."
-msgstr "启用 Gitea 身份验证。"
+msgstr "启用 Gitea 身份认证。"
 
 #: ../../admin/install/docker.rst:1378
 msgid "Azure Active Directory"
@@ -13422,7 +13332,7 @@ msgstr "Azure Active Directory"
 
 #: ../../admin/install/docker.rst:1383
 msgid "Enables Azure Active Directory authentication, see :ref:`azure-auth`."
-msgstr "启用 Azure Active Directory 身份验证，请参见 :ref:`azure-auth`。"
+msgstr "启用 Azure Active Directory 身份认证，请参见 :ref:`azure-auth`。"
 
 #: ../../admin/install/docker.rst:1386
 msgid "Azure Active Directory with Tenant support"
@@ -13432,8 +13342,7 @@ msgstr "支持 Azure Active Directory 租户"
 msgid ""
 "Enables Azure Active Directory authentication with Tenant support, "
 "see :ref:`azure-auth`."
-msgstr ""
-"启用支持 Azure Active Directory 租户的身份验证，请参见 :ref:`azure-auth`。"
+msgstr "启用支持 Azure Active Directory 租户的身份认证，请参见 :ref:`azure-auth`。"
 
 #: ../../admin/install/docker.rst:1396
 msgid "Keycloak"
@@ -13441,7 +13350,7 @@ msgstr "Keycloak"
 
 #: ../../admin/install/docker.rst:1407
 msgid "Enables Keycloak authentication, see :doc:`psa:backends/keycloak`."
-msgstr "启用 Keycloak 身份验证，请参见 :doc:`psa:backends/keycloak`。"
+msgstr "启用 Keycloak 身份认证，请参见 :doc:`psa:backends/keycloak`。"
 
 #: ../../admin/install/docker.rst:1411
 msgid ""
@@ -13461,13 +13370,12 @@ msgstr "Linux 销售商"
 msgid ""
 "You can enable authentication using Linux vendors authentication services by "
 "setting following variables to any value."
-msgstr ""
-"您可以通过将后面的变量设置为任何值，使用 Linux 销售商身份验证服务来允许身份验"
+msgstr "您可以通过将后面的变量设置为任何值，使用 Linux 销售商身份认证服务来允许身份认"
 "证。"
 
 #: ../../admin/install/docker.rst:1439
 msgid "Enables Slack authentication, see :ref:`slack-auth`."
-msgstr "允许 Slack 身份验证，请参见 :ref:`slack-auth`。"
+msgstr "允许 Slack 身份认证，请参见 :ref:`slack-auth`。"
 
 #: ../../admin/install/docker.rst:1443
 msgid "OpenID Connect"
@@ -13708,7 +13616,7 @@ msgstr "电子邮件服务器端口，默认为 25。"
 
 #: ../../admin/install/docker.rst:1724
 msgid "E-mail authentication user."
-msgstr "电子邮件身份验证用户。"
+msgstr "电子邮件身份认证用户。"
 
 #: ../../admin/install/docker.rst:1732
 msgid "E-mail authentication password."
@@ -13975,7 +13883,7 @@ msgid ""
 "crawlers. You need to configure `Anubis for Subrequest Authentication`_ to "
 "make it work."
 msgstr ""
-"处理子请求身份验证的 `Anubis`_ 服务器 URL。这也许有助使用工作证明来筛选传入 "
+"处理子请求身份认证的 `Anubis`_ 服务器 URL。这也许有助使用工作证明来筛选传入 "
 "HTTP 标头以阻止 AI 爬虫。要让此功能正常运转，你需要配置 `Anubis for "
 "Subrequest Authentication`_ ."
 
@@ -14303,10 +14211,8 @@ msgid ""
 msgstr ":file:`/app/data/python/customize/tasks.py` 中的自定义计划任务的示例。"
 
 #: ../../admin/install/docker.rst:2265
-#, fuzzy
-#| msgid "Interacting with others"
 msgid "Integrating third-party containers"
-msgstr "与他人交互"
+msgstr "集成第三方容器"
 
 #: ../../admin/install/docker.rst:2267
 msgid ""
@@ -14317,10 +14223,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install/docker.rst:2272
-#, fuzzy
-#| msgid "The command to launch the container uses the following syntax:"
 msgid "When adding third-party containers, consider the following:"
-msgstr "启动容器的命令使用以下语法："
+msgstr "添加第三方容器时，考虑下列因素："
 
 #: ../../admin/install/docker.rst:2274
 msgid ""
@@ -14340,10 +14244,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install/docker.rst:2281
-#, fuzzy
-#| msgid "Version control integration"
 msgid "LibreTranslate Docker container integration"
-msgstr "版本控制集成"
+msgstr "LibreTranslate Docker 容器集成"
 
 #: ../../admin/install/docker.rst:2283
 msgid ""
@@ -14376,10 +14278,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install/docker.rst:2346
-#, fuzzy
-#| msgid "The Django admin interface"
 msgid "Access the Weblate admin interface"
-msgstr "Django 管理界面"
+msgstr "访问 Weblate 管理界面"
 
 #: ../../admin/install/docker.rst:2347
 msgid ""
@@ -14421,12 +14321,10 @@ msgid "Leave empty"
 msgstr ""
 
 #: ../../admin/install/docker.rst:2354
-#, fuzzy
-#| msgid "Translation is now open for translation updates."
 msgid ""
 "LibreTranslate is now configured and available for machine translation in "
 "Weblate."
-msgstr "已开放翻译的更新。"
+msgstr "已配置 LibreTranslate 可用于 Weblate 中的机器翻译。"
 
 #: ../../admin/install/docker.rst:2358
 msgid ""
@@ -14464,16 +14362,12 @@ msgid "No external ports are exposed, making the setup secure by default."
 msgstr ""
 
 #: ../../admin/install/docker.rst:2368
-#, fuzzy
-#| msgid "Translating the documentation"
 msgid "`LibreTranslate Docker documentation`_"
-msgstr "翻译文档"
+msgstr "`LibreTranslate Docker 文档`_"
 
 #: ../../admin/install/docker.rst:2376
-#, fuzzy
-#| msgid "Docker container security"
 msgid "Anubis Docker container integration"
-msgstr "Docker 容器安全"
+msgstr "Anubis Docker 容器集成"
 
 #: ../../admin/install/docker.rst:2378
 msgid ""
@@ -14483,10 +14377,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/install/docker.rst:2382
-#, fuzzy
-#| msgid "This can be done using docker compose, for example:"
 msgid "Anubis can be deployed using Docker Compose:"
-msgstr "这可以用 docker compose 完成，比如："
+msgstr "可用 Docker Compose 部署 Anubis："
 
 #: ../../admin/install/docker.rst:2416
 msgid ""
@@ -15080,13 +14972,6 @@ msgid "Built-in language definitions"
 msgstr "内置语言定义"
 
 #: ../../admin/languages.rst:14
-#, fuzzy
-#| msgid ""
-#| "Definitions for about 650 languages are included in Weblate and the list "
-#| "is extended in every release. Whenever Weblate is upgraded (more "
-#| "specifically whenever :wladmin:`migrate` is executed, see :ref:`generic-"
-#| "upgrade-instructions`) the database of languages is updated to include "
-#| "all language definitions shipped in Weblate."
 msgid ""
 "Definitions for about 800 languages are included in Weblate and the list is "
 "extended in every release. Whenever Weblate is upgraded (more specifically "
@@ -15094,10 +14979,10 @@ msgid ""
 "instructions`) the database of languages is updated to include all language "
 "definitions shipped in Weblate."
 msgstr ""
-"Weblate 中包含了大约 650 种语言的定义，而且该语言列表在每个发行版中都会进行扩"
-"充。每当升级 Weblate 时（更确切地说，是每当执行 :wladmin:`migrate` 时，请参"
-"见 :ref:`generic-upgrade-instructions`）语言数据库都会更新，以包含 Weblate 提"
-"供的所有语言定义。"
+"Weblate 中包含了大约 800 种语言的定义，而且该语言列表在每个发行版中都会进行扩"
+"充。每当升级 Weblate 时（更确切地说，是每当执行 :wladmin:`migrate` 时，请参见"
+" :ref:`generic-upgrade-instructions`）语言数据库都会更新，以包含 Weblate 提供"
+"的所有语言定义。"
 
 #: ../../admin/languages.rst:20
 msgid ""
@@ -15756,12 +15641,8 @@ msgid ""
 msgstr "这项服务使用 API，并且您需要从百度获得 ID 和 API 密钥来使用它。"
 
 #: ../../admin/machine.rst:222
-#, fuzzy
-#| msgid ""
-#| "`Baidu Translate API <https://api.fanyi.baidu.com/api/trans/product/"
-#| "index>`_"
 msgid "`Baidu Translate API <https://fanyi-api.baidu.com/product/11>`_"
-msgstr "`百度翻译 API <https://api.fanyi.baidu.com/api/trans/product/index>`_"
+msgstr "` 百度翻译 API <https://fanyi-api.baidu.com/product/11>`_"
 
 #: ../../admin/machine.rst:227
 msgid "CyrTranslit"
@@ -16000,7 +15881,7 @@ msgstr "`启用云翻译.`_"
 
 #: ../../admin/machine.rst:402
 msgid "`Setup Authentication.`_"
-msgstr "`设置身份验证.`_"
+msgstr "`设置身份认证.`_"
 
 #: ../../admin/machine.rst:410
 msgid ""
@@ -16025,7 +15906,7 @@ msgid ""
 "`Authenticate to Cloud services using client libraries <https://"
 "cloud.google.com/docs/authentication/client-libraries>`_"
 msgstr ""
-"`用客户端库进行云服务身份验证 <https://cloud.google.com/docs/authentication/"
+"`用客户端库进行云服务身份认证 <https://cloud.google.com/docs/authentication/"
 "client-libraries>`_"
 
 #: ../../admin/machine.rst:425
@@ -16114,7 +15995,7 @@ msgstr "``api.cognitive.microsofttranslator.us`` -- Azure 美国政府云"
 
 #: ../../admin/machine.rst:509
 msgid "Authentication service URL"
-msgstr "身份验证服务 URL"
+msgstr "身份认证服务 URL"
 
 #: ../../admin/machine.rst:509
 msgid "Regional or multi-service can be specified using region field below."
@@ -16220,34 +16101,24 @@ msgstr ""
 "text-translation/reference/v3/reference#base-urls>`_"
 
 #: ../../admin/machine.rst:554
-#, fuzzy
-#| msgid ""
-#| "`\"Authenticating with a Multi-service resource\" <https://"
-#| "learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/"
-#| "reference/v3/reference#authenticating-with-a-multi-service-resource>`_"
 msgid ""
 "`\"Authenticating with a Multi-service resource\" <https://"
 "learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/"
 "reference/authentication#authenticating-with-a-multi-service-resource>`_"
 msgstr ""
-"`通过多服务资源进行身份验证 <https://learn.microsoft.com/en-us/azure/ai-"
-"services/translator/text-translation/reference/v3/reference#authenticating-"
-"with-a-multi-service-resource>`_"
+"`\"用多服务资源进行身份认证\" <https://learn.microsoft.com/en-us/azure/"
+"ai-services/translator/text-translation/reference/authentication"
+"#authenticating-with-a-multi-service-resource>`_"
 
 #: ../../admin/machine.rst:555
-#, fuzzy
-#| msgid ""
-#| "`\"Authenticating with an access token\" section <https://"
-#| "learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/"
-#| "reference/v3/reference#authenticating-with-an-access-token>`_"
 msgid ""
 "`\"Authenticating with an access token\" section <https://"
 "learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/"
 "reference/authentication#authenticating-with-an-access-token>`_"
 msgstr ""
-"`\"通过访问令牌进行身份验证\" 部分 <https://learn.microsoft.com/en-us/azure/"
-"ai-services/translator/text-translation/reference/v3/"
-"reference#authenticating-with-an-access-token>`_"
+"`\"用访问令牌进行身份认证\" section <https://learn.microsoft.com/en-us/azure/"
+"ai-services/translator/text-translation/reference/authentication"
+"#authenticating-with-an-access-token>`_"
 
 #: ../../admin/machine.rst:561
 msgid "ModernMT"
@@ -17205,10 +17076,8 @@ msgstr ""
 "的冲突。"
 
 #: ../../admin/management.rst:614
-#, fuzzy
-#| msgid "You can dump users from the existing Django installation using:"
 msgid "You can dump users from the existing Django site using:"
-msgstr "可以从现有的 Django 安装中导出用户，这需要使用："
+msgstr "可以用下列方法从现有 Django 站点转储用户："
 
 #: ../../admin/management.rst:622
 msgid ""
@@ -18120,7 +17989,7 @@ msgstr "登录时的密码验证"
 
 #: ../../admin/optionals.rst:264
 msgid "Second-factor authentication"
-msgstr "第二因素身份验证"
+msgstr "第二因素身份认证"
 
 #: ../../admin/optionals.rst:266
 msgid "Sitewide search"
@@ -18531,7 +18400,7 @@ msgstr "可以通过 :setting:`DEFAULT_ACCESS_CONTROL` 更改默认值。"
 
 #: ../../admin/projects.rst:224
 msgid "Enforced two-factor authentication"
-msgstr "强制双因素身份验证"
+msgstr "强制双因素身份认证"
 
 #: ../../admin/projects.rst:228
 msgid ""
@@ -18601,7 +18470,7 @@ msgstr "启用钩子"
 #: ../../admin/projects.rst:279
 msgid ""
 "Whether unauthenticated :ref:`hooks` are to be used for this repository."
-msgstr "是否将未经身份验证的 :ref:`hooks` 用于此仓库。"
+msgstr "是否将未经身份认证的 :ref:`hooks` 用于此仓库。"
 
 #: ../../admin/projects.rst:291
 msgid "Language aliases"
@@ -19122,12 +18991,10 @@ msgid "File format parameters"
 msgstr "文件格式参数"
 
 #: ../../admin/projects.rst:631
-#, fuzzy
-#| msgid "Settings configuration has been moved to :ref:`file_format_params`."
 msgid ""
 "Parameters used to configure how translation files are processed, see "
 "also :ref:`file_format_params`."
-msgstr "设置配置已经移动到 :ref:`file_format_params`。"
+msgstr "用于配置翻译文件处理方式的参数，另见 :ref:`file_format_params`。"
 
 #: ../../admin/projects.rst:636
 msgid "Source string bug reporting address"
@@ -20251,8 +20118,6 @@ msgid ""
 msgstr "购买的支持包在购买时已经激活，不必集成它们就可以使用。"
 
 #: ../../admin/support.rst:56
-#, fuzzy
-#| msgid "Contact customer care"
 msgid "Contacting customer care"
 msgstr "联系客服"
 
@@ -20268,26 +20133,18 @@ msgid ""
 msgstr ""
 
 #: ../../admin/support.rst:65
-#, fuzzy
-#| msgid "Explore support options at weblate.org."
 msgid "Email support at care@weblate.org."
-msgstr "在 weblate.org 探索支持选项。"
+msgstr "电子邮件支持地址 care@weblate.org。"
 
 #: ../../admin/support.rst:66
-#, fuzzy
-#| msgid "Register yourself at https://weblate.org/user/"
 msgid "The `customer care portal <https://care.weblate.org/>`_"
-msgstr "注册 Weblate，注册地址 https://weblate.org/user/"
+msgstr "`客服门户站点 <https://care.weblate.org/>`_"
 
 #: ../../admin/support.rst:67
-#, fuzzy
-#| msgid ""
-#| "Enter the obtained key in the management interface, see :ref:`activate-"
-#| "support`."
 msgid ""
 "The support form is available in the Weblate management interface "
 "after :ref:`activate-support`."
-msgstr "在管理界面输入得到的密钥，请参见 :ref:`activate-support`。"
+msgstr "激活 :ref:`activate-support` 后可在 Weblate 管理界面中看到支持表单。"
 
 #: ../../admin/support.rst:69
 msgid ""
@@ -20296,10 +20153,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/support.rst:73
-#, fuzzy
-#| msgid "**Sending encrypted reports**"
 msgid "**Sending encrypted content**"
-msgstr "**发送加密报告**"
+msgstr "**发送加密内容**"
 
 #: ../../admin/support.rst:75
 msgid ""
@@ -20885,7 +20740,7 @@ msgstr ""
 
 #: ../../api.rst:26
 msgid "Authentication and generic parameters"
-msgstr "身份验证和通用参数"
+msgstr "身份认证和通用参数"
 
 #: ../../api.rst:28
 msgid ""
@@ -20895,8 +20750,8 @@ msgid ""
 "uses a token, which you can get in your profile. Use it in the "
 "``Authorization`` header:"
 msgstr ""
-"公共项目的 API 无需身份验证即可使用，但未经身份验证的请求会受到严格的限制（默"
-"认为每天 100 个请求），所以建议使用身份验证。身份验证使用令牌，你可以在你的个"
+"公共项目的 API 无需身份认证即可使用，但未经身份认证的请求会受到严格的限制（默"
+"认为每天 100 个请求），所以建议使用身份认证。身份认证使用令牌，你可以在你的个"
 "人资料中获取该令牌。在 ``Authorization`` 标头中使用它："
 
 #: ../../api.rst:35
@@ -21023,7 +20878,7 @@ msgstr "当出现瓶颈时"
 
 #: ../../api.rst:72
 msgid "Authentication tokens"
-msgstr "身份验证令牌"
+msgstr "身份认证令牌"
 
 #: ../../api.rst:76
 msgid "Project scoped tokens were introduced in the 4.10 release."
@@ -21047,7 +20902,7 @@ msgstr ""
 
 #: ../../api.rst:91
 msgid "Authentication examples"
-msgstr "身份验证的示例"
+msgstr "身份认证的示例"
 
 #: ../../api.rst:93 ../../api.rst:248
 msgid "**Example request:**"
@@ -21116,9 +20971,8 @@ msgid ""
 "The API requests are rate limited; the default configuration limits it to "
 "100 requests per day for anonymous users and 5000 requests per hour for "
 "authenticated users."
-msgstr ""
-"这个 API 请求限制了速率；对于匿名用户默认配置限制为每天 100 个请求，对于身份"
-"验证的用户限制为每小时 5000 个请求。"
+msgstr "这个 API 请求限制了速率；对于匿名用户默认配置限制为每天 100 个请求，对于身份"
+"认证的用户限制为每小时 5000 个请求。"
 
 #: ../../api.rst:201
 msgid ""
@@ -22020,34 +21874,24 @@ msgid "Creates a label for a project."
 msgstr "创建项目标签。"
 
 #: ../../api.rst:1280
-#, fuzzy
-#| msgid "Creates a label for a project."
 msgid "Deletes a label from a project."
-msgstr "创建项目标签。"
+msgstr "从项目中删除标签。"
 
 #: ../../api.rst:0
-#, fuzzy
-#| msgid "param id"
 msgid "param label_id"
-msgstr "参数 id"
+msgstr "参数标签id"
 
 #: ../../api.rst:1284
-#, fuzzy
-#| msgid "ID of the label"
 msgid "ID of the label to delete"
-msgstr "标签的 ID"
+msgstr "要删除的标签的 ID"
 
 #: ../../api.rst:0
-#, fuzzy
-#| msgid "type id"
 msgid "type label_id"
-msgstr "类型 id"
+msgstr "类型标签 id"
 
 #: ../../api.rst:1285
-#, fuzzy
-#| msgid "*integer*"
 msgid "integer"
-msgstr "*整数*"
+msgstr "整数"
 
 #: ../../api.rst:1289 ../../api.rst:1902
 msgid "Returns contributor credits for a project."
@@ -22959,7 +22803,7 @@ msgstr "新评论的内容，你可以使用 Markdown 并通过 @username 提及
 msgid ""
 "commenter's email, can be set only by project admins and defaults to the "
 "authenticated user."
-msgstr "评论者的电子信箱仅能由项目管理员设置且默认为经身份验证的用户。"
+msgstr "评论者的电子信箱仅能由项目管理员设置且默认为经身份认证的用户。"
 
 #: ../../api.rst:2354
 msgid ""
@@ -23633,15 +23477,15 @@ msgid ""
 "limited projects."
 msgstr ""
 "请使用 :http:post:`/api/components/(string:project)/(string:component)/"
-"repository/` 来替代，它使用 ACL 限制的身份验证而工作正常。"
+"repository/` 来替代，它使用 ACL 限制的身份认证而工作正常。"
 
 #: ../../api.rst:2880
 msgid ""
 "Please use :http:post:`/api/projects/(string:project)/repository/` instead "
 "which works properly with authentication for ACL limited projects."
 msgstr ""
-"请使用 :http:post:`/api/projects/(string:project)/repository/` 来替代，它使"
-"用 ACL 限制的身份验证而工作正常。"
+"请使用 :http:post:`/api/projects/(string:project)/repository/` 来替代，它使用"
+" ACL 限制的身份认证而工作正常。"
 
 #: ../../api.rst:2887
 msgid ""
@@ -23849,21 +23693,17 @@ msgid "New features"
 msgstr "新功能"
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.slack` is now available as an add-on."
 msgid ""
 ":ref:`addon-weblate.flags.target_repo_update` is now available as an add-on."
-msgstr ":ref:`addon-weblate.webhook.slack` 现作为附加组件可用。"
+msgstr ":ref:`addon-weblate.flags.target_repo_update` 现作为附加组件可用。"
 
 #: ../../changes.rst:9
 msgid ":http:delete:`/api/projects/(string:project)/labels/(int:label_id)/`."
 msgstr ":http:delete:`/api/projects/(string:project)/labels/(int:label_id)/`。"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Added CSV download for stats."
 msgid "Added multivalue CSV in :ref:`download` for multivalue formats."
-msgstr "为统计数据添加了 CSV 下载。"
+msgstr ":ref:`download` 中新增多值 CSV 下载用于多值格式。"
 
 #: ../../changes.rst:11
 msgid ""
@@ -23882,27 +23722,20 @@ msgid ":ref:`date-search`."
 msgstr ":ref:`date-search`。"
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid "Same as in :ref:`search-strings`."
 msgid "Last changed lookup in :ref:`search-strings`."
-msgstr "和 :ref:`search-strings` 中一样。"
+msgstr ":ref:`search-strings` 中上次更改的查询。"
 
 #: ../../changes.rst:15
 msgid ":doc:`/security/localization-threat` documentation."
 msgstr ":doc:`/security/localization-threat` 文档。"
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid ":ref:`component-merge_style` for any new components."
 msgid ":ref:`component-hide_glossary_matches` component setting."
-msgstr "任何新部件的 :ref:`component-merge_style`。"
+msgstr ":ref:`component-hide_glossary_matches` 部件设置。"
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid ""
-#| "Screenshots now can be pasted from the clipboard in :ref:`screenshots`."
 msgid "Screenshots now can be uploaded from a URL, see :ref:`screenshots`."
-msgstr "现在可以从 :ref:`screenshots` 中的剪贴板粘贴屏幕截图。"
+msgstr "现在可以从 URL 上传屏幕截图，见 :ref:`screenshots`。"
 
 #: ../../changes.rst:20 ../../changes.rst:69 ../../changes.rst:98
 #: ../../changes.rst:123 ../../changes.rst:174 ../../changes.rst:234
@@ -23937,13 +23770,10 @@ msgid "Dropped long-deprecated endpoints."
 msgstr ""
 
 #: ../../changes.rst:27
-#, fuzzy
-#| msgid ""
-#| "Renamed :ref:`addon-weblate.consistency.languages` to clarify the purpose."
 msgid ""
 "Improved activity logging for :ref:`addon-weblate.consistency.languages` add-"
 "on."
-msgstr "重命名了 :ref:`addon-weblate.consistency.languages` 以澄清目的。"
+msgstr "改进了 :ref:`addon-weblate.consistency.languages` 附加组件的活动记录。"
 
 #: ../../changes.rst:28
 msgid ""
@@ -23958,11 +23788,8 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:30
-#, fuzzy
-#| msgid ""
-#| ":ref:`file_format_params` can now be configured at the component level."
 msgid ":ref:`file_format_params` can now be configured via the :ref:`api`."
-msgstr "现在可以在部件层级配置 :ref:`file_format_params` 了。"
+msgstr "现在可以通过 :ref:`api` 配置 :ref:`file_format_params`。"
 
 #: ../../changes.rst:31
 msgid "Admins can configure :ref:`expiring-accounts`."
@@ -23981,12 +23808,10 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:34
-#, fuzzy
-#| msgid ":ref:`addon-weblate.autotranslate.autotranslate` add-on"
 msgid ""
 "Improved listing of :ref:`addon-weblate.autotranslate.autotranslate` "
 "configuration."
-msgstr ":ref:`addon-weblate.autotranslate.autotranslate` 附加组件"
+msgstr "改进 :ref:`addon-weblate.autotranslate.autotranslate` 配置列举。"
 
 #: ../../changes.rst:37 ../../changes.rst:74 ../../changes.rst:103
 #: ../../changes.rst:128 ../../changes.rst:190 ../../changes.rst:238
@@ -24009,10 +23834,8 @@ msgid "Bug fixes"
 msgstr "缺陷修复"
 
 #: ../../changes.rst:38
-#, fuzzy
-#| msgid "Replaced by :ref:`file_format_params`."
 msgid "Plurals and :ref:`file_format_params` handling on file upload."
-msgstr "被 :ref:`file_format_params` 替代。"
+msgstr "文件上传时处理复数和 :ref:`file_format_params`。"
 
 #: ../../changes.rst:39
 msgid ":ref:`team-admins` can no longer edit teams besides membership."
@@ -24023,16 +23846,12 @@ msgid "Highlighting syntax of overlapping elements."
 msgstr ""
 
 #: ../../changes.rst:41
-#, fuzzy
-#| msgid "Searching for strings"
 msgid "Searching case sensitivity for short strings."
-msgstr "搜索字符串"
+msgstr "短字符串搜索大小写敏感度。"
 
 #: ../../changes.rst:42
-#, fuzzy
-#| msgid "Inno Setup INI file format for translations."
 msgid "Inconsistent file formatting for new translations."
-msgstr "用于翻译的 Inno Setup INI 文件格式。"
+msgstr "新译文不一致的文件格式。"
 
 #: ../../changes.rst:43
 msgid ""
@@ -24041,10 +23860,8 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:44
-#, fuzzy
-#| msgid "Creating new translations in :doc:`/formats/appstore`."
 msgid "Importing some strings from :doc:`/formats/xliff`."
-msgstr "在 :doc:`/formats/appstore` 中创建新翻译。"
+msgstr "从 :doc:`/formats/xliff` 导入一些字符串。"
 
 #: ../../changes.rst:47 ../../changes.rst:142 ../../changes.rst:197
 #: ../../changes.rst:320 ../../changes.rst:470 ../../changes.rst:553
@@ -24062,17 +23879,12 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:49
-#, fuzzy
-#| msgid ""
-#| ":http:get:`/api/components/(string:project)/(string:component)/credits/` "
-#| "and :http:get:`/api/projects/(string:project)/credits/` API endpoints for "
-#| "components and projects."
 msgid ""
 "Dropped long-deprecated :http:get:`/hooks/update/(string:project)/"
 "(string:component)/` and :http:get:`/hooks/update/(string:project)/`."
 msgstr ""
-"部件和项目的 :http:get:`/api/components/(string:project)/(string:component)/"
-"credits/` 和 :http:get:`/api/projects/(string:project)/credits/` API 端点。"
+"不再使用早已废弃的 :http:get:`/hooks/update/(string:project)/"
+"(string:component)/` 和 :http:get:`/hooks/update/(string:project)/`。"
 
 #: ../../changes.rst:50
 msgid ""
@@ -24156,16 +23968,12 @@ msgid "Contributors"
 msgstr "贡献者"
 
 #: ../../changes.rst:61
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "143?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/149?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/143?"
-"closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/"
+"149?closed=1>`__。"
 
 #: ../../changes.rst:64
 msgid "Weblate 5.13.3"
@@ -24182,50 +23990,35 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:71
-#, fuzzy
-#| msgid "Confirm account removal"
 msgid "Clarified account removal view."
-msgstr "确认账户删除"
+msgstr "使账户删除视图更清晰易懂。"
 
 #: ../../changes.rst:75
-#, fuzzy
-#| msgid "Component Information"
 msgid "Components pagination."
-msgstr "部件信息"
+msgstr "部件分页。"
 
 #: ../../changes.rst:76
-#, fuzzy
-#| msgid ":ref:`projectbackup` now include teams and categories."
 msgid ""
 ":ref:`projectbackup` with same named components in different categories."
-msgstr ":ref:`projectbackup` 现包含团队和分类。"
+msgstr "不同类别中部件名称相同的 :ref:`projectbackup`。"
 
 #: ../../changes.rst:77
-#, fuzzy
-#| msgid "Source string location"
 msgid "Source string location display."
-msgstr "源字符串位置"
+msgstr "源字符串位置展示。"
 
 #: ../../changes.rst:78
 msgid "Correctly track team adding via invitation in :ref:`audit-log`."
 msgstr ""
 
 #: ../../changes.rst:79
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.consistency.languages` add-on could miss some "
-#| "languages."
 msgid ""
 ":ref:`addon-weblate.consistency.languages` no longer includes shared "
 "component languages."
-msgstr ""
-":ref:`addon-weblate.consistency.languages` 附加组件可能会遗漏某些语言。"
+msgstr ":ref:`addon-weblate.consistency.languages` 不再包括共享的部件语言。"
 
 #: ../../changes.rst:80
-#, fuzzy
-#| msgid ":ref:`vcs-azure-devops`."
 msgid ":ref:`azure-devops-push` API URL parsing."
-msgstr ":ref:`vcs-azure-devops`。"
+msgstr ":ref:`azure-devops-push` API URL 解析。"
 
 #: ../../changes/contributors/5.10.1.rst:2
 #: ../../changes/contributors/5.10.2.rst:2
@@ -24305,16 +24098,12 @@ msgid "Documentation contributions"
 msgstr "文档贡献者"
 
 #: ../../changes.rst:90
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "53?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/153?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/53?"
-"closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/"
+"153?closed=1>`__。"
 
 #: ../../changes.rst:93
 msgid "Weblate 5.13.2"
@@ -24329,34 +24118,24 @@ msgid "Error reporting upon validation of the file upload method."
 msgstr ""
 
 #: ../../changes.rst:100
-#, fuzzy
-#| msgid "Include language detailed information on language page."
 msgid "Detailed language information in new language notifications."
-msgstr "在语言页面包括了具体语言信息。"
+msgstr "新语言通知中详细的语言信息。"
 
 #: ../../changes.rst:104
-#, fuzzy
-#| msgid "Sign-in form not shown for LDAP."
 msgid "Sign-in could not be completed with LDAP."
-msgstr "LDAP 协议不显示登录表单。"
+msgstr "无法用 LDAP 完成登录。"
 
 #: ../../changes.rst:105
-#, fuzzy
-#| msgid "Track add-on changes in a history."
 msgid "Nonspacing mark changes highlighting in history."
-msgstr "跟踪历史记录中的附加组件更改。"
+msgstr "非间距标记更改历史记录中的突出显示。"
 
 #: ../../changes.rst:115
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "150?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/151?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/150?"
-"closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/"
+"151?closed=1>`__。"
 
 #: ../../changes.rst:118
 msgid "Weblate 5.13.1"
@@ -24403,12 +24182,10 @@ msgid "Username autocompletion in comments."
 msgstr "评论中的用户名自动补全。"
 
 #: ../../changes.rst:136
-#, fuzzy
-#| msgid "Shorten session expiry while in :ref:`2fa`."
 msgid ""
 "Shorten session expiry while in :ref:`2fa` (:cve:`2025-58352` / :ghsa:`377j-"
 "wj38-4728`)."
-msgstr "缩短 :ref:`2fa` 会话过期时间。"
+msgstr "缩短 :ref:`2fa` 会话过期时间。（:cve:`2025-58352`/:ghsa:`377j-wj38-4728`）。"
 
 #: ../../changes.rst:137
 msgid "Statistics when using :ref:`component-links`."
@@ -24621,17 +24398,13 @@ msgstr ""
 "器。现有的附加组件配置已被迁移。API 用户需要调整调用。"
 
 #: ../../changes.rst:205
-#, fuzzy
-#| msgid ""
-#| "The distributed locking now uses a different implementation and that "
-#| "introduced several changes in :file:`settings_example.py`."
 msgid ""
 "The distributed locking now uses a different implementation and that "
 "introduced several changes in :file:`settings_example.py`, most notably "
 "``BACKEND`` in ``CACHES`` needs to be changed."
 msgstr ""
 "分布式锁定现在使用不同实现，这么做引入了 :file:`settings_example.py` 的几处变"
-"化。"
+"化，最明显的是需要更改 ``CACHES`` 中的 ``BACKEND`` 。"
 
 #: ../../changes.rst:206
 msgid ""
@@ -25251,7 +25024,7 @@ msgstr "使用 :ref:`internal-urls` 改进了部件的处理。"
 
 #: ../../changes.rst:523
 msgid "Fixed authenticating with some Git servers."
-msgstr "修复了某些 Git 服务器的身份验证问题。"
+msgstr "修复了某些 Git 服务器的身份认证问题。"
 
 #: ../../changes.rst:533
 msgid ""
@@ -25305,8 +25078,7 @@ msgstr ""
 msgid ""
 "Weblate uses proactive authentication with Git 2.46.0 and newer when HTTP "
 "credentials are supplied."
-msgstr ""
-"当提供 HTTP 凭据时，Weblate 对于 Git 2.46.0 及更高版本使用主动身份验证。"
+msgstr "当提供 HTTP 凭据时，Weblate 对于 Git 2.46.0 及更高版本使用主动身份认证。"
 
 #: ../../changes.rst:561
 msgid ""
@@ -26107,7 +25879,7 @@ msgstr "支持在自动建议设置中使用 Docker 网络名称。"
 
 #: ../../changes.rst:939
 msgid "Fixed authentication using some third-party providers such as Azure."
-msgstr "修复了使用 Azure 等第三方提供商的身份验证问题。"
+msgstr "修复了使用 Azure 等第三方提供商的身份认证问题。"
 
 #: ../../changes.rst:940
 msgid "Support for formal and informal Portuguese in :ref:`mt-deepl`."
@@ -26120,7 +25892,7 @@ msgstr "即使在深色模式下，TOTP 的二维码现在也是黑/白色的。
 #: ../../changes.rst:942
 msgid ""
 "Fixed TOTP authentication when WebAuthn is also configured for the user."
-msgstr "修复了为用户配置 WebAuthn 时的 TOTP 身份验证问题。"
+msgstr "修复了为用户配置 WebAuthn 时的 TOTP 身份认证问题。"
 
 #: ../../changes.rst:952
 msgid ""
@@ -27236,8 +27008,7 @@ msgstr ":ref:`addon-weblate.gettext.mo` 可以包括需要编辑的字符串（�
 msgid ""
 "Use :http:header:`Accept-Language` to order translations for unauthenticated "
 "users."
-msgstr ""
-"使用 :http:header:`Accept-Language` 为没有进行身份验证的用户排列翻译顺序。"
+msgstr "使用 :http:header:`Accept-Language` 为没有进行身份认证的用户排列翻译顺序。"
 
 #: ../../changes.rst:1452
 msgid ""
@@ -27590,7 +27361,7 @@ msgstr "浏览某些分类时的性能问题。"
 
 #: ../../changes.rst:1599
 msgid "Fixed GitHub Team and Organization authentication in Docker container."
-msgstr "修复了 Docker 容器中 GitHub 团队和组织身份验证的问题。"
+msgstr "修复了 Docker 容器中 GitHub 团队和组织身份认证的问题。"
 
 #: ../../changes.rst:1600
 msgid "GitLab merge requests when using a customized SSH port."
@@ -27637,7 +27408,7 @@ msgstr ":doc:`/formats/fluent` 现在有更好的语法检查，感谢 Henry Wil
 
 #: ../../changes.rst:1625
 msgid "Inviting users now works with all authentication methods."
-msgstr "用户邀请现对所有身份验证方式均正常工作。"
+msgstr "用户邀请现对所有身份认证方式均正常工作。"
 
 #: ../../changes.rst:1626
 msgid ""
@@ -29277,7 +29048,7 @@ msgstr "添加选项来自动建立部件列表。"
 
 #: ../../changes/v2.rst:187
 msgid "Default dashboard for unauthenticated users can be configured."
-msgstr "未经身份验证用户可以配置默认操作面板。"
+msgstr "未经身份认证用户可以配置默认操作面板。"
 
 #: ../../changes/v2.rst:188
 msgid "Add option to browse 25 random strings for review."
@@ -30338,7 +30109,7 @@ msgstr "改进了格式字符串检查行为丢失百分比的问题。"
 
 #: ../../changes/v3.rst:26
 msgid "Fixed authentication using some third party providers."
-msgstr "修复了使用第三方提供商的身份验证。"
+msgstr "修复了使用第三方提供商的身份认证。"
 
 #: ../../changes/v3.rst:29
 msgid "Weblate 3.11.2"
@@ -32592,7 +32363,7 @@ msgstr "改进了 DeepL 中的语言支持。"
 
 #: ../../changes/v4.rst:268
 msgid "Improved webhooks compatibility with authenticated repositories."
-msgstr "改进了 webhook 与经身份验证的仓库的兼容性。"
+msgstr "改进了 webhook 与经身份认证的仓库的兼容性。"
 
 #: ../../changes/v4.rst:269
 msgid "Added support for Python 3.11."
@@ -32624,7 +32395,7 @@ msgstr "改进了文件上传时的错误报告。"
 
 #: ../../changes/v4.rst:280
 msgid "Fetch all user verified e-mails from GitHub during authentication."
-msgstr "在身份验证期间从 GitHub 获取所有用户验证的电子邮件。"
+msgstr "在身份认证期间从 GitHub 获取所有用户验证的电子邮件。"
 
 #: ../../changes/v4.rst:281
 msgid "Avoid matching glossary terms on context or keys."
@@ -33818,7 +33589,7 @@ msgstr "Weblate 现在需要 Django 3.2。"
 
 #: ../../changes/v4.rst:685
 msgid "Fixed inviting users when e-mail authentication is disabled."
-msgstr "修复了电子邮件身份验证被禁用时邀请用户的问题。"
+msgstr "修复了电子邮件身份认证被禁用时邀请用户的问题。"
 
 #: ../../changes/v4.rst:686
 msgid "Improved language definitions."
@@ -34936,7 +34707,7 @@ msgstr "修复了一些验证配置的登录重定向。"
 
 #: ../../changes/v4.rst:1047
 msgid "Fixed LDAP authentication with group sync."
-msgstr "修复了使用组同步的LDAP身份验证。"
+msgstr "修复了使用组同步的LDAP身份认证。"
 
 #: ../../changes/v4.rst:1048
 msgid "Fixed crash in reporting automatic translation progress."
@@ -36170,10 +35941,8 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/code_of_conduct.rst:28
-#, fuzzy
-#| msgid "Restricted access"
 msgid "Restricted Behaviors"
-msgstr "受限制的访问"
+msgstr "受限行为"
 
 #: ../../contributing/code_of_conduct.rst:30
 msgid ""
@@ -36224,10 +35993,8 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/code_of_conduct.rst:41
-#, fuzzy
-#| msgid "Other translations"
 msgid "Other Restrictions"
-msgstr "其他翻译"
+msgstr "其他限制"
 
 #: ../../contributing/code_of_conduct.rst:43
 msgid ""
@@ -37294,9 +37061,8 @@ msgid ""
 "Delivers notification e-mails, both for events within Weblate and for "
 "authentication or registration. This is a separate queue to make e-mail "
 "delivery smooth even if there is a backlog of other tasks."
-msgstr ""
-"传送 Weblate 内事件及身份验证或注册的通知邮件。这是个单独队列以让邮件顺利传"
-"送，即使积压了其他任务。"
+msgstr "传送 Weblate 内事件及身份认证或注册的通知邮件。这是个单独队列以让邮件顺利传送"
+"，即使积压了其他任务。"
 
 #: ../../contributing/internals.rst:133
 msgid ""
@@ -37415,30 +37181,22 @@ msgid "Weblate license"
 msgstr "Weblate 许可"
 
 #: ../../contributing/license.rst:5
-#, fuzzy
-#| msgid "Machine translation"
 msgid "Machine-readable licensing information"
-msgstr "机器翻译"
+msgstr "机器可读的许可信息"
 
 #: ../../contributing/license.rst:7
-#, fuzzy
-#| msgid ""
-#| "Weblate comes with `REUSE 3.0 <https://reuse.software/>`_ compliant "
-#| "license specification."
 msgid ""
 "Weblate comes with `REUSE 3.3 <https://reuse.software/>`_ compliant license "
 "specification in the source code."
-msgstr "Weblate 具有符合 `REUSE 3.0 <https://reuse.software/>`_ 的许可证规范。"
+msgstr "Weblate 源码符合 `REUSE 3.3 <https://reuse.software/>`_ 的许可证规范。"
 
 #: ../../contributing/license.rst:10
 msgid "To review licensing of Weblate dependencies please see :ref:`sbom`."
 msgstr ""
 
 #: ../../contributing/license.rst:13
-#, fuzzy
-#| msgid "Licenses"
 msgid "License terms"
-msgstr "许可协议"
+msgstr "许可条款"
 
 #: ../../contributing/license.rst:15
 msgid "Copyright © Michal Čihař michal@weblate.org"
@@ -37517,42 +37275,26 @@ msgstr ""
 "于发现仓库中的可翻译文件"
 
 #: ../../contributing/modules.rst:11
-#, fuzzy
-#| msgid ""
-#| "`language-data <https://github.com/WeblateOrg/language-data/>`_, language "
-#| "definitions for Weblate, see :ref:`languages`"
 msgid ""
 "`language-data`_, language definitions for Weblate, see :ref:`languages`"
-msgstr ""
-"`language-data <https://github.com/WeblateOrg/language-data/>`_，Weblate 的语"
-"言定义，请参见 :ref:`languages`"
+msgstr "`language-data`_ Weblate 的语言定义，请参见 :ref:`languages`"
 
 #: ../../contributing/modules.rst:18
 msgid "Extending built-in language definitions"
 msgstr "扩展内置语言定义"
 
 #: ../../contributing/modules.rst:20
-#, fuzzy
-#| msgid ""
-#| "The language definitions are in the `weblate-language-data repository "
-#| "<https://github.com/WeblateOrg/language-data/>`_."
 msgid "The language definitions are in the `language-data`_ repository."
-msgstr ""
-"语言定义在 `weblate-language-data 仓库 <https://github.com/WeblateOrg/"
-"language-data/>`_ 中。"
+msgstr "语言定义在 `language-data`_ 仓库。"
 
 #: ../../contributing/modules.rst:22
-#, fuzzy
-#| msgid ""
-#| "You are welcome to add missing language definitions "
-#| "to :file:`languages.csv`, other files are generated from that file."
 msgid ""
 "You are welcome to add missing language definitions "
 "to :file:`languages.csv`, other files are generated from that file. The "
 "columns in the CSV file correspond to :ref:`language-definitions`."
 msgstr ""
-"欢迎您将缺少的语言定义添加到 :file:`languages.csv`，其他文件是从该文件生成"
-"的。"
+"欢迎您将缺少的语言定义添加到 :file:`languages.csv`，其他文件是从该文件生成的"
+"。该 CSV 文件中的列对应 :ref:`language-definitions`。"
 
 #: ../../contributing/release.rst:2
 msgid "Releasing Weblate"
@@ -39490,20 +39232,12 @@ msgstr ""
 "件 :ref:`addon-weblate.cleanup.generic`，它会根据您的要求处理清理工作。"
 
 #: ../../devel/integration.rst:103
-#, fuzzy
-#| msgid ""
-#| "Weblate will also not try to update bilingual files when the source "
-#| "changes, so if you need :file:`po` files to be updated from :file:`pot`, "
-#| "do it yourself by using :guilabel:`Update source strings` :ref:`upload-"
-#| "method`, or by using the :ref:`addon-weblate.gettext.msgmerge` add-on."
 msgid ""
 "Weblate will also not try to update bilingual files when the source changes, "
 "so if you need :file:`po` files to be updated from :file:`pot`, you have two "
 "options:"
-msgstr ""
-"Weblate 也不会尝试在原文更改时更新双语文件，所以如果需要 :file:`po` 文件"
-"从 :file:`pot` 被更新，请自行使用 :guilabel:`更新源字符串` 的 :ref:`upload-"
-"method`，或使用 :ref:`addon-weblate.gettext.msgmerge` 附加组件来实现。"
+msgstr "Weblate 也不会尝试在原文更改时更新双语文件，所以如果需要 :file:`po` 文件从 "
+":file:`pot` 被更新，你有两个选项："
 
 #: ../../devel/integration.rst:106
 msgid ""
@@ -40218,10 +39952,8 @@ msgid ""
 msgstr "一些格式更具体的工作流程在后面的章节中描述："
 
 #: ../../devel/success-stories.rst:2
-#, fuzzy
-#| msgid "Accessing repositories"
 msgid "Success stories"
-msgstr "访问仓库"
+msgstr "成功案例"
 
 #: ../../devel/success-stories.rst:6
 msgid ""
@@ -40688,8 +40420,8 @@ msgid ""
 "authentication. When using the built-in :ref:`git-exporter` in Weblate, you "
 "authenticate with your username and the API key."
 msgstr ""
-"取决于你的设置，访问 Weblate 仓库可能需要身份验证。使用 Weblate 中内建"
-"的 :ref:`git-exporter` 时，你需使用用户名和 API 密钥进行身份验证。"
+"取决于你的设置，访问 Weblate 仓库可能需要身份认证。使用 Weblate 中内建的 :ref"
+":`git-exporter` 时，你需使用用户名和 API 密钥进行身份认证。"
 
 #: ../../faq.rst:94
 msgid ""
@@ -41067,10 +40799,8 @@ msgstr ""
 "件重新格式化。如果想要将文件保持为自己的格式化方式，请为其使用预提交钩子。"
 
 #: ../../faq.rst:365
-#, fuzzy
-#| msgid "How to fix merge conflicts in translations?"
 msgid "How do I merge updated POT file with PO translations?"
-msgstr "如何修复翻译中的合并冲突？"
+msgstr "如何合并更新的 POT 文件和 PO 译文？"
 
 #: ../../faq.rst:367
 msgid ""
@@ -41992,10 +41722,8 @@ msgid "Wrap lines at 77 characters and at newlines (xgettext default)"
 msgstr "在 77 个字符和换行符处换行（xgettext 默认）"
 
 #: ../../snippets/file-format-parameters.rst:69
-#, fuzzy
-#| msgid "Only wrap lines at newlines (like 'xgettext --no-wrap')"
 msgid "Only wrap lines at newlines (like ``xgettext --no-wrap``)"
-msgstr "只在换行符处换行（如 'xgettext --no-wrap'）"
+msgstr "只在换行符处换行（比如 ``xgettext --no-wrap``）"
 
 #: ../../snippets/file-format-parameters.rst:72
 #: ../../snippets/file-format-parameters.rst:115
@@ -44552,10 +44280,8 @@ msgid "Review the effectiveness of detection and containment mechanisms."
 msgstr "审核检测和抑制机制的有效性。"
 
 #: ../../security/index.rst:2
-#, fuzzy
-#| msgid "Security and privacy"
 msgid "Security, privacy and compliance"
-msgstr "安全和隐私"
+msgstr "安全、隐私及合规"
 
 #: ../../security/index.rst:6
 msgid ""
@@ -44772,10 +44498,8 @@ msgstr ""
 "知。"
 
 #: ../../security/localization-threat.rst:2
-#, fuzzy
-#| msgid "Localization guide"
 msgid "Localization Threat Model"
-msgstr "本地化指南"
+msgstr "本地化威胁模型"
 
 #: ../../security/localization-threat.rst:4
 msgid ""
@@ -44797,10 +44521,8 @@ msgid ""
 msgstr ""
 
 #: ../../security/localization-threat.rst:9
-#, fuzzy
-#| msgid "Loads translations from the files into Weblate."
 msgid "Translators require access to Weblate."
-msgstr "从文件加载翻译到 Weblate。"
+msgstr "译员需要 Weblate 访问权限。"
 
 #: ../../security/localization-threat.rst:10
 msgid ""
@@ -44818,10 +44540,8 @@ msgid "Threat Categories (STRIDE)"
 msgstr ""
 
 #: ../../security/localization-threat.rst:17
-#, fuzzy
-#| msgid "**Spoofing**"
 msgid "1. Spoofing"
-msgstr "**伪造**"
+msgstr "1. 伪造"
 
 #: ../../security/localization-threat.rst:19
 msgid "**S1. Fake translator accounts impersonating legitimate contributors.**"
@@ -44840,36 +44560,24 @@ msgstr ""
 #: ../../security/localization-threat.rst:74
 #: ../../security/localization-threat.rst:85
 #: ../../security/localization-threat.rst:96
-#, fuzzy
-#| msgid "Mitigation strategies"
 msgid "Mitigations:"
-msgstr "迁移策略"
+msgstr "缓解："
 
 #: ../../security/localization-threat.rst:24
-#, fuzzy
-#| msgid ""
-#| "This can be enforced for users at the project (see :ref:`project-"
-#| "enforced_2fa`) or team level."
 msgid "Enforce strong authentication (2FA); see :ref:`project-enforced_2fa`."
-msgstr ""
-"可以在项目 (见 :ref:`project-enforced_2fa`) 或团队层面强制用户使用双因素认"
-"证。"
+msgstr "强制强身份认证技术（2F A）；见 :ref:`project-enforced_2fa`。"
 
 #: ../../security/localization-threat.rst:25
-#, fuzzy
-#| msgid "Provide context to the translators"
 msgid "Verify identities of contracted translators."
-msgstr "为译者提供上下文"
+msgstr "验证合同译员的身份。"
 
 #: ../../security/localization-threat.rst:26
 msgid "Use role-based access to limit project scope; see :ref:`acl`."
 msgstr ""
 
 #: ../../security/localization-threat.rst:29
-#, fuzzy
-#| msgid "**Tampering**"
 msgid "2. Tampering"
-msgstr "**篡改**"
+msgstr "2. 篡改"
 
 #: ../../security/localization-threat.rst:31
 msgid "**T1. Malicious translations embedding harmful payloads.**"
@@ -44889,23 +44597,20 @@ msgid ""
 msgstr ""
 
 #: ../../security/localization-threat.rst:37
-#, fuzzy
-#| msgid "Fixed handling of translation files ignored in Git."
 msgid "Use automated security scanning for translation files in your CI."
-msgstr "修复了 Git 中忽略的翻译文件的处理。"
+msgstr "在 CI 中使用自动化的翻译文件安全扫描。"
 
 #: ../../security/localization-threat.rst:38
 msgid ""
 "Limit usage of dangerous markup from translation files. Depending on the "
 "used localization framework, this might be implicit, opt-in, or require a "
 "third-party library."
-msgstr ""
+msgstr "限制翻译文件中危险标记的使用。根据所使用的本地化框架，这可能是隐式的、可选的"
+"，或者需要第三方库。"
 
 #: ../../security/localization-threat.rst:40
-#, fuzzy
-#| msgid "Integration of machine translation services."
 msgid "**T2. Insertion of misleading translations.**"
-msgstr "机器翻译服务的集成。"
+msgstr "**T2. 插入误导性译文。**"
 
 #: ../../security/localization-threat.rst:42
 msgid ""
@@ -44925,10 +44630,8 @@ msgid "Maintain style guides and :ref:`glossary` to prevent manipulation."
 msgstr ""
 
 #: ../../security/localization-threat.rst:49
-#, fuzzy
-#| msgid "**Repudiation**"
 msgid "3. Repudiation"
-msgstr "**否认**"
+msgstr "3. 否认"
 
 #: ../../security/localization-threat.rst:51
 msgid "**R1. Disputes over malicious or poor-quality translations.**"
@@ -44939,20 +44642,16 @@ msgid "Risk: Translators deny responsibility for injected issues."
 msgstr ""
 
 #: ../../security/localization-threat.rst:56
-#, fuzzy
-#| msgid "Allow changes to the Weblate repository"
 msgid "All changes in Weblate are logged."
-msgstr "允许更改Weblate仓库"
+msgstr "Weblate 中的所有更改都有记录。"
 
 #: ../../security/localization-threat.rst:57
 msgid "Use Weblate with version control for immutable history."
 msgstr ""
 
 #: ../../security/localization-threat.rst:60
-#, fuzzy
-#| msgid "**Information disclosure**"
 msgid "4. Information Disclosure"
-msgstr "**信息披露**"
+msgstr "4. 信息披露"
 
 #: ../../security/localization-threat.rst:62
 msgid "**I1. Leakage of unreleased product details.**"
@@ -44985,23 +44684,16 @@ msgid "Risk: Translators might access or misuse embedded user data."
 msgstr ""
 
 #: ../../security/localization-threat.rst:76
-#, fuzzy
-#| msgid ""
-#| "Possible discarding pending translations after editing source strings."
 msgid "Avoid exposing real user data in source strings."
-msgstr "新增在编辑源字符串后丢弃待定翻译的可能性。"
+msgstr "避免在源字符串中暴露真实的用户数据。"
 
 #: ../../security/localization-threat.rst:77
-#, fuzzy
-#| msgid "The placeholders check can now be case-insensitive as well."
 msgid "Use placeholders for sensitive fields."
-msgstr "占位符检查现在也可以不区分大小写。"
+msgstr "敏感字段使用占位符。"
 
 #: ../../security/localization-threat.rst:80
-#, fuzzy
-#| msgid "Terms of Service"
 msgid "5. Denial of Service"
-msgstr "服务条款"
+msgstr "5. 拒绝服务"
 
 #: ../../security/localization-threat.rst:82
 msgid "**D1. Bulk submission of junk translations.**"
@@ -45018,16 +44710,12 @@ msgid ""
 msgstr ""
 
 #: ../../security/localization-threat.rst:88
-#, fuzzy
-#| msgid "Fixed automatic translation with more services."
 msgid "Configure automated translation quality checks; see :ref:`checks`."
-msgstr "修复了使用更多服务进行自动化翻译的问题。"
+msgstr "配置自动化译文质量检查；见 :ref:`checks`。"
 
 #: ../../security/localization-threat.rst:91
-#, fuzzy
-#| msgid "**Elevation of privilege**"
 msgid "6. Elevation of Privilege"
-msgstr "**权限提升**"
+msgstr "6. 权限提升"
 
 #: ../../security/localization-threat.rst:93
 msgid ""
@@ -45070,8 +44758,6 @@ msgid "**Access Credentials:** Accounts for translators, agencies, or bots."
 msgstr ""
 
 #: ../../security/localization-threat.rst:110
-#, fuzzy
-#| msgid "Trust boundaries"
 msgid "Trust Boundaries"
 msgstr "信任边界"
 
@@ -45100,22 +44786,14 @@ msgid ""
 msgstr ""
 
 #: ../../security/localization-threat.rst:118
-#, fuzzy
-#| msgid "Translation summary:"
 msgid "Mitigation Summary"
-msgstr "翻译概要:"
+msgstr "缓解概要"
 
 #: ../../security/localization-threat.rst:120
-#, fuzzy
-#| msgid ""
-#| "This can be enforced for users at the project (see :ref:`project-"
-#| "enforced_2fa`) or team level."
 msgid ""
 "Enforce 2FA and RBAC for translator accounts; see :ref:`project-"
 "enforced_2fa`."
-msgstr ""
-"可以在项目 (见 :ref:`project-enforced_2fa`) 或团队层面强制用户使用双因素认"
-"证。"
+msgstr "对译员账户强制执行 2FA 和 RBAC；见 :ref:`project-enforced_2fa`。"
 
 #: ../../security/localization-threat.rst:121
 msgid ""
@@ -45140,14 +44818,10 @@ msgid ""
 msgstr ""
 
 #: ../../security/localization-threat.rst:126
-#, fuzzy
-#| msgid ""
-#| "Automatically adds or removes project components based on file changes in "
-#| "the version control system."
 msgid ""
 "Retain immutable version history for all translation changes in the version "
 "control system."
-msgstr "根据版本控制系统中文件更改的情况来自动添加或删除项目部件。"
+msgstr "保留版本控制系统中所有翻译更改的不可变版本历史记录。"
 
 #: ../../security/localization-threat.rst:129
 msgid "Conclusion"
@@ -45236,15 +44910,14 @@ msgstr "可使用 :setting:`django:AUTH_PASSWORD_VALIDATORS` 自定义密码验�
 
 #: ../../security/passwords.rst:33
 msgid "Social or third-party authentication"
-msgstr "社交平台或第三方身份验证"
+msgstr "社交平台或第三方身份认证"
 
 #: ../../security/passwords.rst:35
 msgid ""
 "Weblate does not store any passwords or enforce any password policy when "
 "social or third-party authentication is configured. The passwords are, in "
 "such a case, fully managed externally."
-msgstr ""
-"配置社交或第三方身份验证时，Weblate 不保存任何描密码或强制任何密码策略。这样"
+msgstr "配置社交或第三方身份认证时，Weblate 不保存任何描密码或强制任何密码策略。这样"
 "的情况下，密码完全由外部管理。"
 
 #: ../../security/privacy-compliance.rst:2
@@ -45567,8 +45240,8 @@ msgid ""
 msgstr ""
 "**范围：**\\ 核心 Weblate web 程序、其与用户浏览器的交互、后端部件（web 服务"
 "器、WSGI、数据库、Redis、Celery）及和外部 VCS 的集成。**假设：**\\ 标准 "
-"Weblate 部署，有典型部件（nginx/Apache、Gunicorn/uWSGI、PostgreSQL、Redis、"
-"Celery）和用户角色（未经身份验证、翻译者、项目经理、管理员）。"
+"Weblate 部署，有典型部件（nginx/Apache、Gunicorn/uWSGI、PostgreSQL、Redis、Ce"
+"lery）和用户角色（未经身份认证、翻译者、项目经理、管理员）。"
 
 #: ../../security/threat-model.rst:8
 msgid "System description and scope"
@@ -45594,7 +45267,7 @@ msgid ""
 "(email, name), session tokens, audit logs, private project data."
 msgstr ""
 "**机密性：**\\ 翻译字符串、VCS 集成的 API 密钥/凭据、用户凭据（密码、双因素身"
-"份验证 secrets）、用户个人数据（电子信箱、名字）、会话令牌、审计日志和私密项"
+"份认证 secrets）、用户个人数据（电子信箱、名字）、会话令牌、审计日志和私密项"
 "目数据。"
 
 #: ../../security/threat-model.rst:17
@@ -45991,7 +45664,7 @@ msgstr "迁移策略"
 
 #: ../../security/threat-model.rst:149
 msgid "**Authentication & authorization:**"
-msgstr "**身份验证&授权：**"
+msgstr "**身份认证&授权：**"
 
 #: ../../security/threat-model.rst:150
 msgid "Strong password policies, see :doc:`/security/passwords`."
@@ -46159,10 +45832,8 @@ msgid ""
 msgstr "不揭示敏感内部信息的一般性错误消息。"
 
 #: ../../security/us-compliance.rst:2
-#, fuzzy
-#| msgid "Licensing compliance"
 msgid "US controls compliance"
-msgstr "许可合规"
+msgstr "美国出口控制合规"
 
 #: ../../security/us-compliance.rst:7
 msgid "ITAR and other export controls"
@@ -46195,9 +45866,8 @@ msgid ""
 "Weblate does not contain any cryptographic code, but might be subject export "
 "controls as it uses third party components utilizing cryptography for "
 "authentication, data-integrity and -confidentiality."
-msgstr ""
-"Weblate 不包含任何加密代码，但可能会受到出口管制，因为它使用第三方组件利用加"
-"密进行身份验证、数据完整性和机密性。"
+msgstr "Weblate 不包含任何加密代码，但可能会受到出口管制，因为它使用第三方组件利用加"
+"密进行身份认证、数据完整性和机密性。"
 
 #: ../../security/us-compliance.rst:24
 msgid ""
@@ -49903,34 +49573,23 @@ msgid "String was changed by author with given username."
 msgstr "字符串被作者用给定的用户名更改。"
 
 #: ../../user/search.rst:83
-#, fuzzy
-#| msgid ""
-#| "String content was changed on date, supports :ref:`search-operators`."
 msgid ""
 "String content was changed on date, supports :ref:`search-operators` "
 "and :ref:`date-search`."
-msgstr "字符串在日期内更改，支持 :ref:`search-operators`。"
+msgstr "字符串内容更改日期，支持 :ref:`search-operators` 和 :ref:`date-search`。"
 
 #: ../../user/search.rst:85
-#, fuzzy
-#| msgid "Source string was changed on date, supports :ref:`search-operators`."
 msgid ""
 "String was changed on date, supports :ref:`search-operators` and :ref:`date-"
 "search`."
-msgstr "源字符串在该日期更改，支持 :ref:`search-operators`。"
+msgstr "字符串更改日期，支持 :ref:`search-operators` 和 :ref:`date-search`。"
 
 #: ../../user/search.rst:87
-#, fuzzy
-#| msgid ""
-#| "String was changed on date, supports :ref:`search-operators`, unlike "
-#| "``changed`` this includes event which don't change content and you can "
-#| "apply custom action filtering using ``change_action``."
 msgid ""
 "Unlike ``changed`` this includes event which don't change content and you "
 "can apply custom action filtering using ``change_action``."
-msgstr ""
-"字符串在日期内更改，支持 :ref:`search-operators`，与 ``changed`` 不同，这包括"
-"不更改内容的事件，您可以使用自定义操作过滤 ``change_action`` 。"
+msgstr "与 ``changed`` 不同，这包括不更改内容的事件，您可以使用 ``change_action`` 应"
+"用自定义操作过滤 。"
 
 #: ../../user/search.rst:90
 msgid ""
@@ -49943,20 +49602,16 @@ msgstr ""
 "空格或小写字母和空格替换为连字符。有关示例，请参见 :ref:`search-changes`。"
 
 #: ../../user/search.rst:95
-#, fuzzy
-#| msgid "Source string was changed on date, supports :ref:`search-operators`."
 msgid ""
 "Source string was last changed on date, supports :ref:`search-operators` "
 "and :ref:`date-search`."
-msgstr "源字符串在该日期更改，支持 :ref:`search-operators`。"
+msgstr "源字符串上次更改日期，支持 :ref:`search-operators` 和 :ref:`date-search`。"
 
 #: ../../user/search.rst:97
-#, fuzzy
-#| msgid "Source string was changed on date, supports :ref:`search-operators`."
 msgid ""
 "The string was last changed on date, supports :ref:`search-operators` "
 "and :ref:`date-search`."
-msgstr "源字符串在该日期更改，支持 :ref:`search-operators`。"
+msgstr "字符串上次更改日期，支持 :ref:`search-operators` 和 :ref:`date-search`。"
 
 #: ../../user/search.rst:99
 msgid ""
@@ -50061,20 +49716,16 @@ msgid "State is ``translated`` or better (``approved``)."
 msgstr "状态是 ``translated`` 或更好 (``approved``)."
 
 #: ../../user/search.rst:155 ../../user/search.rst:185
-#, fuzzy
-#| msgid "Changed between two given dates."
 msgid "Changed between two given dates (inclusive)."
-msgstr "在两个给定的日期之间发生了更改。"
+msgstr "在两个给定的日期之间发生的更改（包括这两个日期）。"
 
 #: ../../user/search.rst:157
 msgid "Strings with position between 10 and 100 (inclusive)."
 msgstr "位次在 10 和 100 之间（包括 10 和 100）的字符串。"
 
 #: ../../user/search.rst:162
-#, fuzzy
-#| msgid "Fuzzy values for DATETIME fields"
 msgid "Searching for DATETIME fields"
-msgstr "DATETIME 字段的模糊值"
+msgstr "搜索 DATETIME 字段"
 
 #: ../../user/search.rst:164
 msgid ""
@@ -50108,30 +49759,20 @@ msgid "Changed 2019-03-01 and later (inclusive)."
 msgstr ""
 
 #: ../../user/search.rst:179
-#, fuzzy
-#| msgid ""
-#| "Returns strings that are changed 2 weeks ago from the current date and "
-#| "time."
 msgid "Changed 2 weeks ago from the current date and time."
-msgstr "返回距当下日期和时间 2 周内更改的字符串。"
+msgstr "当前日期和时间 2 周前的更改。"
 
 #: ../../user/search.rst:181
-#, fuzzy
-#| msgid "Changed string"
 msgid "Changed starting yesterday."
-msgstr "已修改的字符串"
+msgstr "自昨天起的更改。"
 
 #: ../../user/search.rst:183
-#, fuzzy
-#| msgid "Changed in year 2019."
 msgid "Changed in the year 2019."
-msgstr "在 2019 年有所更改。"
+msgstr "2019 年的更改。"
 
 #: ../../user/search.rst:187
-#, fuzzy
-#| msgid "Changed between two given dates."
 msgid "Changed between two relative dates (inclusive)."
-msgstr "在两个给定的日期之间发生了更改。"
+msgstr "两个相对日期间的更改（包括这两个日期）。"
 
 #: ../../user/search.rst:190
 msgid "Exact operators"
@@ -51411,9 +51052,9 @@ msgid ""
 "authentication for a single destination host:"
 msgstr ""
 "对于这些情况，可能需要有选择地重新启用 RSA/SHA1 以允许通过 HostkeyAlgorithms "
-"和 PubkeyAcceptedAlgorithms 选项来允许连接和/或用户身份验证。比如，文"
-"件 :file:`DATA_DIR/ssh/config` 中的下列段落会为单一目标主机的主机和用户身份验"
-"证启用 RSA/SHA1:"
+"和 PubkeyAcceptedAlgorithms 选项来允许连接和/或用户身份认证。比如，文件 "
+":file:`DATA_DIR/ssh/config` 中的下列段落会为单一目标主机的主机和用户身份认证"
+"启用 RSA/SHA1:"
 
 #: ../../vcs.rst:160
 msgid ""
@@ -51451,8 +51092,7 @@ msgid ""
 "For smaller deployments, use HTTPS authentication with a personal access "
 "token and your GitHub account, see `Creating an access token for command-"
 "line use`_."
-msgstr ""
-"对于较小的部署，使用带有个人访问令牌和您的 GitHub 账户的 HTTPS 身份验证，请参"
+msgstr "对于较小的部署，使用带有个人访问令牌和您的 GitHub 账户的 HTTPS 身份认证，请参"
 "阅 `创建用于命令行使用的访问令牌`_。"
 
 #: ../../vcs.rst:182
@@ -51473,18 +51113,13 @@ msgid "GitLab repositories"
 msgstr "GitLab 仓库"
 
 #: ../../vcs.rst:199
-#, fuzzy
-#| msgid ""
-#| "Access via SSH is possible (see :ref:`ssh-repos`), but in case you need "
-#| "to access more than one repository, you will hit a GitHub limitation on "
-#| "allowed SSH key usage (since each key can be used only once)."
 msgid ""
 "Access via SSH is possible (see :ref:`ssh-repos`), but in case you need to "
 "access more than one repository, you will hit a GitLab limitation on allowed "
 "SSH key usage (since each key can be used only once)."
 msgstr ""
 "可以通过 SSH 访问（请参阅 :ref:`ssh-repos`），但如果您需要访问多个仓库，您将"
-"遇到 GitHub 对允许使用的 SSH 密钥的限制（因为每个密钥只能使用一次）。"
+"遇到 GitLab 对允许的 SSH 密钥使用的限制（因为每个密钥只能使用一次）。"
 
 #: ../../vcs.rst:207
 msgid ""
@@ -51582,16 +51217,15 @@ msgid ""
 "For example the GitHub URL with authentication added might look like: "
 "``https://user:your_access_token@github.com/WeblateOrg/weblate.git``."
 msgstr ""
-"例如，添加了身份验证的 GitHub URL 可能如下所示：``https://"
-"user:your_access_token@github.com/WeblateOrg/weblate.git``。"
+"例如，添加了身份认证的 GitHub URL 可能如下所示：``https://user:your_access_to"
+"ken@github.com/WeblateOrg/weblate.git``。"
 
 #: ../../vcs.rst:277
 msgid ""
 "This makes it possible to access Azure DevOps repositories and makes access "
 "to authenticated repositories faster."
-msgstr ""
-"这实现了对 Azure DevOps 仓库的访问，并提升了对已经过身份验证的仓库的访问速"
-"度。"
+msgstr "这实现了对 Azure DevOps 仓库的访问，并提升了对已经过身份认证的仓库的访问速度"
+"。"
 
 #: ../../vcs.rst:282
 msgid ""
@@ -52372,11 +52006,11 @@ msgstr "要使用的上传方法，参见 :ref:`upload-method`。"
 
 #: ../../wlc.rst:280
 msgid "Author name, to override currently authenticated user"
-msgstr "作者姓名，以覆盖当前经过身份验证的用户"
+msgstr "作者姓名，以覆盖当前经过身份认证的用户"
 
 #: ../../wlc.rst:284
 msgid "Author e-mail, to override currently authenticated user"
-msgstr "作者电子邮件，以覆盖当前经过身份验证的用户"
+msgstr "作者电子邮件，以覆盖当前经过身份认证的用户"
 
 #: ../../wlc.rst:289
 msgid ""
@@ -52606,7 +52240,7 @@ msgid ""
 "user with :guilabel:`Translate` permission to the project."
 msgstr ""
 "在以下各章中，*任何用户* 是指有权访问翻译的用户。如果项目是公开的，则可以是任"
-"何经过身份验证的用户，或者是对项目有 :guilabel:`翻译` 权限的用户。"
+"何经过身份认证的用户，或者是对项目有 :guilabel:`翻译` 权限的用户。"
 
 #: ../../workflows.rst:61
 msgid "Each translated string can be in one of the following states:"
