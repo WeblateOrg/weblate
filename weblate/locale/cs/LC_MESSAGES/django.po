@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-21 09:35+0000\n"
-"PO-Revision-Date: 2025-10-24 05:50+0000\n"
+"PO-Revision-Date: 2025-10-26 18:59+0000\n"
 "Last-Translator: Fjuro <fjuro@alius.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
@@ -7172,24 +7172,30 @@ msgid ""
 "commits to author the changes you made; they can be stored there "
 "indefinitely."
 msgstr ""
+"Navíc mohou být vaše jméno a e-mail použity v revizích verzovacího systému "
+"pro určení autorství vašich provedených změn; zde mohou být uloženy na "
+"neurčitý čas."
 
 #: weblate/templates/accounts/snippets/login-info.html:32
-#, fuzzy
-#| msgid "Please set your full name and e-mail in your profile."
 msgid "You can enable the use of a private commit e-mail in your profile."
-msgstr "Nastavte si v profilu celé jméno a e-mail."
+msgstr ""
+"Použití soukromé e-mailové adresy pro revize můžete povolit ve vašem profilu."
 
 #: weblate/templates/accounts/snippets/login-info.html:35
 msgid ""
 "Additionally, your name can be used in version control system commits to "
 "author the changes you made; it can be stored there indefinitely."
 msgstr ""
+"Navíc může být vaše jméno použito v revizích verzovacího systému pro určení "
+"autorství vašich provedených změn; zde může být uloženo na neurčitý čas."
 
 #: weblate/templates/accounts/snippets/login-info.html:38
 msgid ""
 "You provide your contribution under the license defined by each project you "
 "contributed to."
 msgstr ""
+"Svůj příspěvek poskytujete pod licencí definovanou každým projektem, do "
+"kterého přispíváte."
 
 #: weblate/templates/accounts/snippets/login-title.html:4
 msgid "Weblate single sign on"
@@ -7297,10 +7303,9 @@ msgid "Never signed-in"
 msgstr "Nikdy nepřihlášen"
 
 #: weblate/templates/accounts/user.html:37
-#, fuzzy, python-format
-#| msgid "Joined on %(date)s"
+#, python-format
 msgid "Account expires on %(date)s"
-msgstr "Připojil/a se %(date)s"
+msgstr "Účet vyprší %(date)s"
 
 #: weblate/templates/accounts/user.html:57
 #: weblate/templates/snippets/plural.html:11
@@ -8278,10 +8283,8 @@ msgid "No invoices found."
 msgstr "Nebyly nalezeny žádné faktury."
 
 #: weblate/templates/billing/detail.html:120
-#, fuzzy
-#| msgid "View details"
 msgid "Event details"
-msgstr "Zobrazit podrobnosti"
+msgstr "Podrobnosti o události"
 
 #: weblate/templates/billing/detail.html:144
 msgid "Libre hosting"
@@ -9369,61 +9372,51 @@ msgstr "Nebezpečné pásmo"
 
 #: weblate/templates/js/git-status.html:142
 msgid "Reset and discard"
-msgstr ""
+msgstr "Resetovat a zrušit"
 
 #: weblate/templates/js/git-status.html:145
 msgid ""
 "Resets Weblate’s repository to match upstream and discards any pending "
 "changes in Weblate."
 msgstr ""
+"Resetuje repozitář Weblate tak, aby odpovídal upstreamové verzi a zruší "
+"všechny čekající změny ve Weblate."
 
 #: weblate/templates/js/git-status.html:146
-#, fuzzy
-#| msgid ""
-#| "Describe the context of the translation to improve the accuracy of the "
-#| "translation."
 msgid "Use when you want the upstream to be the authority for translations."
-msgstr "Popište kontext překladu pro zlepšení přesnosti překladu."
+msgstr "Použijte, pokud chcete, aby byl upstream autoritou pro překlady."
 
 #: weblate/templates/js/git-status.html:147
-#, fuzzy
-#| msgid ""
-#| "Use when you want to discard changes in Weblate and bring it in sync with "
-#| "upstream repository."
 msgid ""
 "It will discard changes in Weblate repo and bring it in sync with the "
 "upstream repository."
 msgstr ""
-"Použijte, pokud chcete zrušit změny ve Weblate a synchronizovat jej s "
-"upstream repozitářem."
+"Zruší změny v repozitáři Weblate a synchronizuje jej s upstreamovým "
+"repozitářem."
 
 #: weblate/templates/js/git-status.html:154
 msgid "Reset and reapply"
-msgstr ""
+msgstr "Resetovat a znovu použít"
 
 #: weblate/templates/js/git-status.html:157
 msgid ""
 "Resets Weblate’s repository to match upstream and replace upstream "
 "translations with the current state from Weblate."
 msgstr ""
+"Resetuje repozitář Weblate tak, aby odpovídal upstreamu, a nahradí "
+"upstreamové překlady aktuálním stavem z Weblate."
 
 #: weblate/templates/js/git-status.html:158
-#, fuzzy
-#| msgid "Whether Weblate should keep track of old translations."
 msgid "Use when you want Weblate to be the authority for translations."
-msgstr "Zvolte zda má Weblate ukládat historii překladů."
+msgstr "Použijte, pokud chcete, aby byl Weblate autoritou pro překlady."
 
 #: weblate/templates/js/git-status.html:159
-#, fuzzy
-#| msgid ""
-#| "Use when you want to discard changes in Weblate and bring it in sync with "
-#| "upstream repository."
 msgid ""
 "It will keep changes from Weblate but bring its repository in sync with the "
 "upstream repository."
 msgstr ""
-"Použijte, pokud chcete zrušit změny ve Weblate a synchronizovat jej s "
-"upstream repozitářem."
+"Ponechá změny ve Weblate, ale synchronizuje jeho repozitář s upstreamovým "
+"repozitářem."
 
 #: weblate/templates/js/git-status.html:165
 msgid "Cleanup"
@@ -10591,10 +10584,8 @@ msgid "Show components with linked repositories"
 msgstr "Zobrazit součásti s propojenými repozitáři"
 
 #: weblate/templates/manage/repos.html:19
-#, fuzzy
-#| msgid "Show components with linked repositories"
 msgid "Show components without a remote VCS"
-msgstr "Zobrazit součásti s propojenými repozitáři"
+msgstr "Zobrazit součásti s bez vzdáleného VCS"
 
 #: weblate/templates/manage/repos.html:27
 msgid "This repository is linked to:"
@@ -11032,10 +11023,9 @@ msgid "Add label"
 msgstr "Přidat štítek"
 
 #: weblate/templates/project.html:167
-#, fuzzy, python-format
-#| msgid "Manage teams"
+#, python-format
 msgid "Manage %(team)s"
-msgstr "Spravovat týmy"
+msgstr "Spravovat %(team)s"
 
 #: weblate/templates/project.html:379
 msgid "Organize project"
@@ -11367,10 +11357,8 @@ msgid "This term should not be translated."
 msgstr "Tento výraz by se neměl překládat."
 
 #: weblate/templates/snippets/glossary.html:5
-#, fuzzy
-#| msgid "This translation is locked."
 msgid "This translation needs editing."
-msgstr "Tento překlad je uzamčený."
+msgstr "Tento překlad potřebuje upravit."
 
 #: weblate/templates/snippets/glossary.html:5
 msgid "Copy word into translation"
@@ -15151,10 +15139,8 @@ msgid "Exclude author (username)"
 msgstr "Nezahrnovat autora (uživatelské jméno)"
 
 #: weblate/trans/forms.py:3059
-#, fuzzy
-#| msgid "Date joined"
 msgid "Date range"
-msgstr "Datum připojení"
+msgstr "Rozsah data"
 
 #: weblate/trans/forms.py:3142
 msgid "Expiry cannot be in the past."
@@ -15698,16 +15684,12 @@ msgid "Locked component will not get any translation updates."
 msgstr "Zamčenou součást nebude možné překládat."
 
 #: weblate/trans/models/component.py:558
-#, fuzzy
-#| msgid "Does not follow glossary"
 msgid "Do not show glossary matches"
-msgstr "Neodpovídá glosáři"
+msgstr "Nezobrazovat shody v glosáři"
 
 #: weblate/trans/models/component.py:560
-#, fuzzy
-#| msgid "Focus on translation editor."
 msgid "Hides the glossary panel in the translation editor."
-msgstr "Zaměřit na editor překladu."
+msgstr "Skryje panel glosáře v editoru překladů."
 
 #: weblate/trans/models/component.py:563
 msgid "Allow translation propagation"
@@ -16168,7 +16150,7 @@ msgstr "Při použití žádostí o sloučení nemohou být větve pull a push s
 #, python-format
 msgid ""
 "The parameter '%(param)s' is not applicable for the file format '%(format)s'."
-msgstr ""
+msgstr "Parametr „%(param)s“ není použitelný pro formát souboru „%(format)s“."
 
 #: weblate/trans/models/component.py:3346
 msgid ""
@@ -16932,10 +16914,8 @@ msgid "Source upload is only supported on the source language."
 msgstr "Nahrání zdroje je dostupné pouze u zdrojového jazyka."
 
 #: weblate/trans/util.py:388
-#, fuzzy
-#| msgid "Editing template is not supported with this file format."
 msgid "Update source strings upload is not supported with this format."
-msgstr "Úprava šablony není u tohoto formátu souborů podporována."
+msgstr "Úprava zdrojových řetězců nahráním není u tohoto formátu podporována."
 
 #: weblate/trans/validators.py:22
 msgid "File mask does not contain * as a language placeholder!"
@@ -16972,13 +16952,12 @@ msgstr ""
 
 #: weblate/trans/validators.py:75
 msgid "File format parameters must be a dictionary of key-value pairs."
-msgstr ""
+msgstr "Parametry formátu souboru musí být slovníkem párů klíč-hodnota."
 
 #: weblate/trans/validators.py:84
-#, fuzzy, python-format
-#| msgid "File format parameters"
+#, python-format
 msgid "Unknown file format parameter: \"%(param_name)s\"."
-msgstr "Parametry formátu souborů"
+msgstr "Neznámý parametr formátu souboru: „%(param_name)s“."
 
 #: weblate/trans/views/about.py:22
 msgid "Keys"
