@@ -1,3 +1,32 @@
+Weblate 5.14.1
+--------------
+
+*Not yet released.*
+
+.. rubric:: New features
+
+.. rubric:: Improvements
+
+* Document using Valkey in :ref:`celery` and :ref:`production-cache`.
+* Added HTTP environment overview in :ref:`manage-performance`.
+
+.. rubric:: Bug fixes
+
+* Counting outgoing commits in the repository status.
+* Listing of other translations.
+
+.. rubric:: Compatibility
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.14.1.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/154?closed=1>`__.
+
 Weblate 5.14
 ------------
 

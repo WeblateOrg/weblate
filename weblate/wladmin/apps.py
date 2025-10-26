@@ -48,11 +48,12 @@ def check_backups(
     for service in BackupService.objects.filter(enabled=True):
         try:
             last_obj = service.last_logs[0]
-            last_event = last_obj.event
-            last_log = last_obj.log
         except IndexError:
             last_event = "error"
-            last_log = "missing"
+            last_log = "backup was never triggered"
+        else:
+            last_event = last_obj.event
+            last_log = last_obj.log
         if last_event == "error":
             errors.append(
                 weblate_check(

@@ -2187,4 +2187,18 @@ For example with Gettext in Python it could be:
     print(ngettext("Selected %d file", "Selected %d files", files) % files)
 
 
+.. _placeables-mt:
+
+Placeables in automatic suggestion
+----------------------------------
+
+Checks for placeables expose information on current placeables and this can be
+used to instruct automatic suggestion engines to keep them. The support for
+this varies in different services and in many cases there is no way to enforce
+keeping placeables intact.
+
+.. seealso::
+
+   :doc:`/admin/machine`
+
 .. _reStructuredText Primer: https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html

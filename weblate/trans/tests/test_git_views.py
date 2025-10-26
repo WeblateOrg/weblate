@@ -6,6 +6,7 @@
 
 from django.urls import reverse
 
+from weblate.trans.models.pending import PendingUnitChange
 from weblate.trans.tests.test_views import ViewTestCase
 
 
@@ -13,6 +14,7 @@ class GitNoChangeProjectTest(ViewTestCase):
     """Testing of git manipulations with no change in repo."""
 
     TEST_TYPE = "project"
+    EXPECTED_COMMITS = 3
 
     def setUp(self) -> None:
         super().setUp()
@@ -64,6 +66,8 @@ class GitNoChangeProjectTest(ViewTestCase):
             # the current component, or not.
             fetch_redirect_response=False,
         )
+        self.assertEqual(self.component.count_repo_outgoing, 0)
+        self.assertEqual(PendingUnitChange.objects.count(), 0)
 
     def test_reset_keep(self) -> None:
         response = self.client.post(self.get_test_url("reset"), {"keep_changes": "1"})
@@ -76,6 +80,9 @@ class GitNoChangeProjectTest(ViewTestCase):
             # the current component, or not.
             fetch_redirect_response=False,
         )
+        # One change for each translation and translator
+        self.assertEqual(self.component.count_repo_outgoing, self.EXPECTED_COMMITS)
+        self.assertEqual(PendingUnitChange.objects.count(), 0)
 
     def test_cleanup(self) -> None:
         response = self.client.post(self.get_test_url("cleanup"))
@@ -117,9 +124,11 @@ class GitNoChangeTranslationTest(GitNoChangeProjectTest):
 class GitChangeProjectTest(GitNoChangeProjectTest):
     """Testing of project git manipulations with not committed change."""
 
+    EXPECTED_COMMITS = 4
+
     def setUp(self) -> None:
         super().setUp()
-        self.change_unit("Ahoj světe!\n")
+        self.change_unit("Nazdar světe!\n")
 
 
 class GitChangeComponentTest(GitChangeProjectTest):
@@ -134,12 +143,11 @@ class GitChangeTranslationTest(GitChangeProjectTest):
     TEST_TYPE = "translation"
 
 
-class GitCommittedChangeProjectTest(GitNoChangeProjectTest):
+class GitCommittedChangeProjectTest(GitChangeProjectTest):
     """Testing of project git manipulations with committed change in repo."""
 
     def setUp(self) -> None:
         super().setUp()
-        self.change_unit("Ahoj světe!\n")
         self.project.commit_pending("test", self.user)
 
 

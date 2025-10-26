@@ -3629,7 +3629,7 @@ class TranslationAPITest(APIBaseTest):
         self.assertEqual(response.status_code, 400)
         self.assertEqual("method", response.data["errors"][0]["attr"])
         self.assertIn(
-            "Update source strings upload is not supported with this format.",
+            "Source upload is only supported for bilingual translations, you might want to use replace upload instead.",
             response.data["errors"][0]["detail"],
         )
 

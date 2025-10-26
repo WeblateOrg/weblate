@@ -102,7 +102,7 @@ Architecture overview
             label=Services,
             style=filled
          ];
-         redis [label="Redis\nTask queue\nCache",
+         redis [label="Datastore\nTask queue\nCache",
             shape=cylinder];
          db [label="PostgreSQL\nDatabase",
             shape=cylinder];
@@ -143,8 +143,8 @@ Database
    PostgreSQL database server for storing all the content, see :ref:`database-setup`.
 
    Use dedicated database node for sites with hundreds of millions of hosted words.
-Redis
-   Redis server for cache and tasks queue, see :ref:`celery`.
+Datastore
+   Key/value datastore such as Valkey or Redis server for cache and tasks queue, see :ref:`celery`.
 
    Use dedicated node when scaling Weblate horizontally.
 File system
@@ -156,7 +156,7 @@ E-mail server
 
 .. hint::
 
-   :doc:`/admin/install/docker` includes PostgreSQL and Redis, making the installation easier.
+   :doc:`/admin/install/docker` includes PostgreSQL and Valkey, making the installation easier.
 
 .. _requirements:
 
@@ -730,6 +730,9 @@ Several features in Weblate rely on correct HTTP headers being passed to
 Weblate. When using reverse proxy, please make sure that the needed information
 is correctly passed.
 
+To debug this configuration, you can look at :guilabel:`HTTP environment` in
+:ref:`manage-performance`.
+
 Client IP address
    This is needed for :ref:`rate-limit` or :ref:`audit-log`.
 
@@ -888,7 +891,7 @@ options:
     :command:`weblate clearsessions` to remove stale session data from the
     database.
 
-    If you are using Redis as cache (see :ref:`production-cache`) it is
+    If you are using Valkey or Redis as cache (see :ref:`production-cache`) it is
     recommended to use it for sessions as well:
 
     .. code-block:: python
@@ -1126,11 +1129,11 @@ Use a powerful database engine
 
 .. _production-cache:
 
-Enable caching
-++++++++++++++
+Configure cache
++++++++++++++++
 
-If possible, use Redis from Django by adjusting the ``CACHES`` configuration
-variable, for example:
+If possible, use Valkey or Redis from Django by adjusting the ``CACHES``
+configuration variable, for example:
 
 .. code-block:: python
 
@@ -1150,8 +1153,8 @@ variable, for example:
 
 .. hint::
 
-   In case you change Redis settings for the cache, you might need to adjust
-   them for Celery as well, see :ref:`celery`.
+   In case you change settings for the cache, you might need to adjust them for
+   Celery as well, see :ref:`celery`.
 
 .. seealso::
 
@@ -1692,7 +1695,7 @@ for handling following operations (this list is not complete):
 * Offloading expensive operations from the WSGI process.
 * Committing pending changes (see :ref:`lazy-commit`).
 
-A typical setup using Redis as a backend looks like this:
+A typical setup using Valkey or Redis as a backend looks like this:
 
 .. code-block:: python
 
@@ -1943,4 +1946,4 @@ Other notes
 +++++++++++
 
 Don't forget to move other services Weblate might have been using like
-Redis, Cron jobs or custom authentication backends.
+Valkey, Redis, Cron jobs or custom authentication backends.

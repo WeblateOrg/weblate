@@ -74,6 +74,7 @@ class BaseOpenAITranslation(BatchMachineTranslation):
     max_score = 90
     request_timeout = 60
     client: OpenAI
+    glossary_support = True
 
     def __init__(self, settings=None) -> None:
         super().__init__(settings)

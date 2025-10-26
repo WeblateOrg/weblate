@@ -34,6 +34,7 @@ from weblate.trans.tests.utils import (
     wait_for_celery,
 )
 from weblate.utils.hash import hash_to_checksum
+from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.xml import parse_xml
 
 if TYPE_CHECKING:
@@ -173,8 +174,7 @@ class ViewTestCase(RepoTestCase):
         user: User | None = None,
     ) -> None:
         unit = self.get_unit(source, language)
-        unit.target = target
-        unit.save_backend(user or self.user)
+        unit.translate(user or self.user, target, STATE_TRANSLATED)
 
     def edit_unit(
         self,

@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-21 11:36+0200\n"
-"PO-Revision-Date: 2025-10-14 16:09+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"PO-Revision-Date: 2025-10-25 07:04+0000\n"
+"Last-Translator: Peter Vančo <petervanco347@gmail.com>\n"
 "Language-Team: Slovak <https://hosted.weblate.org/projects/weblate/"
 "documentation/sk/>\n"
 "Language: sk\n"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
-"X-Generator: Weblate 5.14-dev\n"
+"X-Generator: Weblate 5.14.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:215
@@ -955,7 +955,7 @@ msgstr ""
 
 #: ../../admin/access.rst:493
 msgid "View billing info"
-msgstr "Zobraziť predplatné"
+msgstr "Zobraziť fakturačné údaje"
 
 #: ../../admin/access.rst:493 ../../admin/access.rst:497
 #: ../../admin/access.rst:499 ../../admin/access.rst:511
@@ -1095,7 +1095,7 @@ msgstr "Upraviť nastavenia súčasti"
 
 #: ../../admin/access.rst:521
 msgid "Lock component, preventing translations"
-msgstr "Uzamknúť súčasť, zakázanie prekladania"
+msgstr "Uzamknúť súčasť a zakázať prekladanie"
 
 #: ../../admin/access.rst:523 ../../admin/access.rst:777
 #: ../../admin/access.rst:781 ../../admin/access.rst:785
@@ -1243,10 +1243,8 @@ msgid "Review strings"
 msgstr "Skontrolovať reťazce"
 
 #: ../../admin/access.rst:645
-#, fuzzy
-#| msgid "Edit strings"
 msgid "Bulk edit strings"
-msgstr "Upraviť reťazce"
+msgstr "Hromadná úprava reťazcov"
 
 #: ../../admin/access.rst:647
 #, fuzzy
@@ -1367,7 +1365,7 @@ msgstr "Zapisovať zmeny do vnútorného repozitára"
 
 #: ../../admin/access.rst:783
 msgid "Push change from the internal repository"
-msgstr "Vyzdvihnúť zmeny z vnútorného repozitára"
+msgstr "Odoslať zmeny z vnútorného repozitára"
 
 #: ../../admin/access.rst:787
 msgid "Reset changes in the internal repository"
@@ -1420,30 +1418,24 @@ msgid "Manage teams"
 msgstr "Spravovať tímy"
 
 #: ../../admin/access.rst:819
-#, fuzzy
-#| msgid "View billing info"
 msgid "View team info"
-msgstr "Zobraziť predplatné"
+msgstr "Zobraziť informácie o tíme"
 
 #: ../../admin/access.rst:821
 msgid "Manage users"
 msgstr "Spravovať používateľov"
 
 #: ../../admin/access.rst:823
-#, fuzzy
-#| msgid "View billing info"
 msgid "View user info"
-msgstr "Zobraziť predplatné"
+msgstr "Zobraziť informácie o používateľovi"
 
 #: ../../admin/access.rst:825
 msgid "Manage roles"
 msgstr "Spravovať role"
 
 #: ../../admin/access.rst:827
-#, fuzzy
-#| msgid "View billing info"
 msgid "View role info"
-msgstr "Zobraziť predplatné"
+msgstr "Zobraziť informácie o roli"
 
 #: ../../admin/access.rst:829
 msgid "Manage announcements"
@@ -1451,7 +1443,7 @@ msgstr "Spravovať oznámenia"
 
 #: ../../admin/access.rst:831
 msgid "Manage translation memory"
-msgstr "Správa prekladovej pamäte"
+msgstr "Spravovať prekladovú pamäť"
 
 #: ../../admin/access.rst:833
 msgid "Manage machinery"
@@ -2631,7 +2623,7 @@ msgid ""
 "Regular expression to filter translation files against when scanning for "
 "file mask."
 msgstr ""
-"Regulárny výraz ktorým môžete obmedziť jazyky pri hľadaní súborov maskou."
+"Regulárny výraz, ktorým môžete obmedziť jazyky pri hľadaní súborov maskou."
 
 #: ../../admin/addons.rst:310
 msgid "Clone add-ons from the main component to the newly created ones"
@@ -2990,29 +2982,23 @@ msgstr ""
 "môžete ľahko filtrovať a upravovať zdrojové reťazce napísané programátormi."
 
 #: ../../admin/addons.rst:581
-#, fuzzy
-#| msgid "Flag unchanged translations as \"Needs editing\""
 msgid "Flag updated translations from repository as \"Needs editing\""
-msgstr "Označiť nezmenené preklady ako „Potrebuje upraviť“"
+msgstr "Označiť aktualizované preklady z repozitára ako „Potrebuje upraviť“"
 
 #: ../../admin/addons.rst:587
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS, it is "
-#| "flagged as needing editing in Weblate. This way you can easily filter and "
-#| "edit translations created by the developers."
 msgid ""
 "Whenever a string translation is changed from the VCS, it is flagged as "
 "needing editing in Weblate. Especially useful if translation files are often "
 "updated manually or by an external service."
 msgstr ""
-"Kedykoľvek je nový preložiteľný reťazec importovaný zo systému správy verzií "
-"zdrojových kódov (VCS), je označený, že potrebuje úpravu vo Weblate. Takto "
-"môžete ľahko filtrovať a upravovať zdrojové reťazce napísané programátormi."
+"Kedykoľvek je preklad reťazca zmenený v systéme správy verzií zdrojových "
+"kódov (VCS), je vo Weblate označený ako vyžadujúci úpravu. Je to obzvlášť "
+"užitočné, ak sa prekladové súbory často aktualizujú manuálne alebo externou "
+"službou."
 
 #: ../../admin/addons.rst:598
 msgid "Fill read-only strings with source"
-msgstr "Vyplní iba na čítanie reťazce so zdrojom"
+msgstr "Vyplní reťazce určené len na čítanie zdrojovým textom"
 
 #: ../../admin/addons.rst:604 ../../admin/addons.rst:655
 #: ../../admin/addons.rst:688
@@ -3369,7 +3355,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:862
 msgid "Commit message"
-msgstr "Text pre zápis"
+msgstr "Správa k zápisu"
 
 #: ../../admin/addons.rst:862
 msgid ""
@@ -3384,7 +3370,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:866
 msgid "Squash Git commits prior to pushing changes."
-msgstr "Zlúčiť zápisy Gite pred ich odoslaním."
+msgstr "Zlúčiť zápisy v Gite pred ich odoslaním."
 
 #: ../../admin/addons.rst:870
 msgid ""
@@ -3440,7 +3426,7 @@ msgstr "Formátovať súbor s Java vlastnosťami"
 
 #: ../../admin/addons.rst:909
 msgid "Enable case-sensitive key sorting"
-msgstr "Povolenie zoradenia kľúčov podľa veľkosti písmen"
+msgstr "Zoradiť kľúče podľa veľkosti písmen"
 
 #: ../../admin/addons.rst:913
 msgid "Formats and sorts the Java properties file."
@@ -5075,8 +5061,8 @@ msgid ""
 "Recovery codes can be used to access your account if you lose access to your "
 "device and cannot receive two-factor authentication codes."
 msgstr ""
-"Obnovovacie kódy je možné použiť pre prístup k vášmu účtu, ak stratíte "
-"prístup k vášmu zariadeniu a nemôžete získať dvojfaktorové overovacie kódy."
+"Obnovovacie kódy môžete použiť na prístup k svojmu účtu, ak stratíte prístup "
+"k vášmu zariadeniu a nemôžete získať dvojfaktorové overovacie kódy."
 
 #: ../../admin/auth.rst:821
 msgid ""
@@ -15365,8 +15351,7 @@ msgstr "URL prihlasovacej služby"
 
 #: ../../admin/machine.rst:509
 msgid "Regional or multi-service can be specified using region field below."
-msgstr ""
-"V poli nižšie môžete vybrať nastavenie pre vybraný alebo viac regiónov naraz."
+msgstr "V poli nižšie môžete zadať región alebo viaceré regióny."
 
 #: ../../admin/machine.rst:513
 msgid "``api.cognitive.microsoft.com`` -- Global"
@@ -15542,8 +15527,8 @@ msgstr "Základné URL API OpenAI"
 #: ../../admin/machine.rst:677
 msgid "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
 msgstr ""
-"Základná adresa URL rozhrania API OpenAI, je rozdielna od východiskovej "
-"adresy URL OpenAI"
+"Základná adresa URL rozhrania API OpenAI, ak sa líši od predvolenej adresy "
+"URL OpenAI"
 
 #: ../../admin/machine.rst:679
 msgid "OpenAI model"
@@ -16956,7 +16941,7 @@ msgstr ""
 
 #: ../../admin/optionals.rst:69
 msgid "Billing"
-msgstr "Predplatné"
+msgstr "Fakturácia"
 
 #: ../../admin/optionals.rst:71
 msgid ""
@@ -18163,10 +18148,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:647
-#, fuzzy
-#| msgid "Does not follow glossary"
 msgid "Do not show glossary matches"
-msgstr "Nezodpovedá slovníku"
+msgstr "Nezobrazovať zhody zo slovníka"
 
 #: ../../admin/projects.rst:649
 msgid ""
@@ -18646,7 +18629,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:958
 msgid "Source language"
-msgstr "Jazyk zdroja"
+msgstr "Zdrojový jazyk"
 
 #: ../../admin/projects.rst:960
 msgid ""
@@ -46329,7 +46312,7 @@ msgstr ""
 
 #: ../../user/checks.rst:856
 msgid "Python brace format"
-msgstr "Zátvorkový formát Pythona"
+msgstr "Zátvorkový formát Python"
 
 #: ../../user/checks.rst:859
 msgid "Python brace format string does not match source."
@@ -46604,7 +46587,7 @@ msgstr "Použitý znak kašída"
 
 #: ../../user/checks.rst:1100
 msgid "The decorative kashida letters should not be used."
-msgstr "Dekoratívne písmená kašída by sa nemali používať."
+msgstr "Dekoratívne znaky kašída by sa nemali používať."
 
 #: ../../user/checks.rst:1108
 msgid ""
@@ -47290,7 +47273,7 @@ msgstr "Nulová medzera"
 
 #: ../../user/checks.rst:1879
 msgid "Translation contains extra zero-width space character."
-msgstr "Preklad obsahuje naviac znak nulovej medzery."
+msgstr "Preklad obsahuje navyše znak nulovej medzery."
 
 #: ../../user/checks.rst:1886
 msgid ""
@@ -47322,7 +47305,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1905
 msgid "Ellipsis"
-msgstr "Tri bodky"
+msgstr "Výpustka"
 
 #: ../../user/checks.rst:1908
 #, fuzzy
@@ -47579,7 +47562,7 @@ msgid ""
 "translators to reorder them."
 msgstr ""
 "Reťazec obsahuje viac nepomenovaných premenných, čo prekladateľovi "
-"neumožňuje ich preskladať."
+"neumožňuje zmeniť ich poradie."
 
 #: ../../user/checks.rst:2162
 msgid ""
@@ -48485,8 +48468,8 @@ msgid ""
 "wherever your user profile appears."
 msgstr ""
 "Všetky položky na tejto stránke sú voliteľné a môžu byť kedykoľvek "
-"odstránené. Ich vyplnením nám dávate súhlas zdieľať tieto údaje kedykoľvek "
-"sa zobrazí váš verejný profil."
+"odstránené. Ich vyplnením dávate súhlas na zdieľanie údajov vždy, keď sa "
+"zobrazí váš verejný profil."
 
 #: ../../user/profile.rst:226
 msgid ""

@@ -128,6 +128,78 @@
       <div class="panel panel-default">
         <div class="panel-heading">
           <h4 class="panel-title">
+            {% documentation_icon 'admin/install' 'reverse-proxy' right=True %}
+            {% translate "HTTP environment" %}
+          </h4>
+        </div>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th></th>
+              <th>{% translate "Observed value" %}</th>
+              <th>{% translate "Configured value" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{% translate "Client IP address" %}</td>
+              <td>
+                <code>{{ request.META.REMOTE_ADDR }}</code>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>{% translate "HTTP host" %}</td>
+              <td>
+                <code>{{ request.get_host }}</code>
+              </td>
+              <td>
+                <code>{{ site_domain }}</code>
+              </td>
+            </tr>
+            <tr>
+              <td>{% translate "HTTP protocol" %}</td>
+              <td>
+                <code>
+                  {% if request.is_secure %}
+                    https
+                  {% else %}
+                    http
+                  {% endif %}
+                </code>
+              </td>
+              <td>
+                <code>
+                  {% if enable_ssl %}
+                    https
+                  {% else %}
+                    http
+                  {% endif %}
+                </code>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            {% documentation_icon 'admin/install' 'reverse-proxy' right=True %}
+            {% translate "HTTP headers" %}
+          </h4>
+        </div>
+        <div class="panel-body">
+          {% for name, value in request.headers.items %}
+            <code>{{ name }}: {{ value }}</code>
+            <br />
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
             {% documentation_icon 'admin/install' 'production-encoding' right=True %}
             {% translate "System encoding" %}
           </h4>

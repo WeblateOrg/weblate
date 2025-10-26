@@ -382,6 +382,12 @@ def check_upload_method_permissions(
             return Denied(
                 gettext("Source upload is only supported on the source language.")
             )
+        if translation.is_template:
+            return Denied(
+                gettext(
+                    "Source upload is only supported for bilingual translations, you might want to use replace upload instead."
+                )
+            )
         if not issubclass(translation.component.file_format_cls, BilingualUpdateMixin):
             return Denied(
                 gettext(

@@ -95,6 +95,7 @@ class BatchMachineTranslation:
     accounting_key = "external"
     force_uncleanup = False
     highlight_syntax = False
+    glossary_support = False
     settings_form: type[BaseMachineryForm] | None = BaseMachineryForm
     request_timeout = 5
     is_available = True
@@ -765,6 +766,7 @@ class GlossaryMachineTranslationMixin(MachineTranslation):
     glossary_name_format_pattern = (
         r"weblate:(\d+):([A-z0-9@_-]+):([A-z0-9@_-]+):([a-f0-9]+)"
     )
+    glossary_support = True
 
     glossary_count_limit = 0
 

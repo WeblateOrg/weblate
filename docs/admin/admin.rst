@@ -41,12 +41,17 @@ silenced using :setting:`django:SILENCED_SYSTEM_CHECKS`, see also
 should be close to zero. The same can be obtained on the command line using
 :wladmin:`celery_queues`.
 
+:guilabel:`HTTP environment` allows you to see HTTP environment observed by
+Weblate. This is useful when debugging reverse proxy configuration, see
+:ref:`reverse-proxy`. :guilabel:`HTTP headers` shows complete HTTP request headers to provide additional information.
+
 :guilabel:`System encoding` should list ``UTF-8`` encoding in all processes.
 This needs to be configured in your system, see :ref:`production-encoding`.
 
 :guilabel:`Connectivity` shows latencies to the database, cache, and Celery.
 This might be useful to diagnose connectivity issues.
 
+.. image:: /screenshots/performance-report.webp
 
 .. _manage-appearance:
 

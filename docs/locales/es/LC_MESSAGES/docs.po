@@ -28,7 +28,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-21 11:36+0200\n"
-"PO-Revision-Date: 2025-10-21 09:46+0000\n"
+"PO-Revision-Date: 2025-10-25 07:03+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -37,7 +37,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14-dev\n"
+"X-Generator: Weblate 5.14.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:215
@@ -18588,40 +18588,42 @@ msgstr ""
 msgid ""
 "Use machine translation instead of other components as machine translations."
 msgstr ""
+"Utilice la traducción automática en lugar de otros componentes como "
+"traducciones automáticas."
 
 #: ../../admin/management.rst:139
 msgid "Similarity threshold for machine translation, defaults to 80."
 msgstr ""
+"Umbral de similitud para la traducción automática, predeterminado en 80."
 
 #: ../../admin/management.rst:143
+#, fuzzy
 msgid ""
 "Specify translation mode, default is ``translate`` but ``fuzzy`` or "
 "``suggest`` can be used."
 msgstr ""
+"Especificar el modo de traducción, el valor predeterminado es ``translate``, "
+"pero se puede usar ``fuzzy`` o ``suggest``."
 
 #: ../../admin/management.rst:161
 msgid "Imports given content into Weblate, useful for benchmarking."
-msgstr ""
+msgstr "Importa contenido dado a Weblate, útil para la evaluación comparativa."
 
 #: ../../admin/management.rst:163
-#, fuzzy
-#| msgid "Example matched files"
 msgid "Example of performance profiling"
-msgstr "Ejemplo de archivos encontrados"
+msgstr "Ejemplo de perfilado de rendimiento"
 
 #: ../../admin/management.rst:175
-#, fuzzy
-#| msgid "Example of JSON file:"
 msgid "Example of memory profiling"
-msgstr "Ejemplo de archivo JSON:"
+msgstr "Ejemplo de perfiles de memoria"
 
 #: ../../admin/management.rst:193
 msgid "Displays length of Celery task queues."
-msgstr ""
+msgstr "Muestra la longitud de las colas de tareas de Celery."
 
 #: ../../admin/management.rst:204
 msgid "Prints current state of the back-end Git repository."
-msgstr ""
+msgstr "Imprime el estado actual del repositorio back-end de Git."
 
 #: ../../admin/management.rst:206 ../../admin/management.rst:227
 #: ../../admin/management.rst:798 ../../admin/management.rst:818
@@ -19008,6 +19010,8 @@ msgid ""
 "First The Debian Handbook translations, where each language has separate a "
 "folder with the translations of each chapter:"
 msgstr ""
+"Primero las traducciones del Manual de Debian, donde cada idioma está en una "
+"carpeta separada con las traducciones de cada capítulo:"
 
 #: ../../admin/management.rst:519
 msgid ""
@@ -19015,6 +19019,9 @@ msgid ""
 "the base file template, and how all components and translations are located "
 "in single folder:"
 msgstr ""
+"Luego, la herramienta Tanaguru, donde se debe especificar el formato de "
+"archivo, junto con la plantilla del archivo base, y cómo se ubican todos los "
+"componentes y traducciones en una sola carpeta:"
 
 #: ../../admin/management.rst:533
 msgid ""
@@ -19283,7 +19290,7 @@ msgstr ""
 #, fuzzy
 #| msgid ":wladmin:`migrate`"
 msgid ":djadmin:`django:migrate`"
-msgstr ":wladmin:`migrate`"
+msgstr ":djadmin:`django:migrate`"
 
 #: ../../admin/management.rst:849
 msgid ""
@@ -19292,6 +19299,10 @@ msgid ""
 "been created with the :samp:`(generated)` suffix. It moves all content from "
 "the `source` language to the `target` one."
 msgstr ""
+"Permite fusionar contenido de idioma. Esto es útil cuando se actualiza a una "
+"nueva versión que contiene alias para idiomas previamente desconocidos que "
+"se han creado con el sufijo :samp:`(generated)`. Mueve todo el contenido del "
+"idioma de `source` al de `target`."
 
 #: ../../admin/management.rst:860
 msgid ""
@@ -19299,20 +19310,26 @@ msgid ""
 "(this is subject to race conditions when somebody updates the repository "
 "meanwhile) and remove the :samp:`(generated)` language."
 msgstr ""
+"Después de mover el contenido, debe verificar si queda algo (esto está "
+"sujeto a las condiciones de carrera cuando alguien actualiza el repositorio "
+"mientras tanto) y eliminar el lenguaje :samp:`(generated)`."
 
 #: ../../admin/management.rst:869
 msgid "Pushes committed changes to the upstream VCS repository."
-msgstr ""
+msgstr "Empuja los cambios confirmados al repositorio de VCS ascendente."
 
 #: ../../admin/management.rst:873
 msgid "Force commits any pending changes, prior to pushing."
-msgstr ""
+msgstr "Force confirma cualquier cambio pendiente, antes de presionar."
 
 #: ../../admin/management.rst:880
+#, fuzzy
 msgid ""
 "Weblate pushes changes automatically if :ref:`component-push_on_commit` "
 "in :ref:`component` is turned on, which is the default."
 msgstr ""
+"Weblate envía los cambios automáticamente si: :ref:`component-push_on_commit`"
+" en :ref:`component` está activado, que es el valor predeterminado."
 
 #: ../../admin/management.rst:888
 msgid "Unlocks a given component, making it available for translation."
@@ -19406,6 +19423,8 @@ msgid ""
 "Automatically stored translations performed in Weblate (depending "
 "on :ref:`memory-scopes`)."
 msgstr ""
+"Traducciones almacenadas automáticamente realizadas en Weblate "
+"(dependiendo de :ref:`memory-scopes`)."
 
 #: ../../admin/memory.rst:11
 msgid "Automatically imported past translations."
@@ -19464,6 +19483,8 @@ msgid ""
 "The translation-memory scopes ensure privacy for different projects and "
 "users. Sharing of translations is also available."
 msgstr ""
+"Los alcances de traducción-memoria garantizan la privacidad para diferentes "
+"proyectos y usuarios. También se puede compartir traducciones."
 
 #: ../../admin/memory.rst:32
 msgid "Imported translation memory"
@@ -19602,6 +19623,12 @@ msgid ""
 "in scopes – total, for each respective project, component, or language "
 "contributed to, with options to download (as JSON, or TMX) or delete them."
 msgstr ""
+"La gestión de memoria de traducción personal está disponible haciendo clic "
+"en el avatar del usuario en la esquina superior derecha de la interfaz de "
+"usuario y seleccionando \"la memoria de traducción\" del menú desplegable. "
+"Las entradas atribuidas al usuario se enumeran en los alcances – total, para "
+"cada proyecto, componente o idioma correspondiente contribuido, con opciones "
+"para descargar (como JSON o TMX) o eliminarlas."
 
 #: ../../admin/memory.rst:109
 msgid ""
@@ -19609,14 +19636,17 @@ msgid ""
 "translation memories. It can be used to download, wipe or import translation "
 "memory."
 msgstr ""
+"En la interfaz de usuario básica puede gestionar memorias de traducción por "
+"usuario y por proyecto. Se puede utilizar para descargar, limpiar o importar "
+"memoria de traducción."
 
 #: ../../admin/memory.rst:112
-#, fuzzy
-#| msgid "Reintroduced support for wiping translation memory."
 msgid ""
 "There are multiple options to download the translation memory of the whole "
 "instance."
-msgstr "Se reintrodujo la posibilidad de vaciar la memoria de traducción."
+msgstr ""
+"Hay múltiples opciones para descargar la memoria de traducción de toda la "
+"instancia."
 
 #: ../../admin/memory.rst:115
 msgid ""
@@ -19633,10 +19663,8 @@ msgid "You can search for translations in the view built for this."
 msgstr "Puede buscar traducciones en la vista creada para ello."
 
 #: ../../admin/memory.rst:127
-#, fuzzy
-#| msgid "Django admin interface"
 msgid "Admin interface"
-msgstr "Interfaz administrativa de Django"
+msgstr "Interfaz administrativa"
 
 #: ../../admin/memory.rst:129
 #, fuzzy

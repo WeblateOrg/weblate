@@ -1,8 +1,8 @@
 Weblate threat model
 ====================
 
-**Scope:** Core Weblate web application, its interactions with user browsers, backend components (web server, WSGI, database, Redis, Celery), and integration with external VCS.
-**Assumptions:** Standard Weblate deployment with typical components (nginx/Apache, Gunicorn/uWSGI, PostgreSQL, Redis, Celery) and user roles (Unauthenticated, Translator, Project Manager, Administrator).
+**Scope:** Core Weblate web application, its interactions with user browsers, backend components (web server, WSGI, database, datastore, Celery), and integration with external VCS.
+**Assumptions:** Standard Weblate deployment with typical components (nginx/Apache, Gunicorn/uWSGI, PostgreSQL, datastore, Celery) and user roles (Unauthenticated, Translator, Project Manager, Administrator).
 
 System description and scope
 ----------------------------
@@ -30,7 +30,8 @@ Conceptual data flow diagram
 
       "External user (browser)" -> "Web server (nginx/Apache)" [label="HTTPS"];
       "Web server (nginx/Apache)" -> "Weblate application (WSGI, Celery)" [label="Internal API"];
-      "Weblate application (WSGI, Celery)" -> "Database (PostgreSQL, Redis)" [label="Database access"];
+      "Weblate application (WSGI, Celery)" -> "Database (PostgreSQL)" [label="Database access"];
+      "Weblate application (WSGI, Celery)" -> "Datastore (Valkey/Redis)" [label="Key/value access"];
       "Weblate application (WSGI, Celery)" -> "Internal VCS repository" [label="Filesystem access"];
       "Weblate application (WSGI, Celery)" -> "External VCS repository" [label="Git/API"];
       "Weblate application (WSGI, Celery)" -> "Logging (SIEM)" [label="GELF"];
@@ -106,17 +107,17 @@ Threat identification
      - **Elevation of privilege**
      - **Command injection:** Arbitrary code execution due to improper input validation in repository URLs or add-ons.
      - System compromise, data exfiltration.
-   * - **Database/Redis**
+   * - **Database/Datastore**
      - **Tampering**
      - **Data corruption:** Direct access to the database allows altering translation strings, user data, or configuration.
      - System malfunction, data integrity loss.
    * -
      - **Information disclosure**
-     - **Sensitive data access:** Unauthorized access to database/Redis exposes all stored data (credentials, translation memory, user profiles).
+     - **Sensitive data access:** Unauthorized access to database/datastore exposes all stored data (credentials, translation memory, user profiles).
      - Major data breach.
    * -
      - **DoS**
-     - **Database exhaustion:** Attacker floods the database with queries, or consumes all Redis memory/connections.
+     - **Database exhaustion:** Attacker floods the database or datastore with queries, or consumes all memory or available connections.
      - Weblate unavailability.
    * - **VCS integration**
      - **Tampering**
@@ -167,7 +168,7 @@ Mitigation strategies
 * **System hardening:**
     * Regular patching of OS, Weblate, and all dependencies.
     * Principle of least privilege for Weblate user account on the OS.
-    * Network segmentation (e.g., separating database/Redis from public access).
+    * Network segmentation (e.g., separating database and datastore from public access).
     * Use of WAF (Web Application Firewall).
 * **Logging and monitoring:**
     * Comprehensive audit logging of all security-relevant events (logins, failed logins, permission changes, critical configuration changes, VCS operations).

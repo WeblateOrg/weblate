@@ -1172,8 +1172,12 @@ class SeleniumTests(
     def test_manage(self) -> None:
         self.open_manage()
         self.screenshot("support.png")
-        self.click("Appearance")
+        with self.wait_for_page_load():
+            self.click("Appearance")
         self.screenshot("appearance-settings.png")
+        with self.wait_for_page_load():
+            self.click("Performance report")
+        self.screenshot("performance-report.png")
 
     def test_explanation(self) -> None:
         project = self.create_component()

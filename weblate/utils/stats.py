@@ -1016,7 +1016,7 @@ class ComponentStats(AggregatingStats):
 
     def get_update_objects(self, *, full: bool = True) -> Generator[BaseStats]:
         # Component lists
-        yield from yield_stats(self._object.componentlist_set.only("id"))
+        yield from yield_stats(self._object.componentlist_set.only("id", "slug"))
 
         # Projects this component is shared to
         yield from yield_stats(self._object.cached_links)
@@ -1366,10 +1366,10 @@ class CategoryStats(ParentAggregatingStats):
             yield from self._object.project.stats.get_update_objects()
 
     def get_child_objects(self):
-        return self._object.component_set.only("id", "category", "check_flags")
+        return self._object.component_set.only("id", "slug", "category", "check_flags")
 
     def get_category_objects(self):
-        return self._object.category_set.only("id", "category")
+        return self._object.category_set.only("id", "slug", "category")
 
     def get_single_language_stats(self, language):
         return CategoryLanguageStats(CategoryLanguage(self._object, language))
@@ -1409,7 +1409,9 @@ class ProjectStats(ParentAggregatingStats):
 
 class ComponentListStats(ParentAggregatingStats):
     def get_child_objects(self):
-        return self._object.components.only("id", "componentlist", "check_flags")
+        return self._object.components.only(
+            "id", "slug", "componentlist", "check_flags"
+        )
 
 
 class GlobalStats(ParentAggregatingStats):
@@ -1419,7 +1421,7 @@ class GlobalStats(ParentAggregatingStats):
     def get_child_objects(self):
         from weblate.trans.models import Project
 
-        return Project.objects.only("id", "access_control")
+        return Project.objects.only("id", "slug")
 
     def _calculate_basic(self) -> None:
         super()._calculate_basic()

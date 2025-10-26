@@ -14,10 +14,15 @@
       return true;
     }
     $("#shortcuts-modal").modal("show");
+    $("#shortcuts-modal5").modal("show");
     return false;
   });
 
   $("#shortcuts-btn").on("click", () => {
     $("#shortcuts-modal").modal("show");
+  });
+
+  $("#shortcuts-btn5").on("click", () => {
+    $("#shortcuts-modal5").modal("show");
   });
 })();

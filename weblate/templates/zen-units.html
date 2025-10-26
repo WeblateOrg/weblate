@@ -40,6 +40,18 @@
           </div>
         </td>
       </tr>
+    {% elif item.unit.note %}
+      <tr id="row-explanation-{{ item.unit.checksum }}">
+        <td class="unit-state-cell"></td>
+        <td colspan="2" class="translatetext">
+          <label>{% translate "Source string description" %}</label>
+          <div class="list-group">
+            <div class="list-group-item">
+              <div class="list-group-item-text">{{ item.unit.note|urlize_ugc }}</div>
+            </div>
+          </div>
+        </td>
+      </tr>
     {% endif %}
 
 
@@ -53,9 +65,6 @@
           {% for unit in item.secondary %}
             <div class="form-group">
               <a href="{{ unit.get_absolute_url }}" class="language" tabindex="-1">{{ unit.translation.language }}</a>
-              {% if user.profile.hide_source_secondary %}
-                {% include "snippets/note-badge.html" with unit=item.unit %}
-              {% endif %}
               {% format_unit_target unit show_copy=True %}
             </div>
           {% endfor %}
@@ -74,7 +83,6 @@
               <a href="{{ item.unit.source_unit.get_absolute_url }}"
                  class="language"
                  tabindex="-1">{{ item.unit.translation.component.source_language }}</a>
-              {% include "snippets/note-badge.html" with unit=item.unit %}
               {% format_unit_source item.unit search_match=search_query glossary=item.glossary show_copy=True %}
             </div>
           {% endif %}

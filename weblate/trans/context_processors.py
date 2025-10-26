@@ -26,6 +26,8 @@ SUPPORT_URL = "https://weblate.org/support/"
 
 CONTEXT_SETTINGS = [
     "SITE_TITLE",
+    "SITE_DOMAIN",
+    "ENABLE_HTTPS",
     "OFFER_HOSTING",
     "ENABLE_AVATARS",
     "ENABLE_SHARING",
