@@ -42,7 +42,7 @@ jobs:
       run: ./ci/services-up ${{ matrix.database }}
     - name: Install apt dependencies
       run: sudo ./ci/apt-install "$CI_DATABASE"
-    - uses: astral-sh/setup-uv@2ddd2b9cb38ad8efd50337e8ab201519a34c9f24 # v7.1.1
+    - uses: astral-sh/setup-uv@85856786d1ce8acfbcc2f13a5f3fbd6b938f9f41 # v7.1.2
       with:
         enable-cache: true
         # Do not share cache with tests as this uses python 3.11 for older versions
