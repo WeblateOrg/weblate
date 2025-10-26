@@ -28,8 +28,9 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-21 11:36+0200\n"
-"PO-Revision-Date: 2025-10-26 18:59+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-10-26 19:00+0000\n"
+"Last-Translator: 大王叫我来巡山 "
+"<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -3229,7 +3230,7 @@ msgstr "陈旧评论删除"
 
 #: ../../admin/addons.rst:928 ../../admin/addons.rst:945
 msgid "Days to keep"
-msgstr "要保持的天数"
+msgstr "保留天数"
 
 #: ../../admin/addons.rst:930 ../../admin/addons.rst:949
 msgid ":ref:`addon-event-install`, :ref:`addon-event-daily`"
@@ -6701,7 +6702,8 @@ msgid ""
 "This enhances security by preventing loading assets from untrusted sources. "
 "Assets are downloaded once by the Weblate server and stored locally, rather "
 "than being served directly from external domains to users."
-msgstr ""
+msgstr "这通过阻止加载来自不受信任资源的资产增强安全性。资产由 Weblate 服务器下载一次"
+"并在本地存储，而非直接从外部域名提供给用户。"
 
 #: ../../admin/config.rst:54
 msgid ""
@@ -6710,6 +6712,9 @@ msgid ""
 "all subdomains (e.g ``.example.com`` will match ``cdn.example.com`` or "
 "``static.example.com``)."
 msgstr ""
+"预期的是主机名/域名列表。可以使用完全合格的名称（如 ``www.example.com`` ）或"
+"在名称前加上英文句号作为匹配所有子域名的通配符（如 ``.example.com`` 会匹配 "
+"``cdn.example.com`` 或 ``static.example.com`` ）。"
 
 #: ../../admin/config.rst:58
 msgid "Defaults to `[*]` which will allow all domains."
@@ -10735,7 +10740,8 @@ msgstr ""
 msgid ""
 "CSRF verification failed errors are often caused by a mismatch between "
 "the :http:header:`Host` header and configured :setting:`SITE_DOMAIN`."
-msgstr ""
+msgstr "CSRF 验证失败错误常由 :http:header:`Host` 标头和配置的 :setting:`SITE_DOMAIN`"
+" 不匹配所导致。"
 
 #: ../../admin/install.rst:763
 msgid "Client protocol"
@@ -13355,7 +13361,8 @@ msgstr "启用 Keycloak 身份认证，请参见 :doc:`psa:backends/keycloak`。
 msgid ""
 "When Keycloak is configured to abstract third-party IDP, you will need to "
 "configure :envvar:`WEBLATE_CSP_FORM_SRC` for the third-party IDP domain."
-msgstr ""
+msgstr "当 Keycloak 配置为抽象第三方 IDP，需要配置第三方 IDP 域名的 "
+":envvar:`WEBLATE_CSP_FORM_SRC`。"
 
 #: ../../admin/install/docker.rst:1414
 msgid "Example when Keycloak is passing authentication to Microsoft."
@@ -13919,6 +13926,8 @@ msgid ""
 "as :ref:`docker-settings-override`, :ref:`docker-static-override` "
 "or :ref:`docker-python-override`."
 msgstr ""
+":file:`data` 卷也是存储 Weblate 定制内容，如 :ref:`docker-settings-override`"
+"、:ref:`docker-static-override` 或 :ref:`docker-python-override` 的地方。"
 
 #: ../../admin/install/docker.rst:2076
 msgid ""
@@ -14220,6 +14229,9 @@ msgid ""
 "or other tools that enhance the translation workflow. These services can be "
 "integrated into your Docker Compose configuration and work alongside Weblate."
 msgstr ""
+"可以用附加容器扩展 Weblate Docker 设置来提供补充性服务，比如机器翻译、拼写检"
+"查或其他增强翻译工作流的工具。这些服务可以集成进 Docker Compose 配置中，和 "
+"Weblate 一起工作。"
 
 #: ../../admin/install/docker.rst:2272
 msgid "When adding third-party containers, consider the following:"
@@ -14229,7 +14241,7 @@ msgstr "添加第三方容器时，考虑下列因素："
 msgid ""
 "**Network connectivity**: Ensure containers can communicate with each other "
 "by placing them on the same Docker network"
-msgstr ""
+msgstr "**网络连接**: 将容器放在相同的 Docker 网络上确保不同容器能彼此通信"
 
 #: ../../admin/install/docker.rst:2275
 msgid ""
@@ -14253,6 +14265,8 @@ msgid ""
 "Weblate provides offline machine translation capabilities without relying on "
 "external services."
 msgstr ""
+"`LibreTranslate <https://libretranslate.com/>`_ 是可以自托管的自由开源的机器"
+"翻译服务。将它与 Weblate 集成提供不依赖外部服务的离线机器翻译能力。"
 
 #: ../../admin/install/docker.rst:2287
 msgid ""
@@ -14261,6 +14275,9 @@ msgid ""
 "within the Docker network, it's only accessible to Weblate and not exposed "
 "to the public internet."
 msgstr ""
+"你可以把 LibreTranslate 服务加到 Weblate 部署中，方法是在 :file:`docker-"
+"compose.override.yml` 文件中包含它。因它运行在 Docker 网络内部，所以只有 "
+"Weblate 能访问，不会暴露在公网上。"
 
 #: ../../admin/install/docker.rst:2289
 msgid "Basic setup using :file:`docker-compose.override.yml`:"
@@ -14275,6 +14292,8 @@ msgid ""
 "After starting the services with ``docker compose down && docker compose up "
 "-d``, configure LibreTranslate in Weblate:"
 msgstr ""
+"用 ``docker compose down && docker compose up -d`` 启动服务后，在 Weblate 中"
+"配置 LibreTranslate："
 
 #: ../../admin/install/docker.rst:2346
 msgid "Access the Weblate admin interface"
@@ -14330,6 +14349,8 @@ msgid ""
 "The LibreTranslate service runs without the web UI (``--disable-web-ui``) "
 "and is only accessible via the API within the Docker network."
 msgstr ""
+"LibreTranslate 服务运行没有 web 用户界面（``--disable-web-ui``），只能通过 "
+"API 在 Docker 网络内部访问。"
 
 #: ../../admin/install/docker.rst:2359
 msgid ""
@@ -14354,7 +14375,8 @@ msgid ""
 "For GPU acceleration, use the CUDA image variant and ensure your system has "
 "NVIDIA Docker support. This container runs as a privileged user to be able "
 "to use the GPU."
-msgstr ""
+msgstr "对 GPU 加速，使用 CUDA 映像并保证系统有 NVIDIA Docker 支持。为了能使用 GPU，"
+"这个容器以特权用户身份运行。"
 
 #: ../../admin/install/docker.rst:2363
 msgid "No external ports are exposed, making the setup secure by default."
@@ -14374,6 +14396,8 @@ msgid ""
 "disruptive traffic on the server. It is typically needed for publicly open "
 "Weblate installations to avoid excessive load caused by scraping."
 msgstr ""
+"`Anubis`_ 是 web AI 防火墙工具，用来在服务器上拦截 AI 数据抓取器和其他破坏性"
+"流量。公开的 Weblate 安装通常需要它来避免由数据抓取导致的过大网站负载。"
 
 #: ../../admin/install/docker.rst:2382
 msgid "Anubis can be deployed using Docker Compose:"
@@ -14384,18 +14408,24 @@ msgid ""
 "The ``anubis-data`` volume in the above configuration is expected to "
 "contain :file:`botPolicies.yaml` with a bot policy configured to your needs."
 msgstr ""
+"以上配置中的 ``anubis-data`` 卷预计含有按您的需要配置了 bot 策略的 "
+":file:`botPolicies.yaml` 文件。"
 
 #: ../../admin/install/docker.rst:2419
 msgid ""
 "At minimum, you need to adjust status codes as described in https://"
 "anubis.techaro.lol/docs/admin/configuration/subrequest-auth."
 msgstr ""
+"你至少需要按 https://anubis.techaro.lol/docs/admin/configuration/subrequest-"
+"auth 所述调整状态码。"
 
 #: ../../admin/install/docker.rst:2422
 msgid ""
 "It is also recommended to configure persistent storage backend as described "
 "in https://anubis.techaro.lol/docs/admin/policies/#storage-backends."
 msgstr ""
+"同样推荐按 https://anubis.techaro.lol/docs/admin/policies/#storage-backends "
+"所述配置持久化存储后端。"
 
 #: ../../admin/install/docker.rst:2426
 msgid "You can then turn on the Anubis usage in Weblate using:"
@@ -16100,7 +16130,6 @@ msgstr ""
 "text-translation/reference/v3/reference#base-urls>`_"
 
 #: ../../admin/machine.rst:554
-#, fuzzy
 msgid ""
 "`\"Authenticating with a Multi-service resource\" <https://"
 "learn.microsoft.com/en-us/azure/ai-services/translator/text-translation/"
@@ -16509,6 +16538,9 @@ msgid ""
 "(see :ref:`custom-module` or :ref:`docker-python-override`) and add fully "
 "qualified class name to :setting:`WEBLATE_MACHINERY`."
 msgstr ""
+"你也可以用几行 Python 代码实现自己的机器翻译服务。将代码放在 Weblate 可导入的"
+"模块中（见：:ref:`custom-module` 或 :ref:`docker-python-override`）并添加完全"
+"合格的类名称到 :setting:`WEBLATE_MACHINERY`。"
 
 #: ../../admin/management.rst:4
 msgid "Management commands"
@@ -17083,7 +17115,8 @@ msgstr "可以用下列方法从现有 Django 站点转储用户："
 msgid ""
 "Use :wladmin:`dumpuserdata` for dumping data from other Weblate server as "
 "that includes user settings as well."
-msgstr ""
+msgstr "用 :wladmin:`dumpuserdata` 从其他 Weblate 服务器转储数据，因为这也会包括用户"
+"设置。"
 
 #: ../../admin/management.rst:633
 msgid "Installs an add-on to a set of components."
@@ -19027,6 +19060,8 @@ msgid ""
 "computed, and the Glossary panel (including its “Add term to glossary” "
 "action) is hidden in the editor."
 msgstr ""
+"对这个部件在翻译编辑器中隐藏术语表面板机器匹配项。开启后，不会计算此部件的术"
+"语表建议，并且在编辑器中看不到术语表面板（包括其 \"添加术语到术语表操作“）。"
 
 #: ../../admin/projects.rst:655
 msgid ""
@@ -20125,7 +20160,7 @@ msgstr "联系客服"
 msgid ""
 "If you do not have a support package yet, please refer to the :doc:`/"
 "contributing/issues` section for available community resources."
-msgstr ""
+msgstr "如果还没有支持包，请参考 :doc:`/contributing/issues` 部分获取可用的社区资源。"
 
 #: ../../admin/support.rst:63
 msgid ""
@@ -20162,6 +20197,8 @@ msgid ""
 "care@weblate.org with ID ``0961 62CE 141D 7FE4 B15D A9FA 73D9 298A CB26 "
 "03F0``."
 msgstr ""
+"如果想发送加密内容，请使用 care@weblate.org 的公钥，ID 为 ``0961 62CE 141D "
+"7FE4 B15D A9FA 73D9 298A CB26 03F0``."
 
 #: ../../admin/support.rst:79
 msgid ""
@@ -20169,6 +20206,9 @@ msgid ""
 "WKD or `directly from weblate.org <https://weblate.org/.well-known/"
 "openpgpkey/hu/7oq6zfqsndhzsmw94xm1e5yu8me8sjsx?l=care>`_."
 msgstr ""
+"最常使用的 key 服务器上有这枚公钥，使用 WKD 或 `直接从 weblate.org <https://"
+"weblate.org/.well-known/openpgpkey/hu/"
+"7oq6zfqsndhzsmw94xm1e5yu8me8sjsx?l=care>`_."
 
 #: ../../admin/support.rst:86
 msgid "Discover Weblate"
@@ -20426,6 +20466,9 @@ msgid ""
 "domains are trusted for downloading external assets, "
 "and :setting:`ALLOWED_ASSET_SIZE` which limits maximal size for the asset."
 msgstr ""
+"可以从本地文件上传截屏或提供从外部源下载图片的 URL。根据控制信任哪些域名下载"
+"外部资源的 :setting:`ALLOWED_ASSET_DOMAINS` 设置和限制资源最大大小的 "
+":setting:`ALLOWED_ASSET_SIZE` 设置，基于 URL 的上传可能受到限制。"
 
 #: ../../admin/translating.rst:146
 msgid ""
@@ -23709,13 +23752,16 @@ msgstr ":ref:`download` 中新增多值 CSV 下载用于多值格式。"
 msgid ""
 "New global permissions have been added to control viewing teams, users and "
 "roles without edit rights, see :ref:`privileges`."
-msgstr ""
+msgstr "添加了新的全局权限控制没有编辑权的查看团队、用户和角色，见 :ref:`privileges`"
+"。"
 
 #: ../../changes.rst:12
 msgid ""
 "New ``unit.bulk_edit`` permission for bulk editing operations, replacing the "
 "overloaded use of ``translation.auto`` permission, see :ref:`privileges`."
 msgstr ""
+"新的 ``unit.bulk_edit`` 权限用于批量编辑操作，替代超负荷使用的 "
+"``translation.auto`` 权限，见 :ref:`privileges`。"
 
 #: ../../changes.rst:13
 msgid ":ref:`date-search`."
@@ -23786,6 +23832,8 @@ msgid ""
 "Improved performance for :ref:`check-multiple-failures` and :ref:`check-long-"
 "untranslated` checks with batch operations."
 msgstr ""
+"改进了 :ref:`check-multiple-failures` 和 :ref:`check-long-untranslated` 检查"
+"批量操作的性能。"
 
 #: ../../changes.rst:30
 msgid ":ref:`file_format_params` can now be configured via the :ref:`api`."
@@ -23799,13 +23847,14 @@ msgstr ""
 msgid ""
 "Rate limiting of notification e-mails, configurable "
 "by :setting:`RATELIMIT_NOTIFICATION_LIMITS`."
-msgstr ""
+msgstr "通知邮件速率限制，可通过 :setting:`RATELIMIT_NOTIFICATION_LIMITS` 配置。"
 
 #: ../../changes.rst:33
 msgid ""
 ":guilabel:`Repository maintenance` now supports resetting the repository "
 "while keeping the current state of translations in Weblate."
-msgstr ""
+msgstr ":guilabel:`Repository maintenance` 现在支持重置仓库同时保持 Weblate 中翻译的"
+"当前状态。"
 
 #: ../../changes.rst:34
 msgid ""
@@ -23857,7 +23906,7 @@ msgstr "新译文不一致的文件格式。"
 msgid ""
 "Memory contents imported via the :wladmin:`import_memory` command are marked "
 "as active."
-msgstr ""
+msgstr "通过 :wladmin:`import_memory` 命令导入的记忆库内容被标记为活跃。"
 
 #: ../../changes.rst:44
 msgid "Importing some strings from :doc:`/formats/xliff`."
@@ -23876,7 +23925,7 @@ msgstr "兼容性"
 msgid ""
 "The default attributes for :ref:`saml-auth` in Docker container now matches "
 "non-Docker defaults."
-msgstr ""
+msgstr "Docker 容器中 :ref:`saml-auth` 的默认属性现在匹配非 Docker 默认属性。"
 
 #: ../../changes.rst:49
 msgid ""
@@ -23890,7 +23939,7 @@ msgstr ""
 msgid ""
 "Removed Akismet spam protection integration as it was no longer effective "
 "and used an unmaintained Python library."
-msgstr ""
+msgstr "移除了 Akismet 垃圾邮件保护集成，因其不再有效且使用不维护的 Python 库。"
 
 #: ../../changes.rst:51
 msgid ""
@@ -23898,6 +23947,8 @@ msgid ""
 "handlers, see :class:`weblate.addons.base.BaseAddon`. Adjust any custom "
 "subclass accordingly."
 msgstr ""
+"新的定位变量（`activity_log_id`）传递到附加组件活动处理器，见 "
+":class:`weblate.addons.base.BaseAddon`.。相应调整任何自定义子类。"
 
 #: ../../changes.rst:54 ../../changes.rst:83 ../../changes.rst:108
 #: ../../changes.rst:146 ../../changes.rst:202 ../../changes.rst:243
@@ -35889,6 +35940,10 @@ msgid ""
 "other status. The same privileges of participation are extended to everyone "
 "who participates in good faith and in accordance with this Covenant."
 msgstr ""
+"我们致力于培育尊重和促进所有个体的尊严、权利及贡献的环境，不论包括种族、民族"
+"、阶层、肤色、年龄、身体特征、神经多样性、残疾、性或性别、性别认同或表达、性"
+"取向、语言、哲学或宗教、国籍或出身、社会经济地位、受教育程度或其他状态在内的"
+"特征为何。同等的参与权扩展到每一个本着善意并按照本”契约“参与的个体。"
 
 #: ../../contributing/code_of_conduct.rst:12
 msgid "Encouraged Behaviors"
@@ -35901,12 +35956,15 @@ msgid ""
 "words and actions may be interpreted differently than we intend based on "
 "culture, background, or native language."
 msgstr ""
+"我们承认社会规范的差异，但都奋力满足我们社区对积极行为的预期。我们同样理解受"
+"不同文化、背景或母语的影响，对我们言辞和行为的解读可能和我们的本意存在差异。"
 
 #: ../../contributing/code_of_conduct.rst:16
 msgid ""
 "With these considerations in mind, we agree to behave mindfully toward each "
 "other and act in ways that center our shared values, including:"
-msgstr ""
+msgstr "考虑这些因素，我们同意用心对待彼此，并以我们共同的价值观为中心行事，这些价值"
+"观包括："
 
 #: ../../contributing/code_of_conduct.rst:18
 msgid ""
@@ -35949,25 +36007,26 @@ msgid ""
 "We agree to restrict the following behaviors in our community. Instances, "
 "threats, and promotion of these behaviors are violations of this Code of "
 "Conduct."
-msgstr ""
+msgstr "我们同意在我们的社区中限制下列行为。这些行为的实例、威胁和促进均违反了本行为"
+"准则。"
 
 #: ../../contributing/code_of_conduct.rst:32
 msgid ""
 "**Harassment.** Violating explicitly expressed boundaries or engaging in "
 "unnecessary personal attention after any clear request to stop."
-msgstr ""
+msgstr "**骚扰.** 违反明确表达的界限或在任何明确的停止请求后进行不必要的个人关注。"
 
 #: ../../contributing/code_of_conduct.rst:33
 msgid ""
 "**Character attacks.** Making insulting, demeaning, or pejorative comments "
 "directed at a community member or group of people."
-msgstr ""
+msgstr "**人身攻击.** 针对社区成员或群体发出的侮辱性、贬低性，或贬损性评论。"
 
 #: ../../contributing/code_of_conduct.rst:34
 msgid ""
 "**Stereotyping or discrimination.** Characterizing anyone’s personality or "
 "behavior on the basis of immutable identities or traits."
-msgstr ""
+msgstr "**刻板印象或歧视.** 基于不可更改的身份或特性刻画任何人的性格或行为。"
 
 #: ../../contributing/code_of_conduct.rst:35
 msgid ""
@@ -35979,7 +36038,8 @@ msgstr ""
 msgid ""
 "**Violating confidentiality**. Sharing or acting on someone's personal or "
 "private information without their permission."
-msgstr ""
+msgstr "**违反机密性**. 在没有别人准许的情况下，分享某人的个人或私密信息或按照某人的"
+"个人或私密信息采取行动。"
 
 #: ../../contributing/code_of_conduct.rst:37
 msgid ""
@@ -36000,7 +36060,7 @@ msgstr "其他限制"
 msgid ""
 "**Misleading identity.** Impersonating someone else for any reason, or "
 "pretending to be someone else to evade enforcement actions."
-msgstr ""
+msgstr "**误导性身份.** 处于任何原因伪装成他人，或者假装是别人来逃避强制性操作。"
 
 #: ../../contributing/code_of_conduct.rst:44
 msgid ""
@@ -36012,13 +36072,14 @@ msgstr ""
 msgid ""
 "**Promotional materials**. Sharing marketing or other commercial content in "
 "a way that is outside the norms of the community."
-msgstr ""
+msgstr "**推广性材料**. 以不符社区规范的方式分享营销或其他商业性内容。"
 
 #: ../../contributing/code_of_conduct.rst:46
 msgid ""
 "**Irresponsible communication.** Failing to responsibly present content "
 "which includes, links or describes any other restricted behaviors."
-msgstr ""
+msgstr "**不负责任的沟通.** 未能负责任地呈现包含、链接或描述任何其他受限制行为的内容"
+"。"
 
 #: ../../contributing/code_of_conduct.rst:50
 msgid "Reporting an Issue"
@@ -36030,14 +36091,16 @@ msgid ""
 "best to collaborate. Not every conflict represents a code of conduct "
 "violation, and this Code of Conduct reinforces encouraged behaviors and "
 "norms that can help avoid conflicts and minimize harm."
-msgstr ""
+msgstr "即便尽力协作，社区成员间仍可能发生不睦。并非每个冲突都表示违反行为准则，本行"
+"为准则增强可以帮助避免冲突并最小化危害的受鼓励的行为和规范。"
 
 #: ../../contributing/code_of_conduct.rst:54
 msgid ""
 "When an incident does occur, it is important to report it promptly. To "
 "report a possible violation, please reach the Community Moderators at "
 "community@weblate.org."
-msgstr ""
+msgstr "当确实发生事件时，及时报告很重要。要报告可能的违规，请发邮件到 community@"
+"weblate.org 联系社区协管。"
 
 #: ../../contributing/code_of_conduct.rst:56
 msgid ""
@@ -36051,6 +36114,10 @@ msgid ""
 "involved parties, but communicating to the whole community may be part of a "
 "mutually agreed upon resolution."
 msgstr ""
+"社区协管严肃对待违规举报，将尽力及时回应。协管会调查所有违反行为准则的举报，"
+"审核消息、日志、和记录，或面谈目击者和其他参与者。协管会尽可能让调查和违规处"
+"理操作透明并将安全性和机密性置于优先位置。为了遵守这些价值观，违规处理操作与"
+"有关各方私下进行，但与整个社区沟通可能是双方商定的解决方案的一部分。"
 
 #: ../../contributing/code_of_conduct.rst:60
 msgid "Addressing and Repairing Harm"
@@ -36064,6 +36131,9 @@ msgid ""
 "individuals involved and the community as a whole. Depending on the severity "
 "of a violation, lower rungs on the ladder may be skipped."
 msgstr ""
+"如果社区协管的调查发现本行为准则已被违反，那么基于事件对所涉个体和社区整体的"
+"影响，下列不同等级的强制手段可能被用来确定如何最好地修复危害。取决于违规的严"
+"重程度，较轻的手段可能会被跳过。"
 
 #: ../../contributing/code_of_conduct.rst:64
 msgid "Warning"
@@ -36081,7 +36151,7 @@ msgstr ""
 msgid ""
 "Repair: Examples of repair include a private written apology, "
 "acknowledgement of responsibility, and seeking clarification on expectations."
-msgstr ""
+msgstr "修复：修复示例包括私下的书面道歉、承认责任，并寻求澄清期望。"
 
 #: ../../contributing/code_of_conduct.rst:70
 msgid "Temporarily Limited Activities"
@@ -36091,7 +36161,7 @@ msgstr ""
 msgid ""
 "Event: A repeated incidence of a violation that previously resulted in a "
 "warning, or the first incidence of a more serious violation."
-msgstr ""
+msgstr "事件：反复发生先前导致警告的违规，或者首次发生更加严重的违规。"
 
 #: ../../contributing/code_of_conduct.rst:73
 msgid ""
@@ -36100,14 +36170,16 @@ msgid ""
 "community members involved time to process the incident. The cooldown period "
 "may be limited to particular communication channels or interactions with "
 "particular community members."
-msgstr ""
+msgstr "后果：带限时冷静期的私下的书面警告强调情况的严重性，并给涉及的社区成员时间来"
+"处理事件。冷静期可能限于特定的沟通渠道或与特定社区成员的互动。"
 
 #: ../../contributing/code_of_conduct.rst:74
 msgid ""
 "Repair: Examples of repair may include making an apology, using the cooldown "
 "period to reflect on actions and impact, and being thoughtful about re-"
 "entering community spaces after the period is over."
-msgstr ""
+msgstr "修复：修复示例可能包括道歉、使用冷静期反思行为和影响，思考在冷静期结束后如何"
+"重新进入社区。"
 
 #: ../../contributing/code_of_conduct.rst:76
 msgid "Temporary Suspension"
@@ -36117,7 +36189,7 @@ msgstr ""
 msgid ""
 "Event: A pattern of repeated violation which the Community Moderators have "
 "tried to address with warnings, or a single serious violation."
-msgstr ""
+msgstr "事件：一种屡次违规的模式，社区协管已试图用警告来解决，或者一次严重的违规。"
 
 #: ../../contributing/code_of_conduct.rst:79
 msgid ""
@@ -36125,14 +36197,16 @@ msgid ""
 "suspension. In general, temporary suspensions give the person being "
 "suspended time to reflect upon their behavior and possible corrective "
 "actions."
-msgstr ""
+msgstr "后果：私下的书面警告，含从暂停状态回归社区的条件。一般来说，临时暂停给予被暂"
+"停者时间来反思自身行为和可能的改正行动。"
 
 #: ../../contributing/code_of_conduct.rst:80
 msgid ""
 "Repair: Examples of repair include respecting the spirit of the suspension, "
 "meeting the specified conditions for return, and being thoughtful about how "
 "to reintegrate with the community when the suspension is lifted."
-msgstr ""
+msgstr "修复：修复示例包括尊重暂停精神、满足指定的回归条件，思考当暂停解除时如何重新"
+"融入社区。"
 
 #: ../../contributing/code_of_conduct.rst:82
 msgid "Permanent Ban"
@@ -36144,7 +36218,8 @@ msgid ""
 "the ladder have failed to resolve, or a violation so serious that the "
 "Community Moderators determine there is no way to keep the community safe "
 "with this person as a member."
-msgstr ""
+msgstr "事件：一再违反行为准则的模式，其他的强制手段均未能解决问题，或者单次违规，但"
+"相当严重以至社区协管确定有违规者存在就无法保证社区的安全。"
 
 #: ../../contributing/code_of_conduct.rst:85
 msgid ""
@@ -36153,6 +36228,9 @@ msgid ""
 "should have strong reasoning behind them, and should only be resorted to if "
 "working through other remedies has failed to change the behavior."
 msgstr ""
+"后果：移除对所有社区空间、工具和沟通渠道的访问权限。一般而言，永久封禁应该少"
+"用，应该有强有力的理由，并且应该只在其他补救措施均未能改变行为的情况下才诉诸"
+"实施。"
 
 #: ../../contributing/code_of_conduct.rst:86
 msgid "Repair: There is no possible repair in cases of this severity."
@@ -36163,7 +36241,8 @@ msgid ""
 "This enforcement ladder is intended as a guideline. It does not limit the "
 "ability of Community Managers to use their discretion and judgment, in "
 "keeping with the best interests of our community."
-msgstr ""
+msgstr "本强制措施阶梯意在作为指引，不限制社区管理者使用自主决定权和裁量权的能力，最"
+"大程度确保我们社区的利益。"
 
 #: ../../contributing/code_of_conduct.rst:94
 msgid ""
@@ -36173,6 +36252,9 @@ msgid ""
 "official email address, posting via an official social media account, or "
 "acting as an appointed representative at an online or offline event."
 msgstr ""
+"本行为规范在所有社区空间内适用，在个体在公共或其它空间正式代表社区时同样适用"
+"。代表我们社区的例子包括使用官方邮件地址、通过官方社媒账户发文，或在线上或线"
+"下活动中充当指定代表。"
 
 #: ../../contributing/code_of_conduct.rst:98
 msgid "Attribution"
@@ -36183,6 +36265,8 @@ msgid ""
 "This Code of Conduct is adapted from the Contributor Covenant, version 3.0, "
 "permanently available at https://www.contributor-covenant.org/version/3/0/."
 msgstr ""
+"本行为准则修改自 3.0 版本的贡献者契约，其永久链接为 https://"
+"www.contributor-covenant.org/version/3/0/。"
 
 #: ../../contributing/code_of_conduct.rst:102
 msgid ""
@@ -36190,6 +36274,8 @@ msgid ""
 "licensed under CC BY-SA 4.0. To view a copy of this license, visit https://"
 "creativecommons.org/licenses/by-sa/4.0/"
 msgstr ""
+"贡献者契约由 Organization for Ethical Source 管理并在 CC BY-SA 4.0 下许可。要"
+"查看该许可证的副本，请访问 https://creativecommons.org/licenses/by-sa/4.0/"
 
 #: ../../contributing/code_of_conduct.rst:104
 msgid ""
@@ -36200,6 +36286,11 @@ msgid ""
 "covenant.org/resources. The enforcement ladder was inspired by the work of "
 "`Mozilla’s code of conduct team <https://github.com/mozilla/inclusion>`_."
 msgstr ""
+"要寻找贡献者契约常见问题的答复，请访问 https://www.contributor-covenant.org/"
+"faq 中的 FAQ 部分。译文见 https://www.contributor-covenant.org/translations。"
+"可以在 https://www.contributor-covenant.org/resources 找到额外的强制措施和社"
+"区指南资源。强制措施阶梯受 `Mozilla 的行为准则团队 <https://github.com/"
+"mozilla/inclusion>`_ 工作的启发。"
 
 #: ../../contributing/communication.rst:2
 msgid "Weblate Contributor Communication Guidelines"
@@ -37284,9 +37375,8 @@ msgid "Extending built-in language definitions"
 msgstr "扩展内置语言定义"
 
 #: ../../contributing/modules.rst:20
-#, fuzzy
 msgid "The language definitions are in the `language-data`_ repository."
-msgstr "语言定义在 `language-data`_ 仓库。"
+msgstr "语言定义位于 `language-data`_ 仓库。"
 
 #: ../../contributing/modules.rst:22
 msgid ""
@@ -38701,6 +38791,10 @@ msgid ""
 "using the :guilabel:`Update source strings` upload method. "
 "See :ref:`updating-target-files` for details."
 msgstr ""
+"使用 Weblate 时，你通常无需手动运行 msgmerge。Weblate 可以通过 :ref:`addon-"
+"weblate.gettext.msgmerge` 附加组件自动处理这个，或者你可以用 :guilabel:`"
+"Update source strings` 上传方法上传更新的 POT 文件。详见 :ref:`updating-"
+"target-files`。"
 
 #: ../../devel/gettext.rst:222
 msgid "Importing to Weblate"
@@ -39247,6 +39341,9 @@ msgid ""
 "automatically runs :program:`msgmerge` to update all PO files whenever the "
 "POT file changes."
 msgstr ""
+"**用附加组件自动进行** （持续更新建议使用）: 安装 :ref:`addon-"
+"weblate.gettext.msgmerge` 附加组件，每当 POT 文件更改时，它会自动运行 "
+":program:`msgmerge` 来更新所有 POT 文件。"
 
 #: ../../devel/integration.rst:109
 msgid ""
@@ -39254,6 +39351,8 @@ msgid ""
 "strings` :ref:`upload-method` to upload your POT file, which will merge it "
 "with existing translations."
 msgstr ""
+"**通过上传手动进行**: 使用 :guilabel:`Update source strings` :ref:`upload-"
+"method` 来上传 POT 文件，这会将它和现有译文合并。"
 
 #: ../../devel/integration.rst:114
 msgid ""
