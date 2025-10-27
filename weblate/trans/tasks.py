@@ -35,7 +35,7 @@ from weblate.auth.models import AuthenticatedHttpRequest, User, get_anonymous
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
 from weblate.trans.actions import ActionEvents
-from weblate.trans.autotranslate import AutoTranslate
+from weblate.trans.autotranslate import BatchAutoTranslate
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.functions import MySQLTimestampAdd
 from weblate.trans.models import (
@@ -54,7 +54,7 @@ from weblate.utils.db import using_postgresql
 from weblate.utils.errors import report_error
 from weblate.utils.files import remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
-from weblate.utils.stats import prefetch_stats
+from weblate.utils.stats import ProjectLanguage, prefetch_stats
 from weblate.utils.views import parse_path
 from weblate.vcs.base import RepositoryError
 
@@ -515,7 +515,6 @@ def project_removal(pk: int, uid: int | None) -> None:
 def auto_translate(
     *,
     user_id: int | None,
-    translation_id: int,
     mode: str,
     q: str,
     auto_source: Literal["mt", "others"],
@@ -524,13 +523,37 @@ def auto_translate(
     threshold: int,
     component_wide: bool = False,
     unit_ids: list[int] | None = None,
+    **kwargs,
 ):
-    translation = Translation.objects.get(pk=translation_id)
+    result = {}
+    if "translation_id" in kwargs:
+        obj = Translation.objects.get(pk=kwargs["translation_id"])
+        result["translation"] = obj.id
+    elif "component_id" in kwargs:
+        obj = Component.objects.get(pk=kwargs["component_id"])
+        result["component"] = obj.id
+    elif "category_id" in kwargs:
+        obj = Category.objects.get(pk=kwargs["category_id"])
+        result["category"] = obj.id
+    elif "project_id" in kwargs:
+        if "language_id" not in kwargs:
+            msg = "language_id must be provided when project_id is given"
+            raise ValueError(msg)
+        obj = ProjectLanguage(
+            project=Project.objects.get(pk=kwargs["project_id"]),
+            language=Language.objects.get(pk=kwargs["language_id"]),
+        )
+        result["project"] = obj.project.id
+        result["language"] = obj.language.id
+    else:
+        msg = "One of translation_id, component_id, category_id, or project_id must be provided"
+        raise ValueError(msg)
+
     user = User.objects.get(pk=user_id) if user_id else None
     with override(user.profile.language if user else "en"):
-        auto = AutoTranslate(
+        auto = BatchAutoTranslate(
+            obj,
             user=user,
-            translation=translation,
             q=q,
             mode=mode,
             component_wide=component_wide,
@@ -542,7 +565,8 @@ def auto_translate(
             threshold=threshold,
             source=component,
         )
-        return {"translation": translation_id, "message": message}
+        result.update({"message": message})
+        return result
 
 
 @app.task(
@@ -561,24 +585,19 @@ def auto_translate_component(
     component: int | None = None,
 ):
     component_obj = Component.objects.get(pk=component_id)
-
-    for translation in component_obj.translation_set.iterator():
-        if translation.is_source:
-            continue
-
-        auto = AutoTranslate(
-            user=None,
-            translation=translation,
-            q=q,
-            mode=mode,
-            component_wide=True,
-        )
-        auto.perform(
-            auto_source=auto_source,
-            engines=engines,
-            threshold=threshold,
-            source=component,
-        )
+    auto = BatchAutoTranslate(
+        component_obj,
+        user=None,
+        q=q,
+        mode=mode,
+        component_wide=True,
+    )
+    auto.perform(
+        auto_source=auto_source,
+        engines=engines,
+        threshold=threshold,
+        source=component,
+    )
     component_obj.update_source_checks()
     component_obj.run_batched_checks()
     return {"component": component_obj.id}

@@ -9,6 +9,7 @@ from django.core.management.base import CommandError
 from django.test.utils import override_settings
 from django.urls import reverse
 
+from weblate.lang.models import Language
 from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.db import TransactionsTestMixin
@@ -44,12 +45,15 @@ class AutoTranslationTest(ViewTestCase):
         )
         self.assertRedirects(response, self.translation_url)
 
-    def make_different(self) -> None:
-        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+    def make_different(self, language: str = "cs") -> None:
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n", language=language)
 
-    def perform_auto(self, expected=1, expected_count=None, **kwargs) -> None:
+    def perform_auto(
+        self, expected=1, expected_count=None, path_params=None, **kwargs
+    ) -> None:
         self.make_different()
-        path_params = {"path": [*self.component2.get_url_path(), "cs"]}
+        if path_params is None:
+            path_params = {"path": [*self.component2.get_url_path(), "cs"]}
         url = reverse("auto_translation", kwargs=path_params)
         kwargs["auto_source"] = "others"
         kwargs["threshold"] = "100"
@@ -61,6 +65,11 @@ class AutoTranslationTest(ViewTestCase):
         if expected == 1:
             self.assertContains(
                 response, "Automatic translation completed, 1 string was updated."
+            )
+        elif expected > 1:
+            self.assertContains(
+                response,
+                f"Automatic translation completed, {expected} strings were updated.",
             )
         else:
             self.assertContains(
@@ -97,6 +106,46 @@ class AutoTranslationTest(ViewTestCase):
 
     def test_overwrite(self) -> None:
         self.perform_auto(overwrite="1")
+
+    def test_autotranslate_component(self) -> None:
+        self.make_different("de")
+        de_translation = self.component2.translation_set.get(language_code="de")
+        initial_stats = de_translation.stats.translated
+        self.perform_auto(
+            path_params={"path": self.component2.get_url_path()},
+            expected=2,
+            expected_count=1,  # we only expect one new translation in 'cs'
+        )
+        de_translation.invalidate_cache()
+        self.assertEqual(de_translation.stats.translated, initial_stats + 1)
+
+    def test_autotranslate_category(self) -> None:
+        category = self.create_category(project=self.project)
+        self.component.category = self.component2.category = category
+        self.component.save()
+        self.component2.save()
+        self.make_different("de")
+        self.perform_auto(
+            path_params={"path": category.get_url_path()},
+            expected=2,
+            expected_count=1,  # we only expect one new translation in 'cs'
+        )
+
+    def test_autotranslate_project(self) -> None:
+        from weblate.utils.stats import ProjectLanguage
+
+        project_language = ProjectLanguage(
+            self.project,
+            language=Language.objects.get(code="cs"),
+        )
+        self.make_different("de")
+
+        # check that only the "cs" translation is affected
+        self.perform_auto(
+            path_params={"path": project_language.get_url_path()},
+            expected_count=1,
+            expected=1,
+        )
 
     def test_labeling(self) -> None:
         self.perform_auto(overwrite="1")

@@ -66,8 +66,8 @@ class AutoTranslateAddon(BaseAddon):
                 threshold=conf["threshold"],
                 component=conf["component"],
                 user_id=user_id,
-                translation_id=translation_id,
                 unit_ids=unit_ids,
+                translation_id=translation_id,
             )
         else:
             auto_translate_component.delay_on_commit(

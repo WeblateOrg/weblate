@@ -19,7 +19,7 @@ from weblate.machinery.base import (
 )
 from weblate.machinery.models import MACHINERY
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Component, Suggestion, Unit
+from weblate.trans.models import Category, Component, Suggestion, Translation, Unit
 from weblate.trans.util import split_plural
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -27,47 +27,67 @@ from weblate.utils.state import (
     STATE_READONLY,
     STATE_TRANSLATED,
 )
+from weblate.utils.stats import ProjectLanguage
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
+
     from weblate.auth.models import User
     from weblate.machinery.base import (
         BatchMachineTranslation,
         UnitMemoryResultDict,
     )
-    from weblate.trans.models import Translation
     from weblate.utils.state import (
         StringState,
     )
 
 
-class AutoTranslate:
+class BaseAutoTranslate:
+    updated: int = 0
+
     def __init__(
         self,
         *,
         user: User | None,
-        translation: Translation,
         q: str,
         mode: str,
         component_wide: bool = False,
         unit_ids: list[int] | None = None,
+        **kwargs,
     ) -> None:
         self.user: User | None = user
-        self.translation: Translation = translation
-        translation.component.batch_checks = True
-
-        self.unit_ids: list[int] | None = unit_ids
-
         self.q: str = q
         self.mode: str = mode
+        self.component_wide: bool = component_wide
+        self.unit_ids: list[int] | None = unit_ids
+
+    def get_message(self) -> str:
+        if self.updated == 0:
+            return gettext("Automatic translation completed, no strings were updated.")
+        return (
+            ngettext(
+                "Automatic translation completed, %d string was updated.",
+                "Automatic translation completed, %d strings were updated.",
+                self.updated,
+            )
+            % self.updated
+        )
+
+
+class AutoTranslate(BaseAutoTranslate):
+    def __init__(self, *, translation: Translation, **kwargs) -> None:
+        super().__init__(**kwargs)
+        self.translation: Translation = translation
+        translation.component.batch_checks = True
         self.updated = 0
         self.progress_steps = 0
         self.progress_base = 0
         self.target_state = STATE_TRANSLATED
-        if mode == "fuzzy":
+        if self.mode == "fuzzy":
             self.target_state = STATE_FUZZY
-        elif mode == "approved" and translation.enable_review:
+        elif self.mode == "approved" and translation.enable_review:
             self.target_state = STATE_APPROVED
-        self.component_wide: bool = component_wide
+        self.component_wide: bool = self.component_wide
 
     def get_units(self):
         units = self.translation.unit_set.exclude(state=STATE_READONLY)
@@ -324,13 +344,68 @@ class AutoTranslate:
 
         translation.log_info("completed automatic translation")
 
-        if self.updated == 0:
-            return gettext("Automatic translation completed, no strings were updated.")
-        return (
-            ngettext(
-                "Automatic translation completed, %d string was updated.",
-                "Automatic translation completed, %d strings were updated.",
-                self.updated,
-            )
-            % self.updated
+        return self.get_message()
+
+
+class BatchAutoTranslate(BaseAutoTranslate):
+    updated: int = 0
+    translations: Iterable[Translation]
+
+    def __init__(
+        self,
+        obj: Translation | Component | Category | ProjectLanguage,
+        *,
+        user: User | None,
+        q: str,
+        mode: str,
+        component_wide: bool = False,
+        unit_ids: list[int] | None = None,
+    ) -> None:
+        super().__init__(
+            user=user,
+            q=q,
+            mode=mode,
+            component_wide=component_wide,
+            unit_ids=unit_ids,
         )
+
+        match obj:
+            case Translation():
+                self.translations = [obj]
+            case Component():
+                self.translations = obj.translation_set.exclude_source()
+            case Category():
+                self.translations = Translation.objects.filter(component__category=obj)
+            case ProjectLanguage():
+                self.translations = obj.translation_set
+            case _:
+                msg = "Unsupported object type for BatchAutoTranslate"
+                raise ValueError(msg)
+
+    def perform(
+        self,
+        *,
+        auto_source: Literal["mt", "others"],
+        engines: list[str],
+        threshold: int,
+        source: int | None,
+    ) -> str:
+        for translation in self.translations:
+            auto_translate = AutoTranslate(
+                user=self.user,
+                translation=translation,
+                q=self.q,
+                mode=self.mode,
+                component_wide=self.component_wide,
+                unit_ids=self.unit_ids,
+            )
+
+            auto_translate.perform(
+                auto_source=auto_source,
+                engines=engines,
+                threshold=threshold,
+                source=source,
+            )
+            self.updated += auto_translate.updated
+
+        return self.get_message()
