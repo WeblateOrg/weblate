@@ -162,8 +162,10 @@ via SSH using the Weblate SSH key:
 2. Install the SSH server on it (you will get it by default with most Linux distributions).
 3. Install `BorgBackup`_ on that server; most Linux distributions have packages available (see :doc:`borg:installation`).
 4. Choose an existing user or create a new user that will be used for backing up.
-5. Add Weblate SSH key to the user so that Weblate can SSH to the server without a password (see :ref:`weblate-ssh-key`).
-6. Configure the backup location in Weblate as ``user@host:/path/to/backups`` or ``ssh://user@host:port/path/to/backups``.
+5. Add Weblate SSH key to the user's `.ssh/authorized_keys` file, so that Weblate can SSH to the server without a password (see :ref:`weblate-ssh-key`).
+6. Create a user-writable directory where Weblate can remotely set up the Borg translation repository, for example in the home directory (i.e. ``/home/borg/backups``)
+7. Configure the backup location in Weblate as ``user@host:/home/borg/backups`` or ``ssh://user@host:port/home/borg/backups``.
+8. After Weblate has initiated the repository there (which might take a moment for the Celery backup worker to process), you can manually trigger a backup from the Weblate UI.
 
 .. hint::
 
