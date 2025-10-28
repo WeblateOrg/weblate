@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-27 07:35+0000\n"
-"PO-Revision-Date: 2025-09-28 19:02+0000\n"
+"PO-Revision-Date: 2025-10-29 05:56+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -16,9 +16,10 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.14-dev\n"
+"Plural-Forms: nplurals=3; plural="
+"(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? "
+"1 : 2);\n"
+"X-Generator: Weblate 5.14.1-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -1329,10 +1330,9 @@ msgid "The supplied username is already in use for another account."
 msgstr "Navedeno korisničko ime koristi se već za jedan drugi račun."
 
 #: weblate/accounts/views.py:1499
-#, fuzzy, python-format
-#| msgid "Authentication app (%s)"
+#, python-format
 msgid "Authentication failed: %s"
-msgstr "Aplikacija za autentifikaciju (%s)"
+msgstr "Neuspjela autentifikacija: %s"
 
 #: weblate/accounts/views.py:1505
 msgid "The supplied user identity is already in use for another account."
@@ -1532,25 +1532,19 @@ msgid "Bulk edit flags, labels, or states of strings."
 msgstr "Skupno uređivanje oznaka, etiketa ili stanja izraza."
 
 #: weblate/addons/flags.py:134
-#, fuzzy
-#| msgid "Flag unchanged translations as \"Needs editing\""
 msgid "Flag updated translations from repository as \"Needs editing\""
-msgstr "Označi nepromijenjene prijevode s oznakom „Treba urediti”"
+msgstr ""
+"Označi aktualizirane prijevode iz ropozitorija s oznakom „Treba urediti”"
 
 #: weblate/addons/flags.py:137
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS, it is "
-#| "flagged as needing editing in Weblate. This way you can easily filter and "
-#| "edit translations created by the developers."
 msgid ""
 "Whenever a string translation is changed from the VCS, it is flagged as "
 "needing editing in Weblate. Especially useful if translation files are often "
 "updated manually or by an external service."
 msgstr ""
-"Kada god se uveze novi prevodiv izraz iz sustava za kontrolu verzija, on se "
-"u Weblateu označava s oznakom da ga se treba urediti. Na taj način možeš "
-"jednostavno filtrirati i urediti prijevode koje su napisali programeri."
+"Kada god se promijeni prijevod izraza iz sustava za kontrolu verzija, on se "
+"u Weblateu označava s oznakom da ga se treba urediti. Posebno korisno ako se "
+"prevodilačke datoteke često aktualiziraju ručno ili putem eksterne usluge."
 
 #: weblate/addons/forms.py:59
 msgid "Path of generated MO file"
@@ -2127,10 +2121,8 @@ msgid "Reset all changes in the Weblate repository"
 msgstr "Resetiraj sve promjene u Weblate repozitoriju"
 
 #: weblate/api/serializers.py:1079 weblate/templates/js/git-status.html:155
-#, fuzzy
-#| msgid "Define the base file for new translations"
 msgid "Reset the Weblate repository and reapply translations"
-msgstr "Odredi osnovnu datoteku za nove prijevode"
+msgstr "Resetiraj Weblate repozitorij i ponovo primijeni prijevode"
 
 #: weblate/api/serializers.py:1083 weblate/templates/js/git-status.html:166
 msgid "Cleanup all untracked files in the Weblate repository"
@@ -2396,10 +2388,8 @@ msgstr "Pregledaj izraze"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:75
-#, fuzzy
-#| msgid "Edit strings"
 msgid "Bulk edit strings"
-msgstr "Uredi izraze"
+msgstr "Izrazi skupnog uređivanja"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:77
@@ -2533,10 +2523,8 @@ msgstr "Upravljaj timovima"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:135
-#, fuzzy
-#| msgid "View billing info"
 msgid "View team info"
-msgstr "Pogledaj podatke naplate"
+msgstr "Pogledaj podatke tima"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:137 weblate/templates/manage/users.html:18
@@ -2545,10 +2533,8 @@ msgstr "Upravljaj korisnicima"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:139
-#, fuzzy
-#| msgid "View billing info"
 msgid "View user info"
-msgstr "Pogledaj podatke naplate"
+msgstr "Pogledaj podatke korisnika"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:141
@@ -2557,10 +2543,8 @@ msgstr "Upravljaj ulogama"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:143
-#, fuzzy
-#| msgid "View billing info"
 msgid "View role info"
-msgstr "Pogledaj podatke naplate"
+msgstr "Pogledaj podatke uloge"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:145
@@ -2644,8 +2628,6 @@ msgid "Manage languages"
 msgstr "Upravljaj jezicima"
 
 #: weblate/auth/data.py:241
-#, fuzzy
-#| msgid "Bulk edit"
 msgctxt "Access-control role"
 msgid "Bulk editing"
 msgstr "Skupno uređivanje"
@@ -2751,8 +2733,6 @@ msgid "Screenshots"
 msgstr "Snimke ekrana"
 
 #: weblate/auth/data.py:315
-#, fuzzy
-#| msgid "Bulk edit"
 msgctxt "Per-project access-control team name"
 msgid "Bulk editing"
 msgstr "Skupno uređivanje"
@@ -3298,10 +3278,8 @@ msgid "Billing"
 msgstr "Naplata"
 
 #: weblate/billing/models.py:681 weblate/templates/billing/detail.html:119
-#, fuzzy
-#| msgid "Billing overview"
 msgid "Billing event"
-msgstr "Pregled naplate"
+msgstr "Događaj naplate"
 
 #: weblate/billing/tasks.py:73
 msgid ""
@@ -4721,10 +4699,8 @@ msgid "CSV"
 msgstr "CSV"
 
 #: weblate/formats/exporters.py:258
-#, fuzzy
-#| msgid "Multivalue CSV file (UTF-8)"
 msgid "Multivalue CSV"
-msgstr "CSV datoteka s više vrijednosti u poljima (UTF-8)"
+msgstr "CSV s više vrijednosti"
 
 #: weblate/formats/exporters.py:325
 msgid "XLSX"
@@ -7144,10 +7120,6 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/accounts/removal.html:39
-#, fuzzy
-#| msgid ""
-#| "By pressing following button, your will no longer be able to use this "
-#| "account."
 msgid ""
 "By pressing the following button, you will no longer be able to use this "
 "account."
@@ -7155,10 +7127,6 @@ msgstr ""
 "Pritiskom sljedećeg gumba više nećeš biti u stanju koristiti ovaj račun."
 
 #: weblate/templates/accounts/removal.html:43
-#, fuzzy
-#| msgid ""
-#| "You will have to confirm account removal by clicking link in e-mail you "
-#| "will receive."
 msgid ""
 "You will have to confirm the account removal by clicking the link in the e-"
 "mail you will receive."
@@ -7344,10 +7312,9 @@ msgid "Never signed-in"
 msgstr "Nikada prijavljen"
 
 #: weblate/templates/accounts/user.html:37
-#, fuzzy, python-format
-#| msgid "Joined on %(date)s"
+#, python-format
 msgid "Account expires on %(date)s"
-msgstr "Datum pridruživanja: %(date)s"
+msgstr "Račun isteče %(date)s"
 
 #: weblate/templates/accounts/user.html:57
 #: weblate/templates/snippets/plural.html:11
@@ -8329,10 +8296,8 @@ msgid "No invoices found."
 msgstr "Nema računa."
 
 #: weblate/templates/billing/detail.html:120
-#, fuzzy
-#| msgid "View details"
 msgid "Event details"
-msgstr "Pogledaj detalje"
+msgstr "Detalji događaja"
 
 #: weblate/templates/billing/detail.html:144
 msgid "Libre hosting"
@@ -9438,23 +9403,15 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/js/git-status.html:146
-#, fuzzy
-#| msgid ""
-#| "Describe the context of the translation to improve the accuracy of the "
-#| "translation."
 msgid "Use when you want the upstream to be the authority for translations."
-msgstr "Opiši kontekst prijevoda za poboljšavanje točnosti prijevoda."
+msgstr "Koristi kada želiš da glavna grana bude autoritet za prijevode."
 
 #: weblate/templates/js/git-status.html:147
-#, fuzzy
-#| msgid ""
-#| "Use when you want to discard changes in Weblate and bring it in sync with "
-#| "upstream repository."
 msgid ""
 "It will discard changes in Weblate repo and bring it in sync with the "
 "upstream repository."
 msgstr ""
-"Koristi kada želiš odbaciti promjene u Weblateu i sinkronizirati ga s "
+"Odbacit će promjene u Weblateu repozitoriju i sinkronizirat će ga s "
 "repozitorijem glavne grane."
 
 #: weblate/templates/js/git-status.html:154
@@ -9468,21 +9425,15 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/js/git-status.html:158
-#, fuzzy
-#| msgid "Memory will be then populated with the current translations."
 msgid "Use when you want Weblate to be the authority for translations."
-msgstr "Memorija će se tada popuniti s trenutačnim prijevodom."
+msgstr "Koristi kada želiš da Weblate bude autoritet za prijevode."
 
 #: weblate/templates/js/git-status.html:159
-#, fuzzy
-#| msgid ""
-#| "Use when you want to discard changes in Weblate and bring it in sync with "
-#| "upstream repository."
 msgid ""
 "It will keep changes from Weblate but bring its repository in sync with the "
 "upstream repository."
 msgstr ""
-"Koristi kada želiš odbaciti promjene u Weblateu i sinkronizirati ga s "
+"Zadržat će promjene u Weblateu repozitoriju i sinkronizirat će ga s "
 "repozitorijem glavne grane."
 
 #: weblate/templates/js/git-status.html:165
@@ -10642,36 +10593,28 @@ msgid "Celery queues"
 msgstr "Celery redovi čekanja"
 
 #: weblate/templates/manage/performance.html:132
-#, fuzzy
-#| msgid "HTTP Response"
 msgid "HTTP environment"
-msgstr "HTTP odgovor"
+msgstr "HTTP okruženje"
 
 #: weblate/templates/manage/performance.html:139
 msgid "Observed value"
-msgstr ""
+msgstr "Opažena vrijednost"
 
 #: weblate/templates/manage/performance.html:140
-#, fuzzy
-#| msgid "Configure"
 msgid "Configured value"
-msgstr "Podesi"
+msgstr "Configurirana vrijednost"
 
 #: weblate/templates/manage/performance.html:145
-#, fuzzy
-#| msgid "IP address"
 msgid "Client IP address"
-msgstr "IP adresa"
+msgstr "IP adresa klijenta"
 
 #: weblate/templates/manage/performance.html:152
-#, fuzzy
-#| msgid "HTTP headers"
 msgid "HTTP host"
-msgstr "HTTP zaglavlja"
+msgstr "HTTP host"
 
 #: weblate/templates/manage/performance.html:161
 msgid "HTTP protocol"
-msgstr ""
+msgstr "HTTP protokol"
 
 #: weblate/templates/manage/performance.html:204
 msgid "System encoding"
@@ -10728,10 +10671,8 @@ msgid "Show components with linked repositories"
 msgstr "Prikaži komponente s povezanim repozitorijima"
 
 #: weblate/templates/manage/repos.html:19
-#, fuzzy
-#| msgid "Show components with linked repositories"
 msgid "Show components without a remote VCS"
-msgstr "Prikaži komponente s povezanim repozitorijima"
+msgstr "Prikaži komponente bez udaljenog sustava za kontrolu verzija"
 
 #: weblate/templates/manage/repos.html:27
 msgid "This repository is linked to:"
@@ -11176,10 +11117,9 @@ msgid "Add label"
 msgstr "Dodaj etiketu"
 
 #: weblate/templates/project.html:167
-#, fuzzy, python-format
-#| msgid "Manage teams"
+#, python-format
 msgid "Manage %(team)s"
-msgstr "Upravljaj timovima"
+msgstr "Upravljaj %(team)s"
 
 #: weblate/templates/project.html:379
 msgid "Organize project"
@@ -11517,10 +11457,8 @@ msgid "This term should not be translated."
 msgstr "Ovaj izraz ne treba prevoditi."
 
 #: weblate/templates/snippets/glossary.html:5
-#, fuzzy
-#| msgid "This translation is locked."
 msgid "This translation needs editing."
-msgstr "Ovaj je prijevod zaključan."
+msgstr "Ovaj prijevod treba urediti."
 
 #: weblate/templates/snippets/glossary.html:5
 msgid "Copy word into translation"
@@ -15323,10 +15261,8 @@ msgid "Exclude author (username)"
 msgstr "Isključi autora (korisničko ime)"
 
 #: weblate/trans/forms.py:3062
-#, fuzzy
-#| msgid "Date joined"
 msgid "Date range"
-msgstr "Datum pridruživanja"
+msgstr "Raspon datuma"
 
 #: weblate/trans/forms.py:3145
 msgid "Expiry cannot be in the past."
@@ -15875,16 +15811,12 @@ msgid "Locked component will not get any translation updates."
 msgstr "Zaključana komponenta neće dobiti aktualizirane prijevode."
 
 #: weblate/trans/models/component.py:558
-#, fuzzy
-#| msgid "Does not follow glossary"
 msgid "Do not show glossary matches"
-msgstr "Ne odgovara glosaru"
+msgstr "Ne prikazuj podudaranja s glosarom"
 
 #: weblate/trans/models/component.py:560
-#, fuzzy
-#| msgid "Focus on translation editor."
 msgid "Hides the glossary panel in the translation editor."
-msgstr "Postavi fokus na uređivač prijevoda."
+msgstr "Skriva ploču s glosarom u uređivaču prijevoda."
 
 #: weblate/trans/models/component.py:563
 msgid "Allow translation propagation"
@@ -17129,18 +17061,16 @@ msgid "Source upload is only supported on the source language."
 msgstr "Prijenos izvora je podržan samo na izvornom jeziku."
 
 #: weblate/trans/util.py:388
-#, fuzzy
-#| msgid "Source upload is only supported on the source language."
 msgid ""
 "Source upload is only supported for bilingual translations, you might want "
 "to use replace upload instead."
-msgstr "Prijenos izvora je podržan samo na izvornom jeziku."
+msgstr ""
+"Prijenos izvora je podržan samo za dvojezične prijevode. Umjesto toga mođeš "
+"koristiti prijenos zamjene."
 
 #: weblate/trans/util.py:394
-#, fuzzy
-#| msgid "Editing template is not supported with this file format."
 msgid "Update source strings upload is not supported with this format."
-msgstr "Ovaj format datoteka ne podržava uređivanje predloška."
+msgstr "Aktualiziranje prijenosa izvornih izraza nije podržan u ovom formatu."
 
 #: weblate/trans/validators.py:22
 msgid "File mask does not contain * as a language placeholder!"
@@ -17179,10 +17109,9 @@ msgid "File format parameters must be a dictionary of key-value pairs."
 msgstr ""
 
 #: weblate/trans/validators.py:84
-#, fuzzy, python-format
-#| msgid "File format parameters"
+#, python-format
 msgid "Unknown file format parameter: \"%(param_name)s\"."
-msgstr "Parametri formata datoteke"
+msgstr "Nepoznat parametar formata datoteke: „%(param_name)s”."
 
 #: weblate/trans/views/about.py:22
 msgid "Keys"
