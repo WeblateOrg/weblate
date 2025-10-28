@@ -416,7 +416,7 @@ if WEBLATE_SAML_IDP_ENTITY_ID:
     WEBLATE_SAML_IDP = {
         "entity_id": WEBLATE_SAML_IDP_ENTITY_ID,
         "url": get_env_str("WEBLATE_SAML_IDP_URL"),
-        "x508cert": get_env_str("WEBLATE_SAML_IDP_X509CERT"),
+        "x509cert": get_env_str("WEBLATE_SAML_IDP_X509CERT"),
     }
 
     for field in (
