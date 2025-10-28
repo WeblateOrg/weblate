@@ -28,7 +28,7 @@ from weblate.utils.pii import mask_email
 if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
 
-    from weblate.trans.models.change import Change
+    from weblate.trans.models.change import Change, Translation
 
 AUTO_ACTIONS = {
     # Translators: Name of event in the history
@@ -366,6 +366,7 @@ class BaseChangeHistoryContext:
 
     def __init__(self, change: Change) -> None:
         self.change = change
+        self.fields = []
 
     def get_context(self) -> dict[str, Any]:
         """Get context for rendering change history."""
@@ -414,6 +415,17 @@ class BaseChangeHistoryContext:
             count,
         ) % {"count": count}
 
+    def add_context_field(self, translation: Translation) -> None:
+        if context := self.change.details.get("context"):
+            self.fields.append(
+                self.make_field(
+                    gettext("Context"),
+                    self.format_translation(
+                        format_language_string(context, translation)
+                    ),
+                )
+            )
+
 
 class ShowChangeTarget(BaseChangeHistoryContext):
     """Display the target of a change in the history context."""
@@ -440,7 +452,7 @@ class ShowChangeContent(BaseChangeHistoryContext):
 
     def get_change_details_fields(self) -> list[dict]:
         """Return the fields to be displayed in the change history."""
-        fields = []
+        self.fields = []
         change = self.change
         if change.unit is None:
             msg = "Change does not contain unit, can not render content!"
@@ -449,7 +461,7 @@ class ShowChangeContent(BaseChangeHistoryContext):
 
         # rejection reason field
         if "rejection_reason" in change.details:
-            fields.append(
+            self.fields.append(
                 self.make_field(
                     gettext("Rejection reason"),
                     format_html(
@@ -460,7 +472,7 @@ class ShowChangeContent(BaseChangeHistoryContext):
             )
 
         # source language field
-        fields.append(
+        self.fields.append(
             self.make_field(
                 str(unit.translation.component.source_language),
                 self.format_translation(
@@ -484,7 +496,7 @@ class ShowChangeContent(BaseChangeHistoryContext):
                 gettext("State: %(state)s") % {"state": state}
             )
 
-        fields.append(
+        self.fields.append(
             self.make_field(
                 str(unit.translation.language),
                 self.format_translation(
@@ -494,14 +506,15 @@ class ShowChangeContent(BaseChangeHistoryContext):
                 extra_label_classes=["tags-list"],
             )
         )
-        return fields
+        self.add_context_field(unit.translation)
+        return self.fields
 
 
 class ShowChangeSource(BaseChangeHistoryContext):
     """Display the source of a change in the history context."""
 
     def get_change_details_fields(self) -> list[dict]:
-        fields = []
+        self.fields = []
         change = self.change
         if change.unit is None:
             msg = "Change does not contain unit, can not render content!"
@@ -522,14 +535,15 @@ class ShowChangeSource(BaseChangeHistoryContext):
         else:
             source_lang_content = format_unit_source(unit)
 
-        fields.append(
+        self.fields.append(
             self.make_field(
                 str(unit.translation.component.source_language),
                 self.format_translation(source_lang_content),
                 label_badges=source_lang_badges,
             )
         )
-        return fields
+        self.add_context_field(unit.translation)
+        return self.fields
 
 
 class ShowChangeDiff(BaseChangeHistoryContext):
@@ -563,7 +577,7 @@ class ShowRemovedString(BaseChangeHistoryContext):
             msg = "Change does not contain translation, can not render content!"
             raise ValueError(msg)
 
-        fields = [
+        self.fields = [
             self.make_field(
                 str(component.source_translation.language),
                 self.format_translation(
@@ -574,7 +588,7 @@ class ShowRemovedString(BaseChangeHistoryContext):
             )
         ]
         if "target" in change.details and not translation.is_source:
-            fields.append(
+            self.fields.append(
                 self.make_field(
                     str(translation.language),
                     self.format_translation(
@@ -582,4 +596,6 @@ class ShowRemovedString(BaseChangeHistoryContext):
                     ),
                 )
             )
-        return fields
+
+        self.add_context_field(translation)
+        return self.fields

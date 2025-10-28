@@ -1,3 +1,12 @@
+Weblate 5.15
+------------
+
+*Not yet released.*
+
+.. rubric:: New features
+
+* String context are now tracked in changes histoy and displayed when available.
+
 Weblate 5.14.1
 --------------
 

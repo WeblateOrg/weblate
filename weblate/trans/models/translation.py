@@ -1925,6 +1925,7 @@ class Translation(
             details={
                 "source": unit.source,
                 "target": unit.target,
+                "context": unit.context,
             },
         )
 
