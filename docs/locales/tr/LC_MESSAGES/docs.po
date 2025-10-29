@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-27 08:36+0100\n"
-"PO-Revision-Date: 2025-10-29 06:02+0000\n"
+"PO-Revision-Date: 2025-10-30 07:03+0000\n"
 "Last-Translator: Kaya Zeren <kayazeren@gmail.com>\n"
 "Language-Team: Turkish <https://hosted.weblate.org/projects/weblate/"
 "documentation/tr/>\n"
@@ -4230,6 +4230,11 @@ msgid ""
 "see :ref:`reverse-proxy`. :guilabel:`HTTP headers` shows complete HTTP "
 "request headers to provide additional information."
 msgstr ""
+":guilabel:`HTTP environment` Weblate tarafından izlenen HTTP ortamını "
+"görmenizi sağlar. Bu, ters vekil sunucu yapılandırmasında hataları "
+"ayıklarken kullanışlıdır. :ref:`reverse-proxy`. :guilabel:`HTTP üst "
+"bilgileri` bazı ek bilgiler sağlamak için HTTP isteği üst bilgilerinin "
+"tümünü görüntüler."
 
 #: ../../admin/admin.rst:48
 msgid ""
@@ -4689,11 +4694,10 @@ msgid ""
 "If you decide to use GitHub App, you need to enable `Access: Read-only` "
 "permission for Users - <Email addresses> and Organisation - <Members>."
 msgstr ""
-"GitHub OAuth uygulaması yerine GitHub uygulaması da kullanılabilir. GitHub "
-"uygulaması ile depolar, kuruluş ve/veya kullanıcı düzeyinde izinler "
-"verilebilir. GitHub uygulamasını kullanmaya karar verirseniz, Kullanıcılar - "
-"<E-posta adresleri> ve Kuruluş - <Üyeler> için `Access: Read-only` iznini "
-"vermeniz gerekir."
+"GitHub OAuth uygulaması yerine GitHub App da kullanılabilir. GitHub App ile "
+"depolar, kuruluş ve/veya kullanıcı düzeyinde izinler verilebilir. GitHub App "
+"kullanmaya karar verirseniz, Kullanıcılar - <E-posta adresleri> ve Kuruluş - "
+"<Üyeler> için `Access: Read-only` iznini vermeniz gerekir."
 
 #: ../../admin/auth.rst:170
 msgid "Bitbucket authentication"
@@ -10674,20 +10678,16 @@ msgstr ""
 "tabanı düğümü kullanın."
 
 #: ../../admin/install.rst:146
-#, fuzzy
-#| msgid "Database"
 msgid "Datastore"
-msgstr "Veri tabanı"
+msgstr "Veri depolama alanı"
 
 #: ../../admin/install.rst:147
-#, fuzzy
-#| msgid "Redis server for cache and tasks queue, see :ref:`celery`."
 msgid ""
 "Key/value datastore such as Valkey or Redis server for cache and tasks "
 "queue, see :ref:`celery`."
 msgstr ""
-"Ön bellek ve görev kuyruğu için Redis sunucusu. Ayrıntılı bilgi almak "
-"için: :ref:`celery`."
+"Ön bellek ve görev kuyruğu için Valkey veya Redis sunucusu gibi anahtar/"
+"değer veri depolama alanı. Ayrıntılı bilgi almak için: :ref:`celery`."
 
 #: ../../admin/install.rst:150
 msgid "File system"
@@ -10718,15 +10718,11 @@ msgstr ""
 "için: :ref:`out-mail`. Dışarıdan belirtilebilir."
 
 #: ../../admin/install.rst:159
-#, fuzzy
-#| msgid ""
-#| ":doc:`/admin/install/docker` includes PostgreSQL and Redis, making the "
-#| "installation easier."
 msgid ""
 ":doc:`/admin/install/docker` includes PostgreSQL and Valkey, making the "
 "installation easier."
 msgstr ""
-":doc:`/admin/install/docker` içinde PostgreSQL ve Redis bulunur ve kurulumu "
+":doc:`/admin/install/docker` içinde PostgreSQL ve Valkey bulunur ve kurulumu "
 "kolaylaştırır."
 
 #: ../../admin/install.rst:164
@@ -11698,6 +11694,8 @@ msgid ""
 "To debug this configuration, you can look at :guilabel:`HTTP environment` "
 "in :ref:`manage-performance`."
 msgstr ""
+"Bu yapılandırmada hata ayıklamak için :ref:`manage-performance` içindeki "
+":guilabel:`HTTP ortamı` bölümüne bakabilirsiniz."
 
 #: ../../admin/install.rst:736
 msgid "Client IP address"
@@ -11913,16 +11911,13 @@ msgstr ""
 "zamanlamanız gerekir."
 
 #: ../../admin/install.rst:894
-#, fuzzy
-#| msgid ""
-#| "If you are using Redis as cache (see :ref:`production-cache`) it is "
-#| "recommended to use it for sessions as well:"
 msgid ""
 "If you are using Valkey or Redis as cache (see :ref:`production-cache`) it "
 "is recommended to use it for sessions as well:"
 msgstr ""
-"Ön bellek olarak Redis kullanıyorsanız (ayrıntılı bilgi almak "
-"için: :ref:`production-cache`) onu oturumlar için de kullanmanız önerilir:"
+"Ön bellek olarak Valkey ya da Redis kullanıyorsanız "
+"(ayrıntılı bilgi almak için: :ref:`production-cache`) onu oturumlar için de "
+"kullanmanız önerilir:"
 
 #: ../../admin/install.rst:910
 msgid ""
@@ -12170,34 +12165,24 @@ msgstr ""
 "kullanabilirsiniz."
 
 #: ../../admin/install.rst:1133
-#, fuzzy
-#| msgid "Configure columns"
 msgid "Configure cache"
-msgstr "Sütunları yapılandır"
+msgstr "Ön belleği yapılandırın"
 
 #: ../../admin/install.rst:1135
-#, fuzzy
-#| msgid ""
-#| "If possible, use Redis from Django by adjusting the ``CACHES`` "
-#| "configuration variable, for example:"
 msgid ""
 "If possible, use Valkey or Redis from Django by adjusting the ``CACHES`` "
 "configuration variable, for example:"
 msgstr ""
-"Olabiliyorsa, ``CACHES`` yapılandırma değişkenini ayarlayarak Django Redis "
-"kullanın. Örneğin:"
+"Olabiliyorsa, ``CACHES`` yapılandırma değişkenini ayarlayarak Django ile "
+"Valkey ya da Redis kullanın. Örneğin:"
 
 #: ../../admin/install.rst:1156
-#, fuzzy
-#| msgid ""
-#| "In case you change Redis settings for the cache, you might need to adjust "
-#| "them for Celery as well, see :ref:`celery`."
 msgid ""
 "In case you change settings for the cache, you might need to adjust them for "
 "Celery as well, see :ref:`celery`."
 msgstr ""
-"Ön bellek için Redis ayarlarını değiştirirseniz, bunları Celery için de "
-"ayarlamanız gerekebilir. Ayrıntılı bilgi almak için: :ref:`celery`."
+"Ön bellek ayarlarını değiştirirseniz, bunları Celery için de ayarlamanız "
+"gerekebilir. Ayrıntılı bilgi almak için: :ref:`celery`."
 
 #: ../../admin/install.rst:1167
 msgid "Avatar caching"
@@ -12910,10 +12895,8 @@ msgstr ""
 "commit`)."
 
 #: ../../admin/install.rst:1698
-#, fuzzy
-#| msgid "A typical setup using Redis as a backend looks like this:"
 msgid "A typical setup using Valkey or Redis as a backend looks like this:"
-msgstr "Arka uçta Redis kullanan tipik bir kurulum şöyle görünür:"
+msgstr "Arka uçta Valkey ya da Redis kullanan tipik bir kurulum şöyle görünür:"
 
 #: ../../admin/install.rst:1708
 msgid ""
@@ -13271,16 +13254,12 @@ msgid "Other notes"
 msgstr "Diğer notlar"
 
 #: ../../admin/install.rst:1948
-#, fuzzy
-#| msgid ""
-#| "Don't forget to move other services Weblate might have been using like "
-#| "Redis, Cron jobs or custom authentication backends."
 msgid ""
 "Don't forget to move other services Weblate might have been using like "
 "Valkey, Redis, Cron jobs or custom authentication backends."
 msgstr ""
-"Weblate tarafından kullanılıyor olabilecek, Redis, zamanlanmış Cron "
-"görevleri veya özel kimlik doğrulama arka uçları gibi diğer hizmetleri "
+"Weblate tarafından kullanılıyor olabilecek, Valkey, Redis, zamanlanmış "
+"görevler veya özel kimlik doğrulama arka uçları gibi diğer hizmetleri "
 "taşımayı unutmayın."
 
 #: ../../admin/install/docker.rst:2
@@ -13288,12 +13267,6 @@ msgid "Installing using Docker"
 msgstr "Docker ile kurmak"
 
 #: ../../admin/install/docker.rst:4
-#, fuzzy
-#| msgid ""
-#| "With dockerized Weblate deployment you can get your personal Weblate "
-#| "instance up and running in seconds. All of Weblate's dependencies are "
-#| "already included. PostgreSQL is set up as the default database and Redis "
-#| "as a caching backend."
 msgid ""
 "With dockerized Weblate deployment you can get your personal Weblate "
 "instance up and running in seconds. All of Weblate's dependencies are "
@@ -13303,7 +13276,7 @@ msgstr ""
 "Docker için hazırlanmış Weblate dağıtımını kullanarak kişisel Weblate bulut "
 "sunucunuzu saniyeler içinde çalışır duruma getirebilirsiniz. Tüm Weblate "
 "bağımlılıkları zaten katılmıştır. Varsayılan veri tabanı olarak PostgreSQL, "
-"ön bellek altyapısı olarak Redis kurulmuştur."
+"ön bellek altyapısı olarak Valkey kurulmuştur."
 
 #: ../../admin/install/docker.rst:13 ../../admin/install/kubernetes.rst:18
 #: ../../admin/install/openshift.rst:12
@@ -14922,68 +14895,52 @@ msgstr ""
 "yapılandırır. Varsayılan değer: ``plain``."
 
 #: ../../admin/install/docker.rst:1627
-#, fuzzy
-#| msgid "Email server setup"
 msgid "Datastore server setup"
-msgstr "E-posta sunucusu kurulumu"
+msgstr "Veri depolama alanı sunucusu kurulumu"
 
 #: ../../admin/install/docker.rst:1629
-#, fuzzy
-#| msgid ""
-#| "Using Redis is strongly recommended by Weblate and you have to provide a "
-#| "Redis instance when running Weblate in Docker."
 msgid ""
 "Using Valkey or Redis is required by the Weblate container and you have to "
 "provide a connection parameters when running Weblate in Docker."
 msgstr ""
-"Weblate, Redis kullanılmasını önemle önerir ve Weblate Docker üzerinde "
-"çalıştırılırken bir Redis kopyası sağlamanız gerekir."
+"Weblate kapsayıcısı ile Valkey veya Redis kullanımı gereklidir ve Docker ile "
+"Weblate çalıştırırken bir bağlantı parametresi belirtmeniz gerekir."
 
 #: ../../admin/install/docker.rst:1638
-#, fuzzy
-#| msgid "The Redis server hostname or IP address. Defaults to ``cache``."
 msgid "The datastore server hostname or IP address. Defaults to ``cache``."
-msgstr "Redis sunucusunun adı ya da IP adresi. Varsayılan değer: ``cache``."
+msgstr ""
+"Veri depolama alanı sunucusunun adı ya da IP adresi. Varsayılan değer: "
+"``cache``."
 
 #: ../../admin/install/docker.rst:1642
-#, fuzzy
-#| msgid "The Redis server port. Defaults to ``6379``."
 msgid "The datastore server port. Defaults to ``6379``."
-msgstr "Redis sunucusunun bağlantı noktası. Varsayılan değer: ``6379``."
+msgstr ""
+"Veri depolama alanı sunucusunun bağlantı noktası. Varsayılan değer: ``6379``."
 
 #: ../../admin/install/docker.rst:1646
-#, fuzzy
-#| msgid "The Redis database number, defaults to ``1``."
 msgid "The datastore database number, defaults to ``1``."
-msgstr "Redis veri tabanı numarası. Varsayılan değer: ``1``."
+msgstr "Veri depolama alanı veri tabanı numarası. Varsayılan değer: ``1``."
 
 #: ../../admin/install/docker.rst:1652
-#, fuzzy
-#| msgid "The Redis server password, not used by default."
 msgid "The datastore database user, not used by default."
-msgstr "Redis sunucusunun parolası. Varsayılan olarak kullanılmaz."
+msgstr ""
+"Veri depolama alanı veri tabanı kullanıcı adı. Varsayılan olarak kullanılmaz."
 
 #: ../../admin/install/docker.rst:1656
-#, fuzzy
-#| msgid "The Redis server password, not used by default."
 msgid "The datastore server password, not used by default."
-msgstr "Redis sunucusunun parolası. Varsayılan olarak kullanılmaz."
+msgstr ""
+"Veri depolama alanı veri tabanı parolası. Varsayılan olarak kullanılmaz."
 
 #: ../../admin/install/docker.rst:1664
-#, fuzzy
-#| msgid "Enables using SSL for Redis connection."
 msgid "Enables using SSL for the datastore connection."
-msgstr "Redis bağlantısı için SSL kullanımını kullanıma alır."
+msgstr "Veri depolama alanı bağlantısı için SSL kullanımını açar."
 
 #: ../../admin/install/docker.rst:1668
-#, fuzzy
-#| msgid ""
-#| "Can be used to disable SSL certificate verification for Redis connection."
 msgid ""
 "Can be used to disable SSL certificate verification for the datastore "
 "connection."
 msgstr ""
-"Redis bağlantısı için SSL sertifikası doğrulamasını kullanımdan kaldırmak "
+"Veri depolama alanı bağlantısı için SSL sertifikası doğrulamasını kapatmak "
 "için kullanılabilir."
 
 #: ../../admin/install/docker.rst:1673
@@ -15330,21 +15287,15 @@ msgid "Docker container volumes"
 msgstr "Docker kapsayıcısı birimleri"
 
 #: ../../admin/install/docker.rst:2064
-#, fuzzy
-#| msgid ""
-#| "There are two volumes (:file:`data` and :file:`cache`) exported by the "
-#| "Weblate container. The other service containers (PostgreSQL or Redis) "
-#| "have their data volumes as well, but those are not covered by this "
-#| "document."
 msgid ""
 "There are two volumes (:file:`data` and :file:`cache`) exported by the "
 "Weblate container. The other service containers (PostgreSQL or Valkey) have "
 "their data volumes as well, but those are not covered by this document."
 msgstr ""
-"Weblate kapsayıcısı tarafından dışa aktarılan iki birim (:file:`data` "
-"ve :file:`cache`) bulunur. Ayrıca diğer hizmet kapsayıcılarının (PostgreSQL "
-"ya da Redis) da veri birimleri vardır. Ancak bunlar bu belgenin kapsamında "
-"değildir."
+"Weblate kapsayıcısı tarafından dışa aktarılan iki birim "
+"(:file:`data` ve :file:`cache`) bulunur. Ayrıca diğer hizmet "
+"kapsayıcılarının (PostgreSQL ya da Valkey) da veri birimleri vardır. Ancak "
+"bunlar bu belgenin kapsamında değildir."
 
 #: ../../admin/install/docker.rst:2068
 msgid ""
@@ -15366,7 +15317,7 @@ msgid ""
 msgstr ""
 ":file:`data` birimi aynı zamanda :ref:`docker-settings-override`, :ref"
 ":`docker-static-override` veya :ref:`docker-python-override` gibi Weblate "
-"özelleştirmelerinin saklandığı yerdir."
+"özelleştirmelerinin tutulduğu yerdir."
 
 #: ../../admin/install/docker.rst:2076
 msgid ""
@@ -17172,10 +17123,8 @@ msgid "Amazon Translate"
 msgstr "Amazon Translate"
 
 #: ../../admin/machine.rst:0
-#, fuzzy
-#| msgid "New features"
 msgid "Advanced features"
-msgstr "Yeni özellikler"
+msgstr "Gelişmiş özellikler"
 
 #: ../../admin/machine.rst:145
 msgid "API secret key"
@@ -17880,40 +17829,28 @@ msgid "OpenAI model"
 msgstr "OpenAI modeli"
 
 #: ../../admin/machine.rst:693
-#, fuzzy
-#| msgid "``gpt-4o`` -- GPT-4o"
 msgid "``gpt-5-nano`` -- GPT-5-nano"
-msgstr "``gpt-4o`` -- GPT-4o"
+msgstr "``gpt-5-nano`` -- GPT-5-nano"
 
 #: ../../admin/machine.rst:695
-#, fuzzy
-#| msgid "``gpt-4o`` -- GPT-4o"
 msgid "``gpt-5-mini`` -- GPT-5-mini"
-msgstr "``gpt-4o`` -- GPT-4o"
+msgstr "``gpt-5-mini`` -- GPT-5-mini"
 
 #: ../../admin/machine.rst:697
-#, fuzzy
-#| msgid "``gpt-4`` -- GPT-4"
 msgid "``gpt-5`` -- GPT-5"
-msgstr "``gpt-4`` -- GPT-4"
+msgstr "``gpt-5`` -- GPT-5"
 
 #: ../../admin/machine.rst:699
-#, fuzzy
-#| msgid "``gpt-4o`` -- GPT-4o"
 msgid "``gpt-4.1-nano`` -- GPT-4.1-nano"
-msgstr "``gpt-4o`` -- GPT-4o"
+msgstr "``gpt-4.1-nano`` -- GPT-4.1-nano"
 
 #: ../../admin/machine.rst:701
-#, fuzzy
-#| msgid "``gpt-4o`` -- GPT-4o"
 msgid "``gpt-4.1-mini`` -- GPT-4.1-mini"
-msgstr "``gpt-4o`` -- GPT-4o"
+msgstr "``gpt-4.1-mini`` -- GPT-4.1-mini"
 
 #: ../../admin/machine.rst:703
-#, fuzzy
-#| msgid "``gpt-4`` -- GPT-4"
 msgid "``gpt-4.1`` -- GPT-4.1"
-msgstr "``gpt-4`` -- GPT-4"
+msgstr "``gpt-4.1`` -- GPT-4.1"
 
 #: ../../admin/machine.rst:705
 msgid "``gpt-4o-mini`` -- GPT-4o mini"
@@ -17924,34 +17861,24 @@ msgid "``gpt-4o`` -- GPT-4o"
 msgstr "``gpt-4o`` -- GPT-4o"
 
 #: ../../admin/machine.rst:709
-#, fuzzy
-#| msgid "``gpt-4o`` -- GPT-4o"
 msgid "``o3-mini`` -- o3-mini"
-msgstr "``gpt-4o`` -- GPT-4o"
+msgstr "``o3-mini`` -- o3-mini"
 
 #: ../../admin/machine.rst:711
-#, fuzzy
-#| msgid "``30`` -- Approved"
 msgid "``o3`` -- o3"
-msgstr "``30`` -- Onaylanmış"
+msgstr "``o3`` -- o3"
 
 #: ../../admin/machine.rst:713
-#, fuzzy
-#| msgid "``gpt-4o`` -- GPT-4o"
 msgid "``o1-mini`` -- o1-mini"
-msgstr "``gpt-4o`` -- GPT-4o"
+msgstr "``o1-mini`` -- o1-mini"
 
 #: ../../admin/machine.rst:715
-#, fuzzy
-#| msgid "``gpt-4o`` -- GPT-4o"
 msgid "``o1`` -- o1"
-msgstr "``gpt-4o`` -- GPT-4o"
+msgstr "``o1`` -- o1"
 
 #: ../../admin/machine.rst:717
-#, fuzzy
-#| msgid "``gpt-4o`` -- GPT-4o"
 msgid "``o1-pro`` -- o1-pro"
-msgstr "``gpt-4o`` -- GPT-4o"
+msgstr "``o1-pro`` -- o1-pro"
 
 #: ../../admin/machine.rst:719
 msgid "``custom`` -- Custom model"
@@ -22207,11 +22134,11 @@ msgid ""
 "packages are available for everyone, including self-hosting users. Find info "
 "about current support offerings at https://weblate.org/support."
 msgstr ""
-"*Weblate*, topluluk destekli serbest telif hakkı sunan özgür bir yazılımdır. "
-"Barındırma aboneleri ek ücret ödemeden öncelikli destek alırlar. Kendi "
-"barındırmasını yapanlarla birlikte herkes, ön ödemeli yardım paketleri "
-"alabilir. Geçerli destek teklifleri ile ilgili bilgi almak için https://"
-"weblate.org/support adresine bakabilirsiniz."
+"*Weblate*, topluluk destekli bir copyleft özgür yazılımdır. Barındırma "
+"aboneleri ek ücret ödemeden öncelikli destek alırlar. Kendi barındırmasını "
+"yapanlarla birlikte herkes, ön ödemeli yardım paketleri alabilir. Geçerli "
+"destek teklifleri ile ilgili bilgi almak için https://weblate.org/support "
+"adresine bakabilirsiniz."
 
 #: ../../admin/support.rst:13
 msgid "Integrating support"
@@ -26117,10 +26044,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`Vikipedi üzerinde RSS <https://tr.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.1.1"
 msgid "Weblate 5.14.1"
-msgstr "Weblate 5.1.1"
+msgstr "Weblate 5.14.1"
 
 #: ../../changes.rst:4
 msgid "*Not yet released.*"
@@ -26157,7 +26082,7 @@ msgstr ":ref:`celery` ve :ref:`production-cache` içinde Valkey kullanan belge."
 
 #: ../../changes.rst:11
 msgid "Added HTTP environment overview in :ref:`manage-performance`."
-msgstr ""
+msgstr ":ref:`manage-performance` içine HTTP ortamı özeti eklendi."
 
 #: ../../changes.rst:14 ../../changes.rst:66 ../../changes.rst:103
 #: ../../changes.rst:132 ../../changes.rst:157 ../../changes.rst:219
@@ -26268,26 +26193,20 @@ msgid "Contributors"
 msgstr "Katılımcılar"
 
 #: ../../changes.rst:28
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "53?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/154?"
 "closed=1>`__."
 msgstr ""
 "`Ayrıntılı olarak tüm değişiklikler <https://github.com/WeblateOrg/weblate/"
-"milestone/53?closed=1>`__."
+"milestone/154?closed=1>`__."
 
 #: ../../changes.rst:31
 msgid "Weblate 5.14"
 msgstr "Weblate 5.14"
 
 #: ../../changes.rst:33
-#, fuzzy
-#| msgid "*Released on October 25th 2023.*"
 msgid "*Released on October 22nd 2025.*"
-msgstr "*25 Ekim 2023 tarihinde yayınlandı.*"
+msgstr "*22 Ekim 2025 tarihinde yayınlandı.*"
 
 #: ../../changes.rst:37
 msgid ""
@@ -27184,8 +27103,8 @@ msgid ""
 ":http:post:`/api/groups/` supports project-scoped team creation by non-"
 "superusers."
 msgstr ""
-":http:post:`/api/groups/`, süper kullanıcı olmayanların proje kapsamında "
-"takım oluşturulması sağlandı."
+":http:post:`/api/groups/` ile süper kullanıcı olmayanların proje kapsamında "
+"takım oluşturması sağlandı."
 
 #: ../../changes.rst:332
 msgid ":http:get:`/api/users/` now includes ``languages``."
@@ -28269,7 +28188,7 @@ msgstr "Weblate için artık Git 2.28 ve üzerindeki sürümleri gerekiyor."
 msgid ""
 "Any custom code that relied on ``Change`` models signals should be reviewed."
 msgstr ""
-"``Değişiklik`` modelleri sinyallerine dayanan tüm özel kodlar gözden "
+"``Değişiklik`` modelleri sinyallerini kullanan tüm özel kodlar gözden "
 "geçirilmelidir."
 
 #: ../../changes.rst:777
@@ -43944,8 +43863,8 @@ msgstr ""
 "Belgeleri yazmaya odaklanmayacağım, bununla ilgili rehberliğe gerek "
 "duyuyorsanız, yalnızca `Sphinx`_ sitesindeki yönergeyi izleyin. Belgeler "
 "hazır olduğunda, Spihinx bunu desteklediğinden çevirisini yapmak oldukça "
-"kolaydır ve :ref:`sphinx:intl` bölümünde oldukça güzel bir şekilde ele "
-"alınmıştır. Bunun için, birkaç yapılandırma yönergesi ve ``sphinx-intl`` "
+"kolay olacaktır ve :ref:`sphinx:intl` bölümünde oldukça güzel bir şekilde "
+"ele alınmıştır. Bunun için, birkaç yapılandırma yönergesi ve ``sphinx-intl`` "
 "aracının çağrılması gereklidir."
 
 #: ../../devel/sphinx.rst:17
@@ -47865,7 +47784,7 @@ msgstr "Weblate, birkaç çeşitte XLIFF desteği sunar:"
 
 #: ../../formats/xliff.rst:20
 msgid "`XLIFF 1.2 translation file`"
-msgstr "XLIFF 1.2 çeviri dosyası`"
+msgstr "`XLIFF 1.2 çeviri dosyası`"
 
 #: ../../formats/xliff.rst:21
 msgid ""
@@ -47877,7 +47796,7 @@ msgstr ""
 
 #: ../../formats/xliff.rst:22
 msgid "`XLIFF 1.2 with placeables support`"
-msgstr "Yerleştirilebilir desteği olan XLIFF 1.2`"
+msgstr "`Yerleştirilebilir ögeler desteği olan XLIFF 1.2`"
 
 #: ../../formats/xliff.rst:23
 msgid "Standard XLIFF supporting placeables and other XML elements."
@@ -48368,10 +48287,8 @@ msgid "Main class for invoking commands."
 msgstr "Komutları çağıran ana sınıf."
 
 #: ../../security/data-residency.rst:2
-#, fuzzy
-#| msgid "Database latency"
 msgid "Data residency"
-msgstr "Veri tabanı gecikmesi"
+msgstr "Verilerin bulunduğu konum"
 
 #: ../../security/data-residency.rst:4
 msgid ""
@@ -48379,6 +48296,9 @@ msgid ""
 "within the **European Union**. This ensures strong data protection, clear "
 "jurisdiction, and compliance with European privacy standards."
 msgstr ""
+"Tüm **Weblate Cloud** ve **Hosted Weblate** hizmetleri tümüyle **Avrupa "
+"Birliği** içinde barındırılıyor. Böylece, güçlü veri koruması, açık yargı "
+"yetkisi ve Avrupa gizlilik standartlarına uyumluluk sağlanıyor."
 
 #: ../../security/data-residency.rst:7
 msgid ""
@@ -48388,42 +48308,52 @@ msgid ""
 "(information security) and **ISO 9001** (quality management), and are "
 "pursuing **ISO 50001** (energy management) certification."
 msgstr ""
+"Altyapımız, güvenilirlik ve sürdürülebilirlik konusunda uzun süreli bir ünü "
+"olan Alman veri merkezi işletmecisi **Hetzner Online GmbH** tarafından "
+"sağlanıyor. Hetzner tesislerinin **ISO 27001** (bilgi güvenliği) ve **ISO "
+"9001** (kalite yönetimi) sertifikaları ile **ISO 50001** (enerji yönetimi) "
+"sertifikası bulunuyor."
 
 #: ../../security/data-residency.rst:11
 msgid "Where data lives"
-msgstr ""
+msgstr "Veriler nerede bulunuyor"
 
 #: ../../security/data-residency.rst:13
 msgid ""
 "All customer data, including translations, user information, and backups, is "
 "stored and processed within the EU."
 msgstr ""
+"Çeviriler, kullanıcı bilgileri ve yedekler ile tüm müşteri verileri AB "
+"içinde saklanır ve işlenir."
 
 #: ../../security/data-residency.rst:14
 msgid "Primary data centers are located in **Germany**."
-msgstr ""
+msgstr "Birincil veri merkezleri **Almanya** içinde bulunuyor."
 
 #: ../../security/data-residency.rst:15
 msgid ""
 "No operational data leaves the EU unless explicitly requested by the "
 "customer (for example, for external backups or region-specific deployments)."
 msgstr ""
+"Müşteri tarafından kasıtlı olarak istenmedikçe "
+"(örneğin, dış yedekler veya bölgeye özel dağıtımlar için) herhangi bir "
+"operasyonel veri AB içinden çıkmaz."
 
 #: ../../security/data-residency.rst:18
-#, fuzzy
-#| msgid "Licensing compliance"
 msgid "Privacy and regulatory compliance"
-msgstr "Lisans uyumluluğu"
+msgstr "Gizlilik ve düzenlemeler ile uyumluluk"
 
 #: ../../security/data-residency.rst:20
 msgid ""
 "Weblate Cloud and Hosted Weblate follow privacy-by-design principles and "
 "meet the requirements of **GDPR**."
 msgstr ""
+"Weblate Cloud ve Hosted Weblate, gizlilik odaklı tasarım ilkelerine uyar ve "
+"**GDPR** gereksinimlerini karşılar."
 
 #: ../../security/data-residency.rst:23
 msgid "Sustainability"
-msgstr ""
+msgstr "Sürdürülebilirlik"
 
 #: ../../security/data-residency.rst:25
 msgid ""
@@ -48431,12 +48361,13 @@ msgid ""
 "sourced from **hydropower**. You can find more details at https://"
 "www.hetzner.com/unternehmen/nachhaltigkeit/."
 msgstr ""
+"Tüm barındırma altyapısı, öncelikle **hidroelektrik** kaynaklı **%100 "
+"yenilenebilir enerji** ile çalışır. Ayrıntılı bilgi almak için: https://"
+"www.hetzner.com/unternehmen/nachhaltigkeit/."
 
 #: ../../security/data-residency.rst:28
-#, fuzzy
-#| msgid "Custom access control"
 msgid "Customer control"
-msgstr "Özel erişim denetimi"
+msgstr "Müşteri denetimi"
 
 #: ../../security/data-residency.rst:30
 msgid ""
@@ -48446,6 +48377,11 @@ msgid ""
 "instances are available for organizations needing isolated or customized "
 "environments."
 msgstr ""
+"Müşterilerin verileri üzerinde tam denetimi vardır: - Projeler, çeviriler ve "
+"kullanıcı hesapları herhangi bir zamanda dışa aktarılabilir veya "
+"silinebilir. - Dış bütünleştirmeler isteğe bağlıdır ve tümüyle "
+"yapılandırılabilir. - Yalıtılmış veya özelleştirilmiş ortamlara gerek duyan "
+"kuruluşlar için özel Weblate kopyaları bulunuyor."
 
 #: ../../security/dependencies.rst:2
 msgid "Dependencies"
@@ -49041,6 +48977,8 @@ msgid ""
 "These documents apply to Weblate deployments operated by Weblate s.r.o., "
 "such as Hosted Weblate and Weblate Cloud."
 msgstr ""
+"Bu belgeler, Hosted Weblate ve Weblate Cloud gibi Weblate s.r.o. tarafından "
+"işletilen Weblate dağıtımları için geçerlidir."
 
 #: ../../security/index.rst:51
 msgid "`General terms and conditions`_"
@@ -50069,6 +50007,14 @@ msgid ""
 "PostgreSQL, datastore, Celery) and user roles (Unauthenticated, Translator, "
 "Project Manager, Administrator)."
 msgstr ""
+"**Kapsam:** Çekirdek Weblate internet uygulaması, kullanıcı tarayıcıları ile "
+"etkileşimleri, arka uç bileşenleri "
+"(site sunucusu, WSGI, veri tabanı, veri depolama alanı, Celery) ve dış sürüm "
+"denetimi sistemi ile bütünleştirme. **Varsayımlar:** Tipik bileşenler "
+"(nginx/Apache, Gunicorn/uWSGI, PostgreSQL, veri depolama alanı, Celery) ve "
+"kullanıcı rolleri "
+"(kimliği doğrulanmamış, çevirmen, proje yöneticisi, yönetici) ile standart "
+"Weblate dağıtımı."
 
 #: ../../security/threat-model.rst:8
 msgid "System description and scope"
@@ -50409,10 +50355,8 @@ msgid "System compromise, data exfiltration."
 msgstr "Sistemin ele geçirilmesi, veri sızıntısı."
 
 #: ../../security/threat-model.rst:110
-#, fuzzy
-#| msgid "Database"
 msgid "**Database/Datastore**"
-msgstr "Veri tabanı"
+msgstr "**Veri tabanı/Veri depolama alanı**"
 
 #: ../../security/threat-model.rst:112
 msgid ""
@@ -50431,6 +50375,10 @@ msgid ""
 "**Sensitive data access:** Unauthorized access to database/datastore exposes "
 "all stored data (credentials, translation memory, user profiles)."
 msgstr ""
+"**Önemli verilere erişim:** Veri tabanına/Veri depolama alanına izinsiz "
+"erişilmesi ile depolanan tüm verilerin "
+"(kimlik doğrulama bilgileri, çeviri belleği, kullanıcı profilleri) açığa "
+"çıkması."
 
 #: ../../security/threat-model.rst:117
 msgid "Major data breach."
@@ -50441,6 +50389,8 @@ msgid ""
 "**Database exhaustion:** Attacker floods the database or datastore with "
 "queries, or consumes all memory or available connections."
 msgstr ""
+"**Veri tabanı tükenmesi:** Saldırganın veri tabanını veya veri depolama "
+"alanını sorgularla doldurması ile tüm belleği veya bağlantıları tüketmesi."
 
 #: ../../security/threat-model.rst:122
 msgid "**VCS integration**"
@@ -50671,6 +50621,8 @@ msgid ""
 "Network segmentation (e.g., separating database and datastore from public "
 "access)."
 msgstr ""
+"Ağı parçalara ayırma "
+"(veri tabanı ve veri depolama alanını herkese açık erişimden ayırmak gibi)."
 
 #: ../../security/threat-model.rst:172
 msgid "Use of WAF (Web Application Firewall)."
@@ -53551,10 +53503,8 @@ msgid "For example with Gettext in Python it could be:"
 msgstr "Örneğin, Python üzerindeki gettext ile şöyle olabilir:"
 
 #: ../../user/checks.rst:2193
-#, fuzzy
-#| msgid "Glossaries in automatic suggestion"
 msgid "Placeables in automatic suggestion"
-msgstr "Kendiliğinden önerilerde sözlükleri kullanmak"
+msgstr "Kendiliğinden önerilerde yerleştirilebilir ögeler"
 
 #: ../../user/checks.rst:2195
 msgid ""
@@ -53563,6 +53513,11 @@ msgid ""
 "for this varies in different services and in many cases there is no way to "
 "enforce keeping placeables intact."
 msgstr ""
+"Yerleştirilebilir ögeler için denetimler, var olan yerleştirilebilir ögeler "
+"ile ilgili bilgileri açığa çıkarır ve bu durum, kendiliğinden öneri "
+"işleyicilerine bunları tutmalarını söylemek için kullanılabilir. Bunun için "
+"destek farklı hizmetlerde değişir ve çoğu durumda yerleştirilebilir ögeleri "
+"bir arada tutmayı zorunlu kılmanın bir yolu yoktur."
 
 #: ../../user/files.rst:2
 msgid "Downloading and uploading translations"
@@ -54186,9 +54141,9 @@ msgid ""
 "translation, please consult their documentation in :doc:`/admin/machine` to "
 "see the support."
 msgstr ""
-"Bazı otomatik öneri hizmetleri çeviri sırasında sözlükleri kullanır. Destek "
-"durumunu görmek için lütfen :doc:`/admin/machine` bölümündeki belgelerine "
-"bakın."
+"Bazı kendiliğinden öneri hizmetleri çeviri sırasında sözlükleri kullanır. "
+"Bunların desteklenme durumunu görmek için lütfen :doc:`/admin/machine` "
+"bölümündeki ilgili belgelerine bakın."
 
 #: ../../user/glossary.rst:141
 msgid "The glossary is processed before exposed to the service:"
@@ -56685,6 +56640,8 @@ msgid ""
 "In case you don't provide credentials in the URL and the repository requires "
 "it, Git will fail with an error:"
 msgstr ""
+"Adres içinde kimlik doğrulama bilgilerini vermemeniz ve depo için bunun "
+"gerekmesi durumunda, Git bir hata bildirerek çalışmaz:"
 
 #: ../../vcs.rst:283
 msgid ""
