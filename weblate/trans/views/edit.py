@@ -33,7 +33,6 @@ from weblate.glossary.forms import TermForm
 from weblate.glossary.models import fetch_glossary_terms, get_glossary_terms
 from weblate.screenshots.forms import ScreenshotForm
 from weblate.trans.actions import ActionEvents
-from weblate.trans.autotranslate import BatchAutoTranslate
 from weblate.trans.exceptions import FileParseError, SuggestionSimilarToTranslationError
 from weblate.trans.forms import (
     AutoForm,
@@ -829,7 +828,7 @@ def auto_translation(request: AuthenticatedHttpRequest, path):
                     "language_id": obj.language.id,
                 }
             )
-        case _:
+        case _:  # pragma: no cover
             msg = "Unsupported object for auto translation"
             raise PermissionDenied(msg)
 
@@ -839,19 +838,17 @@ def auto_translation(request: AuthenticatedHttpRequest, path):
         return redirect(obj)
 
     if settings.CELERY_TASK_ALWAYS_EAGER:
-        auto = BatchAutoTranslate(
-            obj,
-            user=request.user,
+        result = auto_translate(
+            **task_kwargs,
+            user_id=request.user.id,
             mode=autoform.cleaned_data["mode"],
             q=autoform.cleaned_data.get("q"),
-        )
-        message = auto.perform(
             auto_source=autoform.cleaned_data["auto_source"],
-            source=autoform.cleaned_data["component"],
+            component=autoform.cleaned_data["component"],
             engines=autoform.cleaned_data["engines"],
             threshold=autoform.cleaned_data["threshold"],
         )
-        messages.success(request, message)
+        messages.success(request, result["message"])
     else:
         task = auto_translate.delay(
             **task_kwargs,

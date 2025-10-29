@@ -13,6 +13,7 @@ from weblate.lang.models import Language
 from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.db import TransactionsTestMixin
+from weblate.utils.stats import ProjectLanguage
 
 
 class AutoTranslationTest(ViewTestCase):
@@ -49,7 +50,7 @@ class AutoTranslationTest(ViewTestCase):
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n", language=language)
 
     def perform_auto(
-        self, expected=1, expected_count=None, path_params=None, **kwargs
+        self, expected=1, expected_count=None, path_params=None, success=True, **kwargs
     ) -> None:
         self.make_different()
         if path_params is None:
@@ -62,21 +63,21 @@ class AutoTranslationTest(ViewTestCase):
         if "mode" not in kwargs:
             kwargs["mode"] = "translate"
         response = self.client.post(url, kwargs, follow=True)
-        if expected == 1:
-            self.assertContains(
-                response, "Automatic translation completed, 1 string was updated."
+        if expected == 0:
+            expected_string = (
+                "Automatic translation completed, no strings were updated."
             )
-        elif expected > 1:
-            self.assertContains(
-                response,
-                f"Automatic translation completed, {expected} strings were updated.",
-            )
+        elif expected == 1:
+            expected_string = "Automatic translation completed, 1 string was updated."
         else:
-            self.assertContains(
-                response, "Automatic translation completed, no strings were updated."
+            expected_string = (
+                f"Automatic translation completed, {expected} strings were updated."
             )
 
-        self.assertRedirects(response, reverse("show", kwargs=path_params))
+        if success:
+            self.assertRedirects(response, reverse("show", kwargs=path_params))
+            self.assertContains(response, expected_string)
+
         # Check we've translated something
         translation = self.component2.translation_set.get(language_code="cs")
         translation.invalidate_cache()
@@ -84,6 +85,8 @@ class AutoTranslationTest(ViewTestCase):
             expected_count = expected
         if kwargs["mode"] == "suggest":
             self.assertEqual(translation.stats.suggestions, expected_count)
+        elif kwargs["mode"] == "fuzzy":
+            self.assertEqual(translation.stats.fuzzy, expected_count)
         else:
             self.assertEqual(translation.stats.translated, expected_count)
 
@@ -100,6 +103,10 @@ class AutoTranslationTest(ViewTestCase):
         """Test for automatic suggestion."""
         self.perform_auto(mode="approved")
         self.perform_auto(0, 1, mode="approved")
+
+    def test_fuzzy(self) -> None:
+        """Test for automatic suggestion."""
+        self.perform_auto(mode="fuzzy")
 
     def test_inconsistent(self) -> None:
         self.perform_auto(0, q="check:inconsistent")
@@ -131,20 +138,53 @@ class AutoTranslationTest(ViewTestCase):
             expected_count=1,  # we only expect one new translation in 'cs'
         )
 
-    def test_autotranslate_project(self) -> None:
-        from weblate.utils.stats import ProjectLanguage
-
+    def test_autotranslate_project_language(self) -> None:
         project_language = ProjectLanguage(
             self.project,
             language=Language.objects.get(code="cs"),
         )
         self.make_different("de")
 
-        # check that only the "cs" translation is affected
         self.perform_auto(
             path_params={"path": project_language.get_url_path()},
             expected_count=1,
             expected=1,
+        )
+
+    def test_autotranslate_fail(self) -> None:
+        # invalid object type
+        self.perform_auto(
+            expected=0, path_params={"path": self.project.get_url_path()}, success=False
+        )
+
+        self.user.is_superuser = False
+        self.user.save()
+
+        # test missing translation.auto permissions
+        self.perform_auto(expected=0, success=False)
+
+        # test missing project.auto permissions
+        project_language = ProjectLanguage(
+            self.project,
+            language=Language.objects.get(code="cs"),
+        )
+        self.perform_auto(
+            expected=0,
+            path_params={"path": project_language.get_url_path()},
+            success=False,
+        )
+
+        # test missing component.auto permissions
+        category = self.create_category(project=self.project)
+        self.component.category = self.component2.category = category
+        self.component.save()
+        self.perform_auto(
+            path_params={"path": category.get_url_path()}, expected=0, success=False
+        )
+        self.perform_auto(
+            path_params={"path": self.component.get_url_path()},
+            expected=0,
+            success=False,
         )
 
     def test_labeling(self) -> None:

@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 from glob import glob
 from operator import itemgetter
 from pathlib import Path
-from typing import TYPE_CHECKING, Literal
+from typing import TYPE_CHECKING, Any, Literal
 
 from celery.schedules import crontab
 from django.conf import settings
@@ -525,7 +525,8 @@ def auto_translate(
     unit_ids: list[int] | None = None,
     **kwargs,
 ):
-    result = {}
+    result: dict[str, Any] = {}
+    obj: Translation | Component | Category | ProjectLanguage
     if "translation_id" in kwargs:
         obj = Translation.objects.get(pk=kwargs["translation_id"])
         result["translation"] = obj.id
