@@ -366,7 +366,7 @@ class BaseChangeHistoryContext:
 
     def __init__(self, change: Change) -> None:
         self.change = change
-        self.fields = []
+        self.fields: list[dict[str, Any]] = []
 
     def get_context(self) -> dict[str, Any]:
         """Get context for rendering change history."""
