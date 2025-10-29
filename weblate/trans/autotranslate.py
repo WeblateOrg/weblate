@@ -390,7 +390,7 @@ class BatchAutoTranslate(BaseAutoTranslate):
                     "project": obj.project.pk,
                     "language": obj.language.pk,
                 }
-            case _:
+            case _:  # pragma: no cover
                 msg = "Unsupported object type for BatchAutoTranslate"
                 raise ValueError(msg)
         self.progress_steps = len(self.translations)

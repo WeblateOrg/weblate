@@ -11,6 +11,7 @@ from django.urls import reverse
 
 from weblate.lang.models import Language
 from weblate.trans.models import Component
+from weblate.trans.tasks import auto_translate
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.db import TransactionsTestMixin
 from weblate.utils.stats import ProjectLanguage
@@ -186,6 +187,30 @@ class AutoTranslationTest(ViewTestCase):
             expected=0,
             success=False,
         )
+
+        # test invalid arguments
+        with self.assertRaises(ValueError):
+            auto_translate(
+                user_id=None,
+                mode="suggest",
+                q="state:<translated",
+                auto_source="others",
+                component=None,
+                engines=["weblate"],
+                threshold=100,
+            )
+
+        with self.assertRaises(ValueError):
+            auto_translate(
+                user_id=None,
+                mode="suggest",
+                q="state:<translated",
+                auto_source="others",
+                component=None,
+                engines=["weblate"],
+                threshold=100,
+                project_id=1,
+            )
 
     def test_labeling(self) -> None:
         self.perform_auto(overwrite="1")
