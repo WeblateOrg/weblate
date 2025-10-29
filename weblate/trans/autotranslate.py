@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Literal
+from typing import TYPE_CHECKING, Any, Literal
 
 from celery import current_task
 from django.conf import settings
@@ -44,6 +44,7 @@ if TYPE_CHECKING:
 
 class BaseAutoTranslate:
     updated: int = 0
+    progress_steps: int = 0
 
     def __init__(
         self,
@@ -73,14 +74,24 @@ class BaseAutoTranslate:
             % self.updated
         )
 
+    def get_task_meta(self) -> dict[str, Any]:
+        """Return"""
+        raise NotImplementedError
+
+    def set_progress(self, current: int) -> None:
+        if current_task and current_task.request.id and self.progress_steps:
+            current_task.update_state(
+                state="PROGRESS",
+                meta=self.get_task_meta()
+                | {"progress": 100 * current // self.progress_steps},
+            )
+
 
 class AutoTranslate(BaseAutoTranslate):
     def __init__(self, *, translation: Translation, **kwargs) -> None:
         super().__init__(**kwargs)
         self.translation: Translation = translation
         translation.component.batch_checks = True
-        self.updated = 0
-        self.progress_steps = 0
         self.progress_base = 0
         self.target_state = STATE_TRANSLATED
         if self.mode == "fuzzy":
@@ -97,15 +108,8 @@ class AutoTranslate(BaseAutoTranslate):
             units = units.filter(suggestion__isnull=True)
         return units.search(self.q, parser="unit")
 
-    def set_progress(self, current) -> None:
-        if current_task and current_task.request.id and self.progress_steps:
-            current_task.update_state(
-                state="PROGRESS",
-                meta={
-                    "progress": 100 * current // self.progress_steps,
-                    "translation": self.translation.pk,
-                },
-            )
+    def get_task_meta(self) -> dict[str, Any]:
+        return {"translation": self.translation.pk}
 
     def update(
         self, unit: Unit, state: StringState, target: list[str], user=None
@@ -368,19 +372,31 @@ class BatchAutoTranslate(BaseAutoTranslate):
             component_wide=component_wide,
             unit_ids=unit_ids,
         )
+        self._task_meta: dict[str, Any] = {}
 
         match obj:
             case Translation():
                 self.translations = [obj]
+                self._task_meta = {"translation": obj.pk}
             case Component():
                 self.translations = obj.translation_set.exclude_source()
+                self._task_meta = {"component": obj.pk}
             case Category():
                 self.translations = Translation.objects.filter(component__category=obj)
+                self._task_meta = {"category": obj.pk}
             case ProjectLanguage():
                 self.translations = obj.translation_set
+                self._task_meta = {
+                    "project": obj.project.pk,
+                    "language": obj.language.pk,
+                }
             case _:
                 msg = "Unsupported object type for BatchAutoTranslate"
                 raise ValueError(msg)
+        self.progress_steps = len(self.translations)
+
+    def get_task_meta(self) -> dict[str, Any]:
+        return self._task_meta
 
     def perform(
         self,
@@ -390,7 +406,7 @@ class BatchAutoTranslate(BaseAutoTranslate):
         threshold: int,
         source: int | None,
     ) -> str:
-        for translation in self.translations:
+        for pos, translation in enumerate(self.translations):
             auto_translate = AutoTranslate(
                 user=self.user,
                 translation=translation,
@@ -407,5 +423,6 @@ class BatchAutoTranslate(BaseAutoTranslate):
                 source=source,
             )
             self.updated += auto_translate.updated
+            self.set_progress(pos)
 
         return self.get_message()
