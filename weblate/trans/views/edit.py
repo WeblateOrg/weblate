@@ -811,7 +811,7 @@ def auto_translation(request: AuthenticatedHttpRequest, path):
             task_kwargs["component_id"] = component.id
         case Category():
             category = obj
-            if not request.user.has_perm("category.auto", category.project):
+            if not request.user.has_perm("component.auto", category.project):
                 raise PermissionDenied
             project = category.project
             autoform = AutoForm(category.project, request.user, request.POST)

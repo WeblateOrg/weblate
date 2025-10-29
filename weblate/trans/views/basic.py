@@ -535,7 +535,7 @@ def show_category(request: AuthenticatedHttpRequest, obj):
             "autoform": optional_form(
                 AutoForm,
                 user,
-                "category.auto",
+                "component.auto",
                 obj,
                 obj=obj,
                 user=user,

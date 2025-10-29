@@ -1,3 +1,14 @@
+Weblate 5.15
+------------
+
+*Not yet released.*
+
+.. rubric:: New features
+
+* Batch automatic translation can now be manually triggered at project language, category or component level.
+* New permissions added for batch automatic translation operations, see :ref:`privileges`.
+
+
 Weblate 5.14.1
 --------------
 
