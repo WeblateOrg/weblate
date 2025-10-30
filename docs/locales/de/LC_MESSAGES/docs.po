@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-27 08:36+0100\n"
-"PO-Revision-Date: 2025-10-24 05:50+0000\n"
+"PO-Revision-Date: 2025-10-29 05:56+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -4291,6 +4291,11 @@ msgid ""
 "see :ref:`reverse-proxy`. :guilabel:`HTTP headers` shows complete HTTP "
 "request headers to provide additional information."
 msgstr ""
+":guilabel:`HTTP-Umgebung` ermöglicht es Ihnen, die von Weblate beobachtete "
+"HTTP-Umgebung zu sehen. Dies ist nützlich bei der Fehlersuche in der Reverse-"
+"Proxy-Konfiguration, siehe :ref:`reverse-proxy`. :guilabel:`HTTP-Header` "
+"zeigt die vollständigen HTTP-Anfrage-Header, um zusätzliche Informationen zu "
+"liefern."
 
 #: ../../admin/admin.rst:48
 msgid ""
@@ -10848,18 +10853,16 @@ msgstr ""
 "Millionen gehosteter Wörter."
 
 #: ../../admin/install.rst:146
-#, fuzzy
-#| msgid "Database"
 msgid "Datastore"
-msgstr "Datenbank"
+msgstr "Datenspeicher"
 
 #: ../../admin/install.rst:147
-#, fuzzy
-#| msgid "Redis server for cache and tasks queue, see :ref:`celery`."
 msgid ""
 "Key/value datastore such as Valkey or Redis server for cache and tasks "
 "queue, see :ref:`celery`."
-msgstr "Redis-Server für Cache und Aufgabenwarteschlange, siehe :ref:`celery`."
+msgstr ""
+"Schlüssel-Werte-Datenspeicher wie Valkey oder Redis-Server für Cache und "
+"Aufgabenwarteschlange, siehe :ref:`celery`."
 
 #: ../../admin/install.rst:150
 msgid "File system"
@@ -10891,15 +10894,11 @@ msgstr ""
 "bereitgestellt werden."
 
 #: ../../admin/install.rst:159
-#, fuzzy
-#| msgid ""
-#| ":doc:`/admin/install/docker` includes PostgreSQL and Redis, making the "
-#| "installation easier."
 msgid ""
 ":doc:`/admin/install/docker` includes PostgreSQL and Valkey, making the "
 "installation easier."
 msgstr ""
-":doc:`/admin/install/docker` enthält PostgreSQL und Redis, was die "
+":doc:`/admin/install/docker` enthält PostgreSQL und Valkey, was die "
 "Installation erleichtert."
 
 #: ../../admin/install.rst:164
@@ -11881,6 +11880,8 @@ msgid ""
 "To debug this configuration, you can look at :guilabel:`HTTP environment` "
 "in :ref:`manage-performance`."
 msgstr ""
+"Um diese Konfiguration zu debuggen, können Sie sich :guilabel:`HTTP-Umgebung`"
+" in :ref:`manage-performance` ansehen."
 
 #: ../../admin/install.rst:736
 msgid "Client IP address"
@@ -12098,16 +12099,13 @@ msgstr ""
 "der Datenbank zu entfernen."
 
 #: ../../admin/install.rst:894
-#, fuzzy
-#| msgid ""
-#| "If you are using Redis as cache (see :ref:`production-cache`) it is "
-#| "recommended to use it for sessions as well:"
 msgid ""
 "If you are using Valkey or Redis as cache (see :ref:`production-cache`) it "
 "is recommended to use it for sessions as well:"
 msgstr ""
-"Wenn Sie Redis als Cache verwenden (siehe :ref:`production-cache`), ist es "
-"empfehlenswert, ihn auch für Sitzungen zu verwenden:"
+"Wenn Sie Valkey oder Redis als Cache verwenden "
+"(siehe :ref:`production-cache`), empfiehlt es sich, diesen auch für "
+"Sitzungen zu verwenden:"
 
 #: ../../admin/install.rst:910
 msgid ""
@@ -12358,33 +12356,23 @@ msgstr ""
 "Konfiguration an, zum Beispiel mit `PGTune <https://pgtune.leopard.in.ua/>`_."
 
 #: ../../admin/install.rst:1133
-#, fuzzy
-#| msgid "Configure columns"
 msgid "Configure cache"
-msgstr "Spalten konfigurieren"
+msgstr "Cache konfigurieren"
 
 #: ../../admin/install.rst:1135
-#, fuzzy
-#| msgid ""
-#| "If possible, use Redis from Django by adjusting the ``CACHES`` "
-#| "configuration variable, for example:"
 msgid ""
 "If possible, use Valkey or Redis from Django by adjusting the ``CACHES`` "
 "configuration variable, for example:"
 msgstr ""
-"Wenn möglich, verwenden Sie Redis von Django aus, indem Sie zum Beispiel die "
-"Konfigurationsvariable ``CACHES`` anpassen:"
+"Wenn möglich, verwenden Sie Valkey oder Redis von Django aus, indem Sie zum "
+"Beispiel die Konfigurationsvariable ``CACHES`` anpassen:"
 
 #: ../../admin/install.rst:1156
-#, fuzzy
-#| msgid ""
-#| "In case you change Redis settings for the cache, you might need to adjust "
-#| "them for Celery as well, see :ref:`celery`."
 msgid ""
 "In case you change settings for the cache, you might need to adjust them for "
 "Celery as well, see :ref:`celery`."
 msgstr ""
-"Falls Sie die Redis-Einstellungen für den Cache ändern, müssen Sie diese "
+"Falls Sie die Einstellungen für den Cache ändern, müssen Sie diese "
 "möglicherweise auch für Celery anpassen, siehe :ref:`celery`."
 
 #: ../../admin/install.rst:1167
@@ -13097,10 +13085,10 @@ msgid "Committing pending changes (see :ref:`lazy-commit`)."
 msgstr "Übergabe ausstehender Änderungen (siehe :ref:`lazy-commit`)."
 
 #: ../../admin/install.rst:1698
-#, fuzzy
-#| msgid "A typical setup using Redis as a backend looks like this:"
 msgid "A typical setup using Valkey or Redis as a backend looks like this:"
-msgstr "Eine typische Einrichtung mit Redis als Backend sieht wie folgt aus:"
+msgstr ""
+"Eine typische Einrichtung mit Valkey oder Redis als Backend sieht wie folgt "
+"aus:"
 
 #: ../../admin/install.rst:1708
 msgid ""
@@ -13461,29 +13449,19 @@ msgid "Other notes"
 msgstr "Sonstige Anmerkungen"
 
 #: ../../admin/install.rst:1948
-#, fuzzy
-#| msgid ""
-#| "Don't forget to move other services Weblate might have been using like "
-#| "Redis, Cron jobs or custom authentication backends."
 msgid ""
 "Don't forget to move other services Weblate might have been using like "
 "Valkey, Redis, Cron jobs or custom authentication backends."
 msgstr ""
 "Vergessen Sie nicht, andere Dienste zu verschieben, die Weblate "
-"möglicherweise verwendet hat, wie Redis, Cron-Jobs oder benutzerdefinierte "
-"Authentifizierungs-Backends."
+"möglicherweise verwendet hat, wie Valkey, Redis, Cron-Jobs oder "
+"benutzerdefinierte Authentifizierungs-Backends."
 
 #: ../../admin/install/docker.rst:2
 msgid "Installing using Docker"
 msgstr "Installation über Docker"
 
 #: ../../admin/install/docker.rst:4
-#, fuzzy
-#| msgid ""
-#| "With dockerized Weblate deployment you can get your personal Weblate "
-#| "instance up and running in seconds. All of Weblate's dependencies are "
-#| "already included. PostgreSQL is set up as the default database and Redis "
-#| "as a caching backend."
 msgid ""
 "With dockerized Weblate deployment you can get your personal Weblate "
 "instance up and running in seconds. All of Weblate's dependencies are "
@@ -13493,7 +13471,7 @@ msgstr ""
 "Mit der Bereitstellung von Weblate über Docker können Sie Ihre persönliche "
 "Weblate-Instanz in Sekundenschnelle zum Laufen bringen. Alle Abhängigkeiten "
 "von Weblate sind bereits enthalten. PostgreSQL ist als Standarddatenbank und "
-"Redis als Caching-Backend eingerichtet."
+"Valkey als Caching-Backend eingerichtet."
 
 #: ../../admin/install/docker.rst:13 ../../admin/install/kubernetes.rst:18
 #: ../../admin/install/openshift.rst:12
@@ -15122,71 +15100,52 @@ msgstr ""
 "Die Voreinstellung ist ``plain``."
 
 #: ../../admin/install/docker.rst:1627
-#, fuzzy
-#| msgid "Email server setup"
 msgid "Datastore server setup"
-msgstr "E-Mail-Server einrichten"
+msgstr "Datenspeicher-Server einrichten"
 
 #: ../../admin/install/docker.rst:1629
-#, fuzzy
-#| msgid ""
-#| "Using Redis is strongly recommended by Weblate and you have to provide a "
-#| "Redis instance when running Weblate in Docker."
 msgid ""
 "Using Valkey or Redis is required by the Weblate container and you have to "
 "provide a connection parameters when running Weblate in Docker."
 msgstr ""
-"Die Verwendung von Redis wird von Weblate dringend empfohlen und Sie müssen "
-"eine Redis-Instanz bereitstellen, wenn Sie Weblate in Docker ausführen."
+"Die Verwenden von Valkey oder Redis ist für den Weblate-Container "
+"erforderlich und Sie müssen beim Ausführen von Weblate in Docker "
+"Verbindungsparameter angeben."
 
 #: ../../admin/install/docker.rst:1638
-#, fuzzy
-#| msgid "The Redis server hostname or IP address. Defaults to ``cache``."
 msgid "The datastore server hostname or IP address. Defaults to ``cache``."
 msgstr ""
-"Der Hostname oder die IP-Adresse des Redis-Servers. Der Standardwert ist "
-"``cache``."
+"Der Hostname oder die IP-Adresse des Datenspeicher-Servers. Der Standardwert "
+"ist ``cache``."
 
 #: ../../admin/install/docker.rst:1642
-#, fuzzy
-#| msgid "The Redis server port. Defaults to ``6379``."
 msgid "The datastore server port. Defaults to ``6379``."
-msgstr "Der Port des Redis-Servers. Der Standardwert ist ``6379``."
+msgstr "Der Port des Datenspeicher-Servers. Der Standardwert ist ``6379``."
 
 #: ../../admin/install/docker.rst:1646
-#, fuzzy
-#| msgid "The Redis database number, defaults to ``1``."
 msgid "The datastore database number, defaults to ``1``."
-msgstr "Die Nummer der Redis-Datenbank, standardmäßig ``1``."
+msgstr "Die Nummer der Datenspeicher-Datenbank, standardmäßig ``1``."
 
 #: ../../admin/install/docker.rst:1652
-#, fuzzy
-#| msgid "The Redis database user, not used by default."
 msgid "The datastore database user, not used by default."
-msgstr "Der Benutzer der Redis-Datenbank, nicht standardmäßig verwendet."
+msgstr ""
+"Der Benutzer der Datenspeicher-Datenbank, nicht standardmäßig verwendet."
 
 #: ../../admin/install/docker.rst:1656
-#, fuzzy
-#| msgid "The Redis server password, not used by default."
 msgid "The datastore server password, not used by default."
-msgstr "Das Passwort des Redis-Servers, nicht standardmäßig verwendet."
+msgstr "Das Passwort des Datenspeicher-Servers, nicht standardmäßig verwendet."
 
 #: ../../admin/install/docker.rst:1664
-#, fuzzy
-#| msgid "Enables using SSL for Redis connection."
 msgid "Enables using SSL for the datastore connection."
-msgstr "Ermöglicht die Verwendung von SSL für Redis-Verbindungen."
+msgstr "Aktiviert die Verwendung von SSL für die Datenspeicher-Verbindung."
 
 #: ../../admin/install/docker.rst:1668
-#, fuzzy
-#| msgid ""
-#| "Can be used to disable SSL certificate verification for Redis connection."
 msgid ""
 "Can be used to disable SSL certificate verification for the datastore "
 "connection."
 msgstr ""
-"Kann verwendet werden, um die SSL-Zertifikatsüberprüfung für Redis-"
-"Verbindungen zu deaktivieren."
+"Kann verwendet werden, um die SSL-Zertifikatsüberprüfung für die "
+"Datenspeicher-Verbindung zu deaktivieren."
 
 #: ../../admin/install/docker.rst:1673
 msgid "Email server setup"
@@ -15537,21 +15496,15 @@ msgid "Docker container volumes"
 msgstr "Docker-Container-Volumes"
 
 #: ../../admin/install/docker.rst:2064
-#, fuzzy
-#| msgid ""
-#| "There are two volumes (:file:`data` and :file:`cache`) exported by the "
-#| "Weblate container. The other service containers (PostgreSQL or Redis) "
-#| "have their data volumes as well, but those are not covered by this "
-#| "document."
 msgid ""
 "There are two volumes (:file:`data` and :file:`cache`) exported by the "
 "Weblate container. The other service containers (PostgreSQL or Valkey) have "
 "their data volumes as well, but those are not covered by this document."
 msgstr ""
 "Es gibt zwei Volumes (:file:`data` und :file:`cache`), die vom Weblate-"
-"Container exportiert werden. Die anderen Service-Container (PostgreSQL oder "
-"Redis) verfügen ebenfalls über Datenvolumina, die jedoch in diesem Dokument "
-"nicht behandelt werden."
+"Container exportiert werden. Die anderen Service-Container "
+"(PostgreSQL oder Valkey) verfügen ebenfalls über Datenvolumina, die jedoch "
+"in diesem Dokument nicht behandelt werden."
 
 #: ../../admin/install/docker.rst:2068
 msgid ""
@@ -17417,10 +17370,8 @@ msgid "Amazon Translate"
 msgstr "Amazon Translate"
 
 #: ../../admin/machine.rst:0
-#, fuzzy
-#| msgid "New features"
 msgid "Advanced features"
-msgstr "Neue Funktionen"
+msgstr "Erweiterte Funktionen"
 
 #: ../../admin/machine.rst:145
 msgid "API secret key"
@@ -18151,40 +18102,28 @@ msgid "OpenAI model"
 msgstr "OpenAI-Modell"
 
 #: ../../admin/machine.rst:693
-#, fuzzy
-#| msgid "``gpt-4o`` -- GPT-4o"
 msgid "``gpt-5-nano`` -- GPT-5-nano"
-msgstr "``gpt-4o`` -- GPT-4o"
+msgstr "``gpt-5-nano`` -- GPT-5-nano"
 
 #: ../../admin/machine.rst:695
-#, fuzzy
-#| msgid "``gpt-4o-mini`` -- GPT-4o mini"
 msgid "``gpt-5-mini`` -- GPT-5-mini"
-msgstr "``gpt-4o-mini`` -- GPT-4o mini"
+msgstr "``gpt-5-mini`` -- GPT-5-mini"
 
 #: ../../admin/machine.rst:697
-#, fuzzy
-#| msgid "``gpt-4`` -- GPT-4"
 msgid "``gpt-5`` -- GPT-5"
-msgstr "``gpt-4`` -- GPT-4"
+msgstr "``gpt-5`` -- GPT-5"
 
 #: ../../admin/machine.rst:699
-#, fuzzy
-#| msgid "``gpt-4o`` -- GPT-4o"
 msgid "``gpt-4.1-nano`` -- GPT-4.1-nano"
-msgstr "``gpt-4o`` -- GPT-4o"
+msgstr "``gpt-4.1-nano`` -- GPT-4.1-nano"
 
 #: ../../admin/machine.rst:701
-#, fuzzy
-#| msgid "``gpt-4o-mini`` -- GPT-4o mini"
 msgid "``gpt-4.1-mini`` -- GPT-4.1-mini"
-msgstr "``gpt-4o-mini`` -- GPT-4o mini"
+msgstr "``gpt-4.1-mini`` -- GPT-4.1-mini"
 
 #: ../../admin/machine.rst:703
-#, fuzzy
-#| msgid "``gpt-4`` -- GPT-4"
 msgid "``gpt-4.1`` -- GPT-4.1"
-msgstr "``gpt-4`` -- GPT-4"
+msgstr "``gpt-4.1`` -- GPT-4.1"
 
 #: ../../admin/machine.rst:705
 msgid "``gpt-4o-mini`` -- GPT-4o mini"
@@ -18195,34 +18134,24 @@ msgid "``gpt-4o`` -- GPT-4o"
 msgstr "``gpt-4o`` -- GPT-4o"
 
 #: ../../admin/machine.rst:709
-#, fuzzy
-#| msgid "``o3-mini`` -- OpenAI o3-mini"
 msgid "``o3-mini`` -- o3-mini"
-msgstr "``o3-mini`` -- OpenAI o3-mini"
+msgstr "``o3-mini`` -- o3-mini"
 
 #: ../../admin/machine.rst:711
-#, fuzzy
-#| msgid "``o3`` -- OpenAI o3"
 msgid "``o3`` -- o3"
-msgstr "``o3`` -- OpenAI o3"
+msgstr "``o3`` -- o3"
 
 #: ../../admin/machine.rst:713
-#, fuzzy
-#| msgid "``o1-mini`` -- OpenAI o1-mini"
 msgid "``o1-mini`` -- o1-mini"
-msgstr "``o1-mini`` -- OpenAI o1-mini"
+msgstr "``o1-mini`` -- o1-mini"
 
 #: ../../admin/machine.rst:715
-#, fuzzy
-#| msgid "``o1`` -- OpenAI o1"
 msgid "``o1`` -- o1"
-msgstr "``o1`` -- OpenAI o1"
+msgstr "``o1`` -- o1"
 
 #: ../../admin/machine.rst:717
-#, fuzzy
-#| msgid "``o1`` -- OpenAI o1"
 msgid "``o1-pro`` -- o1-pro"
-msgstr "``o1`` -- OpenAI o1"
+msgstr "``o1-pro`` -- o1-pro"
 
 #: ../../admin/machine.rst:719
 msgid "``custom`` -- Custom model"
@@ -26539,10 +26468,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS auf Wikipedia <https://de.wikipedia.org/wiki/RSS_(Web-Feed)>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.1.1"
 msgid "Weblate 5.14.1"
-msgstr "Weblate 5.1.1"
+msgstr "Weblate 5.14.1"
 
 #: ../../changes.rst:4
 msgid "*Not yet released.*"
@@ -26574,14 +26501,14 @@ msgid "Improvements"
 msgstr "Verbesserungen"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Cache server (see :ref:`production-cache`)"
 msgid "Document using Valkey in :ref:`celery` and :ref:`production-cache`."
-msgstr "Cache-Server (siehe :ref:`production-cache`)"
+msgstr ""
+"Dokument zum Verwenden von Valkey in :ref:`celery` und :ref:`production-"
+"cache`."
 
 #: ../../changes.rst:11
 msgid "Added HTTP environment overview in :ref:`manage-performance`."
-msgstr ""
+msgstr "HTTP-Umgebungsübersicht im :ref:`manage-performance` hinzugefügt."
 
 #: ../../changes.rst:14 ../../changes.rst:66 ../../changes.rst:103
 #: ../../changes.rst:132 ../../changes.rst:157 ../../changes.rst:219
@@ -26605,16 +26532,12 @@ msgid "Bug fixes"
 msgstr "Fehlerbehebungen"
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Outgoing commits in the Weblate repository"
 msgid "Counting outgoing commits in the repository status."
-msgstr "Ausgehende Commits im Weblate-Repository"
+msgstr "Zählen ausgehender Commits im Repository-Status."
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "Licensing translations"
 msgid "Listing of other translations."
-msgstr "Lizenzierung von Übersetzungen"
+msgstr "Auflistung anderer Übersetzungen."
 
 #: ../../changes.rst:19 ../../changes.rst:76 ../../changes.rst:171
 #: ../../changes.rst:226 ../../changes.rst:349 ../../changes.rst:499
@@ -26697,26 +26620,20 @@ msgid "Contributors"
 msgstr "Mitwirkende"
 
 #: ../../changes.rst:28
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "153?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/154?"
 "closed=1>`__."
 msgstr ""
 "`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/milestone/"
-"153?closed=1>`__."
+"154?closed=1>`__."
 
 #: ../../changes.rst:31
 msgid "Weblate 5.14"
 msgstr "Weblate 5.14"
 
 #: ../../changes.rst:33
-#, fuzzy
-#| msgid "*Released on October 25th 2023.*"
 msgid "*Released on October 22nd 2025.*"
-msgstr "*Veröffentlicht am 25. Oktober 2023.*"
+msgstr "*Veröffentlicht am 22. Oktober 2025.*"
 
 #: ../../changes.rst:37
 msgid ""
@@ -38038,8 +37955,8 @@ msgstr "Verbesserte Beispiele für Suchanfragen."
 #: ../../changes/v4.rst:785
 msgid "Fixed possible loss of newly added strings on replace upload."
 msgstr ""
-"Möglicher Verlust von neu hinzugefügten Zeichenketten beim Ersetzen des "
-"Hochladens behoben."
+"Möglicher Verlust von neu hinzugefügten Zeichenketten beim Hochladen von "
+"Ersetzungen behoben."
 
 #: ../../changes/v4.rst:788
 msgid "Weblate 4.5.2"
@@ -40273,6 +40190,8 @@ msgstr "Unser Versprechen"
 #: ../../contributing/code_of_conduct.rst:7
 msgid "We pledge to make our community welcoming, safe, and equitable for all."
 msgstr ""
+"Wir verpflichten uns, unsere Community einladend, sicher und "
+"gleichberechtigt für alle zu gestalten."
 
 #: ../../contributing/code_of_conduct.rst:9
 msgid ""
@@ -40285,6 +40204,15 @@ msgid ""
 "other status. The same privileges of participation are extended to everyone "
 "who participates in good faith and in accordance with this Covenant."
 msgstr ""
+"Wir verpflichten uns, ein Umfeld zu fördern, das die Würde, die Rechte und "
+"die Beiträge aller Menschen respektiert und fördert, unabhängig von "
+"Merkmalen wie Ethnie, Kaste, Hautfarbe, Alter, körperlichen Merkmalen, "
+"Neurodiversität, Behinderung, Geschlecht oder Gender, Geschlechtsidentität "
+"oder -ausdruck, sexueller Orientierung, Sprache, Weltanschauung oder "
+"Religion, nationaler oder sozialer Herkunft, sozioökonomischer Stellung, "
+"Bildungsniveau oder sonstigem Status. Alle, die sich in gutem Glauben und im "
+"Einklang mit dieser Vereinbarung beteiligen, haben die gleichen Rechte auf "
+"Teilnahme."
 
 #: ../../contributing/code_of_conduct.rst:12
 msgid "Encouraged Behaviors"
@@ -40297,44 +40225,57 @@ msgid ""
 "words and actions may be interpreted differently than we intend based on "
 "culture, background, or native language."
 msgstr ""
+"Wir erkennen die Unterschiede in den sozialen Normen an und bemühen uns "
+"alle, die Erwartungen unserer Community an ein positives Verhalten zu "
+"erfüllen. Wir wissen auch, dass unsere Worte und Handlungen je nach Kultur, "
+"Hintergrund oder Muttersprache anders interpretiert werden können, als wir "
+"es beabsichtigen."
 
 #: ../../contributing/code_of_conduct.rst:16
 msgid ""
 "With these considerations in mind, we agree to behave mindfully toward each "
 "other and act in ways that center our shared values, including:"
 msgstr ""
+"In Anbetracht dieser Überlegungen verpflichten wir uns, uns gegenseitig "
+"achtsam zu behandeln und so zu handeln, dass unsere gemeinsamen Werte im "
+"Mittelpunkt stehen:"
 
 #: ../../contributing/code_of_conduct.rst:18
 msgid ""
 "Respecting the **purpose of our community**, our activities, and our ways of "
 "gathering."
 msgstr ""
+"Wir respektieren den **Zweck unserer Community**, unsere Aktivitäten und "
+"unsere Art der Zusammenkunft."
 
 #: ../../contributing/code_of_conduct.rst:19
 msgid "Engaging **kindly and honestly** with others."
-msgstr ""
+msgstr "Mit anderen **freundlich und aufrichtig** austauschen."
 
 #: ../../contributing/code_of_conduct.rst:20
 msgid "Respecting **different viewpoints** and experiences."
-msgstr ""
+msgstr "Respektieren **unterschiedlicher Standpunkte** und Erfahrungen."
 
 #: ../../contributing/code_of_conduct.rst:21
 msgid "**Taking responsibility** for our actions and contributions."
-msgstr ""
+msgstr "**Verantwortung übernehmen** für unsere Handlungen und Beiträge."
 
 #: ../../contributing/code_of_conduct.rst:22
 msgid "Gracefully giving and accepting **constructive feedback**."
-msgstr ""
+msgstr "Freundliches Geben und Annehmen von **konstruktiver Rückmeldung**."
 
 #: ../../contributing/code_of_conduct.rst:23
 msgid "Committing to **repairing harm** when it occurs."
 msgstr ""
+"Verpflichtung zum **Wiedergutmachen von Missständen**, wenn diese auftreten."
 
 #: ../../contributing/code_of_conduct.rst:24
 msgid ""
 "Behaving in other ways that promote and sustain the **well-being of our "
 "community**."
 msgstr ""
+"Verhaltensweisen, die das **Wohlbefinden unserer Community** gezielt fördern "
+"und erhalten."
 
 #: ../../contributing/code_of_conduct.rst:28
 msgid "Restricted Behaviors"
@@ -40346,47 +40287,67 @@ msgid ""
 "threats, and promotion of these behaviors are violations of this Code of "
 "Conduct."
 msgstr ""
+"Wir verpflichten uns, die folgenden Verhaltensweisen in unserer Community zu "
+"unterbinden. Fälle, Androhungen und das Förderen dieser Verhaltensweisen "
+"stellen Verstöße gegen diesen Verhaltenskodex dar."
 
 #: ../../contributing/code_of_conduct.rst:32
 msgid ""
 "**Harassment.** Violating explicitly expressed boundaries or engaging in "
 "unnecessary personal attention after any clear request to stop."
 msgstr ""
+"**Belästigung.** Das Verletzen ausdrücklich festgelegter Grenzen oder "
+"unnötige persönliche Aufmerksamkeit, nach einer eindeutigen Aufforderung, "
+"dies zu unterlassen."
 
 #: ../../contributing/code_of_conduct.rst:33
 msgid ""
 "**Character attacks.** Making insulting, demeaning, or pejorative comments "
 "directed at a community member or group of people."
 msgstr ""
+"**Persönliche Angriffe.** Beleidigende, erniedrigende oder abwertende "
+"Kommentare, die sich gegen ein Community-Mitglied oder eine Gruppe von "
+"Personen richten."
 
 #: ../../contributing/code_of_conduct.rst:34
 msgid ""
 "**Stereotyping or discrimination.** Characterizing anyone’s personality or "
 "behavior on the basis of immutable identities or traits."
 msgstr ""
+"**Stereotypisierung oder Diskriminierung.** Charakterisierung der "
+"Persönlichkeit oder des Verhaltens einer Person auf der Grundlage "
+"unveränderlicher Identitäten oder Merkmale."
 
 #: ../../contributing/code_of_conduct.rst:35
 msgid ""
 "**Sexualization.** Behaving in a way that would generally be considered "
 "inappropriately intimate in the context or purpose of the community."
 msgstr ""
+"**Sexualisierung.** Ein Verhalten, das im Kontext oder Zweck der Community "
+"allgemein als unangemessen intim angesehen würde."
 
 #: ../../contributing/code_of_conduct.rst:36
 msgid ""
 "**Violating confidentiality**. Sharing or acting on someone's personal or "
 "private information without their permission."
 msgstr ""
+"**Verletzung der Vertraulichkeit**. Weitergabe oder Verwenden persönlicher "
+"oder privater Informationen einer Person ohne deren Zustimmung."
 
 #: ../../contributing/code_of_conduct.rst:37
 msgid ""
 "**Endangerment.** Causing, encouraging, or threatening violence or other "
 "harm toward any person or group."
 msgstr ""
+"**Gefährdung.** Das Verursachen, Anstiften oder Androhen von Gewalt oder "
+"anderem Schaden gegenüber einer Person oder Gruppe."
 
 #: ../../contributing/code_of_conduct.rst:38
 msgid ""
 "Behaving in other ways that **threaten the well-being** of our community."
 msgstr ""
+"Verhaltensweisen, die eine **Gefahr für das Wohlbefinden** unserer Community "
+"sind."
 
 #: ../../contributing/code_of_conduct.rst:41
 msgid "Other Restrictions"
@@ -40397,24 +40358,34 @@ msgid ""
 "**Misleading identity.** Impersonating someone else for any reason, or "
 "pretending to be someone else to evade enforcement actions."
 msgstr ""
+"**Irreführende Identität.** Sich aus irgendeinem Grund als eine andere "
+"Person ausgeben oder vorgeben, eine andere Person zu sein, um "
+"Vollstreckungsmaßnahmen zu entgehen."
 
 #: ../../contributing/code_of_conduct.rst:44
 msgid ""
 "**Failing to credit sources.** Not properly crediting the sources of content "
 "you contribute."
 msgstr ""
+"**Fehlende Quellenangaben.** Nicht ordnungsgemäße Angabe der Quellen der von "
+"Ihnen beigesteuerten Inhalte."
 
 #: ../../contributing/code_of_conduct.rst:45
 msgid ""
 "**Promotional materials**. Sharing marketing or other commercial content in "
 "a way that is outside the norms of the community."
 msgstr ""
+"**Werbematerialien**. Das Teilen von Marketing- oder anderen kommerziellen "
+"Inhalten in einer Weise, die nicht den Normen der Community entspricht."
 
 #: ../../contributing/code_of_conduct.rst:46
 msgid ""
 "**Irresponsible communication.** Failing to responsibly present content "
 "which includes, links or describes any other restricted behaviors."
 msgstr ""
+"**Verantwortungslose Kommunikation.** Unverantwortliches Darstellen von "
+"Inhalten, die anderes unerwünschtes Verhalten beinhalten, darauf verweisen "
+"oder beschreiben."
 
 #: ../../contributing/code_of_conduct.rst:50
 msgid "Reporting an Issue"
@@ -49148,10 +49119,8 @@ msgid "Main class for invoking commands."
 msgstr "Hauptklasse zum Aufrufen von Befehlen."
 
 #: ../../security/data-residency.rst:2
-#, fuzzy
-#| msgid "Database latency"
 msgid "Data residency"
-msgstr "Datenbank-Latenz"
+msgstr "Datenaufbewahrung"
 
 #: ../../security/data-residency.rst:4
 msgid ""
@@ -49171,7 +49140,7 @@ msgstr ""
 
 #: ../../security/data-residency.rst:11
 msgid "Where data lives"
-msgstr ""
+msgstr "Wo die Daten gespeichert sind"
 
 #: ../../security/data-residency.rst:13
 msgid ""
@@ -49190,10 +49159,8 @@ msgid ""
 msgstr ""
 
 #: ../../security/data-residency.rst:18
-#, fuzzy
-#| msgid "Privacy regulations compliance"
 msgid "Privacy and regulatory compliance"
-msgstr "Einhaltung der Datenschutzrichtlinien"
+msgstr "Datenschutz und Einhaltung gesetzlicher Vorschriften"
 
 #: ../../security/data-residency.rst:20
 msgid ""
@@ -49838,16 +49805,12 @@ msgid "Terms of service and privacy policy"
 msgstr "Nutzungsbedingungen und Datenschutzerklärung"
 
 #: ../../security/index.rst:49
-#, fuzzy
-#| msgid ""
-#| "These documents apply to Weblate deployments operated by Weblate s.r.o., "
-#| "such as Hosted Weblate."
 msgid ""
 "These documents apply to Weblate deployments operated by Weblate s.r.o., "
 "such as Hosted Weblate and Weblate Cloud."
 msgstr ""
 "Diese Dokumente gelten für Weblate-Bereitstellungen, die von Weblate s.r.o. "
-"betrieben werden, wie beispielsweise Hosted Weblate."
+"betrieben werden, wie beispielsweise Hosted Weblate und Weblate Cloud."
 
 #: ../../security/index.rst:51
 msgid "`General terms and conditions`_"
@@ -50844,14 +50807,6 @@ msgid "Weblate threat model"
 msgstr "Weblate-Bedrohungsmodell"
 
 #: ../../security/threat-model.rst:4
-#, fuzzy
-#| msgid ""
-#| "**Scope:** Core Weblate web application, its interactions with user "
-#| "browsers, backend components (web server, WSGI, database, Redis, Celery), "
-#| "and integration with external VCS. **Assumptions:** Standard Weblate "
-#| "deployment with typical components (nginx/Apache, Gunicorn/uWSGI, "
-#| "PostgreSQL, Redis, Celery) and user roles (Unauthenticated, Translator, "
-#| "Project Manager, Administrator)."
 msgid ""
 "**Scope:** Core Weblate web application, its interactions with user "
 "browsers, backend components (web server, WSGI, database, datastore, "
@@ -50861,11 +50816,12 @@ msgid ""
 "Project Manager, Administrator)."
 msgstr ""
 "**Umfang:** Kern der Weblate-Webanwendung, ihre Interaktion mit den Browsern "
-"der Benutzer, Backend-Komponenten (Webserver, WSGI, Datenbank, Redis, "
-"Celery) und die Integration mit externem VCS. **Annahmen:** Standard-Weblate-"
-"Bereitstellung mit typischen Komponenten (nginx/Apache, Gunicorn/uWSGI, "
-"PostgreSQL, Redis, Celery) und Benutzerrollen (Nicht authentifiziert, "
-"Übersetzer, Projektmanager, Administrator)."
+"der Benutzer, Backend-Komponenten "
+"(Webserver, WSGI, Datenbank, Datenspeicher, Celery) und die Integration mit "
+"externem VCS. **Annahmen:** Standard-Weblate-Bereitstellung mit typischen "
+"Komponenten (nginx/Apache, Gunicorn/uWSGI, PostgreSQL, Datenspeicher, Celery)"
+" und Benutzerrollen "
+"(Nicht authentifiziert, Übersetzer, Projektmanager, Administrator)."
 
 #: ../../security/threat-model.rst:8
 msgid "System description and scope"
@@ -51203,10 +51159,8 @@ msgid "System compromise, data exfiltration."
 msgstr "Systemkompromittierung, Datenexfiltration."
 
 #: ../../security/threat-model.rst:110
-#, fuzzy
-#| msgid "**Database/Redis**"
 msgid "**Database/Datastore**"
-msgstr "**Datenbank/Redis**"
+msgstr "**Datenbank/Datenspeicher**"
 
 #: ../../security/threat-model.rst:112
 msgid ""
@@ -51221,34 +51175,26 @@ msgid "System malfunction, data integrity loss."
 msgstr "Systemstörung, Verlust der Datenintegrität."
 
 #: ../../security/threat-model.rst:116
-#, fuzzy
-#| msgid ""
-#| "**Sensitive data access:** Unauthorized access to database/Redis exposes "
-#| "all stored data (credentials, translation memory, user profiles)."
 msgid ""
 "**Sensitive data access:** Unauthorized access to database/datastore exposes "
 "all stored data (credentials, translation memory, user profiles)."
 msgstr ""
-"**Zugriff auf sensible Daten:** Unbefugter Zugriff auf Datenbank/Redis legt "
-"alle gespeicherten Daten offen (Zugangsdaten, Übersetzungsspeicher, "
-"Benutzerprofile)."
+"**Zugriff auf sensible Daten:** Unbefugter Zugriff auf Datenbank/"
+"Datenspeicher legt alle gespeicherten Daten offen "
+"(Zugangsdaten, Übersetzungsspeicher, Benutzerprofile)."
 
 #: ../../security/threat-model.rst:117
 msgid "Major data breach."
 msgstr "Große Datenpanne."
 
 #: ../../security/threat-model.rst:120
-#, fuzzy
-#| msgid ""
-#| "**Database exhaustion:** Attacker floods the database with queries, or "
-#| "consumes all Redis memory/connections."
 msgid ""
 "**Database exhaustion:** Attacker floods the database or datastore with "
 "queries, or consumes all memory or available connections."
 msgstr ""
-"**Datenbankerschöpfung:** Der Angreifer überflutet die Datenbank mit "
-"Anfragen oder verbraucht den gesamten Redis-Speicher bzw. alle Redis-"
-"Verbindungen."
+"**Datenbankerschöpfung:** Der Angreifer überflutet die Datenbank oder den "
+"Datenspeicher mit Abfragen oder verbraucht den gesamten Speicher oder alle "
+"verfügbaren Verbindungen."
 
 #: ../../security/threat-model.rst:122
 msgid "**VCS integration**"
@@ -51468,15 +51414,12 @@ msgstr ""
 "Betriebssystem."
 
 #: ../../security/threat-model.rst:171
-#, fuzzy
-#| msgid ""
-#| "Network segmentation (e.g., separating database/Redis from public access)."
 msgid ""
 "Network segmentation (e.g., separating database and datastore from public "
 "access)."
 msgstr ""
-"Netzwerksegmentierung (z. B. Trennung von Datenbank/Redis vom öffentlichen "
-"Zugriff)."
+"Netzwerksegmentierung "
+"(z. B. Trennung von Datenbank und Datenspeicher vom öffentlichen Zugriff)."
 
 #: ../../security/threat-model.rst:172
 msgid "Use of WAF (Web Application Firewall)."
@@ -51541,10 +51484,8 @@ msgstr ""
 "preisgeben."
 
 #: ../../security/us-compliance.rst:2
-#, fuzzy
-#| msgid "Licensing compliance"
 msgid "US controls compliance"
-msgstr "Einhaltung der Lizenzbestimmungen"
+msgstr "Einhaltung der US-Kontrollvorschriften"
 
 #: ../../security/us-compliance.rst:7
 msgid "ITAR and other export controls"
@@ -54448,10 +54389,8 @@ msgid "For example with Gettext in Python it could be:"
 msgstr "Mit Gettext in Python könnte es zum Beispiel so aussehen:"
 
 #: ../../user/checks.rst:2193
-#, fuzzy
-#| msgid "Glossaries in automatic suggestion"
 msgid "Placeables in automatic suggestion"
-msgstr "Glossare in automatischen Vorschlägen"
+msgstr "Platzhalter in automatischen Vorschlägen"
 
 #: ../../user/checks.rst:2195
 msgid ""
@@ -54460,6 +54399,11 @@ msgid ""
 "for this varies in different services and in many cases there is no way to "
 "enforce keeping placeables intact."
 msgstr ""
+"Qualitätsprüfungen für Platzhalter geben Aufschluss über aktuelle "
+"Platzhalter und können genutzt werden, um automatische "
+"Übersetzungsvorschläge zu veranlassen, diese beizubehalten. Die "
+"Unterstützung hierfür variiert je nach Dienst und in vielen Fällen gibt es "
+"keine Möglichkeit, das Beibehalten von Platzhaltern zu erzwingen."
 
 #: ../../user/files.rst:2
 msgid "Downloading and uploading translations"
@@ -55100,16 +55044,14 @@ msgid "Glossaries in automatic suggestion"
 msgstr "Glossare in automatischen Vorschlägen"
 
 #: ../../user/glossary.rst:138
-#, fuzzy
-#| msgid ""
-#| "Following automatic suggestion services utilize glossaries during the "
-#| "translation:"
 msgid ""
 "Some automatic suggestion services utilize glossaries during the "
 "translation, please consult their documentation in :doc:`/admin/machine` to "
 "see the support."
 msgstr ""
-"Folgende automatische Vorschlagsdienste nutzen bei der Übersetzung Glossare:"
+"Einige automatische Vorschlagsdienste verwenden während der Übersetzung "
+"Glossare. Bitte konsultieren Sie deren Dokumentation unter :doc:`/admin/"
+"machine`, um die Unterstützung zu überprüfen."
 
 #: ../../user/glossary.rst:141
 msgid "The glossary is processed before exposed to the service:"
@@ -57683,6 +57625,8 @@ msgid ""
 "In case you don't provide credentials in the URL and the repository requires "
 "it, Git will fail with an error:"
 msgstr ""
+"Wenn Sie in der URL keine Zugangsdaten angeben und das Repository diese "
+"verlangt, schlägt Git mit einer Fehlermeldung fehl:"
 
 #: ../../vcs.rst:283
 msgid ""

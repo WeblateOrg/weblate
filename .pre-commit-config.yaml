@@ -42,7 +42,7 @@ repos:
     - --exit-non-zero-on-fix
   - id: ruff-format
 - repo: https://github.com/adamtheturtle/doccmd-pre-commit
-  rev: v2025.10.18
+  rev: v2025.10.27
   hooks:
   - id: doccmd
     args: [--language, python, --no-pad-file, --command, ruff format]
@@ -73,7 +73,7 @@ repos:
   - id: shfmt
     args: [--write]
 - repo: https://github.com/fsfe/reuse-tool
-  rev: v6.1.2
+  rev: v6.2.0
   hooks:
   - id: reuse
 - repo: https://github.com/shellcheck-py/shellcheck-py
@@ -82,12 +82,12 @@ repos:
   - id: shellcheck
     require_serial: true
 - repo: https://github.com/biomejs/pre-commit
-  rev: v2.3.1
+  rev: v2.3.2
   hooks:
   - id: biome-check
     args: [--error-on-warnings]
     additional_dependencies:
-    - '@biomejs/biome@2.3.1'
+    - '@biomejs/biome@2.3.2'
 - repo: https://github.com/abravalheri/validate-pyproject
   rev: v0.24.1
   hooks:
@@ -145,7 +145,7 @@ repos:
     entry: format_html_join\(\s*", "
     language: pygrep
 - repo: https://github.com/sphinx-contrib/sphinx-lint
-  rev: v1.0.0
+  rev: v1.0.1
   hooks:
   - id: sphinx-lint
 - repo: https://github.com/codespell-project/codespell
@@ -167,7 +167,7 @@ repos:
   hooks:
   - id: actionlint
 - repo: https://github.com/zizmorcore/zizmor-pre-commit
-  rev: v1.16.0
+  rev: v1.16.1
   hooks:
   - id: zizmor
 - repo: https://github.com/docker-compose-linter/pre-commit-dclint

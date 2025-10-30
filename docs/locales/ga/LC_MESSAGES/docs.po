@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-27 08:36+0100\n"
-"PO-Revision-Date: 2025-10-26 07:35+0000\n"
+"PO-Revision-Date: 2025-10-30 07:03+0000\n"
 "Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
 "documentation/ga/>\n"
@@ -4261,6 +4261,11 @@ msgid ""
 "see :ref:`reverse-proxy`. :guilabel:`HTTP headers` shows complete HTTP "
 "request headers to provide additional information."
 msgstr ""
+":guilabel:`HTTP environment` ligeann duit an timpeallacht HTTP a "
+"bhreathnaíonn Weblate a fheiceáil. Tá sé seo úsáideach agus cumraíocht "
+"seachfhreastalaí droim ar ais á dhífhabhtú, féach :ref:`reverse-proxy`. "
+"Taispeánann :guilabel:`HTTP headers` ceanntásca iomlána iarratais HTTP chun "
+"faisnéis bhreise a sholáthar."
 
 #: ../../admin/admin.rst:48
 msgid ""
@@ -10780,20 +10785,16 @@ msgstr ""
 "céadta milliún focal óstaithe."
 
 #: ../../admin/install.rst:146
-#, fuzzy
-#| msgid "Database"
 msgid "Datastore"
-msgstr "Bunachar Sonraí"
+msgstr "Stóras Sonraí"
 
 #: ../../admin/install.rst:147
-#, fuzzy
-#| msgid "Redis server for cache and tasks queue, see :ref:`celery`."
 msgid ""
 "Key/value datastore such as Valkey or Redis server for cache and tasks "
 "queue, see :ref:`celery`."
 msgstr ""
-"Freastalaí Redis le haghaidh taisce agus scuaine tascanna, "
-"féach :ref:`celery`."
+"Stóras sonraí eochrach/luach amhail freastalaí Valkey nó Redis le haghaidh "
+"taisce agus scuaine tascanna, féach :ref:`celery`."
 
 #: ../../admin/install.rst:150
 msgid "File system"
@@ -10824,16 +10825,12 @@ msgstr ""
 "féidir é a sholáthar go seachtrach."
 
 #: ../../admin/install.rst:159
-#, fuzzy
-#| msgid ""
-#| ":doc:`/admin/install/docker` includes PostgreSQL and Redis, making the "
-#| "installation easier."
 msgid ""
 ":doc:`/admin/install/docker` includes PostgreSQL and Valkey, making the "
 "installation easier."
 msgstr ""
-"Cuimsíonn :doc:`/admin/install/docker` PostgreSQL agus Redis, rud a fhágann "
-"go bhfuil an suiteáil níos éasca."
+"Tá PostgreSQL agus Valkey san áireamh i :doc:`/admin/install/docker`, rud a "
+"fhágann go bhfuil an suiteáil níos éasca."
 
 #: ../../admin/install.rst:164
 msgid "Software requirements"
@@ -11808,6 +11805,8 @@ msgid ""
 "To debug this configuration, you can look at :guilabel:`HTTP environment` "
 "in :ref:`manage-performance`."
 msgstr ""
+"Chun an chumraíocht seo a dhífhabhtú, is féidir leat féachaint ar :guilabel:`"
+"HTTP environment` i :ref:`manage-performance`."
 
 #: ../../admin/install.rst:736
 msgid "Client IP address"
@@ -12024,16 +12023,13 @@ msgstr ""
 "bhaint den bhunachar sonraí."
 
 #: ../../admin/install.rst:894
-#, fuzzy
-#| msgid ""
-#| "If you are using Redis as cache (see :ref:`production-cache`) it is "
-#| "recommended to use it for sessions as well:"
 msgid ""
 "If you are using Valkey or Redis as cache (see :ref:`production-cache`) it "
 "is recommended to use it for sessions as well:"
 msgstr ""
-"Má tá Redis á úsáid agat mar thaisce (féach :ref:`production-cache`) moltar "
-"é a úsáid le haghaidh seisiúin freisin:"
+"Más Valkey nó Redis atá in úsáid agat mar thaisce "
+"(féach :ref:`production-cache`) moltar é a úsáid le haghaidh seisiún chomh "
+"maith:"
 
 #: ../../admin/install.rst:910
 msgid ""
@@ -12285,34 +12281,24 @@ msgstr ""
 "mar shampla ag baint úsáide as `PGTune <https://pgtune.leopard.in.ua/>`_."
 
 #: ../../admin/install.rst:1133
-#, fuzzy
-#| msgid "Configure"
 msgid "Configure cache"
-msgstr "Cumraigh"
+msgstr "Cumraigh an taisce"
 
 #: ../../admin/install.rst:1135
-#, fuzzy
-#| msgid ""
-#| "If possible, use Redis from Django by adjusting the ``CACHES`` "
-#| "configuration variable, for example:"
 msgid ""
 "If possible, use Valkey or Redis from Django by adjusting the ``CACHES`` "
 "configuration variable, for example:"
 msgstr ""
-"Más féidir, bain úsáid as Redis ó Django tríd an athróg chumraíochta "
-"``CACHES`` a choigeartú, mar shampla:"
+"Más féidir, bain úsáid as Valkey nó Redis ó Django tríd an athróg "
+"chumraíochta ``CACHES`` a choigeartú, mar shampla:"
 
 #: ../../admin/install.rst:1156
-#, fuzzy
-#| msgid ""
-#| "In case you change Redis settings for the cache, you might need to adjust "
-#| "them for Celery as well, see :ref:`celery`."
 msgid ""
 "In case you change settings for the cache, you might need to adjust them for "
 "Celery as well, see :ref:`celery`."
 msgstr ""
-"Sa chás go n-athraíonn tú socruithe Redis don taisce, b'fhéidir go mbeidh "
-"ort iad a choigeartú do Soilire freisin, féach :ref:`celery`."
+"Sa chás go n-athraíonn tú socruithe don taisce, b'fhéidir go mbeadh ort iad "
+"a choigeartú le haghaidh Soilire chomh maith, féach :ref:`celery`."
 
 #: ../../admin/install.rst:1167
 msgid "Avatar caching"
@@ -13019,11 +13005,10 @@ msgid "Committing pending changes (see :ref:`lazy-commit`)."
 msgstr "Athruithe ar feitheamh a dhéanamh (féach :ref:`lazy-commit`)."
 
 #: ../../admin/install.rst:1698
-#, fuzzy
-#| msgid "A typical setup using Redis as a backend looks like this:"
 msgid "A typical setup using Valkey or Redis as a backend looks like this:"
 msgstr ""
-"Is é seo an chuma atá ar shocrú tipiciúil a úsáideann Redis mar inneall:"
+"Seo mar a bheadh socrú tipiciúil ag baint úsáide as Valkey nó Redis mar "
+"chúltaca:"
 
 #: ../../admin/install.rst:1708
 msgid ""
@@ -13379,39 +13364,29 @@ msgid "Other notes"
 msgstr "Nótaí eile"
 
 #: ../../admin/install.rst:1948
-#, fuzzy
-#| msgid ""
-#| "Don't forget to move other services Weblate might have been using like "
-#| "Redis, Cron jobs or custom authentication backends."
 msgid ""
 "Don't forget to move other services Weblate might have been using like "
 "Valkey, Redis, Cron jobs or custom authentication backends."
 msgstr ""
-"Ná déan dearmad seirbhísí eile a d’fhéadfadh a bheith ag baint úsáide as "
-"Weblate cosúil le Redis, jabanna Cron nó inneall fíordheimhnithe "
-"saincheaptha a bhogadh."
+"Ná déan dearmad seirbhísí eile a d'fhéadfadh a bheith in úsáid ag Weblate a "
+"bhogadh, amhail Valkey, Redis, poist Cron nó córais chúltaca fíordheimhnithe "
+"saincheaptha."
 
 #: ../../admin/install/docker.rst:2
 msgid "Installing using Docker"
 msgstr "Suiteáil ag baint úsáide as Docker"
 
 #: ../../admin/install/docker.rst:4
-#, fuzzy
-#| msgid ""
-#| "With dockerized Weblate deployment you can get your personal Weblate "
-#| "instance up and running in seconds. All of Weblate's dependencies are "
-#| "already included. PostgreSQL is set up as the default database and Redis "
-#| "as a caching backend."
 msgid ""
 "With dockerized Weblate deployment you can get your personal Weblate "
 "instance up and running in seconds. All of Weblate's dependencies are "
 "already included. PostgreSQL is set up as the default database and Valkey as "
 "a caching backend."
 msgstr ""
-"Le himscaradh Weblate dockerized is féidir leat do shampla Weblate pearsanta "
-"a chur ar bun agus a reáchtáil i soicindí. Tá gach spleáchas ar Weblate san "
-"áireamh cheana féin. Tá PostgreSQL ar bun mar bhunachar sonraí "
-"réamhshocraithe agus Redis mar inneall taisce."
+"Le himscaradh Weblate atá bunaithe ar dhocairí, is féidir leat do chás "
+"pearsanta Weblate a chur ar bun agus ag feidhmiú i gceann soicindí. Tá gach "
+"spleáchas de chuid Weblate san áireamh cheana féin. Tá PostgreSQL socraithe "
+"mar an mbunachar sonraí réamhshocraithe agus Valkey mar chúltaca taisceála."
 
 #: ../../admin/install/docker.rst:13 ../../admin/install/kubernetes.rst:18
 #: ../../admin/install/openshift.rst:12
@@ -15016,73 +14991,56 @@ msgstr ""
 "as :setting:`DATABASE_BACKUP`. Réamhshocrú go ``plain``."
 
 #: ../../admin/install/docker.rst:1627
-#, fuzzy
-#| msgid "Email server setup"
 msgid "Datastore server setup"
-msgstr "Socrú freastalaí ríomhphoist"
+msgstr "Socrú freastalaí stórais sonraí"
 
 #: ../../admin/install/docker.rst:1629
-#, fuzzy
-#| msgid ""
-#| "Using Redis is strongly recommended by Weblate and you have to provide a "
-#| "Redis instance when running Weblate in Docker."
 msgid ""
 "Using Valkey or Redis is required by the Weblate container and you have to "
 "provide a connection parameters when running Weblate in Docker."
 msgstr ""
-"Tá sé molta go láidir ag Weblate go n-úsáidfeá Redis agus caithfidh tú "
-"sampla Redis a chur ar fáil agus tú ag rith Weblate in Docker."
+"Éilíonn coimeádán Weblate úsáid Valkey nó Redis agus caithfidh tú "
+"paraiméadair nasc a sholáthar agus Weblate á rith i Docker."
 
 #: ../../admin/install/docker.rst:1638
-#, fuzzy
-#| msgid "The Redis server hostname or IP address. Defaults to ``cache``."
 msgid "The datastore server hostname or IP address. Defaults to ``cache``."
 msgstr ""
-"Óstainm nó seoladh IP an fhreastalaí Redis. Réamhshocruithe le ``taisce``."
+"Ainm óstach nó seoladh IP an fhreastalaí stórais sonraí. Is é ``taisce`` an "
+"rogha réamhshocraithe."
 
 #: ../../admin/install/docker.rst:1642
-#, fuzzy
-#| msgid "The Redis server port. Defaults to ``6379``."
 msgid "The datastore server port. Defaults to ``6379``."
-msgstr "An port freastalaí Redis. Réamhshocrú go ``6379``."
+msgstr "Port an fhreastalaí stórais sonraí. Is é ``6379`` an réamhshocrú."
 
 #: ../../admin/install/docker.rst:1646
-#, fuzzy
-#| msgid "The Redis database number, defaults to ``1``."
 msgid "The datastore database number, defaults to ``1``."
-msgstr "Uimhir bhunachar sonraí Redis, réamhshocraithe go ``1``."
+msgstr ""
+"Is é ``1`` an réamhshocrú a dhéanann uimhir bhunachar sonraí an stórais "
+"sonraí."
 
 #: ../../admin/install/docker.rst:1652
-#, fuzzy
-#| msgid "The Redis database user, not used by default."
 msgid "The datastore database user, not used by default."
 msgstr ""
-"An t-úsáideoir bunachar sonraí Redis, nach n-úsáidtear de réir "
+"Úsáideoir bunachar sonraí an stórais datastorage, nach n-úsáidtear de réir "
 "réamhshocraithe."
 
 #: ../../admin/install/docker.rst:1656
-#, fuzzy
-#| msgid "The Redis server password, not used by default."
 msgid "The datastore server password, not used by default."
 msgstr ""
-"Focal faire an fhreastalaí Redis, nach n-úsáidtear de réir réamhshocraithe."
+"Pasfhocal an fhreastalaí stórais sonraí, nach n-úsáidtear de réir "
+"réamhshocraithe."
 
 #: ../../admin/install/docker.rst:1664
-#, fuzzy
-#| msgid "Enables using SSL for Redis connection."
 msgid "Enables using SSL for the datastore connection."
-msgstr "Cumasaíonn sé SSL a úsáid le haghaidh nasc Redis."
+msgstr "Cumasaíonn sé úsáid SSL don nasc stórais sonraí."
 
 #: ../../admin/install/docker.rst:1668
-#, fuzzy
-#| msgid ""
-#| "Can be used to disable SSL certificate verification for Redis connection."
 msgid ""
 "Can be used to disable SSL certificate verification for the datastore "
 "connection."
 msgstr ""
-"Is féidir é a úsáid chun fíorú teastais SSL a dhíchumasú le haghaidh nasc "
-"Redis."
+"Is féidir é a úsáid chun fíorú teastais SSL a dhíchumasú don nasc stórais "
+"sonraí."
 
 #: ../../admin/install/docker.rst:1673
 msgid "Email server setup"
@@ -15431,20 +15389,15 @@ msgid "Docker container volumes"
 msgstr "Toirteanna coimeádán docker"
 
 #: ../../admin/install/docker.rst:2064
-#, fuzzy
-#| msgid ""
-#| "There are two volumes (:file:`data` and :file:`cache`) exported by the "
-#| "Weblate container. The other service containers (PostgreSQL or Redis) "
-#| "have their data volumes as well, but those are not covered by this "
-#| "document."
 msgid ""
 "There are two volumes (:file:`data` and :file:`cache`) exported by the "
 "Weblate container. The other service containers (PostgreSQL or Valkey) have "
 "their data volumes as well, but those are not covered by this document."
 msgstr ""
-"Tá dhá imleabhar (:file:`data` agus :file:`cache`) easpórtáilte ag an "
-"gcoimeádán Weblate. Tá a méideanna sonraí ag na coimeádáin seirbhíse eile "
-"(PostgreSQL nó Redis) freisin, ach níl siad sin clúdaithe sa doiciméad seo."
+"Tá dhá imleabhar (:file:`data` agus :file:`cache`) á n-easpórtáil ag "
+"coimeádán Weblate. Tá a n-imleabhair sonraí féin ag na coimeádáin seirbhíse "
+"eile (PostgreSQL nó Valkey) chomh maith, ach níl siad sin clúdaithe sa "
+"cháipéis seo."
 
 #: ../../admin/install/docker.rst:2068
 msgid ""
@@ -17298,10 +17251,8 @@ msgid "Amazon Translate"
 msgstr "Amazon Translate"
 
 #: ../../admin/machine.rst:0
-#, fuzzy
-#| msgid "New features"
 msgid "Advanced features"
-msgstr "Gnéithe nua"
+msgstr "Gnéithe nuaGnéithe ardleibhéil"
 
 #: ../../admin/machine.rst:145
 msgid "API secret key"
@@ -18022,40 +17973,28 @@ msgid "OpenAI model"
 msgstr "Múnla OpenAI"
 
 #: ../../admin/machine.rst:693
-#, fuzzy
-#| msgid "``gpt-4o`` -- GPT-4o"
 msgid "``gpt-5-nano`` -- GPT-5-nano"
-msgstr "``gpt-4o`` -- GPT-4o"
+msgstr "``gpt-5-nano`` -- GPT-5-nana"
 
 #: ../../admin/machine.rst:695
-#, fuzzy
-#| msgid "``gpt-4o-mini`` -- GPT-4o mini"
 msgid "``gpt-5-mini`` -- GPT-5-mini"
-msgstr "``gpt-4o-mini`` -- GPT-4o mini"
+msgstr "``gpt-5-mini`` -- GPT-5-mion"
 
 #: ../../admin/machine.rst:697
-#, fuzzy
-#| msgid "``gpt-4`` -- GPT-4"
 msgid "``gpt-5`` -- GPT-5"
-msgstr "``gpt-4`` -- GPT-4"
+msgstr "``gpt-5`` -- GPT-5"
 
 #: ../../admin/machine.rst:699
-#, fuzzy
-#| msgid "``gpt-4o`` -- GPT-4o"
 msgid "``gpt-4.1-nano`` -- GPT-4.1-nano"
-msgstr "``gpt-4o`` -- GPT-4o"
+msgstr "``gpt-4.1-nano`` -- GPT-4.1-nano"
 
 #: ../../admin/machine.rst:701
-#, fuzzy
-#| msgid "``gpt-4o-mini`` -- GPT-4o mini"
 msgid "``gpt-4.1-mini`` -- GPT-4.1-mini"
-msgstr "``gpt-4o-mini`` -- GPT-4o mini"
+msgstr "``gpt-4.1-mini`` -- GPT-4.1-mini"
 
 #: ../../admin/machine.rst:703
-#, fuzzy
-#| msgid "``gpt-4`` -- GPT-4"
 msgid "``gpt-4.1`` -- GPT-4.1"
-msgstr "``gpt-4`` -- GPT-4"
+msgstr "``gpt-4.1`` -- GPT-4.1"
 
 #: ../../admin/machine.rst:705
 msgid "``gpt-4o-mini`` -- GPT-4o mini"
@@ -18066,34 +18005,24 @@ msgid "``gpt-4o`` -- GPT-4o"
 msgstr "``gpt-4o`` -- GPT-4o"
 
 #: ../../admin/machine.rst:709
-#, fuzzy
-#| msgid "``o3-mini`` -- OpenAI o3-mini"
 msgid "``o3-mini`` -- o3-mini"
-msgstr "``o3-mini`` -- OpenAI o3-mini"
+msgstr "``o3-mini`` -- o3-mion"
 
 #: ../../admin/machine.rst:711
-#, fuzzy
-#| msgid "``o3`` -- OpenAI o3"
 msgid "``o3`` -- o3"
-msgstr "``o3`` -- OpenAI o3"
+msgstr "``o3`` -- o3"
 
 #: ../../admin/machine.rst:713
-#, fuzzy
-#| msgid "``o1-mini`` -- OpenAI o1-mini"
 msgid "``o1-mini`` -- o1-mini"
-msgstr "``o1-mini`` -- OpenAI o1-mini"
+msgstr "``o1-mini`` -- o1-mion"
 
 #: ../../admin/machine.rst:715
-#, fuzzy
-#| msgid "``o1`` -- OpenAI o1"
 msgid "``o1`` -- o1"
-msgstr "``o1`` -- OpenAI o1"
+msgstr "``o1`` -- o1"
 
 #: ../../admin/machine.rst:717
-#, fuzzy
-#| msgid "``o1`` -- OpenAI o1"
 msgid "``o1-pro`` -- o1-pro"
-msgstr "``o1`` -- OpenAI o1"
+msgstr "``o1-pro`` -- o1-proifisiúnta"
 
 #: ../../admin/machine.rst:719
 msgid "``custom`` -- Custom model"
@@ -26353,10 +26282,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS ar Vicipéid <https://ga.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.1.1"
 msgid "Weblate 5.14.1"
-msgstr "Gréasán 5.1.1"
+msgstr "Weblate 5.14.1"
 
 #: ../../changes.rst:4
 msgid "*Not yet released.*"
@@ -26388,14 +26315,15 @@ msgid "Improvements"
 msgstr "Feabhsuithe"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Cache server (see :ref:`production-cache`)"
 msgid "Document using Valkey in :ref:`celery` and :ref:`production-cache`."
-msgstr "Freastalaí taisce (féach :ref:`production-cache`)"
+msgstr ""
+"Doiciméad ag baint úsáide as Valkey i :ref:`celery` agus :ref:`production-"
+"cache`."
 
 #: ../../changes.rst:11
 msgid "Added HTTP environment overview in :ref:`manage-performance`."
 msgstr ""
+"Cuireadh forbhreathnú ar thimpeallacht HTTP leis i :ref:`manage-performance`."
 
 #: ../../changes.rst:14 ../../changes.rst:66 ../../changes.rst:103
 #: ../../changes.rst:132 ../../changes.rst:157 ../../changes.rst:219
@@ -26419,16 +26347,12 @@ msgid "Bug fixes"
 msgstr "Ceartúcháin fabhtanna"
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Returns information about the VCS repository status."
 msgid "Counting outgoing commits in the repository status."
-msgstr "Tuairisceáin faisnéis faoi stádas stór VCS."
+msgstr "Ag comhaireamh na ngealltanas atá ag dul amach i stádas an stórais."
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "Licensing translations"
 msgid "Listing of other translations."
-msgstr "Aistriúcháin a cheadúnú"
+msgstr "Liosta d’aistriúcháin eile."
 
 #: ../../changes.rst:19 ../../changes.rst:76 ../../changes.rst:171
 #: ../../changes.rst:226 ../../changes.rst:349 ../../changes.rst:499
@@ -26511,26 +26435,20 @@ msgid "Contributors"
 msgstr "Rannpháirtithe"
 
 #: ../../changes.rst:28
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "153?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/154?"
 "closed=1>`__."
 msgstr ""
-"`Gach athrú go mion <https://github.com/WeblateOrg/weblate/milestone/153?"
-"closed=1>`__."
+"`Gach athrú go mion <https://github.com/WeblateOrg/weblate/milestone/"
+"154?closed=1>`__."
 
 #: ../../changes.rst:31
 msgid "Weblate 5.14"
 msgstr "Weblate 5.14"
 
 #: ../../changes.rst:33
-#, fuzzy
-#| msgid "*Released on October 25th 2023.*"
 msgid "*Released on October 22nd 2025.*"
-msgstr "*Eisithe ar 25 Deireadh Fómhair 2023.*"
+msgstr "*Scaoilte ar an 22 Deireadh Fómhair 2025.*"
 
 #: ../../changes.rst:37
 msgid ""
@@ -48649,10 +48567,8 @@ msgid "Main class for invoking commands."
 msgstr "Príomhrang le haghaidh orduithe a agairt."
 
 #: ../../security/data-residency.rst:2
-#, fuzzy
-#| msgid "Database latency"
 msgid "Data residency"
-msgstr "Folaigh bunachar sonraí"
+msgstr "Cónaitheacht sonraí"
 
 #: ../../security/data-residency.rst:4
 msgid ""
@@ -48660,6 +48576,10 @@ msgid ""
 "within the **European Union**. This ensures strong data protection, clear "
 "jurisdiction, and compliance with European privacy standards."
 msgstr ""
+"Tá gach seirbhís **Weblate Cloud** agus **Weblate Hosted** á óstáil go "
+"hiomlán laistigh den **Aontas Eorpach**. Cinntíonn sé seo cosaint láidir "
+"sonraí, dlínse shoiléir, agus comhlíonadh le caighdeáin phríobháideachta "
+"Eorpacha."
 
 #: ../../security/data-residency.rst:7
 msgid ""
@@ -48669,42 +48589,53 @@ msgid ""
 "(information security) and **ISO 9001** (quality management), and are "
 "pursuing **ISO 50001** (energy management) certification."
 msgstr ""
+"Cuireann **Hetzner Online GmbH** ár mbonneagar ar fáil, oibreoir ionad "
+"sonraí Gearmánach a bhfuil cáil air le fada an lá as iontaofacht agus "
+"inbhuanaitheacht. Tá áiseanna Hetzner deimhnithe faoi **ISO 27001** "
+"(slándáil faisnéise) agus **ISO 9001** (bainistíocht cáilíochta), agus tá "
+"siad ag iarraidh deimhniú **ISO 50001** (bainistíocht fuinnimh) a bhaint "
+"amach."
 
 #: ../../security/data-residency.rst:11
 msgid "Where data lives"
-msgstr ""
+msgstr "An áit a bhfuil sonraí ina gcónaí"
 
 #: ../../security/data-residency.rst:13
 msgid ""
 "All customer data, including translations, user information, and backups, is "
 "stored and processed within the EU."
 msgstr ""
+"Stóráiltear agus próiseáiltear gach sonraí custaiméirí, lena n-áirítear "
+"aistriúcháin, faisnéis úsáideora, agus cúltacaí, laistigh den AE."
 
 #: ../../security/data-residency.rst:14
 msgid "Primary data centers are located in **Germany**."
-msgstr ""
+msgstr "Tá na príomhionaid sonraí lonnaithe sa **Ghearmáin**."
 
 #: ../../security/data-residency.rst:15
 msgid ""
 "No operational data leaves the EU unless explicitly requested by the "
 "customer (for example, for external backups or region-specific deployments)."
 msgstr ""
+"Ní fhágann aon sonraí oibríochtúla an AE mura n-iarrann an custaiméir go "
+"sainráite é (mar shampla, le haghaidh cúltacaí seachtracha nó imscaradh "
+"réigiún-shonrach)."
 
 #: ../../security/data-residency.rst:18
-#, fuzzy
-#| msgid "Privacy regulations compliance"
 msgid "Privacy and regulatory compliance"
-msgstr "Comhlíonadh rialachán príobháideachta"
+msgstr "Príobháideacht agus comhlíonadh rialála"
 
 #: ../../security/data-residency.rst:20
 msgid ""
 "Weblate Cloud and Hosted Weblate follow privacy-by-design principles and "
 "meet the requirements of **GDPR**."
 msgstr ""
+"Leanann Weblate Cloud agus Weblate Hosted prionsabail príobháideachta de "
+"réir dearaidh agus comhlíonann siad ceanglais **GDPR**."
 
 #: ../../security/data-residency.rst:23
 msgid "Sustainability"
-msgstr ""
+msgstr "Inbhuanaitheacht"
 
 #: ../../security/data-residency.rst:25
 msgid ""
@@ -48712,12 +48643,14 @@ msgid ""
 "sourced from **hydropower**. You can find more details at https://"
 "www.hetzner.com/unternehmen/nachhaltigkeit/."
 msgstr ""
+"Oibríonn an bonneagar óstála go léir ar **fuinneamh in-athnuaite 100%**, a "
+"fhoinsítear go príomha ó **chumhacht hidrileictreach**. Is féidir leat "
+"tuilleadh sonraí a fháil ag https://www.hetzner.com/unternehmen/"
+"nachhaltigkeit/."
 
 #: ../../security/data-residency.rst:28
-#, fuzzy
-#| msgid "From version control"
 msgid "Customer control"
-msgstr "Ó rialú leagan"
+msgstr "Rialú custaiméirí"
 
 #: ../../security/data-residency.rst:30
 msgid ""
@@ -48727,6 +48660,11 @@ msgid ""
 "instances are available for organizations needing isolated or customized "
 "environments."
 msgstr ""
+"Coinníonn custaiméirí smacht iomlán ar a gcuid sonraí: - Is féidir "
+"tionscadail, aistriúcháin agus cuntais úsáideora a onnmhairiú nó a scriosadh "
+"tráth ar bith. - Tá comhtháthú seachtrach roghnach agus inchumraithe go "
+"hiomlán. - Tá cásanna tiomnaithe Weblate ar fáil d'eagraíochtaí a bhfuil "
+"timpeallachtaí scoite nó saincheaptha ag teastáil uathu."
 
 #: ../../security/dependencies.rst:2
 msgid "Dependencies"
@@ -49327,16 +49265,12 @@ msgid "Terms of service and privacy policy"
 msgstr "Téarmaí seirbhíse agus polasaí príobháideachais"
 
 #: ../../security/index.rst:49
-#, fuzzy
-#| msgid ""
-#| "These documents apply to Weblate deployments operated by Weblate s.r.o., "
-#| "such as Hosted Weblate."
 msgid ""
 "These documents apply to Weblate deployments operated by Weblate s.r.o., "
 "such as Hosted Weblate and Weblate Cloud."
 msgstr ""
 "Baineann na doiciméid seo le himscaradh Weblate atá á oibriú ag Weblate "
-"s.r.o., amhail Hosted Weblate."
+"s.r.o., amhail Hosted Weblate agus Weblate Cloud."
 
 #: ../../security/index.rst:51
 msgid "`General terms and conditions`_"
@@ -50389,14 +50323,6 @@ msgid "Weblate threat model"
 msgstr "Múnla bagairt Weblate"
 
 #: ../../security/threat-model.rst:4
-#, fuzzy
-#| msgid ""
-#| "**Scope:** Core Weblate web application, its interactions with user "
-#| "browsers, backend components (web server, WSGI, database, Redis, Celery), "
-#| "and integration with external VCS. **Assumptions:** Standard Weblate "
-#| "deployment with typical components (nginx/Apache, Gunicorn/uWSGI, "
-#| "PostgreSQL, Redis, Celery) and user roles (Unauthenticated, Translator, "
-#| "Project Manager, Administrator)."
 msgid ""
 "**Scope:** Core Weblate web application, its interactions with user "
 "browsers, backend components (web server, WSGI, database, datastore, "
@@ -50407,11 +50333,12 @@ msgid ""
 msgstr ""
 "**Raon Feidhmchláir Ghréasáin:** Feidhmchlár Gréasáin Lárnach Weblate, a "
 "idirghníomhaíochtaí le brabhsálaithe úsáideoirí, comhpháirteanna cúil "
-"(freastalaí gréasáin, WSGI, bunachar sonraí, Redis, Celery), agus comhtháthú "
-"le VCS seachtrach. **Toimhdí:** Imscaradh caighdeánach Weblate le "
-"comhpháirteanna tipiciúla (nginx/Apache, Gunicorn/uWSGI, PostgreSQL, Redis, "
-"Celery) agus róil úsáideora (Gan Fhíordheimhniú, Aistritheoir, Bainisteoir "
-"Tionscadail, Riarthóir)."
+"(freastalaí gréasáin, WSGI, bunachar sonraí, stór sonraí, Celery), agus "
+"comhtháthú le VCS seachtrach. **Toimhdí:** Imscaradh caighdeánach Weblate le "
+"comhpháirteanna tipiciúla "
+"(nginx/Apache, Gunicorn/uWSGI, PostgreSQL, stór sonraí, Celery) agus róil "
+"úsáideoirí "
+"(Gan Fhíordheimhniú, Aistritheoir, Bainisteoir Tionscadail, Riarthóir)."
 
 #: ../../security/threat-model.rst:8
 msgid "System description and scope"
@@ -50747,10 +50674,8 @@ msgid "System compromise, data exfiltration."
 msgstr "Comhréiteach córais, eis-síothlú sonraí."
 
 #: ../../security/threat-model.rst:110
-#, fuzzy
-#| msgid "**Database/Redis**"
 msgid "**Database/Datastore**"
-msgstr "**Bunachar Sonraí/Redis**"
+msgstr "**Bunachar Sonraí/Stóras Sonraí**"
 
 #: ../../security/threat-model.rst:112
 msgid ""
@@ -50766,33 +50691,26 @@ msgid "System malfunction, data integrity loss."
 msgstr "Mífheidhmiú córais, cailliúint sláine sonraí."
 
 #: ../../security/threat-model.rst:116
-#, fuzzy
-#| msgid ""
-#| "**Sensitive data access:** Unauthorized access to database/Redis exposes "
-#| "all stored data (credentials, translation memory, user profiles)."
 msgid ""
 "**Sensitive data access:** Unauthorized access to database/datastore exposes "
 "all stored data (credentials, translation memory, user profiles)."
 msgstr ""
 "**Rochtain ar shonraí íogaire:** Nochtann rochtain neamhúdaraithe ar "
-"bhunachar sonraí/Redis na sonraí stóráilte go léir (dintiúir, cuimhne "
-"aistriúcháin, próifílí úsáideoirí)."
+"bhunachar sonraí/stóras sonraí na sonraí stóráilte go léir "
+"(dintiúir, cuimhne aistriúcháin, próifílí úsáideoirí)."
 
 #: ../../security/threat-model.rst:117
 msgid "Major data breach."
 msgstr "Sárú mór sonraí."
 
 #: ../../security/threat-model.rst:120
-#, fuzzy
-#| msgid ""
-#| "**Database exhaustion:** Attacker floods the database with queries, or "
-#| "consumes all Redis memory/connections."
 msgid ""
 "**Database exhaustion:** Attacker floods the database or datastore with "
 "queries, or consumes all memory or available connections."
 msgstr ""
-"**Ídiú bunachar sonraí:** Líonann an t-ionsaitheoir an bunachar sonraí le "
-"fiosrúcháin, nó ídíonn sé gach cuimhne/naisc Redis."
+"**Ídiú bunachar sonraí:** Líonann an t-ionsaitheoir an bunachar sonraí nó an "
+"stór sonraí le fiosrúcháin, nó ídíonn sé an chuimhne go léir nó na naisc atá "
+"ar fáil."
 
 #: ../../security/threat-model.rst:122
 msgid "**VCS integration**"
@@ -51014,14 +50932,12 @@ msgstr ""
 "oibriúcháin."
 
 #: ../../security/threat-model.rst:171
-#, fuzzy
-#| msgid ""
-#| "Network segmentation (e.g., separating database/Redis from public access)."
 msgid ""
 "Network segmentation (e.g., separating database and datastore from public "
 "access)."
 msgstr ""
-"Deighilt líonra (e.g., bunachar sonraí/Redis a dheighilt ó rochtain phoiblí)."
+"Deighilt líonra "
+"(e.g., bunachar sonraí agus stór sonraí a dheighilt ó rochtain phoiblí)."
 
 #: ../../security/threat-model.rst:172
 msgid "Use of WAF (Web Application Firewall)."
@@ -53949,10 +53865,9 @@ msgid "For example with Gettext in Python it could be:"
 msgstr "Mar shampla le Gettext i Python d'fhéadfadh sé a bheith:"
 
 #: ../../user/checks.rst:2193
-#, fuzzy
-#| msgid "Glossaries in automatic suggestion"
 msgid "Placeables in automatic suggestion"
-msgstr "Gluaiseanna i moladh uathoibríoch"
+msgstr ""
+"Gluaiseanna i moladh uathoibríochMoltaí inláimhsithe i moladh uathoibríoch"
 
 #: ../../user/checks.rst:2195
 msgid ""
@@ -53961,6 +53876,11 @@ msgid ""
 "for this varies in different services and in many cases there is no way to "
 "enforce keeping placeables intact."
 msgstr ""
+"Nochtann seiceálacha le haghaidh ábhar inláimhsithe faisnéis faoi ábhar "
+"inláimhsithe reatha agus is féidir é seo a úsáid chun innill mholtaí "
+"uathoibríocha a threorú chun iad a choinneáil. Athraíonn an tacaíocht a "
+"thugtar dó seo i seirbhísí éagsúla agus i go leor cásanna níl aon bhealach "
+"ann chun ábhar inláimhsithe a choinneáil slán."
 
 #: ../../user/files.rst:2
 msgid "Downloading and uploading translations"
@@ -54597,17 +54517,14 @@ msgid "Glossaries in automatic suggestion"
 msgstr "Gluaiseanna i moladh uathoibríoch"
 
 #: ../../user/glossary.rst:138
-#, fuzzy
-#| msgid ""
-#| "Following automatic suggestion services utilize glossaries during the "
-#| "translation:"
 msgid ""
 "Some automatic suggestion services utilize glossaries during the "
 "translation, please consult their documentation in :doc:`/admin/machine` to "
 "see the support."
 msgstr ""
-"Tar éis seirbhísí moltaí uathoibríocha a úsáid, bain úsáid as gluaiseanna le "
-"linn an aistriúcháin:"
+"Úsáideann roinnt seirbhísí moltaí uathoibríocha gluaiseanna le linn an "
+"aistriúcháin, féach ar a ndoiciméadacht i :doc:`/admin/machine` le haghaidh "
+"tuilleadh eolais faoin tacaíocht."
 
 #: ../../user/glossary.rst:141
 msgid "The glossary is processed before exposed to the service:"
@@ -57172,6 +57089,8 @@ msgid ""
 "In case you don't provide credentials in the URL and the repository requires "
 "it, Git will fail with an error:"
 msgstr ""
+"Mura soláthraíonn tú dintiúir san URL agus má éilíonn an stór é, teipfidh ar "
+"Git le hearráid:"
 
 #: ../../vcs.rst:283
 msgid ""

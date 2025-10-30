@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-27 08:36+0100\n"
-"PO-Revision-Date: 2025-10-23 08:03+0000\n"
+"PO-Revision-Date: 2025-10-27 19:46+0000\n"
 "Last-Translator: Максим Горпиніч <gorpinicmaksim0@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -32,7 +32,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : "
 "n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.14-dev\n"
+"X-Generator: Weblate 5.14.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:215
@@ -4239,6 +4239,10 @@ msgid ""
 "see :ref:`reverse-proxy`. :guilabel:`HTTP headers` shows complete HTTP "
 "request headers to provide additional information."
 msgstr ""
+":guilabel:`HTTP environment` дозволяє переглянути HTTP-середовище, яке "
+"спостерігає Weblate. Це корисно під час налагодження конфігурації зворотного "
+"проксі-сервера, див. :ref:`reverse-proxy`. :guilabel:`HTTP headers` показує "
+"повні заголовки HTTP-запитів, щоб надати додаткову інформацію."
 
 #: ../../admin/admin.rst:48
 msgid ""
@@ -10699,18 +10703,16 @@ msgstr ""
 "розміщених слів."
 
 #: ../../admin/install.rst:146
-#, fuzzy
-#| msgid "Database"
 msgid "Datastore"
-msgstr "База даних"
+msgstr "Сховище даних"
 
 #: ../../admin/install.rst:147
-#, fuzzy
-#| msgid "Redis server for cache and tasks queue, see :ref:`celery`."
 msgid ""
 "Key/value datastore such as Valkey or Redis server for cache and tasks "
 "queue, see :ref:`celery`."
-msgstr "Сервер Redis для кешування і черги завдань, див. :ref:`celery`."
+msgstr ""
+"Сховище даних ключ/значення, таке як сервер Valkey або Redis для кешу та "
+"черги завдань, див. :ref:`celery`."
 
 #: ../../admin/install.rst:150
 msgid "File system"
@@ -10742,16 +10744,12 @@ msgstr ""
 "бути наданий ззовні."
 
 #: ../../admin/install.rst:159
-#, fuzzy
-#| msgid ""
-#| ":doc:`/admin/install/docker` includes PostgreSQL and Redis, making the "
-#| "installation easier."
 msgid ""
 ":doc:`/admin/install/docker` includes PostgreSQL and Valkey, making the "
 "installation easier."
 msgstr ""
-":doc:`/admin/install/docker` включає PostgreSQL і Redis, що робить "
-"встановлення простішим."
+":doc:`/admin/install/docker` містить PostgreSQL та Valkey, що спрощує "
+"встановлення."
 
 #: ../../admin/install.rst:164
 msgid "Software requirements"
@@ -11729,6 +11727,8 @@ msgid ""
 "To debug this configuration, you can look at :guilabel:`HTTP environment` "
 "in :ref:`manage-performance`."
 msgstr ""
+"Щоб налагодити цю конфігурацію, ви можете переглянути :guilabel:`HTTP "
+"environment` у :ref:`manage-performance`."
 
 #: ../../admin/install.rst:736
 msgid "Client IP address"
@@ -11941,16 +11941,12 @@ msgstr ""
 "clearsessions` для вилучення застарілих даних сеансу з бази даних."
 
 #: ../../admin/install.rst:894
-#, fuzzy
-#| msgid ""
-#| "If you are using Redis as cache (see :ref:`production-cache`) it is "
-#| "recommended to use it for sessions as well:"
 msgid ""
 "If you are using Valkey or Redis as cache (see :ref:`production-cache`) it "
 "is recommended to use it for sessions as well:"
 msgstr ""
-"Якщо ви використовуєте Redis як кеш (див. :ref:`production-cache`) "
-"рекомендуємо скористатися ним і для сеансів:"
+"Якщо ви використовуєте Valkey або Redis як кеш (див. :ref:`production-cache`)"
+", рекомендується використовувати його також для сесій:"
 
 #: ../../admin/install.rst:910
 msgid ""
@@ -12205,34 +12201,24 @@ msgstr ""
 "наприклад, застосувавши `PGTune <https://pgtune.leopard.in.ua/>`_."
 
 #: ../../admin/install.rst:1133
-#, fuzzy
-#| msgid "Configure"
 msgid "Configure cache"
-msgstr "Налаштувати"
+msgstr "Налаштувати кеш"
 
 #: ../../admin/install.rst:1135
-#, fuzzy
-#| msgid ""
-#| "If possible, use Redis from Django by adjusting the ``CACHES`` "
-#| "configuration variable, for example:"
 msgid ""
 "If possible, use Valkey or Redis from Django by adjusting the ``CACHES`` "
 "configuration variable, for example:"
 msgstr ""
-"Якщо можна, скористайтеся Redis з Django коригуванням значення змінної "
-"налаштувань ``CACHES``. Приклад:"
+"Якщо можливо, використовуйте Valkey або Redis з Django, налаштувавши змінну "
+"конфігурації ``CACHES``, наприклад:"
 
 #: ../../admin/install.rst:1156
-#, fuzzy
-#| msgid ""
-#| "In case you change Redis settings for the cache, you might need to adjust "
-#| "them for Celery as well, see :ref:`celery`."
 msgid ""
 "In case you change settings for the cache, you might need to adjust them for "
 "Celery as well, see :ref:`celery`."
 msgstr ""
-"Якщо ви хочете змінити параметри Redis для кешування, вам, ймовірно, варто "
-"також змінити їх і для Celery, див. :ref:`celery`."
+"Якщо ви зміните налаштування кешу, вам може знадобитися налаштувати їх також "
+"і для Celery, див. :ref:`celery`."
 
 #: ../../admin/install.rst:1167
 msgid "Avatar caching"
@@ -12939,10 +12925,8 @@ msgid "Committing pending changes (see :ref:`lazy-commit`)."
 msgstr "Надсилання змін з черги (див. :ref:`lazy-commit`)."
 
 #: ../../admin/install.rst:1698
-#, fuzzy
-#| msgid "A typical setup using Redis as a backend looks like this:"
 msgid "A typical setup using Valkey or Redis as a backend looks like this:"
-msgstr "Типова конфігурація з використанням модуля обробки Redis виглядає так:"
+msgstr "Типова схема з використанням Valkey або Redis як бекенду виглядає так:"
 
 #: ../../admin/install.rst:1708
 msgid ""
@@ -13300,38 +13284,28 @@ msgid "Other notes"
 msgstr "Інші нотатки"
 
 #: ../../admin/install.rst:1948
-#, fuzzy
-#| msgid ""
-#| "Don't forget to move other services Weblate might have been using like "
-#| "Redis, Cron jobs or custom authentication backends."
 msgid ""
 "Don't forget to move other services Weblate might have been using like "
 "Valkey, Redis, Cron jobs or custom authentication backends."
 msgstr ""
-"Не забудьте перенести інші служби, які Weblate може використовувати, зокрема "
-"Redis, завдання Cron і нетипові модулі розпізнавання."
+"Не забудьте перенести інші служби, які Weblate міг використовувати, такі як "
+"Valkey, Redis, завдання Cron або власні сервери автентифікації."
 
 #: ../../admin/install/docker.rst:2
 msgid "Installing using Docker"
 msgstr "Установлення за допомогою Docker"
 
 #: ../../admin/install/docker.rst:4
-#, fuzzy
-#| msgid ""
-#| "With dockerized Weblate deployment you can get your personal Weblate "
-#| "instance up and running in seconds. All of Weblate's dependencies are "
-#| "already included. PostgreSQL is set up as the default database and Redis "
-#| "as a caching backend."
 msgid ""
 "With dockerized Weblate deployment you can get your personal Weblate "
 "instance up and running in seconds. All of Weblate's dependencies are "
 "already included. PostgreSQL is set up as the default database and Valkey as "
 "a caching backend."
 msgstr ""
-"Якщо Weblate розгорнуто у середовищі Docker, ви зможете отримати ваш "
-"працездатний і запущений особистий екземпляр Weblate за декілька секунд. Усі "
-"залежності Weblate вже включено. Типовим засобом роботи із базою даних у "
-"таких екземплярах є PostgreSQL та Redis як модуль кешування."
+"Завдяки розгортанню Weblate за допомогою Docker ви можете запустити свою "
+"особисту інстанцію Weblate за лічені секунди. Усі залежності Weblate вже "
+"включені. PostgreSQL налаштований як база даних за замовчуванням, а Valkey — "
+"як кешувальний бекенд."
 
 #: ../../admin/install/docker.rst:13 ../../admin/install/kubernetes.rst:18
 #: ../../admin/install/openshift.rst:12
@@ -14934,69 +14908,51 @@ msgstr ""
 "допомогою :setting:`DATABASE_BACKUP`. Типовим значенням є ``plain``."
 
 #: ../../admin/install/docker.rst:1627
-#, fuzzy
-#| msgid "Email server setup"
 msgid "Datastore server setup"
-msgstr "Налаштування сервера електронної пошти"
+msgstr "Налаштування сервера сховища даних"
 
 #: ../../admin/install/docker.rst:1629
-#, fuzzy
-#| msgid ""
-#| "Using Redis is strongly recommended by Weblate and you have to provide a "
-#| "Redis instance when running Weblate in Docker."
 msgid ""
 "Using Valkey or Redis is required by the Weblate container and you have to "
 "provide a connection parameters when running Weblate in Docker."
 msgstr ""
-"Наполегливо рекомендуємо користуватися Redis. Вам слід надати екземпляр "
-"Redis, якщо ви запускаєте Weblate у Docker."
+"Використання Valkey або Redis є обов'язковим для контейнера Weblate, і вам "
+"потрібно надати параметри підключення під час запуску Weblate в Docker."
 
 #: ../../admin/install/docker.rst:1638
-#, fuzzy
-#| msgid "The Redis server hostname or IP address. Defaults to ``cache``."
 msgid "The datastore server hostname or IP address. Defaults to ``cache``."
-msgstr "Назва вузла сервера Redis або IP-адреса. Типовою є ``cache``."
+msgstr ""
+"Ім'я хоста або IP-адреса сервера сховища даних. За замовчуванням ``cache``."
 
 #: ../../admin/install/docker.rst:1642
-#, fuzzy
-#| msgid "The Redis server port. Defaults to ``6379``."
 msgid "The datastore server port. Defaults to ``6379``."
-msgstr "Порт сервера Redis. Типовим є ``6379``."
+msgstr "Порт сервера сховища даних. За замовчуванням ``6379``."
 
 #: ../../admin/install/docker.rst:1646
-#, fuzzy
-#| msgid "The Redis database number, defaults to ``1``."
 msgid "The datastore database number, defaults to ``1``."
-msgstr "Номер бази даних Redis. Типовим є ``1``."
+msgstr "Номер бази даних сховища даних, за замовчуванням ``1``."
 
 #: ../../admin/install/docker.rst:1652
-#, fuzzy
-#| msgid "The Redis database user, not used by default."
 msgid "The datastore database user, not used by default."
-msgstr "Користувач бази даних Redis, не використовується за замовчуванням."
+msgstr ""
+"Користувач бази даних сховища даних, не використовується за замовчуванням."
 
 #: ../../admin/install/docker.rst:1656
-#, fuzzy
-#| msgid "The Redis server password, not used by default."
 msgid "The datastore server password, not used by default."
-msgstr "Пароль до сервера Redis. Типово, не використовується."
+msgstr ""
+"Пароль сервера сховища даних, який не використовується за замовчуванням."
 
 #: ../../admin/install/docker.rst:1664
-#, fuzzy
-#| msgid "Enables using SSL for Redis connection."
 msgid "Enables using SSL for the datastore connection."
-msgstr "Вмикає використання SSL для з'єднання Redis."
+msgstr "Вмикає використання SSL для підключення до сховища даних."
 
 #: ../../admin/install/docker.rst:1668
-#, fuzzy
-#| msgid ""
-#| "Can be used to disable SSL certificate verification for Redis connection."
 msgid ""
 "Can be used to disable SSL certificate verification for the datastore "
 "connection."
 msgstr ""
-"Може бути використано для вимикання перевірки сертифікатів SSL для з'єднання "
-"Redis."
+"Можна використовувати для вимкнення перевірки SSL-сертифіката для "
+"підключення до сховища даних."
 
 #: ../../admin/install/docker.rst:1673
 msgid "Email server setup"
@@ -15342,19 +15298,13 @@ msgid "Docker container volumes"
 msgstr "Томи контейнера Docker"
 
 #: ../../admin/install/docker.rst:2064
-#, fuzzy
-#| msgid ""
-#| "There are two volumes (:file:`data` and :file:`cache`) exported by the "
-#| "Weblate container. The other service containers (PostgreSQL or Redis) "
-#| "have their data volumes as well, but those are not covered by this "
-#| "document."
 msgid ""
 "There are two volumes (:file:`data` and :file:`cache`) exported by the "
 "Weblate container. The other service containers (PostgreSQL or Valkey) have "
 "their data volumes as well, but those are not covered by this document."
 msgstr ""
-"Контейнер Weblate експортує два томи (:file:`data` і :file:`cache`). Інші "
-"контейнери служб (PostgreSQL або Redis) також мають свої обсяги даних, але "
+"Контейнер Weblate експортує два томи (:file:`data` та :file:`cache`). Інші "
+"контейнери служб (PostgreSQL або Valkey) також мають свої томи даних, але "
 "вони не розглядаються в цьому документі."
 
 #: ../../admin/install/docker.rst:2068
@@ -17201,10 +17151,8 @@ msgid "Amazon Translate"
 msgstr "Amazon Translate"
 
 #: ../../admin/machine.rst:0
-#, fuzzy
-#| msgid "New features"
 msgid "Advanced features"
-msgstr "Нові функції"
+msgstr "Розширені функції"
 
 #: ../../admin/machine.rst:145
 msgid "API secret key"
@@ -17932,40 +17880,28 @@ msgid "OpenAI model"
 msgstr "Модель OpenAI"
 
 #: ../../admin/machine.rst:693
-#, fuzzy
-#| msgid "``gpt-4o`` -- GPT-4o"
 msgid "``gpt-5-nano`` -- GPT-5-nano"
-msgstr "``gpt-4o`` -- GPT-4o"
+msgstr "``gpt-5-nano`` -- GPT-5-nano"
 
 #: ../../admin/machine.rst:695
-#, fuzzy
-#| msgid "``gpt-4o-mini`` -- GPT-4o mini"
 msgid "``gpt-5-mini`` -- GPT-5-mini"
-msgstr "``gpt-4o-mini`` -- GPT-4o mini"
+msgstr "``gpt-5-mini`` -- GPT-5-mini"
 
 #: ../../admin/machine.rst:697
-#, fuzzy
-#| msgid "``gpt-4`` -- GPT-4"
 msgid "``gpt-5`` -- GPT-5"
-msgstr "``gpt-4`` -- GPT-4"
+msgstr "``gpt-5`` -- GPT-5"
 
 #: ../../admin/machine.rst:699
-#, fuzzy
-#| msgid "``gpt-4o`` -- GPT-4o"
 msgid "``gpt-4.1-nano`` -- GPT-4.1-nano"
-msgstr "``gpt-4o`` -- GPT-4o"
+msgstr "``gpt-4.1-nano`` -- GPT-4.1-nano"
 
 #: ../../admin/machine.rst:701
-#, fuzzy
-#| msgid "``gpt-4o-mini`` -- GPT-4o mini"
 msgid "``gpt-4.1-mini`` -- GPT-4.1-mini"
-msgstr "``gpt-4o-mini`` -- GPT-4o mini"
+msgstr "``gpt-4.1-mini`` -- GPT-4.1-mini"
 
 #: ../../admin/machine.rst:703
-#, fuzzy
-#| msgid "``gpt-4`` -- GPT-4"
 msgid "``gpt-4.1`` -- GPT-4.1"
-msgstr "``gpt-4`` -- GPT-4"
+msgstr "``gpt-4.1`` -- GPT-4.1"
 
 #: ../../admin/machine.rst:705
 msgid "``gpt-4o-mini`` -- GPT-4o mini"
@@ -17976,34 +17912,24 @@ msgid "``gpt-4o`` -- GPT-4o"
 msgstr "``gpt-4o`` -- GPT-4o"
 
 #: ../../admin/machine.rst:709
-#, fuzzy
-#| msgid "``o3-mini`` -- OpenAI o3-mini"
 msgid "``o3-mini`` -- o3-mini"
-msgstr "``o3-mini`` -- OpenAI o3-mini"
+msgstr "``o3-mini`` -- o3-mini"
 
 #: ../../admin/machine.rst:711
-#, fuzzy
-#| msgid "``o3`` -- OpenAI o3"
 msgid "``o3`` -- o3"
-msgstr "``o3`` -- OpenAI o3"
+msgstr "``o3`` -- o3"
 
 #: ../../admin/machine.rst:713
-#, fuzzy
-#| msgid "``o1-mini`` -- OpenAI o1-mini"
 msgid "``o1-mini`` -- o1-mini"
-msgstr "``o1-mini`` -- OpenAI o1-mini"
+msgstr "``o1-mini`` -- o1-mini"
 
 #: ../../admin/machine.rst:715
-#, fuzzy
-#| msgid "``o1`` -- OpenAI o1"
 msgid "``o1`` -- o1"
-msgstr "``o1`` -- OpenAI o1"
+msgstr "``o1`` -- o1"
 
 #: ../../admin/machine.rst:717
-#, fuzzy
-#| msgid "``o1`` -- OpenAI o1"
 msgid "``o1-pro`` -- o1-pro"
-msgstr "``o1`` -- OpenAI o1"
+msgstr "``o1-pro`` -- o1-pro"
 
 #: ../../admin/machine.rst:719
 msgid "``custom`` -- Custom model"
@@ -26167,10 +26093,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS у Вікіпедії <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.1.1"
 msgid "Weblate 5.14.1"
-msgstr "Weblate 5.1.1"
+msgstr "Weblate 5.14.1"
 
 #: ../../changes.rst:4
 msgid "*Not yet released.*"
@@ -26202,14 +26126,13 @@ msgid "Improvements"
 msgstr "Покращення"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Cache server (see :ref:`production-cache`)"
 msgid "Document using Valkey in :ref:`celery` and :ref:`production-cache`."
-msgstr "Сервер кешу (див. :ref:`production-cache`)"
+msgstr ""
+"Документ з використанням Valkey у :ref:`celery` та :ref:`production-cache`."
 
 #: ../../changes.rst:11
 msgid "Added HTTP environment overview in :ref:`manage-performance`."
-msgstr ""
+msgstr "Додано огляд середовища HTTP у :ref:`manage-performance`."
 
 #: ../../changes.rst:14 ../../changes.rst:66 ../../changes.rst:103
 #: ../../changes.rst:132 ../../changes.rst:157 ../../changes.rst:219
@@ -26233,16 +26156,12 @@ msgid "Bug fixes"
 msgstr "Виправлення помилок"
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Outgoing commits in the Weblate repository"
 msgid "Counting outgoing commits in the repository status."
-msgstr "Вихідні внески у репозиторії Weblate"
+msgstr "Підрахунок вихідних комітів у статусі репозиторію."
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "Licensing translations"
 msgid "Listing of other translations."
-msgstr "Ліцензування перекладів"
+msgstr "Перелік інших перекладів."
 
 #: ../../changes.rst:19 ../../changes.rst:76 ../../changes.rst:171
 #: ../../changes.rst:226 ../../changes.rst:349 ../../changes.rst:499
@@ -26325,26 +26244,20 @@ msgid "Contributors"
 msgstr "Учасники"
 
 #: ../../changes.rst:28
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "153?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/154?"
 "closed=1>`__."
 msgstr ""
-"`Всі зміни детально <https://github.com/WeblateOrg/weblate/milestone/153?"
-"closed=1>`__."
+"`Всі зміни детально <https://github.com/WeblateOrg/weblate/milestone/"
+"154?closed=1>`__."
 
 #: ../../changes.rst:31
 msgid "Weblate 5.14"
 msgstr "Weblate 5.14"
 
 #: ../../changes.rst:33
-#, fuzzy
-#| msgid "*Released on October 25th 2023.*"
 msgid "*Released on October 22nd 2025.*"
-msgstr "*Випущено 25 жовтня 2023 року.*"
+msgstr "*Випущено 22 жовтня 2025 року.*"
 
 #: ../../changes.rst:37
 msgid ""
@@ -48483,10 +48396,8 @@ msgid "Main class for invoking commands."
 msgstr "Основний клас для виклику команд."
 
 #: ../../security/data-residency.rst:2
-#, fuzzy
-#| msgid "Database latency"
 msgid "Data residency"
-msgstr "Затримка бази даних"
+msgstr "Зберігання даних"
 
 #: ../../security/data-residency.rst:4
 msgid ""
@@ -48494,6 +48405,9 @@ msgid ""
 "within the **European Union**. This ensures strong data protection, clear "
 "jurisdiction, and compliance with European privacy standards."
 msgstr ""
+"Усі послуги **Weblate Cloud** та **Hosted Weblate** повністю розміщені на "
+"серверах у **Європейському Союзі**. Це забезпечує надійний захист даних, "
+"чітку юрисдикцію та відповідність європейським стандартам конфіденційності."
 
 #: ../../security/data-residency.rst:7
 msgid ""
@@ -48503,42 +48417,52 @@ msgid ""
 "(information security) and **ISO 9001** (quality management), and are "
 "pursuing **ISO 50001** (energy management) certification."
 msgstr ""
+"Наша інфраструктура надається компанією **Hetzner Online GmbH**, німецьким "
+"оператором центрів обробки даних, який має багаторічну репутацію надійності "
+"та стійкості. Об'єкти Hetzner сертифіковані за стандартами **ISO 27001** "
+"(інформаційна безпека) та **ISO 9001** (управління якістю) і проходять "
+"сертифікацію за стандартом **ISO 50001** (управління енергоспоживанням)."
 
 #: ../../security/data-residency.rst:11
 msgid "Where data lives"
-msgstr ""
+msgstr "Де зберігаються дані"
 
 #: ../../security/data-residency.rst:13
 msgid ""
 "All customer data, including translations, user information, and backups, is "
 "stored and processed within the EU."
 msgstr ""
+"Усі дані клієнтів, включаючи переклади, інформацію про користувачів та "
+"резервні копії, зберігаються та обробляються в межах ЄС."
 
 #: ../../security/data-residency.rst:14
 msgid "Primary data centers are located in **Germany**."
-msgstr ""
+msgstr "Основні центри обробки даних розташовані в **Німеччині**."
 
 #: ../../security/data-residency.rst:15
 msgid ""
 "No operational data leaves the EU unless explicitly requested by the "
 "customer (for example, for external backups or region-specific deployments)."
 msgstr ""
+"Жодні операційні дані не залишають ЄС, окрім випадків, коли клієнт явно "
+"вимагає цього "
+"(наприклад, для зовнішніх резервних копій або розгортань у певному регіоні)."
 
 #: ../../security/data-residency.rst:18
-#, fuzzy
-#| msgid "Privacy regulations compliance"
 msgid "Privacy and regulatory compliance"
-msgstr "Дотримання правил конфіденційності"
+msgstr "Конфіденційність та дотримання нормативних вимог"
 
 #: ../../security/data-residency.rst:20
 msgid ""
 "Weblate Cloud and Hosted Weblate follow privacy-by-design principles and "
 "meet the requirements of **GDPR**."
 msgstr ""
+"Хмарний та розміщений Weblate дотримуються принципів конфіденційності за "
+"принципом розробки та відповідають вимогам **GDPR**."
 
 #: ../../security/data-residency.rst:23
 msgid "Sustainability"
-msgstr ""
+msgstr "Сталий розвиток"
 
 #: ../../security/data-residency.rst:25
 msgid ""
@@ -48546,12 +48470,13 @@ msgid ""
 "sourced from **hydropower**. You can find more details at https://"
 "www.hetzner.com/unternehmen/nachhaltigkeit/."
 msgstr ""
+"Вся хостингова інфраструктура працює на **100% відновлюваній енергії**, яка "
+"переважно походить з **гідроенергії**. Більше деталей можна знайти за "
+"адресою https://www.hetzner.com/unternehmen/nachhaltigkeit/."
 
 #: ../../security/data-residency.rst:28
-#, fuzzy
-#| msgid "Custom access control"
 msgid "Customer control"
-msgstr "Нетипове керування доступом"
+msgstr "Контроль клієнтів"
 
 #: ../../security/data-residency.rst:30
 msgid ""
@@ -48561,6 +48486,11 @@ msgid ""
 "instances are available for organizations needing isolated or customized "
 "environments."
 msgstr ""
+"Клієнти зберігають повний контроль над своїми даними: - Проекти, переклади "
+"та облікові записи користувачів можна експортувати або видалити в будь-який "
+"час. - Зовнішні інтеграції є опціональними та повністю настроюваними. - "
+"Спеціальні екземпляри Weblate доступні для організацій, які потребують "
+"ізольованих або налаштованих середовищ."
 
 #: ../../security/dependencies.rst:2
 msgid "Dependencies"
@@ -49152,16 +49082,12 @@ msgid "Terms of service and privacy policy"
 msgstr "Умови надання послуг та політика конфіденційності"
 
 #: ../../security/index.rst:49
-#, fuzzy
-#| msgid ""
-#| "These documents apply to Weblate deployments operated by Weblate s.r.o., "
-#| "such as Hosted Weblate."
 msgid ""
 "These documents apply to Weblate deployments operated by Weblate s.r.o., "
 "such as Hosted Weblate and Weblate Cloud."
 msgstr ""
 "Ці документи стосуються розгортань Weblate, якими керує Weblate s.r.o., "
-"таких як Hosted Weblate."
+"таких як Hosted Weblate та Weblate Cloud."
 
 #: ../../security/index.rst:51
 msgid "`General terms and conditions`_"
@@ -50182,14 +50108,6 @@ msgid "Weblate threat model"
 msgstr "Модель загрози Weblate"
 
 #: ../../security/threat-model.rst:4
-#, fuzzy
-#| msgid ""
-#| "**Scope:** Core Weblate web application, its interactions with user "
-#| "browsers, backend components (web server, WSGI, database, Redis, Celery), "
-#| "and integration with external VCS. **Assumptions:** Standard Weblate "
-#| "deployment with typical components (nginx/Apache, Gunicorn/uWSGI, "
-#| "PostgreSQL, Redis, Celery) and user roles (Unauthenticated, Translator, "
-#| "Project Manager, Administrator)."
 msgid ""
 "**Scope:** Core Weblate web application, its interactions with user "
 "browsers, backend components (web server, WSGI, database, datastore, "
@@ -50198,12 +50116,14 @@ msgid ""
 "PostgreSQL, datastore, Celery) and user roles (Unauthenticated, Translator, "
 "Project Manager, Administrator)."
 msgstr ""
-"**Обсяг:** Основний веб-додаток Weblate, його взаємодія з браузерами "
-"користувачів, компоненти бекенда (веб-сервер, WSGI, база даних, Redis, "
-"Celery) та інтеграція з зовнішніми VCS. **Припущення:** Стандартне "
-"розгортання Weblate з типовими компонентами (nginx/Apache, Gunicorn/uWSGI, "
-"PostgreSQL, Redis, Celery) та ролями користувачів (Неавторизований, "
-"Перекладач, Менеджер проекту, Адміністратор)."
+"**Сфера застосування:** Основна веб-програма Weblate, її взаємодія з "
+"браузерами користувачів, компоненти бекенду "
+"(веб-сервер, WSGI, база даних, сховище даних, Celery) та інтеграція із "
+"зовнішніми системами контролю версій (VCS). **Припущення:** Стандартне "
+"розгортання Weblate з типовими компонентами "
+"(nginx/Apache, Gunicorn/uWSGI, PostgreSQL, сховище даних, Celery) та ролями "
+"користувачів "
+"(неавтентифікований, перекладач, керівник проекту, адміністратор)."
 
 #: ../../security/threat-model.rst:8
 msgid "System description and scope"
@@ -50535,10 +50455,8 @@ msgid "System compromise, data exfiltration."
 msgstr "Компрометація системи, витік даних."
 
 #: ../../security/threat-model.rst:110
-#, fuzzy
-#| msgid "**Database/Redis**"
 msgid "**Database/Datastore**"
-msgstr "**База даних/Redis**"
+msgstr "**База даних/сховище даних**"
 
 #: ../../security/threat-model.rst:112
 msgid ""
@@ -50553,33 +50471,25 @@ msgid "System malfunction, data integrity loss."
 msgstr "Збій системи, втрата цілісності даних."
 
 #: ../../security/threat-model.rst:116
-#, fuzzy
-#| msgid ""
-#| "**Sensitive data access:** Unauthorized access to database/Redis exposes "
-#| "all stored data (credentials, translation memory, user profiles)."
 msgid ""
 "**Sensitive data access:** Unauthorized access to database/datastore exposes "
 "all stored data (credentials, translation memory, user profiles)."
 msgstr ""
 "**Доступ до конфіденційних даних:** Несанкціонований доступ до бази даних/"
-"Redis розкриває всі збережені дані (облікові дані, пам’ять перекладів, "
-"профілі користувачів)."
+"сховища даних розкриває всі збережені дані "
+"(облікові дані, пам’ять перекладів, профілі користувачів)."
 
 #: ../../security/threat-model.rst:117
 msgid "Major data breach."
 msgstr "Серйозне порушення безпеки даних."
 
 #: ../../security/threat-model.rst:120
-#, fuzzy
-#| msgid ""
-#| "**Database exhaustion:** Attacker floods the database with queries, or "
-#| "consumes all Redis memory/connections."
 msgid ""
 "**Database exhaustion:** Attacker floods the database or datastore with "
 "queries, or consumes all memory or available connections."
 msgstr ""
-"**Вичерпання бази даних:** Зловмисник перевантажує базу даних запитами або "
-"використовує всю пам'ять/з'єднання Redis."
+"**Вичерпання бази даних:** Зловмисник перевантажує базу даних або сховище "
+"даних запитами, або використовує всю пам'ять чи доступні з'єднання."
 
 #: ../../security/threat-model.rst:122
 msgid "**VCS integration**"
@@ -50798,15 +50708,12 @@ msgstr ""
 "Принцип найменших привілеїв для облікового запису користувача Weblate в ОС."
 
 #: ../../security/threat-model.rst:171
-#, fuzzy
-#| msgid ""
-#| "Network segmentation (e.g., separating database/Redis from public access)."
 msgid ""
 "Network segmentation (e.g., separating database and datastore from public "
 "access)."
 msgstr ""
-"Сегментація мережі (наприклад, відокремлення бази даних/Redis від "
-"загальнодоступних)."
+"Сегментація мережі (наприклад, відокремлення бази даних та сховища даних від "
+"загального доступу)."
 
 #: ../../security/threat-model.rst:172
 msgid "Use of WAF (Web Application Firewall)."
@@ -53697,10 +53604,8 @@ msgid "For example with Gettext in Python it could be:"
 msgstr "Наприклад, із Gettext у Python це може бути:"
 
 #: ../../user/checks.rst:2193
-#, fuzzy
-#| msgid "Glossaries in automatic suggestion"
 msgid "Placeables in automatic suggestion"
-msgstr "Глосарії в автоматичній пропозиції"
+msgstr "Розміщувані елементи в автоматичних пропозиціях"
 
 #: ../../user/checks.rst:2195
 msgid ""
@@ -53709,6 +53614,11 @@ msgid ""
 "for this varies in different services and in many cases there is no way to "
 "enforce keeping placeables intact."
 msgstr ""
+"Перевірки розміщуваних елементів виявляють інформацію про поточні "
+"розміщувані елементи, і це можна використовувати для надання вказівок "
+"механізмам автоматичних пропозицій зберігати їх. Підтримка цієї функції "
+"варіюється в різних сервісах, і в багатьох випадках немає можливості "
+"забезпечити збереження розміщуваних елементів у незмінному вигляді."
 
 #: ../../user/files.rst:2
 msgid "Downloading and uploading translations"
@@ -54326,17 +54236,14 @@ msgid "Glossaries in automatic suggestion"
 msgstr "Глосарії в автоматичній пропозиції"
 
 #: ../../user/glossary.rst:138
-#, fuzzy
-#| msgid ""
-#| "Following automatic suggestion services utilize glossaries during the "
-#| "translation:"
 msgid ""
 "Some automatic suggestion services utilize glossaries during the "
 "translation, please consult their documentation in :doc:`/admin/machine` to "
 "see the support."
 msgstr ""
-"Під час перекладу глосарії використовують такі служби автоматичних "
-"пропозицій:"
+"Деякі служби автоматичних підказок використовують глосарії під час "
+"перекладу, будь ласка, зверніться до їхньої документації у :doc:`/admin/"
+"machine`, щоб дізнатися про підтримку."
 
 #: ../../user/glossary.rst:141
 msgid "The glossary is processed before exposed to the service:"
@@ -56865,6 +56772,8 @@ msgid ""
 "In case you don't provide credentials in the URL and the repository requires "
 "it, Git will fail with an error:"
 msgstr ""
+"Якщо ви не вкажете облікові дані в URL-адресі, а репозиторій їх вимагає, Git "
+"повернеться з помилкою:"
 
 #: ../../vcs.rst:283
 msgid ""

@@ -20,13 +20,15 @@
 # eulalio <eulalio@disroot.org>, 2025.
 # Arantxa <arantxafigueroa4@gmail.com>, 2025.
 # Alejandro Moctezuma <moctezumaalejandro25@gmail.com>, 2025.
+# GitHub webhook <noreply-webhook-github@weblate.org>, 2025.
+# Aitor Astorga <a.astorga.sdv@protonmail.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-27 07:35+0000\n"
-"PO-Revision-Date: 2025-10-26 18:59+0000\n"
-"Last-Translator: eulalio <eulalio@disroot.org>\n"
+"PO-Revision-Date: 2025-10-27 19:46+0000\n"
+"Last-Translator: Aitor Astorga <a.astorga.sdv@protonmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
 "Language: es\n"
@@ -585,7 +587,7 @@ msgstr "El usuario fue desactivado por el administrador."
 
 #: weblate/accounts/models.py:296
 msgid "User was disabled because the access has expired."
-msgstr ""
+msgstr "El usuario fue deshabilitado porque el acceso ha expirado."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:299
@@ -631,10 +633,9 @@ msgid "Two-factor authentication sign in using {device}"
 msgstr "Inicio de sesión con autenticación en dos fases mediante {device}"
 
 #: weblate/accounts/models.py:320
-#, fuzzy, python-brace-format
-#| msgid "Two-factor authentication sign in using {device}"
+#, python-brace-format
 msgid "Two-factor authentication failed using {device_type}"
-msgstr "Inicio de sesión con autenticación en dos fases mediante {device}"
+msgstr "La autenticación de dos factores falló al usar {device_type}"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:328
@@ -1373,10 +1374,9 @@ msgid "The supplied username is already in use for another account."
 msgstr "El nombre de usuario proporcionado ya se utiliza en otra cuenta."
 
 #: weblate/accounts/views.py:1499
-#, fuzzy, python-format
-#| msgid "Authentication app (%s)"
+#, python-format
 msgid "Authentication failed: %s"
-msgstr "Aplicación de autenticación (%s)"
+msgstr "Error de autenticación: %s"
 
 #: weblate/accounts/views.py:1505
 msgid "The supplied user identity is already in use for another account."
@@ -1582,10 +1582,9 @@ msgstr ""
 "masiva."
 
 #: weblate/addons/flags.py:134
-#, fuzzy
-#| msgid "Flag unchanged translations as \"Needs editing\""
 msgid "Flag updated translations from repository as \"Needs editing\""
-msgstr "Marcar traducciones sin cambios como «Necesitan edición»"
+msgstr ""
+"Marcar traducciones sin cambios del repositorio como «Necesitan edición»"
 
 #: weblate/addons/flags.py:137
 #, fuzzy
@@ -2191,10 +2190,9 @@ msgid "Reset all changes in the Weblate repository"
 msgstr "Restablecer todos los cambios del repositorio de Weblate"
 
 #: weblate/api/serializers.py:1079 weblate/templates/js/git-status.html:155
-#, fuzzy
-#| msgid "Define the base file for new translations"
 msgid "Reset the Weblate repository and reapply translations"
-msgstr "Definir el archivo de base para traducciones nuevas"
+msgstr ""
+"Restablecer el repositorio de Weblate y volver a aplicar las traducciones"
 
 #: weblate/api/serializers.py:1083 weblate/templates/js/git-status.html:166
 msgid "Cleanup all untracked files in the Weblate repository"
@@ -2463,10 +2461,8 @@ msgstr "Revisar cadenas"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:75
-#, fuzzy
-#| msgid "Edit strings"
 msgid "Bulk edit strings"
-msgstr "Editar cadenas"
+msgstr "Edición masiva de cadenas"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:77
@@ -2600,10 +2596,8 @@ msgstr "Gestionar equipos"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:135
-#, fuzzy
-#| msgid "View billing info"
 msgid "View team info"
-msgstr "Ver datos de facturación"
+msgstr "Ver información del equipo"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:137 weblate/templates/manage/users.html:18
@@ -2612,10 +2606,8 @@ msgstr "Gestionar usuarios"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:139
-#, fuzzy
-#| msgid "View billing info"
 msgid "View user info"
-msgstr "Ver datos de facturación"
+msgstr "Ver información del usuario"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:141
@@ -2624,10 +2616,8 @@ msgstr "Gestionar roles"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:143
-#, fuzzy
-#| msgid "View billing info"
 msgid "View role info"
-msgstr "Ver datos de facturación"
+msgstr "Ver información del rol"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:145
@@ -2711,8 +2701,6 @@ msgid "Manage languages"
 msgstr "Administrar idiomas"
 
 #: weblate/auth/data.py:241
-#, fuzzy
-#| msgid "Bulk edit"
 msgctxt "Access-control role"
 msgid "Bulk editing"
 msgstr "Edición en masa"
@@ -2818,8 +2806,6 @@ msgid "Screenshots"
 msgstr "Capturas de pantalla"
 
 #: weblate/auth/data.py:315
-#, fuzzy
-#| msgid "Bulk edit"
 msgctxt "Per-project access-control team name"
 msgid "Bulk editing"
 msgstr "Edición en masa"
@@ -3032,7 +3018,7 @@ msgstr "Caduca"
 
 #: weblate/auth/models.py:497
 msgid "The account will be disabled after the expiry."
-msgstr ""
+msgstr "La cuenta se desactivará después del vencimiento."
 
 #: weblate/auth/models.py:504 weblate/templates/accounts/profile.html:34
 #: weblate/templates/accounts/user.html:194 weblate/templates/auth/team.html:38
@@ -10830,10 +10816,8 @@ msgid "Configured value"
 msgstr "Configurar columnas"
 
 #: weblate/templates/manage/performance.html:145
-#, fuzzy
-#| msgid "IP address"
 msgid "Client IP address"
-msgstr "Dirección IP"
+msgstr "Dirección IP Cliente"
 
 #: weblate/templates/manage/performance.html:152
 #, fuzzy

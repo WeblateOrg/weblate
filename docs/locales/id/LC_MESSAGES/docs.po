@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-27 08:36+0100\n"
-"PO-Revision-Date: 2025-10-23 08:03+0000\n"
+"PO-Revision-Date: 2025-10-27 11:11+0000\n"
 "Last-Translator: Zahid Rizky Fakhri <zahidrizkyfakhri@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "documentation/id/>\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.14-dev\n"
+"X-Generator: Weblate 5.14.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:215
@@ -4215,6 +4215,10 @@ msgid ""
 "see :ref:`reverse-proxy`. :guilabel:`HTTP headers` shows complete HTTP "
 "request headers to provide additional information."
 msgstr ""
+":guilabel:`HTTP environment` memungkinkan Anda melihat lingkungan HTTP yang "
+"diamati oleh Weblate. Ini berguna saat mengawakutu konfigurasi proxy "
+"terbalik, lihat :ref:`reverse-proxy`. :guilabel:`HTTP headers` menampilkan "
+"tajuk permintaan HTTP lengkap untuk memberikan informasi tambahan."
 
 #: ../../admin/admin.rst:48
 msgid ""
@@ -10633,18 +10637,16 @@ msgstr ""
 "dihosting."
 
 #: ../../admin/install.rst:146
-#, fuzzy
-#| msgid "Database"
 msgid "Datastore"
-msgstr "Basis data"
+msgstr "Penyimpanan data"
 
 #: ../../admin/install.rst:147
-#, fuzzy
-#| msgid "Redis server for cache and tasks queue, see :ref:`celery`."
 msgid ""
 "Key/value datastore such as Valkey or Redis server for cache and tasks "
 "queue, see :ref:`celery`."
-msgstr "Server Redis untuk simpanan dan antrian tugas, lihat :ref:`celery`."
+msgstr ""
+"Penyimpanan data kunci/nilai seperti Valkey atau server Redis untuk simpanan "
+"dan antrian tugas, lihat :ref:`celery`."
 
 #: ../../admin/install.rst:150
 msgid "File system"
@@ -10676,15 +10678,11 @@ msgstr ""
 "disediakan secara eksternal."
 
 #: ../../admin/install.rst:159
-#, fuzzy
-#| msgid ""
-#| ":doc:`/admin/install/docker` includes PostgreSQL and Redis, making the "
-#| "installation easier."
 msgid ""
 ":doc:`/admin/install/docker` includes PostgreSQL and Valkey, making the "
 "installation easier."
 msgstr ""
-":doc:`/admin/install/docker` menyertakan PostgreSQL dan Redis, membuat "
+":doc:`/admin/install/docker` menyertakan PostgreSQL dan Valkey, membuat "
 "instalasi lebih mudah."
 
 #: ../../admin/install.rst:164
@@ -11647,6 +11645,8 @@ msgid ""
 "To debug this configuration, you can look at :guilabel:`HTTP environment` "
 "in :ref:`manage-performance`."
 msgstr ""
+"Untuk mengawakutu konfigurasi ini, Anda dapat melihat :guilabel:`HTTP "
+"environment` di :ref:`manage-performance`."
 
 #: ../../admin/install.rst:736
 msgid "Client IP address"
@@ -11861,16 +11861,13 @@ msgstr ""
 "data."
 
 #: ../../admin/install.rst:894
-#, fuzzy
-#| msgid ""
-#| "If you are using Redis as cache (see :ref:`production-cache`) it is "
-#| "recommended to use it for sessions as well:"
 msgid ""
 "If you are using Valkey or Redis as cache (see :ref:`production-cache`) it "
 "is recommended to use it for sessions as well:"
 msgstr ""
-"Jika Anda menggunakan Redis sebagai simpanan (lihat :ref:`production-cache`) "
-"disarankan untuk menggunakannya untuk sesi juga:"
+"Jika Anda menggunakan Valkey atau Redis sebagai simpanan "
+"(lihat :ref:`production-cache`) disarankan untuk menggunakannya untuk sesi "
+"juga:"
 
 #: ../../admin/install.rst:910
 msgid ""
@@ -12117,33 +12114,23 @@ msgstr ""
 "menggunakan `PGTune <https://pgtune.leopard.in.ua/>`_."
 
 #: ../../admin/install.rst:1133
-#, fuzzy
-#| msgid "Configure columns"
 msgid "Configure cache"
-msgstr "Konfigurasi kolom"
+msgstr "Konfigurasi simpanan"
 
 #: ../../admin/install.rst:1135
-#, fuzzy
-#| msgid ""
-#| "If possible, use Redis from Django by adjusting the ``CACHES`` "
-#| "configuration variable, for example:"
 msgid ""
 "If possible, use Valkey or Redis from Django by adjusting the ``CACHES`` "
 "configuration variable, for example:"
 msgstr ""
-"Jika memungkinkan, gunakan Redis dari Django dengan menyesuaikan variabel "
-"konfigurasi ``CACHES``, misalnya:"
+"Jika memungkinkan, gunakan Valkey atau Redis dari Django dengan menyesuaikan "
+"variabel konfigurasi ``CACHES``, misalnya:"
 
 #: ../../admin/install.rst:1156
-#, fuzzy
-#| msgid ""
-#| "In case you change Redis settings for the cache, you might need to adjust "
-#| "them for Celery as well, see :ref:`celery`."
 msgid ""
 "In case you change settings for the cache, you might need to adjust them for "
 "Celery as well, see :ref:`celery`."
 msgstr ""
-"Jika Anda mengubah pengaturan Redis untuk simpanan, Anda mungkin perlu "
+"Jika Anda mengubah pengaturan untuk simpanan, Anda mungkin perlu "
 "menyesuaikannya untuk Celery juga, lihat :ref:`celery`."
 
 #: ../../admin/install.rst:1167
@@ -12850,11 +12837,10 @@ msgid "Committing pending changes (see :ref:`lazy-commit`)."
 msgstr "Commit perubahan yang tertunda (lihat :ref:`lazy-commit`)."
 
 #: ../../admin/install.rst:1698
-#, fuzzy
-#| msgid "A typical setup using Redis as a backend looks like this:"
 msgid "A typical setup using Valkey or Redis as a backend looks like this:"
 msgstr ""
-"Pengaturan umum menggunakan Redis sebagai backend terlihat seperti ini:"
+"Pengaturan umum menggunakan Valkey atau Redis sebagai backend terlihat "
+"seperti ini:"
 
 #: ../../admin/install.rst:1708
 msgid ""
@@ -13206,28 +13192,18 @@ msgid "Other notes"
 msgstr "Catatan lainnya"
 
 #: ../../admin/install.rst:1948
-#, fuzzy
-#| msgid ""
-#| "Don't forget to move other services Weblate might have been using like "
-#| "Redis, Cron jobs or custom authentication backends."
 msgid ""
 "Don't forget to move other services Weblate might have been using like "
 "Valkey, Redis, Cron jobs or custom authentication backends."
 msgstr ""
 "Jangan lupa untuk memindahkan layanan lain yang mungkin digunakan Weblate "
-"seperti Redis, pekerjaan Cron, atau backend autentikasi khusus."
+"seperti Valkey, Redis, pekerjaan Cron atau backend autentikasi kustom."
 
 #: ../../admin/install/docker.rst:2
 msgid "Installing using Docker"
 msgstr "Menginstal menggunakan Docker"
 
 #: ../../admin/install/docker.rst:4
-#, fuzzy
-#| msgid ""
-#| "With dockerized Weblate deployment you can get your personal Weblate "
-#| "instance up and running in seconds. All of Weblate's dependencies are "
-#| "already included. PostgreSQL is set up as the default database and Redis "
-#| "as a caching backend."
 msgid ""
 "With dockerized Weblate deployment you can get your personal Weblate "
 "instance up and running in seconds. All of Weblate's dependencies are "
@@ -13235,9 +13211,9 @@ msgid ""
 "a caching backend."
 msgstr ""
 "Dengan penerapan Weblate yang terdokerisasi, Anda dapat langsung menjalankan "
-"instans Weblate pribadi Anda dalam hitungan detik. Semua dependensi Weblate "
-"sudah disertakan. PostgreSQL diatur sebagai bais data bawaan dan Redis "
-"sebagai backend penyimpanan."
+"instansi Weblate pribadi Anda dalam hitungan detik. Semua dependensi Weblate "
+"sudah disertakan. PostgreSQL diatur sebagai basis data bawaan dan Valkey "
+"sebagai backend caching."
 
 #: ../../admin/install/docker.rst:13 ../../admin/install/kubernetes.rst:18
 #: ../../admin/install/openshift.rst:12
@@ -14828,69 +14804,50 @@ msgstr ""
 "menggunakan :setting:`DATABASE_BACKUP`. Secara asali ke ``plain``."
 
 #: ../../admin/install/docker.rst:1627
-#, fuzzy
-#| msgid "Email server setup"
 msgid "Datastore server setup"
-msgstr "Pengaturan server surel"
+msgstr "Pengaturan server penyimpanan data"
 
 #: ../../admin/install/docker.rst:1629
-#, fuzzy
-#| msgid ""
-#| "Using Redis is strongly recommended by Weblate and you have to provide a "
-#| "Redis instance when running Weblate in Docker."
 msgid ""
 "Using Valkey or Redis is required by the Weblate container and you have to "
 "provide a connection parameters when running Weblate in Docker."
 msgstr ""
-"Penggunaan Redis sangat disarankan oleh Weblate dan Anda harus menyediakan "
-"instansi Redis saat menjalankan Weblate di Docker."
+"Penggunaan Valkey atau Redis diperlukan oleh kontainer Weblate dan Anda "
+"harus menyediakan parameter koneksi saat menjalankan Weblate di Docker."
 
 #: ../../admin/install/docker.rst:1638
-#, fuzzy
-#| msgid "The Redis server hostname or IP address. Defaults to ``cache``."
 msgid "The datastore server hostname or IP address. Defaults to ``cache``."
-msgstr "Nama host atau alamat IP server Redis. Bawaannya adalah ``cache``."
+msgstr ""
+"Nama host atau alamat IP server penyimpanan data. Nilai bawaannya adalah "
+"``cache``."
 
 #: ../../admin/install/docker.rst:1642
-#, fuzzy
-#| msgid "The Redis server port. Defaults to ``6379``."
 msgid "The datastore server port. Defaults to ``6379``."
-msgstr "Port server Redis. Bawaannya adalah ``6379``."
+msgstr "Port server penyimpanan data. Nilai bawaannya adalah ``6379``."
 
 #: ../../admin/install/docker.rst:1646
-#, fuzzy
-#| msgid "The Redis database number, defaults to ``1``."
 msgid "The datastore database number, defaults to ``1``."
-msgstr "Nomor basis data Redis, bawaannya adalah ``1``."
+msgstr "Nomor basis data penyimpanan data, bawaannya adalah ``1``."
 
 #: ../../admin/install/docker.rst:1652
-#, fuzzy
-#| msgid "The Redis database user, not used by default."
 msgid "The datastore database user, not used by default."
-msgstr "Pengguna basis data Redis, tidak digunakan secara bawaan."
+msgstr "Pengguna basis data penyimpanan data, tidak digunakan secara bawaan."
 
 #: ../../admin/install/docker.rst:1656
-#, fuzzy
-#| msgid "The Redis server password, not used by default."
 msgid "The datastore server password, not used by default."
-msgstr "Kata sandi server Redis, tidak digunakan secara bawaan."
+msgstr "Kata sandi server penyimpanan data, tidak digunakan secara bawaan."
 
 #: ../../admin/install/docker.rst:1664
-#, fuzzy
-#| msgid "Enables using SSL for Redis connection."
 msgid "Enables using SSL for the datastore connection."
-msgstr "Mengaktifkan penggunaan SSL untuk koneksi Redis."
+msgstr "Mengaktifkan penggunaan SSL untuk koneksi penyimpanan data."
 
 #: ../../admin/install/docker.rst:1668
-#, fuzzy
-#| msgid ""
-#| "Can be used to disable SSL certificate verification for Redis connection."
 msgid ""
 "Can be used to disable SSL certificate verification for the datastore "
 "connection."
 msgstr ""
 "Dapat digunakan untuk menonaktifkan verifikasi sertifikat SSL untuk koneksi "
-"Redis."
+"penyimpanan data."
 
 #: ../../admin/install/docker.rst:1673
 msgid "Email server setup"
@@ -15234,19 +15191,13 @@ msgid "Docker container volumes"
 msgstr "Volume kontainer Docker"
 
 #: ../../admin/install/docker.rst:2064
-#, fuzzy
-#| msgid ""
-#| "There are two volumes (:file:`data` and :file:`cache`) exported by the "
-#| "Weblate container. The other service containers (PostgreSQL or Redis) "
-#| "have their data volumes as well, but those are not covered by this "
-#| "document."
 msgid ""
 "There are two volumes (:file:`data` and :file:`cache`) exported by the "
 "Weblate container. The other service containers (PostgreSQL or Valkey) have "
 "their data volumes as well, but those are not covered by this document."
 msgstr ""
 "Ada dua volume (:file:`data` dan :file:`cache`) yang diekspor oleh kontainer "
-"Weblate. Kontainer layanan lainnya (PostgreSQL atau Redis) juga memiliki "
+"Weblate. Kontainer layanan lainnya (PostgreSQL atau Valkey) juga memiliki "
 "volume datanya sendiri, tetapi hal tersebut tidak dibahas dalam dokumen ini."
 
 #: ../../admin/install/docker.rst:2068
@@ -17076,10 +17027,8 @@ msgid "Amazon Translate"
 msgstr "Amazon Translate"
 
 #: ../../admin/machine.rst:0
-#, fuzzy
-#| msgid "New features"
 msgid "Advanced features"
-msgstr "Fitur baru"
+msgstr "Fitur lanjutan"
 
 #: ../../admin/machine.rst:145
 msgid "API secret key"
@@ -17793,40 +17742,28 @@ msgid "OpenAI model"
 msgstr "Model OpenAI"
 
 #: ../../admin/machine.rst:693
-#, fuzzy
-#| msgid "``gpt-4o`` -- GPT-4o"
 msgid "``gpt-5-nano`` -- GPT-5-nano"
-msgstr "``gpt-4o`` -- GPT-4o"
+msgstr "``gpt-5-nano`` -- GPT-5-nano"
 
 #: ../../admin/machine.rst:695
-#, fuzzy
-#| msgid "``gpt-4o-mini`` -- GPT-4o mini"
 msgid "``gpt-5-mini`` -- GPT-5-mini"
-msgstr "``gpt-4o-mini`` -- GPT-4o mini"
+msgstr "``gpt-5-mini`` -- GPT-5-mini"
 
 #: ../../admin/machine.rst:697
-#, fuzzy
-#| msgid "``gpt-4`` -- GPT-4"
 msgid "``gpt-5`` -- GPT-5"
-msgstr "``gpt-4`` -- GPT-4"
+msgstr "``gpt-5`` -- GPT-5"
 
 #: ../../admin/machine.rst:699
-#, fuzzy
-#| msgid "``gpt-4o`` -- GPT-4o"
 msgid "``gpt-4.1-nano`` -- GPT-4.1-nano"
-msgstr "``gpt-4o`` -- GPT-4o"
+msgstr "``gpt-4.1-nano`` -- GPT-4.1-nano"
 
 #: ../../admin/machine.rst:701
-#, fuzzy
-#| msgid "``gpt-4o-mini`` -- GPT-4o mini"
 msgid "``gpt-4.1-mini`` -- GPT-4.1-mini"
-msgstr "``gpt-4o-mini`` -- GPT-4o mini"
+msgstr "``gpt-4.1-mini`` -- GPT-4.1-mini"
 
 #: ../../admin/machine.rst:703
-#, fuzzy
-#| msgid "``gpt-4`` -- GPT-4"
 msgid "``gpt-4.1`` -- GPT-4.1"
-msgstr "``gpt-4`` -- GPT-4"
+msgstr "``gpt-4.1`` -- GPT-4.1"
 
 #: ../../admin/machine.rst:705
 msgid "``gpt-4o-mini`` -- GPT-4o mini"
@@ -17837,34 +17774,24 @@ msgid "``gpt-4o`` -- GPT-4o"
 msgstr "``gpt-4o`` -- GPT-4o"
 
 #: ../../admin/machine.rst:709
-#, fuzzy
-#| msgid "``o3-mini`` -- OpenAI o3-mini"
 msgid "``o3-mini`` -- o3-mini"
-msgstr "``o3-mini`` -- OpenAI o3-mini"
+msgstr "``o3-mini`` -- o3-mini"
 
 #: ../../admin/machine.rst:711
-#, fuzzy
-#| msgid "``o3`` -- OpenAI o3"
 msgid "``o3`` -- o3"
-msgstr "``o3`` -- OpenAI o3"
+msgstr "``o3`` -- o3"
 
 #: ../../admin/machine.rst:713
-#, fuzzy
-#| msgid "``o1-mini`` -- OpenAI o1-mini"
 msgid "``o1-mini`` -- o1-mini"
-msgstr "``o1-mini`` -- OpenAI o1-mini"
+msgstr "``o1-mini`` -- o1-mini"
 
 #: ../../admin/machine.rst:715
-#, fuzzy
-#| msgid "``o1`` -- OpenAI o1"
 msgid "``o1`` -- o1"
-msgstr "``o1`` -- OpenAI o1"
+msgstr "``o1`` -- o1"
 
 #: ../../admin/machine.rst:717
-#, fuzzy
-#| msgid "``o1`` -- OpenAI o1"
 msgid "``o1-pro`` -- o1-pro"
-msgstr "``o1`` -- OpenAI o1"
+msgstr "``o1-pro`` -- o1-pro"
 
 #: ../../admin/machine.rst:719
 msgid "``custom`` -- Custom model"
@@ -25974,10 +25901,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS di Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.1.1"
 msgid "Weblate 5.14.1"
-msgstr "Weblate 5.1.1"
+msgstr "Weblate 5.14.1"
 
 #: ../../changes.rst:4
 msgid "*Not yet released.*"
@@ -26009,14 +25934,13 @@ msgid "Improvements"
 msgstr "Perbaikan"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Cache server (see :ref:`production-cache`)"
 msgid "Document using Valkey in :ref:`celery` and :ref:`production-cache`."
-msgstr "Server simpanan (lihat :ref:`production-cache`)"
+msgstr ""
+"Dokumen menggunakan Valkey di :ref:`celery` dan :ref:`production-cache`."
 
 #: ../../changes.rst:11
 msgid "Added HTTP environment overview in :ref:`manage-performance`."
-msgstr ""
+msgstr "Menambahkan ikhtisar lingkungan HTTP di :ref:`manage-performance`."
 
 #: ../../changes.rst:14 ../../changes.rst:66 ../../changes.rst:103
 #: ../../changes.rst:132 ../../changes.rst:157 ../../changes.rst:219
@@ -26040,16 +25964,12 @@ msgid "Bug fixes"
 msgstr "Perbaikan kesalahan"
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Outgoing commits in the Weblate repository"
 msgid "Counting outgoing commits in the repository status."
-msgstr "Komit baru di repositori Weblate"
+msgstr "Menghitung komit keluar dalam status repositori."
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "Licensing translations"
 msgid "Listing of other translations."
-msgstr "Lisensi terjemahan"
+msgstr "Daftar terjemahan lainnya."
 
 #: ../../changes.rst:19 ../../changes.rst:76 ../../changes.rst:171
 #: ../../changes.rst:226 ../../changes.rst:349 ../../changes.rst:499
@@ -26131,26 +26051,20 @@ msgid "Contributors"
 msgstr "Kontributor"
 
 #: ../../changes.rst:28
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "153?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/154?"
 "closed=1>`__."
 msgstr ""
 "`Semua perubahan secara rinci <https://github.com/WeblateOrg/weblate/"
-"milestone/153?closed=1>`__."
+"milestone/154?closed=1>`__."
 
 #: ../../changes.rst:31
 msgid "Weblate 5.14"
 msgstr "Weblate 5.14"
 
 #: ../../changes.rst:33
-#, fuzzy
-#| msgid "*Released on October 25th 2023.*"
 msgid "*Released on October 22nd 2025.*"
-msgstr "*Dirilis pada 25 Oktober 2023.*"
+msgstr "*Dirilis pada 22 Oktober 2025.*"
 
 #: ../../changes.rst:37
 msgid ""
@@ -48063,10 +47977,8 @@ msgid "Main class for invoking commands."
 msgstr "Kelas utama untuk menjalankan perintah."
 
 #: ../../security/data-residency.rst:2
-#, fuzzy
-#| msgid "Database latency"
 msgid "Data residency"
-msgstr "Latensi basis data"
+msgstr "Tempat tinggal data"
 
 #: ../../security/data-residency.rst:4
 msgid ""
@@ -48074,6 +47986,9 @@ msgid ""
 "within the **European Union**. This ensures strong data protection, clear "
 "jurisdiction, and compliance with European privacy standards."
 msgstr ""
+"Semua layanan **Weblate Cloud** dan **Hosted Weblate** dihosting sepenuhnya "
+"di dalam **Uni Eropa**. Hal ini memastikan perlindungan data yang kuat, "
+"yurisdiksi yang jelas, dan kepatuhan terhadap standar privasi Eropa."
 
 #: ../../security/data-residency.rst:7
 msgid ""
@@ -48083,42 +47998,52 @@ msgid ""
 "(information security) and **ISO 9001** (quality management), and are "
 "pursuing **ISO 50001** (energy management) certification."
 msgstr ""
+"Infrastruktur kami disediakan oleh **Hetzner Online GmbH**, operator pusat "
+"data Jerman yang telah lama dikenal karena keandalan dan keberlanjutannya. "
+"Fasilitas Hetzner telah tersertifikasi **ISO 27001** (keamanan informasi) "
+"dan **ISO 9001** (manajemen mutu), dan sedang mengupayakan sertifikasi **ISO "
+"50001** (manajemen energi)."
 
 #: ../../security/data-residency.rst:11
 msgid "Where data lives"
-msgstr ""
+msgstr "Tempat data berada"
 
 #: ../../security/data-residency.rst:13
 msgid ""
 "All customer data, including translations, user information, and backups, is "
 "stored and processed within the EU."
 msgstr ""
+"Semua data pelanggan, termasuk terjemahan, informasi pengguna, dan cadangan, "
+"disimpan dan diproses di dalam UE."
 
 #: ../../security/data-residency.rst:14
 msgid "Primary data centers are located in **Germany**."
-msgstr ""
+msgstr "Pusat data utama berlokasi di **Jerman**."
 
 #: ../../security/data-residency.rst:15
 msgid ""
 "No operational data leaves the EU unless explicitly requested by the "
 "customer (for example, for external backups or region-specific deployments)."
 msgstr ""
+"Tidak ada data operasional yang meninggalkan UE kecuali diminta secara tegas "
+"oleh pelanggan "
+"(misalnya, untuk pencadangan eksternal atau penerapan khusus wilayah)."
 
 #: ../../security/data-residency.rst:18
-#, fuzzy
-#| msgid "Privacy regulations compliance"
 msgid "Privacy and regulatory compliance"
-msgstr "Kepatuhan peraturan privasi"
+msgstr "Privasi dan kepatuhan peraturan"
 
 #: ../../security/data-residency.rst:20
 msgid ""
 "Weblate Cloud and Hosted Weblate follow privacy-by-design principles and "
 "meet the requirements of **GDPR**."
 msgstr ""
+"Weblate Cloud dan Hosted Weblate mengikuti prinsip privasi berdasarkan "
+"desain dan memenuhi persyaratan **GDPR**."
 
 #: ../../security/data-residency.rst:23
 msgid "Sustainability"
-msgstr ""
+msgstr "Keberlanjutan"
 
 #: ../../security/data-residency.rst:25
 msgid ""
@@ -48126,12 +48051,13 @@ msgid ""
 "sourced from **hydropower**. You can find more details at https://"
 "www.hetzner.com/unternehmen/nachhaltigkeit/."
 msgstr ""
+"Semua infrastruktur hosting beroperasi dengan **100% energi terbarukan**, "
+"terutama bersumber dari **tenaga air**. Anda dapat menemukan informasi lebih "
+"lanjut di https://www.hetzner.com/unternehmen/nachhaltigkeit/."
 
 #: ../../security/data-residency.rst:28
-#, fuzzy
-#| msgid "Custom access control"
 msgid "Customer control"
-msgstr "Kontrol akses khusus"
+msgstr "Kontrol pelanggan"
 
 #: ../../security/data-residency.rst:30
 msgid ""
@@ -48141,6 +48067,11 @@ msgid ""
 "instances are available for organizations needing isolated or customized "
 "environments."
 msgstr ""
+"Pelanggan memegang kendali penuh atas data mereka: - Proyek, terjemahan, dan "
+"akun pengguna dapat diekspor atau dihapus kapan saja. - Integrasi eksternal "
+"bersifat opsional dan sepenuhnya dapat dikonfigurasi. - Instansi Weblate "
+"khusus tersedia untuk organisasi yang membutuhkan lingkungan yang terisolasi "
+"atau disesuaikan."
 
 #: ../../security/dependencies.rst:2
 msgid "Dependencies"
@@ -48733,16 +48664,12 @@ msgid "Terms of service and privacy policy"
 msgstr "Ketentuan layanan dan kebijakan privasi"
 
 #: ../../security/index.rst:49
-#, fuzzy
-#| msgid ""
-#| "These documents apply to Weblate deployments operated by Weblate s.r.o., "
-#| "such as Hosted Weblate."
 msgid ""
 "These documents apply to Weblate deployments operated by Weblate s.r.o., "
 "such as Hosted Weblate and Weblate Cloud."
 msgstr ""
-"Dokumen-dokumen ini berlaku untuk penerapan Weblate yang dioperasikan oleh "
-"Weblate s.r.o., seperti Hosted Weblate."
+"Dokumen ini berlaku untuk penerapan Weblate yang dioperasikan oleh Weblate "
+"s.r.o., seperti Hosted Weblate dan Weblate Cloud."
 
 #: ../../security/index.rst:51
 msgid "`General terms and conditions`_"
@@ -49763,14 +49690,6 @@ msgid "Weblate threat model"
 msgstr "Model ancaman Weblate"
 
 #: ../../security/threat-model.rst:4
-#, fuzzy
-#| msgid ""
-#| "**Scope:** Core Weblate web application, its interactions with user "
-#| "browsers, backend components (web server, WSGI, database, Redis, Celery), "
-#| "and integration with external VCS. **Assumptions:** Standard Weblate "
-#| "deployment with typical components (nginx/Apache, Gunicorn/uWSGI, "
-#| "PostgreSQL, Redis, Celery) and user roles (Unauthenticated, Translator, "
-#| "Project Manager, Administrator)."
 msgid ""
 "**Scope:** Core Weblate web application, its interactions with user "
 "browsers, backend components (web server, WSGI, database, datastore, "
@@ -49780,11 +49699,12 @@ msgid ""
 "Project Manager, Administrator)."
 msgstr ""
 "**Cakupan:** Aplikasi web inti Weblate, interaksinya dengan peramban "
-"pengguna, komponen backend (server web, WSGI, basis data, Redis, Celery), "
-"dan integrasi dengan VCS eksternal. **Asumsi:** Penerapan Weblate standar "
-"dengan komponen umum (nginx/Apache, Gunicorn/uWSGI, PostgreSQL, Redis, "
-"Celery) dan peran pengguna (Tanpa Autentikasi, Penerjemah, Manajer Proyek, "
-"Administrator)."
+"pengguna, komponen backend "
+"(server web, WSGI, basis data, penyimpanan data, Celery), dan integrasi "
+"dengan VCS eksternal. **Asumsi:** Penerapan Weblate standar dengan komponen "
+"umum (nginx/Apache, Gunicorn/uWSGI, PostgreSQL, penyimpanan data, Celery) "
+"dan peran pengguna "
+"(Tanpa Autentikasi, Penerjemah, Manajer Proyek, Administrator)."
 
 #: ../../security/threat-model.rst:8
 msgid "System description and scope"
@@ -50115,10 +50035,8 @@ msgid "System compromise, data exfiltration."
 msgstr "Kompromi sistem, pencurian data."
 
 #: ../../security/threat-model.rst:110
-#, fuzzy
-#| msgid "**Database/Redis**"
 msgid "**Database/Datastore**"
-msgstr "**Basis Data/Redis**"
+msgstr "**Basis Data/Penyimpanan Data**"
 
 #: ../../security/threat-model.rst:112
 msgid ""
@@ -50133,32 +50051,25 @@ msgid "System malfunction, data integrity loss."
 msgstr "Kerusakan sistem, hilangnya integritas data."
 
 #: ../../security/threat-model.rst:116
-#, fuzzy
-#| msgid ""
-#| "**Sensitive data access:** Unauthorized access to database/Redis exposes "
-#| "all stored data (credentials, translation memory, user profiles)."
 msgid ""
 "**Sensitive data access:** Unauthorized access to database/datastore exposes "
 "all stored data (credentials, translation memory, user profiles)."
 msgstr ""
-"**Akses data sensitif:** Akses tidak sah ke basis data/Redis mengekspos "
-"semua data yang disimpan (kredensial, memori terjemahan, profil pengguna)."
+"**Akses data sensitif:** Akses tidak sah ke basis data/penyimpanan data akan "
+"mengekspos semua data yang tersimpan "
+"(kredensial, memori terjemahan, profil pengguna)."
 
 #: ../../security/threat-model.rst:117
 msgid "Major data breach."
 msgstr "Pelanggaran data besar."
 
 #: ../../security/threat-model.rst:120
-#, fuzzy
-#| msgid ""
-#| "**Database exhaustion:** Attacker floods the database with queries, or "
-#| "consumes all Redis memory/connections."
 msgid ""
 "**Database exhaustion:** Attacker floods the database or datastore with "
 "queries, or consumes all memory or available connections."
 msgstr ""
-"**Kehabisan basis data:** Penyerang membanjiri basis data dengan kueri, atau "
-"menghabiskan semua memori/koneksi Redis."
+"**Kelelahan basis data:** Penyerang membanjiri basis data atau penyimpanan "
+"data dengan kueri, atau menghabiskan semua memori atau koneksi yang tersedia."
 
 #: ../../security/threat-model.rst:122
 msgid "**VCS integration**"
@@ -50370,15 +50281,12 @@ msgid "Principle of least privilege for Weblate user account on the OS."
 msgstr "Prinsip hak istimewa paling sedikit untuk akun pengguna Weblate di SO."
 
 #: ../../security/threat-model.rst:171
-#, fuzzy
-#| msgid ""
-#| "Network segmentation (e.g., separating database/Redis from public access)."
 msgid ""
 "Network segmentation (e.g., separating database and datastore from public "
 "access)."
 msgstr ""
-"Segmentasi jaringan (misalnya, memisahkan basis data/Redis dari akses "
-"publik)."
+"Segmentasi jaringan "
+"(misalnya, memisahkan basis data dan penyimpanan data dari akses publik)."
 
 #: ../../security/threat-model.rst:172
 msgid "Use of WAF (Web Application Firewall)."
@@ -53268,10 +53176,8 @@ msgid "For example with Gettext in Python it could be:"
 msgstr "Misalnya dengan Gettext di Python bisa seperti ini:"
 
 #: ../../user/checks.rst:2193
-#, fuzzy
-#| msgid "Glossaries in automatic suggestion"
 msgid "Placeables in automatic suggestion"
-msgstr "Glosarium dalam saran otomatis"
+msgstr "Penempatan dalam saran otomatis"
 
 #: ../../user/checks.rst:2195
 msgid ""
@@ -53280,6 +53186,11 @@ msgid ""
 "for this varies in different services and in many cases there is no way to "
 "enforce keeping placeables intact."
 msgstr ""
+"Pemeriksaan penempatan akan menampilkan informasi tentang penempatan saat "
+"ini, dan ini dapat digunakan untuk menginstruksikan mesin saran otomatis "
+"agar menyimpannya. Dukungan untuk hal ini bervariasi di berbagai layanan, "
+"dan dalam banyak kasus, tidak ada cara untuk memastikan penempatan tetap "
+"utuh."
 
 #: ../../user/files.rst:2
 msgid "Downloading and uploading translations"
@@ -53899,16 +53810,14 @@ msgid "Glossaries in automatic suggestion"
 msgstr "Glosarium dalam saran otomatis"
 
 #: ../../user/glossary.rst:138
-#, fuzzy
-#| msgid ""
-#| "Following automatic suggestion services utilize glossaries during the "
-#| "translation:"
 msgid ""
 "Some automatic suggestion services utilize glossaries during the "
 "translation, please consult their documentation in :doc:`/admin/machine` to "
 "see the support."
 msgstr ""
-"Layanan saran otomatis berikut memanfaatkan glosarium selama terjemahan:"
+"Beberapa layanan saran otomatis menggunakan glosarium selama penerjemahan, "
+"silakan lihat dokumentasinya di :doc:`/admin/machine` untuk melihat "
+"dukungannya."
 
 #: ../../user/glossary.rst:141
 msgid "The glossary is processed before exposed to the service:"
@@ -56404,6 +56313,8 @@ msgid ""
 "In case you don't provide credentials in the URL and the repository requires "
 "it, Git will fail with an error:"
 msgstr ""
+"Jika Anda tidak memberikan kredensial di URL dan repositori memerlukannya, "
+"Git akan gagal dengan galat:"
 
 #: ../../vcs.rst:283
 msgid ""
