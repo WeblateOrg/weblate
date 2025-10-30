@@ -27,8 +27,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-27 07:35+0000\n"
-"PO-Revision-Date: 2025-10-27 19:46+0000\n"
-"Last-Translator: Aitor Astorga <a.astorga.sdv@protonmail.com>\n"
+"PO-Revision-Date: 2025-10-31 08:02+0000\n"
+"Last-Translator: Francisco Serrador <fserrador@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "application/es/>\n"
 "Language: es\n"
@@ -3217,10 +3217,13 @@ msgid "Cannot remove built-in team!"
 msgstr "¡No se puede eliminar el equipo integrado!"
 
 #: weblate/auth/views.py:170
+#, fuzzy
 msgid ""
 "This invitation can be accepted only by the e-mail address chosen by the "
 "inviter; it can't be used by your account."
 msgstr ""
+"Esta invitación puede ser aceptada solo por la dirección de correo-e elegida "
+"por el invitante; no puede ser utilizado por su cuenta."
 
 #: weblate/auth/views.py:201
 msgid "User invitation was removed."
@@ -4294,7 +4297,7 @@ msgstr "El formato Vue I18n no coincide con el de origen."
 #, fuzzy
 #| msgid "Automattic Components"
 msgid "Automattic components formatting"
-msgstr "Componentes automáticos"
+msgstr "Formateo de componentes automáticos"
 
 #: weblate/checks/format.py:830
 msgid "The Automattic components' placeholders do not match the source."
@@ -4489,9 +4492,7 @@ msgstr "reStructuredText inconsistente"
 #| msgid ""
 #| "Inconsistent reStructuredText term references in the translated message."
 msgid "Inconsistent reStructuredText markup in the translated message."
-msgstr ""
-"Referencias inconsistentes en los términos reStructuredText en el mensaje "
-"traducido."
+msgstr "Marcaje inconsistente en reStructuredText en el mensaje traducido."
 
 #: weblate/checks/markup.py:485
 #, fuzzy
@@ -6131,22 +6132,27 @@ msgstr ""
 "La traducción de %s no está disponible actualmente, pero se puede agregar."
 
 #: weblate/screenshots/forms.py:33
+#, fuzzy
 msgid "You need to provide either image file or image URL."
-msgstr ""
+msgstr "Necesita proporcionar o bien un archivo de imagen o una URL de imagen."
 
 #: weblate/screenshots/forms.py:53
+#, fuzzy
 msgid "Image URL domain is not allowed."
-msgstr ""
+msgstr "No está concedido el dominio de URL de imagen."
 
 #: weblate/screenshots/forms.py:61
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "Unable to download image from the provided URL (HTTP status code: %(code)s)."
 msgstr ""
+"No es capaz de descarga imagen desde la URL proporcionada "
+"(Código de estado de HTTP: %(code)s)."
 
 #: weblate/screenshots/forms.py:79
+#, fuzzy
 msgid "Image is too big."
-msgstr ""
+msgstr "La imagen es demasiado grande."
 
 #: weblate/screenshots/forms.py:85 weblate/utils/validators.py:126
 #, python-format
@@ -6154,8 +6160,9 @@ msgid "Unsupported image type: %s"
 msgstr "Tipo de imagen no admitida: %s"
 
 #: weblate/screenshots/forms.py:93
+#, fuzzy
 msgid "Unable to download image from the provided URL."
-msgstr ""
+msgstr "No es capaz de descargar imagen desde la URL proporcionada."
 
 #: weblate/screenshots/forms.py:120 weblate/screenshots/forms.py:147
 #: weblate/templates/widgets.html:64
@@ -6163,8 +6170,9 @@ msgid "Image URL"
 msgstr "URL de imagen"
 
 #: weblate/screenshots/forms.py:121 weblate/screenshots/forms.py:148
+#, fuzzy
 msgid "The image will be downloaded and stored."
-msgstr ""
+msgstr "La imagen será descargada y almacenada."
 
 #: weblate/screenshots/models.py:57
 #: weblate/templates/screenshots/screenshot_list.html:47
@@ -6189,7 +6197,7 @@ msgstr "Imagen"
 
 #: weblate/screenshots/models.py:67
 msgid "Upload image up to 2000x2000 pixels."
-msgstr "Cargue imágenes de hasta 2000 × 2000 píxeles."
+msgstr "Cargue imágenes de hasta 2.000 × 2.000 píxeles."
 
 #: weblate/screenshots/views.py:243
 msgid "Screenshot has been uploaded, you can now assign it to source strings."
@@ -6261,8 +6269,8 @@ msgid ""
 "requests)."
 msgstr ""
 "Si ha configurado su navegador para que no envíe encabezados \"Referer\", "
-"debe activarlo (al menos para este sitio, conexiones HTTPS o solicitudes "
-"\"same-origin\")."
+"necesita activarlo "
+"(al menos para este sitio, conexiones HTTPS o solicitudes \"same-origin\")."
 
 #: weblate/templates/403_csrf.html:26
 msgid ""
@@ -6360,7 +6368,7 @@ msgstr "Bienvenido y gracias por apoyar a Weblate"
 
 #: weblate/templates/about/donate.html:26
 msgid "Welcome and thank you for choosing Weblate"
-msgstr "Bienvenido y gracias por elegir Weblate"
+msgstr "Bienvenido y gracias por elegir a Weblate"
 
 #: weblate/templates/about/donate.html:29
 msgid ""
@@ -7215,14 +7223,18 @@ msgid "Redirecting you to the authentication provider."
 msgstr "Lo redirigiremos al proveedor de autenticación."
 
 #: weblate/templates/accounts/register-password.html:4
+#, fuzzy
 msgid "Registration without a password:"
-msgstr ""
+msgstr "Registro sin una contraseña:"
 
 #: weblate/templates/accounts/register-password.html:5
+#, fuzzy
 msgid ""
 "You can set your password later by clicking on the link in the verification "
 "email."
 msgstr ""
+"Puede establecer su contraseña más tarde pulsando sobre el enlace en la "
+"verificación de correo-e."
 
 #: weblate/templates/accounts/register.html:20
 msgid "Please complete the registration to accept the invitation."
@@ -7251,16 +7263,21 @@ msgid "Account removal"
 msgstr "Eliminación de cuenta"
 
 #: weblate/templates/accounts/removal.html:24
+#, fuzzy
 msgid ""
 "You will lose access to the projects you manage. Projects themselves will "
 "not be removed."
 msgstr ""
+"Perderá el acceso a los proyectos que administra. Por sí mimos los proyectos "
+"no serán eliminados."
 
 #: weblate/templates/accounts/removal.html:35
+#, fuzzy
 msgid ""
 "Any billing you might have created will not be terminated by this account "
 "removal."
 msgstr ""
+"Cualquier factura que haya creado no será terminada por esta baja de cuenta."
 
 #: weblate/templates/accounts/removal.html:39
 #, fuzzy
@@ -7327,17 +7344,24 @@ msgstr ""
 "completamente:"
 
 #: weblate/templates/accounts/snippets/login-info.html:26
+#, fuzzy
 msgid ""
 "By registering, you agree that your name and username will be visible "
 "publicly as long as your account exists."
 msgstr ""
+"Al registrar, está de acuerdo que su nombre y usuario será visible "
+"públicamente tanto como su cuenta exista."
 
 #: weblate/templates/accounts/snippets/login-info.html:30
+#, fuzzy
 msgid ""
 "Additionally, your name and e-mail can be used in version control system "
 "commits to author the changes you made; they can be stored there "
 "indefinitely."
 msgstr ""
+"Adicionalmente, su nombre y correo-e pude ser utilizado en los cambios del "
+"sistema de control de versión para autorizar los cambios que haga; puede "
+"estar almacenado éstos indefinidamente."
 
 #: weblate/templates/accounts/snippets/login-info.html:32
 #, fuzzy
@@ -7352,10 +7376,13 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/accounts/snippets/login-info.html:38
+#, fuzzy
 msgid ""
 "You provide your contribution under the license defined by each project you "
 "contributed to."
 msgstr ""
+"Proporcione su contribución bajo la licencia definida por cada proyecto que "
+"contribuyó."
 
 #: weblate/templates/accounts/snippets/login-title.html:4
 msgid "Weblate single sign on"
@@ -8318,8 +8345,9 @@ msgid "Community discussions"
 msgstr "Asistencia comunitaria"
 
 #: weblate/templates/base.html:393 weblate/templates/base5.html:418
+#, fuzzy
 msgid "Professional support"
-msgstr ""
+msgstr "Mantenimiento profesional"
 
 #: weblate/templates/base.html:397 weblate/templates/base5.html:422
 #, fuzzy
@@ -9566,14 +9594,18 @@ msgid "Danger zone"
 msgstr "Zona de riesgo"
 
 #: weblate/templates/js/git-status.html:142
+#, fuzzy
 msgid "Reset and discard"
-msgstr ""
+msgstr "Restablecer y descartar"
 
 #: weblate/templates/js/git-status.html:145
+#, fuzzy
 msgid ""
 "Resets Weblate’s repository to match upstream and discards any pending "
 "changes in Weblate."
 msgstr ""
+"Restablece el repositorio de Weblate para coincidir upstream y descartar "
+"cualquiera de los cambios pendientes en Weblate."
 
 #: weblate/templates/js/git-status.html:146
 #, fuzzy
@@ -9597,14 +9629,18 @@ msgstr ""
 "el repositorio upstream."
 
 #: weblate/templates/js/git-status.html:154
+#, fuzzy
 msgid "Reset and reapply"
-msgstr ""
+msgstr "Restablecer y reaplicar"
 
 #: weblate/templates/js/git-status.html:157
+#, fuzzy
 msgid ""
 "Resets Weblate’s repository to match upstream and replace upstream "
 "translations with the current state from Weblate."
 msgstr ""
+"Restablece el repositorio de Weblate para que coincida con el repositorio "
+"remoto y reemplaza las traducciones remotas con el estado actual de Weblate."
 
 #: weblate/templates/js/git-status.html:158
 #, fuzzy
@@ -10494,8 +10530,11 @@ msgid "Password reset on %(site_title)s"
 msgstr "Su contraseña en %(site_title)s"
 
 #: weblate/templates/mail/shared-activity.html:21
+#, fuzzy
 msgid "Sign in to see the full audit log, including the IP address."
 msgstr ""
+"Inicia sesión para ver el registro de auditoría completo, incluida la "
+"dirección IP."
 
 #: weblate/templates/mail/shared-activity.html:22
 msgid ""
@@ -10806,8 +10845,9 @@ msgid "HTTP environment"
 msgstr "Respuesta HTTP"
 
 #: weblate/templates/manage/performance.html:139
+#, fuzzy
 msgid "Observed value"
-msgstr ""
+msgstr "Valor observado"
 
 #: weblate/templates/manage/performance.html:140
 #, fuzzy
@@ -10826,8 +10866,9 @@ msgid "HTTP host"
 msgstr "Cabecera HTTP"
 
 #: weblate/templates/manage/performance.html:161
+#, fuzzy
 msgid "HTTP protocol"
-msgstr ""
+msgstr "Protocolo HTTP"
 
 #: weblate/templates/manage/performance.html:204
 msgid "System encoding"
@@ -14174,8 +14215,9 @@ msgid "Embed code copied to clipboard."
 msgstr "Códigos de recuperación copiados en el portapapeles."
 
 #: weblate/templates/widgets.html:92
+#, fuzzy
 msgid "Embed Code"
-msgstr ""
+msgstr "Código Empotrado"
 
 #: weblate/templates/zen-units.html:23
 msgid "Open in full editor"
@@ -14582,14 +14624,14 @@ msgstr "Fuente eliminada"
 #, fuzzy
 #| msgid "Force synchronization"
 msgid "Forced synchronization of translations"
-msgstr "Forzar sincronización"
+msgstr "Sincronización forzada de traducciones"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:174
 #, fuzzy
 #| msgid "Forbidden translation"
 msgid "Forced rescan of translations"
-msgstr "Traducción prohibida"
+msgstr "Reanaliza forzado de traducciones"
 
 #: weblate/trans/admin.py:36
 msgid "Commit pending changes"
@@ -15353,11 +15395,14 @@ msgid "ZIP file containing project backup"
 msgstr "Archivo ZIP que contiene la copia de seguridad del proyecto"
 
 #: weblate/trans/forms.py:2549
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "Could not load project backup: The backup is from an incompatible version "
 "(%(version)s). Please upgrade your Weblate instance."
 msgstr ""
+"No se pudo cargar la copia de seguridad del proyecto: La copia de seguridad "
+"pertenece a una versión incompatible (%(version)s). Actualice su instancia "
+"de Weblate."
 
 #: weblate/trans/forms.py:2555
 #, python-format
@@ -15440,10 +15485,13 @@ msgid "Untranslatable term"
 msgstr "Término no traducible"
 
 #: weblate/trans/forms.py:2756
+#, fuzzy
 msgid ""
 "Mark this option if the sentence should stay as in the source language, "
 "without change."
 msgstr ""
+"Marque esta opción si la sentencia debe permanecer como en el idioma "
+"original, sin cambios."
 
 #: weblate/trans/forms.py:2785
 msgid "You do not have permission to create terminology."
@@ -17406,8 +17454,11 @@ msgstr ""
 "verifique la máscara del archivo."
 
 #: weblate/trans/validators.py:75
+#, fuzzy
 msgid "File format parameters must be a dictionary of key-value pairs."
 msgstr ""
+"Los parámetros del formato de archivo deben ser un diccionario de pares "
+"clave-valor."
 
 #: weblate/trans/validators.py:84
 #, fuzzy, python-format
@@ -17453,8 +17504,9 @@ msgid "Get involved in {0}!"
 msgstr "¡Involúcrese en {0}!"
 
 #: weblate/trans/views/basic.py:801
+#, fuzzy
 msgid "Language addition is not supported by any of the components."
-msgstr ""
+msgstr "Ninguno de los componentes admite la adición de idiomas."
 
 #: weblate/trans/views/basic.py:835
 #, fuzzy, python-format
@@ -17629,9 +17681,9 @@ msgid "Invalid search string!"
 msgstr "¡Cadena de búsqueda no válida!"
 
 #: weblate/trans/views/edit.py:655
-#, python-format
+#, fuzzy, python-format
 msgid "You have shifted from %(previous)s to %(current)s."
-msgstr ""
+msgstr "Has pasado de %(previous)s a %(current)s."
 
 #: weblate/trans/views/edit.py:789 weblate/trans/views/search.py:58
 #: weblate/trans/views/search.py:224
@@ -18124,8 +18176,9 @@ msgstr ""
 "es {1}."
 
 #: weblate/utils/validators.py:117
+#, fuzzy
 msgid "The uploaded image was invalid."
-msgstr ""
+msgstr "La imagen subida era inválida."
 
 #: weblate/utils/validators.py:134
 msgid "The image is too big, please crop or scale it down."
