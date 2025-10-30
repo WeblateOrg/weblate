@@ -67825,7 +67825,14 @@ components:
           type: boolean
           title: Enforced two-factor authentication
           description: Requires users to have two-factor authentication configured.
+        admins:
+          type: array
+          items:
+            type: string
+            format: uri
+          readOnly: true
       required:
+      - admins
       - componentlists
       - components
       - id
@@ -70491,6 +70498,12 @@ components:
           type: boolean
           title: Enforced two-factor authentication
           description: Requires users to have two-factor authentication configured.
+        admins:
+          type: array
+          items:
+            type: string
+            format: uri
+          readOnly: true
     PatchedLanguage:
       type: object
       properties:
