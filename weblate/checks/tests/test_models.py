@@ -88,13 +88,13 @@ class BatchUpdateTest(ViewTestCase):
         translation = other.translation_set.get(language_code="cs")
         auto_translate(
             user_id=None,
-            translation_id=translation.pk,
             mode="translate",
             q="state:<translated",
             auto_source="others",
             component=self.component.pk,
             engines=[],
             threshold=99,
+            translation_id=translation.pk,
         )
         unit = self.get_unit()
         self.assertEqual(unit.all_checks_names, set())

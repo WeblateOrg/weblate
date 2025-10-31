@@ -362,9 +362,12 @@ Automatic translation
 
 You can use automatic translation to bootstrap translation based on external
 sources. This tool is called :guilabel:`Automatic translation` accessible in
-the :guilabel:`Tools` menu, once you have selected a component and a language:
+the :guilabel:`Operations` menu, once you have selected a component and a language:
 
 .. image:: /screenshots/automatic-translation.webp
+
+A similar operation :guilabel:`Batch automatic translation` is available if you have
+selected a project language, a component or a category.
 
 Two modes of operation are possible:
 

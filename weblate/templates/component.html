@@ -96,6 +96,11 @@
             <a class="dropdown-item" data-bs-target="#bulk-edit" data-bs-toggle="tab" href="#">{% translate "Bulk edit" %}</a>
           </li>
         {% endif %}
+        {% if autoform %}
+          <li>
+            <a class="dropdown-item" data-bs-target="#auto" data-bs-toggle="tab" href="#">{% translate "Batch automatic translation" %}</a>
+          </li>
+        {% endif %}
         <li>
           <a class="dropdown-item" href="{% url 'matrix' path=object.get_url_path %}">{% translate "Matrix view" %}</a>
         </li>
@@ -313,6 +318,10 @@
 
         </div>
       </div>
+    {% endif %}
+
+    {% if autoform %}
+      <div class="tab-pane" id="auto">{% include "snippets/autoform.html" with object=object autoform=autoform %}</div>
     {% endif %}
 
     {% if rename_form or delete_form %}

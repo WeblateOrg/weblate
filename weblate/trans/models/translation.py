@@ -178,6 +178,14 @@ class TranslationQuerySet(models.QuerySet):
             "component__priority", "component__project__name", "component__name"
         )
 
+    def exclude_source(self):
+        """
+        Exclude source translations.
+
+        Database equivalent of Translation.is_source property.
+        """
+        return self.exclude(language=F("component__source_language"))
+
 
 class Translation(
     models.Model,
