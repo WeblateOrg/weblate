@@ -7,13 +7,14 @@
 # Michal Čihař <michal@weblate.org>, 2025.
 # Vũ Minh Nguyên <PiscesKaze@gmail.com>, 2025.
 # AlaxLima <thanhkhoidangngoc@gmail.com>, 2025.
+# hoanghuy309 <hoanghuy309@gmail.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-27 07:35+0000\n"
-"PO-Revision-Date: 2025-08-12 06:02+0000\n"
-"Last-Translator: AlaxLima <thanhkhoidangngoc@gmail.com>\n"
+"PO-Revision-Date: 2025-11-01 00:39+0000\n"
+"Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "application/vi/>\n"
 "Language: vi\n"
@@ -21,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.13-dev\n"
+"X-Generator: Weblate 5.14.1-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -177,10 +178,8 @@ msgid "E-mail"
 msgstr "E-mail"
 
 #: weblate/accounts/forms.py:638
-#, fuzzy
-#| msgid "E-mail with a confirmation link will be sent here."
 msgid "An e-mail with a confirmation link will be sent here."
-msgstr "Email với link kích hoạt sẽ được gửi tại đây."
+msgstr "Một email có liên kết xác nhận sẽ được gửi đến đây."
 
 #: weblate/accounts/forms.py:700
 msgid "New password"
@@ -199,10 +198,8 @@ msgid "Current password"
 msgstr "Mật khẩu hiện tại"
 
 #: weblate/accounts/forms.py:748
-#, fuzzy
-#| msgid "Leave empty if you have not yet set a password."
 msgid "Leave empty if you have not set a password yet."
-msgstr "Để trống nếu bạn chưa thiết lập mật khẩu."
+msgstr "Để trống nếu bạn chưa đặt mật khẩu."
 
 #: weblate/accounts/forms.py:762
 msgid "You have entered an invalid password."
@@ -364,14 +361,10 @@ msgid "Screenshots uploaded"
 msgstr "Các ảnh chụp màn hình đã tải lên"
 
 #: weblate/accounts/forms.py:1080
-#, fuzzy
-#| msgid "Chosen sorting is not supported."
 msgid "The chosen sorting is not supported."
-msgstr "Kiểu sắp xếp đã chọn không được hỗ trợ."
+msgstr "Không hỗ trợ cách sắp xếp đã chọn."
 
 #: weblate/accounts/forms.py:1097
-#, fuzzy
-#| msgid "Add user to a group"
 msgid "Add user to a team"
 msgstr "Thêm người dùng vào nhóm"
 
@@ -380,10 +373,8 @@ msgid "Add team"
 msgstr "Thêm nhóm"
 
 #: weblate/accounts/forms.py:1123
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Name your authentication app"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đặt tên cho ứng dụng xác thực của bạn"
 
 #: weblate/accounts/forms.py:1126
 msgid "Verify the code from the app"
@@ -576,7 +567,7 @@ msgstr "Người dùng đã bị vô hiệu hóa bởi quản trị viên."
 
 #: weblate/accounts/models.py:296
 msgid "User was disabled because the access has expired."
-msgstr ""
+msgstr "Người dùng đã bị vô hiệu hóa vì quyền truy cập đã hết hạn."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:299
@@ -622,10 +613,9 @@ msgid "Two-factor authentication sign in using {device}"
 msgstr "Đăng nhập qua xác thực 2 yếu tố sử dụng {device}"
 
 #: weblate/accounts/models.py:320
-#, fuzzy, python-brace-format
-#| msgid "Two-factor authentication sign in using {device}"
+#, python-brace-format
 msgid "Two-factor authentication failed using {device_type}"
-msgstr "Đăng nhập qua xác thực 2 yếu tố sử dụng {device}"
+msgstr "Xác thực hai yếu tố thất bại khi dùng {device_type}"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:328
@@ -795,25 +785,21 @@ msgstr ""
 "Bất cứ khi nào bạn dịch một xâu trong một dự án, bạn sẽ bắt đầu theo dõi nó."
 
 #: weblate/accounts/models.py:717
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Contribute to personal translation memory"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Đóng góp vào bộ nhớ dịch thuật cá nhân"
 
 #: weblate/accounts/models.py:720
 msgid ""
 "Allow your translations to be added to your personal translation memory."
-msgstr ""
+msgstr "Cho phép bản dịch của bạn được thêm vào bộ nhớ dịch cá nhân."
 
 #: weblate/accounts/models.py:731 weblate/templates/dashboard/user.html:22
 msgid "Watched translations"
 msgstr "Bản dịch đã theo dõi"
 
 #: weblate/accounts/models.py:732 weblate/templates/dashboard/user.html:29
-#, fuzzy
-#| msgid "Subscribed projects"
 msgid "All component lists"
-msgstr "Chủ đề đã đăng ký theo dõi"
+msgstr "Tất cả danh sách thành phần"
 
 #: weblate/accounts/models.py:733 weblate/templates/dashboard/user.html:100
 msgid "Component list"
@@ -848,15 +834,15 @@ msgid "Website URL"
 msgstr "URL trang web"
 
 #: weblate/accounts/models.py:777
-#, fuzzy
-#| msgid "Contact"
 msgid "Contact URL"
-msgstr "Liên lạc"
+msgstr "URL liên hệ"
 
 #: weblate/accounts/models.py:781
 msgid ""
 "Link to contact you online using services like Signal, SimpleX or Telegram."
 msgstr ""
+"Liên kết để liên hệ với bạn trực tuyến bằng các dịch vụ như Signal, SimpleX "
+"hoặc Telegram."
 
 #: weblate/accounts/models.py:785
 msgid "Liberapay username"
@@ -937,16 +923,12 @@ msgstr ""
 "chúng ở trong phần cài đặt."
 
 #: weblate/accounts/models.py:1244
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Please provide an e-mail address for submitting translations."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Vui lòng cung cấp địa chỉ email để gửi bản dịch."
 
 #: weblate/accounts/notifications.py:64
-#, fuzzy
-#| msgid "Notification on new comment"
 msgid "No notification"
-msgstr "Nhận thông báo khi có bình luận mới"
+msgstr "Không có thông báo"
 
 #: weblate/accounts/notifications.py:65
 msgid "Instant notification"
@@ -965,39 +947,29 @@ msgid "Monthly digest"
 msgstr "Thông báo hàng tháng"
 
 #: weblate/accounts/notifications.py:545
-#, fuzzy
-#| msgid "Failed to generate key: %s"
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
-msgstr "Xảy ra lỗi khi tạo khóa: %s"
+msgstr "Hoạt động đã được thực hiện trong kho lưu trữ"
 
 #: weblate/accounts/notifications.py:556
-#, fuzzy
-#| msgid "Secondary languages"
 msgctxt "Notification name"
 msgid "Component was locked or unlocked"
-msgstr "Ngôn ngữ thứ hai"
+msgstr "Thành phần đã bị khóa hoặc mở khóa"
 
 #: weblate/accounts/notifications.py:566
-#, fuzzy
-#| msgid "Last name"
 msgctxt "Notification name"
 msgid "License was changed"
-msgstr "Họ"
+msgstr "Giấy phép đã được thay đổi"
 
 #: weblate/accounts/notifications.py:573
-#, fuzzy
-#| msgid "Parse error"
 msgctxt "Notification name"
 msgid "Parse error occurred"
-msgstr "Lỗi khi xử lý"
+msgstr "Đã xảy ra lỗi phân tích cú pháp"
 
 #: weblate/accounts/notifications.py:604
-#, fuzzy
-#| msgid "Notification on new string to translate"
 msgctxt "Notification name"
 msgid "String is available for translation"
-msgstr "Nhận thông báo khi phần dịch bổ sung các chuỗi mới"
+msgstr "Chuỗi có sẵn để dịch"
 
 #: weblate/accounts/notifications.py:614
 #, fuzzy
@@ -1530,15 +1502,14 @@ msgstr "Xoá các xâu không có bản dịch khỏi các tệp bản dịch."
 
 #: weblate/addons/consistency.py:27
 msgid "Add missing languages"
-msgstr "Thêm các ngôn ngữ bị thiếu"
+msgstr "Thêm ngôn ngữ thiếu"
 
 #: weblate/addons/consistency.py:29
 msgid ""
 "Ensures a consistent set of languages is used for all components within a "
 "project."
 msgstr ""
-"Đảm bảo một bộ ngôn ngữ nhất quán được sử dụng cho tất cả các thành phần "
-"trong một dự án."
+"Đảm bảo dùng một bộ ngôn ngữ thống nhất cho tất cả thành phần trong dự án."
 
 #: weblate/addons/discovery.py:27
 msgid "Component discovery"
@@ -1668,10 +1639,8 @@ msgid "All commits into one"
 msgstr ""
 
 #: weblate/addons/forms.py:134
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Per language"
-msgstr "PHP strings"
+msgstr "Theo ngôn ngữ"
 
 #: weblate/addons/forms.py:135
 #, fuzzy
@@ -1762,10 +1731,8 @@ msgstr ""
 #: weblate/addons/forms.py:221
 #: weblate/templates/trans/alert/inexistantfiles.html:14
 #: weblate/trans/models/component.py:515
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Intermediate language file"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Tệp ngôn ngữ trung gian"
 
 #: weblate/addons/forms.py:225 weblate/trans/models/component.py:519
 msgid ""
@@ -1776,7 +1743,7 @@ msgstr ""
 
 #: weblate/addons/forms.py:232 weblate/trans/models/component.py:763
 msgid "Language filter"
-msgstr "Bộ lọc ngôn ngữ"
+msgstr "Lọc ngôn ngữ"
 
 #: weblate/addons/forms.py:237
 #, fuzzy
@@ -1837,14 +1804,12 @@ msgid "CSS selector to detect localizable elements."
 msgstr ""
 
 #: weblate/addons/forms.py:430
-#, fuzzy
-#| msgid "Language"
 msgid "Language cookie name"
-msgstr "Ngôn ngữ"
+msgstr "Tên cookie ngôn ngữ"
 
 #: weblate/addons/forms.py:433
 msgid "Name of cookie which stores language preference."
-msgstr ""
+msgstr "Tên cookie lưu trữ tùy chọn ngôn ngữ."
 
 #: weblate/addons/forms.py:438
 msgid "Extract strings from HTML files"
@@ -2393,24 +2358,18 @@ msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:25
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "Post comment"
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Đăng ghi chú"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:27
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "Delete comment"
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Xóa ghi chú"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:29
-#, fuzzy
-#| msgid "Created new SSH key."
 msgid "Resolve comment"
-msgstr "Đã tạo mới khóa SSH."
+msgstr "Giải quyết ghi chú"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:31
@@ -2610,10 +2569,8 @@ msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:89
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Add language for translation"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Thêm ngôn ngữ để dịch"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:91
@@ -2638,10 +2595,8 @@ msgstr "Tải xuống bản dịch"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:97
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Add several languages for translation"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Thêm nhiều ngôn ngữ để dịch"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:99
@@ -2717,17 +2672,13 @@ msgstr "Chủ đề đã đăng ký theo dõi"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:129
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Add language definitions"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Thêm định nghĩa ngôn ngữ"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:131
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Manage language definitions"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Quản lý định nghĩa ngôn ngữ"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:133 weblate/templates/manage/teams.html:18
@@ -3131,10 +3082,8 @@ msgid "Component lists"
 msgstr "Các danh sách thành phần"
 
 #: weblate/auth/models.py:175
-#, fuzzy
-#| msgid "Language"
 msgid "Language selection"
-msgstr "Ngôn ngữ"
+msgstr "Chọn ngôn ngữ"
 
 #: weblate/auth/models.py:178 weblate/templates/auth/teams-languages.html:4
 #: weblate/trans/forms.py:1144 weblate/trans/forms.py:1386
@@ -8967,7 +8916,7 @@ msgstr "Nhận thông báo về bất kỳ bản dịch nào"
 
 #: weblate/templates/base.html:308 weblate/templates/base5.html:333
 msgid "Try Weblate for free"
-msgstr ""
+msgstr "Thử Weblate miễn phí"
 
 #: weblate/templates/base.html:351 weblate/templates/base5.html:377
 #: weblate/templates/trans/alert/billinglimit.html:9
@@ -12401,6 +12350,8 @@ msgid ""
 "While Weblate remains free for all users, its development requires "
 "continuous investment."
 msgstr ""
+"Mặc dù Weblate vẫn miễn phí cho tất cả người dùng, nhưng việc phát triển nó "
+"đòi hỏi phải đầu tư liên tục."
 
 #: weblate/templates/snippets/donate.html:5
 msgid "We prioritize your privacy; we never display ads or sell your data."
@@ -13010,6 +12961,9 @@ msgid ""
 "Mention you use Weblate for translations in the README. It’ll attract new "
 "translators and also help Weblate to be free for more projects."
 msgstr ""
+"Hãy đề cập đến việc bạn sử dụng Weblate để dịch thuật trong tệp README. Điều "
+"này sẽ thu hút thêm nhiều dịch giả mới và cũng giúp Weblate được miễn phí "
+"cho nhiều dự án hơn."
 
 #: weblate/templates/snippets/libre-basic.html:29
 #, fuzzy
@@ -15424,17 +15378,13 @@ msgstr ""
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:99
-#, fuzzy
-#| msgid "Language"
 msgid "Language added"
-msgstr "Ngôn ngữ"
+msgstr "Ngôn ngữ đã thêm"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:101
-#, fuzzy
-#| msgid "Language"
 msgid "Language requested"
-msgstr "Ngôn ngữ"
+msgstr "Ngôn ngữ được yêu cầu"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:103
@@ -17028,6 +16978,8 @@ msgid ""
 "The message will be not shown after this date. Use it to announce string "
 "freeze and translation deadline for next release."
 msgstr ""
+"Thông báo sẽ không hiển thị sau ngày này. Hãy sử dụng thông báo này để thông "
+"báo về việc đóng băng chuỗi và hạn chót dịch cho bản phát hành tiếp theo."
 
 #: weblate/trans/models/announcement.py:129
 msgid "Notify users"
