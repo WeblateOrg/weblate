@@ -464,6 +464,12 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
         queryset=Project.objects.none(),
         required=False,
     )
+    admins = serializers.HyperlinkedRelatedField(
+        view_name="api:user-detail",
+        lookup_field="username",
+        many=True,
+        read_only=True,
+    )
 
     class Meta:
         model = Group
@@ -480,6 +486,7 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
             "componentlists",
             "components",
             "enforced_2fa",
+            "admins",
         )
         extra_kwargs = {  # noqa: RUF012
             "url": {"view_name": "api:group-detail", "lookup_field": "id"},

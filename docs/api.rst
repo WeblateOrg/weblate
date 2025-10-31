@@ -524,6 +524,7 @@ Groups
     :>json array components: link to associated components; see :http:get:`/api/components/(string:project)/(string:component)/`
     :>json array componentlists: link to associated componentlist; see :http:get:`/api/component-lists/(str:slug)/`
     :>json str defining_project: link to the defining project, used for :ref:`manage-acl`; see :http:get:`/api/projects/(string:project)/`
+    :>json array admins: link to associated administrators; see :http:get:`/api/users/(str:username)/`
 
     **Example JSON data:**
 
@@ -550,6 +551,9 @@ Groups
             "componentlist": "http://example.com/api/component-lists/new/",
             "components": [
                 "http://example.com/api/components/demo/weblate/"
+            ],
+            "admins": [
+                "http://example.com/api/users/exampleusername/"
             ]
         }
 

@@ -9,6 +9,7 @@ Weblate 5.14.1
 
 * Document using Valkey in :ref:`celery` and :ref:`production-cache`.
 * Added HTTP environment overview in :ref:`manage-performance`.
+* :http:get:`/api/groups/` now includes ``admins``.
 
 .. rubric:: Bug fixes
 
