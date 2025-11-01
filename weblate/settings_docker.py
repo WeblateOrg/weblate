@@ -23,6 +23,7 @@ from weblate.utils.environment import (
     get_env_ratelimit,
     get_env_redis_url,
     get_env_str,
+    get_saml_idp,
     modify_env_list,
 )
 
@@ -403,8 +404,8 @@ if SOCIAL_AUTH_AUTH0_KEY:
 
 
 # SAML
-WEBLATE_SAML_IDP_ENTITY_ID = get_env_str("WEBLATE_SAML_IDP_ENTITY_ID")
-if WEBLATE_SAML_IDP_ENTITY_ID:
+WEBLATE_SAML_IDP = get_saml_idp()
+if WEBLATE_SAML_IDP:
     AUTHENTICATION_BACKENDS += ("social_core.backends.saml.SAMLAuth",)
     # The keys are generated on container startup if missing
     with open("/app/data/ssl/saml.crt") as handle:
@@ -413,25 +414,6 @@ if WEBLATE_SAML_IDP_ENTITY_ID:
         SOCIAL_AUTH_SAML_SP_PRIVATE_KEY = handle.read()
     SOCIAL_AUTH_SAML_SP_ENTITY_ID = f"{SITE_URL}/accounts/metadata/saml/"
     # Identity Provider
-    WEBLATE_SAML_IDP = {
-        "entity_id": WEBLATE_SAML_IDP_ENTITY_ID,
-        "url": get_env_str("WEBLATE_SAML_IDP_URL"),
-        "x508cert": get_env_str("WEBLATE_SAML_IDP_X509CERT"),
-    }
-
-    for field in (
-        "attr_full_name",
-        "attr_first_name",
-        "attr_last_name",
-        "attr_username",
-        "attr_email",
-        "attr_user_permanent_id",
-    ):
-        env_name = f"WEBLATE_SAML_ID_{field.upper()}"
-        value = get_env_str(env_name)
-        if env_name:
-            WEBLATE_SAML_IDP[field] = env_name
-
     SOCIAL_AUTH_SAML_ENABLED_IDPS = {"weblate": WEBLATE_SAML_IDP}
     SOCIAL_AUTH_SAML_SUPPORT_CONTACT = SOCIAL_AUTH_SAML_TECHNICAL_CONTACT = {
         "givenName": ADMINS[0][0],

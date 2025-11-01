@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import ast
 import os
+from typing import Any
 from urllib.parse import quote
 
 from django.core.exceptions import ImproperlyConfigured
@@ -172,3 +173,30 @@ def get_env_redis_url() -> str:
         redis_user_password = ""
 
     return f"{redis_proto}://{redis_user_password}{redis_host}:{redis_port}/{redis_db}"
+
+
+def get_saml_idp() -> dict[str, Any] | None:
+    idp_entity_id = get_env_str("WEBLATE_SAML_IDP_ENTITY_ID")
+    if not idp_entity_id:
+        return None
+    # Identity Provider
+    saml_idp = {
+        "entity_id": idp_entity_id,
+        "url": get_env_str("WEBLATE_SAML_IDP_URL"),
+        "x509cert": get_env_str("WEBLATE_SAML_IDP_X509CERT"),
+    }
+
+    for field in (
+        "attr_full_name",
+        "attr_first_name",
+        "attr_last_name",
+        "attr_username",
+        "attr_email",
+        "attr_user_permanent_id",
+    ):
+        env_name = f"WEBLATE_SAML_ID_{field.upper()}"
+        value = get_env_str(env_name)
+        if value:
+            saml_idp[field] = value
+
+    return saml_idp
