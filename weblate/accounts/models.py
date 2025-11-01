@@ -406,8 +406,7 @@ class AuditLogManager(models.Manager):
         user_agent: str = ""
         # Log only address for own actions (unauthenticated or when the request user matches audit user)
         if request and (
-            not request.user
-            or not request.user.is_authenticated
+            not request.user.is_authenticated
             or request.user == user
         ):
             address = get_ip_address(request)
