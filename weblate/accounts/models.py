@@ -404,7 +404,7 @@ class AuditLogManager(models.Manager):
     ):
         address: str | None = None
         user_agent: str = ""
-        # Log only address only for own actions (unauthenticated or when the request user matches audit user)
+        # Log only address for own actions (unauthenticated or when the request user matches audit user)
         if request and (
             not request.user
             or not request.user.is_authenticated
