@@ -12,6 +12,7 @@ Weblate 5.14.1
 
 .. rubric:: Bug fixes
 
+* Omit admin IP address from audit log.
 * Counting outgoing commits in the repository status.
 * Listing of other translations.
 * SAML configuration in the Docker container.
