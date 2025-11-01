@@ -14,6 +14,7 @@ Weblate 5.14.1
 
 * Counting outgoing commits in the repository status.
 * Listing of other translations.
+* SAML configuration in the Docker container.
 
 .. rubric:: Compatibility
 
