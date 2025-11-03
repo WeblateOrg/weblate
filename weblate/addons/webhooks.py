@@ -48,7 +48,7 @@ class JSONWebhookBaseAddon(ChangeBaseAddon):
     def render_activity_log(self, activity: AddonActivityLog) -> str:
         return render_to_string(
             "addons/webhook_log.html",
-            {"activity": activity, "details": activity.details["result"]},
+            {"activity": activity, "details": activity.details.get("result")},
         )
 
     def send_message(
