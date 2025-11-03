@@ -1929,7 +1929,7 @@ HIDE_SHARED_GLOSSARY_COMPONENTS
 
 Glossary components are typically shared into other projects to
 make them available for translation translation work.
-When these are visible in the compnoent list of projects which are
+When these are visible in the component list of projects which are
 using them, it can cause confusion or distract translators from
 the actual components that are meant to be translated.
 
