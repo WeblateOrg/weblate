@@ -9,6 +9,7 @@ Weblate 5.14.1
 
 * Document using Valkey in :ref:`celery` and :ref:`production-cache`.
 * Added HTTP environment overview in :ref:`manage-performance`.
+* Docker container is using Python 3.14.
 
 .. rubric:: Bug fixes
 
