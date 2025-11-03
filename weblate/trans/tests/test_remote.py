@@ -244,6 +244,7 @@ class FileScanTest(ViewTestCase):
 
         target_1 = "Ahoj svete!\n"
         explanation_1 = unit_1.explanation
+        original_state_1 = unit_1.original_state
         unit_1.translate(self.user, target_1, STATE_APPROVED)
 
         self.component.commit_pending("test", None)
@@ -258,12 +259,18 @@ class FileScanTest(ViewTestCase):
         self.assertEqual(unit_1.state, STATE_TRANSLATED)
         self.assertEqual(
             unit_1.details["disk_state"],
-            {"target": target_1, "state": STATE_APPROVED, "explanation": explanation_1},
+            {
+                "target": target_1,
+                "state": STATE_APPROVED,
+                "explanation": explanation_1,
+                "original_state": STATE_APPROVED,
+            },
         )
         self.assertEqual(PendingUnitChange.objects.filter(unit=unit_1).count(), 1)
 
         target_2 = "Děkujeme, že používáte Weblate."
         explanation_2 = unit_2.explanation
+        original_state_2 = unit_2.original_state
         unit_2.translate(self.user, target_2, STATE_APPROVED)
 
         unit_2 = Unit.objects.get(pk=unit_2.pk)
@@ -277,13 +284,19 @@ class FileScanTest(ViewTestCase):
         self.assertEqual(unit_2.state, STATE_TRANSLATED)
         self.assertEqual(
             unit_2.details["disk_state"],
-            {"target": "", "state": STATE_EMPTY, "explanation": explanation_2},
+            {
+                "target": "",
+                "state": STATE_EMPTY,
+                "explanation": explanation_2,
+                "original_state": original_state_2,
+            },
         )
         self.assertEqual(PendingUnitChange.objects.filter(unit=unit_2).count(), 2)
 
         # translate this unit but introduce a conflict by manually editing the translation file
         # before this change is written
         explanation_3 = unit_3.explanation
+        original_state_3 = unit_3.original_state
         unit_3.translate(
             self.user,
             "Vyzkoušejte Weblate na <https://demo.weblate.org/>!\n",
@@ -291,7 +304,12 @@ class FileScanTest(ViewTestCase):
         )
         self.assertEqual(
             unit_3.details["disk_state"],
-            {"target": "", "state": STATE_EMPTY, "explanation": explanation_3},
+            {
+                "target": "",
+                "state": STATE_EMPTY,
+                "explanation": explanation_3,
+                "original_state": original_state_3,
+            },
         )
         self.assertEqual(PendingUnitChange.objects.filter(unit=unit_3).count(), 1)
 
@@ -311,7 +329,12 @@ class FileScanTest(ViewTestCase):
         self.assertEqual(unit_1.state, STATE_TRANSLATED)
         self.assertEqual(
             unit_1.details["disk_state"],
-            {"target": target_1, "state": STATE_APPROVED, "explanation": explanation_1},
+            {
+                "target": target_1,
+                "state": STATE_APPROVED,
+                "explanation": explanation_1,
+                "original_state": original_state_1,
+            },
         )
         self.assertEqual(PendingUnitChange.objects.filter(unit=unit_1).count(), 1)
 
@@ -323,7 +346,12 @@ class FileScanTest(ViewTestCase):
         self.assertEqual(unit_2.state, STATE_TRANSLATED)
         self.assertEqual(
             unit_2.details["disk_state"],
-            {"target": target_2, "state": STATE_APPROVED, "explanation": explanation_2},
+            {
+                "target": target_2,
+                "state": STATE_APPROVED,
+                "explanation": explanation_2,
+                "original_state": STATE_TRANSLATED,
+            },
         )
         self.assertEqual(PendingUnitChange.objects.filter(unit=unit_2).count(), 1)
 

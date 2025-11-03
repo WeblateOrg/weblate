@@ -1073,6 +1073,7 @@ class Translation(
                 "target": pounit.target,
                 "state": pending_change.state,
                 "explanation": pounit.explanation,
+                "original_state": pending_change.original_state,
             }
             unit.save(update_fields=["details"])
 

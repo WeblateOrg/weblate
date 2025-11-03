@@ -131,6 +131,9 @@ class PendingUnitChange(models.Model):
     explanation = models.TextField(default="", blank=True)
     source_unit_explanation = models.TextField(default="", blank=True)
     state = models.IntegerField(default=0, choices=StringState.choices, db_index=True)
+    original_state = models.IntegerField(
+        default=0, choices=StringState.choices, db_index=True
+    )
     timestamp = models.DateTimeField(default=timezone.now, db_index=True)
     add_unit = models.BooleanField(default=False)
     metadata = models.JSONField(default=dict, blank=True, null=False)
@@ -154,6 +157,7 @@ class PendingUnitChange(models.Model):
         target: str | None = None,
         explanation: str | None = None,
         state: int | None = None,
+        original_state: int | None = None,
         add_unit: bool = False,
         source_unit_explanation: str | None = None,
         timestamp: datetime | None = None,
@@ -169,6 +173,8 @@ class PendingUnitChange(models.Model):
             explanation = unit.explanation
         if state is None:
             state = unit.state
+        if original_state is None:
+            original_state = unit.original_state
         if source_unit_explanation is None:
             source_unit_explanation = unit.source_unit.explanation
         if author is None:
@@ -180,6 +186,7 @@ class PendingUnitChange(models.Model):
             "target": target,
             "explanation": explanation,
             "state": state,
+            "original_state": original_state,
             "add_unit": add_unit,
             "source_unit_explanation": source_unit_explanation,
         }

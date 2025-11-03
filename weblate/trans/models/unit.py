@@ -607,6 +607,7 @@ class Unit(models.Model, LoggerMixin):
             "context": unit.context,
             "extra_flags": unit.extra_flags,
             "explanation": unit.explanation,
+            "original_state": unit.original_state,
         }
 
     def store_disk_state(self) -> None:
@@ -623,7 +624,14 @@ class Unit(models.Model, LoggerMixin):
                 "target": self.old_unit["target"],
                 "state": self.old_unit["state"],
                 "explanation": self.old_unit["explanation"],
+                "original_state": self.old_unit["original_state"],
             }
+            self.save(same_content=True, only_save=True, update_fields=["details"])
+        # TODO: discuss keeping or removing for users migrating from 5.14
+        elif "original_state" not in self.details["disk_state"]:
+            self.details["disk_state"]["original_state"] = self.old_unit[
+                "original_state"
+            ]
             self.save(same_content=True, only_save=True, update_fields=["details"])
 
     def clear_disk_state(self) -> None:
@@ -654,6 +662,7 @@ class Unit(models.Model, LoggerMixin):
             "target": self.target,
             "state": self.state,
             "explanation": self.explanation,
+            "original_state": self.original_state,
         }
 
     @property
@@ -1022,7 +1031,8 @@ class Unit(models.Model, LoggerMixin):
             and same_source
             and same_target
             and same_state
-            and original_state == self.original_state
+            and original_state
+            == comparison_state.get("original_state", self.original_state)
             and flags == Flags(self.flags)
             and previous_source == self.previous_source
             and self.source_unit == old_source_unit
@@ -1137,6 +1147,7 @@ class Unit(models.Model, LoggerMixin):
         elif self.readonly and self.state != self.original_state:
             self.state = self.original_state
             self.save(same_content=True, run_checks=False, update_fields=["state"])
+        # TODO: create pending change?
 
     def update_priority(self, save: bool = True) -> None:
         if self.all_flags.has_value("priority"):
@@ -1265,6 +1276,7 @@ class Unit(models.Model, LoggerMixin):
             if not to_update:
                 return False
 
+            # TODO: create pending change
             # Bulk update units
             Unit.objects.filter(pk__in=(unit.pk for unit in to_update)).update(
                 target=self.target,
@@ -1339,12 +1351,6 @@ class Unit(models.Model, LoggerMixin):
             self.source = self.target
             update_fields.extend(["source"])
 
-        # Unit is pending for write
-        self.pending_unit_change = PendingUnitChange.store_unit_change(
-            unit=self,
-            author=author,
-        )
-
         # Update translated flag (not fuzzy and at least one translation)
         translation = any(self.get_target_plurals())
         if self.state >= STATE_TRANSLATED and not translation:
@@ -1352,6 +1358,12 @@ class Unit(models.Model, LoggerMixin):
         elif self.state == STATE_EMPTY and translation:
             self.state = STATE_TRANSLATED
         self.original_state = self.state
+
+        # Unit is pending for write
+        self.pending_unit_change = PendingUnitChange.store_unit_change(
+            unit=self,
+            author=author,
+        )
 
         # Save updated unit to database, skip running checks
         self.save(
@@ -1444,6 +1456,10 @@ class Unit(models.Model, LoggerMixin):
                 ):
                     # Unset fuzzy on reverted
                     unit.original_state = STATE_TRANSLATED
+                    PendingUnitChange.store_unit_change(
+                        unit=unit,
+                        author=author,
+                    )
                     unit.previous_source = ""
                 elif unit.state >= STATE_TRANSLATED and unit.target:
                     # Set fuzzy on changed
@@ -1847,8 +1863,10 @@ class Unit(models.Model, LoggerMixin):
             )
             if self.pending_unit_change is not None:
                 # Update PendingUnitChange if there is one
-                self.pending_unit_change.state = STATE_FUZZY
-                self.pending_unit_change.save(update_fields=["state"])
+                self.pending_unit_change.state = (
+                    self.pending_unit_change.original_state
+                ) = STATE_FUZZY
+                self.pending_unit_change.save(update_fields=["state", "original_state"])
             elif saved:
                 # There should be a pending unit if saved
                 msg = "Updating unit, but pending unit change is not set!"
