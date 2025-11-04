@@ -1041,8 +1041,20 @@ class Unit(models.Model, LoggerMixin):
         self.explanation = explanation
         self.flags = flags.format()
         self.source = source
-        self.target = target
-        self.state = state
+        
+        # Preserve target and state if there are pending changes and the file hasn't changed
+        # This fixes issue #16458 where updating source file cleans out unapproved translations
+        has_pending_changes = "disk_state" in self.details
+        if same_target and has_pending_changes:
+            # The file hasn't changed (same_target is True) and there are pending changes
+            # Don't revert target and state to file values - keep the current values
+            # which include the pending changes
+            pass
+        else:
+            # Either the file changed or there are no pending changes - update normally
+            self.target = target
+            self.state = state
+        
         self.context = context
         self.note = note
         self.previous_source = previous_source
