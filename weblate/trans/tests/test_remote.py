@@ -353,27 +353,67 @@ class FileScanTest(ViewTestCase):
         unit_1 = Unit.objects.get(pk=unit_1.pk)
         self.assertEqual(unit_1.target, target_1)
         self.assertEqual(unit_1.state, STATE_TRANSLATED)
-        self.assertEqual(PendingUnitChange.objects.filter(unit=unit_1).count(), 1)
+        pending_count_before = PendingUnitChange.objects.filter(unit=unit_1).count()
+        self.assertEqual(pending_count_before, 1)
 
-        # Now simulate a source file update by modifying the English source
+        # Store the disk_state before file scan
+        disk_state_before = unit_1.details.get("disk_state", {})
+
+        # Now simulate a source file update by adding a new string to the English source
         # and doing a file scan (this simulates the webhook trigger)
         # The key here is that the translation file (cs) is NOT changed,
-        # only the source (en) file is changed
+        # only the source (en) file is changed by adding a new string
+        # This is what triggers the bug where pending changes are deleted
 
-        # For this test, we'll simulate the file scan without actually changing
-        # the source file - we just want to verify that do_file_scan doesn't
-        # delete pending changes when the disk state hasn't changed
+        # Add a new string to the English source file
+        source_translation = self.component.translation_set.get(
+            language__code=self.component.source_language.code
+        )
+        source_filename = source_translation.get_filename()
+        
+        # Read the source file and add a new string
+        with open(source_filename) as f:
+            content = f.read()
+        
+        # Add a new translation entry
+        new_entry = '''
+#: newfile.c:1
+msgid "New string"
+msgstr "New string"
+'''
+        with open(source_filename, "w") as f:
+            f.write(content.rstrip() + "\n" + new_entry + "\n")
+        
+        # Commit this change to git to simulate external change
+        with transaction.atomic():
+            source_translation.git_commit(request.user, "TEST <test@example.net>")
+
+        # Now do a file scan which should update from the repository
+        # This is where the bug occurs - it deletes pending changes even though
+        # the Czech translation file hasn't changed
         self.component.do_file_scan(request)
 
         # Verify the pending change is still there and the translation is preserved
         unit_1 = Unit.objects.get(pk=unit_1.pk)
         self.assertEqual(unit_1.target, target_1, "Translation should be preserved")
         self.assertEqual(unit_1.state, STATE_TRANSLATED, "State should be preserved")
+        
+        # The key assertion: pending changes should NOT be deleted
+        pending_count_after = PendingUnitChange.objects.filter(unit=unit_1).count()
         self.assertEqual(
-            PendingUnitChange.objects.filter(unit=unit_1).count(),
-            1,
+            pending_count_after,
+            pending_count_before,
             "Pending change should not be deleted when disk state hasn't changed",
         )
+        
+        # Verify disk_state is preserved
+        disk_state_after = unit_1.details.get("disk_state", {})
+        if disk_state_before:
+            self.assertEqual(
+                disk_state_after,
+                disk_state_before,
+                "Disk state should be preserved when file hasn't changed",
+            )
 
 
 class GitBranchMultiRepoTest(MultiRepoTest):
