@@ -1074,8 +1074,13 @@ class Unit(models.Model, LoggerMixin):
             same_content=same_source and same_target,
             run_checks=not same_source or not same_target or not same_state,
         )
-        self.clear_disk_state()
-        PendingUnitChange.objects.filter(unit=self).delete()
+        
+        # Only clear disk state and delete pending changes if the target actually changed
+        # in the file. If same_target is True, it means the file hasn't changed and we
+        # should preserve pending changes (fixes issue #16458).
+        if not same_target:
+            self.clear_disk_state()
+            PendingUnitChange.objects.filter(unit=self).delete()
 
         if pending:
             PendingUnitChange.store_unit_change(unit=self)
