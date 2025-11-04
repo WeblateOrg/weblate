@@ -1046,10 +1046,15 @@ class Unit(models.Model, LoggerMixin):
         # This fixes issue #16458 where updating source file cleans out unapproved translations
         has_pending_changes = "disk_state" in self.details
         
-        if same_target and same_state and has_pending_changes:
-            # The file hasn't changed (same_target and same_state) and there are
-            # pending changes. Don't revert target and state to file values - keep the
-            # current values which include the pending changes
+        # For monolingual files with source change, we preserve the current translation
+        # and mark it fuzzy via the pending flag (set at line 1003)
+        if same_target and has_pending_changes and pending:
+            # Monolingual case: source changed but target hasn't
+            # Keep the current target (with pending change) and update state to fuzzy
+            self.state = state  # This will be STATE_FUZZY from line 1002
+        elif same_target and same_state and has_pending_changes:
+            # Bilingual case: file hasn't changed at all
+            # Keep the current target and state (which include pending changes)
             pass
         else:
             # Either the file changed or there are no pending changes - update normally
@@ -1089,9 +1094,12 @@ class Unit(models.Model, LoggerMixin):
         )
         
         # Only clear disk state and delete pending changes if the target or state actually
-        # changed in the file. If both same_target and same_state are True, it means
-        # the file hasn't changed and we should preserve pending changes (fixes issue #16458).
-        if not (same_target and same_state and has_pending_changes):
+        # changed in the file. Preserve pending changes in these cases:
+        # 1. Bilingual: file hasn't changed (same_target and same_state) and has pending changes
+        # 2. Monolingual: source changed (pending=True) but target hasn't (same_target) and has pending changes
+        # This fixes issue #16458 where updating source file cleans out unapproved translations.
+        should_preserve = has_pending_changes and same_target and (same_state or pending)
+        if not should_preserve:
             self.clear_disk_state()
             PendingUnitChange.objects.filter(unit=self).delete()
 
