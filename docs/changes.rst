@@ -5,6 +5,8 @@ Weblate 5.14.1
 
 .. rubric:: New features
 
+* String context are now tracked in changes histoy and displayed when available.
+
 .. rubric:: Improvements
 
 * Document using Valkey in :ref:`celery` and :ref:`production-cache`.

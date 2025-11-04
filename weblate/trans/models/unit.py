@@ -1531,6 +1531,7 @@ class Unit(models.Model, LoggerMixin):
                 "state": self.state,
                 "old_state": self.old_unit["state"],
                 "source": self.source,
+                "context": self.context,
             },
         )
         if save:
