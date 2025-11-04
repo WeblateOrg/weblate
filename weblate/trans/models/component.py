@@ -3645,9 +3645,13 @@ class Component(
         """Return count of pending units."""
         from weblate.trans.models import Unit
 
-        return Unit.objects.filter(
-            translation__component=self, pending_changes__isnull=False
-        ).count()
+        return (
+            Unit.objects.filter(
+                translation__component=self, pending_changes__isnull=False
+            )
+            .distinct()
+            .count()
+        )
 
     @property
     def count_repo_missing(self):

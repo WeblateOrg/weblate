@@ -9,6 +9,7 @@ import os
 from django.db import transaction
 from django.test.utils import override_settings
 
+from weblate.lang.models import Language
 from weblate.trans.models import CommitPolicyChoices, Component, PendingUnitChange, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import REPOWEB_URL
@@ -222,6 +223,167 @@ class MultiRepoTest(ViewTestCase):
 
         translation = self.component2.translation_set.get(language_code="cs")
         self.assertEqual(translation.stats.all, 1)
+
+    def test_commit_policy(self) -> None:
+        component1 = self.component
+        component2 = self.component2
+        component1.merge_style = "merge"
+        component1.allow_translation_propagation = False
+        component1.save()
+        component2.merge_style = "merge"
+        component2.allow_translation_propagation = False
+        component2.save()
+        self.commit_policy_testing(component1, component2)
+
+    def test_commit_policy_mono(self) -> None:
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            component1 = self.create_json_mono(
+                name="Test 3",
+                slug="test-3",
+                project=self.project,
+                merge_style="merge",
+                allow_translation_propagation=False,
+            )
+            component2 = self.create_json_mono(
+                name="Test 4",
+                slug="test-4",
+                project=self.project,
+                merge_style="merge",
+                allow_translation_propagation=False,
+            )
+        language = Language.objects.get(code="de")
+        component1.add_new_language(language, None)
+        component1.do_push(self.request)
+        component2.do_update(self.request)
+        self.commit_policy_testing(component1, component2)
+
+        # Add changes to other language as well
+        other_translation1 = component1.translation_set.get(language_code="de")
+        unit = self.change_unit("Hallo welt!\n", translation=other_translation1)
+        self.assertEqual(component1.count_pending_units, 2)
+
+        # Test editing source language does not discard changes
+        self.change_unit(
+            "Thanks you very much for using Weblate.",
+            source="Thank you for using Weblate.",
+            translation=component2.source_translation,
+            state=STATE_APPROVED,
+        )
+        self.assertEqual(
+            component2.count_pending_units,
+            3,  # This includes all the translations of changed source unit
+        )
+        # The unit should be pending translation units with change to fuzzy
+        component2.do_push(self.request)
+        self.assertEqual(component2.count_pending_units, 2)
+
+        # The units should be still pending after update
+        component1.do_update(self.request)
+        self.assertFalse(component1.repo_needs_merge())
+        self.assertFalse(component2.repo_needs_merge())
+        # The pending unit state should be kept
+        unit = self.get_unit(
+            translation=component1.translation_set.get(language_code="cs")
+        )
+        self.assertEqual(unit.target, "Ahoj světe!\n")
+        unit = self.get_unit(
+            translation=component1.translation_set.get(language_code="de")
+        )
+        self.assertEqual(unit.target, "Hallo welt!\n")
+        # The source string change marked two additional units as pending
+        self.assertEqual(component1.count_pending_units, 4)
+
+    def commit_policy_testing(
+        self, component1: Component, component2: Component
+    ) -> None:
+        self.project.commit_policy = CommitPolicyChoices.APPROVED_ONLY
+        self.project.translation_review = True
+        self.project.save()
+
+        translation1 = component1.translation_set.get(language_code="cs")
+        translation2 = component2.translation_set.get(language_code="cs")
+
+        # Test that pending units are kept
+        self.change_unit("Čau světe!\n", translation=translation1)
+        self.change_unit("Ahoj světe!\n", translation=translation2)
+        # The units should be still pending after push
+        component1.do_push(self.request)
+        self.assertEqual(component1.count_pending_units, 1)
+        component2.do_push(self.request)
+        self.assertEqual(component2.count_pending_units, 1)
+        # The units should be still pending after update
+        component1.do_update(self.request)
+        self.assertEqual(component1.count_pending_units, 1)
+        component2.do_update(self.request)
+        self.assertEqual(component2.count_pending_units, 1)
+        self.assertFalse(component1.repo_needs_merge())
+        self.assertFalse(component2.repo_needs_merge())
+
+        # Test that pending units are overwritten by upstream changes
+        self.change_unit(
+            "Nazdar světe!\n", translation=translation2, state=STATE_APPROVED
+        )
+        self.assertEqual(component1.count_pending_units, 1)
+        self.assertEqual(component2.count_pending_units, 1)
+        # The unit should be no pending unit now
+        component2.do_push(self.request)
+        self.assertEqual(component2.count_pending_units, 0)
+        # There should be no pending change
+        component1.do_update(self.request)
+        self.assertEqual(component1.count_pending_units, 0)
+        unit = self.get_unit(translation=translation1)
+        self.assertEqual(unit.target, "Nazdar světe!\n")
+        self.assertFalse(component1.repo_needs_merge())
+        self.assertFalse(component2.repo_needs_merge())
+
+        # Test that unrelated pending changes are kept
+        self.change_unit("Ahoj světe!\n", translation=translation1)
+        self.change_unit(
+            "Díky za používání Weblate.",
+            source="Thank you for using Weblate.",
+            translation=translation2,
+            state=STATE_APPROVED,
+        )
+        self.assertEqual(component1.count_pending_units, 1)
+        self.assertEqual(component2.count_pending_units, 1)
+        # The unit should be no pending unit now
+        component2.do_push(self.request)
+        self.assertEqual(component2.count_pending_units, 0)
+        # The units should be still pending after update
+        component1.do_update(self.request)
+        self.assertFalse(component1.repo_needs_merge())
+        self.assertFalse(component2.repo_needs_merge())
+        self.assertEqual(component1.count_pending_units, 1)
+        # The changed unit should be updated
+        unit = self.get_unit(
+            source="Thank you for using Weblate.", translation=translation1
+        )
+        self.assertEqual(unit.target, "Díky za používání Weblate.")
+        # The pending unit state should be kept
+        unit = self.get_unit(translation=translation1)
+        self.assertEqual(unit.target, "Ahoj světe!\n")
+
+        # Test editing other language does not discard changes
+        other_translation2 = component2.translation_set.get(language_code="de")
+        self.change_unit(
+            "Vielen Dank, dass Sie Weblate nutzen.",  # codespell:ignore
+            source="Thank you for using Weblate.",
+            translation=other_translation2,
+            state=STATE_APPROVED,
+        )
+        self.assertEqual(component1.count_pending_units, 1)
+        self.assertEqual(component2.count_pending_units, 1)
+        # The unit should be no pending unit now
+        component2.do_push(self.request)
+        self.assertEqual(component2.count_pending_units, 0)
+        # The units should be still pending after update
+        component1.do_update(self.request)
+        self.assertFalse(component1.repo_needs_merge())
+        self.assertFalse(component2.repo_needs_merge())
+        self.assertEqual(component1.count_pending_units, 1)
+        # The pending unit state should be kept
+        unit = self.get_unit(translation=translation1)
+        self.assertEqual(unit.target, "Ahoj světe!\n")
 
 
 class FileScanTest(ViewTestCase):
