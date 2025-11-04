@@ -134,6 +134,7 @@ class UnitQuerySet(models.QuerySet["Unit"]):
 
     def prefetch_all_checks(self):
         return self.prefetch_related(
+            "source_unit",
             models.Prefetch(
                 "check_set",
                 to_attr="all_checks",
@@ -1676,11 +1677,7 @@ class Unit(models.Model, LoggerMixin):
             propagated_units: UnitQuerySet = reduce(
                 operator.or_, (querymap[item] for item in propagation)
             )
-            propagated_units = (
-                propagated_units.distinct()
-                .prefetch_related("source_unit")
-                .prefetch_all_checks()
-            )
+            propagated_units = propagated_units.distinct().prefetch_all_checks()
 
             for unit in propagated_units:
                 try:
