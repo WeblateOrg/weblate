@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-27 07:35+0000\n"
-"PO-Revision-Date: 2025-11-04 10:52+0000\n"
+"PO-Revision-Date: 2025-11-04 11:20+0000\n"
 "Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "application/vi/>\n"
@@ -544,7 +544,7 @@ msgid ""
 "The system created a user to track authorship of translations uploaded by "
 "other user."
 msgstr ""
-"Hệ thống đã tạo một tài khoản để theo dõi quyền tác giả của các bản dịch do "
+"Hệ thống đã tạo một người dùng để theo dõi quyền tác giả của các bản dịch do "
 "người dùng khác tải lên."
 
 #. Translators: Audit log entry
@@ -556,16 +556,16 @@ msgstr "Truy cập vào dự án {project} đã bị chặn."
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:291
 msgid "User was enabled by administrator."
-msgstr "Người dùng đã được kích hoạt bởi quản trị viên."
+msgstr "Người dùng được quản trị viên kích hoạt."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:293
 msgid "User was disabled by administrator."
-msgstr "Người dùng đã bị vô hiệu hóa bởi quản trị viên."
+msgstr "Người dùng đã bị quản trị viên vô hiệu hóa."
 
 #: weblate/accounts/models.py:296
 msgid "User was disabled because the access has expired."
-msgstr "Người dùng đã bị vô hiệu hóa vì quyền truy cập đã hết hạn."
+msgstr "Người dùng bị vô hiệu hóa vì quyền truy cập đã hết hạn."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:299
@@ -639,7 +639,7 @@ msgstr "Không thể đăng nhập bằng mật khẩu."
 #: weblate/accounts/models.py:338
 #, python-brace-format
 msgid "Invited to {project} by {username}."
-msgstr "Được mời đến {project} qua {username}."
+msgstr "Được mời đến {project} bởi {username}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:342
@@ -723,8 +723,8 @@ msgid ""
 "placeholders."
 msgstr ""
 "Nhập một URL tuỳ chỉnh sẽ được sử dụng làm liên kết đến mã nguồn. Bạn có thể "
-"sử dụng {{branch}} đối với nhánh, {{filename}} và {{line}} làm tên tệp và "
-"chỗ giữ chỗ cho dòng."
+"dùng {{branch}} cho nhánh, {{filename}} và {{line}} làm tên tệp và giữ chỗ "
+"cho dòng."
 
 #: weblate/accounts/models.py:673
 msgid "Translation editor mode"
@@ -1083,13 +1083,11 @@ msgstr[0] "Mật khẩu của bạn phải chứa tối đa %(max_length)d ký t
 
 #: weblate/accounts/password_validation.py:81
 msgid "Can not reuse previously used password."
-msgstr "Không thể sử dụng lại mật khẩu đã sử dụng trước đó."
+msgstr "Không thể dùng lại mật khẩu đã dùng trước đó."
 
 #: weblate/accounts/password_validation.py:87
 msgid "Your password can't match a password you have used in the past."
-msgstr ""
-"Mật khẩu của bạn không thể trùng khớp với một mật khẩu bạn đã sử dụng trong "
-"quá khứ."
+msgstr "Mật khẩu của bạn không khớp với mật khẩu bạn đã dùng trước đây."
 
 #: weblate/accounts/pipeline.py:355
 msgid "You can not complete password reset while signed in."
@@ -1336,11 +1334,11 @@ msgstr "Máy chủ không cho phép xác thực."
 
 #: weblate/accounts/views.py:1487
 msgid "The supplied e-mail address is already in use for another account."
-msgstr "Địa chỉ e-mail được nhập đã được một tài khoản khác sử dụng."
+msgstr "Địa chỉ e-mail đã cung cấp được một tài khoản khác sử dụng."
 
 #: weblate/accounts/views.py:1493
 msgid "The supplied username is already in use for another account."
-msgstr "Tên người dùng được nhập đã được một tài khoản khác sử dụng."
+msgstr "Tên người dùng đã cung cấp được một tài khoản khác sử dụng."
 
 #: weblate/accounts/views.py:1499
 #, python-format
@@ -1349,7 +1347,7 @@ msgstr "Xác thực thất bại: %s"
 
 #: weblate/accounts/views.py:1505
 msgid "The supplied user identity is already in use for another account."
-msgstr "Danh tính người dùng được nhập đã được một tài khoản khác sử dụng."
+msgstr "Danh tính người dùng đã cung cấp được một tài khoản khác sử dụng."
 
 #: weblate/accounts/views.py:1511
 #, fuzzy
@@ -1429,8 +1427,8 @@ msgid ""
 "Publishes translations into content delivery network for use in JavaScript "
 "or HTML localization."
 msgstr ""
-"Xuất bản dịch vào trong mạng phân phối nội dung để sử dụng trong JavaScript "
-"hoặc cục bộ hóa HTML."
+"Xuất bản bản dịch vào mạng phân phối nội dung để dùng cho bản địa hóa "
+"JavaScript hoặc HTML."
 
 #: weblate/addons/cleanup.py:35
 msgid "Cleanup translation files"
@@ -1463,7 +1461,7 @@ msgid ""
 "Ensures a consistent set of languages is used for all components within a "
 "project."
 msgstr ""
-"Đảm bảo dùng một bộ ngôn ngữ thống nhất cho tất cả thành phần trong dự án."
+"Đảm bảo một bộ ngôn ngữ nhất quán dùng cho tất cả thành phần trong dự án."
 
 #: weblate/addons/discovery.py:27
 msgid "Component discovery"
@@ -1525,6 +1523,9 @@ msgid ""
 "source string, it is flagged as needing editing in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
+"Bất cứ khi nào một chuỗi dịch mới được nhập từ VCS và khớp với chuỗi nguồn, "
+"chuỗi đó sẽ được đánh dấu là cần chỉnh sửa trong Weblate. Điều này đặc biệt "
+"hữu ích cho các định dạng tệp bao gồm chuỗi nguồn cho các chuỗi chưa dịch."
 
 #: weblate/addons/flags.py:102 weblate/templates/category-language.html:53
 #: weblate/templates/category-language.html:135
@@ -1553,6 +1554,9 @@ msgid ""
 "needing editing in Weblate. Especially useful if translation files are often "
 "updated manually or by an external service."
 msgstr ""
+"Bất cứ khi nào một chuỗi dịch được thay đổi từ VCS, nó sẽ được đánh dấu là "
+"cần chỉnh sửa trong Weblate. Điều này đặc biệt hữu ích nếu các tệp dịch "
+"thường được cập nhật thủ công hoặc bởi một dịch vụ bên ngoài."
 
 #: weblate/addons/forms.py:59
 msgid "Path of generated MO file"
@@ -1560,7 +1564,7 @@ msgstr "Đường dẫn của tệp MO được tạo"
 
 #: weblate/addons/forms.py:63
 msgid "If not specified, the location of the PO file will be used."
-msgstr "Nếu không được chỉ định, vị trí của tệp PO sẽ được sử dụng."
+msgstr "Nếu không chỉ định, vị trí của tệp PO sẽ được sử dụng."
 
 #: weblate/addons/forms.py:67
 msgid "Include strings needing editing"
@@ -1571,6 +1575,7 @@ msgid ""
 "Strings needing editing (fuzzy) are typically not ready for use as "
 "translations."
 msgstr ""
+"Các chuỗi cần chỉnh sửa (mờ) thường chưa sẵn sàng để sử dụng làm bản dịch."
 
 #: weblate/addons/forms.py:96
 msgid "Name of generated file"
@@ -1628,6 +1633,8 @@ msgid ""
 "This commit message will be used instead of the combined commit messages "
 "from the squashed commits."
 msgstr ""
+"Thông báo commit này sẽ được sử dụng thay cho các thông báo commit được kết "
+"hợp từ các commit đã bị nén."
 
 #: weblate/addons/forms.py:174
 msgid "Days to keep"
@@ -1677,6 +1684,7 @@ msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
 msgstr ""
+"Tên tệp được sử dụng để tạo bản dịch mới. Đối với gettext, hãy chọn tệp .pot."
 
 #: weblate/addons/forms.py:221
 #: weblate/templates/trans/alert/inexistantfiles.html:14
@@ -1690,6 +1698,8 @@ msgid ""
 "translation file provided by developers and is used when creating actual "
 "source strings."
 msgstr ""
+"Tên tệp của tệp dịch trung gian. Trong hầu hết các trường hợp, đây là tệp "
+"dịch do nhà phát triển cung cấp và được sử dụng khi tạo chuỗi nguồn thực tế."
 
 #: weblate/addons/forms.py:232 weblate/trans/models/component.py:763
 msgid "Language filter"
@@ -1715,7 +1725,7 @@ msgstr ""
 
 #: weblate/addons/forms.py:309 weblate/trans/models/component.py:3281
 msgid "You can not use a monolingual translation without a base file."
-msgstr ""
+msgstr "Bạn không thể sử dụng bản dịch đơn ngữ nếu không có tệp cơ sở."
 
 #: weblate/addons/forms.py:317 weblate/trans/models/component.py:3214
 msgid "You can not use a base file for bilingual translation."
