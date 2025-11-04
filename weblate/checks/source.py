@@ -97,9 +97,13 @@ class MultipleFailingCheck(SourceCheck, BatchCheckMixin):
             .annotate(translation_count=Count("unit__translation_id", distinct=True))
             .filter(translation_count__gte=2)
         )
-        return Unit.objects.filter(
-            id__in=unit_id_and_check_count.values_list(
-                "unit__source_unit_id", flat=True
+        return (
+            Unit.objects.prefetch()
+            .prefetch_bulk()
+            .filter(
+                id__in=unit_id_and_check_count.values_list(
+                    "unit__source_unit_id", flat=True
+                )
             )
         )
 
@@ -187,6 +191,8 @@ class LongUntranslatedCheck(SourceCheck, BatchCheckMixin):
                 translated_percent=100 * (F("total") - F("not_translated")) / F("total")
             )
         ).filter(translated_percent__lt=component.stats.translated_percent / 2)
-        return Unit.objects.filter(
-            id__in=result.values_list("source_unit_id", flat=True)
+        return (
+            Unit.objects.prefetch()
+            .prefetch_bulk()
+            .filter(id__in=result.values_list("source_unit_id", flat=True))
         )
