@@ -1045,10 +1045,12 @@ class Unit(models.Model, LoggerMixin):
         # Preserve target and state if there are pending changes and the file hasn't changed
         # This fixes issue #16458 where updating source file cleans out unapproved translations
         has_pending_changes = "disk_state" in self.details
-        if same_target and has_pending_changes:
-            # The file hasn't changed (same_target is True) and there are pending changes
-            # Don't revert target and state to file values - keep the current values
-            # which include the pending changes
+        same_state_as_disk = state == comparison_state["state"]
+        
+        if same_target and same_state_as_disk and has_pending_changes:
+            # The file hasn't changed (same_target and same_state_as_disk) and there are
+            # pending changes. Don't revert target and state to file values - keep the
+            # current values which include the pending changes
             pass
         else:
             # Either the file changed or there are no pending changes - update normally
@@ -1087,10 +1089,10 @@ class Unit(models.Model, LoggerMixin):
             run_checks=not same_source or not same_target or not same_state,
         )
         
-        # Only clear disk state and delete pending changes if the target actually changed
-        # in the file. If same_target is True, it means the file hasn't changed and we
-        # should preserve pending changes (fixes issue #16458).
-        if not same_target:
+        # Only clear disk state and delete pending changes if the target or state actually
+        # changed in the file. If both same_target and same_state_as_disk are True, it means
+        # the file hasn't changed and we should preserve pending changes (fixes issue #16458).
+        if not (same_target and same_state_as_disk and has_pending_changes):
             self.clear_disk_state()
             PendingUnitChange.objects.filter(unit=self).delete()
 
