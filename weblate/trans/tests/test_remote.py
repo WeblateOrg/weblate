@@ -259,12 +259,12 @@ class MultiRepoTest(ViewTestCase):
 
         # Add changes to other language as well
         other_translation1 = component1.translation_set.get(language_code="de")
-        unit = self.change_unit("Hallo welt!\n", translation=other_translation1)
+        self.change_unit("Hallo welt!\n", translation=other_translation1)
         self.assertEqual(component1.count_pending_units, 2)
 
         # Test editing source language does not discard changes
         self.change_unit(
-            "Thanks you very much for using Weblate.",
+            "Thank you very much for using Weblate.",
             source="Thank you for using Weblate.",
             translation=component2.source_translation,
             state=STATE_APPROVED,
@@ -325,7 +325,7 @@ class MultiRepoTest(ViewTestCase):
         )
         self.assertEqual(component1.count_pending_units, 1)
         self.assertEqual(component2.count_pending_units, 1)
-        # The unit should be no pending unit now
+        # There should be no pending units now
         component2.do_push(self.request)
         self.assertEqual(component2.count_pending_units, 0)
         # There should be no pending change
@@ -346,7 +346,7 @@ class MultiRepoTest(ViewTestCase):
         )
         self.assertEqual(component1.count_pending_units, 1)
         self.assertEqual(component2.count_pending_units, 1)
-        # The unit should be no pending unit now
+        # There should be no pending units now
         component2.do_push(self.request)
         self.assertEqual(component2.count_pending_units, 0)
         # The units should be still pending after update
@@ -373,7 +373,7 @@ class MultiRepoTest(ViewTestCase):
         )
         self.assertEqual(component1.count_pending_units, 1)
         self.assertEqual(component2.count_pending_units, 1)
-        # The unit should be no pending unit now
+        # There should be no pending units now
         component2.do_push(self.request)
         self.assertEqual(component2.count_pending_units, 0)
         # The units should be still pending after update
