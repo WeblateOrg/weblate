@@ -228,7 +228,7 @@ class ICUMessageFormatCheckTest(CheckTestCase):
             )
         )
 
-    def test_unnannotated_plural(self) -> None:
+    def test_unannotated_plural(self) -> None:
         self.assertFalse(
             self.check.check_format(
                 "{count} apples",

@@ -213,7 +213,7 @@ def extract_placeholders(token, variables=None):
                 data["formats"].add(token["format"])
 
     elif name == "count":
-        # Assume count is a numeric typ1
+        # Assume count is a numeric type
         data["types"].add("number")
         data["is_number"] = update_maybe_value(True, data["is_number"])
 
