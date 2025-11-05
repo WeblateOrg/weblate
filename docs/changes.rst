@@ -1,7 +1,7 @@
 Weblate 5.14.1
 --------------
 
-*Not yet released.*
+*Released on November 5th 2025.*
 
 .. rubric:: New features
 
@@ -22,8 +22,6 @@ Weblate 5.14.1
 * Listing of other translations.
 * SAML configuration in the Docker container.
 * :ref:`project-commit_policy` could miss some changes in certain situations.
-
-.. rubric:: Compatibility
 
 .. rubric:: Upgrading
 
