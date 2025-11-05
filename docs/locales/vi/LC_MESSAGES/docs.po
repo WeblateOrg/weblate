@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-27 08:36+0100\n"
-"PO-Revision-Date: 2025-11-04 11:20+0000\n"
+"PO-Revision-Date: 2025-11-06 09:52+0000\n"
 "Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "documentation/vi/>\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.14.1-dev\n"
+"X-Generator: Weblate 5.15-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:215
@@ -2389,24 +2389,22 @@ msgid "JavaScript localization CDN"
 msgstr "JavaScript cục bộ hóa CDN"
 
 #: ../../admin/addons.rst:184 ../../devel/html.rst:49
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "Translation threshold"
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Ngưỡng dịch thuật"
 
 #: ../../admin/addons.rst:184
 msgid ""
 "The percentage of translated strings that must be present for translation to "
 "be included."
-msgstr ""
+msgstr "Tỷ lệ phần trăm các chuỗi đã dịch phải có để bản dịch được đưa vào."
 
 #: ../../admin/addons.rst:186 ../../devel/html.rst:51
 msgid "CSS selector"
-msgstr ""
+msgstr "Bộ chọn CSS"
 
 #: ../../admin/addons.rst:186
 msgid "CSS selector to detect localizable elements."
-msgstr ""
+msgstr "Bộ chọn CSS để phát hiện các thành phần có thể bản địa hóa."
 
 #: ../../admin/addons.rst:188 ../../devel/html.rst:54
 msgid "Language cookie name"
@@ -2418,13 +2416,15 @@ msgstr "Tên cookie lưu trữ tùy chọn ngôn ngữ."
 
 #: ../../admin/addons.rst:190 ../../devel/html.rst:57
 msgid "Extract strings from HTML files"
-msgstr ""
+msgstr "Trích xuất chuỗi từ các tệp HTML"
 
 #: ../../admin/addons.rst:190
 msgid ""
 "List of filenames in current repository or remote URLs to parse for "
 "translatable strings."
 msgstr ""
+"Danh sách tên tệp trong kho lưu trữ hiện tại hoặc URL từ xa để phân tích cú "
+"pháp để tìm chuỗi có thể dịch được."
 
 #: ../../admin/addons.rst:192
 msgid ""
@@ -2578,10 +2578,8 @@ msgid "Component discovery"
 msgstr "Khám phá thành phần"
 
 #: ../../admin/addons.rst:296 ../../devel/sphinx.rst:45
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "Regular expression to match translation files against"
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Biểu thức chính quy để khớp với các tệp dịch"
 
 #: ../../admin/addons.rst:298 ../../admin/projects.rst:622
 #: ../../devel/gettext.rst:237 ../../formats/android.rst:82
@@ -2617,17 +2615,15 @@ msgstr "Tuỳ biến tên thành phần"
 
 #: ../../admin/addons.rst:302
 msgid "Define the monolingual base filename"
-msgstr ""
+msgstr "Xác định tên tệp cơ sở đơn ngữ"
 
 #: ../../admin/addons.rst:302
 msgid "Leave empty for bilingual translation files."
 msgstr "Để trống đối với các tập tin dịch song ngữ."
 
 #: ../../admin/addons.rst:304 ../../devel/sphinx.rst:49
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Define the base file for new translations"
-msgstr "PHP strings"
+msgstr "Xác định tệp cơ sở cho bản dịch mới"
 
 #: ../../admin/addons.rst:304
 msgid ""
@@ -2661,15 +2657,15 @@ msgstr "Biểu thức chính quy để lọc các tệp dịch khi quét mặt n
 
 #: ../../admin/addons.rst:310
 msgid "Clone add-ons from the main component to the newly created ones"
-msgstr ""
+msgstr "Sao chép các add-on từ thành phần chính sang các add-on mới đã tạo"
 
 #: ../../admin/addons.rst:312
 msgid "Remove components for inexistent files"
-msgstr ""
+msgstr "Xóa các thành phần cho các tập tin không tồn tại"
 
 #: ../../admin/addons.rst:314
 msgid "I confirm the above matches look correct"
-msgstr ""
+msgstr "Tôi xác nhận các kết quả khớp trên có vẻ chính xác"
 
 #: ../../admin/addons.rst:316 ../../admin/addons.rst:819
 #: ../../admin/addons.rst:964
@@ -2927,7 +2923,7 @@ msgstr "PHP strings"
 
 #: ../../admin/addons.rst:486
 msgid "Bulk edit flags, labels, or states of strings."
-msgstr ""
+msgstr "Chỉnh sửa hàng loạt cờ, nhãn hoặc trạng thái của chuỗi."
 
 #: ../../admin/addons.rst:488 ../../admin/config.rst:1935
 msgid "**Examples:**"
@@ -2994,6 +2990,9 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
+"Bất cứ khi nào một chuỗi nguồn mới được nhập từ VCS, nó sẽ được đánh dấu là "
+"cần chỉnh sửa trong Weblate. Bằng cách này, bạn có thể dễ dàng lọc và chỉnh "
+"sửa các chuỗi nguồn do nhà phát triển viết."
 
 #: ../../admin/addons.rst:564
 msgid "Flag new translations as \"Needs editing\""
@@ -3005,12 +3004,13 @@ msgid ""
 "as needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
+"Bất cứ khi nào một chuỗi dịch mới được nhập từ VCS, nó sẽ được đánh dấu là "
+"cần chỉnh sửa trong Weblate. Bằng cách này, bạn có thể dễ dàng lọc và chỉnh "
+"sửa các bản dịch do nhà phát triển tạo ra."
 
 #: ../../admin/addons.rst:581
-#, fuzzy
-#| msgid "Flag unchanged translations as \"Needs editing\""
 msgid "Flag updated translations from repository as \"Needs editing\""
-msgstr "Đánh dấu các bản dịch chưa thay đổi là \"Cần chỉnh sửa\""
+msgstr "Đánh dấu bản dịch đã cập nhật từ kho lưu trữ là \"Cần sửa\""
 
 #: ../../admin/addons.rst:587
 msgid ""
@@ -3041,7 +3041,7 @@ msgstr "Điền vào bản dịch của chuỗi chỉ đọc bằng chuỗi ngu�
 
 #: ../../admin/addons.rst:611
 msgid "Statistics generator"
-msgstr ""
+msgstr "Trình tạo số liệu thống kê"
 
 #: ../../admin/addons.rst:615 ../../admin/addons.rst:628
 msgid "Name of generated file"
@@ -3091,10 +3091,8 @@ msgid "Pseudolocale generation"
 msgstr ""
 
 #: ../../admin/addons.rst:674
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Target translation"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Bản dịch mục tiêu"
 
 #: ../../admin/addons.rst:674
 msgid "All strings in this translation will be overwritten"
@@ -3102,29 +3100,30 @@ msgstr "Tất cả các chuỗi trong bản dịch này sẽ bị ghi đè"
 
 #: ../../admin/addons.rst:676
 msgid "Prepended static text"
-msgstr ""
+msgstr "Văn bản tĩnh được thêm vào trước"
 
 #: ../../admin/addons.rst:678
 msgid "Prepended variable text"
-msgstr ""
+msgstr "Văn bản biến được thêm vào trước"
 
 #: ../../admin/addons.rst:680
 msgid "Appended static text"
-msgstr ""
+msgstr "Đã thêm văn bản tĩnh"
 
 #: ../../admin/addons.rst:682
 msgid "Appended variable text"
-msgstr ""
+msgstr "Văn bản biến được thêm vào"
 
 #: ../../admin/addons.rst:684
 msgid "Variable text multiplier"
-msgstr ""
+msgstr "Biến số nhân văn bản"
 
 #: ../../admin/addons.rst:684
 msgid ""
 "How many times to repeat the variable text depending on the length of the "
 "source string."
 msgstr ""
+"Lặp lại văn bản biến đổi bao nhiêu lần tùy thuộc vào độ dài của chuỗi nguồn."
 
 #: ../../admin/addons.rst:686
 msgid "Include read-only strings"
@@ -3134,7 +3133,7 @@ msgstr "Bao gồm các chuỗi chỉ đọc"
 msgid ""
 "Generates a translation by adding prefix and suffix to source strings "
 "automatically."
-msgstr ""
+msgstr "Tạo bản dịch bằng cách tự động thêm tiền tố và hậu tố vào chuỗi nguồn."
 
 #: ../../admin/addons.rst:693
 msgid ""
@@ -3236,17 +3235,15 @@ msgstr "Dạng số nhiều %d"
 
 #: ../../admin/addons.rst:776
 msgid "Update LINGUAS file"
-msgstr ""
+msgstr "Cập nhật tệp LINGUAS"
 
 #: ../../admin/addons.rst:782
 msgid "Updates the LINGUAS file when a new translation is added."
 msgstr ""
 
 #: ../../admin/addons.rst:787
-#, fuzzy
-#| msgid "Generate"
 msgid "Generate MO files"
-msgstr "Tạo"
+msgstr "Tạo tệp MO"
 
 #: ../../admin/addons.rst:791
 msgid "Path of generated MO file"
@@ -3269,7 +3266,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:797
 msgid "Automatically generates a MO file for every changed PO file."
-msgstr ""
+msgstr "Tự động tạo tệp MO cho mỗi tệp PO đã thay đổi."
 
 #: ../../admin/addons.rst:799
 msgid ""
@@ -3332,34 +3329,28 @@ msgid "Squash Git commits"
 msgstr ""
 
 #: ../../admin/addons.rst:848
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Commit squashing"
-msgstr "PHP strings"
+msgstr "Gom commit"
 
 #: ../../admin/addons.rst:852 ../../admin/addons.rst:876
 msgid "All commits into one"
-msgstr ""
+msgstr "Tất cả commit thành một"
 
 #: ../../admin/addons.rst:854 ../../admin/addons.rst:877
 msgid "Per language"
 msgstr "Theo ngôn ngữ"
 
 #: ../../admin/addons.rst:856 ../../admin/addons.rst:878
-#, fuzzy
-#| msgid "User profile"
 msgid "Per file"
-msgstr "Hồ sơ người dùng"
+msgstr "Theo tập tin"
 
 #: ../../admin/addons.rst:858 ../../admin/addons.rst:879
-#, fuzzy
-#| msgid "Last name"
 msgid "Per author"
-msgstr "Họ"
+msgstr "Theo tác giả"
 
 #: ../../admin/addons.rst:860
 msgid "Append trailers to squashed commit message"
-msgstr ""
+msgstr "Thêm đoạn giới thiệu vào thông báo commit đã nén"
 
 #: ../../admin/addons.rst:860
 msgid ""
@@ -3367,12 +3358,12 @@ msgid ""
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: …'."
 msgstr ""
+"Dòng giới thiệu là những dòng trông giống với tiêu đề email RFC 822, nằm ở "
+"cuối phần tự do của chú thích commit, chẳng hạn như 'Co-authored-by: …'."
 
 #: ../../admin/addons.rst:862
-#, fuzzy
-#| msgid "Message"
 msgid "Commit message"
-msgstr "Tin nhắn"
+msgstr "Lời nhắn commit"
 
 #: ../../admin/addons.rst:862
 msgid ""
@@ -3437,7 +3428,7 @@ msgstr "Định dạng tệp thuộc tính Java"
 
 #: ../../admin/addons.rst:909
 msgid "Enable case-sensitive key sorting"
-msgstr ""
+msgstr "Cho phép sắp xếp khóa phân biệt chữ hoa chữ thường"
 
 #: ../../admin/addons.rst:913
 msgid "Formats and sorts the Java properties file."
@@ -3544,16 +3535,12 @@ msgid "Slack Webhooks"
 msgstr ""
 
 #: ../../admin/addons.rst:987 ../../admin/addons.rst:1172
-#, fuzzy
-#| msgid "Website URL"
 msgid "Webhook URL"
-msgstr "URL trang web"
+msgstr "URL Webhook"
 
 #: ../../admin/addons.rst:989 ../../admin/addons.rst:1176
-#, fuzzy
-#| msgid "Changed license"
 msgid "Change events"
-msgstr "Thay đổi giấy phép"
+msgstr "Thay đổi sự kiện"
 
 #: ../../admin/addons.rst:993 ../../admin/addons.rst:1180
 #, fuzzy
@@ -4014,7 +4001,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:1174
 msgid "Secret"
-msgstr ""
+msgstr "Bí mật"
 
 #: ../../admin/addons.rst:1174
 msgid "A Base64 encoded string"
