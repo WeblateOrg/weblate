@@ -134,6 +134,7 @@ class UnitQuerySet(models.QuerySet["Unit"]):
 
     def prefetch_all_checks(self):
         return self.prefetch_related(
+            "source_unit",
             models.Prefetch(
                 "check_set",
                 to_attr="all_checks",
@@ -412,6 +413,7 @@ class Unit(models.Model, LoggerMixin):
     previous_source = models.TextField(default="", blank=True)
     target = models.TextField(default="", blank=True)
     state = models.IntegerField(default=STATE_EMPTY, choices=StringState.choices)
+    # Stores string state ignoring Weblate originated read-only state
     original_state = models.IntegerField(
         default=STATE_EMPTY, choices=StringState.choices
     )
@@ -1022,12 +1024,18 @@ class Unit(models.Model, LoggerMixin):
             and same_source
             and same_target
             and same_state
-            and original_state == self.original_state
             and flags == Flags(self.flags)
             and previous_source == self.previous_source
             and self.source_unit == old_source_unit
             and old_source_unit is not None
         )
+
+        # Conditionally check original state changes if it would be used. It is not
+        # properly tracked in PendingUnitChange, so this would not work for units
+        # with pending changes. But there shouldn't be any uncommitable pending changes
+        # for read-only units.
+        if STATE_READONLY in {state, self.state, comparison_state["state"]}:
+            same_data &= original_state == self.original_state
 
         # Check if we actually need to change anything
         if same_data and same_metadata:
@@ -1530,6 +1538,7 @@ class Unit(models.Model, LoggerMixin):
                 "state": self.state,
                 "old_state": self.old_unit["state"],
                 "source": self.source,
+                "context": self.context,
             },
         )
         if save:
@@ -1676,11 +1685,7 @@ class Unit(models.Model, LoggerMixin):
             propagated_units: UnitQuerySet = reduce(
                 operator.or_, (querymap[item] for item in propagation)
             )
-            propagated_units = (
-                propagated_units.distinct()
-                .prefetch_related("source_unit")
-                .prefetch_all_checks()
-            )
+            propagated_units = propagated_units.distinct().prefetch_all_checks()
 
             for unit in propagated_units:
                 try:

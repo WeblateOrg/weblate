@@ -1,5 +1,5 @@
-Weblate 5.14.1
---------------
+Weblate 5.15
+------------
 
 *Not yet released.*
 
@@ -7,16 +7,46 @@ Weblate 5.14.1
 
 .. rubric:: Improvements
 
-* Document using Valkey in :ref:`celery` and :ref:`production-cache`.
-* Added HTTP environment overview in :ref:`manage-performance`.
 * :http:get:`/api/groups/` now includes ``admins``.
 
 .. rubric:: Bug fixes
 
+.. rubric:: Compatibility
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.15.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/152?closed=1>`__.
+
+Weblate 5.14.1
+--------------
+
+*Released on November 5th 2025.*
+
+.. rubric:: New features
+
+* String context are now tracked in changes histoy and displayed when available.
+
+.. rubric:: Improvements
+
+* Document using Valkey in :ref:`celery` and :ref:`production-cache`.
+* Added HTTP environment overview in :ref:`manage-performance`.
+* Docker container is using Python 3.14.
+* :ref:`check-icu-message-format` correctly handles implicit plurals.
+
+.. rubric:: Bug fixes
+
+* Avoid storing inviting user information in the invited user audit log (:cve:`2025-64326` / :ghsa:`gr35-vpx2-qxhc`).
+* Omit admin IP address from audit log.
 * Counting outgoing commits in the repository status.
 * Listing of other translations.
-
-.. rubric:: Compatibility
+* SAML configuration in the Docker container.
+* :ref:`project-commit_policy` could miss some changes in certain situations.
 
 .. rubric:: Upgrading
 

@@ -24,15 +24,15 @@ TAG_TYPE = -100
 # These types are to be considered numeric. Numeric placeholders
 # can be of any numeric type without triggering a warning from
 # the checker.
-NUMERIC_TYPES = ["number", "plural", "selectordinal"]
+NUMERIC_TYPES = {"number", "plural", "selectordinal"}
 
 # These types have their sub-messages checked to ensure that
 # sub-message selectors are valid.
-PLURAL_TYPES = ["plural", "selectordinal"]
+PLURAL_TYPES = {"plural", "selectordinal"}
 
 # ... and these are the valid selectors, along with selectors
 # for specific values, formatted such as: =0, =1, etc.
-PLURAL_SELECTORS = ["zero", "one", "two", "few", "many", "other"]
+PLURAL_SELECTORS = {"zero", "one", "two", "few", "many", "other"}
 
 
 # We construct two Parser instances, one for tags and one without.
@@ -211,6 +211,11 @@ def extract_placeholders(token, variables=None):
             )
             if "format" in token:
                 data["formats"].add(token["format"])
+
+    elif name == "count":
+        # Assume count is a numeric type
+        data["types"].add("number")
+        data["is_number"] = update_maybe_value(True, data["is_number"])
 
     if "options" in token:
         choices = data.setdefault("choices", set())

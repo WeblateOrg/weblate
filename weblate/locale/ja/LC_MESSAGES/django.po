@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-27 07:35+0000\n"
-"PO-Revision-Date: 2025-10-25 07:03+0000\n"
+"PO-Revision-Date: 2025-10-31 08:02+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -1996,13 +1996,15 @@ msgstr "サインイン中はセッション ベース認証を使用する。"
 #: weblate/api/authentication.py:39
 #, python-format
 msgid "Token-based authentication with required prefix `%s`."
-msgstr ""
+msgstr "必須の接頭辞`%s`を付けたトークンベースの認証。"
 
 #: weblate/api/authentication.py:42
 msgid ""
 "Each user has a personal access token which they can get from their "
 "respective user profile. These tokens have the `wlu_` prefix."
 msgstr ""
+"各ユーザーには個別のアクセストークンがあり、それぞれのユーザー プロファイルか"
+"ら取得できます。これらのトークンには wlu_ 接頭辞が付いています。"
 
 #: weblate/api/authentication.py:45
 msgid ""
@@ -2010,6 +2012,9 @@ msgid ""
 "to operations to their associated project. These tokens have the `wlp_` "
 "prefix."
 msgstr ""
+"プロジェクトに関連付けられた操作のみに API アクセスを制限したプロジェクト ト"
+"ークンを作成することが可能です。これらのトークンには wlp_ 接頭辞が付いていま"
+"す。"
 
 #: weblate/api/docs.py:72
 msgid "Allowed number of requests to perform"
@@ -2051,7 +2056,7 @@ msgstr "作成時のタイムスタンプ"
 msgid ""
 "If you’re an admin, you can set the explicit timestamp at which the comment "
 "was created."
-msgstr ""
+msgstr "管理者であれば、コメントのタイムスタンプを編集できます。"
 
 #: weblate/api/serializers.py:372
 msgid "Commenter’s email"
@@ -2061,7 +2066,8 @@ msgstr "コメント投稿者のメールアドレス"
 msgid ""
 "If you’re an admin, you can attribute this comment to another user by their "
 "email."
-msgstr ""
+msgstr "管理者であれば、このコメントを他のユーザーのメールアドレスに紐付けることがで"
+"きます。"
 
 #: weblate/api/serializers.py:1067 weblate/templates/js/git-status.html:25
 msgid "Commit"
@@ -2093,10 +2099,8 @@ msgid "Reset all changes in the Weblate repository"
 msgstr "Weblate のリポジトリ内のすべての変更をリセットする"
 
 #: weblate/api/serializers.py:1079 weblate/templates/js/git-status.html:155
-#, fuzzy
-#| msgid "Define the base file for new translations"
 msgid "Reset the Weblate repository and reapply translations"
-msgstr "新しい翻訳用の、基礎となる翻訳ファイルの設定"
+msgstr "Weblate リポジトリのリセットと翻訳の再適用"
 
 #: weblate/api/serializers.py:1083 weblate/templates/js/git-status.html:166
 msgid "Cleanup all untracked files in the Weblate repository"
@@ -2358,10 +2362,8 @@ msgstr "文字列の査読"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:75
-#, fuzzy
-#| msgid "Edit strings"
 msgid "Bulk edit strings"
-msgstr "文字列の編集"
+msgstr "文字列一括編集"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:77
@@ -2495,10 +2497,8 @@ msgstr "チームの管理"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:135
-#, fuzzy
-#| msgid "View billing info"
 msgid "View team info"
-msgstr "課金情報の表示"
+msgstr "チーム情報の表示"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:137 weblate/templates/manage/users.html:18
@@ -2507,10 +2507,8 @@ msgstr "ユーザーの管理"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:139
-#, fuzzy
-#| msgid "View billing info"
 msgid "View user info"
-msgstr "課金情報の表示"
+msgstr "ユーザー情報の表示"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:141
@@ -2519,10 +2517,8 @@ msgstr "ロールの管理"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:143
-#, fuzzy
-#| msgid "View billing info"
 msgid "View role info"
-msgstr "課金情報の表示"
+msgstr "役割情報の表示"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:145
@@ -2606,8 +2602,6 @@ msgid "Manage languages"
 msgstr "言語の管理"
 
 #: weblate/auth/data.py:241
-#, fuzzy
-#| msgid "Bulk edit"
 msgctxt "Access-control role"
 msgid "Bulk editing"
 msgstr "一括編集"
@@ -2713,8 +2707,6 @@ msgid "Screenshots"
 msgstr "スクリーンショット"
 
 #: weblate/auth/data.py:315
-#, fuzzy
-#| msgid "Bulk edit"
 msgctxt "Per-project access-control team name"
 msgid "Bulk editing"
 msgstr "一括編集"
@@ -3259,10 +3251,8 @@ msgid "Billing"
 msgstr "課金"
 
 #: weblate/billing/models.py:681 weblate/templates/billing/detail.html:119
-#, fuzzy
-#| msgid "Billing overview"
 msgid "Billing event"
-msgstr "請求の概要"
+msgstr "請求書"
 
 #: weblate/billing/tasks.py:73
 msgid ""
@@ -3325,7 +3315,7 @@ msgstr "原文と翻訳文で一致しない文頭のスペース数。"
 
 #: weblate/checks/chars.py:109
 msgid "Non‑standard characters in Kabyle"
-msgstr ""
+msgstr "カビーレ語の非標準文字"
 
 #: weblate/checks/chars.py:111
 msgid ""
@@ -3627,7 +3617,7 @@ msgstr "Fluent タイプ"
 
 #: weblate/checks/flags.py:96
 msgid "Discard flag"
-msgstr ""
+msgstr "破棄フラグ"
 
 #: weblate/checks/flags.py:337
 #, python-format
@@ -3866,10 +3856,8 @@ msgid "Fluent parts"
 msgstr "Fluent パーツ"
 
 #: weblate/checks/fluent/parts.py:113
-#, fuzzy
-#| msgid "Fluent parts should match"
 msgid "Fluent parts should match."
-msgstr "Fluent パーツは一致することが必要です"
+msgstr "Fluent パーツは一致することが必要です。"
 
 #: weblate/checks/fluent/references.py:374
 #, python-brace-format
@@ -3992,10 +3980,8 @@ msgid "Fluent references"
 msgstr "Fluent 参照"
 
 #: weblate/checks/fluent/references.py:674
-#, fuzzy
-#| msgid "Fluent references should match"
 msgid "Fluent references should match."
-msgstr "Fluent 参照は一致することが必要です"
+msgstr "Fluent 参照は一致することが必要です。"
 
 #: weblate/checks/fluent/syntax.py:38
 #, python-brace-format
@@ -4007,20 +3993,16 @@ msgid "Fluent source syntax"
 msgstr "Fluent ソース構文"
 
 #: weblate/checks/fluent/syntax.py:47
-#, fuzzy
-#| msgid "Fluent syntax error in the source"
 msgid "Fluent syntax error in the source."
-msgstr "原文での Fluent 構文エラー"
+msgstr "原文での Fluent 構文エラー。"
 
 #: weblate/checks/fluent/syntax.py:63
 msgid "Fluent translation syntax"
 msgstr "Fluent 翻訳構文"
 
 #: weblate/checks/fluent/syntax.py:64
-#, fuzzy
-#| msgid "Fluent syntax error in the translation"
 msgid "Fluent syntax error in the translation."
-msgstr "翻訳文での Fluent 構文エラー"
+msgstr "翻訳文での Fluent 構文エラー。"
 
 #: weblate/checks/format.py:495
 #, python-format
@@ -4032,100 +4014,80 @@ msgid "Python format"
 msgstr "Python 形式"
 
 #: weblate/checks/format.py:584
-#, fuzzy
-#| msgid "Python format string does not match source"
 msgid "Python format string does not match source."
-msgstr "Python 形式の文字列が原文と不一致"
+msgstr "Python 形式の文字列が原文と不一致。"
 
 #: weblate/checks/format.py:592
 msgid "PHP format"
 msgstr "PHP 形式"
 
 #: weblate/checks/format.py:593
-#, fuzzy
-#| msgid "PHP format string does not match source"
 msgid "PHP format string does not match source."
-msgstr "PHP 形式の文字列が原文と不一致"
+msgstr "PHP 形式の文字列が原文と不一致。"
 
 #: weblate/checks/format.py:600
 msgid "C format"
 msgstr "C 言語書式"
 
 #: weblate/checks/format.py:601
-#, fuzzy
-#| msgid "C format string does not match source"
 msgid "C format string does not match source."
-msgstr "C 言語形式の文字列が原文と不一致"
+msgstr "C 言語形式の文字列が原文と不一致。"
 
 #: weblate/checks/format.py:608
 msgid "Perl brace format"
 msgstr "Perl ブレース形式"
 
 #: weblate/checks/format.py:609
-#, fuzzy
-#| msgid "Perl brace format string does not match source"
 msgid "Perl brace format string does not match source."
-msgstr "Perl ブレース書式の指定文字列が原文と一致しない"
+msgstr "Perl ブレース書式の指定文字列が原文と一致しない。"
 
 #: weblate/checks/format.py:621
 msgid "Perl format"
 msgstr "Perl 形式"
 
 #: weblate/checks/format.py:622
-#, fuzzy
-#| msgid "Perl format string does not match source"
 msgid "Perl format string does not match source."
-msgstr "Perl 形式の文字列が原文と不一致"
+msgstr "Perl 形式の文字列が原文と不一致。"
 
 #: weblate/checks/format.py:629
 msgid "JavaScript format"
 msgstr "JavaScript 形式"
 
 #: weblate/checks/format.py:630
-#, fuzzy
-#| msgid "JavaScript format string does not match source"
 msgid "JavaScript format string does not match source."
-msgstr "JavaScript 形式の文字列が原文と不一致"
+msgstr "JavaScript 形式の文字列が原文と不一致。"
 
 #: weblate/checks/format.py:637
 msgid "Lua format"
 msgstr "Lua 形式"
 
 #: weblate/checks/format.py:638
-#, fuzzy
-#| msgid "Lua format string does not match source"
 msgid "Lua format string does not match source."
-msgstr "Lua 形式の文字列が原文と不一致"
+msgstr "Lua 形式の文字列が原文と不一致。"
 
 #: weblate/checks/format.py:645
 msgid "Object Pascal format"
 msgstr "Object Pascal 形式"
 
 #: weblate/checks/format.py:646
-#, fuzzy
-#| msgid "Object Pascal format string does not match source"
 msgid "Object Pascal format string does not match source."
-msgstr "Object Pascal 形式の文字列が原文と不一致"
+msgstr "Object Pascal 形式の文字列が原文と不一致。"
 
 #: weblate/checks/format.py:654
 msgid "Scheme format"
 msgstr "Scheme 形式"
 
 #: weblate/checks/format.py:655
-#, fuzzy
-#| msgid "Scheme format string does not match source"
 msgid "Scheme format string does not match source."
-msgstr "Scheme 形式の文字列が原文と不一致"
+msgstr "Scheme 形式の文字列が原文と不一致。"
 
 #: weblate/checks/format.py:666
 msgid "Python brace format"
 msgstr "Python ブレース形式"
 
 #: weblate/checks/format.py:667
-#, fuzzy
-#| msgid "Python brace format string does not match source"
 msgid "Python brace format string does not match source."
-msgstr "Python ブレース形式の文字列が原文と不一致"
+msgstr "Python ブレース形式の文字列が原文と不一致。"
 
 #: weblate/checks/format.py:686
 msgid "Single {} encountered in the format string."
@@ -4136,30 +4098,24 @@ msgid "C# format"
 msgstr "C# 形式"
 
 #: weblate/checks/format.py:714
-#, fuzzy
-#| msgid "C# format string does not match source"
 msgid "C# format string does not match source."
-msgstr "C# 形式の文字列が原文と不一致"
+msgstr "C# 形式の文字列が原文と不一致。"
 
 #: weblate/checks/format.py:729
 msgid "Java format"
 msgstr "Java 形式"
 
 #: weblate/checks/format.py:730
-#, fuzzy
-#| msgid "Java format string does not match source"
 msgid "Java format string does not match source."
-msgstr "Java 形式の文字列が原文と不一致"
+msgstr "Java 形式の文字列が原文と不一致。"
 
 #: weblate/checks/format.py:737
 msgid "Java MessageFormat"
 msgstr "Java MessageFormat"
 
 #: weblate/checks/format.py:738
-#, fuzzy
-#| msgid "Java MessageFormat string does not match source"
 msgid "Java MessageFormat string does not match source."
-msgstr "Java MessageFormat 文字列が原文と不一致"
+msgstr "Java MessageFormat 文字列が原文と不一致。"
 
 #: weblate/checks/format.py:777
 msgid "You need to pair up an apostrophe with another one."
@@ -4170,40 +4126,32 @@ msgid "i18next interpolation"
 msgstr "i18next 補間"
 
 #: weblate/checks/format.py:784
-#, fuzzy
-#| msgid "The i18next interpolation does not match source"
 msgid "The i18next interpolation does not match source."
-msgstr "i18next の補間が原文と不一致"
+msgstr "i18next の補間が原文と不一致。"
 
 #: weblate/checks/format.py:797
 msgid "ECMAScript template literals"
 msgstr "ECMAScript テンプレート リテラル"
 
 #: weblate/checks/format.py:798
-#, fuzzy
-#| msgid "ECMAScript template literals do not match source"
 msgid "ECMAScript template literals do not match source."
-msgstr "ECMAScript テンプレート リテラルが原文と不一致"
+msgstr "ECMAScript テンプレート リテラルが原文と不一致。"
 
 #: weblate/checks/format.py:811
 msgid "Percent placeholders"
 msgstr "パーセントのプレースホルダー"
 
 #: weblate/checks/format.py:812
-#, fuzzy
-#| msgid "The percent placeholders do not match source"
 msgid "The percent placeholders do not match source."
-msgstr "% プレースホルダーが原文と不一致"
+msgstr "% プレースホルダーが原文と不一致。"
 
 #: weblate/checks/format.py:819
 msgid "Vue I18n formatting"
 msgstr "Vue I18n 書式"
 
 #: weblate/checks/format.py:820
-#, fuzzy
-#| msgid "The Vue I18n formatting does not match source"
 msgid "The Vue I18n formatting does not match source."
-msgstr "Vue I18n 書式が原文と不一致"
+msgstr "Vue I18n 書式が原文と不一致。"
 
 #: weblate/checks/format.py:828
 #, fuzzy
@@ -4244,10 +4192,8 @@ msgid "Prohibited initial character"
 msgstr "禁止されている頭文字"
 
 #: weblate/checks/glossary.py:94
-#, fuzzy
-#| msgid "The string starts with a prohibited character in CSV"
 msgid "The string starts with a prohibited character in CSV."
-msgstr "文字列が CSV の禁止文字で始まっています"
+msgstr "文字列が CSV の禁止文字で始まっています。"
 
 #: weblate/checks/glossary.py:115
 msgid ""
@@ -4334,30 +4280,24 @@ msgid "BBCode markup"
 msgstr "BBCode マークアップ"
 
 #: weblate/checks/markup.py:125
-#, fuzzy
-#| msgid "BBCode in translation does not match source"
 msgid "BBCode in translation does not match source."
-msgstr "翻訳文の BBCode が原文と不一致"
+msgstr "翻訳文の BBCode が原文と不一致。"
 
 #: weblate/checks/markup.py:208
 msgid "XML syntax"
 msgstr "XML 構文"
 
 #: weblate/checks/markup.py:209
-#, fuzzy
-#| msgid "The translation is not valid XML"
 msgid "The translation is not valid XML."
-msgstr "翻訳文が XML として正しくない"
+msgstr "翻訳文が XML として正しくない。"
 
 #: weblate/checks/markup.py:233
 msgid "XML markup"
 msgstr "XML マークアップ"
 
 #: weblate/checks/markup.py:234
-#, fuzzy
-#| msgid "XML tags in translation do not match source"
 msgid "XML tags in translation do not match source."
-msgstr "翻訳文の XML タグが原文と不一致"
+msgstr "翻訳文の XML タグが原文と不一致。"
 
 #: weblate/checks/markup.py:292
 msgid "Markdown references"
@@ -4380,49 +4320,36 @@ msgid "Markdown syntax"
 msgstr "Markdown 構文"
 
 #: weblate/checks/markup.py:339
-#, fuzzy
-#| msgid "Markdown syntax does not match source"
 msgid "Markdown syntax does not match source."
-msgstr "Markdown 構文が原文と一致しません"
+msgstr "Markdown 構文が原文と一致しません。"
 
 #: weblate/checks/markup.py:372
-#, fuzzy
-#| msgid "The translation does not contain an URL"
 msgid "The translation does not contain an URL."
-msgstr "翻訳文に URL が含まれていない"
+msgstr "翻訳文に URL が含まれていない。"
 
 #: weblate/checks/markup.py:391 weblate/trans/autofixes/html.py:16
 msgid "Unsafe HTML"
 msgstr "安全でない HTML"
 
 #: weblate/checks/markup.py:392
-#, fuzzy
-#| msgid "The translation uses unsafe HTML markup"
 msgid "The translation uses unsafe HTML markup."
-msgstr "翻訳文には、安全でない HTML マークアップが使用されている"
+msgstr "翻訳文には、安全でない HTML マークアップが使用されている。"
 
 #: weblate/checks/markup.py:478
 msgid "Inconsistent reStructuredText"
 msgstr "reStructuredText の不整合"
 
 #: weblate/checks/markup.py:480
-#, fuzzy
-#| msgid ""
-#| "Inconsistent reStructuredText term references in the translated message."
 msgid "Inconsistent reStructuredText markup in the translated message."
-msgstr "翻訳メッセージ内の reStructuredText 用語参照の不整合"
+msgstr "翻訳済メッセージの reStructuredText マークアップに一貫性がない。"
 
 #: weblate/checks/markup.py:485
-#, fuzzy
-#| msgid "The following format strings are missing: {}"
 msgid "The following reStructuredText markup is missing: {}"
-msgstr "次のフォーマット文字列が足りません: {}"
+msgstr "次の reStructuredText マークアップが足りません: {}"
 
 #: weblate/checks/markup.py:490
-#, fuzzy
-#| msgid "The following format strings are extra: {}"
 msgid "The following reStructuredText markup is extra: {}"
-msgstr "次のフォーマット文字列は余分です: {}"
+msgstr "次の reStructuredText マークアップは余分です: {}"
 
 #: weblate/checks/markup.py:637
 msgid "reStructuredText syntax error"
@@ -4437,20 +4364,16 @@ msgid "Placeholders"
 msgstr "プレースホルダー"
 
 #: weblate/checks/placeholders.py:32
-#, fuzzy
-#| msgid "Translation is missing some placeholders"
 msgid "Translation is missing some placeholders."
-msgstr "翻訳文にプレースホルダーが不足している"
+msgstr "翻訳文にプレースホルダーが不足している。"
 
 #: weblate/checks/placeholders.py:139
 msgid "Regular expression"
 msgstr "正規表現"
 
 #: weblate/checks/placeholders.py:140
-#, fuzzy
-#| msgid "Translation does not match regular expression"
 msgid "Translation does not match regular expression."
-msgstr "翻訳文が正規表現に一致しない"
+msgstr "翻訳文が正規表現に一致しない。"
 
 #: weblate/checks/placeholders.py:171
 msgid "Does not match regular expression {}."
@@ -4461,30 +4384,24 @@ msgid "Qt format"
 msgstr "Qt 形式"
 
 #: weblate/checks/qt.py:35
-#, fuzzy
-#| msgid "Qt format string does not match source"
 msgid "Qt format string does not match source."
-msgstr "Qt 書式文字列が原文と不一致"
+msgstr "Qt 書式文字列が原文と不一致。"
 
 #: weblate/checks/qt.py:47
 msgid "Qt plural format"
 msgstr "Qt 複数形式"
 
 #: weblate/checks/qt.py:48
-#, fuzzy
-#| msgid "Qt plural format string does not match source"
 msgid "Qt plural format string does not match source."
-msgstr "Qt 複数形式の文字列が原文と不一致"
+msgstr "Qt 複数形式の文字列が原文と不一致。"
 
 #: weblate/checks/render.py:31
 msgid "Maximum size of translation"
 msgstr "翻訳の文字の最大サイズ"
 
 #: weblate/checks/render.py:33
-#, fuzzy
-#| msgid "Translation rendered text should not exceed given size"
 msgid "Translation rendered text should not exceed given size."
-msgstr "表示した翻訳のテキストは、設定した文字サイズを超えてはいけない"
+msgstr "表示した翻訳のテキストは、設定した文字サイズを超えてはいけない。"
 
 #: weblate/checks/render.py:109
 msgid ""
@@ -4497,51 +4414,40 @@ msgid "Ruby format"
 msgstr "Ruby 形式"
 
 #: weblate/checks/ruby.py:55
-#, fuzzy
-#| msgid "Ruby format string does not match source"
 msgid "Ruby format string does not match source."
-msgstr "Ruby 書式文字列が原文と不一致"
+msgstr "Ruby 書式文字列が原文と不一致。"
 
 #: weblate/checks/same.py:152
 msgid "Unchanged translation"
 msgstr "未翻訳の翻訳文"
 
 #: weblate/checks/same.py:153
-#, fuzzy
-#| msgid "Source and translation are identical"
 msgid "Source and translation are identical."
-msgstr "原文と翻訳文が同一"
+msgstr "原文と翻訳文が同一。"
 
 #: weblate/checks/source.py:34
 msgid "Unpluralised"
 msgstr "複数形の書式になっていない"
 
 #: weblate/checks/source.py:36
-#, fuzzy
-#| msgid "The string is used as plural, but not using plural forms"
 msgid "The string is used as plural, but not using plural forms."
-msgstr "文字列は複数形として使用されていますが、複数形の書式ではありません"
+msgstr "文字列は複数形として使用されていますが、複数形の書式ではありません。"
 
 #: weblate/checks/source.py:49
 msgid "Ellipsis"
 msgstr "省略記号"
 
 #: weblate/checks/source.py:51
-#, fuzzy
-#| msgid ""
-#| "The string uses three dots (...) instead of an ellipsis character (…)"
 msgid "The string uses three dots (...) instead of an ellipsis character (…)."
-msgstr "文字列では省略記号 (…) の代わりに 3 つのドット (...) が使われている"
+msgstr "文字列では省略記号 (…) の代わりに 3 つのドット (...) が使われている。"
 
 #: weblate/checks/source.py:62
 msgid "Multiple failing checks"
 msgstr "複数言語での検査不合格"
 
 #: weblate/checks/source.py:64
-#, fuzzy
-#| msgid "The translations in several languages have failing checks"
 msgid "The translations in several languages have failing checks."
-msgstr "翻訳は複数の言語で、検査に不合格となった項目があります"
+msgstr "翻訳は複数の言語で、検査に不合格となった項目があります。"
 
 #: weblate/checks/source.py:123
 msgid "Following checks are failing:"
@@ -4552,10 +4458,8 @@ msgid "Long untranslated"
 msgstr "長期間未翻訳"
 
 #: weblate/checks/source.py:150
-#, fuzzy
-#| msgid "The string has not been translated for a long time"
 msgid "The string has not been translated for a long time."
-msgstr "翻訳が放置された文字列"
+msgstr "翻訳が放置された文字列。"
 
 #: weblate/checks/views.py:224 weblate/checks/views.py:226
 #: weblate/templates/category-language.html:29
@@ -4747,10 +4651,8 @@ msgid "CSV"
 msgstr "CSV"
 
 #: weblate/formats/exporters.py:258
-#, fuzzy
-#| msgid "Multivalue CSV file (UTF-8)"
 msgid "Multivalue CSV"
-msgstr "複数値 CSV ファイル（UTF-8）"
+msgstr "複数値 CSV ファイル"
 
 #: weblate/formats/exporters.py:325
 msgid "XLSX"
@@ -7164,16 +7066,11 @@ msgid ""
 msgstr "以下のボタンを押すと、このアカウントを使用できなくなります。"
 
 #: weblate/templates/accounts/removal.html:43
-#, fuzzy
-#| msgid ""
-#| "You will have to confirm account removal by clicking link in e-mail you "
-#| "will receive."
 msgid ""
 "You will have to confirm the account removal by clicking the link in the e-"
 "mail you will receive."
-msgstr ""
-"受信したメール内のリンクをクリックして、アカウントの削除を確定する必要があり"
-"ます。"
+msgstr "受信したメール内のリンクをクリックして、アカウントの削除を確定することが必要"
+"です。"
 
 #: weblate/templates/accounts/removal.html:50
 msgid "Delete this account"
@@ -8270,10 +8167,8 @@ msgid "About"
 msgstr "概要"
 
 #: weblate/templates/base5.html:453
-#, fuzzy
-#| msgid "Website URL"
 msgid "Website"
-msgstr "Web サイトの URL"
+msgstr "Web サイト"
 
 #: weblate/templates/billing/detail.html:27
 msgid "Recurring payment"
@@ -8336,10 +8231,8 @@ msgid "No invoices found."
 msgstr "インボイスが見つかりません。"
 
 #: weblate/templates/billing/detail.html:120
-#, fuzzy
-#| msgid "View details"
 msgid "Event details"
-msgstr "詳細の表示"
+msgstr "イベントの詳細"
 
 #: weblate/templates/billing/detail.html:144
 msgid "Libre hosting"
@@ -9274,15 +9167,11 @@ msgid "Privacy"
 msgstr "プライバシー"
 
 #: weblate/templates/footer.html:21
-#, fuzzy
-#| msgid "Legal"
 msgctxt "Link to legal documents"
 msgid "Legal"
 msgstr "法的文書"
 
 #: weblate/templates/footer.html:32
-#, fuzzy
-#| msgid "Status"
 msgctxt "Service status"
 msgid "Status"
 msgstr "状態"
@@ -9522,10 +9411,8 @@ msgid "Repository changes"
 msgstr "リポジトリの変更"
 
 #: weblate/templates/js/git-status.html:226
-#, fuzzy
-#| msgid "Browse all string changes"
 msgid "Browse all repository changes"
-msgstr "文字列の変更をすべて表示"
+msgstr "変更されたリポジトリをすべて表示"
 
 #: weblate/templates/keyboard-shortcuts.html:24
 #: weblate/templates/keyboard-shortcuts5.html:22
@@ -14268,7 +14155,7 @@ msgstr "ファイルアップロード"
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:164
 msgid "Extra flags updated"
-msgstr ""
+msgstr "追加フラグの更新"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:166
@@ -14287,17 +14174,13 @@ msgstr "フォントを削除しました"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:172
-#, fuzzy
-#| msgid "Force synchronization"
 msgid "Forced synchronization of translations"
-msgstr "同期の強制"
+msgstr "翻訳の強制同期"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:174
-#, fuzzy
-#| msgid "Forbidden translation"
 msgid "Forced rescan of translations"
-msgstr "使用禁止の訳語"
+msgstr "翻訳の強制再読込"
 
 #: weblate/trans/admin.py:36
 msgid "Commit pending changes"
@@ -14453,8 +14336,7 @@ msgstr "%sにおける最近の更新"
 
 #. Translators: %s is site title here
 #: weblate/trans/feeds.py:36
-#, fuzzy, python-format
-#| msgid "All recent changes made using Weblate in %s."
+#, python-format
 msgid "All recent changes made using Weblate on %s."
 msgstr "%s で Weblate を利用して最近行われたすべての変更。"
 
@@ -14513,10 +14395,6 @@ msgid "No line wrapping"
 msgstr "行を折り返さない"
 
 #: weblate/trans/file_format_params.py:210
-#, fuzzy
-#| msgid ""
-#| "By default gettext wraps lines at 77 characters and at newlines. With the "
-#| "--no-wrap parameter, wrapping is only done at newlines."
 msgid ""
 "By default, gettext wraps lines at 77 characters and at newlines. With the --"
 "no-wrap parameter, wrapping is only done at newlines."
@@ -14577,22 +14455,16 @@ msgid "Include closing tag for blank XML tags"
 msgstr "空の XML タグに終了タグを含める"
 
 #: weblate/trans/file_format_params.py:336
-#, fuzzy
-#| msgid "Flat XML file"
 msgid "FlatXML Root name"
-msgstr "Flat XML ファイル"
+msgstr "FlatXML ルート名"
 
 #: weblate/trans/file_format_params.py:345
-#, fuzzy
-#| msgid "Flat XML file"
 msgid "FlatXML value name"
-msgstr "Flat XML ファイル"
+msgstr "FlatXML 変数名"
 
 #: weblate/trans/file_format_params.py:354
-#, fuzzy
-#| msgid "Category name"
 msgid "FlatXML key name"
-msgstr "カテゴリー名"
+msgstr "FlatXML キー名"
 
 #: weblate/trans/filter.py:23 weblate/trans/filter.py:121
 msgid "All strings"
@@ -15207,10 +15079,8 @@ msgid "Exclude author (username)"
 msgstr ""
 
 #: weblate/trans/forms.py:3062
-#, fuzzy
-#| msgid "Date joined"
 msgid "Date range"
-msgstr "参加日"
+msgstr "日付範囲"
 
 #: weblate/trans/forms.py:3145
 msgid "Expiry cannot be in the past."
@@ -15744,26 +15614,20 @@ msgstr ""
 "かどうか。"
 
 #: weblate/trans/models/component.py:544
-#, fuzzy
-#| msgid "File format"
 msgid "File format parameters"
-msgstr "ファイル形式"
+msgstr "ファイル形式パラメータ"
 
 #: weblate/trans/models/component.py:554
 msgid "Locked component will not get any translation updates."
 msgstr "ロックしたコンポーネントは、翻訳を更新できません。"
 
 #: weblate/trans/models/component.py:558
-#, fuzzy
-#| msgid "Does not follow glossary"
 msgid "Do not show glossary matches"
-msgstr "用語集に従っていない"
+msgstr "用語集に一致したものを表示しない"
 
 #: weblate/trans/models/component.py:560
-#, fuzzy
-#| msgid "Focus on translation editor."
 msgid "Hides the glossary panel in the translation editor."
-msgstr "翻訳入力フォームにカーソル移動。"
+msgstr "翻訳エディタの用語集パネルを非表示にする。"
 
 #: weblate/trans/models/component.py:563
 msgid "Allow translation propagation"

@@ -26,7 +26,7 @@ from django.utils.translation import (
     pgettext_lazy,
 )
 
-from weblate.accounts.tasks import send_mails
+from weblate.accounts.tasks import EMAIL_BATCH_SIZE, queue_mails
 from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.logger import LOGGER
@@ -283,9 +283,9 @@ class Notification:
                     "headers": headers,
                 }
             )
-            # Avoid building huge queue of notifications
-            if len(self.outgoing) > 200:
-                send_mails.delay(self.outgoing)
+            # Avoid building huge queue of notifications in memory
+            if len(self.outgoing) > EMAIL_BATCH_SIZE:
+                queue_mails(self.outgoing)
                 self.outgoing.clear()
 
     def render_template(self, suffix: str, context: dict, digest: bool = False) -> str:
@@ -1026,6 +1026,6 @@ def send_notification_email(
     info: str | None = None,
 ) -> None:
     """Render and sends notification email."""
-    send_mails.delay(
+    queue_mails(
         get_notification_emails(language, recipients, notification, context, info)
     )
