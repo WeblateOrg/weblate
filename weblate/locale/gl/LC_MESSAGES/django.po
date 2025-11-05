@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-27 07:35+0000\n"
-"PO-Revision-Date: 2025-10-05 11:02+0000\n"
+"PO-Revision-Date: 2025-11-06 09:51+0000\n"
 "Last-Translator: \"Miguel A. Bouzada\" <mbouzada@gmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/weblate/"
 "application/gl/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14-dev\n"
+"X-Generator: Weblate 5.15-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -376,22 +376,24 @@ msgid "Verify the code from the app"
 msgstr "Verificar o código desde a aplicación"
 
 #: weblate/accounts/forms.py:1142
-#, fuzzy
-#| msgid "Name your authentication app"
 msgid "Discard previously configured authentication apps"
-msgstr "Nome da súa aplicación de autenticación"
+msgstr "Desbotar as aplicacións de autenticación configuradas anteriormente"
 
 #: weblate/accounts/forms.py:1146
 msgid ""
 "All previously configured authentication apps will be discarded upon "
 "verification of the new app."
 msgstr ""
+"Todas as aplicacións de autenticación configuradas anteriormente van ser "
+"desbotadas após a verificación da nova aplicación."
 
 #: weblate/accounts/forms.py:1149
 msgid ""
 "Other two-factor methods (such as WebAuthn and security keys) won't be "
 "affected."
 msgstr ""
+"Outros métodos de dous factores (como WebAuthn e as chaves de seguranza) non "
+"van ser afectados."
 
 #: weblate/accounts/forms.py:1155
 msgid "The entered token is not valid."
@@ -561,7 +563,7 @@ msgstr "O usuario foi desactivado pola administración do sitio."
 
 #: weblate/accounts/models.py:296
 msgid "User was disabled because the access has expired."
-msgstr ""
+msgstr "O usuario foi desactivado porque o acceso caducou."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:299
@@ -607,10 +609,11 @@ msgid "Two-factor authentication sign in using {device}"
 msgstr "Acceso con segundo factor de autenticación empregando {device}"
 
 #: weblate/accounts/models.py:320
-#, fuzzy, python-brace-format
-#| msgid "Two-factor authentication sign in using {device}"
+#, python-brace-format
 msgid "Two-factor authentication failed using {device_type}"
-msgstr "Acceso con segundo factor de autenticación empregando {device}"
+msgstr ""
+"Produciuse un fallo na autenticación de dous factores empregando "
+"{device_type}"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:328
@@ -1036,7 +1039,7 @@ msgstr "Publicouse o anuncio"
 #: weblate/accounts/notifications.py:825
 msgctxt "Notification name"
 msgid "New alert emerged in a component"
-msgstr "Xurdiu unha nova alerta nun compoñente"
+msgstr "Produciuse unha nova alerta nun compoñente"
 
 #: weblate/accounts/notifications.py:879
 msgctxt "Notification name"
@@ -1349,10 +1352,9 @@ msgid "The supplied username is already in use for another account."
 msgstr "O nome de usuario fornecido xa está a ser usado noutra conta."
 
 #: weblate/accounts/views.py:1499
-#, fuzzy, python-format
-#| msgid "Authentication app (%s)"
+#, python-format
 msgid "Authentication failed: %s"
-msgstr "Aplicación de autenticación (%s)"
+msgstr "Produciuse un fallo de autenticación (%s)"
 
 #: weblate/accounts/views.py:1505
 msgid "The supplied user identity is already in use for another account."
