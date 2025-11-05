@@ -18,14 +18,14 @@
   {% if can_generate %}
     {% for ssh_key in missing_ssh_keys %}
       <form method="post">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">
               {% documentation_icon 'vcs' 'ssh-repos' right=True %}
               {% blocktranslate with key_type=ssh_key.name %}Generate {{ key_type }} SSH key{% endblocktranslate %}
             </h4>
           </div>
-          <div class="panel-body">
+          <div class="card-body">
             <p>
               {% blocktranslate with key_type=ssh_key.name %}You don't seem to have existing {{ key_type }} SSH key, by pressing button below Weblate will generate one for you.{% endblocktranslate %}
             </p>
@@ -33,7 +33,7 @@
             <input type="hidden" name="action" value="generate">
             <input type="hidden" name="type" value="{{ ssh_key.type }}">
           </div>
-          <div class="panel-footer">
+          <div class="card-footer">
             <input type="submit"
                    id="generate-ssh-button"
                    class="btn btn-primary"
@@ -45,9 +45,9 @@
   {% endif %}
 
   {% if host_keys %}
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">
           {% documentation_icon 'vcs' 'verify-ssh' right=True %}
           {% translate "Known host keys" %}
         </h4>
@@ -75,21 +75,21 @@
   {% endif %}
 
   <form method="post" class="form-inline">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">
           {% documentation_icon 'vcs' 'verify-ssh' right=True %}
           {% translate "Add host key" %}
         </h4>
       </div>
-      <div class="panel-body">
+      <div class="card-body">
         <p>
           {% translate "To access SSH hosts, its host key needs to be verified. You can get the host key by entering a domain name or IP for the host in the form below." %}
         </p>
         {% crispy add_form %}
         <input type="hidden" name="action" value="add-host" />
       </div>
-      <div class="panel-footer">
+      <div class="card-footer">
         <input type="submit"
                id="ssh-add-button"
                class="btn btn-primary"

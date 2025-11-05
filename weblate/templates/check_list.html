@@ -1,10 +1,10 @@
-{% extends "base5.html" %}
+{% extends "base.html" %}
 
 {% load humanize i18n translations %}
 
 {% block breadcrumbs %}
   {% if path_object %}
-    {% path_object_breadcrumbs5 path_object %}
+    {% path_object_breadcrumbs path_object %}
     <li class="breadcrumb-item">
       <a href="{% url 'checks' path=path_object.get_url_path name="-" %}">{% translate "Checks" %}</a>
     </li>

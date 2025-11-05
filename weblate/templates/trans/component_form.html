@@ -20,14 +20,14 @@
   {% else %}
     <form method="post" enctype="multipart/form-data">
       {% csrf_token %}
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
             {% documentation_icon 'admin/projects' 'component' right=True %}
             {% translate "Add new translation component" %}
           </h4>
         </div>
-        <div class="panel-body">
+        <div class="card-body">
           {% crispy form %}
           {% if stage == "create" %}
             <div class="alert alert-info">
@@ -35,7 +35,7 @@
             </div>
           {% endif %}
         </div>
-        <div class="panel-footer">
+        <div class="card-footer">
           <input type="submit"
                  value="{% if stage != "create" %}{% translate "Continue" %}{% else %}{% translate "Save" %}{% endif %}"
                  class="btn btn-primary" />

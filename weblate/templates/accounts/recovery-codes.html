@@ -13,14 +13,14 @@
 
 {% block content %}
 
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">
         {% documentation_icon 'admin/auth' '2fa' right=True %}
         {% translate "Two-factor recovery codes" %}
       </h4>
     </div>
-    <div class="panel-body second-factor">
+    <div class="card-body second-factor">
       <p class="help-block">
         {% translate "Recovery codes can be used to access your account if you lose access to your device and cannot receive two-factor authentication codes." %}
       </p>

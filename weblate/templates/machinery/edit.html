@@ -25,15 +25,15 @@
 
 {% block content %}
   <form method="post">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">
           {% documentation_icon 'admin/machine' machinery_doc_anchor right=True %}
           {{ machinery_name }}
         </h4>
       </div>
-      <div class="panel-body">{% crispy form %}</div>
-      <div class="panel-footer">
+      <div class="card-body">{% crispy form %}</div>
+      <div class="card-footer">
         <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
       </div>
     </div>

@@ -17,11 +17,11 @@
 
     <form method="post" action="{% url 'trial' %}">
       {% csrf_token %}
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">{% translate "Your trial offer" %}</h4>
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{% translate "Your trial offer" %}</h4>
         </div>
-        <div class="panel-body">
+        <div class="card-body">
           <ul>
             <li>{% translate "Your trial will last 14 days." %}</li>
             <li>{% translate "Your trial will run the 640k plan, but you can choose any plan later." %}</li>
@@ -29,7 +29,7 @@
             <li>{% translate "All configuration will stay once you start paying." %}</li>
           </ul>
         </div>
-        <div class="panel-footer">
+        <div class="card-footer">
           <input type="submit"
                  value="{% translate "Start the trial!" %}"
                  class="btn btn-primary" />

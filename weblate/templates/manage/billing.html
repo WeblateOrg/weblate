@@ -4,32 +4,32 @@
 
 {% block nav_pills %}
   <ul class="nav nav-pills">
-    <li role="presentation" class="active">
-      <a href="#trial" role="tab" data-toggle="tab">{% translate "Trial" %} <span class="badge">{{ trial|length|intcomma }}</span></a>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link active" data-bs-target="#trial" role="tab" data-bs-toggle="tab" href="#">{% translate "Trial" %} <span class="badge">{{ trial|length|intcomma }}</span></a>
     </li>
-    <li role="presentation">
-      <a href="#pending" role="tab" data-toggle="tab">{% translate "Pending approval" %} <span class="badge">{{ pending|length|intcomma }}</span></a>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" data-bs-target="#pending" role="tab" data-bs-toggle="tab" href="#">{% translate "Pending approval" %} <span class="badge">{{ pending|length|intcomma }}</span></a>
     </li>
-    <li role="presentation">
-      <a href="#paid" role="tab" data-toggle="tab">{% translate "Commercial" %} <span class="badge">{{ paid|length|intcomma }}</span></a>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" data-bs-target="#paid" role="tab" data-bs-toggle="tab" href="#">{% translate "Commercial" %} <span class="badge">{{ paid|length|intcomma }}</span></a>
     </li>
-    <li role="presentation">
-      <a href="#free" role="tab" data-toggle="tab">{% translate "Libre" %} <span class="badge">{{ free|length|intcomma }}</span></a>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" data-bs-target="#free" role="tab" data-bs-toggle="tab" href="#">{% translate "Libre" %} <span class="badge">{{ free|length|intcomma }}</span></a>
     </li>
-    <li role="presentation">
-      <a href="#removal" role="tab" data-toggle="tab">{% translate "Scheduled removal" %} <span class="badge">{{ removal|length|intcomma }}</span></a>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" data-bs-target="#removal" role="tab" data-bs-toggle="tab" href="#">{% translate "Scheduled removal" %} <span class="badge">{{ removal|length|intcomma }}</span></a>
     </li>
-    <li role="presentation">
-      <a href="#terminated" role="tab" data-toggle="tab">{% translate "Terminated" %} <span class="badge">{{ terminated|length|intcomma }}</span></a>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link" data-bs-target="#terminated" role="tab" data-bs-toggle="tab" href="#">{% translate "Terminated" %} <span class="badge">{{ terminated|length|intcomma }}</span></a>
     </li>
   </ul>
 {% endblock nav_pills %}
 
 {% block breadcrumbs %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
   </li>
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'manage-billing' %}">{% translate "Billing" %}</a>
   </li>
 {% endblock breadcrumbs %}

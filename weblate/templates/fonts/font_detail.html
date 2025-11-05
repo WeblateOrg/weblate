@@ -16,9 +16,9 @@
 
 {% block content %}
 
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">{% translate "Font" %}</h4>
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">{% translate "Font" %}</h4>
     </div>
     <table class="table table-striped">
       <tr>
@@ -52,12 +52,12 @@
 
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">{% translate "Edit font" %}</h4>
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{% translate "Edit font" %}</h4>
       </div>
-      <div class="panel-body">{{ font_form|crispy }}</div>
-      <div class="panel-footer">
+      <div class="card-body">{{ font_form|crispy }}</div>
+      <div class="card-footer">
         {% if can_edit %}
           <input type="submit"
                  value="{% translate "Update" %}"

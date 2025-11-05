@@ -19,9 +19,9 @@
 
     <div class="col-lg-6" id="billing-{{ billing.pk }}">
       <div class="panel {% if not billing.is_active %}panel-default{% elif not billing.paid or not billing.in_limits %}panel-danger{% else %}panel-default{% endif %}">
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            <a class="pull-right flip doc-link" href="https://weblate.org/hosting/">{% icon "info.svg" %}</a>
+        <div class="card-header">
+          <h4 class="card-title">
+            <a class="float-end doc-link" href="https://weblate.org/hosting/">{% icon "info.svg" %}</a>
             {% translate "Billing plan" %}
             {% if billing.payment.recurring %}
               <span class="badge">{% translate "Recurring payment" %}</span>
@@ -37,7 +37,7 @@
         </div>
         {% include "billing/status.html" %}
         {% if billing.is_active %}
-          <div class="panel-footer">
+          <div class="card-footer">
             {% if billing.all_projects %}
               <p class="text-danger">{% translate "To terminate billing you have to remove all projects first." %}</p>
             {% endif %}
@@ -68,9 +68,9 @@
     <div class="col-lg-6">
       {% with invoices=billing.invoice_set.order %}
         {% if invoices %}
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">{% translate "Invoices" %}</h4>
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">{% translate "Invoices" %}</h4>
             </div>
             <table class="table table-striped">
               <thead>
@@ -108,9 +108,9 @@
 
       {% if user.is_superuser %}
 
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">{% translate "Audit log" %}</h4>
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">{% translate "Audit log" %}</h4>
           </div>
           <table class="table table-striped">
             <thead>
@@ -138,27 +138,27 @@
 
       {% if offer_hosting and billing.plan.price == 0 %}
         <form method="post">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">
                 {% translate "Libre hosting" %}
                 {% if billing.is_libre_trial and billing.payment.libre_request %}
                   <span class="badge">{% translate "Pending approval" %}</span>
                 {% endif %}
               </h4>
             </div>
-            <div class="panel-body">
+            <div class="card-body">
               {% if billing.is_libre_trial and billing.valid_libre and not billing.payment.libre_request %}
                 {# Second button for bigger visibility #}
                 <input type="submit"
-                       class="btn btn-primary pull-right flip"
+                       class="btn btn-primary float-end"
                        name="request"
                        value="{% translate "Request approval for Libre hosting" %}" />
               {% endif %}
               {% include "snippets/libre-checklist.html" %}
             </div>
             {% if billing.is_libre_trial %}
-              <div class="panel-footer">
+              <div class="card-footer">
                 {% csrf_token %}
                 {% if billing.valid_libre %}
                   {% if user_can_manage_billing or not billing.payment.libre_request %}

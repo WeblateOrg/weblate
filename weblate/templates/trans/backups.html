@@ -12,9 +12,9 @@
 {% endblock breadcrumbs %}
 
 {% block content %}
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">{% translate "Existing backups" %}</h4>
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">{% translate "Existing backups" %}</h4>
     </div>
     <table class="table">
       <tbody>
@@ -38,18 +38,18 @@
   </div>
 
   <form method="post">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">{% translate "Trigger backup" %}</h4>
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{% translate "Trigger backup" %}</h4>
       </div>
-      <div class="panel-body">
+      <div class="card-body">
         {% csrf_token %}
         <p>
           {% translate "Backup will be generated in the background." %}
           {% blocktranslate count count=keep_days %}Backups are removed after {{ keep_days }} day.{% plural %}Backups are removed after {{ keep_days }} days.{% endblocktranslate %}
         </p>
       </div>
-      <div class="panel-footer">
+      <div class="card-footer">
         <input type="submit" class="btn btn-primary" value="{% translate "Trigger backup" %}" />
       </div>
     </div>

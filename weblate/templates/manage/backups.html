@@ -16,9 +16,9 @@
   {% for service in services %}
     <form method="post">
       {% csrf_token %}
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
             {% documentation_icon 'admin/backup' right=True %}
             {% blocktranslate with url=service.repository %}Backup service: {{ url }}{% endblocktranslate %}
             {% if service.has_errors %}
@@ -29,7 +29,7 @@
             {% endif %}
           </h4>
         </div>
-        <div class="panel-body">
+        <div class="card-body">
 
           {% if service.has_errors and support_status.has_expired_support and service.repository == support_status.backup_repository %}
             <div class="panel-group"
@@ -37,8 +37,8 @@
                  role="tablist"
                  aria-multiselectable="true">
               <div class="panel panel-danger">
-                <div class="panel-heading" role="tab">
-                  <h4 class="panel-title">
+                <div class="card-header" role="tab">
+                  <h4 class="card-title">
                     <a class="collapsed createdbackup"
                        role="button"
                        data-toggle="collapse"
@@ -49,19 +49,19 @@
                   </h4>
                 </div>
                 <div id="error-{{ service.pk }}" class="panel-collapse collapse in" role="tabpanel">
-                  <div class="panel-body">
+                  <div class="card-body">
                     {% translate "The backup service was temporarily disabled due to an unpaid subscription. Enable backups by renewing your subscription." %}
 
                   </div>
-                  <div class="panel-footer">
+                  <div class="card-footer">
                     <a class="btn btn-primary" href="https://weblate.org/user/">{% translate "Manage your subscription" %}</a>
                   </div>
                 </div>
               </div>
             {% endif %}
-            <div class="panel panel-default">
-              <div class="panel-heading" role="tab">
-                <h4 class="panel-title">
+            <div class="card">
+              <div class="card-header" role="tab">
+                <h4 class="card-title">
                   <a class="collapsed createdbackup"
                      role="button"
                      data-toggle="collapse"
@@ -69,19 +69,19 @@
                      href="#collapse-{{ service.pk }}"
                      aria-expanded="false"
                      aria-controls="collapse-{{ service.pk }}">
-                    <span class="badge pull-right flip">{{ service.timestamp|date }}</span>
+                    <span class="badge float-end">{{ service.timestamp|date }}</span>
                     {% translate "Backup service credentials" %}
                   </a>
                 </h4>
               </div>
               <div id="collapse-{{ service.pk }}" class="panel-collapse collapse" role="tabpanel">
-                <div class="panel-body">{% include "manage/snippets/backup-credentials.html" %}</div>
+                <div class="card-body">{% include "manage/snippets/backup-credentials.html" %}</div>
               </div>
             </div>
             {% for log in service.last_logs %}
               <div class="panel {% if log.event == "error" %}panel-danger{% else %}panel-default{% endif %}">
-                <div class="panel-heading" role="tab">
-                  <h4 class="panel-title">
+                <div class="card-header" role="tab">
+                  <h4 class="card-title">
                     <a class="collapsed"
                        role="button"
                        data-toggle="collapse"
@@ -89,7 +89,7 @@
                        href="#collapse-{{ service.pk }}-{{ log.pk }}"
                        aria-expanded="false"
                        aria-controls="collapse-{{ service.pk }}-{{ log.pk }}">
-                      <span class="badge pull-right flip">{{ log.timestamp|date }}</span>
+                      <span class="badge float-end">{{ log.timestamp|date }}</span>
                       {{ log.get_event_display }}
                     </a>
                   </h4>
@@ -97,7 +97,7 @@
                 <div id="collapse-{{ service.pk }}-{{ log.pk }}"
                      class="panel-collapse collapse"
                      role="tabpanel">
-                  <div class="panel-body">
+                  <div class="card-body">
                     <pre>{{ log.log }}</pre>
                   </div>
                 </div>
@@ -105,7 +105,7 @@
             {% endfor %}
           </div>
         </div>
-        <div class="panel-footer">
+        <div class="card-footer">
           <input type="hidden" name="service" value="{{ service.pk }}" />
           <input type="submit"
                  class="btn btn-primary"
@@ -165,15 +165,15 @@
   {% include "manage/snippets/activation-form.html" %}
 
   <form method="post">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">
           {% documentation_icon 'admin/backup' 'custombackup' right=True %}
           {% translate "Add backup service" %}
         </h4>
       </div>
-      <div class="panel-body">{% crispy form %}</div>
-      <div class="panel-footer">
+      <div class="card-body">{% crispy form %}</div>
+      <div class="card-footer">
         <input type="submit"
                id="generate-ssh-button"
                class="btn btn-primary"

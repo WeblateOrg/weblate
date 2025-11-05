@@ -15,14 +15,14 @@
 
   <form method="post">
     {% csrf_token %}
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">
           {% documentation_icon 'admin/auth' '2fa' right=True %}
           {% translate "Register new authenticator app" %}
         </h4>
       </div>
-      <div class="panel-body second-factor">
+      <div class="card-body second-factor">
         <p class="help-block">
           {% translate "Authenticator apps generate time-based one-time passwords that are used as a second factor to verify your identity when prompted during sign-in." %}
         </p>

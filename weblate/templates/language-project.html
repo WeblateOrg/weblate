@@ -1,4 +1,4 @@
-{% extends "base5.html" %}
+{% extends "base.html" %}
 
 {% load crispy_forms_tags i18n metrics permissions translations %}
 
@@ -110,7 +110,7 @@
 {% endblock nav_pills %}
 
 {% block breadcrumbs %}
-  {% path_object_breadcrumbs5 path_object %}
+  {% path_object_breadcrumbs path_object %}
 
   <a class="ms-auto" href="{{ object.get_widgets_url }}">
     <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
@@ -119,7 +119,7 @@
 
 {% block content %}
 
-  {% announcements language=language project=project bootstrap_5=True %}
+  {% announcements language=language project=project %}
   {% perm 'project.edit' object.project as user_can_edit_project %}
 
   <div class="tab-content">
@@ -132,17 +132,17 @@
     </div>
 
     <div class="tab-pane" id="information">
-      {% show_info5 project=project language=language stats=language_stats metrics=object|metrics show_full_language=False %}
+      {% show_info project=project language=language stats=language_stats metrics=object|metrics show_full_language=False %}
     </div>
 
     <div class="tab-pane" id="history">
-      {% format_last_changes_content last_changes=last_changes user=user bootstrap_5=True %}
+      {% format_last_changes_content last_changes=last_changes user=user %}
       <a class="btn btn-primary" href="{% url 'changes' path=object.get_url_path %}">{% translate "Browse all changes for this language" %}</a>
     </div>
 
     {% if last_announcements %}
       <div class="tab-pane" id="announcement-history">
-        {% format_last_changes_content last_changes=last_announcements user=user bootstrap_5=True %}
+        {% format_last_changes_content last_changes=last_announcements user=user %}
         <a class="btn btn-primary"
            href="{% url 'changes' path=object.get_url_path %}?action=46">{% translate "Browse all project changes" %}</a>
       </div>
@@ -168,7 +168,7 @@
           <div class="card">
             <div class="card-header">
               <h4 class="card-title">
-                {% documentation_icon5 'user/translating' 'search-replace' right=True %}
+                {% documentation_icon 'user/translating' 'search-replace' right=True %}
                 {% translate "Search and replace" %}
               </h4>
             </div>
@@ -189,7 +189,7 @@
           <div class="card">
             <div class="card-header">
               <h4 class="card-title">
-                {% documentation_icon5 'user/translating' 'bulk-edit' right=True %}
+                {% documentation_icon 'user/translating' 'bulk-edit' right=True %}
                 {% translate "Bulk edit" %}
               </h4>
             </div>
@@ -208,7 +208,7 @@
           <div class="card">
             <div class="card-header">
               <h4 class="card-title">
-                {% documentation_icon5 'admin/announcements' right=True %}
+                {% documentation_icon 'admin/announcements' right=True %}
                 {% translate "Post announcement" %}
               </h4>
             </div>

@@ -12,7 +12,7 @@
   <div class="card">
     <div class="card-header">
       <h4 class="card-title">
-        {% documentation_icon5 'devel/integration' 'manage-vcs' right=True %}
+        {% documentation_icon 'devel/integration' 'manage-vcs' right=True %}
         {% translate "Repository status" %}
       </h4>
     </div>
@@ -131,7 +131,7 @@
     <div class="card">
       <div class="card-header text-bg-danger">
         <h4 class="card-title">
-          {% documentation_icon5 'devel/integration' 'manage-vcs' right=True %}
+          {% documentation_icon 'devel/integration' 'manage-vcs' right=True %}
           {% translate "Danger zone" %}
         </h4>
       </div>
@@ -220,7 +220,7 @@
     <div class="card-header">
       <h4 class="card-title">{% translate "Repository changes" %}</h4>
     </div>
-    <div class="card-body">{% format_last_changes_content last_changes=changes user=user bootstrap_5=True %}</div>
+    <div class="card-body">{% format_last_changes_content last_changes=changes user=user %}</div>
     <div class="card-footer">
       <a class="btn btn-primary"
          href="{% url 'changes' path=object.get_url_path %}?{{ changes_url_query }}">{% translate "Browse all repository changes" %}</a>

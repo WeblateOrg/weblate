@@ -11,11 +11,11 @@
   <div class="tab-pane" id="newlang">
     <form action="{% url 'new-language' path=object.get_url_path %}" method="post">
       {% csrf_token %}
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">{% translate "Start new translation" %}</h4>
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{% translate "Start new translation" %}</h4>
         </div>
-        <div class="panel-body">
+        <div class="card-body">
           <p>{% translate "Please choose the language you want to translate to." %}</p>
           {{ form|crispy }}
           {% if user_can_add_more_translation %}

@@ -29,9 +29,9 @@
 
 {% block content %}
 
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">
         {% documentation_icon 'admin/memory' 'memory-user' right=True %}
         {% translate "Translation memory status" %}
       </h4>
@@ -306,12 +306,12 @@
   {% if upload_form %}
     <form action="{{ upload_url }}" method="post" enctype="multipart/form-data">
       {% csrf_token %}
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">{% translate "Import translation memory" %}</h4>
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{% translate "Import translation memory" %}</h4>
         </div>
-        <div class="panel-body">{{ upload_form|crispy }}</div>
-        <div class="panel-footer">
+        <div class="card-body">{{ upload_form|crispy }}</div>
+        <div class="card-footer">
           <input type="submit" class="btn btn-primary" value="{% translate "Upload" %}" />
         </div>
       </div>

@@ -130,7 +130,7 @@ GROUP_TEMPLATE = """
 <div class="btn-group btn-group-xs" {0}>{1}</div>
 """
 TOOLBAR_TEMPLATE = """
-<div class="btn-toolbar pull-right flip editor-toolbar">{0}</div>
+<div class="btn-toolbar float-end editor-toolbar">{0}</div>
 """
 
 
@@ -766,7 +766,6 @@ class SearchForm(forms.Form):
         language: Language | None = None,
         show_builder=True,
         obj: type[Model | BaseURLMixin] | None = None,
-        bootstrap_5=False,
         **kwargs,
     ) -> None:
         """Generate choices for other components in the same project."""
@@ -780,8 +779,6 @@ class SearchForm(forms.Form):
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
-        if bootstrap_5:
-            self.helper.template_pack = "bootstrap5"
         self.helper.layout = Layout(
             Div(
                 Field("offset", **self.offset_kwargs),
@@ -796,7 +793,6 @@ class SearchForm(forms.Form):
                     "user": self.user,
                     "show_builder": show_builder,
                     "language": self.language,
-                    "bootstrap_5": bootstrap_5,
                 },
             ),
             Field("checksum"),
@@ -2875,7 +2871,6 @@ class BulkEditForm(forms.Form):
         self, user: User | None, obj: URLMixin | None, *args, **kwargs
     ) -> None:
         project = kwargs.pop("project", None)
-        bootstrap_5 = kwargs.pop("bootstrap_5", False)
         kwargs["auto_id"] = "id_bulk_%s"
         if obj is not None:
             kwargs["initial"] = {"path": obj.full_slug}
@@ -2917,8 +2912,6 @@ class BulkEditForm(forms.Form):
         if labels:
             self.helper.layout.append(InlineCheckboxes("add_labels"))
             self.helper.layout.append(InlineCheckboxes("remove_labels"))
-        if bootstrap_5:
-            self.helper.template_pack = "bootstrap5"
 
 
 class ContributorAgreementForm(forms.Form):

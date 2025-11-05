@@ -14,10 +14,10 @@
 
   {% perm 'component.edit' object as user_can_edit_component %}
 
-  <div class="panel panel-default"
+  <div class="card"
        data-progress-url="{% url 'api:task-detail' pk=object.background_task %}">
-    <div class="panel-heading">{% translate "Component is being updated…" %}</div>
-    <div class="panel-body">
+    <div class="card-header">{% translate "Component is being updated…" %}</div>
+    <div class="card-body">
 
       <div class="progress">
         <div class="progress-bar progress-bar-success"
@@ -32,7 +32,7 @@
 {{ log }}
 </pre>
     </div>
-    <div class="panel-footer">
+    <div class="card-footer">
       <form class="form-inline">
         <div class="form-group">
           <a href="{% url return_url path=return_target.get_url_path %}"

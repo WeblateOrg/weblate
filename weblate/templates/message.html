@@ -4,15 +4,14 @@
    " {% if can_delete and announcement %} data-action="{% url 'announcement-delete' pk=announcement.pk %}" {% endif %} {% if task_id %} data-task="{% url 'api:task-detail' pk=task_id %}" {% endif %}>
   {% if can_delete and announcement %}
     <button type="button"
-            class="btn btn-link btn-red {% if bootstrap_5 %}float-end{% else %}pull-right flip{% endif %}"
-            {% if bootstrap_5 %} data-bs-dismiss="alert" {% else %} data-dismiss="alert" {% endif %}
+            class="btn btn-link btn-red float-end"
+            data-bs-dismiss="alert" 
             title="{% translate "Delete announcement" %}">{% icon "delete.svg" %}</button>
   {% elif can_delete %}
     <button type="button"
-            class="{% if bootstrap_5 %}btn-close{% else %}close{% endif %}"
-            {% if bootstrap_5 %}data-bs-dismiss="alert"{% else %}data-dismiss="alert"{% endif %}
+            class=" btn-close"
+            data-bs-dismiss="alert"
             aria-label="Close">
-      {% if not bootstrap_5 %}<span aria-hidden="true">×</span>{% endif %}
     </button>
   {% endif %}
   {% block message %}{{ message }}{% endblock %}

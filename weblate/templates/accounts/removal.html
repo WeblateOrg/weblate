@@ -11,11 +11,11 @@
 {% block content %}
 
   <form method="post" action="{% url 'remove' %}">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">{% translate "Account removal" %}</h4>
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{% translate "Account removal" %}</h4>
       </div>
-      <div class="panel-body">
+      <div class="card-body">
         {{ confirm_form|crispy }}
         <ul>
           <li>{% translate "Account removal deletes all your private data." %}</li>
@@ -46,7 +46,7 @@
         </ul>
         {% csrf_token %}
       </div>
-      <div class="panel-footer">
+      <div class="card-footer">
         <button type="submit" class="btn btn-danger">{% translate "Delete this account" %}</button>
       </div>
     </div>

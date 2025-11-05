@@ -1,15 +1,15 @@
 {% load i18n icons permissions translations %}
 
 <table id="changes-table"
-       class="table table-autowidth {% if bootstrap_5 %}container-fluid{% endif %}">
+       class="table table-autowidth container-fluid">
   <tbody id="changes-list">
     {% for item in changes_with_context %}
       <tr id="changes-item"
-          class="history-row{% if bootstrap_5 %} row{% endif %}"
+          class="history-row row"
           {% if in_email %}style="clear:both"{% endif %}>
-        <td class="history-event{% if bootstrap_5 %} col-3{% endif %}">
+        <td class="history-event col-3">
           {% if not in_email %}
-            <div class="btn-float {% if bootstrap_5 %}float-end{% else %}pull-right flip{% endif %}">
+            <div class="btn-float float-end">
               {% if item.permissions.can_revert %}
                 <a class="btn btn-link"
                    href="{{ item.change.translation.get_translate_url }}?{% if search_url %}{{ search_url }}&amp;offset={{ offset }}&amp;{% endif %}checksum={{ item.change.unit.checksum }}&amp;revert={{ item.change.id }}"
@@ -30,32 +30,28 @@
                  title="{% translate "View details" %}">{% icon "magnify-plus-outline.svg" %}</a>
             </div>
           {% endif %}
-          <strong {% if bootstrap_5 %}class="ms-2"{% endif %}>{{ item.change.get_user_display }}</strong>
+          <strong class="ms-2">{{ item.change.get_user_display }}</strong>
           <p class="text-muted">{{ item.change.get_action_display }}</p>
           <ul class="breadcrumb">
             {% if item.change.path_object %}
-              {% if bootstrap_5 %}
-                {% path_object_breadcrumbs5 item.change.path_object flags=False %}
-              {% else %}
-                {% path_object_breadcrumbs item.change.path_object flags=False %}
-              {% endif %}
+              {% path_object_breadcrumbs item.change.path_object flags=False %}
             {% endif %}
             {% if item.ip_address %}<p>{{ item.ip_address }}</p>{% endif %}
           </ul>
         </td>
-        <td class="history-data{% if bootstrap_5 %} col-9{% else %} full-cell{% endif %}">
+        <td class="history-data col-9">
           <div class="comment-content">
             {% if item.history_data.description %}{{ item.history_data.description }}{% endif %}
             {% for history_field in item.history_data.change_details_fields %}
               <label class="{{ history_field.label_class }}">
                 {{ history_field.label }}
                 {% for tag in history_field.tags %}
-                  <span class="badge{% if bootstrap_5 %} text-bg-secondary{% endif %}">{{ tag }}</span>
+                  <span class="badge text-bg-secondary ">{{ tag }}</span>
                 {% endfor %}
               </label>
               {{ history_field.content }}
             {% endfor %}
-            <span class="{% if bootstrap_5 %}float-end{% else %}pull-right flip{% endif %} text-muted">{{ item.change.timestamp|naturaltime }}</span>
+            <span class="float-end text-muted">{{ item.change.timestamp|naturaltime }}</span>
             <div class="clearfix" {% if in_email %}style="clear:both"{% endif %}></div>
           </div>
           {% if in_email %}

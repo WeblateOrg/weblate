@@ -12,16 +12,16 @@
 
 {% block content %}
 
-  <div class="panel panel-default">
-    <div class="panel-heading">{% translate "Components are being updated…" %}</div>
-    <div class="panel-body">
+  <div class="card">
+    <div class="card-header">{% translate "Components are being updated…" %}</div>
+    <div class="card-body">
 
       {% for component in components %}
         {% include "snippets/component-progress.html" with task_id=component.background_task tags="success" %}
       {% endfor %}
 
     </div>
-    <div class="panel-footer">
+    <div class="card-footer">
       <form class="form-inline">
         <div class="form-group">
           <a href="{% url return_url path=return_target.get_url_path %}"

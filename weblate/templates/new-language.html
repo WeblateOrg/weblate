@@ -16,11 +16,11 @@
 
       <form action="{% url 'new-language' path=object.get_url_path %}" method="post">
         {% csrf_token %}
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">{% translate "Start new translation" %}</h4>
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">{% translate "Start new translation" %}</h4>
           </div>
-          <div class="panel-body">
+          <div class="card-body">
             {% if object.new_lang == 'url' and not can_add %}
               <p>
                 <a href="{{ object.project.get_absolute_url }}#information">{% translate "The translator instructions has info on how to start translating into other languages." %}</a>
@@ -66,7 +66,7 @@
                 </p>
               {% endif %}
             </div>
-            <div class="panel-footer">
+            <div class="card-footer">
               {% if object.new_lang == 'contact' %}
                 <input class="btn btn-primary"
                        type="submit"

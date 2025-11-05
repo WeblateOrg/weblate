@@ -36,11 +36,11 @@
       {% endif %}
 
       {% if field|is_checkboxselectmultiple %}
-        {% include 'bootstrap3/layout/checkboxselectmultiple.html' %}
+        {% include 'bootstrap5/layout/checkboxselectmultiple.html' %}
       {% endif %}
 
       {% if field|is_radioselect %}
-        {% include 'bootstrap3/layout/radioselect.html' %}
+        {% include 'bootstrap5/layout/radioselect.html' %}
       {% endif %}
 
       {% if not field|is_checkboxselectmultiple and not field|is_radioselect %}
@@ -56,7 +56,7 @@
           {% else %}
             {% crispy_field field %}
           {% endif %}
-          {% include 'bootstrap3/layout/help_text_and_errors.html' %}
+          {% include 'bootstrap5/layout/help_text_and_errors.html' %}
         {% else %}
           <div class="controls {{ field_class }}">
             {% if field|is_multivalue %}
@@ -64,7 +64,7 @@
             {% else %}
               {% crispy_field field 'class' 'form-control' %}
             {% endif %}
-            {% include 'bootstrap3/layout/help_text_and_errors.html' %}
+            {% include 'bootstrap5/layout/help_text_and_errors.html' %}
           </div>
         {% endif %}
       {% endif %}

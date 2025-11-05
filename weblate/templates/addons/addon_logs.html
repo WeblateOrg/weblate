@@ -24,9 +24,9 @@
 
 {% block content %}
 
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">{% translate "Add-on Activity Logs" %}</h4>
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">{% translate "Add-on Activity Logs" %}</h4>
     </div>
     <table class="table table-striped">
       <thead>
@@ -63,7 +63,7 @@
 
     <!-- Pagination -->
     {% if addon_activity_log.has_other_pages %}
-      <div class="panel-footer">
+      <div class="card-footer">
         <div class="text-center">
           <nav>
             <ul class="pagination">

@@ -1,4 +1,4 @@
-{% extends "base5.html" %}
+{% extends "base.html" %}
 
 {% load crispy_forms_tags i18n metrics translations %}
 
@@ -66,7 +66,7 @@
 {% endblock nav_pills %}
 
 {% block breadcrumbs %}
-  {% path_object_breadcrumbs5 path_object %}
+  {% path_object_breadcrumbs path_object %}
 {% endblock breadcrumbs %}
 
 {% block content %}
@@ -82,11 +82,11 @@
     </div>
 
     <div class="tab-pane" id="information">
-      {% show_info5 project=category.project stats=language_stats metrics=object|metrics %}
+      {% show_info project=category.project stats=language_stats metrics=object|metrics %}
     </div>
 
     <div class="tab-pane" id="history">
-      {% format_last_changes_content last_changes=last_changes user=user bootstrap_5=True %}
+      {% format_last_changes_content last_changes=last_changes user=user %}
       <a class="btn btn-primary" href="{% url 'changes' path=object.get_url_path %}">{% translate "Browse all changes for this language" %}</a>
     </div>
 
@@ -110,7 +110,7 @@
           <div class="card">
             <div class="card-header">
               <h4 class="card-title">
-                {% documentation_icon5 'user/translating' 'search-replace' right=True %}
+                {% documentation_icon 'user/translating' 'search-replace' right=True %}
                 {% translate "Search and replace" %}
               </h4>
             </div>
@@ -131,7 +131,7 @@
           <div class="card">
             <div class="card-header">
               <h4 class="card-title">
-                {% documentation_icon5 'user/translating' 'bulk-edit' right=True %}
+                {% documentation_icon 'user/translating' 'bulk-edit' right=True %}
                 {% translate "Bulk edit" %}
               </h4>
             </div>

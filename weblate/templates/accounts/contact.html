@@ -36,15 +36,15 @@
     </div>
 
     <form method="post" action="{% url 'contact' %}">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">{% translate "Contact server administrators" %}</h4>
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{% translate "Contact server administrators" %}</h4>
         </div>
-        <div class="panel-body">
+        <div class="card-body">
           {% csrf_token %}
           {{ form|crispy }}
         </div>
-        <div class="panel-footer">
+        <div class="card-footer">
           <input type="submit" value="{% translate "Send" %}" class="btn btn-primary" />
         </div>
       </div>

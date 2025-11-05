@@ -3,11 +3,11 @@
 {% if details %}
   {% block nav_pills %}
     <ul class="nav nav-pills">
-      <li role="presentation" class="active">
-        <a href="#response-{{ activity.id }}" data-toggle="tab">{% translate "HTTP Response" %} <span class="badge">{{ details.response.status_code }}</span></a>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link active" data-bs-target="#response-{{ activity.id }}" data-bs-toggle="tab" href="#">{% translate "HTTP Response" %} <span class="badge">{{ details.response.status_code }}</span></a>
       </li>
-      <li role="presentation">
-        <a href="#request-{{ activity.id }}" data-toggle="tab">{% translate "HTTP Request" %}</a>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link" data-bs-target="#request-{{ activity.id }}" data-bs-toggle="tab" href="#">{% translate "HTTP Request" %}</a>
       </li>
     </ul>
   {% endblock nav_pills %}

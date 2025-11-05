@@ -21,9 +21,9 @@
 {% endblock breadcrumbs %}
 
 {% block content %}
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">
         {% documentation_icon 'admin/machine' right=True %}
         {% translate "Configured automatic suggestion services" %}
       </h4>
@@ -57,7 +57,7 @@
         {% endfor %}
       </tbody>
     </table>
-    <div class="panel-footer">
+    <div class="card-footer">
       {% if not configured_services %}
         {% translate "There are no services currently installed." %}
       {% else %}
@@ -67,9 +67,9 @@
   </div>
 
 
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">
         {% documentation_icon 'admin/machine' right=True %}
         {% translate "Available automatic suggestion services" %}
       </h4>
@@ -89,7 +89,7 @@
         {% endfor %}
       </tbody>
     </table>
-    <div class="panel-footer">
+    <div class="card-footer">
       {% if not available_services %}
         {% translate "Could not find any additional services." %}
       {% else %}

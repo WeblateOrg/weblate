@@ -6,14 +6,14 @@
   {% perm 'user.edit' as can_edit_user %}
 
   <ul class="nav nav-pills">
-    <li class="active">
-      <a href="#users" data-toggle="tab" id="tab_users">{% translate "Users" %}</a>
+    <li class="nav-item">
+      <a class="nav-link active" data-bs-target="#users" data-bs-toggle="tab" id="tab_users" href="#">{% translate "Users" %}</a>
     </li>
-    <li>
-      <a href="#teams" data-toggle="tab" id="tab_teams">{% translate "Teams" %}</a>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-target="#teams" data-bs-toggle="tab" id="tab_teams" href="#">{% translate "Teams" %}</a>
     </li>
-    <li>
-      <a href="#api" data-toggle="tab" id="tab_api">{% translate "API access" %}</a>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-target="#api" data-bs-toggle="tab" id="tab_api" href="#">{% translate "API access" %}</a>
     </li>
   </ul>
 {% endblock nav_pills %}
@@ -33,9 +33,9 @@
 
   <div class="tab-content">
     <div class="tab-pane active" id="users">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
             {% documentation_icon 'admin/access' 'groups' right=True %}
             {% translate "Users" %}
           </h4>
@@ -137,7 +137,7 @@
             {% endfor %}
           </tbody>
         </table>
-        <div class="panel-body">
+        <div class="card-body">
           <p class="help-block">
             {% translate "Once all its permissions are removed, the user will be removed from the project." %}
           </p>
@@ -148,15 +148,15 @@
         <div class="col-sm-6">
           <form action="{% url "add-user" project=object.slug %}" method="post">
             {% csrf_token %}
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4 class="panel-title">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">
                   {% documentation_icon 'admin/access' 'invite-user' right=True %}
                   {% translate "Add a user" %}
                 </h4>
               </div>
-              <div class="panel-body">{{ invite_user_form|crispy }}</div>
-              <div class="panel-footer">
+              <div class="card-body">{{ invite_user_form|crispy }}</div>
+              <div class="card-footer">
                 <input type="submit" class="btn btn-primary" value="{% translate "Add" %}" />
               </div>
             </div>
@@ -165,15 +165,15 @@
                 method="post"
                 id="block-user">
             {% csrf_token %}
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4 class="panel-title">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">
                   {% documentation_icon 'admin/access' 'block-user' right=True %}
                   {% translate "Block user" %}
                 </h4>
               </div>
-              <div class="panel-body">{{ block_user_form|crispy }}</div>
-              <div class="panel-footer">
+              <div class="card-body">{{ block_user_form|crispy }}</div>
+              <div class="card-footer">
                 <input type="submit" class="btn btn-danger" value="{% translate "Block" %}" />
               </div>
             </div>
@@ -183,15 +183,15 @@
           <div class="col-sm-6">
             <form action="{% url "invite-user" project=object.slug %}" method="post">
               {% csrf_token %}
-              <div class="panel panel-default">
-                <div class="panel-heading">
-                  <h4 class="panel-title">
+              <div class="card">
+                <div class="card-header">
+                  <h4 class="card-title">
                     {% documentation_icon 'admin/access' 'invite-user' right=True %}
                     {% translate "Invite new user" %}
                   </h4>
                 </div>
-                <div class="panel-body">{{ invite_email_form|crispy }}</div>
-                <div class="panel-footer">
+                <div class="card-body">{{ invite_email_form|crispy }}</div>
+                <div class="card-footer">
                   <input type="submit" class="btn btn-primary" value="{% translate "Invite" %}" />
                 </div>
               </div>
@@ -202,9 +202,9 @@
     </div>
 
     <div class="tab-pane" id="teams">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
             {% documentation_icon 'admin/access' 'groups' right=True %}
             {% translate "Teams" %}
           </h4>
@@ -283,15 +283,15 @@
         </table>
       </div>
       <form action="{% url "create-project-group" project=object.slug %}" method="post">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">
               {% documentation_icon 'admin/access' 'groups' right=True %}
               {% translate "Create new team" %}
             </h4>
           </div>
-          <div class="panel-body">{% crispy create_team_form %}</div>
-          <div class="panel-footer">
+          <div class="card-body">{% crispy create_team_form %}</div>
+          <div class="card-footer">
             <input type="submit" class="btn btn-primary" value="{% translate "Add" %}" />
           </div>
         </div>
@@ -299,9 +299,9 @@
     </div>
 
     <div class="tab-pane" id="api">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
             {% documentation_icon 'api' right=True %}
             {% translate "API access" %}
           </h4>
@@ -327,24 +327,24 @@
         <div class="col-sm-6">
           <form action="{% url "create-project-token" project=object.slug %}" method="post">
             {% csrf_token %}
-            <div class="panel panel-default">
-              <div class="panel-heading">
-                <h4 class="panel-title">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">
                   {% documentation_icon 'api' right=True %}
                   {% translate "Create a project token" %}
                 </h4>
               </div>
-              <div class="panel-body">{{ create_project_token_form|crispy }}</div>
-              <div class="panel-footer">
+              <div class="card-body">{{ create_project_token_form|crispy }}</div>
+              <div class="card-footer">
                 <input type="submit" class="btn btn-primary" value="{% translate "Create" %}" />
               </div>
             </div>
           </form>
         </div>
         <div class="col-sm-6">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">
                 {% documentation_icon 'api' right=True %}
                 {% translate "Personal API key" %}
               </h4>
@@ -366,7 +366,7 @@
                 </td>
               </tr>
             </table>
-            <div class="panel-footer">
+            <div class="card-footer">
               <p class="help-block">{% translate "This is your personal API key, do not share it with anybody else." %}</p>
             </div>
           </div>

@@ -31,18 +31,11 @@ function decreaseLoading(sel) {
   }
 }
 
-function addAlert(message, kind = "danger", delay = 3000, bootstrap5 = false) {
+function addAlert(message, kind = "danger", delay = 3000) {
   const alerts = $("#popup-alerts");
-  let e;
-  if (bootstrap5) {
-    e = $(
+  const e = $(
       '<div class="alert alert-dismissible fade show" role="alert"><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>',
     );
-  } else {
-    e = $(
-      '<div class="alert alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>',
-    );
-  }
   e.addClass(`alert-${kind}`);
   e.append(new Text(message));
   e.hide();
@@ -564,35 +557,6 @@ $(function () {
   /* AJAX loading of tabs/pills */
   $document.on(
     "show.bs.tab",
-    '[data-toggle="tab"][data-href], [data-toggle="pill"][data-href]',
-    (e) => {
-      const $target = $(e.target);
-      let $content = $($target.attr("href"));
-      if ($target.data("loaded")) {
-        return;
-      }
-      if ($content.find(".panel-body").length > 0) {
-        $content = $content.find(".panel-body");
-      }
-      $content.load($target.data("href"), (_responseText, status, xhr) => {
-        if (status !== "success") {
-          const msg = gettext("Error while loading page:");
-          $content.html(
-            `<div class="alert alert-danger" role="alert">
-                ${msg} ${xhr.statusText} (${xhr.status})
-              </div>
-            `,
-          );
-        }
-        $target.data("loaded", 1);
-        loadTableSorting();
-      });
-    },
-  );
-
-  /* Same for Bootstrap 5 */
-  $document.on(
-    "show.bs.tab",
     '[data-bs-toggle="tab"][data-href], [data-bs-toggle="pill"][data-href]',
     (e) => {
       const $target = $(e.target);
@@ -687,12 +651,6 @@ $(function () {
   }
 
   /* Add a hash to the URL when the user clicks on a tab */
-  $('a[data-toggle="tab"]').on("shown.bs.tab", function (_e) {
-    history.pushState(null, null, $(this).attr("href"));
-    /* Remove focus on rows */
-    $(".selectable-row").removeClass("active");
-  });
-  /* Same for Bootstrap 5 tabs */
   $('a[data-bs-toggle="tab"]').on("shown.bs.tab", function (_e) {
     history.pushState(null, null, $(this).attr("data-bs-target"));
     /* Remove focus on rows */
@@ -894,24 +852,6 @@ $(function () {
 
   /* Copy to clipboard */
   $(document).on("click", "[data-clipboard-value]", function (e) {
-    e.preventDefault();
-    navigator.clipboard
-      .writeText(this.getAttribute("data-clipboard-value"))
-      .then(
-        () => {
-          const text =
-            this.getAttribute("data-clipboard-message") ||
-            gettext("Text copied to clipboard.");
-          addAlert(text, "info");
-        },
-        () => {
-          addAlert(gettext("Please press Ctrl+C to copy."), "danger");
-        },
-      );
-  });
-
-  /* Same for Bootstrap 5 */
-  $(document).on("click", "[data-bs-clipboard-value]", function (e) {
     e.preventDefault();
     navigator.clipboard
       .writeText(this.getAttribute("data-clipboard-value"))

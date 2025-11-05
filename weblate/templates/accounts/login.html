@@ -27,8 +27,8 @@
           {% format_site_title as formatted_site_title %}
           {% blocktranslate %}Sign in to {{ formatted_site_title }}{% endblocktranslate %}
         </h4>
-        <div class="panel panel-default">
-          <div class="panel-body">
+        <div class="card">
+          <div class="card-body">
             {% if show_login_form %}
               <form method="post" action="{% url 'login' %}">
                 {% csrf_token %}

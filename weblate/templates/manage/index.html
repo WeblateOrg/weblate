@@ -10,9 +10,9 @@
 
 {% block content %}
 
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">
         {% documentation_icon 'admin/support' right=True %}
         {% translate "Weblate support status" %}
       </h4>
@@ -34,7 +34,7 @@
         <th>{% translate "Support status" %}</th>
         <td colspan="3">
           <a href=""
-             class="pull-right flip btn btn-link link-post"
+             class="float-end btn btn-link link-post"
              data-href="{% url 'manage-activate' %}"
              data-params='{"refresh":1}'>{% translate "Refresh support status" %}</a>
           {{ support.get_verbose }}
@@ -70,7 +70,7 @@
         <tr>
           <th>{% translate "Discover Weblate" %}</th>
           <td colspan="3">
-            <a href="https://weblate.org/discover/" class="btn btn-link pull-right flip">{% translate "Browse discovery" %}</a>
+            <a href="https://weblate.org/discover/" class="btn btn-link float-end">{% translate "Browse discovery" %}</a>
             {% if support.discoverable %}
               {% translate "Your Weblate is listed on weblate.org" %}
               <br />
@@ -89,7 +89,7 @@
         </tr>
       {% endif %}
     </table>
-    <div class="panel-footer">
+    <div class="card-footer">
       {% if support.secret %}
         <a href="https://weblate.org/user/" class="btn btn-primary">{% translate "Manage support package" %}</a>
         <a href=""
@@ -106,15 +106,15 @@
 
   {% if support.name != 'community' %}
     <form method="post" action="{% url 'manage-support' %}">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">{% translate "Contact customer care" %}</h4>
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{% translate "Contact customer care" %}</h4>
         </div>
-        <div class="panel-body">
+        <div class="card-body">
           {% csrf_token %}
           {{ support_form|crispy }}
         </div>
-        <div class="panel-footer">
+        <div class="card-footer">
           <input type="submit" value="{% translate "Get help" %}" class="btn btn-primary" />
           <a href="mailto:support@weblate.org?subject=Weblate support for {{ site_domain }}"
              class="btn btn-link">{% translate "Contact us via e-mail" %}</a>

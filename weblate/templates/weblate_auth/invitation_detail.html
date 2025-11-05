@@ -15,18 +15,18 @@
 
   {% if not user.is_authenticated or object.user != user %}
     <div class="container">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">{% translate "Invitation to Weblate" %}</h4>
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{% translate "Invitation to Weblate" %}</h4>
         </div>
-        <div class="panel-body">
+        <div class="card-body">
           {% if not user.is_authenticated %}
             {% translate "Please sign-in to view this invitation." %}
           {% else %}
             {% translate "This invitation belongs to a different user." %}
           {% endif %}
         </div>
-        <div class="panel-footer">
+        <div class="card-footer">
           {% if not user.is_authenticated %}
             <a class="btn btn-primary"
                id="login-button"
@@ -41,14 +41,14 @@
     <form method="post">
       {% csrf_token %}
       <div class="container">
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">
               {% blocktranslate with project_name=object.group.defining_project %}Invitation to {{ project_name }}{% endblocktranslate %}
             </h4>
           </div>
-          <div class="panel-body">{% include "snippets/invite-info.html" with invitation=object %}</div>
-          <div class="panel-footer">
+          <div class="card-body">{% include "snippets/invite-info.html" with invitation=object %}</div>
+          <div class="card-footer">
             <input type="submit"
                    class="btn btn-primary"
                    value="{% translate "Accept invitation" %}" />
