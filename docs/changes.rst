@@ -7,6 +7,8 @@ Weblate 5.15
 
 .. rubric:: Improvements
 
+* :http:get:`/api/groups/` now includes ``admins``.
+
 .. rubric:: Bug fixes
 
 .. rubric:: Compatibility
