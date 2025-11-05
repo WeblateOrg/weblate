@@ -15,10 +15,12 @@ Weblate 5.14.1
 
 .. rubric:: Bug fixes
 
+* Avoid storing inviting user information in the invited user audit log (:cve:`2025-64326` / :ghsa:`gr35-vpx2-qxhc`).
 * Omit admin IP address from audit log.
 * Counting outgoing commits in the repository status.
 * Listing of other translations.
 * SAML configuration in the Docker container.
+* :ref:`project-commit_policy` could miss some changes in certain situations.
 
 .. rubric:: Compatibility
 
