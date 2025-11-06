@@ -15,6 +15,7 @@ from weblate.utils.environment import (
     get_env_map,
     get_env_ratelimit,
     get_env_redis_url,
+    get_saml_idp,
     modify_env_list,
 )
 
@@ -164,5 +165,54 @@ class EnvTest(SimpleTestCase):
             os.environ["REDIS_HOST"] = ""
             with self.assertRaises(ImproperlyConfigured):
                 get_env_redis_url()
+        finally:
+            cleanup()
+
+    def test_saml(self):
+        def cleanup():
+            toremove = [name for name in os.environ if name.startswith("WEBLATE_SAML_")]
+            for name in toremove:
+                del os.environ[name]
+
+        cleanup()
+        try:
+            self.assertIsNone(get_saml_idp())
+            os.environ["WEBLATE_SAML_IDP_ENTITY_ID"] = "https://example.com/entity"
+            self.assertEqual(
+                get_saml_idp(),
+                {
+                    "entity_id": "https://example.com/entity",
+                    "url": None,
+                    "x509cert": None,
+                },
+            )
+            os.environ["WEBLATE_SAML_IDP_URL"] = "https://example.com/idp"
+            self.assertEqual(
+                get_saml_idp(),
+                {
+                    "entity_id": "https://example.com/entity",
+                    "url": "https://example.com/idp",
+                    "x509cert": None,
+                },
+            )
+            os.environ["WEBLATE_SAML_IDP_X509CERT"] = "--CERT--"
+            self.assertEqual(
+                get_saml_idp(),
+                {
+                    "entity_id": "https://example.com/entity",
+                    "url": "https://example.com/idp",
+                    "x509cert": "--CERT--",
+                },
+            )
+            os.environ["WEBLATE_SAML_ID_ATTR_FULL_NAME"] = "fullname"
+            self.assertEqual(
+                get_saml_idp(),
+                {
+                    "entity_id": "https://example.com/entity",
+                    "url": "https://example.com/idp",
+                    "x509cert": "--CERT--",
+                    "attr_full_name": "fullname",
+                },
+            )
         finally:
             cleanup()

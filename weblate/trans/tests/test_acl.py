@@ -113,6 +113,8 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         # Ensure user is now listed
         response = self.client.get(self.access_url)
         self.assertContains(response, self.second_user.username)
+        invitation_audit = self.second_user.auditlog_set.get(activity="invited")
+        self.assertIsNone(invitation_audit.address)
 
     def test_invite_invalid(self) -> None:
         """Test inviting invalid form."""

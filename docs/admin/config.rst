@@ -2021,7 +2021,7 @@ Their offer: diffie-hellman-group1-sha1`, you can turn that on using:
 
 .. seealso::
 
-   `OpenSSH Legacy Options <https://www.openssh.com/legacy.html>`_
+   `OpenSSH Legacy Options <https://www.openssh.org/legacy.html>`_
 
 .. setting:: STATUS_URL
 
