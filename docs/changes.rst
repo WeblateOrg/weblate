@@ -1,9 +1,7 @@
 Weblate 5.14.2
 --------------
 
-*Not yet released.*
-
-.. rubric:: New features
+*Released on November 6th 2025.*
 
 .. rubric:: Improvements
 
@@ -12,8 +10,6 @@ Weblate 5.14.2
 .. rubric:: Bug fixes
 
 * Adding terms to glossary was not working in some situations.
-
-.. rubric:: Compatibility
 
 .. rubric:: Upgrading
 
