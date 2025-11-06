@@ -371,6 +371,17 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
         # Should be added to the source and translation only
         self.assertEqual(Unit.objects.count(), start + 2)
 
+    def test_add_existing(self) -> None:
+        """Test for adding term from translate page while there is existing one."""
+        glossary = self.glossary_component.translation_set.get(
+            language=self.translation.language
+        )
+        glossary.add_unit(None, "", "Thank", "Díky", author=self.user)
+        start = Unit.objects.count()
+        self.do_add_unit()
+        # Should be added to the source and translation only
+        self.assertEqual(Unit.objects.count(), start + 2)
+
     def test_add_terminology(self) -> None:
         start = Unit.objects.count()
         self.do_add_unit(expected_status=403, terminology=1)
