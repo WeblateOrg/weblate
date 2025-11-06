@@ -7,6 +7,8 @@ Weblate 5.14.2
 
 .. rubric:: Improvements
 
+* Performance when adding strings.
+
 .. rubric:: Bug fixes
 
 .. rubric:: Compatibility
