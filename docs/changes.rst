@@ -23,6 +23,29 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/152?closed=1>`__.
 
+Weblate 5.14.2
+--------------
+
+*Released on November 6th 2025.*
+
+.. rubric:: Improvements
+
+* Performance when adding strings.
+
+.. rubric:: Bug fixes
+
+* Adding terms to glossary was not working in some situations.
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.14.2.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/155?closed=1>`__.
+
 Weblate 5.14.1
 --------------
 

@@ -1736,7 +1736,7 @@ class Translation(
         author: User,
     ) -> Unit | None: ...
     @transaction.atomic
-    def add_unit(  # noqa: C901, PLR0914, PLR0915
+    def add_unit(  # noqa: C901, PLR0914, PLR0915, PLR0912
         self,
         request,
         context,
@@ -1766,6 +1766,7 @@ class Translation(
             msg = "Plurals not supported by format!"
             raise ValueError(msg)
 
+        component_wide = True
         if self.is_source:
             translations = (
                 self,
@@ -1782,6 +1783,7 @@ class Translation(
                 ).select_related("language"),
             )
         else:
+            component_wide = False
             translations = (component.source_translation, self)
         has_template = component.has_template()
         source_unit = None
@@ -1913,7 +1915,11 @@ class Translation(
                 component.update_variants(
                     updated_units=Unit.objects.filter(pk__in=unit_ids)
                 )
-            component.invalidate_cache()
+            if component_wide:
+                component.invalidate_cache()
+            else:
+                for translation in translations:
+                    translation.invalidate_cache()
             component_post_update.send(sender=self.__class__, component=component)
         return result
 
