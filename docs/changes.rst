@@ -23,6 +23,26 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/152?closed=1>`__.
 
+Weblate 5.14.3
+--------------
+
+*Released on November 7th 2025.*
+
+.. rubric:: Bug fixes
+
+* Observed HTTPS status in :ref:`manage-performance`.
+* Forced synchronization in the :guilabel:`Repository maintenance`.
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.14.3.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/157?closed=1>`__.
+
 Weblate 5.14.2
 --------------
 
