@@ -3,8 +3,6 @@ Weblate 5.14.3
 
 *Released on November 7th 2025.*
 
-.. rubric:: Improvements
-
 .. rubric:: Bug fixes
 
 * Observed HTTPS status in :ref:`manage-performance`.
