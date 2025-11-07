@@ -9,6 +9,9 @@ Weblate 5.14.3
 
 .. rubric:: Bug fixes
 
+* Observed HTTPS status in :ref:`manage-performance`.
+* Forced synchronization in the :guilabel:`Repository maintenance`.
+
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading
