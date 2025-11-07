@@ -1,9 +1,7 @@
 Weblate 5.14.3
 --------------
 
-*Not yet released.*
-
-.. rubric:: New features
+*Released on November 7th 2025.*
 
 .. rubric:: Improvements
 
@@ -11,8 +9,6 @@ Weblate 5.14.3
 
 * Observed HTTPS status in :ref:`manage-performance`.
 * Forced synchronization in the :guilabel:`Repository maintenance`.
-
-.. rubric:: Compatibility
 
 .. rubric:: Upgrading
 
