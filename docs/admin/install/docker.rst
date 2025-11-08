@@ -2061,9 +2061,21 @@ Container settings
 Docker container volumes
 ------------------------
 
-There are two volumes (:file:`data` and :file:`cache`) exported by the Weblate container. The
-other service containers (PostgreSQL or Valkey) have their data volumes as well,
-but those are not covered by this document.
+There are two volumes (:file:`data` and :file:`cache`) exported by the Weblate
+container.
+
+.. note::
+
+   The other service containers (such as PostgreSQL or Valkey) have their data
+   volumes as well and are required to maintain Weblate persistence.
+
+   The PostgreSQL container stores the database in the
+   :file:`/var/lib/postgresql` volume and Valkey in the :file:`/data` volume.
+   Valkey container does not save the data by default and needs additional
+   configuration to enable persistence.
+
+   Base your configuration on Weblate-provided examples or consult their
+   documentation for more information.
 
 The :file:`data` volume is mounted as :file:`/app/data` and is used to store
 Weblate persistent data such as cloned repositories or to customize Weblate
@@ -2088,6 +2100,7 @@ as that is user used inside the container.
 Weblate container can also be executed with a read-only root file system. In
 this case, two additional ``tmpfs`` volumes should be mounted: :file:`/tmp` and
 :file:`/run`.
+
 
 .. seealso::
 
