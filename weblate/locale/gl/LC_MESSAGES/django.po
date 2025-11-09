@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-27 07:35+0000\n"
-"PO-Revision-Date: 2025-11-06 09:51+0000\n"
+"PO-Revision-Date: 2025-11-10 05:51+0000\n"
 "Last-Translator: \"Miguel A. Bouzada\" <mbouzada@gmail.com>\n"
 "Language-Team: Galician <https://hosted.weblate.org/projects/weblate/"
 "application/gl/>\n"
@@ -790,7 +790,7 @@ msgstr "Colaborar na memoria de tradución persoal"
 msgid ""
 "Allow your translations to be added to your personal translation memory."
 msgstr ""
-"Permite ás súas traducións que sexan engadidas á súa memoria de tradución "
+"Permitir que ás súas traducións sexan engadidas á súa memoria de tradución "
 "persoal."
 
 #: weblate/accounts/models.py:731 weblate/templates/dashboard/user.html:22
@@ -4705,7 +4705,7 @@ msgstr "O ficheiro enviado fusionarase coa tradución actual."
 
 #: weblate/fonts/views.py:161
 msgid "Font updated successfully."
-msgstr "Tipo de letra actualizada correctamente."
+msgstr "Tipo de letra actualizado correctamente."
 
 #: weblate/fonts/views.py:201 weblate/fonts/views.py:217
 msgid "Font group with the same name already exists."
@@ -6713,7 +6713,7 @@ msgstr ""
 #: weblate/templates/accounts/login.html:28
 #, python-format
 msgid "Sign in to %(formatted_site_title)s"
-msgstr "Acceda a  %(formatted_site_title)s"
+msgstr "Acceda a %(formatted_site_title)s"
 
 #: weblate/templates/accounts/login.html:47
 msgid "Sign in with:"
@@ -7203,10 +7203,9 @@ msgid "Please complete the registration to accept the invitation."
 msgstr "Complete o rexistro para aceptar o convite."
 
 #: weblate/templates/accounts/register.html:36
-#, fuzzy, python-format
-#| msgid "Your registration on %(site_title)s"
+#, python-format
 msgid "Register in %(formatted_site_title)s"
-msgstr "O seu rexistro en %(site_title)s"
+msgstr "Rexístrese en %(formatted_site_title)s"
 
 #: weblate/templates/accounts/register.html:55
 msgid "Create an account using:"
@@ -9568,9 +9567,9 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/js/git-status.html:158
-#, fuzzy
 msgid "Use when you want Weblate to be the authority for translations."
-msgstr "Cando o subproxecto está bloqueado para actualizacións de tradución"
+msgstr ""
+"Emprégueo cando queira que Weblate sexa a autoridade para as traducións."
 
 #: weblate/templates/js/git-status.html:159
 #, fuzzy
@@ -10452,7 +10451,7 @@ msgstr ""
 
 #: weblate/templates/mail/shared-activity.html:26
 msgid "View audit log"
-msgstr "Ver rexistro de auditoría"
+msgstr "Ver o rexistro de auditoría"
 
 #: weblate/templates/mail/shared-activity.html:27
 msgid "Report"
@@ -11271,10 +11270,9 @@ msgid "Add label"
 msgstr "Engadir etiqueta"
 
 #: weblate/templates/project.html:167
-#, fuzzy, python-format
-#| msgid "Manage teams"
+#, python-format
 msgid "Manage %(team)s"
-msgstr "Xestionar os equipos"
+msgstr "Xestionar %(team)s"
 
 #: weblate/templates/project.html:379
 msgid "Organize project"
@@ -14638,14 +14636,12 @@ msgid "New revision: {}"
 msgstr "Nova revisión: {}"
 
 #: weblate/trans/change_display.py:412
-#, fuzzy, python-format
-#| msgid "%(count)s character edited"
-#| msgid_plural "%(count)s characters edited"
+#, python-format
 msgctxt "Number of edits on a change in Damerau–Levenshtein distance"
 msgid "%(count)d character edited"
 msgid_plural "%(count)d characters edited"
-msgstr[0] "%(count)s carácter editado"
-msgstr[1] "%(count)s caracteres editados"
+msgstr[0] "%(count)d carácter editado"
+msgstr[1] "%(count)d caracteres editados"
 
 #: weblate/trans/change_display.py:478
 msgid "Current translation"
@@ -16654,9 +16650,8 @@ msgid "Commit all translations regardless of quality"
 msgstr ""
 
 #: weblate/trans/models/project.py:52
-#, fuzzy
 msgid "Skip translations marked as needing editing"
-msgstr "Cadea de orixe:"
+msgstr "Omitir as traducións marcadas como que necesitan edición"
 
 #: weblate/trans/models/project.py:54
 #, fuzzy
@@ -17341,10 +17336,9 @@ msgid "File format parameters must be a dictionary of key-value pairs."
 msgstr ""
 
 #: weblate/trans/validators.py:84
-#, fuzzy, python-format
-#| msgid "File format"
+#, python-format
 msgid "Unknown file format parameter: \"%(param_name)s\"."
-msgstr "Formato de ficheiro"
+msgstr "O parámetro do formato do ficheiro é descoñecido: «%(param_name)s»."
 
 #: weblate/trans/views/about.py:22
 msgid "Keys"
@@ -17388,32 +17382,33 @@ msgid "Language addition is not supported by any of the components."
 msgstr ""
 
 #: weblate/trans/views/basic.py:835
-#, fuzzy, python-format
-#| msgid "New language added to %(component)s"
+#, python-format
 msgid "Language %(language)s added to %(count)d component."
 msgid_plural "Language %(language)s added to %(count)d components."
-msgstr[0] "Engadiuse un novo idioma a %(component)s"
-msgstr[1] "Engadiuse un novo idioma a %(component)s"
+msgstr[0] "O idioma %(language)s foi engadido en %(count)d compoñente."
+msgstr[1] "O idioma %(language)s foi engadido en %(count)d compoñentes."
 
 #: weblate/trans/views/basic.py:849
-#, fuzzy, python-format
-#| msgid "New language request in %(component)s"
+#, python-format
 msgid "Language %(language)s requested for %(count)d component."
 msgid_plural "Language %(language)s requested for %(count)d components."
-msgstr[0] "Solicitude de novo idioma en %(component)s"
-msgstr[1] "Solicitude de novo idioma en %(component)s"
+msgstr[0] "Foi solicitado o idioma %(language)s para %(count)d compoñente."
+msgstr[1] "Foi solicitado o idioma %(language)s para %(count)d compoñentes."
 
 #: weblate/trans/views/basic.py:863
-#, fuzzy, python-format
-#| msgid "New language added to %(component)s"
+#, python-format
 msgid ""
 "Language %(language)s could not be added to %(count)d component. Please "
 "check the component's configuration."
 msgid_plural ""
 "Language %(language)s could not be added to %(count)d components. Please "
 "check the components' configuration."
-msgstr[0] "Engadiuse un novo idioma a %(component)s"
-msgstr[1] "Engadiuse un novo idioma a %(component)s"
+msgstr[0] ""
+"Non foi posíbel engadir o idioma %(language)s a %(count)d compoñente. "
+"Comprobe a configuración do compoñente."
+msgstr[1] ""
+"Non foi posíbel engadir o idioma %(language)s a %(count)d compoñentes. "
+"Comprobe a configuración dos compoñentes."
 
 #: weblate/trans/views/basic.py:939
 msgid ""
