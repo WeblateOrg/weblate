@@ -260,7 +260,8 @@ class MultiRepoTest(ViewTestCase):
         # Add changes to other language as well
         other_translation1 = component1.translation_set.get(language_code="de")
         self.change_unit("Hallo welt!\n", translation=other_translation1)
-        self.assertEqual(component1.count_pending_units, 2)
+        self.assertEqual(component1.count_pending_units, 0)
+        self.assertEqual(component1.count_total_pending_units, 2)
 
         # Test editing source language does not discard changes
         self.change_unit(
@@ -269,13 +270,15 @@ class MultiRepoTest(ViewTestCase):
             translation=component2.source_translation,
             state=STATE_APPROVED,
         )
+        self.assertEqual(component2.count_pending_units, 1)
         self.assertEqual(
-            component2.count_pending_units,
+            component2.count_total_pending_units,
             3,  # This includes all the translations of changed source unit
         )
         # The unit should be pending translation units with change to fuzzy
         component2.do_push(self.request)
-        self.assertEqual(component2.count_pending_units, 2)
+        self.assertEqual(component2.count_pending_units, 0)
+        self.assertEqual(component2.count_total_pending_units, 2)
 
         # The units should be still pending after update
         component1.do_update(self.request)
@@ -291,7 +294,8 @@ class MultiRepoTest(ViewTestCase):
         )
         self.assertEqual(unit.target, "Hallo welt!\n")
         # The source string change marked two additional units as pending
-        self.assertEqual(component1.count_pending_units, 4)
+        self.assertEqual(component1.count_pending_units, 0)
+        self.assertEqual(component1.count_total_pending_units, 4)
 
     def commit_policy_testing(
         self, component1: Component, component2: Component
@@ -308,14 +312,21 @@ class MultiRepoTest(ViewTestCase):
         self.change_unit("Ahoj světe!\n", translation=translation2)
         # The units should be still pending after push
         component1.do_push(self.request)
-        self.assertEqual(component1.count_pending_units, 1)
+        self.assertEqual(component1.count_pending_units, 0)
+        self.assertEqual(component1.count_total_pending_units, 1)
         component2.do_push(self.request)
-        self.assertEqual(component2.count_pending_units, 1)
+        self.assertEqual(component2.count_pending_units, 0)
+        self.assertEqual(component2.count_total_pending_units, 1)
+
         # The units should be still pending after update
         component1.do_update(self.request)
-        self.assertEqual(component1.count_pending_units, 1)
+        self.assertEqual(component1.count_pending_units, 0)
+        self.assertEqual(component1.count_total_pending_units, 1)
+
         component2.do_update(self.request)
-        self.assertEqual(component2.count_pending_units, 1)
+        self.assertEqual(component2.count_pending_units, 0)
+        self.assertEqual(component2.count_total_pending_units, 1)
+
         self.assertFalse(component1.repo_needs_merge())
         self.assertFalse(component2.repo_needs_merge())
 
@@ -323,14 +334,22 @@ class MultiRepoTest(ViewTestCase):
         self.change_unit(
             "Nazdar světe!\n", translation=translation2, state=STATE_APPROVED
         )
-        self.assertEqual(component1.count_pending_units, 1)
+        self.assertEqual(component1.count_pending_units, 0)
+        self.assertEqual(component1.count_total_pending_units, 1)
+
         self.assertEqual(component2.count_pending_units, 1)
+        self.assertEqual(component2.count_total_pending_units, 1)
+
         # There should be no pending units now
         component2.do_push(self.request)
         self.assertEqual(component2.count_pending_units, 0)
+        self.assertEqual(component2.count_total_pending_units, 0)
+
         # There should be no pending change
         component1.do_update(self.request)
         self.assertEqual(component1.count_pending_units, 0)
+        self.assertEqual(component1.count_total_pending_units, 0)
+
         unit = self.get_unit(translation=translation1)
         self.assertEqual(unit.target, "Nazdar světe!\n")
         self.assertFalse(component1.repo_needs_merge())
@@ -344,16 +363,23 @@ class MultiRepoTest(ViewTestCase):
             translation=translation2,
             state=STATE_APPROVED,
         )
-        self.assertEqual(component1.count_pending_units, 1)
+        self.assertEqual(component1.count_pending_units, 0)
+        self.assertEqual(component1.count_total_pending_units, 1)
         self.assertEqual(component2.count_pending_units, 1)
+        self.assertEqual(component2.count_total_pending_units, 1)
+
         # There should be no pending units now
         component2.do_push(self.request)
         self.assertEqual(component2.count_pending_units, 0)
+        self.assertEqual(component2.count_total_pending_units, 0)
+
         # The units should be still pending after update
         component1.do_update(self.request)
         self.assertFalse(component1.repo_needs_merge())
         self.assertFalse(component2.repo_needs_merge())
-        self.assertEqual(component1.count_pending_units, 1)
+        self.assertEqual(component1.count_pending_units, 0)
+        self.assertEqual(component1.count_total_pending_units, 1)
+
         # The changed unit should be updated
         unit = self.get_unit(
             source="Thank you for using Weblate.", translation=translation1
@@ -371,16 +397,23 @@ class MultiRepoTest(ViewTestCase):
             translation=other_translation2,
             state=STATE_APPROVED,
         )
-        self.assertEqual(component1.count_pending_units, 1)
+        self.assertEqual(component1.count_pending_units, 0)
+        self.assertEqual(component1.count_total_pending_units, 1)
         self.assertEqual(component2.count_pending_units, 1)
+        self.assertEqual(component2.count_total_pending_units, 1)
+
         # There should be no pending units now
         component2.do_push(self.request)
         self.assertEqual(component2.count_pending_units, 0)
+        self.assertEqual(component2.count_total_pending_units, 0)
+
         # The units should be still pending after update
         component1.do_update(self.request)
         self.assertFalse(component1.repo_needs_merge())
         self.assertFalse(component2.repo_needs_merge())
-        self.assertEqual(component1.count_pending_units, 1)
+        self.assertEqual(component1.count_pending_units, 0)
+        self.assertEqual(component1.count_total_pending_units, 1)
+
         # The pending unit state should be kept
         unit = self.get_unit(translation=translation1)
         self.assertEqual(unit.target, "Ahoj světe!\n")

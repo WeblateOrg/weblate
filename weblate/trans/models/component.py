@@ -2234,10 +2234,16 @@ class Component(
                 scope="weblate", name="commit", verbose="Background commit"
             )
 
+        pending_changes_qs = PendingUnitChange.objects.for_component(
+            self, apply_filters=True, include_linked=True
+        ).values_list("pk", "unit__translation_id")
+        changes_by_translation = defaultdict(list)
+        for pending_change_pk, translation_id in pending_changes_qs:
+            changes_by_translation[translation_id].append(pending_change_pk)
+
         # Get all translation with pending changes, source translation first
         translations = sorted(
-            Translation.objects.filter(unit__pending_changes__isnull=False)
-            .filter(Q(component=self) | Q(component__linked_component=self))
+            Translation.objects.filter(pk__in=list(changes_by_translation.keys()))
             .distinct()
             .prefetch_related("component"),
             key=lambda translation: not translation.is_source,
@@ -2279,7 +2285,10 @@ class Component(
 
                     components[component.pk] = component
                 with self.start_sentry_span("commit_pending"):
-                    translation_changed = translation._commit_pending(reason, user)  # noqa: SLF001
+                    pending_changes_pk = changes_by_translation[translation.pk]
+                    translation_changed = translation._commit_pending(  # noqa: SLF001
+                        reason, user, pending_changes_pk
+                    )
                 was_changed |= translation_changed
                 if translation_changed and component.has_template():
                     translation_pks[component.pk].append(translation.pk)
@@ -3643,13 +3652,17 @@ class Component(
     @property
     def count_pending_units(self):
         """Return count of pending units."""
-        from weblate.trans.models import Unit
+        return self._count_pending_units_helper(apply_filters=True)
 
+    @property
+    def count_total_pending_units(self):
+        """Return count of total pending units including changes ineligible to retry."""
+        return self._count_pending_units_helper(apply_filters=False)
+
+    def _count_pending_units_helper(self, apply_filters: bool):
         return (
-            Unit.objects.filter(
-                translation__component=self, pending_changes__isnull=False
-            )
-            .distinct()
+            PendingUnitChange.objects.for_component(self, apply_filters=apply_filters)
+            .distinct("unit_id")
             .count()
         )
 

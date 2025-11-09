@@ -692,7 +692,9 @@ class Translation(
         return self.component.commit_pending(reason, user, skip_push=skip_push)
 
     @transaction.atomic
-    def _commit_pending(self, reason: str, user: User | None) -> bool:
+    def _commit_pending(
+        self, reason: str, user: User | None, pending_changes_pk: list[int]
+    ) -> bool:
         """
         Commit pending translation.
 
@@ -702,6 +704,7 @@ class Translation(
         - the source translation needs to be committed first
         - signals and alerts are updated by the caller
         - repository push is handled by the caller
+        - pending_changes_pk only has pending changes for units associated with this translation
         """
         try:
             store = self.store
@@ -722,7 +725,7 @@ class Translation(
             return False
 
         pending_changes = list(
-            PendingUnitChange.objects.for_translation(self)
+            PendingUnitChange.objects.filter(pk__in=pending_changes_pk)
             .prefetch_related("unit", "author")
             .order_by("timestamp")
             .select_for_update()
@@ -889,7 +892,11 @@ class Translation(
     @property
     def count_pending_units(self):
         """Return count of units with pending changes."""
-        return PendingUnitChange.objects.for_translation(self).count()
+        return (
+            PendingUnitChange.objects.for_translation(self, apply_filters=True)
+            .distinct("unit_id")
+            .count()
+        )
 
     def needs_commit(self):
         """Check whether there are some not committed changes."""

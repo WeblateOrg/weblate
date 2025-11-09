@@ -525,7 +525,7 @@ class TranslationTest(RepoTestCase):
         translation.store.save()
         translation.store_hash()
 
-        self.assertEqual(translation.count_pending_units, 2)
+        self.assertEqual(translation.count_pending_units, 1)
         component.commit_pending("test", None)
         self.assertEqual(PendingUnitChange.objects.count(), 0)
 
@@ -589,7 +589,7 @@ class TranslationTest(RepoTestCase):
 
         unit.translate(user, "Ahoj, ${ jméno }!", STATE_TRANSLATED)
         unit.translate(user, "Ahoj, ${ name }!", STATE_TRANSLATED)
-        self.assertEqual(translation.count_pending_units, 2)
+        self.assertEqual(translation.count_pending_units, 1)
 
         component.commit_pending("test", None)
 

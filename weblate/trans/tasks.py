@@ -44,6 +44,7 @@ from weblate.trans.models import (
     Comment,
     Component,
     ComponentList,
+    PendingUnitChange,
     Project,
     Suggestion,
     Translation,
@@ -54,7 +55,6 @@ from weblate.utils.db import using_postgresql
 from weblate.utils.errors import report_error
 from weblate.utils.files import remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
-from weblate.utils.stats import prefetch_stats
 from weblate.utils.views import parse_path
 from weblate.vcs.base import RepositoryError
 
@@ -192,7 +192,22 @@ def commit_pending(
         translation__unit__pending_changes__timestamp__lt=age_cutoff,
     ).distinct()
 
-    for component in prefetch_stats(components.prefetch()):
+    components_with_pending_changes = [
+        component
+        for component in components
+        if PendingUnitChange.objects.for_component(
+            component, apply_filters=True
+        ).exists()
+    ]
+
+    if not components_with_pending_changes:
+        return
+
+    components_with_pending_changes[0].stats.prefetch_many(
+        [i.stats for i in components_with_pending_changes]
+    )
+
+    for component in components_with_pending_changes:
         if logger:
             logger(f"Committing {component}")
 

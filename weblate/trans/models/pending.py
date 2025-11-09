@@ -5,11 +5,20 @@
 from __future__ import annotations
 
 from datetime import timedelta
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Any
 
 from django.conf import settings
 from django.db import models
-from django.db.models import BooleanField, Case, OuterRef, Q, Subquery, TextField, When
+from django.db.models import (
+    BooleanField,
+    Case,
+    F,
+    OuterRef,
+    Q,
+    Subquery,
+    TextField,
+    When,
+)
 from django.db.models.fields.json import KT
 from django.db.models.functions import Cast
 from django.utils import timezone
@@ -26,38 +35,90 @@ if TYPE_CHECKING:
 
 
 class PendingChangeQuerySet(models.QuerySet):
-    def for_component(self, component: Component):
+    def for_component(
+        self, component: Component, *, apply_filters: bool, include_linked: bool = False
+    ):
         """Return pending changes for a specific component."""
-        return self.filter(unit__translation__component=component)
+        component_filter = Q(unit__translation__component=component)
+        if include_linked:
+            component_filter |= Q(
+                unit__translation__component__linked_component=component
+            )
 
-    def for_translation(self, translation: Translation):
+        base_qs = self.filter(component_filter)
+        if not apply_filters:
+            return base_qs
+
+        commit_policy = component.project.commit_policy
+        return self._apply_retry_and_policy_filters(
+            base_qs, revision=None, commit_policy=commit_policy
+        )
+
+    def for_translation(self, translation: Translation, apply_filters: bool = True):
+        """Return pending changes for a specific translation."""
+        base_qs = self.filter(unit__translation=translation)
+        if not apply_filters:
+            return base_qs
+
+        commit_policy = translation.component.project.commit_policy
+        return self._apply_retry_and_policy_filters(
+            base_qs, revision=translation.revision, commit_policy=commit_policy
+        )
+
+    def _apply_retry_and_policy_filters(
+        self, base_queryset: models.QuerySet, revision: str | None, commit_policy: int
+    ) -> models.QuerySet:
+        """
+        Apply retry eligibility and commit policy filters.
+
+        Args:
+            base_queryset: Pre-filtered queryset (by component or translation)
+            revision: Specific revision string, or None to use join-based comparison
+            commit_policy: The commit policy to apply
+
+        Returns:
+            Filtered queryset with all filters applied
+
+        """
         from weblate.trans.models.project import CommitPolicyChoices
 
         one_week_ago = timezone.now() - timedelta(days=7)
 
+        annotations_: dict[str, Any] = {
+            # use KT and explicitly cast key value to string to avoid
+            # django from treating string comparison values for RHS as JSON
+            # on mariadb and mysql.
+            "failed_revision": Cast(KT("metadata__failed_revision"), TextField()),
+            "weblate_version": Cast(KT("metadata__weblate_version"), TextField()),
+            "last_failed": Cast(KT("metadata__last_failed"), TextField()),
+        }
+
+        # Component-level queries require joining unit.translation for revision;
+        # translation-level queries use the provided revision directly
+        if revision is None:
+            annotations_["translation_revision"] = Cast(
+                "unit__translation__revision", TextField()
+            )
+            revision_comparison = ~Q(failed_revision=F("translation_revision"))
+        else:
+            revision_comparison = ~Q(failed_revision=revision)
+
         # filter changes that are new or eligible for retry
         eligible_for_attempt_filter = (
             Q(metadata__last_failed__isnull=True)
-            | ~Q(failed_revision=translation.revision)
+            | revision_comparison
             | ~Q(weblate_version=GIT_VERSION)
             | Q(last_failed__lt=one_week_ago.isoformat())
         )
 
+        annotations_["eligible_for_attempt"] = Case(
+            When(eligible_for_attempt_filter, then=True),
+            default=False,
+            output_field=BooleanField(),
+        )
+
         qs = (
-            self.filter(unit__translation=translation)
-            .annotate(
-                # use KT and explicitly cast key value to string to avoid
-                # django from treating string comparison values for RHS as JSON
-                # on mariadb and mysql.
-                failed_revision=Cast(KT("metadata__failed_revision"), TextField()),
-                weblate_version=Cast(KT("metadata__weblate_version"), TextField()),
-                last_failed=Cast(KT("metadata__last_failed"), TextField()),
-                eligible_for_attempt=Case(
-                    When(eligible_for_attempt_filter, then=True),
-                    default=False,
-                    output_field=BooleanField(),
-                ),
-            )
+            base_queryset.annotate(**annotations_)
             .filter(Q(eligible_for_attempt=True) | Q(metadata__blocking_unit=True))
             .order_by("unit_id", "timestamp")
             .values_list(
@@ -81,14 +142,13 @@ class PendingChangeQuerySet(models.QuerySet):
 
         qs = self.filter(pk__in=eligible_pks)
 
-        policy = translation.component.project.commit_policy
-        if policy == CommitPolicyChoices.ALL:
+        if commit_policy == CommitPolicyChoices.ALL:
             return qs
 
         filters = []
-        if policy == CommitPolicyChoices.WITHOUT_NEEDS_EDITING:
+        if commit_policy == CommitPolicyChoices.WITHOUT_NEEDS_EDITING:
             filters.append(~Q(state=STATE_FUZZY))
-        elif policy == CommitPolicyChoices.APPROVED_ONLY:
+        elif commit_policy == CommitPolicyChoices.APPROVED_ONLY:
             filters.append(Q(state=STATE_APPROVED))
 
         # For each unit, finds the last change that makes it eligible for committing
