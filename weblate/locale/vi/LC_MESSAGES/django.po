@@ -8,13 +8,14 @@
 # Vũ Minh Nguyên <PiscesKaze@gmail.com>, 2025.
 # AlaxLima <thanhkhoidangngoc@gmail.com>, 2025.
 # hoanghuy309 <hoanghuy309@gmail.com>, 2025.
+# Dũng Vũ <actionchikuzo@gmail.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-27 07:35+0000\n"
-"PO-Revision-Date: 2025-11-07 11:51+0000\n"
-"Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>\n"
+"PO-Revision-Date: 2025-11-11 06:51+0000\n"
+"Last-Translator: Dũng Vũ <actionchikuzo@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "application/vi/>\n"
 "Language: vi\n"
@@ -1846,7 +1847,7 @@ msgstr "Tạo một tệp chứa thông tin chi tiết về trạng thái bản 
 
 #: weblate/addons/generate.py:146
 msgid "Pseudolocale generation"
-msgstr ""
+msgstr "Tạo ảo ngữ"
 
 #: weblate/addons/generate.py:148
 msgid ""
@@ -1984,7 +1985,7 @@ msgstr "Đã cài đặt add-on, vui lòng xem lại hướng dẫn tích hợp.
 
 #: weblate/addons/webhooks.py:95
 msgid "Webhook"
-msgstr ""
+msgstr "Webhook"
 
 #: weblate/addons/webhooks.py:97
 msgid ""
@@ -2133,7 +2134,7 @@ msgstr "Quét lại tất cả các tệp dịch trong kho lưu trữ Weblate"
 #: weblate/api/spectacular.py:61
 #: weblate/templates/drf_spectacular/redoc.html:10
 msgid "Weblate's REST API"
-msgstr ""
+msgstr "REST API của Weblate"
 
 #: weblate/api/views.py:167
 msgid "Could not obtain the lock to perform the operation."
@@ -2458,7 +2459,7 @@ msgstr "Truy cập kho lưu trữ nội bộ"
 #. Translators: Permission name
 #: weblate/auth/data.py:107
 msgid "Commit changes to the internal repository"
-msgstr ""
+msgstr "Ghi lại các thay đổi vào kho lưu trữ nội bộ"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:109
@@ -2734,7 +2735,7 @@ msgstr "Dịch tự động"
 #: weblate/auth/data.py:320
 msgctxt "Per-project access-control team name"
 msgid "VCS"
-msgstr ""
+msgstr "VCS"
 
 #: weblate/auth/data.py:321
 msgctxt "Per-project access-control team name"
@@ -3063,7 +3064,7 @@ msgstr "Đánh giá bản dịch đã bị tắt."
 
 #: weblate/auth/permissions.py:294
 msgid "Reviewing is turned off."
-msgstr ""
+msgstr "Đã tắt đánh giá."
 
 #: weblate/auth/permissions.py:310 weblate/templates/translate.html:170
 msgid "The source string needs review."
@@ -3078,6 +3079,8 @@ msgid ""
 "Only reviewers can change approved strings. Please add a suggestion if you "
 "think the string should be changed."
 msgstr ""
+"Chỉ đánh giá viên mới có quyền thay đổi chuỗi đã được phê duyệt. Vui lòng "
+"thêm đề xuất nếu bạn nghĩ chuỗi cần thay đổi."
 
 #: weblate/auth/permissions.py:327
 msgid "The translation is read-only."
@@ -3085,7 +3088,7 @@ msgstr "Bản dịch chỉ có thể đọc."
 
 #: weblate/auth/permissions.py:344
 msgid "Add the string to the source language instead."
-msgstr ""
+msgstr "Thay vào đó, thêm chuỗi vào ngôn ngữ nguồn."
 
 #: weblate/auth/permissions.py:348
 msgid "Adding strings is disabled in the component configuration."
@@ -3095,6 +3098,7 @@ msgstr "Tính năng thêm chuỗi bị vô hiệu hóa trong cấu hình thành 
 msgid ""
 "Cannot remove terminology translation. Remove the source string instead."
 msgstr ""
+"Không thể loại bỏ bản dịch thuật ngữ. Thay vào đó, hãy loại bỏ chuỗi nguồn."
 
 #: weblate/auth/permissions.py:377 weblate/auth/permissions.py:396
 msgid "The file format does not support this."
@@ -3114,13 +3118,15 @@ msgstr "Định dạng tệp không hỗ trợ cập nhật chuỗi nguồn."
 
 #: weblate/auth/views.py:127
 msgid "Cannot remove built-in team!"
-msgstr ""
+msgstr "Không thể xóa nhóm đã được tích hợp!"
 
 #: weblate/auth/views.py:170
 msgid ""
 "This invitation can be accepted only by the e-mail address chosen by the "
 "inviter; it can't be used by your account."
 msgstr ""
+"Lời mời này chỉ có thể được chấp nhận bằng địa chỉ email do người mời chọn; "
+"tài khoản của bạn không thể sử dụng nó."
 
 #: weblate/auth/views.py:201
 msgid "User invitation was removed."
@@ -3134,7 +3140,7 @@ msgstr "Đã chấp nhận lời mời vào nhóm %s."
 #: weblate/billing/admin.py:82 weblate/templates/billing/list.html:6
 #: weblate/templates/billing/status.html:127
 msgid "Owners"
-msgstr ""
+msgstr "Người sở hữu"
 
 #: weblate/billing/forms.py:13
 msgid "Additional message"
@@ -3144,103 +3150,87 @@ msgstr "Tin nhắn bổ sung"
 msgid ""
 "Please describe the project and your relation to it, preferably in English."
 msgstr ""
+"Vui lòng mô tả dự án và mối quan hệ của bạn với nó, tốt nhất nên dùng tiếng "
+"Anh."
 
 #: weblate/billing/models.py:169 weblate/templates/billing/detail.html:25
 msgid "Billing plan"
-msgstr ""
+msgstr "Gói thanh toán"
 
 #: weblate/billing/models.py:172
-#, fuzzy
-#| msgid "Subscribed projects"
 msgid "Billed projects"
-msgstr "Chủ đề đã đăng ký theo dõi"
+msgstr "Dự án đã thanh toán"
 
 #: weblate/billing/models.py:175
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Billing owners"
-msgstr "PHP strings"
+msgstr "Người sở hữu gói thanh toán"
 
 #: weblate/billing/models.py:180 weblate/templates/billing/state-snippet.html:7
 #: weblate/templates/manage/billing.html:8
 msgid "Trial"
-msgstr ""
+msgstr "Dùng thử"
 
 #: weblate/billing/models.py:181 weblate/templates/billing/state-snippet.html:9
 #: weblate/templates/manage/billing.html:23
 msgid "Terminated"
-msgstr ""
+msgstr "Đã chấm dứt"
 
 #: weblate/billing/models.py:184
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Billing state"
-msgstr "PHP strings"
+msgstr "Trạng thái thanh toán"
 
 #: weblate/billing/models.py:189 weblate/templates/billing/list.html:11
 #: weblate/templates/billing/status.html:19
 msgid "Trial expiry date"
-msgstr ""
+msgstr "Ngày hết hạn dùng thử"
 
 #: weblate/billing/models.py:195 weblate/templates/billing/list.html:14
 #: weblate/templates/billing/state-snippet.html:13
 #: weblate/templates/billing/status.html:33
 #: weblate/templates/manage/billing.html:20
-#, fuzzy
-#| msgid "Account activation"
 msgid "Scheduled removal"
-msgstr "Kích hoạt tài khoản"
+msgstr "Xóa theo lịch trình"
 
 #: weblate/billing/models.py:199
 msgid "Paid"
-msgstr ""
+msgstr "Trả phí"
 
 #: weblate/billing/models.py:203
-#, fuzzy
-#| msgid "iOS Strings"
 msgid "In limits"
-msgstr "Chuỗi hệ điều hành iOS"
+msgstr "Trong giới hạn"
 
 #: weblate/billing/models.py:286
 msgid "Changes in last month"
-msgstr ""
+msgstr "Những thay đổi trong tháng trước"
 
 #: weblate/billing/models.py:290
-#, fuzzy
-#| msgid "Secondary languages"
 msgid "Number of changes"
-msgstr "Ngôn ngữ thứ hai"
+msgstr "Số các thay đổi"
 
 #: weblate/billing/models.py:314 weblate/wladmin/models.py:236
 msgid "Hosted strings"
 msgstr "Chuỗi được lưu trữ"
 
 #: weblate/billing/models.py:326 weblate/trans/admin.py:101
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Source words"
-msgstr "PHP strings"
+msgstr "Từ nguồn"
 
 #: weblate/billing/models.py:367 weblate/templates/addons/generate_help.html:46
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Number of strings"
-msgstr "PHP strings"
+msgstr "Số lượng chuỗi"
 
 #: weblate/billing/models.py:374 weblate/templates/billing/status.html:104
-#, fuzzy
-#| msgid "Download"
 msgid "Last invoice"
-msgstr "Tải về"
+msgstr "Hóa đơn mới nhất"
 
 #: weblate/billing/models.py:379
 msgid "N/A"
-msgstr ""
+msgstr "Chưa có"
 
 #. Translators: Whether the package is inside displayed (soft) limits
 #: weblate/billing/models.py:384
 msgid "In display limits"
-msgstr ""
+msgstr "Trong giới hạn hiển thị"
 
 #: weblate/billing/models.py:480
 #, python-format
@@ -3342,7 +3332,7 @@ msgstr "Các bản dịch sau sẽ bị xóa:"
 
 #: weblate/checks/chars.py:49
 msgid "Starting newline"
-msgstr ""
+msgstr "Xuống dòng mới"
 
 #: weblate/checks/chars.py:51
 msgid "Source and translation do not both start with a newline."
@@ -3350,7 +3340,7 @@ msgstr "Nguồn và bản dịch không bắt đầu bằng ký tự xuống dò
 
 #: weblate/checks/chars.py:62
 msgid "Trailing newline"
-msgstr ""
+msgstr "Dòng mới ở cuối"
 
 #: weblate/checks/chars.py:63
 msgid "Source and translation do not both end with a newline."
@@ -3358,7 +3348,7 @@ msgstr "Nguồn và bản dịch không kết thúc bằng ký tự xuống dòn
 
 #: weblate/checks/chars.py:73
 msgid "Starting spaces"
-msgstr ""
+msgstr "Khoảng trắng bắt đầu"
 
 #: weblate/checks/chars.py:75
 msgid "Source and translation do not both start with same number of spaces."
@@ -3366,17 +3356,19 @@ msgstr "Nguồn và bản dịch không bắt đầu bằng cùng số khoảng 
 
 #: weblate/checks/chars.py:109
 msgid "Non‑standard characters in Kabyle"
-msgstr ""
+msgstr "Kí tự Kabyle không thông dụng"
 
 #: weblate/checks/chars.py:111
 msgid ""
 "Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ "
 "instead of ε)."
 msgstr ""
+"Sử dụng các ký tự Kabyle La-tin được tiêu chuẩn hóa "
+"(ví dụ: ɣ thay vì γ trong tiếng Hy Lạp; ɛ thay vì ε)."
 
 #: weblate/checks/chars.py:144
 msgid "Trailing space"
-msgstr ""
+msgstr "Khoảng trắng ở cuối"
 
 #: weblate/checks/chars.py:145
 msgid "Source and translation do not both end with a space."
@@ -3384,7 +3376,7 @@ msgstr "Nguồn và bản dịch đều không kết thúc bằng dấu cách."
 
 #: weblate/checks/chars.py:180
 msgid "Double space"
-msgstr ""
+msgstr "Khoảng trắng đôi"
 
 #: weblate/checks/chars.py:181
 msgid "Translation contains double space."
@@ -3452,7 +3444,7 @@ msgstr "Nguồn và bản dịch không kết thúc bằng dấu ba chấm."
 
 #: weblate/checks/chars.py:414
 msgid "Mismatched \\n"
-msgstr ""
+msgstr "Không khớp \\n"
 
 #: weblate/checks/chars.py:416
 msgid "Number of \\n literals in translation does not match source."
