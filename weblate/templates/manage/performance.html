@@ -122,6 +122,119 @@
           </tbody>
         </table>
       </div>
+
+      {% if disk_usage %}
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <h4 class="panel-title">
+              {% documentation_icon 'admin/install' 'hardware' right=True %}
+              {% translate "Disk usage" %}
+            </h4>
+          </div>
+
+          <table class="table table-striped">
+
+            <tbody>
+              <tr>
+                <td colspan="3">
+                  <div class="progress">
+                    <div class="progress-bar {% if disk_usage_percent < 90 %}progress-bar-success{% elif disk_usage_percent < 95 %}progress-bar-warning{% else %}progress-bar-danger{% endif %}"
+                         role="progressbar"
+                         aria-valuenow="{{ disk_usage_percent }}"
+                         aria-valuemin="0"
+                         aria-valuemax="100"
+                         aria-label="{% translate "Disk usage" %}"
+                         style="width: {{ disk_usage_percent }}%"></div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <th>{% translate "Disk size" %}</th>
+                <th>{% translate "Disk used" %}</th>
+                <th>{% translate "Disk free" %}</th>
+              </tr>
+              <tr>
+                <td>{{ disk_usage.total|filesizeformat }}</td>
+                <td>{{ disk_usage.used|filesizeformat }}</td>
+                <td>{{ disk_usage.free|filesizeformat }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      {% endif %}
+
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            {% documentation_icon 'admin/install' 'production-encoding' right=True %}
+            {% translate "System encoding" %}
+          </h4>
+        </div>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th></th>
+              <th>{% translate "Web server" %}</th>
+              <th>{% translate "Celery worker" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{% translate "Filenames encoding" %}</td>
+              <td>{{ web_encoding.0 }}</td>
+              <td>
+                {% if celery_encoding %}
+                  {{ celery_encoding.0 }}
+                {% else %}
+                  {% translate "Unknown encoding" %}
+                {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <td>{% translate "Content encoding" %}</td>
+              <td>{{ web_encoding.1 }}</td>
+              <td>
+                {% if celery_encoding %}
+                  {{ celery_encoding.1 }}
+                {% else %}
+                  {% translate "Unknown encoding" %}
+                {% endif %}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            {% documentation_icon 'admin/install' 'production-database' right=True %}
+            {% translate "Connectivity" %}
+          </h4>
+        </div>
+        <table class="table table-striped">
+          <tbody>
+            <tr>
+              <td>{% translate "Database latency" %}</td>
+              <td class="number">{{ database_latency }} ms</td>
+            </tr>
+            <tr>
+              <td>{% translate "Cache latency" %}</td>
+              <td class="number">{{ cache_latency }} ms</td>
+            </tr>
+            <tr>
+              <td>{% translate "Celery latency" %}</td>
+              <td class="number">
+                {% if celery_latency %}
+                  {{ celery_latency }} ms
+                {% else %}
+                  {% translate "Not yet measured" %}
+                {% endif %}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <div class="col-md-6">
@@ -197,78 +310,6 @@
         </div>
       </div>
 
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            {% documentation_icon 'admin/install' 'production-encoding' right=True %}
-            {% translate "System encoding" %}
-          </h4>
-        </div>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th></th>
-              <th>{% translate "Web server" %}</th>
-              <th>{% translate "Celery worker" %}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{% translate "Filenames encoding" %}</td>
-              <td>{{ web_encoding.0 }}</td>
-              <td>
-                {% if celery_encoding %}
-                  {{ celery_encoding.0 }}
-                {% else %}
-                  {% translate "Unknown encoding" %}
-                {% endif %}
-              </td>
-            </tr>
-            <tr>
-              <td>{% translate "Content encoding" %}</td>
-              <td>{{ web_encoding.1 }}</td>
-              <td>
-                {% if celery_encoding %}
-                  {{ celery_encoding.1 }}
-                {% else %}
-                  {% translate "Unknown encoding" %}
-                {% endif %}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-      </div>
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            {% documentation_icon 'admin/install' 'production-database' right=True %}
-            {% translate "Connectivity" %}
-          </h4>
-        </div>
-        <table class="table table-striped">
-          <tbody>
-            <tr>
-              <td>{% translate "Database latency" %}</td>
-              <td class="number">{{ database_latency }} ms</td>
-            </tr>
-            <tr>
-              <td>{% translate "Cache latency" %}</td>
-              <td class="number">{{ cache_latency }} ms</td>
-            </tr>
-            <tr>
-              <td>{% translate "Celery latency" %}</td>
-              <td class="number">
-                {% if celery_latency %}
-                  {{ celery_latency }} ms
-                {% else %}
-                  {% translate "Not yet measured" %}
-                {% endif %}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
 
     </div>
   </div>

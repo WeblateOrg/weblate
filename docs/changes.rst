@@ -7,6 +7,7 @@ Weblate 5.15
 
 .. rubric:: Improvements
 
+* Added disk usage overview in :ref:`manage-performance`.
 * :http:get:`/api/groups/` now includes ``admins``.
 
 .. rubric:: Bug fixes

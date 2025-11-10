@@ -377,6 +377,9 @@ with development files and GObject introspection data.
    * :doc:`install/venv-redhat`
    * :doc:`install/venv-macos`
 
+
+.. _hardware:
+
 .. include:: install/steps/hw.rst
 
 .. _verify:

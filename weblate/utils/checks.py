@@ -67,7 +67,7 @@ DOC_LINKS: dict[str, str | tuple[str] | tuple[str, str]] = {
     "weblate.C030": ("admin/install", "celery"),
     "weblate.I031": ("admin/upgrade",),
     "weblate.C031": ("admin/upgrade",),
-    "weblate.C032": ("admin/install",),
+    "weblate.C032": ("admin/install", "hardware"),
     "weblate.W033": ("vcs",),
     "weblate.E034": ("admin/install", "celery"),
     "weblate.C035": ("vcs",),
@@ -78,6 +78,7 @@ DOC_LINKS: dict[str, str | tuple[str] | tuple[str, str]] = {
     "weblate.C040": ("vcs",),
     "weblate.C041": "https://weblate.org/user/",
     "weblate.C042": ("admin/config", "std-setting-REGISTRATION_ALLOW_BACKENDS"),
+    "weblate.E043": ("admin/install", "hardware"),
 }
 
 
