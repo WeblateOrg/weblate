@@ -18,6 +18,7 @@ from weblate.trans.util import PLURAL_SEPARATOR
 from weblate.utils.db import using_postgresql
 from weblate.utils.search import parse_query
 from weblate.utils.state import (
+    FUZZY_STATES,
     STATE_APPROVED,
     STATE_EMPTY,
     STATE_FUZZY,
@@ -409,7 +410,7 @@ class UnitQueryParserTest(SearchTestCase):
         self.assert_query("is:untranslated", Q(state__lt=STATE_TRANSLATED))
         self.assert_query("is:approved", Q(state=STATE_APPROVED))
         self.assert_query("is:read-only", Q(state=STATE_READONLY))
-        self.assert_query("is:fuzzy", Q(state=STATE_FUZZY))
+        self.assert_query("is:fuzzy", Q(state__in=FUZZY_STATES))
 
     def test_changed_by(self) -> None:
         self.assert_query(

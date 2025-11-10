@@ -58,9 +58,9 @@ from weblate.trans.util import (
 from weblate.utils.errors import report_error
 from weblate.utils.files import cleanup_error_message
 from weblate.utils.state import (
+    FUZZY_STATES,
     STATE_APPROVED,
     STATE_EMPTY,
-    STATE_FUZZY,
     STATE_READONLY,
     STATE_TRANSLATED,
 )
@@ -166,7 +166,7 @@ class TTKitUnit(TranslationUnit):
         """Set fuzzy /approved flag on translated unit."""
         if "flags" in self.__dict__:
             del self.__dict__["flags"]
-        self.unit.markfuzzy(state == STATE_FUZZY)
+        self.unit.markfuzzy(state in FUZZY_STATES)
         if hasattr(self.unit, "markapproved"):
             self.unit.markapproved(state == STATE_APPROVED)
 
@@ -552,7 +552,7 @@ class PoUnit(TTKitUnit):
     def set_state(self, state) -> None:
         """Set fuzzy /approved flag on translated unit."""
         super().set_state(state)
-        if state != STATE_FUZZY:
+        if state not in FUZZY_STATES:
             self.unit.prev_msgid = []
             self.unit.prev_msgid_plural = []
             self.unit.prev_msgctxt = []
@@ -698,7 +698,7 @@ class XliffUnit(TTKitUnit):
         """Set fuzzy /approved flag on translated unit."""
         self.unit.markapproved(state == STATE_APPROVED)
         target_state = None
-        if state == STATE_FUZZY:
+        if state in FUZZY_STATES:
             # Always set state for fuzzy
             target_state = "needs-translation"
         elif state == STATE_TRANSLATED:
