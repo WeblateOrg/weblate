@@ -5,6 +5,8 @@ Weblate 5.15
 
 .. rubric:: New features
 
+* Added ability to completely disable the admin contact form by setting :setting:`CONTACT_FORM` to ``"disabled"``.
+
 .. rubric:: Improvements
 
 * :http:get:`/api/groups/` now includes ``admins``.
