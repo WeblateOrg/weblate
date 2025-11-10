@@ -161,10 +161,10 @@ class AutoTranslationTest(ViewTestCase):
         self.user.is_superuser = False
         self.user.save()
 
-        # test missing translation.auto permissions
+        # test missing autotranslate permission on translation
         self.perform_auto(expected=0, success=False)
 
-        # test missing project.auto permissions
+        # test missing autotranslate permission on project language
         project_language = ProjectLanguage(
             self.project,
             language=Language.objects.get(code="cs"),
@@ -175,7 +175,7 @@ class AutoTranslationTest(ViewTestCase):
             success=False,
         )
 
-        # test missing component.auto permissions
+        # test missing autotranslate permission on category
         category = self.create_category(project=self.project)
         self.component.category = self.component2.category = category
         self.component.save()

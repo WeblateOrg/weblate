@@ -292,7 +292,7 @@ def show_project_language(request: AuthenticatedHttpRequest, obj: ProjectLanguag
             "autoform": optional_form(
                 AutoForm,
                 user,
-                "project.auto",
+                "translation.auto",
                 obj,
                 obj=obj,
                 user=user,
@@ -535,7 +535,7 @@ def show_category(request: AuthenticatedHttpRequest, obj):
             "autoform": optional_form(
                 AutoForm,
                 user,
-                "component.auto",
+                "translation.auto",
                 obj,
                 obj=obj,
                 user=user,
@@ -622,7 +622,7 @@ def show_component(request: AuthenticatedHttpRequest, obj: Component):
             "autoform": optional_form(
                 AutoForm,
                 user,
-                "component.auto",
+                "translation.auto",
                 obj,
                 obj=obj,
                 user=user,

@@ -75,7 +75,7 @@ class BaseAutoTranslate:
         )
 
     def get_task_meta(self) -> dict[str, Any]:
-        """Return"""
+        """Return a metadata dictionary for Celery task progress tracking."""
         raise NotImplementedError
 
     def set_progress(self, current: int) -> None:
@@ -98,7 +98,6 @@ class AutoTranslate(BaseAutoTranslate):
             self.target_state = STATE_FUZZY
         elif self.mode == "approved" and translation.enable_review:
             self.target_state = STATE_APPROVED
-        self.component_wide: bool = self.component_wide
 
     def get_units(self):
         units = self.translation.unit_set.exclude(state=STATE_READONLY)
@@ -382,7 +381,9 @@ class BatchAutoTranslate(BaseAutoTranslate):
                 self.translations = obj.translation_set.exclude_source()
                 self._task_meta = {"component": obj.pk}
             case Category():
-                self.translations = Translation.objects.filter(component__category=obj)
+                self.translations = Translation.objects.filter(
+                    component__category=obj
+                ).exclude_source()
                 self._task_meta = {"category": obj.pk}
             case ProjectLanguage():
                 self.translations = obj.translation_set

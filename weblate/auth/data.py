@@ -32,8 +32,6 @@ PERMISSIONS = (
     # Translators: Permission name
     ("component.lock", gettext_noop("Lock component, preventing translations")),
     # Translators: Permission name
-    ("component.auto", gettext_noop("Perform automatic translation for component")),
-    # Translators: Permission name
     ("glossary.add", gettext_noop("Add glossary entry")),
     # Translators: Permission name
     ("glossary.terminology", gettext_noop("Add glossary terminology")),
@@ -53,11 +51,6 @@ PERMISSIONS = (
     ("project.edit", gettext_noop("Edit project settings")),
     # Translators: Permission name
     ("project.permissions", gettext_noop("Manage project access")),
-    # Translators: Permission name
-    (
-        "project.auto",
-        gettext_noop("Perform automatic translation for project language"),
-    ),
     # Translators: Permission name
     ("reports.view", gettext_noop("Download reports")),
     # Translators: Permission name
@@ -250,7 +243,7 @@ ROLES = (
     ),
     (
         pgettext_noop("Access-control role", "Automatic translation"),
-        {"translation.auto", "component.auto", "project.auto"},
+        {"translation.auto"},
     ),
     (
         pgettext_noop("Access-control role", "Manage translation memory"),

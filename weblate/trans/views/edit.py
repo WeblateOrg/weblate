@@ -792,34 +792,24 @@ def auto_translation(request: AuthenticatedHttpRequest, path):
     match obj:
         case Translation():
             translation = obj
-            if not request.user.has_perm(
-                "translation.auto", translation.component.project
-            ):
-                raise PermissionDenied
             project = translation.component.project
             autoform = AutoForm(translation.component, request.user, request.POST)
             update_locked = translation.component.locked
             task_kwargs["translation_id"] = translation.id
         case Component():
             component = obj
-            if not request.user.has_perm("component.auto", component):
-                raise PermissionDenied
             project = component.project
             autoform = AutoForm(component, request.user, request.POST)
             update_locked = component.locked
             task_kwargs["component_id"] = component.id
         case Category():
             category = obj
-            if not request.user.has_perm("component.auto", category.project):
-                raise PermissionDenied
             project = category.project
             autoform = AutoForm(category.project, request.user, request.POST)
             update_locked = category.component_set.filter(locked=True).exists()
             task_kwargs["category_id"] = category.id
         case ProjectLanguage():
             project = obj.project
-            if not request.user.has_perm("project.auto", project):
-                raise PermissionDenied
             autoform = AutoForm(project, request.user, request.POST)
             update_locked = project.locked
             task_kwargs.update(
@@ -831,6 +821,9 @@ def auto_translation(request: AuthenticatedHttpRequest, path):
         case _:  # pragma: no cover
             msg = "Unsupported object for auto translation"
             raise PermissionDenied(msg)
+
+    if not request.user.has_perm("translation.auto", project):
+        raise PermissionDenied
 
     if update_locked or not autoform.is_valid():
         messages.error(request, gettext("Could not process form!"))
