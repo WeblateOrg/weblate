@@ -31,7 +31,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-27 08:36+0100\n"
-"PO-Revision-Date: 2025-11-10 05:52+0000\n"
+"PO-Revision-Date: 2025-11-11 06:52+0000\n"
 "Last-Translator: Christian Wia <w9204-gi@yahoo.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
@@ -952,7 +952,7 @@ msgid ""
 "General (browsing) access to the whole project ``foo`` including both "
 "components in it: ``foo/bar`` and ``foo/baz``."
 msgstr ""
-"Accès général (navigation) à l’ensemble du projet ``foo`` incluant les deux "
+"Accès général (navigation) à l’ensemble du projet ``foo`` incluant ses deux "
 "composants : ``foo/bar`` et ``foo/baz``."
 
 #: ../../admin/access.rst:438
@@ -1998,7 +1998,7 @@ msgstr ""
 
 #: ../../admin/access.rst:1110
 msgid "Expiring user accounts"
-msgstr "Comptes utilisateur expirés."
+msgstr "Comptes utilisateur expirés"
 
 #: ../../admin/access.rst:1112
 msgid ""
@@ -4311,6 +4311,10 @@ msgid ""
 "see :ref:`reverse-proxy`. :guilabel:`HTTP headers` shows complete HTTP "
 "request headers to provide additional information."
 msgstr ""
+":guilabel:`environnement HTTP` vous permet de voir l'environnement HTTP "
+"observé depuis Weblate. C'est utile si vous déboguez la configuration du "
+"proxy inverse, voir :ref:`reverse-proxy`. :guilabel:`entêtes HTTP` montre "
+"les entêtes complètes de requêtes HTTP avec les informations complémentaires."
 
 #: ../../admin/admin.rst:48
 msgid ""
@@ -4717,15 +4721,6 @@ msgstr ""
 "WEBLATE SERVER/accounts/complete/github/``."
 
 #: ../../admin/auth.rst:117
-#, fuzzy
-#| msgid ""
-#| "There are similar authentication backends for GitHub for Organizations "
-#| "and GitHub for Teams. Their settings are named "
-#| "``SOCIAL_AUTH_GITHUB_ORG_*`` and ``SOCIAL_AUTH_GITHUB_TEAM_*``, and they "
-#| "require additional setting of the scope - ``SOCIAL_AUTH_GITHUB_ORG_NAME`` "
-#| "or ``SOCIAL_AUTH_GITHUB_TEAM_ID``.  Their callback URLs are ``https://"
-#| "WEBLATE SERVER/accounts/complete/github-org/`` and ``https://WEBLATE "
-#| "SERVER/accounts/complete/github-teams/``."
 msgid ""
 "There are similar authentication backends for GitHub for Organizations and "
 "GitHub for Teams. Their settings are named ``SOCIAL_AUTH_GITHUB_ORG_*`` and "
@@ -4734,13 +4729,13 @@ msgid ""
 "Their callback URLs are ``https://WEBLATE SERVER/accounts/complete/github-"
 "org/`` and ``https://WEBLATE SERVER/accounts/complete/github-teams/``."
 msgstr ""
-"Il existe des serveurs d'authentification similaires pour \"Github for "
-"Organizations\" et \"Github for Teams\". Leurs paramètres sont appelés "
-"``SOCIAL_AUTH_GITHUB_ORG_*``, ``SOCIAL_AUTH_GITHUB_TEAM_*``, et ils "
-"nécessitent un paramétrage supplémentaire de ``SOCIAL_AUTH_GITHUB_ORG_NAME`` "
-"ou ``SOCIAL_AUTH_GITHUB_TEAM_ID``. Leurs URLs de rappel sont ``https://"
-"WEBLATE SERVER/accounts/complete/github-org/``et ``https://WEBLATE SERVER/"
-"accounts/complete/github-teams/``."
+"Il existe des serveurs d'authentification similaires pour "
+"\"Github for Organizations\" et \"Github for Teams\". Leurs paramètres sont "
+"appelés ``SOCIAL_AUTH_GITHUB_ORG_*``, ``SOCIAL_AUTH_GITHUB_TEAM_*``, et "
+"nécessitent un paramétrage supplémentaire de l'objectif - "
+"``SOCIAL_AUTH_GITHUB_ORG_NAME`` ou ``SOCIAL_AUTH_GITHUB_TEAM_ID``. Leurs "
+"URLs de rappel sont ``https://WEBLATE SERVER/accounts/complete/github-org/`` "
+"et ``https://WEBLATE SERVER/accounts/complete/github-teams/``."
 
 #: ../../snippets/oauth-site.rst:3
 msgid ""
@@ -5149,10 +5144,13 @@ msgid ""
 "through the authentication process. This needs to be configured with some "
 "identity providers:"
 msgstr ""
+"L'authentification Weblate utilise le paramètre ``RelayState`` passé au "
+"processus d'authentification. Ceci doit être configuré avec certains "
+"fournisseurs d'identité :"
 
 #: ../../admin/auth.rst:566
 msgid "`How to Send a Custom RelayState with Okta`_"
-msgstr ""
+msgstr "`Comment envoyer un RelayState personnalisé avec Okta`_"
 
 #: ../../admin/auth.rst:572
 msgid ":ref:`Configuring SAML in Docker <docker-saml>`"
@@ -5371,23 +5369,17 @@ msgid "Authenticator apps (TOTP)"
 msgstr "Applications d’authentification (TOTP)"
 
 #: ../../admin/auth.rst:813
-#, fuzzy
-#| msgid ""
-#| "Authenticator apps and browser extensions like Aegis, Bitwarden, Google "
-#| "Authenticator, 1Password, Authy, Microsoft Authenticator, etc. generate "
-#| "one-time passwords that are used as a second factor to verify your "
-#| "identity when prompted during sign-in."
 msgid ""
 "Authenticator apps and browser extensions like Aegis, Bitwarden, Google "
 "Authenticator, 1Password, Authy, Microsoft Authenticator, etc. generate time-"
 "based one-time passwords that are used as a second factor to verify your "
 "identity when prompted during sign-in."
 msgstr ""
-"Les applications d'authentification et les extensions des navigateurs telles "
+"Les applications d'authentification et les extensions de navigateurs telles "
 "que Aegis, Bitwarden, Google Authenticator, 1Password, Authy, Microsoft "
-"Authenticator, etc. génèrent des mots de passe uniques utilisés en tant que "
-"second facteur pour vérifier votre identité lorsqu'elle vous est demandée à "
-"la connexion."
+"Authenticator, etc. génèrent des mots de passe uniques basés sur l'heure et "
+"utilisés en tant que second facteur pour vérifier votre identité lorsqu'elle "
+"vous est demandée à la connexion."
 
 #: ../../admin/auth.rst:818
 msgid "Recovery codes"
@@ -6071,14 +6063,11 @@ msgstr ""
 "utilisant :setting:`DATABASE_BACKUP`."
 
 #: ../../admin/backup.rst:315
-#, fuzzy
-#| msgid ""
-#| "To restore the database backup load it using database tools, for example:"
 msgid ""
 "To restore the database backup, load it using database tools, for example:"
 msgstr ""
 "Pour restaurer la sauvegarde de la base de données, chargez-la en utilisant "
-"les outils de la base de données, par exemple :"
+"les outils de base de données, par exemple :"
 
 #: ../../admin/backup.rst:322
 msgid "Version control repositories"
@@ -47742,6 +47731,8 @@ msgid ""
 "**Authenticated User ↔ Unauthenticated User:** Different privilege levels "
 "within the web application."
 msgstr ""
+"**Utilisateur authentifié ↔ Utilisateur non authentifié :** différents "
+"niveaux de privilèges dans l'application web."
 
 #: ../../security/threat-model.rst:53
 #, fuzzy
@@ -47769,11 +47760,11 @@ msgstr "Description du libellé"
 
 #: ../../security/threat-model.rst:61
 msgid "Potential impact"
-msgstr ""
+msgstr "Impact potentiel"
 
 #: ../../security/threat-model.rst:62
 msgid "**Web server** (nginx/Apache)"
-msgstr ""
+msgstr "**serveur Web** (nginx/Apache)"
 
 #: ../../security/threat-model.rst:63 ../../security/threat-model.rst:99
 #: ../../security/threat-model.rst:119
@@ -47785,21 +47776,18 @@ msgid ""
 "**Denial of service:** Attacker floods the web server with requests, making "
 "Weblate unavailable."
 msgstr ""
+"**Deni de service :** l'attaquant innonde le server web avec des requêtes "
+"rendant ainsi Weblate non disponible."
 
 #: ../../security/threat-model.rst:65
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "String is available for translation"
 msgid "Loss of availability for translation."
-msgstr "Une chaîne est en attente de traduction"
+msgstr "Accès perdu pour traduire."
 
 #: ../../security/threat-model.rst:67 ../../security/threat-model.rst:91
 #: ../../security/threat-model.rst:95 ../../security/threat-model.rst:115
 #: ../../security/threat-model.rst:139 ../../security/threat-model.rst:143
-#, fuzzy
-#| msgid "Information about project"
 msgid "**Information disclosure**"
-msgstr "Informations sur le projet"
+msgstr "**Divulgation d'informations**"
 
 #: ../../security/threat-model.rst:68
 msgid ""
@@ -47809,7 +47797,7 @@ msgstr ""
 
 #: ../../security/threat-model.rst:69
 msgid "Exposure of credentials, internal architecture."
-msgstr ""
+msgstr "Publication de données confidentielles, architecture interne."
 
 #: ../../security/threat-model.rst:71 ../../security/threat-model.rst:79
 #: ../../security/threat-model.rst:83 ../../security/threat-model.rst:111
@@ -47822,6 +47810,8 @@ msgid ""
 "**Malicious request injection:** Attacker injects malicious data into HTTP "
 "headers or request bodies."
 msgstr ""
+"**Injection de requête malveillante :** l'attaquant injecte des données "
+"malveillantes dans les entêtes HTTP ou le corps des requêtes."
 
 #: ../../security/threat-model.rst:73
 msgid ""
@@ -47830,10 +47820,8 @@ msgid ""
 msgstr ""
 
 #: ../../security/threat-model.rst:74
-#, fuzzy
-#| msgid "Weblate translations"
 msgid "**Weblate application**"
-msgstr "Traductions Weblate"
+msgstr "**Application Weblate**"
 
 #: ../../security/threat-model.rst:75 ../../security/threat-model.rst:131
 msgid "**Spoofing**"
@@ -47844,18 +47832,17 @@ msgid ""
 "**User impersonation:** Attacker gains access to a legitimate user's session "
 "(e.g., via session hijacking, compromised credentials)."
 msgstr ""
+"**Usurpation d'identité :** l'attaquant prend la main sur la session d'un "
+"utilisateur légitime (par exemple en substituant la session, en "
+"compromettant les données confidentielles)."
 
 #: ../../security/threat-model.rst:77
-#, fuzzy
-#| msgid "Improved translation memory matches."
 msgid "Unauthorized translation, repo access."
-msgstr "Amélioration des correspondances dans le mémoire de traduction."
+msgstr "Traduction non autorisée, accès au dépôt."
 
 #: ../../security/threat-model.rst:78
-#, fuzzy
-#| msgid "Celery"
 msgid "(WSGI/Celery)"
-msgstr "Celery"
+msgstr "(WSGI/Celery)"
 
 #: ../../security/threat-model.rst:80
 msgid ""
@@ -47863,10 +47850,13 @@ msgid ""
 "vulnerability allows altering translations, project configs, or VCS "
 "integration settings."
 msgstr ""
+"**Modification non autorisée de traductions :** Utilisateur malveillant ou "
+"faille exploitée permettant de modifier les traductions, les configurations "
+"des projets, ou celles de l'intégration du VCS."
 
 #: ../../security/threat-model.rst:81
 msgid "Incorrect translations, broken build, RCE via VCS hooks."
-msgstr ""
+msgstr "Traductions incorrectes, constructions cassées, RCE via les hook VCS."
 
 #: ../../security/threat-model.rst:84
 msgid ""
@@ -47877,13 +47867,11 @@ msgstr ""
 
 #: ../../security/threat-model.rst:85
 msgid "Code injection in target projects, data exfiltration."
-msgstr ""
+msgstr "Injection de code dans les projets cible, données exfiltrées."
 
 #: ../../security/threat-model.rst:87 ../../security/threat-model.rst:127
-#, fuzzy
-#| msgid "**activity**"
 msgid "**Repudiation**"
-msgstr "**activité**"
+msgstr "**Rejet**"
 
 #: ../../security/threat-model.rst:88
 msgid ""
@@ -51364,17 +51352,12 @@ msgid ""
 msgstr ""
 
 #: ../../user/glossary.rst:6
-#, fuzzy
-#| msgid ""
-#| "Each project can include one or more glossaries as a shorthand for "
-#| "storing terminology. Glossary easify maintaining consistency of the "
-#| "translation."
 msgid ""
 "Each project can include one or more glossaries as a shorthand for storing "
 "terminology. Glossaries help to maintain consistency of the translation."
 msgstr ""
 "Chaque projet peut inclure un ou plusieurs glossaires comme raccourci pour "
-"enregistrer la terminologie. Ils facilitent le maintient de la cohérence des "
+"enregistrer la terminologie. Ils aident à maintenir la cohérence des "
 "traductions."
 
 #: ../../user/glossary.rst:9
@@ -51420,33 +51403,24 @@ msgstr ""
 "enregistrer dans un dépôt distant, ou ajouter des explications."
 
 #: ../../user/glossary.rst:29
-#, fuzzy
-#| msgid "Please define a glossary name to use component as a glossary."
 msgid ""
 "Use any component as a glossary by turning on :ref:`component-is_glossary`. "
 "You can create multiple glossaries for one project."
 msgstr ""
-"Veuillez définir un nom de glossaire pour utiliser le composant comme un "
-"glossaire."
+"Pour utiliser tout composant comme un glossaire activer :ref:`component-"
+"is_glossary`. Plusieurs glossaires peuvent cohabiter dans un même projet."
 
 #: ../../user/glossary.rst:32
-#, fuzzy
-#| msgid ""
-#| "An empty glossary for a given project is automatically created when "
-#| "project is created. Glossaries are shared among all components of the "
-#| "same project and you can also choose to share them with another projects. "
-#| "You can do this only for projects you can administer."
 msgid ""
 "An empty glossary for a given project is automatically created with the "
 "project. Glossaries are shared among all components of the same project, and "
 "optionally with other projects using :ref:`component-links` from the "
 "respective glossary component."
 msgstr ""
-"Un glossaire vide pour un projet donné est automatiquement créé lors de la "
+"Un glossaire vide pour un projet donné est automatiquement créé à la "
 "création du projet. Les glossaires sont partagés entre toutes les "
-"composantes d’un même projet et vous pouvez également choisir de les "
-"partager avec d’autres projets. Vous ne pouvez le faire que pour les projets "
-"que vous administrez."
+"composantes d’un même projet et facultativement entre projets en utilisant "
+":ref:`component-links` à partir du composant glossaire respectif."
 
 #: ../../user/glossary.rst:37
 msgid ""
@@ -51465,10 +51439,8 @@ msgid "or edit them as any translations."
 msgstr "ou les modifier comme n’importe quelle traduction."
 
 #: ../../user/glossary.rst:49
-#, fuzzy
-#| msgid "Glossary term"
 msgid "Glossary terms"
-msgstr "Terme du glossaire"
+msgstr "Termes du glossaire"
 
 #: ../../user/glossary.rst:51
 msgid ""
@@ -51493,10 +51465,8 @@ msgid ""
 msgstr ""
 
 #: ../../user/glossary.rst:79
-#, fuzzy
-#| msgid "Good translations"
 msgid "Forbidden translations"
-msgstr "Traductions réalisées"
+msgstr "Traductions interdites"
 
 #: ../../user/glossary.rst:83
 msgid ""
@@ -51541,10 +51511,8 @@ msgstr ""
 "plus courtes à un terme."
 
 #: ../../user/glossary.rst:125
-#, fuzzy
-#| msgid "Glossary id"
 msgid "Glossary import"
-msgstr "ID de glossaire"
+msgstr "Importation du glossaire"
 
 #: ../../user/glossary.rst:127
 msgid ""
@@ -51562,14 +51530,14 @@ msgid "Glossaries in automatic suggestion"
 msgstr "Glossaires dans la suggestion automatiques"
 
 #: ../../user/glossary.rst:138
-#, fuzzy
-#| msgid "The following keyboard shortcuts can be utilized during translation:"
 msgid ""
 "Some automatic suggestion services utilize glossaries during the "
 "translation, please consult their documentation in :doc:`/admin/machine` to "
 "see the support."
 msgstr ""
-"Les raccourcis clavier suivants peuvent être utilisés lors de la traduction :"
+"Certains services de traduction automatique utilisent les glossaires pour la "
+"traduction, veuillez consulter la documentation de leur support dans :doc:`/"
+"admin/machine`."
 
 #: ../../user/glossary.rst:141
 msgid "The glossary is processed before exposed to the service:"
@@ -52273,18 +52241,16 @@ msgid ""
 "Source string was last changed on date, supports :ref:`search-operators` "
 "and :ref:`date-search`."
 msgstr ""
-"La chaîne source a été modifiée à la date fournie, prend en charge :ref"
+"La chaîne source a été modifiée à la date fournie et prend en charge :ref"
 ":`search-operators` et :ref:`date-search`."
 
 #: ../../user/search.rst:97
-#, fuzzy
-#| msgid "Source string was changed on date, supports :ref:`search-operators`."
 msgid ""
 "The string was last changed on date, supports :ref:`search-operators` "
 "and :ref:`date-search`."
 msgstr ""
-"La chaîne a été modifiée à la date fournie, prend en charge :ref:`search-"
-"operators`et :ref:`date-search`."
+"La chaîne a été modifiée à la date fournie et prend en charge :ref:`search-"
+"operators` et :ref:`date-search`."
 
 #: ../../user/search.rst:99
 msgid ""
@@ -52417,6 +52383,8 @@ msgid ""
 "Timestamp searching supports multiple ways to specify the value. It supports "
 "wide range of ways to specify date and time."
 msgstr ""
+"La recherche de références horaires supporte différentes manières de "
+"spécifier la valeur de la date et de l'heure."
 
 #: ../../user/search.rst:167
 msgid "ISO 8601 formatted like :samp:`2025-09-08T12:16:55.336146+00:00`."
@@ -54029,6 +53997,11 @@ msgid ""
 "repository. The project access token requires :guilabel:`Developer` role for "
 "pushing."
 msgstr ""
+"Il est également possible d'utiliser les jetons d'accès personnels ou du "
+"projet. Les jetons doivent avoir la fonction :guilabel:`écriture sur le "
+"dépôt` pour pouvoir pousser les modifications sur le dépôt. Le jeton d'accès "
+"au projet nécessite d'avoir le rôle :guilabel:`Developeur` pour pouvoir "
+"pousser."
 
 #: ../../vcs.rst:212
 msgid ""
@@ -54037,6 +54010,11 @@ msgid ""
 "example.git``) for project access tokens it can be non-blank value "
 "(``https://example:project_access_token@gitlab.com/example/example.git``)."
 msgstr ""
+"L'URL doit contenir un nom utilisateur, pour un jeton d'accès personnel "
+"c'est le nom utilisateur actuel "
+"( ``https://user:personal_access_token@gitlab.com/example/example.git``), "
+"pour les jetons d'accès au projet la valeur peut être non vide "
+"(``https://example:project_access_token@gitlab.com/example/example.git``)."
 
 #: ../../vcs.rst:220
 msgid ""
@@ -54045,6 +54023,11 @@ msgid ""
 "had different expectations (project name, bot user name). Check GitLab "
 "documentation matching your version if unsure."
 msgstr ""
+"Les règles concernant les jetons d'accès aux projets ont changé selon les "
+"versions de GitLab, une valeur non vide est demandée actuellement, mais les "
+"anciennes versions attendaient autre chose "
+"(un nom de projet, un nom utilisateur de robot). En cas de doute, vérifier "
+"dans la documentation GitLab de votre version."
 
 #: ../../vcs.rst:234
 msgid "Weblate internal URLs"
@@ -55521,9 +55504,8 @@ msgstr ""
 "chaînes approuvées."
 
 #: ../../workflows.rst:190
-#, fuzzy
 msgid "Or `Review` with :ref:`per-project access control <manage-acl>`."
-msgstr "Ou `Relecture` avec :ref:`contrôle d'accès par projet <manage-acl>`."
+msgstr "Ou `Relecture` avec :ref:`contrôle d'accès par projet <manage-acl>`."
 
 #: ../../workflows.rst:196
 msgid "Turning on reviews"
