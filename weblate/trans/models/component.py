@@ -26,7 +26,7 @@ from django.core.exceptions import (
 )
 from django.core.validators import MaxValueValidator
 from django.db import IntegrityError, connection, models, transaction
-from django.db.models import Count, Q
+from django.db.models import Count, F, Q
 from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
 from django.utils.functional import cached_property
@@ -2164,7 +2164,8 @@ class Component(
             Q(translation__component=self)
             | Q(translation__component__linked_component=self)
         ).exclude(
-            translation__language_id=self.source_language_id, translation__filename=""
+            Q(translation__language_id=F("translation__component__source_language_id"))
+            | Q(translation__filename="")
         ):
             PendingUnitChange.store_unit_change(unit)
 

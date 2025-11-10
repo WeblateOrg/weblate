@@ -34,7 +34,7 @@ repos:
   hooks:
   - id: yamllint
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.14.3
+  rev: v0.14.4
   hooks:
   - id: ruff-check
     args:
@@ -42,12 +42,12 @@ repos:
     - --exit-non-zero-on-fix
   - id: ruff-format
 - repo: https://github.com/adamtheturtle/doccmd-pre-commit
-  rev: v2025.10.27
+  rev: v2025.11.8
   hooks:
   - id: doccmd
     args: [--language, python, --no-pad-file, --command, ruff format]
     additional_dependencies:
-    - ruff==0.14.3
+    - ruff==0.14.4
 - repo: meta
   hooks:
   - id: check-hooks-apply
