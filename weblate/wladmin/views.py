@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import sys
+from shutil import disk_usage
 from typing import TYPE_CHECKING, Any, Literal, cast
 from urllib.parse import quote
 
@@ -375,6 +376,16 @@ def performance(request: AuthenticatedHttpRequest) -> HttpResponse:
         return handle_dismiss(request)
     checks = run_checks(include_deployment_checks=True)
 
+    try:
+        disk_usage_bytes = disk_usage(settings.DATA_DIR)
+    except OSError:
+        disk_usage_bytes = None
+
+    if disk_usage_bytes is None:
+        disk_usage_percent = 0
+    else:
+        disk_usage_percent = round(disk_usage_bytes.used * 100 / disk_usage_bytes.total)
+
     context = {
         "checks": [check for check in checks if not check.is_silenced()],
         "errors": ConfigurationError.objects.filter(ignored=False),
@@ -386,6 +397,8 @@ def performance(request: AuthenticatedHttpRequest) -> HttpResponse:
         "celery_latency": cache.get("celery_latency"),
         "database_latency": measure_database_latency(),
         "cache_latency": measure_cache_latency(),
+        "disk_usage": disk_usage_bytes,
+        "disk_usage_percent": disk_usage_percent,
     }
 
     return render(request, "manage/performance.html", context)
