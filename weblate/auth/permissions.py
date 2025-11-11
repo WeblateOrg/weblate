@@ -9,6 +9,7 @@ from typing import TYPE_CHECKING, cast
 from django.conf import settings
 from django.utils.translation import gettext
 
+from weblate.formats.base import BilingualUpdateMixin
 from weblate.lang.models import Language
 from weblate.trans.models import (
     Category,
@@ -478,7 +479,7 @@ def check_upload(
     if (
         translation.is_source
         and not translation.is_template
-        and not hasattr(translation.component.file_format_cls, "update_bilingual")
+        and not issubclass(translation.component.file_format_cls, BilingualUpdateMixin)
     ):
         return Denied(
             gettext("The file format does not support updating source strings.")
