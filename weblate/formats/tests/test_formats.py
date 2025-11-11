@@ -27,6 +27,7 @@ from weblate.formats.ttkit import (
     CatkeysFormat,
     CSVFormat,
     CSVSimpleFormat,
+    CSVUtf8SimpleFormat,
     DTDFormat,
     FlatXMLFormat,
     FluentFormat,
@@ -69,6 +70,8 @@ if TYPE_CHECKING:
 TEST_PO = get_test_file("cs.po")
 TEST_CSV = get_test_file("cs-mono.csv")
 TEST_CSV_NOHEAD = get_test_file("cs.csv")
+TEST_CSV_SIMPLE_EN = get_test_file("en-simple.csv")
+TEST_CSV_SIMPLE_PL = get_test_file("pl-simple.csv")
 TEST_FLATXML = get_test_file("cs-flat.xml")
 TEST_CUSTOM_FLATXML = get_test_file("cs-flat-custom.xml")
 TEST_RESOURCEDICTIONARY = get_test_file("cs.xaml")
@@ -1095,6 +1098,87 @@ class CSVFormatNoHeadTest(CSVFormatTest):
 class CSVSimpleFormatNoHeadTest(CSVFormatNoHeadTest):
     format_class = CSVSimpleFormat
     EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
+
+
+class CSVUtf8SimpleFormatMonolingualTest(FixtureTestCase, TempDirMixin):
+    """Test for CSV Simple UTF-8 format with monolingual base file."""
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.create_temp()
+
+    def tearDown(self) -> None:
+        super().tearDown()
+        self.remove_temp()
+
+    def test_save_preserves_source_field(self) -> None:
+        """
+        Test that saving a CSV Simple file with a monolingual base preserves
+        the source field correctly in the output.
+
+        This reproduces the issue where translations are saved with empty source
+        fields instead of preserving the context/key from the base file.
+
+        See: https://github.com/WeblateOrg/weblate/issues/XXXXX
+        """
+        # Create a temporary copy of the translation file
+        translation_file = os.path.join(self.tempdir, "pl.csv")
+        with open(TEST_CSV_SIMPLE_PL, "rb") as f:
+            content = f.read()
+        with open(translation_file, "wb") as f:
+            f.write(content)
+
+        # Load the base file (template)
+        base_format = CSVUtf8SimpleFormat(
+            TEST_CSV_SIMPLE_EN, is_template=True
+        )
+
+        # Load the translation file with the template
+        translation_format = CSVUtf8SimpleFormat(
+            translation_file,
+            template_store=base_format.store,
+            language_code='pl'
+        )
+
+        # Verify we have the expected units
+        units = list(translation_format.content_units)
+        self.assertEqual(len(units), 5)
+
+        # Find units and add translations
+        for unit in units:
+            if unit.context == "objectAccessDenied":
+                unit.set_target("Nie masz uprawnien do modyfikowania obiektu '%s'")
+            elif unit.context == "propAccessDenied":
+                unit.set_target("Nie masz uprawnien do modyfikowania wlasciwosci: %s (tytul obiektu: %s)")
+            elif unit.context == "noReadPermission":
+                unit.set_target("Nie masz uprawnien do odczytu obiektu '%s'")
+
+        # Save the file
+        translation_format.save()
+
+        # Read the saved content
+        with open(translation_file, "rb") as f:
+            saved_content = f.read().decode('utf-8')
+
+        # Check that the source fields are not empty
+        lines = saved_content.strip().split('\n')
+
+        # Skip header
+        for line in lines[1:]:
+            # Parse the line
+            import csv
+            reader = csv.reader([line], delimiter=';', quotechar='"')
+            for row in reader:
+                if len(row) >= 2:
+                    source_field = row[0]
+                    target_field = row[1]
+                    # If target is not empty, source should also not be empty
+                    if target_field:
+                        self.assertNotEqual(
+                            source_field,
+                            "",
+                            f"Source field is empty for target: {target_field}"
+                        )
 
 
 class FlatXMLFormatTest(BaseFormatTest):

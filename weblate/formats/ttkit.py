@@ -1740,16 +1740,32 @@ class CSVFormat(TTKitFormat):
 
     def parse_simple_csv(self, content, filename, header: list[str] | None = None):
         fieldnames = ["source", "target"]
-        if header and all(
+        # For monolingual files with a template, always use context/target fieldnames
+        # regardless of what header the file has, to ensure proper source field handling
+        if self.is_template or self.template_store:
+            fieldnames = ["context", "target"]
+        elif header and all(
             field in {"source", "target", "context", "id"} for field in header
         ):
             fieldnames = header
-        elif self.is_template or self.template_store:
-            fieldnames = ["context", "target"]
         result = self.get_store_instance(fieldnames=fieldnames)
         result.parse(content, sample_length=None)
         result.filename = filename
         return result
+
+    def save_content(self, handle) -> None:
+        """Store content to file, ensuring source fields are properly set."""
+        # For monolingual CSV files with a template, ensure that the source field
+        # in each unit is populated from the context before saving
+        if self.template_store and "source" in self.store.fieldnames:
+            for unit in self.store.units:
+                # If context is set but source is empty, copy context to source
+                # This handles the case where units were read with source/target fieldnames
+                # but should be saved with the source field populated from context
+                if unit.context and not unit.source:
+                    unit.source = unit.context
+
+        super().save_content(handle)
 
 
 class CSVUtf8Format(CSVFormat):
