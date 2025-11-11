@@ -1113,8 +1113,7 @@ class CSVUtf8SimpleFormatMonolingualTest(FixtureTestCase, TempDirMixin):
 
     def test_save_preserves_source_field(self) -> None:
         """
-        Test that saving a CSV Simple file with a monolingual base preserves
-        the source field correctly in the output.
+        Test that saving a CSV Simple file preserves source fields.
 
         This reproduces the issue where translations are saved with empty source
         fields instead of preserving the context/key from the base file.
@@ -1129,15 +1128,11 @@ class CSVUtf8SimpleFormatMonolingualTest(FixtureTestCase, TempDirMixin):
             f.write(content)
 
         # Load the base file (template)
-        base_format = CSVUtf8SimpleFormat(
-            TEST_CSV_SIMPLE_EN, is_template=True
-        )
+        base_format = CSVUtf8SimpleFormat(TEST_CSV_SIMPLE_EN, is_template=True)
 
         # Load the translation file with the template
         translation_format = CSVUtf8SimpleFormat(
-            translation_file,
-            template_store=base_format.store,
-            language_code='pl'
+            translation_file, template_store=base_format.store, language_code="pl"
         )
 
         # Verify we have the expected units
@@ -1149,7 +1144,9 @@ class CSVUtf8SimpleFormatMonolingualTest(FixtureTestCase, TempDirMixin):
             if unit.context == "objectAccessDenied":
                 unit.set_target("Nie masz uprawnien do modyfikowania obiektu '%s'")
             elif unit.context == "propAccessDenied":
-                unit.set_target("Nie masz uprawnien do modyfikowania wlasciwosci: %s (tytul obiektu: %s)")
+                unit.set_target(
+                    "Nie masz uprawnien do modyfikowania wlasciwosci: %s (tytul obiektu: %s)"
+                )
             elif unit.context == "noReadPermission":
                 unit.set_target("Nie masz uprawnien do odczytu obiektu '%s'")
 
@@ -1158,16 +1155,17 @@ class CSVUtf8SimpleFormatMonolingualTest(FixtureTestCase, TempDirMixin):
 
         # Read the saved content
         with open(translation_file, "rb") as f:
-            saved_content = f.read().decode('utf-8')
+            saved_content = f.read().decode("utf-8")
 
         # Check that the source fields are not empty
-        lines = saved_content.strip().split('\n')
+        lines = saved_content.strip().split("\n")
 
         # Skip header
         for line in lines[1:]:
             # Parse the line
             import csv
-            reader = csv.reader([line], delimiter=';', quotechar='"')
+
+            reader = csv.reader([line], delimiter=";", quotechar='"')
             for row in reader:
                 if len(row) >= 2:
                     source_field = row[0]
@@ -1177,7 +1175,7 @@ class CSVUtf8SimpleFormatMonolingualTest(FixtureTestCase, TempDirMixin):
                         self.assertNotEqual(
                             source_field,
                             "",
-                            f"Source field is empty for target: {target_field}"
+                            f"Source field is empty for target: {target_field}",
                         )
 
 
