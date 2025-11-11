@@ -1118,7 +1118,8 @@ class CSVUtf8SimpleFormatMonolingualTest(FixtureTestCase, TempDirMixin):
         This reproduces the issue where translations are saved with empty source
         fields instead of preserving the context/key from the base file.
 
-        See: https://github.com/WeblateOrg/weblate/issues/XXXXX
+        Relies on translate-toolkit's monolingual CSV support (PR #5830).
+        See: https://github.com/WeblateOrg/weblate/issues/16835
         """
         # Create a temporary copy of the translation file
         translation_file = os.path.join(self.tempdir, "pl.csv")
