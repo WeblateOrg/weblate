@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-27 07:35+0000\n"
-"PO-Revision-Date: 2025-08-31 06:34+0000\n"
-"Last-Translator: Winston Sung <winston21.sung@gmail.com>\n"
+"PO-Revision-Date: 2025-11-12 07:51+0000\n"
+"Last-Translator: Chang-Chia Tseng <pswo10680@gmail.com>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/application/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.13.1-dev\n"
+"X-Generator: Weblate 5.15-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -543,7 +543,7 @@ msgstr "管理員已禁止使用者的存取權。"
 
 #: weblate/accounts/models.py:296
 msgid "User was disabled because the access has expired."
-msgstr ""
+msgstr "使用者因存取權過期而停用。"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:299
@@ -589,10 +589,9 @@ msgid "Two-factor authentication sign in using {device}"
 msgstr "使用 {device} 進行雙重要素身分驗證登入"
 
 #: weblate/accounts/models.py:320
-#, fuzzy, python-brace-format
-#| msgid "Two-factor authentication sign in using {device}"
+#, python-brace-format
 msgid "Two-factor authentication failed using {device_type}"
-msgstr "使用 {device} 進行雙重要素身分驗證登入"
+msgstr "使用 {device_type} 進行雙重要素身分驗證登入失敗"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:328
@@ -1278,10 +1277,9 @@ msgid "The supplied username is already in use for another account."
 msgstr "提供的使用者名稱已經被其他帳號使用。"
 
 #: weblate/accounts/views.py:1499
-#, fuzzy, python-format
-#| msgid "Authentication app (%s)"
+#, python-format
 msgid "Authentication failed: %s"
-msgstr "驗證應用程式（%s）"
+msgstr "身份驗證失敗：%s"
 
 #: weblate/accounts/views.py:1505
 msgid "The supplied user identity is already in use for another account."
@@ -1466,10 +1464,8 @@ msgid "Bulk edit flags, labels, or states of strings."
 msgstr "大量編輯字串的旗標、標籤或狀態。"
 
 #: weblate/addons/flags.py:134
-#, fuzzy
-#| msgid "Flag unchanged translations as \"Needs editing\""
 msgid "Flag updated translations from repository as \"Needs editing\""
-msgstr "將未變動的翻譯標記為「需要編輯」"
+msgstr "將儲存庫中更新的翻譯標記為「需要編輯」"
 
 #: weblate/addons/flags.py:137
 #, fuzzy
@@ -2035,10 +2031,8 @@ msgid "Reset all changes in the Weblate repository"
 msgstr "重設 Weblate 儲存庫中的所有更動"
 
 #: weblate/api/serializers.py:1079 weblate/templates/js/git-status.html:155
-#, fuzzy
-#| msgid "Define the base file for new translations"
 msgid "Reset the Weblate repository and reapply translations"
-msgstr "定義新翻譯的基礎檔"
+msgstr "重設 Weblate 儲存庫，並重新套用翻譯"
 
 #: weblate/api/serializers.py:1083 weblate/templates/js/git-status.html:166
 msgid "Cleanup all untracked files in the Weblate repository"
@@ -2298,10 +2292,8 @@ msgstr "檢閱字串"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:75
-#, fuzzy
-#| msgid "Edit strings"
 msgid "Bulk edit strings"
-msgstr "編輯字串"
+msgstr "大量編輯字串"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:77
@@ -2435,10 +2427,8 @@ msgstr "管理團隊"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:135
-#, fuzzy
-#| msgid "View billing info"
 msgid "View team info"
-msgstr "檢視帳單資訊"
+msgstr "檢視團隊資訊"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:137 weblate/templates/manage/users.html:18
@@ -2447,10 +2437,8 @@ msgstr "管理使用者"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:139
-#, fuzzy
-#| msgid "View billing info"
 msgid "View user info"
-msgstr "檢視帳單資訊"
+msgstr "檢視使用者資訊"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:141
@@ -2459,10 +2447,8 @@ msgstr "管理角色"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:143
-#, fuzzy
-#| msgid "View billing info"
 msgid "View role info"
-msgstr "檢視帳單資訊"
+msgstr "檢視角色資訊"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:145
@@ -2546,8 +2532,6 @@ msgid "Manage languages"
 msgstr "管理語言"
 
 #: weblate/auth/data.py:241
-#, fuzzy
-#| msgid "Bulk edit"
 msgctxt "Access-control role"
 msgid "Bulk editing"
 msgstr "大量編輯"
@@ -2653,8 +2637,6 @@ msgid "Screenshots"
 msgstr "畫面快照"
 
 #: weblate/auth/data.py:315
-#, fuzzy
-#| msgid "Bulk edit"
 msgctxt "Per-project access-control team name"
 msgid "Bulk editing"
 msgstr "大量編輯"
@@ -2861,7 +2843,7 @@ msgstr "到期"
 
 #: weblate/auth/models.py:497
 msgid "The account will be disabled after the expiry."
-msgstr ""
+msgstr "帳號在過期之後會停用。"
 
 #: weblate/auth/models.py:504 weblate/templates/accounts/profile.html:34
 #: weblate/templates/accounts/user.html:194 weblate/templates/auth/team.html:38
@@ -3187,10 +3169,8 @@ msgid "Billing"
 msgstr "帳單"
 
 #: weblate/billing/models.py:681 weblate/templates/billing/detail.html:119
-#, fuzzy
-#| msgid "Billing overview"
 msgid "Billing event"
-msgstr "帳單概覽"
+msgstr "帳單事件"
 
 #: weblate/billing/tasks.py:73
 msgid ""
@@ -4070,10 +4050,8 @@ msgid "The Vue I18n formatting does not match source."
 msgstr "Vue I18n 格式與來源不符。"
 
 #: weblate/checks/format.py:828
-#, fuzzy
-#| msgid "Automattic Components"
 msgid "Automattic components formatting"
-msgstr "Automattic 組件"
+msgstr "Automattic 組件格式設定"
 
 #: weblate/checks/format.py:830
 msgid "The Automattic components' placeholders do not match the source."
@@ -4561,10 +4539,8 @@ msgid "CSV"
 msgstr "CSV"
 
 #: weblate/formats/exporters.py:258
-#, fuzzy
-#| msgid "Multivalue CSV file (UTF-8)"
 msgid "Multivalue CSV"
-msgstr "多值 CSV 檔案 （UTF-8）"
+msgstr "多值 CSV 檔案"
 
 #: weblate/formats/exporters.py:325
 msgid "XLSX"
@@ -5844,21 +5820,21 @@ msgstr "%s 翻譯目前無法取用，但可以加入。"
 
 #: weblate/screenshots/forms.py:33
 msgid "You need to provide either image file or image URL."
-msgstr ""
+msgstr "您需要提供影像檔案或影像 URL。"
 
 #: weblate/screenshots/forms.py:53
 msgid "Image URL domain is not allowed."
-msgstr ""
+msgstr "影像 URL 域名不允許。"
 
 #: weblate/screenshots/forms.py:61
 #, python-format
 msgid ""
 "Unable to download image from the provided URL (HTTP status code: %(code)s)."
-msgstr ""
+msgstr "無法從提供的 URL 下載影像（HTTP 狀態碼：%(code)s）。"
 
 #: weblate/screenshots/forms.py:79
 msgid "Image is too big."
-msgstr ""
+msgstr "影像過大。"
 
 #: weblate/screenshots/forms.py:85 weblate/utils/validators.py:126
 #, python-format
@@ -5867,7 +5843,7 @@ msgstr "不支援的影像類型：%s"
 
 #: weblate/screenshots/forms.py:93
 msgid "Unable to download image from the provided URL."
-msgstr ""
+msgstr "無法從提供的 URL 下載影像。"
 
 #: weblate/screenshots/forms.py:120 weblate/screenshots/forms.py:147
 #: weblate/templates/widgets.html:64
@@ -5876,7 +5852,7 @@ msgstr "影像 URL"
 
 #: weblate/screenshots/forms.py:121 weblate/screenshots/forms.py:148
 msgid "The image will be downloaded and stored."
-msgstr ""
+msgstr "影像會下載並儲存。"
 
 #: weblate/screenshots/models.py:57
 #: weblate/templates/screenshots/screenshot_list.html:47
@@ -6862,13 +6838,13 @@ msgstr "正將您重新導向至身份核對處。"
 
 #: weblate/templates/accounts/register-password.html:4
 msgid "Registration without a password:"
-msgstr ""
+msgstr "無密碼註冊："
 
 #: weblate/templates/accounts/register-password.html:5
 msgid ""
 "You can set your password later by clicking on the link in the verification "
 "email."
-msgstr ""
+msgstr "您可以稍後點按核驗用電子郵件中的連結來設定密碼。"
 
 #: weblate/templates/accounts/register.html:20
 msgid "Please complete the registration to accept the invitation."
