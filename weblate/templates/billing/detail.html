@@ -119,6 +119,7 @@
                 <th>{% translate "Billing event" %}</th>
                 <th>{% translate "Event details" %}</th>
                 <th>{% translate "User" %}</th>
+                <th></th>
               </tr>
             </thead>
             <tbody>
@@ -128,6 +129,11 @@
                   <td>{{ log.get_event_display }}</td>
                   <td>{{ log.summary }}</td>
                   <td>{{ log.user }}</td>
+                  <td>
+                    {% if user.is_superuser and log.details.backup_filename %}
+                      <a href="{% url "restore_backup" %}?path={{ log.details.backup_filename }}">{% translate "Download" %}</a>
+                    {% endif %}
+                  </td>
                 </tr>
               {% endfor %}
             </tbody>
