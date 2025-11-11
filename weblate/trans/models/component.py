@@ -39,6 +39,7 @@ from weblate_language_data.ambiguous import AMBIGUOUS
 
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
+from weblate.formats.base import BilingualUpdateMixin
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language, get_default_lang
 from weblate.memory.tasks import import_memory
@@ -1793,7 +1794,7 @@ class Component(
                 if (
                     not self.template
                     and not self.file_format_cls.create_empty_bilingual
-                    and not hasattr(self.file_format_cls, "update_bilingual")
+                    and not issubclass(self.file_format_cls, BilingualUpdateMixin)
                 ) or (
                     self.template
                     and self.file_format_cls.get_new_file_content() is None
