@@ -929,6 +929,11 @@ if "weblate.billing" in settings.INSTALLED_APPS:
             name="invoice-download",
         ),
         path("billing/", weblate.billing.views.overview, name="billing"),
+        path(
+            "manage/restore-backup/",
+            weblate.billing.views.restore_backup,
+            name="restore_backup",
+        ),
         path("billing/<int:pk>/", weblate.billing.views.detail, name="billing-detail"),
         path("manage/billing/", weblate.wladmin.views.billing, name="manage-billing"),
     ]

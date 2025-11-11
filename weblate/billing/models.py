@@ -660,6 +660,7 @@ class BillingEvent(models.IntegerChoices):
     LIBRE_APPROVED = 9, "Approved Libre hosting"
     TERMINATED = 10, "Billing terminated"
     EXTENDED_TRIAL = 11, "Trial extended"
+    PROJECT_BACKUP = 12, "Project backed up"
 
 
 class BillingLogQuerySet(models.QuerySet["BillingLog"]):
@@ -682,6 +683,7 @@ class BillingLog(models.Model):
     )
     summary = models.CharField(max_length=200, verbose_name="Summary")
     user = models.ForeignKey(User, null=True, on_delete=models.RESTRICT)
+    details = models.JSONField(default=dict)
 
     objects = BillingLogQuerySet.as_manager()
 
