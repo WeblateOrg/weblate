@@ -12,6 +12,8 @@ Weblate 5.15
 
 .. rubric:: Bug fixes
 
+* Fixed Simple CSV File format saving translations with empty source fields when using monolingual base files.
+
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading
