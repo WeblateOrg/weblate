@@ -1740,15 +1740,14 @@ class CSVFormat(TTKitFormat):
 
     def parse_simple_csv(self, content, filename, header: list[str] | None = None):
         fieldnames = ["source", "target"]
-        # For monolingual files with a template, prefer context/target fieldnames
-        # This works with translate-toolkit's monolingual CSV support (PR #5830)
-        # which properly handles CSV files with context/target or id/target columns
-        if self.is_template or self.template_store:
-            fieldnames = ["context", "target"]
-        elif header and all(
+        # Prefer detected header if available (translate-toolkit PR #5830 adds
+        # monolingual CSV support with proper handling of context/id/target columns)
+        if header and all(
             field in {"source", "target", "context", "id"} for field in header
         ):
             fieldnames = header
+        elif self.is_template or self.template_store:
+            fieldnames = ["context", "target"]
         result = self.get_store_instance(fieldnames=fieldnames)
         result.parse(content, sample_length=None)
         result.filename = filename
