@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-27 07:35+0000\n"
-"PO-Revision-Date: 2025-11-11 06:51+0000\n"
-"Last-Translator: Dũng Vũ <actionchikuzo@gmail.com>\n"
+"PO-Revision-Date: 2025-11-12 07:51+0000\n"
+"Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "application/vi/>\n"
 "Language: vi\n"
@@ -3243,10 +3243,8 @@ msgid "Project website missing!"
 msgstr "Trang web của dự án bị thiếu!"
 
 #: weblate/billing/models.py:499
-#, fuzzy
-#| msgid "Subscribed projects"
 msgid "Only public projects are allowed"
-msgstr "Chủ đề đã đăng ký theo dõi"
+msgstr "Chỉ cho phép dự án công khai"
 
 #: weblate/billing/models.py:505
 #, python-format
@@ -3255,16 +3253,12 @@ msgid_plural "Contains %d components"
 msgstr[0] "Chứa %d thành phần"
 
 #: weblate/billing/models.py:513
-#, fuzzy
-#| msgid "Recent changes in %s"
 msgid "Missing license"
-msgstr "Các thay đổi gần đây trong %s"
+msgstr "Thiếu giấy phép"
 
 #: weblate/billing/models.py:519
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Not a libre license"
-msgstr "PHP strings"
+msgstr "Không phải là giấy phép tự do"
 
 #: weblate/billing/models.py:677 weblate/templates/accounts/user.html:187
 #: weblate/templates/billing/detail.html:10
@@ -3277,40 +3271,28 @@ msgid "Billing"
 msgstr "Thanh toán"
 
 #: weblate/billing/models.py:681 weblate/templates/billing/detail.html:119
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "Billing event"
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Sự kiện thanh toán"
 
 #: weblate/billing/tasks.py:73
-#, fuzzy
-#| msgid ""
-#| "You will receive these notifications only for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will stop receiving this notification once you pay the bills or the "
 "project is removed."
 msgstr ""
-"Bạn sẽ nhận được thông báo về các bản dịch với ngôn ngữ của bạn cho các dự "
-"án bạn đang theo dõi."
+"Bạn sẽ ngừng nhận thông báo này sau khi thanh toán hóa đơn hoặc dự án được "
+"gỡ bỏ."
 
 #: weblate/billing/tasks.py:78
-#, fuzzy
-#| msgid ""
-#| "You will receive these notifications only for your translated languages "
-#| "in your watched projects."
 msgid ""
 "You will stop receiving this notification once you change to regular "
 "subscription or the project is removed."
 msgstr ""
-"Bạn sẽ nhận được thông báo về các bản dịch với ngôn ngữ của bạn cho các dự "
-"án bạn đang theo dõi."
+"Bạn sẽ ngừng nhận thông báo này khi bạn chuyển sang đăng ký thông thường "
+"hoặc dự án bị xóa."
 
 #: weblate/checks/angularjs.py:32
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "AngularJS interpolation string"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Chuỗi nội suy trong AngularJS"
 
 #: weblate/checks/angularjs.py:33
 msgid "AngularJS interpolation strings do not match source."
@@ -3325,10 +3307,8 @@ msgid "The following format strings are extra: {}"
 msgstr "Các chuỗi định dạng sau đây là bổ sung: {}"
 
 #: weblate/checks/base.py:343
-#, fuzzy
-#| msgid "The following translations will be removed:"
 msgid "The following errors were found:"
-msgstr "Các bản dịch sau sẽ bị xóa:"
+msgstr "Đã tìm thấy các lỗi sau:"
 
 #: weblate/checks/chars.py:49
 msgid "Starting newline"
@@ -3383,60 +3363,48 @@ msgid "Translation contains double space."
 msgstr "Bản dịch có chứa khoảng trắng đôi."
 
 #: weblate/checks/chars.py:202
-#, fuzzy
-#| msgid "Subscribed projects"
 msgid "Mismatched full stop"
-msgstr "Chủ đề đã đăng ký theo dõi"
+msgstr "Dấu chấm không khớp"
 
 #: weblate/checks/chars.py:204
 msgid "Source and translation do not both end with a full stop."
 msgstr "Nguồn và bản dịch không kết thúc bằng dấu chấm."
 
 #: weblate/checks/chars.py:258
-#, fuzzy
-#| msgid "Subscribed projects"
 msgid "Mismatched colon"
-msgstr "Chủ đề đã đăng ký theo dõi"
+msgstr "Dấu hai chấm không khớp"
 
 #: weblate/checks/chars.py:259
 msgid "Source and translation do not both end with a colon."
 msgstr "Nguồn và bản dịch không kết thúc bằng dấu hai chấm."
 
 #: weblate/checks/chars.py:293
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "Mismatched question mark"
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Dấu chấm hỏi không khớp"
 
 #: weblate/checks/chars.py:295
 msgid "Source and translation do not both end with a question mark."
 msgstr "Nguồn và bản dịch không kết thúc bằng dấu chấm hỏi."
 
 #: weblate/checks/chars.py:339
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "Mismatched exclamation mark"
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Dấu chấm than không khớp"
 
 #: weblate/checks/chars.py:341
 msgid "Source and translation do not both end with an exclamation mark."
 msgstr "Nguồn và bản dịch không kết thúc bằng dấu chấm than."
 
 #: weblate/checks/chars.py:373
-#, fuzzy
-#| msgid "Subscribed projects"
 msgid "Mismatched interrobang"
-msgstr "Chủ đề đã đăng ký theo dõi"
+msgstr "Dấu hỏi than không khớp"
 
 #: weblate/checks/chars.py:375
 msgid "Source and translation do not both end with an interrobang expression."
 msgstr "Nguồn và bản dịch không kết thúc bằng một câu xen kẽ."
 
 #: weblate/checks/chars.py:389
-#, fuzzy
-#| msgid "Subscribed projects"
 msgid "Mismatched ellipsis"
-msgstr "Chủ đề đã đăng ký theo dõi"
+msgstr "Dấu ba chấm không khớp"
 
 #: weblate/checks/chars.py:391
 msgid "Source and translation do not both end with an ellipsis."
@@ -3454,7 +3422,7 @@ msgstr ""
 
 #: weblate/checks/chars.py:435
 msgid "Mismatching line breaks"
-msgstr ""
+msgstr "Ngắt dòng không khớp"
 
 #: weblate/checks/chars.py:437
 msgid "Number of new lines in translation does not match source."
@@ -3462,27 +3430,23 @@ msgstr "Số lượng dòng mới trong bản dịch không khớp với bản g
 
 #: weblate/checks/chars.py:445 weblate/trans/autofixes/chars.py:49
 msgid "Zero-width space"
-msgstr ""
+msgstr "Khoảng trắng không có chiều rộng"
 
 #: weblate/checks/chars.py:446
 msgid "Translation contains extra zero-width space character."
 msgstr "Bản dịch có chứa ký tự khoảng trắng thừa."
 
 #: weblate/checks/chars.py:463 weblate/checks/flags.py:86
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Maximum length of translation"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Độ dài tối đa của bản dịch"
 
 #: weblate/checks/chars.py:464
 msgid "Translation should not exceed given length."
-msgstr ""
+msgstr "Bản dịch không được vượt quá độ dài cho phép."
 
 #: weblate/checks/chars.py:480
-#, fuzzy
-#| msgid "Subscribed projects"
 msgid "Mismatched semicolon"
-msgstr "Chủ đề đã đăng ký theo dõi"
+msgstr "Dấu chấm phẩy không khớp"
 
 #: weblate/checks/chars.py:482
 msgid "Source and translation do not both end with a semicolon."
@@ -3490,25 +3454,23 @@ msgstr "Nguồn và bản dịch không kết thúc bằng dấu chấm phẩy."
 
 #: weblate/checks/chars.py:496
 msgid "Kashida letter used"
-msgstr ""
+msgstr "Chữ Kashida được sử dụng"
 
 #: weblate/checks/chars.py:497
 msgid "The decorative kashida letters should not be used."
 msgstr "Không nên sử dụng chữ kashida trang trí."
 
 #: weblate/checks/chars.py:516 weblate/trans/autofixes/chars.py:101
-#, fuzzy
-#| msgid "Action"
 msgid "Punctuation spacing"
-msgstr "Hành động"
+msgstr "Khoảng cách dấu câu"
 
 #: weblate/checks/chars.py:518
 msgid "Missing non breakable space before double punctuation sign."
-msgstr ""
+msgstr "Thiếu khoảng cách không thể tách rời trước dấu chấm câu kép."
 
 #: weblate/checks/consistency.py:33
 msgid "Missing plurals"
-msgstr ""
+msgstr "Thiếu số nhiều"
 
 #: weblate/checks/consistency.py:34
 msgid "Some plural forms are untranslated."
@@ -3516,7 +3478,7 @@ msgstr "Một số dạng số nhiều không được dịch."
 
 #: weblate/checks/consistency.py:60
 msgid "Same plurals"
-msgstr ""
+msgstr "Cùng số nhiều"
 
 #: weblate/checks/consistency.py:61
 msgid "Some plural forms are translated in the same way."
@@ -3524,13 +3486,15 @@ msgstr "Một số dạng số nhiều được dịch theo cùng một cách."
 
 #: weblate/checks/consistency.py:80
 msgid "Inconsistent"
-msgstr ""
+msgstr "Không nhất quán"
 
 #: weblate/checks/consistency.py:82
 msgid ""
 "This string has more than one translation in this project or is untranslated "
 "in some components."
 msgstr ""
+"Chuỗi này có nhiều hơn một bản dịch trong dự án này hoặc không được dịch "
+"trong một số thành phần."
 
 #: weblate/checks/consistency.py:157
 msgid "Reused translation"
@@ -3549,13 +3513,11 @@ msgstr[0] "Chuỗi nguồn khác: %s"
 #: weblate/checks/consistency.py:192
 #, python-format
 msgid "“%s”"
-msgstr ""
+msgstr "“%s”"
 
 #: weblate/checks/consistency.py:261
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Has been translated"
-msgstr "PHP strings"
+msgstr "Đã được dịch"
 
 #: weblate/checks/consistency.py:262
 msgid "This string has been translated in the past."
@@ -3567,14 +3529,12 @@ msgid "Previous translation was \"%s\"."
 msgstr "Bản dịch trước đó là \"%s\"."
 
 #: weblate/checks/duplicate.py:39
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Consecutive duplicated words"
-msgstr "PHP strings"
+msgstr "Các từ trùng lặp liên tiếp"
 
 #: weblate/checks/duplicate.py:40
 msgid "Text contains the same word twice in a row."
-msgstr ""
+msgstr "Văn bản chứa cùng một từ hai lần liên tiếp."
 
 #: weblate/checks/duplicate.py:103
 msgid "The following word is duplicated:"
@@ -3583,21 +3543,19 @@ msgstr[0] "Từ sau đây được sao chép:"
 
 #: weblate/checks/flags.py:54
 msgid "RST text"
-msgstr ""
+msgstr "Văn bản RST"
 
 #: weblate/checks/flags.py:55
-#, fuzzy
-#| msgid "Contact"
 msgid "Markdown text"
-msgstr "Liên lạc"
+msgstr "Văn bản Markdown"
 
 #: weblate/checks/flags.py:56
 msgid "XML text"
-msgstr ""
+msgstr "Văn bản XML"
 
 #: weblate/checks/flags.py:57
 msgid "DOS line endings"
-msgstr ""
+msgstr "Kết thúc dòng DOS"
 
 #: weblate/checks/flags.py:58 weblate/checks/markup.py:371
 #: weblate/templates/data.html:29 weblate/templates/data.html:70
@@ -3606,48 +3564,38 @@ msgid "URL"
 msgstr "Đường dẫn URL"
 
 #: weblate/checks/flags.py:60
-#, fuzzy
-#| msgid "Plural form %d"
 msgid "Automatically detect Java MessageFormat"
-msgstr "Dạng số nhiều %d"
+msgstr "Tự động phát hiện Java MessageFormat"
 
 #: weblate/checks/flags.py:62
 #: weblate/templates/snippets/unit-readonly-badge.html:14
 #: weblate/templates/translate.html:258
-#, fuzzy
-#| msgid "Read only"
 msgid "Read-only"
 msgstr "Chỉ đọc"
 
 #: weblate/checks/flags.py:63
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Strict unchanged check"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Kiểm tra chặt chẽ không thay đổi"
 
 #: weblate/checks/flags.py:64
 msgid "Strict format string checks"
 msgstr "Kiểm tra chuỗi định dạng nghiêm ngặt"
 
 #: weblate/checks/flags.py:65 weblate/trans/forms.py:2747
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Forbidden translation"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Bản dịch bị cấm"
 
 #: weblate/checks/flags.py:66 weblate/trans/forms.py:2742
 msgid "Terminology"
-msgstr ""
+msgstr "Thuật ngữ"
 
 #: weblate/checks/flags.py:67
 msgid "Ignore all checks"
-msgstr ""
+msgstr "Bỏ qua tất cả các kiểm tra"
 
 #: weblate/checks/flags.py:68
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Use case insensitive placeholders"
-msgstr "PHP strings"
+msgstr "Sử dụng các chỗ giữ chỗ không phân biệt chữ hoa chữ thường"
 
 #: weblate/checks/flags.py:72 weblate/fonts/models.py:24
 #: weblate/templates/fonts/font_detail.html:25
@@ -3657,15 +3605,15 @@ msgstr ""
 
 #: weblate/checks/flags.py:74
 msgid "Font size"
-msgstr ""
+msgstr "Cỡ chữ"
 
 #: weblate/checks/flags.py:76
 msgid "Font weight"
-msgstr ""
+msgstr "Độ đậm phông chữ"
 
 #: weblate/checks/flags.py:78
 msgid "Font spacing"
-msgstr ""
+msgstr "Dãn cách phông chữ"
 
 #: weblate/checks/flags.py:80
 msgid "ICU MessageFormat flags"
@@ -3678,17 +3626,15 @@ msgstr "Tiền tố thẻ ICU MessageFormat"
 #: weblate/checks/flags.py:84 weblate/trans/models/component.py:785
 #: weblate/utils/views.py:212
 msgid "Priority"
-msgstr ""
+msgstr "Mức ưu tiên"
 
 #: weblate/checks/flags.py:88
 msgid "Replacements while rendering"
-msgstr ""
+msgstr "Thay thế trong khi kết xuất"
 
 #: weblate/checks/flags.py:90
-#, fuzzy
-#| msgid "Status"
 msgid "String variant"
-msgstr "Tình trạng"
+msgstr "Biến thể chuỗi"
 
 #: weblate/checks/flags.py:94
 msgid "Fluent type"
@@ -3696,7 +3642,7 @@ msgstr "Kiểu Fluent"
 
 #: weblate/checks/flags.py:96
 msgid "Discard flag"
-msgstr ""
+msgstr "Bỏ cờ"
 
 #: weblate/checks/flags.py:337
 #, python-format
@@ -3742,6 +3688,8 @@ msgid ""
 "The sequence {sequence} begins with a HTML closing tag, but the name or "
 "syntax is not valid. If you do not want a closing tag, use {suggestion}."
 msgstr ""
+"Chuỗi {sequence} bắt đầu bằng thẻ đóng HTML, nhưng tên hoặc cú pháp không "
+"hợp lệ. Nếu bạn không muốn có thẻ đóng, hãy sử dụng {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:185
 #, python-brace-format
@@ -3749,6 +3697,8 @@ msgid ""
 "The sequence {sequence} begins with a HTML tag, but the name is not valid. "
 "If you do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
+"Chuỗi {sequence} bắt đầu bằng một thẻ HTML, nhưng tên không hợp lệ. Nếu bạn "
+"không muốn bắt đầu bằng một thẻ HTML, hãy sử dụng {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:198
 #, python-brace-format
@@ -3756,6 +3706,9 @@ msgid ""
 "The sequence {sequence} begins with a HTML tag, but the tag is never closed "
 "by {close}. If you do not want to begin a HTML tag, use {suggestion}."
 msgstr ""
+"Chuỗi {sequence} bắt đầu bằng thẻ HTML, nhưng thẻ không bao giờ được đóng "
+"bởi {close}. Nếu bạn không muốn bắt đầu bằng thẻ HTML, hãy sử dụng "
+"{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:212
 #, python-brace-format
@@ -3771,11 +3724,14 @@ msgid ""
 "is not a valid attribute with a value. If you do not want to begin a HTML "
 "tag, use {suggestion}."
 msgstr ""
+"Chuỗi {sequence} bắt đầu bằng một thẻ HTML, nhưng chuỗi {attribute} không "
+"phải là một thuộc tính hợp lệ có giá trị. Nếu bạn không muốn bắt đầu bằng "
+"một thẻ HTML, hãy sử dụng {suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:246
 #, python-brace-format
 msgid "The HTML attribute name {name} for the {tag} tag is not valid."
-msgstr ""
+msgstr "Tên thuộc tính HTML {name} cho thẻ {tag} không hợp lệ."
 
 #: weblate/checks/fluent/inner_html.py:261
 #, python-brace-format
@@ -3783,21 +3739,23 @@ msgid ""
 "The HTML {name} attribute value {value} for the {tag} tag is not a valid "
 "quoted value."
 msgstr ""
+"Giá trị thuộc tính HTML {name} {value} cho thẻ {tag} không phải là giá trị "
+"được trích dẫn hợp lệ."
 
 #: weblate/checks/fluent/inner_html.py:277
 #, python-brace-format
 msgid "The HTML {name} attribute appears twice for the {tag} tag."
-msgstr ""
+msgstr "Thuộc tính HTML {name} xuất hiện hai lần cho thẻ {tag}."
 
 #: weblate/checks/fluent/inner_html.py:289
 #, python-brace-format
 msgid "Unmatched HTML end tag: {tag}."
-msgstr ""
+msgstr "Thẻ HTML kết thúc không khớp: {tag}."
 
 #: weblate/checks/fluent/inner_html.py:299
 #, python-brace-format
 msgid "The HTML {name} void element should not have an end tag: {end}."
-msgstr ""
+msgstr "Phần tử HTML {name} void không được có thẻ kết thúc: {end}."
 
 #: weblate/checks/fluent/inner_html.py:312
 #, python-brace-format
@@ -3805,11 +3763,13 @@ msgid ""
 "The HTML {name} element is not a known void element, so should not have a "
 "self-closing tag: {self_close}."
 msgstr ""
+"Phần tử HTML {name} không phải là phần tử void đã biết, do đó không nên có "
+"thẻ tự đóng: {self_close}."
 
 #: weblate/checks/fluent/inner_html.py:326
 #, python-brace-format
 msgid "The HTML {tag} tag is missing a matching end tag: {end}."
-msgstr ""
+msgstr "Thẻ HTML {tag} thiếu thẻ kết thúc phù hợp: {end}."
 
 #: weblate/checks/fluent/inner_html.py:342
 #, python-brace-format
@@ -3818,11 +3778,14 @@ msgid ""
 "end with {semicolon}. If you do not want a character reference, use "
 "{suggestion}."
 msgstr ""
+"Chuỗi {sequence} sẽ bắt đầu bằng tham chiếu ký tự HTML, nhưng không kết thúc "
+"bằng {semicolon}. Nếu bạn không muốn tham chiếu ký tự, hãy sử dụng "
+"{suggestion}."
 
 #: weblate/checks/fluent/inner_html.py:360
 #, python-brace-format
 msgid "The sequence {sequence} is not a valid HTML character reference."
-msgstr ""
+msgstr "Chuỗi {sequence} không phải là tham chiếu ký tự HTML hợp lệ."
 
 #: weblate/checks/fluent/inner_html.py:944
 msgid "Fluent source inner HTML"
@@ -4003,7 +3966,7 @@ msgstr ""
 "khớp trong bản dịch có cùng tập hợp tham chiếu Fluent: {variant_list}."
 
 #: weblate/checks/fluent/references.py:553
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The translated Fluent {attribute} attribute does not have a matching variant "
 "in the original with the same set of Fluent references."
@@ -4069,214 +4032,157 @@ msgid "Fluent syntax error in the translation."
 msgstr "Lỗi cú pháp Fluent trong bản dịch."
 
 #: weblate/checks/format.py:495
-#, fuzzy, python-format
-#| msgid "The following translations will be removed:"
+#, python-format
 msgid "The following format strings are in the wrong order: %s"
-msgstr "Các bản dịch sau sẽ bị xóa:"
+msgstr "Các chuỗi định dạng sau đây không đúng thứ tự: %s"
 
 #: weblate/checks/format.py:583
 msgid "Python format"
-msgstr ""
+msgstr "Định dạng Python"
 
 #: weblate/checks/format.py:584
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Python format string does not match source."
-msgstr "PHP strings"
+msgstr "Chuỗi định dạng Python không khớp với nguồn."
 
 #: weblate/checks/format.py:592
 msgid "PHP format"
-msgstr ""
+msgstr "Định dạng PHP"
 
 #: weblate/checks/format.py:593
-#, fuzzy
-#| msgid "PHP strings"
 msgid "PHP format string does not match source."
-msgstr "PHP strings"
+msgstr "Chuỗi định dạng PHP không khớp với nguồn."
 
 #: weblate/checks/format.py:600
 msgid "C format"
-msgstr ""
+msgstr "Định dạng C"
 
 #: weblate/checks/format.py:601
-#, fuzzy
-#| msgid "PHP strings"
 msgid "C format string does not match source."
-msgstr "PHP strings"
+msgstr "Chuỗi định dạng C không khớp với nguồn."
 
 #: weblate/checks/format.py:608
-#, fuzzy
-#| msgid "Plural form %d"
 msgid "Perl brace format"
-msgstr "Dạng số nhiều %d"
+msgstr "Định dạng dấu ngoặc nhọn Perl"
 
 #: weblate/checks/format.py:609
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Perl brace format string does not match source."
-msgstr "PHP strings"
+msgstr "Chuỗi định dạng dấu ngoặc nhọn Perl không khớp với nguồn."
 
 #: weblate/checks/format.py:621
-#, fuzzy
-#| msgid "Plural form %d"
 msgid "Perl format"
-msgstr "Dạng số nhiều %d"
+msgstr "Định dạng Perl"
 
 #: weblate/checks/format.py:622
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Perl format string does not match source."
-msgstr "PHP strings"
+msgstr "Chuỗi định dạng Perl không khớp với nguồn."
 
 #: weblate/checks/format.py:629
 msgid "JavaScript format"
-msgstr ""
+msgstr "Định dạng JavaScript"
 
 #: weblate/checks/format.py:630
-#, fuzzy
-#| msgid "PHP strings"
 msgid "JavaScript format string does not match source."
-msgstr "PHP strings"
+msgstr "Chuỗi định dạng JavaScript không khớp với nguồn."
 
 #: weblate/checks/format.py:637
-#, fuzzy
-#| msgid "Plural form %d"
 msgid "Lua format"
-msgstr "Dạng số nhiều %d"
+msgstr "Định dạng Lua"
 
 #: weblate/checks/format.py:638
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Lua format string does not match source."
-msgstr "PHP strings"
+msgstr "Chuỗi định dạng Lua không khớp với nguồn."
 
 #: weblate/checks/format.py:645
-#, fuzzy
-#| msgid "Plural form %d"
 msgid "Object Pascal format"
-msgstr "Dạng số nhiều %d"
+msgstr "Định dạng Object Pascal"
 
 #: weblate/checks/format.py:646
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Object Pascal format string does not match source."
-msgstr "PHP strings"
+msgstr "Chuỗi định dạng Object Pascal không khớp với nguồn."
 
 #: weblate/checks/format.py:654
-#, fuzzy
-#| msgid "Plural form %d"
 msgid "Scheme format"
-msgstr "Dạng số nhiều %d"
+msgstr "Định dạng sơ đồ"
 
 #: weblate/checks/format.py:655
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Scheme format string does not match source."
-msgstr "PHP strings"
+msgstr "Chuỗi định dạng sơ đồ không khớp với nguồn."
 
 #: weblate/checks/format.py:666
 msgid "Python brace format"
-msgstr ""
+msgstr "Định dạng dấu ngoặc nhọn Python"
 
 #: weblate/checks/format.py:667
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Python brace format string does not match source."
-msgstr "PHP strings"
+msgstr "Chuỗi định dạng dấu ngoặc nhọn Python không khớp với nguồn."
 
 #: weblate/checks/format.py:686
 msgid "Single {} encountered in the format string."
-msgstr ""
+msgstr "Đã phát hiện ký tự {} trong chuỗi định dạng."
 
 #: weblate/checks/format.py:713
-#, fuzzy
-#| msgid "Plural form %d"
 msgid "C# format"
-msgstr "Dạng số nhiều %d"
+msgstr "Định dạng C#"
 
 #: weblate/checks/format.py:714
-#, fuzzy
-#| msgid "PHP strings"
 msgid "C# format string does not match source."
-msgstr "PHP strings"
+msgstr "Chuỗi định dạng C# không khớp với nguồn."
 
 #: weblate/checks/format.py:729
-#, fuzzy
-#| msgid "Plural form %d"
 msgid "Java format"
-msgstr "Dạng số nhiều %d"
+msgstr "Định dạng Java"
 
 #: weblate/checks/format.py:730
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Java format string does not match source."
-msgstr "PHP strings"
+msgstr "Chuỗi định dạng Java không khớp với nguồn."
 
 #: weblate/checks/format.py:737
-#, fuzzy
-#| msgid "Plural form %d"
 msgid "Java MessageFormat"
-msgstr "Dạng số nhiều %d"
+msgstr "Java MessageFormat"
 
 #: weblate/checks/format.py:738
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Java MessageFormat string does not match source."
-msgstr "PHP strings"
+msgstr "Chuỗi Java MessageFormat không khớp với nguồn."
 
 #: weblate/checks/format.py:777
 msgid "You need to pair up an apostrophe with another one."
-msgstr ""
+msgstr "Bạn cần ghép một dấu nháy đơn với một dấu nháy đơn khác."
 
 #: weblate/checks/format.py:783
 msgid "i18next interpolation"
-msgstr ""
+msgstr "Nội suy i18next"
 
 #: weblate/checks/format.py:784
-#, fuzzy
-#| msgid "PHP strings"
 msgid "The i18next interpolation does not match source."
-msgstr "PHP strings"
+msgstr "Nội suy i18next không khớp với nguồn."
 
 #: weblate/checks/format.py:797
 msgid "ECMAScript template literals"
-msgstr ""
+msgstr "Các ký tự mẫu ECMAScript"
 
 #: weblate/checks/format.py:798
-#, fuzzy
-#| msgid "PHP strings"
 msgid "ECMAScript template literals do not match source."
-msgstr "PHP strings"
+msgstr "Các ký tự mẫu ECMAScript không khớp với nguồn."
 
 #: weblate/checks/format.py:811
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Percent placeholders"
-msgstr "PHP strings"
+msgstr "Phần trăm giữ chỗ"
 
 #: weblate/checks/format.py:812
-#, fuzzy
-#| msgid "PHP strings"
 msgid "The percent placeholders do not match source."
-msgstr "PHP strings"
+msgstr "Phần trăm giữ chỗ không khớp với nguồn."
 
 #: weblate/checks/format.py:819
-#, fuzzy
-#| msgid "Information"
 msgid "Vue I18n formatting"
-msgstr "Thông tin"
+msgstr "Định dạng Vue I18n"
 
 #: weblate/checks/format.py:820
-#, fuzzy
-#| msgid "PHP strings"
 msgid "The Vue I18n formatting does not match source."
-msgstr "PHP strings"
+msgstr "Định dạng Vue I18n không khớp với nguồn."
 
 #: weblate/checks/format.py:828
-#, fuzzy
-#| msgid "Automatic detection"
 msgid "Automattic components formatting"
-msgstr "Tự động nhận diện"
+msgstr "Định dạng thành phần tự động"
 
 #: weblate/checks/format.py:830
 #, fuzzy
