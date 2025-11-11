@@ -186,9 +186,9 @@
             </div>
             <div class="panel-footer">
               {% if locked %}
-                <p class="text-danger">{% translate "This translation is currently locked." %}</p>
+                <p>{% translate "This translation is currently locked." %}</p>
               {% elif not user_can_translate %}
-                <p class="text-danger">{{ user_can_translate.reason }}</p>
+                <p>{{ user_can_translate.reason }}</p>
               {% endif %}
               <div>
                 {% with flag_actions=unit.get_flag_actions %}
