@@ -276,6 +276,8 @@ def check_unit_review(
         obj = obj.translation
     if not skip_enabled:
         if isinstance(obj, Translation):
+            if obj.is_readonly:
+                return Denied(gettext("The translation is read-only."))
             if not obj.enable_review:
                 if obj.is_source:
                     return Denied(gettext("Source-string reviews are turned off."))
