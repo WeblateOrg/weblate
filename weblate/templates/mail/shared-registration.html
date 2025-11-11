@@ -24,6 +24,8 @@
   {% endif %}
 </div>
 
-<p>
-  <a href="{% url 'contact' %}?t=reg">{% blocktranslate %}If there is a problem with your registration, please contact us.{% endblocktranslate %}</a>
-</p>
+{% if contact_form != "disabled" %}
+  <p>
+    <a href="{% url 'contact' %}?t=reg">{% blocktranslate %}If there is a problem with your registration, please contact us.{% endblocktranslate %}</a>
+  </p>
+{% endif %}
