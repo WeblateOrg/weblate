@@ -40,7 +40,7 @@ class ModernMTTranslation(GlossaryMachineTranslationMixin):
         "sr": "sr-Cyrl",
         "zh_Hant": "zh-TW",
         "zh_Hans": "zh-CN",
-        "sr_Latn": "sr-Latn"
+        "sr_Latn": "sr-Latn",
     }
     glossary_count_limit = 1000
 
