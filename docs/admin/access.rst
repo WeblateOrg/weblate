@@ -839,7 +839,6 @@ List of privileges
 |                              | Manage site-wide add-ons                  |                                       |
 +------------------------------+-------------------------------------------+---------------------------------------+
 
-
 .. note::
 
    Site-wide privileges are not granted to any default role.

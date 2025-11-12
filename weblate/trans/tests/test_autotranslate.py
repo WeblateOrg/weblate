@@ -106,7 +106,7 @@ class AutoTranslationTest(ViewTestCase):
         self.perform_auto(0, 1, mode="approved")
 
     def test_fuzzy(self) -> None:
-        """Test for automatic suggestion."""
+        """Test for automatic suggestion in fuzzy mode."""
         self.perform_auto(mode="fuzzy")
 
     def test_inconsistent(self) -> None:

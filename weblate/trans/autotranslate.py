@@ -351,7 +351,6 @@ class AutoTranslate(BaseAutoTranslate):
 
 
 class BatchAutoTranslate(BaseAutoTranslate):
-    updated: int = 0
     translations: Iterable[Translation]
 
     def __init__(
@@ -386,7 +385,7 @@ class BatchAutoTranslate(BaseAutoTranslate):
                 ).exclude_source()
                 self._task_meta = {"category": obj.pk}
             case ProjectLanguage():
-                self.translations = obj.translation_set
+                self.translations = obj.translation_set.exclude_source()
                 self._task_meta = {
                     "project": obj.project.pk,
                     "language": obj.language.pk,
@@ -407,7 +406,7 @@ class BatchAutoTranslate(BaseAutoTranslate):
         threshold: int,
         source: int | None,
     ) -> str:
-        for pos, translation in enumerate(self.translations):
+        for pos, translation in enumerate(self.translations, start=1):
             auto_translate = AutoTranslate(
                 user=self.user,
                 translation=translation,
