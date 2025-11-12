@@ -444,7 +444,8 @@ class BatchMachineTranslation:
             )
         except UnsupportedLanguageError:
             unit.translation.log_debug(
-                "machinery failed: not supported language pair: %s - %s",
+                "machinery %s failed: not supported language pair: %s - %s",
+                self.__class__.__name__,
                 translation.component.source_language.code,
                 translation.language.code,
             )
@@ -497,7 +498,8 @@ class BatchMachineTranslation:
             )
         except UnsupportedLanguageError:
             unit.translation.log_debug(
-                "machinery failed: not supported language pair: %s - %s",
+                "machinery %s failed: not supported language pair: %s - %s",
+                self.__class__.__name__,
                 source_language.code,
                 translation.language.code,
             )
