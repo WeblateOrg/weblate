@@ -256,7 +256,7 @@
                           name="suggest"
                           {% if project_locked or not user_can_suggest or unit.readonly %}disabled="disabled"{% endif %}
                           {% if not user_can_suggest %} title="{% translate "Insufficient privileges for adding suggestions." %}" {% elif project_locked %} title="{% translate "This translation is currently locked." %}" {% elif unit.readonly %} title="{% translate "Read-only" %}" {% endif %}>
-                    {% icon "suggest.svg" %} {% translate "Suggest" %}
+                  {% translate "Suggest" %}
                   </button>
                 {% endif %}
                 <a class="btn btn-link btn-spaced skip" href="{{ next_unit_url }}" rel="next">
