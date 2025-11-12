@@ -457,6 +457,10 @@ Choose a configuration that matches the configuration of your mail server.
 ``"from"``
    The sender is used in as :mailheader:`From`. Your mail server needs to allow
    sending such e-mails.
+``"disabled"``
+   Disables the contact form entirely.
+
+   .. versionadded:: 5.15
 
 
 .. seealso::
