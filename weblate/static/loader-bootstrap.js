@@ -914,7 +914,7 @@ $(function () {
   $(document).on("click", "[data-bs-clipboard-value]", function (e) {
     e.preventDefault();
     navigator.clipboard
-      .writeText(this.getAttribute("data-clipboard-value"))
+      .writeText(this.getAttribute("data-bs-clipboard-value"))
       .then(
         () => {
           const text =
