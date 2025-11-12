@@ -186,9 +186,9 @@
             </div>
             <div class="panel-footer">
               {% if locked %}
-                <p class="text-danger">{% translate "This translation is currently locked." %}</p>
+                <p>{% translate "This translation is currently locked." %}</p>
               {% elif not user_can_translate %}
-                <p class="text-danger">{{ user_can_translate.reason }}</p>
+                <p>{{ user_can_translate.reason }}</p>
               {% endif %}
               <div>
                 {% with flag_actions=unit.get_flag_actions %}
@@ -259,7 +259,7 @@
                     {% icon "suggest.svg" %} {% translate "Suggest" %}
                   </button>
                 {% endif %}
-                <a class="btn btn-warning btn-spaced skip" href="{{ next_unit_url }}" rel="next">
+                <a class="btn btn-link btn-spaced skip" href="{{ next_unit_url }}" rel="next">
                   {% if LANGUAGE_BIDI %}
                     {% icon "rewind.svg" %}
                   {% else %}

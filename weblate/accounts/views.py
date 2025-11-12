@@ -550,6 +550,10 @@ def get_initial_contact(request: AuthenticatedHttpRequest):
 
 @never_cache
 def contact(request: AuthenticatedHttpRequest):
+    if settings.CONTACT_FORM == "disabled":
+        msg = "Contact form is disabled."
+        raise Http404(msg)
+
     if request.method == "POST":
         form = ContactForm(
             request=request,

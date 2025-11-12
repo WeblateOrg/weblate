@@ -736,7 +736,8 @@ def create_project_backup(pk) -> None:
     from weblate.trans.backups import ProjectBackup
 
     project = Project.objects.get(pk=pk)
-    ProjectBackup().backup_project(project)
+    backup = ProjectBackup()
+    backup.backup_project(project)
 
 
 @app.task(trail=False)
