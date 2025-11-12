@@ -78,6 +78,11 @@
             <a class="dropdown-item" data-bs-target="#bulk-edit" data-bs-toggle="tab" href="#">{% translate "Bulk edit" %}</a>
           </li>
         {% endif %}
+        {% if autoform %}
+          <li>
+            <a class="dropdown-item" data-bs-target="#auto" data-bs-toggle="tab" href="#">{% translate "Batch automatic translation" %}</a>
+          </li>
+        {% endif %}
         <li>
           <hr class="dropdown-divider">
         </li>
@@ -155,6 +160,10 @@
       </form>
 
     </div>
+
+    {% if autoform %}
+      <div class="tab-pane" id="auto">{% include "snippets/autoform.html" with object=object autoform=autoform %}</div>
+    {% endif %}
 
     {% if delete_form %}
       <div class="tab-pane" id="organize">{% include "trans/delete-form.html" %}</div>

@@ -5,6 +5,7 @@ Weblate 5.15
 
 .. rubric:: New features
 
+* Batch automatic translation can now be manually triggered at project language, category or component level, see :ref:`auto-translation`.
 * Added ability to completely disable the admin contact form by setting :setting:`CONTACT_FORM` to ``"disabled"``.
 
 .. rubric:: Improvements
