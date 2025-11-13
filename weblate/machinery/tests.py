@@ -10,6 +10,7 @@ from copy import copy
 from datetime import UTC, datetime
 from functools import partial
 from io import StringIO
+from pathlib import Path
 from typing import TYPE_CHECKING, ClassVar, NoReturn
 from unittest.mock import MagicMock, Mock, call, patch
 
@@ -198,8 +199,7 @@ SYSTRAN_LANGUAGE_JSON = {
     ],
 }
 
-with open(get_test_file("googlev3.json")) as handle:
-    GOOGLEV3_KEY = handle.read()
+GOOGLEV3_KEY = Path(get_test_file("googlev3.json")).read_text()
 
 MODERNMT_RESPONSE = {
     "data": {

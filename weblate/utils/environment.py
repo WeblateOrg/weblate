@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import ast
 import os
+from pathlib import Path
 from typing import Any
 from urllib.parse import quote
 
@@ -21,8 +22,7 @@ def get_env_str(
     file_env = f"{name}_FILE"
     if filename := os.environ.get(file_env):
         try:
-            with open(filename) as handle:
-                result = handle.read()
+            result = Path(filename).read_text()
         except OSError as error:
             msg = f"Failed to open {filename} as specified by {file_env}: {error}"
             raise ImproperlyConfigured(msg) from error

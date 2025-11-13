@@ -6,6 +6,7 @@
 """Test for File format params."""
 
 import os.path
+from pathlib import Path
 
 from django.test.utils import override_settings
 from django.urls import reverse
@@ -247,8 +248,8 @@ class YAMLParamsTest(BaseFileFormatsTest):
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn(f"{expected}try:", commit)
         self.assertIn("cs.yml", commit)
-        with open(self.get_translation().get_filename(), "rb") as handle:
-            self.assertIn(b"\r\n", handle.read())
+        filepath = Path(self.get_translation().get_filename())
+        self.assertIn(b"\r\n", filepath.read_bytes())
 
     def test_customize(self) -> None:
         self.update_component_file_params(

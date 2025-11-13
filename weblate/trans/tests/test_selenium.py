@@ -11,6 +11,7 @@ import time
 import warnings
 from contextlib import contextmanager
 from datetime import timedelta
+from pathlib import Path
 from typing import TYPE_CHECKING, Literal, cast, overload
 
 from django.conf import settings
@@ -208,8 +209,9 @@ class SeleniumTests(
         self.driver.set_window_size(max(1200, scroll_width), scroll_height + 180)
         time.sleep(0.2)
         # Get screenshot
-        with open(os.path.join(self.image_path, name), "wb") as handle:
-            handle.write(self.driver.get_screenshot_as_png())
+        Path(os.path.join(self.image_path, name)).write_bytes(
+            self.driver.get_screenshot_as_png()
+        )
 
     def click(self, element: WebElement | str = "", htmlid: str | None = None) -> None:
         """Click on element and scroll it into view."""

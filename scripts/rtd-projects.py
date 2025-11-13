@@ -6,8 +6,8 @@
 
 """Synchronizes Read the Docs projects for all languages."""
 
-import os
 import subprocess
+from pathlib import Path
 
 import requests
 from weblate_language_data.docs import DOCUMENTATION_LANGUAGES
@@ -44,8 +44,7 @@ git_tag = subprocess.run(
 LATEST_RELEASE = git_tag.stdout.strip()
 
 # Read the authorization token
-with open(os.path.expanduser("~/.config/readthedocs.token")) as handle:
-    TOKEN = handle.read().strip()
+TOKEN = Path("~/.config/readthedocs.token").expanduser().read_text()
 
 AUTH = {"Authorization": f"Token {TOKEN}", "Content-Type": "application/json"}
 

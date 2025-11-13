@@ -7,6 +7,7 @@ import os
 import shutil
 import subprocess
 import tempfile
+from pathlib import Path
 from typing import TYPE_CHECKING
 
 import pytest
@@ -438,8 +439,7 @@ class MultiCSVExporterTest(PoExporterTest):
 "Primary open reduction of fracture and functional bracing","Primární otevřená redukce zlomeniny a funkční ortéza","179054002","http://snomed.info/id/179054002 - Primary open reduction of fracture and functional bracing (procedure)"'''
 
             csv_file_path = os.path.join(git_dir, "test.csv")
-            with open(csv_file_path, "w", encoding="utf-8") as f:
-                f.write(csv_content)
+            Path(csv_file_path).write_text(csv_content, encoding="utf-8")
 
             # Add and commit the file
             subprocess.run(["git", "add", "test.csv"], cwd=git_dir, check=True)
