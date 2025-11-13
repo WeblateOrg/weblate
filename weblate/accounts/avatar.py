@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import hashlib
 import os.path
+from pathlib import Path
 from ssl import CertificateError
 from typing import TYPE_CHECKING, Literal
 from urllib.parse import urlencode
@@ -23,7 +24,7 @@ if TYPE_CHECKING:
     from weblate.auth.models import User
 
 
-def avatar_for_email(email, size=80) -> str:
+def avatar_for_email(email: str, size: int = 80) -> str:
     """Generate url for avatar."""
     # Safely handle blank e-mail
     if not email:
@@ -41,17 +42,16 @@ def get_fallback_avatar_url(size: int, name: Literal["weblate", "api"] = "weblat
     return os.path.join(settings.STATIC_URL, f"{name}-{size}.png")
 
 
-def get_fallback_avatar(size: int):
+def get_fallback_avatar(size: int) -> bytes:
     """Return fallback avatar."""
     filename = finders.find(f"weblate-{size}.png")
     if filename is None:
         msg = f"Missing fallback avatar file for {size=}!"
         raise OSError(msg)
-    with open(filename, "rb") as handle:
-        return handle.read()
+    return Path(filename).read_bytes()
 
 
-def get_avatar_image(user: User, size: int):
+def get_avatar_image(user: User, size: int) -> bytes:
     """Return avatar image from cache (if available) or download it."""
     username = user.username
     cache_key = "-".join(("avatar-img", username, str(size)))
@@ -74,14 +74,14 @@ def get_avatar_image(user: User, size: int):
     return image
 
 
-def download_avatar_image(email: str, size: int):
+def download_avatar_image(email: str, size: int) -> bytes:
     """Download avatar image from remote server."""
     url = avatar_for_email(email, size)
     response = request("get", url, timeout=1.0)
     return response.content
 
 
-def get_user_display(user: User, icon: bool = True, link: bool = False):
+def get_user_display(user: User, icon: bool = True, link: bool = False) -> str:
     """Nicely format user for display."""
     # Did we get any user?
     if user is None:

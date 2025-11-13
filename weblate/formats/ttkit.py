@@ -14,6 +14,7 @@ import os
 import re
 import subprocess
 from io import StringIO
+from pathlib import Path
 from typing import TYPE_CHECKING, Any, BinaryIO, ClassVar
 
 from django.core.exceptions import ValidationError
@@ -326,8 +327,7 @@ class TTKitFormat(TranslationFormat):
 
         # Read the content
         if isinstance(storefile, str):
-            with open(storefile, "rb") as handle:
-                content = handle.read()
+            content = Path(storefile).read_bytes()
         else:
             content = storefile.read()
 
@@ -479,8 +479,7 @@ class TTKitFormat(TranslationFormat):
             store.untranslate_store(language)
             store.store.savefile(filename)
         elif cls.new_translation is not None:
-            with open(filename, "wb") as output:
-                output.write(cls.get_new_file_content())
+            Path(filename).write_bytes(cls.get_new_file_content())
         else:
             msg = "Not supported"
             raise ValueError(msg)
@@ -1703,8 +1702,7 @@ class CSVFormat(TTKitFormat):
             storefile.close()
         else:
             filename = storefile
-            with open(filename, "rb") as handle:
-                content = handle.read()
+            content = Path(filename).read_bytes()
         return content, filename
 
     def parse_store(self, storefile, *, dialect: str | None = None):

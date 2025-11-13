@@ -6,6 +6,7 @@ import os
 from copy import copy
 from datetime import UTC, datetime, timedelta
 from io import BytesIO
+from pathlib import Path
 
 import responses
 from django.conf import settings
@@ -2160,23 +2161,22 @@ class ProjectAPITest(APIBaseTest):
             )
 
     def test_create_component_docfile_json(self) -> None:
-        with open(TEST_DOC, "rb") as handle:
-            self.do_request(
-                "api:project-components",
-                self.project_kwargs,
-                method="post",
-                code=400,
-                superuser=True,
-                format="json",
-                request={
-                    "docfile": handle.read(),
-                    "name": "Local project",
-                    "slug": "local-project",
-                    "file_format": "html",
-                    "new_lang": "add",
-                    "edit_template": "0",
-                },
-            )
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            format="json",
+            request={
+                "docfile": Path(TEST_DOC).read_bytes(),
+                "name": "Local project",
+                "slug": "local-project",
+                "file_format": "html",
+                "new_lang": "add",
+                "edit_template": "0",
+            },
+        )
 
     def test_create_component_docfile_language(self) -> None:
         with open(TEST_DOC, "rb") as handle:
@@ -3509,11 +3509,11 @@ class TranslationAPITest(APIBaseTest):
     def test_upload_bytes(self) -> None:
         self.authenticate()
         changes_start = self.component.change_set.count()
-        with open(TEST_PO, "rb") as handle:
-            response = self.client.put(
-                reverse("api:translation-file", kwargs=self.translation_kwargs),
-                {"file": BytesIO(handle.read())},
-            )
+        response = self.client.put(
+            reverse("api:translation-file", kwargs=self.translation_kwargs),
+            {"file": BytesIO(Path(TEST_PO).read_bytes())},
+        )
+
         self.assertEqual(
             response.data,
             {
@@ -3635,11 +3635,10 @@ class TranslationAPITest(APIBaseTest):
 
     def test_upload_content(self) -> None:
         self.authenticate()
-        with open(TEST_PO, "rb") as handle:
-            response = self.client.put(
-                reverse("api:translation-file", kwargs=self.translation_kwargs),
-                {"file": handle.read()},
-            )
+        response = self.client.put(
+            reverse("api:translation-file", kwargs=self.translation_kwargs),
+            {"file": Path(TEST_PO).read_bytes()},
+        )
         self.assertEqual(response.status_code, 400)
 
     def test_upload_conflicts(self) -> None:
@@ -3744,8 +3743,7 @@ class TranslationAPITest(APIBaseTest):
     def test_upload_replace(self) -> None:
         self.authenticate(superuser=True)
         changes_start = self.component.change_set.count()
-        with open(TEST_PO) as handle:
-            content = handle.read()
+        content = Path(TEST_PO).read_text()
         content = f'{content}\n\nmsgid "Testing"\nmsgstr""\n'
 
         response = self.client.put(

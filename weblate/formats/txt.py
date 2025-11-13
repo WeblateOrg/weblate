@@ -9,6 +9,7 @@ from __future__ import annotations
 import os
 from glob import glob
 from itertools import chain
+from pathlib import Path
 from typing import TYPE_CHECKING, Any, BinaryIO, NoReturn
 
 from django.utils.functional import cached_property
@@ -57,8 +58,7 @@ class TextParser:
     """Simple text parser returning all content as single unit."""
 
     def __init__(self, storefile, filename=None, flags: str | None = None) -> None:
-        with open(storefile) as handle:
-            content = handle.read()
+        content = Path(storefile).read_text()
         if filename:
             self.filename = filename
         else:

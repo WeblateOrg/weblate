@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import json
 import os
+from pathlib import Path
 from typing import TYPE_CHECKING, ClassVar
 from uuid import uuid4
 
@@ -101,25 +102,21 @@ class CDNJSAddon(BaseAddon):
             os.makedirs(dirname)
 
         # Generate JavasScript loader
-        with open(self.cdn_path("weblate.js"), "w") as handle:
-            # The languages variable is included inside quotes to make
-            # sure the template is valid JavaScript code as well
-            handle.write(
-                render_to_string(
-                    "addons/js/weblate.js.template",
-                    {
-                        "languages": sorted(
-                            translation.language.code for translation in translations
-                        ),
-                        "url": os.path.join(
-                            settings.LOCALIZE_CDN_URL,
-                            self.instance.state["uuid"],
-                        ),
-                        "cookie_name": self.instance.configuration["cookie_name"],
-                        "css_selector": self.instance.configuration["css_selector"],
-                    },
-                )
+        Path(self.cdn_path("weblate.js")).write_text(
+            render_to_string(
+                "addons/js/weblate.js.template",
+                {
+                    "languages": sorted(
+                        translation.language.code for translation in translations
+                    ),
+                    "url": os.path.join(
+                        settings.LOCALIZE_CDN_URL, self.instance.state["uuid"]
+                    ),
+                    "cookie_name": self.instance.configuration["cookie_name"],
+                    "css_selector": self.instance.configuration["css_selector"],
+                },
             )
+        )
 
         # Generate bilingual JSON files
         for translation in translations:

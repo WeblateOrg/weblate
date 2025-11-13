@@ -6,6 +6,7 @@ import os.path
 import tempfile
 from difflib import get_close_matches
 from itertools import chain
+from pathlib import Path
 from shutil import copyfile
 
 import requests
@@ -225,13 +226,13 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
 
     @responses.activate
     def test_upload_with_image_url(self) -> None:
-        with open(TEST_SCREENSHOT, "rb") as img_handle:
-            responses.add(
-                responses.GET,
-                "https://example.com/test-image.png",
-                content_type="image/png",
-                body=img_handle.read(),
-            )
+        data = Path(TEST_SCREENSHOT).read_bytes()
+        responses.add(
+            responses.GET,
+            "https://example.com/test-image.png",
+            content_type="image/png",
+            body=data,
+        )
 
         self.make_manager()
         response = self.do_upload(
@@ -248,13 +249,13 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
         old_name = screenshot.image.name
         old_filename = screenshot.image.file.name
 
-        with open(TEST_SCREENSHOT, "rb") as img_handle:
-            responses.add(
-                responses.GET,
-                "https://example.com/test-image.png",
-                content_type="image/png",
-                body=img_handle.read(),
-            )
+        data = Path(TEST_SCREENSHOT).read_bytes()
+        responses.add(
+            responses.GET,
+            "https://example.com/test-image.png",
+            content_type="image/png",
+            body=data,
+        )
 
         self.client.post(
             screenshot.get_absolute_url(),
@@ -390,14 +391,13 @@ class ScreenshotVCSTest(APITestCase, RepoTestCase):
             translation=self.component.source_translation,
             repository_filename="test-update.png",
         )
-        with open(TEST_SCREENSHOT, "rb") as handle:
-            data = handle.read()
-            half_data_size = len(data) // 2
-            with tempfile.NamedTemporaryFile(suffix="png") as temp_file:
-                temp_file.write(data[:half_data_size])
-                temp_file.flush()
-                temp_file.seek(0)
-                shot.image.save("test-update", File(temp_file))
+        data = Path(TEST_SCREENSHOT).read_bytes()
+        half_data_size = len(data) // 2
+        with tempfile.NamedTemporaryFile(suffix="png") as temp_file:
+            temp_file.write(data[:half_data_size])
+            temp_file.flush()
+            temp_file.seek(0)
+            shot.image.save("test-update", File(temp_file))
 
     def test_update_screenshots_from_repo(self) -> None:
         repository = self.component.repository

@@ -5,6 +5,7 @@
 """File format specific behavior."""
 
 import os
+from pathlib import Path
 from tempfile import NamedTemporaryFile
 from typing import ClassVar
 
@@ -76,8 +77,7 @@ class ConvertFormatTest(BaseFormatTest):
             storage.save()
 
             # Check translation
-            with open(translation.name) as handle:
-                self.assertEqual(handle.read(), self.CONVERT_EXPECTED)
+            self.assertEqual(Path(translation.name).read_text(), self.CONVERT_EXPECTED)
         finally:
             if template:
                 os.unlink(template.name)
@@ -137,15 +137,13 @@ Nazdar
     ]
 
     def test_existing_units(self) -> None:
-        with open(self.FILE, "rb") as handle:
-            testdata = handle.read()
+        testdata = Path(self.FILE).read_bytes()
 
         # Create test file
         testfile = os.path.join(self.tempdir, os.path.basename(self.FILE))
 
         # Write test data to file
-        with open(testfile, "wb") as handle:
-            handle.write(testdata)
+        Path(testfile).write_bytes(testdata)
 
         # Parse test file
         storage = self.format_class(
@@ -163,8 +161,7 @@ Nazdar
         storage.save()
 
         # Read new content
-        with open(testfile) as handle:
-            newdata = handle.read()
+        newdata = Path(testfile).read_text()
 
         self.assertEqual(
             newdata,

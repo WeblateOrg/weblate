@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import os
+from pathlib import Path
 from typing import TYPE_CHECKING, ClassVar
 
 from django.core.management.utils import find_command
@@ -65,8 +66,7 @@ class GenerateMoAddon(GettextBaseAddon):
         if not output:
             return
 
-        with open(output, "wb") as handle:
-            handle.write(exporter.serialize())
+        Path(output).write_bytes(exporter.serialize())
         translation.addon_commit_files.append(output)
 
 
@@ -194,9 +194,8 @@ class UpdateConfigureAddon(GettextBaseAddon):
             return False
         for name in cls.get_configure_paths(component):
             try:
-                with open(name) as handle:
-                    if 'ALL_LINGUAS="' in handle.read():
-                        return True
+                if 'ALL_LINGUAS="' in Path(name).read_text():
+                    return True
             except UnicodeDecodeError:
                 continue
         return False

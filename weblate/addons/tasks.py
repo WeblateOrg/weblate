@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import os
 from datetime import timedelta
+from pathlib import Path
 
 from celery.schedules import crontab
 from django.conf import settings
@@ -49,8 +50,7 @@ def cdn_parse_html(addon_id: int, component_id: int) -> None:
                 with request("get", filename) as handle:
                     content = handle.text
             else:
-                with open(os.path.join(component.full_path, filename)) as handle:
-                    content = handle.read()
+                content = Path(os.path.join(component.full_path, filename)).read_text()
         except OSError as error:
             errors.append({"filename": filename, "error": str(error)})
             continue

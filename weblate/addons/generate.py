@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from pathlib import Path
 from typing import TYPE_CHECKING, ClassVar
 
 from django.db.models import F, Q
@@ -66,8 +67,7 @@ class GenerateFileAddon(BaseAddon):
         content = render_template(
             self.instance.configuration["template"], translation=translation
         )
-        with open(filename, "w") as handle:
-            handle.write(content)
+        Path(filename).write_text(content)
         translation.addon_commit_files.append(filename)
 
 

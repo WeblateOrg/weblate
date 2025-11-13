@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
+from pathlib import Path
 
 from django.conf import settings
 from django.test import SimpleTestCase
@@ -19,8 +20,7 @@ class FilesTestCase(SimpleTestCase):
         filename = os.path.join(target, "file")
         os.makedirs(target)
         os.makedirs(nested)
-        with open(filename, "w") as handle:
-            handle.write("test")
+        Path(filename).write_text("test")
         if callback:
             callback(target, nested, filename)
         remove_tree(target)

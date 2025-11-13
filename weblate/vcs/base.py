@@ -11,6 +11,7 @@ import logging
 import os
 import os.path
 import subprocess
+from pathlib import Path
 from typing import TYPE_CHECKING, ClassVar, Self, TypedDict
 
 from dateutil import parser
@@ -485,8 +486,7 @@ class Repository:
             data = os.readlink(filename).encode()
         else:
             objtype = "blob"
-            with open(filename, "rb") as handle:
-                data = handle.read()
+            data = Path(filename).read_bytes()
         if extra:
             objhash.update(extra.encode())
         objhash.update(f"{objtype} {len(data)}\0".encode("ascii"))

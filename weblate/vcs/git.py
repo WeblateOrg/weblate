@@ -1863,8 +1863,7 @@ class LocalRepository(GitRepository):
                 dirname = os.path.dirname(fullname)
                 if not os.path.exists(dirname):
                     os.makedirs(dirname)
-                with open(fullname, "wb") as handle:
-                    handle.write(content)
+                Path(fullname).write_bytes(content)
             return repo
 
 

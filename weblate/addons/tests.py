@@ -10,6 +10,7 @@ import os
 import tempfile
 from datetime import timedelta
 from io import StringIO
+from pathlib import Path
 from typing import TYPE_CHECKING, ClassVar
 from unittest.mock import patch
 
@@ -360,8 +361,7 @@ class GettextAddonTest(ViewTestCase):
         self.assertTrue(GettextAuthorComments.can_install(translation.component, None))
         addon = GettextAuthorComments.create(component=translation.component)
         addon.pre_commit(translation, "Stojan Jakotyc <stojan@example.com>", True)
-        with open(translation.get_filename()) as handle:
-            content = handle.read()
+        content = Path(translation.get_filename()).read_text()
         self.assertIn("Stojan Jakotyc", content)
 
     def test_pseudolocale(self) -> None:
@@ -1499,10 +1499,9 @@ class CDNJSAddonTest(ViewTestCase):
         self.component.commit_pending("test", None)
 
         # Check translation files
-        with open(jsname) as handle:
-            content = handle.read()
-            self.assertIn(".l10n", content)
-            self.assertIn('"cs"', content)
+        content = Path(jsname).read_text()
+        self.assertIn(".l10n", content)
+        self.assertIn('"cs"', content)
         self.assertTrue(os.path.isfile(addon.cdn_path("cs.json")))
 
         # Configuration
@@ -1609,8 +1608,7 @@ class TargetChangeAddonTest(ViewTestCase):
                 component=self.component,
             )
             translation_remote_file = os.path.join(tempdir, translation.filename)
-            with open(translation_remote_file, "w") as handle:
-                handle.write(updated_json_content)
+            Path(translation_remote_file).write_text(updated_json_content)
             with repo.lock:
                 repo.set_committer("Toast", "toast@example.net")
                 repo.commit(
