@@ -2234,11 +2234,19 @@ class Component(
                 scope="weblate", name="commit", verbose="Background commit"
             )
 
-        pending_changes_qs = PendingUnitChange.objects.for_component(
-            self, apply_filters=True, include_linked=True
-        ).values_list("pk", "unit__translation_id")
+        pending_changes = list(
+            PendingUnitChange.objects.for_component(
+                self, apply_filters=True, include_linked=True
+            ).values_list("pk", "unit__translation_id")
+        )
+
+        # Short-circuit if no committable changes remain after all filters (including blocking check)
+        # This prevents unnecessary processing when blocking changes filter out all pending changes
+        if not pending_changes:
+            return False
+
         changes_by_translation = defaultdict(list)
-        for pending_change_pk, translation_id in pending_changes_qs:
+        for pending_change_pk, translation_id in pending_changes:
             changes_by_translation[translation_id].append(pending_change_pk)
 
         # Get all translation with pending changes, source translation first

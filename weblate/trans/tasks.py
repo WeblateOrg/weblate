@@ -19,12 +19,8 @@ from django.core.cache import cache
 from django.db import IntegrityError, transaction
 from django.db.models import (
     Count,
-    DateTimeField,
-    ExpressionWrapper,
     F,
-    Value,
 )
-from django.db.models.functions import Now
 from django.http import Http404
 from django.utils import timezone
 from django.utils.timezone import make_aware
@@ -37,7 +33,6 @@ from weblate.logger import LOGGER
 from weblate.trans.actions import ActionEvents
 from weblate.trans.autotranslate import AutoTranslate
 from weblate.trans.exceptions import FileParseError
-from weblate.trans.functions import MySQLTimestampAdd
 from weblate.trans.models import (
     Category,
     Change,
@@ -51,19 +46,15 @@ from weblate.trans.models import (
 )
 from weblate.utils.celery import app
 from weblate.utils.data import data_dir
-from weblate.utils.db import using_postgresql
 from weblate.utils.errors import report_error
 from weblate.utils.files import remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
+from weblate.utils.stats import prefetch_stats
 from weblate.utils.views import parse_path
 from weblate.vcs.base import RepositoryError
 
 if TYPE_CHECKING:
     from collections.abc import Callable
-
-    from django.db.models import (
-        Expression,
-    )
 
 
 @app.task(
@@ -174,40 +165,16 @@ def commit_pending(
     pks: set[int] | None = None,
     logger: Callable[[str], None] | None = None,
 ) -> None:
-    if pks is None:
-        components = Component.objects.all()
-    else:
-        components = Component.objects.filter(translation__pk__in=pks)
-
-    hours_expr = F("commit_pending_age") if hours is None else Value(hours)
-    age_cutoff: Expression
-    if using_postgresql():
-        age_cutoff = ExpressionWrapper(
-            Now() - hours_expr * timedelta(hours=1), output_field=DateTimeField()
-        )
-    else:
-        age_cutoff = MySQLTimestampAdd("HOUR", -hours_expr, Now())
-
-    components = components.filter(
-        translation__unit__pending_changes__timestamp__lt=age_cutoff,
-    ).distinct()
-
-    components_with_pending_changes = [
-        component
-        for component in components
-        if PendingUnitChange.objects.for_component(
-            component, apply_filters=True
-        ).exists()
-    ]
-
-    if not components_with_pending_changes:
-        return
-
-    components_with_pending_changes[0].stats.prefetch_many(
-        [i.stats for i in components_with_pending_changes]
+    components = PendingUnitChange.objects.find_committable_components(
+        pks=list(pks) if pks else None, hours=hours
     )
 
-    for component in components_with_pending_changes:
+    if not components:
+        return
+
+    components = prefetch_stats(components)
+
+    for component in components:
         if logger:
             logger(f"Committing {component}")
 
