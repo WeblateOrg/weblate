@@ -2024,7 +2024,7 @@ class Unit(models.Model, LoggerMixin):
             return get_anonymous(), timezone.now()
         return change.author or get_anonymous(), change.timestamp
 
-    def get_locations(self) -> Generator[tuple[str, str, str], None, None]:
+    def get_locations(self) -> Generator[tuple[str, str, str]]:
         """Return list of location filenames."""
         for location in self.location.split(","):
             location = location.strip()
