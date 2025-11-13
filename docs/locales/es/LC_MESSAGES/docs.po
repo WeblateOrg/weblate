@@ -30,7 +30,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-27 08:36+0100\n"
 "PO-Revision-Date: 2025-11-14 09:51+0000\n"
-"Last-Translator: Francisco Serrador <fserrador@gmail.com>\n"
+"Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
 "Language: es\n"
@@ -26817,6 +26817,10 @@ msgid ""
 "weblate.gettext.customize`, :ref:`addon-weblate.json.customize`, :ref:`addon-"
 "weblate.yaml.customize`, :ref:`addon-weblate.xml.customize`."
 msgstr ""
+"Algunos complementos han quedado obsoletos y reemplazados por "
+":ref:`file_format_params`: :ref:`addon-weblate.gettext.customize`, :ref"
+":`addon-weblate.json.customize`, :ref:`addon-weblate.yaml.customize`, :ref"
+":`addon-weblate.xml.customize`."
 
 #: ../../changes.rst:228
 msgid ""
@@ -26826,6 +26830,11 @@ msgid ""
 "limited filters. Existing add-on configuration has been migrated. API users "
 "will need to adjust invocation."
 msgstr ""
+":ref:`machine-translation`, :ref:`addon-weblate.autotranslate.autotranslate` "
+"y :http:post:`/api/translations/(string:project)/(string:component)/"
+"(string:language)/autotranslate/` ahora admite todos los operadores de "
+"búsqueda, no solo filtros limitados. Se ha migrado la configuración de "
+"complementos existente. Los usuarios de la API deberán ajustar la llamada."
 
 #: ../../changes.rst:234
 msgid ""
@@ -26833,21 +26842,19 @@ msgid ""
 "introduced several changes in :file:`settings_example.py`, most notably "
 "``BACKEND`` in ``CACHES`` needs to be changed."
 msgstr ""
+"El bloqueo distribuido ahora usa una implementación diferente y eso "
+"introdujo varios cambios en :file:`settings_example.py`, más notablemente se "
+"necesita cambiar ``BACKEND`` en ``CACHES``."
 
 #: ../../changes.rst:235
-#, fuzzy
-#| msgid ""
-#| "There are several changes in :file:`settings_example.py`, most notable "
-#| "middleware changes (:setting:`django:MIDDLEWARE`), please adjust your "
-#| "settings accordingly."
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable are "
 "changed settings ``CRISPY_ALLOWED_TEMPLATE_PACKS`` and ``INSTALLED_APPS``; "
 "please adjust your settings accordingly."
 msgstr ""
 "Hay varios cambios en :file:`settings_example.py`, los más notables cambios "
-"de middleware (:setting:`django:MIDDLEWARE`), por favor ajuste su "
-"configuración en consecuencia."
+"de configuración en ``CRISPY_ALLOWED_TEMPLATE_PACKS`` y ``INSTALLED_APPS``, "
+"por favor ajuste su configuración en consecuencia."
 
 #: ../../changes.rst:236
 msgid ""
@@ -26856,43 +26863,39 @@ msgid ""
 "protocol. :envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER` typically needs to be "
 "added to avoid redirect loop, for example:"
 msgstr ""
+"El contenedor Docker ahora usa :program:`granian`. Esto ahora requiere una "
+"configuración explícita de los encabezados de confianza del proxy, incluido "
+"el protocolo del cliente. Normalmente se debe agregar "
+":envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER` para evitar el bucle de "
+"redireccionamiento, por ejemplo:"
 
 #: ../../changes.rst:255
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "80?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/143?"
 "closed=1>`__."
 msgstr ""
-"`Todos los cambios a detalle <https://github.com/WeblateOrg/weblate/"
-"milestone/80?closed=1>`__."
+"`Todos los cambios en detalle <https://github.com/WeblateOrg/weblate/"
+"milestone/143?closed=1>`__."
 
 #: ../../changes.rst:258
 #, fuzzy
 #| msgid "Weblate 4.10"
 msgid "Weblate 5.12.2"
-msgstr "Weblate 4.10"
+msgstr "Weblate 5.12.2"
 
 #: ../../changes.rst:260
-#, fuzzy
-#| msgid "Released on June 19th 2020."
 msgid "*Released on June 20th 2025.*"
-msgstr "Publicada el 19 de junio de 2020."
+msgstr "*Publicada el 20 de junio de 2025.*"
 
 #: ../../changes.rst:264
-#, fuzzy
-#| msgid "Allow absolute links in source string locations."
 msgid ":ref:`mt-deepl` integration now supports using next-gen LLM model."
 msgstr ""
-"Se permiten los enlaces absolutos en las ubicaciones de cadenas de origen."
+":ref:`mt-deepl` la integración ahora admite el uso del modelo LLM de próxima "
+"generación."
 
 #: ../../changes.rst:268
-#, fuzzy
-#| msgid ":ref:`projectbackup`"
 msgid "Restoring :ref:`projectbackup` with votes."
-msgstr ":ref:`projectbackup`"
+msgstr "Restaurando :ref:`projectbackup` con votos."
 
 #: ../../changes.rst:269
 #, fuzzy
