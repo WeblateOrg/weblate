@@ -101,7 +101,7 @@ def join_plural(plurals: Iterable[str]) -> str:
 
 
 def get_string(
-    text: str | multistring | list | Generator[str, None, None] | None,
+    text: str | multistring | list | Generator[str] | None,
 ) -> str:
     """Return correctly formatted string from ttkit unit data."""
     # Check for null target (happens with XLIFF)
