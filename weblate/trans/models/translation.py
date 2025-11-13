@@ -47,6 +47,7 @@ from weblate.trans.signals import component_post_update, vcs_pre_commit
 from weblate.trans.util import is_plural, join_plural, split_plural
 from weblate.trans.validators import validate_check_flags
 from weblate.utils import messages
+from weblate.utils.db import using_postgresql
 from weblate.utils.errors import report_error
 from weblate.utils.html import format_html_join_comma
 from weblate.utils.render import render_template
@@ -892,11 +893,10 @@ class Translation(
     @property
     def count_pending_units(self):
         """Return count of units with pending changes."""
-        return (
-            PendingUnitChange.objects.for_translation(self, apply_filters=True)
-            .distinct("unit_id")
-            .count()
-        )
+        qs = PendingUnitChange.objects.for_translation(self, apply_filters=True)
+        if using_postgresql():
+            return qs.distinct("unit_id").count()
+        return qs.values("unit_id").distinct().count()
 
     def needs_commit(self):
         """Check whether there are some not committed changes."""

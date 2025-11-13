@@ -190,6 +190,8 @@ class TasksTest(ViewTestCase):
         )
 
         unit.translate(self.user, "Nazdar svete!\n", STATE_TRANSLATED)
+        PendingUnitChange.objects.update(timestamp=timezone.now() - timedelta(hours=2))
+
         self.assertEqual(self.component.count_pending_units, 1)
         self.assertEqual(component2.count_pending_units, 0)
         self.assertEqual(
