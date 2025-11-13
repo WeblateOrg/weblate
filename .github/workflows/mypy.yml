@@ -52,7 +52,7 @@ jobs:
         save-cache: ${{ github.ref == 'refs/heads/main' }}
         cache-suffix: ${{ steps.setup_python.outputs.python-version }}
 
-        version: 0.9.8
+        version: 0.9.9
     - name: Install deps
       env:
         CI_DATABASE: postgresql
