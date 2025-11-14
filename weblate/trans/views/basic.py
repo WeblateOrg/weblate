@@ -6,7 +6,7 @@ from __future__ import annotations
 from collections import Counter
 from typing import TYPE_CHECKING, Any
 
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_not_required, login_required
 from django.db import transaction
 from django.db.models import Q
 from django.http import HttpResponse
@@ -997,6 +997,7 @@ def add_languages_to_component(
 
 
 @never_cache
+@login_not_required
 def healthz(request: AuthenticatedHttpRequest) -> HttpResponse:
     """Make simple health check endpoint."""
     return HttpResponse("ok")
