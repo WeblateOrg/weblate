@@ -58,6 +58,12 @@ if TYPE_CHECKING:
 
     from weblate.trans.models import Component
 
+LOCK_ERROR = re.compile(
+    r"fatal: Unable to create '([^']*\.git/index\.lock)': File exists"
+)
+# Assume lock is stale after one hour
+LOCK_STALE_SECONDS = 3600
+
 
 class GitCredentials(TypedDict):
     url: str
@@ -118,6 +124,16 @@ class GitRepository(Repository):
         cls._popen(
             ["init", "--template=", "--initial-branch", cls.default_branch, path]
         )
+
+    @staticmethod
+    def should_retry_popen(errormessage: str) -> bool:
+        locks = LOCK_ERROR.findall(errormessage)
+        if locks and len(locks) == 1:
+            lock = Path(locks[0])
+            if time.time() - lock.stat().st_mtime > LOCK_STALE_SECONDS:
+                lock.unlink(missing_ok=True)
+                return True
+        return False
 
     @classmethod
     def get_remote_branch(cls, repo: str):
@@ -1189,7 +1205,9 @@ class GitMergeRequestBase(GitForcePushRepository):
 
         return ", ".join(errors)
 
-    def should_retry(self, response, response_data) -> bool:
+    def should_retry_request(
+        self, response: requests.Response, response_data: dict
+    ) -> bool:
         retry_after = response.headers.get("Retry-After")
         if retry_after and retry_after.isdigit():
             # Cap sleeping to 60 seconds
@@ -1263,7 +1281,7 @@ class GitMergeRequestBase(GitForcePushRepository):
                     self.raise_for_response(response)
                     raise RepositoryError(0, str(error)) from error
 
-                if self.should_retry(response, response_data):
+                if self.should_retry_request(response, response_data):
                     do_retry = True
         except WeblateLockTimeoutError:
             do_retry = True
@@ -1600,8 +1618,10 @@ class GithubRepository(GitMergeRequestBase):
         headers["Accept"] = "application/vnd.github.v3+json"
         return headers
 
-    def should_retry(self, response, response_data) -> bool:
-        if super().should_retry(response, response_data):
+    def should_retry_request(
+        self, response: requests.Response, response_data: dict
+    ) -> bool:
+        if super().should_retry_request(response, response_data):
             return True
         # https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits
         if (
