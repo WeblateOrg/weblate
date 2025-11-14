@@ -232,9 +232,10 @@ class IDMLFormatTest(ConvertFormatTest):
 
     @staticmethod
     def extract_document(content):
-        return bytes(
-            IDMLFormat.convertfile(NamedBytesIO("test.idml", content), None)
-        ).decode()
+        pofile = IDMLFormat.convertfile(NamedBytesIO("test.idml", content), None)
+        # Avoid (changing) timestamp in the PO header
+        pofile.updateheader(pot_creation_date="")
+        return bytes(pofile).decode()
 
     def assert_same(self, newdata, testdata) -> None:
         self.assertEqual(
