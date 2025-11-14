@@ -135,18 +135,11 @@ h1 {
 .progress-stacked {
   margin-bottom: 0;
   height: 14px;
-  display: inline-block;
   vertical-align: middle;
   box-shadow: none;
   width: 100%;
 }
 
-/* workaround to get progress bars working
-while keeping backwards compatibility */
-.progress.progress5,
-.progress-stacked.progress5 {
-  display: flex;
-}
 
 .progress-cell .progress,
 .progress-cell .progress-stacked {
@@ -183,14 +176,6 @@ while keeping backwards compatibility */
   height: 8px;
   border-radius: 0;
   border: none;
-  display: block;
-}
-
-/* workaround to get progress bars working
-while keeping backwards compatibility */
-.progress-row .progress.progress5,
-.progress-row .progress-stacked.progress5 {
-  display: flex;
 }
 
 .progress-bar-success {
@@ -2580,4 +2565,8 @@ table.table-simple tbody#glossary-terms td {
 .list-group:has(+ .card-footer) {
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
+}
+
+.btn-outline-primary .disabled {
+  opacity: 65%;
 }

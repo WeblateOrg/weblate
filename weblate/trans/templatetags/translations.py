@@ -891,7 +891,7 @@ def translation_progress_render(
     if approved_percent > 0.1:
         approved_tag = format_html(
             """
-            <div class="progress progress5"
+            <div class="progress"
                  role="progressbar"
                  aria-valuenow="{approved}"
                  aria-valuemin="0"
@@ -907,7 +907,7 @@ def translation_progress_render(
     if good_percent > 0.1:
         good_tag = format_html(
             """
-            <div class="progress progress5"
+            <div class="progress"
                  role="progressbar"
                  aria-valuenow="{good}"
                  aria-valuemin="0"
@@ -922,7 +922,7 @@ def translation_progress_render(
         )
 
     return format_html(
-        """<div class="progress-stacked progress5" title="{}">{}{}</div>""",
+        """<div class="progress-stacked" title="{}">{}{}</div>""",
         gettext("Needs attention"),
         approved_tag,
         good_tag,
