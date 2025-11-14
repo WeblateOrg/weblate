@@ -4,10 +4,16 @@
   {% block nav_pills %}
     <ul class="nav nav-pills">
       <li class="nav-item" role="presentation">
-        <a class="nav-link active" data-bs-target="#response-{{ activity.id }}" data-bs-toggle="tab" href="#">{% translate "HTTP Response" %} <span class="badge">{{ details.response.status_code }}</span></a>
+        <a class="nav-link active"
+           data-bs-target="#response-{{ activity.id }}"
+           data-bs-toggle="tab"
+           href="#">{% translate "HTTP Response" %} <span class="badge">{{ details.response.status_code }}</span></a>
       </li>
       <li class="nav-item" role="presentation">
-        <a class="nav-link" data-bs-target="#request-{{ activity.id }}" data-bs-toggle="tab" href="#">{% translate "HTTP Request" %}</a>
+        <a class="nav-link"
+           data-bs-target="#request-{{ activity.id }}"
+           data-bs-toggle="tab"
+           href="#">{% translate "HTTP Request" %}</a>
       </li>
     </ul>
   {% endblock nav_pills %}

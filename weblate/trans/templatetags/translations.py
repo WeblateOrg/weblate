@@ -1062,9 +1062,7 @@ def get_location_links(user: User | None, unit):
 
 
 @register.simple_tag(takes_context=True)
-def announcements(
-    context: Context, project=None, component=None, language=None
-):
+def announcements(context: Context, project=None, component=None, language=None):
     """Display announcement messages for given context."""
     user = context["user"]
 

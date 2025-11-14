@@ -23,16 +23,13 @@
       {% sort_choices as sort_choices %}
       {% for key, name in sort_choices %}
         <li>
-          <a class="dropdown-item"
-             href="#"
-             data-sort="{{ key }}">{{ name }}</a>
+          <a class="dropdown-item" href="#" data-sort="{{ key }}">{{ name }}</a>
         </li>
       {% endfor %}
     </ul>
   </div>
   <div class="btn-group" role="group">
-    <button type="button"
-            class="btn btn-outline-primary search-field query-sort-toggle">
+    <button type="button" class="btn btn-outline-primary search-field query-sort-toggle">
       <span title="{% translate 'Ascending' %}" class="search-icon asc active">{% icon "sort-ascending.svg" %}</span>
       <span title="{% translate 'Descending' %}" class="search-icon desc">{% icon "sort-descending.svg" %}</span>
     </button>

@@ -33,8 +33,7 @@
 
   {% perm 'unit.add' object as user_can_add_unit %}
   {% if user_can_add_unit %}
-    <a class="btn btn-link green float-end"
-       href="{{ object.get_absolute_url }}#new">{% icon "plus-circle.svg" %} {{ object.component.get_add_label }}</a>
+    <a class="btn btn-link green float-end" href="{{ object.get_absolute_url }}#new">{% icon "plus-circle.svg" %} {{ object.component.get_add_label }}</a>
   {% endif %}
 
   <form method="get" class="result-page-form">

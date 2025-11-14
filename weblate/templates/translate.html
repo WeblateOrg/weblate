@@ -303,8 +303,8 @@
           {% if unit.suggestions %}
             <li class="nav-item">
               <a class="nav-link"
-                 data-bs-target="#suggestions" 
-                 data-bs-toggle="tab" 
+                 data-bs-target="#suggestions"
+                 data-bs-toggle="tab"
                  id="toggle-suggestions"
                  href="#">{% translate "Suggestions" %} <span class="badge text-bg-secondary">{{ unit.suggestions|length }}</span></a>
             </li>
@@ -312,17 +312,17 @@
           {% if others.total %}
             <li class="nav-item">
               <a class="nav-link"
-                 data-bs-target="#others" 
-                 data-bs-toggle="tab" 
+                 data-bs-target="#others"
+                 data-bs-toggle="tab"
                  id="toggle-others"
                  href="#">{% translate "Other occurrences" %} <span class="badge text-bg-secondary">{{ others.total }}</span></a>
             </li>
           {% endif %}
           {% if unit.all_comments or user_can_add_comment %}
             <li class="nav-item">
-              <a class="nav-link" 
-                 data-bs-target="#comments" 
-                 data-bs-toggle="tab" 
+              <a class="nav-link"
+                 data-bs-target="#comments"
+                 data-bs-toggle="tab"
                  id="toggle-comments"
                  href="#">{% translate "Comments" %}
                 {% if unit.all_comments %}<span class="badge text-bg-secondary">{{ unit.all_comments|length }}</span>{% endif %}

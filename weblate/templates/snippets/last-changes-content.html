@@ -1,7 +1,6 @@
 {% load i18n icons permissions translations %}
 
-<table id="changes-table"
-       class="table table-autowidth container-fluid">
+<table id="changes-table" class="table table-autowidth container-fluid">
   <tbody id="changes-list">
     {% for item in changes_with_context %}
       <tr id="changes-item"
@@ -45,9 +44,7 @@
             {% for history_field in item.history_data.change_details_fields %}
               <label class="{{ history_field.label_class }}">
                 {{ history_field.label }}
-                {% for tag in history_field.tags %}
-                  <span class="badge text-bg-secondary ">{{ tag }}</span>
-                {% endfor %}
+                {% for tag in history_field.tags %}<span class="badge text-bg-secondary ">{{ tag }}</span>{% endfor %}
               </label>
               {{ history_field.content }}
             {% endfor %}

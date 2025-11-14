@@ -7,16 +7,28 @@
 
   <ul class="nav nav-pills">
     <li class="nav-item" role="presentation">
-      <a class="nav-link active" data-bs-target="#basic" role="tab" data-bs-toggle="tab" href="#">{% translate "Settings" %}</a>
+      <a class="nav-link active"
+         data-bs-target="#basic"
+         role="tab"
+         data-bs-toggle="tab"
+         href="#">{% translate "Settings" %}</a>
     </li>
     {% if form %}
       <li class="nav-item" role="presentation">
-        <a class="nav-link" data-bs-target="#auto" role="tab" data-bs-toggle="tab" href="#">{% translate "Automatic assignments" %}</a>
+        <a class="nav-link"
+           data-bs-target="#auto"
+           role="tab"
+           data-bs-toggle="tab"
+           href="#">{% translate "Automatic assignments" %}</a>
       </li>
     {% endif %}
     {% if user_can_edit_team_users %}
       <li class="nav-item" role="presentation">
-        <a class="nav-link" data-bs-target="#users" role="tab" data-bs-toggle="tab" href="#">{% translate "Members" %}</a>
+        <a class="nav-link"
+           data-bs-target="#users"
+           role="tab"
+           data-bs-toggle="tab"
+           href="#">{% translate "Members" %}</a>
       </li>
     {% endif %}
   </ul>

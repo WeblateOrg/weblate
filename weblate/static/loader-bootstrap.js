@@ -34,8 +34,8 @@ function decreaseLoading(sel) {
 function addAlert(message, kind = "danger", delay = 3000) {
   const alerts = $("#popup-alerts");
   const e = $(
-      '<div class="alert alert-dismissible fade show" role="alert"><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>',
-    );
+    '<div class="alert alert-dismissible fade show" role="alert"><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>',
+  );
   e.addClass(`alert-${kind}`);
   e.append(new Text(message));
   e.hide();
@@ -863,10 +863,7 @@ $(function () {
           addAlert(text, "info");
         },
         () => {
-          addAlert(
-            gettext("Please press Ctrl+C to copy."),
-            "danger"
-          );
+          addAlert(gettext("Please press Ctrl+C to copy."), "danger");
         },
       );
   });

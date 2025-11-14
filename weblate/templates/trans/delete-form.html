@@ -3,9 +3,7 @@
 <form method="post" action="{% url "remove" path=object.get_url_path %}">
   <div class="card card-danger">
     <div class="card-header">
-      <h4 class="card-title">
-        {% translate "Are you absolutely sure?" %}
-      </h4>
+      <h4 class="card-title">{% translate "Are you absolutely sure?" %}</h4>
     </div>
     <div class="card-body">{% crispy delete_form %}</div>
     <div class="card-footer">
