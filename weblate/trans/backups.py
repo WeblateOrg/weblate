@@ -360,7 +360,7 @@ class ProjectBackup:
                     },
                 )
                 for pending_unit_change in PendingUnitChange.objects.for_component(
-                    component
+                    component, apply_filters=False
                 )
                 .prefetch_related("unit", "author")
                 .iterator(2000)
