@@ -76,9 +76,11 @@
   {% else %}
 
     <p>
-      {% url 'contact' as contact_url %}
       {% translate "Sorry, new registrations are turned off on this site." %}
-      <a href="{{ contact_url }}">{% translate "You can contact us for more details." %}</a>
+      {% if contact_form != "disabled" %}
+        {% url 'contact' as contact_url %}
+        <a href="{{ contact_url }}">{% translate "You can contact us for more details." %}</a>
+      {% endif %}
     </p>
 
   {% endif %}

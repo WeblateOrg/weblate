@@ -26,7 +26,7 @@ from django.core.exceptions import (
 )
 from django.core.validators import MaxValueValidator
 from django.db import IntegrityError, connection, models, transaction
-from django.db.models import Count, Q
+from django.db.models import Count, F, Q
 from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
 from django.utils.functional import cached_property
@@ -39,6 +39,7 @@ from weblate_language_data.ambiguous import AMBIGUOUS
 
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
+from weblate.formats.base import BilingualUpdateMixin
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language, get_default_lang
 from weblate.memory.tasks import import_memory
@@ -1793,7 +1794,7 @@ class Component(
                 if (
                     not self.template
                     and not self.file_format_cls.create_empty_bilingual
-                    and not hasattr(self.file_format_cls, "update_bilingual")
+                    and not issubclass(self.file_format_cls, BilingualUpdateMixin)
                 ) or (
                     self.template
                     and self.file_format_cls.get_new_file_content() is None
@@ -2164,7 +2165,8 @@ class Component(
             Q(translation__component=self)
             | Q(translation__component__linked_component=self)
         ).exclude(
-            translation__language_id=self.source_language_id, translation__filename=""
+            Q(translation__language_id=F("translation__component__source_language_id"))
+            | Q(translation__filename="")
         ):
             PendingUnitChange.store_unit_change(unit)
 
@@ -3645,9 +3647,13 @@ class Component(
         """Return count of pending units."""
         from weblate.trans.models import Unit
 
-        return Unit.objects.filter(
-            translation__component=self, pending_changes__isnull=False
-        ).count()
+        return (
+            Unit.objects.filter(
+                translation__component=self, pending_changes__isnull=False
+            )
+            .distinct()
+            .count()
+        )
 
     @property
     def count_repo_missing(self):

@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Literal
+from typing import TYPE_CHECKING, Any, Literal
 
 from celery import current_task
 from django.conf import settings
@@ -19,7 +19,7 @@ from weblate.machinery.base import (
 )
 from weblate.machinery.models import MACHINERY
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Component, Suggestion, Unit
+from weblate.trans.models import Category, Component, Suggestion, Translation, Unit
 from weblate.trans.util import split_plural
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -27,47 +27,77 @@ from weblate.utils.state import (
     STATE_READONLY,
     STATE_TRANSLATED,
 )
+from weblate.utils.stats import ProjectLanguage
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
+
     from weblate.auth.models import User
     from weblate.machinery.base import (
         BatchMachineTranslation,
         UnitMemoryResultDict,
     )
-    from weblate.trans.models import Translation
     from weblate.utils.state import (
         StringState,
     )
 
 
-class AutoTranslate:
+class BaseAutoTranslate:
+    updated: int = 0
+    progress_steps: int = 0
+
     def __init__(
         self,
         *,
         user: User | None,
-        translation: Translation,
         q: str,
         mode: str,
         component_wide: bool = False,
         unit_ids: list[int] | None = None,
+        **kwargs,
     ) -> None:
         self.user: User | None = user
-        self.translation: Translation = translation
-        translation.component.batch_checks = True
-
-        self.unit_ids: list[int] | None = unit_ids
-
         self.q: str = q
         self.mode: str = mode
-        self.updated = 0
-        self.progress_steps = 0
+        self.component_wide: bool = component_wide
+        self.unit_ids: list[int] | None = unit_ids
+
+    def get_message(self) -> str:
+        if self.updated == 0:
+            return gettext("Automatic translation completed, no strings were updated.")
+        return (
+            ngettext(
+                "Automatic translation completed, %d string was updated.",
+                "Automatic translation completed, %d strings were updated.",
+                self.updated,
+            )
+            % self.updated
+        )
+
+    def get_task_meta(self) -> dict[str, Any]:
+        """Return a metadata dictionary for Celery task progress tracking."""
+        raise NotImplementedError
+
+    def set_progress(self, current: int) -> None:
+        if current_task and current_task.request.id and self.progress_steps:
+            current_task.update_state(
+                state="PROGRESS",
+                meta=self.get_task_meta()
+                | {"progress": 100 * current // self.progress_steps},
+            )
+
+
+class AutoTranslate(BaseAutoTranslate):
+    def __init__(self, *, translation: Translation, **kwargs) -> None:
+        super().__init__(**kwargs)
+        self.translation: Translation = translation
+        translation.component.batch_checks = True
         self.progress_base = 0
         self.target_state = STATE_TRANSLATED
-        if mode == "fuzzy":
+        if self.mode == "fuzzy":
             self.target_state = STATE_FUZZY
-        elif mode == "approved" and translation.enable_review:
+        elif self.mode == "approved" and translation.enable_review:
             self.target_state = STATE_APPROVED
-        self.component_wide: bool = component_wide
 
     def get_units(self):
         units = self.translation.unit_set.exclude(state=STATE_READONLY)
@@ -77,15 +107,8 @@ class AutoTranslate:
             units = units.filter(suggestion__isnull=True)
         return units.search(self.q, parser="unit")
 
-    def set_progress(self, current) -> None:
-        if current_task and current_task.request.id and self.progress_steps:
-            current_task.update_state(
-                state="PROGRESS",
-                meta={
-                    "progress": 100 * current // self.progress_steps,
-                    "translation": self.translation.pk,
-                },
-            )
+    def get_task_meta(self) -> dict[str, Any]:
+        return {"translation": self.translation.pk}
 
     def update(
         self, unit: Unit, state: StringState, target: list[str], user=None
@@ -324,13 +347,82 @@ class AutoTranslate:
 
         translation.log_info("completed automatic translation")
 
-        if self.updated == 0:
-            return gettext("Automatic translation completed, no strings were updated.")
-        return (
-            ngettext(
-                "Automatic translation completed, %d string was updated.",
-                "Automatic translation completed, %d strings were updated.",
-                self.updated,
-            )
-            % self.updated
+        return self.get_message()
+
+
+class BatchAutoTranslate(BaseAutoTranslate):
+    translations: Iterable[Translation]
+
+    def __init__(
+        self,
+        obj: Translation | Component | Category | ProjectLanguage,
+        *,
+        user: User | None,
+        q: str,
+        mode: str,
+        component_wide: bool = False,
+        unit_ids: list[int] | None = None,
+    ) -> None:
+        super().__init__(
+            user=user,
+            q=q,
+            mode=mode,
+            component_wide=component_wide,
+            unit_ids=unit_ids,
         )
+        self._task_meta: dict[str, Any] = {}
+
+        match obj:
+            case Translation():
+                self.translations = [obj]
+                self._task_meta = {"translation": obj.pk}
+            case Component():
+                self.translations = obj.translation_set.exclude_source()
+                self._task_meta = {"component": obj.pk}
+            case Category():
+                self.translations = Translation.objects.filter(
+                    component__category=obj
+                ).exclude_source()
+                self._task_meta = {"category": obj.pk}
+            case ProjectLanguage():
+                self.translations = [t for t in obj.translation_set if not t.is_source]
+                self._task_meta = {
+                    "project": obj.project.pk,
+                    "language": obj.language.pk,
+                }
+            case _:  # pragma: no cover
+                msg = "Unsupported object type for BatchAutoTranslate"
+                raise ValueError(msg)
+        self.progress_steps = len(self.translations)
+
+    def get_task_meta(self) -> dict[str, Any]:
+        return self._task_meta
+
+    def perform(
+        self,
+        *,
+        auto_source: Literal["mt", "others"],
+        engines: list[str],
+        threshold: int,
+        source: int | None,
+    ) -> str:
+        for pos, translation in enumerate(self.translations, start=1):
+            auto_translate = AutoTranslate(
+                user=self.user,
+                translation=translation,
+                q=self.q,
+                mode=self.mode,
+                component_wide=self.component_wide,
+                unit_ids=self.unit_ids,
+            )
+
+            auto_translate.perform(
+                auto_source=auto_source,
+                engines=engines,
+                threshold=threshold,
+                source=source,
+            )
+            self.updated += auto_translate.updated
+            self.set_progress(pos)
+
+        return self.get_message()

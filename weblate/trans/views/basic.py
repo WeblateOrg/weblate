@@ -287,6 +287,14 @@ def show_project_language(request: AuthenticatedHttpRequest, obj: ProjectLanguag
                 ProjectLanguageDeleteForm, user, "translation.delete", obj, obj=obj
             ),
             "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj, obj=obj),
+            "autoform": optional_form(
+                AutoForm,
+                user,
+                "translation.auto",
+                obj,
+                obj=obj,
+                user=user,
+            ),
             "bulk_state_form": optional_form(
                 BulkEditForm,
                 user,
@@ -513,6 +521,14 @@ def show_category(request: AuthenticatedHttpRequest, obj):
                 instance=obj,
             ),
             "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj, obj=obj),
+            "autoform": optional_form(
+                AutoForm,
+                user,
+                "translation.auto",
+                obj,
+                obj=obj,
+                user=user,
+            ),
             "bulk_state_form": optional_form(
                 BulkEditForm,
                 user,
@@ -588,6 +604,14 @@ def show_component(request: AuthenticatedHttpRequest, obj: Component):
                 obj,
                 request=request,
                 instance=obj,
+            ),
+            "autoform": optional_form(
+                AutoForm,
+                user,
+                "translation.auto",
+                obj,
+                obj=obj,
+                user=user,
             ),
             "search_form": SearchForm(
                 request=request,

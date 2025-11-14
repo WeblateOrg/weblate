@@ -860,14 +860,12 @@ $(function () {
           const text =
             this.getAttribute("data-clipboard-message") ||
             gettext("Text copied to clipboard.");
-          addAlert(text, "info", 3000, true);
+          addAlert(text, "info");
         },
         () => {
           addAlert(
             gettext("Please press Ctrl+C to copy."),
-            "danger",
-            3000,
-            true,
+            "danger"
           );
         },
       );

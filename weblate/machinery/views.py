@@ -433,7 +433,9 @@ def handle_machinery(request: AuthenticatedHttpRequest, service, unit, search=No
             response["responseDetails"] = f"{error.__class__.__name__}: {error}"
 
     if response["responseStatus"] != 200:
-        translation.log_info("machinery failed: %s", response["responseDetails"])
+        translation.log_info(
+            "machinery %s failed: %s", service, response["responseDetails"]
+        )
 
     return JsonResponse(data=response)
 

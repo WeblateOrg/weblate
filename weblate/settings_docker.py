@@ -4,6 +4,7 @@
 
 import os
 from logging.handlers import SysLogHandler
+from pathlib import Path
 
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
@@ -203,8 +204,7 @@ STATICFILES_FINDERS = (
 
 # Make this unique, and don't share it with anybody.
 # You can generate it using weblate-generate-secret-key
-with open("/app/data/secret") as handle:
-    SECRET_KEY = handle.read()
+SECRET_KEY = Path("/app/data/secret").read_text()
 
 TEMPLATES = [
     {
@@ -408,10 +408,8 @@ WEBLATE_SAML_IDP = get_saml_idp()
 if WEBLATE_SAML_IDP:
     AUTHENTICATION_BACKENDS += ("social_core.backends.saml.SAMLAuth",)
     # The keys are generated on container startup if missing
-    with open("/app/data/ssl/saml.crt") as handle:
-        SOCIAL_AUTH_SAML_SP_PUBLIC_CERT = handle.read()
-    with open("/app/data/ssl/saml.key") as handle:
-        SOCIAL_AUTH_SAML_SP_PRIVATE_KEY = handle.read()
+    SOCIAL_AUTH_SAML_SP_PUBLIC_CERT = Path("/app/data/ssl/saml.crt").read_text()
+    SOCIAL_AUTH_SAML_SP_PRIVATE_KEY = Path("/app/data/ssl/saml.key").read_text()
     SOCIAL_AUTH_SAML_SP_ENTITY_ID = f"{SITE_URL}/accounts/metadata/saml/"
     # Identity Provider
     SOCIAL_AUTH_SAML_ENABLED_IDPS = {"weblate": WEBLATE_SAML_IDP}
@@ -1463,8 +1461,7 @@ ZAMMAD_URL = get_env_str("WEBLATE_ZAMMAD_URL")
 INTERLEDGER_PAYMENT_POINTERS = get_env_list("WEBLATE_INTERLEDGER_PAYMENT_POINTERS", [])
 INTERLEDGER_PAYMENT_BUILTIN = get_env_bool("WEBLATE_INTERLEDGER_PAYMENT_BUILTIN", True)
 
-ADDITIONAL_CONFIG = "/app/data/settings-override.py"
-if os.path.exists(ADDITIONAL_CONFIG):
-    with open(ADDITIONAL_CONFIG) as handle:
-        code = compile(handle.read(), ADDITIONAL_CONFIG, "exec")
-        exec(code)  # noqa: S102
+ADDITIONAL_CONFIG = Path("/app/data/settings-override.py")
+if ADDITIONAL_CONFIG.exists():
+    code = compile(ADDITIONAL_CONFIG.read_text(), ADDITIONAL_CONFIG, "exec")
+    exec(code)  # noqa: S102

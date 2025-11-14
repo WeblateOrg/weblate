@@ -3,10 +3,10 @@
 {% load check_links humanize i18n translations %}
 
 {% block breadcrumbs %}
-  <li class="breadcrumb-item">
+  <li class="bootstrap-item">
     <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
   </li>
-  <li class="breadcrumb-item">
+  <li class="bootstrap-item">
     <a href="{% url 'manage-performance' %}">{% translate "Performance report" %}</a>
   </li>
 {% endblock breadcrumbs %}
@@ -122,80 +122,46 @@
           </tbody>
         </table>
       </div>
-    </div>
 
-    <div class="col-md-6">
-      <div class="card">
-        <div class="card-header">
-          <h4 class="card-title">
-            {% documentation_icon 'admin/install' 'reverse-proxy' right=True %}
-            {% translate "HTTP environment" %}
-          </h4>
-        </div>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th></th>
-              <th>{% translate "Observed value" %}</th>
-              <th>{% translate "Configured value" %}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{% translate "Client IP address" %}</td>
-              <td>
-                <code>{{ request.META.REMOTE_ADDR }}</code>
-              </td>
-              <td></td>
-            </tr>
-            <tr>
-              <td>{% translate "HTTP host" %}</td>
-              <td>
-                <code>{{ request.get_host }}</code>
-              </td>
-              <td>
-                <code>{{ site_domain }}</code>
-              </td>
-            </tr>
-            <tr>
-              <td>{% translate "HTTP protocol" %}</td>
-              <td>
-                <code>
-                  {% if request.is_secure %}
-                    https
-                  {% else %}
-                    http
-                  {% endif %}
-                </code>
-              </td>
-              <td>
-                <code>
-                  {% if enable_ssl %}
-                    https
-                  {% else %}
-                    http
-                  {% endif %}
-                </code>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+      {% if disk_usage %}
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">
+              {% documentation_icon 'admin/install' 'hardware' right=True %}
+              {% translate "Disk usage" %}
+            </h4>
+          </div>
 
-      <div class="card">
-        <div class="card-header">
-          <h4 class="card-title">
-            {% documentation_icon 'admin/install' 'reverse-proxy' right=True %}
-            {% translate "HTTP headers" %}
-          </h4>
+          <table class="table table-striped">
+
+            <tbody>
+              <tr>
+                <td colspan="3">
+                  <div class="progress">
+                    <div class="progress-bar {% if disk_usage_percent < 90 %}progress-bar-success{% elif disk_usage_percent < 95 %}progress-bar-warning{% else %}progress-bar-danger{% endif %}"
+                         role="progressbar"
+                         aria-valuenow="{{ disk_usage_percent }}"
+                         aria-valuemin="0"
+                         aria-valuemax="100"
+                         aria-label="{% translate "Disk usage" %}"
+                         style="width: {{ disk_usage_percent }}%"></div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <th>{% translate "Disk size" %}</th>
+                <th>{% translate "Disk used" %}</th>
+                <th>{% translate "Disk free" %}</th>
+              </tr>
+              <tr>
+                <td>{{ disk_usage.total|filesizeformat }}</td>
+                <td>{{ disk_usage.used|filesizeformat }}</td>
+                <td>{{ disk_usage.free|filesizeformat }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <div class="card-body">
-          {% for name, value in request.headers.items %}
-            <code>{{ name }}: {{ value }}</code>
-            <br />
-          {% endfor %}
-        </div>
-      </div>
+      {% endif %}
 
       <div class="card">
         <div class="card-header">
@@ -269,6 +235,81 @@
           </tbody>
         </table>
       </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
+            {% documentation_icon 'admin/install' 'reverse-proxy' right=True %}
+            {% translate "HTTP environment" %}
+          </h4>
+        </div>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th></th>
+              <th>{% translate "Observed value" %}</th>
+              <th>{% translate "Configured value" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{% translate "Client IP address" %}</td>
+              <td>
+                <code>{{ request.META.REMOTE_ADDR }}</code>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>{% translate "HTTP host" %}</td>
+              <td>
+                <code>{{ request.get_host }}</code>
+              </td>
+              <td>
+                <code>{{ site_domain }}</code>
+              </td>
+            </tr>
+            <tr>
+              <td>{% translate "HTTP protocol" %}</td>
+              <td>
+                <code>
+                  {% if request.is_secure %}
+                    https
+                  {% else %}
+                    http
+                  {% endif %}
+                </code>
+              </td>
+              <td>
+                <code>
+                  {% if enable_https %}
+                    https
+                  {% else %}
+                    http
+                  {% endif %}
+                </code>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
+            {% documentation_icon 'admin/install' 'reverse-proxy' right=True %}
+            {% translate "HTTP headers" %}
+          </h4>
+        </div>
+        <div class="card-body">
+          {% for name, value in request.headers.items %}
+            <code>{{ name }}: {{ value }}</code>
+            <br />
+          {% endfor %}
+        </div>
+      </div>
+
 
     </div>
   </div>

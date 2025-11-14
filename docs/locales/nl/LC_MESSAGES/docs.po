@@ -17,7 +17,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-27 08:36+0100\n"
-"PO-Revision-Date: 2025-10-26 07:35+0000\n"
+"PO-Revision-Date: 2025-11-10 05:52+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -26,7 +26,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.1-dev\n"
+"X-Generator: Weblate 5.15-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:215
@@ -4248,6 +4248,11 @@ msgid ""
 "see :ref:`reverse-proxy`. :guilabel:`HTTP headers` shows complete HTTP "
 "request headers to provide additional information."
 msgstr ""
+":guilabel:`HTTP environment` stelt u in staat de HTTP-omgeving te bekijken "
+"zoals die wordt gezien door Weblate. Dat is nuttig voor het debuggen van de "
+"configuratie voor omgekeerde proxy, bekijk :ref:`reverse-proxy`. :guilabel:`"
+"HTTP headers` geeft de volledige HTTP request headers weer om aanvullende "
+"informatie te verschaffen."
 
 #: ../../admin/admin.rst:48
 msgid ""
@@ -10783,18 +10788,16 @@ msgstr ""
 "miljoenen gehoste woorden."
 
 #: ../../admin/install.rst:146
-#, fuzzy
-#| msgid "Database"
 msgid "Datastore"
-msgstr "Database"
+msgstr "Gegevensopslag"
 
 #: ../../admin/install.rst:147
-#, fuzzy
-#| msgid "Redis server for cache and tasks queue, see :ref:`celery`."
 msgid ""
 "Key/value datastore such as Valkey or Redis server for cache and tasks "
 "queue, see :ref:`celery`."
-msgstr "Redis-server voor cache en wachtrij voor taken, bekijk :ref:`celery`."
+msgstr ""
+"Gegevensopslag van sleutels/waarden, zoals Valkey- of Redis-server voor "
+"cache en wachtrij voor taken, bekijk :ref:`celery`."
 
 #: ../../admin/install.rst:150
 msgid "File system"
@@ -10825,15 +10828,11 @@ msgstr ""
 "worden verschaft."
 
 #: ../../admin/install.rst:159
-#, fuzzy
-#| msgid ""
-#| ":doc:`/admin/install/docker` includes PostgreSQL and Redis, making the "
-#| "installation easier."
 msgid ""
 ":doc:`/admin/install/docker` includes PostgreSQL and Valkey, making the "
 "installation easier."
 msgstr ""
-":doc:`/admin/install/docker` bevat PostgreSQL en Redis, wat het installeren "
+":doc:`/admin/install/docker` bevat PostgreSQL en Valkey, wat het installeren "
 "gemakkelijker maakt."
 
 #: ../../admin/install.rst:164
@@ -11814,6 +11813,8 @@ msgid ""
 "To debug this configuration, you can look at :guilabel:`HTTP environment` "
 "in :ref:`manage-performance`."
 msgstr ""
+"Om deze configuratie te debuggen, kijk bij :guilabel:`HTTP environment` in "
+":ref:`manage-performance`."
 
 #: ../../admin/install.rst:736
 msgid "Client IP address"
@@ -12030,16 +12031,12 @@ msgstr ""
 "van verouderde sessies uit de database te verwijderen."
 
 #: ../../admin/install.rst:894
-#, fuzzy
-#| msgid ""
-#| "If you are using Redis as cache (see :ref:`production-cache`) it is "
-#| "recommended to use it for sessions as well:"
 msgid ""
 "If you are using Valkey or Redis as cache (see :ref:`production-cache`) it "
 "is recommended to use it for sessions as well:"
 msgstr ""
-"Als u Redis gebruikt als cache (bekijk :ref:`production-cache`) wordt "
-"aanbevolen om het ook voor sessies te gebruiken:"
+"Als u Valkey of Redis gebruikt als cache (bekijk :ref:`production-cache`) "
+"wordt aanbevolen om het ook voor sessies te gebruiken:"
 
 #: ../../admin/install.rst:910
 msgid ""
@@ -12290,34 +12287,24 @@ msgstr ""
 "door bijvoorbeeld `PGTune <https://pgtune.leopard.in.ua/>`_ te gebruiken."
 
 #: ../../admin/install.rst:1133
-#, fuzzy
-#| msgid "Configure columns"
 msgid "Configure cache"
-msgstr "Kolommen configureren"
+msgstr "Cache configureren"
 
 #: ../../admin/install.rst:1135
-#, fuzzy
-#| msgid ""
-#| "If possible, use Redis from Django by adjusting the ``CACHES`` "
-#| "configuration variable, for example:"
 msgid ""
 "If possible, use Valkey or Redis from Django by adjusting the ``CACHES`` "
 "configuration variable, for example:"
 msgstr ""
-"Gebruik, indien mogelijk, Redis vanuit Django door de variabele voor de "
-"configuratie ``CACHES`` aan te passen, bijvoorbeeld:"
+"Gebruik, indien mogelijk, Valkey of Redis vanuit Django door de variabele "
+"voor de configuratie ``CACHES`` aan te passen, bijvoorbeeld:"
 
 #: ../../admin/install.rst:1156
-#, fuzzy
-#| msgid ""
-#| "In case you change Redis settings for the cache, you might need to adjust "
-#| "them for Celery as well, see :ref:`celery`."
 msgid ""
 "In case you change settings for the cache, you might need to adjust them for "
 "Celery as well, see :ref:`celery`."
 msgstr ""
-"In het geval u instellingen van Redis voor de cache wijzigt, moet u ze "
-"misschien ook voor Celery aanpassen, bekijk :ref:`celery`."
+"In het geval u instellingen voor de cache wijzigt, moet u ze misschien ook "
+"voor Celery aanpassen, bekijk :ref:`celery`."
 
 #: ../../admin/install.rst:1167
 msgid "Avatar caching"
@@ -13026,10 +13013,9 @@ msgid "Committing pending changes (see :ref:`lazy-commit`)."
 msgstr "Openstaande wijzigingen doorvoeren (bekijk :ref:`lazy-commit`)."
 
 #: ../../admin/install.rst:1698
-#, fuzzy
-#| msgid "A typical setup using Redis as a backend looks like this:"
 msgid "A typical setup using Valkey or Redis as a backend looks like this:"
-msgstr "Een normale opstelling met Redis als backend ziet eruit als dit:"
+msgstr ""
+"Een normale opstelling met Valkey of Redis als backend ziet eruit als dit:"
 
 #: ../../admin/install.rst:1708
 msgid ""
@@ -13390,16 +13376,12 @@ msgid "Other notes"
 msgstr "Andere opmerkingen"
 
 #: ../../admin/install.rst:1948
-#, fuzzy
-#| msgid ""
-#| "Don't forget to move other services Weblate might have been using like "
-#| "Redis, Cron jobs or custom authentication backends."
 msgid ""
 "Don't forget to move other services Weblate might have been using like "
 "Valkey, Redis, Cron jobs or custom authentication backends."
 msgstr ""
 "Vergeet niet om andere services die Weblate gebruikt zou kunnen hebben te "
-"verplaatsen, zoals Redis, Cron jobs of aangepaste backends voor "
+"verplaatsen, zoals Valkey, Redis, Cron jobs of aangepaste backends voor "
 "authenticatie."
 
 #: ../../admin/install/docker.rst:2
@@ -13407,22 +13389,16 @@ msgid "Installing using Docker"
 msgstr "Installeren met Docker"
 
 #: ../../admin/install/docker.rst:4
-#, fuzzy
-#| msgid ""
-#| "With dockerized Weblate deployment you can get your personal Weblate "
-#| "instance up and running in seconds. All of Weblate's dependencies are "
-#| "already included. PostgreSQL is set up as the default database and Redis "
-#| "as a caching backend."
 msgid ""
 "With dockerized Weblate deployment you can get your personal Weblate "
 "instance up and running in seconds. All of Weblate's dependencies are "
 "already included. PostgreSQL is set up as the default database and Valkey as "
 "a caching backend."
 msgstr ""
-"Met gedockeriseerde uitrol van Weblate kunt u uw persoonlijke instantie van "
+"Met een docker-uitrol van Weblate kunt u uw persoonlijke instantie van "
 "Weblate in seconden hebben ingesteld en gereed voor gebruik. Alle "
 "afhankelijkheden voor Weblate zijn al opgenomen. PostgreSQL is ingesteld als "
-"de standaard database en Redis als een backend voor cachen."
+"de standaard database en Valkey als een backend voor cachen."
 
 #: ../../admin/install/docker.rst:13 ../../admin/install/kubernetes.rst:18
 #: ../../admin/install/openshift.rst:12
@@ -15040,69 +15016,53 @@ msgstr ""
 "Standaard is ``plain``."
 
 #: ../../admin/install/docker.rst:1627
-#, fuzzy
-#| msgid "Email server setup"
 msgid "Datastore server setup"
-msgstr "Opstelling e-mail server"
+msgstr "Opstelling server gegevensopslag"
 
 #: ../../admin/install/docker.rst:1629
-#, fuzzy
-#| msgid ""
-#| "Using Redis is strongly recommended by Weblate and you have to provide a "
-#| "Redis instance when running Weblate in Docker."
 msgid ""
 "Using Valkey or Redis is required by the Weblate container and you have to "
 "provide a connection parameters when running Weblate in Docker."
 msgstr ""
-"Het gebruiken van Redis wordt door Weblate sterk aanbevolen en u moet een "
-"instantie van Redis opgeven als u Weblate uitvoert in Docker."
+"Gebruiken van Valkey of Redis wordt door de container van Weblate vereist en "
+"u moet parameters voor een verbinding opgeven als u Weblate uitvoert in "
+"Docker."
 
 #: ../../admin/install/docker.rst:1638
-#, fuzzy
-#| msgid "The Redis server hostname or IP address. Defaults to ``cache``."
 msgid "The datastore server hostname or IP address. Defaults to ``cache``."
-msgstr "De Redis server hostnaam of IP-adres. Standaard is ``cache``."
+msgstr ""
+"De hostnaam van de server voor gegevensopslag of IP-adres. Standaard is "
+"``cache``."
 
 #: ../../admin/install/docker.rst:1642
-#, fuzzy
-#| msgid "The Redis server port. Defaults to ``6379``."
 msgid "The datastore server port. Defaults to ``6379``."
-msgstr "De Redis server poort. Standaard is ``6379``."
+msgstr "De serverpoort voor de gegevensopslag. Standaard is ``6379``."
 
 #: ../../admin/install/docker.rst:1646
-#, fuzzy
-#| msgid "The Redis database number, defaults to ``1``."
 msgid "The datastore database number, defaults to ``1``."
-msgstr "Het Redis databasenummer, standaard is ``1``."
+msgstr "Het databasenummer voor de gegevensopslag, standaard is ``1``."
 
 #: ../../admin/install/docker.rst:1652
-#, fuzzy
-#| msgid "The Redis database user, not used by default."
 msgid "The datastore database user, not used by default."
-msgstr "De Redis databasegebruiker, wordt standaard niet gebruikt."
+msgstr ""
+"De databasegebruiker van de gegevensopslag, wordt standaard niet gebruikt."
 
 #: ../../admin/install/docker.rst:1656
-#, fuzzy
-#| msgid "The Redis server password, not used by default."
 msgid "The datastore server password, not used by default."
-msgstr "Het Redis server wachtwoord, wordt standaard niet gebruikt."
+msgstr ""
+"Het serverwachtwoord voor de gegevensopslag, wordt standaard niet gebruikt."
 
 #: ../../admin/install/docker.rst:1664
-#, fuzzy
-#| msgid "Enables using SSL for Redis connection."
 msgid "Enables using SSL for the datastore connection."
-msgstr "Schakelt SSL in voor de verbinding van Redis."
+msgstr "Schakelt SSL in voor de verbinding van de gegevensopslag."
 
 #: ../../admin/install/docker.rst:1668
-#, fuzzy
-#| msgid ""
-#| "Can be used to disable SSL certificate verification for Redis connection."
 msgid ""
 "Can be used to disable SSL certificate verification for the datastore "
 "connection."
 msgstr ""
 "Kan worden gebruikt om verificatie van het SSL-certificaat voor de "
-"verbinding van Redis uit te schakelen."
+"verbinding van de gegevensopslag uit te schakelen."
 
 #: ../../admin/install/docker.rst:1673
 msgid "Email server setup"
@@ -15449,20 +15409,14 @@ msgid "Docker container volumes"
 msgstr "Docker container volumes"
 
 #: ../../admin/install/docker.rst:2064
-#, fuzzy
-#| msgid ""
-#| "There are two volumes (:file:`data` and :file:`cache`) exported by the "
-#| "Weblate container. The other service containers (PostgreSQL or Redis) "
-#| "have their data volumes as well, but those are not covered by this "
-#| "document."
 msgid ""
 "There are two volumes (:file:`data` and :file:`cache`) exported by the "
 "Weblate container. The other service containers (PostgreSQL or Valkey) have "
 "their data volumes as well, but those are not covered by this document."
 msgstr ""
 "Er worden twee volumes (:file:`data` en :file:`cache`) geëxporteerd door de "
-"Weblate container. De andere service-containers (PostgreSQL of Redis) hebben "
-"ook hun volumes data, maar die worden niet behandeld in dit document."
+"Weblate container. De andere service-containers (PostgreSQL of Valkey) "
+"hebben ook hun volumes data, maar die worden niet behandeld in dit document."
 
 #: ../../admin/install/docker.rst:2068
 msgid ""
@@ -17320,10 +17274,8 @@ msgid "Amazon Translate"
 msgstr "Amazon Translate"
 
 #: ../../admin/machine.rst:0
-#, fuzzy
-#| msgid "New features"
 msgid "Advanced features"
-msgstr "Nieuwe mogelijkheden"
+msgstr "Gevorderde mogelijkheden"
 
 #: ../../admin/machine.rst:145
 msgid "API secret key"
@@ -18041,40 +17993,28 @@ msgid "OpenAI model"
 msgstr "OpenAI-model"
 
 #: ../../admin/machine.rst:693
-#, fuzzy
-#| msgid "``gpt-4o`` -- GPT-4o"
 msgid "``gpt-5-nano`` -- GPT-5-nano"
-msgstr "``gpt-4o`` -- GPT-4o"
+msgstr "``gpt-5-nano`` -- GPT-5-nano"
 
 #: ../../admin/machine.rst:695
-#, fuzzy
-#| msgid "``gpt-4o-mini`` -- GPT-4o mini"
 msgid "``gpt-5-mini`` -- GPT-5-mini"
-msgstr "``gpt-4o-mini`` -- GPT-4o mini"
+msgstr "``gpt-5-mini`` -- GPT-5 mini"
 
 #: ../../admin/machine.rst:697
-#, fuzzy
-#| msgid "``gpt-4`` -- GPT-4"
 msgid "``gpt-5`` -- GPT-5"
-msgstr "``gpt-4`` -- GPT-4"
+msgstr "``gpt-5`` -- GPT-5"
 
 #: ../../admin/machine.rst:699
-#, fuzzy
-#| msgid "``gpt-4o`` -- GPT-4o"
 msgid "``gpt-4.1-nano`` -- GPT-4.1-nano"
-msgstr "``gpt-4o`` -- GPT-4o"
+msgstr "``gpt-4.1-nano`` -- GPT-4.1-nano"
 
 #: ../../admin/machine.rst:701
-#, fuzzy
-#| msgid "``gpt-4o-mini`` -- GPT-4o mini"
 msgid "``gpt-4.1-mini`` -- GPT-4.1-mini"
-msgstr "``gpt-4o-mini`` -- GPT-4o mini"
+msgstr "``gpt-4.1-mini`` -- GPT-4.1-mini"
 
 #: ../../admin/machine.rst:703
-#, fuzzy
-#| msgid "``gpt-4`` -- GPT-4"
 msgid "``gpt-4.1`` -- GPT-4.1"
-msgstr "``gpt-4`` -- GPT-4"
+msgstr "``gpt-4.1`` -- GPT-4.1"
 
 #: ../../admin/machine.rst:705
 msgid "``gpt-4o-mini`` -- GPT-4o mini"
@@ -18085,34 +18025,24 @@ msgid "``gpt-4o`` -- GPT-4o"
 msgstr "``gpt-4o`` -- GPT-4o"
 
 #: ../../admin/machine.rst:709
-#, fuzzy
-#| msgid "``o3-mini`` -- OpenAI o3-mini"
 msgid "``o3-mini`` -- o3-mini"
-msgstr "``o3-mini`` -- OpenAI o3-mini"
+msgstr "``o3-mini`` -- o3-mini"
 
 #: ../../admin/machine.rst:711
-#, fuzzy
-#| msgid "``o3`` -- OpenAI o3"
 msgid "``o3`` -- o3"
-msgstr "``o3`` -- OpenAI o3"
+msgstr "``o3`` -- o3"
 
 #: ../../admin/machine.rst:713
-#, fuzzy
-#| msgid "``o1-mini`` -- OpenAI o1-mini"
 msgid "``o1-mini`` -- o1-mini"
-msgstr "``o1-mini`` -- OpenAI o1-mini"
+msgstr "``o1-mini`` -- o1-mini"
 
 #: ../../admin/machine.rst:715
-#, fuzzy
-#| msgid "``o1`` -- OpenAI o1"
 msgid "``o1`` -- o1"
-msgstr "``o1`` -- OpenAI o1"
+msgstr "``o1`` -- o1"
 
 #: ../../admin/machine.rst:717
-#, fuzzy
-#| msgid "``o1`` -- OpenAI o1"
 msgid "``o1-pro`` -- o1-pro"
-msgstr "``o1`` -- OpenAI o1"
+msgstr "``o1`` -- o1-pro"
 
 #: ../../admin/machine.rst:719
 msgid "``custom`` -- Custom model"
@@ -26360,10 +26290,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS op Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.1.1"
 msgid "Weblate 5.14.1"
-msgstr "Weblate 5.1.1"
+msgstr "Weblate 5.14.1"
 
 #: ../../changes.rst:4
 msgid "*Not yet released.*"
@@ -26395,14 +26323,12 @@ msgid "Improvements"
 msgstr "Verbeteringen"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Cache server (see :ref:`production-cache`)"
 msgid "Document using Valkey in :ref:`celery` and :ref:`production-cache`."
-msgstr "Cacheserver (bekijk :ref:`production-cache`)"
+msgstr "Document gebruikt Valkey in :ref:`celery` en :ref:`production-cache`."
 
 #: ../../changes.rst:11
 msgid "Added HTTP environment overview in :ref:`manage-performance`."
-msgstr ""
+msgstr "Toegevoegd overzicht HTTP-omgeving in :ref:`manage-performance`."
 
 #: ../../changes.rst:14 ../../changes.rst:66 ../../changes.rst:103
 #: ../../changes.rst:132 ../../changes.rst:157 ../../changes.rst:219
@@ -26426,16 +26352,12 @@ msgid "Bug fixes"
 msgstr "Gerepareerde bugs"
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Outgoing commits in the Weblate repository"
 msgid "Counting outgoing commits in the repository status."
-msgstr "Er zijn nieuwe commits in de Weblate-opslagruimte"
+msgstr "Aantal uitgaande commits tellen in de status van de opslagruimte."
 
 #: ../../changes.rst:16
-#, fuzzy
-#| msgid "Licensing translations"
 msgid "Listing of other translations."
-msgstr "Licenseren van vertalingen"
+msgstr "Vermelden van andere vertalingen."
 
 #: ../../changes.rst:19 ../../changes.rst:76 ../../changes.rst:171
 #: ../../changes.rst:226 ../../changes.rst:349 ../../changes.rst:499
@@ -26517,26 +26439,20 @@ msgid "Contributors"
 msgstr "Medewerkers"
 
 #: ../../changes.rst:28
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "153?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/154?"
 "closed=1>`__."
 msgstr ""
 "`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/milestone/"
-"153?closed=1>`__."
+"154?closed=1>`__."
 
 #: ../../changes.rst:31
 msgid "Weblate 5.14"
 msgstr "Weblate 5.14"
 
 #: ../../changes.rst:33
-#, fuzzy
-#| msgid "*Released on October 25th 2023.*"
 msgid "*Released on October 22nd 2025.*"
-msgstr "*Uitgegeven op 25 oktober 2023.*"
+msgstr "*Uitgegeven op 22 oktober 2025.*"
 
 #: ../../changes.rst:37
 msgid ""
@@ -48795,10 +48711,8 @@ msgid "Main class for invoking commands."
 msgstr "Hoofdklasse voor aanroepen van opdrachten."
 
 #: ../../security/data-residency.rst:2
-#, fuzzy
-#| msgid "Database latency"
 msgid "Data residency"
-msgstr "Databankvertraging"
+msgstr "Verblijfplaats gegevens"
 
 #: ../../security/data-residency.rst:4
 msgid ""
@@ -48806,6 +48720,10 @@ msgid ""
 "within the **European Union**. This ensures strong data protection, clear "
 "jurisdiction, and compliance with European privacy standards."
 msgstr ""
+"Alle services van **Weblate Cloud** en **Hosted Weblate** worden volledig "
+"gehost binnen de **Europese unie**. Dat verzekert sterk bescherming voor de "
+"gegevens, heldere jurisdictie en conformiteit met Europese standaarden voor "
+"privacy."
 
 #: ../../security/data-residency.rst:7
 msgid ""
@@ -48815,42 +48733,52 @@ msgid ""
 "(information security) and **ISO 9001** (quality management), and are "
 "pursuing **ISO 50001** (energy management) certification."
 msgstr ""
+"Onze infrastructuur wordt geleverd door **Hetzner Online GmbH**, een Duitse "
+"operator voor datacenters met een lange reputatie voor betrouwbaarheid en "
+"duurzaamheid. Hetzner’s faciliteiten zijn gecertificeerd onder **ISO 27001** "
+"(informatiebeveiliging) en **ISO 9001** (kwaliteitsbeheer) en werken aan "
+"certificatie voor **ISO 50001** (energiebeheer)."
 
 #: ../../security/data-residency.rst:11
 msgid "Where data lives"
-msgstr ""
+msgstr "Waar de gegevens leven"
 
 #: ../../security/data-residency.rst:13
 msgid ""
 "All customer data, including translations, user information, and backups, is "
 "stored and processed within the EU."
 msgstr ""
+"Alle gebruikersgegevens, inclusief vertalingen, information over gebruikers "
+"en back-ups, worden opgeslagen en verwerkt binnen de EU."
 
 #: ../../security/data-residency.rst:14
 msgid "Primary data centers are located in **Germany**."
-msgstr ""
+msgstr "Primaire datacenters zijn gevestigd in **Duitsland**."
 
 #: ../../security/data-residency.rst:15
 msgid ""
 "No operational data leaves the EU unless explicitly requested by the "
 "customer (for example, for external backups or region-specific deployments)."
 msgstr ""
+"Geen enkele operationele gegevens verlaten de EU, tenzij expliciet verzocht "
+"door de klant (bijvoorbeeld voor externe back-ups of regio-specifieke uitrol)"
+"."
 
 #: ../../security/data-residency.rst:18
-#, fuzzy
-#| msgid "Privacy regulations compliance"
 msgid "Privacy and regulatory compliance"
-msgstr "Conformiteit aan regelgeving voor privacy"
+msgstr "Conformiteit aan regelgeving en privacy"
 
 #: ../../security/data-residency.rst:20
 msgid ""
 "Weblate Cloud and Hosted Weblate follow privacy-by-design principles and "
 "meet the requirements of **GDPR**."
 msgstr ""
+"Weblate Cloud en Hosted Weblate volgen principes van privacy-door-ontwerp en "
+"voldoen aan de eisen van **GDPR**."
 
 #: ../../security/data-residency.rst:23
 msgid "Sustainability"
-msgstr ""
+msgstr "Duurzaamheid"
 
 #: ../../security/data-residency.rst:25
 msgid ""
@@ -48858,12 +48786,13 @@ msgid ""
 "sourced from **hydropower**. You can find more details at https://"
 "www.hetzner.com/unternehmen/nachhaltigkeit/."
 msgstr ""
+"Alle infrastructuur voor hosten werkt op **100% herwinbare energie**, "
+"primair afkomstig van **waterkracht**. Meer details zijn te vinden op "
+"https://www.hetzner.com/unternehmen/nachhaltigkeit/."
 
 #: ../../security/data-residency.rst:28
-#, fuzzy
-#| msgid "From version control"
 msgid "Customer control"
-msgstr "Uit versiebeheer"
+msgstr "Klantbeheer"
 
 #: ../../security/data-residency.rst:30
 msgid ""
@@ -48873,6 +48802,11 @@ msgid ""
 "instances are available for organizations needing isolated or customized "
 "environments."
 msgstr ""
+"Klanten behouden volledig beheer over hun gegevens: - Projecten, vertalingen "
+"en gebruikersaccounts kunnen op elk moment worden geëxporteerd of "
+"verwijderd. - Externe integraties zijn optioneel en volledig te "
+"configureren. - Aangewezen instanties van Weblate zijn beschikbaar voor "
+"organisaties die geïsoleerde of aangepaste omgevingen nodig hebben."
 
 #: ../../security/dependencies.rst:2
 msgid "Dependencies"
@@ -49472,16 +49406,12 @@ msgid "Terms of service and privacy policy"
 msgstr "Algemene voorwaarden en privacy policy"
 
 #: ../../security/index.rst:49
-#, fuzzy
-#| msgid ""
-#| "These documents apply to Weblate deployments operated by Weblate s.r.o., "
-#| "such as Hosted Weblate."
 msgid ""
 "These documents apply to Weblate deployments operated by Weblate s.r.o., "
 "such as Hosted Weblate and Weblate Cloud."
 msgstr ""
 "Deze documenten zijn van toepassing op uitgerolde Weblate die wordt "
-"uitgevoerd door Weblate s.r.o., zoals Hosted Weblate."
+"uitgevoerd door Weblate s.r.o., zoals Hosted Weblate en Weblate Cloud."
 
 #: ../../security/index.rst:51
 msgid "`General terms and conditions`_"
@@ -50532,14 +50462,6 @@ msgid "Weblate threat model"
 msgstr "Weblate dreigingsmodel"
 
 #: ../../security/threat-model.rst:4
-#, fuzzy
-#| msgid ""
-#| "**Scope:** Core Weblate web application, its interactions with user "
-#| "browsers, backend components (web server, WSGI, database, Redis, Celery), "
-#| "and integration with external VCS. **Assumptions:** Standard Weblate "
-#| "deployment with typical components (nginx/Apache, Gunicorn/uWSGI, "
-#| "PostgreSQL, Redis, Celery) and user roles (Unauthenticated, Translator, "
-#| "Project Manager, Administrator)."
 msgid ""
 "**Scope:** Core Weblate web application, its interactions with user "
 "browsers, backend components (web server, WSGI, database, datastore, "
@@ -50549,11 +50471,12 @@ msgid ""
 "Project Manager, Administrator)."
 msgstr ""
 "**Bereik:** Bron Weblate webtoepassing, zijn interacties met browsers van "
-"gebruikers, backend-componenten (webserver, WSGI, database, Redis, Celery) "
-"en integratie met extern VCS. **Aannames:** Standaard Weblate uitrol met "
-"typische onderdelen (nginx/Apache, Gunicorn/uWSGI, PostgreSQL, Redis, "
-"Celery) en rollen voor gebruikers (Niet geauthenticeerd, Vertaler, "
-"Projectbeheerder, Systeembeheerder)."
+"gebruikers, backend-componenten "
+"(webserver, WSGI, database, gegevensopslag, Celery) en integratie met extern "
+"VCS. **Aannames:** Standaard Weblate uitrol met typische onderdelen "
+"(nginx/Apache, Gunicorn/uWSGI, PostgreSQL, gegevensopslag, Celery) en rollen "
+"voor gebruikers "
+"(Niet geauthenticeerd, Vertaler, Projectbeheerder, Systeembeheerder)."
 
 #: ../../security/threat-model.rst:8
 msgid "System description and scope"
@@ -50889,10 +50812,8 @@ msgid "System compromise, data exfiltration."
 msgstr "Systeem gecompromitteerd, uitnemen gegevens."
 
 #: ../../security/threat-model.rst:110
-#, fuzzy
-#| msgid "**Database/Redis**"
 msgid "**Database/Datastore**"
-msgstr "**Database/Redis**"
+msgstr "**Database/Gegevensopslag**"
 
 #: ../../security/threat-model.rst:112
 msgid ""
@@ -50908,33 +50829,25 @@ msgid "System malfunction, data integrity loss."
 msgstr "Systeem functioneert niet, verlies van integriteit van de gegevens."
 
 #: ../../security/threat-model.rst:116
-#, fuzzy
-#| msgid ""
-#| "**Sensitive data access:** Unauthorized access to database/Redis exposes "
-#| "all stored data (credentials, translation memory, user profiles)."
 msgid ""
 "**Sensitive data access:** Unauthorized access to database/datastore exposes "
 "all stored data (credentials, translation memory, user profiles)."
 msgstr ""
 "**Toegang tot gevoelige gegevens:** Niet geautoriseerde toegang tot de "
-"database/Redis onthult alle opgeslagen gegevens (inloggegevens, "
-"vertaalgeheugen, profielen van gebruikers)."
+"database/gegevensopslag onthult alle opgeslagen gegevens "
+"(inloggegevens, vertaalgeheugen, profielen van gebruikers)."
 
 #: ../../security/threat-model.rst:117
 msgid "Major data breach."
 msgstr "Belangrijke inbreuk op gegevens."
 
 #: ../../security/threat-model.rst:120
-#, fuzzy
-#| msgid ""
-#| "**Database exhaustion:** Attacker floods the database with queries, or "
-#| "consumes all Redis memory/connections."
 msgid ""
 "**Database exhaustion:** Attacker floods the database or datastore with "
 "queries, or consumes all memory or available connections."
 msgstr ""
 "**Uitputten database:** Aanvaller bestookt de database met query's of "
-"gebruikt alle geheugen/verbindingen van Redis."
+"gebruikt alle geheugen of beschikbare verbindingen."
 
 #: ../../security/threat-model.rst:122
 msgid "**VCS integration**"
@@ -51156,15 +51069,12 @@ msgstr ""
 "op het besturingssysteem."
 
 #: ../../security/threat-model.rst:171
-#, fuzzy
-#| msgid ""
-#| "Network segmentation (e.g., separating database/Redis from public access)."
 msgid ""
 "Network segmentation (e.g., separating database and datastore from public "
 "access)."
 msgstr ""
-"Netwerk segmentatie (bijv. afscheiden van database/Redis van openbare "
-"toegang)."
+"Netwerk segmentatie "
+"(bijv. afscheiden van database/gegevensopslag van openbare toegang)."
 
 #: ../../security/threat-model.rst:172
 msgid "Use of WAF (Web Application Firewall)."
@@ -54111,10 +54021,8 @@ msgid "For example with Gettext in Python it could be:"
 msgstr "Bijvoorbeeld met Gettext in Python zou het kunnen zijn:"
 
 #: ../../user/checks.rst:2193
-#, fuzzy
-#| msgid "Glossaries in automatic suggestion"
 msgid "Placeables in automatic suggestion"
-msgstr "Woordenlijsten in automatische suggestie"
+msgstr "Plaatsvervangers in automatische suggestie"
 
 #: ../../user/checks.rst:2195
 msgid ""
@@ -54123,6 +54031,12 @@ msgid ""
 "for this varies in different services and in many cases there is no way to "
 "enforce keeping placeables intact."
 msgstr ""
+"Controles voor plaatsvervangers geven informatie prijs over huidige "
+"plaatsvervangers en dat kan worden gebruikt om automatisch "
+"suggestieprogramma's te instrueren om ze te behouden. De ondersteuning "
+"daarvoor varieert in de verschillende services en in veel gevallen is er "
+"geen manier om de af te dwingen dat de plaatsvervangers intact worden "
+"gelaten."
 
 #: ../../user/files.rst:2
 msgid "Downloading and uploading translations"
@@ -54754,17 +54668,14 @@ msgid "Glossaries in automatic suggestion"
 msgstr "Woordenlijsten in automatische suggestie"
 
 #: ../../user/glossary.rst:138
-#, fuzzy
-#| msgid ""
-#| "Following automatic suggestion services utilize glossaries during the "
-#| "translation:"
 msgid ""
 "Some automatic suggestion services utilize glossaries during the "
 "translation, please consult their documentation in :doc:`/admin/machine` to "
 "see the support."
 msgstr ""
-"De volgende services voor automatische suggesties gebruiken woordenlijsten "
-"tijdens het vertalen:"
+"Sommige services voor automatische suggesties gebruiken woordenlijsten "
+"tijdens het vertalen, raadpleeg hun documentatie in :doc:`/admin/machine` om "
+"de ondersteuning te bekijken."
 
 #: ../../user/glossary.rst:141
 msgid "The glossary is processed before exposed to the service:"
@@ -57313,6 +57224,8 @@ msgid ""
 "In case you don't provide credentials in the URL and the repository requires "
 "it, Git will fail with an error:"
 msgstr ""
+"In het geval dat u geen inloggegevens in de URL opgeeft en de opslagruimte "
+"vereist die, zal Git falen met een fout:"
 
 #: ../../vcs.rst:283
 msgid ""

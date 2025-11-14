@@ -45,6 +45,7 @@ from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.checks.utils import highlight_string
 from weblate.configuration.models import Setting, SettingCategory
+from weblate.formats.base import BilingualUpdateMixin
 from weblate.formats.models import EXPORTERS, FILE_FORMATS
 from weblate.lang.models import Language
 from weblate.machinery.models import MACHINERY
@@ -2015,7 +2016,8 @@ class ComponentScratchCreateForm(ComponentProjectForm):
         label=gettext_lazy("File format"),
         initial="po-mono",
         choices=FILE_FORMATS.get_choices(
-            cond=lambda x: bool(x.new_translation) or hasattr(x, "update_bilingual")
+            cond=lambda x: bool(x.new_translation)
+            or issubclass(x, BilingualUpdateMixin)
         ),
     )
     file_format_params = FormParamsField()

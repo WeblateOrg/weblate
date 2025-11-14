@@ -106,8 +106,12 @@ class ChangesTest(ViewTestCase):
 
     def test_last_changes_display(self) -> None:
         unit_to_delete = self.get_unit("Orangutan has %d banana")
+        unit_to_delete.context = "Orangutan unit context"
+        unit_to_delete.save()
         self.translation.delete_unit(None, unit_to_delete)
         response = self.client.get(reverse("changes"))
         self.assertContains(
             response, "String removed", count=2
         )  # one is from search options, second from history-data
+        # check the string context is also displayed
+        self.assertContains(response, "Orangutan unit context")

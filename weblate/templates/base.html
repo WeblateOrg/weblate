@@ -407,9 +407,11 @@
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end shadow">
                   <li class="dropdown-header">{% translate "Get help" %}</li>
-                  <li>
-                    <a class="dropdown-item" href="{% url 'contact' %}">{% translate "Contact server admins" %}</a>
-                  </li>
+                  {% if contact_form != "disabled" %}
+                    <li>
+                      <a class="dropdown-item" href="{% url 'contact' %}">{% translate "Contact server admins" %}</a>
+                    </li>
+                  {% endif %}
                   <li>
                     <a class="dropdown-item" href="https://github.com/orgs/WeblateOrg/discussions">{% translate "Community discussions" %}</a>
                   </li>

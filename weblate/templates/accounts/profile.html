@@ -520,9 +520,11 @@
               {% endfor %}
             </tbody>
           </table>
-          <div class="card-footer">
-            <a href="{% url 'contact' %}?t=account" class="btn btn-warning">{% translate "Report suspicious activity" %}</a>
-          </div>
+          {% if contact_form != "disabled" %}
+            <div class="card-footer">
+              <a href="{% url 'contact' %}?t=account" class="btn btn-warning">{% translate "Report suspicious activity" %}</a>
+            </div>
+          {% endif %}
         </div>
 
       </div>

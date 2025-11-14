@@ -93,7 +93,8 @@ def get_host_keys() -> list[tuple[str, str, str]]:
     """Return list of host keys."""
     try:
         result = []
-        with open(ssh_file(KNOWN_HOSTS)) as handle:
+        hosts_file = ssh_file(KNOWN_HOSTS)
+        with hosts_file.open() as handle:
             for line in handle:
                 line = line.strip()
                 if is_key_line(line):
@@ -111,9 +112,8 @@ def get_key_data_raw(
     # Read key data if it exists
     filename = KEYS[key_type][kind]
     key_file = ssh_file(filename)
-    if os.path.exists(key_file):
-        with open(key_file) as handle:
-            return filename, handle.read()
+    if key_file.exists():
+        return filename, key_file.read_text()
     return filename, None
 
 
