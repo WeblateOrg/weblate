@@ -5,8 +5,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from django.contrib.auth.decorators import login_not_required
 from django.shortcuts import redirect, render
 from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy
 from django.views.decorators.cache import never_cache
 from django.views.generic import TemplateView
@@ -28,6 +30,7 @@ MENU = (
 )
 
 
+@method_decorator(login_not_required, name="dispatch")
 class LegalView(TemplateView):
     page = "index"
 

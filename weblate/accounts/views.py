@@ -20,7 +20,7 @@ from django.conf import settings
 from django.contrib.auth import REDIRECT_FIELD_NAME, get_backends
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_not_required, login_required
 from django.contrib.auth.views import LoginView, RedirectURLMixin
 from django.core.exceptions import ObjectDoesNotExist, PermissionDenied, ValidationError
 from django.core.mail.message import EmailMessage
@@ -516,6 +516,7 @@ def user_remove(request: AuthenticatedHttpRequest):
 
 
 @session_ratelimit_post("confirm")
+@login_not_required
 @never_cache
 def confirm(request: AuthenticatedHttpRequest):
     details = request.session.get("reauthenticate")
@@ -549,6 +550,7 @@ def get_initial_contact(request: AuthenticatedHttpRequest):
 
 
 @never_cache
+@login_not_required
 def contact(request: AuthenticatedHttpRequest):
     if settings.CONTACT_FORM == "disabled":
         msg = "Contact form is disabled."
@@ -788,6 +790,7 @@ def user_contributions(request: AuthenticatedHttpRequest, user: str):
     )
 
 
+@login_not_required
 def user_avatar(request: AuthenticatedHttpRequest, user: str, size: int):
     """User avatar view."""
     allowed_sizes = (
@@ -944,6 +947,7 @@ def fake_email_sent(request: AuthenticatedHttpRequest, reset: bool = False):
 
 
 @never_cache
+@login_not_required
 def register(request: AuthenticatedHttpRequest):
     """Registration form."""
     # Fetch invitation
@@ -1111,6 +1115,7 @@ def get_registration_hint(email: str) -> str | None:
 
 
 @never_cache
+@login_not_required
 def reset_password(request: AuthenticatedHttpRequest):
     """Password reset handling."""
     if request.user.is_authenticated:
@@ -1341,6 +1346,7 @@ def social_disconnect(
 
 
 @never_cache
+@login_not_required
 @require_POST
 def social_auth(request: AuthenticatedHttpRequest, backend: str):
     """
@@ -1430,6 +1436,7 @@ def handle_missing_parameter(
 
 
 @csrf_exempt
+@login_not_required
 @never_cache
 def social_complete(request: AuthenticatedHttpRequest, backend: str):
     """
@@ -1550,6 +1557,7 @@ def subscribe(request: AuthenticatedHttpRequest):
     return redirect_profile("#notifications")
 
 
+@login_not_required
 def unsubscribe(request: AuthenticatedHttpRequest):
     if "i" in request.GET:
         signer = TimestampSigner()
@@ -1573,6 +1581,7 @@ def unsubscribe(request: AuthenticatedHttpRequest):
 
 
 @csrf_exempt
+@login_not_required
 @never_cache
 def saml_metadata(request: AuthenticatedHttpRequest):
     if "social_core.backends.saml.SAMLAuth" not in settings.AUTHENTICATION_BACKENDS:
@@ -1876,6 +1885,7 @@ class SecondFactorLoginView(SecondFactorMixin, RedirectURLMixin, FormView):
         return context
 
     @method_decorator(session_ratelimit_post("second_factor"))
+    @method_decorator(login_not_required)
     def dispatch(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         self.user = self.get_user()
         return super().dispatch(request, *args, **kwargs)
@@ -1890,6 +1900,7 @@ class SecondFactorLoginView(SecondFactorMixin, RedirectURLMixin, FormView):
         return super().form_invalid(form)
 
 
+@method_decorator(login_not_required, name="dispatch")
 class WeblateBeginCredentialAuthenticationView(
     SecondFactorMixin, BeginCredentialAuthenticationView
 ):
@@ -1897,6 +1908,7 @@ class WeblateBeginCredentialAuthenticationView(
 
 
 @method_decorator(session_ratelimit_post("second_factor"), name="dispatch")
+@method_decorator(login_not_required, name="dispatch")
 class WeblateCompleteCredentialAuthenticationView(
     SecondFactorMixin, CompleteCredentialAuthenticationView
 ):
