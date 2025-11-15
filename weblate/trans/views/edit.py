@@ -68,7 +68,11 @@ from weblate.utils.hash import hash_to_checksum
 from weblate.utils.html import format_html_join_comma, list_to_tuples
 from weblate.utils.messages import get_message_kind
 from weblate.utils.ratelimit import revert_rate_limit, session_ratelimit_post
-from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
+from weblate.utils.state import (
+    STATE_APPROVED,
+    STATE_NEEDS_CHECKING,
+    STATE_TRANSLATED,
+)
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.views import (
     parse_path,
@@ -500,7 +504,9 @@ def handle_revert(unit, request: AuthenticatedHttpRequest, next_unit_url):
     unit.translate(
         request.user,
         split_plural(change.old),
-        STATE_FUZZY if change.action == ActionEvents.MARKED_EDIT else unit.state,
+        STATE_NEEDS_CHECKING
+        if change.action == ActionEvents.MARKED_EDIT
+        else unit.state,
         change_action=ActionEvents.REVERT,
     )
     # Redirect to next entry

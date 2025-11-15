@@ -13,7 +13,11 @@ from weblate.addons.events import AddonEvent
 from weblate.addons.forms import BulkEditAddonForm
 from weblate.trans.bulk import bulk_perform
 from weblate.trans.models import Unit
-from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
+from weblate.utils.state import (
+    STATE_NEEDS_CHECKING,
+    STATE_NEEDS_REWRITING,
+    STATE_TRANSLATED,
+)
 
 if TYPE_CHECKING:
     from weblate.addons.base import CompatDict
@@ -57,7 +61,8 @@ class SourceEditAddon(FlagBase):
             and unit.state >= STATE_TRANSLATED
             and not unit.readonly
         ):
-            unit.state = STATE_FUZZY
+            # TODO: needs-checking or needs-rewriting as this is source?
+            unit.state = STATE_NEEDS_CHECKING
 
 
 class TargetEditAddon(FlagBase):
@@ -75,7 +80,7 @@ class TargetEditAddon(FlagBase):
             and unit.state >= STATE_TRANSLATED
             and not unit.readonly
         ):
-            unit.state = STATE_FUZZY
+            unit.state = STATE_NEEDS_CHECKING
 
 
 class SameEditAddon(FlagBase):
@@ -95,7 +100,7 @@ class SameEditAddon(FlagBase):
             and unit.state >= STATE_TRANSLATED
             and not unit.readonly
         ):
-            unit.state = STATE_FUZZY
+            unit.state = STATE_NEEDS_CHECKING
 
 
 class BulkEditAddon(BaseAddon):
@@ -145,4 +150,4 @@ class TargetRepoUpdateAddon(BaseAddon):
 
     def unit_post_sync(self, unit: Unit, changed_attr: str, **kwargs) -> None:
         if changed_attr == "target":
-            unit.state = STATE_FUZZY
+            unit.state = STATE_NEEDS_REWRITING
