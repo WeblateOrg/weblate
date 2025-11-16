@@ -560,6 +560,8 @@ class UnitTermExpr(BaseTermExpr):
             return Q(state__lt=STATE_TRANSLATED)
         if text == "pending":
             return Q(pending_changes__isnull=False)
+        if text == "automatically_translated":
+            return Q(automatically_translated=True)
 
         return super().is_field(text, context)
 

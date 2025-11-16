@@ -15,7 +15,7 @@ from django.db.models import Count, F, Q, Value
 from django.db.models.functions import Replace
 from django.urls import reverse
 from django.utils.functional import cached_property
-from django.utils.translation import gettext_lazy, gettext_noop
+from django.utils.translation import gettext_lazy
 
 from weblate.configuration.models import Setting, SettingCategory
 from weblate.formats.models import FILE_FORMATS
@@ -771,13 +771,6 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     @property
     def can_add_category(self) -> bool:
         return True
-
-    @cached_property
-    def automatically_translated_label(self) -> Label:
-        return self.label_set.get_or_create(
-            name=gettext_noop("Automatically translated"),
-            defaults={"color": "yellow"},
-        )[0]
 
     def collect_label_cleanup(self, label: Label) -> None:
         from weblate.trans.models.translation import Translation

@@ -14,7 +14,7 @@ from django.conf import settings
 from django.core.cache import cache
 from django.db import Error as DjangoDatabaseError
 from django.db import models, transaction
-from django.db.models import Count, Max, Q, Sum, Value
+from django.db.models import Count, ManyToManyField, Max, Q, Sum, Value
 from django.db.models.functions import MD5, Length, Lower
 from django.utils import timezone
 from django.utils.functional import cached_property
@@ -362,18 +362,9 @@ class UnitQuerySet(models.QuerySet["Unit"]):
         )
 
 
-class LabelsField(models.ManyToManyField):
-    def save_form_data(self, instance, data) -> None:
-        from weblate.trans.models.label import TRANSLATION_LABELS
-
-        super().save_form_data(instance, data)
-
-        # Delete translation labels when not checked
-        new_labels = {label.name for label in data}
-        through = getattr(instance, self.attname).through.objects
-        for label in TRANSLATION_LABELS:
-            if label not in new_labels:
-                through.filter(unit__source_unit=instance, label__name=label).delete()
+class LabelsField(ManyToManyField):
+    # unused but needed until migrations are sqaushed
+    pass
 
 
 class OldUnit(TypedDict):
@@ -453,7 +444,15 @@ class Unit(models.Model, LoggerMixin):
         null=True,
         default=None,
     )
-    labels = LabelsField("Label", verbose_name=gettext_lazy("Labels"), blank=True)
+    labels = ManyToManyField("Label", verbose_name=gettext_lazy("Labels"), blank=True)
+    automatically_translated = models.BooleanField(
+        default=False,
+        db_index=True,
+        verbose_name=gettext_lazy("Automatically translated"),
+        help_text=gettext_lazy(
+            "Indicates whether this string was translated automatically."
+        ),
+    )
 
     # The type annotation hides that field can be None because
     # save() updates it to non-None immediately.
@@ -1868,11 +1867,10 @@ class Unit(models.Model, LoggerMixin):
         self.update_translation_memory(user)
 
         if change_action == ActionEvents.AUTO:
-            self.labels.add(component.project.automatically_translated_label)
+            self.automatically_translated = True
         else:
-            self.labels.through.objects.filter(
-                unit=self, label__name="Automatically translated"
-            ).delete()
+            self.automatically_translated = False
+        self.save(update_fields=["automatically_translated"])
 
         return saved
 

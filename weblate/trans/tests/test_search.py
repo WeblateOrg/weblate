@@ -167,6 +167,18 @@ class SearchViewTest(TransactionsTestMixin, ViewTestCase):
         self.do_search({"q": "check:plurals"}, None)
         self.do_search({"q": ""}, "1 / 4")
 
+    def test_search_automatically_translated(self) -> None:
+        self.do_search({"q": "is:automatically_translated"}, None)
+
+        unit = self.translation.unit_set.first()
+        unit.automatically_translated = True
+        unit.save()
+
+        response = self.do_search({"q": "is:automatically_translated"}, "1 / 1")
+        self.assertContains(response, unit.source)
+
+        self.do_search({"q": "NOT is:automatically_translated"}, "1 / 3")
+
     def test_search_plural(self) -> None:
         response = self.do_search({"q": "banana"}, "banana")
         self.assertContains(response, "One")
@@ -509,11 +521,9 @@ class BulkEditTest(ViewTestCase):
         )
 
     def test_bulk_translation_label(self) -> None:
-        label = self.project.label_set.create(
-            name="Automatically translated", color="black"
-        )
+        label = self.project.label_set.create(name="Test label", color="black")
         unit = self.get_unit()
-        unit.labels.add(label)
+        unit.source_unit.labels.add(label)
         # Clear local outdated cache
         unit.translation.stats.clear()
         self.assertEqual(
@@ -527,7 +537,7 @@ class BulkEditTest(ViewTestCase):
         )
         self.assertContains(response, "Bulk edit completed, 1 string was updated.")
         unit = self.get_unit()
-        self.assertNotIn(label, unit.labels.all())
+        self.assertNotIn(label, unit.source_unit.labels.all())
         # Clear local outdated cache
         unit.translation.stats.clear()
         self.assertEqual(

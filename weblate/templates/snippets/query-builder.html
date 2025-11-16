@@ -188,6 +188,15 @@
             <a href="#" class="btn btn-outline-primary search-insert">{% translate "Add" %}</a>
           </td>
         </tr>
+        <tr>
+          <th>{% translate "Automatically translated strings" %}</th>
+          <td>
+            <code>is:automatically_translated</code>
+          </td>
+          <td>
+            <a href="#" class="btn btn-outline-primary search-insert">{% translate "Add" %}</a>
+          </td>
+        </tr>
         {% if not language %}
           {% with languages=user.profile.all_languages %}
             <tr>
@@ -409,6 +418,15 @@
           <th>{% translate "Strings changed in the past two weeks" %}</th>
           <td>
             <code>changed:&gt;="2 weeks ago"</code>
+          </td>
+          <td>
+            <a href="#" class="btn btn-default search-insert">{% translate "Add" %}</a>
+          </td>
+        </tr>
+        <tr>
+          <th>{% translate "Automatically translated strings" %}</th>
+          <td>
+            <code>is:automatically_translated</code>
           </td>
           <td>
             <a href="#" class="btn btn-default search-insert">{% translate "Add" %}</a>

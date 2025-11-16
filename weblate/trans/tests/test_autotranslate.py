@@ -216,23 +216,45 @@ class AutoTranslationTest(ViewTestCase):
         self.perform_auto(overwrite="1")
         translation = self.component2.translation_set.get(language_code="cs")
         self.assertEqual(
-            translation.unit_set.filter(
-                labels__name="Automatically translated"
-            ).count(),
+            translation.unit_set.filter(automatically_translated=True).count(),
             1,
         )
         self.edit_unit("Thank you for using Weblate.", "Díky za používání Weblate.")
         self.assertEqual(
-            translation.unit_set.filter(
-                labels__name="Automatically translated"
-            ).count(),
+            translation.unit_set.filter(automatically_translated=True).count(),
             1,
         )
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n", translation=translation)
         self.assertEqual(
-            translation.unit_set.filter(
-                labels__name="Automatically translated"
-            ).count(),
+            translation.unit_set.filter(automatically_translated=True).count(),
+            0,
+        )
+
+    def test_automatically_translated_column(self) -> None:
+        """Test that automatically_translated column is set correctly."""
+        translation = self.component2.translation_set.get(language_code="cs")
+        self.assertEqual(
+            translation.unit_set.filter(automatically_translated=True).count(),
+            0,
+        )
+
+        self.perform_auto(overwrite="1")
+
+        auto_unit = translation.unit_set.filter(automatically_translated=True).first()
+        self.assertIsNotNone(auto_unit)
+        self.assertTrue(auto_unit.automatically_translated)
+
+        auto_unit.translate(
+            self.user,
+            "Manually edited translation",
+            auto_unit.state,
+        )
+
+        auto_unit.refresh_from_db()
+        self.assertFalse(auto_unit.automatically_translated)
+
+        self.assertEqual(
+            translation.unit_set.filter(automatically_translated=True).count(),
             0,
         )
 
