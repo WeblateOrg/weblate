@@ -39,11 +39,27 @@ def get_env_str(
     return result
 
 
+def get_env_list_or_none(name: str) -> list[str] | None:
+    """Get list from environment."""
+    if string_value := get_env_str(name):
+        return string_value.split(",")
+    return None
+
+
 def get_env_list(name: str, default: list[str] | None = None) -> list[str]:
     """Get list from environment."""
-    if name not in os.environ:
-        return default or []
-    return os.environ[name].split(",")
+    return get_env_list_or_none(name) or default or []
+
+
+def get_env_map_or_none(name: str) -> dict[str, str] | None:
+    """
+    Get mapping from environment.
+
+    parses 'full_name:name,email:mail' into {'email': 'mail', 'full_name': 'name'}
+    """
+    if parsed_list := get_env_list_or_none(name):
+        return dict(e.split(":") for e in parsed_list)
+    return None
 
 
 def get_env_map(name: str, default: dict[str, str] | None = None) -> dict[str, str]:
@@ -52,28 +68,33 @@ def get_env_map(name: str, default: dict[str, str] | None = None) -> dict[str, s
 
     parses 'full_name:name,email:mail' into {'email': 'mail', 'full_name': 'name'}
     """
-    if os.environ.get(name):
-        return dict(e.split(":") for e in os.environ[name].split(","))
-    return default or {}
+    return get_env_map_or_none(name) or default or {}
 
 
-def get_env_int(name: str, default: int = 0) -> int:
+def get_env_int_or_none(name: str) -> int | None:
     """Get integer value from environment."""
-    if name not in os.environ:
-        return default
+    string_value = get_env_str(name)
+    if not string_value:
+        return None
     try:
-        return int(os.environ[name])
+        return int(string_value)
     except ValueError as error:
         msg = f"{name} is not an integer: {error}"
         raise ImproperlyConfigured(msg) from error
 
 
+def get_env_int(name: str, default: int = 0) -> int:
+    """Get integer value from environment."""
+    return get_env_int_or_none(name) or default
+
+
 def get_env_float(name: str, default: float = 0.0) -> float:
     """Get float value from environment."""
-    if name not in os.environ:
+    string_value = get_env_str(name)
+    if not string_value:
         return default
     try:
-        return float(os.environ[name])
+        return float(string_value)
     except ValueError as error:
         msg = f"{name} is not an float: {error}"
         raise ImproperlyConfigured(msg) from error
@@ -81,10 +102,11 @@ def get_env_float(name: str, default: float = 0.0) -> float:
 
 def get_env_bool(name: str, default: bool = False) -> bool:
     """Get boolean value from environment."""
-    if name not in os.environ:
+    string_value = get_env_str(name)
+    if not string_value:
         return default
     true_values = {"true", "yes", "1"}
-    return os.environ[name].lower() in true_values
+    return string_value.lower() in true_values
 
 
 def modify_env_list(current: list[str], name: str) -> list[str]:
@@ -107,10 +129,10 @@ def get_env_credentials(
             msg = f"Could not parse {name}_CREDENTIALS: {error}"
             raise ImproperlyConfigured(msg) from error
 
-    username = os.environ.get(f"WEBLATE_{name}_USERNAME", "")
-    token = os.environ.get(f"WEBLATE_{name}_TOKEN", "")
-    host = os.environ.get(f"WEBLATE_{name}_HOST")
-    organization = os.environ.get(f"WEBLATE_{name}_ORGANIZATION")
+    host = get_env_str(f"WEBLATE_{name}_HOST")
+    username = get_env_str(f"WEBLATE_{name}_USERNAME", "")
+    token = get_env_str(f"WEBLATE_{name}_TOKEN", "")
+    organization = get_env_str(f"WEBLATE_{name}_ORGANIZATION")
 
     if not host:
         if username or token:
@@ -127,7 +149,7 @@ def get_env_credentials(
 
 
 def get_env_ratelimit(name: str, default: str) -> str:
-    value = os.environ.get(name, default)
+    value = get_env_str(name, default)
 
     # Taken from rest_framework.throttling.SimpleRateThrottle.parse_rate
     # it can not be imported here as that breaks config loading for
