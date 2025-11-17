@@ -4,8 +4,8 @@ Automate Weblate project setup and translation management using the REST API.
 
 ## 📦 Scripts Included
 
-1. **`batch_component_setup.py`** - Auto-generate and create multiple components from repository scan (bulk operations)
-2. **`setup_component.py`** - Complete workflow: create component + add translations (single component)
+1. **`setup_project.py`** - Auto-generate and create multiple components from repository scan (bulk operations)
+2. **`create_component_and_add_translation.py`** - Complete workflow: create component + add translations (single component)
 3. **`create_component.py`** - Create projects and components
 4. **`add_translation.py`** - Add language translations to components
 
@@ -63,7 +63,7 @@ pip install requests
 
 ```bash
 # Complete setup: create component + add translations
-python3 scripts/auto/setup_component.py --config setup.json
+python3 scripts/auto/create_component_and_add_translation.py --config setup.json
 ```
 
 #### Option B: Step-by-Step
@@ -82,17 +82,17 @@ python3 scripts/auto/add_translation.py \
     --language fr,de,es
 ```
 
-> **Note**: `setup_component.py` automatically loads `web.json`. Individual scripts (`create_component.py`, `add_translation.py`) require explicit `--web-config` or command-line credentials.
+> **Note**: `create_component_and_add_translation.py` automatically loads `web.json`. Individual scripts (`create_component.py`, `add_translation.py`) require explicit `--web-config` or command-line credentials.
 
 ---
 
-## 📖 Script 0: `batch_component_setup.py` (Batch Operations)
+## 📖 Script 0: `setup_project.py` (Batch Operations)
 
 **The most powerful automation tool** - Scan a repository and automatically generate/create dozens of Weblate components in one command.
 
 ### Overview
 
-`batch_component_setup.py` is designed for **bulk component creation**. Instead of manually creating each component, this script:
+`setup_project.py` is designed for **bulk component creation**. Instead of manually creating each component, this script:
 
 1. **Clones your repository** (or uses a local copy)
 2. **Scans for translatable files** (e.g., `.adoc`, `.md`, `.po`, `.json`)
@@ -115,7 +115,7 @@ python3 scripts/auto/add_translation.py \
 
 ```bash
 # Generate and create all components in one command
-python3 batch_component_setup.py \
+python3 setup_project.py \
     --config project_config.json \
     --create-components
 ```
@@ -127,7 +127,7 @@ This could create **50+ components in minutes** with a single command!
 #### 1. Generate Setup Files Only (Review First)
 
 ```bash
-python3 batch_component_setup.py --config project_config.json
+python3 setup_project.py --config project_config.json
 ```
 
 This creates `setup/*.json` files without touching Weblate. Review them first, then manually create components.
@@ -135,7 +135,7 @@ This creates `setup/*.json` files without touching Weblate. Review them first, t
 #### 2. Generate AND Create (Fully Automated)
 
 ```bash
-python3 batch_component_setup.py \
+python3 setup_project.py \
     --config project_config.json \
     --create-components
 ```
@@ -145,7 +145,7 @@ Creates all components automatically with proper synchronization (5s delay betwe
 #### 3. Custom Delay Between Components
 
 ```bash
-python3 batch_component_setup.py \
+python3 setup_project.py \
     --config project_config.json \
     --create-components \
     --delay 10
@@ -156,7 +156,7 @@ Increases delay to 10 seconds (useful for slower servers or large repositories).
 #### 4. Dry Run (Preview)
 
 ```bash
-python3 batch_component_setup.py \
+python3 setup_project.py \
     --config project_config.json \
     --dry-run
 ```
@@ -166,7 +166,7 @@ Shows what would be generated without creating any files.
 #### 5. Use Local Repository (Skip Cloning)
 
 ```bash
-python3 batch_component_setup.py \
+python3 setup_project.py \
     --config project_config.json \
     --local-repo /path/to/repo
 ```
@@ -176,7 +176,7 @@ Scans a local repository instead of cloning (faster for development).
 #### 6. Custom Output Directory
 
 ```bash
-python3 batch_component_setup.py \
+python3 setup_project.py \
     --config project_config.json \
     --output ./my-components
 ```
@@ -186,7 +186,7 @@ Saves generated configs to a custom directory (default: `./setup`).
 #### 7. Background Execution
 
 ```bash
-nohup python3 batch_component_setup.py \
+nohup python3 setup_project.py \
     --config project_config.json \
     --create-components \
     > batch_creation.log 2>&1 &
@@ -402,14 +402,14 @@ Failed components:
 
 ```bash
 # Step 1: Generate configs
-python3 batch_component_setup.py --config project_config.json --output ./review
+python3 setup_project.py --config project_config.json --output ./review
 
 # Step 2: Review generated files
 ls -l ./review/
 cat ./review/setup_intro.json
 
 # Step 3: Create all components
-python3 batch_component_setup.py \
+python3 setup_project.py \
     --config project_config.json \
     --output ./review \
     --create-components
@@ -419,7 +419,7 @@ python3 batch_component_setup.py \
 
 ```bash
 # Use local repo to skip cloning
-python3 batch_component_setup.py \
+python3 setup_project.py \
     --config project_config.json \
     --local-repo ~/projects/my-repo \
     --create-components
@@ -429,7 +429,7 @@ python3 batch_component_setup.py \
 
 ```bash
 # Run in background, monitor logs
-nohup python3 batch_component_setup.py \
+nohup python3 setup_project.py \
     --config project_config.json \
     --create-components \
     --delay 3 \
@@ -453,19 +453,19 @@ Failed components:
 cd setup/
 
 # Retry individual component
-python3 ../setup_component.py --config setup_unordered-map.json
-python3 ../setup_component.py --config setup_concurrent-set.json
+python3 ../create_component_and_add_translation.py --config setup_unordered-map.json
+python3 ../create_component_and_add_translation.py --config setup_concurrent-set.json
 ```
 
 ### Advanced: Custom Setup Script Location
 
-If `setup_component.py` is in a different location:
+If `create_component_and_add_translation.py` is in a different location:
 
 ```bash
-python3 batch_component_setup.py \
+python3 setup_project.py \
     --config project_config.json \
     --create-components \
-    --setup-script /path/to/setup_component.py
+    --setup-script /path/to/create_component_and_add_translation.py
 ```
 
 ### Real-World Example: Boost Documentation
@@ -474,7 +474,7 @@ python3 batch_component_setup.py \
 
 **Single command:**
 ```bash
-python3 batch_component_setup.py \
+python3 setup_project.py \
     --config project_config.json \
     --create-components \
     --delay 5
@@ -486,7 +486,7 @@ Without this script: **2+ hours of manual work** (create each component individu
 
 ### Comparison: Batch vs. Manual
 
-| Task | Manual (UI/Script) | batch_component_setup.py |
+| Task | Manual (UI/Script) | setup_project.py |
 |------|-------------------|-------------------------|
 | 1 component | ~2 minutes | ~5 seconds |
 | 10 components | ~20 minutes | ~1 minute |
@@ -497,7 +497,7 @@ Without this script: **2+ hours of manual work** (create each component individu
 
 ---
 
-## 📖 Script 1: `setup_component.py` (All-in-One)
+## 📖 Script 1: `create_component_and_add_translation.py` (All-in-One)
 
 Complete workflow that creates a component and adds translations in one command.
 
@@ -518,7 +518,7 @@ Complete workflow that creates a component and adds translations in one command.
 #### From Setup Config (with languages included)
 
 ```bash
-python3 scripts/auto/setup_component.py --config setup.json
+python3 scripts/auto/create_component_and_add_translation.py --config setup.json
 ```
 
 **setup.json format:**
@@ -547,7 +547,7 @@ python3 scripts/auto/setup_component.py --config setup.json
 #### From Component Config with Language List
 
 ```bash
-python3 scripts/auto/setup_component.py \
+python3 scripts/auto/create_component_and_add_translation.py \
     --config component.json \
     --languages fr,de,es,ja
 ```
@@ -555,7 +555,7 @@ python3 scripts/auto/setup_component.py \
 #### Interactive Mode
 
 ```bash
-python3 scripts/auto/setup_component.py --interactive
+python3 scripts/auto/create_component_and_add_translation.py --interactive
 ```
 
 ### Synchronization & Timing
@@ -925,7 +925,7 @@ Combine everything in one file (less secure):
 
 ### Credential Management
 
-**`setup_component.py`** (all-in-one script):
+**`create_component_and_add_translation.py`** (all-in-one script):
 - Automatically searches for `web.json` in:
   1. Script directory: `scripts/auto/web.json`
   2. Current directory: `./web.json`

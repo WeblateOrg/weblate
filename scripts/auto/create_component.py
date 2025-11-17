@@ -573,7 +573,7 @@ def get_example_config() -> Dict[str, Any]:
 
 
 def create_example_config_file(
-    filename: str = 'weblate_config_example.json'
+    filename: str = 'weblate_config.example.json'
 ) -> None:
     """Create an example configuration file."""
     example_config = get_example_config()
@@ -686,7 +686,7 @@ Note:
   You must provide credentials via --web-config, merged config file,
   command-line args (--url, --token), or interactive mode.
   
-  For automatic web.json loading, use setup_component.py instead.
+  For automatic web.json loading, use create_component_and_add_translation.py instead.
         """
     )
     

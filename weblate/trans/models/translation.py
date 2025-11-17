@@ -440,11 +440,6 @@ class Translation(
 
             self.component.check_template_valid()
 
-            # Schedule auto-translation to run AFTER transaction commits (like "await")
-            # This ensures all units are fully saved and visible before translation
-            if self.reason == "new file" and not self.is_source:
-                transaction.on_commit(lambda: self.auto_translate_via_openrouter())
-
             # List of updated units (used for cleanup and duplicates detection)
             updated: dict[int, Unit] = {}
 
@@ -604,6 +599,12 @@ class Translation(
 
             # Invalidate keys cache
             transaction.on_commit(self.invalidate_keys)
+
+            # Schedule auto-translation to run AFTER transaction commits (like "await")
+            # This ensures all units are fully saved and visible before translation
+            # if self.reason == "new file" and not self.is_source:
+            #     transaction.on_commit(lambda: self.auto_translate_via_openrouter())
+                
             self.log_info("updating completed")
 
         # Use up to date list as prefetch for source

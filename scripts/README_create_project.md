@@ -195,8 +195,8 @@ This is the actual configuration used for the Boost Unordered Documentation proj
     "name": "BUD 03",
     "slug": "bud_03",
     "vcs": "git",
-    "repo": "git@github.com:Giggly19890103/unordered.git",
-    "push": "git@github.com:Giggly19890103/unordered.git",
+    "repo": "git@github.com:AuraMindNest/unordered.git",
+    "push": "git@github.com:AuraMindNest/unordered.git",
     "branch": "develop",
     "push_branch": "develop",
     "filemask": "doc/modules/ROOT/pages/*.adoc",
@@ -454,7 +454,7 @@ This will create:
 - Project: "Boost Unordered Documentation"
 - Component: "BUD 03"
 - Discover ~52 .adoc translation files
-- Enable push to `git@github.com:Giggly19890103/unordered.git`
+- Enable push to `git@github.com:AuraMindNest/unordered.git`
 
 ### Using with Docker
 

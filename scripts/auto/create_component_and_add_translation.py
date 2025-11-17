@@ -7,13 +7,13 @@ This is a convenience wrapper around create_component.py and add_translation.py.
 
 Usage:
     # From configuration file
-    python setup_component.py --config setup.json
+    python create_component_and_add_translation.py --config setup.json
     
     # From component config with language list
-    python setup_component.py --config component.json --languages fr,de,es
+    python create_component_and_add_translation.py --config component.json --languages fr,de,es
     
     # Interactive mode
-    python setup_component.py --interactive
+    python create_component_and_add_translation.py --interactive
 
 Requirements:
     pip install requests

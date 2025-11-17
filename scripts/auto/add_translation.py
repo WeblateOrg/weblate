@@ -404,7 +404,7 @@ Note:
   You must provide credentials via --web-config, command-line args
   (--url, --token), or WEBLATE_TOKEN environment variable.
   
-  For automatic web.json loading, use setup_component.py instead.
+  For automatic web.json loading, use create_component_and_add_translation.py instead.
         """
     )
     

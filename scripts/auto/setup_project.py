@@ -4,7 +4,7 @@ Auto-generate Weblate component setup files from repository files.
 
 This script scans a repository for files with specific extensions and
 generates a setup JSON file for each file, ready to be used with
-setup_component.py.
+create_component_and_add_translation.py.
 
 Usage:
     python generate_component_configs.py --config project_config.json
@@ -260,7 +260,7 @@ def create_components_from_setup_files(
     
     Args:
         setup_files: List of setup JSON file paths
-        setup_script: Path to setup_component.py script
+        setup_script: Path to create_component_and_add_translation.py script
         delay_between_components: Delay in seconds between component creations (default: 5)
     
     Returns a dict mapping setup file paths to success status.
@@ -292,7 +292,7 @@ def create_components_from_setup_files(
         print(f"[INFO] Config: {setup_file}")
         
         try:
-            # Run setup_component.py for this setup file
+            # Run create_component_and_add_translation.py for this setup file
             cmd = [sys.executable, setup_script, '--config', setup_file]
             
             print(f"[INFO] Starting component creation...")
@@ -487,8 +487,8 @@ Notes:
     parser.add_argument(
         '--setup-script',
         type=str,
-        default='./setup_component.py',
-        help='Path to setup_component.py script (default: ./setup_component.py)'
+        default='./create_component_and_add_translation.py',
+        help='Path to create_component_and_add_translation.py script (default: ./create_component_and_add_translation.py)'
     )
     parser.add_argument(
         '--delay',
@@ -636,7 +636,7 @@ def main() -> int:
             print(f"  2. Run each setup file:")
             print(f"     cd {os.path.dirname(os.path.abspath(__file__))}")
             print(f"     for file in {output_dir}/setup_*.json; do")
-            print(f"       python3 ./setup_component.py --config \"$file\"")
+            print(f"       python3 ./create_component_and_add_translation.py --config \"$file\"")
             print(f"     done")
             print(f"  Or run with --create-components to auto-create all components")
     print(f"{'='*60}")

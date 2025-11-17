@@ -34,7 +34,7 @@
 ## 2. Run Setup (One Command!)
 
 ```bash
-python3 scripts/auto/setup_component.py --config setup.json
+python3 scripts/auto/create_component_and_add_translation.py --config setup.json
 ```
 
 This creates the component **and** adds all translations in one go!

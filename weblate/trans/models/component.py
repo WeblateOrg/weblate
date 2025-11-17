@@ -2762,6 +2762,7 @@ class Component(
                         request=request,
                         change=change,
                     )
+                    # transaction.on_commit(lambda: self.auto_translate_via_openrouter())
                 except InvalidTemplateError as error:
                     self.log_warning(
                         "skipping update due to error in parsing template: %s",
@@ -3838,6 +3839,8 @@ class Component(
                     "language_code": code,
                 },
             )
+            # if create_translations:
+            #     translation = translation.auto_translate_via_openrouter()
             # Make it clear that there is no change for the newly created translation
             # to avoid expensive last change lookup in stats while committing changes.
             if created:
@@ -3852,6 +3855,18 @@ class Component(
                     messages.error(request, gettext("Translation file already exists!"))
             else:
                 file_format.add_language(fullname, language, base_filename)
+
+                # if create_translations:
+                #     translation, created = self.translation_set.get_or_create(
+                #         language=language,
+                #         defaults={
+                #             "plural": language.plural,
+                #             "filename": filename,
+                #             "language_code": code,
+                #         },
+                #     )
+                #     translation = translation.auto_translate_via_openrouter()
+                    
                 if send_signal:
                     translation_post_add.send(
                         sender=self.__class__, translation=translation

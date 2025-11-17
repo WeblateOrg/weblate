@@ -219,7 +219,7 @@ Generate an administrator account with a random password.
 weblate createadmin
 ```
 
-**Password**: `$dnaEE^vcpk92`
+**Password**: `K*krfKwJ&4Tmw`
 
 > **Tip**: If you lose the admin password, regenerate it with `weblate createadmin --update`
 
@@ -372,12 +372,25 @@ cd ~/boost-weblate && ./stop-weblate.sh
 # Check for issues
 weblate check --deploy
 
-# View logs
-tail -f ~/server.log
-tail -f ~/weblate-celery.log
+# View logs (logs are now in $HOME/boost-weblate/logs or $DATA_DIR/logs)
+tail -f ~/boost-weblate/logs/server.log
+tail -f ~/boost-weblate/logs/weblate-*.log
 ```
 
 ---
 
+PGPASSWORD=weblate pg_dump -h 127.0.0.1 -U weblate -d weblate -F c -f ~/boost-weblate/weblate_backup_$(date +%Y%m%d_%H%M%S).dump 2>&1 && echo "Database dump created successfully" || echo "Dump failed"
 
-$ PGPASSWORD=weblate pg_dump -h 127.0.0.1 -U weblate -d weblate -F c -f /home/boost-weblate/weblate_backup_$(date +%Y%m%d_%H%M%S).dump 2>&1 && echo "Database dump created successfully" || echo "Dump failed"
+PGPASSWORD=weblate pg_dump -h 127.0.0.1 -U weblate -d weblate -F p -f ~/boost-weblate/weblate_backup_$(date +%Y%m%d_%H%M%S).sql 2>&1 && echo "Database dumped to SQL file successfully" || echo "Dump failed"
+
+PGPASSWORD=weblate psql -h 127.0.0.1 -U weblate -d weblate -c "DO \$\$ DECLARE r RECORD; BEGIN FOR r IN (SELECT tablename FROM pg_tables WHERE schemaname = 'public') LOOP EXECUTE 'DROP TABLE IF EXISTS ' || quote_ident(r.tablename) || ' CASCADE'; END LOOP; END \$\$;" 2>&1 && echo "All tables dropped successfully" || echo "Failed to drop tables"
+
+PGPASSWORD=weblate dropdb -h 127.0.0.1 -U weblate weblate 2>&1 && echo "Database 'weblate' dropped successfully" || echo "Failed to drop database"
+
+PGPASSWORD=weblate createdb -h 127.0.0.1 -U weblate weblate 2>&1 && echo "Database 'weblate' created successfully" || echo "Failed to create database"
+
+# For custom format:
+PGPASSWORD=weblate pg_restore -h 127.0.0.1 -U weblate -d weblate /path/to/backup.dump
+
+# For SQL format:
+PGPASSWORD=weblate psql -h 127.0.0.1 -U weblate -d weblate < /path/to/backup.sql
