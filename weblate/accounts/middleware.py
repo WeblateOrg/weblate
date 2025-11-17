@@ -3,12 +3,10 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
-import re
 from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.contrib import auth
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser
 from django.utils.functional import SimpleLazyObject
 from django.utils.translation import activate, get_language, get_language_from_request

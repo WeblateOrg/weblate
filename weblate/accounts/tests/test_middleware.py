@@ -5,10 +5,9 @@
 """Tests for user middleware."""
 
 from django.contrib.auth.decorators import login_not_required
-from django.http import HttpRequest
 from django.test import TestCase, override_settings
 
-from weblate.auth.models import User, get_anonymous
+from weblate.auth.models import User
 
 
 class MiddlewareTest(TestCase):
