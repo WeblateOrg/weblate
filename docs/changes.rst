@@ -18,6 +18,11 @@ Weblate 5.15
 
 .. rubric:: Compatibility
 
+* Replaced custom ``RequireLoginMiddleware`` with Django 5.1's ``LoginRequiredMiddleware``.
+* The ``LOGIN_REQUIRED_URLS`` and ``LOGIN_REQUIRED_URLS_EXCEPTIONS`` settings are no longer used.
+* Public views are now marked with the ``@login_not_required`` decorator instead of URL pattern exceptions.
+* Docker environment variables ``WEBLATE_LOGIN_REQUIRED_URLS_EXCEPTIONS``, ``WEBLATE_ADD_LOGIN_REQUIRED_URLS_EXCEPTIONS``, and ``WEBLATE_REMOVE_LOGIN_REQUIRED_URLS_EXCEPTIONS`` are deprecated and have no effect.
+
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.

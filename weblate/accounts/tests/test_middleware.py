@@ -4,41 +4,63 @@
 
 """Tests for user middleware."""
 
-from django.http import HttpRequest, HttpResponseRedirect
-from django.test import TestCase
-from django.test.utils import override_settings
+from django.contrib.auth.decorators import login_not_required
+from django.http import HttpRequest
+from django.test import TestCase, override_settings
 
-from weblate.accounts.middleware import RequireLoginMiddleware
 from weblate.auth.models import User, get_anonymous
 
 
 class MiddlewareTest(TestCase):
-    def view_method(self) -> str:
-        return "VIEW"
+    """
+    Tests for Django's LoginRequiredMiddleware integration.
 
-    def test_disabled(self) -> None:
-        middleware = RequireLoginMiddleware()
-        request = HttpRequest()
-        self.assertIsNone(middleware.process_view(request, self.view_method, (), {}))
+    Since Django 5.1, Weblate uses the built-in LoginRequiredMiddleware
+    instead of the custom RequireLoginMiddleware. These tests verify that
+    the middleware correctly enforces authentication when REQUIRE_LOGIN is enabled.
+    """
 
-    @override_settings(LOGIN_REQUIRED_URLS=(r"/project/(.*)$",))
-    def test_protect_project(self) -> None:
-        middleware = RequireLoginMiddleware()
-        request = HttpRequest()
-        request.user = User()
-        request.META["SERVER_NAME"] = "testserver"
-        request.META["SERVER_PORT"] = "80"
-        # No protection for not protected path
-        self.assertIsNone(middleware.process_view(request, self.view_method, (), {}))
-        request.path = "/project/foo/"
-        # No protection for protected path and signed in user
-        self.assertIsNone(middleware.process_view(request, self.view_method, (), {}))
-        # Protection for protected path and not signed in user
-        request.user = get_anonymous()
-        self.assertIsInstance(
-            middleware.process_view(request, self.view_method, (), {}),
-            HttpResponseRedirect,
+    @login_not_required
+    def public_view(self, request) -> str:
+        """A public view marked with @login_not_required decorator."""
+        return "PUBLIC_VIEW"
+
+    def protected_view(self, request) -> str:
+        """A protected view without the @login_not_required decorator."""
+        return "PROTECTED_VIEW"
+
+    @override_settings(
+        REQUIRE_LOGIN=True,
+        MIDDLEWARE=[
+            "django.contrib.sessions.middleware.SessionMiddleware",
+            "weblate.accounts.middleware.AuthenticationMiddleware",
+            "django.contrib.auth.middleware.LoginRequiredMiddleware",
+        ],
+    )
+    def test_login_required_middleware(self) -> None:
+        """Test that LoginRequiredMiddleware protects views when REQUIRE_LOGIN is True."""
+        # Test public endpoint (health check)
+        response = self.client.get("/healthz/")
+        self.assertEqual(response.status_code, 200)
+
+        # Test that anonymous users are redirected from protected views
+        response = self.client.get("/projects/")
+        self.assertRedirects(
+            response, "/accounts/login/?next=/projects/", fetch_redirect_response=False
         )
-        # No protection for login and not signed in user
-        request.path = "/accounts/login/"
-        self.assertIsNone(middleware.process_view(request, self.view_method, (), {}))
+
+        # Test that authenticated users can access protected views
+        user = User.objects.create_user(username="testuser", password="testpass")
+        self.client.force_login(user)
+        response = self.client.get("/projects/")
+        self.assertEqual(response.status_code, 200)
+
+    def test_no_login_required(self) -> None:
+        """Test that views are accessible without authentication when REQUIRE_LOGIN is False."""
+        # Test that anonymous users can access public endpoints
+        response = self.client.get("/healthz/")
+        self.assertEqual(response.status_code, 200)
+
+        # With default settings (REQUIRE_LOGIN=False), most views are accessible
+        response = self.client.get("/projects/")
+        self.assertEqual(response.status_code, 200)

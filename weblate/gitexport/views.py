@@ -12,6 +12,7 @@ from functools import partial
 from selectors import EVENT_READ, DefaultSelector
 from typing import TYPE_CHECKING, BinaryIO, cast
 
+from django.contrib.auth.decorators import login_not_required
 from django.core.exceptions import PermissionDenied, SuspiciousOperation
 from django.http import Http404, StreamingHttpResponse
 from django.http.response import HttpResponse, HttpResponseServerError
@@ -69,6 +70,7 @@ def authenticate(request: HttpRequest, auth: str) -> bool:
 
 @never_cache
 @csrf_exempt
+@login_not_required
 def git_export(
     request: AuthenticatedHttpRequest, path: list[str], git_request: str
 ) -> HttpResponseBase:
