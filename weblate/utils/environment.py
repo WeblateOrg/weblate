@@ -72,6 +72,8 @@ def get_env_map_or_none(name: str) -> dict[str, str] | None:
     """
     parsed_list = get_env_list_or_none(name)
     if parsed_list is not None:
+        if parsed_list == [""]:
+            return {}
         return dict(e.split(":") for e in parsed_list)
     return None
 

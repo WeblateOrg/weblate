@@ -144,7 +144,7 @@ class EnvTest(SimpleTestCase):
         os.environ["TEST_DATA"] = "foo"
         self.assertEqual(get_env_list("TEST_DATA"), ["foo"])
         os.environ["TEST_DATA"] = ""
-        self.assertEqual(get_env_list("TEST_DATA"), [])
+        self.assertEqual(get_env_list("TEST_DATA"), [""])
         del os.environ["TEST_DATA"]
         self.assertEqual(get_env_list("TEST_DATA"), [])
         self.assertEqual(get_env_list("TEST_DATA", ["x"]), ["x"])
@@ -155,7 +155,7 @@ class EnvTest(SimpleTestCase):
         os.environ["TEST_DATA"] = "foo"
         self.assertEqual(get_env_list_or_none("TEST_DATA"), ["foo"])
         os.environ["TEST_DATA"] = ""
-        self.assertEqual(get_env_list_or_none("TEST_DATA"), [])
+        self.assertEqual(get_env_list_or_none("TEST_DATA"), [""])
         del os.environ["TEST_DATA"]
         self.assertIsNone(get_env_list_or_none("TEST_DATA"))
 
@@ -214,7 +214,7 @@ class EnvTest(SimpleTestCase):
         with self.assertRaises(ImproperlyConfigured):
             get_env_int_or_none("TEST_DATA")
         del os.environ["TEST_DATA"]
-        self.assertEqual(get_env_int_or_none("TEST_DATA"), 0)
+        self.assertIsNone(get_env_int_or_none("TEST_DATA"))
 
     def test_modify_list(self) -> None:
         os.environ["WEBLATE_ADD_TEST"] = "foo,bar"
