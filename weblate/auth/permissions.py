@@ -595,7 +595,7 @@ def check_team_edit_users(
 def check_billing_view(
     user: User, permission: str, obj: Billing | Project
 ) -> bool | PermissionResult:
-    # We check Billling by hasttr to avoid importing optional Django app. To make type
+    # We check Billing by hasattr to avoid importing optional Django app. To make type
     # checker understand this, there is negative check on Project and cast in the
     # check_permission call.
     if hasattr(obj, "all_projects") and not isinstance(obj, Project):
