@@ -41,14 +41,18 @@ def get_env_str(
 
 def get_env_list_or_none(name: str) -> list[str] | None:
     """Get list from environment."""
-    if string_value := get_env_str(name):
+    string_value = get_env_str(name)
+    if string_value is not None:
         return string_value.split(",")
     return None
 
 
 def get_env_list(name: str, default: list[str] | None = None) -> list[str]:
     """Get list from environment."""
-    return get_env_list_or_none(name) or default or []
+    env_list = get_env_list_or_none(name)
+    if env_list is not None:
+        return env_list
+    return default or []
 
 
 def get_env_map_or_none(name: str) -> dict[str, str] | None:
@@ -57,7 +61,8 @@ def get_env_map_or_none(name: str) -> dict[str, str] | None:
 
     parses 'full_name:name,email:mail' into {'email': 'mail', 'full_name': 'name'}
     """
-    if parsed_list := get_env_list_or_none(name):
+    parsed_list = get_env_list_or_none(name)
+    if parsed_list is not None:
         return dict(e.split(":") for e in parsed_list)
     return None
 
@@ -68,13 +73,16 @@ def get_env_map(name: str, default: dict[str, str] | None = None) -> dict[str, s
 
     parses 'full_name:name,email:mail' into {'email': 'mail', 'full_name': 'name'}
     """
-    return get_env_map_or_none(name) or default or {}
+    env_map = get_env_map_or_none(name)
+    if env_map is not None:
+        return env_map
+    return default or {}
 
 
 def get_env_int_or_none(name: str) -> int | None:
     """Get integer value from environment."""
     string_value = get_env_str(name)
-    if not string_value:
+    if string_value is None:
         return None
     try:
         return int(string_value)
@@ -85,13 +93,16 @@ def get_env_int_or_none(name: str) -> int | None:
 
 def get_env_int(name: str, default: int = 0) -> int:
     """Get integer value from environment."""
-    return get_env_int_or_none(name) or default
+    env_int = get_env_int_or_none(name)
+    if env_int is not None:
+        return env_int
+    return default
 
 
 def get_env_float(name: str, default: float = 0.0) -> float:
     """Get float value from environment."""
     string_value = get_env_str(name)
-    if not string_value:
+    if string_value is None:
         return default
     try:
         return float(string_value)
@@ -103,7 +114,7 @@ def get_env_float(name: str, default: float = 0.0) -> float:
 def get_env_bool(name: str, default: bool = False) -> bool:
     """Get boolean value from environment."""
     string_value = get_env_str(name)
-    if not string_value:
+    if string_value is None:
         return default
     true_values = {"true", "yes", "1"}
     return string_value.lower() in true_values

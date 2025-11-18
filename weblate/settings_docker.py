@@ -257,8 +257,10 @@ BITBUCKETCLOUD_CREDENTIALS = get_env_credentials("BITBUCKETCLOUD")
 
 # Default pull request message.
 # Please see the documentation for more details.
-if msg := get_env_str("WEBLATE_DEFAULT_PULL_MESSAGE"):
-    DEFAULT_PULL_MESSAGE = msg
+default_pull_msg = get_env_str("WEBLATE_DEFAULT_PULL_MESSAGE")
+if default_pull_msg is not None:
+    DEFAULT_PULL_MESSAGE = default_pull_msg
+del default_pull_msg
 
 # Authentication configuration
 AUTHENTICATION_BACKENDS: tuple[str, ...] = ()
@@ -382,8 +384,10 @@ if SOCIAL_AUTH_GITLAB_KEY:
     SOCIAL_AUTH_GITLAB_SECRET = get_env_str(
         "WEBLATE_SOCIAL_AUTH_GITLAB_SECRET", required=True
     )
-    if gitlab_api_url := get_env_str("WEBLATE_SOCIAL_AUTH_GITLAB_API_URL"):
+    gitlab_api_url = get_env_str("WEBLATE_SOCIAL_AUTH_GITLAB_API_URL")
+    if gitlab_api_url is not None:
         SOCIAL_AUTH_GITLAB_API_URL = gitlab_api_url
+    del gitlab_api_url
     AUTHENTICATION_BACKENDS += ("social_core.backends.gitlab.GitLabOAuth2",)
 
 SOCIAL_AUTH_AUTH0_KEY = get_env_str("WEBLATE_SOCIAL_AUTH_AUTH0_KEY")
@@ -397,10 +401,12 @@ if SOCIAL_AUTH_AUTH0_KEY:
     SOCIAL_AUTH_AUTH0_TITLE = get_env_str("WEBLATE_SOCIAL_AUTH_AUTH0_TITLE")
     SOCIAL_AUTH_AUTH0_IMAGE = get_env_str("WEBLATE_SOCIAL_AUTH_AUTH0_IMAGE")
     SOCIAL_AUTH_AUTH0_SCOPE = ["openid", "profile", "email"]
-    if auth0_extra_args := get_env_map_or_none(
+    auth0_extra_args = get_env_map_or_none(
         "WEBLATE_SOCIAL_AUTH_AUTH0_AUTH_EXTRA_ARGUMENTS"
-    ):
+    )
+    if auth0_extra_args is not None:
         SOCIAL_AUTH_AUTH0_AUTH_EXTRA_ARGUMENTS = auth0_extra_args
+    del auth0_extra_args
     AUTHENTICATION_BACKENDS += ("social_core.backends.auth0.Auth0OAuth2",)
 
 
@@ -505,8 +511,10 @@ if SOCIAL_AUTH_OIDC_OIDC_ENDPOINT:
     SOCIAL_AUTH_OIDC_SECRET = get_env_str(
         "WEBLATE_SOCIAL_AUTH_OIDC_SECRET", required=True
     )
-    if oidc_username_key := get_env_str("WEBLATE_SOCIAL_AUTH_OIDC_USERNAME_KEY"):
+    oidc_username_key = get_env_str("WEBLATE_SOCIAL_AUTH_OIDC_USERNAME_KEY")
+    if oidc_username_key is not None:
         SOCIAL_AUTH_OIDC_USERNAME_KEY = oidc_username_key
+    del oidc_username_key
 
 # Gitea
 SOCIAL_AUTH_GITEA_KEY = get_env_str("WEBLATE_SOCIAL_AUTH_GITEA_KEY")
@@ -514,8 +522,10 @@ if SOCIAL_AUTH_GITEA_KEY:
     SOCIAL_AUTH_GITEA_SECRET = get_env_str(
         "WEBLATE_SOCIAL_AUTH_GITEA_SECRET", required=True
     )
-    if gitea_api_url := get_env_str("WEBLATE_SOCIAL_AUTH_GITEA_API_URL"):
+    gitea_api_url = get_env_str("WEBLATE_SOCIAL_AUTH_GITEA_API_URL")
+    if gitea_api_url is not None:
         SOCIAL_AUTH_GITEA_API_URL = gitea_api_url
+    del gitea_api_url
     AUTHENTICATION_BACKENDS += ("social_core.backends.gitea.GiteaOAuth2",)
 
 # https://docs.weblate.org/en/latest/admin/auth.html#ldap-authentication
@@ -532,14 +542,17 @@ if AUTH_LDAP_SERVER_URI:
     AUTH_LDAP_BIND_DN = get_env_str("WEBLATE_AUTH_LDAP_BIND_DN")
     AUTH_LDAP_BIND_PASSWORD = get_env_str("WEBLATE_AUTH_LDAP_BIND_PASSWORD")
 
-    if ldap_user_search := get_env_str("WEBLATE_AUTH_LDAP_USER_SEARCH"):
+    ldap_user_search = get_env_str("WEBLATE_AUTH_LDAP_USER_SEARCH")
+    if ldap_user_search is not None:
         AUTH_LDAP_USER_SEARCH = LDAPSearch(
             ldap_user_search,
             ldap.SCOPE_SUBTREE,
             get_env_str("WEBLATE_AUTH_LDAP_USER_SEARCH_FILTER", "(uid=%(user)s)"),
         )
+    del ldap_user_search
 
-    if ldap_user_search_union := get_env_str("WEBLATE_AUTH_LDAP_USER_SEARCH_UNION"):
+    ldap_user_search_union = get_env_str("WEBLATE_AUTH_LDAP_USER_SEARCH_UNION")
+    if ldap_user_search_union is not None:
         SEARCH_FILTER = get_env_str(
             "WEBLATE_AUTH_LDAP_USER_SEARCH_FILTER", "(uid=%(user)s)"
         )
@@ -552,6 +565,7 @@ if AUTH_LDAP_SERVER_URI:
         ]
 
         AUTH_LDAP_USER_SEARCH = LDAPSearchUnion(*SEARCH_UNION)
+    del ldap_user_search_union
 
     if not get_env_bool("WEBLATE_AUTH_LDAP_CONNECTION_OPTION_REFERRALS", True):
         AUTH_LDAP_CONNECTION_OPTIONS = {
@@ -677,10 +691,10 @@ VCS_FILE_PROTOCOL = get_env_bool("WEBLATE_VCS_FILE_PROTOCOL", False)
 # Email registration filter
 REGISTRATION_EMAIL_MATCH = get_env_str("WEBLATE_REGISTRATION_EMAIL_MATCH", ".*")
 
-if private_commit_email_template := get_env_str(
-    "WEBLATE_PRIVATE_COMMIT_EMAIL_TEMPLATE"
-):
-    PRIVATE_COMMIT_EMAIL_TEMPLATE = private_commit_email_template
+private_commit_email_template_str = get_env_str("WEBLATE_PRIVATE_COMMIT_EMAIL_TEMPLATE")
+if private_commit_email_template_str is not None:
+    PRIVATE_COMMIT_EMAIL_TEMPLATE = private_commit_email_template_str
+del private_commit_email_template_str
 PRIVATE_COMMIT_EMAIL_OPT_IN = get_env_bool("WEBLATE_PRIVATE_COMMIT_EMAIL_OPT_IN", True)
 
 # Shortcut for login required setting
@@ -1022,16 +1036,20 @@ ENABLE_HOOKS = get_env_bool("WEBLATE_ENABLE_HOOKS", True)
 HIDE_VERSION = get_env_bool("WEBLATE_HIDE_VERSION")
 
 # Licensing filter
-if license_filter := get_env_list_or_none("WEBLATE_LICENSE_FILTER"):
-    LICENSE_FILTER = set(license_filter)
+license_filter_list = get_env_list_or_none("WEBLATE_LICENSE_FILTER")
+if license_filter_list is not None:
+    LICENSE_FILTER = set(license_filter_list)
     LICENSE_FILTER.discard("")
+del license_filter_list
 
 LICENSE_REQUIRED = get_env_bool("WEBLATE_LICENSE_REQUIRED")
 WEBSITE_REQUIRED = get_env_bool("WEBLATE_WEBSITE_REQUIRED", True)
 
 # Language filter
-if basic_languages := get_env_list_or_none("WEBLATE_BASIC_LANGUAGES"):
-    BASIC_LANGUAGES = set(basic_languages)
+basic_languages_list = get_env_list_or_none("WEBLATE_BASIC_LANGUAGES")
+if basic_languages_list is not None:
+    BASIC_LANGUAGES = set(basic_languages_list)
+del basic_languages_list
 
 # By default the length of a given translation is limited to the length of
 # the source string * 10 characters. Set this option to False to allow longer
