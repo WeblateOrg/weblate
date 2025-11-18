@@ -263,9 +263,7 @@ class RedirectMiddleware:
                     path_offset = len(path) - (language_len)
                     try:
                         # Check if component exists
-                        parse_path(
-                            request, path[:path_offset], (Component,)
-                        )
+                        parse_path(request, path[:path_offset], (Component,))
                     except UnsupportedPathObjectError:
                         return None
                     except Http404:
