@@ -13,7 +13,7 @@ import random
 import re
 import urllib.parse
 from configparser import NoOptionError, NoSectionError, RawConfigParser
-from contextlib import contextmanager
+from contextlib import contextmanager, suppress
 from json import JSONDecodeError, dumps
 from pathlib import Path
 from time import sleep, time
@@ -161,15 +161,13 @@ class GitRepository(Repository):
         modify = False
         with GitConfigParser(file_or_files=filename, read_only=True) as config:
             for section, key, value in updates:
-                try:
+                with suppress(NoSectionError, NoOptionError):
                     old = config.get(section, key)
                     if value is None:
                         modify = True
                         break
                     if old == value:
                         continue
-                except (NoSectionError, NoOptionError):
-                    pass
                 if value is not None:
                     modify = True
         if not modify:

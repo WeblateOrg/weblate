@@ -11,6 +11,7 @@ import logging
 import os
 import os.path
 import subprocess
+from contextlib import suppress
 from pathlib import Path
 from typing import TYPE_CHECKING, ClassVar, Self, TypedDict
 
@@ -316,11 +317,9 @@ class Repository:
         return self.last_output
 
     def log_status(self, error: str | RepositoryError) -> None:
-        try:
+        with suppress(RepositoryError):
             self.log(f"failure {error}")
             self.log(self.status())
-        except RepositoryError:
-            pass
 
     def clean_revision_cache(self) -> None:
         if "last_revision" in self.__dict__:
