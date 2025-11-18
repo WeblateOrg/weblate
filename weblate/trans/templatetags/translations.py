@@ -6,7 +6,6 @@ from __future__ import annotations
 import json
 import re
 from collections import defaultdict
-from collections.abc import Iterable
 from datetime import date, datetime
 from html import escape as html_escape
 from typing import TYPE_CHECKING

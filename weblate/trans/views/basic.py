@@ -19,7 +19,6 @@ from django.utils.translation import gettext, ngettext
 from django.views.decorators.cache import never_cache
 from django.views.generic import RedirectView
 
-from weblate.auth.models import AuthenticatedHttpRequest
 from weblate.formats.models import EXPORTERS
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents

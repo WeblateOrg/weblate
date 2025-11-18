@@ -105,8 +105,8 @@ def language_consistency(
         return
     project = Project.objects.get(pk=project_id)
     languages = Language.objects.filter(id__in=language_ids)
-    request = HttpRequest()
-    request.user = addon.addon.user
+    fake_request = HttpRequest()
+    fake_request.user = addon.addon.user
 
     # Filter components with missing translation
     components = project.component_set.annotate(
@@ -129,7 +129,7 @@ def language_consistency(
             for language in missing:
                 new_lang = component.add_new_language(
                     language,
-                    request,
+                    fake_request,
                     send_signal=False,
                     create_translations=False,
                 )
@@ -186,8 +186,6 @@ def update_addon_activity_log(
 @app.task(trail=False)
 def cleanup_addon_activity_log() -> None:
     """Cleanup old add-on activity log entries."""
-    from weblate.addons.models import AddonActivityLog
-
     AddonActivityLog.objects.filter(
         created__lt=now() - timedelta(days=settings.ADDON_ACTIVITY_LOG_EXPIRY)
     ).delete()

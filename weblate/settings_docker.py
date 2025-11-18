@@ -1465,4 +1465,5 @@ INTERLEDGER_PAYMENT_BUILTIN = get_env_bool("WEBLATE_INTERLEDGER_PAYMENT_BUILTIN"
 ADDITIONAL_CONFIG = Path("/app/data/settings-override.py")
 if ADDITIONAL_CONFIG.exists():
     code = compile(ADDITIONAL_CONFIG.read_text(), ADDITIONAL_CONFIG, "exec")
+    # pylint: disable-next=exec-used
     exec(code)  # noqa: S102

@@ -890,10 +890,9 @@ class MergeForm(UnitForm):
             raise ValidationError(
                 gettext("Could not find the merged string.")
             ) from error
-        else:
-            # Compare in Python to ensure case sensitiveness on MySQL
-            if not translation.is_source and unit.source != merge_unit.source:
-                raise ValidationError(gettext("Could not find the merged string."))
+        # Compare in Python to ensure case sensitiveness on MySQL
+        if not translation.is_source and unit.source != merge_unit.source:
+            raise ValidationError(gettext("Could not find the merged string."))
         return self.cleaned_data
 
 
@@ -1432,12 +1431,6 @@ class ReportsForm(forms.Form):
             msg = f"Invalid scope: {scope}"
             raise ValueError(msg)
         self.fields["language"].choices += languages.as_choices()
-
-    def clean(self) -> None:
-        super().clean()
-        # Invalid value, skip rest of the validation
-        if "period" not in self.cleaned_data:
-            return
 
 
 class CleanRepoMixin:

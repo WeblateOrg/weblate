@@ -428,22 +428,57 @@ max_allowed_size_uncompressed = '300M'
 
 [tool.pylint.main]
 disable = [
-  "C",
+  "abstract-method",  # TODO
+  "arguments-differ",  # TODO
+  "arguments-renamed",  # TODO
+  "attribute-defined-outside-init",  # TODO
+  "broad-exception-caught",  # TODO
   "c-extension-no-member",
-  "I",
+  "consider-using-f-string",  # TODO
+  "consider-using-with",  # TODO
+  "cyclic-import",
+  "duplicate-code",  # TODO
+  "fixme",
   "import-error",
+  "import-outside-toplevel",
+  "invalid-name",  # TODO
+  "invalid-overridden-method",  # TODO
   "invalid-str-returned",
+  "keyword-arg-before-vararg",  # TODO
+  "line-too-long",
+  "missing-class-docstring",
+  "missing-function-docstring",
+  "missing-module-docstring",
   "no-member",
   "no-name-in-module",
   "not-a-mapping",
   "not-an-iterable",
   "not-callable",
-  "R",
+  "protected-access",  # TODO
   "raising-bad-type",
+  "redefined-builtin",  # TODO
+  "redefined-outer-name",  # TODO
+  "too-few-public-methods",
+  "too-many-ancestors",
+  "too-many-arguments",
+  "too-many-boolean-expressions",
+  "too-many-branches",
+  "too-many-instance-attributes",
+  "too-many-lines",
+  "too-many-locals",
+  "too-many-nested-blocks",
+  "too-many-positional-arguments",
+  "too-many-positional-arguments",
+  "too-many-public-methods",
+  "too-many-return-statements",
+  "too-many-statements",
+  "unspecified-encoding",  # TODO
   "unsubscriptable-object",
+  "unsupported-assignment-operation",  # TODO
   "unsupported-binary-operation",
+  "unsupported-delete-operation",  # TODO
   "unsupported-membership-test",
-  "W"
+  "unused-argument"
 ]
 extension-pkg-whitelist = ["siphashc"]
 ignore = [

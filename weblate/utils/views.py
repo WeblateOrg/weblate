@@ -9,6 +9,8 @@ from __future__ import annotations
 import os
 import time
 from contextlib import suppress
+
+# pylint: disable-next=unused-import
 from typing import TYPE_CHECKING, BinaryIO, cast
 from zipfile import ZipFile
 
@@ -628,8 +630,7 @@ def get_form_data(data: dict[str, str | int | None]) -> dict[str, str | int]:
 
 
 def get_form_errors(form):
-    for error in form.non_field_errors():
-        yield error
+    yield from form.non_field_errors()
     for field in form:
         for error in field.errors:
             yield gettext("Error in parameter %(field)s: %(error)s") % {

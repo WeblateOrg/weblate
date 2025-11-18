@@ -129,12 +129,7 @@ from weblate.accounts.utils import (
     remove_user,
 )
 from weblate.auth.forms import UserEditForm
-from weblate.auth.models import (
-    AuthenticatedHttpRequest,
-    Invitation,
-    User,
-    get_anonymous,
-)
+from weblate.auth.models import Invitation, User, get_anonymous
 from weblate.auth.utils import format_address, get_auth_keys
 from weblate.logger import LOGGER
 from weblate.trans.models import Change, Component, Project, Suggestion, Translation
@@ -395,6 +390,8 @@ def get_notification_forms(request: AuthenticatedHttpRequest):
                 is_active=i == 0,
                 prefix=prefix,
                 data=request.POST,
+                # TODO: This is most likely wrong
+                # pylint: disable-next=undefined-loop-variable
                 initial=initials[details[0]],
             )
 

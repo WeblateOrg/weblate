@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import os
 import time
+from contextlib import suppress
 from datetime import datetime, timedelta
 from glob import glob
 from operator import itemgetter
@@ -74,7 +75,8 @@ def perform_update(
     if user_id:
         request = AuthenticatedHttpRequest()
         request.user = User.objects.get(pk=user_id)
-    try:
+    # This is stored as alert, so we can silently ignore some exceptions here
+    with suppress(FileParseError, RepositoryError, FileNotFoundError):
         if obj is None:
             if cls == "Project":
                 obj = Project.objects.get(pk=pk)
@@ -84,9 +86,6 @@ def perform_update(
             obj.do_update(request)
         else:
             obj.update_remote_branch()
-    except (FileParseError, RepositoryError, FileNotFoundError):
-        # This is stored as alert, so we can silently ignore here
-        return
 
 
 @app.task(
