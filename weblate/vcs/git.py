@@ -2290,13 +2290,11 @@ class BitbucketServerRepository(GitMergeRequestBase):
             "post", credentials, pr_url, json=request_body
         )
 
-        """
-        Bitbucket Data Center will return an error if a PR already exists.
-        The push method in the parent class pushes changes to the correct
-        fork or branch, and always calls this create_pull_request method after.
-        If the PR exists already just do nothing because Bitbucket will
-        auto-update the PR if the from ref is updated.
-        """
+        # Bitbucket Data Center will return an error if a PR already exists.
+        # The push method in the parent class pushes changes to the correct
+        # fork or branch, and always calls this create_pull_request method after.
+        # If the PR exists already just do nothing because Bitbucket will
+        # auto-update the PR if the from ref is updated.
         if "id" not in response_data:
             pr_exist_message = (
                 "Only one pull request may be open for a given source and target branch"

@@ -361,7 +361,7 @@ class Translation(
             )
 
     @cached_property
-    def store(self):
+    def store(self) -> TranslationFormat:
         """Return translate-toolkit storage object for a translation."""
         try:
             return self.load_store()
@@ -372,6 +372,7 @@ class Translation(
                 "Translation parse error", project=self.component.project, print_tb=True
             )
             self.component.handle_parse_error(exc, self)
+            raise
 
     def pre_process_unit(
         self,
@@ -563,7 +564,8 @@ class Translation(
                 # Create/update translations
                 for newunit in updated.values():
                     with sentry_sdk.start_span(
-                        op="unit.update_from_unit", name=f"{self.full_slug}:{pos}"
+                        op="unit.update_from_unit",
+                        name=f"{self.full_slug}:{newunit.unit_attributes['pos']}",
                     ):
                         newunit.update_from_unit(user=user, author=author)
 
@@ -2124,7 +2126,6 @@ class Translation(
                 extra_flags=extra_flags,
                 explanation=explanation,
             )
-            return
 
     @property
     def all_repo_components(self):

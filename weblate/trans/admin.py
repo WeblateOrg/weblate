@@ -4,7 +4,8 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, NoReturn
+# pylint: disable-next=unused-import
+from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.contrib import admin
@@ -29,6 +30,8 @@ from weblate.utils.html import format_html_join_comma
 from weblate.wladmin.models import WeblateModelAdmin
 
 if TYPE_CHECKING:
+    from django.db.models import QuerySet
+
     from weblate.auth.models import AuthenticatedHttpRequest
 
 
@@ -49,10 +52,10 @@ class RepoAdminMixin:
             obj.do_update(request)
         self.message_user(request, f"Updated {queryset.count():d} git repos.")
 
-    def get_qs_units(self, queryset) -> NoReturn:
+    def get_qs_units(self, queryset) -> QuerySet[Unit]:
         raise NotImplementedError
 
-    def get_qs_translations(self, queryset) -> NoReturn:
+    def get_qs_translations(self, queryset) -> QuerySet[Translation]:
         raise NotImplementedError
 
     @admin.action(description=gettext_lazy("Update quality checks"))
@@ -111,10 +114,10 @@ class ProjectAdmin(WeblateModelAdmin, RepoAdminMixin):
     def num_vcs(self, obj):
         return obj.component_set.with_repo().count()
 
-    def get_qs_units(self, queryset):
+    def get_qs_units(self, queryset) -> QuerySet[Unit]:
         return Unit.objects.filter(translation__component__project__in=queryset)
 
-    def get_qs_translations(self, queryset):
+    def get_qs_translations(self, queryset) -> QuerySet[Translation]:
         return Translation.objects.filter(component__project__in=queryset)
 
 
@@ -129,10 +132,10 @@ class ComponentAdmin(WeblateModelAdmin, RepoAdminMixin):
     actions = ("update_from_git", "update_checks", "force_commit")
     ordering = ("project__name", "name")
 
-    def get_qs_units(self, queryset):
+    def get_qs_units(self, queryset) -> QuerySet[Unit]:
         return Unit.objects.filter(translation__component__in=queryset)
 
-    def get_qs_translations(self, queryset):
+    def get_qs_translations(self, queryset) -> QuerySet[Translation]:
         return Translation.objects.filter(component__in=queryset)
 
     def formfield_for_foreignkey(

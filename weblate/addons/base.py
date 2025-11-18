@@ -226,7 +226,7 @@ class BaseAddon:
 
         # Trigger post configure event for a VCS component
         previous = component.repository.last_revision
-        if not (POST_CONFIGURE_EVENTS & self.events):
+        if not POST_CONFIGURE_EVENTS & self.events:
             return
 
         base_event_args = (self.instance, component, component)

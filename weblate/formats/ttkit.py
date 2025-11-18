@@ -517,6 +517,7 @@ class TTKitFormat(TranslationFormat):
             if not unit.isobsolete() and not unit.isheader()
         )
 
+    # pylint: disable-next=useless-return
     def delete_unit(self, ttkit_unit) -> str | None:
         self.store.removeunit(ttkit_unit)
         return None
@@ -1236,19 +1237,18 @@ class PoFormat(BasePoFormat, BilingualUpdateMixin):
             raise UpdateError(
                 " ".join(cmd), cleanup_error_message(error_output)
             ) from error
-        else:
-            # The warnings can cause corruption (for example in case
-            # PO file header is missing ASCII encoding is assumed)
-            errors = []
-            for line in result.stderr.splitlines():
-                if (
-                    "warning: internationalized messages should not contain the" in line
-                    or ". done." in line
-                ):
-                    continue
-                errors.append(line)
-            if errors:
-                raise UpdateError(" ".join(cmd), "\n".join(errors))
+        # The warnings can cause corruption (for example in case
+        # PO file header is missing ASCII encoding is assumed)
+        errors = []
+        for line in result.stderr.splitlines():
+            if (
+                "warning: internationalized messages should not contain the" in line
+                or ". done." in line
+            ):
+                continue
+            errors.append(line)
+        if errors:
+            raise UpdateError(" ".join(cmd), "\n".join(errors))
 
 
 class PoMonoFormat(BasePoFormat):
@@ -2309,8 +2309,6 @@ class StringsdictFormat(DictStoreFormat):
         plural = super().get_plural(language, store)
         if plural.type in ZERO_PLURAL_TYPES:
             return plural
-
-        from weblate.lang.models import Plural
 
         return language.plural_set.get_or_create(
             source=Plural.SOURCE_CLDR_ZERO,

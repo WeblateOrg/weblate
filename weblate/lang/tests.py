@@ -230,11 +230,12 @@ class BasicLanguagesTest(TestCase):
                 else:
                     if i == 1:
                         base_language = languages[0]
-                        if base_language in ALIASES:
-                            base_alias = ALIASES[base_language]
+                        base_alias = ALIASES.get(base_language, None)
                     check = (
-                        lang == base_alias and not result & BASE_FORM
-                    ) or lang in data.UNDERSCORE_EXCEPTIONS
+                        not result & BASE_FORM
+                        if lang == base_alias
+                        else lang in data.UNDERSCORE_EXCEPTIONS
+                    )
             else:
                 check = lang in data.BASIC_LANGUAGES
             result += check << i

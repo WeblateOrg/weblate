@@ -21,11 +21,10 @@ from weblate.checks.fluent.syntax import (
     FluentSourceSyntaxCheck,
     FluentTargetSyntaxCheck,
 )
+from weblate.checks.tests.test_checks import MockUnit
 
 if TYPE_CHECKING:
     from weblate.checks.base import BaseCheck, SourceCheck, TargetCheck
-
-from weblate.checks.tests.test_checks import MockUnit
 
 
 class MockFluentTransUnit(MockUnit):

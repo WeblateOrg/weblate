@@ -62,7 +62,7 @@ jobs:
         CI_DATABASE: postgresql
       run: |
         set +e
-        uv run mypy --show-column-numbers weblate scripts/*.py ./*.py | ./scripts/filter-mypy.sh | tee mypy.log
+        uv run --no-sync mypy --show-column-numbers weblate scripts/*.py ./*.py | ./scripts/filter-mypy.sh | tee mypy.log
         # Temporary hack until we have mypy fully passing
         mypy_err="$?"
         if [ "$mypy_err" -ne 0 ] && [ "$mypy_err" -ne 1 ] ; then
