@@ -27,11 +27,20 @@ def get_env_str(
             msg = f"Failed to open {filename} as specified by {file_env}: {error}"
             raise ImproperlyConfigured(msg) from error
     else:
-        if fallback_name and name not in os.environ:
-            name = fallback_name
         result = os.environ.get(
             name,
-            default,  # type: ignore[arg-type]
+            default if not fallback_name else None,  # type: ignore[arg-type]
+        )
+    # Also allow files for fallback names.
+    # The logic is as follows (if fallback is given):
+    # 1) Try `_FILE` variant of `name` first.
+    # 2) Try `name` directly but do not pass default to get `None` in case it does not exist.
+    # 3) Try `_FILE` variant of `fallback_name`.
+    # 4) Finally, try `fallback_name` directly, using the given default.
+    # If after all these steps no value is found, but it is required => fail.
+    if not result and fallback_name:
+        result = get_env_str(
+            fallback_name, default=default, required=False, fallback_name=None
         )
     if required and not result:
         msg = f"{name} has to be configured!"
