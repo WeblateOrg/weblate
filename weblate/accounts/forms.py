@@ -1095,7 +1095,7 @@ class GroupAddForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_class = "form-inline"
-        self.helper.field_template = "bootstrap3/layout/inline_field.html"
+        self.helper.field_template = "bootstrap5/layout/inline_field.html"
         self.helper.layout = Layout(
             "add_group",
             Submit("add_group_button", gettext("Add team")),

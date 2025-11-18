@@ -1499,7 +1499,7 @@ class SelectChecksField(forms.JSONField):
 
 
 class FormParamsWidget(forms.MultiWidget):
-    template_name = "bootstrap3/labelled_multiwidget.html"
+    template_name = "bootstrap5/labelled_multiwidget.html"
     subwidget_class = "file-format-param"
 
     def __init__(
