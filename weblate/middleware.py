@@ -263,7 +263,7 @@ class RedirectMiddleware:
                     path_offset = len(path) - (language_len)
                     try:
                         # Check if component exists
-                        component = parse_path(
+                        parse_path(
                             request, path[:path_offset], (Component,)
                         )
                     except UnsupportedPathObjectError:
