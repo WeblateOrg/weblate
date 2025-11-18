@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-27 07:35+0000\n"
-"PO-Revision-Date: 2025-11-14 09:51+0000\n"
-"Last-Translator: Minh Tâm Nguyễn <minhtam.nguyen18902@gmail.com>\n"
+"PO-Revision-Date: 2025-11-19 08:51+0000\n"
+"Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "application/vi/>\n"
 "Language: vi\n"
@@ -3773,7 +3773,7 @@ msgid "The HTML {tag} tag is missing a matching end tag: {end}."
 msgstr "Thẻ HTML {tag} thiếu thẻ kết thúc phù hợp: {end}."
 
 #: weblate/checks/fluent/inner_html.py:342
-#, fuzzy, python-brace-format
+#, python-brace-format
 msgid ""
 "The sequence {sequence} will begin a HTML character reference, but does not "
 "end with {semicolon}. If you do not want a character reference, use "
@@ -4186,20 +4186,20 @@ msgid "Automattic components formatting"
 msgstr "Định dạng thành phần tự động"
 
 #: weblate/checks/format.py:830
-#, fuzzy
-#| msgid "PHP strings"
 msgid "The Automattic components' placeholders do not match the source."
-msgstr "PHP strings"
+msgstr "Trình giữ chỗ của các thành phần Automattic không khớp với nguồn."
 
 #: weblate/checks/format.py:848
 msgid "Multiple unnamed variables"
-msgstr ""
+msgstr "Nhiều biến không tên"
 
 #: weblate/checks/format.py:850
 msgid ""
 "There are multiple unnamed variables in the string, making it impossible for "
 "translators to reorder them."
 msgstr ""
+"Có nhiều biến không tên trong chuỗi, khiến người dịch không thể sắp xếp lại "
+"chúng."
 
 #: weblate/checks/glossary.py:27
 msgid "Does not follow glossary"
@@ -4215,316 +4215,256 @@ msgid "Following terms are not translated according to glossary: {}"
 msgstr "Các thuật ngữ sau không được dịch theo bảng thuật ngữ: {}"
 
 #: weblate/checks/glossary.py:93
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Prohibited initial character"
-msgstr "PHP strings"
+msgstr "Ký tự đầu bị cấm"
 
 #: weblate/checks/glossary.py:94
 msgid "The string starts with a prohibited character in CSV."
-msgstr ""
+msgstr "Chuỗi bắt đầu bằng một ký tự bị cấm trong CSV."
 
 #: weblate/checks/glossary.py:115
 msgid ""
 "The string starts with one or more of the following forbidden characters: {}"
-msgstr ""
+msgstr "Chuỗi bắt đầu bằng một hoặc nhiều ký tự bị cấm sau: {}"
 
 #: weblate/checks/icu.py:254
-#, fuzzy
-#| msgid "Plural form %d"
 msgid "ICU MessageFormat syntax"
-msgstr "Dạng số nhiều %d"
+msgstr "Cú pháp ICU MessageFormat"
 
 #: weblate/checks/icu.py:255
 msgid "Syntax errors in ICU MessageFormat strings."
-msgstr ""
+msgstr "Lỗi cú pháp trong chuỗi ICU MessageFormat."
 
 #: weblate/checks/icu.py:283
-#, fuzzy
-#| msgid "Plural form %d"
 msgid "ICU MessageFormat"
-msgstr "Dạng số nhiều %d"
+msgstr "ICU MessageFormat"
 
 #: weblate/checks/icu.py:285
 msgid ""
 "Syntax errors and/or placeholder mismatches in ICU MessageFormat strings."
 msgstr ""
+"Lỗi cú pháp và/hoặc chỗ giữ chỗ không khớp trong chuỗi ICU MessageFormat."
 
 #: weblate/checks/icu.py:456
 #, python-format
 msgid "Syntax error: %s"
-msgstr ""
+msgstr "Lỗi cú pháp: %s"
 
 #: weblate/checks/icu.py:463
-#, fuzzy, python-format
-#| msgid "Notification on any translation"
+#, python-format
 msgid "One or more unknown placeholders in the translation: %s"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Một hoặc nhiều chỗ giữ chỗ không xác định trong bản dịch: %s"
 
 #: weblate/checks/icu.py:468
-#, fuzzy, python-format
-#| msgid "Notification on any translation"
+#, python-format
 msgid "One or more placeholders missing in the translation: %s"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Một hoặc nhiều chỗ giữ chỗ bị thiếu trong bản dịch: %s"
 
 #: weblate/checks/icu.py:473
 #, python-format
 msgid "One or more placeholder types are incorrect: %s"
-msgstr ""
+msgstr "Một hoặc nhiều loại giữ chỗ không chính xác: %s"
 
 #: weblate/checks/icu.py:477
 #, python-format
 msgid "Missing other sub-message for: %s"
-msgstr ""
+msgstr "Thiếu tin nhắn phụ khác cho: %s"
 
 #: weblate/checks/icu.py:483
 #, python-format
 msgid "Incorrect plural selectors for: %s"
-msgstr ""
+msgstr "Bộ chọn số nhiều không chính xác cho: %s"
 
 #: weblate/checks/icu.py:490
 #, python-format
 msgid "Incorrect sub-message selectors for: %s"
-msgstr ""
+msgstr "Bộ chọn tin nhắn phụ không chính xác cho: %s"
 
 #: weblate/checks/icu.py:497
 #, python-format
 msgid ""
 "One or more placeholders should have a corresponding XML tag in the "
 "translation: %s"
-msgstr ""
+msgstr "Một hoặc nhiều chỗ giữ chỗ phải có thẻ XML tương ứng trong bản dịch: %s"
 
 #: weblate/checks/icu.py:503
-#, fuzzy, python-format
-#| msgid "Notification on any translation"
+#, python-format
 msgid ""
 "One or more placeholders should not be an XML tag in the translation: %s"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Một hoặc nhiều chỗ giữ chỗ không được là thẻ XML trong bản dịch: %s"
 
 #: weblate/checks/icu.py:509
-#, fuzzy, python-format
-#| msgid "XLIFF Translation File"
+#, python-format
 msgid "One or more XML tags has unexpected content in the translation: %s"
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Một hoặc nhiều thẻ XML có nội dung không mong muốn trong bản dịch: %s"
 
 #: weblate/checks/icu.py:514
-#, fuzzy, python-format
-#| msgid "XLIFF Translation File"
+#, python-format
 msgid "One or more XML tags missing content in the translation: %s"
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Một hoặc nhiều thẻ XML thiếu nội dung trong bản dịch: %s"
 
 #: weblate/checks/markup.py:124
 msgid "BBCode markup"
-msgstr ""
+msgstr "Đánh dấu BBCode"
 
 #: weblate/checks/markup.py:125
-#, fuzzy
-#| msgid "PHP strings"
 msgid "BBCode in translation does not match source."
-msgstr "PHP strings"
+msgstr "Bản dịch BBCode không khớp với nguồn."
 
 #: weblate/checks/markup.py:208
 msgid "XML syntax"
-msgstr ""
+msgstr "Cú pháp XML"
 
 #: weblate/checks/markup.py:209
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "The translation is not valid XML."
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Bản dịch không phải là XML hợp lệ."
 
 #: weblate/checks/markup.py:233
 msgid "XML markup"
-msgstr ""
+msgstr "Đánh dấu XML"
 
 #: weblate/checks/markup.py:234
-#, fuzzy
-#| msgid "PHP strings"
 msgid "XML tags in translation do not match source."
-msgstr "PHP strings"
+msgstr "Thẻ XML trong bản dịch không khớp với nguồn."
 
 #: weblate/checks/markup.py:292
-#, fuzzy
-#| msgid "Contact"
 msgid "Markdown references"
-msgstr "Liên lạc"
+msgstr "Tham chiếu Markdown"
 
 #: weblate/checks/markup.py:293
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Markdown link references do not match source."
-msgstr "PHP strings"
+msgstr "Tham chiếu liên kết Markdown không khớp với nguồn."
 
 #: weblate/checks/markup.py:309
 msgid "Markdown links"
-msgstr ""
+msgstr "Liên kết Markdown"
 
 #: weblate/checks/markup.py:310
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Markdown links do not match source."
-msgstr "PHP strings"
+msgstr "Liên kết Markdown không khớp với nguồn."
 
 #: weblate/checks/markup.py:338
 msgid "Markdown syntax"
-msgstr ""
+msgstr "Cú pháp Markdown"
 
 #: weblate/checks/markup.py:339
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Markdown syntax does not match source."
-msgstr "PHP strings"
+msgstr "Cú pháp Markdown không khớp với nguồn."
 
 #: weblate/checks/markup.py:372
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "The translation does not contain an URL."
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Bản dịch không chứa URL."
 
 #: weblate/checks/markup.py:391 weblate/trans/autofixes/html.py:16
 msgid "Unsafe HTML"
-msgstr ""
+msgstr "HTML không an toàn"
 
 #: weblate/checks/markup.py:392
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "The translation uses unsafe HTML markup."
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Bản dịch sử dụng mã HTML không an toàn."
 
 #: weblate/checks/markup.py:478
 msgid "Inconsistent reStructuredText"
-msgstr ""
+msgstr "Văn bản được cấu trúc lại không nhất quán"
 
 #: weblate/checks/markup.py:480
-#, fuzzy
-#| msgid "iOS Strings"
 msgid "Inconsistent reStructuredText markup in the translated message."
-msgstr "Chuỗi hệ điều hành iOS"
+msgstr "Đánh dấu reStructuredText không nhất quán trong tin nhắn đã dịch."
 
 #: weblate/checks/markup.py:485
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "The following reStructuredText markup is missing: {}"
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Đánh dấu reStructuredText sau đây bị thiếu: {}"
 
 #: weblate/checks/markup.py:490
-#, fuzzy
-#| msgid "The following translations will be removed:"
 msgid "The following reStructuredText markup is extra: {}"
-msgstr "Các bản dịch sau sẽ bị xóa:"
+msgstr "Đánh dấu reStructuredText sau đây là phần bổ sung: {}"
 
 #: weblate/checks/markup.py:637
 msgid "reStructuredText syntax error"
-msgstr ""
+msgstr "Lỗi cú pháp eStructuredText"
 
 #: weblate/checks/markup.py:638
-#, fuzzy
-#| msgid "Comment on own translation"
 msgid "reStructuredText syntax error in the translation."
-msgstr "Bình luận về bản dịch của bạn"
+msgstr "Lỗi cú pháp reStructuredText trong bản dịch."
 
 #: weblate/checks/placeholders.py:31
 msgid "Placeholders"
-msgstr ""
+msgstr "Trình giữ chỗ"
 
 #: weblate/checks/placeholders.py:32
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Translation is missing some placeholders."
-msgstr "PHP strings"
+msgstr "Bản dịch còn thiếu một số chỗ giữ chỗ."
 
 #: weblate/checks/placeholders.py:139
 msgid "Regular expression"
-msgstr ""
+msgstr "Biểu thức chính quy"
 
 #: weblate/checks/placeholders.py:140
-#, fuzzy
-#| msgid "Translation does not match regular expression:"
 msgid "Translation does not match regular expression."
-msgstr "Bản dịch không khớp với biểu thức chính quy:"
+msgstr "Bản dịch không khớp với biểu thức chính quy."
 
 #: weblate/checks/placeholders.py:171
-#, fuzzy
-#| msgid "Translation does not match regular expression:"
 msgid "Does not match regular expression {}."
-msgstr "Bản dịch không khớp với biểu thức chính quy:"
+msgstr "Không khớp với biểu thức chính quy {}."
 
 #: weblate/checks/qt.py:34
-#, fuzzy
-#| msgid "Plural form %d"
 msgid "Qt format"
-msgstr "Dạng số nhiều %d"
+msgstr "Đinh dạng Qt"
 
 #: weblate/checks/qt.py:35
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Qt format string does not match source."
-msgstr "PHP strings"
+msgstr "Chuỗi định dạng Qt không khớp với nguồn."
 
 #: weblate/checks/qt.py:47
-#, fuzzy
-#| msgid "Plural form %d"
 msgid "Qt plural format"
-msgstr "Dạng số nhiều %d"
+msgstr "Định dạng số nhiều Qt"
 
 #: weblate/checks/qt.py:48
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Qt plural format string does not match source."
-msgstr "PHP strings"
+msgstr "Chuỗi định dạng số nhiều của Qt không khớp với nguồn."
 
 #: weblate/checks/render.py:31
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Maximum size of translation"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Kích thước tối đa của bản dịch"
 
 #: weblate/checks/render.py:33
 msgid "Translation rendered text should not exceed given size."
-msgstr ""
+msgstr "Văn bản dịch không được vượt quá kích thước cho phép."
 
 #: weblate/checks/render.py:109
 msgid ""
 "It fits into given boundaries. The rendering is shown for your convenience."
 msgstr ""
+"Nó nằm trong phạm vi cho phép. Bản kết xuất được hiển thị để bạn tiện theo "
+"dõi."
 
 #: weblate/checks/ruby.py:54
-#, fuzzy
-#| msgid "Plural form %d"
 msgid "Ruby format"
-msgstr "Dạng số nhiều %d"
+msgstr "Định dạng Ruby"
 
 #: weblate/checks/ruby.py:55
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Ruby format string does not match source."
-msgstr "PHP strings"
+msgstr "Chuỗi định dạng Ruby không khớp với nguồn."
 
 #: weblate/checks/same.py:152
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Unchanged translation"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Bản dịch không thay đổi"
 
 #: weblate/checks/same.py:153
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "Source and translation are identical."
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Nguồn và bản dịch giống hệt nhau."
 
 #: weblate/checks/source.py:34
-#, fuzzy
-#| msgid "Plural"
 msgid "Unpluralised"
-msgstr "Số nhiều"
+msgstr "Không số nhiều"
 
 #: weblate/checks/source.py:36
 msgid "The string is used as plural, but not using plural forms."
-msgstr ""
+msgstr "Chuỗi được sử dụng ở dạng số nhiều, nhưng không sử dụng dạng số nhiều."
 
 #: weblate/checks/source.py:49
 msgid "Ellipsis"
-msgstr ""
+msgstr "Dấu ba chấm"
 
 #: weblate/checks/source.py:51
 msgid "The string uses three dots (...) instead of an ellipsis character (…)."
