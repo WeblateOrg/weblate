@@ -917,3 +917,7 @@ class LanguageAliasesChangeTest(ViewTestCase):
         )
         self.component.add_new_language(it_xx, None)
         self.do_alias_language_update_and_check(False, False)
+
+    def test_get_aliases(self) -> None:
+        language = Language.objects.get(code="ka")
+        self.assertEqual(language.get_aliases_names(), ["geo", "ka_ge", "kat"])
