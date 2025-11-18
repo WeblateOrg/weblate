@@ -30,9 +30,9 @@ from weblate.trans.util import translation_percent
 from weblate.utils.random import get_random_identifier
 from weblate.utils.site import get_site_url
 from weblate.utils.state import (
+    FUZZY_STATES,
     STATE_APPROVED,
     STATE_EMPTY,
-    STATE_FUZZY,
     STATE_READONLY,
     STATE_TRANSLATED,
 )
@@ -616,7 +616,7 @@ class TranslationStats(BaseStats):
 
         # Sum stats in Python, this is way faster than conditional sums in the database
         units_all = units
-        units_fuzzy = [unit for unit in units if get_state(unit) == STATE_FUZZY]
+        units_fuzzy = [unit for unit in units if get_state(unit) in FUZZY_STATES]
         units_readonly = [unit for unit in units if get_state(unit) == STATE_READONLY]
         units_nottranslated = [unit for unit in units if get_state(unit) == STATE_EMPTY]
         units_unapproved = [

@@ -40,6 +40,7 @@ from weblate.trans.models import (
 )
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.state import (
+    FUZZY_STATES,
     STATE_EMPTY,
     STATE_FUZZY,
     STATE_READONLY,
@@ -617,7 +618,7 @@ class JsonAddonTest(ViewTestCase):
         self.component.create_translations_immediate(force=True)
         self.assertFalse(
             Unit.objects.filter(translation__language__code="cs")
-            .exclude(state__in=(STATE_FUZZY, STATE_EMPTY))
+            .exclude(state__in=(*FUZZY_STATES, STATE_EMPTY))
             .exists()
         )
 
@@ -625,7 +626,7 @@ class JsonAddonTest(ViewTestCase):
         self.component.create_translations_immediate(force=True)
         self.assertFalse(
             Unit.objects.exclude(
-                state__in=(STATE_FUZZY, STATE_EMPTY, STATE_READONLY)
+                state__in=(*FUZZY_STATES, STATE_EMPTY, STATE_READONLY)
             ).exists()
         )
 

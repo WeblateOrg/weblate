@@ -115,6 +115,7 @@ from weblate.utils.render import (
 )
 from weblate.utils.site import get_site_url
 from weblate.utils.state import (
+    FUZZY_STATES,
     STATE_APPROVED,
     STATE_FUZZY,
     STATE_READONLY,
@@ -2864,7 +2865,7 @@ class Component(
                 translation.drop_store_cache()
                 # Remove fuzzy flag on template name change
                 if changed_template and self.template:
-                    translation.unit_set.filter(state=STATE_FUZZY).update(
+                    translation.unit_set.filter(state__in=FUZZY_STATES).update(
                         state=STATE_TRANSLATED
                     )
                 self.progress_step()
