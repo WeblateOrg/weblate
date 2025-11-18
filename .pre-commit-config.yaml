@@ -34,7 +34,7 @@ repos:
   hooks:
   - id: yamllint
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.14.4
+  rev: v0.14.5
   hooks:
   - id: ruff-check
     args:
@@ -87,7 +87,7 @@ repos:
   - id: biome-check
     args: [--error-on-warnings]
     additional_dependencies:
-    - '@biomejs/biome@2.3.5'
+    - '@biomejs/biome@2.3.6'
 - repo: https://github.com/abravalheri/validate-pyproject
   rev: v0.24.1
   hooks:
@@ -156,7 +156,7 @@ repos:
     - tomli
     exclude: client/yarn.lock
 - repo: https://github.com/crate-ci/typos
-  rev: v1.39.1
+  rev: v1.39.2
   hooks:
   - id: typos
     args: []

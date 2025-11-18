@@ -16,7 +16,7 @@ from django.http import Http404, HttpResponsePermanentRedirect
 from django.shortcuts import redirect
 from django.urls import is_valid_path, reverse
 from django.urls.exceptions import NoReverseMatch
-from django.utils.http import escape_leading_slashes
+from django.utils.http import MAX_URL_LENGTH, escape_leading_slashes
 from django.utils.translation import gettext_lazy
 from social_core.backends.oauth import OAuthAuth
 from social_core.backends.open_id import OpenIdAuth
@@ -130,7 +130,11 @@ class RedirectMiddleware:
             new_path = request.get_full_path(force_append_slash=True)
             # Prevent construction of scheme relative urls.
             new_path = escape_leading_slashes(new_path)
-            return HttpResponsePermanentRedirect(new_path)
+            # Avoid too long redirects
+            if len(new_path) > MAX_URL_LENGTH and "?" in new_path:
+                new_path = new_path.split("?", 1)[0]
+            if len(new_path) <= MAX_URL_LENGTH:
+                return HttpResponsePermanentRedirect(new_path)
         return response
 
     def should_redirect_with_slash(self, request: AuthenticatedHttpRequest) -> bool:

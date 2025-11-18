@@ -208,6 +208,7 @@ class Repository:
         local: bool = False,
         stdin: str | None = None,
         environment: dict[str, str] | None = None,
+        retry: bool = True,
     ):
         """Execute the command using popen."""
         if args is None:
@@ -259,10 +260,26 @@ class Repository:
             cwd=cwd,
         )
         if process.returncode:
-            raise RepositoryError(
-                process.returncode, process.stdout + (process.stderr or "")
-            )
+            errormessage: str = process.stdout + (process.stderr or "")
+            if retry and cls.should_retry_popen(errormessage):
+                return cls._popen(
+                    args,
+                    cwd=cwd,
+                    merge_err=merge_err,
+                    fullcmd=fullcmd,
+                    raw=raw,
+                    local=local,
+                    stdin=stdin,
+                    environment=environment,
+                    retry=False,
+                )
+
+            raise RepositoryError(process.returncode, errormessage)
         return process.stdout
+
+    @staticmethod
+    def should_retry_popen(errormessage: str) -> bool:  # noqa: ARG004
+        return False
 
     def execute(
         self,

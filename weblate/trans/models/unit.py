@@ -52,6 +52,7 @@ from weblate.utils.db import using_postgresql, verify_in_transaction
 from weblate.utils.errors import report_error
 from weblate.utils.hash import calculate_hash, hash_to_checksum
 from weblate.utils.state import (
+    FUZZY_STATES,
     STATE_APPROVED,
     STATE_EMPTY,
     STATE_FUZZY,
@@ -672,7 +673,7 @@ class Unit(models.Model, LoggerMixin):
 
     @property
     def fuzzy(self) -> bool:
-        return self.state == STATE_FUZZY
+        return self.state in FUZZY_STATES
 
     @property
     def has_failing_check(self) -> bool:
@@ -787,7 +788,7 @@ class Unit(models.Model, LoggerMixin):
 
         # We need to keep approved/fuzzy state for formats which do not
         # support saving it
-        is_existing_fuzzy_state = self.fuzzy or disk_unit_state == STATE_FUZZY
+        is_existing_fuzzy_state = self.fuzzy or disk_unit_state in FUZZY_STATES
         if unit.is_fuzzy(is_existing_fuzzy_state and not string_changed):
             return STATE_FUZZY
 
@@ -986,7 +987,7 @@ class Unit(models.Model, LoggerMixin):
             if not same_source and state in {STATE_TRANSLATED, STATE_APPROVED}:
                 if (
                     self.previous_source == source
-                    and comparison_state["state"] == STATE_FUZZY
+                    and comparison_state["state"] in FUZZY_STATES
                 ):
                     # Source change was reverted
                     source_change = self.source
@@ -1003,8 +1004,8 @@ class Unit(models.Model, LoggerMixin):
                     state = STATE_FUZZY
                 pending = True
             elif (
-                comparison_state["state"] == STATE_FUZZY
-                and state == STATE_FUZZY
+                comparison_state["state"] in FUZZY_STATES
+                and state in FUZZY_STATES
                 and not previous_source
             ):
                 # Avoid losing previous source of fuzzy strings
@@ -1434,7 +1435,7 @@ class Unit(models.Model, LoggerMixin):
                 unit.num_words = self.num_words
                 # Find reverted units
                 if (
-                    unit.state == STATE_FUZZY
+                    unit.state in FUZZY_STATES
                     and unit.previous_source == self.target
                     and unit.target
                 ):
@@ -1446,7 +1447,7 @@ class Unit(models.Model, LoggerMixin):
                     )
                     unit.previous_source = ""
                 elif (
-                    unit.original_state == STATE_FUZZY
+                    unit.original_state in FUZZY_STATES
                     and unit.previous_source == self.target
                     and unit.target
                 ):
@@ -1514,7 +1515,7 @@ class Unit(models.Model, LoggerMixin):
         # Action type to store
         if change_action is not None:
             action = change_action
-        elif self.state == STATE_FUZZY:
+        elif self.state in FUZZY_STATES:
             action = ActionEvents.MARKED_EDIT
         elif self.old_unit["state"] >= STATE_FUZZY:
             if self.state == STATE_APPROVED:

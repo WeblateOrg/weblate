@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
-    - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+    - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
       with:
         fetch-depth: 2
         persist-credentials: false
@@ -52,7 +52,7 @@ jobs:
         save-cache: ${{ github.ref == 'refs/heads/main' }}
         cache-suffix: ${{ steps.setup_python.outputs.python-version }}
 
-        version: 0.9.9
+        version: 0.9.10
     - name: Install deps
       env:
         CI_DATABASE: postgresql

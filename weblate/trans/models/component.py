@@ -93,6 +93,7 @@ from weblate.trans.validators import (
 from weblate.utils import messages
 from weblate.utils.celery import get_task_progress
 from weblate.utils.colors import ColorChoices
+from weblate.utils.db import using_postgresql
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
 from weblate.utils.fields import EmailField
@@ -114,6 +115,7 @@ from weblate.utils.render import (
 )
 from weblate.utils.site import get_site_url
 from weblate.utils.state import (
+    FUZZY_STATES,
     STATE_APPROVED,
     STATE_FUZZY,
     STATE_READONLY,
@@ -2236,10 +2238,24 @@ class Component(
                 scope="weblate", name="commit", verbose="Background commit"
             )
 
+        pending_changes = list(
+            PendingUnitChange.objects.for_component(
+                self, apply_filters=True, include_linked=True
+            ).values_list("pk", "unit__translation_id")
+        )
+
+        # Short-circuit if no committable changes remain after all filters (including blocking check)
+        # This prevents unnecessary processing when blocking changes filter out all pending changes
+        if not pending_changes:
+            return False
+
+        changes_by_translation = defaultdict(list)
+        for pending_change_pk, translation_id in pending_changes:
+            changes_by_translation[translation_id].append(pending_change_pk)
+
         # Get all translation with pending changes, source translation first
         translations = sorted(
-            Translation.objects.filter(unit__pending_changes__isnull=False)
-            .filter(Q(component=self) | Q(component__linked_component=self))
+            Translation.objects.filter(pk__in=list(changes_by_translation.keys()))
             .distinct()
             .prefetch_related("component"),
             key=lambda translation: not translation.is_source,
@@ -2281,7 +2297,10 @@ class Component(
 
                     components[component.pk] = component
                 with self.start_sentry_span("commit_pending"):
-                    translation_changed = translation._commit_pending(reason, user)  # noqa: SLF001
+                    pending_changes_pk = changes_by_translation[translation.pk]
+                    translation_changed = translation._commit_pending(  # noqa: SLF001
+                        reason, user, pending_changes_pk
+                    )
                 was_changed |= translation_changed
                 if translation_changed and component.has_template():
                     translation_pks[component.pk].append(translation.pk)
@@ -2846,7 +2865,7 @@ class Component(
                 translation.drop_store_cache()
                 # Remove fuzzy flag on template name change
                 if changed_template and self.template:
-                    translation.unit_set.filter(state=STATE_FUZZY).update(
+                    translation.unit_set.filter(state__in=FUZZY_STATES).update(
                         state=STATE_TRANSLATED
                     )
                 self.progress_step()
@@ -3645,15 +3664,20 @@ class Component(
     @property
     def count_pending_units(self):
         """Return count of pending units."""
-        from weblate.trans.models import Unit
+        return self._count_pending_units_helper(apply_filters=True)
 
-        return (
-            Unit.objects.filter(
-                translation__component=self, pending_changes__isnull=False
-            )
-            .distinct()
-            .count()
+    @property
+    def count_total_pending_units(self):
+        """Return count of total pending units including changes ineligible to retry."""
+        return self._count_pending_units_helper(apply_filters=False)
+
+    def _count_pending_units_helper(self, apply_filters: bool):
+        queryset = PendingUnitChange.objects.for_component(
+            self, apply_filters=apply_filters
         )
+        if using_postgresql():
+            return queryset.distinct("unit_id").count()
+        return queryset.values("unit_id").distinct().count()
 
     @property
     def count_repo_missing(self):

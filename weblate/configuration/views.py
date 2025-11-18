@@ -6,6 +6,7 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from django.contrib.auth.decorators import login_not_required
 from django.core.cache import cache
 from django.http import HttpResponse
 from django.template.loader import render_to_string
@@ -22,6 +23,7 @@ if TYPE_CHECKING:
 
 
 @method_decorator(cache_control(max_age=7200), name="get")
+@method_decorator(login_not_required, name="get")
 class CustomCSSView(TemplateView):
     template_name = "configuration/custom.css"
     cache_key = "css:custom"

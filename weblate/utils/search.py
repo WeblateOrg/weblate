@@ -38,8 +38,8 @@ from weblate.trans.models import Category, Component, Project, Translation
 from weblate.trans.util import PLURAL_SEPARATOR
 from weblate.utils.db import re_escape, using_postgresql
 from weblate.utils.state import (
+    FUZZY_STATES,
     STATE_APPROVED,
-    STATE_FUZZY,
     STATE_NAMES,
     STATE_READONLY,
     STATE_TRANSLATED,
@@ -555,7 +555,7 @@ class UnitTermExpr(BaseTermExpr):
         if text == "approved":
             return Q(state=STATE_APPROVED)
         if text in {"fuzzy", "needs-editing"}:
-            return Q(state=STATE_FUZZY)
+            return Q(state__in=FUZZY_STATES)
         if text == "translated":
             return Q(state__gte=STATE_TRANSLATED)
         if text == "untranslated":
