@@ -570,7 +570,7 @@ class GlossaryTranslationTest(BaseMachineTranslationTest):
                 unit, "en", "cs", source_text, 75, {}
             )
             self.assertIsNotNone(cache_key)
-            self.assertTrue(len(result) > 0)
+            self.assertGreater(len(result), 0)
             self.assertIsNotNone(result)
 
         with patch(
