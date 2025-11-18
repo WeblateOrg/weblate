@@ -5,9 +5,9 @@
 from __future__ import annotations
 
 import codecs
-import contextlib
 import os
 import tempfile
+from contextlib import suppress
 from datetime import UTC
 from itertools import chain
 from pathlib import Path
@@ -399,7 +399,7 @@ class Translation(
         )
         return newunit
 
-    def check_sync(  # noqa: C901
+    def check_sync(  # noqa: C901, PLR0915
         self,
         force: bool = False,
         request: AuthenticatedHttpRequest | None = None,
@@ -500,13 +500,14 @@ class Translation(
                             translated_unit, created = translation_store.find_unit(
                                 unit.context, unit.source
                             )
+                        except UnitNotFoundError:
+                            pass
+                        else:
                             if translated_unit and not created:
                                 unit = translated_unit
                             else:
                                 # Patch unit to have matching source
                                 unit.source = translated_unit.source
-                        except UnitNotFoundError:
-                            pass
                     if (
                         self.component.file_format_cls.monolingual
                         and self.component.key_filter_re
@@ -1668,7 +1669,7 @@ class Translation(
         # Remove blank directory if still present (appstore)
         filename = Path(self.get_filename())
         if filename.is_dir():
-            with contextlib.suppress(OSError):
+            with suppress(OSError):
                 filename.rmdir()
 
         # Delete from the database
@@ -1847,6 +1848,9 @@ class Translation(
             if (skip_existing or not self.is_source) and is_source:
                 try:
                     unit = component.get_source(id_hash)
+                except Unit.DoesNotExist:
+                    pass
+                else:
                     flags = Flags(unit.extra_flags)
                     flags.merge(extra_flags)
                     new_flags = flags.format()
@@ -1860,8 +1864,6 @@ class Translation(
                             same_content=True,
                             sync_terminology=False,
                         )
-                except Unit.DoesNotExist:
-                    pass
             if unit is None:
                 if "read-only" in translation.all_flags or (
                     component.is_glossary and "read-only" in parsed_flags

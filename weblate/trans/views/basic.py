@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 from collections import Counter
+from contextlib import suppress
 from typing import TYPE_CHECKING, Any
 
 from django.contrib.auth.decorators import login_not_required, login_required
@@ -969,7 +970,7 @@ def add_languages_to_component(
 
             lang_counts[f"errors_{lang_code}"] += 1
 
-        try:
+        with suppress(FileParseError):
             # force_scan needed, see add_new_language
             if added and not component.create_translations(
                 request=request, force_scan=True
@@ -987,8 +988,6 @@ def add_languages_to_component(
                         kwargs={"path": result.get_url_path()},
                     )
                 )
-        except FileParseError:
-            pass
 
     if user.has_perm("component.edit", component):
         reset_rate_limit("language", request)

@@ -333,6 +333,9 @@ def get_notification_forms(request: AuthenticatedHttpRequest):
     if "notify_project" in request.GET:
         try:
             project = user.allowed_projects.get(pk=request.GET["notify_project"])
+        except (ObjectDoesNotExist, ValueError):
+            pass
+        else:
             active = key = (NotificationScope.SCOPE_PROJECT, project.pk, -1)
             subscriptions[key] = {}
             initials[key] = {
@@ -340,21 +343,20 @@ def get_notification_forms(request: AuthenticatedHttpRequest):
                 "project": project,
                 "component": None,
             }
-        except (ObjectDoesNotExist, ValueError):
-            pass
     if "notify_component" in request.GET:
         try:
             component = Component.objects.filter_access(user).get(
                 pk=request.GET["notify_component"],
             )
+        except (ObjectDoesNotExist, ValueError):
+            pass
+        else:
             active = key = (NotificationScope.SCOPE_COMPONENT, -1, component.pk)
             subscriptions[key] = {}
             initials[key] = {
                 "scope": NotificationScope.SCOPE_COMPONENT,
                 "component": component,
             }
-        except (ObjectDoesNotExist, ValueError):
-            pass
 
     # Populate scopes from the database
     for subscription in user.subscription_set.select_related("project", "component"):
@@ -1550,9 +1552,10 @@ def subscribe(request: AuthenticatedHttpRequest):
         )
         try:
             subscription.full_clean()
-            subscription.save()
         except ValidationError:
             pass
+        else:
+            subscription.save()
         messages.success(request, gettext("Notification settings adjusted."))
     return redirect_profile("#notifications")
 

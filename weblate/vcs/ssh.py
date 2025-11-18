@@ -8,6 +8,7 @@ import os
 import stat
 import subprocess
 from base64 import b64decode, b64encode
+from contextlib import suppress
 from typing import TYPE_CHECKING, Literal, TypedDict
 
 from django.conf import settings
@@ -357,13 +358,10 @@ class SSHWrapper:
 
         ssh_config = ssh_file(CONFIG)
         if not ssh_config.exists():
-            try:
-                with ssh_config.open(mode="x") as handle:
-                    handle.write(
-                        "# SSH configuration for customising SSH client in Weblate\n"
-                    )
-            except OSError:
-                pass
+            with suppress(OSError), ssh_config.open(mode="x") as handle:
+                handle.write(
+                    "# SSH configuration for customising SSH client in Weblate\n"
+                )
 
         for command in ("ssh", "scp"):
             path = find_command(command)
