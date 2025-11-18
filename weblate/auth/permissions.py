@@ -222,6 +222,18 @@ def check_can_edit(  # noqa: C901
         if not user.is_authenticated:
             # Signing in might help, but user still might need additional privileges
             return Denied(gettext("Sign in to save translations."))
+        if component and component.restricted:
+            if permission == "unit.review":
+                return Denied(
+                    gettext(
+                        "Insufficient privileges for approving translations in a restricted component."
+                    )
+                )
+            return Denied(
+                gettext(
+                    "Insufficient privileges for saving translations in a restricted component."
+                )
+            )
         if permission == "unit.review":
             return Denied(
                 gettext("Insufficient privileges for approving translations.")
