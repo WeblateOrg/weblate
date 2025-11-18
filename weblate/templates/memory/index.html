@@ -4,24 +4,24 @@
 
 {% block breadcrumbs %}
   {% if project %}
-    <li>
+    <li class="breadcrumb-item">
       <a href="{{ project.get_absolute_url }}">{{ project }}</a>
     </li>
-    <li>
+    <li class="breadcrumb-item">
       <a href="{% url 'memory' project=project.slug %}">{% translate "Translation memory" %}</a>
     </li>
   {% elif from_file %}
-    <li>
+    <li class="breadcrumb-item">
       <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
     </li>
-    <li>
+    <li class="breadcrumb-item">
       <a href="{% url 'manage-memory' %}">{% translate "Translation memory" %}</a>
     </li>
   {% else %}
-    <li>
+    <li class="breadcrumb-item">
       <a href="{% url 'profile' %}">{{ user.profile.get_user_name }}</a>
     </li>
-    <li>
+    <li class="breadcrumb-item">
       <a href="{% url 'memory' %}">{% translate "Translation memory" %}</a>
     </li>
   {% endif %}

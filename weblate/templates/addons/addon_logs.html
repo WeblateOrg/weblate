@@ -5,15 +5,15 @@
 {% block breadcrumbs %}
   {% if object %}
     {% path_object_breadcrumbs object %}
-    <li>
+    <li class="breadcrumb-item">
       <a href="{% url 'addons' path=object.get_url_path %}">{% translate "Add-ons" %}</a>
     </li>
   {% else %}
-    <li>
+    <li class="breadcrumb-item">
       <a href="{% url 'manage-addons' %}">{% translate "Add-ons" %}</a>
     </li>
   {% endif %}
-  <li>
+  <li class="breadcrumb-item">
     {% if instance %}
       <a href="{% url 'addon-detail' pk=instance.pk %}">{{ addon.verbose }}</a>
     {% else %}

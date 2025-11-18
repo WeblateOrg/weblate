@@ -3,10 +3,10 @@
 {% load i18n icons static %}
 
 {% block breadcrumbs %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{{ object.get_absolute_url }}">{{ object }}</a>
   </li>
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url "widgets" path=object.get_url_path %}">{% translate "Widgets" %}</a>
   </li>
 {% endblock breadcrumbs %}

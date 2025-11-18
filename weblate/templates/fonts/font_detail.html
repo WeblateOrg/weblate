@@ -3,13 +3,13 @@
 {% load crispy_forms_tags i18n permissions translations %}
 
 {% block breadcrumbs %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a>
   </li>
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'fonts' project=object.project.slug %}#fonts">{% translate "Fonts" %}</a>
   </li>
-  <li>
+  <li class="breadcrumb-item">
     <a href="{{ object.get_absolute_url }}">{{ object }}</a>
   </li>
 {% endblock breadcrumbs %}

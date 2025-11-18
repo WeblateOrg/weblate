@@ -4,20 +4,20 @@
 
 {% block breadcrumbs %}
   {% if project %}
-    <li>
+    <li class="breadcrumb-item">
       <a href="{{ project.get_absolute_url }}">{{ project }}</a>
     </li>
-    <li>
+    <li class="breadcrumb-item">
       <a href="{% url 'machinery-list' project=project.slug %}">{% translate "Automatic suggestions" %}</a>
     </li>
-    <li>
+    <li class="breadcrumb-item">
       <a href="{% url 'machinery-edit' project=project.slug machinery=machinery_id %}">{{ machinery_name }}</a>
     </li>
   {% else %}
-    <li>
+    <li class="breadcrumb-item">
       <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
     </li>
-    <li>
+    <li class="breadcrumb-item">
       <a href="{% url 'manage-machinery' %}">{% translate "Automatic suggestions" %}</a>
     </li>
   {% endif %}

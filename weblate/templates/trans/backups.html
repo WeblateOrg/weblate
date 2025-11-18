@@ -3,10 +3,10 @@
 {% load humanize i18n translations %}
 
 {% block breadcrumbs %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{{ object.get_absolute_url }}">{{ object }}</a>
   </li>
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'backups' project=object.slug %}">{% translate "Backups" %}</a>
   </li>
 {% endblock breadcrumbs %}

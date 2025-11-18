@@ -3,10 +3,10 @@
 {% load authnames crispy_forms_tags i18n permissions translations %}
 
 {% block breadcrumbs %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
   </li>
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'manage-appearance' %}">{% translate "Appearance" %}</a>
   </li>
 {% endblock breadcrumbs %}

@@ -3,10 +3,10 @@
 {% load authnames crispy_forms_tags i18n icons otp_webauthn translations %}
 
 {% block breadcrumbs %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'profile' %}">{% translate "Your profile" %}</a>
   </li>
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'recovery-codes' %}">{% translate "Recovery codes" %}</a>
   </li>
 {% endblock breadcrumbs %}

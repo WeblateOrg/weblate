@@ -17,10 +17,10 @@
 
 {% block breadcrumbs %}
   {% path_object_breadcrumbs object.translation.component %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'screenshots' path=object.translation.component.get_url_path %}">{% translate "Screenshots" %}</a>
   </li>
-  <li>
+  <li class="breadcrumb-item">
     <a href="{{ object.get_absolute_url }}">{{ object.name }}</a>
   </li>
 {% endblock breadcrumbs %}

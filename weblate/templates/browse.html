@@ -13,10 +13,10 @@
 {% block breadcrumbs %}
   {% path_object_breadcrumbs object %}
 
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'browse' path=object.get_url_path %}">{% translate "Browse" %}</a>
   </li>
-  <a class="float-end" href="{{ object.get_widgets_url }}">
+  <a class="ms-auto" href="{{ object.get_widgets_url }}">
     <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
   </a>
 {% endblock breadcrumbs %}

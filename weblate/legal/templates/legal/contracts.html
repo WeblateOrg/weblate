@@ -3,10 +3,10 @@
 {% load i18n translations %}
 
 {% block breadcrumbs %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'legal:index' %}">{% translate "Legal" %}</a>
   </li>
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'legal:contracts' %}">{% translate "Privacy" %}</a>
   </li>
 {% endblock breadcrumbs %}

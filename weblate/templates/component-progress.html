@@ -5,7 +5,7 @@
 {% block breadcrumbs %}
   {% path_object_breadcrumbs object %}
 
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'show_progress' path=object.get_url_path %}">{% translate "Progress" %}</a>
   </li>
 {% endblock breadcrumbs %}

@@ -3,10 +3,10 @@
 {% load authnames crispy_forms_tags i18n icons otp_webauthn translations %}
 
 {% block breadcrumbs %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'profile' %}">{% translate "Your profile" %}</a>
   </li>
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'totp' %}">{% translate "Register new authenticator app" %}</a>
   </li>
 {% endblock breadcrumbs %}

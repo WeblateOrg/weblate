@@ -3,10 +3,10 @@
 {% load crispy_forms_tags i18n %}
 
 {% block breadcrumbs %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'languages' %}">{% translate "Languages" %}</a>
   </li>
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'create-language' %}">{% translate "Add language" %}</a>
   </li>
 {% endblock breadcrumbs %}

@@ -31,10 +31,10 @@
 {% endblock nav_pills %}
 
 {% block breadcrumbs %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{{ object.get_absolute_url }}">{{ object }}</a>
   </li>
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'manage-access' project=object.slug %}">{% translate "Access control" %}</a>
   </li>
 {% endblock breadcrumbs %}

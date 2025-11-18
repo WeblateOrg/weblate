@@ -4,7 +4,7 @@
 
 {% block breadcrumbs %}
   <li>
-    <a href="{% url "profile" %}#teams">{% translate "Invitations" %}</a>
+    <a class="breadcrumb-item" href="{% url "profile" %}#teams">{% translate "Invitations" %}</a>
   </li>
   <li>
     <a href="{{ object.get_absolute_url }}">{% translate "Invitation" %}</a>
