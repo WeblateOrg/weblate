@@ -67,9 +67,9 @@
       <div class="col-sm-9">
 
         <form action="{{ this_unit_url }}" method="post" class="translation-form translator">
-          <div class="card {% if unit.approved %}text-bg-success{% elif unit.is_source %}text-bg-warning{% endif %}">
+          <div class="card">
 
-            <div class="card-header">
+            <div class="card-header {% if unit.approved %}text-bg-success{% elif unit.is_source %}text-bg-warning{% endif %}">
               <a class="btn btn-link btn-xs float-end"
                  href="{{ site_url }}{{ unit.get_absolute_url }}"
                  data-clipboard-value="{{ site_url }}{{ unit.get_absolute_url }}"
@@ -588,8 +588,8 @@
       <div class="col-sm-3 source-info">
 
         {% if unit.all_checks or comments_to_check or unit.suggestions or variants|length > 1 or display_checks %}
-          <div class="card text-bg-danger">
-            <div class="card-header">
+          <div class="card">
+            <div class="card-header text-bg-danger">
               <h4 class="card-title">{% translate "Things to check" %}</h4>
             </div>
 
