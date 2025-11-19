@@ -27,11 +27,20 @@ def get_env_str(
             msg = f"Failed to open {filename} as specified by {file_env}: {error}"
             raise ImproperlyConfigured(msg) from error
     else:
-        if fallback_name and name not in os.environ:
-            name = fallback_name
         result = os.environ.get(
             name,
-            default,  # type: ignore[arg-type]
+            default if not fallback_name else None,  # type: ignore[arg-type]
+        )
+    # Also allow files for fallback names.
+    # The logic is as follows (if fallback is given):
+    # 1) Try `_FILE` variant of `name` first.
+    # 2) Try `name` directly but do not pass default to get `None` in case it does not exist.
+    # 3) Try `_FILE` variant of `fallback_name`.
+    # 4) Finally, try `fallback_name` directly, using the given default.
+    # If after all these steps no value is found, but it is required => fail.
+    if not result and fallback_name:
+        result = get_env_str(
+            fallback_name, default=default, required=False, fallback_name=None
         )
     if required and not result:
         msg = f"{name} has to be configured!"
@@ -39,11 +48,34 @@ def get_env_str(
     return result
 
 
+def get_env_list_or_none(name: str) -> list[str] | None:
+    """Get list from environment."""
+    string_value = get_env_str(name)
+    if string_value is not None:
+        return string_value.split(",")
+    return None
+
+
 def get_env_list(name: str, default: list[str] | None = None) -> list[str]:
     """Get list from environment."""
-    if name not in os.environ:
-        return default or []
-    return os.environ[name].split(",")
+    env_list = get_env_list_or_none(name)
+    if env_list is not None:
+        return env_list
+    return default or []
+
+
+def get_env_map_or_none(name: str) -> dict[str, str] | None:
+    """
+    Get mapping from environment.
+
+    parses 'full_name:name,email:mail' into {'email': 'mail', 'full_name': 'name'}
+    """
+    parsed_list = get_env_list_or_none(name)
+    if parsed_list is not None:
+        if parsed_list == [""]:
+            return {}
+        return dict(e.split(":") for e in parsed_list)
+    return None
 
 
 def get_env_map(name: str, default: dict[str, str] | None = None) -> dict[str, str]:
@@ -52,28 +84,39 @@ def get_env_map(name: str, default: dict[str, str] | None = None) -> dict[str, s
 
     parses 'full_name:name,email:mail' into {'email': 'mail', 'full_name': 'name'}
     """
-    if os.environ.get(name):
-        return dict(e.split(":") for e in os.environ[name].split(","))
+    env_map = get_env_map_or_none(name)
+    if env_map is not None:
+        return env_map
     return default or {}
 
 
-def get_env_int(name: str, default: int = 0) -> int:
+def get_env_int_or_none(name: str) -> int | None:
     """Get integer value from environment."""
-    if name not in os.environ:
-        return default
+    string_value = get_env_str(name)
+    if string_value is None:
+        return None
     try:
-        return int(os.environ[name])
+        return int(string_value)
     except ValueError as error:
         msg = f"{name} is not an integer: {error}"
         raise ImproperlyConfigured(msg) from error
 
 
+def get_env_int(name: str, default: int = 0) -> int:
+    """Get integer value from environment."""
+    env_int = get_env_int_or_none(name)
+    if env_int is not None:
+        return env_int
+    return default
+
+
 def get_env_float(name: str, default: float = 0.0) -> float:
     """Get float value from environment."""
-    if name not in os.environ:
+    string_value = get_env_str(name)
+    if string_value is None:
         return default
     try:
-        return float(os.environ[name])
+        return float(string_value)
     except ValueError as error:
         msg = f"{name} is not an float: {error}"
         raise ImproperlyConfigured(msg) from error
@@ -81,10 +124,11 @@ def get_env_float(name: str, default: float = 0.0) -> float:
 
 def get_env_bool(name: str, default: bool = False) -> bool:
     """Get boolean value from environment."""
-    if name not in os.environ:
+    string_value = get_env_str(name)
+    if string_value is None:
         return default
     true_values = {"true", "yes", "1"}
-    return os.environ[name].lower() in true_values
+    return string_value.lower() in true_values
 
 
 def modify_env_list(current: list[str], name: str) -> list[str]:
@@ -107,10 +151,10 @@ def get_env_credentials(
             msg = f"Could not parse {name}_CREDENTIALS: {error}"
             raise ImproperlyConfigured(msg) from error
 
-    username = os.environ.get(f"WEBLATE_{name}_USERNAME", "")
-    token = os.environ.get(f"WEBLATE_{name}_TOKEN", "")
-    host = os.environ.get(f"WEBLATE_{name}_HOST")
-    organization = os.environ.get(f"WEBLATE_{name}_ORGANIZATION")
+    host = get_env_str(f"WEBLATE_{name}_HOST")
+    username = get_env_str(f"WEBLATE_{name}_USERNAME", "")
+    token = get_env_str(f"WEBLATE_{name}_TOKEN", "")
+    organization = get_env_str(f"WEBLATE_{name}_ORGANIZATION")
 
     if not host:
         if username or token:
@@ -127,7 +171,7 @@ def get_env_credentials(
 
 
 def get_env_ratelimit(name: str, default: str) -> str:
-    value = os.environ.get(name, default)
+    value = get_env_str(name, default)
 
     # Taken from rest_framework.throttling.SimpleRateThrottle.parse_rate
     # it can not be imported here as that breaks config loading for

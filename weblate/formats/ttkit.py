@@ -58,9 +58,9 @@ from weblate.trans.util import (
 from weblate.utils.errors import report_error
 from weblate.utils.files import cleanup_error_message
 from weblate.utils.state import (
+    FUZZY_STATES,
     STATE_APPROVED,
     STATE_EMPTY,
-    STATE_FUZZY,
     STATE_READONLY,
     STATE_TRANSLATED,
 )
@@ -166,7 +166,7 @@ class TTKitUnit(TranslationUnit):
         """Set fuzzy /approved flag on translated unit."""
         if "flags" in self.__dict__:
             del self.__dict__["flags"]
-        self.unit.markfuzzy(state == STATE_FUZZY)
+        self.unit.markfuzzy(state in FUZZY_STATES)
         if hasattr(self.unit, "markapproved"):
             self.unit.markapproved(state == STATE_APPROVED)
 
@@ -517,6 +517,7 @@ class TTKitFormat(TranslationFormat):
             if not unit.isobsolete() and not unit.isheader()
         )
 
+    # pylint: disable-next=useless-return
     def delete_unit(self, ttkit_unit) -> str | None:
         self.store.removeunit(ttkit_unit)
         return None
@@ -552,7 +553,7 @@ class PoUnit(TTKitUnit):
     def set_state(self, state) -> None:
         """Set fuzzy /approved flag on translated unit."""
         super().set_state(state)
-        if state != STATE_FUZZY:
+        if state not in FUZZY_STATES:
             self.unit.prev_msgid = []
             self.unit.prev_msgid_plural = []
             self.unit.prev_msgctxt = []
@@ -698,7 +699,7 @@ class XliffUnit(TTKitUnit):
         """Set fuzzy /approved flag on translated unit."""
         self.unit.markapproved(state == STATE_APPROVED)
         target_state = None
-        if state == STATE_FUZZY:
+        if state in FUZZY_STATES:
             # Always set state for fuzzy
             target_state = "needs-translation"
         elif state == STATE_TRANSLATED:
@@ -1236,19 +1237,18 @@ class PoFormat(BasePoFormat, BilingualUpdateMixin):
             raise UpdateError(
                 " ".join(cmd), cleanup_error_message(error_output)
             ) from error
-        else:
-            # The warnings can cause corruption (for example in case
-            # PO file header is missing ASCII encoding is assumed)
-            errors = []
-            for line in result.stderr.splitlines():
-                if (
-                    "warning: internationalized messages should not contain the" in line
-                    or ". done." in line
-                ):
-                    continue
-                errors.append(line)
-            if errors:
-                raise UpdateError(" ".join(cmd), "\n".join(errors))
+        # The warnings can cause corruption (for example in case
+        # PO file header is missing ASCII encoding is assumed)
+        errors = []
+        for line in result.stderr.splitlines():
+            if (
+                "warning: internationalized messages should not contain the" in line
+                or ". done." in line
+            ):
+                continue
+            errors.append(line)
+        if errors:
+            raise UpdateError(" ".join(cmd), "\n".join(errors))
 
 
 class PoMonoFormat(BasePoFormat):
@@ -2309,8 +2309,6 @@ class StringsdictFormat(DictStoreFormat):
         plural = super().get_plural(language, store)
         if plural.type in ZERO_PLURAL_TYPES:
             return plural
-
-        from weblate.lang.models import Plural
 
         return language.plural_set.get_or_create(
             source=Plural.SOURCE_CLDR_ZERO,

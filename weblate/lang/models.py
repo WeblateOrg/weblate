@@ -848,7 +848,7 @@ class Language(models.Model, CacheKeyMixin):
             aliases.extend(
                 default_lang
                 for default_lang in DEFAULT_LANGS
-                if default_lang.startswith(self.code)
+                if default_lang.startswith(f"{self.code}_")
             )
         return sorted(aliases)
 

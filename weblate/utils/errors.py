@@ -51,6 +51,7 @@ def report_error(
     This can be used for store exceptions in error reporting solutions as rollbar while
     handling error gracefully and giving user cleaner message.
     """
+    # pylint: disable-next=unused-variable
     __traceback_hide__ = True  # noqa: F841
     if HAS_ROLLBAR and hasattr(settings, "ROLLBAR"):
         rollbar.report_exc_info(level=level)

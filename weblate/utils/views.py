@@ -9,6 +9,8 @@ from __future__ import annotations
 import os
 import time
 from contextlib import suppress
+
+# pylint: disable-next=unused-import
 from typing import TYPE_CHECKING, BinaryIO, cast
 from zipfile import ZipFile
 
@@ -365,49 +367,49 @@ def parse_path_units(
 ):
     obj = parse_path(request, path, types)
 
+    access_units = Unit.objects.filter_access(request.user)
+
     context = {"components": None, "path_object": obj}
     if isinstance(obj, Translation):
+        # Not using access_units because parse_path performed the permission check
         unit_set = obj.unit_set.all()
         context["translation"] = obj
         context["component"] = obj.component
         context["project"] = obj.component.project
         context["components"] = [obj.component]
     elif isinstance(obj, Component):
+        # Not using access_units because parse_path performed the permission check
         unit_set = Unit.objects.filter(translation__component=obj).prefetch()
         context["component"] = obj
         context["project"] = obj.project
         context["components"] = [obj]
     elif isinstance(obj, Project):
-        unit_set = Unit.objects.filter(translation__component__project=obj).prefetch()
+        unit_set = access_units.filter(translation__component__project=obj).prefetch()
         context["project"] = obj
     elif isinstance(obj, ProjectLanguage):
-        unit_set = Unit.objects.filter(
+        unit_set = access_units.filter(
             translation__component__project=obj.project,
             translation__language=obj.language,
         ).prefetch()
         context["project"] = obj.project
         context["language"] = obj.language
     elif isinstance(obj, Category):
-        unit_set = Unit.objects.filter(
+        unit_set = access_units.filter(
             translation__component_id__in=obj.all_component_ids
         ).prefetch()
         context["project"] = obj.project
     elif isinstance(obj, CategoryLanguage):
-        unit_set = Unit.objects.filter(
+        unit_set = access_units.filter(
             translation__component_id__in=obj.category.all_component_ids,
             translation__language=obj.language,
         ).prefetch()
         context["project"] = obj.category.project
         context["language"] = obj.language
     elif isinstance(obj, Language):
-        unit_set = (
-            Unit.objects.filter_access(request.user)
-            .filter(translation__language=obj)
-            .prefetch()
-        )
+        unit_set = access_units.filter(translation__language=obj).prefetch()
         context["language"] = obj
     elif obj is None:
-        unit_set = Unit.objects.filter_access(request.user)
+        unit_set = access_units
     else:
         msg = f"Unsupported result: {obj}"
         raise TypeError(msg)
@@ -628,8 +630,7 @@ def get_form_data(data: dict[str, str | int | None]) -> dict[str, str | int]:
 
 
 def get_form_errors(form):
-    for error in form.non_field_errors():
-        yield error
+    yield from form.non_field_errors()
     for field in form:
         for error in field.errors:
             yield gettext("Error in parameter %(field)s: %(error)s") % {

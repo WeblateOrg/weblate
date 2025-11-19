@@ -20,8 +20,8 @@ class PagesSitemap(Sitemap):
             ("/keys/", 0.4, "weekly"),
         )
 
-    def location(self, obj):
-        return obj[0]
+    def location(self, item):
+        return item[0]
 
     def lastmod(self, item):
         try:
@@ -96,8 +96,8 @@ class EngageSitemap(ProjectSitemap):
 
     priority = 1.0
 
-    def location(self, obj):
-        return reverse("engage", kwargs={"path": obj.get_url_path()})
+    def location(self, item):
+        return reverse("engage", kwargs={"path": item.get_url_path()})
 
 
 class EngageLangSitemap(EngageSitemap):

@@ -38,8 +38,8 @@ from weblate.trans.models import Category, Component, Project, Translation
 from weblate.trans.util import PLURAL_SEPARATOR
 from weblate.utils.db import re_escape, using_postgresql
 from weblate.utils.state import (
+    FUZZY_STATES,
     STATE_APPROVED,
-    STATE_FUZZY,
     STATE_NAMES,
     STATE_READONLY,
     STATE_TRANSLATED,
@@ -383,8 +383,6 @@ class BaseTermExpr:
             return self.date_parse_human(
                 text, hour=hour, minute=minute, second=second, microsecond=microsecond
             )
-            msg = "Could not parse timestamp"
-            raise ValueError(msg)
 
         if (
             hour is None
@@ -555,7 +553,7 @@ class UnitTermExpr(BaseTermExpr):
         if text == "approved":
             return Q(state=STATE_APPROVED)
         if text in {"fuzzy", "needs-editing"}:
-            return Q(state=STATE_FUZZY)
+            return Q(state__in=FUZZY_STATES)
         if text == "translated":
             return Q(state__gte=STATE_TRANSLATED)
         if text == "untranslated":
@@ -758,8 +756,6 @@ class UserTermExpr(BaseTermExpr):
         return Q(username__icontains=self.match) | Q(full_name__icontains=self.match)
 
     def contributes_field(self, text: str, context: dict) -> Q:
-        from weblate.trans.models import Component
-
         if "/" not in text:
             return Q(change__project__slug__iexact=text)
         return Q(

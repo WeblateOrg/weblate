@@ -27,7 +27,12 @@ from django.utils import timezone
 
 from weblate.trans.functions import MySQLTimestampAdd
 from weblate.utils.db import using_postgresql
-from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, StringState
+from weblate.utils.state import (
+    FUZZY_STATES,
+    STATE_APPROVED,
+    STATE_FUZZY,
+    StringState,
+)
 from weblate.utils.version import GIT_VERSION
 
 if TYPE_CHECKING:
@@ -248,7 +253,7 @@ class PendingChangeQuerySet(models.QuerySet):
 
         filters = []
         if commit_policy == CommitPolicyChoices.WITHOUT_NEEDS_EDITING:
-            filters.append(~Q(state=STATE_FUZZY))
+            filters.append(~Q(state__in=FUZZY_STATES))
         elif commit_policy == CommitPolicyChoices.APPROVED_ONLY:
             filters.append(Q(state=STATE_APPROVED))
 

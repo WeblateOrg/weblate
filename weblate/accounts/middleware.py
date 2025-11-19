@@ -45,9 +45,6 @@ class AuthenticationMiddleware(OTPMiddleware):
     It subclasses OTPMiddleware to get access to _verify_user.
     """
 
-    def __init__(self, get_response=None) -> None:
-        self.get_response = get_response
-
     def __call__(self, request: AuthenticatedHttpRequest):
         from weblate.lang.models import Language
 

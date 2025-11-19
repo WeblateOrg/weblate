@@ -47,7 +47,7 @@ scripts = [
   "tinyunicodeblock==1.3"
 ]
 test = [
-  "coverage==7.11.3",
+  "coverage==7.12.0",
   "pytest-cov==7.0.0",
   "pytest-django==4.11.1",
   "pytest-github-actions-annotate-failures==0.3.0",
@@ -59,7 +59,7 @@ test = [
   "selenium==4.38.0"
 ]
 types = [
-  "boto3-stubs==1.40.74",
+  "boto3-stubs==1.40.76",
   "celery-types==0.23.0",
   "django-stubs-ext==5.2.7",
   "django-stubs[compatible-mypy]==5.2.7",
@@ -208,7 +208,7 @@ gerrit = [
   "git-review>=2.4.0,<2.6.0"
 ]
 google = [
-  "google-cloud-storage>=2.18.2,<3.6",
+  "google-cloud-storage>=2.18.2,<3.7",
   "google-cloud-translate>=3.13.0,<4.0"
 ]
 ldap = [
@@ -271,7 +271,6 @@ ignore = [
   "*.yml",
   ".dclintrc",
   ".editorconfig",
-  ".gitmodules",
   ".gitmodules",
   ".imgbotconfig",
   ".reuse/dep5",
@@ -428,22 +427,57 @@ max_allowed_size_uncompressed = '300M'
 
 [tool.pylint.main]
 disable = [
-  "C",
+  "abstract-method",  # TODO
+  "arguments-differ",  # TODO
+  "arguments-renamed",  # TODO
+  "attribute-defined-outside-init",  # TODO
+  "broad-exception-caught",  # TODO
   "c-extension-no-member",
-  "I",
+  "consider-using-f-string",  # TODO
+  "consider-using-with",  # TODO
+  "cyclic-import",
+  "duplicate-code",  # TODO
+  "fixme",
   "import-error",
+  "import-outside-toplevel",
+  "invalid-name",  # TODO
+  "invalid-overridden-method",  # TODO
   "invalid-str-returned",
+  "keyword-arg-before-vararg",  # TODO
+  "line-too-long",
+  "missing-class-docstring",
+  "missing-function-docstring",
+  "missing-module-docstring",
   "no-member",
   "no-name-in-module",
   "not-a-mapping",
   "not-an-iterable",
   "not-callable",
-  "R",
+  "protected-access",  # TODO
   "raising-bad-type",
+  "redefined-builtin",  # TODO
+  "redefined-outer-name",  # TODO
+  "too-few-public-methods",
+  "too-many-ancestors",
+  "too-many-arguments",
+  "too-many-boolean-expressions",
+  "too-many-branches",
+  "too-many-instance-attributes",
+  "too-many-lines",
+  "too-many-locals",
+  "too-many-nested-blocks",
+  "too-many-positional-arguments",
+  "too-many-positional-arguments",
+  "too-many-public-methods",
+  "too-many-return-statements",
+  "too-many-statements",
+  "unspecified-encoding",  # TODO
   "unsubscriptable-object",
+  "unsupported-assignment-operation",  # TODO
   "unsupported-binary-operation",
+  "unsupported-delete-operation",  # TODO
   "unsupported-membership-test",
-  "W"
+  "unused-argument"
 ]
 extension-pkg-whitelist = ["siphashc"]
 ignore = [
@@ -649,8 +683,10 @@ Vai = "Vai"  # Language name
 [tool.typos.default.extend-words]
 # Name
 Automattic = "Automattic"
+billling = "billing"
 # Used in settings, but could be fixed
 COMMITER = "COMMITER"  # codespell:ignore
+hasttr = "hasattr"
 # Open Document Format acronym
 ODF = "ODF"
 # Often misspelled Weblate variants

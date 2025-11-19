@@ -16,7 +16,7 @@ from django.utils.translation import gettext, gettext_lazy
 
 from weblate.checks.base import BatchCheckMixin, SourceCheck
 from weblate.utils.html import format_html_join_comma
-from weblate.utils.state import STATE_EMPTY, STATE_FUZZY
+from weblate.utils.state import FUZZY_STATES, STATE_EMPTY
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -165,7 +165,9 @@ class LongUntranslatedCheck(SourceCheck, BatchCheckMixin):
 
         states = list(unit.unit_set.values_list("state", flat=True))
         total = len(states)
-        not_translated = states.count(STATE_EMPTY) + states.count(STATE_FUZZY)
+        not_translated = states.count(STATE_EMPTY) + sum(
+            states.count(state) for state in FUZZY_STATES
+        )
         translated_percent = 100 * (total - not_translated) / total
         return (
             total
@@ -184,7 +186,9 @@ class LongUntranslatedCheck(SourceCheck, BatchCheckMixin):
             .values_list("source_unit_id")
             .annotate(
                 total=Count("state"),
-                not_translated=Count("state", filter=Q(state__lte=STATE_FUZZY)),
+                not_translated=Count(
+                    "state", filter=Q(state__in=[STATE_EMPTY, *FUZZY_STATES])
+                ),
             )
             .filter(total__gt=0)
             .annotate(

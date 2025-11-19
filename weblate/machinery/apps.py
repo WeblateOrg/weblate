@@ -27,6 +27,7 @@ def check_machinery(
     from weblate.machinery.models import MACHINERY
 
     # Needed to load the data
+    # pylint: disable-next=pointless-statement
     MACHINERY.data  # noqa: B018
     return [
         weblate_check(

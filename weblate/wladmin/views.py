@@ -6,6 +6,8 @@ from __future__ import annotations
 
 import sys
 from shutil import disk_usage
+
+# pylint: disable-next=unused-import
 from typing import TYPE_CHECKING, Any, Literal, cast
 from urllib.parse import quote
 

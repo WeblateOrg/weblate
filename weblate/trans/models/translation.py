@@ -5,9 +5,9 @@
 from __future__ import annotations
 
 import codecs
-import contextlib
 import os
 import tempfile
+from contextlib import suppress
 from datetime import UTC
 from itertools import chain
 from pathlib import Path
@@ -361,7 +361,7 @@ class Translation(
             )
 
     @cached_property
-    def store(self):
+    def store(self) -> TranslationFormat:
         """Return translate-toolkit storage object for a translation."""
         try:
             return self.load_store()
@@ -372,6 +372,7 @@ class Translation(
                 "Translation parse error", project=self.component.project, print_tb=True
             )
             self.component.handle_parse_error(exc, self)
+            raise
 
     def pre_process_unit(
         self,
@@ -399,7 +400,7 @@ class Translation(
         )
         return newunit
 
-    def check_sync(  # noqa: C901
+    def check_sync(  # noqa: C901, PLR0915
         self,
         force: bool = False,
         request: AuthenticatedHttpRequest | None = None,
@@ -500,13 +501,14 @@ class Translation(
                             translated_unit, created = translation_store.find_unit(
                                 unit.context, unit.source
                             )
+                        except UnitNotFoundError:
+                            pass
+                        else:
                             if translated_unit and not created:
                                 unit = translated_unit
                             else:
                                 # Patch unit to have matching source
                                 unit.source = translated_unit.source
-                        except UnitNotFoundError:
-                            pass
                     if (
                         self.component.file_format_cls.monolingual
                         and self.component.key_filter_re
@@ -563,7 +565,8 @@ class Translation(
                 # Create/update translations
                 for newunit in updated.values():
                     with sentry_sdk.start_span(
-                        op="unit.update_from_unit", name=f"{self.full_slug}:{pos}"
+                        op="unit.update_from_unit",
+                        name=f"{self.full_slug}:{newunit.unit_attributes['pos']}",
                     ):
                         newunit.update_from_unit(user=user, author=author)
 
@@ -1668,7 +1671,7 @@ class Translation(
         # Remove blank directory if still present (appstore)
         filename = Path(self.get_filename())
         if filename.is_dir():
-            with contextlib.suppress(OSError):
+            with suppress(OSError):
                 filename.rmdir()
 
         # Delete from the database
@@ -1847,6 +1850,9 @@ class Translation(
             if (skip_existing or not self.is_source) and is_source:
                 try:
                     unit = component.get_source(id_hash)
+                except Unit.DoesNotExist:
+                    pass
+                else:
                     flags = Flags(unit.extra_flags)
                     flags.merge(extra_flags)
                     new_flags = flags.format()
@@ -1860,8 +1866,6 @@ class Translation(
                             same_content=True,
                             sync_terminology=False,
                         )
-                except Unit.DoesNotExist:
-                    pass
             if unit is None:
                 if "read-only" in translation.all_flags or (
                     component.is_glossary and "read-only" in parsed_flags
@@ -2124,7 +2128,6 @@ class Translation(
                 extra_flags=extra_flags,
                 explanation=explanation,
             )
-            return
 
     @property
     def all_repo_components(self):

@@ -570,7 +570,7 @@ class GlossaryTranslationTest(BaseMachineTranslationTest):
                 unit, "en", "cs", source_text, 75, {}
             )
             self.assertIsNotNone(cache_key)
-            self.assertTrue(len(result) > 0)
+            self.assertGreater(len(result), 0)
             self.assertIsNotNone(result)
 
         with patch(
@@ -690,6 +690,7 @@ class ApertiumAPYTranslationTest(BaseMachineTranslationTest):
         machine = self.get_machine()
         machine.validate_settings()
         self.assertEqual(len(responses.calls), 2)
+        # pylint: disable-next=unbalanced-tuple-unpacking
         _, call_2 = responses.calls
         self.assertIn("langpair", call_2.request.params)
         self.assertEqual("eng|spa", call_2.request.params["langpair"])

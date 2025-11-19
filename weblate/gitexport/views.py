@@ -10,6 +10,8 @@ from contextlib import suppress
 from email import message_from_string
 from functools import partial
 from selectors import EVENT_READ, DefaultSelector
+
+# pylint: disable-next=unused-import
 from typing import TYPE_CHECKING, BinaryIO, cast
 
 from django.contrib.auth.decorators import login_not_required
