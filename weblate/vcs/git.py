@@ -130,7 +130,7 @@ class GitRepository(Repository):
         locks = LOCK_ERROR.findall(errormessage)
         if locks and len(locks) == 1:
             lock = Path(locks[0])
-            if time.time() - lock.stat().st_mtime > LOCK_STALE_SECONDS:
+            if time() - lock.stat().st_mtime > LOCK_STALE_SECONDS:
                 lock.unlink(missing_ok=True)
                 return True
         return False
