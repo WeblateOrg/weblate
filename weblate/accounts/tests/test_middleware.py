@@ -4,11 +4,17 @@
 
 """Tests for user middleware."""
 
+from __future__ import annotations
+
+from typing import TYPE_CHECKING
+
 from django.contrib.auth.decorators import login_not_required
-from django.http import HttpRequest
 from django.test import TestCase, override_settings
 
 from weblate.auth.models import User
+
+if TYPE_CHECKING:
+    from django.http import HttpRequest
 
 
 class MiddlewareTest(TestCase):
