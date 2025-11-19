@@ -20,12 +20,12 @@ class MiddlewareTest(TestCase):
     """
 
     @login_not_required
-    def public_view(self, request) -> str:
-        """A public view marked with @login_not_required decorator."""
+    def public_view(self, request: HttpRequest) -> str:
+        """View not requiring login."""
         return "PUBLIC_VIEW"
 
-    def protected_view(self, request) -> str:
-        """A protected view without the @login_not_required decorator."""
+    def protected_view(self, request: HttpRequest) -> str:
+        """View requiring login."""
         return "PROTECTED_VIEW"
 
     @override_settings(

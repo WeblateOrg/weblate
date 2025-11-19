@@ -866,6 +866,7 @@ class BaseLoginView(LoginView):
         return HttpResponseRedirect(self.get_success_url())
 
 
+@method_decorator(login_not_required, name="dispatch")
 class WeblateLoginView(BaseLoginView):
     """Login handler, just a wrapper around standard Django login."""
 
@@ -1850,6 +1851,7 @@ class SecondFactorMixin(View):
         return user
 
 
+@method_decorator(login_not_required, name="dispatch")
 class SecondFactorLoginView(SecondFactorMixin, RedirectURLMixin, FormView):
     template_name = "accounts/2fa.html"
     next_page = settings.LOGIN_REDIRECT_URL
