@@ -39,6 +39,12 @@ CYRTRANSLIT_TO_WEBLATE_LANGS = {
     # ukrainian
     "ua@latin": [],
     "ua@cyrillic": ["uk"],
+    # Greek
+    "el@latin": ["el_Latn"],
+    "el@cyrillic": ["el"],
+    # Belarusian
+    "be@latin": ["by_Latn"],
+    "be@cyrillic": ["by"],
 }
 
 
