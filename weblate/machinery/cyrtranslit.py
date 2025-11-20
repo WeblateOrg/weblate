@@ -102,9 +102,9 @@ class CyrTranslitTranslation(MachineTranslation):
         target_language, script = target_language.split("@")
 
         translated_text = (
-            cyrtranslit.to_cyrillic(text, target_language)
+            cyrtranslit.to_cyrillic(text, target_language, preserve_accents=True)
             if script == "cyrillic"
-            else cyrtranslit.to_latin(text, target_language)
+            else cyrtranslit.to_latin(text, target_language, preserve_accents=True)
         )
 
         yield TranslationResultDict(
