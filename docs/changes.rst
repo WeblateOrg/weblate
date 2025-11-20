@@ -13,6 +13,7 @@ Weblate 5.15
 * Added disk usage overview in :ref:`manage-performance`.
 * :http:get:`/api/groups/` now includes ``admins``.
 * :ref:`mt-modernmt` better supports language variants.
+* :ref:`addon-weblate.discovery.discovery` preserves :ref:`file_format_params`.
 
 .. rubric:: Bug fixes
 
