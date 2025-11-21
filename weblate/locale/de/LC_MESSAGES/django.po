@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-27 07:35+0000\n"
-"PO-Revision-Date: 2025-10-27 11:10+0000\n"
+"PO-Revision-Date: 2025-11-22 09:51+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
@@ -29,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.1-dev\n"
+"X-Generator: Weblate 5.15-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -162,7 +162,7 @@ msgstr "Ihr Name"
 
 #: weblate/accounts/forms.py:608
 msgid "Your e-mail"
-msgstr "Ihre E-Mail"
+msgstr "Ihre E-Mail-Adresse"
 
 #: weblate/accounts/forms.py:610 weblate/templates/manage/performance.html:28
 #: weblate/templates/manage/performance.html:81
@@ -493,7 +493,7 @@ msgstr "Mit {method} ({name}) von einem neuen Gerät aus angemeldet."
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:258
 msgid "Somebody attempted to register with your e-mail."
-msgstr "Jemand hat versucht, sich mit Ihrer E-Mail zu registrieren."
+msgstr "Jemand hat versucht, sich mit Ihrer E-Mail-Adresse zu registrieren."
 
 #: weblate/accounts/models.py:261
 msgid "Somebody attempted to register using your e-mail address."
@@ -561,7 +561,7 @@ msgid ""
 "The system created a user to track authorship of translations uploaded by "
 "other user."
 msgstr ""
-"Das System hat einen Benutzer angelegt, um die Urheberschaft von "
+"Das System hat einen Benutzer erstellt, um die Urheberschaft von "
 "Übersetzungen nachzuverfolgen, die von anderen Benutzern hochgeladen wurden."
 
 #. Translators: Audit log entry
@@ -1289,7 +1289,7 @@ msgstr "Abgemeldet"
 
 #: weblate/accounts/views.py:1026
 msgid "Register e-mail"
-msgstr "E-Mail registrieren"
+msgstr "E-Mail-Adresse registrieren"
 
 #: weblate/accounts/views.py:1042 weblate/accounts/views.py:1117
 msgid "Cannot reset password, e-mail authentication is turned off."
@@ -1358,7 +1358,7 @@ msgstr ""
 
 #: weblate/accounts/views.py:1417
 msgid "Please register using e-mail instead."
-msgstr "Bitte registrieren Sie sich stattdessen per E-Mail."
+msgstr "Bitte registrieren Sie sich stattdessen per E-Mail-Adresse."
 
 #: weblate/accounts/views.py:1424
 msgid "New registrations are turned off."
@@ -1735,7 +1735,7 @@ msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
 msgstr ""
-"Dateiname, der zum Anlegen neuer Übersetzungen verwendet wird. Für "
+"Dateiname, der zum Erstellen neuer Übersetzungen verwendet wird. Für "
 "gettext, .pot-Datei auswählen."
 
 #: weblate/addons/forms.py:221
@@ -2164,7 +2164,7 @@ msgstr ""
 
 #: weblate/api/serializers.py:372
 msgid "Commenter’s email"
-msgstr "E-Mail des Kommentators"
+msgstr "E-Mail-Adresse des Kommentators"
 
 #: weblate/api/serializers.py:374
 msgid ""
@@ -6790,7 +6790,7 @@ msgstr "Jetzt starten"
 
 #: weblate/templates/accounts/hosting.html:54
 msgid "Looking for commercial hosting?"
-msgstr "Suchen Sie nach kommerziellem Hosting?"
+msgstr "Auf der Suche nach kommerziellem Hosting?"
 
 #: weblate/templates/accounts/login.html:16
 msgid "This username/password combination was not found. Please try again."
@@ -6813,7 +6813,7 @@ msgstr "Passwort vergessen?"
 
 #: weblate/templates/accounts/login.html:71
 msgid "Register new account"
-msgstr "Neues Konto anlegen"
+msgstr "Neues Konto registrieren"
 
 #: weblate/templates/accounts/password-warning.html:3
 msgid "Please enable the password authentication to secure your account."
@@ -7408,9 +7408,10 @@ msgid ""
 "commits to author the changes you made; they can be stored there "
 "indefinitely."
 msgstr ""
-"Außerdem können Ihr Name und Ihre E-Mail in Commits der Versionsverwaltung "
-"verwendet werden, um die von Ihnen vorgenommenen Änderungen zu vermerken; "
-"sie können dort auf unbestimmte Zeit gespeichert werden."
+"Außerdem können Ihr Name und Ihre E-Mail-Adresse in Commits der "
+"Versionsverwaltung verwendet werden, um die von Ihnen vorgenommenen "
+"Änderungen zu vermerken; sie können dort auf unbestimmte Zeit gespeichert "
+"werden."
 
 #: weblate/templates/accounts/snippets/login-info.html:32
 msgid "You can enable the use of a private commit e-mail in your profile."
@@ -10528,8 +10529,8 @@ msgid ""
 "The password can not be reset because there is no account registered for "
 "this e-mail at %(site_title)s."
 msgstr ""
-"Das Passwort kann nicht zurückgesetzt werden, da für diese E-Mail kein Konto "
-"bei %(site_title)s registriert ist."
+"Das Passwort kann nicht zurückgesetzt werden, da für diese E-Mail-Adresse "
+"kein Konto bei %(site_title)s registriert ist."
 
 #: weblate/templates/mail/reset-nonexisting.html:8
 msgid ""
@@ -11293,9 +11294,8 @@ msgid ""
 "An empty directory will be created for translations, with individual files "
 "created as strings are translated."
 msgstr ""
-"Für die Übersetzungen wird ein leeres Verzeichnis angelegt, in dem die "
-"einzelnen Dateien entsprechend der Übersetzung der Zeichenketten erstellt "
-"werden."
+"Für die Übersetzungen wird ein leeres Verzeichnis erstellt, in dem einzelne "
+"Dateien entsprechend den übersetzten Zeichenketten erstellt werden."
 
 #: weblate/templates/new-language.html:56
 msgid ""
@@ -16274,7 +16274,7 @@ msgstr "Neue Übersetzung hinzufügen"
 
 #: weblate/trans/models/component.py:642
 msgid "How to handle requests for creating new translations."
-msgstr "Wie das Anlegen neuer Übersetzungen angefragt werden kann."
+msgstr "Wie man mit Anfragen zum Erstellen neuer Übersetzungen umgeht."
 
 #: weblate/trans/models/component.py:645
 msgid "Language code style"
@@ -16955,7 +16955,7 @@ msgid ""
 "file into repository."
 msgstr ""
 "Dateiname %s nicht im Repository gefunden! Um eine neue Übersetzung "
-"hinzuzufügen, bitte Sprachdatei im Repository anlegen."
+"hinzuzufügen, bitte Sprachdatei im Repository hinzufügen."
 
 #: weblate/trans/models/translation.py:293
 #, python-format
@@ -18090,7 +18090,7 @@ msgstr "Silber"
 
 #: weblate/utils/fields.py:41
 msgid "A user with this e-mail already exists."
-msgstr "Ein Benutzer mit dieser E-Mail existiert bereits."
+msgstr "Ein Benutzer mit dieser E-Mail-Adresse existiert bereits."
 
 #: weblate/utils/files.py:37
 msgid "Add as translation needing edit"
