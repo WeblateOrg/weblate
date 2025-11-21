@@ -9,6 +9,7 @@ import django.views.i18n
 import django.views.static
 from django.conf import settings
 from django.contrib import admin
+from django.contrib.auth.decorators import login_not_required
 from django.urls import include, path, re_path
 from django.views.decorators.cache import cache_control, cache_page
 from django.views.decorators.vary import vary_on_cookie
@@ -716,8 +717,10 @@ real_patterns = [
     path(
         "js/i18n/",
         cache_page(3600, key_prefix=VERSION)(
-            vary_on_cookie(
-                django.views.i18n.JavaScriptCatalog.as_view(packages=["weblate"])
+            login_not_required(
+                vary_on_cookie(
+                    django.views.i18n.JavaScriptCatalog.as_view(packages=["weblate"])
+                )
             )
         ),
         name="js-catalog",
@@ -906,15 +909,19 @@ real_patterns = [
     path(
         "site.webmanifest",
         cache_control(max_age=86400)(
-            TemplateView.as_view(
-                template_name="site.webmanifest", content_type="application/json"
+            login_not_required(
+                TemplateView.as_view(
+                    template_name="site.webmanifest", content_type="application/json"
+                )
             )
         ),
     ),
     # Redirects for .well-known
     path(
         ".well-known/change-password",
-        RedirectView.as_view(pattern_name="password", permanent=True),
+        login_not_required(
+            RedirectView.as_view(pattern_name="password", permanent=True)
+        ),
     ),
 ]
 

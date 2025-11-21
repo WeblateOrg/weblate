@@ -30,11 +30,11 @@ def highlight_pygments(source: str, unit: Unit) -> Generator[tuple[int, int, str
         for token, text in lexer.get_tokens(source):
             if token == Token.Literal.String:
                 if text[0] == "`" and text != "`_":
-                    yield ((start, start + 1, "`"))
+                    yield (start, start + 1, "`")
                 else:
-                    yield ((start, start + len(text), text))
+                    yield (start, start + len(text), text)
             elif token == Token.Literal.String.Interpol:
-                yield ((start, start + len(text), text))
+                yield (start, start + len(text), text)
             elif token == Token.Generic.Strong:
                 end = start + len(text)
                 yield (start, start + 2, "**")
@@ -68,6 +68,7 @@ def highlight_string(
     highlights.sort(key=lambda item: (item[0], -item[1]))
 
     # Remove overlapping ones
+    # pylint: disable-next=consider-using-enumerate
     for hl_idx in range(len(highlights)):
         if hl_idx >= len(highlights):
             break

@@ -4,6 +4,7 @@
 
 import os
 from logging.handlers import SysLogHandler
+from pathlib import Path
 
 from django.core.exceptions import PermissionDenied
 from django.http import Http404
@@ -18,8 +19,11 @@ from weblate.utils.environment import (
     get_env_credentials,
     get_env_float,
     get_env_int,
+    get_env_int_or_none,
     get_env_list,
+    get_env_list_or_none,
     get_env_map,
+    get_env_map_or_none,
     get_env_ratelimit,
     get_env_redis_url,
     get_env_str,
@@ -79,9 +83,7 @@ if get_env_bool("WEBLATE_DATABASES", True):
             # Customizations for databases.
             "OPTIONS": {"sslmode": get_env_str("POSTGRES_SSL_MODE", "prefer")},
             # Persistent connections
-            "CONN_MAX_AGE": None
-            if "POSTGRES_CONN_MAX_AGE" not in os.environ
-            else get_env_int("POSTGRES_CONN_MAX_AGE"),
+            "CONN_MAX_AGE": get_env_int_or_none("POSTGRES_CONN_MAX_AGE"),
             "CONN_HEALTH_CHECKS": True,
             # Disable server-side cursors, might be needed with pgbouncer
             "DISABLE_SERVER_SIDE_CURSORS": get_env_bool(
@@ -203,8 +205,7 @@ STATICFILES_FINDERS = (
 
 # Make this unique, and don't share it with anybody.
 # You can generate it using weblate-generate-secret-key
-with open("/app/data/secret") as handle:
-    SECRET_KEY = handle.read()
+SECRET_KEY = Path("/app/data/secret").read_text()
 
 TEMPLATES = [
     {
@@ -256,8 +257,10 @@ BITBUCKETCLOUD_CREDENTIALS = get_env_credentials("BITBUCKETCLOUD")
 
 # Default pull request message.
 # Please see the documentation for more details.
-if "WEBLATE_DEFAULT_PULL_MESSAGE" in os.environ:
-    DEFAULT_PULL_MESSAGE = get_env_str("WEBLATE_DEFAULT_PULL_MESSAGE")
+default_pull_msg = get_env_str("WEBLATE_DEFAULT_PULL_MESSAGE")
+if default_pull_msg is not None:
+    DEFAULT_PULL_MESSAGE = default_pull_msg
+del default_pull_msg
 
 # Authentication configuration
 AUTHENTICATION_BACKENDS: tuple[str, ...] = ()
@@ -272,7 +275,7 @@ OTP_WEBAUTHN_ALLOWED_ORIGINS = [SITE_URL]
 OTP_WEBAUTHN_ALLOW_PASSWORDLESS_LOGIN = False
 OTP_WEBAUTHN_HELPER_CLASS = "weblate.accounts.utils.WeblateWebAuthnHelper"
 
-if "WEBLATE_NO_EMAIL_AUTH" not in os.environ:
+if not get_env_str("WEBLATE_NO_EMAIL_AUTH"):
     AUTHENTICATION_BACKENDS += ("social_core.backends.email.EmailAuth",)
 
 # GitHub auth
@@ -381,8 +384,10 @@ if SOCIAL_AUTH_GITLAB_KEY:
     SOCIAL_AUTH_GITLAB_SECRET = get_env_str(
         "WEBLATE_SOCIAL_AUTH_GITLAB_SECRET", required=True
     )
-    if "WEBLATE_SOCIAL_AUTH_GITLAB_API_URL" in os.environ:
-        SOCIAL_AUTH_GITLAB_API_URL = get_env_str("WEBLATE_SOCIAL_AUTH_GITLAB_API_URL")
+    gitlab_api_url = get_env_str("WEBLATE_SOCIAL_AUTH_GITLAB_API_URL")
+    if gitlab_api_url is not None:
+        SOCIAL_AUTH_GITLAB_API_URL = gitlab_api_url
+    del gitlab_api_url
     AUTHENTICATION_BACKENDS += ("social_core.backends.gitlab.GitLabOAuth2",)
 
 SOCIAL_AUTH_AUTH0_KEY = get_env_str("WEBLATE_SOCIAL_AUTH_AUTH0_KEY")
@@ -396,10 +401,12 @@ if SOCIAL_AUTH_AUTH0_KEY:
     SOCIAL_AUTH_AUTH0_TITLE = get_env_str("WEBLATE_SOCIAL_AUTH_AUTH0_TITLE")
     SOCIAL_AUTH_AUTH0_IMAGE = get_env_str("WEBLATE_SOCIAL_AUTH_AUTH0_IMAGE")
     SOCIAL_AUTH_AUTH0_SCOPE = ["openid", "profile", "email"]
-    if "WEBLATE_SOCIAL_AUTH_AUTH0_AUTH_EXTRA_ARGUMENTS" in os.environ:
-        SOCIAL_AUTH_AUTH0_AUTH_EXTRA_ARGUMENTS = get_env_map(
-            "WEBLATE_SOCIAL_AUTH_AUTH0_AUTH_EXTRA_ARGUMENTS"
-        )
+    auth0_extra_args = get_env_map_or_none(
+        "WEBLATE_SOCIAL_AUTH_AUTH0_AUTH_EXTRA_ARGUMENTS"
+    )
+    if auth0_extra_args is not None:
+        SOCIAL_AUTH_AUTH0_AUTH_EXTRA_ARGUMENTS = auth0_extra_args
+    del auth0_extra_args
     AUTHENTICATION_BACKENDS += ("social_core.backends.auth0.Auth0OAuth2",)
 
 
@@ -408,10 +415,8 @@ WEBLATE_SAML_IDP = get_saml_idp()
 if WEBLATE_SAML_IDP:
     AUTHENTICATION_BACKENDS += ("social_core.backends.saml.SAMLAuth",)
     # The keys are generated on container startup if missing
-    with open("/app/data/ssl/saml.crt") as handle:
-        SOCIAL_AUTH_SAML_SP_PUBLIC_CERT = handle.read()
-    with open("/app/data/ssl/saml.key") as handle:
-        SOCIAL_AUTH_SAML_SP_PRIVATE_KEY = handle.read()
+    SOCIAL_AUTH_SAML_SP_PUBLIC_CERT = Path("/app/data/ssl/saml.crt").read_text()
+    SOCIAL_AUTH_SAML_SP_PRIVATE_KEY = Path("/app/data/ssl/saml.key").read_text()
     SOCIAL_AUTH_SAML_SP_ENTITY_ID = f"{SITE_URL}/accounts/metadata/saml/"
     # Identity Provider
     SOCIAL_AUTH_SAML_ENABLED_IDPS = {"weblate": WEBLATE_SAML_IDP}
@@ -475,15 +480,25 @@ if SOCIAL_AUTH_KEYCLOAK_KEY:
     SOCIAL_AUTH_KEYCLOAK_ID_KEY = "email"
     AUTHENTICATION_BACKENDS += ("social_core.backends.keycloak.KeycloakOAuth2",)
 
+# Fedora OpenIDConnect
+SOCIAL_AUTH_FEDORA_OIDC_KEY = get_env_str("WEBLATE_SOCIAL_AUTH_FEDORA_OIDC_KEY")
+if SOCIAL_AUTH_FEDORA_OIDC_KEY:
+    SOCIAL_AUTH_FEDORA_OIDC_SECRET = get_env_str(
+        "WEBLATE_SOCIAL_AUTH_FEDORA_OIDC_SECRET", required=True
+    )
+    SOCIAL_AUTH_FEDORA_OIDC_TOKEN_ENDPOINT_AUTH_METHOD = "client_secret_post"  # noqa: S105
+
+    AUTHENTICATION_BACKENDS += ("social_core.backends.fedora.FedoraOpenIdConnect",)
+
 # Linux distros
-if "WEBLATE_SOCIAL_AUTH_FEDORA" in os.environ:
+if get_env_str("WEBLATE_SOCIAL_AUTH_FEDORA"):
     AUTHENTICATION_BACKENDS += ("social_core.backends.fedora.FedoraOpenId",)
-if "WEBLATE_SOCIAL_AUTH_OPENSUSE" in os.environ:
+if get_env_str("WEBLATE_SOCIAL_AUTH_OPENSUSE"):
     AUTHENTICATION_BACKENDS += ("social_core.backends.suse.OpenSUSEOpenId",)
     SOCIAL_AUTH_OPENSUSE_FORCE_EMAIL_VALIDATION = True
-if "WEBLATE_SOCIAL_AUTH_UBUNTU" in os.environ:
+if get_env_str("WEBLATE_SOCIAL_AUTH_UBUNTU"):
     AUTHENTICATION_BACKENDS += ("social_core.backends.ubuntu.UbuntuOpenId",)
-if "WEBLATE_SOCIAL_AUTH_OPENINFRA" in os.environ:
+if get_env_str("WEBLATE_SOCIAL_AUTH_OPENINFRA"):
     AUTHENTICATION_BACKENDS += ("social_core.backends.openinfra.OpenInfraOpenId",)
 
 # Slack
@@ -506,10 +521,10 @@ if SOCIAL_AUTH_OIDC_OIDC_ENDPOINT:
     SOCIAL_AUTH_OIDC_SECRET = get_env_str(
         "WEBLATE_SOCIAL_AUTH_OIDC_SECRET", required=True
     )
-    if "WEBLATE_SOCIAL_AUTH_OIDC_USERNAME_KEY" in os.environ:
-        SOCIAL_AUTH_OIDC_USERNAME_KEY = os.environ[
-            "WEBLATE_SOCIAL_AUTH_OIDC_USERNAME_KEY"
-        ]
+    oidc_username_key = get_env_str("WEBLATE_SOCIAL_AUTH_OIDC_USERNAME_KEY")
+    if oidc_username_key is not None:
+        SOCIAL_AUTH_OIDC_USERNAME_KEY = oidc_username_key
+    del oidc_username_key
 
 # Gitea
 SOCIAL_AUTH_GITEA_KEY = get_env_str("WEBLATE_SOCIAL_AUTH_GITEA_KEY")
@@ -517,8 +532,10 @@ if SOCIAL_AUTH_GITEA_KEY:
     SOCIAL_AUTH_GITEA_SECRET = get_env_str(
         "WEBLATE_SOCIAL_AUTH_GITEA_SECRET", required=True
     )
-    if "WEBLATE_SOCIAL_AUTH_GITEA_API_URL" in os.environ:
-        SOCIAL_AUTH_GITEA_API_URL = get_env_str("WEBLATE_SOCIAL_AUTH_GITEA_API_URL")
+    gitea_api_url = get_env_str("WEBLATE_SOCIAL_AUTH_GITEA_API_URL")
+    if gitea_api_url is not None:
+        SOCIAL_AUTH_GITEA_API_URL = gitea_api_url
+    del gitea_api_url
     AUTHENTICATION_BACKENDS += ("social_core.backends.gitea.GiteaOAuth2",)
 
 # https://docs.weblate.org/en/latest/admin/auth.html#ldap-authentication
@@ -535,26 +552,30 @@ if AUTH_LDAP_SERVER_URI:
     AUTH_LDAP_BIND_DN = get_env_str("WEBLATE_AUTH_LDAP_BIND_DN")
     AUTH_LDAP_BIND_PASSWORD = get_env_str("WEBLATE_AUTH_LDAP_BIND_PASSWORD")
 
-    if "WEBLATE_AUTH_LDAP_USER_SEARCH" in os.environ:
+    ldap_user_search = get_env_str("WEBLATE_AUTH_LDAP_USER_SEARCH")
+    if ldap_user_search is not None:
         AUTH_LDAP_USER_SEARCH = LDAPSearch(
-            get_env_str("WEBLATE_AUTH_LDAP_USER_SEARCH"),
+            ldap_user_search,
             ldap.SCOPE_SUBTREE,
             get_env_str("WEBLATE_AUTH_LDAP_USER_SEARCH_FILTER", "(uid=%(user)s)"),
         )
+    del ldap_user_search
 
-    if "WEBLATE_AUTH_LDAP_USER_SEARCH_UNION" in os.environ:
+    ldap_user_search_union = get_env_str("WEBLATE_AUTH_LDAP_USER_SEARCH_UNION")
+    if ldap_user_search_union is not None:
         SEARCH_FILTER = get_env_str(
             "WEBLATE_AUTH_LDAP_USER_SEARCH_FILTER", "(uid=%(user)s)"
         )
 
         SEARCH_UNION = [
             LDAPSearch(string, ldap.SCOPE_SUBTREE, SEARCH_FILTER)
-            for string in get_env_str("WEBLATE_AUTH_LDAP_USER_SEARCH_UNION").split(
+            for string in ldap_user_search_union.split(
                 get_env_str("WEBLATE_AUTH_LDAP_USER_SEARCH_UNION_DELIMITER", "|")
             )
         ]
 
         AUTH_LDAP_USER_SEARCH = LDAPSearchUnion(*SEARCH_UNION)
+    del ldap_user_search_union
 
     if not get_env_bool("WEBLATE_AUTH_LDAP_CONNECTION_OPTION_REFERRALS", True):
         AUTH_LDAP_CONNECTION_OPTIONS = {
@@ -680,8 +701,10 @@ VCS_FILE_PROTOCOL = get_env_bool("WEBLATE_VCS_FILE_PROTOCOL", False)
 # Email registration filter
 REGISTRATION_EMAIL_MATCH = get_env_str("WEBLATE_REGISTRATION_EMAIL_MATCH", ".*")
 
-if "WEBLATE_PRIVATE_COMMIT_EMAIL_TEMPLATE" in os.environ:
-    PRIVATE_COMMIT_EMAIL_TEMPLATE = get_env_str("WEBLATE_PRIVATE_COMMIT_EMAIL_TEMPLATE")
+private_commit_email_template_str = get_env_str("WEBLATE_PRIVATE_COMMIT_EMAIL_TEMPLATE")
+if private_commit_email_template_str is not None:
+    PRIVATE_COMMIT_EMAIL_TEMPLATE = private_commit_email_template_str
+del private_commit_email_template_str
 PRIVATE_COMMIT_EMAIL_OPT_IN = get_env_bool("WEBLATE_PRIVATE_COMMIT_EMAIL_OPT_IN", True)
 
 # Shortcut for login required setting
@@ -1023,16 +1046,20 @@ ENABLE_HOOKS = get_env_bool("WEBLATE_ENABLE_HOOKS", True)
 HIDE_VERSION = get_env_bool("WEBLATE_HIDE_VERSION")
 
 # Licensing filter
-if "WEBLATE_LICENSE_FILTER" in os.environ:
-    LICENSE_FILTER = set(get_env_list("WEBLATE_LICENSE_FILTER"))
+license_filter_list = get_env_list_or_none("WEBLATE_LICENSE_FILTER")
+if license_filter_list is not None:
+    LICENSE_FILTER = set(license_filter_list)
     LICENSE_FILTER.discard("")
+del license_filter_list
 
 LICENSE_REQUIRED = get_env_bool("WEBLATE_LICENSE_REQUIRED")
 WEBSITE_REQUIRED = get_env_bool("WEBLATE_WEBSITE_REQUIRED", True)
 
 # Language filter
-if "WEBLATE_BASIC_LANGUAGES" in os.environ:
-    BASIC_LANGUAGES = set(get_env_list("WEBLATE_BASIC_LANGUAGES"))
+basic_languages_list = get_env_list_or_none("WEBLATE_BASIC_LANGUAGES")
+if basic_languages_list is not None:
+    BASIC_LANGUAGES = set(basic_languages_list)
+del basic_languages_list
 
 # By default the length of a given translation is limited to the length of
 # the source string * 10 characters. Set this option to False to allow longer
@@ -1244,7 +1271,7 @@ if not get_env_bool("REDIS_VERIFY_SSL", True) and REDIS_URL.startswith("rediss:/
 
 
 # Store sessions in cache
-SESSION_ENGINE = os.environ.get(
+SESSION_ENGINE = get_env_str(
     "WEBLATE_SESSION_ENGINE", "django.contrib.sessions.backends.cache"
 )
 # Store messages in session
@@ -1301,20 +1328,19 @@ EMAIL_HOST_USER = get_env_str(
 EMAIL_HOST_PASSWORD = get_env_str(
     "WEBLATE_EMAIL_HOST_PASSWORD", get_env_str("WEBLATE_EMAIL_PASSWORD")
 )
+EMAIL_USE_SSL = get_env_bool("WEBLATE_EMAIL_USE_SSL")
+EMAIL_USE_TLS = get_env_bool("WEBLATE_EMAIL_USE_TLS", not EMAIL_USE_SSL)
 DEFAULT_EMAIL_PORT = 25
-if "WEBLATE_EMAIL_USE_TLS" in os.environ:
+if EMAIL_USE_SSL:
     DEFAULT_EMAIL_PORT = 587
-elif "WEBLATE_EMAIL_USE_SSL" in os.environ:
+elif EMAIL_USE_TLS:
     DEFAULT_EMAIL_PORT = 465
 EMAIL_PORT = get_env_int("WEBLATE_EMAIL_PORT", DEFAULT_EMAIL_PORT)
 
 # Detect SSL/TLS setup
-if "WEBLATE_EMAIL_USE_TLS" in os.environ or "WEBLATE_EMAIL_USE_SSL" in os.environ:
-    EMAIL_USE_SSL = get_env_bool("WEBLATE_EMAIL_USE_SSL")
-    EMAIL_USE_TLS = get_env_bool("WEBLATE_EMAIL_USE_TLS", not EMAIL_USE_SSL)
-elif EMAIL_PORT in {25, 587}:
+if not EMAIL_USE_TLS and EMAIL_PORT in {25, 587}:
     EMAIL_USE_TLS = True
-elif EMAIL_PORT == 465:
+elif not EMAIL_USE_SSL and EMAIL_PORT == 465:
     EMAIL_USE_SSL = True
 
 EMAIL_BACKEND = get_env_str(
@@ -1429,10 +1455,10 @@ USE_X_FORWARDED_HOST = get_env_bool("WEBLATE_USE_X_FORWARDED_HOST", False)
 
 # Wildcard loading
 for name in os.environ:
-    if name.startswith("WEBLATE_RATELIMIT_") and name.endswith(
+    if name.startswith("WEBLATE_RATELIMIT_") and name.removesuffix("_FILE").endswith(
         ("_ATTEMPTS", "_WINDOW", "_LOCKOUT")
     ):
-        locals()[name[8:]] = get_env_int(name)
+        locals()[name[8:].removesuffix("_FILE")] = get_env_int(name)
 
 # PGP commits signing
 WEBLATE_GPG_IDENTITY = get_env_str("WEBLATE_GPG_IDENTITY")
@@ -1464,8 +1490,8 @@ ZAMMAD_URL = get_env_str("WEBLATE_ZAMMAD_URL")
 INTERLEDGER_PAYMENT_POINTERS = get_env_list("WEBLATE_INTERLEDGER_PAYMENT_POINTERS", [])
 INTERLEDGER_PAYMENT_BUILTIN = get_env_bool("WEBLATE_INTERLEDGER_PAYMENT_BUILTIN", True)
 
-ADDITIONAL_CONFIG = "/app/data/settings-override.py"
-if os.path.exists(ADDITIONAL_CONFIG):
-    with open(ADDITIONAL_CONFIG) as handle:
-        code = compile(handle.read(), ADDITIONAL_CONFIG, "exec")
-        exec(code)  # noqa: S102
+ADDITIONAL_CONFIG = Path("/app/data/settings-override.py")
+if ADDITIONAL_CONFIG.exists():
+    code = compile(ADDITIONAL_CONFIG.read_text(), ADDITIONAL_CONFIG, "exec")
+    # pylint: disable-next=exec-used
+    exec(code)  # noqa: S102

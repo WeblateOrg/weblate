@@ -2,6 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import base64
 import os
 
 from django.conf import settings
@@ -20,6 +21,7 @@ from weblate.utils.validators import (
     validate_fullname,
     validate_project_web,
     validate_re,
+    validate_webhook_secret_string,
 )
 
 
@@ -122,6 +124,40 @@ class RegexTest(SimpleTestCase):
         with self.assertRaises(ValidationError):
             validate_re("(Min|Short)", ("component",))
         validate_re("(?P<component>Min|Short)", ("component",))
+
+
+class WebhookSecretTestCase(SimpleTestCase):
+    def test_empty(self):
+        validate_webhook_secret_string("")
+
+    def test_basic(self):
+        with self.assertRaises(ValidationError):
+            validate_webhook_secret_string("whsec_")
+        with self.assertRaises(ValidationError):
+            validate_webhook_secret_string("whsec_21132123")
+
+    def test_base64(self):
+        value = base64.b64encode(b"x" * 30).decode("utf-8")
+        validate_webhook_secret_string(f"whsec_{value}")
+        with self.assertRaises(ValidationError):
+            validate_webhook_secret_string(f"whsec_{value[:-1]}")
+
+    def test_length(self):
+        value = base64.b64encode(b"x" * 30).decode("utf-8")
+        validate_webhook_secret_string(f"whsec_{value}")
+        validate_webhook_secret_string(value)
+
+        value = base64.b64encode(b"x" * 20).decode("utf-8")
+        with self.assertRaises(ValidationError):
+            validate_webhook_secret_string(f"whsec_{value}")
+        with self.assertRaises(ValidationError):
+            validate_webhook_secret_string(value)
+
+        value = base64.b64encode(b"x" * 70).decode("utf-8")
+        with self.assertRaises(ValidationError):
+            validate_webhook_secret_string(f"whsec_{value}")
+        with self.assertRaises(ValidationError):
+            validate_webhook_secret_string(value)
 
 
 class WebsiteTest(SimpleTestCase):

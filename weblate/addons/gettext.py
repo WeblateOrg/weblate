@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import os
+from pathlib import Path
 from typing import TYPE_CHECKING, ClassVar
 
 from django.core.management.utils import find_command
@@ -21,8 +22,7 @@ if TYPE_CHECKING:
     from collections.abc import Generator
 
     from weblate.addons.base import CompatDict
-    from weblate.auth.models import User
-    from weblate.trans.models import Component, Translation
+    from weblate.trans.models import Component, Project, Translation
 
 
 class GettextBaseAddon(BaseAddon):
@@ -65,8 +65,7 @@ class GenerateMoAddon(GettextBaseAddon):
         if not output:
             return
 
-        with open(output, "wb") as handle:
-            handle.write(exporter.serialize())
+        Path(output).write_bytes(exporter.serialize())
         translation.addon_commit_files.append(output)
 
 
@@ -91,9 +90,16 @@ class UpdateLinguasAddon(GettextBaseAddon):
         return os.path.join(os.path.dirname(base), "LINGUAS")
 
     @classmethod
-    def can_install(cls, component: Component, user: User | None) -> bool:
-        if not super().can_install(component, user):
+    def can_install(
+        cls,
+        *,
+        component: Component | None = None,
+        project: Project | None = None,
+    ) -> bool:
+        if not super().can_install(component=component, project=project):
             return False
+        if component is None:
+            return True
         path = cls.get_linguas_path(component)
         return bool(path) and os.path.exists(path)
 
@@ -189,14 +195,20 @@ class UpdateConfigureAddon(GettextBaseAddon):
                 yield path
 
     @classmethod
-    def can_install(cls, component: Component, user: User | None) -> bool:
-        if not super().can_install(component, user):
+    def can_install(
+        cls,
+        *,
+        component: Component | None = None,
+        project: Project | None = None,
+    ) -> bool:
+        if not super().can_install(component=component, project=project):
             return False
+        if component is None:
+            return True
         for name in cls.get_configure_paths(component):
             try:
-                with open(name) as handle:
-                    if 'ALL_LINGUAS="' in handle.read():
-                        return True
+                if 'ALL_LINGUAS="' in Path(name).read_text():
+                    return True
             except UnicodeDecodeError:
                 continue
         return False
@@ -256,10 +268,15 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
     compat: ClassVar[CompatDict] = {"file_format": {"po"}}
 
     @classmethod
-    def can_install(cls, component: Component, user: User | None) -> bool:
+    def can_install(
+        cls,
+        *,
+        component: Component | None = None,
+        project: Project | None = None,
+    ) -> bool:
         if find_command("msgmerge") is None:
             return False
-        return super().can_install(component, user)
+        return super().can_install(component=component, project=project)
 
     def update_translations(self, component: Component, previous_head: str) -> None:
         # Run always when there is an alerts, there is a chance that

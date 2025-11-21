@@ -13,7 +13,7 @@ import random
 import re
 import urllib.parse
 from configparser import NoOptionError, NoSectionError, RawConfigParser
-from contextlib import contextmanager
+from contextlib import contextmanager, suppress
 from json import JSONDecodeError, dumps
 from pathlib import Path
 from time import sleep, time
@@ -57,6 +57,12 @@ if TYPE_CHECKING:
     from requests.auth import AuthBase
 
     from weblate.trans.models import Component
+
+LOCK_ERROR = re.compile(
+    r"fatal: Unable to create '([^']*\.git/index\.lock)': File exists"
+)
+# Assume lock is stale after one hour
+LOCK_STALE_SECONDS = 3600
 
 
 class GitCredentials(TypedDict):
@@ -119,6 +125,16 @@ class GitRepository(Repository):
             ["init", "--template=", "--initial-branch", cls.default_branch, path]
         )
 
+    @staticmethod
+    def should_retry_popen(errormessage: str) -> bool:
+        locks = LOCK_ERROR.findall(errormessage)
+        if locks and len(locks) == 1:
+            lock = Path(locks[0])
+            if time() - lock.stat().st_mtime > LOCK_STALE_SECONDS:
+                lock.unlink(missing_ok=True)
+                return True
+        return False
+
     @classmethod
     def get_remote_branch(cls, repo: str):
         if not repo:
@@ -145,15 +161,13 @@ class GitRepository(Repository):
         modify = False
         with GitConfigParser(file_or_files=filename, read_only=True) as config:
             for section, key, value in updates:
-                try:
+                with suppress(NoSectionError, NoOptionError):
                     old = config.get(section, key)
                     if value is None:
                         modify = True
                         break
                     if old == value:
                         continue
-                except (NoSectionError, NoOptionError):
-                    pass
                 if value is not None:
                     modify = True
         if not modify:
@@ -541,7 +555,7 @@ class GitRepository(Repository):
 
         # Use it for *.po by default
         configfile = home / ".config" / "git" / "attributes"
-        if configfile.parent.is_dir():
+        if not configfile.exists():
             configfile.parent.mkdir(parents=True, exist_ok=True)
             configfile.write_text("*.po merge=weblate-merge-gettext-po\n")
 
@@ -1128,6 +1142,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         origin_branch: str,
         fork_remote: str,
         fork_branch: str,
+        retry_fork: bool = True,
     ) -> None:
         raise NotImplementedError
 
@@ -1189,7 +1204,9 @@ class GitMergeRequestBase(GitForcePushRepository):
 
         return ", ".join(errors)
 
-    def should_retry(self, response, response_data) -> bool:
+    def should_retry_request(
+        self, response: requests.Response, response_data: dict
+    ) -> bool:
         retry_after = response.headers.get("Retry-After")
         if retry_after and retry_after.isdigit():
             # Cap sleeping to 60 seconds
@@ -1263,7 +1280,7 @@ class GitMergeRequestBase(GitForcePushRepository):
                     self.raise_for_response(response)
                     raise RepositoryError(0, str(error)) from error
 
-                if self.should_retry(response, response_data):
+                if self.should_retry_request(response, response_data):
                     do_retry = True
         except WeblateLockTimeoutError:
             do_retry = True
@@ -1600,8 +1617,10 @@ class GithubRepository(GitMergeRequestBase):
         headers["Accept"] = "application/vnd.github.v3+json"
         return headers
 
-    def should_retry(self, response, response_data) -> bool:
-        if super().should_retry(response, response_data):
+    def should_retry_request(
+        self, response: requests.Response, response_data: dict
+    ) -> bool:
+        if super().should_retry_request(response, response_data):
             return True
         # https://docs.github.com/rest/overview/resources-in-the-rest-api#secondary-rate-limits
         if (
@@ -1863,8 +1882,7 @@ class LocalRepository(GitRepository):
                 dirname = os.path.dirname(fullname)
                 if not os.path.exists(dirname):
                     os.makedirs(dirname)
-                with open(fullname, "wb") as handle:
-                    handle.write(content)
+                Path(fullname).write_bytes(content)
             return repo
 
 
@@ -1993,6 +2011,7 @@ class GitLabRepository(GitMergeRequestBase):
         origin_branch: str,
         fork_remote: str,
         fork_branch: str,
+        retry_fork: bool = True,
     ) -> None:
         """
         Create pull request.
@@ -2078,6 +2097,7 @@ class PagureRepository(GitMergeRequestBase):
         origin_branch: str,
         fork_remote: str,
         fork_branch: str,
+        retry_fork: bool = True,
     ) -> None:
         """
         Create pull request.
@@ -2238,6 +2258,7 @@ class BitbucketServerRepository(GitMergeRequestBase):
         origin_branch: str,
         fork_remote: str,
         fork_branch: str,
+        retry_fork: bool = True,
     ) -> None:
         # Make sure there's always a fork reference
         if not self.bb_fork:
@@ -2271,13 +2292,11 @@ class BitbucketServerRepository(GitMergeRequestBase):
             "post", credentials, pr_url, json=request_body
         )
 
-        """
-        Bitbucket Data Center will return an error if a PR already exists.
-        The push method in the parent class pushes changes to the correct
-        fork or branch, and always calls this create_pull_request method after.
-        If the PR exists already just do nothing because Bitbucket will
-        auto-update the PR if the from ref is updated.
-        """
+        # Bitbucket Data Center will return an error if a PR already exists.
+        # The push method in the parent class pushes changes to the correct
+        # fork or branch, and always calls this create_pull_request method after.
+        # If the PR exists already just do nothing because Bitbucket will
+        # auto-update the PR if the from ref is updated.
         if "id" not in response_data:
             pr_exist_message = (
                 "Only one pull request may be open for a given source and target branch"
@@ -2362,6 +2381,7 @@ class BitbucketCloudRepository(GitMergeRequestBase):
         origin_branch: str,
         fork_remote: str,
         fork_branch: str,
+        retry_fork: bool = True,
     ) -> None:
         """
         Create pull request on Bitbucket Cloud.

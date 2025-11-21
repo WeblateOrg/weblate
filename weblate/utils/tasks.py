@@ -11,6 +11,7 @@ import subprocess
 import sys
 import time
 from importlib import import_module
+from pathlib import Path
 from shutil import copyfile
 from typing import cast
 
@@ -65,8 +66,9 @@ def settings_backup() -> None:
         # Expand settings in case it contains non-trivial code
         command = diffsettings.Command()
         kwargs = {"default": None, "all": False, "output": "hash"}
-        with open(data_dir("backups", "settings-expanded.py"), "w") as handle:
-            handle.write(command.handle(**kwargs))
+        Path(data_dir("backups", "settings-expanded.py")).write_text(
+            command.handle(**kwargs)
+        )
 
         # Backup original settings
         if settings.SETTINGS_MODULE:

@@ -32,9 +32,11 @@
         <a href="{{ status_url }}">{% translate "Status" context "Service status" %}</a>
       </li>
     {% endif %}
-    <li>
-      <a href="{% url 'contact' %}">{% translate "Contact" %}</a>
-    </li>
+    {% if contact_form != "disabled" %}
+      <li>
+        <a href="{% url 'contact' %}">{% translate "Contact" %}</a>
+      </li>
+    {% endif %}
     <li>
       <a href="{% documentation 'index' %}">{% translate "Documentation" %}</a>
     </li>

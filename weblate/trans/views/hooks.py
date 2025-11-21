@@ -228,7 +228,6 @@ class ServiceHookView(APIView):
         try:
             service_data = hook_helper(data, request)
         except Exception as exc:
-            LOGGER.error("failed to parse service %s data", service)
             report_error("Invalid service data")
             msg = "Invalid data in json payload!"
             raise ValidationError(msg) from exc

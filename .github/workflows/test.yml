@@ -81,7 +81,7 @@ jobs:
       PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
       PYTHONUNBUFFERED: 1
     steps:
-    - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+    - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
       with:
         persist-credentials: false
     - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
@@ -94,11 +94,11 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
         allow-prereleases: true
-    - uses: astral-sh/setup-uv@5a7eac68fb9809dea845d802897dc5c723910fa3 # v7.1.3
+    - uses: astral-sh/setup-uv@1e862dfacbd1d6d858c55d9b792c756523627244 # v7.1.4
       with:
         save-cache: ${{ github.ref == 'refs/heads/main' }}
         cache-suffix: ${{ steps.setup_python.outputs.python-version }}
-        version: 0.9.8
+        version: 0.9.11
     - name: Start services
       run: ./ci/services-up ${{ matrix.database }} ${{ matrix.datastore }}
     - name: Install apt dependencies

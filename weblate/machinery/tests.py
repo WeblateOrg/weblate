@@ -10,6 +10,7 @@ from copy import copy
 from datetime import UTC, datetime
 from functools import partial
 from io import StringIO
+from pathlib import Path
 from typing import TYPE_CHECKING, ClassVar, NoReturn
 from unittest.mock import MagicMock, Mock, call, patch
 
@@ -198,8 +199,7 @@ SYSTRAN_LANGUAGE_JSON = {
     ],
 }
 
-with open(get_test_file("googlev3.json")) as handle:
-    GOOGLEV3_KEY = handle.read()
+GOOGLEV3_KEY = Path(get_test_file("googlev3.json")).read_text()
 
 MODERNMT_RESPONSE = {
     "data": {
@@ -570,7 +570,7 @@ class GlossaryTranslationTest(BaseMachineTranslationTest):
                 unit, "en", "cs", source_text, 75, {}
             )
             self.assertIsNotNone(cache_key)
-            self.assertTrue(len(result) > 0)
+            self.assertGreater(len(result), 0)
             self.assertIsNotNone(result)
 
         with patch(
@@ -690,6 +690,7 @@ class ApertiumAPYTranslationTest(BaseMachineTranslationTest):
         machine = self.get_machine()
         machine.validate_settings()
         self.assertEqual(len(responses.calls), 2)
+        # pylint: disable-next=unbalanced-tuple-unpacking
         _, call_2 = responses.calls
         self.assertIn("langpair", call_2.request.params)
         self.assertEqual("eng|spa", call_2.request.params["langpair"])
@@ -1453,7 +1454,7 @@ class SAPTranslationHubAuthTest(SAPTranslationHubTest):
     }
 
 
-class ModernMTHubTest(BaseMachineTranslationTest):
+class ModernMTTest(BaseMachineTranslationTest):
     MACHINE_CLS = ModernMTTranslation
     EXPECTED_LEN = 1
     ENGLISH = "en"
@@ -1478,9 +1479,9 @@ class ModernMTHubTest(BaseMachineTranslationTest):
         """Set up mock responses for languages list from ModernMT API."""
         responses.add(
             responses.GET,
-            "https://api.modernmt.com/languages",
+            "https://api.modernmt.com/translate/languages",
             json={
-                "data": {"en": ["cs", "it", "ja"], "fr": ["en", "it", "ja"]},
+                "data": ["en", "sr", "cs", "it", "ja"],
                 "status": 200,
             },
             status=200,

@@ -19,9 +19,11 @@
           <p>{% translate "Please choose the language you want to translate to." %}</p>
           {{ form|crispy }}
           {% if user_can_add_more_translation %}
-            <p class="help-block">
-              <a href="{% url 'contact' %}?t=lang">{% translate "Can't find your language in the list above?" %}</a>
-            </p>
+            {% if contact_form != "disabled" %}
+              <p class="help-block">
+                <a href="{% url 'contact' %}?t=lang">{% translate "Can't find your language in the list above?" %}</a>
+              </p>
+            {% endif %}
           {% else %}
             <p class="help-block">
               {% translate "This list includes only basic languages. Please contact project maintainers to add others." %}

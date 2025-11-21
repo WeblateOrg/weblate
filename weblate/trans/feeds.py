@@ -84,5 +84,6 @@ class TranslationChangesFeed(ChangesFeed):
 class LanguageChangesFeed(TranslationChangesFeed):
     """RSS feed for changes in language."""
 
+    # pylint: disable-next=arguments-renamed
     def get_object(self, request: AuthenticatedHttpRequest, lang):
         return get_object_or_404(Language, code=lang)

@@ -14,8 +14,7 @@ from weblate.formats.base import TranslationFormat
 from weblate.trans.exceptions import FileParseError
 
 if TYPE_CHECKING:
-    from weblate.auth.models import User
-    from weblate.trans.models import Component
+    from weblate.trans.models import Component, Project
 
 
 class BaseCleanupAddon(UpdateBaseAddon):
@@ -24,10 +23,17 @@ class BaseCleanupAddon(UpdateBaseAddon):
         return component.file_format_cls.can_delete_unit
 
     @classmethod
-    def can_install(cls, component: Component, user: User | None) -> bool:
-        if not component.has_template() or not cls.can_install_format(component):
+    def can_install(
+        cls,
+        *,
+        component: Component | None = None,
+        project: Project | None = None,
+    ) -> bool:
+        if component is not None and (
+            not component.has_template() or not cls.can_install_format(component)
+        ):
             return False
-        return super().can_install(component, user)
+        return super().can_install(component=component, project=project)
 
 
 class CleanupAddon(BaseCleanupAddon):

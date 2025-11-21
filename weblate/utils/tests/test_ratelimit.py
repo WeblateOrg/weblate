@@ -195,6 +195,7 @@ class RateLimitHttpBehaviorTest(SimpleTestCase):
         request.META["REMOTE_ADDR"] = "5.6.7.8"
         request.method = "POST"
         request.session = SessionStore()
+        # pylint: disable-next=protected-access
         request._messages = default_storage(request)  # noqa: SLF001
         request.user = User(username=settings.ANONYMOUS_USER_NAME)
         return request

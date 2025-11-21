@@ -120,7 +120,12 @@ def get_user_translations(
 
     Works also for anonymous users based on current UI language.
     """
-    result = Translation.objects.prefetch().filter_access(user).order()
+    result = (
+        Translation.objects.exclude(component__is_glossary=True)
+        .prefetch()
+        .filter_access(user)
+        .order()
+    )
 
     if user_has_languages:
         result = result.filter(language__in=user.profile.all_languages)

@@ -45,7 +45,7 @@ class ClassLoaderTestCase(TestCase):
         loader.load_data()
         self.assertEqual(len(list(loader.keys())), 1)
 
-    @override_settings(TEST_SERVICES=("weblate.addons.cleanup.CleanupAddon"))
+    @override_settings(TEST_SERVICES="weblate.addons.cleanup.CleanupAddon")
     def test_invalid(self) -> None:
         loader = ClassLoader("TEST_SERVICES", construct=False, base_class=BaseAddon)
         with self.assertRaisesRegex(

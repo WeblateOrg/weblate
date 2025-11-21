@@ -6,6 +6,7 @@
 
 import re
 import sys
+from pathlib import Path
 
 RUBRIC_RE = re.compile(r'<p class="rubric">([^<\n]*)</p>')
 
@@ -15,8 +16,7 @@ if len(sys.argv) == 2:
 
 tag = f'<section id="weblate-{version}">.+?<h1>(.+?)<a(.+?)</a></h1>(.+?)</section>'
 
-with open("docs/_build/html/changes.html") as handle:
-    data = handle.read()
+data = Path("docs/_build/html/changes.html").read_text()
 
 for match in re.findall(tag, data, re.MULTILINE | re.DOTALL):
     print(match[0])

@@ -125,6 +125,8 @@ from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
     STATE_FUZZY,
+    STATE_NEEDS_CHECKING,
+    STATE_NEEDS_REWRITING,
     STATE_TRANSLATED,
 )
 from weblate.utils.stats import GlobalStats, prefetch_stats
@@ -2124,6 +2126,8 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             if new_state not in {
                 STATE_APPROVED,
                 STATE_TRANSLATED,
+                STATE_NEEDS_CHECKING,
+                STATE_NEEDS_REWRITING,
                 STATE_FUZZY,
                 STATE_EMPTY,
             }:

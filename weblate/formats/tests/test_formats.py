@@ -112,15 +112,14 @@ TEST_FLUENT = get_test_file("cs.ftl")
 
 class AutoLoadTest(TestCase):
     def single_test(self, filename, fileclass) -> None:
-        with open(filename, "rb") as handle:
-            store = try_load(
-                filename,
-                handle.read(),
-                None,
-                None,
-                is_template=fileclass.monolingual is None or fileclass.monolingual,
-            )
-            self.assertIsInstance(store, fileclass)
+        store = try_load(
+            filename,
+            Path(filename).read_bytes(),
+            None,
+            None,
+            is_template=fileclass.monolingual is None or fileclass.monolingual,
+        )
+        self.assertIsInstance(store, fileclass)
         self.assertEqual(fileclass, detect_filename(filename))
 
     def test_detect_android(self) -> None:
@@ -159,8 +158,7 @@ class AutoLoadTest(TestCase):
 
     def test_content(self) -> None:
         """Test content based guess from ttkit."""
-        with open(TEST_PO, "rb") as handle:
-            data = handle.read()
+        data = Path(TEST_PO).read_bytes()
 
         handle = BytesIO(data)
         store = AutodetectFormat(handle)
@@ -233,15 +231,13 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
 
     def _test_save(self, edit=None):
         # Read test content
-        with open(self.FILE, "rb") as handle:
-            testdata = handle.read()
+        testdata = Path(self.FILE).read_bytes()
 
         # Create test file
         testfile = os.path.join(self.tempdir, os.path.basename(self.FILE))
 
         # Write test data to file
-        with open(testfile, "wb") as handle:
-            handle.write(testdata)
+        Path(testfile).write_bytes(testdata)
 
         # Parse test file
         storage = self.parse_file(testfile)
@@ -254,8 +250,7 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
         storage.save()
 
         # Read new content
-        with open(testfile, "rb") as handle:
-            newdata = handle.read()
+        newdata = Path(testfile).read_bytes()
 
         # Check if content matches
         if edit:
@@ -334,15 +329,13 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
         if not self.format_class.can_add_unit:
             self.skipTest("Not supported")
         # Read test content
-        with open(self.FILE, "rb") as handle:
-            testdata = handle.read()
+        testdata = Path(self.FILE).read_bytes()
 
         # Create test file
         testfile = os.path.join(self.tempdir, f"test.{self.EXT}")
 
         # Write test data to file
-        with open(testfile, "wb") as handle:
-            handle.write(testdata)
+        Path(testfile).write_bytes(testdata)
 
         # Parse test file
         storage = self.parse_file(testfile, template=testfile)
@@ -355,8 +348,7 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
         storage.save()
 
         # Read new content
-        with open(testfile, "rb") as handle:
-            newdata = handle.read()
+        newdata = Path(testfile).read_bytes()
 
         # Check if content matches
         if isinstance(self.NEW_UNIT_MATCH, tuple):
@@ -488,8 +480,7 @@ class PoFormatTest(BaseFormatTest):
         self.format_class.add_language(
             out, Language.objects.get(code="cs"), TEST_POT_UNICODE
         )
-        with open(out) as handle:
-            data = handle.read()
+        data = Path(out).read_text()
         self.assertIn("Michal Čihař", data)
 
     def load_plural(self, filename):
@@ -513,27 +504,23 @@ class PoFormatTest(BaseFormatTest):
 
     def test_msgmerge(self) -> None:
         test_file = os.path.join(self.tempdir, "test.po")
-        with open(test_file, "w") as handle:
-            handle.write("")
+        Path(test_file).write_text("")
 
         # Test file content is updated
         self.format_class.update_bilingual(test_file, TEST_POT)
-        with open(test_file) as handle:
-            self.assertEqual(len(handle.read()), 340)
+        self.assertEqual(Path(test_file).stat().st_size, 340)
 
         # Backup flag is not compatible with others
         with self.assertRaises(UpdateError):
             self.format_class.update_bilingual(
                 test_file, TEST_POT, args=["--backup=none"]
             )
-        with open(test_file) as handle:
-            self.assertEqual(len(handle.read()), 340)
+        self.assertEqual(Path(test_file).stat().st_size, 340)
 
         # Test warning in output (used Unicode POT file without charset specified)
         with self.assertRaises(UpdateError):
             self.format_class.update_bilingual(test_file, TEST_POT_UNICODE)
-        with open(test_file) as handle:
-            self.assertEqual(len(handle.read()), 340)
+        self.assertEqual(Path(test_file).stat().st_size, 340)
 
     def test_obsolete(self) -> None:
         # Test adding unit matching obsolete one
@@ -831,15 +818,13 @@ class XliffFormatTest(XMLMixin, BaseFormatTest):
 
     def test_set_state(self) -> None:
         # Read test content
-        with open(self.FILE, "rb") as handle:
-            testdata = handle.read()
+        testdata = Path(self.FILE).read_bytes()
 
         # Create test file
         testfile = os.path.join(self.tempdir, f"test.{self.EXT}")
 
         # Write test data to file
-        with open(testfile, "wb") as handle:
-            handle.write(testdata)
+        Path(testfile).write_bytes(testdata)
 
         # Update first unit as translated
         storage = self.parse_file(testfile)
@@ -849,8 +834,10 @@ class XliffFormatTest(XMLMixin, BaseFormatTest):
         storage.save()
 
         # Verify the state is set
-        with open(testfile) as handle:
-            self.assertIn('<target state="translated">test</target>', handle.read())
+        self.assertIn(
+            '<target state="translated">test</target>',
+            Path(testfile).read_text(),
+        )
 
         # Update first unit as fuzzy
         storage = self.parse_file(testfile)
@@ -860,10 +847,10 @@ class XliffFormatTest(XMLMixin, BaseFormatTest):
         storage.save()
 
         # Verify the state is set
-        with open(testfile) as handle:
-            self.assertIn(
-                '<target state="needs-translation">test</target>', handle.read()
-            )
+        self.assertIn(
+            '<target state="needs-translation">test</target>',
+            Path(testfile).read_text(),
+        )
 
 
 class RichXliffFormatTest(XliffFormatTest):
@@ -879,10 +866,8 @@ class XliffIdFormatTest(RichXliffFormatTest):
     COUNT = 5
 
     def test_edit_xliff(self) -> None:
-        with open(get_test_file("ids-translated.xliff")) as handle:
-            expected = handle.read()
-        with open(get_test_file("ids-edited.xliff")) as handle:
-            expected_template = handle.read()
+        expected = Path(get_test_file("ids-translated.xliff")).read_text()
+        expected_template = Path(get_test_file("ids-edited.xliff")).read_text()
         template_name = os.path.join(self.tempdir, "en.xliff")
         translated_name = os.path.join(self.tempdir, "cs.xliff")
         shutil.copy(self.FILE, template_name)
@@ -925,11 +910,9 @@ class XliffIdFormatTest(RichXliffFormatTest):
         translation.save()
 
         self.maxDiff = None
-        with open(translated_name) as handle:
-            self.assertXMLEqual(handle.read(), expected)
+        self.assertXMLEqual(Path(translated_name).read_text(), expected)
 
-        with open(template_name) as handle:
-            self.assertXMLEqual(handle.read(), expected_template)
+        self.assertXMLEqual(Path(template_name).read_text(), expected_template)
 
 
 class PoXliffFormatTest(XMLMixin, BaseFormatTest):
@@ -1204,11 +1187,9 @@ class XWikiPropertiesFormatTest(PropertiesFormatTest):
         new_language.save()
 
         # Read new content
-        with open(out) as handle:
-            newdata = handle.read()
+        newdata = Path(out).read_text()
 
-        with open(TEST_XWIKI_PROPERTIES_NEW_LANGUAGE) as handle:
-            expected = handle.read()
+        expected = Path(TEST_XWIKI_PROPERTIES_NEW_LANGUAGE).read_text()
 
         self.assertEqual(expected + "\n", newdata)
 
@@ -1246,8 +1227,7 @@ class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):
         testfile = os.path.join(self.tempdir, os.path.basename(self.FILE))
 
         # Read new content
-        with open(testfile) as handle:
-            newdata = handle.read()
+        newdata = Path(testfile).read_text()
 
         # Perform some general assertions about the copyright
         self.assertIn('<?xml version="1.1" encoding="UTF-8"?>', newdata)
@@ -1311,15 +1291,13 @@ class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):
         translation_data.save()
 
         # Read new content
-        with open(translation_file, "rb") as handle:
-            newdata = handle.read()
+        newdata = Path(translation_file).read_bytes()
 
         # Read source file content
-        with open(self.FILE, "rb") as handle:
-            testdata = handle.read()
+        testdata = Path(self.FILE).read_bytes()
 
         # Check if content matches
-        self.assert_same(testdata, newdata)
+        self.assert_same(newdata, testdata)
 
 
 class XWikiFullPageFormatTest(XMLMixin, BaseFormatTest):
@@ -1367,8 +1345,7 @@ class XWikiFullPageFormatTest(XMLMixin, BaseFormatTest):
         testfile = os.path.join(self.tempdir, os.path.basename(self.FILE))
 
         # Read new content
-        with open(testfile) as handle:
-            newdata = handle.read()
+        newdata = Path(testfile).read_text()
 
         # Perform some general assertions about the copyright
         self.assertIn('<?xml version="1.1" encoding="UTF-8"?>', newdata)
@@ -1429,15 +1406,13 @@ class XWikiFullPageFormatTest(XMLMixin, BaseFormatTest):
         translation_data.save()
 
         # Read new content
-        with open(translation_file, "rb") as handle:
-            newdata = handle.read()
+        newdata = Path(translation_file).read_bytes()
 
         # Read source file content
-        with open(self.FILE, "rb") as handle:
-            testdata = handle.read()
+        testdata = Path(self.FILE).read_bytes()
 
         # Check if content matches
-        self.assert_same(testdata, newdata)
+        self.assert_same(newdata, testdata)
 
 
 class TBXFormatTest(XMLMixin, BaseFormatTest):
