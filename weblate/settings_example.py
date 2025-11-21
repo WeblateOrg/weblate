@@ -398,11 +398,18 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "social_django.middleware.SocialAuthExceptionMiddleware",
-    "weblate.accounts.middleware.RequireLoginMiddleware",
     "weblate.api.middleware.ThrottlingMiddleware",
     "weblate.middleware.SecurityMiddleware",
     "weblate.wladmin.middleware.ManageMiddleware",
 ]
+
+if REQUIRE_LOGIN:
+    # Use Django 5.1's LoginRequiredMiddleware to enforce authentication
+    # All public views are marked with @login_not_required decorator
+    MIDDLEWARE.insert(
+        MIDDLEWARE.index("weblate.api.middleware.ThrottlingMiddleware"),
+        "django.contrib.auth.middleware.LoginRequiredMiddleware",
+    )
 
 ROOT_URLCONF = "weblate.urls"
 
@@ -879,33 +886,17 @@ COMPRESS_OFFLINE = False
 COMPRESS_OFFLINE_CONTEXT = "weblate.utils.compress.offline_context"
 COMPRESS_CSS_HASHING_METHOD = "content"
 
-# Require login for all URLs
-if REQUIRE_LOGIN:
-    LOGIN_REQUIRED_URLS = (r"/(.*)$",)
-
-# In such case you will want to include some of the exceptions
-# LOGIN_REQUIRED_URLS_EXCEPTIONS = (
-#    rf"{URL_PREFIX}/accounts/(.*)$",  # Required for login
-#    rf"{URL_PREFIX}/admin/login/(.*)$",  # Required for admin login
-#    rf"{URL_PREFIX}/static/(.*)$",  # Required for development mode
-#    rf"{URL_PREFIX}/widget/(.*)$",  # Allowing public access to widgets
-#    rf"{URL_PREFIX}/data/(.*)$",  # Allowing public access to data exports
-#    rf"{URL_PREFIX}/hooks/(.*)$",  # Allowing public access to notification hooks
-#    rf"{URL_PREFIX}/healthz/$",  # Allowing public access to health check
-#    rf"{URL_PREFIX}/api/(.*)$",  # Allowing access to API
-#    rf"{URL_PREFIX}/js/i18n/$",  # JavaScript localization
-#    rf"{URL_PREFIX}/css/custom\.css$",  # Custom CSS support
-#    rf"{URL_PREFIX}/contact/$",  # Optional for contact form
-#    rf"{URL_PREFIX}/legal/(.*)$",  # Optional for legal app
-#    rf"{URL_PREFIX}/avatar/(.*)$",  # Optional for avatars
-#    rf"{URL_PREFIX}/site.webmanifest$",  # The request for the manifest is made without credentials
-# )
+# Note: When REQUIRE_LOGIN is enabled, Django's LoginRequiredMiddleware is used.
+# Public views are marked with @login_not_required decorator in the code.
+# The LOGIN_REQUIRED_URLS and LOGIN_REQUIRED_URLS_EXCEPTIONS settings are no longer used.
 
 # Silence some of the Django system checks
 SILENCED_SYSTEM_CHECKS = [
     # We have modified django.contrib.auth.middleware.AuthenticationMiddleware
     # as weblate.accounts.middleware.AuthenticationMiddleware
     "admin.E408",
+    # Using custom authentication middleware with LoginRequiredMiddleware
+    "auth.E013",
     # Silence drf_spectacular until these are addressed
     "drf_spectacular.W001",
     "drf_spectacular.W002",
