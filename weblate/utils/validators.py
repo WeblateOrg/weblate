@@ -25,6 +25,7 @@ from django.core.validators import URLValidator, validate_ipv46_address
 from django.utils.translation import gettext, gettext_lazy
 
 from weblate.trans.util import cleanup_path
+from weblate.utils.const import WEBHOOKS_SECRET_PREFIX
 from weblate.utils.data import data_dir
 
 USERNAME_MATCHER = re.compile(r"^[\w@+-][\w.@+-]*$")
@@ -311,12 +312,20 @@ def validate_project_web(value) -> None:
             raise ValidationError(gettext("This URL is prohibited"))
 
 
-def validate_base64_encoded_string(value: str) -> None:
+def validate_webhook_secret_string(value: str) -> None:
     """Validate that the given string is a valid base64 encoded string."""
+    if not value:
+        return
+    value = value.removeprefix(WEBHOOKS_SECRET_PREFIX)
     try:
-        base64.b64decode(value)
+        decoded = base64.b64decode(value)
     except binascii.Error as error:
         raise ValidationError(gettext("Invalid base64 encoded string")) from error
+
+    if len(decoded) < 24:
+        raise ValidationError(gettext("The provided secret is too short."))
+    if len(decoded) > 64:
+        raise ValidationError(gettext("The provided secret is too long."))
 
 
 class WeblateURLValidator(URLValidator):

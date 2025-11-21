@@ -1838,6 +1838,25 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
         self.do_translation_added_test(response_code=301)
 
     @responses.activate
+    def test_webhook_signature_prefix(self) -> None:
+        """Test webhook signature features."""
+        self.addon_configuration["secret"] = "whsec_secret-string"
+        self.do_translation_added_test(response_code=200)
+
+        wh_request = responses.calls[0].request
+        wh_utils = Webhook("whsec_secret-string")
+        wh_utils.verify(wh_request.body, wh_request.headers)
+
+        # This should be equivalent
+        wh_utils = Webhook("secret-string")
+        wh_utils.verify(wh_request.body, wh_request.headers)
+
+        # Verify that different secret fails
+        with self.assertRaises(WebhookVerificationError):
+            wh_utils = Webhook("public-string")
+            wh_utils.verify(wh_request.body, wh_request.headers)
+
+    @responses.activate
     def test_webhook_signature(self) -> None:
         """Test webhook signature features."""
         self.addon_configuration["secret"] = "secret-string"
@@ -1963,7 +1982,7 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
                 "name": "weblate.webhook.webhook",
                 "form": "1",
                 "webhook_url": "https://example.com/webhooks",
-                "secret": "xxxx-xxxx-xxxx",
+                "secret": "xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx",
                 "events": [ActionEvents.NEW],
             },
             follow=True,

@@ -19,6 +19,8 @@ Weblate 5.15
 
 .. rubric:: Compatibility
 
+* :ref:`addon-weblate.webhook.webhook` secret length is now validated to match the Standard Webhooks specification.
+
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
