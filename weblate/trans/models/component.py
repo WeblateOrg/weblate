@@ -1802,12 +1802,19 @@ class Component(
                     and not issubclass(self.file_format_cls, BilingualUpdateMixin)
                 ) or (
                     self.template
-                    and self.file_format_cls.get_new_file_content() is None
+                    and self.file_format_cls.get_new_file_content(
+                        self.file_format_params.get("encoding")
+                    )
+                    is None
                 ):
                     raise ValidationError({"template": gettext("File does not exist.")})
                 LocalRepository.from_files(
                     self.full_path,
-                    {self.template: self.file_format_cls.get_new_file_content()}
+                    {
+                        self.template: self.file_format_cls.get_new_file_content(
+                            self.file_format_params.get("encoding")
+                        )
+                    }
                     if self.template
                     else {},
                 )
