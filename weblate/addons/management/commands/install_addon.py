@@ -9,7 +9,6 @@ from typing import TYPE_CHECKING
 from django.core.management.base import CommandError
 
 from weblate.addons.models import ADDONS, Addon
-from weblate.auth.models import User, get_anonymous
 from weblate.trans.management.commands import WeblateComponentCommand
 
 if TYPE_CHECKING:
@@ -52,10 +51,6 @@ class Command(WeblateComponentCommand):
         except json.JSONDecodeError as error:
             msg = f"Invalid add-on configuration: {error}"
             raise CommandError(msg) from error
-        try:
-            user = User.objects.filter(is_superuser=True)[0]
-        except IndexError:
-            user = get_anonymous()
         for component in self.get_components(*args, **options):
             if addon.has_settings():
                 form = addon.get_add_form(None, component=component, data=configuration)
@@ -70,7 +65,7 @@ class Command(WeblateComponentCommand):
                     self.stderr.write(f"Already installed on {component}")
                 continue
 
-            if not addon.can_install(component, user):
+            if not addon.can_install(component=component):
                 self.stderr.write(f"Can not install on {component}")
                 continue
 

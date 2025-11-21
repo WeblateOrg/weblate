@@ -218,7 +218,7 @@ class BaseAddon:
 
         if project := self.instance.project:
             for component in project.component_set.iterator():
-                if self.can_install(component, None):
+                if self.can_install(component=component):
                     self.post_configure_run_component(component)
 
     def post_configure_run_component(self, component: Component) -> None:
@@ -288,12 +288,19 @@ class BaseAddon:
         self.instance.save(update_fields=["state"])
 
     @classmethod
-    def can_install(cls, component: Component, user: User | None) -> bool:  # noqa: ARG003
+    def can_install(
+        cls,
+        *,
+        component: Component | None = None,
+        project: Project | None = None,  # noqa: ARG003
+    ) -> bool:
         """Check whether add-on is compatible with given component."""
-        return all(
-            getattr(component, key) in cast("set", values)
-            for key, values in cls.compat.items()
-        )
+        if component is not None:
+            return all(
+                getattr(component, key) in cast("set", values)
+                for key, values in cls.compat.items()
+            )
+        return True
 
     def pre_push(
         self, component: Component, activity_log_id: int | None = None

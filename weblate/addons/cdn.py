@@ -63,15 +63,25 @@ class CDNJSAddon(BaseAddon):
         )
 
     @classmethod
-    def can_install(cls, component: Component, user: User | None) -> bool:
+    def can_install(
+        cls,
+        *,
+        component: Component | None = None,
+        project: Project | None = None,
+    ) -> bool:
         if (
             not settings.LOCALIZE_CDN_URL
             or not settings.LOCALIZE_CDN_PATH
-            or not component.has_template()
-            or not component.translation_set.exists()
+            or (
+                component is not None
+                and (
+                    not component.has_template()
+                    or not component.translation_set.exists()
+                )
+            )
         ):
             return False
-        return super().can_install(component, user)
+        return super().can_install(component=component, project=project)
 
     def cdn_path(self, filename: str) -> str:
         return os.path.join(
