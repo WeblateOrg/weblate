@@ -459,17 +459,15 @@ class AzureOpenAIMachineryForm(BaseOpenAIMachineryForm):
     )
 
 
-class OllamaMachineryForm(BaseMachineryForm):
-    url = WeblateServiceURLField(
+class LLMBasicMachineryForm(BaseMachineryForm):
+    base_url = WeblateServiceURLField(
         label=pgettext_lazy("Automatic suggestion service configuration", "API URL"),
-        initial="http://localhost:11434",
     )
     model = forms.CharField(
         label=pgettext_lazy(
             "Automatic suggestion service configuration",
-            "Ollama model",
+            "LLM model",
         ),
-        initial="llama3.2:3b",
     )
     persona = forms.CharField(
         label=pgettext_lazy(
@@ -492,4 +490,18 @@ class OllamaMachineryForm(BaseMachineryForm):
             "Describe the style of translation. For example: “Use informal language.”"
         ),
         required=False,
+    )
+
+
+class OllamaMachineryForm(LLMBasicMachineryForm):
+    base_url = WeblateServiceURLField(
+        label=pgettext_lazy("Automatic suggestion service configuration", "API URL"),
+        initial="http://localhost:11434",
+    )
+    model = forms.CharField(
+        label=pgettext_lazy(
+            "Automatic suggestion service configuration",
+            "Ollama model",
+        ),
+        initial="llama3.2:3b",
     )
