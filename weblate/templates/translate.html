@@ -523,13 +523,12 @@
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
+                        <h4 class="modal-title">{% translate "Are you absolutely sure?" %}</h4>
                         <button type="button"
-                                class="close"
+                                class="btn-close"
                                 data-bs-dismiss="modal"
                                 aria-label="{% translate "Close" %}">
-                          <span aria-hidden="true">×</span>
                         </button>
-                        <h4 class="modal-title">{% translate "Are you absolutely sure?" %}</h4>
                       </div>
                       <div class="modal-body"></div>
                       <div class="modal-footer">
@@ -926,13 +925,12 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
+              <h4 class="modal-title">{% translate "Edit additional string info" %}</h4>
               <button type="button"
-                      class="close"
+                      class="btn-close"
                       data-bs-dismiss="modal"
                       aria-label="{% translate "Close" %}">
-                <span aria-hidden="true">×</span>
               </button>
-              <h4 class="modal-title">{% translate "Edit additional string info" %}</h4>
             </div>
             <div class="modal-body">
               {% crispy context_form %}
@@ -993,15 +991,14 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <button type="button"
-                      class="close"
-                      data-bs-dismiss="modal"
-                      aria-label="{% translate "Close" %}">
-                <span aria-hidden="true">×</span>
-              </button>
               <h4 class="card-title">
                 {% blocktranslate with existing=unit.get_source_plurals.0 %}Add a new variant for "{{ existing }}"{% endblocktranslate %}
               </h4>
+              <button type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="{% translate "Close" %}">
+              </button>
             </div>
             <div class="modal-body">{{ new_unit_form|crispy }}</div>
             <div class="modal-footer">
@@ -1025,13 +1022,12 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
+              <h4 class="card-title">{% translate "Add new screenshot" %}</h4>
               <button type="button"
-                      class="close"
+                      class="btn-close"
                       data-bs-dismiss="modal"
                       aria-label="{% translate "Close" %}">
-                <span aria-hidden="true">×</span>
               </button>
-              <h4 class="card-title">{% translate "Add new screenshot" %}</h4>
             </div>
             <div class="card-body">
               <div id="screenshot-form-container">{{ screenshot_form|crispy }}</div>
@@ -1058,13 +1054,12 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
+              <h4 class="modal-title">{% translate "Add term to glossary" %}</h4>
               <button type="button"
-                      class="close"
+                      class="btn-close"
                       data-bs-dismiss="modal"
                       aria-label="{% translate "Close" %}">
-                <span aria-hidden="true">×</span>
               </button>
-              <h4 class="modal-title">{% translate "Add term to glossary" %}</h4>
             </div>
             <div class="modal-body">{{ addterm_form|crispy }}</div>
             <div class="modal-footer">

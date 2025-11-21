@@ -194,13 +194,12 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
+              <h4 class="modal-title">{% translate "Are you absolutely sure?" %}</h4>
               <button type="button"
-                      class="close"
+                      class="btn-close"
                       data-bs-dismiss="modal"
                       aria-label="{% translate "Close" %}">
-                <span aria-hidden="true">×</span>
               </button>
-              <h4 class="modal-title">{% translate "Are you absolutely sure?" %}</h4>
             </div>
             <div class="modal-body">
               {% blocktranslate with user=user.username %}This will remove <b>{{ user }}</b> access to this project.{% endblocktranslate %}
@@ -226,14 +225,13 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button"
-                    class="close"
-                    data-bs-dismiss="modal"
-                    aria-label="{% translate "Close" %}">
-              <span aria-hidden="true">×</span>
-            </button>
             {% translate "Add a user" %}
             {% documentation_icon 'admin/access' 'invite-user' %}
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="{% translate "Close" %}">
+            </button>
           </div>
           <div class="modal-body">{{ add_user_form|crispy }}</div>
           <div class="modal-footer">
