@@ -178,7 +178,7 @@ class AdminTest(ViewTestCase):
         response = self.client.get(reverse("manage-tools"))
         self.assertContains(response, "announcement")
         self.assertFalse(Announcement.objects.exists())
-        response = self.client.post(
+        self.client.post(
             reverse("manage-tools"),
             {"message": "Test message", "severity": "info"},
             follow=True,

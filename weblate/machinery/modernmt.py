@@ -190,7 +190,7 @@ class ModernMTTranslation(GlossaryMachineTranslationMixin):
 
         try:
             with open(temp_filename, "rb") as file_content:
-                response = self.request(
+                self.request(
                     "post",
                     self.get_api_url("memories", str(glossary_id), "glossary"),
                     data={

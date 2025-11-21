@@ -171,7 +171,7 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
         change_term()
 
         # Import file again with adding
-        response = self.import_file(TEST_TBX)
+        self.import_file(TEST_TBX)
 
         # Check number of imported objects
         self.assertEqual(self.glossary.unit_set.count(), 164)
@@ -187,7 +187,7 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
         # Check correct response
         self.assertRedirects(response, self.glossary.get_absolute_url())
 
-        response = self.client.get(self.glossary.get_absolute_url())
+        self.client.get(self.glossary.get_absolute_url())
 
         # Check number of imported objects
         self.assertEqual(self.glossary.unit_set.count(), 163)
