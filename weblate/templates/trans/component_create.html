@@ -167,7 +167,7 @@
             <input type="hidden" name="project" value="{{ selected_project }}" />
             <p class="check">
               {% translate "Create a new empty translation component to start from scratch." %}
-              {% blocktranslate with link_start='<a href="#zip" data-toggle="tab">' link_end='</a>' %}Create a ZIP file containing any existing translation files you have, and {{ link_start }}upload it{{ link_end }}.{% endblocktranslate %}
+              {% blocktranslate with link_start='<a data-bs-target="#zip" data-bs-toggle="tab" href="#">' link_end='</a>' %}Create a ZIP file containing any existing translation files you have, and {{ link_start }}upload it{{ link_end }}.{% endblocktranslate %}
             </p>
             {% crispy scratch_form %}
             <input type="submit"

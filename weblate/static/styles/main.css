@@ -24,6 +24,10 @@ a:hover {
   text-decoration: none;
 }
 
+label {
+  font-weight: 700;
+}
+
 .avatar {
   -webkit-border-radius: 50%;
   -moz-border-radius: 50%;
@@ -242,7 +246,7 @@ ul.legend li {
 }
 
 .translatetext {
-  background-color: #eee;
+  background-color: #eee !important;
 }
 
 .current_translation {
@@ -381,11 +385,11 @@ span.replaced {
   max-width: 100%;
 }
 
-.card-body .table-condensed {
+.card-body .table-sm {
   margin-bottom: 0;
 }
 
-.card-body .table-condensed {
+.card-body .table-sm {
   margin-bottom: 0;
 }
 
@@ -1458,7 +1462,8 @@ svg {
 .unit-pagination svg,
 .pagination svg,
 .btn-xs svg,
-.btn-group-xs svg {
+.btn-group-xs svg
+.btn-group-sm svg {
   max-width: 18px;
   max-height: 18px;
 }
@@ -2405,6 +2410,7 @@ tbody.warning {
 
 .card-footer {
   border-top: var(--border);
+  background-color: inherit;
 }
 
 .card {
@@ -2564,4 +2570,13 @@ table.table-simple tbody#glossary-terms td {
 
 .btn-outline-primary .disabled {
   opacity: 65%;
+}
+
+.zen-unit td {
+  background-color: inherit;
+}
+
+.zen-unit .list-group-item {
+  border-radius: var(--border-radius-sm);
+  border: 1px solid #bfc3c7;
 }

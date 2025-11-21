@@ -156,8 +156,8 @@
                         </a>
                       {% endif %}
                       <a href="#"
-                         data-toggle="modal"
-                         data-target="#delete_user_{{ user.id }}"
+                         data-bs-toggle="modal"
+                         data-bs-target="#delete_user_{{ user.id }}"
                          class="btn btn-link btn-xs red"
                          title="{% translate "Remove" %}">{% icon 'delete.svg' %} {% translate "Remove" %}</a>
                     </td>
@@ -172,8 +172,8 @@
             {% endif %}
             <div class="card-footer">
               <a href="#"
-                 data-toggle="modal"
-                 data-target="#add_user_popup"
+                 data-bs-toggle="modal"
+                 data-bs-target="#add_user_popup"
                  class="btn btn-primary">{% translate "Add a user" %}</a>
             </div>
           </div>
@@ -196,7 +196,7 @@
             <div class="modal-header">
               <button type="button"
                       class="close"
-                      data-dismiss="modal"
+                      data-bs-dismiss="modal"
                       aria-label="{% translate "Close" %}">
                 <span aria-hidden="true">×</span>
               </button>
@@ -228,7 +228,7 @@
           <div class="modal-header">
             <button type="button"
                     class="close"
-                    data-dismiss="modal"
+                    data-bs-dismiss="modal"
                     aria-label="{% translate "Close" %}">
               <span aria-hidden="true">×</span>
             </button>

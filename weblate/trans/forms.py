@@ -119,16 +119,16 @@ if TYPE_CHECKING:
     from weblate.trans.models.translation import NewUnitParams
 
 BUTTON_TEMPLATE = """
-<button type="button" class="btn btn-default {0}" title="{1}" {2}>{3}</button>
+<button type="button" class="btn btn-outline-primary {0}" title="{1}" {2}>{3}</button>
 """
 RADIO_TEMPLATE = """
-<label class="btn btn-default {0}" title="{1}">
+<label class="btn btn-outline-primary {0}" title="{1}">
 <input type="radio" name="{2}" value="{3}" {4}/>
 {5}
 </label>
 """
 GROUP_TEMPLATE = """
-<div class="btn-group btn-group-xs" {0}>{1}</div>
+<div class="btn-group btn-group-sm" {0}>{1}</div>
 """
 TOOLBAR_TEMPLATE = """
 <div class="btn-toolbar float-end editor-toolbar">{0}</div>
@@ -285,7 +285,7 @@ class PluralTextarea(forms.Textarea):
             GROUP_TEMPLATE,
             [
                 (
-                    mark_safe('data-toggle="buttons"'),
+                    mark_safe('data-bs-toggle="buttons"'),
                     rtl_switch,
                 )
             ],  # Only one group.

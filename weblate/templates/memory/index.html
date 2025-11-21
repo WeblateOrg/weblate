@@ -36,7 +36,7 @@
         {% translate "Translation memory status" %}
       </h4>
     </div>
-    <table class="table table-condensed table-striped">
+    <table class="table table-sm table-striped">
       <tr>
         <th>
           {% if project %}
@@ -54,8 +54,8 @@
           <a href="{{ download_url }}?format=tmx" class="btn btn-primary">{% translate "Download as TMX" %}</a>
           {% if delete_url %}
             <a href="#"
-               data-toggle="modal"
-               data-target="#delete_memory_form"
+               data-bs-toggle="modal"
+               data-bs-target="#delete_memory_form"
                class="btn btn-danger">{% translate "Delete" %}</a>
             <form action="{{ delete_url }}" method="post" class="inlineform">
               {% csrf_token %}
@@ -66,7 +66,7 @@
                     <div class="modal-header">
                       <button type="button"
                               class="close"
-                              data-dismiss="modal"
+                              data-bs-dismiss="modal"
                               aria-label="{% translate "Close" %}">
                         <span aria-hidden="true">×</span>
                       </button>
@@ -88,8 +88,8 @@
           {% endif %}
           {% if rebuild_url %}
             <a href="#"
-               data-toggle="modal"
-               data-target="#rebuild_memory_form"
+               data-bs-toggle="modal"
+               data-bs-target="#rebuild_memory_form"
                class="btn btn-warning">{% translate "Rebuild" %}</a>
             <form action="{{ rebuild_url }}" method="post" class="inlineform">
               {% csrf_token %}
@@ -100,7 +100,7 @@
                     <div class="modal-header">
                       <button type="button"
                               class="close"
-                              data-dismiss="modal"
+                              data-bs-dismiss="modal"
                               aria-label="{% translate "Close" %}">
                         <span aria-hidden="true">×</span>
                       </button>
@@ -140,8 +140,8 @@
                class="btn btn-primary">{% translate "Download as TMX" %}</a>
             {% if delete_url %}
               <a href="#"
-                 data-toggle="modal"
-                 data-target="#delete_memory_form_{{ item.origin|hash_text }}"
+                 data-bs-toggle="modal"
+                 data-bs-target="#delete_memory_form_{{ item.origin|hash_text }}"
                  class="btn btn-danger">{% translate "Delete" %}</a>
               <form action="{{ delete_url }}" method="post" class="inlineform">
                 {% csrf_token %}
@@ -156,7 +156,7 @@
                       <div class="modal-header">
                         <button type="button"
                                 class="close"
-                                data-dismiss="modal"
+                                data-bs-dismiss="modal"
                                 aria-label="{% translate "Close" %}">
                           <span aria-hidden="true">×</span>
                         </button>
@@ -178,8 +178,8 @@
             {% endif %}
             {% if rebuild_url and item.can_rebuild %}
               <a href="#"
-                 data-toggle="modal"
-                 data-target="#rebuild_memory_form_{{ item.origin|hash_text }}"
+                 data-bs-toggle="modal"
+                 data-bs-target="#rebuild_memory_form_{{ item.origin|hash_text }}"
                  class="btn btn-warning">{% translate "Rebuild" %}</a>
               <form action="{{ rebuild_url }}" method="post" class="inlineform">
                 {% csrf_token %}
@@ -194,7 +194,7 @@
                       <div class="modal-header">
                         <button type="button"
                                 class="close"
-                                data-dismiss="modal"
+                                data-bs-dismiss="modal"
                                 aria-label="{% translate "Close" %}">
                           <span aria-hidden="true">×</span>
                         </button>

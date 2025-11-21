@@ -167,7 +167,7 @@
                       {% endif %}
                       <a class="language" href="{{ unit.source_unit.get_absolute_url }}">{{ unit.translation.component.source_language }}</a>
                       {% if not unit.source_unit.translated %}
-                        <span class="badge badge-danger">{% translate "The source string needs review." %}</span>
+                        <span class="badge text-bg-danger">{% translate "The source string needs review." %}</span>
                       {% endif %}
                       {% if unit.translation.component.project.source_review %}
                         <a title="{% translate "Report issue with the source string" %}"
@@ -196,7 +196,7 @@
                     <div class="btn-group float-end">
                       <button type="button"
                               class="btn btn-primary dropdown-toggle btn-spaced"
-                              data-toggle="dropdown"
+                              data-bs-toggle="dropdown"
                               aria-haspopup="true"
                               aria-expanded="false"
                               id="unit_tools_dropdown">
@@ -224,7 +224,7 @@
                         {% endif %}
                         {% if user_can_add_unit %}
                           <li>
-                            <a href="#" data-toggle="modal" data-target="#add-unit-form">{% translate "Add variant of this string" %}</a>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#add-unit-form">{% translate "Add variant of this string" %}</a>
                           </li>
                         {% endif %}
                         {% if user_can_translate and unit.translation.component.is_multivalue %}
@@ -396,7 +396,7 @@
               <form method="post"
                     action="{{ unit.translation.get_translate_url }}?{{ search_url }}&amp;offset={{ offset }}&amp;checksum={{ unit.checksum }}">
                 {% csrf_token %}
-                <table class="table table-condensed">
+                <table class="table table-sm">
                   <thead>
                     <tr>
                       <th></th>
@@ -525,7 +525,7 @@
                       <div class="modal-header">
                         <button type="button"
                                 class="close"
-                                data-dismiss="modal"
+                                data-bs-dismiss="modal"
                                 aria-label="{% translate "Close" %}">
                           <span aria-hidden="true">×</span>
                         </button>
@@ -605,7 +605,7 @@
                     {% blocktranslate count count=unit.suggestions|length %}There is {{ count }} suggestion for this string.{% plural %}There are {{ count }} suggestions for this string.{% endblocktranslate %}
                   </p>
                   <p class="list-group-item-text list-buttons">
-                    <a href="#suggestions" data-toggle="tab" class="btn btn-warning">{% translate "View" %}</a>
+                    <a data=bs=target="#suggestions" data-bs-toggle="tab" class="btn btn-warning" href="#">{% translate "View" %}</a>
                   </p>
                 </div>
               {% endif %}
@@ -679,7 +679,7 @@
                     {% blocktranslate count count=comments_to_check|length %}There is {{ count }} unresolved comment for this string.{% plural %}There are {{ count }} unresolved comments for this string.{% endblocktranslate %}
                   </p>
                   <p class="list-group-item-text list-buttons">
-                    <a href="#comments" data-toggle="tab" class="btn btn-warning">{% translate "View" %}</a>
+                    <a data-bs-target="#comments" data-bs-toggle="tab" class="btn btn-warning" href="#">{% translate "View" %}</a>
                   </p>
                 </div>
               {% endif %}
@@ -695,7 +695,7 @@
                     {% blocktranslate count count=variants|length %}There is {{ count }} variant of this string.{% plural %}There are {{ count }} variants of this string.{% endblocktranslate %}
                   </p>
                   <p class="list-group-item-text list-buttons">
-                    <a href="#variants" data-toggle="tab" class="btn btn-warning">{% translate "View" %}</a>
+                    <a data-bs-target="#variants" data-bs-toggle="tab" class="btn btn-warning" href="#">{% translate "View" %}</a>
                   </p>
                 </div>
               {% endif %}
@@ -718,7 +718,7 @@
                 {% translate "Glossary" %}
               </h4>
             </div>
-            <table class="table table-condensed table-simple">
+            <table class="table table-sm table-simple">
               <thead>
                 <tr>
                   <th>{{ unit.translation.component.source_language }}</th>
@@ -735,8 +735,8 @@
               <div class="card-footer card-footer-links">
                 <a class="btn btn-link green"
                    href="#"
-                   data-toggle="modal"
-                   data-target="#add-glossary-form">{% icon "plus-circle.svg" %} {% translate "Add term to glossary" %}</a>
+                   data-bs-toggle="modal"
+                   data-bs-target="#add-glossary-form">{% icon "plus-circle.svg" %} {% translate "Add term to glossary" %}</a>
               </div>
             {% endif %}
           </div>
@@ -780,8 +780,8 @@
                   <br />
                   <a class="btn btn-link green"
                      href="#"
-                     data-toggle="modal"
-                     data-target="#add-screenshot-form">{% icon "plus-circle.svg" %} {% translate "Add screenshot" %}</a>
+                     data-bs-toggle="modal"
+                     data-bs-target="#add-screenshot-form">{% icon "plus-circle.svg" %} {% translate "Add screenshot" %}</a>
                 {% endif %}
               </div>
             {% endif %}
@@ -792,9 +792,9 @@
                     <a class="btn btn-link btn-xs float-end"
                        id="edit-context"
                        href="#"
-                       data-toggle="modal"
+                       data-bs-toggle="modal"
                        data-focus="#id_explanation"
-                       data-target="#context-edit-form">{% icon "pencil.svg" %}</a>
+                       data-bs-target="#context-edit-form">{% icon "pencil.svg" %}</a>
                   {% endif %}
                   {% translate "Explanation" %}
                 </h5>
@@ -823,9 +823,9 @@
                   {% if user_can_edit_source %}
                     <a class="btn btn-link btn-xs float-end"
                        href="#"
-                       data-toggle="modal"
+                       data-bs-toggle="modal"
                        data-focus="#id_labels"
-                       data-target="#context-edit-form">{% icon "pencil.svg" %}</a>
+                       data-bs-target="#context-edit-form">{% icon "pencil.svg" %}</a>
                   {% endif %}
                   {% translate "Labels" %}
                 </h5>
@@ -844,9 +844,9 @@
                   {% if user_can_edit_source %}
                     <a class="btn btn-link btn-xs float-end"
                        href="#"
-                       data-toggle="modal"
+                       data-bs-toggle="modal"
                        data-focus="#id_extra_flags"
-                       data-target="#context-edit-form">{% icon "pencil.svg" %}</a>
+                       data-bs-target="#context-edit-form">{% icon "pencil.svg" %}</a>
                   {% endif %}
                   {% translate "Flags" %}
                 </h5>
@@ -917,7 +917,7 @@
             <div class="modal-header">
               <button type="button"
                       class="close"
-                      data-dismiss="modal"
+                      data-bs-dismiss="modal"
                       aria-label="{% translate "Close" %}">
                 <span aria-hidden="true">×</span>
               </button>
@@ -984,7 +984,7 @@
             <div class="modal-header">
               <button type="button"
                       class="close"
-                      data-dismiss="modal"
+                      data-bs-dismiss="modal"
                       aria-label="{% translate "Close" %}">
                 <span aria-hidden="true">×</span>
               </button>
@@ -1016,7 +1016,7 @@
             <div class="modal-header">
               <button type="button"
                       class="close"
-                      data-dismiss="modal"
+                      data-bs-dismiss="modal"
                       aria-label="{% translate "Close" %}">
                 <span aria-hidden="true">×</span>
               </button>
@@ -1049,7 +1049,7 @@
             <div class="modal-header">
               <button type="button"
                       class="close"
-                      data-dismiss="modal"
+                      data-bs-dismiss="modal"
                       aria-label="{% translate "Close" %}">
                 <span aria-hidden="true">×</span>
               </button>

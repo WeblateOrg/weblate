@@ -41,7 +41,7 @@
                   <h4 class="card-title">
                     <a class="collapsed createdbackup"
                        role="button"
-                       data-toggle="collapse"
+                       data-bs-toggle="collapse"
                        data-parent="#accordion-{{ service.pk }}"
                        href="#error-{{ service.pk }}"
                        aria-expanded="true"
@@ -64,7 +64,7 @@
                 <h4 class="card-title">
                   <a class="collapsed createdbackup"
                      role="button"
-                     data-toggle="collapse"
+                     data-bs-toggle="collapse"
                      data-parent="#accordion-{{ service.pk }}"
                      href="#collapse-{{ service.pk }}"
                      aria-expanded="false"
@@ -84,7 +84,7 @@
                   <h4 class="card-title">
                     <a class="collapsed"
                        role="button"
-                       data-toggle="collapse"
+                       data-bs-toggle="collapse"
                        data-parent="#accordion-{{ service.pk }}"
                        href="#collapse-{{ service.pk }}-{{ log.pk }}"
                        aria-expanded="false"
@@ -117,8 +117,8 @@
                  value="{% translate "Perform backup" %}" />
           <button type="button"
                   class="btn btn-danger"
-                  data-toggle="modal"
-                  data-target="#remove-{{ service.pk }}">{% translate "Delete" %}</button>
+                  data-bs-toggle="modal"
+                  data-bs-target="#remove-{{ service.pk }}">{% translate "Delete" %}</button>
         </div>
       </div>
     </form>
@@ -132,7 +132,7 @@
             <div class="modal-header">
               <button type="button"
                       class="close"
-                      data-dismiss="modal"
+                      data-bs-dismiss="modal"
                       aria-label="{% translate "Close" %}">
                 <span aria-hidden="true">×</span>
               </button>
@@ -146,7 +146,7 @@
               {% include "manage/snippets/backup-credentials.html" %}
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-primary" data-dismiss="modal">{% translate "Close" %}</button>
+              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">{% translate "Close" %}</button>
               <input type="submit"
                      class="btn btn-danger"
                      name="remove"
