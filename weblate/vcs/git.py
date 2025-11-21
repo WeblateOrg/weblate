@@ -555,7 +555,7 @@ class GitRepository(Repository):
 
         # Use it for *.po by default
         configfile = home / ".config" / "git" / "attributes"
-        if configfile.parent.is_dir():
+        if not configfile.exists():
             configfile.parent.mkdir(parents=True, exist_ok=True)
             configfile.write_text("*.po merge=weblate-merge-gettext-po\n")
 
