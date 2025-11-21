@@ -14,7 +14,7 @@ permissions:
 
 jobs:
   fossa-scan:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-slim
     if: ${{ github.repository == 'WeblateOrg/weblate' }}
     steps:
     - name: Checkout Code

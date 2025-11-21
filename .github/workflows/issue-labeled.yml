@@ -15,7 +15,7 @@ permissions:
 
 jobs:
   cleanup-labels:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-slim
     if: |
       ! github.event.issue.pull_request &&
       contains(github.event.label.name, 'Waiting for:')
