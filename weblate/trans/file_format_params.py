@@ -411,3 +411,18 @@ class FlatXMLKeyName(BaseFlatXMLFormatParam):
     field_class = forms.CharField
     default = "key"
     field_kwargs: ClassVar[FieldKwargsDict] = {"min_length": 1}
+
+
+@register_file_format_param
+class StringsEncoding(BaseFileFormatParam):
+    # combining StringsFormat and StringsUtf8Format
+    file_formats = ("strings",)
+    name = "encoding"
+    label = gettext_lazy("File encoding")
+    field_class = forms.ChoiceField
+    choices: ClassVar[list[tuple[str | int, StrOrPromise]] | None] = [
+        ("utf-16", gettext_lazy("UTF-16")),
+        ("utf-8", gettext_lazy("UTF-8")),
+    ]
+    default = "utf-8"
+    help_text = gettext_lazy("Encoding used for iOS strings files")

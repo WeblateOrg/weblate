@@ -48,9 +48,7 @@ class BaseFileFormatsTest(ViewTestCase):
         self.assertContains(response, "Settings saved")
         self.component.refresh_from_db()
 
-
-class ComponentFileFormatsParamsTest(BaseFileFormatsTest):
-    def client_create_component(self, result, **kwargs):
+    def client_create_component(self, result: bool, **kwargs):
         params = {
             "name": "New Component With File Params",
             "slug": "new-component-with-file-params",
@@ -73,6 +71,8 @@ class ComponentFileFormatsParamsTest(BaseFileFormatsTest):
             self.assertEqual(response.status_code, 200)
         return response
 
+
+class ComponentFileFormatsParamsTest(BaseFileFormatsTest):
     def get_new_component(
         self, slug: str = "new-component-with-file-params"
     ) -> Component:
@@ -425,4 +425,37 @@ class GettextParamsTest(BaseFileFormatsTest):
         self.assertEqual(
             set(BilingualUpdateMixin.get_msgmerge_args(self.component)),
             {"--no-fuzzy-matching", "--no-location", "--no-wrap"},
+        )
+
+
+class StringsParamsTest(BaseFileFormatsTest):
+    def create_component(self):
+        return self.create_iphone(file_format_params={"encoding": "utf-16"})
+
+    def test_encoding_param(self):
+        # providing incorrect encoding should fail
+        response = self.client_create_component(
+            False,
+            file_format="strings",
+            filemask="iphone/*.lproj/Localizable.strings",
+            new_base="",
+            new_lang="contact",
+            file_format_params_encoding="utf-8",
+        )
+        self.assertContains(response, "Cannot detect encoding for given string")
+        self.assertContains(response, "Could not parse")
+        self.assertFalse(
+            Component.objects.filter(slug="new-component-with-file-params").exists()
+        )
+
+        response = self.client_create_component(
+            True,
+            file_format="strings",
+            filemask="iphone/*.lproj/Localizable.strings",
+            new_base="",
+            new_lang="contact",
+            file_format_params_encoding="utf-16",
+        )
+        self.assertTrue(
+            Component.objects.filter(slug="new-component-with-file-params").exists()
         )
