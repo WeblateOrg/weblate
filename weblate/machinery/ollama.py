@@ -10,15 +10,13 @@ from urllib.parse import urljoin
 
 import requests
 
-from weblate.machinery.base import (
-    MachineTranslationError,
-)
+from weblate.machinery.base import MachineTranslationError
 from weblate.machinery.llm import BaseLLMTranslation
 
 from .forms import OllamaMachineryForm
 
 
-class Ollama(BaseLLMTranslation):
+class OllamaTranslation(BaseLLMTranslation):
     """
     Ollama machine translation integration.
 
@@ -33,7 +31,7 @@ class Ollama(BaseLLMTranslation):
     def get_model(self) -> str:
         return self.settings["model"]
 
-    def _fetch_llm_translations(self, prompt: str, content: str) -> list[str]:
+    def fetch_llm_translations(self, prompt: str, content: str) -> list[str]:
         try:
             payload = {
                 "model": self.get_model(),

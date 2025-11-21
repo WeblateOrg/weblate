@@ -20,7 +20,6 @@ from weblate.machinery.base import (
     BatchMachineTranslation,
     MachineTranslationError,
 )
-from weblate.machinery.forms import LLMBasicMachineryForm
 from weblate.utils.errors import add_breadcrumb
 
 if TYPE_CHECKING:
@@ -29,8 +28,6 @@ if TYPE_CHECKING:
     from .base import (
         DownloadMultipleTranslations,
     )
-
-GENERATE_ENDPOINT = "/api/generate"
 
 PROMPT = """
 You are a highly skilled translation assistant, adept at translating text
@@ -66,12 +63,9 @@ You treat strings like {placeable_1} or {placeable_2} as placeables for user inp
 
 
 class BaseLLMTranslation(BatchMachineTranslation):
-    name = "LLM"
     max_score = 90
     request_timeout = 60
     glossary_support = True
-    settings_form = LLMBasicMachineryForm
-    end_point = GENERATE_ENDPOINT
 
     def __init__(self, settings=None) -> None:
         super().__init__(settings)
@@ -88,6 +82,12 @@ class BaseLLMTranslation(BatchMachineTranslation):
 
     def get_model(self) -> str:
         raise NotImplementedError
+
+    def translation_split(self, text: str) -> list[str]:
+        return SEPARATOR_RE.split(text)
+
+    def fetch_llm_translations(self, prompt: str, content: str) -> str:
+        return ""
 
     def _get_prompt(
         self,
@@ -134,9 +134,6 @@ class BaseLLMTranslation(BatchMachineTranslation):
             separator=separator,
             placeables=placeables,
         )
-
-    def _fetch_llm_translations(self, prompt: str, content: str) -> str:
-        return ""
 
     def download_multiple_translations(
         self,
@@ -222,7 +219,7 @@ class BaseLLMTranslation(BatchMachineTranslation):
         add_breadcrumb(self.name, "prompt", prompt=prompt)
         add_breadcrumb(self.name, "chat", content=content)
 
-        translations_string = self._fetch_llm_translations(prompt, content)
+        translations_string = self.fetch_llm_translations(prompt, content)
 
         add_breadcrumb(self.name, "response", translations_string=translations_string)
         if translations_string is None:
@@ -234,7 +231,7 @@ class BaseLLMTranslation(BatchMachineTranslation):
             msg = "Blank assistant reply"
             raise MachineTranslationError(msg)
 
-        translations = SEPARATOR_RE.split(translations_string)
+        translations = self.translation_split(translations_string)
         if not rephrase and len(translations) != len(texts):
             self.report_error(
                 "Failed to parse assistant reply",
