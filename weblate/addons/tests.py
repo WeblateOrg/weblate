@@ -290,7 +290,7 @@ class GettextAddonTest(ViewTestCase):
             "po", "po-duplicates/*.dpo", name="Other", project=self.project
         )
         self.assertTrue(UpdateLinguasAddon.can_install(other, None))
-        addon = UpdateLinguasAddon.create(component=other)
+        UpdateLinguasAddon.create(component=other)
         commit = other.repository.show(other.repository.last_revision)
         self.assertIn("LINGUAS", commit)
         self.assertIn("\n+cs de it", commit)
