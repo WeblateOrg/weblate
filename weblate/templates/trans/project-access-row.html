@@ -46,8 +46,7 @@
               <button type="button"
                       class="btn-close"
                       data-bs-dismiss="modal"
-                      aria-label="{% translate "Close" %}">
-              </button>
+                      aria-label="{% translate "Close" %}"></button>
             </div>
             <div class="modal-body">
               {% blocktranslate with user=user.username %}This will remove <b>{{ user }}</b> access to this project.{% endblocktranslate %}
@@ -77,8 +76,7 @@
               <button type="button"
                       class="btn-close"
                       data-bs-dismiss="modal"
-                      aria-label="{% translate "Close" %}">
-              </button>
+                      aria-label="{% translate "Close" %}"></button>
             </div>
             <div class="modal-body">{{ user.group_edit_form|crispy }}</div>
             <div class="modal-footer">
