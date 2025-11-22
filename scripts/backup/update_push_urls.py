@@ -1,13 +1,22 @@
 #!/usr/bin/env python3
 """
-Script to update repository URLs (both repo and push) for all Weblate components.
+Script to update repository URLs (both repo and push) and push branch for all Weblate components.
 
 Usage:
     # Update all components to use a new repository URL
     python update_push_urls.py --new-url "git@github.com:user/repo.git"
     
+    # Update push branch for all components
+    python update_push_urls.py --new-push-branch "main"
+    
+    # Update both URL and push branch
+    python update_push_urls.py --new-url "git@github.com:user/repo.git" --new-push-branch "main"
+    
     # Update only components matching a pattern
     python update_push_urls.py --old-url "git@github.com:old/repo.git" --new-url "git@github.com:new/repo.git"
+    
+    # Update push branch for components with specific old push branch
+    python update_push_urls.py --old-push-branch "develop" --new-push-branch "main"
     
     # Dry run (show what would be changed without actually changing)
     python update_push_urls.py --new-url "git@github.com:user/repo.git" --dry-run
@@ -20,6 +29,9 @@ Usage:
     
     # Update only push URL (not repo URL)
     python update_push_urls.py --new-url "git@github.com:user/repo.git" --push-only
+    
+    # Update only push branch (not URLs)
+    python update_push_urls.py --new-push-branch "main" --push-branch-only
 """
 
 import argparse
@@ -36,14 +48,22 @@ from weblate.trans.models import Component
 
 
 def update_push_urls(
-    new_url: str,
+    new_url: str | None = None,
+    new_push_branch: str | None = None,
     old_url: str | None = None,
+    old_push_branch: str | None = None,
     component_pattern: str | None = None,
     dry_run: bool = False,
     repo_only: bool = False,
     push_only: bool = False,
+    push_branch_only: bool = False,
 ) -> None:
-    """Update repository URLs (both repo and push) for components."""
+    """Update repository URLs (both repo and push) and push branch for components."""
+    
+    # Validate that at least one update is requested
+    if not new_url and not new_push_branch:
+        print("Error: Must specify at least one of --new-url or --new-push-branch")
+        return
     
     # Get all components
     components = Component.objects.all()
@@ -53,6 +73,11 @@ def update_push_urls(
         from django.db.models import Q
         components = components.filter(Q(repo=old_url) | Q(push=old_url))
         print(f"Filtering components with repo or push URL: {old_url}")
+    
+    # Filter by old push branch if provided
+    if old_push_branch:
+        components = components.filter(push_branch=old_push_branch)
+        print(f"Filtering components with push branch: {old_push_branch}")
     
     # Filter by component name pattern if provided
     if component_pattern:
@@ -67,8 +92,9 @@ def update_push_urls(
         return
     
     # Determine what to update
-    update_repo = not push_only
-    update_push = not repo_only
+    update_repo = new_url and not push_only and not push_branch_only
+    update_push = new_url and not repo_only and not push_branch_only
+    update_push_branch = new_push_branch is not None
     
     print(f"\nFound {total} component(s) to update:")
     print("-" * 80)
@@ -77,6 +103,7 @@ def update_push_urls(
     for component in components:
         old_repo = component.repo or "(empty)"
         old_push = component.push or "(empty)"
+        old_branch = component.push_branch or "(empty - uses repo branch)"
         print(f"  {component.project.slug}/{component.slug}")
         print(f"    Name: {component.name}")
         if update_repo:
@@ -85,6 +112,9 @@ def update_push_urls(
         if update_push:
             print(f"    Current push URL: {old_push}")
             print(f"    New push URL:     {new_url}")
+        if update_push_branch:
+            print(f"    Current push branch: {old_branch}")
+            print(f"    New push branch:     {new_push_branch}")
         print()
     
     if dry_run:
@@ -97,6 +127,8 @@ def update_push_urls(
         update_desc.append("repo URL")
     if update_push:
         update_desc.append("push URL")
+    if update_push_branch:
+        update_desc.append("push branch")
     response = input(f"\nUpdate {' and '.join(update_desc)} for {total} component(s)? (yes/no): ")
     if response.lower() != "yes":
         print("Cancelled.")
@@ -109,12 +141,16 @@ def update_push_urls(
         update_fields.append("repo")
     if update_push:
         update_fields.append("push")
+    if update_push_branch:
+        update_fields.append("push_branch")
     
     for component in components:
         if update_repo:
             component.repo = new_url
         if update_push:
             component.push = new_url
+        if update_push_branch:
+            component.push_branch = new_push_branch
         component.save(update_fields=update_fields)
         updated += 1
         print(f"✓ Updated {component.project.slug}/{component.slug}")
@@ -124,16 +160,23 @@ def update_push_urls(
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Update repository URLs (both repo and push) for Weblate components"
+        description="Update repository URLs (both repo and push) and push branch for Weblate components"
     )
     parser.add_argument(
         "--new-url",
-        required=True,
         help="New repository URL to set for all matching components",
+    )
+    parser.add_argument(
+        "--new-push-branch",
+        help="New push branch to set for all matching components",
     )
     parser.add_argument(
         "--old-url",
         help="Only update components with this specific repo or push URL (optional)",
+    )
+    parser.add_argument(
+        "--old-push-branch",
+        help="Only update components with this specific push branch (optional)",
     )
     parser.add_argument(
         "--component-pattern",
@@ -147,27 +190,37 @@ def main():
     parser.add_argument(
         "--repo-only",
         action="store_true",
-        help="Only update the repo URL, not the push URL",
+        help="Only update the repo URL, not the push URL or push branch",
     )
     parser.add_argument(
         "--push-only",
         action="store_true",
-        help="Only update the push URL, not the repo URL",
+        help="Only update the push URL, not the repo URL or push branch",
+    )
+    parser.add_argument(
+        "--push-branch-only",
+        action="store_true",
+        help="Only update the push branch, not the repo URL or push URL",
     )
     
     args = parser.parse_args()
     
-    if args.repo_only and args.push_only:
-        print("Error: Cannot use both --repo-only and --push-only")
+    # Validate mutually exclusive options
+    exclusive_count = sum([args.repo_only, args.push_only, args.push_branch_only])
+    if exclusive_count > 1:
+        print("Error: Cannot use more than one of --repo-only, --push-only, or --push-branch-only")
         return
     
     update_push_urls(
         new_url=args.new_url,
+        new_push_branch=args.new_push_branch,
         old_url=args.old_url,
+        old_push_branch=args.old_push_branch,
         component_pattern=args.component_pattern,
         dry_run=args.dry_run,
         repo_only=args.repo_only,
         push_only=args.push_only,
+        push_branch_only=args.push_branch_only,
     )
 
 

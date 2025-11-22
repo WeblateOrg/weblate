@@ -111,6 +111,10 @@ class WeblateConf(AppConf):
 
     DEFAULT_ADD_MESSAGE = "Added translation using Weblate ({{ language_name }})\n\n"
 
+    DEFAULT_AUTOBATCH_MESSAGE = (
+        "Autobatch translation using LLM API ({{ language_name }})\n\n"
+    )
+
     DEFAULT_DELETE_MESSAGE = (
         "Deleted translation using Weblate ({{ language_name }})\n\n"
     )

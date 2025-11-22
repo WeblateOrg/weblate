@@ -3847,6 +3847,7 @@ class Component(
                 Change.store_last_change(translation, None)
 
             # Create the file
+            autobatch_lang = None  # Will be set if file is created
             if os.path.exists(fullname):
                 # Ignore request if file exists (possibly race condition as
                 # the processing of new language can take some time and user
@@ -3855,18 +3856,6 @@ class Component(
                     messages.error(request, gettext("Translation file already exists!"))
             else:
                 file_format.add_language(fullname, language, base_filename)
-
-                # if create_translations:
-                #     translation, created = self.translation_set.get_or_create(
-                #         language=language,
-                #         defaults={
-                #             "plural": language.plural,
-                #             "filename": filename,
-                #             "language_code": code,
-                #         },
-                #     )
-                #     translation = translation.auto_translate_via_openrouter()
-                    
                 if send_signal:
                     translation_post_add.send(
                         sender=self.__class__, translation=translation
@@ -3879,6 +3868,26 @@ class Component(
                     template=self.add_message,
                     store_hash=False,
                 )
+                
+                # Store language code for autobatch translation after lock is released
+                # (must be outside lock to avoid deadlock with Celery task)
+                autobatch_lang = translation.language.code
+
+        # Trigger autobatch translation for newly created translation files
+        # (runs after lock is released to avoid deadlock with Celery task)
+        if autobatch_lang:
+            try:
+                # Autobatch translation will schedule file sync after it completes
+                # to ensure proper sequencing
+                self.autobatchtranslate_via_openrouter(langs=[autobatch_lang], request=request, file_sync=True)
+            except Exception as e:
+                self.log_error(
+                    "autobatch translation failed for language %s: %s",
+                    autobatch_lang,
+                    e,
+                )
+                import traceback
+                self.log_error("traceback: %s", traceback.format_exc())
 
         # Trigger parsing of the newly added file
         if create_translations:
@@ -4114,6 +4123,289 @@ class Component(
         return Language.objects.exclude(
             Q(translation__component=self) | Q(component=self)
         )
+    
+    def autobatchtranslate_via_openrouter(
+        self,
+        *,
+        langs: list[str] | None = None,
+        request: AuthenticatedHttpRequest | None = None,
+        file_sync: bool = False,
+    ) -> None:
+        """Run autobatch translation via OpenRouter as a Celery task."""
+        if settings.CELERY_TASK_ALWAYS_EAGER:
+            # Asynchronous processing not available, run directly
+            return self._autobatchtranslate_via_openrouter_immediate(
+                langs=langs,
+                request=request,
+                file_sync=file_sync,
+            )
+
+        from weblate.trans.tasks import perform_autobatchtranslate_via_openrouter
+
+        # Use delay_on_commit to ensure task runs after transaction commits and lock is released
+        perform_autobatchtranslate_via_openrouter.delay_on_commit(
+            pk=self.pk,
+            langs=langs,
+            user_id=request.user.id if request is not None else None,
+            file_sync=file_sync
+        )
+
+    @perform_on_link
+    def _autobatchtranslate_via_openrouter_immediate(
+        self,
+        *,
+        langs: list[str] | None = None,
+        request: AuthenticatedHttpRequest | None = None,
+        file_sync: bool = False,
+    ) -> None:
+        """Run autobatch translation via OpenRouter (immediate execution)."""
+        # Create translations for new languages first
+        if langs:
+            self._create_translations(
+                force=False,
+                force_scan=False,
+                langs=langs,
+                request=request,
+                changed_template=False,
+                from_link=False,
+                change=None,
+            )
+        
+        # Get translations, filtered by language list if provided
+        translations = self.translation_set.all()
+        if langs:
+            from weblate.lang.models import Language
+            language_ids = Language.objects.filter(code__in=langs).values_list(
+                "id", flat=True
+            )
+            translations = translations.filter(language_id__in=language_ids)
+        
+        if translations.count() == 0:
+            return
+        
+        # Track if any translation was successfully processed
+        translations_processed = False
+        
+        for translation in translations:
+            try:
+                from weblate.trans.autobatchtranslate import auto_translate_via_openrouter
+                auto_translate_via_openrouter(translation)
+                translations_processed = True
+            except Exception as e:
+                self.log_error(
+                    "autobatch translation failed for %s: %s",
+                    translation.full_slug,
+                    e,
+                )
+                import traceback
+                self.log_error("traceback: %s", traceback.format_exc())
+        
+        # Schedule file sync after autobatch translation completes
+        # This ensures file sync runs after all translations are processed
+        # Only schedule if file_sync is True and we processed at least one translation
+        if file_sync and langs and translations_processed:
+            from weblate.trans.tasks import perform_file_sync_for_autobatchtranslation
+            
+            # Schedule file sync to run after autobatch translation completes
+            # Since we're already in a Celery task, we can schedule directly
+            perform_file_sync_for_autobatchtranslation.delay(
+                pk=self.pk,
+                langs=langs,
+                user_id=request.user.id if request is not None else None,
+            )
+
+    def do_file_sync_for_autobatchtranslation(
+        self,
+        *,
+        langs: list[str] | None = None,
+        request: AuthenticatedHttpRequest | None = None,
+    ) -> bool:
+        """Write pending changes to files and commit them for autobatch translation."""
+        if settings.CELERY_TASK_ALWAYS_EAGER:
+            # Asynchronous processing not available, run directly
+            return self._do_file_sync_for_autobatchtranslation_immediate(
+                langs=langs,
+                request=request,
+            )
+
+        from weblate.trans.tasks import perform_file_sync_for_autobatchtranslation
+
+        # Use delay_on_commit to ensure task runs after transaction commits and lock is released
+        perform_file_sync_for_autobatchtranslation.delay_on_commit(
+            pk=self.pk,
+            langs=langs,
+            user_id=request.user.id if request is not None else None,
+        )
+        # Return True to indicate task was scheduled (actual result will be in task logs)
+        return True
+
+    @perform_on_link
+    def _do_file_sync_for_autobatchtranslation_immediate(
+        self,
+        *,
+        langs: list[str] | None = None,
+        request: AuthenticatedHttpRequest | None = None,
+    ) -> bool:
+        """Write pending changes to files and commit them (immediate execution).
+        
+        This function reads from database, writes to files, and commits to git.
+        Minimal database modifications are performed (local_revision update).
+        """
+        from weblate.trans.models import Translation
+        from weblate.trans.models.pending import PendingUnitChange
+        from weblate.trans.exceptions import FileParseError
+        from weblate.utils.errors import report_error
+        from django.utils import timezone
+        from datetime import UTC
+
+        # Get translations with pending changes, filtered by language if specified
+        translations_query = Translation.objects.filter(
+            unit__pending_changes__isnull=False
+        ).filter(
+            Q(component=self) | Q(component__linked_component=self)
+        ).distinct()
+
+        # Filter by language list if provided
+        if langs:
+            from weblate.lang.models import Language
+            language_ids = Language.objects.filter(code__in=langs).values_list(
+                "id", flat=True
+            )
+            translations_query = translations_query.filter(language_id__in=language_ids)
+
+        # Sort: source translation first
+        translations = sorted(
+            translations_query.prefetch_related("component"),
+            key=lambda translation: not translation.is_source,
+        )
+
+        if not translations:
+            return False
+
+        def reuse_self(translation: Translation) -> Translation:
+            if translation.component_id == self.id:
+                translation.component = self
+            if translation.component.linked_component_id == self.id:
+                translation.component.linked_component = self
+            if translation.pk == translation.component.source_translation.pk:
+                translation = translation.component.source_translation
+            return translation
+
+        components = {}
+        skipped = set()
+        was_changed: bool = False
+        # Track translations that were updated and need to be committed
+        translations_to_commit: list[tuple[Translation, str, datetime]] = []
+
+        # Get author name from request if available
+        author = (
+            request.user.get_author_name()
+            if request and request.user
+            else "Weblate <noreply@weblate.org>"
+        )
+
+        # Write files first (inside lock)
+        with self.repository.lock:
+            for translation in translations:
+                translation = reuse_self(translation)
+                component = translation.component
+
+                if component.pk in skipped:
+                    continue
+
+                if component.pk not in components:
+                    # Validate template is valid
+                    if component.has_template():
+                        try:
+                            component.template_store  # noqa: B018
+                        except FileParseError as error:
+                            if not isinstance(error.__cause__, FileNotFoundError):
+                                report_error(
+                                    "Could not parse template file on sync",
+                                    project=component.project,
+                                )
+                            component.log_error(
+                                "skipping sync due to error: %s", error
+                            )
+                            skipped.add(component.pk)
+                            continue
+
+                    components[component.pk] = component
+
+                try:
+                    store = translation.store
+                    store.ensure_index()
+                except (FileParseError, ValueError) as error:
+                    report_error(
+                        "Could not parse file on sync", project=component.project
+                    )
+                    translation.log_error("skipping sync due to error: %s", error)
+                    continue
+
+                # Read pending changes (no select_for_update since we're not modifying DB)
+                pending_changes = list(
+                    PendingUnitChange.objects.for_translation(translation)
+                    .prefetch_related("unit", "author")
+                    .order_by("timestamp")
+                )
+
+                if not pending_changes:
+                    continue
+
+                # Group changes by author for consistent file writing
+                commit_groups = translation._group_changes_by_author(pending_changes)
+                file_updated = False
+
+                for author_obj, changes in commit_groups:
+                    author_name = author_obj.get_author_name() if author_obj else "Unknown"
+                    timestamp = max(change.timestamp for change in changes)
+
+                    # Use translation.update_units() which properly writes to file
+                    # This method handles all the store operations correctly
+                    try:
+                        changes_status = translation.update_units(changes, store, author_name)
+                        if any(changes_status.values()):
+                            file_updated = True
+                            was_changed = True
+                            
+                            # Track this translation for committing after lock is released
+                            if not timezone.is_aware(timestamp):
+                                timestamp = timezone.make_aware(timestamp, UTC)
+                            translations_to_commit.append((translation, author_name, timestamp))
+                    except Exception as error:
+                        translation.log_error(
+                            "failed to update units: %s", error
+                        )
+                        import traceback
+                        translation.log_error("traceback: %s", traceback.format_exc())
+                        continue
+        
+        # Commit all updated translations (outside lock to avoid deadlock)
+        for translation, author_name, commit_timestamp in translations_to_commit:
+            component = translation.component
+            # Use default autobatch translation commit message template
+            # Uses template variables that will be rendered by render_template
+            commit_message_template = settings.DEFAULT_AUTOBATCH_MESSAGE
+            
+            try:
+                # Use translation.git_commit which properly handles the commit
+                # The template will be rendered with translation context automatically
+                translation.git_commit(
+                    user=request.user if request else None,
+                    author=author_name,
+                    timestamp=commit_timestamp,
+                    skip_push=False,
+                    signals=True,
+                    template=commit_message_template,
+                    store_hash=False,
+                )
+            except Exception as error:
+                translation.log_error(
+                    "failed to commit files: %s", error
+                )
+                # Continue with other translations even if one fails
+
+        return was_changed
 
 
 @receiver(m2m_changed, sender=Component.links.through)

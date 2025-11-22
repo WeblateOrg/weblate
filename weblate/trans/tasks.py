@@ -747,3 +747,52 @@ def setup_periodic_tasks(sender, **kwargs) -> None:
         cleanup_project_backup_download.s(),
         name="cleanup-project-backup-download",
     )
+
+@app.task(
+    trail=False,
+    autoretry_for=(WeblateLockTimeoutError,),
+    retry_backoff=600,
+    retry_backoff_max=3600,
+)
+def perform_file_sync_for_autobatchtranslation(
+    pk: int,
+    *,
+    langs: list[str] | None = None,
+    user_id: int | None = None,
+) -> bool:
+    """Write pending changes to files and commit them for autobatch translation."""
+    request: HttpRequest | None = None
+    if user_id:
+        request = HttpRequest()
+        request.user = User.objects.get(pk=user_id)
+    component = Component.objects.get(pk=pk)
+    return component._do_file_sync_for_autobatchtranslation_immediate(
+        langs=langs,
+        request=request,
+    )
+
+
+@app.task(
+    trail=False,
+    autoretry_for=(WeblateLockTimeoutError,),
+    retry_backoff=600,
+    retry_backoff_max=3600,
+)
+def perform_autobatchtranslate_via_openrouter(
+    pk: int,
+    *,
+    langs: list[str] | None = None,
+    user_id: int | None = None,
+    file_sync: bool = False,
+) -> None:
+    """Run autobatch translation via OpenRouter for autobatch translation."""
+    request: HttpRequest | None = None
+    if user_id:
+        request = HttpRequest()
+        request.user = User.objects.get(pk=user_id)
+    component = Component.objects.get(pk=pk)
+    component._autobatchtranslate_via_openrouter_immediate(
+        langs=langs,
+        request=request,
+        file_sync=file_sync,
+    )
