@@ -53,7 +53,7 @@ from weblate.trans.defines import (
 )
 from weblate.trans.exceptions import FileParseError, InvalidTemplateError
 from weblate.trans.fields import RegexField
-from weblate.trans.file_format_params import FILE_FORMATS_PARAMS
+from weblate.trans.file_format_params import FILE_FORMATS_PARAMS, get_encoding_param
 from weblate.trans.mixins import (
     CacheKeyMixin,
     ComponentCategoryMixin,
@@ -1798,7 +1798,7 @@ class Component(
                 ) or (
                     self.template
                     and self.file_format_cls.get_new_file_content(
-                        self.file_format_params.get("encoding")
+                        get_encoding_param(self.file_format_params)
                     )
                     is None
                 ):
@@ -1807,7 +1807,7 @@ class Component(
                     self.full_path,
                     {
                         self.template: self.file_format_cls.get_new_file_content(
-                            self.file_format_params.get("encoding")
+                            get_encoding_param(self.file_format_params)
                         )
                     }
                     if self.template

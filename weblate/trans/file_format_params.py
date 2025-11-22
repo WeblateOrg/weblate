@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, ClassVar, TypedDict, cast
+from typing import TYPE_CHECKING, Any, ClassVar, TypedDict, cast
 
 from django import forms
 from django.utils.functional import classproperty
@@ -79,6 +79,10 @@ class BaseFileFormatParam:
         except (ValueError, TypeError):
             return cls.default
 
+    @classmethod
+    def is_encoding(cls):
+        return cls.name.endswith("_encoding")
+
 
 FILE_FORMATS_PARAMS: list[type[BaseFileFormatParam]] = []
 
@@ -108,6 +112,23 @@ def strip_unused_file_format_params(file_format: str, file_format_params: dict) 
         if file_format not in param.file_formats:
             file_format_params.pop(param.name, None)
     return file_format_params
+
+
+def get_param_for_name(name: str) -> type[BaseFileFormatParam]:
+    """Get parameter class for given name."""
+    for param in FILE_FORMATS_PARAMS:
+        if param.name == name:
+            return param
+    msg = f"Unknown parameter: {name}"
+    raise ValueError(msg)
+
+
+def get_encoding_param(file_format_params: dict[str, Any]) -> str | None:
+    """Get encoding parameter from file format parameters."""
+    for param_name, value in file_format_params.items:
+        if get_param_for_name(param_name).is_encoding():
+            return value
+    return None
 
 
 class JSONOutputCustomizationBaseParam(BaseFileFormatParam):
@@ -361,7 +382,7 @@ class FlatXMLKeyName(BaseFlatXMLFormatParam):
 class StringsEncoding(BaseFileFormatParam):
     # combining StringsFormat and StringsUtf8Format
     file_formats = ("strings",)
-    name = "encoding"
+    name = "strings_encoding"
     label = gettext_lazy("File encoding")
     field_class = forms.ChoiceField
     choices: ClassVar[list[tuple[str | int, StrOrPromise]] | None] = [
@@ -370,3 +391,22 @@ class StringsEncoding(BaseFileFormatParam):
     ]
     default = "utf-8"
     help_text = gettext_lazy("Encoding used for iOS strings files")
+
+
+@register_file_format_param
+class PropertiesEncoding(BaseFileFormatParam):
+    file_formats = ("properties",)
+    name = "properties_encoding"
+    label = gettext_lazy("File encoding")
+    field_class = forms.ChoiceField
+    choices: ClassVar[list[tuple[str | int, StrOrPromise]] | None] = [
+        ("iso-8859-1", gettext_lazy("ISO-8859-1")),
+        ("utf-8", gettext_lazy("UTF-8")),
+        ("utf-16", gettext_lazy("UTF-16")),
+    ]
+    default = "iso-8859-1"
+    help_text = gettext_lazy("Encoding used for Java Properties files")
+
+    def setup_store(self, store: TranslationStore, **file_format_params) -> None:
+        encoding = self.get_value(file_format_params)
+        store.encoding = encoding
