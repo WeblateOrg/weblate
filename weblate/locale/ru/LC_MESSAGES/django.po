@@ -28,13 +28,14 @@
 # sletego <sletego@users.noreply.hosted.weblate.org>, 2025.
 # GitHub webhook <noreply-webhook-github@weblate.org>, 2025.
 # Golubev Alexander <fatzer2@gmail.com>, 2025.
+# liilliil <liilliil@liilliil.net>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-27 07:35+0000\n"
 "PO-Revision-Date: 2025-11-22 09:51+0000\n"
-"Last-Translator: Golubev Alexander <fatzer2@gmail.com>\n"
+"Last-Translator: liilliil <liilliil@liilliil.net>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
 "Language: ru\n"
@@ -592,7 +593,7 @@ msgstr "Пользователь был отключён администрат�
 
 #: weblate/accounts/models.py:296
 msgid "User was disabled because the access has expired."
-msgstr ""
+msgstr "Пользователь отключен, ибо доступ истёк."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:299
@@ -1380,10 +1381,9 @@ msgstr ""
 "Предоставленное имя пользователя уже используется другой учётной записью."
 
 #: weblate/accounts/views.py:1499
-#, fuzzy, python-format
-#| msgid "Authentication app (%s)"
+#, python-format
 msgid "Authentication failed: %s"
-msgstr "Приложение для авторизации (%s)"
+msgstr "Авторизация неудачна: %s"
 
 #: weblate/accounts/views.py:1505
 msgid "The supplied user identity is already in use for another account."
@@ -1587,10 +1587,8 @@ msgid "Bulk edit flags, labels, or states of strings."
 msgstr "Позволяет массово править флаги, метки или состояния строк."
 
 #: weblate/addons/flags.py:134
-#, fuzzy
-#| msgid "Flag unchanged translations as \"Needs editing\""
 msgid "Flag updated translations from repository as \"Needs editing\""
-msgstr "Пометка неизменённых переводов флагом «На правку»"
+msgstr "Пометка обновлённых переводов из репозитория «На правку»"
 
 #: weblate/addons/flags.py:137
 #, fuzzy
@@ -2188,10 +2186,8 @@ msgid "Reset all changes in the Weblate repository"
 msgstr "Сбросить все изменения в репозитории Weblate"
 
 #: weblate/api/serializers.py:1079 weblate/templates/js/git-status.html:155
-#, fuzzy
-#| msgid "Define the base file for new translations"
 msgid "Reset the Weblate repository and reapply translations"
-msgstr "Задать базовый файл для нового перевода"
+msgstr "Сброс репозитория Weblate и перевод заново"
 
 #: weblate/api/serializers.py:1083 weblate/templates/js/git-status.html:166
 msgid "Cleanup all untracked files in the Weblate repository"
@@ -2455,10 +2451,8 @@ msgstr "Рецензирование строк"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:75
-#, fuzzy
-#| msgid "Edit strings"
 msgid "Bulk edit strings"
-msgstr "Правка строк"
+msgstr "Массовая правка строк"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:77
@@ -2592,10 +2586,8 @@ msgstr "Управление пользователями"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:135
-#, fuzzy
-#| msgid "View billing info"
 msgid "View team info"
-msgstr "Просмотр платёжной информации"
+msgstr "Просмотр информации о команде"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:137 weblate/templates/manage/users.html:18
@@ -2604,10 +2596,8 @@ msgstr "Управление пользователями"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:139
-#, fuzzy
-#| msgid "View billing info"
 msgid "View user info"
-msgstr "Просмотр платёжной информации"
+msgstr "Просмотр пользователя"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:141
@@ -2616,10 +2606,8 @@ msgstr "Управление ролями"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:143
-#, fuzzy
-#| msgid "View billing info"
 msgid "View role info"
-msgstr "Просмотр платёжной информации"
+msgstr "Просмотр ролей"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:145
@@ -2703,8 +2691,6 @@ msgid "Manage languages"
 msgstr "Управление языками"
 
 #: weblate/auth/data.py:241
-#, fuzzy
-#| msgid "Bulk edit"
 msgctxt "Access-control role"
 msgid "Bulk editing"
 msgstr "Массовая правка"
@@ -2810,8 +2796,6 @@ msgid "Screenshots"
 msgstr "Снимки экрана"
 
 #: weblate/auth/data.py:315
-#, fuzzy
-#| msgid "Bulk edit"
 msgctxt "Per-project access-control team name"
 msgid "Bulk editing"
 msgstr "Массовая правка"
@@ -3020,7 +3004,7 @@ msgstr "Истекает"
 
 #: weblate/auth/models.py:497
 msgid "The account will be disabled after the expiry."
-msgstr ""
+msgstr "Аккаунт отключится по истечении срока действия."
 
 #: weblate/auth/models.py:504 weblate/templates/accounts/profile.html:34
 #: weblate/templates/accounts/user.html:194 weblate/templates/auth/team.html:38
@@ -3217,6 +3201,8 @@ msgid ""
 "This invitation can be accepted only by the e-mail address chosen by the "
 "inviter; it can't be used by your account."
 msgstr ""
+"Это приглашение может быть принято только с e-mail, выбранным приглашающим; "
+"использовать его с вашим аккаунтом нельзя."
 
 #: weblate/auth/views.py:201
 msgid "User invitation was removed."
@@ -3365,10 +3351,8 @@ msgid "Billing"
 msgstr "Тарифные планы"
 
 #: weblate/billing/models.py:681 weblate/templates/billing/detail.html:119
-#, fuzzy
-#| msgid "Billing overview"
 msgid "Billing event"
-msgstr "Обзор тарифных планов"
+msgstr "Платежное событие"
 
 #: weblate/billing/tasks.py:73
 msgid ""
@@ -4799,10 +4783,8 @@ msgid "CSV"
 msgstr "CSV"
 
 #: weblate/formats/exporters.py:258
-#, fuzzy
-#| msgid "Multivalue CSV file (UTF-8)"
 msgid "Multivalue CSV"
-msgstr "Многозначный CSV-файл (UTF-8)"
+msgstr "Многозначный CSV"
 
 #: weblate/formats/exporters.py:325
 msgid "XLSX"
@@ -6109,21 +6091,21 @@ msgstr "Перевод на %s сейчас недоступен, но его м
 
 #: weblate/screenshots/forms.py:33
 msgid "You need to provide either image file or image URL."
-msgstr ""
+msgstr "Надо дать файл, либо URL изображения."
 
 #: weblate/screenshots/forms.py:53
 msgid "Image URL domain is not allowed."
-msgstr ""
+msgstr "Домен URL изображения не разрешен."
 
 #: weblate/screenshots/forms.py:61
 #, python-format
 msgid ""
 "Unable to download image from the provided URL (HTTP status code: %(code)s)."
-msgstr ""
+msgstr "Не могу скачать изображение с этого URL (код состояния HTTP: %(code)s)."
 
 #: weblate/screenshots/forms.py:79
 msgid "Image is too big."
-msgstr ""
+msgstr "Изображение слишком велико."
 
 #: weblate/screenshots/forms.py:85 weblate/utils/validators.py:126
 #, python-format
@@ -6132,7 +6114,7 @@ msgstr "Неподдерживаемый тип изображения: %s"
 
 #: weblate/screenshots/forms.py:93
 msgid "Unable to download image from the provided URL."
-msgstr ""
+msgstr "Не могу скачать изображение с этого URL."
 
 #: weblate/screenshots/forms.py:120 weblate/screenshots/forms.py:147
 #: weblate/templates/widgets.html:64
@@ -6141,7 +6123,7 @@ msgstr "URL изображения"
 
 #: weblate/screenshots/forms.py:121 weblate/screenshots/forms.py:148
 msgid "The image will be downloaded and stored."
-msgstr ""
+msgstr "Изображение будет скачено и сохранено."
 
 #: weblate/screenshots/models.py:57
 #: weblate/templates/screenshots/screenshot_list.html:47
@@ -7241,35 +7223,29 @@ msgid ""
 "You will lose access to the projects you manage. Projects themselves will "
 "not be removed."
 msgstr ""
+"Вы потеряете доступ к проектам, которыми управляете. Сами проекты не "
+"удалятся."
 
 #: weblate/templates/accounts/removal.html:35
 msgid ""
 "Any billing you might have created will not be terminated by this account "
 "removal."
 msgstr ""
+"Любые выставленные вами счета не будут аннулированы с удалением аккаунта."
 
 #: weblate/templates/accounts/removal.html:39
-#, fuzzy
-#| msgid ""
-#| "By pressing following button, your will no longer be able to use this "
-#| "account."
 msgid ""
 "By pressing the following button, you will no longer be able to use this "
 "account."
-msgstr ""
-"Нажав кнопку ниже, вы не сможете больше использовать эту учётную запись."
+msgstr "Нажав кнопку ниже, вы не сможете больше использовать этот аккаунт."
 
 #: weblate/templates/accounts/removal.html:43
-#, fuzzy
-#| msgid ""
-#| "You will have to confirm account removal by clicking link in e-mail you "
-#| "will receive."
 msgid ""
 "You will have to confirm the account removal by clicking the link in the e-"
 "mail you will receive."
 msgstr ""
-"Вам нужно будет подтвердить удаление учётной записи, перейдя по ссылке из "
-"письма, которое вы получите."
+"Вам надо подтвердить удаление аккаунта, открыв ссылку из письма, которое вы "
+"получите."
 
 #: weblate/templates/accounts/removal.html:50
 msgid "Delete this account"
@@ -7327,18 +7303,21 @@ msgid ""
 "commits to author the changes you made; they can be stored there "
 "indefinitely."
 msgstr ""
+"Кроме того, ваше имя и e-mail могут использоваться в коммитах системы "
+"контроля версий для указания авторства изменений; они могут храниться там "
+"вечно."
 
 #: weblate/templates/accounts/snippets/login-info.html:32
-#, fuzzy
-#| msgid "Please set your full name and e-mail in your profile."
 msgid "You can enable the use of a private commit e-mail in your profile."
-msgstr "Укажите в профиле ваше полное имя и эл. почту."
+msgstr "Можно включить частный адрес e-mail для коммитов в своем профиле."
 
 #: weblate/templates/accounts/snippets/login-info.html:35
 msgid ""
 "Additionally, your name can be used in version control system commits to "
 "author the changes you made; it can be stored there indefinitely."
 msgstr ""
+"Кроме того, ваше имя может использоваться в коммитах системы контроля версий "
+"для указания авторства изменений; оно может храниться там вечно."
 
 #: weblate/templates/accounts/snippets/login-info.html:38
 msgid ""
@@ -7455,10 +7434,9 @@ msgid "Never signed-in"
 msgstr "В эту учётную запись никогда не входили"
 
 #: weblate/templates/accounts/user.html:37
-#, fuzzy, python-format
-#| msgid "Joined on %(date)s"
+#, python-format
 msgid "Account expires on %(date)s"
-msgstr "Дата присоединения: %(date)s"
+msgstr "Аккаунт истекает: %(date)s"
 
 #: weblate/templates/accounts/user.html:57
 #: weblate/templates/snippets/plural.html:11
@@ -8450,10 +8428,8 @@ msgid "No invoices found."
 msgstr "Инвойсов не найдено."
 
 #: weblate/templates/billing/detail.html:120
-#, fuzzy
-#| msgid "View details"
 msgid "Event details"
-msgstr "Подробнее"
+msgstr "О событии"
 
 #: weblate/templates/billing/detail.html:144
 msgid "Libre hosting"
@@ -9547,13 +9523,15 @@ msgstr "Опасная зона"
 
 #: weblate/templates/js/git-status.html:142
 msgid "Reset and discard"
-msgstr ""
+msgstr "Сбросить и отменить"
 
 #: weblate/templates/js/git-status.html:145
 msgid ""
 "Resets Weblate’s repository to match upstream and discards any pending "
 "changes in Weblate."
 msgstr ""
+"Сбрасывает репозиторий Weblate до состояния вышестоящего и отменяет все "
+"ожидающие изменения в Weblate."
 
 #: weblate/templates/js/git-status.html:146
 #, fuzzy
@@ -9577,13 +9555,15 @@ msgstr ""
 
 #: weblate/templates/js/git-status.html:154
 msgid "Reset and reapply"
-msgstr ""
+msgstr "Сбросить и повторить"
 
 #: weblate/templates/js/git-status.html:157
 msgid ""
 "Resets Weblate’s repository to match upstream and replace upstream "
 "translations with the current state from Weblate."
 msgstr ""
+"Сбросит репозиторий Weblate для соответствия вышестоящему и заменит "
+"вышестоящие переводы текущими из Weblate."
 
 #: weblate/templates/js/git-status.html:158
 #, fuzzy
@@ -10777,7 +10757,7 @@ msgstr "HTTP-ответ"
 
 #: weblate/templates/manage/performance.html:139
 msgid "Observed value"
-msgstr ""
+msgstr "Наблюдаемое значение"
 
 #: weblate/templates/manage/performance.html:140
 #, fuzzy
@@ -10797,7 +10777,7 @@ msgstr "HTTP-заголовки"
 
 #: weblate/templates/manage/performance.html:161
 msgid "HTTP protocol"
-msgstr ""
+msgstr "Протокол HTTP"
 
 #: weblate/templates/manage/performance.html:204
 msgid "System encoding"
@@ -16522,7 +16502,7 @@ msgstr ""
 #, python-format
 msgid ""
 "The parameter '%(param)s' is not applicable for the file format '%(format)s'."
-msgstr ""
+msgstr "Параметр «%(param)s» неприменим для формата файла «%(format)s»."
 
 #: weblate/trans/models/component.py:3351
 msgid ""
@@ -17342,7 +17322,7 @@ msgstr ""
 
 #: weblate/trans/validators.py:75
 msgid "File format parameters must be a dictionary of key-value pairs."
-msgstr ""
+msgstr "Параметры формата файла должны быть словарем пар ключ-значение."
 
 #: weblate/trans/validators.py:84
 #, fuzzy, python-format
