@@ -1738,6 +1738,8 @@ class CSVFormat(TTKitFormat):
 
     def parse_simple_csv(self, content, filename, header: list[str] | None = None):
         fieldnames = ["source", "target"]
+        # Prefer detected header if available (translate-toolkit PR #5830 adds
+        # monolingual CSV support with proper handling of context/id/target columns)
         if header and all(
             field in {"source", "target", "context", "id"} for field in header
         ):
