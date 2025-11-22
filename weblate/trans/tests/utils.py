@@ -322,7 +322,10 @@ class RepoTestMixin:
 
     def create_iphone(self, **kwargs) -> Component:
         return self._create_component(
-            "strings", "iphone/*.lproj/Localizable.strings", **kwargs
+            "strings",
+            "iphone/*.lproj/Localizable.strings",
+            file_format_params={"strings_encoding": "utf-16"},
+            **kwargs,
         )
 
     def create_android(self, suffix="", **kwargs) -> Component:
@@ -389,11 +392,13 @@ class RepoTestMixin:
     def create_php_mono(self) -> Component:
         return self._create_component("php", "php-mono/*.php", "php-mono/en.php")
 
-    def create_java(self) -> Component:
+    def create_java(self, **kwargs) -> Component:
         return self._create_component(
             "properties",
             "java/swing_messages_*.properties",
             "java/swing_messages.properties",
+            file_format_params={"properties_encoding": "iso-8859-1"},
+            **kwargs,
         )
 
     def create_xliff(self, name="default", **kwargs) -> Component:

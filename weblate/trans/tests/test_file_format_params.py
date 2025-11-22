@@ -71,6 +71,28 @@ class BaseFileFormatsTest(ViewTestCase):
             self.assertEqual(response.status_code, 200)
         return response
 
+    def do_create_with_encoding_test(
+        self, encoding_name: str, encoding: str, success: bool = True
+    ) -> None:
+        kwargs = {f"file_format_params_{encoding_name}": encoding}
+        response = self.client_create_component(
+            success,
+            file_format=self.component.file_format,
+            filemask=self.component.filemask,
+            new_base="",
+            new_lang="contact",
+            **kwargs,
+        )
+        if success:
+            self.assertTrue(
+                Component.objects.filter(slug="new-component-with-file-params").exists()
+            )
+        else:
+            self.assertContains(response, "Could not parse")
+            self.assertFalse(
+                Component.objects.filter(slug="new-component-with-file-params").exists()
+            )
+
 
 class ComponentFileFormatsParamsTest(BaseFileFormatsTest):
     def get_new_component(
@@ -430,32 +452,26 @@ class GettextParamsTest(BaseFileFormatsTest):
 
 class StringsParamsTest(BaseFileFormatsTest):
     def create_component(self):
-        return self.create_iphone(file_format_params={"encoding": "utf-16"})
+        return self.create_iphone()
 
     def test_encoding_param(self):
-        # providing incorrect encoding should fail
-        response = self.client_create_component(
-            False,
-            file_format="strings",
-            filemask="iphone/*.lproj/Localizable.strings",
-            new_base="",
-            new_lang="contact",
-            file_format_params_encoding="utf-8",
+        self.do_create_with_encoding_test("strings_encoding", "utf-8", success=False)
+        self.do_create_with_encoding_test("strings_encoding", "utf-16", success=True)
+
+
+class JavaPropertiesTest(BaseFileFormatsTest):
+    def create_component(self):
+        return self.create_java()
+
+    def test_encoding_param(self):
+        self.do_create_with_encoding_test(
+            "properties_encoding", "utf-16", success=False
         )
-        self.assertContains(response, "Cannot detect encoding for given string")
-        self.assertContains(response, "Could not parse")
-        self.assertFalse(
-            Component.objects.filter(slug="new-component-with-file-params").exists()
+        self.do_create_with_encoding_test(
+            "properties_encoding", "iso-8859-1", success=True
         )
 
-        response = self.client_create_component(
-            True,
-            file_format="strings",
-            filemask="iphone/*.lproj/Localizable.strings",
-            new_base="",
-            new_lang="contact",
-            file_format_params_encoding="utf-16",
-        )
-        self.assertTrue(
-            Component.objects.filter(slug="new-component-with-file-params").exists()
-        )
+    def test_encoding_param_utf8(self):
+        # Java properties need to be ISO 8859-1, but Translate Toolkit converts
+        # them to UTF-8.
+        self.do_create_with_encoding_test("properties_encoding", "utf-8", success=True)

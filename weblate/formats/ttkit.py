@@ -56,6 +56,7 @@ from weblate.formats.base import (
 )
 from weblate.lang.data import FORMULA_WITH_ZERO, ZERO_PLURAL_TYPES
 from weblate.lang.models import Plural
+from weblate.trans.file_format_params import get_encoding_param
 from weblate.trans.util import (
     get_clean_env,
     get_string,
@@ -274,8 +275,12 @@ class TTKitFormat(TranslationFormat):
 
     def fixup(self, store) -> None:
         """Perform optional fixups on store."""
-        if self.force_encoding is not None:
-            store.encoding = self.force_encoding
+        if (
+            encoding := (
+                self.force_encoding or get_encoding_param(self.file_format_params)
+            )
+        ) is not None:
+            store.encoding = encoding
         # This gets already native language code, so no conversion is needed
         if self.language_code is not None:
             store.settargetlanguage(self.language_code)
@@ -323,7 +328,7 @@ class TTKitFormat(TranslationFormat):
 
     def get_store_instance(self, **kwargs):
         kwargs.update(self.get_format_class_kwargs())
-        store = self.get_class(self.file_format_params.get("encoding"))(**kwargs)
+        store = self.get_class(get_encoding_param(self.file_format_params))(**kwargs)
 
         # Apply possible fixups
         self.fixup(store)
@@ -494,7 +499,7 @@ class TTKitFormat(TranslationFormat):
             store.store.savefile(filename)
         elif cls.empty_file_template is not None:
             Path(filename).write_bytes(
-                cls.get_new_file_content(file_format_params.get("encoding"))
+                cls.get_new_file_content(get_encoding_param(file_format_params))
             )
         else:
             msg = "Not supported"
@@ -1470,38 +1475,25 @@ class StringsFormat(PropertiesBaseFormat):
         return cls.empty_file_template
 
 
-class PropertiesUtf8Format(PropertiesBaseFormat):
-    # Translators: File format name
-    name = gettext_lazy("Java Properties (UTF-8)")
-    format_id = "properties-utf8"
-    loader = ("properties", "javautf8file")
-    empty_file_template = "\n"
-    language_format = "linux"
-    check_flags = ("auto-java-messageformat",)
-
-
-class PropertiesUtf16Format(PropertiesBaseFormat):
-    # Translators: File format name
-    name = gettext_lazy("Java Properties (UTF-16)")
-    format_id = "properties-utf16"
-    loader = ("properties", "javafile")
-    language_format = "linux"
-    empty_file_template = "\n"
-    # Translate Toolkit autodetection might fail in some cases.
-    force_encoding = "utf-16"
-
-
 class PropertiesFormat(PropertiesBaseFormat):
     # Translators: File format name
-    name = gettext_lazy("Java Properties (ISO 8859-1)")
+    name = gettext_lazy("Java Properties")
     format_id = "properties"
     loader = ("properties", "javafile")
     language_format = "linux"
     empty_file_template = "\n"
     autoload: tuple[str, ...] = ("*.properties",)
-    # Java properties need to be ISO 8859-1, but Translate Toolkit converts
-    # them to UTF-8.
-    force_encoding = "iso-8859-1"
+    check_flags = ("auto-java-messageformat",)
+
+    @classmethod
+    def get_class(cls, encoding: str | None = None) -> TranslationStore:
+        if encoding in {"utf-16", "iso-8859-1"}:
+            cls.loader = ("properties", "javafile")
+        elif encoding == "utf-8":
+            cls.loader = ("properties", "javautf8file")
+        else:
+            cls.loader = ("properties", "javafile")
+        return super().get_class(encoding)
 
 
 class JoomlaFormat(PropertiesBaseFormat):
@@ -2385,11 +2377,12 @@ class TBXFormat(TTKitFormat):
         self.store.addheader()
 
 
-class PropertiesMi18nFormat(PropertiesUtf8Format):
+class PropertiesMi18nFormat(PropertiesBaseFormat):
     # Translators: File format name
     name = gettext_lazy("@draggable/i18n lang file")
     format_id = "mi18n-lang"
     empty_file_template = "\n"
+    loader = ("properties", "javautf8file")
     language_format = "bcp_legacy"
     check_flags = ("es-format",)
     monolingual = True
