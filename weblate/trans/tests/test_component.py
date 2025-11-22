@@ -102,7 +102,7 @@ class ComponentTest(RepoTestCase):
         self.assertEqual("po/*.po", component.filemask)
 
     def test_create_iphone(self) -> None:
-        component = self.create_iphone(file_format_params={"encoding": "utf-16"})
+        component = self.create_iphone()
         self.verify_component(component, 2, "cs", 4)
 
     def test_create_ts(self) -> None:
