@@ -1508,20 +1508,13 @@ class JoomlaFormat(PropertiesBaseFormat):
 
 class GWTFormat(StringsFormat):
     # Translators: File format name
-    name = gettext_lazy("GWT properties (UTF-8)")
+    name = gettext_lazy("GWT properties")
     format_id = "gwt"
     loader = ("properties", "gwtfile")
     empty_file_template = "\n"
     check_flags = ("auto-java-messageformat",)
     language_format = "linux"
     supports_plural: bool = True
-
-
-class GWTISOFormat(GWTFormat):
-    # Translators: File format name
-    name = gettext_lazy("GWT properties (ISO-8859-1)")
-    format_id = "gwt-iso"
-    force_encoding = "iso-8859-1"
 
 
 class PhpFormat(TTKitFormat):

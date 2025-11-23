@@ -501,3 +501,21 @@ class CSVSimpleEncoding(BaseFileFormatParam):
     default = "auto"
     help_text = gettext_lazy("Encoding used for simple CSV files")
     autoload: tuple[str, ...] = ("*.txt",)
+
+
+@register_file_format_param
+class GWTEncoding(BaseFileFormatParam):
+    name = "gwt_encoding"
+    file_formats = ("gwt",)
+    label = gettext_lazy("File encoding")
+    field_class = forms.ChoiceField
+    choices: ClassVar[list[tuple[str | int, StrOrPromise]] | None] = [
+        ("utf-8", gettext_lazy("UTF-8")),
+        ("iso-8859-1", gettext_lazy("ISO-8859-1")),
+    ]
+    default = "utf-8"
+    help_text = gettext_lazy("Encoding used for GWT Properties files")
+
+    def setup_store(self, store: TranslationStore, **file_format_params) -> None:
+        encoding = self.get_value(file_format_params)
+        store.encoding = encoding
