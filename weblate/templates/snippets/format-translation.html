@@ -18,12 +18,12 @@
              dir="{{ language.direction }}">
           {% if unit and item.copy %}
             <button type="button"
-                    class="btn btn-link btn-xs pull-right flip"
+                    class="btn btn-link btn-xs float-end"
                     data-clipboard-value="{{ item.copy }}"
                     title="{% translate "Copy to clipboard" %}"
                     tabindex="-1">{% icon "copy.svg" %}</button>
             <button type="button"
-                    class="btn btn-link btn-xs btn-sidebar pull-right flip"
+                    class="btn btn-link btn-xs btn-sidebar float-end"
                     data-clone-value="{{ item.copy }}"
                     title="{% translate "Clone to translation" %}"
                     tabindex="-1">{% icon "clone.svg" %}</button>

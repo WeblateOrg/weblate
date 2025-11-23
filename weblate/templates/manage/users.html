@@ -3,40 +3,40 @@
 {% load crispy_forms_tags i18n icons permissions translations %}
 
 {% block breadcrumbs %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
   </li>
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'manage-users' %}">{% translate "Users" %}</a>
   </li>
 {% endblock breadcrumbs %}
 
 {% block content %}
 
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">{% translate "Manage users" %}</h4>
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">{% translate "Manage users" %}</h4>
     </div>
-    <div class="panel-body">{% include "snippets/user-list.html" %}</div>
+    <div class="card-body">{% include "snippets/user-list.html" %}</div>
   </div>
 
   <form method="post">
     {% csrf_token %}
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">{% translate "Add new user" %}</h4>
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{% translate "Add new user" %}</h4>
       </div>
-      <div class="panel-body">{{ invite_form|crispy }}</div>
-      <div class="panel-footer">
+      <div class="card-body">{{ invite_form|crispy }}</div>
+      <div class="card-footer">
         <input type="submit" class="btn btn-primary" value="{% translate "Add" %}" />
       </div>
     </div>
   </form>
 
   {% if invitations %}
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">{% translate "Pending invitations" %}</h4>
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{% translate "Pending invitations" %}</h4>
       </div>
       <table class="table table-striped">
         <thead>
@@ -100,12 +100,12 @@
   {% endif %}
 
   <form method="get" action="{% url "manage-users-check" %}">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">{% translate "Check user access" %}</h4>
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{% translate "Check user access" %}</h4>
       </div>
-      <div class="panel-body">{{ search_form|crispy }}</div>
-      <div class="panel-footer">
+      <div class="card-body">{{ search_form|crispy }}</div>
+      <div class="card-footer">
         <input type="submit" class="btn btn-primary" value="{% translate "Search" %}" />
       </div>
     </div>

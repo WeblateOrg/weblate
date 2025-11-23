@@ -1,10 +1,10 @@
-{% extends "base5.html" %}
+{% extends "base.html" %}
 
 {% load crispy_forms_tags i18n translations %}
 
 {% block breadcrumbs %}
   {% if path_object %}
-    {% path_object_breadcrumbs5 path_object %}
+    {% path_object_breadcrumbs path_object %}
     <li class="breadcrumb-item">
       <a href="{{ back_url }}#search">{% translate "Search" %}</a>
     </li>

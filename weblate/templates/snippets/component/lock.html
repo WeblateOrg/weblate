@@ -6,7 +6,7 @@
 
 {% block message %}
   {% perm 'component.lock' object as user_can_lock_component %}
-  <div class="pull-right flip">
+  <div class="float-end">
     {% if user_can_lock_component %}
       <a href=""
          class="btn btn-warning link-post"

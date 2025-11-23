@@ -12,7 +12,7 @@
 
 {% block breadcrumbs %}
   {% path_object_breadcrumbs object %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'screenshots' path=object.get_url_path %}">{% translate "Screenshots" %}</a>
   </li>
 {% endblock breadcrumbs %}
@@ -27,14 +27,14 @@
           method="post"
           enctype="multipart/form-data">
       {% csrf_token %}
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">{% translate "Add new screenshot" %}</h4>
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{% translate "Add new screenshot" %}</h4>
         </div>
-        <div class="panel-body">
+        <div class="card-body">
           <div id="screenshot-form-container">{{ add_form|crispy }}</div>
         </div>
-        <div class="panel-footer">
+        <div class="card-footer">
           <input type="submit" class="btn btn-primary" value="{% translate "Upload" %}" />
         </div>
       </div>

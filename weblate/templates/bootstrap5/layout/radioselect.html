@@ -4,7 +4,7 @@
 
 <div class="controls {{ field_class }}"
      {% if flat_attrs %}{{ flat_attrs }}{% endif %}>
-  {% include 'bootstrap3/layout/field_errors_block.html' %}
+  {% include 'bootstrap5/layout/field_errors_block.html' %}
 
   {% for group, options, index in field|optgroups %}
     {% if group %}<strong>{{ group }}</strong>{% endif %}
@@ -14,7 +14,7 @@
         <input type="radio"
                name="{{ field.html_name }}"
                value="{{ option.value|unlocalize }}"
-               {% include "bootstrap3/layout/attrs.html" with widget=option %}>
+               {% include "bootstrap5/layout/attrs.html" with widget=option %}>
         <label for="{{ option.attrs.id }}"
                class="{% if inline_class %}radio-{{ inline_class }}{% endif %} label label-{{ option.value }}">
           {{ option.label|unlocalize }}
@@ -26,7 +26,7 @@
             <input type="radio"
                    name="{{ field.html_name }}"
                    value="{{ option.value|unlocalize }}"
-                   {% include "bootstrap3/layout/attrs.html" with widget=option %}>
+                   {% include "bootstrap5/layout/attrs.html" with widget=option %}>
             {{ option.label|unlocalize }}
           </label>
           {% if not inline_class %}</div>{% endif %}
@@ -34,5 +34,5 @@
     {% endfor %}
   {% endfor %}
 
-  {% include 'bootstrap3/layout/help_text.html' %}
+  {% include 'bootstrap5/layout/help_text.html' %}
 </div>

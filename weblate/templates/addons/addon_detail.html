@@ -5,15 +5,15 @@
 {% block breadcrumbs %}
   {% if object %}
     {% path_object_breadcrumbs object %}
-    <li>
+    <li class="breadcrumb-item">
       <a href="{% url 'addons' path=object.get_url_path %}">{% translate "Add-ons" %}</a>
     </li>
   {% else %}
-    <li>
+    <li class="breadcrumb-item">
       <a href="{% url 'manage-addons' %}">{% translate "Add-ons" %}</a>
     </li>
   {% endif %}
-  <li>
+  <li class="breadcrumb-item">
     {% if instance %}
       <a href="{% url 'addon-detail' pk=instance.pk %}">{{ addon.verbose }}</a>
     {% else %}
@@ -26,19 +26,19 @@
 
   {% if form %}
     <form method="post" id="addon-form">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
             {% documentation_icon 'admin/addons' addon.doc_anchor right=True %}
             {% translate "Configure add-on" %}
           </h4>
         </div>
-        <div class="panel-body">
+        <div class="card-body">
           <input type="hidden" name="form" value="1" />
           <input type="hidden" name="name" value="{{ addon.name }}" />
           {% crispy form %}
         </div>
-        <div class="panel-footer">
+        <div class="card-footer">
           <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
         </div>
       </div>

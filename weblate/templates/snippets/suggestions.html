@@ -14,7 +14,7 @@
       </div>
       <div class="col-xs-10 history-data">
         {% if multi_unit %}
-          <div class="btn-float pull-right flip">
+          <div class="btn-float float-end">
             <a href="{{ suggestion.unit.get_absolute_url }}#suggestions"
                class="btn btn-link green"
                title="{% translate "View details" %}">{% icon "magnify-plus-outline.svg" %}</a>
@@ -22,7 +22,7 @@
         {% else %}
           {% perm 'suggestion.delete' suggestion as user_can_delete_suggestion %}
           {% if user_can_vote_suggestion or user_can_accept_suggestion or user_can_delete_suggestion %}
-            <div class="btn-float pull-right flip">
+            <div class="btn-float float-end">
               {% if user_can_vote_suggestion %}
                 <button type="submit"
                         class="btn btn-link green"
@@ -97,7 +97,7 @@
             {% endif %}
           {% endwith %}
 
-          <span class="pull-right flip text-muted">{{ suggestion.timestamp|naturaltime }}</span>
+          <span class="float-end text-muted">{{ suggestion.timestamp|naturaltime }}</span>
           <div class="clearfix"></div>
         </div>
       </div>

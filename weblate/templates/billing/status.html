@@ -10,7 +10,7 @@
       <td>
         {% if payment_enabled and billing.can_be_paid %}
           <a href="{% url 'create-billing' %}?billing={{ billing.pk }}&amp;upgrade=1"
-             class="btn btn-primary pull-right flip">{% translate "Change plan" %}</a>
+             class="btn btn-primary float-end">{% translate "Change plan" %}</a>
         {% endif %}
       </td>
     </tr>
@@ -21,7 +21,7 @@
         <td>
           {% if user_can_manage_billing %}
             <a href=""
-               class="btn btn-primary pull-right flip link-post"
+               class="btn btn-primary float-end link-post"
                data-href="{{ billing.get_absolute_url }}"
                data-params='{"extend": 1}'>{% translate "Extend trial" %}</a>
           {% endif %}
@@ -35,7 +35,7 @@
         <td>
           {% if user_can_manage_billing %}
             <a href=""
-               class="btn btn-primary pull-right flip link-post"
+               class="btn btn-primary float-end link-post"
                data-href="{{ billing.get_absolute_url }}"
                data-params='{"extend": 1}'>{% translate "Extend trial" %}</a>
           {% endif %}
@@ -54,7 +54,7 @@
             <input type="hidden" name="period" value="m" />
             <input type="submit"
                    value="{% translate "New payment" %}"
-                   class="btn btn-primary pull-right flip" />
+                   class="btn btn-primary float-end" />
           </form>
         {% endif %}
       </td>
@@ -71,7 +71,7 @@
             <input type="hidden" name="period" value="y" />
             <input type="submit"
                    value="{% translate "New payment" %}"
-                   class="btn btn-primary pull-right flip" />
+                   class="btn btn-primary float-end" />
           </form>
         {% endif %}
       </td>
@@ -116,7 +116,7 @@
         </td>
         <td>
           {% if billing.is_active %}
-            <a class="btn btn-primary billing-add-project pull-right flip"
+            <a class="btn btn-primary billing-add-project float-end"
                href="{% url 'create-project' %}?billing={{ billing.pk }}">{% translate "Add new translation project" %}</a>
           {% endif %}
         </td>
