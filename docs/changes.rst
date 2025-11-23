@@ -23,6 +23,7 @@ Weblate 5.15
 * The ``LOGIN_REQUIRED_URLS`` and ``LOGIN_REQUIRED_URLS_EXCEPTIONS`` settings are no longer used.
 * Public views are now marked with the ``@login_not_required`` decorator instead of URL pattern exceptions.
 * Docker environment variables ``WEBLATE_LOGIN_REQUIRED_URLS_EXCEPTIONS``, ``WEBLATE_ADD_LOGIN_REQUIRED_URLS_EXCEPTIONS``, and ``WEBLATE_REMOVE_LOGIN_REQUIRED_URLS_EXCEPTIONS`` are deprecated and have no effect.
+* :ref:`addon-weblate.webhook.webhook` secret length is now validated to match the Standard Webhooks specification.
 
 .. rubric:: Upgrading
 

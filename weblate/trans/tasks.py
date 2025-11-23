@@ -608,7 +608,7 @@ def create_component(copy_from=None, copy_addons=False, in_task=False, **kwargs)
                 # Avoid installing duplicate addons
                 if component.addon_set.filter(name=addon.name).exists():
                     continue
-                if not addon.addon.can_install(component, None):
+                if not addon.addon.can_install(component=component):
                     continue
                 addon.addon.create(
                     component=component, configuration=addon.configuration

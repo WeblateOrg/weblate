@@ -34,7 +34,7 @@ repos:
   hooks:
   - id: yamllint
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.14.5
+  rev: v0.14.6
   hooks:
   - id: ruff-check
     args:
@@ -47,7 +47,7 @@ repos:
   - id: doccmd
     args: [--language, python, --no-pad-file, --command, ruff format]
     additional_dependencies:
-    - ruff==0.14.5
+    - ruff==0.14.6
 - repo: meta
   hooks:
   - id: check-hooks-apply
@@ -82,12 +82,12 @@ repos:
   - id: shellcheck
     require_serial: true
 - repo: https://github.com/biomejs/pre-commit
-  rev: v2.3.6
+  rev: v2.3.7
   hooks:
   - id: biome-check
     args: [--error-on-warnings]
     additional_dependencies:
-    - '@biomejs/biome@2.3.6'
+    - '@biomejs/biome@2.3.7'
 - repo: https://github.com/abravalheri/validate-pyproject
   rev: v0.24.1
   hooks:
@@ -163,7 +163,7 @@ repos:
     require_serial: true
     pass_filenames: false
 - repo: https://github.com/rhysd/actionlint
-  rev: v1.7.8
+  rev: v1.7.9
   hooks:
   - id: actionlint
 - repo: https://github.com/zizmorcore/zizmor-pre-commit

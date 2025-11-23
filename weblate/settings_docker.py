@@ -480,6 +480,16 @@ if SOCIAL_AUTH_KEYCLOAK_KEY:
     SOCIAL_AUTH_KEYCLOAK_ID_KEY = "email"
     AUTHENTICATION_BACKENDS += ("social_core.backends.keycloak.KeycloakOAuth2",)
 
+# Fedora OpenIDConnect
+SOCIAL_AUTH_FEDORA_OIDC_KEY = get_env_str("WEBLATE_SOCIAL_AUTH_FEDORA_OIDC_KEY")
+if SOCIAL_AUTH_FEDORA_OIDC_KEY:
+    SOCIAL_AUTH_FEDORA_OIDC_SECRET = get_env_str(
+        "WEBLATE_SOCIAL_AUTH_FEDORA_OIDC_SECRET", required=True
+    )
+    SOCIAL_AUTH_FEDORA_OIDC_TOKEN_ENDPOINT_AUTH_METHOD = "client_secret_post"  # noqa: S105
+
+    AUTHENTICATION_BACKENDS += ("social_core.backends.fedora.FedoraOpenIdConnect",)
+
 # Linux distros
 if get_env_str("WEBLATE_SOCIAL_AUTH_FEDORA"):
     AUTHENTICATION_BACKENDS += ("social_core.backends.fedora.FedoraOpenId",)
