@@ -1879,14 +1879,6 @@ class CSVFormat(TTKitFormat):
         return result
 
 
-class CSVUtf8Format(CSVFormat):
-    # Translators: File format name
-    name = gettext_lazy("CSV file (UTF-8)")
-    format_id = "csv-utf-8"
-    autoload: tuple[str, ...] = ()
-    force_encoding = "utf-8"
-
-
 class CSVSimpleFormat(CSVFormat):
     # Translators: File format name
     name = gettext_lazy("Simple CSV file")
@@ -1905,22 +1897,6 @@ class CSVSimpleFormat(CSVFormat):
         content, filename = self.get_content_and_filename(storefile)
 
         return self.parse_simple_csv(content, filename)
-
-
-class CSVSimpleFormatISO(CSVSimpleFormat):
-    # Translators: File format name
-    name = gettext_lazy("Simple CSV file (ISO-8859-1)")
-    format_id = "csv-simple-iso"
-    force_encoding = "iso-8859-1"
-    autoload: tuple[str, ...] = ()
-
-
-class CSVUtf8SimpleFormat(CSVSimpleFormat):
-    # Translators: File format name
-    name = gettext_lazy("Simple CSV file (UTF-8)")
-    format_id = "csv-simple-utf-8"
-    force_encoding = "utf-8"
-    autoload: tuple[str, ...] = ()
 
 
 class YAMLFormat(DictStoreFormat):

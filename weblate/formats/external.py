@@ -15,7 +15,7 @@ from django.utils.translation import gettext_lazy
 from translate.storage.csvl10n import csv
 
 from weblate.formats.helpers import CONTROLCHARS_TRANS, NamedBytesIO
-from weblate.formats.ttkit import CSVUtf8Format
+from weblate.formats.ttkit import CSVFormat
 
 if TYPE_CHECKING:
     from collections.abc import Callable
@@ -25,10 +25,11 @@ if TYPE_CHECKING:
 CSV_DIALECT = "unix"
 
 
-class XlsxFormat(CSVUtf8Format):
+class XlsxFormat(CSVFormat):
     name = gettext_lazy("Excel Open XML")
     format_id = "xlsx"
     autoload = ("*.xlsx",)
+    force_encoding = "utf-8"
 
     def write_cell(self, worksheet, column: int, row: int, value: str):
         from openpyxl.cell.cell import TYPE_STRING

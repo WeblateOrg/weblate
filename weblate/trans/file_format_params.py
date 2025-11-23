@@ -164,7 +164,7 @@ def get_param_for_name(name: str) -> type[BaseFileFormatParam]:
 
 def get_encoding_param(file_format_params: dict[str, Any]) -> str | None:
     """Get encoding parameter from file format parameters."""
-    for param_name, value in file_format_params.items:
+    for param_name, value in file_format_params.items():
         if get_param_for_name(param_name).is_encoding():
             return value
     return None
@@ -466,3 +466,38 @@ class PropertiesEncoding(BaseFileFormatParam):
     def setup_store(self, store: TranslationStore, **file_format_params) -> None:
         encoding = self.get_value(file_format_params)
         store.encoding = encoding
+
+
+@register_file_format_param
+class CSVEncoding(BaseFileFormatParam):
+    file_formats = ("csv",)
+    name = "csv_encoding"
+    label = gettext_lazy("File encoding")
+    field_class = forms.ChoiceField
+    choices: ClassVar[list[tuple[str | int, StrOrPromise]] | None] = [
+        ("auto", gettext_lazy("Auto-detect")),
+        ("utf-8", gettext_lazy("UTF-8")),
+    ]
+    default = "auto"
+    help_text = gettext_lazy("Encoding used for CSV files")
+
+    def setup_store(self, store: TranslationStore, **file_format_params) -> None:
+        encoding = self.get_value(file_format_params)
+        if encoding != "auto":
+            store.encoding = encoding
+
+
+@register_file_format_param
+class CSVSimpleEncoding(BaseFileFormatParam):
+    file_formats = ("csv-simple",)
+    name = "csv_simple_encoding"
+    label = gettext_lazy("File encoding")
+    field_class = forms.ChoiceField
+    choices: ClassVar[list[tuple[str | int, StrOrPromise]] | None] = [
+        ("auto", gettext_lazy("Auto-detect")),
+        ("utf-8", gettext_lazy("UTF-8")),
+        ("iso-8859-1", gettext_lazy("ISO-8859-1")),
+    ]
+    default = "auto"
+    help_text = gettext_lazy("Encoding used for simple CSV files")
+    autoload: tuple[str, ...] = ("*.txt",)
