@@ -61,6 +61,12 @@ class MiddlewareTest(TestCase):
         response = self.client.get("/projects/")
         self.assertEqual(response.status_code, 200)
 
+        # Test that admin login page is accessible without authentication
+        self.client.logout()
+        response = self.client.get("/admin/login/")
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Sign in")
+
     def test_no_login_required(self) -> None:
         """Test that views are accessible without authentication when REQUIRE_LOGIN is False."""
         # Test that anonymous users can access public endpoints
