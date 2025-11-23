@@ -407,6 +407,7 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         )
         self.assertRedirects(response, self.access_url)
         self.assertEqual(self.project.userblock_set.count(), 1)
+        self.assertEqual(self.project.userblock_set.filter(note="").count(), 1)
 
         # Block user, for second time
         response = self.client.post(
@@ -423,6 +424,15 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         )
         self.assertRedirects(response, self.access_url)
         self.assertEqual(self.project.userblock_set.count(), 0)
+
+        # Block user with a note
+        response = self.client.post(
+            reverse("block-user", kwargs=self.kw_project),
+            {"user": self.second_user.username, "note": "Spamming"},
+        )
+        self.assertRedirects(response, self.access_url)
+        self.assertEqual(self.project.userblock_set.count(), 1)
+        self.assertEqual(self.project.userblock_set.filter(note="Spamming").count(), 1)
 
     def test_delete_group(self) -> None:
         self.project.add_user(self.user, "Administration")

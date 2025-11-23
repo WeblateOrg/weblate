@@ -81,6 +81,9 @@
                   </strong>
                 </td>
                 <td>
+                  {% if userblock.note %}
+                    <span title="{{ userblock.note }}">{% icon 'info.svg' %}</span>
+                  {% endif %}
                   <form action="{% url "unblock-user" project=object.slug %}"
                         method="post"
                         class="inlineform">

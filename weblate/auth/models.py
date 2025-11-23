@@ -1016,6 +1016,11 @@ class UserBlock(models.Model):
         Project, verbose_name=gettext_lazy("Project"), on_delete=models.deletion.CASCADE
     )
     expiry = models.DateTimeField(gettext_lazy("Block expiry"), null=True)
+    note = models.TextField(
+        verbose_name=gettext_lazy("Block note"),
+        blank=True,
+        help_text=gettext_lazy("The notes regarding blocking the user."),
+    )
 
     class Meta:
         verbose_name = "Blocked user"

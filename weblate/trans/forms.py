@@ -1360,6 +1360,9 @@ class UserBlockForm(forms.Form):
         ),
         required=False,
     )
+    note = forms.CharField(
+        required=False, widget=forms.Textarea, label=gettext_lazy("Block note")
+    )
 
     def __init__(self, *args, **kwargs) -> None:
         if "auto_id" not in kwargs:
