@@ -21,6 +21,8 @@ Weblate 5.15
 .. rubric:: Compatibility
 
 * :ref:`addon-weblate.webhook.webhook` secret length is now validated to match the Standard Webhooks specification.
+* Python 3.12 or newer is now required.
+* GLib 2.80 or newer is now required.
 
 .. rubric:: Upgrading
 

@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from collections.abc import Iterable
-from typing import TYPE_CHECKING, NotRequired, TypeAlias, TypedDict
+from typing import TYPE_CHECKING, NotRequired, TypedDict
 
 from django.db.models import TextChoices
 from django.utils.translation import pgettext_lazy
@@ -77,5 +77,5 @@ class UnitMemoryResultDict(TypedDict, total=False):
     origin: list[BatchMachineTranslation | None]
 
 
-DownloadTranslations: TypeAlias = Iterable[TranslationResultDict]
-DownloadMultipleTranslations: TypeAlias = dict[str, list[TranslationResultDict]]
+type DownloadTranslations = Iterable[TranslationResultDict]
+type DownloadMultipleTranslations = dict[str, list[TranslationResultDict]]
