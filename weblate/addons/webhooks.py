@@ -55,6 +55,7 @@ class MessageNotDeliveredError(Exception):
 
 class JSONWebhookBaseAddon(ChangeBaseAddon):
     icon = "webhook.svg"
+    multiple = True
 
     def build_webhook_payload(self, change: Change) -> PayloadType:
         raise NotImplementedError
