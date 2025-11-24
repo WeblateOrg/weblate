@@ -34,7 +34,7 @@ repos:
   hooks:
   - id: yamllint
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.14.5
+  rev: v0.14.6
   hooks:
   - id: ruff-check
     args:
@@ -47,7 +47,7 @@ repos:
   - id: doccmd
     args: [--language, python, --no-pad-file, --command, ruff format]
     additional_dependencies:
-    - ruff==0.14.5
+    - ruff==0.14.6
 - repo: meta
   hooks:
   - id: check-hooks-apply
@@ -82,7 +82,7 @@ repos:
   - id: shellcheck
     require_serial: true
 - repo: https://github.com/biomejs/pre-commit
-  rev: v2.3.6
+  rev: v2.3.7
   hooks:
   - id: biome-check
     args: [--error-on-warnings]

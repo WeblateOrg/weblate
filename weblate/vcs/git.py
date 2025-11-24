@@ -1142,6 +1142,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         origin_branch: str,
         fork_remote: str,
         fork_branch: str,
+        retry_fork: bool = True,
     ) -> None:
         raise NotImplementedError
 
@@ -2010,6 +2011,7 @@ class GitLabRepository(GitMergeRequestBase):
         origin_branch: str,
         fork_remote: str,
         fork_branch: str,
+        retry_fork: bool = True,
     ) -> None:
         """
         Create pull request.
@@ -2095,6 +2097,7 @@ class PagureRepository(GitMergeRequestBase):
         origin_branch: str,
         fork_remote: str,
         fork_branch: str,
+        retry_fork: bool = True,
     ) -> None:
         """
         Create pull request.
@@ -2255,6 +2258,7 @@ class BitbucketServerRepository(GitMergeRequestBase):
         origin_branch: str,
         fork_remote: str,
         fork_branch: str,
+        retry_fork: bool = True,
     ) -> None:
         # Make sure there's always a fork reference
         if not self.bb_fork:
@@ -2377,6 +2381,7 @@ class BitbucketCloudRepository(GitMergeRequestBase):
         origin_branch: str,
         fork_remote: str,
         fork_branch: str,
+        retry_fork: bool = True,
     ) -> None:
         """
         Create pull request on Bitbucket Cloud.
