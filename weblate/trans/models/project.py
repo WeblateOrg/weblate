@@ -775,9 +775,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     def collect_label_cleanup(self, label: Label) -> None:
         from weblate.trans.models.translation import Translation
 
-        translations = Translation.objects.filter(
-            Q(unit__labels=label) | Q(unit__source_unit__labels=label)
-        )
+        translations = Translation.objects.filter(unit__source_unit__labels=label)
         if self.label_cleanups is None:
             self.label_cleanups = translations
         else:

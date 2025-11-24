@@ -168,16 +168,16 @@ class SearchViewTest(TransactionsTestMixin, ViewTestCase):
         self.do_search({"q": ""}, "1 / 4")
 
     def test_search_automatically_translated(self) -> None:
-        self.do_search({"q": "is:automatically_translated"}, None)
+        self.do_search({"q": "is:automatically-translated"}, None)
 
         unit = self.translation.unit_set.first()
         unit.automatically_translated = True
         unit.save()
 
-        response = self.do_search({"q": "is:automatically_translated"}, "1 / 1")
+        response = self.do_search({"q": "is:automatically-translated"}, "1 / 1")
         self.assertContains(response, unit.source)
 
-        self.do_search({"q": "NOT is:automatically_translated"}, "1 / 3")
+        self.do_search({"q": "NOT is:automatically-translated"}, "1 / 3")
 
     def test_search_plural(self) -> None:
         response = self.do_search({"q": "banana"}, "banana")

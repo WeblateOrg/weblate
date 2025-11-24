@@ -682,7 +682,9 @@
                     <span class="green">{% icon "check.svg" %}</span>
                     {% translate "Automatically translated" %}
                   </h5>
-                  <p class="list-group-item-text check-description">{% translate "This string was translated automatically." %}</p>
+                  <p class="list-group-item-text check-description">
+                    {% blocktranslate with author=unit.get_last_author %}This string was translated automatically by {{ author }}.{% endblocktranslate %}
+                  </p>
                 </div>
               {% endif %}
 

@@ -560,7 +560,7 @@ class UnitTermExpr(BaseTermExpr):
             return Q(state__lt=STATE_TRANSLATED)
         if text == "pending":
             return Q(pending_changes__isnull=False)
-        if text == "automatically_translated":
+        if text in {"automatically-translated", "automatically_translated"}:
             return Q(automatically_translated=True)
 
         return super().is_field(text, context)
@@ -597,7 +597,7 @@ class UnitTermExpr(BaseTermExpr):
                 & Q(context__regex=F("variant__variant_regex"))
             )
         if text == "label":
-            return Q(source_unit__labels__isnull=False) | Q(labels__isnull=False)
+            return Q(source_unit__labels__isnull=False)
         if text == "context":
             return ~Q(context="")
         if text == "screenshot":
@@ -714,8 +714,6 @@ class UnitTermExpr(BaseTermExpr):
             return query & Q(check__dismissed=False)
         if field == "dismissed_check":
             return query & Q(check__dismissed=True)
-        if field == "label":
-            return query | Q(labels__name__iexact=match)
         if field == "screenshot":
             return query | Q(screenshots__name__iexact=match)
         if field == "comment":
@@ -734,7 +732,7 @@ class UnitTermExpr(BaseTermExpr):
 
     def get_annotations(self, context: dict) -> dict[str, Expression]:
         if self.field == "labels_count":
-            return {"labels_count": Count("source_unit__labels") + Count("labels")}
+            return {"labels_count": Count("source_unit__labels")}
         return super().get_annotations(context)
 
 

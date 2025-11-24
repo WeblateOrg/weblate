@@ -1342,7 +1342,13 @@ class Unit(models.Model, LoggerMixin):
         ):
             return False
 
-        update_fields = ["target", "state", "original_state", "explanation"]
+        update_fields = [
+            "target",
+            "state",
+            "original_state",
+            "explanation",
+            "automatically_translated",
+        ]
         if self.is_source and not self.translation.component.intermediate:
             self.source = self.target
             update_fields.extend(["source"])
@@ -1826,6 +1832,11 @@ class Unit(models.Model, LoggerMixin):
         if new_state != STATE_READONLY:
             self.original_state = self.state
 
+        if change_action == ActionEvents.AUTO:
+            self.automatically_translated = True
+        else:
+            self.automatically_translated = False
+
         # Save to the database
         saved = self.save_backend(
             user,
@@ -1865,12 +1876,6 @@ class Unit(models.Model, LoggerMixin):
                 saved = True
 
         self.update_translation_memory(user)
-
-        if change_action == ActionEvents.AUTO:
-            self.automatically_translated = True
-        else:
-            self.automatically_translated = False
-        self.save(update_fields=["automatically_translated"])
 
         return saved
 
@@ -2023,6 +2028,11 @@ class Unit(models.Model, LoggerMixin):
             return get_anonymous(), timezone.now()
         return change.author or get_anonymous(), change.timestamp
 
+    @property
+    def get_last_author(self) -> User:
+        """Get last author of content changes to a unit."""
+        return self.get_last_content_change()[0]
+
     def get_locations(self) -> Generator[tuple[str, str, str]]:
         """Return list of location filenames."""
         for location in self.location.split(","):
@@ -2039,13 +2049,8 @@ class Unit(models.Model, LoggerMixin):
 
     @cached_property
     def all_labels(self):
-        from weblate.trans.models import Label
-
-        if self.is_source:
-            return self.labels.all()
-        return Label.objects.filter(
-            unit__id__in=(self.id, self.source_unit_id)
-        ).distinct()
+        unit = self if self.is_source else self.source_unit
+        return unit.labels.all()
 
     def get_flag_actions(self):
         flags = self.all_flags
