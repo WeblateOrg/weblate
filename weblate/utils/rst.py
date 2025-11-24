@@ -69,7 +69,6 @@ def generate_table_cells(
     for row in table:
         row_output: list[str | None] = []
         for column, value in enumerate(row):
-            value = row[column]
             if isinstance(value, str):
                 row_output.append(value)
             else:

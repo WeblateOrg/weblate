@@ -26,11 +26,8 @@ from weblate.utils.state import (
 )
 
 if TYPE_CHECKING:
-    from weblate.auth.models import User
-    from weblate.trans.models import Component, Unit
-    from weblate.utils.state import (
-        StringState,
-    )
+    from weblate.trans.models import Component, Project, Unit
+    from weblate.utils.state import StringState
 
 
 class GenerateFileAddon(BaseAddon):
@@ -47,10 +44,15 @@ class GenerateFileAddon(BaseAddon):
     icon = "poll.svg"
 
     @classmethod
-    def can_install(cls, component: Component, user: User | None) -> bool:
-        if not component.translation_set.exists():
+    def can_install(
+        cls,
+        *,
+        component: Component | None = None,
+        project: Project | None = None,
+    ) -> bool:
+        if component is not None and not component.translation_set.exists():
             return False
-        return super().can_install(component, user)
+        return super().can_install(component=component, project=project)
 
     def pre_commit(
         self,
@@ -200,12 +202,13 @@ class PseudolocaleAddon(LocaleGenerateAddonBase):
                 target_translation = self.get_target_translation(
                     self.instance.component
                 )
+            except Translation.DoesNotExist:
+                pass
+            else:
                 flags = Flags(target_translation.check_flags)
                 flags.remove("ignore-all-checks")
                 target_translation.check_flags = flags.format()
                 target_translation.save(update_fields=["check_flags"])
-            except Translation.DoesNotExist:
-                pass
         super().post_uninstall()
 
     def post_configure_run(self) -> None:
@@ -215,12 +218,13 @@ class PseudolocaleAddon(LocaleGenerateAddonBase):
                 target_translation = self.get_target_translation(
                     self.instance.component
                 )
+            except Translation.DoesNotExist:
+                pass
+            else:
                 flags = Flags(target_translation.check_flags)
                 flags.merge("ignore-all-checks")
                 target_translation.check_flags = flags.format()
                 target_translation.save(update_fields=["check_flags"])
-            except Translation.DoesNotExist:
-                pass
 
 
 class PrefillAddon(LocaleGenerateAddonBase):

@@ -13,7 +13,6 @@ from django.http import HttpResponse, JsonResponse
 from django.utils.html import conditional_escape, format_html, format_html_join
 from django.views.decorators.http import require_POST
 
-from weblate.auth.models import AuthenticatedHttpRequest
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.forms import ReportsForm

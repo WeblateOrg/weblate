@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import os
 import time
+from contextlib import suppress
 from datetime import datetime, timedelta
 from glob import glob
 from operator import itemgetter
@@ -19,12 +20,8 @@ from django.core.cache import cache
 from django.db import IntegrityError, transaction
 from django.db.models import (
     Count,
-    DateTimeField,
-    ExpressionWrapper,
     F,
-    Value,
 )
-from django.db.models.functions import Now
 from django.http import Http404
 from django.utils import timezone
 from django.utils.timezone import make_aware
@@ -37,20 +34,19 @@ from weblate.logger import LOGGER
 from weblate.trans.actions import ActionEvents
 from weblate.trans.autotranslate import BatchAutoTranslate
 from weblate.trans.exceptions import FileParseError
-from weblate.trans.functions import MySQLTimestampAdd
 from weblate.trans.models import (
     Category,
     Change,
     Comment,
     Component,
     ComponentList,
+    PendingUnitChange,
     Project,
     Suggestion,
     Translation,
 )
 from weblate.utils.celery import app
 from weblate.utils.data import data_dir
-from weblate.utils.db import using_postgresql
 from weblate.utils.errors import report_error
 from weblate.utils.files import remove_tree
 from weblate.utils.lock import WeblateLockTimeoutError
@@ -60,10 +56,6 @@ from weblate.vcs.base import RepositoryError
 
 if TYPE_CHECKING:
     from collections.abc import Callable
-
-    from django.db.models import (
-        Expression,
-    )
 
 
 @app.task(
@@ -83,7 +75,8 @@ def perform_update(
     if user_id:
         request = AuthenticatedHttpRequest()
         request.user = User.objects.get(pk=user_id)
-    try:
+    # This is stored as alert, so we can silently ignore some exceptions here
+    with suppress(FileParseError, RepositoryError, FileNotFoundError):
         if obj is None:
             if cls == "Project":
                 obj = Project.objects.get(pk=pk)
@@ -93,9 +86,6 @@ def perform_update(
             obj.do_update(request)
         else:
             obj.update_remote_branch()
-    except (FileParseError, RepositoryError, FileNotFoundError):
-        # This is stored as alert, so we can silently ignore here
-        return
 
 
 @app.task(
@@ -174,25 +164,16 @@ def commit_pending(
     pks: set[int] | None = None,
     logger: Callable[[str], None] | None = None,
 ) -> None:
-    if pks is None:
-        components = Component.objects.all()
-    else:
-        components = Component.objects.filter(translation__pk__in=pks)
+    components = PendingUnitChange.objects.find_committable_components(
+        pks=list(pks) if pks else None, hours=hours
+    )
 
-    hours_expr = F("commit_pending_age") if hours is None else Value(hours)
-    age_cutoff: Expression
-    if using_postgresql():
-        age_cutoff = ExpressionWrapper(
-            Now() - hours_expr * timedelta(hours=1), output_field=DateTimeField()
-        )
-    else:
-        age_cutoff = MySQLTimestampAdd("HOUR", -hours_expr, Now())
+    if not components:
+        return
 
-    components = components.filter(
-        translation__unit__pending_changes__timestamp__lt=age_cutoff,
-    ).distinct()
+    components = prefetch_stats(components)
 
-    for component in prefetch_stats(components.prefetch()):
+    for component in components:
         if logger:
             logger(f"Committing {component}")
 
@@ -627,7 +608,7 @@ def create_component(copy_from=None, copy_addons=False, in_task=False, **kwargs)
                 # Avoid installing duplicate addons
                 if component.addon_set.filter(name=addon.name).exists():
                     continue
-                if not addon.addon.can_install(component, None):
+                if not addon.addon.can_install(component=component):
                     continue
                 addon.addon.create(
                     component=component, configuration=addon.configuration

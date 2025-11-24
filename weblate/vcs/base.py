@@ -11,6 +11,7 @@ import logging
 import os
 import os.path
 import subprocess
+from contextlib import suppress
 from pathlib import Path
 from typing import TYPE_CHECKING, ClassVar, Self, TypedDict
 
@@ -208,6 +209,7 @@ class Repository:
         local: bool = False,
         stdin: str | None = None,
         environment: dict[str, str] | None = None,
+        retry: bool = True,
     ):
         """Execute the command using popen."""
         if args is None:
@@ -259,10 +261,26 @@ class Repository:
             cwd=cwd,
         )
         if process.returncode:
-            raise RepositoryError(
-                process.returncode, process.stdout + (process.stderr or "")
-            )
+            errormessage: str = process.stdout + (process.stderr or "")
+            if retry and cls.should_retry_popen(errormessage):
+                return cls._popen(
+                    args,
+                    cwd=cwd,
+                    merge_err=merge_err,
+                    fullcmd=fullcmd,
+                    raw=raw,
+                    local=local,
+                    stdin=stdin,
+                    environment=environment,
+                    retry=False,
+                )
+
+            raise RepositoryError(process.returncode, errormessage)
         return process.stdout
+
+    @staticmethod
+    def should_retry_popen(errormessage: str) -> bool:  # noqa: ARG004
+        return False
 
     def execute(
         self,
@@ -299,11 +317,9 @@ class Repository:
         return self.last_output
 
     def log_status(self, error: str | RepositoryError) -> None:
-        try:
+        with suppress(RepositoryError):
             self.log(f"failure {error}")
             self.log(self.status())
-        except RepositoryError:
-            pass
 
     def clean_revision_cache(self) -> None:
         if "last_revision" in self.__dict__:

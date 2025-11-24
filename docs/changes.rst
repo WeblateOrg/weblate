@@ -14,10 +14,13 @@ Weblate 5.15
 * :http:get:`/api/groups/` now includes ``admins``.
 * :ref:`mt-modernmt` better supports language variants.
 * :ref:`addon-weblate.discovery.discovery` preserves :ref:`file_format_params`.
+* :ref:`mt-cyrtranslit` now supports Belarusian and Greek.
 
 .. rubric:: Bug fixes
 
 .. rubric:: Compatibility
+
+* :ref:`addon-weblate.webhook.webhook` secret length is now validated to match the Standard Webhooks specification.
 
 .. rubric:: Upgrading
 

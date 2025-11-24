@@ -36,6 +36,7 @@ class SkipHtmlSpan(span_token.HtmlSpan):
     content: str
 
     def __init__(self, match) -> None:
+        super().__init__(match)
         self.content = ""
 
 
