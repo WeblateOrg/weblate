@@ -59,8 +59,7 @@ def delete_object_dir(instance) -> None:
     if os.path.exists(project_path):
         remove_tree(project_path)
     
-    # Also remove htmlTemps directory if it exists
-    # Replace /vcs/ with /vcs/htmlTemps/ in the path
+    # Also remove htmlTemps directory for adoc files if it exists.
     html_temps_path = project_path.replace("/vcs/", "/vcs/htmlTemps/")
     if os.path.exists(html_temps_path):
         remove_tree(html_temps_path)

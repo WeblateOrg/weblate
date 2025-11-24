@@ -103,7 +103,7 @@ def _prepare_batch_request(translation: "Translation"):
     # Collect untranslated units
     units_qs = translation.unit_set.all().order_by('position')
     if not units_qs.exists():
-        return None, None, None, None, None
+        return None, None, None, None
 
     units_data = {}
     unit_map = {}

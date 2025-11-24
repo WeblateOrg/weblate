@@ -1597,6 +1597,14 @@ class Translation(
                 )
                 self.component.push_if_needed()
 
+        # Remove html temporary files for adoc files.
+        for name in self.filenames:
+            self.log_info("filename: %s", name)
+            name = name.replace("/vcs/", "/vcs/htmlTemps/")
+            name = name.replace(".adoc", ".html")
+            if os.path.exists(name):
+                os.remove(name)
+        
         # Remove blank directory if still present (appstore)
         filename = Path(self.get_filename())
         if filename.is_dir():
