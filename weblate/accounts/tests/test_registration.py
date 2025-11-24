@@ -245,7 +245,7 @@ class RegistrationTest(BaseRegistrationTest):
             self.client.post(reverse("logout"))
 
         # Confirm second account
-        response = self.client.get(second_url, follow=True)
+        self.client.get(second_url, follow=True)
         self.assertEqual(
             User.objects.filter(email="noreply@example.net").exists(), logout
         )
