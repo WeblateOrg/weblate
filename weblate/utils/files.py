@@ -14,6 +14,7 @@ from django.utils.translation import gettext, gettext_lazy, ngettext
 from translation_finder.finder import EXCLUDES
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
     from pathlib import Path
 
 WEBLATE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -52,9 +53,9 @@ def get_upload_message(not_found: int, skipped: int, accepted: int, total: int) 
     ).format(total, skipped, not_found, accepted)
 
 
-def remove_readonly(func, path, excinfo) -> None:
+def remove_readonly(func: Callable, path: str, error: Exception) -> None:
     """Clear the readonly bit and reattempt the removal."""
-    if isinstance(excinfo[1], FileNotFoundError):
+    if isinstance(error, FileNotFoundError):
         return
     if os.path.isdir(path):
         os.chmod(path, stat.S_IREAD | stat.S_IWRITE | stat.S_IEXEC)
@@ -68,9 +69,7 @@ def remove_readonly(func, path, excinfo) -> None:
 
 
 def remove_tree(path: str | Path, ignore_errors: bool = False) -> None:
-    # TODO: switch to onexc with Python >= 3.12
-    # pylint: disable-next=deprecated-argument
-    shutil.rmtree(path, ignore_errors=ignore_errors, onerror=remove_readonly)
+    shutil.rmtree(path, ignore_errors=ignore_errors, onexc=remove_readonly)
 
 
 def should_skip(location):
