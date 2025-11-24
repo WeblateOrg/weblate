@@ -14,6 +14,7 @@ Weblate 5.15
 * :http:get:`/api/groups/` now includes ``admins``.
 * :ref:`mt-modernmt` better supports language variants.
 * :ref:`mt-cyrtranslit` now supports Belarusian and Greek.
+* :ref:`addon-weblate.webhook.slack` and :ref:`addon-weblate.webhook.webhook` can be installed multiple times.
 
 .. rubric:: Bug fixes
 
