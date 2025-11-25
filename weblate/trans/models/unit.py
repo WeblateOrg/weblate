@@ -362,11 +362,6 @@ class UnitQuerySet(models.QuerySet["Unit"]):
         )
 
 
-class LabelsField(ManyToManyField):
-    # unused but needed until migrations are sqaushed
-    pass
-
-
 class OldUnit(TypedDict):
     state: StringState
     source: str
