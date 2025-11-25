@@ -604,6 +604,7 @@ class Unit(models.Model, LoggerMixin):
             "context": unit.context,
             "extra_flags": unit.extra_flags,
             "explanation": unit.explanation,
+            "automatically_translated": unit.automatically_translated,
         }
 
     def store_disk_state(self) -> None:
@@ -1333,6 +1334,8 @@ class Unit(models.Model, LoggerMixin):
             self.old_unit["state"] == self.state
             and self.old_unit["target"] == self.target
             and self.old_unit["explanation"] == self.explanation
+            and self.old_unit["automatically_translated"]
+            == self.automatically_translated
             and not was_propagated
         ):
             return False

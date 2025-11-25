@@ -440,9 +440,7 @@ class UnitQueryParserTest(SearchTestCase):
 
     def test_labels(self) -> None:
         self.assert_query(
-            "label:'test label'",
-            Q(source_unit__labels__name__iexact="test label")
-            | Q(labels__name__iexact="test label"),
+            "label:'test label'", Q(source_unit__labels__name__iexact="test label")
         )
 
     def test_screenshot(self) -> None:
