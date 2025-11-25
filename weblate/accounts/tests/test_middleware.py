@@ -26,7 +26,7 @@ class MiddlewareTest(TestCase):
     the middleware correctly enforces authentication when REQUIRE_LOGIN is enabled.
     """
 
-    @login_not_required
+    @method_decorator(login_not_required)
     def public_view(self, request: HttpRequest) -> str:
         """View not requiring login."""
         return "PUBLIC_VIEW"
