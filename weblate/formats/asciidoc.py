@@ -80,7 +80,11 @@ class AsciiDocFormat(ConvertFormat):
             # Read existing HTML file
             with open(html_path, 'r', encoding='utf-8') as f:
                 html_content = f.read()
-                
+            
+        
+        # Repair broken HTML if needed
+        html_content = self._repair_html_tags(html_content)
+        
         # Create HTML parser with converted content
         html_bytes = html_content.encode('utf-8')
         htmlparser = htmlfile(inputfile=NamedBytesIO("", html_bytes))
@@ -122,6 +126,8 @@ class AsciiDocFormat(ConvertFormat):
                 self.store, templatefile, includefuzzy=True
             )
         
+        # Validate and repair broken HTML tag structures
+        outputstring = self._repair_html_tags(outputstring)
 
         adoc_path = self.storefile
         if hasattr(adoc_path, "name"):
@@ -137,6 +143,149 @@ class AsciiDocFormat(ConvertFormat):
         asciidoc_content = pypandoc.convert_text(outputstring, 'asciidoc', format='html')
         handle.write(asciidoc_content.encode('utf-8'))
             
+    
+    @staticmethod
+    def _repair_html_tags(html_content):
+        """
+        Repair broken HTML tag structures caused by po2html merge process.
+        
+        Uses BeautifulSoup if available for robust HTML repair, otherwise
+        falls back to regex-based pattern matching.
+        """
+        import re
+        from translate.storage.html import htmlfile
+        from weblate.formats.helpers import NamedBytesIO
+        
+        # First, try to validate the HTML by parsing it with the same parser Weblate uses
+        try:
+            html_bytes = html_content.encode('utf-8')
+            htmlfile(inputfile=NamedBytesIO("", html_bytes))
+            # If parsing succeeds, return as-is
+            return html_content
+        except Exception:
+            # HTML has errors, try to repair
+            pass
+        
+        # Try using BeautifulSoup for robust HTML repair
+        try:
+            from bs4 import BeautifulSoup
+            soup = BeautifulSoup(html_content, 'html.parser')
+            repaired_html = str(soup)
+            # Validate the repaired HTML
+            try:
+                html_bytes = repaired_html.encode('utf-8')
+                htmlfile(inputfile=NamedBytesIO("", html_bytes))
+                return repaired_html
+            except Exception:
+                # BeautifulSoup repair didn't work, fall through to regex patterns
+                pass
+        except ImportError:
+            # BeautifulSoup not available, use regex patterns
+            pass
+        
+        # Repair pattern 1: <code>...<a>...</code></a> -> <code>...<a>...</a></code>
+        # This happens when code tag is closed before anchor tag
+        pattern1 = re.compile(
+            r'(<code[^>]*>)(.*?)(<a\s+[^>]*>)(.*?)(</code>)(.*?)(</a>)',
+            re.DOTALL
+        )
+        def fix_pattern1(match):
+            code_open = match.group(1)
+            before_anchor = match.group(2)
+            anchor_open = match.group(3)
+            anchor_content = match.group(4)
+            code_close = match.group(5)
+            after_code = match.group(6)
+            anchor_close = match.group(7)
+            # Reorder: code_open, before_anchor, anchor_open, anchor_content, anchor_close, after_code, code_close
+            return f"{code_open}{before_anchor}{anchor_open}{anchor_content}{anchor_close}{after_code}{code_close}"
+        
+        html_content = pattern1.sub(fix_pattern1, html_content)
+        
+        # Repair pattern 2: <a>...<code>...</a></code> -> <a>...<code>...</code></a>
+        # This happens when anchor tag is closed before code tag
+        pattern2 = re.compile(
+            r'(<a\s+[^>]*>)(.*?)(<code[^>]*>)(.*?)(</a>)(.*?)(</code>)',
+            re.DOTALL
+        )
+        def fix_pattern2(match):
+            anchor_open = match.group(1)
+            before_code = match.group(2)
+            code_open = match.group(3)
+            code_content = match.group(4)
+            anchor_close = match.group(5)
+            after_anchor = match.group(6)
+            code_close = match.group(7)
+            # Reorder: anchor_open, before_code, code_open, code_content, code_close, after_anchor, anchor_close
+            return f"{anchor_open}{before_code}{code_open}{code_content}{code_close}{after_anchor}{anchor_close}"
+        
+        html_content = pattern2.sub(fix_pattern2, html_content)
+        
+        # Repair pattern 3: Fix cases where closing tags are completely out of order
+        # <code>text<a href="...">link</code></a> -> <code>text<a href="...">link</a></code>
+        pattern3 = re.compile(
+            r'(<code[^>]*>)([^<]*?)(<a\s+[^>]*>)([^<]*?)(</code>)([^<]*?)(</a>)',
+            re.DOTALL
+        )
+        def fix_pattern3(match):
+            code_open = match.group(1)
+            before_anchor = match.group(2)
+            anchor_open = match.group(3)
+            anchor_content = match.group(4)
+            code_close = match.group(5)
+            between = match.group(6)
+            anchor_close = match.group(7)
+            return f"{code_open}{before_anchor}{anchor_open}{anchor_content}{anchor_close}{between}{code_close}"
+        
+        html_content = pattern3.sub(fix_pattern3, html_content)
+        
+        # Repair pattern 4: Fix specific common mismatches
+        # <key>...</pre> -> <key>...</key> (when </pre> appears where </key> is expected)
+        # This pattern looks for <key> followed by content and then </pre> where </key> should be
+        pattern4 = re.compile(
+            r'(<key[^>]*>)(.*?)(</pre>)',
+            re.DOTALL | re.IGNORECASE
+        )
+        def fix_pattern4(match):
+            key_open = match.group(1)
+            content = match.group(2)
+            # Check if there's a <pre> tag in the content that should be closed first
+            if '<pre' in content.lower():
+                # Find the matching </pre> and keep it, but also close </key>
+                # This is complex, so just close </key> before </pre>
+                return f"{key_open}{content}</key>"
+            else:
+                # No <pre> tag, so </pre> is wrong, replace with </key>
+                return f"{key_open}{content}</key>"
+        
+        html_content = pattern4.sub(fix_pattern4, html_content)
+        
+        # Repair pattern 5: Fix </key> when </pre> is expected (reverse case)
+        pattern5 = re.compile(
+            r'(<pre[^>]*>)(.*?)(</key>)',
+            re.DOTALL | re.IGNORECASE
+        )
+        def fix_pattern5(match):
+            pre_open = match.group(1)
+            content = match.group(2)
+            return f"{pre_open}{content}</pre>"
+        
+        html_content = pattern5.sub(fix_pattern5, html_content)
+        
+        # Try parsing again to validate with the same parser Weblate uses
+        try:
+            html_bytes = html_content.encode('utf-8')
+            htmlfile(inputfile=NamedBytesIO("", html_bytes))
+            # Parsing succeeded, return repaired HTML
+            return html_content
+        except Exception as e:
+            # If still broken, log but return the repaired version anyway
+            # The convertfile method will catch parse errors during load
+            import logging
+            logger = logging.getLogger('weblate.formats.asciidoc')
+            logger.warning(f"HTML repair attempted but still has parse errors: {e}")
+            # Return the repaired version - it's better than the broken one
+            return html_content
     
     @staticmethod
     def _asciidoc_to_html(asciidoc_content):

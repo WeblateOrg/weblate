@@ -9,7 +9,7 @@ DB_HOST="${DB_HOST:-127.0.0.1}"
 DB_USER="${DB_USER:-weblate}"
 DB_NAME="${DB_NAME:-weblate}"
 DB_PASSWORD="${DB_PASSWORD:-weblate}"
-DATA_DIR="${DATA_DIR:-/home/boost-weblate/data}"  # Adjust to your server's DATA_DIR
+DATA_DIR="${DATA_DIR:-/home/dsf2eqw1/boost-weblate/data}"  # Adjust to your server's DATA_DIR
 
 # Backup directory
 BACKUP_BASE_DIR="${BACKUP_BASE_DIR:-$HOME/weblate_backup}"
