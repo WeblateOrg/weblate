@@ -31,18 +31,22 @@
             {{ total_count }} pending units
           {% endblocktranslate %}
           {% with policy=pending_units.commit_policy_skipped errors=pending_units.errors_skipped %}
+            {% blocktranslate count counter=policy asvar policy_count_text with policy_count=policy|intcomma trimmed %}
+              {{ policy_count }} skipped by the commit policy
+            {% plural %}
+              {{ policy_count }} skipped by the commit policy
+            {% endblocktranslate %}
+            {% blocktranslate count counter=errors asvar errors_count_text with errors_count=errors|intcomma trimmed %}
+              {{ errors_count }} skipped because of errors
+            {% plural %}
+              {{ errors_count }} skipped because of errors
+            {% endblocktranslate %}
             {% if policy and errors %}
-              {% blocktranslate with policy_count=policy|intcomma errors_count=errors|intcomma trimmed %}
-                ({{ policy_count }} skipped by the commit policy, {{ errors_count }} skipped because of errors)
-              {% endblocktranslate %}
+              ({{ policy_count_text }}, {{ errors_count_text }})
             {% elif policy %}
-              {% blocktranslate with policy_count=policy|intcomma trimmed %}
-                ({{ policy_count }} skipped by the commit policy)
-              {% endblocktranslate %}
+              ({{ policy_count_text }})
             {% elif errors %}
-              {% blocktranslate with errors_count=errors|intcomma trimmed %}
-                ({{ errors_count }} skipped because of errors)
-              {% endblocktranslate %}
+              ({{ errors_count_text }})
             {% endif %}
           {% endwith %}
         </h6>
