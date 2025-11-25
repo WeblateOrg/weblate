@@ -271,6 +271,7 @@ class PendingChangeQuerySet(models.QuerySet):
         """Return pending changes older than given timestamp."""
         return self.filter(timestamp__lt=timestamp)
 
+    # pylint: disable-next=arguments-differ
     def select_for_update(self) -> PendingChangeQuerySet:  # type: ignore[override]
         if using_postgresql():
             # Use weaker locking and limit locking to this table only

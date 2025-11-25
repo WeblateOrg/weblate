@@ -16,7 +16,7 @@ if len(sys.argv) == 2:
 
 tag = f'<section id="weblate-{version}">.+?<h1>(.+?)<a(.+?)</a></h1>(.+?)</section>'
 
-data = Path("docs/_build/html/changes.html").read_text()
+data = Path("docs/_build/html/changes.html").read_text(encoding="utf-8")
 
 for match in re.findall(tag, data, re.MULTILINE | re.DOTALL):
     print(match[0])

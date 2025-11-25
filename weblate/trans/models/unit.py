@@ -75,7 +75,7 @@ NEWLINES = re.compile(r"\r\n|\r|\n")
 
 def fill_in_source_translation(units: Iterable[Unit]) -> None:
     """
-    Inject source translation intro component from the source unit.
+    Inject source translation into component from the source unit.
 
     This materializes the query.
 
@@ -124,7 +124,7 @@ class UnitQuerySet(models.QuerySet["Unit"]):
 
     def fill_in_source_translation(self):
         """
-        Inject source translation intro component from the source unit.
+        Inject source translation into component from the source unit.
 
         This materializes the query.
 
@@ -349,6 +349,7 @@ class UnitQuerySet(models.QuerySet["Unit"]):
         """Return list of units ordered by ID."""
         return sorted(self.filter(id__in=ids), key=lambda unit: ids.index(unit.id))
 
+    # pylint: disable-next=arguments-differ
     def select_for_update(self) -> UnitQuerySet:  # type: ignore[override]
         if using_postgresql():
             # Use weaker locking and limit locking to Unit table only
@@ -524,6 +525,7 @@ class Unit(models.Model, LoggerMixin):
             # Avoid storing if .only() was used to fetch the query (eg. in stats)
             self.store_old_unit(self)
 
+    # pylint: disable-next=arguments-differ
     def save(  # type: ignore[override]
         self,
         *,

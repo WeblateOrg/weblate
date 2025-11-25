@@ -22,7 +22,7 @@ def get_env_str(
     file_env = f"{name}_FILE"
     if filename := os.environ.get(file_env):
         try:
-            result = Path(filename).read_text()
+            result = Path(filename).read_text(encoding="utf-8")
         except OSError as error:
             msg = f"Failed to open {filename} as specified by {file_env}: {error}"
             raise ImproperlyConfigured(msg) from error

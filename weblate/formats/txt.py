@@ -58,7 +58,7 @@ class TextParser:
     """Simple text parser returning all content as single unit."""
 
     def __init__(self, storefile, filename=None, flags: str | None = None) -> None:
-        content = Path(storefile).read_text()
+        content = Path(storefile).read_text(encoding="utf-8")
         if filename:
             self.filename = filename
         else:

@@ -18,7 +18,7 @@ from django.utils.html import format_html
 from django.utils.translation import gettext, pgettext
 
 from weblate.utils.errors import report_error
-from weblate.utils.requests import request
+from weblate.utils.requests import http_request
 
 if TYPE_CHECKING:
     from weblate.auth.models import User
@@ -77,7 +77,7 @@ def get_avatar_image(user: User, size: int) -> bytes:
 def download_avatar_image(email: str, size: int) -> bytes:
     """Download avatar image from remote server."""
     url = avatar_for_email(email, size)
-    response = request("get", url, timeout=1.0)
+    response = http_request("get", url, timeout=1.0)
     return response.content
 
 

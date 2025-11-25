@@ -412,6 +412,7 @@ class EditLanguageTest(EditTest):
             kwargs={"path": [self.project.slug, "-", "cs"]},
         )
 
+    # pylint: disable=arguments-differ
     def edit_unit(self, source, target, language="cs", **kwargs):
         """Do edit single unit using web interface."""
         unit = self.get_unit(source, language)

@@ -313,7 +313,7 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
             self.assertTrue(os.path.isdir(out))
         else:
             mode = "rb" if isinstance(self.MATCH, bytes) else "r"
-            with open(out, mode) as handle:
+            with open(out, mode, encoding=None if "b" in mode else "utf-8") as handle:
                 data = handle.read()
             self.assertIn(self.MATCH, data)
 
@@ -480,7 +480,7 @@ class PoFormatTest(BaseFormatTest):
         self.format_class.add_language(
             out, Language.objects.get(code="cs"), TEST_POT_UNICODE
         )
-        data = Path(out).read_text()
+        data = Path(out).read_text(encoding="utf-8")
         self.assertIn("Michal Čihař", data)
 
     def load_plural(self, filename):
@@ -504,7 +504,7 @@ class PoFormatTest(BaseFormatTest):
 
     def test_msgmerge(self) -> None:
         test_file = os.path.join(self.tempdir, "test.po")
-        Path(test_file).write_text("")
+        Path(test_file).write_text("", encoding="utf-8")
 
         # Test file content is updated
         self.format_class.update_bilingual(test_file, TEST_POT)
@@ -836,7 +836,7 @@ class XliffFormatTest(XMLMixin, BaseFormatTest):
         # Verify the state is set
         self.assertIn(
             '<target state="translated">test</target>',
-            Path(testfile).read_text(),
+            Path(testfile).read_text(encoding="utf-8"),
         )
 
         # Update first unit as fuzzy
@@ -849,7 +849,7 @@ class XliffFormatTest(XMLMixin, BaseFormatTest):
         # Verify the state is set
         self.assertIn(
             '<target state="needs-translation">test</target>',
-            Path(testfile).read_text(),
+            Path(testfile).read_text(encoding="utf-8"),
         )
 
 
@@ -866,8 +866,12 @@ class XliffIdFormatTest(RichXliffFormatTest):
     COUNT = 5
 
     def test_edit_xliff(self) -> None:
-        expected = Path(get_test_file("ids-translated.xliff")).read_text()
-        expected_template = Path(get_test_file("ids-edited.xliff")).read_text()
+        expected = Path(get_test_file("ids-translated.xliff")).read_text(
+            encoding="utf-8"
+        )
+        expected_template = Path(get_test_file("ids-edited.xliff")).read_text(
+            encoding="utf-8"
+        )
         template_name = os.path.join(self.tempdir, "en.xliff")
         translated_name = os.path.join(self.tempdir, "cs.xliff")
         shutil.copy(self.FILE, template_name)
@@ -910,9 +914,11 @@ class XliffIdFormatTest(RichXliffFormatTest):
         translation.save()
 
         self.maxDiff = None
-        self.assertXMLEqual(Path(translated_name).read_text(), expected)
+        self.assertXMLEqual(Path(translated_name).read_text(encoding="utf-8"), expected)
 
-        self.assertXMLEqual(Path(template_name).read_text(), expected_template)
+        self.assertXMLEqual(
+            Path(template_name).read_text(encoding="utf-8"), expected_template
+        )
 
 
 class PoXliffFormatTest(XMLMixin, BaseFormatTest):
@@ -1187,9 +1193,9 @@ class XWikiPropertiesFormatTest(PropertiesFormatTest):
         new_language.save()
 
         # Read new content
-        newdata = Path(out).read_text()
+        newdata = Path(out).read_text(encoding="utf-8")
 
-        expected = Path(TEST_XWIKI_PROPERTIES_NEW_LANGUAGE).read_text()
+        expected = Path(TEST_XWIKI_PROPERTIES_NEW_LANGUAGE).read_text(encoding="utf-8")
 
         self.assertEqual(expected + "\n", newdata)
 
@@ -1227,7 +1233,7 @@ class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):
         testfile = os.path.join(self.tempdir, os.path.basename(self.FILE))
 
         # Read new content
-        newdata = Path(testfile).read_text()
+        newdata = Path(testfile).read_text(encoding="utf-8")
 
         # Perform some general assertions about the copyright
         self.assertIn('<?xml version="1.1" encoding="UTF-8"?>', newdata)
@@ -1345,7 +1351,7 @@ class XWikiFullPageFormatTest(XMLMixin, BaseFormatTest):
         testfile = os.path.join(self.tempdir, os.path.basename(self.FILE))
 
         # Read new content
-        newdata = Path(testfile).read_text()
+        newdata = Path(testfile).read_text(encoding="utf-8")
 
         # Perform some general assertions about the copyright
         self.assertIn('<?xml version="1.1" encoding="UTF-8"?>', newdata)

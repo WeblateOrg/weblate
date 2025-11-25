@@ -25,7 +25,7 @@ class VersionTest(SimpleTestCase):
     @staticmethod
     def mock_pypi() -> None:
         test_file = Path(get_test_file("pypi.json"))
-        responses.add(responses.GET, PYPI, body=test_file.read_text())
+        responses.add(responses.GET, PYPI, body=test_file.read_text(encoding="utf-8"))
 
     @responses.activate
     def test_download(self) -> None:

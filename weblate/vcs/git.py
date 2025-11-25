@@ -720,7 +720,7 @@ class SubversionRepository(GitRepository):
         if config.has_option(section, option) and config.get(section, option) == value:
             return
         config.set(section, option, value)
-        with open(filename, "w") as handle:
+        with open(filename, "w", encoding="utf-8") as handle:
             config.write(handle)
 
     @classmethod
@@ -1825,7 +1825,7 @@ class LocalRepository(GitRepository):
     def create_blank_repository(cls, path: str) -> None:
         """Initialize the repository."""
         super().create_blank_repository(path)
-        with open(os.path.join(path, "README.md"), "w") as handle:
+        with open(os.path.join(path, "README.md"), "w", encoding="utf-8") as handle:
             handle.write("Translations repository created by Weblate\n")
             handle.write("==========================================\n")
             handle.write("\n")

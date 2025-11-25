@@ -87,11 +87,11 @@ class MultiRepoTest(ViewTestCase):
         self.assertEqual(self.get_translation().stats.translated, 1)
         self.component.do_push(self.request)
 
-    def push_replace(self, content, mode) -> None:
+    def push_replace(self, content, mode: str) -> None:
         """Replace content of a po file and pushes it to remote repository."""
         # Manually edit po file, adding new unit
         translation = self.component.translation_set.get(language_code="cs")
-        with open(translation.get_filename(), mode) as handle:
+        with open(translation.get_filename(), mode, encoding="utf-8") as handle:
             handle.write(content)
 
         # Do changes in first repo

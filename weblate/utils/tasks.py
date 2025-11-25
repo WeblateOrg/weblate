@@ -67,7 +67,7 @@ def settings_backup() -> None:
         command = diffsettings.Command()
         kwargs = {"default": None, "all": False, "output": "hash"}
         Path(data_dir("backups", "settings-expanded.py")).write_text(
-            command.handle(**kwargs)
+            command.handle(**kwargs), encoding="utf-8"
         )
 
         # Backup original settings
@@ -77,7 +77,9 @@ def settings_backup() -> None:
                 copyfile(settings_mod.__file__, data_dir("backups", "settings.py"))
 
         # Backup environment (to make restoring Docker easier)
-        with open(data_dir("backups", "environment.yml"), "w") as handle:
+        with open(
+            data_dir("backups", "environment.yml"), "w", encoding="utf-8"
+        ) as handle:
             yaml = YAML()
             yaml.dump(dict(os.environ), handle)
 

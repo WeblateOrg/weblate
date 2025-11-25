@@ -129,6 +129,7 @@ class Comment(models.Model, UserDisplayMixin):
         self.resolved = True
         self.save(update_fields=["resolved"])
 
+    # pylint: disable-next=arguments-renamed
     def delete(self, user=None, using=None, keep_parents=False) -> None:
         self.unit.change_set.create(
             action=ActionEvents.COMMENT_DELETE,

@@ -103,6 +103,7 @@ class Addon(models.Model):
         super().__init__(*args, **kwargs)
         self.acting_user = acting_user
 
+    # pylint: disable-next=arguments-differ
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
     ):

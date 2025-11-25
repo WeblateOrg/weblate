@@ -1173,7 +1173,7 @@ class PluralMapper:
         self.target_plural = target_plural
         self.same_plurals = source_plural.same_as(target_plural)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"<PluralMapper '{self.source_plural}' -> '{self.target_plural}'>"
 
     @cached_property
