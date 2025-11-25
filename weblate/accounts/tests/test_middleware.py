@@ -10,6 +10,7 @@ from typing import TYPE_CHECKING
 
 from django.contrib.auth.decorators import login_not_required
 from django.test import TestCase, override_settings
+from django.utils.decorators import method_decorator
 
 from weblate.auth.models import User
 
