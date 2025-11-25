@@ -25,7 +25,26 @@
              {% if not pending_unit %}aria-disabled="true"{% endif %}>{% translate "Commit" %}</a>
         {% endif %}
         <h6 class="mb-1 fw-bold">
-          {% blocktranslate count units=pending_units with count=pending_units|intcomma %}{{ count }} pending change{% plural %}{{ count }} pending changes{% endblocktranslate %}
+          {% blocktranslate count counter=pending_units.total with total_count=pending_units.total|intcomma trimmed %}
+            {{ total_count }} pending unit
+          {% plural %}
+            {{ total_count }} pending units
+          {% endblocktranslate %}
+          {% with policy=pending_units.commit_policy_skipped errors=pending_units.errors_skipped %}
+            {% if policy and errors %}
+              {% blocktranslate with policy_count=policy|intcomma errors_count=errors|intcomma trimmed %}
+                ({{ policy_count }} skipped by the commit policy, {{ errors_count }} skipped because of errors)
+              {% endblocktranslate %}
+            {% elif policy %}
+              {% blocktranslate with policy_count=policy|intcomma trimmed %}
+                ({{ policy_count }} skipped by the commit policy)
+              {% endblocktranslate %}
+            {% elif errors %}
+              {% blocktranslate with errors_count=errors|intcomma trimmed %}
+                ({{ errors_count }} skipped because of errors)
+              {% endblocktranslate %}
+            {% endif %}
+          {% endwith %}
         </h6>
         <p class="mb-0">
           {% translate "This will commit any pending changes present in Weblate and not in the repository." %}

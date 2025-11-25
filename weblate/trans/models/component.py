@@ -3660,11 +3660,6 @@ class Component(
         """Return count of pending units."""
         return self._count_pending_units_helper(apply_filters=True)
 
-    @property
-    def count_total_pending_units(self):
-        """Return count of total pending units including changes ineligible to retry."""
-        return self._count_pending_units_helper(apply_filters=False)
-
     def _count_pending_units_helper(self, apply_filters: bool):
         queryset = PendingUnitChange.objects.for_component(
             self, apply_filters=apply_filters

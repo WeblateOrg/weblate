@@ -16,7 +16,14 @@ from django.views.decorators.http import require_POST
 
 from weblate.checks.flags import Flags
 from weblate.checks.models import Check
-from weblate.trans.models import Change, Component, Project, Translation, Unit
+from weblate.trans.models import (
+    Change,
+    Component,
+    PendingUnitChange,
+    Project,
+    Translation,
+    Unit,
+)
 from weblate.trans.util import sort_unicode
 from weblate.utils.views import parse_path
 
@@ -116,6 +123,8 @@ def git_status(request: AuthenticatedHttpRequest, path):
     except IndexError:
         push_label = ""
 
+    pending_units = PendingUnitChange.objects.detailed_count(obj)
+
     return render(
         request,
         "js/git-status.html",
@@ -126,7 +135,7 @@ def git_status(request: AuthenticatedHttpRequest, path):
                 ("action", action) for action in Change.ACTIONS_REPOSITORY
             ),
             "repositories": repo_components,
-            "pending_units": obj.count_pending_units,
+            "pending_units": pending_units,
             "outgoing_commits": sum(
                 repo.count_repo_outgoing for repo in repo_components
             ),
