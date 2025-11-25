@@ -2,13 +2,14 @@
 
 {% comment %}Based on crispy original, just adds color field special handling.{% endcomment %}
 
-<div {% if field_class %}class="{{ field_class }}"{% endif %}{% if flat_attrs %} {{ flat_attrs }}{% endif %}>
+<div {% if field_class %}class="{{ field_class }}"{% endif %}
+     {% if flat_attrs %}{{ flat_attrs }}{% endif %}>
 
-    {% for group, options, index in field|optgroups %}
+  {% for group, options, index in field|optgroups %}
     {% if group %}<strong>{{ group }}</strong>{% endif %}
     {% for option in options %}
-    {% if field.name == "color" %}
-      <input type="{{ option.type }}"
+      {% if field.name == "color" %}
+        <input type="{{ option.type }}"
                name="{{ field.html_name }}"
                value="{{ option.value|unlocalize }}"
                {% include "bootstrap5/layout/attrs.html" with widget=option %}>
@@ -17,31 +18,35 @@
           {{ option.label|unlocalize }}
         </label>
 
-    {% else %}
-      <div class="form-check{% if inline_class %} form-check-inline{% endif %}">
-        <input type="{{option.type}}" class="form-check-input{% if field.errors %} is-invalid{% endif %}"  name="{{ field.html_name }}" value="{{ option.value|unlocalize }}" {% include "bootstrap5/layout/attrs.html" with widget=option %}>
-        <label for="{{ option.attrs.id }}" class="form-check-label">
-            {{ option.label|unlocalize }}
-        </label>
-        {% if field.errors and forloop.last and not inline_class and forloop.parentloop.last %}
+      {% else %}
+        <div class="form-check{% if inline_class %} form-check-inline{% endif %}">
+          <input type="{{ option.type }}"
+                 class="form-check-input{% if field.errors %} is-invalid{% endif %}"
+                 name="{{ field.html_name }}"
+                 value="{{ option.value|unlocalize }}"
+                 {% include "bootstrap5/layout/attrs.html" with widget=option %}>
+          <label for="{{ option.attrs.id }}" class="form-check-label">{{ option.label|unlocalize }}</label>
+          {% if field.errors and forloop.last and not inline_class and forloop.parentloop.last %}
             {% include 'bootstrap5/layout/field_errors_block.html' %}
-        {% endif %}
-     </div>
-    {% endif %}
+          {% endif %}
+        </div>
+      {% endif %}
     {% endfor %}
-    {% endfor %}
+  {% endfor %}
 
 </div>
 {% if field.errors and inline_class %}
-    {% if field.errors.field_id %}
-        {# Django 5.2+ #}
-        <div id="{{field.errors.field_id}}_error" class="invalid-feedback">
+  {% if field.errors.field_id %}
+    {# Django 5.2+ #}
+    <div id="{{ field.errors.field_id }}_error" class="invalid-feedback">
     {% else %}
-        <div id="{{field.auto_id}}_error" class="invalid-feedback">
-    {% endif %}
-        {% for error in field.errors %}
-            <p id="error_{{ forloop.counter }}_{{ field.auto_id }}"><strong>{{ error }}</strong></p>
-        {% endfor %}
+      <div id="{{ field.auto_id }}_error" class="invalid-feedback">
+      {% endif %}
+      {% for error in field.errors %}
+        <p id="error_{{ forloop.counter }}_{{ field.auto_id }}">
+          <strong>{{ error }}</strong>
+        </p>
+      {% endfor %}
     </div>
-{% endif %}
-{% include 'bootstrap5/layout/help_text.html' %}
+  {% endif %}
+  {% include 'bootstrap5/layout/help_text.html' %}
