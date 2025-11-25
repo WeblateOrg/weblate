@@ -22,19 +22,19 @@ if version.count(".") == 1:
 
 
 def replace_file(name: str, search: str, replace: str) -> None:
-    content = Path(name).read_text()
+    content = Path(name).read_text(encoding="utf-8")
 
     content = re.sub(search, replace, content, flags=re.MULTILINE)
-    Path(name).write_text(content)
+    Path(name).write_text(content, encoding="utf-8")
 
 
 def prepend_file(name: str, content: str) -> None:
-    content += Path(name).read_text()
-    Path(name).write_text(content)
+    content += Path(name).read_text(encoding="utf-8")
+    Path(name).write_text(content, encoding="utf-8")
 
 
 yaml = YAML()
-config = yaml.load(Path("~/.config/hub").expanduser().read_text())
+config = yaml.load(Path("~/.config/hub").expanduser().read_text(encoding="utf-8"))
 
 # Get/create milestone
 milestones_api = "https://api.github.com/repos/WeblateOrg/weblate/milestones"

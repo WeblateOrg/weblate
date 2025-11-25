@@ -270,7 +270,7 @@ class GitHTTPBackendWrapper:
             streaming_content=self, content_type=message["content-type"]
         )
 
-    def wait(self):
+    def wait(self) -> None:
         self.process.wait()
         if self.process.stdout is not None:
             self.process.stdout.close()

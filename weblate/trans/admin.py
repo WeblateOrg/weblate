@@ -4,7 +4,6 @@
 
 from __future__ import annotations
 
-# pylint: disable-next=unused-import
 from typing import TYPE_CHECKING
 
 from django.conf import settings

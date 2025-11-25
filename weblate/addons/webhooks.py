@@ -23,7 +23,7 @@ from weblate.addons.base import ChangeBaseAddon
 from weblate.addons.forms import BaseWebhooksAddonForm, WebhooksAddonForm
 from weblate.trans.util import split_plural
 from weblate.utils.const import WEBHOOKS_SECRET_PREFIX
-from weblate.utils.requests import request
+from weblate.utils.requests import http_request
 from weblate.utils.site import get_site_url
 from weblate.utils.views import key_name
 
@@ -73,7 +73,7 @@ class JSONWebhookBaseAddon(ChangeBaseAddon):
         self, change: Change, headers: dict, payload: PayloadType
     ) -> requests.Response:
         try:
-            return request(
+            return http_request(
                 method="post",
                 url=self.instance.configuration["webhook_url"],
                 json=payload,

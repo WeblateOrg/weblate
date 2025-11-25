@@ -429,8 +429,6 @@ max_allowed_size_uncompressed = '300M'
 [tool.pylint.main]
 disable = [
   "abstract-method",  # TODO
-  "arguments-differ",  # TODO
-  "arguments-renamed",  # TODO
   "attribute-defined-outside-init",  # TODO
   "broad-exception-caught",  # TODO
   "c-extension-no-member",
@@ -443,7 +441,7 @@ disable = [
   "import-outside-toplevel",
   "invalid-name",  # TODO
   "invalid-overridden-method",  # TODO
-  "invalid-str-returned",
+  "invalid-str-returned",  # Most of Django __str__ fails this
   "keyword-arg-before-vararg",  # TODO
   "line-too-long",
   "missing-class-docstring",
@@ -456,8 +454,6 @@ disable = [
   "not-callable",
   "protected-access",  # TODO
   "raising-bad-type",
-  "redefined-builtin",  # TODO
-  "redefined-outer-name",  # TODO
   "too-few-public-methods",
   "too-many-ancestors",
   "too-many-arguments",
@@ -471,7 +467,6 @@ disable = [
   "too-many-public-methods",
   "too-many-return-statements",
   "too-many-statements",
-  "unspecified-encoding",  # TODO
   "unsubscriptable-object",
   "unsupported-assignment-operation",  # TODO
   "unsupported-binary-operation",
@@ -577,7 +572,6 @@ ignore = [
   "PLC0415",  # TODO: `import` should be at the top-level of a file
   "PLR2004",  # TODO: Magic value used in comparison, consider replacing 201 with a constant variable
   "PLR6301",  # TODO: Method could be a function, class method, or static method
-  "PLW1514",  # TODO: `open` in text mode without explicit `encoding` argument
   "PLW2901",  # TODO: overwriting variables inside loop
   "PT",  # CONFIG: Not using pytest
   "PTH",  # TODO: Not using pathlib

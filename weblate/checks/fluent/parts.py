@@ -174,10 +174,10 @@ class FluentPartsCheck(TargetCheck):
             highlight_patterns.append(r"^ *\." + re.escape(part.name) + r" *=")
         return FluentPatterns.highlight_source(source, highlight_patterns)
 
-    def get_description(self, check_model: CheckModel) -> StrOrPromise:
-        (unit, source, target) = translation_from_check(check_model)
+    def get_description(self, check_obj: CheckModel) -> StrOrPromise:
+        (unit, source, target) = translation_from_check(check_obj)
         difference = self._compare_parts(unit, source, target)
         if not difference:
-            return super().get_description(check_model)
+            return super().get_description(check_obj)
 
         return difference.description()

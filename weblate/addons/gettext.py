@@ -142,7 +142,7 @@ class UpdateLinguasAddon(GettextBaseAddon):
         return changed, lines
 
     def sync_linguas(self, component: Component, path: str) -> bool:
-        with open(path) as handle:
+        with open(path, encoding="utf-8") as handle:
             lines = handle.readlines()
 
         codes = set(
@@ -154,7 +154,7 @@ class UpdateLinguasAddon(GettextBaseAddon):
         changed, lines = self.update_linguas(lines, codes)
 
         if changed:
-            with open(path, "w") as handle:
+            with open(path, "w", encoding="utf-8") as handle:
                 handle.writelines(lines)
 
         return changed
@@ -207,7 +207,7 @@ class UpdateConfigureAddon(GettextBaseAddon):
             return True
         for name in cls.get_configure_paths(component):
             try:
-                if 'ALL_LINGUAS="' in Path(name).read_text():
+                if 'ALL_LINGUAS="' in Path(name).read_text(encoding="utf-8"):
                     return True
             except UnicodeDecodeError:
                 continue
@@ -222,7 +222,7 @@ class UpdateConfigureAddon(GettextBaseAddon):
         )
         expected = f'ALL_LINGUAS="{codes}"\n'
         for path in paths:
-            with open(path) as handle:
+            with open(path, encoding="utf-8") as handle:
                 lines = handle.readlines()
 
             for i, line in enumerate(lines):
@@ -237,7 +237,7 @@ class UpdateConfigureAddon(GettextBaseAddon):
                     added = True
 
             if added:
-                with open(path, "w") as handle:
+                with open(path, "w", encoding="utf-8") as handle:
                     handle.writelines(lines)
 
         return added

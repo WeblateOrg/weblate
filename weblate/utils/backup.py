@@ -80,7 +80,7 @@ def tag_cache_dirs() -> None:
     for name in dirs:
         tagfile = os.path.join(name, "CACHEDIR.TAG")
         if os.path.exists(name) and not os.path.exists(tagfile):
-            Path(tagfile).write_text(CACHEDIR)
+            Path(tagfile).write_text(CACHEDIR, encoding="utf-8")
 
 
 def run_borg(cmd: list[str], env: dict[str, str] | None = None) -> str:

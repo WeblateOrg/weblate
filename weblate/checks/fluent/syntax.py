@@ -26,9 +26,9 @@ class _FluentSyntaxCheck:
 
     @staticmethod
     def get_fluent_syntax_error_description(
-        check_model: CheckModel, use_source: bool
+        check_obj: CheckModel, use_source: bool
     ) -> str | None:
-        unit, source, target = translation_from_check(check_model)
+        unit, source, target = translation_from_check(check_obj)
         if not use_source:  # A target check.
             source = target
         syntax_error = FluentUnitConverter(unit, source).get_syntax_error()
@@ -47,13 +47,13 @@ class FluentSourceSyntaxCheck(_FluentSyntaxCheck, SourceCheck):
     description = gettext_lazy("Fluent syntax error in the source.")
     default_disabled = True
 
-    def check_source_unit(self, source: list[str], unit: TransUnitModel) -> bool:
-        return self.check_fluent_syntax(source[0], unit)
+    def check_source_unit(self, sources: list[str], unit: TransUnitModel) -> bool:
+        return self.check_fluent_syntax(sources[0], unit)
 
-    def get_description(self, check_model: CheckModel) -> StrOrPromise:
+    def get_description(self, check_obj: CheckModel) -> StrOrPromise:
         return self.get_fluent_syntax_error_description(
-            check_model, True
-        ) or super().get_description(check_model)
+            check_obj, True
+        ) or super().get_description(check_obj)
 
 
 class FluentTargetSyntaxCheck(_FluentSyntaxCheck, TargetCheck):
@@ -72,7 +72,7 @@ class FluentTargetSyntaxCheck(_FluentSyntaxCheck, TargetCheck):
     ) -> bool:
         return self.check_fluent_syntax(target, unit)
 
-    def get_description(self, check_model: CheckModel) -> StrOrPromise:
+    def get_description(self, check_obj: CheckModel) -> StrOrPromise:
         return self.get_fluent_syntax_error_description(
-            check_model, False
-        ) or super().get_description(check_model)
+            check_obj, False
+        ) or super().get_description(check_obj)

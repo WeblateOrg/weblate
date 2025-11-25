@@ -138,6 +138,7 @@ class ConvertFormat(TranslationFormat):
         raise NotImplementedError
 
     @staticmethod
+    # pylint: disable-next=arguments-differ
     def needs_target_sync(template_store) -> bool:  # noqa: ARG004
         return False
 
@@ -386,6 +387,7 @@ class OpenDocumentFormat(ConvertFormat):
     unit_class = ConvertXliffUnit
 
     @staticmethod
+    # pylint: disable-next=arguments-differ
     def convertfile(storefile, template_store):  # noqa: ARG004
         store = xlifffile()
         store.setfilename(store.getfilenode("NoName"), "odf")
@@ -432,6 +434,7 @@ class IDMLFormat(ConvertFormat):
     check_flags = ("strict-same",)
 
     @staticmethod
+    # pylint: disable-next=arguments-differ
     def convertfile(storefile, template_store):  # noqa: ARG004
         store = pofile()
 

@@ -199,7 +199,7 @@ SYSTRAN_LANGUAGE_JSON = {
     ],
 }
 
-GOOGLEV3_KEY = Path(get_test_file("googlev3.json")).read_text()
+GOOGLEV3_KEY = Path(get_test_file("googlev3.json")).read_text(encoding="utf-8")
 
 MODERNMT_RESPONSE = {
     "data": {
@@ -492,13 +492,15 @@ class MachineTranslationTest(BaseMachineTranslationTest):
             ],
         )
 
-    def test_batch(self) -> None:
-        machine_translation = self.get_machine()
+    def test_batch(self, machine=None) -> None:
+        if machine is None:
+            machine = self.get_machine()
+        machine = self.get_machine()
         units = [
             MockUnit(code="cs", source="Hello, %s!", flags="c-format"),
             MockUnit(code="cs", source="Hello, %d!", flags="c-format"),
         ]
-        machine_translation.batch_translate(units)
+        machine.batch_translate(units)
         self.assertEqual(units[0].machinery["translation"], ["Nazdar %s!"])
         self.assertEqual(units[1].machinery["translation"], ["Nazdar %d!"])
 
@@ -516,6 +518,7 @@ class GlossaryTranslationTest(BaseMachineTranslationTest):
     MACHINE_CLS = DummyGlossaryTranslation
 
     @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
+    # pylint: disable-next=arguments-differ
     def test_translate(self) -> None:
         """Test glossary translation."""
         machine = self.get_machine()
@@ -736,8 +739,7 @@ class ApertiumAPYTranslationTest(BaseMachineTranslationTest):
         machine = self.get_machine()
         machine.validate_settings()
         self.assertEqual(len(responses.calls), 2)
-        # pylint: disable-next=unbalanced-tuple-unpacking
-        _, call_2 = responses.calls
+        call_2 = responses.calls[1]
         self.assertIn("langpair", call_2.request.params)
         self.assertEqual("eng|spa", call_2.request.params["langpair"])
 
@@ -1847,6 +1849,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         )
 
     @classmethod
+    # pylint: disable-next=arguments-differ
     def mock_response(cls) -> None:
         cls.mock_languages()
         responses.add(
@@ -2207,15 +2210,16 @@ class AWSTranslationTest(BaseMachineTranslationTest):
     def mock_response(self) -> None:
         pass
 
-    def test_support(self) -> None:
-        machine = self.get_machine()
-        machine.delete_cache()
-        with Stubber(machine.client) as stubber:
+    def test_support(self, machine_translation=None) -> None:
+        if machine_translation is None:
+            machine_translation = self.get_machine()
+        machine_translation.delete_cache()
+        with Stubber(machine_translation.client) as stubber:
             stubber.add_response(
                 "list_languages",
                 AWS_LANGUAGES_RESPONSE,
             )
-            super().test_support(machine)
+            super().test_support(machine_translation)
 
     def test_validate_settings(self) -> None:
         machine = self.get_machine()

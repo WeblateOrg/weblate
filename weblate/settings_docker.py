@@ -205,7 +205,7 @@ STATICFILES_FINDERS = (
 
 # Make this unique, and don't share it with anybody.
 # You can generate it using weblate-generate-secret-key
-SECRET_KEY = Path("/app/data/secret").read_text()
+SECRET_KEY = Path("/app/data/secret").read_text(encoding="utf-8")
 
 TEMPLATES = [
     {
@@ -415,8 +415,12 @@ WEBLATE_SAML_IDP = get_saml_idp()
 if WEBLATE_SAML_IDP:
     AUTHENTICATION_BACKENDS += ("social_core.backends.saml.SAMLAuth",)
     # The keys are generated on container startup if missing
-    SOCIAL_AUTH_SAML_SP_PUBLIC_CERT = Path("/app/data/ssl/saml.crt").read_text()
-    SOCIAL_AUTH_SAML_SP_PRIVATE_KEY = Path("/app/data/ssl/saml.key").read_text()
+    SOCIAL_AUTH_SAML_SP_PUBLIC_CERT = Path("/app/data/ssl/saml.crt").read_text(
+        encoding="utf-8"
+    )
+    SOCIAL_AUTH_SAML_SP_PRIVATE_KEY = Path("/app/data/ssl/saml.key").read_text(
+        encoding="utf-8"
+    )
     SOCIAL_AUTH_SAML_SP_ENTITY_ID = f"{SITE_URL}/accounts/metadata/saml/"
     # Identity Provider
     SOCIAL_AUTH_SAML_ENABLED_IDPS = {"weblate": WEBLATE_SAML_IDP}
@@ -1482,6 +1486,8 @@ INTERLEDGER_PAYMENT_BUILTIN = get_env_bool("WEBLATE_INTERLEDGER_PAYMENT_BUILTIN"
 
 ADDITIONAL_CONFIG = Path("/app/data/settings-override.py")
 if ADDITIONAL_CONFIG.exists():
-    code = compile(ADDITIONAL_CONFIG.read_text(), ADDITIONAL_CONFIG, "exec")
+    code = compile(
+        ADDITIONAL_CONFIG.read_text(encoding="utf-8"), ADDITIONAL_CONFIG, "exec"
+    )
     # pylint: disable-next=exec-used
     exec(code)  # noqa: S102
