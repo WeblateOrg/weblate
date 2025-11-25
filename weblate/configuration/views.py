@@ -22,8 +22,8 @@ if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
 
 
-@method_decorator(cache_control(max_age=7200), name="get")
-@method_decorator(login_not_required, name="get")
+@method_decorator(cache_control(max_age=7200), name="dispatch")
+@method_decorator(login_not_required, name="dispatch")
 class CustomCSSView(TemplateView):
     template_name = "configuration/custom.css"
     cache_key = "css:custom"
