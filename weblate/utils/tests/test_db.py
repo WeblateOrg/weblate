@@ -4,7 +4,7 @@
 
 from unittest import TestCase
 
-from weblate.trans.models import Unit
+from weblate.trans.models import Component, Project, Unit
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.utils.db import re_escape, using_postgresql
 
@@ -51,7 +51,6 @@ class SearchSQLOperatorTest(FixtureTestCase):
     def test_search(self) -> None:
         # Verifies that even complex query with a fallback is built properly
         # This is essentially what bulk edit does with such search
-        from weblate.trans.models import Component, Project, Unit
 
         obj = Project.objects.all()[0]
         unit_set = Unit.objects.filter(translation__component__project=obj).prefetch()

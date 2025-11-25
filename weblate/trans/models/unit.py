@@ -828,7 +828,11 @@ class Unit(models.Model, LoggerMixin):
                 "flags": flags.format(),
             },
         )
-        same_flags = flags == Flags(source_unit.flags)
+        try:
+            parsed_flags = Flags(source_unit.flags)
+        except ParseException:
+            parsed_flags = Flags()
+        same_flags = flags == parsed_flags
         if (
             not source_unit.source_updated
             and not source_unit.translation.filename

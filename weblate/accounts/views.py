@@ -129,12 +129,7 @@ from weblate.accounts.utils import (
     remove_user,
 )
 from weblate.auth.forms import UserEditForm
-from weblate.auth.models import (
-    AuthenticatedHttpRequest,
-    Invitation,
-    User,
-    get_anonymous,
-)
+from weblate.auth.models import Invitation, User, get_anonymous
 from weblate.auth.utils import format_address, get_auth_keys
 from weblate.logger import LOGGER
 from weblate.trans.models import Change, Component, Project, Suggestion, Translation
@@ -333,6 +328,9 @@ def get_notification_forms(request: AuthenticatedHttpRequest):
     if "notify_project" in request.GET:
         try:
             project = user.allowed_projects.get(pk=request.GET["notify_project"])
+        except (ObjectDoesNotExist, ValueError):
+            pass
+        else:
             active = key = (NotificationScope.SCOPE_PROJECT, project.pk, -1)
             subscriptions[key] = {}
             initials[key] = {
@@ -340,21 +338,20 @@ def get_notification_forms(request: AuthenticatedHttpRequest):
                 "project": project,
                 "component": None,
             }
-        except (ObjectDoesNotExist, ValueError):
-            pass
     if "notify_component" in request.GET:
         try:
             component = Component.objects.filter_access(user).get(
                 pk=request.GET["notify_component"],
             )
+        except (ObjectDoesNotExist, ValueError):
+            pass
+        else:
             active = key = (NotificationScope.SCOPE_COMPONENT, -1, component.pk)
             subscriptions[key] = {}
             initials[key] = {
                 "scope": NotificationScope.SCOPE_COMPONENT,
                 "component": component,
             }
-        except (ObjectDoesNotExist, ValueError):
-            pass
 
     # Populate scopes from the database
     for subscription in user.subscription_set.select_related("project", "component"):
@@ -393,6 +390,8 @@ def get_notification_forms(request: AuthenticatedHttpRequest):
                 is_active=i == 0,
                 prefix=prefix,
                 data=request.POST,
+                # TODO: This is most likely wrong
+                # pylint: disable-next=undefined-loop-variable
                 initial=initials[details[0]],
             )
 
@@ -1548,9 +1547,10 @@ def subscribe(request: AuthenticatedHttpRequest):
         )
         try:
             subscription.full_clean()
-            subscription.save()
         except ValidationError:
             pass
+        else:
+            subscription.save()
         messages.success(request, gettext("Notification settings adjusted."))
     return redirect_profile("#notifications")
 

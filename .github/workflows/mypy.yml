@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
-    - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+    - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3 # v6.0.0
       with:
         fetch-depth: 2
         persist-credentials: false
@@ -44,15 +44,15 @@ jobs:
       run: sudo ./ci/apt-install
     - name: Setup Python
       id: setup_python
-      uses: actions/setup-python@e797f83bcb11b83ae66e0230d6156d7c80228e7c # v6.0.0
+      uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v6.1.0
       with:
         python-version: '3.14'
-    - uses: astral-sh/setup-uv@5a7eac68fb9809dea845d802897dc5c723910fa3 # v7.1.3
+    - uses: astral-sh/setup-uv@1e862dfacbd1d6d858c55d9b792c756523627244 # v7.1.4
       with:
         save-cache: ${{ github.ref == 'refs/heads/main' }}
         cache-suffix: ${{ steps.setup_python.outputs.python-version }}
 
-        version: 0.9.10
+        version: 0.9.11
     - name: Install deps
       env:
         CI_DATABASE: postgresql
@@ -62,7 +62,7 @@ jobs:
         CI_DATABASE: postgresql
       run: |
         set +e
-        uv run mypy --show-column-numbers weblate scripts/*.py ./*.py | ./scripts/filter-mypy.sh | tee mypy.log
+        uv run --no-sync mypy --show-column-numbers weblate scripts/*.py ./*.py | ./scripts/filter-mypy.sh | tee mypy.log
         # Temporary hack until we have mypy fully passing
         mypy_err="$?"
         if [ "$mypy_err" -ne 0 ] && [ "$mypy_err" -ne 1 ] ; then

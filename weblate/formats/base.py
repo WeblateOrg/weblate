@@ -10,7 +10,7 @@ import os
 import tempfile
 from copy import copy
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, BinaryIO, ClassVar, TypeAlias
+from typing import TYPE_CHECKING, Any, BinaryIO, ClassVar
 
 from django.http import HttpResponse
 from django.utils.functional import cached_property
@@ -128,14 +128,14 @@ class BaseItem:
     pass
 
 
-InnerUnit: TypeAlias = TranslateToolkitUnit | BaseItem
+type InnerUnit = TranslateToolkitUnit | BaseItem
 
 
 class BaseStore:
     units: Sequence[InnerUnit]
 
 
-InnerStore: TypeAlias = TranslateToolkitStore | BaseStore
+type InnerStore = TranslateToolkitStore | BaseStore
 
 
 class TranslationUnit:
@@ -582,6 +582,7 @@ class TranslationFormat:
         """Check whether store seems to be valid."""
         for unit in self.content_units:
             # Just ensure that id_hash can be calculated
+            # pylint: disable-next=pointless-statement
             unit.id_hash  # noqa: B018
         return True
 

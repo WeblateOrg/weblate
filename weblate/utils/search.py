@@ -383,8 +383,6 @@ class BaseTermExpr:
             return self.date_parse_human(
                 text, hour=hour, minute=minute, second=second, microsecond=microsecond
             )
-            msg = "Could not parse timestamp"
-            raise ValueError(msg)
 
         if (
             hour is None
@@ -758,8 +756,6 @@ class UserTermExpr(BaseTermExpr):
         return Q(username__icontains=self.match) | Q(full_name__icontains=self.match)
 
     def contributes_field(self, text: str, context: dict) -> Q:
-        from weblate.trans.models import Component
-
         if "/" not in text:
             return Q(change__project__slug__iexact=text)
         return Q(

@@ -28,9 +28,9 @@ from weblate.utils.forms import (
 )
 from weblate.utils.render import validate_render, validate_render_translation
 from weblate.utils.validators import (
-    validate_base64_encoded_string,
     validate_filename,
     validate_re,
+    validate_webhook_secret_string,
 )
 
 if TYPE_CHECKING:
@@ -597,12 +597,14 @@ class WebhooksAddonForm(BaseWebhooksAddonForm):
     """Form for webhook add-on configuration."""
 
     secret = forms.CharField(
-        label=gettext_lazy("Secret"),
+        label=gettext_lazy("Webhook secret"),
         validators=[
-            validate_base64_encoded_string,
+            validate_webhook_secret_string,
         ],
         required=False,
-        help_text=gettext_lazy("A Base64 encoded string"),
+        help_text=gettext_lazy(
+            "The Standard Webhooks secret is a base64 encoded string."
+        ),
     )
 
     field_order = [  # noqa: RUF012

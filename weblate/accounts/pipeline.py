@@ -328,7 +328,7 @@ def revoke_mail_code(strategy, details, **kwargs) -> None:
             )
             code.delete()
         except strategy.storage.code.DoesNotExist:
-            return
+            pass
 
 
 def ensure_valid(

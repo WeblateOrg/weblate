@@ -76,31 +76,31 @@ class AddonList(PathViewMixin, ListView):
             ).order()[:10]
         installed = {x.addon_name for x in result["object_list"]}
 
+        component: Component | None = None
+        project: Project | None = None
         if isinstance(target, Component):
-            result["available"] = sorted(
-                (
-                    x(Addon())
-                    for x in ADDONS.values()
-                    if x.can_install(target, self.request.user)
-                    and (x.multiple or x.name not in installed)
-                ),
-                key=lambda x: x.name,
-            )
+            component = target
+        elif isinstance(target, Project):
+            project = target
+
+        result["available"] = sorted(
+            (
+                x(Addon())
+                for x in ADDONS.values()
+                if x.can_install(component=component, project=project)
+                and (x.multiple or x.name not in installed)
+            ),
+            key=lambda x: x.name,
+        )
+        if component:
             result["scope"] = "component"
             result["project_addons"] = Addon.objects.filter_project(
                 target.project
             ).count()
+        elif project:
+            result["scope"] = "project"
         else:
-            # This covers both project-wide and site-wide
-            result["available"] = sorted(
-                (
-                    x(Addon())
-                    for x in ADDONS.values()
-                    if (x.multiple or x.name not in installed)
-                ),
-                key=lambda x: x.name,
-            )
-            result["scope"] = "sitewide" if target is None else "project"
+            result["scope"] = "sitewide"
 
         if target is not None:
             result["sitewide_addons"] = Addon.objects.filter_sitewide().count()
@@ -109,7 +109,8 @@ class AddonList(PathViewMixin, ListView):
 
     def post(self, request: AuthenticatedHttpRequest, **kwargs):
         obj = self.path_object
-        obj_component, obj_project = None, None
+        obj_component: Component | None = None
+        obj_project: Project | None = None
 
         if isinstance(obj, Component):
             obj_component = obj
@@ -123,7 +124,7 @@ class AddonList(PathViewMixin, ListView):
         if addon is None:
             return self.redirect_list(gettext("Invalid add-on name: ”%s”") % name)
         installed = {x.addon.name for x in self.get_queryset()}
-        if (obj_component and not addon.can_install(obj_component, request.user)) or (
+        if not addon.can_install(component=obj_component, project=obj_project) or (
             name in installed and not addon.multiple
         ):
             return self.redirect_list(

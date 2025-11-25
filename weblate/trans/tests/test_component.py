@@ -952,6 +952,7 @@ class ComponentErrorTest(RepoTestCase):
         self.component.drop_template_store_cache()
 
         with self.assertRaises(FileParseError):
+            # pylint: disable-next=pointless-statement
             self.component.template_store  # noqa: B018
 
         with self.assertRaises(ValidationError):
@@ -961,6 +962,7 @@ class ComponentErrorTest(RepoTestCase):
         translation = self.component.translation_set.get(language_code="cs")
         translation.filename = "foo.bar"
         with self.assertRaises(FileParseError):
+            # pylint: disable-next=pointless-statement
             translation.store  # noqa: B018
         with self.assertRaises(ValidationError):
             translation.clean()
@@ -971,6 +973,7 @@ class ComponentErrorTest(RepoTestCase):
             handle.write("CHANGE")
         translation = self.component.translation_set.get(language_code="cs")
         with self.assertRaises(FileParseError):
+            # pylint: disable-next=pointless-statement
             translation.store  # noqa: B018
         with self.assertRaises(ValidationError):
             translation.clean()
@@ -982,6 +985,7 @@ class ComponentErrorTest(RepoTestCase):
         self.component.drop_template_store_cache()
 
         with self.assertRaises(FileParseError):
+            # pylint: disable-next=pointless-statement
             self.component.template_store  # noqa: B018
         with self.assertRaises(ValidationError):
             self.component.clean()

@@ -166,11 +166,12 @@ def dismiss_alert(request: AuthenticatedHttpRequest, path):
 
     try:
         alert = obj.alert_set.get(name=request.POST["dismiss"])
+    except ObjectDoesNotExist:
+        pass
+    else:
         if alert.obj.dismissable:
             alert.dismissed = True
             alert.save(update_fields=["dismissed"])
-    except ObjectDoesNotExist:
-        pass
 
     return redirect_param(obj, "#alerts")
 

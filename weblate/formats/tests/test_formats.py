@@ -1297,7 +1297,7 @@ class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):
         testdata = Path(self.FILE).read_bytes()
 
         # Check if content matches
-        self.assert_same(testdata, newdata)
+        self.assert_same(newdata, testdata)
 
 
 class XWikiFullPageFormatTest(XMLMixin, BaseFormatTest):
@@ -1412,7 +1412,7 @@ class XWikiFullPageFormatTest(XMLMixin, BaseFormatTest):
         testdata = Path(self.FILE).read_bytes()
 
         # Check if content matches
-        self.assert_same(testdata, newdata)
+        self.assert_same(newdata, testdata)
 
 
 class TBXFormatTest(XMLMixin, BaseFormatTest):

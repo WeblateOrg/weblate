@@ -446,6 +446,52 @@ class MachineTranslationTest(BaseMachineTranslationTest):
             ],
         )
 
+    def test_placeholders_backslash(self) -> None:
+        machine_translation = self.get_machine()
+        unit = MockUnit(code="cs", source=r"Hello, %s C:\Windows!", flags="c-format")
+        self.assertEqual(
+            machine_translation.cleanup_text(unit.source, unit),
+            (r"Hello, [X7X] C:\Windows!", {"[X7X]": "%s"}),
+        )
+        self.assertEqual(
+            machine_translation.translate(unit),
+            [
+                [
+                    {
+                        "quality": 100,
+                        "service": "Dummy",
+                        "source": r"Hello, %s C:\Windows!",
+                        "original_source": r"Hello, %s C:\Windows!",
+                        "text": r"Nazdar %s C:\Windows!",
+                    }
+                ]
+            ],
+        )
+
+    def test_placeholders_rst(self) -> None:
+        machine_translation = self.get_machine()
+        unit = MockUnit(
+            code="cs", source=r"Hello, :file:`C:\Windows\System.exe`!", flags="rst-text"
+        )
+        self.assertEqual(
+            machine_translation.cleanup_text(unit.source, unit),
+            ("Hello, [X7X]!", {"[X7X]": r":file:`C:\Windows\System.exe`"}),
+        )
+        self.assertEqual(
+            machine_translation.translate(unit),
+            [
+                [
+                    {
+                        "quality": 100,
+                        "service": "Dummy",
+                        "source": r"Hello, :file:`C:\Windows\System.exe`!",
+                        "original_source": r"Hello, :file:`C:\Windows\System.exe`!",
+                        "text": r"Nazdar :file:`C:\Windows\System.exe`!",
+                    }
+                ]
+            ],
+        )
+
     def test_batch(self) -> None:
         machine_translation = self.get_machine()
         units = [
@@ -570,7 +616,7 @@ class GlossaryTranslationTest(BaseMachineTranslationTest):
                 unit, "en", "cs", source_text, 75, {}
             )
             self.assertIsNotNone(cache_key)
-            self.assertTrue(len(result) > 0)
+            self.assertGreater(len(result), 0)
             self.assertIsNotNone(result)
 
         with patch(
@@ -690,6 +736,7 @@ class ApertiumAPYTranslationTest(BaseMachineTranslationTest):
         machine = self.get_machine()
         machine.validate_settings()
         self.assertEqual(len(responses.calls), 2)
+        # pylint: disable-next=unbalanced-tuple-unpacking
         _, call_2 = responses.calls
         self.assertIn("langpair", call_2.request.params)
         self.assertEqual("eng|spa", call_2.request.params["langpair"])

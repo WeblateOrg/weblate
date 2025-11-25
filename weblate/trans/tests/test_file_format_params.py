@@ -336,7 +336,7 @@ class GettextParamsTest(BaseFileFormatsTest):
         return self.create_po_new_base(new_lang="add")
 
     def test_msgmerge(self, wrapped=True) -> None:
-        self.assertTrue(MsgmergeAddon.can_install(self.component, None))
+        self.assertTrue(MsgmergeAddon.can_install(component=self.component))
         rev = self.component.repository.last_revision
         addon = MsgmergeAddon.create(component=self.component)
         self.assertNotEqual(rev, self.component.repository.last_revision)

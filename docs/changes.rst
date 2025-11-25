@@ -13,10 +13,16 @@ Weblate 5.15
 * Added disk usage overview in :ref:`manage-performance`.
 * :http:get:`/api/groups/` now includes ``admins``.
 * :ref:`mt-modernmt` better supports language variants.
+* :ref:`mt-cyrtranslit` now supports Belarusian and Greek.
+* :ref:`addon-weblate.webhook.slack` and :ref:`addon-weblate.webhook.webhook` can be installed multiple times.
 
 .. rubric:: Bug fixes
 
 .. rubric:: Compatibility
+
+* :ref:`addon-weblate.webhook.webhook` secret length is now validated to match the Standard Webhooks specification.
+* Python 3.12 or newer is now required.
+* GLib 2.80 or newer is now required.
 
 .. rubric:: Upgrading
 

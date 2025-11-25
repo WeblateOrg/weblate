@@ -366,7 +366,7 @@ class MarkdownSyntaxCheck(MarkdownBaseCheck):
             start = match.start()
             end = match.end()
             yield (start, start + len(value), value)
-            yield ((end - len(value), end, value if value != "<" else ">"))
+            yield (end - len(value), end, value if value != "<" else ">")
 
 
 class URLCheck(TargetCheck):

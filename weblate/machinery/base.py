@@ -368,9 +368,16 @@ class BatchMachineTranslation:
 
         return "".join(parts), replacements
 
+    def uncleanup_text_item(self, text: str, source: str, target: str) -> str:
+        def replace_target(_match: re.Match) -> str:
+            return target
+
+        # Use callable for replacement to avoid interpreting escape sequences
+        return re.sub(self.make_re_placeholder(source), replace_target, text)
+
     def uncleanup_text(self, replacements: dict[str, str], text: str) -> str:
         for source, target in replacements.items():
-            text = re.sub(self.make_re_placeholder(source), target, text)
+            text = self.uncleanup_text_item(text, source, target)
         return self.unescape_text(text)
 
     def uncleanup_results(

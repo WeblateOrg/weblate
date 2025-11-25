@@ -559,7 +559,7 @@ class GroupAPITest(APIBaseTest):
 
         # user with view permission can see other group details
         self.grant_perm_to_user("group.view", "Viewers")
-        response = self.do_request(
+        self.do_request(
             "api:group-detail",
             kwargs={"id": Group.objects.get(name="Test Group").id},
             method="get",
@@ -1065,7 +1065,7 @@ class GroupAPITest(APIBaseTest):
         )
 
         # Missing user ID
-        response = self.do_request(
+        self.do_request(
             "api:group-grant-admin",
             kwargs={"id": group.id},
             method="post",
@@ -1730,7 +1730,7 @@ class ProjectAPITest(APIBaseTest):
         self.assertTrue(component.manage_units)
         self.assertTrue(response.data["manage_units"])
         # Creating duplicate
-        response = self.do_request(
+        self.do_request(
             "api:project-components",
             self.project_kwargs,
             method="post",
@@ -3254,7 +3254,7 @@ class LanguageAPITest(APIBaseTest):
             code=200,
         )
         # Creation with duplicate code gives 400
-        response = self.do_request(
+        self.do_request(
             "api:language-list",
             method="post",
             superuser=True,
@@ -5505,7 +5505,7 @@ class AddonAPITest(APIBaseTest):
         change = self.component.change_set.get(action=ActionEvents.ADDON_CREATE)
         self.assertEqual(change.user, self.user)
         # Existing
-        response = self.create_addon(code=400)
+        self.create_addon(code=400)
 
     def test_delete(self) -> None:
         response = self.create_addon()
@@ -5593,7 +5593,7 @@ class AddonAPITest(APIBaseTest):
             self.component.project.addon_set.filter(pk=response.data["id"]).exists()
         )
         # Existing
-        response = self.create_project_addon(code=400)
+        self.create_project_addon(code=400)
 
     def test_delete_project_addon(self) -> None:
         response = self.create_project_addon()
@@ -5693,19 +5693,19 @@ class CategoryAPITest(APIBaseTest):
     def test_rename(self) -> None:
         response = self.create_category()
         category_url = response.data["url"]
-        response = self.do_request(
+        self.do_request(
             category_url,
             method="patch",
             code=403,
         )
-        response = self.do_request(
+        self.do_request(
             category_url,
             method="patch",
             superuser=True,
             request={"slug": "test"},
             code=400,
         )
-        response = self.do_request(
+        self.do_request(
             category_url,
             method="patch",
             superuser=True,

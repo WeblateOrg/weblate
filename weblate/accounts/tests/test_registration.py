@@ -245,7 +245,7 @@ class RegistrationTest(BaseRegistrationTest):
             self.client.post(reverse("logout"))
 
         # Confirm second account
-        response = self.client.get(second_url, follow=True)
+        self.client.get(second_url, follow=True)
         self.assertEqual(
             User.objects.filter(email="noreply@example.net").exists(), logout
         )
@@ -747,6 +747,7 @@ class RegistrationTest(BaseRegistrationTest):
     )
     def test_saml(self) -> None:
         try:
+            # pylint: disable-next=unused-import
             import xmlsec  # noqa: F401
         except Exception as error:
             if "CI_SKIP_SAML" in os.environ:
