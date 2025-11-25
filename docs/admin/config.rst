@@ -1786,9 +1786,12 @@ REQUIRE_LOGIN
 
 .. versionadded:: 4.1
 
-This enables :setting:`LOGIN_REQUIRED_URLS` and configures REST framework to
-require authentication for all API endpoints.
+This enables :class:`django:~django.contrib.auth.middleware.LoginRequiredMiddleware`
+and configures REST framework to require authentication for all API endpoints.
 
+.. versionchanged:: 5.15
+
+   Weblate now relies on Django built-in middleware.
 .. note::
 
     This is implemented in the :ref:`sample-configuration`. For Docker, use
