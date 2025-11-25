@@ -1792,7 +1792,7 @@ and configures REST framework to require authentication for all API endpoints.
 .. versionchanged:: 5.15
 
    Weblate now relies on Django built-in middleware.
-   
+
 .. note::
 
     This is implemented in the :ref:`sample-configuration`. For Docker, use
