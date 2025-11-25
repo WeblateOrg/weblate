@@ -840,7 +840,7 @@
                 </h5>
                 {% for label in unit.all_labels %}
                   <a href="?q={{ label.filter_name|urlencode }}">
-                    <span class="label label-{{ label.color }}" title="{{ label.description }}">{% translate label.name %}</span>
+                    <span class="badge label-{{ label.color }}" title="{{ label.description }}">{% translate label.name %}</span>
                   </a>
                 {% empty %}
                   <em>{% translate "No labels currently set." %}</em>
