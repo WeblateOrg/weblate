@@ -93,6 +93,23 @@ def ignore_check_source(request: AuthenticatedHttpRequest, check_id):
     )
 
 
+@require_POST
+@login_required
+@transaction.atomic
+def dismiss_automatically_translated(request: AuthenticatedHttpRequest, unit_id):
+    unit = get_object_or_404(Unit, pk=int(unit_id))
+    if not request.user.has_perm("unit.edit", unit):
+        raise PermissionDenied
+
+    unit.translate(
+        request.user,
+        unit.target,
+        unit.state,
+        request=request,
+    )
+    return JsonResponse({})
+
+
 @login_required
 def git_status(request: AuthenticatedHttpRequest, path):
     obj = parse_path(request, path, (Project, Component, Translation))
