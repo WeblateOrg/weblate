@@ -22,6 +22,8 @@ def migrate_automatically_translated_labels(apps, schema_editor):
     for label in auto_labels:
         label.unit_set.update(automatically_translated=True)
 
+    auto_labels.delete()
+
 
 def reverse_migration(apps, schema_editor):
     """
