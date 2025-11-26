@@ -81,9 +81,6 @@ class WeblateConf(AppConf):
     CSP_FONT_SRC: ClassVar[list[str]] = []
     CSP_FORM_SRC: ClassVar[list[str]] = []
 
-    INTERLEDGER_PAYMENT_POINTERS: ClassVar[list[str]] = []
-    INTERLEDGER_PAYMENT_BUILTIN = True
-
     PROJECT_NAME_RESTRICT_RE = None
     PROJECT_WEB_RESTRICT_RE = None
     PROJECT_WEB_RESTRICT_HOST: ClassVar[set[str]] = {"localhost"}

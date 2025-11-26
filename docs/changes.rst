@@ -24,6 +24,7 @@ Weblate 5.15
 * :ref:`addon-weblate.webhook.webhook` secret length is now validated to match the Standard Webhooks specification.
 * Python 3.12 or newer is now required.
 * GLib 2.80 or newer is now required.
+* Dropped support for Web Monetization.
 
 .. rubric:: Upgrading
 
