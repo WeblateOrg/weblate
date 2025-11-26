@@ -172,6 +172,8 @@ class ActionEvents(IntegerChoices):
     FORCE_SYNC = 83, gettext_lazy("Forced synchronization of translations")
     # Translators: Name of event in the history
     FORCE_SCAN = 84, gettext_lazy("Forced rescan of translations")
+    # Translators: Name of event in the history
+    SCREENSHOT_REMOVED = 85, gettext_lazy("Screenshot removed")
 
 
 # Actions which are logged

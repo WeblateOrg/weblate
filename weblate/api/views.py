@@ -2310,7 +2310,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
         except (Unit.DoesNotExist, ValueError) as error:
             raise ValidationError({"unit_id": str(error)}) from error
 
-        obj.units.add(unit)
+        obj.add_unit(unit, user=request.user)
         serializer = ScreenshotSerializer(obj, context={"request": request})
 
         return Response(serializer.data, status=HTTP_200_OK)
@@ -2329,7 +2329,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
             unit = obj.translation.unit_set.get(pk=unit_id)
         except Unit.DoesNotExist as error:
             raise Http404(str(error)) from error
-        obj.units.remove(unit)
+        obj.remove_unit(unit, user=request.user)
         return Response(status=HTTP_204_NO_CONTENT)
 
     def create(self, request: Request, *args, **kwargs):
@@ -2359,11 +2359,21 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
             )
             serializer.is_valid(raise_exception=True)
             instance = serializer.save(translation=translation, user=request.user)
+
             instance.change_set.create(
-                action=ActionEvents.SCREENSHOT_ADDED,
+                action=ActionEvents.SCREENSHOT_UPLOADED,
                 user=request.user,
                 target=instance.name,
             )
+
+            for unit in instance.units.all():
+                instance.change_set.create(
+                    action=ActionEvents.SCREENSHOT_ADDED,
+                    user=request.user,
+                    target=instance.name,
+                    unit=unit,
+                )
+
             return Response(serializer.data, status=HTTP_201_CREATED)
 
     def update(self, request: Request, *args, **kwargs):
