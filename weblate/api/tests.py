@@ -108,6 +108,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         request=None,
         headers=None,
         skip=(),
+        # pylint: disable-next=redefined-builtin
         format: str = "multipart",  # noqa: A002
     ):
         if authenticated:
@@ -1611,6 +1612,7 @@ class ProjectAPITest(APIBaseTest):
             },
         )
 
+    # pylint: disable-next=redefined-builtin
     def test_create_with_source_language_string(self, format="json") -> None:  # noqa: A002
         payload = {
             "name": "API project",
@@ -3743,7 +3745,7 @@ class TranslationAPITest(APIBaseTest):
     def test_upload_replace(self) -> None:
         self.authenticate(superuser=True)
         changes_start = self.component.change_set.count()
-        content = Path(TEST_PO).read_text()
+        content = Path(TEST_PO).read_text(encoding="utf-8")
         content = f'{content}\n\nmsgid "Testing"\nmsgstr""\n'
 
         response = self.client.put(
@@ -3862,6 +3864,7 @@ class TranslationAPITest(APIBaseTest):
         request = self.do_request("api:translation-units", self.translation_kwargs)
         self.assertEqual(request.data["count"], 4)
 
+    # pylint: disable-next=redefined-builtin
     def test_autotranslate(self, format: str = "multipart") -> None:  # noqa: A002
         self.do_request(
             "api:translation-autotranslate",
@@ -5613,7 +5616,7 @@ class AddonAPITest(APIBaseTest):
 
 
 class CategoryAPITest(APIBaseTest):
-    def create_category(self, code: int = 201, **kwargs):
+    def api_create_category(self, code: int = 201, **kwargs):
         request = {
             "name": "Category Test",
             "slug": "category-test",
@@ -5638,15 +5641,15 @@ class CategoryAPITest(APIBaseTest):
     def test_create(self) -> None:
         response = self.list_categories()
         self.assertEqual(response.data["count"], 0)
-        self.create_category()
+        self.api_create_category()
         response = self.list_categories()
         self.assertEqual(response.data["count"], 1)
         request = self.do_request("api:project-categories", self.project_kwargs)
         self.assertEqual(request.data["count"], 1)
 
     def test_create_nested(self) -> None:
-        self.create_category()
-        self.create_category(
+        self.api_create_category()
+        self.api_create_category(
             category=reverse(
                 "api:category-detail", kwargs={"pk": Category.objects.all()[0].pk}
             )
@@ -5658,8 +5661,8 @@ class CategoryAPITest(APIBaseTest):
 
     def test_create_nested_mismatch(self) -> None:
         component = self.create_acl()
-        self.create_category()
-        self.create_category(
+        self.api_create_category()
+        self.api_create_category(
             category=reverse(
                 "api:category-detail", kwargs={"pk": Category.objects.all()[0].pk}
             ),
@@ -5674,7 +5677,7 @@ class CategoryAPITest(APIBaseTest):
         self.assertEqual(request.data["count"], 1)
 
     def test_delete(self) -> None:
-        response = self.create_category()
+        response = self.api_create_category()
         category_url = response.data["url"]
         response = self.do_request(
             category_url,
@@ -5691,7 +5694,7 @@ class CategoryAPITest(APIBaseTest):
         self.assertEqual(response.data["count"], 0)
 
     def test_rename(self) -> None:
-        response = self.create_category()
+        response = self.api_create_category()
         category_url = response.data["url"]
         self.do_request(
             category_url,
@@ -5713,7 +5716,7 @@ class CategoryAPITest(APIBaseTest):
         )
 
     def test_component(self) -> None:
-        response = self.create_category()
+        response = self.api_create_category()
         category_url = response.data["url"]
         component_url = reverse("api:component-detail", kwargs=self.component_kwargs)
         response = self.do_request(
@@ -5739,7 +5742,7 @@ class CategoryAPITest(APIBaseTest):
 
     def test_statistics(self) -> None:
         # Create a category to get the statistics from
-        response = self.create_category()
+        response = self.api_create_category()
         category_kwargs = {"pk": response.data["id"]}
         # Use the default category kwargs to get the statistics
         request = self.do_request("api:category-statistics", category_kwargs)

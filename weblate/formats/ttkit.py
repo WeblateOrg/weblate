@@ -1705,6 +1705,7 @@ class CSVFormat(TTKitFormat):
             content = Path(filename).read_bytes()
         return content, filename
 
+    # pylint: disable-next=arguments-differ
     def parse_store(self, storefile, *, dialect: str | None = None):
         """Parse the store."""
         content, filename = self.get_content_and_filename(storefile)
@@ -1770,6 +1771,7 @@ class CSVSimpleFormat(CSVFormat):
         """Return most common file extension for format."""
         return "csv"
 
+    # pylint: disable-next=arguments-differ
     def parse_store(self, storefile):
         """Parse the store."""
         content, filename = self.get_content_and_filename(storefile)

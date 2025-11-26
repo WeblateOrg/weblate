@@ -58,6 +58,7 @@ class Font(models.Model, UserDisplayMixin):
         super().__init__(*args, **kwargs)
         self.field_errors: dict[str, list[ValidationError]] = {}
 
+    # pylint: disable-next=arguments-differ
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
     ) -> None:

@@ -18,7 +18,7 @@ from django.utils.translation import gettext, gettext_lazy
 from weblate.screenshots.models import Screenshot
 from weblate.trans.forms import QueryField
 from weblate.utils.forms import SortedSelect
-from weblate.utils.requests import request
+from weblate.utils.requests import http_request
 from weblate.utils.validators import ALLOWED_IMAGES, WeblateURLValidator
 
 
@@ -53,7 +53,7 @@ class ScreenshotImageValidationMixin:
                 {"image_url": gettext("Image URL domain is not allowed.")}
             )
         try:
-            with request("get", url, stream=True) as response:
+            with http_request("get", url, stream=True) as response:
                 if response.status_code != 200:
                     raise forms.ValidationError(
                         {

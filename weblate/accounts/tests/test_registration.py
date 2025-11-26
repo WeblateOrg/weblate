@@ -48,8 +48,8 @@ SAML_BACKENDS = (
     "social_core.backends.saml.SAMLAuth",
     "weblate.accounts.auth.WeblateUserBackend",
 )
-SAML_CERT = Path(get_test_file("saml.crt")).read_text()
-SAML_KEY = Path(get_test_file("saml.key")).read_text()
+SAML_CERT = Path(get_test_file("saml.crt")).read_text(encoding="utf-8")
+SAML_KEY = Path(get_test_file("saml.key")).read_text(encoding="utf-8")
 
 REGISTRATION_SUCCESS = (
     "Click the confirmation link sent to your e-mail inbox "

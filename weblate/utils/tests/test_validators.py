@@ -127,22 +127,22 @@ class RegexTest(SimpleTestCase):
 
 
 class WebhookSecretTestCase(SimpleTestCase):
-    def test_empty(self):
+    def test_empty(self) -> None:
         validate_webhook_secret_string("")
 
-    def test_basic(self):
+    def test_basic(self) -> None:
         with self.assertRaises(ValidationError):
             validate_webhook_secret_string("whsec_")
         with self.assertRaises(ValidationError):
             validate_webhook_secret_string("whsec_21132123")
 
-    def test_base64(self):
+    def test_base64(self) -> None:
         value = base64.b64encode(b"x" * 30).decode("utf-8")
         validate_webhook_secret_string(f"whsec_{value}")
         with self.assertRaises(ValidationError):
             validate_webhook_secret_string(f"whsec_{value[:-1]}")
 
-    def test_length(self):
+    def test_length(self) -> None:
         value = base64.b64encode(b"x" * 30).decode("utf-8")
         validate_webhook_secret_string(f"whsec_{value}")
         validate_webhook_secret_string(value)

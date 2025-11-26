@@ -108,7 +108,7 @@ def translation_post_delete(sender, instance, **kwargs) -> None:
 
 @receiver(m2m_changed, sender=Component.links.through)
 @disable_for_loaddata
-def update_project_stats_link(sender, instance, action, pk_set, **kwargs) -> None:
+def component_links_updated(sender, instance, action, pk_set, **kwargs) -> None:
     from weblate.utils.tasks import update_project_stats_link
 
     if action in {"post_add", "post_remove", "post_clear"}:

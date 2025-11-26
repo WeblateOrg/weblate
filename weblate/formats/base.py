@@ -891,6 +891,7 @@ class EmptyFormat(TranslationFormat):
     """For testing purposes."""
 
     @classmethod
+    # pylint: disable-next=arguments-differ
     def load(cls, storefile, template_store):  # noqa: ARG003
         return type("", (object,), {"units": []})()
 

@@ -1025,5 +1025,6 @@ class ProjectLanguageRedirectView(RedirectView):
     query_string = True
     pattern_name = "show"
 
+    # pylint: disable=arguments-differ
     def get_redirect_url(self, project: str | None, lang: str):
         return super().get_redirect_url(path=[project or "-", "-", lang])
