@@ -676,7 +676,9 @@ $(function () {
   if (formErrors.length > 0) {
     const tab = formErrors.closest("div.tab-pane");
     if (tab.length > 0) {
-      bootstrap.Tab.getOrCreateInstance($(`[data-bs-toggle=tab][data-bs-target="#${tab.attr("id")}"]`)).show();
+      bootstrap.Tab.getOrCreateInstance(
+        $(`[data-bs-toggle=tab][data-bs-target="#${tab.attr("id")}"]`),
+      ).show();
     }
   }
 
@@ -1474,13 +1476,16 @@ $(function () {
   });
 
   /* Move current translation into the view */
-  $('a[data-bs-toggle="tab"][data-bs-target="#nearby"]').on("shown.bs.tab", (_e) => {
-    document.querySelector("#nearby .current_translation").scrollIntoView({
-      block: "nearest",
-      inline: "nearest",
-      behavior: "smooth",
-    });
-  });
+  $('a[data-bs-toggle="tab"][data-bs-target="#nearby"]').on(
+    "shown.bs.tab",
+    (_e) => {
+      document.querySelector("#nearby .current_translation").scrollIntoView({
+        block: "nearest",
+        inline: "nearest",
+        behavior: "smooth",
+      });
+    },
+  );
 
   document.querySelectorAll("[data-visibility]").forEach((toggle) => {
     toggle.addEventListener("click", (_event) => {
