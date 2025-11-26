@@ -768,9 +768,11 @@ class PhpFormatTest(BaseFormatTest):
 class LaravelPhpFormatTest(PhpFormatTest):
     format_class = LaravelPhpFormat
     FILE = TEST_LARAVEL
-    FIND = "return[]->'apples'"
-    FIND_CONTEXT = "return[]->'apples'"
+    FIND = "apples"
+    FIND_CONTEXT = "apples"
     FIND_MATCH = "There is one apple\x1e\x1eThere are many apples"
+    NEW_UNIT_KEY = "key"
+    NEW_UNIT_MATCH = b"'key' => 'Source string'"
     COUNT = 2
 
 
