@@ -207,14 +207,17 @@
 
   FullEditor.prototype.initTabs = function () {
     /* Store active tab in a local storage */
-    $('.translation-tabs a[data-bs-toggle="tab"]').on("shown.bs.tab", function () {
-      const current = localStorage.getItem("translate-tab");
-      const desired = $(this).attr("href");
+    $('.translation-tabs a[data-bs-toggle="tab"]').on(
+      "shown.bs.tab",
+      function () {
+        const current = localStorage.getItem("translate-tab");
+        const desired = $(this).attr("href");
 
-      if (current !== desired) {
-        localStorage.setItem("translate-tab", desired);
-      }
-    });
+        if (current !== desired) {
+          localStorage.setItem("translate-tab", desired);
+        }
+      },
+    );
 
     /* Machinery */
     this.isMachineryLoaded = false;
