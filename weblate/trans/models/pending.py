@@ -43,7 +43,7 @@ if TYPE_CHECKING:
     )
 
     from weblate.auth.models import User
-    from weblate.trans.models import Component, Translation, Unit
+    from weblate.trans.models import Component, Project, Translation, Unit
 
 
 class PendingChangeQuerySet(models.QuerySet):
@@ -133,24 +133,33 @@ class PendingChangeQuerySet(models.QuerySet):
                 unit__translation__component__linked_component=component
             )
 
-        base_qs = self.filter(component_filter)
-        if not apply_filters:
-            return base_qs
-
-        commit_policy = component.project.commit_policy
-        qs = self._apply_retry_filter(base_qs, revision=None, blocking_unit_filter=True)
-        return self._apply_commit_policy_filter(qs, commit_policy)
+        return self._apply_filters(
+            base_filter=component_filter,
+            apply_filters=apply_filters,
+            revision=None,
+            commit_policy=component.project.commit_policy,
+        )
 
     def for_translation(self, translation: Translation, apply_filters: bool = True):
         """Return pending changes for a specific translation."""
-        base_qs = self.filter(unit__translation=translation)
-        if not apply_filters:
-            return base_qs
-
-        commit_policy = translation.component.project.commit_policy
-        qs = self._apply_retry_filter(
-            base_qs, translation.revision, blocking_unit_filter=True
+        return self._apply_filters(
+            base_filter=Q(unit__translation=translation),
+            apply_filters=apply_filters,
+            revision=translation.revision,
+            commit_policy=translation.component.project.commit_policy,
         )
+
+    def _apply_filters(
+        self,
+        base_filter: Q,
+        apply_filters: bool,
+        revision: str | None,
+        commit_policy: int,
+    ):
+        qs = self.filter(base_filter)
+        if not apply_filters:
+            return qs
+        qs = self._apply_retry_filter(qs, revision=revision, blocking_unit_filter=True)
         return self._apply_commit_policy_filter(qs, commit_policy)
 
     def _apply_retry_filter(
@@ -267,16 +276,58 @@ class PendingChangeQuerySet(models.QuerySet):
         )
         return qs.filter(timestamp__lte=Subquery(latest_eligible_changes))
 
-    def older_than(self, timestamp: datetime):
-        """Return pending changes older than given timestamp."""
-        return self.filter(timestamp__lt=timestamp)
-
+    # pylint: disable-next=arguments-differ
     def select_for_update(self) -> PendingChangeQuerySet:  # type: ignore[override]
         if using_postgresql():
             # Use weaker locking and limit locking to this table only
             return super().select_for_update(no_key=True, of=("self",))
         # Discard any select_related to avoid locking additional tables
         return super().select_for_update().select_related(None)
+
+    def _count_units_helper(self, qs: QuerySet) -> int:
+        """Count distinct units in a PendingUnitChange queryset."""
+        if using_postgresql():
+            return qs.distinct("unit_id").count()
+        return qs.values("unit_id").distinct().count()
+
+    def detailed_count(self, obj: Project | Component | Translation) -> dict[str, int]:
+        """Count total, skipped and eligible units pending and eligible for commit for the given object."""
+        from weblate.trans.models import Component, Project, Translation
+
+        if isinstance(obj, Project):
+            base_filter = Q(unit__translation__component__project=obj)
+            revision = None
+            commit_policy = obj.commit_policy
+        elif isinstance(obj, Component):
+            base_filter = Q(unit__translation__component=obj)
+            revision = None
+            commit_policy = obj.project.commit_policy
+        elif isinstance(obj, Translation):
+            base_filter = Q(unit__translation=obj)
+            revision = obj.revision
+            commit_policy = obj.component.project.commit_policy
+        else:
+            msg = f"Unsupported object type: {type(obj)}"
+            raise TypeError(msg)
+
+        counts = {}
+
+        qs = self.filter(base_filter)
+        counts["total"] = self._count_units_helper(qs)
+
+        qs = self._apply_retry_filter(qs, revision=revision, blocking_unit_filter=True)
+        eligible_after_retry_filter = self._count_units_helper(qs)
+        counts["errors_skipped"] = counts["total"] - eligible_after_retry_filter
+
+        qs = self._apply_commit_policy_filter(qs, commit_policy)
+        eligible_after_commit_policy_filter = self._count_units_helper(qs)
+        counts["commit_policy_skipped"] = (
+            eligible_after_retry_filter - eligible_after_commit_policy_filter
+        )
+
+        counts["eligible_for_commit"] = eligible_after_commit_policy_filter
+
+        return counts
 
 
 class PendingUnitChange(models.Model):

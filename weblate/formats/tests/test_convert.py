@@ -49,9 +49,13 @@ class ConvertFormatTest(BaseFormatTest):
         translation = template = None
         try:
             # Generate test files
-            with NamedTemporaryFile(delete=False, mode="w+") as template:
+            with NamedTemporaryFile(
+                encoding="utf-8", delete=False, mode="w+"
+            ) as template:
                 template.write(self.CONVERT_TEMPLATE)
-            with NamedTemporaryFile(delete=False, mode="w+") as translation:
+            with NamedTemporaryFile(
+                encoding="utf-8", delete=False, mode="w+"
+            ) as translation:
                 translation.write(self.CONVERT_TRANSLATION)
 
             # Parse
@@ -77,7 +81,10 @@ class ConvertFormatTest(BaseFormatTest):
             storage.save()
 
             # Check translation
-            self.assertEqual(Path(translation.name).read_text(), self.CONVERT_EXPECTED)
+            self.assertEqual(
+                Path(translation.name).read_text(encoding="utf-8"),
+                self.CONVERT_EXPECTED,
+            )
         finally:
             if template:
                 os.unlink(template.name)
@@ -161,7 +168,7 @@ Nazdar
         storage.save()
 
         # Read new content
-        newdata = Path(testfile).read_text()
+        newdata = Path(testfile).read_text(encoding="utf-8")
 
         self.assertEqual(
             newdata,

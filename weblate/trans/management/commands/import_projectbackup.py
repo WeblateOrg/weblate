@@ -25,6 +25,7 @@ class Command(BaseCommand):
         parser.add_argument("username", help="Username doing import")
         parser.add_argument("filename", help="Path to project backup")
 
+    # pylint: disable-next=arguments-differ
     def handle(
         self,
         project_name: str,

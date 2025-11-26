@@ -73,9 +73,9 @@ class BaseFileFormatParam:
     @classmethod
     def get_value(cls, file_format_params: dict):
         value = file_format_params.get(cls.name, cls.default)
-        cast = type(cls.default)
+        type_cast = type(cls.default)
         try:
-            return cast(value)
+            return type_cast(value)
         except (ValueError, TypeError):
             return cls.default
 

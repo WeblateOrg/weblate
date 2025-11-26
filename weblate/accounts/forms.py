@@ -707,6 +707,7 @@ class SetPasswordForm(DjangoSetPasswordForm):
     )
 
     @transaction.atomic
+    # pylint: disable-next=arguments-renamed
     def save(self, request: AuthenticatedHttpRequest, delete_session=False) -> None:
         AuditLog.objects.create(
             self.user,

@@ -15,12 +15,17 @@ Weblate 5.15
 * :ref:`mt-modernmt` better supports language variants.
 * :ref:`addon-weblate.discovery.discovery` preserves :ref:`file_format_params`.
 * :ref:`mt-cyrtranslit` now supports Belarusian and Greek.
+* :ref:`addon-weblate.webhook.slack` and :ref:`addon-weblate.webhook.webhook` can be installed multiple times.
 
 .. rubric:: Bug fixes
 
 .. rubric:: Compatibility
 
+* Replaced custom ``RequireLoginMiddleware`` with Django 5.1's ``LoginRequiredMiddleware``. This makes settings ``LOGIN_REQUIRED_URLS`` and ``LOGIN_REQUIRED_URLS_EXCEPTIONS`` no longer supported, including their Docker environment variable counterparts.
 * :ref:`addon-weblate.webhook.webhook` secret length is now validated to match the Standard Webhooks specification.
+* Python 3.12 or newer is now required.
+* GLib 2.80 or newer is now required.
+* Dropped support for Web Monetization.
 
 .. rubric:: Upgrading
 
@@ -1372,7 +1377,7 @@ Weblate 5.4.3
 .. rubric:: Bug fixes
 
 * Superuser access to components with :ref:`component-restricted`.
-* Adjusted default :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` to not block :ref:`manage-appearance`.
+* Adjusted default ``LOGIN_REQUIRED_URLS_EXCEPTIONS`` to not block :ref:`manage-appearance`.
 * Avoid crash on pushing changes to diverged repository.
 * Avoid crash when installing :ref:`addon-weblate.generate.pseudolocale`.
 * :ref:`azure-setup` gracefully handles repositories with spaces in URL.

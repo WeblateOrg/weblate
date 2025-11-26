@@ -131,6 +131,7 @@ class TeamUpdateView(UpdateView):
             self.object.delete()
         return redirect_next(request.POST.get("next"), fallback)
 
+    # pylint: disable=arguments-differ
     def post(self, request: AuthenticatedHttpRequest, **kwargs):
         self.object = self.get_object()
         if self.request.user.has_perm("meta:team.users", self.object):
@@ -152,6 +153,7 @@ class TeamUpdateView(UpdateView):
             return self.form_valid(form)
         return self.form_invalid(form, formset)
 
+    # pylint: disable=arguments-differ
     def form_invalid(self, form, formset):
         """If the form is invalid, render the invalid form."""
         return self.render_to_response(

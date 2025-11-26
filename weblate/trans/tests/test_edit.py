@@ -412,6 +412,7 @@ class EditLanguageTest(EditTest):
             kwargs={"path": [self.project.slug, "-", "cs"]},
         )
 
+    # pylint: disable=arguments-differ
     def edit_unit(self, source, target, language="cs", **kwargs):
         """Do edit single unit using web interface."""
         unit = self.get_unit(source, language)
@@ -1163,7 +1164,7 @@ class EditComplexTest(ViewTestCase):
         form = response.context["form"]
         params = {field: form[field].value() for field in form.fields}
         params["target_0"] = "Nazdar svete!\n"
-        response = self.client.post(url, params)
+        self.client.post(url, params)
         unit = self.get_unit()
         self.assertEqual(unit.target, "Nazdar svete!\n")
         self.assertEqual(unit.state, STATE_TRANSLATED)

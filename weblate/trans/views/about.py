@@ -10,7 +10,7 @@ from django.views.generic import TemplateView
 
 from weblate.accounts.models import Profile
 from weblate.metrics.models import Metric
-from weblate.utils.requests import request
+from weblate.utils.requests import http_request
 from weblate.utils.requirements import get_versions_list
 from weblate.utils.stats import GlobalStats
 from weblate.vcs.gpg import get_gpg_public_key, get_gpg_sign_key
@@ -106,7 +106,7 @@ class DonateView(AboutView):
     cache_key = "weblate-repo-stats"
 
     def fetch_url(self, url: str):
-        response = request("get", url)
+        response = http_request("get", url)
         return response.json()
 
     def get_stats(self) -> dict[str, int]:

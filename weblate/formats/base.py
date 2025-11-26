@@ -10,7 +10,7 @@ import os
 import tempfile
 from copy import copy
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, BinaryIO, ClassVar, TypeAlias
+from typing import TYPE_CHECKING, Any, BinaryIO, ClassVar
 
 from django.http import HttpResponse
 from django.utils.functional import cached_property
@@ -128,14 +128,14 @@ class BaseItem:
     pass
 
 
-InnerUnit: TypeAlias = TranslateToolkitUnit | BaseItem
+type InnerUnit = TranslateToolkitUnit | BaseItem
 
 
 class BaseStore:
     units: Sequence[InnerUnit]
 
 
-InnerStore: TypeAlias = TranslateToolkitStore | BaseStore
+type InnerStore = TranslateToolkitStore | BaseStore
 
 
 class TranslationUnit:
@@ -891,6 +891,7 @@ class EmptyFormat(TranslationFormat):
     """For testing purposes."""
 
     @classmethod
+    # pylint: disable-next=arguments-differ
     def load(cls, storefile, template_store):  # noqa: ARG003
         return type("", (object,), {"units": []})()
 
