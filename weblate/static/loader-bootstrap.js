@@ -643,10 +643,10 @@ $(function () {
   ) {
     /* From local storage */
     activeTab = $(
-      `[data-toggle=tab][href="${localStorage.getItem("translate-tab")}"]`,
+      `[data-bs-toggle=tab][data-bs-target="${localStorage.getItem("translate-tab")}"]`,
     );
     if (activeTab.length > 0) {
-      activeTab.tab("show");
+      bootstrap.Tab.getOrCreateInstance(activeTab).show();
     }
   }
 
@@ -660,14 +660,14 @@ $(function () {
   /* Navigate to a tab when the history changes */
   window.addEventListener("popstate", (_e) => {
     if (location.hash !== "") {
-      activeTab = $(`[data-toggle=tab][href="${location.hash}"]`);
+      activeTab = $(`[data-bs-toggle=tab][data-bs-target="${location.hash}"]`);
     } else {
       activeTab = [];
     }
     if (activeTab.length > 0) {
-      activeTab.tab("show");
+      bootstrap.Tab.getOrCreateInstance(activeTab).show();
     } else {
-      $(".nav-tabs a:first").tab("show");
+      bootstrap.Tab.getOrCreateInstance($(".nav-tabs a:first")).show();
     }
   });
 
@@ -676,7 +676,7 @@ $(function () {
   if (formErrors.length > 0) {
     const tab = formErrors.closest("div.tab-pane");
     if (tab.length > 0) {
-      $(`[data-toggle=tab][href="#${tab.attr("id")}"]`).tab("show");
+      bootstrap.Tab.getOrCreateInstance($(`[data-bs-toggle=tab][data-bs-target="#${tab.attr("id")}"]`)).show();
     }
   }
 
@@ -1474,7 +1474,7 @@ $(function () {
   });
 
   /* Move current translation into the view */
-  $('a[data-toggle="tab"][href="#nearby"]').on("shown.bs.tab", (_e) => {
+  $('a[data-bs-toggle="tab"][data-bs-target="#nearby"]').on("shown.bs.tab", (_e) => {
     document.querySelector("#nearby .current_translation").scrollIntoView({
       block: "nearest",
       inline: "nearest",
