@@ -207,7 +207,7 @@
 
   FullEditor.prototype.initTabs = function () {
     /* Store active tab in a local storage */
-    $('.translation-tabs a[data-toggle="tab"]').on("shown.bs.tab", function () {
+    $('.translation-tabs a[data-bs-toggle="tab"]').on("shown.bs.tab", function () {
       const current = localStorage.getItem("translate-tab");
       const desired = $(this).attr("href");
 
@@ -364,7 +364,7 @@
   FullEditor.prototype.initChecks = function () {
     /* Clicking links (e.g. comments, suggestions)
      * This is inside things to checks, but not a check-item */
-    this.$editor.on("click", '.check [data-toggle="tab"]', function (e) {
+    this.$editor.on("click", '.check [data-bs-toggle="tab"]', function (e) {
       const href = $(this).attr("href");
 
       e.preventDefault();
