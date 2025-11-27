@@ -4382,15 +4382,21 @@ wheels = [
 
 [[package]]
 name = "translate-toolkit"
-version = "3.16.3"
+version = "3.17.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "lxml" },
+    { name = "unicode-segmentation-py" },
     { name = "wcwidth" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/5f/26/200ba39b505d8b0a7d4e072e6aa84a4d757fae8c00e5e3a2f2ccba2ab198/translate_toolkit-3.16.3.tar.gz", hash = "sha256:d9656526a8bb0f0a88a16a08ed463036589cd34af059daf80aaaa90b9246586c", size = 536719, upload-time = "2025-10-14T15:41:31.703Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/35/7a/a924676cdc005a9a30284b116d6545547524222b2e85381ff4a5df06d544/translate_toolkit-3.17.1.tar.gz", hash = "sha256:1a34870fc9a0dd6610b89d3ba93af1f87732f192e40b4978eddac0d15493019e", size = 555577, upload-time = "2025-11-27T12:53:27.269Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/10/93/72b3540337454fd7bd98fa4b326712207a55754f1f981b79eb4edc011a90/translate_toolkit-3.16.3-py3-none-any.whl", hash = "sha256:2b8014e39864c0ab15fa981228a98a5bf1c299cb5c02470ed8d40909e50f5768", size = 744414, upload-time = "2025-10-14T15:41:29.982Z" },
+    { url = "https://files.pythonhosted.org/packages/5b/6a/e5b66413c3f62292815356dd51964de1fc5b143afa4e98c2b0e836ba8c84/translate_toolkit-3.17.1-py3-none-any.whl", hash = "sha256:c587a78e8ef1a90b7947a5ced9bc32f0b74cef2a5f079ab800acf49de344e467", size = 769289, upload-time = "2025-11-27T12:53:25.48Z" },
+]
+
+[package.optional-dependencies]
+toml = [
+    { name = "tomlkit" },
 ]
 
 [[package]]
@@ -4660,6 +4666,15 @@ wheels = [
 ]
 
 [[package]]
+name = "unicode-segmentation-py"
+version = "0.1.1"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/25/29/0d55d00861190194f6c9ecf75c986b8a7cf76fbf088c466119c282af88a5/unicode_segmentation_py-0.1.1.tar.gz", hash = "sha256:b9de0860441e8f3c2143ab814435cb43198c0aaf8870988a3156e4f84a6c06df", size = 6119, upload-time = "2025-03-22T10:18:17.27Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/51/2a/31d9cd56b1284050edcebcd34a7b467859697e62ce9ee2d2584a2ac06c15/unicode_segmentation_py-0.1.1-cp310-abi3-manylinux_2_34_x86_64.whl", hash = "sha256:2da79ac32900a3e2f4e879f6f1b5ee1b548afe622fa754d3a1cbaa46dd153f7e", size = 272303, upload-time = "2025-03-22T10:18:15.528Z" },
+]
+
+[[package]]
 name = "unidecode"
 version = "1.4.0"
 source = { registry = "https://pypi.org/simple" }
@@ -4836,7 +4851,7 @@ dependencies = [
     { name = "social-auth-app-django" },
     { name = "social-auth-core" },
     { name = "tesserocr" },
-    { name = "translate-toolkit" },
+    { name = "translate-toolkit", extra = ["toml"] },
     { name = "translation-finder" },
     { name = "unidecode" },
     { name = "user-agents" },
@@ -5112,7 +5127,7 @@ requires-dist = [
     { name = "social-auth-app-django", specifier = ">=5.5.1,<6.0.0" },
     { name = "social-auth-core", specifier = ">=4.7.0,<5.0.0" },
     { name = "tesserocr", specifier = ">=2.8.0,<2.10.0" },
-    { name = "translate-toolkit", specifier = ">=3.16.1,<3.17" },
+    { name = "translate-toolkit", extras = ["toml"], specifier = ">=3.17.1,<3.18" },
     { name = "translation-finder", specifier = ">=2.22,<3.0" },
     { name = "unidecode", specifier = ">=1.4.0,<1.5" },
     { name = "user-agents", specifier = ">=2.2.0,<2.3" },
