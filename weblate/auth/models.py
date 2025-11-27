@@ -1019,7 +1019,9 @@ class UserBlock(models.Model):
     note = models.TextField(
         verbose_name=gettext_lazy("Block note"),
         blank=True,
-        help_text=gettext_lazy("The notes regarding blocking the user."),
+        help_text=gettext_lazy(
+            "Internal notes regarding blocking the user that are not visible to the user."
+        ),
     )
 
     class Meta:
