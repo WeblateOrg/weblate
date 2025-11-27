@@ -1114,10 +1114,8 @@ class CSVUtf8SimpleFormatMonolingualTest(FixtureTestCase, TempDirMixin):
         """
         # Create a temporary copy of the translation file
         translation_file = os.path.join(self.tempdir, "pl.csv")
-        with open(TEST_CSV_SIMPLE_PL, "rb") as f:
-            content = f.read()
-        with open(translation_file, "wb") as f:
-            f.write(content)
+        content = Path(TEST_CSV_SIMPLE_PL).read_bytes()
+        Path(translation_file).write_bytes(content)
 
         # Load the base file (template)
         base_format = CSVUtf8SimpleFormat(TEST_CSV_SIMPLE_EN, is_template=True)
