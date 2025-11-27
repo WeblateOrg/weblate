@@ -18,6 +18,8 @@ Weblate 5.15
 
 .. rubric:: Bug fixes
 
+* :ref:`mt-deepl` integration now correctly handles translating to Chinese variants.
+
 .. rubric:: Compatibility
 
 * Replaced custom ``RequireLoginMiddleware`` with Django 5.1's ``LoginRequiredMiddleware``. This makes settings ``LOGIN_REQUIRED_URLS`` and ``LOGIN_REQUIRED_URLS_EXCEPTIONS`` no longer supported, including their Docker environment variable counterparts.

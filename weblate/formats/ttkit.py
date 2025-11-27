@@ -436,7 +436,9 @@ class TTKitFormat(TranslationFormat):
 
         if self.use_settarget and self.source_language:
             unit.setsource(source, self.source_language)
-        else:
+        elif self.is_template or self.template_store or self.use_settarget:
+            # Set source only if needed, it has performance hit in many formats because
+            # it is wrapped/rendered here.
             unit.source = source
 
         if self.use_settarget and self.language_code:
