@@ -1144,8 +1144,7 @@ class CSVUtf8SimpleFormatMonolingualTest(FixtureTestCase, TempDirMixin):
         translation_format.save()
 
         # Read the saved content
-        with open(translation_file, "rb") as f:
-            saved_content = f.read().decode("utf-8")
+        saved_content = Path(translation_file).read_text(encoding="utf-8")
 
         # Check that the source fields are not empty
         lines = saved_content.strip().split("\n")
