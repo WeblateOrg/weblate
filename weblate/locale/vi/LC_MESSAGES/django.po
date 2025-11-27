@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-27 07:35+0000\n"
-"PO-Revision-Date: 2025-11-23 20:51+0000\n"
+"PO-Revision-Date: 2025-11-28 05:02+0000\n"
 "Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "application/vi/>\n"
@@ -4468,7 +4468,7 @@ msgstr "Dấu ba chấm"
 
 #: weblate/checks/source.py:51
 msgid "The string uses three dots (...) instead of an ellipsis character (…)."
-msgstr ""
+msgstr "Chuỗi sử dụng ba dấu chấm (...) thay vì ký tự dấu ba chấm (…)."
 
 #: weblate/checks/source.py:62
 msgid "Multiple failing checks"
@@ -4483,16 +4483,12 @@ msgid "Following checks are failing:"
 msgstr "Các kiểm tra sau đây thất bại:"
 
 #: weblate/checks/source.py:149
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Long untranslated"
-msgstr "PHP strings"
+msgstr "Đã lâu chưa dịch"
 
 #: weblate/checks/source.py:150
-#, fuzzy
-#| msgid "iOS Strings"
 msgid "The string has not been translated for a long time."
-msgstr "Chuỗi hệ điều hành iOS"
+msgstr "Chuỗi này đã không được dịch trong một thời gian dài."
 
 #: weblate/checks/views.py:224 weblate/checks/views.py:226
 #: weblate/templates/category-language.html:29
@@ -4522,24 +4518,20 @@ msgstr "Kiểm tra"
 #: weblate/templates/translate.html:482 weblate/templates/translation.html:21
 #: weblate/trans/forms.py:1700
 msgid "Translation"
-msgstr ""
+msgstr "Bản dịch"
 
 #: weblate/configuration/apps.py:12
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Weblate configuration"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Cấu hình Weblate"
 
 #: weblate/fonts/models.py:30 weblate/templates/fonts/font_detail.html:29
 #: weblate/templates/fonts/font_list.html:86
 msgid "Font style"
-msgstr ""
+msgstr "Kiểu phông chữ"
 
 #: weblate/fonts/models.py:33
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "Font file"
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Tệp phông chữ"
 
 #: weblate/fonts/models.py:36
 msgid "OpenType and TrueType fonts are supported."
@@ -4547,47 +4539,47 @@ msgstr "Đã hỗ trợ phông chữ OpenType và TrueType."
 
 #: weblate/fonts/models.py:105
 msgid "Font group name"
-msgstr ""
+msgstr "Tên nhóm phông chữ"
 
 #: weblate/fonts/models.py:108
 msgid ""
 "Identifier you will use in checks to select this font group. Avoid "
 "whitespaces and special characters."
 msgstr ""
+"Mã định danh bạn sẽ sử dụng khi kiểm tra để chọn nhóm phông chữ này. Tránh "
+"sử dụng khoảng trắng và ký tự đặc biệt."
 
 #: weblate/fonts/models.py:114 weblate/templates/fonts/font_list.html:34
 #: weblate/templates/fonts/fontgroup_detail.html:29
 msgid "Default font"
-msgstr ""
+msgstr "Phông chữ mặc định"
 
 #: weblate/fonts/models.py:117
 msgid "Default font is used unless per language override matches."
 msgstr ""
+"Phông chữ mặc định sẽ được sử dụng trừ khi có sự ghi đè phù hợp theo từng "
+"ngôn ngữ."
 
 #: weblate/fonts/models.py:147 weblate/templates/fonts/font_detail.html:21
 msgid "Font"
-msgstr ""
+msgstr "Phông chữ"
 
 #: weblate/fonts/validators.py:17 weblate/fonts/validators.py:23
 #: weblate/utils/validators.py:166
 msgid "Unsupported file format."
-msgstr ""
+msgstr "Định dạng tệp không được hỗ trợ."
 
 #: weblate/fonts/views.py:79
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "Font with the same name already exists."
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Phông chữ có cùng tên đã tồn tại."
 
 #: weblate/fonts/views.py:86
 msgid "Creation failed, please fix the errors below."
 msgstr "Không tạo được, vui lòng sửa các lỗi bên dưới."
 
 #: weblate/fonts/views.py:119
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "Font deleted."
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Đã xóa phông chữ."
 
 #: weblate/fonts/views.py:136
 #, python-format
@@ -4595,48 +4587,42 @@ msgid ""
 "The uploaded font must match the existing family and style: “%(family)s "
 "%(style)s”"
 msgstr ""
+"Phông chữ được tải lên phải phù hợp với họ phông chữ và kiểu phông chữ hiện "
+"có: “%(family)s %(style)s”"
 
 #: weblate/fonts/views.py:149
 msgid "The uploaded font file is identical to the current one."
-msgstr ""
+msgstr "Tệp phông chữ đã tải lên giống hệt với tệp hiện tại."
 
 #: weblate/fonts/views.py:161
 msgid "Font updated successfully."
-msgstr ""
+msgstr "Phông chữ đã được cập nhật thành công."
 
 #: weblate/fonts/views.py:201 weblate/fonts/views.py:217
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "Font group with the same name already exists."
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Nhóm phông chữ có cùng tên đã tồn tại."
 
 #: weblate/fonts/views.py:230
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "No override found."
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Không tìm thấy ghi đè."
 
 #: weblate/fonts/views.py:235
 msgid "Font group deleted."
-msgstr ""
+msgstr "Đã xóa nhóm phông chữ."
 
 #: weblate/formats/base.py:400
 msgid "Could not load strings from the file, try choosing other format."
-msgstr ""
+msgstr "Không thể tải chuỗi từ tệp, hãy thử chọn định dạng khác."
 
 #. Translators: File format name
 #: weblate/formats/convert.py:289
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "HTML file"
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Người dịch: Tên định dạng tệp"
 
 #. Translators: File format name
 #: weblate/formats/convert.py:324
-#, fuzzy
-#| msgid "Contact"
 msgid "Markdown file"
-msgstr "Liên lạc"
+msgstr "Tệp Markdown"
 
 #. Translators: File format name
 #: weblate/formats/convert.py:364
@@ -4645,44 +4631,36 @@ msgstr "Tệp OpenDocument"
 
 #. Translators: File format name
 #: weblate/formats/convert.py:429
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "IDML file"
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Tệp IDML"
 
 #. Translators: File format name
 #: weblate/formats/convert.py:488
 msgid "RC file"
-msgstr ""
+msgstr "Tệp RC"
 
 #. Translators: File format name
 #: weblate/formats/convert.py:556
-#, fuzzy
-#| msgid "Gettext PO file"
 msgid "Plain text file"
-msgstr "Tập tin kiểu Gettext PO"
+msgstr "Tệp văn bản thuần túy"
 
 #. Translators: File format name
 #: weblate/formats/convert.py:594
 msgid "DokuWiki text file"
-msgstr ""
+msgstr "Tệp văn bản DokuWiki"
 
 #. Translators: File format name
 #: weblate/formats/convert.py:602
 msgid "MediaWiki text file"
-msgstr ""
+msgstr "Tệp văn bản MediaWiki"
 
 #: weblate/formats/exporters.py:57
-#, fuzzy
-#| msgid "Gettext PO file"
 msgid "gettext PO"
-msgstr "Tập tin kiểu Gettext PO"
+msgstr "gettext PO"
 
 #: weblate/formats/exporters.py:105
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "XLIFF 1.1 with gettext extensions"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "XLIFF 1.1 với mở rộng gettext"
 
 #: weblate/formats/exporters.py:136
 msgid "XLIFF 1.1"
