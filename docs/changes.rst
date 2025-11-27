@@ -14,6 +14,7 @@ Weblate 5.15
 * :http:get:`/api/groups/` now includes ``admins``.
 * :ref:`mt-modernmt` better supports language variants.
 * :ref:`mt-cyrtranslit` now supports Belarusian and Greek.
+* :ref:`block-user` now accepts internal notes that are not visible to the user.
 
 .. rubric:: Bug fixes
 
