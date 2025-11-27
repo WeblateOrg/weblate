@@ -18,7 +18,9 @@ if TYPE_CHECKING:
         Debug,
         Error,
         Info,
-        Warning,  # noqa: A004
+    )
+    from django.core.checks import (
+        Warning as DjangoWarning,
     )
 
 DOC_LINKS: dict[str, str | tuple[str] | tuple[str, str]] = {
@@ -99,7 +101,7 @@ def check_doc_link(docid: str, strict: bool = False) -> str | None:
 def weblate_check(
     check_id: str,
     message: str,
-    cls: type[Critical | Debug | Error | Info | Warning] = Critical,
+    cls: type[Critical | Debug | Error | Info | DjangoWarning] = Critical,
 ) -> CheckMessage:
     """Return Django check instance."""
     return cls(message, hint=check_doc_link(check_id), id=check_id)

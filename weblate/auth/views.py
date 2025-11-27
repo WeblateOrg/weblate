@@ -26,6 +26,8 @@ from weblate.utils.views import get_paginator, show_form_errors
 from weblate.wladmin.forms import ChangedCharField
 
 if TYPE_CHECKING:
+    from django.http import HttpResponse
+
     from weblate.auth.models import (
         AuthenticatedHttpRequest,
         User,
@@ -129,6 +131,7 @@ class TeamUpdateView(UpdateView):
             self.object.delete()
         return redirect_next(request.POST.get("next"), fallback)
 
+    # pylint: disable=arguments-differ
     def post(self, request: AuthenticatedHttpRequest, **kwargs):
         self.object = self.get_object()
         if self.request.user.has_perm("meta:team.users", self.object):
@@ -150,6 +153,7 @@ class TeamUpdateView(UpdateView):
             return self.form_valid(form)
         return self.form_invalid(form, formset)
 
+    # pylint: disable=arguments-differ
     def form_invalid(self, form, formset):
         """If the form is invalid, render the invalid form."""
         return self.render_to_response(
@@ -160,8 +164,9 @@ class TeamUpdateView(UpdateView):
 class InvitationView(DetailView):
     model = Invitation
 
-    def get(self, request: AuthenticatedHttpRequest, *args, **kwargs):
-        self.object = self.get_object()
+    def validate_invitation(
+        self, request: AuthenticatedHttpRequest
+    ) -> HttpResponse | None:
         if request.user.is_authenticated and self.object.user != request.user:
             # Invitation not for this user (either is for email and user is None or different user)
             messages.error(
@@ -175,10 +180,17 @@ class InvitationView(DetailView):
             # When inviting new user go through registration
             request.session["invitation_link"] = str(self.object.pk)
             return redirect("register")
+        return None
+
+    def get(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> HttpResponse:
+        self.object = self.get_object()
+        validation_result = self.validate_invitation(request)
+        if validation_result is not None:
+            return validation_result
         context = self.get_context_data(object=self.object)
         return self.render_to_response(context)
 
-    def post(self, request: AuthenticatedHttpRequest, **kwargs):
+    def post(self, request: AuthenticatedHttpRequest, **kwargs) -> HttpResponse:
         self.object = invitation = self.get_object()
         user = request.user
 
@@ -213,6 +225,11 @@ class InvitationView(DetailView):
             raise PermissionDenied
         if invitation.user != user:
             raise Http404
+
+        # Check if this is for us
+        validation_result = self.validate_invitation(request)
+        if validation_result is not None:
+            return validation_result
 
         # Accept invitation
         invitation.accept(request, user)

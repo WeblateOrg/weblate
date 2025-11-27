@@ -9,6 +9,7 @@ from typing import TYPE_CHECKING, cast
 from django.conf import settings
 from django.utils.translation import gettext
 
+from weblate.formats.base import BilingualUpdateMixin
 from weblate.lang.models import Language
 from weblate.trans.models import (
     Category,
@@ -221,6 +222,18 @@ def check_can_edit(  # noqa: C901
         if not user.is_authenticated:
             # Signing in might help, but user still might need additional privileges
             return Denied(gettext("Sign in to save translations."))
+        if component and component.restricted:
+            if permission == "unit.review":
+                return Denied(
+                    gettext(
+                        "Insufficient privileges for approving translations in a restricted component."
+                    )
+                )
+            return Denied(
+                gettext(
+                    "Insufficient privileges for saving translations in a restricted component."
+                )
+            )
         if permission == "unit.review":
             return Denied(
                 gettext("Insufficient privileges for approving translations.")
@@ -276,6 +289,8 @@ def check_unit_review(
         obj = obj.translation
     if not skip_enabled:
         if isinstance(obj, Translation):
+            if obj.is_readonly:
+                return Denied(gettext("The translation is read-only."))
             if not obj.enable_review:
                 if obj.is_source:
                     return Denied(gettext("Source-string reviews are turned off."))
@@ -478,7 +493,7 @@ def check_upload(
     if (
         translation.is_source
         and not translation.is_template
-        and not hasattr(translation.component.file_format_cls, "update_bilingual")
+        and not issubclass(translation.component.file_format_cls, BilingualUpdateMixin)
     ):
         return Denied(
             gettext("The file format does not support updating source strings.")
@@ -580,7 +595,7 @@ def check_team_edit_users(
 def check_billing_view(
     user: User, permission: str, obj: Billing | Project
 ) -> bool | PermissionResult:
-    # We check Billling by hasttr to avoid importing optional Django app. To make type
+    # We check Billing by hasattr to avoid importing optional Django app. To make type
     # checker understand this, there is negative check on Project and cast in the
     # check_permission call.
     if hasattr(obj, "all_projects") and not isinstance(obj, Project):

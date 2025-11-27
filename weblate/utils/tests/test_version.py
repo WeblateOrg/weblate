@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from pathlib import Path
+
 import responses
 from django.test import SimpleTestCase
 
@@ -22,8 +24,8 @@ class VersionTest(SimpleTestCase):
 
     @staticmethod
     def mock_pypi() -> None:
-        with open(get_test_file("pypi.json")) as handle:
-            responses.add(responses.GET, PYPI, body=handle.read())
+        test_file = Path(get_test_file("pypi.json"))
+        responses.add(responses.GET, PYPI, body=test_file.read_text(encoding="utf-8"))
 
     @responses.activate
     def test_download(self) -> None:

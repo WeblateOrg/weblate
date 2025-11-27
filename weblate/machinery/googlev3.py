@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import json
 import operator
+from contextlib import suppress
 from typing import TYPE_CHECKING
 
 from django.utils.functional import cached_property
@@ -185,21 +186,19 @@ class GoogleV3Translation(
         except AlreadyExists as error:
             raise GlossaryAlreadyExistsError from error
 
-    def delete_glossary(self, glossary_name: str) -> None:
+    def delete_glossary(self, glossary_id: str) -> None:
         """Delete the glossary in service and storage bucket."""
         try:
             self.client.delete_glossary(
-                name=self.get_glossary_resource_path(glossary_name)
+                name=self.get_glossary_resource_path(glossary_id)
             )
         except NotFound as error:
             raise GlossaryDoesNotExistError from error
         finally:
-            try:
+            with suppress(NotFound):
                 #  delete tsv from storage bucket
-                glossary_bucket_file = self.storage_bucket.blob(f"{glossary_name}.tsv")
+                glossary_bucket_file = self.storage_bucket.blob(f"{glossary_id}.tsv")
                 glossary_bucket_file.delete()
-            except NotFound:
-                pass
 
     def delete_oldest_glossary(self) -> None:
         """Delete the oldest glossary if any."""

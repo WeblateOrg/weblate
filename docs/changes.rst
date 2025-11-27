@@ -5,16 +5,30 @@ Weblate 5.15
 
 .. rubric:: New features
 
+* Batch automatic translation can now be manually triggered at project language, category or component level, see :ref:`auto-translation`.
+* Added ability to completely disable the admin contact form by setting :setting:`CONTACT_FORM` to ``"disabled"``.
+
 .. rubric:: Improvements
 
 * Added disk usage overview in :ref:`manage-performance`.
 * :http:get:`/api/groups/` now includes ``admins``.
+* :ref:`mt-modernmt` better supports language variants.
+* :ref:`mt-cyrtranslit` now supports Belarusian and Greek.
+* :ref:`addon-weblate.webhook.slack` and :ref:`addon-weblate.webhook.webhook` can be installed multiple times.
 
 .. rubric:: Bug fixes
 
-* Fixed Simple CSV File format saving translations with empty source fields when using monolingual base files.
+* Fixed Simple :doc:`/formats/csv` format saving translations with empty source fields when using monolingual base files.
+* :ref:`mt-deepl` integration now correctly handles translating to Chinese variants.
 
 .. rubric:: Compatibility
+
+* Replaced custom ``RequireLoginMiddleware`` with Django 5.1's ``LoginRequiredMiddleware``. This makes settings ``LOGIN_REQUIRED_URLS`` and ``LOGIN_REQUIRED_URLS_EXCEPTIONS`` no longer supported, including their Docker environment variable counterparts.
+* :ref:`addon-weblate.webhook.webhook` secret length is now validated to match the Standard Webhooks specification.
+* Python 3.12 or newer is now required.
+* GLib 2.80 or newer is now required.
+* Dropped support for Web Monetization.
+* :doc:`/formats/laravel` no longer includes ``return`` prefix in the keys.
 
 .. rubric:: Upgrading
 
@@ -1366,7 +1380,7 @@ Weblate 5.4.3
 .. rubric:: Bug fixes
 
 * Superuser access to components with :ref:`component-restricted`.
-* Adjusted default :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` to not block :ref:`manage-appearance`.
+* Adjusted default ``LOGIN_REQUIRED_URLS_EXCEPTIONS`` to not block :ref:`manage-appearance`.
 * Avoid crash on pushing changes to diverged repository.
 * Avoid crash when installing :ref:`addon-weblate.generate.pseudolocale`.
 * :ref:`azure-setup` gracefully handles repositories with spaces in URL.

@@ -34,7 +34,7 @@ repos:
   hooks:
   - id: yamllint
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.14.4
+  rev: v0.14.6
   hooks:
   - id: ruff-check
     args:
@@ -42,12 +42,12 @@ repos:
     - --exit-non-zero-on-fix
   - id: ruff-format
 - repo: https://github.com/adamtheturtle/doccmd-pre-commit
-  rev: v2025.11.8
+  rev: v2025.11.20
   hooks:
   - id: doccmd
     args: [--language, python, --no-pad-file, --command, ruff format]
     additional_dependencies:
-    - ruff==0.14.4
+    - ruff==0.14.6
 - repo: meta
   hooks:
   - id: check-hooks-apply
@@ -82,12 +82,12 @@ repos:
   - id: shellcheck
     require_serial: true
 - repo: https://github.com/biomejs/pre-commit
-  rev: v2.3.4
+  rev: v2.3.7
   hooks:
   - id: biome-check
     args: [--error-on-warnings]
     additional_dependencies:
-    - '@biomejs/biome@2.3.4'
+    - '@biomejs/biome@2.3.7'
 - repo: https://github.com/abravalheri/validate-pyproject
   rev: v0.24.1
   hooks:
@@ -110,7 +110,7 @@ repos:
   hooks:
   - id: rst-double-space
     name: rst text with double space
-    description: Detect mistake of rst contaning double space
+    description: Detect mistake of rst containing double space
     types: [rst]
     entry: \S  +(?![\| +])
     language: pygrep
@@ -133,7 +133,7 @@ repos:
     entry: '^\.\. seealso:: .*$'
     language: pygrep
   - id: rst-seealso-list
-    name: seealso shoud use list for multiple lins
+    name: seealso should use list for multiple lines
     types: [rst]
     args: [--multiline]
     entry: ^\.\. seealso::\n\n(   *[:`*][^\n]*\n)*   *[:`*][^\n]*,
@@ -145,7 +145,7 @@ repos:
     entry: format_html_join\(\s*", "
     language: pygrep
 - repo: https://github.com/sphinx-contrib/sphinx-lint
-  rev: v1.0.1
+  rev: v1.0.2
   hooks:
   - id: sphinx-lint
 - repo: https://github.com/codespell-project/codespell
@@ -156,18 +156,18 @@ repos:
     - tomli
     exclude: client/yarn.lock
 - repo: https://github.com/crate-ci/typos
-  rev: v1.39.0
+  rev: v1.40.0
   hooks:
   - id: typos
     args: []
     require_serial: true
     pass_filenames: false
 - repo: https://github.com/rhysd/actionlint
-  rev: v1.7.8
+  rev: v1.7.9
   hooks:
   - id: actionlint
 - repo: https://github.com/zizmorcore/zizmor-pre-commit
-  rev: v1.16.3
+  rev: v1.17.0
   hooks:
   - id: zizmor
 - repo: https://github.com/docker-compose-linter/pre-commit-dclint
@@ -176,7 +176,7 @@ repos:
   - id: dclint
     files: ^.*/(docker-)?compose(-.*)?\.ya?ml$
 - repo: https://github.com/gitleaks/gitleaks
-  rev: v8.29.0
+  rev: v8.30.0
   hooks:
   - id: gitleaks
 exclude: ^.*\.(csv|svg|wsdl(\.[^.]*)?)|weblate/trans/tests/data/memory-broken\.json|weblate/templates/browserconfig\.xml|weblate/templates/configuration/custom\.css|weblate/trans/tests/data/cs-CZ\.rc|weblate/static/vendor/.*|weblate/static/js/vendor/.*|weblate/static/styles/vendor/.*|docs/make\.bat|weblate/templates/addons/js/weblate\.js|uv\.lock|docs/specs/openapi.yaml$

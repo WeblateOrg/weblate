@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-27 08:36+0100\n"
-"PO-Revision-Date: 2025-10-29 05:56+0000\n"
+"PO-Revision-Date: 2025-11-25 14:51+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -28,7 +28,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.14.1-dev\n"
+"X-Generator: Weblate 5.15-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:215
@@ -963,7 +963,7 @@ msgid ""
 msgstr ""
 "Beim Bearbeiten des :guilabel:`Team` können Sie :guilabel:`Automatische "
 "Zuweisungen` angeben. Dabei handelt es sich um eine Liste regulärer "
-"Ausdrücke, mit der neu angelegte Benutzer anhand ihrer E-Mail-Adressen "
+"Ausdrücke, mit der neu erstellte Benutzer anhand ihrer E-Mail-Adressen "
 "automatisch einem Team zugewiesen werden. Diese Zuweisung erfolgt nur bei "
 "der Kontoerstellung."
 
@@ -2553,7 +2553,7 @@ msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
 msgstr ""
-"Dateiname, der zum Anlegen neuer Übersetzungen verwendet wird. Für "
+"Dateiname, der zum Erstellen neuer Übersetzungen verwendet wird. Für "
 "gettext, .pot-Datei auswählen."
 
 #: ../../admin/addons.rst:306 ../../admin/projects.rst:574
@@ -4556,8 +4556,8 @@ msgid ""
 msgstr ""
 "Die Standardeinstellung für Weblate ist die Verwendung von python-social-"
 "auth, einem Formular auf der Website zur Registrierung neuer Benutzer. Nach "
-"der Bestätigung ihrer E-Mail kann ein neuer Benutzer einen Beitrag leisten "
-"oder sich mit einem der Dienste von Drittanbietern authentifizieren."
+"der Bestätigung ihrer E-Mail-Adresse kann ein neuer Benutzer einen Beitrag "
+"leisten oder sich mit einem der Dienste von Drittanbietern authentifizieren."
 
 #: ../../admin/auth.rst:11
 msgid ""
@@ -5204,7 +5204,7 @@ msgstr ""
 
 #: ../../admin/auth.rst:649
 msgid "Using bind password"
-msgstr "Bindungs-Passwort verwenden"
+msgstr "Bindungspasswort verwenden"
 
 #: ../../admin/auth.rst:651
 msgid ""
@@ -5212,8 +5212,8 @@ msgid ""
 "search, and provide a user to bind for the search. For example:"
 msgstr ""
 "Wenn Sie keine direkte Bindung für die Authentifizierung verwenden können, "
-"müssen Sie die Suche verwenden und einen Benutzer für die Bindung für die "
-"Suche angeben. Zum Beispiel:"
+"müssen Sie die Suche verwenden, und einen Benutzer zur Bindung für die Suche "
+"angeben. Zum Beispiel:"
 
 #: ../../admin/auth.rst:666
 msgid "Active Directory integration"
@@ -8738,7 +8738,7 @@ msgid ""
 "Template to generate private commit e-mail for an user. Defaults to "
 "``\"{username}@users.noreply.{site_domain}\"``."
 msgstr ""
-"Vorlage zur Erstellung einer privaten E-Mail für einen Benutzer. Der "
+"Vorlage zur Erstellung einer privaten Commit-E-Mail für einen Benutzer. Der "
 "Standardwert ist ``\"{username}@users.noreply.{site_domain}\"``."
 
 #: ../../admin/config.rst:1524
@@ -8891,8 +8891,8 @@ msgid ""
 "If turned on, a CAPTCHA is added to all pages where a users enters their e-"
 "mail address:"
 msgstr ""
-"Wenn diese Option aktiviert ist, wird ein CAPTCHA zu allen Seiten "
-"hinzugefügt, auf denen ein Benutzer seine E-Mail-Adresse eingibt:"
+"Wenn diese Option aktiviert ist, wird auf allen Seiten, auf denen Benutzer "
+"ihre E-Mail-Adressen eingeben, ein CAPTCHA eingefügt:"
 
 #: ../../admin/config.rst:1735
 msgid "New account registration."
@@ -8904,7 +8904,7 @@ msgstr "Passwortwiederherstellung."
 
 #: ../../admin/config.rst:1737
 msgid "Adding e-mail to an account."
-msgstr "E-Mail zu einem Konto hinzufügen."
+msgstr "E-Mail-Adresse zu einem Konto hinzufügen."
 
 #: ../../admin/config.rst:1738
 msgid "Contact form for users that are not signed in."
@@ -12153,7 +12153,7 @@ msgid ""
 "E-mail used as sender address for sending e-mails to the administrator, for "
 "example notifications on failed merges."
 msgstr ""
-"E-Mail, die als Absenderadresse für den Versand von E-Mails an den "
+"E-Mail-Adresse, die als Absenderadresse für den Versand von E-Mails an den "
 "Administrator verwendet wird, z. B. für Benachrichtigungen über "
 "fehlgeschlagene Merges."
 
@@ -14153,10 +14153,10 @@ msgid ""
 "both :setting:`ADMINS` setting and creating `admin` user "
 "(see :envvar:`WEBLATE_ADMIN_PASSWORD` for more info on that)."
 msgstr ""
-"Legt den Namen und die E-Mail des Website-Administrators fest. Es wird "
-"sowohl für die :setting:`ADMINS`-Einstellung als auch für die Erstellung des "
-"`admin`-Benutzers verwendet (siehe :envvar:`WEBLATE_ADMIN_PASSWORD` für "
-"weitere Informationen dazu)."
+"Legt den Namen und die E-Mail-Adresse des Website-Administrators fest. Es "
+"wird sowohl für die :setting:`ADMINS`-Einstellung als auch für die "
+"Erstellung des `admin`-Benutzers verwendet "
+"(siehe :envvar:`WEBLATE_ADMIN_PASSWORD` für weitere Informationen dazu)."
 
 #: ../../admin/install/docker.rst:559
 msgid "Sets the password for the `admin` user."
@@ -16813,7 +16813,7 @@ msgstr "Normalisierung von Unterstrichen und Bindestrichen."
 
 #: ../../admin/languages.rst:45
 msgid "Looking up built-in language aliases."
-msgstr "Suche nach integrierten Sprachaliasen."
+msgstr "Nach integrierten Sprachaliasen suchen."
 
 #: ../../admin/languages.rst:46
 msgid "Looking up by language name."
@@ -18572,8 +18572,9 @@ msgid ""
 "E-mail of author for the suggestions. This user has to exist prior to "
 "importing (you can create one in the admin interface if needed)."
 msgstr ""
-"E-Mail des Autors für die Vorschläge. Dieser Benutzer muss vor dem Import "
-"existieren (Sie können ihn bei Bedarf in der Adminoberfläche anlegen)."
+"E-Mail-Adresse des Autors für die Übersetzungsvorschläge. Dieser Benutzer "
+"muss vor dem Import existieren "
+"(Sie können ihn bei Bedarf in der Adminoberfläche erstellen)."
 
 #: ../../admin/management.rst:106
 msgid "Added parameter for translation mode."
@@ -19124,7 +19125,7 @@ msgid ""
 msgstr ""
 "Mit dieser Option wird lediglich geprüft, ob eine bestimmte Datei importiert "
 "werden kann und es werden mögliche Konflikte aufgrund von Benutzernamen oder "
-"E-Mails gemeldet."
+"E-Mail-Adressen gemeldet."
 
 #: ../../admin/management.rst:614
 msgid "You can dump users from the existing Django site using:"
@@ -19321,9 +19322,9 @@ msgid ""
 "use :samp:`weblate migrate --noinput`, and then create an admin user "
 "using :wladmin:`createadmin` command."
 msgstr ""
-"Wenn Sie die Installation nicht interaktiv durchführen möchten, können "
-"Sie :samp:`weblate migrate --noinput` verwenden und dann mit dem "
-"Befehl :wladmin:`createadmin` einen Administrator-Benutzer anlegen."
+"Wenn Sie die Installation nicht interaktiv durchführen möchten, können Sie "
+":samp:`weblate migrate --noinput` verwenden und dann mit dem Befehl "
+":wladmin:`createadmin` einen Benutzer als Administrator erstellen."
 
 #: ../../admin/management.rst:841
 msgid ":djadmin:`django:migrate`"
@@ -21478,7 +21479,7 @@ msgstr "Neue Übersetzung hinzufügen"
 msgid ""
 "How to handle requests for creation of new languages. Available options:"
 msgstr ""
-"Wie man mit Anfragen zur Erstellung neuer Sprachen umgeht. Verfügbare "
+"Wie man mit Anfragen zum Erstellen neuer Sprachen umgeht. Verfügbare "
 "Optionen:"
 
 #: ../../admin/projects.rst:755
@@ -26675,7 +26676,7 @@ msgstr ":ref:`date-search`."
 
 #: ../../changes.rst:43
 msgid "Last changed lookup in :ref:`search-strings`."
-msgstr "Suche nach letztem Änderungsdatum in :ref:`search-strings`."
+msgstr "In :ref:`search-strings` nach letztem Änderungsdatum suchen."
 
 #: ../../changes.rst:44
 msgid ":doc:`/security/localization-threat` documentation."
@@ -26782,7 +26783,7 @@ msgstr "Hervorhebung der Syntax von sich überschneidenden Elementen."
 
 #: ../../changes.rst:70
 msgid "Searching case sensitivity for short strings."
-msgstr "Groß- und Kleinschreibung bei Suche nach kurzen Zeichenketten."
+msgstr "Groß- und Kleinschreibung beim Suchen nach kurzen Zeichenketten."
 
 #: ../../changes.rst:71
 msgid "Inconsistent file formatting for new translations."
@@ -28121,7 +28122,7 @@ msgstr ""
 #: ../../changes.rst:607
 msgid ":ref:`search-strings` supports searching by source string state."
 msgstr ""
-":ref:`search-strings` unterstützt die Suche nach dem Status der "
+":ref:`search-strings` unterstützt das Suchen nach dem Status der "
 "Ausgangszeichenkette."
 
 #: ../../changes.rst:611
@@ -28421,7 +28422,7 @@ msgstr ""
 
 #: ../../changes.rst:698
 msgid ":http:get:`/api/users/` supports searching by user ID."
-msgstr ":http:get:`/api/users/` unterstützt die Suche nach Benutzer-ID."
+msgstr ":http:get:`/api/users/` unterstützt das Suchen nach der Benutzer-ID."
 
 #: ../../changes.rst:702
 msgid "Avoid query parser crash in multi-threaded environments."
@@ -30600,7 +30601,7 @@ msgstr ":http:get:`/api/component-lists/(str:slug)/components/` hinzugefügt."
 
 #: ../../changes.rst:1614
 msgid "Related glossary terms lookup is now faster."
-msgstr "Die Suche nach zugehörigen Begriffen im Glossar ist jetzt schneller."
+msgstr "Das Suchen nach zugehörigen Begriffen im Glossar ist jetzt schneller."
 
 #: ../../changes.rst:1615
 msgid "Logging of failures when creating pull requests."
@@ -31303,7 +31304,8 @@ msgstr ""
 #: ../../changes/v1.rst:29
 msgid "Users can login by e-mail instead of username."
 msgstr ""
-"Benutzer können sich per E-Mail statt mit ihrem Benutzernamen anmelden."
+"Benutzer können sich per E-Mail-Adresse statt mit ihrem Benutzernamen "
+"anmelden."
 
 #: ../../changes/v1.rst:31
 msgid "Improved source strings review."
@@ -31933,7 +31935,7 @@ msgstr ""
 #: ../../changes/v2.rst:12
 msgid "Added support for searching in several languages at once."
 msgstr ""
-"Unterstützung für die gleichzeitige Suche in mehreren Sprachen hinzugefügt."
+"Unterstützung für das gleichzeitige Suchen in mehreren Sprachen hinzugefügt."
 
 #: ../../changes/v2.rst:13
 msgid "New add-on to configure gettext output wrapping."
@@ -32205,8 +32207,8 @@ msgstr "Verbesserte Leistung beim Aktualisieren großer Übersetzungsdateien."
 #: ../../changes/v2.rst:90
 msgid "Added support for blocking certain e-mails from registration."
 msgstr ""
-"Unterstützung für das Blockieren bestimmter E-Mails bei der Registrierung "
-"hinzugefügt."
+"Unterstützung für das Blockieren bestimmter E-Mail-Adressen bei der "
+"Registrierung hinzugefügt."
 
 #: ../../changes/v2.rst:91
 msgid "Users can now delete their own comments."
@@ -33499,7 +33501,7 @@ msgstr "Die Schriftart Glyphicon durch Awesome ersetzt."
 
 #: ../../changes/v2.rst:458
 msgid "Added icons for social authentication services."
-msgstr "Icons für Authentifizierungsdienste der sozialen Medien hinzugefügt."
+msgstr "Symbole für Authentifizierungsdienste der sozialen Medien hinzugefügt."
 
 #: ../../changes/v2.rst:459
 msgid "Better consistency of button colors and icons."
@@ -34020,8 +34022,8 @@ msgstr "Die Erstellung neuer Sprachen korrigiert."
 #: ../../changes/v3.rst:126
 msgid "Avoid sending auditlog notifications to deleted e-mails."
 msgstr ""
-"Vermeiden des Sendens von Audit-Protokoll-Benachrichtigungen an gelöschte E-"
-"Mails."
+"Vermeiden des Sendens von Audit-Protokoll-Benachrichtigungen an gelöschte E"
+"-Mail-Adressen."
 
 #: ../../changes/v3.rst:127
 msgid "Added support for read-only strings."
@@ -34136,7 +34138,7 @@ msgstr "Das Entfernen von an den Ratenbegrenzer stoßende Konten behoben."
 
 #: ../../changes/v3.rst:158
 msgid "Added search based on priority."
-msgstr "Suche nach Priorität hinzugefügt."
+msgstr "Nach Priorität suchen hinzugefügt."
 
 #: ../../changes/v3.rst:159
 msgid "Fixed possible crash on adding strings to JSON file."
@@ -35663,7 +35665,7 @@ msgstr "Das Speichern von Metriken überarbeitet."
 #: ../../changes/v4.rst:76
 msgid "Added support for searching strings by position."
 msgstr ""
-"Unterstützung für die Suche der Zeichenketten nach Position hinzugefügt."
+"Unterstützung für das Suchen von Zeichenketten nach Position hinzugefügt."
 
 #: ../../changes/v4.rst:78
 msgid ""
@@ -36110,8 +36112,8 @@ msgid ""
 "Added support for choosing different e-mail for commits than for "
 "notifications."
 msgstr ""
-"Unterstützung für die Auswahl einer anderen E-Mail für Commits als für "
-"Benachrichtigungen hinzugefügt."
+"Unterstützung für die Auswahl einer anderen E-Mail-Adresse für Commits als "
+"für Benachrichtigungen hinzugefügt."
 
 #: ../../changes/v4.rst:228
 msgid "The Docker image no longer enables debug mode by default."
@@ -36321,7 +36323,7 @@ msgstr "Überprüfungsstatus immer anzeigen, wenn Überprüfungen aktiviert sind
 
 #: ../../changes/v4.rst:287
 msgid "Added searching support in units API."
-msgstr "Unterstützung für die Suche in der Einheiten-API hinzugefügt."
+msgstr "Unterstützung für das Suchen in der Einheiten-API hinzugefügt."
 
 #: ../../changes/v4.rst:288
 msgid ""
@@ -36994,7 +36996,7 @@ msgstr ""
 
 #: ../../changes/v4.rst:488
 msgid "Added support for searching for resolved comments."
-msgstr "Unterstützung für die Suche nach geklärten Kommentaren ergänzt."
+msgstr "Unterstützung für das Suchen nach geklärten Kommentaren ergänzt."
 
 #: ../../changes/v4.rst:489
 msgid "Added support for borgbackup 1.2."
@@ -38155,7 +38157,7 @@ msgstr ""
 
 #: ../../changes/v4.rst:840
 msgid "Added support for searching in explanations."
-msgstr "Unterstützung für die Suche in Erklärungen hinzugefügt."
+msgstr "Unterstützung für das Suchen in Erklärungen hinzugefügt."
 
 #: ../../changes/v4.rst:841
 msgid "Strings can now be added and removed in bilingual formats as well."
@@ -39053,7 +39055,7 @@ msgstr ""
 
 #: ../../changes/v4.rst:1092
 msgid "Add support for searching by component and project."
-msgstr "Unterstützung für die Suche nach Komponente und Projekt hinzufügen."
+msgstr "Unterstützung für das Suchen nach Komponente und Projekt hinzufügen."
 
 #: ../../changes/v4.rst:1100
 msgid ""
@@ -39110,9 +39112,9 @@ msgid ""
 "The username and email fields on user database now should be case "
 "insensitive unique. It was mistakenly not enforced with PostgreSQL."
 msgstr ""
-"Die Felder für Benutzername und E-Mail in der Benutzerdatenbank sollten nun "
-"ohne Berücksichtigung der Groß-/Kleinschreibung eindeutig sein. Dies wurde "
-"bei PostgreSQL fälschlicherweise nicht erzwungen."
+"Die Felder für Benutzername und E-Mail-Adresse in der Benutzerdatenbank "
+"sollten nun ohne Berücksichtigung der Groß-/Kleinschreibung eindeutig sein. "
+"Dies wurde bei PostgreSQL fälschlicherweise nicht erzwungen."
 
 #: ../../changes/v4.rst:1109
 msgid "Weblate 4.1.1"
@@ -39186,7 +39188,7 @@ msgstr ""
 #: ../../changes/v4.rst:1130
 msgid "Added support for searching source strings with screenshot."
 msgstr ""
-"Unterstützung für die Suche nach Ausgangszeichenketten mit Bildschirmfoto "
+"Unterstützung für das Suchen nach Ausgangszeichenketten mit Bildschirmfoto "
 "hinzugefügt."
 
 #: ../../changes/v4.rst:1131
@@ -43814,8 +43816,8 @@ msgstr ""
 msgid ""
 ":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` can make e-mails private by default."
 msgstr ""
-"Mit :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` können E-Mails standardmäßig auf "
-"privat gestellt werden."
+"Mit :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` können E-Mail-Adressen "
+"standardmäßig auf privat gestellt werden."
 
 #: ../../devel/integration.rst:7
 msgid "Importing a localization project into Weblate"
@@ -45618,10 +45620,11 @@ msgid ""
 "user (see :setting:`ANONYMOUS_USER_NAME`). You can change the name and e-"
 "mail in the management interface."
 msgstr ""
-"Bei Commits, deren Urheberschaft nicht bekannt ist (z. B. anonyme Vorschläge "
-"oder maschinelle Übersetzungsergebnisse), wird die Urheberschaft dem "
-"anonymen Benutzer zugeschrieben (siehe :setting:`ANONYMOUS_USER_NAME`). Sie "
-"können den Namen und die E-Mail in der Verwaltungsoberfläche ändern."
+"Bei Commits, deren Urheberschaft nicht bekannt ist "
+"(z. B. anonyme Vorschläge oder maschinelle Übersetzungsergebnisse), wird die "
+"Urheberschaft dem anonymen Benutzer zugeschrieben "
+"(siehe :setting:`ANONYMOUS_USER_NAME`). Sie können den Namen und die E-Mail-"
+"Adresse in der Verwaltungsoberfläche ändern."
 
 #: ../../faq.rst:282
 msgid "How to move files in the repository without losing history in Weblate?"
@@ -49180,10 +49183,8 @@ msgid ""
 msgstr ""
 
 #: ../../security/data-residency.rst:28
-#, fuzzy
-#| msgid "Custom access control"
 msgid "Customer control"
-msgstr "Benutzerdefinierte Zugriffssteuerung"
+msgstr "Kundenverwaltung"
 
 #: ../../security/data-residency.rst:30
 msgid ""
@@ -49193,6 +49194,11 @@ msgid ""
 "instances are available for organizations needing isolated or customized "
 "environments."
 msgstr ""
+"Die Kunden behalten die volle Kontrolle über ihre Daten: – Projekte, "
+"Übersetzungen und Benutzerkonten können jederzeit exportiert oder gelöscht "
+"werden. – Externe Integrationen sind optional und vollständig "
+"konfigurierbar. – Dedizierte Weblate-Instanzen sind für Unternehmen "
+"verfügbar, die isolierte oder angepasste Einsatzumgebungen benötigen."
 
 #: ../../security/dependencies.rst:2
 msgid "Dependencies"
@@ -50130,10 +50136,8 @@ msgid "Risk: Translators deny responsibility for injected issues."
 msgstr ""
 
 #: ../../security/localization-threat.rst:56
-#, fuzzy
-#| msgid "Allow changes to the Weblate repository"
 msgid "All changes in Weblate are logged."
-msgstr "Änderungen am Weblate-Repository erlauben"
+msgstr "Alle Änderungen in Weblate werden protokolliert."
 
 #: ../../security/localization-threat.rst:57
 msgid "Use Weblate with version control for immutable history."
@@ -51465,7 +51469,7 @@ msgstr ""
 #: ../../security/threat-model.rst:179
 msgid "Dependency vulnerability scanning, see :doc:`/security/dependencies`."
 msgstr ""
-"Suche nach Schwachstellen in Abhängigkeiten, siehe :doc:`/security/"
+"Nach Schwachstellen in Abhängigkeiten suchen, siehe :doc:`/security/"
 "dependencies`."
 
 #: ../../security/threat-model.rst:180
@@ -55531,7 +55535,7 @@ msgstr "Suche"
 
 #: ../../user/search.rst:7
 msgid "Searching for strings"
-msgstr "Suche nach Zeichenketten"
+msgstr "Nach Zeichenketten suchen"
 
 #: ../../user/search.rst:9
 msgid ""
@@ -55576,36 +55580,37 @@ msgstr "Felder"
 #: ../../user/search.rst:28
 msgid "Source string case-insensitive search."
 msgstr ""
-"Suche in Ausgangszeichenkette ohne Berücksichtigung der Groß-/"
-"Kleinschreibung."
+"In Ausgangszeichenkette ohne Berücksichtigung der Groß-/Kleinschreibung "
+"suchen."
 
 #: ../../user/search.rst:30
 msgid "Target string case-insensitive search."
 msgstr ""
-"Suche in Zielzeichenkette ohne Berücksichtigung der Groß-/Kleinschreibung."
+"In Zielzeichenkette ohne Berücksichtigung der Groß-/Kleinschreibung suchen."
 
 #: ../../user/search.rst:32
 msgid "Context string case-insensitive search."
 msgstr ""
-"Suche in Kontextzeichenkette ohne Berücksichtigung der Groß-/Kleinschreibung."
+"In Kontextzeichenkette ohne Berücksichtigung der Groß-/Kleinschreibung "
+"suchen."
 
 #: ../../user/search.rst:34
 msgid "Key string case-insensitive search."
 msgstr ""
-"Suche in Schlüsselzeichenkette ohne Berücksichtigung der Groß-/"
-"Kleinschreibung."
+"In Schlüsselzeichenkette ohne Berücksichtigung der Groß-/Kleinschreibung "
+"suchen."
 
 #: ../../user/search.rst:36
 msgid "Source string description case-insensitive search."
 msgstr ""
-"Suche in Beschreibung der Ausgangszeichenkette ohne Berücksichtigung der "
-"Groß-/Kleinschreibung."
+"In Beschreibung der Ausgangszeichenkette ohne Berücksichtigung der Groß-/"
+"Kleinschreibung suchen."
 
 #: ../../user/search.rst:38
 msgid "Location string case-insensitive search."
 msgstr ""
-"Suche in Standortzeichenkette ohne Berücksichtigung der Groß-/"
-"Kleinschreibung."
+"In Standortzeichenkette ohne Berücksichtigung der Groß-/Kleinschreibung "
+"suchen."
 
 #: ../../user/search.rst:40
 msgid "String priority."
@@ -55628,8 +55633,8 @@ msgid ""
 "Search for string states (``approved``, ``translated``, ``needs-editing``, "
 "``empty``, ``read-only``)."
 msgstr ""
-"Suche nach Zeichenkettenstatus (``approved``, ``translated``, ``needs-"
-"editing``, ``empty``, ``read-only``)."
+"Nach Zeichenkettenstatus suchen "
+"(``approved``, ``translated``, ``needs-editing``, ``empty``, ``read-only``)."
 
 #: ../../user/search.rst:50
 msgid ""
@@ -55638,14 +55643,14 @@ msgid ""
 "needing translation as ``state:<translated``."
 msgstr ""
 "Dieses Feld unterstützt auch :ref:`search-operators`, so dass die Suche nach "
-"abgeschlossenen Zeichenketten als ``state:>=translated``, die Suche nach "
-"Zeichenketten, die übersetzt werden müssen, als ``state:<translated`` "
-"durchgeführt werden kann."
+"abgeschlossenen Zeichenketten als ``state:>=translated``, die Suche nach zu "
+"übersetzenden Zeichenketten als ``state:<translated`` durchgeführt werden "
+"kann."
 
 #: ../../user/search.rst:52
 msgid "Search for source string states, see above for more info."
 msgstr ""
-"Suche nach Status der Ausgangszeichenketten, siehe oben für weitere "
+"Nach Status der Ausgangszeichenketten suchen, siehe oben für weitere "
 "Informationen."
 
 #: ../../user/search.rst:54
@@ -55659,10 +55664,10 @@ msgid ""
 "``translation``, ``variant``, ``screenshot``, ``flags``, ``explanation``, "
 "``glossary``, ``note``, ``label``, ``location``."
 msgstr ""
-"Suche nach Zeichenkette mit den Attributen – ``plural``, ``context``, "
-"``suggestion``, ``comment``, ``check``, ``dismissed-check``, "
-"``translation``, ``variant``, ``screenshot``, ``flags``, ``explanation``, "
-"``glossary``, ``note``, ``label``, ``location``."
+"Nach Zeichenkette mit den Attributen – ``plural``, ``context``, "
+"``suggestion``, ``comment``, ``check``, ``dismissed-check``, ``translation``"
+", ``variant``, ``screenshot``, ``flags``, ``explanation``, ``glossary``, "
+"``note``, ``label``, ``location`` suchen."
 
 #: ../../user/search.rst:58
 msgid "Filters string on a condition:"
@@ -55711,8 +55716,9 @@ msgid ""
 "Component slug or name case-insensitive search, see :ref:`component-slug` "
 "and :ref:`component-name`."
 msgstr ""
-"Suche nach Komponenten-Slug oder -Name ohne Berücksichtigung der Groß-/"
-"Kleinschreibung, siehe :ref:`component-slug` und :ref:`component-name`."
+"Nach Komponenten-Slug oder -Name ohne Berücksichtigung der Groß-/"
+"Kleinschreibung suchen, siehe :ref:`component-slug` und :ref:`component-"
+"name`."
 
 #: ../../user/search.rst:77
 msgid "Project slug, see :ref:`project-slug`."
@@ -55801,11 +55807,11 @@ msgstr ""
 
 #: ../../user/search.rst:103
 msgid "Search in user comments."
-msgstr "Suche in Benutzerkommentaren."
+msgstr "In Benutzerkommentaren suchen."
 
 #: ../../user/search.rst:105
 msgid "Search in resolved comments."
-msgstr "Suche in geklärten Kommentaren."
+msgstr "In geklärten Kommentaren suchen."
 
 #: ../../user/search.rst:107
 msgid "Filter by comment author."
@@ -55813,7 +55819,7 @@ msgstr "Nach Autor des Kommentars filtern."
 
 #: ../../user/search.rst:109
 msgid "Search in suggestions."
-msgstr "Suche in Vorschlägen."
+msgstr "In Vorschlägen suchen."
 
 #: ../../user/search.rst:111
 msgid "Filter by suggestion author."
@@ -55821,15 +55827,15 @@ msgstr "Nach Autor des Vorschlags filtern."
 
 #: ../../user/search.rst:113
 msgid "Search in explanations."
-msgstr "Suche in Erklärungen."
+msgstr "In Erklärungen suchen."
 
 #: ../../user/search.rst:115
 msgid "Search in labels."
-msgstr "Suche in Labels."
+msgstr "In Labels suchen."
 
 #: ../../user/search.rst:117
 msgid "Search in screenshots."
-msgstr "Suche in Bildschirmfotos."
+msgstr "In Bildschirmfotos suchen."
 
 #: ../../user/search.rst:119
 msgid "Filter by count of labels"
@@ -55908,7 +55914,7 @@ msgstr "Zeichenketten mit Positionen zwischen 10 und 100 (einschließlich)."
 
 #: ../../user/search.rst:162
 msgid "Searching for DATETIME fields"
-msgstr "Suche nach DATETIME-Feldern"
+msgstr "Nach DATETIME-Feldern suchen"
 
 #: ../../user/search.rst:164
 msgid ""
@@ -56099,11 +56105,11 @@ msgstr "Der durchsuchende Benutzer verfügt über ähnliche Suchmöglichkeiten:"
 
 #: ../../user/search.rst:254
 msgid "Search in usernames."
-msgstr "Suche nach Benutzernamen."
+msgstr "Nach Benutzernamen suchen."
 
 #: ../../user/search.rst:256
 msgid "Search in full names."
-msgstr "Suche nach vollständigen Namen."
+msgstr "Nach vollständigen Namen suchen."
 
 #: ../../user/search.rst:258
 msgid ""
@@ -56147,15 +56153,15 @@ msgstr ""
 
 #: ../../user/search.rst:277
 msgid "Search for bots (used for project scoped tokens)."
-msgstr "Suche nach Bots (für projektspezifische Token)."
+msgstr "Nach Bots suchen (für projektspezifische Token)."
 
 #: ../../user/search.rst:279
 msgid "Search for active users."
-msgstr "Suche nach aktiven Benutzern."
+msgstr "Nach aktiven Benutzern suchen."
 
 #: ../../user/search.rst:281
 msgid "Search by e-mail."
-msgstr "Suche nach E-Mail."
+msgstr "Nach E-Mail-Adresse suchen."
 
 #: ../../user/translating.rst:2
 msgid "Translating using Weblate"
@@ -57172,9 +57178,9 @@ msgid ""
 "description :guilabel:`Weblate push user`)."
 msgstr ""
 "Für Hosted Weblate gibt es einen dedizierten Push-Benutzer, der auf GitHub, "
-"Bitbucket, Codeberg und GitLab registriert ist (mit dem "
-"Benutzernamen :guilabel:`weblate`, der E-Mail ``hosted@weblate.org`` und "
-"einem Namen oder einer Profilbeschreibung :guilabel:`Weblate push user`)."
+"Bitbucket, Codeberg und GitLab registriert ist (mit dem Benutzernamen "
+":guilabel:`weblate`, der E-Mail-Adresse ``hosted@weblate.org`` und einem "
+"Namen oder einer Profilbeschreibung :guilabel:`Weblate push user`)."
 
 #: ../../vcs.rst:33
 msgid ""
@@ -57183,9 +57189,9 @@ msgid ""
 "to find the correct user for Hosted Weblate."
 msgstr ""
 "Auf den Plattformen kann es weitere Benutzer von Weblate geben, die für "
-"andere Weblate-Instanzen bestimmt sind. Es wird empfohlen, nach der E-Mail "
-"``hosted@weblate.org`` zu suchen, um den richtigen Benutzer für Hosted "
-"Weblate zu finden."
+"andere Weblate-Instanzen bestimmt sind. Es wird empfohlen, nach der E-Mail-"
+"Adresse ``hosted@weblate.org`` zu suchen, um den richtigen Benutzer für "
+"Hosted Weblate zu finden."
 
 #: ../../vcs.rst:37
 msgid ""

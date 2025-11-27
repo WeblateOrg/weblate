@@ -15,6 +15,8 @@ from weblate.trans.models.pending import PendingUnitChange
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_FUZZY,
+    STATE_NEEDS_CHECKING,
+    STATE_NEEDS_REWRITING,
     STATE_TRANSLATED,
 )
 
@@ -25,7 +27,13 @@ if TYPE_CHECKING:
     from weblate.trans.models import Label, Project
     from weblate.trans.models.unit import UnitQuerySet
 
-EDITABLE_STATES = {STATE_FUZZY, STATE_TRANSLATED, STATE_APPROVED}
+EDITABLE_STATES = {
+    STATE_FUZZY,
+    STATE_NEEDS_REWRITING,
+    STATE_NEEDS_CHECKING,
+    STATE_TRANSLATED,
+    STATE_APPROVED,
+}
 
 
 def bulk_perform(  # noqa: C901

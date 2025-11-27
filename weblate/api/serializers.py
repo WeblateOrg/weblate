@@ -98,6 +98,7 @@ class MultiFieldHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
         super().__init__(**kwargs)
         self.lookup_field = lookup_field
 
+    # pylint: disable-next=redefined-builtin
     def get_url(self, obj, view_name, request: AuthenticatedHttpRequest, format):  # noqa: A002
         """
         Given an object, return the URL that hyperlinks to the object.
@@ -596,6 +597,7 @@ class RelatedTaskField(serializers.HyperlinkedRelatedField):
     def get_attribute(self, instance):
         return instance
 
+    # pylint: disable-next=redefined-builtin
     def get_url(self, obj, view_name, request: Request, format):  # noqa: A002
         if not obj.in_progress():
             return None
@@ -1233,8 +1235,8 @@ class UnitLabelsSerializer(serializers.RelatedField, LabelSerializer):
 
 
 class UnitFlatLabelsSerializer(UnitLabelsSerializer):
-    def to_representation(self, value):
-        return value.id
+    def to_representation(self, instance):
+        return instance.id
 
 
 class UnitSerializer(serializers.ModelSerializer[Unit]):
@@ -1664,7 +1666,7 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
         if not instance:
             if component:
                 self.check_addon(name, Addon.objects.filter_component(component))
-                if not addon.can_install(component, None):
+                if not addon.can_install(component=component):
                     raise serializers.ValidationError(
                         {"name": f"could not enable add-on {name}, not compatible"}
                     )

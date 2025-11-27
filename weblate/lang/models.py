@@ -848,7 +848,7 @@ class Language(models.Model, CacheKeyMixin):
             aliases.extend(
                 default_lang
                 for default_lang in DEFAULT_LANGS
-                if default_lang.startswith(self.code)
+                if default_lang.startswith(f"{self.code}_")
             )
         return sorted(aliases)
 
@@ -1173,7 +1173,7 @@ class PluralMapper:
         self.target_plural = target_plural
         self.same_plurals = source_plural.same_as(target_plural)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"<PluralMapper '{self.source_plural}' -> '{self.target_plural}'>"
 
     @cached_property

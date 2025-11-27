@@ -27,13 +27,11 @@ from django.urls import reverse
 from django.utils.translation import gettext
 from django.views.decorators.http import require_POST
 
-from weblate.auth.models import AuthenticatedHttpRequest
 from weblate.checks.models import CHECKS, get_display_checks
 from weblate.glossary.forms import TermForm
 from weblate.glossary.models import fetch_glossary_terms, get_glossary_terms
 from weblate.screenshots.forms import ScreenshotForm
 from weblate.trans.actions import ActionEvents
-from weblate.trans.autotranslate import AutoTranslate
 from weblate.trans.exceptions import FileParseError, SuggestionSimilarToTranslationError
 from weblate.trans.forms import (
     AutoForm,
@@ -47,7 +45,15 @@ from weblate.trans.forms import (
     ZenTranslationForm,
     get_new_unit_form,
 )
-from weblate.trans.models import Comment, Suggestion, Translation, Unit, Vote
+from weblate.trans.models import (
+    Category,
+    Comment,
+    Component,
+    Suggestion,
+    Translation,
+    Unit,
+    Vote,
+)
 from weblate.trans.models.unit import fill_in_source_translation
 from weblate.trans.tasks import auto_translate
 from weblate.trans.templatetags.translations import (
@@ -778,36 +784,67 @@ def translate(request: AuthenticatedHttpRequest, path):
 @require_POST
 @login_required
 def auto_translation(request: AuthenticatedHttpRequest, path):
-    translation = parse_path(request, path, (Translation,))
-    project = translation.component.project
+    obj = parse_path(request, path, (Translation, Component, Category, ProjectLanguage))
+    update_locked = False
+    task_kwargs = {}
+
+    match obj:
+        case Translation():
+            translation = obj
+            project = translation.component.project
+            autoform = AutoForm(translation.component, request.user, request.POST)
+            update_locked = translation.component.locked
+            task_kwargs["translation_id"] = translation.id
+        case Component():
+            component = obj
+            project = component.project
+            autoform = AutoForm(component, request.user, request.POST)
+            update_locked = component.locked
+            task_kwargs["component_id"] = component.id
+        case Category():
+            category = obj
+            project = category.project
+            autoform = AutoForm(category.project, request.user, request.POST)
+            update_locked = category.component_set.filter(locked=True).exists()
+            task_kwargs["category_id"] = category.id
+        case ProjectLanguage():
+            project = obj.project
+            autoform = AutoForm(project, request.user, request.POST)
+            update_locked = project.locked
+            task_kwargs.update(
+                {
+                    "project_id": project.id,
+                    "language_id": obj.language.id,
+                }
+            )
+        case _:  # pragma: no cover
+            msg = "Unsupported object for auto translation"
+            raise PermissionDenied(msg)
+
     if not request.user.has_perm("translation.auto", project):
         raise PermissionDenied
 
-    autoform = AutoForm(translation.component, request.user, request.POST)
-
-    if translation.component.locked or not autoform.is_valid():
+    if update_locked or not autoform.is_valid():
         messages.error(request, gettext("Could not process form!"))
         show_form_errors(request, autoform)
-        return redirect(translation)
+        return redirect(obj)
 
     if settings.CELERY_TASK_ALWAYS_EAGER:
-        auto = AutoTranslate(
-            user=request.user,
-            translation=translation,
+        result = auto_translate(
+            **task_kwargs,
+            user_id=request.user.id,
             mode=autoform.cleaned_data["mode"],
             q=autoform.cleaned_data.get("q"),
-        )
-        message = auto.perform(
             auto_source=autoform.cleaned_data["auto_source"],
-            source=autoform.cleaned_data["component"],
+            component=autoform.cleaned_data["component"],
             engines=autoform.cleaned_data["engines"],
             threshold=autoform.cleaned_data["threshold"],
         )
-        messages.success(request, message)
+        messages.success(request, result["message"])
     else:
         task = auto_translate.delay(
+            **task_kwargs,
             user_id=request.user.id,
-            translation_id=translation.id,
             mode=autoform.cleaned_data["mode"],
             q=autoform.cleaned_data.get("q"),
             auto_source=autoform.cleaned_data["auto_source"],
@@ -819,7 +856,7 @@ def auto_translation(request: AuthenticatedHttpRequest, path):
             request, gettext("Automatic translation in progress"), f"task:{task.id}"
         )
 
-    return redirect(translation)
+    return redirect(obj)
 
 
 @login_required

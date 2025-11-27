@@ -185,6 +185,7 @@ class SearchField(Field):
         kwargs["template"] = "snippets/query-field.html"
         super().__init__(*args, **kwargs)
 
+    # pylint: disable-next=arguments-differ
     def render(self, form, context, template_pack=TEMPLATE_PACK, **kwargs):
         extra_context = {"custom_filter_list": self.get_search_query_choices()}
         return super().render(form, context, template_pack, extra_context, **kwargs)

@@ -3,12 +3,10 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
-import re
 from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.contrib import auth
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import AnonymousUser
 from django.utils.functional import SimpleLazyObject
 from django.utils.translation import activate, get_language, get_language_from_request
@@ -47,9 +45,6 @@ class AuthenticationMiddleware(OTPMiddleware):
     It subclasses OTPMiddleware to get access to _verify_user.
     """
 
-    def __init__(self, get_response=None) -> None:
-        self.get_response = get_response
-
     def __call__(self, request: AuthenticatedHttpRequest):
         from weblate.lang.models import Language
 
@@ -86,79 +81,3 @@ class AuthenticationMiddleware(OTPMiddleware):
             set_lang_cookie(response, user.profile)
 
         return response
-
-
-class RequireLoginMiddleware:
-    """
-    Middleware that applies the login_required decorator to matching URL patterns.
-
-    To use, add the class to MIDDLEWARE and
-    define LOGIN_REQUIRED_URLS and LOGIN_REQUIRED_URLS_EXCEPTIONS in your
-    settings.py. For example:
-    ------
-    LOGIN_REQUIRED_URLS = (
-        r'/topsecret/(.*)$',
-    )
-    LOGIN_REQUIRED_URLS_EXCEPTIONS = (
-        r'/topsecret/login(.*)$',
-        r'/topsecret/logout(.*)$',
-    )
-    ------
-    LOGIN_REQUIRED_URLS is where you define URL patterns; each pattern must
-    be a valid regex.
-
-    LOGIN_REQUIRED_URLS_EXCEPTIONS is, conversely, where you explicitly
-    define any exceptions (like login and logout URLs).
-    """
-
-    def __init__(self, get_response=None) -> None:
-        self.get_response = get_response
-        self.required = self.get_setting_re(settings.LOGIN_REQUIRED_URLS)
-        self.exceptions = self.get_setting_re(settings.LOGIN_REQUIRED_URLS_EXCEPTIONS)
-
-    def get_setting_re(self, setting):
-        """Grab regexp list from settings and compiles them."""
-        return tuple(
-            re.compile(url.replace("{URL_PREFIX}", settings.URL_PREFIX))
-            for url in setting
-        )
-
-    def process_view(
-        self, request: AuthenticatedHttpRequest, view_func, view_args, view_kwargs
-    ):
-        """Check request whether it needs to enforce login for this URL."""
-        # No need to process URLs if not configured
-        if not self.required:
-            return None
-
-        # No need to process URLs if user already signed in
-        if request.user.is_authenticated:
-            return None
-
-        # Let gitexporter handle authentication
-        # - it doesn't go through standard Django authentication
-        # - once HTTP_AUTHORIZATION is set, it enforces it
-        if "weblate.gitexport" in settings.INSTALLED_APPS:
-            import weblate.gitexport.views
-
-            if request.path.startswith(f"{settings.URL_PREFIX}/git/"):
-                if request.headers.get("authorization"):
-                    return None
-                return weblate.gitexport.views.response_authenticate()
-
-        # An exception match should immediately return None
-        for url in self.exceptions:
-            if url.match(request.path):
-                return None
-
-        # Requests matching a restricted URL pattern are returned
-        # wrapped with the login_required decorator
-        for url in self.required:
-            if url.match(request.path):
-                return login_required(view_func)(request, *view_args, **view_kwargs)
-
-        # Explicitly return None for all non-matching requests
-        return None
-
-    def __call__(self, request: AuthenticatedHttpRequest):
-        return self.get_response(request)

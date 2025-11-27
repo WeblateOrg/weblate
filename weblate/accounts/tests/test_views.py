@@ -111,6 +111,17 @@ class ViewTest(RepoTestCase):
         response = self.client.post(reverse("contact"), CONTACT_DATA)
         self.assertNotContains(response, message)
 
+    @override_settings(CONTACT_FORM="disabled")
+    def test_contact_disabled(self) -> None:
+        """Test for disabled contact form."""
+        # Test GET request
+        response = self.client.get(reverse("contact"))
+        self.assertEqual(response.status_code, 404)
+
+        # Test POST request
+        response = self.client.post(reverse("contact"), CONTACT_DATA)
+        self.assertEqual(response.status_code, 404)
+
     @override_settings(OFFER_HOSTING=False)
     def test_hosting_disabled(self) -> None:
         """Test for hosting form with disabled hosting."""

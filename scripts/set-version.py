@@ -4,7 +4,6 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import os
 import re
 import subprocess
 import sys
@@ -22,26 +21,20 @@ if version.count(".") == 1:
     version_full = f"{version}.0"
 
 
-def replace_file(name, search, replace) -> None:
-    with open(name) as handle:
-        content = handle.read()
+def replace_file(name: str, search: str, replace: str) -> None:
+    content = Path(name).read_text(encoding="utf-8")
 
     content = re.sub(search, replace, content, flags=re.MULTILINE)
-    with open(name, "w") as handle:
-        handle.write(content)
+    Path(name).write_text(content, encoding="utf-8")
 
 
-def prepend_file(name, content) -> None:
-    with open(name) as handle:
-        content += handle.read()
-
-    with open(name, "w") as handle:
-        handle.write(content)
+def prepend_file(name: str, content: str) -> None:
+    content += Path(name).read_text(encoding="utf-8")
+    Path(name).write_text(content, encoding="utf-8")
 
 
 yaml = YAML()
-with open(os.path.expanduser("~/.config/hub")) as handle:
-    config = yaml.load(handle.read())
+config = yaml.load(Path("~/.config/hub").expanduser().read_text(encoding="utf-8"))
 
 # Get/create milestone
 milestones_api = "https://api.github.com/repos/WeblateOrg/weblate/milestones"

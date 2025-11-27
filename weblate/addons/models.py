@@ -103,6 +103,7 @@ class Addon(models.Model):
         super().__init__(*args, **kwargs)
         self.acting_user = acting_user
 
+    # pylint: disable-next=arguments-differ
     def save(
         self, force_insert=False, force_update=False, using=None, update_fields=None
     ):
@@ -359,7 +360,7 @@ def execute_addon_event(
         if (
             component
             and not addon.component
-            and not addon.addon.can_install(component, None)
+            and not addon.addon.can_install(component=component)
         ):
             addon_logger(
                 "debug",
@@ -399,7 +400,7 @@ def execute_addon_event(
                 project=component.project if component else None,
             )
             # Uninstall no longer compatible add-ons
-            if component and not addon.addon.can_install(component, None):
+            if component and not addon.addon.can_install(component=component):
                 addon.disable()
                 component.drop_addons_cache()
         else:

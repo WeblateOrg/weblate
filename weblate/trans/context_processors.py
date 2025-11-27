@@ -3,7 +3,6 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
-import random
 from typing import TYPE_CHECKING
 from urllib.parse import urlparse
 
@@ -36,6 +35,7 @@ CONTEXT_SETTINGS = [
     "GOOGLE_ANALYTICS_ID",
     "ENABLE_HOOKS",
     "REGISTRATION_OPEN",
+    "CONTACT_FORM",
     "GET_HELP_URL",
     "STATUS_URL",
     "LEGAL_URL",
@@ -95,20 +95,6 @@ def get_bread_image(path) -> str:
     }:
         return "glossary.svg"
     return "project.svg"
-
-
-def get_interledger_payment_pointer() -> str:
-    interledger_payment_pointers: list[str] = []
-    if settings.INTERLEDGER_PAYMENT_BUILTIN:
-        # Weblate funding
-        interledger_payment_pointers.append("$ilp.uphold.com/ENU7fREdeZi9")
-
-    interledger_payment_pointers.extend(settings.INTERLEDGER_PAYMENT_POINTERS)
-
-    if not interledger_payment_pointers:
-        return None
-
-    return random.choice(interledger_payment_pointers)  # noqa: S311
 
 
 def weblate_context(request: AuthenticatedHttpRequest):
@@ -171,7 +157,6 @@ def weblate_context(request: AuthenticatedHttpRequest):
         ).order_by("-timestamp"),
         "preconnect_list": get_preconnect_list(),
         "custom_css_hash": CustomCSSView.get_hash(request),
-        "interledger_payment_pointer": get_interledger_payment_pointer(),
         "theme": theme,
     }
 

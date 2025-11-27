@@ -28,7 +28,7 @@ class AppStoreFormatTest(BaseFormatTest):
     BASE = os.path.dirname(APPSTORE_FILE)
     EXPECTED_FLAGS = "max-length:80"
 
-    def parse_file(self, filename):
+    def parse_file(self, filename: str, template: str | None = None):
         if not os.path.isdir(filename):
             filename = os.path.dirname(filename)
         return self.format_class(filename)

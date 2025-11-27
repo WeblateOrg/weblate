@@ -113,7 +113,7 @@ class HgRepository(Repository):
             config.set(section, option, value)
             changed = True
         if changed:
-            with open(filename, "w") as handle:
+            with open(filename, "w", encoding="utf-8") as handle:
                 config.write(handle)
 
     def set_committer(self, name, mail) -> None:

@@ -261,7 +261,7 @@ class AddonGuideline(Guideline):
         if self.addon not in ADDONS:
             return False
         addon = ADDONS[self.addon]
-        return addon.can_install(self.component, None)
+        return addon.can_install(component=self.component)
 
     def get_doc_url(self, user=None):
         return get_doc_url(

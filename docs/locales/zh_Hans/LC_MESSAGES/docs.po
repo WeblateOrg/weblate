@@ -24,13 +24,14 @@
 # Deleted User <hamburger1024@users.noreply.hosted.weblate.org>, 2025.
 # GitHub webhook <noreply-webhook-github@weblate.org>, 2025.
 # Kevin Zhang <ztm0929@icloud.com>, 2025.
+# marvel at flowers <qiuhangli_2024@qq.com>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-27 08:36+0100\n"
-"PO-Revision-Date: 2025-11-04 10:52+0000\n"
-"Last-Translator: Kevin Zhang <ztm0929@icloud.com>\n"
+"PO-Revision-Date: 2025-11-22 20:00+0000\n"
+"Last-Translator: 大学没毕业 <ziweidao@foxmail.com>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -38,7 +39,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.14.1-dev\n"
+"X-Generator: Weblate 5.15-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:215
@@ -6735,9 +6736,9 @@ msgid ""
 "all subdomains (e.g ``.example.com`` will match ``cdn.example.com`` or "
 "``static.example.com``)."
 msgstr ""
-"预期的是主机名/域名列表。可以使用完全合格的名称（如 ``www.example.com`` ）或"
-"在名称前加上英文句号作为匹配所有子域名的通配符（如 ``.example.com`` 会匹配 "
-"``cdn.example.com`` 或 ``static.example.com`` ）。"
+"预期的是主机名/域名列表。可以使用完全合格的名称（如 ``www.example.com``）或在"
+"名称前加上英文句号作为匹配所有子域名的通配符（如 ``.example.com`` 会匹配 "
+"``cdn.example.com`` 或 ``static.example.com``）。"
 
 #: ../../admin/config.rst:58
 msgid "Defaults to `[*]` which will allow all domains."
@@ -7524,8 +7525,8 @@ msgid ""
 "`API token permissions <https://support.atlassian.com/bitbucket-cloud/docs/"
 "api-token-permissions/>`_"
 msgstr ""
-"` API 令牌权限 <https://support.atlassian.com/bitbucket-cloud/docs/app-"
-"password-permissions/>`_"
+"`API 令牌权限 <https://support.atlassian.com/bitbucket-cloud/docs/"
+"app-password-permissions/>`_"
 
 #: ../../admin/config.rst:996
 msgid "List for credentials for Azure DevOps servers."
@@ -7948,7 +7949,7 @@ msgstr ""
 #: ../../admin/config.rst:1539
 msgid ""
 "Defines how many backups per project are kept on the server. Defaults to 3."
-msgstr "定义每个项目在服务器上保留多少备份，它默认为3。"
+msgstr "定义每个项目在服务器上保留多少备份，默认值为 3。"
 
 #: ../../admin/config.rst:1552
 msgid ""
@@ -10516,7 +10517,7 @@ msgid ""
 "the name of the role Weblate should alter during the database migration."
 msgstr ""
 "数据库迁移用 Weblate 所用数据库角色扮演 `ALTER ROLE <https://"
-"www.postgresql.org/docs/16/sql-alterrole.html>`_ 。在多数情况下，角色名称与用"
+"www.postgresql.org/docs/16/sql-alterrole.html>`_。在多数情况下，角色名称与用"
 "户名匹配。在更复杂的设置中，角色名称与用户名不同，你在数据库迁移过程中会得到"
 "不存在的角色的错误信息(``psycopg2.errors.UndefinedObject: role "
 "\"weblate@hostname\" does not exist``)。已知这会在 PostgreSQL 的 Azure 数据库"
@@ -15660,7 +15661,8 @@ msgstr "译者人格面貌"
 msgid ""
 "Describe the persona of translator to improve the accuracy of the "
 "translation. For example: “You are a squirrel breeder.”"
-msgstr "描述译者人格面貌以改进翻译的精确度。比如，“你是松鼠饲养员。”"
+msgstr "描述译员表象人格改进翻译准确性，使其更专注于在特定语境和文化背景下进行准确的"
+"意义转换，从而显著提升翻译质量。如“你是一名松鼠饲养员。”"
 
 #: ../../admin/machine.rst:184 ../../admin/machine.rst:685
 msgid "Translator style"
@@ -15669,7 +15671,7 @@ msgstr "译者风格"
 #: ../../admin/machine.rst:184 ../../admin/machine.rst:685
 msgid ""
 "Describe the style of translation. For example: “Use informal language.”"
-msgstr "描述翻译风格。比如，“使用非正式语言。”"
+msgstr "请描述翻译的风格。例如：“使用口语化语言。”"
 
 #: ../../admin/machine.rst:186
 msgid "Azure OpenAI endpoint URL"
@@ -15718,7 +15720,7 @@ msgstr "这项服务使用 API，并且您需要从百度获得 ID 和 API 密�
 
 #: ../../admin/machine.rst:224
 msgid "`Baidu Translate API <https://fanyi-api.baidu.com/product/11>`_"
-msgstr "` 百度翻译 API <https://fanyi-api.baidu.com/product/11>`_"
+msgstr "`百度翻译 API <https://fanyi-api.baidu.com/product/11>`_"
 
 #: ../../admin/machine.rst:229
 msgid "CyrTranslit"
@@ -24115,8 +24117,8 @@ msgid ""
 "handlers, see :class:`weblate.addons.base.BaseAddon`. Adjust any custom "
 "subclass accordingly."
 msgstr ""
-"新的定位变量（`activity_log_id`）传递到附加组件活动处理器，"
-"见 :class:`weblate.addons.base.BaseAddon`.。相应调整任何自定义子类。"
+"新的定位变量（`activity_log_id`）传递到附加组件活动处理器，见 "
+":class:`weblate.addons.base.BaseAddon`。相应调整任何自定义子类。"
 
 #: ../../changes/contributors/5.10.1.rst:2
 #: ../../changes/contributors/5.10.2.rst:2
@@ -25078,7 +25080,7 @@ msgstr ""
 
 #: ../../changes.rst:493
 msgid "Fixed captcha verification when some time zone was configured."
-msgstr "‌修复了配置时区后验证码验证的问题。"
+msgstr "修复了配置时区后验证码验证的问题。"
 
 #: ../../changes.rst:494
 msgid "Improved translation propagation performance."
@@ -42216,8 +42218,8 @@ msgid ""
 "`Message Catalog File Format in PWG 5100.13 <https://ftp.pwg.org/pub/pwg/"
 "candidates/cs-ippjobprinterext3v10-20120727-5100.13.pdf#page=66>`_"
 msgstr ""
-"` PWG 5100.13 下的消息目录文件格式 <https://ftp.pwg.org/pub/pwg/candidates/"
-"cs-ippjobprinterext3v10-20120727-5100.13.pdf#page=66>`_"
+"`PWG 5100.13 下的消息目录文件格式 <https://ftp.pwg.org/pub/pwg/candidates/cs-"
+"ippjobprinterext3v10-20120727-5100.13.pdf#page=66>`_"
 
 #: ../../formats/apple.rst:30
 msgid ""
@@ -45509,7 +45511,7 @@ msgstr "PIPL（中国）"
 
 #: ../../security/privacy-compliance.rst:97
 msgid "Purpose limitation, data minimization, locality"
-msgstr "目的限制、数据最小化、‌地域性"
+msgstr "目的限制、数据最小化、地域性"
 
 #: ../../security/privacy-compliance.rst:101
 msgid "Recommendations for compliance"
@@ -51221,8 +51223,8 @@ msgid ""
 "protocol (for example ``git@github.com:WeblateOrg/weblate.git``)."
 msgstr ""
 "一旦 :guilabel:`weblate` 用户被添加到你的仓库，你可以使用SSH协议（例如 "
-"``git@github.com:WeblateOrg/weblate.git``）配置 :ref:`component-repo` "
-"和 :ref:`component-push` 。"
+"``git@github.com:WeblateOrg/weblate.git``）配置 :ref:`component-repo` 和 :ref"
+":`component-push`。"
 
 #: ../../vcs.rst:50
 msgid ""

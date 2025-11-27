@@ -24,6 +24,7 @@ from weblate.trans.models import Announcement
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.apps import check_data_writable
+from weblate.utils.data import data_path
 from weblate.utils.unittest import tempdir_setting
 from weblate.wladmin.forms import ThemeColorField, ThemeColorWidget
 from weblate.wladmin.models import BackupService, ConfigurationError, SupportStatus
@@ -95,9 +96,8 @@ class AdminTest(ViewTestCase):
             os.environ["PATH"] = oldpath
 
         # Check the file contains it
-        hostsfile = os.path.join(settings.DATA_DIR, "ssh", "known_hosts")
-        with open(hostsfile) as handle:
-            self.assertIn("github.com", handle.read())
+        hostsfile = data_path("ssh") / "known_hosts"
+        self.assertIn("github.com", hostsfile.read_text())
 
     @tempdir_setting("BACKUP_DIR")
     def test_backup(self) -> None:
@@ -178,7 +178,7 @@ class AdminTest(ViewTestCase):
         response = self.client.get(reverse("manage-tools"))
         self.assertContains(response, "announcement")
         self.assertFalse(Announcement.objects.exists())
-        response = self.client.post(
+        self.client.post(
             reverse("manage-tools"),
             {"message": "Test message", "severity": "info"},
             follow=True,

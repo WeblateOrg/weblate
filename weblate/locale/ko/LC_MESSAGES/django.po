@@ -13,7 +13,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-27 07:35+0000\n"
-"PO-Revision-Date: 2025-09-24 13:02+0000\n"
+"PO-Revision-Date: 2025-11-25 14:51+0000\n"
 "Last-Translator: 이정희 <daemul72@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.14-dev\n"
+"X-Generator: Weblate 5.15-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -943,7 +943,7 @@ msgstr "구문 분석 오류가 발생함"
 #: weblate/accounts/notifications.py:604
 msgctxt "Notification name"
 msgid "String is available for translation"
-msgstr "문자열을 번역할 수 있음"
+msgstr "번역할 수 있는 문자열"
 
 #: weblate/accounts/notifications.py:614
 msgctxt "Notification name"
@@ -3405,40 +3405,34 @@ msgid "Mismatched \\n"
 msgstr "일치하지 않음 \\n"
 
 #: weblate/checks/chars.py:416
-#, fuzzy
-#| msgid "Number of \\n literals in translation does not match source"
 msgid "Number of \\n literals in translation does not match source."
-msgstr "번역의 \\n 리터럴 수가 원본과 일치하지 않음"
+msgstr ""
+"번역에 사용된 \\n"
+" 리터럴의 수가 원문과 일치하지 않습니다."
 
 #: weblate/checks/chars.py:435
 msgid "Mismatching line breaks"
 msgstr "일치하지 않는 줄 바꿈"
 
 #: weblate/checks/chars.py:437
-#, fuzzy
-#| msgid "Number of new lines in translation does not match source"
 msgid "Number of new lines in translation does not match source."
-msgstr "번역의 줄바꿈 수가 원본과 일치하지 않음"
+msgstr "번역된 텍스트의 줄 수가 원문과 다릅니다."
 
 #: weblate/checks/chars.py:445 weblate/trans/autofixes/chars.py:49
 msgid "Zero-width space"
 msgstr "너비가 0인 공간"
 
 #: weblate/checks/chars.py:446
-#, fuzzy
-#| msgid "Translation contains extra zero-width space character"
 msgid "Translation contains extra zero-width space character."
-msgstr "번역은 여분의 너비가 0인 공간 문자를 포함합니다"
+msgstr "번역 결과에 불필요한 투명 공백 문자가 들어 있습니다."
 
 #: weblate/checks/chars.py:463 weblate/checks/flags.py:86
 msgid "Maximum length of translation"
 msgstr "번역 문자열의 최대 길이"
 
 #: weblate/checks/chars.py:464
-#, fuzzy
-#| msgid "Translation should not exceed given length"
 msgid "Translation should not exceed given length."
-msgstr "번역 문자열은 입력된 길이를 초과할 수 없습니다"
+msgstr "번역은 지정된 길이를 초과해서는 안 됩니다."
 
 #: weblate/checks/chars.py:480
 msgid "Mismatched semicolon"
@@ -6343,22 +6337,21 @@ msgstr[0] "최근 변경사항"
 #: weblate/templates/manage/index.html:102
 #: weblate/templates/snippets/donate.html:14
 msgid "Give to Weblate"
-msgstr "Weblate에 옮기기"
+msgstr "Weblate 후원하기"
 
 #: weblate/templates/about/index.html:27
 msgid "Hosting translations"
-msgstr "번역 호스팅"
+msgstr "번역 관리 서비스"
 
 #: weblate/templates/about/index.html:31
 msgid ""
 "This Weblate instance hosts translations for various libre software projects."
-msgstr ""
-"이 Weblate 인스턴스는 다양한 무료 소프트웨어 프로젝트에 대한 번역을 진행합니"
-"다."
+msgstr "이 Weblate 서버는 다양한 자유 소프트웨어 프로젝트의 번역 작업을 지원하고 있습"
+"니다."
 
 #: weblate/templates/about/index.html:32
 msgid "Weblate can host your project as well, please get in touch."
-msgstr "Weblate에서 사용자의 프로젝트를 진행할 수도 있으니, 문의해 주세요."
+msgstr "Weblate에서 고객님의 프로젝트 호스팅도 가능합니다. 문의해 주시기 바랍니다."
 
 #: weblate/templates/about/index.html:35
 #: weblate/templates/accounts/hosting.html:58
@@ -7281,7 +7274,7 @@ msgstr ""
 msgid ""
 "You provide your contribution under the license defined by each project you "
 "contributed to."
-msgstr ""
+msgstr "귀하는 기여한 각 프로젝트에 정의된 라이센스에 따라 기여를 제공하게 됩니다."
 
 #: weblate/templates/accounts/snippets/login-title.html:4
 msgid "Weblate single sign on"
@@ -11130,10 +11123,9 @@ msgid "Add label"
 msgstr "레이블 추가"
 
 #: weblate/templates/project.html:167
-#, fuzzy, python-format
-#| msgid "Manage teams"
+#, python-format
 msgid "Manage %(team)s"
-msgstr "팀을 관리"
+msgstr "%(team)s 관리"
 
 #: weblate/templates/project.html:379
 msgid "Organize project"
@@ -16995,10 +16987,9 @@ msgid "File format parameters must be a dictionary of key-value pairs."
 msgstr ""
 
 #: weblate/trans/validators.py:84
-#, fuzzy, python-format
-#| msgid "File format"
+#, python-format
 msgid "Unknown file format parameter: \"%(param_name)s\"."
-msgstr "파일 유형"
+msgstr "알 수 없는 파일 형식 매개변수: \"%(param_name)s\"."
 
 #: weblate/trans/views/about.py:22
 msgid "Keys"

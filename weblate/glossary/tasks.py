@@ -5,7 +5,6 @@
 from __future__ import annotations
 
 from django.db import transaction
-from django.db.models import F
 
 from weblate.auth.models import get_anonymous
 from weblate.lang.models import Language
@@ -79,7 +78,7 @@ def cleanup_stale_glossaries(project: int | Project) -> None:
         )
         .prefetch()
         .exclude(language__id__in=languages_in_non_glossary_components)
-        .exclude(language=F("component__source_language"))
+        .exclude_source()
     )
 
     component_to_check = []

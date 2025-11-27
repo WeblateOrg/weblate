@@ -125,6 +125,8 @@ from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
     STATE_FUZZY,
+    STATE_NEEDS_CHECKING,
+    STATE_NEEDS_REWRITING,
     STATE_TRANSLATED,
 )
 from weblate.utils.stats import GlobalStats, prefetch_stats
@@ -741,6 +743,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         parameters=[OpenApiParameter("role_id", int, OpenApiParameter.PATH)],
     )
     @action(detail=True, methods=["delete"], url_path="roles/(?P<role_id>[0-9]+)")
+    # pylint: disable-next=redefined-builtin
     def delete_roles(self, request: Request, id, role_id):  # noqa: A002
         obj = self.get_object()
         self.perm_check(request)
@@ -784,6 +787,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     @action(
         detail=True, methods=["delete"], url_path="languages/(?P<language_code>[^/.]+)"
     )
+    # pylint: disable-next=redefined-builtin
     def delete_languages(self, request: Request, id, language_code):  # noqa: A002
         obj = self.get_object()
         self.perm_check(request)
@@ -821,6 +825,7 @@ class GroupViewSet(viewsets.ModelViewSet):
 
     @extend_schema(description="Delete a project from a group.", methods=["delete"])
     @action(detail=True, methods=["delete"], url_path="projects/(?P<project_id>[0-9]+)")
+    # pylint: disable-next=redefined-builtin
     def delete_projects(self, request: Request, id, project_id):  # noqa: A002
         obj = self.get_object()
         self.perm_check(request)
@@ -866,6 +871,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     def delete_componentlists(
         self,
         request: Request,
+        # pylint: disable-next=redefined-builtin
         id,  # noqa: A002
         component_list_id,
     ):
@@ -905,6 +911,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     @action(
         detail=True, methods=["delete"], url_path="components/(?P<component_id>[0-9]+)"
     )
+    # pylint: disable-next=redefined-builtin
     def delete_components(self, request: Request, id, component_id):  # noqa: A002
         obj = self.get_object()
         self.perm_check(request)
@@ -918,6 +925,7 @@ class GroupViewSet(viewsets.ModelViewSet):
 
     @extend_schema(description="Make user a group admin.", methods=["post"])
     @action(detail=True, methods=["post"], url_path="admins")
+    # pylint: disable-next=redefined-builtin
     def grant_admin(self, request: Request, id):  # noqa: A002
         group = self.get_object()
         if not request.user.has_perm("meta:team.users", group):
@@ -938,6 +946,7 @@ class GroupViewSet(viewsets.ModelViewSet):
 
     @extend_schema(description="Delete a user from group admins.", methods=["delete"])
     @action(detail=True, methods=["delete"], url_path="admins/(?P<user_pk>[0-9]+)")
+    # pylint: disable-next=redefined-builtin
     def revoke_admin(self, request: Request, id, user_pk):  # noqa: A002
         group = self.get_object()
         if not request.user.has_perm("meta:team.users", group):
@@ -2124,6 +2133,8 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             if new_state not in {
                 STATE_APPROVED,
                 STATE_TRANSLATED,
+                STATE_NEEDS_CHECKING,
+                STATE_NEEDS_REWRITING,
                 STATE_FUZZY,
                 STATE_EMPTY,
             }:
@@ -2580,6 +2591,7 @@ class Metrics(APIView):
     renderer_classes = (*api_settings.DEFAULT_RENDERER_CLASSES, OpenMetricsRenderer)
     serializer_class = MetricsSerializer
 
+    # pylint: disable-next=redefined-builtin
     def get(self, request: Request, format=None):  # noqa: A002
         """Return server metrics."""
         stats = GlobalStats()
@@ -2592,6 +2604,7 @@ class Search(APIView):
 
     serializer_class = None
 
+    # pylint: disable-next=redefined-builtin
     def get(self, request: Request, format=None):  # noqa: A002
         """Return site-wide search results as a list."""
         user = request.user

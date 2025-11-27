@@ -10,9 +10,6 @@
     <meta name="author" content="Michal Čihař" />
     <meta name="copyright" content="Copyright © Michal Čihař" />
     {% if not allow_index %}<meta name="robots" content="noindex,nofollow" />{% endif %}
-    {% if interledger_payment_pointer %}
-      <meta name="monetization" content="{{ interledger_payment_pointer }}" />
-    {% endif %}
 
     <title>{% include "snippets/title.html" %}</title>
     <meta name="description" content="{{ description }}" />
@@ -382,9 +379,11 @@
                 </a>
                 <ul class="dropdown-menu">
                   <li class="dropdown-header">{% translate "Get help" %}</li>
-                  <li>
-                    <a href="{% url 'contact' %}">{% translate "Contact server admins" %}</a>
-                  </li>
+                  {% if contact_form != "disabled" %}
+                    <li>
+                      <a href="{% url 'contact' %}">{% translate "Contact server admins" %}</a>
+                    </li>
+                  {% endif %}
                   <li>
                     <a href="https://github.com/orgs/WeblateOrg/discussions">{% translate "Community discussions" %}</a>
                   </li>

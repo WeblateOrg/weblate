@@ -45,6 +45,7 @@ from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.checks.utils import highlight_string
 from weblate.configuration.models import Setting, SettingCategory
+from weblate.formats.base import BilingualUpdateMixin
 from weblate.formats.models import EXPORTERS, FILE_FORMATS
 from weblate.lang.models import Language
 from weblate.machinery.models import MACHINERY
@@ -889,10 +890,9 @@ class MergeForm(UnitForm):
             raise ValidationError(
                 gettext("Could not find the merged string.")
             ) from error
-        else:
-            # Compare in Python to ensure case sensitiveness on MySQL
-            if not translation.is_source and unit.source != merge_unit.source:
-                raise ValidationError(gettext("Could not find the merged string."))
+        # Compare in Python to ensure case sensitiveness on MySQL
+        if not translation.is_source and unit.source != merge_unit.source:
+            raise ValidationError(gettext("Could not find the merged string."))
         return self.cleaned_data
 
 
@@ -1431,12 +1431,6 @@ class ReportsForm(forms.Form):
             msg = f"Invalid scope: {scope}"
             raise ValueError(msg)
         self.fields["language"].choices += languages.as_choices()
-
-    def clean(self) -> None:
-        super().clean()
-        # Invalid value, skip rest of the validation
-        if "period" not in self.cleaned_data:
-            return
 
 
 class CleanRepoMixin:
@@ -2019,7 +2013,8 @@ class ComponentScratchCreateForm(ComponentProjectForm):
         label=gettext_lazy("File format"),
         initial="po-mono",
         choices=FILE_FORMATS.get_choices(
-            cond=lambda x: bool(x.new_translation) or hasattr(x, "update_bilingual")
+            cond=lambda x: bool(x.new_translation)
+            or issubclass(x, BilingualUpdateMixin)
         ),
     )
     file_format_params = FormParamsField()

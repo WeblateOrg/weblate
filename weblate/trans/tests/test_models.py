@@ -525,7 +525,7 @@ class TranslationTest(RepoTestCase):
         translation.store.save()
         translation.store_hash()
 
-        self.assertEqual(translation.count_pending_units, 2)
+        self.assertEqual(translation.count_pending_units, 1)
         component.commit_pending("test", None)
         self.assertEqual(PendingUnitChange.objects.count(), 0)
 
@@ -589,7 +589,7 @@ class TranslationTest(RepoTestCase):
 
         unit.translate(user, "Ahoj, ${ jméno }!", STATE_TRANSLATED)
         unit.translate(user, "Ahoj, ${ name }!", STATE_TRANSLATED)
-        self.assertEqual(translation.count_pending_units, 2)
+        self.assertEqual(translation.count_pending_units, 1)
 
         component.commit_pending("test", None)
 
@@ -890,4 +890,143 @@ class ChangeTest(ModelTestCase):
         self.assertEqual(
             Change.objects.since_day(timezone.now() - timedelta(days=1)).count(),
             2,
+        )
+
+
+class PendingUnitChangeTest(RepoTestCase):
+    """Test(s) for PendingUnitChange model."""
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.user = create_test_user()
+        self.component = self.create_component()
+        self.project = self.component.project
+        self.component2 = self.create_json_mono(
+            name="Component 2", project=self.project
+        )
+        self.other_project = self.create_project("Other", "other")
+        self.component3 = self.create_android(
+            name="Component 3", project=self.other_project
+        )
+
+    def test_find_committable_components_basic(self) -> None:
+        """Test find_committable_components returns components with old enough changes."""
+        self.component.commit_pending_age = 1
+        self.component.save()
+
+        self.component3.commit_pending_age = 3
+        self.component3.save()
+
+        translation = self.component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        unit.translate(self.user, "Nazdar svete!\n", STATE_TRANSLATED)
+
+        translation3 = self.component3.translation_set.get(language_code="cs")
+        unit3 = translation3.unit_set.get(source="Orangutan has %d banana.\n")
+        unit3.translate(self.user, "Orangutan má %d banánů.\n", STATE_TRANSLATED)
+
+        components = PendingUnitChange.objects.find_committable_components()
+        self.assertEqual(set(components.values_list("pk", flat=True)), set())
+
+        PendingUnitChange.objects.update(timestamp=timezone.now() - timedelta(hours=2))
+        components = PendingUnitChange.objects.find_committable_components()
+        self.assertEqual(
+            set(components.values_list("pk", flat=True)), {self.component.pk}
+        )
+
+        components = PendingUnitChange.objects.find_committable_components(hours=1)
+        self.assertEqual(
+            set(components.values_list("pk", flat=True)),
+            {self.component.pk, self.component3.pk},
+        )
+
+        components = PendingUnitChange.objects.find_committable_components(
+            pks=[self.component.pk], hours=1
+        )
+        self.assertEqual(
+            set(components.values_list("pk", flat=True)), {self.component.pk}
+        )
+
+    def test_find_committable_components_with_commit_policy(self) -> None:
+        """Test find_committable_components respects commit policies."""
+        self.project.commit_policy = CommitPolicyChoices.WITHOUT_NEEDS_EDITING
+        self.project.save()
+
+        self.other_project.commit_policy = CommitPolicyChoices.APPROVED_ONLY
+        self.other_project.save()
+
+        translation = self.component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        unit.translate(self.user, "Nazdar svete!\n", STATE_FUZZY)
+
+        translation2 = self.component2.translation_set.get(language_code="cs")
+        unit2 = translation2.unit_set.get(source="Hello, world!\n")
+        unit2.translate(self.user, "Nazdar svete!\n", STATE_TRANSLATED)
+
+        translation3 = self.component3.translation_set.get(language_code="cs")
+        unit3 = translation3.unit_set.get(source="Orangutan has %d banana.\n")
+        unit3.translate(self.user, "Orangutan má %d banánů.\n", STATE_TRANSLATED)
+
+        PendingUnitChange.objects.update(timestamp=timezone.now() - timedelta(hours=2))
+
+        components = PendingUnitChange.objects.find_committable_components(hours=1)
+        self.assertEqual(
+            set(components.values_list("pk", flat=True)), {self.component2.pk}
+        )
+
+        unit.translate(self.user, "Nazdar svete!\n", STATE_TRANSLATED)
+        unit3.translate(self.user, "Orangutan má %d banánů.\n", STATE_APPROVED)
+        PendingUnitChange.objects.update(timestamp=timezone.now() - timedelta(hours=2))
+
+        components = PendingUnitChange.objects.find_committable_components(hours=1)
+        self.assertEqual(
+            set(components.values_list("pk", flat=True)),
+            {self.component.pk, self.component2.pk, self.component3.pk},
+        )
+
+    def test_find_committable_components_with_retry_filter(self) -> None:
+        """Test find_committable_components applies retry eligibility filter."""
+        translation = self.component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        unit.translate(self.user, "Nazdar svete!\n", STATE_TRANSLATED)
+
+        pending_change = unit.pending_changes.first()
+        pending_change.metadata = {
+            "last_failed": timezone.now().isoformat(),
+            "failed_revision": translation.revision,
+            "weblate_version": GIT_VERSION,
+        }
+        pending_change.save()
+
+        translation3 = self.component3.translation_set.get(language_code="cs")
+        unit3 = translation3.unit_set.get(source="Orangutan has %d banana.\n")
+        unit3.translate(self.user, "Orangutan má %á banánů.\n", STATE_TRANSLATED)
+        pending_change3 = unit3.pending_changes.first()
+        pending_change3.metadata = {
+            "last_failed": timezone.now().isoformat(),
+            "failed_revision": translation3.revision,
+            "weblate_version": GIT_VERSION,
+            "blocking_unit": True,
+        }
+        pending_change3.save()
+
+        PendingUnitChange.objects.update(timestamp=timezone.now() - timedelta(hours=2))
+
+        components = PendingUnitChange.objects.find_committable_components(hours=1)
+        self.assertEqual(set(components.values_list("pk", flat=True)), set())
+
+        pending_change.metadata["last_failed"] = (
+            timezone.now() - timedelta(days=8)
+        ).isoformat()
+        pending_change.save()
+
+        unit3.translate(self.user, "Orangutan má %d banánů.\n", STATE_TRANSLATED)
+        PendingUnitChange.objects.update(timestamp=timezone.now() - timedelta(hours=2))
+
+        # component 1 is now finable because the change failed to apply more than a week ago
+        # component 3 is now findable because the blocking_unit filter is not applied here
+        components = PendingUnitChange.objects.find_committable_components(hours=1)
+        self.assertEqual(
+            set(components.values_list("pk", flat=True)),
+            {self.component.pk, self.component3.pk},
         )

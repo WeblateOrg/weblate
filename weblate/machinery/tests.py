@@ -10,6 +10,7 @@ from copy import copy
 from datetime import UTC, datetime
 from functools import partial
 from io import StringIO
+from pathlib import Path
 from typing import TYPE_CHECKING, ClassVar, NoReturn
 from unittest.mock import MagicMock, Mock, call, patch
 
@@ -198,8 +199,7 @@ SYSTRAN_LANGUAGE_JSON = {
     ],
 }
 
-with open(get_test_file("googlev3.json")) as handle:
-    GOOGLEV3_KEY = handle.read()
+GOOGLEV3_KEY = Path(get_test_file("googlev3.json")).read_text(encoding="utf-8")
 
 MODERNMT_RESPONSE = {
     "data": {
@@ -446,13 +446,61 @@ class MachineTranslationTest(BaseMachineTranslationTest):
             ],
         )
 
-    def test_batch(self) -> None:
+    def test_placeholders_backslash(self) -> None:
         machine_translation = self.get_machine()
+        unit = MockUnit(code="cs", source=r"Hello, %s C:\Windows!", flags="c-format")
+        self.assertEqual(
+            machine_translation.cleanup_text(unit.source, unit),
+            (r"Hello, [X7X] C:\Windows!", {"[X7X]": "%s"}),
+        )
+        self.assertEqual(
+            machine_translation.translate(unit),
+            [
+                [
+                    {
+                        "quality": 100,
+                        "service": "Dummy",
+                        "source": r"Hello, %s C:\Windows!",
+                        "original_source": r"Hello, %s C:\Windows!",
+                        "text": r"Nazdar %s C:\Windows!",
+                    }
+                ]
+            ],
+        )
+
+    def test_placeholders_rst(self) -> None:
+        machine_translation = self.get_machine()
+        unit = MockUnit(
+            code="cs", source=r"Hello, :file:`C:\Windows\System.exe`!", flags="rst-text"
+        )
+        self.assertEqual(
+            machine_translation.cleanup_text(unit.source, unit),
+            ("Hello, [X7X]!", {"[X7X]": r":file:`C:\Windows\System.exe`"}),
+        )
+        self.assertEqual(
+            machine_translation.translate(unit),
+            [
+                [
+                    {
+                        "quality": 100,
+                        "service": "Dummy",
+                        "source": r"Hello, :file:`C:\Windows\System.exe`!",
+                        "original_source": r"Hello, :file:`C:\Windows\System.exe`!",
+                        "text": r"Nazdar :file:`C:\Windows\System.exe`!",
+                    }
+                ]
+            ],
+        )
+
+    def test_batch(self, machine=None) -> None:
+        if machine is None:
+            machine = self.get_machine()
+        machine = self.get_machine()
         units = [
             MockUnit(code="cs", source="Hello, %s!", flags="c-format"),
             MockUnit(code="cs", source="Hello, %d!", flags="c-format"),
         ]
-        machine_translation.batch_translate(units)
+        machine.batch_translate(units)
         self.assertEqual(units[0].machinery["translation"], ["Nazdar %s!"])
         self.assertEqual(units[1].machinery["translation"], ["Nazdar %d!"])
 
@@ -470,6 +518,7 @@ class GlossaryTranslationTest(BaseMachineTranslationTest):
     MACHINE_CLS = DummyGlossaryTranslation
 
     @patch("weblate.glossary.models.get_glossary_tsv", new=lambda _: "foo\tbar")
+    # pylint: disable-next=arguments-differ
     def test_translate(self) -> None:
         """Test glossary translation."""
         machine = self.get_machine()
@@ -570,7 +619,7 @@ class GlossaryTranslationTest(BaseMachineTranslationTest):
                 unit, "en", "cs", source_text, 75, {}
             )
             self.assertIsNotNone(cache_key)
-            self.assertTrue(len(result) > 0)
+            self.assertGreater(len(result), 0)
             self.assertIsNotNone(result)
 
         with patch(
@@ -690,7 +739,7 @@ class ApertiumAPYTranslationTest(BaseMachineTranslationTest):
         machine = self.get_machine()
         machine.validate_settings()
         self.assertEqual(len(responses.calls), 2)
-        _, call_2 = responses.calls
+        call_2 = responses.calls[1]
         self.assertIn("langpair", call_2.request.params)
         self.assertEqual("eng|spa", call_2.request.params["langpair"])
 
@@ -1453,7 +1502,7 @@ class SAPTranslationHubAuthTest(SAPTranslationHubTest):
     }
 
 
-class ModernMTHubTest(BaseMachineTranslationTest):
+class ModernMTTest(BaseMachineTranslationTest):
     MACHINE_CLS = ModernMTTranslation
     EXPECTED_LEN = 1
     ENGLISH = "en"
@@ -1478,9 +1527,9 @@ class ModernMTHubTest(BaseMachineTranslationTest):
         """Set up mock responses for languages list from ModernMT API."""
         responses.add(
             responses.GET,
-            "https://api.modernmt.com/languages",
+            "https://api.modernmt.com/translate/languages",
             json={
-                "data": {"en": ["cs", "it", "ja"], "fr": ["en", "it", "ja"]},
+                "data": ["en", "sr", "cs", "it", "ja"],
                 "status": 200,
             },
             status=200,
@@ -1800,6 +1849,7 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         )
 
     @classmethod
+    # pylint: disable-next=arguments-differ
     def mock_response(cls) -> None:
         cls.mock_languages()
         responses.add(
@@ -2160,15 +2210,16 @@ class AWSTranslationTest(BaseMachineTranslationTest):
     def mock_response(self) -> None:
         pass
 
-    def test_support(self) -> None:
-        machine = self.get_machine()
-        machine.delete_cache()
-        with Stubber(machine.client) as stubber:
+    def test_support(self, machine_translation=None) -> None:
+        if machine_translation is None:
+            machine_translation = self.get_machine()
+        machine_translation.delete_cache()
+        with Stubber(machine_translation.client) as stubber:
             stubber.add_response(
                 "list_languages",
                 AWS_LANGUAGES_RESPONSE,
             )
-            super().test_support(machine)
+            super().test_support(machine_translation)
 
     def test_validate_settings(self) -> None:
         machine = self.get_machine()

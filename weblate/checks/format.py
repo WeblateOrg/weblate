@@ -18,7 +18,6 @@ from weblate.utils.html import format_html_join_comma, list_to_tuples
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
-    from re import Pattern
 
     from django_stubs_ext import StrOrPromise
 
@@ -350,8 +349,8 @@ FLAG_RULES: dict[
 class BaseFormatCheck(TargetCheck):
     """Base class for format string checks."""
 
-    regexp: Pattern[str] | None = None
-    plural_parameter_regexp: Pattern[str] | None = None
+    regexp: re.Pattern[str] | None = None
+    plural_parameter_regexp: re.Pattern[str] | None = None
     default_disabled = True
     normalize_remove: ClassVar[set[str]] = set()
 

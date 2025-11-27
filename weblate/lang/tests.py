@@ -230,11 +230,12 @@ class BasicLanguagesTest(TestCase):
                 else:
                     if i == 1:
                         base_language = languages[0]
-                        if base_language in ALIASES:
-                            base_alias = ALIASES[base_language]
+                        base_alias = ALIASES.get(base_language, None)
                     check = (
-                        lang == base_alias and not result & BASE_FORM
-                    ) or lang in data.UNDERSCORE_EXCEPTIONS
+                        not result & BASE_FORM
+                        if lang == base_alias
+                        else lang in data.UNDERSCORE_EXCEPTIONS
+                    )
             else:
                 check = lang in data.BASIC_LANGUAGES
             result += check << i
@@ -295,6 +296,7 @@ class BasicLanguagesTest(TestCase):
 
 
 class LanguageTestSequenceMeta(type):
+    # pylint: disable-next=redefined-builtin
     def __new__(mcs, name, bases, dict):  # noqa: A002
         def gen_test(original, expected, direction, plural, name, create):
             def test(self) -> None:
@@ -828,17 +830,17 @@ class LanguageAliasesChangeTest(ViewTestCase):
         """Set up test environment."""
         super().setUp()
 
-        def update_codes_in_dict(data: dict) -> dict:
+        def update_codes_in_dict(codes: dict) -> dict:
             """Replace old_code key with new_code in a language dict."""
-            copy = data.copy()
+            copy = codes.copy()
             value = copy.pop(self.old_code)
             copy[self.new_code] = value
             return copy
 
-        def update_code_in_tuple(data: tuple) -> tuple:
+        def update_code_in_tuple(codes: tuple) -> tuple:
             """Replace old_code with new_code in a language tuple."""
             new_data = []
-            for item in data:
+            for item in codes:
                 if item[0] == self.old_code:
                     item = (self.new_code, *item[1:])
                 new_data.append(item)
@@ -917,3 +919,7 @@ class LanguageAliasesChangeTest(ViewTestCase):
         )
         self.component.add_new_language(it_xx, None)
         self.do_alias_language_update_and_check(False, False)
+
+    def test_get_aliases(self) -> None:
+        language = Language.objects.get(code="ka")
+        self.assertEqual(language.get_aliases_names(), ["geo", "ka_ge", "kat"])

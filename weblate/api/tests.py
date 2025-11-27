@@ -6,6 +6,7 @@ import os
 from copy import copy
 from datetime import UTC, datetime, timedelta
 from io import BytesIO
+from pathlib import Path
 
 import responses
 from django.conf import settings
@@ -107,6 +108,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         request=None,
         headers=None,
         skip=(),
+        # pylint: disable-next=redefined-builtin
         format: str = "multipart",  # noqa: A002
     ):
         if authenticated:
@@ -558,7 +560,7 @@ class GroupAPITest(APIBaseTest):
 
         # user with view permission can see other group details
         self.grant_perm_to_user("group.view", "Viewers")
-        response = self.do_request(
+        self.do_request(
             "api:group-detail",
             kwargs={"id": Group.objects.get(name="Test Group").id},
             method="get",
@@ -1064,7 +1066,7 @@ class GroupAPITest(APIBaseTest):
         )
 
         # Missing user ID
-        response = self.do_request(
+        self.do_request(
             "api:group-grant-admin",
             kwargs={"id": group.id},
             method="post",
@@ -1610,6 +1612,7 @@ class ProjectAPITest(APIBaseTest):
             },
         )
 
+    # pylint: disable-next=redefined-builtin
     def test_create_with_source_language_string(self, format="json") -> None:  # noqa: A002
         payload = {
             "name": "API project",
@@ -1729,7 +1732,7 @@ class ProjectAPITest(APIBaseTest):
         self.assertTrue(component.manage_units)
         self.assertTrue(response.data["manage_units"])
         # Creating duplicate
-        response = self.do_request(
+        self.do_request(
             "api:project-components",
             self.project_kwargs,
             method="post",
@@ -2160,23 +2163,22 @@ class ProjectAPITest(APIBaseTest):
             )
 
     def test_create_component_docfile_json(self) -> None:
-        with open(TEST_DOC, "rb") as handle:
-            self.do_request(
-                "api:project-components",
-                self.project_kwargs,
-                method="post",
-                code=400,
-                superuser=True,
-                format="json",
-                request={
-                    "docfile": handle.read(),
-                    "name": "Local project",
-                    "slug": "local-project",
-                    "file_format": "html",
-                    "new_lang": "add",
-                    "edit_template": "0",
-                },
-            )
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            format="json",
+            request={
+                "docfile": Path(TEST_DOC).read_bytes(),
+                "name": "Local project",
+                "slug": "local-project",
+                "file_format": "html",
+                "new_lang": "add",
+                "edit_template": "0",
+            },
+        )
 
     def test_create_component_docfile_language(self) -> None:
         with open(TEST_DOC, "rb") as handle:
@@ -3254,7 +3256,7 @@ class LanguageAPITest(APIBaseTest):
             code=200,
         )
         # Creation with duplicate code gives 400
-        response = self.do_request(
+        self.do_request(
             "api:language-list",
             method="post",
             superuser=True,
@@ -3509,11 +3511,11 @@ class TranslationAPITest(APIBaseTest):
     def test_upload_bytes(self) -> None:
         self.authenticate()
         changes_start = self.component.change_set.count()
-        with open(TEST_PO, "rb") as handle:
-            response = self.client.put(
-                reverse("api:translation-file", kwargs=self.translation_kwargs),
-                {"file": BytesIO(handle.read())},
-            )
+        response = self.client.put(
+            reverse("api:translation-file", kwargs=self.translation_kwargs),
+            {"file": BytesIO(Path(TEST_PO).read_bytes())},
+        )
+
         self.assertEqual(
             response.data,
             {
@@ -3635,11 +3637,10 @@ class TranslationAPITest(APIBaseTest):
 
     def test_upload_content(self) -> None:
         self.authenticate()
-        with open(TEST_PO, "rb") as handle:
-            response = self.client.put(
-                reverse("api:translation-file", kwargs=self.translation_kwargs),
-                {"file": handle.read()},
-            )
+        response = self.client.put(
+            reverse("api:translation-file", kwargs=self.translation_kwargs),
+            {"file": Path(TEST_PO).read_bytes()},
+        )
         self.assertEqual(response.status_code, 400)
 
     def test_upload_conflicts(self) -> None:
@@ -3744,8 +3745,7 @@ class TranslationAPITest(APIBaseTest):
     def test_upload_replace(self) -> None:
         self.authenticate(superuser=True)
         changes_start = self.component.change_set.count()
-        with open(TEST_PO) as handle:
-            content = handle.read()
+        content = Path(TEST_PO).read_text(encoding="utf-8")
         content = f'{content}\n\nmsgid "Testing"\nmsgstr""\n'
 
         response = self.client.put(
@@ -3864,6 +3864,7 @@ class TranslationAPITest(APIBaseTest):
         request = self.do_request("api:translation-units", self.translation_kwargs)
         self.assertEqual(request.data["count"], 4)
 
+    # pylint: disable-next=redefined-builtin
     def test_autotranslate(self, format: str = "multipart") -> None:  # noqa: A002
         self.do_request(
             "api:translation-autotranslate",
@@ -5507,7 +5508,7 @@ class AddonAPITest(APIBaseTest):
         change = self.component.change_set.get(action=ActionEvents.ADDON_CREATE)
         self.assertEqual(change.user, self.user)
         # Existing
-        response = self.create_addon(code=400)
+        self.create_addon(code=400)
 
     def test_delete(self) -> None:
         response = self.create_addon()
@@ -5595,7 +5596,7 @@ class AddonAPITest(APIBaseTest):
             self.component.project.addon_set.filter(pk=response.data["id"]).exists()
         )
         # Existing
-        response = self.create_project_addon(code=400)
+        self.create_project_addon(code=400)
 
     def test_delete_project_addon(self) -> None:
         response = self.create_project_addon()
@@ -5615,7 +5616,7 @@ class AddonAPITest(APIBaseTest):
 
 
 class CategoryAPITest(APIBaseTest):
-    def create_category(self, code: int = 201, **kwargs):
+    def api_create_category(self, code: int = 201, **kwargs):
         request = {
             "name": "Category Test",
             "slug": "category-test",
@@ -5640,15 +5641,15 @@ class CategoryAPITest(APIBaseTest):
     def test_create(self) -> None:
         response = self.list_categories()
         self.assertEqual(response.data["count"], 0)
-        self.create_category()
+        self.api_create_category()
         response = self.list_categories()
         self.assertEqual(response.data["count"], 1)
         request = self.do_request("api:project-categories", self.project_kwargs)
         self.assertEqual(request.data["count"], 1)
 
     def test_create_nested(self) -> None:
-        self.create_category()
-        self.create_category(
+        self.api_create_category()
+        self.api_create_category(
             category=reverse(
                 "api:category-detail", kwargs={"pk": Category.objects.all()[0].pk}
             )
@@ -5660,8 +5661,8 @@ class CategoryAPITest(APIBaseTest):
 
     def test_create_nested_mismatch(self) -> None:
         component = self.create_acl()
-        self.create_category()
-        self.create_category(
+        self.api_create_category()
+        self.api_create_category(
             category=reverse(
                 "api:category-detail", kwargs={"pk": Category.objects.all()[0].pk}
             ),
@@ -5676,7 +5677,7 @@ class CategoryAPITest(APIBaseTest):
         self.assertEqual(request.data["count"], 1)
 
     def test_delete(self) -> None:
-        response = self.create_category()
+        response = self.api_create_category()
         category_url = response.data["url"]
         response = self.do_request(
             category_url,
@@ -5693,21 +5694,21 @@ class CategoryAPITest(APIBaseTest):
         self.assertEqual(response.data["count"], 0)
 
     def test_rename(self) -> None:
-        response = self.create_category()
+        response = self.api_create_category()
         category_url = response.data["url"]
-        response = self.do_request(
+        self.do_request(
             category_url,
             method="patch",
             code=403,
         )
-        response = self.do_request(
+        self.do_request(
             category_url,
             method="patch",
             superuser=True,
             request={"slug": "test"},
             code=400,
         )
-        response = self.do_request(
+        self.do_request(
             category_url,
             method="patch",
             superuser=True,
@@ -5715,7 +5716,7 @@ class CategoryAPITest(APIBaseTest):
         )
 
     def test_component(self) -> None:
-        response = self.create_category()
+        response = self.api_create_category()
         category_url = response.data["url"]
         component_url = reverse("api:component-detail", kwargs=self.component_kwargs)
         response = self.do_request(
@@ -5741,7 +5742,7 @@ class CategoryAPITest(APIBaseTest):
 
     def test_statistics(self) -> None:
         # Create a category to get the statistics from
-        response = self.create_category()
+        response = self.api_create_category()
         category_kwargs = {"pk": response.data["id"]}
         # Use the default category kwargs to get the statistics
         request = self.do_request("api:category-statistics", category_kwargs)
