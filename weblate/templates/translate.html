@@ -347,7 +347,7 @@
                id="toggle-translations"
                data-href="{% url 'js-unit-translations' unit_id=unit.id %}"
                href="#"
-               title="{% translate "Translations of this string in the other languages" %}">{% translate "Other languages" %} <span class="badge">{{ unit.source_unit.unit_set.count|add:-1 }}</span> </a>
+               title="{% translate "Translations of this string in the other languages" %}">{% translate "Other languages" %} <span class="badge text-bg-secondary">{{ unit.source_unit.unit_set.count|add:-1 }}</span> </a>
           </li>
           <li class="nav-item">
             <a class="nav-link"

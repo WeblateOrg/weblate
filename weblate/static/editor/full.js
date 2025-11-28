@@ -133,16 +133,16 @@
       return false;
     });
     Mousetrap.bindGlobal("mod+u", (_e) => {
-      $('.nav [href="#comments"]').click();
+      $('.nav [data-bs-target="#comments"]').click();
       $('textarea[name="comment"]').focus();
       return false;
     });
     Mousetrap.bindGlobal("mod+j", (_e) => {
-      $('.nav [href="#nearby"]').click();
+      $('.nav [data-bs-target="#nearby"]').click();
       return false;
     });
     Mousetrap.bindGlobal("mod+m", (_e) => {
-      $('.nav [href="#machinery"]').click();
+      $('.nav [data-bs-target="#machinery"]').click();
       return false;
     });
   }
@@ -154,7 +154,7 @@
 
     /* Report source bug */
     this.$translationForm.on("click", ".bug-comment", () => {
-      $('.translation-tabs a[href="#comments"]').tab("show");
+      bootstrap.Tab.getOrCreateInstance($('.translation-tabs a[data-bs-target="#comments"]')).show();
       $("#id_scope").val("report");
       $([document.documentElement, document.body]).animate(
         {
