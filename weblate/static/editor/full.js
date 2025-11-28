@@ -154,7 +154,9 @@
 
     /* Report source bug */
     this.$translationForm.on("click", ".bug-comment", () => {
-      bootstrap.Tab.getOrCreateInstance($('.translation-tabs a[data-bs-target="#comments"]')).show();
+      bootstrap.Tab.getOrCreateInstance(
+        $('.translation-tabs a[data-bs-target="#comments"]'),
+      ).show();
       $("#id_scope").val("report");
       $([document.documentElement, document.body]).animate(
         {
