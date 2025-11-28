@@ -27,6 +27,7 @@ Weblate 5.15
 * Python 3.12 or newer is now required.
 * GLib 2.80 or newer is now required.
 * Dropped support for Web Monetization.
+* :doc:`/formats/laravel` no longer includes ``return`` prefix in the keys.
 
 .. rubric:: Upgrading
 
