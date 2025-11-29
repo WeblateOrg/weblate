@@ -696,11 +696,8 @@ class SubversionRepository(GitRepository):
         branch: str | None = None,
         component: Component | None = None,
         local: bool = False,
-        skip_init: bool = False,
     ) -> None:
-        super().__init__(
-            path, branch=branch, component=component, local=local, skip_init=skip_init
-        )
+        super().__init__(path, branch=branch, component=component, local=local)
         self._fetch_revision: str | None = None
 
     @classmethod
@@ -2166,11 +2163,8 @@ class BitbucketServerRepository(GitMergeRequestBase):
         branch: str | None = None,
         component: Component | None = None,
         local: bool = False,
-        skip_init: bool = False,
     ) -> None:
-        super().__init__(
-            path, branch=branch, component=component, local=local, skip_init=skip_init
-        )
+        super().__init__(path, branch=branch, component=component, local=local)
         self.bb_fork: dict = {}
 
     def get_headers(self, credentials: GitCredentials) -> dict[str, str]:
