@@ -3027,6 +3027,10 @@ class Component(
             return
         if skip_push is None:
             skip_push = validate
+        if not self.is_repo_local and not self.repository.is_valid():
+            with self.repository.lock:
+                self.repository.clone_from(self.repo)
+
         self.configure_repo(validate)
         if not skip_commit and self.id:
             self.commit_pending("sync", None, skip_push=skip_push)

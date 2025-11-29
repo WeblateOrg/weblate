@@ -16,6 +16,7 @@ Weblate 5.15
 * :ref:`addon-weblate.discovery.discovery` preserves :ref:`file_format_params`.
 * :ref:`mt-cyrtranslit` now supports Belarusian and Greek.
 * :ref:`addon-weblate.webhook.slack` and :ref:`addon-weblate.webhook.webhook` can be installed multiple times.
+* Compatibility with Git SHA256 repositories.
 
 .. rubric:: Bug fixes
 
