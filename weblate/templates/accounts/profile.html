@@ -1,4 +1,4 @@
-{% extends "base5.html" %}
+{% extends "base.html" %}
 
 {% load authnames compress crispy_forms_tags i18n icons otp_webauthn static translations %}
 
@@ -46,7 +46,7 @@
 {% endblock nav_pills %}
 
 {% block breadcrumbs %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'profile' %}">{% translate "Your profile" %}</a>
   </li>
 {% endblock breadcrumbs %}
@@ -67,7 +67,7 @@
       <div class="tab-pane show active" id="languages">
         <div class="card">
           <div class="card-header">
-            <h4 class="card-title">{% documentation_icon5 'user/profile' 'languages' right=True %}{% translate "Languages" %}</h4>
+            <h4 class="card-title">{% documentation_icon 'user/profile' 'languages' right=True %}{% translate "Languages" %}</h4>
           </div>
           <div class="card-body">
             {% crispy languagesform %}
@@ -85,7 +85,7 @@
         <div class="card">
           <div class="card-header">
             <h4 class="card-title">
-              {% documentation_icon5 'user/profile' 'preferences' right=True %}{% translate "Preferences" %}
+              {% documentation_icon 'user/profile' 'preferences' right=True %}{% translate "Preferences" %}
             </h4>
           </div>
           <div class="card-body">
@@ -103,7 +103,7 @@
         <div class="card">
           <div class="card-header">
             <h4 class="card-title">
-              {% documentation_icon5 'user/profile' 'subscriptions' right=True %}{% translate "Watched projects" %}
+              {% documentation_icon 'user/profile' 'subscriptions' right=True %}{% translate "Watched projects" %}
             </h4>
           </div>
           <div class="card-body">
@@ -120,7 +120,7 @@
         <div class="card">
           <div class="card-header">
             <h4 class="card-title">
-              {% documentation_icon5 'user/profile' 'subscriptions' right=True %}{% translate "Notification settings" %}
+              {% documentation_icon 'user/profile' 'subscriptions' right=True %}{% translate "Notification settings" %}
             </h4>
           </div>
           <div class="card-body">
@@ -167,7 +167,7 @@
       <div class="tab-pane" id="account">
         <div class="card">
           <div class="card-header">
-            <h4 class="card-title">{% documentation_icon5 'user/profile' right=True %}{% translate "Account" %}</h4>
+            <h4 class="card-title">{% documentation_icon 'user/profile' right=True %}{% translate "Account" %}</h4>
           </div>
           <div class="card-body">
 
@@ -195,7 +195,7 @@
             <div class="card">
               <div class="card-header">
                 <h4 class="card-title">
-                  {% documentation_icon5 'user/profile' 'authentication' right=True %}{% translate "Current user identities" %}
+                  {% documentation_icon 'user/profile' 'authentication' right=True %}{% translate "Current user identities" %}
                 </h4>
               </div>
               <ul class="list-group">
@@ -257,7 +257,7 @@
         <div class="card">
           <div class="card-header">
             <h4 class="card-title">
-              {% documentation_icon5 'admin/auth' '2fa' right=True %}
+              {% documentation_icon 'admin/auth' '2fa' right=True %}
               {% translate "Two-factor authentication" %}
             </h4>
           </div>
@@ -398,7 +398,7 @@
         <div class="card">
           <div class="card-header">
             <h4 class="card-title">
-              {% documentation_icon5 'user/profile' 'public-profile' right=True %}{% translate "Public profile" %}
+              {% documentation_icon 'user/profile' 'public-profile' right=True %}{% translate "Public profile" %}
             </h4>
           </div>
           <div class="card-body">
@@ -414,7 +414,7 @@
         {% if enable_avatars %}
           <div class="card">
             <div class="card-header">
-              <h4 class="card-title">{% documentation_icon5 'user/profile' 'avatar' right=True %}{% translate "Your avatar" %}</h4>
+              <h4 class="card-title">{% documentation_icon 'user/profile' 'avatar' right=True %}{% translate "Your avatar" %}</h4>
             </div>
             <div class="card-body">
               <p>
@@ -532,7 +532,7 @@
       <div class="tab-pane" id="api">
         <div class="card">
           <div class="card-header">
-            <h4 class="card-title">{% documentation_icon5 'api' right=True %}{% translate "API access" %}</h4>
+            <h4 class="card-title">{% documentation_icon 'api' right=True %}{% translate "API access" %}</h4>
           </div>
           <table class="table">
             <tr>
@@ -567,7 +567,7 @@
               </td>
             </tr>
             <tr>
-              <th colspan="2">{% documentation_icon5 'api' right=True %}{% translate "API usage example:" %}</th>
+              <th colspan="2">{% documentation_icon 'api' right=True %}{% translate "API usage example:" %}</th>
             </tr>
             <tr>
               <td colspan="2">
@@ -581,7 +581,7 @@ curl \
               </td>
             </tr>
             <tr>
-              <th colspan="2">{% documentation_icon5 'wlc' right=True %}{% translate "CLI usage example:" %}</th>
+              <th colspan="2">{% documentation_icon 'wlc' right=True %}{% translate "CLI usage example:" %}</th>
             </tr>
             <tr>
               <td colspan="2">
@@ -602,7 +602,7 @@ wlc \
           <div class="card">
             <div class="card-header">
               <h4 class="card-title">
-                {% documentation_icon5 'admin/optionals' 'git-exporter' right=True %}{% translate "Accessing Git repositories" %}
+                {% documentation_icon 'admin/optionals' 'git-exporter' right=True %}{% translate "Accessing Git repositories" %}
               </h4>
             </div>
             <div class="card-body">

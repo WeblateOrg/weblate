@@ -1,4 +1,4 @@
-{% extends "base5.html" %}
+{% extends "base.html" %}
 
 {% load crispy_forms_tags humanize i18n metrics permissions translations %}
 
@@ -117,13 +117,13 @@
         {% endif %}
       </ul>
     </li class="nav-item">
-    {% include "snippets/share-menu5.html" with object=object %}
-    {% include "snippets/watch-dropdown5.html" with project=object.component.project component=object.component %}
+    {% include "snippets/share-menu.html" with object=object %}
+    {% include "snippets/watch-dropdown.html" with project=object.component.project component=object.component %}
   </ul>
 {% endblock nav_pills %}
 
 {% block breadcrumbs %}
-  {% path_object_breadcrumbs5 path_object %}
+  {% path_object_breadcrumbs path_object %}
 
   <a class="ms-auto" href="{{ object.get_widgets_url }}">
     <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
@@ -132,7 +132,7 @@
 
 {% block content %}
 
-  {% announcements component=object.component language=object.language bootstrap_5=True %}
+  {% announcements component=object.component language=object.language %}
 
   {% include "snippets/component/state.html" with object=object.component %}
 
@@ -167,11 +167,11 @@
     </div>
 
     <div class="tab-pane" id="information">
-      {% show_info5 project=object.component.project component=object.component translation=object language=object.language stats=object.stats metrics=object|metrics show_full_language=False %}
+      {% show_info project=object.component.project component=object.component translation=object language=object.language stats=object.stats metrics=object|metrics show_full_language=False %}
     </div>
 
     <div class="tab-pane" id="history">
-      {% format_last_changes_content last_changes=last_changes user=user bootstrap_5=True %}
+      {% format_last_changes_content last_changes=last_changes user=user %}
       <a class="btn btn-primary" href="{% url 'changes' path=object.get_url_path %}">{% translate "Browse all translation changes" %}</a>
     </div>
 
@@ -188,7 +188,7 @@
           <div class="card ">
             <div class="card-header">
               <h4 class="card-title">
-                {% documentation_icon5 'user/translating' 'search-replace' right=True %}
+                {% documentation_icon 'user/translating' 'search-replace' right=True %}
                 {% translate "Search and replace" %}
               </h4>
             </div>
@@ -209,7 +209,7 @@
           <div class="card">
             <div class="card-header">
               <h4 class="card-title">
-                {% documentation_icon5 'user/translating' 'bulk-edit' right=True %}
+                {% documentation_icon 'user/translating' 'bulk-edit' right=True %}
                 {% translate "Bulk edit" %}
               </h4>
             </div>
@@ -293,7 +293,7 @@
       <div class="card">
         <div class="card-header">
           <h4 class="card-title">
-            {% documentation_icon5 'user/files' 'download' right=True %}
+            {% documentation_icon 'user/files' 'download' right=True %}
             {% translate "Quick downloads" %}
           </h4>
         </div>
@@ -339,7 +339,7 @@
         <div class="card">
           <div class="card-header">
             <h4 class="card-title">
-              {% documentation_icon5 'user/files' 'download' right=True %}
+              {% documentation_icon 'user/files' 'download' right=True %}
               {% translate "Customize download" %}
             </h4>
           </div>
@@ -360,7 +360,7 @@
           <div class="card">
             <div class="card-header">
               <h4 class="card-title">
-                {% documentation_icon5 'user/files' 'upload' right=True %}
+                {% documentation_icon 'user/files' 'upload' right=True %}
                 {% translate "Upload" %}
               </h4>
             </div>
@@ -388,7 +388,7 @@
           <div class="card">
             <div class="card-header">
               <h4 class="card-title">
-                {% documentation_icon5 'admin/announcements' right=True %}
+                {% documentation_icon 'admin/announcements' right=True %}
                 {% translate "Post announcement" %}
               </h4>
             </div>

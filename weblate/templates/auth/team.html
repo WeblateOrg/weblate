@@ -6,17 +6,29 @@
   {% perm "meta:team.users" object as user_can_edit_team_users %}
 
   <ul class="nav nav-pills">
-    <li role="presentation" class="active">
-      <a href="#basic" role="tab" data-toggle="tab">{% translate "Settings" %}</a>
+    <li class="nav-item" role="presentation">
+      <a class="nav-link active"
+         data-bs-target="#basic"
+         role="tab"
+         data-bs-toggle="tab"
+         href="#">{% translate "Settings" %}</a>
     </li>
     {% if form %}
-      <li role="presentation">
-        <a href="#auto" role="tab" data-toggle="tab">{% translate "Automatic assignments" %}</a>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link"
+           data-bs-target="#auto"
+           role="tab"
+           data-bs-toggle="tab"
+           href="#">{% translate "Automatic assignments" %}</a>
       </li>
     {% endif %}
     {% if user_can_edit_team_users %}
-      <li role="presentation">
-        <a href="#users" role="tab" data-toggle="tab">{% translate "Members" %}</a>
+      <li class="nav-item" role="presentation">
+        <a class="nav-link"
+           data-bs-target="#users"
+           role="tab"
+           data-bs-toggle="tab"
+           href="#">{% translate "Members" %}</a>
       </li>
     {% endif %}
   </ul>
@@ -24,21 +36,21 @@
 
 {% block breadcrumbs %}
   {% if object.defining_project %}
-    <li>
+    <li class="breadcrumb-item">
       <a href="{{ object.defining_project.get_absolute_url }}">{{ object.defining_project }}</a>
     </li>
-    <li>
+    <li class="breadcrumb-item">
       <a href="{% url 'manage-access' project=object.defining_project.slug %}#teams">{% translate "Access control" %}</a>
     </li>
   {% else %}
-    <li>
+    <li class="breadcrumb-item">
       <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
     </li>
-    <li>
+    <li class="breadcrumb-item">
       <a href="{% url 'manage-teams' %}">{% translate "Teams" %}</a>
     </li>
   {% endif %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'team' pk=object.pk %}">{{ object }}</a>
   </li>
 {% endblock breadcrumbs %}
@@ -92,9 +104,9 @@
       {% endif %}
       {% if user_can_edit_team_users %}
         <div class="tab-pane" id="users">
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">
                 {% documentation_icon 'admin/access' 'groups' right=True %}
                 {% translate "Users" %}
               </h4>
@@ -144,8 +156,8 @@
                         </a>
                       {% endif %}
                       <a href="#"
-                         data-toggle="modal"
-                         data-target="#delete_user_{{ user.id }}"
+                         data-bs-toggle="modal"
+                         data-bs-target="#delete_user_{{ user.id }}"
                          class="btn btn-link btn-xs red"
                          title="{% translate "Remove" %}">{% icon 'delete.svg' %} {% translate "Remove" %}</a>
                     </td>
@@ -154,14 +166,14 @@
               </tbody>
             </table>
             {% if users.paginator.num_pages > 1 %}
-              <div class="panel-footer">
+              <div class="card-footer">
                 {% include "paginator.html" with page_obj=users anchor="users" paginator_form="paginator-form" %}
               </div>
             {% endif %}
-            <div class="panel-footer">
+            <div class="card-footer">
               <a href="#"
-                 data-toggle="modal"
-                 data-target="#add_user_popup"
+                 data-bs-toggle="modal"
+                 data-bs-target="#add_user_popup"
                  class="btn btn-primary">{% translate "Add a user" %}</a>
             </div>
           </div>
@@ -182,13 +194,11 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <button type="button"
-                      class="close"
-                      data-dismiss="modal"
-                      aria-label="{% translate "Close" %}">
-                <span aria-hidden="true">×</span>
-              </button>
               <h4 class="modal-title">{% translate "Are you absolutely sure?" %}</h4>
+              <button type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="{% translate "Close" %}"></button>
             </div>
             <div class="modal-body">
               {% blocktranslate with user=user.username %}This will remove <b>{{ user }}</b> access to this project.{% endblocktranslate %}
@@ -214,14 +224,12 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <button type="button"
-                    class="close"
-                    data-dismiss="modal"
-                    aria-label="{% translate "Close" %}">
-              <span aria-hidden="true">×</span>
-            </button>
             {% translate "Add a user" %}
             {% documentation_icon 'admin/access' 'invite-user' %}
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="{% translate "Close" %}"></button>
           </div>
           <div class="modal-body">{{ add_user_form|crispy }}</div>
           <div class="modal-footer">

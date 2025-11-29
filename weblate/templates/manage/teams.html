@@ -3,19 +3,19 @@
 {% load crispy_forms_tags humanize i18n icons permissions translations %}
 
 {% block breadcrumbs %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
   </li>
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'manage-teams' %}">{% translate "Teams" %}</a>
   </li>
 {% endblock breadcrumbs %}
 
 {% block content %}
 
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">{% translate "Manage teams" %}</h4>
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">{% translate "Manage teams" %}</h4>
     </div>
     <table class="table table-striped">
       <thead>
@@ -44,8 +44,8 @@
                  title="{% translate "Edit" %}">{% icon 'pencil.svg' %}</a>
               {% if not group.internal %}
                 <a href="#"
-                   data-toggle="modal"
-                   data-target="#delete_group_{{ group.id }}"
+                   data-bs-toggle="modal"
+                   data-bs-target="#delete_group_{{ group.id }}"
                    class="btn btn-link btn-xs red"
                    title="{% translate "Delete" %}">{% icon 'delete.svg' %}</a>
               {% endif %}
@@ -61,13 +61,13 @@
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
+                        <h4 class="modal-title" id="delete_group_title_{{ group.id }}">{% translate "Are you absolutely sure?" %}</h4>
                         <button type="button"
-                                class="close"
-                                data-dismiss="modal"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
                                 aria-label="{% translate "Close" %}">
                           <span aria-hidden="true">×</span>
                         </button>
-                        <h4 class="modal-title" id="delete_group_title_{{ group.id }}">{% translate "Are you absolutely sure?" %}</h4>
                       </div>
                       <div class="modal-body" id="delete_group_body_{{ group.id }}">
                         {% blocktranslate with name=group %}This will delete the group <b>{{ name }}</b>.{% endblocktranslate %}
@@ -93,17 +93,17 @@
         {% endfor %}
       </tbody>
     </table>
-    <div class="panel-footer">{% include "paginator.html" %}</div>
+    <div class="card-footer">{% include "paginator.html" %}</div>
   </div>
 
   <form method="post">
     {% csrf_token %}
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">{% translate "Create new team" %}</h4>
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{% translate "Create new team" %}</h4>
       </div>
-      <div class="panel-body">{{ form|crispy }}</div>
-      <div class="panel-footer">
+      <div class="card-body">{{ form|crispy }}</div>
+      <div class="card-footer">
         <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
       </div>
     </div>

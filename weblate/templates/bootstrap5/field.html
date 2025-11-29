@@ -1,0 +1,77 @@
+{% load crispy_forms_field translations %}
+
+{% comment %}Based on crispy original, just adds form_field_doc_link.{% endcomment %}
+
+{# djlint:off #}
+{% if field.is_hidden %}
+    {{ field }}
+{% else %}
+    {% if field|is_checkbox and tag != "td" %}
+        <div class="mb-3{% if 'form-horizontal' in form_class %} row{% endif %}">
+        {% if label_class %}
+            <div class="{% for offset in bootstrap_checkbox_offsets %}{{ offset|slice:"7:14" }}{{ offset|slice:"4:7" }}{{ offset|slice:"14:16" }} {% endfor %}{{ field_class }}">
+        {% endif %}
+    {% endif %}
+    <{% if tag %}{{ tag }}{% else %}div{% endif %} id="div_{{ field.auto_id }}" class="{% if field|is_checkbox and form_show_labels %}form-check{% else %}mb-3{% if 'form-horizontal' in form_class %} row{% endif %}{% endif %}{% if wrapper_class %} {{ wrapper_class }}{% endif %}{% if field.css_classes %} {{ field.css_classes }}{% endif %}">
+        {% if field.label and not field|is_checkbox and form_show_labels %}
+            {% if field.use_fieldset %}<fieldset{% if 'form-horizontal' in form_class %} class="row"{% endif %}{% if field.aria_describedby %} aria-describedby="{{ field.aria_describedby }}"{% endif %}>{% endif %}
+            <{% if field.use_fieldset %}legend{% else %}label{% endif %}
+                {% if field.id_for_label %}for="{{ field.id_for_label }}"{% endif %} class="{% if 'form-horizontal' in form_class %}col-form-label pt-0{% else %}form-label{% endif %}{% if label_class %} {{ label_class }}{% endif %}{% if field.field.required %} requiredField{% endif %}{% if field.use_fieldset %} fs-6{% endif %}">
+                {{ field.label }}{% if field.field.required %}<span class="asteriskField">*</span>{% endif %}
+                {% form_field_doc_link field.form field %}
+            </{% if field.use_fieldset %}legend{% else %}label{% endif %}>
+        {% endif %}
+
+        {% if field|is_checkboxselectmultiple or field|is_radioselect %}
+            {% include 'bootstrap5/layout/radio_checkbox_select.html' %}
+        {% endif %}
+
+        {% if not field|is_checkboxselectmultiple and not field|is_radioselect %}
+            {% if field|is_checkbox and form_show_labels %}
+                    {% if field.errors %}
+                        {% crispy_field field 'class' 'form-check-input is-invalid' %}
+                    {% else %}
+                        {% crispy_field field 'class' 'form-check-input' %}
+                    {% endif %}
+                <label for="{{ field.id_for_label }}" class="form-check-label{% if field.field.required %} requiredField{% endif %}">
+                    {{ field.label }}{% if field.field.required %}<span class="asteriskField">*</span>{% endif %}
+                    {% form_field_doc_link field.form field %}
+                </label>
+                {% include 'bootstrap5/layout/help_text_and_errors.html' %}
+            {% else %}
+                {% if field_class %}<div class="{{ field_class }}">{% endif %}
+                    {% if field|is_file %}
+                        {% include 'bootstrap5/layout/field_file.html' %}
+                    {% elif field|is_select %}
+                        {% if field.errors %}
+                            {% crispy_field field 'class' 'form-select is-invalid' %}
+                        {% else %}
+                            {% crispy_field field 'class' 'form-select' %}
+                        {% endif %}
+                    {% elif field|is_checkbox %}
+                        {% if field.errors %}
+                            {% crispy_field field 'class' 'form-check-input is-invalid' %}
+                        {% else %}
+                            {% crispy_field field 'class' 'form-check-input' %}
+                        {% endif %}
+                    {% elif field.errors %}
+                        {% crispy_field field 'class' 'form-control is-invalid' %}
+                    {% else %}
+                        {% crispy_field field 'class' 'form-control' %}
+                    {% endif %}
+                    {% if not field|is_file %}
+                        {% include 'bootstrap5/layout/help_text_and_errors.html' %}
+                    {% endif %}
+                {% if field_class %}</div>{% endif %}
+            {% endif %}
+        {% endif %}
+        {% if field.use_fieldset and field.label and form_show_labels %}</fieldset>{% endif %}
+    </{% if tag %}{{ tag }}{% else %}div{% endif %}>
+    {% if field|is_checkbox and tag != "td" %}
+        {% if label_class %}
+            </div>
+        {% endif %}
+        </div>
+    {% endif %}
+{% endif %}
+{# djlint:on #}

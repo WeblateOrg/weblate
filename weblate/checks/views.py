@@ -217,7 +217,6 @@ class CheckList(PathViewMixin, ListView):
         context = super().get_context_data(**kwargs)
         context["check"] = self.check_obj
         context["path_object"] = self.path_object
-        context["bootstrap_5"] = True
         if self.check_obj is None:
             if self.path_object is None:
                 context["title"] = gettext("Failing checks")

@@ -459,7 +459,7 @@ class RegistrationTest(BaseRegistrationTest):
 
         # Try invalid address first
         response = self.client.post(reverse("email_login"), {"email": "invalid"})
-        self.assertContains(response, "has-error")
+        self.assertContains(response, "is-invalid")
 
         # Add e-mail account
         response = self.client.post(

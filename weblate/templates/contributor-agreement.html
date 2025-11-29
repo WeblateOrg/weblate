@@ -4,7 +4,7 @@
 
 {% block breadcrumbs %}
   {% path_object_breadcrumbs object %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'contributor-agreement' path=object.get_url_path %}">{% translate "Contributor license agreement" %}</a>
   </li>
 {% endblock breadcrumbs %}
@@ -14,11 +14,11 @@
         method="post"
         enctype="multipart/form-data">
 
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">{% translate "Contributor license agreement" %}</h4>
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{% translate "Contributor license agreement" %}</h4>
       </div>
-      <div class="panel-body">
+      <div class="card-body">
         <p>{% translate "Please read the following contributor license agreement:" %}</p>
         <div class="list-group-item pre-scrollable">{{ object.agreement|markdown }}</div>
 
@@ -26,7 +26,7 @@
 
         {% crispy form %}
       </div>
-      <div class="panel-footer">
+      <div class="card-footer">
         {% if has_agreed %}
           {% translate "You have already agreed to this agreement." %}
         {% else %}

@@ -3,10 +3,10 @@
 {% load humanize i18n static translations %}
 
 {% block breadcrumbs %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'about' %}">{% translate "About Weblate" %}</a>
   </li>
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'donate' %}">{% translate "Support Weblate" %}</a>
   </li>
 {% endblock breadcrumbs %}

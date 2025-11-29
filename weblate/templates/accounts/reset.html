@@ -3,7 +3,7 @@
 {% load crispy_forms_tags i18n translations %}
 
 {% block breadcrumbs %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'password_reset' %}">{% translate "Password reset" %}</a>
   </li>
 {% endblock breadcrumbs %}
@@ -32,8 +32,8 @@
       <div class="col-sm-6 col-sm-push-6">
 
         <h4>{% translate "Password reset" %}</h4>
-        <div class="panel panel-default">
-          <div class="panel-body">
+        <div class="card">
+          <div class="card-body">
 
             <form action="{% url 'password_reset' %}"
                   method="post"

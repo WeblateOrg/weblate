@@ -1,4 +1,4 @@
-{% extends "base5.html" %}
+{% extends "base.html" %}
 
 {% load authnames crispy_forms_tags humanize i18n icons metrics permissions translations urlformat %}
 
@@ -232,7 +232,7 @@
       <div class="tab-pane" id="activity">{% include "snippets/activity.html" with metrics=page_user|metrics %}</div>
 
       <div class="tab-pane" id="changes">
-        {% format_last_changes_content last_changes=last_changes user=user bootstrap_5=True %}
+        {% format_last_changes_content last_changes=last_changes user=user %}
         <a class="btn btn-primary" href="{% url 'changes' %}?{{ last_changes_url }}">{% translate "Browse all changes made by this user" %}</a>
       </div>
 
@@ -447,13 +447,11 @@
               <div class="modal-dialog" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <button type="button"
-                            class="close"
-                            data-bs-dismiss="modal"
-                            aria-label="{% translate "Close" %}">
-                      <span aria-hidden="true">×</span>
-                    </button>
                     <h4 class="modal-title">{% translate "Are you absolutely sure?" %}</h4>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="{% translate "Close" %}"></button>
                   </div>
                   <div class="modal-body">
                     {% blocktranslate with user=page_user.username %}This will remove <b>{{ user }}</b> from Weblate.{% endblocktranslate %}

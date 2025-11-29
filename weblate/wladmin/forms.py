@@ -35,7 +35,7 @@ class SSHAddForm(forms.Form):
         self.helper = FormHelper(self)
         self.helper.form_tag = False
         self.helper.form_class = "form-inline"
-        self.helper.field_template = "bootstrap3/layout/inline_field.html"
+        self.helper.field_template = "bootstrap5/layout/inline_field.html"
 
 
 class TestMailForm(forms.Form):

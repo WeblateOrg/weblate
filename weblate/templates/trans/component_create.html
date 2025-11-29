@@ -5,46 +5,46 @@
 {% block nav_pills %}
   <ul class="nav nav-pills">
     {% if projects %}
-      <li role="presentation" class="active">
+      <li class="nav-item" role="presentation">
         {# Translators: Create a component from version control #}
-        <a href="#vcs" data-toggle="tab">{% translate "From version control" %}</a>
+        <a class="nav-link active" data-bs-target="#vcs" data-bs-toggle="tab" href="#">{% translate "From version control" %}</a>
       </li>
     {% endif %}
     {% if form.fields.component.queryset %}
-      <li role="presentation">
+      <li class="nav-item" role="presentation">
         {# Translators: Create a component from existing component #}
-        <a href="#existing" data-toggle="tab">{% translate "From an existing component" %}</a>
+        <a class="nav-link" data-bs-target="#existing" data-bs-toggle="tab" href="#">{% translate "From an existing component" %}</a>
       </li>
     {% endif %}
     {% if branch_form.fields.component.queryset %}
-      <li role="presentation">
+      <li class="nav-item" role="presentation">
         {# Translators: Create a component as additional branch #}
-        <a href="#branch" data-toggle="tab">{% translate "Additional branch" %}</a>
+        <a class="nav-link" data-bs-target="#branch" data-bs-toggle="tab" href="#">{% translate "Additional branch" %}</a>
       </li>
     {% endif %}
     {% if zip_form %}
-      <li role="presentation">
+      <li class="nav-item" role="presentation">
         {# Translators: Create a component using ZIP upload #}
-        <a href="#zip" data-toggle="tab">{% translate "Upload translations files" %}</a>
+        <a class="nav-link" data-bs-target="#zip" data-bs-toggle="tab" href="#">{% translate "Upload translations files" %}</a>
       </li>
     {% endif %}
     {% if doc_form %}
-      <li role="presentation">
+      <li class="nav-item" role="presentation">
         {# Translators: Create a component using document upload #}
-        <a href="#doc" data-toggle="tab">{% translate "Translate document" %}</a>
+        <a class="nav-link" data-bs-target="#doc" data-bs-toggle="tab" href="#">{% translate "Translate document" %}</a>
       </li>
     {% endif %}
     {% if scratch_form %}
-      <li role="presentation">
+      <li class="nav-item" role="presentation">
         {# Translators: Create a component from scratch #}
-        <a href="#scratch" data-toggle="tab">{% translate "Start from scratch" %}</a>
+        <a class="nav-link" data-bs-target="#scratch" data-bs-toggle="tab" href="#">{% translate "Start from scratch" %}</a>
       </li>
     {% endif %}
   </ul>
 {% endblock nav_pills %}
 
 {% block breadcrumbs %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'create-component' %}">{% translate "Create component" %}</a>
   </li>
 {% endblock breadcrumbs %}
@@ -167,7 +167,7 @@
             <input type="hidden" name="project" value="{{ selected_project }}" />
             <p class="check">
               {% translate "Create a new empty translation component to start from scratch." %}
-              {% blocktranslate with link_start='<a href="#zip" data-toggle="tab">' link_end='</a>' %}Create a ZIP file containing any existing translation files you have, and {{ link_start }}upload it{{ link_end }}.{% endblocktranslate %}
+              {% blocktranslate with link_start='<a data-bs-target="#zip" data-bs-toggle="tab" href="#">' link_end='</a>' %}Create a ZIP file containing any existing translation files you have, and {{ link_start }}upload it{{ link_end }}.{% endblocktranslate %}
             </p>
             {% crispy scratch_form %}
             <input type="submit"

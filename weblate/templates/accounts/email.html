@@ -12,16 +12,16 @@
 
   <form action="{% url 'email_login' %}" method="post" accept-charset="utf-8">
 
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">{% translate "Verify new e-mail address" %}</h4>
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{% translate "Verify new e-mail address" %}</h4>
       </div>
-      <div class="panel-body">
+      <div class="card-body">
 
         {% csrf_token %}
         {{ form|crispy }}
       </div>
-      <div class="panel-footer">
+      <div class="card-footer">
         <input type="submit" value="{% translate 'Register' %}" class="btn btn-primary" />
       </div>
     </div>
