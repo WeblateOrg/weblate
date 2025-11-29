@@ -175,6 +175,7 @@ class EditLanguageView(UpdateView):
             self.get_context_data(form=form, workflow_form=workflow_form)
         )
 
+    # pylint: disable-next=arguments-differ
     def form_valid(self, form, workflow_form):
         """If the form is valid, save the associated model."""
         workflow_form.instance.language = self.object

@@ -69,7 +69,7 @@ class GenerateFileAddon(BaseAddon):
         content = render_template(
             self.instance.configuration["template"], translation=translation
         )
-        Path(filename).write_text(content)
+        Path(filename).write_text(content, encoding="utf-8")
         translation.addon_commit_files.append(filename)
 
 

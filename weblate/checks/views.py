@@ -246,6 +246,7 @@ class CheckList(PathViewMixin, ListView):
             raise TypeError(msg)
         return context
 
+    # pylint: disable-next=arguments-differ
     def setup(self, request: AuthenticatedHttpRequest, **kwargs) -> None:
         super().setup(request, **kwargs)
         self.check_obj = None

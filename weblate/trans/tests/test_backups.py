@@ -205,7 +205,7 @@ class BackupsTest(ViewTestCase):
         # Verify that Git operations work on restored repos
         restored.do_reset()
 
-    def test_create_duplicate(self):
+    def test_create_duplicate(self) -> None:
         def extract_names(qs) -> list[str]:
             return list(qs.order_by("name").values_list("name", flat=True))
 

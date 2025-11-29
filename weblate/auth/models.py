@@ -1089,6 +1089,7 @@ def change_componentlist(sender, instance, action, **kwargs) -> None:
 
 
 @receiver(m2m_changed, sender=User.groups.through)
+# pylint: disable=redefined-outer-name
 def remove_group_admin(sender, instance, action, pk_set, reverse, **kwargs) -> None:
     if action != "post_remove":
         return

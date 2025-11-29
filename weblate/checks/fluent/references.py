@@ -743,10 +743,10 @@ class FluentReferencesCheck(TargetCheck):
             )
         return FluentPatterns.highlight_source(source, highlight_patterns)
 
-    def get_description(self, check_model: CheckModel) -> StrOrPromise:
-        (unit, source, target) = translation_from_check(check_model)
+    def get_description(self, check_obj: CheckModel) -> StrOrPromise:
+        (unit, source, target) = translation_from_check(check_obj)
         differences = self._compare_references(unit, source, target)
         if not differences:
-            return super().get_description(check_model)
+            return super().get_description(check_obj)
 
         return format_html_error_list(diff.description() for diff in differences)

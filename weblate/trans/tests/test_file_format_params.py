@@ -322,11 +322,11 @@ class TSParamsTest(BaseFileFormatsTest):
             self.assertIn('<location filename="main.c" line="11"/>', new_commit)
             self.assertNotIn("</location>", new_commit)
 
-    def test_closing_tags(self):
+    def test_closing_tags(self) -> None:
         self.update_component_file_params(xml_closing_tags=True)
         self._test_closing_tags(True)
 
-    def test_closing_tags_off(self):
+    def test_closing_tags_off(self) -> None:
         """Check that closing tags are turned off as default behavior."""
         self._test_closing_tags(False)
 

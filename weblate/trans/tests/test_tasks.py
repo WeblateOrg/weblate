@@ -96,7 +96,7 @@ class TasksTest(ViewTestCase):
     def test_daily_update_checks(self) -> None:
         daily_update_checks()
 
-    def test_commit_pending(self):
+    def test_commit_pending(self) -> None:
         self.component.commit_pending_age = 1
         self.component.save()
 
@@ -125,7 +125,7 @@ class TasksTest(ViewTestCase):
         self.assertEqual(component2.count_pending_units, 0)
 
     @patch("weblate.trans.tasks.perform_commit")
-    def test_commit_pending_with_ineligible_changes(self, mock_perform_commit):
+    def test_commit_pending_with_ineligible_changes(self, mock_perform_commit) -> None:
         """Test that perform_commit is not called when all changes are ineligible."""
         self.project.commit_policy = CommitPolicyChoices.WITHOUT_NEEDS_EDITING
         self.project.save()

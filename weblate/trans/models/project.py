@@ -736,21 +736,21 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         return get_glossary_automaton(self)
 
     def get_machinery_settings(self) -> dict[str, SettingsDict]:
-        settings = cast(
+        mt_settings = cast(
             "dict[str, SettingsDict]",
             Setting.objects.get_settings_dict(SettingCategory.MT),
         )
         for item, value in self.machinery_settings.items():
             if value is None:
-                if item in settings:
-                    del settings[item]
+                if item in mt_settings:
+                    del mt_settings[item]
             else:
-                settings[item] = value
+                mt_settings[item] = value
                 # Include project field so that different projects do not share
                 # cache keys via MachineTranslation.get_cache_key when service
                 # is installed at project level.
-                settings[item]["_project"] = self
-        return settings
+                mt_settings[item]["_project"] = self
+        return mt_settings
 
     @cached_property
     def enable_review(self):

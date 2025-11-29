@@ -909,7 +909,7 @@ class PendingUnitChangeTest(RepoTestCase):
             name="Component 3", project=self.other_project
         )
 
-    def test_find_committable_components_basic(self):
+    def test_find_committable_components_basic(self) -> None:
         """Test find_committable_components returns components with old enough changes."""
         self.component.commit_pending_age = 1
         self.component.save()
@@ -947,7 +947,7 @@ class PendingUnitChangeTest(RepoTestCase):
             set(components.values_list("pk", flat=True)), {self.component.pk}
         )
 
-    def test_find_committable_components_with_commit_policy(self):
+    def test_find_committable_components_with_commit_policy(self) -> None:
         """Test find_committable_components respects commit policies."""
         self.project.commit_policy = CommitPolicyChoices.WITHOUT_NEEDS_EDITING
         self.project.save()
@@ -984,7 +984,7 @@ class PendingUnitChangeTest(RepoTestCase):
             {self.component.pk, self.component2.pk, self.component3.pk},
         )
 
-    def test_find_committable_components_with_retry_filter(self):
+    def test_find_committable_components_with_retry_filter(self) -> None:
         """Test find_committable_components applies retry eligibility filter."""
         translation = self.component.translation_set.get(language_code="cs")
         unit = translation.unit_set.get(source="Hello, world!\n")

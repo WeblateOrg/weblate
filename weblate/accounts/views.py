@@ -865,6 +865,7 @@ class BaseLoginView(LoginView):
         return HttpResponseRedirect(self.get_success_url())
 
 
+@method_decorator(login_not_required, name="dispatch")
 class WeblateLoginView(BaseLoginView):
     """Login handler, just a wrapper around standard Django login."""
 
@@ -1418,13 +1419,13 @@ def handle_missing_parameter(
     request: AuthenticatedHttpRequest, backend: str, error: AuthMissingParameter
 ):
     if backend != "email" and error.parameter == "email":
-        messages = [
+        error_messages = [
             gettext("Got no e-mail address from third party authentication service.")
         ]
         if "email" in get_auth_keys():
             # Show only if e-mail authentication is turned on
-            messages.append(gettext("Please register using e-mail instead."))
-        return auth_fail(request, " ".join(messages))
+            error_messages.append(gettext("Please register using e-mail instead."))
+        return auth_fail(request, " ".join(error_messages))
     if error.parameter in {"email", "user", "expires"}:
         return auth_redirect_token(request)
     if error.parameter in {"state", "code", "RelayState"}:
@@ -1850,6 +1851,7 @@ class SecondFactorMixin(View):
         return user
 
 
+@method_decorator(login_not_required, name="dispatch")
 class SecondFactorLoginView(SecondFactorMixin, RedirectURLMixin, FormView):
     template_name = "accounts/2fa.html"
     next_page = settings.LOGIN_REDIRECT_URL

@@ -60,7 +60,7 @@ test = [
   "standardwebhooks==1.0.0"
 ]
 types = [
-  "boto3-stubs==1.41.2",
+  "boto3-stubs==1.41.5",
   "celery-types==0.23.0",
   "django-stubs-ext==5.2.7",
   "django-stubs[compatible-mypy]==5.2.7",
@@ -70,7 +70,7 @@ types = [
   "types-dateparser==1.2.2.20250809",
   "types-docutils==0.22.3.20251115",
   "types-jsonschema==4.25.1.20251009",
-  "types-lxml==2025.8.25",
+  "types-lxml==2025.11.25",
   "types-openpyxl==3.1.5.20250919",
   "types-Pillow==10.2.0.20240822",
   "types-python-dateutil==2.9.0.20251115",
@@ -92,9 +92,9 @@ classifiers = [
   "Operating System :: OS Independent",
   "Programming Language :: Python :: 3 :: Only",
   "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
   "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
   "Programming Language :: Python",
   "Topic :: Internet :: WWW/HTTP :: Dynamic Content",
   "Topic :: Internet :: WWW/HTTP",
@@ -144,16 +144,17 @@ dependencies = [
   "lxml>=5.4.0,<6.1",
   "mistletoe>=1.4.0,<1.6",
   "nh3>=0.2.20,<0.4",
-  "openpyxl>=3.1.0,<3.2",
+  "openpyxl>=3.1.5,<3.2",
   "packaging>=25,<26",
   "phply>=1.2.6,<1.3",
   "Pillow>=11.0.0,<13",
+  "pyaskalono>=0.2.0,<0.3.0",
   "pycairo>=1.20.0",
   "Pygments>=2.19.0,<3.0",
-  "PyGObject>=3.40.1,<3.55.0",
+  "PyGObject>=3.54.5,<3.55.0",
   "pyicumessageformat>=1.0.0,<1.1",
   "pyparsing>=3.2.0,<3.3",
-  "python-dateutil>=2.8.2",
+  "python-dateutil>=2.9.0.post0",
   "qrcode>=8.2,<8.3",
   "rapidfuzz>=3.12.1,<3.15",
   "redis>=5.2.0,<8.0.0",
@@ -165,7 +166,7 @@ dependencies = [
   "social-auth-app-django>=5.5.1,<6.0.0",
   "social-auth-core>=4.7.0,<5.0.0",
   "tesserocr>=2.8.0,<2.10.0",
-  "translate-toolkit>=3.16.1,<3.17",
+  "translate-toolkit[toml]>=3.17.2,<3.18",
   "translation-finder>=2.22,<3.0",
   "unidecode>=1.4.0,<1.5",
   "user-agents>=2.2.0,<2.3",
@@ -184,7 +185,7 @@ keywords = [
 license = "GPL-3.0-or-later"
 license-files = ["LICENSE"]
 name = "weblate"
-requires-python = ">=3.11"
+requires-python = ">=3.12"
 version = "5.15"
 
 [project.optional-dependencies]
@@ -208,8 +209,8 @@ gerrit = [
   "git-review>=2.4.0,<2.6.0"
 ]
 google = [
-  "google-cloud-storage>=2.18.2,<3.7",
-  "google-cloud-translate>=3.13.0,<4.0"
+  "google-cloud-storage>=3.4.0,<3.7",
+  "google-cloud-translate>=3.21.0,<4.0"
 ]
 ldap = [
   "django-auth-ldap>=4.6.0,<6.0.0"
@@ -224,7 +225,7 @@ openai = [
   "openai>=2.0,<3.0"
 ]
 postgres = [
-  "psycopg[binary]>=3.1.8,<4"
+  "psycopg[binary]>=3.2.11,<3.3"
 ]
 saml = [
   "python3-saml>=1.16.0"
@@ -428,8 +429,6 @@ max_allowed_size_uncompressed = '300M'
 [tool.pylint.main]
 disable = [
   "abstract-method",  # TODO
-  "arguments-differ",  # TODO
-  "arguments-renamed",  # TODO
   "attribute-defined-outside-init",  # TODO
   "broad-exception-caught",  # TODO
   "c-extension-no-member",
@@ -442,7 +441,7 @@ disable = [
   "import-outside-toplevel",
   "invalid-name",  # TODO
   "invalid-overridden-method",  # TODO
-  "invalid-str-returned",
+  "invalid-str-returned",  # Most of Django __str__ fails this
   "keyword-arg-before-vararg",  # TODO
   "line-too-long",
   "missing-class-docstring",
@@ -455,8 +454,6 @@ disable = [
   "not-callable",
   "protected-access",  # TODO
   "raising-bad-type",
-  "redefined-builtin",  # TODO
-  "redefined-outer-name",  # TODO
   "too-few-public-methods",
   "too-many-ancestors",
   "too-many-arguments",
@@ -470,7 +467,6 @@ disable = [
   "too-many-public-methods",
   "too-many-return-statements",
   "too-many-statements",
-  "unspecified-encoding",  # TODO
   "unsubscriptable-object",
   "unsupported-assignment-operation",  # TODO
   "unsupported-binary-operation",
@@ -505,10 +501,6 @@ filterwarnings = [
   "ignore:datetime.datetime.utcnow:DeprecationWarning:onelogin.saml2.utils",
   # Warning in the third-party module (openid)
   "ignore:defusedxml.cElementTree is deprecated, import from defusedxml.ElementTree instead.:DeprecationWarning:openid.oidutil",
-  # importlib warning on Python 3.11
-  "ignore:DynamicImporter:ImportWarning",
-  # TODO: Will be fixed in next PyGobject release.
-  "ignore:GioUnix was imported without specifying a version first:gi.PyGIWarning",
   # There is no better way to differentiate DATA_DIR for the xdist executed tests
   "ignore:Implicitly cleaning up <TemporaryDirectory.*/xdist-:ResourceWarning",
   # Happens via dateparser
@@ -577,11 +569,9 @@ ignore = [
   "E501",  # WONTFIX: we accept long strings (rest is formatted by black)
   "FBT",  # TODO: Boolean in function definition
   "FIX002",  # CONFIG: we use TODO
-  "PERF203",  # WONTFIX: This rule is only enforced for Python versions prior to 3.11
   "PLC0415",  # TODO: `import` should be at the top-level of a file
   "PLR2004",  # TODO: Magic value used in comparison, consider replacing 201 with a constant variable
   "PLR6301",  # TODO: Method could be a function, class method, or static method
-  "PLW1514",  # TODO: `open` in text mode without explicit `encoding` argument
   "PLW2901",  # TODO: overwriting variables inside loop
   "PT",  # CONFIG: Not using pytest
   "PTH",  # TODO: Not using pathlib
