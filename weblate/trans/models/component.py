@@ -3027,6 +3027,10 @@ class Component(
             return
         if skip_push is None:
             skip_push = validate
+        if not self.is_repo_local and not self.repository.is_valid():
+            with self.repository.lock:
+                self.repository.clone_from(self.repo)
+
         self.configure_repo(validate)
         if not skip_commit and self.id:
             self.commit_pending("sync", None, skip_push=skip_push)
@@ -3659,11 +3663,6 @@ class Component(
     def count_pending_units(self):
         """Return count of pending units."""
         return self._count_pending_units_helper(apply_filters=True)
-
-    @property
-    def count_total_pending_units(self):
-        """Return count of total pending units including changes ineligible to retry."""
-        return self._count_pending_units_helper(apply_filters=False)
 
     def _count_pending_units_helper(self, apply_filters: bool):
         queryset = PendingUnitChange.objects.for_component(

@@ -177,6 +177,7 @@ class BaseAddonView(DetailView):
     model = Addon
     request: AuthenticatedHttpRequest
 
+    # pylint: disable-next=arguments-differ
     def get_object(self):  # type: ignore[override]
         obj = super().get_object()
         if obj.component and not self.request.user.has_perm(

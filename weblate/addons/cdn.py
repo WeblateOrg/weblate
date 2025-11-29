@@ -125,13 +125,16 @@ class CDNJSAddon(BaseAddon):
                     "cookie_name": self.instance.configuration["cookie_name"],
                     "css_selector": self.instance.configuration["css_selector"],
                 },
-            )
+            ),
+            encoding="utf-8",
         )
 
         # Generate bilingual JSON files
         for translation in translations:
             with open(
-                self.cdn_path(f"{translation.language.code}.json"), "w"
+                self.cdn_path(f"{translation.language.code}.json"),
+                "w",
+                encoding="utf-8",
             ) as handle:
                 json.dump(
                     {

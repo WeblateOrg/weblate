@@ -26,7 +26,7 @@ from weblate.trans.models import Component, Unit
 from weblate.utils import messages
 from weblate.utils.data import data_dir
 from weblate.utils.lock import WeblateLock
-from weblate.utils.requests import request
+from weblate.utils.requests import http_request
 from weblate.utils.search import parse_query
 from weblate.utils.views import PathViewMixin
 
@@ -178,7 +178,7 @@ def ensure_tesseract_language(lang: str) -> None:
             LOGGER.debug("downloading tesseract data %s", url)
 
             with sentry_sdk.start_span(op="ocr.download", name=url):
-                response = request("GET", url, allow_redirects=True)
+                response = http_request("GET", url, allow_redirects=True)
 
             with open(full_name, "xb") as handle:
                 handle.write(response.content)

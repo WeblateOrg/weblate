@@ -81,6 +81,7 @@ class XlsxFormat(CSVUtf8Format):
         XlsxFormat(store).save_content(output)
         return output.getvalue()
 
+    # pylint: disable-next=arguments-differ
     def parse_store(self, storefile):
         from openpyxl import load_workbook
 

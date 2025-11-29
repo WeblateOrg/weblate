@@ -296,6 +296,7 @@ class BasicLanguagesTest(TestCase):
 
 
 class LanguageTestSequenceMeta(type):
+    # pylint: disable-next=redefined-builtin
     def __new__(mcs, name, bases, dict):  # noqa: A002
         def gen_test(original, expected, direction, plural, name, create):
             def test(self) -> None:
@@ -829,17 +830,17 @@ class LanguageAliasesChangeTest(ViewTestCase):
         """Set up test environment."""
         super().setUp()
 
-        def update_codes_in_dict(data: dict) -> dict:
+        def update_codes_in_dict(codes: dict) -> dict:
             """Replace old_code key with new_code in a language dict."""
-            copy = data.copy()
+            copy = codes.copy()
             value = copy.pop(self.old_code)
             copy[self.new_code] = value
             return copy
 
-        def update_code_in_tuple(data: tuple) -> tuple:
+        def update_code_in_tuple(codes: tuple) -> tuple:
             """Replace old_code with new_code in a language tuple."""
             new_data = []
-            for item in data:
+            for item in codes:
                 if item[0] == self.old_code:
                     item = (self.new_code, *item[1:])
                 new_data.append(item)

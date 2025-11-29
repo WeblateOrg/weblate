@@ -112,9 +112,9 @@ def manage(request: AuthenticatedHttpRequest) -> HttpResponse:
     activation_code = request.GET.get("activation")
     if activation_code and len(activation_code) < 400:
         initial = {"secret": activation_code}
-    support_form = None
+    form = None
     if support.name != "community":
-        support_form = ContactForm(
+        form = ContactForm(
             request=request,
             hide_captcha=request.user.is_authenticated,
             initial=get_initial_contact(request),
@@ -128,7 +128,7 @@ def manage(request: AuthenticatedHttpRequest) -> HttpResponse:
             "menu_page": "index",
             "support": support,
             "activate_form": ActivateForm(initial=initial),
-            "support_form": support_form,
+            "support_form": form,
             "git_revision_link": GIT_LINK,
             "git_revision": GIT_REVISION,
         },

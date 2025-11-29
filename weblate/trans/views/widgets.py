@@ -114,6 +114,7 @@ class WidgetRedirectView(RedirectView):
     permanent = True
     query_string = True
 
+    # pylint: disable=arguments-differ
     def get_redirect_url(
         self,
         project: str,

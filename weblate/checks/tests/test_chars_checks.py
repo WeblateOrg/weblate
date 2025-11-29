@@ -149,6 +149,17 @@ class EndStopCheckTest(CheckTestCase):
         self.do_test(False, ("Text?", "ပုံဖျက်မလး။", ""), "my")
         self.do_test(False, ("Te xt", "ပုံဖျက်မလး။", ""), "my")  # codespell:ignore
 
+    def test_french(self) -> None:
+        self.do_test(
+            False,
+            (
+                "To enable password-less login, the public SSH key can be copied to the remote host.",
+                "Pour activer l’authentification sans mot de passe, la clé publique SSH peut être copiée sur le serveur distant.",  # codespell:ignore
+                "",
+            ),
+            "fr",
+        )
+
 
 class EndColonCheckTest(CheckTestCase):
     check = EndColonCheck()

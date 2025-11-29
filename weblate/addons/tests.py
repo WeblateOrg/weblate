@@ -297,7 +297,7 @@ class GettextAddonTest(ViewTestCase):
             "po", "po-duplicates/*.dpo", name="Other", project=self.project
         )
         self.assertTrue(UpdateLinguasAddon.can_install(component=other))
-        addon = UpdateLinguasAddon.create(component=other)
+        UpdateLinguasAddon.create(component=other)
         commit = other.repository.show(other.repository.last_revision)
         self.assertIn("LINGUAS", commit)
         self.assertIn("\n+cs de it", commit)
@@ -373,7 +373,7 @@ class GettextAddonTest(ViewTestCase):
         )
         addon = GettextAuthorComments.create(component=translation.component)
         addon.pre_commit(translation, "Stojan Jakotyc <stojan@example.com>", True)
-        content = Path(translation.get_filename()).read_text()
+        content = Path(translation.get_filename()).read_text(encoding="utf-8")
         self.assertIn("Stojan Jakotyc", content)
 
     def test_pseudolocale(self) -> None:
@@ -1393,7 +1393,7 @@ class AutoTranslateAddonTest(ViewTestCase):
         addon.component_update(self.component)
 
     @override_settings(CELERY_TASK_ALWAYS_EAGER=True)
-    def test_auto_change_event(self):
+    def test_auto_change_event(self) -> None:
         component_1 = self.create_po_new_base(name="Component 1", project=self.project)
         component_1.allow_translation_propagation = False
         component_1.save()
@@ -1511,7 +1511,7 @@ class CDNJSAddonTest(ViewTestCase):
         self.component.commit_pending("test", None)
 
         # Check translation files
-        content = Path(jsname).read_text()
+        content = Path(jsname).read_text(encoding="utf-8")
         self.assertIn(".l10n", content)
         self.assertIn('"cs"', content)
         self.assertTrue(os.path.isfile(addon.cdn_path("cs.json")))
@@ -1620,7 +1620,9 @@ class TargetChangeAddonTest(ViewTestCase):
                 component=self.component,
             )
             translation_remote_file = os.path.join(tempdir, translation.filename)
-            Path(translation_remote_file).write_text(updated_json_content)
+            Path(translation_remote_file).write_text(
+                updated_json_content, encoding="utf-8"
+            )
             with repo.lock:
                 repo.set_committer("Toast", "toast@example.net")
                 repo.commit(

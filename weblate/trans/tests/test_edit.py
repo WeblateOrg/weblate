@@ -288,6 +288,54 @@ class EditTest(ViewTestCase):
         else:
             self.skipTest("Not supported")
 
+    def test_dismiss_automatically_translated(self) -> None:
+        """Test dismissing automatically translated flag."""
+        unit = self.get_unit(self.source)
+        unit.automatically_translated = True
+        unit.save(update_fields=["automatically_translated"])
+
+        response = self.client.post(
+            reverse("js-dismiss-automatically-translated", kwargs={"unit_id": unit.id})
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.headers["Content-Type"], "application/json")
+
+        unit = self.get_unit(self.source)
+        self.assertFalse(unit.automatically_translated)
+
+    def test_dismiss_automatically_translated_no_permission(self) -> None:
+        """Test dismissing automatically translated without permission."""
+        unit = self.get_unit(self.source)
+        unit.automatically_translated = True
+        unit.save(update_fields=["automatically_translated"])
+
+        # Remove edit permission
+        self.user.groups.clear()
+
+        response = self.client.post(
+            reverse("js-dismiss-automatically-translated", kwargs={"unit_id": unit.id})
+        )
+        self.assertEqual(response.status_code, 403)
+
+        unit = self.get_unit(self.source)
+        self.assertTrue(unit.automatically_translated)
+
+    def test_dismiss_automatically_translated_not_authenticated(self) -> None:
+        """Test dismissing automatically translated without authentication."""
+        unit = self.get_unit(self.source)
+        unit.automatically_translated = True
+        unit.save(update_fields=["automatically_translated"])
+
+        self.client.logout()
+
+        response = self.client.post(
+            reverse("js-dismiss-automatically-translated", kwargs={"unit_id": unit.id})
+        )
+        self.assertEqual(response.status_code, 302)
+
+        unit = self.get_unit(self.source)
+        self.assertTrue(unit.automatically_translated)
+
 
 class EditValidationTest(ViewTestCase):
     def edit(self, **kwargs):
@@ -412,6 +460,7 @@ class EditLanguageTest(EditTest):
             kwargs={"path": [self.project.slug, "-", "cs"]},
         )
 
+    # pylint: disable=arguments-differ
     def edit_unit(self, source, target, language="cs", **kwargs):
         """Do edit single unit using web interface."""
         unit = self.get_unit(source, language)
@@ -1163,7 +1212,7 @@ class EditComplexTest(ViewTestCase):
         form = response.context["form"]
         params = {field: form[field].value() for field in form.fields}
         params["target_0"] = "Nazdar svete!\n"
-        response = self.client.post(url, params)
+        self.client.post(url, params)
         unit = self.get_unit()
         self.assertEqual(unit.target, "Nazdar svete!\n")
         self.assertEqual(unit.state, STATE_TRANSLATED)

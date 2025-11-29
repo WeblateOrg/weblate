@@ -28,7 +28,7 @@ from weblate.lang.models import Language, PluralMapper
 from weblate.machinery.forms import BaseMachineryForm
 from weblate.utils.errors import report_error
 from weblate.utils.hash import calculate_dict_hash, calculate_hash, hash_to_checksum
-from weblate.utils.requests import request
+from weblate.utils.requests import http_request
 from weblate.utils.similarity import Comparer
 from weblate.utils.site import get_site_url
 
@@ -213,7 +213,7 @@ class BatchMachineTranslation:
             headers.update(self.get_headers())
 
         # Fire request
-        response = request(
+        response = http_request(
             method,
             url,
             headers=headers,
@@ -271,12 +271,12 @@ class BatchMachineTranslation:
         cache.set(self.languages_cache, languages, 3600 * 48)
         return languages
 
-    def is_supported(self, source, language):
+    def is_supported(self, source_language, target_language):
         """Check whether given language combination is supported."""
         return (
-            language in self.supported_languages
-            and source in self.supported_languages
-            and source != language
+            target_language in self.supported_languages
+            and source_language in self.supported_languages
+            and source_language != target_language
         )
 
     def is_rate_limited(self):
@@ -368,9 +368,16 @@ class BatchMachineTranslation:
 
         return "".join(parts), replacements
 
+    def uncleanup_text_item(self, text: str, source: str, target: str) -> str:
+        def replace_target(_match: re.Match) -> str:
+            return target
+
+        # Use callable for replacement to avoid interpreting escape sequences
+        return re.sub(self.make_re_placeholder(source), replace_target, text)
+
     def uncleanup_text(self, replacements: dict[str, str], text: str) -> str:
         for source, target in replacements.items():
-            text = re.sub(self.make_re_placeholder(source), target, text)
+            text = self.uncleanup_text_item(text, source, target)
         return self.unescape_text(text)
 
     def uncleanup_results(
