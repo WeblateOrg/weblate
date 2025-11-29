@@ -94,7 +94,6 @@ class Repository:
         branch: str | None = None,
         component: Component | None = None,
         local: bool = False,
-        skip_init: bool = False,
     ) -> None:
         self.path: str = path
         if branch is None:
@@ -115,12 +114,9 @@ class Repository:
         )
         self._config_updated = False
         self.local = local
+        # Create ssh wrapper for possible use
         if not local:
-            # Create ssh wrapper for possible use
             SSH_WRAPPER.create()
-            if not skip_init and not self.is_valid():
-                with self.lock:
-                    self.create_blank_repository(self.path)
 
     @classmethod
     def get_remote_branch(cls, repo: str) -> str:  # noqa: ARG003
@@ -347,14 +343,18 @@ class Repository:
         """Clone repository."""
         raise NotImplementedError
 
+    def clone_from(self, source: str) -> None:
+        """Clone repository into current one."""
+        self._clone(source, self.path, self.branch)
+
     @classmethod
     def clone(
         cls, source: str, target: str, branch: str, component: Component | None = None
     ) -> Self:
         """Clone repository and return object for cloned repository."""
-        repo = cls(target, branch=branch, component=component, skip_init=True)
+        repo = cls(target, branch=branch, component=component)
         with repo.lock:
-            cls._clone(source, target, branch)
+            repo.clone_from(source)
         return repo
 
     def update_remote(self) -> None:

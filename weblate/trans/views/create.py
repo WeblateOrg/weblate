@@ -5,8 +5,8 @@ from __future__ import annotations
 
 import json
 import os
-import subprocess
 from contextlib import suppress
+from pathlib import Path
 from typing import TYPE_CHECKING
 from zipfile import BadZipfile
 
@@ -37,10 +37,8 @@ from weblate.trans.forms import (
 )
 from weblate.trans.models import Category, Component, Project
 from weblate.trans.tasks import perform_update
-from weblate.trans.util import get_clean_env
 from weblate.utils import messages
-from weblate.utils.errors import report_error
-from weblate.utils.licenses import LICENSE_URLS
+from weblate.utils.licenses import LICENSE_URLS, detect_license
 from weblate.utils.ratelimit import session_ratelimit_post
 from weblate.utils.views import create_component_from_doc, create_component_from_zip
 from weblate.vcs.models import VCS_REGISTRY
@@ -274,34 +272,15 @@ class CreateComponent(BaseCreateView):
 
     def detect_license(self, form) -> None:
         """Automatic license detection based on licensee."""
-        try:
-            process_result = subprocess.run(
-                ["licensee", "detect", "--json", form.instance.full_path],
-                text=True,
-                capture_output=True,
-                env=get_clean_env(),
-                check=True,
+        detected_license = detect_license(Path(form.instance.full_path))
+
+        if detected_license and detected_license in LICENSE_URLS:
+            self.initial["license"] = detected_license
+            messages.info(
+                self.request,
+                gettext("Detected license as %s, please check whether it is correct.")
+                % detected_license,
             )
-        except FileNotFoundError:
-            return
-        except (OSError, subprocess.CalledProcessError) as error:
-            if getattr(error, "returncode", 0) != 1:
-                report_error("Failed licensee invocation")
-            return
-        result = json.loads(process_result.stdout)
-        for license_data in result["licenses"]:
-            spdx_id = license_data["spdx_id"]
-            for license_id in (f"{spdx_id}-or-later", f"{spdx_id}-only", spdx_id):
-                if license_id in LICENSE_URLS:
-                    self.initial["license"] = license_id
-                    messages.info(
-                        self.request,
-                        gettext(
-                            "Detected license as %s, please check whether it is correct."
-                        )
-                        % license_id,
-                    )
-                    return
 
     def form_valid(self, form):
         if self.stage == "create":

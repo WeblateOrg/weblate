@@ -27,8 +27,8 @@ def check_machinery(
     from weblate.machinery.models import MACHINERY
 
     # Needed to load the data
-    # pylint: disable-next=pointless-statement
-    MACHINERY.data  # noqa: B018
+    MACHINERY.keys()
+
     return [
         weblate_check(
             f"weblate.W039.{key.split('.')[-1]}",

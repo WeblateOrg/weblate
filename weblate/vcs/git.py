@@ -696,11 +696,8 @@ class SubversionRepository(GitRepository):
         branch: str | None = None,
         component: Component | None = None,
         local: bool = False,
-        skip_init: bool = False,
     ) -> None:
-        super().__init__(
-            path, branch=branch, component=component, local=local, skip_init=skip_init
-        )
+        super().__init__(path, branch=branch, component=component, local=local)
         self._fetch_revision: str | None = None
 
     @classmethod
@@ -720,7 +717,7 @@ class SubversionRepository(GitRepository):
         if config.has_option(section, option) and config.get(section, option) == value:
             return
         config.set(section, option, value)
-        with open(filename, "w") as handle:
+        with open(filename, "w", encoding="utf-8") as handle:
             config.write(handle)
 
     @classmethod
@@ -1825,7 +1822,7 @@ class LocalRepository(GitRepository):
     def create_blank_repository(cls, path: str) -> None:
         """Initialize the repository."""
         super().create_blank_repository(path)
-        with open(os.path.join(path, "README.md"), "w") as handle:
+        with open(os.path.join(path, "README.md"), "w", encoding="utf-8") as handle:
             handle.write("Translations repository created by Weblate\n")
             handle.write("==========================================\n")
             handle.write("\n")
@@ -2166,11 +2163,8 @@ class BitbucketServerRepository(GitMergeRequestBase):
         branch: str | None = None,
         component: Component | None = None,
         local: bool = False,
-        skip_init: bool = False,
     ) -> None:
-        super().__init__(
-            path, branch=branch, component=component, local=local, skip_init=skip_init
-        )
+        super().__init__(path, branch=branch, component=component, local=local)
         self.bb_fork: dict = {}
 
     def get_headers(self, credentials: GitCredentials) -> dict[str, str]:

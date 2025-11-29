@@ -48,7 +48,7 @@ class EnvTest(SimpleTestCase):
         target = os.path.join(settings.DATA_DIR, "test")
         os.makedirs(target)
         filepath = Path(os.path.join(target, "file"))
-        filepath.write_text("bar")
+        filepath.write_text("bar", encoding="utf-8")
         os.environ["TEST_DATA_FILE"] = str(filepath)
         self.assertEqual(get_env_str("TEST_DATA"), "bar")
         self.assertEqual(get_env_str("TEST_DATA", required=True), "bar")
@@ -58,7 +58,7 @@ class EnvTest(SimpleTestCase):
         self.assertEqual(get_env_str("TEST_DATA"), "bar")
         self.assertEqual(get_env_str("TEST_DATA", required=True), "bar")
         self.assertEqual(get_env_str("TEST_DATA", default="baz", required=True), "bar")
-        filepath.write_text("")
+        filepath.write_text("", encoding="utf-8")
         self.assertEqual(get_env_str("TEST_DATA"), "")
         del os.environ["TEST_DATA_FILE"]
         self.assertEqual(get_env_str("TEST_DATA"), "foo")
@@ -73,7 +73,7 @@ class EnvTest(SimpleTestCase):
         target = os.path.join(settings.DATA_DIR, "test")
         os.makedirs(target)
         filepath = Path(os.path.join(target, "file"))
-        filepath.write_text("baz")
+        filepath.write_text("baz", encoding="utf-8")
 
         os.environ["TEST_DATA"] = "foo"
         os.environ["TEST_DATA_FALLBACK"] = "bar"
@@ -280,8 +280,8 @@ class EnvTest(SimpleTestCase):
             get_env_ratelimit("RATELIMIT_ANON", "")
         del os.environ["RATELIMIT_ANON"]
 
-    def test_redis_url(self):
-        def cleanup():
+    def test_redis_url(self) -> None:
+        def cleanup() -> None:
             toremove = [name for name in os.environ if name.startswith("REDIS_")]
             for name in toremove:
                 del os.environ[name]
@@ -323,8 +323,8 @@ class EnvTest(SimpleTestCase):
         finally:
             cleanup()
 
-    def test_saml(self):
-        def cleanup():
+    def test_saml(self) -> None:
+        def cleanup() -> None:
             toremove = [name for name in os.environ if name.startswith("WEBLATE_SAML_")]
             for name in toremove:
                 del os.environ[name]

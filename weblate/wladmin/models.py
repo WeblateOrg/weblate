@@ -30,7 +30,7 @@ from weblate.utils.backup import (
     prune,
 )
 from weblate.utils.const import SUPPORT_STATUS_CACHE_KEY
-from weblate.utils.requests import request
+from weblate.utils.requests import http_request
 from weblate.utils.site import get_site_url
 from weblate.utils.stats import GlobalStats
 from weblate.utils.validators import validate_backup_path
@@ -206,7 +206,9 @@ class SupportStatus(models.Model):
         ssh_key = ensure_ssh_key()
         if ssh_key:
             data["ssh_key"] = ssh_key["key"]
-        response = request("post", settings.SUPPORT_API_URL, data=data, timeout=360)
+        response = http_request(
+            "post", settings.SUPPORT_API_URL, data=data, timeout=360
+        )
         response.raise_for_status()
         payload = response.json()
         self.name = payload["name"]

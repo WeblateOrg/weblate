@@ -436,7 +436,9 @@ class TTKitFormat(TranslationFormat):
 
         if self.use_settarget and self.source_language:
             unit.setsource(source, self.source_language)
-        else:
+        elif self.is_template or self.template_store or self.use_settarget:
+            # Set source only if needed, it has performance hit in many formats because
+            # it is wrapped/rendered here.
             unit.source = source
 
         if self.use_settarget and self.language_code:
@@ -1043,6 +1045,13 @@ class CSVUnit(MonolingualSimpleUnit):
         ):
             # Update source for bilingual as CSV fields can contain just source
             self.unit.source = self.unit.target
+        if (
+            self.template is not None
+            and not self.parent.is_template
+            and "context" not in self.parent.store.fieldnames
+        ):
+            # Update source for monolingual fields without context field
+            self.unit.source = self.unit.context
 
     def is_fuzzy(self, fallback=False):
         # Report fuzzy state only if present in the fields
@@ -1705,6 +1714,7 @@ class CSVFormat(TTKitFormat):
             content = Path(filename).read_bytes()
         return content, filename
 
+    # pylint: disable-next=arguments-differ
     def parse_store(self, storefile, *, dialect: str | None = None):
         """Parse the store."""
         content, filename = self.get_content_and_filename(storefile)
@@ -1738,6 +1748,8 @@ class CSVFormat(TTKitFormat):
 
     def parse_simple_csv(self, content, filename, header: list[str] | None = None):
         fieldnames = ["source", "target"]
+        # Prefer detected header if available (translate-toolkit PR #5830 adds
+        # monolingual CSV support with proper handling of context/id/target columns)
         if header and all(
             field in {"source", "target", "context", "id"} for field in header
         ):
@@ -1770,6 +1782,7 @@ class CSVSimpleFormat(CSVFormat):
         """Return most common file extension for format."""
         return "csv"
 
+    # pylint: disable-next=arguments-differ
     def parse_store(self, storefile):
         """Parse the store."""
         content, filename = self.get_content_and_filename(storefile)

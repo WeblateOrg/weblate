@@ -277,7 +277,7 @@ class MultiCSVExporter(CVSBaseExporter):
             return "'{}'".format(text.replace("|", "\\|"))
         return text
 
-    def add_units(self, units):
+    def add_units(self, units) -> None:
         # Override add_units to handle multivalue units by adding each translation
         # as a separate row in the CSV export.
 

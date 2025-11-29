@@ -11,9 +11,6 @@
     <meta name="author" content="Michal Čihař" />
     <meta name="copyright" content="Copyright © Michal Čihař" />
     {% if not allow_index %}<meta name="robots" content="noindex,nofollow" />{% endif %}
-    {% if interledger_payment_pointer %}
-      <meta name="monetization" content="{{ interledger_payment_pointer }}" />
-    {% endif %}
 
     <title>{% include "snippets/title.html" %}</title>
     <meta name="description" content="{{ description }}" />

@@ -21,7 +21,21 @@ if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest, User
 
 
-class ChangesFeed(Feed):
+class BaseFeed(Feed):
+    def item_title(self, item):
+        return item.get_action_display()
+
+    def item_description(self, item):
+        return str(item)
+
+    def item_author_name(self, item):
+        return item.get_user_display(False)
+
+    def item_pubdate(self, item):
+        return item.timestamp
+
+
+class ChangesFeed(BaseFeed):
     """Generic RSS feed for Weblate changes."""
 
     def get_object(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> User:
@@ -43,29 +57,8 @@ class ChangesFeed(Feed):
     def items(self, obj):
         return Change.objects.last_changes(obj).recent()
 
-    def item_title(self, item):
-        return item.get_action_display()
 
-    def item_description(self, item):
-        return str(item)
-
-    def item_author_name(self, item):
-        return item.get_user_display(False)
-
-    def item_pubdate(self, item):
-        return item.timestamp
-
-
-class TranslationChangesFeed(ChangesFeed):
-    """RSS feed for changes in translation."""
-
-    def get_object(self, request: AuthenticatedHttpRequest, path):
-        return parse_path(
-            request,
-            path,
-            (Translation, Component, Project, Language, Unit, ProjectLanguage),
-        )
-
+class ObjectChangesFeed(BaseFeed):
     def title(self, obj):
         # Translators: %s is translation name
         return gettext("Recent changes in %s") % obj
@@ -81,9 +74,21 @@ class TranslationChangesFeed(ChangesFeed):
         return obj.change_set.prefetch().recent(skip_preload="translation")
 
 
-class LanguageChangesFeed(TranslationChangesFeed):
+class TranslationChangesFeed(ObjectChangesFeed):
+    """RSS feed for changes in translation."""
+
+    # pylint: disable-next=arguments-differ
+    def get_object(self, request: AuthenticatedHttpRequest, path):
+        return parse_path(
+            request,
+            path,
+            (Translation, Component, Project, Language, Unit, ProjectLanguage),
+        )
+
+
+class LanguageChangesFeed(ObjectChangesFeed):
     """RSS feed for changes in language."""
 
-    # pylint: disable-next=arguments-renamed
+    # pylint: disable-next=arguments-differ
     def get_object(self, request: AuthenticatedHttpRequest, lang):
         return get_object_or_404(Language, code=lang)

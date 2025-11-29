@@ -226,6 +226,7 @@ class Billing(models.Model):
         trial = ", trial" if self.is_trial else ""
         return f"{base} ({self.plan}{trial})"
 
+    # pylint: disable-next=arguments-differ
     def save(
         self,
         force_insert=False,
