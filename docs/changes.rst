@@ -13,6 +13,7 @@ Weblate 5.15
 * Added disk usage overview in :ref:`manage-performance`.
 * :http:get:`/api/groups/` now includes ``admins``.
 * :ref:`mt-modernmt` better supports language variants.
+* Automatically translated strings are now identified by a dedicated flag instead of a label.
 * :ref:`addon-weblate.discovery.discovery` preserves :ref:`file_format_params`.
 * :ref:`mt-cyrtranslit` now supports Belarusian and Greek.
 * :ref:`addon-weblate.webhook.slack` and :ref:`addon-weblate.webhook.webhook` can be installed multiple times.

@@ -69,6 +69,8 @@ Fields
       Untranslated strings, same as ``state:<translated``.
    ``pending``
       Pending strings not yet committed to the file (see :ref:`lazy-commit`).
+   ``automatically-translated``
+      Strings that were translated automatically (see :ref:`auto-translation`).
 ``language:TEXT``
    String target language.
 ``component:TEXT``

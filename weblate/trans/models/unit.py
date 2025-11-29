@@ -14,7 +14,7 @@ from django.conf import settings
 from django.core.cache import cache
 from django.db import Error as DjangoDatabaseError
 from django.db import models, transaction
-from django.db.models import Count, Max, Q, Sum, Value
+from django.db.models import Count, ManyToManyField, Max, Q, Sum, Value
 from django.db.models.functions import MD5, Length, Lower
 from django.utils import timezone
 from django.utils.functional import cached_property
@@ -363,20 +363,6 @@ class UnitQuerySet(models.QuerySet["Unit"]):
         )
 
 
-class LabelsField(models.ManyToManyField):
-    def save_form_data(self, instance, data) -> None:
-        from weblate.trans.models.label import TRANSLATION_LABELS
-
-        super().save_form_data(instance, data)
-
-        # Delete translation labels when not checked
-        new_labels = {label.name for label in data}
-        through = getattr(instance, self.attname).through.objects
-        for label in TRANSLATION_LABELS:
-            if label not in new_labels:
-                through.filter(unit__source_unit=instance, label__name=label).delete()
-
-
 class OldUnit(TypedDict):
     state: StringState
     source: str
@@ -454,7 +440,15 @@ class Unit(models.Model, LoggerMixin):
         null=True,
         default=None,
     )
-    labels = LabelsField("Label", verbose_name=gettext_lazy("Labels"), blank=True)
+    labels = ManyToManyField("Label", verbose_name=gettext_lazy("Labels"), blank=True)
+    automatically_translated = models.BooleanField(
+        default=False,
+        db_index=True,
+        verbose_name=gettext_lazy("Automatically translated"),
+        help_text=gettext_lazy(
+            "Indicates whether this string was translated automatically."
+        ),
+    )
 
     # The type annotation hides that field can be None because
     # save() updates it to non-None immediately.
@@ -612,6 +606,7 @@ class Unit(models.Model, LoggerMixin):
             "context": unit.context,
             "extra_flags": unit.extra_flags,
             "explanation": unit.explanation,
+            "automatically_translated": unit.automatically_translated,
         }
 
     def store_disk_state(self) -> None:
@@ -1345,11 +1340,19 @@ class Unit(models.Model, LoggerMixin):
             self.old_unit["state"] == self.state
             and self.old_unit["target"] == self.target
             and self.old_unit["explanation"] == self.explanation
+            and self.old_unit["automatically_translated"]
+            == self.automatically_translated
             and not was_propagated
         ):
             return False
 
-        update_fields = ["target", "state", "original_state", "explanation"]
+        update_fields = [
+            "target",
+            "state",
+            "original_state",
+            "explanation",
+            "automatically_translated",
+        ]
         if self.is_source and not self.translation.component.intermediate:
             self.source = self.target
             update_fields.extend(["source"])
@@ -1833,6 +1836,11 @@ class Unit(models.Model, LoggerMixin):
         if new_state != STATE_READONLY:
             self.original_state = self.state
 
+        if change_action == ActionEvents.AUTO:
+            self.automatically_translated = True
+        else:
+            self.automatically_translated = False
+
         # Save to the database
         saved = self.save_backend(
             user,
@@ -1872,13 +1880,6 @@ class Unit(models.Model, LoggerMixin):
                 saved = True
 
         self.update_translation_memory(user)
-
-        if change_action == ActionEvents.AUTO:
-            self.labels.add(component.project.automatically_translated_label)
-        else:
-            self.labels.through.objects.filter(
-                unit=self, label__name="Automatically translated"
-            ).delete()
 
         return saved
 
@@ -2031,6 +2032,11 @@ class Unit(models.Model, LoggerMixin):
             return get_anonymous(), timezone.now()
         return change.author or get_anonymous(), change.timestamp
 
+    @property
+    def get_last_author(self) -> User:
+        """Get last author of content changes to a unit."""
+        return self.get_last_content_change()[0]
+
     def get_locations(self) -> Generator[tuple[str, str, str]]:
         """Return list of location filenames."""
         for location in self.location.split(","):
@@ -2047,13 +2053,8 @@ class Unit(models.Model, LoggerMixin):
 
     @cached_property
     def all_labels(self):
-        from weblate.trans.models import Label
-
-        if self.is_source:
-            return self.labels.all()
-        return Label.objects.filter(
-            unit__id__in=(self.id, self.source_unit_id)
-        ).distinct()
+        unit = self if self.is_source else self.source_unit
+        return unit.labels.all()
 
     def get_flag_actions(self):
         flags = self.all_flags

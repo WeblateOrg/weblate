@@ -1021,6 +1021,8 @@ def unit_state_title(unit) -> str:
         state.append(pgettext("String state", "Commented"))
     if unit.has_suggestion:
         state.append(pgettext("String state", "Suggested"))
+    if unit.automatically_translated:
+        state.append(pgettext("String state", "Automatically translated"))
     if "forbidden" in unit.all_flags:
         state.append(gettext("This translation is forbidden."))
     return "; ".join(state)

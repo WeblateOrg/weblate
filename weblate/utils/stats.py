@@ -870,8 +870,6 @@ class TranslationStats(BaseStats):
 
     def calculate_labels(self) -> None:
         """Prefetch check stats."""
-        from weblate.trans.models.label import TRANSLATION_LABELS
-
         self.ensure_loaded()
         alllabels = set(
             self._object.component.project.label_set.values_list("name", flat=True)
@@ -881,14 +879,8 @@ class TranslationStats(BaseStats):
             .annotate_stats()
             .values_list("source_unit__labels__name", "strings", "words", "chars")
         )
-        translation_stats = (
-            self._object.unit_set.filter(labels__name__in=TRANSLATION_LABELS)
-            .values("labels__name")
-            .annotate_stats()
-            .values_list("labels__name", "strings", "words", "chars")
-        )
 
-        for label_name, strings, words, chars in chain(stats, translation_stats):
+        for label_name, strings, words, chars in stats:
             # Filtering here is way more effective than in SQL
             if label_name is None:
                 continue
