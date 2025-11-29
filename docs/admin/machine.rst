@@ -659,6 +659,54 @@ This service uses an API, and you need to obtain key and secret from NetEase.
 
     `NetEase Sight Translation Platform <https://sight.youdao.com/>`_
 
+.. _mt-ollama:
+
+Ollama
+------
+
+.. versionadded:: 5.15
+
+:Service ID: ``ollama``
+:Maximal score: 90
+:Advanced features: * :ref:`glossary-mt`
+:Configuration: +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``source_language`` | Source language selection | Available choices:                                                                                                        |
+                |                     |                           |                                                                                                                           |
+                |                     |                           | ``auto`` -- Automatic selection                                                                                           |
+                |                     |                           |                                                                                                                           |
+                |                     |                           | ``source`` -- Component source language                                                                                   |
+                |                     |                           |                                                                                                                           |
+                |                     |                           | ``secondary`` -- Secondary language defined in project or component                                                       |
+                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``base_url``        | Ollama API base URL       | Base URL of the Ollama API, http://localhost:11434/ by default                                                            |
+                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``model``           | Ollama model              | Name of the model described in Ollama catalogue                                                                           |
+                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``persona``         | Translator persona        | Describe the persona of translator to improve the accuracy of the translation. For example: “You are a squirrel breeder.” |
+                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``style``           | Translator style          | Describe the style of translation. For example: “Use informal language.”                                                  |
+                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+
+Performs translation using `Ollama`_ models.
+
+The Ollama API allows for the use of open source models for translations
+either locally installed or remotely accessed via the `Ollama`_ service.
+Note that before configuring your models, you should have `Ollama installed`_
+and downloaded the models you wish to use.
+
+Use persona and style fields to further fine-tune translations. These will be
+used in a prompt for Ollama and allow you to change the style of the
+translations.
+
+The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`.
+
+.. seealso::
+
+   * `Ollama models <https://ollama.com/search>`_
+
+.. _Ollama: https://ollama.com//
+.. _Ollama installed: https://ollama.com/download
+
 .. _mt-openai:
 
 OpenAI
