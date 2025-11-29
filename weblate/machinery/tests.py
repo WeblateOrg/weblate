@@ -54,6 +54,7 @@ from weblate.machinery.microsoft import MicrosoftCognitiveTranslation
 from weblate.machinery.modernmt import ModernMTTranslation
 from weblate.machinery.mymemory import MyMemoryTranslation
 from weblate.machinery.netease import NETEASE_API_ROOT, NeteaseSightTranslation
+from weblate.machinery.ollama import OllamaTranslation
 from weblate.machinery.openai import AzureOpenAITranslation, OpenAITranslation
 from weblate.machinery.saptranslationhub import SAPTranslationHub
 from weblate.machinery.systran import SystranTranslation
@@ -2634,6 +2635,161 @@ class AzureOpenAITranslationTest(OpenAITranslationTest):
                         "completion_tokens": 12,
                         "total_tokens": 21,
                     },
+                },
+            )
+        )
+
+
+class OllamaTranslationTest(BaseMachineTranslationTest):
+    MACHINE_CLS: type[BatchMachineTranslation] = OllamaTranslation
+    EXPECTED_LEN = 1
+    ENGLISH = "en"
+    SUPPORTED = "eu"
+    NOTSUPPORTED = None
+    CONFIGURATION: ClassVar[SettingsDict] = {
+        "model": "itzune/latxa:8b",
+        "persona": "",
+        "style": "",
+    }
+
+    def mock_empty(self) -> NoReturn:
+        self.skipTest("Not tested")
+
+    def mock_error(self) -> NoReturn:
+        self.skipTest("Not tested")
+
+    def mock_response(self) -> None:
+        respx.post(
+            "http://localhost:11434/api/generate",
+        ).mock(
+            httpx.Response(
+                200,
+                json={
+                    "model": "itzune/latxa:8b",
+                    "created_at": "2025-11-29T21:25:08.441817763Z",
+                    "response": "Sakatu SUTAN jarraitzeko",
+                    "done": True,
+                    "done_reason": "stop",
+                    "context": [
+                        128006,
+                        9125,
+                        128007,
+                        1432,
+                        2675,
+                        527,
+                        264,
+                        7701,
+                        26611,
+                        14807,
+                        18328,
+                        11,
+                        76588,
+                        520,
+                        67371,
+                        1495,
+                        198,
+                        1527,
+                        4221,
+                        364,
+                        268,
+                        1270,
+                        998,
+                        4221,
+                        364,
+                        20732,
+                        1270,
+                        4291,
+                        16437,
+                        323,
+                        11148,
+                        685,
+                        382,
+                        1079,
+                        1002,
+                        2592,
+                        1495,
+                        596,
+                        1162,
+                        304,
+                        1855,
+                        3492,
+                        627,
+                        2675,
+                        2744,
+                        10052,
+                        449,
+                        25548,
+                        925,
+                        1193,
+                        627,
+                        2675,
+                        656,
+                        539,
+                        2997,
+                        12215,
+                        37822,
+                        2055,
+                        128009,
+                        128006,
+                        882,
+                        128007,
+                        271,
+                        1911,
+                        61563,
+                        311,
+                        3136,
+                        128009,
+                        128006,
+                        78191,
+                        128007,
+                        1432,
+                        50,
+                        587,
+                        36409,
+                        328,
+                        1406,
+                        1111,
+                        30695,
+                        969,
+                        11289,
+                        98764,
+                    ],
+                    "total_duration": 3946971317,
+                    "load_duration": 3325185239,
+                    "prompt_eval_count": 73,
+                    "prompt_eval_duration": 107465065,
+                    "eval_count": 11,
+                    "eval_duration": 503286987,
+                },
+            )
+        )
+
+
+class OllamaRemoteModelTranslationTest(OllamaTranslationTest):
+    CONFIGURATION: ClassVar[SettingsDict] = {
+        "model": "minimax-m2:cloud",
+        "persona": "",
+        "style": "",
+    }
+
+    def mock_response(self) -> None:
+        respx.post(
+            "http://localhost:11434/api/generate",
+        ).mock(
+            httpx.Response(
+                200,
+                json={
+                    "model": "minimax-m2:cloud",
+                    "remote_model": "minimax-m2",
+                    "remote_host": "https://ollama.com:443",
+                    "created_at": "2025-11-29T21:43:24.529609868Z",
+                    "response": "Sakatu FIRE tekla jarraitzeko.",
+                    "thinking": 'The user wants a translation from English to Basque (eu). The phrase: "press FIRE to continue". In Basque, presumably "sakatu FIRE jarraitzeko". However, we have to consider whether "FIRE" might refer to a game button. In many contexts in Basque, when you see a prompt like "press FIRE to continue", you\'d translate as "sakatu FIRE tekla jarraitzeko" or just "sakatu FIRE". But we need to give a translation that includes "press FIRE to continue". \n\nBut also we have to consider the language: "press FIRE to continue" - typical in video games. Basque translation would be something like "FIRE sakatu jarraitzeko" or "Jarraitzeko, FIRE sakatu". However, in Basque, the phrase "sakatu FIRE tekla" would be used: "Sakatu FIRE tekla jarraitzeko". But maybe "FIRE" remains uppercase as a command or a button label. The instruction says "You always reply with translated string only." So we should output only the Basque translation. Should we keep "FIRE"? Usually if a button labeled "FIRE", maybe you keep it unchanged. Possibly also include "sakatu". So "Sakatu FIRE jarraitzeko". Or "FIRE sakatu jarraitzeko". However typical order would be "Jarraitzeko, FIRE sakatu" or "FIRE sakatu jarraitzeko". The phrase in Basque could be "JARRAITU, FIRE sakatu". But better to follow typical translation conventions: "Sakatu FIRE tekla jarraitzeko." This is straightforward.\n\nWe must not include any other text. So just the translation string.\n\nWe need to ensure that we respond with the translation only, not explanation. Also we have to ensure that we include correct punctuation.\n\nThus final answer: "Sakatu FIRE tekla jarraitzeko."\n\nWe need to be mindful of Basque case and punctuation. "Sakatu FIRE tekla jarraitzeko." Good.\n\nOne nuance: the "to continue" part is "jarraitzeko" as an infinitive of "jarraitu". That works.\n\nThus answer: "Sakatu FIRE tekla jarraitzeko."',
+                    "done": True,
+                    "done_reason": "stop",
+                    "total_duration": 5740856828,
+                    "prompt_eval_count": 63,
+                    "eval_count": 481,
                 },
             )
         )
