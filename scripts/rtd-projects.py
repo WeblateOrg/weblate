@@ -92,7 +92,6 @@ while result["next"]:
             )
             versions_response.raise_for_status()
             versions = versions_response.json()
-            found = None
             while LATEST_RELEASE not in {
                 version["slug"] for version in versions["results"]
             }:
