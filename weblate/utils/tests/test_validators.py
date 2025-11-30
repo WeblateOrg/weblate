@@ -64,6 +64,10 @@ class FullNameCleanTest(SimpleTestCase):
     def test_none(self) -> None:
         self.assertIsNone(clean_fullname(None))
 
+    def test_homoglyph(self) -> None:
+        with self.assertRaises(ValidationError):
+            validate_fullname("Alloρ")
+
     def test_invalid(self) -> None:
         with self.assertRaises(ValidationError):
             validate_fullname("ahoj\x00bar")
