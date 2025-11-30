@@ -354,7 +354,6 @@
               {% for userblock in page_user.userblock_set.all %}
                 <tr>
                   <th>{{ userblock.project.name }}</th>
-                  <td></td>
                   <td>
                     {% if userblock.expiry %}
                       {% blocktranslate with expiry=userblock.expiry|date:"DATE_FORMAT" %}Blocked until {{ expiry }}{% endblocktranslate %}
@@ -362,6 +361,13 @@
                       {% translate "Blocked permanently" %}
                     {% endif %}
                   </td>
+                  {% if userblock.note %}
+                    <td class="number">
+                      <span title="{{ userblock.note }}">{% icon 'info.svg' %}</span>
+                    </td>
+                  {% else %}
+                    <td></td>
+                  {% endif %}
                   <td>
                     <a href=""
                        class="btn btn-link btn-xs link-post"
