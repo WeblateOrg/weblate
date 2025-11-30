@@ -83,7 +83,8 @@ CELERY_RESULT_BACKEND = None
 STATS_LAZY = True
 
 VCS_API_DELAY = 0
-VCS_FILE_PROTOCOL = True
+# Allow file protocol for tests
+VCS_ALLOW_SCHEMES = {"https", "ssh", "file"}
 
 # Localize CDN addon
 LOCALIZE_CDN_URL = "https://cdn.example.com/"
@@ -151,6 +152,7 @@ AUTHENTICATION_BACKENDS = (
 
 # Disable random admin checks trigger
 BACKGROUND_ADMIN_CHECKS = False
+
 
 # Use weak password hasher for testing
 PASSWORD_HASHERS = [

@@ -524,7 +524,7 @@ class GitRepository(Repository):
             (
                 'protocol "file"',
                 "allow",
-                "always" if settings.VCS_FILE_PROTOCOL else "never",
+                "always" if "file" in settings.VCS_ALLOW_SCHEMES else "never",
             ),
         ]
         if merge_driver is not None:
