@@ -148,11 +148,27 @@ def bulk_perform(  # noqa: C901
                         if add_labels_pks - unit_label_pks:
                             source_unit.is_batch_update = True
                             source_unit.labels.add(*add_labels)
+                            for label in add_labels:
+                                if label.pk not in unit_label_pks:
+                                    source_unit.change_set.create(
+                                        action=ActionEvents.LABEL_ADD,
+                                        user=user,
+                                        author=user,
+                                        details={"label": label.name},
+                                    )
                             changed = True
 
                         if unit_label_pks & remove_labels_pks:
                             source_unit.is_batch_update = True
                             source_unit.labels.remove(*remove_labels)
+                            for label in remove_labels:
+                                if label.pk in unit_label_pks:
+                                    source_unit.change_set.create(
+                                        action=ActionEvents.LABEL_REMOVE,
+                                        user=user,
+                                        author=user,
+                                        details={"label": label.name},
+                                    )
                             changed = True
 
                     if changed:
