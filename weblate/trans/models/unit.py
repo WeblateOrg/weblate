@@ -68,6 +68,7 @@ if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.formats.base import TranslationUnit
     from weblate.machinery.base import UnitMemoryResultDict
+    from weblate.trans.models.label import Label
 
 
 NEWLINES = re.compile(r"\r\n|\r|\n")
@@ -597,6 +598,28 @@ class Unit(models.Model, LoggerMixin):
         for key in ["propagated_units"]:
             if key in self.__dict__:
                 del self.__dict__[key]
+
+    def save_labels(self, new_labels: list[Label], user: User) -> None:
+        """Save new labels for the unit."""
+        old_labels = set(self.labels.all())
+
+        self.labels.set(new_labels)
+
+        new_labels = set(self.labels.all())
+
+        for label in new_labels - old_labels:
+            self.change_set.create(
+                action=ActionEvents.LABEL_ADD,
+                user=user,
+                target=f"Added label {label.name}",
+            )
+
+        for label in old_labels - new_labels:
+            self.change_set.create(
+                action=ActionEvents.LABEL_REMOVE,
+                user=user,
+                target=f"Removed label {label.name}",
+            )
 
     def store_old_unit(self, unit) -> None:
         self.old_unit = {
