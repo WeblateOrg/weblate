@@ -30,7 +30,6 @@ from weblate.utils.db import using_postgresql
 from weblate.utils.state import (
     FUZZY_STATES,
     STATE_APPROVED,
-    STATE_FUZZY,
     StringState,
 )
 from weblate.utils.version import GIT_VERSION
@@ -105,7 +104,7 @@ class PendingChangeQuerySet(models.QuerySet):
                 Q(
                     unit__translation__component__project__commit_policy=CommitPolicyChoices.WITHOUT_NEEDS_EDITING
                 )
-                & ~Q(state=STATE_FUZZY)
+                & ~Q(state__in=FUZZY_STATES)
             )
             | (
                 Q(

@@ -15,7 +15,7 @@ from weblate.trans.actions import ActionEvents
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.utils.antispam import report_spam
 from weblate.utils.request import get_ip_address, get_user_agent_raw
-from weblate.utils.state import STATE_FUZZY
+from weblate.utils.state import STATE_NEEDS_CHECKING
 
 if TYPE_CHECKING:
     from datetime import datetime
@@ -68,10 +68,11 @@ class CommentManager(models.Manager):
         if scope == "report":
             if component.has_template():
                 if unit_scope.translated and not unit_scope.readonly:
+                    # TODO: needs-checking for target and needs-rewriting for source?
                     unit_scope.translate(
                         user,
                         unit_scope.target,
-                        STATE_FUZZY,
+                        STATE_NEEDS_CHECKING,
                         change_action=ActionEvents.MARKED_EDIT,
                     )
             else:
