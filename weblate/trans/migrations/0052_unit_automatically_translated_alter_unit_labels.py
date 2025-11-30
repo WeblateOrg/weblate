@@ -23,11 +23,4 @@ class Migration(migrations.Migration):
                 verbose_name="Automatically translated",
             ),
         ),
-        migrations.AlterField(
-            model_name="unit",
-            name="labels",
-            field=models.ManyToManyField(
-                blank=True, to="trans.label", verbose_name="Labels"
-            ),
-        ),
     ]
