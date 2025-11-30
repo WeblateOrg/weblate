@@ -72,6 +72,10 @@ class FullNameCleanTest(SimpleTestCase):
         with self.assertRaises(ValidationError):
             validate_fullname(".")
 
+    def test_html(self) -> None:
+        with self.assertRaises(ValidationError):
+            validate_fullname("<h1>User</h1>")
+
 
 class EmailValidatorTestCase(SimpleTestCase):
     def test_valid(self) -> None:

@@ -35,6 +35,8 @@ EMAIL_BLACKLIST = re.compile(r"^([./|]|.*([@%!`#&?]|/\.\./))")
 
 # Matches Git condition on "name consists only of disallowed characters"
 CRUD_RE = re.compile(r"^[.,;:<>\"'\\]+$")
+# Block certain characters from full name
+FULL_NAME_RESTRICT = re.compile(r'[<>"]')
 
 ALLOWED_IMAGES = {"image/jpeg", "image/png", "image/apng", "image/gif", "image/webp"}
 
@@ -156,6 +158,9 @@ def validate_fullname(val):
     # Validates full name that would be rejected by Git
     if CRUD_RE.match(val):
         raise ValidationError(gettext("Name consists only of disallowed characters."))
+
+    if FULL_NAME_RESTRICT.match(val):
+        raise ValidationError(gettext("Name contains disallowed characters."))
 
     return val
 
