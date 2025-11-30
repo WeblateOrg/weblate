@@ -39,9 +39,7 @@ class BaseFileFormatsTest(ViewTestCase):
         self.client.post(url, data, follow=True)
         self.component.refresh_from_db()
 
-
-class ComponentFileFormatsParamsTest(BaseFileFormatsTest):
-    def client_create_component(self, result, **kwargs):
+    def client_create_component(self, result: bool, **kwargs):
         params = {
             "name": "New Component With File Params",
             "slug": "new-component-with-file-params",
@@ -64,6 +62,30 @@ class ComponentFileFormatsParamsTest(BaseFileFormatsTest):
             self.assertEqual(response.status_code, 200)
         return response
 
+    def do_create_with_encoding_test(
+        self, encoding_name: str, encoding: str, success: bool = True
+    ) -> None:
+        kwargs = {f"file_format_params_{encoding_name}": encoding}
+        response = self.client_create_component(
+            success,
+            file_format=self.component.file_format,
+            filemask=self.component.filemask,
+            new_base="",
+            new_lang="contact",
+            **kwargs,
+        )
+        if success:
+            self.assertTrue(
+                Component.objects.filter(slug="new-component-with-file-params").exists()
+            )
+        else:
+            self.assertContains(response, "Could not parse")
+            self.assertFalse(
+                Component.objects.filter(slug="new-component-with-file-params").exists()
+            )
+
+
+class ComponentFileFormatsParamsTest(BaseFileFormatsTest):
     def get_new_component(
         self, slug: str = "new-component-with-file-params"
     ) -> Component:
@@ -416,3 +438,30 @@ class GettextParamsTest(BaseFileFormatsTest):
         self.assertIn(
             "--no-wrap", BilingualUpdateMixin.get_msgmerge_args(self.component)
         )
+
+
+class StringsParamsTest(BaseFileFormatsTest):
+    def create_component(self):
+        return self.create_iphone()
+
+    def test_encoding_param(self):
+        self.do_create_with_encoding_test("strings_encoding", "utf-8", success=False)
+        self.do_create_with_encoding_test("strings_encoding", "utf-16", success=True)
+
+
+class JavaPropertiesTest(BaseFileFormatsTest):
+    def create_component(self):
+        return self.create_java()
+
+    def test_encoding_param(self):
+        self.do_create_with_encoding_test(
+            "properties_encoding", "utf-16", success=False
+        )
+        self.do_create_with_encoding_test(
+            "properties_encoding", "iso-8859-1", success=True
+        )
+
+    def test_encoding_param_utf8(self):
+        # Java properties need to be ISO 8859-1, but Translate Toolkit converts
+        # them to UTF-8.
+        self.do_create_with_encoding_test("properties_encoding", "utf-8", success=True)

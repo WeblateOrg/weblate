@@ -333,7 +333,7 @@ class TranslationFormat:
     can_delete_unit: bool = True
     language_format: str = "posix"
     simple_filename: bool = True
-    new_translation: str | bytes | None = None
+    empty_file_template: str | bytes | None = None
     autoaddon: ClassVar[dict[str, dict[str, Any]]] = {}
     create_empty_bilingual: bool = False
     bilingual_class: type[TranslationFormat] | None = None
@@ -705,8 +705,12 @@ class TranslationFormat:
         )
 
     @classmethod
-    def get_new_file_content(cls) -> bytes:
+    def get_new_file_content(cls, encoding: str | None = None) -> bytes:  # noqa: ARG003
         return b""
+
+    @classmethod
+    def get_new_translation(cls, encoding: str | None = None) -> str | bytes | None:  # noqa: ARG003
+        return cls.empty_file_template
 
     @classmethod
     def create_new_file(

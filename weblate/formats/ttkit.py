@@ -49,6 +49,7 @@ from weblate.formats.base import (
 )
 from weblate.lang.data import FORMULA_WITH_ZERO, ZERO_PLURAL_TYPES
 from weblate.lang.models import Plural
+from weblate.trans.file_format_params import get_encoding_param
 from weblate.trans.util import (
     get_clean_env,
     get_string,
@@ -265,8 +266,12 @@ class TTKitFormat(TranslationFormat):
 
     def fixup(self, store) -> None:
         """Perform optional fixups on store."""
-        if self.force_encoding is not None:
-            store.encoding = self.force_encoding
+        if (
+            encoding := (
+                self.force_encoding or get_encoding_param(self.file_format_params)
+            )
+        ) is not None:
+            store.encoding = encoding
         # This gets already native language code, so no conversion is needed
         if self.language_code is not None:
             store.settargetlanguage(self.language_code)
@@ -292,7 +297,7 @@ class TTKitFormat(TranslationFormat):
         return store
 
     @classmethod
-    def get_class(cls) -> TranslationStore:
+    def get_class(cls, encoding: str | None = None) -> TranslationStore:  # noqa: ARG003
         """Return class for handling this module."""
         # Direct class
         if inspect.isclass(cls.loader):
@@ -314,7 +319,7 @@ class TTKitFormat(TranslationFormat):
 
     def get_store_instance(self, **kwargs):
         kwargs.update(self.get_format_class_kwargs())
-        store = self.get_class()(**kwargs)
+        store = self.get_class(get_encoding_param(self.file_format_params))(**kwargs)
 
         # Apply possible fixups
         self.fixup(store)
@@ -457,8 +462,8 @@ class TTKitFormat(TranslationFormat):
                 unit.untranslate(language)
 
     @classmethod
-    def get_new_file_content(cls):
-        result = cls.new_translation
+    def get_new_file_content(cls, encoding: str | None = None):
+        result = cls.get_new_translation(encoding)
         if isinstance(result, str):
             result = result.encode()
         return result
@@ -480,8 +485,10 @@ class TTKitFormat(TranslationFormat):
                 callback(store)
             store.untranslate_store(language)
             store.store.savefile(filename)
-        elif cls.new_translation is not None:
-            Path(filename).write_bytes(cls.get_new_file_content())
+        elif cls.empty_file_template is not None:
+            Path(filename).write_bytes(
+                cls.get_new_file_content(get_encoding_param(file_format_params))
+            )
         else:
             msg = "Not supported"
             raise ValueError(msg)
@@ -499,7 +506,7 @@ class TTKitFormat(TranslationFormat):
         if not base:
             if cls.create_empty_bilingual:
                 return True
-            return monolingual and cls.new_translation is not None
+            return monolingual and cls.empty_file_template is not None
         try:
             if not fast:
                 cls(base, file_format_params=file_format_params)
@@ -1199,7 +1206,7 @@ class PoFormat(BasePoFormat, BilingualUpdateMixin):
     unit_class = PoUnit
 
     @classmethod
-    def get_new_file_content(cls) -> bytes:
+    def get_new_file_content(cls, encoding: str | None = None) -> bytes:  # noqa: ARG003
         """Empty PO file content."""
         return b""
 
@@ -1266,7 +1273,7 @@ class PoMonoFormat(BasePoFormat):
     format_id = "po-mono"
     monolingual = True
     autoload: tuple[str, ...] = ()
-    new_translation = (
+    empty_file_template = (
         'msgid ""\n'
         'msgstr "X-Generator: Weblate\\n'
         "MIME-Version: 1.0\\n"
@@ -1309,7 +1316,7 @@ class XliffFormat(TTKitFormat):
     unit_class = XliffUnit
     language_format = "bcp"
     use_settarget = True
-    new_translation = """<?xml version="1.0" encoding="UTF-8"?>
+    empty_file_template = """<?xml version="1.0" encoding="UTF-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file original="Weblate" source-language="en" datatype="plaintext">
     <body>
@@ -1381,54 +1388,46 @@ class PropertiesBaseFormat(TTKitFormat):
 
 class StringsFormat(PropertiesBaseFormat):
     # Translators: File format name
-    name = gettext_lazy("iOS strings (UTF-16)")
+    name = gettext_lazy("iOS strings")
     format_id = "strings"
-    loader = ("properties", "stringsfile")
-    new_translation: str | bytes | None = "\n".encode("utf-16")
+    empty_file_template: str | bytes | None = "\n"
     autoload: tuple[str, ...] = ("*.strings",)
     language_format = "bcp"
 
+    @classmethod
+    def get_class(cls, encoding: str | None = None) -> TranslationStore:
+        if encoding == "utf-16":
+            cls.loader = ("properties", "stringsfile")
+        else:
+            cls.loader = ("properties", "stringsutf8file")
+        return super().get_class()
 
-class StringsUtf8Format(StringsFormat):
-    # Translators: File format name
-    name = gettext_lazy("iOS strings (UTF-8)")
-    format_id = "strings-utf8"
-    loader = ("properties", "stringsutf8file")
-    new_translation = "\n"
-
-
-class PropertiesUtf8Format(PropertiesBaseFormat):
-    # Translators: File format name
-    name = gettext_lazy("Java Properties (UTF-8)")
-    format_id = "properties-utf8"
-    loader = ("properties", "javautf8file")
-    new_translation = "\n"
-    language_format = "linux"
-    check_flags = ("auto-java-messageformat",)
-
-
-class PropertiesUtf16Format(PropertiesBaseFormat):
-    # Translators: File format name
-    name = gettext_lazy("Java Properties (UTF-16)")
-    format_id = "properties-utf16"
-    loader = ("properties", "javafile")
-    language_format = "linux"
-    new_translation = "\n"
-    # Translate Toolkit autodetection might fail in some cases.
-    force_encoding = "utf-16"
+    @classmethod
+    def get_new_translation(cls, encoding: str | None = None):
+        if encoding == "utf-16":
+            return "\n".encode("utf-16")
+        return cls.empty_file_template
 
 
 class PropertiesFormat(PropertiesBaseFormat):
     # Translators: File format name
-    name = gettext_lazy("Java Properties (ISO 8859-1)")
+    name = gettext_lazy("Java Properties")
     format_id = "properties"
     loader = ("properties", "javafile")
     language_format = "linux"
-    new_translation = "\n"
+    empty_file_template = "\n"
     autoload: tuple[str, ...] = ("*.properties",)
-    # Java properties need to be ISO 8859-1, but Translate Toolkit converts
-    # them to UTF-8.
-    force_encoding = "iso-8859-1"
+    check_flags = ("auto-java-messageformat",)
+
+    @classmethod
+    def get_class(cls, encoding: str | None = None) -> TranslationStore:
+        if encoding in {"utf-16", "iso-8859-1"}:
+            cls.loader = ("properties", "javafile")
+        elif encoding == "utf-8":
+            cls.loader = ("properties", "javautf8file")
+        else:
+            cls.loader = ("properties", "javafile")
+        return super().get_class(encoding)
 
 
 class JoomlaFormat(PropertiesBaseFormat):
@@ -1437,26 +1436,19 @@ class JoomlaFormat(PropertiesBaseFormat):
     format_id = "joomla"
     loader = ("properties", "joomlafile")
     monolingual = True
-    new_translation = "\n"
+    empty_file_template = "\n"
     autoload: tuple[str, ...] = ("*.ini",)
 
 
 class GWTFormat(StringsFormat):
     # Translators: File format name
-    name = gettext_lazy("GWT properties (UTF-8)")
+    name = gettext_lazy("GWT properties")
     format_id = "gwt"
     loader = ("properties", "gwtfile")
-    new_translation = "\n"
+    empty_file_template = "\n"
     check_flags = ("auto-java-messageformat",)
     language_format = "linux"
     supports_plural: bool = True
-
-
-class GWTISOFormat(GWTFormat):
-    # Translators: File format name
-    name = gettext_lazy("GWT properties (ISO-8859-1)")
-    format_id = "gwt-iso"
-    force_encoding = "iso-8859-1"
 
 
 class PhpFormat(TTKitFormat):
@@ -1464,7 +1456,7 @@ class PhpFormat(TTKitFormat):
     name = gettext_lazy("PHP strings")
     format_id = "php"
     loader = ("php", "phpfile")
-    new_translation = "<?php\n"
+    empty_file_template = "<?php\n"
     autoload: tuple[str, ...] = ("*.php",)
     unit_class = PHPUnit
 
@@ -1494,7 +1486,7 @@ class RESXFormat(TTKitFormat):
     loader = RESXFile
     monolingual = True
     unit_class = RESXUnit
-    new_translation = RESXFile.XMLskeleton
+    empty_file_template = RESXFile.XMLskeleton
     autoload: tuple[str, ...] = ("*.resx",)
     language_format = "bcp"
     supports_plural: bool = True
@@ -1508,7 +1500,7 @@ class AndroidFormat(TTKitFormat):
     loader = ("aresource", "AndroidResourceFile")
     monolingual = True
     unit_class = AndroidUnit
-    new_translation = (
+    empty_file_template = (
         '<?xml version="1.0" encoding="utf-8"?>\n<resources>\n</resources>'
     )
     autoload: tuple[str, ...] = ("strings*.xml", "values*.xml")
@@ -1558,7 +1550,7 @@ class JSONFormat(DictStoreFormat):
     loader = JsonFile
     unit_class = JSONUnit
     autoload: tuple[str, ...] = ("*.json",)
-    new_translation = "{}\n"
+    empty_file_template = "{}\n"
     set_context_bilingual = False
 
     @staticmethod
@@ -1615,7 +1607,7 @@ class GoI18JSONFormat(JSONFormat):
     format_id = "go-i18n-json"
     loader = ("jsonl10n", "GoI18NJsonFile")
     autoload: tuple[str, ...] = ()
-    new_translation = "[]\n"
+    empty_file_template = "[]\n"
     supports_plural: bool = True
 
 
@@ -1762,14 +1754,6 @@ class CSVFormat(TTKitFormat):
         return result
 
 
-class CSVUtf8Format(CSVFormat):
-    # Translators: File format name
-    name = gettext_lazy("CSV file (UTF-8)")
-    format_id = "csv-utf-8"
-    autoload: tuple[str, ...] = ()
-    force_encoding = "utf-8"
-
-
 class CSVSimpleFormat(CSVFormat):
     # Translators: File format name
     name = gettext_lazy("Simple CSV file")
@@ -1790,22 +1774,6 @@ class CSVSimpleFormat(CSVFormat):
         return self.parse_simple_csv(content, filename)
 
 
-class CSVSimpleFormatISO(CSVSimpleFormat):
-    # Translators: File format name
-    name = gettext_lazy("Simple CSV file (ISO-8859-1)")
-    format_id = "csv-simple-iso"
-    force_encoding = "iso-8859-1"
-    autoload: tuple[str, ...] = ()
-
-
-class CSVUtf8SimpleFormat(CSVSimpleFormat):
-    # Translators: File format name
-    name = gettext_lazy("Simple CSV file (UTF-8)")
-    format_id = "csv-simple-utf-8"
-    force_encoding = "utf-8"
-    autoload: tuple[str, ...] = ()
-
-
 class YAMLFormat(DictStoreFormat):
     # Translators: File format name
     name = gettext_lazy("YAML file")
@@ -1813,7 +1781,7 @@ class YAMLFormat(DictStoreFormat):
     loader = ("yaml", "YAMLFile")
     unit_class = MonolingualSimpleUnit
     autoload: tuple[str, ...] = ("*.pyml",)
-    new_translation = "{}\n"
+    empty_file_template = "{}\n"
 
     @staticmethod
     def mimetype() -> str:
@@ -1842,7 +1810,7 @@ class DTDFormat(TTKitFormat):
     loader = ("dtd", "dtdfile")
     autoload: tuple[str, ...] = ("*.dtd",)
     unit_class = MonolingualSimpleUnit
-    new_translation = "\n"
+    empty_file_template = "\n"
     can_add_unit: bool = False
 
     @staticmethod
@@ -1927,7 +1895,7 @@ class FlatXMLFormat(TTKitFormat):
     loader = ("flatxml", "FlatXMLFile")
     monolingual = True
     unit_class = FlatXMLUnit
-    new_translation = '<?xml version="1.0" encoding="utf-8"?>\n<root></root>'
+    empty_file_template = '<?xml version="1.0" encoding="utf-8"?>\n<root></root>'
 
     def get_format_class_kwargs(self):
         return {
@@ -1950,7 +1918,7 @@ class ResourceDictionaryFormat(FlatXMLFormat):
     loader = ("resourcedictionary", "ResourceDictionaryFile")
     check_flags = ("c-sharp-format",)
     language_format = "bcp_legacy"
-    new_translation = """<ResourceDictionary
+    empty_file_template = """<ResourceDictionary
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:system="clr-namespace:System;assembly=mscorlib">
@@ -1964,7 +1932,7 @@ class INIFormat(TTKitFormat):
     loader = ("ini", "inifile")
     monolingual = True
     unit_class = INIUnit
-    new_translation = "\n"
+    empty_file_template = "\n"
 
     @staticmethod
     def mimetype() -> str:
@@ -2058,7 +2026,7 @@ class XWikiPropertiesFormat(PropertiesBaseFormat):
     loader = ("properties", "xwikifile")
     language_format = "linux"
     autoload: tuple[str, ...] = ("*.properties",)
-    new_translation = "\n"
+    empty_file_template = "\n"
     can_add_unit: bool = False
     can_delete_unit: bool = False
     set_context_bilingual: bool = True
@@ -2215,7 +2183,7 @@ class TBXFormat(TTKitFormat):
     format_id = "tbx"
     loader = tbxfile
     autoload: tuple[str, ...] = ("*.tbx",)
-    new_translation = """<?xml version="1.0"?>
+    empty_file_template = """<?xml version="1.0"?>
 <!DOCTYPE martif PUBLIC "ISO 12200:1999A//DTD MARTIF core (DXFcdV04)//EN" "TBXcdv04.dtd">
 <martif type="TBX">
     <martifHeader>
@@ -2260,11 +2228,12 @@ class TBXFormat(TTKitFormat):
         self.store.addheader()
 
 
-class PropertiesMi18nFormat(PropertiesUtf8Format):
+class PropertiesMi18nFormat(PropertiesBaseFormat):
     # Translators: File format name
     name = gettext_lazy("@draggable/i18n lang file")
     format_id = "mi18n-lang"
-    new_translation = "\n"
+    empty_file_template = "\n"
+    loader = ("properties", "javautf8file")
     language_format = "bcp_legacy"
     check_flags = ("es-format",)
     monolingual = True
@@ -2297,7 +2266,7 @@ class StringsdictFormat(DictStoreFormat):
     loader = ("stringsdict", "StringsDictFile")
     unit_class = MonolingualSimpleUnit
     autoload: tuple[str, ...] = ("*.stringsdict",)
-    new_translation = """<?xml version="1.0" encoding="UTF-8"?>
+    empty_file_template = """<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
     <dict>
@@ -2367,7 +2336,7 @@ class FluentFormat(TTKitFormat):
     loader = ("fluent", "FluentFile")
     unit_class = FluentUnit
     autoload: tuple[str, ...] = ("*.ftl",)
-    new_translation = ""
+    empty_file_template = ""
     language_format: str = "bcp"
     check_flags = (
         "fluent-source-syntax",
