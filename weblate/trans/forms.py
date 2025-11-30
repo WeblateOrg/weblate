@@ -1319,7 +1319,7 @@ class ContextForm(FieldDocsMixin, forms.ModelForm):
         )
         if commit:
             self.instance.save(same_content=True)
-            self._save_m2m()
+            self.instance.save_labels(self.labels)
             return self.instance
         return super().save(commit)
 
