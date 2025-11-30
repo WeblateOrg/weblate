@@ -125,6 +125,7 @@ from weblate.utils.stats import ComponentStats
 from weblate.utils.validators import (
     validate_filename,
     validate_re_nonempty,
+    validate_repo_url,
     validate_slug,
 )
 from weblate.vcs.base import RepositoryError
@@ -416,6 +417,7 @@ class Component(
             "URL of a repository, use weblate://project/component "
             "to share it with other component."
         ),
+        validators=[validate_repo_url],
     )
     linked_component = models.ForeignKey(
         "trans.Component",
@@ -431,6 +433,7 @@ class Component(
             "URL of a push repository, pushing is turned off if empty."
         ),
         blank=True,
+        validators=[validate_repo_url],
     )
     repoweb = models.CharField(
         verbose_name=gettext_lazy("Repository browser"),

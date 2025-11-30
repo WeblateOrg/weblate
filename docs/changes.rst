@@ -18,6 +18,7 @@ Weblate 5.15
 * :ref:`mt-cyrtranslit` now supports Belarusian and Greek.
 * :ref:`addon-weblate.webhook.slack` and :ref:`addon-weblate.webhook.webhook` can be installed multiple times.
 * Compatibility with Git SHA256 repositories.
+* The allowed version control URLs can now be configured using :setting:`VCS_ALLOW_SCHEMES` and :setting:`VCS_ALLOW_HOSTS`.
 
 .. rubric:: Bug fixes
 
