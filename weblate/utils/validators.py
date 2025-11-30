@@ -17,6 +17,7 @@ from pathlib import Path
 from typing import cast
 from urllib.parse import urlparse
 
+from confusable_homoglyphs import confusables
 from disposable_email_domains import blocklist
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -155,6 +156,12 @@ def validate_fullname(val):
         raise ValidationError(
             gettext("Please avoid using special characters in the full name.")
         )
+
+    if confusables.is_dangerous(val):
+        raise ValidationError(
+            gettext("This name cannot be registered. Please choose a different one.")
+        )
+
     # Validates full name that would be rejected by Git
     if CRUD_RE.match(val):
         raise ValidationError(gettext("Name consists only of disallowed characters."))
@@ -181,6 +188,12 @@ def validate_username(value) -> None:
             gettext(
                 "Username may only contain letters, "
                 "numbers or the following characters: @ . + - _"
+            )
+        )
+    if confusables.is_dangerous(value):
+        raise ValidationError(
+            gettext(
+                "This username cannot be registered. Please choose a different one."
             )
         )
 

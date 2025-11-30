@@ -22,6 +22,7 @@ from weblate.utils.validators import (
     validate_project_web,
     validate_re,
     validate_repo_url,
+    validate_username,
     validate_webhook_secret_string,
 )
 
@@ -65,6 +66,10 @@ class FullNameCleanTest(SimpleTestCase):
     def test_none(self) -> None:
         self.assertIsNone(clean_fullname(None))
 
+    def test_homoglyph(self) -> None:
+        with self.assertRaises(ValidationError):
+            validate_fullname("Alloρ")
+
     def test_invalid(self) -> None:
         with self.assertRaises(ValidationError):
             validate_fullname("ahoj\x00bar")
@@ -76,6 +81,27 @@ class FullNameCleanTest(SimpleTestCase):
     def test_html(self) -> None:
         with self.assertRaises(ValidationError):
             validate_fullname("<h1>User</h1>")
+
+
+class UserNameCleanTest(SimpleTestCase):
+    def test_good(self) -> None:
+        validate_username("ahoj")
+
+    def test_homoglyph(self) -> None:
+        with self.assertRaises(ValidationError):
+            validate_username("Alloρ")
+
+    def test_invalid(self) -> None:
+        with self.assertRaises(ValidationError):
+            validate_username("ahoj\x00bar")
+
+    def test_crud(self) -> None:
+        with self.assertRaises(ValidationError):
+            validate_username(".")
+
+    def test_html(self) -> None:
+        with self.assertRaises(ValidationError):
+            validate_username("<h1>User</h1>")
 
 
 class EmailValidatorTestCase(SimpleTestCase):
