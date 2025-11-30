@@ -1361,7 +1361,12 @@ class UserBlockForm(forms.Form):
         required=False,
     )
     note = forms.CharField(
-        required=False, widget=forms.Textarea, label=gettext_lazy("Block note")
+        required=False,
+        widget=forms.Textarea,
+        label=gettext_lazy("Block note"),
+        help_text=gettext_lazy(
+            "Internal notes regarding blocking the user that are not visible to the user."
+        ),
     )
 
     def __init__(self, *args, **kwargs) -> None:
