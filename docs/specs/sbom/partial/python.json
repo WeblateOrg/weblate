@@ -2,7 +2,7 @@
   "bomFormat": "CycloneDX",
   "specVersion": "1.5",
   "version": 1,
-  "serialNumber": "urn:uuid:2867de4f-55e7-5d17-8bef-8ee6e90f96e3",
+  "serialNumber": "urn:uuid:631543cb-1191-5822-bfcf-5c03c30c9901",
   "metadata": {
     "tools": [
       {
@@ -70,10 +70,10 @@
     },
     {
       "type": "library",
-      "bom-ref": "anyio-9@4.11.0",
+      "bom-ref": "anyio-9@4.12.0",
       "name": "anyio",
-      "version": "4.11.0",
-      "purl": "pkg:pypi/anyio@4.11.0"
+      "version": "4.12.0",
+      "purl": "pkg:pypi/anyio@4.12.0"
     },
     {
       "type": "library",
@@ -133,17 +133,17 @@
     },
     {
       "type": "library",
-      "bom-ref": "boto3-18@1.41.2",
+      "bom-ref": "boto3-18@1.41.5",
       "name": "boto3",
-      "version": "1.41.2",
-      "purl": "pkg:pypi/boto3@1.41.2"
+      "version": "1.41.5",
+      "purl": "pkg:pypi/boto3@1.41.5"
     },
     {
       "type": "library",
-      "bom-ref": "botocore-19@1.41.2",
+      "bom-ref": "botocore-19@1.41.5",
       "name": "botocore",
-      "version": "1.41.2",
-      "purl": "pkg:pypi/botocore@1.41.2"
+      "version": "1.41.5",
+      "purl": "pkg:pypi/botocore@1.41.5"
     },
     {
       "type": "library",
@@ -935,10 +935,10 @@
     },
     {
       "type": "library",
-      "bom-ref": "pydantic-130@2.12.4",
+      "bom-ref": "pydantic-130@2.12.5",
       "name": "pydantic",
-      "version": "2.12.4",
-      "purl": "pkg:pypi/pydantic@2.12.4"
+      "version": "2.12.5",
+      "purl": "pkg:pypi/pydantic@2.12.5"
     },
     {
       "type": "library",
@@ -1193,10 +1193,10 @@
     },
     {
       "type": "library",
-      "bom-ref": "sentry-sdk-166@2.45.0",
+      "bom-ref": "sentry-sdk-166@2.46.0",
       "name": "sentry-sdk",
-      "version": "2.45.0",
-      "purl": "pkg:pypi/sentry-sdk@2.45.0"
+      "version": "2.46.0",
+      "purl": "pkg:pypi/sentry-sdk@2.46.0"
     },
     {
       "type": "library",
@@ -1249,10 +1249,10 @@
     },
     {
       "type": "library",
-      "bom-ref": "sqlparse-174@0.5.3",
+      "bom-ref": "sqlparse-174@0.5.4",
       "name": "sqlparse",
-      "version": "0.5.3",
-      "purl": "pkg:pypi/sqlparse@0.5.3"
+      "version": "0.5.4",
+      "purl": "pkg:pypi/sqlparse@0.5.4"
     },
     {
       "type": "library",
@@ -1497,10 +1497,9 @@
       "dependsOn": []
     },
     {
-      "ref": "anyio-9@4.11.0",
+      "ref": "anyio-9@4.12.0",
       "dependsOn": [
         "idna-91@3.11",
-        "sniffio-171@1.3.1",
         "typing-extensions-180@4.15.0"
       ]
     },
@@ -1547,15 +1546,15 @@
       ]
     },
     {
-      "ref": "boto3-18@1.41.2",
+      "ref": "boto3-18@1.41.5",
       "dependsOn": [
-        "botocore-19@1.41.2",
+        "botocore-19@1.41.5",
         "jmespath-98@0.10.0",
         "s3transfer-165@0.15.0"
       ]
     },
     {
-      "ref": "botocore-19@1.41.2",
+      "ref": "botocore-19@1.41.5",
       "dependsOn": [
         "jmespath-98@0.10.0",
         "python-dateutil-141@2.9.0.post0",
@@ -1694,7 +1693,7 @@
       "dependsOn": [
         "argon2-cffi-10@25.1.0",
         "asgiref-13@3.11.0",
-        "sqlparse-174@0.5.3",
+        "sqlparse-174@0.5.4",
         "tzdata-182@2025.2"
       ]
     },
@@ -2018,7 +2017,7 @@
     {
       "ref": "httpx-90@0.28.1",
       "dependsOn": [
-        "anyio-9@4.11.0",
+        "anyio-9@4.12.0",
         "certifi-23@2025.11.12",
         "httpcore-89@1.0.9",
         "idna-91@3.11"
@@ -2145,11 +2144,11 @@
     {
       "ref": "openai-113@2.8.1",
       "dependsOn": [
-        "anyio-9@4.11.0",
+        "anyio-9@4.12.0",
         "distro-42@1.9.0",
         "httpx-90@0.28.1",
         "jiter-97@0.12.0",
-        "pydantic-130@2.12.4",
+        "pydantic-130@2.12.5",
         "sniffio-171@1.3.1",
         "tqdm-177@4.67.1",
         "typing-extensions-180@4.15.0"
@@ -2234,7 +2233,7 @@
       "dependsOn": []
     },
     {
-      "ref": "pydantic-130@2.12.4",
+      "ref": "pydantic-130@2.12.5",
       "dependsOn": [
         "annotated-types-8@0.7.0",
         "pydantic-core-131@2.41.5",
@@ -2435,11 +2434,11 @@
     {
       "ref": "s3transfer-165@0.15.0",
       "dependsOn": [
-        "botocore-19@1.41.2"
+        "botocore-19@1.41.5"
       ]
     },
     {
-      "ref": "sentry-sdk-166@2.45.0",
+      "ref": "sentry-sdk-166@2.46.0",
       "dependsOn": [
         "certifi-23@2025.11.12",
         "urllib3-190@2.5.0"
@@ -2484,7 +2483,7 @@
       ]
     },
     {
-      "ref": "sqlparse-174@0.5.3",
+      "ref": "sqlparse-174@0.5.4",
       "dependsOn": []
     },
     {
@@ -2603,7 +2602,7 @@
         "aliyun-python-sdk-core-5@2.16.0",
         "altcha-6@0.2.0",
         "borgbackup-17@1.4.2",
-        "boto3-18@1.41.2",
+        "boto3-18@1.41.5",
         "celery-22@5.5.3",
         "certifi-23@2025.11.12",
         "charset-normalizer-25@3.4.4",
@@ -2673,7 +2672,7 @@
         "regex-152@2025.11.3",
         "requests-153@2.32.5",
         "ruamel-yaml-163@0.18.16",
-        "sentry-sdk-166@2.45.0",
+        "sentry-sdk-166@2.46.0",
         "siphashc-168@2.7",
         "social-auth-app-django-172@5.6.0",
         "social-auth-core-173@4.8.1",
