@@ -393,3 +393,32 @@ class WeblateServiceURLValidator(WeblateURLValidator):
         r"\Z",
         re.IGNORECASE,
     )
+
+
+def validate_repo_url(url: str) -> None:
+    parsed = urlparse(url)
+    if not parsed.scheme:
+        # assume all links without schema are ssh links
+        url = f"ssh://{url}"
+        parsed = urlparse(url)
+
+    # Allow Weblate internal URLs
+    if parsed.scheme in {"weblate", "local"}:
+        return
+
+    # Filter out schemes early
+    if parsed.scheme not in settings.VCS_ALLOW_SCHEMES:
+        raise ValidationError(
+            gettext("Fetching VCS repository using %s is not allowed.") % parsed.scheme
+        )
+
+    # URL validation using for http (the URL validator is too strict to handle others)
+    if parsed.scheme in {"http", "https"}:
+        validator = URLValidator(schemes=settings.VCS_ALLOW_SCHEMES)
+        validator(url)
+
+    # Filter hosts if configured
+    if settings.VCS_ALLOW_HOSTS and parsed.hostname not in settings.VCS_ALLOW_HOSTS:
+        raise ValidationError(
+            gettext("Fetching VCS repository from %s is not allowed.") % parsed.hostname
+        )

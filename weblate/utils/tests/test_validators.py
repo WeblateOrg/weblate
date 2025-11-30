@@ -21,6 +21,7 @@ from weblate.utils.validators import (
     validate_fullname,
     validate_project_web,
     validate_re,
+    validate_repo_url,
     validate_webhook_secret_string,
 )
 
@@ -231,3 +232,56 @@ class BackupTest(SimpleTestCase):
         with self.assertRaises(ValidationError):
             validate_backup_path(os.path.join(settings.DATA_DIR, "backups"))
         validate_backup_path(os.path.join(settings.DATA_DIR, "remote-backups"))
+
+
+class RepoURLValidationTestCase(SimpleTestCase):
+    def test_file_rejected(self):
+        with (
+            override_settings(VCS_ALLOW_SCHEMES={"https", "ssh"}),
+            self.assertRaises(ValidationError),
+        ):
+            validate_repo_url("file:///home/weblate")
+
+    def test_file(self):
+        with override_settings(VCS_ALLOW_SCHEMES={"https", "ssh", "file"}):
+            validate_repo_url("file:///home/weblate")
+
+    def test_weblate(self):
+        with override_settings(VCS_ALLOW_SCHEMES={"https", "ssh", "file"}):
+            validate_repo_url("weblate://home/weblate")
+
+    def test_https(self):
+        with override_settings(VCS_ALLOW_SCHEMES={"https", "ssh"}):
+            validate_repo_url("https://example.com/weblate.git")
+            validate_repo_url("https://user@example.com/weblate.git")
+            validate_repo_url("https://user:pass@example.com/weblate.git")
+
+    def test_https_allow(self):
+        with override_settings(
+            VCS_ALLOW_SCHEMES={"https", "ssh"}, VCS_ALLOW_HOSTS={"example.com"}
+        ):
+            validate_repo_url("https://example.com/weblate.git")
+            validate_repo_url("https://user@example.com/weblate.git")
+            validate_repo_url("https://user:pass@example.com/weblate.git")
+            with self.assertRaises(ValidationError):
+                validate_repo_url("https://github.com/weblate.git")
+            with self.assertRaises(ValidationError):
+                validate_repo_url("https://user@gitlab.com/weblate.git")
+
+    def test_ssh(self):
+        with override_settings(VCS_ALLOW_SCHEMES={"https", "ssh"}):
+            validate_repo_url("ssh://username@example.com/path")
+            validate_repo_url("username@example.com:path")
+            validate_repo_url("username@example.com/path")
+
+    def test_ssh_allow(self):
+        with override_settings(
+            VCS_ALLOW_SCHEMES={"https", "ssh"}, VCS_ALLOW_HOSTS={"example.com"}
+        ):
+            validate_repo_url("ssh://username@example.com/path")
+            validate_repo_url("username@example.com:path")
+            validate_repo_url("username@example.com/path")
+            with self.assertRaises(ValidationError):
+                validate_repo_url("git@github.com:weblate.git")
+            with self.assertRaises(ValidationError):
+                validate_repo_url("user@gitlab.com/weblate.git")

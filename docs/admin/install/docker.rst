@@ -1031,6 +1031,18 @@ Generic settings
 
    Configures :setting:`UPDATE_LANGUAGES`.
 
+.. envvar:: WEBLATE_VCS_ALLOW_HOSTS
+
+   .. versionadded:: 5.15
+
+   Configures :setting:`VCS_ALLOW_HOSTS`.
+
+.. envvar:: WEBLATE_VCS_ALLOW_SCHEMES
+
+   .. versionadded:: 5.15
+
+   Configures :setting:`VCS_ALLOW_SCHEMES`.
+
 .. envvar:: WEBLATE_CORS_ALLOWED_ORIGINS
 
    .. versionadded:: 4.16

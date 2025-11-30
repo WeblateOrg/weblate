@@ -2046,6 +2046,24 @@ Example:
     This setting does not work with Django's built-in server, you would have to
     adjust :file:`urls.py` to contain this prefix.
 
+.. setting:: VCS_ALLOW_HOSTS
+
+VCS_ALLOW_HOSTS
+---------------
+
+.. versionadded:: 5.15
+
+A set of hosts to allow when configuring VCS URL. Defaults to an empty set what does no filtering at all.
+
+.. setting:: VCS_ALLOW_SCHEMES
+
+VCS_ALLOW_SCHEMES
+-----------------
+
+.. versionadded:: 5.15
+
+A set of hosts to allow when configuring VCS URL. Only ``https`` and ``ssh`` are allowed by default.
+
 .. setting:: VCS_API_DELAY
 
 VCS_API_DELAY

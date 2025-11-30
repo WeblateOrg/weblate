@@ -32,7 +32,8 @@ class VCSConf(AppConf):
     )
     VCS_CLONE_DEPTH = 1
     VCS_API_DELAY = 10
-    VCS_FILE_PROTOCOL = False
+    VCS_ALLOW_SCHEMES: ClassVar[set[str]] = {"https", "ssh"}
+    VCS_ALLOW_HOSTS: ClassVar[set[str]] = set()
 
     # GitHub username for sending pull requests
     GITHUB_CREDENTIALS: ClassVar[dict] = {}
