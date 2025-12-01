@@ -2697,6 +2697,7 @@ class OllamaTranslationTest(BaseMachineTranslationTest):
     SUPPORTED = "eu"
     NOTSUPPORTED = None
     CONFIGURATION: ClassVar[SettingsDict] = {
+        "base_url": "http://localhost:11434",
         "model": "itzune/latxa:8b",
         "persona": "",
         "style": "",
@@ -2817,6 +2818,7 @@ class OllamaTranslationTest(BaseMachineTranslationTest):
 
 class OllamaRemoteModelTranslationTest(OllamaTranslationTest):
     CONFIGURATION: ClassVar[SettingsDict] = {
+        "base_url": "http://localhost:11434",
         "model": "minimax-m2:cloud",
         "persona": "",
         "style": "",
