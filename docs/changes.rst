@@ -25,6 +25,7 @@ Weblate 5.15
 
 * :ref:`mt-deepl` integration now correctly handles translating to Chinese variants.
 * :doc:`/formats/csv` format saving translations with empty source fields when using monolingual base files.
+* Tighter validation of user and full names to avoid confusing homoglyphs.
 
 .. rubric:: Compatibility
 
