@@ -1019,13 +1019,13 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="card-title">{% translate "Add new screenshot" %}</h4>
+              <h4 class="modal-title">{% translate "Add new screenshot" %}</h4>
               <button type="button"
                       class="btn-close"
                       data-bs-dismiss="modal"
                       aria-label="{% translate "Close" %}"></button>
             </div>
-            <div class="card-body">
+            <div class="modal-body">
               <div id="screenshot-form-container">{{ screenshot_form|crispy }}</div>
               <input type="hidden" name="source" value="{{ unit.pk }}" />
             </div>

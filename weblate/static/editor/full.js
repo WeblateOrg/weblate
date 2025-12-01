@@ -607,7 +607,7 @@
         $(
           `<td><a class="js-copy-machinery btn btn-warning">${gettext(
             "Clone to translation",
-          )}<span class="mt-number text-info"></span></a></td><td><a class="js-copy-save-machinery btn btn-primary">${gettext(
+          )}<span class="mt-number text-info"></span></a></td><td><a class="js-copy-save-machinery btn btn-outline-primary">${gettext(
             "Accept",
           )}</a></td>`,
         ),
@@ -628,7 +628,7 @@
       if (this.state.weblateTranslationMemory.has(el.text)) {
         row.append(
           $(
-            `<td><a class="js-delete-machinery btn btn-danger" data-toggle="modal" data-target="#delete-url-modal">${gettext(
+            `<td><a class="js-delete-machinery btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-url-modal">${gettext(
               "Delete entry",
             )}</a></td>`,
           ),
