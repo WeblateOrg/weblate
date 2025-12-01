@@ -1267,7 +1267,7 @@ class GitMergeRequestBase(GitForcePushRepository):
                         params=params,
                         json=json,
                         auth=self.get_auth(credentials),
-                        timeout=5,
+                        timeout=settings.VCS_API_TIMEOUT,
                     )
                 except (OSError, HTTPError) as error:
                     report_error("Git API request")
