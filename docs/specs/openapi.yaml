@@ -39609,7 +39609,7 @@ paths:
           description: No response body
   /api/units/{id}/comments/:
     get:
-      operationId: api_units_comments_retrieve
+      operationId: api_units_comments_list
       description: Return a list of comments on the unit.
       parameters:
       - in: query
@@ -39625,6 +39625,18 @@ paths:
           type: string
           pattern: ^[^/]+$
         required: true
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
       tags:
       - units
       security:
@@ -39637,10 +39649,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ApiUnitsCommentsRetrieveErrorResponse400'
+                $ref: '#/components/schemas/ApiUnitsCommentsListErrorResponse400'
             text/csv:
               schema:
-                $ref: '#/components/schemas/ApiUnitsCommentsRetrieveErrorResponse400'
+                $ref: '#/components/schemas/ApiUnitsCommentsListErrorResponse400'
           description: ''
         '401':
           content:
@@ -39869,10 +39881,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/UnitWrite'
+                $ref: '#/components/schemas/PaginatedCommentList'
             text/csv:
               schema:
-                $ref: '#/components/schemas/UnitWrite'
+                $ref: '#/components/schemas/PaginatedCommentList'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -65380,7 +65392,7 @@ components:
       required:
       - errors
       - type
-    ApiUnitsCommentsRetrieveErrorResponse400:
+    ApiUnitsCommentsListErrorResponse400:
       oneOf:
       - $ref: '#/components/schemas/ParseErrorResponse'
       discriminator:
@@ -70018,6 +70030,27 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Change'
+    PaginatedCommentList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comment'
     PaginatedComponentList:
       type: object
       required:
