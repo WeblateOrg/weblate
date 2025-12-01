@@ -2213,33 +2213,46 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         methods=["post"],
         request=CommentSerializer,
     )
-    @action(detail=True, methods=["post"], serializer_class=CommentSerializer)
+    @extend_schema(
+        description="Return a list of comments on the unut.", methods=["get"]
+    )
+    @action(detail=True, methods=["get", "post"], serializer_class=CommentSerializer)
     def comments(self, request, *args, **kwargs):
         """Add a new comment to a unit."""
         unit = self.get_object()
         user = request.user
 
+        if request.method == "POST":
+            if not user.has_perm("comment.add", unit.translation):
+                self.permission_denied(request)
+
+            serializer = CommentSerializer(
+                data=request.data,
+                context={
+                    "unit": unit,
+                    "request": request,
+                },
+            )
+            serializer.is_valid(raise_exception=True)
+
+            timestamp = serializer.validated_data.get("timestamp")
+            user_email = serializer.validated_data.get("user_email")
+            if (timestamp is not None or user_email is not None) and (
+                not user.has_perm("project.edit", unit.translation.component.project)
+            ):
+                self.permission_denied(request)
+
+            serializer.save()
+            return Response(serializer.data, status=HTTP_201_CREATED)
+
+        # Do we need a new permission or does permission to add comment grant the user to list all comments/user specific comment?
         if not user.has_perm("comment.add", unit.translation):
             self.permission_denied(request)
 
-        serializer = CommentSerializer(
-            data=request.data,
-            context={
-                "unit": unit,
-                "request": request,
-            },
-        )
-        serializer.is_valid(raise_exception=True)
+        qs = unit.comment_set.all()
 
-        timestamp = serializer.validated_data.get("timestamp")
-        user_email = serializer.validated_data.get("user_email")
-        if (timestamp is not None or user_email is not None) and (
-            not user.has_perm("project.edit", unit.translation.component.project)
-        ):
-            self.permission_denied(request)
-
-        serializer.save()
-        return Response(serializer.data, status=HTTP_201_CREATED)
+        serializer = CommentSerializer(qs, context={"request": request}, many=True)
+        return Response(serializer.data, status=HTTP_200_OK)
 
 
 @extend_schema_view(
