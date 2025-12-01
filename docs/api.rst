@@ -2361,9 +2361,18 @@ and XLIFF.
     :>json string user: URL of the commenter's object
     :>json string timestamp: creation timestamp of the comment
 
-    .. versionchanged:: 5.15
-        Returns a list of comments on a given ttranslation unit
+.. http:get:: /api/units/(int:id)/comments/
 
+    .. versionadded:: 5.15
+
+    Returns a list of comments on a given translation unit
+
+    :param id: Unit ID
+    :type id: int
+    :>json int id: comment identifier
+    :>json string comment: content of the comment
+    :>json string timestamp: creation timestamp of the comment
+    :>json string user: URL of the commenter's object
 
 Changes
 +++++++
