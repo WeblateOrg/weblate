@@ -19,6 +19,7 @@ Weblate 5.15
 * :ref:`addon-weblate.webhook.slack` and :ref:`addon-weblate.webhook.webhook` can be installed multiple times.
 * Compatibility with Git SHA256 repositories.
 * The allowed version control URLs can now be configured using :setting:`VCS_ALLOW_SCHEMES` and :setting:`VCS_ALLOW_HOSTS`.
+* The API timeout for creating pull requests or forking can now be configured via :setting:`VCS_API_TIMEOUT`.
 
 .. rubric:: Bug fixes
 

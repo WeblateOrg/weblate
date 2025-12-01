@@ -2081,6 +2081,19 @@ If you are being limited by secondary rate-limiter at GitHub, increasing this mi
 
 The default value is 10.
 
+.. setting:: VCS_API_TIMEOUT
+
+VCS_API_TIMEOUT
+---------------
+
+.. versionadded:: 5.15
+
+Configures timeout in seconds for third-party API calls such as forking or
+creating merge requests in :ref:`vcs-github`, :ref:`vcs-gitlab`,
+:ref:`vcs-gitea`, :ref:`vcs-pagure`, and :ref:`vcs-azure-devops`.
+
+The default value is 10.
+
 .. setting:: VCS_BACKENDS
 
 VCS_BACKENDS
