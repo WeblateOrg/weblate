@@ -4,6 +4,7 @@
 
 import os
 import sys
+from contextlib import suppress
 
 
 def main(argv=None, developer_mode: bool = False) -> None:
@@ -18,12 +19,10 @@ def main(argv=None, developer_mode: bool = False) -> None:
         utility = WeblateManagementUtility(argv=argv, developer_mode=developer_mode)
         utility.execute()
     except Exception:
-        try:
+        with suppress(ImportError):
             from weblate.utils.errors import report_error
 
             report_error("Command failed")
-        except ImportError:
-            pass
         raise
 
 

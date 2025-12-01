@@ -109,6 +109,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         request=None,
         headers=None,
         skip=(),
+        # pylint: disable-next=redefined-builtin
         format: str = "multipart",  # noqa: A002
     ):
         if authenticated:
@@ -560,7 +561,7 @@ class GroupAPITest(APIBaseTest):
 
         # user with view permission can see other group details
         self.grant_perm_to_user("group.view", "Viewers")
-        response = self.do_request(
+        self.do_request(
             "api:group-detail",
             kwargs={"id": Group.objects.get(name="Test Group").id},
             method="get",
@@ -1066,7 +1067,7 @@ class GroupAPITest(APIBaseTest):
         )
 
         # Missing user ID
-        response = self.do_request(
+        self.do_request(
             "api:group-grant-admin",
             kwargs={"id": group.id},
             method="post",
@@ -1612,6 +1613,7 @@ class ProjectAPITest(APIBaseTest):
             },
         )
 
+    # pylint: disable-next=redefined-builtin
     def test_create_with_source_language_string(self, format="json") -> None:  # noqa: A002
         payload = {
             "name": "API project",
@@ -1731,7 +1733,7 @@ class ProjectAPITest(APIBaseTest):
         self.assertTrue(component.manage_units)
         self.assertTrue(response.data["manage_units"])
         # Creating duplicate
-        response = self.do_request(
+        self.do_request(
             "api:project-components",
             self.project_kwargs,
             method="post",
@@ -3347,7 +3349,7 @@ class LanguageAPITest(APIBaseTest):
             code=200,
         )
         # Creation with duplicate code gives 400
-        response = self.do_request(
+        self.do_request(
             "api:language-list",
             method="post",
             superuser=True,
@@ -3836,7 +3838,7 @@ class TranslationAPITest(APIBaseTest):
     def test_upload_replace(self) -> None:
         self.authenticate(superuser=True)
         changes_start = self.component.change_set.count()
-        content = Path(TEST_PO).read_text()
+        content = Path(TEST_PO).read_text(encoding="utf-8")
         content = f'{content}\n\nmsgid "Testing"\nmsgstr""\n'
 
         response = self.client.put(
@@ -3955,6 +3957,7 @@ class TranslationAPITest(APIBaseTest):
         request = self.do_request("api:translation-units", self.translation_kwargs)
         self.assertEqual(request.data["count"], 4)
 
+    # pylint: disable-next=redefined-builtin
     def test_autotranslate(self, format: str = "multipart") -> None:  # noqa: A002
         self.do_request(
             "api:translation-autotranslate",
@@ -4717,9 +4720,66 @@ class UnitAPITest(APIBaseTest):
         self.assertEqual(len(unit.all_labels), 1)
         self.assertEqual(unit.all_labels[0].name, "test")
 
+        changes = unit.source_unit.change_set.filter(action=ActionEvents.LABEL_ADD)
+        self.assertEqual(changes.count(), 1)
+        change = changes.first()
+        self.assertEqual(change.target, "Added label test")
+        self.assertEqual(change.user, self.user)
+
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.source_unit.pk},
+            method="patch",
+            code=200,
+            superuser=True,
+            request={"labels": []},
+        )
+
         label1.delete()
         label2.delete()
         other_project.delete()
+
+    def test_unit_labels_multiple_change_events(self) -> None:
+        """Test that adding multiple labels creates multiple change events."""
+        label1 = self.component.project.label_set.create(name="test1", color="navy")
+        label2 = self.component.project.label_set.create(name="test2", color="blue")
+
+        unit = Unit.objects.get(
+            translation__language_code="cs", source="Hello, world!\n"
+        )
+        unit.translate(self.user, "Hello, world!\n", STATE_TRANSLATED)
+
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.source_unit.pk},
+            method="patch",
+            code=200,
+            superuser=True,
+            request={"labels": [label1.id, label2.id]},
+        )
+
+        changes = unit.source_unit.change_set.filter(action=ActionEvents.LABEL_ADD)
+        self.assertEqual(changes.count(), 2)
+
+        label_names = {change.target for change in changes}
+        self.assertIn(f"Added label {label1.name}", label_names)
+        self.assertIn(f"Added label {label2.name}", label_names)
+
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.source_unit.pk},
+            method="patch",
+            code=200,
+            superuser=True,
+            request={"labels": [label1.id]},
+        )
+
+        changes = unit.source_unit.change_set.filter(action=ActionEvents.LABEL_REMOVE)
+        self.assertEqual(changes.count(), 1)
+        self.assertEqual(changes.first().target, f"Removed label {label2.name}")
+
+        label1.delete()
+        label2.delete()
 
     def test_translate_plural_unit(self) -> None:
         unit = Unit.objects.get(
@@ -5199,6 +5259,13 @@ class ScreenshotAPITest(APIBaseTest):
                 },
             )
         self.assertEqual(Screenshot.objects.count(), 2)
+        self.assertEqual(
+            Change.objects.filter(
+                action=ActionEvents.SCREENSHOT_UPLOADED,
+                screenshot__name="Test create screenshot",
+            ).count(),
+            1,
+        )
 
     def test_patch_screenshot(self) -> None:
         self.do_request(
@@ -5275,36 +5342,52 @@ class ScreenshotAPITest(APIBaseTest):
 
     def test_units(self) -> None:
         self.authenticate(True)
+        screenshot = Screenshot.objects.get()
         unit = self.component.source_translation.unit_set.all()[0]
         response = self.client.post(
-            reverse("api:screenshot-units", kwargs={"pk": Screenshot.objects.get().pk}),
+            reverse("api:screenshot-units", kwargs={"pk": screenshot.pk}),
             {"unit_id": unit.pk},
         )
         self.assertEqual(response.status_code, 200)
         self.assertIn(str(unit.pk), response.data["units"][0])
+        added_changes = Change.objects.filter(
+            action=ActionEvents.SCREENSHOT_ADDED,
+            screenshot=screenshot,
+            unit=unit,
+        )
+        self.assertEqual(added_changes.count(), 1)
+        self.assertEqual(added_changes[0].user, self.user)
 
     def test_units_delete(self) -> None:
         self.authenticate(True)
+        screenshot = Screenshot.objects.get()
         unit = self.component.source_translation.unit_set.all()[0]
         self.client.post(
-            reverse("api:screenshot-units", kwargs={"pk": Screenshot.objects.get().pk}),
+            reverse("api:screenshot-units", kwargs={"pk": screenshot.pk}),
             {"unit_id": unit.pk},
         )
         response = self.client.delete(
             reverse(
                 "api:screenshot-delete-units",
-                kwargs={"pk": Screenshot.objects.get().pk, "unit_id": 100000},
+                kwargs={"pk": screenshot.pk, "unit_id": 100000},
             ),
         )
         self.assertEqual(response.status_code, 404)
         response = self.client.delete(
             reverse(
                 "api:screenshot-delete-units",
-                kwargs={"pk": Screenshot.objects.get().pk, "unit_id": unit.pk},
+                kwargs={"pk": screenshot.pk, "unit_id": unit.pk},
             ),
         )
         self.assertEqual(response.status_code, 204)
-        self.assertEqual(Screenshot.objects.get().units.all().count(), 0)
+        self.assertEqual(screenshot.units.all().count(), 0)
+        removed_changes = Change.objects.filter(
+            action=ActionEvents.SCREENSHOT_REMOVED,
+            screenshot=screenshot,
+            unit=unit,
+        )
+        self.assertEqual(removed_changes.count(), 1)
+        self.assertEqual(removed_changes[0].user, self.user)
 
 
 class ChangeAPITest(APIBaseTest):
@@ -5598,7 +5681,7 @@ class AddonAPITest(APIBaseTest):
         change = self.component.change_set.get(action=ActionEvents.ADDON_CREATE)
         self.assertEqual(change.user, self.user)
         # Existing
-        response = self.create_addon(code=400)
+        self.create_addon(code=400)
 
     def test_delete(self) -> None:
         response = self.create_addon()
@@ -5686,7 +5769,7 @@ class AddonAPITest(APIBaseTest):
             self.component.project.addon_set.filter(pk=response.data["id"]).exists()
         )
         # Existing
-        response = self.create_project_addon(code=400)
+        self.create_project_addon(code=400)
 
     def test_delete_project_addon(self) -> None:
         response = self.create_project_addon()
@@ -5706,7 +5789,7 @@ class AddonAPITest(APIBaseTest):
 
 
 class CategoryAPITest(APIBaseTest):
-    def create_category(self, code: int = 201, **kwargs):
+    def api_create_category(self, code: int = 201, **kwargs):
         request = {
             "name": "Category Test",
             "slug": "category-test",
@@ -5731,15 +5814,15 @@ class CategoryAPITest(APIBaseTest):
     def test_create(self) -> None:
         response = self.list_categories()
         self.assertEqual(response.data["count"], 0)
-        self.create_category()
+        self.api_create_category()
         response = self.list_categories()
         self.assertEqual(response.data["count"], 1)
         request = self.do_request("api:project-categories", self.project_kwargs)
         self.assertEqual(request.data["count"], 1)
 
     def test_create_nested(self) -> None:
-        self.create_category()
-        self.create_category(
+        self.api_create_category()
+        self.api_create_category(
             category=reverse(
                 "api:category-detail", kwargs={"pk": Category.objects.all()[0].pk}
             )
@@ -5751,8 +5834,8 @@ class CategoryAPITest(APIBaseTest):
 
     def test_create_nested_mismatch(self) -> None:
         component = self.create_acl()
-        self.create_category()
-        self.create_category(
+        self.api_create_category()
+        self.api_create_category(
             category=reverse(
                 "api:category-detail", kwargs={"pk": Category.objects.all()[0].pk}
             ),
@@ -5767,7 +5850,7 @@ class CategoryAPITest(APIBaseTest):
         self.assertEqual(request.data["count"], 1)
 
     def test_delete(self) -> None:
-        response = self.create_category()
+        response = self.api_create_category()
         category_url = response.data["url"]
         response = self.do_request(
             category_url,
@@ -5784,21 +5867,21 @@ class CategoryAPITest(APIBaseTest):
         self.assertEqual(response.data["count"], 0)
 
     def test_rename(self) -> None:
-        response = self.create_category()
+        response = self.api_create_category()
         category_url = response.data["url"]
-        response = self.do_request(
+        self.do_request(
             category_url,
             method="patch",
             code=403,
         )
-        response = self.do_request(
+        self.do_request(
             category_url,
             method="patch",
             superuser=True,
             request={"slug": "test"},
             code=400,
         )
-        response = self.do_request(
+        self.do_request(
             category_url,
             method="patch",
             superuser=True,
@@ -5806,7 +5889,7 @@ class CategoryAPITest(APIBaseTest):
         )
 
     def test_component(self) -> None:
-        response = self.create_category()
+        response = self.api_create_category()
         category_url = response.data["url"]
         component_url = reverse("api:component-detail", kwargs=self.component_kwargs)
         response = self.do_request(
@@ -5832,7 +5915,7 @@ class CategoryAPITest(APIBaseTest):
 
     def test_statistics(self) -> None:
         # Create a category to get the statistics from
-        response = self.create_category()
+        response = self.api_create_category()
         category_kwargs = {"pk": response.data["id"]}
         # Use the default category kwargs to get the statistics
         request = self.do_request("api:category-statistics", category_kwargs)

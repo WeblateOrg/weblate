@@ -27,13 +27,15 @@
 # Romeostar <contactromeostar@mail.ru>, 2025.
 # sletego <sletego@users.noreply.hosted.weblate.org>, 2025.
 # GitHub webhook <noreply-webhook-github@weblate.org>, 2025.
+# Golubev Alexander <fatzer2@gmail.com>, 2025.
+# liilliil <liilliil@liilliil.net>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-27 07:35+0000\n"
-"PO-Revision-Date: 2025-10-27 11:10+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"PO-Revision-Date: 2025-11-28 05:02+0000\n"
+"Last-Translator: Сергей <asvmail.as@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
 "Language: ru\n"
@@ -43,7 +45,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural="
 "(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? "
 "1 : 2);\n"
-"X-Generator: Weblate 5.14.1-dev\n"
+"X-Generator: Weblate 5.15-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -147,7 +149,7 @@ msgstr "Проверка ещё продолжается, подождите."
 
 #: weblate/accounts/forms.py:471
 msgid "Human verification"
-msgstr "Человеческая проверка"
+msgstr "Проверка на человека"
 
 #: weblate/accounts/forms.py:545
 #, python-format
@@ -591,7 +593,7 @@ msgstr "Пользователь был отключён администрат�
 
 #: weblate/accounts/models.py:296
 msgid "User was disabled because the access has expired."
-msgstr ""
+msgstr "Пользователь отключен, ибо доступ истёк."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:299
@@ -1379,10 +1381,9 @@ msgstr ""
 "Предоставленное имя пользователя уже используется другой учётной записью."
 
 #: weblate/accounts/views.py:1499
-#, fuzzy, python-format
-#| msgid "Authentication app (%s)"
+#, python-format
 msgid "Authentication failed: %s"
-msgstr "Приложение для авторизации (%s)"
+msgstr "Авторизация неудачна: %s"
 
 #: weblate/accounts/views.py:1505
 msgid "The supplied user identity is already in use for another account."
@@ -1586,25 +1587,19 @@ msgid "Bulk edit flags, labels, or states of strings."
 msgstr "Позволяет массово править флаги, метки или состояния строк."
 
 #: weblate/addons/flags.py:134
-#, fuzzy
-#| msgid "Flag unchanged translations as \"Needs editing\""
 msgid "Flag updated translations from repository as \"Needs editing\""
-msgstr "Пометка неизменённых переводов флагом «На правку»"
+msgstr "Пометка обновлённых переводов из репозитория «На правку»"
 
 #: weblate/addons/flags.py:137
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS, it is "
-#| "flagged as needing editing in Weblate. This way you can easily filter and "
-#| "edit translations created by the developers."
 msgid ""
 "Whenever a string translation is changed from the VCS, it is flagged as "
 "needing editing in Weblate. Especially useful if translation files are often "
 "updated manually or by an external service."
 msgstr ""
-"При импорте строки для перевода из системы контроля версий она помечается в "
-"Weblate флагом «На правку». Таким образом, вы можете легко фильтровать и "
-"изменять переводы, созданные разработчиками."
+"Всякий раз, когда перевод строки изменяется в системе контроля версий (VCS), "
+"она помечается в Weblate флагом «На правку». Это особенно полезно, если "
+"файлы перевода часто обновляются вручную или с использованием внешнего "
+"сервиса."
 
 #: weblate/addons/forms.py:59
 msgid "Path of generated MO file"
@@ -2187,10 +2182,8 @@ msgid "Reset all changes in the Weblate repository"
 msgstr "Сбросить все изменения в репозитории Weblate"
 
 #: weblate/api/serializers.py:1079 weblate/templates/js/git-status.html:155
-#, fuzzy
-#| msgid "Define the base file for new translations"
 msgid "Reset the Weblate repository and reapply translations"
-msgstr "Задать базовый файл для нового перевода"
+msgstr "Сброс репозитория Weblate и перевод заново"
 
 #: weblate/api/serializers.py:1083 weblate/templates/js/git-status.html:166
 msgid "Cleanup all untracked files in the Weblate repository"
@@ -2454,10 +2447,8 @@ msgstr "Рецензирование строк"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:75
-#, fuzzy
-#| msgid "Edit strings"
 msgid "Bulk edit strings"
-msgstr "Правка строк"
+msgstr "Массовая правка строк"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:77
@@ -2591,10 +2582,8 @@ msgstr "Управление пользователями"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:135
-#, fuzzy
-#| msgid "View billing info"
 msgid "View team info"
-msgstr "Просмотр платёжной информации"
+msgstr "Просмотр информации о команде"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:137 weblate/templates/manage/users.html:18
@@ -2603,10 +2592,8 @@ msgstr "Управление пользователями"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:139
-#, fuzzy
-#| msgid "View billing info"
 msgid "View user info"
-msgstr "Просмотр платёжной информации"
+msgstr "Просмотр пользователя"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:141
@@ -2615,10 +2602,8 @@ msgstr "Управление ролями"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:143
-#, fuzzy
-#| msgid "View billing info"
 msgid "View role info"
-msgstr "Просмотр платёжной информации"
+msgstr "Просмотр ролей"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:145
@@ -2702,8 +2687,6 @@ msgid "Manage languages"
 msgstr "Управление языками"
 
 #: weblate/auth/data.py:241
-#, fuzzy
-#| msgid "Bulk edit"
 msgctxt "Access-control role"
 msgid "Bulk editing"
 msgstr "Массовая правка"
@@ -2809,8 +2792,6 @@ msgid "Screenshots"
 msgstr "Снимки экрана"
 
 #: weblate/auth/data.py:315
-#, fuzzy
-#| msgid "Bulk edit"
 msgctxt "Per-project access-control team name"
 msgid "Bulk editing"
 msgstr "Массовая правка"
@@ -3019,7 +3000,7 @@ msgstr "Истекает"
 
 #: weblate/auth/models.py:497
 msgid "The account will be disabled after the expiry."
-msgstr ""
+msgstr "Аккаунт отключится по истечении срока действия."
 
 #: weblate/auth/models.py:504 weblate/templates/accounts/profile.html:34
 #: weblate/templates/accounts/user.html:194 weblate/templates/auth/team.html:38
@@ -3216,6 +3197,8 @@ msgid ""
 "This invitation can be accepted only by the e-mail address chosen by the "
 "inviter; it can't be used by your account."
 msgstr ""
+"Это приглашение может быть принято только с e-mail, выбранным приглашающим; "
+"использовать его с вашим аккаунтом нельзя."
 
 #: weblate/auth/views.py:201
 msgid "User invitation was removed."
@@ -3262,7 +3245,7 @@ msgstr "Пробный"
 #: weblate/billing/models.py:181 weblate/templates/billing/state-snippet.html:9
 #: weblate/templates/manage/billing.html:23
 msgid "Terminated"
-msgstr "Прекращенный"
+msgstr "Прекращённый"
 
 #: weblate/billing/models.py:184
 msgid "Billing state"
@@ -3364,10 +3347,8 @@ msgid "Billing"
 msgstr "Тарифные планы"
 
 #: weblate/billing/models.py:681 weblate/templates/billing/detail.html:119
-#, fuzzy
-#| msgid "Billing overview"
 msgid "Billing event"
-msgstr "Обзор тарифных планов"
+msgstr "Платежное событие"
 
 #: weblate/billing/tasks.py:73
 msgid ""
@@ -4798,10 +4779,8 @@ msgid "CSV"
 msgstr "CSV"
 
 #: weblate/formats/exporters.py:258
-#, fuzzy
-#| msgid "Multivalue CSV file (UTF-8)"
 msgid "Multivalue CSV"
-msgstr "Многозначный CSV-файл (UTF-8)"
+msgstr "Многозначный CSV"
 
 #: weblate/formats/exporters.py:325
 msgid "XLSX"
@@ -6108,21 +6087,21 @@ msgstr "Перевод на %s сейчас недоступен, но его м
 
 #: weblate/screenshots/forms.py:33
 msgid "You need to provide either image file or image URL."
-msgstr ""
+msgstr "Надо дать файл, либо URL изображения."
 
 #: weblate/screenshots/forms.py:53
 msgid "Image URL domain is not allowed."
-msgstr ""
+msgstr "Домен URL изображения не разрешен."
 
 #: weblate/screenshots/forms.py:61
 #, python-format
 msgid ""
 "Unable to download image from the provided URL (HTTP status code: %(code)s)."
-msgstr ""
+msgstr "Не могу скачать изображение с этого URL (код состояния HTTP: %(code)s)."
 
 #: weblate/screenshots/forms.py:79
 msgid "Image is too big."
-msgstr ""
+msgstr "Изображение слишком велико."
 
 #: weblate/screenshots/forms.py:85 weblate/utils/validators.py:126
 #, python-format
@@ -6131,7 +6110,7 @@ msgstr "Неподдерживаемый тип изображения: %s"
 
 #: weblate/screenshots/forms.py:93
 msgid "Unable to download image from the provided URL."
-msgstr ""
+msgstr "Не могу скачать изображение с этого URL."
 
 #: weblate/screenshots/forms.py:120 weblate/screenshots/forms.py:147
 #: weblate/templates/widgets.html:64
@@ -6140,7 +6119,7 @@ msgstr "URL изображения"
 
 #: weblate/screenshots/forms.py:121 weblate/screenshots/forms.py:148
 msgid "The image will be downloaded and stored."
-msgstr ""
+msgstr "Изображение будет скачено и сохранено."
 
 #: weblate/screenshots/models.py:57
 #: weblate/templates/screenshots/screenshot_list.html:47
@@ -7200,13 +7179,15 @@ msgstr "Перенаправляем к провайдеру авторизац�
 
 #: weblate/templates/accounts/register-password.html:4
 msgid "Registration without a password:"
-msgstr ""
+msgstr "Регистрация без пароля:"
 
 #: weblate/templates/accounts/register-password.html:5
 msgid ""
 "You can set your password later by clicking on the link in the verification "
 "email."
 msgstr ""
+"Вы можете задать свой пароль позже, перейдя по ссылке в электронном письме с "
+"подтверждением."
 
 #: weblate/templates/accounts/register.html:20
 msgid "Please complete the registration to accept the invitation."
@@ -7238,35 +7219,29 @@ msgid ""
 "You will lose access to the projects you manage. Projects themselves will "
 "not be removed."
 msgstr ""
+"Вы потеряете доступ к проектам, которыми управляете. Сами проекты не "
+"удалятся."
 
 #: weblate/templates/accounts/removal.html:35
 msgid ""
 "Any billing you might have created will not be terminated by this account "
 "removal."
 msgstr ""
+"Любые выставленные вами счета не будут аннулированы с удалением аккаунта."
 
 #: weblate/templates/accounts/removal.html:39
-#, fuzzy
-#| msgid ""
-#| "By pressing following button, your will no longer be able to use this "
-#| "account."
 msgid ""
 "By pressing the following button, you will no longer be able to use this "
 "account."
-msgstr ""
-"Нажав кнопку ниже, вы не сможете больше использовать эту учётную запись."
+msgstr "Нажав кнопку ниже, вы не сможете больше использовать этот аккаунт."
 
 #: weblate/templates/accounts/removal.html:43
-#, fuzzy
-#| msgid ""
-#| "You will have to confirm account removal by clicking link in e-mail you "
-#| "will receive."
 msgid ""
 "You will have to confirm the account removal by clicking the link in the e-"
 "mail you will receive."
 msgstr ""
-"Вам нужно будет подтвердить удаление учётной записи, перейдя по ссылке из "
-"письма, которое вы получите."
+"Вам надо подтвердить удаление аккаунта, открыв ссылку из письма, которое вы "
+"получите."
 
 #: weblate/templates/accounts/removal.html:50
 msgid "Delete this account"
@@ -7315,6 +7290,8 @@ msgid ""
 "By registering, you agree that your name and username will be visible "
 "publicly as long as your account exists."
 msgstr ""
+"Регистрируясь, вы соглашаетесь с тем, что ваше имя и логин будут доступны "
+"общественности до тех пор, пока существует ваша учётная запись."
 
 #: weblate/templates/accounts/snippets/login-info.html:30
 msgid ""
@@ -7322,24 +7299,29 @@ msgid ""
 "commits to author the changes you made; they can be stored there "
 "indefinitely."
 msgstr ""
+"Кроме того, ваше имя и e-mail могут использоваться в коммитах системы "
+"контроля версий для указания авторства изменений; они могут храниться там "
+"вечно."
 
 #: weblate/templates/accounts/snippets/login-info.html:32
-#, fuzzy
-#| msgid "Please set your full name and e-mail in your profile."
 msgid "You can enable the use of a private commit e-mail in your profile."
-msgstr "Укажите в профиле ваше полное имя и эл. почту."
+msgstr "Можно включить частный адрес e-mail для коммитов в своем профиле."
 
 #: weblate/templates/accounts/snippets/login-info.html:35
 msgid ""
 "Additionally, your name can be used in version control system commits to "
 "author the changes you made; it can be stored there indefinitely."
 msgstr ""
+"Кроме того, ваше имя может использоваться в коммитах системы контроля версий "
+"для указания авторства изменений; оно может храниться там вечно."
 
 #: weblate/templates/accounts/snippets/login-info.html:38
 msgid ""
 "You provide your contribution under the license defined by each project you "
 "contributed to."
 msgstr ""
+"Вы предоставляете свой вклад в соответствии с лицензией, определённой для "
+"каждого проекта, в который вы внесли свой вклад."
 
 #: weblate/templates/accounts/snippets/login-title.html:4
 msgid "Weblate single sign on"
@@ -7448,10 +7430,9 @@ msgid "Never signed-in"
 msgstr "В эту учётную запись никогда не входили"
 
 #: weblate/templates/accounts/user.html:37
-#, fuzzy, python-format
-#| msgid "Joined on %(date)s"
+#, python-format
 msgid "Account expires on %(date)s"
-msgstr "Дата присоединения: %(date)s"
+msgstr "Аккаунт истекает: %(date)s"
 
 #: weblate/templates/accounts/user.html:57
 #: weblate/templates/snippets/plural.html:11
@@ -8443,10 +8424,8 @@ msgid "No invoices found."
 msgstr "Инвойсов не найдено."
 
 #: weblate/templates/billing/detail.html:120
-#, fuzzy
-#| msgid "View details"
 msgid "Event details"
-msgstr "Подробнее"
+msgstr "О событии"
 
 #: weblate/templates/billing/detail.html:144
 msgid "Libre hosting"
@@ -9540,61 +9519,54 @@ msgstr "Опасная зона"
 
 #: weblate/templates/js/git-status.html:142
 msgid "Reset and discard"
-msgstr ""
+msgstr "Сбросить и отменить"
 
 #: weblate/templates/js/git-status.html:145
 msgid ""
 "Resets Weblate’s repository to match upstream and discards any pending "
 "changes in Weblate."
 msgstr ""
+"Сбрасывает репозиторий Weblate до состояния вышестоящего и отменяет все "
+"ожидающие изменения в Weblate."
 
 #: weblate/templates/js/git-status.html:146
-#, fuzzy
-#| msgid ""
-#| "Describe the context of the translation to improve the accuracy of the "
-#| "translation."
 msgid "Use when you want the upstream to be the authority for translations."
-msgstr "Опишите контекст перевода, чтобы повысить точность перевода."
+msgstr ""
+"Используйте, если хотите, чтобы вышестоящий источник был главным источником "
+"для переводов."
 
 #: weblate/templates/js/git-status.html:147
-#, fuzzy
-#| msgid ""
-#| "Use when you want to discard changes in Weblate and bring it in sync with "
-#| "upstream repository."
 msgid ""
 "It will discard changes in Weblate repo and bring it in sync with the "
 "upstream repository."
 msgstr ""
-"Используйте, когда вы хотите отменить изменения в Weblate и синхронизировать "
-"его с вышестоящим репозиторием."
+"Это отменит изменения в репозитории Weblate и синхронизирует его с "
+"вышестоящим."
 
 #: weblate/templates/js/git-status.html:154
 msgid "Reset and reapply"
-msgstr ""
+msgstr "Сбросить и повторить"
 
 #: weblate/templates/js/git-status.html:157
 msgid ""
 "Resets Weblate’s repository to match upstream and replace upstream "
 "translations with the current state from Weblate."
 msgstr ""
+"Сбросит репозиторий Weblate для соответствия вышестоящему и заменит "
+"вышестоящие переводы текущими из Weblate."
 
 #: weblate/templates/js/git-status.html:158
-#, fuzzy
-#| msgid "Whether Weblate should keep track of old translations."
 msgid "Use when you want Weblate to be the authority for translations."
-msgstr "Должен ли Weblate отслеживать старые переводы."
+msgstr ""
+"Используйте, если хотите, чтобы Weblate стал главным источником переводов."
 
 #: weblate/templates/js/git-status.html:159
-#, fuzzy
-#| msgid ""
-#| "Use when you want to discard changes in Weblate and bring it in sync with "
-#| "upstream repository."
 msgid ""
 "It will keep changes from Weblate but bring its repository in sync with the "
 "upstream repository."
 msgstr ""
-"Используйте, когда вы хотите отменить изменения в Weblate и синхронизировать "
-"его с вышестоящим репозиторием."
+"Это сохранит изменения внесённые в Weblate и синхронизирует их с вышестоящим "
+"репозиторием."
 
 #: weblate/templates/js/git-status.html:165
 msgid "Cleanup"
@@ -10770,13 +10742,11 @@ msgstr "HTTP-ответ"
 
 #: weblate/templates/manage/performance.html:139
 msgid "Observed value"
-msgstr ""
+msgstr "Наблюдаемое значение"
 
 #: weblate/templates/manage/performance.html:140
-#, fuzzy
-#| msgid "Configure columns"
 msgid "Configured value"
-msgstr "Конфигурировать колонки"
+msgstr "Сконфигурированное значение"
 
 #: weblate/templates/manage/performance.html:145
 msgid "Client IP address"
@@ -10790,7 +10760,7 @@ msgstr "HTTP-заголовки"
 
 #: weblate/templates/manage/performance.html:161
 msgid "HTTP protocol"
-msgstr ""
+msgstr "Протокол HTTP"
 
 #: weblate/templates/manage/performance.html:204
 msgid "System encoding"
@@ -16515,7 +16485,7 @@ msgstr ""
 #, python-format
 msgid ""
 "The parameter '%(param)s' is not applicable for the file format '%(format)s'."
-msgstr ""
+msgstr "Параметр «%(param)s» неприменим для формата файла «%(format)s»."
 
 #: weblate/trans/models/component.py:3351
 msgid ""
@@ -17335,7 +17305,7 @@ msgstr ""
 
 #: weblate/trans/validators.py:75
 msgid "File format parameters must be a dictionary of key-value pairs."
-msgstr ""
+msgstr "Параметры формата файла должны быть словарем пар ключ-значение."
 
 #: weblate/trans/validators.py:84
 #, fuzzy, python-format

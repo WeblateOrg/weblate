@@ -26,11 +26,11 @@ FIELDS = {
 }
 
 
-def get_update(value):
-    if isinstance(value, dict) and "code" in value:
-        return value["code"]
-    if isinstance(value, set):
-        return list(value)
+def get_update(new_value):
+    if isinstance(new_value, dict) and "code" in new_value:
+        return new_value["code"]
+    if isinstance(new_value, set):
+        return list(new_value)
     return value
 
 
@@ -44,7 +44,7 @@ git_tag = subprocess.run(
 LATEST_RELEASE = git_tag.stdout.strip()
 
 # Read the authorization token
-TOKEN = Path("~/.config/readthedocs.token").expanduser().read_text()
+TOKEN = Path("~/.config/readthedocs.token").expanduser().read_text(encoding="utf-8")
 
 AUTH = {"Authorization": f"Token {TOKEN}", "Content-Type": "application/json"}
 
@@ -92,7 +92,6 @@ while result["next"]:
             )
             versions_response.raise_for_status()
             versions = versions_response.json()
-            found = None
             while LATEST_RELEASE not in {
                 version["slug"] for version in versions["results"]
             }:
@@ -126,8 +125,8 @@ for language in LOCALES:
             "type": "git",
         },
     }
-    for name, value in FIELDS.items():
-        payload[name] = get_update(value)
+    for name, expected_value in FIELDS.items():
+        payload[name] = get_update(expected_value)
     response = requests.post(
         "https://readthedocs.org/api/v3/projects/",
         json=payload,

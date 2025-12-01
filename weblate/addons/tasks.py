@@ -25,7 +25,7 @@ from weblate.trans.models import Change, Component, Project
 from weblate.utils.celery import app
 from weblate.utils.hash import calculate_checksum
 from weblate.utils.lock import WeblateLockTimeoutError
-from weblate.utils.requests import request
+from weblate.utils.requests import http_request
 
 IGNORED_TAGS = {"script", "style"}
 
@@ -47,10 +47,12 @@ def cdn_parse_html(addon_id: int, component_id: int) -> None:
         filename = filename.strip()
         try:
             if filename.startswith(("http://", "https://")):
-                with request("get", filename) as handle:
+                with http_request("get", filename) as handle:
                     content = handle.text
             else:
-                content = Path(os.path.join(component.full_path, filename)).read_text()
+                content = Path(os.path.join(component.full_path, filename)).read_text(
+                    encoding="utf-8"
+                )
         except OSError as error:
             errors.append({"filename": filename, "error": str(error)})
             continue
@@ -105,8 +107,8 @@ def language_consistency(
         return
     project = Project.objects.get(pk=project_id)
     languages = Language.objects.filter(id__in=language_ids)
-    request = HttpRequest()
-    request.user = addon.addon.user
+    fake_request = HttpRequest()
+    fake_request.user = addon.addon.user
 
     # Filter components with missing translation
     components = project.component_set.annotate(
@@ -129,7 +131,7 @@ def language_consistency(
             for language in missing:
                 new_lang = component.add_new_language(
                     language,
-                    request,
+                    fake_request,
                     send_signal=False,
                     create_translations=False,
                 )
@@ -186,8 +188,6 @@ def update_addon_activity_log(
 @app.task(trail=False)
 def cleanup_addon_activity_log() -> None:
     """Cleanup old add-on activity log entries."""
-    from weblate.addons.models import AddonActivityLog
-
     AddonActivityLog.objects.filter(
         created__lt=now() - timedelta(days=settings.ADDON_ACTIVITY_LOG_EXPIRY)
     ).delete()

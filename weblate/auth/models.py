@@ -6,9 +6,6 @@ from __future__ import annotations
 import re
 import uuid
 from collections import defaultdict
-from collections.abc import (
-    Iterable,
-)
 from contextvars import ContextVar
 from functools import cache as functools_cache
 from itertools import chain
@@ -683,7 +680,7 @@ class User(AbstractBaseUser):
         """Check access to given project."""
         if self.is_superuser:
             return True
-        return self.get_project_permissions(project) != []
+        return bool(self.get_project_permissions(project))
 
     def get_project_permissions(self, project: Project) -> SimplePermissionList:
         # Build a fresh list as we need to merge them
@@ -1085,6 +1082,7 @@ def change_componentlist(sender, instance, action, **kwargs) -> None:
 
 
 @receiver(m2m_changed, sender=User.groups.through)
+# pylint: disable=redefined-outer-name
 def remove_group_admin(sender, instance, action, pk_set, reverse, **kwargs) -> None:
     if action != "post_remove":
         return

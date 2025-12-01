@@ -13,7 +13,7 @@ import random
 import re
 import urllib.parse
 from configparser import NoOptionError, NoSectionError, RawConfigParser
-from contextlib import contextmanager
+from contextlib import contextmanager, suppress
 from json import JSONDecodeError, dumps
 from pathlib import Path
 from time import sleep, time
@@ -130,7 +130,7 @@ class GitRepository(Repository):
         locks = LOCK_ERROR.findall(errormessage)
         if locks and len(locks) == 1:
             lock = Path(locks[0])
-            if time.time() - lock.stat().st_mtime > LOCK_STALE_SECONDS:
+            if time() - lock.stat().st_mtime > LOCK_STALE_SECONDS:
                 lock.unlink(missing_ok=True)
                 return True
         return False
@@ -161,15 +161,13 @@ class GitRepository(Repository):
         modify = False
         with GitConfigParser(file_or_files=filename, read_only=True) as config:
             for section, key, value in updates:
-                try:
+                with suppress(NoSectionError, NoOptionError):
                     old = config.get(section, key)
                     if value is None:
                         modify = True
                         break
                     if old == value:
                         continue
-                except (NoSectionError, NoOptionError):
-                    pass
                 if value is not None:
                     modify = True
         if not modify:
@@ -520,15 +518,23 @@ class GitRepository(Repository):
         """Perform global settings."""
         home = data_path("home")
         merge_driver = cls.get_merge_driver("po")
-        updates = [
-            ("user", "email", settings.DEFAULT_COMMITER_EMAIL),
-            ("user", "name", settings.DEFAULT_COMMITER_NAME),
+        # Sync protocol configurartion with settings
+        updates: list[tuple[str, str, str]] = [
             (
-                'protocol "file"',
+                f'protocol "{protocol}"',
                 "allow",
-                "always" if settings.VCS_FILE_PROTOCOL else "never",
-            ),
+                "always" if protocol in settings.VCS_ALLOW_SCHEMES else "never",
+            )
+            for protocol in ("file", "git", "http", "https", "ssh")
         ]
+        # Default committer
+        updates.extend(
+            (
+                ("user", "email", settings.DEFAULT_COMMITER_EMAIL),
+                ("user", "name", settings.DEFAULT_COMMITER_NAME),
+            )
+        )
+        # Merge driver
         if merge_driver is not None:
             updates.extend(
                 (
@@ -557,7 +563,7 @@ class GitRepository(Repository):
 
         # Use it for *.po by default
         configfile = home / ".config" / "git" / "attributes"
-        if configfile.parent.is_dir():
+        if not configfile.exists():
             configfile.parent.mkdir(parents=True, exist_ok=True)
             configfile.write_text("*.po merge=weblate-merge-gettext-po\n")
 
@@ -698,11 +704,8 @@ class SubversionRepository(GitRepository):
         branch: str | None = None,
         component: Component | None = None,
         local: bool = False,
-        skip_init: bool = False,
     ) -> None:
-        super().__init__(
-            path, branch=branch, component=component, local=local, skip_init=skip_init
-        )
+        super().__init__(path, branch=branch, component=component, local=local)
         self._fetch_revision: str | None = None
 
     @classmethod
@@ -722,7 +725,7 @@ class SubversionRepository(GitRepository):
         if config.has_option(section, option) and config.get(section, option) == value:
             return
         config.set(section, option, value)
-        with open(filename, "w") as handle:
+        with open(filename, "w", encoding="utf-8") as handle:
             config.write(handle)
 
     @classmethod
@@ -1144,6 +1147,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         origin_branch: str,
         fork_remote: str,
         fork_branch: str,
+        retry_fork: bool = True,
     ) -> None:
         raise NotImplementedError
 
@@ -1263,7 +1267,7 @@ class GitMergeRequestBase(GitForcePushRepository):
                         params=params,
                         json=json,
                         auth=self.get_auth(credentials),
-                        timeout=5,
+                        timeout=settings.VCS_API_TIMEOUT,
                     )
                 except (OSError, HTTPError) as error:
                     report_error("Git API request")
@@ -1826,7 +1830,7 @@ class LocalRepository(GitRepository):
     def create_blank_repository(cls, path: str) -> None:
         """Initialize the repository."""
         super().create_blank_repository(path)
-        with open(os.path.join(path, "README.md"), "w") as handle:
+        with open(os.path.join(path, "README.md"), "w", encoding="utf-8") as handle:
             handle.write("Translations repository created by Weblate\n")
             handle.write("==========================================\n")
             handle.write("\n")
@@ -2012,6 +2016,7 @@ class GitLabRepository(GitMergeRequestBase):
         origin_branch: str,
         fork_remote: str,
         fork_branch: str,
+        retry_fork: bool = True,
     ) -> None:
         """
         Create pull request.
@@ -2097,6 +2102,7 @@ class PagureRepository(GitMergeRequestBase):
         origin_branch: str,
         fork_remote: str,
         fork_branch: str,
+        retry_fork: bool = True,
     ) -> None:
         """
         Create pull request.
@@ -2165,11 +2171,8 @@ class BitbucketServerRepository(GitMergeRequestBase):
         branch: str | None = None,
         component: Component | None = None,
         local: bool = False,
-        skip_init: bool = False,
     ) -> None:
-        super().__init__(
-            path, branch=branch, component=component, local=local, skip_init=skip_init
-        )
+        super().__init__(path, branch=branch, component=component, local=local)
         self.bb_fork: dict = {}
 
     def get_headers(self, credentials: GitCredentials) -> dict[str, str]:
@@ -2257,6 +2260,7 @@ class BitbucketServerRepository(GitMergeRequestBase):
         origin_branch: str,
         fork_remote: str,
         fork_branch: str,
+        retry_fork: bool = True,
     ) -> None:
         # Make sure there's always a fork reference
         if not self.bb_fork:
@@ -2290,13 +2294,11 @@ class BitbucketServerRepository(GitMergeRequestBase):
             "post", credentials, pr_url, json=request_body
         )
 
-        """
-        Bitbucket Data Center will return an error if a PR already exists.
-        The push method in the parent class pushes changes to the correct
-        fork or branch, and always calls this create_pull_request method after.
-        If the PR exists already just do nothing because Bitbucket will
-        auto-update the PR if the from ref is updated.
-        """
+        # Bitbucket Data Center will return an error if a PR already exists.
+        # The push method in the parent class pushes changes to the correct
+        # fork or branch, and always calls this create_pull_request method after.
+        # If the PR exists already just do nothing because Bitbucket will
+        # auto-update the PR if the from ref is updated.
         if "id" not in response_data:
             pr_exist_message = (
                 "Only one pull request may be open for a given source and target branch"
@@ -2381,6 +2383,7 @@ class BitbucketCloudRepository(GitMergeRequestBase):
         origin_branch: str,
         fork_remote: str,
         fork_branch: str,
+        retry_fork: bool = True,
     ) -> None:
         """
         Create pull request on Bitbucket Cloud.

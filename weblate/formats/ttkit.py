@@ -58,9 +58,9 @@ from weblate.trans.util import (
 from weblate.utils.errors import report_error
 from weblate.utils.files import cleanup_error_message
 from weblate.utils.state import (
+    FUZZY_STATES,
     STATE_APPROVED,
     STATE_EMPTY,
-    STATE_FUZZY,
     STATE_READONLY,
     STATE_TRANSLATED,
 )
@@ -166,7 +166,7 @@ class TTKitUnit(TranslationUnit):
         """Set fuzzy /approved flag on translated unit."""
         if "flags" in self.__dict__:
             del self.__dict__["flags"]
-        self.unit.markfuzzy(state == STATE_FUZZY)
+        self.unit.markfuzzy(state in FUZZY_STATES)
         if hasattr(self.unit, "markapproved"):
             self.unit.markapproved(state == STATE_APPROVED)
 
@@ -436,7 +436,9 @@ class TTKitFormat(TranslationFormat):
 
         if self.use_settarget and self.source_language:
             unit.setsource(source, self.source_language)
-        else:
+        elif self.is_template or self.template_store or self.use_settarget:
+            # Set source only if needed, it has performance hit in many formats because
+            # it is wrapped/rendered here.
             unit.source = source
 
         if self.use_settarget and self.language_code:
@@ -517,6 +519,7 @@ class TTKitFormat(TranslationFormat):
             if not unit.isobsolete() and not unit.isheader()
         )
 
+    # pylint: disable-next=useless-return
     def delete_unit(self, ttkit_unit) -> str | None:
         self.store.removeunit(ttkit_unit)
         return None
@@ -552,7 +555,7 @@ class PoUnit(TTKitUnit):
     def set_state(self, state) -> None:
         """Set fuzzy /approved flag on translated unit."""
         super().set_state(state)
-        if state != STATE_FUZZY:
+        if state not in FUZZY_STATES:
             self.unit.prev_msgid = []
             self.unit.prev_msgid_plural = []
             self.unit.prev_msgctxt = []
@@ -698,7 +701,7 @@ class XliffUnit(TTKitUnit):
         """Set fuzzy /approved flag on translated unit."""
         self.unit.markapproved(state == STATE_APPROVED)
         target_state = None
-        if state == STATE_FUZZY:
+        if state in FUZZY_STATES:
             # Always set state for fuzzy
             target_state = "needs-translation"
         elif state == STATE_TRANSLATED:
@@ -1042,6 +1045,13 @@ class CSVUnit(MonolingualSimpleUnit):
         ):
             # Update source for bilingual as CSV fields can contain just source
             self.unit.source = self.unit.target
+        if (
+            self.template is not None
+            and not self.parent.is_template
+            and "context" not in self.parent.store.fieldnames
+        ):
+            # Update source for monolingual fields without context field
+            self.unit.source = self.unit.context
 
     def is_fuzzy(self, fallback=False):
         # Report fuzzy state only if present in the fields
@@ -1236,19 +1246,18 @@ class PoFormat(BasePoFormat, BilingualUpdateMixin):
             raise UpdateError(
                 " ".join(cmd), cleanup_error_message(error_output)
             ) from error
-        else:
-            # The warnings can cause corruption (for example in case
-            # PO file header is missing ASCII encoding is assumed)
-            errors = []
-            for line in result.stderr.splitlines():
-                if (
-                    "warning: internationalized messages should not contain the" in line
-                    or ". done." in line
-                ):
-                    continue
-                errors.append(line)
-            if errors:
-                raise UpdateError(" ".join(cmd), "\n".join(errors))
+        # The warnings can cause corruption (for example in case
+        # PO file header is missing ASCII encoding is assumed)
+        errors = []
+        for line in result.stderr.splitlines():
+            if (
+                "warning: internationalized messages should not contain the" in line
+                or ". done." in line
+            ):
+                continue
+            errors.append(line)
+        if errors:
+            raise UpdateError(" ".join(cmd), "\n".join(errors))
 
 
 class PoMonoFormat(BasePoFormat):
@@ -1705,6 +1714,7 @@ class CSVFormat(TTKitFormat):
             content = Path(filename).read_bytes()
         return content, filename
 
+    # pylint: disable-next=arguments-differ
     def parse_store(self, storefile, *, dialect: str | None = None):
         """Parse the store."""
         content, filename = self.get_content_and_filename(storefile)
@@ -1738,6 +1748,8 @@ class CSVFormat(TTKitFormat):
 
     def parse_simple_csv(self, content, filename, header: list[str] | None = None):
         fieldnames = ["source", "target"]
+        # Prefer detected header if available (translate-toolkit PR #5830 adds
+        # monolingual CSV support with proper handling of context/id/target columns)
         if header and all(
             field in {"source", "target", "context", "id"} for field in header
         ):
@@ -1770,6 +1782,7 @@ class CSVSimpleFormat(CSVFormat):
         """Return most common file extension for format."""
         return "csv"
 
+    # pylint: disable-next=arguments-differ
     def parse_store(self, storefile):
         """Parse the store."""
         content, filename = self.get_content_and_filename(storefile)
@@ -2309,8 +2322,6 @@ class StringsdictFormat(DictStoreFormat):
         plural = super().get_plural(language, store)
         if plural.type in ZERO_PLURAL_TYPES:
             return plural
-
-        from weblate.lang.models import Plural
 
         return language.plural_set.get_or_create(
             source=Plural.SOURCE_CLDR_ZERO,

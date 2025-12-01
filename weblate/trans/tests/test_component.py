@@ -936,7 +936,7 @@ class ComponentErrorTest(RepoTestCase):
 
     def test_failed_push(self) -> None:
         testfile = os.path.join(self.component.full_path, "README.md")
-        with open(testfile, "a") as handle:
+        with open(testfile, "a", encoding="utf-8") as handle:
             handle.write("CHANGE")
         with self.component.repository.lock:
             self.component.repository.commit("test", files=["README.md"])
@@ -952,6 +952,7 @@ class ComponentErrorTest(RepoTestCase):
         self.component.drop_template_store_cache()
 
         with self.assertRaises(FileParseError):
+            # pylint: disable-next=pointless-statement
             self.component.template_store  # noqa: B018
 
         with self.assertRaises(ValidationError):
@@ -961,27 +962,30 @@ class ComponentErrorTest(RepoTestCase):
         translation = self.component.translation_set.get(language_code="cs")
         translation.filename = "foo.bar"
         with self.assertRaises(FileParseError):
+            # pylint: disable-next=pointless-statement
             translation.store  # noqa: B018
         with self.assertRaises(ValidationError):
             translation.clean()
 
     def test_invalid_storage(self) -> None:
         testfile = os.path.join(self.component.full_path, "ts-mono", "cs.ts")
-        with open(testfile, "a") as handle:
+        with open(testfile, "a", encoding="utf-8") as handle:
             handle.write("CHANGE")
         translation = self.component.translation_set.get(language_code="cs")
         with self.assertRaises(FileParseError):
+            # pylint: disable-next=pointless-statement
             translation.store  # noqa: B018
         with self.assertRaises(ValidationError):
             translation.clean()
 
     def test_invalid_template_storage(self) -> None:
         testfile = os.path.join(self.component.full_path, "ts-mono", "en.ts")
-        with open(testfile, "a") as handle:
+        with open(testfile, "a", encoding="utf-8") as handle:
             handle.write("CHANGE")
         self.component.drop_template_store_cache()
 
         with self.assertRaises(FileParseError):
+            # pylint: disable-next=pointless-statement
             self.component.template_store  # noqa: B018
         with self.assertRaises(ValidationError):
             self.component.clean()

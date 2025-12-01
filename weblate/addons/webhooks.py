@@ -4,7 +4,11 @@
 
 from __future__ import annotations
 
+import base64
+import hashlib
+import hmac
 import json
+from math import floor
 from typing import TYPE_CHECKING
 
 import jsonschema.exceptions
@@ -13,23 +17,36 @@ from django.template.loader import render_to_string
 from django.utils import timezone as dj_timezone
 from django.utils.translation import gettext_lazy
 from drf_spectacular.utils import OpenApiResponse, OpenApiWebhook, extend_schema
-from standardwebhooks.webhooks import Webhook
 from weblate_schemas import load_schema, validate_schema
 
 from weblate.addons.base import ChangeBaseAddon
 from weblate.addons.forms import BaseWebhooksAddonForm, WebhooksAddonForm
 from weblate.trans.util import split_plural
-from weblate.utils.requests import request
+from weblate.utils.const import WEBHOOKS_SECRET_PREFIX
+from weblate.utils.requests import http_request
 from weblate.utils.site import get_site_url
 from weblate.utils.views import key_name
 
 if TYPE_CHECKING:
     from collections.abc import Mapping
+    from datetime import datetime
 
     from weblate.addons.models import AddonActivityLog
     from weblate.trans.models import Change
 
     PayloadType = Mapping[str, int | str | list]
+
+
+def standard_webhooks_sign(
+    secret: str, msg_id: str, timestamp: datetime, data: str
+) -> str:
+    # Base 64 encode the secret (without prefix if included)
+    whsecret = base64.b64decode(secret.removeprefix(WEBHOOKS_SECRET_PREFIX))
+
+    timestamp_str = str(floor(timestamp.timestamp()))
+    to_sign = f"{msg_id}.{timestamp_str}.{data}".encode()
+    signature = hmac.new(whsecret, to_sign, hashlib.sha256).digest()
+    return f"v1,{base64.b64encode(signature).decode('utf-8')}"
 
 
 class MessageNotDeliveredError(Exception):
@@ -38,6 +55,7 @@ class MessageNotDeliveredError(Exception):
 
 class JSONWebhookBaseAddon(ChangeBaseAddon):
     icon = "webhook.svg"
+    multiple = True
 
     def build_webhook_payload(self, change: Change) -> PayloadType:
         raise NotImplementedError
@@ -55,7 +73,7 @@ class JSONWebhookBaseAddon(ChangeBaseAddon):
         self, change: Change, headers: dict, payload: PayloadType
     ) -> requests.Response:
         try:
-            return request(
+            return http_request(
                 method="post",
                 url=self.instance.configuration["webhook_url"],
                 json=payload,
@@ -144,8 +162,8 @@ class WebhookAddon(JSONWebhookBaseAddon):
             "webhook-signature": "",
         }
         if secret := self.instance.configuration.get("secret", ""):
-            headers["webhook-signature"] = Webhook(secret).sign(
-                webhook_id, attempt_time, json.dumps(payload)
+            headers["webhook-signature"] = standard_webhooks_sign(
+                secret, webhook_id, attempt_time, json.dumps(payload)
             )
 
         return headers

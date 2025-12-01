@@ -169,7 +169,9 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
             repo = self._class(
                 tempdir, branch=self._remote_branch, component=self.get_fake_component()
             )
+            self.assertFalse(repo.is_valid())
             with repo.lock:
+                repo.clone_from(self.get_remote_repo_url())
                 repo.configure_remote(
                     self.get_remote_repo_url(),
                     "",
@@ -203,7 +205,7 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
                     filename = "testfile" if conflict else "test2"
                     # Create test file
                     Path(os.path.join(tempdir, filename)).write_text(
-                        "SECOND TEST FILE\n"
+                        "SECOND TEST FILE\n", encoding="utf-8"
                     )
                     filenames = [filename]
 
@@ -330,7 +332,9 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
 
     def test_needs_commit(self) -> None:
         self.assertFalse(self.repo.needs_commit())
-        with open(os.path.join(self.tempdir, "README.md"), "a") as handle:
+        with open(
+            os.path.join(self.tempdir, "README.md"), "a", encoding="utf-8"
+        ) as handle:
             handle.write("CHANGE")
         self.assertTrue(self.repo.needs_commit())
         self.assertTrue(self.repo.needs_commit(["README.md"]))
@@ -1747,7 +1751,7 @@ class VCSGerritTest(VCSGitUpstreamTest):
         # Create commit-msg hook, so that git-review doesn't try
         # to create one
         hook = os.path.join(repo.path, ".git", "hooks", "commit-msg")
-        Path(hook).write_text("#!/bin/sh\nexit 0\n")
+        Path(hook).write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
         os.chmod(hook, 0o755)  # noqa: S103, nosec
 
     def test_set_gitreview_username_git(self) -> None:

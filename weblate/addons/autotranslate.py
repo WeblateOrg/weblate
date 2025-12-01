@@ -105,6 +105,7 @@ class AutoTranslateAddon(BaseAddon):
         elif change.action in {
             ActionEvents.SCREENSHOT_UPLOADED,
             ActionEvents.SCREENSHOT_ADDED,
+            ActionEvents.SCREENSHOT_REMOVED,
         }:
             if change.screenshot is not None:
                 units.extend(change.screenshot.units.all())
@@ -135,7 +136,7 @@ class AutoTranslateAddon(BaseAddon):
 
         translation_with_unit_ids = defaultdict(list)
         for unit in all_units:
-            if unit.labels.filter(name="Automatically translated").exists():
+            if unit.automatically_translated:
                 # Skip already automatically translated strings here to avoid repeated
                 # translating, for example with enforced checks.
                 continue

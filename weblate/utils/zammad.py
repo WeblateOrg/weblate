@@ -11,7 +11,7 @@ from django.core.exceptions import ImproperlyConfigured
 from requests.exceptions import JSONDecodeError, RequestException
 
 from .errors import report_error
-from .requests import request
+from .requests import http_request
 
 if TYPE_CHECKING:
     from requests import Response
@@ -54,7 +54,7 @@ def submit_zammad_ticket(
 
     config_url = f"{zammad_url}/api/v1/form_config"
 
-    response = request(
+    response = http_request(
         "POST", config_url, data={"fingerprint": FINGERPRINT, "test": "true"}
     )
     data = process_zammad_response(response)
@@ -62,7 +62,7 @@ def submit_zammad_ticket(
     if not data.get("enabled"):
         raise ZammadError(ERR_TEMPORARY)
 
-    response = request(
+    response = http_request(
         "POST",
         data["endpoint"],
         data={

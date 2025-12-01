@@ -63,15 +63,25 @@ class CDNJSAddon(BaseAddon):
         )
 
     @classmethod
-    def can_install(cls, component: Component, user: User | None) -> bool:
+    def can_install(
+        cls,
+        *,
+        component: Component | None = None,
+        project: Project | None = None,
+    ) -> bool:
         if (
             not settings.LOCALIZE_CDN_URL
             or not settings.LOCALIZE_CDN_PATH
-            or not component.has_template()
-            or not component.translation_set.exists()
+            or (
+                component is not None
+                and (
+                    not component.has_template()
+                    or not component.translation_set.exists()
+                )
+            )
         ):
             return False
-        return super().can_install(component, user)
+        return super().can_install(component=component, project=project)
 
     def cdn_path(self, filename: str) -> str:
         return os.path.join(
@@ -115,13 +125,16 @@ class CDNJSAddon(BaseAddon):
                     "cookie_name": self.instance.configuration["cookie_name"],
                     "css_selector": self.instance.configuration["css_selector"],
                 },
-            )
+            ),
+            encoding="utf-8",
         )
 
         # Generate bilingual JSON files
         for translation in translations:
             with open(
-                self.cdn_path(f"{translation.language.code}.json"), "w"
+                self.cdn_path(f"{translation.language.code}.json"),
+                "w",
+                encoding="utf-8",
             ) as handle:
                 json.dump(
                     {

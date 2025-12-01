@@ -12,7 +12,6 @@ from django.urls import reverse
 from django.utils.translation import gettext
 from django.views.generic import ListView
 
-from weblate.auth.models import AuthenticatedHttpRequest
 from weblate.checks.models import CHECKS, Check
 from weblate.lang.models import Language
 from weblate.trans.models import Component, Project, Translation, Unit
@@ -247,6 +246,7 @@ class CheckList(PathViewMixin, ListView):
             raise TypeError(msg)
         return context
 
+    # pylint: disable-next=arguments-differ
     def setup(self, request: AuthenticatedHttpRequest, **kwargs) -> None:
         super().setup(request, **kwargs)
         self.check_obj = None

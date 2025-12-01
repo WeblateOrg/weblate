@@ -1079,44 +1079,6 @@ does not prevent an attacker from figuring out version by probing behavior.
 
     This is turned off by default.
 
-.. setting:: INTERLEDGER_PAYMENT_BUILTIN
-
-INTERLEDGER_PAYMENT_BUILTIN
----------------------------
-
-.. versionadded:: 5.11
-
-Toggles built-in Interledger Payment Pointer for funding Weblate.
-
-.. seealso::
-
-   :setting:`INTERLEDGER_PAYMENT_POINTERS`
-
-
-.. setting:: INTERLEDGER_PAYMENT_POINTERS
-
-INTERLEDGER_PAYMENT_POINTERS
-----------------------------
-
-.. versionadded:: 4.12.1
-
-List of Interledger Payment Pointers (ILPs) for Web Monetization.
-
-If multiple are specified, probabilistic revenue sharing is achieved by
-selecting one randomly.
-
-Please check <https://webmonetization.org/> for more details.
-
-.. hint::
-
-   A pointer to fund Weblate itself is automatically added unless turned off
-   by :setting:`INTERLEDGER_PAYMENT_BUILTIN`.
-
-
-.. seealso::
-
-   :setting:`INTERLEDGER_PAYMENT_BUILTIN`
-
 .. setting:: IP_BEHIND_REVERSE_PROXY
 
 IP_BEHIND_REVERSE_PROXY
@@ -1336,42 +1298,6 @@ store generated files which will be served at the :setting:`LOCALIZE_CDN_URL`.
 .. seealso::
 
    :ref:`addon-weblate.cdn.cdnjs`
-
-.. setting:: LOGIN_REQUIRED_URLS
-
-LOGIN_REQUIRED_URLS
--------------------
-
-A list of URLs you want to require signing in. (Besides the standard rules built into Weblate).
-
-.. hint::
-
-    This allows you to password protect a whole installation using:
-
-    .. code-block:: python
-
-        LOGIN_REQUIRED_URLS = (r"/(.*)$",)
-        REST_FRAMEWORK["DEFAULT_PERMISSION_CLASSES"] = [
-            "rest_framework.permissions.IsAuthenticated"
-        ]
-
-.. hint::
-
-   It is desirable to lock down API access as well, as shown in the above example.
-
-.. seealso::
-
-   :setting:`REQUIRE_LOGIN`
-
-.. setting:: LOGIN_REQUIRED_URLS_EXCEPTIONS
-
-LOGIN_REQUIRED_URLS_EXCEPTIONS
-------------------------------
-
-List of exceptions for :setting:`LOGIN_REQUIRED_URLS`.
-If not specified, users are allowed to access the sign-in page.
-
-See the :ref:`sample-configuration` for recommended configuration of this setting.
 
 .. setting:: PIWIK_SITE_ID
 .. setting:: MATOMO_SITE_ID
@@ -1822,8 +1748,12 @@ REQUIRE_LOGIN
 
 .. versionadded:: 4.1
 
-This enables :setting:`LOGIN_REQUIRED_URLS` and configures REST framework to
-require authentication for all API endpoints.
+This enables :class:`django:django.contrib.auth.middleware.LoginRequiredMiddleware`
+and configures REST framework to require authentication for all API endpoints.
+
+.. versionchanged:: 5.15
+
+   Weblate now relies on Django built-in middleware.
 
 .. note::
 
@@ -2116,6 +2046,24 @@ Example:
     This setting does not work with Django's built-in server, you would have to
     adjust :file:`urls.py` to contain this prefix.
 
+.. setting:: VCS_ALLOW_HOSTS
+
+VCS_ALLOW_HOSTS
+---------------
+
+.. versionadded:: 5.15
+
+A set of hosts to allow when configuring VCS URL. Defaults to an empty set what does no filtering at all.
+
+.. setting:: VCS_ALLOW_SCHEMES
+
+VCS_ALLOW_SCHEMES
+-----------------
+
+.. versionadded:: 5.15
+
+A set of hosts to allow when configuring VCS URL. Only ``https`` and ``ssh`` are allowed by default.
+
 .. setting:: VCS_API_DELAY
 
 VCS_API_DELAY
@@ -2130,6 +2078,19 @@ Configures minimal delay in seconds between third-party API calls in
 This rate-limits API calls from Weblate to these services to avoid overloading them.
 
 If you are being limited by secondary rate-limiter at GitHub, increasing this might help.
+
+The default value is 10.
+
+.. setting:: VCS_API_TIMEOUT
+
+VCS_API_TIMEOUT
+---------------
+
+.. versionadded:: 5.15
+
+Configures timeout in seconds for third-party API calls such as forking or
+creating merge requests in :ref:`vcs-github`, :ref:`vcs-gitlab`,
+:ref:`vcs-gitea`, :ref:`vcs-pagure`, and :ref:`vcs-azure-devops`.
 
 The default value is 10.
 

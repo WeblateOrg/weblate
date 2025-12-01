@@ -128,6 +128,7 @@ class AutodetectFormat(TTKitFormat):
     """
 
     @classmethod
+    # pylint: disable-next=arguments-differ
     def parse_store(cls, storefile):
         """Directly loads using translate-toolkit."""
         return factory.getobject(storefile)

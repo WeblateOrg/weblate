@@ -307,6 +307,7 @@ class FixtureTestCase(ViewTestCase):
     def clone_test_repos(self) -> None:
         return
 
+    # pylint: disable=arguments-differ
     def create_project(self):
         project = Project.objects.all()[0]
         setup_project_groups(self, project)

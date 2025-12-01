@@ -27,7 +27,6 @@ from django.urls import reverse
 from django.utils.translation import gettext
 from django.views.decorators.http import require_POST
 
-from weblate.auth.models import AuthenticatedHttpRequest
 from weblate.checks.models import CHECKS, get_display_checks
 from weblate.glossary.forms import TermForm
 from weblate.glossary.models import fetch_glossary_terms, get_glossary_terms

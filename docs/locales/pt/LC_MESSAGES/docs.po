@@ -15,8 +15,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.14.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-10-27 08:36+0100\n"
-"PO-Revision-Date: 2025-10-28 09:04+0000\n"
-"Last-Translator: Horus68 <horus68@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2025-11-24 13:58+0000\n"
+"Last-Translator: Manuela Silva <mmsrs@sky.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "documentation/pt/>\n"
 "Language: pt\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.14.1-dev\n"
+"X-Generator: Weblate 5.15-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:215
@@ -2661,9 +2661,9 @@ msgid ""
 "presented, from where you can check whether the configuration actually "
 "matches your needs:"
 msgstr ""
-"Uma vez que acertar :guilabel:`Gravar`, uma prévia dos componentes "
-"correspondentes será apresentada, de onde pode verificar se a configuração "
-"realmente corresponde às suas necessidades:"
+"Assim que clicar em :guilabel:`Gravar`, será apresentada uma pré-"
+"visualização dos componentes correspondentes, de onde pode verificar se a "
+"configuração realmente corresponde às suas necessidades:"
 
 #: ../../admin/addons.rst:345
 msgid "Component discovery examples"
@@ -2941,7 +2941,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:564
 msgid "Flag new translations as \"Needs editing\""
-msgstr "Marcar as novas traduções como \"Precisa de edição\""
+msgstr "Sinalizar as novas traduções como \"Precisa de edição\""
 
 #: ../../admin/addons.rst:570
 msgid ""
@@ -2954,10 +2954,9 @@ msgstr ""
 "as traduções criadas pelos programadores."
 
 #: ../../admin/addons.rst:581
-#, fuzzy
-#| msgid "Flag unchanged translations as \"Needs editing\""
 msgid "Flag updated translations from repository as \"Needs editing\""
-msgstr "Sinalizar as traduções inalteradas como \"Precisa de edição\""
+msgstr ""
+"Sinalizar as traduções atualizadas do repositório como \"Precisa de edição\""
 
 #: ../../admin/addons.rst:587
 #, fuzzy
@@ -4305,9 +4304,9 @@ msgid ""
 ":guilabel:`System encoding` should list ``UTF-8`` encoding in all processes. "
 "This needs to be configured in your system, see :ref:`production-encoding`."
 msgstr ""
-":guilabel:`Codificação do sistema` deve listar a codificação ``UTF-8`` em "
-"todos os processos. Isto precisa ser configurado no seu sistema, "
-"consulte :ref:`production-encoding`."
+":guilabel:`Codificação do sistema` deveria listar a codificação ``UTF-8`` em "
+"todos os processos. Isto precisa de ser configurado no seu sistema, consulte "
+":ref:`production-encoding`."
 
 #: ../../admin/admin.rst:51
 msgid ""
@@ -5127,11 +5126,15 @@ msgstr ""
 "ser preciso configurar esta cadeia como :guilabel:`Relay` noseu IDP."
 
 #: ../../admin/auth.rst:562
+#, fuzzy
 msgid ""
 "Weblate authentication relies on the ``RelayState`` parameter to be passed "
 "through the authentication process. This needs to be configured with some "
 "identity providers:"
 msgstr ""
+"A autenticação Weblate baseia-se no parâmetro ``RelayState``para ser passado "
+"pelo processo de autenticação. Isto precisa de ser configurado com alguns "
+"provedores de identidade:"
 
 #: ../../admin/auth.rst:566
 msgid "`How to Send a Custom RelayState with Okta`_"
@@ -5663,7 +5666,7 @@ msgid ""
 msgstr ""
 "Também pode utilizar o seu próprio armazenamento para as cópias de "
 "segurança. SSH pode ser utilizado para guardar as cópias de segurança no "
-"destino remoto, o servidor de destino precisa de ter instalado`BorgBackup`."
+"destino remoto, o servidor de destino precisa de ter instalado _`BorgBackup`."
 
 #: ../../admin/backup.rst:121
 msgid ":doc:`borg:usage/general` in the Borg documentation"
@@ -5680,10 +5683,11 @@ msgid ""
 "running Weblate (see :ref:`file-permissions`). If it doesn't exist, Weblate "
 "attempts to create it but needs the appropriate permissions to do so."
 msgstr ""
-"Recomenda-se especificar o caminho absoluto para o backup local, por exemplo "
-"`/caminho/para/backup`. O diretório deve poder ser escrito pelo utilizador a "
-"executar o Weblate (veja :ref:`file-permissions`). Se ele não existir, o "
-"Weblate tenta criá-lo, mas precisa das permissões apropriadas para fazê-lo."
+"Recomenda-se que especifique o caminho absoluto para a cópia de segurança "
+"local, por exemplo `/path/to/backup`. A diretoria tem de ser gravável pelo "
+"utilizador a executar o Weblate (consulte :ref:`file-permissions`). Se esta "
+"não existir, o Weblate tenta criá-la, mas precisa das permissões apropriadas "
+"para o fazr."
 
 #: ../../admin/backup.rst:133
 msgid ""
@@ -6140,7 +6144,7 @@ msgid ""
 "the translation memory (in backups folder), you can use:"
 msgstr ""
 "Pode ajustar a lista de pastas e ficheiros às suas necessidades. Para evitar "
-"gravar a memória de tradução (na pasta backups), pode usar:"
+"guardar a memória de tradução (na pasta \"backups\"), pode utilizar:"
 
 #: ../../admin/backup.rst:376
 msgid "Restoring manual backup"
@@ -6447,17 +6451,17 @@ msgstr ""
 "placeholders`."
 
 #: ../../admin/checks.rst:114
-#, fuzzy
 msgid ""
 "Replacements to perform when checking resulting text parameters (for example "
 "in :ref:`check-max-size` or :ref:`check-max-length`). The typical use case "
 "for this is to expand placeables to ensure that the text fits even with long "
 "values, for example: ``replacements:%s:\"John Doe\"``."
 msgstr ""
-"Substituições para realizar ao verificar parâmetros de texto resultantes "
+"Substituições para realizar quando verificar os parâmetros de texto "
+"resultantes "
 "(por exemplo, em :ref:`check-max-size` ou :ref:`check-max-length`). O caso "
-"de uso típico para isso é expandir objetos colocáveis *(placeables)* para "
-"garantir que o texto se encaixe mesmo com valores longos, por exemplo: "
+"de utilização típico para isso é expandir os objetos colocáveis para "
+"garantir que o texto se ajusta até com os valores longos, por exemplo: "
 "``replacements:%s:\"John Doe\"``."
 
 #: ../../admin/checks.rst:119
@@ -7110,9 +7114,9 @@ msgid ""
 "To use the fonts for checking the string length, pass it the appropriate "
 "flags (see :ref:`custom-checks`). You will probably need the following ones:"
 msgstr ""
-"Para usar as fontes de forma a verificar o comprimento da cadeia, passe-lhe "
-"os marcadores apropriados (veja :ref:`custom-checks`). Provavelmente "
-"precisará dos seguintes:"
+"Para utilizar os tipos de letra para verificar o comprimento da cadeia de "
+"carateres, passe-lhe os sinalizadores apropriados "
+"(consulte :ref:`custom-checks`). Provavelmente precisará dos seguintes:"
 
 #: ../../admin/checks.rst:438
 msgid "``max-size:500`` / ``max-size:300:5``"
@@ -7194,7 +7198,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:475
 msgid "Checking that Czech translation text plurals differ"
-msgstr "Verificando se os plurais de texto de tradução tcheca são diferentes"
+msgstr "A verificar se os plurais de texto da tradução checa são diferentes"
 
 #: ../../admin/checks.rst:477
 msgid ""
@@ -7528,8 +7532,8 @@ msgid ""
 "The checking is based on the audit log, :setting:`AUDITLOG_EXPIRY` needs to "
 "be at least same as this."
 msgstr ""
-"A verificação é baseada no registo de auditoria, :setting:`AUDITLOG_EXPIRY` "
-"precisa ser pelo menos o mesmo que isto."
+"A verificação é baseada no registo da auditoria, :setting:`AUDITLOG_EXPIRY` "
+"tem de ser pelo menos o mesmo que isto."
 
 #: ../../admin/config.rst:213
 msgid ""
@@ -7804,8 +7808,8 @@ msgid ""
 "The sender is used in as :mailheader:`From`. Your mail server needs to allow "
 "sending such e-mails."
 msgstr ""
-"O remetente é usado como :mailheader:`From`. O seu servidor de e-mail "
-"precisa permitir o envio de tais e-mails."
+"O remetente é utilizado como :mailheader:`From`. O seu servidor de correio "
+"eletrónico precisa de permitir o envio de tais mensagens."
 
 #: ../../admin/config.rst:471
 msgid ""
@@ -7960,8 +7964,8 @@ msgid ""
 "Defaults to `en`. The matching language object needs to exist in the "
 "database."
 msgstr ""
-"O padrão é `en`. O objeto de idioma correspondente precisa existir na base "
-"de dados."
+"Predefine para `en`. O objeto de idioma correspondente tem de existir na "
+"base de dados."
 
 #: ../../admin/config.rst:677
 msgid ":ref:`component-merge_style` for any new components."
@@ -8697,8 +8701,7 @@ msgstr ""
 #: ../../admin/config.rst:1465
 msgid "Defaults to 0, which means strength checking is disabled."
 msgstr ""
-"O padrão é 0, o que significa que a verificação para força de palavra-passe "
-"está desativada."
+"Predefine para 0, o que significa que a verificação de força está desativada."
 
 #: ../../admin/config.rst:1480
 msgid "URL where your Weblate instance shows its privacy policy."
@@ -9707,9 +9710,9 @@ msgid ""
 "to control Weblate remotely. You can also achieve this using any HTTP client "
 "instead of :ref:`wlc`, for example curl, see :ref:`api`."
 msgstr ""
-"O exemplo usa :ref:`wlc`, que precisa de configuração (chaves de API) para "
-"ser capaz de controlar o Weblate remotamente. Também pode conseguir isto "
-"usando qualquer cliente HTTP em vez de :ref:`wlc`, por exemplo, curl, "
+"O exemplo utiliza :ref:`wlc`, que precisa de configuração (chaves da API) "
+"para poder controlar o Weblate remotamente. Também pode conseguir isto "
+"utilizando qualquer cliente HTTP, em vez de :ref:`wlc`, por exemplo, curl, "
 "ver :ref:`api`."
 
 #: ../../admin/continuous.rst:181
@@ -14939,9 +14942,8 @@ msgid ""
 "0 to disable strength checking."
 msgstr ""
 "Pontuação mínima da palavra-passe conforme avaliada pelo estimador de força "
-"de palavra-passe `zxcvbn <https://github.com/dwolfhub/zxcvbn-python>`_. O "
-"padrão é 3, defina como 0 para desativar a verificação de força da palavra-"
-"passe."
+"da palavra-passe `zxcvbn <https://github.com/dwolfhub/zxcvbn-python>`_. "
+"Predefine para 3, defina para 0 para desativar a verificação de força."
 
 #: ../../admin/install/docker.rst:1511
 msgid "PostgreSQL database setup"
@@ -19586,7 +19588,7 @@ msgstr ""
 
 #: ../../admin/memory.rst:51
 msgid "Shared translation memory"
-msgstr "Memória de tradução compartilhada"
+msgstr "Memória de tradução partilhada"
 
 #: ../../admin/memory.rst:53
 msgid ""
@@ -31332,7 +31334,9 @@ msgstr "*Atualizado em 7 de outubro de 2013.*"
 
 #: ../../changes/v1.rst:42
 msgid "Support for checking Python brace format string."
-msgstr "Suporte para verificar a cadeia de formatação com chaves do Python."
+msgstr ""
+"Suporte para verificar a cadeia de carateres de formatação com chavetas do "
+"Python."
 
 #: ../../changes/v1.rst:43
 msgid "Per component customization of quality checks."
@@ -31826,7 +31830,7 @@ msgstr "Fazer cache de contagens de cadeias a conter verificações com falha."
 
 #: ../../changes/v1.rst:176
 msgid "Checking of requirements during setup."
-msgstr "Verificação de requisitos durante a configuração."
+msgstr "Verificação dos requisitos durante a configuração."
 
 #: ../../changes/v1.rst:180
 msgid "Weblate 1.1"
@@ -39787,24 +39791,19 @@ msgstr ""
 "<https://www.conventionalcommits.org/>`_."
 
 #: ../../contributing/snippets/code-guide.rst:66
-#, fuzzy
-#| msgid "Permission checking"
 msgid "Type checking"
-msgstr "Verificação de permissão"
+msgstr "Verificação de tipo"
 
 #: ../../contributing/snippets/code-guide.rst:68
-#, fuzzy
-#| msgid ""
-#| "Any new code should utilize :pep:`484` type hints. We're not checking "
-#| "this in our CI yet as existing code does not yet include them."
 msgid ""
 "Any new code should utilize :pep:`484` type hints. We are "
 "using :program:`mypy` to check (because it has a Django plugin that makes "
 "type checking of Django apps doable)."
 msgstr ""
-"Qualquer novo código deve utilizar dicas de tipo :pep:`484`. Ainda não "
-"estamos verificando isso em nosso CI, pois o código existente ainda não os "
-"inclui."
+"Qualquer novo código deverá utilizar as dicas de tipo :pep:`484`. Nós "
+"estamos a utilizar :program:`mypy` para verificar (porque tem um ''plug-in'' "
+"do Django que torna possível a verificação de tipos das aplicações do "
+"Django)."
 
 #: ../../contributing/snippets/code-guide.rst:72
 msgid ""
@@ -51470,9 +51469,9 @@ msgid ""
 "operation in Weblate which involves running checks like importing strings or "
 "translating."
 msgstr ""
-"A verificação de cada cadeia em relação ao glossário é dispendiosa, ela irá "
-"retardar qualquer operação na Weblate que envolva a execução de verificações "
-"como a importação de textos ou a tradução."
+"A verificação de cada cadeia de carateres em relação ao glossário é "
+"dispendiosa, esta irá retardar qualquer operação no Weblate que envolva a "
+"execução de verificações, tais como a importação de textos ou a tradução."
 
 #: ../../user/checks.rst:183
 msgid "It also utilizes untranslatable glossary terms in :ref:`check-same`."
@@ -51861,8 +51860,8 @@ msgid ""
 "Besides checking, this will also highlight the formatting strings to easily "
 "insert them into translated strings:"
 msgstr ""
-"Além da verificação, isto também destacará as cadeias de formatação para as "
-"inserir facilmente em cadeias traduzidas:"
+"Além da verificação, isto também destacará as cadeias de carateres de "
+"formatação para as inserir facilmente nas cadeias de carateres traduzidas:"
 
 #: ../../user/checks.rst:457
 msgid "AngularJS interpolation string"
@@ -52063,16 +52062,16 @@ msgid ""
 "Enable support for strict XML tags. All ``<`` characters must be escaped if "
 "they are not part of a tag."
 msgstr ""
-"Ativa o suporte para tags XML estritas. Todos os caracteres ``<`` devem ser "
-"escapados se não fizerem parte de uma tag."
+"Ativa o suporte para etiquetas XML estritas. Todos os carateres ``<`` devem "
+"ser escapados se não fizerem parte de uma etiqueta."
 
 #: ../../user/checks.rst:616
 msgid "Disable highlighting placeholders in the editor."
-msgstr "Desativa o realce de espaços reservados no editor."
+msgstr "Desativa o destaque dos espaços reservados no editor."
 
 #: ../../user/checks.rst:618
 msgid "Disable requiring sub-messages to have an ``other`` selector."
-msgstr "Desativa a exigência de submensagens ter um seletor ``other``."
+msgstr "Desativa a exigência das submensagens para terem um seletor ``other``."
 
 #: ../../user/checks.rst:621
 msgid "Skip checking that sub-message selectors match the source."
@@ -52090,8 +52089,8 @@ msgid ""
 "Skip checking that no placeholders are present that were not present in the "
 "source string."
 msgstr ""
-"Ignora a verificação de nenhum espaço reservado está presente que não esteva "
-"presente na cadeia fonte."
+"Ignora a verificação de que nenhum espaço reservado está presente que não "
+"estava presente na cadeia de carateres fonte."
 
 #: ../../user/checks.rst:628
 msgid ""
@@ -52119,26 +52118,25 @@ msgid ""
 "This would match ``<x:link>click here</x:link>`` but not ``<strong>this</"
 "strong>``."
 msgstr ""
-"Isso corresponderia a ``<x:link>clique aqui</x:link>``, mas não a "
-"``<strong>isso</strong>``."
+"Isto corresponderia a ``<x:link>clique aqui</x:link>``, mas não a "
+"``<strong>isto</strong>``."
 
 #: ../../user/checks.rst:647
 msgid ""
 "`ICU: Formatting Messages <https://unicode-org.github.io/icu/userguide/"
 "format_parse/messages/>`_"
 msgstr ""
+"`ICU: Formatação de Mensagens <https://unicode-org.github.io/icu/userguide/"
+"format_parse/messages/>`_"
 
 #: ../../user/checks.rst:648
 #, fuzzy
-#| msgid ""
-#| ":doc:`tt:formats/json`, `Format.JS Message Extraction <https://"
-#| "formatjs.github.io/docs/getting-started/message-extraction>`_"
 msgid ""
 "`Format.JS: Message Syntax <https://formatjs.github.io/docs/core-concepts/"
 "icu-syntax>`_"
 msgstr ""
-":doc:`tt:formats/json`, `Extração de mensagem Format.JS <https://"
-"formatjs.github.io/docs/getting-started/message-extraction>`_"
+"`Format.JS: Sintaxe de Mensagem <https://formatjs.github.io/docs/"
+"core-concepts/icu-syntax>`_"
 
 #: ../../user/checks.rst:654
 msgid "Java format"
@@ -52146,23 +52144,19 @@ msgstr "Formato Java"
 
 #: ../../user/checks.rst:656
 msgid "Java format string does not match source."
-msgstr "A cadeia de formato Java não corresponde à fonte."
+msgstr "A cadeia de carateres do formato Java não corresponde à fonte."
 
 #: ../../user/checks.rst:661
-#, fuzzy
-#| msgid ""
-#| ":ref:`report-source`, :ref:`source-reviews`, :ref:`project-source_review`"
 msgid ":ref:`aresource`, :ref:`moko-resource`, :ref:`cmp-resource`"
-msgstr ""
-":ref:`report-source`, :ref:`source-reviews`, :ref:`project-source_review`"
+msgstr ":ref:`aresource`, :ref:`moko-resource`, :ref:`cmp-resource`"
 
 #: ../../user/checks.rst:669
 msgid ""
 "This used to be toggled by the ``java-format`` flag, it was changed for "
 "consistency with GNU gettext."
 msgstr ""
-"Isto costumava ser alternado pelo marcador ``java-format``, foi alterado "
-"para consistência com GNU gettext."
+"Isto costumava ser alternado pelo sinalizador ``java-format``, este foi "
+"alterado para consistência com GNU gettext."
 
 #: ../../user/checks.rst:674
 #, fuzzy

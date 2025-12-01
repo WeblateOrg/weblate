@@ -22,6 +22,8 @@ from weblate.utils.icons import find_static_file
 
 gi.require_version("PangoCairo", "1.0")
 gi.require_version("Pango", "1.0")
+
+# pylint: disable-next=wrong-import-position,wrong-import-order
 from gi.repository import Pango, PangoCairo  # noqa: E402
 
 

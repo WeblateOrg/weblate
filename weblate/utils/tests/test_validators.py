@@ -2,6 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import base64
 import os
 
 from django.conf import settings
@@ -20,6 +21,9 @@ from weblate.utils.validators import (
     validate_fullname,
     validate_project_web,
     validate_re,
+    validate_repo_url,
+    validate_username,
+    validate_webhook_secret_string,
 )
 
 
@@ -62,6 +66,10 @@ class FullNameCleanTest(SimpleTestCase):
     def test_none(self) -> None:
         self.assertIsNone(clean_fullname(None))
 
+    def test_homoglyph(self) -> None:
+        with self.assertRaises(ValidationError):
+            validate_fullname("Alloρ")
+
     def test_invalid(self) -> None:
         with self.assertRaises(ValidationError):
             validate_fullname("ahoj\x00bar")
@@ -69,6 +77,31 @@ class FullNameCleanTest(SimpleTestCase):
     def test_crud(self) -> None:
         with self.assertRaises(ValidationError):
             validate_fullname(".")
+
+    def test_html(self) -> None:
+        with self.assertRaises(ValidationError):
+            validate_fullname("<h1>User</h1>")
+
+
+class UserNameCleanTest(SimpleTestCase):
+    def test_good(self) -> None:
+        validate_username("ahoj")
+
+    def test_homoglyph(self) -> None:
+        with self.assertRaises(ValidationError):
+            validate_username("Alloρ")
+
+    def test_invalid(self) -> None:
+        with self.assertRaises(ValidationError):
+            validate_username("ahoj\x00bar")
+
+    def test_crud(self) -> None:
+        with self.assertRaises(ValidationError):
+            validate_username(".")
+
+    def test_html(self) -> None:
+        with self.assertRaises(ValidationError):
+            validate_username("<h1>User</h1>")
 
 
 class EmailValidatorTestCase(SimpleTestCase):
@@ -122,6 +155,40 @@ class RegexTest(SimpleTestCase):
         with self.assertRaises(ValidationError):
             validate_re("(Min|Short)", ("component",))
         validate_re("(?P<component>Min|Short)", ("component",))
+
+
+class WebhookSecretTestCase(SimpleTestCase):
+    def test_empty(self) -> None:
+        validate_webhook_secret_string("")
+
+    def test_basic(self) -> None:
+        with self.assertRaises(ValidationError):
+            validate_webhook_secret_string("whsec_")
+        with self.assertRaises(ValidationError):
+            validate_webhook_secret_string("whsec_21132123")
+
+    def test_base64(self) -> None:
+        value = base64.b64encode(b"x" * 30).decode("utf-8")
+        validate_webhook_secret_string(f"whsec_{value}")
+        with self.assertRaises(ValidationError):
+            validate_webhook_secret_string(f"whsec_{value[:-1]}")
+
+    def test_length(self) -> None:
+        value = base64.b64encode(b"x" * 30).decode("utf-8")
+        validate_webhook_secret_string(f"whsec_{value}")
+        validate_webhook_secret_string(value)
+
+        value = base64.b64encode(b"x" * 20).decode("utf-8")
+        with self.assertRaises(ValidationError):
+            validate_webhook_secret_string(f"whsec_{value}")
+        with self.assertRaises(ValidationError):
+            validate_webhook_secret_string(value)
+
+        value = base64.b64encode(b"x" * 70).decode("utf-8")
+        with self.assertRaises(ValidationError):
+            validate_webhook_secret_string(f"whsec_{value}")
+        with self.assertRaises(ValidationError):
+            validate_webhook_secret_string(value)
 
 
 class WebsiteTest(SimpleTestCase):
@@ -191,3 +258,56 @@ class BackupTest(SimpleTestCase):
         with self.assertRaises(ValidationError):
             validate_backup_path(os.path.join(settings.DATA_DIR, "backups"))
         validate_backup_path(os.path.join(settings.DATA_DIR, "remote-backups"))
+
+
+class RepoURLValidationTestCase(SimpleTestCase):
+    def test_file_rejected(self):
+        with (
+            override_settings(VCS_ALLOW_SCHEMES={"https", "ssh"}),
+            self.assertRaises(ValidationError),
+        ):
+            validate_repo_url("file:///home/weblate")
+
+    def test_file(self):
+        with override_settings(VCS_ALLOW_SCHEMES={"https", "ssh", "file"}):
+            validate_repo_url("file:///home/weblate")
+
+    def test_weblate(self):
+        with override_settings(VCS_ALLOW_SCHEMES={"https", "ssh", "file"}):
+            validate_repo_url("weblate://home/weblate")
+
+    def test_https(self):
+        with override_settings(VCS_ALLOW_SCHEMES={"https", "ssh"}):
+            validate_repo_url("https://example.com/weblate.git")
+            validate_repo_url("https://user@example.com/weblate.git")
+            validate_repo_url("https://user:pass@example.com/weblate.git")
+
+    def test_https_allow(self):
+        with override_settings(
+            VCS_ALLOW_SCHEMES={"https", "ssh"}, VCS_ALLOW_HOSTS={"example.com"}
+        ):
+            validate_repo_url("https://example.com/weblate.git")
+            validate_repo_url("https://user@example.com/weblate.git")
+            validate_repo_url("https://user:pass@example.com/weblate.git")
+            with self.assertRaises(ValidationError):
+                validate_repo_url("https://github.com/weblate.git")
+            with self.assertRaises(ValidationError):
+                validate_repo_url("https://user@gitlab.com/weblate.git")
+
+    def test_ssh(self):
+        with override_settings(VCS_ALLOW_SCHEMES={"https", "ssh"}):
+            validate_repo_url("ssh://username@example.com/path")
+            validate_repo_url("username@example.com:path")
+            validate_repo_url("username@example.com/path")
+
+    def test_ssh_allow(self):
+        with override_settings(
+            VCS_ALLOW_SCHEMES={"https", "ssh"}, VCS_ALLOW_HOSTS={"example.com"}
+        ):
+            validate_repo_url("ssh://username@example.com/path")
+            validate_repo_url("username@example.com:path")
+            validate_repo_url("username@example.com/path")
+            with self.assertRaises(ValidationError):
+                validate_repo_url("git@github.com:weblate.git")
+            with self.assertRaises(ValidationError):
+                validate_repo_url("user@gitlab.com/weblate.git")

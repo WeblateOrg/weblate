@@ -27,7 +27,7 @@ if len(sys.argv) != 2:
     sys.exit(1)
 
 filename = sys.argv[1]
-with open(filename) as handle:
+with open(filename, encoding="utf-8") as handle:
     data = json.load(handle)
 
 # Remove varying fields
@@ -41,6 +41,6 @@ reproducible_uuid = generate_uuid(json.dumps(checksum_data))
 # Update serial number
 data["serialNumber"] = f"urn:uuid:{reproducible_uuid}"
 
-with open(filename, "w") as handle:
+with open(filename, "w", encoding="utf-8") as handle:
     json.dump(data, handle, indent=2)
     handle.write("\n")

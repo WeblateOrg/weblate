@@ -48,8 +48,8 @@ SAML_BACKENDS = (
     "social_core.backends.saml.SAMLAuth",
     "weblate.accounts.auth.WeblateUserBackend",
 )
-SAML_CERT = Path(get_test_file("saml.crt")).read_text()
-SAML_KEY = Path(get_test_file("saml.key")).read_text()
+SAML_CERT = Path(get_test_file("saml.crt")).read_text(encoding="utf-8")
+SAML_KEY = Path(get_test_file("saml.key")).read_text(encoding="utf-8")
 
 REGISTRATION_SUCCESS = (
     "Click the confirmation link sent to your e-mail inbox "
@@ -245,7 +245,7 @@ class RegistrationTest(BaseRegistrationTest):
             self.client.post(reverse("logout"))
 
         # Confirm second account
-        response = self.client.get(second_url, follow=True)
+        self.client.get(second_url, follow=True)
         self.assertEqual(
             User.objects.filter(email="noreply@example.net").exists(), logout
         )
@@ -747,6 +747,7 @@ class RegistrationTest(BaseRegistrationTest):
     )
     def test_saml(self) -> None:
         try:
+            # pylint: disable-next=unused-import
             import xmlsec  # noqa: F401
         except Exception as error:
             if "CI_SKIP_SAML" in os.environ:

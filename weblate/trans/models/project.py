@@ -15,7 +15,7 @@ from django.db.models import Count, F, Q, Value
 from django.db.models.functions import Replace
 from django.urls import reverse
 from django.utils.functional import cached_property
-from django.utils.translation import gettext_lazy, gettext_noop
+from django.utils.translation import gettext_lazy
 
 from weblate.configuration.models import Setting, SettingCategory
 from weblate.formats.models import FILE_FORMATS
@@ -736,21 +736,21 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         return get_glossary_automaton(self)
 
     def get_machinery_settings(self) -> dict[str, SettingsDict]:
-        settings = cast(
+        mt_settings = cast(
             "dict[str, SettingsDict]",
             Setting.objects.get_settings_dict(SettingCategory.MT),
         )
         for item, value in self.machinery_settings.items():
             if value is None:
-                if item in settings:
-                    del settings[item]
+                if item in mt_settings:
+                    del mt_settings[item]
             else:
-                settings[item] = value
+                mt_settings[item] = value
                 # Include project field so that different projects do not share
                 # cache keys via MachineTranslation.get_cache_key when service
                 # is installed at project level.
-                settings[item]["_project"] = self
-        return settings
+                mt_settings[item]["_project"] = self
+        return mt_settings
 
     @cached_property
     def enable_review(self):
@@ -772,19 +772,10 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     def can_add_category(self) -> bool:
         return True
 
-    @cached_property
-    def automatically_translated_label(self) -> Label:
-        return self.label_set.get_or_create(
-            name=gettext_noop("Automatically translated"),
-            defaults={"color": "yellow"},
-        )[0]
-
     def collect_label_cleanup(self, label: Label) -> None:
         from weblate.trans.models.translation import Translation
 
-        translations = Translation.objects.filter(
-            Q(unit__labels=label) | Q(unit__source_unit__labels=label)
-        )
+        translations = Translation.objects.filter(unit__source_unit__labels=label)
         if self.label_cleanups is None:
             self.label_cleanups = translations
         else:

@@ -20,7 +20,7 @@ class FilesTestCase(SimpleTestCase):
         filename = os.path.join(target, "file")
         os.makedirs(target)
         os.makedirs(nested)
-        Path(filename).write_text("test")
+        Path(filename).write_text("test", encoding="utf-8")
         if callback:
             callback(target, nested, filename)
         remove_tree(target)

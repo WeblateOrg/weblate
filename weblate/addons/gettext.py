@@ -22,8 +22,7 @@ if TYPE_CHECKING:
     from collections.abc import Generator
 
     from weblate.addons.base import CompatDict
-    from weblate.auth.models import User
-    from weblate.trans.models import Component, Translation
+    from weblate.trans.models import Component, Project, Translation
 
 
 class GettextBaseAddon(BaseAddon):
@@ -91,9 +90,16 @@ class UpdateLinguasAddon(GettextBaseAddon):
         return os.path.join(os.path.dirname(base), "LINGUAS")
 
     @classmethod
-    def can_install(cls, component: Component, user: User | None) -> bool:
-        if not super().can_install(component, user):
+    def can_install(
+        cls,
+        *,
+        component: Component | None = None,
+        project: Project | None = None,
+    ) -> bool:
+        if not super().can_install(component=component, project=project):
             return False
+        if component is None:
+            return True
         path = cls.get_linguas_path(component)
         return bool(path) and os.path.exists(path)
 
@@ -136,7 +142,7 @@ class UpdateLinguasAddon(GettextBaseAddon):
         return changed, lines
 
     def sync_linguas(self, component: Component, path: str) -> bool:
-        with open(path) as handle:
+        with open(path, encoding="utf-8") as handle:
             lines = handle.readlines()
 
         codes = set(
@@ -148,7 +154,7 @@ class UpdateLinguasAddon(GettextBaseAddon):
         changed, lines = self.update_linguas(lines, codes)
 
         if changed:
-            with open(path, "w") as handle:
+            with open(path, "w", encoding="utf-8") as handle:
                 handle.writelines(lines)
 
         return changed
@@ -189,12 +195,19 @@ class UpdateConfigureAddon(GettextBaseAddon):
                 yield path
 
     @classmethod
-    def can_install(cls, component: Component, user: User | None) -> bool:
-        if not super().can_install(component, user):
+    def can_install(
+        cls,
+        *,
+        component: Component | None = None,
+        project: Project | None = None,
+    ) -> bool:
+        if not super().can_install(component=component, project=project):
             return False
+        if component is None:
+            return True
         for name in cls.get_configure_paths(component):
             try:
-                if 'ALL_LINGUAS="' in Path(name).read_text():
+                if 'ALL_LINGUAS="' in Path(name).read_text(encoding="utf-8"):
                     return True
             except UnicodeDecodeError:
                 continue
@@ -209,7 +222,7 @@ class UpdateConfigureAddon(GettextBaseAddon):
         )
         expected = f'ALL_LINGUAS="{codes}"\n'
         for path in paths:
-            with open(path) as handle:
+            with open(path, encoding="utf-8") as handle:
                 lines = handle.readlines()
 
             for i, line in enumerate(lines):
@@ -224,7 +237,7 @@ class UpdateConfigureAddon(GettextBaseAddon):
                     added = True
 
             if added:
-                with open(path, "w") as handle:
+                with open(path, "w", encoding="utf-8") as handle:
                     handle.writelines(lines)
 
         return added
@@ -255,10 +268,15 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
     compat: ClassVar[CompatDict] = {"file_format": {"po"}}
 
     @classmethod
-    def can_install(cls, component: Component, user: User | None) -> bool:
+    def can_install(
+        cls,
+        *,
+        component: Component | None = None,
+        project: Project | None = None,
+    ) -> bool:
         if find_command("msgmerge") is None:
             return False
-        return super().can_install(component, user)
+        return super().can_install(component=component, project=project)
 
     def update_translations(self, component: Component, previous_head: str) -> None:
         # Run always when there is an alerts, there is a chance that
