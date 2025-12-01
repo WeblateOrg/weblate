@@ -2247,7 +2247,7 @@ class Component(
         # Short-circuit if no committable changes remain after all filters (including blocking check)
         # This prevents unnecessary processing when blocking changes filter out all pending changes
         if not pending_changes:
-            return False
+            return True
 
         changes_by_translation = defaultdict(list)
         for pending_change_pk, translation_id in pending_changes:
