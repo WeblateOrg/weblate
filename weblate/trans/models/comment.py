@@ -78,7 +78,14 @@ class CommentManager(models.Manager):
                 label = component.project.label_set.get_or_create(
                     name=gettext_noop("Source needs review"), defaults={"color": "red"}
                 )[0]
-                unit_scope.labels.add(label)
+                if not unit_scope.labels.filter(pk=label.pk).exists():
+                    unit_scope.labels.add(label)
+                    unit_scope.change_set.create(
+                        action=ActionEvents.LABEL_ADD,
+                        user=user,
+                        author=user,
+                        details={"label": label.name},
+                    )
 
         return new_comment
 
