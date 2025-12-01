@@ -288,6 +288,54 @@ class EditTest(ViewTestCase):
         else:
             self.skipTest("Not supported")
 
+    def test_dismiss_automatically_translated(self) -> None:
+        """Test dismissing automatically translated flag."""
+        unit = self.get_unit(self.source)
+        unit.automatically_translated = True
+        unit.save(update_fields=["automatically_translated"])
+
+        response = self.client.post(
+            reverse("js-dismiss-automatically-translated", kwargs={"unit_id": unit.id})
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.headers["Content-Type"], "application/json")
+
+        unit = self.get_unit(self.source)
+        self.assertFalse(unit.automatically_translated)
+
+    def test_dismiss_automatically_translated_no_permission(self) -> None:
+        """Test dismissing automatically translated without permission."""
+        unit = self.get_unit(self.source)
+        unit.automatically_translated = True
+        unit.save(update_fields=["automatically_translated"])
+
+        # Remove edit permission
+        self.user.groups.clear()
+
+        response = self.client.post(
+            reverse("js-dismiss-automatically-translated", kwargs={"unit_id": unit.id})
+        )
+        self.assertEqual(response.status_code, 403)
+
+        unit = self.get_unit(self.source)
+        self.assertTrue(unit.automatically_translated)
+
+    def test_dismiss_automatically_translated_not_authenticated(self) -> None:
+        """Test dismissing automatically translated without authentication."""
+        unit = self.get_unit(self.source)
+        unit.automatically_translated = True
+        unit.save(update_fields=["automatically_translated"])
+
+        self.client.logout()
+
+        response = self.client.post(
+            reverse("js-dismiss-automatically-translated", kwargs={"unit_id": unit.id})
+        )
+        self.assertEqual(response.status_code, 302)
+
+        unit = self.get_unit(self.source)
+        self.assertTrue(unit.automatically_translated)
+
 
 class EditValidationTest(ViewTestCase):
     def edit(self, **kwargs):

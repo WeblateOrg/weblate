@@ -518,15 +518,23 @@ class GitRepository(Repository):
         """Perform global settings."""
         home = data_path("home")
         merge_driver = cls.get_merge_driver("po")
-        updates = [
-            ("user", "email", settings.DEFAULT_COMMITER_EMAIL),
-            ("user", "name", settings.DEFAULT_COMMITER_NAME),
+        # Sync protocol configurartion with settings
+        updates: list[tuple[str, str, str]] = [
             (
-                'protocol "file"',
+                f'protocol "{protocol}"',
                 "allow",
-                "always" if settings.VCS_FILE_PROTOCOL else "never",
-            ),
+                "always" if protocol in settings.VCS_ALLOW_SCHEMES else "never",
+            )
+            for protocol in ("file", "git", "http", "https", "ssh")
         ]
+        # Default committer
+        updates.extend(
+            (
+                ("user", "email", settings.DEFAULT_COMMITER_EMAIL),
+                ("user", "name", settings.DEFAULT_COMMITER_NAME),
+            )
+        )
+        # Merge driver
         if merge_driver is not None:
             updates.extend(
                 (
@@ -696,11 +704,8 @@ class SubversionRepository(GitRepository):
         branch: str | None = None,
         component: Component | None = None,
         local: bool = False,
-        skip_init: bool = False,
     ) -> None:
-        super().__init__(
-            path, branch=branch, component=component, local=local, skip_init=skip_init
-        )
+        super().__init__(path, branch=branch, component=component, local=local)
         self._fetch_revision: str | None = None
 
     @classmethod
@@ -1262,7 +1267,7 @@ class GitMergeRequestBase(GitForcePushRepository):
                         params=params,
                         json=json,
                         auth=self.get_auth(credentials),
-                        timeout=5,
+                        timeout=settings.VCS_API_TIMEOUT,
                     )
                 except (OSError, HTTPError) as error:
                     report_error("Git API request")
@@ -2166,11 +2171,8 @@ class BitbucketServerRepository(GitMergeRequestBase):
         branch: str | None = None,
         component: Component | None = None,
         local: bool = False,
-        skip_init: bool = False,
     ) -> None:
-        super().__init__(
-            path, branch=branch, component=component, local=local, skip_init=skip_init
-        )
+        super().__init__(path, branch=branch, component=component, local=local)
         self.bb_fork: dict = {}
 
     def get_headers(self, credentials: GitCredentials) -> dict[str, str]:

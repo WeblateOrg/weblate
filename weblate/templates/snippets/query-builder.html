@@ -187,6 +187,15 @@
           <a href="#" class="btn btn-outline-primary search-insert">{% translate "Add" %}</a>
         </td>
       </tr>
+      <tr>
+        <th>{% translate "Automatically translated strings" %}</th>
+        <td>
+          <code>is:automatically-translated</code>
+        </td>
+        <td>
+          <a href="#" class="btn btn-outline-primary search-insert">{% translate "Add" %}</a>
+        </td>
+      </tr>
       {% if not language %}
         {% with languages=user.profile.all_languages %}
           <tr>

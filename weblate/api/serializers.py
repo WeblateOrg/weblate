@@ -1297,6 +1297,7 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
             "pending",
             "timestamp",
             "last_updated",
+            "automatically_translated",
         )
         extra_kwargs = {  # noqa: RUF012
             "url": {"view_name": "api:unit-detail"},

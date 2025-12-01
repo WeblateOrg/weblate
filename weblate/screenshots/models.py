@@ -22,6 +22,7 @@ from django.utils.translation import gettext_lazy
 from weblate.auth.models import get_anonymous
 from weblate.checks.flags import Flags
 from weblate.screenshots.fields import ScreenshotField
+from weblate.trans.actions import ActionEvents
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.trans.models import Translation, Unit
 from weblate.trans.models.alert import update_alerts
@@ -98,6 +99,26 @@ class Screenshot(models.Model, UserDisplayMixin):
     @property
     def filter_name(self) -> str:
         return f"screenshot:{Flags.format_value(self.name)}"
+
+    def add_unit(self, unit: Unit, user: User | None = None) -> None:
+        """Add a unit to this screenshot and create a change event."""
+        self.units.add(unit)
+        self.change_set.create(
+            action=ActionEvents.SCREENSHOT_ADDED,
+            user=user or self.user,
+            target=self.name,
+            unit=unit,
+        )
+
+    def remove_unit(self, unit: Unit, user: User | None = None) -> None:
+        """Remove a unit from this screenshot and create a change event."""
+        self.units.remove(unit)
+        self.change_set.create(
+            action=ActionEvents.SCREENSHOT_REMOVED,
+            user=user or self.user,
+            target=self.name,
+            unit=unit,
+        )
 
 
 @receiver(m2m_changed, sender=Screenshot.units.through)

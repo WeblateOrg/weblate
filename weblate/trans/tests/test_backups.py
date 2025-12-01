@@ -62,7 +62,7 @@ class BackupsTest(ViewTestCase):
         )
         with open(TEST_SCREENSHOT, "rb") as handle:
             shot.image.save("screenshot.png", File(handle))
-        shot.units.add(unit)
+        shot.add_unit(unit, user=self.user)
 
         unit.comment_set.create(
             comment="Test comment",

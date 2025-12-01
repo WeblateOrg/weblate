@@ -193,7 +193,7 @@ def try_add_source(request: AuthenticatedHttpRequest, obj) -> bool:
     except (Unit.DoesNotExist, ValueError):
         return False
 
-    obj.units.add(source)
+    obj.add_unit(source, user=request.user)
     return True
 
 
@@ -231,7 +231,7 @@ class ScreenshotList(PathViewMixin, ListView):
             )
             request.user.profile.increase_count("uploaded")
             obj.change_set.create(
-                action=ActionEvents.SCREENSHOT_ADDED,
+                action=ActionEvents.SCREENSHOT_UPLOADED,
                 user=request.user,
                 target=obj.name,
             )
@@ -322,7 +322,13 @@ def get_screenshot(request: AuthenticatedHttpRequest, pk):
 def remove_source(request: AuthenticatedHttpRequest, pk):
     obj = get_screenshot(request, pk)
 
-    obj.units.remove(request.POST["source"])
+    try:
+        unit = obj.translation.unit_set.get(pk=int(request.POST["source"]))
+    except (Unit.DoesNotExist, ValueError):
+        messages.error(request, gettext("Invalid unit."))
+        return redirect(obj)
+
+    obj.remove_unit(unit, user=request.user)
 
     messages.success(request, gettext("Source has been removed."))
 

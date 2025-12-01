@@ -417,6 +417,34 @@
       return false;
     });
 
+    /* Automatically translated dismissal */
+    this.$editor.on("click", ".dismiss-automatically-translated", (e) => {
+      const $el = $(e.currentTarget);
+      const url = $el.attr("href");
+      const $check = $el.closest(".check");
+
+      $.ajax({
+        type: "POST",
+        url: url,
+        data: {
+          csrfmiddlewaretoken: this.csrfToken,
+        },
+        error: (_jqXhr, _textStatus, errorThrown) => {
+          addAlert(errorThrown);
+        },
+        success: () => {
+          const $listGroup = $check.closest(".list-group");
+          $check.remove();
+
+          // Hide the entire "Things to check" panel if no checks remain
+          if ($listGroup.children(".list-group-item").length === 0) {
+            $listGroup.closest(".panel").remove();
+          }
+        },
+      });
+      return false;
+    });
+
     /* Check fix */
     this.$editor.on("click", "[data-check-fixup]", (e) => {
       const $el = $(e.currentTarget);

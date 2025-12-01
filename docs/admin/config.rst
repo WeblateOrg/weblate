@@ -2046,6 +2046,24 @@ Example:
     This setting does not work with Django's built-in server, you would have to
     adjust :file:`urls.py` to contain this prefix.
 
+.. setting:: VCS_ALLOW_HOSTS
+
+VCS_ALLOW_HOSTS
+---------------
+
+.. versionadded:: 5.15
+
+A set of hosts to allow when configuring VCS URL. Defaults to an empty set what does no filtering at all.
+
+.. setting:: VCS_ALLOW_SCHEMES
+
+VCS_ALLOW_SCHEMES
+-----------------
+
+.. versionadded:: 5.15
+
+A set of hosts to allow when configuring VCS URL. Only ``https`` and ``ssh`` are allowed by default.
+
 .. setting:: VCS_API_DELAY
 
 VCS_API_DELAY
@@ -2060,6 +2078,19 @@ Configures minimal delay in seconds between third-party API calls in
 This rate-limits API calls from Weblate to these services to avoid overloading them.
 
 If you are being limited by secondary rate-limiter at GitHub, increasing this might help.
+
+The default value is 10.
+
+.. setting:: VCS_API_TIMEOUT
+
+VCS_API_TIMEOUT
+---------------
+
+.. versionadded:: 5.15
+
+Configures timeout in seconds for third-party API calls such as forking or
+creating merge requests in :ref:`vcs-github`, :ref:`vcs-gitlab`,
+:ref:`vcs-gitea`, :ref:`vcs-pagure`, and :ref:`vcs-azure-devops`.
 
 The default value is 10.
 

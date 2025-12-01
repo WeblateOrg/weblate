@@ -7,6 +7,7 @@
 
 from __future__ import annotations
 
+import csv
 import os.path
 import shutil
 from abc import ABC, abstractmethod
@@ -27,6 +28,7 @@ from weblate.formats.ttkit import (
     CatkeysFormat,
     CSVFormat,
     CSVSimpleFormat,
+    CSVUtf8SimpleFormat,
     DTDFormat,
     FlatXMLFormat,
     FluentFormat,
@@ -69,6 +71,8 @@ if TYPE_CHECKING:
 TEST_PO = get_test_file("cs.po")
 TEST_CSV = get_test_file("cs-mono.csv")
 TEST_CSV_NOHEAD = get_test_file("cs.csv")
+TEST_CSV_SIMPLE_EN = get_test_file("en-simple.csv")
+TEST_CSV_SIMPLE_PL = get_test_file("pl-simple.csv")
 TEST_FLATXML = get_test_file("cs-flat.xml")
 TEST_CUSTOM_FLATXML = get_test_file("cs-flat-custom.xml")
 TEST_RESOURCEDICTIONARY = get_test_file("cs.xaml")
@@ -1086,6 +1090,79 @@ class CSVFormatNoHeadTest(CSVFormatTest):
 class CSVSimpleFormatNoHeadTest(CSVFormatNoHeadTest):
     format_class = CSVSimpleFormat
     EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
+
+
+class CSVUtf8SimpleFormatMonolingualTest(FixtureTestCase, TempDirMixin):
+    """Test for CSV Simple UTF-8 format with monolingual base file."""
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.create_temp()
+
+    def tearDown(self) -> None:
+        super().tearDown()
+        self.remove_temp()
+
+    def test_save_preserves_source_field(self) -> None:
+        """
+        Test that saving a CSV Simple file preserves source fields.
+
+        This reproduces the issue where translations are saved with empty source
+        fields instead of preserving the context/key from the base file.
+
+        Relies on translate-toolkit's monolingual CSV support (PR #5830).
+        See: https://github.com/WeblateOrg/weblate/issues/16835
+        """
+        # Create a temporary copy of the translation file
+        translation_file = os.path.join(self.tempdir, "pl.csv")
+        content = Path(TEST_CSV_SIMPLE_PL).read_bytes()
+        Path(translation_file).write_bytes(content)
+
+        # Load the base file (template)
+        template_store = CSVUtf8SimpleFormat(TEST_CSV_SIMPLE_EN, is_template=True)
+
+        # Load the translation file with the template
+        store = CSVUtf8SimpleFormat(
+            translation_file, template_store=template_store, language_code="pl"
+        )
+
+        # Verify we have the expected units
+        units = list(store.content_units)
+        self.assertEqual(len(units), 5)
+
+        # Find units and add translations
+        for unit in units:
+            if unit.context == "objectAccessDenied":
+                pounit, add = store.find_unit(unit.context, unit.source)
+                self.assertTrue(add)
+                store.add_unit(pounit)
+                pounit.set_target("Nie masz uprawnien do modyfikowania obiektu '%s'")
+            elif unit.context == "propAccessDenied":
+                pounit, add = store.find_unit(unit.context, unit.source)
+                self.assertTrue(add)
+                store.add_unit(pounit)
+                pounit.set_target(
+                    "Nie masz uprawnien do modyfikowania wlasciwosci: %s (tytul obiektu: %s)"
+                )
+            elif unit.context == "noReadPermission":
+                pounit, add = store.find_unit(unit.context, unit.source)
+                self.assertTrue(add)
+                store.add_unit(pounit)
+                pounit.set_target("Nie masz uprawnien do odczytu obiektu '%s'")
+
+        # Save the file
+        store.save()
+
+        # Verify the saved content
+        with open(translation_file, encoding="utf-8") as handle:
+            reader = csv.reader(handle, delimiter=";", quotechar='"')
+            for row in reader:
+                self.assertEqual(len(row), 2)
+                self.assertNotEqual(
+                    row[0],
+                    "",
+                    f"Source field is empty for target: {row[1]}",
+                )
 
 
 class FlatXMLFormatTest(BaseFormatTest):

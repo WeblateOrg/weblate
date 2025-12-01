@@ -4627,9 +4627,66 @@ class UnitAPITest(APIBaseTest):
         self.assertEqual(len(unit.all_labels), 1)
         self.assertEqual(unit.all_labels[0].name, "test")
 
+        changes = unit.source_unit.change_set.filter(action=ActionEvents.LABEL_ADD)
+        self.assertEqual(changes.count(), 1)
+        change = changes.first()
+        self.assertEqual(change.target, "Added label test")
+        self.assertEqual(change.user, self.user)
+
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.source_unit.pk},
+            method="patch",
+            code=200,
+            superuser=True,
+            request={"labels": []},
+        )
+
         label1.delete()
         label2.delete()
         other_project.delete()
+
+    def test_unit_labels_multiple_change_events(self) -> None:
+        """Test that adding multiple labels creates multiple change events."""
+        label1 = self.component.project.label_set.create(name="test1", color="navy")
+        label2 = self.component.project.label_set.create(name="test2", color="blue")
+
+        unit = Unit.objects.get(
+            translation__language_code="cs", source="Hello, world!\n"
+        )
+        unit.translate(self.user, "Hello, world!\n", STATE_TRANSLATED)
+
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.source_unit.pk},
+            method="patch",
+            code=200,
+            superuser=True,
+            request={"labels": [label1.id, label2.id]},
+        )
+
+        changes = unit.source_unit.change_set.filter(action=ActionEvents.LABEL_ADD)
+        self.assertEqual(changes.count(), 2)
+
+        label_names = {change.target for change in changes}
+        self.assertIn(f"Added label {label1.name}", label_names)
+        self.assertIn(f"Added label {label2.name}", label_names)
+
+        self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.source_unit.pk},
+            method="patch",
+            code=200,
+            superuser=True,
+            request={"labels": [label1.id]},
+        )
+
+        changes = unit.source_unit.change_set.filter(action=ActionEvents.LABEL_REMOVE)
+        self.assertEqual(changes.count(), 1)
+        self.assertEqual(changes.first().target, f"Removed label {label2.name}")
+
+        label1.delete()
+        label2.delete()
 
     def test_translate_plural_unit(self) -> None:
         unit = Unit.objects.get(
@@ -5109,6 +5166,13 @@ class ScreenshotAPITest(APIBaseTest):
                 },
             )
         self.assertEqual(Screenshot.objects.count(), 2)
+        self.assertEqual(
+            Change.objects.filter(
+                action=ActionEvents.SCREENSHOT_UPLOADED,
+                screenshot__name="Test create screenshot",
+            ).count(),
+            1,
+        )
 
     def test_patch_screenshot(self) -> None:
         self.do_request(
@@ -5185,36 +5249,52 @@ class ScreenshotAPITest(APIBaseTest):
 
     def test_units(self) -> None:
         self.authenticate(True)
+        screenshot = Screenshot.objects.get()
         unit = self.component.source_translation.unit_set.all()[0]
         response = self.client.post(
-            reverse("api:screenshot-units", kwargs={"pk": Screenshot.objects.get().pk}),
+            reverse("api:screenshot-units", kwargs={"pk": screenshot.pk}),
             {"unit_id": unit.pk},
         )
         self.assertEqual(response.status_code, 200)
         self.assertIn(str(unit.pk), response.data["units"][0])
+        added_changes = Change.objects.filter(
+            action=ActionEvents.SCREENSHOT_ADDED,
+            screenshot=screenshot,
+            unit=unit,
+        )
+        self.assertEqual(added_changes.count(), 1)
+        self.assertEqual(added_changes[0].user, self.user)
 
     def test_units_delete(self) -> None:
         self.authenticate(True)
+        screenshot = Screenshot.objects.get()
         unit = self.component.source_translation.unit_set.all()[0]
         self.client.post(
-            reverse("api:screenshot-units", kwargs={"pk": Screenshot.objects.get().pk}),
+            reverse("api:screenshot-units", kwargs={"pk": screenshot.pk}),
             {"unit_id": unit.pk},
         )
         response = self.client.delete(
             reverse(
                 "api:screenshot-delete-units",
-                kwargs={"pk": Screenshot.objects.get().pk, "unit_id": 100000},
+                kwargs={"pk": screenshot.pk, "unit_id": 100000},
             ),
         )
         self.assertEqual(response.status_code, 404)
         response = self.client.delete(
             reverse(
                 "api:screenshot-delete-units",
-                kwargs={"pk": Screenshot.objects.get().pk, "unit_id": unit.pk},
+                kwargs={"pk": screenshot.pk, "unit_id": unit.pk},
             ),
         )
         self.assertEqual(response.status_code, 204)
-        self.assertEqual(Screenshot.objects.get().units.all().count(), 0)
+        self.assertEqual(screenshot.units.all().count(), 0)
+        removed_changes = Change.objects.filter(
+            action=ActionEvents.SCREENSHOT_REMOVED,
+            screenshot=screenshot,
+            unit=unit,
+        )
+        self.assertEqual(removed_changes.count(), 1)
+        self.assertEqual(removed_changes[0].user, self.user)
 
 
 class ChangeAPITest(APIBaseTest):

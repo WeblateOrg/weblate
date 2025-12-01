@@ -1552,11 +1552,11 @@ class ModernMTTest(BaseMachineTranslationTest):
         """Set up mock responses for list of glossaries in ModernMT."""
         data: list[dict] = [
             {
-                "id": _id,
-                "creationDate": _date or "2021-04-12T15:24:26+00:00",
-                "name": _name,
+                "id": glossary_id,
+                "creationDate": glossary_date or "2021-04-12T15:24:26+00:00",
+                "name": glossary_name,
             }
-            for _id, _name, _date in id_name_date
+            for glossary_id, glossary_name, glossary_date in id_name_date
         ]
         responses.add(
             responses.GET,

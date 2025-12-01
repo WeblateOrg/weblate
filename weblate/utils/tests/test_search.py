@@ -392,9 +392,7 @@ class UnitQueryParserTest(SearchTestCase):
                 & Q(context__regex=F("variant__variant_regex"))
             ),
         )
-        self.assert_query(
-            "has:label", Q(source_unit__labels__isnull=False) | Q(labels__isnull=False)
-        )
+        self.assert_query("has:label", Q(source_unit__labels__isnull=False))
         self.assert_query("has:context", ~Q(context=""))
         self.assert_query(
             "has:screenshot",
@@ -442,9 +440,7 @@ class UnitQueryParserTest(SearchTestCase):
 
     def test_labels(self) -> None:
         self.assert_query(
-            "label:'test label'",
-            Q(source_unit__labels__name__iexact="test label")
-            | Q(labels__name__iexact="test label"),
+            "label:'test label'", Q(source_unit__labels__name__iexact="test label")
         )
 
     def test_screenshot(self) -> None:
@@ -600,7 +596,7 @@ class UnitQueryParserTest(SearchTestCase):
         self.assert_query('source:"', parse_query("""source:'"'"""))
 
     def test_labels_count(self) -> None:
-        annotation = {"labels_count": Count("source_unit__labels") + Count("labels")}
+        annotation = {"labels_count": Count("source_unit__labels")}
         self.assert_query(
             "labels_count:2", Q(labels_count=2), expected_annotations=annotation
         )

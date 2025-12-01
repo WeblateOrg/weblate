@@ -10,7 +10,6 @@ from django.db import transaction
 from weblate.checks.flags import Flags
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Component, Unit
-from weblate.trans.models.label import TRANSLATION_LABELS
 from weblate.trans.models.pending import PendingUnitChange
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -149,24 +148,31 @@ def bulk_perform(  # noqa: C901
                         if add_labels_pks - unit_label_pks:
                             source_unit.is_batch_update = True
                             source_unit.labels.add(*add_labels)
+                            for label in add_labels:
+                                if label.pk not in unit_label_pks:
+                                    source_unit.change_set.create(
+                                        action=ActionEvents.LABEL_ADD,
+                                        user=user,
+                                        author=user,
+                                        details={"label": label.name},
+                                    )
                             changed = True
 
                         if unit_label_pks & remove_labels_pks:
                             source_unit.is_batch_update = True
                             source_unit.labels.remove(*remove_labels)
+                            for label in remove_labels:
+                                if label.pk in unit_label_pks:
+                                    source_unit.change_set.create(
+                                        action=ActionEvents.LABEL_REMOVE,
+                                        user=user,
+                                        author=user,
+                                        details={"label": label.name},
+                                    )
                             changed = True
 
                     if changed:
                         updated += 1
-
-            # Handle translation labels
-            translation_labels = [
-                label for label in remove_labels if label.name in TRANSLATION_LABELS
-            ]
-            if translation_labels:
-                for unit in component_units.filter(labels__in=translation_labels):
-                    unit.labels.remove(*translation_labels)
-                    updated += 1
 
         if prev_updated != updated:
             component.invalidate_cache()

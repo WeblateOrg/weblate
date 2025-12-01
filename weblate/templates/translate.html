@@ -585,7 +585,7 @@
 
       <div class="col-sm-3 source-info">
 
-        {% if unit.all_checks or comments_to_check or unit.suggestions or variants|length > 1 or display_checks %}
+        {% if unit.all_checks or comments_to_check or unit.suggestions or variants|length > 1 or display_checks or unit.automatically_translated %}
           <div class="card">
             <div class="card-header text-bg-danger">
               <h4 class="card-title">{% translate "Things to check" %}</h4>
@@ -706,6 +706,24 @@
                        class="btn btn-warning"
                        href="#">{% translate "View" %}</a>
                   </p>
+                </div>
+              {% endif %}
+
+              {% if unit.automatically_translated %}
+                <div class="list-group-item check check-item check-automatically-translated">
+                  <h5>
+                    <span class="green">{% icon "check.svg" %}</span>
+                    {% translate "Automatically translated" %}
+                  </h5>
+                  <p class="list-group-item-text check-description">
+                    {% blocktranslate with author=unit.get_last_author %}This string was translated automatically by {{ author }}.{% endblocktranslate %}
+                  </p>
+                  {% if user_can_translate %}
+                    <p class="list-group-item-text list-buttons">
+                      <a href="{% url 'js-dismiss-automatically-translated' unit_id=unit.id %}"
+                         class="btn btn-warning dismiss-automatically-translated">{% translate "Dismiss" %}</a>
+                    </p>
+                  {% endif %}
                 </div>
               {% endif %}
 

@@ -1045,6 +1045,13 @@ class CSVUnit(MonolingualSimpleUnit):
         ):
             # Update source for bilingual as CSV fields can contain just source
             self.unit.source = self.unit.target
+        if (
+            self.template is not None
+            and not self.parent.is_template
+            and "context" not in self.parent.store.fieldnames
+        ):
+            # Update source for monolingual fields without context field
+            self.unit.source = self.unit.context
 
     def is_fuzzy(self, fallback=False):
         # Report fuzzy state only if present in the fields
@@ -1741,6 +1748,8 @@ class CSVFormat(TTKitFormat):
 
     def parse_simple_csv(self, content, filename, header: list[str] | None = None):
         fieldnames = ["source", "target"]
+        # Prefer detected header if available (translate-toolkit PR #5830 adds
+        # monolingual CSV support with proper handling of context/id/target columns)
         if header and all(
             field in {"source", "target", "context", "id"} for field in header
         ):
