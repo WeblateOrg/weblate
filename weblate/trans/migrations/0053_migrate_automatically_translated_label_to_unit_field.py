@@ -13,14 +13,16 @@ def migrate_automatically_translated_labels(apps, schema_editor):
     and sets their automatically_translated column to True.
     """
     Label = apps.get_model("trans", "Label")
+    Unit = apps.get_model("trans", "Unit")
 
     auto_labels = Label.objects.filter(name="Automatically translated")
 
     if not auto_labels.exists():
         return
 
-    for label in auto_labels:
-        label.unit_set.update(automatically_translated=True)
+    Unit.objects.filter(labels__name="Automatically translated").update(
+        automatically_translated=True
+    )
 
     auto_labels.delete()
 
