@@ -2214,7 +2214,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         request=CommentSerializer,
     )
     @extend_schema(
-        description="Return a list of comments on the unut.", methods=["get"]
+        description="Return a list of comments on the unit.", methods=["get"]
     )
     @action(detail=True, methods=["get", "post"], serializer_class=CommentSerializer)
     def comments(self, request, *args, **kwargs):
