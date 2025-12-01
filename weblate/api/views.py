@@ -2168,7 +2168,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
                 except KeyError:
                     continue
             if "labels" in data:
-                unit.labels.set(data["labels"])
+                unit.save_labels(data["labels"], user)
             unit.save(update_fields=fields)
 
         # Handle translate

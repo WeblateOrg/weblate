@@ -198,6 +198,12 @@ def get_cache_version() -> tuple[str, str, str] | None:
             report_error("Redis version check")
             return None
 
+        if version := client_info.get("redict_version"):  # codespell:ignore redict
+            return (
+                "Redict server",  # codespell:ignore redict
+                "https://redict.io/",  # codespell:ignore redict
+                version,
+            )
         if version := client_info.get("valkey_version"):
             return ("Valkey server", "https://valkey.io/", version)
         if version := client_info.get("redis_version"):

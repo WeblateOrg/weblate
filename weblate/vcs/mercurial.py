@@ -61,6 +61,13 @@ class HgRepository(Repository):
     ref_to_remote: ClassVar[str] = "head() and branch(.) and not closed() - ."
     ref_from_remote: ClassVar[str] = "outgoing()"
 
+    @staticmethod
+    def sanitize_error_message(errormessage: str) -> str:
+        match = re.match(r"(.*does not appear to be an hg repository):.*", errormessage)
+        if match:
+            return match[1]
+        return errormessage
+
     def is_valid(self):
         """Check whether this is a valid repository."""
         return os.path.exists(os.path.join(self.path, ".hg", "requires"))

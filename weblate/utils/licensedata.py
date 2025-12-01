@@ -136,6 +136,12 @@ LICENSES = (
         False,
     ),
     (
+        "ALGLIB-Documentation",
+        "ALGLIB Documentation License",
+        "https://spdx.org/licenses/ALGLIB-Documentation.html",
+        True,
+    ),
+    (
         "ADSL",
         "Amazon Digital Services License",
         "https://spdx.org/licenses/ADSL.html",
@@ -589,6 +595,12 @@ LICENSES = (
         "BSD-Inferno-Nettverk",
         "BSD-Inferno-Nettverk",
         "https://spdx.org/licenses/BSD-Inferno-Nettverk.html",
+        False,
+    ),
+    (
+        "Buddy",
+        "Buddy License",
+        "https://spdx.org/licenses/Buddy.html",
         False,
     ),
     (
@@ -2194,6 +2206,12 @@ LICENSES = (
         False,
     ),
     (
+        "ISO-permission",
+        "ISO permission notice",
+        "https://spdx.org/licenses/ISO-permission.html",
+        False,
+    ),
+    (
         "Jam",
         "Jam License",
         "https://spdx.org/licenses/Jam.html",
@@ -2587,6 +2605,12 @@ LICENSES = (
         "MIT-Wu",
         "MIT Tom Wu Variant",
         "https://spdx.org/licenses/MIT-Wu.html",
+        False,
+    ),
+    (
+        "MIT-STK",
+        "MIT-STK License",
+        "https://spdx.org/licenses/MIT-STK.html",
         False,
     ),
     (
@@ -3682,6 +3706,12 @@ LICENSES = (
         False,
     ),
     (
+        "TekHVC",
+        "TekHVC License",
+        "https://spdx.org/licenses/TekHVC.html",
+        False,
+    ),
+    (
         "TermReadKey",
         "TermReadKey License",
         "https://spdx.org/licenses/TermReadKey.html",
@@ -3949,6 +3979,12 @@ LICENSES = (
         "X11-distribute-modifications-variant",
         "X11 License Distribution Modification Variant",
         "https://spdx.org/licenses/X11-distribute-modifications-variant.html",
+        False,
+    ),
+    (
+        "X11-no-permit-persons",
+        "X11 no permit persons clause",
+        "https://spdx.org/licenses/X11-no-permit-persons.html",
         False,
     ),
     (

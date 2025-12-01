@@ -19,11 +19,14 @@ Weblate 5.15
 * :ref:`mt-cyrtranslit` now supports Belarusian and Greek.
 * :ref:`addon-weblate.webhook.slack` and :ref:`addon-weblate.webhook.webhook` can be installed multiple times.
 * Compatibility with Git SHA256 repositories.
+* The allowed version control URLs can now be configured using :setting:`VCS_ALLOW_SCHEMES` and :setting:`VCS_ALLOW_HOSTS`.
+* The API timeout for creating pull requests or forking can now be configured via :setting:`VCS_API_TIMEOUT`.
 
 .. rubric:: Bug fixes
 
 * :ref:`mt-deepl` integration now correctly handles translating to Chinese variants.
 * :doc:`/formats/csv` format saving translations with empty source fields when using monolingual base files.
+* Tighter validation of user and full names to avoid confusing homoglyphs.
 
 .. rubric:: Compatibility
 
