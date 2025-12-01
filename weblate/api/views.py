@@ -2214,7 +2214,9 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         request=CommentSerializer,
     )
     @extend_schema(
-        description="Return a list of comments on the unit.", methods=["get"]
+        description="Return a list of comments on the unit.",
+        methods=["get"],
+        responses={200: CommentSerializer(many=True)},
     )
     @action(detail=True, methods=["get", "post"], serializer_class=CommentSerializer)
     def comments(self, request, *args, **kwargs):
@@ -2245,10 +2247,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             serializer.save()
             return Response(serializer.data, status=HTTP_201_CREATED)
 
-        # Do we need a new permission or does permission to add comment grant the user to list all comments/user specific comment?
-        if not user.has_perm("comment.add", unit.translation):
-            self.permission_denied(request)
-
+        # If user doesn't have access to the unit, get_object will raise 404.
         qs = unit.comment_set.all()
 
         serializer = CommentSerializer(qs, context={"request": request}, many=True)
