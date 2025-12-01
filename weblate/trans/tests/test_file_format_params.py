@@ -475,3 +475,17 @@ class JavaPropertiesTest(BaseFileFormatsTest):
         # Java properties need to be ISO 8859-1, but Translate Toolkit converts
         # them to UTF-8.
         self.do_create_with_encoding_test("properties_encoding", "utf-8", success=True)
+
+
+class CSVParamsTest(BaseFileFormatsTest):
+    def create_component(self) -> Component:
+        return self.create_csv()
+
+    def test_encoding_param(self):
+        # both "auto" and "utf-8" are valid for the test CSV files
+        self.do_create_with_encoding_test("csv_encoding", "utf-8", success=True)
+
+
+class CSVSimpleParamsTest(BaseFileFormatsTest):
+    def create_component(self) -> Component:
+        return self.create_csv_mono()
