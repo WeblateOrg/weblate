@@ -7,6 +7,7 @@ Weblate 5.15
 
 * Batch automatic translation can now be manually triggered at project language, category or component level, see :ref:`auto-translation`.
 * Added ability to completely disable the admin contact form by setting :setting:`CONTACT_FORM` to ``"disabled"``.
+* Added :http:get:`/api/units/(int:id)/comments/` to get a list of comment for the given translation unit.
 
 .. rubric:: Improvements
 

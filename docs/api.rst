@@ -2361,6 +2361,9 @@ and XLIFF.
     :>json string user: URL of the commenter's object
     :>json string timestamp: creation timestamp of the comment
 
+    .. versionchanged:: 5.15
+        Returns a list of comments on a given ttranslation unit
+
 
 Changes
 +++++++
