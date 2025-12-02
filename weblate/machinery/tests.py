@@ -2811,7 +2811,6 @@ class OllamaTranslationTest(BaseMachineTranslationTest):
                     "eval_count": 11,
                     "eval_duration": 503286987,
                 },
-            )
         )
 
 
