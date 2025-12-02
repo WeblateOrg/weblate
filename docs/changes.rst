@@ -16,6 +16,7 @@ Weblate 5.15
 * Automatically translated strings are now identified by a dedicated flag instead of a label.
 * :ref:`addon-weblate.discovery.discovery` preserves :ref:`file_format_params`.
 * :ref:`mt-cyrtranslit` now supports Belarusian and Greek.
+* :ref:`block-user` now accepts internal notes that are not visible to the user.
 * :ref:`addon-weblate.webhook.slack` and :ref:`addon-weblate.webhook.webhook` can be installed multiple times.
 * Compatibility with Git SHA256 repositories.
 * The allowed version control URLs can now be configured using :setting:`VCS_ALLOW_SCHEMES` and :setting:`VCS_ALLOW_HOSTS`.
