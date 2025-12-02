@@ -8,9 +8,6 @@ from __future__ import annotations
 
 from urllib.parse import urljoin
 
-import requests
-
-from weblate.machinery.base import MachineTranslationError
 from weblate.machinery.llm import BaseLLMTranslation
 
 from .forms import OllamaMachineryForm
@@ -32,18 +29,13 @@ class OllamaTranslation(BaseLLMTranslation):
         return self.settings["model"]
 
     def fetch_llm_translations(self, prompt: str, content: str) -> str | None:
-        try:
-            payload = {
-                "model": self.get_model(),
-                "system": prompt,
-                "prompt": content,
-                "stream": False,
-            }
-            api_url = urljoin(self.settings["base_url"], self.end_point)
-            response = requests.request(
-                "post", api_url, json=payload, timeout=self.request_timeout
-            )
-        except Exception as error:
-            raise MachineTranslationError(error) from error
+        payload = {
+            "model": self.get_model(),
+            "system": prompt,
+            "prompt": content,
+            "stream": False,
+        }
+        api_url = urljoin(self.settings["base_url"], self.end_point)
+        response = self.request("post", api_url, json=payload)
 
         return response.json().get("response") or None

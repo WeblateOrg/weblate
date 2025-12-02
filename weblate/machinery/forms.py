@@ -351,7 +351,16 @@ class DeepLMachineryForm(KeyURLMachineryForm):
     )
 
 
-class BaseOpenAIMachineryForm(KeyMachineryForm):
+class LLMBasicMachineryForm(BaseMachineryForm):
+    base_url = WeblateServiceURLField(
+        label=pgettext_lazy("Automatic suggestion service configuration", "API URL"),
+    )
+    model = forms.CharField(
+        label=pgettext_lazy(
+            "Automatic suggestion service configuration",
+            "LLM model",
+        ),
+    )
     persona = forms.CharField(
         label=pgettext_lazy(
             "Automatic suggestion service configuration",
@@ -374,6 +383,10 @@ class BaseOpenAIMachineryForm(KeyMachineryForm):
         ),
         required=False,
     )
+
+
+class BaseOpenAIMachineryForm(KeyMachineryForm, LLMBasicMachineryForm):
+    pass
 
 
 class OpenAIMachineryForm(BaseOpenAIMachineryForm):
@@ -456,40 +469,6 @@ class AzureOpenAIMachineryForm(BaseOpenAIMachineryForm):
         ),
         widget=forms.TextInput,
         help_text=gettext_lazy("The model's unique deployment name."),
-    )
-
-
-class LLMBasicMachineryForm(BaseMachineryForm):
-    base_url = WeblateServiceURLField(
-        label=pgettext_lazy("Automatic suggestion service configuration", "API URL"),
-    )
-    model = forms.CharField(
-        label=pgettext_lazy(
-            "Automatic suggestion service configuration",
-            "LLM model",
-        ),
-    )
-    persona = forms.CharField(
-        label=pgettext_lazy(
-            "Automatic suggestion service configuration",
-            "Translator persona",
-        ),
-        widget=forms.Textarea,
-        help_text=gettext_lazy(
-            "Describe the persona of translator to improve the accuracy of the translation. For example: “You are a squirrel breeder.”"
-        ),
-        required=False,
-    )
-    style = forms.CharField(
-        label=pgettext_lazy(
-            "Automatic suggestion service configuration",
-            "Translator style",
-        ),
-        widget=forms.Textarea,
-        help_text=gettext_lazy(
-            "Describe the style of translation. For example: “Use informal language.”"
-        ),
-        required=False,
     )
 
 
