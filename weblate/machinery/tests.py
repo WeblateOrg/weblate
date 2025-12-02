@@ -2827,7 +2827,7 @@ class OllamaRemoteModelTranslationTest(OllamaTranslationTest):
         responses.add(
                 responses.POST,
                 "http://localhost:11434/api/generate",
-                status=200,        
+                status=200,
                 json={
                     "model": "minimax-m2:cloud",
                     "remote_model": "minimax-m2",
