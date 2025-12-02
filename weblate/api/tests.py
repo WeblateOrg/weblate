@@ -2632,6 +2632,69 @@ class ProjectAPITest(APIBaseTest):
         self.assertTrue(expected.issubset(zip_names))
         self.assertGreater(len(zip_names), 0)
 
+    def test_download_project_translations_language_path_filter(self) -> None:
+        other_component = self.create_po(name="Other", project=self.component.project)
+
+        response = self.do_request(
+            "api:project-language-file",
+            {**self.project_kwargs, "language_code": "cs"},
+            method="get",
+            code=200,
+            superuser=True,
+            request={"format": "zip", "filter": "^test$"},
+        )
+        with zipfile.ZipFile(BytesIO(response.content)) as zf:
+            zip_names = set(zf.namelist())
+
+        from weblate.utils.data import data_dir
+
+        root = data_dir("vcs")
+
+        project = Project.objects.get(slug=self.project_kwargs["slug"])
+        components = project.component_set.filter_access(self.user).filter(
+            slug__regex="^test$"
+        )
+        translations = Translation.objects.filter(
+            component__in=components, language__code="cs"
+        ).prefetch()
+
+        def collect_entries(translations_qs) -> set[str]:
+            entries: set[str] = set()
+            for t in translations_qs:
+                filename = t.get_filename()
+                if filename:
+                    entries.add(os.path.relpath(filename, root))
+                comp = t.component
+                for tmpl in (comp.template, comp.new_base, comp.intermediate):
+                    if tmpl:
+                        full = os.path.join(comp.full_path, tmpl)
+                        if os.path.exists(full):
+                            entries.add(os.path.relpath(full, root))
+            return entries
+
+        expected = collect_entries(translations)
+
+        excluded = collect_entries(
+            Translation.objects.filter(
+                component__in=project.component_set.filter(slug=other_component.slug),
+                language__code="cs",
+            ).prefetch()
+        )
+
+        self.assertTrue(expected.issubset(zip_names))
+        self.assertTrue(zip_names.isdisjoint(excluded))
+        self.assertGreater(len(zip_names), 0)
+
+    def test_download_project_translations_language_path_filter_invalid(self) -> None:
+        self.do_request(
+            "api:project-language-file",
+            {**self.project_kwargs, "language_code": "cs"},
+            method="get",
+            code=400,
+            superuser=True,
+            request={"format": "zip", "filter": "["},
+        )
+
     def test_credits(self) -> None:
         self.do_request(
             "api:component-credits",

@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 import os.path
+import re
 from datetime import datetime
 from typing import TYPE_CHECKING, cast
 from urllib.parse import unquote
@@ -1330,6 +1331,13 @@ class ProjectViewSet(
             raise PermissionDenied
 
         components = instance.component_set.filter_access(request.user)
+        component_filter = request.query_params.get("filter")
+        if component_filter:
+            try:
+                re.compile(component_filter)
+            except re.error as exc:
+                raise ValidationError({"filter": str(exc)}) from exc
+            components = components.filter(slug__regex=component_filter)
         requested_format = request.query_params.get("format", "zip")
 
         translations = Translation.objects.filter(
