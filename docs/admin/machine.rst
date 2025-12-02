@@ -704,7 +704,7 @@ The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`.
 
    * `Ollama models <https://ollama.com/search>`_
 
-.. _Ollama: https://ollama.com//
+.. _Ollama: https://ollama.com/
 .. _Ollama installed: https://ollama.com/download
 
 .. _mt-openai:
