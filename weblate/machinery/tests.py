@@ -2699,15 +2699,44 @@ class OllamaTranslationTest(BaseMachineTranslationTest):
     CONFIGURATION: ClassVar[SettingsDict] = {
         "base_url": "http://localhost:11434",
         "model": "itzune/latxa:8b",
-        "persona": "",
+        "persona": "You are a squirrel breeder",
         "style": "",
     }
 
-    def mock_empty(self) -> NoReturn:
-        self.skipTest("Not tested")
+    def mock_empty(self) -> None:
+        responses.add(
+            responses.POST,
+            "http://localhost:11434/api/generate",
+            status=200,
+            json={
+                "model": "itzune/latxa:8b",
+                "created_at": "2025-11-29T21:25:08.441817763Z",
+                "response": "",
+                "done": True,
+                "done_reason": "stop",
+                "context": [
+                    128006,
+                    9125,
+                    128007,
+                    1432,
+                    2675,
+                ],
+                "total_duration": 3946971317,
+                "load_duration": 3325185239,
+                "prompt_eval_count": 73,
+                "prompt_eval_duration": 107465065,
+                "eval_count": 11,
+                "eval_duration": 503286987,
+            },
+        )
 
-    def mock_error(self) -> NoReturn:
-        self.skipTest("Not tested")
+    def mock_error(self) -> None:
+        responses.add(
+            responses.POST,
+            "http://localhost:11434/api/generate",
+            status=404,
+            json={"error": "the model failed to generate a response"},
+        )
 
     def mock_response(self) -> None:
         responses.add(

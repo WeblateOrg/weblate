@@ -31,7 +31,7 @@ class OllamaTranslation(BaseLLMTranslation):
     def get_model(self) -> str:
         return self.settings["model"]
 
-    def fetch_llm_translations(self, prompt: str, content: str) -> list[str]:
+    def fetch_llm_translations(self, prompt: str, content: str) -> str | None:
         try:
             payload = {
                 "model": self.get_model(),
@@ -46,4 +46,4 @@ class OllamaTranslation(BaseLLMTranslation):
         except Exception as error:
             raise MachineTranslationError(error) from error
 
-        return response.json().get("response")
+        return response.json().get("response") or None

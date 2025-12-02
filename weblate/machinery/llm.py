@@ -86,8 +86,8 @@ class BaseLLMTranslation(BatchMachineTranslation):
     def translation_split(self, text: str) -> list[str]:
         return SEPARATOR_RE.split(text)
 
-    def fetch_llm_translations(self, prompt: str, content: str) -> str:
-        return ""
+    def fetch_llm_translations(self, prompt: str, content: str) -> str | None:
+        raise NotImplementedError
 
     def _get_prompt(
         self,
