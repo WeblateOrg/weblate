@@ -176,7 +176,7 @@ that date. Specify the exact timestamp if you need to override this behavior.
 Examples:
 
 ``changed:>=2019-03-01``
-   Changed 2019-03-01 and later (inclusive).
+   Changed on 1st March 2019 and later (inclusive).
 ``changed:>="2 weeks ago"``
    Changed 2 weeks ago from the current date and time.
 ``changed:>=yesterday``
