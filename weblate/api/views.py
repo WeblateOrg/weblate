@@ -1835,9 +1835,11 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
         if not (can_upload := user.has_perm("upload.perform", obj)):
             self.permission_denied(
                 request,
-                can_upload.reason
-                if isinstance(can_upload, PermissionResult)
-                else "Insufficient privileges for uploading.",
+                (
+                    can_upload.reason
+                    if isinstance(can_upload, PermissionResult)
+                    else "Insufficient privileges for uploading."
+                ),
             )
 
         serializer = UploadRequestSerializer(data=request.data)
@@ -2248,10 +2250,10 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             return Response(serializer.data, status=HTTP_201_CREATED)
 
         # If user doesn't have access to the unit, get_object will raise 404.
-        qs = unit.comment_set.all()
-
-        serializer = CommentSerializer(qs, context={"request": request}, many=True)
-        return Response(serializer.data, status=HTTP_200_OK)
+        qs = unit.comment_set.all().order_by("id")
+        page = self.paginate_queryset(qs)
+        serializer = CommentSerializer(page, context={"request": request}, many=True)
+        return self.get_paginated_response(serializer.data)
 
 
 @extend_schema_view(

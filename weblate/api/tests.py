@@ -5011,7 +5011,9 @@ class UnitAPITest(APIBaseTest):
         )
         url = reverse("api:unit-comments", kwargs={"pk": unit.pk})
         response = self.do_request(url, method="get", code=200)
-        self.assertEqual(len(response.data), 0)
+        self.assertIn("count", response.data)
+        self.assertEqual(response.data["count"], 0)
+        self.assertEqual(len(response.data["results"]), 0)
 
         self.do_request(
             url,
@@ -5027,13 +5029,16 @@ class UnitAPITest(APIBaseTest):
         )
 
         response = self.do_request(url, method="get", code=200)
-        self.assertEqual(len(response.data), 2)
+        self.assertEqual(response.data["count"], 2)
 
-        comments_text = [c["comment"] for c in response.data]
+        results = response.data["results"]
+        self.assertEqual(len(results), 2)
+
+        comments_text = [c["comment"] for c in results]
         self.assertIn("First comment", comments_text)
         self.assertIn("Second comment", comments_text)
 
-        first_comment = response.data[0]
+        first_comment = results[0]
         self.assertIn("user", first_comment)
         self.assertIn("timestamp", first_comment)
 
