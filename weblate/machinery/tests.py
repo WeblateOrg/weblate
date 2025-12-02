@@ -2710,11 +2710,10 @@ class OllamaTranslationTest(BaseMachineTranslationTest):
         self.skipTest("Not tested")
 
     def mock_response(self) -> None:
-        respx.post(
-            "http://localhost:11434/api/generate",
-        ).mock(
-            httpx.Response(
-                200,
+        responses.add(
+                responses.POST,
+                "http://localhost:11434/api/generate",
+                status=200,
                 json={
                     "model": "itzune/latxa:8b",
                     "created_at": "2025-11-29T21:25:08.441817763Z",
@@ -2825,11 +2824,10 @@ class OllamaRemoteModelTranslationTest(OllamaTranslationTest):
     }
 
     def mock_response(self) -> None:
-        respx.post(
-            "http://localhost:11434/api/generate",
-        ).mock(
-            httpx.Response(
-                200,
+        responses.add(
+                responses.POST,
+                "http://localhost:11434/api/generate",
+                status=200,        
                 json={
                     "model": "minimax-m2:cloud",
                     "remote_model": "minimax-m2",
