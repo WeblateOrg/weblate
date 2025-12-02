@@ -2220,7 +2220,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
     )
     @action(detail=True, methods=["get", "post"], serializer_class=CommentSerializer)
     def comments(self, request, *args, **kwargs):
-        """Add a new comment to a unit."""
+        """List comments on a unit or add a new comment to a unit."""
         unit = self.get_object()
         user = request.user
 
