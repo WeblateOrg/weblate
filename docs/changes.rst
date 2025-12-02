@@ -17,6 +17,7 @@ Weblate 5.15
 * Automatically translated strings are now identified by a dedicated flag instead of a label.
 * :ref:`addon-weblate.discovery.discovery` preserves :ref:`file_format_params`.
 * :ref:`mt-cyrtranslit` now supports Belarusian and Greek.
+* :ref:`block-user` now accepts internal notes that are not visible to the user.
 * :ref:`addon-weblate.webhook.slack` and :ref:`addon-weblate.webhook.webhook` can be installed multiple times.
 * Compatibility with Git SHA256 repositories.
 * The allowed version control URLs can now be configured using :setting:`VCS_ALLOW_SCHEMES` and :setting:`VCS_ALLOW_HOSTS`.
@@ -27,6 +28,7 @@ Weblate 5.15
 * :ref:`mt-deepl` integration now correctly handles translating to Chinese variants.
 * :doc:`/formats/csv` format saving translations with empty source fields when using monolingual base files.
 * Tighter validation of user and full names to avoid confusing homoglyphs.
+* Avoid false positive checks upon committing pending changes.
 
 .. rubric:: Compatibility
 
@@ -36,6 +38,7 @@ Weblate 5.15
 * GLib 2.80 or newer is now required.
 * Dropped support for Web Monetization.
 * :doc:`/formats/laravel` no longer includes ``return`` prefix in the keys.
+* There are several changes in :file:`settings_example.py`, most notable are changed settings ``CRISPY_ALLOWED_TEMPLATE_PACKS`` and ``INSTALLED_APPS``; please adjust your settings accordingly.
 
 .. rubric:: Upgrading
 
