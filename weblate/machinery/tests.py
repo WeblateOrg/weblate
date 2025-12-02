@@ -2840,7 +2840,6 @@ class OllamaRemoteModelTranslationTest(OllamaTranslationTest):
                     "prompt_eval_count": 63,
                     "eval_count": 481,
                 },
-            )
         )
 
 
