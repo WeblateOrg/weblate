@@ -36,6 +36,7 @@ Weblate 5.15
 * GLib 2.80 or newer is now required.
 * Dropped support for Web Monetization.
 * :doc:`/formats/laravel` no longer includes ``return`` prefix in the keys.
+* There are several changes in :file:`settings_example.py`, most notable are changed settings ``CRISPY_ALLOWED_TEMPLATE_PACKS`` and ``INSTALLED_APPS``; please adjust your settings accordingly.
 
 .. rubric:: Upgrading
 
