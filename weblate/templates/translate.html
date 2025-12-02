@@ -16,10 +16,10 @@
 
 {% block breadcrumbs %}
   {% path_object_breadcrumbs path_object %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{{ object.get_translate_url }}">{% translate "Translate" %}</a>
   </li>
-  <a class="pull-right flip" href="{{ object.get_widgets_url }}">
+  <a class="ms-auto float-end" href="{{ object.get_widgets_url }}">
     <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
   </a>
 {% endblock breadcrumbs %}
@@ -44,7 +44,7 @@
   {% perm 'glossary.add' project as user_can_add_glossary %}
   {% perm 'unit.add' unit.translation as user_can_add_unit %}
 
-  <div class="btn-group pull-right flip btn-group-settings" role="group">
+  <div class="btn-group float-end btn-group-settings" role="group">
     <a href="{% url 'zen' path=object.get_url_path %}?offset={{ offset }}&amp;{{ search_url }}"
        data-params="{{ search_url }}"
        title="{% translate "Open in Zen mode" %}"
@@ -67,15 +67,15 @@
       <div class="col-sm-9">
 
         <form action="{{ this_unit_url }}" method="post" class="translation-form translator">
-          <div class="panel {% if unit.approved %}panel-success{% elif unit.is_source %}panel-warning{% else %}panel-default{% endif %}">
+          <div class="card">
 
-            <div class="panel-heading">
-              <a class="btn btn-link btn-xs pull-right flip"
+            <div class="card-header {% if unit.approved %}text-bg-success{% elif unit.is_source %}text-bg-warning{% endif %}">
+              <a class="btn btn-link btn-xs float-end"
                  href="{{ site_url }}{{ unit.get_absolute_url }}"
                  data-clipboard-value="{{ site_url }}{{ unit.get_absolute_url }}"
                  data-clipboard-message="{% translate "Permalink copied to clipboard." %}"
                  title="{% translate "Copy permalink" %}">{% icon "link.svg" %}</a>
-              <h4 class="panel-title">
+              <h4 class="card-title">
                 {% if unit.translation.component.is_glossary %}
                   {% if "forbidden" in item.all_flags %}
                     {% translate "Forbidden glossary term" %}
@@ -93,7 +93,7 @@
                 {% include "snippets/unit-readonly-badge.html" %}
               </h4>
             </div>
-            <div class="panel-body">
+            <div class="card-body">
               {% csrf_token %}
               <!-- secondary -->
               {% if secondary %}
@@ -160,14 +160,14 @@
                   <div class="form-group source-language-group">
                     <div>
                       {% if unit.context %}
-                        <div class="pull-right flip">
+                        <div class="float-end">
                           <label>{{ unit.translation.component.context_label }}</label>
                           {% format_source_string unit.context unit simple=True wrap=True search_match=search_query whitespace=False %}
                         </div>
                       {% endif %}
                       <a class="language" href="{{ unit.source_unit.get_absolute_url }}">{{ unit.translation.component.source_language }}</a>
                       {% if not unit.source_unit.translated %}
-                        <span class="badge badge-danger">{% translate "The source string needs review." %}</span>
+                        <span class="badge text-bg-danger">{% translate "The source string needs review." %}</span>
                       {% endif %}
                       {% if unit.translation.component.project.source_review %}
                         <a title="{% translate "Report issue with the source string" %}"
@@ -184,7 +184,7 @@
               <!-- edit form -->
               {% crispy form %}
             </div>
-            <div class="panel-footer">
+            <div class="card-footer">
               {% if locked %}
                 <p>{% translate "This translation is currently locked." %}</p>
               {% elif not user_can_translate %}
@@ -193,10 +193,10 @@
               <div>
                 {% with flag_actions=unit.get_flag_actions %}
                   {% if user_can_delete or user_can_edit_flags and flag_actions or user_can_add_unit or user_can_translate and unit.translation.component.is_multivalue %}
-                    <div class="btn-group pull-right flip">
+                    <div class="btn-group float-end">
                       <button type="button"
                               class="btn btn-primary dropdown-toggle btn-spaced"
-                              data-toggle="dropdown"
+                              data-bs-toggle="dropdown"
                               aria-haspopup="true"
                               aria-expanded="false"
                               id="unit_tools_dropdown">
@@ -224,7 +224,7 @@
                         {% endif %}
                         {% if user_can_add_unit %}
                           <li>
-                            <a href="#" data-toggle="modal" data-target="#add-unit-form">{% translate "Add variant of this string" %}</a>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#add-unit-form">{% translate "Add variant of this string" %}</a>
                           </li>
                         {% endif %}
                         {% if user_can_translate and unit.translation.component.is_multivalue %}
@@ -272,65 +272,89 @@
         </form>
 
         <ul class="nav nav-pills translation-tabs">
-          <li class="active">
-            <a href="#nearby"
-               data-toggle="tab"
+          <li class="nav-item">
+            <a class="nav-link active"
+               data-bs-target="#nearby"
+               data-bs-toggle="tab"
                id="toggle-nearby"
-               title="{% translate "Messages placed around this one" %}">{% translate "Nearby strings" %} <span class="badge">{{ nearby|length }}</span></a>
+               href="#"
+               title="{% translate "Messages placed around this one" %}">{% translate "Nearby strings" %} <span class="badge text-bg-secondary">{{ nearby|length }}</span></a>
           </li>
           {% if nearby_keys %}
-            <li>
-              <a href="#keys"
-                 data-toggle="tab"
+            <li class="nav-item">
+              <a class="nav-link"
+                 data-bs-target="#keys"
+                 data-bs-toggle="tab"
                  id="toggle-keys"
-                 title="{% translate "Strings with similar keys" %}">{% translate "Similar keys" %} <span class="badge">{{ nearby_keys|length }}</span></a>
+                 href="#"
+                 title="{% translate "Strings with similar keys" %}">{% translate "Similar keys" %} <span class="badge text-bg-secondary">{{ nearby_keys|length }}</span></a>
             </li>
           {% endif %}
           {% if variants|length > 1 %}
-            <li>
-              <a href="#variants"
-                 data-toggle="tab"
+            <li class="nav-item">
+              <a class="nav-link"
+                 data-bs-target="#variants"
+                 data-bs-toggle="tab"
                  id="toggle-variants"
-                 title="{% translate "Variants of the string" %}">{% translate "Variants" %} <span class="badge">{{ variants|length }}</span></a>
+                 href="#"
+                 title="{% translate "Variants of the string" %}">{% translate "Variants" %} <span class="badge text-bg-secondary">{{ variants|length }}</span></a>
             </li>
           {% endif %}
           {% if unit.suggestions %}
-            <li>
-              <a href="#suggestions" data-toggle="tab" id="toggle-suggestions">{% translate "Suggestions" %} <span class="badge">{{ unit.suggestions|length }}</span></a>
+            <li class="nav-item">
+              <a class="nav-link"
+                 data-bs-target="#suggestions"
+                 data-bs-toggle="tab"
+                 id="toggle-suggestions"
+                 href="#">{% translate "Suggestions" %} <span class="badge text-bg-secondary">{{ unit.suggestions|length }}</span></a>
             </li>
           {% endif %}
           {% if others.total %}
-            <li>
-              <a href="#others" data-toggle="tab" id="toggle-others">{% translate "Other occurrences" %} <span class="badge">{{ others.total }}</span></a>
+            <li class="nav-item">
+              <a class="nav-link"
+                 data-bs-target="#others"
+                 data-bs-toggle="tab"
+                 id="toggle-others"
+                 href="#">{% translate "Other occurrences" %} <span class="badge text-bg-secondary">{{ others.total }}</span></a>
             </li>
           {% endif %}
           {% if unit.all_comments or user_can_add_comment %}
-            <li>
-              <a href="#comments" data-toggle="tab" id="toggle-comments">{% translate "Comments" %}
-                {% if unit.all_comments %}<span class="badge">{{ unit.all_comments|length }}</span>{% endif %}
+            <li class="nav-item">
+              <a class="nav-link"
+                 data-bs-target="#comments"
+                 data-bs-toggle="tab"
+                 id="toggle-comments"
+                 href="#">{% translate "Comments" %}
+                {% if unit.all_comments %}<span class="badge text-bg-secondary">{{ unit.all_comments|length }}</span>{% endif %}
               </a>
             </li>
           {% endif %}
           {% if user_can_use_machinery %}
-            <li>
-              <a href="#machinery"
-                 data-toggle="tab"
+            <li class="nav-item">
+              <a class="nav-link"
+                 data-bs-target="#machinery"
+                 data-bs-toggle="tab"
                  id="toggle-machinery"
                  data-load="machinery"
+                 href="#"
                  title="{% translate "Computer-aided translation suggestions" %}">{% translate "Automatic suggestions" %}</a>
             </li>
           {% endif %}
-          <li>
-            <a href="#translations"
-               data-toggle="tab"
+          <li class="nav-item">
+            <a class="nav-link"
+               data-bs-target="#translations"
+               data-bs-toggle="tab"
                id="toggle-translations"
                data-href="{% url 'js-unit-translations' unit_id=unit.id %}"
-               title="{% translate "Translations of this string in the other languages" %}">{% translate "Other languages" %} <span class="badge">{{ unit.source_unit.unit_set.count|add:-1 }}</span> </a>
+               href="#"
+               title="{% translate "Translations of this string in the other languages" %}">{% translate "Other languages" %} <span class="badge text-bg-secondary">{{ unit.source_unit.unit_set.count|add:-1 }}</span> </a>
           </li>
-          <li>
-            <a href="#history"
-               data-toggle="tab"
+          <li class="nav-item">
+            <a class="nav-link"
+               data-bs-target="#history"
+               data-bs-toggle="tab"
                id="toggle-history"
+               href="#"
                title="{% translate "List of recent changes done in Weblate" %}">{% translate "History" %}</a>
           </li>
         </ul>
@@ -372,7 +396,7 @@
               <form method="post"
                     action="{{ unit.translation.get_translate_url }}?{{ search_url }}&amp;offset={{ offset }}&amp;checksum={{ unit.checksum }}">
                 {% csrf_token %}
-                <table class="table table-condensed">
+                <table class="table table-sm">
                   <thead>
                     <tr>
                       <th></th>
@@ -499,13 +523,11 @@
                   <div class="modal-dialog" role="document">
                     <div class="modal-content">
                       <div class="modal-header">
-                        <button type="button"
-                                class="close"
-                                data-dismiss="modal"
-                                aria-label="{% translate "Close" %}">
-                          <span aria-hidden="true">×</span>
-                        </button>
                         <h4 class="modal-title">{% translate "Are you absolutely sure?" %}</h4>
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="{% translate "Close" %}"></button>
                       </div>
                       <div class="modal-body"></div>
                       <div class="modal-footer">
@@ -535,18 +557,18 @@
                       id="comment-form">
                   {% csrf_token %}
                   <input type="hidden" name="next" value="{{ this_unit_url }}#comments" />
-                  <div class="panel panel-default">
-                    <div class="panel-heading">
-                      <h4 class="panel-title">
+                  <div class="card">
+                    <div class="card-header">
+                      <h4 class="card-title">
                         {% documentation_icon 'user/translating' 'comments' right=True %}
                         {% translate "New comment" %}
                       </h4>
                     </div>
-                    <div class="panel-body">
+                    <div class="card-body">
                       <p class="help-block">{% translate "Comment on this string for fellow translators and developers to read." %}</p>
                       {{ comment_form|crispy }}
                     </div>
-                    <div class="panel-footer">
+                    <div class="card-footer">
                       <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
                     </div>
                   </div>
@@ -564,9 +586,9 @@
       <div class="col-sm-3 source-info">
 
         {% if unit.all_checks or comments_to_check or unit.suggestions or variants|length > 1 or display_checks or unit.automatically_translated %}
-          <div class="panel panel-danger">
-            <div class="panel-heading">
-              <h4 class="panel-title">{% translate "Things to check" %}</h4>
+          <div class="card">
+            <div class="card-header text-bg-danger">
+              <h4 class="card-title">{% translate "Things to check" %}</h4>
             </div>
 
             <div class="list-group">
@@ -581,7 +603,12 @@
                     {% blocktranslate count count=unit.suggestions|length %}There is {{ count }} suggestion for this string.{% plural %}There are {{ count }} suggestions for this string.{% endblocktranslate %}
                   </p>
                   <p class="list-group-item-text list-buttons">
-                    <a href="#suggestions" data-toggle="tab" class="btn btn-warning">{% translate "View" %}</a>
+                    <a data="bs"
+                       target
+                       None="#suggestions"
+                       data-bs-toggle="tab"
+                       class="btn btn-warning"
+                       href="#">{% translate "View" %}</a>
                   </p>
                 </div>
               {% endif %}
@@ -655,7 +682,10 @@
                     {% blocktranslate count count=comments_to_check|length %}There is {{ count }} unresolved comment for this string.{% plural %}There are {{ count }} unresolved comments for this string.{% endblocktranslate %}
                   </p>
                   <p class="list-group-item-text list-buttons">
-                    <a href="#comments" data-toggle="tab" class="btn btn-warning">{% translate "View" %}</a>
+                    <a data-bs-target="#comments"
+                       data-bs-toggle="tab"
+                       class="btn btn-warning"
+                       href="#">{% translate "View" %}</a>
                   </p>
                 </div>
               {% endif %}
@@ -671,7 +701,10 @@
                     {% blocktranslate count count=variants|length %}There is {{ count }} variant of this string.{% plural %}There are {{ count }} variants of this string.{% endblocktranslate %}
                   </p>
                   <p class="list-group-item-text list-buttons">
-                    <a href="#variants" data-toggle="tab" class="btn btn-warning">{% translate "View" %}</a>
+                    <a data-bs-target="#variants"
+                       data-bs-toggle="tab"
+                       class="btn btn-warning"
+                       href="#">{% translate "View" %}</a>
                   </p>
                 </div>
               {% endif %}
@@ -700,11 +733,11 @@
 
 
         {% if not unit.translation.component.hide_glossary_matches %}
-          <div class="panel panel-default">
-            <div class="panel-heading">
-              <h4 class="panel-title">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">
                 {% for glossary in unit.translation.get_glossaries %}
-                  <a class="pull-right flip btn btn-link btn-xs btn-{{ glossary.component.glossary_color }}"
+                  <a class="float-end btn btn-link btn-xs btn-{{ glossary.component.glossary_color }}"
                      title="{% blocktranslate with name=glossary.component.name %}Browse glossary {{ name }}{% endblocktranslate %}"
                      href="{% url 'browse' glossary.get_url_path %}">{% icon "folder-search-outline.svg" %}</a>
                 {% endfor %}
@@ -712,7 +745,7 @@
                 {% translate "Glossary" %}
               </h4>
             </div>
-            <table class="table table-condensed table-simple">
+            <table class="table table-sm table-simple">
               <thead>
                 <tr>
                   <th>{{ unit.translation.component.source_language }}</th>
@@ -726,21 +759,21 @@
               </tbody>
             </table>
             {% if user_can_add_glossary and addterm_form.fields.translation.queryset %}
-              <div class="panel-footer panel-footer-links">
+              <div class="card-footer card-footer-links">
                 <a class="btn btn-link green"
                    href="#"
-                   data-toggle="modal"
-                   data-target="#add-glossary-form">{% icon "plus-circle.svg" %} {% translate "Add term to glossary" %}</a>
+                   data-bs-toggle="modal"
+                   data-bs-target="#add-glossary-form">{% icon "plus-circle.svg" %} {% translate "Add term to glossary" %}</a>
               </div>
             {% endif %}
           </div>
         {% endif %}
 
-        <div class="panel panel-default string-info">
-          <div class="panel-heading">
-            <h4 class="panel-title">
+        <div class="card string-info">
+          <div class="card-header">
+            <h4 class="card-title">
               {% documentation_icon 'user/translating' 'source-context' right=True %}
-              <span class="pull-right flip text-muted"
+              <span class="float-end text-muted"
                     title="{% translate "Unit identifier" %}"
                     data-clipboard-value="{{ unit.id }}"
                     data-clipboard-message="{% translate "Unit identifier copied to clipboard." %}">{{ unit.id }}</span>
@@ -759,7 +792,7 @@
               <div class="list-group-item">
                 <h5>
                   {% if user_can_add_screenshot %}
-                    <a class="btn btn-link btn-xs pull-right flip"
+                    <a class="btn btn-link btn-xs float-end"
                        id="edit-screenshot"
                        href="{% url 'screenshots' path=unit.translation.component.get_url_path %}">{% icon "pencil.svg" %}</a>
                   {% endif %}
@@ -774,8 +807,8 @@
                   <br />
                   <a class="btn btn-link green"
                      href="#"
-                     data-toggle="modal"
-                     data-target="#add-screenshot-form">{% icon "plus-circle.svg" %} {% translate "Add screenshot" %}</a>
+                     data-bs-toggle="modal"
+                     data-bs-target="#add-screenshot-form">{% icon "plus-circle.svg" %} {% translate "Add screenshot" %}</a>
                 {% endif %}
               </div>
             {% endif %}
@@ -783,12 +816,12 @@
               <div class="list-group-item">
                 <h5>
                   {% if user_can_edit_source %}
-                    <a class="btn btn-link btn-xs pull-right flip"
+                    <a class="btn btn-link btn-xs float-end"
                        id="edit-context"
                        href="#"
-                       data-toggle="modal"
+                       data-bs-toggle="modal"
                        data-focus="#id_explanation"
-                       data-target="#context-edit-form">{% icon "pencil.svg" %}</a>
+                       data-bs-target="#context-edit-form">{% icon "pencil.svg" %}</a>
                   {% endif %}
                   {% translate "Explanation" %}
                 </h5>
@@ -815,17 +848,17 @@
               <div class="list-group-item">
                 <h5>
                   {% if user_can_edit_source %}
-                    <a class="btn btn-link btn-xs pull-right flip"
+                    <a class="btn btn-link btn-xs float-end"
                        href="#"
-                       data-toggle="modal"
+                       data-bs-toggle="modal"
                        data-focus="#id_labels"
-                       data-target="#context-edit-form">{% icon "pencil.svg" %}</a>
+                       data-bs-target="#context-edit-form">{% icon "pencil.svg" %}</a>
                   {% endif %}
                   {% translate "Labels" %}
                 </h5>
                 {% for label in unit.all_labels %}
                   <a href="?q={{ label.filter_name|urlencode }}">
-                    <span class="label label-{{ label.color }}" title="{{ label.description }}">{% translate label.name %}</span>
+                    <span class="badge label-{{ label.color }}" title="{{ label.description }}">{% translate label.name %}</span>
                   </a>
                 {% empty %}
                   <em>{% translate "No labels currently set." %}</em>
@@ -836,11 +869,11 @@
               <div class="list-group-item" id="info_all_flags">
                 <h5>
                   {% if user_can_edit_source %}
-                    <a class="btn btn-link btn-xs pull-right flip"
+                    <a class="btn btn-link btn-xs float-end"
                        href="#"
-                       data-toggle="modal"
+                       data-bs-toggle="modal"
                        data-focus="#id_extra_flags"
-                       data-target="#context-edit-form">{% icon "pencil.svg" %}</a>
+                       data-bs-target="#context-edit-form">{% icon "pencil.svg" %}</a>
                   {% endif %}
                   {% translate "Flags" %}
                 </h5>
@@ -909,13 +942,11 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <button type="button"
-                      class="close"
-                      data-dismiss="modal"
-                      aria-label="{% translate "Close" %}">
-                <span aria-hidden="true">×</span>
-              </button>
               <h4 class="modal-title">{% translate "Edit additional string info" %}</h4>
+              <button type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="{% translate "Close" %}"></button>
             </div>
             <div class="modal-body">
               {% crispy context_form %}
@@ -976,15 +1007,13 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <button type="button"
-                      class="close"
-                      data-dismiss="modal"
-                      aria-label="{% translate "Close" %}">
-                <span aria-hidden="true">×</span>
-              </button>
-              <h4 class="panel-title">
+              <h4 class="card-title">
                 {% blocktranslate with existing=unit.get_source_plurals.0 %}Add a new variant for "{{ existing }}"{% endblocktranslate %}
               </h4>
+              <button type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="{% translate "Close" %}"></button>
             </div>
             <div class="modal-body">{{ new_unit_form|crispy }}</div>
             <div class="modal-footer">
@@ -1008,15 +1037,13 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
+              <h4 class="modal-title">{% translate "Add new screenshot" %}</h4>
               <button type="button"
-                      class="close"
-                      data-dismiss="modal"
-                      aria-label="{% translate "Close" %}">
-                <span aria-hidden="true">×</span>
-              </button>
-              <h4 class="panel-title">{% translate "Add new screenshot" %}</h4>
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="{% translate "Close" %}"></button>
             </div>
-            <div class="panel-body">
+            <div class="modal-body">
               <div id="screenshot-form-container">{{ screenshot_form|crispy }}</div>
               <input type="hidden" name="source" value="{{ unit.pk }}" />
             </div>
@@ -1041,13 +1068,11 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <button type="button"
-                      class="close"
-                      data-dismiss="modal"
-                      aria-label="{% translate "Close" %}">
-                <span aria-hidden="true">×</span>
-              </button>
               <h4 class="modal-title">{% translate "Add term to glossary" %}</h4>
+              <button type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="{% translate "Close" %}"></button>
             </div>
             <div class="modal-body">{{ addterm_form|crispy }}</div>
             <div class="modal-footer">

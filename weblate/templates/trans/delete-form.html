@@ -1,14 +1,12 @@
 {% load crispy_forms_tags i18n %}
 
 <form method="post" action="{% url "remove" path=object.get_url_path %}">
-  <div class="{% if bootstrap_5 %} card card-danger {% else %}panel panel-danger{% endif %}">
-    <div class="{% if bootstrap_5 %} card-header {% else %} panel-heading{% endif %}">
-      <h4 class="{% if bootstrap_5 %} card-title {% else %} panel-title{% endif %}">
-        {% translate "Are you absolutely sure?" %}
-      </h4>
+  <div class="card card-danger">
+    <div class="card-header">
+      <h4 class="card-title">{% translate "Are you absolutely sure?" %}</h4>
     </div>
-    <div class="{% if bootstrap_5 %} card-body {% else %} panel-body{% endif %}">{% crispy delete_form %}</div>
-    <div class="{% if bootstrap_5 %} card-footer {% else %} panel-footer{% endif %}">
+    <div class="card-body">{% crispy delete_form %}</div>
+    <div class="card-footer">
       <input type="submit"
              class="btn btn-danger"
              value="{% translate "I understand the consequences, delete this translation" %}">
