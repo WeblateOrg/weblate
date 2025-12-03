@@ -1267,6 +1267,7 @@ class Translation(
                 propagate=propagate,
                 author=author,
                 request=request,
+                select_for_update=False,
             )
 
         if accepted > 0:
