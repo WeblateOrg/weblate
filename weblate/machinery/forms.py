@@ -351,7 +351,18 @@ class DeepLMachineryForm(KeyURLMachineryForm):
     )
 
 
-class BaseOpenAIMachineryForm(KeyMachineryForm):
+class LLMBasicMachineryForm(BaseMachineryForm):
+    base_url = WeblateServiceURLField(
+        label=pgettext_lazy("Automatic suggestion service configuration", "API URL"),
+        required=False,
+    )
+    model = forms.CharField(
+        label=pgettext_lazy(
+            "Automatic suggestion service configuration",
+            "LLM model",
+        ),
+        required=False,
+    )
     persona = forms.CharField(
         label=pgettext_lazy(
             "Automatic suggestion service configuration",
@@ -374,6 +385,10 @@ class BaseOpenAIMachineryForm(KeyMachineryForm):
         ),
         required=False,
     )
+
+
+class BaseOpenAIMachineryForm(KeyMachineryForm, LLMBasicMachineryForm):
+    pass
 
 
 class OpenAIMachineryForm(BaseOpenAIMachineryForm):
@@ -456,4 +471,18 @@ class AzureOpenAIMachineryForm(BaseOpenAIMachineryForm):
         ),
         widget=forms.TextInput,
         help_text=gettext_lazy("The model's unique deployment name."),
+    )
+
+
+class OllamaMachineryForm(LLMBasicMachineryForm):
+    base_url = WeblateServiceURLField(
+        label=pgettext_lazy("Automatic suggestion service configuration", "API URL"),
+        initial="http://localhost:11434",
+    )
+    model = forms.CharField(
+        label=pgettext_lazy(
+            "Automatic suggestion service configuration",
+            "Ollama model",
+        ),
+        initial="llama3.2:3b",
     )
