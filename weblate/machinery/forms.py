@@ -320,7 +320,7 @@ class DeepLMachineryForm(KeyURLMachineryForm):
         ),
         widget=forms.Select(
             choices=(
-                ("default ", "Default"),
+                ("default", "Default"),
                 ("prefer_more", "Formal"),
                 ("prefer_less", "Informal"),
             )
