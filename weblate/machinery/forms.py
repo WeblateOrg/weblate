@@ -293,7 +293,7 @@ class ModernMTMachineryForm(KeyURLMachineryForm):
 
     def clean_context_vector(self):
         """Validate context_vector field."""
-        pattern = r"^\d+:\d(?:\.\d{1,3})?$"
+        pattern = r"^\d+:0\.\d{1,3}$"
         context_vector = self.cleaned_data["context_vector"]
         if context_vector:
             for couple in context_vector.split(","):
