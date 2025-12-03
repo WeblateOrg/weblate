@@ -23,17 +23,17 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-02 20:30+0100\n"
-"PO-Revision-Date: 2025-11-03 01:51+0000\n"
-"Last-Translator: Denys Nykula <nykula@ukr.net>\n"
+"PO-Revision-Date: 2025-12-03 20:00+0000\n"
+"Last-Translator: Максим Горпиніч <gorpinicmaksim0@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
 "Language: uk\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : "
-"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.14.1-dev\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n%10>"
+"=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Generator: Weblate 5.15-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:215
@@ -1972,10 +1972,8 @@ msgstr ""
 "користувачів."
 
 #: ../../admin/access.rst:1110
-#, fuzzy
-#| msgid "Expiring user accounts"
 msgid "Expiration of user accounts"
-msgstr "Термін дії облікових записів користувачів закінчується"
+msgstr "Закінчення терміну дії облікових записів користувачів"
 
 #: ../../admin/access.rst:1112
 msgid ""
@@ -2808,16 +2806,12 @@ msgid "Needs editing"
 msgstr "Потребує редагування"
 
 #: ../../admin/addons.rst:472
-#, fuzzy
-#| msgid "Needs editing"
 msgid "Needs rewriting"
-msgstr "Потребує редагування"
+msgstr "Потребує переписування"
 
 #: ../../admin/addons.rst:474
-#, fuzzy
-#| msgid "Needs editing"
 msgid "Needs checking"
-msgstr "Потребує редагування"
+msgstr "Потребує перевірки"
 
 #: ../../admin/addons.rst:476
 msgid "Translated"
@@ -3877,17 +3871,15 @@ msgstr "Дієскрипт"
 #: ../../admin/addons.rst:1176
 msgid ""
 "Compliance of the secret length with the specification is now validated."
-msgstr ""
+msgstr "Відповідність довжини секретного коду специфікації тепер підтверджена."
 
 #: ../../admin/addons.rst:1182
-#, fuzzy
-#| msgid "Webhook"
 msgid "Webhook secret"
-msgstr "Дієскрипт"
+msgstr "Секрет вебхука"
 
 #: ../../admin/addons.rst:1182
 msgid "The Standard Webhooks secret is a base64 encoded string."
-msgstr ""
+msgstr "Секрет стандартних вебхуків — це рядок, закодований у base64."
 
 #: ../../admin/addons.rst:1348
 msgid ""
@@ -3931,6 +3923,9 @@ msgid ""
 "bits) and 64 bytes (512 bits). It can be prefixed with ``whsec_`` for easy "
 "identification."
 msgstr ""
+"Наданий ``secret`` — це рядок у форматі base64 довжиною від 24 байтів (192 "
+"біти) до 64 байтів (512 бітів). Для легкої ідентифікації його можна починати "
+"з префікса ``whsec_``."
 
 #: ../../admin/addons.rst:1411
 msgid ""
@@ -5726,18 +5721,14 @@ msgstr ""
 "використовуватиметься для резервного копіювання."
 
 #: ../../admin/backup.rst:165
-#, fuzzy
-#| msgid ""
-#| "Add Weblate SSH key to the user so that Weblate can SSH to the server "
-#| "without a password (see :ref:`weblate-ssh-key`)."
 msgid ""
 "Add Weblate SSH key to the user's `.ssh/authorized_keys` file, so that "
 "Weblate can SSH to the server without a password (see :ref:`weblate-ssh-"
 "key`)."
 msgstr ""
-"Додайте ключ SSH Weblate до запису користувача, щоб Weblate міг "
-"встановлювати з'єднання SSH із сервером без пароля (див. :ref:`weblate-ssh-"
-"key`)."
+"Додайте SSH-ключ Weblate до файлу `.ssh/authorized_keys` користувача, щоб "
+"Weblate міг підключатися до сервера через SSH без пароля (див. :ref:`weblate-"
+"ssh-key`)."
 
 #: ../../admin/backup.rst:166
 msgid ""
@@ -5745,25 +5736,25 @@ msgid ""
 "backup repository, for example in the home directory (i.e. ``/home/borg/"
 "backups``)."
 msgstr ""
+"Створіть каталог, доступний для запису користувачем, де Weblate зможе "
+"віддалено налаштувати репозиторій резервних копій Borg, наприклад, у "
+"домашньому каталозі (тобто ``/home/borg/backups``)."
 
 #: ../../admin/backup.rst:167
-#, fuzzy
-#| msgid ""
-#| "Configure the backup location in Weblate as ``user@host:/path/to/"
-#| "backups`` or ``ssh://user@host:port/path/to/backups``."
 msgid ""
 "Configure the backup location in Weblate as ``user@host:/home/borg/backups`` "
 "or ``ssh://user@host:port/home/borg/backups``."
 msgstr ""
-"Налаштуйте розташування резервних копій у Weblate як ``користувач@вузол:/"
-"шлях/до/резервних/копій`` або ``ssh://користувач@вузол:порт/шлях/до/"
-"резервних/копій``."
+"Налаштуйте місце розташування резервної копії у Weblate як ``user@host:/home/"
+"borg/backups`` або ``ssh://user@host:port/home/borg/backups``."
 
 #: ../../admin/backup.rst:168
 msgid ""
 "Once enabled, the backups will be triggered automatically daily. You can "
 "also manually trigger a backup from the Weblate UI."
 msgstr ""
+"Після ввімкнення резервні копії запускатимуться автоматично щодня. Ви також "
+"можете вручну запустити резервне копіювання з інтерфейсу Weblate."
 
 #: ../../admin/backup.rst:172
 msgid ""
@@ -7775,7 +7766,7 @@ msgstr ""
 
 #: ../../admin/config.rst:461
 msgid "Disables the contact form entirely."
-msgstr ""
+msgstr "Повністю вимикає контактну форму."
 
 #: ../../admin/config.rst:475
 msgid ""
@@ -8869,24 +8860,22 @@ msgstr ""
 "міститься надто багато змін. Типове значення — 25."
 
 #: ../../admin/config.rst:1751
-#, fuzzy
-#| msgid ""
-#| "This enables :setting:`LOGIN_REQUIRED_URLS` and configures REST framework "
-#| "to require authentication for all API endpoints."
 msgid ""
 "This "
 "enables :class:`django:django.contrib.auth.middleware.LoginRequiredMiddleware` "
 "and configures REST framework to require authentication for all API "
 "endpoints."
 msgstr ""
-"Це увімкне :setting:`LOGIN_REQUIRED_URLS` та налаштовує набір бібліотек REST "
-"вимагати розпізнавання для всіх кінцевих точок програмного інтерфейсу."
+"Це вмикає "
+":class:`django:django.contrib.auth.middleware.LoginRequiredMiddleware` та "
+"налаштовує REST framework на вимогу автентифікації для всіх кінцевих точок "
+"API."
 
 #: ../../admin/config.rst:1756
-#, fuzzy
-#| msgid "Weblate now requires Django 3.2."
 msgid "Weblate now relies on Django built-in middleware."
-msgstr "Тепер Weblate вимагає Django 3.2."
+msgstr ""
+"Weblate тепер покладається на вбудоване проміжне програмне забезпечення "
+"Django."
 
 #: ../../admin/config.rst:1760
 msgid ""
@@ -9193,12 +9182,17 @@ msgid ""
 "A set of hosts to allow when configuring VCS URL. Defaults to an empty set "
 "what does no filtering at all."
 msgstr ""
+"Набір хостів, які потрібно дозволити під час налаштування URL-адреси VCS. За "
+"замовчуванням використовується порожній набір, що взагалі не виконує "
+"фільтрацію."
 
 #: ../../admin/config.rst:2065
 msgid ""
 "A set of hosts to allow when configuring VCS URL. Only ``https`` and ``ssh`` "
 "are allowed by default."
 msgstr ""
+"Набір хостів, які потрібно дозволити під час налаштування URL-адреси VCS. За "
+"замовчуванням дозволено лише ``https`` та ``ssh``."
 
 #: ../../admin/config.rst:2074
 msgid ""
@@ -9231,19 +9225,14 @@ msgid "The default value is 10."
 msgstr "Типове значення: 10."
 
 #: ../../admin/config.rst:2091
-#, fuzzy
-#| msgid ""
-#| "Configures minimal delay in seconds between third-party API calls "
-#| "in :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-"
-#| "pagure`, and :ref:`vcs-azure-devops`."
 msgid ""
 "Configures timeout in seconds for third-party API calls such as forking or "
 "creating merge requests in :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-"
 "gitea`, :ref:`vcs-pagure`, and :ref:`vcs-azure-devops`."
 msgstr ""
-"Налаштовує мінімальну затримку у секундах для викликів стороннього "
-"програмного інтерфейсу у :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-"
-"gitea`, :ref:`vcs-pagure`, і :ref:`vcs-azure-devops`."
+"Налаштовує час очікування в секундах для викликів сторонніх API, таких як "
+"розгалуження або створення запитів на злиття у :ref:`vcs-github`, :ref:`vcs-"
+"gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure` та :ref:`vcs-azure-devops`."
 
 #: ../../admin/config.rst:2102
 msgid "Configuration of available VCS backends."
@@ -10814,20 +10803,15 @@ msgid "Python dependencies"
 msgstr "Залежності Python"
 
 #: ../../admin/install.rst:184
-#, fuzzy
-#| msgid ""
-#| "Weblate is written in `Python <https://www.python.org/>`_ and supports "
-#| "Python 3.11 or newer. You can install dependencies using pip or from your "
-#| "distribution packages, full list is available in :file:`requirements.txt`."
 msgid ""
 "Weblate is written in `Python <https://www.python.org/>`_ and supports "
 "Python 3.12 or newer. You can install dependencies using pip or from your "
 "distribution packages, full list is available in :file:`requirements.txt`."
 msgstr ""
-"Weblate написано на `Python <https://www.python.org/>`_ і підтримує Python "
-"3.11 або новішу версію. Ви можете встановити залежності за допомогою pip або "
-"з пакунків вашого дистрибутива, повний список доступний "
-"у :file:`requirements.txt`."
+"Weblate написано на `Python <https://www.python.org/>`_ та підтримує Python "
+"3.12 або новішу версію. Ви можете встановити залежності за допомогою pip або "
+"з ваших дистрибутивних пакетів, повний список доступний у "
+":file:`requirements.txt`."
 
 #: ../../admin/install.rst:188
 msgid "Most notable dependencies:"
@@ -10934,25 +10918,16 @@ msgid "Troubleshooting pip install"
 msgstr "Вирішення проблем з pip install"
 
 #: ../../admin/install.rst:302
-#, fuzzy
-#| msgid ""
-#| "The installed ``PyGobject`` package cannot find a matching GObject "
-#| "Introspection library. Before the 3.52 release, it required ``gobject-"
-#| "introspection-1.0`` and since then, it requires ``gobject-"
-#| "introspection-2.0``."
 msgid ""
 "The installed ``PyGobject`` package cannot find a matching GObject "
 "Introspection library - ``gobject-introspection-2.0``."
 msgstr ""
-"Встановлений пакунок ``PyGobject`` не може знайти відповідної бібліотеки "
-"інтроспекції GObject. До випуску 3.52 потрібна була ``gobject-"
-"introspection-1.0``, а після нього — ``gobject-introspection-2.0``."
+"Встановлений пакет ``PyGobject`` не може знайти відповідну бібліотеку "
+"GObject Introspection — ``gobject-introspection-2.0``."
 
 #: ../../admin/install.rst:305
-#, fuzzy
-#| msgid "Permissions are not managed in Weblate."
 msgid "Older versions are no longer supported by Weblate."
-msgstr "Права доступу не керуються через Weblate."
+msgstr "Weblate більше не підтримує старі версії."
 
 #: ../../admin/install.rst:308
 msgid ""
@@ -14343,34 +14318,24 @@ msgid "Configures :setting:`UPDATE_LANGUAGES`."
 msgstr "Налаштовує :setting:`UPDATE_LANGUAGES`."
 
 #: ../../admin/install/docker.rst:1038
-#, fuzzy
-#| msgid "Configures :setting:`ENABLE_HOOKS`."
 msgid "Configures :setting:`VCS_ALLOW_HOSTS`."
-msgstr "Налаштовує :setting:`ENABLE_HOOKS`."
+msgstr "Налаштовує :setting:`VCS_ALLOW_HOSTS`."
 
 #: ../../admin/install/docker.rst:1044
-#, fuzzy
-#| msgid "Configures :setting:`DEFAULT_SHARED_TM`."
 msgid "Configures :setting:`VCS_ALLOW_SCHEMES`."
-msgstr "Налаштовує :setting:`DEFAULT_SHARED_TM`."
+msgstr "Налаштовує :setting:`VCS_ALLOW_SCHEMES`."
 
 #: ../../admin/install/docker.rst:1050
-#, fuzzy
-#| msgid "Configures :setting:`ADMINS_CONTACT`."
 msgid "Configures :setting:`VCS_CLONE_DEPTH`."
-msgstr "Налаштовує :setting:`ADMINS_CONTACT`."
+msgstr "Налаштовує :setting:`VCS_CLONE_DEPTH`."
 
 #: ../../admin/install/docker.rst:1056
-#, fuzzy
-#| msgid "Configures :setting:`UNUSED_ALERT_DAYS`."
 msgid "Configures :setting:`VCS_API_DELAY`."
-msgstr "Налаштовує :setting:`UNUSED_ALERT_DAYS`."
+msgstr "Налаштовує :setting:`VCS_API_DELAY`."
 
 #: ../../admin/install/docker.rst:1062
-#, fuzzy
-#| msgid "Configures :setting:`LICENSE_FILTER`."
 msgid "Configures :setting:`VCS_API_TIMEOUT`."
-msgstr "Налаштовує :setting:`LICENSE_FILTER`."
+msgstr "Налаштовує :setting:`VCS_API_TIMEOUT`."
 
 #: ../../admin/install/docker.rst:1068
 msgid "Allow CORS requests to API from given origins."
@@ -14650,16 +14615,12 @@ msgid "Configures generic OpenID Connect integration."
 msgstr "Налаштовує типову інтеграцію з OpenID Connect."
 
 #: ../../admin/install/docker.rst:1458
-#, fuzzy
-#| msgid "OpenID Connect"
 msgid "Fedora OpenID Connect"
-msgstr "OpenID Connect"
+msgstr "Fedora OpenID Connect"
 
 #: ../../admin/install/docker.rst:1465
-#, fuzzy
-#| msgid "Configures generic OpenID Connect integration."
 msgid "Configures Fedora OpenID Connect integration."
-msgstr "Налаштовує типову інтеграцію з OpenID Connect."
+msgstr "Налаштовує інтеграцію Fedora з OpenID Connect."
 
 #: ../../admin/install/docker.rst:1474
 msgid "SAML"
@@ -15236,13 +15197,15 @@ msgstr "Томи контейнера Docker"
 msgid ""
 "There are two volumes (:file:`data` and :file:`cache`) exported by the "
 "Weblate container."
-msgstr ""
+msgstr "Контейнер Weblate експортує два томи (:file:`data` та :file:`cache`)."
 
 #: ../../admin/install/docker.rst:2080
 msgid ""
 "The other service containers (such as PostgreSQL or Valkey) have their data "
 "volumes as well and are required to maintain Weblate persistence."
 msgstr ""
+"Інші контейнери служб (такі як PostgreSQL або Valkey) також мають свої томи "
+"даних і необхідні для підтримки персистентності Weblate."
 
 #: ../../admin/install/docker.rst:2083
 msgid ""
@@ -15251,12 +15214,18 @@ msgid ""
 "does not save the data by default and needs additional configuration to "
 "enable persistence."
 msgstr ""
+"Контейнер PostgreSQL зберігає базу даних у томі :file:`/var/lib/postgresql`, "
+"а Valkey — у томі :file:`/data`. Контейнер Valkey не зберігає дані за "
+"замовчуванням і потребує додаткового налаштування для забезпечення "
+"збереження."
 
 #: ../../admin/install/docker.rst:2088
 msgid ""
 "Base your configuration on Weblate-provided examples or consult their "
 "documentation for more information."
 msgstr ""
+"Базуйте свою конфігурацію на прикладах, наданих Weblate, або зверніться до "
+"їхньої документації для отримання додаткової інформації."
 
 #: ../../admin/install/docker.rst:2091
 msgid ""
@@ -23591,11 +23560,11 @@ msgstr ""
 "lists/(str:slug)/`"
 
 #: ../../api.rst:527
-#, fuzzy
-#| msgid "link to associated roles; see :http:get:`/api/roles/(int:id)/`"
 msgid ""
 "link to associated administrators; see :http:get:`/api/users/(str:username)/`"
-msgstr "посилання на пов'язані ролі; див. :http:get:`/api/roles/(int:id)/`"
+msgstr ""
+"посилання на пов’язаних адміністраторів; див. :http:get:`/api/users/"
+"(str:username)/`"
 
 #: ../../api.rst:562 ../../api.rst:572
 msgid "Changes the group parameters."
@@ -26051,10 +26020,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS у Вікіпедії <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.1"
 msgid "Weblate 5.15"
-msgstr "Weblate 5.1"
+msgstr "Weblate 5.15"
 
 #: ../../changes.rst:4
 msgid "*Not yet released.*"
@@ -26075,12 +26042,16 @@ msgid ""
 "Batch automatic translation can now be manually triggered at project "
 "language, category or component level, see :ref:`auto-translation`."
 msgstr ""
+"Пакетний автоматичний переклад тепер можна запускати вручну на рівні мови "
+"проєкту, категорії або компонента, див. :ref:`auto-translation`."
 
 #: ../../changes.rst:9
 msgid ""
 "Added ability to completely disable the admin contact form by "
 "setting :setting:`CONTACT_FORM` to ``\"disabled\"``."
 msgstr ""
+"Додано можливість повністю вимкнути форму зворотного зв'язку адміністратора, "
+"встановивши для :setting:`CONTACT_FORM` значення ``\"disabled\"``."
 
 #: ../../changes.rst:12 ../../changes.rst:78 ../../changes.rst:105
 #: ../../changes.rst:149 ../../changes.rst:198 ../../changes.rst:227
@@ -26100,81 +26071,70 @@ msgid "Improvements"
 msgstr "Покращення"
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Added HTTP environment overview in :ref:`manage-performance`."
 msgid "Added disk usage overview in :ref:`manage-performance`."
-msgstr "Додано огляд середовища HTTP у :ref:`manage-performance`."
+msgstr "Додано огляд використання диска в :ref:`manage-performance`."
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid ":http:get:`/api/users/` now includes ``languages``."
 msgid ":http:get:`/api/groups/` now includes ``admins``."
-msgstr ":http:get:`/api/users/` тепер включає ``languages``."
+msgstr ":http:get:`/api/groups/` тепер включає ``admins``."
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid ":ref:`mt-modernmt` supports :ref:`glossary-mt`."
 msgid ":ref:`mt-modernmt` better supports language variants."
-msgstr ":ref:`mt-modernmt` підтримує :ref:`glossary-mt`."
+msgstr ":ref:`mt-modernmt` краще підтримує мовні варіанти."
 
 #: ../../changes.rst:16
 msgid ""
 "Automatically translated strings are now identified by a dedicated flag "
 "instead of a label."
 msgstr ""
+"Автоматично перекладені рядки тепер ідентифікуються спеціальним прапорцем "
+"замість мітки."
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.discovery.discovery` now "
-#| "preserves :ref:`componentlists`."
 msgid ""
 ":ref:`addon-weblate.discovery.discovery` preserves :ref:`file_format_params`."
 msgstr ""
-"У новій версії :ref:`addon-weblate.discovery.discovery` "
-"зберігає :ref:`componentlists`."
+":ref:`addon-weblate.discovery.discovery` зберігає :ref:`file_format_params`."
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid ""
-#| ":ref:`mt-microsoft-translator` now supports using custom translators."
 msgid ":ref:`mt-cyrtranslit` now supports Belarusian and Greek."
-msgstr ""
-"У новій версії реалізовано підтримку використання нетипових перекладачів "
-"у :ref:`mt-microsoft-translator`."
+msgstr ":ref:`mt-cyrtranslit` тепер підтримує білоруську та грецьку мови."
 
 #: ../../changes.rst:19
 msgid ""
 ":ref:`block-user` now accepts internal notes that are not visible to the "
 "user."
 msgstr ""
+":ref:`block-user` тепер приймає внутрішні нотатки, які не видно "
+"користувачеві."
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.webhook.webhook` can be installed multiple times."
 msgid ""
 ":ref:`addon-weblate.webhook.slack` and :ref:`addon-weblate.webhook.webhook` "
 "can be installed multiple times."
-msgstr ":ref:`addon-weblate.webhook.webhook` можна встановлювати кілька разів."
+msgstr ""
+":ref:`addon-weblate.webhook.slack` та :ref:`addon-weblate.webhook.webhook` "
+"можна встановлювати кілька разів."
 
 #: ../../changes.rst:21
-#, fuzzy
-#| msgid "Compatibility with older Git versions."
 msgid "Compatibility with Git SHA256 repositories."
-msgstr "Реалізовано сумісність із застарілими версіями Git."
+msgstr "Сумісність з репозиторіями Git SHA256."
 
 #: ../../changes.rst:22
 msgid ""
 "The allowed version control URLs can now be configured "
 "using :setting:`VCS_ALLOW_SCHEMES` and :setting:`VCS_ALLOW_HOSTS`."
 msgstr ""
+"Дозволені URL-адреси контролю версій тепер можна налаштувати за допомогою "
+":setting:`VCS_ALLOW_SCHEMES` та :setting:`VCS_ALLOW_HOSTS`."
 
 #: ../../changes.rst:23
 msgid ""
 "The API timeout for creating pull requests or forking can now be configured "
 "via :setting:`VCS_API_TIMEOUT`."
 msgstr ""
+"Тайм-аут API для створення пул-реквестів або форкінгу тепер можна "
+"налаштувати за допомогою :setting:`VCS_API_TIMEOUT`."
 
 #: ../../changes.rst:26 ../../changes.rst:58 ../../changes.rst:82
 #: ../../changes.rst:112 ../../changes.rst:166 ../../changes.rst:203
@@ -26199,36 +26159,33 @@ msgid "Bug fixes"
 msgstr "Виправлення помилок"
 
 #: ../../changes.rst:27
-#, fuzzy
-#| msgid ""
-#| ":ref:`mt-deepl` integration now correctly handles all supported source "
-#| "languages."
 msgid ""
 ":ref:`mt-deepl` integration now correctly handles translating to Chinese "
 "variants."
 msgstr ""
-":ref:`mt-deepl` Інтеграція тепер коректно обробляє всі підтримувані мови "
-"оригіналу."
+"Інтеграція :ref:`mt-deepl` тепер коректно обробляє переклад на китайські "
+"варіанти."
 
 #: ../../changes.rst:28
 msgid ""
 ":doc:`/formats/csv` format saving translations with empty source fields when "
 "using monolingual base files."
 msgstr ""
+"Формат :doc:`/formats/csv` зберігає переклади з порожніми полями джерела при "
+"використанні одномовних базових файлів."
 
 #: ../../changes.rst:29
 msgid ""
 "Tighter validation of user and full names to avoid confusing homoglyphs."
 msgstr ""
+"Ретельніше перевіряння імен користувачів та повних імен, щоб уникнути "
+"плутанини з гомогліфами."
 
 #: ../../changes.rst:30
-#, fuzzy
-#| msgid ""
-#| "Avoid false positives of punctuation spacing check for Canadian French."
 msgid "Avoid false positive checks upon committing pending changes."
 msgstr ""
-"Усунено помилкове сповіщення для перевірок пробілів навколо символів "
-"пунктуації для канадської французької."
+"Уникайте хибнопозитивних перевірок під час фіксації змін, що очікують на "
+"внесення змін."
 
 #: ../../changes.rst:33 ../../changes.rst:176 ../../changes.rst:271
 #: ../../changes.rst:326 ../../changes.rst:449 ../../changes.rst:599
@@ -26247,37 +26204,35 @@ msgid ""
 "``LOGIN_REQUIRED_URLS_EXCEPTIONS`` no longer supported, including their "
 "Docker environment variable counterparts."
 msgstr ""
+"Замінено користувацький ``RequireLoginMiddleware`` на "
+"``LoginRequiredMiddleware`` з Django 5.1. Це робить налаштування "
+"``LOGIN_REQUIRED_URLS`` та ``LOGIN_REQUIRED_URLS_EXCEPTIONS`` більше не "
+"підтримуються, включаючи їхні аналоги у змінних середовища Docker."
 
 #: ../../changes.rst:35
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` is now available as an add-on."
 msgid ""
 ":ref:`addon-weblate.webhook.webhook` secret length is now validated to match "
 "the Standard Webhooks specification."
-msgstr ":ref:`addon-weblate.webhook.webhook` тепер доступний як доповнення."
+msgstr ""
+"Довжина секретного параметра :ref:`addon-weblate.webhook.webhook` тепер "
+"перевіряється на відповідність специфікації Standard Webhooks."
 
 #: ../../changes.rst:36
-#, fuzzy
-#| msgid "Python 3.9 or newer is now required."
 msgid "Python 3.12 or newer is now required."
-msgstr "Новій версії потрібен Python 3.9 або новіший."
+msgstr "Тепер потрібен Python 3.12 або новішої версії."
 
 #: ../../changes.rst:37
-#, fuzzy
-#| msgid "Python 3.9 or newer is now required."
 msgid "GLib 2.80 or newer is now required."
-msgstr "Новій версії потрібен Python 3.9 або новіший."
+msgstr "Тепер потрібна GLib 2.80 або новіша версія."
 
 #: ../../changes.rst:38
-#, fuzzy
-#| msgid "Add support for web monetization."
 msgid "Dropped support for Web Monetization."
-msgstr "Додано підтримку вебмонетизації."
+msgstr "Припинено підтримку веб-монетизації."
 
 #: ../../changes.rst:39
 msgid ""
 ":doc:`/formats/laravel` no longer includes ``return`` prefix in the keys."
-msgstr ""
+msgstr ":doc:`/formats/laravel` більше не містить префікса ``return`` у ключах."
 
 #: ../../changes.rst:40 ../../changes.rst:335
 msgid ""
@@ -26363,41 +26318,28 @@ msgid "Contributors"
 msgstr "Учасники"
 
 #: ../../changes.rst:50
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "154?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/152?"
 "closed=1>`__."
 msgstr ""
-"`Всі зміни детально <https://github.com/WeblateOrg/weblate/milestone/154?"
-"closed=1>`__."
+"`Всі зміни детально <https://github.com/WeblateOrg/weblate/milestone/"
+"152?closed=1>`__."
 
 #: ../../changes.rst:53
-#, fuzzy
-#| msgid "Weblate 5.4.3"
 msgid "Weblate 5.14.3"
-msgstr "Weblate 5.4.3"
+msgstr "Weblate 5.14.3"
 
 #: ../../changes.rst:55
-#, fuzzy
-#| msgid "*Released on November 7th 2013.*"
 msgid "*Released on November 7th 2025.*"
-msgstr "*Випущено 7 листопада 2013 року.*"
+msgstr "*Випущено 7 листопада 2025 року.*"
 
 #: ../../changes.rst:59
-#, fuzzy
-#| msgid "Added HTTP environment overview in :ref:`manage-performance`."
 msgid "Observed HTTPS status in :ref:`manage-performance`."
-msgstr "Додано огляд середовища HTTP у :ref:`manage-performance`."
+msgstr "Спостережуваний статус HTTPS у :ref:`manage-performance`."
 
 #: ../../changes.rst:60
-#, fuzzy
-#| msgid "Added forced file synchronization to the repository maintenance."
 msgid "Forced synchronization in the :guilabel:`Repository maintenance`."
-msgstr ""
-"Додано примусову синхронізацію файлів до механізмів супроводу сховища коду."
+msgstr "Примусова синхронізація в :guilabel:`Repository maintenance`."
 
 #: ../../changes/contributors/5.10.1.rst:2
 #: ../../changes/contributors/5.10.2.rst:2
@@ -26464,68 +26406,52 @@ msgid "Documentation contributions"
 msgstr "Оновлення документації"
 
 #: ../../changes.rst:70
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "57?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/157?"
 "closed=1>`__."
 msgstr ""
-"`Докладний опис усіх змін <https://github.com/WeblateOrg/weblate/milestone/"
-"57?closed=1>`__."
+"`Всі зміни детально <https://github.com/WeblateOrg/weblate/milestone/"
+"157?closed=1>`__."
 
 #: ../../changes.rst:73
-#, fuzzy
-#| msgid "Weblate 5.4.2"
 msgid "Weblate 5.14.2"
-msgstr "Weblate 5.4.2"
+msgstr "Weblate 5.14.2"
 
 #: ../../changes.rst:75
-#, fuzzy
-#| msgid "*Released on November 6th 2024.*"
 msgid "*Released on November 6th 2025.*"
-msgstr "*Випущено 6 листопада 2024 року.*"
+msgstr "*Випущено 6 листопада 2025 року.*"
 
 #: ../../changes.rst:79
-#, fuzzy
-#| msgid "Improved performance when adding new strings."
 msgid "Performance when adding strings."
-msgstr "Удосконалено швидкодію при додаванні нових рядків."
+msgstr "Продуктивність під час додавання рядків."
 
 #: ../../changes.rst:83
-#, fuzzy
-#| msgid "Not updating statistics in some situations."
 msgid "Adding terms to glossary was not working in some situations."
-msgstr "Усунено непотрібне оновлення статистики у певних випадках."
+msgstr "Додавання термінів до глосарію не працювало в деяких ситуаціях."
 
 #: ../../changes.rst:93
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "154?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/155?"
 "closed=1>`__."
 msgstr ""
-"`Всі зміни детально <https://github.com/WeblateOrg/weblate/milestone/154?"
-"closed=1>`__."
+"`Всі зміни детально <https://github.com/WeblateOrg/weblate/milestone/"
+"155?closed=1>`__."
 
 #: ../../changes.rst:96
 msgid "Weblate 5.14.1"
 msgstr "Weblate 5.14.1"
 
 #: ../../changes.rst:98
-#, fuzzy
-#| msgid "*Released on November 5th 2022.*"
 msgid "*Released on November 5th 2025.*"
-msgstr "*Випущено 5 листопада 2022 року.*"
+msgstr "*Випущено 5 листопада 2025 року.*"
 
 #: ../../changes.rst:102
 msgid ""
 "String context are now tracked in changes histoy and displayed when "
 "available."
 msgstr ""
+"Контекст рядків тепер відстежується в історії змін і відображається, коли "
+"доступний."
 
 #: ../../changes.rst:106
 msgid "Document using Valkey in :ref:`celery` and :ref:`production-cache`."
@@ -26537,27 +26463,25 @@ msgid "Added HTTP environment overview in :ref:`manage-performance`."
 msgstr "Додано огляд середовища HTTP у :ref:`manage-performance`."
 
 #: ../../changes.rst:108
-#, fuzzy
-#| msgid "The Weblate Docker container now uses Python 3.10."
 msgid "Docker container is using Python 3.14."
-msgstr "У контейнері Weblate для Docker нової версії використано Python 3.10."
+msgstr "Контейнер Docker використовує Python 3.14."
 
 #: ../../changes.rst:109
-#, fuzzy
-#| msgid ":ref:`check-icu-message-format` gracefully handles plural strings."
 msgid ":ref:`check-icu-message-format` correctly handles implicit plurals."
 msgstr ""
-"Нова версія :ref:`check-icu-message-format` штатно обробляє рядки множини."
+":ref:`check-icu-message-format` правильно обробляє неявні форми множини."
 
 #: ../../changes.rst:113
 msgid ""
 "Avoid storing inviting user information in the invited user audit log "
 "(:cve:`2025-64326` / :ghsa:`gr35-vpx2-qxhc`)."
 msgstr ""
+"Уникайте зберігання інформації про запрошених користувачів у журналі аудиту "
+"запрошених користувачів (:cve:`2025-64326` / :ghsa:`gr35-vpx2-qxhc`)."
 
 #: ../../changes.rst:114
 msgid "Omit admin IP address from audit log."
-msgstr ""
+msgstr "Виключити IP-адресу адміністратора з журналу аудиту."
 
 #: ../../changes.rst:115
 msgid "Counting outgoing commits in the repository status."
@@ -26568,19 +26492,14 @@ msgid "Listing of other translations."
 msgstr "Перелік інших перекладів."
 
 #: ../../changes.rst:117
-#, fuzzy
-#| msgid "Upgrading the Docker container"
 msgid "SAML configuration in the Docker container."
-msgstr "Оновлення контейнера Docker"
+msgstr "Конфігурація SAML у контейнері Docker."
 
 #: ../../changes.rst:118
-#, fuzzy
-#| msgid "Preferences cookie to store user preferences in certain situations."
 msgid ""
 ":ref:`project-commit_policy` could miss some changes in certain situations."
 msgstr ""
-"Репʼяшки налаштувань, які зберігають уподобання користувача у певних "
-"випадках."
+":ref:`project-commit_policy` може пропустити деякі зміни в певних ситуаціях."
 
 #: ../../changes/contributors/5.10.1.rst:7
 #: ../../changes/contributors/5.10.2.rst:7
@@ -29589,16 +29508,12 @@ msgid "Superuser access to components with :ref:`component-restricted`."
 msgstr "Доступ суперкористувача до складників з :ref:`component-restricted`."
 
 #: ../../changes.rst:1392
-#, fuzzy
-#| msgid ""
-#| "Adjusted default :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` to not "
-#| "block :ref:`manage-appearance`."
 msgid ""
 "Adjusted default ``LOGIN_REQUIRED_URLS_EXCEPTIONS`` to not "
 "block :ref:`manage-appearance`."
 msgstr ""
-"Скориговано типове значення :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` так, "
-"щоб не блокувати :ref:`manage-appearance`."
+"Змінено значення за замовчуванням ``LOGIN_REQUIRED_URLS_EXCEPTIONS``, щоб "
+"воно не блокувалося :ref:`manage-appearance`."
 
 #: ../../changes.rst:1393
 msgid "Avoid crash on pushing changes to diverged repository."
@@ -40234,11 +40149,6 @@ msgstr ""
 "доступна за адресою https://www.contributor-covenant.org/version/3/0/."
 
 #: ../../contributing/code_of_conduct.rst:102
-#, fuzzy
-#| msgid ""
-#| "Contributor Covenant is stewarded by the Organization for Ethical Source "
-#| "and licensed under CC BY-SA 4.0. To view a copy of this license, visit "
-#| "https://creativecommons.org/licenses/by-sa/4.0/"
 msgid ""
 "Contributor Covenant is stewarded by the Organization for Ethical Source and "
 "licensed under CC BY-SA 4.0. To view a copy of this license, visit https://"
@@ -40246,7 +40156,7 @@ msgid ""
 msgstr ""
 "Угода учасника поширюється під керівництвом Організації з етичного джерела "
 "та ліцензована за ліцензією CC BY-SA 4.0. Щоб переглянути копію цієї "
-"ліцензії, відвідайте https://creativecommons.org/licenses/by-sa/4.0/"
+"ліцензії, відвідайте https://creativecommons.org/licenses/by-sa/4.0/."
 
 #: ../../contributing/code_of_conduct.rst:104
 msgid ""
@@ -47683,6 +47593,8 @@ msgid ""
 "The translation keys no longer include PHP structure and only contain the "
 "actual key."
 msgstr ""
+"Ключі перекладу більше не містять структури PHP і містять лише фактичний "
+"ключ."
 
 #: ../../formats/laravel.rst:20
 msgid "`Localization in Laravel`_"
@@ -55150,12 +55062,9 @@ msgid "Pending strings not yet committed to the file (see :ref:`lazy-commit`)."
 msgstr "Рядки у черзі, які ще не внесено до файла (див. :ref:`lazy-commit`)."
 
 #: ../../user/search.rst:73
-#, fuzzy
-#| msgid "String translated using :ref:`auto-translation`."
 msgid ""
 "Strings that were translated automatically (see :ref:`auto-translation`)."
-msgstr ""
-"Рядок було перекладено за допомогою можливості :ref:`auto-translation`."
+msgstr "Рядки, які були перекладені автоматично (див. :ref:`auto-translation`)."
 
 #: ../../user/search.rst:75
 msgid "String target language."
@@ -55396,10 +55305,8 @@ msgstr ""
 "поведінку."
 
 #: ../../user/search.rst:179
-#, fuzzy
-#| msgid "Changed 2019-03-01 and later (inclusive)."
 msgid "Changed on 1st March 2019 and later (inclusive)."
-msgstr "Змінено 01.03.2019 та пізніше (включно)."
+msgstr "Змінено 1 березня 2019 року та пізніше (включно)."
 
 #: ../../user/search.rst:181
 msgid "Changed 2 weeks ago from the current date and time."
@@ -56362,28 +56269,24 @@ msgstr ""
 "translation-setup`."
 
 #: ../../user/translating.rst:363
-#, fuzzy
-#| msgid ""
-#| "You can use automatic translation to bootstrap translation based on "
-#| "external sources. This tool is called :guilabel:`Automatic translation` "
-#| "accessible in the :guilabel:`Tools` menu, once you have selected a "
-#| "component and a language:"
 msgid ""
 "You can use automatic translation to bootstrap translation based on external "
 "sources. This tool is called :guilabel:`Automatic translation` accessible in "
 "the :guilabel:`Operations` menu, once you have selected a component and a "
 "language:"
 msgstr ""
-"Ви можете скористатися автоматичним перекладом, щоб започаткувати переклад "
-"на основі зовнішніх джерел. Цей інструмент "
-"називається :guilabel:`Автоматичний переклад`. Доступ до нього можна "
-"отримати з меню :guilabel:`Засоби` після вибору складника і мови:"
+"Ви можете використовувати автоматичний переклад для самозавантаження "
+"перекладу на основі зовнішніх джерел. Цей інструмент називається "
+":guilabel:`Automatic translation`, доступний у меню :guilabel:`Operations` "
+"після вибору компонента та мови:"
 
 #: ../../user/translating.rst:369
 msgid ""
 "A similar operation :guilabel:`Batch automatic translation` is available if "
 "you have selected a project language, a component or a category."
 msgstr ""
+"Подібна операція :guilabel:`Batch automatic translation` доступна, якщо ви "
+"вибрали мову проєкту, компонент або категорію."
 
 #: ../../user/translating.rst:372
 msgid "Two modes of operation are possible:"
