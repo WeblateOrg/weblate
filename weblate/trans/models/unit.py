@@ -137,6 +137,11 @@ class UnitQuerySet(models.QuerySet["Unit"]):
     def prefetch_all_checks(self):
         return self.prefetch_related(
             "source_unit",
+            "source_unit__translation",
+            models.Prefetch(
+                "source_unit__check_set",
+                to_attr="all_checks",
+            ),
             models.Prefetch(
                 "check_set",
                 to_attr="all_checks",
@@ -1733,6 +1738,8 @@ class Unit(models.Model, LoggerMixin):
         # Trigger source checks on target check update (multiple failing checks)
         if (create or old_checks) and not self.is_source:
             if self.is_batch_update:
+                # Reuse component object for improved performance
+                self.source_unit.translation.component = self.translation.component
                 self.translation.component.updated_sources[self.source_unit.id] = (
                     self.source_unit
                 )

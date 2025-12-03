@@ -3533,7 +3533,7 @@ class TranslationAPITest(APIBaseTest):
         self.assertEqual(unit.state, STATE_TRANSLATED)
 
         self.assertEqual(self.component.project.stats.suggestions, 0)
-        self.check_upload_changes(changes_start, 3)
+        self.check_upload_changes(changes_start, 2)
 
     def test_upload(self) -> None:
         self.authenticate()
@@ -3561,7 +3561,7 @@ class TranslationAPITest(APIBaseTest):
 
         self.assertEqual(self.component.project.stats.suggestions, 0)
 
-        self.check_upload_changes(changes_start, 3)
+        self.check_upload_changes(changes_start, 2)
 
     def test_upload_source(self) -> None:
         self.authenticate(True)
@@ -3680,7 +3680,7 @@ class TranslationAPITest(APIBaseTest):
                 "total": 4,
             },
         )
-        self.check_upload_changes(changes_start, 4)
+        self.check_upload_changes(changes_start, 3)
 
     def test_upload_overwrite(self) -> None:
         self.test_upload()

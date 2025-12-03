@@ -91,7 +91,7 @@ class AutoTranslate(BaseAutoTranslate):
     def __init__(self, *, translation: Translation, **kwargs) -> None:
         super().__init__(**kwargs)
         self.translation: Translation = translation
-        translation.component.batch_checks = True
+        translation.component.start_batched_checks()
         self.progress_base = 0
         self.target_state = STATE_TRANSLATED
         if self.mode == "fuzzy":
