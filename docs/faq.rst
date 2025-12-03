@@ -519,8 +519,6 @@ Weblate currently does not have native support for anything other than
 and :ref:`vcs-git-svn`) and :ref:`vcs-mercurial`, but it is possible to write
 backends for other VCSes.
 
-You can also use :ref:`vcs-git-helpers` in Git to access other VCSes.
-
 Weblate also supports VCS-less operation, see :ref:`vcs-local`.
 
 .. note::

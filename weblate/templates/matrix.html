@@ -4,7 +4,7 @@
 
 {% block breadcrumbs %}
   {% path_object_breadcrumbs object %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'matrix' path=object.get_url_path %}">{% translate "Matrix" %}</a>
   </li>
 {% endblock breadcrumbs %}
@@ -45,12 +45,12 @@
   {% endif %}
 
   <form>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">{% translate "Displayed languages" %}</h4>
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{% translate "Displayed languages" %}</h4>
       </div>
-      <div class="panel-body">{{ languages_form|crispy }}</div>
-      <div class="panel-footer">
+      <div class="card-body">{{ languages_form|crispy }}</div>
+      <div class="card-footer">
         <input class="btn btn-primary" type="submit" value="{% translate "Choose" %}" />
       </div>
     </div>

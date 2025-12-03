@@ -1267,6 +1267,23 @@ class EditComplexTest(ViewTestCase):
         self.assertFalse(Unit.objects.filter(pk=source_unit.pk).exists())
         self.assertEqual(unit_count - 4, Unit.objects.count())
 
+    def test_edit_checks(self) -> None:
+        source = "Thank you for using Weblate."
+        self.change_unit(
+            target="Díky za použití Weblate",
+            source=source,
+            user=self.anotheruser,
+        )
+        self.change_unit(
+            target="Díky za použití Weblate.",
+            source=source,
+            user=self.user,
+        )
+        unit = self.get_unit(source=source)
+        self.assertEqual(set(unit.check_set.values_list("name", flat=True)), set())
+        self.component.commit_pending("test", None)
+        self.assertEqual(set(unit.check_set.values_list("name", flat=True)), set())
+
 
 class EditSourceTest(ViewTestCase):
     def create_component(self):

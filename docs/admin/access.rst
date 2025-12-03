@@ -1106,8 +1106,8 @@ all the site pages. This is basically the way to lock your Weblate installation.
 
 .. _expiring-accounts:
 
-Expiring user accounts
-----------------------
+Expiration of user accounts
+---------------------------
 
 Each account can have an expiry set. After the expiration, the account will be
 automatically disabled. This is used for :ref:`project-api`, but can be

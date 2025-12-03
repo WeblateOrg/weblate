@@ -349,44 +349,6 @@ Weblate invokes all VCS commands with ``HOME=$DATA_DIR/home`` (see
 :setting:`DATA_DIR`), therefore editing the user configuration needs to be done
 in ``DATA_DIR/home/.git``.
 
-.. _vcs-git-helpers:
-
-Git remote helpers
-++++++++++++++++++
-
-You can also use Git `remote helpers`_ for additionally supporting other version
-control systems, but be prepared to debug problems this may lead to.
-
-At this time, helpers for Bazaar and Mercurial are available within separate
-repositories on GitHub: `git-remote-hg`_ and `git-remote-bzr`_.
-Download them manually and put somewhere in your search path
-(for example :file:`~/bin`). Make sure you have the corresponding version control
-systems installed.
-
-Once you have these installed, such remotes can be used to specify a repository
-in Weblate.
-
-To clone the ``gnuhello`` project from Launchpad using Bazaar:
-
-.. code-block:: text
-
-    bzr::lp:gnuhello
-
-For the ``hello`` repository from selenic.com using Mercurial:
-
-.. code-block:: text
-
-    hg::https://selenic.com/repo/hello
-
-.. _remote helpers: https://git-scm.com/docs/gitremote-helpers
-.. _git-remote-hg: https://github.com/felipec/git-remote-hg
-.. _git-remote-bzr: https://github.com/felipec/git-remote-bzr
-
-.. warning::
-
-    The inconvenience of using Git remote helpers is for example with Mercurial,
-    the remote helper sometimes creates a new tip when pushing changes back.
-
 .. _vcs-github:
 .. _github-push:
 

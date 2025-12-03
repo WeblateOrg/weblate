@@ -1,10 +1,10 @@
-{% extends "base5.html" %}
+{% extends "base.html" %}
 
 {% load compress crispy_forms_tags i18n icons permissions static translations %}
 
 {% block content %}
 
-  {% announcements bootstrap_5=True %}
+  {% announcements %}
 
   <div class="btn-group float-end btn-group-settings" role="group">
     <a href="{% url 'profile' %}#preferences"
@@ -148,7 +148,7 @@
             <div class="card">
               <div class="card-header">
                 <h4 class="card-title">
-                  {% documentation_icon5 'devel/reporting' 'credits' right=True %}
+                  {% documentation_icon 'devel/reporting' 'credits' right=True %}
                   {% translate "Credits" %}
                 </h4>
               </div>
@@ -169,7 +169,7 @@
             <div class="card">
               <div class="card-header">
                 <h4 class="card-title">
-                  {% documentation_icon5 'devel/reporting' 'stats' right=True %}
+                  {% documentation_icon 'devel/reporting' 'stats' right=True %}
                   {% translate "Contributor stats" %}
                 </h4>
               </div>

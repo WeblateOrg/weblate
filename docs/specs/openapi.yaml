@@ -3407,6 +3407,9 @@ paths:
             - 82
             - 83
             - 84
+            - 85
+            - 86
+            - 87
             - 9
         description: |-
           * `0` - Resource updated
@@ -3488,6 +3491,9 @@ paths:
           * `82` - Font removed
           * `83` - Forced synchronization of translations
           * `84` - Forced rescan of translations
+          * `85` - Screenshot removed
+          * `86` - Label added
+          * `87` - Label removed
         explode: true
         style: form
       - in: query
@@ -39606,6 +39612,291 @@ paths:
         '204':
           description: No response body
   /api/units/{id}/comments/:
+    get:
+      operationId: api_units_comments_list
+      description: Return a list of comments on the unit.
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - csv
+          - json
+      - in: path
+        name: id
+        schema:
+          type: string
+          pattern: ^[^/]+$
+        required: true
+      - name: page
+        required: false
+        in: query
+        description: A page number within the paginated result set.
+        schema:
+          type: integer
+      - name: page_size
+        required: false
+        in: query
+        description: Number of results to return per page.
+        schema:
+          type: integer
+      tags:
+      - units
+      security:
+      - tokenAuth: []
+      - bearerAuth: []
+      - cookieAuth: []
+      - {}
+      responses:
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiUnitsCommentsListErrorResponse400'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/ApiUnitsCommentsListErrorResponse400'
+          description: ''
+        '401':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+              examples:
+                AuthenticationFailed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: authentication_failed
+                      detail: Incorrect authentication credentials.
+                      attr: null
+                NotAuthenticated:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_authenticated
+                      detail: Authentication credentials were not provided.
+                      attr: null
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse401'
+              examples:
+                AuthenticationFailed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: authentication_failed
+                      detail: Incorrect authentication credentials.
+                      attr: null
+                NotAuthenticated:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_authenticated
+                      detail: Authentication credentials were not provided.
+                      attr: null
+          description: ''
+        '403':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse403'
+              examples:
+                PermissionDenied:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: permission_denied
+                      detail: You do not have permission to perform this action.
+                      attr: null
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse403'
+              examples:
+                PermissionDenied:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: permission_denied
+                      detail: You do not have permission to perform this action.
+                      attr: null
+          description: ''
+        '404':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse404'
+              examples:
+                NotFound:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_found
+                      detail: Not found.
+                      attr: null
+          description: ''
+        '405':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse405'
+              examples:
+                MethodNotAllowed:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: method_not_allowed
+                      detail: Method "get" not allowed.
+                      attr: null
+          description: ''
+        '406':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse406'
+              examples:
+                NotAcceptable:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: not_acceptable
+                      detail: Could not satisfy the request Accept header.
+                      attr: null
+          description: ''
+        '415':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse415'
+              examples:
+                UnsupportedMediaType:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: unsupported_media_type
+                      detail: Unsupported media type "application/json" in request.
+                      attr: null
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse415'
+              examples:
+                UnsupportedMediaType:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: unsupported_media_type
+                      detail: Unsupported media type "application/json" in request.
+                      attr: null
+          description: ''
+        '423':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse423'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse423'
+          description: ''
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse429'
+              examples:
+                Throttled:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: throttled
+                      detail: Request was throttled.
+                      attr: null
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse429'
+              examples:
+                Throttled:
+                  value:
+                    type: client_error
+                    errors:
+                    - code: throttled
+                      detail: Request was throttled.
+                      attr: null
+          description: ''
+        '500':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse500'
+              examples:
+                APIException:
+                  value:
+                    type: server_error
+                    errors:
+                    - code: error
+                      detail: A server error occurred.
+                      attr: null
+          description: ''
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCommentList'
+            text/csv:
+              schema:
+                $ref: '#/components/schemas/PaginatedCommentList'
+          description: ''
+          headers:
+            X-RateLimit-Limit:
+              $ref: '#/components/headers/X-RateLimit-Limit'
+            X-RateLimit-Remaining:
+              $ref: '#/components/headers/X-RateLimit-Remaining'
+            X-RateLimit-Reset:
+              $ref: '#/components/headers/X-RateLimit-Reset'
     post:
       operationId: api_units_comments_create
       description: Add a comment to the unit.
@@ -44950,6 +45241,9 @@ components:
       - 82
       - 83
       - 84
+      - 85
+      - 86
+      - 87
       type: integer
       description: |-
         * `0` - Resource updated
@@ -45031,6 +45325,9 @@ components:
         * `82` - Font removed
         * `83` - Forced synchronization of translations
         * `84` - Forced rescan of translations
+        * `85` - Screenshot removed
+        * `86` - Label added
+        * `87` - Label removed
     Addon:
       type: object
       properties:
@@ -65103,6 +65400,13 @@ components:
       required:
       - errors
       - type
+    ApiUnitsCommentsListErrorResponse400:
+      oneOf:
+      - $ref: '#/components/schemas/ParseErrorResponse'
+      discriminator:
+        propertyName: type
+        mapping:
+          client_error: '#/components/schemas/ParseErrorResponse'
     ApiUnitsDestroyErrorResponse400:
       oneOf:
       - $ref: '#/components/schemas/ParseErrorResponse'
@@ -68064,6 +68368,7 @@ components:
       - AGPL-1.0-or-later
       - Afmparse
       - Aladdin
+      - ALGLIB-Documentation
       - ADSL
       - AMD-newlib
       - AMDPLPA
@@ -68140,6 +68445,7 @@ components:
       - BSD-2-Clause-Patent
       - BSD-4-Clause-UC
       - BSD-Inferno-Nettverk
+      - Buddy
       - BUSL-1.1
       - bzip2-1.0.6
       - Caldera
@@ -68407,6 +68713,7 @@ components:
       - IPA
       - ISC
       - ISC-Veillard
+      - ISO-permission
       - Jam
       - JPNIC
       - JasPer-2.0
@@ -68473,6 +68780,7 @@ components:
       - MIT-open-group
       - MIT-testregex
       - MIT-Wu
+      - MIT-STK
       - MMIXware
       - Motosoto
       - MPL-1.0
@@ -68655,6 +68963,7 @@ components:
       - TCP-wrappers
       - TU-Berlin-1.0
       - TU-Berlin-2.0
+      - TekHVC
       - TermReadKey
       - TTWL
       - MirOS
@@ -68700,6 +69009,7 @@ components:
       - Xnet
       - X11
       - X11-distribute-modifications-variant
+      - X11-no-permit-persons
       - X11-swapped
       - Xdebug-1.03
       - Xerox
@@ -68747,6 +69057,7 @@ components:
         * `AGPL-1.0-or-later` - Affero General Public License v1.0 or later
         * `Afmparse` - Afmparse License
         * `Aladdin` - Aladdin Free Public License
+        * `ALGLIB-Documentation` - ALGLIB Documentation License
         * `ADSL` - Amazon Digital Services License
         * `AMD-newlib` - AMD newlib License
         * `AMDPLPA` - AMD's plpa_map.c License
@@ -68823,6 +69134,7 @@ components:
         * `BSD-2-Clause-Patent` - BSD-2-Clause Plus Patent License
         * `BSD-4-Clause-UC` - BSD-4-Clause (University of California-Specific)
         * `BSD-Inferno-Nettverk` - BSD-Inferno-Nettverk
+        * `Buddy` - Buddy License
         * `BUSL-1.1` - Business Source License 1.1
         * `bzip2-1.0.6` - bzip2 and libbzip2 License v1.0.6
         * `Caldera` - Caldera License
@@ -69090,6 +69402,7 @@ components:
         * `IPA` - IPA Font License
         * `ISC` - ISC License
         * `ISC-Veillard` - ISC Veillard variant
+        * `ISO-permission` - ISO permission notice
         * `Jam` - Jam License
         * `JPNIC` - Japan Network Information Center License
         * `JasPer-2.0` - JasPer License
@@ -69156,6 +69469,7 @@ components:
         * `MIT-open-group` - MIT Open Group variant
         * `MIT-testregex` - MIT testregex Variant
         * `MIT-Wu` - MIT Tom Wu Variant
+        * `MIT-STK` - MIT-STK License
         * `MMIXware` - MMIXware License
         * `Motosoto` - Motosoto License
         * `MPL-1.0` - Mozilla Public License 1.0
@@ -69338,6 +69652,7 @@ components:
         * `TCP-wrappers` - TCP Wrappers License
         * `TU-Berlin-1.0` - Technische Universitaet Berlin License 1.0
         * `TU-Berlin-2.0` - Technische Universitaet Berlin License 2.0
+        * `TekHVC` - TekHVC License
         * `TermReadKey` - TermReadKey License
         * `TTWL` - Text-Tabs+Wrap License
         * `MirOS` - The MirOS Licence
@@ -69383,6 +69698,7 @@ components:
         * `Xnet` - X.Net License
         * `X11` - X11 License
         * `X11-distribute-modifications-variant` - X11 License Distribution Modification Variant
+        * `X11-no-permit-persons` - X11 no permit persons clause
         * `X11-swapped` - X11 swapped final paragraphs
         * `Xdebug-1.03` - Xdebug License v 1.03
         * `Xerox` - Xerox License
@@ -69734,6 +70050,27 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/Change'
+    PaginatedCommentList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Comment'
     PaginatedComponentList:
       type: object
       required:

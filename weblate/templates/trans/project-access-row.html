@@ -24,13 +24,13 @@
   </td>
   <td>
     <a href="#"
-       data-toggle="modal"
-       data-target="#edit_user_{{ user.id }}"
+       data-bs-toggle="modal"
+       data-bs-target="#edit_user_{{ user.id }}"
        class="btn btn-link btn-xs"
        title="{% translate "Edit" %}">{% icon 'pencil.svg' %}</a>
     <a href="#"
-       data-toggle="modal"
-       data-target="#delete_user_{{ user.id }}"
+       data-bs-toggle="modal"
+       data-bs-target="#delete_user_{{ user.id }}"
        class="btn btn-link btn-xs red"
        title="{% translate "Remove" %}">{% icon 'delete.svg' %}</a>
     <form action="{% url "delete-user" project=object.slug %}"
@@ -42,13 +42,11 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <button type="button"
-                      class="close"
-                      data-dismiss="modal"
-                      aria-label="{% translate "Close" %}">
-                <span aria-hidden="true">×</span>
-              </button>
               <h4 class="modal-title">{% translate "Are you absolutely sure?" %}</h4>
+              <button type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="{% translate "Close" %}"></button>
             </div>
             <div class="modal-body">
               {% blocktranslate with user=user.username %}This will remove <b>{{ user }}</b> access to this project.{% endblocktranslate %}
@@ -72,15 +70,13 @@
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <button type="button"
-                      class="close"
-                      data-dismiss="modal"
-                      aria-label="{% translate "Close" %}">
-                <span aria-hidden="true">×</span>
-              </button>
               <h4 class="modal-title">
                 {% blocktranslate with username=user.username %}Edit team membership for {{ username }}{% endblocktranslate %}
               </h4>
+              <button type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="{% translate "Close" %}"></button>
             </div>
             <div class="modal-body">{{ user.group_edit_form|crispy }}</div>
             <div class="modal-footer">

@@ -257,7 +257,9 @@ class Repository:
             cwd=cwd,
         )
         if process.returncode:
-            errormessage: str = process.stdout + (process.stderr or "")
+            errormessage: str = cls.sanitize_error_message(
+                process.stdout + (process.stderr or "")
+            )
             if retry and cls.should_retry_popen(errormessage):
                 return cls._popen(
                     args,
@@ -273,6 +275,10 @@ class Repository:
 
             raise RepositoryError(process.returncode, errormessage)
         return process.stdout
+
+    @staticmethod
+    def sanitize_error_message(errormessage: str) -> str:
+        return errormessage
 
     @staticmethod
     def should_retry_popen(errormessage: str) -> bool:  # noqa: ARG004

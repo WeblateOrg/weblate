@@ -3,19 +3,19 @@
 {% load check_links humanize i18n translations %}
 
 {% block breadcrumbs %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
   </li>
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'manage-performance' %}">{% translate "Performance report" %}</a>
   </li>
 {% endblock breadcrumbs %}
 
 {% block content %}
   {% if errors %}
-    <div class="panel panel-danger">
-      <div class="panel-heading">
-        <h4 class="panel-title">
+    <div class="card">
+      <div class="card-header text-bg-danger">
+        <h4 class="card-title">
           {% documentation_icon 'admin/install' 'production' right=True %}
           {% translate "Configuration errors" %}
         </h4>
@@ -58,7 +58,7 @@
           {% endfor %}
         </tbody>
       </table>
-      <div class="panel-footer">
+      <div class="card-footer">
         <p class="help-block">
           {% translate "You can safely permanently ignore errors for features you do not intend to use. These are usually caused by missing or outdated dependencies." %}
         </p>
@@ -67,9 +67,9 @@
   {% endif %}
 
   {% if checks %}
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">
           {% documentation_icon 'admin/install' 'production' right=True %}
           {% translate "System checks" %}
         </h4>
@@ -104,9 +104,9 @@
 
   <div class="row">
     <div class="col-md-6">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
             {% documentation_icon 'admin/install' 'celery' right=True %}
             {% translate "Celery queues" %}
           </h4>
@@ -124,9 +124,9 @@
       </div>
 
       {% if disk_usage %}
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">
               {% documentation_icon 'admin/install' 'hardware' right=True %}
               {% translate "Disk usage" %}
             </h4>
@@ -163,9 +163,9 @@
         </div>
       {% endif %}
 
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
             {% documentation_icon 'admin/install' 'production-encoding' right=True %}
             {% translate "System encoding" %}
           </h4>
@@ -205,9 +205,9 @@
         </table>
 
       </div>
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
             {% documentation_icon 'admin/install' 'production-database' right=True %}
             {% translate "Connectivity" %}
           </h4>
@@ -238,9 +238,9 @@
     </div>
 
     <div class="col-md-6">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
             {% documentation_icon 'admin/install' 'reverse-proxy' right=True %}
             {% translate "HTTP environment" %}
           </h4>
@@ -295,14 +295,14 @@
         </table>
       </div>
 
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
             {% documentation_icon 'admin/install' 'reverse-proxy' right=True %}
             {% translate "HTTP headers" %}
           </h4>
         </div>
-        <div class="panel-body">
+        <div class="card-body">
           {% for name, value in request.headers.items %}
             <code>{{ name }}: {{ value }}</code>
             <br />

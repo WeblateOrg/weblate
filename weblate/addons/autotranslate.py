@@ -105,6 +105,7 @@ class AutoTranslateAddon(BaseAddon):
         elif change.action in {
             ActionEvents.SCREENSHOT_UPLOADED,
             ActionEvents.SCREENSHOT_ADDED,
+            ActionEvents.SCREENSHOT_REMOVED,
         }:
             if change.screenshot is not None:
                 units.extend(change.screenshot.units.all())

@@ -7,7 +7,7 @@
 {% block message %}
   {% if user.is_authenticated %}
     <a href="{% url 'contributor-agreement' path=object.get_url_path %}{% if next %}?next={{ next }}{% endif %}"
-       class="btn btn-primary pull-right flip">{% translate "View contributor license agreement" %}</a>
+       class="btn btn-primary float-end">{% translate "View contributor license agreement" %}</a>
   {% endif %}
   {% translate "Contributing to this translation requires agreeing to its contributor license agreement." %}
   <div class="clearfix"></div>

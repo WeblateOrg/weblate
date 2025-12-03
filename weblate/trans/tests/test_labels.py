@@ -6,6 +6,7 @@
 
 from django.urls import reverse
 
+from weblate.trans.actions import ActionEvents
 from weblate.trans.tests.test_views import ViewTestCase
 
 
@@ -112,6 +113,9 @@ class LabelTest(ViewTestCase):
         )
         translation = self.get_translation()
         self.assertEqual(getattr(translation.stats, "label:Test label"), 1)
+        changes = unit.change_set.filter(action=ActionEvents.LABEL_ADD)
+        self.assertEqual(changes.count(), 1)
+        self.assertEqual(changes.first().user, self.user)
 
         self.client.post(
             reverse("edit_context", kwargs={"pk": unit.pk}),
@@ -119,6 +123,9 @@ class LabelTest(ViewTestCase):
         )
         translation = self.get_translation()
         self.assertEqual(getattr(translation.stats, "label:Test label"), 0)
+        changes = unit.change_set.filter(action=ActionEvents.LABEL_REMOVE)
+        self.assertEqual(changes.count(), 1)
+        self.assertEqual(changes.first().user, self.user)
 
     def test_delete_assigned(self) -> None:
         self.test_create()
@@ -136,3 +143,28 @@ class LabelTest(ViewTestCase):
         translation = self.get_translation()
         with self.assertRaises(AttributeError):
             getattr(translation.stats, "label:Test label")
+
+    def test_label_multiple_changes(self) -> None:
+        """Test that adding multiple labels creates multiple change events."""
+        self.test_create()
+        self.client.post(
+            self.labels_url,
+            {
+                "name": "Second label",
+                "description": "Second test label",
+                "color": "blue",
+                "project": self.project.pk,
+            },
+        )
+
+        label1 = self.project.label_set.get(name="Test label")
+        label2 = self.project.label_set.get(name="Second label")
+        unit = self.get_unit().source_unit
+
+        self.client.post(
+            reverse("edit_context", kwargs={"pk": unit.pk}),
+            {"explanation": "", "extra_flags": "", "labels": [label1.pk, label2.pk]},
+        )
+
+        changes = unit.change_set.filter(action=ActionEvents.LABEL_ADD)
+        self.assertEqual(changes.count(), 2)

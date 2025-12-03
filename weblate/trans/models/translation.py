@@ -1092,7 +1092,7 @@ class Translation(
                 "state": pending_change.state,
                 "explanation": pounit.explanation,
             }
-            unit.save(update_fields=["details"])
+            unit.save(update_fields=["details"], only_save=True)
 
         # Did we do any updates?
         if not updated:

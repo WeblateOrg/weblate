@@ -1,9 +1,9 @@
-{% extends "base5.html" %}
+{% extends "base.html" %}
 
 {% load crispy_forms_tags i18n translations %}
 
 {% block content %}
-  {% announcements bootstrap_5=True %}
+  {% announcements %}
 
   {% include "list-projects.html" with projects=top_projects %}
 
