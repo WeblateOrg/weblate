@@ -353,7 +353,8 @@ class DeepLMachineryForm(KeyURLMachineryForm):
 
 class LLMBasicMachineryForm(BaseMachineryForm):
     base_url = WeblateServiceURLField(
-        label=pgettext_lazy("Automatic suggestion service configuration", "API URL"), required=False,
+        label=pgettext_lazy("Automatic suggestion service configuration", "API URL"),
+        required=False,
     )
     model = forms.CharField(
         label=pgettext_lazy(
