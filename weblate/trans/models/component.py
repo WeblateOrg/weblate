@@ -2080,12 +2080,14 @@ class Component(
 
             if keep_changes:
                 # Mark all strings as pending when keeping changes
-                self.do_file_sync(request, do_commit=False)
+                self.do_file_sync(request, do_commit=False, store_disk_state=False)
             else:
                 # Explicitly remove all pending changes
                 PendingUnitChange.objects.filter(
                     unit__translation__component=self
                 ).delete()
+            # Remove disk state as we are going to change that
+            Unit.objects.filter(translation__component=self).clear_disk_state()
 
             # Do actual reset
             try:
@@ -2159,7 +2161,11 @@ class Component(
     @perform_on_link
     @transaction.atomic
     def do_file_sync(
-        self, request: AuthenticatedHttpRequest | None = None, *, do_commit: bool = True
+        self,
+        request: AuthenticatedHttpRequest | None = None,
+        *,
+        do_commit: bool = True,
+        store_disk_state: bool = True,
     ) -> None:
         from weblate.trans.tasks import perform_commit
 
@@ -2170,7 +2176,7 @@ class Component(
             Q(translation__language_id=F("translation__component__source_language_id"))
             | Q(translation__filename="")
         ):
-            PendingUnitChange.store_unit_change(unit)
+            PendingUnitChange.store_unit_change(unit, store_disk_state=store_disk_state)
 
         self.change_set.create(
             action=ActionEvents.FORCE_SYNC,

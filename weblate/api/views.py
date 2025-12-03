@@ -274,6 +274,7 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
 class WeblateViewSet(DownloadViewSet):
     """Allow to skip content negotiation for certain requests."""
 
+    @transaction.atomic
     def repository_operation(
         self, request: Request, obj, project: Project, operation: str
     ):

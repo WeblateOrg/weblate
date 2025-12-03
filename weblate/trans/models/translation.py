@@ -811,17 +811,7 @@ class Translation(
         )
 
         if units_to_actually_clear:
-            units_to_update = list(
-                Unit.objects.filter(
-                    id__in=units_to_actually_clear, details__has_key="disk_state"
-                ).select_for_update()
-            )
-
-            for unit in units_to_update:
-                del unit.details["disk_state"]
-
-            if units_to_update:
-                Unit.objects.bulk_update(units_to_update, ["details"], batch_size=500)
+            Unit.objects.filter(id__in=units_to_actually_clear).clear_disk_state()
 
         # Update stats (the translated flag might have changed)
         self.invalidate_cache()
