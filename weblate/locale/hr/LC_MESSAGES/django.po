@@ -10,7 +10,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-02 19:29+0000\n"
 "PO-Revision-Date: 2025-12-03 20:01+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
 "Language: hr\n"
@@ -1827,14 +1827,13 @@ msgid "Webhook URL"
 msgstr "Webhook URL"
 
 #: weblate/addons/forms.py:600
-#, fuzzy
-#| msgid "Webhook"
 msgid "Webhook secret"
-msgstr "Webhook"
+msgstr "Webhook tajna"
 
 #: weblate/addons/forms.py:606
 msgid "The Standard Webhooks secret is a base64 encoded string."
 msgstr ""
+"Standardna webhook tajna je niz znakova koji je kodiran u base64 formatu."
 
 #: weblate/addons/generate.py:38
 msgid "Statistics generator"
@@ -2967,15 +2966,13 @@ msgid "Block expiry"
 msgstr "Istek blokiranja"
 
 #: weblate/auth/models.py:1020 weblate/trans/forms.py:1362
-#, fuzzy
-#| msgid "Block user"
 msgid "Block note"
-msgstr "Blokiraj korisnika"
+msgstr "Bilješka o blokiranju"
 
 #: weblate/auth/models.py:1023 weblate/trans/forms.py:1364
 msgid ""
 "Internal notes regarding blocking the user that are not visible to the user."
-msgstr ""
+msgstr "Interne bilješke u vezi s blokiranjem korisnika koje korisnik ne vidi."
 
 #: weblate/auth/models.py:1211 weblate/trans/forms.py:1325
 msgid "User to add"
@@ -3031,18 +3028,14 @@ msgid "Sign in to save translations."
 msgstr "Prijavi se za spremanje prijevoda."
 
 #: weblate/auth/permissions.py:229
-#, fuzzy
-#| msgid "Insufficient privileges for approving translations."
 msgid ""
 "Insufficient privileges for approving translations in a restricted component."
-msgstr "Nedovoljne dozvole za odobravanje prijevoda."
+msgstr "Nedovoljne dozvole za odobravanje prijevoda u komponenti s dozvolama."
 
 #: weblate/auth/permissions.py:234
-#, fuzzy
-#| msgid "Insufficient privileges for saving translations."
 msgid ""
 "Insufficient privileges for saving translations in a restricted component."
-msgstr "Nedovoljne dozvole za spremanje prijevoda."
+msgstr "Nedovoljne dozvole za spremanje prijevoda u komponenti s dozvolama."
 
 #: weblate/auth/permissions.py:239
 msgid "Insufficient privileges for approving translations."
@@ -6086,10 +6079,8 @@ msgid "Screenshot %s has been deleted."
 msgstr "Snimka ekrana %s je izbrisana."
 
 #: weblate/screenshots/views.py:328
-#, fuzzy
-#| msgid "Invalid date!"
 msgid "Invalid unit."
-msgstr "Neispravni datum!"
+msgstr "Neispravna jedinica."
 
 #: weblate/screenshots/views.py:333
 msgid "Source has been removed."
@@ -8604,10 +8595,8 @@ msgstr "Preuzmi prijevode kao XLSX u ZIP datoteci"
 
 #: weblate/templates/category.html:89 weblate/templates/component.html:101
 #: weblate/templates/language-project.html:83
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Batch automatic translation"
-msgstr "Automatski prijevod"
+msgstr "Grupni automatski prijevod"
 
 #: weblate/templates/category.html:99 weblate/templates/project.html:140
 msgid "Add new category"
@@ -9261,30 +9250,28 @@ msgid "Repository status"
 msgstr "Stanje repozitorija"
 
 #: weblate/templates/js/git-status.html:28
-#, fuzzy, python-format
-#| msgid "%(count)s pending change"
-#| msgid_plural "%(count)s pending changes"
+#, python-format
 msgid "%(total_count)s pending unit"
 msgid_plural "%(total_count)s pending units"
-msgstr[0] "%(count)s promjena na čekanju"
-msgstr[1] "%(count)s promjene na čekanju"
-msgstr[2] "%(count)s promjena na čekanju"
+msgstr[0] "%(total_count)s jedinica na čekanju"
+msgstr[1] "%(total_count)s jedinice na čekanju"
+msgstr[2] "%(total_count)s jedinica na čekanju"
 
 #: weblate/templates/js/git-status.html:34
 #, python-format
 msgid "%(policy_count)s skipped by the commit policy"
 msgid_plural "%(policy_count)s skipped by the commit policy"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%(policy_count)s preskočena zbog politike commita"
+msgstr[1] "%(policy_count)s preskočene zbog politike commita"
+msgstr[2] "%(policy_count)s preskočeno zbog politike commita"
 
 #: weblate/templates/js/git-status.html:39
 #, python-format
 msgid "%(errors_count)s skipped because of errors"
 msgid_plural "%(errors_count)s skipped because of errors"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%(errors_count)s preskočena zbog grešaka"
+msgstr[1] "%(errors_count)s preskočene zbog grešaka"
+msgstr[2] "%(errors_count)s preskočeno zbog grešaka"
 
 #: weblate/templates/js/git-status.html:54
 msgid ""
@@ -10231,15 +10218,12 @@ msgstr ""
 "Prijavi se za prikaz cijelog dnevnika aktivnosti, uključujući IP adresu."
 
 #: weblate/templates/mail/shared-activity.html:23
-#, fuzzy
-#| msgid ""
-#| "If you didn’t initiate this, please report it to the server "
-#| "administrators by clicking the button below."
 msgid ""
 "If you didn't initiate this, please report it to the server administrators "
 "by clicking the button below."
 msgstr ""
-"Ako ovo ti nisi pokrenuo/la, prijavi administratoru pritiskom na donji gumb."
+"Ako ovo nisi ti pokrenuo/la, prijavi ovaj slučaj administratorima servera "
+"pritiskom na donji gumb."
 
 #: weblate/templates/mail/shared-activity.html:28
 msgid "View audit log"
@@ -10534,21 +10518,19 @@ msgstr "Celery redovi čekanja"
 #: weblate/templates/manage/performance.html:131
 #: weblate/templates/manage/performance.html:146
 msgid "Disk usage"
-msgstr ""
+msgstr "Korištenje diska"
 
 #: weblate/templates/manage/performance.html:152
-#, fuzzy
-#| msgid "File size"
 msgid "Disk size"
-msgstr "Veličina datoteke"
+msgstr "Veličina diska"
 
 #: weblate/templates/manage/performance.html:153
 msgid "Disk used"
-msgstr ""
+msgstr "Korišteni disk"
 
 #: weblate/templates/manage/performance.html:154
 msgid "Disk free"
-msgstr ""
+msgstr "Slobodan disk"
 
 #: weblate/templates/manage/performance.html:170
 msgid "System encoding"
@@ -11306,12 +11288,10 @@ msgstr ""
 "kasnije."
 
 #: weblate/templates/snippets/component/lock.html:27
-#, fuzzy
-#| msgid "The translation was automatically locked due to following alerts:"
 msgid "The translation was automatically locked due to the following alert:"
 msgid_plural ""
 "The translation was automatically locked due to the following alerts:"
-msgstr[0] "Prijevod je automatski zaključan zbog sljedećih upozorenja:"
+msgstr[0] "Prijevod je automatski zaključan zbog sljedećeg upozorenja:"
 msgstr[1] "Prijevod je automatski zaključan zbog sljedećih upozorenja:"
 msgstr[2] "Prijevod je automatski zaključan zbog sljedećih upozorenja:"
 
@@ -12089,10 +12069,8 @@ msgid "Strings changed in the past two weeks"
 msgstr "Promijenjeni izrazi u zadnja dva tjedna"
 
 #: weblate/templates/snippets/query-builder.html:191
-#, fuzzy
-#| msgid "Automatically translated"
 msgid "Automatically translated strings"
-msgstr "Automatski prevedeno"
+msgstr "Automatski prevedeni izrazi"
 
 #: weblate/templates/snippets/query-builder.html:202
 msgid "Translated strings in a certain language"
@@ -13523,10 +13501,9 @@ msgid "Automatically translated"
 msgstr "Automatski prevedeno"
 
 #: weblate/templates/translate.html:720
-#, fuzzy, python-format
-#| msgid "This string has been translated in the past."
+#, python-format
 msgid "This string was translated automatically by %(author)s."
-msgstr "Ovaj je izraz već prije bio preveden."
+msgstr "Ovaj je izraz preveo/la %(author)s."
 
 #: weblate/templates/translate.html:742
 #, python-format
@@ -14223,24 +14200,18 @@ msgstr "Prisiljeno ponovno skeniranje prijevoda"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:176
-#, fuzzy
-#| msgid "Screenshot name"
 msgid "Screenshot removed"
-msgstr "Ime snimke ekrana"
+msgstr "Snimka ekrana je uklonjena"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:178
-#, fuzzy
-#| msgid "Label name"
 msgid "Label added"
-msgstr "Ime etikete"
+msgstr "Dodana je etiketa"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:180
-#, fuzzy
-#| msgid "Labels to remove"
 msgid "Label removed"
-msgstr "Etikete za uklanjanje"
+msgstr "Etiketa je uklonjena"
 
 #: weblate/trans/admin.py:38
 msgid "Commit pending changes"
@@ -16514,7 +16485,7 @@ msgstr "Neuspjelo dodavanje izraza, nijedan prijevod nije pronađen."
 
 #: weblate/trans/models/unit.py:450
 msgid "Indicates whether this string was translated automatically."
-msgstr ""
+msgstr "Označava je li ovaj izraz automatski preveden."
 
 #: weblate/trans/models/unit.py:1264
 #, python-format
@@ -17685,18 +17656,14 @@ msgid "Needs editing"
 msgstr "Treba urediti"
 
 #: weblate/utils/state.py:19
-#, fuzzy
-#| msgid "Needs editing"
 msgctxt "String state"
 msgid "Needs rewriting"
-msgstr "Treba urediti"
+msgstr "Treba se prepraviti"
 
 #: weblate/utils/state.py:20
-#, fuzzy
-#| msgid "Needs editing"
 msgctxt "String state"
 msgid "Needs checking"
-msgstr "Treba urediti"
+msgstr "Treba provjeriti"
 
 #: weblate/utils/state.py:21
 msgctxt "String state"
@@ -17750,17 +17717,15 @@ msgstr "Nemoj koristiti posebne znakove u imenu i prezimenu."
 
 #: weblate/utils/validators.py:162
 msgid "This name cannot be registered. Please choose a different one."
-msgstr ""
+msgstr "Ovo se ime ne može registrirati. Odaberi jedno drugo ime."
 
 #: weblate/utils/validators.py:167
 msgid "Name consists only of disallowed characters."
 msgstr "Ime sadrži samo nedozvoljene znakove."
 
 #: weblate/utils/validators.py:170
-#, fuzzy
-#| msgid "Name consists only of disallowed characters."
 msgid "Name contains disallowed characters."
-msgstr "Ime sadrži samo nedozvoljene znakove."
+msgstr "Ime sadrži nedozvoljene znakove."
 
 #: weblate/utils/validators.py:185
 msgid "The username can not start with a full stop."
@@ -17769,6 +17734,8 @@ msgstr "Korisničko ime ne može započeti s točkom."
 #: weblate/utils/validators.py:196
 msgid "This username cannot be registered. Please choose a different one."
 msgstr ""
+"Ovo se korisničko ime ne može registrirati.Odaberi jedno drugo korisničko "
+"ime."
 
 #: weblate/utils/validators.py:202 weblate/utils/validators.py:210
 msgid "Enter a valid e-mail address."
@@ -17820,24 +17787,22 @@ msgid "Invalid base64 encoded string"
 msgstr "Neispravan izraz kodiran u base64"
 
 #: weblate/utils/validators.py:344
-#, fuzzy
-#| msgid "The chosen sorting is not supported."
 msgid "The provided secret is too short."
-msgstr "Odabrano razvrstavanje nije podržano."
+msgstr "Navedena tajna je prekratka."
 
 #: weblate/utils/validators.py:346
 msgid "The provided secret is too long."
-msgstr ""
+msgstr "Navedena tajna je predugačka."
 
 #: weblate/utils/validators.py:425
 #, python-format
 msgid "Fetching VCS repository using %s is not allowed."
-msgstr ""
+msgstr "Dohvaćanje VCS repozitorija pomoću %s nije dozvoljeno."
 
 #: weblate/utils/validators.py:436
 #, python-format
 msgid "Fetching VCS repository from %s is not allowed."
-msgstr ""
+msgstr "Dohvaćanje VCS repozitorija od %s nije dozvoljeno."
 
 #: weblate/utils/views.py:212 weblate/utils/views.py:241
 msgid "Position and priority"
