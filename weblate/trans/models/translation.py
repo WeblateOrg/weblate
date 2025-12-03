@@ -1227,8 +1227,11 @@ class Translation(
             .exclude(pk=self.pk)
             .exists()
         )
+        self.component.start_batched_checks()
 
-        unit_set = self.unit_set.select_for_update()
+        unit_set = (
+            self.unit_set.prefetch_all_checks().prefetch_source().select_for_update()
+        )
 
         for set_fuzzy, unit2 in store2.iterate_merge(fuzzy):
             try:
@@ -1255,6 +1258,7 @@ class Translation(
 
             accepted += 1
 
+            unit.is_batch_update = True
             unit.translate(
                 request.user,
                 split_plural(unit2.target),
@@ -1266,6 +1270,8 @@ class Translation(
             )
 
         if accepted > 0:
+            self.component.update_source_checks()
+            self.component.run_batched_checks()
             self.invalidate_cache()
             request.user.profile.increase_count("translated", accepted)
 

@@ -29,6 +29,7 @@ Weblate 5.15
 * :doc:`/formats/csv` format saving translations with empty source fields when using monolingual base files.
 * Tighter validation of user and full names to avoid confusing homoglyphs.
 * Avoid false positive checks upon committing pending changes.
+* Performance improvements for file upload.
 
 .. rubric:: Compatibility
 
