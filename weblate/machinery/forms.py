@@ -225,8 +225,8 @@ class GoogleV3MachineryForm(BaseMachineryForm):
         ),
         widget=forms.Select(
             choices=(
-                ("global ", pgettext_lazy("Google Cloud region", "Global")),
-                ("europe-west1 ", pgettext_lazy("Google Cloud region", "Europe")),
+                ("global", pgettext_lazy("Google Cloud region", "Global")),
+                ("europe-west1", pgettext_lazy("Google Cloud region", "Europe")),
                 ("us-west1", pgettext_lazy("Google Cloud region", "US")),
             )
         ),
