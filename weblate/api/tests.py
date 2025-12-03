@@ -5005,6 +5005,43 @@ class UnitAPITest(APIBaseTest):
         )
         self.assertTrue(serializer.is_valid())
 
+    def test_list_comments(self) -> None:
+        unit = Unit.objects.get(
+            translation__language_code="en", source="Thank you for using Weblate."
+        )
+        url = reverse("api:unit-comments", kwargs={"pk": unit.pk})
+        response = self.do_request(url, method="get", code=200)
+        self.assertIn("count", response.data)
+        self.assertEqual(response.data["count"], 0)
+        self.assertEqual(len(response.data["results"]), 0)
+
+        self.do_request(
+            url,
+            request={"scope": "global", "comment": "First comment"},
+            method="post",
+            code=201,
+        )
+        self.do_request(
+            url,
+            request={"scope": "global", "comment": "Second comment"},
+            method="post",
+            code=201,
+        )
+
+        response = self.do_request(url, method="get", code=200)
+        self.assertEqual(response.data["count"], 2)
+
+        results = response.data["results"]
+        self.assertEqual(len(results), 2)
+
+        comments_text = [c["comment"] for c in results]
+        self.assertIn("First comment", comments_text)
+        self.assertIn("Second comment", comments_text)
+
+        first_comment = results[0]
+        self.assertIn("user", first_comment)
+        self.assertIn("timestamp", first_comment)
+
 
 class ScreenshotAPITest(APIBaseTest):
     def setUp(self) -> None:
