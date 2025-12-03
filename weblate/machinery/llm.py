@@ -25,9 +25,7 @@ from weblate.utils.errors import add_breadcrumb
 if TYPE_CHECKING:
     from weblate.trans.models import Unit
 
-    from .base import (
-        DownloadMultipleTranslations,
-    )
+    from .base import DownloadMultipleTranslations
 
 PROMPT = """
 You are a highly skilled translation assistant, adept at translating text
@@ -67,9 +65,6 @@ class BaseLLMTranslation(BatchMachineTranslation):
     request_timeout = 60
     glossary_support = True
 
-    def __init__(self, settings=None) -> None:
-        super().__init__(settings)
-
     def is_supported(self, source_language, target_language) -> bool:
         return True
 
@@ -80,10 +75,9 @@ class BaseLLMTranslation(BatchMachineTranslation):
             text = f"{text}."
         return text
 
-    def get_model(self) -> str:
-        raise NotImplementedError
-
     def translation_split(self, text: str) -> list[str]:
+        # Ignore extra whitespace in response as OpenAI can be creative in that
+        # (see https://github.com/WeblateOrg/weblate/issues/12456)
         return SEPARATOR_RE.split(text)
 
     def fetch_llm_translations(self, prompt: str, content: str) -> str | None:
@@ -160,6 +154,7 @@ class BaseLLMTranslation(BatchMachineTranslation):
                 texts.append(text)
                 units.append(unit)
 
+        # Collect results
         result: DownloadMultipleTranslations = defaultdict(list)
 
         # Fetch rephrasing each string separately
