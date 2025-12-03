@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-02 20:30+0100\n"
-"PO-Revision-Date: 2025-12-02 19:29+0000\n"
+"PO-Revision-Date: 2025-12-03 20:00+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -1975,10 +1975,8 @@ msgstr ""
 "Funktion :ref:`invite-user` verwenden."
 
 #: ../../admin/access.rst:1110
-#, fuzzy
-#| msgid "Expiring user accounts"
 msgid "Expiration of user accounts"
-msgstr "Ablaufende Benutzerkonten"
+msgstr "Ablauf von Benutzerkonten"
 
 #: ../../admin/access.rst:1112
 msgid ""
@@ -2831,16 +2829,12 @@ msgid "Needs editing"
 msgstr "Bearbeitungsbedürftig"
 
 #: ../../admin/addons.rst:472
-#, fuzzy
-#| msgid "Needs editing"
 msgid "Needs rewriting"
-msgstr "Bearbeitungsbedürftig"
+msgstr "Muss umgeschrieben werden"
 
 #: ../../admin/addons.rst:474
-#, fuzzy
-#| msgid "Needs editing"
 msgid "Needs checking"
-msgstr "Bearbeitungsbedürftig"
+msgstr "Muss überprüft werden"
 
 #: ../../admin/addons.rst:476
 msgid "Translated"
@@ -3925,14 +3919,12 @@ msgid ""
 msgstr ""
 
 #: ../../admin/addons.rst:1182
-#, fuzzy
-#| msgid "Webhook"
 msgid "Webhook secret"
-msgstr "Webhook"
+msgstr "Webhook-Geheimnis"
 
 #: ../../admin/addons.rst:1182
 msgid "The Standard Webhooks secret is a base64 encoded string."
-msgstr ""
+msgstr "Das Standard-Webhook-Geheimnis ist eine base64-kodierte Zeichenkette."
 
 #: ../../admin/addons.rst:1348
 msgid ""
@@ -11259,7 +11251,7 @@ msgstr ""
 
 #: ../../admin/install/steps/hw.rst:18
 msgid "Memory usage"
-msgstr "Speicherverbrauch"
+msgstr "RAM-Auslastung"
 
 #: ../../admin/install/steps/hw.rst:20
 msgid ""
@@ -11267,8 +11259,8 @@ msgid ""
 "system, database and Weblate). For hundreds of translation components, at "
 "least 4 GB of RAM is recommended."
 msgstr ""
-"Je mehr Speicher, desto besser – er wird für das Caching auf allen Ebenen "
-"(Dateisystem, Datenbank und Weblate) verwendet. Für Hunderte von "
+"Je mehr Arbeitsspeicher, desto besser – er wird für das Caching auf allen "
+"Ebenen (Dateisystem, Datenbank und Weblate) verwendet. Für Hunderte von "
 "Übersetzungskomponenten werden mindestens 4 GB RAM empfohlen."
 
 #: ../../admin/install/steps/hw.rst:27
@@ -11276,7 +11268,7 @@ msgid ""
 "For systems with less memory than recommended, :ref:`minimal-celery` is "
 "recommended."
 msgstr ""
-"Für Systeme mit weniger Speicher als empfohlen, wird :ref:`minimal-celery` "
+"Für Systeme mit weniger Arbeitsspeicher, wird :ref:`minimal-celery` "
 "empfohlen."
 
 #: ../../admin/install/steps/hw.rst:30
@@ -13921,7 +13913,7 @@ msgstr "Sie können auch einzelne Worker-Kategorien feinabstimmen:"
 msgid ""
 "Memory usage can be further reduced by running only a single Celery process:"
 msgstr ""
-"Der Speicherverbrauch kann weiter reduziert werden, indem nur ein einziger "
+"Die Speicherauslastung kann weiter reduziert werden, indem nur ein einziger "
 "Celery-Prozess ausgeführt wird:"
 
 #: ../../admin/install/docker.rst:408
@@ -15338,7 +15330,7 @@ msgid ""
 "reduces memory usage but may impact Weblate performance."
 msgstr ""
 "Diese Variable kann auf ``1`` gesetzt werden, um nur einen Celery-Prozess "
-"auszuführen. Dies reduziert den Speicherverbrauch, kann aber die Leistung "
+"auszuführen. Dies reduziert die Speicherauslastung, kann aber die Leistung "
 "von Weblate beeinträchtigen."
 
 #: ../../admin/install/docker.rst:2011
@@ -26423,10 +26415,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS auf Wikipedia <https://de.wikipedia.org/wiki/RSS_(Web-Feed)>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.1"
 msgid "Weblate 5.15"
-msgstr "Weblate 5.1"
+msgstr "Weblate 5.15"
 
 #: ../../changes.rst:4
 msgid "*Not yet released.*"
@@ -26472,16 +26462,12 @@ msgid "Improvements"
 msgstr "Verbesserungen"
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Added HTTP environment overview in :ref:`manage-performance`."
 msgid "Added disk usage overview in :ref:`manage-performance`."
-msgstr "HTTP-Umgebungsübersicht im :ref:`manage-performance` hinzugefügt."
+msgstr "Speichernutzungsübersicht im :ref:`manage-performance` hinzugefügt."
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid ":http:get:`/api/users/` now includes ``languages``."
 msgid ":http:get:`/api/groups/` now includes ``admins``."
-msgstr ":http:get:`/api/users/` enthält jetzt ``languages``."
+msgstr ":http:get:`/api/groups/` enthält jetzt ``admins``."
 
 #: ../../changes.rst:15
 #, fuzzy
@@ -26507,13 +26493,8 @@ msgstr ""
 "bei."
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid ""
-#| ":ref:`mt-microsoft-translator` now supports using custom translators."
 msgid ":ref:`mt-cyrtranslit` now supports Belarusian and Greek."
-msgstr ""
-":ref:`mt-microsoft-translator` unterstützt jetzt das Verwenden von "
-"benutzerdefinierten Übersetzern."
+msgstr ":ref:`mt-cyrtranslit` unterstützt jetzt Belarussisch und Griechisch."
 
 #: ../../changes.rst:19
 msgid ""
@@ -26630,16 +26611,12 @@ msgstr ""
 ":ref:`addon-weblate.webhook.webhook` ist jetzt als Erweiterung verfügbar."
 
 #: ../../changes.rst:36
-#, fuzzy
-#| msgid "Python 3.9 or newer is now required."
 msgid "Python 3.12 or newer is now required."
-msgstr "Python 3.9 oder neuer ist jetzt erforderlich."
+msgstr "Python 3.12 oder neuer ist jetzt erforderlich."
 
 #: ../../changes.rst:37
-#, fuzzy
-#| msgid "Python 3.9 or newer is now required."
 msgid "GLib 2.80 or newer is now required."
-msgstr "Python 3.9 oder neuer ist jetzt erforderlich."
+msgstr "GLib 2.80 oder neuer ist jetzt erforderlich."
 
 #: ../../changes.rst:38
 #, fuzzy
@@ -26736,28 +26713,20 @@ msgid "Contributors"
 msgstr "Mitwirkende"
 
 #: ../../changes.rst:50
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "154?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/152?"
 "closed=1>`__."
 msgstr ""
 "`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/milestone/"
-"154?closed=1>`__."
+"152?closed=1>`__."
 
 #: ../../changes.rst:53
-#, fuzzy
-#| msgid "Weblate 5.4.3"
 msgid "Weblate 5.14.3"
-msgstr "Weblate 5.4.3"
+msgstr "Weblate 5.14.3"
 
 #: ../../changes.rst:55
-#, fuzzy
-#| msgid "*Released on November 7th 2013.*"
 msgid "*Released on November 7th 2025.*"
-msgstr "*Veröffentlicht am 7. November 2013.*"
+msgstr "*Veröffentlicht am 7. November 2025.*"
 
 #: ../../changes.rst:59
 #, fuzzy
@@ -26836,28 +26805,20 @@ msgid "Documentation contributions"
 msgstr "Beiträge zur Dokumentation"
 
 #: ../../changes.rst:70
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "57?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/157?"
 "closed=1>`__."
 msgstr ""
 "`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/milestone/"
-"57?closed=1>`__."
+"157?closed=1>`__."
 
 #: ../../changes.rst:73
-#, fuzzy
-#| msgid "Weblate 5.4.2"
 msgid "Weblate 5.14.2"
-msgstr "Weblate 5.4.2"
+msgstr "Weblate 5.14.2"
 
 #: ../../changes.rst:75
-#, fuzzy
-#| msgid "*Released on November 6th 2024.*"
 msgid "*Released on November 6th 2025.*"
-msgstr "*Veröffentlicht am 6. November 2024.*"
+msgstr "*Veröffentlicht am 6. November 2025.*"
 
 #: ../../changes.rst:79
 #, fuzzy
@@ -26888,10 +26849,8 @@ msgid "Weblate 5.14.1"
 msgstr "Weblate 5.14.1"
 
 #: ../../changes.rst:98
-#, fuzzy
-#| msgid "*Released on November 5th 2022.*"
 msgid "*Released on November 5th 2025.*"
-msgstr "*Veröffentlicht am 5. November 2022.*"
+msgstr "*Veröffentlicht am 5. November 2025.*"
 
 #: ../../changes.rst:102
 msgid ""
@@ -26910,10 +26869,8 @@ msgid "Added HTTP environment overview in :ref:`manage-performance`."
 msgstr "HTTP-Umgebungsübersicht im :ref:`manage-performance` hinzugefügt."
 
 #: ../../changes.rst:108
-#, fuzzy
-#| msgid "The Weblate Docker container now uses Python 3.10."
 msgid "Docker container is using Python 3.14."
-msgstr "Der Weblate-Docker-Container verwendet jetzt Python 3.10."
+msgstr "Docker-Container verwendet jetzt Python 3.14."
 
 #: ../../changes.rst:109
 #, fuzzy
@@ -29614,7 +29571,7 @@ msgstr ""
 #: ../../changes.rst:1197
 msgid "Reduced memory usage and increased performance of some views."
 msgstr ""
-"Reduzierter Speicherverbrauch und verbesserte Leistung einiger Ansichten."
+"Reduzierte Speicherauslastung und verbesserte Leistung einiger Ansichten."
 
 #: ../../changes.rst:1201
 msgid "Loading of strings with many glossary matches."
@@ -29815,7 +29772,7 @@ msgstr "Ausführlicherer Status ausgehender Commits."
 
 #: ../../changes.rst:1309 ../../changes/v4.rst:977
 msgid "Reduced memory usage."
-msgstr "Reduzierter Speicherverbrauch."
+msgstr "Reduzierte Speicherauslastung."
 
 #: ../../changes.rst:1313
 msgid "Fixed skipped component update with some add-ons enabled."
@@ -30368,7 +30325,7 @@ msgstr ""
 
 #: ../../changes.rst:1517
 msgid "Reduced memory usage for statistics."
-msgstr "Reduzierter Speicherverbrauch für Statistiken."
+msgstr "Reduzierte Speicherauslastung für Statistiken."
 
 #: ../../changes.rst:1518
 msgid ""
@@ -36653,7 +36610,7 @@ msgstr ""
 msgid ""
 "Reduced memory usage while updating components with a lot of translations."
 msgstr ""
-"Reduzierter Speicherverbrauch beim Aktualisieren von Komponenten mit vielen "
+"Reduzierte Speicherauslastung beim Aktualisieren von Komponenten mit vielen "
 "Übersetzungen."
 
 #: ../../changes/v4.rst:306
@@ -36688,7 +36645,7 @@ msgstr "Unterstützung für Sicherungen auf Projektebene hinzugefügt."
 
 #: ../../changes/v4.rst:313
 msgid "Improved performance and memory usage of translation memory lookups."
-msgstr "Verbesserte Leistung und Speichernutzung des Übersetzungsspeichers."
+msgstr "Verbesserte Leistung und Speicherauslastung des Übersetzungsspeichers."
 
 #: ../../changes/v4.rst:315
 msgid ""
@@ -45340,10 +45297,10 @@ msgstr ""
 "Dateien hinzufügen. Sie können auch :guilabel:`Kontext` für zweisprachige "
 "Formate angeben, um gleiche Zeichenketten in verschiedenen Kontexten zu "
 "unterscheiden. :guilabel:`Automatische Anpassung des Kontexts, wenn bereits "
-"eine identische Zeichenkette vorhanden ist.` kann verwendet werden, "
-"um :guilabel:`Kontext` automatisch anzupassen, indem ein numerisches Suffix "
+"eine identische Zeichenkette vorhanden ist.` kann verwendet werden, um "
+":guilabel:`Kontext` automatisch anzupassen, indem ein numerisches Suffix "
 "hinzugefügt wird, falls eine solche Zeichenkette bereits in der Übersetzung "
-"existiert."
+"vorhanden ist."
 
 #: ../../devel/translations.rst:28
 msgid "Adding new translations"
@@ -50019,7 +49976,7 @@ msgid ""
 msgstr ""
 "Konfigurieren Sie Warnmeldungen (z. B. über Prometheus, Zabbix oder SIEM) "
 "für: – Mehrfache Anmeldefehler – Unerwartete Neustarts von Diensten oder "
-"Spitzen beim Speicherverbrauch – Unregelmäßige Push-/Pull-Aktionen von "
+"Spitzen bei der Speicherauslastung – Unregelmäßige Push-/Pull-Aktionen von "
 "Versionsverwaltungen"
 
 #: ../../security/incident-response-plan.rst:49
@@ -54737,8 +54694,8 @@ msgid ""
 "There are multiple unnamed variables in the string, making it impossible for "
 "translators to reorder them."
 msgstr ""
-"Es existieren mehrere unbenannte Variablen in der Zeichenkette, so dass es "
-"für Übersetzer unmöglich ist, sie neu zu ordnen."
+"Die Zeichenkette enthält mehrere unbenannte Variablen, so dass es für "
+"Übersetzer unmöglich ist, sie neu zu ordnen."
 
 #: ../../user/checks.rst:2162
 msgid ""
