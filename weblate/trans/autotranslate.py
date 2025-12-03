@@ -130,6 +130,7 @@ class AutoTranslate(BaseAutoTranslate):
                 state,
                 change_action=ActionEvents.AUTO,
                 propagate=False,
+                select_for_update=False,
             )
             self.updated += 1
 

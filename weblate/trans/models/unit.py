@@ -1807,6 +1807,7 @@ class Unit(models.Model, LoggerMixin):
         author: User | None = None,
         request: AuthenticatedHttpRequest | None = None,
         add_alternative: bool = False,
+        select_for_update: bool = True,
     ) -> bool:
         """
         Store new translation of a unit.
@@ -1819,7 +1820,10 @@ class Unit(models.Model, LoggerMixin):
         self.invalidate_checks_cache()
 
         # Fetch current copy from database and lock it for update
-        old_unit = Unit.objects.select_for_update().get(pk=self.pk)
+        if select_for_update:
+            old_unit = Unit.objects.select_for_update().get(pk=self.pk)
+        else:
+            old_unit = self
         self.store_old_unit(old_unit)
 
         # Handle simple string units
