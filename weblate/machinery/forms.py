@@ -477,6 +477,9 @@ class AzureOpenAIMachineryForm(BaseOpenAIMachineryForm):
 class OllamaMachineryForm(LLMBasicMachineryForm):
     base_url = WeblateServiceURLField(
         label=pgettext_lazy("Automatic suggestion service configuration", "API URL"),
+        help_text=gettext_lazy(
+            "Base URL of the Ollama API, localhost and port 11434 by default."
+        ),
         initial="http://localhost:11434",
     )
     model = forms.CharField(
@@ -484,5 +487,6 @@ class OllamaMachineryForm(LLMBasicMachineryForm):
             "Automatic suggestion service configuration",
             "Ollama model",
         ),
+        help_text=gettext_lazy("Name of the model described in Ollama catalogue."),
         initial="llama3.2:3b",
     )
