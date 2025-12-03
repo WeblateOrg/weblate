@@ -2558,6 +2558,20 @@ class ProjectAPITest(APIBaseTest):
             # Ensure archive contains at least one file
             self.assertGreater(len(zf.namelist()), 0)
 
+    def test_download_project_translations_language_not_present(self) -> None:
+        response = self.do_request(
+            "api:project-language-file",
+            {**self.project_kwargs, "language_code": "fr"},
+            method="get",
+            code=200,
+            superuser=True,
+            request={"format": "zip"},
+        )
+        self.assertEqual(response.headers["content-type"], "application/zip")
+        with zipfile.ZipFile(BytesIO(response.content)) as zf:
+            # No entries, since there are no translations for 'fr'
+            self.assertEqual(len(zf.namelist()), 0)
+
     def test_download_project_translations_language_path_converted(self) -> None:
         response = self.do_request(
             "api:project-language-file",
@@ -2580,7 +2594,7 @@ class ProjectAPITest(APIBaseTest):
             code=404,
             request={"format": "zip"},
         )
-
+           
     def test_download_project_translations_language_path_prohibited(self) -> None:
         self.authenticate()
         self.user.groups.clear()
