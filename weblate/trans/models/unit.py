@@ -363,6 +363,17 @@ class UnitQuerySet(models.QuerySet["Unit"]):
             strings=Count("pk"), words=Sum("num_words"), chars=Sum(Length("source"))
         )
 
+    def clear_disk_state(self):
+        units_to_update = list(
+            self.filter(details__has_key="disk_state").select_for_update()
+        )
+
+        for unit in units_to_update:
+            del unit.details["disk_state"]
+
+        if units_to_update:
+            Unit.objects.bulk_update(units_to_update, ["details"], batch_size=500)
+
 
 class OldUnit(TypedDict):
     state: StringState
