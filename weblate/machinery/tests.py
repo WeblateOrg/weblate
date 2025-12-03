@@ -496,7 +496,6 @@ class MachineTranslationTest(BaseMachineTranslationTest):
     def test_batch(self, machine=None) -> None:
         if machine is None:
             machine = self.get_machine()
-        machine = self.get_machine()
         units = [
             MockUnit(code="cs", source="Hello, %s!", flags="c-format"),
             MockUnit(code="cs", source="Hello, %d!", flags="c-format"),
