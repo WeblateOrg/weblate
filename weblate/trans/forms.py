@@ -119,19 +119,19 @@ if TYPE_CHECKING:
     from weblate.trans.models.translation import NewUnitParams
 
 BUTTON_TEMPLATE = """
-<button type="button" class="btn btn-default {0}" title="{1}" {2}>{3}</button>
+<button type="button" class="btn btn-outline-primary {0}" title="{1}" {2}>{3}</button>
 """
 RADIO_TEMPLATE = """
-<label class="btn btn-default {0}" title="{1}">
+<label class="btn btn-outline-primary {0}" title="{1}">
 <input type="radio" name="{2}" value="{3}" {4}/>
 {5}
 </label>
 """
 GROUP_TEMPLATE = """
-<div class="btn-group btn-group-xs" {0}>{1}</div>
+<div class="btn-group btn-group-sm" {0}>{1}</div>
 """
 TOOLBAR_TEMPLATE = """
-<div class="btn-toolbar pull-right flip editor-toolbar">{0}</div>
+<div class="btn-toolbar float-end editor-toolbar">{0}</div>
 """
 
 
@@ -285,7 +285,7 @@ class PluralTextarea(forms.Textarea):
             GROUP_TEMPLATE,
             [
                 (
-                    mark_safe('data-toggle="buttons"'),
+                    mark_safe('data-bs-toggle="buttons"'),
                     rtl_switch,
                 )
             ],  # Only one group.
@@ -767,7 +767,6 @@ class SearchForm(forms.Form):
         language: Language | None = None,
         show_builder=True,
         obj: type[Model | BaseURLMixin] | None = None,
-        bootstrap_5=False,
         **kwargs,
     ) -> None:
         """Generate choices for other components in the same project."""
@@ -781,8 +780,6 @@ class SearchForm(forms.Form):
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
-        if bootstrap_5:
-            self.helper.template_pack = "bootstrap5"
         self.helper.layout = Layout(
             Div(
                 Field("offset", **self.offset_kwargs),
@@ -797,7 +794,6 @@ class SearchForm(forms.Form):
                     "user": self.user,
                     "show_builder": show_builder,
                     "language": self.language,
-                    "bootstrap_5": bootstrap_5,
                 },
             ),
             Field("checksum"),
@@ -1360,6 +1356,14 @@ class UserBlockForm(forms.Form):
         ),
         required=False,
     )
+    note = forms.CharField(
+        required=False,
+        widget=forms.Textarea,
+        label=gettext_lazy("Block note"),
+        help_text=gettext_lazy(
+            "Internal notes regarding blocking the user that are not visible to the user."
+        ),
+    )
 
     def __init__(self, *args, **kwargs) -> None:
         if "auto_id" not in kwargs:
@@ -1496,7 +1500,7 @@ class SelectChecksField(forms.JSONField):
 
 
 class FormParamsWidget(forms.MultiWidget):
-    template_name = "bootstrap3/labelled_multiwidget.html"
+    template_name = "bootstrap5/labelled_multiwidget.html"
     subwidget_class = "file-format-param"
 
     def __init__(
@@ -2870,7 +2874,6 @@ class BulkEditForm(forms.Form):
         self, user: User | None, obj: URLMixin | None, *args, **kwargs
     ) -> None:
         project = kwargs.pop("project", None)
-        bootstrap_5 = kwargs.pop("bootstrap_5", False)
         kwargs["auto_id"] = "id_bulk_%s"
         if obj is not None:
             kwargs["initial"] = {"path": obj.full_slug}
@@ -2912,8 +2915,6 @@ class BulkEditForm(forms.Form):
         if labels:
             self.helper.layout.append(InlineCheckboxes("add_labels"))
             self.helper.layout.append(InlineCheckboxes("remove_labels"))
-        if bootstrap_5:
-            self.helper.template_pack = "bootstrap5"
 
 
 class ContributorAgreementForm(forms.Form):

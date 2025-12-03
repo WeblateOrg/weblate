@@ -631,7 +631,7 @@ def update_checks(pk: int, update_token: str, update_state: bool = False) -> Non
     if latest_token and update_token != latest_token:
         return
 
-    component.batch_checks = True
+    component.start_batched_checks()
     # Source translation as last
     translations = (
         *component.translation_set.exclude(

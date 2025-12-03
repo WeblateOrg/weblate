@@ -4,7 +4,7 @@
   {% if not is_zen %}
     {% if prev_unit_url %}
       <a id="button-first"
-         class="btn btn-default green"
+         class="btn btn-outline-primary green"
          href="{{ first_unit_url }}"
          title="{% translate "First" %}">
         {% if LANGUAGE_BIDI %}
@@ -15,7 +15,7 @@
       </a>
       {% if not is_in_browse %}
         <a id="prev-section"
-           class="btn btn-default green {% if offset < 2 %}disabled{% endif %}"
+           class="btn btn-outline-primary green {% if offset < 2 %}disabled{% endif %}"
            href="{{ prev_section_url }}"
            title="{% translate "Previous section" %}">
           {% if LANGUAGE_BIDI %}
@@ -26,7 +26,7 @@
         </a>
       {% endif %}
       <a id="button-prev"
-         class="btn btn-default green"
+         class="btn btn-outline-primary green"
          href="{{ prev_unit_url }}"
          title="{% translate "Previous" %}"
          rel="prev">
@@ -38,7 +38,7 @@
       </a>
     {% else %}
       <a id="button-first"
-         class="btn btn-default green disabled"
+         class="btn btn-outline-primary green disabled"
          title="{% translate "First" %}">
         {% if LANGUAGE_BIDI %}
           {% icon "page-last.svg" %}
@@ -47,7 +47,7 @@
         {% endif %}
       </a>
       <a id="button-prev"
-         class="btn btn-default green disabled"
+         class="btn btn-outline-primary green disabled"
          title="{% translate "Previous" %}">
         {% if LANGUAGE_BIDI %}
           {% icon "page-next.svg" %}
@@ -57,7 +57,7 @@
       </a>
     {% endif %}
   {% endif %}
-  <div class="btn btn-default position-input"
+  <div class="btn btn-outline-primary position-input"
        title="{% translate "Click to edit position" %}">
     {% if filter_pos %}
       {% blocktranslate with filter_pos=filter_pos|intcomma filter_count=filter_count|intcomma %}{{ filter_pos }} / {{ filter_count }}{% endblocktranslate %}
@@ -65,7 +65,7 @@
       {% blocktranslate count cnt=filter_count with count=filter_count|intcomma %}{{ count }} string{% plural %}{{ count }} strings{% endblocktranslate %}
     {% endif %}
   </div>
-  <div class="btn btn-default position-input-editable"
+  <div class="btn btn-outline-primary position-input-editable"
        title="{% translate "Go to position" %}">
     <div class="input-group">
       <input type="hidden"
@@ -82,7 +82,7 @@
   {% if not is_zen %}
     {% if next_unit_url %}
       <a id="button-next"
-         class="btn btn-default green"
+         class="btn btn-outline-primary green"
          href="{{ next_unit_url }}"
          title="{% translate "Next" %}"
          rel="next">
@@ -94,7 +94,7 @@
       </a>
       {% if not is_in_browse %}
         <a id="next-section"
-           class="btn btn-default green {% if not can_go_next_section %}disabled{% endif %}"
+           class="btn btn-outline-primary green {% if not can_go_next_section %}disabled{% endif %}"
            href="{{ next_section_url }}"
            title="{% translate "Next section" %}"
            rel="next">
@@ -106,7 +106,7 @@
         </a>
       {% endif %}
       <a id="button-end"
-         class="btn btn-default green"
+         class="btn btn-outline-primary green"
          href="{{ last_unit_url }}"
          title="{% translate "Last" %}">
         {% if not LANGUAGE_BIDI %}
@@ -117,7 +117,7 @@
       </a>
     {% else %}
       <a id="button-next"
-         class="btn btn-default green disabled"
+         class="btn btn-outline-primary green disabled"
          title="{% translate "Next" %}">
         {% if not LANGUAGE_BIDI %}
           {% icon "page-next.svg" %}
@@ -126,7 +126,7 @@
         {% endif %}
       </a>
       <a id="button-end"
-         class="btn btn-default green disabled"
+         class="btn btn-outline-primary green disabled"
          title="{% translate "Last" %}">
         {% if not LANGUAGE_BIDI %}
           {% icon "page-last.svg" %}

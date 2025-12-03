@@ -291,15 +291,15 @@ wheels = [
 
 [[package]]
 name = "boto3-stubs"
-version = "1.41.5"
+version = "1.42.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "botocore-stubs" },
     { name = "types-s3transfer" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/9c/2a/e259a37840cfbe066bf9675a9fb712fc745337bef08fbaa3dfb1ad5c21f4/boto3_stubs-1.41.5.tar.gz", hash = "sha256:514a24282147760af1ec6f9035c2c451c91c78817d18457c50d841ee52daa088", size = 100005, upload-time = "2025-11-26T20:38:19.486Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/44/00/9504eaab931afd8a389e1051b859e349ba6b26cae094a45aec0ce02caf53/boto3_stubs-1.42.2.tar.gz", hash = "sha256:436637ebe50897a1e5568ac90cb46e736906d8e0a2389012cdda33c41ca9ba6f", size = 100820, upload-time = "2025-12-03T18:19:17.508Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/a7/13/9b140e3cfe22c6538f46f4e96ac5fa30467117321309a5fe5eea1d09daf7/boto3_stubs-1.41.5-py3-none-any.whl", hash = "sha256:016f45999d6685f8d80f07f24d3a16eab4e50ba153e6cd3398dc290bf968cbca", size = 69296, upload-time = "2025-11-26T20:38:14.254Z" },
+    { url = "https://files.pythonhosted.org/packages/51/4f/8bc4ad13a2c3a994f13bc8590bc4206b78abd83e61cb4c814dbd10e95d10/boto3_stubs-1.42.2-py3-none-any.whl", hash = "sha256:0aa5a91c27ff453d344ef7c8bfc55b8e24a6a2dc7f3542c44aeb8083e5899691", size = 69701, upload-time = "2025-12-03T18:19:12.106Z" },
 ]
 
 [[package]]
@@ -981,16 +981,16 @@ wheels = [
 
 [[package]]
 name = "django"
-version = "5.2.8"
+version = "5.2.9"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "asgiref" },
     { name = "sqlparse" },
     { name = "tzdata", marker = "sys_platform == 'win32'" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/05/a2/933dbbb3dd9990494960f6e64aca2af4c0745b63b7113f59a822df92329e/django-5.2.8.tar.gz", hash = "sha256:23254866a5bb9a2cfa6004e8b809ec6246eba4b58a7589bc2772f1bcc8456c7f", size = 10849032, upload-time = "2025-11-05T14:07:32.778Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/eb/1c/188ce85ee380f714b704283013434976df8d3a2df8e735221a02605b6794/django-5.2.9.tar.gz", hash = "sha256:16b5ccfc5e8c27e6c0561af551d2ea32852d7352c67d452ae3e76b4f6b2ca495", size = 10848762, upload-time = "2025-12-02T14:01:08.418Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/5e/3d/a035a4ee9b1d4d4beee2ae6e8e12fe6dee5514b21f62504e22efcbd9fb46/django-5.2.8-py3-none-any.whl", hash = "sha256:37e687f7bd73ddf043e2b6b97cfe02fcbb11f2dbb3adccc6a2b18c6daa054d7f", size = 8289692, upload-time = "2025-11-05T14:07:28.761Z" },
+    { url = "https://files.pythonhosted.org/packages/17/b0/7f42bfc38b8f19b78546d47147e083ed06e12fc29c42da95655e0962c6c2/django-5.2.9-py3-none-any.whl", hash = "sha256:3a4ea88a70370557ab1930b332fd2887a9f48654261cdffda663fef5976bb00a", size = 8290652, upload-time = "2025-12-02T14:01:03.485Z" },
 ]
 
 [package.optional-dependencies]
@@ -5188,7 +5188,7 @@ requires-dist = [
     { name = "dateparser", specifier = ">=1.2.0,<1.3.0" },
     { name = "diff-match-patch", specifier = "==20241021" },
     { name = "disposable-email-domains", specifier = ">=0.0.125" },
-    { name = "django", extras = ["argon2"], marker = "python_full_version < '3.12'", specifier = ">=5.2,<6.0" },
+    { name = "django", extras = ["argon2"], marker = "python_full_version < '3.12'", specifier = ">=5.2,<6.1" },
     { name = "django", extras = ["argon2"], marker = "python_full_version >= '3.12'", specifier = ">=5.2,<6.1" },
     { name = "django-appconf", specifier = ">=1.1.0,<1.3" },
     { name = "django-auth-ldap", marker = "extra == 'ldap'", specifier = ">=4.6.0,<6.0.0" },
@@ -5264,7 +5264,7 @@ provides-extras = ["alibaba", "all", "amazon", "antispam", "gelf", "gerrit", "go
 
 [package.metadata.requires-dev]
 dev = [
-    { name = "boto3-stubs", specifier = "==1.41.5" },
+    { name = "boto3-stubs", specifier = "==1.42.2" },
     { name = "celery-types", specifier = "==0.23.0" },
     { name = "coverage", specifier = "==7.12.0" },
     { name = "django-debug-toolbar", specifier = "==6.1.0" },
@@ -5352,7 +5352,7 @@ test = [
     { name = "standardwebhooks", specifier = "==1.0.0" },
 ]
 types = [
-    { name = "boto3-stubs", specifier = "==1.41.5" },
+    { name = "boto3-stubs", specifier = "==1.42.2" },
     { name = "celery-types", specifier = "==0.23.0" },
     { name = "django-stubs", extras = ["compatible-mypy"], specifier = "==5.2.8" },
     { name = "django-stubs-ext", specifier = "==5.2.8" },

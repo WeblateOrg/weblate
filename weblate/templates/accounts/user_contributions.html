@@ -3,13 +3,13 @@
 {% load authnames crispy_forms_tags humanize i18n icons metrics permissions urlformat %}
 
 {% block breadcrumbs %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url "user_list" %}">{% translate "Users" %}</a>
   </li>
-  <li>
+  <li class="breadcrumb-item">
     <a href="{{ page_profile.get_absolute_url }}">{{ page_profile.get_user_name }}</a>
   </li>
-  <li>
+  <li class="breadcrumb-item">
     {# Translators: Name of a tab which lists translations the user has contributed to #}
     <a href="{% url 'user_contributions' user=page_user.username %}">{% translate "Translates" %}</a>
   </li>

@@ -68,7 +68,7 @@ def bulk_perform(  # noqa: C901
     updated = 0
     for component in components:
         prev_updated = updated
-        component.batch_checks = True
+        component.start_batched_checks()
         with transaction.atomic():
             component_units = matching.filter(translation__component=component)
 

@@ -137,6 +137,11 @@ class UnitQuerySet(models.QuerySet["Unit"]):
     def prefetch_all_checks(self):
         return self.prefetch_related(
             "source_unit",
+            "source_unit__translation",
+            models.Prefetch(
+                "source_unit__check_set",
+                to_attr="all_checks",
+            ),
             models.Prefetch(
                 "check_set",
                 to_attr="all_checks",
@@ -362,6 +367,17 @@ class UnitQuerySet(models.QuerySet["Unit"]):
         return self.annotate(
             strings=Count("pk"), words=Sum("num_words"), chars=Sum(Length("source"))
         )
+
+    def clear_disk_state(self):
+        units_to_update = list(
+            self.filter(details__has_key="disk_state").select_for_update()
+        )
+
+        for unit in units_to_update:
+            del unit.details["disk_state"]
+
+        if units_to_update:
+            Unit.objects.bulk_update(units_to_update, ["details"], batch_size=500)
 
 
 class OldUnit(TypedDict):
@@ -1733,6 +1749,8 @@ class Unit(models.Model, LoggerMixin):
         # Trigger source checks on target check update (multiple failing checks)
         if (create or old_checks) and not self.is_source:
             if self.is_batch_update:
+                # Reuse component object for improved performance
+                self.source_unit.translation.component = self.translation.component
                 self.translation.component.updated_sources[self.source_unit.id] = (
                     self.source_unit
                 )
@@ -1807,6 +1825,7 @@ class Unit(models.Model, LoggerMixin):
         author: User | None = None,
         request: AuthenticatedHttpRequest | None = None,
         add_alternative: bool = False,
+        select_for_update: bool = True,
     ) -> bool:
         """
         Store new translation of a unit.
@@ -1819,7 +1838,10 @@ class Unit(models.Model, LoggerMixin):
         self.invalidate_checks_cache()
 
         # Fetch current copy from database and lock it for update
-        old_unit = Unit.objects.select_for_update().get(pk=self.pk)
+        if select_for_update:
+            old_unit = Unit.objects.select_for_update().get(pk=self.pk)
+        else:
+            old_unit = self
         self.store_old_unit(old_unit)
 
         # Handle simple string units

@@ -5,16 +5,16 @@
 {% block breadcrumbs %}
   {% if path_object %}
     {% path_object_breadcrumbs path_object %}
-    <li>
+    <li class="breadcrumb-item">
       <a href="{% url 'changes' path=path_object.get_url_path %}?{{ query_string }}">{% translate "Changes" %}</a>
     </li>
   {% else %}
-    <li>
+    <li class="breadcrumb-item">
       <a href="{% url 'changes' %}?{{ query_string }}">{% translate "Changes" %}</a>
     </li>
   {% endif %}
 
-  <div class="btn-group pull-right flip btn-group-settings" role="group">
+  <div class="btn-group float-end btn-group-settings" role="group">
     {% if debug %}
       {% if path_object %}
         <a href="{% url 'changes' path=path_object.get_url_path %}?{{ query_string }}&amp;digest=1"
@@ -52,12 +52,12 @@
   {% endif %}
 
   <form method="get">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">{% translate "Search" %}</h4>
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{% translate "Search" %}</h4>
       </div>
-      <div class="panel-body">{{ form|crispy }}</div>
-      <div class="panel-footer">
+      <div class="card-body">{{ form|crispy }}</div>
+      <div class="card-footer">
         <input type="submit" value="{% translate "Search" %}" class="btn btn-primary" />
       </div>
     </div>

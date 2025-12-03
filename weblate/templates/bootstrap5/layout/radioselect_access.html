@@ -14,7 +14,7 @@
 
   <div class="controls {% if "disabled" in flat_attrs %}access-control-disabled{% endif %} {{ field_class }}"
        {% if flat_attrs %}{{ flat_attrs|safe }}{% endif %}>
-    {% include 'bootstrap3/layout/field_errors_block.html' %}
+    {% include 'bootstrap5/layout/field_errors_block.html' %}
     <div class="row">
       {% for choice in field.field.choices %}
         {% with choice_str=choice.0|stringformat:"s" %}
