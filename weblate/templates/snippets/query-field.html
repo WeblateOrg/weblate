@@ -1,6 +1,6 @@
 {% load crispy_forms_field i18n %}
 
-<div class="input-group search-group query-field" role="group">
+<div class="input-group search-group query-field me-5" role="group">
   <div class="input-group-btn">
     <button type="button"
             id="query-dropdown"
@@ -20,6 +20,6 @@
     </ul>
   </div>
   <!-- /btn-group -->
-  <span class="w-75">{% crispy_field field 'aria-label' _('Query') 'class' 'form-control' %}</span>
+  <div class="flex-grow-1">{% crispy_field field 'aria-label' _('Query') 'class' 'form-control' %}</div>
 </div>
 {% include 'bootstrap5/layout/help_text_and_errors.html' %}
