@@ -5,6 +5,7 @@
 """File format specific behavior."""
 
 import os
+from pathlib import Path
 from tempfile import NamedTemporaryFile
 from typing import ClassVar
 
@@ -48,9 +49,13 @@ class ConvertFormatTest(BaseFormatTest):
         translation = template = None
         try:
             # Generate test files
-            with NamedTemporaryFile(delete=False, mode="w+") as template:
+            with NamedTemporaryFile(
+                encoding="utf-8", delete=False, mode="w+"
+            ) as template:
                 template.write(self.CONVERT_TEMPLATE)
-            with NamedTemporaryFile(delete=False, mode="w+") as translation:
+            with NamedTemporaryFile(
+                encoding="utf-8", delete=False, mode="w+"
+            ) as translation:
                 translation.write(self.CONVERT_TRANSLATION)
 
             # Parse
@@ -76,8 +81,10 @@ class ConvertFormatTest(BaseFormatTest):
             storage.save()
 
             # Check translation
-            with open(translation.name) as handle:
-                self.assertEqual(handle.read(), self.CONVERT_EXPECTED)
+            self.assertEqual(
+                Path(translation.name).read_text(encoding="utf-8"),
+                self.CONVERT_EXPECTED,
+            )
         finally:
             if template:
                 os.unlink(template.name)
@@ -137,15 +144,13 @@ Nazdar
     ]
 
     def test_existing_units(self) -> None:
-        with open(self.FILE, "rb") as handle:
-            testdata = handle.read()
+        testdata = Path(self.FILE).read_bytes()
 
         # Create test file
         testfile = os.path.join(self.tempdir, os.path.basename(self.FILE))
 
         # Write test data to file
-        with open(testfile, "wb") as handle:
-            handle.write(testdata)
+        Path(testfile).write_bytes(testdata)
 
         # Parse test file
         storage = self.format_class(
@@ -163,8 +168,7 @@ Nazdar
         storage.save()
 
         # Read new content
-        with open(testfile) as handle:
-            newdata = handle.read()
+        newdata = Path(testfile).read_text(encoding="utf-8")
 
         self.assertEqual(
             newdata,
@@ -228,9 +232,10 @@ class IDMLFormatTest(ConvertFormatTest):
 
     @staticmethod
     def extract_document(content):
-        return bytes(
-            IDMLFormat.convertfile(NamedBytesIO("test.idml", content), None)
-        ).decode()
+        pofile = IDMLFormat.convertfile(NamedBytesIO("test.idml", content), None)
+        # Avoid (changing) timestamp in the PO header
+        pofile.updateheader(pot_creation_date="")
+        return bytes(pofile).decode()
 
     def assert_same(self, newdata, testdata) -> None:
         self.assertEqual(

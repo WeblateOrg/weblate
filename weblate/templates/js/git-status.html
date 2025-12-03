@@ -12,7 +12,7 @@
   <div class="card">
     <div class="card-header">
       <h4 class="card-title">
-        {% documentation_icon5 'devel/integration' 'manage-vcs' right=True %}
+        {% documentation_icon 'devel/integration' 'manage-vcs' right=True %}
         {% translate "Repository status" %}
       </h4>
     </div>
@@ -25,7 +25,30 @@
              {% if not pending_unit %}aria-disabled="true"{% endif %}>{% translate "Commit" %}</a>
         {% endif %}
         <h6 class="mb-1 fw-bold">
-          {% blocktranslate count units=pending_units with count=pending_units|intcomma %}{{ count }} pending change{% plural %}{{ count }} pending changes{% endblocktranslate %}
+          {% blocktranslate count counter=pending_units.total with total_count=pending_units.total|intcomma trimmed %}
+            {{ total_count }} pending unit
+          {% plural %}
+            {{ total_count }} pending units
+          {% endblocktranslate %}
+          {% with policy=pending_units.commit_policy_skipped errors=pending_units.errors_skipped %}
+            {% blocktranslate count counter=policy asvar policy_count_text with policy_count=policy|intcomma trimmed %}
+              {{ policy_count }} skipped by the commit policy
+            {% plural %}
+              {{ policy_count }} skipped by the commit policy
+            {% endblocktranslate %}
+            {% blocktranslate count counter=errors asvar errors_count_text with errors_count=errors|intcomma trimmed %}
+              {{ errors_count }} skipped because of errors
+            {% plural %}
+              {{ errors_count }} skipped because of errors
+            {% endblocktranslate %}
+            {% if policy and errors %}
+              ({{ policy_count_text }}, {{ errors_count_text }})
+            {% elif policy %}
+              ({{ policy_count_text }})
+            {% elif errors %}
+              ({{ errors_count_text }})
+            {% endif %}
+          {% endwith %}
         </h6>
         <p class="mb-0">
           {% translate "This will commit any pending changes present in Weblate and not in the repository." %}
@@ -131,7 +154,7 @@
     <div class="card">
       <div class="card-header text-bg-danger">
         <h4 class="card-title">
-          {% documentation_icon5 'devel/integration' 'manage-vcs' right=True %}
+          {% documentation_icon 'devel/integration' 'manage-vcs' right=True %}
           {% translate "Danger zone" %}
         </h4>
       </div>
@@ -220,7 +243,7 @@
     <div class="card-header">
       <h4 class="card-title">{% translate "Repository changes" %}</h4>
     </div>
-    <div class="card-body">{% format_last_changes_content last_changes=changes user=user bootstrap_5=True %}</div>
+    <div class="card-body">{% format_last_changes_content last_changes=changes user=user %}</div>
     <div class="card-footer">
       <a class="btn btn-primary"
          href="{% url 'changes' path=object.get_url_path %}?{{ changes_url_query }}">{% translate "Browse all repository changes" %}</a>

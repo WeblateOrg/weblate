@@ -3,7 +3,7 @@
 {% load authnames crispy_forms_tags i18n translations %}
 
 {% block breadcrumbs %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'login' %}">{% translate "Sign in" %}</a>
   </li>
 {% endblock breadcrumbs %}
@@ -27,8 +27,8 @@
           {% format_site_title as formatted_site_title %}
           {% blocktranslate %}Sign in to {{ formatted_site_title }}{% endblocktranslate %}
         </h4>
-        <div class="panel panel-default">
-          <div class="panel-body">
+        <div class="card">
+          <div class="card-body">
             {% if show_login_form %}
               <form method="post" action="{% url 'login' %}">
                 {% csrf_token %}
@@ -49,7 +49,7 @@
               {% for name in login_backends %}
                 <div class="col-md-6 col-xs-12 btn-auth">
                   <a href=""
-                     class="btn btn-default link-post"
+                     class="btn btn-outline-primary link-post"
                      data-href="{% url 'social:begin' name %}"
                      {% if next %}data-params='{"next": "{{ next|escapejs }}"}'{% endif %}>{% auth_name name " " %}</a>
                 </div>

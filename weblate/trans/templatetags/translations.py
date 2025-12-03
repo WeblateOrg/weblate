@@ -6,7 +6,6 @@ from __future__ import annotations
 import json
 import re
 from collections import defaultdict
-from collections.abc import Iterable
 from datetime import date, datetime
 from html import escape as html_escape
 from typing import TYPE_CHECKING
@@ -672,19 +671,7 @@ def documentation(context: Context, page, anchor=""):
     return get_doc_url(page, anchor, user=user)
 
 
-def render_documentation_icon(doc_url: str | None, *, right: bool = False) -> str:
-    if not doc_url:
-        return ""
-    return format_html(
-        """<a class="{} doc-link" href="{}" title="{}" target="_blank" rel="noopener" tabindex="-1">{}</a>""",
-        "pull-right flip" if right else "",
-        doc_url,
-        gettext("Documentation"),
-        icon("info.svg"),
-    )
-
-
-def render_documentation_icon5(doc_url: str, *, right: bool = False):
+def render_documentation_icon(doc_url: str, *, right: bool = False):
     if not doc_url:
         return ""
     return format_html(
@@ -699,15 +686,8 @@ def render_documentation_icon5(doc_url: str, *, right: bool = False):
 @register.simple_tag(takes_context=True)
 def documentation_icon(
     context: Context, page: str, anchor: str = "", right: bool = False
-) -> str:
-    return render_documentation_icon(documentation(context, page, anchor), right=right)
-
-
-@register.simple_tag(takes_context=True)
-def documentation_icon5(
-    context: Context, page: str, anchor: str = "", right: bool = False
 ):
-    return render_documentation_icon5(documentation(context, page, anchor), right=right)
+    return render_documentation_icon(documentation(context, page, anchor), right=right)
 
 
 @register.simple_tag(takes_context=True)
@@ -910,7 +890,7 @@ def translation_progress_render(
     if approved_percent > 0.1:
         approved_tag = format_html(
             """
-            <div class="progress progress5"
+            <div class="progress"
                  role="progressbar"
                  aria-valuenow="{approved}"
                  aria-valuemin="0"
@@ -926,7 +906,7 @@ def translation_progress_render(
     if good_percent > 0.1:
         good_tag = format_html(
             """
-            <div class="progress progress5"
+            <div class="progress"
                  role="progressbar"
                  aria-valuenow="{good}"
                  aria-valuemin="0"
@@ -941,7 +921,7 @@ def translation_progress_render(
         )
 
     return format_html(
-        """<div class="progress-stacked progress5" title="{}">{}{}</div>""",
+        """<div class="progress-stacked" title="{}">{}{}</div>""",
         gettext("Needs attention"),
         approved_tag,
         good_tag,
@@ -1022,6 +1002,8 @@ def unit_state_title(unit) -> str:
         state.append(pgettext("String state", "Commented"))
     if unit.has_suggestion:
         state.append(pgettext("String state", "Suggested"))
+    if unit.automatically_translated:
+        state.append(pgettext("String state", "Automatically translated"))
     if "forbidden" in unit.all_flags:
         state.append(gettext("This translation is forbidden."))
     return "; ".join(state)
@@ -1081,9 +1063,7 @@ def get_location_links(user: User | None, unit):
 
 
 @register.simple_tag(takes_context=True)
-def announcements(
-    context: Context, project=None, component=None, language=None, bootstrap_5=False
-):
+def announcements(context: Context, project=None, component=None, language=None):
     """Display announcement messages for given context."""
     user = context["user"]
 
@@ -1098,7 +1078,6 @@ def announcements(
                         "tags": f"{announcement.severity} announcement",
                         "message": render_markdown(announcement.message),
                         "announcement": announcement,
-                        "bootstrap_5": bootstrap_5,
                         "can_delete": user.has_perm(
                             "meta:announcement.delete", announcement
                         ),
@@ -1585,13 +1564,6 @@ def get_breadcrumbs(  # noqa: C901
 @register.simple_tag
 def path_object_breadcrumbs(path_object, flags: bool = True):
     return format_html_join(
-        "\n", '<li><a href="{}">{}</a></li>', get_breadcrumbs(path_object, flags=flags)
-    )
-
-
-@register.simple_tag
-def path_object_breadcrumbs5(path_object, flags: bool = True):
-    return format_html_join(
         "\n",
         '<li class="breadcrumb-item"><a href="{}">{}</a></li>',
         get_breadcrumbs(path_object, flags=flags),
@@ -1723,46 +1695,6 @@ def list_objects_percent(
     )
 
 
-@register.inclusion_tag("snippets/info5.html", takes_context=True)
-def show_info5(  # noqa: PLR0913
-    context: Context,
-    *,
-    project: Project | None = None,
-    component: Component | None = None,
-    translation: Translation | None = None,
-    language: Language | None = None,
-    componentlist: ComponentList | None = None,
-    stats: BaseStats | None = None,
-    metrics: MetricsWrapper | None = None,
-    show_source: bool = False,
-    show_global: bool = False,
-    show_full_language: bool = True,
-    top_users: QuerySet[Profile] | None = None,
-    total_translations: int | None = None,
-):
-    """
-    Render project information table.
-
-    This merely exists to be able to pass default values to {% include %}.
-    """
-    return {
-        "user": context["user"],
-        "project": project,
-        "component": component,
-        "translation": translation,
-        "language": language,
-        "componentlist": componentlist,
-        "stats": stats,
-        "metrics": metrics,
-        "show_source": show_source,
-        "show_global": show_global,
-        "show_full_language": show_full_language,
-        "top_users": top_users,
-        "total_translations": total_translations,
-        "bootstrap_5": True,
-    }
-
-
 @register.inclusion_tag("snippets/info.html", takes_context=True)
 def show_info(  # noqa: PLR0913
     context: Context,
@@ -1822,7 +1754,6 @@ def format_last_changes_content(
     debug: bool = False,
     search_url: str | None = None,
     offset: int | None = None,
-    bootstrap_5: bool = False,
 ):
     """
     Format last changes content for display.
@@ -1863,7 +1794,6 @@ def format_last_changes_content(
         "debug": debug,
         "search_url": search_url,
         "offset": offset,
-        "bootstrap_5": bootstrap_5,
     }
 
 

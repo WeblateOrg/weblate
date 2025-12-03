@@ -40,6 +40,7 @@ from weblate.utils.xml import parse_xml
 if TYPE_CHECKING:
     from weblate.auth.models import User
     from weblate.trans.models import Translation, Unit
+    from weblate.utils.state import StringState
 
 
 class RegistrationTestMixin(TestCase):
@@ -171,10 +172,13 @@ class ViewTestCase(RepoTestCase):
         target: str,
         source: str = "Hello, world!\n",
         language: str = "cs",
+        translation: Translation | None = None,
         user: User | None = None,
-    ) -> None:
-        unit = self.get_unit(source, language)
-        unit.translate(user or self.user, target, STATE_TRANSLATED)
+        state: StringState = STATE_TRANSLATED,
+    ) -> Unit:
+        unit = self.get_unit(source, language, translation=translation)
+        unit.translate(user or self.user, target, state)
+        return unit
 
     def edit_unit(
         self,
@@ -303,6 +307,7 @@ class FixtureTestCase(ViewTestCase):
     def clone_test_repos(self) -> None:
         return
 
+    # pylint: disable=arguments-differ
     def create_project(self):
         project = Project.objects.all()[0]
         setup_project_groups(self, project)

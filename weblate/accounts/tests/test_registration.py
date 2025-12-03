@@ -7,6 +7,7 @@
 from __future__ import annotations
 
 import os
+from pathlib import Path
 from typing import TYPE_CHECKING
 from urllib.parse import parse_qs, urlparse
 
@@ -47,10 +48,8 @@ SAML_BACKENDS = (
     "social_core.backends.saml.SAMLAuth",
     "weblate.accounts.auth.WeblateUserBackend",
 )
-with open(get_test_file("saml.crt")) as handle:
-    SAML_CERT = handle.read()
-with open(get_test_file("saml.key")) as handle:
-    SAML_KEY = handle.read()
+SAML_CERT = Path(get_test_file("saml.crt")).read_text(encoding="utf-8")
+SAML_KEY = Path(get_test_file("saml.key")).read_text(encoding="utf-8")
 
 REGISTRATION_SUCCESS = (
     "Click the confirmation link sent to your e-mail inbox "
@@ -246,7 +245,7 @@ class RegistrationTest(BaseRegistrationTest):
             self.client.post(reverse("logout"))
 
         # Confirm second account
-        response = self.client.get(second_url, follow=True)
+        self.client.get(second_url, follow=True)
         self.assertEqual(
             User.objects.filter(email="noreply@example.net").exists(), logout
         )
@@ -460,7 +459,7 @@ class RegistrationTest(BaseRegistrationTest):
 
         # Try invalid address first
         response = self.client.post(reverse("email_login"), {"email": "invalid"})
-        self.assertContains(response, "has-error")
+        self.assertContains(response, "is-invalid")
 
         # Add e-mail account
         response = self.client.post(
@@ -748,6 +747,7 @@ class RegistrationTest(BaseRegistrationTest):
     )
     def test_saml(self) -> None:
         try:
+            # pylint: disable-next=unused-import
             import xmlsec  # noqa: F401
         except Exception as error:
             if "CI_SKIP_SAML" in os.environ:

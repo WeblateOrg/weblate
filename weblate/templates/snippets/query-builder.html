@@ -1,439 +1,220 @@
 {% load i18n translations %}
 
 {% if show_builder %}
-  {% if bootstrap_5 %}
-    <div class="mb-3">
-      <label class="form-label">{% translate "Advanced query builder" %}</label>
+  <div class="mb-3">
+    <label class="form-label">{% translate "Advanced query builder" %}</label>
 
-      <div class="btn-toolbar search-toolbar" role="toolbar">
+    <div class="btn-toolbar search-toolbar" role="toolbar">
 
-        <div class="btn-group search-group" role="group">
-          <div class="input-group">
-            <button type="button"
-                    class="btn btn-outline-primary dropdown-toggle search-field"
-                    data-field="source:"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false">
-              <span class="search-label search-label-auto">{% translate "Source strings" %}</span>
-            </button>
-            <ul class="dropdown-menu shadow">
-              <li>
-                <a class="dropdown-item" href="#" data-field="source:">{% translate "Source strings" %}</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#" data-field="target:">{% translate "Target strings" %}</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#" data-field="context:">{% translate "Key/Context strings" %}</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#" data-field="note:">{% translate "Source string description" %}</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#" data-field="location:">{% translate "Location strings" %}</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#" data-field="state:">{% translate "String state" %}</a>
-              </li>
-              <li>
-                {# Translators: String pending for flushing to VCS. #}
-                <a class="dropdown-item" href="#" data-field="pending:">{% translate "Pending string" %}</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#" data-field="language:">{% translate "String target language" %}</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#" data-field="changed_by:">{% translate "String changed by" %}</a>
-              </li>
-            </ul>
-            <input type="text" class="form-control" placeholder="{% translate "Search for…" %}">
-            <span class="input-group-text" id="is-exact">
-              <label class="mb-0">
-                <input type="checkbox" class="form-check-input me-1">
-                {% translate "Exact" context "Exact search toggle" %}
-              </label>
-            </span>
-            <button class="btn btn-outline-primary search-add" type="button">{% translate "Add" %}</button>
-          </div>
-        </div>
-
-        <div class="btn-group search-group ms-2" role="group">
-          <div class="btn-group">
-            <button type="button"
-                    class="btn btn-outline-primary dropdown-toggle search-field"
-                    data-field="has:suggestion"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false">
-              <span class="search-label search-label-auto">{% search_name "has:suggestion" %}</span>
-            </button>
-            <ul class="dropdown-menu shadow">
-              <li>
-                <a class="dropdown-item" href="#" data-field="has:suggestion">{% search_name "has:suggestion" %}</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#" data-field="has:comment">{% search_name "has:comment" %}</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#" data-field="has:check">{% search_name "has:check" %}</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#" data-field="NOT has:screenshot">{% search_name "NOT has:screenshot" %}</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#" data-field="has:plural">{% search_name "has:plural" %}</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#" data-field="has:context">{% search_name "has:context" %}</a>
-              </li>
-            </ul>
-          </div>
+      <div class="btn-group search-group" role="group">
+        <div class="input-group">
+          <button type="button"
+                  class="btn btn-outline-primary dropdown-toggle search-field"
+                  data-field="source:"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false">
+            <span class="search-label search-label-auto">{% translate "Source strings" %}</span>
+          </button>
+          <ul class="dropdown-menu shadow">
+            <li>
+              <a class="dropdown-item" href="#" data-field="source:">{% translate "Source strings" %}</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="#" data-field="target:">{% translate "Target strings" %}</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="#" data-field="context:">{% translate "Key/Context strings" %}</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="#" data-field="note:">{% translate "Source string description" %}</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="#" data-field="location:">{% translate "Location strings" %}</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="#" data-field="state:">{% translate "String state" %}</a>
+            </li>
+            <li>
+              {# Translators: String pending for flushing to VCS. #}
+              <a class="dropdown-item" href="#" data-field="pending:">{% translate "Pending string" %}</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="#" data-field="language:">{% translate "String target language" %}</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="#" data-field="changed_by:">{% translate "String changed by" %}</a>
+            </li>
+          </ul>
+          <input type="text" class="form-control" placeholder="{% translate "Search for…" %}">
+          <span class="input-group-text" id="is-exact">
+            <label class="mb-0">
+              <input type="checkbox" class="form-check-input me-1">
+              {% translate "Exact" context "Exact search toggle" %}
+            </label>
+          </span>
           <button class="btn btn-outline-primary search-add" type="button">{% translate "Add" %}</button>
         </div>
+      </div>
 
-        <div class="btn-group search-group ms-2" role="group">
-          <div class="input-group">
-            <button type="button"
-                    class="btn btn-outline-primary dropdown-toggle search-field"
-                    data-field="changed:>="
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false">
-              <span class="search-label search-label-auto">{% translate "String changed after" %}</span>
-            </button>
-            <ul class="dropdown-menu shadow">
-              <li>
-                <a class="dropdown-item" href="#" data-field="changed:>=">{% translate "String changed after" %}</a>
-              </li>
-              <li>
-                <a class="dropdown-item" href="#" data-field="changed:<=">{% translate "String changed before" %}</a>
-              </li>
-            </ul>
-            <input type="date" class="form-control" placeholder="{% translate "Date" %}">
-            <button class="btn btn-outline-primary search-add" type="button">{% translate "Add" %}</button>
-          </div>
+      <div class="btn-group search-group ms-2" role="group">
+        <div class="btn-group">
+          <button type="button"
+                  class="btn btn-outline-primary dropdown-toggle search-field"
+                  data-field="has:suggestion"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false">
+            <span class="search-label search-label-auto">{% search_name "has:suggestion" %}</span>
+          </button>
+          <ul class="dropdown-menu shadow">
+            <li>
+              <a class="dropdown-item" href="#" data-field="has:suggestion">{% search_name "has:suggestion" %}</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="#" data-field="has:comment">{% search_name "has:comment" %}</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="#" data-field="has:check">{% search_name "has:check" %}</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="#" data-field="NOT has:screenshot">{% search_name "NOT has:screenshot" %}</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="#" data-field="has:plural">{% search_name "has:plural" %}</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="#" data-field="has:context">{% search_name "has:context" %}</a>
+            </li>
+          </ul>
+        </div>
+        <button class="btn btn-outline-primary search-add" type="button">{% translate "Add" %}</button>
+      </div>
+
+      <div class="btn-group search-group ms-2" role="group">
+        <div class="input-group">
+          <button type="button"
+                  class="btn btn-outline-primary dropdown-toggle search-field"
+                  data-field="changed:>="
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false">
+            <span class="search-label search-label-auto">{% translate "String changed after" %}</span>
+          </button>
+          <ul class="dropdown-menu shadow">
+            <li>
+              <a class="dropdown-item" href="#" data-field="changed:>=">{% translate "String changed after" %}</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="#" data-field="changed:<=">{% translate "String changed before" %}</a>
+            </li>
+          </ul>
+          <input type="date" class="form-control" placeholder="{% translate "Date" %}">
+          <button class="btn btn-outline-primary search-add" type="button">{% translate "Add" %}</button>
         </div>
       </div>
     </div>
-    <div class="mb-3">
-      <label class="form-label">{% translate "Query examples" %}</label>
-      <table class="table table-striped">
-        <tr>
-          <th>{% translate "Review strings changed by other users" %}</th>
-          <td>
-            <code>changed:&gt;="1 month ago" AND NOT changed_by:{{ user.username }}</code>
-          </td>
-          <td>
-            <a href="#" class="btn btn-outline-primary search-insert">{% translate "Add" %}</a>
-          </td>
-        </tr>
-        <tr>
-          <th>{% translate "Translated strings" %}</th>
-          <td>
-            <code>state:&gt;=translated</code>
-          </td>
-          <td>
-            <a href="#" class="btn btn-outline-primary search-insert">{% translate "Add" %}</a>
-          </td>
-        </tr>
-        <tr>
-          <th>{% translate "Strings with comments" %}</th>
-          <td>
-            <code>has:comment</code>
-          </td>
-          <td>
-            <a href="#" class="btn btn-outline-primary search-insert">{% translate "Add" %}</a>
-          </td>
-        </tr>
-        <tr>
-          <th>{% translate "Strings with any failing checks" %}</th>
-          <td>
-            <code>has:check</code>
-          </td>
-          <td>
-            <a href="#" class="btn btn-outline-primary search-insert">{% translate "Add" %}</a>
-          </td>
-        </tr>
-        <tr>
-          <th>{% translate "Strings with suggestions from others" %}</th>
-          <td>
-            <code>has:suggestion AND NOT suggestion_author:{{ user.username }}</code>
-          </td>
-          <td>
-            <a href="#" class="btn btn-outline-primary search-insert">{% translate "Add" %}</a>
-          </td>
-        </tr>
-        <tr>
-          <th>{% translate "Approved strings with suggestions" %}</th>
-          <td>
-            <code>state:approved AND has:suggestion</code>
-          </td>
-          <td>
-            <a href="#" class="btn btn-outline-primary search-insert">{% translate "Add" %}</a>
-          </td>
-        </tr>
-        <tr>
-          <th>{% translate "All untranslated strings added the past month" %}</th>
-          <td>
-            <code>added:&gt;="1 month ago" AND state:&lt;=needs-editing</code>
-          </td>
-          <td>
-            <a href="#" class="btn btn-outline-primary search-insert">{% translate "Add" %}</a>
-          </td>
-        </tr>
-        <tr>
-          <th>{% translate "Strings changed in the past two weeks" %}</th>
-          <td>
-            <code>changed:&gt;="2 weeks ago"</code>
-          </td>
-          <td>
-            <a href="#" class="btn btn-outline-primary search-insert">{% translate "Add" %}</a>
-          </td>
-        </tr>
-        {% if not language %}
-          {% with languages=user.profile.all_languages %}
-            <tr>
-              <th>{% translate "Translated strings in a certain language" %}</th>
-              <td>
-                <code>is:translated AND language:
-                  {% if languages %}
-                    {{ languages.0.code }}
-                  {% else %}
-                    en
-                  {% endif %}
-                </code>
-              </td>
-              <td>
-                <a href="#" class="btn btn-outline-primary search-insert">{% translate "Add" %}</a>
-              </td>
-            </tr>
-          {% endwith %}
-        {% endif %}
-      </table>
-    </div>
-  {% else %}
-    <div class="form-group">
-      <label class="control-label">{% translate "Advanced query builder" %}</label>
-
-      <div class="btn-toolbar search-toolbar" role="toolbar">
-
-        <div class="btn-group search-group" role="group">
-          <div class="input-group">
-            <div class="input-group-btn">
-              <button type="button"
-                      class="btn btn-default dropdown-toggle search-field"
-                      data-field="source:"
-                      data-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false">
-                <span class="search-label search-label-auto">{% translate "Source strings" %}</span>
-                <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu">
-                <li>
-                  <a href="#" data-field="source:">{% translate "Source strings" %}</a>
-                </li>
-                <li>
-                  <a href="#" data-field="target:">{% translate "Target strings" %}</a>
-                </li>
-                <li>
-                  <a href="#" data-field="context:">{% translate "Key/Context strings" %}</a>
-                </li>
-                <li>
-                  <a href="#" data-field="note:">{% translate "Source string description" %}</a>
-                </li>
-                <li>
-                  <a href="#" data-field="location:">{% translate "Location strings" %}</a>
-                </li>
-                <li>
-                  <a href="#" data-field="state:">{% translate "String state" %}</a>
-                </li>
-                <li>
-                  {# Translators: String pending for flushing to VCS. #}
-                  <a href="#" data-field="pending:">{% translate "Pending string" %}</a>
-                </li>
-                <li>
-                  <a href="#" data-field="language:">{% translate "String target language" %}</a>
-                </li>
-                <li>
-                  <a href="#" data-field="changed_by:">{% translate "String changed by" %}</a>
-                </li>
-              </ul>
-            </div>
-            <!-- /btn-group -->
-            <input type="text" class="form-control" placeholder="{% translate "Search for…" %}">
-            <span id="is-exact" class="input-group-addon">
-              <label>
-                <input type="checkbox">
-                {% translate "Exact" context "Exact search toggle" %}
-              </label>
-            </span>
-            <span class="input-group-btn">
-              <button class="btn btn-default search-add" type="button">{% translate "Add" %}</button>
-            </span>
-          </div>
-          <!-- /input-group -->
-        </div>
-
-        <div class="btn-group search-group" role="group">
-          <div class="btn-group">
-            <button type="button"
-                    class="btn btn-default dropdown-toggle search-field"
-                    data-field="has:suggestion"
-                    data-toggle="dropdown"
-                    aria-haspopup="true"
-                    aria-expanded="false">
-              <span class="search-label search-label-auto">{% search_name "has:suggestion" %}</span> <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu">
-              <li>
-                <a href="#" data-field="has:suggestion">{% search_name "has:suggestion" %}</a>
-              </li>
-              <li>
-                <a href="#" data-field="has:comment">{% search_name "has:comment" %}</a>
-              </li>
-              <li>
-                <a href="#" data-field="has:check">{% search_name "has:check" %}</a>
-              </li>
-              <li>
-                <a href="#" data-field="NOT has:screenshot">{% search_name "NOT has:screenshot" %}</a>
-              </li>
-              <li>
-                <a href="#" data-field="has:plural">{% search_name "has:plural" %}</a>
-              </li>
-              <li>
-                <a href="#" data-field="has:context">{% search_name "has:context" %}</a>
-              </li>
-            </ul>
-          </div>
-          <!-- /btn-group -->
-          <button class="btn btn-default search-add" type="button">{% translate "Add" %}</button>
-        </div>
-
-        <div class="btn-group search-group" role="group">
-          <div class="input-group">
-            <div class="input-group-btn">
-              <button type="button"
-                      class="btn btn-default dropdown-toggle search-field"
-                      data-field="changed:>="
-                      data-toggle="dropdown"
-                      aria-haspopup="true"
-                      aria-expanded="false">
-                <span class="search-label search-label-auto">{% translate "String changed after" %}</span> <span class="caret"></span>
-              </button>
-              <ul class="dropdown-menu">
-                <li>
-                  <a href="#" data-field="changed:>=">{% translate "String changed after" %}</a>
-                </li>
-                <li>
-                  <a href="#" data-field="changed:<=">{% translate "String changed before" %}</a>
-                </li>
-              </ul>
-            </div>
-            <!-- /btn-group -->
-            <input type="date" class="form-control" placeholder="{% translate "Date" %}">
-            <span class="input-group-btn">
-              <button class="btn btn-default search-add" type="button">{% translate "Add" %}</button>
-            </span>
-          </div>
-          <!-- /input-group -->
-
-        </div>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="control-label">{% translate "Query examples" %}</label>
-      <table class="table table-striped">
-        <tr>
-          <th>{% translate "Review strings changed by other users" %}</th>
-          <td>
-            <code>changed:&gt;="1 month ago" AND NOT changed_by:{{ user.username }}</code>
-          </td>
-          <td>
-            <a href="#" class="btn btn-default search-insert">{% translate "Add" %}</a>
-          </td>
-        </tr>
-        <tr>
-          <th>{% translate "Translated strings" %}</th>
-          <td>
-            <code>state:&gt;=translated</code>
-          </td>
-          <td>
-            <a href="#" class="btn btn-default search-insert">{% translate "Add" %}</a>
-          </td>
-        </tr>
-        <tr>
-          <th>{% translate "Strings with comments" %}</th>
-          <td>
-            <code>has:comment</code>
-          </td>
-          <td>
-            <a href="#" class="btn btn-default search-insert">{% translate "Add" %}</a>
-          </td>
-        </tr>
-        <tr>
-          <th>{% translate "Strings with any failing checks" %}</th>
-          <td>
-            <code>has:check</code>
-          </td>
-          <td>
-            <a href="#" class="btn btn-default search-insert">{% translate "Add" %}</a>
-          </td>
-        </tr>
-        <tr>
-          <th>{% translate "Strings with suggestions from others" %}</th>
-          <td>
-            <code>has:suggestion AND NOT suggestion_author:{{ user.username }}</code>
-          </td>
-          <td>
-            <a href="#" class="btn btn-default search-insert">{% translate "Add" %}</a>
-          </td>
-        </tr>
-        <tr>
-          <th>{% translate "Approved strings with suggestions" %}</th>
-          <td>
-            <code>state:approved AND has:suggestion</code>
-          </td>
-          <td>
-            <a href="#" class="btn btn-default search-insert">{% translate "Add" %}</a>
-          </td>
-        </tr>
-        <tr>
-          <th>{% translate "All untranslated strings added the past month" %}</th>
-          <td>
-            <code>added:&gt;="1 month ago" AND state:&lt;=needs-editing</code>
-          </td>
-          <td>
-            <a href="#" class="btn btn-default search-insert">{% translate "Add" %}</a>
-          </td>
-        </tr>
-        <tr>
-          <th>{% translate "Strings changed in the past two weeks" %}</th>
-          <td>
-            <code>changed:&gt;="2 weeks ago"</code>
-          </td>
-          <td>
-            <a href="#" class="btn btn-default search-insert">{% translate "Add" %}</a>
-          </td>
-        </tr>
-        {% if not language %}
-          {% with languages=user.profile.all_languages %}
-            <tr>
-              <th>{% translate "Translated strings in a certain language" %}</th>
-              <td>
-                <code>is:translated AND language:
-                  {% if languages %}
-                    {{ languages.0.code }}
-                  {% else %}
-                    en
-                  {% endif %}
-                </code>
-              </td>
-              <td>
-                <a href="#" class="btn btn-default search-insert">{% translate "Add" %}</a>
-              </td>
-            </tr>
-          {% endwith %}
-        {% endif %}
-      </table>
-    </div>
-  {% endif %}
+  </div>
+  <div class="mb-3">
+    <label class="form-label">{% translate "Query examples" %}</label>
+    <table class="table table-striped">
+      <tr>
+        <th>{% translate "Review strings changed by other users" %}</th>
+        <td>
+          <code>changed:&gt;="1 month ago" AND NOT changed_by:{{ user.username }}</code>
+        </td>
+        <td>
+          <a href="#" class="btn btn-outline-primary search-insert">{% translate "Add" %}</a>
+        </td>
+      </tr>
+      <tr>
+        <th>{% translate "Translated strings" %}</th>
+        <td>
+          <code>state:&gt;=translated</code>
+        </td>
+        <td>
+          <a href="#" class="btn btn-outline-primary search-insert">{% translate "Add" %}</a>
+        </td>
+      </tr>
+      <tr>
+        <th>{% translate "Strings with comments" %}</th>
+        <td>
+          <code>has:comment</code>
+        </td>
+        <td>
+          <a href="#" class="btn btn-outline-primary search-insert">{% translate "Add" %}</a>
+        </td>
+      </tr>
+      <tr>
+        <th>{% translate "Strings with any failing checks" %}</th>
+        <td>
+          <code>has:check</code>
+        </td>
+        <td>
+          <a href="#" class="btn btn-outline-primary search-insert">{% translate "Add" %}</a>
+        </td>
+      </tr>
+      <tr>
+        <th>{% translate "Strings with suggestions from others" %}</th>
+        <td>
+          <code>has:suggestion AND NOT suggestion_author:{{ user.username }}</code>
+        </td>
+        <td>
+          <a href="#" class="btn btn-outline-primary search-insert">{% translate "Add" %}</a>
+        </td>
+      </tr>
+      <tr>
+        <th>{% translate "Approved strings with suggestions" %}</th>
+        <td>
+          <code>state:approved AND has:suggestion</code>
+        </td>
+        <td>
+          <a href="#" class="btn btn-outline-primary search-insert">{% translate "Add" %}</a>
+        </td>
+      </tr>
+      <tr>
+        <th>{% translate "All untranslated strings added the past month" %}</th>
+        <td>
+          <code>added:&gt;="1 month ago" AND state:&lt;=needs-editing</code>
+        </td>
+        <td>
+          <a href="#" class="btn btn-outline-primary search-insert">{% translate "Add" %}</a>
+        </td>
+      </tr>
+      <tr>
+        <th>{% translate "Strings changed in the past two weeks" %}</th>
+        <td>
+          <code>changed:&gt;="2 weeks ago"</code>
+        </td>
+        <td>
+          <a href="#" class="btn btn-outline-primary search-insert">{% translate "Add" %}</a>
+        </td>
+      </tr>
+      <tr>
+        <th>{% translate "Automatically translated strings" %}</th>
+        <td>
+          <code>is:automatically-translated</code>
+        </td>
+        <td>
+          <a href="#" class="btn btn-outline-primary search-insert">{% translate "Add" %}</a>
+        </td>
+      </tr>
+      {% if not language %}
+        {% with languages=user.profile.all_languages %}
+          <tr>
+            <th>{% translate "Translated strings in a certain language" %}</th>
+            <td>
+              <code>is:translated AND language:
+                {% if languages %}
+                  {{ languages.0.code }}
+                {% else %}
+                  en
+                {% endif %}
+              </code>
+            </td>
+            <td>
+              <a href="#" class="btn btn-outline-primary search-insert">{% translate "Add" %}</a>
+            </td>
+          </tr>
+        {% endwith %}
+      {% endif %}
+    </table>
+  </div>
 {% endif %}

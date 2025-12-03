@@ -11,6 +11,7 @@ import time
 from datetime import timedelta
 from itertools import chain
 from pathlib import Path
+from shutil import disk_usage
 from typing import TYPE_CHECKING, cast
 
 from celery.exceptions import TimeoutError as CeleryTimeoutError
@@ -344,7 +345,7 @@ def check_data_writable(
     for path in dirs:
         path.mkdir(parents=True, exist_ok=True)
         if not os.access(path, os.W_OK):
-            errors.append(weblate_check("weblate.E002", message.format(path)))
+            errors.append(weblate_check("weblate.E002", message.format(path)), Error)
 
     return errors
 
@@ -451,9 +452,20 @@ def check_diskspace(
 ) -> Iterable[CheckMessage]:
     """Check free disk space."""
     if settings.DATA_DIR:
-        stat = os.statvfs(settings.DATA_DIR)
-        if stat.f_bavail * stat.f_bsize < 10000000:
-            return [weblate_check("weblate.C032", "The disk is nearly full")]
+        try:
+            usage = disk_usage(settings.DATA_DIR)
+        except OSError:
+            # check_data_writable will trigger for this
+            return []
+        if usage is None:
+            return []
+        # Show critical error on really low space, error on low space
+        if usage.free < 20_000_000:
+            message = f"There is not enough free space in {settings.DATA_DIR}"
+            return [weblate_check("weblate.C032", message)]
+        if usage.free < 100_000_000:
+            message = f"The disk space in {settings.DATA_DIR} is running low"
+            return [weblate_check("weblate.E043", message, Error)]
     return []
 
 

@@ -136,6 +136,12 @@ LICENSES = (
         False,
     ),
     (
+        "ALGLIB-Documentation",
+        "ALGLIB Documentation License",
+        "https://spdx.org/licenses/ALGLIB-Documentation.html",
+        True,
+    ),
+    (
         "ADSL",
         "Amazon Digital Services License",
         "https://spdx.org/licenses/ADSL.html",
@@ -589,6 +595,12 @@ LICENSES = (
         "BSD-Inferno-Nettverk",
         "BSD-Inferno-Nettverk",
         "https://spdx.org/licenses/BSD-Inferno-Nettverk.html",
+        False,
+    ),
+    (
+        "Buddy",
+        "Buddy License",
+        "https://spdx.org/licenses/Buddy.html",
         False,
     ),
     (
@@ -1450,6 +1462,12 @@ LICENSES = (
         True,
     ),
     (
+        "ESA-PL-strong-copyleft-2.4",
+        "European Space Agency Public License (ESA-PL) - V2.4 - Strong Copyleft (Type 1)",
+        "https://spdx.org/licenses/ESA-PL-strong-copyleft-2.4.html",
+        False,
+    ),
+    (
         "ESA-PL-permissive-2.4",
         "European Space Agency Public License – v2.4 – Permissive (Type 3)",
         "https://spdx.org/licenses/ESA-PL-permissive-2.4.html",
@@ -2008,6 +2026,12 @@ LICENSES = (
         False,
     ),
     (
+        "HPND-SMC",
+        "Historical Permission Notice and Disclaimer - SMC variant",
+        "https://spdx.org/licenses/HPND-SMC.html",
+        False,
+    ),
+    (
         "HPND-UC",
         "Historical Permission Notice and Disclaimer - University of California variant",
         "https://spdx.org/licenses/HPND-UC.html",
@@ -2065,6 +2089,12 @@ LICENSES = (
         "HTMLTIDY",
         "HTML Tidy License",
         "https://spdx.org/licenses/HTMLTIDY.html",
+        False,
+    ),
+    (
+        "hyphen-bulgarian",
+        "hyphen-bulgarian License",
+        "https://spdx.org/licenses/hyphen-bulgarian.html",
         False,
     ),
     (
@@ -2173,6 +2203,12 @@ LICENSES = (
         "ISC-Veillard",
         "ISC Veillard variant",
         "https://spdx.org/licenses/ISC-Veillard.html",
+        False,
+    ),
+    (
+        "ISO-permission",
+        "ISO permission notice",
+        "https://spdx.org/licenses/ISO-permission.html",
         False,
     ),
     (
@@ -2572,6 +2608,12 @@ LICENSES = (
         False,
     ),
     (
+        "MIT-STK",
+        "MIT-STK License",
+        "https://spdx.org/licenses/MIT-STK.html",
+        False,
+    ),
+    (
         "MMIXware",
         "MMIXware License",
         "https://spdx.org/licenses/MMIXware.html",
@@ -2737,6 +2779,12 @@ LICENSES = (
         "NICTA-1.0",
         "NICTA Public Software License, Version 1.0",
         "https://spdx.org/licenses/NICTA-1.0.html",
+        False,
+    ),
+    (
+        "NIST-PD-TNT",
+        "NIST    Public Domain Notice TNT variant",
+        "https://spdx.org/licenses/NIST-PD-TNT.html",
         False,
     ),
     (
@@ -3088,6 +3136,12 @@ LICENSES = (
         True,
     ),
     (
+        "OSSP",
+        "OSSP License",
+        "https://spdx.org/licenses/OSSP.html",
+        False,
+    ),
+    (
         "PADL",
         "PADL License",
         "https://spdx.org/licenses/PADL.html",
@@ -3370,6 +3424,12 @@ LICENSES = (
         False,
     ),
     (
+        "SGMLUG-PM",
+        "SGMLUG Parser Materials License",
+        "https://spdx.org/licenses/SGMLUG-PM.html",
+        False,
+    ),
+    (
         "SGP4",
         "SGP4 Permission Notice",
         "https://spdx.org/licenses/SGP4.html",
@@ -3646,6 +3706,12 @@ LICENSES = (
         False,
     ),
     (
+        "TekHVC",
+        "TekHVC License",
+        "https://spdx.org/licenses/TekHVC.html",
+        False,
+    ),
+    (
         "TermReadKey",
         "TermReadKey License",
         "https://spdx.org/licenses/TermReadKey.html",
@@ -3913,6 +3979,12 @@ LICENSES = (
         "X11-distribute-modifications-variant",
         "X11 License Distribution Modification Variant",
         "https://spdx.org/licenses/X11-distribute-modifications-variant.html",
+        False,
+    ),
+    (
+        "X11-no-permit-persons",
+        "X11 no permit persons clause",
+        "https://spdx.org/licenses/X11-no-permit-persons.html",
         False,
     ),
     (

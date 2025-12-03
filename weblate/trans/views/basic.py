@@ -4,9 +4,10 @@
 from __future__ import annotations
 
 from collections import Counter
+from contextlib import suppress
 from typing import TYPE_CHECKING, Any
 
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_not_required, login_required
 from django.db import transaction
 from django.db.models import Q
 from django.http import HttpResponse
@@ -18,7 +19,6 @@ from django.utils.translation import gettext, ngettext
 from django.views.decorators.cache import never_cache
 from django.views.generic import RedirectView
 
-from weblate.auth.models import AuthenticatedHttpRequest
 from weblate.formats.models import EXPORTERS
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
@@ -116,7 +116,6 @@ def list_projects(request: AuthenticatedHttpRequest):
             ),
             "title": gettext("Projects"),
             "query_string": query_string,
-            "bootstrap_5": True,
         },
     )
 
@@ -277,7 +276,6 @@ def show_project_language(request: AuthenticatedHttpRequest, obj: ProjectLanguag
                 language=language_object,
                 initial=SearchForm.get_initial(request),
                 obj=obj,
-                bootstrap_5=True,
             ),
             "announcement_form": optional_form(
                 AnnouncementForm, user, "announcement.add", project_object
@@ -289,6 +287,14 @@ def show_project_language(request: AuthenticatedHttpRequest, obj: ProjectLanguag
                 ProjectLanguageDeleteForm, user, "translation.delete", obj, obj=obj
             ),
             "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj, obj=obj),
+            "autoform": optional_form(
+                AutoForm,
+                user,
+                "translation.auto",
+                obj,
+                obj=obj,
+                user=user,
+            ),
             "bulk_state_form": optional_form(
                 BulkEditForm,
                 user,
@@ -297,9 +303,7 @@ def show_project_language(request: AuthenticatedHttpRequest, obj: ProjectLanguag
                 user=user,
                 obj=obj,
                 project=obj.project,
-                bootstrap_5=True,
             ),
-            "bootstrap_5": True,
         },
     )
 
@@ -350,7 +354,6 @@ def show_category_language(request: AuthenticatedHttpRequest, obj):
                 language=language_object,
                 initial=SearchForm.get_initial(request),
                 obj=obj,
-                bootstrap_5=True,
             ),
             "language_stats": category_object.stats.get_single_language_stats(
                 language_object
@@ -367,9 +370,7 @@ def show_category_language(request: AuthenticatedHttpRequest, obj):
                 user=user,
                 obj=obj,
                 project=obj.category.project,
-                bootstrap_5=True,
             ),
-            "bootstrap_5": True,
         },
     )
 
@@ -421,7 +422,6 @@ def show_project(request: AuthenticatedHttpRequest, obj):
                 request=request,
                 initial=SearchForm.get_initial(request),
                 obj=obj,
-                bootstrap_5=True,
             ),
             "announcement_form": optional_form(
                 AnnouncementForm, user, "announcement.add", obj
@@ -448,12 +448,10 @@ def show_project(request: AuthenticatedHttpRequest, obj):
                 user=user,
                 obj=obj,
                 project=obj,
-                bootstrap_5=True,
             ),
             "components": components,
             "categories": prefetch_stats(obj.category_set.filter(category=None)),
             "user_can_add_translation": user_can_add_translation,
-            "bootstrap_5": True,
         },
     )
 
@@ -507,7 +505,6 @@ def show_category(request: AuthenticatedHttpRequest, obj):
                 request=request,
                 initial=SearchForm.get_initial(request),
                 obj=obj,
-                bootstrap_5=True,
             ),
             "announcement_form": optional_form(
                 AnnouncementForm, user, "announcement.add", obj.project
@@ -524,6 +521,14 @@ def show_category(request: AuthenticatedHttpRequest, obj):
                 instance=obj,
             ),
             "replace_form": optional_form(ReplaceForm, user, "unit.edit", obj, obj=obj),
+            "autoform": optional_form(
+                AutoForm,
+                user,
+                "translation.auto",
+                obj,
+                obj=obj,
+                user=user,
+            ),
             "bulk_state_form": optional_form(
                 BulkEditForm,
                 user,
@@ -532,12 +537,10 @@ def show_category(request: AuthenticatedHttpRequest, obj):
                 user=user,
                 obj=obj,
                 project=obj.project,
-                bootstrap_5=True,
             ),
             "components": components,
             "categories": prefetch_stats(obj.category_set.all()),
             "user_can_add_translation": user_can_add_translation,
-            "bootstrap_5": True,
         },
     )
 
@@ -587,7 +590,6 @@ def show_component(request: AuthenticatedHttpRequest, obj: Component):
                 user=user,
                 obj=obj,
                 project=obj.project,
-                bootstrap_5=True,
             ),
             "announcement_form": optional_form(
                 AnnouncementForm, user, "announcement.add", obj
@@ -603,17 +605,23 @@ def show_component(request: AuthenticatedHttpRequest, obj: Component):
                 request=request,
                 instance=obj,
             ),
+            "autoform": optional_form(
+                AutoForm,
+                user,
+                "translation.auto",
+                obj,
+                obj=obj,
+                user=user,
+            ),
             "search_form": SearchForm(
                 request=request,
                 initial=SearchForm.get_initial(request),
                 obj=obj,
-                bootstrap_5=True,
             ),
             "alerts": obj.all_active_alerts
             if "alerts" not in request.GET
             else obj.alert_set.all(),
             "user_can_add_translation": user_can_add_translation,
-            "bootstrap_5": True,
         },
     )
 
@@ -632,7 +640,6 @@ def show_translation(request: AuthenticatedHttpRequest, obj):
         language=obj.language,
         initial=SearchForm.get_initial(request),
         obj=obj,
-        bootstrap_5=True,
     )
 
     # Translations to same language from other components in this project
@@ -707,7 +714,6 @@ def show_translation(request: AuthenticatedHttpRequest, obj):
                 user=user,
                 obj=obj,
                 project=project,
-                bootstrap_5=True,
             ),
             "new_unit_form": get_new_unit_form(obj, user),
             "new_unit_plural_form": get_new_unit_form(obj, user, is_source_plural=True),
@@ -720,7 +726,6 @@ def show_translation(request: AuthenticatedHttpRequest, obj):
             "last_changes": last_changes,
             "other_translations": other_translations,
             "exporters": EXPORTERS.list_exporters(obj),
-            "bootstrap_5": True,
         },
     )
 
@@ -945,7 +950,7 @@ def add_languages_to_component(
 
             lang_counts[f"errors_{lang_code}"] += 1
 
-        try:
+        with suppress(FileParseError):
             # force_scan needed, see add_new_language
             if added and not component.create_translations(
                 request=request, force_scan=True
@@ -963,8 +968,6 @@ def add_languages_to_component(
                         kwargs={"path": result.get_url_path()},
                     )
                 )
-        except FileParseError:
-            pass
 
     if user.has_perm("component.edit", component):
         reset_rate_limit("language", request)
@@ -973,6 +976,7 @@ def add_languages_to_component(
 
 
 @never_cache
+@login_not_required
 def healthz(request: AuthenticatedHttpRequest) -> HttpResponse:
     """Make simple health check endpoint."""
     return HttpResponse("ok")
@@ -995,7 +999,6 @@ def show_component_list(request: AuthenticatedHttpRequest, name) -> HttpResponse
         {
             "object": obj,
             "components": components,
-            "bootstrap_5": True,
         },
     )
 
@@ -1022,5 +1025,6 @@ class ProjectLanguageRedirectView(RedirectView):
     query_string = True
     pattern_name = "show"
 
+    # pylint: disable=arguments-differ
     def get_redirect_url(self, project: str | None, lang: str):
         return super().get_redirect_url(path=[project or "-", "-", lang])

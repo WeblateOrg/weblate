@@ -9,8 +9,6 @@ from django.utils.translation import gettext_lazy
 from weblate.checks.flags import Flags
 from weblate.utils.colors import ColorChoices
 
-TRANSLATION_LABELS = {"Automatically translated"}
-
 
 class Label(models.Model):
     project = models.ForeignKey(

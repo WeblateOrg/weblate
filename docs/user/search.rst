@@ -69,6 +69,8 @@ Fields
       Untranslated strings, same as ``state:<translated``.
    ``pending``
       Pending strings not yet committed to the file (see :ref:`lazy-commit`).
+   ``automatically-translated``
+      Strings that were translated automatically (see :ref:`auto-translation`).
 ``language:TEXT``
    String target language.
 ``component:TEXT``
@@ -174,7 +176,7 @@ that date. Specify the exact timestamp if you need to override this behavior.
 Examples:
 
 ``changed:>=2019-03-01``
-   Changed 2019-03-01 and later (inclusive).
+   Changed on 1st March 2019 and later (inclusive).
 ``changed:>="2 weeks ago"``
    Changed 2 weeks ago from the current date and time.
 ``changed:>=yesterday``

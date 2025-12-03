@@ -26,7 +26,7 @@ from django.core.exceptions import (
 )
 from django.core.validators import MaxValueValidator
 from django.db import IntegrityError, connection, models, transaction
-from django.db.models import Count, Q
+from django.db.models import Count, F, Q
 from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
 from django.utils.functional import cached_property
@@ -39,6 +39,7 @@ from weblate_language_data.ambiguous import AMBIGUOUS
 
 from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
+from weblate.formats.base import BilingualUpdateMixin
 from weblate.formats.models import FILE_FORMATS
 from weblate.lang.models import Language, get_default_lang
 from weblate.memory.tasks import import_memory
@@ -92,6 +93,7 @@ from weblate.trans.validators import (
 from weblate.utils import messages
 from weblate.utils.celery import get_task_progress
 from weblate.utils.colors import ColorChoices
+from weblate.utils.db import using_postgresql
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
 from weblate.utils.fields import EmailField
@@ -113,6 +115,7 @@ from weblate.utils.render import (
 )
 from weblate.utils.site import get_site_url
 from weblate.utils.state import (
+    FUZZY_STATES,
     STATE_APPROVED,
     STATE_FUZZY,
     STATE_READONLY,
@@ -122,6 +125,7 @@ from weblate.utils.stats import ComponentStats
 from weblate.utils.validators import (
     validate_filename,
     validate_re_nonempty,
+    validate_repo_url,
     validate_slug,
 )
 from weblate.vcs.base import RepositoryError
@@ -413,6 +417,7 @@ class Component(
             "URL of a repository, use weblate://project/component "
             "to share it with other component."
         ),
+        validators=[validate_repo_url],
     )
     linked_component = models.ForeignKey(
         "trans.Component",
@@ -428,6 +433,7 @@ class Component(
             "URL of a push repository, pushing is turned off if empty."
         ),
         blank=True,
+        validators=[validate_repo_url],
     )
     repoweb = models.CharField(
         verbose_name=gettext_lazy("Repository browser"),
@@ -1122,7 +1128,7 @@ class Component(
                     )
                     continue
 
-            if not addon.can_install(component, None):
+            if not addon.can_install(component=component):
                 component.log_warning("could not enable addon %s, not compatible", name)
                 continue
 
@@ -1380,8 +1386,6 @@ class Component(
 
     def get_source(self, id_hash, create=None):
         """Get source info with caching."""
-        from weblate.trans.models import Unit
-
         # Preload sources when creating units
         if not self._sources_prefetched and create:
             self.preload_sources()
@@ -1793,7 +1797,7 @@ class Component(
                 if (
                     not self.template
                     and not self.file_format_cls.create_empty_bilingual
-                    and not hasattr(self.file_format_cls, "update_bilingual")
+                    and not issubclass(self.file_format_cls, BilingualUpdateMixin)
                 ) or (
                     self.template
                     and self.file_format_cls.get_new_file_content() is None
@@ -2157,14 +2161,14 @@ class Component(
     def do_file_sync(
         self, request: AuthenticatedHttpRequest | None = None, *, do_commit: bool = True
     ) -> None:
-        from weblate.trans.models import Unit
         from weblate.trans.tasks import perform_commit
 
         for unit in Unit.objects.filter(
             Q(translation__component=self)
             | Q(translation__component__linked_component=self)
         ).exclude(
-            translation__language_id=self.source_language_id, translation__filename=""
+            Q(translation__language_id=F("translation__component__source_language_id"))
+            | Q(translation__filename="")
         ):
             PendingUnitChange.store_unit_change(unit)
 
@@ -2234,10 +2238,24 @@ class Component(
                 scope="weblate", name="commit", verbose="Background commit"
             )
 
+        pending_changes = list(
+            PendingUnitChange.objects.for_component(
+                self, apply_filters=True, include_linked=True
+            ).values_list("pk", "unit__translation_id")
+        )
+
+        # Short-circuit if no committable changes remain after all filters (including blocking check)
+        # This prevents unnecessary processing when blocking changes filter out all pending changes
+        if not pending_changes:
+            return True
+
+        changes_by_translation = defaultdict(list)
+        for pending_change_pk, translation_id in pending_changes:
+            changes_by_translation[translation_id].append(pending_change_pk)
+
         # Get all translation with pending changes, source translation first
         translations = sorted(
-            Translation.objects.filter(unit__pending_changes__isnull=False)
-            .filter(Q(component=self) | Q(component__linked_component=self))
+            Translation.objects.filter(pk__in=list(changes_by_translation.keys()))
             .distinct()
             .prefetch_related("component"),
             key=lambda translation: not translation.is_source,
@@ -2279,7 +2297,10 @@ class Component(
 
                     components[component.pk] = component
                 with self.start_sentry_span("commit_pending"):
-                    translation_changed = translation._commit_pending(reason, user)  # noqa: SLF001
+                    pending_changes_pk = changes_by_translation[translation.pk]
+                    translation_changed = translation._commit_pending(  # noqa: SLF001
+                        reason, user, pending_changes_pk
+                    )
                 was_changed |= translation_changed
                 if translation_changed and component.has_template():
                     translation_pks[component.pk].append(translation.pk)
@@ -2836,7 +2857,7 @@ class Component(
                     )
                     self.handle_parse_error(error.__cause__, filename=self.template)
                     self.update_import_alerts()
-                    raise error.__cause__ from error  # pylint: disable=E0710
+                    raise error.__cause__ from error  # pylint: disable=raising-non-exception
                 was_change |= bool(translation.reason)
                 translations[translation.id] = translation
                 languages[lang.code] = translation
@@ -2844,7 +2865,7 @@ class Component(
                 translation.drop_store_cache()
                 # Remove fuzzy flag on template name change
                 if changed_template and self.template:
-                    translation.unit_set.filter(state=STATE_FUZZY).update(
+                    translation.unit_set.filter(state__in=FUZZY_STATES).update(
                         state=STATE_TRANSLATED
                     )
                 self.progress_step()
@@ -3009,6 +3030,10 @@ class Component(
             return
         if skip_push is None:
             skip_push = validate
+        if not self.is_repo_local and not self.repository.is_valid():
+            with self.repository.lock:
+                self.repository.clone_from(self.repo)
+
         self.configure_repo(validate)
         if not skip_commit and self.id:
             self.commit_pending("sync", None, skip_push=skip_push)
@@ -3053,25 +3078,24 @@ class Component(
                         )
                     }
                 ) from error
-            else:
-                if repo is not None and repo.is_repo_link:
-                    raise ValidationError(
-                        {
-                            "repo": gettext(
-                                "Invalid link to a Weblate project, "
-                                "cannot link to linked repository!"
-                            )
-                        }
-                    )
-                if repo.pk == self.pk:
-                    raise ValidationError(
-                        {
-                            "repo": gettext(
-                                "Invalid link to a Weblate project, "
-                                "cannot link it to itself!"
-                            )
-                        }
-                    )
+            if repo is not None and repo.is_repo_link:
+                raise ValidationError(
+                    {
+                        "repo": gettext(
+                            "Invalid link to a Weblate project, "
+                            "cannot link to linked repository!"
+                        )
+                    }
+                )
+            if repo.pk == self.pk:
+                raise ValidationError(
+                    {
+                        "repo": gettext(
+                            "Invalid link to a Weblate project, "
+                            "cannot link it to itself!"
+                        )
+                    }
+                )
             # Push repo is not used with link
             for setting in ("push", "branch", "push_branch"):
                 if getattr(self, setting):
@@ -3558,8 +3582,6 @@ class Component(
                 addon.addon.post_configure_run()
 
     def update_variants(self, updated_units=None) -> None:
-        from weblate.trans.models import Unit
-
         component_units = Unit.objects.filter(translation__component=self, variant=None)
 
         if updated_units is None:
@@ -3643,11 +3665,15 @@ class Component(
     @property
     def count_pending_units(self):
         """Return count of pending units."""
-        from weblate.trans.models import Unit
+        return self._count_pending_units_helper(apply_filters=True)
 
-        return Unit.objects.filter(
-            translation__component=self, pending_changes__isnull=False
-        ).count()
+    def _count_pending_units_helper(self, apply_filters: bool):
+        queryset = PendingUnitChange.objects.for_component(
+            self, apply_filters=apply_filters
+        )
+        if using_postgresql():
+            return queryset.distinct("unit_id").count()
+        return queryset.values("unit_id").distinct().count()
 
     @property
     def count_repo_missing(self):
@@ -3746,7 +3772,7 @@ class Component(
     def drop_file_format_cache(self) -> None:
         self.__dict__.pop("file_format_cls", None)
 
-    def load_intermediate_store(self):
+    def load_intermediate_store(self) -> TranslationFormat:
         """Load translate-toolkit store for intermediate."""
         return self.file_format_cls(  # pylint: disable=too-many-function-args,unexpected-keyword-arg
             self.get_intermediate_filename(),
@@ -3756,7 +3782,7 @@ class Component(
         )
 
     @cached_property
-    def intermediate_store(self):
+    def intermediate_store(self) -> TranslationFormat | None:
         """Get translate-toolkit store for intermediate."""
         # Do we need template?
         if not self.has_template() or not self.intermediate:
@@ -3766,8 +3792,9 @@ class Component(
             return self.load_intermediate_store()
         except Exception as exc:
             self.handle_parse_error(exc, filename=self.intermediate)
+            return None
 
-    def load_template_store(self, fileobj=None):
+    def load_template_store(self, fileobj=None) -> TranslationFormat:
         """Load translate-toolkit store for template."""
         with self.start_sentry_span("load_template_store"):
             return self.file_format_cls(  # pylint: disable=too-many-function-args,unexpected-keyword-arg
@@ -3779,7 +3806,7 @@ class Component(
             )
 
     @cached_property
-    def template_store(self):
+    def template_store(self) -> TranslationFormat | None:
         """Get translate-toolkit store for template."""
         # Do we need template?
         if not self.has_template():
@@ -3791,6 +3818,7 @@ class Component(
             if not isinstance(error, FileNotFoundError):
                 report_error("Template parse error", project=self.project)
             self.handle_parse_error(error, filename=self.template)
+            return None
 
     @cached_property
     def all_flags(self):
@@ -4079,8 +4107,6 @@ class Component(
         self._glossary_sync_scheduled = False
 
     def get_unused_enforcements(self) -> Iterable[dict | BaseCheck]:
-        from weblate.trans.models import Unit
-
         for current in self.enforced_checks:
             try:
                 check = CHECKS[current]
@@ -4167,8 +4193,6 @@ class Component(
             return "{}\n\n{}".format(gettext("Could not get repository status!"), error)
 
     def update_enforced_checks(self) -> None:
-        from weblate.trans.models import Unit
-
         units = Unit.objects.filter(
             check__name__in=self.enforced_checks,
             translation__component=self,

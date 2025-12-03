@@ -26,7 +26,7 @@ from weblate.trans.models import Component, Unit
 from weblate.utils import messages
 from weblate.utils.data import data_dir
 from weblate.utils.lock import WeblateLock
-from weblate.utils.requests import request
+from weblate.utils.requests import http_request
 from weblate.utils.search import parse_query
 from weblate.utils.views import PathViewMixin
 
@@ -178,7 +178,7 @@ def ensure_tesseract_language(lang: str) -> None:
             LOGGER.debug("downloading tesseract data %s", url)
 
             with sentry_sdk.start_span(op="ocr.download", name=url):
-                response = request("GET", url, allow_redirects=True)
+                response = http_request("GET", url, allow_redirects=True)
 
             with open(full_name, "xb") as handle:
                 handle.write(response.content)
@@ -193,7 +193,7 @@ def try_add_source(request: AuthenticatedHttpRequest, obj) -> bool:
     except (Unit.DoesNotExist, ValueError):
         return False
 
-    obj.units.add(source)
+    obj.add_unit(source, user=request.user)
     return True
 
 
@@ -231,7 +231,7 @@ class ScreenshotList(PathViewMixin, ListView):
             )
             request.user.profile.increase_count("uploaded")
             obj.change_set.create(
-                action=ActionEvents.SCREENSHOT_ADDED,
+                action=ActionEvents.SCREENSHOT_UPLOADED,
                 user=request.user,
                 target=obj.name,
             )
@@ -322,7 +322,13 @@ def get_screenshot(request: AuthenticatedHttpRequest, pk):
 def remove_source(request: AuthenticatedHttpRequest, pk):
     obj = get_screenshot(request, pk)
 
-    obj.units.remove(request.POST["source"])
+    try:
+        unit = obj.translation.unit_set.get(pk=int(request.POST["source"]))
+    except (Unit.DoesNotExist, ValueError):
+        messages.error(request, gettext("Invalid unit."))
+        return redirect(obj)
+
+    obj.remove_unit(unit, user=request.user)
 
     messages.success(request, gettext("Source has been removed."))
 

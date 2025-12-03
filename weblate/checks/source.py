@@ -16,7 +16,7 @@ from django.utils.translation import gettext, gettext_lazy
 
 from weblate.checks.base import BatchCheckMixin, SourceCheck
 from weblate.utils.html import format_html_join_comma
-from weblate.utils.state import STATE_EMPTY, STATE_FUZZY
+from weblate.utils.state import FUZZY_STATES, STATE_EMPTY
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -68,7 +68,7 @@ class MultipleFailingCheck(SourceCheck, BatchCheckMixin):
         from weblate.checks.models import Check
 
         return Check.objects.filter(
-            Q(unit_id__in=unit_ids) | Q(unit__source_unit_id__in=unit_ids)
+            Q(unit__id__in=unit_ids) | Q(unit__source_unit_id__in=unit_ids)
         ).select_related("unit__translation")
 
     def check_source_unit(self, sources: list[str], unit: Unit):
@@ -97,9 +97,13 @@ class MultipleFailingCheck(SourceCheck, BatchCheckMixin):
             .annotate(translation_count=Count("unit__translation_id", distinct=True))
             .filter(translation_count__gte=2)
         )
-        return Unit.objects.filter(
-            id__in=unit_id_and_check_count.values_list(
-                "unit__source_unit_id", flat=True
+        return (
+            Unit.objects.prefetch()
+            .prefetch_bulk()
+            .filter(
+                id__in=unit_id_and_check_count.values_list(
+                    "unit__source_unit_id", flat=True
+                )
             )
         )
 
@@ -161,7 +165,9 @@ class LongUntranslatedCheck(SourceCheck, BatchCheckMixin):
 
         states = list(unit.unit_set.values_list("state", flat=True))
         total = len(states)
-        not_translated = states.count(STATE_EMPTY) + states.count(STATE_FUZZY)
+        not_translated = states.count(STATE_EMPTY) + sum(
+            states.count(state) for state in FUZZY_STATES
+        )
         translated_percent = 100 * (total - not_translated) / total
         return (
             total
@@ -180,13 +186,17 @@ class LongUntranslatedCheck(SourceCheck, BatchCheckMixin):
             .values_list("source_unit_id")
             .annotate(
                 total=Count("state"),
-                not_translated=Count("state", filter=Q(state__lte=STATE_FUZZY)),
+                not_translated=Count(
+                    "state", filter=Q(state__in=[STATE_EMPTY, *FUZZY_STATES])
+                ),
             )
             .filter(total__gt=0)
             .annotate(
                 translated_percent=100 * (F("total") - F("not_translated")) / F("total")
             )
         ).filter(translated_percent__lt=component.stats.translated_percent / 2)
-        return Unit.objects.filter(
-            id__in=result.values_list("source_unit_id", flat=True)
+        return (
+            Unit.objects.prefetch()
+            .prefetch_bulk()
+            .filter(id__in=result.values_list("source_unit_id", flat=True))
         )

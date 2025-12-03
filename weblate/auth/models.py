@@ -6,9 +6,6 @@ from __future__ import annotations
 import re
 import uuid
 from collections import defaultdict
-from collections.abc import (
-    Iterable,
-)
 from contextvars import ContextVar
 from functools import cache as functools_cache
 from itertools import chain
@@ -66,9 +63,9 @@ if TYPE_CHECKING:
     from django_otp.models import Device
     from social_core.backends.base import BaseAuth
     from social_django.models import DjangoStorage
-    from social_django.strategy import DjangoStrategy
 
     from weblate.accounts.models import Subscription
+    from weblate.accounts.strategy import WeblateStrategy
     from weblate.auth.results import PermissionResult
     from weblate.wladmin.models import SupportStatusDict
 
@@ -683,7 +680,7 @@ class User(AbstractBaseUser):
         """Check access to given project."""
         if self.is_superuser:
             return True
-        return self.get_project_permissions(project) != []
+        return bool(self.get_project_permissions(project))
 
     def get_project_permissions(self, project: Project) -> SimplePermissionList:
         # Build a fresh list as we need to merge them
@@ -798,7 +795,7 @@ class User(AbstractBaseUser):
             # The name and slug are used when rendering the groups
             Prefetch(
                 "projects",
-                queryset=Project.objects.only("id", "access_control", "name", "slug"),
+                queryset=Project.objects.only("id", "name", "slug"),
             ),
             # The name and code are used when rendering the groups
             Prefetch("languages", queryset=Language.objects.only("id", "name", "code")),
@@ -1019,6 +1016,13 @@ class UserBlock(models.Model):
         Project, verbose_name=gettext_lazy("Project"), on_delete=models.deletion.CASCADE
     )
     expiry = models.DateTimeField(gettext_lazy("Block expiry"), null=True)
+    note = models.TextField(
+        verbose_name=gettext_lazy("Block note"),
+        blank=True,
+        help_text=gettext_lazy(
+            "Internal notes regarding blocking the user that are not visible to the user."
+        ),
+    )
 
     class Meta:
         verbose_name = "Blocked user"
@@ -1085,6 +1089,7 @@ def change_componentlist(sender, instance, action, **kwargs) -> None:
 
 
 @receiver(m2m_changed, sender=User.groups.through)
+# pylint: disable=redefined-outer-name
 def remove_group_admin(sender, instance, action, pk_set, reverse, **kwargs) -> None:
     if action != "post_remove":
         return
@@ -1119,15 +1124,24 @@ def setup_project_groups(
     old_access_control = instance.old_access_control
     instance.old_access_control = instance.access_control
 
+    changed_review = (
+        instance.old_translation_review != instance.translation_review
+        or instance.old_source_review != instance.source_review
+    )
     # Handle no groups as newly created project
     if not created and not instance.defined_groups.exists():
         created = True
 
     # No changes needed
-    if old_access_control == instance.access_control and not created and not new_roles:
+    if (
+        old_access_control == instance.access_control
+        and not changed_review
+        and not created
+        and not new_roles
+    ):
         return
 
-    # Do not pefrom anything with custom ACL
+    # Do not perform anything with custom ACL
     if instance.access_control == Project.ACCESS_CUSTOM:
         return
 
@@ -1150,9 +1164,13 @@ def setup_project_groups(
         groups = {group for group in groups if ACL_GROUPS[group] in new_roles}
 
     # Access control changed
-    elif not created and (
-        instance.access_control == Project.ACCESS_PUBLIC
-        or old_access_control in {Project.ACCESS_PROTECTED, Project.ACCESS_PRIVATE}
+    elif (
+        not created
+        and (
+            instance.access_control == Project.ACCESS_PUBLIC
+            or old_access_control in {Project.ACCESS_PROTECTED, Project.ACCESS_PRIVATE}
+        )
+        and not changed_review
     ):
         # Avoid changing groups on some access control changes:
         # - Public groups are always present, so skip change on changing to public
@@ -1301,7 +1319,7 @@ class AuthenticatedHttpRequest(HttpRequest):
     accepted_language: Language
 
     # type hint for social_auth
-    social_strategy: DjangoStrategy
+    social_strategy: WeblateStrategy
 
     # type hint for auth
     backend: BaseAuth | None

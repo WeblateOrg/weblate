@@ -18,7 +18,9 @@ if TYPE_CHECKING:
         Debug,
         Error,
         Info,
-        Warning,  # noqa: A004
+    )
+    from django.core.checks import (
+        Warning as DjangoWarning,
     )
 
 DOC_LINKS: dict[str, str | tuple[str] | tuple[str, str]] = {
@@ -67,7 +69,7 @@ DOC_LINKS: dict[str, str | tuple[str] | tuple[str, str]] = {
     "weblate.C030": ("admin/install", "celery"),
     "weblate.I031": ("admin/upgrade",),
     "weblate.C031": ("admin/upgrade",),
-    "weblate.C032": ("admin/install",),
+    "weblate.C032": ("admin/install", "hardware"),
     "weblate.W033": ("vcs",),
     "weblate.E034": ("admin/install", "celery"),
     "weblate.C035": ("vcs",),
@@ -78,6 +80,7 @@ DOC_LINKS: dict[str, str | tuple[str] | tuple[str, str]] = {
     "weblate.C040": ("vcs",),
     "weblate.C041": "https://weblate.org/user/",
     "weblate.C042": ("admin/config", "std-setting-REGISTRATION_ALLOW_BACKENDS"),
+    "weblate.E043": ("admin/install", "hardware"),
 }
 
 
@@ -98,7 +101,7 @@ def check_doc_link(docid: str, strict: bool = False) -> str | None:
 def weblate_check(
     check_id: str,
     message: str,
-    cls: type[Critical | Debug | Error | Info | Warning] = Critical,
+    cls: type[Critical | Debug | Error | Info | DjangoWarning] = Critical,
 ) -> CheckMessage:
     """Return Django check instance."""
     return cls(message, hint=check_doc_link(check_id), id=check_id)

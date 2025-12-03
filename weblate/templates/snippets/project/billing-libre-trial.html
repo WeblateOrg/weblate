@@ -8,8 +8,7 @@
   {# user_can_view_billing is defined in snippets/project/state.html #}
   {% if user_can_view_billing %}
     {# project admin can request approval #}
-    <a href="{{ object.billing.get_absolute_url }}"
-       class="btn btn-primary pull-right flip">{% translate "Request approval for Libre hosting" %}</a>
+    <a href="{{ object.billing.get_absolute_url }}" class="btn btn-primary float-end">{% translate "Request approval for Libre hosting" %}</a>
     {% translate "This project is in a trial period and is publicly accessible. Post an announcement and/or lock it if you don’t want contributions until you finish the setup." %}
   {% else %}
     {# users are warned that the setup is not yet completed #}

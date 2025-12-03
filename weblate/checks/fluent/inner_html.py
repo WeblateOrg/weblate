@@ -952,13 +952,13 @@ class FluentSourceInnerHTMLCheck(_FluentInnerHTMLCheck, SourceCheck):
             return True
         return False
 
-    def get_description(self, check_model: CheckModel) -> StrOrPromise:
-        unit, source, _target = translation_from_check(check_model)
+    def get_description(self, check_obj: CheckModel) -> StrOrPromise:
+        unit, source, _target = translation_from_check(check_obj)
         try:
             self.get_fluent_inner_html(unit, source)
         except _HTMLParseError as err:
             return err.description()
-        return super().get_description(check_model)
+        return super().get_description(check_obj)
 
 
 class _VariantNodesDifference:
@@ -1266,15 +1266,15 @@ class FluentTargetInnerHTMLCheck(_FluentInnerHTMLCheck, TargetCheck):
             return True
         return bool(difference)
 
-    def get_description(self, check_model: CheckModel) -> StrOrPromise:
-        unit, source, target = translation_from_check(check_model)
+    def get_description(self, check_obj: CheckModel) -> StrOrPromise:
+        unit, source, target = translation_from_check(check_obj)
         try:
             difference = self._compare_inner_html(unit, source, target)
         except _HTMLParseError as err:
             return err.description()
 
         if not difference:
-            return super().get_description(check_model)
+            return super().get_description(check_obj)
 
         return difference.description()
 

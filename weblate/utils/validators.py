@@ -17,6 +17,7 @@ from pathlib import Path
 from typing import cast
 from urllib.parse import urlparse
 
+from confusable_homoglyphs import confusables
 from disposable_email_domains import blocklist
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -25,6 +26,7 @@ from django.core.validators import URLValidator, validate_ipv46_address
 from django.utils.translation import gettext, gettext_lazy
 
 from weblate.trans.util import cleanup_path
+from weblate.utils.const import WEBHOOKS_SECRET_PREFIX
 from weblate.utils.data import data_dir
 
 USERNAME_MATCHER = re.compile(r"^[\w@+-][\w.@+-]*$")
@@ -34,6 +36,8 @@ EMAIL_BLACKLIST = re.compile(r"^([./|]|.*([@%!`#&?]|/\.\./))")
 
 # Matches Git condition on "name consists only of disallowed characters"
 CRUD_RE = re.compile(r"^[.,;:<>\"'\\]+$")
+# Block certain characters from full name
+FULL_NAME_RESTRICT = re.compile(r'[<>"]')
 
 ALLOWED_IMAGES = {"image/jpeg", "image/png", "image/apng", "image/gif", "image/webp"}
 
@@ -152,9 +156,18 @@ def validate_fullname(val):
         raise ValidationError(
             gettext("Please avoid using special characters in the full name.")
         )
+
+    if confusables.is_dangerous(val):
+        raise ValidationError(
+            gettext("This name cannot be registered. Please choose a different one.")
+        )
+
     # Validates full name that would be rejected by Git
     if CRUD_RE.match(val):
         raise ValidationError(gettext("Name consists only of disallowed characters."))
+
+    if FULL_NAME_RESTRICT.match(val):
+        raise ValidationError(gettext("Name contains disallowed characters."))
 
     return val
 
@@ -175,6 +188,12 @@ def validate_username(value) -> None:
             gettext(
                 "Username may only contain letters, "
                 "numbers or the following characters: @ . + - _"
+            )
+        )
+    if confusables.is_dangerous(value):
+        raise ValidationError(
+            gettext(
+                "This username cannot be registered. Please choose a different one."
             )
         )
 
@@ -311,12 +330,20 @@ def validate_project_web(value) -> None:
             raise ValidationError(gettext("This URL is prohibited"))
 
 
-def validate_base64_encoded_string(value: str) -> None:
+def validate_webhook_secret_string(value: str) -> None:
     """Validate that the given string is a valid base64 encoded string."""
+    if not value:
+        return
+    value = value.removeprefix(WEBHOOKS_SECRET_PREFIX)
     try:
-        base64.b64decode(value)
+        decoded = base64.b64decode(value)
     except binascii.Error as error:
         raise ValidationError(gettext("Invalid base64 encoded string")) from error
+
+    if len(decoded) < 24:
+        raise ValidationError(gettext("The provided secret is too short."))
+    if len(decoded) > 64:
+        raise ValidationError(gettext("The provided secret is too long."))
 
 
 class WeblateURLValidator(URLValidator):
@@ -379,3 +406,32 @@ class WeblateServiceURLValidator(WeblateURLValidator):
         r"\Z",
         re.IGNORECASE,
     )
+
+
+def validate_repo_url(url: str) -> None:
+    parsed = urlparse(url)
+    if not parsed.scheme:
+        # assume all links without schema are ssh links
+        url = f"ssh://{url}"
+        parsed = urlparse(url)
+
+    # Allow Weblate internal URLs
+    if parsed.scheme in {"weblate", "local"}:
+        return
+
+    # Filter out schemes early
+    if parsed.scheme not in settings.VCS_ALLOW_SCHEMES:
+        raise ValidationError(
+            gettext("Fetching VCS repository using %s is not allowed.") % parsed.scheme
+        )
+
+    # URL validation using for http (the URL validator is too strict to handle others)
+    if parsed.scheme in {"http", "https"}:
+        validator = URLValidator(schemes=settings.VCS_ALLOW_SCHEMES)
+        validator(url)
+
+    # Filter hosts if configured
+    if settings.VCS_ALLOW_HOSTS and parsed.hostname not in settings.VCS_ALLOW_HOSTS:
+        raise ValidationError(
+            gettext("Fetching VCS repository from %s is not allowed.") % parsed.hostname
+        )

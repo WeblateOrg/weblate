@@ -37,6 +37,12 @@ EXCLUDE_RE = re.compile(
         :(ref|doc|setting|envvar):`[^<`]+`          # Unlabeled references
         |
         /[a-z_./-]+                                 # File names
+        |
+        Django
+        |
+        Translate\ Toolkit
+        |
+        `([a-z0-9_-]*)\ <[^>]*>`_                    # Product links
     )$
     """,
     re.VERBOSE,

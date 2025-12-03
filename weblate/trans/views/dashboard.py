@@ -120,7 +120,12 @@ def get_user_translations(
 
     Works also for anonymous users based on current UI language.
     """
-    result = Translation.objects.prefetch().filter_access(user).order()
+    result = (
+        Translation.objects.exclude(component__is_glossary=True)
+        .prefetch()
+        .filter_access(user)
+        .order()
+    )
 
     if user_has_languages:
         result = result.filter(language__in=user.profile.all_languages)
@@ -312,7 +317,7 @@ def dashboard_user(request: AuthenticatedHttpRequest) -> HttpResponse:
         {
             "allow_index": True,
             "suggestions": suggestions,
-            "search_form": SearchForm(request=request, bootstrap_5=True),
+            "search_form": SearchForm(request=request),
             "usersubscriptions": usersubscriptions,
             "componentlists": componentlists,
             "all_componentlists": prefetch_stats(
@@ -326,7 +331,6 @@ def dashboard_user(request: AuthenticatedHttpRequest) -> HttpResponse:
             "reports_form": ReportsForm({}),
             "all_owned_projects": owned,
             "owned_projects": prefetch_project_flags(prefetch_stats(owned[:10])),
-            "bootstrap_5": True,
         },
     )
 
@@ -354,6 +358,5 @@ def dashboard_anonymous(request: AuthenticatedHttpRequest) -> HttpResponse:
             "all_projects": Metric.objects.get_current_metric(
                 None, Metric.SCOPE_GLOBAL, 0
             )["public_projects"],
-            "bootstrap_5": True,
         },
     )

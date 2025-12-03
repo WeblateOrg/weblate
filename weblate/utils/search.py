@@ -38,8 +38,8 @@ from weblate.trans.models import Category, Component, Project, Translation
 from weblate.trans.util import PLURAL_SEPARATOR
 from weblate.utils.db import re_escape, using_postgresql
 from weblate.utils.state import (
+    FUZZY_STATES,
     STATE_APPROVED,
-    STATE_FUZZY,
     STATE_NAMES,
     STATE_READONLY,
     STATE_TRANSLATED,
@@ -383,8 +383,6 @@ class BaseTermExpr:
             return self.date_parse_human(
                 text, hour=hour, minute=minute, second=second, microsecond=microsecond
             )
-            msg = "Could not parse timestamp"
-            raise ValueError(msg)
 
         if (
             hour is None
@@ -555,13 +553,15 @@ class UnitTermExpr(BaseTermExpr):
         if text == "approved":
             return Q(state=STATE_APPROVED)
         if text in {"fuzzy", "needs-editing"}:
-            return Q(state=STATE_FUZZY)
+            return Q(state__in=FUZZY_STATES)
         if text == "translated":
             return Q(state__gte=STATE_TRANSLATED)
         if text == "untranslated":
             return Q(state__lt=STATE_TRANSLATED)
         if text == "pending":
             return Q(pending_changes__isnull=False)
+        if text in {"automatically-translated", "automatically_translated"}:
+            return Q(automatically_translated=True)
 
         return super().is_field(text, context)
 
@@ -597,7 +597,7 @@ class UnitTermExpr(BaseTermExpr):
                 & Q(context__regex=F("variant__variant_regex"))
             )
         if text == "label":
-            return Q(source_unit__labels__isnull=False) | Q(labels__isnull=False)
+            return Q(source_unit__labels__isnull=False)
         if text == "context":
             return ~Q(context="")
         if text == "screenshot":
@@ -714,8 +714,6 @@ class UnitTermExpr(BaseTermExpr):
             return query & Q(check__dismissed=False)
         if field == "dismissed_check":
             return query & Q(check__dismissed=True)
-        if field == "label":
-            return query | Q(labels__name__iexact=match)
         if field == "screenshot":
             return query | Q(screenshots__name__iexact=match)
         if field == "comment":
@@ -734,7 +732,7 @@ class UnitTermExpr(BaseTermExpr):
 
     def get_annotations(self, context: dict) -> dict[str, Expression]:
         if self.field == "labels_count":
-            return {"labels_count": Count("source_unit__labels") + Count("labels")}
+            return {"labels_count": Count("source_unit__labels")}
         return super().get_annotations(context)
 
 
@@ -758,8 +756,6 @@ class UserTermExpr(BaseTermExpr):
         return Q(username__icontains=self.match) | Q(full_name__icontains=self.match)
 
     def contributes_field(self, text: str, context: dict) -> Q:
-        from weblate.trans.models import Component
-
         if "/" not in text:
             return Q(change__project__slug__iexact=text)
         return Q(

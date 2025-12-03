@@ -11,6 +11,8 @@ import logging
 import os
 import os.path
 import subprocess
+from contextlib import suppress
+from pathlib import Path
 from typing import TYPE_CHECKING, ClassVar, Self, TypedDict
 
 from dateutil import parser
@@ -92,7 +94,6 @@ class Repository:
         branch: str | None = None,
         component: Component | None = None,
         local: bool = False,
-        skip_init: bool = False,
     ) -> None:
         self.path: str = path
         if branch is None:
@@ -113,12 +114,9 @@ class Repository:
         )
         self._config_updated = False
         self.local = local
+        # Create ssh wrapper for possible use
         if not local:
-            # Create ssh wrapper for possible use
             SSH_WRAPPER.create()
-            if not skip_init and not self.is_valid():
-                with self.lock:
-                    self.create_blank_repository(self.path)
 
     @classmethod
     def get_remote_branch(cls, repo: str) -> str:  # noqa: ARG003
@@ -207,6 +205,7 @@ class Repository:
         local: bool = False,
         stdin: str | None = None,
         environment: dict[str, str] | None = None,
+        retry: bool = True,
     ):
         """Execute the command using popen."""
         if args is None:
@@ -258,10 +257,32 @@ class Repository:
             cwd=cwd,
         )
         if process.returncode:
-            raise RepositoryError(
-                process.returncode, process.stdout + (process.stderr or "")
+            errormessage: str = cls.sanitize_error_message(
+                process.stdout + (process.stderr or "")
             )
+            if retry and cls.should_retry_popen(errormessage):
+                return cls._popen(
+                    args,
+                    cwd=cwd,
+                    merge_err=merge_err,
+                    fullcmd=fullcmd,
+                    raw=raw,
+                    local=local,
+                    stdin=stdin,
+                    environment=environment,
+                    retry=False,
+                )
+
+            raise RepositoryError(process.returncode, errormessage)
         return process.stdout
+
+    @staticmethod
+    def sanitize_error_message(errormessage: str) -> str:
+        return errormessage
+
+    @staticmethod
+    def should_retry_popen(errormessage: str) -> bool:  # noqa: ARG004
+        return False
 
     def execute(
         self,
@@ -298,11 +319,9 @@ class Repository:
         return self.last_output
 
     def log_status(self, error: str | RepositoryError) -> None:
-        try:
+        with suppress(RepositoryError):
             self.log(f"failure {error}")
             self.log(self.status())
-        except RepositoryError:
-            pass
 
     def clean_revision_cache(self) -> None:
         if "last_revision" in self.__dict__:
@@ -330,14 +349,18 @@ class Repository:
         """Clone repository."""
         raise NotImplementedError
 
+    def clone_from(self, source: str) -> None:
+        """Clone repository into current one."""
+        self._clone(source, self.path, self.branch)
+
     @classmethod
     def clone(
         cls, source: str, target: str, branch: str, component: Component | None = None
     ) -> Self:
         """Clone repository and return object for cloned repository."""
-        repo = cls(target, branch=branch, component=component, skip_init=True)
+        repo = cls(target, branch=branch, component=component)
         with repo.lock:
-            cls._clone(source, target, branch)
+            repo.clone_from(source)
         return repo
 
     def update_remote(self) -> None:
@@ -485,8 +508,7 @@ class Repository:
             data = os.readlink(filename).encode()
         else:
             objtype = "blob"
-            with open(filename, "rb") as handle:
-                data = handle.read()
+            data = Path(filename).read_bytes()
         if extra:
             objhash.update(extra.encode())
         objhash.update(f"{objtype} {len(data)}\0".encode("ascii"))

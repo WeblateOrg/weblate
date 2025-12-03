@@ -158,6 +158,7 @@ Learn more about :ref:`contributing`.
    security/privacy-compliance
    security/us-compliance
    security/localization-threat
+   security/data-residency
 
 .. toctree::
    :caption: File formats

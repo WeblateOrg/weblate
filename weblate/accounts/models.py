@@ -400,10 +400,19 @@ class AuditLogManager(models.Manager):
         return not logins.filter(Q(address=address) | Q(user_agent=user_agent)).exists()
 
     def create(  # type: ignore[override]
-        self, user: User, request: HttpRequest | None, activity, **params
+        self, user: User, request: HttpRequest | None, activity: str, **params
     ):
-        address = get_ip_address(request)
-        user_agent = get_user_agent(request)
+        address: str | None = None
+        user_agent: str = ""
+        # Log only address for own actions (unauthenticated or when the request user matches audit user)
+        if request and (
+            not hasattr(request, "user")
+            or not request.user
+            or not request.user.is_authenticated
+            or request.user == user
+        ):
+            address = get_ip_address(request)
+            user_agent = get_user_agent(request)
         if activity == "login" and self.is_new_login(user, address, user_agent):
             activity = "login-new"
         return super().create(

@@ -11,12 +11,12 @@ from django.core.checks import Warning as DjangoWarning
 from django.core.checks import register
 from django.db.models.signals import post_migrate
 
-import weblate.vcs.gpg
 from weblate.utils.checks import weblate_check
 from weblate.utils.data import data_dir
 from weblate.utils.lock import WeblateLock
 from weblate.vcs.base import RepositoryError
 from weblate.vcs.git import GitRepository, SubversionRepository
+from weblate.vcs.gpg import get_gpg_errors, get_gpg_public_key
 from weblate.vcs.mercurial import HgRepository
 from weblate.vcs.ssh import ensure_ssh_key
 
@@ -35,13 +35,11 @@ def check_gpg(
     databases: Sequence[str] | None,
     **kwargs,
 ) -> Iterable[CheckMessage]:
-    from weblate.vcs.gpg import get_gpg_public_key
-
     get_gpg_public_key()
     template = "{}: {}"
     return [
         weblate_check("weblate.C036", template.format(key, message))
-        for key, message in weblate.vcs.gpg.GPG_ERRORS.items()
+        for key, message in get_gpg_errors().items()
     ]
 
 

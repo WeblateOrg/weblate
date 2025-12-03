@@ -30,9 +30,9 @@ from weblate.trans.util import translation_percent
 from weblate.utils.random import get_random_identifier
 from weblate.utils.site import get_site_url
 from weblate.utils.state import (
+    FUZZY_STATES,
     STATE_APPROVED,
     STATE_EMPTY,
-    STATE_FUZZY,
     STATE_READONLY,
     STATE_TRANSLATED,
 )
@@ -616,7 +616,7 @@ class TranslationStats(BaseStats):
 
         # Sum stats in Python, this is way faster than conditional sums in the database
         units_all = units
-        units_fuzzy = [unit for unit in units if get_state(unit) == STATE_FUZZY]
+        units_fuzzy = [unit for unit in units if get_state(unit) in FUZZY_STATES]
         units_readonly = [unit for unit in units if get_state(unit) == STATE_READONLY]
         units_nottranslated = [unit for unit in units if get_state(unit) == STATE_EMPTY]
         units_unapproved = [
@@ -870,8 +870,6 @@ class TranslationStats(BaseStats):
 
     def calculate_labels(self) -> None:
         """Prefetch check stats."""
-        from weblate.trans.models.label import TRANSLATION_LABELS
-
         self.ensure_loaded()
         alllabels = set(
             self._object.component.project.label_set.values_list("name", flat=True)
@@ -881,14 +879,8 @@ class TranslationStats(BaseStats):
             .annotate_stats()
             .values_list("source_unit__labels__name", "strings", "words", "chars")
         )
-        translation_stats = (
-            self._object.unit_set.filter(labels__name__in=TRANSLATION_LABELS)
-            .values("labels__name")
-            .annotate_stats()
-            .values_list("labels__name", "strings", "words", "chars")
-        )
 
-        for label_name, strings, words, chars in chain(stats, translation_stats):
+        for label_name, strings, words, chars in stats:
             # Filtering here is way more effective than in SQL
             if label_name is None:
                 continue
@@ -1016,7 +1008,7 @@ class ComponentStats(AggregatingStats):
 
     def get_update_objects(self, *, full: bool = True) -> Generator[BaseStats]:
         # Component lists
-        yield from yield_stats(self._object.componentlist_set.only("id"))
+        yield from yield_stats(self._object.componentlist_set.only("id", "slug"))
 
         # Projects this component is shared to
         yield from yield_stats(self._object.cached_links)
@@ -1366,10 +1358,10 @@ class CategoryStats(ParentAggregatingStats):
             yield from self._object.project.stats.get_update_objects()
 
     def get_child_objects(self):
-        return self._object.component_set.only("id", "category", "check_flags")
+        return self._object.component_set.only("id", "slug", "category", "check_flags")
 
     def get_category_objects(self):
-        return self._object.category_set.only("id", "category")
+        return self._object.category_set.only("id", "slug", "category")
 
     def get_single_language_stats(self, language):
         return CategoryLanguageStats(CategoryLanguage(self._object, language))
@@ -1409,7 +1401,9 @@ class ProjectStats(ParentAggregatingStats):
 
 class ComponentListStats(ParentAggregatingStats):
     def get_child_objects(self):
-        return self._object.components.only("id", "componentlist", "check_flags")
+        return self._object.components.only(
+            "id", "slug", "componentlist", "check_flags"
+        )
 
 
 class GlobalStats(ParentAggregatingStats):
@@ -1419,7 +1413,7 @@ class GlobalStats(ParentAggregatingStats):
     def get_child_objects(self):
         from weblate.trans.models import Project
 
-        return Project.objects.only("id", "access_control")
+        return Project.objects.only("id", "slug")
 
     def _calculate_basic(self) -> None:
         super()._calculate_basic()

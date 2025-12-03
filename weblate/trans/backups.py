@@ -267,6 +267,12 @@ class ProjectBackup:
 
         self.filename = filename.as_posix()
 
+    @property
+    def relative_filename(self) -> str:
+        return (
+            Path(self.filename).relative_to(data_path(PROJECTBACKUP_PREFIX)).as_posix()
+        )
+
     def backup_component(self, backupzip: ZipFile, component: Component) -> None:
         data: dict = {
             "component": self.backup_object(
@@ -354,7 +360,7 @@ class ProjectBackup:
                     },
                 )
                 for pending_unit_change in PendingUnitChange.objects.for_component(
-                    component
+                    component, apply_filters=False
                 )
                 .prefetch_related("unit", "author")
                 .iterator(2000)
@@ -414,6 +420,7 @@ class ProjectBackup:
     @transaction.atomic
     def backup_project(self, project: Project) -> None:
         """Backup whole project."""
+        project.log_info("creating project backup")
         # Generate data
         self.backup_data(project)
 
@@ -444,6 +451,24 @@ class ProjectBackup:
                 self.backup_component(backupzip, component)
 
         os.rename(part_name, self.filename)
+        self.log_backup(project)
+
+    def log_backup(self, project: Project) -> None:
+        project.log_info("project backup completed")
+        for billing in project.billings:
+            self.log_backup_billing(project, billing)
+
+    def log_backup_billing(self, project: Project, billing: Billing) -> None:
+        from weblate.billing.models import BillingEvent
+
+        billing.billinglog_set.create(
+            event=BillingEvent.PROJECT_BACKUP,
+            summary=f"Backed up project {project}",
+            details={
+                "backup_filename": self.relative_filename,
+                "project_name": project.name,
+            },
+        )
 
     def list_components(self, zipfile: ZipFile) -> list[str]:
         return [

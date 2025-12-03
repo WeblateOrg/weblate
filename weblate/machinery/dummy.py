@@ -71,6 +71,13 @@ class DummyTranslation(MachineTranslation):
                 "service": "Dummy",
                 "source": text,
             }
+        if source_language == "en" and text.strip() == r"Hello, [X7X] C:\Windows!":
+            yield {
+                "text": r"Nazdar [X7X ] C:\Windows!",
+                "quality": self.max_score,
+                "service": "Dummy",
+                "source": text,
+            }
 
 
 class DummyGlossaryTranslation(DummyTranslation, GlossaryMachineTranslationMixin):

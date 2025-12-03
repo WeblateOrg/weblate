@@ -17,10 +17,10 @@
 
 {% block breadcrumbs %}
   {% path_object_breadcrumbs object.translation.component %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'screenshots' path=object.translation.component.get_url_path %}">{% translate "Screenshots" %}</a>
   </li>
-  <li>
+  <li class="breadcrumb-item">
     <a href="{{ object.get_absolute_url }}">{{ object.name }}</a>
   </li>
 {% endblock breadcrumbs %}
@@ -31,14 +31,14 @@
   {% perm 'screenshot.edit' object.translation.component as user_can_edit_screenshot %}
 
 
-  <div class="panel panel-default"
+  <div class="card"
        id="sources-listing"
        data-href="{% url 'screenshot-js-get' pk=object.pk %}">
-    <div class="panel-heading">
-      <h4 class="panel-title">{% translate "Assigned source strings" %}</h4>
+    <div class="card-header">
+      <h4 class="card-title">{% translate "Assigned source strings" %}</h4>
     </div>
     <div id="strings-table-container">{% include "screenshots/screenshot_sources_body.html" %}</div>
-    <div class="panel-footer">
+    <div class="card-footer">
       {% translate "Screenshot is shown to add visual context for all listed source strings." %}
     </div>
   </div>
@@ -48,13 +48,13 @@
       {% csrf_token %}
       <input type="hidden" name="source" id="add-source" />
     </form>
-    <div class="panel panel-default" id="search-results">
-      <div class="panel-heading">
-        <h4 class="panel-title">{% translate "Assign source strings" %}</h4>
+    <div class="card" id="search-results">
+      <div class="card-header">
+        <h4 class="card-title">{% translate "Assign source strings" %}</h4>
       </div>
       <div class="search-results">{% include "screenshots/screenshot_sources_search.html" %}</div>
-      <div class="panel-footer">
-        <div class="pull-right flip">
+      <div class="card-footer">
+        <div class="float-end">
           <form class="form-inline">
             {% csrf_token %}
             <button data-href="{% url 'screenshot-js-ocr' pk=object.pk %}"
@@ -78,11 +78,11 @@
     </div>
   {% endif %}
 
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">{% translate "Image" %}</h4>
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">{% translate "Image" %}</h4>
     </div>
-    <div class="panel-body">{% include "screenshots/screenshot_show.html" with screenshot=object %}</div>
+    <div class="card-body">{% include "screenshots/screenshot_show.html" with screenshot=object %}</div>
   </div>
 
   {% if user_can_edit_screenshot %}
@@ -91,24 +91,24 @@
           enctype="multipart/form-data"
           id="screenshot-form-container">
       {% csrf_token %}
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">{% translate "Edit screenshot" %}</h4>
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{% translate "Edit screenshot" %}</h4>
         </div>
-        <div class="panel-body">{{ edit_form|crispy }}</div>
-        <div class="panel-footer">
+        <div class="card-body">{{ edit_form|crispy }}</div>
+        <div class="card-footer">
           <input type="submit" class="btn btn-primary" value="{% translate "Save" %}" />
         </div>
       </div>
     </form>
 
   {% endif %}
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">{% translate "Screenshot details" %}</h4>
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">{% translate "Screenshot details" %}</h4>
     </div>
 
-    <table class="table table-condensed table-striped">
+    <table class="table table-sm table-striped">
       <tr>
         <th>{% translate "Created" %}</th>
         <td>{{ object.timestamp|naturaltime }}</td>
@@ -127,10 +127,10 @@
 
   {% if user_can_delete_screenshot %}
     <div class="panel panel-danger">
-      <div class="panel-heading">
-        <h4 class="panel-title">{% translate "Delete screenshot" %}</h4>
+      <div class="card-header">
+        <h4 class="card-title">{% translate "Delete screenshot" %}</h4>
       </div>
-      <div class="panel-body">
+      <div class="card-body">
 
         <p class="help-block">{% translate "Deleting screenshot will remove it from all associated source strings." %}</p>
 

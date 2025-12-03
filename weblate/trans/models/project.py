@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from collections import UserDict
-from typing import TYPE_CHECKING, ClassVar, cast
+from typing import TYPE_CHECKING, ClassVar, Self, cast
 
 from django.conf import settings
 from django.core.cache import cache
@@ -15,7 +15,7 @@ from django.db.models import Count, F, Q, Value
 from django.db.models.functions import Replace
 from django.urls import reverse
 from django.utils.functional import cached_property
-from django.utils.translation import gettext_lazy, gettext_noop
+from django.utils.translation import gettext_lazy
 
 from weblate.configuration.models import Setting, SettingCategory
 from weblate.formats.models import FILE_FORMATS
@@ -90,9 +90,15 @@ class ProjectLanguageFactory(UserDict):
             instance.__dict__["workflow_settings"] = None
 
 
-class ProjectQuerySet(models.QuerySet):
+class ProjectQuerySet(models.QuerySet["Project"]):
     def order(self):
         return self.order_by("name")
+
+    def only(self, *fields: str) -> Self:
+        only_fields = set(fields)
+        # These are used in Project.__init__
+        only_fields.update(("access_control", "translation_review", "source_review"))
+        return super().only(*only_fields)
 
     def search(self, query: str):
         return self.filter(Q(name__icontains=query) | Q(slug__icontains=query))
@@ -317,6 +323,8 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
         self.old_access_control = self.access_control
+        self.old_translation_review = self.translation_review
+        self.old_source_review = self.source_review
         self.stats = ProjectStats(self)
         self.acting_user: User | None = None
         self.project_languages = ProjectLanguageFactory(self)
@@ -728,21 +736,21 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         return get_glossary_automaton(self)
 
     def get_machinery_settings(self) -> dict[str, SettingsDict]:
-        settings = cast(
+        mt_settings = cast(
             "dict[str, SettingsDict]",
             Setting.objects.get_settings_dict(SettingCategory.MT),
         )
         for item, value in self.machinery_settings.items():
             if value is None:
-                if item in settings:
-                    del settings[item]
+                if item in mt_settings:
+                    del mt_settings[item]
             else:
-                settings[item] = value
+                mt_settings[item] = value
                 # Include project field so that different projects do not share
                 # cache keys via MachineTranslation.get_cache_key when service
                 # is installed at project level.
-                settings[item]["_project"] = self
-        return settings
+                mt_settings[item]["_project"] = self
+        return mt_settings
 
     @cached_property
     def enable_review(self):
@@ -764,19 +772,10 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     def can_add_category(self) -> bool:
         return True
 
-    @cached_property
-    def automatically_translated_label(self) -> Label:
-        return self.label_set.get_or_create(
-            name=gettext_noop("Automatically translated"),
-            defaults={"color": "yellow"},
-        )[0]
-
     def collect_label_cleanup(self, label: Label) -> None:
         from weblate.trans.models.translation import Translation
 
-        translations = Translation.objects.filter(
-            Q(unit__labels=label) | Q(unit__source_unit__labels=label)
-        )
+        translations = Translation.objects.filter(unit__source_unit__labels=label)
         if self.label_cleanups is None:
             self.label_cleanups = translations
         else:

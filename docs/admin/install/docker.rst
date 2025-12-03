@@ -724,23 +724,6 @@ Generic settings
        * :ref:`production-site`
        * :envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER`
 
-.. envvar:: WEBLATE_INTERLEDGER_PAYMENT_BUILTIN
-
-    .. versionadded:: 5.11
-
-    Configures :setting:`INTERLEDGER_PAYMENT_BUILTIN`.
-
-.. envvar:: WEBLATE_INTERLEDGER_PAYMENT_POINTERS
-
-    .. versionadded:: 4.12.1
-
-    Lets Weblate set the `meta[name=monetization]` field in the head of the
-    document. If multiple are specified, chooses one randomly.
-
-    .. seealso::
-
-        :setting:`INTERLEDGER_PAYMENT_POINTERS`
-
 .. envvar:: WEBLATE_IP_PROXY_HEADER
 
     Lets Weblate fetch the IP address from any given HTTP header. Use this when using
@@ -815,22 +798,6 @@ Generic settings
 
         environment:
           WEBLATE_REQUIRE_LOGIN: 1
-
-.. envvar:: WEBLATE_LOGIN_REQUIRED_URLS_EXCEPTIONS
-.. envvar:: WEBLATE_ADD_LOGIN_REQUIRED_URLS_EXCEPTIONS
-.. envvar:: WEBLATE_REMOVE_LOGIN_REQUIRED_URLS_EXCEPTIONS
-
-    Adds URL exceptions for authentication required for the whole Weblate
-    installation using :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS`.
-
-    You can either replace whole settings, or modify default value using ``ADD`` and ``REMOVE`` variables.
-
-    To enforce authentication for the contact form, do:
-
-    .. code-block:: yaml
-
-       environment:
-         WEBLATE_REMOVE_LOGIN_REQUIRED_URLS_EXCEPTIONS: /contact/$
 
 .. envvar:: WEBLATE_GOOGLE_ANALYTICS_ID
 
@@ -1063,6 +1030,36 @@ Generic settings
    .. versionadded:: 4.3.2
 
    Configures :setting:`UPDATE_LANGUAGES`.
+
+.. envvar:: WEBLATE_VCS_ALLOW_HOSTS
+
+   .. versionadded:: 5.15
+
+   Configures :setting:`VCS_ALLOW_HOSTS`.
+
+.. envvar:: WEBLATE_VCS_ALLOW_SCHEMES
+
+   .. versionadded:: 5.15
+
+   Configures :setting:`VCS_ALLOW_SCHEMES`.
+
+.. envvar:: WEBLATE_VCS_CLONE_DEPTH
+
+   .. versionadded:: 5.4
+
+   Configures :setting:`VCS_CLONE_DEPTH`.
+
+.. envvar:: WEBLATE_VCS_API_DELAY
+
+   .. versionadded:: 5.4
+
+   Configures :setting:`VCS_API_DELAY`.
+
+.. envvar:: WEBLATE_VCS_API_TIMEOUT
+
+   .. versionadded:: 5.15
+
+   Configures :setting:`VCS_API_TIMEOUT`.
 
 .. envvar:: WEBLATE_CORS_ALLOWED_ORIGINS
 
@@ -1456,6 +1453,20 @@ OpenID Connect
    .. seealso::
 
       :doc:`psa:backends/oidc`
+
+Fedora OpenID Connect
+~~~~~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 5.15
+
+.. envvar:: WEBLATE_SOCIAL_AUTH_FEDORA_OIDC_KEY
+.. envvar:: WEBLATE_SOCIAL_AUTH_FEDORA_OIDC_SECRET
+
+   Configures Fedora OpenID Connect integration.
+
+   .. seealso::
+
+      :doc:`psa:backends/fedora`
 
 .. _docker-saml:
 
@@ -2061,9 +2072,21 @@ Container settings
 Docker container volumes
 ------------------------
 
-There are two volumes (:file:`data` and :file:`cache`) exported by the Weblate container. The
-other service containers (PostgreSQL or Valkey) have their data volumes as well,
-but those are not covered by this document.
+There are two volumes (:file:`data` and :file:`cache`) exported by the Weblate
+container.
+
+.. note::
+
+   The other service containers (such as PostgreSQL or Valkey) have their data
+   volumes as well and are required to maintain Weblate persistence.
+
+   The PostgreSQL container stores the database in the
+   :file:`/var/lib/postgresql` volume and Valkey in the :file:`/data` volume.
+   Valkey container does not save the data by default and needs additional
+   configuration to enable persistence.
+
+   Base your configuration on Weblate-provided examples or consult their
+   documentation for more information.
 
 The :file:`data` volume is mounted as :file:`/app/data` and is used to store
 Weblate persistent data such as cloned repositories or to customize Weblate
@@ -2088,6 +2111,7 @@ as that is user used inside the container.
 Weblate container can also be executed with a read-only root file system. In
 this case, two additional ``tmpfs`` volumes should be mounted: :file:`/tmp` and
 :file:`/run`.
+
 
 .. seealso::
 

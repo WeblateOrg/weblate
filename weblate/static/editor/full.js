@@ -133,16 +133,16 @@
       return false;
     });
     Mousetrap.bindGlobal("mod+u", (_e) => {
-      $('.nav [href="#comments"]').click();
+      $('.nav [data-bs-target="#comments"]').click();
       $('textarea[name="comment"]').focus();
       return false;
     });
     Mousetrap.bindGlobal("mod+j", (_e) => {
-      $('.nav [href="#nearby"]').click();
+      $('.nav [data-bs-target="#nearby"]').click();
       return false;
     });
     Mousetrap.bindGlobal("mod+m", (_e) => {
-      $('.nav [href="#machinery"]').click();
+      $('.nav [data-bs-target="#machinery"]').click();
       return false;
     });
   }
@@ -154,7 +154,9 @@
 
     /* Report source bug */
     this.$translationForm.on("click", ".bug-comment", () => {
-      $('.translation-tabs a[href="#comments"]').tab("show");
+      bootstrap.Tab.getOrCreateInstance(
+        $('.translation-tabs a[data-bs-target="#comments"]'),
+      ).show();
       $("#id_scope").val("report");
       $([document.documentElement, document.body]).animate(
         {
@@ -207,14 +209,17 @@
 
   FullEditor.prototype.initTabs = function () {
     /* Store active tab in a local storage */
-    $('.translation-tabs a[data-toggle="tab"]').on("shown.bs.tab", function () {
-      const current = localStorage.getItem("translate-tab");
-      const desired = $(this).attr("href");
+    $('.translation-tabs a[data-bs-toggle="tab"]').on(
+      "shown.bs.tab",
+      function () {
+        const current = localStorage.getItem("translate-tab");
+        const desired = $(this).attr("href");
 
-      if (current !== desired) {
-        localStorage.setItem("translate-tab", desired);
-      }
-    });
+        if (current !== desired) {
+          localStorage.setItem("translate-tab", desired);
+        }
+      },
+    );
 
     /* Machinery */
     this.isMachineryLoaded = false;
@@ -364,7 +369,7 @@
   FullEditor.prototype.initChecks = function () {
     /* Clicking links (e.g. comments, suggestions)
      * This is inside things to checks, but not a check-item */
-    this.$editor.on("click", '.check [data-toggle="tab"]', function (e) {
+    this.$editor.on("click", '.check [data-bs-toggle="tab"]', function (e) {
       const href = $(this).attr("href");
 
       e.preventDefault();
@@ -409,6 +414,34 @@
       } else {
         $check.toggleClass("check-dismissed");
       }
+      return false;
+    });
+
+    /* Automatically translated dismissal */
+    this.$editor.on("click", ".dismiss-automatically-translated", (e) => {
+      const $el = $(e.currentTarget);
+      const url = $el.attr("href");
+      const $check = $el.closest(".check");
+
+      $.ajax({
+        type: "POST",
+        url: url,
+        data: {
+          csrfmiddlewaretoken: this.csrfToken,
+        },
+        error: (_jqXhr, _textStatus, errorThrown) => {
+          addAlert(errorThrown);
+        },
+        success: () => {
+          const $listGroup = $check.closest(".list-group");
+          $check.remove();
+
+          // Hide the entire "Things to check" panel if no checks remain
+          if ($listGroup.children(".list-group-item").length === 0) {
+            $listGroup.closest(".panel").remove();
+          }
+        },
+      });
       return false;
     });
 
@@ -602,7 +635,7 @@
         $(
           `<td><a class="js-copy-machinery btn btn-warning">${gettext(
             "Clone to translation",
-          )}<span class="mt-number text-info"></span></a></td><td><a class="js-copy-save-machinery btn btn-primary">${gettext(
+          )}<span class="mt-number text-info"></span></a></td><td><a class="js-copy-save-machinery btn btn-outline-primary">${gettext(
             "Accept",
           )}</a></td>`,
         ),
@@ -623,7 +656,7 @@
       if (this.state.weblateTranslationMemory.has(el.text)) {
         row.append(
           $(
-            `<td><a class="js-delete-machinery btn btn-danger" data-toggle="modal" data-target="#delete-url-modal">${gettext(
+            `<td><a class="js-delete-machinery btn btn-danger" data-bs-toggle="modal" data-bs-target="#delete-url-modal">${gettext(
               "Delete entry",
             )}</a></td>`,
           ),

@@ -180,17 +180,9 @@ The following commands are available:
 
 .. option:: reset
 
-    .. versionadded:: 0.7
-
-        Supported since wlc 0.7.
-
     Resets changes in Weblate object to match remote repository (translation, component or project).
 
 .. option:: cleanup
-
-    .. versionadded:: 0.9
-
-        Supported since wlc 0.9.
 
     Removes any untracked changes in a Weblate object to match the remote repository (translation, component or project).
 
@@ -204,41 +196,21 @@ The following commands are available:
 
 .. option:: lock-status
 
-    .. versionadded:: 0.5
-
-        Supported since wlc 0.5.
-
     Displays lock status.
 
 .. option:: lock
-
-    .. versionadded:: 0.5
-
-        Supported since wlc 0.5.
 
     Locks component from further translation in Weblate.
 
 .. option:: unlock
 
-    .. versionadded:: 0.5
-
-        Supported since wlc 0.5.
-
     Unlocks translation of Weblate component.
 
 .. option:: changes
 
-    .. versionadded:: 0.7
-
-        Supported since wlc 0.7 and Weblate 2.10.
-
     Displays changes for a given object.
 
 .. option:: download
-
-    .. versionadded:: 0.7
-
-        Supported since wlc 0.7.
 
     Downloads a translation file.
 
@@ -252,10 +224,6 @@ The following commands are available:
         Specifies file to save output in, if left unspecified it is printed to stdout.
 
 .. option:: upload
-
-    .. versionadded:: 0.9
-
-        Supported since wlc 0.9.
 
     Uploads a translation file.
 

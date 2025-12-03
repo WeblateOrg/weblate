@@ -1,21 +1,122 @@
-Weblate 5.14.1
---------------
+Weblate 5.15
+------------
 
 *Not yet released.*
 
 .. rubric:: New features
 
+* Batch automatic translation can now be manually triggered at project language, category or component level, see :ref:`auto-translation`.
+* Added ability to completely disable the admin contact form by setting :setting:`CONTACT_FORM` to ``"disabled"``.
+* Added :http:get:`/api/units/(int:id)/comments/` to get a list of comments for the given translation unit.
+
+.. rubric:: Improvements
+
+* Added disk usage overview in :ref:`manage-performance`.
+* :http:get:`/api/groups/` now includes ``admins``.
+* :ref:`mt-modernmt` better supports language variants.
+* Automatically translated strings are now identified by a dedicated flag instead of a label.
+* :ref:`addon-weblate.discovery.discovery` preserves :ref:`file_format_params`.
+* :ref:`mt-cyrtranslit` now supports Belarusian and Greek.
+* :ref:`block-user` now accepts internal notes that are not visible to the user.
+* :ref:`addon-weblate.webhook.slack` and :ref:`addon-weblate.webhook.webhook` can be installed multiple times.
+* Compatibility with Git SHA256 repositories.
+* The allowed version control URLs can now be configured using :setting:`VCS_ALLOW_SCHEMES` and :setting:`VCS_ALLOW_HOSTS`.
+* The API timeout for creating pull requests or forking can now be configured via :setting:`VCS_API_TIMEOUT`.
+
+.. rubric:: Bug fixes
+
+* :ref:`mt-deepl` integration now correctly handles translating to Chinese variants.
+* :doc:`/formats/csv` format saving translations with empty source fields when using monolingual base files.
+* Tighter validation of user and full names to avoid confusing homoglyphs.
+* Avoid false positive checks upon committing pending changes.
+
+.. rubric:: Compatibility
+
+* Replaced custom ``RequireLoginMiddleware`` with Django 5.1's ``LoginRequiredMiddleware``. This makes settings ``LOGIN_REQUIRED_URLS`` and ``LOGIN_REQUIRED_URLS_EXCEPTIONS`` no longer supported, including their Docker environment variable counterparts.
+* :ref:`addon-weblate.webhook.webhook` secret length is now validated to match the Standard Webhooks specification.
+* Python 3.12 or newer is now required.
+* GLib 2.80 or newer is now required.
+* Dropped support for Web Monetization.
+* :doc:`/formats/laravel` no longer includes ``return`` prefix in the keys.
+* There are several changes in :file:`settings_example.py`, most notable are changed settings ``CRISPY_ALLOWED_TEMPLATE_PACKS`` and ``INSTALLED_APPS``; please adjust your settings accordingly.
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.15.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/152?closed=1>`__.
+
+Weblate 5.14.3
+--------------
+
+*Released on November 7th 2025.*
+
+.. rubric:: Bug fixes
+
+* Observed HTTPS status in :ref:`manage-performance`.
+* Forced synchronization in the :guilabel:`Repository maintenance`.
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.14.3.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/157?closed=1>`__.
+
+Weblate 5.14.2
+--------------
+
+*Released on November 6th 2025.*
+
+.. rubric:: Improvements
+
+* Performance when adding strings.
+
+.. rubric:: Bug fixes
+
+* Adding terms to glossary was not working in some situations.
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.14.2.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/155?closed=1>`__.
+
+Weblate 5.14.1
+--------------
+
+*Released on November 5th 2025.*
+
+.. rubric:: New features
+
+* String context are now tracked in changes histoy and displayed when available.
+
 .. rubric:: Improvements
 
 * Document using Valkey in :ref:`celery` and :ref:`production-cache`.
 * Added HTTP environment overview in :ref:`manage-performance`.
+* Docker container is using Python 3.14.
+* :ref:`check-icu-message-format` correctly handles implicit plurals.
 
 .. rubric:: Bug fixes
 
+* Avoid storing inviting user information in the invited user audit log (:cve:`2025-64326` / :ghsa:`gr35-vpx2-qxhc`).
+* Omit admin IP address from audit log.
 * Counting outgoing commits in the repository status.
 * Listing of other translations.
-
-.. rubric:: Compatibility
+* SAML configuration in the Docker container.
+* :ref:`project-commit_policy` could miss some changes in certain situations.
 
 .. rubric:: Upgrading
 
@@ -1289,7 +1390,7 @@ Weblate 5.4.3
 .. rubric:: Bug fixes
 
 * Superuser access to components with :ref:`component-restricted`.
-* Adjusted default :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` to not block :ref:`manage-appearance`.
+* Adjusted default ``LOGIN_REQUIRED_URLS_EXCEPTIONS`` to not block :ref:`manage-appearance`.
 * Avoid crash on pushing changes to diverged repository.
 * Avoid crash when installing :ref:`addon-weblate.generate.pseudolocale`.
 * :ref:`azure-setup` gracefully handles repositories with spaces in URL.

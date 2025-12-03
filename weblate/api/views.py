@@ -125,6 +125,8 @@ from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
     STATE_FUZZY,
+    STATE_NEEDS_CHECKING,
+    STATE_NEEDS_REWRITING,
     STATE_TRANSLATED,
 )
 from weblate.utils.stats import GlobalStats, prefetch_stats
@@ -741,6 +743,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         parameters=[OpenApiParameter("role_id", int, OpenApiParameter.PATH)],
     )
     @action(detail=True, methods=["delete"], url_path="roles/(?P<role_id>[0-9]+)")
+    # pylint: disable-next=redefined-builtin
     def delete_roles(self, request: Request, id, role_id):  # noqa: A002
         obj = self.get_object()
         self.perm_check(request)
@@ -784,6 +787,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     @action(
         detail=True, methods=["delete"], url_path="languages/(?P<language_code>[^/.]+)"
     )
+    # pylint: disable-next=redefined-builtin
     def delete_languages(self, request: Request, id, language_code):  # noqa: A002
         obj = self.get_object()
         self.perm_check(request)
@@ -821,6 +825,7 @@ class GroupViewSet(viewsets.ModelViewSet):
 
     @extend_schema(description="Delete a project from a group.", methods=["delete"])
     @action(detail=True, methods=["delete"], url_path="projects/(?P<project_id>[0-9]+)")
+    # pylint: disable-next=redefined-builtin
     def delete_projects(self, request: Request, id, project_id):  # noqa: A002
         obj = self.get_object()
         self.perm_check(request)
@@ -866,6 +871,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     def delete_componentlists(
         self,
         request: Request,
+        # pylint: disable-next=redefined-builtin
         id,  # noqa: A002
         component_list_id,
     ):
@@ -905,6 +911,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     @action(
         detail=True, methods=["delete"], url_path="components/(?P<component_id>[0-9]+)"
     )
+    # pylint: disable-next=redefined-builtin
     def delete_components(self, request: Request, id, component_id):  # noqa: A002
         obj = self.get_object()
         self.perm_check(request)
@@ -918,6 +925,7 @@ class GroupViewSet(viewsets.ModelViewSet):
 
     @extend_schema(description="Make user a group admin.", methods=["post"])
     @action(detail=True, methods=["post"], url_path="admins")
+    # pylint: disable-next=redefined-builtin
     def grant_admin(self, request: Request, id):  # noqa: A002
         group = self.get_object()
         if not request.user.has_perm("meta:team.users", group):
@@ -938,6 +946,7 @@ class GroupViewSet(viewsets.ModelViewSet):
 
     @extend_schema(description="Delete a user from group admins.", methods=["delete"])
     @action(detail=True, methods=["delete"], url_path="admins/(?P<user_pk>[0-9]+)")
+    # pylint: disable-next=redefined-builtin
     def revoke_admin(self, request: Request, id, user_pk):  # noqa: A002
         group = self.get_object()
         if not request.user.has_perm("meta:team.users", group):
@@ -1826,9 +1835,11 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
         if not (can_upload := user.has_perm("upload.perform", obj)):
             self.permission_denied(
                 request,
-                can_upload.reason
-                if isinstance(can_upload, PermissionResult)
-                else "Insufficient privileges for uploading.",
+                (
+                    can_upload.reason
+                    if isinstance(can_upload, PermissionResult)
+                    else "Insufficient privileges for uploading."
+                ),
             )
 
         serializer = UploadRequestSerializer(data=request.data)
@@ -2124,6 +2135,8 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             if new_state not in {
                 STATE_APPROVED,
                 STATE_TRANSLATED,
+                STATE_NEEDS_CHECKING,
+                STATE_NEEDS_REWRITING,
                 STATE_FUZZY,
                 STATE_EMPTY,
             }:
@@ -2157,7 +2170,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
                 except KeyError:
                     continue
             if "labels" in data:
-                unit.labels.set(data["labels"])
+                unit.save_labels(data["labels"], user)
             unit.save(update_fields=fields)
 
         # Handle translate
@@ -2202,33 +2215,45 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         methods=["post"],
         request=CommentSerializer,
     )
-    @action(detail=True, methods=["post"], serializer_class=CommentSerializer)
+    @extend_schema(
+        description="Return a list of comments on the unit.",
+        methods=["get"],
+        responses={200: CommentSerializer(many=True)},
+    )
+    @action(detail=True, methods=["get", "post"], serializer_class=CommentSerializer)
     def comments(self, request, *args, **kwargs):
-        """Add a new comment to a unit."""
+        """List comments on a unit or add a new comment to a unit."""
         unit = self.get_object()
         user = request.user
 
-        if not user.has_perm("comment.add", unit.translation):
-            self.permission_denied(request)
+        if request.method == "POST":
+            if not user.has_perm("comment.add", unit.translation):
+                self.permission_denied(request)
 
-        serializer = CommentSerializer(
-            data=request.data,
-            context={
-                "unit": unit,
-                "request": request,
-            },
-        )
-        serializer.is_valid(raise_exception=True)
+            serializer = CommentSerializer(
+                data=request.data,
+                context={
+                    "unit": unit,
+                    "request": request,
+                },
+            )
+            serializer.is_valid(raise_exception=True)
 
-        timestamp = serializer.validated_data.get("timestamp")
-        user_email = serializer.validated_data.get("user_email")
-        if (timestamp is not None or user_email is not None) and (
-            not user.has_perm("project.edit", unit.translation.component.project)
-        ):
-            self.permission_denied(request)
+            timestamp = serializer.validated_data.get("timestamp")
+            user_email = serializer.validated_data.get("user_email")
+            if (timestamp is not None or user_email is not None) and (
+                not user.has_perm("project.edit", unit.translation.component.project)
+            ):
+                self.permission_denied(request)
 
-        serializer.save()
-        return Response(serializer.data, status=HTTP_201_CREATED)
+            serializer.save()
+            return Response(serializer.data, status=HTTP_201_CREATED)
+
+        # If user doesn't have access to the unit, get_object will raise 404.
+        qs = unit.comment_set.all().order_by("id")
+        page = self.paginate_queryset(qs)
+        serializer = CommentSerializer(page, context={"request": request}, many=True)
+        return self.get_paginated_response(serializer.data)
 
 
 @extend_schema_view(
@@ -2299,7 +2324,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
         except (Unit.DoesNotExist, ValueError) as error:
             raise ValidationError({"unit_id": str(error)}) from error
 
-        obj.units.add(unit)
+        obj.add_unit(unit, user=request.user)
         serializer = ScreenshotSerializer(obj, context={"request": request})
 
         return Response(serializer.data, status=HTTP_200_OK)
@@ -2318,7 +2343,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
             unit = obj.translation.unit_set.get(pk=unit_id)
         except Unit.DoesNotExist as error:
             raise Http404(str(error)) from error
-        obj.units.remove(unit)
+        obj.remove_unit(unit, user=request.user)
         return Response(status=HTTP_204_NO_CONTENT)
 
     def create(self, request: Request, *args, **kwargs):
@@ -2348,11 +2373,21 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
             )
             serializer.is_valid(raise_exception=True)
             instance = serializer.save(translation=translation, user=request.user)
+
             instance.change_set.create(
-                action=ActionEvents.SCREENSHOT_ADDED,
+                action=ActionEvents.SCREENSHOT_UPLOADED,
                 user=request.user,
                 target=instance.name,
             )
+
+            for unit in instance.units.all():
+                instance.change_set.create(
+                    action=ActionEvents.SCREENSHOT_ADDED,
+                    user=request.user,
+                    target=instance.name,
+                    unit=unit,
+                )
+
             return Response(serializer.data, status=HTTP_201_CREATED)
 
     def update(self, request: Request, *args, **kwargs):
@@ -2580,6 +2615,7 @@ class Metrics(APIView):
     renderer_classes = (*api_settings.DEFAULT_RENDERER_CLASSES, OpenMetricsRenderer)
     serializer_class = MetricsSerializer
 
+    # pylint: disable-next=redefined-builtin
     def get(self, request: Request, format=None):  # noqa: A002
         """Return server metrics."""
         stats = GlobalStats()
@@ -2592,6 +2628,7 @@ class Search(APIView):
 
     serializer_class = None
 
+    # pylint: disable-next=redefined-builtin
     def get(self, request: Request, format=None):  # noqa: A002
         """Return site-wide search results as a list."""
         user = request.user

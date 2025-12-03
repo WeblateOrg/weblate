@@ -3,7 +3,7 @@
 {% load authnames crispy_forms_tags i18n translations %}
 
 {% block breadcrumbs %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'register' %}">{% translate "Registration" %}</a>
   </li>
 {% endblock breadcrumbs %}
@@ -36,8 +36,8 @@
             {% blocktranslate %}Register in {{ formatted_site_title }}{% endblocktranslate %}
           </h4>
 
-          <div class="panel panel-default">
-            <div class="panel-body">
+          <div class="card">
+            <div class="card-body">
 
               {% if registration_email %}
 
@@ -57,7 +57,7 @@
                 {% for name in registration_backends %}
                   <div class="col-sm-6 col-xs-12 btn-auth">
                     <a href=""
-                       class="btn btn-default link-post"
+                       class="btn btn-outline-primary link-post"
                        data-href="{% url 'social:begin' name %}"
                        {% if next %}data-params='{"next": "{{ next|escapejs }}"}'{% endif %}>{% auth_name name " " %}</a>
                   </div>
@@ -76,9 +76,11 @@
   {% else %}
 
     <p>
-      {% url 'contact' as contact_url %}
       {% translate "Sorry, new registrations are turned off on this site." %}
-      <a href="{{ contact_url }}">{% translate "You can contact us for more details." %}</a>
+      {% if contact_form != "disabled" %}
+        {% url 'contact' as contact_url %}
+        <a href="{{ contact_url }}">{% translate "You can contact us for more details." %}</a>
+      {% endif %}
     </p>
 
   {% endif %}

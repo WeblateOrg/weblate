@@ -83,6 +83,7 @@ class BillingAdmin(WeblateModelAdmin):
     def list_owners(self, obj):
         return ",".join(owner.full_name for owner in obj.owners.all())
 
+    # pylint: disable-next=arguments-differ
     def get_form(self, request: AuthenticatedHttpRequest, obj=None, **kwargs):
         form = super().get_form(request, obj, **kwargs)
         form.base_fields["owners"].label_from_instance = format_user

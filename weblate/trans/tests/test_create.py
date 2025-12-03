@@ -489,7 +489,10 @@ class CreateTest(ViewTestCase):
         self.user.is_superuser = True
         self.user.save()
 
-        with open(TEST_PO) as handle, override_settings(CREATE_GLOSSARIES=False):
+        with (
+            open(TEST_PO, encoding="utf-8") as handle,
+            override_settings(CREATE_GLOSSARIES=False),
+        ):
             response = self.client.post(
                 reverse("create-component-doc"),
                 {

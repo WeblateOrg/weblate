@@ -6,6 +6,7 @@ import os.path
 import tempfile
 from difflib import get_close_matches
 from itertools import chain
+from pathlib import Path
 from shutil import copyfile
 
 import requests
@@ -20,6 +21,8 @@ from rest_framework.test import APITestCase
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
 from weblate.screenshots.views import get_tesseract, ocr_get_strings
+from weblate.trans.actions import ActionEvents
+from weblate.trans.models import Change
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import create_test_user, get_test_file
@@ -56,6 +59,12 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
         response = self.do_upload()
         self.assertContains(response, "Obrazek")
         self.assertEqual(Screenshot.objects.count(), 1)
+        uploaded_changes = Change.objects.filter(
+            action=ActionEvents.SCREENSHOT_UPLOADED,
+            screenshot=Screenshot.objects.get(),
+        )
+        self.assertEqual(uploaded_changes.count(), 1)
+        self.assertEqual(uploaded_changes[0].user, self.user)
 
     def test_upload_fail(self) -> None:
         self.make_manager()
@@ -73,6 +82,19 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
         screenshot = Screenshot.objects.all()[0]
         self.assertEqual(screenshot.name, "Obrazek")
         self.assertEqual(screenshot.units.count(), 1)
+        uploaded_changes = Change.objects.filter(
+            action=ActionEvents.SCREENSHOT_UPLOADED,
+            screenshot=screenshot,
+        )
+        self.assertEqual(uploaded_changes.count(), 1)
+        self.assertEqual(uploaded_changes[0].user, self.user)
+        added_changes = Change.objects.filter(
+            action=ActionEvents.SCREENSHOT_ADDED,
+            screenshot=screenshot,
+            unit=source,
+        )
+        self.assertEqual(added_changes.count(), 1)
+        self.assertEqual(added_changes[0].user, self.user)
 
     def test_upload_source_invalid(self) -> None:
         self.make_manager()
@@ -132,6 +154,13 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
         self.assertEqual(data["responseCode"], 200)
         self.assertEqual(data["status"], True)
         self.assertEqual(screenshot.units.count(), 1)
+        added_changes = Change.objects.filter(
+            action=ActionEvents.SCREENSHOT_ADDED,
+            screenshot=screenshot,
+            unit_id=source_pk,
+        )
+        self.assertEqual(added_changes.count(), 1)
+        self.assertEqual(added_changes[0].user, self.user)
 
         # Updated listing
         response = self.client.get(
@@ -145,6 +174,13 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
             {"source": source_pk},
         )
         self.assertEqual(screenshot.units.count(), 0)
+        removed_changes = Change.objects.filter(
+            action=ActionEvents.SCREENSHOT_REMOVED,
+            screenshot=screenshot,
+            unit_id=source_pk,
+        )
+        self.assertEqual(removed_changes.count(), 1)
+        self.assertEqual(removed_changes[0].user, self.user)
 
     def test_ocr_backend(self) -> None:
         # Extract strings
@@ -225,13 +261,13 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
 
     @responses.activate
     def test_upload_with_image_url(self) -> None:
-        with open(TEST_SCREENSHOT, "rb") as img_handle:
-            responses.add(
-                responses.GET,
-                "https://example.com/test-image.png",
-                content_type="image/png",
-                body=img_handle.read(),
-            )
+        data = Path(TEST_SCREENSHOT).read_bytes()
+        responses.add(
+            responses.GET,
+            "https://example.com/test-image.png",
+            content_type="image/png",
+            body=data,
+        )
 
         self.make_manager()
         response = self.do_upload(
@@ -248,13 +284,13 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
         old_name = screenshot.image.name
         old_filename = screenshot.image.file.name
 
-        with open(TEST_SCREENSHOT, "rb") as img_handle:
-            responses.add(
-                responses.GET,
-                "https://example.com/test-image.png",
-                content_type="image/png",
-                body=img_handle.read(),
-            )
+        data = Path(TEST_SCREENSHOT).read_bytes()
+        responses.add(
+            responses.GET,
+            "https://example.com/test-image.png",
+            content_type="image/png",
+            body=data,
+        )
 
         self.client.post(
             screenshot.get_absolute_url(),
@@ -269,7 +305,7 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
         self.assertNotEqual(screenshot.image.file.name, old_filename)
 
     @responses.activate
-    def test_image_url_download_failure(self):
+    def test_image_url_download_failure(self) -> None:
         """Test handling of image download failures."""
         self.make_manager()
         responses.add(
@@ -297,7 +333,7 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
         self.assertContains(response, "Unable to download image from the provided URL.")
 
     @responses.activate
-    def test_no_image_or_url_validation(self):
+    def test_no_image_or_url_validation(self) -> None:
         """Test validation when neither image nor URL is provided."""
         self.make_manager()
         response = self.do_upload(image="")
@@ -306,14 +342,14 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
         )
 
     @responses.activate
-    def test_both_image_and_url_provided(self):
+    def test_both_image_and_url_provided(self) -> None:
         """Test that providing both image file and URL prioritizes the file."""
         self.make_manager()
         self.do_upload(image_url="https://example.com/should-be-ignored.png")
         self.assertEqual(Screenshot.objects.count(), 1)
 
     @responses.activate
-    def test_invalid_image_url_content_type(self):
+    def test_invalid_image_url_content_type(self) -> None:
         self.make_manager()
         # Mock a non-image content type
         responses.add(
@@ -327,7 +363,7 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
         self.assertContains(response, "Unsupported image type")
 
     @responses.activate
-    def test_invalid_image_url_size(self):
+    def test_invalid_image_url_size(self) -> None:
         self.make_manager()
         # Mock a too big image
         responses.add(
@@ -342,7 +378,7 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
         self.assertContains(response, "Image is too big")
 
     @responses.activate
-    def test_invalid_image_url_content(self):
+    def test_invalid_image_url_content(self) -> None:
         self.make_manager()
         # Mock a non-image content
         responses.add(
@@ -358,7 +394,7 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
 
     @responses.activate
     @override_settings(ALLOWED_ASSET_DOMAINS=[".allowed.com"])
-    def test_disallowed_image_url_domain(self):
+    def test_disallowed_image_url_domain(self) -> None:
         """Test validation when image URL domain is not allowed."""
         self.make_manager()
         response = self.do_upload(
@@ -390,14 +426,13 @@ class ScreenshotVCSTest(APITestCase, RepoTestCase):
             translation=self.component.source_translation,
             repository_filename="test-update.png",
         )
-        with open(TEST_SCREENSHOT, "rb") as handle:
-            data = handle.read()
-            half_data_size = len(data) // 2
-            with tempfile.NamedTemporaryFile(suffix="png") as temp_file:
-                temp_file.write(data[:half_data_size])
-                temp_file.flush()
-                temp_file.seek(0)
-                shot.image.save("test-update", File(temp_file))
+        data = Path(TEST_SCREENSHOT).read_bytes()
+        half_data_size = len(data) // 2
+        with tempfile.NamedTemporaryFile(suffix="png") as temp_file:
+            temp_file.write(data[:half_data_size])
+            temp_file.flush()
+            temp_file.seek(0)
+            shot.image.save("test-update", File(temp_file))
 
     def test_update_screenshots_from_repo(self) -> None:
         repository = self.component.repository

@@ -28,6 +28,10 @@ def gpg_error(name: str, error: Exception, silent: bool = False) -> None:
         )
 
 
+def get_gpg_errors() -> dict[str, str]:
+    return GPG_ERRORS
+
+
 def generate_gpg_key() -> str | None:
     try:
         subprocess.run(

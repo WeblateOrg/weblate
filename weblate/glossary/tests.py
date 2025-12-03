@@ -171,7 +171,7 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
         change_term()
 
         # Import file again with adding
-        response = self.import_file(TEST_TBX)
+        self.import_file(TEST_TBX)
 
         # Check number of imported objects
         self.assertEqual(self.glossary.unit_set.count(), 164)
@@ -187,7 +187,7 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
         # Check correct response
         self.assertRedirects(response, self.glossary.get_absolute_url())
 
-        response = self.client.get(self.glossary.get_absolute_url())
+        self.client.get(self.glossary.get_absolute_url())
 
         # Check number of imported objects
         self.assertEqual(self.glossary.unit_set.count(), 163)
@@ -366,6 +366,17 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
 
     def test_add(self) -> None:
         """Test for adding term from translate page."""
+        start = Unit.objects.count()
+        self.do_add_unit()
+        # Should be added to the source and translation only
+        self.assertEqual(Unit.objects.count(), start + 2)
+
+    def test_add_existing(self) -> None:
+        """Test for adding term from translate page while there is existing one."""
+        glossary = self.glossary_component.translation_set.get(
+            language=self.translation.language
+        )
+        glossary.add_unit(None, "", "Thank", "Díky", author=self.user)
         start = Unit.objects.count()
         self.do_add_unit()
         # Should be added to the source and translation only

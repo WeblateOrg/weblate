@@ -17,8 +17,7 @@ from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
 if TYPE_CHECKING:
     from weblate.addons.base import CompatDict
-    from weblate.auth.models import User
-    from weblate.trans.models import Component
+    from weblate.trans.models import Component, Project
 
 
 class FlagBase(BaseAddon):
@@ -28,11 +27,16 @@ class FlagBase(BaseAddon):
     icon = "flag.svg"
 
     @classmethod
-    def can_install(cls, component: Component, user: User | None) -> bool:
+    def can_install(
+        cls,
+        *,
+        component: Component | None = None,
+        project: Project | None = None,
+    ) -> bool:
         # Following formats support fuzzy flag, so avoid messing up with them
-        if component.file_format in {"ts", "po", "po-mono"}:
+        if component is not None and component.file_format in {"ts", "po", "po-mono"}:
             return False
-        return super().can_install(component, user)
+        return super().can_install(component=component, project=project)
 
 
 class SourceEditAddon(FlagBase):

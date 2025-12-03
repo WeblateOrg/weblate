@@ -122,7 +122,7 @@ def filter_lines(lines: list[str]) -> list[str]:
 
 def format_file(filename: str, case_sensitive: bool) -> bool:
     """Format single properties file."""
-    with open(filename) as handle:
+    with open(filename, encoding="utf-8") as handle:
         lines = handle.readlines()
 
     result = sorted(lines, key=lambda line: sort_key(line, case_sensitive))
@@ -132,7 +132,7 @@ def format_file(filename: str, case_sensitive: bool) -> bool:
     result = filter_lines(result)
 
     if lines != result:
-        with open(filename, "w") as handle:
+        with open(filename, "w", encoding="utf-8") as handle:
             handle.writelines(result)
         return True
     return False

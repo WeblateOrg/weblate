@@ -5,9 +5,9 @@
 from __future__ import annotations
 
 import codecs
-import contextlib
 import os
 import tempfile
+from contextlib import suppress
 from datetime import UTC
 from itertools import chain
 from pathlib import Path
@@ -47,6 +47,7 @@ from weblate.trans.signals import component_post_update, vcs_pre_commit
 from weblate.trans.util import is_plural, join_plural, split_plural
 from weblate.trans.validators import validate_check_flags
 from weblate.utils import messages
+from weblate.utils.db import using_postgresql
 from weblate.utils.errors import report_error
 from weblate.utils.html import format_html_join_comma
 from weblate.utils.render import render_template
@@ -177,6 +178,14 @@ class TranslationQuerySet(models.QuerySet):
         return self.order_by(
             "component__priority", "component__project__name", "component__name"
         )
+
+    def exclude_source(self):
+        """
+        Exclude source translations.
+
+        Database equivalent of Translation.is_source property.
+        """
+        return self.exclude(language=F("component__source_language"))
 
 
 class Translation(
@@ -352,7 +361,7 @@ class Translation(
             )
 
     @cached_property
-    def store(self):
+    def store(self) -> TranslationFormat:
         """Return translate-toolkit storage object for a translation."""
         try:
             return self.load_store()
@@ -363,6 +372,7 @@ class Translation(
                 "Translation parse error", project=self.component.project, print_tb=True
             )
             self.component.handle_parse_error(exc, self)
+            raise
 
     def pre_process_unit(
         self,
@@ -390,7 +400,7 @@ class Translation(
         )
         return newunit
 
-    def check_sync(  # noqa: C901
+    def check_sync(  # noqa: C901, PLR0915
         self,
         force: bool = False,
         request: AuthenticatedHttpRequest | None = None,
@@ -491,13 +501,14 @@ class Translation(
                             translated_unit, created = translation_store.find_unit(
                                 unit.context, unit.source
                             )
+                        except UnitNotFoundError:
+                            pass
+                        else:
                             if translated_unit and not created:
                                 unit = translated_unit
                             else:
                                 # Patch unit to have matching source
                                 unit.source = translated_unit.source
-                        except UnitNotFoundError:
-                            pass
                     if (
                         self.component.file_format_cls.monolingual
                         and self.component.key_filter_re
@@ -554,7 +565,8 @@ class Translation(
                 # Create/update translations
                 for newunit in updated.values():
                     with sentry_sdk.start_span(
-                        op="unit.update_from_unit", name=f"{self.full_slug}:{pos}"
+                        op="unit.update_from_unit",
+                        name=f"{self.full_slug}:{newunit.unit_attributes['pos']}",
                     ):
                         newunit.update_from_unit(user=user, author=author)
 
@@ -692,7 +704,9 @@ class Translation(
         return self.component.commit_pending(reason, user, skip_push=skip_push)
 
     @transaction.atomic
-    def _commit_pending(self, reason: str, user: User | None) -> bool:
+    def _commit_pending(
+        self, reason: str, user: User | None, pending_changes_pk: list[int]
+    ) -> bool:
         """
         Commit pending translation.
 
@@ -702,6 +716,7 @@ class Translation(
         - the source translation needs to be committed first
         - signals and alerts are updated by the caller
         - repository push is handled by the caller
+        - pending_changes_pk only has pending changes for units associated with this translation
         """
         try:
             store = self.store
@@ -722,7 +737,7 @@ class Translation(
             return False
 
         pending_changes = list(
-            PendingUnitChange.objects.for_translation(self)
+            PendingUnitChange.objects.filter(pk__in=pending_changes_pk)
             .prefetch_related("unit", "author")
             .order_by("timestamp")
             .select_for_update()
@@ -889,7 +904,10 @@ class Translation(
     @property
     def count_pending_units(self):
         """Return count of units with pending changes."""
-        return PendingUnitChange.objects.for_translation(self).count()
+        qs = PendingUnitChange.objects.for_translation(self, apply_filters=True)
+        if using_postgresql():
+            return qs.distinct("unit_id").count()
+        return qs.values("unit_id").distinct().count()
 
     def needs_commit(self):
         """Check whether there are some not committed changes."""
@@ -1074,7 +1092,7 @@ class Translation(
                 "state": pending_change.state,
                 "explanation": pounit.explanation,
             }
-            unit.save(update_fields=["details"])
+            unit.save(update_fields=["details"], only_save=True)
 
         # Did we do any updates?
         if not updated:
@@ -1653,7 +1671,7 @@ class Translation(
         # Remove blank directory if still present (appstore)
         filename = Path(self.get_filename())
         if filename.is_dir():
-            with contextlib.suppress(OSError):
+            with suppress(OSError):
                 filename.rmdir()
 
         # Delete from the database
@@ -1736,7 +1754,7 @@ class Translation(
         author: User,
     ) -> Unit | None: ...
     @transaction.atomic
-    def add_unit(  # noqa: C901, PLR0914, PLR0915
+    def add_unit(  # noqa: C901, PLR0914, PLR0915, PLR0912
         self,
         request,
         context,
@@ -1766,6 +1784,7 @@ class Translation(
             msg = "Plurals not supported by format!"
             raise ValueError(msg)
 
+        component_wide = True
         if self.is_source:
             translations = (
                 self,
@@ -1782,6 +1801,7 @@ class Translation(
                 ).select_related("language"),
             )
         else:
+            component_wide = False
             translations = (component.source_translation, self)
         has_template = component.has_template()
         source_unit = None
@@ -1830,6 +1850,9 @@ class Translation(
             if (skip_existing or not self.is_source) and is_source:
                 try:
                     unit = component.get_source(id_hash)
+                except Unit.DoesNotExist:
+                    pass
+                else:
                     flags = Flags(unit.extra_flags)
                     flags.merge(extra_flags)
                     new_flags = flags.format()
@@ -1843,8 +1866,6 @@ class Translation(
                             same_content=True,
                             sync_terminology=False,
                         )
-                except Unit.DoesNotExist:
-                    pass
             if unit is None:
                 if "read-only" in translation.all_flags or (
                     component.is_glossary and "read-only" in parsed_flags
@@ -1913,7 +1934,11 @@ class Translation(
                 component.update_variants(
                     updated_units=Unit.objects.filter(pk__in=unit_ids)
                 )
-            component.invalidate_cache()
+            if component_wide:
+                component.invalidate_cache()
+            else:
+                for translation in translations:
+                    translation.invalidate_cache()
             component_post_update.send(sender=self.__class__, component=component)
         return result
 
@@ -1925,6 +1950,7 @@ class Translation(
             details={
                 "source": unit.source,
                 "target": unit.target,
+                "context": unit.context,
             },
         )
 
@@ -2102,7 +2128,6 @@ class Translation(
                 extra_flags=extra_flags,
                 explanation=explanation,
             )
-            return
 
     @property
     def all_repo_components(self):
