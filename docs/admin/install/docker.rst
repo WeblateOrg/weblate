@@ -1233,6 +1233,10 @@ Automatic suggestion settings
 Authentication settings
 +++++++++++++++++++++++
 
+.. hint::
+
+   The e-mail based authentication is turned on unless disabled by :envvar:`WEBLATE_NO_EMAIL_AUTH`.
+
 LDAP
 ~~~~
 
