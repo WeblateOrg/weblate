@@ -32,6 +32,14 @@ Weblate 5.15
 * Avoid false positive checks upon committing pending changes.
 * Performance improvements for file upload.
 
+.. rubric:: Documentation
+
+* Clarified that environment variables for code hosting credentials must use the ``WEBLATE_`` prefix in Docker deployments.
+* Improved explanation of Git committer vs. author distinction in the FAQ.
+* Added clear notes distinguishing Hosted Weblate configuration from self-hosted instances in VCS integration documentation.
+* Better explained GitHub authentication options with step-by-step guidance for both token-based and SSH-based approaches.
+* Updated help text for the push branch field to clarify requirements when using pull/merge requests.
+
 .. rubric:: Compatibility
 
 * Replaced custom ``RequireLoginMiddleware`` with Django 5.1's ``LoginRequiredMiddleware``. This makes settings ``LOGIN_REQUIRED_URLS`` and ``LOGIN_REQUIRED_URLS_EXCEPTIONS`` no longer supported, including their Docker environment variable counterparts.
