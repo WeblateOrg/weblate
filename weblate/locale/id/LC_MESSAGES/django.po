@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-02 19:29+0000\n"
-"PO-Revision-Date: 2025-12-03 20:01+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"PO-Revision-Date: 2025-12-05 12:00+0000\n"
+"Last-Translator: Arif Budiman <arifpedia@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "application/id/>\n"
 "Language: id\n"
@@ -1862,14 +1862,12 @@ msgid "Webhook URL"
 msgstr "URL Webhook"
 
 #: weblate/addons/forms.py:600
-#, fuzzy
-#| msgid "Webhook"
 msgid "Webhook secret"
-msgstr "Webhook"
+msgstr "Rahasia Webhook"
 
 #: weblate/addons/forms.py:606
 msgid "The Standard Webhooks secret is a base64 encoded string."
-msgstr ""
+msgstr "Rahasia webhook standar adalah string yang dikodekan dalam base64."
 
 #: weblate/addons/generate.py:38
 msgid "Statistics generator"
@@ -3007,15 +3005,15 @@ msgid "Block expiry"
 msgstr "Blokir kedaluwarsa"
 
 #: weblate/auth/models.py:1020 weblate/trans/forms.py:1362
-#, fuzzy
-#| msgid "Block user"
 msgid "Block note"
-msgstr "Memblokir pengguna"
+msgstr "Catatan blokir"
 
 #: weblate/auth/models.py:1023 weblate/trans/forms.py:1364
 msgid ""
 "Internal notes regarding blocking the user that are not visible to the user."
 msgstr ""
+"Catatan internal terkait pemblokiran pengguna yang tidak terlihat oleh "
+"pengguna."
 
 #: weblate/auth/models.py:1211 weblate/trans/forms.py:1325
 msgid "User to add"
@@ -3071,11 +3069,11 @@ msgid "Sign in to save translations."
 msgstr "Masuk untuk menyimpan terjemahan."
 
 #: weblate/auth/permissions.py:229
-#, fuzzy
-#| msgid "Insufficient privileges for approving translations."
 msgid ""
 "Insufficient privileges for approving translations in a restricted component."
-msgstr "Hak tidak cukup untuk menyetujui terjemahan."
+msgstr ""
+"Hak istimewa tidak mencukupi untuk menyetujui terjemahan dalam komponen "
+"terbatas."
 
 #: weblate/auth/permissions.py:234
 #, fuzzy
@@ -6132,10 +6130,8 @@ msgid "Screenshot %s has been deleted."
 msgstr "Tangkapan layar %s telah dihapus."
 
 #: weblate/screenshots/views.py:328
-#, fuzzy
-#| msgid "Invalid date!"
 msgid "Invalid unit."
-msgstr "Tanggal tidak valid!"
+msgstr "Unit tidak valid."
 
 #: weblate/screenshots/views.py:333
 msgid "Source has been removed."
@@ -9281,12 +9277,10 @@ msgid "Repository status"
 msgstr "Status repositori"
 
 #: weblate/templates/js/git-status.html:28
-#, fuzzy, python-format
-#| msgid "%(count)s pending change"
-#| msgid_plural "%(count)s pending changes"
+#, python-format
 msgid "%(total_count)s pending unit"
 msgid_plural "%(total_count)s pending units"
-msgstr[0] "%(count)s perubahan tertunda"
+msgstr[0] "%(total_count)s unit tertunda"
 
 #: weblate/templates/js/git-status.html:34
 #, python-format
@@ -10541,7 +10535,7 @@ msgstr "Antrian Celery"
 #: weblate/templates/manage/performance.html:131
 #: weblate/templates/manage/performance.html:146
 msgid "Disk usage"
-msgstr ""
+msgstr "Penggunaan disk"
 
 #: weblate/templates/manage/performance.html:152
 #, fuzzy
@@ -10551,11 +10545,11 @@ msgstr "Ukuran berkas"
 
 #: weblate/templates/manage/performance.html:153
 msgid "Disk used"
-msgstr ""
+msgstr "Disk terpakai"
 
 #: weblate/templates/manage/performance.html:154
 msgid "Disk free"
-msgstr ""
+msgstr "Disk kosong"
 
 #: weblate/templates/manage/performance.html:170
 msgid "System encoding"
@@ -13485,10 +13479,9 @@ msgid "Automatically translated"
 msgstr "Diterjemahkan secara otomatis"
 
 #: weblate/templates/translate.html:720
-#, fuzzy, python-format
-#| msgid "This string has been translated in the past."
+#, python-format
 msgid "This string was translated automatically by %(author)s."
-msgstr "String ini telah diterjemahkan di masa lalu."
+msgstr "String ini diterjemahkan secara otomatis oleh %(author)s."
 
 #: weblate/templates/translate.html:742
 #, python-format
@@ -16481,7 +16474,7 @@ msgstr "Gagal menambahkan string, tidak ada terjemahan yang ditemukan."
 
 #: weblate/trans/models/unit.py:450
 msgid "Indicates whether this string was translated automatically."
-msgstr ""
+msgstr "Menunjukkan apakah string ini diterjemahkan secara otomatis."
 
 #: weblate/trans/models/unit.py:1264
 #, python-format
@@ -17658,7 +17651,7 @@ msgstr "Harap hindari penggunaan karakter khusus dalam nama lengkap."
 
 #: weblate/utils/validators.py:162
 msgid "This name cannot be registered. Please choose a different one."
-msgstr ""
+msgstr "Nama ini tidak dapat didaftarkan. Silakan pilih nama lain."
 
 #: weblate/utils/validators.py:167
 msgid "Name consists only of disallowed characters."
@@ -17676,7 +17669,7 @@ msgstr "Nama pengguna tidak dapat diawali dengan titik."
 
 #: weblate/utils/validators.py:196
 msgid "This username cannot be registered. Please choose a different one."
-msgstr ""
+msgstr "Nama pengguna ini tidak dapat didaftarkan. Silakan pilih yang lain."
 
 #: weblate/utils/validators.py:202 weblate/utils/validators.py:210
 msgid "Enter a valid e-mail address."
@@ -17736,17 +17729,17 @@ msgstr "Penyortiran yang dipilih tidak didukung."
 
 #: weblate/utils/validators.py:346
 msgid "The provided secret is too long."
-msgstr ""
+msgstr "Rahasia yang diberikan terlalu panjang."
 
 #: weblate/utils/validators.py:425
 #, python-format
 msgid "Fetching VCS repository using %s is not allowed."
-msgstr ""
+msgstr "Pengambilan repositori VCS menggunakan %s tidak diizinkan."
 
 #: weblate/utils/validators.py:436
 #, python-format
 msgid "Fetching VCS repository from %s is not allowed."
-msgstr ""
+msgstr "Pengambilan repositori VCS dari %s tidak diizinkan."
 
 #: weblate/utils/views.py:212 weblate/utils/views.py:241
 msgid "Position and priority"
