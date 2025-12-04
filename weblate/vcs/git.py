@@ -58,9 +58,7 @@ if TYPE_CHECKING:
 
     from weblate.trans.models import Component
 
-LOCK_ERROR = re.compile(
-    r"fatal: Unable to create '([^']*\.git/index\.lock)': File exists"
-)
+LOCK_ERROR = re.compile(r"Unable to create '([^']*\.git/[.*]\.lock)': File exists")
 # Assume lock is stale after one hour
 LOCK_STALE_SECONDS = 3600
 
