@@ -475,7 +475,7 @@ class Component(
         help_text=gettext_lazy(
             "Branch for pushing changes. Leave empty to use repository branch when "
             "pushing directly to the repository. When using pull/merge requests, "
-            "this field is required and must be different from the repository branch."
+            "specify a branch name different from the repository branch."
         ),
         default="",
         blank=True,
