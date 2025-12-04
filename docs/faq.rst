@@ -268,9 +268,9 @@ commits, which is configured by :setting:`DEFAULT_COMMITER_EMAIL` and
 :setting:`DEFAULT_COMMITER_NAME`. This is a technical identifier showing that
 the commit was processed through Weblate.
 
-However, the **author** of each commit is correctly recorded as the individual 
-user who made the translation (when using Git). This means you can see who 
-actually translated each string by examining the commit author field. The same 
+However, the **author** of each commit is correctly recorded as the individual
+user who made the translation (when using Git). This means you can see who
+actually translated each string by examining the commit author field. The same
 applies to Mercurial; only Subversion does not have this capability.
 
 .. note::
@@ -280,8 +280,8 @@ applies to Mercurial; only Subversion does not have this capability.
    while preserving individual translator attribution as authors.
 
 For commits where authorship cannot be determined (such as automated changes
-from anonymous suggestions or machine translation results), the author is set 
-to the anonymous user. You can configure the anonymous user's name and e-mail 
+from anonymous suggestions or machine translation results), the author is set
+to the anonymous user. You can configure the anonymous user's name and e-mail
 in :setting:`ANONYMOUS_USER_NAME`.
 
 .. seealso::
