@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-02 19:29+0000\n"
-"PO-Revision-Date: 2025-12-03 20:01+0000\n"
+"PO-Revision-Date: 2025-12-04 08:20+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -1786,7 +1786,7 @@ msgstr "סוד התליה"
 
 #: weblate/addons/forms.py:606
 msgid "The Standard Webhooks secret is a base64 encoded string."
-msgstr ""
+msgstr "סוד ההתליות הרגילות היא מחרוזת בקידוד על בסיס 64 (base64)."
 
 #: weblate/addons/generate.py:38
 msgid "Statistics generator"
@@ -2901,15 +2901,13 @@ msgid "Block expiry"
 msgstr "תפוגת החסימה"
 
 #: weblate/auth/models.py:1020 weblate/trans/forms.py:1362
-#, fuzzy
-#| msgid "Block user"
 msgid "Block note"
-msgstr "חסימת משתמש"
+msgstr "הערת חסימה"
 
 #: weblate/auth/models.py:1023 weblate/trans/forms.py:1364
 msgid ""
 "Internal notes regarding blocking the user that are not visible to the user."
-msgstr ""
+msgstr "הערות פנימיות בנוגע לחסימת המשתמש אינן חשופות למשתמש."
 
 #: weblate/auth/models.py:1211 weblate/trans/forms.py:1325
 msgid "User to add"
@@ -2961,18 +2959,14 @@ msgid "Sign in to save translations."
 msgstr "נא להיכנס כדי לשמור תרגומים."
 
 #: weblate/auth/permissions.py:229
-#, fuzzy
-#| msgid "Insufficient privileges for approving translations."
 msgid ""
 "Insufficient privileges for approving translations in a restricted component."
-msgstr "אין מספיק הרשאות לאישור תרגומים."
+msgstr "אין מספיק הרשאות לאישור תרגומים ברכיב מוגבל."
 
 #: weblate/auth/permissions.py:234
-#, fuzzy
-#| msgid "Insufficient privileges for saving translations."
 msgid ""
 "Insufficient privileges for saving translations in a restricted component."
-msgstr "אין מספיק הרשאות לשמירת תרגומים."
+msgstr "אין מספיק הרשאות לשמירת תרגומים ברכיב מוגבל."
 
 #: weblate/auth/permissions.py:239
 msgid "Insufficient privileges for approving translations."
@@ -5885,21 +5879,21 @@ msgstr "תרגום ל%s אינו זמין כרגע, אך ניתן להוסיף �
 
 #: weblate/screenshots/forms.py:33
 msgid "You need to provide either image file or image URL."
-msgstr ""
+msgstr "יש לספק תמונה או כתובת לתמונה."
 
 #: weblate/screenshots/forms.py:53
 msgid "Image URL domain is not allowed."
-msgstr ""
+msgstr "שם התחום של כתובת התמונה אינו מורשה."
 
 #: weblate/screenshots/forms.py:61
 #, python-format
 msgid ""
 "Unable to download image from the provided URL (HTTP status code: %(code)s)."
-msgstr ""
+msgstr "לא ניתן להוריד תמונה מה כתובת שסופקה (קוד מצב HTTP‏: %(code)s)."
 
 #: weblate/screenshots/forms.py:79
 msgid "Image is too big."
-msgstr ""
+msgstr "התמונה גדולה מדי."
 
 #: weblate/screenshots/forms.py:85 weblate/utils/validators.py:130
 #, python-format
@@ -5908,7 +5902,7 @@ msgstr "סוג התמונה אינו נתמך: %s"
 
 #: weblate/screenshots/forms.py:93
 msgid "Unable to download image from the provided URL."
-msgstr ""
+msgstr "לא ניתן להוריד תמונה מהכתובת שסופקה."
 
 #: weblate/screenshots/forms.py:120 weblate/screenshots/forms.py:147
 #: weblate/templates/widgets.html:64
@@ -5917,7 +5911,7 @@ msgstr "כתובת תמונה"
 
 #: weblate/screenshots/forms.py:121 weblate/screenshots/forms.py:148
 msgid "The image will be downloaded and stored."
-msgstr ""
+msgstr "התמונה תרד ותאוחסן."
 
 #: weblate/screenshots/models.py:58
 #: weblate/templates/screenshots/screenshot_list.html:47
@@ -5956,10 +5950,8 @@ msgid "Screenshot %s has been deleted."
 msgstr "צילום המסך %s נמחק."
 
 #: weblate/screenshots/views.py:328
-#, fuzzy
-#| msgid "Invalid date!"
 msgid "Invalid unit."
-msgstr "תאריך שגוי!"
+msgstr "יחידה שגויה."
 
 #: weblate/screenshots/views.py:333
 msgid "Source has been removed."
@@ -6972,7 +6964,7 @@ msgstr "הסרת חשבון"
 msgid ""
 "You will lose access to the projects you manage. Projects themselves will "
 "not be removed."
-msgstr ""
+msgstr "הגישה שלך למיזמים שבניהולך תלך לאיבוד. המיזמים עצמם לא יוסרו."
 
 #: weblate/templates/accounts/removal.html:35
 msgid ""
@@ -6981,20 +6973,12 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/accounts/removal.html:39
-#, fuzzy
-#| msgid ""
-#| "By pressing following button, your will no longer be able to use this "
-#| "account."
 msgid ""
 "By pressing the following button, you will no longer be able to use this "
 "account."
-msgstr "לחיצה על הכפתור הבא תמנע ממך להשתמש בחשבון זה."
+msgstr "לחיצה על הכפתור הבא תמנע ממך להשתמש בחשבון הזה."
 
 #: weblate/templates/accounts/removal.html:43
-#, fuzzy
-#| msgid ""
-#| "You will have to confirm account removal by clicking link in e-mail you "
-#| "will receive."
 msgid ""
 "You will have to confirm the account removal by clicking the link in the e-"
 "mail you will receive."
@@ -7047,6 +7031,8 @@ msgid ""
 "By registering, you agree that your name and username will be visible "
 "publicly as long as your account exists."
 msgstr ""
+"עצם הרישום מהווה את הסכמתך לכך שהשם ושם המשתמש שלך יהיו חשופים לציבור כל עוד "
+"החשבון שלך קיים."
 
 #: weblate/templates/accounts/snippets/login-info.html:30
 msgid ""
