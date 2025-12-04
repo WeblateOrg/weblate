@@ -3847,7 +3847,7 @@ class Component(
                 Change.store_last_change(translation, None)
 
             # Create the file
-            autobatch_lang = None  # Will be set if file is created
+            autobatch_lang = None  # Will be set if file is created or translation is new
             if os.path.exists(fullname):
                 # Ignore request if file exists (possibly race condition as
                 # the processing of new language can take some time and user
@@ -4195,26 +4195,60 @@ class Component(
                 component_id=component_pk,
                 language__code=lang
             ).first()
-            if not translation:
-                # Translation doesn't exist yet, create it
+            if not translation or translation.unit_set.count() == 0:
+                # Translation doesn't exist yet, or exists but has no units (file not parsed)
+                # Create/parse it to ensure units exist
                 # This handles cases where autobatch translation is called
-                # before the translation is created (e.g., from other code paths)
-                self.log_info(
-                    "Autobatch translation: translation not found, creating for language %s in component %s (ID: %d)",
-                    lang,
-                    self.full_slug,
-                    component_pk
-                )
-                self._create_translations(
-                    force=False,
-                    force_scan=False,
-                    langs=[lang],
-                    request=request,
-                    changed_template=False,
-                    from_link=False,
-                    change=None,
-                )
-                # Try to get the translation again after creation
+                # before the translation is created or before the file is parsed
+                if not translation:
+                    self.log_info(
+                        "Autobatch translation: translation not found, creating for language %s in component %s (ID: %d)",
+                        lang,
+                        self.full_slug,
+                        component_pk
+                    )
+                else:
+                    self.log_info(
+                        "Autobatch translation: translation exists but has no units, parsing file for language %s in component %s (ID: %d)",
+                        lang,
+                        self.full_slug,
+                        component_pk
+                    )
+                # Use create_translations_immediate() instead of _create_translations() directly
+                # to ensure proper locking and avoid race conditions
+                try:
+                    self.create_translations_immediate(
+                        force=False,
+                        force_scan=True,  # Force scan to ensure file is parsed
+                        langs=[lang],
+                        request=request,
+                        changed_template=False,
+                        from_link=False,
+                        change=None,
+                    )
+                except Exception as e:
+                    # Handle IntegrityError and other exceptions gracefully
+                    # This can happen if another task already created the units
+                    from django.db import IntegrityError
+                    if isinstance(e, IntegrityError):
+                        self.log_info(
+                            "Autobatch translation: units may have been created by another task (IntegrityError), checking again for language %s in component %s (ID: %d)",
+                            lang,
+                            self.full_slug,
+                            component_pk
+                        )
+                    else:
+                        self.log_error(
+                            "Autobatch translation: error during file parsing for language %s in component %s (ID: %d): %s",
+                            lang,
+                            self.full_slug,
+                            component_pk,
+                            e,
+                        )
+                        import traceback
+                        self.log_error("traceback: %s", traceback.format_exc())
+                
+                # Try to get the translation again after creation/parsing
                 # Use component_id to ensure we get the right one
                 translation = Translation.objects.filter(
                     component_id=component_pk,
@@ -4223,6 +4257,15 @@ class Component(
                 if not translation:
                     self.log_info(
                         "Autobatch translation: failed to create translation for language %s in component %s (component ID: %d)",
+                        lang,
+                        self.full_slug,
+                        component_pk
+                    )
+                    return
+                # Check if units were created after parsing
+                if translation.unit_set.count() == 0:
+                    self.log_info(
+                        "Autobatch translation: still no units after parsing for language %s in component %s (component ID: %d) - file may be empty",
                         lang,
                         self.full_slug,
                         component_pk
