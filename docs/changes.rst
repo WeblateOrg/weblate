@@ -23,6 +23,7 @@ Weblate 5.15
 * Compatibility with Git SHA256 repositories.
 * The allowed version control URLs can now be configured using :setting:`VCS_ALLOW_SCHEMES` and :setting:`VCS_ALLOW_HOSTS`.
 * The API timeout for creating pull requests or forking can now be configured via :setting:`VCS_API_TIMEOUT`.
+* Improved VCS integration documentation to clarify Docker environment variables, commit authorship, hosted vs. self-hosted setup, and authentication options.
 
 .. rubric:: Bug fixes
 
@@ -31,14 +32,6 @@ Weblate 5.15
 * Tighter validation of user and full names to avoid confusing homoglyphs.
 * Avoid false positive checks upon committing pending changes.
 * Performance improvements for file upload.
-
-.. rubric:: Documentation
-
-* Clarified that environment variables for code hosting credentials must use the ``WEBLATE_`` prefix in Docker deployments.
-* Improved explanation of Git committer vs. author distinction in the FAQ.
-* Added clear notes distinguishing Hosted Weblate configuration from self-hosted instances in VCS integration documentation.
-* Better explained GitHub authentication options with step-by-step guidance for both token-based and SSH-based approaches.
-* Updated help text for the push branch field to clarify requirements when using pull/merge requests.
 
 .. rubric:: Compatibility
 
