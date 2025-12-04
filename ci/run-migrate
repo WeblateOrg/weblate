@@ -137,8 +137,8 @@ if [ "$file_format_encoding_merge" -eq 0 ]; then
     .manage.py shell << EOF
 from weblate.trans.models import Component
 Component.objects.bulk_create([
-    Component(name="Strings UTF16", slug="strings-utf16", project_id=1, repo="weblate://test/stringsutf16", file_format="strings", filemask="strings/*.strings"),
-    Component(name="Strings UTF8", slug="strings-utf8", project_id=1, repo="weblate://test/stringsutf8", file_format="strings-utf8", filemask="strings/*.strings")
+    Component(name="iOS Strings UTF16", slug="strings-utf16", project_id=1, repo="weblate://test/stringsutf16", file_format="strings", filemask="strings/*.strings"),
+    Component(name="iOS Strings UTF8", slug="strings-utf8", project_id=1, repo="weblate://test/stringsutf8", file_format="strings-utf8", filemask="strings/*.strings")
     Component(name="Java Properties UTF 8", slug="java-properties-utf8", project_id=1, repo="weblate://test/propertiesutf8", file_format="properties-utf8", filemask="properties/*.properties")
     Component(name="Java Properties UTF 16", slug="java-properties-utf16", project_id=1, repo="weblate://test/propertiesutf16", file_format="properties-utf16", filemask="properties/*.properties")
     Component(name="Java Properties ISO 8859-1", slug="java-properties-iso8859-1", project_id=1, repo="weblate://test/propertiesutfiso8859-1", file_format="properties", filemask="properties/*.properties")

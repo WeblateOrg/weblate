@@ -26,8 +26,7 @@ the following files:
 
    By default, the CSV format does autodetection of file encoding. This can be
    unreliable in some corner cases and causes performance penalty. Please
-   choose file format variant with encoding to avoid this (for example
-   :guilabel:`CSV file (UTF-8)`).
+   choose a file format encoding to avoid this (for example :guilabel:`UTF-8`).
 
 .. warning::
 

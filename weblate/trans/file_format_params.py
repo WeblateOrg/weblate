@@ -162,8 +162,10 @@ def get_param_for_name(name: str) -> type[BaseFileFormatParam]:
     raise ValueError(msg)
 
 
-def get_encoding_param(file_format_params: dict[str, Any]) -> str | None:
+def get_encoding_param(file_format_params: dict[str, Any] | None) -> str | None:
     """Get encoding parameter from file format parameters."""
+    if file_format_params is None:
+        file_format_params = {}
     for param_name, value in file_format_params.items():
         if get_param_for_name(param_name).is_encoding():
             return value
@@ -436,7 +438,6 @@ class FlatXMLKeyName(BaseFlatXMLFormatParam):
 
 @register_file_format_param
 class StringsEncoding(BaseFileFormatParam):
-    # combining StringsFormat and StringsUtf8Format
     file_formats = ("strings",)
     name = "strings_encoding"
     label = gettext_lazy("File encoding")
