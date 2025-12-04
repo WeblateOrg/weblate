@@ -263,16 +263,26 @@ open the ``/manage/performance/`` URL directly.
 Why are all commits committed by Weblate <noreply@weblate.org>?
 ---------------------------------------------------------------
 
-This is the default committer name, configured by
-:setting:`DEFAULT_COMMITER_EMAIL` and :setting:`DEFAULT_COMMITER_NAME`.
+Weblate uses ``Weblate <noreply@weblate.org>`` as the default **committer** for all
+commits, which is configured by :setting:`DEFAULT_COMMITER_EMAIL` and
+:setting:`DEFAULT_COMMITER_NAME`. This is a technical identifier showing that
+the commit was processed through Weblate.
 
-The author of every commit (if the underlying VCS supports it) is still recorded
-correctly as the user that made the translation.
+However, the **author** of each commit (if the underlying VCS supports it,
+such as Git) is correctly recorded as the individual user who made the
+translation. This means you can see who actually translated each string
+by examining the commit author field.
 
-For commits where no authorship is known (for example anonymous suggestions or
-machine translation results), the authorship is credited to the anonymous user
-(see :setting:`ANONYMOUS_USER_NAME`). You can change the name and e-mail in the
-management interface.
+.. note::
+
+   In Git, there is a distinction between the committer (who created the commit
+   object) and the author (who made the changes). Weblate acts as the committer
+   while preserving individual translator attribution as authors.
+
+For commits where authorship cannot be determined (such as automated changes
+from anonymous suggestions or machine translation results), both the author and
+committer are set to the anonymous user. You can configure the anonymous user's
+name and e-mail in :setting:`ANONYMOUS_USER_NAME`.
 
 .. seealso::
 
