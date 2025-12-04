@@ -142,10 +142,7 @@ class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
     def test_import_tmx_command(self) -> None:
         self.do_import_file_command_test(get_test_file("memory.tmx"), 2)
         memory = Memory.objects.filter(status=Memory.STATUS_ACTIVE, from_file=True).first()
-        self.assertEqual(
-            memory.context,
-            "Context",
-        )
+        self.assertEqual(memory.context, "Context")
 
     def test_import_tmx2_command(self) -> None:
         self.do_import_file_command_test(get_test_file("memory2.tmx"), 1)
