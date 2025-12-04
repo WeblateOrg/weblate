@@ -9,6 +9,7 @@ Weblate 5.15
 * Added ability to completely disable the admin contact form by setting :setting:`CONTACT_FORM` to ``"disabled"``.
 * Added new Ollama machinery tool for local Ollama AI model integration, see :ref:`mt-ollama`.
 * Added :http:get:`/api/units/(int:id)/comments/` to get a list of comments for the given translation unit.
+* Memory contents imported from TMX files include string context.
 
 .. rubric:: Improvements
 
@@ -102,7 +103,7 @@ Weblate 5.14.1
 
 .. rubric:: New features
 
-* String context are now tracked in changes histoy and displayed when available.
+* String context are now tracked in changes history and displayed when available.
 
 .. rubric:: Improvements
 
