@@ -196,8 +196,8 @@ if [ -n "$WEBLATE_DIR" ] && [ -f "$WEBLATE_DIR/manage.py" ]; then
     echo -e "${YELLOW}Synchronizing files with database (committing all components)...${NC}"
     python manage.py commitgit --all 2>/dev/null || echo -e "${YELLOW}Note: Some components may need manual commit${NC}"
     
-    echo -e "${YELLOW}Reloading translations...${NC}"
-    python manage.py loadpo --all --force 2>/dev/null || echo -e "${YELLOW}Note: Some translations may need manual reload${NC}"
+    # echo -e "${YELLOW}Reloading translations...${NC}"
+    # python manage.py loadpo --all --force 2>/dev/null || echo -e "${YELLOW}Note: Some translations may need manual reload${NC}"
     
     echo -e "${YELLOW}Regenerating static files...${NC}"
     python manage.py compress --force 2>/dev/null || echo -e "${YELLOW}Note: Static files may need manual regeneration${NC}"

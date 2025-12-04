@@ -1,0 +1,35 @@
+{
+  "project": {
+    "name": "Boost Json Documentation",
+    "slug": "boost-json-documentation",
+    "web": "https://www.boost.org/doc/libs/master/libs/json/doc/html/",
+    "instructions": "Please translate the Boost.json documentation. Maintain technical accuracy and follow AsciiDoc formatting conventions.",
+    "access_control": 0
+  },
+  "component_defaults": {
+    "vcs": "github",
+    "repo": "git@github.com:AuraMindNest/json.git",
+    "push": "git@github.com:AuraMindNest/json.git",
+    "branch": "develop",
+    "push_branch": "boost-json-zh-translation-local",
+    "edit_template": false,
+    "source_language": "en",
+    "license": "",
+    "allow_translation_propagation": true,
+    "enable_suggestions": true,
+    "suggestion_voting": false,
+    "suggestion_autoaccept": 0,
+    "check_flags": "",
+    "hide_glossary_matches": false,
+    "language_regex": "^zh_Hans$"
+  },
+  "languages": ["zh_Hans"],
+  "wait_for_ready": true,
+  "trigger_update": true,
+  "scan": {
+    "github_path": "doc/",
+    "extensions": [".adoc"],
+    "exclude_patterns": []
+  }
+}
+

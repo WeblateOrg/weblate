@@ -780,8 +780,8 @@ def perform_file_sync_for_autobatchtranslation(
 )
 def perform_autobatchtranslate_via_openrouter(
     pk: int,
-    *,
-    langs: list[str] | None = None,
+    *,        
+    lang: str | None = None,
     user_id: int | None = None,
     file_sync: bool = False,
 ) -> None:
@@ -792,7 +792,7 @@ def perform_autobatchtranslate_via_openrouter(
         request.user = User.objects.get(pk=user_id)
     component = Component.objects.get(pk=pk)
     component._autobatchtranslate_via_openrouter_immediate(
-        langs=langs,
+        lang=lang,
         request=request,
         file_sync=file_sync,
     )

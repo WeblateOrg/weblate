@@ -3875,11 +3875,11 @@ class Component(
 
         # Trigger autobatch translation for newly created translation files
         # (runs after lock is released to avoid deadlock with Celery task)
-        if autobatch_lang:
+        if create_translations and autobatch_lang is not None:
             try:
                 # Autobatch translation will schedule file sync after it completes
                 # to ensure proper sequencing
-                self.autobatchtranslate_via_openrouter(langs=[autobatch_lang], request=request, file_sync=True)
+                self.autobatchtranslate_via_openrouter(lang=autobatch_lang, request=request, file_sync=True)
             except Exception as e:
                 self.log_error(
                     "autobatch translation failed for language %s: %s",
@@ -4127,7 +4127,7 @@ class Component(
     def autobatchtranslate_via_openrouter(
         self,
         *,
-        langs: list[str] | None = None,
+        lang: str | None = None,
         request: AuthenticatedHttpRequest | None = None,
         file_sync: bool = False,
     ) -> None:
@@ -4135,7 +4135,7 @@ class Component(
         if settings.CELERY_TASK_ALWAYS_EAGER:
             # Asynchronous processing not available, run directly
             return self._autobatchtranslate_via_openrouter_immediate(
-                langs=langs,
+                lang=lang,
                 request=request,
                 file_sync=file_sync,
             )
@@ -4145,72 +4145,151 @@ class Component(
         # Use delay_on_commit to ensure task runs after transaction commits and lock is released
         perform_autobatchtranslate_via_openrouter.delay_on_commit(
             pk=self.pk,
-            langs=langs,
+            lang=lang,
             user_id=request.user.id if request is not None else None,
             file_sync=file_sync
         )
 
-    @perform_on_link
     def _autobatchtranslate_via_openrouter_immediate(
         self,
-        *,
-        langs: list[str] | None = None,
+        *,        
+        lang: str | None = None,
         request: AuthenticatedHttpRequest | None = None,
         file_sync: bool = False,
     ) -> None:
-        """Run autobatch translation via OpenRouter (immediate execution)."""
-        # Create translations for new languages first
-        if langs:
-            self._create_translations(
-                force=False,
-                force_scan=False,
-                langs=langs,
-                request=request,
-                changed_template=False,
-                from_link=False,
-                change=None,
-            )
+        """Run autobatch translation via OpenRouter (immediate execution).
         
-        # Get translations, filtered by language list if provided
-        translations = self.translation_set.all()
-        if langs:
-            from weblate.lang.models import Language
-            language_ids = Language.objects.filter(code__in=langs).values_list(
-                "id", flat=True
-            )
-            translations = translations.filter(language_id__in=language_ids)
+        Note: This method does NOT use @perform_on_link decorator because
+        each component should process its own translations, even when components
+        share a repository via weblate:// links.
+        """
+        # Refresh component from database to ensure we have the latest state
+        # This is important when multiple components are created in quick succession
+        self.refresh_from_db()
         
-        if translations.count() == 0:
+        # Get translation directly by language code
+        # Since Translation has unique_together constraint on (component, language),
+        # each component has at most one translation per language, so we can
+        # directly get the translation by language code
+        # IMPORTANT: Use component_id=self.pk instead of component=self to avoid
+        # any potential object instance caching issues when multiple components
+        # share the same repository or are created in quick succession
+        component_pk = self.pk
+        self.log_info(
+            "Autobatch translation: starting for component %s (ID: %d), language: %s",
+            self.full_slug,
+            component_pk,
+            lang
+        )
+        
+        if not lang:
+            self.log_info("Autobatch translation: no language specified for component %s", self.full_slug)
             return
         
-        # Track if any translation was successfully processed
-        translations_processed = False
-        
-        for translation in translations:
-            try:
-                from weblate.trans.autobatchtranslate import auto_translate_via_openrouter
-                auto_translate_via_openrouter(translation)
-                translations_processed = True
-            except Exception as e:
-                self.log_error(
-                    "autobatch translation failed for %s: %s",
-                    translation.full_slug,
-                    e,
+        # Process single translation for specified language
+        try:
+            # Use component_id (primary key) instead of component object
+            # to ensure we get the correct translation for THIS specific component
+            # This is critical when multiple components share a repository
+            translation = Translation.objects.filter(
+                component_id=component_pk,
+                language__code=lang
+            ).first()
+            if not translation:
+                # Translation doesn't exist yet, create it
+                # This handles cases where autobatch translation is called
+                # before the translation is created (e.g., from other code paths)
+                self.log_info(
+                    "Autobatch translation: translation not found, creating for language %s in component %s (ID: %d)",
+                    lang,
+                    self.full_slug,
+                    component_pk
                 )
-                import traceback
-                self.log_error("traceback: %s", traceback.format_exc())
+                self._create_translations(
+                    force=False,
+                    force_scan=False,
+                    langs=[lang],
+                    request=request,
+                    changed_template=False,
+                    from_link=False,
+                    change=None,
+                )
+                # Try to get the translation again after creation
+                # Use component_id to ensure we get the right one
+                translation = Translation.objects.filter(
+                    component_id=component_pk,
+                    language__code=lang
+                ).first()
+                if not translation:
+                    self.log_info(
+                        "Autobatch translation: failed to create translation for language %s in component %s (component ID: %d)",
+                        lang,
+                        self.full_slug,
+                        component_pk
+                    )
+                    return
+            
+            # Verify the translation belongs to the correct component
+            if translation.component_id != component_pk:
+                self.log_error(
+                    "Autobatch translation: translation %s (ID: %d) belongs to component %d, expected %d - SKIPPING",
+                    translation.full_slug,
+                    translation.pk,
+                    translation.component_id,
+                    component_pk
+                )
+                return
+            
+            self.log_info(
+                "Autobatch translation: found translation %s (ID: %d, component_id: %d) for language %s in component %s (component ID: %d)",
+                translation.full_slug,
+                translation.pk,
+                translation.component_id,
+                lang,
+                self.full_slug,
+                component_pk
+            )
+        except ObjectDoesNotExist:
+            self.log_info(
+                "Autobatch translation: no translation found for language %s in component %s (component ID: %d)",
+                lang,
+                self.full_slug,
+                component_pk
+            )
+            return
+        
+        # Process the translation
+        self.log_info(
+            "Autobatch translation: processing %s (translation ID: %d, language: %s)",
+            translation.full_slug,
+            translation.pk,
+            translation.language.code
+        )
+        translations_processed = False
+        try:
+            from weblate.trans.autobatchtranslate import auto_translate_via_openrouter
+            auto_translate_via_openrouter(translation)
+            translations_processed = True
+        except Exception as e:
+            self.log_error(
+                "autobatch translation failed for %s: %s",
+                translation.full_slug,
+                e,
+            )
+            import traceback
+            self.log_error("traceback: %s", traceback.format_exc())
         
         # Schedule file sync after autobatch translation completes
         # This ensures file sync runs after all translations are processed
         # Only schedule if file_sync is True and we processed at least one translation
-        if file_sync and langs and translations_processed:
+        if file_sync and lang and translations_processed:
             from weblate.trans.tasks import perform_file_sync_for_autobatchtranslation
             
             # Schedule file sync to run after autobatch translation completes
             # Since we're already in a Celery task, we can schedule directly
             perform_file_sync_for_autobatchtranslation.delay(
                 pk=self.pk,
-                langs=langs,
+                langs=[lang],
                 user_id=request.user.id if request is not None else None,
             )
 
