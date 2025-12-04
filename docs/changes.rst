@@ -10,6 +10,7 @@ Weblate 5.15
 * Added new Ollama machinery tool for local Ollama AI model integration, see :ref:`mt-ollama`.
 * Added :http:get:`/api/units/(int:id)/comments/` to get a list of comments for the given translation unit.
 * Memory contents imported from TMX files include string context.
+* :doc:`/formats/xliff2`, :doc:`/formats/nextcloud-json`, :doc:`/formats/resjson`, and :doc:`/formats/toml` are now supported file formats.
 
 .. rubric:: Improvements
 

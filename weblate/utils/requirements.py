@@ -69,6 +69,7 @@ OPTIONAL = [
     "psycopg-binary",
     "phply",
     "ruamel.yaml",
+    "tomlkit",
     "tesserocr",
     "boto3",
     "aeidon",
