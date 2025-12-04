@@ -134,7 +134,7 @@ fi
 semver_compare "$1" "<" "5.15"
 file_format_encoding_merge=$?
 if [ "$file_format_encoding_merge" -eq 0 ]; then
-    .manage.py shell << EOF
+    ./manage.py shell << EOF
 from weblate.trans.models import Component
 Component.objects.bulk_create([
     Component(name="iOS Strings UTF16", slug="strings-utf16", project_id=1, repo="weblate://test/stringsutf16", file_format="strings", filemask="strings/*.strings"),

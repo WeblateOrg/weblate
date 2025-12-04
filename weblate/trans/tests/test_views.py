@@ -279,7 +279,11 @@ class ViewTestCase(RepoTestCase):
         if translation is None:
             translation = self.get_translation(language)
         translation.commit_pending("test", None)
-        store = translation.component.file_format_cls(translation.get_filename(), None)
+        store = translation.component.file_format_cls(
+            translation.get_filename(),
+            None,
+            file_format_params=translation.component.file_format_params,
+        )
         messages = set()
         translated = 0
 
