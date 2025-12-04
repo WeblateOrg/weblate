@@ -8,6 +8,17 @@ set -e
 
 cd /app/src
 
+install_deps() {
+    uv pip install \
+        --no-config \
+        --no-binary xmlsec \
+        --no-binary lxml \
+        -r /tmp/requirements.txt
+}
+
+# Prune unused uv cache entries
+uv cache prune
+
 echo "Exporting Weblate requirements..."
 uv export --no-config --format requirements-txt --python /usr/bin/python3 --all-extras > /tmp/requirements.txt
 
@@ -20,11 +31,13 @@ echo "/app/data/python" > "/app/venv/lib/python${PYVERSION}/site-packages/weblat
 . /app/venv/bin/activate
 
 echo "Installing Weblate requirements..."
-uv pip install \
-    --no-config \
-    --no-binary xmlsec \
-    --no-binary lxml \
-    -r /tmp/requirements.txt
+install_deps
+if ! python -c "import xmlsec" 2> /dev/null; then
+    # Clean uv cache in case lxml does not work (typically caused by
+    # upgrade of underlying system or otherwise mixed up libxml versions)
+    uv cache clean
+    install_deps
+fi
 
 echo "Starting Weblate..."
 exec /app/bin/start "$@"
