@@ -103,10 +103,6 @@ def fetch_glossary_terms(  # noqa: C901
         project = component.project
         source_language = component.source_language
 
-        # Short circuit source language
-        if language == source_language:
-            continue
-
         # Extract all source strings
         sources = [unit.source.lower() for unit in translation_units[translation_id]]
 

@@ -34,6 +34,7 @@ Weblate 5.15
 * Tighter validation of user and full names to avoid confusing homoglyphs.
 * Avoid false positive checks upon committing pending changes.
 * Performance improvements for file upload.
+* Show glossary matches for the source language.
 
 .. rubric:: Compatibility
 
