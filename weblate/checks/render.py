@@ -21,7 +21,9 @@ if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
     from weblate.trans.models import Unit
 
-IMAGE = '<a href="{0}" class="thumbnail img-check"><img class="img-fluid" src="{0}" /></a>'
+IMAGE = (
+    '<a href="{0}" class="thumbnail img-check"><img class="img-fluid" src="{0}" /></a>'
+)
 
 
 class MaxSizeCheck(TargetCheckParametrized):

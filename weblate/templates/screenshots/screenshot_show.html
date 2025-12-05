@@ -3,7 +3,5 @@
    title="{{ screenshot.name }}"
    data-details-url="{% url 'screenshot' pk=screenshot.pk %}"
    {% if user_can_edit_screenshot %}data-can-edit{% endif %}>
-  <img class="img-fluid"
-       src="{{ screenshot.image.url }}"
-       alt="{{ screenshot.name }}" />
+  <img class="img-fluid" src="{{ screenshot.image.url }}" alt="{{ screenshot.name }}" />
 </a>
