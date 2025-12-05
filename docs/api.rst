@@ -1329,6 +1329,24 @@ Projects
     :form string service: Service name
     :form string configuration: Service configuration in JSON
 
+.. http:get:: /api/projects/(string:project)/(string:language)/file/
+     .. versionchanged:: 5.15
+
+        Added ability to download ZIP file of all components translations in a project for 1 specific language.
+
+    Download a ZIP file all translation files for a specified ``language`` across all components for a given ``project`` rather than downloading individual translated files and manually zipping them. 
+    :param project: Project URL slug
+    :type project: string
+
+    :param language: Language code
+    :type language: string
+
+    :query string format: The archive format to use; If not specified, defaults to ``zip``; Supported formats: ``zip`` and ``zip:CONVERSION`` where ``CONVERSION`` is one of converters listed at :ref:`download`.
+    Possible errors are ``403 Forbidden`` if the user does not have permission to the project or ``404 Not Found`` if the project slug does not exist or language code does not match any existing codes or ``423 Locked`` if the component is locked or ``500 Internal Server Error`` if there is an error during ZIP file generation.
+
+
+
+
 
 Components
 ++++++++++
@@ -2413,6 +2431,8 @@ Changes
     :>json object details: additional details about the change
     :>json int id: change identifier
 
+
+
 Screenshots
 +++++++++++
 
@@ -2776,6 +2796,9 @@ Metrics
     :>json int suggestions: Number of pending suggestions
     :>json object celery_queues: Lengths of Celery queues, see :ref:`celery`
     :>json string name: Configured server name
+
+
+      
 
 Search
 +++++++
