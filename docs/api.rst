@@ -1329,6 +1329,23 @@ Projects
     :form string service: Service name
     :form string configuration: Service configuration in JSON
 
+.. http:get:: /api/projects/(string:project)/(string:language)/file/
+     .. versionchanged:: NEXT
+
+        Added ability to download all components translations in a project for 1 specific language.
+
+    Download all translation files for a specified ``language`` across all components for a given ``project`` rather than downloading individual translated files and manually zipping them. 
+    :param project: Project URL slug
+    :type project: string
+
+    :param language: Language code
+    :type language: string
+    
+    :query string format: The archive format to use; If not specified, defaults to ``zip``; Supported formats: ``zip`` and ``zip:CONVERSION`` where ``CONVERSION`` is one of converters listed at :ref:`download`.
+
+
+
+
 
 Components
 ++++++++++
@@ -2413,6 +2430,8 @@ Changes
     :>json object details: additional details about the change
     :>json int id: change identifier
 
+
+
 Screenshots
 +++++++++++
 
@@ -2777,9 +2796,8 @@ Metrics
     :>json object celery_queues: Lengths of Celery queues, see :ref:`celery`
     :>json string name: Configured server name
 
-     .. versionchanged:: 5.6.2
 
-      Added regex filtering for endpoint -- testing this here
+      
 
 Search
 +++++++
