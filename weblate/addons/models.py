@@ -275,6 +275,7 @@ class AddonsConf(AppConf):
         "weblate.addons.cdn.CDNJSAddon",
         "weblate.addons.webhooks.WebhookAddon",
         "weblate.addons.webhooks.SlackWebhookAddon",
+        "weblate.addons.fedora_messaging.FedoraMessagingAddon",
     )
 
     LOCALIZE_CDN_URL = None
@@ -360,7 +361,7 @@ def execute_addon_event(
         if (
             component
             and not addon.component
-            and not addon.addon.can_install(component=component)
+            and not addon.addon.can_process(component=component)
         ):
             addon_logger(
                 "debug",
@@ -400,7 +401,7 @@ def execute_addon_event(
                 project=component.project if component else None,
             )
             # Uninstall no longer compatible add-ons
-            if component and not addon.addon.can_install(component=component):
+            if component and not addon.addon.can_process(component=component):
                 addon.disable()
                 component.drop_addons_cache()
         else:

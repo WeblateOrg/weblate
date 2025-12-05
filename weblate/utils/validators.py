@@ -22,7 +22,12 @@ from disposable_email_domains import blocklist
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import EmailValidator as EmailValidatorDjango
-from django.core.validators import URLValidator, validate_ipv46_address
+from django.core.validators import (
+    URLValidator,
+    validate_domain_name,
+    validate_ipv46_address,
+)
+from django.utils.deconstruct import deconstructible
 from django.utils.translation import gettext, gettext_lazy
 
 from weblate.trans.util import cleanup_path
@@ -435,3 +440,21 @@ def validate_repo_url(url: str) -> None:
         raise ValidationError(
             gettext("Fetching VCS repository from %s is not allowed.") % parsed.hostname
         )
+
+
+@deconstructible
+class DomainOrIPValidator:
+    def __call__(self, value: str):
+        try:
+            validate_ipv46_address(value)
+        except ValidationError:
+            try:
+                # Note: Django's DomainNameValidator (or validate_domain_name function)
+                # does not accept IP addresses as valid domain names, which is what we want.
+                validate_domain_name(value)
+            except ValidationError:
+                # If both fail, raise a final ValidationError
+                raise ValidationError(
+                    gettext("Enter a valid domain name or IP address."),
+                    code="invalid_domain_or_ip",
+                ) from None

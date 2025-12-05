@@ -30,6 +30,7 @@ from weblate.trans.actions import ActionEvents
 from weblate.trans.models import (
     Announcement,
     Category,
+    Change,
     Comment,
     Component,
     PendingUnitChange,
@@ -56,6 +57,7 @@ from .consistency import LanguageConsistencyAddon
 from .discovery import DiscoveryAddon
 from .example import ExampleAddon
 from .example_pre import ExamplePreAddon
+from .fedora_messaging import FedoraMessagingAddon
 from .flags import (
     BulkEditAddon,
     SameEditAddon,
@@ -1666,6 +1668,12 @@ class BaseWebhookTests:
     def reset_addon_configuration(self) -> None:
         self.addon_configuration["events"] = [str(ActionEvents.NEW)]
 
+    def count_requests(self) -> int:
+        return len(responses.calls)
+
+    def reset_calls(self) -> None:
+        responses.calls.reset()
+
     def do_translation_added_test(
         self, response_code=None, expected_calls: int = 1, **responses_kwargs
     ) -> None:
@@ -1682,7 +1690,7 @@ class BaseWebhookTests:
         self.translation.delete_unit(
             None, unit_to_delete
         )  # triggers ActionEvents.STRING_REMOVE event
-        self.assertEqual(len(responses.calls), expected_calls)
+        self.assertEqual(self.count_requests(), expected_calls)
 
     @responses.activate
     def test_bulk_changes(self) -> None:
@@ -1702,16 +1710,16 @@ class BaseWebhookTests:
 
         # create translation for unit and similar units across project
         self.change_unit("Nazdar svete!\n", "Hello, world!\n", "cs")
-        self.assertEqual(len(responses.calls), 2)
+        self.assertEqual(self.count_requests(), 2)
 
     @responses.activate
     def test_translation_added(self) -> None:
         """Test translation added and translation edited action change."""
         self.addon_configuration["events"].append(ActionEvents.CHANGE)
         self.do_translation_added_test(response_code=200)
-        responses.calls.reset()
+        self.reset_calls()
         self.edit_unit("Hello, world!\n", "Nazdar svete edit!\n")
-        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(self.count_requests(), 1)
 
     @responses.activate
     def test_announcement(self) -> None:
@@ -1722,17 +1730,17 @@ class BaseWebhookTests:
             configuration=self.addon_configuration, project=self.project
         )
 
-        responses.calls.reset()
+        self.reset_calls()
         Announcement.objects.create(user=self.user, message="Site-wide")
         # Only site-wide add-on should receive this
-        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(self.count_requests(), 1)
 
-        responses.calls.reset()
+        self.reset_calls()
         Announcement.objects.create(
             user=self.user, message="Project-wide", project=self.project
         )
         # Both site-wide and project-wide add-ons should receive this
-        self.assertEqual(len(responses.calls), 2)
+        self.assertEqual(self.count_requests(), 2)
 
     @responses.activate
     def test_component_scopes(self) -> None:
@@ -1826,7 +1834,7 @@ class BaseWebhookTests:
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n", translation=translation_a1)
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n", translation=translation_b1)
 
-        self.assertEqual(len(responses.calls), 2)
+        self.assertEqual(self.count_requests(), 2)
 
     @responses.activate
     def test_connection_error(self) -> None:
@@ -2069,3 +2077,123 @@ class SlackWebhooksAddonsTest(BaseWebhookTests, ViewTestCase):
     def test_invalid_response(self) -> None:
         """Test invalid response from client."""
         self.do_translation_added_test(response_code=410, body=b"channel_is_archived")
+
+
+class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
+    WEBHOOK_CLS = FedoraMessagingAddon
+    # Not really used
+    WEBHOOK_URL = "https://example.com/webhooks"
+    addon_configuration: ClassVar[dict] = {
+        "amqp_host": "nonexisting.example.com",
+        "events": [str(ActionEvents.NEW)],
+    }
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.patcher = patch("fedora_messaging.api._twisted_publish_wrapper")
+        self.mock_class = self.patcher.start()
+
+    def tearDown(self) -> None:
+        del self.mock_class
+        self.patcher.stop()
+        del self.patcher
+        super().tearDown()
+
+    def count_requests(self) -> int:
+        return self.mock_class.call_count
+
+    def reset_calls(self) -> None:
+        self.mock_class.call_count = 0
+
+    def test_topic(self):
+        for change in Change.objects.all():
+            self.assertIsNotNone(FedoraMessagingAddon.get_change_topic(change))
+
+    def test_body(self):
+        for change in Change.objects.all():
+            self.assertIsNotNone(FedoraMessagingAddon.get_change_body(change))
+
+    def test_headers(self):
+        for change in Change.objects.all():
+            self.assertIsNotNone(FedoraMessagingAddon.get_change_headers(change))
+
+    def test_component_scopes(self) -> None:
+        pass
+
+    def test_project_scopes(self) -> None:
+        pass
+
+    def test_form(self) -> None:
+        """Test FedoraMessagingAddonForm."""
+        self.user.is_superuser = True
+        self.user.save()
+        params = self.addon_configuration.copy()
+        params["name"] = self.WEBHOOK_CLS.name
+        params["form"] = "1"
+
+        # Wrong scope
+        response = self.client.post(
+            reverse("addons", kwargs=self.kw_component),
+            params,
+            follow=True,
+        )
+        self.assertNotContains(response, "Installed 1 add-on")
+        response = self.client.post(
+            reverse("addons", kwargs=self.kw_project_path),
+            params,
+            follow=True,
+        )
+        self.assertNotContains(response, "Installed 1 add-on")
+
+        # Install
+        response = self.client.post(
+            reverse("manage-addons"),
+            params,
+            follow=True,
+        )
+        self.assertContains(response, "Installed 1 add-on")
+
+        # delete addon
+        addon_id = Addon.objects.get(name=self.WEBHOOK_CLS.name).id
+        response = self.client.post(
+            reverse("addon-detail", kwargs={"pk": addon_id}),
+            {"delete": "weblate.webhook.webhook"},
+            follow=True,
+        )
+        self.assertContains(response, "No add-ons currently installed")
+
+        # missing certs for SSL
+        params["amqp_ssl"] = "1"
+        response = self.client.post(
+            reverse("manage-addons"),
+            params,
+            follow=True,
+        )
+        self.assertContains(
+            response, "The SSL certificates have to be provided for SSL connection."
+        )
+        self.assertNotContains(response, "Installed 1 add-on")
+
+        # certs but no SSL
+        del params["amqp_ssl"]
+        params["ca_cert"] = "x"
+        params["client_key"] = "x"
+        params["client_cert"] = "x"
+        response = self.client.post(
+            reverse("manage-addons"),
+            params,
+            follow=True,
+        )
+        self.assertContains(
+            response, "The SSL certificates are not used without a SSL connection."
+        )
+        self.assertNotContains(response, "Installed 1 add-on")
+
+        # Install with SSL
+        params["amqp_ssl"] = "1"
+        response = self.client.post(
+            reverse("manage-addons"),
+            params,
+            follow=True,
+        )
+        self.assertContains(response, "Installed 1 add-on")
