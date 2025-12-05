@@ -2779,7 +2779,7 @@ Metrics
 
      .. versionchanged:: 5.6.2
 
-      Added regex filtering for endpoint -- testing here 
+      Added regex filtering for endpoint -- testing this here
 
 Search
 +++++++
