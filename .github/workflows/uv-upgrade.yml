@@ -107,7 +107,7 @@ jobs:
     - name: Create Pull Request
       id: cpr
       if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.ref_name == 'main'
-      uses: peter-evans/create-pull-request@84ae59a2cdc2258d6fa0732dd66352dddae2a412 # v7.0.9
+      uses: peter-evans/create-pull-request@d4f3be6ce6f4083b7ac7490ab98b48a62db1ee41 # v7.0.10
       with:
         branch: create-pull-request/uv-lock-update
         title: 'chore(deps): update lockfile'
