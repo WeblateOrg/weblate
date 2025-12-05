@@ -30,8 +30,9 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-02 20:30+0100\n"
-"PO-Revision-Date: 2025-11-22 20:00+0000\n"
-"Last-Translator: 大学没毕业 <ziweidao@foxmail.com>\n"
+"PO-Revision-Date: 2025-12-05 12:00+0000\n"
+"Last-Translator: 大王叫我来巡山 "
+"<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -1865,8 +1866,6 @@ msgid "You can use built-in :ref:`invite-user` to add new users."
 msgstr "您可以使用内置的 :ref:`invite-user` 来添加新用户。"
 
 #: ../../admin/access.rst:1110
-#, fuzzy
-#| msgid "Expiring user accounts"
 msgid "Expiration of user accounts"
 msgstr "用户账户过期"
 
@@ -2654,16 +2653,12 @@ msgid "Needs editing"
 msgstr "需要编辑"
 
 #: ../../admin/addons.rst:472
-#, fuzzy
-#| msgid "Needs editing"
 msgid "Needs rewriting"
-msgstr "需要编辑"
+msgstr "需要重写"
 
 #: ../../admin/addons.rst:474
-#, fuzzy
-#| msgid "Needs editing"
 msgid "Needs checking"
-msgstr "需要编辑"
+msgstr "需要检查"
 
 #: ../../admin/addons.rst:476
 msgid "Translated"
@@ -3672,10 +3667,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/addons.rst:1182
-#, fuzzy
-#| msgid "Webhook"
 msgid "Webhook secret"
-msgstr "Webhook"
+msgstr "Webhook secret"
 
 #: ../../admin/addons.rst:1182
 msgid "The Standard Webhooks secret is a base64 encoded string."
@@ -5321,17 +5314,13 @@ msgid ""
 msgstr "选择一个现有用户或创建一个用于备份的新用户。"
 
 #: ../../admin/backup.rst:165
-#, fuzzy
-#| msgid ""
-#| "Add Weblate SSH key to the user so that Weblate can SSH to the server "
-#| "without a password (see :ref:`weblate-ssh-key`)."
 msgid ""
 "Add Weblate SSH key to the user's `.ssh/authorized_keys` file, so that "
 "Weblate can SSH to the server without a password (see :ref:`weblate-ssh-"
 "key`)."
 msgstr ""
-"为用户添加 Weblate SSH 密钥，使 Weblate 可以在不需要密码的情况下 SSH 到服务器"
-"（参见 :ref:`weblate-ssh-key`）。"
+"添加 Weblate SSH 密钥到用户的 `.ssh/authorized_keys` 文件，使 Weblate 可以在"
+"不需要密码的情况下 SSH 到服务器（参见 :ref:`weblate-ssh-key`）。"
 
 #: ../../admin/backup.rst:166
 msgid ""
@@ -5341,16 +5330,12 @@ msgid ""
 msgstr ""
 
 #: ../../admin/backup.rst:167
-#, fuzzy
-#| msgid ""
-#| "Configure the backup location in Weblate as ``user@host:/path/to/"
-#| "backups`` or ``ssh://user@host:port/path/to/backups``."
 msgid ""
 "Configure the backup location in Weblate as ``user@host:/home/borg/backups`` "
 "or ``ssh://user@host:port/home/borg/backups``."
 msgstr ""
-"将 Weblate 备份位置配置为 ``user@host:/path/to/backups`` 或 ``ssh://"
-"user@host:port/path/to/backups``."
+"将 Weblate 备份位置配置为 ``user@host:/home/borg/backups`` 或 ``ssh://"
+"user@host:port/home/borg/backups``."
 
 #: ../../admin/backup.rst:168
 msgid ""
@@ -8147,24 +8132,19 @@ msgid ""
 msgstr "触发仓库过期警报的阈值，或者包含了太多更改的阈值。默认为 25。"
 
 #: ../../admin/config.rst:1751
-#, fuzzy
-#| msgid ""
-#| "This enables :setting:`LOGIN_REQUIRED_URLS` and configures REST framework "
-#| "to require authentication for all API endpoints."
 msgid ""
 "This "
 "enables :class:`django:django.contrib.auth.middleware.LoginRequiredMiddleware` "
 "and configures REST framework to require authentication for all API "
 "endpoints."
 msgstr ""
-"这会启用 :setting:`LOGIN_REQUIRED_URLS` 并配置 REST 框架来对所有 API 端点都要"
-"求登录。"
+"这会启用 "
+":class:`django:django.contrib.auth.middleware.LoginRequiredMiddleware` 并配"
+"置 REST 框架要求所有 API 端点进行身份认证。"
 
 #: ../../admin/config.rst:1756
-#, fuzzy
-#| msgid "Weblate now requires Django 3.2."
 msgid "Weblate now relies on Django built-in middleware."
-msgstr "Weblate 现在需要 Django 3.2。"
+msgstr "Weblate 现在依赖 Django 内置中间件。"
 
 #: ../../admin/config.rst:1760
 msgid ""
@@ -8466,19 +8446,14 @@ msgid "The default value is 10."
 msgstr "默认值为 10。"
 
 #: ../../admin/config.rst:2091
-#, fuzzy
-#| msgid ""
-#| "Configures minimal delay in seconds between third-party API calls "
-#| "in :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-"
-#| "pagure`, and :ref:`vcs-azure-devops`."
 msgid ""
 "Configures timeout in seconds for third-party API calls such as forking or "
 "creating merge requests in :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-"
 "gitea`, :ref:`vcs-pagure`, and :ref:`vcs-azure-devops`."
 msgstr ""
-"在 :ref:`vcs-github`、:ref:`vcs-gitlab`、:ref:`vcs-gitea`、:ref:`vcs-pagure` "
-"和 :ref:`vcs-azure-devops` 中配置第三方 API 调用之间的最小延迟（以秒为单"
-"位）。"
+"为第三方 API 调用，如在 :ref:`vcs-github`、:ref:`vcs-gitlab`、:ref:`vcs-"
+"gitea`、:ref:`vcs-pagure` 和 :ref:`vcs-azure-devops` 进行 fork 或创建合并请求"
+"，配置秒为单位的超时。"
 
 #: ../../admin/config.rst:2102
 msgid "Configuration of available VCS backends."
@@ -9897,19 +9872,14 @@ msgid "Python dependencies"
 msgstr "Python 依赖项"
 
 #: ../../admin/install.rst:184
-#, fuzzy
-#| msgid ""
-#| "Weblate is written in `Python <https://www.python.org/>`_ and supports "
-#| "Python 3.11 or newer. You can install dependencies using pip or from your "
-#| "distribution packages, full list is available in :file:`requirements.txt`."
 msgid ""
 "Weblate is written in `Python <https://www.python.org/>`_ and supports "
 "Python 3.12 or newer. You can install dependencies using pip or from your "
 "distribution packages, full list is available in :file:`requirements.txt`."
 msgstr ""
 "Weblate 是用 `Python <https://www.python.org/>`_ 编写的，并且支持 Python "
-"3.11 或更新版本。可以使用 pip 或你的分发包来安装依赖项，完整列表可"
-"在 :file:`requirements.txt` 中找到。"
+"3.12 或更新版本。可以使用 pip 或你的分发包来安装依赖项，完整列表可在 "
+":file:`requirements.txt` 中找到。"
 
 #: ../../admin/install.rst:188
 msgid "Most notable dependencies:"
@@ -10014,25 +9984,16 @@ msgid "Troubleshooting pip install"
 msgstr "排除 pip 安装故障"
 
 #: ../../admin/install.rst:302
-#, fuzzy
-#| msgid ""
-#| "The installed ``PyGobject`` package cannot find a matching GObject "
-#| "Introspection library. Before the 3.52 release, it required ``gobject-"
-#| "introspection-1.0`` and since then, it requires ``gobject-"
-#| "introspection-2.0``."
 msgid ""
 "The installed ``PyGobject`` package cannot find a matching GObject "
 "Introspection library - ``gobject-introspection-2.0``."
 msgstr ""
-"已安装的 ``PyGobject`` 包无法找到匹配的 GObject Introspection 库。3.52 版本之"
-"前，它要求 ``gobject-introspection-1.0``，自那以后，它要求 ``gobject-"
-"introspection-2.0``."
+"已安装的 ``PyGobject`` 包无法找到匹配的 GObject Introspection 库 —— "
+"``gobject-introspection-2.0``."
 
 #: ../../admin/install.rst:305
-#, fuzzy
-#| msgid "Permissions are not managed in Weblate."
 msgid "Older versions are no longer supported by Weblate."
-msgstr "权限不由 Weblate 管理。"
+msgstr "Weblate 不再支持老版本。"
 
 #: ../../admin/install.rst:308
 msgid ""
@@ -13087,34 +13048,24 @@ msgid "Configures :setting:`UPDATE_LANGUAGES`."
 msgstr "配置 :setting:`UPDATE_LANGUAGES`."
 
 #: ../../admin/install/docker.rst:1038
-#, fuzzy
-#| msgid "Configures :setting:`ENABLE_HOOKS`."
 msgid "Configures :setting:`VCS_ALLOW_HOSTS`."
-msgstr "配置 :setting:`ENABLE_HOOKS`。"
+msgstr "配置 :setting:`VCS_ALLOW_HOSTS`."
 
 #: ../../admin/install/docker.rst:1044
-#, fuzzy
-#| msgid "Configures :setting:`DEFAULT_SHARED_TM`."
 msgid "Configures :setting:`VCS_ALLOW_SCHEMES`."
-msgstr "配置 :setting:`DEFAULT_SHARED_TM`."
+msgstr "配置 :setting:`VCS_ALLOW_SCHEMES`."
 
 #: ../../admin/install/docker.rst:1050
-#, fuzzy
-#| msgid "Configures :setting:`ADMINS_CONTACT`."
 msgid "Configures :setting:`VCS_CLONE_DEPTH`."
-msgstr "配置 :setting:`ADMINS_CONTACT`."
+msgstr "配置 :setting:`VCS_CLONE_DEPTH`."
 
 #: ../../admin/install/docker.rst:1056
-#, fuzzy
-#| msgid "Configures :setting:`UNUSED_ALERT_DAYS`."
 msgid "Configures :setting:`VCS_API_DELAY`."
-msgstr "配置 :setting:`UNUSED_ALERT_DAYS`."
+msgstr "配置 :setting:`VCS_API_DELAY`."
 
 #: ../../admin/install/docker.rst:1062
-#, fuzzy
-#| msgid "Configures :setting:`LICENSE_FILTER`."
 msgid "Configures :setting:`VCS_API_TIMEOUT`."
-msgstr "配置 :setting:`LICENSE_FILTER`."
+msgstr "配置 :setting:`VCS_API_TIMEOUT`."
 
 #: ../../admin/install/docker.rst:1068
 msgid "Allow CORS requests to API from given origins."
@@ -13382,16 +13333,12 @@ msgid "Configures generic OpenID Connect integration."
 msgstr "配置通用 OpenID Connect 集成。"
 
 #: ../../admin/install/docker.rst:1458
-#, fuzzy
-#| msgid "OpenID Connect"
 msgid "Fedora OpenID Connect"
-msgstr "OpenID 连接"
+msgstr "Fedora OpenID 连接"
 
 #: ../../admin/install/docker.rst:1465
-#, fuzzy
-#| msgid "Configures generic OpenID Connect integration."
 msgid "Configures Fedora OpenID Connect integration."
-msgstr "配置通用 OpenID Connect 集成。"
+msgstr "配置 Fedora OpenID 连接集成。"
 
 #: ../../admin/install/docker.rst:1474
 msgid "SAML"
@@ -21424,11 +21371,9 @@ msgstr ""
 "相关联部件列表的连接；请参见 :http:get:`/api/component-lists/(str:slug)/`"
 
 #: ../../api.rst:527
-#, fuzzy
-#| msgid "link to associated roles; see :http:get:`/api/roles/(int:id)/`"
 msgid ""
 "link to associated administrators; see :http:get:`/api/users/(str:username)/`"
-msgstr "相关联角色的连接；请参见 :http:get:`/api/roles/(int:id)/`"
+msgstr "连接到关联的管理员；见 :http:get:`/api/users/(str:username)/`"
 
 #: ../../api.rst:562 ../../api.rst:572
 msgid "Changes the group parameters."
@@ -23769,10 +23714,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`维基百科上的 RSS <https://zh.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.1"
 msgid "Weblate 5.15"
-msgstr "Weblate 5.1"
+msgstr "Weblate 5.15"
 
 #: ../../changes.rst:4
 msgid "*Not yet released.*"
@@ -23818,22 +23761,16 @@ msgid "Improvements"
 msgstr "改进"
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid "Added HTTP environment overview in :ref:`manage-performance`."
 msgid "Added disk usage overview in :ref:`manage-performance`."
-msgstr ":ref:`manage-performance` 中新增 HTTP 环境概览。"
+msgstr ":ref:`manage-performance` 中新增磁盘使用情况概览。"
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid ":http:get:`/api/users/` now includes ``languages``."
 msgid ":http:get:`/api/groups/` now includes ``admins``."
-msgstr ":http:get:`/api/users/` 现包含 ``languages``."
+msgstr ":http:get:`/api/groups/` 现包含 ``admins``."
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid ":ref:`mt-modernmt` supports :ref:`glossary-mt`."
 msgid ":ref:`mt-modernmt` better supports language variants."
-msgstr ":ref:`mt-modernmt` 支持 :ref:`glossary-mt`。"
+msgstr ":ref:`mt-modernmt` 更好地支持语言变体。"
 
 #: ../../changes.rst:16
 msgid ""
@@ -23842,21 +23779,13 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:17
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.discovery.discovery` now "
-#| "preserves :ref:`componentlists`."
 msgid ""
 ":ref:`addon-weblate.discovery.discovery` preserves :ref:`file_format_params`."
-msgstr ""
-":ref:`addon-weblate.discovery.discovery` 现在保留 :ref:`componentlists`。"
+msgstr ":ref:`addon-weblate.discovery.discovery` 保留 :ref:`file_format_params`."
 
 #: ../../changes.rst:18
-#, fuzzy
-#| msgid ""
-#| ":ref:`mt-microsoft-translator` now supports using custom translators."
 msgid ":ref:`mt-cyrtranslit` now supports Belarusian and Greek."
-msgstr ":ref:`mt-microsoft-translator` 现在支持使用自定义翻译工具。"
+msgstr ":ref:`mt-cyrtranslit` 现支持白俄罗斯语和希腊语。"
 
 #: ../../changes.rst:19
 msgid ""
@@ -23865,19 +23794,16 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:20
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.webhook.webhook` can be installed multiple times."
 msgid ""
 ":ref:`addon-weblate.webhook.slack` and :ref:`addon-weblate.webhook.webhook` "
 "can be installed multiple times."
-msgstr "可多次安装 :ref:`addon-weblate.webhook.webhook`。"
+msgstr ""
+"可多次安装 :ref:`addon-weblate.webhook.slack` 和 :ref:`addon-"
+"weblate.webhook.webhook`。"
 
 #: ../../changes.rst:21
-#, fuzzy
-#| msgid "Compatibility with older Git versions."
 msgid "Compatibility with Git SHA256 repositories."
-msgstr "与旧的 Git 版本的兼容性。"
+msgstr "兼容 Git SHA256 仓库。"
 
 #: ../../changes.rst:22
 msgid ""
@@ -23914,14 +23840,10 @@ msgid "Bug fixes"
 msgstr "缺陷修复"
 
 #: ../../changes.rst:27
-#, fuzzy
-#| msgid ""
-#| ":ref:`mt-deepl` integration now correctly handles all supported source "
-#| "languages."
 msgid ""
 ":ref:`mt-deepl` integration now correctly handles translating to Chinese "
 "variants."
-msgstr ":ref:`mt-deepl` 集成现在正确地处理所有支持的源语言。"
+msgstr ":ref:`mt-deepl` 集成现在正确地处理到中文变体的翻译。"
 
 #: ../../changes.rst:28
 msgid ""
@@ -23935,11 +23857,8 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:30
-#, fuzzy
-#| msgid ""
-#| "Avoid false positives of punctuation spacing check for Canadian French."
 msgid "Avoid false positive checks upon committing pending changes."
-msgstr "避免了对加拿大法语进行符号间隔检查时的误报。"
+msgstr "避免提交待定更改时的误报检查。"
 
 #: ../../changes.rst:33 ../../changes.rst:176 ../../changes.rst:271
 #: ../../changes.rst:326 ../../changes.rst:449 ../../changes.rst:599
@@ -23960,30 +23879,24 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:35
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` is now available as an add-on."
 msgid ""
 ":ref:`addon-weblate.webhook.webhook` secret length is now validated to match "
 "the Standard Webhooks specification."
-msgstr ":ref:`addon-weblate.webhook.webhook` 现作为附加组件可用。"
+msgstr ""
+"现验证 :ref:`addon-weblate.webhook.webhook` secret 长度以匹配标准 Webhooks 规"
+"范。"
 
 #: ../../changes.rst:36
-#, fuzzy
-#| msgid "Python 3.9 or newer is now required."
 msgid "Python 3.12 or newer is now required."
-msgstr "现在需要 Python 3.9 或更新版本。"
+msgstr "现在需要 Python 3.12 或更新版本。"
 
 #: ../../changes.rst:37
-#, fuzzy
-#| msgid "Python 3.9 or newer is now required."
 msgid "GLib 2.80 or newer is now required."
-msgstr "现在需要 Python 3.9 或更新版本。"
+msgstr "现在需要 GLib 2.80 或更新版本。"
 
 #: ../../changes.rst:38
-#, fuzzy
-#| msgid "Add support for web monetization."
 msgid "Dropped support for Web Monetization."
-msgstr "新增支持网络变现。"
+msgstr "取消支持 Web Monetization."
 
 #: ../../changes.rst:39
 msgid ""
@@ -24072,40 +23985,28 @@ msgid "Contributors"
 msgstr "贡献者"
 
 #: ../../changes.rst:50
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "154?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/152?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/154?"
-"closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/152?closed=1>"
+"`__。"
 
 #: ../../changes.rst:53
-#, fuzzy
-#| msgid "Weblate 5.4.3"
 msgid "Weblate 5.14.3"
-msgstr "Weblate 5.4.3"
+msgstr "Weblate 5.14.3"
 
 #: ../../changes.rst:55
-#, fuzzy
-#| msgid "*Released on November 7th 2013.*"
 msgid "*Released on November 7th 2025.*"
-msgstr "*发布于 2013 年 11 月 7 日。*"
+msgstr "*发布于 2025 年 11 月 7 日。*"
 
 #: ../../changes.rst:59
-#, fuzzy
-#| msgid "Added HTTP environment overview in :ref:`manage-performance`."
 msgid "Observed HTTPS status in :ref:`manage-performance`."
-msgstr ":ref:`manage-performance` 中新增 HTTP 环境概览。"
+msgstr ":ref:`manage-performance` 中观测 HTTPS 状态。"
 
 #: ../../changes.rst:60
-#, fuzzy
-#| msgid "Added forced file synchronization to the repository maintenance."
 msgid "Forced synchronization in the :guilabel:`Repository maintenance`."
-msgstr "向仓库维护添加了强制文件同步。"
+msgstr ":guilabel:`Repository maintenance` 中的强制同步。"
 
 #: ../../changes/contributors/5.10.1.rst:2
 #: ../../changes/contributors/5.10.2.rst:2
@@ -24172,62 +24073,44 @@ msgid "Documentation contributions"
 msgstr "文档贡献者"
 
 #: ../../changes.rst:70
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "57?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/157?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/57?"
-"closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/157?closed=1>"
+"`__。"
 
 #: ../../changes.rst:73
-#, fuzzy
-#| msgid "Weblate 5.4.2"
 msgid "Weblate 5.14.2"
-msgstr "Weblate 5.4.2"
+msgstr "Weblate 5.14.2"
 
 #: ../../changes.rst:75
-#, fuzzy
-#| msgid "*Released on November 6th 2024.*"
 msgid "*Released on November 6th 2025.*"
-msgstr "*发布于 2024 年 11 月 6 日。*"
+msgstr "*发布于 2025 年 11 月 6 日。*"
 
 #: ../../changes.rst:79
-#, fuzzy
-#| msgid "Improved performance when adding new strings."
 msgid "Performance when adding strings."
-msgstr "改进了添加新字符串时的性能。"
+msgstr "添加新字符串时的性能。"
 
 #: ../../changes.rst:83
-#, fuzzy
-#| msgid "Not updating statistics in some situations."
 msgid "Adding terms to glossary was not working in some situations."
-msgstr "某些情况下不更新统计数字。"
+msgstr "某些情况下添加术语到术语表不工作。"
 
 #: ../../changes.rst:93
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "154?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/155?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/154?"
-"closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/155?closed=1>"
+"`__。"
 
 #: ../../changes.rst:96
 msgid "Weblate 5.14.1"
 msgstr "Weblate 5.14.1"
 
 #: ../../changes.rst:98
-#, fuzzy
-#| msgid "*Released on November 5th 2022.*"
 msgid "*Released on November 5th 2025.*"
-msgstr "*发布于 2022 年 11 月 5 日。*"
+msgstr "*发布于 2025 年 11 月 5 日。*"
 
 #: ../../changes.rst:102
 msgid ""
@@ -24245,16 +24128,12 @@ msgid "Added HTTP environment overview in :ref:`manage-performance`."
 msgstr ":ref:`manage-performance` 中新增 HTTP 环境概览。"
 
 #: ../../changes.rst:108
-#, fuzzy
-#| msgid "The Weblate Docker container now uses Python 3.10."
 msgid "Docker container is using Python 3.14."
-msgstr "Weblate Docker 容器现在使用 Python 3.10。"
+msgstr "Docker 容器现在使用 Python 3.14。"
 
 #: ../../changes.rst:109
-#, fuzzy
-#| msgid ":ref:`check-icu-message-format` gracefully handles plural strings."
 msgid ":ref:`check-icu-message-format` correctly handles implicit plurals."
-msgstr ":ref:`check-icu-message-format` 优雅地处理复数字符串。"
+msgstr ":ref:`check-icu-message-format` 正确处理隐含复数。"
 
 #: ../../changes.rst:113
 msgid ""
@@ -24275,17 +24154,13 @@ msgid "Listing of other translations."
 msgstr "列出其他翻译。"
 
 #: ../../changes.rst:117
-#, fuzzy
-#| msgid "Upgrading the Docker container"
 msgid "SAML configuration in the Docker container."
-msgstr "升级 Docker 容器"
+msgstr "Docker 容器中的 SAML 配置。"
 
 #: ../../changes.rst:118
-#, fuzzy
-#| msgid "Preferences cookie to store user preferences in certain situations."
 msgid ""
 ":ref:`project-commit_policy` could miss some changes in certain situations."
-msgstr "用于在特定情况下存储用户偏好的偏好 Cookie。"
+msgstr ":ref:`project-commit_policy` 某些情形下可能丢失一些更改。"
 
 #: ../../changes/contributors/5.10.1.rst:7
 #: ../../changes/contributors/5.10.2.rst:7
@@ -27047,16 +26922,12 @@ msgid "Superuser access to components with :ref:`component-restricted`."
 msgstr "对 :ref:`component-restricted` 部件的超级用户权限。"
 
 #: ../../changes.rst:1392
-#, fuzzy
-#| msgid ""
-#| "Adjusted default :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` to not "
-#| "block :ref:`manage-appearance`."
 msgid ""
 "Adjusted default ``LOGIN_REQUIRED_URLS_EXCEPTIONS`` to not "
 "block :ref:`manage-appearance`."
 msgstr ""
-"为了不拦截 :ref:`manage-appearance`，调整"
-"了 :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` 默认值。"
+"为了不拦截 :ref:`manage-appearance`，调整了 "
+"``LOGIN_REQUIRED_URLS_EXCEPTIONS`` 默认值。"
 
 #: ../../changes.rst:1393
 msgid "Avoid crash on pushing changes to diverged repository."
@@ -36687,18 +36558,13 @@ msgstr ""
 "covenant.org/version/3/0/。"
 
 #: ../../contributing/code_of_conduct.rst:102
-#, fuzzy
-#| msgid ""
-#| "Contributor Covenant is stewarded by the Organization for Ethical Source "
-#| "and licensed under CC BY-SA 4.0. To view a copy of this license, visit "
-#| "https://creativecommons.org/licenses/by-sa/4.0/"
 msgid ""
 "Contributor Covenant is stewarded by the Organization for Ethical Source and "
 "licensed under CC BY-SA 4.0. To view a copy of this license, visit https://"
 "creativecommons.org/licenses/by-sa/4.0/."
 msgstr ""
 "贡献者契约由 Organization for Ethical Source 管理并在 CC BY-SA 4.0 下许可。要"
-"查看该许可证的副本，请访问 https://creativecommons.org/licenses/by-sa/4.0/"
+"查看该许可证的副本，请访问 https://creativecommons.org/licenses/by-sa/4.0/。"
 
 #: ../../contributing/code_of_conduct.rst:104
 msgid ""
@@ -50194,11 +50060,9 @@ msgid "Pending strings not yet committed to the file (see :ref:`lazy-commit`)."
 msgstr "尚未提交至文件的待定字符串（见 :ref:`lazy-commit`）。"
 
 #: ../../user/search.rst:73
-#, fuzzy
-#| msgid "String translated using :ref:`auto-translation`."
 msgid ""
 "Strings that were translated automatically (see :ref:`auto-translation`)."
-msgstr "字符串是使用 :ref:`auto-translation` 翻译的。"
+msgstr "自动翻译的字符串（见 :ref:`auto-translation`）。"
 
 #: ../../user/search.rst:75
 msgid "String target language."
@@ -50417,10 +50281,8 @@ msgstr ""
 "确精确的时间戳。"
 
 #: ../../user/search.rst:179
-#, fuzzy
-#| msgid "Changed 2019-03-01 and later (inclusive)."
 msgid "Changed on 1st March 2019 and later (inclusive)."
-msgstr "2019-03-01 及之后更改（包含）。"
+msgstr "2019 年 3 月 1 日及之后更改（包含 2019 年 3 月 1 日）。"
 
 #: ../../user/search.rst:181
 msgid "Changed 2 weeks ago from the current date and time."
@@ -51288,20 +51150,15 @@ msgid ""
 msgstr "您可以在 :ref:`machine-translation-setup` 中找到支持的工具列表。"
 
 #: ../../user/translating.rst:363
-#, fuzzy
-#| msgid ""
-#| "You can use automatic translation to bootstrap translation based on "
-#| "external sources. This tool is called :guilabel:`Automatic translation` "
-#| "accessible in the :guilabel:`Tools` menu, once you have selected a "
-#| "component and a language:"
 msgid ""
 "You can use automatic translation to bootstrap translation based on external "
 "sources. This tool is called :guilabel:`Automatic translation` accessible in "
 "the :guilabel:`Operations` menu, once you have selected a component and a "
 "language:"
 msgstr ""
-"你可以使用自动翻译来引导基于外部资源的翻译。这个工具叫做 :guilabel:`自动翻译"
-"`，一旦你选择了一个部件和一种语言，就可以在 :guilabel:`工具` 菜单中访问："
+"你可以使用自动翻译来引导基于外部资源的翻译。这个工具叫做 :guilabel:`自动翻"
+"译`，一旦你选择了一个部件和一种语言，就可以在 :guilabel:`Operations` 菜单中访"
+"问："
 
 #: ../../user/translating.rst:369
 msgid ""

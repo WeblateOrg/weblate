@@ -10,6 +10,9 @@ Weblate 5.15
 * Added new Ollama machinery tool for local Ollama AI model integration, see :ref:`mt-ollama`.
 * Added :http:get:`/api/units/(int:id)/comments/` to get a list of comments for the given translation unit.
 * Added :http:get:`api/projects/(string:project)/(string:language)/file/` to download a ZIP file of all compoenent translations of a project for a specified language. 
+* Memory contents imported from TMX files include string context.
+* :doc:`/formats/xliff2`, :doc:`/formats/nextcloud-json`, :doc:`/formats/resjson`, and :doc:`/formats/toml` are now supported file formats.
+* :ref:`addon-weblate.fedora_messaging.publish` integration is now available as add-on.
 
 .. rubric:: Improvements
 
@@ -32,6 +35,7 @@ Weblate 5.15
 * Tighter validation of user and full names to avoid confusing homoglyphs.
 * Avoid false positive checks upon committing pending changes.
 * Performance improvements for file upload.
+* Show glossary matches for the source language.
 
 .. rubric:: Compatibility
 
@@ -103,7 +107,7 @@ Weblate 5.14.1
 
 .. rubric:: New features
 
-* String context are now tracked in changes histoy and displayed when available.
+* String context are now tracked in changes history and displayed when available.
 
 .. rubric:: Improvements
 

@@ -33,6 +33,7 @@ from weblate.formats.ttkit import (
     FlatXMLFormat,
     FluentFormat,
     GoI18JSONFormat,
+    GoI18nTOMLFormat,
     GoI18V2JSONFormat,
     GWTFormat,
     INIFormat,
@@ -41,18 +42,23 @@ from weblate.formats.ttkit import (
     JSONFormat,
     JSONNestedFormat,
     LaravelPhpFormat,
+    NextcloudJSONFormat,
     PhpFormat,
     PoFormat,
     PoXliffFormat,
     PropertiesFormat,
+    RESJSONFormat,
     ResourceDictionaryFormat,
     RESXFormat,
+    RichXliff2Format,
     RichXliffFormat,
     RubyYAMLFormat,
     StringsdictFormat,
     TBXFormat,
+    TOMLFormat,
     TSFormat,
     WebExtensionJSONFormat,
+    Xliff2Format,
     XliffFormat,
     XWikiFullPageFormat,
     XWikiPagePropertiesFormat,
@@ -77,6 +83,8 @@ TEST_FLATXML = get_test_file("cs-flat.xml")
 TEST_CUSTOM_FLATXML = get_test_file("cs-flat-custom.xml")
 TEST_RESOURCEDICTIONARY = get_test_file("cs.xaml")
 TEST_JSON = get_test_file("cs.json")
+TEST_RESJSON = get_test_file("cs.resjson")
+TEST_NEXTJSON = get_test_file("cs.nextjson")
 TEST_GO18N_V1_JSON = get_test_file("cs-go18n-v1.json")
 TEST_GO18N_V2_JSON = get_test_file("cs-go18n-v2.json")
 TEST_NESTED_JSON = get_test_file("cs-nested.json")
@@ -92,6 +100,7 @@ TEST_ANDROID = get_test_file("strings.xml")
 TEST_XLIFF = get_test_file("cs.xliff")
 TEST_POXLIFF = get_test_file("cs.poxliff")
 TEST_XLIFF_ID = get_test_file("ids.xliff")
+TEST_XLIFF2 = get_test_file("cs.xliff2")
 TEST_POT = get_test_file("hello.pot")
 TEST_POT_UNICODE = get_test_file("unicode.pot")
 TEST_RESX = get_test_file("cs.resx")
@@ -100,6 +109,8 @@ TEST_YAML = get_test_file("cs.pyml")
 TEST_RUBY_YAML = get_test_file("cs.ryml")
 TEST_DTD = get_test_file("cs.dtd")
 TEST_TBX = get_test_file("cs.tbx")
+TEST_TOML = get_test_file("cs.toml")
+TEST_GO_TOML = get_test_file("cs.goi18n.toml")
 TEST_HE_CLDR = get_test_file("he-cldr.po")
 TEST_HE_CUSTOM = get_test_file("he-custom.po")
 TEST_HE_SIMPLE = get_test_file("he-simple.po")
@@ -809,7 +820,7 @@ class XliffFormatTest(XMLMixin, BaseFormatTest):
     format_class = XliffFormat
     FILE = TEST_XLIFF
     BASE = TEST_XLIFF
-    MIME = "application/x-xliff"
+    MIME = "application/xliff+xml"
     EXT = "xlf"
     COUNT = 4
     MATCH = '<file target-language="cs">'
@@ -931,7 +942,7 @@ class PoXliffFormatTest(XMLMixin, BaseFormatTest):
     format_class = PoXliffFormat
     FILE = TEST_XLIFF
     BASE = TEST_XLIFF
-    MIME = "application/x-xliff"
+    MIME = "application/xliff+xml"
     EXT = "xlf"
     COUNT = 4
     MATCH = '<file target-language="cs">'
@@ -1602,3 +1613,60 @@ class FluentFormatTest(BaseFormatTest):
     NEW_UNIT_MATCH = b"\nkey = Source string"
     MONOLINGUAL = True
     EXPECTED_FLAGS: ClassVar[str | list[str]] = "fluent-type:Message"
+
+
+class Xliff2FormatTestCase(BaseFormatTest):
+    format_class = Xliff2Format
+    FILE = TEST_XLIFF2
+    MIME = "application/xliff+xml"
+    EXT = "xliff"
+    MATCH = 'trgLang="cs"'
+    NEW_UNIT_MATCH = (b'<unit id="key">', b"<source>Source string</source>")
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
+    FIND_CONTEXT = "hello"
+    BASE = TEST_XLIFF2
+    NEW_UNIT_KEY = "key"
+    MASK = "loc/*/default.xliff"
+    EXPECTED_PATH = "loc/cs-CZ/default.xliff"
+
+
+class RichXliff2FormatTestCase(Xliff2FormatTestCase):
+    format_class = RichXliff2Format
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = "xml-text"
+
+
+class TOMLFormatTestCase(BaseFormatTest):
+    format_class = TOMLFormat
+    FILE = TEST_TOML
+    BASE = ""
+    MIME = "application/toml"
+    EXT = "toml"
+    FIND_CONTEXT = "hello"
+    MONOLINGUAL = True
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
+    NEW_UNIT_MATCH = b'key = "Source string"'
+    MATCH = "\n"
+    SUPPORTS_NOTES = False
+
+
+class GoI18nTOMLFormatTestCase(TOMLFormatTestCase):
+    format_class = GoI18nTOMLFormat
+    FILE = TEST_GO_TOML
+    NEW_UNIT_MATCH = b'[key]\nother = "Source string"'
+
+
+class RESJSONFormatTestCase(JSONFormatTest):
+    format_class = RESJSONFormat
+    FILE = TEST_RESJSON
+    BASE = TEST_RESJSON
+    FIND_CONTEXT = "hello"
+    NEW_UNIT_MATCH = b'"_key.source": "Source string"'
+    MATCH = '"_hello.source":'
+
+
+class NextcloudJSONFormatTestCase(JSONFormatTest):
+    format_class = NextcloudJSONFormat
+    FILE = TEST_NEXTJSON
+    BASE = TEST_NEXTJSON
+    NEW_UNIT_MATCH = b'"Source string":'
+    MATCH = '"translations":'

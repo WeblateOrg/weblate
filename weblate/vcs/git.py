@@ -58,9 +58,7 @@ if TYPE_CHECKING:
 
     from weblate.trans.models import Component
 
-LOCK_ERROR = re.compile(
-    r"fatal: Unable to create '([^']*\.git/index\.lock)': File exists"
-)
+LOCK_ERROR = re.compile(r"Unable to create '([^']*\.git/[.*]\.lock)': File exists")
 # Assume lock is stale after one hour
 LOCK_STALE_SECONDS = 3600
 
@@ -384,7 +382,7 @@ class GitRepository(Repository):
         return result
 
     def log_revisions(self, refspec):
-        """Return revisin log for given refspec."""
+        """Return revision log for given refspec."""
         return self.execute(
             ["log", "--format=format:%H", refspec, "--"],
             needs_lock=False,
@@ -518,7 +516,7 @@ class GitRepository(Repository):
         """Perform global settings."""
         home = data_path("home")
         merge_driver = cls.get_merge_driver("po")
-        # Sync protocol configurartion with settings
+        # Sync protocol configuration with settings
         updates: list[tuple[str, str, str]] = [
             (
                 f'protocol "{protocol}"',

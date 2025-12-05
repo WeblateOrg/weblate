@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-02 20:30+0100\n"
-"PO-Revision-Date: 2025-12-03 20:00+0000\n"
+"PO-Revision-Date: 2025-12-05 12:00+0000\n"
 "Last-Translator: Gašper Pintar <pintargasper1@gmail.com>\n"
 "Language-Team: Slovenian <https://hosted.weblate.org/projects/weblate/"
 "documentation/sl/>\n"
@@ -76,7 +76,7 @@ msgstr "Vsak overjen uporabnik lahko prispeva."
 
 #: ../../admin/access.rst:30
 msgid "VCS repository might be exposed to everybody."
-msgstr ""
+msgstr "VCS repozitorij je lahko dostopen vsem."
 
 #: ../../admin/access.rst:32
 msgid ""
@@ -93,18 +93,20 @@ msgstr ""
 #: ../../admin/access.rst:36 ../../admin/access.rst:44
 #: ../../admin/access.rst:52
 msgid "Only chosen users can contribute."
-msgstr ""
+msgstr "Prispevajo lahko samo izbrani uporabniki."
 
 #: ../../admin/access.rst:38 ../../admin/access.rst:46
 #: ../../admin/access.rst:54
 msgid "Only chosen users can access VCS repository."
-msgstr ""
+msgstr "Do VCS repozitorija lahko dostopajo samo izbrani uporabniki."
 
 #: ../../admin/access.rst:40
 msgid ""
 "**Choose this to gain visibility, but still have control over who can "
 "contribute.**"
 msgstr ""
+"**Izberite to možnost, da povečate prepoznavnost, a še vedno nadzorujete, "
+"kdo lahko prispeva.**"
 
 #: ../../admin/access.rst:41 ../../admin/config.rst:544
 msgid ":guilabel:`Private`"
@@ -112,32 +114,34 @@ msgstr ""
 
 #: ../../admin/access.rst:42 ../../admin/access.rst:50
 msgid "Visible only to chosen users."
-msgstr ""
+msgstr "Vidno samo izbranim uporabnikom."
 
 #: ../../admin/access.rst:48
 msgid ""
 "**Choose this for projects that should not be exposed publicly at all.**"
 msgstr ""
+"**Izberite to možnost za projekte, ki sploh ne bi smeli biti javno "
+"razkriti.**"
 
 #: ../../admin/access.rst:49 ../../admin/config.rst:546
 msgid ":guilabel:`Custom`"
 msgstr ""
 
 #: ../../admin/access.rst:56
-#, fuzzy
-#| msgid "Login to Weblate"
 msgid "Not available on Hosted Weblate."
-msgstr "Prijava v Weblate"
+msgstr "Ni na voljo na gostovanem Weblate."
 
 #: ../../admin/access.rst:58
 msgid "You will have to set up all the permissions using :ref:`custom-acl`."
-msgstr ""
+msgstr "Vsa dovoljenja boste morali nastaviti z uporabo :ref:`custom-acl`."
 
 #: ../../admin/access.rst:60
 msgid ""
 "**Choose this on your own Weblate instance if you want to define access in a "
 "specific, finely customizable way.**"
 msgstr ""
+"**Izberite to na svoji lastni instanci Weblate, če želite dostop določiti na "
+"poseben, natančno prilagodljiv način.**"
 
 #: ../../admin/access.rst:62
 msgid ""
@@ -150,12 +154,17 @@ msgstr ""
 msgid ""
 "The default can also be changed by setting :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
+"Privzeto nastavitev je mogoče spremeniti tudi z nastavitvijo "
+":setting:`DEFAULT_ACCESS_CONTROL`."
 
 #: ../../admin/access.rst:72
 msgid ""
 "Even `Private` project statistics are counted into the site-wide statistics "
 "and language summary. This does not reveal project names or any other info."
 msgstr ""
+"Tudi statistika `zasebnih` projektov se upošteva v statistiki celotnega "
+"spletnega mesta in povzetku jezikov. To ne razkriva imen projektov ali "
+"drugih informacij."
 
 #: ../../admin/access.rst:78
 msgid ""
@@ -163,16 +172,17 @@ msgid ""
 "users in `Public`, `Protected`, and `Private` projects by using :ref:`custom "
 "settings <custom-acl>`."
 msgstr ""
+"Skrbniki primerkov lahko spremenijo privzete nabore dovoljenj, ki so na "
+"voljo uporabnikom v projektih `Javno` , `Zaščiteno` in `Zasebno`, z uporabo "
+":ref:`custom settings <custom-acl>`."
 
 #: ../../admin/access.rst:88
-#, fuzzy
-#| msgid "Project access control"
 msgid "Managing per-project access control"
-msgstr "Nadzor dostopa do projekta"
+msgstr "Upravljanje nadzora dostopa za posamezne projekte"
 
 #: ../../admin/access.rst:93
 msgid "For `Public`, `Protected` and `Private` projects:"
-msgstr ""
+msgstr "Za `Javne`, `Zaščitene` in `Zasebne` projekte:"
 
 #: ../../admin/access.rst:95
 msgid ""
@@ -186,54 +196,44 @@ msgid ""
 "These are the default teams provided with Weblate; teams can be added or "
 "modified by users with sufficient privileges:"
 msgstr ""
+"To so privzete ekipe, ki jih ponuja Weblate; ekipe lahko dodajajo ali "
+"spreminjajo uporabniki z zadostnimi privilegiji:"
 
 #: ../../admin/access.rst:102 ../../admin/access.rst:856
-#, fuzzy
-#| msgid "Administration"
 msgid "`Administration`"
-msgstr "Administracija"
+msgstr "`Administracija`"
 
 #: ../../admin/access.rst:103
-#, fuzzy
-#| msgid "You do not have permission to change project access control."
 msgid "All available permissions for the project."
-msgstr "Nimate pravic za spreminjanje nadzora dostopa do projekta."
+msgstr "Vsa razpoložljiva dovoljenja za projekt."
 
 #: ../../admin/access.rst:105
-#, fuzzy
-#| msgid "Review"
 msgid "`Review`"
-msgstr "Pregled"
+msgstr "`Pregled`"
 
 #: ../../admin/access.rst:106
-#, fuzzy
-#| msgid "Add as translation needing review"
 msgid "Approve translations in a review."
-msgstr "Dodaj kot prevod, ki potrebuje pregled"
+msgstr "Odobrite prevode v pregledu."
 
 #: ../../admin/access.rst:108
 msgid "Available only if :ref:`review workflow <reviews>` is on."
-msgstr ""
+msgstr "Na voljo samo, če je vklopljen :ref:`pregled poteka dela <reviews>`."
 
 #: ../../admin/access.rst:110
 msgid "For `Protected` and `Private` projects only:"
-msgstr ""
+msgstr "Samo za projekte z oznako `Zaščiteno` in `Zasebno`:"
 
 #: ../../admin/access.rst:112 ../../admin/access.rst:993
-#, fuzzy
-#| msgid "Translate"
 msgid "`Translate`"
-msgstr "Prevedite"
+msgstr "`Prevedite`"
 
 #: ../../admin/access.rst:113
 msgid "Translate the project and upload translations made offline."
-msgstr ""
+msgstr "Prevedite projekt in naložite prevode, narejene brez povezave."
 
 #: ../../admin/access.rst:115
-#, fuzzy
-#| msgid "Source"
 msgid "`Sources`"
-msgstr "Vir"
+msgstr "`Viri`"
 
 #: ../../admin/access.rst:116
 msgid ""
@@ -242,10 +242,8 @@ msgid ""
 msgstr ""
 
 #: ../../admin/access.rst:119
-#, fuzzy
-#| msgid "Languages"
 msgid "`Languages`"
-msgstr "Jeziki"
+msgstr "`Jeziki`"
 
 #: ../../admin/access.rst:120
 #, fuzzy

@@ -89,7 +89,7 @@
       <p>{% translate "You can fetch statistics for all translations in one component like this:" %}</p>
 
       <pre>
-<button type="button" class="btn btn-link btn-xs pull-right" data-visibility=".auth-token" title="{% translate "Toggle API key visibility" %}">{% icon "eye.svg" %}</button>curl \
+<button type="button" class="btn btn-link btn-xs float-end" data-visibility=".auth-token" title="{% translate "Toggle API key visibility" %}">{% icon "eye.svg" %}</button>curl \
     -H "Authorization: Token <span class="auth-token">{{ request.user.auth_token.key|default:"TOKEN" }}</span>" \
     {{ site_url }}{% url 'api:component-translations' project__slug=object.slug slug=component.slug %}
 </pre>
@@ -138,7 +138,7 @@
   <p>{% translate "You pull changes from a remote repository to Weblate like this:" %}</p>
 
   <pre>
-<button type="button" class="btn btn-link btn-xs pull-right" data-visibility=".auth-token" title="{% translate "Toggle API key visibility" %}">{% icon "eye.svg" %}</button>curl \
+<button type="button" class="btn btn-link btn-xs float-end" data-visibility=".auth-token" title="{% translate "Toggle API key visibility" %}">{% icon "eye.svg" %}</button>curl \
     -d operation=pull \
     -H "Authorization: Token <span class="auth-token">{{ request.user.auth_token.key|default:"TOKEN" }}</span>" \
     {{ site_url }}{% url 'api:project-repository' slug=object.slug %}

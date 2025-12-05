@@ -25,8 +25,9 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-02 19:29+0000\n"
-"PO-Revision-Date: 2025-12-03 20:01+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"PO-Revision-Date: 2025-12-05 12:00+0000\n"
+"Last-Translator: 大王叫我来巡山 "
+"<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/application/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -1753,10 +1754,8 @@ msgid "Webhook URL"
 msgstr "Webhook URL"
 
 #: weblate/addons/forms.py:600
-#, fuzzy
-#| msgid "Webhook"
 msgid "Webhook secret"
-msgstr "Webhook"
+msgstr "Webhook secret"
 
 #: weblate/addons/forms.py:606
 msgid "The Standard Webhooks secret is a base64 encoded string."
@@ -2872,10 +2871,8 @@ msgid "Block expiry"
 msgstr "阻止过期"
 
 #: weblate/auth/models.py:1020 weblate/trans/forms.py:1362
-#, fuzzy
-#| msgid "Block user"
 msgid "Block note"
-msgstr "阻止用户"
+msgstr "阻止附注"
 
 #: weblate/auth/models.py:1023 weblate/trans/forms.py:1364
 msgid ""
@@ -2932,18 +2929,14 @@ msgid "Sign in to save translations."
 msgstr "请登录以保存译文。"
 
 #: weblate/auth/permissions.py:229
-#, fuzzy
-#| msgid "Insufficient privileges for approving translations."
 msgid ""
 "Insufficient privileges for approving translations in a restricted component."
-msgstr "批准翻译的权限不足。"
+msgstr "受限环境下批准翻译的权限不足。"
 
 #: weblate/auth/permissions.py:234
-#, fuzzy
-#| msgid "Insufficient privileges for saving translations."
 msgid ""
 "Insufficient privileges for saving translations in a restricted component."
-msgstr "保存翻译的权限不足。"
+msgstr "受限环境下保存翻译的权限不足。"
 
 #: weblate/auth/permissions.py:239
 msgid "Insufficient privileges for approving translations."
@@ -5893,10 +5886,8 @@ msgid "Screenshot %s has been deleted."
 msgstr "截图 %s 已删除。"
 
 #: weblate/screenshots/views.py:328
-#, fuzzy
-#| msgid "Invalid date!"
 msgid "Invalid unit."
-msgstr "无效日期！"
+msgstr "无效单元."
 
 #: weblate/screenshots/views.py:333
 msgid "Source has been removed."
@@ -8303,10 +8294,8 @@ msgstr "将译文下载为 ZIP 文件内的 XLSX"
 
 #: weblate/templates/category.html:89 weblate/templates/component.html:101
 #: weblate/templates/language-project.html:83
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Batch automatic translation"
-msgstr "自动翻译"
+msgstr "批量自动翻译"
 
 #: weblate/templates/category.html:99 weblate/templates/project.html:140
 msgid "Add new category"
@@ -8905,12 +8894,10 @@ msgid "Repository status"
 msgstr "仓库状态"
 
 #: weblate/templates/js/git-status.html:28
-#, fuzzy, python-format
-#| msgid "%(count)s pending change"
-#| msgid_plural "%(count)s pending changes"
+#, python-format
 msgid "%(total_count)s pending unit"
 msgid_plural "%(total_count)s pending units"
-msgstr[0] "%(count)s 个待处理的更改"
+msgstr[0] "%(total_count)s 个待处理的单元"
 
 #: weblate/templates/js/git-status.html:34
 #, python-format
@@ -9811,10 +9798,6 @@ msgid "Sign in to see the full audit log, including the IP address."
 msgstr "登录即可查看完整的审计日志，包括 IP 地址。"
 
 #: weblate/templates/mail/shared-activity.html:23
-#, fuzzy
-#| msgid ""
-#| "If you didn’t initiate this, please report it to the server "
-#| "administrators by clicking the button below."
 msgid ""
 "If you didn't initiate this, please report it to the server administrators "
 "by clicking the button below."
@@ -10105,10 +10088,8 @@ msgid "Disk usage"
 msgstr ""
 
 #: weblate/templates/manage/performance.html:152
-#, fuzzy
-#| msgid "File size"
 msgid "Disk size"
-msgstr "文件大小"
+msgstr "磁盘大小"
 
 #: weblate/templates/manage/performance.html:153
 msgid "Disk used"
@@ -10816,8 +10797,6 @@ msgid ""
 msgstr "由于维护，该翻译暂时无法贡献，请稍后再来。"
 
 #: weblate/templates/snippets/component/lock.html:27
-#, fuzzy
-#| msgid "The translation was automatically locked due to following alerts:"
 msgid "The translation was automatically locked due to the following alert:"
 msgid_plural ""
 "The translation was automatically locked due to the following alerts:"
@@ -11561,10 +11540,8 @@ msgid "Strings changed in the past two weeks"
 msgstr "过去两周更改的字符串"
 
 #: weblate/templates/snippets/query-builder.html:191
-#, fuzzy
-#| msgid "Automatically translated"
 msgid "Automatically translated strings"
-msgstr "自动翻译"
+msgstr "自动翻译的字符串"
 
 #: weblate/templates/snippets/query-builder.html:202
 msgid "Translated strings in a certain language"
@@ -12867,10 +12844,9 @@ msgid "Automatically translated"
 msgstr "自动翻译"
 
 #: weblate/templates/translate.html:720
-#, fuzzy, python-format
-#| msgid "This string has been translated in the past."
+#, python-format
 msgid "This string was translated automatically by %(author)s."
-msgstr "这条字符串在过去曾被翻译过。"
+msgstr "这条字符串由 %(author)s 自动翻译。"
 
 #: weblate/templates/translate.html:742
 #, python-format
@@ -13554,24 +13530,18 @@ msgstr "已强制重新扫描翻译"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:176
-#, fuzzy
-#| msgid "Screenshot name"
 msgid "Screenshot removed"
-msgstr "截图名称"
+msgstr "删除了截图"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:178
-#, fuzzy
-#| msgid "Label name"
 msgid "Label added"
-msgstr "标签名称"
+msgstr "添加了标签"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:180
-#, fuzzy
-#| msgid "Labels to remove"
 msgid "Label removed"
-msgstr "要删除的标签"
+msgstr "删除了标签"
 
 #: weblate/trans/admin.py:38
 msgid "Commit pending changes"
@@ -16807,18 +16777,14 @@ msgid "Needs editing"
 msgstr "需要编辑"
 
 #: weblate/utils/state.py:19
-#, fuzzy
-#| msgid "Needs editing"
 msgctxt "String state"
 msgid "Needs rewriting"
-msgstr "需要编辑"
+msgstr "需要重写"
 
 #: weblate/utils/state.py:20
-#, fuzzy
-#| msgid "Needs editing"
 msgctxt "String state"
 msgid "Needs checking"
-msgstr "需要编辑"
+msgstr "需要检查"
 
 #: weblate/utils/state.py:21
 msgctxt "String state"
@@ -16877,10 +16843,8 @@ msgid "Name consists only of disallowed characters."
 msgstr "名称仅由不允许的字符组成。"
 
 #: weblate/utils/validators.py:170
-#, fuzzy
-#| msgid "Name consists only of disallowed characters."
 msgid "Name contains disallowed characters."
-msgstr "名称仅由不允许的字符组成。"
+msgstr "名称包含不允许的字符。"
 
 #: weblate/utils/validators.py:185
 msgid "The username can not start with a full stop."
@@ -16940,10 +16904,8 @@ msgid "Invalid base64 encoded string"
 msgstr "无效的 base64 编码字符串"
 
 #: weblate/utils/validators.py:344
-#, fuzzy
-#| msgid "The chosen sorting is not supported."
 msgid "The provided secret is too short."
-msgstr "不支持所选排序。"
+msgstr "所提供的 secret 太短。"
 
 #: weblate/utils/validators.py:346
 msgid "The provided secret is too long."

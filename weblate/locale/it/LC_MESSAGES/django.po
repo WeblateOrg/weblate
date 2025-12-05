@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-02 19:29+0000\n"
-"PO-Revision-Date: 2025-12-03 20:02+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"PO-Revision-Date: 2025-12-05 12:00+0000\n"
+"Last-Translator: Pierfrancesco Passerini <p.passerini@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
 "Language: it\n"
@@ -967,7 +967,7 @@ msgstr "È stato riscontrato un errore di analisi"
 #: weblate/accounts/notifications.py:604
 msgctxt "Notification name"
 msgid "String is available for translation"
-msgstr "La stringa è disponibile per la traduzione"
+msgstr "Stringa disponibile per la traduzione"
 
 #: weblate/accounts/notifications.py:614
 msgctxt "Notification name"
@@ -1858,14 +1858,12 @@ msgid "Webhook URL"
 msgstr "URL webhook"
 
 #: weblate/addons/forms.py:600
-#, fuzzy
-#| msgid "Webhook"
 msgid "Webhook secret"
-msgstr "Webhook"
+msgstr "Segreto Webhook"
 
 #: weblate/addons/forms.py:606
 msgid "The Standard Webhooks secret is a base64 encoded string."
-msgstr ""
+msgstr "Il segreto per i Webhook Standard è una stringa codificata in base64."
 
 #: weblate/addons/generate.py:38
 msgid "Statistics generator"
@@ -3008,15 +3006,15 @@ msgid "Block expiry"
 msgstr "Scadenza del blocco"
 
 #: weblate/auth/models.py:1020 weblate/trans/forms.py:1362
-#, fuzzy
-#| msgid "Block user"
 msgid "Block note"
-msgstr "Blocca utente"
+msgstr "Blocco note"
 
 #: weblate/auth/models.py:1023 weblate/trans/forms.py:1364
 msgid ""
 "Internal notes regarding blocking the user that are not visible to the user."
 msgstr ""
+"Note interne riguardanti il blocco dell'utente che non sono visibili "
+"all'utente."
 
 #: weblate/auth/models.py:1211 weblate/trans/forms.py:1325
 msgid "User to add"
@@ -3074,18 +3072,18 @@ msgid "Sign in to save translations."
 msgstr "Accedi per salvare le traduzioni."
 
 #: weblate/auth/permissions.py:229
-#, fuzzy
-#| msgid "Insufficient privileges for approving translations."
 msgid ""
 "Insufficient privileges for approving translations in a restricted component."
-msgstr "Privilegi insufficienti per approvare le traduzioni."
+msgstr ""
+"Privilegi insufficienti per approvare le traduzioni in un componente con "
+"restrizioni."
 
 #: weblate/auth/permissions.py:234
-#, fuzzy
-#| msgid "Insufficient privileges for saving translations."
 msgid ""
 "Insufficient privileges for saving translations in a restricted component."
-msgstr "Privilegi insufficienti per salvare le traduzioni."
+msgstr ""
+"Privilegi insufficienti per salvare le traduzioni in un componente con "
+"restrizioni."
 
 #: weblate/auth/permissions.py:239
 msgid "Insufficient privileges for approving translations."
@@ -6164,10 +6162,8 @@ msgid "Screenshot %s has been deleted."
 msgstr "Lo screenshot %s è stato eliminato."
 
 #: weblate/screenshots/views.py:328
-#, fuzzy
-#| msgid "Invalid date!"
 msgid "Invalid unit."
-msgstr "Data non valida!"
+msgstr "Unità non valida."
 
 #: weblate/screenshots/views.py:333
 msgid "Source has been removed."
@@ -8687,10 +8683,8 @@ msgstr "Scarica traduzioni come file XLSX in un file ZIP"
 
 #: weblate/templates/category.html:89 weblate/templates/component.html:101
 #: weblate/templates/language-project.html:83
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Batch automatic translation"
-msgstr "Traduzione automatica"
+msgstr "Traduzione automatica in batch"
 
 #: weblate/templates/category.html:99 weblate/templates/project.html:140
 msgid "Add new category"
@@ -9340,27 +9334,25 @@ msgid "Repository status"
 msgstr "Stato del repository"
 
 #: weblate/templates/js/git-status.html:28
-#, fuzzy, python-format
-#| msgid "%(count)s pending change"
-#| msgid_plural "%(count)s pending changes"
+#, python-format
 msgid "%(total_count)s pending unit"
 msgid_plural "%(total_count)s pending units"
-msgstr[0] "%(count)s modifica in attesa"
-msgstr[1] "%(count)s modifiche in attesa"
+msgstr[0] "%(total_count)s unità in sospeso"
+msgstr[1] "%(total_count)s unità in sospeso"
 
 #: weblate/templates/js/git-status.html:34
 #, python-format
 msgid "%(policy_count)s skipped by the commit policy"
 msgid_plural "%(policy_count)s skipped by the commit policy"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%(policy_count)s ignorata dalla policy di commit"
+msgstr[1] "%(policy_count)s ignorate dalla policy di commit"
 
 #: weblate/templates/js/git-status.html:39
 #, python-format
 msgid "%(errors_count)s skipped because of errors"
 msgid_plural "%(errors_count)s skipped because of errors"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%(errors_count)s saltato a causa di errori"
+msgstr[1] "%(errors_count)s saltati a causa di errori"
 
 #: weblate/templates/js/git-status.html:54
 msgid ""
@@ -9482,8 +9474,8 @@ msgid ""
 "Resets Weblate’s repository to match upstream and replace upstream "
 "translations with the current state from Weblate."
 msgstr ""
-"Reimposta il repository di Weblate per farlo corrispondere all'upstream e "
-"sostituisce le traduzioni dell'upstream con lo stato attuale di Weblate."
+"Reimposta il repository di Weblate per farlo corrispondere all'upstream "
+"sostituendo le traduzioni con quelle attuali in Weblate."
 
 #: weblate/templates/js/git-status.html:181
 msgid "Use when you want Weblate to be the authority for translations."
@@ -10325,16 +10317,12 @@ msgstr ""
 "l'indirizzo IP."
 
 #: weblate/templates/mail/shared-activity.html:23
-#, fuzzy
-#| msgid ""
-#| "If you didn’t initiate this, please report it to the server "
-#| "administrators by clicking the button below."
 msgid ""
 "If you didn't initiate this, please report it to the server administrators "
 "by clicking the button below."
 msgstr ""
-"Se non hai avviato tu questa operazione, segnalalo agli amministratori del "
-"server selezionando il pulsante in basso."
+"Se non hai avviato tu questa operazione, allora segnalala agli "
+"amministratori del server cliccando sul pulsante qui sotto."
 
 #: weblate/templates/mail/shared-activity.html:28
 msgid "View audit log"
@@ -10628,21 +10616,19 @@ msgstr "Code di Celery"
 #: weblate/templates/manage/performance.html:131
 #: weblate/templates/manage/performance.html:146
 msgid "Disk usage"
-msgstr ""
+msgstr "Utilizzo disco"
 
 #: weblate/templates/manage/performance.html:152
-#, fuzzy
-#| msgid "File size"
 msgid "Disk size"
-msgstr "Dimensione file"
+msgstr "Dimensione disco"
 
 #: weblate/templates/manage/performance.html:153
 msgid "Disk used"
-msgstr ""
+msgstr "Spazio utilizzato"
 
 #: weblate/templates/manage/performance.html:154
 msgid "Disk free"
-msgstr ""
+msgstr "Spazio disponibile"
 
 #: weblate/templates/manage/performance.html:170
 msgid "System encoding"
@@ -11399,15 +11385,13 @@ msgstr ""
 "favore riprova più tardi."
 
 #: weblate/templates/snippets/component/lock.html:27
-#, fuzzy
-#| msgid "The translation was automatically locked due to following alerts:"
 msgid "The translation was automatically locked due to the following alert:"
 msgid_plural ""
 "The translation was automatically locked due to the following alerts:"
 msgstr[0] ""
-"La traduzione è stata automaticamente bloccata a causa di questi avvisi:"
+"La traduzione è stata bloccata automaticamente a causa del seguente avviso:"
 msgstr[1] ""
-"La traduzione è stata automaticamente bloccata a causa di questi avvisi:"
+"La traduzione è stata bloccata automaticamente a causa dei seguenti avvisi:"
 
 #: weblate/templates/snippets/donate.html:4
 msgid ""
@@ -12183,10 +12167,8 @@ msgid "Strings changed in the past two weeks"
 msgstr "Le stringhe sono cambiate nelle ultime due settimane"
 
 #: weblate/templates/snippets/query-builder.html:191
-#, fuzzy
-#| msgid "Automatically translated"
 msgid "Automatically translated strings"
-msgstr "Tradotto automaticamente"
+msgstr "Stringhe tradotte automaticamente"
 
 #: weblate/templates/snippets/query-builder.html:202
 msgid "Translated strings in a certain language"
@@ -13628,10 +13610,9 @@ msgid "Automatically translated"
 msgstr "Tradotto automaticamente"
 
 #: weblate/templates/translate.html:720
-#, fuzzy, python-format
-#| msgid "This string has been translated in the past."
+#, python-format
 msgid "This string was translated automatically by %(author)s."
-msgstr "Questa stringa è stata tradotta in passato."
+msgstr "Questa stringa è stata tradotta automaticamente da %(author)s."
 
 #: weblate/templates/translate.html:742
 #, python-format
@@ -14329,24 +14310,18 @@ msgstr "Nuova scansione forzata delle traduzioni"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:176
-#, fuzzy
-#| msgid "Screenshot name"
 msgid "Screenshot removed"
-msgstr "Nome screenshot"
+msgstr "Screenshot rimosso"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:178
-#, fuzzy
-#| msgid "Label name"
 msgid "Label added"
-msgstr "Nome etichetta"
+msgstr "Etichetta aggiunta"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:180
-#, fuzzy
-#| msgid "Labels to remove"
 msgid "Label removed"
-msgstr "Etichetta da rimuovere"
+msgstr "Etichetta rimossa"
 
 #: weblate/trans/admin.py:38
 msgid "Commit pending changes"
@@ -16669,7 +16644,7 @@ msgstr "Impossibile aggiungere la stringa, nessuna traduzione trovata."
 
 #: weblate/trans/models/unit.py:450
 msgid "Indicates whether this string was translated automatically."
-msgstr ""
+msgstr "Indica se questa stringa è stata tradotta automaticamente."
 
 #: weblate/trans/models/unit.py:1264
 #, python-format
@@ -17823,18 +17798,14 @@ msgid "Needs editing"
 msgstr "Richiede modifica"
 
 #: weblate/utils/state.py:19
-#, fuzzy
-#| msgid "Needs editing"
 msgctxt "String state"
 msgid "Needs rewriting"
-msgstr "Richiede modifica"
+msgstr "Richiede riscrittura"
 
 #: weblate/utils/state.py:20
-#, fuzzy
-#| msgid "Needs editing"
 msgctxt "String state"
 msgid "Needs checking"
-msgstr "Richiede modifica"
+msgstr "Richiede controllo"
 
 #: weblate/utils/state.py:21
 msgctxt "String state"
@@ -17888,17 +17859,15 @@ msgstr "Evita nel nome completo l'uso di caratteri speciali."
 
 #: weblate/utils/validators.py:162
 msgid "This name cannot be registered. Please choose a different one."
-msgstr ""
+msgstr "Questo nome non può essere registrato. Scegline uno diverso."
 
 #: weblate/utils/validators.py:167
 msgid "Name consists only of disallowed characters."
 msgstr "Il nome è composto solo da caratteri non consentiti."
 
 #: weblate/utils/validators.py:170
-#, fuzzy
-#| msgid "Name consists only of disallowed characters."
 msgid "Name contains disallowed characters."
-msgstr "Il nome è composto solo da caratteri non consentiti."
+msgstr "Il nome contiene caratteri non consentiti."
 
 #: weblate/utils/validators.py:185
 msgid "The username can not start with a full stop."
@@ -17906,7 +17875,7 @@ msgstr "Il nome utente non può iniziare con un punto."
 
 #: weblate/utils/validators.py:196
 msgid "This username cannot be registered. Please choose a different one."
-msgstr ""
+msgstr "Questo nome utente non può essere registrato. Scegline uno diverso."
 
 #: weblate/utils/validators.py:202 weblate/utils/validators.py:210
 msgid "Enter a valid e-mail address."
@@ -17960,24 +17929,22 @@ msgid "Invalid base64 encoded string"
 msgstr "Stringa codificata in base64 non valida"
 
 #: weblate/utils/validators.py:344
-#, fuzzy
-#| msgid "The chosen sorting is not supported."
 msgid "The provided secret is too short."
-msgstr "L'ordinamento scelto non è supportato."
+msgstr "Il segreto fornito è troppo breve."
 
 #: weblate/utils/validators.py:346
 msgid "The provided secret is too long."
-msgstr ""
+msgstr "Il segreto fornito è troppo lungo."
 
 #: weblate/utils/validators.py:425
 #, python-format
 msgid "Fetching VCS repository using %s is not allowed."
-msgstr ""
+msgstr "Il recupero del repository VCS usando %s non è consentito."
 
 #: weblate/utils/validators.py:436
 #, python-format
 msgid "Fetching VCS repository from %s is not allowed."
-msgstr ""
+msgstr "Il recupero del repository VCS da %s non è consentito."
 
 #: weblate/utils/views.py:212 weblate/utils/views.py:241
 msgid "Position and priority"

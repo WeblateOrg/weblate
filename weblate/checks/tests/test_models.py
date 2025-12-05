@@ -54,7 +54,7 @@ class CheckModelTestCase(FixtureTestCase):
             check.get_description(),
             format_html(
                 '<a href="{0}?pos={1}" class="thumbnail img-check">'
-                '<img class="img-responsive" src="{0}?pos={1}" /></a>',
+                '<img class="img-fluid" src="{0}?pos={1}" /></a>',
                 url,
                 0,
             ),
