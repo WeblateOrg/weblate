@@ -235,6 +235,7 @@ def addon_change(change_ids: list[int], **kwargs) -> None:
             for addon in addons
             if (not addon.component or addon.component == change.component)
             and (not addon.project or addon.project == change.project)
+            and addon.addon.check_change_action(change)
         ]
         if change_addons:
             handle_addon_event(
