@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-02 20:30+0100\n"
-"PO-Revision-Date: 2025-12-05 12:00+0000\n"
+"PO-Revision-Date: 2025-12-05 23:39+0000\n"
 "Last-Translator: 大王叫我来巡山 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -3664,7 +3664,7 @@ msgstr "Webhook"
 #: ../../admin/addons.rst:1176
 msgid ""
 "Compliance of the secret length with the specification is now validated."
-msgstr ""
+msgstr "现在验证 secret 长度是符合规范。"
 
 #: ../../admin/addons.rst:1182
 msgid "Webhook secret"
@@ -3672,7 +3672,7 @@ msgstr "Webhook secret"
 
 #: ../../admin/addons.rst:1182
 msgid "The Standard Webhooks secret is a base64 encoded string."
-msgstr ""
+msgstr "标准 Webhooks secret 是 base64 编码的字符串。"
 
 #: ../../admin/addons.rst:1348
 msgid ""
@@ -3713,6 +3713,8 @@ msgid ""
 "bits) and 64 bytes (512 bits). It can be prefixed with ``whsec_`` for easy "
 "identification."
 msgstr ""
+"提供的 ``secret`` 是 base64 编码的字符串，大小在 24 字节 （192 比特）和 64 字"
+"节 （512 比特）之间。前缀可以是 ``whsec_`` 便于识别。"
 
 #: ../../admin/addons.rst:1411
 msgid ""
@@ -5328,6 +5330,8 @@ msgid ""
 "backup repository, for example in the home directory (i.e. ``/home/borg/"
 "backups``)."
 msgstr ""
+"创建 Weblate 可以在主目录（即 ``/home/borg/backups``）远程创建 Borg 备份仓库"
+"的用户可写的目录。"
 
 #: ../../admin/backup.rst:167
 msgid ""
@@ -5341,7 +5345,7 @@ msgstr ""
 msgid ""
 "Once enabled, the backups will be triggered automatically daily. You can "
 "also manually trigger a backup from the Weblate UI."
-msgstr ""
+msgstr "一旦开启，会每天自动触发备份。你也可以手动从 Weblate 用户界面出发备份。"
 
 #: ../../admin/backup.rst:172
 msgid ""
@@ -7167,7 +7171,7 @@ msgstr ""
 
 #: ../../admin/config.rst:461
 msgid "Disables the contact form entirely."
-msgstr ""
+msgstr "彻底停用联系表单。"
 
 #: ../../admin/config.rst:475
 msgid ""
@@ -8411,13 +8415,13 @@ msgstr ""
 msgid ""
 "A set of hosts to allow when configuring VCS URL. Defaults to an empty set "
 "what does no filtering at all."
-msgstr ""
+msgstr "配置 VCS URL 时要允许的一组主机。完全不筛选时默认为空。"
 
 #: ../../admin/config.rst:2065
 msgid ""
 "A set of hosts to allow when configuring VCS URL. Only ``https`` and ``ssh`` "
 "are allowed by default."
-msgstr ""
+msgstr "配置 VCS URL 时要允许的一组主机。默认只允许 ``https`` and ``ssh``."
 
 #: ../../admin/config.rst:2074
 msgid ""
@@ -13855,13 +13859,15 @@ msgstr "Docker 容器卷"
 msgid ""
 "There are two volumes (:file:`data` and :file:`cache`) exported by the "
 "Weblate container."
-msgstr ""
+msgstr "Weblate 容器导出了两个卷（:file:`data` 和 :file:`cache`）。"
 
 #: ../../admin/install/docker.rst:2080
 msgid ""
 "The other service containers (such as PostgreSQL or Valkey) have their data "
 "volumes as well and are required to maintain Weblate persistence."
 msgstr ""
+"其他服务容器（如 PostgreSQL 或 Valkey）也有它们的数据卷，需要保持 Weblate 持"
+"久性。"
 
 #: ../../admin/install/docker.rst:2083
 msgid ""
@@ -13870,12 +13876,15 @@ msgid ""
 "does not save the data by default and needs additional configuration to "
 "enable persistence."
 msgstr ""
+"PostgreSQL 容器在 :file:`/var/lib/postgresql` 卷中存储数据库，Valkey 容器在 "
+":file:`/data` 卷中存储数据库。Valkey 容器默认不保存数据，需要额外配置来启用持"
+"久性。"
 
 #: ../../admin/install/docker.rst:2088
 msgid ""
 "Base your configuration on Weblate-provided examples or consult their "
 "documentation for more information."
-msgstr ""
+msgstr "以 Weblate 提供的示例作为配置的基础或者查看文档获取更多信息。"
 
 #: ../../admin/install/docker.rst:2091
 msgid ""
@@ -23736,12 +23745,16 @@ msgid ""
 "Batch automatic translation can now be manually triggered at project "
 "language, category or component level, see :ref:`auto-translation`."
 msgstr ""
+"现在可以在项目语言、类别或部件级别手动触发批量自动翻译，见 :ref:`auto-"
+"translation`。"
 
 #: ../../changes.rst:9
 msgid ""
 "Added ability to completely disable the admin contact form by "
 "setting :setting:`CONTACT_FORM` to ``\"disabled\"``."
 msgstr ""
+"新增彻底停用管理员联系表单的能力，方法是将 :setting:`CONTACT_FORM` 设为 "
+"``\"disabled\"``."
 
 #: ../../changes.rst:12 ../../changes.rst:78 ../../changes.rst:105
 #: ../../changes.rst:149 ../../changes.rst:198 ../../changes.rst:227
@@ -23776,7 +23789,7 @@ msgstr ":ref:`mt-modernmt` 更好地支持语言变体。"
 msgid ""
 "Automatically translated strings are now identified by a dedicated flag "
 "instead of a label."
-msgstr ""
+msgstr "现在由专门标记而非标签来标示自动翻译的字符串。"
 
 #: ../../changes.rst:17
 msgid ""
@@ -23791,7 +23804,7 @@ msgstr ":ref:`mt-cyrtranslit` 现支持白俄罗斯语和希腊语。"
 msgid ""
 ":ref:`block-user` now accepts internal notes that are not visible to the "
 "user."
-msgstr ""
+msgstr ":ref:`block-user` 现在接受用户不可见的内部附注。"
 
 #: ../../changes.rst:20
 msgid ""
@@ -23810,12 +23823,16 @@ msgid ""
 "The allowed version control URLs can now be configured "
 "using :setting:`VCS_ALLOW_SCHEMES` and :setting:`VCS_ALLOW_HOSTS`."
 msgstr ""
+"现在可以用 :setting:`VCS_ALLOW_SCHEMES` 和 :setting:`VCS_ALLOW_HOSTS` 配置允"
+"许的版本控制 URL。"
 
 #: ../../changes.rst:23
 msgid ""
 "The API timeout for creating pull requests or forking can now be configured "
 "via :setting:`VCS_API_TIMEOUT`."
 msgstr ""
+"现在可以通过 :setting:`VCS_API_TIMEOUT` 配置创建 pull 请求或 fork 操作的 API "
+"超时时间。"
 
 #: ../../changes.rst:26 ../../changes.rst:58 ../../changes.rst:82
 #: ../../changes.rst:112 ../../changes.rst:166 ../../changes.rst:203
@@ -23849,12 +23866,12 @@ msgstr ":ref:`mt-deepl` 集成现在正确地处理到中文变体的翻译。"
 msgid ""
 ":doc:`/formats/csv` format saving translations with empty source fields when "
 "using monolingual base files."
-msgstr ""
+msgstr "使用单语言 base 文件时 :doc:`/formats/csv` 格式保存带空白源字段的译文。"
 
 #: ../../changes.rst:29
 msgid ""
 "Tighter validation of user and full names to avoid confusing homoglyphs."
-msgstr ""
+msgstr "更严格地验证用户和全名避免令人困惑的同形异义字符。"
 
 #: ../../changes.rst:30
 msgid "Avoid false positive checks upon committing pending changes."
@@ -23877,6 +23894,10 @@ msgid ""
 "``LOGIN_REQUIRED_URLS_EXCEPTIONS`` no longer supported, including their "
 "Docker environment variable counterparts."
 msgstr ""
+"用 Django 5.1 的 ``LoginRequiredMiddleware`` 替换了自定义的 "
+"``RequireLoginMiddleware``. 这使得 ``LOGIN_REQUIRED_URLS`` 和 "
+"``LOGIN_REQUIRED_URLS_EXCEPTIONS`` 不再被支持，包括它们的 Docker 环境变量对应"
+"物。"
 
 #: ../../changes.rst:35
 msgid ""
@@ -23901,7 +23922,7 @@ msgstr "取消支持 Web Monetization."
 #: ../../changes.rst:39
 msgid ""
 ":doc:`/formats/laravel` no longer includes ``return`` prefix in the keys."
-msgstr ""
+msgstr ":doc:`/formats/laravel` 在 key 中不再包括 ``return`` 前缀。"
 
 #: ../../changes.rst:40 ../../changes.rst:335
 msgid ""
@@ -24116,7 +24137,7 @@ msgstr "*发布于 2025 年 11 月 5 日。*"
 msgid ""
 "String context are now tracked in changes histoy and displayed when "
 "available."
-msgstr ""
+msgstr "现在在更改历史中追踪字符串上下文并在可用时展示。"
 
 #: ../../changes.rst:106
 msgid "Document using Valkey in :ref:`celery` and :ref:`production-cache`."
@@ -24140,10 +24161,12 @@ msgid ""
 "Avoid storing inviting user information in the invited user audit log "
 "(:cve:`2025-64326` / :ghsa:`gr35-vpx2-qxhc`)."
 msgstr ""
+"避免在受邀用户审计日志中存储邀请用户信息（:cve:`2025-64326`/:ghsa:`gr35-vpx2-"
+"qxhc`）。"
 
 #: ../../changes.rst:114
 msgid "Omit admin IP address from audit log."
-msgstr ""
+msgstr "在审计日志中略去管理员 IP 地址。"
 
 #: ../../changes.rst:115
 msgid "Counting outgoing commits in the repository status."
@@ -43289,7 +43312,7 @@ msgstr "Laravel PHP 本地化文件也支持复数："
 msgid ""
 "The translation keys no longer include PHP structure and only contain the "
 "actual key."
-msgstr ""
+msgstr "翻译键不再包括 PHP 结构，只包含实际的键。"
 
 #: ../../formats/laravel.rst:20
 msgid "`Localization in Laravel`_"
@@ -51165,6 +51188,8 @@ msgid ""
 "A similar operation :guilabel:`Batch automatic translation` is available if "
 "you have selected a project language, a component or a category."
 msgstr ""
+"如果已经选择项目语言、部件或分类，有相似的操作 :guilabel:`Batch automatic "
+"translation` 可用。"
 
 #: ../../user/translating.rst:372
 msgid "Two modes of operation are possible:"
