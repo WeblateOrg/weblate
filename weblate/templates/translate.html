@@ -224,7 +224,10 @@
                         {% endif %}
                         {% if user_can_add_unit %}
                           <li>
-                            <a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#add-unit-form">{% translate "Add variant of this string" %}</a>
+                            <a class="dropdown-item"
+                               href="#"
+                               data-bs-toggle="modal"
+                               data-bs-target="#add-unit-form">{% translate "Add variant of this string" %}</a>
                           </li>
                         {% endif %}
                         {% if user_can_translate and unit.translation.component.is_multivalue %}
