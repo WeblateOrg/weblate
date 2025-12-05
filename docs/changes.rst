@@ -9,7 +9,7 @@ Weblate 5.15
 * Added ability to completely disable the admin contact form by setting :setting:`CONTACT_FORM` to ``"disabled"``.
 * Added new Ollama machinery tool for local Ollama AI model integration, see :ref:`mt-ollama`.
 * Added :http:get:`/api/units/(int:id)/comments/` to get a list of comments for the given translation unit.
-* Added :http:get:`api/projects/(string:project)/(string:language)/file/` to download all compoenent translations of a project for a specified language. 
+* Added :http:get:`api/projects/(string:project)/(string:language)/file/` to download a ZIP file of all compoenent translations of a project for a specified language. 
 
 .. rubric:: Improvements
 
