@@ -14,13 +14,14 @@
 # Taiki Ohno <46061787+hntk03@users.noreply.github.com>, 2025.
 # Eisuke Kawashima <e.kawaschima+weblate@gmail.com>, 2025.
 # GitHub webhook <noreply-webhook-github@weblate.org>, 2025.
+# Mikenu Takeru <mikenu-jp@users.noreply.hosted.weblate.org>, 2025.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-02 19:29+0000\n"
-"PO-Revision-Date: 2025-12-03 20:02+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"PO-Revision-Date: 2025-12-05 23:39+0000\n"
+"Last-Translator: Mikenu Takeru <mikenu-jp@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
 "Language: ja\n"
@@ -1819,7 +1820,7 @@ msgstr "ウェブフック"
 
 #: weblate/addons/forms.py:606
 msgid "The Standard Webhooks secret is a base64 encoded string."
-msgstr ""
+msgstr "標準の Webhooks シークレットは、Base64でエンコードされた文字列です。"
 
 #: weblate/addons/generate.py:38
 msgid "Statistics generator"
@@ -2124,7 +2125,7 @@ msgstr "ロックを取得できなかったため、操作を実行できませ
 
 #: weblate/api/views.py:175
 msgid "Specified unit id is not a translation source unit."
-msgstr ""
+msgstr "指定されたユニットIDは、翻訳元のユニットではありません。"
 
 #: weblate/api/views.py:186
 #, python-format
@@ -2906,7 +2907,7 @@ msgstr "有効期限"
 
 #: weblate/auth/models.py:494
 msgid "The account will be disabled after the expiry."
-msgstr ""
+msgstr "有効期限が切れると、アカウントは無効化されます。"
 
 #: weblate/auth/models.py:501 weblate/templates/accounts/profile.html:34
 #: weblate/templates/accounts/user.html:194 weblate/templates/auth/team.html:50
@@ -2955,7 +2956,7 @@ msgstr "ユーザーのブロック"
 #: weblate/auth/models.py:1023 weblate/trans/forms.py:1364
 msgid ""
 "Internal notes regarding blocking the user that are not visible to the user."
-msgstr ""
+msgstr "ユーザーのブロックに関する内部メモ（ユーザーには表示されません）。"
 
 #: weblate/auth/models.py:1211 weblate/trans/forms.py:1325
 msgid "User to add"
@@ -3121,6 +3122,8 @@ msgid ""
 "This invitation can be accepted only by the e-mail address chosen by the "
 "inviter; it can't be used by your account."
 msgstr ""
+"この招待は、招待者が選択したメールアドレスでのみ承諾可能です。現在の"
+"アカウントでは利用できません。"
 
 #: weblate/auth/views.py:213
 msgid "User invitation was removed."
@@ -3335,6 +3338,8 @@ msgid ""
 "Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ "
 "instead of ε)."
 msgstr ""
+"標準化されたラテン・カビル文字を使用してください（例: ギリシャ文字の γ の代わ"
+"りに ɣ、ε の代わりに ɛ）。"
 
 #: weblate/checks/chars.py:144
 msgid "Trailing space"
@@ -4174,7 +4179,7 @@ msgstr "Automatticコンポーネント"
 
 #: weblate/checks/format.py:829
 msgid "The Automattic components' placeholders do not match the source."
-msgstr "Automattic コンポーネントのプレースホルダーが原文と不一致"
+msgstr "Automattic コンポーネントのプレースホルダーが原文と不一致。"
 
 #: weblate/checks/format.py:847
 msgid "Multiple unnamed variables"
@@ -4570,6 +4575,8 @@ msgid ""
 "The uploaded font must match the existing family and style: “%(family)s "
 "%(style)s”"
 msgstr ""
+"アップロードするフォントは、既存のファミリーとスタイル”%(family)s %(style)s”"
+"に一致する必要があります"
 
 #: weblate/fonts/views.py:149
 msgid "The uploaded font file is identical to the current one."
@@ -4790,7 +4797,7 @@ msgstr "モバイル Kotlin リソース"
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1536
 msgid "Compose Multiplatform Resource"
-msgstr ""
+msgstr "Compose Multiplatform リソース"
 
 #: weblate/formats/ttkit.py:1550
 #, python-format
@@ -4935,7 +4942,7 @@ msgstr "@draggable/i18n lang ファイル"
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2275
 msgid "Haiku catkeys"
-msgstr ""
+msgstr "Haikuのcatkeys"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2295
@@ -5661,11 +5668,11 @@ msgstr "翻訳の正確性を高めるために、翻訳の文脈を記述しま
 #: weblate/machinery/forms.py:345
 msgctxt "Automatic suggestion service configuration"
 msgid "Use next-gen model"
-msgstr ""
+msgstr "次世代モデルを使用"
 
 #: weblate/machinery/forms.py:348
 msgid "Prefer next-gen LLM over classic machine translation model."
-msgstr ""
+msgstr "従来の機械翻訳モデルよりも、次世代 LLM を優先する。"
 
 #: weblate/machinery/forms.py:358
 msgctxt "Automatic suggestion service configuration"
@@ -5767,7 +5774,7 @@ msgstr "コンポーネントの原文の言語"
 #: weblate/machinery/types.py:29
 msgctxt "Source language selection"
 msgid "Secondary language defined in project or component"
-msgstr ""
+msgstr "プロジェクトまたはコンポーネントで設定された第二言語"
 
 #: weblate/machinery/views.py:410
 msgid "Service is currently not available."
@@ -5957,21 +5964,23 @@ msgstr "%s の翻訳は今はありませんが、追加できます。"
 
 #: weblate/screenshots/forms.py:33
 msgid "You need to provide either image file or image URL."
-msgstr ""
+msgstr "画像ファイルまたは画像のURLを指定する必要があります。"
 
 #: weblate/screenshots/forms.py:53
 msgid "Image URL domain is not allowed."
-msgstr ""
+msgstr "画像のURLのドメインは許可されていません。"
 
 #: weblate/screenshots/forms.py:61
 #, python-format
 msgid ""
 "Unable to download image from the provided URL (HTTP status code: %(code)s)."
 msgstr ""
+"指定されたURLから画像をダウンロードできませんでした (HTTPステータスコード: %"
+"(code)s)。"
 
 #: weblate/screenshots/forms.py:79
 msgid "Image is too big."
-msgstr ""
+msgstr "画像が大きすぎます。"
 
 #: weblate/screenshots/forms.py:85 weblate/utils/validators.py:130
 #, python-format
@@ -5980,7 +5989,7 @@ msgstr "未対応の画像形式: %s"
 
 #: weblate/screenshots/forms.py:93
 msgid "Unable to download image from the provided URL."
-msgstr ""
+msgstr "指定されたURLから画像をダウンロードできませんでした。"
 
 #: weblate/screenshots/forms.py:120 weblate/screenshots/forms.py:147
 #: weblate/templates/widgets.html:64
@@ -5989,7 +5998,7 @@ msgstr "画像 URL"
 
 #: weblate/screenshots/forms.py:121 weblate/screenshots/forms.py:148
 msgid "The image will be downloaded and stored."
-msgstr ""
+msgstr "画像はダウンロードされ、保存されます。"
 
 #: weblate/screenshots/models.py:58
 #: weblate/templates/screenshots/screenshot_list.html:47
@@ -6030,10 +6039,8 @@ msgid "Screenshot %s has been deleted."
 msgstr "スクリーンショット %s を削除しました。"
 
 #: weblate/screenshots/views.py:328
-#, fuzzy
-#| msgid "Invalid date!"
 msgid "Invalid unit."
-msgstr "日付が正しくありません！"
+msgstr "単位が正しくありません。"
 
 #: weblate/screenshots/views.py:333
 msgid "Source has been removed."
@@ -7022,13 +7029,13 @@ msgstr "認証プロバイダに転送します。"
 
 #: weblate/templates/accounts/register-password.html:4
 msgid "Registration without a password:"
-msgstr ""
+msgstr "パスワードなしでの登録:"
 
 #: weblate/templates/accounts/register-password.html:5
 msgid ""
 "You can set your password later by clicking on the link in the verification "
 "email."
-msgstr ""
+msgstr "認証メール内のリンクをクリックすると、後でパスワードを設定できます。"
 
 #: weblate/templates/accounts/register.html:20
 msgid "Please complete the registration to accept the invitation."
@@ -9152,12 +9159,10 @@ msgid "Repository status"
 msgstr "リポジトリの状態"
 
 #: weblate/templates/js/git-status.html:28
-#, fuzzy, python-format
-#| msgid "%(count)s pending change"
-#| msgid_plural "%(count)s pending changes"
+#, python-format
 msgid "%(total_count)s pending unit"
 msgid_plural "%(total_count)s pending units"
-msgstr[0] "%(count)s 個の保留中の変更"
+msgstr[0] "%(total_count)s 個の保留中の変更"
 
 #: weblate/templates/js/git-status.html:34
 #, python-format
@@ -10944,10 +10949,9 @@ msgid "Add label"
 msgstr "ラベルの追加"
 
 #: weblate/templates/project.html:167
-#, fuzzy, python-format
-#| msgid "Manage teams"
+#, python-format
 msgid "Manage %(team)s"
-msgstr "チームの管理"
+msgstr "%(team)sの管理"
 
 #: weblate/templates/project.html:379
 msgid "Organize project"
@@ -13339,10 +13343,9 @@ msgid "Automatically translated"
 msgstr "自動翻訳された文字列"
 
 #: weblate/templates/translate.html:720
-#, fuzzy, python-format
-#| msgid "This string has been translated in the past."
+#, python-format
 msgid "This string was translated automatically by %(author)s."
-msgstr "過去に翻訳済みのもの。"
+msgstr "この文字列は %(author)s により自動翻訳されました。"
 
 #: weblate/templates/translate.html:742
 #, python-format
@@ -16750,10 +16753,9 @@ msgid "File format parameters must be a dictionary of key-value pairs."
 msgstr ""
 
 #: weblate/trans/validators.py:84
-#, fuzzy, python-format
-#| msgid "File format"
+#, python-format
 msgid "Unknown file format parameter: \"%(param_name)s\"."
-msgstr "ファイル形式"
+msgstr "不明なファイル形式パラメーター: \"%(param_name)s\"。"
 
 #: weblate/trans/views/about.py:22
 msgid "Keys"
