@@ -123,16 +123,33 @@ def generate_component_name(file_path: str, remove_extension: bool = True) -> st
 
 
 def generate_component_slug(file_path: str, remove_extension: bool = True) -> str:
-    """Generate a component slug from file path."""
-    # Get the filename without directory
+    """Generate a component slug from file path.
+    
+    Includes directory path to ensure uniqueness when files with the same
+    name exist in different directories.
+    """
+    # Get directory and filename
+    directory = os.path.dirname(file_path)
     filename = os.path.basename(file_path)
     
     # Remove extension if requested
     if remove_extension:
         filename = os.path.splitext(filename)[0]
     
+    # Build slug from path components
+    if directory:
+        # Include directory path in slug for uniqueness
+        # Normalize path separators and join with filename
+        path_parts = directory.split(os.sep)
+        # Filter out empty parts and normalize
+        path_parts = [p for p in path_parts if p]
+        # Combine path parts with filename
+        full_name = '-'.join(path_parts + [filename])
+    else:
+        full_name = filename
+    
     # Convert to lowercase and replace spaces/underscores with hyphens
-    slug = filename.lower()
+    slug = full_name.lower()
     slug = re.sub(r'[_\s]+', '-', slug)
     slug = re.sub(r'[^a-z0-9-]', '', slug)
     
@@ -590,6 +607,7 @@ def main() -> int:
     # Generate component configurations
     generated_count = 0
     generated_files = []  # Track generated files for --create-components
+    seen_slugs = {}  # Track component slugs to detect duplicates
     
     for file_path in files:
         print(f"\n[INFO] Processing: {file_path}")
@@ -605,6 +623,23 @@ def main() -> int:
         )
         
         component_slug = component_config['component']['slug']
+        
+        # Check for duplicate slugs
+        if component_slug in seen_slugs:
+            print(f"[WARNING] Duplicate component slug '{component_slug}' detected!")
+            print(f"  First file: {seen_slugs[component_slug]}")
+            print(f"  Current file: {file_path}")
+            print(f"  This will cause conflicts when creating components.")
+            # Append a counter to make it unique
+            counter = 2
+            original_slug = component_slug
+            while component_slug in seen_slugs:
+                component_slug = f"{original_slug}-{counter}"
+                counter += 1
+            print(f"  Using unique slug: {component_slug}")
+            component_config['component']['slug'] = component_slug
+        
+        seen_slugs[component_slug] = file_path
         
         if args.dry_run:
             print(f"[DRY-RUN] Would create: setup_{component_slug}.json")
