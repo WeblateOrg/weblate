@@ -60,7 +60,7 @@ test = [
   "standardwebhooks==1.0.0"
 ]
 types = [
-  "boto3-stubs==1.42.2",
+  "boto3-stubs==1.42.4",
   "celery-types==0.23.0",
   "django-stubs-ext==5.2.8",
   "django-stubs[compatible-mypy]==5.2.8",
@@ -135,6 +135,7 @@ dependencies = [
   "docutils>=0.21.2,<0.23",
   "drf-spectacular[sidecar]>=0.28.0,<0.30",
   "drf-standardized-errors[openapi]>=0.14.1,<0.16",
+  "fedora-messaging>=3.9.0,<4.0",
   "filelock<4,>=3.18.0",
   "fluent.syntax>=0.19.0,<0.20",
   "GitPython>=3.1.43,<3.2",
@@ -167,9 +168,10 @@ dependencies = [
   "social-auth-app-django>=5.5.1,<6.0.0",
   "social-auth-core>=4.7.0,<5.0.0",
   "tesserocr>=2.8.0,<2.10.0",
-  "translate-toolkit[toml]>=3.17.2,<3.18",
+  "translate-toolkit[toml]>=3.17.4,<3.18",
   "translation-finder>=2.22,<3.0",
   "unidecode>=1.4.0,<1.5",
+  "urllib3[brotli,zstd]>=2.6.0,<3.0",
   "user-agents>=2.2.0,<2.3",
   "weblate-language-data>=2025.9",
   "weblate-schemas==2025.6"
@@ -389,7 +391,9 @@ module = [
   "aliyunsdkalimt.*",
   "aliyunsdkcore.*",
   "appconf.*",
+  "askalono.*",
   "borg.*",
+  "confusable_homoglyphs.*",
   "crispy_forms.*",
   "cyrtranslit.*",
   "debug_toolbar.*",

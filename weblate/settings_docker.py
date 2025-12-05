@@ -939,6 +939,11 @@ LOGGING: dict = {
             "handlers": [*DEFAULT_LOG],
             "level": DEFAULT_LOGLEVEL,
         },
+        # Fedora messaging
+        "fedora_messaging": {
+            "handlers": [*DEFAULT_LOG],
+            "level": DEFAULT_LOGLEVEL,
+        },
     },
 }
 
@@ -1211,6 +1216,7 @@ WEBLATE_ADDONS = [
     "weblate.addons.cdn.CDNJSAddon",
     "weblate.addons.webhooks.WebhookAddon",
     "weblate.addons.webhooks.SlackWebhookAddon",
+    "weblate.addons.fedora_messaging.FedoraMessagingAddon",
 ]
 modify_env_list(WEBLATE_ADDONS, "ADDONS")
 

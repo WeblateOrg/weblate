@@ -585,6 +585,11 @@ LOGGING: dict = {
             "handlers": [*DEFAULT_LOG],
             "level": DEFAULT_LOGLEVEL,
         },
+        # Fedora messaging
+        "fedora_messaging": {
+            "handlers": [*DEFAULT_LOG],
+            "level": DEFAULT_LOGLEVEL,
+        },
     },
 }
 
@@ -826,6 +831,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 #     "weblate.addons.cdn.CDNJSAddon",
 #     "weblate.addons.webhooks.WebhookAddon",
 #     "weblate.addons.webhooks.SlackWebhookAddon",
+#     "weblate.addons.fedora_messaging.FedoraMessagingAddon",
 # )
 
 # E-mail address that error messages come from.

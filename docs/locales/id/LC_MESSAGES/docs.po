@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-02 20:30+0100\n"
-"PO-Revision-Date: 2025-11-05 07:58+0000\n"
-"Last-Translator: Nataniel Dika Kurniawan <hikawaart2@gmail.com>\n"
+"PO-Revision-Date: 2025-12-05 12:00+0000\n"
+"Last-Translator: Arif Budiman <arifpedia@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "documentation/id/>\n"
 "Language: id\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.14.1-dev\n"
+"X-Generator: Weblate 5.15-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:215
@@ -3851,17 +3851,15 @@ msgstr "Webhook"
 #: ../../admin/addons.rst:1176
 msgid ""
 "Compliance of the secret length with the specification is now validated."
-msgstr ""
+msgstr "Kesesuaian panjang rahasia dengan spesifikasi kini telah divalidasi."
 
 #: ../../admin/addons.rst:1182
-#, fuzzy
-#| msgid "Webhook"
 msgid "Webhook secret"
-msgstr "Webhook"
+msgstr "Rahasia Webhook"
 
 #: ../../admin/addons.rst:1182
 msgid "The Standard Webhooks secret is a base64 encoded string."
-msgstr ""
+msgstr "Rahasia webhook standar adalah string yang dikodekan dalam base64."
 
 #: ../../admin/addons.rst:1348
 msgid ""
@@ -3905,6 +3903,9 @@ msgid ""
 "bits) and 64 bytes (512 bits). It can be prefixed with ``whsec_`` for easy "
 "identification."
 msgstr ""
+"``secret`` yang diberikan adalah string yang dikodekan dalam base64 antara "
+"24 byte (192 bit) dan 64 byte (512 bit). Dapat diawali dengan ``whsec_`` "
+"untuk memudahkan identifikasi."
 
 #: ../../admin/addons.rst:1411
 msgid ""
@@ -5706,6 +5707,9 @@ msgid ""
 "backup repository, for example in the home directory (i.e. ``/home/borg/"
 "backups``)."
 msgstr ""
+"Buat direktori yang dapat ditulis oleh pengguna tempat Weblate dapat "
+"menyiapkan repositori cadangan Borg dari jarak jauh, misalnya di direktori "
+"rumah (``/home/borg/backups``)."
 
 #: ../../admin/backup.rst:167
 #, fuzzy
@@ -5724,6 +5728,8 @@ msgid ""
 "Once enabled, the backups will be triggered automatically daily. You can "
 "also manually trigger a backup from the Weblate UI."
 msgstr ""
+"Setelah diaktifkan, pencadangan akan dijalankan secara otomatis setiap hari. "
+"Anda juga dapat memicu pencadangan secara manual dari antarmuka Weblate."
 
 #: ../../admin/backup.rst:172
 msgid ""
@@ -7738,7 +7744,7 @@ msgstr ""
 
 #: ../../admin/config.rst:461
 msgid "Disables the contact form entirely."
-msgstr ""
+msgstr "Menonaktifkan formulir kontak sepenuhnya."
 
 #: ../../admin/config.rst:475
 msgid ""
@@ -9125,12 +9131,16 @@ msgid ""
 "A set of hosts to allow when configuring VCS URL. Defaults to an empty set "
 "what does no filtering at all."
 msgstr ""
+"Sekumpulan host yang diizinkan saat mengonfigurasi URL VCS. Standarnya "
+"adalah himpunan kosong yang tidak melakukan penyaringan apa pun."
 
 #: ../../admin/config.rst:2065
 msgid ""
 "A set of hosts to allow when configuring VCS URL. Only ``https`` and ``ssh`` "
 "are allowed by default."
 msgstr ""
+"Sekumpulan host yang diizinkan saat mengonfigurasi URL VCS. Hanya ``https`` "
+"dan ``ssh`` yang diizinkan secara default."
 
 #: ../../admin/config.rst:2074
 msgid ""
@@ -15131,12 +15141,16 @@ msgid ""
 "There are two volumes (:file:`data` and :file:`cache`) exported by the "
 "Weblate container."
 msgstr ""
+"Ada dua volume (:file:`data` dan :file:`cache`) yang diekspor oleh kontainer "
+"Weblate."
 
 #: ../../admin/install/docker.rst:2080
 msgid ""
 "The other service containers (such as PostgreSQL or Valkey) have their data "
 "volumes as well and are required to maintain Weblate persistence."
 msgstr ""
+"Kontainer layanan lain (seperti PostgreSQL atau Valkey) juga memiliki volume "
+"datanya masing-masing dan diperlukan untuk menjaga persistensi Weblate."
 
 #: ../../admin/install/docker.rst:2083
 msgid ""
@@ -15145,12 +15159,18 @@ msgid ""
 "does not save the data by default and needs additional configuration to "
 "enable persistence."
 msgstr ""
+"Kontainer PostgreSQL menyimpan basis data di volume :file:`/var/lib/"
+"postgresql` dan Valkey di volume :file:`/data`. Kontainer Valkey tidak "
+"menyimpan data secara default dan memerlukan konfigurasi tambahan untuk "
+"mengaktifkan persistensi."
 
 #: ../../admin/install/docker.rst:2088
 msgid ""
 "Base your configuration on Weblate-provided examples or consult their "
 "documentation for more information."
 msgstr ""
+"Dasarkan konfigurasi Anda pada contoh yang disediakan oleh Weblate atau "
+"lihat dokumentasinya untuk informasi lebih lanjut."
 
 #: ../../admin/install/docker.rst:2091
 msgid ""
@@ -25884,12 +25904,16 @@ msgid ""
 "Batch automatic translation can now be manually triggered at project "
 "language, category or component level, see :ref:`auto-translation`."
 msgstr ""
+"Terjemahan otomatis batch kini dapat dipicu secara manual di tingkat bahasa "
+"proyek, kategori, atau komponen, lihat :ref:`auto-translation`."
 
 #: ../../changes.rst:9
 msgid ""
 "Added ability to completely disable the admin contact form by "
 "setting :setting:`CONTACT_FORM` to ``\"disabled\"``."
 msgstr ""
+"Menambahkan kemampuan untuk sepenuhnya menonaktifkan formulir kontak admin "
+"dengan menetapkan :setting:`CONTACT_FORM` ke ``\"disabled\"``."
 
 #: ../../changes.rst:12 ../../changes.rst:78 ../../changes.rst:105
 #: ../../changes.rst:149 ../../changes.rst:198 ../../changes.rst:227
@@ -25931,6 +25955,8 @@ msgid ""
 "Automatically translated strings are now identified by a dedicated flag "
 "instead of a label."
 msgstr ""
+"String yang diterjemahkan secara otomatis kini diidentifikasi oleh penanda "
+"khusus alih-alih label."
 
 #: ../../changes.rst:17
 #, fuzzy
@@ -25957,6 +25983,8 @@ msgid ""
 ":ref:`block-user` now accepts internal notes that are not visible to the "
 "user."
 msgstr ""
+":ref:`block-user` kini menerima catatan internal yang tidak terlihat oleh "
+"pengguna."
 
 #: ../../changes.rst:20
 #, fuzzy
@@ -25978,12 +26006,16 @@ msgid ""
 "The allowed version control URLs can now be configured "
 "using :setting:`VCS_ALLOW_SCHEMES` and :setting:`VCS_ALLOW_HOSTS`."
 msgstr ""
+"URL kontrol versi yang diizinkan kini dapat dikonfigurasi menggunakan "
+":setting:`VCS_ALLOW_SCHEMES` dan :setting:`VCS_ALLOW_HOSTS`."
 
 #: ../../changes.rst:23
 msgid ""
 "The API timeout for creating pull requests or forking can now be configured "
 "via :setting:`VCS_API_TIMEOUT`."
 msgstr ""
+"Batas waktu API untuk membuat pull request atau fork kini dapat "
+"dikonfigurasi melalui :setting:`VCS_API_TIMEOUT`."
 
 #: ../../changes.rst:26 ../../changes.rst:58 ../../changes.rst:82
 #: ../../changes.rst:112 ../../changes.rst:166 ../../changes.rst:203
@@ -26024,11 +26056,15 @@ msgid ""
 ":doc:`/formats/csv` format saving translations with empty source fields when "
 "using monolingual base files."
 msgstr ""
+"Format :doc:`/formats/csv` menyimpan terjemahan dengan kolom sumber kosong "
+"saat menggunakan berkas dasar monolingual."
 
 #: ../../changes.rst:29
 msgid ""
 "Tighter validation of user and full names to avoid confusing homoglyphs."
 msgstr ""
+"Validasi yang lebih ketat pada nama pengguna dan nama lengkap untuk "
+"menghindari karakter mirip (homoglyph) yang membingungkan."
 
 #: ../../changes.rst:30
 #, fuzzy
@@ -26055,6 +26091,10 @@ msgid ""
 "``LOGIN_REQUIRED_URLS_EXCEPTIONS`` no longer supported, including their "
 "Docker environment variable counterparts."
 msgstr ""
+"Middleware kustom ``RequireLoginMiddleware`` diganti dengan "
+"``LoginRequiredMiddleware`` milik Django 5.1. Hal ini membuat pengaturan "
+"``LOGIN_REQUIRED_URLS`` dan ``LOGIN_REQUIRED_URLS_EXCEPTIONS`` tidak lagi "
+"didukung, termasuk padanannya dalam variabel lingkungan Docker."
 
 #: ../../changes.rst:35
 #, fuzzy
@@ -26087,6 +26127,7 @@ msgstr "Menambahkan dukungan untuk monetisasi web."
 msgid ""
 ":doc:`/formats/laravel` no longer includes ``return`` prefix in the keys."
 msgstr ""
+":doc:`/formats/laravel` tidak lagi menyertakan awalan ``return`` pada kunci."
 
 #: ../../changes.rst:40 ../../changes.rst:335
 msgid ""
@@ -26333,6 +26374,8 @@ msgid ""
 "String context are now tracked in changes histoy and displayed when "
 "available."
 msgstr ""
+"Konteks string kini dilacak dalam riwayat perubahan dan ditampilkan bila "
+"tersedia."
 
 #: ../../changes.rst:106
 msgid "Document using Valkey in :ref:`celery` and :ref:`production-cache`."
@@ -26360,10 +26403,12 @@ msgid ""
 "Avoid storing inviting user information in the invited user audit log "
 "(:cve:`2025-64326` / :ghsa:`gr35-vpx2-qxhc`)."
 msgstr ""
+"Menghindari penyimpanan informasi pengguna pengundang di log audit pengguna "
+"yang diundang (:cve:`2025-64326` / :ghsa:`gr35-vpx2-qxhc`)."
 
 #: ../../changes.rst:114
 msgid "Omit admin IP address from audit log."
-msgstr ""
+msgstr "Menghapus alamat IP admin dari log audit."
 
 #: ../../changes.rst:115
 msgid "Counting outgoing commits in the repository status."
@@ -47266,6 +47311,8 @@ msgid ""
 "The translation keys no longer include PHP structure and only contain the "
 "actual key."
 msgstr ""
+"Kunci terjemahan kini tidak lagi menyertakan struktur PHP dan hanya berisi "
+"kunci sebenarnya."
 
 #: ../../formats/laravel.rst:20
 msgid "`Localization in Laravel`_"
@@ -55933,6 +55980,8 @@ msgid ""
 "A similar operation :guilabel:`Batch automatic translation` is available if "
 "you have selected a project language, a component or a category."
 msgstr ""
+"Operasi serupa :guilabel:`Terjemahan otomatis batch` tersedia jika Anda "
+"memilih bahasa proyek, komponen, atau kategori."
 
 #: ../../user/translating.rst:372
 msgid "Two modes of operation are possible:"

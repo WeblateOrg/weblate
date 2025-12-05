@@ -23,6 +23,8 @@ Weblate currently supports several variants of JSON translations:
 * :ref:`gotext-json`
 * :ref:`webex`
 * :ref:`arb`
+* :doc:`/formats/resjson`
+* :doc:`/formats/nextcloud-json`
 
 JSON translations are usually monolingual, so it is recommended to specify a base
 file with (what is most often the) English strings.

@@ -29,7 +29,7 @@
       <h2>{% include "accounts/snippets/login-title.html" %}</h2>
       <div class="row">
 
-        <div class="col-sm-6 col-sm-push-6">
+        <div class="col-sm-6 order-sm-2">
 
           <h4>
             {% format_site_title as formatted_site_title %}
@@ -53,22 +53,25 @@
               {% if registration_backends %}
 
                 <h5 class="login-label">{% translate "Create an account using:" %}</h5>
-
-                {% for name in registration_backends %}
-                  <div class="col-sm-6 col-xs-12 btn-auth">
-                    <a href=""
-                       class="btn btn-outline-primary link-post"
-                       data-href="{% url 'social:begin' name %}"
-                       {% if next %}data-params='{"next": "{{ next|escapejs }}"}'{% endif %}>{% auth_name name " " %}</a>
+                <div class="container-fluid">
+                  <div class="row row-cols-md-2 row-cols-1">
+                    {% for name in registration_backends %}
+                      <div class="col btn-auth">
+                        <a href=""
+                           class="btn btn-outline-primary link-post"
+                           data-href="{% url 'social:begin' name %}"
+                           {% if next %}data-params='{"next": "{{ next|escapejs }}"}'{% endif %}>{% auth_name name " " %}</a>
+                      </div>
+                    {% endfor %}
                   </div>
-                {% endfor %}
+                </div>
 
               {% endif %}
             </div>
           </div>
         </div>
 
-        <div class="col-sm-6 col-sm-pull-6">{% include "accounts/snippets/login-info.html" %}</div>
+        <div class="col-sm-6 order-sm-1">{% include "accounts/snippets/login-info.html" %}</div>
 
       </div>
 

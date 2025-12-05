@@ -137,6 +137,8 @@ if TYPE_CHECKING:
     from collections.abc import Iterable
     from datetime import datetime
 
+    from django_stubs_ext import StrOrPromise
+
     from weblate.addons.models import Addon
     from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.checks.base import BaseCheck
@@ -3896,7 +3898,7 @@ class Component(
         return code
 
     @transaction.atomic
-    def add_new_language(  # noqa: C901
+    def add_new_language(
         self,
         language: Language,
         request: AuthenticatedHttpRequest | None,
@@ -3905,9 +3907,13 @@ class Component(
         show_messages: bool = True,
     ) -> Translation | None:
         """Create new language file."""
-        if not self.can_add_new_language(request.user if request else None):
+
+        def fail_message(message: StrOrPromise) -> None:
             if show_messages:
-                messages.error(request, cast("str", self.new_lang_error_message))
+                messages.error(request, message)
+
+        if not self.can_add_new_language(request.user if request else None):
+            fail_message(cast("str", self.new_lang_error_message))
             return None
 
         file_format = self.file_format_cls
@@ -3916,30 +3922,30 @@ class Component(
         code = self.format_new_language_code(language)
 
         # Check if resulting language is not present
-        new_lang = Language.objects.fuzzy_get_strict(code=self.get_language_alias(code))
-        if new_lang is not None:
-            if new_lang == self.source_language:
-                if show_messages:
-                    messages.error(
-                        request,
-                        gettext("The given language is used as a source language."),
-                    )
-                return None
+        mapped_lang = Language.objects.fuzzy_get_strict(
+            code=self.get_language_alias(code)
+        )
+        if mapped_lang is None or mapped_lang != language:
+            fail_message(
+                gettext(
+                    "The given language maps to a different language. Check language aliases settings."
+                )
+            )
+            return None
 
-            if self.translation_set.filter(language=new_lang).exists():
-                if show_messages:
-                    messages.error(
-                        request, gettext("The given language already exists.")
-                    )
-                return None
+        if language == self.source_language:
+            fail_message(gettext("The given language is used as a source language."))
+            return None
+
+        if self.translation_set.filter(language=language).exists():
+            fail_message(gettext("The given language already exists."))
+            return None
 
         # Check if language code is valid
         if re.match(self.language_regex, code) is None:
-            if show_messages:
-                messages.error(
-                    request,
-                    gettext("The given language is filtered by the language filter."),
-                )
+            fail_message(
+                gettext("The given language is filtered by the language filter.")
+            )
             return None
 
         base_filename = self.get_new_base_filename()
@@ -3970,8 +3976,7 @@ class Component(
                 # Ignore request if file exists (possibly race condition as
                 # the processing of new language can take some time and user
                 # can submit again)
-                if show_messages:
-                    messages.error(request, gettext("Translation file already exists!"))
+                fail_message(gettext("Translation file already exists!"))
             else:
                 file_format.add_language(
                     fullname,
