@@ -107,16 +107,33 @@ def find_files_with_extensions(
 
 
 def generate_component_name(file_path: str, remove_extension: bool = True) -> str:
-    """Generate a component name from file path."""
-    # Get the filename without directory
+    """Generate a component name from file path.
+    
+    Includes directory path for better descriptiveness when files with the same
+    name exist in different directories (e.g., "Conversion Overview" vs "DOM Overview").
+    """
+    # Get directory and filename
+    directory = os.path.dirname(file_path)
     filename = os.path.basename(file_path)
     
     # Remove extension if requested
     if remove_extension:
         filename = os.path.splitext(filename)[0]
     
+    # Build name from path components
+    if directory:
+        # Include directory path in name for better descriptiveness
+        # Normalize path separators
+        path_parts = directory.split(os.sep)
+        # Filter out empty parts
+        path_parts = [p for p in path_parts if p]
+        # Combine path parts with filename
+        full_name = ' / '.join(path_parts + [filename])
+    else:
+        full_name = filename
+    
     # Convert to title case and replace underscores/hyphens with spaces
-    name = filename.replace('_', ' ').replace('-', ' ')
+    name = full_name.replace('_', ' ').replace('-', ' ')
     name = ' '.join(word.capitalize() for word in name.split())
     
     return name
@@ -335,14 +352,12 @@ def create_components_from_setup_files(
                     time.sleep(delay_between_components)
             else:
                 print(f"[ERROR] Failed to create component (exit code: {result.returncode})")
+                if result.stdout:
+                    print(f"[ERROR] Output (stdout):")
+                    print(result.stdout)
                 if result.stderr:
-                    # Print first few lines of error
-                    error_lines = result.stderr.strip().split('\n')
-                    print(f"[ERROR] Details:")
-                    for line in error_lines[:5]:
-                        print(f"  {line}")
-                    if len(error_lines) > 5:
-                        print(f"  ... ({len(error_lines) - 5} more lines)")
+                    print(f"[ERROR] Details (stderr):")
+                    print(result.stderr)
 
                 # Retry once after a short backoff (transient lock/timing issues)
                 print(f"[INFO] Retrying once after {delay_between_components}s...")
@@ -360,12 +375,12 @@ def create_components_from_setup_files(
                     success_count += 1
                 else:
                     print(f"[ERROR] Retry failed (exit code: {retry.returncode})")
+                    if retry.stdout:
+                        print(f"[ERROR] Retry Output (stdout):")
+                        print(retry.stdout)
                     if retry.stderr:
-                        retry_err_lines = retry.stderr.strip().split('\n')
-                        for line in retry_err_lines[:5]:
-                            print(f"  {line}")
-                        if len(retry_err_lines) > 5:
-                            print(f"  ... ({len(retry_err_lines) - 5} more lines)")
+                        print(f"[ERROR] Retry Details (stderr):")
+                        print(retry.stderr)
                     results[setup_file] = False
                     failed_count += 1
                     failed_components.append(component_name)
