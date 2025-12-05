@@ -13,6 +13,7 @@ from django import forms
 from django.http import QueryDict
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy
+from fedora_messaging.exceptions import ConfigurationException
 from lxml.cssselect import CSSSelector
 
 from weblate.formats.models import FILE_FORMATS
@@ -28,6 +29,7 @@ from weblate.utils.forms import (
 )
 from weblate.utils.render import validate_render, validate_render_translation
 from weblate.utils.validators import (
+    DomainOrIPValidator,
     validate_filename,
     validate_re,
     validate_webhook_secret_string,
@@ -612,3 +614,81 @@ class WebhooksAddonForm(BaseWebhooksAddonForm):
         "secret",
         "events",
     ]
+
+
+class FedoraMessagingAddonForm(ChangeBaseAddonForm):
+    amqp_host = forms.CharField(
+        label=gettext_lazy("AMQP broker host"),
+        help_text=gettext_lazy("The AMQP broker to connect to."),
+        validators=[DomainOrIPValidator()],
+    )
+    amqp_ssl = forms.BooleanField(
+        label=gettext_lazy("Use SSL for AMQP connection"),
+        required=False,
+    )
+    ca_cert = forms.CharField(
+        widget=forms.Textarea(),
+        label=gettext_lazy("CA certificates"),
+        help_text=gettext_lazy(
+            "Bundle of PEM encoded CA certificates used to validate the certificate presented by the server."
+        ),
+        required=False,
+    )
+    client_key = forms.CharField(
+        widget=forms.Textarea(),
+        label=gettext_lazy("Client SSL key"),
+        help_text=gettext_lazy("PEM encoded client private SSL key."),
+        required=False,
+    )
+
+    client_cert = forms.CharField(
+        widget=forms.Textarea(),
+        label=gettext_lazy("Client SSL certificates"),
+        help_text=gettext_lazy("PEM encoded client SSL certificate."),
+        required=False,
+    )
+
+    def clean(self) -> None:
+        from .fedora_messaging import FedoraMessagingAddon
+
+        amqp_ssl = self.cleaned_data.get("amqp_ssl")
+        if amqp_ssl is not None:
+            if amqp_ssl:
+                if (
+                    not self.cleaned_data.get("ca_cert")
+                    or not self.cleaned_data.get("client_key")
+                    or not self.cleaned_data.get("client_cert")
+                ):
+                    raise forms.ValidationError(
+                        {
+                            "amqp_ssl": gettext(
+                                "The SSL certificates have to be provided for SSL connection."
+                            )
+                        }
+                    )
+
+            elif (
+                self.cleaned_data.get("ca_cert")
+                or self.cleaned_data.get("client_key")
+                or self.cleaned_data.get("client_cert")
+            ):
+                raise forms.ValidationError(
+                    {
+                        "amqp_ssl": gettext(
+                            "The SSL certificates are not used without a SSL connection."
+                        )
+                    }
+                )
+
+        if amqp_host := self.cleaned_data.get("amqp_host"):
+            try:
+                FedoraMessagingAddon.configure_fedora_messaging(
+                    amqp_host=amqp_host,
+                    amqp_ssl=self.cleaned_data.get("amqp_ssl", False),
+                    ca_cert=self.cleaned_data.get("ca_cert"),
+                    client_key=self.cleaned_data.get("client_key"),
+                    client_cert=self.cleaned_data.get("client_cert"),
+                    force_update=True,
+                )
+            except ConfigurationException as error:
+                raise forms.ValidationError(error.message) from error

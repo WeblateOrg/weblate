@@ -302,6 +302,15 @@ class BaseAddon:
             )
         return True
 
+    @classmethod
+    def can_process(
+        cls,
+        *,
+        component: Component | None = None,
+        project: Project | None = None,
+    ) -> bool:
+        return cls.can_install(component=component, project=project)
+
     def pre_push(
         self, component: Component, activity_log_id: int | None = None
     ) -> dict | None:
