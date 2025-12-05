@@ -183,7 +183,7 @@ def get_db_version() -> tuple[str, str, str] | None:
         report_error("MySQL version check")
         return None
     return (
-        f"{connection.display_name} sever",
+        f"{connection.display_name} server",
         "https://mariadb.org/"
         if connection.mysql_is_mariadb  # type: ignore[attr-defined]
         else "https://www.mysql.com/",
