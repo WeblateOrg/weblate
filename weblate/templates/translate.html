@@ -202,12 +202,12 @@
                               id="unit_tools_dropdown">
                         {% translate "Tools" %} <span class="caret"></span>
                       </button>
-                      <ul class="dropdown-menu">
+                      <ul class="dropdown-menu shadow">
                         {% if user_can_delete %}
                           <li>
                             <!-- use this_unit_url as the next unit will become the unit at current offset after deletion -->
                             <a href=""
-                               class="link-post"
+                               class="dropdown-item link-post"
                                data-href="{% url "delete-unit" unit_id=unit.pk %}"
                                data-params='{"next": "{{ this_unit_url|escapejs }}"}'>{% translate "Delete string" %}</a>
                           </li>
@@ -216,7 +216,7 @@
                           {% for action, value, name in flag_actions %}
                             <li>
                               <a href=""
-                                 class="link-post"
+                                 class="dropdown-item link-post"
                                  data-href="{% url 'edit_context' pk=unit.pk %}"
                                  data-params='{"{{ action|escapejs }}": "{{ value|escapejs }}", "next": "{{ this_unit_url|escapejs }}"}'>{{ name }}</a>
                             </li>
@@ -224,12 +224,15 @@
                         {% endif %}
                         {% if user_can_add_unit %}
                           <li>
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#add-unit-form">{% translate "Add variant of this string" %}</a>
+                            <a class="dropdown-item"
+                               href="#"
+                               data-bs-toggle="modal"
+                               data-bs-target="#add-unit-form">{% translate "Add variant of this string" %}</a>
                           </li>
                         {% endif %}
                         {% if user_can_translate and unit.translation.component.is_multivalue %}
                           <li>
-                            <a href="" class="add-alternative-post">{% translate "Add alternative translation" %}</a>
+                            <a class="dropdown-item add-alternative-post" href="">{% translate "Add alternative translation" %}</a>
                           </li>
                         {% endif %}
                       </ul>
