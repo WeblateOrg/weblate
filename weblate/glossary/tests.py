@@ -157,9 +157,7 @@ class GlossaryTest(TransactionsTestMixin, ViewTestCase):
         change_term()
 
         # Import file again with orverwriting
-        response = self.import_file(
-            TEST_TBX, method="translate", conflicts="replace-translated"
-        )
+        self.import_file(TEST_TBX, method="translate", conflicts="replace-translated")
 
         # Check number of imported objects
         self.assertEqual(self.glossary.unit_set.count(), 164)

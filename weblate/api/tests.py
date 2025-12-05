@@ -551,7 +551,7 @@ class GroupAPITest(APIBaseTest):
 
         # user without view permission can't see other group details
         Group.objects.create(name="Test Group")
-        response = self.do_request(
+        self.do_request(
             "api:group-detail",
             kwargs={"id": Group.objects.get(name="Test Group").id},
             method="get",
@@ -1056,7 +1056,7 @@ class GroupAPITest(APIBaseTest):
         self.assertIn("Administration rights granted.", response.data)
 
         # Invalid user ID
-        response = self.do_request(
+        self.do_request(
             "api:group-grant-admin",
             kwargs={"id": group.id},
             method="post",
