@@ -97,7 +97,7 @@ from weblate.utils.html import format_html_join_comma
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
-    STATE_FUZZY,
+    STATE_NEEDS_CHECKING,
     STATE_READONLY,
     STATE_TRANSLATED,
     StringState,
@@ -610,7 +610,7 @@ class TranslationForm(UnitForm):
         ) and self.cleaned_data.get("review"):
             self.cleaned_data["state"] = int(self.cleaned_data["review"])
         elif self.cleaned_data["fuzzy"]:
-            self.cleaned_data["state"] = STATE_FUZZY
+            self.cleaned_data["state"] = STATE_NEEDS_CHECKING
         else:
             self.cleaned_data["state"] = STATE_TRANSLATED
 
