@@ -1330,7 +1330,7 @@ Projects
     :form string configuration: Service configuration in JSON
 
 .. http:get:: /api/projects/(string:project)/(string:language)/file/
-     .. versionchanged:: NEXT
+     .. versionchanged:: 5.15
 
         Added ability to download all components translations in a project for 1 specific language.
 
@@ -1340,7 +1340,7 @@ Projects
 
     :param language: Language code
     :type language: string
-    
+
     :query string format: The archive format to use; If not specified, defaults to ``zip``; Supported formats: ``zip`` and ``zip:CONVERSION`` where ``CONVERSION`` is one of converters listed at :ref:`download`.
 
 
