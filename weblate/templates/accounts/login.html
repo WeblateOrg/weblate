@@ -50,9 +50,9 @@
                   {% for name in login_backends %}
                     <div class="col btn-auth">
                       <a href=""
-                        class="btn btn-outline-primary link-post"
-                        data-href="{% url 'social:begin' name %}"
-                        {% if next %}data-params='{"next": "{{ next|escapejs }}"}'{% endif %}>{% auth_name name " " %}</a>
+                         class="btn btn-outline-primary link-post"
+                         data-href="{% url 'social:begin' name %}"
+                         {% if next %}data-params='{"next": "{{ next|escapejs }}"}'{% endif %}>{% auth_name name " " %}</a>
                     </div>
                   {% endfor %}
                 </div>
