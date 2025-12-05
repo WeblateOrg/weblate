@@ -501,7 +501,6 @@ class CSVSimpleEncoding(BaseFileFormatParam):
     ]
     default = "auto"
     help_text = gettext_lazy("Encoding used for simple CSV files")
-    autoload: tuple[str, ...] = ("*.txt",)
 
 
 @register_file_format_param

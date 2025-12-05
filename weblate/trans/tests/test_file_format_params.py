@@ -458,6 +458,14 @@ class StringsParamsTest(BaseFileFormatsTest):
         self.do_create_with_encoding_test("strings_encoding", "utf-8", success=False)
         self.do_create_with_encoding_test("strings_encoding", "utf-16", success=True)
 
+    def test_new_file_content(self):
+        from weblate.formats.ttkit import StringsFormat
+
+        self.assertNotEqual(
+            StringsFormat.get_new_file_content("utf-8"),
+            StringsFormat.get_new_file_content("utf-16"),
+        )
+
 
 class JavaPropertiesTest(BaseFileFormatsTest):
     def create_component(self):
@@ -479,7 +487,7 @@ class JavaPropertiesTest(BaseFileFormatsTest):
 
 class CSVParamsTest(BaseFileFormatsTest):
     def create_component(self) -> Component:
-        return self.create_csv()
+        return self.create_csv_mono()
 
     def test_encoding_param(self):
         # both "auto" and "utf-8" are valid for the test CSV files
@@ -488,4 +496,7 @@ class CSVParamsTest(BaseFileFormatsTest):
 
 class CSVSimpleParamsTest(BaseFileFormatsTest):
     def create_component(self) -> Component:
-        return self.create_csv_mono()
+        return self.create_csv()
+
+    def test_encoding_param(self):
+        self.do_create_with_encoding_test("csv_simple_encoding", "utf-8", success=True)
