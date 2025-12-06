@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 import os.path
+import re
 from datetime import datetime
 from typing import TYPE_CHECKING, cast
 from urllib.parse import unquote
@@ -1057,7 +1058,7 @@ class ProjectViewSet(
 ):
     """Translation projects API."""
 
-    raw_urls: tuple[str, ...] = "project-file"
+    raw_urls: tuple[str, ...] = ("project-file", "project-language-file")
     raw_formats = ("zip", *(f"zip:{exporter}" for exporter in EXPORTERS))
 
     queryset = Project.objects.none()
@@ -1311,6 +1312,45 @@ class ProjectViewSet(
             [instance],
             requested_format,
             name=instance.slug,
+        )
+
+    @extend_schema(
+        description=(
+            "Download all component translation files in the project for a specific language."
+        ),
+        methods=["get"],
+    )
+    @action(
+        detail=True,
+        methods=["get"],
+        url_path=r"(?P<language_code>[^/.]+)/file",
+    )
+    def language_file(self, request: Request, language_code: str, **kwargs):
+        instance = self.get_object()
+
+        if not request.user.has_perm("translation.download", instance):
+            raise PermissionDenied
+
+        components = instance.component_set.filter_access(request.user)
+        component_filter = request.query_params.get("filter")
+        if component_filter:
+            try:
+                re.compile(component_filter)
+            except re.error as exc:
+                raise ValidationError({"filter": str(exc)}) from exc
+            components = components.filter(slug__regex=component_filter)
+        requested_format = request.query_params.get("format", "zip")
+
+        translations = Translation.objects.filter(
+            language__code=language_code, component__in=components
+        )
+
+        return download_multi(
+            cast("AuthenticatedHttpRequest", request),
+            translations.prefetch(),
+            [instance],
+            requested_format,
+            name=f"{instance.slug}-{language_code}",
         )
 
     @extend_schema(
