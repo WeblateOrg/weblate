@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-06 19:29+0000\n"
-"PO-Revision-Date: 2025-12-03 20:00+0000\n"
+"PO-Revision-Date: 2025-12-07 20:01+0000\n"
 "Last-Translator: Besnik Bleta <besnik@programeshqip.org>\n"
 "Language-Team: Albanian <https://hosted.weblate.org/projects/weblate/"
 "application/sq/>\n"
@@ -1883,44 +1883,43 @@ msgstr ""
 
 #: weblate/addons/forms.py:626
 msgid "Use SSL for AMQP connection"
-msgstr ""
+msgstr "Përdor SSL për lidhje AMQP"
 
 #: weblate/addons/forms.py:631
 msgid "CA certificates"
-msgstr ""
+msgstr "Dëshmi AD"
 
 #: weblate/addons/forms.py:633
 msgid ""
 "Bundle of PEM encoded CA certificates used to validate the certificate "
 "presented by the server."
 msgstr ""
+"Paketë dëshmish AD të koduara si PEM, e përdorur për të vlerësuar dëshminë e "
+"paraqitur nga shërbyesi."
 
 #: weblate/addons/forms.py:639
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Client ID"
 msgid "Client SSL key"
-msgstr "ID klienti"
+msgstr "Kyç SSL klienti"
 
 #: weblate/addons/forms.py:640
 msgid "PEM encoded client private SSL key."
-msgstr ""
+msgstr "Kyç SSL privat klienti, i koduar si PEM."
 
 #: weblate/addons/forms.py:646
 msgid "Client SSL certificates"
-msgstr ""
+msgstr "Dëshmi SSL klienti"
 
 #: weblate/addons/forms.py:647
 msgid "PEM encoded client SSL certificate."
-msgstr ""
+msgstr "Dëshmi SSL klienti e koduar si PEM."
 
 #: weblate/addons/forms.py:665
 msgid "The SSL certificates have to be provided for SSL connection."
-msgstr ""
+msgstr "Për lidhje SSL duhen dhënë dëshmi SSL."
 
 #: weblate/addons/forms.py:678
 msgid "The SSL certificates are not used without a SSL connection."
-msgstr ""
+msgstr "Dëshmitë SSL s’përdoren pa një lidhje SSL."
 
 #: weblate/addons/generate.py:38
 msgid "Statistics generator"
@@ -4877,17 +4876,13 @@ msgstr "XLIFF 1.2 me zgjerime gettext"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1374
-#, fuzzy
-#| msgid "XLIFF 1.2 translation file"
 msgid "XLIFF 2.0 translation file"
-msgstr "Kartelë përkthimi XLIFF 1.2"
+msgstr "Kartelë përkthimi XLIFF 2.0"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1389
-#, fuzzy
-#| msgid "XLIFF 1.2 with placeables support"
 msgid "XLIFF 2.0 translation file with placeables support"
-msgstr "XLIFF 1.2 me mbulim parametrash"
+msgstr "Kartelë përkthimi XLIFF 1.2 me mbulim parametrash"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1419
@@ -5006,31 +5001,23 @@ msgstr "Kartelë JSON Format.JS"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1697
-#, fuzzy
-#| msgid "gotext JSON file"
 msgid "Nextcloud JSON file"
-msgstr "Kartelë JSON gotext"
+msgstr "Kartelë JSON Nextcloud"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1708
-#, fuzzy
-#| msgid "JSON file"
 msgid "RESJSON file"
-msgstr "Kartelë JSON"
+msgstr "Kartelë RESJSON"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1718
-#, fuzzy
-#| msgid "HTML file"
 msgid "TOML file"
-msgstr "Kartelë HTML"
+msgstr "Kartelë TOML"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1738
-#, fuzzy
-#| msgid "go-i18n v1 JSON file"
 msgid "go-i18n TOML file"
-msgstr "Kartelë JSON go-i18n v1"
+msgstr "Kartelë TOML go-i18n"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1748
@@ -5874,7 +5861,7 @@ msgstr ""
 #: weblate/machinery/forms.py:362
 msgctxt "Automatic suggestion service configuration"
 msgid "LLM model"
-msgstr ""
+msgstr "Model LLM"
 
 #: weblate/machinery/forms.py:369
 msgctxt "Automatic suggestion service configuration"
@@ -5964,15 +5951,16 @@ msgstr "Emri unik i sendërtimit të modelit."
 #: weblate/machinery/forms.py:481
 msgid "Base URL of the Ollama API, localhost and port 11434 by default."
 msgstr ""
+"URL bazë e API-t për Ollama, localhost dhe portë 11434, si parazgjedhje."
 
 #: weblate/machinery/forms.py:488
 msgctxt "Automatic suggestion service configuration"
 msgid "Ollama model"
-msgstr ""
+msgstr "Model Ollama"
 
 #: weblate/machinery/forms.py:490
 msgid "Name of the model described in Ollama catalogue."
-msgstr ""
+msgstr "Emër i modelit i përshkruar në katalog Ollama."
 
 #: weblate/machinery/types.py:20
 msgctxt "Source language selection"
@@ -16393,12 +16381,12 @@ msgid "The template for new translations is invalid."
 msgstr "Gjedhja për përkthime të reja është e pavlefshme."
 
 #: weblate/trans/models/component.py:3931
-#, fuzzy
-#| msgid "The given language is filtered by the language filter."
 msgid ""
 "The given language maps to a different language. Check language aliases "
 "settings."
-msgstr "Gjuha e dhënë filtrohet nga filtri i gjuhëve."
+msgstr ""
+"Gjuha e dhënë përshoqërohet me një tjetër gjuhë. Kontrolloni rregullime për "
+"aliase gjuhësh."
 
 #: weblate/trans/models/component.py:3937
 msgid "The given language is used as a source language."
@@ -17976,10 +17964,8 @@ msgid "Fetching VCS repository from %s is not allowed."
 msgstr "Sjellja e depos VCS nga %s nuk lejohet."
 
 #: weblate/utils/validators.py:458
-#, fuzzy
-#| msgid "Enter a valid e-mail address."
 msgid "Enter a valid domain name or IP address."
-msgstr "Jepni një adresë email të vlefshme."
+msgstr "Jepni një emër përkatësie, ose një adresë IP të vlefshme."
 
 #: weblate/utils/views.py:212 weblate/utils/views.py:241
 msgid "Position and priority"
