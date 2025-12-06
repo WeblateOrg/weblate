@@ -1342,7 +1342,7 @@ Projects
     :type language: string
 
     :query string format: The archive format to use; If not specified, defaults to ``zip``; Supported formats: ``zip`` and ``zip:CONVERSION`` where ``CONVERSION`` is one of converters listed at :ref:`download`.
-    :query string filter: Optional regex pattern to filter components by slug (e.g., ``?filter=core|ui``); only components whose slugs match the regex will be included in the download.    
+    :query string filter: Optional regex pattern to filter components by slug (e.g., ``?filter=core|ui``); only components whose slugs match the regex will be included in the download.
     Possible errors are ``403 Forbidden`` if the user does not have permission to the project or ``404 Not Found`` if the project slug does not exist or language code does not match any existing codes or ``423 Locked`` if the component is locked or ``500 Internal Server Error`` if there is an error during ZIP file generation.
 
 
@@ -2799,7 +2799,7 @@ Metrics
     :>json string name: Configured server name
 
 
-      
+
 
 Search
 +++++++

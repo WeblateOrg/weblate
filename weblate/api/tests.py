@@ -3,10 +3,10 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
+import zipfile
 from copy import copy
 from datetime import UTC, datetime, timedelta
 from io import BytesIO
-import zipfile
 from pathlib import Path
 
 import responses
@@ -2594,7 +2594,7 @@ class ProjectAPITest(APIBaseTest):
             code=404,
             request={"format": "zip"},
         )
-           
+
     def test_download_project_translations_language_path_prohibited(self) -> None:
         self.authenticate()
         self.user.groups.clear()
@@ -2622,6 +2622,7 @@ class ProjectAPITest(APIBaseTest):
 
         # Build expected arcnames relative to data_dir("vcs") mirroring download_multi
         from weblate.utils.data import data_dir
+
         root = data_dir("vcs")
 
         project = Project.objects.get(slug=self.project_kwargs["slug"])
