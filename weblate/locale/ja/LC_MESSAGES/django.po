@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-02 19:29+0000\n"
-"PO-Revision-Date: 2025-12-05 23:39+0000\n"
+"PO-Revision-Date: 2025-12-06 19:29+0000\n"
 "Last-Translator: Mikenu Takeru <mikenu-jp@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -1813,10 +1813,8 @@ msgid "Webhook URL"
 msgstr "ウェブフック URL"
 
 #: weblate/addons/forms.py:600
-#, fuzzy
-#| msgid "Webhook"
 msgid "Webhook secret"
-msgstr "ウェブフック"
+msgstr "Webhook シークレット"
 
 #: weblate/addons/forms.py:606
 msgid "The Standard Webhooks secret is a base64 encoded string."
@@ -2948,10 +2946,8 @@ msgid "Block expiry"
 msgstr "ブロック期間"
 
 #: weblate/auth/models.py:1020 weblate/trans/forms.py:1362
-#, fuzzy
-#| msgid "Block user"
 msgid "Block note"
-msgstr "ユーザーのブロック"
+msgstr "ノートをブロック"
 
 #: weblate/auth/models.py:1023 weblate/trans/forms.py:1364
 msgid ""
@@ -3010,18 +3006,14 @@ msgid "Sign in to save translations."
 msgstr "翻訳を保存するには、サインインが必要です。"
 
 #: weblate/auth/permissions.py:229
-#, fuzzy
-#| msgid "Insufficient privileges for approving translations."
 msgid ""
 "Insufficient privileges for approving translations in a restricted component."
-msgstr "翻訳を承認する権限がありません。"
+msgstr "この制限されたコンポーネントの承認権限がありません。"
 
 #: weblate/auth/permissions.py:234
-#, fuzzy
-#| msgid "Insufficient privileges for saving translations."
 msgid ""
 "Insufficient privileges for saving translations in a restricted component."
-msgstr "翻訳を保存する権限がありません。"
+msgstr "この制限されたコンポーネントの翻訳を保存する権限がありません。"
 
 #: weblate/auth/permissions.py:239
 msgid "Insufficient privileges for approving translations."
@@ -4172,10 +4164,8 @@ msgid "The Vue I18n formatting does not match source."
 msgstr "Vue I18n 書式が原文と不一致。"
 
 #: weblate/checks/format.py:827
-#, fuzzy
-#| msgid "Automattic Components"
 msgid "Automattic components formatting"
-msgstr "Automatticコンポーネント"
+msgstr "Automattic コンポーネントフォーマット"
 
 #: weblate/checks/format.py:829
 msgid "The Automattic components' placeholders do not match the source."
@@ -5759,9 +5749,6 @@ msgid "The model's unique deployment name."
 msgstr "モデル固有のデプロイメント名。"
 
 #: weblate/machinery/types.py:20
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Automatic selection"
 msgctxt "Source language selection"
 msgid "Automatic selection"
 msgstr "自動選択"
@@ -5858,8 +5845,6 @@ msgid "Missing source or target language in file!"
 msgstr "ファイルには、原文言語または対象言語がありません！"
 
 #: weblate/memory/models.py:431
-#, fuzzy
-#| msgid "pending"
 msgid "Pending"
 msgstr "保留中"
 
@@ -7068,22 +7053,22 @@ msgid ""
 "You will lose access to the projects you manage. Projects themselves will "
 "not be removed."
 msgstr ""
+"あなたが管理しているプロジェクトへのアクセスは失われます。ただし、"
+"プロジェクト自体は削除されません。"
 
 #: weblate/templates/accounts/removal.html:35
 msgid ""
 "Any billing you might have created will not be terminated by this account "
 "removal."
 msgstr ""
+"あなたが作成した支払い契約（請求）は、このアカウント削除によって自動的に解約"
+"されることはありません。"
 
 #: weblate/templates/accounts/removal.html:39
-#, fuzzy
-#| msgid ""
-#| "By pressing following button, your will no longer be able to use this "
-#| "account."
 msgid ""
 "By pressing the following button, you will no longer be able to use this "
 "account."
-msgstr "以下のボタンを押すと、このアカウントを使用できなくなります。"
+msgstr "以下のボタンを押すと、このアカウントは使用できなくなります。"
 
 #: weblate/templates/accounts/removal.html:43
 msgid ""
@@ -7139,6 +7124,8 @@ msgid ""
 "By registering, you agree that your name and username will be visible "
 "publicly as long as your account exists."
 msgstr ""
+"登録することにより、あなたの氏名およびユーザー名は、アカウントが存在する限り"
+"公開されることに同意したものとみなされます。"
 
 #: weblate/templates/accounts/snippets/login-info.html:30
 msgid ""
@@ -7146,24 +7133,30 @@ msgid ""
 "commits to author the changes you made; they can be stored there "
 "indefinitely."
 msgstr ""
+"さらに、あなたが加えた変更の作成者として、氏名とメールアドレスがバージョン管"
+"理システムのコミットに使用され、そこに無期限に保存されます。"
 
 #: weblate/templates/accounts/snippets/login-info.html:32
-#, fuzzy
-#| msgid "Please set your full name and e-mail in your profile."
 msgid "You can enable the use of a private commit e-mail in your profile."
-msgstr "ユーザー情報でフル ネームとメールアドレスを設定してください。"
+msgstr ""
+"ユーザー情報で、プライベートなコミット用メールアドレスの使用を有効にできます"
+"。"
 
 #: weblate/templates/accounts/snippets/login-info.html:35
 msgid ""
 "Additionally, your name can be used in version control system commits to "
 "author the changes you made; it can be stored there indefinitely."
 msgstr ""
+"らに、あなたが加えた変更の作成者として、氏名がバージョン管理システムの"
+"コミットに使用され、そこに無期限に保存されます。"
 
 #: weblate/templates/accounts/snippets/login-info.html:38
 msgid ""
 "You provide your contribution under the license defined by each project you "
 "contributed to."
 msgstr ""
+"あなたが行った貢献は、各プロジェクトで定義されたライセンスの下で提供されます"
+"。"
 
 #: weblate/templates/accounts/snippets/login-title.html:4
 msgid "Weblate single sign on"
@@ -7177,7 +7170,7 @@ msgstr "クラウド"
 #: weblate/templates/accounts/snippets/login-title.html:9
 msgctxt "Badge for site title for dedicated instances"
 msgid "Dedicated"
-msgstr ""
+msgstr "専用"
 
 #: weblate/templates/accounts/snippets/login-title.html:11
 msgctxt "Badge for site title for self-hosted instances"
@@ -7265,10 +7258,9 @@ msgid "Never signed-in"
 msgstr "一度もサインインしていない"
 
 #: weblate/templates/accounts/user.html:37
-#, fuzzy, python-format
-#| msgid "Joined on %(date)s"
+#, python-format
 msgid "Account expires on %(date)s"
-msgstr "%(date)s に参加"
+msgstr "カウントの有効期限: %(date)s"
 
 #: weblate/templates/accounts/user.html:57
 #: weblate/templates/snippets/plural.html:11
@@ -7411,13 +7403,11 @@ msgstr "ユーザーの編集"
 
 #: weblate/templates/accounts/user.html:409
 msgid "The user has two-factor authentication."
-msgstr ""
+msgstr "このユーザーは二要素認証を有効にしています。"
 
 #: weblate/templates/accounts/user.html:411
-#, fuzzy
-#| msgid "User doesn't have two-factor authentication configured."
 msgid "The user doesn't have two-factor authentication."
-msgstr "二要素認証は無効。"
+msgstr "このユーザーは二要素認証を設定していません。"
 
 #: weblate/templates/accounts/user.html:418
 msgid "Turn off two-factor authentication"
@@ -7801,15 +7791,12 @@ msgstr ""
 "ト メッセージに含めるようカスタマイズしない限り、翻訳者情報は失われます。"
 
 #: weblate/templates/addons/webhook_log.html:10
-#, fuzzy
 msgid "HTTP Response"
-msgstr "HTTP応答"
+msgstr "HTTP レスポンス"
 
 #: weblate/templates/addons/webhook_log.html:16
-#, fuzzy
-#| msgid "Bad Request"
 msgid "HTTP Request"
-msgstr "HTTPリクエスト"
+msgstr "HTTP リクエスト"
 
 #: weblate/templates/addons/webhook_log.html:23
 #: weblate/templates/addons/webhook_log.html:30
@@ -7819,11 +7806,11 @@ msgstr "HTTPヘッダー"
 
 #: weblate/templates/addons/webhook_log.html:26
 msgid "Response content"
-msgstr ""
+msgstr "応答内容"
 
 #: weblate/templates/addons/webhook_log.html:32
 msgid "Request payload"
-msgstr ""
+msgstr "リクエストペイロード"
 
 #: weblate/templates/auth/team.html:14 weblate/templates/base.html:381
 #: weblate/templates/component-settings.html:8
@@ -8111,10 +8098,8 @@ msgid "Contribute"
 msgstr "貢献"
 
 #: weblate/templates/base.html:445
-#, fuzzy
-#| msgid "Get support"
 msgid "Become a supporter"
-msgstr "サポートを受ける"
+msgstr "支援者になる"
 
 #: weblate/templates/base.html:449
 msgid "About"
@@ -8357,10 +8342,8 @@ msgid "Any authenticated user can contribute."
 msgstr "認証済みの任意のユーザーが貢献できます。"
 
 #: weblate/templates/bootstrap5/layout/radioselect_access.html:42
-#, fuzzy
-#| msgid "VCS repository might be exposed to everybody."
 msgid "VCS repository is accessible to everybody."
-msgstr "VCS リポジトリは、すべてのユーザーに公開されることがあります。"
+msgstr "VCS リポジトリは誰でもアクセス可能です。"
 
 #: weblate/templates/bootstrap5/layout/radioselect_access.html:47
 #: weblate/templates/bootstrap5/layout/radioselect_access.html:55
@@ -8532,10 +8515,8 @@ msgstr "翻訳を XLSX ファイルとして ZIP 圧縮後ダウンロード"
 
 #: weblate/templates/category.html:89 weblate/templates/component.html:101
 #: weblate/templates/language-project.html:83
-#, fuzzy
-#| msgid "Automatic translation"
 msgid "Batch automatic translation"
-msgstr "自動翻訳"
+msgstr "一括自動翻訳"
 
 #: weblate/templates/category.html:99 weblate/templates/project.html:140
 msgid "Add new category"
@@ -9168,13 +9149,13 @@ msgstr[0] "%(total_count)s 個の保留中の変更"
 #, python-format
 msgid "%(policy_count)s skipped by the commit policy"
 msgid_plural "%(policy_count)s skipped by the commit policy"
-msgstr[0] ""
+msgstr[0] "コミットポリシーにより %(policy_count)s 件がスキップされました"
 
 #: weblate/templates/js/git-status.html:39
 #, python-format
 msgid "%(errors_count)s skipped because of errors"
 msgid_plural "%(errors_count)s skipped because of errors"
-msgstr[0] ""
+msgstr[0] "エラーのため %(errors_count)s 件がスキップされました"
 
 #: weblate/templates/js/git-status.html:54
 msgid ""
@@ -9259,42 +9240,37 @@ msgstr "要注意"
 
 #: weblate/templates/js/git-status.html:165
 msgid "Reset and discard"
-msgstr ""
+msgstr "リセットして破棄"
 
 #: weblate/templates/js/git-status.html:168
 msgid ""
 "Resets Weblate’s repository to match upstream and discards any pending "
 "changes in Weblate."
 msgstr ""
+"Weblateのリポジトリをアップストリーム（上流）に合わせてリセットし、Weblate内"
+"の保留中の変更をすべて破棄します。"
 
 #: weblate/templates/js/git-status.html:169
-#, fuzzy
-#| msgid ""
-#| "Describe the context of the translation to improve the accuracy of the "
-#| "translation."
 msgid "Use when you want the upstream to be the authority for translations."
-msgstr "翻訳の正確性を高めるために、翻訳の文脈を記述します。"
+msgstr "アップストリームを翻訳の正としたい場合に利用します。"
 
 #: weblate/templates/js/git-status.html:170
-#, fuzzy
-#| msgid ""
-#| "Use when you want to discard changes in Weblate and bring it in sync with "
-#| "upstream repository."
 msgid ""
 "It will discard changes in Weblate repo and bring it in sync with the "
 "upstream repository."
-msgstr ""
-"Weblate からの変更を破棄し、上流リポジトリと同期させる場合に使用します。"
+msgstr "Weblate リポジトリの変更を破棄し、アップストリームリポジトリと同期させます。"
 
 #: weblate/templates/js/git-status.html:177
 msgid "Reset and reapply"
-msgstr ""
+msgstr "リセットして再適用"
 
 #: weblate/templates/js/git-status.html:180
 msgid ""
 "Resets Weblate’s repository to match upstream and replace upstream "
 "translations with the current state from Weblate."
 msgstr ""
+"Weblateのリポジトリをアップストリームに合わせてリセットし、アップストリームの"
+"翻訳をWeblateの現在の状態に置き換えます。"
 
 #: weblate/templates/js/git-status.html:181
 #, fuzzy
@@ -9538,6 +9514,8 @@ msgid ""
 "language data repository</a> so that it can be included in the future "
 "Weblate releases."
 msgstr ""
+"あなたの編集を<a href=\"%(url)s\">Weblate 言語データリポジトリ</a>に提出し、"
+"将来の Weblate リリースに含めることをご検討ください。"
 
 #: weblate/templates/lang/language_edit_warning.html:12
 #, python-format
@@ -9546,6 +9524,9 @@ msgid ""
 "database migration. Improper edits will likely get reverted.<a "
 "href=\"%(url)s\">Consult the documentation about proper handling of this.</a>"
 msgstr ""
+"言語定義は、データベース移行時に Weblate によって自動的に更新されます。不適切"
+"な編集は元に戻される（リバートされる）可能性が高いです。<a href=\"%(url)s\">"
+"適切な取り扱いについてはドキュメントを参照してください。</a>"
 
 #: weblate/templates/lang/language_form.html:11 weblate/trans/forms.py:2412
 msgid "Workflow"
@@ -9869,7 +9850,7 @@ msgstr "コンポーネント %(component)s のロックは解除されました
 #: weblate/templates/mail/digest.html:11
 msgid ""
 "Note: This digest has been truncated as there were over 100 notifications."
-msgstr ""
+msgstr "注: 通知が100件を超えたため、このダイジェストは省略されています。"
 
 #. Translators: e-mail subject
 #: weblate/templates/mail/digest_subject.txt:5
@@ -10114,7 +10095,7 @@ msgstr "%(site_title)s でパスワードをリセット"
 
 #: weblate/templates/mail/shared-activity.html:21
 msgid "Sign in to see the full audit log, including the IP address."
-msgstr ""
+msgstr "IPアドレスを含む完全な監査ログを表示するには、サインインしてください。"
 
 #: weblate/templates/mail/shared-activity.html:23
 #, fuzzy
@@ -10242,7 +10223,7 @@ msgstr "バックアップ サービス: %(url)s"
 
 #: weblate/templates/manage/backups.html:25
 msgid "Failed with an error"
-msgstr ""
+msgstr "エラーにより失敗"
 
 #: weblate/templates/manage/backups.html:28
 msgid "Turned off"
@@ -10250,13 +10231,15 @@ msgstr "無効"
 
 #: weblate/templates/manage/backups.html:48
 msgid "Unpaid service subscription"
-msgstr ""
+msgstr "未払いのサービスサブスクリプション"
 
 #: weblate/templates/manage/backups.html:53
 msgid ""
 "The backup service was temporarily disabled due to an unpaid subscription. "
 "Enable backups by renewing your subscription."
 msgstr ""
+"サブスクリプションが未払いのため、バックアップサービスは一時的に無効化されま"
+"した。サブスクリプションを更新することで、バックアップを有効にできます。"
 
 #: weblate/templates/manage/backups.html:57
 msgid "Manage your subscription"
@@ -10414,7 +10397,7 @@ msgstr "Celery キュー"
 #: weblate/templates/manage/performance.html:131
 #: weblate/templates/manage/performance.html:146
 msgid "Disk usage"
-msgstr ""
+msgstr "ディスク使用量"
 
 #: weblate/templates/manage/performance.html:152
 #, fuzzy
@@ -10424,11 +10407,11 @@ msgstr "ファイル サイズ"
 
 #: weblate/templates/manage/performance.html:153
 msgid "Disk used"
-msgstr ""
+msgstr "使用済みディスク容量"
 
 #: weblate/templates/manage/performance.html:154
 msgid "Disk free"
-msgstr ""
+msgstr "空きディスク容量"
 
 #: weblate/templates/manage/performance.html:170
 msgid "System encoding"
@@ -10482,7 +10465,7 @@ msgstr "HTTP応答"
 
 #: weblate/templates/manage/performance.html:252
 msgid "Observed value"
-msgstr ""
+msgstr "観測値"
 
 #: weblate/templates/manage/performance.html:253
 #, fuzzy
@@ -10504,7 +10487,7 @@ msgstr "HTTPヘッダー"
 
 #: weblate/templates/manage/performance.html:274
 msgid "HTTP protocol"
-msgstr ""
+msgstr "HTTP プロトコル"
 
 #: weblate/templates/manage/repos.html:10
 #: weblate/wladmin/templates/admin/weblate-index.html:23
@@ -11088,10 +11071,12 @@ msgid ""
 "Weblate is libre software with professional support and services for "
 "commercial users."
 msgstr ""
+"Weblate は自由ソフトウェアですが、商用ユーザー向けにプロフェッショナルな"
+"サポートとサービスを提供しています。"
 
 #: weblate/templates/snippets/about.html:15
 msgid "Explore support options at weblate.org."
-msgstr ""
+msgstr "weblate.org にてサポートオプションをご覧ください。"
 
 #: weblate/templates/snippets/activity.html:9
 msgid "Last 12 months"
@@ -13618,7 +13603,7 @@ msgstr "Textile コード"
 
 #: weblate/templates/widgets.html:76
 msgid "Live Preview"
-msgstr ""
+msgstr "ライブプレビュー"
 
 #: weblate/templates/widgets.html:90
 msgid "Embed code copied to clipboard."
@@ -14286,7 +14271,7 @@ msgstr "翻訳済み文字列の以前の msgid を保持する"
 
 #: weblate/trans/file_format_params.py:233
 msgid "Do not include location information in the file"
-msgstr ""
+msgstr "ファイルにロケーション情報を含めないでください"
 
 #: weblate/trans/file_format_params.py:241
 msgid "Use fuzzy matching"
@@ -14774,12 +14759,17 @@ msgid ""
 "Approved-only commit policy requires translation reviews to be enabled. "
 "Please enable translation reviews first or choose a different commit policy."
 msgstr ""
+"「承認済みのみ」のコミットポリシーを使用するには、翻訳レビューが有効になって"
+"いる必要があります。まず翻訳レビューを有効にするか、別のコミットポリシーを選"
+"択してください。"
 
 #: weblate/trans/forms.py:2354
 msgid ""
 "Translation reviews are required for approved-only commit policy. Please "
 "choose a different commit policy before disabling translation reviews."
 msgstr ""
+"翻訳レビューは「承認済みのみ」のコミットポリシーに必須です。翻訳レビューを無"
+"効にする前に、別のコミットポリシーを選択してください。"
 
 #: weblate/trans/forms.py:2402
 msgid "Access"
@@ -14800,6 +14790,9 @@ msgid ""
 "Could not load project backup: The backup is from an incompatible version "
 "(%(version)s). Please upgrade your Weblate instance."
 msgstr ""
+"プロジェクトのバックアップを読み込めませんでした: バックアップが互換性のない"
+"バージョン (%(version)s) のものです。Weblate インスタンスをアップグレードして"
+"ください。"
 
 #: weblate/trans/forms.py:2554
 #, python-format
@@ -14949,7 +14942,7 @@ msgstr "翻訳者のユーザー名"
 
 #: weblate/trans/forms.py:3055
 msgid "Exclude author (username)"
-msgstr ""
+msgstr "作成者（ユーザー名）を除外"
 
 #: weblate/trans/forms.py:3058
 msgid "Date range"
@@ -15523,6 +15516,8 @@ msgid ""
 "Allow this component's translations to be added to the project-level "
 "translation memory."
 msgstr ""
+"このコンポーネントの翻訳をプロジェクトレベルの翻訳メモリに追加することを許可"
+"する。"
 
 #: weblate/trans/models/component.py:586 weblate/trans/models/workflow.py:29
 msgid "Turn on suggestions"
@@ -15734,6 +15729,8 @@ msgid ""
 "Glossaries are different from regular translations but help keep track of "
 "and share consistent terminology."
 msgstr ""
+"用語集は通常の翻訳とは異なりますが、一貫した用語を管理・共有するのに役立ちま"
+"す。"
 
 #: weblate/trans/models/component.py:826
 msgid "Glossary color"
@@ -15759,11 +15756,11 @@ msgstr "第二言語"
 msgid ""
 "Additional language to show together with the source language while "
 "translating."
-msgstr ""
+msgstr "翻訳中にソース言語と並べて表示する追加の言語。"
 
 #: weblate/trans/models/component.py:854
 msgid "This setting is inherited from the project if left empty."
-msgstr ""
+msgstr "この設定を空白にした場合、プロジェクトから継承されます。"
 
 #: weblate/trans/models/component.py:1717
 msgid ""
@@ -15966,7 +15963,7 @@ msgstr ""
 #, python-format
 msgid ""
 "The parameter '%(param)s' is not applicable for the file format '%(format)s'."
-msgstr ""
+msgstr "パラメータ”%(param)s”は、ファイル形式”%(format)s”には適用できません。"
 
 #: weblate/trans/models/component.py:3375
 msgid ""
@@ -16087,7 +16084,7 @@ msgstr "ラベルの説明"
 
 #: weblate/trans/models/project.py:49
 msgid "Commit all translations regardless of quality"
-msgstr ""
+msgstr "品質にかかわらず全ての翻訳をコミットする"
 
 #: weblate/trans/models/project.py:52
 #, fuzzy
@@ -16154,7 +16151,7 @@ msgstr "プロジェクト間で共有する翻訳プールに貢献します。
 #: weblate/trans/models/project.py:223
 msgid ""
 "Automatically removes outdated and obsolete entries from translation memory."
-msgstr ""
+msgstr "翻訳メモリから、古く廃止されたエントリを自動的に削除します。"
 
 #: weblate/trans/models/project.py:232
 msgid ""
@@ -16196,6 +16193,8 @@ msgid ""
 "Select which translations should be included when committing changes. More "
 "restrictive options will skip translations with potential quality issues."
 msgstr ""
+"変更をコミットする際に含める翻訳を選択します。より制限の厳しいオプションでは"
+"、潜在的な品質問題のある翻訳はスキップされます。"
 
 #: weblate/trans/models/project.py:265
 msgid "Enable hooks"
@@ -16235,7 +16234,7 @@ msgstr "ファイル %(file)s の解析に失敗しました: %(error)s"
 
 #: weblate/trans/models/translation.py:1181
 msgid "“{}”"
-msgstr ""
+msgstr "“{}”"
 
 #: weblate/trans/models/translation.py:1184
 msgid "…"
@@ -16286,7 +16285,7 @@ msgstr "文字列の追加に失敗しました。翻訳が見つかりません
 
 #: weblate/trans/models/unit.py:450
 msgid "Indicates whether this string was translated automatically."
-msgstr ""
+msgstr "この文字列が自動翻訳されたものかどうかを示します。"
 
 #: weblate/trans/models/unit.py:1264
 #, python-format
@@ -16751,6 +16750,8 @@ msgstr ""
 #: weblate/trans/validators.py:75
 msgid "File format parameters must be a dictionary of key-value pairs."
 msgstr ""
+"ファイル形式のパラメータは、キーと値のペアを持つ辞書形式である必要があります"
+"。"
 
 #: weblate/trans/validators.py:84
 #, python-format
@@ -16796,7 +16797,7 @@ msgstr "{0} に参加する！"
 
 #: weblate/trans/views/basic.py:806
 msgid "Language addition is not supported by any of the components."
-msgstr ""
+msgstr "言語の新規追加は、コンポーネントによってサポートされていません。"
 
 #: weblate/trans/views/basic.py:840
 #, python-format
@@ -16864,7 +16865,7 @@ msgstr "%s 内での変更"
 
 #: weblate/trans/views/create.py:74
 msgid "The supplied configuration is incorrect. Please check the errors below."
-msgstr ""
+msgstr "設定に間違いがあります。下記のエラーをチェックしてください。"
 
 #: weblate/trans/views/create.py:281
 #, python-format
@@ -16963,7 +16964,7 @@ msgstr "無効な検索文字列です！"
 #: weblate/trans/views/edit.py:661
 #, python-format
 msgid "You have shifted from %(previous)s to %(current)s."
-msgstr ""
+msgstr "%(previous)s から %(current)s に移行しました。"
 
 #: weblate/trans/views/edit.py:828 weblate/trans/views/search.py:58
 #: weblate/trans/views/search.py:223
@@ -17460,7 +17461,7 @@ msgstr "フルネームには特殊な文字を使用しないでください。
 
 #: weblate/utils/validators.py:162
 msgid "This name cannot be registered. Please choose a different one."
-msgstr ""
+msgstr "名前は登録できません。別の名前を選択してください。"
 
 #: weblate/utils/validators.py:167
 msgid "Name consists only of disallowed characters."
@@ -17478,7 +17479,7 @@ msgstr "ユーザー名の先頭は終止符にはできません。"
 
 #: weblate/utils/validators.py:196
 msgid "This username cannot be registered. Please choose a different one."
-msgstr ""
+msgstr "このユーザー名は登録できません。別のユーザー名を選択してください。"
 
 #: weblate/utils/validators.py:202 weblate/utils/validators.py:210
 msgid "Enter a valid e-mail address."
@@ -17537,17 +17538,17 @@ msgstr "選択したソートには対応していません。"
 
 #: weblate/utils/validators.py:346
 msgid "The provided secret is too long."
-msgstr ""
+msgstr "提供されたシークレットが長すぎます。"
 
 #: weblate/utils/validators.py:425
 #, python-format
 msgid "Fetching VCS repository using %s is not allowed."
-msgstr ""
+msgstr "%s を使った VCS リポジトリのフェッチは許可されていません。"
 
 #: weblate/utils/validators.py:436
 #, python-format
 msgid "Fetching VCS repository from %s is not allowed."
-msgstr ""
+msgstr "VCS リポジトリを %s からフェッチすることは許可されていません。"
 
 #: weblate/utils/views.py:212 weblate/utils/views.py:241
 msgid "Position and priority"
@@ -17808,7 +17809,7 @@ msgstr "プレミアム サポート（お客様のサーバー対象）"
 
 #: weblate/wladmin/models.py:175
 msgid "Unpaid subscription"
-msgstr ""
+msgstr "未払いサブスクリプション"
 
 #: weblate/wladmin/models.py:271
 msgid "Backup repository URL"
