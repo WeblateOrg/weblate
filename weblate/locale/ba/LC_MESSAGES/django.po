@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2025-12-02 19:29+0000\n"
+"POT-Creation-Date: 2025-12-06 19:29+0000\n"
 "PO-Revision-Date: 2025-12-03 20:01+0000\n"
 "Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
 "Language-Team: Bashkir <https://hosted.weblate.org/projects/weblate/"
@@ -1406,7 +1406,7 @@ msgstr ""
 msgid "enabled"
 msgstr "ҡабыҙылған"
 
-#: weblate/addons/base.py:497 weblate/trans/views/create.py:268
+#: weblate/addons/base.py:506 weblate/trans/views/create.py:268
 msgid ""
 "The repository is outdated, you might not get expected results until you "
 "update it."
@@ -1488,6 +1488,14 @@ msgstr "Коммит алдынан скриптты үтәргә"
 msgid "This add-on executes a script."
 msgstr "Был өҫтәмә скриптты үтәй."
 
+#: weblate/addons/fedora_messaging.py:32
+msgid "Fedora Messaging"
+msgstr ""
+
+#: weblate/addons/fedora_messaging.py:34
+msgid "Sends notifications to a Fedora Messaging compatible AMQP exchange."
+msgstr ""
+
 #: weblate/addons/flags.py:44
 msgid "Flag new source strings as \"Needs editing\""
 msgstr "Яңы сығанаҡ юлдарҙы \"Мөхәррирләргә кәрәк\" тип билдәләргә"
@@ -1567,19 +1575,19 @@ msgstr ""
 "\"мөхәррирләргә кәрәк\" тип билдәләнә. Шулай итеп, һеҙ программистар яһаған "
 "тәржемәләрҙе еңел генә фильтрлап, мөхәррирләй алаһығыҙ."
 
-#: weblate/addons/forms.py:59
+#: weblate/addons/forms.py:61
 msgid "Path of generated MO file"
 msgstr "Булдырылған MO-файлдың юлы"
 
-#: weblate/addons/forms.py:63
+#: weblate/addons/forms.py:65
 msgid "If not specified, the location of the PO file will be used."
 msgstr "Әгәр күрһәтелмәһә, PO-файлдың урыны ҡулланыласаҡ."
 
-#: weblate/addons/forms.py:67
+#: weblate/addons/forms.py:69
 msgid "Include strings needing editing"
 msgstr "Мөхәррирләүгә мохтаж юлдарҙы индерергә"
 
-#: weblate/addons/forms.py:70
+#: weblate/addons/forms.py:72
 msgid ""
 "Strings needing editing (fuzzy) are typically not ready for use as "
 "translations."
@@ -1587,39 +1595,39 @@ msgstr ""
 "Мөхәррирләүгә мохтаж (fuzzy) юлдар, ғәҙәттә, тәржемә итеп ҡулланыуға әҙер "
 "булмай."
 
-#: weblate/addons/forms.py:96
+#: weblate/addons/forms.py:98
 msgid "Name of generated file"
 msgstr "Булдырылған файлдың исеме"
 
-#: weblate/addons/forms.py:100
+#: weblate/addons/forms.py:102
 msgid "Content of generated file"
 msgstr "Булдырылған файлдың йөкмәткеһе"
 
-#: weblate/addons/forms.py:130
+#: weblate/addons/forms.py:132
 msgid "Commit squashing"
 msgstr "Коммиттарҙы берләштереү"
 
-#: weblate/addons/forms.py:133
+#: weblate/addons/forms.py:135
 msgid "All commits into one"
 msgstr "Бөтә коммиттарҙы бергә"
 
-#: weblate/addons/forms.py:134
+#: weblate/addons/forms.py:136
 msgid "Per language"
 msgstr "Тел буйынса"
 
-#: weblate/addons/forms.py:135
+#: weblate/addons/forms.py:137
 msgid "Per file"
 msgstr "Файл буйынса"
 
-#: weblate/addons/forms.py:136
+#: weblate/addons/forms.py:138
 msgid "Per author"
 msgstr "Автор буйынса"
 
-#: weblate/addons/forms.py:142
+#: weblate/addons/forms.py:144
 msgid "Append trailers to squashed commit message"
 msgstr "Берләштерелгән коммит хәбәренә трейлерҙар өҫтәргә"
 
-#: weblate/addons/forms.py:146
+#: weblate/addons/forms.py:148
 msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
@@ -1628,11 +1636,11 @@ msgstr ""
 "Трейлер-юлдар — ул коммит хәбәренең ирекле өлөшөнөң аҙағындағы RFC 822 "
 "электрон почта башлыҡтарына оҡшаш юлдар, мәҫәлән, 'Co-authored-by: …'."
 
-#: weblate/addons/forms.py:152
+#: weblate/addons/forms.py:154
 msgid "Commit message"
 msgstr "Коммит хәбәре"
 
-#: weblate/addons/forms.py:156
+#: weblate/addons/forms.py:158
 msgid ""
 "This commit message will be used instead of the combined commit messages "
 "from the squashed commits."
@@ -1640,46 +1648,46 @@ msgstr ""
 "Был коммит хәбәре берләштерелгән коммиттарҙың дөйөм хәбәре урынына "
 "ҡулланыласаҡ."
 
-#: weblate/addons/forms.py:174
+#: weblate/addons/forms.py:176
 msgid "Days to keep"
 msgstr "Һаҡлау көндәре"
 
-#: weblate/addons/forms.py:180
+#: weblate/addons/forms.py:182
 msgid "Voting threshold"
 msgstr "Тауыш биреү сиге"
 
-#: weblate/addons/forms.py:184
+#: weblate/addons/forms.py:186
 msgid "Threshold for removal. This field has no effect with voting turned off."
 msgstr "Юйыу өсөн сик. Был ялан тауыш биреү һүндерелгән булһа, йоғонто яһамай."
 
-#: weblate/addons/forms.py:191
+#: weblate/addons/forms.py:193
 msgid "Regular expression to match translation files against"
 msgstr "Тәржемә файлдарын сағыштырыу өсөн регуляр аңлатма"
 
-#: weblate/addons/forms.py:195
+#: weblate/addons/forms.py:197
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:16
 #: weblate/templates/trans/discover-choice.html:7 weblate/trans/forms.py:638
-#: weblate/trans/forms.py:2017 weblate/trans/models/component.py:543
+#: weblate/trans/forms.py:2017 weblate/trans/models/component.py:545
 msgid "File format"
 msgstr "Файл форматы"
 
-#: weblate/addons/forms.py:201
+#: weblate/addons/forms.py:203
 msgid "Customize the component name"
 msgstr "Компонент исемен көйләргә"
 
-#: weblate/addons/forms.py:206
+#: weblate/addons/forms.py:208
 msgid "Define the monolingual base filename"
 msgstr "Бер телле нигеҙ файлдың исемен билдәләргә"
 
-#: weblate/addons/forms.py:209
+#: weblate/addons/forms.py:211
 msgid "Leave empty for bilingual translation files."
 msgstr "Ике телле тәржемә файлдары өсөн буш ҡалдырығыҙ."
 
-#: weblate/addons/forms.py:212
+#: weblate/addons/forms.py:214
 msgid "Define the base file for new translations"
 msgstr "Яңы тәржемәләр өсөн нигеҙ файлды билдәләргә"
 
-#: weblate/addons/forms.py:216 weblate/trans/models/component.py:537
+#: weblate/addons/forms.py:218 weblate/trans/models/component.py:539
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
@@ -1687,13 +1695,13 @@ msgstr ""
 "Яңы тәржемәләр булдырыу өсөн ҡулланылған файлдың исеме. Gettext өсөн .pot "
 "файлын һайлағыҙ."
 
-#: weblate/addons/forms.py:221
+#: weblate/addons/forms.py:223
 #: weblate/templates/trans/alert/inexistantfiles.html:14
-#: weblate/trans/models/component.py:521
+#: weblate/trans/models/component.py:523
 msgid "Intermediate language file"
 msgstr "Аралаш тел файлы"
 
-#: weblate/addons/forms.py:225 weblate/trans/models/component.py:525
+#: weblate/addons/forms.py:227 weblate/trans/models/component.py:527
 msgid ""
 "Filename of intermediate translation file. In most cases this is a "
 "translation file provided by developers and is used when creating actual "
@@ -1702,76 +1710,76 @@ msgstr ""
 "Аралаш тәржемә файлының исеме. Күп осраҡта был программистар биргән тәржемә "
 "файлы һәм ул ысын сығанаҡ юлдарҙы булдырғанда ҡулланыла."
 
-#: weblate/addons/forms.py:232 weblate/trans/models/component.py:769
+#: weblate/addons/forms.py:234 weblate/trans/models/component.py:771
 msgid "Language filter"
 msgstr "Тел фильтры"
 
-#: weblate/addons/forms.py:237
+#: weblate/addons/forms.py:239
 msgid ""
 "Regular expression to filter translation files against when scanning for "
 "file mask."
 msgstr ""
 "Файл битлеген сканерлағанда тәржемә файлдарын фильтрлау өсөн регуляр аңлатма."
 
-#: weblate/addons/forms.py:243
+#: weblate/addons/forms.py:245
 msgid "Clone add-ons from the main component to the newly created ones"
 msgstr "Төп компоненттан өҫтәмәләрҙе яңы булдырылғандарына клонларға"
 
-#: weblate/addons/forms.py:249
+#: weblate/addons/forms.py:251
 msgid "Remove components for inexistent files"
 msgstr "Булмаған файлдар өсөн компоненттарҙы юйырға"
 
-#: weblate/addons/forms.py:252
+#: weblate/addons/forms.py:254
 msgid "I confirm the above matches look correct"
 msgstr "Өҫтәге тап килеүҙәрҙең дөрөҫ булыуын раҫлайым"
 
-#: weblate/addons/forms.py:309 weblate/trans/models/component.py:3305
+#: weblate/addons/forms.py:311 weblate/trans/models/component.py:3313
 msgid "You can not use a monolingual translation without a base file."
 msgstr "Һеҙ бер телле тәржемәне нигеҙ файлһыҙ ҡуллана алмайһығыҙ."
 
-#: weblate/addons/forms.py:317 weblate/trans/models/component.py:3238
+#: weblate/addons/forms.py:319 weblate/trans/models/component.py:3246
 msgid "You can not use a base file for bilingual translation."
 msgstr "Һеҙ ике телле тәржемә өсөн нигеҙ файлды ҡуллана алмайһығыҙ."
 
-#: weblate/addons/forms.py:331
+#: weblate/addons/forms.py:333
 msgid "Please review and confirm the matched components."
 msgstr "Зинһар, тап килгән компоненттарҙы ҡарап сығығыҙ һәм раҫлағыҙ."
 
-#: weblate/addons/forms.py:359
+#: weblate/addons/forms.py:361
 msgid "Please include component markup in the template."
 msgstr "Зинһар, компонент билдәләмәһен ҡалыпҡа индерегеҙ."
 
-#: weblate/addons/forms.py:414
+#: weblate/addons/forms.py:416
 msgid "Translation threshold"
 msgstr "Тәржемә сиге"
 
-#: weblate/addons/forms.py:420
+#: weblate/addons/forms.py:422
 msgid ""
 "The percentage of translated strings that must be present for translation to "
 "be included."
 msgstr "Тәржемәне индереү өсөн кәрәк булған тәржемә ителгән юлдарҙың проценты."
 
-#: weblate/addons/forms.py:424
+#: weblate/addons/forms.py:426
 msgid "CSS selector"
 msgstr "CSS-селектор"
 
-#: weblate/addons/forms.py:427
+#: weblate/addons/forms.py:429
 msgid "CSS selector to detect localizable elements."
 msgstr "Локалләштерелә торған элементтарҙы асыҡлау өсөн CSS-селектор."
 
-#: weblate/addons/forms.py:430
+#: weblate/addons/forms.py:432
 msgid "Language cookie name"
 msgstr "Тел кукиһының исеме"
 
-#: weblate/addons/forms.py:433
+#: weblate/addons/forms.py:435
 msgid "Name of cookie which stores language preference."
 msgstr "Тел өҫтөнлөктәрен һаҡлай торған куки исеме."
 
-#: weblate/addons/forms.py:438
+#: weblate/addons/forms.py:440
 msgid "Extract strings from HTML files"
 msgstr "HTML-файлдарҙан юлдарҙы сығарырға"
 
-#: weblate/addons/forms.py:441
+#: weblate/addons/forms.py:443
 msgid ""
 "List of filenames in current repository or remote URLs to parse for "
 "translatable strings."
@@ -1779,12 +1787,12 @@ msgstr ""
 "Ағымдағы репозиторийҙағы файл исемдәренең йәки тәржемә ителә торған юлдарҙы "
 "анализлау өсөн тышҡы URL-дарҙың исемлеге."
 
-#: weblate/addons/forms.py:469
+#: weblate/addons/forms.py:471
 #, python-format
 msgid "Could not parse CSS selector: %s"
 msgstr "CSS-селекторҙы анализлап булманы: %s"
 
-#: weblate/addons/forms.py:481 weblate/billing/models.py:307
+#: weblate/addons/forms.py:483 weblate/billing/models.py:307
 #: weblate/templates/snippets/query-builder.html:16
 #: weblate/templates/snippets/query-builder.html:20
 #: weblate/templates/snippets/translation.html:12 weblate/trans/admin.py:99
@@ -1792,69 +1800,118 @@ msgstr "CSS-селекторҙы анализлап булманы: %s"
 msgid "Source strings"
 msgstr "Сығанаҡ юлдар"
 
-#: weblate/addons/forms.py:486
+#: weblate/addons/forms.py:488
 msgid "Target translation"
 msgstr "Маҡсатлы тәржемә"
 
-#: weblate/addons/forms.py:488
+#: weblate/addons/forms.py:490
 msgid "All strings in this translation will be overwritten"
 msgstr "Был тәржемәләге бөтә юлдар ҡабаттан яҙҙырыласаҡ"
 
-#: weblate/addons/forms.py:493 weblate/templates/addons/pseudolocale.html:9
+#: weblate/addons/forms.py:495 weblate/templates/addons/pseudolocale.html:9
 msgid "Prepended static text"
 msgstr "Алдан ҡуйылыусы статик текст"
 
-#: weblate/addons/forms.py:498 weblate/templates/addons/pseudolocale.html:10
+#: weblate/addons/forms.py:500 weblate/templates/addons/pseudolocale.html:10
 msgid "Prepended variable text"
 msgstr "Алдан ҡуйылыусы үҙгәреүсәнле текст"
 
-#: weblate/addons/forms.py:503 weblate/templates/addons/pseudolocale.html:13
+#: weblate/addons/forms.py:505 weblate/templates/addons/pseudolocale.html:13
 msgid "Appended static text"
 msgstr "Аҙаҡтан ҡуйылыусы статик текст"
 
-#: weblate/addons/forms.py:508 weblate/templates/addons/pseudolocale.html:12
+#: weblate/addons/forms.py:510 weblate/templates/addons/pseudolocale.html:12
 msgid "Appended variable text"
 msgstr "Аҙаҡтан ҡуйылыусы үҙгәреүсәнле текст"
 
-#: weblate/addons/forms.py:513
+#: weblate/addons/forms.py:515
 msgid "Variable text multiplier"
 msgstr "Үҙгәреүсәнле текст ҡабатлағысы"
 
-#: weblate/addons/forms.py:517
+#: weblate/addons/forms.py:519
 msgid ""
 "How many times to repeat the variable text depending on the length of the "
 "source string."
 msgstr ""
 "Сығанаҡ юлдың оҙонлоғона ҡарап, үҙгәреүсәнле тексты нисә тапҡыр ҡабатларға."
 
-#: weblate/addons/forms.py:522
+#: weblate/addons/forms.py:524
 msgid "Include read-only strings"
 msgstr "Тик уҡыу өсөн юлдарҙы индерергә"
 
-#: weblate/addons/forms.py:552
+#: weblate/addons/forms.py:554
 msgid "The source and target have to be different languages."
 msgstr "Сығанаҡ һәм маҡсатлы телдәр төрлө булырға тейеш."
 
-#: weblate/addons/forms.py:565
+#: weblate/addons/forms.py:567
 msgid "Enable case-sensitive key sorting"
 msgstr "Регистрҙы иҫәпкә алып асҡыстарҙы сортлауҙы ҡабыҙырға"
 
-#: weblate/addons/forms.py:575
+#: weblate/addons/forms.py:577
 msgid "Change events"
 msgstr "Үҙгәреш ваҡиғалары"
 
-#: weblate/addons/forms.py:586
+#: weblate/addons/forms.py:588
 msgid "Webhook URL"
 msgstr "Веб-хук URL-ы"
 
-#: weblate/addons/forms.py:600
+#: weblate/addons/forms.py:602
 #, fuzzy
 #| msgid "Webhook"
 msgid "Webhook secret"
 msgstr "Веб-хук"
 
-#: weblate/addons/forms.py:606
+#: weblate/addons/forms.py:608
 msgid "The Standard Webhooks secret is a base64 encoded string."
+msgstr ""
+
+#: weblate/addons/forms.py:621
+msgid "AMQP broker host"
+msgstr ""
+
+#: weblate/addons/forms.py:622
+msgid "The AMQP broker to connect to."
+msgstr ""
+
+#: weblate/addons/forms.py:626
+msgid "Use SSL for AMQP connection"
+msgstr ""
+
+#: weblate/addons/forms.py:631
+msgid "CA certificates"
+msgstr ""
+
+#: weblate/addons/forms.py:633
+msgid ""
+"Bundle of PEM encoded CA certificates used to validate the certificate "
+"presented by the server."
+msgstr ""
+
+#: weblate/addons/forms.py:639
+#, fuzzy
+#| msgctxt "Automatic suggestion service configuration"
+#| msgid "Client ID"
+msgid "Client SSL key"
+msgstr "Клиент ID-һы"
+
+#: weblate/addons/forms.py:640
+msgid "PEM encoded client private SSL key."
+msgstr ""
+
+#: weblate/addons/forms.py:646
+msgid "Client SSL certificates"
+msgstr ""
+
+#: weblate/addons/forms.py:647
+msgid "PEM encoded client SSL certificate."
+msgstr ""
+
+#: weblate/addons/forms.py:665
+msgid "The SSL certificates have to be provided for SSL connection."
+msgstr ""
+
+#: weblate/addons/forms.py:678
+msgid "The SSL certificates are not used without a SSL connection."
 msgstr ""
 
 #: weblate/addons/generate.py:38
@@ -2188,7 +2245,7 @@ msgid ""
 msgstr ""
 "Операцияны башҡарыу өсөн %(origin)s-тың %(scope)s бикләмәһен алып булманы."
 
-#: weblate/api/views.py:2631 weblate/auth/models.py:1016
+#: weblate/api/views.py:2646 weblate/auth/models.py:1016
 #: weblate/checks/views.py:232 weblate/checks/views.py:239
 #: weblate/templates/accounts/user.html:274
 #: weblate/templates/accounts/user.html:327
@@ -2197,35 +2254,35 @@ msgstr ""
 #: weblate/templates/language.html:73 weblate/templates/list-projects.html:3
 #: weblate/templates/snippets/list-objects.html:50 weblate/trans/forms.py:1973
 #: weblate/trans/models/announcement.py:77 weblate/trans/models/category.py:67
-#: weblate/trans/models/component.py:390 weblate/trans/models/component.py:424
+#: weblate/trans/models/component.py:392 weblate/trans/models/component.py:426
 msgid "Project"
 msgstr "Проект"
 
-#: weblate/api/views.py:2639 weblate/trans/forms.py:1977
+#: weblate/api/views.py:2654 weblate/trans/forms.py:1977
 #: weblate/trans/models/announcement.py:84 weblate/trans/models/category.py:72
-#: weblate/trans/models/component.py:396
+#: weblate/trans/models/component.py:398
 msgid "Category"
 msgstr "Категория"
 
-#: weblate/api/views.py:2647 weblate/checks/views.py:234
+#: weblate/api/views.py:2662 weblate/checks/views.py:234
 #: weblate/checks/views.py:241 weblate/templates/accounts/user.html:275
 #: weblate/templates/addons/discovery_preview.html:6
 #: weblate/templates/category-language.html:79
 #: weblate/templates/category.html:148 weblate/templates/component-list.html:42
 #: weblate/templates/language-project.html:134
-#: weblate/templates/project.html:242 weblate/templates/translate.html:403
-#: weblate/templates/translate.html:787 weblate/templates/translation.html:159
+#: weblate/templates/project.html:242 weblate/templates/translate.html:406
+#: weblate/templates/translate.html:790 weblate/templates/translation.html:159
 #: weblate/templates/widgets.html:51 weblate/trans/forms.py:940
 #: weblate/trans/forms.py:994 weblate/trans/forms.py:1916
 #: weblate/trans/models/announcement.py:91
 msgid "Component"
 msgstr "Компонент"
 
-#: weblate/api/views.py:2655 weblate/templates/billing/detail.html:121
+#: weblate/api/views.py:2670 weblate/templates/billing/detail.html:121
 msgid "User"
 msgstr "Ҡулланыусы"
 
-#: weblate/api/views.py:2663 weblate/fonts/models.py:153
+#: weblate/api/views.py:2678 weblate/fonts/models.py:153
 #: weblate/templates/category.html:160 weblate/templates/component.html:195
 #: weblate/templates/lang/language_form.html:8
 #: weblate/templates/languages.html:14 weblate/templates/project.html:254
@@ -2354,7 +2411,7 @@ msgid "Download reports"
 msgstr "Отчеттарҙы күсереп алырға"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:57 weblate/templates/translate.html:812
+#: weblate/auth/data.py:57 weblate/templates/translate.html:815
 msgid "Add screenshot"
 msgstr "Скриншот өҫтәргә"
 
@@ -2371,7 +2428,7 @@ msgid "Delete screenshot"
 msgstr "Скриншотты юйырға"
 
 #. Translators: Permission name
-#: weblate/auth/data.py:63 weblate/templates/translate.html:946
+#: weblate/auth/data.py:63 weblate/templates/translate.html:949
 msgid "Edit additional string info"
 msgstr "Юлдың өҫтәмә мәғлүмәтен үҙгәртергә"
 
@@ -2925,7 +2982,7 @@ msgid "Requires users to have two-factor authentication configured."
 msgstr "Ҡулланыусыларҙан ике факторлы аутентификацияны көйләүҙе талап итә."
 
 #: weblate/auth/models.py:453 weblate/utils/forms.py:77
-#: weblate/utils/validators.py:189
+#: weblate/utils/validators.py:194
 msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
 "+ - _"
@@ -2946,7 +3003,7 @@ msgid "User has all possible permissions."
 msgstr "Ҡулланыусының бөтә мөмкин булған рөхсәттәре бар."
 
 #: weblate/auth/models.py:479 weblate/billing/models.py:179
-#: weblate/memory/models.py:432 weblate/templates/check_list.html:38
+#: weblate/memory/models.py:433 weblate/templates/check_list.html:38
 msgid "Active"
 msgstr "Әүҙем"
 
@@ -3046,7 +3103,7 @@ msgstr ""
 "Был проект ике факторлы аутентификация талап итә; уны профилегеҙҙә көйләгеҙ."
 
 #: weblate/auth/permissions.py:206 weblate/templates/translate.html:189
-#: weblate/templates/translate.html:258
+#: weblate/templates/translate.html:261
 msgid "This translation is currently locked."
 msgstr "Был тәржемә әлеге ваҡытта бикләнгән."
 
@@ -3623,7 +3680,7 @@ msgstr "Java MessageFormat-ты автоматик асыҡларға"
 
 #: weblate/checks/flags.py:62
 #: weblate/templates/snippets/unit-readonly-badge.html:14
-#: weblate/templates/translate.html:258
+#: weblate/templates/translate.html:261
 msgid "Read-only"
 msgstr "Тик уҡыу өсөн"
 
@@ -3677,7 +3734,7 @@ msgstr "ICU MessageFormat флагтары"
 msgid "ICU MessageFormat tag prefix"
 msgstr "ICU MessageFormat тег префиксы"
 
-#: weblate/checks/flags.py:84 weblate/trans/models/component.py:791
+#: weblate/checks/flags.py:84 weblate/trans/models/component.py:793
 #: weblate/utils/views.py:214
 msgid "Priority"
 msgstr "Өҫтөнлөк"
@@ -3698,22 +3755,22 @@ msgstr "Fluent төрө"
 msgid "Discard flag"
 msgstr "Иғтибарһыҙ ҡалдырыу флагы"
 
-#: weblate/checks/flags.py:337
+#: weblate/checks/flags.py:340
 #, python-format
 msgid "Invalid translation flag: \"%s\""
 msgstr "Дөрөҫ булмаған тәржемә флагы: \"%s\""
 
-#: weblate/checks/flags.py:341
+#: weblate/checks/flags.py:344
 #, python-format
 msgid "The translation flag has no parameters: \"%s\""
 msgstr "Тәржемә флагының параметрҙары юҡ: \"%s\""
 
-#: weblate/checks/flags.py:347
+#: weblate/checks/flags.py:350
 #, python-format
 msgid "Wrong parameters for translation flag: \"%s\""
 msgstr "Тәржемә флагы өсөн параметрҙар дөрөҫ түгел: \"%s\""
 
-#: weblate/checks/flags.py:351
+#: weblate/checks/flags.py:354
 #, python-format
 msgid "Missing parameters for translation flag: \"%s\""
 msgstr "Тәржемә флагы өсөн параметрҙар етмәй: \"%s\""
@@ -4497,15 +4554,15 @@ msgstr "Qt күплек форматы"
 msgid "Qt plural format string does not match source."
 msgstr "Qt күплек формат юлы сығанаҡтағы менән тап килмәй."
 
-#: weblate/checks/render.py:31
+#: weblate/checks/render.py:33
 msgid "Maximum size of translation"
 msgstr "Тәржемәнең максималь үлсәме"
 
-#: weblate/checks/render.py:33
+#: weblate/checks/render.py:35
 msgid "Translation rendered text should not exceed given size."
 msgstr "Тәржемәнең күрһәтелгән тексы бирелгән үлсәмдән артмаҫҡа тейеш."
 
-#: weblate/checks/render.py:109
+#: weblate/checks/render.py:111
 msgid ""
 "It fits into given boundaries. The rendering is shown for your convenience."
 msgstr "Ул бирелгән сиктәргә һыя. Рендеринг һеҙҙең уңайлыҡ өсөн күрһәтелә."
@@ -4586,8 +4643,8 @@ msgstr "Тикшереү"
 #: weblate/templates/mail/pending_suggestions.html:9
 #: weblate/templates/mail/todo_strings.html:9
 #: weblate/templates/snippets/embed-units.html:10
-#: weblate/templates/translate.html:90 weblate/templates/translate.html:406
-#: weblate/templates/translate.html:506 weblate/templates/translation.html:21
+#: weblate/templates/translate.html:90 weblate/templates/translate.html:409
+#: weblate/templates/translate.html:509 weblate/templates/translation.html:21
 #: weblate/trans/forms.py:1698
 msgid "Translation"
 msgstr "Тәржемә"
@@ -4636,7 +4693,7 @@ msgid "Font"
 msgstr "Шрифт"
 
 #: weblate/fonts/validators.py:17 weblate/fonts/validators.py:23
-#: weblate/utils/validators.py:179
+#: weblate/utils/validators.py:184
 msgid "Unsupported file format."
 msgstr "Хупланмаған файл форматы."
 
@@ -4768,12 +4825,12 @@ msgid "JSON"
 msgstr "JSON"
 
 #. Translators: File format name
-#: weblate/formats/exporters.py:357 weblate/formats/ttkit.py:1577
+#: weblate/formats/exporters.py:357 weblate/formats/ttkit.py:1612
 msgid "JSON nested structure file"
 msgstr "Эске структуралы JSON-файл"
 
 #. Translators: File format name
-#: weblate/formats/exporters.py:366 weblate/formats/ttkit.py:1506
+#: weblate/formats/exporters.py:366 weblate/formats/ttkit.py:1541
 msgid "Android String Resource"
 msgstr "Android юл ресурсы"
 
@@ -4790,252 +4847,294 @@ msgid "Multivalue CSV file (UTF-8)"
 msgstr "Күп ҡиммәтле CSV-файл (UTF-8)"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1195
+#: weblate/formats/ttkit.py:1202
 msgid "gettext PO file"
 msgstr "gettext PO-файлы"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1265
+#: weblate/formats/ttkit.py:1272
 msgid "gettext PO file (monolingual)"
 msgstr "gettext PO-файлы (бер телле)"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1290
+#: weblate/formats/ttkit.py:1297
 msgid "Qt Linguist translation file"
 msgstr "Qt Linguist тәржемә файлы"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1305
+#: weblate/formats/ttkit.py:1312
 msgid "XLIFF 1.2 translation file"
 msgstr "XLIFF 1.2 тәржемә файлы"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1344
+#: weblate/formats/ttkit.py:1357
 msgid "XLIFF 1.2 with placeables support"
 msgstr "XLIFF 1.2 алмаштырғыстар менән"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1352
+#: weblate/formats/ttkit.py:1365
 msgid "XLIFF 1.2 with gettext extensions"
 msgstr "XLIFF 1.2 gettext киңәйеүҙәре менән"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1384
+#: weblate/formats/ttkit.py:1374
+#, fuzzy
+#| msgid "XLIFF 1.2 translation file"
+msgid "XLIFF 2.0 translation file"
+msgstr "XLIFF 1.2 тәржемә файлы"
+
+#. Translators: File format name
+#: weblate/formats/ttkit.py:1389
+#, fuzzy
+#| msgid "XLIFF 1.2 with placeables support"
+msgid "XLIFF 2.0 translation file with placeables support"
+msgstr "XLIFF 1.2 алмаштырғыстар менән"
+
+#. Translators: File format name
+#: weblate/formats/ttkit.py:1419
 msgid "iOS strings (UTF-16)"
 msgstr "iOS юлдары (UTF-16)"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1394
+#: weblate/formats/ttkit.py:1429
 msgid "iOS strings (UTF-8)"
 msgstr "iOS юлдары (UTF-8)"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1402
+#: weblate/formats/ttkit.py:1437
 msgid "Java Properties (UTF-8)"
 msgstr "Java Properties (UTF-8)"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1412
+#: weblate/formats/ttkit.py:1447
 msgid "Java Properties (UTF-16)"
 msgstr "Java Properties (UTF-16)"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1423
+#: weblate/formats/ttkit.py:1458
 msgid "Java Properties (ISO 8859-1)"
 msgstr "Java Properties (ISO 8859-1)"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1436
+#: weblate/formats/ttkit.py:1471
 msgid "Joomla language file"
 msgstr "Joomla тел файлы"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1446
+#: weblate/formats/ttkit.py:1481
 msgid "GWT properties (UTF-8)"
 msgstr "GWT properties (UTF-8)"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1457
+#: weblate/formats/ttkit.py:1492
 msgid "GWT properties (ISO-8859-1)"
 msgstr "GWT properties (ISO-8859-1)"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1464
+#: weblate/formats/ttkit.py:1499
 msgid "PHP strings"
 msgstr "PHP юлдары"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1484
+#: weblate/formats/ttkit.py:1519
 msgid "Laravel PHP strings"
 msgstr "Laravel PHP юлдары"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1492
+#: weblate/formats/ttkit.py:1527
 msgid ".NET resource file"
 msgstr ".NET ресурс файлы"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1529
+#: weblate/formats/ttkit.py:1564
 msgid "Mobile Kotlin Resource"
 msgstr "Mobile Kotlin ресурсы"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1536
+#: weblate/formats/ttkit.py:1571
 msgid "Compose Multiplatform Resource"
 msgstr "Compose Multiplatform ресурсы"
 
-#: weblate/formats/ttkit.py:1550
+#: weblate/formats/ttkit.py:1585
 #, python-format
 msgid "Could not parse the key: %s"
 msgstr "Асҡысты анализлап булманы: %s"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1556
+#: weblate/formats/ttkit.py:1591
 msgid "JSON file"
 msgstr "JSON-файл"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1585
+#: weblate/formats/ttkit.py:1620
 msgid "WebExtension JSON file"
 msgstr "WebExtension JSON-файлы"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1596
+#: weblate/formats/ttkit.py:1631
 msgid "i18next JSON file v3"
 msgstr "i18next JSON-файлы v3"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1607
+#: weblate/formats/ttkit.py:1642
 msgid "i18next JSON file v4"
 msgstr "i18next JSON-файлы v4"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1614
+#: weblate/formats/ttkit.py:1649
 msgid "go-i18n v1 JSON file"
 msgstr "go-i18n v1 JSON-файлы"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1624
+#: weblate/formats/ttkit.py:1659
 msgid "go-i18n v2 JSON file"
 msgstr "go-i18n v2 JSON-файлы"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1633
+#: weblate/formats/ttkit.py:1668
 msgid "ARB file"
 msgstr "ARB-файл"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1643
+#: weblate/formats/ttkit.py:1678
 msgid "gotext JSON file"
 msgstr "gotext JSON-файлы"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1653
+#: weblate/formats/ttkit.py:1688
 msgid "Format.JS JSON file"
 msgstr "Format.JS JSON-файлы"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1662
+#: weblate/formats/ttkit.py:1697
+#, fuzzy
+#| msgid "gotext JSON file"
+msgid "Nextcloud JSON file"
+msgstr "gotext JSON-файлы"
+
+#. Translators: File format name
+#: weblate/formats/ttkit.py:1708
+#, fuzzy
+#| msgid "JSON file"
+msgid "RESJSON file"
+msgstr "JSON-файл"
+
+#. Translators: File format name
+#: weblate/formats/ttkit.py:1718
+#, fuzzy
+#| msgid "HTML file"
+msgid "TOML file"
+msgstr "HTML-файл"
+
+#. Translators: File format name
+#: weblate/formats/ttkit.py:1738
+#, fuzzy
+#| msgid "go-i18n v1 JSON file"
+msgid "go-i18n TOML file"
+msgstr "go-i18n v1 JSON-файлы"
+
+#. Translators: File format name
+#: weblate/formats/ttkit.py:1748
 msgid "CSV file"
 msgstr "CSV-файл"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1767
+#: weblate/formats/ttkit.py:1853
 msgid "CSV file (UTF-8)"
 msgstr "CSV-файл (UTF-8)"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1775
+#: weblate/formats/ttkit.py:1861
 msgid "Simple CSV file"
 msgstr "Ябай CSV-файл"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1795
+#: weblate/formats/ttkit.py:1881
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "Ябай CSV-файл (ISO-8859-1)"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1803
+#: weblate/formats/ttkit.py:1889
 msgid "Simple CSV file (UTF-8)"
 msgstr "Ябай CSV-файл (UTF-8)"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1811
+#: weblate/formats/ttkit.py:1897
 msgid "YAML file"
 msgstr "YAML файлы"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1831
+#: weblate/formats/ttkit.py:1917
 msgid "Ruby YAML file"
 msgstr "Ruby YAML-файлы"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1840
+#: weblate/formats/ttkit.py:1926
 msgid "DTD file"
 msgstr "DTD-файл"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1885
+#: weblate/formats/ttkit.py:1971
 msgid "SubRip subtitle file"
 msgstr "SubRip субтитр файлы"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1901
+#: weblate/formats/ttkit.py:1987
 msgid "MicroDVD subtitle file"
 msgstr "MicroDVD субтитр файлы"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1909
+#: weblate/formats/ttkit.py:1995
 msgid "Advanced SubStation Alpha subtitle file"
 msgstr "Advanced SubStation Alpha субтитр файлы"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1917
+#: weblate/formats/ttkit.py:2003
 msgid "SubStation Alpha subtitle file"
 msgstr "SubStation Alpha субтитр файлы"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1925
+#: weblate/formats/ttkit.py:2011
 msgid "Flat XML file"
 msgstr "Яҫы XML-файл"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1948
+#: weblate/formats/ttkit.py:2034
 msgid "ResourceDictionary file"
 msgstr "ResourceDictionary файлы"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1962
+#: weblate/formats/ttkit.py:2048
 msgid "INI file"
 msgstr "INI-файл"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:2006
+#: weblate/formats/ttkit.py:2092
 msgid "Inno Setup INI file"
 msgstr "Inno Setup INI-файлы"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:2214
+#: weblate/formats/ttkit.py:2300
 msgid "TermBase eXchange file"
 msgstr "TermBase eXchange файлы"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:2265
+#: weblate/formats/ttkit.py:2351
 msgid "@draggable/i18n lang file"
 msgstr "@draggable/i18n тел файлы"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:2275
+#: weblate/formats/ttkit.py:2361
 msgid "Haiku catkeys"
 msgstr ""
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:2295
+#: weblate/formats/ttkit.py:2381
 msgid "Stringsdict file"
 msgstr "Stringsdict файлы"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:2365
+#: weblate/formats/ttkit.py:2451
 msgid "Fluent file"
 msgstr "Fluent-файл"
 
@@ -5057,7 +5156,7 @@ msgid "Invalid integer list!"
 msgstr "Бөтөн һандар исемлеге дөрөҫ түгел!"
 
 #: weblate/glossary/forms.py:87 weblate/templates/mail/base.html:37
-#: weblate/templates/translate.html:746 weblate/trans/forms.py:1691
+#: weblate/templates/translate.html:749 weblate/trans/forms.py:1691
 #: weblate/trans/templatetags/translations.py:1482
 msgid "Glossary"
 msgstr "Глоссарий"
@@ -5529,7 +5628,8 @@ msgid "API key"
 msgstr "API асҡысы"
 
 #: weblate/machinery/forms.py:55 weblate/machinery/forms.py:281
-#: weblate/machinery/forms.py:313
+#: weblate/machinery/forms.py:313 weblate/machinery/forms.py:356
+#: weblate/machinery/forms.py:479
 msgctxt "Automatic suggestion service configuration"
 msgid "API URL"
 msgstr "API URL-ы"
@@ -5769,12 +5869,17 @@ msgstr ""
 msgid "Prefer next-gen LLM over classic machine translation model."
 msgstr ""
 
-#: weblate/machinery/forms.py:358
+#: weblate/machinery/forms.py:362
+msgctxt "Automatic suggestion service configuration"
+msgid "LLM model"
+msgstr ""
+
+#: weblate/machinery/forms.py:369
 msgctxt "Automatic suggestion service configuration"
 msgid "Translator persona"
 msgstr "Тәржемәсе персонаһы"
 
-#: weblate/machinery/forms.py:362
+#: weblate/machinery/forms.py:373
 msgid ""
 "Describe the persona of translator to improve the accuracy of the "
 "translation. For example: “You are a squirrel breeder.”"
@@ -5782,76 +5887,89 @@ msgstr ""
 "Тәржемәнең аныҡлығын яҡшыртыу өсөн тәржемәсе персонаһын тасуирлағыҙ. "
 "Мәҫәлән: “Һин – тейен үрсетеүсе.”"
 
-#: weblate/machinery/forms.py:369
+#: weblate/machinery/forms.py:380
 msgctxt "Automatic suggestion service configuration"
 msgid "Translator style"
 msgstr "Тәржемәсе стиле"
 
-#: weblate/machinery/forms.py:373
+#: weblate/machinery/forms.py:384
 msgid ""
 "Describe the style of translation. For example: “Use informal language.”"
 msgstr "Тәржемә стилен тасуирлағыҙ. Мәҫәлән: “Рәсми булмаған тел ҡулланығыҙ.”"
 
-#: weblate/machinery/forms.py:382
+#: weblate/machinery/forms.py:397
 msgctxt "OpenAI model selection"
 msgid "Automatic selection"
 msgstr "Автоматик һайлау"
 
-#: weblate/machinery/forms.py:396
+#: weblate/machinery/forms.py:411
 msgctxt "OpenAI model selection"
 msgid "Custom model"
 msgstr "Көйләнгән модель"
 
-#: weblate/machinery/forms.py:401
+#: weblate/machinery/forms.py:416
 msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI API base URL"
 msgstr "OpenAI API-ның төп URL-ы"
 
-#: weblate/machinery/forms.py:405
+#: weblate/machinery/forms.py:420
 msgid "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
 msgstr ""
 "OpenAI API-ның төп URL-ы, әгәр ул OpenAI-ҙың ғәҙәттәге URL-ынан айырылһа"
 
-#: weblate/machinery/forms.py:412
+#: weblate/machinery/forms.py:427
 msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI model"
 msgstr "OpenAI моделе"
 
-#: weblate/machinery/forms.py:420
+#: weblate/machinery/forms.py:435
 msgctxt "OpenAI model selection"
 msgid "Custom model name"
 msgstr "Көйләнгән модель исеме"
 
-#: weblate/machinery/forms.py:422
+#: weblate/machinery/forms.py:437
 msgid "Only needed when model is set to 'Custom model'"
 msgstr "'Көйләнгән модель' һайланғанда ғына кәрәк"
 
-#: weblate/machinery/forms.py:432
+#: weblate/machinery/forms.py:447
 msgid "Missing custom model name."
 msgstr "Көйләнгән модель исеме юҡ."
 
-#: weblate/machinery/forms.py:436
+#: weblate/machinery/forms.py:451
 msgid "Choose custom model here to enable it."
 msgstr "Уны ҡабыҙыу өсөн бында көйләнгән моделде һайлағыҙ."
 
-#: weblate/machinery/forms.py:445
+#: weblate/machinery/forms.py:460
 msgctxt "Automatic suggestion service configuration"
 msgid "Azure OpenAI endpoint URL"
 msgstr "Azure OpenAI осоноң URL-ы"
 
-#: weblate/machinery/forms.py:449
+#: weblate/machinery/forms.py:464
 msgid ""
 "Endpoint URL of the instance, e.g: https://my-instance.openai.azure.com."
 msgstr "Инстанцияның ос URL-ы, мәҫәлән: https://my-instance.openai.azure.com."
 
-#: weblate/machinery/forms.py:455
+#: weblate/machinery/forms.py:470
 msgctxt "Automatic suggestion service configuration"
 msgid "Azure OpenAI deployment"
 msgstr "Azure OpenAI-ҙы йәйелдереү"
 
-#: weblate/machinery/forms.py:458
+#: weblate/machinery/forms.py:473
 msgid "The model's unique deployment name."
 msgstr "Моделдең уникаль йәйелдереү исеме."
+
+#: weblate/machinery/forms.py:481
+msgid "Base URL of the Ollama API, localhost and port 11434 by default."
+msgstr ""
+
+#: weblate/machinery/forms.py:488
+msgctxt "Automatic suggestion service configuration"
+msgid "Ollama model"
+msgstr ""
+
+#: weblate/machinery/forms.py:490
+msgid "Name of the model described in Ollama catalogue."
+msgstr ""
 
 #: weblate/machinery/types.py:20
 msgctxt "Source language selection"
@@ -5883,7 +6001,7 @@ msgstr "Файл"
 msgid "You can upload a file of following formats: %s."
 msgstr "Һеҙ түбәндәге форматтарҙағы файлды тейәй алаһығыҙ: %s."
 
-#: weblate/memory/forms.py:28 weblate/trans/models/component.py:763
+#: weblate/memory/forms.py:28 weblate/trans/models/component.py:765
 msgid "Source language"
 msgstr "Сығанаҡ тел"
 
@@ -5932,45 +6050,45 @@ msgid "Source language not defined in the TMX file!"
 msgstr "TMX-файлда сығанаҡ тел билдәләнмәгән!"
 
 #: weblate/memory/models.py:313 weblate/memory/models.py:331
-#: weblate/memory/models.py:399
+#: weblate/memory/models.py:400
 #, python-format
 msgid "Could not find language %s!"
 msgstr "%s теле табылманы!"
 
-#: weblate/memory/models.py:379
+#: weblate/memory/models.py:380
 msgid "Unsupported file!"
 msgstr "Хупланмаған файл!"
 
-#: weblate/memory/models.py:383
+#: weblate/memory/models.py:384
 msgid "Monolingual format not supported for memory upload"
 msgstr "Бер телле формат хәтергә тейәү өсөн хупланмай"
 
-#: weblate/memory/models.py:393
+#: weblate/memory/models.py:394
 msgid "Missing source or target language in file!"
 msgstr "Файлда сығанаҡ йәки маҡсатлы тел юҡ!"
 
-#: weblate/memory/models.py:431
+#: weblate/memory/models.py:432
 #, fuzzy
 #| msgid "pending"
 msgid "Pending"
 msgstr "көтөлә"
 
-#: weblate/memory/models.py:500
+#: weblate/memory/models.py:501
 msgctxt "Translation memory category"
 msgid "Project: {}"
 msgstr "Проект: {}"
 
-#: weblate/memory/models.py:502
+#: weblate/memory/models.py:503
 msgctxt "Translation memory category"
 msgid "Personal: {}"
 msgstr "Шәхси: {}"
 
-#: weblate/memory/models.py:504
+#: weblate/memory/models.py:505
 msgctxt "Translation memory category"
 msgid "Shared: {}"
 msgstr "Уртаҡ: {}"
 
-#: weblate/memory/models.py:506
+#: weblate/memory/models.py:507
 msgctxt "Translation memory category"
 msgid "File: {}"
 msgstr "Файл: {}"
@@ -6072,7 +6190,7 @@ msgstr ""
 msgid "Image is too big."
 msgstr ""
 
-#: weblate/screenshots/forms.py:85 weblate/utils/validators.py:130
+#: weblate/screenshots/forms.py:85 weblate/utils/validators.py:135
 #, python-format
 msgid "Unsupported image type: %s"
 msgstr "Хупланмаған рәсем төрө: %s"
@@ -6663,11 +6781,11 @@ msgstr "%(formatted_site_title)s системаһына инеү"
 msgid "Sign in with:"
 msgstr "Ошолар аша инегеҙ:"
 
-#: weblate/templates/accounts/login.html:65
+#: weblate/templates/accounts/login.html:68
 msgid "Forgot your password?"
 msgstr "Паролегеҙҙе оноттоғоҙмо?"
 
-#: weblate/templates/accounts/login.html:71
+#: weblate/templates/accounts/login.html:74
 msgid "Register new account"
 msgstr "Яңы аккаунт теркәргә"
 
@@ -6778,8 +6896,8 @@ msgstr ""
 #: weblate/templates/trans/project-access-row.html:83
 #: weblate/templates/trans/project_form.html:43
 #: weblate/templates/trans/project_import.html:31
-#: weblate/templates/translate.html:572 weblate/templates/translate.html:991
-#: weblate/templates/translate.html:1080
+#: weblate/templates/translate.html:575 weblate/templates/translate.html:994
+#: weblate/templates/translate.html:1083
 msgid "Save"
 msgstr "Һаҡларға"
 
@@ -6848,7 +6966,7 @@ msgstr "Әлегә WebAuthn асҡыстары теркәлмәгән."
 #: weblate/templates/screenshots/screenshot_sources_body_actions.html:10
 #: weblate/templates/trans/project-access-row.html:35
 #: weblate/templates/trans/project-access-row.html:55
-#: weblate/templates/translate.html:534
+#: weblate/templates/translate.html:537
 msgid "Remove"
 msgstr "Юйырға"
 
@@ -7152,11 +7270,11 @@ msgstr "%(formatted_site_title)s сайтында теркәлергә"
 msgid "Create an account using:"
 msgstr "Ошолар аша аккаунт булдырығыҙ:"
 
-#: weblate/templates/accounts/register.html:79
+#: weblate/templates/accounts/register.html:82
 msgid "Sorry, new registrations are turned off on this site."
 msgstr "Ғәфү итегеҙ, был сайтта яңы теркәлеүҙәр һүндерелгән."
 
-#: weblate/templates/accounts/register.html:82
+#: weblate/templates/accounts/register.html:85
 msgid "You can contact us for more details."
 msgstr "Тулыраҡ мәғлүмәт өсөн беҙҙең менән бәйләнешкә инә алаһығыҙ."
 
@@ -7583,13 +7701,13 @@ msgstr "Юйырға"
 #: weblate/templates/trans/delete-form.html:6
 #: weblate/templates/trans/project-access-row.html:45
 #: weblate/templates/trans/project-access.html:267
-#: weblate/templates/translate.html:526
+#: weblate/templates/translate.html:529
 msgid "Are you absolutely sure?"
 msgstr "Һеҙ тулыһынса ышанаһығыҙмы?"
 
 #: weblate/templates/accounts/user.html:460
 #: weblate/templates/auth/team.html:201 weblate/templates/auth/team.html:232
-#: weblate/templates/base.html:520 weblate/templates/base.html:530
+#: weblate/templates/base.html:521 weblate/templates/base.html:530
 #: weblate/templates/keyboard-shortcuts.html:16
 #: weblate/templates/keyboard-shortcuts.html:205
 #: weblate/templates/manage/backups.html:137
@@ -7602,9 +7720,9 @@ msgstr "Һеҙ тулыһынса ышанаһығыҙмы?"
 #: weblate/templates/trans/project-access-row.html:49
 #: weblate/templates/trans/project-access-row.html:79
 #: weblate/templates/trans/project-access.html:271
-#: weblate/templates/translate.html:530 weblate/templates/translate.html:950
-#: weblate/templates/translate.html:1017 weblate/templates/translate.html:1045
-#: weblate/templates/translate.html:1076
+#: weblate/templates/translate.html:533 weblate/templates/translate.html:953
+#: weblate/templates/translate.html:1020 weblate/templates/translate.html:1048
+#: weblate/templates/translate.html:1079
 msgid "Close"
 msgstr "Ябырға"
 
@@ -7660,7 +7778,7 @@ msgstr "репозиторий кимәлендә"
 #: weblate/templates/dashboard/user.html:62
 #: weblate/templates/language-project.html:28
 #: weblate/templates/language.html:22 weblate/templates/project.html:31
-#: weblate/templates/translate.html:358 weblate/templates/translation.html:33
+#: weblate/templates/translate.html:361 weblate/templates/translation.html:33
 msgid "History"
 msgstr "Тарих"
 
@@ -7817,7 +7935,7 @@ msgstr "Түбәндәге компоненттар булдырыласаҡ"
 #: weblate/templates/addons/discovery_preview.html:88
 #: weblate/templates/snippets/info.html:142
 #: weblate/templates/trans/alert/inexistantfiles.html:12
-#: weblate/trans/models/component.py:502
+#: weblate/trans/models/component.py:504
 msgid "Monolingual base language file"
 msgstr "Бер телле нигеҙ тел файлы"
 
@@ -7826,7 +7944,7 @@ msgstr "Бер телле нигеҙ тел файлы"
 #: weblate/templates/addons/discovery_preview.html:91
 #: weblate/templates/snippets/info.html:134
 #: weblate/templates/trans/discover-choice.html:7
-#: weblate/trans/models/component.py:482
+#: weblate/trans/models/component.py:484
 msgid "File mask"
 msgstr "Файл битлеге"
 
@@ -7863,7 +7981,7 @@ msgid "Translation filename"
 msgstr "Тәржемә файлының исеме"
 
 #: weblate/templates/addons/generate_help.html:76
-#: weblate/trans/models/component.py:378
+#: weblate/trans/models/component.py:380
 msgid "Component name"
 msgstr "Компонент исеме"
 
@@ -8023,7 +8141,7 @@ msgstr "Был <b>%(user)s</b> ҡулланыусыһының был проек�
 #: weblate/templates/snippets/query-builder.html:213
 #: weblate/templates/trans/project-access.html:175
 #: weblate/templates/trans/project-access.html:308
-#: weblate/templates/translate.html:1021 weblate/templates/translation.html:255
+#: weblate/templates/translate.html:1024 weblate/templates/translation.html:255
 #: weblate/templates/translation.html:283
 #: weblate/templates/translation.html:403
 msgid "Add"
@@ -8066,7 +8184,7 @@ msgstr "Навигацияны асырға/ябырға"
 #: weblate/templates/snippets/user-query-field.html:4
 #: weblate/templates/trans/change_list.html:57
 #: weblate/templates/trans/change_list.html:61
-#: weblate/templates/translate.html:501 weblate/templates/translation.html:27
+#: weblate/templates/translate.html:504 weblate/templates/translation.html:27
 msgid "Search"
 msgstr "Эҙләү"
 
@@ -8158,7 +8276,7 @@ msgstr "Түләүҙәргә күҙәтеү"
 #: weblate/templates/memory/index.html:11
 #: weblate/templates/memory/index.html:18
 #: weblate/templates/memory/index.html:25 weblate/templates/project.html:120
-#: weblate/templates/translate.html:498
+#: weblate/templates/translate.html:501
 #: weblate/wladmin/templates/admin/weblate-index.html:52
 #: weblate/wladmin/views.py:92
 msgid "Translation memory"
@@ -8380,8 +8498,8 @@ msgstr "Әлеге ваҡытта билдәләнгән проекттар юҡ
 #: weblate/templates/screenshots/screenshot_sources_body_actions.html:3
 #: weblate/templates/snippets/info.html:84
 #: weblate/templates/snippets/last-changes-content.html:55
-#: weblate/templates/translate.html:611 weblate/templates/translate.html:689
-#: weblate/templates/translate.html:708
+#: weblate/templates/translate.html:614 weblate/templates/translate.html:692
+#: weblate/templates/translate.html:711
 msgid "View"
 msgstr "Ҡарарға"
 
@@ -8858,7 +8976,7 @@ msgstr "%(first)s барлыҡҡа килгән, һуңғы тапҡыр %(last)
 
 #: weblate/templates/component.html:221
 #: weblate/templates/manage/performance.html:49
-#: weblate/templates/translate.html:645 weblate/templates/translate.html:725
+#: weblate/templates/translate.html:648 weblate/templates/translate.html:728
 msgid "Dismiss"
 msgstr "Иғтибарһыҙ ҡалдырырға"
 
@@ -8888,7 +9006,7 @@ msgstr "Компонентты күсереү йәки исемен үҙгәрт
 
 #: weblate/templates/component.html:363
 #: weblate/templates/dashboard/user.html:128 weblate/templates/project.html:407
-#: weblate/templates/translate.html:482 weblate/templates/translation.html:416
+#: weblate/templates/translate.html:485 weblate/templates/translation.html:416
 msgid "Loading…"
 msgstr "Тейәлә…"
 
@@ -8907,7 +9025,7 @@ msgstr ""
 #: weblate/templates/snippets/info.html:80
 #: weblate/templates/snippets/libre-checklist.html:22
 #: weblate/templates/trans/other-row.html:26
-#: weblate/trans/models/component.py:633
+#: weblate/trans/models/component.py:635
 msgid "Contributor license agreement"
 msgstr "Ярҙамсының лицензия килешеүе"
 
@@ -9226,7 +9344,7 @@ msgstr "Шрифт өҫтәргә"
 #: weblate/templates/fonts/font_list.html:122
 #: weblate/templates/memory/index.html:307
 #: weblate/templates/screenshots/screenshot_list.html:38
-#: weblate/templates/translate.html:1052 weblate/templates/translation.html:364
+#: weblate/templates/translate.html:1055 weblate/templates/translation.html:364
 #: weblate/templates/translation.html:378
 msgid "Upload"
 msgstr "Тейәргә"
@@ -9770,7 +9888,7 @@ msgstr "Сервис башҡа эшләмәй"
 #: weblate/templates/machinery/edit.html:21
 #: weblate/templates/machinery/list.html:11
 #: weblate/templates/machinery/list.html:18 weblate/templates/project.html:179
-#: weblate/templates/translate.html:340 weblate/wladmin/views.py:101
+#: weblate/templates/translate.html:343 weblate/wladmin/views.py:101
 msgid "Automatic suggestions"
 msgstr "Автоматик тәҡдимдәр"
 
@@ -10319,18 +10437,18 @@ msgstr "Саҡырыуҙы раҫларға"
 #: weblate/templates/mail/snippets/source-string.html:14
 #: weblate/templates/snippets/glossary.html:26
 #: weblate/templates/snippets/query-builder.html:29
-#: weblate/templates/translate.html:148 weblate/templates/translate.html:844
+#: weblate/templates/translate.html:148 weblate/templates/translate.html:847
 #: weblate/templates/zen-units.html:47
 msgid "Source string description"
 msgstr "Сығанаҡ юл тасуирламаһы"
 
 #: weblate/templates/mail/snippets/unit-screenshots.html:4
-#: weblate/templates/translate.html:892
+#: weblate/templates/translate.html:895
 msgid "Source string location"
 msgstr "Сығанаҡ юл урыны"
 
 #: weblate/templates/mail/snippets/unit-screenshots.html:11
-#: weblate/templates/translate.html:800
+#: weblate/templates/translate.html:803
 msgid "Screenshot context"
 msgstr "Скриншот контексы"
 
@@ -11090,7 +11208,7 @@ msgstr "/ %(total)s"
 
 #: weblate/templates/project-label-edit.html:10
 #: weblate/templates/project-labels.html:10 weblate/templates/project.html:176
-#: weblate/templates/translate.html:858 weblate/trans/models/unit.py:444
+#: weblate/templates/translate.html:861 weblate/trans/models/unit.py:460
 #: weblate/utils/views.py:215
 msgid "Labels"
 msgstr "Билдәләр"
@@ -11206,7 +11324,7 @@ msgid "Deleting screenshot will remove it from all associated source strings."
 msgstr "Скриншотты юйыу уны бөтә бәйле сығанаҡ юлдарҙан да юясаҡ."
 
 #: weblate/templates/screenshots/screenshot_list.html:32
-#: weblate/templates/translate.html:1041
+#: weblate/templates/translate.html:1044
 msgid "Add new screenshot"
 msgstr "Яңы скриншот өҫтәргә"
 
@@ -11443,7 +11561,7 @@ msgstr ""
 "көйләмәйенсә, уның өҫтөнлөктәрен ҡуллана алмаясаҡһығыҙ."
 
 #: weblate/templates/snippets/git-info.html:7
-#: weblate/trans/models/component.py:414
+#: weblate/trans/models/component.py:416
 msgid "Source code repository"
 msgstr "Сығанаҡ код репозиторийы"
 
@@ -11459,7 +11577,7 @@ msgid "Repository URL copied to clipboard."
 msgstr "Репозиторий URL-ы алмашыу буферына күсерелде."
 
 #: weblate/templates/snippets/git-info.html:29 weblate/trans/forms.py:1929
-#: weblate/trans/models/component.py:466
+#: weblate/trans/models/component.py:468
 msgid "Repository branch"
 msgstr "Репозиторий ботағы"
 
@@ -11542,7 +11660,7 @@ msgid "Automatic component list assignment"
 msgstr "Автоматик компонент исемлеген билдәләү"
 
 #: weblate/templates/snippets/info.html:67
-#: weblate/trans/models/component.py:626
+#: weblate/trans/models/component.py:628
 msgid "Translation license"
 msgstr "Тәржемә лицензияһы"
 
@@ -11597,7 +11715,7 @@ msgid "The translation uses bilingual files."
 msgstr "Тәржемә ике телле файлдарҙы ҡуллана."
 
 #: weblate/templates/snippets/info.html:152
-#: weblate/templates/translate.html:913
+#: weblate/templates/translate.html:916
 msgid "Translation file"
 msgstr "Тәржемә файлы"
 
@@ -11912,13 +12030,13 @@ msgstr "Тәржемә ителмәгән"
 
 #: weblate/templates/snippets/list-objects.html:124
 #: weblate/templates/trans/suggestion_list.html:13
-#: weblate/templates/translate.html:309 weblate/templates/translate.html:600
+#: weblate/templates/translate.html:312 weblate/templates/translate.html:603
 #: weblate/trans/forms.py:1700
 msgid "Suggestions"
 msgstr "Тәҡдимдәр"
 
 #: weblate/templates/snippets/list-objects.html:133
-#: weblate/templates/translate.html:327 weblate/templates/translate.html:680
+#: weblate/templates/translate.html:330 weblate/templates/translate.html:683
 msgid "Comments"
 msgstr "Комментарийҙар"
 
@@ -12653,7 +12771,7 @@ msgid "The component contains several duplicated translation strings."
 msgstr "Компонентта бер нисә ҡабатланған тәржемә юлы бар."
 
 #: weblate/templates/trans/alert/duplicatestring.html:12
-#: weblate/templates/translate.html:405 weblate/templates/translate.html:508
+#: weblate/templates/translate.html:408 weblate/templates/translate.html:511
 msgid "Source"
 msgstr "Сығанаҡ"
 
@@ -12670,7 +12788,7 @@ msgid "Following files are no longer present in the repository:"
 msgstr "Түбәндәге файлдар репозиторийҙа башҡа юҡ:"
 
 #: weblate/templates/trans/alert/inexistantfiles.html:16
-#: weblate/trans/models/component.py:533
+#: weblate/trans/models/component.py:535
 msgid "Template for new translations"
 msgstr "Яңы тәржемәләр өсөн ҡалып"
 
@@ -12777,7 +12895,7 @@ msgstr ""
 "ҡулдан берләштерегеҙ йәки быны автоматлаштырыу өсөн хуктарҙы көйләгеҙ."
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:10
-#: weblate/trans/models/component.py:402
+#: weblate/trans/models/component.py:404
 msgid "Version control system"
 msgstr "Версиялар менән идара итеү системаһы"
 
@@ -13195,7 +13313,7 @@ msgid "Propagated"
 msgstr "Таратылған"
 
 #: weblate/templates/trans/other-row.html:21
-#: weblate/trans/models/component.py:557
+#: weblate/trans/models/component.py:559
 msgid "Locked"
 msgstr "Бикләнгән"
 
@@ -13353,9 +13471,9 @@ msgstr "Сығанаҡ үҙгәреше"
 msgid "Intermediate language"
 msgstr "Аралаш тел"
 
-#: weblate/templates/translate.html:137 weblate/templates/translate.html:827
+#: weblate/templates/translate.html:137 weblate/templates/translate.html:830
 #: weblate/templates/zen-units.html:35 weblate/trans/forms.py:512
-#: weblate/trans/models/unit.py:430
+#: weblate/trans/models/unit.py:446
 msgid "Explanation"
 msgstr "Аңлатма"
 
@@ -13367,183 +13485,183 @@ msgstr "Сығанаҡ юл менән проблема тураһында хә�
 msgid "Delete string"
 msgstr "Юлды юйырға"
 
-#: weblate/templates/translate.html:227
+#: weblate/templates/translate.html:230
 msgid "Add variant of this string"
 msgstr "Был юлдың вариантын өҫтәргә"
 
-#: weblate/templates/translate.html:232
+#: weblate/templates/translate.html:235
 msgid "Add alternative translation"
 msgstr "Альтернатив тәржемә өҫтәргә"
 
-#: weblate/templates/translate.html:243
+#: weblate/templates/translate.html:246
 msgid "Save and continue"
 msgstr "Һаҡларға һәм дауам итергә"
 
-#: weblate/templates/translate.html:250
+#: weblate/templates/translate.html:253
 msgid "Save and stay"
 msgstr "Һаҡларға һәм ҡалырға"
 
-#: weblate/templates/translate.html:258
+#: weblate/templates/translate.html:261
 msgid "Insufficient privileges for adding suggestions."
 msgstr "Тәҡдимдәр өҫтәү өсөн хоҡуҡтар етерлек түгел."
 
-#: weblate/templates/translate.html:259
+#: weblate/templates/translate.html:262
 msgid "Suggest"
 msgstr "Тәҡдим итергә"
 
-#: weblate/templates/translate.html:268
+#: weblate/templates/translate.html:271
 msgid "Skip"
 msgstr "Үткәреп ебәрергә"
 
-#: weblate/templates/translate.html:281
+#: weblate/templates/translate.html:284
 msgid "Messages placed around this one"
 msgstr "Бының тирәләй урынлашҡан хәбәрҙәр"
 
-#: weblate/templates/translate.html:281
+#: weblate/templates/translate.html:284
 msgid "Nearby strings"
 msgstr "Йәнәшәләге юлдар"
 
-#: weblate/templates/translate.html:290
+#: weblate/templates/translate.html:293
 msgid "Strings with similar keys"
 msgstr "Оҡшаш асҡыслы юлдар"
 
-#: weblate/templates/translate.html:290
+#: weblate/templates/translate.html:293
 msgid "Similar keys"
 msgstr "Оҡшаш асҡыстар"
 
-#: weblate/templates/translate.html:300
+#: weblate/templates/translate.html:303
 msgid "Variants of the string"
 msgstr "Юлдың варианттары"
 
-#: weblate/templates/translate.html:300 weblate/templates/translate.html:699
+#: weblate/templates/translate.html:303 weblate/templates/translate.html:702
 msgid "Variants"
 msgstr "Варианттар"
 
-#: weblate/templates/translate.html:318
+#: weblate/templates/translate.html:321
 msgid "Other occurrences"
 msgstr "Башҡа осраҡтар"
 
-#: weblate/templates/translate.html:340
+#: weblate/templates/translate.html:343
 msgid "Computer-aided translation suggestions"
 msgstr "Компьютер ярҙамындағы тәржемә тәҡдимдәре"
 
-#: weblate/templates/translate.html:350
+#: weblate/templates/translate.html:353
 msgid "Translations of this string in the other languages"
 msgstr "Был юлдың башҡа телдәрҙәге тәржемәләре"
 
-#: weblate/templates/translate.html:350
+#: weblate/templates/translate.html:353
 msgid "Other languages"
 msgstr "Башҡа телдәр"
 
-#: weblate/templates/translate.html:358
+#: weblate/templates/translate.html:361
 msgid "List of recent changes done in Weblate"
 msgstr "Weblate-та яһалған һуңғы үҙгәрештәр исемлеге"
 
-#: weblate/templates/translate.html:394
+#: weblate/templates/translate.html:397
 msgid "Showing only subset of the strings as there were too many matches."
 msgstr "Бик күп тап килеүҙәр булғанға, юлдарҙың бер өлөшө генә күрһәтелә."
 
-#: weblate/templates/translate.html:407
+#: weblate/templates/translate.html:410
 msgid "Difference to current string"
 msgstr "Ағымдағы юлдан айырма"
 
-#: weblate/templates/translate.html:420
+#: weblate/templates/translate.html:423
 msgid "This string has the same context and source."
 msgid_plural "These strings have the same context and source."
 msgstr[0] "Был юлдың контексы һәм сығанағы бер үк."
 msgstr[1] "Был юлдарҙың контексы һәм сығанағы бер үк."
 
-#: weblate/templates/translate.html:432
+#: weblate/templates/translate.html:435
 msgid "This string has a different context, but the same source."
 msgid_plural "These strings have differing context, but the same source."
 msgstr[0] "Был юлдың контексы икенсе, ләкин сығанағы бер үк."
 msgstr[1] "Был юлдарҙың контекстары икенсе, ләкин сығанағы бер үк."
 
-#: weblate/templates/translate.html:444
+#: weblate/templates/translate.html:447
 msgid "This string has a different source, but the same context."
 msgid_plural "These strings have differing sources, but the same context."
 msgstr[0] "Был юлдың сығанағы икенсе, ләкин контексы бер үк."
 msgstr[1] "Был юлдарҙың сығанаҡтары икенсе, ләкин контексы бер үк."
 
-#: weblate/templates/translate.html:456
+#: weblate/templates/translate.html:459
 msgid "This string has a different source and context."
 msgid_plural "These strings have differing sources and context."
 msgstr[0] "Был юлдың сығанағы һәм контексы икенсе."
 msgstr[1] "Был юлдарҙың сығанаҡтары һәм контекстары икенсе."
 
-#: weblate/templates/translate.html:469
+#: weblate/templates/translate.html:472
 msgid "Apply selected translation to all propagated strings"
 msgstr "Һайланған тәржемәне бөтә таратылған юлдарға ҡулланырға"
 
-#: weblate/templates/translate.html:473
+#: weblate/templates/translate.html:476
 msgid "Apply selected translation to current string"
 msgstr "Һайланған тәржемәне ағымдағы юлға ҡулланырға"
 
-#: weblate/templates/translate.html:488
+#: weblate/templates/translate.html:491
 msgid "Browse all string changes"
 msgstr "Бөтә юл үҙгәрештәрен ҡарарға"
 
-#: weblate/templates/translate.html:507
+#: weblate/templates/translate.html:510
 msgid "Suggested change"
 msgstr "Тәҡдим ителгән үҙгәреш"
 
-#: weblate/templates/translate.html:509
+#: weblate/templates/translate.html:512
 msgid "Origin"
 msgstr "Сығанаҡ"
 
-#: weblate/templates/translate.html:510
+#: weblate/templates/translate.html:513
 msgid "Similarity"
 msgstr "Оҡшашлыҡ"
 
-#: weblate/templates/translate.html:564 weblate/trans/forms.py:1107
+#: weblate/templates/translate.html:567 weblate/trans/forms.py:1107
 msgid "New comment"
 msgstr "Яңы комментарий"
 
-#: weblate/templates/translate.html:568
+#: weblate/templates/translate.html:571
 msgid "Comment on this string for fellow translators and developers to read."
 msgstr ""
 "Хеҙмәттәш тәржемәселәр һәм программистар уҡыһын өсөн был юлға комментарий "
 "яҙығыҙ."
 
-#: weblate/templates/translate.html:591
+#: weblate/templates/translate.html:594
 msgid "Things to check"
 msgstr "Тикшерелергә тейешле нәмәләр"
 
-#: weblate/templates/translate.html:603
+#: weblate/templates/translate.html:606
 #, python-format
 msgid "There is %(count)s suggestion for this string."
 msgid_plural "There are %(count)s suggestions for this string."
 msgstr[0] "Был юл өсөн %(count)s тәҡдим бар."
 msgstr[1] "Был юл өсөн %(count)s тәҡдим бар."
 
-#: weblate/templates/translate.html:623
+#: weblate/templates/translate.html:626
 msgid "Enforced"
 msgstr "Мотлаҡ"
 
-#: weblate/templates/translate.html:634
+#: weblate/templates/translate.html:637
 msgid "Fix string"
 msgstr "Юлды төҙәтергә"
 
-#: weblate/templates/translate.html:649
+#: weblate/templates/translate.html:652
 msgid "For all languages"
 msgstr "Бөтә телдәр өсөн"
 
-#: weblate/templates/translate.html:652
+#: weblate/templates/translate.html:655
 msgid "Selecting this option will set the corresponding ignore flag."
 msgstr "Был опцияны һайлау тап килгән иғтибарһыҙ ҡалдырыу флагын ҡуясаҡ."
 
-#: weblate/templates/translate.html:656
+#: weblate/templates/translate.html:659
 msgid "Reset"
 msgstr "Кире алырға"
 
-#: weblate/templates/translate.html:683
+#: weblate/templates/translate.html:686
 #, python-format
 msgid "There is %(count)s unresolved comment for this string."
 msgid_plural "There are %(count)s unresolved comments for this string."
 msgstr[0] "Был юл өсөн %(count)s хәл ителмәгән комментарий бар."
 msgstr[1] "Был юл өсөн %(count)s хәл ителмәгән комментарий бар."
 
-#: weblate/templates/translate.html:702
+#: weblate/templates/translate.html:705
 #, python-format
 msgid "There is %(count)s variant of this string."
 msgid_plural "There are %(count)s variants of this string."
@@ -13551,108 +13669,108 @@ msgstr[0] "Был юлдың %(count)s варианты бар."
 msgstr[1] "Был юлдың %(count)s варианты бар."
 
 #. Translators: Name of event in the history
-#: weblate/templates/translate.html:717 weblate/trans/actions.py:24
-#: weblate/trans/models/unit.py:448
+#: weblate/templates/translate.html:720 weblate/trans/actions.py:24
+#: weblate/trans/models/unit.py:464
 msgid "Automatically translated"
 msgstr "Автоматик тәржемә ителде"
 
-#: weblate/templates/translate.html:720
+#: weblate/templates/translate.html:723
 #, fuzzy, python-format
 #| msgid "This string has been translated in the past."
 msgid "This string was translated automatically by %(author)s."
 msgstr "Был юл элек тәржемә ителгән булған."
 
-#: weblate/templates/translate.html:742
+#: weblate/templates/translate.html:745
 #, python-format
 msgid "Browse glossary %(name)s"
 msgstr "%(name)s глоссарийын ҡарарға"
 
-#: weblate/templates/translate.html:767 weblate/templates/translate.html:1072
-#: weblate/trans/models/component.py:4143
+#: weblate/templates/translate.html:770 weblate/templates/translate.html:1075
+#: weblate/trans/models/component.py:4154
 msgid "Add term to glossary"
 msgstr "Терминды глоссарийға өҫтәргә"
 
-#: weblate/templates/translate.html:778
+#: weblate/templates/translate.html:781
 msgid "Unit identifier"
 msgstr "Берәмек идентификаторы"
 
-#: weblate/templates/translate.html:780
+#: weblate/templates/translate.html:783
 msgid "Unit identifier copied to clipboard."
 msgstr "Берәмек идентификаторы алмашыу буферына күсерелде."
 
-#: weblate/templates/translate.html:781
+#: weblate/templates/translate.html:784
 msgid "String information"
 msgstr "Юл мәғлүмәте"
 
-#: weblate/templates/translate.html:805
+#: weblate/templates/translate.html:808
 msgid "No screenshot currently associated."
 msgstr "Әлеге ваҡытта бәйле скриншот юҡ."
 
-#: weblate/templates/translate.html:832
+#: weblate/templates/translate.html:835
 msgid "No explanation currently provided."
 msgstr "Әлеге ваҡытта аңлатма бирелмәгән."
 
-#: weblate/templates/translate.html:865
+#: weblate/templates/translate.html:868
 msgid "No labels currently set."
 msgstr "Әлеге ваҡытта билдәләр ҡуйылмаған."
 
-#: weblate/templates/translate.html:879
+#: weblate/templates/translate.html:882
 msgid "Flags"
 msgstr "Флагтар"
 
-#: weblate/templates/translate.html:885
+#: weblate/templates/translate.html:888
 msgid "No flags currently set."
 msgstr "Әлеге ваҡытта флагтар ҡуйылмаған."
 
 #. Translators: Label for timestamp when the string was first imported into Weblate.
-#: weblate/templates/translate.html:898 weblate/utils/views.py:218
+#: weblate/templates/translate.html:901 weblate/utils/views.py:218
 msgid "String age"
 msgstr "Юл йәше"
 
 #. Translators: Label for timestamp when the string was last updated in Weblate.
-#: weblate/templates/translate.html:903 weblate/utils/views.py:219
+#: weblate/templates/translate.html:906 weblate/utils/views.py:219
 msgid "Last updated"
 msgstr "Һуңғы яңыртыу"
 
 #. Translators: Label for timestamp when the source string was first imported into Weblate.
-#: weblate/templates/translate.html:908
+#: weblate/templates/translate.html:911
 msgid "Source string age"
 msgstr "Сығанаҡ юл йәше"
 
-#: weblate/templates/translate.html:916
+#: weblate/templates/translate.html:919
 #, python-format
 msgid "%(filename)s, string %(position)s"
 msgstr "%(filename)s, %(position)s-сы юл"
 
-#: weblate/templates/translate.html:918
+#: weblate/templates/translate.html:921
 #, python-format
 msgid "string %(position)s"
 msgstr "%(position)s-сы юл"
 
-#: weblate/templates/translate.html:922
+#: weblate/templates/translate.html:925
 msgid "Pending changes not yet committed to the Weblate repository"
 msgstr "Weblate репозиторийына әлегә коммит ителмәгән көтөлгән үҙгәрештәр"
 
-#: weblate/templates/translate.html:922
+#: weblate/templates/translate.html:925
 msgid "pending"
 msgstr "көтөлә"
 
-#: weblate/templates/translate.html:957
+#: weblate/templates/translate.html:960
 msgid "Inherited flags"
 msgstr "Мираҫ итеп алынған флагтар"
 
-#: weblate/templates/translate.html:963
+#: weblate/templates/translate.html:966
 #, python-format
 msgid "<code>%(flags)s</code> was extracted from %(filename)s."
 msgstr "<code>%(flags)s</code> %(filename)s файлынан сығарылды."
 
-#: weblate/templates/translate.html:968 weblate/templates/translate.html:973
-#: weblate/templates/translate.html:978 weblate/templates/translate.html:983
+#: weblate/templates/translate.html:971 weblate/templates/translate.html:976
+#: weblate/templates/translate.html:981 weblate/templates/translate.html:986
 #, python-format
 msgid "<code>%(flags)s</code> is inherited from %(object)s."
 msgstr "<code>%(flags)s</code> %(object)s-тан мираҫ итеп алынған."
 
-#: weblate/templates/translate.html:1012
+#: weblate/templates/translate.html:1015
 #, python-format
 msgid "Add a new variant for \"%(existing)s\""
 msgstr "\"%(existing)s\" өсөн яңы вариант өҫтәргә"
@@ -14343,7 +14461,7 @@ msgid_plural "Automatic translation completed, %d strings were updated."
 msgstr[0] "Автоматик тәржемә тамамланды, %d юл яңыртылды."
 msgstr[1] "Автоматик тәржемә тамамланды, %d юл яңыртылды."
 
-#: weblate/trans/autotranslate.py:346
+#: weblate/trans/autotranslate.py:347
 #, python-format
 msgid "Automatic translation failed: %s"
 msgstr "Автоматик тәржемә уңышһыҙ булды: %s"
@@ -14406,7 +14524,7 @@ msgstr[1] "%(count)s символ үҙгәртелде"
 
 #. Translators: Translation context for Gettext
 #: weblate/trans/change_display.py:422 weblate/trans/forms.py:2697
-#: weblate/trans/models/component.py:4057
+#: weblate/trans/models/component.py:4068
 msgid "Context"
 msgstr "Контекст"
 
@@ -14709,7 +14827,7 @@ msgstr ""
 msgid "Review state"
 msgstr "Тикшереү торошо"
 
-#: weblate/trans/forms.py:514 weblate/trans/models/unit.py:434
+#: weblate/trans/forms.py:514 weblate/trans/models/unit.py:450
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "Юлдың мәғәнәһен йәки ҡулланылышын асыҡлау өсөн өҫтәмә аңлатма."
 
@@ -15470,17 +15588,17 @@ msgstr "Компонентты ла, проектты ла күрһәтмәге�
 msgid "Category name"
 msgstr "Категория исеме"
 
-#: weblate/trans/models/category.py:57 weblate/trans/models/component.py:380
+#: weblate/trans/models/category.py:57 weblate/trans/models/component.py:382
 #: weblate/trans/models/componentlist.py:34 weblate/trans/models/project.py:176
 msgid "Display name"
 msgstr "Күренгән исем"
 
-#: weblate/trans/models/category.py:60 weblate/trans/models/component.py:383
+#: weblate/trans/models/category.py:60 weblate/trans/models/component.py:385
 #: weblate/trans/models/componentlist.py:38 weblate/trans/models/project.py:180
 msgid "URL slug"
 msgstr "URL-слаг"
 
-#: weblate/trans/models/category.py:62 weblate/trans/models/component.py:385
+#: weblate/trans/models/category.py:62 weblate/trans/models/component.py:387
 #: weblate/trans/models/componentlist.py:42 weblate/trans/models/project.py:183
 msgid "Name used in URLs and filenames."
 msgstr "URL-дарҙа һәм файл исемдәрендә ҡулланылған исем."
@@ -15550,46 +15668,46 @@ msgid "Source needs review"
 msgstr "Сығанаҡ тикшереүгә мохтаж"
 
 #. Translators: Action when adding new translation
-#: weblate/trans/models/component.py:149
+#: weblate/trans/models/component.py:151
 msgid "Contact maintainers"
 msgstr "Хужалар менән бәйләнеш"
 
 #. Translators: Action when adding new translation
-#: weblate/trans/models/component.py:151
+#: weblate/trans/models/component.py:153
 msgid "Point to translation instructions URL"
 msgstr "Тәржемә инструкцияларының URL-ына күрһәтергә"
 
 #. Translators: Action when adding new translation
-#: weblate/trans/models/component.py:153
+#: weblate/trans/models/component.py:155
 msgid "Create new language file"
 msgstr "Яңы тел файлы булдырырға"
 
 #. Translators: Action when adding new translation
-#: weblate/trans/models/component.py:155
+#: weblate/trans/models/component.py:157
 msgid "Disable adding new translations"
 msgstr "Яңы тәржемәләр өҫтәүҙе һүндерергә"
 
-#: weblate/trans/models/component.py:158
+#: weblate/trans/models/component.py:160
 msgid "Default based on the file format"
 msgstr "Файл форматына нигеҙләнгән ғәҙәттәге"
 
-#: weblate/trans/models/component.py:159
+#: weblate/trans/models/component.py:161
 msgid "POSIX style using underscore as a separator"
 msgstr "Айырыусы итеп аҫһыҙыҡ ҡулланған POSIX стиле"
 
-#: weblate/trans/models/component.py:162
+#: weblate/trans/models/component.py:164
 msgid "POSIX style using underscore as a separator, lower cased"
 msgstr "Айырыусы итеп аҫһыҙыҡ ҡулланған, бәләкәй хәрефле POSIX стиле"
 
-#: weblate/trans/models/component.py:164
+#: weblate/trans/models/component.py:166
 msgid "BCP style using hyphen as a separator"
 msgstr "Айырыусы итеп дефис ҡулланған BCP стиле"
 
-#: weblate/trans/models/component.py:168
+#: weblate/trans/models/component.py:170
 msgid "POSIX style using underscore as a separator, including country code"
 msgstr "Айырыусы итеп аҫһыҙыҡ ҡулланған, ил кодын индергән POSIX стиле"
 
-#: weblate/trans/models/component.py:174
+#: weblate/trans/models/component.py:176
 msgid ""
 "POSIX style using underscore as a separator, including country code, lower "
 "cased"
@@ -15597,51 +15715,51 @@ msgstr ""
 "Айырыусы итеп аҫһыҙыҡ ҡулланған, ил кодын индергән, бәләкәй хәрефле POSIX "
 "стиле"
 
-#: weblate/trans/models/component.py:179
+#: weblate/trans/models/component.py:181
 msgid "BCP style using hyphen as a separator, including country code"
 msgstr "Айырыусы итеп дефис ҡулланған, ил кодын индергән BCP стиле"
 
-#: weblate/trans/models/component.py:183
+#: weblate/trans/models/component.py:185
 msgid "BCP style using hyphen as a separator, legacy language codes"
 msgstr "Айырыусы итеп дефис ҡулланған, иҫкергән тел кодтары менән BCP стиле"
 
-#: weblate/trans/models/component.py:185
+#: weblate/trans/models/component.py:187
 msgid "BCP style using hyphen as a separator, lower cased"
 msgstr "Айырыусы итеп дефис ҡулланған, бәләкәй хәрефле BCP стиле"
 
-#: weblate/trans/models/component.py:186
+#: weblate/trans/models/component.py:188
 msgid "Android style"
 msgstr "Android стиле"
 
-#: weblate/trans/models/component.py:187
+#: weblate/trans/models/component.py:189
 msgid "Apple App Store metadata style"
 msgstr "Apple App Store мета데이터 стиле"
 
-#: weblate/trans/models/component.py:188
+#: weblate/trans/models/component.py:190
 msgid "Google Play metadata style"
 msgstr "Google Play мета데이터 стиле"
 
-#: weblate/trans/models/component.py:189
+#: weblate/trans/models/component.py:191
 msgid "Linux style"
 msgstr "Linux стиле"
 
-#: weblate/trans/models/component.py:190
+#: weblate/trans/models/component.py:192
 msgid "Linux style, lower cased"
 msgstr "Linux стиле, бәләкәй хәрефле"
 
-#: weblate/trans/models/component.py:194
+#: weblate/trans/models/component.py:196
 msgid "Merge"
 msgstr "Merge"
 
-#: weblate/trans/models/component.py:195
+#: weblate/trans/models/component.py:197
 msgid "Rebase"
 msgstr "Rebase"
 
-#: weblate/trans/models/component.py:196
+#: weblate/trans/models/component.py:198
 msgid "Merge without fast-forward"
 msgstr "Fast-forward-һыҙ merge"
 
-#: weblate/trans/models/component.py:405
+#: weblate/trans/models/component.py:407
 msgid ""
 "Version control system to use to access your repository containing "
 "translations. You can also choose additional integration with third party "
@@ -15651,7 +15769,7 @@ msgstr ""
 "системаһы. Һеҙ шулай уҡ берләштереү һорауҙарын ебәреү өсөн өсөнсө яҡ "
 "провайдерҙары менән өҫтәмә интеграцияны һайлай алаһығыҙ."
 
-#: weblate/trans/models/component.py:417
+#: weblate/trans/models/component.py:419
 msgid ""
 "URL of a repository, use weblate://project/component to share it with other "
 "component."
@@ -15659,19 +15777,19 @@ msgstr ""
 "Репозиторий URL-ы, уны башҡа компонент менән уртаҡлашыу өсөн weblate://"
 "project/component ҡулланығыҙ."
 
-#: weblate/trans/models/component.py:430
+#: weblate/trans/models/component.py:432
 msgid "Repository push URL"
 msgstr "Репозиторийҙың push-URL-ы"
 
-#: weblate/trans/models/component.py:433
+#: weblate/trans/models/component.py:435
 msgid "URL of a push repository, pushing is turned off if empty."
 msgstr "Push-репозиторийҙың URL-ы, буш булһа, pushing һүндерелгән."
 
-#: weblate/trans/models/component.py:439
+#: weblate/trans/models/component.py:441
 msgid "Repository browser"
 msgstr "Репозиторий ҡараусы"
 
-#: weblate/trans/models/component.py:442
+#: weblate/trans/models/component.py:444
 msgid ""
 "Link to repository browser, use {{branch}} for branch, {{filename}} and "
 "{{line}} as filename and line placeholders. You might want to strip leading "
@@ -15682,19 +15800,19 @@ msgstr ""
 "{{filename|parentdir}} ҡулланып, башланғыс каталогты алып ташларға "
 "теләрһегеҙ."
 
-#: weblate/trans/models/component.py:450
+#: weblate/trans/models/component.py:452
 msgid "Exported repository URL"
 msgstr "Экспортланған репозиторий URL-ы"
 
-#: weblate/trans/models/component.py:453
+#: weblate/trans/models/component.py:455
 msgid "URL of repository where users can fetch changes from Weblate"
 msgstr "Ҡулланыусылар Weblate-тан үҙгәрештәрҙе тарта алырлыҡ репозиторий URL-ы"
 
-#: weblate/trans/models/component.py:458
+#: weblate/trans/models/component.py:460
 msgid "Source string bug reporting address"
 msgstr "Сығанаҡ юл хаталары тураһында хәбәр итеү адресы"
 
-#: weblate/trans/models/component.py:460
+#: weblate/trans/models/component.py:462
 msgid ""
 "E-mail address for reports on errors in source strings. Leave empty for no e-"
 "mails."
@@ -15702,21 +15820,21 @@ msgstr ""
 "Сығанаҡ юлдарҙағы хаталар тураһында отчеттар өсөн e-mail адресы. E-mail-дар "
 "булмаһын өсөн буш ҡалдырығыҙ."
 
-#: weblate/trans/models/component.py:468
+#: weblate/trans/models/component.py:470
 msgid "Repository branch to translate"
 msgstr "Тәржемә ителәсәк репозиторий ботағы"
 
-#: weblate/trans/models/component.py:473
+#: weblate/trans/models/component.py:475
 msgid "Push branch"
 msgstr "Push-ботаҡ"
 
-#: weblate/trans/models/component.py:476
+#: weblate/trans/models/component.py:478
 msgid "Branch for pushing changes, leave empty to use repository branch"
 msgstr ""
 "Үҙгәрештәрҙе ебәреү (push) өсөн ботаҡ, репозиторий ботағын ҡулланыу өсөн буш "
 "ҡалдырығыҙ"
 
-#: weblate/trans/models/component.py:486
+#: weblate/trans/models/component.py:488
 msgid ""
 "Path of files to translate relative to repository root, use * instead of "
 "language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po."
@@ -15724,11 +15842,11 @@ msgstr ""
 "Репозиторий тамырына ҡарата тәржемә ителәсәк файлдарҙың юлы, тел коды "
 "урынына * ҡулланығыҙ, мәҫәлән: po/*.po йәки locale/*/LC_MESSAGES/django.po."
 
-#: weblate/trans/models/component.py:492
+#: weblate/trans/models/component.py:494
 msgid "Screenshot file mask"
 msgstr "Скриншот файлы битлеге"
 
-#: weblate/trans/models/component.py:497
+#: weblate/trans/models/component.py:499
 msgid ""
 "Path of screenshots relative to repository root, for example: docs/"
 "screenshots/*.png."
@@ -15736,7 +15854,7 @@ msgstr ""
 "Репозиторий тамырына ҡарата скриншоттарҙың юлы, мәҫәлән: docs/screenshots/"
 "*.png."
 
-#: weblate/trans/models/component.py:506
+#: weblate/trans/models/component.py:508
 msgid ""
 "Filename of translation base file, containing all strings and their source "
 "for monolingual translations."
@@ -15744,44 +15862,44 @@ msgstr ""
 "Бер телле тәржемәләр өсөн бөтә юлдарҙы һәм уларҙың сығанағын үҙ эсенә алған "
 "тәржемә нигеҙ файлының исеме."
 
-#: weblate/trans/models/component.py:513
+#: weblate/trans/models/component.py:515
 msgid "Edit base file"
 msgstr "Нигеҙ файлды үҙгәртергә"
 
-#: weblate/trans/models/component.py:516
+#: weblate/trans/models/component.py:518
 msgid ""
 "Whether users will be able to edit the base file for monolingual "
 "translations."
 msgstr ""
 "Ҡулланыусыларҙың бер телле тәржемәләр өсөн нигеҙ файлды мөхәррирләй алыуы."
 
-#: weblate/trans/models/component.py:550
+#: weblate/trans/models/component.py:552
 #, fuzzy
 #| msgid "File format"
 msgid "File format parameters"
 msgstr "Файл форматы"
 
-#: weblate/trans/models/component.py:560
+#: weblate/trans/models/component.py:562
 msgid "Locked component will not get any translation updates."
 msgstr "Бикләнгән компонент бер ниндәй ҙә тәржемә яңыртыуҙарын алмаясаҡ."
 
-#: weblate/trans/models/component.py:564
+#: weblate/trans/models/component.py:566
 #, fuzzy
 #| msgid "Does not follow glossary"
 msgid "Do not show glossary matches"
 msgstr "Глоссарийға тап килмәй"
 
-#: weblate/trans/models/component.py:566
+#: weblate/trans/models/component.py:568
 #, fuzzy
 #| msgid "Focus on translation editor."
 msgid "Hides the glossary panel in the translation editor."
 msgstr "Тәржемә мөхәрриренә фокусланырға."
 
-#: weblate/trans/models/component.py:569
+#: weblate/trans/models/component.py:571
 msgid "Allow translation propagation"
 msgstr "Тәржемәне таратырға рөхсәт итергә"
 
-#: weblate/trans/models/component.py:572
+#: weblate/trans/models/component.py:574
 msgid ""
 "Whether translation updates in other components will cause automatic "
 "translation in this one"
@@ -15789,13 +15907,13 @@ msgstr ""
 "Башҡа компоненттарҙағы тәржемә яңыртыуҙарының быныһында автоматик тәржемәгә "
 "килтереү-килтермәүе."
 
-#: weblate/trans/models/component.py:577
+#: weblate/trans/models/component.py:579
 #, fuzzy
 #| msgid "Contribute to shared translation memory"
 msgid "Contribute to project translation memory"
 msgstr "Уртаҡ тәржемә хәтеренә өлөш индерергә"
 
-#: weblate/trans/models/component.py:580
+#: weblate/trans/models/component.py:582
 #, fuzzy
 #| msgid ""
 #| "A request for a new translation has been sent to the project's "
@@ -15805,29 +15923,29 @@ msgid ""
 "translation memory."
 msgstr "Яңы тәржемә өсөн һорау проект хужаларына ебәрелде."
 
-#: weblate/trans/models/component.py:586 weblate/trans/models/workflow.py:29
+#: weblate/trans/models/component.py:588 weblate/trans/models/workflow.py:29
 msgid "Turn on suggestions"
 msgstr "Тәҡдимдәрҙе ҡабыҙырға"
 
-#: weblate/trans/models/component.py:588 weblate/trans/models/workflow.py:31
+#: weblate/trans/models/component.py:590 weblate/trans/models/workflow.py:31
 msgid "Whether to allow translation suggestions at all."
 msgstr "Тәржемә тәҡдимдәренә ғөмүмән рөхсәт итеү-итмәү."
 
-#: weblate/trans/models/component.py:592 weblate/trans/models/workflow.py:35
+#: weblate/trans/models/component.py:594 weblate/trans/models/workflow.py:35
 msgid "Suggestion voting"
 msgstr "Тәҡдимдәр өсөн тауыш биреү"
 
-#: weblate/trans/models/component.py:595 weblate/trans/models/workflow.py:38
+#: weblate/trans/models/component.py:597 weblate/trans/models/workflow.py:38
 msgid "Users can only vote for suggestions and can’t make direct translations."
 msgstr ""
 "Ҡулланыусылар тәҡдимдәр өсөн генә тауыш бирә ала, ә туранан-тура тәржемә "
 "яһай алмай."
 
-#: weblate/trans/models/component.py:600 weblate/trans/models/workflow.py:43
+#: weblate/trans/models/component.py:602 weblate/trans/models/workflow.py:43
 msgid "Automatically accept suggestions"
 msgstr "Тәҡдимдәрҙе автоматик ҡабул итергә"
 
-#: weblate/trans/models/component.py:603 weblate/trans/models/workflow.py:46
+#: weblate/trans/models/component.py:605 weblate/trans/models/workflow.py:46
 msgid ""
 "Automatically accept suggestions with this number of votes, use 0 to turn it "
 "off."
@@ -15835,29 +15953,29 @@ msgstr ""
 "Ошо һандағы тауыш менән тәҡдимдәрҙе автоматик ҡабул итергә, һүндереү өсөн 0 "
 "ҡулланығыҙ."
 
-#: weblate/trans/models/component.py:609 weblate/trans/models/project.py:294
-#: weblate/trans/models/unit.py:421
+#: weblate/trans/models/component.py:611 weblate/trans/models/project.py:294
+#: weblate/trans/models/unit.py:437
 msgid "Translation flags"
 msgstr "Тәржемә флагтары"
 
-#: weblate/trans/models/component.py:612 weblate/trans/models/project.py:297
-#: weblate/trans/models/unit.py:424
+#: weblate/trans/models/component.py:614 weblate/trans/models/project.py:297
+#: weblate/trans/models/unit.py:440
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr ""
 "Weblate-тың үҙ-үҙен тотошона йоғонто яһау өсөн өтөр менән айырылған өҫтәмә "
 "флагтар."
 
-#: weblate/trans/models/component.py:618
+#: weblate/trans/models/component.py:620
 msgid "Enforced checks"
 msgstr "Мотлаҡ тикшереүҙәр"
 
-#: weblate/trans/models/component.py:619
+#: weblate/trans/models/component.py:621
 #, fuzzy
 #| msgid "List of checks which can not be ignored."
 msgid "List of checks which can not be dismissed."
 msgstr "Иғтибарһыҙ ҡалдырып булмаған тикшереүҙәр исемлеге."
 
-#: weblate/trans/models/component.py:637
+#: weblate/trans/models/component.py:639
 msgid ""
 "Contributor license agreement which needs to be approved before a user can "
 "translate this component."
@@ -15865,19 +15983,19 @@ msgstr ""
 "Ҡулланыусы был компонентты тәржемә итә алғансы хупланырға тейешле ярҙамсы "
 "лицензия килешеүе."
 
-#: weblate/trans/models/component.py:644
+#: weblate/trans/models/component.py:646
 msgid "Adding new translation"
 msgstr "Яңы тәржемә өҫтәү"
 
-#: weblate/trans/models/component.py:648
+#: weblate/trans/models/component.py:650
 msgid "How to handle requests for creating new translations."
 msgstr "Яңы тәржемәләр булдырыу һорауҙарын нисек эшкәртергә."
 
-#: weblate/trans/models/component.py:651
+#: weblate/trans/models/component.py:653
 msgid "Language code style"
 msgstr "Тел коды стиле"
 
-#: weblate/trans/models/component.py:657
+#: weblate/trans/models/component.py:659
 msgid ""
 "Customize language code used to generate the filename for translations "
 "created by Weblate."
@@ -15885,11 +16003,11 @@ msgstr ""
 "Weblate тарафынан булдырылған тәржемәләр өсөн файл исемен булдырыу өсөн "
 "ҡулланылған тел кодын көйләгеҙ."
 
-#: weblate/trans/models/component.py:662
+#: weblate/trans/models/component.py:664
 msgid "Manage strings"
 msgstr "Юлдар менән идара итеү"
 
-#: weblate/trans/models/component.py:665
+#: weblate/trans/models/component.py:667
 msgid ""
 "Enables adding and removing strings straight from Weblate. If your strings "
 "are extracted from the source code or managed externally you probably want "
@@ -15899,11 +16017,11 @@ msgstr ""
 "һеҙҙең юлдарығыҙ сығанаҡ кодтан сығарылһа йәки тыштан идара ителһә, һеҙ, "
 "бәлки, уны һүндерелгән килеш ҡалдырырға теләрһегеҙ."
 
-#: weblate/trans/models/component.py:673
+#: weblate/trans/models/component.py:675
 msgid "Merge style"
 msgstr "Берләштереү стиле"
 
-#: weblate/trans/models/component.py:678
+#: weblate/trans/models/component.py:680
 msgid ""
 "Define whether Weblate should merge the upstream repository or rebase "
 "changes onto it."
@@ -15911,13 +16029,13 @@ msgstr ""
 "Weblate-тың өҫкө ағым репозиторийын берләштерергәме, әллә уға үҙгәрештәрҙе "
 "rebase итергәме икәнен билдәләгеҙ."
 
-#: weblate/trans/models/component.py:683
+#: weblate/trans/models/component.py:685
 msgid "Commit message when translating"
 msgstr "Тәржемә иткәндәге коммит хәбәре"
 
-#: weblate/trans/models/component.py:685 weblate/trans/models/component.py:694
-#: weblate/trans/models/component.py:703 weblate/trans/models/component.py:713
-#: weblate/trans/models/component.py:722 weblate/trans/models/component.py:731
+#: weblate/trans/models/component.py:687 weblate/trans/models/component.py:696
+#: weblate/trans/models/component.py:705 weblate/trans/models/component.py:715
+#: weblate/trans/models/component.py:724 weblate/trans/models/component.py:733
 msgid ""
 "You can use template language for various info, please consult the "
 "documentation for more details."
@@ -15925,57 +16043,57 @@ msgstr ""
 "Төрлө мәғлүмәт өсөн ҡалып телен ҡуллана алаһығыҙ, ентеклерәк мәғлүмәт өсөн "
 "документацияға мөрәжәғәт итегеҙ."
 
-#: weblate/trans/models/component.py:692
+#: weblate/trans/models/component.py:694
 msgid "Commit message when adding translation"
 msgstr "Тәржемә өҫтәгәндәге коммит хәбәре"
 
-#: weblate/trans/models/component.py:701
+#: weblate/trans/models/component.py:703
 msgid "Commit message when removing translation"
 msgstr "Тәржемә юйғандағы коммит хәбәре"
 
 #. Translators: The commit message, for when merging the translation
-#: weblate/trans/models/component.py:711
+#: weblate/trans/models/component.py:713
 msgid "Commit message when merging translation"
 msgstr "Тәржемәне берләштергәндәге коммит хәбәре"
 
-#: weblate/trans/models/component.py:720
+#: weblate/trans/models/component.py:722
 msgid "Commit message when add-on makes a change"
 msgstr "Өҫтәмә үҙгәреш яһағандағы коммит хәбәре"
 
-#: weblate/trans/models/component.py:729
+#: weblate/trans/models/component.py:731
 msgid "Merge request message"
 msgstr "Берләштереү һорауы хәбәре"
 
-#: weblate/trans/models/component.py:738
+#: weblate/trans/models/component.py:740
 msgid "Push on commit"
 msgstr "Коммитта ебәреү (push)"
 
-#: weblate/trans/models/component.py:741
+#: weblate/trans/models/component.py:743
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr "Репозиторийҙың һәр коммиттан һуң өҫкө ағымға ебәрелеү-ебәрелмәүе."
 
-#: weblate/trans/models/component.py:745
+#: weblate/trans/models/component.py:747
 msgid "Age of changes to commit"
 msgstr "Коммит ителәсәк үҙгәрештәрҙең йәше"
 
-#: weblate/trans/models/component.py:749
+#: weblate/trans/models/component.py:751
 msgid ""
 "Time in hours after which any pending changes will be committed to the VCS."
 msgstr "Көтөлгән үҙгәрештәр VCS-ҡа коммит ителәсәк сәғәттәрҙәге ваҡыт."
 
-#: weblate/trans/models/component.py:754
+#: weblate/trans/models/component.py:756
 msgid "Lock on error"
 msgstr "Хата булғанда бикләргә"
 
-#: weblate/trans/models/component.py:757
+#: weblate/trans/models/component.py:759
 msgid "Whether the component should be locked on repository errors."
 msgstr "Репозиторий хаталары булғанда компонентты бикләү-бикләмәү."
 
-#: weblate/trans/models/component.py:764
+#: weblate/trans/models/component.py:766
 msgid "Language used for source strings in all components"
 msgstr "Бөтә компоненттарҙағы сығанаҡ юлдар өсөн ҡулланылған тел"
 
-#: weblate/trans/models/component.py:773
+#: weblate/trans/models/component.py:775
 msgid ""
 "Regular expression used to filter translation files when scanning for file "
 "mask."
@@ -15983,40 +16101,40 @@ msgstr ""
 "Файл битлеген сканерлағанда тәржемә файлдарын фильтрлау өсөн ҡулланылған "
 "регуляр аңлатма."
 
-#: weblate/trans/models/component.py:778
+#: weblate/trans/models/component.py:780
 msgid "Variants regular expression"
 msgstr "Варианттарҙың регуляр аңлатмаһы"
 
-#: weblate/trans/models/component.py:784
+#: weblate/trans/models/component.py:786
 msgid "Regular expression used to determine variants of a string."
 msgstr "Юлдың варианттарын билдәләү өсөн ҡулланылған регуляр аңлатма."
 
-#: weblate/trans/models/component.py:793
+#: weblate/trans/models/component.py:795
 msgid "Components with higher priority are offered first to translators."
 msgstr "Юғарыраҡ өҫтөнлөклө компоненттар тәржемәселәргә тәүҙә тәҡдим ителә."
 
-#: weblate/trans/models/component.py:797
+#: weblate/trans/models/component.py:799
 msgid "Restricted component"
 msgstr "Сикләнгән компонент"
 
-#: weblate/trans/models/component.py:801
+#: weblate/trans/models/component.py:803
 msgid ""
 "Restrict access to the component to only those explicitly given permission."
 msgstr "Компонентҡа инеүҙе асыҡтан-асыҡ рөхсәт бирелгәндәргә генә сикләргә."
 
-#: weblate/trans/models/component.py:808
+#: weblate/trans/models/component.py:810
 msgid "Share in projects"
 msgstr "Проекттарҙа уртаҡлашырға"
 
-#: weblate/trans/models/component.py:812
+#: weblate/trans/models/component.py:814
 msgid "Choose additional projects where this component will be listed."
 msgstr "Был компонент күрһәтеләсәк өҫтәмә проекттарҙы һайлағыҙ."
 
-#: weblate/trans/models/component.py:818
+#: weblate/trans/models/component.py:820
 msgid "Use as a glossary"
 msgstr "Глоссарий итеп ҡулланырға"
 
-#: weblate/trans/models/component.py:822
+#: weblate/trans/models/component.py:824
 msgid ""
 "Glossaries are different from regular translations but help keep track of "
 "and share consistent terminology."
@@ -16024,15 +16142,15 @@ msgstr ""
 "Глоссарийҙар ғәҙәти тәржемәләрҙән айырыла, ләкин бер төрлө терминологияны "
 "күҙәтергә һәм уртаҡлашырға ярҙам итә."
 
-#: weblate/trans/models/component.py:826
+#: weblate/trans/models/component.py:828
 msgid "Glossary color"
 msgstr "Глоссарий төҫө"
 
-#: weblate/trans/models/component.py:837
+#: weblate/trans/models/component.py:839
 msgid "Key filter"
 msgstr "Асҡыс фильтры"
 
-#: weblate/trans/models/component.py:841
+#: weblate/trans/models/component.py:843
 msgid ""
 "Regular expression used to filter keys. This is only available for "
 "monolingual formats."
@@ -16040,21 +16158,21 @@ msgstr ""
 "Асҡыстарҙы фильтрлау өсөн ҡулланылған регуляр аңлатма. Был бер телле "
 "форматтар өсөн генә мөмкин."
 
-#: weblate/trans/models/component.py:848 weblate/trans/models/project.py:283
+#: weblate/trans/models/component.py:850 weblate/trans/models/project.py:283
 msgid "Secondary language"
 msgstr "Икенсел тел"
 
-#: weblate/trans/models/component.py:852 weblate/trans/models/project.py:285
+#: weblate/trans/models/component.py:854 weblate/trans/models/project.py:285
 msgid ""
 "Additional language to show together with the source language while "
 "translating."
 msgstr "Тәржемә иткәндә сығанаҡ тел менән бергә күрһәтеләсәк өҫтәмә тел."
 
-#: weblate/trans/models/component.py:854
+#: weblate/trans/models/component.py:856
 msgid "This setting is inherited from the project if left empty."
 msgstr "Был көйләү буш ҡалдырылһа, проекттан мираҫ итеп алына."
 
-#: weblate/trans/models/component.py:1717
+#: weblate/trans/models/component.py:1719
 msgid ""
 "Could not verify SSH host key, please add them in SSH page in the admin "
 "interface."
@@ -16062,7 +16180,7 @@ msgstr ""
 "SSH хост асҡысын раҫлап булманы, зинһар, уларҙы администратор интерфейсының "
 "SSH битендә өҫтәгеҙ."
 
-#: weblate/trans/models/component.py:1726
+#: weblate/trans/models/component.py:1728
 msgid ""
 "The repository requires authentication, please specify credentials in the "
 "URL or use SSH access instead."
@@ -16070,71 +16188,71 @@ msgstr ""
 "Репозиторий аутентификация талап итә, зинһар, инеү мәғлүмәттәрен URL-да "
 "күрһәтегеҙ йәки уның урынына SSH инеүен ҡулланығыҙ."
 
-#: weblate/trans/models/component.py:1732
+#: weblate/trans/models/component.py:1734
 #, python-format
 msgid "Could not fetch the repository: %s"
 msgstr "Репозиторийҙы тартып булманы: %s"
 
-#: weblate/trans/models/component.py:1805
-#: weblate/trans/models/component.py:3219
-#: weblate/trans/models/component.py:3283
+#: weblate/trans/models/component.py:1807
+#: weblate/trans/models/component.py:3227
+#: weblate/trans/models/component.py:3291
 msgid "File does not exist."
 msgstr "Файл юҡ."
 
-#: weblate/trans/models/component.py:1990
+#: weblate/trans/models/component.py:1992
 #, python-format
 msgid "Could not push %(component)s: %(error_text)s"
 msgstr "%(component)s-ты ебәреп (push) булманы: %(error_text)s"
 
-#: weblate/trans/models/component.py:2024
+#: weblate/trans/models/component.py:2026
 #, python-format
 msgid "Push is turned off for %s."
 msgstr "%s өсөн push һүндерелгән."
 
-#: weblate/trans/models/component.py:2102
+#: weblate/trans/models/component.py:2106
 #, python-format
 msgid "Could not reset to remote branch on %s."
 msgstr "%s-та тышҡы ботаҡҡа кире алып (reset) булманы."
 
-#: weblate/trans/models/component.py:2153
+#: weblate/trans/models/component.py:2157
 #, python-format
 msgid "Could not clean the repository on %s."
 msgstr "%s-та репозиторийҙы таҙартып булманы."
 
-#: weblate/trans/models/component.py:2448
+#: weblate/trans/models/component.py:2456
 #, python-format
 msgid "Could not rebase local branch onto remote branch %s."
 msgstr "Локаль ботаҡты %s тышҡы ботағы өҫтөнә rebase итеп булманы."
 
-#: weblate/trans/models/component.py:2454
+#: weblate/trans/models/component.py:2462
 #, python-format
 msgid "Could not merge remote branch into %s."
 msgstr "Тышҡы ботаҡты %s-ҡа берләштереп (merge) булманы."
 
-#: weblate/trans/models/component.py:3060
+#: weblate/trans/models/component.py:3068
 msgid "Category does not belong to this project."
 msgstr "Категория был проектҡа ҡарамай."
 
-#: weblate/trans/models/component.py:3064
+#: weblate/trans/models/component.py:3072
 msgid "Categorized component can not be shared."
 msgstr "Категорияланған компонентты уртаҡлашып булмай."
 
-#: weblate/trans/models/component.py:3076
+#: weblate/trans/models/component.py:3084
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 "Weblate проектына дөрөҫ булмаған һылтанма, weblate://project/component "
 "ҡулланығыҙ."
 
-#: weblate/trans/models/component.py:3085
+#: weblate/trans/models/component.py:3093
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
 msgstr ""
 "Weblate проектына дөрөҫ булмаған һылтанма, бәйле репозиторийға бәйләп булмай!"
 
-#: weblate/trans/models/component.py:3094
+#: weblate/trans/models/component.py:3102
 msgid "Invalid link to a Weblate project, cannot link it to itself!"
 msgstr "Weblate проектына дөрөҫ булмаған һылтанма, уны үҙ-үҙенә бәйләп булмай!"
 
-#: weblate/trans/models/component.py:3105
+#: weblate/trans/models/component.py:3113
 msgid ""
 "Option is not available for linked repositories. Setting from linked "
 "component will be used."
@@ -16142,11 +16260,11 @@ msgstr ""
 "Опция бәйле репозиторийҙар өсөн мөмкин түгел. Бәйле компоненттан көйләү "
 "ҡулланыласаҡ."
 
-#: weblate/trans/models/component.py:3117
+#: weblate/trans/models/component.py:3125
 msgid "The file mask did not match any files."
 msgstr "Файл битлеге бер файлға ла тап килмәне."
 
-#: weblate/trans/models/component.py:3127
+#: weblate/trans/models/component.py:3135
 #, python-format
 msgid ""
 "There is more than one file for %(language)s language: %(filename1)s, "
@@ -16157,23 +16275,23 @@ msgstr ""
 "Зинһар, файл битлеген көйләгеҙ һәм төрлө ресурстарҙы тәржемә итеү өсөн "
 "компоненттарҙы ҡулланығыҙ."
 
-#: weblate/trans/models/component.py:3145
+#: weblate/trans/models/component.py:3153
 msgid "Could not find any matching language, please check the file mask."
 msgstr "Тап килгән тел табылманы, зинһар, файл битлеген тикшерегеҙ."
 
-#: weblate/trans/models/component.py:3166
+#: weblate/trans/models/component.py:3174
 #, python-brace-format
 msgid "Could not parse {file}: {error}"
 msgstr "{file} файлын анализлап булманы: {error}"
 
-#: weblate/trans/models/component.py:3174
+#: weblate/trans/models/component.py:3182
 #, python-format
 msgid "Could not parse %d matched file."
 msgid_plural "Could not parse %d matched files."
 msgstr[0] "Тап килгән %d файлды анализлап булманы."
 msgstr[1] "Тап килгән %d файлды анализлап булманы."
 
-#: weblate/trans/models/component.py:3212
+#: weblate/trans/models/component.py:3220
 msgid ""
 "You have set up Weblate to add new translation files, but did not provide a "
 "base file to do that."
@@ -16181,26 +16299,26 @@ msgstr ""
 "Һеҙ Weblate-ты яңы тәржемә файлдарын өҫтәү өсөн көйләнегеҙ, ләкин бының өсөн "
 "нигеҙ файлды күрһәтмәнегеҙ."
 
-#: weblate/trans/models/component.py:3223
+#: weblate/trans/models/component.py:3231
 #, python-format
 msgid "Could not parse base file for new translations: %s"
 msgstr "Яңы тәржемәләр өсөн нигеҙ файлды анализлап булманы: %s"
 
-#: weblate/trans/models/component.py:3227
+#: weblate/trans/models/component.py:3235
 msgid "Unrecognized base file for new translations."
 msgstr "Яңы тәржемәләр өсөн танылмаған нигеҙ файл."
 
-#: weblate/trans/models/component.py:3242
+#: weblate/trans/models/component.py:3250
 msgid "Editing template is not supported with this file format."
 msgstr "Ҡалыпты үҙгәртеү был файл форматы менән хупланмай."
 
-#: weblate/trans/models/component.py:3248
-#: weblate/trans/models/component.py:3265
+#: weblate/trans/models/component.py:3256
+#: weblate/trans/models/component.py:3273
 msgid ""
 "An intermediate language file can not be used without an editing template."
 msgstr "Аралаш тел файлы мөхәррирләү ҡалыбынан тыш ҡулланыла алмай."
 
-#: weblate/trans/models/component.py:3257
+#: weblate/trans/models/component.py:3265
 msgid ""
 "An intermediate language file has to be different from monolingual base "
 "language file. You can probably keep it empty."
@@ -16208,29 +16326,29 @@ msgstr ""
 "Аралаш тел файлы бер телле нигеҙ тел файлынан айырылырға тейеш. Һеҙ уны, "
 "бәлки, буш ҡалдыра алаһығыҙ."
 
-#: weblate/trans/models/component.py:3272
+#: weblate/trans/models/component.py:3280
 msgid "Using a .pot file as base file is unsupported."
 msgstr ".pot файлын нигеҙ файл итеп ҡулланыу хупланмай."
 
-#: weblate/trans/models/component.py:3288
+#: weblate/trans/models/component.py:3296
 #, python-format
 msgid "Could not parse translation base file: %s"
 msgstr "Тәржемә нигеҙ файлын анализлап булманы: %s"
 
-#: weblate/trans/models/component.py:3299
+#: weblate/trans/models/component.py:3307
 #, python-brace-format
 msgid "Template language ({0}) does not match source language ({1})!"
 msgstr "Ҡалып теле ({0}) сығанаҡ тел ({1}) менән тап килмәй!"
 
-#: weblate/trans/models/component.py:3318
+#: weblate/trans/models/component.py:3326
 msgid "Choose No remote repository for local: URL."
 msgstr "local: URL өсөн Тышҡы репозиторий юҡ-ты һайлағыҙ."
 
-#: weblate/trans/models/component.py:3323
+#: weblate/trans/models/component.py:3331
 msgid "Push URL is not used without a remote repository."
 msgstr "Push-URL тышҡы репозиторийһыҙ ҡулланылмай."
 
-#: weblate/trans/models/component.py:3337
+#: weblate/trans/models/component.py:3345
 msgid ""
 "Your push URL seems to miss credentials. Either provide them in the URL or "
 "use SSH with key based authentication."
@@ -16238,23 +16356,23 @@ msgstr ""
 "Һеҙҙең push-URL-да инеү мәғлүмәттәре юҡ, шикелле. Уларҙы йә URL эсендә "
 "күрһәтегеҙ, йә асҡыслы SSH-аутентификацияһын ҡулланығыҙ."
 
-#: weblate/trans/models/component.py:3342
+#: weblate/trans/models/component.py:3350
 #, python-format
 msgid "Could not update repository: %s"
 msgstr "Репозиторийҙы яңыртып булманы: %s"
 
-#: weblate/trans/models/component.py:3351
+#: weblate/trans/models/component.py:3359
 msgid "Pull and push branches cannot be the same when using merge requests."
 msgstr ""
 "Берләштереү һорауҙарын ҡулланғанда pull һәм push ботаҡтары бер үк була алмай."
 
-#: weblate/trans/models/component.py:3361
+#: weblate/trans/models/component.py:3369
 #, python-format
 msgid ""
 "The parameter '%(param)s' is not applicable for the file format '%(format)s'."
 msgstr ""
 
-#: weblate/trans/models/component.py:3375
+#: weblate/trans/models/component.py:3383
 msgid ""
 "Please either fill in an instruction URL or use a different option for "
 "adding a new language."
@@ -16262,75 +16380,83 @@ msgstr ""
 "Зинһар, йә инструкция URL-ын тултырығыҙ, йә яңы тел өҫтәү өсөн икенсе "
 "опцияны ҡулланығыҙ."
 
-#: weblate/trans/models/component.py:3406
+#: weblate/trans/models/component.py:3414
 msgid ""
 "Source language can not be changed, please recreate the component instead."
 msgstr ""
 "Сығанаҡ телде үҙгәртеп булмай, зинһар, уның урынына компонентты ҡабаттан "
 "булдырығыҙ."
 
-#: weblate/trans/models/component.py:3441
+#: weblate/trans/models/component.py:3449
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr ""
 "Дөрөҫ булмаған регуляр аңлатма арҡаһында файл тап килеүҙәрен тикшереп булмай."
 
-#: weblate/trans/models/component.py:3452 weblate/trans/models/workflow.py:58
+#: weblate/trans/models/component.py:3460 weblate/trans/models/workflow.py:58
 msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr ""
 "Тәҡдимдәрҙе автоматик ҡабул итеү тик тауыш биреү ҡабыҙылғанда ғына эшләй."
 
-#: weblate/trans/models/component.py:3460
+#: weblate/trans/models/component.py:3468
 msgid "To use the key filter, the file format must be monolingual."
 msgstr "Асҡыс фильтрын ҡулланыу өсөн файл форматы бер телле булырға тейеш."
 
-#: weblate/trans/models/component.py:3846
+#: weblate/trans/models/component.py:3854
 msgid "Could not add new translation file."
 msgstr "Яңы тәржемә файлын өҫтәп булманы."
 
-#: weblate/trans/models/component.py:3853
+#: weblate/trans/models/component.py:3861
 msgid "You do not have permissions to add new translation file."
 msgstr "Яңы тәржемә файлын өҫтәргә хоҡуҡтарығыҙ юҡ."
 
-#: weblate/trans/models/component.py:3861
 #: weblate/trans/models/component.py:3869
+#: weblate/trans/models/component.py:3877
 msgid "The monolingual base language file is invalid."
 msgstr "Бер телле нигеҙ тел файлы дөрөҫ түгел."
 
-#: weblate/trans/models/component.py:3874
+#: weblate/trans/models/component.py:3882
 msgid "The template for new translations is invalid."
 msgstr "Яңы тәржемәләр өсөн ҡалып дөрөҫ түгел."
 
-#: weblate/trans/models/component.py:3919
+#: weblate/trans/models/component.py:3931
+#, fuzzy
+#| msgid "The given language is filtered by the language filter."
+msgid ""
+"The given language maps to a different language. Check language aliases "
+"settings."
+msgstr "Бирелгән тел тел фильтры менән фильтрлана."
+
+#: weblate/trans/models/component.py:3937
 msgid "The given language is used as a source language."
 msgstr "Бирелгән тел сығанаҡ тел итеп ҡулланыла."
 
-#: weblate/trans/models/component.py:3926
+#: weblate/trans/models/component.py:3941
 msgid "The given language already exists."
 msgstr "Бирелгән тел бар инде."
 
-#: weblate/trans/models/component.py:3935
+#: weblate/trans/models/component.py:3947
 msgid "The given language is filtered by the language filter."
 msgstr "Бирелгән тел тел фильтры менән фильтрлана."
 
-#: weblate/trans/models/component.py:3968
+#: weblate/trans/models/component.py:3979
 msgid "Translation file already exists!"
 msgstr "Тәржемә файлы бар инде!"
 
-#: weblate/trans/models/component.py:3997
+#: weblate/trans/models/component.py:4008
 msgid "The translation will be updated in the background."
 msgstr "Тәржемә фон режимында яңыртыласаҡ."
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:4059 weblate/utils/views.py:223
+#: weblate/trans/models/component.py:4070 weblate/utils/views.py:223
 msgctxt "Translation key"
 msgid "Key"
 msgstr "Асҡыс"
 
-#: weblate/trans/models/component.py:4144
+#: weblate/trans/models/component.py:4155
 msgid "Add new translation string"
 msgstr "Яңы тәржемә юлын өҫтәргә"
 
-#: weblate/trans/models/component.py:4193
+#: weblate/trans/models/component.py:4204
 msgid "Could not get repository status!"
 msgstr "Репозиторий статусын алып булманы!"
 
@@ -16525,103 +16651,103 @@ msgstr ""
 msgid "Could not parse file %(file)s: %(error)s"
 msgstr "%(file)s файлын анализлап булманы: %(error)s"
 
-#: weblate/trans/models/translation.py:1181
+#: weblate/trans/models/translation.py:1171
 msgid "“{}”"
 msgstr "“{}”"
 
-#: weblate/trans/models/translation.py:1184
+#: weblate/trans/models/translation.py:1174
 msgid "…"
 msgstr "…"
 
-#: weblate/trans/models/translation.py:1191
+#: weblate/trans/models/translation.py:1181
 #, python-format
 msgid "Could not find %d string:"
 msgid_plural "Could not find %d strings:"
 msgstr[0] "%d юлды табып булманы:"
 msgstr[1] "%d юлды табып булманы:"
 
-#: weblate/trans/models/translation.py:1375
-#: weblate/trans/models/translation.py:1428
-#: weblate/trans/models/translation.py:1510
+#: weblate/trans/models/translation.py:1372
+#: weblate/trans/models/translation.py:1425
+#: weblate/trans/models/translation.py:1507
 #, python-format
 msgid "Could not commit pending changes: %s"
 msgstr "Көтөлгән үҙгәрештәрҙе коммит итеп булманы: %s"
 
-#: weblate/trans/models/translation.py:2089
+#: weblate/trans/models/translation.py:2086
 msgid "Plurals are not supported by the file format."
 msgstr "Күплек формалары был файл форматы менән хупланмай."
 
-#: weblate/trans/models/translation.py:2094 weblate/trans/models/unit.py:832
+#: weblate/trans/models/translation.py:2091 weblate/trans/models/unit.py:848
 #: weblate/utils/forms.py:127
 #, python-format
 msgid "String contains control character: %s"
 msgstr "Юлда идара итеү символы бар: %s"
 
-#: weblate/trans/models/translation.py:2099
+#: weblate/trans/models/translation.py:2096
 msgid "Empty state is supported for blank strings only."
 msgstr "Буш торош тик буш юлдар өсөн генә хуплана."
 
-#: weblate/trans/models/translation.py:2102
+#: weblate/trans/models/translation.py:2099
 msgid "Blank strings require an empty state."
 msgstr "Буш юлдар буш торошто талап итә."
 
-#: weblate/trans/models/translation.py:2106
+#: weblate/trans/models/translation.py:2103
 msgid "Approved state is not available as reviews are not enabled."
 msgstr "Раҫланған торош мөмкин түгел, сөнки тикшереүҙәр ҡабыҙылмаған."
 
-#: weblate/trans/models/translation.py:2114
+#: weblate/trans/models/translation.py:2111
 msgid "This string seems to already exist."
 msgstr "Был юл бар инде, шикелле."
 
-#: weblate/trans/models/translation.py:2121
+#: weblate/trans/models/translation.py:2118
 msgid "Failed adding string, no translation found."
 msgstr "Юлды өҫтәү уңышһыҙ булды, тәржемә табылманы."
 
-#: weblate/trans/models/unit.py:450
+#: weblate/trans/models/unit.py:466
 msgid "Indicates whether this string was translated automatically."
 msgstr ""
 
-#: weblate/trans/models/unit.py:1264
+#: weblate/trans/models/unit.py:1280
 #, python-format
 msgid "String could not be propagated to %(component)s: %(reason)s"
 msgstr "Юлды %(component)s компонентына таратып булманы: %(reason)s"
 
-#: weblate/trans/models/unit.py:1289
+#: weblate/trans/models/unit.py:1305
 #, python-format
 msgid "String could not be propagated to %d component."
 msgid_plural "String could not be propagated to %d components."
 msgstr[0] "Юлды %d компонентҡа таратып булманы."
 msgstr[1] "Юлды %d компонентҡа таратып булманы."
 
-#: weblate/trans/models/unit.py:2094
+#: weblate/trans/models/unit.py:2116
 msgid "Unmark as read-only"
 msgstr "Тик уҡыу билдәһен алырға"
 
-#: weblate/trans/models/unit.py:2097
+#: weblate/trans/models/unit.py:2119
 msgid "Mark as read-only"
 msgstr "Тик уҡыу өсөн тип билдәләргә"
 
-#: weblate/trans/models/unit.py:2101
+#: weblate/trans/models/unit.py:2123
 msgid "Unmark as untranslatable"
 msgstr "Тәржемә ителмәй билдәһен алырға"
 
-#: weblate/trans/models/unit.py:2105
+#: weblate/trans/models/unit.py:2127
 msgid "Mark as untranslatable"
 msgstr "Тәржемә ителмәй тип билдәләргә"
 
-#: weblate/trans/models/unit.py:2112
+#: weblate/trans/models/unit.py:2134
 msgid "Unmark as forbidden translation"
 msgstr "Тыйлған тәржемә билдәһен алырға"
 
-#: weblate/trans/models/unit.py:2120
+#: weblate/trans/models/unit.py:2142
 msgid "Mark as forbidden translation"
 msgstr "Тыйлған тәржемә тип билдәләргә"
 
-#: weblate/trans/models/unit.py:2128
+#: weblate/trans/models/unit.py:2150
 msgid "Unmark as terminology"
 msgstr "Терминология билдәһен алырға"
 
-#: weblate/trans/models/unit.py:2136
+#: weblate/trans/models/unit.py:2158
 msgid "Mark as terminology"
 msgstr "Терминология тип билдәләргә"
 
@@ -17336,37 +17462,37 @@ msgstr "Тейәлгән файлдағы күплек формалары ағы
 msgid "File upload has failed: %s"
 msgstr "Файл тейәү уңышһыҙ булды: %s"
 
-#: weblate/trans/views/git.py:38
+#: weblate/trans/views/git.py:40
 msgid "Could not lock the repository, another operation is in progress."
 msgstr "Репозиторийҙы бикләп булманы, икенсе операция бара."
 
-#: weblate/trans/views/git.py:61
+#: weblate/trans/views/git.py:63
 msgid ""
 "All repositories have been updated, updates of translations are in progress."
 msgstr "Бөтә репозиторийҙар ҙа яңыртылды, тәржемәләрҙе яңыртыу бара."
 
-#: weblate/trans/views/git.py:84
+#: weblate/trans/views/git.py:86
 msgid "All repositories were pushed."
 msgstr "Бөтә репозиторийҙар ҙа ебәрелде (push)."
 
-#: weblate/trans/views/git.py:99
+#: weblate/trans/views/git.py:101
 msgid ""
 "All repositories have been reset, updates of translations are in progress."
 msgstr "Бөтә репозиторийҙар ҙа кире алынды (reset), тәржемәләрҙе яңыртыу бара."
 
-#: weblate/trans/views/git.py:124
+#: weblate/trans/views/git.py:126
 msgid "All repositories have been cleaned up."
 msgstr "Бөтә репозиторийҙар ҙа таҙартылды."
 
-#: weblate/trans/views/git.py:140
+#: weblate/trans/views/git.py:142
 msgid "Translation files have been synchronized."
 msgstr "Тәржемә файлдары синхронлаштырылды."
 
-#: weblate/trans/views/git.py:156
+#: weblate/trans/views/git.py:158
 msgid "Updates of translations are in progress."
 msgstr "Тәржемәләрҙе яңыртыу бара."
 
-#: weblate/trans/views/git.py:179
+#: weblate/trans/views/git.py:181
 msgid "All pending translations were committed."
 msgstr "Бөтә көтөлгән тәржемәләр коммит ителде."
 
@@ -17752,16 +17878,16 @@ msgctxt "String state"
 msgid "Waiting for review"
 msgstr "Тикшереү көтә"
 
-#: weblate/utils/validators.py:67
+#: weblate/utils/validators.py:72
 #, python-brace-format
 msgid "Compilation failed: {0}"
 msgstr "Компиляция уңышһыҙ булды: {0}"
 
-#: weblate/utils/validators.py:71
+#: weblate/utils/validators.py:76
 msgid "The regular expression can not match an empty string."
 msgstr "Регуляр аңлатма буш юлға тап килә алмай."
 
-#: weblate/utils/validators.py:79
+#: weblate/utils/validators.py:84
 #, python-brace-format
 msgid ""
 "Regular expression is missing named group \"{0}\", the simplest way to "
@@ -17770,110 +17896,116 @@ msgstr ""
 "Регуляр аңлатмала \"{0}\" исемле төркөм юҡ, уны билдәләүҙең иң ябай ысулы – "
 "{1}."
 
-#: weblate/utils/validators.py:121
+#: weblate/utils/validators.py:126
 msgid "The uploaded image was invalid."
 msgstr "Тейәлгән рәсем дөрөҫ түгел."
 
-#: weblate/utils/validators.py:138
+#: weblate/utils/validators.py:143
 msgid "The image is too big, please crop or scale it down."
 msgstr "Рәсем бигерәк ҙур, зинһар, уны ҡырҡығыҙ йәки бәләкәйләтегеҙ."
 
-#: weblate/utils/validators.py:157
+#: weblate/utils/validators.py:162
 msgid "Please avoid using special characters in the full name."
 msgstr "Зинһар, тулы исемдә махсус символдар ҡулланмағыҙ."
 
-#: weblate/utils/validators.py:162
+#: weblate/utils/validators.py:167
 msgid "This name cannot be registered. Please choose a different one."
 msgstr ""
 
-#: weblate/utils/validators.py:167
+#: weblate/utils/validators.py:172
 msgid "Name consists only of disallowed characters."
 msgstr "Исем тыйылған символдарҙан ғына тора."
 
-#: weblate/utils/validators.py:170
+#: weblate/utils/validators.py:175
 #, fuzzy
 #| msgid "Name consists only of disallowed characters."
 msgid "Name contains disallowed characters."
 msgstr "Исем тыйылған символдарҙан ғына тора."
 
-#: weblate/utils/validators.py:185
+#: weblate/utils/validators.py:190
 msgid "The username can not start with a full stop."
 msgstr "Ҡулланыусы исеме нөктәнән башлана алмай."
 
-#: weblate/utils/validators.py:196
+#: weblate/utils/validators.py:201
 msgid "This username cannot be registered. Please choose a different one."
 msgstr ""
 
-#: weblate/utils/validators.py:202 weblate/utils/validators.py:210
+#: weblate/utils/validators.py:207 weblate/utils/validators.py:215
 msgid "Enter a valid e-mail address."
 msgstr "Дөрөҫ e-mail адресын яҙығыҙ."
 
-#: weblate/utils/validators.py:212
+#: weblate/utils/validators.py:217
 msgid "This e-mail address is disallowed."
 msgstr "Был e-mail адрес тыйылған."
 
-#: weblate/utils/validators.py:217
+#: weblate/utils/validators.py:222
 msgid "Invalid e-mail address: {}"
 msgstr "Дөрөҫ булмаған e-mail адрес: {}"
 
-#: weblate/utils/validators.py:221
+#: weblate/utils/validators.py:226
 msgid "Disposable e-mail domains are disallowed."
 msgstr "Бер тапҡырлыҡ e-mail домендары тыйылған."
 
-#: weblate/utils/validators.py:232
+#: weblate/utils/validators.py:237
 msgid "Could not evaluate plural formula: {}"
 msgstr "Күплек формулаһын баһалап булманы: {}"
 
-#: weblate/utils/validators.py:239
+#: weblate/utils/validators.py:244
 msgid "The filename can not contain reference to a parent directory."
 msgstr "Файл исемендә ата-каталогҡа һылтанма була алмай."
 
-#: weblate/utils/validators.py:242
+#: weblate/utils/validators.py:247
 msgid "The filename can not be an absolute path."
 msgstr "Файл исеме абсолют юл була алмай."
 
-#: weblate/utils/validators.py:248
+#: weblate/utils/validators.py:253
 msgid "The filename should be as simple as possible. Maybe you want to use: {}"
 msgstr ""
 "Файл исеме мөмкин тиклем ябай булырға тейеш. Бәлки, һеҙ быны ҡулланырға "
 "теләрһегеҙ: {}"
 
-#: weblate/utils/validators.py:287 weblate/utils/validators.py:304
+#: weblate/utils/validators.py:292 weblate/utils/validators.py:309
 msgid "This name is prohibited"
 msgstr "Был исем тыйылған"
 
-#: weblate/utils/validators.py:296
+#: weblate/utils/validators.py:301
 msgid "Syntax error in language aliases."
 msgstr "Тел псевдонимдарында синтаксис хатаһы."
 
-#: weblate/utils/validators.py:312 weblate/utils/validators.py:321
-#: weblate/utils/validators.py:330
+#: weblate/utils/validators.py:317 weblate/utils/validators.py:326
+#: weblate/utils/validators.py:335
 msgid "This URL is prohibited"
 msgstr "Был URL тыйылған"
 
-#: weblate/utils/validators.py:341
+#: weblate/utils/validators.py:346
 msgid "Invalid base64 encoded string"
 msgstr "Дөрөҫ булмаған base64-кодировкалы юл"
 
-#: weblate/utils/validators.py:344
+#: weblate/utils/validators.py:349
 #, fuzzy
 #| msgid "The chosen sorting is not supported."
 msgid "The provided secret is too short."
 msgstr "Һайланған сортлау хупланмай."
 
-#: weblate/utils/validators.py:346
+#: weblate/utils/validators.py:351
 msgid "The provided secret is too long."
 msgstr ""
 
-#: weblate/utils/validators.py:425
+#: weblate/utils/validators.py:430
 #, python-format
 msgid "Fetching VCS repository using %s is not allowed."
 msgstr ""
 
-#: weblate/utils/validators.py:436
+#: weblate/utils/validators.py:441
 #, python-format
 msgid "Fetching VCS repository from %s is not allowed."
 msgstr ""
+
+#: weblate/utils/validators.py:458
+#, fuzzy
+#| msgid "Enter a valid e-mail address."
+msgid "Enter a valid domain name or IP address."
+msgstr "Дөрөҫ e-mail адресын яҙығыҙ."
 
 #: weblate/utils/views.py:212 weblate/utils/views.py:241
 msgid "Position and priority"
@@ -17907,88 +18039,88 @@ msgstr "Компонент һәм өҫтөнлөк"
 msgid "This will push changes to the upstream repository."
 msgstr "Был үҙгәрештәрҙе өҫкө ағым репозиторийына ебәрәсәк (push)."
 
-#: weblate/vcs/git.py:108
+#: weblate/vcs/git.py:106
 msgid "This will push changes to the upstream Git repository."
 msgstr "Был үҙгәрештәрҙе өҫкө ағым Git репозиторийына ебәрәсәк (push)."
 
-#: weblate/vcs/git.py:634
+#: weblate/vcs/git.py:632
 msgid "Possible cleanups:"
 msgstr "Мөмкин булған таҙартыуҙар:"
 
-#: weblate/vcs/git.py:646
+#: weblate/vcs/git.py:644
 msgid "This will push changes to Gerrit for a review."
 msgstr "Был үҙгәрештәрҙе тикшереү өсөн Gerrit-ҡа ебәрәсәк (push)."
 
-#: weblate/vcs/git.py:693
+#: weblate/vcs/git.py:691
 msgid "This will commit changes to the Subversion repository."
 msgstr "Был үҙгәрештәрҙе Subversion репозиторийына коммит итәсәк."
 
-#: weblate/vcs/git.py:870
+#: weblate/vcs/git.py:868
 msgid "Git with force push"
 msgstr "Force push-лы Git"
 
-#: weblate/vcs/git.py:874
+#: weblate/vcs/git.py:872
 msgid "This will force push changes to the upstream repository."
 msgstr ""
 "Был үҙгәрештәрҙе өҫкө ағым репозиторийына көсләп ебәрәсәк (force push)."
 
-#: weblate/vcs/git.py:1337
+#: weblate/vcs/git.py:1335
 msgid "Azure DevOps pull request"
 msgstr "Azure DevOps pull-һорауы"
 
-#: weblate/vcs/git.py:1349
+#: weblate/vcs/git.py:1347
 msgid "This will push changes and create a Azure DevOps pull request."
 msgstr ""
 "Был үҙгәрештәрҙе ебәрәсәк (push) һәм Azure DevOps pull-һорауын булдырасаҡ."
 
-#: weblate/vcs/git.py:1596
+#: weblate/vcs/git.py:1594
 msgid "GitHub pull request"
 msgstr "GitHub pull-һорауы"
 
-#: weblate/vcs/git.py:1601
+#: weblate/vcs/git.py:1599
 msgid "This will push changes and create a GitHub pull request."
 msgstr "Был үҙгәрештәрҙе ебәрәсәк (push) һәм GitHub pull-һорауын булдырасаҡ."
 
-#: weblate/vcs/git.py:1715
+#: weblate/vcs/git.py:1713
 msgid "Gitea pull request"
 msgstr "Gitea pull-һорауы"
 
-#: weblate/vcs/git.py:1720
+#: weblate/vcs/git.py:1718
 msgid "This will push changes and create a Gitea pull request."
 msgstr "Был үҙгәрештәрҙе ебәрәсәк (push) һәм Gitea pull-һорауын булдырасаҡ."
 
-#: weblate/vcs/git.py:1792
+#: weblate/vcs/git.py:1790
 msgid "No remote repository"
 msgstr "Тышҡы репозиторий юҡ"
 
-#: weblate/vcs/git.py:1895
+#: weblate/vcs/git.py:1893
 msgid "GitLab merge request"
 msgstr "GitLab merge-һорауы"
 
-#: weblate/vcs/git.py:1902
+#: weblate/vcs/git.py:1900
 msgid "This will push changes and create a GitLab merge request."
 msgstr "Был үҙгәрештәрҙе ебәрәсәк (push) һәм GitLab merge-һорауын булдырасаҡ."
 
-#: weblate/vcs/git.py:2052
+#: weblate/vcs/git.py:2050
 msgid "Pagure merge request"
 msgstr "Pagure merge-һорауы"
 
-#: weblate/vcs/git.py:2057
+#: weblate/vcs/git.py:2055
 msgid "This will push changes and create a Pagure merge request."
 msgstr "Был үҙгәрештәрҙе ебәрәсәк (push) һәм Pagure merge-һорауын булдырасаҡ."
 
 #. Translators: Bitbucket Data Center is a product name, it differs from Bitbucked Cloud
-#: weblate/vcs/git.py:2157
+#: weblate/vcs/git.py:2155
 msgid "Bitbucket Data Center pull request"
 msgstr "Bitbucket Data Center pull-һорауы"
 
-#: weblate/vcs/git.py:2164
+#: weblate/vcs/git.py:2162
 msgid "This will push changes and create a Bitbucket Data Center pull request."
 msgstr ""
 "Был үҙгәрештәрҙе ебәрәсәк (push) һәм Bitbucket Data Center pull-һорауын "
 "булдырасаҡ."
 
-#: weblate/vcs/git.py:2314
+#: weblate/vcs/git.py:2312
 msgid "Bitbucket Cloud merge request"
 msgstr "Bitbucket Cloud merge-һорауы"
 
