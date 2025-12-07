@@ -464,7 +464,9 @@ class LaravelFormatCheckTest(CheckTestCase):
         self.assertFalse(self.check.check_format("Test", "Test", False, Unit()))
 
     def test_format(self):
-        self.assertFalse(self.check.check_format("Test :name", "Test :name", False, Unit()))
+        self.assertFalse(
+            self.check.check_format("Test :name", "Test :name", False, Unit())
+        )
 
     def test_missing_format(self):
         self.assertTrue(self.check.check_format("Test :name", "Test", False, Unit()))
