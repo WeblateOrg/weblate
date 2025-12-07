@@ -18,6 +18,7 @@ from weblate.checks.format import (
     I18NextInterpolationCheck,
     JavaFormatCheck,
     JavaMessageFormatCheck,
+    LaravelFormatCheck,
     LuaFormatCheck,
     MultipleUnnamedFormatsCheck,
     ObjectPascalFormatCheck,
@@ -446,6 +447,33 @@ class CFormatCheckTest(CheckTestCase):
 class LuaFormatCheckTest(CFormatCheckTest):
     check = LuaFormatCheck()
     flag = "lua-format"
+
+
+class LaravelFormatCheckTest(CheckTestCase):
+    check = LaravelFormatCheck()
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.test_highlight = (
+            "laravel-format",
+            "Test :name",
+            [(5, 10, ":name")],
+        )
+
+    def test_no_format(self):
+        self.assertFalse(self.check.check_format("Test", "Test", False, Unit()))
+
+    def test_format(self):
+        self.assertFalse(self.check.check_format("Test :name", "Test :name", False, Unit()))
+
+    def test_missing_format(self):
+        self.assertTrue(self.check.check_format("Test :name", "Test", False, Unit()))
+
+    def test_extra_format(self):
+        self.assertEqual(
+            self.check.check_format("Test", "Test :name", False, Unit()),
+            {"missing": [], "extra": [":name"]},
+        )
 
 
 class ObjectPascalFormatCheckTest(CheckTestCase):

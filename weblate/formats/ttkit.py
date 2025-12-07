@@ -1520,6 +1520,7 @@ class LaravelPhpFormat(PhpFormat):
     format_id = "laravel"
     loader = ("php", "LaravelPHPFile")
     supports_plural: bool = True
+    check_flags = ("laravel-format",)
 
 
 class RESXFormat(TTKitFormat):
