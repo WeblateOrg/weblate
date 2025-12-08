@@ -1334,7 +1334,7 @@ Projects
 
         Added ability to download ZIP file of all components translations in a project for 1 specific language.
 
-    Download a ZIP file () all translation files for a specified ``language`` across all components for a given ``project`` rather than downloading individual translated files and manually zipping them, with the archive named `{project-slug}-{language-code}.zip` and organized by component paths (e.g., `component-slug/po/lang.po`).
+    Download a ZIP file of all translation files for a specified ``language`` across all components for a given ``project`` rather than downloading individual translated files and manually zipping them, with the archive named `{project-slug}-{language-code}.zip` and organized by component paths (e.g., `component-slug/po/lang.po`).
     :param project: Project URL slug
     :type project: string
 
