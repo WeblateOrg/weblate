@@ -1413,7 +1413,7 @@ class Xliff2Format(XliffFormat):
     format_id = "xliff2"
     loader = Xliff2File
     autoload: tuple[str, ...] = ()
-    new_translation = None
+    empty_file_template = None
     monolingual = False
 
     @staticmethod
@@ -1745,7 +1745,7 @@ class TOMLFormat(TTKitFormat):
     loader = ("toml", "TOMLFile")
     autoload: tuple[str, ...] = ("*.toml",)
     monolingual = True
-    new_translation = "\n"
+    empty_file_template = "\n"
 
     @staticmethod
     def mimetype() -> str:
