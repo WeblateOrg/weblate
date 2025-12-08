@@ -1921,6 +1921,108 @@ class AzureBackendTest(HookBackendTestCase):
         )
 
 
+class InvalidBackendTest(SimpleTestCase):
+    """Test invalid payloads at the backend handler level."""
+
+    def test_github_missing_owner_login(self) -> None:
+        """Test GitHub handler with missing owner login/name."""
+        handler = HOOK_HANDLERS["github"]
+        payload = json.loads(GITHUB_PAYLOAD)
+        del payload["repository"]["owner"]["name"]
+        # Missing 'login' key should raise KeyError
+        with self.assertRaises(KeyError):
+            handler(payload, None)
+
+    def test_github_missing_repository_name(self) -> None:
+        """Test GitHub handler with missing repository name."""
+        handler = HOOK_HANDLERS["github"]
+        payload = json.loads(GITHUB_PAYLOAD)
+        del payload["repository"]["name"]
+        with self.assertRaises(KeyError):
+            handler(payload, None)
+
+    def test_github_missing_ref(self) -> None:
+        """Test GitHub handler with missing ref."""
+        handler = HOOK_HANDLERS["github"]
+        payload = json.loads(GITHUB_PAYLOAD)
+        del payload["ref"]
+        with self.assertRaises(KeyError):
+            handler(payload, None)
+
+    def test_bitbucket_no_full_name_components(self) -> None:
+        """Test Bitbucket handler when full_name cannot be determined."""
+        handler = HOOK_HANDLERS["bitbucket"]
+        payload = json.loads(BITBUCKET_PAYLOAD_GIT)
+        # Remove all fields that could be used to determine full_name
+        del payload["repository"]["owner"]
+        del payload["repository"]["slug"]
+        with self.assertRaises(ValueError) as cm:
+            handler(payload, None)
+        self.assertIn("Could not determine repository full name", str(cm.exception))
+
+    def test_bitbucket_no_repo_url_components(self) -> None:
+        """Test Bitbucket handler when repo URL cannot be determined."""
+        handler = HOOK_HANDLERS["bitbucket"]
+        payload = json.loads(BITBUCKET_PAYLOAD_GIT)
+        # Remove fields that could be used to determine repo URL
+        del payload["canon_url"]
+        del payload["repository"]["absolute_url"]
+        with self.assertRaises(ValueError) as cm:
+            handler(payload, None)
+        self.assertIn("Could not determine repository URL", str(cm.exception))
+
+    def test_bitbucket_invalid_full_name_no_repos(self) -> None:
+        """Test Bitbucket handler with invalid full_name resulting in no repos."""
+        handler = HOOK_HANDLERS["bitbucket"]
+        payload = json.loads(BITBUCKET_PAYLOAD_GIT)
+        # Set full_name to empty string (too short, will skip repo construction)
+        payload["repository"]["owner"] = ""
+        payload["repository"]["slug"] = ""
+        with self.assertRaises(ValueError) as cm:
+            handler(payload, None)
+        self.assertIn("unsupported repository", str(cm.exception))
+
+    def test_gitea_missing_full_name(self) -> None:
+        """Test Gitea handler with missing full_name."""
+        handler = HOOK_HANDLERS["gitea"]
+        payload = json.loads(GITEA_PAYLOAD)
+        del payload["repository"]["full_name"]
+        with self.assertRaises(KeyError):
+            handler(payload, None)
+
+    def test_gitee_missing_path_with_namespace(self) -> None:
+        """Test Gitee handler with missing path_with_namespace."""
+        handler = HOOK_HANDLERS["gitee"]
+        payload = json.loads(GITEE_PAYLOAD)
+        del payload["repository"]["path_with_namespace"]
+        with self.assertRaises(KeyError):
+            handler(payload, None)
+
+    def test_gitlab_missing_path_with_namespace(self) -> None:
+        """Test GitLab handler with missing path_with_namespace."""
+        handler = HOOK_HANDLERS["gitlab"]
+        payload = json.loads(GITLAB_PAYLOAD)
+        del payload["project"]["path_with_namespace"]
+        with self.assertRaises(KeyError):
+            handler(payload, None)
+
+    def test_pagure_missing_project_fullname(self) -> None:
+        """Test Pagure handler with missing project_fullname."""
+        handler = HOOK_HANDLERS["pagure"]
+        payload = json.loads(PAGURE_PAYLOAD)
+        del payload["msg"]["project_fullname"]
+        with self.assertRaises(KeyError):
+            handler(payload, None)
+
+    def test_azure_missing_repository_name(self) -> None:
+        """Test Azure handler with missing repository name."""
+        handler = HOOK_HANDLERS["azure"]
+        payload = json.loads(AZURE_PAYLOAD_NEW)
+        del payload["resource"]["repository"]["name"]
+        with self.assertRaises(KeyError):
+            handler(payload, None)
+
+
 class InvalidPayloadTest(ViewTestCase):
     """Test invalid webhook payloads with various full_name issues."""
 
@@ -2137,5 +2239,116 @@ class InvalidPayloadTest(ViewTestCase):
             reverse("webhook", kwargs={"service": "bitbucket"}),
             {"payload": json.dumps(payload)},
             headers={"x-event-key": "repo:refs_changed"},
+        )
+        self.assertContains(response, "Invalid data in json payload!", status_code=400)
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_azure_invalid_repository_name_empty(self) -> None:
+        """Test Azure webhook with empty repository name."""
+        payload = json.loads(AZURE_PAYLOAD_NEW)
+        payload["resource"]["repository"]["name"] = ""
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "azure"}),
+            json.dumps(payload),
+            content_type="application/json",
+        )
+        # Azure uses repository name as full_name, empty should not match
+        self.assertContains(
+            response, "No matching repositories found!", status_code=202
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_github_missing_repository_key(self) -> None:
+        """Test GitHub webhook with missing repository key."""
+        payload = json.loads(GITHUB_PAYLOAD)
+        del payload["repository"]
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "github"}),
+            {"payload": json.dumps(payload)},
+            headers={"x-github-event": "push"},
+        )
+        self.assertContains(response, "Invalid data in json payload!", status_code=400)
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_gitlab_missing_project_key(self) -> None:
+        """Test GitLab webhook with missing project key."""
+        payload = json.loads(GITLAB_PAYLOAD)
+        del payload["project"]
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "gitlab"}),
+            json.dumps(payload),
+            content_type="application/json",
+        )
+        self.assertContains(response, "Invalid data in json payload!", status_code=400)
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_gitea_missing_repository_key(self) -> None:
+        """Test Gitea webhook with missing repository key."""
+        payload = json.loads(GITEA_PAYLOAD)
+        del payload["repository"]
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "gitea"}),
+            {"payload": json.dumps(payload)},
+        )
+        self.assertContains(response, "Invalid data in json payload!", status_code=400)
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_gitee_missing_repository_key(self) -> None:
+        """Test Gitee webhook with missing repository key."""
+        payload = json.loads(GITEE_PAYLOAD)
+        del payload["repository"]
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "gitee"}),
+            {"payload": json.dumps(payload)},
+        )
+        self.assertContains(response, "Invalid data in json payload!", status_code=400)
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_pagure_missing_msg_key(self) -> None:
+        """Test Pagure webhook with missing msg key."""
+        payload = json.loads(PAGURE_PAYLOAD)
+        del payload["msg"]
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "pagure"}),
+            {"payload": json.dumps(payload)},
+        )
+        # Pagure returns None (ping response) when msg is missing
+        self.assertContains(response, "Hook working", status_code=201)
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_bitbucket_old_format_missing_owner(self) -> None:
+        """Test Bitbucket old format payload with missing owner."""
+        payload = json.loads(BITBUCKET_PAYLOAD_GIT)
+        del payload["repository"]["owner"]
+        del payload["repository"]["slug"]
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "bitbucket"}),
+            {"payload": json.dumps(payload)},
+            headers={"x-event-key": "repo:push"},
+        )
+        self.assertContains(response, "Invalid data in json payload!", status_code=400)
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_github_invalid_owner_structure(self) -> None:
+        """Test GitHub webhook with invalid owner structure."""
+        payload = json.loads(GITHUB_PAYLOAD)
+        # Remove both 'name' and 'login' from owner
+        payload["repository"]["owner"] = {}
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "github"}),
+            {"payload": json.dumps(payload)},
+            headers={"x-github-event": "push"},
+        )
+        self.assertContains(response, "Invalid data in json payload!", status_code=400)
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_azure_missing_resource_key(self) -> None:
+        """Test Azure webhook with missing resource key."""
+        payload = json.loads(AZURE_PAYLOAD_NEW)
+        del payload["resource"]
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "azure"}),
+            json.dumps(payload),
+            content_type="application/json",
         )
         self.assertContains(response, "Invalid data in json payload!", status_code=400)
