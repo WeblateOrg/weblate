@@ -733,7 +733,6 @@ class LaravelFormatCheck(BasePrintfCheck):
     check_id = "laravel_format"
     name = gettext_lazy("Laravel format")
     description = gettext_lazy("Laravel format string does not match source.")
-    regexp = LARAVEL_MATCH
 
     def format_string(self, string: str) -> str:
         return string

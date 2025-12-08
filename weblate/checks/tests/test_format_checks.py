@@ -477,6 +477,83 @@ class LaravelFormatCheckTest(CheckTestCase):
             {"missing": [], "extra": [":name"]},
         )
 
+    def test_multiple_placeholders(self):
+        self.assertFalse(
+            self.check.check_format(
+                "The :attribute must be :value",
+                "The :attribute must be :value",
+                False,
+                Unit(),
+            )
+        )
+
+    def test_reordering(self):
+        self.assertFalse(
+            self.check.check_format(
+                ":name :value",
+                ":value :name",
+                False,
+                Unit(),
+            )
+        )
+
+    def test_wrong_placeholder_names(self):
+        self.assertEqual(
+            self.check.check_format(":attribute", ":name", False, Unit()),
+            {"missing": [":attribute"], "extra": [":name"]},
+        )
+
+    def test_case_sensitivity(self):
+        self.assertEqual(
+            self.check.check_format(":name", ":Name", False, Unit()),
+            {"missing": [":name"], "extra": [":Name"]},
+        )
+
+    def test_special_characters(self):
+        self.assertFalse(
+            self.check.check_format(
+                ":user_id :value2",
+                ":user_id :value2",
+                False,
+                Unit(),
+            )
+        )
+
+    def test_edge_positions(self):
+        self.assertFalse(
+            self.check.check_format(
+                ":start middle :end",
+                ":start middle :end",
+                False,
+                Unit(),
+            )
+        )
+
+    def test_description(self) -> None:
+        unit = Unit(
+            source=":name",
+            target=":value",
+            extra_flags="laravel-format",
+            translation=Translation(
+                component=Component(
+                    file_format="po",
+                    source_language=Language(code="en"),
+                    project=Project(),
+                )
+            ),
+        )
+        check = Check(unit=unit)
+        self.assertHTMLEqual(
+            str(self.check.get_description(check)),
+            """
+            The following format strings are missing:
+            <span class="hlcheck" data-value=":name">:name</span>
+            <br />
+            The following format strings are extra:
+            <span class="hlcheck" data-value=":value">:value</span>
+            """,
+        )
+
 
 class ObjectPascalFormatCheckTest(CheckTestCase):
     check = ObjectPascalFormatCheck()

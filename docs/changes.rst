@@ -12,6 +12,7 @@ Weblate 5.15
 * Memory contents imported from TMX files include string context.
 * :doc:`/formats/xliff2`, :doc:`/formats/nextcloud-json`, :doc:`/formats/resjson`, and :doc:`/formats/toml` are now supported file formats.
 * :ref:`addon-weblate.fedora_messaging.publish` integration is now available as add-on.
+* Added :ref:`check-laravel-format` quality check.
 
 .. rubric:: Improvements
 
