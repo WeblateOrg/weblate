@@ -24,6 +24,12 @@ authentication.
 Accessing repositories from Hosted Weblate
 ++++++++++++++++++++++++++++++++++++++++++
 
+.. note::
+
+   This section applies **only** to Hosted Weblate (hosted.weblate.org). If you are
+   running your own self-hosted Weblate instance, please see
+   :ref:`the next section <vcs-repos-code-hosting>` instead.
+
 For Hosted Weblate, there is a dedicated push user registered on GitHub,
 Bitbucket, Codeberg, and GitLab (with the username :guilabel:`weblate`, e-mail
 ``hosted@weblate.org``, and a name or profile description :guilabel:`Weblate push user`).
@@ -46,20 +52,22 @@ Once the :guilabel:`weblate` user is added to your repository, you can configure
 :ref:`component-repo` and :ref:`component-push` using the SSH protocol (for example
 ``git@github.com:WeblateOrg/weblate.git``).
 
+.. _vcs-repos-code-hosting:
+
 Accessing repositories on code hosting sites (GitHub, GitLab, Bitbucket, Azure DevOps, ...)
 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-Accessing repositories on code hosting sites is typically done by creating a
+.. note::
+
+   This section applies to **self-hosted** Weblate instances. If you are using
+   Hosted Weblate (hosted.weblate.org), see :ref:`hosted-push` instead.
+
+For self-hosted Weblate, accessing repositories on code hosting sites is typically done by creating a
 dedicated user who is associated with a Weblate SSH key (see
 :ref:`weblate-ssh-key`). This way you associate Weblate SSH key with a single
 user (platforms frequently enforce single use of a SSH key) and grant this user access
 to the repository. You can then use SSH URL to access the repository (see
 :ref:`ssh-repos`).
-
-.. hint::
-
-   On a Hosted Weblate, this is pre-configured for most of the public sites,
-   please see :ref:`hosted-push`.
 
 .. _ssh-repos:
 
@@ -166,24 +174,45 @@ ECDSA or Ed25519).
 GitHub repositories
 +++++++++++++++++++
 
-Access via SSH is possible (see :ref:`ssh-repos`), but in case you need to
-access more than one repository, you will hit a GitHub limitation on allowed
-SSH key usage (since each key can be used only once).
+There are two main approaches to accessing GitHub repositories with Weblate:
 
-In case the :ref:`component-push_branch` is not set, the project is forked and
-changes pushed through a fork. In case it is set, changes are pushed to the
-upstream repository and chosen branch.
+**Option 1: HTTPS with Personal Access Token (simpler for getting started)**
 
-For smaller deployments, use HTTPS authentication with a personal access
-token and your GitHub account, see `Creating an access token for command-line use`_.
+Use HTTPS authentication with a personal access token and your GitHub account.
+This works for both read-only access (cloning) and read-write access (pushing
+changes or creating pull requests).
+
+To use this approach:
+
+1. Create a personal access token as described in `Creating an access token for command-line use`_.
+2. Include the token in your repository URL: ``https://username:token@github.com/owner/repo.git``
+
+This is suitable when you're starting with Weblate or working with a single repository.
 
 .. _Creating an access token for command-line use: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
 
-For bigger setups, it is usually better to create a dedicated user for Weblate,
-assign it the public SSH key generated in Weblate (see :ref:`weblate-ssh-key`)
-and grant it access to all the repositories you want to translate. This
-approach is also used for Hosted Weblate, there is dedicated
-:guilabel:`weblate` user for that.
+**Option 2: SSH with Dedicated User (recommended for multiple repositories)**
+
+For setups with multiple repositories, it is recommended to create a dedicated
+user for Weblate. This avoids GitHub's limitation that each SSH key can only
+be used once per platform.
+
+To use this approach:
+
+1. Create a dedicated GitHub user account (e.g., ``weblate-bot``)
+2. Add Weblate's public SSH key to this user (see :ref:`weblate-ssh-key`)
+3. Grant this user access to all repositories you want to translate
+4. Use SSH URLs for your repositories: ``git@github.com:owner/repo.git``
+
+This approach is also used for Hosted Weblate, which has a dedicated
+:guilabel:`weblate` user for that purpose.
+
+.. note::
+
+   When using :ref:`vcs-github` for pull requests, the
+   :ref:`component-push_branch` configuration affects the behavior: if not set,
+   the project is forked and changes are pushed through a fork. If set, changes
+   are pushed to the upstream repository and the chosen branch.
 
 .. seealso::
 
