@@ -1962,7 +1962,8 @@ class InvalidBackendTest(SimpleTestCase):
         """Test GitHub handler with missing owner login/name."""
         handler = HOOK_HANDLERS["github"]
         payload = json.loads(GITHUB_PAYLOAD)
-        # GITHUB_PAYLOAD has 'name' but not 'login', deleting 'name' means both are missing
+        # GitHub handler checks 'login' first, falls back to 'name'
+        # GITHUB_PAYLOAD has only 'name', so deleting it leaves no valid field
         del payload["repository"]["owner"]["name"]
         with self.assertRaises(KeyError):
             handler(payload, None)
@@ -2109,7 +2110,7 @@ class InvalidPayloadTest(ViewTestCase):
             {"payload": json.dumps(payload)},
             headers={"x-event-key": "repo:push"},
         )
-        # Payload is valid but full_name "a/b" fails validate_full_name (≤5 chars)
+        # Payload is valid but full_name "a/b" fails validate_full_name (<=5 chars)
         # so endswith matching is skipped, resulting in no matches (202, not 400)
         self.assertContains(
             response, "No matching repositories found!", status_code=202
@@ -2347,7 +2348,7 @@ class InvalidPayloadTest(ViewTestCase):
             reverse("webhook", kwargs={"service": "pagure"}),
             {"payload": json.dumps(payload)},
         )
-        # Pagure handler returns None when msg is missing (line 550 in hooks.py)
+        # Pagure handler returns None when msg is missing (see pagure_hook_helper)
         # which is treated as a ping/test event, returning 201 "Hook working"
         self.assertContains(response, "Hook working", status_code=201)
 
