@@ -1323,7 +1323,7 @@ class ProjectViewSet(
     @action(
         detail=True,
         methods=["get"],
-        url_path=r"(?P<language_code>[^/.]+)/file",
+        url_path=r"languages/(?P<language_code>[^/.]+)/file",
     )
     def language_file(self, request: Request, language_code: str, **kwargs):
         instance = self.get_object()
