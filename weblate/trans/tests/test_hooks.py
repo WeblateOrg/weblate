@@ -1919,3 +1919,223 @@ class AzureBackendTest(HookBackendTestCase):
                 "service_long_name": "Azure",
             },
         )
+
+
+class InvalidPayloadTest(ViewTestCase):
+    """Test invalid webhook payloads with various full_name issues."""
+
+    def setUp(self) -> None:
+        super().setUp()
+        # Avoid actual repository updates
+        self.patcher = patch(
+            "weblate.trans.models.component.Component.update_remote_branch"
+        )
+        self.patcher.start()
+        self.addCleanup(self.patcher.stop)
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_bitbucket_invalid_full_name_empty(self) -> None:
+        """Test Bitbucket webhook with empty full_name."""
+        payload = json.loads(BITBUCKET_PAYLOAD_GIT)
+        # Set empty full_name
+        payload["repository"]["owner"] = ""
+        payload["repository"]["slug"] = ""
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "bitbucket"}),
+            {"payload": json.dumps(payload)},
+            headers={"x-event-key": "repo:push"},
+        )
+        self.assertContains(response, "Invalid data in json payload!", status_code=400)
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_bitbucket_invalid_full_name_no_slash(self) -> None:
+        """Test Bitbucket webhook with full_name without slash."""
+        payload = json.loads(BITBUCKET_PAYLOAD_GIT)
+        # Set full_name without slash
+        payload["repository"]["owner"] = "onlyowner"
+        del payload["repository"]["slug"]
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "bitbucket"}),
+            {"payload": json.dumps(payload)},
+            headers={"x-event-key": "repo:push"},
+        )
+        self.assertContains(response, "Invalid data in json payload!", status_code=400)
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_bitbucket_invalid_full_name_too_short(self) -> None:
+        """Test Bitbucket webhook with full_name that's too short."""
+        payload = json.loads(BITBUCKET_PAYLOAD_GIT)
+        # Set very short full_name (a/b is only 3 chars, needs > 5)
+        payload["repository"]["owner"] = "a"
+        payload["repository"]["slug"] = "b"
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "bitbucket"}),
+            {"payload": json.dumps(payload)},
+            headers={"x-event-key": "repo:push"},
+        )
+        # This should work but won't match any repository and won't use endswith
+        self.assertContains(
+            response, "No matching repositories found!", status_code=202
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_github_invalid_full_name_empty_owner(self) -> None:
+        """Test GitHub webhook with empty owner."""
+        payload = json.loads(GITHUB_PAYLOAD)
+        payload["repository"]["owner"]["name"] = ""
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "github"}),
+            {"payload": json.dumps(payload)},
+            headers={"x-github-event": "push"},
+        )
+        # GitHub constructs full_name from owner/slug, so empty owner leads to "/slug"
+        self.assertContains(
+            response, "No matching repositories found!", status_code=202
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_github_invalid_full_name_empty_slug(self) -> None:
+        """Test GitHub webhook with empty repository name."""
+        payload = json.loads(GITHUB_PAYLOAD)
+        payload["repository"]["name"] = ""
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "github"}),
+            {"payload": json.dumps(payload)},
+            headers={"x-github-event": "push"},
+        )
+        # GitHub constructs full_name from owner/slug, so empty slug leads to "owner/"
+        self.assertContains(
+            response, "No matching repositories found!", status_code=202
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_gitea_invalid_full_name_empty(self) -> None:
+        """Test Gitea webhook with empty full_name."""
+        payload = json.loads(GITEA_PAYLOAD)
+        payload["repository"]["full_name"] = ""
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "gitea"}),
+            {"payload": json.dumps(payload)},
+        )
+        self.assertContains(
+            response, "No matching repositories found!", status_code=202
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_gitea_invalid_full_name_no_slash(self) -> None:
+        """Test Gitea webhook with full_name without slash."""
+        payload = json.loads(GITEA_PAYLOAD)
+        payload["repository"]["full_name"] = "invalidname"
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "gitea"}),
+            {"payload": json.dumps(payload)},
+        )
+        self.assertContains(
+            response, "No matching repositories found!", status_code=202
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_gitee_invalid_full_name_empty(self) -> None:
+        """Test Gitee webhook with empty path_with_namespace."""
+        payload = json.loads(GITEE_PAYLOAD)
+        payload["repository"]["path_with_namespace"] = ""
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "gitee"}),
+            {"payload": json.dumps(payload)},
+        )
+        self.assertContains(
+            response, "No matching repositories found!", status_code=202
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_gitee_invalid_full_name_no_slash(self) -> None:
+        """Test Gitee webhook with path_with_namespace without slash."""
+        payload = json.loads(GITEE_PAYLOAD)
+        payload["repository"]["path_with_namespace"] = "nosla sh"
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "gitee"}),
+            {"payload": json.dumps(payload)},
+        )
+        self.assertContains(
+            response, "No matching repositories found!", status_code=202
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_gitlab_invalid_full_name_empty(self) -> None:
+        """Test GitLab webhook with empty path_with_namespace."""
+        payload = json.loads(GITLAB_PAYLOAD)
+        payload["project"]["path_with_namespace"] = ""
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "gitlab"}),
+            json.dumps(payload),
+            content_type="application/json",
+        )
+        self.assertContains(
+            response, "No matching repositories found!", status_code=202
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_gitlab_invalid_full_name_no_slash(self) -> None:
+        """Test GitLab webhook with path_with_namespace without slash."""
+        payload = json.loads(GITLAB_PAYLOAD)
+        payload["project"]["path_with_namespace"] = "noslash"
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "gitlab"}),
+            json.dumps(payload),
+            content_type="application/json",
+        )
+        self.assertContains(
+            response, "No matching repositories found!", status_code=202
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_pagure_invalid_full_name_empty(self) -> None:
+        """Test Pagure webhook with empty project_fullname."""
+        payload = json.loads(PAGURE_PAYLOAD)
+        payload["msg"]["project_fullname"] = ""
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "pagure"}),
+            {"payload": json.dumps(payload)},
+        )
+        self.assertContains(
+            response, "No matching repositories found!", status_code=202
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_pagure_invalid_full_name_no_slash(self) -> None:
+        """Test Pagure webhook with project_fullname without slash."""
+        payload = json.loads(PAGURE_PAYLOAD)
+        payload["msg"]["project_fullname"] = "noslash"
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "pagure"}),
+            {"payload": json.dumps(payload)},
+        )
+        self.assertContains(
+            response, "No matching repositories found!", status_code=202
+        )
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_bitbucket_webhook_invalid_full_name_missing(self) -> None:
+        """Test Bitbucket webhook payload with missing full_name field."""
+        payload = json.loads(BITBUCKET_PAYLOAD_WEBHOOK)
+        # Remove full_name field entirely
+        del payload["repository"]["full_name"]
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "bitbucket"}),
+            {"payload": json.dumps(payload)},
+            headers={"x-event-key": "repo:push"},
+        )
+        self.assertContains(response, "Invalid data in json payload!", status_code=400)
+
+    @override_settings(ENABLE_HOOKS=True)
+    def test_bitbucket_server_invalid_full_name_missing_project(self) -> None:
+        """Test Bitbucket Server webhook with missing project key."""
+        payload = json.loads(BITBUCKET_PAYLOAD_SERVER)
+        # Remove project key which is used to construct full_name
+        del payload["repository"]["project"]["key"]
+        response = self.client.post(
+            reverse("webhook", kwargs={"service": "bitbucket"}),
+            {"payload": json.dumps(payload)},
+            headers={"x-event-key": "repo:refs_changed"},
+        )
+        self.assertContains(response, "Invalid data in json payload!", status_code=400)
