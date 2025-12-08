@@ -22,7 +22,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-06 19:29+0000\n"
-"PO-Revision-Date: 2025-12-03 20:00+0000\n"
+"PO-Revision-Date: 2025-12-09 04:00+0000\n"
 "Last-Translator: Максим Горпиніч <gorpinicmaksim0@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "application/uk/>\n"
@@ -30,8 +30,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : "
-"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n%10>"
+"=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 5.15-dev\n"
 
 #: weblate/accounts/avatar.py:89
@@ -1511,11 +1511,11 @@ msgstr "Цей додаток виконує скрипт."
 
 #: weblate/addons/fedora_messaging.py:32
 msgid "Fedora Messaging"
-msgstr ""
+msgstr "Повідомлення Fedora"
 
 #: weblate/addons/fedora_messaging.py:34
 msgid "Sends notifications to a Fedora Messaging compatible AMQP exchange."
-msgstr ""
+msgstr "Надсилає сповіщення на обмін AMQP, сумісний з Fedora Messaging."
 
 #: weblate/addons/flags.py:44
 msgid "Flag new source strings as \"Needs editing\""
@@ -1886,52 +1886,51 @@ msgstr "Секрет стандартних вебхуків — це рядок
 
 #: weblate/addons/forms.py:621
 msgid "AMQP broker host"
-msgstr ""
+msgstr "Хост брокера AMQP"
 
 #: weblate/addons/forms.py:622
 msgid "The AMQP broker to connect to."
-msgstr ""
+msgstr "Брокер AMQP для підключення."
 
 #: weblate/addons/forms.py:626
 msgid "Use SSL for AMQP connection"
-msgstr ""
+msgstr "Використовуйте SSL для з'єднання AMQP"
 
 #: weblate/addons/forms.py:631
 msgid "CA certificates"
-msgstr ""
+msgstr "Сертифікати CA"
 
 #: weblate/addons/forms.py:633
 msgid ""
 "Bundle of PEM encoded CA certificates used to validate the certificate "
 "presented by the server."
 msgstr ""
+"Пакет сертифікатів CA, закодованих у форматі PEM, що використовуються для "
+"перевірки сертифіката, наданого сервером."
 
 #: weblate/addons/forms.py:639
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Client ID"
 msgid "Client SSL key"
-msgstr "Ідентифікатор клієнта"
+msgstr "SSL-ключ клієнта"
 
 #: weblate/addons/forms.py:640
 msgid "PEM encoded client private SSL key."
-msgstr ""
+msgstr "Приватний SSL-ключ клієнта, закодований у PEM."
 
 #: weblate/addons/forms.py:646
 msgid "Client SSL certificates"
-msgstr ""
+msgstr "SSL-сертифікати клієнта"
 
 #: weblate/addons/forms.py:647
 msgid "PEM encoded client SSL certificate."
-msgstr ""
+msgstr "SSL-сертифікат клієнта, закодований PEM."
 
 #: weblate/addons/forms.py:665
 msgid "The SSL certificates have to be provided for SSL connection."
-msgstr ""
+msgstr "Для SSL-з'єднання необхідно надати SSL-сертифікати."
 
 #: weblate/addons/forms.py:678
 msgid "The SSL certificates are not used without a SSL connection."
-msgstr ""
+msgstr "SSL-сертифікати не використовуються без SSL-з'єднання."
 
 #: weblate/addons/generate.py:38
 msgid "Statistics generator"
@@ -4884,17 +4883,13 @@ msgstr "XLIFF 1.2 із розширеннями gettext"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1374
-#, fuzzy
-#| msgid "XLIFF 1.2 translation file"
 msgid "XLIFF 2.0 translation file"
-msgstr "Файл перекладу XLIFF 1.2"
+msgstr "Файл перекладу XLIFF 2.0"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1389
-#, fuzzy
-#| msgid "XLIFF 1.2 with placeables support"
 msgid "XLIFF 2.0 translation file with placeables support"
-msgstr "XLIFF 1.2 із підтримкою замінників"
+msgstr "Файл перекладу XLIFF 2.0 з підтримкою розміщуваних елементів"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1419
@@ -5013,31 +5008,23 @@ msgstr "Формат.JS файлуJSON"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1697
-#, fuzzy
-#| msgid "gotext JSON file"
 msgid "Nextcloud JSON file"
-msgstr "файл JSON gotext"
+msgstr "JSON-файл Nextcloud"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1708
-#, fuzzy
-#| msgid "JSON file"
 msgid "RESJSON file"
-msgstr "Файл JSON"
+msgstr "Файл RESJSON"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1718
-#, fuzzy
-#| msgid "HTML file"
 msgid "TOML file"
-msgstr "Файл HTML"
+msgstr "TOML-файл"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1738
-#, fuzzy
-#| msgid "go-i18n v1 JSON file"
 msgid "go-i18n TOML file"
-msgstr "Файл JSON go-i18n v1"
+msgstr "Файл TOML go-i18n"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1748
@@ -5880,7 +5867,7 @@ msgstr ""
 #: weblate/machinery/forms.py:362
 msgctxt "Automatic suggestion service configuration"
 msgid "LLM model"
-msgstr ""
+msgstr "Модель LLM"
 
 #: weblate/machinery/forms.py:369
 msgctxt "Automatic suggestion service configuration"
@@ -5971,16 +5958,16 @@ msgstr "Унікальна назва розгортуваної моделі."
 
 #: weblate/machinery/forms.py:481
 msgid "Base URL of the Ollama API, localhost and port 11434 by default."
-msgstr ""
+msgstr "Базова URL-адреса API Ollama, localhost та порт 11434 за замовчуванням."
 
 #: weblate/machinery/forms.py:488
 msgctxt "Automatic suggestion service configuration"
 msgid "Ollama model"
-msgstr ""
+msgstr "Модель Ollama"
 
 #: weblate/machinery/forms.py:490
 msgid "Name of the model described in Ollama catalogue."
-msgstr ""
+msgstr "Назва моделі, описаної в каталозі Ollama."
 
 #: weblate/machinery/types.py:20
 msgctxt "Source language selection"
@@ -16498,12 +16485,11 @@ msgid "The template for new translations is invalid."
 msgstr "Шаблон для нових перекладів є некоректним."
 
 #: weblate/trans/models/component.py:3931
-#, fuzzy
-#| msgid "The given language is filtered by the language filter."
 msgid ""
 "The given language maps to a different language. Check language aliases "
 "settings."
-msgstr "Задана мова фільтрується мовним фільтром."
+msgstr ""
+"Вказана мова відповідає іншій мові. Перевірте налаштування псевдонімів мов."
 
 #: weblate/trans/models/component.py:3937
 msgid "The given language is used as a source language."
@@ -18136,10 +18122,8 @@ msgid "Fetching VCS repository from %s is not allowed."
 msgstr "Отримання даних з репозиторію VCS з %s заборонено."
 
 #: weblate/utils/validators.py:458
-#, fuzzy
-#| msgid "Enter a valid e-mail address."
 msgid "Enter a valid domain name or IP address."
-msgstr "Введіть дійсну адресу електронної пошти."
+msgstr "Введіть дійсне доменне ім'я або IP-адресу."
 
 #: weblate/utils/views.py:212 weblate/utils/views.py:241
 msgid "Position and priority"
