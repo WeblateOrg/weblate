@@ -2432,8 +2432,6 @@ Changes
     :>json object details: additional details about the change
     :>json int id: change identifier
 
-
-
 Screenshots
 +++++++++++
 
