@@ -2112,9 +2112,7 @@ class InvalidPayloadTest(ViewTestCase):
         )
         # Payload is valid but full_name "a/b" fails validate_full_name
         # so no repository matches are generated
-        self.assertContains(
-            response, "Invalid data in json payload!", status_code=400
-        )
+        self.assertContains(response, "Invalid data in json payload!", status_code=400)
 
     @override_settings(ENABLE_HOOKS=True)
     def test_github_invalid_full_name_empty_owner(self) -> None:
