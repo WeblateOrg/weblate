@@ -2796,9 +2796,6 @@ Metrics
     :>json object celery_queues: Lengths of Celery queues, see :ref:`celery`
     :>json string name: Configured server name
 
-
-
-
 Search
 +++++++
 
