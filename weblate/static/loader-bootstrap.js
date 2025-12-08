@@ -1699,6 +1699,10 @@ $(function () {
       file_format_params_fields_ids.forEach((fieldId) => {
         form.find(fieldId).toggle(displayFieldLabel);
       });
+    } else {
+      file_format_params_fields_ids.forEach((fieldId) => {
+        form.find(fieldId).hide();
+      });
     }
   }
 
