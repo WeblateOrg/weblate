@@ -1949,7 +1949,6 @@ class ValidateFullNameTest(SimpleTestCase):
 
         self.assertFalse(validate_full_name("noslash"))
         self.assertFalse(validate_full_name("repository"))
-        self.assertFalse(validate_full_name(""))
 
     def test_validate_full_name_empty(self) -> None:
         """Test empty full_name."""
@@ -2198,7 +2197,7 @@ class InvalidPayloadTest(ViewTestCase):
     def test_gitee_invalid_full_name_no_slash(self) -> None:
         """Test Gitee webhook with path_with_namespace without slash."""
         payload = json.loads(GITEE_PAYLOAD)
-        payload["repository"]["path_with_namespace"] = "nosla sh"
+        payload["repository"]["path_with_namespace"] = "noslash"
         response = self.client.post(
             reverse("webhook", kwargs={"service": "gitee"}),
             {"payload": json.dumps(payload)},
