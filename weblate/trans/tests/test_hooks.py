@@ -2110,10 +2110,10 @@ class InvalidPayloadTest(ViewTestCase):
             {"payload": json.dumps(payload)},
             headers={"x-event-key": "repo:push"},
         )
-        # Payload is valid but full_name "a/b" fails validate_full_name (<=5 chars)
-        # so endswith matching is skipped, resulting in no matches (202, not 400)
+        # Payload is valid but full_name "a/b" fails validate_full_name
+        # so no repository matches are generated
         self.assertContains(
-            response, "No matching repositories found!", status_code=202
+            response, "No matching repositories found!", status_code=400
         )
 
     @override_settings(ENABLE_HOOKS=True)
