@@ -16,7 +16,7 @@ from django.urls import reverse
 
 from weblate.trans.actions import ActionEvents
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.trans.views.hooks import HOOK_HANDLERS
+from weblate.trans.views.hooks import HOOK_HANDLERS, validate_full_name
 
 GITHUB_PAYLOAD = """
 {
@@ -1926,8 +1926,6 @@ class ValidateFullNameTest(SimpleTestCase):
 
     def test_validate_full_name_valid(self) -> None:
         """Test valid full_name formats."""
-        from weblate.trans.views.hooks import validate_full_name
-
         # Valid full_name with slash and length > 5
         self.assertTrue(validate_full_name("owner/repo"))
         self.assertTrue(validate_full_name("organization/project"))
@@ -1936,8 +1934,6 @@ class ValidateFullNameTest(SimpleTestCase):
 
     def test_validate_full_name_too_short(self) -> None:
         """Test full_name that's too short (≤5 chars)."""
-        from weblate.trans.views.hooks import validate_full_name
-
         self.assertFalse(validate_full_name("a/b"))  # 3 chars
         self.assertFalse(validate_full_name("ab/c"))  # 4 chars
         self.assertFalse(validate_full_name("a/bcd"))  # 5 chars
@@ -1945,21 +1941,15 @@ class ValidateFullNameTest(SimpleTestCase):
 
     def test_validate_full_name_no_slash(self) -> None:
         """Test full_name without slash."""
-        from weblate.trans.views.hooks import validate_full_name
-
         self.assertFalse(validate_full_name("noslash"))
         self.assertFalse(validate_full_name("repository"))
 
     def test_validate_full_name_empty(self) -> None:
         """Test empty full_name."""
-        from weblate.trans.views.hooks import validate_full_name
-
         self.assertFalse(validate_full_name(""))
 
     def test_validate_full_name_multiple_slashes(self) -> None:
         """Test full_name with multiple slashes (still valid)."""
-        from weblate.trans.views.hooks import validate_full_name
-
         # These are valid as they have slash and length > 5
         self.assertTrue(validate_full_name("org/project/repo"))
         self.assertTrue(validate_full_name("user/sub/project"))
