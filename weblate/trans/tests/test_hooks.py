@@ -1972,8 +1972,8 @@ class InvalidBackendTest(SimpleTestCase):
         """Test GitHub handler with missing owner login/name."""
         handler = HOOK_HANDLERS["github"]
         payload = json.loads(GITHUB_PAYLOAD)
+        # GITHUB_PAYLOAD has 'name' but not 'login', deleting 'name' means both are missing
         del payload["repository"]["owner"]["name"]
-        # Missing 'login' key should raise KeyError
         with self.assertRaises(KeyError):
             handler(payload, None)
 
@@ -2119,7 +2119,8 @@ class InvalidPayloadTest(ViewTestCase):
             {"payload": json.dumps(payload)},
             headers={"x-event-key": "repo:push"},
         )
-        # This should work but won't match any repository and won't use endswith
+        # Payload is valid but full_name "a/b" fails validate_full_name (≤5 chars)
+        # so endswith matching is skipped, resulting in no matches (202, not 400)
         self.assertContains(
             response, "No matching repositories found!", status_code=202
         )
@@ -2356,7 +2357,8 @@ class InvalidPayloadTest(ViewTestCase):
             reverse("webhook", kwargs={"service": "pagure"}),
             {"payload": json.dumps(payload)},
         )
-        # Pagure returns None (ping response) when msg is missing
+        # Pagure handler returns None when msg is missing (line 550 in hooks.py)
+        # which is treated as a ping/test event, returning 201 "Hook working"
         self.assertContains(response, "Hook working", status_code=201)
 
     @override_settings(ENABLE_HOOKS=True)
