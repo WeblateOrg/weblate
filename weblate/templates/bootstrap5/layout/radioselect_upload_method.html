@@ -1,0 +1,49 @@
+{% load crispy_forms_filters l10n translations upload_methods %}
+
+{% comment %}Modified version of radio_checkbox_select.html and radioselect.html from crispy_forms{% endcomment %}
+<div id="div_{{ field.auto_id }}"
+     class="form-group{% if wrapper_class %} {{ wrapper_class }}{% endif %}{% if form_show_errors and field.errors %} has-error{% endif %}{% if field.css_classes %} {{ field.css_classes }}{% endif %}">
+  {% if field.label %}
+    <label for="{{ field.auto_id }}"
+           class="control-label {{ label_class }}{% if field.field.required %} requiredField{% endif %}">
+      {{ field.label|safe }}
+      {% if field.field.required %}<span class="asteriskField">*</span>{% endif %}
+      {% form_field_doc_link field.form field %}
+    </label>
+  {% endif %}
+
+
+  <div {% if field_class %}class="{{ field_class }}"{% endif %}
+       {% if flat_attrs %}{{ flat_attrs }}{% endif %}>
+
+    {% for group, options, index in field|optgroups %}
+      {% if group %}<strong>{{ group }}</strong>{% endif %}
+      {% for option in options %}
+        <div class="form-check{% if inline_class %} form-check-inline{% endif %}">
+          <input type="{{ option.type }}"
+                 class="form-check-input{% if field.errors %} is-invalid{% endif %}"
+                 name="{{ field.html_name }}"
+                 value="{{ option.value|unlocalize }}"
+                 {% include "bootstrap5/layout/attrs.html" with widget=option %}>
+          <label for="{{ option.attrs.id }}" class="form-check-label">{{ option.label|unlocalize }}</label>
+          <div {% if field.auto_id %}id="{{ field.auto_id }}_helptext"{% endif %}
+               class="form-text">{% get_upload_method_help option.value %}</div>
+          {% if field.errors and forloop.last and not inline_class and forloop.parentloop.last %}
+            {% include 'bootstrap5/layout/field_errors_block.html' %}
+          {% endif %}
+        </div>
+      {% endfor %}
+    {% endfor %}
+
+  </div>
+  {% if field.errors and inline_class %}
+    <div id="{{ field.errors.field_id }}_error" class="invalid-feedback">
+      {% for error in field.errors %}
+        <p id="error_{{ forloop.counter }}_{{ field.auto_id }}">
+          <strong>{{ error }}</strong>
+        </p>
+      {% endfor %}
+    </div>
+  {% endif %}
+  {% include 'bootstrap5/layout/help_text.html' %}
+</div>
