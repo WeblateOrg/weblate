@@ -22,7 +22,9 @@ from weblate.trans.templatetags.translations import (
     get_location_links,
     naturaltime,
 )
+from weblate.trans.templatetags.upload_methods import get_upload_method_help
 from weblate.trans.tests.test_views import FixtureTestCase
+from weblate.utils.files import FileUploadMethod
 
 TEST_DATA = (
     (0, "now"),
@@ -815,3 +817,13 @@ class DiffTestCase(SimpleTestCase):
             )["items"][0]["content"],
             '<span class="hlmatch">Hello</span> world!',
         )
+
+
+class UploadMethodsHelpTestCase(SimpleTestCase):
+    def test_all_exist(self) -> None:
+        for method in FileUploadMethod:
+            self.assertIsInstance(get_upload_method_help(method), str)
+
+    def test_invalid(self) -> None:
+        with self.assertRaises(ValueError):
+            get_upload_method_help("")
