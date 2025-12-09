@@ -2656,7 +2656,7 @@ class ProjectAPITest(APIBaseTest):
             method="get",
             code=200,
             superuser=True,
-            request={"format": "zip", "filter": "^test$"},
+            request={"format": "zip", "filter": "test"},
         )
         with zipfile.ZipFile(BytesIO(response.content)) as zf:
             zip_names = set(zf.namelist())
@@ -2667,7 +2667,7 @@ class ProjectAPITest(APIBaseTest):
 
         project = Project.objects.get(slug=self.project_kwargs["slug"])
         components = project.component_set.filter_access(self.user).filter(
-            slug__regex="^test$"
+            slug__icontains="test"
         )
         translations = Translation.objects.filter(
             component__in=components, language__code="cs"
@@ -2705,7 +2705,7 @@ class ProjectAPITest(APIBaseTest):
             "api:project-language-file",
             {**self.project_kwargs, "language_code": "cs"},
             method="get",
-            code=400,
+            code=200,
             superuser=True,
             request={"format": "zip", "filter": "["},
         )

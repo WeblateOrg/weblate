@@ -6,7 +6,6 @@
 from __future__ import annotations
 
 import os.path
-import re
 from datetime import datetime
 from typing import TYPE_CHECKING, cast
 from urllib.parse import unquote
@@ -424,6 +423,14 @@ class UserFilter(filters.FilterSet):
     class Meta:
         model = User
         fields = ("username", "id")
+
+
+class ComponentSlugFilter(filters.FilterSet):
+    filter = filters.CharFilter(field_name="slug", lookup_expr="icontains")
+
+    class Meta:
+        model = Component
+        fields = ("filter",)
 
 
 @extend_schema_view(
@@ -1332,13 +1339,12 @@ class ProjectViewSet(
             raise PermissionDenied
 
         components = instance.component_set.filter_access(request.user)
-        component_filter = request.query_params.get("filter")
-        if component_filter:
-            try:
-                re.compile(component_filter)
-            except re.error as exc:
-                raise ValidationError({"filter": str(exc)}) from exc
-            components = components.filter(slug__regex=component_filter)
+        filterset = ComponentSlugFilter(
+            request.query_params, queryset=components, request=request
+        )
+        if not filterset.is_valid():
+            raise ValidationError(filterset.errors)
+        components = filterset.qs
         requested_format = request.query_params.get("format", "zip")
 
         translations = Translation.objects.filter(
