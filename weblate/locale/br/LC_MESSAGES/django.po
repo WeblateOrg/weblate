@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-06 19:29+0000\n"
-"PO-Revision-Date: 2025-12-07 20:00+0000\n"
+"PO-Revision-Date: 2025-12-09 20:04+0000\n"
 "Last-Translator: Fulup Jakez <fulup.jakez@gmail.com>\n"
 "Language-Team: Breton <https://hosted.weblate.org/projects/weblate/"
 "application/br/>\n"
@@ -593,7 +593,7 @@ msgstr "Stanket eo bet ar moned d'ar raktres {project}."
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:291
 msgid "User was enabled by administrator."
-msgstr "Gweredekaet eo bet an implijer gant ar merour."
+msgstr "Aotreet eo bet an implijer gant ar merour."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:293
@@ -1483,7 +1483,7 @@ msgstr ""
 
 #: weblate/addons/base.py:165
 msgid "enabled"
-msgstr "gweredekaet"
+msgstr "aotreet"
 
 #: weblate/addons/base.py:506 weblate/trans/views/create.py:268
 msgid ""
@@ -1959,7 +1959,7 @@ msgstr "URL al lec'hienn"
 
 #: weblate/addons/forms.py:608
 msgid "The Standard Webhooks secret is a base64 encoded string."
-msgstr ""
+msgstr "Kevrin standard ar Webhookoù zo un neudennad enkodet diouzh an diaz64."
 
 #: weblate/addons/forms.py:621
 msgid "AMQP broker host"
@@ -2127,7 +2127,7 @@ msgstr "Kont"
 
 #: weblate/addons/removal.py:50
 msgid "Set a timeframe for removal of comments."
-msgstr ""
+msgstr "Termeniñ bep pegeit e vez dilamet an evezhiadennoù."
 
 #: weblate/addons/removal.py:63
 #, fuzzy
@@ -2137,7 +2137,7 @@ msgstr "Kinnigoù graet"
 
 #: weblate/addons/removal.py:64
 msgid "Set a timeframe for removal of suggestions."
-msgstr ""
+msgstr "Termeniñ bep pegeit e vez dilamet ar c'hinnigoù."
 
 #: weblate/addons/resx.py:24
 #, fuzzy
@@ -2151,24 +2151,28 @@ msgid ""
 "Unused strings are removed, and new ones added as copies of the source "
 "string."
 msgstr ""
+"Hizivaat an holl restroù treiñ evit ma klotfent gant ar restr tal unyezhek "
+"diazez. Dilamet e vo an neudennadoù dizimplij hag ouzhpennet re nevez en ur "
+"eilañ an neudennad tarzh."
 
 #: weblate/addons/views.py:122 weblate/addons/views.py:125
 #, python-format
 msgid "Invalid add-on name: ”%s”"
-msgstr ""
+msgstr "Anv astenn faziek : « %s »"
 
 #: weblate/addons/views.py:131
 #, python-format
 msgid "Add-on cannot be installed: ”%s”"
-msgstr ""
+msgstr "Ne c'hall ket an astenn bezañ staliet : « %s »"
 
 #: weblate/addons/views.py:154
 msgid "Add-on installed, please review integration instructions."
 msgstr ""
 
 #: weblate/addons/webhooks.py:113
+#, fuzzy
 msgid "Webhook"
-msgstr ""
+msgstr "Webhook"
 
 #: weblate/addons/webhooks.py:115
 msgid ""
@@ -2208,25 +2212,28 @@ msgstr ""
 
 #: weblate/api/docs.py:72
 msgid "Allowed number of requests to perform"
-msgstr ""
+msgstr "Niver a rekedoù a c'hall bezañ erounezet"
 
 #: weblate/api/docs.py:77
 msgid "Remaining number of requests to perform"
-msgstr ""
+msgstr "Niver a rekedoù a c'hall bezañ erounezet a chom"
 
 #: weblate/api/docs.py:82
 msgid "Number of seconds until the rate-limit window resets"
 msgstr ""
+"Niver a eilennoù a chom a-raok na vefe adweredekaet prenestr bevenniñ ar feur"
 
 #: weblate/api/serializers.py:353 weblate/templates/accounts/user.html:272
 #: weblate/trans/forms.py:1084
 msgid "Scope"
-msgstr ""
+msgstr "Ampled"
 
 #: weblate/api/serializers.py:355 weblate/trans/forms.py:1086
 msgid ""
 "Is your comment specific to this translation, or generic for all of them?"
 msgstr ""
+"Ha tennañ a ra hoc'h evezhiadenn d'an droidigezh-mañ hepken pe talvezout a "
+"ra evit an holl ?"
 
 #: weblate/api/serializers.py:361
 #, fuzzy
@@ -2237,7 +2244,7 @@ msgstr "Evezhiadenn"
 #: weblate/api/serializers.py:362 weblate/trans/forms.py:1108
 #: weblate/trans/models/announcement.py:73 weblate/trans/models/project.py:195
 msgid "You can use Markdown and mention users by @username."
-msgstr ""
+msgstr "Ober gant Markdown a c'hallit ha menegiñ implijerien dre @implijer."
 
 #: weblate/api/serializers.py:366
 #, fuzzy
@@ -2250,6 +2257,8 @@ msgid ""
 "If you’re an admin, you can set the explicit timestamp at which the comment "
 "was created."
 msgstr ""
+"Ma'z eus ur merour ac'hanoc'h e c'hallit termeniñ deiziad hag eur krouiñ an "
+"evezhiadenn."
 
 #: weblate/api/serializers.py:373
 #, fuzzy
@@ -2262,6 +2271,8 @@ msgid ""
 "If you’re an admin, you can attribute this comment to another user by their "
 "email."
 msgstr ""
+"Ma'z eus ur merour ac'hanoc'h e c'hallit stagañ an evezhiadenn-mañ ouzh un "
+"implijer all en ur verkañ e chomlec'h postel."
 
 #: weblate/api/serializers.py:1076 weblate/templates/js/git-status.html:25
 msgid "Commit"
@@ -2270,15 +2281,15 @@ msgstr "Diellaouiñ"
 #: weblate/api/serializers.py:1077 weblate/templates/fonts/font_detail.html:63
 #: weblate/templates/js/git-status.html:79
 msgid "Update"
-msgstr ""
+msgstr "Hizivaat"
 
 #: weblate/api/serializers.py:1078 weblate/templates/js/git-status.html:96
 msgid "Update with rebase"
-msgstr ""
+msgstr "Hizivaat gant rebase"
 
 #: weblate/api/serializers.py:1079 weblate/templates/js/git-status.html:91
 msgid "Update with merge"
-msgstr ""
+msgstr "Hizivaat gant kendeuziñ"
 
 #: weblate/api/serializers.py:1082 weblate/templates/js/git-status.html:101
 #, fuzzy
@@ -2288,7 +2299,7 @@ msgstr "Kavlec'h Git :"
 
 #: weblate/api/serializers.py:1084 weblate/templates/js/git-status.html:63
 msgid "Push"
-msgstr ""
+msgstr "Bountañ"
 
 #: weblate/api/serializers.py:1085 weblate/templates/js/git-status.html:166
 #, fuzzy
@@ -2304,7 +2315,7 @@ msgstr "Termeniñ a ra ar restr diazez evit troidigezhioù nevez"
 
 #: weblate/api/serializers.py:1092 weblate/templates/js/git-status.html:189
 msgid "Cleanup all untracked files in the Weblate repository"
-msgstr ""
+msgstr "Naetaat an holl restroù n'int ket evezhiet e kavlec'h Weblate"
 
 #: weblate/api/serializers.py:1096 weblate/templates/js/git-status.html:200
 #, fuzzy
@@ -2321,7 +2332,7 @@ msgstr "Kavlec'h Git :"
 #: weblate/api/spectacular.py:61
 #: weblate/templates/drf_spectacular/redoc.html:10
 msgid "Weblate's REST API"
-msgstr ""
+msgstr "API REST Weblate"
 
 #: weblate/api/views.py:169
 #, fuzzy
@@ -2331,7 +2342,7 @@ msgstr "Kavlec'h Git :"
 
 #: weblate/api/views.py:175
 msgid "Specified unit id is not a translation source unit."
-msgstr ""
+msgstr "N'eo ket an unanenn spisaet un unanenn dreiñ tarzh."
 
 #: weblate/api/views.py:186
 #, fuzzy, python-format
@@ -2370,7 +2381,7 @@ msgstr "Raktres"
 #: weblate/trans/models/announcement.py:84 weblate/trans/models/category.py:72
 #: weblate/trans/models/component.py:398
 msgid "Category"
-msgstr ""
+msgstr "Rummad"
 
 #: weblate/api/views.py:2662 weblate/checks/views.py:234
 #: weblate/checks/views.py:241 weblate/templates/accounts/user.html:275
@@ -2384,7 +2395,7 @@ msgstr ""
 #: weblate/trans/forms.py:994 weblate/trans/forms.py:1916
 #: weblate/trans/models/announcement.py:91
 msgid "Component"
-msgstr ""
+msgstr "Parzh"
 
 #: weblate/api/views.py:2670 weblate/templates/billing/detail.html:121
 msgid "User"
@@ -2430,7 +2441,7 @@ msgstr "Gerioù da dreiñ"
 
 #: weblate/auth/admin.py:232
 msgid "This is not used when a component list is selected."
-msgstr ""
+msgstr "Ne vez ket implijet pa vez diuzet ur roll parzhioù."
 
 #: weblate/auth/admin.py:239
 msgid "This is not used when a component is selected."
@@ -2908,7 +2919,7 @@ msgstr "Merañ an holl c'heriaouegi"
 #: weblate/auth/data.py:203
 msgctxt "Access-control role"
 msgid "Power user"
-msgstr ""
+msgstr "Implijer araokaet"
 
 #: weblate/auth/data.py:215
 #, fuzzy
@@ -2984,12 +2995,12 @@ msgstr "Kemennadenn ouzhpenn"
 #: weblate/auth/data.py:267
 msgctxt "Access-control team name"
 msgid "Guests"
-msgstr ""
+msgstr "Tud pedet"
 
 #: weblate/auth/data.py:271
 msgctxt "Access-control team name"
 msgid "Viewers"
-msgstr ""
+msgstr "Lennerien"
 
 #: weblate/auth/data.py:273
 #, fuzzy
@@ -3056,7 +3067,7 @@ msgstr "Geriaoueg"
 #: weblate/auth/data.py:309
 msgctxt "Per-project access-control team name"
 msgid "Memory"
-msgstr ""
+msgstr "Memor"
 
 #: weblate/auth/data.py:312
 msgctxt "Per-project access-control team name"
@@ -3109,7 +3120,7 @@ msgstr "Stummoù"
 #: weblate/templates/trans/project-access.html:230
 #: weblate/templates/trans/project-access.html:325 weblate/trans/forms.py:1672
 msgid "Name"
-msgstr ""
+msgstr "Anv"
 
 #: weblate/auth/models.py:109
 msgid "Choose permissions granted to this role."
@@ -3119,7 +3130,7 @@ msgstr ""
 #: weblate/templates/auth/team.html:72 weblate/templates/manage/teams.html:24
 #: weblate/templates/trans/project-access.html:231
 msgid "Roles"
-msgstr ""
+msgstr "Rolloù"
 
 #: weblate/auth/models.py:132
 msgid "Choose roles granted to this team."
@@ -3133,7 +3144,7 @@ msgstr "Titouroù diwar-benn ar raktres"
 
 #: weblate/auth/models.py:146 weblate/auth/models.py:174
 msgid "As defined"
-msgstr ""
+msgstr "Evel termenet"
 
 #: weblate/auth/models.py:147 weblate/templates/auth/teams-projects.html:4
 #, fuzzy
@@ -3245,7 +3256,7 @@ msgstr "Enrollañ"
 
 #: weblate/auth/models.py:192
 msgid "The administrator can add or remove users from a team."
-msgstr ""
+msgstr "Gallout a ra an aozer ouzhpennañ pe lemel implijerien eus ur strollad"
 
 #: weblate/auth/models.py:197 weblate/trans/models/project.py:236
 msgid "Enforced two-factor authentication"
@@ -19702,10 +19713,6 @@ msgid ""
 msgstr ""
 
 #: weblate/trans/views/dashboard.py:179
-#, fuzzy
-#| msgid ""
-#| "Once you have activated your account just proceed to the <a href=\"%"
-#| "(url)s\">translation section</a>."
 msgid ""
 "You have activated your account, now you should set the password to be able "
 "to sign in next time."
