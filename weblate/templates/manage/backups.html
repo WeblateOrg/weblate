@@ -32,11 +32,11 @@
         <div class="card-body">
 
           {% if service.has_errors and support_status.has_expired_support and service.repository == support_status.backup_repository %}
-            <div class="panel-group"
+            <div class="card-group"
                  id="accordion-{{ service.pk }}"
                  role="tablist"
                  aria-multiselectable="true">
-              <div class="panel panel-danger">
+              <div class="card">
                 <div class="card-header" role="tab">
                   <h4 class="card-title">
                     <a class="collapsed createdbackup"
@@ -69,7 +69,7 @@
                      href="#collapse-{{ service.pk }}"
                      aria-expanded="false"
                      aria-controls="collapse-{{ service.pk }}">
-                    <span class="badge float-end">{{ service.timestamp|date }}</span>
+                    <span class="badge text-bg-secondary float-end">{{ service.timestamp|date }}</span>
                     {% translate "Backup service credentials" %}
                   </a>
                 </h4>
@@ -79,8 +79,8 @@
               </div>
             </div>
             {% for log in service.last_logs %}
-              <div class="panel {% if log.event == "error" %}panel-danger{% else %}panel-default{% endif %}">
-                <div class="card-header" role="tab">
+              <div class="card">
+                <div class="card-header {% if log.event == "error" %}text-bg-danger{% endif %}" role="tab">
                   <h4 class="card-title">
                     <a class="collapsed"
                        role="button"
@@ -104,21 +104,20 @@
               </div>
             {% endfor %}
           </div>
-        </div>
-        <div class="card-footer">
-          <input type="hidden" name="service" value="{{ service.pk }}" />
-          <input type="submit"
-                 class="btn btn-primary"
-                 name="toggle"
-                 value="{% if service.enabled %}{% translate "Turn off" %}{% else %}{% translate "Turn on" %}{% endif %}" />
-          <input type="submit"
-                 class="btn btn-primary runbackup"
-                 name="trigger"
-                 value="{% translate "Perform backup" %}" />
-          <button type="button"
-                  class="btn btn-danger"
-                  data-bs-toggle="modal"
-                  data-bs-target="#remove-{{ service.pk }}">{% translate "Delete" %}</button>
+          <div class="card-footer">
+            <input type="hidden" name="service" value="{{ service.pk }}" />
+            <input type="submit"
+                  class="btn btn-primary"
+                  name="toggle"
+                  value="{% if service.enabled %}{% translate "Turn off" %}{% else %}{% translate "Turn on" %}{% endif %}" />
+            <input type="submit"
+                  class="btn btn-primary runbackup"
+                  name="trigger"
+                  value="{% translate "Perform backup" %}" />
+            <button type="button"
+                    class="btn btn-danger"
+                    data-bs-toggle="modal"
+                    data-bs-target="#remove-{{ service.pk }}">{% translate "Delete" %}</button>
         </div>
       </div>
     </form>
