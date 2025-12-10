@@ -80,7 +80,8 @@
             </div>
             {% for log in service.last_logs %}
               <div class="card">
-                <div class="card-header {% if log.event == "error" %}text-bg-danger{% endif %}" role="tab">
+                <div class="card-header {% if log.event == "error" %}text-bg-danger{% endif %}"
+                     role="tab">
                   <h4 class="card-title">
                     <a class="collapsed"
                        role="button"
@@ -107,77 +108,77 @@
           <div class="card-footer">
             <input type="hidden" name="service" value="{{ service.pk }}" />
             <input type="submit"
-                  class="btn btn-primary"
-                  name="toggle"
-                  value="{% if service.enabled %}{% translate "Turn off" %}{% else %}{% translate "Turn on" %}{% endif %}" />
+                   class="btn btn-primary"
+                   name="toggle"
+                   value="{% if service.enabled %}{% translate "Turn off" %}{% else %}{% translate "Turn on" %}{% endif %}" />
             <input type="submit"
-                  class="btn btn-primary runbackup"
-                  name="trigger"
-                  value="{% translate "Perform backup" %}" />
+                   class="btn btn-primary runbackup"
+                   name="trigger"
+                   value="{% translate "Perform backup" %}" />
             <button type="button"
                     class="btn btn-danger"
                     data-bs-toggle="modal"
                     data-bs-target="#remove-{{ service.pk }}">{% translate "Delete" %}</button>
+          </div>
         </div>
-      </div>
-    </form>
+      </form>
+
+      <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="service" value="{{ service.pk }}" />
+        <div class="modal fade" tabindex="-1" role="dialog" id="remove-{{ service.pk }}">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h4 class="modal-title">{% translate "Are you absolutely sure?" %}</h4>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="{% translate "Close" %}"></button>
+              </div>
+              <div class="modal-body">
+                <p>
+                  <strong>{% translate "By removing the backup service, the credentials will be removed and you might lose access to the backups." %}</strong>
+                </p>
+                <p>{% translate "In case you want to be able to restore the backups, please record credentials below." %}</p>
+                {% include "manage/snippets/backup-credentials.html" %}
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">{% translate "Close" %}</button>
+                <input type="submit"
+                       class="btn btn-danger"
+                       name="remove"
+                       value="{% translate "Delete" %}" />
+              </div>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
+      </form>
+
+    {% endfor %}
+
+    {% include "manage/snippets/activation-form.html" %}
 
     <form method="post">
-      {% csrf_token %}
-      <input type="hidden" name="service" value="{{ service.pk }}" />
-      <div class="modal fade" tabindex="-1" role="dialog" id="remove-{{ service.pk }}">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">{% translate "Are you absolutely sure?" %}</h4>
-              <button type="button"
-                      class="btn-close"
-                      data-bs-dismiss="modal"
-                      aria-label="{% translate "Close" %}"></button>
-            </div>
-            <div class="modal-body">
-              <p>
-                <strong>{% translate "By removing the backup service, the credentials will be removed and you might lose access to the backups." %}</strong>
-              </p>
-              <p>{% translate "In case you want to be able to restore the backups, please record credentials below." %}</p>
-              {% include "manage/snippets/backup-credentials.html" %}
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-primary" data-bs-dismiss="modal">{% translate "Close" %}</button>
-              <input type="submit"
-                     class="btn btn-danger"
-                     name="remove"
-                     value="{% translate "Delete" %}" />
-            </div>
-          </div>
-          <!-- /.modal-content -->
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
+            {% documentation_icon 'admin/backup' 'custombackup' right=True %}
+            {% translate "Add backup service" %}
+          </h4>
         </div>
-        <!-- /.modal-dialog -->
+        <div class="card-body">{% crispy form %}</div>
+        <div class="card-footer">
+          <input type="submit"
+                 id="generate-ssh-button"
+                 class="btn btn-primary"
+                 value="{% translate "Add" %}" />
+        </div>
       </div>
-      <!-- /.modal -->
     </form>
 
-  {% endfor %}
 
-  {% include "manage/snippets/activation-form.html" %}
-
-  <form method="post">
-    <div class="card">
-      <div class="card-header">
-        <h4 class="card-title">
-          {% documentation_icon 'admin/backup' 'custombackup' right=True %}
-          {% translate "Add backup service" %}
-        </h4>
-      </div>
-      <div class="card-body">{% crispy form %}</div>
-      <div class="card-footer">
-        <input type="submit"
-               id="generate-ssh-button"
-               class="btn btn-primary"
-               value="{% translate "Add" %}" />
-      </div>
-    </div>
-  </form>
-
-
-{% endblock content %}
+  {% endblock content %}
