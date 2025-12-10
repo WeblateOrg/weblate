@@ -472,6 +472,12 @@ class UserViewSet(viewsets.ModelViewSet):
         ):
             # Order to avoid warning from the paginator
             queryset = User.objects.filter(pk=user.pk).order_by("id")
+        elif (
+            not (user.has_perm("user.edit") or user.has_perm("user.view"))
+            and len(request.GET.get(self.lookup_field, "")) < 2
+        ):
+            # Avoid too short matching, the length matches autocomplete setting in the UI
+            queryset = User.objects.none()
         else:
             queryset = self.get_queryset()
 
@@ -485,13 +491,18 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
-    def perm_check(self, request: Request) -> None:
+    def perm_check(
+        self, request: Request, obj: User | None = None, *, allow_self: bool = False
+    ) -> None:
+        if allow_self and obj is not None and obj == request.user:
+            return
         if not request.user.has_perm("user.edit"):
             self.permission_denied(request, "Can not manage Users")
 
     def update(self, request: Request, *args, **kwargs):
         """Change the user parameters."""
-        self.perm_check(request)
+        instance = self.get_object()
+        self.perm_check(request, instance, allow_self=True)
         return super().update(request, *args, **kwargs)
 
     def create(self, request: Request, *args, **kwargs):
@@ -501,8 +512,8 @@ class UserViewSet(viewsets.ModelViewSet):
 
     def destroy(self, request: Request, *args, **kwargs):
         """Delete all user information and mark the user inactive."""
-        self.perm_check(request)
         instance = self.get_object()
+        self.perm_check(request, instance)
         remove_user(instance, cast("AuthenticatedHttpRequest", request))
         return Response(status=HTTP_204_NO_CONTENT)
 
@@ -511,7 +522,7 @@ class UserViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=["post", "delete"])
     def groups(self, request: Request, **kwargs):
         obj = self.get_object()
-        self.perm_check(request)
+        self.perm_check(request, obj)
 
         if "group_id" not in request.data:
             msg = "Missing group_id parameter"
@@ -544,7 +555,7 @@ class UserViewSet(viewsets.ModelViewSet):
     def notifications(self, request: Request, username: str):
         obj = self.get_object()
         if request.method == "POST":
-            self.perm_check(request)
+            self.perm_check(request, obj)
             with transaction.atomic():
                 serializer = NotificationSerializer(
                     data=request.data, context={"request": request}
@@ -552,6 +563,7 @@ class UserViewSet(viewsets.ModelViewSet):
                 serializer.is_valid(raise_exception=True)
                 serializer.save(user=obj)
                 return Response(serializer.data, status=HTTP_201_CREATED)
+        self.perm_check(request, obj, allow_self=True)
         queryset = obj.subscription_set.order_by("id")
         page = self.paginate_queryset(queryset)
         serializer = NotificationSerializer(
@@ -593,16 +605,17 @@ class UserViewSet(viewsets.ModelViewSet):
             raise Http404(str(error)) from error
 
         if request.method == "DELETE":
-            self.perm_check(request)
+            self.perm_check(request, obj)
             subscription.delete()
             return Response(status=HTTP_204_NO_CONTENT)
 
         if request.method == "GET":
+            self.perm_check(request, obj, allow_self=True)
             serializer = NotificationSerializer(
                 subscription, context={"request": request}
             )
         else:
-            self.perm_check(request)
+            self.perm_check(request, obj)
             serializer = NotificationSerializer(
                 subscription,
                 data=request.data,
@@ -2663,14 +2676,15 @@ class Search(APIView):
                 }
                 for component in components.search(query).order()[:5]
             )
-            results.extend(
-                {
-                    "url": user.get_absolute_url(),
-                    "name": user.username,
-                    "category": gettext("User"),
-                }
-                for user in User.objects.search(query, parser="plain").order()[:5]
-            )
+            if user.is_authenticated:
+                results.extend(
+                    {
+                        "url": user.get_absolute_url(),
+                        "name": user.username,
+                        "category": gettext("User"),
+                    }
+                    for user in User.objects.search(query, parser="plain").order()[:5]
+                )
             results.extend(
                 {
                     "url": language.get_absolute_url(),
