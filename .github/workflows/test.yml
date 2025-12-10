@@ -119,7 +119,13 @@ jobs:
     - name: Django checks
       run: uv run coverage run ./manage.py check
     - name: Demo import
-      run: uv run coverage run ./manage.py import_demo
+      run: |
+        uv run coverage run ./manage.py import_demo
+        # Second execution with --delete should remove and recreate
+        uv run coverage run ./manage.py import_demo --delete
+        uv run coverage run ./manage.py billing_demo
+        # Second execution should gracefully handle existing project
+        uv run coverage run ./manage.py billing_demo
     - name: Keep coverage
       run: |
         mkdir -p build/coverage
