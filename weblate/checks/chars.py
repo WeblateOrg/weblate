@@ -8,6 +8,7 @@ import re
 import unicodedata
 from typing import TYPE_CHECKING, ClassVar
 
+import regex  # pip install regex
 from django.utils.translation import gettext_lazy
 
 from weblate.checks.base import CountingCheck, TargetCheck, TargetCheckParametrized
@@ -579,3 +580,21 @@ class PunctuationSpacingCheck(TargetCheck):
                 "gu",
             ),
         ]
+
+
+class MultipleCapitalCheck(TargetCheck):
+    """Multiple capitals check."""
+
+    check_id = "multiple_capital"
+    name = gettext_lazy("Multiple capitals")
+    description = gettext_lazy("Detects words with multiple misplaced capital letters")
+
+    # matches sequences of 2+ uppercase letters in *any language*
+    UPPERCASE_SEQ = regex.compile(r"\p{Lu}{2,}")
+
+    def check_single(self, source: str, target: str, unit: Unit):
+        # Find all 2+ consecutive uppercase sequences in the target text
+        caps = self.UPPERCASE_SEQ.findall(target)
+
+        # Flag if any uppercase sequence is not present in the source
+        return any(seq not in source for seq in caps)
