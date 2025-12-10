@@ -1236,6 +1236,7 @@ $(function () {
   const tribute = new Tribute({
     trigger: "@",
     requireLeadingSpace: true,
+    /* The length should match validation in API */
     menuShowMinLength: 2,
     searchOpts: {
       pre: "​",

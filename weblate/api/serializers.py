@@ -288,6 +288,7 @@ class BasicUserSerializer(serializers.ModelSerializer[User]):
             "full_name",
             "username",
         )
+        read_only_fields = ("id",)
 
 
 @extend_schema_field(str)
