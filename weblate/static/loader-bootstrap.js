@@ -1631,7 +1631,7 @@ $(function () {
 
   /* Allow styling of auth icons that we ship */
   document.querySelectorAll(".auth-image").forEach((el) => {
-    src = el.getAttribute("src");
+    const src = el.getAttribute("src");
     if (src !== null) {
       if (
         src.endsWith("password.svg") ||
