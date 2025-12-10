@@ -126,11 +126,11 @@
       <form method="post">
         {% csrf_token %}
         <input type="hidden" name="service" value="{{ service.pk }}" />
-        <div class="modal fade" tabindex="-1" role="dialog" id="remove-{{ service.pk }}">
+        <div class="modal fade" tabindex="-1" role="dialog" id="remove-{{ service.pk }}" aria-labelledby="remove-{{ service.pk }}Label">
           <div class="modal-dialog" role="document">
             <div class="modal-content">
               <div class="modal-header">
-                <h4 class="modal-title">{% translate "Are you absolutely sure?" %}</h4>
+                <h4 class="modal-title" id="remove-{{ service.pk }}Label">{% translate "Are you absolutely sure?" %}</h4>
                 <button type="button"
                         class="btn-close"
                         data-bs-dismiss="modal"
