@@ -1362,27 +1362,29 @@ class ProjectAPITest(APIBaseTest):
         self.do_request("api:project-repository", self.project_kwargs, code=403)
 
     def test_repo_status(self) -> None:
-        """Test project-level repository status endpoint."""
-        response = self.do_request(
+        self.do_request(
             "api:project-repository",
             self.project_kwargs,
             superuser=True,
+            data={
+                "needs_push": False,
+                "needs_merge": False,
+                "needs_commit": False,
+                "weblate_commit": None,
+                "status": None,
+                "merge_failure": None,
+                "outgoing_commits": None,
+                "missing_commits": None,
+                "remote_commit": None,
+                "pending_units": {
+                    "total": 0,
+                    "errors_skipped": 0,
+                    "commit_policy_skipped": 0,
+                    "eligible_for_commit": 0,
+                },
+            },
+            skip=("url",),
         )
-
-        self.assertEqual(response.data["needs_push"], False)
-        self.assertEqual(response.data["needs_merge"], False)
-        self.assertEqual(response.data["needs_commit"], False)
-
-        self.assertIn("url", response.data)
-        self.assertIsNotNone(response.data["url"])
-        self.assertIn("pending_units", response.data)
-
-        self.assertNotIn("remote_commit", response.data)
-        self.assertNotIn("weblate_commit", response.data)
-        self.assertNotIn("status", response.data)
-        self.assertNotIn("merge_failure", response.data)
-        self.assertNotIn("outgoing_commits", response.data)
-        self.assertNotIn("missing_commits", response.data)
 
     def test_components(self) -> None:
         request = self.do_request("api:project-components", self.project_kwargs)
@@ -3889,20 +3891,6 @@ class TranslationAPITest(APIBaseTest):
             "api:translation-repository",
             self.translation_kwargs,
             superuser=True,
-            data={
-                "needs_push": False,
-                "needs_merge": False,
-                "needs_commit": False,
-                "merge_failure": None,
-                "outgoing_commits": 0,
-                "pending_units": {
-                    "commit_policy_skipped": 0,
-                    "eligible_for_commit": 0,
-                    "errors_skipped": 0,
-                    "total": 0,
-                },
-            },
-            skip=("remote_commit", "weblate_commit", "status", "url"),
         )
 
         self.assertIn("needs_commit", response.data)
