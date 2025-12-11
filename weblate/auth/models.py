@@ -9,7 +9,7 @@ from collections import defaultdict
 from contextvars import ContextVar
 from functools import cache as functools_cache
 from itertools import chain
-from typing import TYPE_CHECKING, Any, ClassVar, Literal, TypedDict, cast
+from typing import TYPE_CHECKING, Any, ClassVar, Literal, Self, TypedDict, cast
 
 import sentry_sdk
 from appconf import AppConf
@@ -289,7 +289,7 @@ class UserManager(BaseUserManager["User"]):
 
 
 class UserQuerySet(models.QuerySet["User"]):
-    def having_perm(self, perm, project):
+    def having_perm(self, perm: str, project: Project) -> Self:
         """
         All users having explicit permission on a project.
 
@@ -300,7 +300,7 @@ class UserQuerySet(models.QuerySet["User"]):
             groups__roles__permissions__codename=perm, groups__projects=project
         ).distinct()
 
-    def all_admins(self, project):
+    def all_admins(self, project: Project) -> Self:
         """All admins in a project."""
         return self.having_perm("project.edit", project)
 
