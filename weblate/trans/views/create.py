@@ -41,6 +41,7 @@ from weblate.utils import messages
 from weblate.utils.licenses import LICENSE_URLS, detect_license
 from weblate.utils.ratelimit import session_ratelimit_post
 from weblate.utils.views import create_component_from_doc, create_component_from_zip
+from weblate.vcs.base import RepositoryError
 from weblate.vcs.models import VCS_REGISTRY
 
 if TYPE_CHECKING:
@@ -490,9 +491,15 @@ class CreateComponentSelection(CreateComponent):
             repo = component.repo
             if repo not in existing_branches:
                 existing_branches[repo] = component_branches(repo)
+            try:
+                remote_branches = component.repository.list_remote_branches()
+            except RepositoryError:
+                # Ignore error, use no branches
+                remote_branches = []
+
             branches = [
                 branch
-                for branch in component.repository.list_remote_branches()
+                for branch in remote_branches
                 if branch != component.branch and branch not in existing_branches[repo]
             ]
             if branches:
