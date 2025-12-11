@@ -3720,11 +3720,13 @@ class Component(
 
     @property
     def count_push_branch_outgoing(self):
-        try:
-            return self.repository.count_outgoing(self.push_branch)
-        except RepositoryError:
-            # We silently ignore this error as push branch might not be existing if not needed
-            return self.count_repo_outgoing
+        if self.push_branch:
+            try:
+                return self.repository.count_outgoing(self.push_branch)
+            except RepositoryError:
+                pass
+                # We silently ignore this error as push branch might not be existing if not needed
+        return self.count_repo_outgoing
 
     def needs_commit(self):
         """Check whether there are some not committed changes."""

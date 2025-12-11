@@ -619,7 +619,7 @@ class Repository:
     def get_remote_branch_name(self, branch: str | None = None) -> str:
         return f"origin/{self.branch if branch is None else branch}"
 
-    def list_remote_branches(self):
+    def list_remote_branches(self) -> list[str]:
         return []
 
     def compact(self) -> None:
