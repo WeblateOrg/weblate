@@ -3,7 +3,7 @@
 <div class="container-fluid container-gapped">
   {% for suggestion in suggestions %}
     <div class="row history-row">
-      <div class="col-xs-2 history-event">
+      <div class="col-sm-2 history-event">
         <strong>{{ suggestion.get_user_display }}</strong>
         <p class="text-muted">{% translate "Suggestion added" %}</p>
         {% if user_can_vote_suggestion %}
@@ -12,9 +12,9 @@
           </p>
         {% endif %}
       </div>
-      <div class="col-xs-10 history-data">
+      <div class="col-sm-10 history-data">
         {% if multi_unit %}
-          <div class="btn-float float-end">
+          <div class="btn-float">
             <a href="{{ suggestion.unit.get_absolute_url }}#suggestions"
                class="btn btn-link green"
                title="{% translate "View details" %}">{% icon "magnify-plus-outline.svg" %}</a>
@@ -22,7 +22,7 @@
         {% else %}
           {% perm 'suggestion.delete' suggestion as user_can_delete_suggestion %}
           {% if user_can_vote_suggestion or user_can_accept_suggestion or user_can_delete_suggestion %}
-            <div class="btn-float float-end">
+            <div class="btn-float">
               {% if user_can_vote_suggestion %}
                 <button type="submit"
                         class="btn btn-link green"
