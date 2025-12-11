@@ -1206,7 +1206,7 @@ class RepositorySerializer(ReadOnlySerializer):
     pending_units = PendingUnitsSerializer(
         required=False,
         allow_null=True,
-        help_text="Detailed breakdown of translation units with pending changes (component/translation only).",
+        help_text="Detailed breakdown of translation units with pending changes.",
     )
     outgoing_commits = serializers.IntegerField(
         required=False,
