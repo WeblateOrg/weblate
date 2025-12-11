@@ -585,7 +585,7 @@ class GitRepository(Repository):
             self.execute(["tag", "--delete", tag])
 
     def list_remote_branches(self) -> list[str]:
-        """No remote branches to fetch for local repository."""
+        """Return a list of remote branch names by querying the remote repository using 'git ls-remote --heads origin'."""
         branches = self.execute(
             [*self.get_auth_args(), "ls-remote", "--heads", "origin"],
             needs_lock=False,
