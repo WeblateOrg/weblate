@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
+import zipfile
 from copy import copy
 from datetime import UTC, datetime, timedelta
 from io import BytesIO
@@ -2620,6 +2621,176 @@ class ProjectAPITest(APIBaseTest):
             request={"format": "zip", "language_code": "cs"},
         )
         self.assertEqual(response.headers["content-type"], "application/zip")
+
+    def test_download_project_translations_language_path(self) -> None:
+        response = self.do_request(
+            "api:project-language-file",
+            {**self.project_kwargs, "language_code": "cs"},
+            method="get",
+            code=200,
+            superuser=True,
+            request={"format": "zip"},
+        )
+        self.assertEqual(response.headers["content-type"], "application/zip")
+        # Validate Content-Disposition and that payload is a valid zip
+        disp = response.headers.get("content-disposition", "")
+        self.assertIn("attachment;", disp)
+        self.assertIn("test-cs.zip", disp)
+        with zipfile.ZipFile(BytesIO(response.content)) as zf:
+            # Ensure archive contains at least one file
+            self.assertGreater(len(zf.namelist()), 0)
+
+    def test_download_project_translations_language_not_present(self) -> None:
+        response = self.do_request(
+            "api:project-language-file",
+            {**self.project_kwargs, "language_code": "fr"},
+            method="get",
+            code=200,
+            superuser=True,
+            request={"format": "zip"},
+        )
+        self.assertEqual(response.headers["content-type"], "application/zip")
+        with zipfile.ZipFile(BytesIO(response.content)) as zf:
+            # No entries, since there are no translations for 'fr'
+            self.assertEqual(len(zf.namelist()), 0)
+
+    def test_download_project_translations_language_path_converted(self) -> None:
+        response = self.do_request(
+            "api:project-language-file",
+            {**self.project_kwargs, "language_code": "cs"},
+            method="get",
+            code=200,
+            superuser=True,
+            request={"format": "zip:csv"},
+        )
+        self.assertEqual(response.headers["content-type"], "application/zip")
+
+    def test_download_private_project_translations_language_path(self) -> None:
+        project = self.component.project
+        project.access_control = Project.ACCESS_PRIVATE
+        project.save(update_fields=["access_control"])
+        self.do_request(
+            "api:project-language-file",
+            {**self.project_kwargs, "language_code": "cs"},
+            method="get",
+            code=404,
+            request={"format": "zip"},
+        )
+
+    def test_download_project_translations_language_path_prohibited(self) -> None:
+        self.authenticate()
+        self.user.groups.clear()
+        self.user.clear_cache()
+        self.do_request(
+            "api:project-language-file",
+            {**self.project_kwargs, "language_code": "cs"},
+            method="get",
+            code=403,
+            request={"format": "zip"},
+        )
+
+    def test_project_language_zip_contents(self) -> None:
+        # Ensure we can inspect actual entries in the zip and they match expectations
+        response = self.do_request(
+            "api:project-language-file",
+            {**self.project_kwargs, "language_code": "cs"},
+            method="get",
+            code=200,
+            superuser=True,
+            request={"format": "zip"},
+        )
+        with zipfile.ZipFile(BytesIO(response.content)) as zf:
+            zip_names = set(zf.namelist())
+
+        # Build expected arcnames relative to data_dir("vcs") mirroring download_multi
+        from weblate.utils.data import data_dir
+
+        root = data_dir("vcs")
+
+        project = Project.objects.get(slug=self.project_kwargs["slug"])
+        components = project.component_set.filter_access(self.user)
+        translations = Translation.objects.filter(
+            component__in=components, language__code="cs"
+        ).prefetch()
+
+        expected = set()
+        for t in translations:
+            fn = t.get_filename()
+            if fn:
+                expected.add(os.path.relpath(fn, root))
+            comp = t.component
+            for tmpl in (comp.template, comp.new_base, comp.intermediate):
+                if tmpl:
+                    full = os.path.join(comp.full_path, tmpl)
+                    if os.path.exists(full):
+                        expected.add(os.path.relpath(full, root))
+
+        # At minimum, all expected entries must be present in the zip
+        self.assertTrue(expected.issubset(zip_names))
+        self.assertGreater(len(zip_names), 0)
+
+    def test_download_project_translations_language_path_filter(self) -> None:
+        other_component = self.create_po(name="Other", project=self.component.project)
+
+        response = self.do_request(
+            "api:project-language-file",
+            {**self.project_kwargs, "language_code": "cs"},
+            method="get",
+            code=200,
+            superuser=True,
+            request={"format": "zip", "filter": "test"},
+        )
+        with zipfile.ZipFile(BytesIO(response.content)) as zf:
+            zip_names = set(zf.namelist())
+
+        from weblate.utils.data import data_dir
+
+        root = data_dir("vcs")
+
+        project = Project.objects.get(slug=self.project_kwargs["slug"])
+        components = project.component_set.filter_access(self.user).filter(
+            slug__icontains="test"
+        )
+        translations = Translation.objects.filter(
+            component__in=components, language__code="cs"
+        ).prefetch()
+
+        def collect_entries(translations_qs) -> set[str]:
+            entries: set[str] = set()
+            for t in translations_qs:
+                filename = t.get_filename()
+                if filename:
+                    entries.add(os.path.relpath(filename, root))
+                comp = t.component
+                for tmpl in (comp.template, comp.new_base, comp.intermediate):
+                    if tmpl:
+                        full = os.path.join(comp.full_path, tmpl)
+                        if os.path.exists(full):
+                            entries.add(os.path.relpath(full, root))
+            return entries
+
+        expected = collect_entries(translations)
+
+        excluded = collect_entries(
+            Translation.objects.filter(
+                component__in=project.component_set.filter(slug=other_component.slug),
+                language__code="cs",
+            ).prefetch()
+        )
+
+        self.assertTrue(expected.issubset(zip_names))
+        self.assertTrue(zip_names.isdisjoint(excluded))
+        self.assertGreater(len(zip_names), 0)
+
+    def test_download_project_translations_language_path_filter_invalid(self) -> None:
+        self.do_request(
+            "api:project-language-file",
+            {**self.project_kwargs, "language_code": "cs"},
+            method="get",
+            code=200,
+            superuser=True,
+            request={"format": "zip", "filter": "["},
+        )
 
     def test_credits(self) -> None:
         self.do_request(
