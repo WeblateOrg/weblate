@@ -3895,6 +3895,8 @@ class TranslationAPITest(APIBaseTest):
                 "needs_merge": False,
                 "needs_commit": False,
                 "merge_failure": None,
+                "outgoing_commits": 0,
+                "pending_units": {'commit_policy_skipped': 0,   'eligible_for_commit': 0,                    'errors_skipped': 0,                    'total': 0}
             },
             skip=("remote_commit", "weblate_commit", "status", "url"),
         )
