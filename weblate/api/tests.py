@@ -2953,10 +2953,9 @@ class ComponentAPITest(APIBaseTest):
         """Test repository status with pending changes and detailed breakdown."""
         component = Component.objects.get(**self.component_kwargs)
         translation = component.translation_set.first()
-        unit = translation.unit_set.first()
+        unit, unit2 = translation.unit_set.all()[:2]
+        
         unit.translate(self.user, "First change", STATE_TRANSLATED)
-
-        unit2 = translation.unit_set.all()[1]
         unit2.translate(self.user, "Second change", STATE_TRANSLATED)
 
         response = self.do_request(
