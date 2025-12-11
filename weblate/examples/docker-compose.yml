@@ -1,0 +1,14 @@
+services:
+  weblate:
+    image: weblate/weblate:latest
+    environment:
+      WEBLATE_EMAIL_HOST: smtp.example.com
+      WEBLATE_EMAIL_HOST_USER: user
+      WEBLATE_EMAIL_HOST_PASSWORD: pass
+      WEBLATE_SERVER_EMAIL: weblate@example.com
+      WEBLATE_DEFAULT_FROM_EMAIL: weblate@example.com
+      WEBLATE_SITE_DOMAIN: weblate.example.com
+      WEBLATE_ADMIN_PASSWORD: password for the admin user
+      WEBLATE_ADMIN_EMAIL: weblate.admin@example.com
+    ports:
+    - 80:8080

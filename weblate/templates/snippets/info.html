@@ -1,0 +1,566 @@
+{% load humanize i18n permissions translations urlformat %}
+
+<div class="row">
+  <div class="col-md-6">
+
+    {% if language or project or component or translation %}
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{% translate "Summary" %}</h4>
+        </div>
+
+        <table class="table table-striped table-autowidth">
+          {% if project %}
+            {% if project.web %}
+              <tr>
+                <th>{% translate "Project website" %}</th>
+                <td colspan="2" class="full-cell">
+                  <a rel="ugc" href="{{ project.web }}">{{ project.web|urlformat }}</a>
+                </td>
+              </tr>
+            {% endif %}
+
+            {% if project.instructions %}
+              <tr>
+                <th>{% translate "Instructions for translators" %}</th>
+                <td colspan="2" class="full-cell">{{ project.instructions|markdown }}</td>
+              </tr>
+            {% endif %}
+
+            {% perm 'billing.view' project as user_can_view_billing %}
+
+            {% if user_can_view_billing %}
+              {% if project.billings %}
+                <tr>
+                  <th>{% translate "Billing" %}</th>
+                  <td colspan="2" class="full-cell">
+                    {% for billing in project.billings %}
+                      <a href="{{ billing.get_absolute_url }}">{% include "billing/state-snippet.html" with object=billing %}</a>
+                    {% endfor %}
+                  </td>
+                </tr>
+              {% endif %}
+            {% endif %}
+
+            {% include "snippets/info-users.html" with user_title=_("Project maintainers") user_list=project.all_admins %}
+
+            {% include "snippets/info-users.html" with user_title=_("Project reviewers") user_list=project.all_reviewers %}
+          {% endif %}
+          {% if componentlist %}
+            {% for auto in componentlist.autocomponentlist_set.all %}
+              <tr>
+                <th>
+                  {% if forloop.first %}
+                    {% translate "Automatic component list assignment" %}
+                  {% endif %}
+                </th>
+                <td colspan="2">
+                  <code>project ~= {{ auto.project_match }}, component ~= {{ auto.component_match }}</code>
+                </td>
+              </tr>
+            {% endfor %}
+          {% endif %}
+
+          {% if component %}
+            {% if component.license %}
+              <tr>
+                <th>{% translate "Translation license" %}</th>
+                <td colspan="2" class="full-cell">
+                  {% if component.license_url %}
+                    <a href="{{ component.license_url }}">{{ component.get_license_display }}</a>
+                  {% else %}
+                    {{ component.get_license_display }}
+                  {% endif %}
+                </td>
+              </tr>
+            {% endif %}
+
+            {% if component.agreement %}
+              <tr>
+                <th>{% translate "Contributor license agreement" %}</th>
+                <td colspan="2" class="full-cell">
+                  {% if user.is_authenticated %}
+                    <a class="btn btn-primary float-end"
+                       href="{% url 'contributor-agreement' path=component.get_url_path %}">{% translate "View" %}</a>
+                  {% endif %}
+                  {{ component.agreement|markdown }}
+                </td>
+              </tr>
+            {% endif %}
+
+            <tr>
+              <th>{% translate "Translation process" %}</th>
+              <td colspan="2" class="full-cell">
+                <ul>
+                  {% get_workflow_flags translation component as workflow_flags %}
+                  {% if workflow_flags.suggestion_voting and workflow_flags.suggestion_autoaccept %}
+                    <li>{% translate "Translations can only be done through suggestions." %}</li>
+                    <li>
+                      {% blocktranslate count count=workflow_flags.suggestion_autoaccept %}Suggestions with one vote are automatically accepted as translations.{% plural %}Suggestions are automatically accepted as translations once they have {{ count }} votes.{% endblocktranslate %}
+                    </li>
+                  {% else %}
+                    <li>{% translate "Translations can be made directly." %}</li>
+                    {% if workflow_flags.enable_suggestions %}
+                      <li>{% translate "Translation suggestions can be made." %}</li>
+                    {% else %}
+                      <li>{% translate "Translation suggestions are turned off." %}</li>
+                    {% endif %}
+                  {% endif %}
+                  {% if workflow_flags.translation_review %}
+                    <li>{% translate "Translations are reviewed by dedicated reviewers." %}</li>
+                  {% endif %}
+                  {% if component.project.access_control %}
+                    <li>{% translate "Only chosen users can contribute." %}</li>
+                  {% else %}
+                    <li>{% translate "Any authenticated user can contribute." %}</li>
+                  {% endif %}
+                  {% if component.template %}
+                    <li>{% translate "The translation uses monolingual files." %}</li>
+                    {% if component.edit_template %}
+                      <li>{% translate "The translation base language is editable." %}</li>
+                    {% else %}
+                      <li>{% translate "The translation base language can not be edited." %}</li>
+                    {% endif %}
+                  {% else %}
+                    <li>{% translate "The translation uses bilingual files." %}</li>
+                  {% endif %}
+                </ul>
+              </td>
+            </tr>
+
+            {% include "snippets/git-info.html" with object=component %}
+
+            <tr>
+              <th>{% translate "File mask" %}</th>
+              <td colspan="2">
+                <code class="wrap-text">{{ component.filemask }}</code>
+              </td>
+            </tr>
+
+            {% if component.template %}
+              <tr>
+                <th>{% translate "Monolingual base language file" %}</th>
+                <td colspan="2">
+                  <code class="wrap-text">{{ component.template }}</code>
+                </td>
+              </tr>
+            {% endif %}
+          {% endif %}
+
+          {% if translation %}
+            <tr>
+              <th>{% translate "Translation file" %}</th>
+              <td colspan="2">
+                {% if translation.filename %}
+                  <a class="btn btn-primary btn-xs float-end"
+                     href="{% url 'download' path=translation.get_url_path %}">{% translate "Download" %}</a>
+                  <code class="wrap-text">{{ translation.filename }}</code>
+                {% else %}
+                  {% translate "Not available" %}
+                {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <th>{% translate "Last change" %}</th>
+              <td colspan="2">{{ stats.last_changed }}</td>
+            </tr>
+            <tr>
+              <th>{% translate "Last change made by" %}</th>
+              <td colspan="2">{{ translation.get_last_author }}</td>
+            </tr>
+          {% endif %}
+          {% if language %}
+            {% if not show_full_language %}
+              <tr>
+                <th>{% translate "Language" %}</th>
+                <td colspan="2" class="full-cell">
+                  <a href="{% url "show_language" lang=language.code %}">{{ language }}</a>
+                </td>
+              </tr>
+            {% endif %}
+            <tr>
+              <th>{% translate "Language code" %}</th>
+              <td colspan="2" class="full-cell">
+                {% if user_can_edit_language %}
+                  <a class="btn btn-primary btn-xs float-end"
+                     href="{% url 'edit-language' pk=language.pk %}">{% translate "Edit" %}</a>
+                {% endif %}
+                {{ language.code }}
+              </td>
+            </tr>
+            {% if show_full_language %}
+              {% with aliases=language.get_aliases_names %}
+                {% if aliases %}
+                  <tr>
+                    <th>{% translate "Aliased language codes" %}</th>
+                    <td colspan="2">{{ aliases|join:", " }}</td>
+                  </tr>
+                {% endif %}
+              {% endwith %}
+              {% if LANGUAGE_CODE != "en" %}
+                <tr>
+                  <th>{% translate "English name of the language" %}</th>
+                  <td colspan="2">{{ language.name }}</td>
+                </tr>
+              {% endif %}
+            {% endif %}
+            <tr>
+              <th>{% translate "Text direction" %}</th>
+              <td colspan="2">{{ language.get_direction_display }}</td>
+            </tr>
+            <tr>
+              <th>{% translate "Case sensitivity" %}</th>
+              <td colspan="2">{{ language.get_case_sensitivity_display }}</td>
+            </tr>
+            {% if language.population %}
+              <tr>
+                <th>{% translate "Number of speakers" %}</th>
+                <td colspan="2">{{ language.population|intcomma }}</td>
+              </tr>
+            {% endif %}
+            {% if show_full_language %}
+              {% for plural in language.plural_set.order %}
+                {% include "snippets/plural.html" %}
+              {% endfor %}
+            {% elif translation %}
+              {% include "snippets/plural.html" with plural=translation.plural %}
+            {% endif %}
+          {% endif %}
+        </table>
+      </div>
+    {% endif %}
+    {% if top_users %}
+      {# Global stats #}
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{% translate "Most active translators" %}</h4>
+        </div>
+        <table class="table table-autowidth table-stats">
+          <tbody>
+            {% for u in top_users %}
+              <tr>
+                <td>{{ forloop.counter }}.</td>
+                <td>{{ u.get_user_display_link }}</td>
+                <td class="full-cell">
+                  <div class="progress chart-progress">
+                    <div class="progress-bar progress-bar-success"
+                         role="progressbar"
+                         aria-valuenow="{{ u.translated_width }}"
+                         aria-valuemin="0"
+                         aria-valuemax="100"
+                         aria-label="{% translate "Most active translators" %}"
+                         style="width: {{ u.translated_width }}%"></div>
+                  </div>
+                </td>
+                <td class="number">{{ u.translated|intcomma }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <div class="card-footer">
+          <span class="float-end"><strong>{{ total_translations|intcomma }}</strong></span>
+          <a href="{% url "user_list" %}" class="btn btn-primary">{% translate "Browse all users" %}</a>
+        </div>
+      </div>
+    {% endif %}
+
+    <div class="card">
+      <div class="card-header">
+        <span class="float-end text-muted">{{ stats.stats_timestamp|naturaltime }}</span>
+        <h4 class="card-title">{% translate "String statistics" %}</h4>
+      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <td></td>
+            <th class="number">{% translate "Strings percent" %}</th>
+            <th class="number">{% translate "Hosted strings" context "Number of hosted strings" %}</th>
+            <th class="number">{% translate "Words percent" %}</th>
+            <th class="number">{% translate "Hosted words" context "Number of hosted words" %}</th>
+            <th class="number">{% translate "Characters percent" %}</th>
+            <th class="number">{% translate "Hosted characters" context "Number of hosted characters" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th>{% translate "Total" context "Number of strings" %}</th>
+            <td class="number"></td>
+            <td class="number">{{ stats.all|intcomma }}</td>
+            <td class="number"></td>
+            <td class="number">{{ stats.all_words|intcomma }}</td>
+            <td class="number"></td>
+            <td class="number">{{ stats.all_chars|intcomma }}</td>
+          </tr>
+          {% if show_source %}
+            <tr>
+              <th>{% translate "Source" context "Number of strings" %}</th>
+              <td class="number"></td>
+              <td class="number">{{ stats.source_strings|intcomma }}</td>
+              <td class="number"></td>
+              <td class="number">{{ stats.source_words|intcomma }}</td>
+              <td class="number"></td>
+              <td class="number">{{ stats.source_chars|intcomma }}</td>
+            </tr>
+          {% endif %}
+          {% if stats.has_review %}
+            <tr>
+              <th>{% translate "Approved" context "Number of strings" %}</th>
+              <td class="number">{{ stats.approved_percent|percent_format }}</td>
+              <td class="number">{{ stats.approved|intcomma }}</td>
+              <td class="number">{{ stats.approved_words_percent|percent_format }}</td>
+              <td class="number">{{ stats.approved_words|intcomma }}</td>
+              <td class="number">{{ stats.approved_chars_percent|percent_format }}</td>
+              <td class="number">{{ stats.approved_chars|intcomma }}</td>
+            </tr>
+            <tr>
+              <th>{% translate "Waiting for review" context "Number of strings" %}</th>
+              <td class="number">{{ stats.waiting_review_percent|percent_format }}</td>
+              <td class="number">{{ stats.waiting_review|intcomma }}</td>
+              <td class="number">{{ stats.waiting_review_words_percent|percent_format }}</td>
+              <td class="number">{{ stats.waiting_review_words|intcomma }}</td>
+              <td class="number">{{ stats.waiting_review_chars_percent|percent_format }}</td>
+              <td class="number">{{ stats.waiting_review_chars|intcomma }}</td>
+            </tr>
+          {% endif %}
+          <tr>
+            <th>{% translate "Translated" context "Number of strings" %}</th>
+            <td class="number">{{ stats.translated_percent|percent_format }}</td>
+            <td class="number">{{ stats.translated|intcomma }}</td>
+            <td class="number">{{ stats.translated_words_percent|percent_format }}</td>
+            <td class="number">{{ stats.translated_words|intcomma }}</td>
+            <td class="number">{{ stats.translated_chars_percent|percent_format }}</td>
+            <td class="number">{{ stats.translated_chars|intcomma }}</td>
+          </tr>
+          <tr>
+            <th>{% translate "Needs editing" context "Number of strings" %}</th>
+            <td class="number">{{ stats.fuzzy_percent|percent_format }}</td>
+            <td class="number">{{ stats.fuzzy|intcomma }}</td>
+            <td class="number">{{ stats.fuzzy_words_percent|percent_format }}</td>
+            <td class="number">{{ stats.fuzzy_words|intcomma }}</td>
+            <td class="number">{{ stats.fuzzy_chars_percent|percent_format }}</td>
+            <td class="number">{{ stats.fuzzy_chars|intcomma }}</td>
+          </tr>
+          <tr>
+            <th>{% translate "Read-only" context "Number of strings" %}</th>
+            <td class="number">{{ stats.readonly_percent|percent_format }}</td>
+            <td class="number">{{ stats.readonly|intcomma }}</td>
+            <td class="number">{{ stats.readonly_words_percent|percent_format }}</td>
+            <td class="number">{{ stats.readonly_words|intcomma }}</td>
+            <td class="number">{{ stats.readonly_chars_percent|percent_format }}</td>
+            <td class="number">{{ stats.readonly_chars|intcomma }}</td>
+          </tr>
+          <tr>
+            <th>{% translate "Failing checks" context "Number of strings" %}</th>
+            <td class="number">{{ stats.allchecks_percent|percent_format }}</td>
+            <td class="number">{{ stats.allchecks|intcomma }}</td>
+            <td class="number">{{ stats.allchecks_words_percent|percent_format }}</td>
+            <td class="number">{{ stats.allchecks_words|intcomma }}</td>
+            <td class="number">{{ stats.allchecks_chars_percent|percent_format }}</td>
+            <td class="number">{{ stats.allchecks_chars|intcomma }}</td>
+          </tr>
+          <tr>
+            <th>{% translate "Strings with suggestions" context "Number of strings" %}</th>
+            <td class="number">{{ stats.suggestions_percent|percent_format }}</td>
+            <td class="number">{{ stats.suggestions|intcomma }}</td>
+            <td class="number">{{ stats.suggestions_words_percent|percent_format }}</td>
+            <td class="number">{{ stats.suggestions_words|intcomma }}</td>
+            <td class="number">{{ stats.suggestions_chars_percent|percent_format }}</td>
+            <td class="number">{{ stats.suggestions_chars|intcomma }}</td>
+          </tr>
+          <tr>
+            <th>{% translate "Untranslated strings" context "Number of strings" %}</th>
+            <td class="number">{{ stats.nottranslated_percent|percent_format }}</td>
+            <td class="number">{{ stats.nottranslated|intcomma }}</td>
+            <td class="number">{{ stats.nottranslated_words_percent|percent_format }}</td>
+            <td class="number">{{ stats.nottranslated_words|intcomma }}</td>
+            <td class="number">{{ stats.nottranslated_chars_percent|percent_format }}</td>
+            <td class="number">{{ stats.nottranslated_chars|intcomma }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="col-md-6">
+    {% include "snippets/activity.html" %}
+    {% if show_global %}
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{% translate "Global numbers" %}</h4>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-3">
+              <div class="metric">
+                <div class="metric-number">{{ metrics.projects|number_format }}</div>
+                <div class="metric-text">{% translate "Projects" %}</div>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="metric">
+                <div class="metric-number">{{ metrics.languages|number_format }}</div>
+                <div class="metric-text">{% translate "Languages" %}</div>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="metric">
+                <div class="metric-number">{{ metrics.components|number_format }}</div>
+                <div class="metric-text">{% translate "Components" %}</div>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="metric">
+                <div class="metric-number">{{ metrics.users|number_format }}</div>
+                <div class="metric-text">{% translate "Users" %}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <span class="float-end">{% translate "and previous 30 days" %}</span>
+          <h4 class="card-title">{% translate "Trends of last 30 days" %}</h4>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-sm-3">
+              <div class="metric">
+                <div class="metric-number">{{ metrics.trend_30_projects|trend_format }}</div>
+                <div class="metric-text">{% translate "Projects" %}</div>
+                <div class="metric-detail">{{ metrics.trend_60_projects|trend_format }}</div>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="metric">
+                <div class="metric-number">{{ metrics.trend_30_languages|trend_format }}</div>
+                <div class="metric-text">{% translate "Languages" %}</div>
+                <div class="metric-detail">{{ metrics.trend_60_languages|trend_format }}</div>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="metric">
+                <div class="metric-number">{{ metrics.trend_30_components|trend_format }}</div>
+                <div class="metric-text">{% translate "Components" %}</div>
+                <div class="metric-detail">{{ metrics.trend_60_components|trend_format }}</div>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="metric">
+                <div class="metric-number">{{ metrics.trend_30_users|trend_format }}</div>
+                <div class="metric-text">{% translate "Users" %}</div>
+                <div class="metric-detail">{{ metrics.trend_60_users|trend_format }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{% translate "Quick numbers" %}</h4>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-sm-3">
+            <div class="metric">
+              <div class="metric-number">{{ metrics.all_words|number_format }}</div>
+              <div class="metric-text">{% translate "Hosted words" context "Number of hosted words" %}</div>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="metric">
+              <div class="metric-number">{{ metrics.all|number_format }}</div>
+              <div class="metric-text">{% translate "Hosted strings" context "Number of hosted strings" %}</div>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="metric">
+              <div class="metric-number">{{ metrics.translated_percent|percent_format }}</div>
+              <div class="metric-text">{% translate "Translated" %}</div>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="metric">
+              <a href="{% url "user_list" %}?q={% if language %}translates:{{ language.code|urlencode }}{% elif translation %}translates:{{ translation.language.code|urlencode }}{% endif %} {% if component %}contributes:{{ component.full_slug|urlencode }}{% elif project %}contributes:{{ project.slug|urlencode }}{% endif %}">
+                {# TODO: show contributors_total only in Weblate 6.0 #}
+                <div class="metric-number">
+                  {% if metrics.contributors_total %}
+                    {{ metrics.contributors_total|number_format }}
+                  {% else %}
+                    {{ metrics.contributors|number_format }}
+                  {% endif %}
+                </div>
+                <div class="metric-text">{% translate "Contributors" %}</div>
+              </a>
+            </div>
+          </div>
+          {% if project and not language %}
+            <div class="col-sm-3">
+              <div class="metric">
+                <div class="metric-number">{{ metrics.components|number_format }}</div>
+                <div class="metric-text">{% translate "Components" %}</div>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="metric">
+                <div class="metric-number">{{ metrics.languages|number_format }}</div>
+                <div class="metric-text">{% translate "Languages" %}</div>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="metric">
+                <div class="metric-number">{{ metrics.translations|number_format }}</div>
+                <div class="metric-text">{% translate "Translations" %}</div>
+              </div>
+            </div>
+            <div class="col-sm-3">
+              <div class="metric">
+                <div class="metric-number">{{ metrics.screenshots|number_format }}</div>
+                <div class="metric-text">{% translate "Screenshots" %}</div>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header">
+        <span class="float-end">{% translate "and previous 30 days" %}</span>
+        <h4 class="card-title">{% translate "Trends of last 30 days" %}</h4>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-sm-3">
+            <div class="metric">
+              <div class="metric-number">{{ metrics.trend_30_all_words|trend_format }}</div>
+              <div class="metric-text">{% translate "Hosted words" context "Number of hosted words" %}</div>
+              <div class="metric-detail">{{ metrics.trend_60_all_words|trend_format }}</div>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="metric">
+              <div class="metric-number">{{ metrics.trend_30_all|trend_format }}</div>
+              <div class="metric-text">{% translate "Hosted strings" context "Number of hosted strings" %}</div>
+              <div class="metric-detail">{{ metrics.trend_60_all|trend_format }}</div>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="metric">
+              <div class="metric-number">{{ metrics.trend_30_translated_percent|trend_format }}</div>
+              <div class="metric-text">{% translate "Translated" %}</div>
+              <div class="metric-detail">{{ metrics.trend_60_translated_percent|trend_format }}</div>
+            </div>
+          </div>
+          <div class="col-sm-3">
+            <div class="metric">
+              <div class="metric-number">{{ metrics.trend_30_contributors|trend_format }}</div>
+              <div class="metric-text">{% translate "Contributors" %}</div>
+              <div class="metric-detail">{{ metrics.trend_60_contributors|trend_format }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

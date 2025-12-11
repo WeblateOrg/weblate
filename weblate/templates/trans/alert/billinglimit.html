@@ -1,0 +1,9 @@
+{% load i18n %}
+
+<p>
+  {% translate "Your billing plan has exceeded its limits. You can still use the service, but are recommended to upgrade the billing plan." %}
+</p>
+
+<a class="btn btn-primary"
+   id="billing-button"
+   href="{{ component.project.billing.get_absolute_url }}">{% translate "Billing overview" %}</a>

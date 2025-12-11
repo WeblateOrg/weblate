@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% load i18n permissions translations %}
+
+{% block breadcrumbs %}
+  {% path_object_breadcrumbs object %}
+
+  <li class="breadcrumb-item">
+    <a href="{% url 'show_progress' path=object.get_url_path %}">{% translate "Progress" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  <div class="card">
+    <div class="card-header">{% translate "Components are being updated…" %}</div>
+    <div class="card-body">
+
+      {% for component in components %}
+        {% include "snippets/component-progress.html" with task_id=component.background_task tags="success" %}
+      {% endfor %}
+
+    </div>
+    <div class="card-footer">
+      <form class="form-inline">
+        <div class="form-group">
+          <a href="{% url return_url path=return_target.get_url_path %}"
+             class="btn btn-primary"
+             id="progress-return">{% blocktranslate %}Continue to {{ return_target }}{% endblocktranslate %}</a>
+        </div>
+        <div class="form-group">
+          <input type="checkbox" id="progress-redirect" checked="checked">
+          <label for="progress-redirect">{% translate "Continue after completion" %}</label>
+        </div>
+      </form>
+    </div>
+  </div>
+
+{% endblock content %}

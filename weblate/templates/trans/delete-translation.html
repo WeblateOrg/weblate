@@ -1,0 +1,31 @@
+{% load i18n icons translations %}
+
+{% if languages_addon %}
+  {% translate 'The “Add missing languages” add-on is installed on this component, a removed language might be re-added by it again.' as msg %}
+  {% show_message 'warning' msg %}
+{% endif %}
+
+{% if object.component.is_glossary %}
+  {% translate 'The glossary component automatically maintains translation for each language used in the project, a removed language might be re-added again.' as msg %}
+  {% show_message 'warning' msg %}
+{% endif %}
+
+<p>
+  {% blocktranslate %}This action cannot be undone. This will permanently delete the {{ object }} translation and all related content.{% endblocktranslate %}
+</p>
+
+<div class="form-group">
+  <label class="control-label">{% translate "Translation to remove" %}</label>
+  <div class="list-group">
+    <div class="list-group-item">
+      <div class="list-group-item-text">
+        <button type="button"
+                class="btn btn-link btn-xs float-end"
+                data-clipboard-value="{{ object.full_slug }}"
+                title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+
+        {{ object.full_slug }}
+      </div>
+    </div>
+  </div>
+</div>

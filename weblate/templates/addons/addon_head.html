@@ -1,0 +1,23 @@
+{% load i18n icons translations %}
+
+<h4>
+  {% if scope and scope != "component" and addon.needs_component %}
+    <span class="badge badge-danger float-end">{% translate "The add-on can only be installed on the component." %}</span>
+  {% elif addon.repo_scope %}
+    <span class="badge float-end"
+          title="{% translate "This add-on is used for all components sharing this repository." %}">{% translate "repository wide" %}</span>
+  {% endif %}
+  {% icon addon.icon %}
+  {{ addon.verbose }}
+  {% documentation_icon "admin/addons" addon.doc_anchor %}
+</h4>
+<p>{{ addon.description }}</p>
+{% if addon.instance and addon.instance.pk %}
+  {% with settings=addon.get_settings_fields %}
+    {% if settings %}
+      <div>
+        {% for label, value in settings %}<span class="format-item">{{ label }} <span>{{ value }}</span></span>{% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+{% endif %}

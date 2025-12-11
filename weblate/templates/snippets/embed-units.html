@@ -1,0 +1,130 @@
+{% load i18n icons translations %}
+
+{% any_unit_has_context units as any_unit_has_context %}
+
+<table class="table table-sm table-embed-units">
+  <thead>
+    <tr>
+      <th class="unit-state-cell"></th>
+      {% if show_translation %}
+        <th>{% translate "Translation" %}</th>
+      {% endif %}
+      {% if show_language %}
+        <th>{% translate "Language" %}</th>
+      {% endif %}
+      {% if not hide_context and any_unit_has_context %}
+        <th {% if include_search %}class="sort-cell"{% endif %}>
+          {% if include_search %}
+            <a href="?q={{ search_query|urlencode }}&amp;sort_by={% if sort_query == "context" %}-{% endif %}context">
+            {% endif %}
+            {{ units.0.translation.component.context_label }}
+            {% if include_search %}
+              <span class="sort-icon {% if sort_query == "context" %}sort-down{% elif sort_query == "-context" %}sort-up{% endif %}" />
+            </a>
+          {% endif %}
+        </th>
+      {% endif %}
+      {% if force_source %}
+        <th>{% translate "Source string" %}</th>
+      {% elif not hide_source and not translation.is_source %}
+
+        <th {% if include_search %}class="sort-cell"{% endif %}>
+          {% if include_search %}
+            <a href="?q={{ search_query|urlencode }}&amp;sort_by={% if sort_query == "source" %}-{% endif %}source">
+            {% endif %}
+            {{ translation.component.source_language }}
+            {% if include_search %}
+              <span class="sort-icon {% if sort_query == "source" %}sort-down{% elif sort_query == "-source" %}sort-up{% endif %}" />
+            </a>
+          {% endif %}
+        </th>
+      {% endif %}
+      {% if show_language or not translation %}
+        <th>{% translate "Target string" %}</th>
+      {% else %}
+        <th {% if include_search %}class="sort-cell"{% endif %}>
+          {% if include_search %}
+            <a href="?q={{ search_query|urlencode }}&amp;sort_by={% if sort_query == "target" %}-{% endif %}target">
+            {% endif %}
+            {{ translation.language }}
+            {% if include_search %}
+              <span class="sort-icon {% if sort_query == "target" %}sort-down{% elif sort_query == "-target" %}sort-up{% endif %}" />
+            </a>
+          {% endif %}
+        </th>
+      {% endif %}
+      {% if show_location %}
+        <th>{% translate "Location" %}</th>
+      {% endif %}
+      {% if show_screenshots %}
+        <th>{% translate "Assigned screenshots" %}</th>
+      {% endif %}
+      {% if actions_template %}
+        <th>{% translate "Actions" %}</th>
+      {% endif %}
+    </tr>
+  </thead>
+  {% if loading_id %}
+    <tbody id="{{ loading_id }}" style="display:none;">
+      <tr>
+        <td colspan="5">
+          {% loading_icon hidden=False %}
+          {% translate "Loading results…" %}
+        </td>
+      </tr>
+    </tbody>
+  {% endif %}
+  <tbody class="unit-listing-body">
+
+    {% for unit in units %}
+      <tr class="{% if current_unit.id == unit.id %}current_translation{% endif %}">
+        <td class="unit-state-cell {% unit_state_class unit %}"
+            title="{% unit_state_title unit %}"></td>
+        {% if show_translation %}
+          <td class="object-link">
+            <a href="{{ unit.translation.component.project.get_absolute_url }}">{{ unit.translation.component.project.name }}</a>/<a href="{{ unit.translation.component.get_absolute_url }}">{{ unit.translation.component.name }}</a>
+            — <a class="tail" href="{{ unit.translation.get_absolute_url }}">{{ unit.translation.language }}</a>
+          </td>
+        {% endif %}
+        {% if show_language %}
+          <td class="object-link">
+            <a class="language" href="{{ unit.get_absolute_url }}">{{ unit.translation.language }}</a>
+          </td>
+        {% endif %}
+        {% if not hide_context and any_unit_has_context %}
+          <td>
+            {% if unit.context %}
+              <a href="{{ unit.get_absolute_url }}{% if include_search and search_url %}&amp;{{ search_url }}{% elif sort_query %}&amp;sort_by={{ sort_query }}{% endif %}">
+                {% format_source_string unit.context unit wrap=True search_match=search_query %}
+              </a>
+            {% endif %}
+          </td>
+        {% endif %}
+        {% if force_source or not hide_source and not unit.is_source %}
+          <td>
+            <a href="{{ unit.get_absolute_url }}{% if include_search and search_url %}&amp;{{ search_url }}{% elif sort_query %}&amp;sort_by={{ sort_query }}{% endif %}">
+              {% format_unit_source unit search_match=search_query %}
+            </a>
+          </td>
+        {% endif %}
+        <td>
+          <a href="{{ unit.get_absolute_url }}{% if include_search and search_url %}&amp;{{ search_url }}{% elif sort_query %}&amp;sort_by={{ sort_query }}{% endif %}">
+            {% format_unit_target unit search_match=search_query %}
+          </a>
+        </td>
+        {% if show_location %}<td>{{ unit.location }}</td>{% endif %}
+        {% if show_screenshots %}<td>{{ unit.screenshots__count }}</td>{% endif %}
+        {% if actions_template %}
+          <td>{% include actions_template %}</td>
+        {% endif %}
+      </tr>
+    {% empty %}
+      <tr class="warning">
+        <td colspan="5">
+          <em>{% translate "No matching strings found." %}</em>
+        </td>
+      </tr>
+    {% endfor %}
+
+  </tbody>
+</table>

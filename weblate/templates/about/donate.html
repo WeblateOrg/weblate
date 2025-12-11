@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% load humanize i18n static translations %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'about' %}">{% translate "About Weblate" %}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'donate' %}">{% translate "Support Weblate" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  <div class="engage container">
+
+    <h1>
+      {% blocktranslate %}Help <strong>Weblate</strong> keep thriving{% endblocktranslate %}
+    </h1>
+
+    <h2>
+      {% if support_status.has_support %}
+        <strong>{% translate "Welcome and thank you for supporting Weblate" %}</strong>
+      {% else %}
+        <strong>{% translate "Welcome and thank you for choosing Weblate" %}</strong>
+      {% endif %}
+      —
+      {% translate "the privacy-respecting localization platform committed to open-source values." %}
+    </h2>
+
+    <div class="row bignumbers">
+      <div class="col-md-4">
+        <strong>{{ stars|intcomma }}</strong>
+        <p>
+          {% blocktranslate count count=stars context "Label on donate page" %}GitHub star{% plural %}GitHub stars{% endblocktranslate %}
+        </p>
+      </div>
+      <div class="col-md-4">
+        <strong>{{ issues|intcomma }}</strong>
+        <p>
+          {% blocktranslate count count=issues context "Label on donate page" %}Open issue{% plural %}Open issues{% endblocktranslate %}
+        </p>
+      </div>
+      <div class="col-md-4">
+        <strong>{{ commits|intcomma }}</strong>
+        <p>
+          {% blocktranslate count count=commits context "Label on donate page" %}Recent change{% plural %}Recent changes{% endblocktranslate %}
+        </p>
+      </div>
+    </div>
+
+    {% include "snippets/donate.html" %}
+
+  </div>
+{% endblock content %}

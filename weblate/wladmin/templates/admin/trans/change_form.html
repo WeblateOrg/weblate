@@ -1,0 +1,46 @@
+{% extends "admin/change_form.html" %}
+
+{% load i18n translations %}
+
+{% block object-tools %}
+  {% if add and opts.model_name == 'component' %}
+    <ul class="object-tools">
+      <li>
+        {# Translators: link to https://docs.weblate.org/en/latest/admin/projects.html#import-speed #}
+        <a href="{% documentation 'admin/projects' 'import-speed' %}" class="doclink">{% translate "Import speed documentation" %}</a>
+      </li>
+    </ul>
+  {% endif %}
+  {{ block.super }}
+{% endblock object-tools %}
+
+{% block object-tools-items %}
+  {% if opts.model_name == 'announcement' %}
+    <li>
+      <a href="{% documentation 'admin/announcements' %}" class="doclink">{% translate "Documentation" %}</a>
+    </li>
+  {% else %}
+    {% if opts.model_name == 'componentlist' %}
+      <li>
+        <a href="{% documentation 'admin/componentlists' %}" class="doclink">{% translate "Documentation" %}</a>
+      </li>
+    {% else %}
+      <li>
+        <a href="{% documentation 'admin/projects' opts.model_name %}" class="doclink">{% translate "Documentation" %}</a>
+      </li>
+    {% endif %}
+  {% endif %}
+  {{ block.super }}
+{% endblock object-tools-items %}
+
+{% block form_top %}
+  {% if opts.model_name == 'project' or opts.model_name == 'component' or opts.model_name == 'announcement' or opts.model_name == 'componentlist' or opts.model_name == 'autocomponentlist' or opts.model_name == 'contributoragreement' %}
+    <p>
+      {% blocktranslate %}Required fields are marked in bold.{% endblocktranslate %}
+    </p>
+  {% else %}
+    <p class="errornote">
+      {% blocktranslate %}Do not change the object here, please use the Weblate interface instead.{% endblocktranslate %}
+    </p>
+  {% endif %}
+{% endblock form_top %}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% load humanize i18n metrics translations %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'about' %}">{% translate "About Weblate" %}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'stats' %}">{% translate "Statistics" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  {% show_info stats=stats metrics=None|metrics show_global=True show_source=True top_users=top_users total_translations=total_translations %}
+
+{% endblock content %}

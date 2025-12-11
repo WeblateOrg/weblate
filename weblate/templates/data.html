@@ -1,0 +1,218 @@
+{% extends "base.html" %}
+
+{% load i18n icons translations %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{{ object.get_absolute_url }}">{{ object }}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'data_project' project=object.slug %}">{% translate "Data exports" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  <p>{% translate "Various data from Weblate is available in machine-readable format." %}</p>
+
+  <h3>
+    {% translate "RSS feeds" %}
+    {% documentation_icon 'api' 'rss' %}
+  </h3>
+
+  <p>{% translate "Follow the translation progress and all important changes from RSS feeds." %}</p>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>{% translate "Project" %}</th>
+        <th>{% translate "URL" %}</th>
+        <th>{% translate "Link" %}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th>{{ object }}</th>
+        <td>{{ site_url }}{% url 'rss' path=object.get_url_path %}</td>
+        <td>
+          <a href="{{ site_url }}{% url 'rss' path=object.get_url_path %}">{% translate "RSS" %}</a>
+        </td>
+      </tr>
+      {% for component in components %}
+        <tr>
+          <th>{{ component }}</th>
+          <td>{{ site_url }}{% url 'rss' path=component.get_url_path %}</td>
+          <td>
+            <a href="{{ site_url }}{% url 'rss' path=component.get_url_path %}">{% translate "RSS" %}</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <p>
+    {% translate "Per language RSS feeds are also available. Construct them by appending a language code to the URLs above." %}
+  </p>
+
+  <h3>
+    {% translate "Statistics" %}
+    {% documentation_icon 'api' %}
+  </h3>
+
+  <p>
+    {% blocktranslate %}Translation statistics for every component in JSON format lets you use the data in other websites or tools.{% endblocktranslate %}
+  </p>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>{% translate "Project" %}</th>
+        <th>{% translate "URL" %}</th>
+        <th>{% translate "Link" %}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for component in components %}
+        <tr>
+          <th>{{ component }}</th>
+          <td>{{ site_url }}{% url 'api:component-statistics' project__slug=object.slug slug=component.slug %}</td>
+          <td>
+            <a href="{{ site_url }}{% url 'api:component-statistics' project__slug=object.slug slug=component.slug %}">{% translate "View" %}</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% with component=components.0 %}
+    {% if component %}
+      <p>{% translate "You can fetch statistics for all translations in one component like this:" %}</p>
+
+      <pre>
+<button type="button" class="btn btn-link btn-xs float-end" data-visibility=".auth-token" title="{% translate "Toggle API key visibility" %}">{% icon "eye.svg" %}</button>curl \
+    -H "Authorization: Token <span class="auth-token">{{ request.user.auth_token.key|default:"TOKEN" }}</span>" \
+    {{ site_url }}{% url 'api:component-translations' project__slug=object.slug slug=component.slug %}
+</pre>
+    {% endif %}
+  {% endwith %}
+
+  {% if hooks_enabled and project.enable_hooks %}
+    <h3>
+      {% translate "Notification hooks" %}
+      {% documentation_icon 'api' 'hooks' %}
+    </h3>
+
+    <p>
+      {% blocktranslate %}With notification hooks, Weblate automatically imports changes made by your developers, allowing continuous localization.{% endblocktranslate %}
+    </p>
+  {% endif %}
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>{% translate "Project" %}</th>
+        <th>{% translate "URL" %}</th>
+        <th>{% translate "Link" %}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th>{{ object }}</th>
+        <td>{{ site_url }}{% url 'api:project-repository' slug=object.slug %}</td>
+        <td>
+          <a href="{{ site_url }}{% url 'api:project-repository' slug=object.slug %}">{% translate "Hook" %}</a>
+        </td>
+      </tr>
+      {% for component in components %}
+        <tr>
+          <th>{{ component }}</th>
+          <td>{{ site_url }}{% url 'api:component-repository' project__slug=object.slug slug=component.slug %}</td>
+          <td>
+            <a href="{{ site_url }}{% url 'api:component-repository' project__slug=object.slug slug=component.slug %}">{% translate "Hook" %}</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <p>{% translate "You pull changes from a remote repository to Weblate like this:" %}</p>
+
+  <pre>
+<button type="button" class="btn btn-link btn-xs float-end" data-visibility=".auth-token" title="{% translate "Toggle API key visibility" %}">{% icon "eye.svg" %}</button>curl \
+    -d operation=pull \
+    -H "Authorization: Token <span class="auth-token">{{ request.user.auth_token.key|default:"TOKEN" }}</span>" \
+    {{ site_url }}{% url 'api:project-repository' slug=object.slug %}
+</pre>
+
+  <p>
+    {% blocktranslate %}Weblate also supports direct notifications from several code hosting sites:{% endblocktranslate %}
+  </p>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th>{% translate "Hosting site" %}</th>
+        <th>{% translate "URL" %}</th>
+        <th>{% translate "Note" %}</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <th>
+          <a href="https://github.com/">GitHub</a>
+        </th>
+        <td>{{ site_url }}{% url 'webhook' service='github' %}</td>
+        <td>
+          <a href="{% documentation "admin/continuous" "github-setup" %}">{% translate "The documentation has detailed instructions" %}</a>
+        </td>
+      </tr>
+      <tr>
+        <th>
+          <a href="https://about.gitlab.com/">GitLab</a>
+        </th>
+        <td>{{ site_url }}{% url 'webhook' service='gitlab' %}</td>
+        <td>
+          <a href="{% documentation "admin/continuous" "gitlab-setup" %}">{% translate "The documentation has detailed instructions" %}</a>
+        </td>
+      </tr>
+      <tr>
+        <th>
+          <a href="https://bitbucket.org/">Bitbucket</a>
+        </th>
+        <td>{{ site_url }}{% url 'webhook' service='bitbucket' %}</td>
+        <td>
+          <a href="{% documentation "admin/continuous" "bitbucket-setup" %}">{% translate "The documentation has detailed instructions" %}</a>
+        </td>
+      </tr>
+      <tr>
+        <th>
+          <a href="https://docs.pagure.org/pagure/">Pagure</a>
+        </th>
+        <td>{{ site_url }}{% url 'webhook' service='pagure' %}</td>
+        <td>
+          <a href="{% documentation "admin/continuous" "pagure-setup" %}">{% translate "The documentation has detailed instructions" %}</a>
+        </td>
+      </tr>
+      <tr>
+        <th>
+          <a href="https://azure.microsoft.com/services/devops/repos/">Azure Repos</a>
+        </th>
+        <td>{{ site_url }}{% url 'webhook' service='azure' %}</td>
+        <td>
+          <a href="{% documentation "admin/continuous" "azure-setup" %}">{% translate "The documentation has detailed instructions" %}</a>
+        </td>
+      </tr>
+      <tr>
+        <th>
+          <a href="https://gitea.io/">Gitea</a>
+        </th>
+        <td>{{ site_url }}{% url 'webhook' service='gitea' %}</td>
+        <td>
+          <a href="{% documentation "admin/continuous" "gitea-setup" %}">{% translate "The documentation has detailed instructions" %}</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+
+{% endblock content %}

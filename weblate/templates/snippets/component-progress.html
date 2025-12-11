@@ -1,0 +1,10 @@
+{% extends "message.html" %}
+
+{% load i18n %}
+
+{% block message %}
+  <a href="{% url "show_progress" path=component.get_url_path %}"
+     class="float-end"
+     target="_blank">{% translate "View details" %}</a>
+  {{ component }}
+{% endblock message %}

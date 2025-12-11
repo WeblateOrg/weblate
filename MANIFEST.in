@@ -1,0 +1,24 @@
+include COPYING
+include ChangeLog
+include *.rst
+include *.md
+include *.py
+recursive-include weblate *.py
+recursive-include weblate/static *
+recursive-include weblate/templates *
+recursive-include weblate/legal/templates *
+recursive-include weblate/wladmin/templates *
+recursive-include weblate/fonts *.py
+recursive-include weblate/fonts/static *
+recursive-include weblate/locale *.pot
+recursive-include weblate/locale *.po
+recursive-include weblate/locale *.mo
+recursive-include weblate/examples *
+include weblate/billing/test-data/*
+include weblate/trans/tests/data/*
+include weblate/trans/fixtures/simple-project.json
+recursive-include sbom *.json
+exclude weblate/settings.py
+prune data*
+prune dev-docker/data*
+global-exclude *.swp *.swo *.swn __pycache__ *.pyc *.pyo uv.lock

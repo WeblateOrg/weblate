@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags i18n icons translations %}
+
+{% block breadcrumbs %}
+  {% path_object_breadcrumbs object %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'matrix' path=object.get_url_path %}">{% translate "Matrix" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  {% if translations %}
+    <table class="table matrix">
+      <thead>
+        <tr>
+          <th>
+            <a href="{{ object.source_translation.get_absolute_url }}">{{ object.source_language }}</a>
+          </th>
+          {% for translation in translations %}
+            <th>
+              <a href="{{ translation.get_absolute_url }}">{{ translation.language }}</a>
+            </th>
+          {% endfor %}
+        </tr>
+      </thead>
+      {# djlint:off #}
+<tbody>
+</tbody>
+      {# djlint:on #}
+      <tfoot>
+        <tr>
+          <td colspan="3" class="loading-icon">
+            {% loading_icon "next" %}
+            <a href="{% url 'matrix-load' path=object.get_url_path %}?{{ language_codes_url }}"
+               class="hidden"
+               id="matrix-load"
+               data-offset="0"
+               data-last="0"></a>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  {% endif %}
+
+  <form>
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{% translate "Displayed languages" %}</h4>
+      </div>
+      <div class="card-body">{{ languages_form|crispy }}</div>
+      <div class="card-footer">
+        <input class="btn btn-primary" type="submit" value="{% translate "Choose" %}" />
+      </div>
+    </div>
+  </form>
+
+
+{% endblock content %}

@@ -1,0 +1,133 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags i18n permissions translations %}
+
+{% block nav_pills %}
+  <ul class="nav nav-pills">
+    <li class="nav-item">
+      <a class="nav-link active"
+         data-bs-target="#groups"
+         data-bs-toggle="tab"
+         id="tab_groups"
+         href="#">{% translate "Font groups" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link"
+         data-bs-target="#fonts"
+         data-bs-toggle="tab"
+         id="tab_fonts"
+         href="#">{% translate "Fonts" %}</a>
+    </li>
+  </ul>
+{% endblock nav_pills %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{{ object.get_absolute_url }}">{{ object }}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'fonts' project=object.slug %}">{% translate "Fonts" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  <div class="tab-content">
+    <div class="tab-pane active" id="groups">
+
+      <table class="table sort">
+        <thead>
+          <tr>
+            <th>{% translate "Group name" %}</th>
+            <th>{% translate "Default font" %}</th>
+            <th>{% translate "Language overrides" %}</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for group in group_list %}
+            <tr>
+              <td>{{ group.name }}</td>
+              <td>{{ group.font }}</td>
+              <td>
+                {% for override in group.fontoverride_set.all %}
+                  {{ override.language }}: {{ override.font }}
+                  <br />
+                {% endfor %}
+              </td>
+              <td>
+                <a href="{{ group.get_absolute_url }}" class="btn btn-primary edit-font-group">{% translate "Edit" %}</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      {% if font_list %}
+        {% if can_edit %}
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">{% translate "Add font group" %}</h4>
+              </div>
+              <div class="card-body">{{ group_form|crispy }}</div>
+              <div class="card-footer">
+                <input type="submit" class="btn btn-primary" value="{% translate "Save" %}" />
+              </div>
+            </div>
+          </form>
+        {% endif %}
+      {% else %}
+        {% translate "Please upload fonts to be able to define font groups." as msg %}
+        {% show_message "warning" msg %}
+      {% endif %}
+
+    </div>
+
+    <div class="tab-pane" id="fonts">
+
+      <table class="sort table">
+        <thead>
+          <tr>
+            <th>{% translate "Font family" %}</th>
+            <th>{% translate "Font style" %}</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for font in font_list %}
+            <tr>
+              <td>{{ font.family }}</td>
+              <td>{{ font.style }}</td>
+              <td>
+                <a href="{{ font.get_absolute_url }}" class="btn btn-primary edit-font">{% translate "Edit" %}</a>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+
+      {% if can_edit %}
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">{% translate "Add font" %}</h4>
+            </div>
+            <div class="card-body">{{ font_form|crispy }}</div>
+            <div class="card-footer">
+              <input type="submit"
+                     class="btn btn-primary"
+                     value="{% translate "Upload" %}"
+                     id="upload_font_submit" />
+            </div>
+          </div>
+        </form>
+      {% endif %}
+
+    </div>
+
+  </div>
+
+{% endblock content %}

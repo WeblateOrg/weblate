@@ -1,0 +1,25 @@
+{% load crispy_forms_field i18n %}
+
+<div class="input-group search-group query-field me-5" role="group">
+  <div class="input-group-btn">
+    <button type="button"
+            id="query-dropdown"
+            class="btn btn-outline-primary dropdown-toggle search-field"
+            data-field=""
+            data-bs-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false">
+      <span class="search-label">{% translate "Filters" %}</span>
+    </button>
+    <ul class="dropdown-menu shadow">
+      {% for _, name, query in custom_filter_list %}
+        <li>
+          <a class="dropdown-item" href="#" data-field="{{ query }}"><span class="title">{{ name }}</span> • <code>{{ query }}</code></a>
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+  <!-- /btn-group -->
+  <div class="flex-grow-1">{% crispy_field field 'aria-label' _('Query') 'class' 'form-control' %}</div>
+</div>
+{% include 'bootstrap5/layout/help_text_and_errors.html' %}

@@ -1,0 +1,108 @@
+{% load i18n translations %}
+
+{% documentation_icon 'admin/projects' 'markup' right=True %}
+
+<p>{% translate "You can use Django templates markup in both filename and content, for example:" %}</p>
+
+<dl>
+  <dt>
+    <code>
+      {% verbatim %}
+        {{ language_name }}
+      {% endverbatim %}
+    </code>
+  </dt>
+  <dd>
+    {% translate "Language name" %}
+  </dd>
+  <dt>
+    <code>
+      {% verbatim %}
+        {{ language_code }}
+      {% endverbatim %}
+    </code>
+  </dt>
+  <dd>
+    {% translate "Language code" %}
+  </dd>
+  <dt>
+    <code>
+      {% verbatim %}
+        {{ stats.translated_percent }}
+      {% endverbatim %}
+    </code>
+  </dt>
+  <dd>
+    {% translate "Percents translated" %}
+  </dd>
+  <dt>
+    <code>
+      {% verbatim %}
+        {{ stats.all }}
+      {% endverbatim %}
+    </code>
+  </dt>
+  <dd>
+    {% translate "Number of strings" %}
+  </dd>
+  <dt>
+    <code>
+      {% verbatim %}
+        {{ stats.translated }}
+      {% endverbatim %}
+    </code>
+  </dt>
+  <dd>
+    {% translate "Number of translated strings" %}
+  </dd>
+  <dt>
+    <code>
+      {% verbatim %}
+        {{ filename }}
+      {% endverbatim %}
+    </code>
+  </dt>
+  <dd>
+    {% translate "Translation filename" %}
+  </dd>
+  <dt>
+    <code>
+      {% verbatim %}
+        {{ component_name }}
+      {% endverbatim %}
+    </code>
+  </dt>
+  <dd>
+    {% translate "Component name" %}
+  </dd>
+  <dt>
+    <code>
+      {% verbatim %}
+        {{ component_slug }}
+      {% endverbatim %}
+    </code>
+  </dt>
+  <dd>
+    {% translate "Component URL slug" %}
+  </dd>
+  <dt>
+    <code>
+      {% verbatim %}
+        {{ project_name }}
+      {% endverbatim %}
+    </code>
+  </dt>
+  <dd>
+    {% translate "Project name" %}
+  </dd>
+  <dt>
+    <code>
+      {% verbatim %}
+        {{ project_slug }}
+      {% endverbatim %}
+    </code>
+  </dt>
+  <dd>
+    {% translate "Project URL slug" %}
+  </dd>
+</dl>

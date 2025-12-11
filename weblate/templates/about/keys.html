@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% load i18n icons translations %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'about' %}">{% translate "About Weblate" %}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'about' %}">{% translate "Weblate keys" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  {% include "snippets/ssh-key.html" %}
+
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">
+        {% documentation_icon 'admin/optionals' 'gpg-sign' right=True %}
+        {% translate "Commit signing" %}
+      </h4>
+    </div>
+
+    <div class="card-body">
+      {% if gpg_key %}
+        <button type="button"
+                class="btn btn-link btn-xs float-end"
+                data-clipboard-value="{{ gpg_key }}"
+                data-clipboard-message="{% translate "Public key copied to clipboard." %}"
+                title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+        <p>
+          {% blocktranslate %}All commits made with Weblate are signed with the GPG key {{ gpg_key_id }}, for which the corresponding public key is found below.{% endblocktranslate %}
+        </p>
+        <div class="list-group-item pre-scrollable">{{ gpg_key|linebreaks }}</div>
+      {% else %}
+        <p>{% translate "Commit signing is not configured." %}</p>
+      {% endif %}
+    </div>
+  </div>
+
+{% endblock content %}

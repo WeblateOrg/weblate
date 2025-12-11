@@ -1,0 +1,67 @@
+{% load i18n translations %}
+
+{% if analysis.source_language %}
+
+  <p>{% translate "The component contains translation file for the source language." %}</p>
+
+  <p>{% translate "Please consider the following:" %}</p>
+
+  <ul>
+    {% if not analysis.monolingual %}
+      <li>
+        {% translate "You might be using a monolingual translation file as a bilingual one. If that is the case, please set the monolingual base language file location." %} {% documentation_icon "formats" "bimono" %}
+      </li>
+    {% endif %}
+    <li>
+      {% translate "In case translation to the source language is desired, please change the source language in the component settings." %} {% documentation_icon "admin/projects" "component-source_language" %}
+    </li>
+    <li>
+      {% translate "If the translation file for the source language is not needed, please remove it from the repository." %}
+    </li>
+    <li>
+      {% translate "If the translation file for the source language is needed, but should be ignored by Weblate, please adjust the language filter to exclude it." %} {% documentation_icon "admin/projects" "component-language_regex" %}
+    </li>
+
+  </ul>
+
+
+{% else %}
+
+  <p>
+    {% translate "The component contains several translation files mapped to a single language in Weblate." %}
+    {% translate "Please fix this by removing one of the translation files." %}
+  </p>
+  {% if analysis.default_country %}
+    <p>{% translate "Please consider the following:" %}</p>
+
+    <ul>
+      <li>
+        {% translate "Avoid having translation files for both the plain language code and its equivalent territory designation (for example de and de_DE)." %}
+      </li>
+    </ul>
+  {% endif %}
+
+{% endif %}
+
+<p>{% translate "The following occurrences were found:" %}</p>
+
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th>{% translate "Language" %}</th>
+      <th>{% translate "Language codes" %}</th>
+      <th>{% translate "File names" %}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for occurrence in occurrences %}
+      <tr>
+        <td>{{ occurrence.language }}</td>
+        <td>{{ occurrence.codes }}</td>
+        <td>{{ occurrence.filenames }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% include "trans/alert/occurrences-limit.html" %}

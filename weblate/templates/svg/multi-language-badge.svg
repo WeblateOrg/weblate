@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="{{ width }}" height="{{ height }}" xml:lang="en">
+<defs>
+{% include "svg/style.svg" %}
+</defs>
+<g id="layer1">
+
+{% for translation in translations %}
+<a xlink:href="{{ translation.6 }}" xlink:title="{{ translation.0 }}">
+<text
+   xml:space="preserve"
+   style="font-style:normal;font-weight:normal;font-size:11px;font-family:'Source Sans 3',sans-serif;fill:#808080;text-anchor:end;"
+   x="{{ language_offset }}"
+   y="{{ translation.2 }}"
+   id="text{{ translation.2 }}">{{ translation.0 }}</text>
+<text
+   xml:space="preserve"
+   style="font-style:normal;font-weight:normal;font-size:11px;font-family:'Source Sans 3',sans-serif;fill:#808080"
+   x="{{ text_offset }}"
+   y="{{ translation.2 }}"
+   id="percent{{ translation.2 }}">{{ translation.1 }}%</text>
+<rect
+   style="fill:{{ translation.5 }};fill-opacity:1;stroke:none"
+   id="rect{{ translation.2 }}"
+   width="{{ translation.4 }}"
+   height="6"
+   x="{{ bar_offset }}"
+   rx="2"
+   y="{{ translation.3 }}" />
+</a>
+{% endfor %}
+
+</g>
+</svg>
+
+

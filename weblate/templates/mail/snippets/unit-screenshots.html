@@ -1,0 +1,17 @@
+{% load i18n translations %}
+
+{% if unit.location or unit.source_unit.location %}
+  <h2>{% translate "Source string location" %}</h2>
+
+  <p>{% get_location_links subscription_user unit %}</p>
+{% endif %}
+
+{% with screenshots=unit.source_unit.screenshots.order %}
+  {% if screenshots %}
+    <h2>{% translate "Screenshot context" %}</h2>
+
+    {% for screenshot in screenshots %}
+      {% include "screenshots/screenshot_show.html" %}
+    {% endfor %}
+  {% endif %}
+{% endwith %}

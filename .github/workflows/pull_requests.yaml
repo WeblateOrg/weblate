@@ -1,0 +1,28 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+# This file is maintained in https://github.com/WeblateOrg/meta/
+
+name: Pull request automation
+
+on: # zizmor: ignore[dangerous-triggers]
+  pull_request_target:
+    types: opened
+
+permissions:
+  contents: read
+
+jobs:
+  weblate_automerge:
+    runs-on: ubuntu-slim
+    name: Weblate automerge
+    if: github.actor == 'weblate'
+    steps:
+    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      with:
+        persist-credentials: false
+    - name: Enable Pull Request Automerge
+      run: gh pr merge --rebase --auto "${{ github.event.pull_request.number }}"
+      env:
+        GH_TOKEN: ${{ secrets.WEBLATE_CI_TOKEN }}

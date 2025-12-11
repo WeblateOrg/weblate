@@ -1,0 +1,317 @@
+{% extends "base.html" %}
+
+{% load check_links humanize i18n translations %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'manage-performance' %}">{% translate "Performance report" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+  {% if errors %}
+    <div class="card">
+      <div class="card-header text-bg-danger">
+        <h4 class="card-title">
+          {% documentation_icon 'admin/install' 'production' right=True %}
+          {% translate "Configuration errors" %}
+        </h4>
+      </div>
+      <table class="table table-striped table-responsive">
+        <thead>
+          <tr>
+            <th>{% translate "Last occurrence" %}</th>
+            <th>{% translate "Name" %}</th>
+            <th>{% translate "Message" %}</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for error in errors %}
+            <tr class="row{% cycle '1' '2' %}">
+              <td>{{ error.timestamp }}</td>
+              <td>
+                {{ error.name }}
+                {% configuration_error_link error.name %}
+              </td>
+              <td>
+                <pre>{{ error.message }}</pre>
+              </td>
+              <td>
+                <form method="post">
+                  {% csrf_token %}
+                  <input type="hidden" name="pk" value="{{ error.pk }}" />
+                  <input type="submit"
+                         name="dismiss"
+                         value="{% translate "Dismiss" %}"
+                         class="btn btn-primary" />
+                  <input type="submit"
+                         name="ignore"
+                         value="{% translate "Ignore permanently" %}"
+                         class="btn btn-primary" />
+                </form>
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <div class="card-footer">
+        <p class="help-block">
+          {% translate "You can safely permanently ignore errors for features you do not intend to use. These are usually caused by missing or outdated dependencies." %}
+        </p>
+      </div>
+    </div>
+  {% endif %}
+
+  {% if checks %}
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">
+          {% documentation_icon 'admin/install' 'production' right=True %}
+          {% translate "System checks" %}
+        </h4>
+      </div>
+      <table class="table table-striped table-responsive">
+        <thead>
+          <tr>
+            <th>{% translate "Name" %}</th>
+            <th>{% translate "Message" %}</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for check in checks %}
+            <tr class="row{% cycle '1' '2' %}">
+              <td>
+                {{ check.id }}
+                {% check_link check %}
+              </td>
+              <td>{{ check.msg }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+  {% endif %}
+
+  {% if not checks and not errors %}
+    {% translate "Congratulations, your setup seems to work." as msg %}
+    {% show_message "success" msg %}
+  {% endif %}
+
+  <div class="row">
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
+            {% documentation_icon 'admin/install' 'celery' right=True %}
+            {% translate "Celery queues" %}
+          </h4>
+        </div>
+        <table class="table table-striped">
+          <tbody>
+            {% for name, length in queues %}
+              <tr>
+                <td>{{ name }}</td>
+                <td class="number">{{ length|intcomma }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      {% if disk_usage %}
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">
+              {% documentation_icon 'admin/install' 'hardware' right=True %}
+              {% translate "Disk usage" %}
+            </h4>
+          </div>
+
+          <table class="table table-striped">
+
+            <tbody>
+              <tr>
+                <td colspan="3">
+                  <div class="progress">
+                    <div class="progress-bar {% if disk_usage_percent < 90 %}progress-bar-success{% elif disk_usage_percent < 95 %}progress-bar-warning{% else %}progress-bar-danger{% endif %}"
+                         role="progressbar"
+                         aria-valuenow="{{ disk_usage_percent }}"
+                         aria-valuemin="0"
+                         aria-valuemax="100"
+                         aria-label="{% translate "Disk usage" %}"
+                         style="width: {{ disk_usage_percent }}%"></div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <th>{% translate "Disk size" %}</th>
+                <th>{% translate "Disk used" %}</th>
+                <th>{% translate "Disk free" %}</th>
+              </tr>
+              <tr>
+                <td>{{ disk_usage.total|filesizeformat }}</td>
+                <td>{{ disk_usage.used|filesizeformat }}</td>
+                <td>{{ disk_usage.free|filesizeformat }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      {% endif %}
+
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
+            {% documentation_icon 'admin/install' 'production-encoding' right=True %}
+            {% translate "System encoding" %}
+          </h4>
+        </div>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th></th>
+              <th>{% translate "Web server" %}</th>
+              <th>{% translate "Celery worker" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{% translate "Filenames encoding" %}</td>
+              <td>{{ web_encoding.0 }}</td>
+              <td>
+                {% if celery_encoding %}
+                  {{ celery_encoding.0 }}
+                {% else %}
+                  {% translate "Unknown encoding" %}
+                {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <td>{% translate "Content encoding" %}</td>
+              <td>{{ web_encoding.1 }}</td>
+              <td>
+                {% if celery_encoding %}
+                  {{ celery_encoding.1 }}
+                {% else %}
+                  {% translate "Unknown encoding" %}
+                {% endif %}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
+            {% documentation_icon 'admin/install' 'production-database' right=True %}
+            {% translate "Connectivity" %}
+          </h4>
+        </div>
+        <table class="table table-striped">
+          <tbody>
+            <tr>
+              <td>{% translate "Database latency" %}</td>
+              <td class="number">{{ database_latency }} ms</td>
+            </tr>
+            <tr>
+              <td>{% translate "Cache latency" %}</td>
+              <td class="number">{{ cache_latency }} ms</td>
+            </tr>
+            <tr>
+              <td>{% translate "Celery latency" %}</td>
+              <td class="number">
+                {% if celery_latency %}
+                  {{ celery_latency }} ms
+                {% else %}
+                  {% translate "Not yet measured" %}
+                {% endif %}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
+            {% documentation_icon 'admin/install' 'reverse-proxy' right=True %}
+            {% translate "HTTP environment" %}
+          </h4>
+        </div>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th></th>
+              <th>{% translate "Observed value" %}</th>
+              <th>{% translate "Configured value" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{% translate "Client IP address" %}</td>
+              <td>
+                <code>{{ request.META.REMOTE_ADDR }}</code>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td>{% translate "HTTP host" %}</td>
+              <td>
+                <code>{{ request.get_host }}</code>
+              </td>
+              <td>
+                <code>{{ site_domain }}</code>
+              </td>
+            </tr>
+            <tr>
+              <td>{% translate "HTTP protocol" %}</td>
+              <td>
+                <code>
+                  {% if request.is_secure %}
+                    https
+                  {% else %}
+                    http
+                  {% endif %}
+                </code>
+              </td>
+              <td>
+                <code>
+                  {% if enable_https %}
+                    https
+                  {% else %}
+                    http
+                  {% endif %}
+                </code>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
+            {% documentation_icon 'admin/install' 'reverse-proxy' right=True %}
+            {% translate "HTTP headers" %}
+          </h4>
+        </div>
+        <div class="card-body">
+          {% for name, value in request.headers.items %}
+            <code>{{ name }}: {{ value }}</code>
+            <br />
+          {% endfor %}
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+{% endblock content %}

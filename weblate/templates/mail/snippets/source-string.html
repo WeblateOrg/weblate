@@ -1,0 +1,17 @@
+{% load i18n translations %}
+
+{% if unit.context %}
+  <h2>{{ unit.translation.component.context_label }}</h2>
+
+  {% format_source_string unit.context unit %}
+{% endif %}
+
+<h2>{% translate "Source string" %}</h2>
+
+{% format_unit_source unit %}
+
+{% if unit.note %}
+  <h2>{% translate "Source string description" %}</h2>
+
+  {% format_source_string unit.note unit %}
+{% endif %}

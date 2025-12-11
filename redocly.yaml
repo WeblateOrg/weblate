@@ -1,0 +1,11 @@
+extends:
+- recommended
+rules:
+  no-path-trailing-slash: off
+  # TODO: this should be and error
+  operation-summary: warn
+  security-defined:
+    severity: error
+    exceptions:
+      # webhook authentication is not supported by drf-spectacular yet
+    - path: AddonWebhook

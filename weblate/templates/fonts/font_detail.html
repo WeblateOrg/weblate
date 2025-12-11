@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags i18n permissions translations %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'fonts' project=object.project.slug %}#fonts">{% translate "Fonts" %}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{{ object.get_absolute_url }}">{{ object }}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">{% translate "Font" %}</h4>
+    </div>
+    <table class="table table-striped">
+      <tr>
+        <th>{% translate "Font family" %}</th>
+        <td>{{ object.family }}</td>
+      </tr>
+      <tr>
+        <th>{% translate "Font style" %}</th>
+        <td>{{ object.style }}</td>
+      </tr>
+      <tr>
+        <th>{% translate "File size" %}</th>
+        <td>{{ object.font.size }}</td>
+      </tr>
+      <tr>
+        <th>{% translate "Created" %}</th>
+        <td>{{ object.timestamp|naturaltime }}</td>
+      </tr>
+      <tr>
+        <th>{% translate "Uploaded by" %}</th>
+        <td>{{ object.get_user_display }}</td>
+      </tr>
+      <tr>
+        <th>{% translate "Font groups" %}</th>
+        <td>
+          {% for group in object.get_usage %}<a href="{{ group.get_absolute_url }}">{{ group }}</a>{% endfor %}
+        </td>
+      </tr>
+    </table>
+  </div>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{% translate "Edit font" %}</h4>
+      </div>
+      <div class="card-body">{{ font_form|crispy }}</div>
+      <div class="card-footer">
+        {% if can_edit %}
+          <input type="submit"
+                 value="{% translate "Update" %}"
+                 class="btn btn-primary"
+                 id="update_font_submit" />
+          <a href=""
+             class="btn btn-danger link-post"
+             data-href="{{ object.get_absolute_url }}"
+             data-params='{"delete":1}'>{% translate "Delete" %}</a>
+        {% endif %}
+      </div>
+    </div>
+  </form>
+
+
+{% endblock content %}

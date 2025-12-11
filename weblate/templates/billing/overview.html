@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'profile' %}">{% translate "Your profile" %}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'billing' %}">{% translate "Billing" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  {% include "billing/list.html" with objects=billings %}
+
+  {% if not billings %}
+    <p>
+      {% translate "No subscriptions or due payments." %}
+      {% translate "If you miss access to billing of your project, please ask its admins to grant you access." %}
+    </p>
+
+    {% if offer_hosting %}
+      <a class="btn btn-primary" href="https://weblate.org/hosting/">{% translate "View hosting plans" %}</a>
+    {% endif %}
+  {% endif %}
+
+  {% if payment_enabled and not active_billing_count %}
+    <a href="{% url 'create-billing' %}?upgrade=1" class="btn btn-primary">{% translate "Purchase new hosting plan" %}</a>
+  {% endif %}
+
+{% endblock content %}

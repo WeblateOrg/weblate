@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'legal:index' %}">{% translate "Legal" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  {% include 'legal/menu.html' %}
+
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">{% translate "Legal Terms Overview" %}</h4>
+    </div>
+    <div class="card-body">
+
+      {% include 'legal/documents/summary.html' %}
+
+      <p>
+        {% blocktranslate %}This page is based on the General Terms and Conditions and the Privacy Policy, you should still read the original documents to fully understand them:{% endblocktranslate %}
+      </p>
+
+      <ul>
+        <li>
+          <a href="{% url 'legal:terms' %}">{% translate "General Terms and Conditions" %}</a>
+        </li>
+        <li>
+          <a href="{% url 'legal:privacy' %}">{% translate "Privacy Policy" %}</a>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+
+{% endblock content %}

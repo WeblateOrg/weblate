@@ -1,0 +1,16 @@
+{% load i18n permissions %}
+
+<p>{% translate "Weblate could not push changes to the upstream repository." %}</p>
+
+<pre>{{ error }}</pre>
+
+{% include "trans/alert/common-repo.html" %}
+
+{% perm 'vcs.push' component as user_can_push %}
+{% if user_can_push %}
+  <p>
+    <a href=""
+       class="btn btn-primary link-post"
+       data-href="{% url "push" path=component.get_url_path %}">{% translate "Push the repository" %}</a>
+  </p>
+{% endif %}

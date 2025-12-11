@@ -1,0 +1,10 @@
+{% spaceless %}
+  {% with mainwidget=widget %}
+    {% for widget in mainwidget.subwidgets %}
+      <div class="form-group row {{ subwidget_class }}">
+        <div class="col-sm-2">{{ widget.attrs.label }}</div>
+        <div class="col-sm-10">{% include widget.template_name %}</div>
+      </div>
+    {% endfor %}
+  {% endwith %}
+{% endspaceless %}

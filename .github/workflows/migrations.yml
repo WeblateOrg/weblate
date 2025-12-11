@@ -1,0 +1,103 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: Migrations
+
+on:
+  push:
+    branches-ignore:
+    - renovate/**
+    - weblate
+  pull_request:
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  migrations:
+    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        database: [postgresql, mysql]
+      fail-fast: false
+    name: ${{ matrix.database }}
+    env:
+      CI_DATABASE: ${{ matrix.database }}
+      CI_DB_PASSWORD: weblate
+      CI_DB_HOST: 127.0.0.1
+      CI_DB_PORT: '60000'
+      CI_SELENIUM: '1'
+      DJANGO_SETTINGS_MODULE: weblate.settings_test
+      UV_FROZEN: '1'
+
+    steps:
+    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      with:
+        persist-credentials: false
+    - name: Start services
+      run: ./ci/services-up ${{ matrix.database }}
+    - name: Install apt dependencies
+      run: sudo ./ci/apt-install "$CI_DATABASE"
+    - uses: astral-sh/setup-uv@ed21f2f24f8dd64503750218de024bcf64c7250a # v7.1.5
+      with:
+        enable-cache: true
+        # Do not share cache with tests as this uses python 3.11 for older versions
+        cache-suffix: multi
+        save-cache: ${{ github.ref == 'refs/heads/main' }}
+        version: 0.9.17
+    - name: Set up Python
+      uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v6.1.0
+      with:
+        python-version: |
+          3.11
+          3.13
+    - name: Install Python dependencies
+      run: ./ci/pip-install latest
+    - name: Check missing migrations
+      run: ./ci/run-checkmigrate
+    - name: Migrate from 5.0
+      run: ./ci/run-migrate 5.0.2
+    - name: Migrate from 5.1
+      run: ./ci/run-migrate 5.1.1
+    - name: Migrate from 5.2
+      run: ./ci/run-migrate 5.2.1
+    - name: Migrate from 5.3
+      run: ./ci/run-migrate 5.3.1
+    - name: Migrate from 5.4
+      run: ./ci/run-migrate 5.4.3
+    - name: Migrate from 5.5
+      run: ./ci/run-migrate 5.5
+    - name: Migrate from 5.6
+      run: ./ci/run-migrate 5.6
+    - name: Migrate from 5.7
+      run: ./ci/run-migrate 5.7
+    - name: Migrate from 5.8
+      run: ./ci/run-migrate 5.8
+    - name: Migrate from 5.9
+      run: ./ci/run-migrate 5.9
+    - name: Migrate from 5.10
+      run: ./ci/run-migrate 5.10
+    - name: Migrate from 5.11
+      run: ./ci/run-migrate 5.11
+    - name: Migrate from 5.12
+      run: ./ci/run-migrate 5.12
+    - name: Migrate from 5.13
+      run: ./ci/run-migrate 5.13
+    - name: Migrate from 5.14
+      run: ./ci/run-migrate 5.14
+    - name: Coverage
+      run: |
+        uv run coverage combine
+        uv run coverage xml
+    - uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
+      with:
+        token: ${{secrets.CODECOV_TOKEN}}
+        flags: migrations
+        name: Migrations ${{ matrix.database }}
+    - name: Stop services
+      if: always()
+      run: ./ci/services-down ${{ matrix.database }}

@@ -1,0 +1,70 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: API
+
+on:
+  push:
+    branches-ignore:
+    - renovate/**
+    - weblate
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  api-lint:
+    runs-on: ubuntu-24.04
+    name: API Lint
+    env:
+      CI_DATABASE: postgresql
+      CI_REDIS_HOST: 127.0.0.1
+      CI_REDIS_PORT: '60001'
+      CI_DB_PASSWORD: weblate
+      CI_DB_HOST: 127.0.0.1
+      CI_DB_PORT: '60000'
+      CI_SELENIUM: '1'
+      DJANGO_SETTINGS_MODULE: weblate.settings_test
+      PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
+      PYTHONUNBUFFERED: 1
+    steps:
+    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      with:
+        persist-credentials: false
+    - name: Set up Python
+      id: setup_python
+      uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v6.1.0
+      with:
+        python-version: '3.14'
+    - uses: astral-sh/setup-uv@ed21f2f24f8dd64503750218de024bcf64c7250a # v7.1.5
+      with:
+        save-cache: ${{ github.ref == 'refs/heads/main' }}
+        cache-suffix: ${{ steps.setup_python.outputs.python-version }}
+        version: 0.9.17
+    - name: Start services
+      run: ./ci/services-up "$CI_DATABASE"
+    - name: Install apt dependencies
+      run: sudo ./ci/apt-install "$CI_DATABASE"
+    - name: Used versions
+      run: ./ci/print-versions
+    - name: Install Python dependencies
+      run: ./ci/pip-install latest
+    - name: Prepare database
+      run: ./ci/prepare-database
+    - name: Migrate database
+      run: uv run ./manage.py migrate --noinput --traceback
+    - name: Generate OpenAPI
+      run: |
+        echo "::add-matcher::.github/matchers/spectacular.json"
+        make -C docs update-openapi
+        echo "::remove-matcher owner=spectacular::"
+    - name: openapi-lint
+      run: npx @redocly/cli lint --format github-actions docs/specs/openapi.yaml
+    - name: Verify OpenAPI spec is up to date
+      run: git diff --exit-code
+    - uses: pre-commit-ci/lite-action@5d6cc0eb514c891a40562a58a8e71576c5c7fb43 # v1.1.0
+      if: always()
+      with:
+        msg: 'chore(docs): update OpenAPI schema'

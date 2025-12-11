@@ -1,0 +1,1093 @@
+{% extends "base.html" %}
+
+{% load compress crispy_forms_tags i18n icons permissions static translations %}
+
+{% block extra_script %}
+  {% compress js %}
+    <script defer data-cfasync="false" src="{% static 'editor/base.js' %}{{ cache_param }}"></script>
+    <script defer data-cfasync="false" src="{% static 'editor/full.js' %}{{ cache_param }}"></script>
+    <script defer
+            data-cfasync="false"
+            src="{% static 'js/screenshots/clipboard-paste.js' %}{{ cache_param }}"></script>
+  {% endcompress %}
+{% endblock extra_script %}
+
+{% block extra_meta %}<link rel="canonical" href="{{ unit.get_absolute_url }}" />{% endblock %}
+
+{% block breadcrumbs %}
+  {% path_object_breadcrumbs path_object %}
+  <li class="breadcrumb-item">
+    <a href="{{ object.get_translate_url }}">{% translate "Translate" %}</a>
+  </li>
+  <a class="ms-auto float-end" href="{{ object.get_widgets_url }}">
+    <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
+  </a>
+{% endblock breadcrumbs %}
+
+{% block content_class %}js-editor{% endblock %}
+
+{% block content %}
+
+  {% include "snippets/component/state.html" with object=unit.translation.component %}
+
+  {% perm 'unit.edit' unit as user_can_translate %}
+  {% perm 'unit.delete' unit as user_can_delete %}
+  {% perm 'unit.review' unit as user_can_review %}
+  {% perm 'suggestion.add' unit as user_can_suggest %}
+  {% perm 'suggestion.accept' unit as user_can_accept_suggestion %}
+  {% perm 'suggestion.vote' unit.translation as user_can_vote_suggestion %}
+  {% perm 'machinery.view' unit.translation as user_can_use_machinery %}
+  {% perm 'source.edit' unit.translation as user_can_edit_source %}
+  {% perm 'meta:unit.flag' unit.translation as user_can_edit_flags %}
+  {% perm 'screenshot.add' unit.translation as user_can_add_screenshot %}
+  {% perm 'comment.add' unit.translation as user_can_add_comment %}
+  {% perm 'glossary.add' project as user_can_add_glossary %}
+  {% perm 'unit.add' unit.translation as user_can_add_unit %}
+
+  <div class="btn-group float-end btn-group-settings" role="group">
+    <a href="{% url 'zen' path=object.get_url_path %}?offset={{ offset }}&amp;{{ search_url }}"
+       data-params="{{ search_url }}"
+       title="{% translate "Open in Zen mode" %}"
+       class="btn btn-link">{% icon "flash.svg" %} {% translate "Zen" %}</a>
+
+    <a href="{% url 'profile' %}#preferences"
+       class="btn btn-link"
+       title="{% translate "Configure editor" %}">{% icon "settings.svg" %}</a>
+  </div>
+
+  {% with variants=unit.variants %}
+
+    <div class="query-container">
+      <form method="get" class="result-page-form">
+        {% crispy search_form %}
+      </form>
+    </div>
+
+    <div class="row">
+      <div class="col-sm-9">
+
+        <form action="{{ this_unit_url }}" method="post" class="translation-form translator">
+          <div class="card">
+
+            <div class="card-header {% if unit.approved %}text-bg-success{% elif unit.is_source %}text-bg-warning{% endif %}">
+              <a class="btn btn-link btn-xs float-end"
+                 href="{{ site_url }}{{ unit.get_absolute_url }}"
+                 data-clipboard-value="{{ site_url }}{{ unit.get_absolute_url }}"
+                 data-clipboard-message="{% translate "Permalink copied to clipboard." %}"
+                 title="{% translate "Copy permalink" %}">{% icon "link.svg" %}</a>
+              <h4 class="card-title">
+                {% if unit.translation.component.is_glossary %}
+                  {% if "forbidden" in item.all_flags %}
+                    {% translate "Forbidden glossary term" %}
+                  {% else %}
+                    {# Translators: Can be also translated as "A term from the glossary" #}
+                    {% translate "Glossary term" %}
+                  {% endif %}
+                {% else %}
+                  {% if unit.is_source %}
+                    {% translate "Source string" %}
+                  {% else %}
+                    {% translate "Translation" %}
+                  {% endif %}
+                {% endif %}
+                {% include "snippets/unit-readonly-badge.html" %}
+              </h4>
+            </div>
+            <div class="card-body">
+              {% csrf_token %}
+              <!-- secondary -->
+              {% if secondary %}
+                {% for secondary_unit in secondary %}
+                  <div class="form-group">
+                    <a class="language" href="{{ secondary_unit.get_absolute_url }}">{{ secondary_unit.translation.language }}</a>
+                    {% format_unit_target secondary_unit search_match=search_query show_copy=True %}
+                  </div>
+                {% endfor %}
+              {% endif %}
+
+              <!-- source change -->
+              {% if unit.previous_source and unit.fuzzy %}
+                <div class="form-group">
+                  <label>{% translate "Source change" %}</label>
+                  {% format_unit_source unit diff=unit.previous_source %}
+                </div>
+              {% endif %}
+
+              {% if unit.is_source %}
+                {% if unit.context %}
+                  <!-- editing template -->
+                  <div class="form-group">
+                    <label>{{ unit.translation.component.context_label }}</label>
+                    {% format_source_string unit.context unit search_match=search_query wrap=True %}
+                  </div>
+                {% endif %}
+                {% if unit.translation.component.intermediate %}
+                  <!-- editing template -->
+                  <div class="form-group">
+                    <label>{% translate "Intermediate language" %}</label>
+                    {% format_unit_source unit search_match=search_query show_copy=True %}
+                  </div>
+                {% endif %}
+              {% endif %}
+
+              {% if unit.source_unit.explanation %}
+                {% if not unit.translation.component.is_glossary or not unit.is_source %}
+                  <!-- source string explanation  -->
+                  <div class="form-group help-block">
+                    <label>{% translate "Explanation" %}</label>
+                    <div class="list-group">
+                      <div class="list-group-item">
+                        <div class="list-group-item-text">{{ unit.source_unit.explanation|markdown }}</div>
+                      </div>
+                    </div>
+                  </div>
+                {% endif %}
+              {% elif unit.note %}
+                <!-- source string note  -->
+                <div class="form-group help-block">
+                  <label>{% translate "Source string description" %}</label>
+                  <div class="list-group">
+                    <div class="list-group-item">
+                      <div class="list-group-item-text">{{ unit.note|urlize_ugc }}</div>
+                    </div>
+                  </div>
+                </div>
+              {% endif %}
+
+              {% if not unit.is_source %}
+                {% if not user.profile.hide_source_secondary or not secondary %}
+                  <!-- source -->
+                  <div class="form-group source-language-group">
+                    <div>
+                      {% if unit.context %}
+                        <div class="float-end">
+                          <label>{{ unit.translation.component.context_label }}</label>
+                          {% format_source_string unit.context unit simple=True wrap=True search_match=search_query whitespace=False %}
+                        </div>
+                      {% endif %}
+                      <a class="language" href="{{ unit.source_unit.get_absolute_url }}">{{ unit.translation.component.source_language }}</a>
+                      {% if not unit.source_unit.translated %}
+                        <span class="badge text-bg-danger">{% translate "The source string needs review." %}</span>
+                      {% endif %}
+                      {% if unit.translation.component.project.source_review %}
+                        <a title="{% translate "Report issue with the source string" %}"
+                           href="#"
+                           class="btn btn-link btn-xs bug-comment">{% icon "bug.svg" %}</a>
+                      {% endif %}
+                      <div class="clearfix"></div>
+                    </div>
+                    {% format_unit_source unit search_match=search_query glossary=glossary show_copy=True %}
+                  </div>
+                {% endif %}
+              {% endif %}
+
+              <!-- edit form -->
+              {% crispy form %}
+            </div>
+            <div class="card-footer">
+              {% if locked %}
+                <p>{% translate "This translation is currently locked." %}</p>
+              {% elif not user_can_translate %}
+                <p>{{ user_can_translate.reason }}</p>
+              {% endif %}
+              <div>
+                {% with flag_actions=unit.get_flag_actions %}
+                  {% if user_can_delete or user_can_edit_flags and flag_actions or user_can_add_unit or user_can_translate and unit.translation.component.is_multivalue %}
+                    <div class="btn-group float-end">
+                      <button type="button"
+                              class="btn btn-primary dropdown-toggle btn-spaced"
+                              data-bs-toggle="dropdown"
+                              aria-haspopup="true"
+                              aria-expanded="false"
+                              id="unit_tools_dropdown">
+                        {% translate "Tools" %} <span class="caret"></span>
+                      </button>
+                      <ul class="dropdown-menu shadow">
+                        {% if user_can_delete %}
+                          <li>
+                            <!-- use this_unit_url as the next unit will become the unit at current offset after deletion -->
+                            <a href=""
+                               class="dropdown-item link-post"
+                               data-href="{% url "delete-unit" unit_id=unit.pk %}"
+                               data-params='{"next": "{{ this_unit_url|escapejs }}"}'>{% translate "Delete string" %}</a>
+                          </li>
+                        {% endif %}
+                        {% if user_can_edit_flags and flag_actions %}
+                          {% for action, value, name in flag_actions %}
+                            <li>
+                              <a href=""
+                                 class="dropdown-item link-post"
+                                 data-href="{% url 'edit_context' pk=unit.pk %}"
+                                 data-params='{"{{ action|escapejs }}": "{{ value|escapejs }}", "next": "{{ this_unit_url|escapejs }}"}'>{{ name }}</a>
+                            </li>
+                          {% endfor %}
+                        {% endif %}
+                        {% if user_can_add_unit %}
+                          <li>
+                            <a class="dropdown-item"
+                               href="#"
+                               data-bs-toggle="modal"
+                               data-bs-target="#add-unit-form">{% translate "Add variant of this string" %}</a>
+                          </li>
+                        {% endif %}
+                        {% if user_can_translate and unit.translation.component.is_multivalue %}
+                          <li>
+                            <a class="dropdown-item add-alternative-post" href="">{% translate "Add alternative translation" %}</a>
+                          </li>
+                        {% endif %}
+                      </ul>
+                    </div>
+                  {% endif %}
+                {% endwith %}
+                <button class="btn btn-primary"
+                        type="submit"
+                        name="save"
+                        {% if locked %} disabled="disabled" {% elif not user_can_translate and not user_can_edit_flags %} disabled="disabled" {% elif not user_can_translate and user_can_edit_flags and not unit.translation.component.is_glossary %} disabled="disabled" {% endif %}>
+                  {% translate "Save and continue" %}
+                </button>
+
+                <button class="btn btn-warning btn-spaced"
+                        type="submit"
+                        name="save-stay"
+                        {% if locked %} disabled="disabled" {% elif not user_can_translate and not user_can_edit_flags %} disabled="disabled" {% elif not user_can_translate and user_can_edit_flags and not unit.translation.component.is_glossary %} disabled="disabled" {% endif %}>
+                  {% translate "Save and stay" %}
+                </button>
+
+                {% if unit.translation.enable_suggestions %}
+                  <button class="btn btn-warning btn-spaced"
+                          type="submit"
+                          name="suggest"
+                          {% if project_locked or not user_can_suggest or unit.readonly %}disabled="disabled"{% endif %}
+                          {% if not user_can_suggest %} title="{% translate "Insufficient privileges for adding suggestions." %}" {% elif project_locked %} title="{% translate "This translation is currently locked." %}" {% elif unit.readonly %} title="{% translate "Read-only" %}" {% endif %}>
+                    {% translate "Suggest" %}
+                  </button>
+                {% endif %}
+                <a class="btn btn-link btn-spaced skip" href="{{ next_unit_url }}" rel="next">
+                  {% if LANGUAGE_BIDI %}
+                    {% icon "rewind.svg" %}
+                  {% else %}
+                    {% icon "fast-forward.svg" %}
+                  {% endif %}
+                {% translate "Skip" %}</a>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <ul class="nav nav-pills translation-tabs">
+          <li class="nav-item">
+            <a class="nav-link active"
+               data-bs-target="#nearby"
+               data-bs-toggle="tab"
+               id="toggle-nearby"
+               href="#"
+               title="{% translate "Messages placed around this one" %}">{% translate "Nearby strings" %} <span class="badge text-bg-secondary">{{ nearby|length }}</span></a>
+          </li>
+          {% if nearby_keys %}
+            <li class="nav-item">
+              <a class="nav-link"
+                 data-bs-target="#keys"
+                 data-bs-toggle="tab"
+                 id="toggle-keys"
+                 href="#"
+                 title="{% translate "Strings with similar keys" %}">{% translate "Similar keys" %} <span class="badge text-bg-secondary">{{ nearby_keys|length }}</span></a>
+            </li>
+          {% endif %}
+          {% if variants|length > 1 %}
+            <li class="nav-item">
+              <a class="nav-link"
+                 data-bs-target="#variants"
+                 data-bs-toggle="tab"
+                 id="toggle-variants"
+                 href="#"
+                 title="{% translate "Variants of the string" %}">{% translate "Variants" %} <span class="badge text-bg-secondary">{{ variants|length }}</span></a>
+            </li>
+          {% endif %}
+          {% if unit.suggestions %}
+            <li class="nav-item">
+              <a class="nav-link"
+                 data-bs-target="#suggestions"
+                 data-bs-toggle="tab"
+                 id="toggle-suggestions"
+                 href="#">{% translate "Suggestions" %} <span class="badge text-bg-secondary">{{ unit.suggestions|length }}</span></a>
+            </li>
+          {% endif %}
+          {% if others.total %}
+            <li class="nav-item">
+              <a class="nav-link"
+                 data-bs-target="#others"
+                 data-bs-toggle="tab"
+                 id="toggle-others"
+                 href="#">{% translate "Other occurrences" %} <span class="badge text-bg-secondary">{{ others.total }}</span></a>
+            </li>
+          {% endif %}
+          {% if unit.all_comments or user_can_add_comment %}
+            <li class="nav-item">
+              <a class="nav-link"
+                 data-bs-target="#comments"
+                 data-bs-toggle="tab"
+                 id="toggle-comments"
+                 href="#">{% translate "Comments" %}
+                {% if unit.all_comments %}<span class="badge text-bg-secondary">{{ unit.all_comments|length }}</span>{% endif %}
+              </a>
+            </li>
+          {% endif %}
+          {% if user_can_use_machinery %}
+            <li class="nav-item">
+              <a class="nav-link"
+                 data-bs-target="#machinery"
+                 data-bs-toggle="tab"
+                 id="toggle-machinery"
+                 data-load="machinery"
+                 href="#"
+                 title="{% translate "Computer-aided translation suggestions" %}">{% translate "Automatic suggestions" %}</a>
+            </li>
+          {% endif %}
+          <li class="nav-item">
+            <a class="nav-link"
+               data-bs-target="#translations"
+               data-bs-toggle="tab"
+               id="toggle-translations"
+               data-href="{% url 'js-unit-translations' unit_id=unit.id %}"
+               href="#"
+               title="{% translate "Translations of this string in the other languages" %}">{% translate "Other languages" %} <span class="badge text-bg-secondary">{{ unit.source_unit.unit_set.count|add:-1 }}</span> </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link"
+               data-bs-target="#history"
+               data-bs-toggle="tab"
+               id="toggle-history"
+               href="#"
+               title="{% translate "List of recent changes done in Weblate" %}">{% translate "History" %}</a>
+          </li>
+        </ul>
+
+        <div class="tab-content">
+
+          <div class="tab-pane active" id="nearby">
+            {% include "snippets/embed-units.html" with current_unit=unit units=nearby translation=unit.translation component=unit.translation.component actions_template="snippets/embed-units-clone.html" %}
+          </div>
+
+          {% if nearby_keys %}
+            <div class="tab-pane" id="keys">
+              {% include "snippets/embed-units.html" with current_unit=unit units=nearby_keys translation=unit.translation component=unit.translation.component actions_template="snippets/embed-units-clone.html" %}
+            </div>
+          {% endif %}
+
+          {% if variants|length > 1 %}
+            <div class="tab-pane" id="variants">
+              {% include "snippets/embed-units.html" with current_unit=unit units=variants translation=unit.translation component=unit.translation.component actions_template="snippets/embed-units-clone.html" %}
+            </div>
+          {% endif %}
+
+          {% if unit.suggestions %}
+            <div class="tab-pane" id="suggestions">
+              <form action="{{ this_unit_url }}" method="post">
+                {% csrf_token %}
+                <input type="hidden" name="checksum" value="{{ unit.checksum }}" />
+
+                {% include "snippets/suggestions.html" with suggestions=unit.suggestions %}
+              </form>
+            </div>
+          {% endif %}
+
+          {% if others.total %}
+            <div class="tab-pane" id="others">
+              {% if others.skipped %}
+                <p class="help-block">{% translate "Showing only subset of the strings as there were too many matches." %}</p>
+              {% endif %}
+              <form method="post"
+                    action="{{ unit.translation.get_translate_url }}?{{ search_url }}&amp;offset={{ offset }}&amp;checksum={{ unit.checksum }}">
+                {% csrf_token %}
+                <table class="table table-sm">
+                  <thead>
+                    <tr>
+                      <th></th>
+                      <th>{% translate "Component" %}</th>
+                      <th>{{ unit.translation.component.context_label }}</th>
+                      <th>{% translate "Source" %}</th>
+                      <th>{% translate "Translation" %}</th>
+                      <th>{% translate "Difference to current string" %}</th>
+                    </tr>
+                  </thead>
+                  {% if others.same %}
+                    <tbody>
+                      {% for item in others.same %}
+                        {% include "trans/other-row.html" %}
+                      {% endfor %}
+                    </tbody>
+                  {% endif %}
+                  {% if others.matching %}
+                    <tr>
+                      <th colspan="6" class="warning">
+                        {% blocktranslate count count=others.matching|length %}This string has the same context and source.{% plural %}These strings have the same context and source.{% endblocktranslate %}
+                      </th>
+                    </tr>
+                    <tbody>
+                      {% for item in others.matching %}
+                        {% include "trans/other-row.html" %}
+                      {% endfor %}
+                    </tbody>
+                  {% endif %}
+                  {% if others.source %}
+                    <tr>
+                      <th colspan="6" class="warning">
+                        {% blocktranslate count count=others.source|length %}This string has a different context, but the same source.{% plural %}These strings have differing context, but the same source.{% endblocktranslate %}
+                      </th>
+                    </tr>
+                    <tbody>
+                      {% for item in others.source %}
+                        {% include "trans/other-row.html" %}
+                      {% endfor %}
+                    </tbody>
+                  {% endif %}
+                  {% if others.context %}
+                    <tr>
+                      <th colspan="6" class="warning">
+                        {% blocktranslate count count=others.context|length %}This string has a different source, but the same context.{% plural %}These strings have differing sources, but the same context.{% endblocktranslate %}
+                      </th>
+                    </tr>
+                    <tbody>
+                      {% for item in others.context %}
+                        {% include "trans/other-row.html" %}
+                      {% endfor %}
+                    </tbody>
+                  {% endif %}
+                  {% if others.other %}
+                    <tr>
+                      <th colspan="6" class="warning">
+                        {% blocktranslate count count=others.other|length %}This string has a different source and context.{% plural %}These strings have differing sources and context.{% endblocktranslate %}
+                      </th>
+                    </tr>
+                    <tbody>
+                      {% for item in others.other %}
+                        {% include "trans/other-row.html" %}
+                      {% endfor %}
+                    </tbody>
+                  {% endif %}
+                </table>
+                {% if user_can_translate and others.allow_merge %}
+                  {% if object.component.allow_translation_propagation %}
+                    <input type="submit"
+                           value="{% translate "Apply selected translation to all propagated strings" %}"
+                           class="btn btn-primary" />
+                  {% else %}
+                    <input type="submit"
+                           value="{% translate "Apply selected translation to current string" %}"
+                           class="btn btn-primary" />
+                  {% endif %}
+                {% endif %}
+              </form>
+            </div>
+          {% endif %}
+
+          <div class="tab-pane" id="translations">
+            <p>{% translate "Loading…" %}</p>
+          </div>
+
+          <div class="tab-pane" id="history">
+            {% format_last_changes_content last_changes=last_changes user=user %}
+
+            <a class="btn btn-link" href="{% url 'changes' path=unit.get_url_path %}">{% translate "Browse all string changes" %}</a>
+          </div>
+
+          {% if user_can_use_machinery %}
+            <div class="tab-pane" id="machinery">
+              <form class="form-inline"
+                    id="memory-search"
+                    action="{% url 'js-memory' unit_id=unit.id %}">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label for="memory-search-input">{% translate "Translation memory" %}</label>
+                  <input type="text" class="form-control" id="memory-search-input" name="q">
+                </div>
+                <button type="submit" class="btn btn-primary">{% translate "Search" %}</button>
+              </form>
+              <table class="table table-compact table-striped">
+                <thead>
+                  <tr>
+                    <th>{% translate "Translation" %}</th>
+                    <th>{% translate "Suggested change" %}</th>
+                    <th>{% translate "Source" %}</th>
+                    <th>{% translate "Origin" %}</th>
+                    <th>{% translate "Similarity" %}</th>
+                    <th colspan="2">
+                      {% loading_icon "machinery" %}
+                    </th>
+                  </tr>
+                </thead>
+                <tbody id="machinery-translations">
+                </tbody>
+              </table>
+              <form action="" method="post" class="delete-url-form">
+                {% csrf_token %}
+                <input type="hidden" name="user" value="{{ user.username }}" />
+                <div class="modal fade" tabindex="-1" role="dialog" id="delete-url-modal">
+                  <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h4 class="modal-title">{% translate "Are you absolutely sure?" %}</h4>
+                        <button type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="{% translate "Close" %}"></button>
+                      </div>
+                      <div class="modal-body"></div>
+                      <div class="modal-footer">
+                        <input type="submit" class="btn btn-danger" value="{% translate "Remove" %}" />
+                      </div>
+                    </div>
+                    <!-- /.modal-content -->
+                  </div>
+                  <!-- /.modal-dialog -->
+                </div>
+                <!-- /.modal -->
+              </form>
+            </div>
+          {% endif %}
+
+          {% if unit.all_comments or user_can_add_comment %}
+            <div class="tab-pane" id="comments">
+
+              {% if unit.all_comments %}
+                {% include "list-comments.html" with object=unit.translation comments=unit.all_comments next_url=this_unit_url %}
+              {% endif %}
+
+              {% if user_can_add_comment %}
+                <form method="post"
+                      action="{% url 'comment' pk=unit.id %}"
+                      class="auto-save-translation"
+                      id="comment-form">
+                  {% csrf_token %}
+                  <input type="hidden" name="next" value="{{ this_unit_url }}#comments" />
+                  <div class="card">
+                    <div class="card-header">
+                      <h4 class="card-title">
+                        {% documentation_icon 'user/translating' 'comments' right=True %}
+                        {% translate "New comment" %}
+                      </h4>
+                    </div>
+                    <div class="card-body">
+                      <p class="help-block">{% translate "Comment on this string for fellow translators and developers to read." %}</p>
+                      {{ comment_form|crispy }}
+                    </div>
+                    <div class="card-footer">
+                      <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
+                    </div>
+                  </div>
+                </form>
+              {% endif %}
+
+            </div>
+          {% endif %}
+
+
+        </div>
+
+      </div>
+
+      <div class="col-sm-3 source-info">
+
+        {% if unit.all_checks or comments_to_check or unit.suggestions or variants|length > 1 or display_checks or unit.automatically_translated %}
+          <div class="card">
+            <div class="card-header text-bg-danger">
+              <h4 class="card-title">{% translate "Things to check" %}</h4>
+            </div>
+
+            <div class="list-group">
+              {% if unit.suggestions %}
+                <div class="list-group-item check">
+                  <h5 class="list-group-item-heading">
+                    {% documentation_icon 'user/translating' 'suggestions' right=True %}
+                    {% icon "suggest.svg" %}
+                    {% translate "Suggestions" %}
+                  </h5>
+                  <p class="list-group-item-text">
+                    {% blocktranslate count count=unit.suggestions|length %}There is {{ count }} suggestion for this string.{% plural %}There are {{ count }} suggestions for this string.{% endblocktranslate %}
+                  </p>
+                  <p class="list-group-item-text list-buttons">
+                    <a data="bs"
+                       target
+                       None="#suggestions"
+                       data-bs-toggle="tab"
+                       class="btn btn-warning"
+                       href="#">{% translate "View" %}</a>
+                  </p>
+                </div>
+              {% endif %}
+
+              {% for check in unit.all_checks %}
+                <div class="list-group-item check check-item {% if check.dismissed %}check-dismissed{% endif %}">
+                  <h5>
+                    {% documentation_icon 'user/checks' check.check_obj.doc_id right=True %}
+                    <span class="red">{% icon "alert.svg" %}</span>
+                    {{ check.get_name }}
+                    {% if check.is_enforced %}
+                      <span class="badge">{% translate "Enforced" %}</span>
+                    {% else %}
+                      <span class="check-number"></span>
+                    {% endif %}
+                  </h5>
+                  <p class="list-group-item-text check-description">{{ check.get_description }}</p>
+                  {% with fixup=check.get_fixup_json %}
+                    {% if fixup %}
+                      <p class="list-group-item-text list-buttons check-fixup">
+                        <a data-check-fixup="{{ fixup }}"
+                           class="btn btn-primary"
+                           {% if locked or not user_can_translate %}disabled="disabled"{% endif %}>{% translate "Fix string" %}</a>
+                      </p>
+                    {% endif %}
+                  {% endwith %}
+                  {% if not check.is_enforced %}
+                    <p class="list-group-item-text list-buttons">
+                      {% perm 'unit.check' check as user_can_ignore_check %}
+                      {% if user_can_ignore_check %}
+                        <a href="{% url 'js-ignore-check' check_id=check.id %}"
+                           data-check="{{ check.id }}"
+                           data-dismiss-all="{% url 'js-ignore-check-source' check_id=check.id %}"
+                           class="btn btn-warning check-dismiss check-dismiss-single">{% translate "Dismiss" %}</a>
+                        {% if user_can_edit_source %}
+                          <label class="dismiss-all">
+                            <input type="checkbox" name="dismiss-all-{{ check.id }}" />
+                            {% translate "For all languages" %}
+                          </label>
+                          <span class="info-tooltip"
+                                title="{% translate 'Selecting this option will set the corresponding ignore flag.' %}">{% icon "info.svg" %}</span>
+                        {% endif %}
+                      {% endif %}
+                      <a href="{% url 'js-ignore-check' check_id=check.id %}?revert=1"
+                         class="btn btn-info check-dismiss check-revert">{% translate "Reset" %}</a>
+                    </p>
+                  {% endif %}
+                </div>
+              {% endfor %}
+
+              {% comment %}Display only checks{% endcomment %}
+              {% for check in display_checks %}
+                <div class="list-group-item check check-item">
+                  <h5>
+                    {% documentation_icon 'user/checks' check.check_obj.doc_id right=True %}
+                    <span class="green">{% icon "check.svg" %}</span>
+                    {{ check.get_name }}
+                  </h5>
+                  <p class="list-group-item-text check-description">{{ check.get_description }}</p>
+                </div>
+              {% endfor %}
+
+              {% if comments_to_check %}
+                <div class="list-group-item check">
+                  <h5 class="list-group-item-heading">
+                    {% documentation_icon 'user/translating' 'comments' right=True %}
+                    {% icon "comment.svg" %}
+                    {% translate "Comments" %}
+                  </h5>
+                  <p class="list-group-item-text">
+                    {% blocktranslate count count=comments_to_check|length %}There is {{ count }} unresolved comment for this string.{% plural %}There are {{ count }} unresolved comments for this string.{% endblocktranslate %}
+                  </p>
+                  <p class="list-group-item-text list-buttons">
+                    <a data-bs-target="#comments"
+                       data-bs-toggle="tab"
+                       class="btn btn-warning"
+                       href="#">{% translate "View" %}</a>
+                  </p>
+                </div>
+              {% endif %}
+
+              {% if variants|length > 1 %}
+                <div class="list-group-item check">
+                  <h5 class="list-group-item-heading">
+                    {% documentation_icon 'user/translating' 'variants' right=True %}
+                    {% icon "variant.svg" %}
+                    {% translate "Variants" %}
+                  </h5>
+                  <p class="list-group-item-text">
+                    {% blocktranslate count count=variants|length %}There is {{ count }} variant of this string.{% plural %}There are {{ count }} variants of this string.{% endblocktranslate %}
+                  </p>
+                  <p class="list-group-item-text list-buttons">
+                    <a data-bs-target="#variants"
+                       data-bs-toggle="tab"
+                       class="btn btn-warning"
+                       href="#">{% translate "View" %}</a>
+                  </p>
+                </div>
+              {% endif %}
+
+              {% if unit.automatically_translated %}
+                <div class="list-group-item check check-item check-automatically-translated">
+                  <h5>
+                    <span class="green">{% icon "check.svg" %}</span>
+                    {% translate "Automatically translated" %}
+                  </h5>
+                  <p class="list-group-item-text check-description">
+                    {% blocktranslate with author=unit.get_last_author %}This string was translated automatically by {{ author }}.{% endblocktranslate %}
+                  </p>
+                  {% if user_can_translate %}
+                    <p class="list-group-item-text list-buttons">
+                      <a href="{% url 'js-dismiss-automatically-translated' unit_id=unit.id %}"
+                         class="btn btn-warning dismiss-automatically-translated">{% translate "Dismiss" %}</a>
+                    </p>
+                  {% endif %}
+                </div>
+              {% endif %}
+
+            </div>
+          </div>
+        {% endif %}
+
+
+        {% if not unit.translation.component.hide_glossary_matches %}
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">
+                {% for glossary in unit.translation.get_glossaries %}
+                  <a class="float-end btn btn-link btn-xs btn-{{ glossary.component.glossary_color }}"
+                     title="{% blocktranslate with name=glossary.component.name %}Browse glossary {{ name }}{% endblocktranslate %}"
+                     href="{% url 'browse' glossary.get_url_path %}">{% icon "folder-search-outline.svg" %}</a>
+                {% endfor %}
+                {% loading_icon "glossary-add" %}
+                {% translate "Glossary" %}
+              </h4>
+            </div>
+            <table class="table table-sm table-simple">
+              <thead>
+                <tr>
+                  <th>{{ unit.translation.component.source_language }}</th>
+                  <th>{{ unit.translation.language }}</th>
+                  <th></th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="glossary-terms">
+                {% include "snippets/glossary.html" %}
+              </tbody>
+            </table>
+            {% if user_can_add_glossary and addterm_form.fields.translation.queryset %}
+              <div class="card-footer card-footer-links">
+                <a class="btn btn-link green"
+                   href="#"
+                   data-bs-toggle="modal"
+                   data-bs-target="#add-glossary-form">{% icon "plus-circle.svg" %} {% translate "Add term to glossary" %}</a>
+              </div>
+            {% endif %}
+          </div>
+        {% endif %}
+
+        <div class="card string-info">
+          <div class="card-header">
+            <h4 class="card-title">
+              {% documentation_icon 'user/translating' 'source-context' right=True %}
+              <span class="float-end text-muted"
+                    title="{% translate "Unit identifier" %}"
+                    data-clipboard-value="{{ unit.id }}"
+                    data-clipboard-message="{% translate "Unit identifier copied to clipboard." %}">{{ unit.id }}</span>
+              {% translate "String information" %}
+            </h4>
+          </div>
+          <div class="list-group">
+            {% if path_object != unit.translation %}
+              <div class="list-group-item">
+                <h5>{% translate "Component" %}</h5>
+                <a href="{{ unit.translation.component.get_absolute_url }}">{{ unit.translation.component }}</a>
+              {% endif %}
+            </div>
+
+            {% if screenshots or user_can_add_screenshot %}
+              <div class="list-group-item">
+                <h5>
+                  {% if user_can_add_screenshot %}
+                    <a class="btn btn-link btn-xs float-end"
+                       id="edit-screenshot"
+                       href="{% url 'screenshots' path=unit.translation.component.get_url_path %}">{% icon "pencil.svg" %}</a>
+                  {% endif %}
+                  {% translate "Screenshot context" %}
+                </h5>
+                {% for screenshot in screenshots %}
+                  {% include "screenshots/screenshot_show.html" %}
+                {% empty %}
+                  <em>{% translate "No screenshot currently associated." %}</em>
+                {% endfor %}
+                {% if user_can_add_screenshot %}
+                  <br />
+                  <a class="btn btn-link green"
+                     href="#"
+                     data-bs-toggle="modal"
+                     data-bs-target="#add-screenshot-form">{% icon "plus-circle.svg" %} {% translate "Add screenshot" %}</a>
+                {% endif %}
+              </div>
+            {% endif %}
+            {% if unit.source_unit.explanation or user_can_edit_source %}
+              <div class="list-group-item">
+                <h5>
+                  {% if user_can_edit_source %}
+                    <a class="btn btn-link btn-xs float-end"
+                       id="edit-context"
+                       href="#"
+                       data-bs-toggle="modal"
+                       data-focus="#id_explanation"
+                       data-bs-target="#context-edit-form">{% icon "pencil.svg" %}</a>
+                  {% endif %}
+                  {% translate "Explanation" %}
+                </h5>
+                {% if unit.source_unit.explanation %}
+                  <p>{{ unit.source_unit.explanation|markdown }}</p>
+                {% else %}
+                  <em>{% translate "No explanation currently provided." %}</em>
+                {% endif %}
+              </div>
+            {% endif %}
+            {% if unit.context %}
+              <div class="list-group-item">
+                <h5>{{ unit.translation.component.context_label }}</h5>
+                {% format_source_string unit.context unit search_match=search_query simple=True wrap=True %}
+              </div>
+            {% endif %}
+            {% if unit.note %}
+              <div class="list-group-item">
+                <h5>{% translate "Source string description" %}</h5>
+                {{ unit.note|urlize_ugc }}
+              </div>
+            {% endif %}
+            {% if unit.all_labels or user_can_edit_source %}
+              <div class="list-group-item">
+                <h5>
+                  {% if user_can_edit_source %}
+                    <a class="btn btn-link btn-xs float-end"
+                       href="#"
+                       data-bs-toggle="modal"
+                       data-focus="#id_labels"
+                       data-bs-target="#context-edit-form">{% icon "pencil.svg" %}</a>
+                  {% endif %}
+                  {% translate "Labels" %}
+                </h5>
+                {% for label in unit.all_labels %}
+                  <a href="?q={{ label.filter_name|urlencode }}">
+                    <span class="badge label-{{ label.color }}" title="{{ label.description }}">{% translate label.name %}</span>
+                  </a>
+                {% empty %}
+                  <em>{% translate "No labels currently set." %}</em>
+                {% endfor %}
+              </div>
+            {% endif %}
+            {% if unit.all_flags or user_can_edit_source %}
+              <div class="list-group-item" id="info_all_flags">
+                <h5>
+                  {% if user_can_edit_source %}
+                    <a class="btn btn-link btn-xs float-end"
+                       href="#"
+                       data-bs-toggle="modal"
+                       data-focus="#id_extra_flags"
+                       data-bs-target="#context-edit-form">{% icon "pencil.svg" %}</a>
+                  {% endif %}
+                  {% translate "Flags" %}
+                </h5>
+                <div id="unit_all_flags">
+                  {% if unit.all_flags %}
+                    {{ unit.all_flags.format }}
+                  {% else %}
+                    <em>{% translate "No flags currently set." %}</em>
+                  {% endif %}
+                </div>
+              </div>
+            {% endif %}
+            {% if unit.location or unit.source_unit.location %}
+              <div class="list-group-item">
+                <h5>{% translate "Source string location" %}</h5>
+                {% get_location_links user unit %}
+              </div>
+            {% endif %}
+            <div class="list-group-item">
+              {# Translators: Label for timestamp when the string was first imported into Weblate. #}
+              <h5>{% translate "String age" %}</h5>
+              {{ unit.timestamp|naturaltime }}
+            </div>
+            <div class="list-group-item">
+              {# Translators: Label for timestamp when the string was last updated in Weblate. #}
+              <h5>{% translate "Last updated" %}</h5>
+              {{ unit.last_updated|naturaltime }}
+            </div>
+            <div class="list-group-item">
+              {# Translators: Label for timestamp when the source string was first imported into Weblate. #}
+              <h5>{% translate "Source string age" %}</h5>
+              {{ unit.source_unit.timestamp|naturaltime }}
+            </div>
+            {% if unit.position %}
+              <div class="list-group-item">
+                <h5>{% translate "Translation file" %}</h5>
+                <span>
+                  {% if unit.translation.filename %}
+                    <span class="wrap-text">{% blocktranslate with filename=translation_file_link position=unit.position %}{{ filename }}, string {{ position }}{% endblocktranslate %}</span>
+                  {% else %}
+                    <span class="wrap-text">{% blocktranslate with position=unit.position %}string {{ position }}{% endblocktranslate %}</span>
+                  {% endif %}
+                  {% if unit.has_pending_changes %}
+                    <span class="badge"
+                          title="{% translate "Pending changes not yet committed to the Weblate repository" %}">{% translate "pending" %}</span>
+                  {% endif %}
+                </span>
+              </div>
+            {% endif %}
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <a href="{% url 'js-translate' unit_id=unit.id service="__service__" %}"
+       class="hidden"
+       id="js-translate"
+       data-services="{{ machinery_services }}"></a>
+
+    <form method="post" action="{% url 'edit_context' pk=unit.source_unit.pk %}">
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ this_unit_url }}" />
+      <div class="modal fade" tabindex="-1" role="dialog" id="context-edit-form">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">{% translate "Edit additional string info" %}</h4>
+              <button type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="{% translate "Close" %}"></button>
+            </div>
+            <div class="modal-body">
+              {% crispy context_form %}
+              {% if unit.translation.check_flags or unit.translation.component.check_flags or unit.flags or unit.translation.component.file_format_flags %}
+                <div class="form-group">
+                  <label>
+                    {% translate "Inherited flags" %}
+                    {% documentation_icon 'admin/checks' 'custom-checks' %}
+                  </label>
+                  <div class="controls">
+                    {% if unit.flags %}
+                      <p>
+                        {% blocktranslate with filename=unit.translation.filename flags=unit.flags %}<code>{{ flags }}</code> was extracted from {{ filename }}.{% endblocktranslate %}
+                      </p>
+                    {% endif %}
+                    {% if unit.translation.check_flags %}
+                      <p>
+                        {% blocktranslate with object=unit.translation flags=unit.translation.check_flags %}<code>{{ flags }}</code> is inherited from {{ object }}.{% endblocktranslate %}
+                      </p>
+                    {% endif %}
+                    {% if unit.translation.component.check_flags %}
+                      <p>
+                        {% blocktranslate with object=unit.translation.component flags=unit.translation.component.check_flags %}<code>{{ flags }}</code> is inherited from {{ object }}.{% endblocktranslate %}
+                      </p>
+                    {% endif %}
+                    {% if unit.translation.component.file_format_flags %}
+                      <p>
+                        {% blocktranslate with object=unit.translation.component.file_format_name flags=unit.translation.component.file_format_flags.format %}<code>{{ flags }}</code> is inherited from {{ object }}.{% endblocktranslate %}
+                      </p>
+                    {% endif %}
+                    {% if unit.translation.component.project.check_flags %}
+                      <p>
+                        {% blocktranslate with object=unit.translation.component.project flags=unit.translation.component.project.check_flags %}<code>{{ flags }}</code> is inherited from {{ object }}.{% endblocktranslate %}
+                      </p>
+                    {% endif %}
+                  </div>
+                </div>
+              {% endif %}
+            </div>
+            <div class="modal-footer">
+              <input type="submit" class="btn btn-primary" value="{% translate "Save" %}" />
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+    </form>
+
+  {% endwith %}
+
+  {% if user_can_add_unit %}
+    <form action="{% url 'new-unit' path=unit.translation.get_url_path %}" method="post">
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ this_unit_url }}" />
+      <div class="modal fade" tabindex="-1" role="dialog" id="add-unit-form">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="card-title">
+                {% blocktranslate with existing=unit.get_source_plurals.0 %}Add a new variant for "{{ existing }}"{% endblocktranslate %}
+              </h4>
+              <button type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="{% translate "Close" %}"></button>
+            </div>
+            <div class="modal-body">{{ new_unit_form|crispy }}</div>
+            <div class="modal-footer">
+              <input type="submit" class="btn btn-primary" value="{% translate "Add" %}" />
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+    </form>
+  {% endif %}
+
+  {% if screenshot_form %}
+    <form action="{% url 'screenshots' path=unit.translation.component.get_url_path %}"
+          method="post"
+          enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="modal fade" tabindex="-1" role="dialog" id="add-screenshot-form">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">{% translate "Add new screenshot" %}</h4>
+              <button type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="{% translate "Close" %}"></button>
+            </div>
+            <div class="modal-body">
+              <div id="screenshot-form-container">{{ screenshot_form|crispy }}</div>
+              <input type="hidden" name="source" value="{{ unit.pk }}" />
+            </div>
+            <div class="modal-footer">
+              <input type="submit" class="btn btn-primary" value="{% translate "Upload" %}" />
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+    </form>
+  {% endif %}
+  {% if not unit.translation.component.hide_glossary_matches and user_can_add_glossary and addterm_form.fields.translation.queryset %}
+    <form action="{% url 'js-add-glossary' unit_id=unit.id %}"
+          method="post"
+          class="add-dict-inline double-submission">
+      {% csrf_token %}
+      <input type="hidden" name="next" value="{{ this_unit_url }}" />
+      <div class="modal fade" tabindex="-1" role="dialog" id="add-glossary-form">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">{% translate "Add term to glossary" %}</h4>
+              <button type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="{% translate "Close" %}"></button>
+            </div>
+            <div class="modal-body">{{ addterm_form|crispy }}</div>
+            <div class="modal-footer">
+              <input type="submit" class="btn btn-primary" value="{% translate "Save" %}" />
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+    </form>
+  {% endif %}
+
+{% endblock content %}

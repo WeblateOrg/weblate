@@ -1,0 +1,25 @@
+{% extends "mail/base.html" %}
+
+{% load i18n translations %}
+
+{% block content %}
+
+  {% include "mail/snippets/source-string.html" %}
+
+  <h2>{% translate "Translation" %}</h2>
+
+  {% format_unit_target unit value=target %}
+
+  {% if old %}
+    <h2>{% translate "Translation change" %}</h2>
+
+    {% format_unit_target unit value=target diff=old %}
+  {% endif %}
+
+  <div class="line buttons">
+    <a class="button" href="{{ unit.get_absolute_url }}">{% translate "Edit this string" %}</a>
+  </div>
+
+  {% include "mail/snippets/unit-screenshots.html" %}
+
+{% endblock content %}

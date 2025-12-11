@@ -1,0 +1,186 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+repos:
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v6.0.0
+  hooks:
+  - id: trailing-whitespace
+  - id: end-of-file-fixer
+  - id: check-yaml
+  - id: check-xml
+  - id: check-toml
+  - id: check-merge-conflict
+  - id: check-json
+  - id: debug-statements
+  - id: mixed-line-ending
+    args: [--fix=lf]
+  - id: pretty-format-json
+    args: [--no-sort-keys, --autofix, --no-ensure-ascii]
+    exclude: ^weblate/trans/fixtures/simple-project.json|weblate/trans/tests/data/.*.json$
+- repo: https://github.com/adamchainz/django-upgrade
+  rev: 1.29.1
+  hooks:
+  - id: django-upgrade
+    args: [--target-version, '5.1']
+- repo: https://github.com/adamchainz/djade-pre-commit
+  rev: 1.7.0
+  hooks:
+  - id: djade
+    args: [--target-version, '5.1']
+    types_or: [html, text]
+    files: ^weblate/.*templates/.*\.(txt|html|tmx)$
+- repo: https://github.com/adrienverge/yamllint
+  rev: v1.37.1
+  hooks:
+  - id: yamllint
+- repo: https://github.com/astral-sh/ruff-pre-commit
+  rev: v0.14.8
+  hooks:
+  - id: ruff-check
+    args:
+    - --fix
+    - --exit-non-zero-on-fix
+  - id: ruff-format
+- repo: https://github.com/adamtheturtle/doccmd-pre-commit
+  rev: v2025.12.10
+  hooks:
+  - id: doccmd
+    args: [--language, python, --no-pad-file, --command, ruff format]
+    additional_dependencies:
+    - ruff==0.14.8
+- repo: meta
+  hooks:
+  - id: check-hooks-apply
+  - id: check-useless-excludes
+- repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
+  rev: v2.15.0
+  hooks:
+  - id: pretty-format-yaml
+    args: [--autofix, --indent, '2']
+- repo: https://github.com/pappasam/toml-sort
+  rev: v0.24.3
+  hooks:
+  - id: toml-sort-fix
+- repo: https://github.com/executablebooks/mdformat
+  rev: 1.0.0
+  hooks:
+  - id: mdformat
+    additional_dependencies:
+    - mdformat-gfm==1.0.0
+- repo: https://github.com/scop/pre-commit-shfmt
+  rev: v3.12.0-2
+  hooks:
+  - id: shfmt
+    args: [--write]
+- repo: https://github.com/fsfe/reuse-tool
+  rev: v6.2.0
+  hooks:
+  - id: reuse
+- repo: https://github.com/shellcheck-py/shellcheck-py
+  rev: v0.11.0.1
+  hooks:
+  - id: shellcheck
+    require_serial: true
+- repo: https://github.com/biomejs/pre-commit
+  rev: v2.3.8
+  hooks:
+  - id: biome-check
+    args: [--error-on-warnings]
+    additional_dependencies:
+    - '@biomejs/biome@2.3.8'
+- repo: https://github.com/abravalheri/validate-pyproject
+  rev: v0.24.1
+  hooks:
+  - id: validate-pyproject
+- repo: https://github.com/djlint/djLint
+  rev: v1.36.4
+  hooks:
+  - id: djlint-reformat-django
+    types_or: [html, text]
+    files: ^weblate/.*templates/.*\.(txt|html|tmx)$
+  - id: djlint-django
+    types_or: [html, text]
+    files: ^weblate/.*templates/.*\.(txt|html|tmx)$
+- repo: https://github.com/pre-commit/pygrep-hooks
+  rev: v1.10.0
+  hooks:
+  - id: rst-directive-colons
+  - id: rst-inline-touching-normal
+- repo: local
+  hooks:
+  - id: rst-double-space
+    name: rst text with double space
+    description: Detect mistake of rst containing double space
+    types: [rst]
+    entry: \S  +(?![\| +])
+    language: pygrep
+    exclude: docs/devel/reporting-example.rst|docs/admin/addons.rst|docs/snippets/file-format-parameters.rst
+  - id: rst-http
+    name: http link in rst text
+    description: Detect mistake of using http links
+    types: [rst]
+    entry: http://(?!example\.|[a-z]*\.example\.|weblate:|localhost|anubis|127\.0\.0\.1|user:password@proxy|libretranslate:)
+    language: pygrep
+  - id: rst-bullet-stop
+    name: Changes end with a stop
+    description: Bullet list in changes should end with a stop.
+    files: docs/changes\.rst
+    entry: ^ *\* .*[^.]\n$
+    language: pygrep
+  - id: rst-seealso-inline
+    name: seealso should use block
+    types: [rst]
+    entry: '^\.\. seealso:: .*$'
+    language: pygrep
+  - id: rst-seealso-list
+    name: seealso should use list for multiple lines
+    types: [rst]
+    args: [--multiline]
+    entry: ^\.\. seealso::\n\n(   *[:`*][^\n]*\n)*   *[:`*][^\n]*,
+    language: pygrep
+  - id: py-join-comma
+    name: Localized comma in join
+    types: [python]
+    args: [--multiline]
+    entry: format_html_join\(\s*", "
+    language: pygrep
+- repo: https://github.com/sphinx-contrib/sphinx-lint
+  rev: v1.0.2
+  hooks:
+  - id: sphinx-lint
+- repo: https://github.com/codespell-project/codespell
+  rev: v2.4.1
+  hooks:
+  - id: codespell
+    additional_dependencies:
+    - tomli
+    exclude: client/yarn.lock
+- repo: https://github.com/crate-ci/typos
+  rev: v1.40.0
+  hooks:
+  - id: typos
+    args: []
+    require_serial: true
+    pass_filenames: false
+- repo: https://github.com/rhysd/actionlint
+  rev: v1.7.9
+  hooks:
+  - id: actionlint
+- repo: https://github.com/zizmorcore/zizmor-pre-commit
+  rev: v1.18.0
+  hooks:
+  - id: zizmor
+- repo: https://github.com/docker-compose-linter/pre-commit-dclint
+  rev: v3.1.0
+  hooks:
+  - id: dclint
+    files: ^.*/(docker-)?compose(-.*)?\.ya?ml$
+- repo: https://github.com/gitleaks/gitleaks
+  rev: v8.30.0
+  hooks:
+  - id: gitleaks
+exclude: ^.*\.(csv|svg|wsdl(\.[^.]*)?)|weblate/trans/tests/data/memory-broken\.json|weblate/templates/browserconfig\.xml|weblate/templates/configuration/custom\.css|weblate/trans/tests/data/cs-CZ\.rc|weblate/static/vendor/.*|weblate/static/js/vendor/.*|weblate/static/styles/vendor/.*|docs/make\.bat|weblate/templates/addons/js/weblate\.js|uv\.lock|docs/specs/openapi.yaml$
+ci:
+  autoupdate_schedule: quarterly
+  skip:
+  - reuse

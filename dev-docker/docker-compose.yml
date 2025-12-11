@@ -1,0 +1,71 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+##########
+# WARNING!
+# This docker-compose file is meant to be used in the development process
+# and WILL perform very poorly in production.
+#
+# For production-ready docker-compose file see:
+# https://github.com/WeblateOrg/docker-compose
+#########
+
+services:
+  cache:
+    image: redis:8.4.0-alpine@sha256:6cbef353e480a8a6e7f10ec545f13d7d3fa85a212cdcc5ffaf5a1c818b9d3798
+    volumes:
+    - redis-data:/data
+    command: [redis-server, --save, '60', '1']
+    restart: always
+  database:
+    image: postgres:18.1-alpine@sha256:eca6fb2d91fda290eb8cfb8ba53dd0dcbf3508a08011e30adb039ea7c8e1e9f2
+    volumes:
+    - postgres-data:/var/lib/postgresql
+    - ./postgres-init:/docker-entrypoint-initdb.d
+    env_file:
+    - ./environment
+    ports:
+    - 5433:5432
+    restart: always
+  maildev:
+    image: maildev/maildev:2.2.1@sha256:180ef51f65eefebb0e7122d8308813c1fd7bff164bc440ce5a3c2feee167a810
+    ports:
+    - 1080:1080
+  weblate:
+    image: weblate-dev:latest
+    build:
+      context: ./weblate-dev/
+      args:
+        USER_ID: ${USER_ID}
+        GROUP_ID: ${GROUP_ID}
+    depends_on:
+    - cache
+    - database
+    - maildev
+    volumes:
+      # Local data directory
+    - $PWD/data:/app/data   # Override Weblate with local dir
+    - $PWD/..:/app/src
+    environment:
+      DJANGO_SETTINGS_MODULE: weblate.settings_docker
+      WEBLATE_SITE_DOMAIN: ${WEBLATE_HOST}
+      WEBLATE_EMAIL_HOST: maildev
+      WEBLATE_EMAIL_PORT: 1025
+      WEBLATE_EMAIL_USE_TLS: 0
+      WEBLATE_EMAIL_USE_SSL: 0
+    env_file:
+    - ./environment
+    ports:
+    - ${WEBLATE_PORT}:8080
+    restart: always
+    user: $USER_ID:$GROUP_ID
+    tmpfs:
+    - /app/cache:uid=$USER_ID,gid=$GROUP_ID
+    - /tmp:uid=$USER_ID,gid=$GROUP_ID,exec
+    - /run:uid=$USER_ID,gid=$GROUP_ID
+    userns_mode: host
+volumes:
+  weblate-data: {}
+  postgres-data: {}
+  redis-data: {}

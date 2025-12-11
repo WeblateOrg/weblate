@@ -1,0 +1,71 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: CC0-1.0
+#
+# Issue lifecycle: Add "Waiting for: Release" label when resolving an issue
+
+name: 'Issues: Mark resolved issue'
+
+on:
+  issues:
+    types: [closed]
+
+permissions:
+  contents: read
+
+concurrency:
+  # Avoid double execution as this can be triggered from commit and pull request
+  # causing two closing events being delivered to the issue.
+  group: ${{ github.workflow }}-${{ github.event.issue.id }}
+  cancel-in-progress: true
+
+jobs:
+  apply-label:
+    permissions:
+      issues: write
+    runs-on: ubuntu-slim
+    if: '! github.event.issue.pull_request'
+    steps:
+    - uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
+      with:
+        script: |
+          const labels = await github.rest.issues.listLabelsOnIssue({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+          });
+          for (const label of labels.data) {
+            if (label.name.startsWith('Waiting for: ')) {
+              console.log(`Removing label ${label.name}`);
+              await github.rest.issues.removeLabel({
+
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: label.name,
+              })
+            }
+          }
+          console.log(context.payload);
+          if (context.payload.issue.state_reason == 'completed' && context.payload.issue.milestone && context.payload.issue.milestone.state == 'open') {
+            await github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['Waiting for: Release']
+            })
+            await github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: `
+          Thank you for your report — the issue has now been resolved.
+
+          The fix has been merged into the repository and will be included in the upcoming Weblate ${context.payload.issue.milestone.title} release.
+
+          * If you encounter any issues with the fix, please comment in this thread.
+          * If you experience a similar but separate issue, open a new report so we can track it properly.
+          * If you find Weblate helpful, consider [supporting its development](https://weblate.org/donate/).
+          `
+            })
+          }

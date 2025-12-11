@@ -1,0 +1,57 @@
+/*
+ * Copyright © Michal Čihař <michal@weblate.org>
+ *
+ * SPDX-License-Identifier: GPL-3.0-or-later
+ */
+
+.multi-wrapper .non-selected-wrapper,
+.multi-wrapper .selected-wrapper {
+  height: 35vh;
+  min-height: 200px;
+}
+
+.multi-wrapper .item {
+  cursor: pointer;
+  display: inline-flex;
+  padding: 5px 10px;
+  margin: 5px 10px;
+  border-radius: 4px;
+  min-width: 120px;
+  text-decoration: none;
+  background-color: #ffffff;
+  box-shadow: 1px 2px 4px #00000010;
+  transition: transform 100ms;
+}
+
+@media (prefers-color-scheme: dark) {
+  .multi-wrapper .item {
+    background-color: #ffffff20;
+  }
+}
+
+body[data-theme="dark"] .multi-wrapper .item {
+  background-color: #ffffff20;
+}
+
+body[data-bs-theme="dark"] .multi-wrapper .item {
+  background-color: #ffffff20;
+}
+
+.multi-wrapper .item:hover {
+  transform: scale(1.05);
+}
+
+@media (max-width: 768px) {
+  .multi-wrapper .non-selected-wrapper,
+  .multi-wrapper .selected-wrapper {
+    height: 200px;
+    width: 100%;
+  }
+}
+
+@media (min-height: 1200px) {
+  .multi-wrapper .non-selected-wrapper,
+  .multi-wrapper .selected-wrapper {
+    height: 70vh;
+  }
+}

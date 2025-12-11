@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags i18n %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'contact' %}">{% translate "Contact" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  <div class="container">
+
+    <div class="alert alert-warning alert-contact-form">
+      <ul>
+        <li>
+          {% if site_title != "Weblate" %}
+            {% blocktranslate %}You can only contact administrators of {{ site_title }} server here.{% endblocktranslate %}
+          {% else %}
+            {% blocktranslate %}You can only contact administrators of the whole server here.{% endblocktranslate %}
+          {% endif %}
+        </li>
+        <li>
+          {% blocktranslate %}For questions about a specific translation project, don’t use this form. Refer to the project’s Info tab and contact its maintainers.{% endblocktranslate %}
+        </li>
+        {% if offer_hosting %}
+          <li>
+            {% blocktranslate %}If you seek support for any other Weblate deployment than {{ site_title }}, please check support offerings at {{ weblate_link }} or use this form on the correct server.{% endblocktranslate %}
+          </li>
+        {% endif %}
+        <li>
+          {% blocktranslate with link_start='<a href="https://github.com/WeblateOrg/weblate/issues/new/choose">' link_end='</a>' %}Weblate development ideas and questions can be sent to the {{ link_start }}Weblate issue tracker{{ link_end }}.{% endblocktranslate %}
+        </li>
+      </ul>
+    </div>
+
+    <form method="post" action="{% url 'contact' %}">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{% translate "Contact server administrators" %}</h4>
+        </div>
+        <div class="card-body">
+          {% csrf_token %}
+          {{ form|crispy }}
+        </div>
+        <div class="card-footer">
+          <input type="submit" value="{% translate "Send" %}" class="btn btn-primary" />
+        </div>
+      </div>
+    </form>
+
+  </div>
+
+{% endblock content %}

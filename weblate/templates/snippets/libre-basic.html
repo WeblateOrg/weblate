@@ -1,0 +1,33 @@
+{% load i18n %}
+
+<p>
+  {% translate "Please check in advance whether your project is eligible for gratis project hosting on this site." %}
+</p>
+
+<h4>{% translate "Libre project with open-source code" %}</h4>
+<ul>
+  <li>
+    {% blocktranslate with link_osi_start='<a href="https://opensource.org/licenses" target="_blank" rel="external">' link_fsf_start='<a href="https://www.gnu.org/licenses/license-list.html" target="_blank" rel="external">' link_end='</a>' %}Translated content has to be released under a license {{ link_osi_start }}approved by OSI{{ link_end }} or {{ link_fsf_start }}recognized as libre by FSF{{ link_end }}.{% endblocktranslate %}
+  </li>
+  <li>
+    {% translate "All the source code has to be libre-licensed and publicly available in a supported version control system." %}
+  </li>
+  <li>
+    {% translate "Translations have to be in the same repository as the source code, or under the same project/organization as the source code repository." %}
+  </li>
+  <li>{% translate "Non-code projects (such as books or graphic content) are also welcome." %}</li>
+</ul>
+
+<h4>{% translate "Project approval" %}</h4>
+<ul>
+  <li>{% translate "Using Weblate has been approved by the upstream project." %}</li>
+  <li>
+    {% translate "Mention you use Weblate for translations in the README. It’ll attract new translators and also help Weblate to be free for more projects." %}
+  </li>
+</ul>
+
+<h4>{% translate "Established projects" %}</h4>
+<ul>
+  <li>{% translate "The project receives a reasonable number of contributions." %}</li>
+  <li>{% translate "The project has had active development for at least three months." %}</li>
+</ul>

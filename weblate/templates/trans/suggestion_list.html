@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% load i18n translations %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url "user_list" %}">{% translate "Users" %}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{{ page_profile.get_absolute_url }}">{{ page_profile.get_user_name }}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'user_suggestions' user=page_user.username %}">{% translate "Suggestions" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  {% include "snippets/suggestions.html" with suggestions=object_list multi_unit=1 %}
+
+  {% include "paginator.html" %}
+
+{% endblock content %}

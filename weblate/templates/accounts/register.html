@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% load authnames crispy_forms_tags i18n translations %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'register' %}">{% translate "Registration" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  {% if registration_email or registration_backends %}
+
+    <div class="container">
+
+      {% if invitation %}
+        <div class="alert alert-info">
+          {% include "snippets/invite-info.html" %}
+          {% translate "Please complete the registration to accept the invitation." %}
+        </div>
+      {% endif %}
+
+      {% if form.errors %}
+        {% translate "Please fix errors in the registration form." as msg %}
+        {% show_message "error" msg %}
+      {% endif %}
+
+      <h2>{% include "accounts/snippets/login-title.html" %}</h2>
+      <div class="row">
+
+        <div class="col-sm-6 order-sm-2">
+
+          <h4>
+            {% format_site_title as formatted_site_title %}
+            {% blocktranslate %}Register in {{ formatted_site_title }}{% endblocktranslate %}
+          </h4>
+
+          <div class="card">
+            <div class="card-body">
+
+              {% if registration_email %}
+
+                <form action="{% url 'register' %}" method="post" accept-charset="utf-8">
+                  {% crispy form %}
+                  <input type="submit"
+                         value="{% translate 'Register' %}"
+                         class="btn btn-primary btn-full" />
+                </form>
+
+              {% endif %}
+
+              {% if registration_backends %}
+
+                <h5 class="login-label">{% translate "Create an account using:" %}</h5>
+                <div class="container-fluid">
+                  <div class="row row-cols-md-2 row-cols-1">
+                    {% for name in registration_backends %}
+                      <div class="col btn-auth">
+                        <a href=""
+                           class="btn btn-outline-primary link-post"
+                           data-href="{% url 'social:begin' name %}"
+                           {% if next %}data-params='{"next": "{{ next|escapejs }}"}'{% endif %}>{% auth_name name " " %}</a>
+                      </div>
+                    {% endfor %}
+                  </div>
+                </div>
+
+              {% endif %}
+            </div>
+          </div>
+        </div>
+
+        <div class="col-sm-6 order-sm-1">{% include "accounts/snippets/login-info.html" %}</div>
+
+      </div>
+
+    </div>
+  {% else %}
+
+    <p>
+      {% translate "Sorry, new registrations are turned off on this site." %}
+      {% if contact_form != "disabled" %}
+        {% url 'contact' as contact_url %}
+        <a href="{{ contact_url }}">{% translate "You can contact us for more details." %}</a>
+      {% endif %}
+    </p>
+
+  {% endif %}
+{% endblock content %}

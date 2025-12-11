@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# Missing migrations detection
+
+. ci/lib.sh
+
+cleanup_database
+run_coverage ./manage.py migrate
+run_coverage ./manage.py makemigrations
+check
+if [ "$(git status -s -- '*/migrations/*' | wc -l)" -gt 0 ]; then
+    echo 'There are untracked migrations:'
+    git status -s --porcelain -- '*/migrations/*' | sed -n '/^??/ s/^?? \(.*\)/\1/p' | while read -r migration; do
+        echo "$migration"
+        cat "$migration"
+        echo
+    done
+    exit 1
+fi

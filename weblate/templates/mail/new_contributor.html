@@ -1,0 +1,11 @@
+{% extends "mail/base.html" %}
+
+{% load i18n translations %}
+
+{% block content %}
+  <h2>{% translate "Congratulations" %}</h2>
+  <p>
+    {% blocktranslate with username=user.get_visible_name %}The user {{ username }} has just made a first contribution.{% endblocktranslate %}
+  </p>
+
+{% endblock content %}

@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags humanize i18n icons permissions translations %}
+
+{% block breadcrumbs %}
+  {% if project %}
+    <li class="breadcrumb-item">
+      <a href="{{ project.get_absolute_url }}">{{ project }}</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a href="{% url 'machinery-list' project=project.slug %}">{% translate "Automatic suggestions" %}</a>
+    </li>
+  {% else %}
+    <li class="breadcrumb-item">
+      <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a href="{% url 'manage-machinery' %}">{% translate "Automatic suggestions" %}</a>
+    </li>
+  {% endif %}
+{% endblock breadcrumbs %}
+
+{% block content %}
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">
+        {% documentation_icon 'admin/machine' right=True %}
+        {% translate "Configured automatic suggestion services" %}
+      </h4>
+    </div>
+    <table class="table table-striped">
+      <tbody>
+        {% for service in configured_services %}
+          <tr>
+            <td>{% include 'machinery/detail.html' %}</td>
+            <td class="bottom-button">
+              {% if service.is_enabled or not service.is_available %}
+                <form method="post" action="{{ service.get_absolute_url }}">
+                  {% csrf_token %}
+                  <input type="hidden" name="delete" value="1" />
+                  <button type="submit" class="btn btn-danger">{% translate "Disable" %}</button>
+                </form>
+              {% else %}
+                <form method="post" action="{{ service.get_absolute_url }}">
+                  {% csrf_token %}
+                  <input type="hidden" name="enable" value="1" />
+                  <button type="submit" class="btn btn-primary">{% translate "Enable" %}</button>
+                </form>
+              {% endif %}
+            </td>
+            <td class="bottom-button">
+              {% if service.has_settings %}
+                <a class="btn btn-primary" href="{{ service.get_absolute_url }}">{% translate "Configure" %}</a>
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="card-footer">
+      {% if not configured_services %}
+        {% translate "There are no services currently installed." %}
+      {% else %}
+        {% blocktranslate count count=configured_services|length %}There is currently {{ count }} service installed.{% plural %}There are currently {{ count }} services installed.{% endblocktranslate %}
+      {% endif %}
+    </div>
+  </div>
+
+
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">
+        {% documentation_icon 'admin/machine' right=True %}
+        {% translate "Available automatic suggestion services" %}
+      </h4>
+    </div>
+    <table class="table table-striped">
+      <tbody>
+        {% for service in available_services %}
+          <tr>
+            <td>{% include 'machinery/detail.html' %}</td>
+            <td class="bottom-button">
+              <form method="post" action="{{ service.get_absolute_url }}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-primary" name="install" value="1">{% translate "Install" %}</button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="card-footer">
+      {% if not available_services %}
+        {% translate "Could not find any additional services." %}
+      {% else %}
+        {% translate "Some services will ask for additional configuration during installation." %}
+      {% endif %}
+    </div>
+  </div>
+
+{% endblock content %}

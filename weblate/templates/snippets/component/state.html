@@ -1,0 +1,9 @@
+{% load i18n translations %}
+
+{% if object.locked %}
+  {% include "snippets/component/lock.html" %}
+{% endif %}
+
+{% show_contributor_agreement object %}
+
+{% include "snippets/project/state.html" with object=object.project %}

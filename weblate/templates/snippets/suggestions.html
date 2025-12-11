@@ -1,0 +1,106 @@
+{% load i18n icons permissions translations %}
+
+<div class="container-fluid container-gapped">
+  {% for suggestion in suggestions %}
+    <div class="row history-row">
+      <div class="col-xs-2 history-event">
+        <strong>{{ suggestion.get_user_display }}</strong>
+        <p class="text-muted">{% translate "Suggestion added" %}</p>
+        {% if user_can_vote_suggestion %}
+          <p class="help-block">
+            {% blocktranslate count count=suggestion.get_num_votes %}{{ count }} vote{% plural %}{{ count }} votes{% endblocktranslate %}
+          </p>
+        {% endif %}
+      </div>
+      <div class="col-xs-10 history-data">
+        {% if multi_unit %}
+          <div class="btn-float float-end">
+            <a href="{{ suggestion.unit.get_absolute_url }}#suggestions"
+               class="btn btn-link green"
+               title="{% translate "View details" %}">{% icon "magnify-plus-outline.svg" %}</a>
+          </div>
+        {% else %}
+          {% perm 'suggestion.delete' suggestion as user_can_delete_suggestion %}
+          {% if user_can_vote_suggestion or user_can_accept_suggestion or user_can_delete_suggestion %}
+            <div class="btn-float float-end">
+              {% if user_can_vote_suggestion %}
+                <button type="submit"
+                        class="btn btn-link green"
+                        name="upvote"
+                        value="{{ suggestion.id }}"
+                        title="{% translate "Vote for" %}">{% icon "thumb-up.svg" %}</button>
+                <button type="submit"
+                        class="btn btn-link red"
+                        name="downvote"
+                        value="{{ suggestion.id }}"
+                        title="{% translate "Vote against" %}">{% icon "thumb-down.svg" %}</button>
+              {% endif %}
+              {% if user_can_accept_suggestion %}
+                <button type="submit"
+                        class="btn btn-link green"
+                        name="accept"
+                        value="{{ suggestion.id }}"
+                        title="{% translate "Accept" %}">{% icon "check.svg" %}</button>
+                {% if user_can_review %}
+                  <button type="submit"
+                          class="btn btn-link green"
+                          name="accept_approve"
+                          value="{{ suggestion.id }}"
+                          title="{% translate "Accept and approve" %}">{% icon "check-all.svg" %}</button>
+                {% endif %}
+                <button type="submit"
+                        class="btn btn-link green"
+                        name="accept_edit"
+                        value="{{ suggestion.id }}"
+                        title="{% translate "Accept and edit" %}">{% icon "pencil.svg" %}</button>
+              {% endif %}
+              {% if user_can_delete_suggestion %}
+                {% if has_antispam and suggestion.user != user %}
+                  <button type="submit"
+                          class="btn btn-link red"
+                          name="spam"
+                          value="{{ suggestion.id }}"
+                          title="{% translate "Mark as spam" %}">{% icon "spam.svg" %}</button>
+                {% endif %}
+                <input type="text"
+                       name="rejection"
+                       class="rejection-reason"
+                       placeholder="{% translate "Rejection reason" %}">
+                <button type="submit"
+                        class="btn btn-link red"
+                        name="delete"
+                        value="{{ suggestion.id }}"
+                        title="{% translate "Reject suggestion" %}">{% icon "comment-remove.svg" %}</button>
+              {% endif %}
+              {% if suggestion.user and not suggestion.user.is_anonymous %}
+                {% perm 'project.permissions' suggestion.unit.translation as user_can_edit_permissions %}
+                {% if user_can_edit_permissions %}
+                  <a class="btn btn-link red"
+                     href="{% url 'manage-access' project=suggestion.unit.translation.component.project.slug %}?block_user={{ suggestion.user.username }}#block-user"
+                     title="{% translate "Block user" %}">{% icon "account-cancel.svg" %}</a>
+                {% endif %}
+              {% endif %}
+            </div>
+          {% endif %}
+        {% endif %}
+        <div class="comment-content">
+          {% format_unit_target suggestion.unit value=suggestion.target %}
+          <p class="help-block">{% translate "Suggested change:" %}</p>
+          {% format_unit_target suggestion.unit value=suggestion.target diff=suggestion.unit.target %}
+
+          {% with suggestion_checks=suggestion.get_checks %}
+            {% if suggestion_checks %}
+              <p class="help-block">{% translate "Failing checks:" context "String state" %}</p>
+              {% for check in suggestion.get_checks %}
+                <span class="badge badge-danger" title="{{ check.get_description }}">{{ check.get_name }}</span>
+              {% endfor %}
+            {% endif %}
+          {% endwith %}
+
+          <span class="float-end text-muted">{{ suggestion.timestamp|naturaltime }}</span>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>

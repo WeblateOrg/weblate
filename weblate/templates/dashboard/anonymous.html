@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags i18n translations %}
+
+{% block content %}
+  {% announcements %}
+
+  {% include "list-projects.html" with projects=top_projects %}
+
+  <p>
+    <a class="btn btn-primary" id="browse-projects" href="{% url 'projects' %}">{% blocktranslate count count=all_projects %}Browse {{ count }} project{% plural %}Browse all {{ count }} projects{% endblocktranslate %}</a>
+  </p>
+
+{% endblock content %}

@@ -1,0 +1,90 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: Documentation
+
+on:
+  push:
+    branches-ignore:
+    - renovate/**
+    - weblate
+  pull_request:
+  schedule:
+  - cron: 30 5 * * *
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  list-languages:
+    runs-on: ubuntu-24.04
+    outputs:
+      languages: ${{ steps.list.outputs.languages }}
+    steps:
+    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      with:
+        persist-credentials: false
+    - uses: astral-sh/setup-uv@ed21f2f24f8dd64503750218de024bcf64c7250a # v7.1.5
+      with:
+        enable-cache: false
+        version: 0.9.17
+    - name: Set up Python
+      uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v6.1.0
+      with:
+        python-version: '3.14'
+    - run: uv run --no-project scripts/list-documentation-languages.py >>"$GITHUB_OUTPUT"
+      id: list
+
+  translations:
+    runs-on: ubuntu-24.04
+    needs:
+    - list-languages
+    name: Sphinx
+    strategy:
+      fail-fast: false
+      matrix:
+        language: ${{ fromJson(needs.list-languages.outputs.languages) }}
+    env:
+      READTHEDOCS_LANGUAGE: ${{ matrix.language }}
+
+    steps:
+    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      with:
+        persist-credentials: false
+    - uses: astral-sh/setup-uv@ed21f2f24f8dd64503750218de024bcf64c7250a # v7.1.5
+      with:
+        enable-cache: false
+        version: 0.9.17
+    - name: Set up Python
+      uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v6.1.0
+      with:
+        python-version: '3.14'
+    - name: Install apt dependencies
+      run: |
+        sudo apt update
+        sudo apt install -y graphviz
+    - name: Install Python dependencies
+      run: uv sync --only-group docs --frozen
+    - name: Sphinx build
+      run: |
+        . .venv/bin/activate
+        echo "::add-matcher::.github/matchers/sphinx.json"
+        ./ci/run-docs
+        echo "::remove-matcher owner=sphinx::"
+    - uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+      with:
+        name: Documentation ${{ matrix.language }}
+        path: docs/_build/html
+
+  build:
+    runs-on: ubuntu-24.04
+    name: Sphinx
+    needs:
+    - translations
+    steps:
+    # This is dependency only job to collect all test results
+    - run: echo

@@ -1,0 +1,41 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+name: Close stale pull requests
+
+on:
+  schedule:
+  - cron: 30 1 * * *
+  push:
+    branches:
+    - main
+    paths:
+    - .github/workflows/pr-stale.yml
+
+permissions:
+  contents: read
+
+jobs:
+  stale-prs:
+    runs-on: ubuntu-slim
+    permissions:
+      issues: write
+      pull-requests: write
+
+    steps:
+    - uses: actions/stale@997185467fa4f803885201cee163a9f38240193d # v10.1.1
+      with:
+        days-before-pr-stale: 30
+        days-before-pr-close: 14
+        days-before-issue-stale: -1
+        days-before-issue-close: -1
+        exempt-pr-labels: backlog
+        stale-pr-label: wontfix
+        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        stale-pr-message: |
+          This pull request has been automatically marked as stale because there wasn’t any recent activity.
+
+          It will be closed soon if no further action occurs.
+
+          Thank you for your contributions!

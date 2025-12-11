@@ -1,0 +1,30 @@
+{% load i18n icons %}
+
+<p>
+  {% blocktranslate %}This action cannot be undone. This will permanently delete {{ object }} translations and all related content.{% endblocktranslate %}
+</p>
+
+<p>{% translate "The following translations will be removed:" %}</p>
+<ul>
+  {% for translation in object.translation_set %}
+    <li>
+      <a href="{{ translation.get_absolute_url }}">{{ translation }}</a>
+    </li>
+  {% endfor %}
+</ul>
+
+<div class="form-group">
+  <label class="control-label">{% translate "Project language to remove" %}</label>
+  <div class="list-group">
+    <div class="list-group-item">
+      <div class="list-group-item-text">
+        <button type="button"
+                class="btn btn-link btn-xs float-end"
+                data-clipboard-value="{{ object.full_slug }}"
+                title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+
+        {{ object.full_slug }}
+      </div>
+    </div>
+  </div>
+</div>

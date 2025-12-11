@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags i18n permissions translations %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{{ object.project.get_absolute_url }}">{{ object.project }}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'fonts' project=object.project.slug %}">{% translate "Font groups" %}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{{ object.get_absolute_url }}">{{ object }}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">{% translate "Font group" %}</h4>
+    </div>
+    <table class="table table-striped">
+      <tr>
+        <th>{% translate "Name" %}</th>
+        <td colspan="2">{{ object.name }}</td>
+      </tr>
+      <tr>
+        <th>{% translate "Default font" %}</th>
+        <td colspan="2">
+          <a href="{{ object.font.get_absolute_url }}">{{ object.font }}</a>
+        </td>
+      </tr>
+      {% for override in object.fontoverride_set.all %}
+        <tr>
+          <th>
+            <span class="badge float-end">{% translate "language override" %}</span>{{ override.language }}
+          </th>
+          <td>
+            <a href="{{ override.font.get_absolute_url }}">{{ override.font }}</a>
+          </td>
+          <td>
+            {% if can_edit %}
+              <form method="post">
+                {% csrf_token %}
+                <input type="hidden" name="override" value="{{ override.pk }}" />
+                <button type="submit" class="btn btn-danger">{% translate "Remove" %}</button>
+              </form>
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+    <div class="card-footer">
+      {% if can_edit %}
+        <a href=""
+           class="btn btn-danger link-post"
+           data-href="{{ object.get_absolute_url }}">{% translate "Delete" %}</a>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if can_edit %}
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{% translate "Add language override" %}</h4>
+        </div>
+        <div class="card-body">{{ override_form|crispy }}</div>
+        <div class="card-footer">
+          <input type="submit" class="btn btn-primary" value="{% translate "Save" %}" />
+        </div>
+      </div>
+    </form>
+
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{% translate "Edit font group" %}</h4>
+        </div>
+        <div class="card-body">{{ form|crispy }}</div>
+        <div class="card-footer">
+          <input type="submit" class="btn btn-primary" value="{% translate "Save" %}" />
+        </div>
+      </div>
+    </form>
+  {% endif %}
+
+{% endblock content %}

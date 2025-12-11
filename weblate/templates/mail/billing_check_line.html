@@ -1,0 +1,6 @@
+<a href="{{ bill.get_absolute_url }}">{{ bill }}</a>
+{% if bill.all_projects %}:{% endif %}
+{% for project in bill.all_projects %}
+  <a href="{{ project.get_absolute_url }}">{{ project }}</a>
+  {% if project.web %}: <a href="{{ project.web }}">{{ project.web }}</a>{% endif %}
+{% endfor %}

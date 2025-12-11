@@ -1,0 +1,10 @@
+{% load i18n translations %}
+
+{% documentation_icon 'user/translating' 'user-rate' right=True %}
+{% translate "Your request was rejected because you have performed too many operations recently." %}
+{% if do_logout %}
+  {% translate "You have been signed out, please sign in and try again later." %}
+{% else %}
+  {% translate "Please try again later." %}
+{% endif %}
+<div class="clearfix"></div>

@@ -1,0 +1,73 @@
+{% load i18n icons %}
+
+{% if user.is_authenticated %}
+  <div class="btn-group ms-auto btn-group-settings" role="group">
+
+    {% if project in watched_projects %}
+      <a class="btn btn-link dropdown-toggle"
+         type="button"
+         id="watch_menu"
+         data-bs-toggle="dropdown"
+         aria-haspopup="true"
+         aria-expanded="true"
+         href="#">
+        {% icon "eye.svg" %} {% translate "Watching" %}
+        <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="watch_menu">
+        <li>
+          <a href=""
+             class="dropdown-item link-post"
+             data-href="{% url 'unwatch' path=project.get_url_path %}?next={{ request.path }}">{% blocktranslate %}Unwatch project {{ project }}{% endblocktranslate %}</a>
+        </li>
+        {% if component %}
+          <li>
+            <a href="{% url 'profile' %}?notify_component={{ component.pk }}#notifications">{% blocktranslate with object=component %}Customize notifications for {{ object }}{% endblocktranslate %}</a>
+          </li>
+          <li>
+            <a href=""
+               class="dropdown-item link-post"
+               data-href="{% url 'mute' path=component.get_url_path %}">{% blocktranslate with object=component %}Mute notifications for {{ object }}{% endblocktranslate %}</a>
+          </li>
+        {% else %}
+          <li>
+            <a href="{% url 'profile' %}?notify_project={{ project.pk }}#notifications">{% blocktranslate with object=project %}Customize notifications for {{ object }}{% endblocktranslate %}</a>
+          </li>
+          <li>
+            <a href=""
+               class="dropdown-item link-post"
+               data-href="{% url 'mute' path=project.get_url_path %}">{% blocktranslate with object=project %}Mute notifications for {{ object }}{% endblocktranslate %}</a>
+          </li>
+        {% endif %}
+      </ul>
+    {% else %}
+      <a class="btn btn-link dropdown-toggle"
+         type="button"
+         id="notwatch_menu"
+         data-bs-toggle="dropdown"
+         aria-haspopup="true"
+         aria-expanded="true"
+         href="#">
+        {% icon "eye.svg" %} {% translate "Not watching" %}
+        <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu dropdown-menu-end shadow" aria-labelledby="notwatch_menu">
+        <li>
+          <a href=""
+             class="dropdown-item btn btn-link link-post"
+             data-href="{% url 'watch' path=project.get_url_path %}?next={{ request.path }}"
+             title="{% translate "You can receive notifications for watched projects and they are shown on the dashboard by default." %}">{% blocktranslate %}Watch project {{ project }}{% endblocktranslate %}</a>
+        </li>
+        {% if component %}
+          <li>
+            <a href=""
+               class="dropdown-item btn btn-link link-post"
+               data-href="{% url 'watch' path=component.get_url_path %}?next={{ request.path }}"
+               title="{% translate "You can receive notifications for watched projects and they are shown on the dashboard by default." %}">{% blocktranslate %}Watch component {{ component }}{% endblocktranslate %}</a>
+          </li>
+        {% endif %}
+      </ul>
+    {% endif %}
+
+  </div>
+{% endif %}

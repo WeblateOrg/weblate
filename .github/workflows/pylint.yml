@@ -1,0 +1,42 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+name: pylint check
+
+on:
+  push:
+    branches-ignore:
+    - renovate/**
+    - weblate
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  pylint:
+    runs-on: ubuntu-24.04
+
+    steps:
+    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      with:
+        persist-credentials: false
+    - name: Install apt dependencies
+      run: sudo ./ci/apt-install
+    - name: Setup Python
+      uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v6.1.0
+      id: setup_python
+      with:
+        python-version: '3.14'
+    - uses: astral-sh/setup-uv@ed21f2f24f8dd64503750218de024bcf64c7250a # v7.1.5
+      with:
+        save-cache: ${{ github.ref == 'refs/heads/main' }}
+        cache-suffix: ${{ steps.setup_python.outputs.python-version }}
+        version: 0.9.17
+    - name: Install deps
+      env:
+        CI_DATABASE: postgresql
+      run: uv sync --no-binary-package lxml --no-binary-package xmlsec --all-extras --group pylint
+    - name: Run pylint
+      run: uv run --no-sync pylint --output-format=github weblate/ scripts/

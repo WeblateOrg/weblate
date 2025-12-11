@@ -1,0 +1,12 @@
+{% extends "mail/base.html" %}
+
+{% load i18n translations %}
+
+{% block content %}
+  <p>
+    {% blocktranslate %}There was a request to remove your Weblate account at {{ site_title }}.{% endblocktranslate %}
+  </p>
+
+  {% include "mail/shared-registration.html" with action="remove" %}
+
+{% endblock content %}

@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+{% load compress crispy_forms_tags i18n icons permissions static translations %}
+
+{% block content %}
+
+  {% announcements %}
+
+  <div class="btn-group float-end btn-group-settings" role="group">
+    <a href="{% url 'profile' %}#preferences"
+       class="btn btn-link"
+       title="{% translate "Configure dashboard" %}">{% icon "settings.svg" %}</a>
+  </div>
+
+  {% perm 'reports.view' None as user_can_view_reports %}
+
+  <ul class="nav nav-pills">
+    <li class="nav-item">
+      <a data-bs-target="#your-subscriptions"
+         data-bs-toggle="tab"
+         href="#"
+         {% active_link "your-subscriptions" %}>{% translate "Watched translations" %} <span class="badge text-bg-secondary">{{ usersubscriptions.paginator.count }}</span></a>
+    </li>
+    {% if all_componentlists %}
+      <li class="nav-item">
+        <a data-bs-target="#componentlists"
+           data-bs-toggle="tab"
+           href="#"
+           {% active_link "componentlists" %}>{% translate "All component lists" %} <span class="badge text-bg-secondary">{{ all_componentlists|length }}</span></a>
+      </li>
+    {% endif %}
+    <li class="nav-item">
+      <a data-bs-target="#suggestions"
+         data-bs-toggle="tab"
+         href="#"
+         {% active_link "suggestions" %}>{% translate "Suggested translations" %} <span class="badge text-bg-secondary">{{ suggestions|length }}</span></a>
+    </li>
+    {% if owned_projects %}
+      <li class="nav-item">
+        <a data-bs-target="#managed"
+           data-bs-toggle="tab"
+           href="#"
+           {% active_link "managed" %}>{% translate "Managed projects" %} <span class="badge text-bg-secondary">{{ all_owned_projects|length }}</span></a>
+      </li>
+    {% endif %}
+    {% for componentlist in componentlists %}
+      <li class="nav-item">
+        <a data-bs-target="#{{ componentlist.tab_slug }}"
+           data-bs-toggle="tab"
+           data-href="{% url 'component-list-dashboard' name=componentlist.slug %}"
+           href="#"
+           {% active_link componentlist.tab_slug %}>
+          {{ componentlist.name }}
+          <span class="badge text-bg-secondary">{{ componentlist.translations|length }}</span>
+        </a>
+      </li>
+    {% endfor %}
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{% translate "Insights" %}</a>
+      <ul class="dropdown-menu shadow">
+        <li>
+          <a class="dropdown-item" href="{% url 'changes' %}">{% translate "History" %}</a>
+        </li>
+        <li>
+          <a class="dropdown-item" href="{% url 'changes' %}?action=51&amp;action=50">{% translate "Recent additions" %}</a>
+        </li>
+        <li>
+          <a class="dropdown-item" href="{% url 'stats' %}">{% translate "Statistics" %}</a>
+        </li>
+        <li>
+          <a class="dropdown-item" data-bs-target="#reports" data-bs-toggle="tab" href="#">{% translate "Translation reports" %}</a>
+        </li>
+      </ul>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-target="#search" data-bs-toggle="tab" href="#">{% translate "Search" %}</a>
+    </li>
+  </ul>
+
+  <div class="tab-content">
+    <div {% active_tab "your-subscriptions" %}>
+      {% if watched_projects %}
+        {% if usersubscriptions %}
+          {% include "snippets/list-objects.html" with objects=usersubscriptions label=_("Translation") hide_completed=user.profile.hide_completed name_source="translation" %}
+
+          {% include "paginator.html" with page_obj=usersubscriptions anchor="your-subscriptions" %}
+        {% else %}
+          {% include "list-projects.html" with projects=watched_projects %}
+        {% endif %}
+      {% else %}
+        <p class="help-block">
+          {% translate "Choose what languages you want in the preferences, to see overview of available translations for those languages in your watched projects." %}
+        </p>
+      {% endif %}
+    </div>
+
+
+    {% if all_componentlists %}
+      <div {% active_tab "componentlists" %}>
+        {% include "snippets/list-objects.html" with objects=all_componentlists label=_("Component list") %}
+      </div>
+    {% endif %}
+
+    {% if owned_projects %}
+      <div {% active_tab "managed" %}>
+        {% include "snippets/list-objects.html" with objects=owned_projects label=_("Project") %}
+        {% if all_owned_projects|length > 10 %}
+          <a href="{% url 'projects' %}?owned={{ user.username }}" class="btn btn-primary">{% translate "Browse all managed projects" %}</a>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {# Suggested translations #}
+    <div {% active_tab "suggestions" %}>
+      {% if suggestions %}
+        {% include "snippets/list-objects.html" with objects=suggestions label=_("Translation") name_source="translation" %}
+      {% else %}
+        <p class="help-block">
+          {% translate "Could not find any suggestions for you, please choose your languages in the preferences to get some." %}
+        </p>
+      {% endif %}
+    </div>
+
+
+    {% for componentlist in componentlists %}
+      <div {% active_tab componentlist.tab_slug %}>
+
+        <p>{% translate "Loading…" %}</p>
+      </div>
+    {% endfor %}
+
+    <div class="tab-pane" id="search">
+
+      <form action="{% url 'search' %}" method="get" data-persist="search-index">
+        {% include "snippets/search-form.html" %}
+      </form>
+
+    </div>
+
+    <div class="tab-pane" id="reports">
+      {% if not user_can_view_reports %}
+        {% translate "You don't have permission to view reports for all users, only your contributions will be listed." as msg %}
+        {% show_message "warning" msg %}
+      {% endif %}
+      <div class="row">
+        <div class="col-lg-6">
+          <form action="{% url 'credits' %}" method="post" enctype="multipart/form-data">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">
+                  {% documentation_icon 'devel/reporting' 'credits' right=True %}
+                  {% translate "Credits" %}
+                </h4>
+              </div>
+              <div class="card-body">
+                <p>
+                  {% translate "Lists all translators contributing in a given time period. Useful for inclusion in documentation or the app itself, to thank translators and generate feedback to them." %}
+                </p>
+                {% crispy reports_form %}
+              </div>
+              <div class="card-footer">
+                <input type="submit" value="{% translate "Generate" %}" class="btn btn-primary" />
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="col-lg-6">
+          <form action="{% url 'counts' %}" method="post" enctype="multipart/form-data">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">
+                  {% documentation_icon 'devel/reporting' 'stats' right=True %}
+                  {% translate "Contributor stats" %}
+                </h4>
+              </div>
+              <div class="card-body">
+                <p>{% translate "Reports the number of strings and words translated by each translator." %}</p>
+                {% crispy reports_form %}
+              </div>
+              <div class="card-footer">
+                <input type="submit" value="{% translate "Generate" %}" class="btn btn-primary" />
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+{% endblock content %}

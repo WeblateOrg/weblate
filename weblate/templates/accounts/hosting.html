@@ -1,0 +1,68 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags i18n icons translations %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'hosting' %}">{% translate "Hosting" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  {% if billings %}
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{% translate "Trial subscriptions" %}</h4>
+      </div>
+      {% include "billing/list.html" with objects=billings %}
+    </div>
+  {% endif %}
+
+  <div class="row">
+
+    <div class="col-md-6">
+      <form method="post" action="{% url 'trial' %}">
+        {% csrf_token %}
+        <input type="hidden" name="plan" value="libre" />
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">{% translate "Set up your libre project" %}</h4>
+          </div>
+          <div class="card-body">
+
+            {% include "snippets/libre-basic.html" %}
+            <h4>{% translate "Your trial" %}</h4>
+            <ul>
+              <li>{% translate "You will have 14 days to set up your project." %}</li>
+              <li>{% translate "Please request project approval once you finish the setup." %}</li>
+              <li>{% translate "Unapproved projects will be removed." %}</li>
+              <li>{% translate "We reserve our right to reject inappropriate content (erotic, gambling, etc.)." %}</li>
+            </ul>
+
+          </div>
+          <div class="card-footer">
+            <input type="submit" value="{% translate "Get started" %}" class="btn btn-primary" />
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <div class="col-md-6">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{% translate "Looking for commercial hosting?" %}</h4>
+        </div>
+        <div class="card-body">
+          <p>
+            {% translate "Start your gratis trial today and explore our competitively priced commercial hosting solutions." %}
+          </p>
+        </div>
+        <div class="card-footer">
+          <a class="btn btn-primary" href="{% url 'trial' %}">{% translate "Gratis trial" %}</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}

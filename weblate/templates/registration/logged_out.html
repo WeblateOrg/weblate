@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% load humanize i18n static translations %}
+
+{% block breadcrumbs_container %}{% endblock %}
+
+{% block content %}
+
+  <div class="engage container">
+
+    <h1>{% translate "Thank you for using Weblate" %}</h1>
+
+    <p class="buttons">
+      <a href="{% url "home" %}"
+         class="btn btn-outline-primary btn-lg"
+         id="dashboard-return">{% translate "Return to dashboard" %}</a>
+      <a href="{% url "login" %}" class="btn btn-outline-primary btn-lg">{% translate "Sign in" %}</a>
+    </p>
+
+    {% include "snippets/donate.html" %}
+
+  </div>
+{% endblock content %}

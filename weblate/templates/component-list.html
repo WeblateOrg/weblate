@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags humanize i18n metrics translations %}
+
+{% block nav_pills %}
+  <ul class="nav nav-pills">
+    <li class="nav-item">
+      <a class="nav-link active"
+         data-bs-target="#overview"
+         data-bs-toggle="tab"
+         href="#">{% translate "Components" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-target="#information" data-bs-toggle="tab" href="#">{% translate "Overview" %}</a>
+    </li>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
+        {% translate "Files" %} <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu shadow">
+        <li>
+          <a class="dropdown-item"
+             href="{% url "download_component_list" name=object.slug %}?format=zip"
+             title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download original translation files as ZIP file{% endblocktranslate %}</a>
+        </li>
+      </ul>
+    </li>
+  </ul>
+{% endblock nav_pills %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{{ object.get_absolute_url }}">{{ object }}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  <div class="tab-content">
+
+    <div class="tab-pane active" id="overview">
+      {% include "snippets/list-objects.html" with objects=components label=_("Component") %}
+
+      {% include "paginator.html" with page_obj=components %}
+    </div>
+
+    <div class="tab-pane" id="information">
+      {% show_info componentlist=object stats=object.stats metrics=object|metrics show_source=True %}
+    </div>
+
+  </div>
+
+{% endblock content %}

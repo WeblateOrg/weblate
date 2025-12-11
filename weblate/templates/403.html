@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'home' %}">{% translate "Permission Denied" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  <div class="container">
+
+    <h2>{% translate "Permission Denied" %}</h2>
+    <p>{% translate "Insufficient privileges to display this page." %}</p>
+
+    {% if not user.is_authenticated %}
+      <a href="{% url 'login' %}{% if login_redirect_url %}?next={{ login_redirect_url|urlencode }}{% endif %}"
+         class="btn btn-primary">{% translate "Sign in" %}</a>
+    {% endif %}
+    <a href="{% url 'home' %}" class="btn btn-primary">{% translate "Dashboard" %}</a>
+    <a href="{% url 'projects' %}" class="btn btn-primary">{% translate "Browse all projects" %}</a>
+
+  </div>
+
+{% endblock content %}

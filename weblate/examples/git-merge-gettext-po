@@ -1,0 +1,269 @@
+#!/bin/bash
+
+# Copyright Marco Ciampa
+# Copyright Mikko Rantalainen <mikko.rantalainen@iki.fi>
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: MIT
+
+#
+# Three-way merge driver for PO files, runs on multiple CPUs where possible
+#
+# Original source:
+# https://stackoverflow.com/a/68799310
+# https://stackoverflow.com/a/29535676/334451
+# https://github.com/mezis/git-whistles/blob/fef61bd7abbc0e69c9ad021aa6dee3889db180f4/libexec/git-merge-po.sh
+#
+# This merge driver is automatically installed for all Weblate cloned Git
+# repositories.
+#
+# For use outside of Weblate install with:
+#
+# git config merge.merge-po-files.driver "./bin/merge-po-files %O %A %B %P"
+#
+# To make git use the merge driver on some files, you also need to set it
+# in the file `.git/info/attributes`:
+#
+# *.po merge=merge-po-files
+#
+# It is not recommended to use `.gitattributes` file included in the repository,
+# as that would break the usage for everybody who did not install the merge driver.
+#
+##########################################################################
+# CONFIG:
+
+# Formatting flags to be be used to produce merged .po files
+# This can be set to match project needs for the .po files.
+# NOTE: $MSGCAT_FINAL_FLAGS will be passed to msgcat without quotation
+MSGCAT_FINAL_FLAGS=""
+
+# Verbosity level:
+# 0: Silent except for real errors
+# 1: Show simple header for each file processed
+# 2: Also show all conflicts in merge result (both new and existing)
+# 3: Also show all status messages with timestamps
+VERBOSITY="${VERBOSITY:=0}"
+
+# Use logical names for arguments:
+BASE="$1"
+LOCAL="$2"
+OTHER="$3"
+FILENAME="$4"
+OUTPUT="$LOCAL"
+
+##########################################################################
+# First try standard git three way merge. In some cases it works fine and
+# smarter merging fails.
+
+TEMP_FILE="$(mktemp /tmp/merge-po.XXXXXX)"
+if git merge-file --stdout "$LOCAL" "$BASE" "$OTHER" > "$TEMP_FILE"; then
+    cat "$TEMP_FILE" > "$OUTPUT"
+    rm "$TEMP_FILE"
+    exit 0
+fi
+rm "$TEMP_FILE"
+
+if [ -n "$WEBLATE_MERGE_SKIP" ]; then
+    exit 1
+fi
+
+##########################################################################
+# Fallback when gettext tools are not installed:
+
+if ! type msgmerge > /dev/null 2>&1; then
+    # With Gettext PO files, you might get bit by conflicts in PO file
+    # headers. To avoid it, you can use the this merge driver. Use it by
+    # putting the following configuration in your .gitconfig:
+    #
+    # This merge driver assumes changes in POT files always are done in the
+    # attemptedly merged branch.
+    REGX='^"POT-Creation-Date:.*'
+
+    # Grab date from other branch
+    REPL=$(grep "$REGX" "$3" | sed -e 's/\\\\/\\\\\\\\/')
+
+    # Push it into other files
+    sed -i -e "s/$REGX/$REPL/" "$LOCAL"
+    sed -i -e "s/$REGX/$REPL/" "$BASE"
+
+    # Do merge on these changed files
+    git merge-file -L "" -L "" -L "" "$LOCAL" "$BASE" "$OTHER"
+    exit $?
+fi
+
+##########################################################################
+# Implementation:
+
+# The temporary directory for all files we need - note that most files are
+# created without extensions to emit nicer conflict messages where gettext
+# likes to embed the basename of the file in the conflict message so we
+# use names like "local" and "other" instead of e.g. "local.G2wZ.po".
+TEMP="$(mktemp -d /tmp/merge-po.XXXXXX)"
+
+# abort on any error and report the details if possible
+set -E
+set -e
+# shellcheck disable=SC2329 # shellcheck does not understand trap below
+on_error() {
+    local parent_lineno="$1"
+    local code="$2"
+    local message="$3"
+    if [[ -n $message ]]; then
+        printf "### $0: error near line %d: status %d: %s\n" "${parent_lineno}" "${code}" "${message}" 1>&2
+    else
+        printf "### $0: error near line %d: status %d\n" "${parent_lineno}" "${code}" 1>&2
+    fi
+    exit 255
+}
+trap 'on_error ${LINENO} $?' ERR
+
+# Maybe print message(s) to stdout with timestamps
+function status() {
+    if test "$VERBOSITY" -ge 3; then
+        printf "%s %s\n" "$(date '+%Y-%m-%d %H:%M:%S.%3N')" "$@"
+    fi
+}
+
+# Quietly take translations from $1 and apply those according to template $2
+# (and do not use fuzzy-matching, always generate output)
+# also supports all flags to msgmerge
+function apply_po_template() {
+    msgmerge --force-po --quiet --no-fuzzy-matching "$@"
+}
+
+# Take stdin, remove the "graveyard strings" and emit the result to stdout
+function strip_graveyard() {
+    msgattrib --no-obsolete
+}
+
+# Take stdin, keep only conflict lines and emit the result to stdout
+function only_conflicts() {
+    msggrep --msgstr -F -e '#-#-#-#-#' -
+    # alternative slightly worse implementation: msgattrib --only-fuzzy
+}
+
+# Take stdin, discard conflict lines and emit the result to stdout
+function without_conflicts() {
+    msggrep -v --msgstr -F -e '#-#-#-#-#' -
+    # alternative slightly worse implementation: msgattrib --no-fuzzy
+}
+
+# Select messages from $1 that are also in $2 but whose contents have changed
+# and emit results to stdout
+function extract_changes() {
+    # Extract conflicting changes and discard any changes to graveyard area only
+    msgcat -o - "$1" "$2" |
+        only_conflicts |
+        apply_po_template -o - "$1" - |
+        strip_graveyard
+}
+
+# Emit only the header of $1, supports flags of msggrep
+function extract_header() {
+    # Unfortunately gettext really doesn't support extracting just header
+    # so we have to get creative: extract only strings that originate
+    # from file called "//" which should result to header only
+    msggrep --force-po -N // "$@"
+
+    # Logically msggrep --force-po -v -K -E -e '.' should return the header
+    # only but msggrep seems be buggy with msgids with line feeds and output
+    # those, too
+}
+
+# Take file in $1 and show conflicts with colors in the file to stdout
+function show_conflicts() {
+    filename="$1"
+    shift
+    # Count number of lines to remove from the output and output conflict lines without the header
+    CONFLICT_HEADER_LINES=$(msggrep --force-po --msgstr -F -e '#-#-#-#-#' "$filename" | extract_header - | wc -l)
+    CONFLICTS=$(msggrep --force-po --color --msgstr -F -e '#-#-#-#-#' "$filename" | tail -n "-$CONFLICT_HEADER_LINES")
+    if test -n "$CONFLICTS"; then
+        #echo "----------------------------"
+        #echo "Conflicts after merge:"
+        echo "----------------------------"
+        printf "%s\n" "$CONFLICTS"
+        echo "----------------------------"
+    fi
+}
+
+# Sanity check that we have a sensible temporary directory
+test -n "$TEMP" || exit 125
+test -d "$TEMP" || exit 126
+test -w "$TEMP" || exit 127
+
+if test "$VERBOSITY" -ge 1; then
+    printf "Using gettext .PO merge driver: %s ...\n" "$FILENAME"
+fi
+
+# Extract the PO header from the current branch (top of file until first empty line)
+extract_header -o "${TEMP}/header" "$LOCAL"
+
+##########################################################################
+# Following parts can be run partially parallel and "wait" is used to synchronize processing
+
+# Clean input files and use logical filenames for possible conflict markers:
+status "Canonicalizing input files ..."
+msguniq --force-po -o "${TEMP}/base" --unique "${BASE}" &
+msguniq --force-po -o "${TEMP}/local" --unique "${LOCAL}" &
+msguniq --force-po -o "${TEMP}/other" --unique "${OTHER}" &
+wait
+
+status "Computing local-changes, other-changes and unchanged ..."
+msgcat --force-po -o - "${TEMP}/base" "${TEMP}/local" "${TEMP}/other" | without_conflicts > "${TEMP}/unchanged" &
+extract_changes "${TEMP}/local" "${TEMP}/base" > "${TEMP}/local-changes" &
+extract_changes "${TEMP}/other" "${TEMP}/base" > "${TEMP}/other-changes" &
+wait
+
+# Messages changed on both local and other (conflicts):
+status "Computing conflicts ..."
+msgcat --force-po -o - "${TEMP}/other-changes" "${TEMP}/local-changes" | only_conflicts > "${TEMP}/conflicts"
+
+# Messages changed on local, not on other; and vice-versa:
+status "Computing local-only and other-only changes ..."
+msgcat --force-po -o "${TEMP}/local-only" --unique "${TEMP}/local-changes" "${TEMP}/conflicts" &
+msgcat --force-po -o "${TEMP}/other-only" --unique "${TEMP}/other-changes" "${TEMP}/conflicts" &
+wait
+
+# Note: following steps require sequential processing and cannot be run in parallel
+
+status "Computing initial merge without template ..."
+# Note that we may end up with some extra so we have to apply template later
+msgcat --force-po -o "${TEMP}/merge1" "${TEMP}/unchanged" "${TEMP}/conflicts" "${TEMP}/local-only" "${TEMP}/other-only"
+
+# Create a template to only output messages that are actually needed (union of messages on local and other create the template!)
+status "Computing template and applying it to merge result ..."
+msgcat --force-po -o - "${TEMP}/local" "${TEMP}/other" | apply_po_template -o "${TEMP}/merge2" "${TEMP}/merge1" -
+
+# Final merge result is merge2 with original header
+status "Fixing the header after merge ..."
+# shellcheck disable=SC2086
+msgcat --force-po $MSGCAT_FINAL_FLAGS -o "${TEMP}/merge3" --use-first "${TEMP}/header" "${TEMP}/merge2"
+
+# Produce output file (overwrites input LOCAL file because git expects that for the results)
+status "Saving output ..."
+mv "${TEMP}/merge3" "$OUTPUT"
+
+status "Cleaning up ..."
+
+rm "${TEMP}"/*
+rmdir "${TEMP}"
+
+status "Checking for conflicts in the result ..."
+
+# Check for conflicts in the final merge
+if grep -q '#-#-#-#-#' "$OUTPUT"; then
+    if test "$VERBOSITY" -ge 1; then
+        printf "### Conflict(s) detected ###\n"
+    fi
+
+    if test "$VERBOSITY" -ge 2; then
+        # Verbose diagnostics
+        show_conflicts "$OUTPUT"
+    fi
+
+    status "Automatic merge failed, exiting with status 1."
+    exit 1
+fi
+
+status "Automatic merge completed successfully, exiting with status 0."
+exit 0

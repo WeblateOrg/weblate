@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags humanize i18n permissions translations %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{{ object.get_absolute_url }}">{{ object }}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'labels' project=object.slug %}">{% translate "Labels" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  <table class="table sort">
+    <thead>
+      <tr>
+        <th>{% translate "Label name" %}</th>
+        <th>{% translate "Color" %}</th>
+        <th>{% translate "Description" %}</th>
+        <th class="number">
+          {# Translators: Header for column showing the number of source strings with this label #}
+          {% translate "Labeled source strings" %}
+        </th>
+        <th>{% translate "Actions" %}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for label in labels %}
+        <tr>
+          <td>{{ label.name }}</td>
+          <td>
+            <span class="badge label-{{ label.color }}">{{ label.get_color_display }}</span>
+          </td>
+          <td>{{ label.description }}</td>
+          <td class="number">
+            <a href="{% url 'search' path=object.get_url_path %}?q={{ label.filter_name }}">{{ label.string_count|intcomma }}</a>
+          </td>
+          <td>
+            <a href="{% url 'label_edit' project=object.slug pk=label.pk %}"
+               class="btn btn-primary">{% translate "Edit" %}</a>
+            <a href=""
+               class="btn btn-danger link-post"
+               data-href="{% url 'label_delete' project=object.slug pk=label.pk %}">{% translate "Delete" %}</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <form method="post">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{% translate "Add label" %}</h4>
+      </div>
+      <div class="card-body">{% crispy form %}</div>
+      <div class="card-footer">
+        <input type="submit" class="btn btn-primary" value="{% translate "Save" %}" />
+      </div>
+    </div>
+  </form>
+
+{% endblock content %}

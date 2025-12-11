@@ -1,0 +1,484 @@
+{% extends "base.html" %}
+
+{% load authnames crispy_forms_tags humanize i18n icons metrics permissions translations urlformat %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url "user_list" %}">{% translate "Users" %}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{{ page_profile.get_absolute_url }}">{{ page_profile.get_user_name }}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+  {% with billings=page_user.billing_set.prefetch %}
+
+    {% perm 'user.edit' as can_edit_user %}
+
+    <div class="user-page text-center">
+      <img class="avatar w128"
+           src="{% url 'user_avatar' user=page_user.username size=128 %}"
+           alt="{% translate "User avatar" %}" />
+      <h3>{{ page_user }}</h3>
+      <p>
+        <span class="middle-dot-divider">@{{ page_user.username }}</span>
+        <span class="middle-dot-divider">{% blocktranslate with date=page_user.date_joined|date:"DATE_FORMAT" %}Joined on {{ date }}{% endblocktranslate %}</span>
+        {% if can_edit_user or page_user == user %}
+          <span class="middle-dot-divider">
+            {% if page_user.last_login %}
+              {% blocktranslate with date=page_user.last_login|date:"DATE_FORMAT" %}Last sign-in on {{ date }}{% endblocktranslate %}
+            {% else %}
+              <em>{% translate "Never signed-in" %}</em>
+            {% endif %}
+          </span>
+          {% if page_user.date_expires %}
+            <span class="middle-dot-divider">
+              {% blocktranslate with date=page_user.date_expires|date:"DATE_FORMAT" %}Account expires on {{ date }}{% endblocktranslate %}
+            </span>
+          {% endif %}
+        {% endif %}
+        {% if page_profile.company %}
+          <span class="middle-dot-divider">
+            <span class="profile-icon">{% icon "domain.svg" %}</span> {{ page_profile.company }}
+          </span>
+        {% endif %}
+        {% if page_profile.location %}
+          <span class="middle-dot-divider">
+            <span class="profile-icon">{% icon "map-marker.svg" %}</span> {{ page_profile.location }}
+          </span>
+        {% endif %}
+      </p>
+      {% if page_profile.translated or page_profile.suggested or page_profile.uploaded %}
+        <p>
+          {% if page_profile.translated %}
+            <span class="middle-dot-divider">
+              <a href="{% url 'changes' %}?user={{ page_user.username }}&amp;action=2&amp;action=5">
+                {% blocktranslate count cnt=page_profile.translated with count=page_profile.translated|intcomma %}{{ count }} translation{% plural %}{{ count }} translations{% endblocktranslate %}
+              </a>
+            </span>
+          {% endif %}
+          {% if page_profile.suggested %}
+            <span class="middle-dot-divider">
+              <a href="{% url 'changes' %}?user={{ page_user.username }}&amp;action=4">
+                {% blocktranslate count cnt=page_profile.suggested with count=page_profile.suggested|intcomma %}{{ count }} suggestion{% plural %}{{ count }} suggestions{% endblocktranslate %}
+              </a>
+            </span>
+          {% endif %}
+          {% with pending_suggestions=page_user.suggestion_set.count %}
+            {% if pending_suggestions %}
+              <span class="middle-dot-divider">
+                <a href="{% url 'user_suggestions' user=page_user.username %}">
+                  {% blocktranslate count cnt=pending_suggestions with count=pending_suggestions|intcomma %}{{ count }} pending suggestion{% plural %}{{ count }} pending suggestions{% endblocktranslate %}
+                </a>
+              </span>
+            {% endif %}
+          {% endwith %}
+          {% if page_profile.uploaded %}
+            <span class="middle-dot-divider">
+              <a href="{% url 'changes' %}?user={{ page_user.username }}&amp;action=57">
+                {% blocktranslate count cnt=page_profile.uploaded with count=page_profile.uploaded|intcomma %}{{ count }} screenshot{% plural %}{{ count }} screenshots{% endblocktranslate %}
+              </a>
+            </span>
+          {% endif %}
+          {% if page_profile.commented %}
+            <span class="middle-dot-divider">
+              <a href="{% url 'changes' %}?user={{ page_user.username }}&amp;action=3">
+                {% blocktranslate count cnt=page_profile.commented with count=page_profile.commented|intcomma %}{{ count }} comment{% plural %}{{ count }} comments{% endblocktranslate %}
+              </a>
+            </span>
+          {% endif %}
+        </p>
+      {% endif %}
+      {% if can_edit_user or page_profile.website or page_profile.public_email or page_profile.contact or page_profile.github or page_profile.twitter or page_profile.linkedin or page_profile.liberapay or page_profile.fediverse or page_profile.codesite %}
+        <p>
+          {% if page_profile.website %}
+            <span class="middle-dot-divider">
+              <span class="profile-icon">{% icon "link.svg" %}</span> <a href="{{ page_profile.website }}" rel="ugc">{{ page_profile.website|urlformat }}</a>
+            </span>
+          {% endif %}
+          {% if page_profile.contact %}
+            <span class="middle-dot-divider">
+              <span class="profile-icon">{% icon "chat.svg" %}</span> <a href="{{ page_profile.contact }}" rel="ugc">{{ page_profile.contact|urlformat }}</a>
+            </span>
+          {% endif %}
+          {% if page_profile.public_email %}
+            <span class="middle-dot-divider">
+              <span class="profile-icon">{% icon "email.svg" %}</span> <a href="mailto:{{ page_profile.public_email }}" rel="ugc">{{ page_profile.public_email }}</a>
+            </span>
+          {% endif %}
+          {% if can_edit_user and page_user.email != page_profile.public_email %}
+            <span class="middle-dot-divider">
+              <span class="profile-icon">{% icon "email.svg" %}</span> <a href="mailto:{{ page_user.email }}" rel="ugc">{{ page_user.email }}</a>
+            </span>
+          {% endif %}
+          {% if page_profile.liberapay %}
+            <span class="middle-dot-divider">
+              <span class="profile-icon">{% icon "liberapay.svg" %}</span> <a href="https://liberapay.com/{{ page_profile.liberapay }}" rel="ugc">{{ page_profile.liberapay }}</a>
+            </span>
+          {% endif %}
+          {% if page_profile.fediverse %}
+            <span class="middle-dot-divider">
+              <span class="profile-icon">{% icon "fediverse.svg" %}</span> <a href="{{ page_profile.fediverse }}" rel="ugc me">{{ page_profile.fediverse|urlformat }}</a>
+            </span>
+          {% endif %}
+          {% if page_profile.github %}
+            <span class="middle-dot-divider">
+              <span class="profile-icon">{% icon "github.svg" %}</span> <a href="https://github.com/{{ page_profile.github }}" rel="ugc">{{ page_profile.github }}</a>
+            </span>
+          {% endif %}
+          {% if page_profile.codesite %}
+            <span class="middle-dot-divider">
+              <span class="profile-icon">{% icon "source.svg" %}</span> <a href="{{ page_profile.codesite }}" rel="ugc">{{ page_profile.codesite|urlformat }}</a>
+            </span>
+          {% endif %}
+          {% if page_profile.twitter %}
+            <span class="middle-dot-divider">
+              <span class="profile-icon">{% icon "twitter.svg" %}</span> <a href="https://x.com/{{ page_profile.twitter }}" rel="ugc">{{ page_profile.twitter }}</a>
+            </span>
+          {% endif %}
+          {% if page_profile.linkedin %}
+            <span class="middle-dot-divider">
+              <span class="profile-icon">{% icon "linkedin.svg" %}</span> <a href="https://www.linkedin.com/in/{{ page_profile.linkedin }}/" rel="ugc">{{ page_profile.linkedin }}</a>
+            </span>
+          {% endif %}
+        </p>
+      {% endif %}
+      {% if user_languages %}
+        <p>
+          {% for language in user_languages %}
+            <span class="middle-dot-divider">
+              <a href="{{ language.get_absolute_url }}">{{ language }}</a>
+            </span>
+          {% endfor %}
+        </p>
+      {% endif %}
+    </div>
+
+    <ul class="nav nav-pills justify-content-center">
+      <li class="nav-item">
+        {# Translators: Name of a tab which lists translations the user has contributed to #}
+        <a class="nav-link active"
+           data-bs-toggle="tab"
+           data-bs-target="#contributed"
+           href="#">{% translate "Translates" %}</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" data-bs-target="#managed" href="#">{% translate "Managed projects" %}</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" data-bs-target="#watched" href="#">{% translate "Watched projects" %}</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" data-bs-target="#activity" href="#">{% translate "Activity" %}</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-bs-toggle="tab" data-bs-target="#changes" href="#">{% translate "Recent changes" %}</a>
+      </li>
+      {% if can_edit_user %}
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="tab" data-bs-target="#identities" href="#">{% translate "User identities" %}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="tab" data-bs-target="#notifications" href="#">{% translate "Notifications" %}</a>
+        </li>
+        {% if billings %}
+          <li class="nav-item">
+            <a class="nav-link" data-bs-toggle="tab" data-bs-target="#billing" href="#">{% translate "Billing" %}</a>
+          </li>
+        {% endif %}
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="tab" data-bs-target="#audit" href="#">{% translate "Audit log" %}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="tab" data-bs-target="#groups" href="#">{% translate "Teams" %}</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-bs-toggle="tab" data-bs-target="#edit" href="#">{% translate "Edit" %}</a>
+        </li>
+      {% endif %}
+    </ul>
+
+    <div class="tab-content">
+
+      <div class="tab-pane active" id="contributed">
+        <div class="list-group">
+          {% include "snippets/list-objects.html" with objects=page_user_translations label=_("Translation") show_admin_badge=True name_source="translation" empty_message=_("No recent contributions found.") %}
+          <a href="{% url 'user_contributions' user=page_user.username %}"
+             class="me-auto btn btn-primary">{% translate "Browse all translations with contribution" %}</a>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="managed">
+        <div class="list-group">
+          {% include "list-projects.html" with projects=page_owned_projects %}
+          {% if page_owned_projects_more %}
+            <a href="{% url 'projects' %}?owned={{ page_user.username }}"
+               class="btn btn-primary">{% translate "Browse all managed projects" %}</a>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="tab-pane" id="watched">
+        <div class="list-group">
+          {% include "list-projects.html" with projects=page_watched_projects %}
+          {% if page_watched_projects_more %}
+            <a href="{% url 'projects' %}?watched={{ page_user.username }}"
+               class="btn btn-primary">{% translate "Browse all watched projects" %}</a>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="tab-pane" id="activity">{% include "snippets/activity.html" with metrics=page_user|metrics %}</div>
+
+      <div class="tab-pane" id="changes">
+        {% format_last_changes_content last_changes=last_changes user=user %}
+        <a class="btn btn-primary" href="{% url 'changes' %}?{{ last_changes_url }}">{% translate "Browse all changes made by this user" %}</a>
+      </div>
+
+
+      {% if can_edit_user %}
+        <div class="tab-pane" id="identities">
+          <table class="table table-listing">
+            <thead>
+              <tr>
+                <th>{% translate "Identity" %}</th>
+                <th>{% translate "User ID" %}</th>
+                <th>{% translate "E-mail" %}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for social in page_user.social_auth.all %}
+                <tr>
+                  <th>{% auth_name social.provider ' ' %}</th>
+                  <td>{{ social.uid }}</td>
+                  <td>
+                    {% for verified in social.verifiedemail_set.all %}
+                      {{ verified.email }}
+                      {% if not loop.last %},{% endif %}
+                    {% endfor %}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="tab-pane" id="notifications">
+          <table class="table table-listing">
+            <thead>
+              <tr>
+                <th>{% translate "Notification" %}</th>
+                <th>{% translate "Scope" %}</th>
+                <th>{% translate "Frequency" %}</th>
+                <th>{% translate "Project" %}</th>
+                <th>{% translate "Component" %}</th>
+                <th>{% translate "One-time" %}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for subscription in page_user.subscription_set.prefetch.order %}
+                <tr>
+                  <th>{{ subscription.notification }}</th>
+                  <td>{{ subscription.get_scope_display }}</td>
+                  <td>{{ subscription.get_frequency_display }}</td>
+                  <td>{{ subscription.project }}</td>
+                  <td>{{ subscription.component }}</td>
+                  <td>{{ subscription.onetime }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        {% if billings %}
+          <div class="tab-pane" id="billing">
+            {% include "billing/list.html" with objects=billings show_expiry=1 show_removal=1 %}
+          </div>
+        {% endif %}
+
+        <div class="tab-pane" id="audit">
+          <table class="table table-listing">
+            <thead>
+              <tr>
+                <th>{% translate "When" %}</th>
+                <th>{% translate "Account activity" %}</th>
+                <th>{% translate "IP address" %}</th>
+                <th>{% translate "User agent" %}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for log in page_user.auditlog_set.order %}
+                <tr>
+                  <td>{{ log.timestamp|date:"DATETIME_FORMAT" }}</td>
+                  <th>{{ log.get_message }}</th>
+                  <td>{{ log.address }}</td>
+                  <td>{{ log.user_agent }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <div class="tab-pane" id="groups">
+          <table class="table table-listing">
+            <thead>
+              <tr>
+                <th>{% translate "Project" %}</th>
+                <th>{% translate "Team" %}</th>
+                <th class="number">{% translate "Members" %}</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for group in page_user_groups %}
+                <tr>
+                  {% if group.defining_project %}
+                    <th>{{ group.defining_project }}</th>
+                  {% else %}
+                    <td>
+                      <em>{% translate "Site-wide team" %}</em>
+                    </td>
+                  {% endif %}
+                  <th>{{ group }}</th>
+                  <td class="number">{{ group.user__count }}</td>
+                  <td>
+                    <a href=""
+                       class="btn btn-link btn-xs red link-post"
+                       data-href="{{ page_user.get_absolute_url }}"
+                       data-params='{"remove_group": {{ group.pk }} }'
+                       title="{% translate "Remove user from this team" %}">{% icon 'delete.svg' %}</a>
+                  </td>
+                </tr>
+              {% endfor %}
+              {% for userblock in page_user.userblock_set.all %}
+                <tr>
+                  <th>{{ userblock.project.name }}</th>
+                  <td>
+                    {% if userblock.expiry %}
+                      {% blocktranslate with expiry=userblock.expiry|date:"DATE_FORMAT" %}Blocked until {{ expiry }}{% endblocktranslate %}
+                    {% else %}
+                      {% translate "Blocked permanently" %}
+                    {% endif %}
+                  </td>
+                  {% if userblock.note %}
+                    <td class="number">
+                      <span title="{{ userblock.note }}">{% icon 'info.svg' %}</span>
+                    </td>
+                  {% else %}
+                    <td></td>
+                  {% endif %}
+                  <td>
+                    <a href=""
+                       class="btn btn-link btn-xs link-post"
+                       data-href="{% url 'unblock-user' project=userblock.project.slug %}"
+                       data-params='{"user": "{{ userblock.user.username|escapejs }}"}'
+                       title="{% translate "Unblock user" %}">{% icon 'close.svg' %}</a>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          {% crispy group_form %}
+        </div>
+
+        <div class="tab-pane" id="edit">
+          <form method="post">
+            {% csrf_token %}
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">{% translate "Edit user" %}</h4>
+              </div>
+              <div class="card-body">{{ form|crispy }}</div>
+              <div class="card-footer">
+                <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
+              </div>
+            </div>
+          </form>
+          <form method="post">
+            {% csrf_token %}
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">
+                  {% documentation_icon 'admin/auth' '2fa' right=True %}
+                  {% translate "Two-factor authentication" %}
+                </h4>
+              </div>
+              <div class="card-body">
+                {% if page_user.profile.has_2fa %}
+                  {% translate "The user has two-factor authentication." %}
+                {% else %}
+                  {% translate "The user doesn't have two-factor authentication." %}
+                {% endif %}
+              </div>
+              {% if page_user.profile.has_2fa %}
+                <div class="card-footer">
+                  <input type="submit"
+                         name="remove_2fa"
+                         value="{% translate "Turn off two-factor authentication" %}"
+                         class="btn-danger red">
+                </div>
+              {% endif %}
+            </div>
+            <div class="card">
+              <div class="card-header text-bg-danger">
+                <h4 class="card-title">{% translate "Password reset" %}</h4>
+              </div>
+              <div class="card-body">{% translate "Disables password authentication for the user." %}</div>
+              <div class="card-footer">
+                <input type="submit"
+                       name="disable_password"
+                       value="{% translate "Disable password" %}"
+                       class="btn btn-danger red">
+              </div>
+            </div>
+            <div class="card">
+              <div class="card-header text-bg-danger">
+                <h4 class="card-title">{% translate "Removal" %}</h4>
+              </div>
+              <div class="card-body">{% translate "Account removal deletes all user private data." %}</div>
+              <div class="card-footer">
+                <input type="button"
+                       name="remove_user"
+                       value="{% translate "Delete" %}"
+                       class="btn btn-danger red"
+                       data-bs-toggle="modal"
+                       data-bs-target="#delete_user_{{ page_user.id }}">
+              </div>
+            </div>
+            <div class="modal fade"
+                 tabindex="-1"
+                 role="dialog"
+                 id="delete_user_{{ page_user.id }}">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h4 class="modal-title">{% translate "Are you absolutely sure?" %}</h4>
+                    <button type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="{% translate "Close" %}"></button>
+                  </div>
+                  <div class="modal-body">
+                    {% blocktranslate with user=page_user.username %}This will remove <b>{{ user }}</b> from Weblate.{% endblocktranslate %}
+                  </div>
+                  <div class="modal-footer">
+                    <input type="submit"
+                           name="remove_user"
+                           value="{% translate "Delete" %}"
+                           class="btn btn-danger" />
+                  </div>
+                </div>
+                <!-- /.modal-content -->
+              </div>
+              <!-- /.modal-dialog -->
+            </div>
+            <!-- /.modal -->
+          </form>
+        </div>
+
+      {% endif %}
+
+    </div>
+  {% endwith %}
+{% endblock content %}

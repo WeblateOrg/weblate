@@ -1,0 +1,17 @@
+# Python commands used for benchmarking
+
+from weblate.trans.models import Component, Project
+import cProfile
+profiler = cProfile.Profile()
+
+
+project = Project.objects.get(slug='test')
+component = Component.objects.create(name='Benchmark', slug='benchmark', repo='weblate://test/android', filemask='po/*.po', project=project)
+component = profiler.runcall(Component.objects.create, name='Benchmark', slug='benchmark', repo='weblate://test/android', filemask='po/*.po', project=project)
+
+Component.objects.filter(slug='benchmark').delete()
+
+
+component = profiler.runcall(Component.objects.create, name='Benchmark', slug='benchmark', repo='weblate://phpmyadmin/master', filemask='po/*.po', project=project)
+
+component = profiler.runcall(Component.objects.create, name='Benchmark', slug='benchmark', repo='weblate://weblate/master', filemask='locale/*/LC_MESSAGES/djangojs.po', project=project)

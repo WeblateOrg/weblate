@@ -1,0 +1,40 @@
+{% load i18n icons %}
+
+{% if simple %}
+  <span lang="{{ language.code }}"
+        dir="{{ language.direction }}"
+        {% if wrap and items.0.content|length > 25 %}class="wrap-text"{% endif %}>{{ items.0.content }}</span>
+{% elif has_content %}
+  <div class="list-group">
+    {% for item in items %}
+      <div class="list-group-item sidebar-button">
+        {% if item.title %}
+          <h5 class="list-group-item-heading">
+            <strong>{{ item.title }}</strong>
+          </h5>
+        {% endif %}
+        <div class="list-group-item-text"
+             lang="{{ language.code }}"
+             dir="{{ language.direction }}">
+          {% if unit and item.copy %}
+            <button type="button"
+                    class="btn btn-link btn-xs float-end"
+                    data-clipboard-value="{{ item.copy }}"
+                    title="{% translate "Copy to clipboard" %}"
+                    tabindex="-1">{% icon "copy.svg" %}</button>
+            <button type="button"
+                    class="btn btn-link btn-xs btn-sidebar float-end"
+                    data-clone-value="{{ item.copy }}"
+                    title="{% translate "Clone to translation" %}"
+                    tabindex="-1">{% icon "clone.svg" %}</button>
+          {% endif %}
+          <span class="{% if wrap and item.content|length > 25 %}wrap-text{% endif %}">{{ item.content }}</span>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <div class="list-group">
+    <div class="list-group-item" lang="{{ language.code }}">&nbsp;</div>
+  </div>
+{% endif %}

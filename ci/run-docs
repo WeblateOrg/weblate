@@ -1,0 +1,15 @@
+#!/bin/bash
+
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+set -e
+
+if ! command -v dot &> /dev/null; then
+    echo "dot command could not be found, please install graphviz"
+    exit 1
+fi
+
+# Build documentation with warnings treated as errors
+make -C docs "${1:-html}" SPHINXOPTS='--nitpicky --fail-on-warning --write-all --keep-going --jobs auto'

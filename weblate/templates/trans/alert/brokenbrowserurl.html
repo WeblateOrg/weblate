@@ -1,0 +1,21 @@
+{% load i18n %}
+
+<p>{% translate "This component is set up incorrectly." %}</p>
+
+<p>{% translate "The repository browser URL points to non-existing locations:" %}</p>
+
+<ul>
+  <li>
+    <a href="{{ link }}">{{ link }}</a>
+    {% if error %}({{ error }}){% endif %}
+  </li>
+</ul>
+
+<p>
+  {# Translators: This is for the case where the link check fails in Weblate, but the links (shown above this message) work correctly for the user. #}
+  {% translate "In case the above links work for you, they might just require authentication, and it is safe to dismiss this alert." %}
+</p>
+
+<p>
+  {% translate "This can happen if the path within the translation files contains references to a parent directory, or is absolute." %}
+</p>

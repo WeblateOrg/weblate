@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'manage-repos' %}">{% translate "Status of repositories" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+  <input type="checkbox" id="show-linked-repo-toggle" checked />
+  <label for="show-linked-repo-toggle">{% translate "Show components with linked repositories" %}</label>
+  <br>
+  <input type="checkbox" id="show-local-repo-toggle" checked />
+  <label for="show-local-repo-toggle">{% translate "Show components without a remote VCS" %}</label>
+  {% for sp in components %}
+    <div class="{% if sp.is_repo_link %}repo-linked{% endif %} {% if sp.is_repo_local %}repo-local{% endif %}">
+      <h3 id="component-{{ sp.pk }}">
+        <a href="{{ sp.get_absolute_url }}">{{ sp }}</a>
+      </h3>
+      {% if sp.is_repo_link %}
+        <p>
+          {% translate "This repository is linked to:" %} <a href="#component-{{ sp.linked_component.pk }}">{{ sp.repo }}</a>
+        </p>
+      {% else %}
+        <pre>
+{{ sp.repository.status }}
+</pre>
+      {% endif %}
+    </div>
+  {% endfor %}
+{% endblock content %}

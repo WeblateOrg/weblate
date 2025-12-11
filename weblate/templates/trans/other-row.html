@@ -1,0 +1,41 @@
+{% load i18n translations %}
+
+<tr>
+  <td>
+    {% if item.allow_merge %}
+      <input type="radio"
+             name="merge"
+             required="required"
+             id="merge_{{ item.pk }}"
+             value="{{ item.pk }}">
+    {% endif %}
+  </td>
+  <td class="vertical-badge">
+    {% if item.pk == unit.pk %}
+      <span class="badge float-end">{% translate "This translation" %}</span>
+    {% endif %}
+    {% if item.is_propagated %}
+      <span class="badge float-end">{% translate "Propagated" %}</span>
+    {% endif %}
+    {% if item.translation.component.locked %}
+      <span class="badge float-end">{% translate "Locked" %}</span>
+    {% endif %}
+    {% needs_agreement item.translation.component as needs_agreement %}
+    {% if needs_agreement %}
+      <span class="badge float-end"
+            title="{% translate "Contributing to this translation requires agreeing to its contributor license agreement." %}">{% translate "Contributor license agreement" %}</span>
+    {% endif %}
+    <span class="badge float-end">{{ item.get_state_display }}</span>
+    <a href="{{ item.get_absolute_url }}">{{ item.translation.component }}</a>
+  </td>
+  <td>{% format_source_string item.context item wrap=True simple=True %}</td>
+  <td>{% format_unit_source item wrap=True simple=True %}</td>
+  <td>
+    <label for="merge_{{ item.pk }}">{% format_unit_target item simple=True %}</label>
+  </td>
+  <td>
+    {% if item.differently_translated %}
+      {% format_unit_target item diff=unit.target simple=True %}
+    {% endif %}
+  </td>
+</tr>

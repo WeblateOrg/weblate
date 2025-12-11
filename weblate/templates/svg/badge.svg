@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="{{ width }}" height="20" xml:lang="en" role="img" aria-label="{{ label }} {{ value }}">
+    <title>{{ label }} {{value }}</title>
+    <linearGradient id="a" x2="0" y2="100%"><stop offset="0" stop-color="#bbb" stop-opacity=".1"/><stop offset="1" stop-opacity=".1"/></linearGradient>
+    <rect width="{{ width }}" height="20" fill="#555" rx="3"/>
+    <rect width="{{ value_width }}" height="20" x="{{ label_width }}" fill="{{ color }}" rx="3"/>
+    <path fill="{{ color }}" d="M{{ label_width }} 0h4v20h-4z"/><rect width="{{ width }}" height="20" fill="url(#a)" rx="3"/>
+    <g fill="#fff" font-family="Source Sans,Kurinto Sans,DejaVu Sans,Verdana,Geneva,sans-serif" font-size="11" text-anchor="middle">
+        <text x="{{ translated_offset }}" y="15" fill="#010101" fill-opacity=".3">{{ label }}</text>
+        <text x="{{ translated_offset }}" y="14">{{ label }}</text>
+        <text x="{{ percent_offset }}" y="15" fill="#010101" fill-opacity=".3">{{ value }}</text>
+        <text x="{{ percent_offset }}" y="14">{{ value }}</text>
+    </g>
+</svg>

@@ -1,0 +1,159 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: Test
+
+on:
+  push:
+    branches-ignore:
+    - renovate/**
+    - weblate
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.ref || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    continue-on-error: ${{ matrix.experimental }}
+    strategy:
+      matrix:
+        python-version:
+        - '3.12'
+        - '3.13'
+        - '3.14'
+        requirements:
+        - latest
+        database:
+        - postgresql
+        datastore:
+        - valkey
+        experimental:
+        - false
+        include:
+        # Reduced testing for mysql
+        - python-version: '3.14'
+          requirements: latest
+          database: mysql
+          datastore: valkey
+          experimental: false
+        # Reduced testing for mariadb
+        - python-version: '3.14'
+          requirements: latest
+          database: mariadb
+          datastore: valkey
+          experimental: false
+        # Reduced testing for redis
+        - python-version: '3.14'
+          requirements: latest
+          database: postgresql
+          datastore: redis
+          experimental: false
+        # Reduced testing for minimal deps
+        - python-version: '3.12'
+          requirements: minimal
+          database: postgresql
+          datastore: valkey
+          experimental: false
+        # Reduced testing for edge deps
+        - python-version: '3.14'
+          requirements: edge
+          database: postgresql
+          datastore: valkey
+          experimental: true
+    name: py${{ matrix.python-version }}, ${{ matrix.database }}, ${{ matrix.datastore }}, ${{ matrix.requirements }} deps
+    env:
+      CI_DATABASE: ${{ matrix.database }}
+      CI_REDIS_HOST: 127.0.0.1
+      CI_REDIS_PORT: '60001'
+      CI_DB_PASSWORD: weblate
+      CI_DB_HOST: 127.0.0.1
+      CI_DB_PORT: '60000'
+      CI_SELENIUM: '1'
+      DJANGO_SETTINGS_MODULE: weblate.settings_test
+      PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
+      PYTHONUNBUFFERED: 1
+    steps:
+    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      with:
+        persist-credentials: false
+    - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+      with:
+        path: data-test/cache/tesseract
+        key: tesseract-data
+    - name: Set up Python ${{ matrix.python-version }}
+      id: setup_python
+      uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v6.1.0
+      with:
+        python-version: ${{ matrix.python-version }}
+        allow-prereleases: true
+    - uses: astral-sh/setup-uv@ed21f2f24f8dd64503750218de024bcf64c7250a # v7.1.5
+      with:
+        save-cache: ${{ github.ref == 'refs/heads/main' }}
+        cache-suffix: ${{ steps.setup_python.outputs.python-version }}
+        version: 0.9.17
+    - name: Start services
+      run: ./ci/services-up ${{ matrix.database }} ${{ matrix.datastore }}
+    - name: Install apt dependencies
+      run: sudo ./ci/apt-install "$CI_DATABASE"
+    - name: Install Python dependencies
+      run: ./ci/pip-install ${{ matrix.requirements }}
+    - name: Used versions
+      run: |
+        source .venv/bin/activate
+        ./ci/print-versions
+    - name: Prepare database
+      run: ./ci/prepare-database
+    - name: Compile MO files
+      run: uv run coverage run ./manage.py compilemessages
+    - name: Collect static files
+      run: uv run coverage run ./manage.py collectstatic --noinput --verbosity 0
+    - name: Migrate database
+      run: uv run coverage run ./manage.py migrate --noinput --traceback
+    - name: Django checks
+      run: uv run coverage run ./manage.py check
+    - name: Demo import
+      run: |
+        uv run coverage run ./manage.py import_demo
+        # Second execution with --delete should remove and recreate
+        uv run coverage run ./manage.py import_demo --delete
+        uv run coverage run ./manage.py billing_demo
+        # Second execution should gracefully handle existing project
+        uv run coverage run ./manage.py billing_demo
+    - name: Keep coverage
+      run: |
+        mkdir -p build/coverage
+        mv .coverage.* build/coverage
+    - name: Test with Django
+      run: |
+        source .venv/bin/activate
+        uv run --all-extras pytest --junitxml=junit.xml --cov=weblate --numprocesses=auto weblate
+        cp .coverage .coverage.pytest
+    - name: Test wsgi startup
+      env:
+        PYTHONPATH: .
+      run: uv run coverage run weblate/wsgi.py
+    - name: Coverage
+      run: |
+        mv build/coverage/.coverage.* .
+        uv run coverage combine
+        uv run coverage xml
+    - uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
+      with:
+        token: ${{secrets.CODECOV_TOKEN}}
+        flags: unittests
+        name: Tests py${{ matrix.python-version }}, ${{ matrix.database }}, ${{ matrix.requirements }} deps
+    - name: Upload test results to Codecov
+      if: ${{ !cancelled() }}
+      uses: codecov/test-results-action@47f89e9acb64b76debcd5ea40642d25a4adced9f # v1.1.1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+    - name: Stop services
+      if: always()
+      run: ./ci/services-down ${{ matrix.database }} ${{ matrix.datastore }}

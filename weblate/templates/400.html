@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'home' %}">{% translate "Bad request" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+  <div class="container">
+    <h2>{% translate "Bad request" %}</h2>
+
+    <p>
+      {% blocktranslate %}We’re sorry but something appears to be wrong with the request you made.{% endblocktranslate %}
+    </p>
+
+  </div>
+
+{% endblock content %}

@@ -1,0 +1,21 @@
+{% load i18n %}
+
+<p>{% translate "This component is set up incorrectly." %}</p>
+
+<p>{% translate "Following enforced checks are not used anywhere:" %}</p>
+
+<ul>
+  {% for check in component.get_unused_enforcements %}
+    {% if check.notsupported %}
+      <li>
+        {% blocktranslate with check=check.name %}{{ check }} quality check is enforced, but it is not available.{% endblocktranslate %}
+      </li>
+    {% else %}
+      <li>
+        {% blocktranslate with check=check.name flag=check.enable_string %}{{ check }} quality check is enforced, but not turned on using <code>{{ flag }}</code> flag.{% endblocktranslate %}
+      </li>
+    {% endif %}
+  {% endfor %}
+</ul>
+
+<p>{% translate "The check can be turned on by adding the corresponding flag to string or component flags." %}</p>

@@ -1,0 +1,139 @@
+{% load humanize i18n icons %}
+
+<div class="btn-group search-group unit-pagination">
+  {% if not is_zen %}
+    {% if prev_unit_url %}
+      <a id="button-first"
+         class="btn btn-outline-primary green"
+         href="{{ first_unit_url }}"
+         title="{% translate "First" %}">
+        {% if LANGUAGE_BIDI %}
+          {% icon "page-last.svg" %}
+        {% else %}
+          {% icon "page-first.svg" %}
+        {% endif %}
+      </a>
+      {% if not is_in_browse %}
+        <a id="prev-section"
+           class="btn btn-outline-primary green {% if offset < 2 %}disabled{% endif %}"
+           href="{{ prev_section_url }}"
+           title="{% translate "Previous section" %}">
+          {% if LANGUAGE_BIDI %}
+            {% icon "fast-forward.svg" %}
+          {% else %}
+            {% icon "rewind.svg" %}
+          {% endif %}
+        </a>
+      {% endif %}
+      <a id="button-prev"
+         class="btn btn-outline-primary green"
+         href="{{ prev_unit_url }}"
+         title="{% translate "Previous" %}"
+         rel="prev">
+        {% if LANGUAGE_BIDI %}
+          {% icon "page-next.svg" %}
+        {% else %}
+          {% icon "page-previous.svg" %}
+        {% endif %}
+      </a>
+    {% else %}
+      <a id="button-first"
+         class="btn btn-outline-primary green disabled"
+         title="{% translate "First" %}">
+        {% if LANGUAGE_BIDI %}
+          {% icon "page-last.svg" %}
+        {% else %}
+          {% icon "page-first.svg" %}
+        {% endif %}
+      </a>
+      <a id="button-prev"
+         class="btn btn-outline-primary green disabled"
+         title="{% translate "Previous" %}">
+        {% if LANGUAGE_BIDI %}
+          {% icon "page-next.svg" %}
+        {% else %}
+          {% icon "page-previous.svg" %}
+        {% endif %}
+      </a>
+    {% endif %}
+  {% endif %}
+  <div class="btn btn-outline-primary position-input"
+       title="{% translate "Click to edit position" %}">
+    {% if filter_pos %}
+      {% blocktranslate with filter_pos=filter_pos|intcomma filter_count=filter_count|intcomma %}{{ filter_pos }} / {{ filter_count }}{% endblocktranslate %}
+    {% else %}
+      {% blocktranslate count cnt=filter_count with count=filter_count|intcomma %}{{ count }} string{% plural %}{{ count }} strings{% endblocktranslate %}
+    {% endif %}
+  </div>
+  <div class="btn btn-outline-primary position-input-editable"
+       title="{% translate "Go to position" %}">
+    <div class="input-group">
+      <input type="hidden"
+             min="1"
+             max="{{ filter_count }}"
+             name="offset"
+             class="form-control"
+             value="{{ filter_pos }}"
+             aria-label="{% translate "Jump to" %}"
+             id="position-input-editable-input">
+      <span class="input-group-text">{% blocktranslate with filter_count=filter_count|intcomma %}/ {{ filter_count }}{% endblocktranslate %}</span>
+    </div>
+  </div>
+  {% if not is_zen %}
+    {% if next_unit_url %}
+      <a id="button-next"
+         class="btn btn-outline-primary green"
+         href="{{ next_unit_url }}"
+         title="{% translate "Next" %}"
+         rel="next">
+        {% if not LANGUAGE_BIDI %}
+          {% icon "page-next.svg" %}
+        {% else %}
+          {% icon "page-previous.svg" %}
+        {% endif %}
+      </a>
+      {% if not is_in_browse %}
+        <a id="next-section"
+           class="btn btn-outline-primary green {% if not can_go_next_section %}disabled{% endif %}"
+           href="{{ next_section_url }}"
+           title="{% translate "Next section" %}"
+           rel="next">
+          {% if not LANGUAGE_BIDI %}
+            {% icon "fast-forward.svg" %}
+          {% else %}
+            {% icon "rewind.svg" %}
+          {% endif %}
+        </a>
+      {% endif %}
+      <a id="button-end"
+         class="btn btn-outline-primary green"
+         href="{{ last_unit_url }}"
+         title="{% translate "Last" %}">
+        {% if not LANGUAGE_BIDI %}
+          {% icon "page-last.svg" %}
+        {% else %}
+          {% icon "page-first.svg" %}
+        {% endif %}
+      </a>
+    {% else %}
+      <a id="button-next"
+         class="btn btn-outline-primary green disabled"
+         title="{% translate "Next" %}">
+        {% if not LANGUAGE_BIDI %}
+          {% icon "page-next.svg" %}
+        {% else %}
+          {% icon "page-previous.svg" %}
+        {% endif %}
+      </a>
+      <a id="button-end"
+         class="btn btn-outline-primary green disabled"
+         title="{% translate "Last" %}">
+        {% if not LANGUAGE_BIDI %}
+          {% icon "page-last.svg" %}
+        {% else %}
+          {% icon "page-first.svg" %}
+        {% endif %}
+      </a>
+    {% endif %}
+  {% endif %}
+</div>

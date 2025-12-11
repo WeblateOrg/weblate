@@ -1,0 +1,20 @@
+{% extends "admin/base.html" %}
+
+{% load i18n translations %}
+
+{% block userlinks %}
+  {% if site_url %}
+    <a href="{{ site_url }}" id="return-to-weblate">{% translate 'Return to Weblate' %}</a> /
+  {% endif %}
+  {% if user.is_active and user.is_staff %}
+    <a href="{% documentation "index" %}">{% translate 'Documentation' %}</a> /
+  {% endif %}
+  {% if user.has_usable_password %}
+    <a href="{% url 'admin:password_change' %}">{% translate 'Change password' %}</a> /
+  {% endif %}
+  <form id="logout-form" method="post" action="{% url 'admin:logout' %}">
+    {% csrf_token %}
+    <button type="submit">{% translate 'Sign out' %}</button>
+  </form>
+  {% include "admin/color_theme_toggle.html" %}
+{% endblock userlinks %}

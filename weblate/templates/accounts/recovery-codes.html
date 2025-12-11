@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% load authnames crispy_forms_tags i18n icons otp_webauthn translations %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'profile' %}">{% translate "Your profile" %}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'recovery-codes' %}">{% translate "Recovery codes" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">
+        {% documentation_icon 'admin/auth' '2fa' right=True %}
+        {% translate "Two-factor recovery codes" %}
+      </h4>
+    </div>
+    <div class="card-body second-factor">
+      <p class="help-block">
+        {% translate "Recovery codes can be used to access your account if you lose access to your device and cannot receive two-factor authentication codes." %}
+      </p>
+
+      <div class="alert alert-info">
+        {% translate "Keep your recovery codes in a safe spot, like in a password manager. These codes are the last resort for accessing your account in case you lose your password and other second factors. If you cannot find these codes when needed, you will lose access to your account." %}
+      </div>
+
+      {% if recovery_codes %}
+        <h5>{% translate "Recovery codes" %}</h5>
+        <ul class="recovery-codes">
+          {% for code in recovery_codes %}<li>{{ code }}</li>{% endfor %}
+        </ul>
+        <button type="button"
+                class="btn btn-primary"
+                data-clipboard-value="{{ recovery_codes_str }}"
+                data-clipboard-message="{% translate "Recovery codes copied to clipboard." %}">
+          {% icon "copy.svg" %} {% translate "Copy to clipboard" %}
+        </button>
+      {% else %}
+        <p>
+          <em>{% translate "There are currently no recovery codes generated." %}</em>
+        </p>
+      {% endif %}
+
+      <h5>{% translate "Generate new recovery codes" %}</h5>
+
+      <p class="help-block">
+        {% translate "When you generate new recovery codes, you must download or print the new codes." %}
+        <strong>{% translate "Your old codes will become invalid and won't work anymore." %}</strong>
+      </p>
+      <p>
+        <a href="" data-href="{% url "recovery-codes" %}" class="btn btn-danger link-post">{% translate "Generate new recovery codes" %}</a>
+      </p>
+
+      <p>
+        <a class="btn btn-link" href="{% url "profile" %}#account">{% translate "Back to account settings" %}</a>
+      </p>
+
+    </div>
+  </div>
+
+{% endblock content %}

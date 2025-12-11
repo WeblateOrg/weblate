@@ -1,0 +1,6 @@
+var weblate_supported = [{% for language in languages %}"{{ language|escapejs }}"{% if not forloop.last %},{% endif %}{% endfor %}]
+var weblate_url = "{{ url|escapejs }}";
+var weblate_selector = "{{ css_selector|escapejs }}";
+var weblate_cookie_name = "{{ cookie_name|escapejs }}";
+
+{% include "addons/js/weblate-code.js" %}

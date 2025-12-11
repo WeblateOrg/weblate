@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags i18n translations %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'create-project' %}">{% translate "Create project" %}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'create-project-import' %}">{% translate "Import project" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+  {% if not can_create %}
+    {% translate "You currently do not have permission to create projects." as msg %}
+    {% show_message "warning" msg %}
+
+    {% if has_billing %}
+      {% include "snippets/billing-failure.html" %}
+    {% endif %}
+
+  {% else %}
+
+    <div class="tab-pane active" id="create">
+      <form action="{% url 'create-project-import' %}"
+            method="post"
+            enctype="multipart/form-data">
+        {% csrf_token %}
+        {% crispy form %}
+        <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
+      </form>
+    </div>
+
+  {% endif %}
+{% endblock content %}

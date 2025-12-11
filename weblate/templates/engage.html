@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+
+{% load humanize i18n static translations %}
+
+{% block breadcrumbs_container %}{% endblock %}
+
+{% block content %}
+
+  <div class="engage container">
+
+    <h1>
+      {% blocktranslate %}Get involved in <strong>{{ project }}</strong>{% endblocktranslate %}
+    </h1>
+
+    <h2>
+      <strong>{% translate "Hello and thank you for your interest" %}</strong>
+      —
+      {% blocktranslate with project=project_link %}{{ project }} is being translated using {{ weblate_name_link }}, a web tool designed to ease translating for both developers and translators.{% endblocktranslate %}
+    </h2>
+
+    <div class="row bignumbers">
+      <div class="col-md-4">
+        <strong>{{ strings_count|intcomma }}</strong>
+        <p>
+          {% blocktranslate count count=strings_count context "Label on engage page" %}String{% plural %}Strings{% endblocktranslate %}
+        </p>
+      </div>
+      <div class="col-md-4">
+        <strong>{{ languages_count|intcomma }}</strong>
+        <p>
+          {% blocktranslate count count=languages_count context "Label on engage page" %}Language{% plural %}Languages{% endblocktranslate %}
+        </p>
+      </div>
+      <div class="col-md-4">
+        <strong>{% blocktranslate context "Translated percents" %}{{ percent }}%{% endblocktranslate %}</strong>
+        <p>{% translate "Translated" %}</p>
+      </div>
+    </div>
+
+
+    <p>
+      {% if language %}
+        {% blocktranslate count cnt=strings_count with count=strings_count|intcomma %}The translation project for {{ project }} currently contains <strong>{{ count }} string</strong> for translation and is <strong>{{ percent }}% complete</strong>.{% plural %}The translation project for {{ project }} currently contains <strong>{{ count }} strings</strong> for translation and is <strong>{{ percent }}% complete</strong>.{% endblocktranslate %}
+      {% else %}
+        {% comment %}This is split into sentences to allow proper localization of plurals.{% endcomment %}
+        {% blocktranslate count cnt=strings_count with count=strings_count|intcomma %}The translation project for {{ project }} currently contains <strong>{{ count }} string</strong> for translation.{% plural %}The translation project for {{ project }} currently contains <strong>{{ count }} strings</strong> for translation.{% endblocktranslate %}
+
+        {% blocktranslate count cnt=languages_count with count=languages_count|intcomma %}It is being translated into <strong>{{ count }} language</strong>.{% plural %}It is being translated into <strong>{{ count }} languages</strong>.{% endblocktranslate %}
+
+        {% blocktranslate %}Overall, these translations are <strong>{{ percent }}% complete</strong>.{% endblocktranslate %}
+      {% endif %}
+
+      {% blocktranslate %}If you would like to contribute to translation of {{ project }}, you need to register on this server.{% endblocktranslate %}
+      {% if project.access_control %}
+        {% translate "This translation is open only to a limited group of translators, if you want to contribute please get in touch with the project maintainers." %}
+      {% endif %}
+      {% if not user.is_authenticated %}
+        {% blocktranslate %}Once you have activated your account, proceed to the translation section.{% endblocktranslate %}
+      {% endif %}
+    </p>
+
+    <p class="buttons">
+      {% if not user.is_authenticated %}
+        <a href="{% url 'register' %}" class="btn btn-primary btn-lg">{% translate "Register" %}</a>
+      {% endif %}
+      {% if translate_object %}
+        <a href="{% url 'translate' path=translate_object.get_url_path %}?q=state:%3Ctranslated"
+           class="btn btn-primary btn-lg">{% translate "Translate" context "Call to action on engage page" %}</a>
+      {% endif %}
+      {% if language %}
+        <a id="engage-project"
+           href="{{ object.get_absolute_url }}"
+           class="btn btn-primary btn-lg">{% blocktranslate %}{{ language }} in {{ project }}{% endblocktranslate %}</a>
+      {% else %}
+        <a id="engage-project"
+           href="{{ project.get_absolute_url }}"
+           class="btn btn-primary btn-lg">{% translate "View project languages" %}</a>
+      {% endif %}
+    </p>
+
+  </div>
+{% endblock content %}

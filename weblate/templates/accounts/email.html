@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags i18n translations %}
+
+{% block content %}
+
+
+  {% if form.errors %}
+    {% translate "Please fix errors in the registration form." as msg %}
+    {% show_message "error" msg %}
+  {% endif %}
+
+  <form action="{% url 'email_login' %}" method="post" accept-charset="utf-8">
+
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{% translate "Verify new e-mail address" %}</h4>
+      </div>
+      <div class="card-body">
+
+        {% csrf_token %}
+        {{ form|crispy }}
+      </div>
+      <div class="card-footer">
+        <input type="submit" value="{% translate 'Register' %}" class="btn btn-primary" />
+      </div>
+    </div>
+  </form>
+
+{% endblock content %}

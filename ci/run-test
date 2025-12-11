@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# Testsuite executor
+
+set -x
+
+./manage.py compilemessages
+
+./manage.py collectstatic --noinput --verbosity 0
+
+./manage.py migrate --noinput --traceback
+
+./manage.py check
+
+pytest

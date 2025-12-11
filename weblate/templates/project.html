@@ -1,0 +1,468 @@
+{% extends "base.html" %}
+
+{% load compress crispy_forms_tags i18n metrics permissions static translations %}
+
+{% block nav_pills %}
+  {% perm 'meta:vcs.status' object as user_can_see_repository_status %}
+  {% perm 'project.permissions' object as user_can_manage_acl %}
+  {% perm 'project.edit' object as user_can_edit_project %}
+  {% perm 'reports.view' object as user_can_view_reports %}
+
+  <ul class="nav nav-pills">
+    <li class="nav-item">
+      <a class="nav-link active"
+         data-bs-target="#languages"
+         data-bs-toggle="tab"
+         href="#">{% translate "Languages" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-target="#components" data-bs-toggle="tab" href="#">{% translate "Components" %}</a>
+    </li class="nav-item">
+    <li class="nav-item">
+      <a class="nav-link" data-bs-target="#information" data-bs-toggle="tab" href="#">{% translate "Overview" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-target="#search" data-bs-toggle="tab" href="#">{% translate "Search" %}</a>
+    </li>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{% translate "Insights" %}</a>
+      <ul class="dropdown-menu shadow">
+        <li>
+          <a class="dropdown-item" data-bs-target="#history" data-bs-toggle="tab" href="#">{% translate "History" %}</a>
+        </li>
+        <li>
+          <a class="dropdown-item" href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
+        </li>
+        {% if last_announcements %}
+          <li>
+            <a class="dropdown-item"
+               data-bs-target="#announcement-history"
+               data-bs-toggle="tab"
+               href="#">{% translate "Announcements" %}</a>
+          </li>
+        {% endif %}
+        <li>
+          <a class="dropdown-item"
+             href="{% url 'api:project-languages' slug=object.slug %}?format=csv">{% translate "Download language statistics (CSV)" %}</a>
+        </li>
+        <li>
+          <a class="dropdown-item"
+             href="{% url 'api:project-languages' slug=object.slug %}?format=json">{% translate "Download language statistics (JSON)" %}</a>
+        </li>
+        {% if user.is_authenticated %}
+          <li>
+            <a class="dropdown-item" data-bs-target="#reports" data-bs-toggle="tab" href="#">{% translate "Translation reports" %}</a>
+          </li>
+        {% endif %}
+        <li>
+          <a class="dropdown-item" href="{% url 'data_project' project=object.slug %}">{% translate "Data exports" %}</a>
+        </li>
+      </ul>
+    </li>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">{% translate "Files" %}</a>
+      <ul class="dropdown-menu shadow">
+        <li>
+          <a class="dropdown-item"
+             href="{% url 'download' path=object.get_url_path %}?format=zip"
+             title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translation files as ZIP file{% endblocktranslate %}</a>
+        </li>
+        <li>
+          <a class="dropdown-item"
+             href="{% url 'download' path=object.get_url_path %}?format=zip:csv"
+             title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translations as CSV in a ZIP file{% endblocktranslate %}</a>
+        </li>
+        <li>
+          <a class="dropdown-item"
+             href="{% url 'download' path=object.get_url_path %}?format=zip:xliff11"
+             title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translations as XLIFF 1.1 in a ZIP file{% endblocktranslate %}</a>
+        </li>
+        <li>
+          <a class="dropdown-item"
+             href="{% url 'download' path=object.get_url_path %}?format=zip:xlsx"
+             title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translations as XLSX in a ZIP file{% endblocktranslate %}</a>
+        </li>
+      </ul>
+    </li>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
+        {% translate "Operations" %} <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu shadow">
+        {% if replace_form %}
+          <li>
+            <a class="dropdown-item" data-bs-target="#replace" data-bs-toggle="tab" href="#">{% translate "Search and replace" %}</a>
+          </li>
+        {% endif %}
+        {% if bulk_state_form %}
+          <li>
+            <a class="dropdown-item" data-bs-target="#bulk-edit" data-bs-toggle="tab" href="#">{% translate "Bulk edit" %}</a>
+          </li>
+        {% endif %}
+        {% if replace_form and bulk_state_form %}
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+        {% endif %}
+        {% if user_can_see_repository_status %}
+          <li>
+            <a class="dropdown-item"
+               data-bs-target="#repository"
+               data-bs-toggle="tab"
+               data-href="{% url 'git_status' path=object.get_url_path %}"
+               href="#">{% translate "Repository maintenance" %}</a>
+          </li>
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+        {% endif %}
+        <li>
+          <a class="dropdown-item" href="{% url 'memory' project=object.slug %}">{% translate "Translation memory" %}</a>
+        </li>
+        {% if announcement_form %}
+          <li>
+            <a class="dropdown-item"
+               data-bs-target="#announcement"
+               data-bs-toggle="tab"
+               href="#">{% translate "Post announcement" %}</a>
+          </li>
+        {% endif %}
+        {% if can_add_new_translation %}
+          <li>
+            <a class="dropdown-item" href="{% url "new-language" path=object.get_url_path %}">{% translate "Start new translation" %}</a>
+          </li>
+        {% endif %}
+        {% if user_can_edit_project %}
+          <li>
+            <a class="dropdown-item"
+               data-bs-target="#add-category"
+               data-bs-toggle="tab"
+               href="#">{% translate "Add new category" %}</a>
+          </li>
+          <li>
+            <a class="dropdown-item"
+               href="{% url 'create-component' %}?project={{ object.pk }}">{% translate "Add new translation component" %}</a>
+          </li>
+          {% if offer_hosting %}
+            {% for billing in object.billings %}
+              {% if billing.is_libre_trial %}
+                <li>
+                  <a class="dropdown-item" href="{{ billing.get_absolute_url }}">{% translate "Request approval for Libre hosting" %}</a>
+                </li>
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        {% endif %}
+        {% if user_can_manage_acl %}
+          <li>
+            <a class="dropdown-item"
+               href="{% url 'manage-access' project=object.slug %}#users">{% translate "Users" %}</a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="{% url 'manage-access' project=object.slug %}#api">{% translate "API access" %}</a>
+          </li>
+        {% elif managed_teams %}
+          {% for team in managed_teams %}
+            <li>
+              <a class="dropdown-item" href="{{ team.get_absolute_url }}">{% blocktranslate %}Manage {{ team }}{% endblocktranslate %}</a>
+            </li>
+          {% endfor %}
+        {% endif %}
+        {% if user_can_edit_project %}
+          <li>
+            <a class="dropdown-item" href="{% url 'fonts' project=object.slug %}">{% translate "Fonts" %}</a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="{% url 'labels' project=object.slug %}">{% translate "Labels" %}</a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="{% url 'machinery-list' project=object.slug %}">{% translate "Automatic suggestions" %}</a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="{% url 'backups' project=object.slug %}">{% translate "Backups" %}</a>
+          </li>
+          <li>
+            <a class="dropdown-item" href="{% url 'addons' path=object.get_url_path %}">{% translate "Add-ons" %}</a>
+          </li>
+        {% endif %}
+
+        {% if user_can_view_billing and object.billings %}
+          {% for billing in object.billings %}
+            <li>
+              <a class="dropdown-item" href="{{ billing.get_absolute_url }}">{% translate "Billing" %}</a>
+            </li>
+          {% endfor %}
+        {% endif %}
+
+        {% if delete_form or rename_form or user_can_edit_project %}
+          <li>
+            <hr class="dropdown-divider">
+          </li>
+
+          {% if user_can_edit_project %}
+            <li>
+              <a class="dropdown-item" href="{% url 'settings' path=object.get_url_path %}">{% translate "Settings" %}</a>
+            </li>
+          {% endif %}
+          {% if delete_form or rename_form %}
+            <li>
+              <a class="dropdown-item" data-bs-target="#organize" data-bs-toggle="tab" href="#">{% translate "Organize or remove" %}</a>
+            </li>
+          {% endif %}
+        {% endif %}
+      </ul>
+    </li>
+    {% include "snippets/share-menu.html" with object=object %}
+    {% include "snippets/watch-dropdown.html" with project=object %}
+  </ul>
+{% endblock nav_pills %}
+
+{% block breadcrumbs %}
+  {% path_object_breadcrumbs path_object %}
+
+  <a class="ms-auto" href="{{ object.get_widgets_url }}">
+    <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
+  </a>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  {% announcements project=object %}
+
+  {% include "snippets/project/state.html" %}
+
+  {% perm 'meta:vcs.status' object as user_can_see_repository_status %}
+  {% perm 'project.permissions' object as user_can_manage_acl %}
+  {% perm 'project.edit' object as user_can_edit_project %}
+  {% perm 'reports.view' object as user_can_view_reports %}
+
+  <div class="tab-content">
+    <div class="tab-pane" id="components">
+
+      {% include "snippets/list-objects.html" with objects=components list_categories=categories name_source="name" label=_("Component") add_link="component" %}
+
+      {% include "paginator.html" with page_obj=components anchor="components" %}
+
+    </div>
+
+    <div class="tab-pane" id="information">
+      {% show_info project=object stats=object.stats metrics=object|metrics show_source=True %}
+    </div>
+
+    <div class="tab-pane active" id="languages">
+
+      {% include "snippets/list-objects.html" with objects=language_stats name_source="language" label=_("Language") project=object global_base=object.stats add_link="translation" %}
+
+    </div>
+
+    <div class="tab-pane" id="history">
+      {% format_last_changes_content last_changes=last_changes user=user %}
+      <a class="btn btn-primary" href="{% url 'changes' path=object.get_url_path %}">{% translate "Browse all project changes" %}</a>
+    </div>
+
+    {% if last_announcements %}
+      <div class="tab-pane" id="announcement-history">
+        {% format_last_changes_content last_changes=last_announcements user=user %}
+        <a class="btn btn-primary"
+           href="{% url 'changes' path=object.get_url_path %}?action=46">{% translate "Browse all project changes" %}</a>
+      </div>
+    {% endif %}
+
+    <div class="tab-pane" id="search">
+
+      <form action="{% url 'search' path=object.get_url_path %}"
+            method="get"
+            data-persist="search-project">
+        {% include "snippets/search-form.html" %}
+      </form>
+
+    </div>
+
+    {% if replace_form %}
+      <div class="tab-pane" id="replace">
+        <form action="{% url 'replace' path=object.get_url_path %}"
+              method="post"
+              enctype="multipart/form-data">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">
+                {% documentation_icon 'user/translating' 'search-replace' right=True %}
+                {% translate "Search and replace" %}
+              </h4>
+            </div>
+            <div class="card-body">{% crispy replace_form %}</div>
+            <div class="card-footer">
+              <input type="submit" value="{% translate "Replace" %}" class="btn btn-primary" />
+            </div>
+          </div>
+        </form>
+      </div>
+    {% endif %}
+
+    {% if bulk_state_form %}
+      <div class="tab-pane" id="bulk-edit">
+        <form action="{% url 'bulk-edit' path=object.get_url_path %}"
+              method="post"
+              enctype="multipart/form-data">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">
+                {% documentation_icon 'user/translating' 'bulk-edit' right=True %}
+                {% translate "Bulk edit" %}
+              </h4>
+            </div>
+            <div class="card-body">{% crispy bulk_state_form %}</div>
+            <div class="card-footer">
+              <input type="submit" value="{% translate "Apply" %}" class="btn btn-primary" />
+            </div>
+          </div>
+        </form>
+      </div>
+    {% endif %}
+
+
+    {% if announcement_form %}
+      <div class="tab-pane" id="announcement">
+        <form action="{% url 'announcement' path=object.get_url_path %}" method="post">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">
+                {% documentation_icon 'admin/announcements' right=True %}
+                {% translate "Post announcement" %}
+              </h4>
+            </div>
+            <div class="card-body">
+              {% csrf_token %}
+              {{ announcement_form|crispy }}
+              <p class="help-block">
+                {% translate "The message is shown for all translations within the project, until its given expiry, or permanently until it is deleted." %}
+              </p>
+            </div>
+            <div class="card-footer">
+              <input type="submit" value="{% translate "Add" %}" class="btn btn-primary" />
+            </div>
+          </form>
+
+        </div>
+      </div>
+    {% endif %}
+
+    {% if user_can_edit_project %}
+      <div class="tab-pane" id="add-category">
+
+        <form method="post" action="{% url 'add-category' path=object.get_url_path %}">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">{% translate "Add a category" %}</h4>
+            </div>
+            <div class="card-body">
+              <div class="form-group"></div>
+              {% crispy add_form %}
+            </div>
+            <div class="card-footer">
+              <input type="submit" class="btn btn-warning" value="{% translate "Add" %}">
+            </div>
+          </div>
+        </form>
+
+      </div>
+    {% endif %}
+
+
+    {% if rename_form %}
+      <div class="tab-pane" id="organize">
+
+        {% if rename_form %}
+          <form method="post" action="{% url 'rename' path=object.get_url_path %}">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">{% translate "Organize project" %}</h4>
+              </div>
+              <div class="card-body">
+                <div class="form-group">
+                  <div class="alert alert-warning" role="alert">
+                    {% translate "Renaming the project will also change URLs for all its components." %}
+                    {% translate "Users will need to update their bookmarks, references in cloned repositories, or API calls!" %}
+                  </div>
+                </div>
+                {% crispy rename_form %}
+              </div>
+              <div class="card-footer">
+                <input type="submit" class="btn btn-warning" value="{% translate "Organize" %}">
+              </div>
+            </div>
+          </form>
+        {% endif %}
+
+        {% if delete_form %}
+          {% include "trans/delete-form.html" %}
+        {% endif %}
+
+
+      </div>
+    {% endif %}
+
+    {% if user_can_see_repository_status %}
+      <div class="tab-pane" id="repository">
+        <p>{% translate "Loading…" %}</p>
+      </div>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+      <div class="tab-pane" id="reports">
+        {% if not user_can_view_reports %}
+          {% translate "You don't have permission to view reports for all users, only your contributions will be listed." as msg %}
+          {% show_message "warning" msg %}
+        {% endif %}
+        <div class="row">
+          <div class="col-lg-6">
+            <form action="{% url 'credits' path=object.get_url_path %}"
+                  method="post"
+                  enctype="multipart/form-data">
+              <div class="card">
+                <div class="card-header">
+                  <h4 class="card-title">
+                    {% documentation_icon 'devel/reporting' 'credits' right=True %}
+                    {% translate "Credits" %}
+                  </h4>
+                </div>
+                <div class="card-body">
+                  <p>
+                    {% translate "Lists all translators contributing to this project in a given time period. Useful for inclusion in documentation or the app itself, to thank translators and generate feedback to them." %}
+                  </p>
+                  {% crispy reports_form %}
+                </div>
+                <div class="card-footer">
+                  <input type="submit" value="{% translate "Generate" %}" class="btn btn-primary" />
+                </div>
+              </div>
+            </form>
+          </div>
+          <div class="col-lg-6">
+            <form action="{% url 'counts' path=object.get_url_path %}"
+                  method="post"
+                  enctype="multipart/form-data">
+              <div class="card">
+                <div class="card-header">
+                  <h4 class="card-title">
+                    {% documentation_icon 'devel/reporting' 'stats' right=True %}
+                    {% translate "Contributor stats" %}
+                  </h4>
+                </div>
+                <div class="card-body">
+                  <p>{% translate "Reports the number of strings and words translated by each translator." %}</p>
+                  {% crispy reports_form %}
+                </div>
+                <div class="card-footer">
+                  <input type="submit" value="{% translate "Generate" %}" class="btn btn-primary" />
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+  </div>
+
+{% endblock content %}

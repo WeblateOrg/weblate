@@ -1,0 +1,82 @@
+{% load i18n translations %}
+
+<footer>
+  <ul>
+    <li>
+      {% blocktranslate %}Powered by {{ weblate_version_link }}{% endblocktranslate %}
+    </li>
+    <li>
+      <a href="{% url 'about' %}" id="footer-about-link">{% translate "About" context "About this server" %}</a>
+    </li>
+    {% if has_legal %}
+      <li>
+        <a href="{% url 'legal:terms' %}">{% translate "Terms" context "General terms and conditions" %}</a>
+      </li>
+      <li>
+        <a href="{% url 'legal:privacy' %}">{% translate "Privacy" context "Privacy policy" %}</a>
+      </li>
+    {% else %}
+      {% if legal_url %}
+        <li>
+          <a href="{{ legal_url }}">{% translate "Legal" context "Link to legal documents" %}</a>
+        </li>
+      {% endif %}
+      {% if privacy_url %}
+        <li>
+          <a href="{{ privacy_url }}">{% translate "Privacy" context "Privacy policy" %}</a>
+        </li>
+      {% endif %}
+    {% endif %}
+    {% if status_url %}
+      <li>
+        <a href="{{ status_url }}">{% translate "Status" context "Service status" %}</a>
+      </li>
+    {% endif %}
+    {% if contact_form != "disabled" %}
+      <li>
+        <a href="{% url 'contact' %}">{% translate "Contact" %}</a>
+      </li>
+    {% endif %}
+    <li>
+      <a href="{% documentation 'index' %}">{% translate "Documentation" %}</a>
+    </li>
+    {% if not support_status.has_support %}
+      <li>
+        <a href="{% url 'donate' %}">{% translate "Become a Weblate supporter" context "Support Weblate financially" %}</a>
+      </li>
+    {% endif %}
+  </ul>
+</footer>
+
+{% if matomo_site_id and matomo_url %}
+  <!-- Matomo -->
+  <script src="{% url "js-matomo" %}"
+          async
+          defer
+          id="matomo-tracker"
+          data-params='{"Language": "{{ LANGUAGE_CODE|escapejs }}"{% if project %}, "Project": "{{ project.name|escapejs }}"{% endif %}}'></script>
+  <noscript>
+    <img src="{{ matomo_url }}matomo.php?idsite={{ matomo_site_id }}&amp;rec=1"
+         style="border:0"
+         alt="" />
+  </noscript>
+  <!-- End Matomo Code -->
+{% endif %}
+
+{% if google_analytics_id %}
+  <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+  ga('create', '{{ google_analytics_id }}', 'auto');
+  ga('send', 'pageview', {
+  {% if project %}
+    'dimension2':  '{{ project.name }}',
+  {% endif %}
+    'dimension1':  '{{ LANGUAGE_CODE }}'
+  });
+
+  </script>
+{% endif %}

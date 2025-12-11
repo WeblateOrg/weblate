@@ -1,0 +1,122 @@
+{% load crispy_forms_tags i18n icons permissions translations %}
+
+{% for item in unitdata %}
+  <tbody class="zen-unit">
+
+
+    <tr id="row-status-{{ item.unit.checksum }}">
+      <td colspan="3">
+        {% if item.unit.context %}
+          {% format_source_string item.unit.context item.unit simple=True wrap=True search_match=search_query whitespace=False %}
+        {% else %}
+          {{ item.unit.position }}
+        {% endif %}
+        <div class="float-end btn-padded">
+          <a class="btn btn-link btn-xs"
+             href="{{ site_url }}{{ item.unit.get_absolute_url }}"
+             data-clipboard-value="{{ site_url }}{{ item.unit.get_absolute_url }}"
+             data-clipboard-message="{% translate "Permalink copied to clipboard." %}"
+             title="{% translate "Copy permalink" %}"
+             tabindex="-1">{% icon "link.svg" %}</a>
+          <a class="btn btn-link btn-xs"
+             href="{% url 'translate' path=object.get_url_path %}?{{ search_url }}&amp;offset={{ item.offset }}"
+             title="{% translate "Open in full editor" %}"
+             tabindex="-1">{% icon "pencil-mini.svg" %}</a>
+        </div>
+        {% get_location_links user item.unit %}
+      </td>
+    </tr>
+
+
+    {% if item.unit.source_unit.explanation %}
+      <tr id="row-explanation-{{ item.unit.checksum }}">
+        <td class="unit-state-cell"></td>
+        <td colspan="2" class="translatetext">
+          <label>{% translate "Explanation" %}</label>
+          <div class="list-group">
+            <div class="list-group-item">
+              <div class="list-group-item-text">{{ item.unit.source_unit.explanation|markdown }}</div>
+            </div>
+          </div>
+        </td>
+      </tr>
+    {% elif item.unit.note %}
+      <tr id="row-explanation-{{ item.unit.checksum }}">
+        <td class="unit-state-cell"></td>
+        <td colspan="2" class="translatetext">
+          <label>{% translate "Source string description" %}</label>
+          <div class="list-group">
+            <div class="list-group-item">
+              <div class="list-group-item-text">{{ item.unit.note|urlize_ugc }}</div>
+            </div>
+          </div>
+        </td>
+      </tr>
+    {% endif %}
+
+
+    <tr id="row-source-{{ item.unit.checksum }}">
+      <td {% if user.profile.zen_mode == user.profile.ZEN_HORIZONTAL %} id="status-{{ item.unit.checksum }}" class="unit-state-cell {% unit_state_class item.unit %}" title="{% unit_state_title item.unit %}" {% endif %}>
+      </td>
+      <td {% if user.profile.zen_mode != user.profile.ZEN_HORIZONTAL %}colspan="2"{% endif %}
+          class="translatetext">
+
+        {% if item.secondary %}
+          {% for unit in item.secondary %}
+            <div class="form-group">
+              <a href="{{ unit.get_absolute_url }}" class="language" tabindex="-1">{{ unit.translation.language }}</a>
+              {% format_unit_target unit show_copy=True %}
+            </div>
+          {% endfor %}
+        {% endif %}
+
+        {% if item.unit.previous_source and item.unit.fuzzy %}
+          <div class="form-group">
+            <label>{% translate "Source change" %}</label>
+            {% format_unit_source item.unit diff=item.unit.previous_source %}
+          </div>
+        {% endif %}
+
+        {% if not item.unit.is_source %}
+          {% if not user.profile.hide_source_secondary or not item.secondary %}
+            <div class="form-group">
+              <a href="{{ item.unit.source_unit.get_absolute_url }}"
+                 class="language"
+                 tabindex="-1">{{ item.unit.translation.component.source_language }}</a>
+              {% format_unit_source item.unit search_match=search_query glossary=item.glossary show_copy=True %}
+            </div>
+          {% endif %}
+        {% endif %}
+
+      </td>
+
+      {% if user.profile.zen_mode != user.profile.ZEN_HORIZONTAL %}
+      </tr>
+
+
+      <tr id="row-edit-{{ item.unit.checksum }}">
+        <td id="status-{{ item.unit.checksum }}"
+            class="unit-state-cell {% unit_state_class item.unit %}"
+            title="{% unit_state_title item.unit %}"></td>
+      {% endif %}
+      <td {% if user.profile.zen_mode != user.profile.ZEN_HORIZONTAL %}colspan="2"{% endif %}
+          class="translator">
+        <button class="btn btn-light btn-sm hide-sticky" title="{% translate "Collapse" %}">{% icon "close.svg" %}</button>
+        {% crispy item.form %}
+      </td>
+    </tr>
+
+
+  </tbody>
+{% endfor %}
+
+{% if last_section %}
+  <tbody>
+    <tr>
+      <td colspan="3" id="last-section">
+        {% translate 'The translation has come to an end.' as msg %}
+        {% show_message 'info' msg %}
+      </td>
+    </tr>
+  </tbody>
+{% endif %}

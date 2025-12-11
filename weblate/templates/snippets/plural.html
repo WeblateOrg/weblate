@@ -1,0 +1,41 @@
+{% load i18n %}
+
+{% if show_full_language %}
+  <tr class="info table-active">
+    <th colspan="3">
+      {% if user_can_edit_language %}
+        <a class="btn btn-primary btn-xs float-end"
+           href="{% url 'edit-plural' pk=plural.pk %}">{% translate "Edit" %}</a>
+      {% endif %}
+      {% blocktranslate with source_description=plural.get_source_display %}Plural: {{ source_description }}{% endblocktranslate %}
+      <span class="badge text-bg-secondary">{% blocktranslate count count=plural.translation_set.count %}{{ count }} translation{% plural %}{{ count }} translations{% endblocktranslate %}</span>
+    </th>
+  </tr>
+{% endif %}
+<tr>
+  <th>{% translate "Number of plurals" %}</th>
+  <td colspan="2">{{ plural.number }}</td>
+</tr>
+<tr>
+  <th>{% translate "Plural type" %}</th>
+  <td colspan="2">{{ plural.get_type_display }}</td>
+</tr>
+<tr>
+  <th rowspan="{{ plural.number }}">{% translate "Plurals" %}</th>
+  {% if plural.number > 1 %}
+    {% for item in plural.list_plurals %}
+      {% if item.index > 1 %}<tr>{% endif %}
+        <td>{{ item.name }}</td>
+        <td>{{ item.examples }}</td>
+      </tr>
+    {% endfor %}
+  {% else %}
+    <td colspan="2"></td>
+  </tr>
+{% endif %}
+<tr>
+  <th>{% translate "Plural formula" %}</th>
+  <td colspan="2" class="full-cell">
+    <code>{{ plural.formula }}</code>
+  </td>
+</tr>

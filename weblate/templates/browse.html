@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% load compress crispy_forms_tags i18n icons permissions static translations %}
+
+{% block extra_script %}
+  {% compress js %}
+    <script defer
+            data-cfasync="false"
+            src="{% static 'editor/browse.js' %}{{ cache_param }}"></script>
+  {% endcompress %}
+{% endblock extra_script %}
+
+{% block breadcrumbs %}
+  {% path_object_breadcrumbs object %}
+
+  <li class="breadcrumb-item">
+    <a href="{% url 'browse' path=object.get_url_path %}">{% translate "Browse" %}</a>
+  </li>
+  <a class="ms-auto" href="{{ object.get_widgets_url }}">
+    <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
+  </a>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  {% if object.component.slug == "-" %}
+    {% for component in project.component_set.prefetch %}
+      {% include "snippets/component/state.html" with object=component %}
+    {% endfor %}
+  {% else %}
+    {% include "snippets/component/state.html" with object=object.component %}
+  {% endif %}
+
+  {% perm 'unit.add' object as user_can_add_unit %}
+  {% if user_can_add_unit %}
+    <a class="btn btn-link green float-end" href="{{ object.get_absolute_url }}#new">{% icon "plus-circle.svg" %} {{ object.component.get_add_label }}</a>
+  {% endif %}
+
+  <form method="get" class="result-page-form">
+    {% crispy search_form %}
+  </form>
+
+  {% if not units %}
+    <em>{% translate "No strings found!" %}</em>
+  {% else %}
+    {% include "snippets/embed-units.html" with translation=object include_search=True component=object.component %}
+  {% endif %}
+
+{% endblock content %}

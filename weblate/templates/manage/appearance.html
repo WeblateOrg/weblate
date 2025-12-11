@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% load authnames crispy_forms_tags i18n permissions translations %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'manage-appearance' %}">{% translate "Appearance" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  <form method="post" action="{% url "manage-appearance" %}">
+    {% csrf_token %}
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{% translate "Customize appearance" %}</h4>
+      </div>
+      <div class="card-body" id="appearance-settings">{% crispy form %}</div>
+      <div class="card-footer">
+        <input type="submit" class="btn btn-primary" value="{% translate "Save" %}" />
+        <input type="submit"
+               class="btn btn-danger"
+               name="reset"
+               value="{% translate "Reset customization" %}" />
+      </div>
+    </div>
+  </form>
+
+{% endblock content %}

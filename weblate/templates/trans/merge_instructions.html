@@ -1,0 +1,47 @@
+{% load i18n translations %}
+
+{% if component.get_export_url %}
+
+  <h2>{% translate "Typical workflow for fixing merge conflicts" %}</h2>
+
+  <ol>
+    <li>{% translate "Open an existing checkout of the upstream repository or perform a fresh one." %}</li>
+    <li>
+      {% translate "Commit all pending changes in Weblate and lock the translation component." %}
+      <br />
+      <code>wlc commit; wlc lock</code>
+    </li>
+    <li>
+      {% translate "Add Weblate exported repository as a remote." %}
+      <br />
+      <code>git remote add weblate {{ component.get_export_url }} ; git remote update weblate</code>
+    </li>
+    <li>
+      {% translate "Merge Weblate changes and resolve any conflicts." %}
+      <br />
+      <code>git merge weblate/{{ component.branch }}</code>
+    </li>
+    {% if component.merge_style == "rebase" %}
+      <li>
+        {% translate "Rebase Weblate changes on top of upstream and resolve any conflicts." %}
+        <br />
+        <code>git rebase origin/{{ component.branch }}</code>
+      </li>
+    {% endif %}
+    <li>
+      {% translate "Push changes into upstream repository." %}
+      <br />
+      <code>git push origin {{ component.branch }}</code>
+    </li>
+    <li>
+      {% translate "Weblate should now be able to see updated repository and you can unlock it." %}
+      <br />
+      <code>wlc pull ; wlc unlock</code>
+    </li>
+  </ol>
+
+{% endif %}
+
+<p>
+  <a class="button" href="{% documentation "faq" "merge" %}">{% translate "Check the FAQ for info on how to resolve this." %}</a>
+</p>

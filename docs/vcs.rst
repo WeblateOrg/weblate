@@ -1,0 +1,667 @@
+.. _vcs:
+
+Version control integration
+===========================
+
+Weblate currently supports :ref:`vcs-git` (with extended support for
+:ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-gerrit`,
+:ref:`vcs-git-svn`, :ref:`vcs-bitbucket-cloud`, :ref:`vcs-bitbucket-data-center`, and :ref:`vcs-azure-devops`) and
+:ref:`vcs-mercurial` as version control back-ends.
+
+.. _vcs-repos:
+
+Accessing repositories
+----------------------
+
+The VCS repository you want to use has to be accessible to Weblate. With a
+publicly available repository you just need to enter the correct URL (for
+example ``https://github.com/WeblateOrg/weblate.git``), but for private
+repositories or for push URLs the setup is more complex and requires
+authentication.
+
+.. _hosted-push:
+
+Accessing repositories from Hosted Weblate
+++++++++++++++++++++++++++++++++++++++++++
+
+.. note::
+
+   This section applies **only** to Hosted Weblate (hosted.weblate.org). If you are
+   running your own self-hosted Weblate instance, please see
+   :ref:`the next section <vcs-repos-code-hosting>` instead.
+
+For Hosted Weblate, there is a dedicated push user registered on GitHub,
+Bitbucket, Codeberg, and GitLab (with the username :guilabel:`weblate`, e-mail
+``hosted@weblate.org``, and a name or profile description :guilabel:`Weblate push user`).
+
+.. hint::
+
+   There can be more Weblate users on the platforms, designated for other Weblate instances.
+   Searching by e-mail ``hosted@weblate.org`` is recommended to find the correct
+   user for Hosted Weblate.
+
+You need to add this user as a collaborator and give it appropriate permissions to your
+repository (read-only is okay for cloning, write is required for pushing).
+Depending on the service and your organization’s settings, this happens immediately,
+or requires confirmation on the Weblate side.
+
+The :guilabel:`weblate` user on GitHub accepts invitations automatically within five minutes.
+Manual processing might be needed on the other services, so please be patient.
+
+Once the :guilabel:`weblate` user is added to your repository, you can configure
+:ref:`component-repo` and :ref:`component-push` using the SSH protocol (for example
+``git@github.com:WeblateOrg/weblate.git``).
+
+.. _vcs-repos-code-hosting:
+
+Accessing repositories on code hosting sites (GitHub, GitLab, Bitbucket, Azure DevOps, ...)
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+.. note::
+
+   This section applies to **self-hosted** Weblate instances. If you are using
+   Hosted Weblate (hosted.weblate.org), see :ref:`hosted-push` instead.
+
+For self-hosted Weblate, accessing repositories on code hosting sites is typically done by creating a
+dedicated user who is associated with a Weblate SSH key (see
+:ref:`weblate-ssh-key`). This way you associate Weblate SSH key with a single
+user (platforms frequently enforce single use of a SSH key) and grant this user access
+to the repository. You can then use SSH URL to access the repository (see
+:ref:`ssh-repos`).
+
+.. _ssh-repos:
+
+SSH repositories
+++++++++++++++++
+
+The most frequently used method to access private repositories is based on SSH.
+Authorize the public Weblate SSH key (see :ref:`weblate-ssh-key`) to access the upstream
+repository this way.
+
+.. warning::
+
+    On GitHub, each key can only be used once, see :ref:`vcs-repos-github` and
+    :ref:`hosted-push`.
+
+Weblate also stores the host key fingerprint upon first connection, and fails to
+connect to the host should it be changed later (see :ref:`verify-ssh`).
+
+In case adjustment is needed, do so from the Weblate admin interface:
+
+.. image:: /screenshots/ssh-keys.webp
+
+
+.. _weblate-ssh-key:
+
+Weblate SSH key
+~~~~~~~~~~~~~~~
+
+.. versionchanged:: 4.17
+
+   Weblate now generates both RSA and Ed25519 SSH keys. Using Ed25519 is recommended for new setups.
+
+The Weblate public key is visible to all users browsing the :guilabel:`About` page.
+
+Admins can generate or display the public key currently used by Weblate in the connection
+(from :guilabel:`SSH keys`) on the admin interface landing page.
+
+.. note::
+
+    The corresponding private SSH key can not currently have a password, so ensure it is
+    well protected.
+
+.. hint::
+
+   Make a backup of the generated private Weblate SSH key.
+
+.. _verify-ssh:
+
+Verifying SSH host keys
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Weblate automatically stores the SSH host keys on first access and remembers
+them for further use.
+
+In case you want to verify the key fingerprint before connecting to the
+repository, add the SSH host keys of the servers you are going to access in
+:guilabel:`Add host key`, from the same section of the admin interface. Enter
+the hostname you are going to access (e.g. ``gitlab.com``), and press
+:guilabel:`Submit`. Verify its fingerprint matches the server you added.
+
+The added keys with fingerprints are shown in the confirmation message:
+
+.. image:: /screenshots/ssh-keys-added.webp
+
+Connecting to legacy SSH servers
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Recent OpenSSH releases (for example the one used in Weblate Docker container)
+disable RSA signatures using the SHA-1 hash algorithm by default. This change
+has been made as the SHA-1 hash algorithm is cryptographically broken, and it
+is possible to create chosen-prefix hash collisions for <USD$50K.
+
+For most users, this change should be invisible and there is no need to replace
+ssh-rsa keys. OpenSSH has supported RFC8332 RSA/SHA-256/512 signatures since
+release 7.2 and existing ssh-rsa keys will automatically use the stronger
+algorithm where possible.
+
+Incompatibility is more likely when connecting to older SSH implementations
+that have not been upgraded or have not closely tracked improvements in the SSH
+protocol. The SSH connection to such server will fail with:
+
+.. code-block:: text
+
+   no matching host key type found. Their offer: ssh-rsa
+
+For these cases, it may be necessary to selectively re-enable RSA/SHA1 to allow
+connection and/or user authentication via the HostkeyAlgorithms and
+PubkeyAcceptedAlgorithms options. For example, the following stanza in
+:file:`DATA_DIR/ssh/config` will enable RSA/SHA1 for host and user
+authentication for a single destination host:
+
+.. code-block:: text
+
+   Host legacy-host
+      HostkeyAlgorithms +ssh-rsa
+      PubkeyAcceptedAlgorithms +ssh-rsa
+
+We recommend enabling RSA/SHA1 only as a stopgap measure until legacy
+implementations can be upgraded or reconfigured with another key type (such as
+ECDSA or Ed25519).
+
+.. _vcs-repos-github:
+
+GitHub repositories
++++++++++++++++++++
+
+There are two main approaches to accessing GitHub repositories with Weblate:
+
+**Option 1: HTTPS with Personal Access Token (simpler for getting started)**
+
+Use HTTPS authentication with a personal access token and your GitHub account.
+This works for both read-only access (cloning) and read-write access (pushing
+changes or creating pull requests).
+
+To use this approach:
+
+1. Create a personal access token as described in `Creating an access token for command-line use`_.
+2. Include the token in your repository URL: ``https://username:token@github.com/owner/repo.git``
+
+This is suitable when you're starting with Weblate or working with a single repository.
+
+.. _Creating an access token for command-line use: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token
+
+**Option 2: SSH with Dedicated User (recommended for multiple repositories)**
+
+For setups with multiple repositories, it is recommended to create a dedicated
+user for Weblate. This avoids GitHub's limitation that each SSH key can only
+be used once per platform.
+
+To use this approach:
+
+1. Create a dedicated GitHub user account (e.g., ``weblate-bot``)
+2. Add Weblate's public SSH key to this user (see :ref:`weblate-ssh-key`)
+3. Grant this user access to all repositories you want to translate
+4. Use SSH URLs for your repositories: ``git@github.com:owner/repo.git``
+
+This approach is also used for Hosted Weblate, which has a dedicated
+:guilabel:`weblate` user for that purpose.
+
+.. note::
+
+   When using :ref:`vcs-github` for pull requests, the
+   :ref:`component-push_branch` configuration affects the behavior: if not set,
+   the project is forked and changes are pushed through a fork. If set, changes
+   are pushed to the upstream repository and the chosen branch.
+
+.. seealso::
+
+   * :ref:`vcs-github`
+   * :ref:`hosted-push`
+   * :setting:`GITHUB_CREDENTIALS`
+
+.. _vcs-repos-gitlab:
+
+GitLab repositories
++++++++++++++++++++
+
+Access via SSH is possible (see :ref:`ssh-repos`), but in case you need to
+access more than one repository, you will hit a GitLab limitation on allowed
+SSH key usage (since each key can be used only once).
+
+In case the :ref:`component-push_branch` is not set, the project is forked and
+changes pushed through a fork. In case it is set, changes are pushed to the
+upstream repository and chosen branch.
+
+Using personal or project access tokens is possible as well. The token needs
+:guilabel:`write_repository` scope to be able to push changes to the
+repository. The project access token requires :guilabel:`Developer` role for
+pushing.
+
+The URL needs to contain an username, for personal access token it is the
+actual username (
+``https://user:personal_access_token@gitlab.com/example/example.git``) for
+project access tokens it can be non-blank value
+(``https://example:project_access_token@gitlab.com/example/example.git``).
+
+.. note::
+
+   The rules for using project access tokens has changed between GitLab
+   releases, the non-blank value is the current requirement, but older versions
+   had different expectations (project name, bot user name). Check GitLab
+   documentation matching your version if unsure.
+
+.. seealso::
+
+   * :ref:`vcs-gitlab`
+   * :ref:`hosted-push`
+   * :setting:`GITLAB_CREDENTIALS`
+
+.. _internal-urls:
+
+Weblate internal URLs
++++++++++++++++++++++
+
+Share one repository setup between different components by referring to its
+placement as ``weblate://project/component`` in other (linked) components. This
+way linked components use the VCS repository configuration of the
+main (referenced) component.
+
+.. warning::
+
+   Removing main component also removes linked components.
+
+Weblate automatically adjusts the repository URL when creating a component if it
+finds a component with a matching repository setup. You can override this in
+the last step of the component configuration.
+
+Reasons to use this:
+
+* Saves disk space on the server, the repository is stored just once.
+* Makes the updates faster, only one repository is updated.
+* There is just single exported repository with Weblate translations (see :ref:`git-exporter`).
+* Some add-ons can operate on multiple components sharing one repository, for example :ref:`addon-weblate.git.squash`.
+
+
+HTTPS repositories
+++++++++++++++++++
+
+.. seealso::
+
+   * :ref:`vcs-repos-github`
+   * :ref:`vcs-repos-gitlab`
+
+To access protected HTTPS repositories, include the username and password
+in the URL. Don't worry, Weblate will strip this info when the URL is shown
+to users (if even allowed to see the repository URL at all).
+
+For example the GitHub URL with authentication added might look like:
+``https://user:your_access_token@github.com/WeblateOrg/weblate.git``.
+
+In case you don't provide credentials in the URL and the repository requires it, Git will fail with an error:
+
+.. code-block:: text
+
+   fatal: could not read Username for 'https://github.com': terminal prompts disabled
+
+.. versionchanged:: 5.10.2
+
+   Weblate uses proactive authentication with Git 2.46.0 and newer when HTTP
+   credentials are supplied.
+
+   This makes it possible to access Azure DevOps repositories and makes access
+   to authenticated repositories faster.
+
+.. note::
+
+    If your username or password contains special characters, those have to be
+    URL encoded, for example
+    ``https://user%40example.com:%24password%23@bitbucket.org/…``.
+
+Using proxy
++++++++++++
+
+If you need to access HTTP/HTTPS VCS repositories using a proxy server,
+configure the VCS to use it.
+
+This can be done using the ``http_proxy``, ``https_proxy``, and ``all_proxy``
+environment variables, (as described in the `cURL documentation <https://curl.se/docs/>`_)
+or by enforcing it in the VCS configuration, for example:
+
+.. code-block:: sh
+
+    git config --global http.proxy http://user:password@proxy.example.com:80
+
+.. note::
+
+    The proxy configuration needs to be done under user running Weblate (see
+    also :ref:`file-permissions`) and with ``HOME=$DATA_DIR/home`` (see
+    :setting:`DATA_DIR`), otherwise Git executed by Weblate will not use it.
+
+.. seealso::
+
+    * `The cURL manpage <https://curl.se/docs/manpage.html>`_
+    * `Git config documentation <https://git-scm.com/docs/git-config>`_
+
+
+.. _vcs-git:
+
+Git
+---
+
+.. hint::
+
+   Weblate needs Git 2.28 or newer.
+
+.. seealso::
+
+    See :ref:`vcs-repos` for info on how to access different kinds of repositories.
+
+.. _vcs-git-force-push:
+
+Git with force push
++++++++++++++++++++
+
+This behaves exactly like Git itself, the only difference being that it always
+force pushes. This is intended only in the case of using a separate repository
+for translations.
+
+.. warning::
+
+    Use with caution, as this easily leads to lost commits in your
+    upstream repository.
+
+Customizing Git configuration
++++++++++++++++++++++++++++++
+
+Weblate invokes all VCS commands with ``HOME=$DATA_DIR/home`` (see
+:setting:`DATA_DIR`), therefore editing the user configuration needs to be done
+in ``DATA_DIR/home/.git``.
+
+.. _vcs-github:
+.. _github-push:
+
+GitHub pull requests
+--------------------
+
+This adds a thin layer atop :ref:`vcs-git` using the `GitHub API`_ to allow pushing
+translation changes as pull requests, instead of pushing directly to the repository.
+
+:ref:`vcs-git` pushes changes directly to a repository, while
+:ref:`vcs-github` creates pull requests.
+The latter is not needed for merely accessing Git repositories.
+
+You need to configure API credentials (:setting:`GITHUB_CREDENTIALS`) in the
+Weblate settings to make this work. Once configured, you will see a
+:guilabel:`GitHub` option when selecting :ref:`component-vcs`.
+
+.. seealso::
+
+   * :ref:`push-changes`
+   * :setting:`GITHUB_CREDENTIALS`
+
+.. _GitHub API: https://docs.github.com/en/rest
+
+.. _vcs-gitlab:
+.. _gitlab-push:
+
+GitLab merge requests
+---------------------
+
+This just adds a thin layer atop :ref:`vcs-git` using the `GitLab API`_ to allow
+pushing translation changes as merge requests instead of
+pushing directly to the repository.
+
+There is no need to use this to access Git repositories, ordinary :ref:`vcs-git`
+works the same, the only difference is how pushing to a repository is
+handled. With :ref:`vcs-git` changes are pushed directly to the repository,
+while :ref:`vcs-gitlab` creates merge request.
+
+You need to configure API credentials (:setting:`GITLAB_CREDENTIALS`) in the
+Weblate settings to make this work. Once configured, you will see a
+:guilabel:`GitLab` option when selecting :ref:`component-vcs`.
+
+.. seealso::
+
+   * :ref:`push-changes`
+   * :setting:`GITLAB_CREDENTIALS`
+
+.. _GitLab API: https://docs.gitlab.com/api/
+
+.. _vcs-gitea:
+.. _gitea-push:
+
+Gitea pull requests
+-------------------
+
+.. versionadded:: 4.12
+
+This just adds a thin layer atop :ref:`vcs-git` using the `Gitea API`_ to allow
+pushing translation changes as pull requests instead of
+pushing directly to the repository.
+
+There is no need to use this to access Git repositories, ordinary :ref:`vcs-git`
+works the same, the only difference is how pushing to a repository is
+handled. With :ref:`vcs-git` changes are pushed directly to the repository,
+while :ref:`vcs-gitea` creates pull requests.
+
+You need to configure API credentials (:setting:`GITEA_CREDENTIALS`) in the
+Weblate settings to make this work. Once configured, you will see a
+:guilabel:`Gitea` option when selecting :ref:`component-vcs`.
+
+.. seealso::
+
+   * :ref:`push-changes`
+   * :setting:`GITEA_CREDENTIALS`
+
+.. _Gitea API: https://docs.gitea.io/en-us/api-usage/
+
+.. _vcs-bitbucket-server:
+.. _vcs-bitbucket-data-center:
+.. _bitbucket-server-push:
+
+Bitbucket Data Center pull requests
+-----------------------------------
+
+.. versionadded:: 4.16
+
+This just adds a thin layer atop :ref:`vcs-git` using the
+`Bitbucket Data Center API`_ to allow pushing translation changes as pull requests
+instead of pushing directly to the repository.
+
+.. warning::
+
+    This does not support Bitbucket Cloud API.
+
+
+There is no need to use this to access Git repositories, ordinary :ref:`vcs-git`
+works the same, the only difference is how pushing to a repository is
+handled. With :ref:`vcs-git` changes are pushed directly to the repository,
+while :ref:`vcs-bitbucket-data-center` creates pull request.
+
+You need to configure API credentials (:setting:`BITBUCKETSERVER_CREDENTIALS`) in the
+Weblate settings to make this work. Once configured, you will see a
+:guilabel:`Bitbucket Data Center` option when selecting :ref:`component-vcs`.
+
+.. seealso::
+
+   * :ref:`push-changes`
+   * :setting:`BITBUCKETSERVER_CREDENTIALS`
+
+.. _Bitbucket Data Center API: https://developer.atlassian.com/server/bitbucket/
+
+.. _vcs-bitbucket-cloud:
+.. _bitbucket-cloud-push:
+
+Bitbucket Cloud pull requests
+------------------------------
+
+.. versionadded:: 5.8
+
+This just adds a thin layer atop :ref:`vcs-git` using the
+`Bitbucket Cloud API`_ to allow pushing translation changes as pull requests
+instead of pushing directly to the repository.
+
+.. warning::
+
+    This is different from Bitbucket Data Center API.
+
+
+There is no need to use this to access Git repositories, ordinary :ref:`vcs-git`
+works the same, the only difference is how pushing to a repository is
+handled. With :ref:`vcs-git` changes are pushed directly to the repository,
+while :ref:`vcs-bitbucket-cloud` creates pull request.
+
+You need to configure API credentials (:setting:`BITBUCKETCLOUD_CREDENTIALS`) in the
+Weblate settings to make this work. Once configured, you will see a
+:guilabel:`Bitbucket Cloud` option when selecting :ref:`component-vcs`.
+
+.. seealso::
+
+   * :ref:`push-changes`
+   * :setting:`BITBUCKETCLOUD_CREDENTIALS`
+
+.. _Bitbucket Cloud API: https://developer.atlassian.com/cloud/bitbucket/
+
+.. _vcs-pagure:
+.. _pagure-push:
+
+Pagure merge requests
+---------------------
+
+.. versionadded:: 4.3.2
+
+This just adds a thin layer atop :ref:`vcs-git` using the `Pagure API`_ to allow
+pushing translation changes as merge requests instead of
+pushing directly to the repository.
+
+There is no need to use this to access Git repositories, ordinary :ref:`vcs-git`
+works the same, the only difference is how pushing to a repository is
+handled. With :ref:`vcs-git` changes are pushed directly to the repository,
+while :ref:`vcs-pagure` creates merge request.
+
+You need to configure API credentials (:setting:`PAGURE_CREDENTIALS`) in the
+Weblate settings to make this work. Once configured, you will see a
+:guilabel:`Pagure` option when selecting :ref:`component-vcs`.
+
+.. seealso::
+
+   * :ref:`push-changes`
+   * :setting:`PAGURE_CREDENTIALS`
+
+.. _Pagure API: https://pagure.io/api/0/
+
+.. _vcs-gerrit:
+
+Gerrit
+------
+
+Adds a thin layer atop :ref:`vcs-git` using the `git-review`_ tool to allow
+pushing translation changes as Gerrit review requests, instead of
+pushing them directly to the repository.
+
+The Gerrit documentation has the details on the configuration necessary to set up
+such repositories.
+
+.. _vcs-azure-devops:
+.. _azure-devops-push:
+
+Azure DevOps pull requests
+--------------------------
+
+This adds a thin layer atop :ref:`vcs-git` using the `Azure DevOps API`_ to allow pushing
+translation changes as pull requests, instead of pushing directly to the repository.
+
+:ref:`vcs-git` pushes changes directly to a repository, while
+:ref:`vcs-azure-devops` creates pull requests.
+The latter is not needed for merely accessing Git repositories.
+
+You need to configure API credentials (:setting:`AZURE_DEVOPS_CREDENTIALS`) in the
+Weblate settings to make this work. Once configured, you will see a
+:guilabel:`Azure DevOps` option when selecting :ref:`component-vcs`.
+
+.. seealso::
+
+   * :ref:`push-changes`
+   * :setting:`AZURE_DEVOPS_CREDENTIALS`
+
+.. _Azure DevOps API: https://learn.microsoft.com/en-us/rest/api/azure/devops/?view=azure-devops-rest-7.2
+
+.. _git-review: https://pypi.org/project/git-review/
+
+.. _vcs-mercurial:
+
+Mercurial
+---------
+
+Mercurial is another VCS you can use directly in Weblate.
+
+.. note::
+
+    It should work with any Mercurial version, but there are sometimes
+    incompatible changes to the command-line interface which breaks Weblate
+    integration.
+
+.. seealso::
+
+    See :ref:`vcs-repos` for info on how to access different kinds of
+    repositories.
+
+.. _vcs-git-svn:
+
+Subversion
+----------
+
+Weblate uses `git-svn`_ to interact with `subversion`_ repositories. It is
+a Perl script that lets subversion be used by a Git client, enabling
+users to maintain a full clone of the internal repository and commit locally.
+
+.. note::
+
+    Weblate tries to detect Subversion repository layout automatically - it
+    supports both direct URLs for branch or repositories with standard layout
+    (branches/, tags/ and trunk/). More info about this is to be found in the
+    `git-svn documentation <https://git-scm.com/docs/git-svn#Documentation/git-svn.txt---stdlayout>`_.
+    If your repository does not have a standard layout and you encounter errors,
+    try including the branch name in the repository URL and leaving branch empty.
+
+.. _git-svn: https://git-scm.com/docs/git-svn
+
+.. _subversion: https://subversion.apache.org/
+
+Subversion credentials
+++++++++++++++++++++++
+
+Weblate expects you to have accepted the certificate up-front (and your
+credentials if needed). It will look to insert them into the :setting:`DATA_DIR`
+directory. Accept the certificate by using `svn` once with the `$HOME`
+environment variable set to the :setting:`DATA_DIR`:
+
+.. code-block:: sh
+
+    # Use DATA_DIR as configured in Weblate settings.py, it is /app/data in the Docker
+    HOME=${DATA_DIR}/home svn co https://svn.example.com/example
+
+.. seealso::
+
+    :setting:`DATA_DIR`
+
+
+.. _vcs-local:
+
+Local files
+-----------
+
+.. hint::
+
+   Underneath, this uses :ref:`vcs-git`. It requires Git installed and allows
+   you to switch to using Git natively with full history of your translations.
+
+Weblate can also operate without a remote VCS. The initial translations are
+imported by uploading them. Later you can replace individual files by file upload,
+or add translation strings directly from Weblate (currently available only for
+monolingual translations).
+
+In the background Weblate creates a Git repository for you and all changes are
+tracked in. In case you later decide to use a VCS to store the translations,
+you already have a repository within Weblate can base your integration on.

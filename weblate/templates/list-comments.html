@@ -1,0 +1,60 @@
+{% load i18n icons permissions translations %}
+
+<div class="container-fluid container-gapped">
+  {% for comment in comments %}
+    <div class="row history-row" id="comments__{{ comment.pk }}">
+      <div id="comment-section" class="col-xs-2 history-event">
+        <strong>{{ comment.get_user_display }}</strong>
+        <p class="text-muted">
+          {% if comment.resolved %}
+            {% translate "Resolved comment" %}
+          {% elif comment.unit.is_source %}
+            {% translate "Source string comment" %}
+          {% else %}
+            {% translate "Translation comment" %}
+          {% endif %}
+        </p>
+      </div>
+      {% perm 'comment.delete' comment as user_can_delete_comment %}
+      {% perm 'comment.resolve' comment as user_can_resolve_comment %}
+      {% if user_can_delete_comment or user_can_resolve_comment %}
+        <div class="btn-float float-end">
+          {% if user_can_resolve_comment and not comment.resolved %}
+            <form method="post"
+                  action="{% url 'resolve-comment' pk=comment.pk %}"
+                  class="auto-save-translation inlineform">
+              {% csrf_token %}
+              <input type="hidden" name="next" value="{{ next_url }}#comments__{{ comment.pk }}" />
+              <button class="btn btn-link green" title="{% translate "Resolve" %}">{% icon "check.svg" %}</button>
+            </form>
+          {% endif %}
+          {% if user_can_delete_comment %}
+            <form method="post"
+                  action="{% url 'delete-comment' pk=comment.pk %}"
+                  class="auto-save-translation inlineform">
+              {% csrf_token %}
+              <input type="hidden" name="next" value="{{ next_url }}" />
+              {% if has_antispam and comment.user != user %}
+                <button type="submit"
+                        class="btn btn-link red"
+                        name="spam"
+                        value="{{ suggestion.id }}"
+                        title="{% translate "Mark as spam" %}">{% icon "spam.svg" %}</button>
+              {% endif %}
+              <button class="btn btn-link red" title="{% translate "Delete" %}">{% icon "delete.svg" %}</button>
+            </form>
+          {% endif %}
+        </div>
+      {% endif %}
+      <div id="comment-section" class="col-xs-10 history-data">
+        <div class="comment-content{% if comment.resolved %} comment-resolved{% elif comment.unit.is_source %} comment-source{% endif %}"
+             lang="{{ comment.unit.translation.language.code }}"
+             dir="{{ comment.unit.translation.language.direction }}">
+          {{ comment.comment|markdown }}
+          <span class="float-end text-muted">{{ comment.timestamp|naturaltime }}</span>
+          <div class="clearfix"></div>
+        </div>
+      </div>
+    </div>
+  {% endfor %}
+</div>

@@ -1,0 +1,31 @@
+{% load i18n translations %}
+
+<p>{% translate "Weblate could not execute script add-on." %}</p>
+
+<p>{% translate "The following occurrences were found:" %}</p>
+
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th>{% translate "Command" %}</th>
+      <th>{% translate "Error" %}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for occurrence in occurrences %}
+      <tr>
+        <td>{{ occurrence.command }}</td>
+        <td>{{ occurrence.error }}</td>
+      </tr>
+      {% if occurrence.output %}
+        <tr>
+          <td colspan="2">
+            <pre>{{ occurrence.output }}</pre>
+          </td>
+        </tr>
+      {% endif %}
+    {% endfor %}
+  </tbody>
+</table>
+
+{% include "trans/alert/occurrences-limit.html" %}

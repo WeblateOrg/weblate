@@ -1,0 +1,17 @@
+{% load i18n %}
+
+<p>
+  {% blocktranslate %}Weblate is a web-based translation tool with tight version control integration. It features a simple and clean user interface, propagation of translations across components, quality checks and automatic linking to source files.{% endblocktranslate %}
+</p>
+
+<p>
+  {% blocktranslate %}More information about Weblate can be found on {{ weblate_link }}.{% endblocktranslate %}
+</p>
+
+<p>
+  {% blocktranslate %}Weblate is libre software with professional support and services for commercial users.{% endblocktranslate %}
+
+  {% if support_status.has_support %}
+    <a href="https://weblate.org/support/">{% translate "Explore support options at weblate.org." %}</a>
+  {% endif %}
+</p>

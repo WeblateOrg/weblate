@@ -1,0 +1,27 @@
+#!/bin/sh
+
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+# List versions used for the test
+
+. ci/lib.sh
+
+print_step "Chrome"
+print_version chromium-browser chromium google-chrome chrome
+
+print_step "Chromedriver"
+print_version chromedriver
+
+print_step "Python"
+print_version python
+
+print_step "Compiler"
+print_version gcc clang
+
+print_step "Mercurial"
+print_version rhg hg
+
+print_step "Git"
+print_version git

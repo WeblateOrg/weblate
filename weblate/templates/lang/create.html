@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags i18n %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'languages' %}">{% translate "Languages" %}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'create-language' %}">{% translate "Add language" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  <form method="post">
+    {% csrf_token %}
+    {% crispy form.0 %}
+    {% crispy form.1 %}
+    <input type="submit" value="{% translate "Add" %}" class="btn btn-primary" />
+  </form>
+
+{% endblock content %}

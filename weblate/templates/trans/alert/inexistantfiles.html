@@ -1,0 +1,20 @@
+{% load i18n %}
+
+<p>{% translate "This component is set up incorrectly." %}</p>
+
+<p>{% translate "Following files are no longer present in the repository:" %}</p>
+
+<ul>
+  {% for name in files %}
+    <li>
+      <code>{{ name }}</code>
+      {% if name == component.template %}
+        <span class="badge">{% translate "Monolingual base language file" %}</span>
+      {% elif name == component.intermediate %}
+        <span class="badge">{% translate "Intermediate language file" %}</span>
+      {% elif name == component.new_base %}
+        <span class="badge">{% translate "Template for new translations" %}</span>
+      {% endif %}
+    </li>
+  {% endfor %}
+</ul>

@@ -1,0 +1,16 @@
+{% extends "mail/base.html" %}
+
+{% load i18n translations %}
+
+{% block content %}
+  <p>
+    {% blocktranslate %}The following activity has occurred on your account at {{ site_title }}:{% endblocktranslate %}
+  </p>
+
+  <p>{{ message }}</p>
+
+  {% if extra_message %}<p>{{ extra_message }}</p>{% endif %}
+
+  {% include "mail/shared-activity.html" %}
+
+{% endblock content %}

@@ -1,0 +1,73 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: CC0-1.0
+#
+# Issue lifecycle: Add "Waiting for: Triage" label when "Waiting for: Community" was commented
+
+name: 'Issues: Add triage label on comment'
+
+on:
+  issue_comment:
+    types: [created]
+
+permissions:
+  issues: write
+
+jobs:
+  apply-label:
+    runs-on: ubuntu-slim
+    if: |
+      ! github.event.issue.pull_request &&
+      contains(github.event.issue.labels.*.name, 'Waiting for: Community') &&
+      github.event.sender.type != 'Bot' &&
+      github.event.sender.login != 'github-actions' &&
+      github.event.sender.login != 'weblate' &&
+      ! endsWith(github.event.sender.login, '[bot]') &&
+      ! endsWith(github.event.sender.login, 'bot')
+    steps:
+    - uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
+      with:
+        script: |
+          var is_member = false;
+          const org = 'WeblateOrg';
+          const username =  context.payload.sender.login;
+          try {
+            const response = await github.rest.orgs.checkMembershipForUser({
+              org: org,
+              username: username,
+            });
+            is_member = (response.status == 204);
+          } catch (error) {
+            console.log(
+              `Failed requesting GitHub organization "${org}" membership status of user "${username}": ${error.message}`,
+            );
+            is_member = false;
+          }
+          if (is_member) {
+            console.log(`User ${context.payload.sender.login} is member of WeblateOrg, skipping state update`);
+          } else {
+            const labels = await github.rest.issues.listLabelsOnIssue({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+            });
+            for (const label of labels.data) {
+              if (label.name.startsWith('Waiting for: ')) {
+                console.log(`Removing label ${label.name}`);
+                await github.rest.issues.removeLabel({
+                  issue_number: context.issue.number,
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name: label.name,
+                })
+              }
+            }
+            if (context.payload.issue.state == 'open') {
+              await github.rest.issues.addLabels({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                labels: ['Waiting for: Triage']
+              })
+            }
+          }

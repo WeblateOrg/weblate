@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags i18n translations %}
+
+{% block breadcrumbs %}
+  {% path_object_breadcrumbs object %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'contributor-agreement' path=object.get_url_path %}">{% translate "Contributor license agreement" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+  <form action="{% url 'contributor-agreement' path=object.get_url_path %}"
+        method="post"
+        enctype="multipart/form-data">
+
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{% translate "Contributor license agreement" %}</h4>
+      </div>
+      <div class="card-body">
+        <p>{% translate "Please read the following contributor license agreement:" %}</p>
+        <div class="list-group-item pre-scrollable">{{ object.agreement|markdown }}</div>
+
+        {% csrf_token %}
+
+        {% crispy form %}
+      </div>
+      <div class="card-footer">
+        {% if has_agreed %}
+          {% translate "You have already agreed to this agreement." %}
+        {% else %}
+          <button type="submit" class="btn btn-primary">{% translate "Submit" %}</button>
+        {% endif %}
+      </div>
+    </div>
+
+  </form>
+
+{% endblock content %}

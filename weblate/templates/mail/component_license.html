@@ -1,0 +1,26 @@
+{% extends "mail/base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+  {% if change.action == 55 %}
+    <p>{{ change.get_details_display }}</p>
+  {% else %}
+    <p>
+      {% blocktranslate %}Contributor license agreement for component {{ component }} was changed.{% endblocktranslate %}
+    </p>
+    {% if old %}
+      <p>{% translate "Old agreement:" %}</p>
+      <p>{{ old }}</p>
+    {% else %}
+      <p>{% translate "There was no contributor license agreement before." %}</p>
+    {% endif %}
+    {% if target %}
+      <p>{% translate "New agreement:" %}</p>
+      <p>{{ target }}</p>
+    {% else %}
+      <p>{% translate "Contributor license agreement was removed." %}</p>
+    {% endif %}
+  {% endif %}
+
+{% endblock content %}

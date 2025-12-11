@@ -1,0 +1,253 @@
+{% load humanize i18n icons permissions translations %}
+
+{% with needs_commit=object.needs_commit %}
+
+  {% perm 'vcs.commit' object as user_can_commit_translation %}
+  {% perm 'vcs.update' object as user_can_update_translation %}
+  {% perm 'vcs.push' object as user_can_push_translation %}
+  {% perm 'vcs.reset' object as user_can_reset_translation %}
+  {% perm 'component.lock' object as user_can_lock_component %}
+
+
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">
+        {% documentation_icon 'devel/integration' 'manage-vcs' right=True %}
+        {% translate "Repository status" %}
+      </h4>
+    </div>
+    <ul class="list-group">
+      <li class="list-group-item">
+        {% if user_can_commit_translation %}
+          <a {% if pending_units %}href="#"{% endif %}
+             class="float-end link-post btn btn-primary {% if not pending_units %}disabled{% endif %}"
+             data-href="{% url "commit" path=object.get_url_path %}"
+             {% if not pending_unit %}aria-disabled="true"{% endif %}>{% translate "Commit" %}</a>
+        {% endif %}
+        <h6 class="mb-1 fw-bold">
+          {% blocktranslate count counter=pending_units.total with total_count=pending_units.total|intcomma trimmed %}
+            {{ total_count }} pending unit
+          {% plural %}
+            {{ total_count }} pending units
+          {% endblocktranslate %}
+          {% with policy=pending_units.commit_policy_skipped errors=pending_units.errors_skipped %}
+            {% blocktranslate count counter=policy asvar policy_count_text with policy_count=policy|intcomma trimmed %}
+              {{ policy_count }} skipped by the commit policy
+            {% plural %}
+              {{ policy_count }} skipped by the commit policy
+            {% endblocktranslate %}
+            {% blocktranslate count counter=errors asvar errors_count_text with errors_count=errors|intcomma trimmed %}
+              {{ errors_count }} skipped because of errors
+            {% plural %}
+              {{ errors_count }} skipped because of errors
+            {% endblocktranslate %}
+            {% if policy and errors %}
+              ({{ policy_count_text }}, {{ errors_count_text }})
+            {% elif policy %}
+              ({{ policy_count_text }})
+            {% elif errors %}
+              ({{ errors_count_text }})
+            {% endif %}
+          {% endwith %}
+        </h6>
+        <p class="mb-0">
+          {% translate "This will commit any pending changes present in Weblate and not in the repository." %}
+        </p>
+      </li>
+      {% if supports_push %}
+        <li class="list-group-item">
+          {% if user_can_push_translation %}
+            <a href=""
+               class="float-end link-post btn btn-primary"
+               data-href="{% url "push" path=object.get_url_path %}"
+               {% if not object.can_push %}disabled="disabled"{% endif %}>{% translate "Push" %}</a>
+          {% endif %}
+          <h6 class="mb-1 fw-bold">
+            {% blocktranslate count units=outgoing_commits with count=outgoing_commits|intcomma %}{{ count }} outgoing commit{% plural %}{{ count }} outgoing commits{% endblocktranslate %}
+            {% if has_push_branch %}
+              {% blocktranslate count units=push_branch_outgoing_commits with count=push_branch_outgoing_commits|intcomma %}({{ count }} missing in the push branch){% plural %}({{ count }} missing in the push branch){% endblocktranslate %}
+            {% endif %}
+          </h6>
+          <p class="mb-0">{{ push_label }}</p>
+        </li>
+      {% endif %}
+      <li class="list-group-item">
+        {% if user_can_update_translation %}
+          <div class="btn-group float-end">
+            <a href=""
+               class="btn btn-primary link-post"
+               data-href="{% url "update" path=object.get_url_path %}">{% translate "Update" %}</a>
+            <button type="button"
+                    class="btn btn-primary dropdown-toggle"
+                    data-bs-toggle="dropdown"
+                    aria-haspopup="true"
+                    aria-expanded="false">
+              <span class="visually-hidden">Toggle Dropdown</span>
+            </button>
+            <ul class="dropdown-menu dropdown-menu-right">
+              <li>
+                <a href=""
+                   class="dropdown-item link-post"
+                   data-href="{% url "update" path=object.get_url_path %}?method=merge">{% translate "Update with merge" %}</a>
+              </li>
+              <li>
+                <a href=""
+                   class="dropdown-item link-post"
+                   data-href="{% url "update" path=object.get_url_path %}?method=rebase">{% translate "Update with rebase" %}</a>
+              </li>
+              <li>
+                <a href=""
+                   class="dropdown-item link-post"
+                   data-href="{% url "update" path=object.get_url_path %}?method=merge_noff">{% translate "Update with merge without fast-forward" %}</a>
+              </li>
+            </ul>
+          </div>
+        {% endif %}
+        <h6 class="mb-1 fw-bold">
+          {% blocktranslate count units=missing_commits with count=missing_commits|intcomma %}{{ count }} missing commit{% plural %}{{ count }} missing commits{% endblocktranslate %}
+        </h6>
+        <p class="mb-0">{% translate "This will update the Weblate repository with the upstream changes." %}</p>
+      </li>
+      {% if object.is_lockable %}
+        <li class="list-group-item">
+          {% if user_can_lock_component %}
+            {% if object.can_unlock %}
+              <a href=""
+                 class="float-end btn btn-primary link-post"
+                 data-href="{% url "unlock" path=object.get_url_path %}"
+                 title="{% translate "Allow changes to the Weblate repository" %}">{% translate "Unlock" %}</a>
+            {% endif %}
+            {% if object.can_lock %}
+              <a href=""
+                 class="float-end btn btn-primary link-post"
+                 data-href="{% url "lock" path=object.get_url_path %}"
+                 title="{% translate "Prevent any changes in the Weblate repository" %}">{% translate "Lock" %}</a>
+            {% endif %}
+          {% endif %}
+          <h6 class="mb-1 fw-bold">
+            {% if object.lockable_count %}
+              {% if object.locked_components %}
+                {% blocktranslate count counter=object.locked_components with count=object.locked_components|intcomma %}{{ count }} component is locked{% plural %}{{ count }} components are locked{% endblocktranslate %}
+              {% endif %}
+              {% if object.unlocked_components %}
+                {% if object.locked_components %}
+                  {% translate ", " context "Joins a list of values" %}
+                {% endif %}
+                {% blocktranslate count counter=object.unlocked_components with count=object.unlocked_components|intcomma %}{{ count }} component is unlocked{% plural %}{{ count }} components are unlocked{% endblocktranslate %}
+              {% endif %}
+              {% if not object.locked_components and not object.unlocked_components %}
+                {% translate "Weblate translations are unlocked" %}
+              {% endif %}
+            {% elif object.locked %}
+              {% translate "Weblate translations are locked" %}
+            {% else %}
+              {% translate "Weblate translations are unlocked" %}
+            {% endif %}
+          </h6>
+          <p class="mb-0">{% translate "Locking prevents translators from doing changes." %}</p>
+        </li>
+      {% endif %}
+    </ul>
+  </div>
+
+  {% if user_can_reset_translation %}
+    <div class="card">
+      <div class="card-header text-bg-danger">
+        <h4 class="card-title">
+          {% documentation_icon 'devel/integration' 'manage-vcs' right=True %}
+          {% translate "Danger zone" %}
+        </h4>
+      </div>
+      <ul class="list-group">
+        <li class="list-group-item">
+          <a href=""
+             class="float-end link-post btn btn-danger"
+             data-href="{% url "reset" path=object.get_url_path %}">{% translate "Reset and discard" %}</a>
+          <h6 class="mb-1 fw-bold">{% translate "Reset all changes in the Weblate repository" %}</h6>
+          <p class="mb-0">
+            {% translate "Resets Weblate’s repository to match upstream and discards any pending changes in Weblate." %}
+            {% translate "Use when you want the upstream to be the authority for translations." %}
+            {% translate "It will discard changes in Weblate repo and bring it in sync with the upstream repository." %}
+          </p>
+        </li>
+        <li class="list-group-item">
+          <a href=""
+             class="float-end link-post btn btn-danger"
+             data-href="{% url "reset" path=object.get_url_path %}"
+             data-params='{"keep_changes": "1"}'>{% translate "Reset and reapply" %}</a>
+          <h6 class="mb-1 fw-bold">{% translate "Reset the Weblate repository and reapply translations" %}</h6>
+          <p class="mb-0">
+            {% translate "Resets Weblate’s repository to match upstream and replace upstream translations with the current state from Weblate." %}
+            {% translate "Use when you want Weblate to be the authority for translations." %}
+            {% translate "It will keep changes from Weblate but bring its repository in sync with the upstream repository." %}
+          </p>
+        </li>
+        <li class="list-group-item">
+          <a href=""
+             class="float-end link-post btn btn-danger"
+             data-href="{% url "cleanup" path=object.get_url_path %}">{% translate "Cleanup" %}</a>
+          <h6 class="mb-1 fw-bold">{% translate "Cleanup all untracked files in the Weblate repository" %}</h6>
+          <p class="mb-0">
+            {% translate "Cleanup removes all files which are not tracked by the version control from the repository." %}
+            {% translate "It also removes stale branches which are not used by Weblate." %}
+            {% translate "Use when there is some garbage left in the Weblate repository." %}
+          </p>
+        </li>
+        <li class="list-group-item">
+          <a href=""
+             class="float-end link-post btn btn-danger"
+             data-href="{% url "file_sync" path=object.get_url_path %}">{% translate "Synchronize" %}</a>
+          <h6 class="mb-1 fw-bold">{% translate "Force writing all translations to the Weblate repository" %}</h6>
+          <p class="mb-0">
+            {% translate "Forces writing all strings to the translation files." %}
+            {% translate "Use this when repository files became out of sync with Weblate for some reason." %}
+          </p>
+        </li>
+        <li class="list-group-item">
+          <a href=""
+             class="float-end link-post btn btn-danger"
+             data-href="{% url "file_scan" path=object.get_url_path %}">{% translate "Rescan" %}</a>
+          <h6 class="mb-1 fw-bold">{% translate "Rescan all translation files in the Weblate repository" %}</h6>
+          <p class="mb-0">
+            {% translate "Loads translations from the files into Weblate." %}
+            {% translate "Use when Weblate missed some of the strings after updating the repository." %}
+          </p>
+        </li>
+      </ul>
+      <div class="card-footer">
+        <small>{% translate "Use these operations with caution, they can lead to data loss." %}</small>
+      </div>
+    </div>
+  {% endif %}
+
+  {% for component in repositories %}
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">
+          <a href="{{ component.get_absolute_url }}#repository">{% blocktranslate %}Repository for {{ component }}{% endblocktranslate %}</a>
+        </h4>
+      </div>
+      <table class="table table-striped table-autowidth">
+        {% include "snippets/git-info.html" with object=component %}
+        <tr>
+          <th>{% translate "Repository details" %}</th>
+          <td class="full-cell">
+            <pre>{{ component.repository_status }}</pre>
+          </td>
+        </tr>
+      </table>
+    </div>
+  {% endfor %}
+
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">{% translate "Repository changes" %}</h4>
+    </div>
+    <div class="card-body">{% format_last_changes_content last_changes=changes user=user %}</div>
+    <div class="card-footer">
+      <a class="btn btn-primary"
+         href="{% url 'changes' path=object.get_url_path %}?{{ changes_url_query }}">{% translate "Browse all repository changes" %}</a>
+    </div>
+  </div>
+
+{% endwith %}

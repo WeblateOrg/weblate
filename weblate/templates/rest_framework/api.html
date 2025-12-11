@@ -1,0 +1,9 @@
+{% extends "rest_framework/base.html" %}
+
+{% load static %}
+
+{% block branding %}
+  <a class="navbar-brand" href="{% url 'home' %}">{{ site_title }}</a>
+{% endblock branding %}
+
+{% block description %}{{ block.super }}{% endblock %}

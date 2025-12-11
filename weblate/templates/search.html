@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags i18n translations %}
+
+{% block breadcrumbs %}
+  {% if path_object %}
+    {% path_object_breadcrumbs path_object %}
+    <li class="breadcrumb-item">
+      <a href="{{ back_url }}#search">{% translate "Search" %}</a>
+    </li>
+  {% else %}
+    <li class="breadcrumb-item">
+      <a href="{% url 'search' %}">{% translate "Search" %}</a>
+    </li>
+  {% endif %}
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  {% if show_results %}
+    <form method="get" class="result-page-form">
+      {% crispy search_form %}
+    </form>
+    {% if page_obj.object_list %}
+      <div class="search-summary">
+        <p>{{ total_strings }} {% translate "strings" %} / {{ total_words }} {% translate "words" %}</p>
+      </div>
+      {% include "snippets/embed-units.html" with units=page_obj.object_list include_search=True force_source=True show_translation=True %}
+      {% include "paginator.html" %}
+    {% else %}
+      {% translate "No matching strings found." as msg %}
+      {% show_message "info" msg %}
+    {% endif %}
+
+  {% else %}
+    <form method="get" class="result-page-form">
+      {% include "snippets/search-form.html" %}
+    </form>
+  {% endif %}
+
+{% endblock content %}

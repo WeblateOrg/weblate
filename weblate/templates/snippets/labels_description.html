@@ -1,0 +1,9 @@
+{% load i18n permissions %}
+
+{% perm 'project.edit' project as user_can_edit_project %}
+{% if user_can_edit_project %}
+  {% url 'labels' project=project.slug as url %}
+  {% blocktranslate %}Additional labels can be defined in the <a href="{{ url }}">project settings</a>.{% endblocktranslate %}
+{% else %}
+  {% translate "Additional labels can be defined by project administrators." %}
+{% endif %}

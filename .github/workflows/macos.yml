@@ -1,0 +1,76 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: macOS
+
+on:
+  push:
+    branches-ignore:
+    - renovate/**
+    - weblate
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event_name == 'pull_request' && github.ref || github.run_id }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  macos:
+    # This verifies that installation instructions works, any changes here
+    # need to be reflected in docs/admin/install/venv-macos.rst
+    runs-on: macos-15
+    env:
+      PYTHONUNBUFFERED: 1
+      PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
+      CI_DATABASE: postgresql
+      CI_REDIS_HOST: localhost
+      CI_DB_HOST: localhost
+      DJANGO_SETTINGS_MODULE: weblate.settings_test
+      CI_SKIP_SAML: 1
+    steps:
+    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      with:
+        persist-credentials: false
+    - run: brew update
+    - run: brew upgrade
+    - run: brew list --versions
+    - run: brew deps --tree --installed
+    - run: brew config
+    - run: brew doctor
+      continue-on-error: true
+    - name: Install brew dependencies
+      run: |
+        brew install python pango cairo gobject-introspection glib libyaml pkgconf zstd lz4 xxhash libxmlsec1 librsvg uv
+    - name: Install test dependencies
+      run: |
+        brew install mysql icu4c valkey postgresql
+        brew link --force icu4c
+    - name: Start services
+      run: |
+        brew services start postgresql
+        brew services start valkey
+    - name: Install Weblate
+      run: |
+        uv venv .venv
+        source .venv/bin/activate
+        uv sync --frozen --all-extras --dev --no-binary-package lxml --no-binary-package xmlsec
+    - name: Test with Django
+      run: |
+        # shellcheck disable=SC2155
+        export CI_DB_USER="$(id -nu)"
+        source .venv/bin/activate
+        pytest --junitxml=junit.xml --cov=weblate --cov-report=xml --numprocesses=auto weblate
+    - uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
+      with:
+        token: ${{secrets.CODECOV_TOKEN}}
+        flags: unittests
+        name: Tests macos
+    - name: Upload test results to Codecov
+      if: ${{ !cancelled() }}
+      uses: codecov/test-results-action@47f89e9acb64b76debcd5ea40642d25a4adced9f # v1.1.1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}

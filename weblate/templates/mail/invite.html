@@ -1,0 +1,20 @@
+{% extends "mail/base.html" %}
+
+{% load i18n translations %}
+
+{% block content %}
+  <p>{% include "snippets/invite-info.html" %}</p>
+
+  {% if invitation.user %}
+    <div class="line buttons">
+      <a class="button" href="{{ invitation.get_absolute_url }}">{% translate "View invitation" %}</a>
+    </div>
+
+    <p>
+      {% blocktranslate count count=validity %}The invitation will expire after {{ count }} hour.{% plural %}The invitation will expire after {{ count }} hours.{% endblocktranslate %}
+    </p>
+  {% else %}
+    {% include "mail/shared-registration.html" with url=invitation.get_absolute_url action="invite" %}
+  {% endif %}
+
+{% endblock content %}

@@ -1,0 +1,150 @@
+{% load humanize i18n icons permissions translations %}
+
+{% perm 'billing.manage' billing as user_can_manage_billing %}
+
+{% with plan=billing.plan %}
+  <table class="table">
+    <tr>
+      <th>{% translate "Current plan" %}</th>
+      <td>{{ plan.name }} ({{ billing.get_state_display }})</td>
+      <td>
+        {% if payment_enabled and billing.can_be_paid %}
+          <a href="{% url 'create-billing' %}?billing={{ billing.pk }}&amp;upgrade=1"
+             class="btn btn-primary float-end">{% translate "Change plan" %}</a>
+        {% endif %}
+      </td>
+    </tr>
+    {% if billing.expiry %}
+      <tr>
+        <th>{% translate "Trial expiry date" %}</th>
+        <td>{{ billing.expiry|naturaltime }}</td>
+        <td>
+          {% if user_can_manage_billing %}
+            <a href=""
+               class="btn btn-primary float-end link-post"
+               data-href="{{ billing.get_absolute_url }}"
+               data-params='{"extend": 1}'>{% translate "Extend trial" %}</a>
+          {% endif %}
+        </td>
+      </tr>
+    {% endif %}
+    {% if billing.removal %}
+      <tr>
+        <th>{% translate "Scheduled removal" %}</th>
+        <td>{{ billing.removal|naturaltime }}</td>
+        <td>
+          {% if user_can_manage_billing %}
+            <a href=""
+               class="btn btn-primary float-end link-post"
+               data-href="{{ billing.get_absolute_url }}"
+               data-params='{"extend": 1}'>{% translate "Extend trial" %}</a>
+          {% endif %}
+        </td>
+      </tr>
+    {% endif %}
+    <tr>
+      <th>{% translate "Monthly price" %}</th>
+      <td>{{ plan.price|intcomma }} EUR</td>
+      <td>
+        {% if payment_enabled and billing.can_be_paid and plan.price %}
+          <form class="form-inline" method="post" action="{% url 'create-billing' %}">
+            {% csrf_token %}
+            <input type="hidden" name="plan" value="{{ plan.id }}" />
+            <input type="hidden" name="billing" value="{{ billing.id }}" />
+            <input type="hidden" name="period" value="m" />
+            <input type="submit"
+                   value="{% translate "New payment" %}"
+                   class="btn btn-primary float-end" />
+          </form>
+        {% endif %}
+      </td>
+    </tr>
+    <tr>
+      <th>{% translate "Yearly price" %}</th>
+      <td>{{ plan.yearly_price|intcomma }} EUR</td>
+      <td>
+        {% if payment_enabled and billing.can_be_paid and plan.yearly_price %}
+          <form class="form-inline" method="post" action="{% url 'create-billing' %}">
+            {% csrf_token %}
+            <input type="hidden" name="plan" value="{{ plan.id }}" />
+            <input type="hidden" name="billing" value="{{ billing.id }}" />
+            <input type="hidden" name="period" value="y" />
+            <input type="submit"
+                   value="{% translate "New payment" %}"
+                   class="btn btn-primary float-end" />
+          </form>
+        {% endif %}
+      </td>
+    </tr>
+    {% if plan.display_limit_hosted_strings %}
+      <tr>
+        <th>{% translate "Hosted strings limit" %}</th>
+        {% include "billing/used.html" with max=plan.limit_hosted_strings total=plan.display_limit_hosted_strings used=billing.count_hosted_strings %}
+      </tr>
+    {% endif %}
+    {% if plan.display_limit_strings %}
+      <tr>
+        <th>{% translate "Strings limit" %}</th>
+        {% include "billing/used.html" with max=plan.limit_strings total=plan.display_limit_strings used=billing.count_strings %}
+      </tr>
+    {% endif %}
+    {% if plan.display_limit_languages %}
+      <tr>
+        <th>{% translate "Languages limit" %}</th>
+        {% include "billing/used.html" with max=plan.limit_languages total=plan.display_limit_languages used=billing.count_languages %}
+      </tr>
+    {% endif %}
+    {% if plan.display_limit_project %}
+      <tr>
+        <th>{% translate "Projects limit" %}</th>
+        {% include "billing/used.html" with max=plan.limit_projects total=plan.display_limit_projects used=billing.all_projects|length %}
+      </tr>
+    {% endif %}
+    <tr>
+      <th>{% translate "Last invoice" %}</th>
+      <td colspan="2">{{ billing.last_invoice }}</td>
+    </tr>
+    {% if billing.all_projects %}
+      <tr>
+        <td colspan="3">{% include "snippets/list-objects.html" with objects=billing.all_projects hide_details=1 %}</td>
+      </tr>
+    {% else %}
+      <tr>
+        <th>{% translate "Projects" %}</th>
+        <td>
+          <em>{% translate "No projects currently assigned!" %}</em>
+        </td>
+        <td>
+          {% if billing.is_active %}
+            <a class="btn btn-primary billing-add-project float-end"
+               href="{% url 'create-project' %}?billing={{ billing.pk }}">{% translate "Add new translation project" %}</a>
+          {% endif %}
+        </td>
+      </tr>
+    {% endif %}
+    {% if user_can_manage_billing %}
+      <tr>
+        <th>{% translate "Owners" %}</th>
+        <td colspan="2">
+          {% for owner in billing.owners.all %}
+            <p>
+              <span class="profile-icon">{% icon "account.svg" %}</span>
+              <span class="middle-dot-divider">{{ owner }}</span>
+              <span class="middle-dot-divider">
+                <a href="{{ owner.get_absolute_url }}">@{{ owner.username }}</a>
+              </span>
+              <span class="middle-dot-divider">
+                <a href="mailto:{{ owner.email }}">{{ owner.email }}</a>
+              </span>
+              {% if user_can_manage_billing %}
+                <span class="middle-dot-divider">
+                  <a href="{% url "manage-users-check" %}?email={{ owner.email|urlencode }}">{% translate "Check user access" %}</a>
+                </span>
+              {% endif %}
+            </p>
+          {% endfor %}
+        </td>
+      </tr>
+    {% endif %}
+  </table>
+{% endwith %}

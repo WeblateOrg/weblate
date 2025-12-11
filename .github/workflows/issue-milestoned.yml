@@ -1,0 +1,49 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: CC0-1.0
+#
+# Issue lifecycle: Add "Waiting for: Implementation" label when adding a milestone
+
+name: 'Issues: Add waiting for implementation label'
+
+on:
+  issues:
+    types:
+    - milestoned
+    - assigned
+
+permissions:
+  issues: write
+
+jobs:
+  apply-label:
+    runs-on: ubuntu-slim
+    if: |
+      ! github.event.issue.pull_request
+    steps:
+    - uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
+      with:
+        script: |
+          const labels = await github.rest.issues.listLabelsOnIssue({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+          });
+          for (const label of labels.data) {
+            if (label.name.startsWith('Waiting for: ') && label.name != 'Waiting for: Implementation') {
+              await github.rest.issues.removeLabel({
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: label.name,
+              })
+            }
+          }
+          if (! context.payload.issue.milestone || context.payload.issue.milestone.state == 'open') {
+            await github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['Waiting for: Implementation']
+            })
+          }

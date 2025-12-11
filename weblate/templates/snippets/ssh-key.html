@@ -1,0 +1,61 @@
+{% load i18n icons translations %}
+
+{% for ssh_key in public_ssh_keys.values %}
+  {% if ssh_key.key %}
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">
+          {% documentation_icon 'vcs' 'ssh-repos' right=True %}
+          {% blocktranslate with key_type=ssh_key.name %}Public {{ key_type }} SSH key{% endblocktranslate %}
+        </h4>
+      </div>
+      <div class="card-body">
+        <button type="button"
+                class="btn btn-link btn-xs float-end"
+                data-clipboard-value="{{ ssh_key.key }}"
+                data-clipboard-message="{% translate "Public key copied to clipboard." %}"
+                title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+        <p>
+          {% blocktranslate %}Weblate uses SSH key to access remote repositories. The corresponding public key is found below, you can use it to grant Weblate access to a repository.{% endblocktranslate %}
+        </p>
+        <div class="list-group-item pre-scrollable">{{ ssh_key.key|linebreaks }}</div>
+      </div>
+      {% if key_download %}
+        <div class="card-footer">
+          <a href="{% url 'manage-ssh-key' %}?type={{ ssh_key.type }}"
+             class="btn btn-primary">
+            {% blocktranslate with key_type=ssh_key.name %}Download {{ key_type }} private key{% endblocktranslate %}
+          </a>
+        </div>
+      {% endif %}
+    </div>
+  {% endif %}
+{% endfor %}
+
+{% if ip_addresses %}
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">
+        {% documentation_icon 'vcs' 'ssh-repos' right=True %}
+        {% translate "IP addresses" %}
+      </h4>
+    </div>
+    <div class="card-body">
+      <p>{% translate "Weblate utilizes the IP addresses listed below to access repositories or initiate webhooks." %}</p>
+      <ul class="list-group">
+        {% for address in ip_addresses %}
+          <li class="list-group-item">
+            {{ address }}
+            <button type="button"
+                    class="btn btn-link btn-xs float-end"
+                    data-clipboard-value="{{ address }}"
+                    data-clipboard-message="{% translate "IP address copied to clipboard." %}"
+                    title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+          </li>
+        {% endfor %}
+      </ul>
+    </div>
+  </div>
+
+
+{% endif %}

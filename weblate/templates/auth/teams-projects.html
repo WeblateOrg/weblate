@@ -1,0 +1,13 @@
+{% load i18n %}
+
+{% if group.project_selection == 1 %}
+  <em>{% translate "All projects" %}</em>
+{% elif group.project_selection == 3 %}
+  <em>{% translate "All public projects" %}</em>
+{% elif group.project_selection == 4 %}
+  <em>{% translate "All protected projects" %}</em>
+{% else %}
+  {% for project in group.projects.all %}
+    <span class="badge"><a href="{{ project.get_absolute_url }}">{{ project }}</a></span>
+  {% endfor %}
+{% endif %}

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags i18n translations %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'create-component' %}">{% translate "Create component" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+  {% if not projects %}
+    {% translate "You do not have permission to create components in any projects." as msg %}
+    {% show_message "warning" msg %}
+
+    {% if has_billing %}
+      {% include "snippets/billing-failure.html" %}
+    {% endif %}
+
+  {% else %}
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
+            {% documentation_icon 'admin/projects' 'component' right=True %}
+            {% translate "Add new translation component" %}
+          </h4>
+        </div>
+        <div class="card-body">
+          {% crispy form %}
+          {% if stage == "create" %}
+            <div class="alert alert-info">
+              {% translate "You will be able to edit more options in the component settings after creating it." %}
+            </div>
+          {% endif %}
+        </div>
+        <div class="card-footer">
+          <input type="submit"
+                 value="{% if stage != "create" %}{% translate "Continue" %}{% else %}{% translate "Save" %}{% endif %}"
+                 class="btn btn-primary" />
+        </div>
+      </div>
+    </form>
+  {% endif %}
+{% endblock content %}

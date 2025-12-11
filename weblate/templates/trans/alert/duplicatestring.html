@@ -1,0 +1,38 @@
+{% load i18n translations %}
+
+<p>{% translate "The component contains several duplicated translation strings." %}</p>
+
+<p>{% translate "The following occurrences were found:" %}</p>
+
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th>{% translate "Language" %}</th>
+      <th>{% translate "File" %}</th>
+      <th>{% translate "Source" %}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for occurrence in occurrences %}
+      <tr>
+        <td>{{ occurrence.language }}</td>
+        <td>
+          {% if occurrence.unit %}{{ occurrence.unit.translation.filename }}{% endif %}
+        </td>
+        <td>
+          {% if occurrence.unit %}
+            <a href="{{ occurrence.unit.get_absolute_url }}">{% format_unit_source occurrence.unit %}</a>
+          {% else %}
+            {{ occurrence.source }}
+          {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<p>
+  {% translate "Please fix this by removing duplicated strings with same identifier from the translation files." %}
+</p>
+
+{% include "trans/alert/occurrences-limit.html" %}

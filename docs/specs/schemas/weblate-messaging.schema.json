@@ -1,0 +1,94 @@
+{
+  "$id": "https://weblate.org/schemas/weblate-messaging.schema.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Weblate Messaging",
+  "description": "Schema for Weblate Messaging",
+  "additionalProperties": false,
+  "definitions": {},
+  "type": "object",
+  "required": [
+    "change_id",
+    "action",
+    "timestamp"
+  ],
+  "properties": {
+    "change_id": {
+      "title": "Change ID",
+      "type": "integer",
+      "description": "Numerical ID of change"
+    },
+    "action": {
+      "title": "Change Action",
+      "type": "string",
+      "description": "Verbose name of the change, see Change actions source code for possible values"
+    },
+    "timestamp": {
+      "title": "Timestamp",
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO formatted timestamp"
+    },
+    "target": {
+      "title": "Target",
+      "type": [
+        "string",
+        "array"
+      ],
+      "description": "New value of the change (eg. new translation of the string)"
+    },
+    "old": {
+      "title": "Old Value",
+      "type": [
+        "string",
+        "array"
+      ],
+      "description": "Old value of the change (eg. previous translation of the string)"
+    },
+    "source": {
+      "title": "Source",
+      "type": [
+        "string",
+        "array"
+      ],
+      "description": "Source string"
+    },
+    "url": {
+      "title": "URL",
+      "type": "string",
+      "description": "Absolute URL to view the related object"
+    },
+    "author": {
+      "title": "Author",
+      "type": "string",
+      "description": "Author username (this can be different from user for example when accepting suggestions)"
+    },
+    "user": {
+      "title": "Acting username",
+      "type": "string"
+    },
+    "project": {
+      "title": "Project slug",
+      "type": "string"
+    },
+    "component": {
+      "title": "Component slug",
+      "type": "string"
+    },
+    "translation": {
+      "title": "Translation Language Code",
+      "type": "string"
+    },
+    "category": {
+      "title": "Category and subcategory slugs",
+      "type": "array",
+      "items": {
+        "title": "Category slug",
+        "type": "string"
+      }
+    },
+    "context": {
+      "title": "Translation context or key for monolingual formats",
+      "type": "string"
+    }
+  }
+}

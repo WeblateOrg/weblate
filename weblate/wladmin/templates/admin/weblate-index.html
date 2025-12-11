@@ -1,0 +1,63 @@
+{% extends "admin/index.html" %}
+
+{% load i18n static %}
+
+{% block content %}
+  <div id="content-extra" style="float: left; width: 100%;">
+
+    <div class="module">
+
+      <table>
+        <caption>{% translate "Reports" %}</caption>
+
+        <tr>
+          <th scope="row">
+            <a href="{% url 'manage' %}">{% translate "Weblate support status" %}</a>
+          </th>
+          <th></th>
+          <th></th>
+        </tr>
+
+        <tr>
+          <th scope="row">
+            <a href="{% url 'manage-repos' %}">{% translate "Status of repositories" %}</a>
+          </th>
+          <th></th>
+          <th></th>
+        </tr>
+
+        <tr>
+          <th scope="row">
+            <a href="{% url 'manage-ssh' %}">{% translate "SSH keys" %}</a>
+          </th>
+          <th></th>
+          <th></th>
+        </tr>
+
+        <tr>
+          <th scope="row">
+            <a href="{% url 'manage-performance' %}">
+              {% if configuration_errors.exists %}
+                <img src="{% static 'admin/img/icon-alert.svg' %}" />
+              {% endif %}
+              {% translate "Performance report" %}
+            </a>
+          </th>
+          <th></th>
+          <th></th>
+        </tr>
+
+        <tr>
+          <th scope="row">
+            <a href="{% url 'memory' %}">{% translate "Translation memory" %}</a>
+          </th>
+          <th></th>
+          <th></th>
+        </tr>
+
+
+      </table>
+    </div>
+  </div>
+  {{ block.super }}
+{% endblock content %}

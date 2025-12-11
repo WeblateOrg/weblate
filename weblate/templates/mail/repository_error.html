@@ -1,0 +1,21 @@
+{% extends "mail/base.html" %}
+
+{% load i18n %}
+
+{% block content %}
+
+  <h2>{% translate "Error message" %}</h2>
+
+  <pre>
+{{ details.error }}
+</pre>
+
+  <h2>{% translate "Repository status" %}</h2>
+
+  <pre>
+{{ details.status }}
+</pre>
+
+  {% include "trans/merge_instructions.html" %}
+
+{% endblock content %}

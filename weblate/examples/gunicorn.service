@@ -1,0 +1,22 @@
+[Unit]
+Description=gunicorn daemon
+Requires=gunicorn.socket
+After=network.target
+
+[Service]
+User=weblate
+Group=weblate
+WorkingDirectory=/home/weblate/weblate-env/
+Environment="DJANGO_SETTINGS_MODULE=weblate.settings"
+ExecStart=/home/weblate/weblate-env/bin/gunicorn \
+    --preload \
+    --timeout 3600 \
+    --graceful-timeout 3600 \
+    --worker-class=gthread \
+    --workers=2 \
+    --threads=16 \
+    --bind unix:/run/gunicorn.sock \
+    weblate.wsgi:application
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% load i18n permissions %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'languages' %}">{% translate "Languages" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  {% perm 'language.add' as user_can_add_language %}
+  {% include "snippets/list-objects.html" with objects=languages label=_("Language") global_base=global_stats add_link="language" %}
+
+{% endblock content %}

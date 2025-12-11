@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% load authnames crispy_forms_tags humanize i18n icons metrics permissions urlformat %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url "user_list" %}">{% translate "Users" %}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{{ page_profile.get_absolute_url }}">{{ page_profile.get_user_name }}</a>
+  </li>
+  <li class="breadcrumb-item">
+    {# Translators: Name of a tab which lists translations the user has contributed to #}
+    <a href="{% url 'user_contributions' user=page_user.username %}">{% translate "Translates" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  {% include "snippets/list-objects.html" with objects=page_user_translations label=_("Translation") show_admin_badge=True name_source="translation" %}
+
+  {% include "paginator.html" with page_obj=page_user_translations %}
+
+{% endblock content %}

@@ -1,0 +1,93 @@
+{% load crispy_forms_tags i18n icons translations %}
+
+<tr>
+  {% if not user.is_bot %}
+    <td>
+      <a href="{{ user.get_absolute_url }}">{{ user.username }}</a>
+    </td>
+  {% endif %}
+  <td>{{ user.full_name }}</td>
+  {% if not user.is_bot and can_edit_user %}<td>{{ user.email }}</td>{% endif %}
+  <td>
+    {% if user.is_bot %}
+      {{ user.date_expires|naturaltime }}
+    {% else %}
+      {% if user.last_login %}
+        {{ user.last_login|naturaltime }}
+      {% else %}
+        <em>{% translate "Not yet signed in" %}</em>
+      {% endif %}
+    {% endif %}
+  </td>
+  <td>
+    {% for group in user.project_groups %}<span class="badge">{{ group }}</span>{% endfor %}
+  </td>
+  <td>
+    <a href="#"
+       data-bs-toggle="modal"
+       data-bs-target="#edit_user_{{ user.id }}"
+       class="btn btn-link btn-xs"
+       title="{% translate "Edit" %}">{% icon 'pencil.svg' %}</a>
+    <a href="#"
+       data-bs-toggle="modal"
+       data-bs-target="#delete_user_{{ user.id }}"
+       class="btn btn-link btn-xs red"
+       title="{% translate "Remove" %}">{% icon 'delete.svg' %}</a>
+    <form action="{% url "delete-user" project=object.slug %}"
+          method="post"
+          class="inlineform">
+      {% csrf_token %}
+      <input type="hidden" name="user" value="{{ user.username }}" />
+      <div class="modal fade" tabindex="-1" role="dialog" id="delete_user_{{ user.id }}">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">{% translate "Are you absolutely sure?" %}</h4>
+              <button type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="{% translate "Close" %}"></button>
+            </div>
+            <div class="modal-body">
+              {% blocktranslate with user=user.username %}This will remove <b>{{ user }}</b> access to this project.{% endblocktranslate %}
+            </div>
+            <div class="modal-footer">
+              <input type="submit" class="btn btn-danger" value="{% translate "Remove" %}" />
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+    </form>
+
+    <form action="{% url "set-groups" project=object.slug %}"
+          method="post"
+          class="inlineform">
+      {% csrf_token %}
+      <div class="modal fade" tabindex="-1" role="dialog" id="edit_user_{{ user.id }}">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">
+                {% blocktranslate with username=user.username %}Edit team membership for {{ username }}{% endblocktranslate %}
+              </h4>
+              <button type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="{% translate "Close" %}"></button>
+            </div>
+            <div class="modal-body">{{ user.group_edit_form|crispy }}</div>
+            <div class="modal-footer">
+              <input type="submit" class="btn btn-primary" value="{% translate "Save" %}" />
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+    </form>
+  </td>
+</tr>

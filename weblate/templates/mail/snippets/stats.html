@@ -1,0 +1,63 @@
+{% load humanize translations %}
+
+<tr>
+  <td>{% get_filter_name "all" %}</td>
+  <td>
+    {% if url %}<a href="{{ url }}">{% endif %}
+      {{ stats.all|intcomma }}
+      {% if url %}</a>{% endif %}
+  </td>
+  <td></td>
+</tr>
+<tr>
+  <td>{% get_filter_name "translated" %}</td>
+  <td>
+    {% if url %}<a href="{{ url }}?q=state:&gt;=translated">{% endif %}
+      {{ stats.translated|intcomma }}
+      {% if url %}</a>{% endif %}
+  </td>
+  <td>
+    {% if url %}<a href="{{ url }}?q=state:&gt;=translated">{% endif %}
+      {{ stats.translated_percent|percent_format }}
+      {% if url %}</a>{% endif %}
+  </td>
+</tr>
+<tr>
+  <td>{% get_filter_name "nottranslated" %}</td>
+  <td>
+    {% if url %}<a href="{{ url }}?q=state:empty">{% endif %}
+      {{ stats.nottranslated|intcomma }}
+      {% if url %}</a>{% endif %}
+  </td>
+  <td>
+    {% if url %}<a href="{{ url }}?q=state:empty">{% endif %}
+      {{ stats.nottranslated_percent|percent_format }}
+      {% if url %}</a>{% endif %}
+  </td>
+</tr>
+<tr>
+  <td>{% get_filter_name "todo" %}</td>
+  <td>
+    {% if url %}<a href="{{ url }}?q=state:&lt;translated">{% endif %}
+      {{ stats.todo|intcomma }}
+      {% if url %}</a>{% endif %}
+  </td>
+  <td>
+    {% if url %}<a href="{{ url }}?q=state:&lt;translated">{% endif %}
+      {{ stats.todo_percent|percent_format }}
+      {% if url %}</a>{% endif %}
+  </td>
+</tr>
+<tr>
+  <td>{% get_filter_name "fuzzy" %}</td>
+  <td>
+    {% if url %}<a href="{{ url }}?q=state:needs-editing">{% endif %}
+      {{ stats.fuzzy|intcomma }}
+      {% if url %}</a>{% endif %}
+  </td>
+  <td>
+    {% if url %}<a href="{{ url }}?q=state:needs-editing">{% endif %}
+      {{ stats.fuzzy_percent|percent_format }}
+      {% if url %}</a>{% endif %}
+  </td>
+</tr>

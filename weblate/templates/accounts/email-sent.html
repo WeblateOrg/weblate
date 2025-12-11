@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% load i18n translations %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'register' %}">{% translate "Registration" %}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a>{{ title }}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  <div class="container">
+
+    <h2>
+      {% if is_reset %}
+        {% translate "Password reset almost complete" %}
+      {% elif is_remove %}
+        {% translate "Account removal almost complete" %}
+      {% else %}
+        {% translate "Registration almost complete" %}
+      {% endif %}
+    </h2>
+
+    <p>
+      {% if is_reset %}
+        {% blocktranslate %}Follow the password recovery instructions sent to your e-mail inbox.{% endblocktranslate %}
+      {% elif is_remove %}
+        {% blocktranslate %}Remove your account by clicking the confirmation link sent to your e-mail inbox.{% endblocktranslate %}
+      {% else %}
+        {% blocktranslate %}Click the confirmation link sent to your e-mail inbox and start using your account.{% endblocktranslate %}
+      {% endif %}
+    </p>
+
+    <p>
+      {% blocktranslate %}Please look into your spam folder if you cannot see it in your inbox.{% endblocktranslate %}
+    </p>
+
+    <p>
+      {% blocktranslate count count=validity %}The confirmation link will expire after {{ count }} hour.{% plural %}The confirmation link will expire after {{ count }} hours.{% endblocktranslate %}
+      {% if is_reset or is_remove %}
+        {% blocktranslate %}Request a new confirmation link if it expires.{% endblocktranslate %}
+      {% else %}
+        {% blocktranslate %}Register again if the confirmation link expires.{% endblocktranslate %}
+      {% endif %}
+    </p>
+
+    <p>
+      {% translate "E-mail is not an instant technology. Please wait for the confirmation e-mail at least 30 minutes before you write to us about issues." %}
+    </p>
+
+    {% if contact_form != "disabled" %}
+      <p>
+        <a href="{% url 'contact' %}?t=reg">{% blocktranslate %}If there is a problem with your registration, please contact us.{% endblocktranslate %}</a>
+      </p>
+    {% endif %}
+
+  </div>
+{% endblock content %}

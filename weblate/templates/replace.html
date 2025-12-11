@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% load i18n icons translations %}
+
+{% block breadcrumbs %}
+  {% path_object_breadcrumbs path_object %}
+  <li class="breadcrumb-item">{% translate "Search and replace" %}</li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  {% translate "Please review and confirm the search and replace results." as msg %}
+  {% show_message "info" msg %}
+
+  {% if limited %}
+    {% translate "Showing and replacing only the first 250 matches. Perform the replacement again to replace more." as msg %}
+    {% show_message "warning" msg %}
+  {% endif %}
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.q.as_hidden }}
+    {{ form.search.as_hidden }}
+    {{ form.replacement.as_hidden }}
+    {{ confirm.confirm }}
+
+    <table class="table replace-preview">
+      {% for unit in matching %}
+        <tr class="warning">
+          <td>
+            <input type="checkbox"
+                   name="units"
+                   checked="1"
+                   value="{{ unit.pk }}"
+                   id="confirm_{{ unit.pk }}" />
+          </td>
+          <td>
+            <a href="{{ unit.get_absolute_url }}"
+               class="btn btn-link btn-xs"
+               title="{% translate "Edit" %}">{% icon "pencil.svg" %}</a>
+            <label for="confirm_{{ unit.pk }}">
+              {{ unit.translation }}: {{ unit.position }}
+              {% if unit.context %}({{ unit.context }}){% endif %}
+            </label>
+            <br />
+            {% format_unit_target unit search_match=search_query match='replaced' %}
+            <br />
+            {% format_unit_target unit value=unit.replacement search_match=replacement match='replacement' %}
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
+    <input type="submit" class="btn btn-primary" value="{% translate "Replace" %}" />
+  </form>
+
+{% endblock content %}

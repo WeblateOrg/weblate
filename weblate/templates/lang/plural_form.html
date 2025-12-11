@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags i18n translations %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'languages' %}">{% translate "Languages" %}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'show_language' lang=object.language.code %}">{{ object.language }}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'show_language' lang=object.language.code %}#information">{{ object.get_source_display }}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  <div class="alert alert-warning" role="alert">
+    {% translate "Changing plural rules might not have a desired effect." %}
+    <a href="{% documentation "admin/languages" "plural-definitions" %}">{% translate "Please see a documentation for more info." %}</a>
+  </div>
+
+
+  <form method="post">
+    {% csrf_token %}
+    {% crispy form %}
+    <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
+  </form>
+
+{% endblock content %}

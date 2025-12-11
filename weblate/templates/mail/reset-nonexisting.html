@@ -1,0 +1,19 @@
+{% extends "mail/base.html" %}
+
+{% load i18n translations %}
+
+{% block content %}
+  <p>
+    {% blocktranslate %}The password can not be reset because there is no account registered for this e-mail at {{ site_title }}.{% endblocktranslate %}
+    {% translate "Please check whether this Weblate instance is the one you have used and what e-mail address you did use when registering." %}
+  </p>
+
+  {% if registration_hint %}
+    <p>
+      {% blocktranslate %}Perhaps, you have registered at <a href="{{ registration_hint }}">{{ registration_hint }}</a>?{% endblocktranslate %}
+    </p>
+  {% endif %}
+
+  {% include "mail/shared-activity.html" %}
+
+{% endblock content %}

@@ -1,0 +1,250 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags humanize i18n icons permissions translations %}
+
+{% block nav_pills %}
+  {% perm "meta:team.users" object as user_can_edit_team_users %}
+
+  <ul class="nav nav-pills">
+    <li class="nav-item" role="presentation">
+      <a class="nav-link active"
+         data-bs-target="#basic"
+         role="tab"
+         data-bs-toggle="tab"
+         href="#">{% translate "Settings" %}</a>
+    </li>
+    {% if form %}
+      <li class="nav-item" role="presentation">
+        <a class="nav-link"
+           data-bs-target="#auto"
+           role="tab"
+           data-bs-toggle="tab"
+           href="#">{% translate "Automatic assignments" %}</a>
+      </li>
+    {% endif %}
+    {% if user_can_edit_team_users %}
+      <li class="nav-item" role="presentation">
+        <a class="nav-link"
+           data-bs-target="#users"
+           role="tab"
+           data-bs-toggle="tab"
+           href="#">{% translate "Members" %}</a>
+      </li>
+    {% endif %}
+  </ul>
+{% endblock nav_pills %}
+
+{% block breadcrumbs %}
+  {% if object.defining_project %}
+    <li class="breadcrumb-item">
+      <a href="{{ object.defining_project.get_absolute_url }}">{{ object.defining_project }}</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a href="{% url 'manage-access' project=object.defining_project.slug %}#teams">{% translate "Access control" %}</a>
+    </li>
+  {% else %}
+    <li class="breadcrumb-item">
+      <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a href="{% url 'manage-teams' %}">{% translate "Teams" %}</a>
+    </li>
+  {% endif %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'team' pk=object.pk %}">{{ object }}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+  {% perm "meta:team.users" object as user_can_edit_team_users %}
+
+  <form method="post">
+    {% csrf_token %}
+
+    <div class="tab-content">
+      <div class="tab-pane active" id="basic">
+        {% if form %}
+          {{ form|crispy }}
+        {% else %}
+
+          <table class="table">
+            <tr>
+              <th>{% translate "Roles" %}</th>
+              <td>{% include "auth/teams-roles.html" with group=object %}</td>
+            </tr>
+            <tr>
+              <th>{% translate "Languages" %}</th>
+              <td>{% include "auth/teams-languages.html" with group=object %}</td>
+            </tr>
+            <tr>
+              <th>{% translate "Projects" %}</th>
+              <td>{% include "auth/teams-projects.html" with group=object %}</td>
+            </tr>
+            <tr>
+              <th>{% translate "Components" %}</th>
+              <td>{% include "auth/teams-components.html" with group=object %}</td>
+            </tr>
+          </table>
+        {% endif %}
+      </div>
+      {% if form %}
+        <div class="tab-pane" id="auto">
+          <p>
+            {% translate "Automatically add newly created users to this team based on their e-mail address." %} {% documentation_icon 'admin/access' 'autoteam' %}
+          </p>
+          {{ auto_formset|crispy }}
+          <div class="multiFieldEmpty hidden">{{ auto_formset.empty_form|crispy }}</div>
+          <button class="btn btn-info add-multifield" data-prefix="autogroup_set">
+            {% translate "Add automatic assignment" %}
+          </button>
+          <br />
+          <br />
+          <br />
+        </div>
+      {% endif %}
+      {% if user_can_edit_team_users %}
+        <div class="tab-pane" id="users">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">
+                {% documentation_icon 'admin/access' 'groups' right=True %}
+                {% translate "Users" %}
+              </h4>
+            </div>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>{% translate "Username" %}</th>
+                  <th>{% translate "Full name" %}</th>
+                  <th>{% translate "Last sign in" %}</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for user in users %}
+                  <tr>
+                    <td>
+                      <a href="{{ user.get_absolute_url }}">{{ user.username }}</a>
+                      {% if user in admins %}
+                        <span class="badge">{% translate "Team administrator" %}</span>
+                      {% endif %}
+                    </td>
+                    <td>{{ user.full_name }}</td>
+                    <td>
+                      {% if user.last_login %}
+                        {{ user.last_login|naturaltime }}
+                      {% else %}
+                        {% translate "Not yet signed in" %}
+                      {% endif %}
+                    </td>
+                    <td class="number">
+                      {% if user in admins %}
+                        <a href="#"
+                           class="btn btn-link btn-xs link-post"
+                           data-action="{{ object.get_absolute_url }}"
+                           data-params='{"add_user": 1, "user": "{{ user.username|escapejs }}"}'>
+                          {% icon 'account-supervisor.svg' %}
+                          {% translate "Revoke administration" %}
+                        </a>
+                      {% else %}
+                        <a href="#"
+                           class="btn btn-link btn-xs link-post"
+                           data-action="{{ object.get_absolute_url }}"
+                           data-params='{"add_user": 1, "make_admin": 1, "user": "{{ user.username|escapejs }}"}'>
+                          {% icon 'account-supervisor.svg' %}
+                          {% translate "Grant administration" %}
+                        </a>
+                      {% endif %}
+                      <a href="#"
+                         data-bs-toggle="modal"
+                         data-bs-target="#delete_user_{{ user.id }}"
+                         class="btn btn-link btn-xs red"
+                         title="{% translate "Remove" %}">{% icon 'delete.svg' %} {% translate "Remove" %}</a>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+            {% if users.paginator.num_pages > 1 %}
+              <div class="card-footer">
+                {% include "paginator.html" with page_obj=users anchor="users" paginator_form="paginator-form" %}
+              </div>
+            {% endif %}
+            <div class="card-footer">
+              <a href="#"
+                 data-bs-toggle="modal"
+                 data-bs-target="#add_user_popup"
+                 class="btn btn-primary">{% translate "Add a user" %}</a>
+            </div>
+          </div>
+        </div>
+      {% endif %}
+    </div>
+
+    {% if form %}
+      <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
+    {% endif %}
+  </form>
+
+  {% for user in users %}
+    <form method="post" class="inlineform">
+      {% csrf_token %}
+      <input type="hidden" name="user" value="{{ user.username }}" />
+      <div class="modal fade" tabindex="-1" role="dialog" id="delete_user_{{ user.id }}">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">{% translate "Are you absolutely sure?" %}</h4>
+              <button type="button"
+                      class="btn-close"
+                      data-bs-dismiss="modal"
+                      aria-label="{% translate "Close" %}"></button>
+            </div>
+            <div class="modal-body">
+              {% blocktranslate with user=user.username %}This will remove <b>{{ user }}</b> access to this project.{% endblocktranslate %}
+            </div>
+            <div class="modal-footer">
+              <input type="submit"
+                     class="btn btn-danger"
+                     name="remove_user"
+                     value="{% translate "Remove" %}" />
+            </div>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+    </form>
+  {% endfor %}
+
+  <form method="post" class="inlineform">
+    {% csrf_token %}
+    <div class="modal fade" tabindex="-1" role="dialog" id="add_user_popup">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            {% translate "Add a user" %}
+            {% documentation_icon 'admin/access' 'invite-user' %}
+            <button type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                    aria-label="{% translate "Close" %}"></button>
+          </div>
+          <div class="modal-body">{{ add_user_form|crispy }}</div>
+          <div class="modal-footer">
+            <input type="submit"
+                   class="btn btn-primary"
+                   name="add_user"
+                   value="{% translate "Add" %}" />
+          </div>
+        </div>
+        <!-- /.modal-content -->
+      </div>
+      <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
+  </form>
+  <form method="get" id="paginator-form">
+  </form>
+{% endblock content %}

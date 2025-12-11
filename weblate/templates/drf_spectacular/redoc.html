@@ -1,0 +1,39 @@
+{% load i18n static %}
+
+{# Based on upstream template, removes Google fonts and add own font #}
+
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}"
+      dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}">
+  <head>
+    {% block head %}
+      <title>{% translate "Weblate's REST API" %}</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="{{ description }}" />
+      <link rel="stylesheet"
+            href="{% static 'styles/vendor/fonts/fonts.css' %}{{ cache_param }}" />
+      <style>
+      {# Redoc doesn't change outer page styles. #}
+      body { margin: 0; padding: 0; }
+      </style>
+    {% endblock head %}
+
+  </head>
+  <body>
+    {% block body %}
+      {% if settings %}
+        <div id="redoc-container"></div>
+        <script src="{{ redoc_standalone }}"></script>
+        <script>
+      const redocSettings = {{ settings|safe }};
+      Redoc.init("{{ schema_url }}", redocSettings, document.getElementById('redoc-container'))
+        </script>
+      {% else %}
+        <redoc spec-url="{{ schema_url }}"></redoc>
+        <script src="{{ redoc_standalone }}"></script>
+      {% endif %}
+    {% endblock body %}
+
+  </body>
+</html>

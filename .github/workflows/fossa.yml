@@ -1,0 +1,34 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: FOSSA
+
+on:
+  push:
+    branches:
+    - main
+
+permissions:
+  contents: read
+
+jobs:
+  fossa-scan:
+    runs-on: ubuntu-slim
+    if: ${{ github.repository == 'WeblateOrg/weblate' }}
+    steps:
+    - name: Checkout Code
+      uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+
+      with:
+        persist-credentials: false
+    - name: Run FOSSA Scan
+      uses: fossas/fossa-action@3ebcea1862c6ffbd5cf1b4d0bd6b3fe7bd6f2cac # v1.7.0
+      with:
+        api-key: ${{secrets.fossaApiKey}}
+
+    - name: Run FOSSA Test
+      uses: fossas/fossa-action@3ebcea1862c6ffbd5cf1b4d0bd6b3fe7bd6f2cac # v1.7.0
+      with:
+        api-key: ${{secrets.fossaApiKey}}
+        run-tests: true

@@ -1,0 +1,49 @@
+{% load humanize i18n %}
+
+<td>
+  {% if total == 0 %}
+    {% comment %}Translators: Number of projects/repositories/strings used in billing when there is no limit{% endcomment %}
+    {% blocktranslate with used=used|intcomma %}Used {{ used }}{% endblocktranslate %}
+  {% else %}
+    {% comment %}Translators: Number of projects/repositories/strings used in billing from given limit{% endcomment %}
+    {% blocktranslate with used=used|intcomma total=total|intcomma %}Used {{ used }} of {{ total }}{% endblocktranslate %}
+  {% endif %}
+</td>
+<td>
+
+  <div class="progress">
+    {% if total == 0 %}
+      <div class="progress-bar progress-bar-success"
+           role="progressbar"
+           aria-valuenow="100"
+           aria-valuemin="0"
+           aria-valuemax="100"
+           style="width: 100%"></div>
+    {% else %}
+      {% if used > max %}
+        <div class="progress-bar progress-bar-danger"
+             role="progressbar"
+             aria-valuenow="100"
+             aria-valuemin="0"
+             aria-valuemax="100"
+             style="width: 100%"></div>
+      {% else %}
+        {% if used > total %}
+          <div class="progress-bar progress-bar-warning"
+               role="progressbar"
+               aria-valuenow="100"
+               aria-valuemin="0"
+               aria-valuemax="100"
+               style="width: 100%"></div>
+        {% else %}
+          <div class="progress-bar progress-bar-success"
+               role="progressbar"
+               aria-valuenow="{{ used }}"
+               aria-valuemin="0"
+               aria-valuemax="{{ total }}"
+               style="width: {% widthratio used total 100 %}%"></div>
+        {% endif %}
+      {% endif %}
+    {% endif %}
+  </div>
+</td>

@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% load i18n metrics permissions translations %}
+
+{% block nav_pills %}
+  {% perm 'language.edit' as user_can_edit_language %}
+
+  <ul class="nav nav-pills">
+    <li class="nav-item">
+      <a class="nav-link active"
+         data-bs-target="#overview"
+         data-bs-toggle="tab"
+         href="#">{% translate "Projects" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-target="#information" data-bs-toggle="tab" href="#">{% translate "Overview" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-target="#search" data-bs-toggle="tab" href="#">{% translate "Search" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-target="#history" data-bs-toggle="tab" href="#">{% translate "History" %}</a>
+    </li>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#">
+        {% translate "Tools" %} <span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu shadow">
+        <li>
+          <a class="dropdown-item" href="{% url 'checks' path=object.get_url_path %}">{% translate "Failing checks" %}</a>
+        </li>
+        {% if user_can_edit_language %}
+          <hr class="dropdown-divider">
+          {% if not object.translation_set.exists %}
+            <li>
+              <a href=""
+                 class="link-post"
+                 data-href="{% url 'show_language' lang=object.code %}">{% translate "Delete" %}</a>
+            </li>
+          {% endif %}
+          <li>
+            <a class="dropdown-item" href="{% url 'edit-language' pk=object.pk %}">{% translate "Edit" %}</a>
+          </li>
+        {% endif %}
+      </ul>
+    </li>
+  </ul>
+{% endblock nav_pills %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'languages' %}">{% translate "Languages" %}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{{ object.get_absolute_url }}">{{ object }}</a>
+  </li>
+
+  <a class="ms-auto">
+    <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
+  </a>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  {% announcements language=object %}
+
+  {% perm 'language.edit' as user_can_edit_language %}
+
+  <div class="tab-content">
+
+    <div class="tab-pane active" id="overview">
+
+      {% include "snippets/list-objects.html" with show_admin_badge=True objects=project_languages name_source="project" label=_("Project") language=object global_base="stats" %}
+
+      {% include "paginator.html" with page_obj=projects %}
+
+    </div>
+
+    <div class="tab-pane" id="information">{% show_info language=object stats=object.stats metrics=object|metrics %}</div>
+
+    <div class="tab-pane" id="history">
+      {% format_last_changes_content last_changes=last_changes user=user %}
+      <a class="btn btn-primary" href="{% url 'changes' path=object.get_url_path %}">{% translate "Browse all changes for this language" %}</a>
+    </div>
+
+    <div class="tab-pane" id="search">
+      <form action="{% url 'search' path=object.get_url_path %}" method="get">
+        {% include "snippets/search-form.html" %}
+      </form>
+    </div>
+
+  </div>
+
+{% endblock content %}

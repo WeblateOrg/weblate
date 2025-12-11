@@ -1,0 +1,50 @@
+{% extends "mail/base.html" %}
+
+{% load humanize i18n translations %}
+
+{% block content %}
+  {% if was_added %}
+
+    <h2>{% translate "Added language" %}</h2>
+
+  {% else %}
+    <p>
+      {% blocktranslate with user=user.get_visible_name %}There has been a request for new language on {{ component }} at {{ site_title }} by {{ user }}.{% endblocktranslate %}
+    </p>
+
+    <p>{% translate "Please add the language file to VCS, Weblate will automatically discover it upon next update." %}</p>
+
+    <p>
+      <a href="{% documentation 'devel/translations' 'adding-translation' %}">
+        {% translate "More information on adding new language files is to be found in the documentation." %}
+      </a>
+    </p>
+
+    <h2>{% translate "Requested language" %}</h2>
+  {% endif %}
+  <table>
+    <tr>
+      <td>{% translate "Language name" %}</td>
+      <td>{{ language }}</td>
+    </tr>
+    <tr>
+      <td>{% translate "Language code" %}</td>
+      <td>
+        <code>{{ language.code }}</code>
+      </td>
+    </tr>
+    <tr>
+      <td>{% translate "Text direction" %}</td>
+      <td>{{ language.get_direction_display }}</td>
+    </tr>
+    <tr>
+      <td>{% translate "Number of speakers" %}</td>
+      <td>{{ language.population|intcomma }}</td>
+    </tr>
+  </table>
+
+  <div class="line buttons">
+    <a class="button" href="{{ component.get_absolute_url }}">{% translate "View translation component" %}</a>
+  </div>
+
+{% endblock content %}

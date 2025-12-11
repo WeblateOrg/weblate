@@ -1,0 +1,13 @@
+{% if title %}
+  {{ title }} @ {{ site_title }}
+{% elif unit %}
+  {{ object }} @ {{ site_title }}: {{ unit.source_string|truncatewords:10 }}
+{% elif object %}
+  {{ object }} @ {{ site_title }}
+{% elif page_user %}
+  {{ page_user }} @ {{ site_title }}
+{% elif site_title %}
+  {{ site_title }}
+{% else %}
+  Weblate
+{% endif %}

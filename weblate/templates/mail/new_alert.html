@@ -1,0 +1,17 @@
+{% extends "mail/base.html" %}
+
+{% load i18n translations %}
+
+{% block content %}
+
+  <h2>{{ alert }}</h2>
+
+  {% with user=subscription_user %}
+    {% render_alert alert %}
+  {% endwith %}
+
+  <div class="line buttons">
+    <a class="button" href="{{ component.get_absolute_url }}#alerts">{% translate "View all alerts" %}</a>
+  </div>
+
+{% endblock content %}

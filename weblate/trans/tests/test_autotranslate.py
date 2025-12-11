@@ -1,0 +1,376 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+"""Test for automatic translation."""
+
+from django.core.management import call_command
+from django.core.management.base import CommandError
+from django.test.utils import override_settings
+from django.urls import reverse
+
+from weblate.lang.models import Language
+from weblate.trans.models import Component
+from weblate.trans.tasks import auto_translate
+from weblate.trans.tests.test_views import ViewTestCase
+from weblate.utils.db import TransactionsTestMixin
+from weblate.utils.stats import ProjectLanguage
+
+
+class AutoTranslationTest(ViewTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        # Need extra power
+        self.user.is_superuser = True
+        self.user.save()
+        self.project.translation_review = True
+        self.project.save()
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            self.component2 = Component.objects.create(
+                name="Test 2",
+                slug="test-2",
+                project=self.project,
+                repo=self.git_repo_path,
+                push=self.git_repo_path,
+                vcs="git",
+                filemask="po/*.po",
+                template="",
+                file_format="po",
+                new_base="",
+                allow_translation_propagation=False,
+            )
+
+    def test_none(self) -> None:
+        """Test for automatic translation with no content."""
+        response = self.client.post(
+            reverse("auto_translation", kwargs=self.kw_translation)
+        )
+        self.assertRedirects(response, self.translation_url)
+
+    def make_different(self, language: str = "cs") -> None:
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n", language=language)
+
+    def perform_auto(
+        self, expected=1, expected_count=None, path_params=None, success=True, **kwargs
+    ) -> None:
+        self.make_different()
+        if path_params is None:
+            path_params = {"path": [*self.component2.get_url_path(), "cs"]}
+        url = reverse("auto_translation", kwargs=path_params)
+        kwargs["auto_source"] = "others"
+        kwargs["threshold"] = "100"
+        if "q" not in kwargs:
+            kwargs["q"] = "state:<translated"
+        if "mode" not in kwargs:
+            kwargs["mode"] = "translate"
+        response = self.client.post(url, kwargs, follow=True)
+        if expected == 0:
+            expected_string = (
+                "Automatic translation completed, no strings were updated."
+            )
+        elif expected == 1:
+            expected_string = "Automatic translation completed, 1 string was updated."
+        else:
+            expected_string = (
+                f"Automatic translation completed, {expected} strings were updated."
+            )
+
+        if success:
+            self.assertRedirects(response, reverse("show", kwargs=path_params))
+            self.assertContains(response, expected_string)
+
+        # Check we've translated something
+        translation = self.component2.translation_set.get(language_code="cs")
+        translation.invalidate_cache()
+        if expected_count is None:
+            expected_count = expected
+        if kwargs["mode"] == "suggest":
+            self.assertEqual(translation.stats.suggestions, expected_count)
+        elif kwargs["mode"] == "fuzzy":
+            self.assertEqual(translation.stats.fuzzy, expected_count)
+        else:
+            self.assertEqual(translation.stats.translated, expected_count)
+
+    def test_different(self) -> None:
+        """Test for automatic translation with different content."""
+        self.perform_auto()
+
+    def test_suggest(self) -> None:
+        """Test for automatic suggestion."""
+        self.perform_auto(mode="suggest")
+        self.perform_auto(0, 1, mode="suggest")
+
+    def test_approved(self) -> None:
+        """Test for automatic suggestion."""
+        self.perform_auto(mode="approved")
+        self.perform_auto(0, 1, mode="approved")
+
+    def test_fuzzy(self) -> None:
+        """Test for automatic suggestion in fuzzy mode."""
+        self.perform_auto(mode="fuzzy")
+
+    def test_inconsistent(self) -> None:
+        self.perform_auto(0, q="check:inconsistent")
+
+    def test_overwrite(self) -> None:
+        self.perform_auto(overwrite="1")
+
+    def test_autotranslate_component(self) -> None:
+        self.make_different("de")
+        de_translation = self.component2.translation_set.get(language_code="de")
+        initial_stats = de_translation.stats.translated
+        self.perform_auto(
+            path_params={"path": self.component2.get_url_path()},
+            expected=2,
+            expected_count=1,  # we only expect one new translation in 'cs'
+        )
+        de_translation.invalidate_cache()
+        self.assertEqual(de_translation.stats.translated, initial_stats + 1)
+
+    def test_autotranslate_category(self) -> None:
+        category = self.create_category(project=self.project)
+        self.component.category = self.component2.category = category
+        self.component.save()
+        self.component2.save()
+        self.make_different("de")
+        self.perform_auto(
+            path_params={"path": category.get_url_path()},
+            expected=2,
+            expected_count=1,  # we only expect one new translation in 'cs'
+        )
+
+    def test_autotranslate_project_language(self) -> None:
+        project_language = ProjectLanguage(
+            self.project,
+            language=Language.objects.get(code="cs"),
+        )
+        self.make_different("de")
+
+        self.perform_auto(
+            path_params={"path": project_language.get_url_path()},
+            expected_count=1,
+            expected=1,
+        )
+
+    def test_autotranslate_fail(self) -> None:
+        # invalid object type
+        self.perform_auto(
+            expected=0, path_params={"path": self.project.get_url_path()}, success=False
+        )
+
+        self.user.is_superuser = False
+        self.user.save()
+
+        # test missing autotranslate permission on translation
+        self.perform_auto(expected=0, success=False)
+
+        # test missing autotranslate permission on project language
+        project_language = ProjectLanguage(
+            self.project,
+            language=Language.objects.get(code="cs"),
+        )
+        self.perform_auto(
+            expected=0,
+            path_params={"path": project_language.get_url_path()},
+            success=False,
+        )
+
+        # test missing autotranslate permission on category
+        category = self.create_category(project=self.project)
+        self.component.category = self.component2.category = category
+        self.component.save()
+        self.perform_auto(
+            path_params={"path": category.get_url_path()}, expected=0, success=False
+        )
+        self.perform_auto(
+            path_params={"path": self.component.get_url_path()},
+            expected=0,
+            success=False,
+        )
+
+        # test invalid arguments
+        with self.assertRaises(ValueError):
+            auto_translate(
+                user_id=None,
+                mode="suggest",
+                q="state:<translated",
+                auto_source="others",
+                component=None,
+                engines=["weblate"],
+                threshold=100,
+            )
+
+        with self.assertRaises(ValueError):
+            auto_translate(
+                user_id=None,
+                mode="suggest",
+                q="state:<translated",
+                auto_source="others",
+                component=None,
+                engines=["weblate"],
+                threshold=100,
+                project_id=1,
+            )
+
+    def test_labeling(self) -> None:
+        self.perform_auto(overwrite="1")
+        translation = self.component2.translation_set.get(language_code="cs")
+        self.assertEqual(
+            translation.unit_set.filter(automatically_translated=True).count(),
+            1,
+        )
+        self.edit_unit("Thank you for using Weblate.", "Díky za používání Weblate.")
+        self.assertEqual(
+            translation.unit_set.filter(automatically_translated=True).count(),
+            1,
+        )
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n", translation=translation)
+        self.assertEqual(
+            translation.unit_set.filter(automatically_translated=True).count(),
+            0,
+        )
+
+    def test_automatically_translated_column(self) -> None:
+        """Test that automatically_translated column is set correctly."""
+        translation = self.component2.translation_set.get(language_code="cs")
+        self.assertEqual(
+            translation.unit_set.filter(automatically_translated=True).count(),
+            0,
+        )
+
+        self.perform_auto(overwrite="1")
+
+        auto_unit = translation.unit_set.filter(automatically_translated=True).first()
+        self.assertIsNotNone(auto_unit)
+        self.assertTrue(auto_unit.automatically_translated)
+
+        auto_unit.translate(
+            self.user,
+            "Manually edited translation",
+            auto_unit.state,
+        )
+
+        auto_unit.refresh_from_db()
+        self.assertFalse(auto_unit.automatically_translated)
+
+        self.assertEqual(
+            translation.unit_set.filter(automatically_translated=True).count(),
+            0,
+        )
+
+    def test_command(self) -> None:
+        call_command("auto_translate", "test", "test", "cs")
+
+    def test_command_add_error(self) -> None:
+        with self.assertRaises(CommandError):
+            call_command("auto_translate", "test", "test", "ia", add=True)
+
+    def test_command_mt(self) -> None:
+        call_command("auto_translate", "--mt", "weblate", "test", "test", "cs")
+
+    def test_command_mt_error(self) -> None:
+        with self.assertRaises(CommandError):
+            call_command("auto_translate", "--mt", "invalid", "test", "test", "ia")
+        with self.assertRaises(CommandError):
+            call_command(
+                "auto_translate", "--threshold", "invalid", "test", "test", "ia"
+            )
+
+    def test_command_add(self) -> None:
+        self.component.file_format = "po"
+        self.component.new_lang = "add"
+        self.component.new_base = "po/cs.po"
+        self.component.clean()
+        self.component.save()
+        call_command("auto_translate", "test", "test", "ia", add=True)
+        self.assertTrue(
+            self.component.translation_set.filter(language__code="ia").exists()
+        )
+
+    def test_command_different(self) -> None:
+        self.make_different()
+        call_command("auto_translate", "test", "test-2", "cs", source="test/test")
+
+    def test_command_errors(self) -> None:
+        with self.assertRaises(CommandError):
+            call_command("auto_translate", "test", "test", "cs", user="invalid")
+        with self.assertRaises(CommandError):
+            call_command("auto_translate", "test", "test", "cs", source="invalid")
+        with self.assertRaises(CommandError):
+            call_command("auto_translate", "test", "test", "cs", source="test/invalid")
+        with self.assertRaises(CommandError):
+            call_command("auto_translate", "test", "test", "xxx")
+
+
+class AutoTranslationMtTest(TransactionsTestMixin, ViewTestCase):
+    def setUp(self) -> None:
+        super().setUp()
+        # Need extra power
+        self.user.is_superuser = True
+        self.user.save()
+        with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
+            self.component3 = Component.objects.create(
+                name="Test 3",
+                slug="test-3",
+                project=self.project,
+                repo=self.git_repo_path,
+                push=self.git_repo_path,
+                vcs="git",
+                filemask="po/*.po",
+                template="",
+                file_format="po",
+                new_base="",
+                allow_translation_propagation=False,
+            )
+        self.update_fulltext_index()
+        self.configure_mt()
+
+    def test_none(self) -> None:
+        """Test for automatic translation with no content."""
+        url = reverse("auto_translation", kwargs=self.kw_translation)
+        response = self.client.post(url)
+        self.assertRedirects(response, self.translation_url)
+
+    def make_different(self) -> None:
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
+
+    def perform_auto(self, expected=1, **kwargs) -> None:
+        self.make_different()
+        path_params = {"path": [*self.component3.get_url_path(), "cs"]}
+        url = reverse("auto_translation", kwargs=path_params)
+        kwargs["auto_source"] = "mt"
+        if "q" not in kwargs:
+            kwargs["q"] = "state:<translated"
+        if "mode" not in kwargs:
+            kwargs["mode"] = "translate"
+        response = self.client.post(url, kwargs, follow=True)
+        if expected == 1:
+            self.assertContains(
+                response, "Automatic translation completed, 1 string was updated."
+            )
+        else:
+            self.assertContains(
+                response, "Automatic translation completed, no strings were updated."
+            )
+
+        self.assertRedirects(response, reverse("show", kwargs=path_params))
+        # Check we've translated something
+        translation = self.component3.translation_set.get(language_code="cs")
+        translation.invalidate_cache()
+        self.assertEqual(translation.stats.translated, expected)
+
+    def test_different(self) -> None:
+        """Test for automatic translation with different content."""
+        self.perform_auto(engines=["weblate"], threshold=80)
+
+    def test_multi(self) -> None:
+        """Test for automatic translation with more providers."""
+        self.perform_auto(
+            engines=["weblate", "weblate-translation-memory"], threshold=80
+        )
+
+    def test_inconsistent(self) -> None:
+        self.perform_auto(0, q="check:inconsistent", engines=["weblate"], threshold=80)
+
+    def test_overwrite(self) -> None:
+        self.perform_auto(overwrite="1", engines=["weblate"], threshold=80)

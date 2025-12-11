@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'home' %}">{% translate "Page Not Found" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+  <div class="container">
+
+    <h2>{% translate "Page Not Found" %}</h2>
+    <p>
+      {% translate "The page you are looking for was not found." %}
+      {% translate "The project you are looking for does not exist or is not publicly available." %}
+    </p>
+
+    {% if not user.is_authenticated %}
+      <a href="{% url 'login' %}" class="btn btn-primary">{% translate "Sign in" %}</a>
+    {% endif %}
+    <a href="{% url 'home' %}" class="btn btn-primary">{% translate "Dashboard" %}</a>
+    <a href="{% url 'projects' %}" class="btn btn-primary">{% translate "Browse all projects" %}</a>
+
+  </div>
+{% endblock content %}

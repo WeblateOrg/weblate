@@ -1,0 +1,102 @@
+{
+  "$id": "https://weblate.org/schemas/weblate-memory.schema.json",
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {},
+  "items": {
+    "$id": "#/items",
+    "additionalProperties": false,
+    "properties": {
+      "category": {
+        "$id": "#/items/properties/category",
+        "default": 1,
+        "description": "1 is global, 2 is shared, 10000000+ are project specific, 20000000+ are user specific",
+        "examples": [
+          1
+        ],
+        "minimum": 0,
+        "title": "The String Category",
+        "type": "integer"
+      },
+      "origin": {
+        "$id": "#/items/properties/origin",
+        "default": "",
+        "description": "Filename or component name",
+        "examples": [
+          "test.tmx",
+          "project/component"
+        ],
+        "title": "The String Origin",
+        "type": "string"
+      },
+      "context": {
+        "$id": "#/items/properties/context",
+        "default": "",
+        "description": "Translation context or key for monolingual formats",
+        "examples": [
+          "Greeting used in emails"
+        ],
+        "title": "The String Context or Key",
+        "type": "string"
+      },
+      "source": {
+        "$id": "#/items/properties/source",
+        "default": "",
+        "examples": [
+          "Hello"
+        ],
+        "minLength": 1,
+        "title": "The Source String",
+        "type": "string"
+      },
+      "source_language": {
+        "$id": "#/items/properties/source_language",
+        "default": "",
+        "description": "ISO 639-1 / ISO 639-2 / IETF BCP 47",
+        "examples": [
+          "en"
+        ],
+        "pattern": "^[^ ]+$",
+        "title": "The Source Language",
+        "type": "string"
+      },
+      "target": {
+        "$id": "#/items/properties/target",
+        "default": "",
+        "examples": [
+          "Ahoj"
+        ],
+        "minLength": 1,
+        "title": "The Target String",
+        "type": "string"
+      },
+      "target_language": {
+        "$id": "#/items/properties/target_language",
+        "default": "",
+        "description": "ISO 639-1 / ISO 639-2 / IETF BCP 47",
+        "examples": [
+          "cs"
+        ],
+        "pattern": "^[^ ]+$",
+        "title": "The Target Language",
+        "type": "string"
+      },
+      "status": {
+        "$id": "#/items/properties/status",
+        "title": "Status",
+        "type": "integer"
+      }
+    },
+    "required": [
+      "source_language",
+      "target_language",
+      "source",
+      "target",
+      "origin",
+      "category"
+    ],
+    "title": "The Translation Memory Item",
+    "type": "object"
+  },
+  "title": "Weblate Translation Memory Schema",
+  "type": "array"
+}

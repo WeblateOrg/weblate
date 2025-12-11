@@ -1,0 +1,680 @@
+{% extends "base.html" %}
+
+{% load authnames compress crispy_forms_tags i18n icons otp_webauthn static translations %}
+
+{% block extra_script %}
+  {% compress js %}
+    <script defer
+            data-cfasync="false"
+            src="{% static 'js/accounts/profile/index.js' %}{{ cache_param }}"></script>
+  {% endcompress %}
+{% endblock extra_script %}
+
+{% block nav_pills %}
+  <ul class="nav nav-pills">
+    <li class="nav-item">
+      <a class="nav-link active"
+         data-bs-toggle="tab"
+         data-bs-target="#languages"
+         href="#">{% translate "Languages" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" data-bs-target="#preferences" href="#">{% translate "Preferences" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" data-bs-target="#notifications" href="#">{% translate "Notifications" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" data-bs-target="#account" href="#">{% translate "Account" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" data-bs-target="#profile" href="#">{% translate "Profile" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" data-bs-target="#teams" href="#">{% translate "Teams" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" data-bs-target="#licenses" href="#">{% translate "Licenses" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" data-bs-target="#audit" href="#">{% translate "Audit log" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-toggle="tab" data-bs-target="#api" href="#">{% translate "API access" %}</a>
+    </li>
+  </ul>
+{% endblock nav_pills %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'profile' %}">{% translate "Your profile" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  {% if form.errors or userform.errors or subscriptionform.errors %}
+    {% translate "Please fix errors in the form." as msg %}
+    {% show_message "error" msg %}
+  {% endif %}
+
+  <form method="post" action="{% url 'profile' %}">
+    {% csrf_token %}
+    <input type="hidden" id="form-activetab" name="activetab" value="" />
+
+    <div class="tab-content">
+
+      <div class="tab-pane show active" id="languages">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">{% documentation_icon 'user/profile' 'languages' right=True %}{% translate "Languages" %}</h4>
+          </div>
+          <div class="card-body">
+            {% crispy languagesform %}
+            <p class="help-block">
+              {% blocktranslate %}Send a request to the project you want to translate to add a missing language.{% endblocktranslate %}
+            </p>
+          </div>
+          <div class="card-footer">
+            <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="preferences">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">
+              {% documentation_icon 'user/profile' 'preferences' right=True %}{% translate "Preferences" %}
+            </h4>
+          </div>
+          <div class="card-body">
+            {% crispy usersettingsform %}
+            {% crispy dashboardsettingsform %}
+          </div>
+          <div class="card-footer">
+            <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="notifications">
+
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">
+              {% documentation_icon 'user/profile' 'subscriptions' right=True %}{% translate "Watched projects" %}
+            </h4>
+          </div>
+          <div class="card-body">
+            {% crispy subscriptionform %}
+            <p class="help-block">
+              {% translate "Add all projects you want to translate to see them as watched projects on the dashboard." %}
+            </p>
+          </div>
+          <div class="card-footer">
+            <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">
+              {% documentation_icon 'user/profile' 'subscriptions' right=True %}{% translate "Notification settings" %}
+            </h4>
+          </div>
+          <div class="card-body">
+
+            <ul class="nav nav-pills">
+              {% for form in notification_forms %}
+                <li class="nav-item">
+                  <a class="nav-link{% if form.is_active %} active{% endif %}"
+                     data-bs-toggle="tab"
+                     data-bs-target="#{{ form.prefix }}"
+                     role="tab"
+                     href="#">
+                    {{ form.get_name }}
+                    {% if form.removable %}
+                      <button type="button"
+                              class="btn-close"
+                              title="{% translate "Remove this notification setting" %}"></button>
+                    {% endif %}
+                  </a>
+                </li>
+              {% endfor %}
+            </ul>
+
+            <div class="tab-content">
+
+              {% for form in notification_forms %}
+                <div class="tab-pane {% if form.is_active %}active{% endif %}"
+                     id="{{ form.prefix }}"
+                     role="tabpanel"
+                     tabindex="0">
+                  <div class="form-horizontal">{% crispy form %}</div>
+                </div>
+              {% endfor %}
+
+            </div>
+
+          </div>
+          <div class="card-footer">
+            <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-pane" id="account">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">{% documentation_icon 'user/profile' right=True %}{% translate "Account" %}</h4>
+          </div>
+          <div class="card-body">
+
+
+
+            {% crispy userform %}
+            {% crispy commitform %}
+            <p class="help-block">
+              {% if has_email_auth %}
+                <a href=""
+                   class="link-post float-end btn btn-link"
+                   data-href="{% url 'social:begin' 'email' %}?next={% url 'profile' %}%23account">{% translate "Verify new e-mail address" %}</a>
+              {% endif %}
+              {% translate "The e-mail address can be chosen from verified addresses only." %}
+            </p>
+          </div>
+          <div class="card-footer">
+            <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-sm-6">
+
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">
+                  {% documentation_icon 'user/profile' 'authentication' right=True %}{% translate "Current user identities" %}
+                </h4>
+              </div>
+              <ul class="list-group">
+                {% if request.user.has_usable_password or has_email_auth %}
+                  <li class="list-group-item auth-list">
+                    <a href="{% url 'password' %}" class="btn btn-primary float-end">
+                      {% if request.user.has_usable_password %}
+                        {% translate "Change password" %}
+                      {% else %}
+                        {% translate "Set password" %}
+                      {% endif %}
+                    </a>
+
+                    {% auth_name 'password' only="icon" %}
+                    <div class="auth-info">
+                      <strong>{% auth_name 'password' only="name" %}</strong>
+                      <br />
+                      {{ request.user.username }}
+                    </div>
+                  </li>
+                {% endif %}
+                {% for assoc in associated %}
+                  <li class="list-group-item auth-list">
+                    {% if associated.count > 1 %}
+                      <a href="{% url 'social:disconnect_individual' assoc.provider assoc.id %}?next={% url 'profile' %}%23account"
+                         class="disconnect btn btn-danger float-end">{% translate "Disconnect" %}</a>
+                    {% endif %}
+
+                    {% auth_name assoc.provider only="icon" %}
+                    <div class="auth-info">
+                      <strong>{% auth_name assoc.provider only="name" %}</strong>
+                      <br />
+                      {{ assoc.uid }}
+                    </div>
+                  </li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+
+          {% if new_backends %}
+            <div class="col-sm-6">
+              <div class="card">
+                <div class="card-header">
+                  <h4 class="card-title">{% translate "Add new user identity" %}</h4>
+                </div>
+                <div class="card-body">
+                  {% for name in new_backends %}
+                    <a href=""
+                       class="btn btn-link link-post"
+                       data-href="{% url 'social:begin' name %}?next={% url 'profile' %}%23account">{% auth_name name %}</a>
+                  {% endfor %}
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">
+              {% documentation_icon 'admin/auth' '2fa' right=True %}
+              {% translate "Two-factor authentication" %}
+            </h4>
+          </div>
+          <div class="card-body second-factor">
+            <p class="help-block">
+              {% translate "Two-factor authentication adds another layer of security to your account by requiring more than just a password to sign in." %}
+            </p>
+
+            <div class="row">
+              <div class="col-sm-4">
+                <h5>{% translate "Security keys (WebAuthn)" %}</h5>
+                {% if not webauthn_keys %}
+                  <p>
+                    <em>{% translate "No WebAuthn keys registered yet." %}</em>
+                  </p>
+                {% else %}
+                  <ul class="list-group">
+                    {% for key in webauthn_keys %}
+                      <li class="list-group-item">
+                        <a href=""
+                           class="btn btn-danger float-end link-post"
+                           data-href="{% url "webauthn-detail" pk=key.id %}"
+                           data-params='{"delete": 1}'>{% translate "Remove" %}</a>
+                        {% key_name key %}
+                        <div class="clearfix"></div>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+
+                <template id="passkey-registration-available-template">
+                  <div class="form-inline">
+                    <input type="text"
+                           class="textinput form-control"
+                           name="passkey-device-name"
+                           maxlength="64"
+                           data-href="{% url "webauthn-detail" pk="000000" %}"
+                           placeholder="{% translate "Name your security key" %}" />
+                    <button type="button" class="btn btn-primary" id="passkey-register-button">
+                      {% translate "Register new security key" %}
+                    </button>
+                    <div id="passkey-register-status-message"></div>
+                  </div>
+                </template>
+
+                <template id="passkey-registration-unavailable-template">
+                  <p>{% translate "Your web browser lacks WebAuthn support." %}</p>
+                </template>
+
+                <span id="passkey-registration-placeholder"></span>
+
+                {% render_otp_webauthn_register_scripts %}
+              </div>
+              <div class="col-sm-4">
+                <h5>{% translate "Authenticator apps (TOTP)" %}</h5>
+                {% if not totp_keys %}
+                  <p>
+                    <em>{% translate "No authenticator apps registered yet." %}</em>
+                  </p>
+                {% else %}
+                  <ul class="list-group">
+                    {% for key in totp_keys %}
+                      <li class="list-group-item">
+                        <a href=""
+                           class="btn btn-danger float-end link-post"
+                           data-href="{% url "totp-detail" pk=key.id %}"
+                           data-params='{"delete": 1}'>{% translate "Remove" %}</a>
+                        {% key_name key %}
+                        <div class="clearfix"></div>
+                      </li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+                <a href="{% url 'totp' %}" class="btn btn-primary">{% translate "Register new authenticator app" %}</a>
+              </div>
+              <div class="col-sm-4">
+                <h5>{% translate "Recovery codes" %}</h5>
+                {% if recovery_keys_count == 0 %}
+                  <p>
+                    <em>{% translate "No recovery codes generated yet." %}</em>
+                  </p>
+                  <a href=""
+                     data-href="{% url "recovery-codes" %}"
+                     class="btn btn-primary link-post">{% translate "Generate new recovery codes" %}</a>
+                {% else %}
+                  <p>
+                    {% blocktranslate count count=recovery_keys_count trimmed %}
+                      {{ count }} recovery code available.
+                    {% plural %}
+                      {{ count }} recovery codes available.
+                    {% endblocktranslate %}
+                  </p>
+                  <a href="{% url "recovery-codes" %}" class="btn btn-primary">{% translate "View recovery codes" %}</a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <div class="row">
+
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">{% translate "User data" %}</h4>
+              </div>
+              <div class="card-body">
+
+                <p>{% translate "You can download all your private data." %}</p>
+              </div>
+              <div class="card-footer">
+                <a href="" class="btn btn-primary link-post" data-href="{% url 'userdata' %}">{% translate "Download user data" %}</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-sm-6">
+            <div class="card">
+              <div class="card-header text-bg-danger">
+                <h4 class="card-title">{% translate "Removal" %}</h4>
+              </div>
+              <div class="card-body">
+
+                <p>{% translate "Account removal deletes all your private data." %}</p>
+              </div>
+              <div class="card-footer">
+                <a class="btn btn-danger" href="{% url 'remove' %}">{% translate "Remove my account" %}</a>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="tab-pane" id="profile">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">
+              {% documentation_icon 'user/profile' 'public-profile' right=True %}{% translate "Public profile" %}
+            </h4>
+          </div>
+          <div class="card-body">
+            {% crispy profileform %}
+            <p class="help-block">
+              {% blocktranslate %}All of the fields on this page are optional and can be deleted at any time, and by filling them out, you're giving us consent to share this data wherever your user profile appears.{% endblocktranslate %}
+            </p>
+          </div>
+          <div class="card-footer">
+            <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
+          </div>
+        </div>
+        {% if enable_avatars %}
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">{% documentation_icon 'user/profile' 'avatar' right=True %}{% translate "Your avatar" %}</h4>
+            </div>
+            <div class="card-body">
+              <p>
+                <img class="avatar w128"
+                     alt="{% translate "User avatar" %}"
+                     src="{% url 'user_avatar' user=request.user.username size=128 %}" />
+              </p>
+              <p>
+                <a href="{{ avatar_url_prefix }}">{% blocktranslate %}Avatars are provided using {{ avatar_url_prefix }}.{% endblocktranslate %}</a>
+              </p>
+            </div>
+          </div>
+        {% endif %}
+
+      </div>
+
+      <div class="tab-pane" id="teams">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>{% translate "Team" %}</th>
+              <th>{% translate "Roles" %}</th>
+              <th>{% translate "Projects" %}</th>
+              <th>{% translate "Languages" %}</th>
+              <th>{% translate "Components" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for group in user_groups %}
+              <tr>
+                <td>
+                  <a href="{{ group.get_absolute_url }}">{% include "auth/teams-name.html" %}</a>
+                </td>
+                <td>{% include "auth/teams-roles.html" %}</td>
+                <td>{% include "auth/teams-projects.html" %}</td>
+                <td>{% include "auth/teams-languages.html" %}</td>
+                <td>{% include "auth/teams-components.html" %}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+          {% with invitations=user.invitation_set.all %}
+            {% if invitations %}
+              <tbody>
+                {% for invitation in invitations %}
+                  {% with group=invitation.group %}
+                    <tr>
+                      <td>
+                        <a href="{{ invitation.get_absolute_url }}">
+                          {{ group }}
+                          <span class="badge">{% translate "Pending invitation" %}</span>
+                        </a>
+                      </td>
+                      <td>{% include "auth/teams-roles.html" %}</td>
+                      <td>{% include "auth/teams-projects.html" %}</td>
+                      <td>{% include "auth/teams-languages.html" %}</td>
+                      <td>{% include "auth/teams-components.html" %}</td>
+                    </tr>
+                  {% endwith %}
+                {% endfor %}
+              </tbody>
+            {% endif %}
+          {% endwith %}
+        </table>
+      </div>
+
+      <div class="tab-pane" id="audit">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">{% translate "Description" %}</h4>
+          </div>
+          <div class="card-body">
+            <p>
+              {% blocktranslate %}Get in contact immediately if you notice anything suspicious in the audit log.{% endblocktranslate %}
+            </p>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">{% translate "Audit log" %}</h4>
+          </div>
+          <table class="table">
+            <thead>
+              <tr>
+                <th>{% translate "When" %}</th>
+                <th>{% translate "Account activity" %}</th>
+                <th>{% translate "IP address" %}</th>
+                <th>{% translate "User agent" %}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for log in auditlog %}
+                <tr>
+                  <td>{{ log.timestamp|naturaltime }}</td>
+                  <td>{{ log.get_message }}</td>
+                  <td>{{ log.address }}</td>
+                  <td>{{ log.user_agent }}</td>
+                </tr>
+              {% empty %}
+                <tr>
+                  <td colspan="4">{% translate "No recent activity found." %}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          {% if contact_form != "disabled" %}
+            <div class="card-footer">
+              <a href="{% url 'contact' %}?t=account" class="btn btn-warning">{% translate "Report suspicious activity" %}</a>
+            </div>
+          {% endif %}
+        </div>
+
+      </div>
+
+      <div class="tab-pane" id="api">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">{% documentation_icon 'api' right=True %}{% translate "API access" %}</h4>
+          </div>
+          <table class="table">
+            <tr>
+              <td colspan="2">
+                <p>
+                  {% blocktranslate %}The API key can be used to control Weblate via the HTTP REST API and to access Weblate Git repositories.{% endblocktranslate %}
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <th>{% translate "Your personal API key:" %}</th>
+              <td>
+                <span class="auth-token">{{ user.auth_token.key }}</span>
+                <button type="button"
+                        class="btn btn-link btn-xs"
+                        data-visibility=".auth-token"
+                        title="{% translate "Toggle API key visibility" %}">{% icon "eye.svg" %}</button>
+                <button type="button"
+                        class="btn btn-link btn-xs"
+                        data-clipboard-value="{{ user.auth_token.key }}"
+                        data-clipboard-message="{% translate "API key copied to clipboard." %}"
+                        title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+                <a href=""
+                   class="float-end btn btn-primary link-post"
+                   data-href="{% url 'reset-api-key' %}">{% translate "Regenerate API key" %}</a>
+              </td>
+            </tr>
+            <tr>
+              <th>{% translate "API root URL:" %}</th>
+              <td>
+                <a href="{{ site_url }}{% url 'api:api-root' %}">{{ site_url }}{% url 'api:api-root' %}</a>
+              </td>
+            </tr>
+            <tr>
+              <th colspan="2">{% documentation_icon 'api' right=True %}{% translate "API usage example:" %}</th>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <pre dir="ltr">
+                  <code>
+curl \
+    -H "Authorization: Token <span class="auth-token">{{ user.auth_token.key }}</span>" \
+    {{ site_url }}{% url 'api:api-root' %}
+                  </code>
+</pre>
+              </td>
+            </tr>
+            <tr>
+              <th colspan="2">{% documentation_icon 'wlc' right=True %}{% translate "CLI usage example:" %}</th>
+            </tr>
+            <tr>
+              <td colspan="2">
+                <pre dir="ltr">
+                  <code>
+wlc \
+    --key <span class="auth-token">{{ user.auth_token.key }}</span> \
+    --url {{ site_url }}{% url 'api:api-root' %} \
+    list-projects
+                  </code>
+</pre>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        {% if has_gitexport %}
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">
+                {% documentation_icon 'admin/optionals' 'git-exporter' right=True %}{% translate "Accessing Git repositories" %}
+              </h4>
+            </div>
+            <div class="card-body">
+              <p>
+                {% blocktranslate %}The API key is also used to authenticate to automatically exported Git repositories.{% endblocktranslate %}
+              </p>
+              <code dir="ltr">
+              git clone 'https://{{ user.username|urlencode }}:<span class="auth-token">{{ user.auth_token.key }}</span>@{{ site_domain }}{% get_git_export_example_url %}'</code>
+            </div>
+          </div>
+        {% endif %}
+
+      </div>
+
+      <div class="tab-pane" id="licenses">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">{% translate "Licenses" %}</h4>
+          </div>
+          <div class="card-body">
+            <p>{% translate "Please pay attention to the licensing info, as this specifies how translations can be used." %}</p>
+            <p>
+              {% translate "By registering you agree to use your name and e-mail in the commits, and provide your contribution under the license defined by each localization project." %}
+            </p>
+
+            {% with agreements=user.contributoragreement_set.order %}
+              {% if agreements %}
+                <p>{% translate "You have agreed to the following as a contributor:" %}</p>
+                <ul>
+                  {% for agreement in agreements %}
+                    <li>
+                      <a href="{% url 'contributor-agreement' path=agreement.component.get_url_path %}">{{ agreement.component }}</a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              {% endif %}
+            {% endwith %}
+          </div>
+        </div>
+
+        {% if licenses %}
+          {% regroup licenses by license as license_list %}
+          <div class="tab-pane" id="licenses">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">{% translate "Licenses for individual translations" %}</h4>
+              </div>
+              <div class="card-body">
+                {% for dummy, items in license_list %}
+                  <h4>
+                    {{ items.0.get_license_display }}
+                    <span title="{{ items.0.get_license_display }}" class="license badge">{{ items.0.license }}</span>
+                    <a class="doc-link" href="{{ items.0.license_url }}">{% icon "info.svg" %}</a>
+                  </h4>
+                  <p>
+                    {% for component in items %}
+                      <a href="{{ component.get_absolute_url }}" class="btn btn-link">{{ component }}</a>
+                    {% endfor %}
+                  </p>
+                {% endfor %}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+
+  </form>
+  <form method="post" action="" id="disconnect-form">
+    {% csrf_token %}
+  </form>
+
+{% endblock content %}

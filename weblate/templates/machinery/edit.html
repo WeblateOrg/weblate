@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags humanize i18n icons permissions translations %}
+
+{% block breadcrumbs %}
+  {% if project %}
+    <li class="breadcrumb-item">
+      <a href="{{ project.get_absolute_url }}">{{ project }}</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a href="{% url 'machinery-list' project=project.slug %}">{% translate "Automatic suggestions" %}</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a href="{% url 'machinery-edit' project=project.slug machinery=machinery_id %}">{{ machinery_name }}</a>
+    </li>
+  {% else %}
+    <li class="breadcrumb-item">
+      <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a href="{% url 'manage-machinery' %}">{% translate "Automatic suggestions" %}</a>
+    </li>
+  {% endif %}
+{% endblock breadcrumbs %}
+
+{% block content %}
+  <form method="post">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">
+          {% documentation_icon 'admin/machine' machinery_doc_anchor right=True %}
+          {{ machinery_name }}
+        </h4>
+      </div>
+      <div class="card-body">{% crispy form %}</div>
+      <div class="card-footer">
+        <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
+      </div>
+    </div>
+  </form>
+
+{% endblock content %}

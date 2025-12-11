@@ -1,0 +1,52 @@
+{% extends "mail/base.html" %}
+
+{% load i18n translations %}
+
+{% block content %}
+  {% if limit %}
+    <p>Following billings are over limit:</p>
+
+    <ul>
+      {% for bill in limit %}
+        <li>{% include "mail/billing_check_line.html" %}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  {% if due %}
+    <p>Following billings are past due date:</p>
+
+    <ul>
+      {% for bill in due %}
+        <li>{% include "mail/billing_check_line.html" %}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  {% if toremove %}
+    <p>Following billings are scheduled for removal:</p>
+
+    <ul>
+      {% for bill in toremove %}
+        <li>
+          {% include "mail/billing_check_line.html" %}
+          [{{ bill.removal }}]
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  {% if trial %}
+    <p>Following trials are active:</p>
+
+    <ul>
+      {% for bill in trial %}
+        <li>
+          {% include "mail/billing_check_line.html" %}
+          [{{ bill.expiry }}]
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+{% endblock content %}

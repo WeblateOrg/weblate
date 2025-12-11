@@ -1,0 +1,31 @@
+{% load i18n %}
+
+<p>
+  {% blocktranslate %}Please click on the confirmation button below. In case it doesn't work you might need to copy the URL on next line into the browser address bar to proceed.{% endblocktranslate %}
+</p>
+
+<code>
+  {{ current_site_url }}{{ url }}
+</code>
+
+<p>
+  {% blocktranslate count count=validity %}The confirmation link will expire after {{ count }} hour.{% plural %}The confirmation link will expire after {{ count }} hours.{% endblocktranslate %}
+</p>
+
+<div class="line buttons">
+  {% if action == "reset" %}
+    <a class="button" href="{{ url }}">{% translate "Confirm password reset" %}</a>
+  {% elif action == "remove" %}
+    <a class="button" href="{{ url }}">{% translate "Confirm account removal" %}</a>
+  {% elif action == "invite" %}
+    <a class="button" href="{{ url }}">{% translate "Confirm invitation" %}</a>
+  {% else %}
+    <a class="button" href="{{ url }}">{% translate "Confirm registration" %}</a>
+  {% endif %}
+</div>
+
+{% if contact_form != "disabled" %}
+  <p>
+    <a href="{% url 'contact' %}?t=reg">{% blocktranslate %}If there is a problem with your registration, please contact us.{% endblocktranslate %}</a>
+  </p>
+{% endif %}

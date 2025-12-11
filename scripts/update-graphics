@@ -1,0 +1,33 @@
+#!/bin/sh
+
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+if [ ! -d ../graphics/ ]; then
+    echo "Graphics repository missing!"
+fi
+
+# Widgets
+cp ../graphics/widgets/*.png weblate/static/widget-images/
+
+# SVG
+cp ../graphics/logo/weblate.svg ../graphics/logo/weblate-black.svg weblate/static/
+./scripts/optimize-svg weblate/static/weblate*.svg
+
+# favicon
+cp ../graphics/logo/weblate.ico weblate/static/favicon.ico
+
+# Scaled logos
+for size in 24 32 80 128 150 180 192 512; do
+    cp ../graphics/logo/weblate-background-$size.png weblate/static/weblate-$size.png
+done
+for size in 16 32 128 1024; do
+    cp ../graphics/logo/weblate-logo-$size.png weblate/static/logo-$size.png
+done
+
+# Email logo
+cp ../graphics/logo/weblate-logo-48.png weblate/static/email-logo.png
+
+# Widgets
+cp ../graphics/open-graph/Og-Template.png weblate/static/widget-images/open-graph.png

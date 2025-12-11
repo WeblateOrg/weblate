@@ -1,0 +1,12 @@
+{% load i18n icons %}
+
+<button type="button"
+        class="btn btn-primary btn-xs float-end"
+        data-clipboard-value="{{ token }}"
+        data-clipboard-message="{% translate "Token copied to clipboard." %}">
+  {% translate "Copy token to clipboard" %}
+</button>
+
+{% blocktranslate %}Token created. Please save it now, as it won't be displayed again: {{ token }}{% endblocktranslate %}
+
+<div class="clearfix"></div>

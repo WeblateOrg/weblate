@@ -1,0 +1,125 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+# This file is maintained in https://github.com/WeblateOrg/meta/
+name: uv lock update
+
+on:
+  push:
+    branches:
+    - renovate/**
+    - main
+    paths:
+    - pyproject.toml
+    - .github/workflows/uv-upgrade.yml
+  schedule:
+  - cron: 30 6 * * 0
+  workflow_dispatch:
+  pull_request:
+    paths:
+    - pyproject.toml
+    - .github/workflows/uv-upgrade.yml
+
+permissions:
+  contents: read
+
+jobs:
+  uv-update:
+    if: startsWith(github.repository, 'WeblateOrg/')
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+
+    steps:
+    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      if: github.event_name != 'pull_request'
+      with:
+        token: ${{ secrets.WEBLATE_CI_TOKEN }}
+        persist-credentials: true
+    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      if: github.event_name == 'pull_request'
+      with:
+        persist-credentials: false
+    - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+      with:
+        path: ~/.cache/pre-commit
+        key: ${{ runner.os }}-pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
+    - name: Set up Python
+      id: setup_python
+      uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v6.1.0
+      with:
+        python-version: '3.14'
+    - uses: astral-sh/setup-uv@ed21f2f24f8dd64503750218de024bcf64c7250a # v7.1.5
+      with:
+        save-cache: ${{ github.ref == 'refs/heads/main' }}
+        cache-suffix: ${{ steps.setup_python.outputs.python-version }}
+
+        version: 0.9.17
+    - name: Install apt dependencies
+      run: |
+        if [ -f ./ci/apt-install ] ; then
+          sudo ./ci/apt-install
+        fi
+
+
+    - name: Lockfile maintenance
+      if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+      run: uv lock --upgrade
+
+    - run: uv sync --all-extras
+      name: Update lock file
+      if: hashFiles('uv.lock') != ''
+
+    - name: Update SBOM
+      if: hashFiles('docs/specs/sbom/partial/python.json') != ''
+      run: |
+        uv export --preview-features sbom-export --format cyclonedx1.5 --all-extras --no-dev > docs/specs/sbom/partial/python.json
+        ./scripts/reproducible-sbom.py docs/specs/sbom/partial/python.json
+
+    - name: Merge SBOM
+      if: hashFiles('docs/specs/sbom/partial/python.json') != ''
+      env:
+        # renovate: datasource=github-releases depName=CycloneDX/cyclonedx-cli versioning=loose
+        CYCLONEDX_CLI_VERSION: v0.29.2
+      run: |
+        curl -L "https://github.com/CycloneDX/cyclonedx-cli/releases/download/$CYCLONEDX_CLI_VERSION/cyclonedx-linux-x64" > /tmp/cyclonedx-linux-x64
+        chmod +x /tmp/cyclonedx-linux-x64
+        /tmp/cyclonedx-linux-x64 merge --input-files docs/specs/sbom/partial/* --output-file docs/specs/sbom/sbom.json
+        ./scripts/reproducible-sbom.py docs/specs/sbom/sbom.json
+
+    - run: uv run --only-group pre-commit pre-commit run --all
+      continue-on-error: true
+
+    - run: git diff
+
+    - uses: pre-commit-ci/lite-action@5d6cc0eb514c891a40562a58a8e71576c5c7fb43 # v1.1.0
+      if: github.event_name == 'pull_request' && github.actor != 'renovate[bot]'
+      with:
+        msg: 'chore(deps): update lockfile'
+
+    - name: Update current branch
+      if: github.event_name == 'push' && github.ref_name != 'main'
+      uses: stefanzweifel/git-auto-commit-action@28e16e81777b558cc906c8750092100bbb34c5e3 # v7.0.0
+      with:
+        commit_message: 'chore(deps): update lockfile'
+
+    - name: Create Pull Request
+      id: cpr
+      if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.ref_name == 'main'
+      uses: peter-evans/create-pull-request@98357b18bf14b5342f975ff684046ec3b2a07725 # v8.0.0
+      with:
+        branch: create-pull-request/uv-lock-update
+        title: 'chore(deps): update lockfile'
+        commit-message: 'chore(deps): update lockfile'
+
+        token: ${{ secrets.WEBLATE_CI_TOKEN }}
+        labels: |
+          dependencies
+
+    - name: Enable Pull Request Automerge
+      if: steps.cpr.outputs.pull-request-operation && steps.cpr.outputs.pull-request-operation != 'none'
+      run: gh pr merge --rebase --auto "$PR_NUMBER"
+      env:
+        GH_TOKEN: ${{ secrets.WEBLATE_CI_TOKEN }}
+        PR_NUMBER: ${{ steps.cpr.outputs.pull-request-number }}

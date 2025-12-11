@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags i18n translations %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'password_reset' %}">{% translate "Password reset" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  <div class="container">
+
+    {% if second_stage %}
+      {% translate "Forgotten your password? You can now set new one." as msg %}
+      {% show_message "info" msg %}
+    {% else %}
+      {% translate "Forgotten your password? Enter your e-mail address below, and we'll e-mail instructions for setting a new one." as msg %}
+      {% show_message "info" msg %}
+    {% endif %}
+
+    {% if form.errors %}
+      {% translate "Please fix errors in the registration form." as msg %}
+      {% show_message "error" msg %}
+    {% endif %}
+
+    <h2>{% include "accounts/snippets/login-title.html" %}</h2>
+    <div class="row">
+
+
+      <div class="col-sm-6 order-sm-2">
+
+        <h4>{% translate "Password reset" %}</h4>
+        <div class="card">
+          <div class="card-body">
+
+            <form action="{% url 'password_reset' %}"
+                  method="post"
+                  accept-charset="utf-8"
+                  role="form">
+              {% csrf_token %}
+              {{ form|crispy }}
+              <input type="submit"
+                     value="{% if second_stage %}{% translate 'Set my password' %}{% else %}{% translate 'Reset my password' %}{% endif %}"
+                     class="btn btn-primary btn-full" />
+            </form>
+
+          </div>
+        </div>
+
+      </div>
+      <div class="col-sm-6 order-sm-1">{% include "accounts/snippets/login-info.html" %}</div>
+    </div>
+  </div>
+
+{% endblock content %}

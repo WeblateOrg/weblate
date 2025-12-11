@@ -1,0 +1,7 @@
+{% load i18n %}
+
+<p>{% translate "Weblate could not merge upstream changes while updating the repository." %}</p>
+
+<pre>{{ error }}</pre>
+
+{% include "trans/merge_instructions.html" %}

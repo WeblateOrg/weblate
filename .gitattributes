@@ -1,0 +1,24 @@
+# Make GitHub syntax-highlight .html files as Django templates
+*.html linguist-language=django
+
+# Annotate vendored files for GitHub
+weblate/static/vendor/* linguist-vendored
+weblate/static/js/vendor/* linguist-vendored
+
+# Annotate generated files for GitHub
+docs/specs/* linguist-generated
+
+# Merge changes using union merge
+docs/changes.rst merge=union
+
+# make .po/.pot files less noisy, need to configure git first:
+# $ git config diff.msgcat.textconv "msgcat --no-location --no-wrap --sort-output"
+# to enable caching in "notes/textconv/msgcat":
+# $ git config diff.msgcat.cachetextconv true
+*.pot diff=msgcat
+*.po diff=msgcat
+
+# Make sure this uses a UNIX end of lines, otherwise the Docker
+# container fails to start on Windows with:
+#   exec /app/bin/start-dev: no such file or directory
+dev-docker/weblate-dev/start-dev text eol=lf

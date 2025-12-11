@@ -1,0 +1,88 @@
+{% load i18n icons permissions translations %}
+
+{% perm 'vcs.view' object as user_can_see_git_repository %}
+
+{% if user_can_see_git_repository %}
+  <tr>
+    <th>{% translate "Source code repository" %}</th>
+    <td colspan="2" class="full-cell">
+      {% with repo_url=object.get_repo_url %}
+        {% if repo_url|slice:":8" == "https://" %}
+          <a href="{{ repo_url }}"><code class="wrap-text">{{ repo_url }}</code></a>
+        {% else %}
+          <code class="wrap-text">{{ repo_url }}</code>
+        {% endif %}
+        {% if object.linked_component %}
+          <a href="{{ object.linked_component.get_absolute_url }}#information"
+             title="{% blocktranslate with target=object.linked_component %}This component is linked to the {{ target }} repository.{% endblocktranslate %}">{% icon "link.svg" %}</a>
+        {% endif %}
+        <button type="button"
+                class="btn btn-link btn-xs"
+                data-clipboard-value="{{ repo_url }}"
+                data-clipboard-message="{% translate "Repository URL copied to clipboard." %}"
+                title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+      {% endwith %}
+    </td>
+  </tr>
+
+  <tr>
+    <th>{% translate "Repository branch" %}</th>
+    <td colspan="2" class="full-cell">{{ object.get_repo_branch }}</td>
+  </tr>
+
+  {% with commit=object.get_last_remote_commit %}
+    {% if commit %}
+      <tr>
+        <th>{% translate "Last remote commit" %}</th>
+        <td colspan="2" class="full-cell">
+          {{ commit.summary }}
+          <code title="{{ commit.revision }}">{{ commit.shortrevision }}</code>
+          <button type="button"
+                  class="btn btn-link btn-xs"
+                  data-clipboard-value="{{ commit.revision }}"
+                  title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+          <br />
+          {% comment %}Translators: For example: "nijel authored five days ago"{% endcomment %}
+          {% blocktranslate with author=commit|format_commit_author date=commit.authordate|naturaltime %}{{ author }} authored {{ date }}{% endblocktranslate %}
+          <br />
+        </td>
+      </tr>
+    {% endif %}
+  {% endwith %}
+
+  {% with commit=object.get_last_commit %}
+    {% if commit %}
+      <tr>
+        <th>{% translate "Last commit in Weblate" %}</th>
+        <td colspan="2" class="full-cell">
+          {{ commit.summary }}
+          <code title="{{ commit.revision }}">{{ commit.shortrevision }}</code>
+          <button type="button"
+                  class="btn btn-link btn-xs"
+                  data-clipboard-value="{{ commit.revision }}"
+                  title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+          <br />
+          {% comment %}Translators: For example: "nijel authored five days ago"{% endcomment %}
+          {% blocktranslate with author=commit|format_commit_author date=commit.authordate|naturaltime %}{{ author }} authored {{ date }}{% endblocktranslate %}
+          <br />
+        </td>
+      </tr>
+    {% endif %}
+  {% endwith %}
+
+  {% with export_url=object.get_export_url %}
+    {% if export_url %}
+      <tr>
+        <th>{% translate "Weblate repository" %}</th>
+        <td colspan="2" class="full-cell">
+          <code class="wrap-text">{{ export_url }}</code>
+          <button type="button"
+                  class="btn btn-link btn-xs"
+                  data-clipboard-value="{{ export_url }}"
+                  data-clipboard-message="{% translate "Repository URL copied to clipboard." %}"
+                  title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
+        </td>
+      </tr>
+    {% endif %}
+  {% endwith %}
+{% endif %}

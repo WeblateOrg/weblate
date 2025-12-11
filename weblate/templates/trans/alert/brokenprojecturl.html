@@ -1,0 +1,12 @@
+{% load i18n %}
+
+<p>{% translate "This project is set up incorrectly." %}</p>
+
+<p>{% translate "The project website URL points to a non-existing location:" %}</p>
+
+<ul>
+  <li>
+    <a href="{{ component.project.web }}">{{ component.project.web }}</a>
+    {% if error %}({{ error }}){% endif %}
+  </li>
+</ul>

@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags i18n static translations %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">
+        {% documentation_icon 'admin/support' right=True %}
+        {% translate "Weblate support status" %}
+      </h4>
+    </div>
+    <table class="table table-striped table-supportstatus">
+      <tr>
+        <th>{% translate "Weblate version" %}</th>
+        <td colspan="3">
+          {% if git_revision %}
+            {{ version }} — <a href="{{ git_revision_link }}">{{ git_revision }}</a>
+          {% elif git_revision_link %}
+            <a href="{{ git_revision_link }}">{{ version }}</a>
+          {% else %}
+            {{ version }}
+          {% endif %}
+        </td>
+      </tr>
+      <tr>
+        <th>{% translate "Support status" %}</th>
+        <td colspan="3">
+          <a href=""
+             class="float-end btn btn-link link-post"
+             data-href="{% url 'manage-activate' %}"
+             data-params='{"refresh":1}'>{% translate "Refresh support status" %}</a>
+          {{ support.get_verbose }}
+          {% if not support.in_limits %}
+            <div class="alert alert-danger" role="alert">
+              {% translate "Your Weblate is exceeding service limits. Please upgrade the subscription." %}
+            </div>
+          {% endif %}
+        </td>
+      </tr>
+      {% if support.expiry %}
+        {% with limit_details=support.get_limits_details %}
+          {% if limit_details %}
+            {# TODO: this rendering will break with no limits #}
+            {# djlint:off #}
+            <tr>
+            {# djlint:on #}
+            <th rowspan="{{ limit_details|length }}">{% translate "Support package limits" %}</th>
+            {% for limit in limit_details %}
+              {% if not forloop.first %}<tr>{% endif %}
+                <td>{{ limit.name }}</td>
+                {% include "billing/used.html" with max=limit.limit total=limit.limit used=limit.current %}
+              </tr>
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+        <tr>
+          <th>{% translate "Support expiry" %}</th>
+          <td colspan="3">{{ support.expiry|naturaltime }}</td>
+        </tr>
+      {% endif %}
+      {% if support.secret %}
+        <tr>
+          <th>{% translate "Discover Weblate" %}</th>
+          <td colspan="3">
+            <a href="https://weblate.org/discover/" class="btn btn-link float-end">{% translate "Browse discovery" %}</a>
+            {% if support.discoverable %}
+              {% translate "Your Weblate is listed on weblate.org" %}
+              <br />
+              <a href=""
+                 class="btn btn-primary link-post"
+                 data-href="{% url 'manage-discovery' %}">{% translate "Disable discovery" %}</a>
+              <a href="https://weblate.org/user/" class="btn btn-primary">{% translate "Manage your listing" %}</a>
+            {% else %}
+              {% translate "Your Weblate is not listed on weblate.org" %}
+              <br />
+              <a href=""
+                 class="btn btn-primary link-post"
+                 data-href="{% url 'manage-discovery' %}">{% translate "Enable discovery" %}</a>
+            {% endif %}
+          </td>
+        </tr>
+      {% endif %}
+    </table>
+    <div class="card-footer">
+      {% if support.secret %}
+        <a href="https://weblate.org/user/" class="btn btn-primary">{% translate "Manage support package" %}</a>
+        <a href=""
+           class="btn btn-danger link-post float-end"
+           data-href="{% url 'manage-activate' %}"
+           data-params='{"unlink":1}'>{% translate "Unlink support package" %}</a>
+      {% endif %}
+      {% if support.name == 'community' %}
+        <a href="{{ support_url }}" class="btn btn-primary">{% translate "Purchase support package" %}</a>
+        <a href="{{ donate_url }}" class="btn btn-primary">{% translate "Give to Weblate" %}</a>
+      {% endif %}
+    </div>
+  </div>
+
+  {% if support.name != 'community' %}
+    <form method="post" action="{% url 'manage-support' %}">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{% translate "Contact customer care" %}</h4>
+        </div>
+        <div class="card-body">
+          {% csrf_token %}
+          {{ support_form|crispy }}
+        </div>
+        <div class="card-footer">
+          <input type="submit" value="{% translate "Get help" %}" class="btn btn-primary" />
+          <a href="mailto:support@weblate.org?subject=Weblate support for {{ site_domain }}"
+             class="btn btn-link">{% translate "Contact us via e-mail" %}</a>
+        </div>
+      </div>
+    </form>
+  {% endif %}
+
+  {% include "manage/snippets/activation-form.html" %}
+
+{% endblock content %}

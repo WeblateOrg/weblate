@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags i18n permissions translations %}
+
+{% block nav_pills %}
+  <ul class="nav nav-pills">
+    <li class="nav-item">
+      <a class="nav-link active" data-bs-target="#addons" data-bs-toggle="tab" href="#">{% translate "Add-ons" %}</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-target="#history" data-bs-toggle="tab" href="#">{% translate "History" %}</a>
+    </li>
+  </ul>
+{% endblock nav_pills %}
+
+{% block breadcrumbs %}
+  {% if object %}
+    {% path_object_breadcrumbs object %}
+    <li class="breadcrumb-item">
+      <a href="{% url 'addons' path=object.get_url_path %}">{% translate "Add-ons" %}</a>
+    </li>
+  {% else %}
+    <li class="breadcrumb-item">
+      <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
+    </li>
+    <li class="breadcrumb-item">
+      <a href="{% url 'manage-addons' %}">{% translate "Add-ons" %}</a>
+    </li>
+  {% endif %}
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  <div class="tab-content">
+
+    <div class="tab-pane active" id="addons">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
+            {% documentation_icon 'admin/addons' right=True %}
+            {% if not object_list %}
+              {% translate "No add-ons currently installed" %}
+            {% else %}
+              {% blocktranslate count count=object_list|length %}Installed {{ count }} add-on{% plural %}Installed {{ count }} add-ons{% endblocktranslate %}
+            {% endif %}
+          </h4>
+        </div>
+        <table class="table table-striped">
+          <tbody>
+            {% for addon in object_list %}
+              <tr>
+                <td>
+                  {% if addon.is_valid %}
+                    {% include 'addons/addon_head.html' with addon=addon.addon %}
+                  {% else %}
+                    {{ addon.addon_name }}
+                  {% endif %}
+                </td>
+                <td class="bottom-button">
+                  <form method="post" action="{{ addon.get_absolute_url }}" class="inlineform">
+                    {% csrf_token %}
+                    <input type="hidden" name="delete" value="{{ addon.name }}" />
+                    <button type="submit" class="btn btn-danger">{% translate "Uninstall" %}</button>
+                  </form>
+                  <a class="btn btn-primary" href="{% url 'addon-logs' addon.id %}">{% translate "View Logs" %}</a>
+                  {% if addon.is_valid and addon.addon.has_settings %}
+                    <a class="btn btn-primary" href="{{ addon.get_absolute_url }}">{% translate "Configure" %}</a>
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <div class="card-footer">
+          {% if scope == "sitewide" %}
+            {% translate "Add-ons can also be installed at the project and the component levels." %}
+          {% endif %}
+          {% if scope == "component" %}
+            <a href="{% url 'addons' path=object.project.get_url_path %}"
+               class="btn btn-primary">
+              {% blocktranslate count count=project_addons %}Manage project-wide add-ons ({{ count }} installed){% plural %}Manage project-wide add-ons ({{ count }} installed){% endblocktranslate %}
+            </a>
+          {% endif %}
+          {% if scope == "project" or scope == "component" %}
+            {% perm "management.addons" as user_can_manage_addons %}
+            <a href="{% url 'manage-addons' %}"
+               class="btn btn-primary"
+               {% if not user_can_manage_addons %}disabled="disabled"{% endif %}>
+              {% blocktranslate count count=sitewide_addons %}Manage site-wide add-ons ({{ count }} installed){% plural %}Manage site-wide add-ons ({{ count }} installed){% endblocktranslate %}
+            </a>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
+            {% documentation_icon 'admin/addons' right=True %}
+            {% translate "Available add-ons" %}
+          </h4>
+        </div>
+        <table class="table table-striped">
+          <tbody>
+            {% for addon in available %}
+              <tr>
+                <td>{% include 'addons/addon_head.html' with addon=addon %}</td>
+                <td class="bottom-button">
+                  {% if scope != "component" and addon.needs_component %}
+                    <button class="btn btn-primary"
+                            disabled
+                            title="{% translate "The add-on can only be installed on the component level." %}">
+                      {% translate "Install" %}
+                    </button>
+                  {% else %}
+                    <form method="post" class="inlineform">
+                      {% csrf_token %}
+                      <input type="hidden" name="name" value="{{ addon.name }}" />
+                      <button type="submit" class="btn btn-primary" data-addon="{{ addon.name }}">{% translate "Install" %}</button>
+                    </form>
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <div class="card-footer">
+          {% if not available %}
+            {% translate "Could not find any additional add-ons compatible with this translation component." %}
+          {% else %}
+            {% translate "Some add-ons will ask for additional configuration during installation." %}
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-pane" id="history">
+      {% format_last_changes_content last_changes=last_changes user=user %}
+      <a class="btn btn-primary"
+         href="{% if object %}{% url 'changes' path=object.get_url_path %}{% else %}{% url 'changes' %}{% endif %}?{% for action in change_actions %}action={{ action }}{% if not forloop.last %}&amp;{% endif %}{% endfor %}">{% translate "Browse all add-on changes" %}</a>
+    </div>
+
+  </div>
+{% endblock content %}

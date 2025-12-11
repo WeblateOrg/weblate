@@ -1,0 +1,20 @@
+{% load static %}
+{
+    "name": "{{ site_title }}",
+    "short_name": "{{ site_title }}",
+    "icons": [
+        {
+            "src": "{% static 'weblate-192.png' %}",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "{% static 'weblate-512.png' %}",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#144d3f",
+    "background_color": "#144d3f",
+    "display": "standalone"
+}

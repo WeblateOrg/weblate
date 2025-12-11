@@ -1,0 +1,64 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: CC0-1.0
+#
+# Issue lifecycle: Add "Waiting for: Implementation" label when reopening an issue
+
+name: 'Issues: Mark reopened issue'
+
+on:
+  issues:
+    types: [reopened]
+
+permissions:
+  contents: read
+
+concurrency:
+  # Avoid double execution as this can be triggered from commit and pull request
+  # causing two closing events being delivered to the issue.
+  group: ${{ github.workflow }}-${{ github.event.issue.id }}
+  cancel-in-progress: true
+
+jobs:
+  apply-label:
+    permissions:
+      issues: write
+    runs-on: ubuntu-slim
+    if: '! github.event.issue.pull_request'
+    steps:
+    - uses: actions/github-script@ed597411d8f924073f98dfc5c65a23a2325f34cd # v8.0.0
+      with:
+        script: |
+          const labels = await github.rest.issues.listLabelsOnIssue({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+          });
+          for (const label of labels.data) {
+            if (label.name.startsWith('Waiting for: ')) {
+              console.log(`Removing label ${label.name}`);
+              await github.rest.issues.removeLabel({
+
+                issue_number: context.issue.number,
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: label.name,
+              })
+            }
+          }
+          console.log(context.payload);
+          if ( context.payload.issue.milestone && context.payload.issue.milestone.state == 'open') {
+            await github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['Waiting for: Implementation']
+            })
+          } else {
+            await github.rest.issues.addLabels({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ['Waiting for: Triage']
+            })
+          }

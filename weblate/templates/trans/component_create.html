@@ -1,0 +1,184 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags i18n translations %}
+
+{% block nav_pills %}
+  <ul class="nav nav-pills">
+    {% if projects %}
+      <li class="nav-item" role="presentation">
+        {# Translators: Create a component from version control #}
+        <a class="nav-link active" data-bs-target="#vcs" data-bs-toggle="tab" href="#">{% translate "From version control" %}</a>
+      </li>
+    {% endif %}
+    {% if form.fields.component.queryset %}
+      <li class="nav-item" role="presentation">
+        {# Translators: Create a component from existing component #}
+        <a class="nav-link" data-bs-target="#existing" data-bs-toggle="tab" href="#">{% translate "From an existing component" %}</a>
+      </li>
+    {% endif %}
+    {% if branch_form.fields.component.queryset %}
+      <li class="nav-item" role="presentation">
+        {# Translators: Create a component as additional branch #}
+        <a class="nav-link" data-bs-target="#branch" data-bs-toggle="tab" href="#">{% translate "Additional branch" %}</a>
+      </li>
+    {% endif %}
+    {% if zip_form %}
+      <li class="nav-item" role="presentation">
+        {# Translators: Create a component using ZIP upload #}
+        <a class="nav-link" data-bs-target="#zip" data-bs-toggle="tab" href="#">{% translate "Upload translations files" %}</a>
+      </li>
+    {% endif %}
+    {% if doc_form %}
+      <li class="nav-item" role="presentation">
+        {# Translators: Create a component using document upload #}
+        <a class="nav-link" data-bs-target="#doc" data-bs-toggle="tab" href="#">{% translate "Translate document" %}</a>
+      </li>
+    {% endif %}
+    {% if scratch_form %}
+      <li class="nav-item" role="presentation">
+        {# Translators: Create a component from scratch #}
+        <a class="nav-link" data-bs-target="#scratch" data-bs-toggle="tab" href="#">{% translate "Start from scratch" %}</a>
+      </li>
+    {% endif %}
+  </ul>
+{% endblock nav_pills %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'create-component' %}">{% translate "Create component" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  {% if not projects and not form.fields.component.queryset and not branch_form.fields.component.queryset %}
+
+    {% translate "You do not have permission to create components in any projects." as msg %}
+    {% show_message "warning" msg %}
+
+    {% if has_billing %}
+      {% include "snippets/billing-failure.html" %}
+    {% endif %}
+
+  {% else %}
+
+    <div class="tab-content">
+
+      {% if projects %}
+        <div class="tab-pane active" id="vcs">
+          <form action="{% url 'create-component-vcs' %}"
+                method="post"
+                enctype="multipart/form-data"
+                id="form-create-component-vcs">
+            {% csrf_token %}
+            <input type="hidden" name="project" value="{{ selected_project }}" />
+            <p>{% translate "Create a new translation component from remote version control system repository." %}</p>
+            {% crispy full_form %}
+            <input type="submit"
+                   value="{% translate "Continue" %}"
+                   class="btn btn-primary"
+                   id="create-vcs">
+          </form>
+        </div>
+      {% endif %}
+
+      {% if form.fields.component.queryset %}
+        <div class="tab-pane" id="existing">
+          <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="origin" value="existing" />
+            <input type="hidden" name="project" value="{{ selected_project }}" />
+            <p>{% translate "Create a new translation component from a repository already cloned in Weblate." %}</p>
+            {% crispy existing_form %}
+            <input type="submit"
+                   value="{% translate "Continue" %}"
+                   class="btn btn-primary"
+                   id="create-existing">
+          </form>
+        </div>
+      {% endif %}
+
+      {% if branch_form.fields.component.queryset %}
+        <div class="tab-pane" id="branch">
+          <form method="post"
+                class="branch-loader"
+                data-branches="{{ branch_data }}"
+                id="form-create-component-branch">
+            {% csrf_token %}
+            <input type="hidden" name="origin" value="branch" />
+            <input type="hidden" name="project" value="{{ selected_project }}" />
+            <p>
+              {% translate "Create a new translation component for an additional branch of the existing translation component." %}
+            </p>
+            {% crispy branch_form %}
+            <p class="help-block">
+              {% translate "The new component will be created for the selected branch with the exact same configuration as the existing one." %}
+            </p>
+            <input type="submit"
+                   value="{% translate "Continue" %}"
+                   class="btn btn-primary"
+                   id="create-branch">
+          </form>
+        </div>
+      {% endif %}
+
+      {% if zip_form %}
+        <div class="tab-pane" id="zip">
+          <form action="{% url 'create-component-zip' %}"
+                method="post"
+                enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="project" value="{{ selected_project }}" />
+            <p>
+              {% translate "Create a new translation component from an uploaded ZIP file containing strings for translation." %}
+              {% translate "The filenames within the archive need to have locale codes in them." %}
+            </p>
+            {% crispy zip_form %}
+            <input type="submit"
+                   value="{% translate "Continue" %}"
+                   class="btn btn-primary"
+                   id="create-vcs">
+          </form>
+        </div>
+      {% endif %}
+
+      {% if doc_form %}
+        <div class="tab-pane" id="doc">
+          <form action="{% url 'create-component-doc' %}"
+                method="post"
+                enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="project" value="{{ selected_project }}" />
+            <p>{% translate "Create a new translation component from an uploaded document for translation." %}</p>
+            {% crispy doc_form %}
+            <input type="submit"
+                   value="{% translate "Continue" %}"
+                   class="btn btn-primary"
+                   id="create-vcs">
+          </form>
+        </div>
+      {% endif %}
+
+      {% if scratch_form %}
+        <div class="tab-pane" id="scratch">
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="hidden" name="origin" value="scratch" />
+            <input type="hidden" name="project" value="{{ selected_project }}" />
+            <p class="check">
+              {% translate "Create a new empty translation component to start from scratch." %}
+              {% blocktranslate with link_start='<a data-bs-target="#zip" data-bs-toggle="tab" href="#">' link_end='</a>' %}Create a ZIP file containing any existing translation files you have, and {{ link_start }}upload it{{ link_end }}.{% endblocktranslate %}
+            </p>
+            {% crispy scratch_form %}
+            <input type="submit"
+                   value="{% translate "Continue" %}"
+                   class="btn btn-primary"
+                   id="create-vcs">
+          </form>
+        </div>
+      {% endif %}
+
+    </div>
+  {% endif %}
+
+{% endblock content %}

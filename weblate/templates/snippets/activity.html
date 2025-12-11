@@ -1,0 +1,48 @@
+{% load humanize i18n %}
+
+<div class="card">
+  <div class="card-header">
+    <span class="float-end">
+      <svg height="8" width="8">
+        <rect x="0" y="0" width="8" height="8" fill="#2ECCAA"></rect>
+      </svg>
+      {% translate "Last 12 months" %}
+      <svg height="8" width="8">
+        <rect x="0" y="0" width="8" height="8" fill="#BFC3C7"></rect>
+      </svg>
+      {% blocktranslate context "Previous 12 months" %}Previous{% endblocktranslate %}
+    </span>
+    <h4 class="card-title">{% translate "Activity in last 12 months" %}</h4>
+  </div>
+  <table class="table table-activity">
+    <tr>
+      {% for activity in metrics.monthly_activity %}
+        <td>
+          {% if object.get_url_path %}
+            {% url 'changes' path=object.get_url_path as changes_url %}
+          {% else %}
+            {% url 'changes' as changes_url %}
+          {% endif %}
+
+          <a href="{{ changes_url }}?start_date={{ activity.previous_start_date.isoformat }}&amp;end_date={{ activity.previous_end_date.isoformat }}">
+            <svg height="140" width="25%">
+              <rect x="0" y="{{ activity.previous_offset }}" width="100%" height="{{ activity.previous_height }}" fill="#E9EAEC">
+              <title>{% blocktranslate count _count=activity.previous with count=activity.previous|intcomma %}{{ count }} change{% plural %}{{ count }} changes{% endblocktranslate %}</title>
+              </rect>
+            </svg>
+          </a>
+          <a href="{{ changes_url }}?start_date={{ activity.start_date.isoformat }}&amp;end_date={{ activity.end_date.isoformat }}">
+            <svg height="140" width="25%">
+              <rect x="0" y="{{ activity.current_offset }}" width="100%" height="{{ activity.current_height }}" fill="#2ECCAA">
+              <title>{% blocktranslate count _count=activity.current with count=activity.current|intcomma %}{{ count }} change{% plural %}{{ count }} changes{% endblocktranslate %}</title>
+              </rect>
+            </svg>
+          </a>
+        </td>
+      {% endfor %}
+    </tr>
+    <tr class="activity-names">
+      {% for activity in metrics.monthly_activity %}<td>{{ activity.month_name }}</td>{% endfor %}
+    </tr>
+  </table>
+</div>

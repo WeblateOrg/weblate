@@ -1,0 +1,12 @@
+{% extends "mail/base.html" %}
+
+{% load i18n translations %}
+
+{% block content %}
+  <p>
+    {% blocktranslate %}This is an automatic e-mail to help you complete your registration with {{ site_title }}.{% endblocktranslate %}
+  </p>
+
+  {% include "mail/shared-registration.html" %}
+
+{% endblock content %}

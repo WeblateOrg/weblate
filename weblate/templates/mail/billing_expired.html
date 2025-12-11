@@ -1,0 +1,73 @@
+{% extends "mail/base.html" %}
+
+{% load i18n translations %}
+
+{% block content %}
+  {% if final_removal %}
+    <p>{% translate "Your billing plan has expired and all its projects have been removed." %}</p>
+  {% elif billing.is_trial %}
+    <p>
+      {% translate "Your trial period is going to expire in less than a week." %}
+      {% if billing.plan.price %}
+        {% translate "If you like Weblate and you want to continue using it, please purchase the subscription. If not, tell us what you are missing." %}
+      {% else %}
+        {% translate "If you like Weblate and you want to continue using it, just request an approval of your libre plan." %}
+      {% endif %}
+    </p>
+  {% else %}
+    <p>{% translate "Your billing plan has expired. Please renew it to continue using the service." %}</p>
+  {% endif %}
+
+  {% with projects=billing.projects.all %}
+    {% if projects %}
+      <p>{% translate "This billing plan covers the following projects:" %}</p>
+
+      <ul>
+        {% for project in projects %}
+          {% if final_removal %}
+            <li>{{ project }}</li>
+          {% else %}
+            <li>
+              <a href="{{ project.get_absolute_url }}">{{ project }}</a> [<a href="{{ project.get_absolute_url }}#organize">{% translate "Remove the project" %}</a>]
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>
+        {% translate "There are no projects attached to this billing plan. (There might be projects in other billing plans of yours.)" %}
+      </p>
+    {% endif %}
+  {% endwith %}
+
+  {% if final_removal %}
+    <p>
+      <strong>{% translate "All projects covered by this billing plan have been removed." %}</strong>
+    </p>
+  {% else %}
+    {% if billing.removal %}
+      {% if billing.plan.price %}
+        <p>
+          <strong>{% blocktranslate with date=billing.removal|date:"SHORT_DATE_FORMAT" %}If you don't issue the payment, all projects within this billing plan will be removed on {{ date }}.{% endblocktranslate %}</strong>
+        </p>
+      {% else %}
+        <p>
+          <strong>{% blocktranslate with date=billing.removal|date:"SHORT_DATE_FORMAT" %}If your Libre hosting is not approved for it, all projects within this billing plan will be removed on {{ date }}.{% endblocktranslate %}</strong>
+        </p>
+      {% endif %}
+    {% endif %}
+
+    {% if payment_enabled %}
+      <div class="line buttons">
+        {% if billing.plan.price %}
+          <a href="{% url 'create-billing' %}?billing={{ billing.pk }}&amp;upgrade=1"
+             class="button">{% translate "New payment" %}</a>
+        {% else %}
+          <a href="{{ billing.get_absolute_url }}" class="button">{% translate "Request approval for Libre hosting" %}</a>
+        {% endif %}
+      </div>
+    {% endif %}
+
+  {% endif %}
+
+{% endblock content %}

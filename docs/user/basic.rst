@@ -1,0 +1,1 @@
+.. include:: /snippets/basics.rst

@@ -1,0 +1,162 @@
+Customizing Weblate
+===================
+
+Extend and customize using Django and Python.
+Contribute your changes upstream so that everybody can benefit. This reduces
+your maintenance costs; code in Weblate is taken care of when changing internal
+interfaces or refactoring the code.
+
+.. hint::
+
+   You can also customize Weblate look in :ref:`manage-appearance`.
+
+.. warning::
+
+
+   Neither internal interfaces nor templates are considered a stable API.
+   Please review your customizations for every upgrade, the interfaces or their
+   semantics might change without notice.
+
+.. seealso::
+
+   :ref:`contributing`
+
+.. _custom-module:
+
+Creating a Python module
+------------------------
+
+If you are not familiar with Python, you might want to look into `Python For
+Beginners <https://www.python.org/about/gettingstarted/>`_, explaining the
+basics and pointing to further tutorials.
+
+To write a file with custom Python code (called a module), a place to store it
+is needed, either in the system path (usually something like
+:file:`/usr/lib/python3.12/site-packages/`) or in the Weblate directory, which
+is also added to the interpreter search path.
+
+.. hint::
+
+   When :ref:`using Docker <docker-deploy>`, you can place Python modules in
+   :file:`/app/data/python/` (see :ref:`docker-volume`), so they can be loaded
+   by Weblate, for example from a :ref:`settings override file
+   <docker-settings-override>`.
+
+Better yet, turn your customization into a proper Python package:
+
+1. Create a folder for your package (we will use `weblate_customization`).
+2. Within it, create a :file:`pyproject.toml` file to describe the package:
+
+   .. code-block:: toml
+
+      [build-system]
+      requires = ["uv_build>=0.8.18,<0.9.0"]
+      build-backend = "uv_build"
+
+      [project]
+      name = "weblate-customization"
+      version = "0.1.0"
+      description = "Add your description here"
+      requires-python = ">=3.13"
+      dependencies = []
+
+3. Create a folder for the Python module: :file:`src/weblate_customization`
+4. Within it, create a :file:`__init__.py` file to ensure Python can import the module.
+5. This package can now be installed using :command:`uv pip install -e`. More info to be found in `Editable packages documentation`_.
+6. Once installed, the module can be used in the Weblate configuration
+   (for example ``weblate_customization.checks.FooCheck``).
+
+.. _Editable packages documentation: https://docs.astral.sh/uv/pip/packages/#editable-packages
+
+Your package structure should look like this:
+
+.. code-block:: text
+
+    weblate_customization
+    ├── pyproject.toml
+    └── src
+        └── weblate_customization
+            ├── __init__.py
+            ├── addons.py
+            └── checks.py
+
+You can find an example of customizing Weblate at
+<https://github.com/WeblateOrg/customize-example>, it covers all the topics
+described below.
+
+Changing the logo
+-----------------
+
+1. Create a simple Django app containing the static files you want to overwrite
+   (see :ref:`custom-module`).
+
+   Branding appears in the following files:
+
+   :file:`icons/weblate.svg`
+       Logo shown in the navigation bar.
+   :file:`logo-*.png`
+       Web icons depending on screen resolution and web-browser.
+   :file:`favicon.ico`
+       Web icon used by legacy browsers.
+   :file:`weblate-*.png`
+       Avatars for bots or anonymous users. Some web-browsers use these as shortcut icons.
+   :file:`email-logo.png`
+       Used in notifications e-mails.
+
+2. Add it to :setting:`django:INSTALLED_APPS`:
+
+   .. code-block:: python
+
+      INSTALLED_APPS = (
+          # Add your customization as first
+          "weblate_customization",
+          # Weblate apps are here…
+      )
+
+3. Run :samp:`weblate collectstatic --noinput`, to collect static files served to
+   clients.
+
+.. seealso::
+
+   * :doc:`django:howto/static-files/index`
+   * :ref:`static-files`
+
+.. _custom-addon-modules:
+.. _custom-check-modules:
+.. _custom-modules:
+
+Custom quality checks, add-ons, automatic suggestions and auto-fixes
+--------------------------------------------------------------------
+
+To install your code for :ref:`custom-autofix`, :ref:`own-checks`,
+:ref:`custom-machinery` or :ref:`own-addon` in Weblate:
+
+1. Place the files into your Python module containing the Weblate customization
+   (see :ref:`custom-module` or :ref:`docker-python-override`).
+2. Add its fully-qualified path to the Python class in the dedicated settings:
+
+   * :setting:`WEBLATE_ADDONS`
+   * :setting:`CHECK_LIST`
+   * :setting:`WEBLATE_MACHINERY`
+   * :setting:`AUTOFIX_LIST`
+
+.. code-block:: python
+
+    # Checks
+    CHECK_LIST += ("weblate_customization.checks.FooCheck",)
+
+    # Autofixes
+    AUTOFIX_LIST += ("weblate_customization.autofix.FooFixer",)
+
+    # Add-ons
+    WEBLATE_ADDONS += ("weblate_customization.addons.ExamplePreAddon",)
+
+    # Automatic suggestions
+    WEBLATE_MACHINERY += ("weblate_customization.machinery.SampleTranslation",)
+
+.. seealso::
+
+   * :ref:`custom-autofix`
+   * :ref:`own-checks`
+   * :ref:`own-addon`
+   * :ref:`addon-script`

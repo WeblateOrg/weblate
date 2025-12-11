@@ -1,0 +1,20 @@
+{% load i18n translations %}
+
+{% for source, translations in data %}
+  <tr {% if last %}id="last-section"{% endif %}>
+    <td>
+      <a href="{{ source.get_absolute_url }}">{% format_unit_source source simple=True %}</a>
+    </td>
+    {% for unit in translations %}
+      <td>
+        {% if unit %}
+          <a href="{{ unit.get_absolute_url }}">{% format_unit_target unit simple=True %}</a>
+        {% else %}
+          <p>
+            <em>{% translate "String missing" %}</em>
+          </p>
+        {% endif %}
+      </td>
+    {% endfor %}
+  </tr>
+{% endfor %}

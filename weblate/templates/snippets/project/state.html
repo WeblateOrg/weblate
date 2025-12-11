@@ -1,0 +1,18 @@
+{% load i18n permissions translations %}
+
+{% if not object.paid %}
+  {% translate "Pay the bills to unlock this project." as msg %}
+  {% show_message "warning" msg %}
+{% endif %}
+
+{% perm 'billing.view' object as user_can_view_billing %}
+
+{% if object.is_libre_trial %}
+  {% include "snippets/project/billing-libre-trial.html" %}
+{% elif object.is_trial and user_can_view_billing %}
+  {% include "snippets/project/billing-trial.html" %}
+{% endif %}
+
+{% if object.enforced_2fa and not user.profile.has_2fa and not user.is_anonymous %}
+  {% include "snippets/enforced_2fa.html" with project=1 %}
+{% endif %}

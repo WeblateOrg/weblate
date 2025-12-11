@@ -1,0 +1,126 @@
+{% load compress humanize i18n site_url static %}
+
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}"
+      dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ subject }}</title>
+
+    {% compress css inline %}
+      <style>{% include "mail/style.css" %}</style>
+      {% block extra_styles %}{% endblock %}
+
+    {% endcompress %}
+
+
+  </head>
+
+  <body>
+    {% filter add_site_url %}
+      <div class="content">
+        <div class="container">
+          <div class="box">
+            {% if change %}
+              <h1>
+                <img src="{% if request %}{% static "email-logo.png" %}{% else %}cid:email-logo.png@cid.weblate.org{% endif %}" />
+                {{ change.get_action_display }}
+              </h1>
+              <div class="nav">
+                {% if change.author %}{{ change.author.profile.get_user_display_link }}:{% endif %}
+                <a href="{{ current_site_url }}">{{ site_title }}</a>
+                {% if project %}/ <a href="{{ project.get_absolute_url }}">{{ project.name }}</a>{% endif %}
+                {% if component %}
+                  /
+                  {% if component.is_glossary %}
+                    <span class="badge label-{{ component.glossary_color }}">{% translate "Glossary" %}</span>
+                  {% endif %}
+                  <a href="{{ component.get_absolute_url }}">{{ component.name }}</a>
+                {% endif %}
+                {% if translation %}/ <a href="{{ translation.get_absolute_url }}">{{ translation.language.name }}</a>{% endif %}
+              </div>
+            {% else %}
+              <h1>
+                <img src="{% if request %}{% static "email-logo.png" %}{% else %}cid:email-logo.png@cid.weblate.org{% endif %}" />
+                {{ subject }}
+              </h1>
+            {% endif %}
+            {% block content %}{% endblock %}
+
+          </div>
+          {% if translation %}
+            <h2>{% translate "Translation Info" %}</h2>
+            <table>
+              {% include "mail/snippets/stats.html" with stats=translation.stats url=translation.get_translate_url %}
+            </table>
+            <div class="buttons">
+              <a class="button" href="{{ translation_url }}">{% translate "View" %}</a>
+            </div>
+          {% elif component %}
+            <h2>{% translate "Component Information" %}</h2>
+            <table>
+              <tr>
+                <td>{% translate "Languages" %}</td>
+                <td>
+                  <a href="{{ component.get_absolute_url }}">{{ component.stats.languages|intcomma }}</a>
+                </td>
+                <td></td>
+              </tr>
+              {% url "search" path=component.get_url_path as search_url %}
+              {% include "mail/snippets/stats.html" with stats=component.stats url=search_url %}
+            </table>
+            <div class="buttons">
+              <a class="button" href="{{ component.get_absolute_url }}">{% translate "View" %}</a>
+            </div>
+          {% elif project %}
+            <h2>{% translate "Project Information" %}</h2>
+            <table>
+              <tr>
+                <td>{% translate "Components" %}</td>
+                <td>
+                  <a href="{{ project.get_absolute_url }}">{{ project.component_set.count|intcomma }}</a>
+                </td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>{% translate "Languages" %}</td>
+                <td>
+                  <a href="{{ project.get_absolute_url }}#languages">{{ project.stats.languages|intcomma }}</a>
+                </td>
+                <td></td>
+              </tr>
+              {% url "search" path=project.get_url_path as search_url %}
+              {% include "mail/snippets/stats.html" with stats=project.stats url=search_url %}
+            </table>
+            <div class="buttons">
+              <a class="button" href="{{ project.get_absolute_url }}">{% translate "View" %}</a>
+            </div>
+          {% endif %}
+        </div>
+        <footer class="footer">
+          <p>
+            <img src="{% if request %}{% static "email-logo-footer.png" %}{% else %}cid:email-logo-footer.png@cid.weblate.org{% endif %}" />
+            <br />
+            <a href="https://weblate.org/">{% translate "Weblate, the libre continuous localization system." %}</a>
+          </p>
+          {% if unsubscribe_url %}
+            <p>
+              ▸ <a href="{% url 'profile' %}#notifications">{% translate "Notification settings" %}</a>
+            </p>
+            <p>
+              ▸ <a href="{{ unsubscribe_url }}">{% translate "Turn off this notification" %}</a>
+            </p>
+          {% elif unsubscribe_note %}
+            <p>▸ {{ unsubscribe_note }}</p>
+          {% endif %}
+        </footer>
+        {% comment %}This avoids Gmail hiding the footer, as it finds unique content here{% endcomment %}
+        {% now "DATETIME_FORMAT" as timestamp %}
+        <p style="opacity: 0" class="text-muted">
+          {% blocktranslate %}Generated on {{ timestamp }}.{% endblocktranslate %}
+        </p>
+      </div>
+    {% endfilter %}
+  </body>
+</html>

@@ -1,0 +1,9 @@
+{% load i18n %}
+
+{% if not valid %}
+  <span class="invalid-format"
+        title="{% translate "The detected file format is not supported." %}">
+  {% endif %}
+  <strong>{% translate "File format" %}</strong> <code>{{ file_format_name }}</code>, <strong>{% translate "File mask" %}</strong> <code>{{ filemask }}</code>
+  {% if origin %}({{ origin }}){% endif %}
+  {% if not valid %}</span>{% endif %}

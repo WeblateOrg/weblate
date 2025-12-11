@@ -1,0 +1,26 @@
+{% load i18n %}
+
+<p>{% translate "This component is set up incorrectly." %}</p>
+
+<p>{% translate "The following occurrences were found:" %}</p>
+
+<table class="table">
+  {% if vcs %}
+    <tr>
+      <th>{% translate "Version control system" %}</th>
+      <td>{{ component.vcs }}</td>
+    </tr>
+  {% endif %}
+  {% if file_format %}
+    <tr>
+      <th>{% translate "File format" %}</th>
+      <td>{{ component.file_format }}</td>
+    </tr>
+  {% endif %}
+</table>
+
+<p>
+  {% translate "This can happen after turning off support for these features, or when dependencies are missing." %}
+</p>
+
+{% include "trans/alert/occurrences-limit.html" %}

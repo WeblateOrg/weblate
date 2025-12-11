@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% load authnames crispy_forms_tags i18n icons translations %}
+
+{% block breadcrumbs %}
+  <li>
+    <a class="breadcrumb-item" href="{% url "profile" %}#teams">{% translate "Invitations" %}</a>
+  </li>
+  <li>
+    <a href="{{ object.get_absolute_url }}">{% translate "Invitation" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  {% if not user.is_authenticated or object.user != user %}
+    <div class="container">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{% translate "Invitation to Weblate" %}</h4>
+        </div>
+        <div class="card-body">
+          {% if not user.is_authenticated %}
+            {% translate "Please sign-in to view this invitation." %}
+          {% else %}
+            {% translate "This invitation belongs to a different user." %}
+          {% endif %}
+        </div>
+        <div class="card-footer">
+          {% if not user.is_authenticated %}
+            <a class="btn btn-primary"
+               id="login-button"
+               href="{% url 'login' %}?next={{ request.path }}">{% translate "Sign in" %}</a>
+          {% else %}
+            <a href="" class="btn btn-primary link-post" data-href="{% url 'logout' %}">{% translate "Sign out" %}</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% else %}
+    <form method="post">
+      {% csrf_token %}
+      <div class="container">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">
+              {% blocktranslate with project_name=object.group.defining_project %}Invitation to {{ project_name }}{% endblocktranslate %}
+            </h4>
+          </div>
+          <div class="card-body">{% include "snippets/invite-info.html" with invitation=object %}</div>
+          <div class="card-footer">
+            <input type="submit"
+                   class="btn btn-primary"
+                   value="{% translate "Accept invitation" %}" />
+          </div>
+        </div>
+      </div>
+    </form>
+  {% endif %}
+
+{% endblock content %}

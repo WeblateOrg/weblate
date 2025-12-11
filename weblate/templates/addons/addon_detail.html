@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags i18n permissions translations %}
+
+{% block breadcrumbs %}
+  {% if object %}
+    {% path_object_breadcrumbs object %}
+    <li class="breadcrumb-item">
+      <a href="{% url 'addons' path=object.get_url_path %}">{% translate "Add-ons" %}</a>
+    </li>
+  {% else %}
+    <li class="breadcrumb-item">
+      <a href="{% url 'manage-addons' %}">{% translate "Add-ons" %}</a>
+    </li>
+  {% endif %}
+  <li class="breadcrumb-item">
+    {% if instance %}
+      <a href="{% url 'addon-detail' pk=instance.pk %}">{{ addon.verbose }}</a>
+    {% else %}
+      {{ addon.verbose }}
+    {% endif %}
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  {% if form %}
+    <form method="post" id="addon-form">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
+            {% documentation_icon 'admin/addons' addon.doc_anchor right=True %}
+            {% translate "Configure add-on" %}
+          </h4>
+        </div>
+        <div class="card-body">
+          <input type="hidden" name="form" value="1" />
+          <input type="hidden" name="name" value="{{ addon.name }}" />
+          {% crispy form %}
+        </div>
+        <div class="card-footer">
+          <input type="submit" value="{% translate "Save" %}" class="btn btn-primary" />
+        </div>
+      </div>
+    </form>
+  {% else %}
+    <p class="help-block">{% translate "This add-on has no settings." %}</p>
+  {% endif %}
+
+{% endblock content %}

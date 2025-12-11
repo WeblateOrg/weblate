@@ -1,0 +1,74 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
+  "files": {
+    "includes": [
+      "**",
+      "!weblate/trans/tests/data/**/*.ts",
+      "!weblate/static/vendor",
+      "!weblate/trans/tests/data/memory-broken.json",
+      "!weblate/templates/site.webmanifest",
+      "!weblate/templates/configuration/custom.css",
+      "!weblate/static/js/vendor",
+      "!weblate/static/styles/vendor",
+      "!dev-docker/data"
+    ]
+  },
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": "on"
+      }
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "style": {
+        "noParameterAssign": "error",
+        "useDefaultParameterLast": "error",
+        "useSelfClosingElements": "error",
+        "useSingleVarDeclarator": "error",
+        "useNumberNamespace": "error",
+        "noDescendingSpecificity": "off",
+        "noUselessElse": "error"
+      },
+      "complexity": {
+        "noImportantStyles": "off"
+      }
+    }
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space"
+  },
+  "javascript": {
+    "globals": [
+      "$",
+      "Mousetrap",
+      "gettext",
+      "ngettext",
+      "Cookies",
+      "submitForm",
+      "autosize",
+      "WLT",
+      "addAlert",
+      "increaseLoading",
+      "decreaseLoading",
+      "initHighlight",
+      "Prism",
+      "interpolate",
+      "jQuery",
+      "django",
+      "slugify",
+      "Tribute",
+      "autoComplete",
+      "moment"
+    ]
+  },
+  "json": {
+    "formatter": {
+      "enabled": false
+    }
+  }
+}

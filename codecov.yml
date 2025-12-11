@@ -1,0 +1,32 @@
+comment:
+  layout: condensed_header, condensed_files, condensed_footer
+  require_changes: coverage_drop OR uncovered_patch
+  after_n_builds: 11
+coverage:
+  ignore:
+  - .*/settings_.*.py
+  - .*/settings.py
+  - .*/wsgi.py
+  status:
+    project:
+      auth:
+        paths:
+        - weblate/auth
+        - weblate/accounts
+      formats:
+        paths:
+        - weblate/formats
+      checks:
+        paths:
+        - weblate/checks
+      default:
+        target: 90
+    patch:
+      default:
+        target: 100
+codecov:
+  branch: main
+  notify:
+    # Wait for reasonable amount of tests to complete before
+    # reporting coverage
+    after_n_builds: 11

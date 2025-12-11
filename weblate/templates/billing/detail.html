@@ -1,0 +1,200 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags i18n icons permissions translations %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'profile' %}">{% translate "Your profile" %}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'billing' %}">{% translate "Billing" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  {% perm 'billing.manage' billing as user_can_manage_billing %}
+
+  <div class="row">
+
+    <div class="col-lg-6" id="billing-{{ billing.pk }}">
+      <div class="card">
+        <div class="card-header {% if not billing.paid or not billing.in_limits %}text-bg-danger{% endif %}">
+          <h4 class="card-title">
+            <a class="float-end doc-link" href="https://weblate.org/hosting/">{% icon "info.svg" %}</a>
+            {% translate "Billing plan" %}
+            {% if billing.payment.recurring %}
+              <span class="badge text-bg-secondary">{% translate "Recurring payment" %}</span>
+            {% endif %}
+            {% if not billing.is_active %}
+              <span class="badge text-bg-secondary">{% translate "Expired" %}</span>
+            {% elif not billing.paid %}
+              <span class="badge text-bg-secondary">{% translate "Past due date" %}</span>
+            {% elif not billing.in_limits %}
+              <span class="badge text-bg-secondary">{% translate "Exceeds limits" %}</span>
+            {% endif %}
+          </h4>
+        </div>
+        {% include "billing/status.html" %}
+        {% if billing.is_active %}
+          <div class="card-footer">
+            {% if billing.all_projects %}
+              <p class="text-danger">{% translate "To terminate billing you have to remove all projects first." %}</p>
+            {% endif %}
+            <form method="post">
+              {% csrf_token %}
+              {% if payment_enabled and billing.can_be_paid %}
+                <a href="{% url 'create-billing' %}?billing={{ billing.pk }}&amp;upgrade=1"
+                   class="btn btn-primary">{% translate "Change plan or payment method" %}</a>
+              {% endif %}
+              {% if billing.payment.recurring %}
+                <button type="submit" name="recurring" value="{{ billing.pk }}" class="btn btn-warning">
+                  {% translate "Terminate recurring payment" %}
+                </button>
+              {% endif %}
+              <button type="submit"
+                      name="terminate"
+                      value="{{ billing.pk }}"
+                      class="btn btn-danger"
+                      {% if billing.all_projects %} title="{% translate "To terminate billing you have to remove all projects first." %}" disabled {% endif %}>
+                {% translate "Terminate billing plan" %}
+              </button>
+            </form>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="col-lg-6">
+      {% with invoices=billing.invoice_set.order %}
+        {% if invoices %}
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">{% translate "Invoices" %}</h4>
+            </div>
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>{% translate "Invoice period" %}</th>
+                  <th>{% translate "Invoice amount" %}</th>
+                  <th>{% translate "Download invoice" %}</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for invoice in billing.invoice_set.order %}
+                  <tr>
+                    <td>{{ invoice.start|date:"SHORT_DATE_FORMAT" }} - {{ invoice.end|date:"SHORT_DATE_FORMAT" }}</td>
+                    <td>{{ invoice.amount }} {{ invoice.get_currency_display }}</td>
+                    <td>
+                      {% if invoice.ref and invoice.filename_valid %}
+                        <a href="{% url 'invoice-download' pk=invoice.pk %}">{{ invoice.filename }}</a>
+                      {% elif invoice.ref %}
+                        {{ invoice.filename }}
+                      {% else %}
+                        {% translate "Not available" %}
+                      {% endif %}
+                    </td>
+                  </tr>
+                {% empty %}
+                  <tr>
+                    <td colspan="3">{% translate "No invoices found." %}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% endif %}
+      {% endwith %}
+
+      {% if user.is_superuser %}
+
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">{% translate "Audit log" %}</h4>
+          </div>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>{% translate "When" %}</th>
+                <th>{% translate "Billing event" %}</th>
+                <th>{% translate "Event details" %}</th>
+                <th>{% translate "User" %}</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for log in billing.billinglog_set.recent %}
+                <tr>
+                  <td>{{ log.timestamp|naturaltime }}</td>
+                  <td>{{ log.get_event_display }}</td>
+                  <td>{{ log.summary }}</td>
+                  <td>{{ log.user }}</td>
+                  <td>
+                    {% if user.is_superuser and log.details.backup_filename %}
+                      <a href="{% url "restore_backup" %}?path={{ log.details.backup_filename|urlencode }}">{% translate "Download" %}</a>
+                    {% endif %}
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+      {% endif %}
+
+      {% if offer_hosting and billing.plan.price == 0 %}
+        <form method="post">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">
+                {% translate "Libre hosting" %}
+                {% if billing.is_libre_trial and billing.payment.libre_request %}
+                  <span class="badge text-bg-secondary">{% translate "Pending approval" %}</span>
+                {% endif %}
+              </h4>
+            </div>
+            <div class="card-body">
+              {% if billing.is_libre_trial and billing.valid_libre and not billing.payment.libre_request %}
+                {# Second button for bigger visibility #}
+                <input type="submit"
+                       class="btn btn-primary float-end"
+                       name="request"
+                       value="{% translate "Request approval for Libre hosting" %}" />
+              {% endif %}
+              {% include "snippets/libre-checklist.html" %}
+            </div>
+            {% if billing.is_libre_trial %}
+              <div class="card-footer">
+                {% csrf_token %}
+                {% if billing.valid_libre %}
+                  {% if user_can_manage_billing or not billing.payment.libre_request %}
+                    {% include "snippets/libre-basic.html" %}
+                    {% if user_can_manage_billing %}
+                      <input type="submit"
+                             class="btn btn-primary"
+                             name="approve"
+                             value="{% translate "Approve as libre" %}" />
+                    {% endif %}
+                    {% if not billing.payment.libre_request %}
+                      {{ hosting_form|crispy }}
+                      <input type="submit"
+                             class="btn btn-primary"
+                             name="request"
+                             value="{% translate "Request approval for Libre hosting" %}" />
+                    {% endif %}
+                  {% endif %}
+                {% else %}
+                  <p>
+                    {% translate "This subscription is not eligible to the libre plan, please fix the errors above or purchase a subscription." %}
+                  </p>
+                {% endif %}
+              </div>
+            {% endif %}
+          </div>
+        </form>
+      {% endif %}
+
+    </div>
+
+  </div>
+{% endblock content %}

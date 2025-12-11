@@ -1,0 +1,27 @@
+{% load i18n icons translations %}
+
+{% for check in billing.libre_checklist %}
+  <p>
+    {% if check %}
+      <span class="green">{% icon "check.svg" %}</span>
+    {% else %}
+      <span class="red">{% icon "alert.svg" %}</span>
+    {% endif %}
+    {{ check }}
+  </p>
+  {% if check.component %}
+    {% if not check.component.is_glossary %}
+      <p>
+        {% icon "comment.svg" %}
+        <a href="{% url "guide" path=check.component.get_url_path %}">{% translate "Review guidelines from the community localization checklist." %}</a>
+      </p>
+    {% endif %}
+    {% if check.component.agreement %}
+      <p>
+        {% icon "suggest.svg" %}
+        <a href="{{ check.component.get_absolute_url }}#information">{% translate "Contributor license agreement" %}</a>
+        {{ check.component.agreement|markdown }}
+      </p>
+    {% endif %}
+  {% endif %}
+{% endfor %}

@@ -1,0 +1,110 @@
+{% load i18n %}
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>{% translate "Component" %}</th>
+      <th></th>
+      <th>{% translate "Matched files" %}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if matches_deleted %}
+      <tr>
+        <th colspan="3" class="danger">{% translate "The following components would be deleted" %}</th>
+      </tr>
+      {% for match in matches_deleted %}
+        <tr>
+          <th>
+            <a href="{{ match.1.get_absolute_url }}">{{ match.1 }}</a>
+          </th>
+          <td></td>
+          <td></td>
+        </tr>
+      {% endfor %}
+    {% endif %}
+    {% if matches_created %}
+      <tr>
+        <th colspan="3" class="info">{% translate "The following components would be created" %}</th>
+      </tr>
+      {% for match in matches_created %}
+        <tr>
+          <th>
+            {{ match.0.name }} (<code>{{ match.0.slug }}</code>)
+          </th>
+          <td colspan="2">
+            {% if match.0.base_file %}
+              <strong>{% translate "Monolingual base language file" %}:</strong> <code>{{ match.0.base_file }}</code>
+              <br />
+            {% endif %}
+            <strong>{% translate "File mask" %}:</strong> <code>{{ match.0.mask }}</code>
+            <br />
+            {% for file, lang in match.0.files_langs %}
+              <code>{{ file }}</code> ({{ lang }})
+              <br />
+            {% endfor %}
+          </td>
+        </tr>
+      {% endfor %}
+    {% endif %}
+    {% if matches_matched %}
+      <tr>
+        <th colspan="3" class="info">{% translate "The following components matched existing ones" %}</th>
+      </tr>
+      {% for match in matches_matched %}
+        <tr>
+          <th>
+            <a href="{{ match.1.get_absolute_url }}">{{ match.1 }}</a>
+          </th>
+          <td colspan="2">
+            {% if match.0.base_file %}
+              <strong>{% translate "Monolingual base language file" %}:</strong> <code>{{ match.0.base_file }}</code>
+              <br />
+            {% endif %}
+            <strong>{% translate "File mask" %}:</strong> <code>{{ match.0.mask }}</code>
+            <br />
+            {% for file, lang in match.0.files_langs %}
+              <code>{{ file }}</code> ({{ lang }})
+              <br />
+            {% endfor %}
+          </td>
+        </tr>
+      {% endfor %}
+    {% endif %}
+    {% if matches_skipped %}
+      <tr>
+        <th colspan="3" class="danger">{% translate "The following components could not be created" %}</th>
+      </tr>
+      {% for match in matches_skipped %}
+        <tr>
+          <th>
+            {{ match.0.name }} (<code>{{ match.0.slug }}</code>)
+          </th>
+          <td>
+            <strong>{{ match.1 }}</strong>
+          </td>
+          <td>
+            {% if match.0.base_file %}
+              <strong>{% translate "Monolingual base language file" %}:</strong> <code>{{ match.0.base_file }}</code>
+              <br />
+            {% endif %}
+            <strong>{% translate "File mask" %}:</strong> <code>{{ match.0.mask }}</code>
+            <br />
+            {% for file, lang in match.0.files_langs %}
+              <code>{{ file }}</code> ({{ lang }})
+              <br />
+            {% endfor %}
+          </td>
+        </tr>
+      {% endfor %}
+    {% endif %}
+    {% if not matches_deleted and not matches_created and not matches_matched and not matches_skipped %}
+      <tr>
+        <th colspan="3" class="danger">{% translate "No matching components were found!" %}</th>
+      </tr>
+    {% endif %}
+  </tbody>
+</table>
+
+
+{% for match in matches %}{{ match }}{% endfor %}

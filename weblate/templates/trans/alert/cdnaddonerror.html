@@ -1,0 +1,24 @@
+{% load i18n translations %}
+
+<p>{% translate "Weblate CDN add-on could not parse the HTML files." %}</p>
+
+<p>{% translate "The following occurrences were found:" %}</p>
+
+<table class="table table-sm">
+  <thead>
+    <tr>
+      <th>{% translate "Filename" %}</th>
+      <th>{% translate "Error" %}</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for occurrence in occurrences %}
+      <tr>
+        <td>{{ occurrence.filename }}</td>
+        <td>{{ occurrence.error }}</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% include "trans/alert/occurrences-limit.html" %}

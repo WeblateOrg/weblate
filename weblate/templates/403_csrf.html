@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'home' %}">{% translate "Permission Denied" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+  <div class="container">
+
+    <h2>{% translate "Permission Denied" %}</h2>
+    <p>{% translate "CSRF verification failed. Request aborted." %}</p>
+
+    {% if no_referer %}
+      <p>
+        {% translate "This HTTPS site requires a 'Referer' header to be sent by your web browser, but none was sent. This header is required for security reasons, ensuring that your browser is not being hijacked by third parties." %}
+      </p>
+      <p>
+        {% translate "If you have set up your web browser to not send 'Referer' headers,  you need to turn that on (at least for this site, HTTPS connections, or 'same-origin' requests)." %}
+      </p>
+    {% elif no_cookie %}
+      <p>
+        {% translate "Our site requires a session cookie to make the forms work. This cookie is required for security reasons, ensuring that your browser is not being hijacked by third parties." %}
+      </p>
+      <p>
+        {% translate "It might have happened that your session cookie expired due to inactivity. This can easily happen for unauthenticated requests where session validity is limited. You might want to try your intended action again in such a case." %}
+      </p>
+      <p>
+        {% translate "If you have set up your browser to not save cookies, you need to enable saving them (at least for this site, or 'same-origin' requests)." %}
+      </p>
+    {% elif reason %}
+      <p>
+        {% blocktranslate %}CSRF failure reason: {{ reason }}{% endblocktranslate %}
+      </p>
+    {% endif %}
+
+  </div>
+
+{% endblock content %}

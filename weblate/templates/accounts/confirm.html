@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags i18n translations %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'profile' %}">{% translate "Your profile" %}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+  <form method="post" action="{% url 'confirm' %}">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{% translate "Confirm adding user identity" %}</h4>
+      </div>
+      <div class="card-body">
+        <p>
+          {% comment %}Translators: backend_verbose is name of authentication backend, for example GitHub or Facebook, uid is user identifier, it can be username, email, number or URL{% endcomment %}
+          {% blocktranslate %}After confirming this, you will be able to authenticate to Weblate using {{ backend_verbose }} ({{ uid }}).{% endblocktranslate %}
+        </p>
+        {{ confirm_form|crispy }}
+        {% csrf_token %}
+      </div>
+      <div class="card-footer">
+        <button type="submit" class="btn btn-primary">{% translate "Confirm" %}</button>
+      </div>
+    </div>
+  </form>
+
+{% endblock content %}

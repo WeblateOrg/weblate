@@ -1,0 +1,37 @@
+{% extends "message.html" %}
+
+{% load i18n permissions %}
+
+{% block tags %}warning{% endblock %}
+
+{% block message %}
+  {% perm 'component.lock' object as user_can_lock_component %}
+  <div class="float-end">
+    {% if user_can_lock_component %}
+      <a href=""
+         class="btn btn-warning link-post"
+         data-href="{% url 'unlock' path=object.get_url_path %}">{% translate "Unlock" %}</a>
+    {% endif %}
+    {% if user.is_authenticated %}
+      <a href=""
+         class="btn btn-primary link-post"
+         data-href="{% url 'subscribe' %}"
+         data-params='{"onetime":"LockNotification","component":{{ object.pk }} }'>{% translate "Get notified when this project is unlocked again" %}</a>
+    {% endif %}
+  </div>
+  {% translate "The translation is temporarily closed for contributions due to maintenance, please come back later." %}
+  {% with alerts=object.lock_alerts %}
+    {% if alerts %}
+      <br />
+
+      {% blocktranslate count count=alerts|length %}The translation was automatically locked due to the following alert:{% plural %}The translation was automatically locked due to the following alerts:{% endblocktranslate %}
+      <ul>
+        {% for alert in alerts %}
+          <li>
+            <a href="{{ object.get_absolute_url }}#alerts">{{ alert }}</a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+{% endblock message %}

@@ -1,0 +1,14 @@
+{% extends "mail/base.html" %}
+
+{% load compress i18n static translations %}
+
+{% block extra_styles %}
+  <style>{% include "mail/styles/digest.css" %}</style>
+{% endblock extra_styles %}
+
+{% block content %}
+  {% if overlimit %}
+    <p class="note">{% translate "Note: This digest has been truncated as there were over 100 notifications." %}</p>
+  {% endif %}
+  {% format_last_changes_content last_changes=changes user=user in_email=True %}
+{% endblock content %}

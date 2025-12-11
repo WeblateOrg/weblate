@@ -1,0 +1,155 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: CC0-1.0
+
+# This file is maintained in https://github.com/WeblateOrg/meta/
+# and generated from .github/ISSUE_TEMPLATE/snippets there.
+name: Reproducible bug report
+description: Create a report to help us improve
+body:
+- type: markdown
+  attributes:
+    value: |
+      Thank you for reporting an issue.
+      This form guides you in creating a useful issue report.
+
+      Want your answer quickly and guaranteed? Visit https://weblate.org/support/ to reach our dedicated support team. As a subscriber, you will always have priority and help Weblate growing.
+- type: textarea
+  id: what-happened
+  attributes:
+    label: Describe the issue
+    description: >
+      A clear and concise description of the problem you are facing.
+
+      Please include important information, like the file format you are using and installed add-ons.
+    placeholder: Tell us what you see!
+  validations:
+    required: true
+- type: checkboxes
+  id: tried
+  attributes:
+    label: I already tried
+    description: If you didn’t try already, try searching the documentation and existing issues.
+    options:
+    - label: I've read and searched [the documentation](https://docs.weblate.org/).
+      required: true
+    - label: I've searched for similar filed issues in this repository.
+      required: true
+- type: textarea
+  id: reproducer
+  attributes:
+    label: Steps to reproduce the behavior
+    description: What did you do before the problem appeared?
+    placeholder: |
+      1. Go to '…'
+      2. Scroll down to '…'
+      3. Click on '…'
+      4. The error occurs
+  validations:
+    required: true
+- type: textarea
+  id: expected
+  attributes:
+    label: Expected behavior
+    description: A clear and concise description of what you expected to happen.
+    placeholder: Tell us what you want to see!
+- type: textarea
+  id: screenshots
+  attributes:
+    label: Screenshots
+    description: If applicable, add screenshots to better explain your problem.
+- type: textarea
+  id: traceback
+  attributes:
+    label: Exception traceback
+    description: >
+      In case you observed a server error or crash, please read
+      [the debugging documentation](https://docs.weblate.org/en/latest/contributing/debugging.html)
+      for information on obtaining the relevant logs.
+
+      This field will be rendered as a Python traceback automatically.
+    render: pytb
+- type: dropdown
+  id: installation
+  attributes:
+    label: How do you run Weblate?
+    options:
+    - ''
+    - weblate.org service
+    - Docker container
+    - PyPI module
+    - Git checkout
+    - Other
+  validations:
+    required: true
+- type: textarea
+  id: versions
+  attributes:
+    label: Weblate versions
+    description: >
+      Please paste the output of the
+      [list_versions](https://docs.weblate.org/en/latest/admin/management.html#list-versions)
+      command here.
+
+      Depending on the installation, these can be executed in a different
+      way. Please consult [the management commands
+      documentation](https://docs.weblate.org/en/latest/admin/management.html)
+      for more details.
+
+      On pip-installed Weblate:
+
+      ```
+      weblate list_versions
+      ```
+
+      On Git checkout:
+
+      ```
+      ./manage.py list_versions
+      ```
+
+      Using docker-compose-plugin:
+
+      ```
+      docker compose exec --user weblate weblate weblate list_versions
+      ```
+
+      This will properly render without any escaping.
+- type: textarea
+  id: checks
+  attributes:
+    label: Weblate deploy checks
+    description: >
+      Please paste here list of [the deploy
+      checks](https://docs.weblate.org/en/latest/admin/install.html#production).
+
+      Depending on the installation, these can be executed in a different
+      way. Please consult [the management commands
+      documentation](https://docs.weblate.org/en/latest/admin/management.html)
+      for more details.
+
+      On pip installed Weblate:
+
+      ```
+      weblate check --deploy
+      ```
+
+      On Git checkout:
+
+      ```
+      ./manage.py check --deploy
+      ```
+
+      Using docker-compose-plugin:
+
+      ```
+      docker compose exec --user weblate weblate weblate check --deploy
+      ```
+
+      This will be rendered as console output automatically.
+    render: shell
+- type: textarea
+  id: additional
+  attributes:
+    label: Additional context
+    description: Add any other contextual info about the problem here.
