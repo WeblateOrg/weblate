@@ -1452,6 +1452,18 @@ class ProjectAPITest(APIBaseTest):
                 "needs_push": False,
                 "needs_merge": False,
                 "needs_commit": False,
+                "weblate_commit": None,
+                "status": None,
+                "merge_failure": None,
+                "outgoing_commits": None,
+                "missing_commits": None,
+                "remote_commit": None,
+                "pending_units": {
+                    "total": 0,
+                    "errors_skipped": 0,
+                    "commit_policy_skipped": 0,
+                    "eligible_for_commit": 0,
+                },
             },
             skip=("url",),
         )
@@ -2958,18 +2970,95 @@ class ComponentAPITest(APIBaseTest):
         self.do_request("api:component-repository", self.component_kwargs, code=403)
 
     def test_repo_status(self) -> None:
-        self.do_request(
+        """Test basic component repository status endpoint."""
+        response = self.do_request(
             "api:component-repository",
             self.component_kwargs,
             superuser=True,
-            data={
-                "needs_push": False,
-                "needs_merge": False,
-                "needs_commit": False,
-                "merge_failure": None,
-            },
-            skip=("remote_commit", "weblate_commit", "status", "url"),
         )
+
+        self.assertEqual(response.data["needs_push"], False)
+        self.assertEqual(response.data["needs_merge"], False)
+        self.assertEqual(response.data["needs_commit"], False)
+        self.assertEqual(response.data["merge_failure"], None)
+
+        self.assertIn("url", response.data)
+        self.assertIn("status", response.data)
+        self.assertIn("remote_commit", response.data)
+        self.assertIn("weblate_commit", response.data)
+        self.assertIn("pending_units", response.data)
+        self.assertIn("outgoing_commits", response.data)
+        self.assertIn("missing_commits", response.data)
+
+        self.assertIsNotNone(response.data["url"])
+        self.assertIsNotNone(response.data["status"])
+
+        self.assertIsInstance(response.data["outgoing_commits"], int)
+        self.assertIsInstance(response.data["missing_commits"], int)
+
+        pending = response.data["pending_units"]
+        self.assertIsNotNone(pending)
+        self.assertEqual(pending["total"], 0)
+
+    def test_repo_status_detailed(self) -> None:
+        """Test component repository status with detailed field verification."""
+        response = self.do_request(
+            "api:component-repository",
+            self.component_kwargs,
+            superuser=True,
+        )
+
+        self.assertIn("needs_commit", response.data)
+        self.assertIn("needs_merge", response.data)
+        self.assertIn("needs_push", response.data)
+        self.assertIn("url", response.data)
+        self.assertIn("status", response.data)
+        self.assertIn("merge_failure", response.data)
+
+        self.assertIn("pending_units", response.data)
+        self.assertIn("outgoing_commits", response.data)
+        self.assertIn("missing_commits", response.data)
+
+        self.assertIn("remote_commit", response.data)
+        self.assertIn("weblate_commit", response.data)
+
+        if response.data["remote_commit"]:
+            commit = response.data["remote_commit"]
+            self.assertIn("revision", commit)
+            self.assertIn("shortrevision", commit)
+            self.assertIn("author", commit)
+            self.assertIn("message", commit)
+            self.assertIn("summary", commit)
+
+        self.assertIsInstance(response.data["outgoing_commits"], int)
+        self.assertIsInstance(response.data["missing_commits"], int)
+
+    def test_repo_status_with_pending_changes(self) -> None:
+        """Test repository status with pending changes and detailed breakdown."""
+        component = Component.objects.get(**self.component_kwargs)
+        translation = component.translation_set.first()
+        unit, unit2 = translation.unit_set.all()[:2]
+
+        unit.translate(self.user, "First change", STATE_TRANSLATED)
+        unit2.translate(self.user, "Second change", STATE_TRANSLATED)
+
+        response = self.do_request(
+            "api:component-repository",
+            self.component_kwargs,
+            superuser=True,
+        )
+
+        self.assertEqual(response.data["needs_commit"], True)
+        self.assertIsNotNone(response.data["pending_units"])
+
+        pending = response.data["pending_units"]
+        self.assertIn("total", pending)
+        self.assertIn("errors_skipped", pending)
+        self.assertIn("commit_policy_skipped", pending)
+        self.assertIn("eligible_for_commit", pending)
+
+        self.assertGreaterEqual(pending["total"], 2)
+        self.assertGreater(pending["eligible_for_commit"], 0)
 
     def test_statistics(self) -> None:
         self.do_request(
@@ -3880,18 +3969,54 @@ class TranslationAPITest(APIBaseTest):
         self.do_request("api:translation-repository", self.translation_kwargs, code=403)
 
     def test_repo_status(self) -> None:
-        self.do_request(
+        response = self.do_request(
             "api:translation-repository",
             self.translation_kwargs,
             superuser=True,
-            data={
-                "needs_push": False,
-                "needs_merge": False,
-                "needs_commit": False,
-                "merge_failure": None,
-            },
-            skip=("remote_commit", "weblate_commit", "status", "url"),
         )
+
+        self.assertIn("needs_commit", response.data)
+        self.assertIn("needs_merge", response.data)
+        self.assertIn("needs_push", response.data)
+        self.assertIn("url", response.data)
+        self.assertIn("status", response.data)
+        self.assertIn("merge_failure", response.data)
+
+        self.assertIn("pending_units", response.data)
+        self.assertIn("outgoing_commits", response.data)
+        self.assertIn("missing_commits", response.data)
+        self.assertIn("remote_commit", response.data)
+        self.assertIn("weblate_commit", response.data)
+
+        self.assertIsInstance(response.data["needs_commit"], bool)
+        self.assertIsInstance(response.data["needs_merge"], bool)
+        self.assertIsInstance(response.data["needs_push"], bool)
+
+        self.assertEqual(response.data["needs_commit"], False)
+
+        self.assertIsNotNone(response.data["url"])
+
+        self.assertIsNotNone(response.data["status"])
+
+        self.assertIsInstance(response.data["outgoing_commits"], int)
+        self.assertIsInstance(response.data["missing_commits"], int)
+
+        pending = response.data["pending_units"]
+        self.assertIsNotNone(pending)
+        self.assertIn("total", pending)
+        self.assertIn("errors_skipped", pending)
+        self.assertIn("commit_policy_skipped", pending)
+        self.assertIn("eligible_for_commit", pending)
+
+        self.assertEqual(pending["total"], 0)
+
+        if response.data["remote_commit"]:
+            commit = response.data["remote_commit"]
+            self.assertIn("revision", commit)
+            self.assertIn("shortrevision", commit)
+            self.assertIn("author", commit)
+            self.assertIn("message", commit)
+            self.assertIn("summary", commit)
 
     def test_statistics(self) -> None:
         self.do_request(
@@ -4358,6 +4483,31 @@ class TranslationAPITest(APIBaseTest):
                 "state": "20",
             },
             code=400,
+        )
+
+    def test_repo_status_with_changes(self) -> None:
+        """Test repository status with actual pending changes."""
+        translation = Translation.objects.get(**self.translation_kwargs)
+        unit = translation.unit_set.first()
+        unit.translate(self.user, "Modified translation", STATE_TRANSLATED)
+
+        response = self.do_request(
+            "api:translation-repository",
+            self.translation_kwargs,
+            superuser=True,
+        )
+
+        self.assertEqual(response.data["needs_commit"], True)
+        self.assertIsNotNone(response.data["pending_units"])
+
+        pending = response.data["pending_units"]
+        self.assertGreater(pending["total"], 0)
+        self.assertGreaterEqual(pending["eligible_for_commit"], 0)
+        self.assertEqual(
+            pending["total"],
+            pending["errors_skipped"]
+            + pending["commit_policy_skipped"]
+            + pending["eligible_for_commit"],
         )
 
     def test_delete(self) -> None:

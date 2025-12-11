@@ -74,6 +74,7 @@ from weblate.api.serializers import (
     ProjectMachinerySettingsSerializer,
     ProjectSerializer,
     RepoRequestSerializer,
+    RepositorySerializer,
     RoleSerializer,
     ScreenshotCreateSerializer,
     ScreenshotFileSerializer,
@@ -105,6 +106,7 @@ from weblate.trans.models import (
     Component,
     ComponentList,
     Label,
+    PendingUnitChange,
     Project,
     Unit,
 )
@@ -290,7 +292,9 @@ class WeblateViewSet(DownloadViewSet):
         return getattr(obj, method)(*args, request.user, **kwargs)
 
     @extend_schema(
-        description="Return information about VCS repository status.", methods=["get"]
+        description="Return information about VCS repository status.",
+        methods=["get"],
+        responses=RepositorySerializer,
     )
     @extend_schema(
         description="Perform given operation on the VCS repository.", methods=["post"]
@@ -372,7 +376,13 @@ class WeblateViewSet(DownloadViewSet):
             else:
                 data["merge_failure"] = None
 
-        return Response(data)
+            data["outgoing_commits"] = component.count_repo_outgoing
+            data["missing_commits"] = component.count_repo_missing
+
+        data["pending_units"] = PendingUnitChange.objects.detailed_count(obj)
+
+        serializer = RepositorySerializer(data)
+        return Response(serializer.data)
 
 
 class MultipleFieldViewSet(WeblateViewSet):

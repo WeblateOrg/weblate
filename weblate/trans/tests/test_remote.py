@@ -8,6 +8,7 @@ import os
 
 from django.db import transaction
 from django.test.utils import override_settings
+from django.urls import reverse
 
 from weblate.lang.models import Language
 from weblate.trans.models import CommitPolicyChoices, Component, PendingUnitChange, Unit
@@ -562,6 +563,41 @@ class MultiRepoTest(ViewTestCase):
         # The pending unit state should be kept
         unit = self.get_unit(translation=translation1)
         self.assertEqual(unit.target, "Ahoj světe!\n")
+
+    def test_api(self):
+        """Test the project repository API works for various VCS."""
+        self.push_first()
+        self.project.add_user(self.user, "Administration")
+        headers = {"Authorization": f"Token {self.user.auth_token.key}"}
+
+        response = self.client.get(
+            reverse("api:project-repository", kwargs={"slug": self.project.slug}),
+            headers=headers,
+        )
+        self.assertEqual(response.status_code, 200)
+
+        response = self.client.get(
+            reverse(
+                "api:component-repository",
+                kwargs={
+                    "slug": self.component.slug,
+                    "project__slug": self.project.slug,
+                },
+            )
+        )
+        self.assertEqual(response.status_code, 200)
+
+        response = self.client.get(
+            reverse(
+                "api:translation-repository",
+                kwargs={
+                    "language__code": "cs",
+                    "component__slug": self.component.slug,
+                    "component__project__slug": self.project.slug,
+                },
+            )
+        )
+        self.assertEqual(response.status_code, 200)
 
 
 class FileScanTest(ViewTestCase):
