@@ -97,7 +97,7 @@ jobs:
       with:
         save-cache: ${{ github.ref == 'refs/heads/main' }}
         cache-suffix: ${{ steps.setup_python.outputs.python-version }}
-        version: 0.9.16
+        version: 0.9.17
     - name: Start services
       run: ./ci/services-up ${{ matrix.database }} ${{ matrix.datastore }}
     - name: Install apt dependencies
@@ -119,7 +119,13 @@ jobs:
     - name: Django checks
       run: uv run coverage run ./manage.py check
     - name: Demo import
-      run: uv run coverage run ./manage.py import_demo
+      run: |
+        uv run coverage run ./manage.py import_demo
+        # Second execution with --delete should remove and recreate
+        uv run coverage run ./manage.py import_demo --delete
+        uv run coverage run ./manage.py billing_demo
+        # Second execution should gracefully handle existing project
+        uv run coverage run ./manage.py billing_demo
     - name: Keep coverage
       run: |
         mkdir -p build/coverage
@@ -138,7 +144,7 @@ jobs:
         mv build/coverage/.coverage.* .
         uv run coverage combine
         uv run coverage xml
-    - uses: codecov/codecov-action@5a1091511ad55cbe89839c7260b706298ca349f7 # v5.5.1
+    - uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
       with:
         token: ${{secrets.CODECOV_TOKEN}}
         flags: unittests

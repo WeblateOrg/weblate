@@ -71,6 +71,7 @@
 
 {% block content %}
 
+  {% get_translate_url object as translate_url %}
 
   <div class="tab-content">
 
@@ -92,7 +93,7 @@
 
     <div class="tab-pane" id="search">
 
-      <form action="{% url 'search' path=object.get_url_path %}" method="get">
+      <form action="{{ translate_url }}" method="get">
         {% include "snippets/search-form.html" %}
       </form>
 

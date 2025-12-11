@@ -79,6 +79,7 @@ class WeblateChecksConf(AppConf):
         "weblate.checks.format.ObjectPascalFormatCheck",
         "weblate.checks.format.SchemeFormatCheck",
         "weblate.checks.format.CSharpFormatCheck",
+        "weblate.checks.format.LaravelFormatCheck",
         "weblate.checks.format.JavaFormatCheck",
         "weblate.checks.format.JavaMessageFormatCheck",
         "weblate.checks.format.PercentPlaceholdersCheck",

@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-06 20:30+0100\n"
-"PO-Revision-Date: 2025-12-08 02:20+0000\n"
+"PO-Revision-Date: 2025-12-10 10:45+0000\n"
 "Last-Translator: Takeru Mikenu <mikenu-jp@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -2907,40 +2907,28 @@ msgid "Example messages"
 msgstr "ファイルの例"
 
 #: ../../admin/addons.rst:540
-#, fuzzy
-#| msgid "Repository merged"
 msgid "Repository merge event:"
-msgstr "リポジトリ統合"
+msgstr "リポジトリのマージイベント:"
 
 #: ../../admin/addons.rst:552
-#, fuzzy
-#| msgid "New source string"
 msgid "New source string event:"
-msgstr "新しい原文"
+msgstr "新規原文文字列イベント:"
 
 #: ../../admin/addons.rst:566
-#, fuzzy
-#| msgid "Resource updated"
 msgid "Resource update event:"
-msgstr "リソース更新"
+msgstr "リソース更新イベント:"
 
 #: ../../admin/addons.rst:598
-#, fuzzy
-#| msgid "Project removed"
 msgid "Project removal event:"
-msgstr "プロジェクト削除"
+msgstr "プロジェクト削除イベント:"
 
 #: ../../admin/addons.rst:610
-#, fuzzy
-#| msgid "New contributor"
 msgid "New contributor event:"
-msgstr "新しい貢献者"
+msgstr "新しい貢献者イベント:"
 
 #: ../../admin/addons.rst:627
-#, fuzzy
-#| msgid "New translation"
 msgid "New translation event:"
-msgstr "新しい翻訳"
+msgstr "新規翻訳イベント:"
 
 #: ../../admin/addons.rst:647
 #, fuzzy
@@ -3743,6 +3731,9 @@ msgid ""
 "bits) and 64 bytes (512 bits). It can be prefixed with ``whsec_`` for easy "
 "identification."
 msgstr ""
+"提供される ``シークレット`` は、24 バイト（192 ビット）から 64 バイト（512 "
+"ビット）までの base64 エンコードされた文字列です。識別を容易にするため"
+"、``whsec_`` を接頭辞として付けることができます。"
 
 #: ../../admin/addons.rst:1288
 msgid ""
@@ -6146,6 +6137,9 @@ msgid ""
 "backup repository, for example in the home directory (i.e. ``/home/borg/"
 "backups``)."
 msgstr ""
+"Weblate がリモートで Borg バックアップリポジトリをセットアップできるように、"
+"ユーザーが書き込み可能なディレクトリをホームディレクトリ内などに作成します（"
+"例: ``/home/borg/backups``）。"
 
 #: ../../admin/backup.rst:167
 #, fuzzy
@@ -6164,6 +6158,8 @@ msgid ""
 "Once enabled, the backups will be triggered automatically daily. You can "
 "also manually trigger a backup from the Weblate UI."
 msgstr ""
+"一度有効にすると、バックアップは毎日自動的に実行されます。Weblate UI から手動"
+"でバックアップを開始することも可能です。"
 
 #: ../../admin/backup.rst:172
 msgid ""
@@ -7725,6 +7721,9 @@ msgid ""
 "Assets are downloaded once by the Weblate server and stored locally, rather "
 "than being served directly from external domains to users."
 msgstr ""
+"これは、信頼できないソースからのアセットの読み込みを防ぐことで、セキュリティ"
+"を強化します。アセットは、外部ドメインからユーザーに直接提供されるのではなく"
+"、Weblate サーバーによって一度ダウンロードされ、ローカルに保存されます。"
 
 #: ../../admin/config.rst:54
 msgid ""
@@ -7733,6 +7732,10 @@ msgid ""
 "all subdomains (e.g ``.example.com`` will match ``cdn.example.com`` or "
 "``static.example.com``)."
 msgstr ""
+"ホスト名またはドメイン名のリストが必要です。完全修飾名（例: "
+"``www.example.com``）を使用するか、ピリオドを先頭に付けてワイルドカードとして"
+"使用し、すべてのサブドメインに一致させることもできます（例: ``.example.com`` "
+"は ``cdn.example.com`` や ``static.example.com`` に一致します）。"
 
 #: ../../admin/config.rst:58
 #, fuzzy
@@ -8501,6 +8504,8 @@ msgid ""
 "The personal access token needs the :guilabel:`api` scope to be able to use "
 "the API."
 msgstr ""
+"パーソナルアクセストークンは、API を利用するために :guilabel:`api` スコープを"
+"必要とします。"
 
 #: ../../admin/config.rst:882
 #, fuzzy
@@ -8525,6 +8530,10 @@ msgid ""
 "organization, so it won't work if you want Weblate to fork a repository "
 "outside the organization (typically to the user namespace)."
 msgstr ""
+"fine-grained パーソナルアクセストークンと従来のパーソナルアクセストークンの両"
+"方を使用できます。fine-grained トークンは単一の組織に限定されるため、Weblate "
+"が組織外のリポジトリをフォークする場合（通常はユーザー名前空間へのフォーク）"
+"には機能しません。"
 
 #: ../../admin/config.rst:909
 #, fuzzy
@@ -8687,6 +8696,8 @@ msgid ""
 "Google Analytics 4 integration is currently not available for Weblate, "
 "please see https://github.com/WeblateOrg/weblate/issues/14015."
 msgstr ""
+"Google Analytics 4 との連携は現在 Weblate では利用できません。詳細は https://"
+"github.com/WeblateOrg/weblate/issues/14015 を参照してください。"
 
 #: ../../admin/config.rst:1052
 msgid ""
@@ -8991,7 +9002,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1395
 msgid "Defaults to 0, which means strength checking is disabled."
-msgstr ""
+msgstr "デフォルトは 0 で、強度チェックが無効であることを意味します。"
 
 #: ../../admin/config.rst:1410
 msgid "URL where your Weblate instance shows its privacy policy."
@@ -9098,13 +9109,11 @@ msgstr ""
 
 #: ../../admin/config.rst:1563
 msgid "Limits how many notifications for a single user will be sent out."
-msgstr ""
+msgstr "単一のユーザーに送信される通知の最大数を制限します。"
 
 #: ../../admin/config.rst:1565
-#, fuzzy
-#| msgid "Use default setting"
 msgid "The default setting is:"
-msgstr "デフォルト設定の使用"
+msgstr "デフォルト設定は次のとおりです:"
 
 #: ../../admin/config.rst:1586
 msgid ""
@@ -9371,7 +9380,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1826
 msgid "SESSION_COOKIE_AGE_2FA"
-msgstr ""
+msgstr "SESSION_COOKIE_AGE_2FA"
 
 #: ../../admin/config.rst:1830
 #, fuzzy
@@ -9593,12 +9602,16 @@ msgid ""
 "A set of hosts to allow when configuring VCS URL. Defaults to an empty set "
 "what does no filtering at all."
 msgstr ""
+"VCS URL を設定する際に許可するホストのセット。デフォルトは空セットで、"
+"フィルタリングを全く行いません。"
 
 #: ../../admin/config.rst:2065
 msgid ""
 "A set of hosts to allow when configuring VCS URL. Only ``https`` and ``ssh`` "
 "are allowed by default."
 msgstr ""
+"VCS URL 設定時に許可されるホストのセット。デフォルトで許可されるのは "
+"``https`` と ``ssh`` のみです。"
 
 #: ../../admin/config.rst:2074
 msgid ""
@@ -9965,18 +9978,24 @@ msgid ""
 "The extraction generates template (for example gettext POT is generated "
 "using :program:`xgettext`)."
 msgstr ""
+"抽出によりテンプレートが生成されます（例: gettext POT は :program:`xgettext` "
+"を使用して生成されます）。"
 
 #: ../../admin/continuous.rst:128
 msgid ""
 "Further process merges it into actual translations (the gettext PO files are "
 "updated using :program:`msgmerge`)."
 msgstr ""
+"その後のプロセスで、それは実際の翻訳にマージされます（gettext PO ファイルは "
+":program:`msgmerge` を使用して更新されます）。"
 
 #: ../../admin/continuous.rst:130
 msgid ""
 "You can perform the second step within Weblate and it will ensure that all "
 "pending changes are included before this operation."
 msgstr ""
+"この第2ステップは Weblate 内部で実行でき、その操作の前にすべての保留中の変更"
+"が含まれることを保証します。"
 
 #: ../../admin/continuous.rst:136
 msgid "Avoiding merge conflicts by locking Weblate while doing outside changes"
@@ -10227,6 +10246,8 @@ msgstr "問題解決方法"
 #: ../../admin/continuous.rst:267
 msgid "Check `GitLab webhook request history`_ if webhooks are delivered."
 msgstr ""
+"Webhook が配信されているか、`GitLab webhook request history`_ を確認してくだ"
+"さい。"
 
 #: ../../admin/continuous.rst:268
 #, fuzzy
@@ -10716,22 +10737,24 @@ msgstr ""
 "ポーネントで現在の翻訳ユーザーが適切にクレジットされます。"
 
 #: ../../admin/continuous.rst:576
-#, fuzzy
-#| msgid "Translations contributions"
 msgid "Propagation preconditions:"
-msgstr "翻訳に貢献"
+msgstr "伝播の前提条件:"
 
 #: ../../admin/continuous.rst:578
 msgid ""
 "All components have to reside in a single project (linking component is not "
 "enough)."
 msgstr ""
+"すべてのコンポーネントは、単一のプロジェクト内に存在する必要があります（"
+"コンポーネントのリンクでは不十分です）。"
 
 #: ../../admin/continuous.rst:579 ../../devel/mobile.rst:12
 msgid ""
 "Enable :ref:`component-allow_translation_propagation` to automatically reuse "
 "translations for matching strings."
 msgstr ""
+"一致する文字列の翻訳を自動的に再利用するには、:ref:`component-"
+"allow_translation_propagation` を有効にしてください。"
 
 #: ../../admin/continuous.rst:580
 msgid ""
@@ -10746,6 +10769,8 @@ msgid ""
 "The strings are propagated while translating, strings loaded from the "
 "repository are not propagated."
 msgstr ""
+"文字列は翻訳中に伝播されますが、リポジトリからロードされた文字列は伝播されま"
+"せん。"
 
 #: ../../admin/continuous.rst:587
 msgid ""
@@ -10753,6 +10778,9 @@ msgid ""
 "universal. Please share your feedback at https://github.com/WeblateOrg/"
 "weblate/issues/3166."
 msgstr ""
+"この機能には現在、制限事項があります。より普遍的なものにしたいと考えています"
+"ので、ぜひ https://github.com/WeblateOrg/weblate/issues/3166 でご意見をお聞か"
+"せください。"
 
 #: ../../admin/continuous.rst:592
 msgid "Consistency check"
@@ -11409,6 +11437,9 @@ msgid ""
 "The installed ``PyGobject`` package cannot find a matching GObject "
 "Introspection library - ``gobject-introspection-2.0``."
 msgstr ""
+"インストールされている ``PyGobject`` パッケージは、対応する GObject "
+"Introspection ライブラリ - ``gobject-introspection-2.0`` を見つけることができ"
+"ません。"
 
 #: ../../admin/install.rst:305
 #, fuzzy
@@ -11443,6 +11474,9 @@ msgid ""
 "The ``lxml`` and ``xmlsec`` packages have to be built against one "
 "``libxml2``. You should build them locally to avoid this issue:"
 msgstr ""
+"``lxml`` および ``xmlsec`` パッケージは、単一の ``libxml2`` に対してビルドさ"
+"れる必要があります。この問題を回避するには、それらをローカルでビルドしてくだ"
+"さい:"
 
 #: ../../admin/install.rst:327
 msgid "Other system requirements"
@@ -11742,6 +11776,8 @@ msgid ""
 "The support for MySQL and MariaDB is being considered for removal. Please "
 "see https://github.com/WeblateOrg/weblate/issues/16140 for more info."
 msgstr ""
+"MySQL および MariaDB のサポートは、廃止が検討されています。詳細については、"
+"https://github.com/WeblateOrg/weblate/issues/16140 を参照してください。"
 
 #: ../../admin/install.rst:435
 msgid ""
@@ -12096,12 +12132,17 @@ msgid ""
 "Weblate. When using reverse proxy, please make sure that the needed "
 "information is correctly passed."
 msgstr ""
+"Weblate のいくつかの機能は、正しい HTTP ヘッダーが Weblate に渡されることに依"
+"存します。リバースプロキシを使用する場合は、必要な情報が正しく渡されているこ"
+"とを確認してください。"
 
 #: ../../admin/install.rst:724
 msgid ""
 "To debug this configuration, you can look at :guilabel:`HTTP environment` "
 "in :ref:`manage-performance`."
 msgstr ""
+"この設定のデバッグには、:ref:`manage-performance` 内の :guilabel:`HTTP "
+"environment` を確認してください。"
 
 #: ../../admin/install.rst:727
 msgid "Client IP address"
@@ -12126,6 +12167,10 @@ msgid ""
 "reverse proxy address, so Weblate needs an additional HTTP header with a "
 "client IP address."
 msgstr ""
+"Weblate は、WSGI ハンドラによって設定される ``REMOTE_ADDR`` から IP アドレス"
+"を解析します。これは、空の場合（WSGI にソケットを使用時）や、リバースプロキシ"
+"のアドレスを含む場合があるため、Weblate にはクライアント IP アドレスを含む追"
+"加の HTTP ヘッダーが必要です。"
 
 #: ../../admin/install.rst:735
 msgid ""
@@ -12142,6 +12187,8 @@ msgid ""
 "address spoofing on installations that don't have a properly configured "
 "reverse proxy."
 msgstr ""
+"この設定をデフォルトでオンにすることはできません。適切に設定されていない"
+"リバースプロキシ環境では、IP アドレスのスプーフィングを許してしまうためです。"
 
 #: ../../admin/install.rst:746
 #, fuzzy
@@ -12173,6 +12220,8 @@ msgid ""
 "CSRF verification failed errors are often caused by a mismatch between "
 "the :http:header:`Host` header and configured :setting:`SITE_DOMAIN`."
 msgstr ""
+"CSRF 検証失敗エラーは、:http:header:`Host` ヘッダーと設定された "
+":setting:`SITE_DOMAIN` の間の不一致によって引き起こされることが良くあります。"
 
 #: ../../admin/install.rst:757
 #, fuzzy
@@ -12186,6 +12235,10 @@ msgid ""
 "trying to upgrade client to HTTPS. Make sure it is correctly exposed by the "
 "reverse proxy as :http:header:`X-Forwarded-Proto`."
 msgstr ""
+"正しいプロトコル情報が渡されないと、Weblate がクライアントを HTTPS に"
+"アップグレードしようとしてリダイレクトループに陥る可能性があります。"
+"リバースプロキシによって :http:header:`X-Forwarded-Proto` として正しく公開さ"
+"れていることを確認してください。"
 
 #: ../../admin/install.rst:762
 msgid ""
@@ -12193,6 +12246,9 @@ msgid ""
 "in :setting:`django:SECURE_PROXY_SSL_HEADER` (:file:`settings.py`) "
 "or :envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER` (Docker environment)."
 msgstr ""
+"このヘッダーは、:setting:`django:SECURE_PROXY_SSL_HEADER` "
+"（:file:`settings.py`）または :envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER` とし"
+"て設定される必要があります。"
 
 #: ../../admin/install.rst:768
 msgid ""
@@ -12201,6 +12257,10 @@ msgid ""
 "``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,HTTPS`` are not "
 "interchangeable."
 msgstr ""
+"設定におけるヘッダー値は大文字/小文字を区別するため"
+"、``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,https`` と "
+"``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,HTTPS`` は置き換えられ"
+"ません。"
 
 #: ../../admin/install.rst:775
 msgid ""
@@ -12208,6 +12268,9 @@ msgid ""
 "most likely caused by mismatch between the actual protocol (HTTPS) and what "
 "is observed by Weblate."
 msgstr ""
+"ブラウザで \"Too many redirects\" エラーが出る場合、これは実際のプロトコル（"
+"HTTPS）と Weblate が認識するプロトコルとの不一致が原因である可能性が高いです"
+"。"
 
 #: ../../admin/install.rst:781
 msgid ""
@@ -12215,6 +12278,9 @@ msgid ""
 "in the default configuration, but other WSGI servers have more secure "
 "configuration and require explicit setting of this."
 msgstr ""
+"デフォルト設定では、プロトコルプロキシヘッダーは :program:`gunicorn` によって"
+"自動的に処理されますが、他の WSGI サーバーはより安全な設定を採用しており、こ"
+"の明示的な設定が必要です。"
 
 #: ../../admin/install.rst:785
 msgid ""
@@ -12222,6 +12288,8 @@ msgid ""
 "now requires the explicit configuration "
 "of :envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER`."
 msgstr ""
+"Weblate 5.13 以降、Docker コンテナは :program:`granian` を使用しており、現在"
+"は :envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER` の明示的な設定が必要です。"
 
 #: ../../admin/install.rst:807
 msgid "HTTP proxy"
@@ -12807,6 +12875,8 @@ msgid ""
 "The Weblate container does not include it in the search path, you need to "
 "specify full path to execute it. For example:"
 msgstr ""
+"Weblate コンテナはそれを検索パスに含んでいないため、実行するにはフルパスを指"
+"定する必要があります。例:"
 
 #: ../../admin/install.rst:1330
 msgid ""
@@ -13080,7 +13150,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1505
 msgid "weblate/examples/weblate.nginx.granian.conf"
-msgstr ""
+msgstr "weblate/examples/weblate.nginx.granian.conf"
 
 #: ../../admin/install.rst:1512 ../../admin/install.rst:1624
 #, fuzzy
@@ -13200,12 +13270,17 @@ msgid ""
 "install everything you need to run Granian. When installing Weblate you can "
 "specify it as:"
 msgstr ""
+"Weblate には `wsgi` オプションの依存関係（:ref:`python-deps`）があり、これに"
+"は Granian を実行するために必要なすべてが含まれます。Weblate をインストールす"
+"る際には、次のように指定できます:"
 
 #: ../../admin/install.rst:1615
 msgid ""
 "Once you have Granian installed, you can run it. This is usually done at the "
 "system level. The following examples show starting via systemd:"
 msgstr ""
+"Granian のインストール後、実行可能です。これは通常システムレベルで行われます"
+"。systemd を使った起動例を以下に示します:"
 
 #: ../../admin/install.rst:1630
 #, fuzzy
@@ -13215,13 +13290,15 @@ msgstr "Apache と Gunicorn の設定例"
 
 #: ../../admin/install.rst:1632
 msgid "Gunicorn has to be installed separately:"
-msgstr ""
+msgstr "Gunicorn は別途インストールする必要があります:"
 
 #: ../../admin/install.rst:1638
 msgid ""
 "Once you have Gunicorn installed, you can run it. This is usually done at "
 "the system level. The following examples show starting via systemd:"
 msgstr ""
+"Gunicorn のインストール後、実行可能です。これは通常システムレベルで行われます"
+"。systemd を使った起動例を以下に示します:"
 
 #: ../../admin/install.rst:1656
 msgid "Running Weblate under path"
@@ -13585,6 +13662,9 @@ msgid ""
 "developed for Graylog integration, but can be used with any compliant "
 "logging platform."
 msgstr ""
+"Weblate は GELF TCP プロトコルを使ったログ記録を設定できます。これは Graylog "
+"統合のために開発されましたが、準拠する任意のロギングプラットフォームで利用可"
+"能です。"
 
 #: ../../admin/install.rst:1906
 #, fuzzy
@@ -13886,7 +13966,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:115
 msgid "SSL terminating proxy"
-msgstr ""
+msgstr "SSL終端プロキシ"
 
 #: ../../admin/install/docker.rst:117
 msgid ""
@@ -44083,10 +44163,8 @@ msgid ""
 msgstr ""
 
 #: ../../devel/mobile.rst:8
-#, fuzzy
-#| msgid "CII Best Practices"
 msgid "Best practices:"
-msgstr "CII のベスト プラクティス"
+msgstr "ベストプラクティス:"
 
 #: ../../devel/mobile.rst:10
 msgid "Create one component per platform (e.g., `MyApp Android`, `MyApp iOS`)."
@@ -49938,10 +50016,8 @@ msgstr ""
 #: ../../security/localization-threat.rst:74
 #: ../../security/localization-threat.rst:85
 #: ../../security/localization-threat.rst:96
-#, fuzzy
-#| msgid "Integration services"
 msgid "Mitigations:"
-msgstr "連携サービス"
+msgstr "軽減策:"
 
 #: ../../security/localization-threat.rst:24
 #, fuzzy
@@ -50304,10 +50380,8 @@ msgid ""
 msgstr ""
 
 #: ../../security/passwords.rst:20
-#, fuzzy
-#| msgid "Per project configuration file"
 msgid "The recommended Weblate configuration verifies:"
-msgstr "プロジェクト別の構成ファイル"
+msgstr "推奨される Weblate 設定の検証項目:"
 
 #: ../../security/passwords.rst:22
 #, fuzzy
@@ -53567,10 +53641,8 @@ msgid "reStructuredText syntax error in the translation."
 msgstr "翻訳に reStructuredText の構文エラーがあります。"
 
 #: ../../user/checks.rst:1621
-#, fuzzy
-#| msgid "reStructuredText syntax error in the translation."
 msgid "reStructuredText syntax error in the translation. Issues to look for:"
-msgstr "翻訳文中の reStructuredText 構文エラー"
+msgstr "翻訳内の reStructuredText 構文エラー。確認すべき問題点:"
 
 #: ../../user/checks.rst:1623
 #, fuzzy

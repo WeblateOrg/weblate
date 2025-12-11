@@ -197,6 +197,7 @@ module.exports = {
         "fonts/fonts.js.license": fontsLicenseTransform,
         "../../styles/vendor/fonts/fonts.css.license": fontsLicenseTransform,
         "bootstrap5.js.license": bootstrapLicenseTransform,
+        "bootstrap5_rtl.js.license": bootstrapLicenseTransform,
         "../../styles/vendor/bootstrap5.css.license": bootstrapLicenseTransform,
         "../../styles/vendor/bootstrap5_rtl.css.license":
           bootstrapLicenseTransform,

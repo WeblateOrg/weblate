@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-06 20:30+0100\n"
-"PO-Revision-Date: 2025-12-03 20:00+0000\n"
+"PO-Revision-Date: 2025-12-09 04:00+0000\n"
 "Last-Translator: Максим Горпиніч <gorpinicmaksim0@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -31,8 +31,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : "
-"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n%10>"
+"=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 5.15-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
@@ -2794,7 +2794,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:461
 msgid "Fedora Messaging"
-msgstr ""
+msgstr "Повідомлення Fedora"
 
 #: ../../admin/addons.rst:467 ../../admin/addons.rst:1190
 #: ../../admin/addons.rst:1221 ../../admin/addons.rst:1347
@@ -2803,48 +2803,47 @@ msgstr "Події зміни"
 
 #: ../../admin/addons.rst:469
 msgid "AMQP broker host"
-msgstr ""
+msgstr "Хост брокера AMQP"
 
 #: ../../admin/addons.rst:469
 msgid "The AMQP broker to connect to."
-msgstr ""
+msgstr "Брокер AMQP для підключення."
 
 #: ../../admin/addons.rst:471
 msgid "Use SSL for AMQP connection"
-msgstr ""
+msgstr "Використовуйте SSL для з'єднання AMQP"
 
 #: ../../admin/addons.rst:473
 msgid "CA certificates"
-msgstr ""
+msgstr "Сертифікати CA"
 
 #: ../../admin/addons.rst:473
 msgid ""
 "Bundle of PEM encoded CA certificates used to validate the certificate "
 "presented by the server."
 msgstr ""
+"Пакет сертифікатів CA, закодованих у форматі PEM, що використовуються для "
+"перевірки сертифіката, наданого сервером."
 
 #: ../../admin/addons.rst:475
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Client ID"
 msgid "Client SSL key"
-msgstr "Ідентифікатор клієнта"
+msgstr "SSL-ключ клієнта"
 
 #: ../../admin/addons.rst:475
 msgid "PEM encoded client private SSL key."
-msgstr ""
+msgstr "Приватний SSL-ключ клієнта, закодований у PEM."
 
 #: ../../admin/addons.rst:477
 msgid "Client SSL certificates"
-msgstr ""
+msgstr "SSL-сертифікати клієнта"
 
 #: ../../admin/addons.rst:477
 msgid "PEM encoded client SSL certificate."
-msgstr ""
+msgstr "SSL-сертифікат клієнта, закодований PEM."
 
 #: ../../admin/addons.rst:481
 msgid "Sends notifications to a Fedora Messaging compatible AMQP exchange."
-msgstr ""
+msgstr "Надсилає сповіщення на обмін AMQP, сумісний з Fedora Messaging."
 
 #: ../../admin/addons.rst:483
 msgid ""
@@ -2857,10 +2856,8 @@ msgstr ""
 "на основі змін, які відбуваються у Weblate."
 
 #: ../../admin/addons.rst:487
-#, fuzzy
-#| msgid "Message"
 msgid "Message topic"
-msgstr "Повідомлення"
+msgstr "Тема повідомлення"
 
 #: ../../admin/addons.rst:489
 msgid ""
@@ -2869,28 +2866,30 @@ msgid ""
 "with underscores instead of space, for example ``resource_update``, all "
 "other parts are optional and represent slug of the object or a language code."
 msgstr ""
+"Усі повідомлення мають тему ``weblate.<action>.<project>.<component>"
+".<translation>``. Дія — це текстове представлення дії у нижньому регістрі з "
+"підкресленнями замість пробілів, наприклад, ``resource_update``, всі інші "
+"частини є необов'язковими та представляють собою коротке ім'я об'єкта або "
+"код мови."
 
 #: ../../admin/addons.rst:496
-#, fuzzy
-#| msgid "Message"
 msgid "Message body"
-msgstr "Повідомлення"
+msgstr "Текст повідомлення"
 
 #: ../../admin/addons.rst:498
 msgid ""
 "The body consists of following fields (given that they are available for the "
 "event):"
 msgstr ""
+"Тіло складається з наступних полів (за умови, що вони доступні для події):"
 
 #: ../../admin/addons.rst:501
 msgid "Numerical ID of change"
 msgstr "Числовий ідентифікатор зміни"
 
 #: ../../admin/addons.rst:503 ../../admin/addons.rst:531
-#, fuzzy
-#| msgid "English name of the language"
 msgid "Verbose name of the change."
-msgstr "Англійська назва мови"
+msgstr "Детальна назва зміни."
 
 #: ../../admin/addons.rst:505
 msgid "ISO formatted timestamp"
@@ -2905,16 +2904,12 @@ msgid "Old value of the change (eg. previous translation of the string)"
 msgstr "Старе значення зміни (тобто попередній переклад рядка)"
 
 #: ../../admin/addons.rst:511
-#, fuzzy
-#| msgid "Source string"
 msgid "Source string."
-msgstr "Джерельні рядки"
+msgstr "Вихідний рядок."
 
 #: ../../admin/addons.rst:513
-#, fuzzy
-#| msgid "Absolute URL to view the related object"
 msgid "Absolute URL to view the related object."
-msgstr "Абсолютна адреса для перегляду пов'язаного об'єкта"
+msgstr "Абсолютна адреса для перегляду пов'язаного об'єкта."
 
 #: ../../admin/addons.rst:515
 msgid ""
@@ -2925,10 +2920,8 @@ msgstr ""
 "затвердженні пропозицій)"
 
 #: ../../admin/addons.rst:517
-#, fuzzy
-#| msgid "*Acting username*"
 msgid "Acting username"
-msgstr "*Ім'я користувача, яким внесено зміну*"
+msgstr "Ім'я користувача, яким внесено зміну"
 
 #: ../../admin/addons.rst:519 ../../admin/addons.rst:533
 #: ../../admin/projects.rst:1199 ../../api.rst:888 ../../api.rst:1889
@@ -2950,63 +2943,47 @@ msgid "Translation language code"
 msgstr "Код мови перекладу"
 
 #: ../../admin/addons.rst:526
-#, fuzzy
-#| msgid "Response Headers"
 msgid "Message headers"
-msgstr "Заголовки відповіді"
+msgstr "Заголовки повідомлень"
 
 #: ../../admin/addons.rst:528
 msgid ""
 "There are additional headers which you might utilize for routing as well:"
 msgstr ""
+"Існують додаткові заголовки, які ви також можете використовувати для "
+"маршрутизації:"
 
 #: ../../admin/addons.rst:538
-#, fuzzy
-#| msgid "Example files"
 msgid "Example messages"
-msgstr "Файли прикладів"
+msgstr "Приклади повідомлень"
 
 #: ../../admin/addons.rst:540
-#, fuzzy
-#| msgid "Repository merged"
 msgid "Repository merge event:"
-msgstr "Сховища об'єднано"
+msgstr "Подія злиття репозиторію:"
 
 #: ../../admin/addons.rst:552
-#, fuzzy
-#| msgid "New source string"
 msgid "New source string event:"
-msgstr "Новий рядок первини"
+msgstr "Нова подія вихідного рядка:"
 
 #: ../../admin/addons.rst:566
-#, fuzzy
-#| msgid "Resource updated"
 msgid "Resource update event:"
-msgstr "Ресурс оновлено"
+msgstr "Подія оновлення ресурсу:"
 
 #: ../../admin/addons.rst:598
-#, fuzzy
-#| msgid "Project removed"
 msgid "Project removal event:"
-msgstr "Проєкт вилучено"
+msgstr "Подія вилучення проекту:"
 
 #: ../../admin/addons.rst:610
-#, fuzzy
-#| msgid "New contributor"
 msgid "New contributor event:"
-msgstr "Новий учасник"
+msgstr "Подія для нових учасників:"
 
 #: ../../admin/addons.rst:627
-#, fuzzy
-#| msgid "New translation"
 msgid "New translation event:"
-msgstr "Новий переклад"
+msgstr "Нова подія перекладу:"
 
 #: ../../admin/addons.rst:647
-#, fuzzy
-#| msgid "Configuring Weblate"
 msgid "`Configuring Fedora Messaging`_"
-msgstr "Налаштовування Weblate"
+msgstr "`Налаштування системи обміну повідомленнями Fedora`_"
 
 #: ../../admin/addons.rst:655 ../../user/translating.rst:426
 msgid "Bulk edit"
@@ -3860,10 +3837,8 @@ msgid "Customize YAML output"
 msgstr "Налагодити виведення YAML"
 
 #: ../../admin/addons.rst:1317
-#, fuzzy
-#| msgid "Invalid parameters!"
 msgid "Common add-on parameters"
-msgstr "Неправильні параметри!"
+msgstr "Загальні додаткові параметри"
 
 #: ../../admin/addons.rst:1328 ../../admin/machine.rst:129
 msgid "Amazon Translate"
@@ -4302,10 +4277,8 @@ msgid "go-i18n v2 JSON file"
 msgstr "Файл JSON go-i18n v2"
 
 #: ../../admin/addons.rst:1564
-#, fuzzy
-#| msgid "go-i18n v1 JSON file"
 msgid "go-i18n TOML file"
-msgstr "Файл JSON go-i18n v1"
+msgstr "Файл TOML go-i18n"
 
 #: ../../admin/addons.rst:1566
 msgid "gotext JSON file"
@@ -4376,10 +4349,8 @@ msgid "Mobile Kotlin Resource"
 msgstr "Мобільний ресурс Kotlin"
 
 #: ../../admin/addons.rst:1600
-#, fuzzy
-#| msgid "gotext JSON file"
 msgid "Nextcloud JSON file"
-msgstr "файл JSON gotext"
+msgstr "JSON-файл Nextcloud"
 
 #: ../../admin/addons.rst:1602
 msgid "OpenDocument file"
@@ -4422,10 +4393,8 @@ msgid "RC file"
 msgstr "Файл RC"
 
 #: ../../admin/addons.rst:1622
-#, fuzzy
-#| msgid "JSON file"
 msgid "RESJSON file"
-msgstr "Файл JSON"
+msgstr "Файл RESJSON"
 
 #: ../../admin/addons.rst:1624
 msgid "ResourceDictionary file"
@@ -4468,10 +4437,8 @@ msgid "TermBase eXchange file"
 msgstr "Файл TermBase eXchange"
 
 #: ../../admin/addons.rst:1644
-#, fuzzy
-#| msgid "HTML file"
 msgid "TOML file"
-msgstr "Файл HTML"
+msgstr "TOML-файл"
 
 #: ../../admin/addons.rst:1646
 msgid "Qt Linguist translation file"
@@ -4490,16 +4457,12 @@ msgid "XLIFF 1.2 with placeables support"
 msgstr "XLIFF 1.2 із підтримкою замінників"
 
 #: ../../admin/addons.rst:1654
-#, fuzzy
-#| msgid "XLIFF 1.2 translation file"
 msgid "XLIFF 2.0 translation file"
-msgstr "Файл перекладу XLIFF 1.2"
+msgstr "Файл перекладу XLIFF 2.0"
 
 #: ../../admin/addons.rst:1656
-#, fuzzy
-#| msgid "XLIFF 1.2 with placeables support"
 msgid "XLIFF 2.0 translation file with placeables support"
-msgstr "XLIFF 1.2 із підтримкою замінників"
+msgstr "Файл перекладу XLIFF 2.0 з підтримкою розміщуваних елементів"
 
 #: ../../admin/addons.rst:1658 ../../formats/excel.rst:4
 msgid "Excel Open XML"
@@ -4507,19 +4470,15 @@ msgstr "Excel Open XML"
 
 #: ../../admin/addons.rst:1660
 msgid "XWiki Full Page"
-msgstr ""
+msgstr "Повна сторінка XWiki"
 
 #: ../../admin/addons.rst:1662
-#, fuzzy
-#| msgid "Java properties"
 msgid "XWiki Java Properties"
-msgstr "Властивості Java"
+msgstr "Властивості Java XWiki"
 
 #: ../../admin/addons.rst:1664
-#, fuzzy
-#| msgid "`GWT Properties`"
 msgid "XWiki Page Properties"
-msgstr "`Властивості GWT`"
+msgstr "Властивості сторінки XWiki"
 
 #: ../../admin/addons.rst:1666
 msgid "YAML file"
@@ -15036,6 +14995,8 @@ msgid ""
 "The e-mail based authentication is turned on unless disabled "
 "by :envvar:`WEBLATE_NO_EMAIL_AUTH`."
 msgstr ""
+"Автентифікацію на основі електронної пошти ввімкнено, якщо її не вимкнуто "
+":envvar:`WEBLATE_NO_EMAIL_AUTH`."
 
 #: ../../admin/install/docker.rst:1241
 msgid "LDAP"
@@ -17689,7 +17650,7 @@ msgstr "Azure OpenAI"
 
 #: ../../admin/machine.rst:182
 msgid "LLM model"
-msgstr ""
+msgstr "Модель LLM"
 
 #: ../../admin/machine.rst:184 ../../admin/machine.rst:689
 #: ../../admin/machine.rst:735
@@ -18346,25 +18307,23 @@ msgstr "`Платформа перекладу NetEase Sight <https://sight.youd
 
 #: ../../admin/machine.rst:669
 msgid "Ollama"
-msgstr ""
+msgstr "Ollama"
 
 #: ../../admin/machine.rst:685
 msgid "Base URL of the Ollama API, localhost and port 11434 by default."
-msgstr ""
+msgstr "Базова URL-адреса API Ollama, localhost та порт 11434 за замовчуванням."
 
 #: ../../admin/machine.rst:687
 msgid "Ollama model"
-msgstr ""
+msgstr "Модель Ollama"
 
 #: ../../admin/machine.rst:687
 msgid "Name of the model described in Ollama catalogue."
-msgstr ""
+msgstr "Назва моделі, описаної в каталозі Ollama."
 
 #: ../../admin/machine.rst:694
-#, fuzzy
-#| msgid "Performs translation using `OpenAI`_."
 msgid "Performs translation using `Ollama`_ models."
-msgstr "Виконує переклад за допомогою `OpenAI`_."
+msgstr "Виконує переклад за допомогою моделей `Ollama`_."
 
 #: ../../admin/machine.rst:696
 msgid ""
@@ -18373,27 +18332,24 @@ msgid ""
 "Note that before configuring your models, you should have `Ollama "
 "installed`_ and downloaded the models you wish to use."
 msgstr ""
+"API Ollama дозволяє використовувати моделі з відкритим кодом для перекладів, "
+"встановлені локально або доступні віддалено через сервіс `Ollama`_. Зверніть "
+"увагу, що перед налаштуванням моделей слід встановити `Ollama`_ та "
+"завантажити моделі, які ви хочете використовувати."
 
 #: ../../admin/machine.rst:701
-#, fuzzy
-#| msgid ""
-#| "Use persona and style fields to further fine-tune translations. These "
-#| "will be used in a prompt for OpenAI and allow you to change the style of "
-#| "the translations."
 msgid ""
 "Use persona and style fields to further fine-tune translations. These will "
 "be used in a prompt for Ollama and allow you to change the style of the "
 "translations."
 msgstr ""
-"Скористайтеся полями особи та стилю для подальшого коригування перекладів. "
-"Ці дані буде використано у запиті для OpenAI, їх буде використано для зміни "
-"стилю перекладів."
+"Використовуйте поля персони та стилю для подальшого налаштування перекладів. "
+"Вони будуть використані в запиті для Ollama та дозволять вам змінити стиль "
+"перекладів."
 
 #: ../../admin/machine.rst:709
-#, fuzzy
-#| msgid "`OpenAI models <https://platform.openai.com/docs/models>`_"
 msgid "`Ollama models <https://ollama.com/search>`_"
-msgstr "`Моделі OpenAI <https://platform.openai.com/docs/models>`_"
+msgstr "`Моделі Ollama <https://ollama.com/search>`_"
 
 #: ../../admin/machine.rst:739
 msgid "OpenAI API base URL"
@@ -25696,16 +25652,12 @@ msgid "creation timestamp of the comment"
 msgstr "позначка часу створення коментаря"
 
 #: ../../api.rst:2368
-#, fuzzy
-#| msgid "Create a new comment on the given translation unit."
 msgid "Returns a list of comments on a given translation unit"
-msgstr "Створіть новий коментар до заданої одиниці перекладу."
+msgstr "Повертає список коментарів до заданої одиниці перекладу"
 
 #: ../../api.rst:2373
-#, fuzzy
-#| msgid "content of the new comment"
 msgid "content of the comment"
-msgstr "зміст нового коментаря"
+msgstr "зміст коментаря"
 
 #: ../../api.rst:2384
 msgid "Filtering of changes was introduced in the 4.1 release."
@@ -26635,36 +26587,36 @@ msgid ""
 "Added new Ollama machinery tool for local Ollama AI model integration, "
 "see :ref:`mt-ollama`."
 msgstr ""
+"Додано новий інструмент Ollama для роботи з машинами для локальної "
+"інтеграції моделі штучного інтелекту Ollama, див. :ref:`mt-ollama`."
 
 #: ../../changes.rst:11
-#, fuzzy
-#| msgid ""
-#| "Added :http:post:`/api/units/(int:id)/comments/` to create a new comment "
-#| "for the given translation unit."
 msgid ""
 "Added :http:get:`/api/units/(int:id)/comments/` to get a list of comments "
 "for the given translation unit."
 msgstr ""
-"Додано :http:post:`/api/units/(int:id)/comments/` для створення нового "
-"коментаря для заданого блоку перекладу."
+"Додано :http:get:`/api/units/(int:id)/comments/` для отримання списку "
+"коментарів для заданого блоку перекладу."
 
 #: ../../changes.rst:12
 msgid "Memory contents imported from TMX files include string context."
-msgstr ""
+msgstr "Вміст пам'яті, імпортований з файлів TMX, включає контекст рядків."
 
 #: ../../changes.rst:13
 msgid ""
 ":doc:`/formats/xliff2`, :doc:`/formats/nextcloud-json`, :doc:`/formats/"
 "resjson`, and :doc:`/formats/toml` are now supported file formats."
 msgstr ""
+":doc:`/formats/xliff2`, :doc:`/formats/nextcloud-json`, :doc:`/formats/"
+"resjson` та :doc:`/formats/toml` тепер є підтримуваними форматами файлів."
 
 #: ../../changes.rst:14
-#, fuzzy
-#| msgid ":ref:`addon-weblate.webhook.webhook` is now available as an add-on."
 msgid ""
 ":ref:`addon-weblate.fedora_messaging.publish` integration is now available "
 "as add-on."
-msgstr ":ref:`addon-weblate.webhook.webhook` тепер доступний як доповнення."
+msgstr ""
+"Інтеграція :ref:`addon-weblate.fedora_messaging.publish` тепер доступна як "
+"доповнення."
 
 #: ../../changes.rst:17 ../../changes.rst:85 ../../changes.rst:112
 #: ../../changes.rst:156 ../../changes.rst:205 ../../changes.rst:234
@@ -26801,16 +26753,12 @@ msgstr ""
 "внесення змін."
 
 #: ../../changes.rst:36
-#, fuzzy
-#| msgid "Performance improvements for import."
 msgid "Performance improvements for file upload."
-msgstr "Удосконалення швидкодії для імпортування."
+msgstr "Покращення продуктивності завантаження файлів."
 
 #: ../../changes.rst:37
-#, fuzzy
-#| msgid "Source upload is only supported on the source language."
 msgid "Show glossary matches for the source language."
-msgstr "Завантаження вихідного коду підтримується лише мовою оригіналу."
+msgstr "Показати глосарійні збіги для мови оригіналу."
 
 #: ../../changes.rst:40 ../../changes.rst:183 ../../changes.rst:278
 #: ../../changes.rst:333 ../../changes.rst:456 ../../changes.rst:606
@@ -27072,10 +27020,6 @@ msgid "*Released on November 5th 2025.*"
 msgstr "*Випущено 5 листопада 2025 року.*"
 
 #: ../../changes.rst:109
-#, fuzzy
-#| msgid ""
-#| "String context are now tracked in changes histoy and displayed when "
-#| "available."
 msgid ""
 "String context are now tracked in changes history and displayed when "
 "available."
@@ -48279,20 +48223,18 @@ msgid "`Mobile Kotlin Resource`"
 msgstr "`Mobile Kotlin Resource`"
 
 #: ../../formats/nextcloud-json.rst:2
-#, fuzzy
-#| msgid "gotext JSON file"
 msgid "Nextcloud Apps JSON files"
-msgstr "файл JSON gotext"
+msgstr "JSON-файли Nextcloud Apps"
 
 #: ../../formats/nextcloud-json.rst:8
 msgid "JSON-based format used in Nextcloud Apps that use JavaScript and HTML."
 msgstr ""
+"Формат на основі JSON, який використовується в додатках Nextcloud, що "
+"використовують JavaScript та HTML."
 
 #: ../../formats/nextcloud-json.rst:35
-#, fuzzy
-#| msgid "gotext JSON file"
 msgid "`Nextcloud JSON file`"
-msgstr "файл JSON gotext"
+msgstr "`Nextcloud JSON-файл`"
 
 #: ../../formats/odf.rst:4
 msgid "OpenDocument Format"
@@ -48366,19 +48308,19 @@ msgstr "Типовий :ref:`component` Weblate при використанні 
 
 #: ../../formats/resjson.rst:2
 msgid "JavaScript Resource Files (RESJSON)"
-msgstr ""
+msgstr "Файли ресурсів JavaScript (RESJSON)"
 
 #: ../../formats/resjson.rst:8
 msgid ""
 "JSON-based format used in Windows Store apps that use JavaScript and HTML. "
 "Sometimes it is also referred as Windows JSON."
 msgstr ""
+"Формат на основі JSON, який використовується в додатках Магазину Windows, що "
+"використовують JavaScript та HTML. Іноді його також називають Windows JSON."
 
 #: ../../formats/resjson.rst:35
-#, fuzzy
-#| msgid "JSON file"
 msgid "`RESJSON file`"
-msgstr "Файл JSON"
+msgstr "`Файл RESJSON`"
 
 #: ../../formats/resourcedict.rst:5
 msgid "ResourceDictionary files"
@@ -48594,42 +48536,36 @@ msgid "`TermBase eXchange file`"
 msgstr "`Файл TermBase eXchange`"
 
 #: ../../formats/toml.rst:2
-#, fuzzy
-#| msgid "HTML file"
 msgid "TOML"
-msgstr "Файл HTML"
+msgstr "TOML"
 
 #: ../../formats/toml.rst:8
 msgid ""
 "TOML is a generic format like :doc:`/formats/yaml` or :doc:`/formats/json` "
 "and can be used to localize applications."
 msgstr ""
+"TOML — це загальний формат, такий як :doc:`/formats/yaml` або :doc:`/formats/"
+"json`, і його можна використовувати для локалізації програм."
 
 #: ../../formats/toml.rst:10
-#, fuzzy
-#| msgid "Weblate supports XLIFF in several variants:"
 msgid "Weblate supports TOML in several variants:"
-msgstr "У Weblate передбачено підтримку декількох варіантів XLIFF:"
+msgstr "Weblate підтримує TOML у кількох варіантах:"
 
 #: ../../formats/toml.rst:12 ../../formats/toml.rst:42
-#, fuzzy
-#| msgid "`HTML file`"
 msgid "`TOML file`"
-msgstr "`Файл HTML`"
+msgstr "`TOML-файл`"
 
 #: ../../formats/toml.rst:13
 msgid "Plain TOML file without support for plurals."
-msgstr ""
+msgstr "Звичайний файл TOML без підтримки форм множини."
 
 #: ../../formats/toml.rst:14
-#, fuzzy
-#| msgid "go-i18n v1 JSON file"
 msgid "`go-i18n TOML file`"
-msgstr "Файл JSON go-i18n v1"
+msgstr "`Файл TOML go-i18n`"
 
 #: ../../formats/toml.rst:15
 msgid "go-i18n variant with plurals support."
-msgstr ""
+msgstr "Варіант go-i18n з підтримкою множини."
 
 #: ../../formats/txt.rst:4
 msgid "Text files"
@@ -48718,22 +48654,14 @@ msgid "`RC file`"
 msgstr "`Файл RC`"
 
 #: ../../formats/xliff.rst:4
-#, fuzzy
-#| msgid "XLIFF 1.1"
 msgid "XLIFF 1.1 and 1.2"
-msgstr "XLIFF 1.1"
+msgstr "XLIFF 1.1 і 1.2"
 
 #: ../../formats/xliff.rst:11
-#, fuzzy
-#| msgid ""
-#| "Weblate currently supports XLIFF 1.2. XLIFF 2.0 is not supported and is "
-#| "not backwards compatible with XLIFF 1.2."
 msgid ""
 ":doc:`/formats/xliff2` is a different format and is not backwards compatible "
 "with XLIFF 1.2."
-msgstr ""
-"У поточній версії Weblate передбачено підтримку XLIFF 1.2. Підтримки XLIFF "
-"2.0 не передбачено. Ця версія не є зворотно сумісною з XLIFF 1.2."
+msgstr ":doc:`/formats/xliff2` — це інший формат, який не сумісний з XLIFF 1.2."
 
 #: ../../formats/xliff.rst:13 ../../formats/xliff2.rst:12
 msgid ""
@@ -48979,52 +48907,38 @@ msgid "Typical Weblate :ref:`component` for monolingual XLIFF"
 msgstr "Типовий :ref:`component` Weblate для одномовних XLIFF"
 
 #: ../../formats/xliff2.rst:2
-#, fuzzy
-#| msgid "XLIFF 1.1"
 msgid "XLIFF 2.0"
-msgstr "XLIFF 1.1"
+msgstr "XLIFF 2.0"
 
 #: ../../formats/xliff2.rst:10
 msgid ""
 ":doc:`/formats/xliff` is a different format and is not compatible with XLIFF "
 "2.0."
-msgstr ""
+msgstr ":doc:`/formats/xliff` — це інший формат, який не сумісний з XLIFF 2.0."
 
 #: ../../formats/xliff2.rst:15
-#, fuzzy
-#| msgid ""
-#| "`XML Localization Interchange File Format (XLIFF)` is usually used as "
-#| "bilingual, but Weblate supports it as monolingual as well."
 msgid ""
 "`XML Localization Interchange File Format (XLIFF) 2.0` is currently only "
 "supported as bilingual."
 msgstr ""
-"`XML Localization Interchange File Format (XLIFF)` зазвичай використовується "
-"як двомовний, але у Weblate передбачено підтримку і одномовних варіантів."
+"Формат файлів обміну локалізацією XML (XLIFF) 2.0 наразі підтримується лише "
+"двома мовами."
 
 #: ../../formats/xliff2.rst:20
-#, fuzzy
-#| msgid "XLIFF 1.2 translation file"
 msgid "`XLIFF 2.0 translation file`"
-msgstr "Файл перекладу XLIFF 1.2"
+msgstr "`Файл перекладу XLIFF 2.0`"
 
 #: ../../formats/xliff2.rst:22
-#, fuzzy
-#| msgid "`XLIFF 1.2 with placeables support`"
 msgid "`XLIFF 2.0 with placeables support`"
-msgstr "`XLIFF 1.2 із підтримкою замінників`"
+msgstr "`XLIFF 2.0 з підтримкою розміщуваних елементів`"
 
 #: ../../formats/xliff2.rst:27
-#, fuzzy
-#| msgid "`XML Localization Interchange File Format (XLIFF)`_ specification"
 msgid "`XML Localization Interchange File Format (XLIFF) 2.0`_ specification"
-msgstr "`Формат файлу обміну локалізацією XML (XLIFF)`_ специфікація"
+msgstr "Специфікація `Формату обміну файлами локалізації XML (XLIFF) 2.0`_"
 
 #: ../../formats/xliff2.rst:53
-#, fuzzy
-#| msgid "`XLIFF Translation File`"
 msgid "`XLIFF 2.0 Translation File`"
-msgstr "`файл перекладу XLIFF`"
+msgstr "`Файл Перекладу XLIFF 2.0`"
 
 #: ../../formats/yaml.rst:4
 msgid "YAML files"

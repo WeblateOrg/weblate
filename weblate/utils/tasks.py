@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import gzip
+import locale
 import os
 import shutil
 import subprocess
@@ -45,7 +46,7 @@ def ping():
         "vcs": sorted(VCS_REGISTRY.keys()),
         "formats": sorted(FILE_FORMATS.keys()),
         "mt_services": sorted(MACHINERY.keys()),
-        "encoding": [sys.getfilesystemencoding(), sys.getdefaultencoding()],
+        "encoding": [sys.getfilesystemencoding(), locale.getlocale()[1].lower()],
         "uid": os.getuid(),
         "data_dir": settings.DATA_DIR,
     }
@@ -56,7 +57,7 @@ def heartbeat() -> None:
     cache.set("celery_loaded", time.time())
     cache.set("celery_heartbeat", time.time())
     cache.set(
-        "celery_encoding", [sys.getfilesystemencoding(), sys.getdefaultencoding()]
+        "celery_encoding", [sys.getfilesystemencoding(), locale.getlocale()[1].lower()]
     )
 
 

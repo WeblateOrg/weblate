@@ -2,6 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+import locale
 import platform
 import sys
 
@@ -50,7 +51,7 @@ class Command(BaseCommand):
         )
         self.write_item(
             "OS encoding",
-            f"filesystem={sys.getfilesystemencoding()}, default={sys.getdefaultencoding()}",
+            f"filesystem={sys.getfilesystemencoding()}, default={sys.getdefaultencoding()}, locale={locale.getlocale()[1].lower()}",
         )
         self.write_item(
             "Celery",

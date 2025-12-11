@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import errno
+import locale
 import os
 import sys
 import time
@@ -433,7 +434,11 @@ def check_encoding(
     **kwargs,
 ) -> Iterable[CheckMessage]:
     """Check that the encoding is UTF-8."""
-    if sys.getfilesystemencoding() == "utf-8" and sys.getdefaultencoding() == "utf-8":
+    if (
+        sys.getfilesystemencoding() == "utf-8"
+        and sys.getdefaultencoding() == "utf-8"
+        and locale.getlocale()[1].lower() == "utf-8"
+    ):
         return []
     return [
         weblate_check(

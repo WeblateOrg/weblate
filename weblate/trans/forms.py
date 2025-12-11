@@ -681,6 +681,11 @@ class SimpleUploadForm(FieldDocsMixin, forms.Form):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_tag = False
+        self.helper.layout = Layout(
+            Field("file"),
+            Field("method", template="%s/layout/radioselect_upload_method.html"),
+            Field("fuzzy"),
+        )
 
     def get_field_doc(self, field: forms.Field) -> tuple[str, str] | None:
         return ("user/files", f"upload-{field.name}")
@@ -714,12 +719,21 @@ class UploadForm(SimpleUploadForm):
         initial="replace-translated",
     )
 
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.helper.layout.fields.append(Field("conflicts"))
+
 
 class ExtraUploadForm(UploadForm):
     """Advanced upload form for users who can override authorship."""
 
     author_name = forms.CharField(label=gettext_lazy("Author name"))
     author_email = EmailField(label=gettext_lazy("Author e-mail"))
+
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.helper.layout.fields.append(Field("author_name"))
+        self.helper.layout.fields.append(Field("author_email"))
 
 
 def get_upload_form(user: User, translation: Translation, *args, **kwargs):

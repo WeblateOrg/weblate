@@ -90,6 +90,15 @@ HandlerType = Callable[[dict, Request | None], HandlerResponse | None]
 HOOK_HANDLERS: dict[str, HandlerType] = {}
 
 
+def validate_full_name(full_name: str) -> bool:
+    """
+    Validate that repository full name is suitable for endswith matching.
+
+    This is to avoid using too short expression with possibly too broad matches.
+    """
+    return "/" in full_name and len(full_name) > 5
+
+
 def register_hook(handler: HandlerType) -> HandlerType:
     """Register hook handler."""
     name = handler.__name__.split("_")[0]
@@ -244,12 +253,8 @@ class ServiceHookView(APIView):
         full_name = service_data["full_name"]
 
         # Generate filter
-        spfilter = (
-            Q(repo__in=repos)
-            | Q(repo__iendswith=full_name)
-            | Q(repo__iendswith=f"{full_name}/")
-            | Q(repo__iendswith=f"{full_name}.git")
-        )
+        spfilter = Q(repo__in=repos)
+
         user = User.objects.get_or_create_bot(
             scope="webhook",
             name=service,
@@ -269,10 +274,20 @@ class ServiceHookView(APIView):
             # Include URLs with trailing slash
             spfilter |= Q(repo=repo + "/")
 
-        all_components = repo_components = Component.objects.filter(spfilter)
+        repo_components = Component.objects.filter(spfilter)
+
+        if not repo_components.exists() and validate_full_name(full_name):
+            # Fall back to endswith matching if repository full name is reasonable
+            repo_components = Component.objects.filter(
+                Q(repo__iendswith=full_name)
+                | Q(repo__iendswith=f"{full_name}/")
+                | Q(repo__iendswith=f"{full_name}.git")
+            )
 
         if branch is not None:
             all_components = repo_components.filter(branch=branch)
+        else:
+            all_components = repo_components
 
         all_components_count = all_components.count()
         repo_components_count = repo_components.count()
@@ -407,12 +422,15 @@ def bitbucket_hook_helper(data, request: Request | None) -> HandlerResponse | No
             templates = BITBUCKET_HG_REPOS
         else:
             templates = BITBUCKET_GIT_REPOS
-        # Construct possible repository URLs
-        for repo in templates:
-            repos.extend(
-                repo.format(full_name=full_name, server=server)
-                for server in repo_servers
-            )
+
+        # Construct possible repository URLs if full name is valid
+        # We will fail with ValueError later if not
+        if validate_full_name(full_name):
+            for repo in templates:
+                repos.extend(
+                    repo.format(full_name=full_name, server=server)
+                    for server in repo_servers
+                )
 
     if not repos:
         LOGGER.error("unsupported repository: %s", repr(data["repository"]))
@@ -605,5 +623,6 @@ def azure_hook_helper(data: dict, request: Request | None) -> HandlerResponse | 
         "repo_url": http_url,
         "repos": repos,
         "branch": branch,
+        # Using just a repository name will avoid using endswith matching here
         "full_name": repository,
     }

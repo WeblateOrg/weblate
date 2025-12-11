@@ -59,11 +59,6 @@ class FedoraMessagingAddon(ChangeBaseAddon):
     ) -> dict | None:
         config = self.instance.configuration
 
-        # Filter event
-        events = {int(event) for event in config["events"]}
-        if change.action not in events:
-            return None
-
         # Apply configuration
         self.configure_fedora_messaging(
             amqp_host=config["amqp_host"],

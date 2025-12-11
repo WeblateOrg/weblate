@@ -120,11 +120,16 @@ Running the script without arguments will re-create the Docker container and res
    This container is not suitable for production use. Security is sacrificed to
    make the development easier.
 
+.. _devel-demo:
+
 Bootstrapping your devel instance
 ---------------------------------
 
 You might want to use :wladmin:`import_demo` to create demo translations and
 :wladmin:`createadmin` to make an admin user.
+
+If you have :ref:`billing` installed as well, you can use
+:wladmin:`billing_demo` to create a demo billing project.
 
 Coding Weblate with PyCharm
 ---------------------------

@@ -88,22 +88,18 @@ class JSONWebhookBaseAddon(ChangeBaseAddon):
         self, change: Change, activity_log_id: int | None = None
     ) -> dict | None:
         """Deliver notification message."""
-        config = self.instance.configuration
-        events = {int(event) for event in config["events"]}
-        if change.action in events:
-            payload = self.build_webhook_payload(change)
-            headers = self.build_headers(change, payload)
-            response = self.send_message(change, headers, payload)
+        payload = self.build_webhook_payload(change)
+        headers = self.build_headers(change, payload)
+        response = self.send_message(change, headers, payload)
 
-            return {
-                "request": {"headers": headers, "payload": payload},
-                "response": {
-                    "status_code": response.status_code,
-                    "content": response.text,
-                    "headers": dict(response.headers),
-                },
-            }
-        return None
+        return {
+            "request": {"headers": headers, "payload": payload},
+            "response": {
+                "status_code": response.status_code,
+                "content": response.text,
+                "headers": dict(response.headers),
+            },
+        }
 
 
 class WebhookAddon(JSONWebhookBaseAddon):

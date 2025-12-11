@@ -1236,6 +1236,7 @@ $(function () {
   const tribute = new Tribute({
     trigger: "@",
     requireLeadingSpace: true,
+    /* The length should match validation in API */
     menuShowMinLength: 2,
     searchOpts: {
       pre: "​",
@@ -1346,7 +1347,6 @@ $(function () {
           ),
           "info",
           3000,
-          true,
         );
       });
     });
@@ -1631,7 +1631,7 @@ $(function () {
 
   /* Allow styling of auth icons that we ship */
   document.querySelectorAll(".auth-image").forEach((el) => {
-    src = el.getAttribute("src");
+    const src = el.getAttribute("src");
     if (src !== null) {
       if (
         src.endsWith("password.svg") ||
@@ -1698,6 +1698,10 @@ $(function () {
       // hide the field if no matching file format parameter is visible
       file_format_params_fields_ids.forEach((fieldId) => {
         form.find(fieldId).toggle(displayFieldLabel);
+      });
+    } else {
+      file_format_params_fields_ids.forEach((fieldId) => {
+        form.find(fieldId).hide();
       });
     }
   }

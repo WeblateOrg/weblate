@@ -18,20 +18,20 @@
   <div class="row">
 
     <div class="col-lg-6" id="billing-{{ billing.pk }}">
-      <div class="panel {% if not billing.is_active %}panel-default{% elif not billing.paid or not billing.in_limits %}panel-danger{% else %}panel-default{% endif %}">
-        <div class="card-header">
+      <div class="card">
+        <div class="card-header {% if not billing.paid or not billing.in_limits %}text-bg-danger{% endif %}">
           <h4 class="card-title">
             <a class="float-end doc-link" href="https://weblate.org/hosting/">{% icon "info.svg" %}</a>
             {% translate "Billing plan" %}
             {% if billing.payment.recurring %}
-              <span class="badge">{% translate "Recurring payment" %}</span>
+              <span class="badge text-bg-secondary">{% translate "Recurring payment" %}</span>
             {% endif %}
             {% if not billing.is_active %}
-              <span class="badge">{% translate "Expired" %}</span>
+              <span class="badge text-bg-secondary">{% translate "Expired" %}</span>
             {% elif not billing.paid %}
-              <span class="badge">{% translate "Past due date" %}</span>
+              <span class="badge text-bg-secondary">{% translate "Past due date" %}</span>
             {% elif not billing.in_limits %}
-              <span class="badge">{% translate "Exceeds limits" %}</span>
+              <span class="badge text-bg-secondary">{% translate "Exceeds limits" %}</span>
             {% endif %}
           </h4>
         </div>
@@ -149,7 +149,7 @@
               <h4 class="card-title">
                 {% translate "Libre hosting" %}
                 {% if billing.is_libre_trial and billing.payment.libre_request %}
-                  <span class="badge">{% translate "Pending approval" %}</span>
+                  <span class="badge text-bg-secondary">{% translate "Pending approval" %}</span>
                 {% endif %}
               </h4>
             </div>
