@@ -2954,7 +2954,7 @@ class ComponentAPITest(APIBaseTest):
         component = Component.objects.get(**self.component_kwargs)
         translation = component.translation_set.first()
         unit, unit2 = translation.unit_set.all()[:2]
-        
+
         unit.translate(self.user, "First change", STATE_TRANSLATED)
         unit2.translate(self.user, "Second change", STATE_TRANSLATED)
 
