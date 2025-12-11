@@ -380,9 +380,8 @@ class WeblateViewSet(DownloadViewSet):
 
         data["pending_units"] = PendingUnitChange.objects.detailed_count(obj)
 
-        serializer = RepositorySerializer(data=data)
-        serializer.is_valid(raise_exception=True)
-        return Response(serializer.validated_data)
+        serializer = RepositorySerializer(data)
+        return Response(serializer.data)
 
 
 class MultipleFieldViewSet(WeblateViewSet):
