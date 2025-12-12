@@ -502,6 +502,11 @@ class CSVSimpleEncoding(BaseFileFormatParam):
     default = "auto"
     help_text = gettext_lazy("Encoding used for simple CSV files")
 
+    def setup_store(self, store: TranslationStore, **file_format_params) -> None:
+        encoding = self.get_value(file_format_params)
+        if encoding != "auto":
+            store.encoding = encoding
+
 
 @register_file_format_param
 class GWTEncoding(BaseFileFormatParam):

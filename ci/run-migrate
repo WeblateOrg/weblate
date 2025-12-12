@@ -147,6 +147,8 @@ Component.objects.bulk_create([
     Component(name="CSV Simple Auto", slug="csv-simple-auto", project_id=1, repo="weblate://test/csvsimpleauto", file_format="csv-simple", filemask="csv-simple/*.csv"),
     Component(name="CSV Simple UTF-8", slug="csv-simple-utf-8", project_id=1, repo="weblate://test/csvsimpleutf-8", file_format="csv-simple-utf-8", filemask="csv-simple/*.csv"),
     Component(name="CSV Simple ISO 8859-1", slug="csv-simple-iso8859-1", project_id=1, repo="weblate://test/csvsimpleiso8859-1", file_format="csv-simple-iso", filemask="csv-simple/*.csv"),
+    Component(name="GWT ISO 8859-1", slug="gwt-iso", project_id=1, repo="weblate://test/gwtiso", file_format="gwt-iso", filemask="gwt/*.properties"),
+    Component(name="GWT UTF-8", slug="gwt-utf-8", project_id=1, repo="weblate://test/gwtutf-8", file_format="gwt", filemask="gwt/*.properties"),
 ])
 EOF
     check
@@ -225,5 +227,7 @@ assert Component.objects.get(slug="csv-utf-8", file_format="csv").file_format_pa
 assert Component.objects.get(slug="csv-simple-auto", file_format="csv-simple").file_format_params["csv_simple_encoding"] == "auto"
 assert Component.objects.get(slug="csv-simple-utf-8", file_format="csv-simple").file_format_params["csv_simple_encoding"] == "utf-8"
 assert Component.objects.get(slug="csv-simple-iso8859-1", file_format="csv-simple").file_format_params["csv_simple_encoding"] == "iso-8859-1"
+assert Component.objects.get(slug="gwt-iso", file_format="gwt").file_format_params["gwt_encoding"] == "iso-8859-1"
+assert Component.objects.get(slug="gwt-utf-8", file_format="gwt").file_format_params["gwt_encoding"] == "utf-8"
 EOF
 fi
