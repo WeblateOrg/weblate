@@ -47,6 +47,16 @@ FILE_FORMAT_MAPPING: dict[str, tuple[str, dict[str, str]]] = {
         "csv-simple",
         {"csv_simple_encoding": "utf-8"},
     ),
+    "gwt-iso": {
+        "gwt": {
+            "gwt_encoding": "iso-8859-1",
+        }
+    },
+    "gwt": {
+        "gwt": {
+            "gwt_encoding": "utf-8",
+        }
+    },
 }
 
 
@@ -59,7 +69,7 @@ def merge_file_format_with_encoding(apps, schema_editor):
     ):
         new_file_format, file_format_params = FILE_FORMAT_MAPPING[component.file_format]
         component.file_format = new_file_format
-        component.file_format_params = file_format_params
+        component.file_format_params.update(file_format_params)
         to_update.append(component)
 
     Component.objects.bulk_update(to_update, ["file_format", "file_format_params"])
@@ -67,7 +77,7 @@ def merge_file_format_with_encoding(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("trans", "0057_alter_component_push_alter_component_repo"),
+        ("trans", "0058_alter_component_push_branch"),
     ]
 
     operations = [
