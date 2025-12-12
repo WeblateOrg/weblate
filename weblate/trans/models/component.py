@@ -2144,9 +2144,9 @@ class Component(
     @perform_on_link
     def do_cleanup(self, request: AuthenticatedHttpRequest | None = None) -> bool:
         """Clean up the repository."""
+        self.log_info("cleaning up the repo")
         with self.repository.lock:
             try:
-                self.log_info("cleaning up the repo")
                 self.repository.cleanup()
             except RepositoryError:
                 report_error(
@@ -2160,7 +2160,12 @@ class Component(
                 )
                 return False
 
-            return True
+        self.change_set.create(
+            action=ActionEvents.REPO_CLEANUP,
+            user=self.acting_user or (request.user if request else None),
+        )
+
+        return True
 
     @perform_on_link
     @transaction.atomic
