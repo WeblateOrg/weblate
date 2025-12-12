@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-06 20:30+0100\n"
-"PO-Revision-Date: 2025-12-11 13:24+0000\n"
+"PO-Revision-Date: 2025-12-13 02:00+0000\n"
 "Last-Translator: Takeru Mikenu <mikenu-jp@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -16175,6 +16175,9 @@ msgid ""
 "meant to be stable. Please review your custom code interacting with Weblate "
 "internals on each upgrade."
 msgstr ""
+"Weblate の内部 API はリリース間で大幅に異なる可能性があり、安定していることを"
+"意図していません。アップグレードの際は、Weblate 内部と連携するカスタムコード"
+"を必ずレビューしてください。"
 
 #: ../../admin/install/docker.rst:2280
 msgid ""
@@ -16183,18 +16186,27 @@ msgid ""
 "inside Weblate (this is used for customizing templates and static files as "
 "described above)."
 msgstr ""
+"追加の Python コードを :file:`/app/data/python/customize` に配置できます"
+"（:ref:`docker-volume` 参照）。これは Weblate 内部に Django アプリケーション"
+"としてすでにインストールされています（前述のとおり、テンプレートや静的"
+"ファイルをカスタマイズするために使用されます）。"
 
 #: ../../admin/install/docker.rst:2285
 msgid ""
 "This can be used to place any code (for example :ref:`own-checks`) or to add "
 "custom maintenance tasks to the Celery task scheduler."
 msgstr ""
+"これは、任意のコード（例: :ref:`own-checks`）を配置したり、Celery "
+"タスクスケジューラにカスタムのメンテナンスタスクを追加するために使用できます"
+"。"
 
 #: ../../admin/install/docker.rst:2288
 msgid ""
 "An example of custom scheduled tasks in :file:`/app/data/python/customize/"
 "tasks.py`."
 msgstr ""
+":file:`/app/data/python/customize/tasks.py` のカスタムスケジュールタスクの例"
+"。"
 
 #: ../../admin/install/docker.rst:2293
 #, fuzzy
@@ -16209,6 +16221,10 @@ msgid ""
 "or other tools that enhance the translation workflow. These services can be "
 "integrated into your Docker Compose configuration and work alongside Weblate."
 msgstr ""
+"Weblate の Docker セットアップは、機械翻訳、スペルチェック、または翻訳"
+"ワークフローを強化するその他のツールといった補完サービスを提供するために、追"
+"加のコンテナで拡張できます。これらのサービスは、Docker Compose 設定に統合し、"
+"Weblate と連携して動作します。"
 
 #: ../../admin/install/docker.rst:2300
 #, fuzzy
@@ -16221,17 +16237,23 @@ msgid ""
 "**Network connectivity**: Ensure containers can communicate with each other "
 "by placing them on the same Docker network"
 msgstr ""
+"**ネットワーク接続**: コンテナ同士を同じ Docker ネットワーク上に配置し、相互"
+"に通信できることを確保してください"
 
 #: ../../admin/install/docker.rst:2303
 msgid ""
 "**Data persistence**: Use volumes for services that need to persist data"
 msgstr ""
+"**データの永続化**: データを永続化する必要があるサービスには、ボリュームを使"
+"用してください"
 
 #: ../../admin/install/docker.rst:2304
 msgid ""
 "**Security**: Configure appropriate access controls and avoid exposing "
 "unnecessary ports"
 msgstr ""
+"**セキュリティ**: 適切なアクセス制御を設定し、不要なポートの公開は避けてくだ"
+"さい"
 
 #: ../../admin/install/docker.rst:2309
 #, fuzzy
@@ -16246,6 +16268,9 @@ msgid ""
 "Weblate provides offline machine translation capabilities without relying on "
 "external services."
 msgstr ""
+"`LibreTranslate <https://libretranslate.com/>`_ は、セルフホストが可能な無料"
+"のオープンソース機械翻訳サービスです。Weblate と統合することで、外部サービス"
+"に依存することなくオフラインでの機械翻訳機能を提供できます。"
 
 #: ../../admin/install/docker.rst:2315
 msgid ""
