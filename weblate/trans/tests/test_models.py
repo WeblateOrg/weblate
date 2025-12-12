@@ -6,6 +6,7 @@
 
 import os
 from datetime import timedelta
+from pathlib import Path
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core.management.color import no_style
@@ -38,6 +39,7 @@ from weblate.trans.tests.utils import (
     RepoTestMixin,
     create_another_user,
     create_test_user,
+    get_test_file,
 )
 from weblate.utils.django_hacks import immediate_on_commit, immediate_on_commit_leave
 from weblate.utils.files import remove_tree
@@ -1029,4 +1031,25 @@ class PendingUnitChangeTest(RepoTestCase):
         self.assertEqual(
             set(components.values_list("pk", flat=True)),
             {self.component.pk, self.component3.pk},
+        )
+
+
+class AutomaticallyTranslatedFromFileTest(RepoTestCase):
+    def test_xliff_state_qualifier_loaded_to_database(self) -> None:
+        """Test that XLIFF state-qualifier is loaded as automatically_translated flag."""
+        component = self.create_xliff()
+        translation = component.translation_set.get(language_code="cs")
+
+        content = Path(get_test_file("cs-auto.xliff")).read_text(encoding="utf-8")
+        Path(translation.get_filename()).write_text(content, encoding="utf-8")
+        translation.check_sync(force=True)
+
+        self.assertTrue(
+            translation.unit_set.get(source="Hello").automatically_translated
+        )
+        self.assertTrue(
+            translation.unit_set.get(source="World").automatically_translated
+        )
+        self.assertFalse(
+            translation.unit_set.get(source="Car").automatically_translated
         )
