@@ -47,16 +47,14 @@ FILE_FORMAT_MAPPING: dict[str, tuple[str, dict[str, str]]] = {
         "csv-simple",
         {"csv_simple_encoding": "utf-8"},
     ),
-    "gwt-iso": {
-        "gwt": {
-            "gwt_encoding": "iso-8859-1",
-        }
-    },
-    "gwt": {
-        "gwt": {
-            "gwt_encoding": "utf-8",
-        }
-    },
+    "gwt-iso": (
+        "gwt",
+        {"gwt_encoding": "iso-8859-1"},
+    ),
+    "gwt": (
+        "gwt",
+        {"gwt_encoding": "utf-8"},
+    ),
 }
 
 
