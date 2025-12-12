@@ -699,6 +699,21 @@ form + .login-label {
   right: 15px;
   transform: translateY(-100%);
   z-index: 10;
+  width: fit-content;
+}
+
+[dir="rtl"] .btn-float {
+  right: auto;
+  left: 15px;
+}
+
+.col-sm-9 .btn-float {
+  right: 25%;
+}
+
+[dir="rtl"] .btn-float {
+  right: auto;
+  left: 25%;
 }
 
 #nearby,
@@ -714,6 +729,7 @@ form + .login-label {
   .btn-float {
     box-shadow: none;
     transform: none;
+    position: static;
   }
 
   #comments #comment-section {
