@@ -292,6 +292,10 @@ class TranslationUnit:
         """Check whether unit is read-only."""
         return False
 
+    def is_automatically_translated(self) -> bool:
+        """Check whether unit is automatically translated."""
+        return False
+
     def set_target(self, target: str | list[str]) -> None:
         """Set translation unit target."""
         raise NotImplementedError

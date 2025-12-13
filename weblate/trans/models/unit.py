@@ -403,6 +403,7 @@ class UnitAttributesDict(TypedDict):
     created: bool
     pos: int
     id_hash: int
+    automatically_translated: bool
 
 
 class Unit(models.Model, LoggerMixin):
@@ -946,6 +947,7 @@ class Unit(models.Model, LoggerMixin):
                 "created": created,
                 "pos": pos,
                 "id_hash": id_hash,
+                "automatically_translated": unit.is_automatically_translated(),
             }
         return self.unit_attributes
 
@@ -981,6 +983,7 @@ class Unit(models.Model, LoggerMixin):
         unit = unit_attributes["unit"]
         created = unit_attributes["created"]
         pos = unit_attributes["pos"]
+        automatically_translated = unit_attributes["automatically_translated"]
 
         # Should not be needed again
         self.unit_attributes = None
@@ -1094,6 +1097,7 @@ class Unit(models.Model, LoggerMixin):
         self.context = context
         self.note = note
         self.previous_source = previous_source
+        self.automatically_translated = automatically_translated
         self.update_priority(save=False)
 
         # Metadata update only, these do not trigger any actions in Weblate and
