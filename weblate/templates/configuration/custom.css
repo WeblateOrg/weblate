@@ -1,10 +1,18 @@
+{% load colors %}
+
 {% comment %} Light theme color variables {% endcomment %}
 {% if header_color_light %}
 @media (prefers-color-scheme: light) {
   body {
     --header-color: {{ header_color_light }};
   }
+
+  :root {
+    --bs-dark: {{ header_color_light }}!important;
+    --bs-dark-rgb: {{ header_color_light|hex_to_rgb }}!important;
+  }
 }
+
 body[data-theme="light"] {
 --header-color: {{ header_color_light }}!important;
 }
@@ -13,7 +21,12 @@ body[data-theme="light"] {
 {% if header_text_color_light %}
 @media (prefers-color-scheme: light) {
   body {
-    --header-text-color: {{ header_text_color_light }};    
+    --header-text-color: {{ header_text_color_light }};
+  }
+
+  .navbar {
+    --bs-navbar-color: {{ header_text_color_light }}!important;
+    --bs-navbar-brand-color: {{ header_text_color_light }}!important;
   }
 }
 body[data-theme="light"] {
@@ -71,9 +84,19 @@ body[data-theme="light"] {
   body {
     --header-color: {{ header_color_dark }};
   }
+
+  :root {
+    --bs-dark: {{ header_color_dark }};
+    --bs-dark-rgb: {{ header_color_dark|hex_to_rgb }};
+  }
 }
 body[data-theme="dark"] {
 --header-color: {{ header_color_dark }}!important;
+}
+
+:root[data-bs-theme="dark"] {
+  --bs-dark: {{ header_color_dark }}!important;
+  --bs-dark-rgb: {{ header_color_dark|hex_to_rgb }}!important;
 }
 {% endif %}
 
@@ -82,9 +105,19 @@ body[data-theme="dark"] {
   body {
     --header-text-color: {{ header_text_color_dark }};
   }
+
+  .navbar {
+    --bs-navbar-color: {{ header_text_color_dark }};
+    --bs-navbar-brand-color: {{ header_text_color_dark }};
+  }
 }
 body[data-theme="dark"] {
 --header-text-color: {{ header_text_color_dark }}!important;
+
+.navbar {
+    --bs-navbar-color: {{ header_text_color_dark }}!important;
+    --bs-navbar-brand-color: {{ header_text_color_dark }}!important;
+  }
 }
 {% endif %}
 
@@ -172,7 +205,7 @@ body[data-theme="dark"] {
     color: var(--navi-color);
   }
   .btn-info {
-    color: var(--navi-color);};
+    color: var(--navi-color);
   }
   .btn-info:focus,
   .btn-info.focus {
@@ -322,8 +355,9 @@ body[data-theme="dark"] {
   }
   .nav-pills > li.active > a,
   .nav-pills > li.active > a:hover,
-  .nav-pills > li.active > a:focus {
-    background-color: var(--hover-color);
+  .nav-pills > li.active > a:focus,
+  .nav-pills > li > a.active {
+    background-color: var(--hover-color)!important;
   }
   .pagination > li > a:hover,
   .pagination > li > span:hover,
@@ -495,6 +529,10 @@ body[data-theme="dark"] {
 {% if page_font %}
   body {
     font-family: {{ page_font }};
+  }
+
+  :root {
+    --bs-font-sans-serif: {{ page_font }}!important;
   }
 {% endif %}
 {% if brand_font %}
