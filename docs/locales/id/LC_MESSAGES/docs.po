@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-13 13:30+0100\n"
-"PO-Revision-Date: 2025-12-13 02:00+0000\n"
+"PO-Revision-Date: 2025-12-14 11:47+0000\n"
 "Last-Translator: Zahid Rizky Fakhri <zahidrizkyfakhri@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "documentation/id/>\n"
@@ -14807,12 +14807,16 @@ msgid ""
 "not ``GITHUB_USERNAME``. This applies whether you're configuring for pull "
 "requests or any other VCS integration."
 msgstr ""
+"Semua nama variabel lingkungan harus menyertakan awalan ``WEBLATE_``. "
+"Misalnya, untuk mengkonfigurasi kredensial GitHub, gunakan "
+"``WEBLATE_GITHUB_USERNAME``, bukan ``GITHUB_USERNAME``. Ini berlaku baik "
+"untuk konfigurasi permintaan penarikan maupun integrasi VCS lainnya."
 
 #: ../../admin/install/docker.rst:1117
-#, fuzzy
-#| msgid "An example configuration for GitHub might look like:"
 msgid "An example configuration for GitHub pull requests might look like:"
-msgstr "Contoh konfigurasi untuk GitHub mungkin terlihat seperti ini:"
+msgstr ""
+"Contoh konfigurasi untuk permintaan penarikan GitHub mungkin terlihat "
+"seperti ini:"
 
 #: ../../admin/install/docker.rst:1125
 msgid "Will be used as:"
@@ -17800,15 +17804,11 @@ msgstr ""
 "mendapatkan kunci API dan mengaktifkan penagihan di konsol Google API."
 
 #: ../../admin/machine.rst:374 ../../admin/machine.rst:433
-#, fuzzy
-#| msgid ""
-#| "`Google translate documentation <https://cloud.google.com/translate/"
-#| "docs>`_"
 msgid ""
 "`Google translate documentation <https://docs.cloud.google.com/translate/"
 "docs>`_"
 msgstr ""
-"`Dokumentasi Google Translate <https://cloud.google.com/translate/docs>`_"
+"Dokumentasi Google translate <https://docs.cloud.google.com/translate/docs>_"
 
 #: ../../admin/machine.rst:394
 msgid "Google Translate service account info"
@@ -17903,40 +17903,28 @@ msgid "`Grant 'Storage Admin' permission to the Service Account.`_"
 msgstr "`Berikan izin 'Admin Penyimpanan' ke Akun Layanan.`_"
 
 #: ../../admin/machine.rst:434
-#, fuzzy
-#| msgid ""
-#| "`Authenticate to Cloud services using client libraries <https://"
-#| "cloud.google.com/docs/authentication/client-libraries>`_"
 msgid ""
 "`Authenticate to Cloud services using client libraries <https://"
 "docs.cloud.google.com/docs/authentication/client-libraries>`_"
 msgstr ""
-"`Otentikasi ke layanan Cloud menggunakan pustaka klien <https://"
-"cloud.google.com/docs/authentication/client-libraries>`_"
+"`Autentikasi ke layanan Cloud menggunakan pustaka klien <https://"
+"docs.cloud.google.com/docs/authentication/client-libraries>`_"
 
 #: ../../admin/machine.rst:435
-#, fuzzy
-#| msgid ""
-#| "`Creating Google Translate project <https://cloud.google.com/appengine/"
-#| "docs/standard/nodejs/building-app/creating-project>`_"
 msgid ""
 "`Creating Google Translate project <https://docs.cloud.google.com/appengine/"
 "docs/standard/nodejs/building-app/creating-project>`_"
 msgstr ""
-"`Membuat proyek Google Translate <https://cloud.google.com/appengine/docs/"
-"standard/nodejs/building-app/creating-project>`_"
+"`Membuat proyek Google Translate <https://docs.cloud.google.com/appengine/"
+"docs/standard/nodejs/building-app/creating-project>`_"
 
 #: ../../admin/machine.rst:436
-#, fuzzy
-#| msgid ""
-#| "`Google Cloud App Engine locations <https://cloud.google.com/appengine/"
-#| "docs/standard/locations>`_"
 msgid ""
 "`Google Cloud App Engine locations <https://docs.cloud.google.com/appengine/"
 "docs/standard/locations>`_"
 msgstr ""
-"`Lokasi Google Cloud App Engine <https://cloud.google.com/appengine/docs/"
-"standard/locations>`_"
+"`Lokasi Google Cloud App Engine <https://docs.cloud.google.com/appengine/"
+"docs/standard/locations>`_"
 
 #: ../../admin/machine.rst:441
 msgid "IBM Watson Language Translator"
@@ -18794,13 +18782,15 @@ msgid ""
 "Creates a demo billing project. Can be executed multiple times to add "
 "additional invoices and billing events."
 msgstr ""
+"Membuat proyek penagihan demo. Dapat dijalankan beberapa kali untuk "
+"menambahkan faktur dan peristiwa penagihan tambahan."
 
 #: ../../admin/management.rst:197
-#, fuzzy
-#| msgid "This can be useful when developing Weblate."
 msgid ""
 "This can be useful when developing Weblate. Needs :ref:`billing` installed."
-msgstr "Ini dapat berguna saat mengembangkan Weblate."
+msgstr ""
+"Ini bisa berguna saat mengembangkan Weblate. Membutuhkan :ref:`billing` yang "
+"terinstal."
 
 #: ../../admin/management.rst:210
 msgid "Displays length of Celery task queues."
@@ -26474,10 +26464,8 @@ msgstr ""
 "sebagai pengaya."
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid ":ref:`check-perl-brace-format` quality check."
 msgid "Added :ref:`check-laravel-format` quality check."
-msgstr "Pemeriksaan kualitas :ref:`check-perl-brace-format`."
+msgstr "Menambahkan pemeriksaan kualitas :ref:`check-laravel-format`."
 
 #: ../../changes.rst:18 ../../changes.rst:88 ../../changes.rst:115
 #: ../../changes.rst:159 ../../changes.rst:208 ../../changes.rst:237
@@ -26569,12 +26557,13 @@ msgid ""
 "variables, commit authorship, hosted vs. self-hosted setup, and "
 "authentication options."
 msgstr ""
+"Dokumentasi integrasi VCS yang lebih baik untuk memperjelas variabel "
+"lingkungan Docker, kepemilikan komit, pengaturan yang dihosting vs. "
+"dihosting sendiri, dan opsi autentikasi."
 
 #: ../../changes.rst:31
-#, fuzzy
-#| msgid "Timestamp of last change to this file."
 msgid "Timestamps from past are now shown with more detail."
-msgstr "Stempel waktu perubahan terakhir pada berkas ini."
+msgstr "Stempel waktu dari masa lalu kini ditampilkan dengan lebih rinci."
 
 #: ../../changes.rst:34 ../../changes.rst:68 ../../changes.rst:92
 #: ../../changes.rst:122 ../../changes.rst:176 ../../changes.rst:213
@@ -39576,6 +39565,8 @@ msgstr "Penanganan peristiwa untuk perubahan peristiwa."
 msgid ""
 "Early filtering of Change actions before triggering change_event callback."
 msgstr ""
+"Pemfilteran awal tindakan Perubahan sebelum memicu panggilan kembali "
+"change_event."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.component_update:1
@@ -41974,6 +41965,8 @@ msgid ""
 "If you have :ref:`billing` installed as well, you can "
 "use :wladmin:`billing_demo` to create a demo billing project."
 msgstr ""
+"Jika Anda juga telah menginstal :ref:`billing`, Anda dapat menggunakan "
+":wladmin:`billing_demo` untuk membuat proyek penagihan demo."
 
 #: ../../contributing/start.rst:135
 msgid "Coding Weblate with PyCharm"
@@ -45367,6 +45360,11 @@ msgid ""
 "and :setting:`DEFAULT_COMMITER_NAME`. This is a technical identifier showing "
 "that the commit was processed through Weblate."
 msgstr ""
+"Weblate menggunakan ``Weblate <noreply@weblate.org>`` sebagai **pengkomit** "
+"bawaan untuk semua komit, yang dikonfigurasi oleh "
+":setting:`DEFAULT_COMMITER_EMAIL` dan :setting:`DEFAULT_COMMITER_NAME`. Ini "
+"adalah pengidentifikasi teknis yang menunjukkan bahwa komit diproses melalui "
+"Weblate."
 
 #: ../../faq.rst:271
 msgid ""
@@ -45376,6 +45374,11 @@ msgid ""
 "field. The same applies to Mercurial; only Subversion does not have this "
 "capability."
 msgstr ""
+"Namun, **penulis** setiap komit tercatat dengan benar sebagai pengguna "
+"individu yang melakukan terjemahan (saat menggunakan Git). Ini berarti Anda "
+"dapat melihat siapa sebenarnya yang menerjemahkan setiap string dengan "
+"memeriksa kolom penulis komit. Hal yang sama berlaku untuk Mercurial; hanya "
+"Subversion yang tidak memiliki kemampuan ini."
 
 #: ../../faq.rst:278
 msgid ""
@@ -45383,24 +45386,22 @@ msgid ""
 "object) and the author (who made the changes). Weblate acts as the committer "
 "while preserving individual translator attribution as authors."
 msgstr ""
+"Dalam Git, terdapat perbedaan antara pengkomit (orang yang membuat objek "
+"komit) dan penulis (orang yang melakukan perubahan). Weblate bertindak "
+"sebagai pengkomit sambil tetap mempertahankan atribusi penerjemah individual "
+"sebagai penulis."
 
 #: ../../faq.rst:282
-#, fuzzy
-#| msgid ""
-#| "For commits where no authorship is known (for example anonymous "
-#| "suggestions or machine translation results), the authorship is credited "
-#| "to the anonymous user (see :setting:`ANONYMOUS_USER_NAME`). You can "
-#| "change the name and e-mail in the management interface."
 msgid ""
 "For commits where authorship cannot be determined (such as automated changes "
 "from anonymous suggestions or machine translation results), the author is "
 "set to the anonymous user. You can configure the anonymous user's name and e-"
 "mail in :setting:`ANONYMOUS_USER_NAME`."
 msgstr ""
-"Untuk komit yang tidak diketahui siapa pembuatnya (misalnya saran anonim "
-"atau hasil terjemahan mesin), pembuatnya akan dikreditkan kepada pengguna "
-"anonim (lihat :setting:`ANONYMOUS_USER_NAME`). Anda dapat mengubah nama dan "
-"alamat surel di antarmuka manajemen."
+"Untuk komit yang kepengarangannya tidak dapat ditentukan (seperti perubahan "
+"otomatis dari saran anonim atau hasil terjemahan mesin), penulisnya diatur "
+"sebagai pengguna anonim. Anda dapat mengkonfigurasi nama dan surel pengguna "
+"anonim di :setting:`ANONYMOUS_USER_NAME`."
 
 #: ../../faq.rst:292
 msgid "How to move files in the repository without losing history in Weblate?"
@@ -52494,22 +52495,20 @@ msgstr ""
 "html_node/javascript_002dformat.html>`_"
 
 #: ../../user/checks.rst:730
-#, fuzzy
-#| msgid "Lua format"
 msgid "Laravel format"
-msgstr "Format Lua"
+msgstr "Format Laravel"
 
 #: ../../user/checks.rst:733
-#, fuzzy
-#| msgid "Lua format string does not match source."
 msgid "Laravel format string does not match source."
-msgstr "String format Lua tidak cocok dengan sumber."
+msgstr "String format Laravel tidak sesuai dengan kode sumber."
 
 #: ../../user/checks.rst:745
 msgid ""
 "`Laravel translation formatting <https://laravel.com/docs/"
 "localization#replacing-parameters-in-translation-strings>`_"
 msgstr ""
+"`Pemformatan terjemahan Laravel <https://laravel.com/docs/"
+"localization#replacing-parameters-in-translation-strings>`_"
 
 #: ../../user/checks.rst:750
 msgid "Lua format"
@@ -54450,6 +54449,7 @@ msgstr "Tambahkan string baru (``tambah``)"
 msgid ""
 "Adds new strings to the translation. It skips the ones which already exist."
 msgstr ""
+"Menambahkan string baru ke terjemahan. String yang sudah ada akan dilewati."
 
 #: ../../user/files.rst:143
 msgid ""
@@ -56818,6 +56818,9 @@ msgid ""
 "are running your own self-hosted Weblate instance, please see :ref:`the next "
 "section <vcs-repos-code-hosting>` instead."
 msgstr ""
+"Bagian ini **hanya** berlaku untuk Hosted Weblate (hosted.weblate.org). Jika "
+"Anda menjalankan instansi Weblate yang dihosting sendiri, silakan lihat "
+":ref:`the next section <vcs-repos-code-hosting>` sebagai gantinya."
 
 #: ../../vcs.rst:33
 msgid ""
@@ -56889,16 +56892,11 @@ msgid ""
 "This section applies to **self-hosted** Weblate instances. If you are using "
 "Hosted Weblate (hosted.weblate.org), see :ref:`hosted-push` instead."
 msgstr ""
+"Bagian ini berlaku untuk instansi Weblate yang **dihosting sendiri**. Jika "
+"Anda menggunakan Hosted Weblate (hosted.weblate.org), lihat :ref:`hosted-"
+"push` sebagai gantinya."
 
 #: ../../vcs.rst:65
-#, fuzzy
-#| msgid ""
-#| "Accessing repositories on code hosting sites is typically done by "
-#| "creating a dedicated user who is associated with a Weblate SSH key "
-#| "(see :ref:`weblate-ssh-key`). This way you associate Weblate SSH key with "
-#| "a single user (platforms frequently enforce single use of a SSH key) and "
-#| "grant this user access to the repository. You can then use SSH URL to "
-#| "access the repository (see :ref:`ssh-repos`)."
 msgid ""
 "For self-hosted Weblate, accessing repositories on code hosting sites is "
 "typically done by creating a dedicated user who is associated with a Weblate "
@@ -56907,12 +56905,13 @@ msgid ""
 "and grant this user access to the repository. You can then use SSH URL to "
 "access the repository (see :ref:`ssh-repos`)."
 msgstr ""
-"Mengakses repositori di situs hosting kode biasanya dilakukan dengan membuat "
-"pengguna khusus yang terhubung dengan kunci SSH Weblate (lihat :ref:`weblate-"
-"ssh-key`). Dengan cara ini, Anda menghubungkan kunci SSH Weblate dengan satu "
-"pengguna (platform sering kali menerapkan penggunaan kunci SSH tunggal) dan "
-"memberikan akses ke repositori kepada pengguna ini. Anda kemudian dapat "
-"menggunakan URL SSH untuk mengakses repositori (lihat :ref:`ssh-repos`)."
+"Untuk Weblate yang dihosting sendiri, mengakses repositori di situs hosting "
+"kode biasanya dilakukan dengan membuat pengguna khusus yang dikaitkan dengan "
+"kunci SSH Weblate (lihat :ref:`weblate-ssh-key`). Dengan cara ini, Anda "
+"mengaitkan kunci SSH Weblate dengan satu pengguna (platform sering kali "
+"memberlakukan penggunaan tunggal kunci SSH) dan memberikan akses kepada "
+"pengguna ini ke repositori. Anda kemudian dapat menggunakan URL SSH untuk "
+"mengakses repositori (lihat :ref:`ssh-repos`)."
 
 #: ../../vcs.rst:75
 msgid "SSH repositories"
@@ -57095,61 +57094,58 @@ msgstr "Repositori GitHub"
 msgid ""
 "There are two main approaches to accessing GitHub repositories with Weblate:"
 msgstr ""
+"Ada dua pendekatan utama untuk mengakses repositori GitHub dengan Weblate:"
 
 #: ../../vcs.rst:179
 msgid ""
 "**Option 1: HTTPS with Personal Access Token (simpler for getting started)**"
 msgstr ""
+"**Opsi 1: HTTPS dengan Token Akses Pribadi (lebih sederhana untuk memulai)**"
 
 #: ../../vcs.rst:181
-#, fuzzy
-#| msgid ""
-#| "For smaller deployments, use HTTPS authentication with a personal access "
-#| "token and your GitHub account, see `Creating an access token for command-"
-#| "line use`_."
 msgid ""
 "Use HTTPS authentication with a personal access token and your GitHub "
 "account. This works for both read-only access (cloning) and read-write "
 "access (pushing changes or creating pull requests)."
 msgstr ""
-"Untuk penerapan yang lebih kecil, gunakan autentikasi HTTPS dengan token "
-"akses pribadi dan akun GitHub Anda, lihat `Membuat token akses untuk "
-"penggunaan baris perintah`_."
+"Gunakan autentikasi HTTPS dengan token akses pribadi dan akun GitHub Anda. "
+"Ini berfungsi untuk akses baca saja (kloning) dan akses baca-tulis "
+"(mendorong perubahan atau membuat permintaan penarikan)."
 
 #: ../../vcs.rst:185 ../../vcs.rst:200
 msgid "To use this approach:"
-msgstr ""
+msgstr "Untuk menggunakan pendekatan ini:"
 
 #: ../../vcs.rst:187
-#, fuzzy
-#| msgid ""
-#| "For smaller deployments, use HTTPS authentication with a personal access "
-#| "token and your GitHub account, see `Creating an access token for command-"
-#| "line use`_."
 msgid ""
 "Create a personal access token as described in `Creating an access token for "
 "command-line use`_."
 msgstr ""
-"Untuk penerapan yang lebih kecil, gunakan autentikasi HTTPS dengan token "
-"akses pribadi dan akun GitHub Anda, lihat `Membuat token akses untuk "
-"penggunaan baris perintah`_."
+"Buat token akses pribadi seperti yang dijelaskan dalam `Membuat token akses "
+"untuk penggunaan baris perintah`_."
 
 #: ../../vcs.rst:188
 msgid ""
 "Include the token in your repository URL: ``https://"
 "username:token@github.com/owner/repo.git``"
 msgstr ""
+"Sertakan token dalam URL repositori Anda: ``https://"
+"username:token@github.com/owner/repo.git``"
 
 #: ../../vcs.rst:190
 msgid ""
 "This is suitable when you're starting with Weblate or working with a single "
 "repository."
 msgstr ""
+"Ini cocok jika Anda baru mulai menggunakan Weblate atau bekerja dengan satu "
+"repositori saja."
 
 #: ../../vcs.rst:194
 msgid ""
 "**Option 2: SSH with Dedicated User (recommended for multiple repositories)**"
 msgstr ""
+"**Opsi 2: SSH dengan Pengguna Khusus (direkomendasikan untuk beberapa "
+"repositori)**"
 
 #: ../../vcs.rst:196
 msgid ""
@@ -57157,44 +57153,50 @@ msgid ""
 "dedicated user for Weblate. This avoids GitHub's limitation that each SSH "
 "key can only be used once per platform."
 msgstr ""
+"Untuk pengaturan dengan beberapa repositori, disarankan untuk membuat "
+"pengguna khusus untuk Weblate. Ini menghindari batasan GitHub yang "
+"menyatakan bahwa setiap kunci SSH hanya dapat digunakan sekali per platform."
 
 #: ../../vcs.rst:202
 msgid "Create a dedicated GitHub user account (e.g., ``weblate-bot``)"
-msgstr ""
+msgstr "Buat akun pengguna GitHub khusus (misalnya, ``weblate-bot``)"
 
 #: ../../vcs.rst:203
 msgid "Add Weblate's public SSH key to this user (see :ref:`weblate-ssh-key`)"
 msgstr ""
+"Tambahkan kunci SSH publik Weblate ke pengguna ini (lihat :ref:`weblate-ssh-"
+"key`)"
 
 #: ../../vcs.rst:204
 msgid "Grant this user access to all repositories you want to translate"
 msgstr ""
+"Izinkan akses kepada pengguna ini ke semua repositori yang ingin Anda "
+"terjemahkan"
 
 #: ../../vcs.rst:205
 msgid "Use SSH URLs for your repositories: ``git@github.com:owner/repo.git``"
 msgstr ""
+"Gunakan URL SSH untuk repositori Anda: ``git@github.com:owner/repo.git``"
 
 #: ../../vcs.rst:207
 msgid ""
 "This approach is also used for Hosted Weblate, which has a "
 "dedicated :guilabel:`weblate` user for that purpose."
 msgstr ""
+"Pendekatan ini juga digunakan untuk Hosted Weblate, yang memiliki pengguna "
+":guilabel:`weblate` khusus untuk tujuan tersebut."
 
 #: ../../vcs.rst:212
-#, fuzzy
-#| msgid ""
-#| "In case the :ref:`component-push_branch` is not set, the project is "
-#| "forked and changes pushed through a fork. In case it is set, changes are "
-#| "pushed to the upstream repository and chosen branch."
 msgid ""
 "When using :ref:`vcs-github` for pull requests, the :ref:`component-"
 "push_branch` configuration affects the behavior: if not set, the project is "
 "forked and changes are pushed through a fork. If set, changes are pushed to "
 "the upstream repository and the chosen branch."
 msgstr ""
-"Jika :ref:`component-push_branch` tidak diatur, proyek akan difork dan "
-"perubahan akan diteruskan melalui fork. Jika diatur, perubahan akan "
-"diteruskan ke repositori hulu dan cabang yang dipilih."
+"Saat menggunakan :ref:`vcs-github` untuk permintaan penarikan, konfigurasi "
+":ref:`component-push_branch` memengaruhi perilakunya: jika tidak diatur, "
+"proyek akan di-fork dan perubahan akan didorong melalui fork tersebut. Jika "
+"diatur, perubahan akan didorong ke repositori hulu dan cabang yang dipilih."
 
 #: ../../vcs.rst:226
 msgid "GitLab repositories"
