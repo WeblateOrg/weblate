@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-13 13:30+0100\n"
-"PO-Revision-Date: 2025-12-13 02:00+0000\n"
+"PO-Revision-Date: 2025-12-14 11:48+0000\n"
 "Last-Translator: Takeru Mikenu <mikenu-jp@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -16289,20 +16289,26 @@ msgid ""
 "within the Docker network, it's only accessible to Weblate and not exposed "
 "to the public internet."
 msgstr ""
+"LibreTranslate サービスを :file:`docker-compose.override.yml` ファイルに含め"
+"ることで、Weblate デプロイメントに組み込むことができます。LibreTranslate は "
+"Docker ネットワーク内で実行されるため、Weblate からのみアクセス可能で"
+"インターネットには公開されません。"
 
 #: ../../admin/install/docker.rst:2323
 msgid "Basic setup using :file:`docker-compose.override.yml`:"
-msgstr ""
+msgstr ":file:`docker-compose.override.yml` を使用した基本設定:"
 
 #: ../../admin/install/docker.rst:2346
 msgid "For GPU-accelerated translation (if you have NVIDIA GPU available):"
-msgstr ""
+msgstr "GPU アクセラレーションによる翻訳を行う場合（NVIDIA GPU が利用可能な場合）:"
 
 #: ../../admin/install/docker.rst:2377
 msgid ""
 "After starting the services with ``docker compose down && docker compose up "
 "-d``, configure LibreTranslate in Weblate:"
 msgstr ""
+"``docker compose down && docker compose up -d`` を使用してサービスを開始した"
+"後、Weblate で LibreTranslate を設定してください:"
 
 #: ../../admin/install/docker.rst:2380
 #, fuzzy
@@ -16320,7 +16326,7 @@ msgstr ":guilabel:`管理`、:guilabel:`自動翻訳`"
 
 #: ../../admin/install/docker.rst:2382
 msgid "Add a new LibreTranslate service with:"
-msgstr ""
+msgstr "次の設定で新しい LibreTranslate サービスを追加します:"
 
 #: ../../admin/install/docker.rst:0
 msgid "Service"
@@ -16350,7 +16356,7 @@ msgstr "API キー"
 
 #: ../../admin/install/docker.rst:2386
 msgid "Leave empty"
-msgstr ""
+msgstr "空欄"
 
 #: ../../admin/install/docker.rst:2388
 #, fuzzy
@@ -16365,24 +16371,32 @@ msgid ""
 "The LibreTranslate service runs without the web UI (``--disable-web-ui``) "
 "and is only accessible via the API within the Docker network."
 msgstr ""
+"LibreTranslate サービスは、Web UI なしで（``--disable-web-ui``）実行され、"
+"Docker ネットワーク内で API を介してのみアクセス可能です。"
 
 #: ../../admin/install/docker.rst:2393
 msgid ""
 "Models are automatically updated when the container starts. "
 "(``LT_UPDATE_MODELS: true``)"
 msgstr ""
+"モデルは、コンテナの起動時に自動的に更新されます。（``LT_UPDATE_MODELS: "
+"true``）"
 
 #: ../../admin/install/docker.rst:2394
 msgid ""
 "Data is persisted using Docker volumes for optimal performance and data "
 "safety."
 msgstr ""
+"データは、最適なパフォーマンスとデータの安全性のために、Docker ボリュームを使"
+"用して永続化されます。"
 
 #: ../../admin/install/docker.rst:2395
 msgid ""
 "Health checks ensure that the Docker engine properly observes the state of "
 "the service."
 msgstr ""
+"ヘルスチェックは、Docker エンジンがサービスの状態を適切に監視していることを保"
+"証します。"
 
 #: ../../admin/install/docker.rst:2396
 msgid ""
@@ -16390,10 +16404,13 @@ msgid ""
 "NVIDIA Docker support. This container runs as a privileged user to be able "
 "to use the GPU."
 msgstr ""
+"GPU アクセラレーションのため、CUDA イメージバリアントを使用し、システムが "
+"NVIDIA Docker をサポートしていることを確認してください。GPU を使用できるよう"
+"に、このコンテナは特権ユーザーとして実行されます。"
 
 #: ../../admin/install/docker.rst:2397
 msgid "No external ports are exposed, making the setup secure by default."
-msgstr ""
+msgstr "外部ポートが一切公開されていないため、この設定はデフォルトで安全です。"
 
 #: ../../admin/install/docker.rst:2402
 #, fuzzy
@@ -52800,16 +52817,12 @@ msgstr ""
 "gettext/manual/html_node/javascript_002dformat.html>`_"
 
 #: ../../user/checks.rst:730
-#, fuzzy
-#| msgid "Lua format"
 msgid "Laravel format"
-msgstr "Lua 形式"
+msgstr "Laravel 形式"
 
 #: ../../user/checks.rst:733
-#, fuzzy
-#| msgid "Lua format string does not match source."
 msgid "Laravel format string does not match source."
-msgstr "Lua 形式の文字列が原文と不一致。"
+msgstr "Laravel 形式の文字列がソースと一致しません。"
 
 #: ../../user/checks.rst:745
 msgid ""
@@ -54779,7 +54792,7 @@ msgstr "新しい文字列の追加 (``add``)"
 #: ../../user/files.rst:141
 msgid ""
 "Adds new strings to the translation. It skips the ones which already exist."
-msgstr ""
+msgstr "翻訳に新しい文字列を追加します。すでに存在する文字列はスキップされます。"
 
 #: ../../user/files.rst:143
 msgid ""
