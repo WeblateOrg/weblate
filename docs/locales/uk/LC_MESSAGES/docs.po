@@ -24,7 +24,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-13 13:30+0100\n"
-"PO-Revision-Date: 2025-12-13 02:00+0000\n"
+"PO-Revision-Date: 2025-12-15 07:34+0000\n"
 "Last-Translator: Максим Горпиніч <gorpinicmaksim0@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -32,8 +32,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : "
-"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n%10>"
+"=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 5.15-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
@@ -14910,12 +14910,15 @@ msgid ""
 "not ``GITHUB_USERNAME``. This applies whether you're configuring for pull "
 "requests or any other VCS integration."
 msgstr ""
+"Усі назви змінних середовища повинні містити префікс ``WEBLATE_``. "
+"Наприклад, щоб налаштувати облікові дані GitHub, використовуйте "
+"``WEBLATE_GITHUB_USERNAME``, а не ``GITHUB_USERNAME``. Це стосується "
+"незалежно від того, чи ви налаштовуєте запити на зняття даних, чи будь-яку "
+"іншу інтеграцію VCS."
 
 #: ../../admin/install/docker.rst:1117
-#, fuzzy
-#| msgid "An example configuration for GitHub might look like:"
 msgid "An example configuration for GitHub pull requests might look like:"
-msgstr "Зразок налаштувань для GitHub може мати такий вигляд:"
+msgstr "Приклад конфігурації для пул-реквестів GitHub може виглядати так:"
 
 #: ../../admin/install/docker.rst:1125
 msgid "Will be used as:"
@@ -17920,15 +17923,11 @@ msgstr ""
 "програмного інтерфейсу Google."
 
 #: ../../admin/machine.rst:374 ../../admin/machine.rst:433
-#, fuzzy
-#| msgid ""
-#| "`Google translate documentation <https://cloud.google.com/translate/"
-#| "docs>`_"
 msgid ""
 "`Google translate documentation <https://docs.cloud.google.com/translate/"
 "docs>`_"
 msgstr ""
-"`Документація з Перекладача Google <https://cloud.google.com/translate/"
+"`Документація перекладача Google <https://docs.cloud.google.com/translate/"
 "docs>`_"
 
 #: ../../admin/machine.rst:394
@@ -18023,40 +18022,28 @@ msgid "`Grant 'Storage Admin' permission to the Service Account.`_"
 msgstr "`Надайте 'Storage Admin' права доступу до облікового запису служби.`_"
 
 #: ../../admin/machine.rst:434
-#, fuzzy
-#| msgid ""
-#| "`Authenticate to Cloud services using client libraries <https://"
-#| "cloud.google.com/docs/authentication/client-libraries>`_"
 msgid ""
 "`Authenticate to Cloud services using client libraries <https://"
 "docs.cloud.google.com/docs/authentication/client-libraries>`_"
 msgstr ""
 "`Автентифікація в хмарних сервісах за допомогою клієнтських бібліотек "
-"<https://cloud.google.com/docs/authentication/client-libraries>`_"
+"<https://docs.cloud.google.com/docs/authentication/client-libraries>`_"
 
 #: ../../admin/machine.rst:435
-#, fuzzy
-#| msgid ""
-#| "`Creating Google Translate project <https://cloud.google.com/appengine/"
-#| "docs/standard/nodejs/building-app/creating-project>`_"
 msgid ""
 "`Creating Google Translate project <https://docs.cloud.google.com/appengine/"
 "docs/standard/nodejs/building-app/creating-project>`_"
 msgstr ""
-"`Створення проєкту Google Translate <https://cloud.google.com/appengine/docs/"
-"standard/nodejs/building-app/creating-project>`_"
+"`Створення проєкту Google Translate <https://docs.cloud.google.com/appengine/"
+"docs/standard/nodejs/building-app/creating-project>`_"
 
 #: ../../admin/machine.rst:436
-#, fuzzy
-#| msgid ""
-#| "`Google Cloud App Engine locations <https://cloud.google.com/appengine/"
-#| "docs/standard/locations>`_"
 msgid ""
 "`Google Cloud App Engine locations <https://docs.cloud.google.com/appengine/"
 "docs/standard/locations>`_"
 msgstr ""
-"`Розташування Google Cloud App Engine <https://cloud.google.com/appengine/"
-"docs/standard/locations>`_"
+"`Розташування Google Cloud App Engine <https://docs.cloud.google.com/"
+"appengine/docs/standard/locations>`_"
 
 #: ../../admin/machine.rst:441
 msgid "IBM Watson Language Translator"
@@ -18928,13 +18915,15 @@ msgid ""
 "Creates a demo billing project. Can be executed multiple times to add "
 "additional invoices and billing events."
 msgstr ""
+"Створює демонстраційний проєкт виставлення рахунків. Можна виконати кілька "
+"разів для додавання додаткових рахунків-фактур та подій виставлення рахунків."
 
 #: ../../admin/management.rst:197
-#, fuzzy
-#| msgid "This can be useful when developing Weblate."
 msgid ""
 "This can be useful when developing Weblate. Needs :ref:`billing` installed."
-msgstr "Ця можливість може бути корисною для розробників Weblate."
+msgstr ""
+"Це може бути корисним під час розробки Weblate. Потрібно встановити "
+":ref:`billing`."
 
 #: ../../admin/management.rst:210
 msgid "Displays length of Celery task queues."
@@ -26661,10 +26650,8 @@ msgstr ""
 "доповнення."
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid ":ref:`check-perl-brace-format` quality check."
 msgid "Added :ref:`check-laravel-format` quality check."
-msgstr "Реалізовано перевірку якості :ref:`check-perl-brace-format`."
+msgstr "Додано перевірку якості :ref:`check-laravel-format`."
 
 #: ../../changes.rst:18 ../../changes.rst:88 ../../changes.rst:115
 #: ../../changes.rst:159 ../../changes.rst:208 ../../changes.rst:237
@@ -26755,12 +26742,13 @@ msgid ""
 "variables, commit authorship, hosted vs. self-hosted setup, and "
 "authentication options."
 msgstr ""
+"Покращена документація інтеграції VCS для уточнення змінних середовища "
+"Docker, авторства комітів, розміщеного та самостійного розміщення "
+"налаштувань, а також параметрів автентифікації."
 
 #: ../../changes.rst:31
-#, fuzzy
-#| msgid "Timestamp of last change to this file."
 msgid "Timestamps from past are now shown with more detail."
-msgstr "Часова позначка останньої зміни у цьому файлі."
+msgstr "Мітки часу з минулого тепер відображаються детальніше."
 
 #: ../../changes.rst:34 ../../changes.rst:68 ../../changes.rst:92
 #: ../../changes.rst:122 ../../changes.rst:176 ../../changes.rst:213
@@ -39988,6 +39976,7 @@ msgstr "Обробник подій для події зміни."
 msgid ""
 "Early filtering of Change actions before triggering change_event callback."
 msgstr ""
+"Рання фільтрація дій Change перед запуском зворотного виклику change_event."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.component_update:1
@@ -42381,6 +42370,9 @@ msgid ""
 "If you have :ref:`billing` installed as well, you can "
 "use :wladmin:`billing_demo` to create a demo billing project."
 msgstr ""
+"Якщо у вас також встановлено :ref:`billing`, ви можете скористатися "
+":wladmin:`billing_demo` для створення демонстраційного проєкту виставлення "
+"рахунків."
 
 #: ../../contributing/start.rst:135
 msgid "Coding Weblate with PyCharm"
@@ -45780,6 +45772,10 @@ msgid ""
 "and :setting:`DEFAULT_COMMITER_NAME`. This is a technical identifier showing "
 "that the commit was processed through Weblate."
 msgstr ""
+"Weblate використовує ``Weblate <noreply@weblate.org>`` як **комітер** за "
+"замовчуванням для всіх комітів, який налаштовується за допомогою "
+":setting:`DEFAULT_COMMITER_EMAIL` та :setting:`DEFAULT_COMMITER_NAME`. Це "
+"технічний ідентифікатор, який показує, що коміт було оброблено через Weblate."
 
 #: ../../faq.rst:271
 msgid ""
@@ -45789,6 +45785,10 @@ msgid ""
 "field. The same applies to Mercurial; only Subversion does not have this "
 "capability."
 msgstr ""
+"Однак, **автор** кожного коміту коректно записується як окремий користувач, "
+"який зробив переклад (під час використання Git). Це означає, що ви можете "
+"побачити, хто фактично переклав кожен рядок, перевіривши поле автора коміту. "
+"Те саме стосується Mercurial; тільки Subversion не має такої можливості."
 
 #: ../../faq.rst:278
 msgid ""
@@ -45796,24 +45796,21 @@ msgid ""
 "object) and the author (who made the changes). Weblate acts as the committer "
 "while preserving individual translator attribution as authors."
 msgstr ""
+"У Git існує різниця між комітером (той, хто створив об'єкт коміта) та "
+"автором (той, хто вніс зміни). Weblate виступає в ролі комітера, зберігаючи "
+"при цьому індивідуальне посилання на перекладачів як авторів."
 
 #: ../../faq.rst:282
-#, fuzzy
-#| msgid ""
-#| "For commits where no authorship is known (for example anonymous "
-#| "suggestions or machine translation results), the authorship is credited "
-#| "to the anonymous user (see :setting:`ANONYMOUS_USER_NAME`). You can "
-#| "change the name and e-mail in the management interface."
 msgid ""
 "For commits where authorship cannot be determined (such as automated changes "
 "from anonymous suggestions or machine translation results), the author is "
 "set to the anonymous user. You can configure the anonymous user's name and e-"
 "mail in :setting:`ANONYMOUS_USER_NAME`."
 msgstr ""
-"Для внесків із невідомим авторством (наприклад, анонімних пропозицій або "
-"результатів комп'ютерного перекладу) авторство належатиме анонімному "
-"користувачеві (див. :setting:`ANONYMOUS_USER_NAME`). Ви можете змінити ім'я "
-"та адресу електронної пошти за допомогою інтерфейсу керування."
+"Для комітів, авторство яких неможливо визначити (наприклад, автоматичні "
+"зміни з анонімних пропозицій або результати машинного перекладу), автором "
+"встановлюється анонімний користувач. Ви можете налаштувати ім'я та "
+"електронну пошту анонімного користувача в :setting:`ANONYMOUS_USER_NAME`."
 
 #: ../../faq.rst:292
 msgid "How to move files in the repository without losing history in Weblate?"
@@ -52914,22 +52911,20 @@ msgstr ""
 "html_node/javascript_002dformat.html>`_"
 
 #: ../../user/checks.rst:730
-#, fuzzy
-#| msgid "Lua format"
 msgid "Laravel format"
-msgstr "Формат Lua"
+msgstr "Формат Laravel"
 
 #: ../../user/checks.rst:733
-#, fuzzy
-#| msgid "Lua format string does not match source."
 msgid "Laravel format string does not match source."
-msgstr "Рядок, формату Lua, не відповідає джерелу."
+msgstr "Рядок формату Laravel не відповідає джерелу."
 
 #: ../../user/checks.rst:745
 msgid ""
 "`Laravel translation formatting <https://laravel.com/docs/"
 "localization#replacing-parameters-in-translation-strings>`_"
 msgstr ""
+"`Форматування перекладу Laravel <https://laravel.com/docs/"
+"localization#replacing-parameters-in-translation-strings>`_"
 
 #: ../../user/checks.rst:750
 msgid "Lua format"
@@ -54863,7 +54858,7 @@ msgstr "Додати нові рядки (``add``)"
 #: ../../user/files.rst:141
 msgid ""
 "Adds new strings to the translation. It skips the ones which already exist."
-msgstr ""
+msgstr "Додає нові рядки до перекладу. Пропускає ті, що вже існують."
 
 #: ../../user/files.rst:143
 msgid ""
@@ -57255,6 +57250,9 @@ msgid ""
 "are running your own self-hosted Weblate instance, please see :ref:`the next "
 "section <vcs-repos-code-hosting>` instead."
 msgstr ""
+"Цей розділ стосується **лише** розміщеного Weblate (hosted.weblate.org). "
+"Якщо ви використовуєте власний екземпляр Weblate, розміщений окремо, будь "
+"ласка, дивіться :ref:`the next section <vcs-repos-code-hosting>`."
 
 #: ../../vcs.rst:33
 msgid ""
@@ -57328,16 +57326,10 @@ msgid ""
 "This section applies to **self-hosted** Weblate instances. If you are using "
 "Hosted Weblate (hosted.weblate.org), see :ref:`hosted-push` instead."
 msgstr ""
+"Цей розділ стосується **власно розміщених** екземплярів Weblate. Якщо ви "
+"використовуєте Hosted Weblate (hosted.weblate.org), див. :ref:`hosted-push`."
 
 #: ../../vcs.rst:65
-#, fuzzy
-#| msgid ""
-#| "Accessing repositories on code hosting sites is typically done by "
-#| "creating a dedicated user who is associated with a Weblate SSH key "
-#| "(see :ref:`weblate-ssh-key`). This way you associate Weblate SSH key with "
-#| "a single user (platforms frequently enforce single use of a SSH key) and "
-#| "grant this user access to the repository. You can then use SSH URL to "
-#| "access the repository (see :ref:`ssh-repos`)."
 msgid ""
 "For self-hosted Weblate, accessing repositories on code hosting sites is "
 "typically done by creating a dedicated user who is associated with a Weblate "
@@ -57346,13 +57338,13 @@ msgid ""
 "and grant this user access to the repository. You can then use SSH URL to "
 "access the repository (see :ref:`ssh-repos`)."
 msgstr ""
-"Доступ до репозиторіїв на сайтах розміщення коду зазвичай здійснюється "
-"шляхом створення виділеного користувача, який пов’язаний із ключем Weblate "
-"SSH (див. :ref:`weblate-ssh-key`). Таким чином ви пов’язуєте SSH-ключ "
-"Weblate з одним користувачем (платформи часто вимагають одноразового "
-"використання ключа SSH) і надаєте цьому користувачеві доступ до репозиторію. "
-"Потім ви можете використовувати URL-адресу SSH для доступу до репозиторію "
-"(див. :ref:`ssh-repos`)."
+"Для самостійно розміщеного Weblate доступ до репозиторіїв на сайтах "
+"розміщення коду зазвичай здійснюється шляхом створення спеціального "
+"користувача, який пов’язаний з SSH-ключем Weblate (див. :ref:`weblate-ssh-"
+"key`). Таким чином, ви пов’язуєте SSH-ключ Weblate з одним користувачем "
+"(платформи часто вимагають одноразового використання SSH-ключа) та надаєте "
+"цьому користувачеві доступ до репозиторію. Потім ви можете використовувати "
+"SSH-URL для доступу до репозиторію (див. :ref:`ssh-repos`)."
 
 #: ../../vcs.rst:75
 msgid "SSH repositories"
@@ -57540,61 +57532,60 @@ msgstr "Сховища GitHub"
 msgid ""
 "There are two main approaches to accessing GitHub repositories with Weblate:"
 msgstr ""
+"Існує два основних підходи до доступу до репозиторіїв GitHub за допомогою "
+"Weblate:"
 
 #: ../../vcs.rst:179
 msgid ""
 "**Option 1: HTTPS with Personal Access Token (simpler for getting started)**"
 msgstr ""
+"**Варіант 1: HTTPS з персональним токеном доступу (простіше для початку)**"
 
 #: ../../vcs.rst:181
-#, fuzzy
-#| msgid ""
-#| "For smaller deployments, use HTTPS authentication with a personal access "
-#| "token and your GitHub account, see `Creating an access token for command-"
-#| "line use`_."
 msgid ""
 "Use HTTPS authentication with a personal access token and your GitHub "
 "account. This works for both read-only access (cloning) and read-write "
 "access (pushing changes or creating pull requests)."
 msgstr ""
-"Для варіантів із малою кількістю проєктів скористайтеся розпізнаванням HTTPS "
-"із особистим жетоном доступу та вашим обліковим записом GitHub, див. "
-"`Creating an access token for command-line use`_."
+"Використовуйте HTTPS-автентифікацію з персональним токеном доступу та вашим "
+"обліковим записом GitHub. Це працює як для доступу лише для читання "
+"(клонування), так і для доступу для читання та запису (надсилання змін або "
+"створення запитів на зняття)."
 
 #: ../../vcs.rst:185 ../../vcs.rst:200
 msgid "To use this approach:"
-msgstr ""
+msgstr "Щоб скористатися цим підходом:"
 
 #: ../../vcs.rst:187
-#, fuzzy
-#| msgid ""
-#| "For smaller deployments, use HTTPS authentication with a personal access "
-#| "token and your GitHub account, see `Creating an access token for command-"
-#| "line use`_."
 msgid ""
 "Create a personal access token as described in `Creating an access token for "
 "command-line use`_."
 msgstr ""
-"Для варіантів із малою кількістю проєктів скористайтеся розпізнаванням HTTPS "
-"із особистим жетоном доступу та вашим обліковим записом GitHub, див. "
-"`Creating an access token for command-line use`_."
+"Створіть персональний токен доступу, як описано в розділі `Створення токена "
+"доступу для використання в командному рядку`_."
 
 #: ../../vcs.rst:188
 msgid ""
 "Include the token in your repository URL: ``https://"
 "username:token@github.com/owner/repo.git``"
 msgstr ""
+"Включіть токен до URL-адреси вашого репозиторію: ``https://"
+"username:token@github.com/owner/repo.git``"
 
 #: ../../vcs.rst:190
 msgid ""
 "This is suitable when you're starting with Weblate or working with a single "
 "repository."
 msgstr ""
+"Це зручно, якщо ви тільки починаєте роботу з Weblate або працюєте з одним "
+"репозиторієм."
 
 #: ../../vcs.rst:194
 msgid ""
 "**Option 2: SSH with Dedicated User (recommended for multiple repositories)**"
 msgstr ""
+"**Варіант 2: SSH з виділеним користувачем (рекомендовано для кількох "
+"репозиторіїв)**"
 
 #: ../../vcs.rst:196
 msgid ""
@@ -57602,44 +57593,54 @@ msgid ""
 "dedicated user for Weblate. This avoids GitHub's limitation that each SSH "
 "key can only be used once per platform."
 msgstr ""
+"Для налаштувань з кількома репозиторіями рекомендується створити окремого "
+"користувача для Weblate. Це дозволить уникнути обмеження GitHub, яке полягає "
+"в тому, що кожен SSH-ключ можна використовувати лише один раз на одній "
+"платформі."
 
 #: ../../vcs.rst:202
 msgid "Create a dedicated GitHub user account (e.g., ``weblate-bot``)"
 msgstr ""
+"Створіть окремий обліковий запис користувача GitHub (наприклад, ``weblate-"
+"bot``)"
 
 #: ../../vcs.rst:203
 msgid "Add Weblate's public SSH key to this user (see :ref:`weblate-ssh-key`)"
 msgstr ""
+"Додати публічний SSH-ключ Weblate до цього користувача (див. :ref:`weblate-"
+"ssh-key`)"
 
 #: ../../vcs.rst:204
 msgid "Grant this user access to all repositories you want to translate"
 msgstr ""
+"Надайте цьому користувачеві доступ до всіх репозиторіїв, які ви хочете "
+"перекласти"
 
 #: ../../vcs.rst:205
 msgid "Use SSH URLs for your repositories: ``git@github.com:owner/repo.git``"
 msgstr ""
+"Використовуйте SSH-URL-адреси для своїх репозиторіїв: ``git@github.com:owner/"
+"repo.git``"
 
 #: ../../vcs.rst:207
 msgid ""
 "This approach is also used for Hosted Weblate, which has a "
 "dedicated :guilabel:`weblate` user for that purpose."
 msgstr ""
+"Цей підхід також використовується для Hosted Weblate, який має спеціального "
+"користувача :guilabel:`weblate` для цієї мети."
 
 #: ../../vcs.rst:212
-#, fuzzy
-#| msgid ""
-#| "In case the :ref:`component-push_branch` is not set, the project is "
-#| "forked and changes pushed through a fork. In case it is set, changes are "
-#| "pushed to the upstream repository and chosen branch."
 msgid ""
 "When using :ref:`vcs-github` for pull requests, the :ref:`component-"
 "push_branch` configuration affects the behavior: if not set, the project is "
 "forked and changes are pushed through a fork. If set, changes are pushed to "
 "the upstream repository and the chosen branch."
 msgstr ""
-"Якщо :ref:`component-push_branch` не встановлено, проєкт розгалужується, а "
-"зміни надсилаються через розгалуження. Якщо ж встановлено, зміни "
-"надсилаються до основного репозиторію та вибраної гілки."
+"Під час використання :ref:`vcs-github` для пул-реквестів, конфігурація "
+":ref:`component-push_branch` впливає на поведінку: якщо не встановлено, "
+"проєкт розгалужується, а зміни надсилаються через розгалуження. Якщо "
+"встановлено, зміни надсилаються до основного репозиторію та вибраної гілки."
 
 #: ../../vcs.rst:226
 msgid "GitLab repositories"
