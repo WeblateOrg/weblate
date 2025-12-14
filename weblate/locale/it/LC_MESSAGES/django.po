@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-13 12:29+0000\n"
-"PO-Revision-Date: 2025-12-09 20:04+0000\n"
-"Last-Translator: Massimo Pissarello <mapi68@gmail.com>\n"
+"PO-Revision-Date: 2025-12-14 11:48+0000\n"
+"Last-Translator: Pierfrancesco Passerini <p.passerini@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
 "Language: it\n"
@@ -2401,11 +2401,11 @@ msgstr ""
 "eseguire l'operazione."
 
 #: weblate/api/views.py:203
-#, python-format
+#, fuzzy, python-format
 msgid ""
 "Could not obtain the %(scope)s lock for %(origin)s to perform the operation."
 msgstr ""
-"Impossibile ottenere il blocco %(scope)s per %(origin)s per eseguire "
+"Impossibile ottenere il blocco %(scope)s su %(origin)s per eseguire "
 "l'operazione."
 
 #: weblate/api/views.py:2669 weblate/auth/models.py:1016
@@ -6479,10 +6479,10 @@ msgid ""
 "but none was sent. This header is required for security reasons, ensuring "
 "that your browser is not being hijacked by third parties."
 msgstr ""
-"Questo sito HTTPS richiede una 'Referer header' che deve essere spedita dal "
-"tuo browser web ma non è stato inviato nulla. Questa intestazione è "
-"richiesta per ragioni di sicurezza per assicurare che il browser non sia "
-"stato dirottato da terze parti."
+"Questo sito HTTPS richiede una 'Referer header' che deve essere inviata dal "
+"tuo browser web ma così non è stato. Ciò è richiesta per ragioni di "
+"sicurezza al fine di assicurare che il browser non venga dirottato da terze "
+"parti."
 
 #: weblate/templates/403_csrf.html:22
 msgid ""
@@ -10434,8 +10434,8 @@ msgid ""
 "There has been a request for new language on %(component)s at %(site_title)s "
 "by %(user)s."
 msgstr ""
-"È stata inviata una richiesta per una nuova lingua da %(user)s su "
-"%(component)s in %(site_title)s."
+"È stata inviata una richiesta per una nuova lingua da %(user)s per %"
+"(component)s su %(site_title)s."
 
 #: weblate/templates/mail/new_language.html:15
 msgid ""
@@ -16041,11 +16041,16 @@ msgid "Push branch"
 msgstr "Ramo di push"
 
 #: weblate/trans/models/component.py:478
+#, fuzzy
 msgid ""
 "Branch for pushing changes. Leave empty to use repository branch when "
 "pushing directly to the repository. When using pull/merge requests, specify "
 "a branch name different from the repository branch."
 msgstr ""
+"Branch per il push delle modifiche. Lasciare vuoto per usare il branch del "
+"repository quando si effettua il push diretto al repository. Quando si usano "
+"richieste pull/merge, specificare un nome di branch diverso da quello del "
+"repository."
 
 #: weblate/trans/models/component.py:490
 msgid ""
@@ -17175,35 +17180,48 @@ msgid ""
 "Imported strings are added as translations to existing strings. This is the "
 "most common usecase, and the default behavior."
 msgstr ""
+"Le stringhe importate vengono aggiunte come traduzioni alle stringhe "
+"esistenti. Questo è il caso d'uso più comune ed il comportamento predefinito."
 
 #: weblate/trans/templatetags/upload_methods.py:27
 msgid ""
 "Imported strings are added as approved translations. Do this when you "
 "already reviewed your translations before uploading them."
 msgstr ""
+"Le stringhe importate vengono aggiunte come traduzioni approvate. Scegliere "
+"questa opzione quando le traduzioni sono state revisionate prima di "
+"caricarle."
 
 #: weblate/trans/templatetags/upload_methods.py:31
 msgid ""
 "Imported strings are added as suggestions. Do this when you want to have "
 "your uploaded strings reviewed."
 msgstr ""
+"Le stringhe importate vengono aggiunte come suggerimenti. Scegliere questa "
+"opzione quando si desidera rileggere le stringhe caricate."
 
 #: weblate/trans/templatetags/upload_methods.py:35
 msgid ""
 "Imported strings are added as translations needing edit. This can be useful "
 "when you want translations to be used, but also reviewed."
 msgstr ""
+"Le stringhe importate vengono aggiunte come traduzioni da modificare. "
+"Scegliere questa opzione quando si vuole che le traduzioni vengano "
+"utilizzate, ma anche revisionate."
 
 #: weblate/trans/templatetags/upload_methods.py:39
 msgid ""
 "Existing file is replaced with new content. This can lead to loss of "
 "existing translations, use with caution."
 msgstr ""
+"Il file esistente viene sostituito con il nuovo contenuto. Ciò può "
+"comportare la perdita delle traduzioni esistenti; usare con cautela."
 
 #: weblate/trans/templatetags/upload_methods.py:43
+#, fuzzy
 msgid ""
 "Adds new strings to the translation. It skips the ones which already exist."
-msgstr ""
+msgstr "Aggiunge nuove stringhe alla traduzione, saltando quelle già esistenti."
 
 #: weblate/trans/templatetags/upload_methods.py:46
 #, fuzzy
