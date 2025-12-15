@@ -1329,26 +1329,28 @@ Projects
     :form string service: Service name
     :form string configuration: Service configuration in JSON
 
-.. http:get:: /api/projects/(string:project)/(string:language)/file/
-     .. versionchanged:: 5.15
+.. http:get:: /api/projects/(string:project)/languages/(string:language_code)/file/
 
-        Added ability to download ZIP file of all components translations in a project for 1 specific language.
+    .. versionchanged:: 5.15
+        
+       Added ability to download ZIP file of all components translations in a project for 1 specific language.
 
-    Download a ZIP file of all translation files for a specified ``language`` across all components for a given ``project`` rather than downloading individual translated files and manually zipping them, with the archive named `{project-slug}-{language-code}.zip` and organized by component paths (e.g., `component-slug/po/lang.po`).
+    Download a ZIP file of all translation files for a specified ``language_code`` across all components for a given ``project`` rather than downloading individual translated files and manually zipping them, with the archive named `{project-slug}-{language-code}.zip` and organized by component paths (e.g., `component-slug/po/lang.po`).
+    
     :param project: Project URL slug
     :type project: string
-
-    :param language: Language code
-    :type language: string
-
+    :param language_code: Language code
+    :type language_code: string
+    :query string filter: Optional case-insensitive substring to filter components by slug (e.g., ``?filter=core`` will match components with 'core' anywhere in their slug); only components whose slugs contain the substring will be included in the download.
     :query string format: The archive format to use; If not specified, defaults to ``zip``; Supported formats: ``zip`` and ``zip:CONVERSION`` where ``CONVERSION`` is one of converters listed at :ref:`download`.
-    :query string filter: Optional regex pattern to filter components by slug (e.g., ``?filter=core|ui``); only components whose slugs match the regex will be included in the download.
+    
     .. note::
 
        Possible errors:
 
        - ``403 Forbidden`` if the user does not have permission to the project.
        - ``404 Not Found`` if the project slug does not exist or the language code does not match any existing codes.
+
 Components
 ++++++++++
 
