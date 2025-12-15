@@ -2725,9 +2725,6 @@ class ProjectAPITest(APIBaseTest):
         with zipfile.ZipFile(BytesIO(response.content)) as zf:
             zip_names = set(zf.namelist())
 
-        # Build expected arcnames relative to data_dir("vcs") mirroring download_multi
-        from weblate.utils.data import data_dir
-
         root = data_dir("vcs")
 
         project = Project.objects.get(slug=self.project_kwargs["slug"])
@@ -2766,8 +2763,6 @@ class ProjectAPITest(APIBaseTest):
         )
         with zipfile.ZipFile(BytesIO(response.content)) as zf:
             zip_names = set(zf.namelist())
-
-        from weblate.utils.data import data_dir
 
         root = data_dir("vcs")
 
