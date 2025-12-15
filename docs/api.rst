@@ -1345,14 +1345,12 @@ Projects
     :query string format: The archive format to use; If not specified, defaults to ``zip``; Supported formats: ``zip`` and ``zip:CONVERSION`` where ``CONVERSION`` is one of converters listed at :ref:`download`.
     
     .. note::
-
-       .. error::
-
-       - ``403 Forbidden`` if the user does not have permission to the project.
-       - ``404 Not Found`` if the project slug does not exist or the language code does not match any existing codes.
-
-       .. success::
-         - ``200 OK`` with the ZIP file of translations for the specified language across all components in the project.
+        
+        Possible responses:
+        
+        - ``200 OK`` with the ZIP file of translations for the specified language across all components in the project. If no components have translations for the specified language, an empty ZIP file will be returned.
+        - ``403 Forbidden`` if the user does not have permission to the project.
+        - ``404 Not Found`` if the project slug does not exist.
          
 Components
 ++++++++++
