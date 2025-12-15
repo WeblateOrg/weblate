@@ -109,7 +109,11 @@ def perform_load(
     if user_id:
         request = AuthenticatedHttpRequest()
         request.user = User.objects.get(pk=user_id)
-    component = Component.objects.get(pk=pk)
+    try:
+        component = Component.objects.get(pk=pk)
+    except Component.DoesNotExist:
+        # Component was removed
+        return
     component.create_translations_immediate(
         force=force,
         force_scan=force_scan,
