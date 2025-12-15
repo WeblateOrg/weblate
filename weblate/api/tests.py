@@ -5,10 +5,10 @@
 import os
 import zipfile
 from copy import copy
-from unittest.mock import patch
 from datetime import UTC, datetime, timedelta
 from io import BytesIO
 from pathlib import Path
+from unittest.mock import patch
 
 import responses
 from django.conf import settings
@@ -1341,7 +1341,9 @@ class RoleAPITest(APIBaseTest):
 
 
 class ProjectAPITest(APIBaseTest):
-    def attach_component_template(self, component: Component, filename: str = "template.pot") -> None:
+    def attach_component_template(
+        self, component: Component, filename: str = "template.pot"
+    ) -> None:
         template_path = Path(component.full_path, filename)
         template_path.parent.mkdir(parents=True, exist_ok=True)
         template_path.write_bytes(TEST_POT)
