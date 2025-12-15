@@ -32,6 +32,10 @@ Weblate 5.15
 
 .. rubric:: Bug fixes
 
+* Improper invitation validation upon accepting (:cve:`2025-64725` / :ghsa:`m6hq-f4w9-qrjj`).
+* Server-Side Request Forgery while cloning repository (:cve:`2025-66407` / :ghsa:`hfpv-mc5v-p9mm`).
+* Over‑permissive webhook endpoint enabling mass repository updates plus component enumeration (:cve:`2025-67492` / :ghsa:`pj86-258h-qrvf`).
+* Notification settings disclosure via Weblate API (:cve:`2025-67715` / :ghsa:`3pmh-24wp-xpf4`).
 * :ref:`mt-deepl` integration now correctly handles translating to Chinese variants.
 * :doc:`/formats/csv` format saving translations with empty source fields when using monolingual base files.
 * Tighter validation of user and full names to avoid confusing homoglyphs.
