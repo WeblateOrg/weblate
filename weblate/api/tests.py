@@ -5,6 +5,7 @@
 import os
 import zipfile
 from copy import copy
+from unittest.mock import patch
 from datetime import UTC, datetime, timedelta
 from io import BytesIO
 from pathlib import Path
@@ -1340,6 +1341,13 @@ class RoleAPITest(APIBaseTest):
 
 
 class ProjectAPITest(APIBaseTest):
+    def attach_component_template(self, component: Component, filename: str = "template.pot") -> None:
+        template_path = Path(component.full_path, filename)
+        template_path.parent.mkdir(parents=True, exist_ok=True)
+        template_path.write_bytes(TEST_POT)
+        component.template = filename
+        component.save(update_fields=["template"])
+
     def test_list_projects(self) -> None:
         response = self.client.get(reverse("api:project-list"))
         self.assertEqual(response.data["count"], 1)
@@ -2702,6 +2710,7 @@ class ProjectAPITest(APIBaseTest):
         )
 
     def test_project_language_zip_contents(self) -> None:
+        self.attach_component_template(self.component)
         # Ensure we can inspect actual entries in the zip and they match expectations
         response = self.do_request(
             "api:project-language-file",
@@ -2743,6 +2752,7 @@ class ProjectAPITest(APIBaseTest):
 
     def test_download_project_translations_language_path_filter(self) -> None:
         other_component = self.create_po(name="Other", project=self.component.project)
+        self.attach_component_template(self.component)
 
         response = self.do_request(
             "api:project-language-file",
@@ -2794,15 +2804,25 @@ class ProjectAPITest(APIBaseTest):
         self.assertTrue(zip_names.isdisjoint(excluded))
         self.assertGreater(len(zip_names), 0)
 
-    def test_download_project_translations_language_path_filter_invalid(self) -> None:
-        self.do_request(
+    @patch("weblate.api.views.ComponentSlugFilter")
+    def test_download_project_translations_language_path_filter_invalid(
+        self, filter_class
+    ) -> None:
+        filter_instance = filter_class.return_value
+        filter_instance.is_valid.return_value = False
+        filter_instance.errors = {"filter": ["invalid"]}
+
+        response = self.do_request(
             "api:project-language-file",
             {**self.project_kwargs, "language_code": "cs"},
             method="get",
-            code=200,
+            code=400,
             superuser=True,
             request={"format": "zip", "filter": "["},
         )
+
+        filter_instance.is_valid.assert_called_once()
+        self.assertEqual(response.status_code, 400)
 
     def test_credits(self) -> None:
         self.do_request(
