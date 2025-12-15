@@ -1346,14 +1346,14 @@ Projects
     
     .. note::
 
-       Possible errors:
+       .. error::
 
        - ``403 Forbidden`` if the user does not have permission to the project.
        - ``404 Not Found`` if the project slug does not exist or the language code does not match any existing codes.
 
-    .. success::
-       - If the language code does not match any existing codes or is unused in the project, a ``200 OK`` response is returned with an empty ZIP file.
-
+       .. success::
+         - ``200 OK`` with the ZIP file of translations for the specified language across all components in the project.
+         
 Components
 ++++++++++
 
