@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-13 13:30+0100\n"
-"PO-Revision-Date: 2025-12-07 20:01+0000\n"
+"PO-Revision-Date: 2025-12-14 11:47+0000\n"
 "Last-Translator: 大王叫我来巡山 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -13627,12 +13627,13 @@ msgid ""
 "not ``GITHUB_USERNAME``. This applies whether you're configuring for pull "
 "requests or any other VCS integration."
 msgstr ""
+"所有环境变量名必须包含 ``WEBLATE_`` 前缀。例如，要配置 Weblate 凭据，使用 "
+"``WEBLATE_GITHUB_USERNAME``，而不是 ``GITHUB_USERNAME``。 不论是配置拉取请求"
+"还是其他任何 VCS 集成，这都适用。"
 
 #: ../../admin/install/docker.rst:1117
-#, fuzzy
-#| msgid "An example configuration for GitHub might look like:"
 msgid "An example configuration for GitHub pull requests might look like:"
-msgstr "GitHub 的配置示例看上去像是这样："
+msgstr "GitHub 拉取请求的配置示例看上去像这样："
 
 #: ../../admin/install/docker.rst:1125
 msgid "Will be used as:"
@@ -16357,14 +16358,10 @@ msgstr ""
 "API 控制台打开记费。"
 
 #: ../../admin/machine.rst:374 ../../admin/machine.rst:433
-#, fuzzy
-#| msgid ""
-#| "`Google translate documentation <https://cloud.google.com/translate/"
-#| "docs>`_"
 msgid ""
 "`Google translate documentation <https://docs.cloud.google.com/translate/"
 "docs>`_"
-msgstr "`Google 翻译文档 <https://cloud.google.com/translate/docs>`_"
+msgstr "`Google 翻译文档 <https://docs.cloud.google.com/translate/docs>`_"
 
 #: ../../admin/machine.rst:394
 msgid "Google Translate service account info"
@@ -16449,40 +16446,28 @@ msgid "`Grant 'Storage Admin' permission to the Service Account.`_"
 msgstr "`授予服务账户 'Storage Admin' 权限.`_"
 
 #: ../../admin/machine.rst:434
-#, fuzzy
-#| msgid ""
-#| "`Authenticate to Cloud services using client libraries <https://"
-#| "cloud.google.com/docs/authentication/client-libraries>`_"
 msgid ""
 "`Authenticate to Cloud services using client libraries <https://"
 "docs.cloud.google.com/docs/authentication/client-libraries>`_"
 msgstr ""
-"`用客户端库进行云服务身份认证 <https://cloud.google.com/docs/authentication/"
-"client-libraries>`_"
+"`用客户端库进行云服务身份认证 <https://docs.cloud.google.com/docs/"
+"authentication/client-libraries>`_"
 
 #: ../../admin/machine.rst:435
-#, fuzzy
-#| msgid ""
-#| "`Creating Google Translate project <https://cloud.google.com/appengine/"
-#| "docs/standard/nodejs/building-app/creating-project>`_"
 msgid ""
 "`Creating Google Translate project <https://docs.cloud.google.com/appengine/"
 "docs/standard/nodejs/building-app/creating-project>`_"
 msgstr ""
-"`创建 Google Translate 项目 <https://cloud.google.com/appengine/docs/"
+"`创建 Google Translate 项目 <https://doc.cloud.google.com/appengine/docs/"
 "standard/nodejs/building-app/creating-project>`_"
 
 #: ../../admin/machine.rst:436
-#, fuzzy
-#| msgid ""
-#| "`Google Cloud App Engine locations <https://cloud.google.com/appengine/"
-#| "docs/standard/locations>`_"
 msgid ""
 "`Google Cloud App Engine locations <https://docs.cloud.google.com/appengine/"
 "docs/standard/locations>`_"
 msgstr ""
-"`Google Cloud 应用引擎位置 <https://cloud.google.com/appengine/docs/standard/"
-"locations>`_"
+"`Google Cloud 应用引擎位置 <https://docs.cloud.google.com/appengine/docs/"
+"standard/locations>`_"
 
 #: ../../admin/machine.rst:441
 msgid "IBM Watson Language Translator"
@@ -17269,14 +17254,12 @@ msgstr "内存配置示例"
 msgid ""
 "Creates a demo billing project. Can be executed multiple times to add "
 "additional invoices and billing events."
-msgstr ""
+msgstr "创建演示账单项目。可多次执行添加额外的发票和账单事件。"
 
 #: ../../admin/management.rst:197
-#, fuzzy
-#| msgid "This can be useful when developing Weblate."
 msgid ""
 "This can be useful when developing Weblate. Needs :ref:`billing` installed."
-msgstr "这在开发 Weblate 时会有用。"
+msgstr "这在开发 Weblate 时也许会有用。需要安装 :ref:`billing`。"
 
 #: ../../admin/management.rst:210
 msgid "Displays length of Celery task queues."
@@ -24348,10 +24331,8 @@ msgid ""
 msgstr ":ref:`addon-weblate.fedora_messaging.publish` 现作为附加组件可用。"
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid ":ref:`check-perl-brace-format` quality check."
 msgid "Added :ref:`check-laravel-format` quality check."
-msgstr ":ref:`check-perl-brace-format` 质量检查。"
+msgstr "新增 :ref:`check-laravel-format` 质量检查。"
 
 #: ../../changes.rst:18 ../../changes.rst:88 ../../changes.rst:115
 #: ../../changes.rst:159 ../../changes.rst:208 ../../changes.rst:237
@@ -24438,12 +24419,12 @@ msgid ""
 "variables, commit authorship, hosted vs. self-hosted setup, and "
 "authentication options."
 msgstr ""
+"完善 VCS 集成文档澄清 Docker 环境变量、代码提交者身份、托管及自托管设置、及身"
+"份认证选项。"
 
 #: ../../changes.rst:31
-#, fuzzy
-#| msgid "Timestamp of last change to this file."
 msgid "Timestamps from past are now shown with more detail."
-msgstr "此文件上次更改的时间戳。"
+msgstr "现在更加详细地展示过往时间戳。"
 
 #: ../../changes.rst:34 ../../changes.rst:68 ../../changes.rst:92
 #: ../../changes.rst:122 ../../changes.rst:176 ../../changes.rst:213
@@ -36482,7 +36463,7 @@ msgstr "更改事件的事件句柄。"
 #: weblate.addons.base.BaseAddon.check_change_action:1
 msgid ""
 "Early filtering of Change actions before triggering change_event callback."
-msgstr ""
+msgstr "触发 change_event 调用前提前筛选更改操作。"
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.component_update:1
@@ -38649,6 +38630,8 @@ msgid ""
 "If you have :ref:`billing` installed as well, you can "
 "use :wladmin:`billing_demo` to create a demo billing project."
 msgstr ""
+"如果也安装了 :ref:`billing`，可以使用 :wladmin:`billing_demo` 创建演示账单项"
+"目。"
 
 #: ../../contributing/start.rst:135
 msgid "Coding Weblate with PyCharm"
@@ -41672,6 +41655,10 @@ msgid ""
 "and :setting:`DEFAULT_COMMITER_NAME`. This is a technical identifier showing "
 "that the commit was processed through Weblate."
 msgstr ""
+"Weblate 使用 ``Weblate <noreply@weblate.org>`` 作为所有提交的默认 "
+"**committer** ，此项由 :setting:`DEFAULT_COMMITER_EMAIL` 和 "
+":setting:`DEFAULT_COMMITER_NAME` 配置。这是显示提交是通过 Webalte 进行处理的"
+"技术标识符。"
 
 #: ../../faq.rst:271
 msgid ""
@@ -41681,6 +41668,9 @@ msgid ""
 "field. The same applies to Mercurial; only Subversion does not have this "
 "capability."
 msgstr ""
+"不过，每个提交的 **author** 会被正确记录为进行翻译的单个用户（使用 Git 时）。"
+"这表示可以查看 commit author 字段看到是谁实际翻译了每条字符串。这同样应用于 "
+"Mecurial；仅 Subversion 没有这个能力。"
 
 #: ../../faq.rst:278
 msgid ""
@@ -41688,23 +41678,19 @@ msgid ""
 "object) and the author (who made the changes). Weblate acts as the committer "
 "while preserving individual translator attribution as authors."
 msgstr ""
+"在 Git 中，提交人（创建提交对象的人）和作者（进行更改）的人有区别。Weblate 以"
+"提交人身份行事，同时保留个体译者归因作为作者。"
 
 #: ../../faq.rst:282
-#, fuzzy
-#| msgid ""
-#| "For commits where no authorship is known (for example anonymous "
-#| "suggestions or machine translation results), the authorship is credited "
-#| "to the anonymous user (see :setting:`ANONYMOUS_USER_NAME`). You can "
-#| "change the name and e-mail in the management interface."
 msgid ""
 "For commits where authorship cannot be determined (such as automated changes "
 "from anonymous suggestions or machine translation results), the author is "
 "set to the anonymous user. You can configure the anonymous user's name and e-"
 "mail in :setting:`ANONYMOUS_USER_NAME`."
 msgstr ""
-"对于不知道作者身份的提交（例如匿名建议或机器翻译结果），作者身份归匿名用户所"
-"有（参见 :setting:`ANONYMOUS_USER_NAME`）。您可以在管理界面中更改名称和电子邮"
-"件。"
+"无法确定身份的代码提交（例如来自匿名建议或机器翻译结果的自动更改），作者被设"
+"置为匿名用户。可以在 :setting:`ANONYMOUS_USER_NAME` 中配置匿名用户的名称和电"
+"子邮箱。"
 
 #: ../../faq.rst:292
 msgid "How to move files in the repository without losing history in Weblate?"
@@ -48173,22 +48159,20 @@ msgstr ""
 "html_node/javascript_002dformat.html>`_"
 
 #: ../../user/checks.rst:730
-#, fuzzy
-#| msgid "Lua format"
 msgid "Laravel format"
-msgstr "Lua 格式"
+msgstr "Laravel 格式"
 
 #: ../../user/checks.rst:733
-#, fuzzy
-#| msgid "Lua format string does not match source."
 msgid "Laravel format string does not match source."
-msgstr "Lua 格式的字符串与原文不匹配。"
+msgstr "Laravel 格式字符串与原文不匹配。"
 
 #: ../../user/checks.rst:745
 msgid ""
 "`Laravel translation formatting <https://laravel.com/docs/"
 "localization#replacing-parameters-in-translation-strings>`_"
 msgstr ""
+"`Laravel 翻译格式 <https://laravel.com/docs/localization#replacing-"
+"parameters-in-translation-strings>`_"
 
 #: ../../user/checks.rst:750
 msgid "Lua format"
@@ -49962,7 +49946,7 @@ msgstr "添加新字符串（``add``）"
 #: ../../user/files.rst:141
 msgid ""
 "Adds new strings to the translation. It skips the ones which already exist."
-msgstr ""
+msgstr "添加新的翻译字符串，跳过已存在的字符串。"
 
 #: ../../user/files.rst:143
 msgid ""
@@ -52116,6 +52100,8 @@ msgid ""
 "are running your own self-hosted Weblate instance, please see :ref:`the next "
 "section <vcs-repos-code-hosting>` instead."
 msgstr ""
+"此部分 **只** 适用于 Hosted Weblate。如果运行自己的自托管 Weblate 实例，请见 "
+":ref:`the next section <vcs-repos-code-hosting>`。"
 
 #: ../../vcs.rst:33
 msgid ""
@@ -52180,16 +52166,10 @@ msgid ""
 "This section applies to **self-hosted** Weblate instances. If you are using "
 "Hosted Weblate (hosted.weblate.org), see :ref:`hosted-push` instead."
 msgstr ""
+"此部分适用于 **自托管** Weblate 实例。如果使用 Hosted Weblate（"
+"hosted.weblate.org），见 :ref:`hosted-push`。"
 
 #: ../../vcs.rst:65
-#, fuzzy
-#| msgid ""
-#| "Accessing repositories on code hosting sites is typically done by "
-#| "creating a dedicated user who is associated with a Weblate SSH key "
-#| "(see :ref:`weblate-ssh-key`). This way you associate Weblate SSH key with "
-#| "a single user (platforms frequently enforce single use of a SSH key) and "
-#| "grant this user access to the repository. You can then use SSH URL to "
-#| "access the repository (see :ref:`ssh-repos`)."
 msgid ""
 "For self-hosted Weblate, accessing repositories on code hosting sites is "
 "typically done by creating a dedicated user who is associated with a Weblate "
@@ -52198,10 +52178,10 @@ msgid ""
 "and grant this user access to the repository. You can then use SSH URL to "
 "access the repository (see :ref:`ssh-repos`)."
 msgstr ""
-"访问代码托管站点上的仓库通常是通过创建和 Weblate SSH 密钥相关联的专门用户实现"
-"的（见 :ref:`weblate-ssh-key`）。这样做，你将 Weblate SSH 密钥与单一用户相关"
-"联（代码平台经常强制 SSH 密钥的单一使用）并授予此用户访问仓库的权限。关联后，"
-"你可以使用 SSH URL 来访问仓库（见 :ref:`ssh-repos`）。"
+"对于自托管 Weblate，访问代码托管站点上的仓库通常是通过创建和 Weblate SSH 密钥"
+"相关联的专门用户实现的（见 :ref:`weblate-ssh-key`）。这样做，你将 Weblate "
+"SSH 密钥与单一用户相关联（代码平台经常强制 SSH 密钥的单一使用）并授予此用户访"
+"问仓库的权限。关联后，你可以使用 SSH URL 来访问仓库（见 :ref:`ssh-repos`）。"
 
 #: ../../vcs.rst:75
 msgid "SSH repositories"
@@ -52365,60 +52345,48 @@ msgstr "GitHub 仓库"
 #: ../../vcs.rst:177
 msgid ""
 "There are two main approaches to accessing GitHub repositories with Weblate:"
-msgstr ""
+msgstr "通过 Weblate 访问 GitHub 访问主要有两种方法："
 
 #: ../../vcs.rst:179
 msgid ""
 "**Option 1: HTTPS with Personal Access Token (simpler for getting started)**"
-msgstr ""
+msgstr "**选项 1: HTTPS 加个人访问令牌（更容易上手）**"
 
 #: ../../vcs.rst:181
-#, fuzzy
-#| msgid ""
-#| "For smaller deployments, use HTTPS authentication with a personal access "
-#| "token and your GitHub account, see `Creating an access token for command-"
-#| "line use`_."
 msgid ""
 "Use HTTPS authentication with a personal access token and your GitHub "
 "account. This works for both read-only access (cloning) and read-write "
 "access (pushing changes or creating pull requests)."
 msgstr ""
-"对于较小的部署，使用带有个人访问令牌和您的 GitHub 账户的 HTTPS 身份认证，请参"
-"阅 `创建用于命令行使用的访问令牌`_。"
+"通过个人访问令牌和 GitHub 账户使用 HTTPS 身份认证。适用于只读访问（克隆）和读"
+"写访问（推送更改或创建拉取请求）。"
 
 #: ../../vcs.rst:185 ../../vcs.rst:200
 msgid "To use this approach:"
-msgstr ""
+msgstr "要使用这种方式："
 
 #: ../../vcs.rst:187
-#, fuzzy
-#| msgid ""
-#| "For smaller deployments, use HTTPS authentication with a personal access "
-#| "token and your GitHub account, see `Creating an access token for command-"
-#| "line use`_."
 msgid ""
 "Create a personal access token as described in `Creating an access token for "
 "command-line use`_."
-msgstr ""
-"对于较小的部署，使用带有个人访问令牌和您的 GitHub 账户的 HTTPS 身份认证，请参"
-"阅 `创建用于命令行使用的访问令牌`_。"
+msgstr "按照 `创建用于命令行使用的访问令牌`_ 所述创建个人访问令牌。"
 
 #: ../../vcs.rst:188
 msgid ""
 "Include the token in your repository URL: ``https://"
 "username:token@github.com/owner/repo.git``"
-msgstr ""
+msgstr "在仓库 URL 中包括令牌：``https://username:token@github.com/owner/repo.git``"
 
 #: ../../vcs.rst:190
 msgid ""
 "This is suitable when you're starting with Weblate or working with a single "
 "repository."
-msgstr ""
+msgstr "这适合刚开始使用 Weblate 或只有单个仓库的情况。"
 
 #: ../../vcs.rst:194
 msgid ""
 "**Option 2: SSH with Dedicated User (recommended for multiple repositories)**"
-msgstr ""
+msgstr "**选项 2: SSH 加专门用户（多仓库推荐使用这个）**"
 
 #: ../../vcs.rst:196
 msgid ""
@@ -52426,43 +52394,43 @@ msgid ""
 "dedicated user for Weblate. This avoids GitHub's limitation that each SSH "
 "key can only be used once per platform."
 msgstr ""
+"多仓库设置建议为 Weblate 创建专门用户。这避免 GitHub 每枚 SSH 密钥每个平台只"
+"能用一次的限制。"
 
 #: ../../vcs.rst:202
 msgid "Create a dedicated GitHub user account (e.g., ``weblate-bot``)"
-msgstr ""
+msgstr "创建专门的 GitHub 用户账户（如 ``weblate-bot``）"
 
 #: ../../vcs.rst:203
 msgid "Add Weblate's public SSH key to this user (see :ref:`weblate-ssh-key`)"
-msgstr ""
+msgstr "添加 Weblate 的 SSH 公钥到这个用户（见 :ref:`weblate-ssh-key`）"
 
 #: ../../vcs.rst:204
 msgid "Grant this user access to all repositories you want to translate"
-msgstr ""
+msgstr "授予该用户访问所有你想翻译的仓库的权限"
 
 #: ../../vcs.rst:205
 msgid "Use SSH URLs for your repositories: ``git@github.com:owner/repo.git``"
-msgstr ""
+msgstr "对仓库使用 SSH URL：``git@github.com:owner/repo.git``"
 
 #: ../../vcs.rst:207
 msgid ""
 "This approach is also used for Hosted Weblate, which has a "
 "dedicated :guilabel:`weblate` user for that purpose."
 msgstr ""
+"此方式同样用于 Hosted Weblate，Hosted Weblate 有专门的 :guilabel:`weblate` 用"
+"户用于此目的。"
 
 #: ../../vcs.rst:212
-#, fuzzy
-#| msgid ""
-#| "In case the :ref:`component-push_branch` is not set, the project is "
-#| "forked and changes pushed through a fork. In case it is set, changes are "
-#| "pushed to the upstream repository and chosen branch."
 msgid ""
 "When using :ref:`vcs-github` for pull requests, the :ref:`component-"
 "push_branch` configuration affects the behavior: if not set, the project is "
 "forked and changes are pushed through a fork. If set, changes are pushed to "
 "the upstream repository and the chosen branch."
 msgstr ""
-"如果 :ref:`component-push_branch` 未设置，则项目将被分叉并通过分叉推送更改。"
-"如果已设置，更改将推送到上游仓库和选择的分支。"
+"使用 :ref:`vcs-github` 进行拉取更改时，:ref:`component-push_branch` 配置影响"
+"行为：如未设置，项目将被分叉，更改通过分叉推送。如已设置，更改将推送到上游仓"
+"库和选择的分支。"
 
 #: ../../vcs.rst:226
 msgid "GitLab repositories"

@@ -64,7 +64,7 @@ class SamePluralsCheck(TargetCheck):
         # Is this plural?
         if len(sources) == 1 or len(targets) == 1:
             return False
-        if not targets[0]:
+        if not targets or not targets[0]:
             return False
         return len(set(targets)) == 1
 
