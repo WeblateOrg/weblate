@@ -1341,7 +1341,9 @@ class RoleAPITest(APIBaseTest):
 
 
 class ProjectAPITest(APIBaseTest):
-    def attach_component_template(self, component: Component, filename: str = "template.pot") -> None:
+    def attach_component_template(
+        self, component: Component, filename: str = "template.pot"
+    ) -> None:
         template_path = Path(component.full_path, filename)
         template_path.parent.mkdir(parents=True, exist_ok=True)
         template_path.write_bytes(Path(TEST_POT).read_bytes())
