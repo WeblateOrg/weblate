@@ -105,6 +105,15 @@ class WeblateLock:
             return f"Lock on {self.origin} ({self.scope}) could not be acquired in {self._timeout}s"
         return f"Lock on {self._name} could not be acquired in {self._timeout}s"
 
+    def reacquire(self) -> None:
+        """
+        Refresh the lock.
+
+        This is needed with Redis as the lock is expiring to avoid it stay infinitely.
+        """
+        if self._using_redis:
+            self._redis_lock.reacquire()
+
     def _enter_redis(self) -> None:
         # Make the lock reentrant
         if self._redis_lock.owned():

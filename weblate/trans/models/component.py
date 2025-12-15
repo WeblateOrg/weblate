@@ -2287,6 +2287,7 @@ class Component(
         # Commit pending changes
         with self.repository.lock:
             for translation in translations:
+                self.repository.lock.reacquire()
                 translation = reuse_self(translation)
                 component = translation.component
                 if component.pk in skipped:
@@ -2755,6 +2756,12 @@ class Component(
                 raise InvalidTemplateError(info=str(exc)) from exc
         self._template_check_done = True
 
+    def refresh_lock(self) -> None:
+        """Refresh the lock to avoid expiry in long operations."""
+        self.lock.reacquire()
+        if self.linked_component:
+            self.linked_component.lock.reacquire()
+
     def _create_translations(  # noqa: C901,PLR0915
         self,
         *,
@@ -2825,6 +2832,8 @@ class Component(
                 c.translation_set.count() for c in self.linked_children
             )
         for pos, path in enumerate(matches):
+            self.refresh_lock()
+
             if not self._sources_prefetched and path != source_file:
                 self.preload_sources()
             with transaction.atomic():
