@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-13 13:30+0100\n"
-"PO-Revision-Date: 2025-12-14 11:48+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-12-15 14:05+0000\n"
+"Last-Translator: Takeru Mikenu <mikenu-jp@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -14956,12 +14956,17 @@ msgstr ""
 "用されます。"
 
 #: ../../admin/install/docker.rst:1113
+#, fuzzy
 msgid ""
 "All environment variable names must include the ``WEBLATE_`` prefix. For "
 "example, to configure GitHub credentials, use ``WEBLATE_GITHUB_USERNAME``, "
 "not ``GITHUB_USERNAME``. This applies whether you're configuring for pull "
 "requests or any other VCS integration."
 msgstr ""
+"すべての環境変数名には、``WEBLATE``_ の接頭辞を含める必要があります。たとえば"
+"、GitHub の認証情報を設定するには、``GITHUB_USERNAME`` ではなく"
+"、``WEBLATE_GITHUB_USERNAME`` を使用してください。これは、プルリクエストの設"
+"定であろうと、その他の VCS 連携の設定であろうと適用されます。"
 
 #: ../../admin/install/docker.rst:1117
 #, fuzzy
@@ -16426,28 +16431,37 @@ msgid ""
 "disruptive traffic on the server. It is typically needed for publicly open "
 "Weblate installations to avoid excessive load caused by scraping."
 msgstr ""
+"`Anubis`_ は、AI スクレイパーや他の障害トラフィックをサーバーで遮断する Web "
+"AI ファイアウォールユーティリティです。スクレイピングによる過負荷を回避するた"
+"め、公開された Weblate 環境では一般的に必要です。"
 
 #: ../../admin/install/docker.rst:2416
 msgid "Anubis can be deployed using Docker Compose:"
-msgstr ""
+msgstr "Anubis は Docker Compose を使用してデプロイできます:"
 
 #: ../../admin/install/docker.rst:2450
 msgid ""
 "The ``anubis-data`` volume in the above configuration is expected to "
 "contain :file:`botPolicies.yaml` with a bot policy configured to your needs."
 msgstr ""
+"上記の構成における ``anubis-data`` ボリュームには、ニーズに合わせて設定された"
+"ボットポリシーを含む :file:`botPolicies.yaml` が含まれている必要があります。"
 
 #: ../../admin/install/docker.rst:2453
 msgid ""
 "At minimum, you need to adjust status codes as described in https://"
 "anubis.techaro.lol/docs/admin/configuration/subrequest-auth."
 msgstr ""
+"最低限、ステータスコードは https://anubis.techaro.lol/docs/admin/"
+"configuration/subrequest-auth に記載の通りに調整する必要があります。"
 
 #: ../../admin/install/docker.rst:2456
 msgid ""
 "It is also recommended to configure persistent storage backend as described "
 "in https://anubis.techaro.lol/docs/admin/policies/#storage-backends."
 msgstr ""
+"また、永続ストレージバックエンドを https://anubis.techaro.lol/docs/admin/"
+"policies/#storage-backends に記載されている通りに設定することも推奨されます。"
 
 #: ../../admin/install/docker.rst:2460
 #, fuzzy
@@ -16986,6 +17000,8 @@ msgid ""
 ":ref:`troubleshoot-pip-install` describes frequent issues while installing "
 "Python dependencies."
 msgstr ""
+":ref:`troubleshoot-pip-install` には、Python 依存関係のインストール中によくあ"
+"る問題が記載されています。"
 
 #: ../../admin/install/steps/install-system-devel.rst:5
 msgid "System requirements"
@@ -17047,6 +17063,9 @@ msgid ""
 "Older distributions do not have ``libgirepository-2.0-dev``, use "
 "``libgirepository1.0-dev`` instead. See also :ref:`troubleshoot-pip-install`."
 msgstr ""
+"古いディストリビューションには ``libgirepository-2.0-dev`` がないため、 "
+"``libgirepository1.0-dev`` を使用してください。:ref:`troubleshoot-pip-"
+"install` も参照してください。"
 
 #: ../../admin/install/venv-macos.rst:2
 msgid "Installing on macOS"
@@ -17222,6 +17241,8 @@ msgid ""
 "Please consider contributing your changes back, see :ref:`extending-"
 "languages`."
 msgstr ""
+"あなたの変更を還元することをご検討ください。詳細は :ref:`extending-"
+"languages` を参照してください。"
 
 #: ../../admin/languages.rst:88
 msgid "Ambiguous language codes and macrolanguages"
@@ -17358,11 +17379,11 @@ msgstr ""
 
 #: ../../admin/languages.rst:183
 msgid "`Additional functions for plural forms in GNU gettext`_"
-msgstr ""
+msgstr "`GNU gettext における複数形のための追加関数`_"
 
 #: ../../admin/languages.rst:184
 msgid "`Language Plural Rules by the Unicode Consortium`_"
-msgstr ""
+msgstr "`Unicode Consortium による言語の複数形ルール`_"
 
 #: ../../admin/licensing.rst:2
 msgid "Licensing translations"
