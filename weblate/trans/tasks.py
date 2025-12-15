@@ -757,7 +757,7 @@ def setup_periodic_tasks(sender, **kwargs) -> None:
 def perform_file_sync_for_autobatchtranslation(
     pk: int,
     *,
-    langs: list[str] | None = None,
+    lang: str | None = None,
     user_id: int | None = None,
 ) -> bool:
     """Write pending changes to files and commit them for autobatch translation."""
@@ -766,11 +766,11 @@ def perform_file_sync_for_autobatchtranslation(
         request = HttpRequest()
         request.user = User.objects.get(pk=user_id)
     component = Component.objects.get(pk=pk)
+
     return component._do_file_sync_for_autobatchtranslation_immediate(
-        langs=langs,
+        lang=lang,
         request=request,
     )
-
 
 @app.task(
     trail=False,
@@ -780,7 +780,7 @@ def perform_file_sync_for_autobatchtranslation(
 )
 def perform_autobatchtranslate_via_openrouter(
     pk: int,
-    *,        
+    *,
     lang: str | None = None,
     user_id: int | None = None,
     file_sync: bool = False,

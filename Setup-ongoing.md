@@ -394,3 +394,23 @@ PGPASSWORD=weblate pg_restore -h 127.0.0.1 -U weblate -d weblate /path/to/backup
 
 # For SQL format:
 PGPASSWORD=weblate psql -h 127.0.0.1 -U weblate -d weblate < /path/to/backup.sql
+
+# Install the latest po4a (v0.74)
+  git clone https://github.com/mquinson/po4a.git
+  cd po4a
+  git checkout v0.74
+  git describe --tags
+  sudo apt update
+  sudo apt install build-essential libmodule-build-perl gettext
+
+  perl Build.PL
+  sudo ./Build build
+  sudo ./Build install
+
+  po4a --version
+
+# Remove the latest po4a (v0.74)
+  sudo make uninstall          # if the Makefile supports it
+  
+  sudo rm -f /usr/local/bin/po4a* /usr/local/bin/po4a-*
+  sudo rm -rf /usr/local/share/po4a

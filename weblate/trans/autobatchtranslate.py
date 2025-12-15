@@ -1,5 +1,5 @@
 # Copyright © William
-# 
+#
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 from __future__ import annotations
@@ -120,11 +120,11 @@ def _create_chunks(units_data, chunk_size=50):
         """Split units data into chunks for batch processing."""
         units_list = list(units_data.items())
         chunks = []
-        
+
         for i in range(0, len(units_data), chunk_size):
             chunk_dict = dict(units_list[i:i + chunk_size])
             chunks.append(chunk_dict)
-        
+
         return chunks
 
 def _build_system_prompt(source_language, target_language):
@@ -136,12 +136,12 @@ def _build_system_prompt(source_language, target_language):
         2. OUTPUT: You MUST return a VALID JSON OBJECT with the EXACT same keys - this is MANDATORY
         3. BATCH CONTEXT: This is a BATCH translation where all strings are related and from the same document. Ensure terminology consistency and contextual coherence across ALL translations in the batch.
         4. CHUNKED PROCESSING: IMPORTANT - This request may be part of a larger document split into chunks. Even though you only see this chunk, you MUST maintain consistency with potential other chunks from the same document. Use standard technical terminology that would be consistent across the entire document.
-        
+
         TRANSLATION GUIDELINES:
         - Maintain CONSISTENT terminology and style across all translations in the batch AND across all chunks of the same document
         - Use the SAME {target_language} translation for recurring technical terms across all strings, even when processing different chunks
         - Maintain technical accuracy and formatting across all strings
-        - Preserve code blocks, links, and markdown syntax in all strings
+        - Preserve code blocks, links, and syntax in all strings
         - Use standard {target_language} technical terminology for C++ and Boost libraries CONSISTENTLY
         - When translating terms, use the standard, widely-accepted translation that would be consistent across the entire document, not just this chunk
 
@@ -149,7 +149,7 @@ def _build_system_prompt(source_language, target_language):
         INPUT:  {{"1": "{source_language} text 1", "2": "{source_language} text 2", "3": "{source_language} text 3"}}
         OUTPUT: {{"1": "{target_language} translation 1", "2": "{target_language} translation 2", "3": "{target_language} translation 3"}}
 
-        CRITICAL: Return ONLY the raw JSON object. NO markdown code fences, NO explanations, NO extra formatting.
+        CRITICAL: Return ONLY the raw JSON object. NO code fences, NO explanations, NO extra formatting.
         The response MUST be parseable as valid JSON or the entire batch will fail."""
 
 def _build_user_prompt(chunk_json, source_language, target_language):
@@ -161,7 +161,7 @@ def _build_user_prompt(chunk_json, source_language, target_language):
 
 def _translate_chunk_with_retries(
     translation: "Translation",
-    translator, chunk_json, chunk_keys, chunk_idx, total_chunks, 
+    translator, chunk_json, chunk_keys, chunk_idx, total_chunks,
     system_prompt, user_prompt, max_retries=3
 ):
     """Translate a single chunk with retry logic."""
@@ -171,7 +171,7 @@ def _translate_chunk_with_retries(
         total_chunks,
         len(chunk_keys),
     )
-    
+
     for attempt in range(max_retries):
         try:
             translated_json = translator.translate_batch_json(
@@ -179,14 +179,14 @@ def _translate_chunk_with_retries(
                 system_prompt,
                 user_prompt,
             )
-            
+
             ok, chunk_translated = _validate_and_parse_response(
                 translation, translated_json, chunk_keys
             )
-            
+
             if ok:
                 return chunk_translated
-                
+
         except Exception as e:
             translation.log_warning(
                 "Chunk %d/%d translation attempt %d/%d failed: %s",
@@ -196,7 +196,7 @@ def _translate_chunk_with_retries(
                 max_retries,
                 e,
             )
-    
+
     translation.log_error(
         "Chunk %d/%d translation failed after %d attempts. Skipping chunk.",
         chunk_idx,
@@ -209,14 +209,14 @@ def _translate_chunk_with_retries(
 def _validate_translation_completeness(translation: "Translation", all_translated_data, expected_keys):
     """Validate that all expected keys were translated."""
     translated_keys = set(all_translated_data.keys())
-    
+
     if translated_keys == expected_keys:
         translation.log_info(
             "All chunks translated successfully. Total: %d units",
             len(all_translated_data),
         )
         return True
-    
+
     missing_keys = expected_keys - translated_keys
     translation.log_error(
         "Translation incomplete. Missing %d units out of %d total",
@@ -243,20 +243,20 @@ def _translate_with_retries(
     # Get language names
     source_language = translation.component.source_language.name
     target_language = translation.language.name
-    
+
     # Build system prompt (same for all chunks)
     system_prompt = _build_system_prompt(source_language, target_language)
-    
+
     # Translate each chunk and combine results
     all_translated_data = {}
-    
+
     for chunk_idx, chunk_data in enumerate(chunks, 1):
         chunk_json = json.dumps(chunk_data, ensure_ascii=False, indent=2)
         chunk_keys = set(chunk_data.keys())
         user_prompt = _build_user_prompt(
             chunk_json, source_language, target_language
         )
-        
+
         chunk_translated = _translate_chunk_with_retries(
             translation=translation,
             translator=translator,
@@ -268,14 +268,14 @@ def _translate_with_retries(
             user_prompt=user_prompt,
             max_retries=3,
         )
-        
+
         if chunk_translated:
             all_translated_data.update(chunk_translated)
 
     # Validate completeness
     if _validate_translation_completeness(translation, all_translated_data, expected_keys):
         return all_translated_data
-    
+
     return all_translated_data if all_translated_data else None
 
 
@@ -310,7 +310,7 @@ def _validate_and_parse_response(translation: "Translation", translated_json, ex
 
 def _apply_batch_translations(translation: "Translation", translated_data, unit_map, total_units):
     from weblate.utils.state import STATE_FUZZY
-    
+
     translated_count = 0
     failed_count = 0
 
@@ -336,25 +336,31 @@ def _apply_batch_translations(translation: "Translation", translated_data, unit_
         try:
             from weblate.trans.models.pending import PendingUnitChange
             from weblate.auth.models import User
-            
-            unit.target = target
-            unit.state = STATE_FUZZY  # fuzzy/needs editing per user request
-            unit.save(update_fields=['target', 'state'])
-            
-            # Create pending change so file sync can write it to disk
+            from weblate.trans.models.change import ActionEvents
+
             # Get or create a bot user for autobatch translation
             bot_user = User.objects.get_or_create_bot(
                 scope="weblate", name="Autobatch_translatior", verbose="autobatch_translatior"
             )
-            PendingUnitChange.store_unit_change(
-                unit=unit,
+
+            # Use unit.translate() instead of unit.save() directly
+            # This ensures proper flow: save_backend() -> post_save() -> invalidate_cache()
+            # Also creates Change objects and updates user stats
+            saved = unit.translate(
+                user=bot_user,
+                new_target=target,
+                new_state=STATE_FUZZY,
+                change_action=ActionEvents.AUTO,
+                propagate=True,
                 author=bot_user,
-                target=target,
-                state=STATE_FUZZY,
+                request=None,
             )
-            
-            translated_count += 1
-            translation.log_debug("Translated unit %d: %s -> %s", unit.id, unit.source[:30], target[:30])
+
+            if saved:
+                translated_count += 1
+                translation.log_debug("Translated unit %d: %s -> %s", unit.id, unit.source[:30], target[:30])
+            else:
+                translation.log_warning("Unit %d translation was not saved (no change detected)", unit.id)
         except Exception as e:
             translation.log_warning("Failed to save translation for unit %d: %s", unit_id, e)
             failed_count += 1
