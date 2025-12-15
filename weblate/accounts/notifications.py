@@ -1030,7 +1030,7 @@ class ToDoStringsNotification(SummaryNotification):
 
 
 def get_notification_emails(
-    language: str,
+    language: str | None,
     recipients: list[str],
     notification: str,
     context: dict[str, Any] | None = None,
@@ -1071,7 +1071,7 @@ def get_notification_emails(
 
 
 def send_notification_email(
-    language: str,
+    language: str | None,
     recipients: list[str],
     notification: str,
     context: dict[str, Any] | None = None,
