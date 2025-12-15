@@ -699,6 +699,21 @@ form + .login-label {
   right: 15px;
   transform: translateY(-100%);
   z-index: 10;
+  width: fit-content;
+}
+
+[dir="rtl"] .btn-float {
+  right: auto;
+  left: 15px;
+}
+
+.col-sm-9 .btn-float {
+  right: 25%;
+}
+
+[dir="rtl"] .btn-float {
+  right: auto;
+  left: 25%;
 }
 
 #nearby,
@@ -714,6 +729,7 @@ form + .login-label {
   .btn-float {
     box-shadow: none;
     transform: none;
+    position: static;
   }
 
   #comments #comment-section {
@@ -830,7 +846,7 @@ legend {
   font-weight: bold;
 }
 
-.shot-list .img-responsive {
+.shot-list .img-fluid {
   max-height: 15em;
 }
 
@@ -866,6 +882,10 @@ legend {
 .search-icon svg {
   height: 16px;
   width: 16px;
+}
+
+.search-icon path {
+  fill: #1fa385;
 }
 
 .query-sort-toggle {
@@ -1099,11 +1119,6 @@ input[type="month"].form-control {
   height: 240px;
   text-align: center;
   padding-top: auto;
-}
-
-.dir-rtl .pull-right > .dropdown-menu {
-  left: 0;
-  right: auto;
 }
 
 #profile-name {
@@ -1902,6 +1917,7 @@ a.language:hover {
 }
 .tribute-container > .dropdown-menu {
   position: relative;
+  display: block;
 }
 .tribute-container > .dropdown-menu > li.highlight > a {
   color: #262626;
@@ -2145,7 +2161,7 @@ a.language:hover {
 .input-group > .form-control {
   height: 38px;
 }
-.input-group-addon label {
+.input-group-text label {
   display: inherit;
   max-width: inherit;
   margin-bottom: inherit;
@@ -2535,6 +2551,10 @@ table.table-simple tbody#glossary-terms td {
   background-color: #1fa385;
 }
 
+.dropdown-toggle::after {
+  vertical-align: middle;
+}
+
 .nav-link.dropdown-toggle::after {
   vertical-align: 0.155em;
 }
@@ -2582,6 +2602,10 @@ table.table-simple tbody#glossary-terms td {
   border: 1px solid #bfc3c7;
 }
 
+.card-header > .card-title > .badge {
+  background-color: var(--bs-secondary);
+}
+
 .card-header.text-bg-warning > .card-title > .badge {
   color: #fcf8e3;
   background-color: #8a6d3b;
@@ -2592,5 +2616,17 @@ table.table-simple tbody#glossary-terms td {
 }
 
 .translator .card .list-group .list-group-item {
+  border-radius: 4px;
+}
+
+.badge.text-bg-info {
+  color: #ffffff !important;
+}
+
+.text-bg-success {
+  color: #3c763d !important;
+}
+
+.input-group-text {
   border-radius: 4px;
 }

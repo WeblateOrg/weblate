@@ -177,11 +177,15 @@ Azure OpenAI
                 |                     |                           |                                                                                                                           |
                 |                     |                           | ``secondary`` -- Secondary language defined in project or component                                                       |
                 +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
-                | ``key``             | API key                   |                                                                                                                           |
+                | ``base_url``        | API URL                   |                                                                                                                           |
+                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``model``           | LLM model                 |                                                                                                                           |
                 +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
                 | ``persona``         | Translator persona        | Describe the persona of translator to improve the accuracy of the translation. For example: “You are a squirrel breeder.” |
                 +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
                 | ``style``           | Translator style          | Describe the style of translation. For example: “Use informal language.”                                                  |
+                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``key``             | API key                   |                                                                                                                           |
                 +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
                 | ``azure_endpoint``  | Azure OpenAI endpoint URL | Endpoint URL of the instance, e.g: https://my-instance.openai.azure.com.                                                  |
                 +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
@@ -367,7 +371,7 @@ billing in the Google API console.
 
 .. seealso::
 
-    `Google translate documentation <https://cloud.google.com/translate/docs>`_
+    `Google translate documentation <https://docs.cloud.google.com/translate/docs>`_
 
 .. _mt-google-translate-api-v3:
 
@@ -408,8 +412,8 @@ In order to use this service, you first need to go through the following steps:
 4. `Setup Authentication.`_
 
 .. _Select or create a Cloud Platform project.: https://console.cloud.google.com/project
-.. _Enable billing for your project.: https://cloud.google.com/billing/docs/how-to/modify-project#enable_billing_for_a_project
-.. _Enable the Cloud Translation.: https://cloud.google.com/translate/docs/
+.. _Enable billing for your project.: https://docs.cloud.google.com/billing/docs/how-to/modify-project#enable_billing_for_a_project
+.. _Enable the Cloud Translation.: https://docs.cloud.google.com/translate/docs
 .. _Setup Authentication.: https://googleapis.dev/python/google-api-core/latest/auth.html
 
 
@@ -419,17 +423,17 @@ Optionally, you can configure the service to use :ref:`glossary` by setting up a
 2. `Set bucket location to "us-central1".`_
 3. `Grant 'Storage Admin' permission to the Service Account.`_
 
-.. _Create a Google Cloud bucket.: https://cloud.google.com/storage/docs/creating-buckets
-.. _Set bucket location to "us-central1".: https://cloud.google.com/translate/docs/migrate-to-v3#resources_projects_and_locations
-.. _Grant 'Storage Admin' permission to the Service Account.: https://cloud.google.com/translate/docs/access-control
+.. _Create a Google Cloud bucket.: https://docs.cloud.google.com/storage/docs/creating-buckets
+.. _Set bucket location to "us-central1".: https://docs.cloud.google.com/translate/docs/migrate-to-v3#resources_projects_and_locations
+.. _Grant 'Storage Admin' permission to the Service Account.: https://docs.cloud.google.com/translate/docs/access-control
 
 
 .. seealso::
 
-   * `Google translate documentation <https://cloud.google.com/translate/docs>`_
-   * `Authenticate to Cloud services using client libraries <https://cloud.google.com/docs/authentication/client-libraries>`_
-   * `Creating Google Translate project <https://cloud.google.com/appengine/docs/standard/nodejs/building-app/creating-project>`_
-   * `Google Cloud App Engine locations <https://cloud.google.com/appengine/docs/standard/locations>`_
+   * `Google translate documentation <https://docs.cloud.google.com/translate/docs>`_
+   * `Authenticate to Cloud services using client libraries <https://docs.cloud.google.com/docs/authentication/client-libraries>`_
+   * `Creating Google Translate project <https://docs.cloud.google.com/appengine/docs/standard/nodejs/building-app/creating-project>`_
+   * `Google Cloud App Engine locations <https://docs.cloud.google.com/appengine/docs/standard/locations>`_
 
 .. _mt-ibm:
 
@@ -658,6 +662,54 @@ This service uses an API, and you need to obtain key and secret from NetEase.
 .. seealso::
 
     `NetEase Sight Translation Platform <https://sight.youdao.com/>`_
+
+.. _mt-ollama:
+
+Ollama
+------
+
+.. versionadded:: 5.15
+
+:Service ID: ``ollama``
+:Maximal score: 90
+:Advanced features: * :ref:`glossary-mt`
+:Configuration: +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``source_language`` | Source language selection | Available choices:                                                                                                        |
+                |                     |                           |                                                                                                                           |
+                |                     |                           | ``auto`` -- Automatic selection                                                                                           |
+                |                     |                           |                                                                                                                           |
+                |                     |                           | ``source`` -- Component source language                                                                                   |
+                |                     |                           |                                                                                                                           |
+                |                     |                           | ``secondary`` -- Secondary language defined in project or component                                                       |
+                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``base_url``        | API URL                   | Base URL of the Ollama API, localhost and port 11434 by default.                                                          |
+                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``model``           | Ollama model              | Name of the model described in Ollama catalogue.                                                                          |
+                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``persona``         | Translator persona        | Describe the persona of translator to improve the accuracy of the translation. For example: “You are a squirrel breeder.” |
+                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``style``           | Translator style          | Describe the style of translation. For example: “Use informal language.”                                                  |
+                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+
+Performs translation using `Ollama`_ models.
+
+The Ollama API allows for the use of open source models for translations
+either locally installed or remotely accessed via the `Ollama`_ service.
+Note that before configuring your models, you should have `Ollama installed`_
+and downloaded the models you wish to use.
+
+Use persona and style fields to further fine-tune translations. These will be
+used in a prompt for Ollama and allow you to change the style of the
+translations.
+
+The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`.
+
+.. seealso::
+
+   * `Ollama models <https://ollama.com/search>`_
+
+.. _Ollama: https://ollama.com/
+.. _Ollama installed: https://ollama.com/download
 
 .. _mt-openai:
 

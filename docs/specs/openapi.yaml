@@ -3410,6 +3410,7 @@ paths:
             - 85
             - 86
             - 87
+            - 88
             - 9
         description: |-
           * `0` - Resource updated
@@ -3494,6 +3495,7 @@ paths:
           * `85` - Screenshot removed
           * `86` - Label added
           * `87` - Label removed
+          * `88` - Repository cleanup
         explode: true
         style: form
       - in: query
@@ -11303,10 +11305,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RepoRequest'
+                $ref: '#/components/schemas/Repository'
             text/csv:
               schema:
-                $ref: '#/components/schemas/RepoRequest'
+                $ref: '#/components/schemas/Repository'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -28165,10 +28167,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RepoRequest'
+                $ref: '#/components/schemas/Repository'
             text/csv:
               schema:
-                $ref: '#/components/schemas/RepoRequest'
+                $ref: '#/components/schemas/Repository'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -37054,10 +37056,10 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RepoRequest'
+                $ref: '#/components/schemas/Repository'
             text/csv:
               schema:
-                $ref: '#/components/schemas/RepoRequest'
+                $ref: '#/components/schemas/Repository'
           description: ''
           headers:
             X-RateLimit-Limit:
@@ -45244,6 +45246,7 @@ components:
       - 85
       - 86
       - 87
+      - 88
       type: integer
       description: |-
         * `0` - Resource updated
@@ -45328,6 +45331,7 @@ components:
         * `85` - Screenshot removed
         * `86` - Label added
         * `87` - Label removed
+        * `88` - Repository cleanup
     Addon:
       type: object
       properties:
@@ -67177,6 +67181,72 @@ components:
         * `report` - report
         * `global` - global
         * `translation` - translation
+    CommitInfo:
+      type: object
+      description: Detailed information about a Git commit.
+      properties:
+        revision:
+          type:
+          - string
+          - 'null'
+          description: Full commit hash.
+        shortrevision:
+          type:
+          - string
+          - 'null'
+          description: Abbreviated commit hash.
+        author:
+          type:
+          - string
+          - 'null'
+          description: Commit author with email (e.g., 'Name <email@example.com>').
+        author_name:
+          type:
+          - string
+          - 'null'
+          description: Author name.
+        author_email:
+          type:
+          - string
+          - 'null'
+          description: Author email address.
+        authordate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Date when the commit was authored.
+        commit:
+          type:
+          - string
+          - 'null'
+          description: Committer with email (e.g., 'Name <email@example.com>').
+        commit_name:
+          type:
+          - string
+          - 'null'
+          description: Committer name.
+        commit_email:
+          type:
+          - string
+          - 'null'
+          description: Committer email address.
+        commitdate:
+          type:
+          - string
+          - 'null'
+          format: date-time
+          description: Date when the commit was committed.
+        message:
+          type:
+          - string
+          - 'null'
+          description: Full commit message.
+        summary:
+          type:
+          - string
+          - 'null'
+          description: First line of the commit message.
     CommitPolicyEnum:
       enum:
       - 0
@@ -67936,6 +68006,7 @@ components:
       - formatjs
       - go-i18n-json
       - go-i18n-json-v2
+      - go-i18n-toml
       - gotext
       - gwt
       - gwt-iso
@@ -67953,6 +68024,7 @@ components:
       - mediawiki
       - mi18n-lang
       - moko-resource
+      - nextcloud-json
       - odf
       - php
       - plainxliff
@@ -67963,6 +68035,7 @@ components:
       - properties-utf16
       - properties-utf8
       - rc
+      - resjson
       - resourcedictionary
       - resx
       - ruby-yaml
@@ -67973,10 +68046,13 @@ components:
       - stringsdict
       - sub
       - tbx
+      - toml
       - ts
       - txt
       - webextension
       - xliff
+      - xliff2
+      - xliff2-placeables
       - xlsx
       - xwiki-fullpage
       - xwiki-java-properties
@@ -68003,6 +68079,7 @@ components:
         * `formatjs` - Format.JS JSON file
         * `go-i18n-json` - go-i18n v1 JSON file
         * `go-i18n-json-v2` - go-i18n v2 JSON file
+        * `go-i18n-toml` - go-i18n TOML file
         * `gotext` - gotext JSON file
         * `gwt` - GWT properties (UTF-8)
         * `gwt-iso` - GWT properties (ISO-8859-1)
@@ -68020,6 +68097,7 @@ components:
         * `mediawiki` - MediaWiki text file
         * `mi18n-lang` - @draggable/i18n lang file
         * `moko-resource` - Mobile Kotlin Resource
+        * `nextcloud-json` - Nextcloud JSON file
         * `odf` - OpenDocument file
         * `php` - PHP strings
         * `plainxliff` - XLIFF 1.2 translation file
@@ -68030,6 +68108,7 @@ components:
         * `properties-utf16` - Java Properties (UTF-16)
         * `properties-utf8` - Java Properties (UTF-8)
         * `rc` - RC file
+        * `resjson` - RESJSON file
         * `resourcedictionary` - ResourceDictionary file
         * `resx` - .NET resource file
         * `ruby-yaml` - Ruby YAML file
@@ -68040,10 +68119,13 @@ components:
         * `stringsdict` - Stringsdict file
         * `sub` - MicroDVD subtitle file
         * `tbx` - TermBase eXchange file
+        * `toml` - TOML file
         * `ts` - Qt Linguist translation file
         * `txt` - Plain text file
         * `webextension` - WebExtension JSON file
         * `xliff` - XLIFF 1.2 with placeables support
+        * `xliff2` - XLIFF 2.0 translation file
+        * `xliff2-placeables` - XLIFF 2.0 translation file with placeables support
         * `xlsx` - Excel Open XML
         * `xwiki-fullpage` - XWiki Full Page
         * `xwiki-java-properties` - XWiki Java Properties
@@ -71152,6 +71234,30 @@ components:
           type: array
           items:
             $ref: '#/components/schemas/UnitFlatLabels'
+    PendingUnits:
+      type: object
+      description: Detailed breakdown of pending translation units.
+      properties:
+        total:
+          type: integer
+          description: Total number of translation units with pending changes.
+        errors_skipped:
+          type: integer
+          description: Number of units skipped due to commit errors (blocked by retry
+            policy).
+        commit_policy_skipped:
+          type: integer
+          description: Number of units skipped by the commit policy (e.g., needs editing,
+            not approved).
+        eligible_for_commit:
+          type: integer
+          description: Number of units eligible to be committed based on the current
+            policy.
+      required:
+      - commit_policy_skipped
+      - eligible_for_commit
+      - errors_skipped
+      - total
     PriorityEnum:
       enum:
       - 60
@@ -71335,6 +71441,67 @@ components:
           $ref: '#/components/schemas/OperationEnum'
       required:
       - operation
+    Repository:
+      type: object
+      description: Serializer for repository status information.
+      properties:
+        needs_commit:
+          type: boolean
+          description: Whether the repository has pending changes that need to be
+            committed.
+        needs_merge:
+          type: boolean
+          description: Whether the repository needs to pull changes from upstream.
+        needs_push:
+          type: boolean
+          description: Whether the repository has commits that need to be pushed.
+        url:
+          type: string
+          description: URL to the repository API endpoint.
+        remote_commit:
+          oneOf:
+          - $ref: '#/components/schemas/CommitInfo'
+          - type: 'null'
+          description: Detailed information about the last commit in the remote repository
+            (component/translation only).
+        weblate_commit:
+          oneOf:
+          - $ref: '#/components/schemas/CommitInfo'
+          - type: 'null'
+          description: Detailed information about the last commit in the Weblate repository
+            (component/translation only).
+        status:
+          type:
+          - string
+          - 'null'
+          description: Full repository status text (component/translation only).
+        merge_failure:
+          type:
+          - string
+          - 'null'
+          description: Details about merge failure if any (component/translation only).
+        pending_units:
+          oneOf:
+          - $ref: '#/components/schemas/PendingUnits'
+          - type: 'null'
+          description: Detailed breakdown of translation units with pending changes.
+        outgoing_commits:
+          type:
+          - integer
+          - 'null'
+          description: Number of commits ready to be pushed to the remote repository
+            (component/translation only).
+        missing_commits:
+          type:
+          - integer
+          - 'null'
+          description: Number of commits in the remote repository that need to be
+            pulled (component/translation only).
+      required:
+      - needs_commit
+      - needs_merge
+      - needs_push
+      - url
     Role:
       type: object
       properties:

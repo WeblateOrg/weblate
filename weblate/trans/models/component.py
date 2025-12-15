@@ -137,6 +137,8 @@ if TYPE_CHECKING:
     from collections.abc import Iterable
     from datetime import datetime
 
+    from django_stubs_ext import StrOrPromise
+
     from weblate.addons.models import Addon
     from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.checks.base import BaseCheck
@@ -473,7 +475,9 @@ class Component(
         verbose_name=gettext_lazy("Push branch"),
         max_length=BRANCH_LENGTH,
         help_text=gettext_lazy(
-            "Branch for pushing changes, leave empty to use repository branch"
+            "Branch for pushing changes. Leave empty to use repository branch when "
+            "pushing directly to the repository. When using pull/merge requests, "
+            "specify a branch name different from the repository branch."
         ),
         default="",
         blank=True,
@@ -2080,12 +2084,14 @@ class Component(
 
             if keep_changes:
                 # Mark all strings as pending when keeping changes
-                self.do_file_sync(request, do_commit=False)
+                self.do_file_sync(request, do_commit=False, store_disk_state=False)
             else:
                 # Explicitly remove all pending changes
                 PendingUnitChange.objects.filter(
                     unit__translation__component=self
                 ).delete()
+            # Remove disk state as we are going to change that
+            Unit.objects.filter(translation__component=self).clear_disk_state()
 
             # Do actual reset
             try:
@@ -2138,9 +2144,9 @@ class Component(
     @perform_on_link
     def do_cleanup(self, request: AuthenticatedHttpRequest | None = None) -> bool:
         """Clean up the repository."""
+        self.log_info("cleaning up the repo")
         with self.repository.lock:
             try:
-                self.log_info("cleaning up the repo")
                 self.repository.cleanup()
             except RepositoryError:
                 report_error(
@@ -2154,12 +2160,21 @@ class Component(
                 )
                 return False
 
-            return True
+        self.change_set.create(
+            action=ActionEvents.REPO_CLEANUP,
+            user=self.acting_user or (request.user if request else None),
+        )
+
+        return True
 
     @perform_on_link
     @transaction.atomic
     def do_file_sync(
-        self, request: AuthenticatedHttpRequest | None = None, *, do_commit: bool = True
+        self,
+        request: AuthenticatedHttpRequest | None = None,
+        *,
+        do_commit: bool = True,
+        store_disk_state: bool = True,
     ) -> None:
         from weblate.trans.tasks import perform_commit
 
@@ -2170,7 +2185,7 @@ class Component(
             Q(translation__language_id=F("translation__component__source_language_id"))
             | Q(translation__filename="")
         ):
-            PendingUnitChange.store_unit_change(unit)
+            PendingUnitChange.store_unit_change(unit, store_disk_state=store_disk_state)
 
         self.change_set.create(
             action=ActionEvents.FORCE_SYNC,
@@ -3710,11 +3725,13 @@ class Component(
 
     @property
     def count_push_branch_outgoing(self):
-        try:
-            return self.repository.count_outgoing(self.push_branch)
-        except RepositoryError:
-            # We silently ignore this error as push branch might not be existing if not needed
-            return self.count_repo_outgoing
+        if self.push_branch:
+            try:
+                return self.repository.count_outgoing(self.push_branch)
+            except RepositoryError:
+                # We silently ignore this error as push branch might not be existing if not needed
+                pass
+        return self.count_repo_outgoing
 
     def needs_commit(self):
         """Check whether there are some not committed changes."""
@@ -3890,7 +3907,7 @@ class Component(
         return code
 
     @transaction.atomic
-    def add_new_language(  # noqa: C901
+    def add_new_language(
         self,
         language: Language,
         request: AuthenticatedHttpRequest | None,
@@ -3899,9 +3916,13 @@ class Component(
         show_messages: bool = True,
     ) -> Translation | None:
         """Create new language file."""
-        if not self.can_add_new_language(request.user if request else None):
+
+        def fail_message(message: StrOrPromise) -> None:
             if show_messages:
-                messages.error(request, cast("str", self.new_lang_error_message))
+                messages.error(request, message)
+
+        if not self.can_add_new_language(request.user if request else None):
+            fail_message(cast("str", self.new_lang_error_message))
             return None
 
         file_format = self.file_format_cls
@@ -3910,30 +3931,30 @@ class Component(
         code = self.format_new_language_code(language)
 
         # Check if resulting language is not present
-        new_lang = Language.objects.fuzzy_get_strict(code=self.get_language_alias(code))
-        if new_lang is not None:
-            if new_lang == self.source_language:
-                if show_messages:
-                    messages.error(
-                        request,
-                        gettext("The given language is used as a source language."),
-                    )
-                return None
+        mapped_lang = Language.objects.fuzzy_get_strict(
+            code=self.get_language_alias(code)
+        )
+        if mapped_lang is None or mapped_lang != language:
+            fail_message(
+                gettext(
+                    "The given language maps to a different language. Check language aliases settings."
+                )
+            )
+            return None
 
-            if self.translation_set.filter(language=new_lang).exists():
-                if show_messages:
-                    messages.error(
-                        request, gettext("The given language already exists.")
-                    )
-                return None
+        if language == self.source_language:
+            fail_message(gettext("The given language is used as a source language."))
+            return None
+
+        if self.translation_set.filter(language=language).exists():
+            fail_message(gettext("The given language already exists."))
+            return None
 
         # Check if language code is valid
         if re.match(self.language_regex, code) is None:
-            if show_messages:
-                messages.error(
-                    request,
-                    gettext("The given language is filtered by the language filter."),
-                )
+            fail_message(
+                gettext("The given language is filtered by the language filter.")
+            )
             return None
 
         base_filename = self.get_new_base_filename()
@@ -3964,8 +3985,7 @@ class Component(
                 # Ignore request if file exists (possibly race condition as
                 # the processing of new language can take some time and user
                 # can submit again)
-                if show_messages:
-                    messages.error(request, gettext("Translation file already exists!"))
+                fail_message(gettext("Translation file already exists!"))
             else:
                 file_format.add_language(
                     fullname,

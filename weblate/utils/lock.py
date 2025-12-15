@@ -54,6 +54,7 @@ class WeblateLock:
         cache_template: str = "lock:{scope}:{key}",
         file_template: str = "{slug}-{scope}.lock",
         timeout: int = 1,
+        expiry_timeout: int = 3600,
         origin: str | None = None,
     ) -> None:
         self._timeout = timeout
@@ -65,6 +66,7 @@ class WeblateLock:
         self._using_redis = is_redis_cache()
         self._local = threading.local()
         self._local.depth = 0
+        self._redis_expiry_timeout = expiry_timeout
         if self._using_redis:
             # Prefer Redis locking as it works distributed
             self._name = self._format_template(cache_template)

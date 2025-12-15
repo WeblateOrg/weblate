@@ -29,7 +29,13 @@ from translate.misc.xml_helpers import setXMLspace
 from translate.storage.base import TranslationStore
 from translate.storage.catkeys import CatkeysFile
 from translate.storage.csvl10n import csvunit
-from translate.storage.jsonl10n import BaseJsonUnit, JsonFile
+from translate.storage.jsonl10n import (
+    BaseJsonUnit,
+    JsonFile,
+    NextcloudJsonFile,
+    RESJSONFile,
+    RESJSONUnit,
+)
 from translate.storage.lisa import LISAfile
 from translate.storage.poxliff import PoXliffFile
 from translate.storage.pypo import pofile, pounit
@@ -37,6 +43,7 @@ from translate.storage.resx import RESXFile
 from translate.storage.tbx import tbxfile, tbxunit
 from translate.storage.ts2 import tsfile, tsunit
 from translate.storage.xliff import ID_SEPARATOR, xlifffile, xliffunit
+from translate.storage.xliff2 import Xliff2File, Xliff2Unit
 
 import weblate.utils.version
 from weblate.checks.flags import Flags
@@ -427,7 +434,7 @@ class TTKitFormat(TranslationFormat):
             target = source
             source = self.create_unit_key(key, source)
         # Bilingual translation
-        elif isinstance(unit, tbxunit | xliffunit) and key:
+        elif isinstance(unit, tbxunit | xliffunit | Xliff2Unit | RESJSONUnit) and key:
             unit.setid(key)
         elif self.set_context_bilingual and key:
             unit.setcontext(key)
@@ -1338,6 +1345,12 @@ class XliffFormat(TTKitFormat):
         unit.markapproved(False)
         return unit
 
+    @staticmethod
+    def mimetype() -> str:
+        """Return most common media type for format."""
+        # XLIFF files use standard MIME type
+        return "application/xliff+xml"
+
 
 class RichXliffFormat(XliffFormat):
     # Translators: File format name
@@ -1354,6 +1367,28 @@ class PoXliffFormat(XliffFormat):
     autoload: tuple[str, ...] = ("*.poxliff",)
     loader = PoXliffFile
     supports_plural: bool = True
+
+
+class Xliff2Format(XliffFormat):
+    # Translators: File format name
+    name = gettext_lazy("XLIFF 2.0 translation file")
+    format_id = "xliff2"
+    loader = Xliff2File
+    autoload: tuple[str, ...] = ()
+    new_translation = None
+    monolingual = False
+
+    @staticmethod
+    def extension() -> str:
+        """Return most common file extension for format."""
+        return "xliff"
+
+
+class RichXliff2Format(Xliff2Format):
+    # Translators: File format name
+    name = gettext_lazy("XLIFF 2.0 translation file with placeables support")
+    format_id = "xliff2-placeables"
+    unit_class = RichXliffUnit
 
 
 class PropertiesBaseFormat(TTKitFormat):
@@ -1485,6 +1520,7 @@ class LaravelPhpFormat(PhpFormat):
     format_id = "laravel"
     loader = ("php", "LaravelPHPFile")
     supports_plural: bool = True
+    check_flags = ("laravel-format",)
 
 
 class RESXFormat(TTKitFormat):
@@ -1655,6 +1691,57 @@ class FormatJSFormat(JSONFormat):
     loader = ("jsonl10n", "FormatJSJsonFile")
     autoload: tuple[str, ...] = ()
     check_flags = ("icu-message-format",)
+
+
+class NextcloudJSONFormat(JSONFormat):
+    # Translators: File format name
+    name = gettext_lazy("Nextcloud JSON file")
+    format_id = "nextcloud-json"
+    loader = NextcloudJsonFile
+    autoload: tuple[str, ...] = ()
+    supports_plural: bool = True
+    monolingual = False
+    unit_class = TTKitUnit
+
+
+class RESJSONFormat(JSONFormat):
+    # Translators: File format name
+    name = gettext_lazy("RESJSON file")
+    format_id = "resjson"
+    loader = RESJSONFile
+    autoload: tuple[str, ...] = ()
+    monolingual = False
+    unit_class = TTKitUnit
+
+
+class TOMLFormat(TTKitFormat):
+    # Translators: File format name
+    name = gettext_lazy("TOML file")
+    format_id = "toml"
+    loader = ("toml", "TOMLFile")
+    autoload: tuple[str, ...] = ("*.toml",)
+    monolingual = True
+    new_translation = "\n"
+
+    @staticmethod
+    def mimetype() -> str:
+        """Return most common media type for format."""
+        return "application/toml"
+
+    @staticmethod
+    def extension() -> str:
+        """Return most common file extension for format."""
+        return "toml"
+
+
+class GoI18nTOMLFormat(TOMLFormat):
+    # Translators: File format name
+    name = gettext_lazy("go-i18n TOML file")
+    format_id = "go-i18n-toml"
+    loader = ("toml", "GoI18nTOMLFile")
+    autoload: tuple[str, ...] = ()
+    monolingual = True
+    supports_plural: bool = True
 
 
 class CSVFormat(TTKitFormat):

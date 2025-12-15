@@ -213,7 +213,7 @@
       "shown.bs.tab",
       function () {
         const current = localStorage.getItem("translate-tab");
-        const desired = $(this).attr("href");
+        const desired = $(this).attr("data-bs-target");
 
         if (current !== desired) {
           localStorage.setItem("translate-tab", desired);
@@ -635,7 +635,7 @@
         $(
           `<td><a class="js-copy-machinery btn btn-warning">${gettext(
             "Clone to translation",
-          )}<span class="mt-number text-info"></span></a></td><td><a class="js-copy-save-machinery btn btn-outline-primary">${gettext(
+          )}<span class="mt-number text-info"></span></a></td><td><a class="js-copy-save-machinery btn btn-info">${gettext(
             "Accept",
           )}</a></td>`,
         ),

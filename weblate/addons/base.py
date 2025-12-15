@@ -302,6 +302,15 @@ class BaseAddon:
             )
         return True
 
+    @classmethod
+    def can_process(
+        cls,
+        *,
+        component: Component | None = None,
+        project: Project | None = None,
+    ) -> bool:
+        return cls.can_install(component=component, project=project)
+
     def pre_push(
         self, component: Component, activity_log_id: int | None = None
     ) -> dict | None:
@@ -381,6 +390,10 @@ class BaseAddon:
     ) -> dict | None:
         """Event handler for component update."""
         # To be implemented in a subclass
+
+    def check_change_action(self, change: Change) -> bool:
+        """Early filtering of Change actions before triggering change_event callback."""
+        return True
 
     def change_event(
         self, change: Change, activity_log_id: int | None = None
@@ -568,3 +581,10 @@ class ChangeBaseAddon(BaseAddon):
     }
 
     multiple = False
+
+    @cached_property
+    def configured_change_events(self) -> set[int]:
+        return {int(event) for event in self.instance.configuration["events"]}
+
+    def check_change_action(self, change: Change) -> bool:
+        return change.action in self.configured_change_events

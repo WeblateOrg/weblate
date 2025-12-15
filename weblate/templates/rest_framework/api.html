@@ -2,13 +2,8 @@
 
 {% load static %}
 
-{% block bootstrap_theme %}
-  {{ block.super }}
-  {% include "snippets/meta-css.html" %}
-{% endblock bootstrap_theme %}
-
 {% block branding %}
-  {% include "snippets/branding.html" %}
+  <a class="navbar-brand" href="{% url 'home' %}">{{ site_title }}</a>
 {% endblock branding %}
 
 {% block description %}{{ block.super }}{% endblock %}

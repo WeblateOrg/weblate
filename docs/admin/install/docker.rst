@@ -1108,7 +1108,13 @@ in separate variables or using a Python dictionary to set them at once. The
 following examples are for :ref:`vcs-github`, but applies to all :ref:`vcs`
 with appropriately changed variable names.
 
-An example configuration for GitHub might look like:
+.. important::
+
+   All environment variable names must include the ``WEBLATE_`` prefix. For example,
+   to configure GitHub credentials, use ``WEBLATE_GITHUB_USERNAME``, not ``GITHUB_USERNAME``.
+   This applies whether you're configuring for pull requests or any other VCS integration.
+
+An example configuration for GitHub pull requests might look like:
 
 .. code-block:: shell
 
@@ -1232,6 +1238,10 @@ Automatic suggestion settings
 
 Authentication settings
 +++++++++++++++++++++++
+
+.. hint::
+
+   The e-mail based authentication is turned on unless disabled by :envvar:`WEBLATE_NO_EMAIL_AUTH`.
 
 LDAP
 ~~~~

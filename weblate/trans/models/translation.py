@@ -811,17 +811,7 @@ class Translation(
         )
 
         if units_to_actually_clear:
-            units_to_update = list(
-                Unit.objects.filter(
-                    id__in=units_to_actually_clear, details__has_key="disk_state"
-                ).select_for_update()
-            )
-
-            for unit in units_to_update:
-                del unit.details["disk_state"]
-
-            if units_to_update:
-                Unit.objects.bulk_update(units_to_update, ["details"], batch_size=500)
+            Unit.objects.filter(id__in=units_to_actually_clear).clear_disk_state()
 
         # Update stats (the translated flag might have changed)
         self.invalidate_cache()
@@ -1227,8 +1217,11 @@ class Translation(
             .exclude(pk=self.pk)
             .exists()
         )
+        self.component.start_batched_checks()
 
-        unit_set = self.unit_set.select_for_update()
+        unit_set = (
+            self.unit_set.prefetch_all_checks().prefetch_source().select_for_update()
+        )
 
         for set_fuzzy, unit2 in store2.iterate_merge(fuzzy):
             try:
@@ -1255,6 +1248,7 @@ class Translation(
 
             accepted += 1
 
+            unit.is_batch_update = True
             unit.translate(
                 request.user,
                 split_plural(unit2.target),
@@ -1263,9 +1257,12 @@ class Translation(
                 propagate=propagate,
                 author=author,
                 request=request,
+                select_for_update=False,
             )
 
         if accepted > 0:
+            self.component.update_source_checks()
+            self.component.run_batched_checks()
             self.invalidate_cache()
             request.user.profile.increase_count("translated", accepted)
 
@@ -1610,6 +1607,9 @@ class Translation(
         self._invalidate_scheduled = False
         self.stats.update_stats()
         self.component.invalidate_glossary_cache()
+        # Delete UnusedComponent alert as the translation has just
+        # apparently received some update.
+        self.component.delete_alert("UnusedComponent")
 
     def invalidate_cache(self) -> None:
         """Invalidate any cached stats."""

@@ -97,6 +97,14 @@ class AutoTranslateAddon(BaseAddon):
 
         self.trigger_autotranslate(component=component)
 
+    def check_change_action(self, change: Change) -> bool:
+        return (
+            change.unit is not None
+            or change.screenshot is not None
+            or change.suggestion is not None
+            or change.comment is not None
+        )
+
     def change_event(self, change: Change, activity_log_id: int | None = None) -> None:
         units = []
         if change.action in ACTIONS_CONTENT and change.action not in SKIP_ACTIONS:

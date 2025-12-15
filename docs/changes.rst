@@ -7,7 +7,12 @@ Weblate 5.15
 
 * Batch automatic translation can now be manually triggered at project language, category or component level, see :ref:`auto-translation`.
 * Added ability to completely disable the admin contact form by setting :setting:`CONTACT_FORM` to ``"disabled"``.
+* Added new Ollama machinery tool for local Ollama AI model integration, see :ref:`mt-ollama`.
 * Added :http:get:`/api/units/(int:id)/comments/` to get a list of comments for the given translation unit.
+* Memory contents imported from TMX files include string context.
+* :doc:`/formats/xliff2`, :doc:`/formats/nextcloud-json`, :doc:`/formats/resjson`, and :doc:`/formats/toml` are now supported file formats.
+* :ref:`addon-weblate.fedora_messaging.publish` integration is now available as add-on.
+* Added :ref:`check-laravel-format` quality check.
 
 .. rubric:: Improvements
 
@@ -22,6 +27,8 @@ Weblate 5.15
 * Compatibility with Git SHA256 repositories.
 * The allowed version control URLs can now be configured using :setting:`VCS_ALLOW_SCHEMES` and :setting:`VCS_ALLOW_HOSTS`.
 * The API timeout for creating pull requests or forking can now be configured via :setting:`VCS_API_TIMEOUT`.
+* Improved VCS integration documentation to clarify Docker environment variables, commit authorship, hosted vs. self-hosted setup, and authentication options.
+* Timestamps from past are now shown with more detail.
 
 .. rubric:: Bug fixes
 
@@ -29,6 +36,8 @@ Weblate 5.15
 * :doc:`/formats/csv` format saving translations with empty source fields when using monolingual base files.
 * Tighter validation of user and full names to avoid confusing homoglyphs.
 * Avoid false positive checks upon committing pending changes.
+* Performance improvements for file upload.
+* Show glossary matches for the source language.
 
 .. rubric:: Compatibility
 
@@ -100,7 +109,7 @@ Weblate 5.14.1
 
 .. rubric:: New features
 
-* String context are now tracked in changes histoy and displayed when available.
+* String context are now tracked in changes history and displayed when available.
 
 .. rubric:: Improvements
 

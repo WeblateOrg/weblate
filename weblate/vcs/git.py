@@ -58,9 +58,7 @@ if TYPE_CHECKING:
 
     from weblate.trans.models import Component
 
-LOCK_ERROR = re.compile(
-    r"fatal: Unable to create '([^']*\.git/index\.lock)': File exists"
-)
+LOCK_ERROR = re.compile(r"Unable to create '([^']*\.git/[.*]\.lock)': File exists")
 # Assume lock is stale after one hour
 LOCK_STALE_SECONDS = 3600
 
@@ -384,7 +382,7 @@ class GitRepository(Repository):
         return result
 
     def log_revisions(self, refspec):
-        """Return revisin log for given refspec."""
+        """Return revision log for given refspec."""
         return self.execute(
             ["log", "--format=format:%H", refspec, "--"],
             needs_lock=False,
@@ -518,7 +516,7 @@ class GitRepository(Repository):
         """Perform global settings."""
         home = data_path("home")
         merge_driver = cls.get_merge_driver("po")
-        # Sync protocol configurartion with settings
+        # Sync protocol configuration with settings
         updates: list[tuple[str, str, str]] = [
             (
                 f'protocol "{protocol}"',
@@ -586,31 +584,24 @@ class GitRepository(Repository):
         for tag in self.execute(["tag", "--list"], merge_err=False).splitlines():
             self.execute(["tag", "--delete", tag])
 
-    def list_remote_branches(self):
+    def list_remote_branches(self) -> list[str]:
+        """Return a list of remote branch names by querying the remote repository using 'git ls-remote --heads origin'."""
+        branches = self.execute(
+            [*self.get_auth_args(), "ls-remote", "--heads", "origin"],
+            needs_lock=False,
+            merge_err=False,
+        )
         return [
-            branch[7:]
-            for branch in self.list_branches("--remote", "origin/*")
-            if not branch.startswith("origin/HEAD")
+            line.split("\t", 1)[1].removeprefix("refs/heads/").strip()
+            for line in branches.splitlines()
         ]
 
     def update_remote(self) -> None:
         """Update remote repository."""
         auth_args = self.get_auth_args()
         self.execute([*auth_args, "remote", "prune", "origin"])
-        if self.list_remote_branches():
-            # Updating existing fork
-            self.execute([*auth_args, "fetch", "origin"])
-        else:
-            # Doing initial fetch
-            try:
-                self.execute([*auth_args, "fetch", "origin", *self.get_depth()])
-            except RepositoryError as error:
-                if error.retcode == 1 and not error.args[0]:
-                    # Fetch with --depth fails on blank repo
-                    self.execute([*auth_args, "fetch", "origin"])
-                else:
-                    raise
-
+        # Update existing branch only, not changing depth
+        self.execute([*auth_args, "fetch", "origin", self.branch])
         self.clean_revision_cache()
 
     def push(self, branch: str) -> None:
@@ -1819,7 +1810,7 @@ class LocalRepository(GitRepository):
     ) -> None:
         return
 
-    def list_remote_branches(self):
+    def list_remote_branches(self) -> list[str]:
         return []
 
     @classmethod

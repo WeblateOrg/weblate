@@ -16,6 +16,7 @@ from django.contrib.humanize.templatetags.humanize import intcomma
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils import timezone
+from django.utils.formats import date_format
 from django.utils.formats import number_format as django_number_format
 from django.utils.html import escape, format_html, format_html_join, linebreaks, urlize
 from django.utils.safestring import mark_safe
@@ -710,118 +711,10 @@ def show_message(tags, message):
     return {"tags": " ".join(final), "task_id": task_id, "message": message}
 
 
-def naturaltime_past(value, now):
-    """Convert past dates to natural time."""
-    delta = now - value
-
-    if delta.days >= 365:
-        count = delta.days // 365
-        if count == 1:
-            return gettext("a year ago")
-        return ngettext("%(count)s year ago", "%(count)s years ago", count) % {
-            "count": count
-        }
-    if delta.days >= 30:
-        count = delta.days // 30
-        if count == 1:
-            return gettext("a month ago")
-        return ngettext("%(count)s month ago", "%(count)s months ago", count) % {
-            "count": count
-        }
-    if delta.days >= 14:
-        count = delta.days // 7
-        return ngettext("%(count)s week ago", "%(count)s weeks ago", count) % {
-            "count": count
-        }
-    if delta.days > 0:
-        if delta.days == 7:
-            return gettext("a week ago")
-        if delta.days == 1:
-            return gettext("yesterday")
-        return ngettext("%(count)s day ago", "%(count)s days ago", delta.days) % {
-            "count": delta.days
-        }
-    if delta.seconds == 0:
-        return gettext("now")
-    if delta.seconds < 60:
-        if delta.seconds == 1:
-            return gettext("a second ago")
-        return ngettext(
-            "%(count)s second ago", "%(count)s seconds ago", delta.seconds
-        ) % {"count": delta.seconds}
-    if delta.seconds // 60 < 60:
-        count = delta.seconds // 60
-        if count == 1:
-            return gettext("a minute ago")
-        return ngettext("%(count)s minute ago", "%(count)s minutes ago", count) % {
-            "count": count
-        }
-    count = delta.seconds // 60 // 60
-    if count == 1:
-        return gettext("an hour ago")
-    return ngettext("%(count)s hour ago", "%(count)s hours ago", count) % {
-        "count": count
-    }
-
-
-def naturaltime_future(value, now):
-    """Convert future dates to natural time."""
-    delta = value - now
-
-    if delta.days >= 365:
-        count = delta.days // 365
-        if count == 1:
-            return gettext("a year from now")
-        return ngettext(
-            "%(count)s year from now", "%(count)s years from now", count
-        ) % {"count": count}
-    if delta.days >= 30:
-        count = delta.days // 30
-        if count == 1:
-            return gettext("a month from now")
-        return ngettext(
-            "%(count)s month from now", "%(count)s months from now", count
-        ) % {"count": count}
-    if delta.days >= 14:
-        count = delta.days // 7
-        return ngettext(
-            "%(count)s week from now", "%(count)s weeks from now", count
-        ) % {"count": count}
-    if delta.days > 0:
-        if delta.days == 1:
-            return gettext("tomorrow")
-        if delta.days == 7:
-            return gettext("a week from now")
-        return ngettext(
-            "%(count)s day from now", "%(count)s days from now", delta.days
-        ) % {"count": delta.days}
-    if delta.seconds == 0:
-        return gettext("now")
-    if delta.seconds < 60:
-        if delta.seconds == 1:
-            return gettext("a second from now")
-        return ngettext(
-            "%(count)s second from now", "%(count)s seconds from now", delta.seconds
-        ) % {"count": delta.seconds}
-    if delta.seconds // 60 < 60:
-        count = delta.seconds // 60
-        if count == 1:
-            return gettext("a minute from now")
-        return ngettext(
-            "%(count)s minute from now", "%(count)s minutes from now", count
-        ) % {"count": count}
-    count = delta.seconds // 60 // 60
-    if count == 1:
-        return gettext("an hour from now")
-    return ngettext("%(count)s hour from now", "%(count)s hours from now", count) % {
-        "count": count
-    }
-
-
 @register.filter(is_safe=True)
 def naturaltime(
     value: float | datetime, microseconds: bool = False, *, now: datetime | None = None
-):
+) -> SafeString:
     """
     Heavily based on Django's django.contrib.humanize implementation of naturaltime.
 
@@ -839,19 +732,15 @@ def naturaltime(
     if now is None:
         now = timezone.now()
 
-    if value < now:
-        text = naturaltime_past(value, now)
-    else:
-        text = naturaltime_future(value, now)
-
     # Strip microseconds
     if isinstance(value, datetime) and not microseconds:
         value = value.replace(microsecond=0)
 
     return format_html(
-        '<span title="{}">{}</span>',
+        '<span title="{}" data-datetime="{}" class="naturaltime">{}</span>',
+        date_format(value, "SHORT_DATETIME_FORMAT"),
         timezone.localtime(value).isoformat(),
-        text,
+        date_format(value, "SHORT_DATE_FORMAT"),
     )
 
 
