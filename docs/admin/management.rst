@@ -184,6 +184,23 @@ Imports given content into Weblate, useful for benchmarking.
    # Display it
    fixefox memray-flamegraph-manage.py.2554179.html
 
+billing_demo
+------------
+
+.. weblate-admin:: billing_demo
+
+.. versionadded:: 5.15
+
+Creates a demo billing project. Can be executed multiple times to add
+additional invoices and billing events.
+
+This can be useful when developing Weblate. Needs :ref:`billing` installed.
+
+.. seealso::
+
+   * :wladmin:`import_demo`
+   * :ref:`devel-demo`
+
 
 celery_queues
 -------------
@@ -351,6 +368,11 @@ This can be useful when developing Weblate.
 .. weblate-admin-option:: --delete
 
    Removes existing demo project.
+
+.. seealso::
+
+   * :wladmin:`billing_demo`
+   * :ref:`devel-demo`
 
 
 import_json

@@ -371,7 +371,7 @@ billing in the Google API console.
 
 .. seealso::
 
-    `Google translate documentation <https://cloud.google.com/translate/docs>`_
+    `Google translate documentation <https://docs.cloud.google.com/translate/docs>`_
 
 .. _mt-google-translate-api-v3:
 
@@ -412,8 +412,8 @@ In order to use this service, you first need to go through the following steps:
 4. `Setup Authentication.`_
 
 .. _Select or create a Cloud Platform project.: https://console.cloud.google.com/project
-.. _Enable billing for your project.: https://cloud.google.com/billing/docs/how-to/modify-project#enable_billing_for_a_project
-.. _Enable the Cloud Translation.: https://cloud.google.com/translate/docs/
+.. _Enable billing for your project.: https://docs.cloud.google.com/billing/docs/how-to/modify-project#enable_billing_for_a_project
+.. _Enable the Cloud Translation.: https://docs.cloud.google.com/translate/docs
 .. _Setup Authentication.: https://googleapis.dev/python/google-api-core/latest/auth.html
 
 
@@ -423,17 +423,17 @@ Optionally, you can configure the service to use :ref:`glossary` by setting up a
 2. `Set bucket location to "us-central1".`_
 3. `Grant 'Storage Admin' permission to the Service Account.`_
 
-.. _Create a Google Cloud bucket.: https://cloud.google.com/storage/docs/creating-buckets
-.. _Set bucket location to "us-central1".: https://cloud.google.com/translate/docs/migrate-to-v3#resources_projects_and_locations
-.. _Grant 'Storage Admin' permission to the Service Account.: https://cloud.google.com/translate/docs/access-control
+.. _Create a Google Cloud bucket.: https://docs.cloud.google.com/storage/docs/creating-buckets
+.. _Set bucket location to "us-central1".: https://docs.cloud.google.com/translate/docs/migrate-to-v3#resources_projects_and_locations
+.. _Grant 'Storage Admin' permission to the Service Account.: https://docs.cloud.google.com/translate/docs/access-control
 
 
 .. seealso::
 
-   * `Google translate documentation <https://cloud.google.com/translate/docs>`_
-   * `Authenticate to Cloud services using client libraries <https://cloud.google.com/docs/authentication/client-libraries>`_
-   * `Creating Google Translate project <https://cloud.google.com/appengine/docs/standard/nodejs/building-app/creating-project>`_
-   * `Google Cloud App Engine locations <https://cloud.google.com/appengine/docs/standard/locations>`_
+   * `Google translate documentation <https://docs.cloud.google.com/translate/docs>`_
+   * `Authenticate to Cloud services using client libraries <https://docs.cloud.google.com/docs/authentication/client-libraries>`_
+   * `Creating Google Translate project <https://docs.cloud.google.com/appengine/docs/standard/nodejs/building-app/creating-project>`_
+   * `Google Cloud App Engine locations <https://docs.cloud.google.com/appengine/docs/standard/locations>`_
 
 .. _mt-ibm:
 

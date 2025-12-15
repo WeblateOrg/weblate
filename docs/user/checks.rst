@@ -724,6 +724,26 @@ JavaScript format
    * :ref:`check-formats`
    * `JavaScript formatting strings <https://www.gnu.org/software/gettext/manual/html_node/javascript_002dformat.html>`_
 
+.. _check-laravel-format:
+
+Laravel format
+**************
+
+
+:Summary: Laravel format string does not match source.
+:Scope: translated strings
+:Check class: ``weblate.checks.format.LaravelFormatCheck``
+:Check identifier: ``laravel_format``
+:Trigger: This check needs to be enabled using a flag.
+:Flag to enable: ``laravel-format``
+:Flag to ignore: ``ignore-laravel-format``
+:Named format string example: ``The :attribute must be :value``
+
+.. seealso::
+
+   * :ref:`check-formats`
+   * `Laravel translation formatting <https://laravel.com/docs/localization#replacing-parameters-in-translation-strings>`_
+
 .. _check-lua-format:
 
 Lua format

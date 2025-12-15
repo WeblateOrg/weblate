@@ -138,7 +138,7 @@ Update source strings (``source``)
     This option is available only for some file formats and only if the user has the
     :ref:`"Upload translations" permission <privileges>`.
 Add new strings (``add``)
-    Adds new strings to the translation. It skips the one which already exist.
+    Adds new strings to the translation. It skips the ones which already exist.
 
     In case you want to both add new strings and update existing translations,
     upload the file second time with :guilabel:`Add as translation`.

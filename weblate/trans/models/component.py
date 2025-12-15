@@ -475,7 +475,9 @@ class Component(
         verbose_name=gettext_lazy("Push branch"),
         max_length=BRANCH_LENGTH,
         help_text=gettext_lazy(
-            "Branch for pushing changes, leave empty to use repository branch"
+            "Branch for pushing changes. Leave empty to use repository branch when "
+            "pushing directly to the repository. When using pull/merge requests, "
+            "specify a branch name different from the repository branch."
         ),
         default="",
         blank=True,
@@ -2142,9 +2144,9 @@ class Component(
     @perform_on_link
     def do_cleanup(self, request: AuthenticatedHttpRequest | None = None) -> bool:
         """Clean up the repository."""
+        self.log_info("cleaning up the repo")
         with self.repository.lock:
             try:
-                self.log_info("cleaning up the repo")
                 self.repository.cleanup()
             except RepositoryError:
                 report_error(
@@ -2158,7 +2160,12 @@ class Component(
                 )
                 return False
 
-            return True
+        self.change_set.create(
+            action=ActionEvents.REPO_CLEANUP,
+            user=self.acting_user or (request.user if request else None),
+        )
+
+        return True
 
     @perform_on_link
     @transaction.atomic
@@ -3718,11 +3725,13 @@ class Component(
 
     @property
     def count_push_branch_outgoing(self):
-        try:
-            return self.repository.count_outgoing(self.push_branch)
-        except RepositoryError:
-            # We silently ignore this error as push branch might not be existing if not needed
-            return self.count_repo_outgoing
+        if self.push_branch:
+            try:
+                return self.repository.count_outgoing(self.push_branch)
+            except RepositoryError:
+                # We silently ignore this error as push branch might not be existing if not needed
+                pass
+        return self.count_repo_outgoing
 
     def needs_commit(self):
         """Check whether there are some not committed changes."""

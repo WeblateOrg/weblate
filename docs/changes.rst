@@ -13,6 +13,7 @@ Weblate 5.15
 * Memory contents imported from TMX files include string context.
 * :doc:`/formats/xliff2`, :doc:`/formats/nextcloud-json`, :doc:`/formats/resjson`, and :doc:`/formats/toml` are now supported file formats.
 * :ref:`addon-weblate.fedora_messaging.publish` integration is now available as add-on.
+* Added :ref:`check-laravel-format` quality check.
 
 .. rubric:: Improvements
 
@@ -27,6 +28,8 @@ Weblate 5.15
 * Compatibility with Git SHA256 repositories.
 * The allowed version control URLs can now be configured using :setting:`VCS_ALLOW_SCHEMES` and :setting:`VCS_ALLOW_HOSTS`.
 * The API timeout for creating pull requests or forking can now be configured via :setting:`VCS_API_TIMEOUT`.
+* Improved VCS integration documentation to clarify Docker environment variables, commit authorship, hosted vs. self-hosted setup, and authentication options.
+* Timestamps from past are now shown with more detail.
 
 .. rubric:: Bug fixes
 
