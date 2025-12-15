@@ -499,6 +499,7 @@ class Notification:
         notifications: dict[int, list[Change]] = defaultdict(list)
         users = {}
         for change in changes:
+            change.fill_in_prefetched()
             for user in self.get_users(frequency, change):
                 if change.project is None or user.can_access_project(change.project):
                     notifications[user.pk].append(change)
