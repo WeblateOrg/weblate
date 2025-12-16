@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-13 12:29+0000\n"
-"PO-Revision-Date: 2025-12-14 11:48+0000\n"
+"PO-Revision-Date: 2025-12-16 14:12+0000\n"
 "Last-Translator: Zahid Rizky Fakhri <zahidrizkyfakhri@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "application/id/>\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.15-dev\n"
+"X-Generator: Weblate 5.15.1-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -2155,7 +2155,7 @@ msgid ""
 "Unused strings are removed, and new ones added as copies of the source "
 "string."
 msgstr ""
-"Memperbarui semua berkas terjemahan agar sesuai dengan berkas dasar "
+"Perbarui semua berkas terjemahan agar sesuai dengan berkas dasar hulu "
 "monolingual. String yang tidak terpakai akan dihapus dan string baru "
 "ditambahkan sebagai salinan string sumber."
 
@@ -2667,7 +2667,7 @@ msgstr "Reset perubahan dalam repositori internal"
 #. Translators: Permission name
 #: weblate/auth/data.py:113
 msgid "View upstream repository location"
-msgstr "Lihat lokasi repositori upstream"
+msgstr "Lihat lokasi repositori hulu"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:115
@@ -9530,7 +9530,7 @@ msgstr[0] "%(count)s komit hilang"
 
 #: weblate/templates/js/git-status.html:109
 msgid "This will update the Weblate repository with the upstream changes."
-msgstr "Ini akan memperbarui repositori Weblate dengan perubahan sumber."
+msgstr "Ini akan memperbarui repositori Weblate dengan perubahan hulu."
 
 #: weblate/templates/js/git-status.html:118
 msgid "Allow changes to the Weblate repository"
@@ -9597,7 +9597,7 @@ msgstr ""
 
 #: weblate/templates/js/git-status.html:169
 msgid "Use when you want the upstream to be the authority for translations."
-msgstr "Gunakan jika Anda ingin upstream menjadi otoritas untuk terjemahan."
+msgstr "Gunakan jika Anda ingin hulu menjadi otoritas untuk terjemahan."
 
 #: weblate/templates/js/git-status.html:170
 msgid ""
@@ -11980,7 +11980,7 @@ msgstr "Persetujuan proyek"
 
 #: weblate/templates/snippets/libre-basic.html:23
 msgid "Using Weblate has been approved by the upstream project."
-msgstr "Penggunaan Weblate telah disetujui oleh proyek sumber."
+msgstr "Penggunaan Weblate telah disetujui oleh proyek hulu."
 
 #: weblate/templates/snippets/libre-basic.html:25
 msgid ""
@@ -12686,7 +12686,7 @@ msgid ""
 "The Weblate repository is missing some commits from upstream. Perhaps it is "
 "not receiving notifications upon updates of the remote repository."
 msgstr ""
-"Repositori Weblate kehilangan beberapa commit dari sumber. Mungkin tidak "
+"Repositori Weblate kehilangan beberapa komit dari hulu. Mungkin tidak "
 "menerima pemberitahuan setelah pembaruan repositori jarak jauh."
 
 #: weblate/templates/trans/alert/common-repo.html:48
@@ -12810,8 +12810,7 @@ msgstr "Templat untuk terjemahan baru"
 #: weblate/templates/trans/alert/mergefailure.html:3
 msgid "Weblate could not merge upstream changes while updating the repository."
 msgstr ""
-"Weblate tidak dapat menggabungkan perubahan sumber saat memperbarui "
-"repositori."
+"Weblate tidak dapat menggabungkan perubahan hulu saat memperbarui repositori."
 
 #: weblate/templates/trans/alert/missinglicense.html:4
 msgid ""
@@ -12892,7 +12891,7 @@ msgstr ""
 
 #: weblate/templates/trans/alert/pushfailure.html:3
 msgid "Weblate could not push changes to the upstream repository."
-msgstr "Weblate tidak bisa mendorong perubahan ke repositori upstream."
+msgstr "Weblate tidak bisa mendorong perubahan ke repositori hulu."
 
 #: weblate/templates/trans/alert/pushfailure.html:14
 msgid "Push the repository"
@@ -12904,16 +12903,16 @@ msgid ""
 "the changes manually or set up push to automate this."
 msgstr ""
 "Repositori VCS memiliki banyak perubahan dibandingkan dengan repositori "
-"sumber. Silakan gabungkan perubahan secara manual atau mengatur push untuk "
-"mengotomatisasinya."
+"hulu. Silakan gabungkan perubahan secara manual atau mengatur pendorongan "
+"untuk mengotomatisasinya."
 
 #: weblate/templates/trans/alert/repositoryoutdated.html:4
 msgid ""
 "The VCS repository is not up to date with the upstream one. Please merge "
 "changes manually or set up hooks to automate this."
 msgstr ""
-"Repositori VCS tidak sesuai dengan sumber. Silakan gabungkan perubahan "
-"secara manual atau mengatur hook untuk mengotomatisasinya."
+"Repositori VCS tidak sesuai dengan hulu. Silakan gabungkan perubahan secara "
+"manual atau mengatur hook untuk mengotomatisasinya."
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:10
 #: weblate/trans/models/component.py:404
@@ -13298,11 +13297,11 @@ msgstr "Menggabungkan perubahan Weblate dan menyelesaikan konflik apapun."
 #: weblate/templates/trans/merge_instructions.html:26
 msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
 msgstr ""
-"Basis ulang perubahan Weblate di atas sumber dan selesaikan konflik apa pun."
+"Basis ulang perubahan Weblate di atas hulu dan selesaikan konflik apa pun."
 
 #: weblate/templates/trans/merge_instructions.html:32
 msgid "Push changes into upstream repository."
-msgstr "Push perubahan ke repositori jarak jauh."
+msgstr "Dorong perubahan ke repositori hulu."
 
 #: weblate/templates/trans/merge_instructions.html:37
 msgid ""
@@ -16002,7 +16001,7 @@ msgid ""
 "Define whether Weblate should merge the upstream repository or rebase "
 "changes onto it."
 msgstr ""
-"Tentukan apakah Weblate harus menggabungkan repositori sumber atau mengubah "
+"Tentukan apakah Weblate harus menggabungkan repositori hulu atau mengubah "
 "basis ulang ke dalamnya."
 
 #: weblate/trans/models/component.py:687
@@ -16046,7 +16045,7 @@ msgstr "Mendorong commit"
 
 #: weblate/trans/models/component.py:745
 msgid "Whether the repository should be pushed upstream on every commit."
-msgstr "Apakah repositori ingin di-push ke Hulu pada setiap commit."
+msgstr "Apakah repositori ingin didorong ke hulu pada setiap komiu."
 
 #: weblate/trans/models/component.py:749
 msgid "Age of changes to commit"
@@ -17883,11 +17882,11 @@ msgstr "Komponen dan prioritas"
 
 #: weblate/vcs/base.py:80
 msgid "This will push changes to the upstream repository."
-msgstr "Ini akan mendorong perubahan ke repositori sumber."
+msgstr "Ini akan mendorong perubahan ke repositori hulu."
 
 #: weblate/vcs/git.py:106
 msgid "This will push changes to the upstream Git repository."
-msgstr "Ini akan mendorong perubahan ke repositori sumber Git."
+msgstr "Ini akan mendorong perubahan ke repositori hulu Git."
 
 #: weblate/vcs/git.py:625
 msgid "Possible cleanups:"
@@ -17907,7 +17906,7 @@ msgstr "Git dengan force push"
 
 #: weblate/vcs/git.py:865
 msgid "This will force push changes to the upstream repository."
-msgstr "Ini akan mendorong perubahan secara paksa ke repositori sumber."
+msgstr "Ini akan mendorong perubahan secara paksa ke repositori hulu."
 
 #: weblate/vcs/git.py:1328
 msgid "Azure DevOps pull request"
@@ -17973,7 +17972,7 @@ msgstr "Permintaan penggabungan Bitbucket Cloud"
 
 #: weblate/vcs/mercurial.py:57
 msgid "This will push changes to the upstream Mercurial repository."
-msgstr "Ini akan mendorong perubahan ke repositori sumber Mercurial."
+msgstr "Ini akan mendorong perubahan ke repositori hulu Mercurial."
 
 #: weblate/vcs/ssh.py:50
 msgctxt "SSH key type"
