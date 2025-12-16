@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-13 13:30+0100\n"
-"PO-Revision-Date: 2025-12-15 14:05+0000\n"
+"PO-Revision-Date: 2025-12-16 14:12+0000\n"
 "Last-Translator: Takeru Mikenu <mikenu-jp@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -30,7 +30,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.15-dev\n"
+"X-Generator: Weblate 5.15.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:215
@@ -17511,6 +17511,10 @@ msgid ""
 "found, no machine translation is performed. If several 100% matches occur, "
 "the first one returned by the database is used."
 msgstr ""
+":ref:`mt-weblate-translation-memory` の 100% スコアの一致は、機械翻訳サービス"
+"よりも優先されます。翻訳メモリで 100% の一致が見つかった場合、機械翻訳は実行"
+"されません。複数の 100% 一致が発生した場合、データベースによって返された最初"
+"の一致が使用されます。"
 
 #: ../../admin/machine.rst:38
 msgid ""
@@ -17520,6 +17524,11 @@ msgid ""
 "service's maximum, the service is asked to produce a translation. "
 "Translations with a score exceeding the current one are accepted."
 msgstr ""
+"各機械翻訳サービスには、それが生成できる事前定義された最大スコアがあります。"
+"インストールされた翻訳サービスの使用は、それらの最大スコアに従って順序付けら"
+"れます。サービスの最大スコアよりも低い翻訳スコアを持つ各文字列に対して、その"
+"サービスは翻訳を生成するように要求されます。現在のスコアを超過するスコアを持"
+"つ翻訳は受け入れられます。"
 
 #: ../../admin/machine.rst:43
 #, fuzzy
@@ -17533,6 +17542,9 @@ msgid ""
 "This can be used to tweak the service to get the best results. Following "
 "choices are available:"
 msgstr ""
+"すべてのサードパーティサービスにおける原文文字列の起点が設定できます。最良の"
+"結果を得るためにサービスの微調整のために使用できます。以下の選択肢が利用可能"
+"です:"
 
 #: ../../admin/machine.rst:50
 #, fuzzy
@@ -17542,7 +17554,7 @@ msgstr ":guilabel:`自動提案の使用`"
 
 #: ../../admin/machine.rst:51
 msgid "Chooses the best source language automatically."
-msgstr ""
+msgstr "最良の原文言語を自動的に選択します。"
 
 #: ../../admin/machine.rst:53
 #, fuzzy
@@ -17564,7 +17576,7 @@ msgstr "コンポーネント名変更"
 
 #: ../../admin/machine.rst:57
 msgid "This was the behavior before the 5.11 release."
-msgstr ""
+msgstr "これは 5.11 リリース前の挙動でした。"
 
 #: ../../admin/machine.rst:58
 #, fuzzy
@@ -17584,7 +17596,7 @@ msgstr ":ref:`languages`、:ref:`component-source_language`"
 msgid ""
 "Falls back to the automatic selection of the source language if the "
 "secondary language not configured."
-msgstr ""
+msgstr "第二言語が設定されていない場合、原文言語の自動選択にフォールバックします。"
 
 #: ../../admin/machine.rst:66
 msgid "Alibaba"
@@ -17596,7 +17608,7 @@ msgstr "サービス ID"
 
 #: ../../admin/machine.rst:0
 msgid "Maximal score"
-msgstr ""
+msgstr "最大スコア"
 
 #: ../../admin/machine.rst:73 ../../admin/machine.rst:103
 #: ../../admin/machine.rst:135 ../../admin/machine.rst:172
@@ -18147,6 +18159,8 @@ msgid ""
 "`Authenticate to Cloud services using client libraries <https://"
 "docs.cloud.google.com/docs/authentication/client-libraries>`_"
 msgstr ""
+"`クライアントライブラリを使用した Cloud サービスへの認証 <https://"
+"docs.cloud.google.com/docs/authentication/client-libraries>`_"
 
 #: ../../admin/machine.rst:435
 #, fuzzy
@@ -18353,10 +18367,12 @@ msgid ""
 "`Cognitive Services - Text Translation API <https://azure.microsoft.com/en-"
 "us/products/ai-services/ai-translator>`_"
 msgstr ""
+"Cognitive Services - テキスト翻訳 API <https://azure.microsoft.com/en-us/"
+"products/ai-services/ai-translator>_"
 
 #: ../../admin/machine.rst:564
 msgid "`Microsoft Azure Portal <https://portal.azure.com/>`_"
-msgstr ""
+msgstr "Microsoft Azure Portal <https://portal.azure.com/>_"
 
 #: ../../admin/machine.rst:565
 #, fuzzy
@@ -18491,12 +18507,17 @@ msgid "Performs translation using `Ollama`_ models."
 msgstr "`OpenAI`_ を使用して翻訳を実行します。"
 
 #: ../../admin/machine.rst:696
+#, fuzzy
 msgid ""
 "The Ollama API allows for the use of open source models for translations "
 "either locally installed or remotely accessed via the `Ollama`_ service. "
 "Note that before configuring your models, you should have `Ollama "
 "installed`_ and downloaded the models you wish to use."
 msgstr ""
+"Ollama API は、ローカルにインストールされているか、 リモートで`Ollama`_ "
+"サービスを経由してアクセスされる、翻訳のためのオープンソースモデルを使用可能"
+"にします。注記: モデルを設定する前に、 `Ollama installed`_ 状態にし、使用した"
+"いモデルをダウンロードしておく必要があります。"
 
 #: ../../admin/machine.rst:701
 #, fuzzy
