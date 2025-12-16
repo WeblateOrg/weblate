@@ -1051,10 +1051,10 @@ class DiscoveryTest(ViewTestCase):
                     "remove": True,
                 },
             )
-        self.assertEqual(Component.objects.filter(repo=link).count(), 3)
+        self.assertEqual(Component.objects.filter(repo=link).count(), 4)
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             addon.post_update(self.component, "", False)
-        self.assertEqual(Component.objects.filter(repo=link).count(), 3)
+        self.assertEqual(Component.objects.filter(repo=link).count(), 4)
 
     def test_form(self) -> None:
         self.user.is_superuser = True

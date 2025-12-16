@@ -5911,7 +5911,7 @@ class AddonAPITest(APIBaseTest):
         self.create_addon(name="weblate.discovery.discovery", configuration=initial)
 
         self.assertEqual(self.component.addon_set.get().configuration, initial)
-        self.assertEqual(Component.objects.all().count(), 5)
+        self.assertEqual(Component.objects.all().count(), 6)
 
     def test_edit(self) -> None:
         initial = {"path": "{{ filename|stripext }}.mo"}

@@ -60,6 +60,10 @@ class RepositoryError(Exception):
         return self.get_message()
 
 
+class RepositorySymlinkError(ValueError):
+    """Raised when symlink resolution fails due to links outside the repository tree or excessive symlink depth."""
+
+
 class Repository:
     """Basic repository object."""
 
@@ -173,7 +177,7 @@ class Repository:
 
         if not real_path.startswith(repository_path):
             msg = "Too many symlinks or link outside tree"
-            raise ValueError(msg)
+            raise RepositorySymlinkError(msg)
 
         return real_path[len(repository_path) :].lstrip("/")
 
