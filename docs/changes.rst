@@ -86,6 +86,7 @@ Weblate 5.15
 * The API timeout for creating pull requests or forking can now be configured via :setting:`VCS_API_TIMEOUT`.
 * Improved VCS integration documentation to clarify Docker environment variables, commit authorship, hosted vs. self-hosted setup, and authentication options.
 * Timestamps from past are now shown with more detail.
+* Added two new :ref:`states` to provide more detailed tracking of work-in-progress translations.
 
 .. rubric:: Bug fixes
 
