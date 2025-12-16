@@ -7,7 +7,11 @@ Weblate 5.15.1
 
 .. rubric:: Improvements
 
+* Updated list of OpenAI models.
+
 .. rubric:: Bug fixes
+
+* Fixed e-mail SSL configuration in Docker container.
 
 .. rubric:: Compatibility
 
