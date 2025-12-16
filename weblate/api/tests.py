@@ -1350,6 +1350,24 @@ class ProjectAPITest(APIBaseTest):
         component.template = filename
         component.save(update_fields=["template"])
 
+    def attach_translation_file(
+        self,
+        component: Component,
+        language_code: str = "cs",
+        filename: str = "po/cs.po",
+    ) -> Translation:
+        language = Language.objects.get(code=language_code)
+        translation, _ = Translation.objects.get_or_create(
+            component=component, language=language
+        )
+        translation.filename = filename
+        translation.save(update_fields=["filename"])
+
+        translation_path = Path(component.full_path, filename)
+        translation_path.parent.mkdir(parents=True, exist_ok=True)
+        translation_path.write_bytes(Path(TEST_PO).read_bytes())
+        return translation
+
     def test_list_projects(self) -> None:
         response = self.client.get(reverse("api:project-list"))
         self.assertEqual(response.data["count"], 1)
@@ -2662,6 +2680,18 @@ class ProjectAPITest(APIBaseTest):
             # Ensure archive contains at least one file
             self.assertGreater(len(zf.namelist()), 0)
 
+    def test_download_project_translations_language_path_unsupported_format_suffix(
+        self,
+    ) -> None:
+        self.do_request(
+            "api:project-language-file",
+            {**self.project_kwargs, "language_code": "cs", "format": "json"},
+            method="get",
+            code=404,
+            superuser=True,
+            request={"format": "zip"},
+        )
+
     def test_download_project_translations_language_not_present(self) -> None:
         response = self.do_request(
             "api:project-language-file",
@@ -2713,7 +2743,19 @@ class ProjectAPITest(APIBaseTest):
 
     def test_project_language_zip_contents(self) -> None:
         self.attach_component_template(self.component)
-        # Ensure we can inspect actual entries in the zip and they match expectations
+        translation = self.attach_translation_file(self.component)
+        other_component = self.create_po(name="Other", project=self.component.project)
+        cs = Language.objects.get(code="cs")
+        other_translation, _ = Translation.objects.get_or_create(
+            component=other_component,
+            language=cs,
+        )
+        other_translation.filename = ""
+        other_translation.save(update_fields=["filename"])
+        # Hit the "missing file" path for templates
+        self.component.new_base = "missing-new-base.pot"
+        self.component.save(update_fields=["new_base"])
+        # Inspect actual entries in the zip and they match expectations
         response = self.do_request(
             "api:project-language-file",
             {**self.project_kwargs, "language_code": "cs"},
@@ -2727,31 +2769,29 @@ class ProjectAPITest(APIBaseTest):
 
         root = data_dir("vcs")
 
-        project = Project.objects.get(slug=self.project_kwargs["slug"])
-        components = project.component_set.filter_access(self.user)
-        translations = Translation.objects.filter(
-            component__in=components, language__code="cs"
-        ).prefetch()
+        # Assert a few key entries
+        translation_filename = translation.get_filename()
+        self.assertIsNotNone(translation_filename)
+        translation_rel = os.path.relpath(translation_filename, root)
+        template_rel = os.path.relpath(
+            os.path.join(self.component.full_path, self.component.template),
+            root,
+        )
+        missing_new_base_rel = os.path.relpath(
+            os.path.join(self.component.full_path, "missing-new-base.pot"),
+            root,
+        )
 
-        expected = set()
-        for t in translations:
-            fn = t.get_filename()
-            if fn:
-                expected.add(os.path.relpath(fn, root))
-            comp = t.component
-            for tmpl in (comp.template, comp.new_base, comp.intermediate):
-                if tmpl:
-                    full = os.path.join(comp.full_path, tmpl)
-                    if os.path.exists(full):
-                        expected.add(os.path.relpath(full, root))
-
-        # At minimum, all expected entries must be present in the zip
-        self.assertTrue(expected.issubset(zip_names))
+        self.assertIn(translation_rel, zip_names)
+        self.assertIn(template_rel, zip_names)
+        self.assertNotIn(missing_new_base_rel, zip_names)
         self.assertGreater(len(zip_names), 0)
 
     def test_download_project_translations_language_path_filter(self) -> None:
         other_component = self.create_po(name="Other", project=self.component.project)
         self.attach_component_template(self.component)
+        included_translation = self.attach_translation_file(self.component)
+        excluded_translation = self.attach_translation_file(other_component)
 
         response = self.do_request(
             "api:project-language-file",
@@ -2766,39 +2806,20 @@ class ProjectAPITest(APIBaseTest):
 
         root = data_dir("vcs")
 
-        project = Project.objects.get(slug=self.project_kwargs["slug"])
-        components = project.component_set.filter_access(self.user).filter(
-            slug__icontains="test"
+        included_translation_filename = included_translation.get_filename()
+        self.assertIsNotNone(included_translation_filename)
+        included_translation_rel = os.path.relpath(included_translation_filename, root)
+        included_template_rel = os.path.relpath(
+            os.path.join(self.component.full_path, self.component.template),
+            root,
         )
-        translations = Translation.objects.filter(
-            component__in=components, language__code="cs"
-        ).prefetch()
+        excluded_translation_filename = excluded_translation.get_filename()
+        self.assertIsNotNone(excluded_translation_filename)
+        excluded_translation_rel = os.path.relpath(excluded_translation_filename, root)
 
-        def collect_entries(translations_qs) -> set[str]:
-            entries: set[str] = set()
-            for t in translations_qs:
-                filename = t.get_filename()
-                if filename:
-                    entries.add(os.path.relpath(filename, root))
-                comp = t.component
-                for tmpl in (comp.template, comp.new_base, comp.intermediate):
-                    if tmpl:
-                        full = os.path.join(comp.full_path, tmpl)
-                        if os.path.exists(full):
-                            entries.add(os.path.relpath(full, root))
-            return entries
-
-        expected = collect_entries(translations)
-
-        excluded = collect_entries(
-            Translation.objects.filter(
-                component__in=project.component_set.filter(slug=other_component.slug),
-                language__code="cs",
-            ).prefetch()
-        )
-
-        self.assertTrue(expected.issubset(zip_names))
-        self.assertTrue(zip_names.isdisjoint(excluded))
+        self.assertIn(included_translation_rel, zip_names)
+        self.assertIn(included_template_rel, zip_names)
+        self.assertNotIn(excluded_translation_rel, zip_names)
         self.assertGreater(len(zip_names), 0)
 
     @patch("weblate.api.views.ComponentSlugFilter")
