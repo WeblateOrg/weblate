@@ -2759,7 +2759,7 @@ class Component(
     def refresh_lock(self) -> None:
         """Refresh the lock to avoid expiry in long operations."""
         self.lock.reacquire()
-        if self.linked_component:
+        if self.linked_component and self.linked_component.lock.is_locked:
             self.linked_component.lock.reacquire()
 
     def _create_translations(  # noqa: C901,PLR0915
