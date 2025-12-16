@@ -377,6 +377,9 @@ class RepoTestMixin:
     def create_xliff_mono(self) -> Component:
         return self._create_component("xliff", "xliff-mono/*.xlf", "xliff-mono/en.xlf")
 
+    def create_xliff_auto(self) -> Component:
+        return self._create_component("xliff", "xliff-auto/*.xlf")
+
     def create_resx(self) -> Component:
         return self._create_component("resx", "resx/*.resx", "resx/en.resx")
 
