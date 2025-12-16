@@ -139,6 +139,16 @@ class FilenameTest(SimpleTestCase):
     def test_empty(self) -> None:
         validate_filename("")
 
+    def test_prohibited(self) -> None:
+        with self.assertRaises(ValidationError):
+            validate_filename(".git/config")
+        validate_filename(".git/config", check_prohibited=False)
+
+    def test_prohibited_subdir(self) -> None:
+        with self.assertRaises(ValidationError):
+            validate_filename("path/.git/config")
+        validate_filename("path/.git/config", check_prohibited=False)
+
 
 class RegexTest(SimpleTestCase):
     def test_empty(self) -> None:
