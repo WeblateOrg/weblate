@@ -128,7 +128,7 @@ from weblate.utils.validators import (
     validate_repo_url,
     validate_slug,
 )
-from weblate.vcs.base import RepositoryError
+from weblate.vcs.base import RepositoryError, RepositorySymlinkError
 from weblate.vcs.git import GitMergeRequestBase, LocalRepository
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.vcs.ssh import add_host_key
@@ -2575,10 +2575,22 @@ class Component(
                 self.log_info("skipping language %s [%s]", code, path)
 
         # Remove symlinked translations
-        for filename in list(matches):
-            resolved = self.repository.resolve_symlinks(filename)
-            if resolved != filename and resolved in matches:
+        targets = set()
+        for filename in sorted(matches):
+            try:
+                resolved = self.repository.resolve_symlinks(filename)
+            except RepositorySymlinkError:
+                # Skip symlinks out of tree
+                self.log_info("ignoring %s, invalid symlink", filename)
                 matches.discard(filename)
+            else:
+                # Ignore symlinks to existing translations
+                if resolved != filename:
+                    if resolved in matches or resolved in targets:
+                        self.log_info("ignoring %s, symlink to %s", filename, resolved)
+                        matches.discard(filename)
+                    else:
+                        targets.add(resolved)
 
         if self.has_template():
             # We do not want to show intermediate translation standalone
