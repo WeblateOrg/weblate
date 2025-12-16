@@ -69,6 +69,7 @@ from social_core.backends.base import BaseAuth
 from social_core.exceptions import (
     AuthAlreadyAssociated,
     AuthCanceled,
+    AuthConnectionError,
     AuthException,
     AuthFailed,
     AuthForbidden,
@@ -1514,7 +1515,7 @@ def social_complete(request: AuthenticatedHttpRequest, backend: str):
                 "The supplied user identity is already in use for another account."
             ),
         )
-    except AuthUnreachableProvider:
+    except (AuthUnreachableProvider, AuthConnectionError):
         return registration_fail(
             request,
             gettext("The authentication provider could not be reached."),
