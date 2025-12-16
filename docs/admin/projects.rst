@@ -265,7 +265,7 @@ supports the following options:
 * **Commit all translations regardless of quality**: All translations will be committed,
   including those marked as needing editing or not reviewed.
 * **Skip translations marked as needing editing**: Only translations that don't have the
-  "needs editing" flag will be committed.
+  "needs editing", "needs rewriting" or "needs checking" state will be committed.
 * **Only include approved translations**: Only translations that have been approved by a
   reviewer will be committed. This option requires :ref:`project-translation_review`
   to be enabled.
