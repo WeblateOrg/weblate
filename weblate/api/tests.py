@@ -6431,9 +6431,11 @@ class LabelAPITest(APIBaseTest):
 
 class OpenAPITest(APIBaseTest):
     def test_view(self) -> None:
-        self.do_request(
+        response = self.do_request(
             "api-schema",
         )
+        # Ensure schema includes the language-specific project download parameter
+        self.assertIn("language_code", response.content.decode())
 
     def test_redoc(self) -> None:
         self.do_request("redoc")

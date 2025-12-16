@@ -24,6 +24,7 @@ from django.utils.datastructures import MultiValueDictKeyError
 from django.utils.html import format_html
 from django.utils.translation import gettext, gettext_lazy
 from django_filters import rest_framework as filters
+from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
 from drf_standardized_errors.handler import ExceptionHandler
 from rest_framework import parsers, viewsets
@@ -1346,9 +1347,18 @@ class ProjectViewSet(
 
     @extend_schema(
         description=(
-            "Download all component translation files in the project for a specific language."
+            "Download all component translation files in the project for a specific "
+            "language."
         ),
         methods=["get"],
+        parameters=[
+            OpenApiParameter(
+                name="language_code",
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.PATH,
+                description="Language code for the requested translations.",
+            )
+        ],
     )
     @action(
         detail=True,
