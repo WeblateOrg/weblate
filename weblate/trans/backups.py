@@ -550,7 +550,7 @@ class ProjectBackup:
             self.load_memory(zipfile)
             self.load_components(zipfile)
             for name in zipfile.namelist():
-                validate_filename(name)
+                validate_filename(name, check_prohibited=False)
 
     def restore_unit(
         self,

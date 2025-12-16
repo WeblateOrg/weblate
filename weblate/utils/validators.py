@@ -33,6 +33,7 @@ from django.utils.translation import gettext, gettext_lazy
 from weblate.trans.util import cleanup_path
 from weblate.utils.const import WEBHOOKS_SECRET_PREFIX
 from weblate.utils.data import data_dir
+from weblate.utils.files import is_excluded
 
 USERNAME_MATCHER = re.compile(r"^[\w@+-][\w.@+-]*$")
 
@@ -238,7 +239,7 @@ def validate_plural_formula(value) -> None:
         ) from error
 
 
-def validate_filename(value) -> None:
+def validate_filename(value: str, *, check_prohibited: bool = True) -> None:
     if "../" in value or "..\\" in value:
         raise ValidationError(
             gettext("The filename can not contain reference to a parent directory.")
@@ -254,6 +255,8 @@ def validate_filename(value) -> None:
                 "Maybe you want to use: {}"
             ).format(cleaned)
         )
+    if check_prohibited and is_excluded(cleaned):
+        raise ValidationError(gettext("The filename contains a prohibited folder."))
 
 
 def validate_backup_path(value: str) -> None:
