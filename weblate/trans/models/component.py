@@ -975,7 +975,7 @@ class Component(
             # Generate change entries for changes
             self.generate_changes(old)
             # Detect slug changes and rename Git repo
-            self.check_rename(old)
+            was_renamed = self.check_rename(old)
             # Rename linked repos
             if (
                 old.slug != self.slug
@@ -983,7 +983,7 @@ class Component(
                 or old.category != self.category
             ):
                 old.component_set.update(repo=self.get_repo_link_url())
-            if changed_git:
+            if changed_git or was_renamed:
                 self.drop_repository_cache()
 
             changed_enforced_checks = (
@@ -3421,9 +3421,10 @@ class Component(
 
         # Check if we should rename
         changed_git = True
+        was_renamed = False
         if self.id:
             old = Component.objects.get(pk=self.id)
-            self.check_rename(old, validate=True)
+            was_renamed = self.check_rename(old, validate=True)
             changed_git = (
                 (old.vcs != self.vcs)
                 or (old.repo != self.repo)
@@ -3450,8 +3451,9 @@ class Component(
         self.clean_unique_together()
 
         # Check repo if config was changes
-        if changed_git:
+        if changed_git or was_renamed:
             self.drop_repository_cache()
+        if changed_git:
             self.clean_repo()
 
         self.clean_category()
@@ -3500,19 +3502,28 @@ class Component(
                 gettext("To use the key filter, the file format must be monolingual.")
             )
 
-    def get_template_filename(self):
+    def get_template_filename(self) -> str:
         """Create absolute filename for template."""
-        return os.path.join(self.full_path, self.template)
+        filename = os.path.join(self.full_path, self.template)
+        # Throws an exception in case of error
+        self.check_file_is_valid(filename)
+        return filename
 
-    def get_intermediate_filename(self):
+    def get_intermediate_filename(self) -> str:
         """Create absolute filename for intermediate."""
-        return os.path.join(self.full_path, self.intermediate)
+        filename = os.path.join(self.full_path, self.intermediate)
+        # Throws an exception in case of error
+        self.check_file_is_valid(filename)
+        return filename
 
-    def get_new_base_filename(self):
+    def get_new_base_filename(self) -> str | None:
         """Create absolute filename for base file for new translations."""
         if not self.new_base:
             return None
-        return os.path.join(self.full_path, self.new_base)
+        filename = os.path.join(self.full_path, self.new_base)
+        # Throws an exception in case of error
+        self.check_file_is_valid(filename)
+        return filename
 
     def create_template_if_missing(self) -> None:
         """Create blank template in case intermediate language is enabled."""
@@ -4261,6 +4272,16 @@ class Component(
         return Language.objects.exclude(
             Q(translation__component=self) | Q(component=self)
         )
+
+    def check_file_is_valid(self, filename: str) -> str:
+        # This might throw an exception in case of invalid link
+        try:
+            self.repository.resolve_symlinks(filename)
+        except RepositorySymlinkError as error:
+            raise ValidationError(
+                gettext("Invalid symbolic link in a repository.")
+            ) from error
+        return filename
 
 
 @receiver(m2m_changed, sender=Component.links.through)
