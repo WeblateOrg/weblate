@@ -512,7 +512,7 @@ class TranslationFormat:
         return
 
     @staticmethod
-    def save_atomic(filename, callback) -> None:
+    def save_atomic(filename: str, callback: Callable[[BinaryIO], None]) -> None:
         dirname, basename = os.path.split(filename)
         if dirname and not os.path.exists(dirname):
             os.makedirs(dirname)
