@@ -29,7 +29,9 @@
       </a>
     </li>
     <li class="page-item">
-      <a class="page-link position-input" title="{% translate "Click to edit position" %}" href="#">
+      <a class="page-link position-input"
+         title="{% translate "Click to edit position" %}"
+         href="#">
         {% blocktranslate with position=page_obj.number total=page_obj.paginator.num_pages %}{{ position }} / {{ total }}{% endblocktranslate %}
       </a>
       <a class="position-input-editable" title="{% translate "Go to position" %}">
