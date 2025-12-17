@@ -8,6 +8,7 @@ Weblate 5.15.1
 .. rubric:: Improvements
 
 * Updated list of OpenAI models.
+* Added :doc:`/devel/migration` guide to help users migrate from other localization platforms.
 * Gracefully handle unreachable authentication providers.
 
 .. rubric:: Bug fixes
@@ -1135,7 +1136,7 @@ Weblate 5.7
 * :ref:`2fa` can be enforced at the team or project level.
 * :ref:`adding-new-strings` can now create plural strings in the user interface.
 * :ref:`labels` now include description to explain them.
-* New :ref:`subscriptions` for completed translation and component.
+* New :ref:`notifications` for completed translation and component.
 * :ref:`mt-openai` now supports custom models and URLs and offers rephrasing of existing strings.
 * :ref:`mt-cyrtranslit` automatic suggestion service.
 
@@ -1232,7 +1233,7 @@ Weblate 5.6
 
 .. rubric:: Improvements
 
-* :ref:`subscriptions` now include strings which need updating.
+* :ref:`notifications` now include strings which need updating.
 * Improved compatibility with password managers.
 * Improved tracking of uploaded changes.
 * Gracefully handle temporary machine translation errors in automatic suggestions.
@@ -1497,7 +1498,7 @@ Weblate 5.4
 
 * Better logging in :wladmin:`createadmin`.
 * :ref:`addon-weblate.discovery.discovery` now reports skipped entries.
-* Adding string in a repository triggers :ref:`subscriptions`.
+* Adding string in a repository triggers :ref:`notifications`.
 * :ref:`mt-openai` better handles batch translations and glossaries.
 * :ref:`mt-libretranslate` better handles batch translations.
 * Text variant of notification e-mails now properly indicate changed strings.
@@ -1623,7 +1624,7 @@ Weblate 5.2
 * :ref:`addon-weblate.gettext.mo` can optionally include strings needing editing.
 * Use :http:header:`Accept-Language` to order translations for unauthenticated users.
 * Add option to directly approve suggestions with :ref:`reviews` workflow.
-* One-click removal of project or component :ref:`subscriptions`.
+* One-click removal of project or component :ref:`notifications`.
 * :ref:`api-statistics` now includes character and word counts for more string states.
 
 .. rubric:: Bug fixes

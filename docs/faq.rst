@@ -317,7 +317,7 @@ How do I review the translations of others?
 ---------------------------------------------
 
 - There are several review based workflows available in Weblate, see :ref:`workflows`.
-- You can subscribe to any changes made in :ref:`subscriptions` and then check
+- You can subscribe to any changes made in :ref:`notifications` and then check
   others contributions as they come in by e-mail.
 - There is a review tool available at the bottom of the translation view, where you can
   choose to browse translations made by others since a given date.
