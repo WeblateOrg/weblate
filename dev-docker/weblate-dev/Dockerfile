@@ -19,7 +19,7 @@ ARG USER_ID=1000
 ARG GROUP_ID=1000
 
 USER root
-ENV PATH=/app/venv/bin:/opt/tools/bin:/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin
+ENV PATH=/app/venv/bin:/opt/python/bin:/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin
 ENV UV_CACHE_DIR=/app/data/uv-cache
 ENV UV_LINK_MODE=copy
 # Make sure user exists in the container
