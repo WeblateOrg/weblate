@@ -190,7 +190,7 @@ class Repository:
             # Avoid Git traversing outside the data dir
             "GIT_CEILING_DIRECTORIES": data_path("vcs").as_posix(),
             # Use ssh wrapper
-            "GIT_SSH": SSH_WRAPPER.filename.as_posix(),
+            "GIT_SSH_COMMAND": SSH_WRAPPER.filename.as_posix(),
             "SVN_SSH": SSH_WRAPPER.filename.as_posix(),
         }
         if environment:
