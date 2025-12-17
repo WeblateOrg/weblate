@@ -14,7 +14,7 @@
     </li>
   {% endif %}
 
-  <div class="btn-group float-end btn-group-settings" role="group">
+  <div class="btn-group ms-auto btn-group-settings" role="group">
     {% if debug %}
       {% if path_object %}
         <a href="{% url 'changes' path=path_object.get_url_path %}?{{ query_string }}&amp;digest=1"
