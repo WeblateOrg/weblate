@@ -24,6 +24,7 @@ from packaging.version import Version
 from weblate.trans.util import get_clean_env, path_separator
 from weblate.utils.data import data_path
 from weblate.utils.errors import add_breadcrumb
+from weblate.utils.files import is_excluded
 from weblate.utils.lock import WeblateLock
 from weblate.vcs.ssh import SSH_WRAPPER
 
@@ -177,6 +178,10 @@ class Repository:
 
         if not real_path.startswith(repository_path):
             msg = "Too many symlinks or link outside tree"
+            raise RepositorySymlinkError(msg)
+
+        if is_excluded(real_path):
+            msg = "Link to a restricted location"
             raise RepositorySymlinkError(msg)
 
         return real_path[len(repository_path) :].lstrip("/")
