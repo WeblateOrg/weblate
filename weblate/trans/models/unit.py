@@ -387,6 +387,7 @@ class OldUnit(TypedDict):
     context: str
     extra_flags: str
     explanation: str
+    automatically_translated: bool
 
 
 class UnitAttributesDict(TypedDict):
@@ -403,6 +404,7 @@ class UnitAttributesDict(TypedDict):
     created: bool
     pos: int
     id_hash: int
+    automatically_translated: bool
 
 
 class Unit(models.Model, LoggerMixin):
@@ -615,11 +617,11 @@ class Unit(models.Model, LoggerMixin):
             if key in self.__dict__:
                 del self.__dict__[key]
 
-    def save_labels(self, new_labels: list[Label], user: User) -> None:
+    def save_labels(self, labels: list[Label], user: User) -> None:
         """Save new labels for the unit."""
         old_labels = set(self.labels.all())
 
-        self.labels.set(new_labels)
+        self.labels.set(labels)
 
         new_labels = set(self.labels.all())
 
@@ -662,6 +664,7 @@ class Unit(models.Model, LoggerMixin):
                 "target": self.old_unit["target"],
                 "state": self.old_unit["state"],
                 "explanation": self.old_unit["explanation"],
+                "automatically_translated": self.old_unit["automatically_translated"],
             }
             self.save(same_content=True, only_save=True, update_fields=["details"])
 
@@ -693,6 +696,7 @@ class Unit(models.Model, LoggerMixin):
             "target": self.target,
             "state": self.state,
             "explanation": self.explanation,
+            "automatically_translated": self.automatically_translated,
         }
 
     @property
@@ -840,6 +844,17 @@ class Unit(models.Model, LoggerMixin):
 
         return STATE_TRANSLATED
 
+    def get_unit_automatically_translated(
+        self,
+        unit,
+        string_changed: bool,
+        disk_automatically_translated: bool | None = None,
+    ) -> bool:
+        return unit.is_automatically_translated(
+            (self.automatically_translated or disk_automatically_translated)
+            and not string_changed
+        )
+
     @staticmethod
     def check_valid(texts) -> None:
         for text in texts:
@@ -946,6 +961,7 @@ class Unit(models.Model, LoggerMixin):
                 "created": created,
                 "pos": pos,
                 "id_hash": id_hash,
+                "automatically_translated": unit.is_automatically_translated(),
             }
         return self.unit_attributes
 
@@ -981,6 +997,7 @@ class Unit(models.Model, LoggerMixin):
         unit = unit_attributes["unit"]
         created = unit_attributes["created"]
         pos = unit_attributes["pos"]
+        automatically_translated = unit_attributes["automatically_translated"]
 
         # Should not be needed again
         self.unit_attributes = None
@@ -1007,15 +1024,19 @@ class Unit(models.Model, LoggerMixin):
         # Has source/target changed
         same_source = source == self.source and context == self.context
         same_target = target == comparison_state["target"]
-
+        string_changed = not same_source or not same_target
         # Calculate state
         state = self.get_unit_state(
             unit,
             flags,
-            string_changed=not same_source or not same_target,
+            string_changed=string_changed,
             disk_unit_state=comparison_state["state"],
         )
         original_state = self.get_unit_state(unit, None)
+
+        automatically_translated = self.get_unit_automatically_translated(
+            unit, string_changed, comparison_state["automatically_translated"]
+        )
 
         # Monolingual files handling (without target change)
         if (
@@ -1058,6 +1079,7 @@ class Unit(models.Model, LoggerMixin):
             and explanation == comparison_state["explanation"]
             and note == self.note
             and pos == self.position
+            and automatically_translated == self.automatically_translated
             and not pending
         )
         same_data = (
@@ -1094,6 +1116,7 @@ class Unit(models.Model, LoggerMixin):
         self.context = context
         self.note = note
         self.previous_source = previous_source
+        self.automatically_translated = automatically_translated
         self.update_priority(save=False)
 
         # Metadata update only, these do not trigger any actions in Weblate and
@@ -1102,7 +1125,13 @@ class Unit(models.Model, LoggerMixin):
             self.save(
                 same_content=True,
                 only_save=True,
-                update_fields=["location", "explanation", "note", "position"],
+                update_fields=[
+                    "location",
+                    "explanation",
+                    "note",
+                    "position",
+                    "automatically_translated",
+                ],
             )
             return
 

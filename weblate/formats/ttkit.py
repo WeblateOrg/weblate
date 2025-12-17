@@ -351,12 +351,15 @@ class TTKitFormat(TranslationFormat):
         else:
             self.store.addunit(unit.unit)
 
-    def save_content(self, handle) -> None:
+    def save_content(self, handle: BinaryIO) -> None:
         """Store content to file."""
         self.store.serialize(handle)
 
     def save(self) -> None:
         """Save underlying store to disk."""
+        if not isinstance(self.storefile, str):
+            msg = "Can save only to a file."
+            raise TypeError(msg)
         self.save_atomic(self.storefile, self.save_content)
 
     @classmethod
@@ -668,6 +671,32 @@ class XliffUnit(TTKitUnit):
             if state is not None:
                 result.add(state)
         return result
+
+    def get_xliff_state_qualifiers(self) -> set[str]:
+        """Return set of state-qualifier values from target nodes."""
+        result = set()
+        for node in self.get_xliff_nodes():
+            if node is None:
+                continue
+            state_qualifier = node.get("state-qualifier", None)
+            if state_qualifier is not None:
+                result.add(state_qualifier)
+        return result
+
+    def is_automatically_translated(self, fallback: bool = False) -> bool:
+        """Check if unit is automatically translated based on state-qualifier."""
+        state_qualifiers = self.get_xliff_state_qualifiers()
+        return bool({"leveraged-mt", "mt-suggestion"}.intersection(state_qualifiers))
+
+    def set_automatically_translated(self, value: bool) -> None:
+        if self.is_automatically_translated() == value:
+            return
+        for node in self.get_xliff_nodes():
+            if node is not None:
+                if value:
+                    node.set("state-qualifier", "leveraged-mt")
+                else:
+                    node.attrib.pop("state-qualifier", None)
 
     @cached_property
     def context(self):

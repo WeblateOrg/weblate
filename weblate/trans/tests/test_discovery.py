@@ -17,7 +17,7 @@ class ComponentDiscoveryTest(RepoTestCase):
             file_format="po",
             match=r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
             name_template="{{ component|title }}",
-            language_regex="^(?!xx).*$",
+            language_regex="^(?!xx).+$",
         )
 
     def test_matched_files(self) -> None:
@@ -25,6 +25,9 @@ class ComponentDiscoveryTest(RepoTestCase):
             sorted(self.discovery.matched_files),
             sorted(
                 [
+                    "po-brokenlink/cs.po",
+                    "po-brokenlink/de.po",
+                    "po-brokenlink/it.po",
                     "po-link/cs.po",
                     "po-link/de.po",
                     "po-link/it.po",
@@ -42,6 +45,7 @@ class ComponentDiscoveryTest(RepoTestCase):
         )
 
     def test_matched_components(self) -> None:
+        self.maxDiff = None
         self.assertEqual(
             self.discovery.matched_components,
             {
@@ -56,6 +60,25 @@ class ComponentDiscoveryTest(RepoTestCase):
                     "mask": "po/*.po",
                     "name": "Po",
                     "slug": "po",
+                    "base_file": "",
+                    "new_base": "",
+                    "intermediate": "",
+                },
+                "po-brokenlink/*.po": {
+                    "files": {
+                        "po-brokenlink/cs.po",
+                        "po-brokenlink/de.po",
+                        "po-brokenlink/it.po",
+                    },
+                    "files_langs": {
+                        ("po-brokenlink/cs.po", "cs"),
+                        ("po-brokenlink/de.po", "de"),
+                        ("po-brokenlink/it.po", "it"),
+                    },
+                    "languages": {"cs", "de", "it"},
+                    "mask": "po-brokenlink/*.po",
+                    "name": "Po-Brokenlink",
+                    "slug": "po-brokenlink",
                     "base_file": "",
                     "new_base": "",
                     "intermediate": "",
@@ -117,7 +140,7 @@ class ComponentDiscoveryTest(RepoTestCase):
         # Preview should not create anything
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             created, matched, deleted, skipped = self.discovery.perform(preview=True)
-        self.assertEqual(len(created), 3)
+        self.assertEqual(len(created), 4)
         self.assertEqual(len(matched), 0)
         self.assertEqual(len(deleted), 0)
         self.assertEqual(len(skipped), 1)
@@ -125,7 +148,7 @@ class ComponentDiscoveryTest(RepoTestCase):
         # Create components
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             created, matched, deleted, skipped = self.discovery.perform()
-        self.assertEqual(len(created), 3)
+        self.assertEqual(len(created), 4)
         self.assertEqual(len(matched), 0)
         self.assertEqual(len(deleted), 0)
         self.assertEqual(len(skipped), 1)
@@ -134,7 +157,7 @@ class ComponentDiscoveryTest(RepoTestCase):
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             created, matched, deleted, skipped = self.discovery.perform()
         self.assertEqual(len(created), 0)
-        self.assertEqual(len(matched), 3)
+        self.assertEqual(len(matched), 4)
         self.assertEqual(len(deleted), 0)
         self.assertEqual(len(skipped), 1)
 
@@ -151,7 +174,7 @@ class ComponentDiscoveryTest(RepoTestCase):
             file_format="po",
             match=r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
             name_template="{{ component|title }}",
-            language_regex="^(?!xx).*$",
+            language_regex="^(?!xx).+$",
         )
 
         # Test component removal preview
@@ -160,7 +183,7 @@ class ComponentDiscoveryTest(RepoTestCase):
                 preview=True, remove=True
             )
         self.assertEqual(len(created), 0)
-        self.assertEqual(len(matched), 1)
+        self.assertEqual(len(matched), 2)
         self.assertEqual(len(deleted), 2)
         self.assertEqual(len(skipped), 1)
 
@@ -168,7 +191,7 @@ class ComponentDiscoveryTest(RepoTestCase):
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             created, matched, deleted, skipped = discovery.perform(remove=True)
         self.assertEqual(len(created), 0)
-        self.assertEqual(len(matched), 1)
+        self.assertEqual(len(matched), 2)
         self.assertEqual(len(deleted), 2)
         self.assertEqual(len(skipped), 1)
 
@@ -176,7 +199,7 @@ class ComponentDiscoveryTest(RepoTestCase):
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             created, matched, deleted, skipped = discovery.perform(remove=True)
         self.assertEqual(len(created), 0)
-        self.assertEqual(len(matched), 1)
+        self.assertEqual(len(matched), 2)
         self.assertEqual(len(deleted), 0)
         self.assertEqual(len(skipped), 1)
 
@@ -186,12 +209,12 @@ class ComponentDiscoveryTest(RepoTestCase):
             self.component,
             match=r"[^/]*(?P<component>po)[^/]*/(?P<language>[^/]*)\.po",
             name_template="{{ component|title }}",
-            language_regex="^(?!xx).*$",
+            language_regex="^(?!xx).+$",
             file_format="po",
         )
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             created, matched, deleted, skipped = discovery.perform()
-        self.assertEqual(len(created), 3)
+        self.assertEqual(len(created), 4)
         self.assertEqual(len(matched), 0)
         self.assertEqual(len(deleted), 0)
         self.assertEqual(len(skipped), 1)

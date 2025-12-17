@@ -407,6 +407,7 @@ class GitRepository(Repository):
         if files:
             for name in files:
                 try:
+                    # Resolving symlinks is needed for symlinks in directory structure
                     self.execute(["add", "--force", "--", self.resolve_symlinks(name)])
                 except RepositoryError:
                     continue

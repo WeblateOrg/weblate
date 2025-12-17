@@ -261,13 +261,11 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
                 [filename],
                 name=component.slug if component else "weblate",
             )
-        try:
-            open_file = open(filename, "rb")  # noqa: SIM115
-        except FileNotFoundError as error:
+        if not os.path.exists(filename) or os.path.islink(filename):
             msg = "File not found"
-            raise Http404(msg) from error
+            raise Http404(msg)
         return FileResponse(
-            open_file,
+            open(filename, "rb"),
             content_type=content_type,
             as_attachment=True,
             filename=os.path.basename(filename),

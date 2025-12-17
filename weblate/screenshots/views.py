@@ -31,6 +31,8 @@ from weblate.utils.search import parse_query
 from weblate.utils.views import PathViewMixin
 
 if TYPE_CHECKING:
+    from collections.abc import Generator
+
     from tesserocr import PyTessBaseAPI
 
     from weblate.auth.models import AuthenticatedHttpRequest
@@ -416,7 +418,7 @@ def ocr_extract(api, image: str, strings, resolution: int):
 
 
 @contextmanager
-def get_tesseract(language: Language) -> PyTessBaseAPI:
+def get_tesseract(language: Language) -> Generator[PyTessBaseAPI]:
     from tesserocr import OEM, PSM, PyTessBaseAPI
 
     # Get matching language

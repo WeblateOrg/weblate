@@ -111,6 +111,7 @@ class WeblateLock:
 
         This is needed with Redis as the lock is expiring to avoid it stay infinitely.
         """
+        self.add_breadcrumb("reacquire")
         if self._using_redis:
             self._redis_lock.reacquire()
 
