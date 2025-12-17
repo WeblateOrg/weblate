@@ -565,7 +565,7 @@ should be turned on for new users. Defaults to ``True``.
 
 .. seealso::
 
-   :ref:`subscriptions`
+   :ref:`notifications`
 
 .. setting:: DEFAULT_RESTRICTED_COMPONENT
 
