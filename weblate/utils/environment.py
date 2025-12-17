@@ -7,18 +7,43 @@ from __future__ import annotations
 import ast
 import os
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal, overload
 from urllib.parse import quote
 
 from django.core.exceptions import ImproperlyConfigured
 
 
+@overload
 def get_env_str(
     name: str,
-    default: str | None = None,
+    default: str,
+    *,
     required: bool = False,
     fallback_name: str | None = None,
-) -> str:
+) -> str: ...
+@overload
+def get_env_str(
+    name: str,
+    default: None = None,
+    *,
+    required: Literal[True],
+    fallback_name: str | None = None,
+) -> str: ...
+@overload
+def get_env_str(
+    name: str,
+    default: None = None,
+    *,
+    required: bool = False,
+    fallback_name: str | None = None,
+) -> str | None: ...
+def get_env_str(
+    name,
+    default=None,
+    *,
+    required=False,
+    fallback_name=None,
+):
     file_env = f"{name}_FILE"
     if filename := os.environ.get(file_env):
         try:
