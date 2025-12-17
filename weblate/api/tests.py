@@ -5905,13 +5905,13 @@ class AddonAPITest(APIBaseTest):
             "file_format": "po",
             "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
             "name_template": "{{ component|title }}",
-            "language_regex": "^(?!xx).*$",
+            "language_regex": "^(?!xx).+$",
         }
         self.assertEqual(Component.objects.all().count(), 2)
         self.create_addon(name="weblate.discovery.discovery", configuration=initial)
 
         self.assertEqual(self.component.addon_set.get().configuration, initial)
-        self.assertEqual(Component.objects.all().count(), 5)
+        self.assertEqual(Component.objects.all().count(), 6)
 
     def test_edit(self) -> None:
         initial = {"path": "{{ filename|stripext }}.mo"}

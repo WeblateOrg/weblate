@@ -9,6 +9,7 @@ from __future__ import annotations
 import random
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING
+from unittest import SkipTest
 
 from django.test import SimpleTestCase
 from translate.lang.data import languages
@@ -179,9 +180,12 @@ class CheckTestCase(SimpleTestCase, ABC):
     ):
         """Perform single check if we have data to test."""
         if data is None:
-            self.skipTest("Not supported")
+            msg = "Test data not provided"
+            raise SkipTest(msg)
         if isinstance(self.check, BaseFormatCheck):
-            self.skipTest("Not supported")
+            # Skip for format tests
+            msg = "Test not supported"
+            raise SkipTest(msg)
         if lang is None:
             lang = self.default_lang
         params = '"{}"/"{}" ({})'.format(*data)
@@ -229,7 +233,8 @@ class CheckTestCase(SimpleTestCase, ABC):
 
     def test_check_good_flag(self) -> None:
         if self.test_good_flag is None:
-            self.skipTest("Not supported")
+            msg = "Test data not provided"
+            raise SkipTest(msg)
         self.assertFalse(
             self.check.check_target(
                 [self.test_good_flag[0]],
@@ -273,7 +278,8 @@ class CheckTestCase(SimpleTestCase, ABC):
 
     def test_check_good_ignore_singular(self) -> None:
         if self.test_good_ignore is None:
-            self.skipTest("Not supported")
+            msg = "Test data not provided"
+            raise SkipTest(msg)
         self.assertFalse(
             self.check.check_target(
                 [self.test_good_ignore[0]],
@@ -303,7 +309,8 @@ class CheckTestCase(SimpleTestCase, ABC):
 
     def test_check_failure_1_singular(self) -> None:
         if self.test_failure_1 is None:
-            self.skipTest("Not supported")
+            msg = "Test data not provided"
+            raise SkipTest(msg)
         self.assertTrue(
             self.check.check_target(
                 [self.test_failure_1[0]],
@@ -319,7 +326,8 @@ class CheckTestCase(SimpleTestCase, ABC):
 
     def test_check_failure_1_plural(self) -> None:
         if self.test_failure_1 is None:
-            self.skipTest("Not supported")
+            msg = "Test data not provided"
+            raise SkipTest(msg)
         self.assertTrue(
             self.check.check_target(
                 [self.test_failure_1[0]] * 2,
@@ -335,7 +343,8 @@ class CheckTestCase(SimpleTestCase, ABC):
 
     def test_check_failure_2_singular(self) -> None:
         if self.test_failure_2 is None:
-            self.skipTest("Not supported")
+            msg = "Test data not provided"
+            raise SkipTest(msg)
         self.assertTrue(
             self.check.check_target(
                 [self.test_failure_2[0]],
@@ -351,7 +360,8 @@ class CheckTestCase(SimpleTestCase, ABC):
 
     def test_check_failure_3_singular(self) -> None:
         if self.test_failure_3 is None:
-            self.skipTest("Not supported")
+            msg = "Test data not provided"
+            raise SkipTest(msg)
         self.assertTrue(
             self.check.check_target(
                 [self.test_failure_3[0]],
@@ -381,7 +391,8 @@ class CheckTestCase(SimpleTestCase, ABC):
 
     def test_check_highlight(self) -> None:
         if self.test_highlight is None:
-            self.skipTest("Not supported")
+            msg = "Test data not provided"
+            raise SkipTest(msg)
         unit = MockUnit(
             None,
             self.test_highlight[0],

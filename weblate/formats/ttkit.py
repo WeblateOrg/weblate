@@ -351,12 +351,15 @@ class TTKitFormat(TranslationFormat):
         else:
             self.store.addunit(unit.unit)
 
-    def save_content(self, handle) -> None:
+    def save_content(self, handle: BinaryIO) -> None:
         """Store content to file."""
         self.store.serialize(handle)
 
     def save(self) -> None:
         """Save underlying store to disk."""
+        if not isinstance(self.storefile, str):
+            msg = "Can save only to a file."
+            raise TypeError(msg)
         self.save_atomic(self.storefile, self.save_content)
 
     @classmethod

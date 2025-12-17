@@ -39,6 +39,7 @@ from .types import (
 if TYPE_CHECKING:
     from collections.abc import Iterable, Iterator
 
+    from requests import Response
     from requests.auth import AuthBase
 
     from weblate.auth.models import User
@@ -170,7 +171,7 @@ class BatchMachineTranslation:
     def get_auth(self) -> tuple[str, str] | AuthBase | None:
         return None
 
-    def check_failure(self, response) -> None:
+    def check_failure(self, response: Response) -> None:
         # Directly raise error as last resort, subclass can prepend this
         # with something more clever
         try:
@@ -279,13 +280,13 @@ class BatchMachineTranslation:
             and source_language != target_language
         )
 
-    def is_rate_limited(self):
+    def is_rate_limited(self) -> bool:
         return cache.get(self.rate_limit_cache, False)
 
-    def set_rate_limit(self):
-        return cache.set(self.rate_limit_cache, True, 1800)
+    def set_rate_limit(self) -> None:
+        cache.set(self.rate_limit_cache, True, 1800)
 
-    def is_rate_limit_error(self, exc) -> bool:
+    def is_rate_limit_error(self, exc: Exception) -> bool:
         if isinstance(exc, MachineryRateLimitError):
             return True
         if not isinstance(exc, HTTPError):
@@ -321,15 +322,15 @@ class BatchMachineTranslation:
 
         return ":".join(str(part) for part in key)
 
-    def unescape_text(self, text: str):
+    def unescape_text(self, text: str) -> str:
         """Unescaping of the text with replacements."""
         return text
 
-    def escape_text(self, text: str):
+    def escape_text(self, text: str) -> str:
         """Escaping of the text with replacements."""
         return text
 
-    def make_re_placeholder(self, text: str):
+    def make_re_placeholder(self, text: str) -> str:
         """Convert placeholder into a regular expression."""
         # Allow additional space before ]
         return re.escape(text[:-1]) + " *" + re.escape(text[-1:])
@@ -958,7 +959,7 @@ class XMLMachineTranslationMixin(BatchMachineTranslation):
 
 
 class ResponseStatusMachineTranslation(MachineTranslation):
-    def check_failure(self, response) -> None:
+    def check_failure(self, response: Response) -> None:
         payload = response.json()
 
         # Check response status

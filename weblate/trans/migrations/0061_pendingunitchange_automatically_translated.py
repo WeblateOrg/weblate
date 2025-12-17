@@ -9,7 +9,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("trans", "0059_alter_change_action"),
+        ("trans", "0060_pendingunitchange_automatically_translated"),
     ]
 
     operations = [

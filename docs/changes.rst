@@ -1,7 +1,34 @@
+Weblate 5.15.1
+--------------
+
+*Not yet released.*
+
+.. rubric:: New features
+
+.. rubric:: Improvements
+
+* Updated list of OpenAI models.
+
+.. rubric:: Bug fixes
+
+* Fixed e-mail SSL configuration in Docker container.
+
+.. rubric:: Compatibility
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.15.1.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/159?closed=1>`__.
+
 Weblate 5.15
 ------------
 
-*Not yet released.*
+*Released on December 15th 2025.*
 
 .. rubric:: New features
 
@@ -32,6 +59,10 @@ Weblate 5.15
 
 .. rubric:: Bug fixes
 
+* Improper invitation validation upon accepting (:cve:`2025-64725` / :ghsa:`m6hq-f4w9-qrjj`).
+* Server-Side Request Forgery while cloning repository (:cve:`2025-66407` / :ghsa:`hfpv-mc5v-p9mm`).
+* Over‑permissive webhook endpoint enabling mass repository updates plus component enumeration (:cve:`2025-67492` / :ghsa:`pj86-258h-qrvf`).
+* Notification settings disclosure via Weblate API (:cve:`2025-67715` / :ghsa:`3pmh-24wp-xpf4`).
 * :ref:`mt-deepl` integration now correctly handles translating to Chinese variants.
 * :doc:`/formats/csv` format saving translations with empty source fields when using monolingual base files.
 * Tighter validation of user and full names to avoid confusing homoglyphs.

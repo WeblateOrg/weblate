@@ -42,7 +42,7 @@ repos:
     - --exit-non-zero-on-fix
   - id: ruff-format
 - repo: https://github.com/adamtheturtle/doccmd-pre-commit
-  rev: v2025.12.10
+  rev: v2025.12.13
   hooks:
   - id: doccmd
     args: [--language, python, --no-pad-file, --command, ruff format]
@@ -82,7 +82,7 @@ repos:
   - id: shellcheck
     require_serial: true
 - repo: https://github.com/biomejs/pre-commit
-  rev: v2.3.8
+  rev: v2.3.9
   hooks:
   - id: biome-check
     args: [--error-on-warnings]

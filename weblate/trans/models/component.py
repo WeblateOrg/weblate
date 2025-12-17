@@ -128,7 +128,7 @@ from weblate.utils.validators import (
     validate_repo_url,
     validate_slug,
 )
-from weblate.vcs.base import RepositoryError
+from weblate.vcs.base import RepositoryError, RepositorySymlinkError
 from weblate.vcs.git import GitMergeRequestBase, LocalRepository
 from weblate.vcs.models import VCS_REGISTRY
 from weblate.vcs.ssh import add_host_key
@@ -771,6 +771,7 @@ class Component(
     )
     language_regex = RegexField(
         verbose_name=gettext_lazy("Language filter"),
+        validators=[validate_re_nonempty],
         max_length=500,
         default="^[^.]+$",
         help_text=gettext_lazy(
@@ -974,7 +975,7 @@ class Component(
             # Generate change entries for changes
             self.generate_changes(old)
             # Detect slug changes and rename Git repo
-            self.check_rename(old)
+            was_renamed = self.check_rename(old)
             # Rename linked repos
             if (
                 old.slug != self.slug
@@ -982,7 +983,7 @@ class Component(
                 or old.category != self.category
             ):
                 old.component_set.update(repo=self.get_repo_link_url())
-            if changed_git:
+            if changed_git or was_renamed:
                 self.drop_repository_cache()
 
             changed_enforced_checks = (
@@ -2287,6 +2288,7 @@ class Component(
         # Commit pending changes
         with self.repository.lock:
             for translation in translations:
+                self.repository.lock.reacquire()
                 translation = reuse_self(translation)
                 component = translation.component
                 if component.pk in skipped:
@@ -2565,6 +2567,7 @@ class Component(
         """Return files matching current mask."""
         prefix = path_separator(os.path.join(self.full_path, ""))
         matches = set()
+
         for filename in glob(os.path.join(self.full_path, self.filemask)):
             path = path_separator(filename).replace(prefix, "")
             code = self.get_lang_code(path)
@@ -2574,10 +2577,22 @@ class Component(
                 self.log_info("skipping language %s [%s]", code, path)
 
         # Remove symlinked translations
-        for filename in list(matches):
-            resolved = self.repository.resolve_symlinks(filename)
-            if resolved != filename and resolved in matches:
+        targets = set()
+        for filename in sorted(matches):
+            try:
+                resolved = self.repository.resolve_symlinks(filename)
+            except RepositorySymlinkError:
+                # Skip symlinks out of tree
+                self.log_info("ignoring %s, invalid symlink", filename)
                 matches.discard(filename)
+            else:
+                # Ignore symlinks to existing translations
+                if resolved != filename:
+                    if resolved in matches or resolved in targets:
+                        self.log_info("ignoring %s, symlink to %s", filename, resolved)
+                        matches.discard(filename)
+                    else:
+                        targets.add(resolved)
 
         if self.has_template():
             # We do not want to show intermediate translation standalone
@@ -2755,6 +2770,12 @@ class Component(
                 raise InvalidTemplateError(info=str(exc)) from exc
         self._template_check_done = True
 
+    def refresh_lock(self) -> None:
+        """Refresh the lock to avoid expiry in long operations."""
+        self.lock.reacquire()
+        if self.linked_component and self.linked_component.lock.is_locked:
+            self.linked_component.lock.reacquire()
+
     def _create_translations(  # noqa: C901,PLR0915
         self,
         *,
@@ -2825,6 +2846,8 @@ class Component(
                 c.translation_set.count() for c in self.linked_children
             )
         for pos, path in enumerate(matches):
+            self.refresh_lock()
+
             if not self._sources_prefetched and path != source_file:
                 self.preload_sources()
             with transaction.atomic():
@@ -3398,9 +3421,10 @@ class Component(
 
         # Check if we should rename
         changed_git = True
+        was_renamed = False
         if self.id:
             old = Component.objects.get(pk=self.id)
-            self.check_rename(old, validate=True)
+            was_renamed = self.check_rename(old, validate=True)
             changed_git = (
                 (old.vcs != self.vcs)
                 or (old.repo != self.repo)
@@ -3427,8 +3451,9 @@ class Component(
         self.clean_unique_together()
 
         # Check repo if config was changes
-        if changed_git:
+        if changed_git or was_renamed:
             self.drop_repository_cache()
+        if changed_git:
             self.clean_repo()
 
         self.clean_category()
@@ -3442,20 +3467,22 @@ class Component(
         # File format parameters
         self.clean_file_format_params()
 
+        # Get file matches
         try:
             matches = self.get_mask_matches()
-
-            # Verify language codes
-            self.clean_lang_codes(matches)
-
-            # Try parsing files
-            self.clean_files(matches)
         except re.error as error:
+            # This will fail the field validation, but full_clean() does call clean() even with that
             raise ValidationError(
                 gettext(
                     "Can not validate file matches due to invalid regular expression."
                 )
             ) from error
+
+        # Verify language codes
+        self.clean_lang_codes(matches)
+
+        # Try parsing files
+        self.clean_files(matches)
 
         # Suggestions
         if (
@@ -3475,19 +3502,28 @@ class Component(
                 gettext("To use the key filter, the file format must be monolingual.")
             )
 
-    def get_template_filename(self):
+    def get_template_filename(self) -> str:
         """Create absolute filename for template."""
-        return os.path.join(self.full_path, self.template)
+        filename = os.path.join(self.full_path, self.template)
+        # Throws an exception in case of error
+        self.check_file_is_valid(filename)
+        return filename
 
-    def get_intermediate_filename(self):
+    def get_intermediate_filename(self) -> str:
         """Create absolute filename for intermediate."""
-        return os.path.join(self.full_path, self.intermediate)
+        filename = os.path.join(self.full_path, self.intermediate)
+        # Throws an exception in case of error
+        self.check_file_is_valid(filename)
+        return filename
 
-    def get_new_base_filename(self):
+    def get_new_base_filename(self) -> str | None:
         """Create absolute filename for base file for new translations."""
         if not self.new_base:
             return None
-        return os.path.join(self.full_path, self.new_base)
+        filename = os.path.join(self.full_path, self.new_base)
+        # Throws an exception in case of error
+        self.check_file_is_valid(filename)
+        return filename
 
     def create_template_if_missing(self) -> None:
         """Create blank template in case intermediate language is enabled."""
@@ -4236,6 +4272,16 @@ class Component(
         return Language.objects.exclude(
             Q(translation__component=self) | Q(component=self)
         )
+
+    def check_file_is_valid(self, filename: str) -> str:
+        # This might throw an exception in case of invalid link
+        try:
+            self.repository.resolve_symlinks(filename)
+        except RepositorySymlinkError as error:
+            raise ValidationError(
+                gettext("Invalid symbolic link in a repository.")
+            ) from error
+        return filename
 
 
 @receiver(m2m_changed, sender=Component.links.through)

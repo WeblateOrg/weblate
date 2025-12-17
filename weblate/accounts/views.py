@@ -69,6 +69,7 @@ from social_core.backends.base import BaseAuth
 from social_core.exceptions import (
     AuthAlreadyAssociated,
     AuthCanceled,
+    AuthConnectionError,
     AuthException,
     AuthFailed,
     AuthForbidden,
@@ -310,7 +311,7 @@ def get_notification_forms(request: AuthenticatedHttpRequest):
     subscriptions: dict[tuple[NotificationScope, int, int], dict[str, int]] = (
         defaultdict(dict)
     )
-    initials: dict[tuple[NotificationScope, int, int], dict[str, Any]] = {}
+    initials: dict[tuple[NotificationScope | int, int, int], dict[str, Any]] = {}
     key: tuple[NotificationScope, int, int]
 
     # Ensure watched, admin and all scopes are visible
@@ -1514,7 +1515,7 @@ def social_complete(request: AuthenticatedHttpRequest, backend: str):
                 "The supplied user identity is already in use for another account."
             ),
         )
-    except AuthUnreachableProvider:
+    except (AuthUnreachableProvider, AuthConnectionError):
         return registration_fail(
             request,
             gettext("The authentication provider could not be reached."),
@@ -1743,6 +1744,8 @@ class TOTPView(FormView):
     form_class = TOTPDeviceForm
     session_key = SESSION_SECOND_FACTOR_TOTP
 
+    request: AuthenticatedHttpRequest
+
     @cached_property
     def totp_key(self) -> str:
         key = self.request.session.get(self.session_key, None)
@@ -1817,7 +1820,9 @@ class TOTPView(FormView):
 
 
 class SecondFactorMixin(View):
-    def second_factor_completed(self, device: Device) -> None:
+    request: AuthenticatedHttpRequest
+
+    def second_factor_completed(self, device: Device) -> User:
         # Store audit log entry about used device and update last used device type
         user = self.get_user()
         user.profile.log_2fa(self.request, device)
@@ -1831,6 +1836,7 @@ class SecondFactorMixin(View):
         else:
             self.request.session[DEVICE_ID_SESSION_KEY] = device.persistent_id
             # This is completed in social_complete after completing social login
+        return user
 
     def second_factor_failed(self) -> None:
         user = self.get_user()
@@ -1848,16 +1854,20 @@ class SecondFactorMixin(View):
         user.backend = backend
         return user
 
+    def get_backend(self) -> DeviceType:
+        raise NotImplementedError
+
 
 @method_decorator(login_not_required, name="dispatch")
 class SecondFactorLoginView(SecondFactorMixin, RedirectURLMixin, FormView):
     template_name = "accounts/2fa.html"
     next_page = settings.LOGIN_REDIRECT_URL
-    forms: ClassVar[dict[str, Form]] = {
+    forms: ClassVar[dict[str, type[Form]]] = {
         "totp": TOTPTokenForm,
         "webauthn": WebAuthnTokenForm,
         "recovery": OTPTokenForm,
     }
+    request: AuthenticatedHttpRequest
 
     def get_backend(self) -> DeviceType:
         backend = self.kwargs["backend"]
@@ -1900,9 +1910,14 @@ class SecondFactorLoginView(SecondFactorMixin, RedirectURLMixin, FormView):
         return super().form_invalid(form)
 
 
+class WebAuthnMixin(SecondFactorMixin):
+    def get_backend(self) -> DeviceType:
+        return "webauthn"
+
+
 @method_decorator(login_not_required, name="dispatch")
 class WeblateBeginCredentialAuthenticationView(
-    SecondFactorMixin, BeginCredentialAuthenticationView
+    WebAuthnMixin, BeginCredentialAuthenticationView
 ):
     pass
 
@@ -1910,7 +1925,7 @@ class WeblateBeginCredentialAuthenticationView(
 @method_decorator(session_ratelimit_post("second_factor"), name="dispatch")
 @method_decorator(login_not_required, name="dispatch")
 class WeblateCompleteCredentialAuthenticationView(
-    SecondFactorMixin, CompleteCredentialAuthenticationView
+    WebAuthnMixin, CompleteCredentialAuthenticationView
 ):
     def complete_auth(self, device: WebAuthnCredential) -> User:
         return self.second_factor_completed(device)

@@ -132,6 +132,9 @@ class ConvertFormat(TranslationFormat):
 
     def save(self) -> None:
         """Save underlying store to disk."""
+        if not isinstance(self.storefile, str):
+            msg = "Can save only to a file."
+            raise TypeError(msg)
         self.save_atomic(self.storefile, self.save_content)
 
     def convertfile(self, storefile, template_store) -> NoReturn:

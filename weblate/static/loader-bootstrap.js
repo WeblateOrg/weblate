@@ -1245,6 +1245,8 @@ $(function () {
     menuItemTemplate: (item) => {
       const link = document.createElement("a");
       link.innerText = item.string;
+      link.classList.add("dropdown-item");
+      link.href = "#";
       return link.outerHTML;
     },
     values: (text, callback) => {
@@ -1269,7 +1271,7 @@ $(function () {
   document.querySelectorAll(".markdown-editor").forEach((editor) => {
     editor.addEventListener("tribute-active-true", (_e) => {
       $(".tribute-container").addClass("open");
-      $(".tribute-container ul").addClass("dropdown-menu");
+      $(".tribute-container ul").addClass("dropdown-menu shadow");
     });
   });
 

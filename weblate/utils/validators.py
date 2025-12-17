@@ -33,6 +33,7 @@ from django.utils.translation import gettext, gettext_lazy
 from weblate.trans.util import cleanup_path
 from weblate.utils.const import WEBHOOKS_SECRET_PREFIX
 from weblate.utils.data import data_dir
+from weblate.utils.files import is_excluded
 
 USERNAME_MATCHER = re.compile(r"^[\w@+-][\w.@+-]*$")
 
@@ -64,10 +65,16 @@ FORBIDDEN_EXTENSIONS = {
 }
 
 
-def validate_re(value, groups=None, allow_empty=True) -> None:
+def validate_re(
+    value: str,
+    groups: list[str] | tuple[str, ...] | None = None,
+    *,
+    allow_empty: bool = True,
+) -> None:
     try:
         compiled = re.compile(value)
     except re.error as error:
+        # TODO: change re.error to re.PatternError for Python >= 3.13
         raise ValidationError(
             gettext("Compilation failed: {0}").format(error)
         ) from error
@@ -87,8 +94,8 @@ def validate_re(value, groups=None, allow_empty=True) -> None:
             )
 
 
-def validate_re_nonempty(value):
-    return validate_re(value, allow_empty=False)
+def validate_re_nonempty(value: str) -> None:
+    validate_re(value, allow_empty=False)
 
 
 def validate_bitmap(value) -> None:
@@ -238,7 +245,7 @@ def validate_plural_formula(value) -> None:
         ) from error
 
 
-def validate_filename(value) -> None:
+def validate_filename(value: str, *, check_prohibited: bool = True) -> None:
     if "../" in value or "..\\" in value:
         raise ValidationError(
             gettext("The filename can not contain reference to a parent directory.")
@@ -254,6 +261,8 @@ def validate_filename(value) -> None:
                 "Maybe you want to use: {}"
             ).format(cleaned)
         )
+    if check_prohibited and is_excluded(cleaned):
+        raise ValidationError(gettext("The filename contains a prohibited folder."))
 
 
 def validate_backup_path(value: str) -> None:
@@ -270,6 +279,11 @@ def validate_backup_path(value: str) -> None:
         raise ValidationError(msg)
 
     if loc.proto == "file":
+        # Missing path
+        if not loc.path:
+            msg = "Backup location has to be an absolute path."
+            raise ValidationError(msg)
+
         # The path is already normalized here
         path = Path(loc.path)
 

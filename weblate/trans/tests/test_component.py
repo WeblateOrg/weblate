@@ -196,7 +196,11 @@ class ComponentTest(RepoTestCase):
 
     def test_create_po_link(self) -> None:
         component = self.create_po_link()
-        self.verify_component(component, 5, "cs", 4)
+        self.assertEqual(
+            set(component.translation_set.values_list("language_code", flat=True)),
+            {"en", "cs", "de", "it"},
+        )
+        self.verify_component(component, 4, "cs", 4)
 
     def test_create_po_mono(self) -> None:
         component = self.create_po_mono()
@@ -475,6 +479,16 @@ class ComponentTest(RepoTestCase):
         component.check_flags = f"ignore-{check.name}"
         component.save()
         self.assertEqual(Check.objects.count(), 0)
+
+    def test_create_symlinks(self):
+        component = self._create_component("po", "po-brokenlink/*.po")
+        # - xx should not be present as it is a symlink to existing translation
+        # - fr should not be present as it is a symlink out of tree
+        self.assertEqual(
+            set(component.translation_set.values_list("language_code", flat=True)),
+            {"en", "cs", "de", "it"},
+        )
+        self.verify_component(component, 4, "cs", 4)
 
 
 class AutoAddonTest(RepoTestCase):
