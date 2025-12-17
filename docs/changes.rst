@@ -5,6 +5,8 @@ Weblate 5.15.1
 
 .. rubric:: New features
 
+* Added :http:get:`/api/projects/(string:project)/languages/(string:language_code)/file/` to download a ZIP file of all component translations of a project for a specified language.
+
 .. rubric:: Improvements
 
 * Updated list of OpenAI models.
@@ -39,7 +41,6 @@ Weblate 5.15
 * Added ability to completely disable the admin contact form by setting :setting:`CONTACT_FORM` to ``"disabled"``.
 * Added new Ollama machinery tool for local Ollama AI model integration, see :ref:`mt-ollama`.
 * Added :http:get:`/api/units/(int:id)/comments/` to get a list of comments for the given translation unit.
-* Added :http:get:`/api/projects/(string:project)/languages/(string:language_code)/file/` to download a ZIP file of all component translations of a project for a specified language.
 * Memory contents imported from TMX files include string context.
 * :doc:`/formats/xliff2`, :doc:`/formats/nextcloud-json`, :doc:`/formats/resjson`, and :doc:`/formats/toml` are now supported file formats.
 * :ref:`addon-weblate.fedora_messaging.publish` integration is now available as add-on.
