@@ -634,7 +634,12 @@ class FileScanTest(ViewTestCase):
         self.assertEqual(unit_1.state, STATE_TRANSLATED)
         self.assertEqual(
             unit_1.details["disk_state"],
-            {"target": target_1, "state": STATE_APPROVED, "explanation": explanation_1},
+            {
+                "target": target_1,
+                "state": STATE_APPROVED,
+                "explanation": explanation_1,
+                "automatically_translated": False,
+            },
         )
         self.assertEqual(PendingUnitChange.objects.filter(unit=unit_1).count(), 1)
 
@@ -653,7 +658,12 @@ class FileScanTest(ViewTestCase):
         self.assertEqual(unit_2.state, STATE_TRANSLATED)
         self.assertEqual(
             unit_2.details["disk_state"],
-            {"target": "", "state": STATE_EMPTY, "explanation": explanation_2},
+            {
+                "target": "",
+                "state": STATE_EMPTY,
+                "explanation": explanation_2,
+                "automatically_translated": False,
+            },
         )
         self.assertEqual(PendingUnitChange.objects.filter(unit=unit_2).count(), 2)
 
@@ -667,7 +677,12 @@ class FileScanTest(ViewTestCase):
         )
         self.assertEqual(
             unit_3.details["disk_state"],
-            {"target": "", "state": STATE_EMPTY, "explanation": explanation_3},
+            {
+                "target": "",
+                "state": STATE_EMPTY,
+                "explanation": explanation_3,
+                "automatically_translated": False,
+            },
         )
         self.assertEqual(PendingUnitChange.objects.filter(unit=unit_3).count(), 1)
 
@@ -687,7 +702,12 @@ class FileScanTest(ViewTestCase):
         self.assertEqual(unit_1.state, STATE_TRANSLATED)
         self.assertEqual(
             unit_1.details["disk_state"],
-            {"target": target_1, "state": STATE_APPROVED, "explanation": explanation_1},
+            {
+                "target": target_1,
+                "state": STATE_APPROVED,
+                "explanation": explanation_1,
+                "automatically_translated": False,
+            },
         )
         self.assertEqual(PendingUnitChange.objects.filter(unit=unit_1).count(), 1)
 
@@ -699,7 +719,12 @@ class FileScanTest(ViewTestCase):
         self.assertEqual(unit_2.state, STATE_TRANSLATED)
         self.assertEqual(
             unit_2.details["disk_state"],
-            {"target": target_2, "state": STATE_APPROVED, "explanation": explanation_2},
+            {
+                "target": target_2,
+                "state": STATE_APPROVED,
+                "explanation": explanation_2,
+                "automatically_translated": False,
+            },
         )
         self.assertEqual(PendingUnitChange.objects.filter(unit=unit_2).count(), 1)
 

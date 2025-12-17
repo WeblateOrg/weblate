@@ -1082,11 +1082,15 @@ class Translation(
             # Update fuzzy/approved flag
             pounit.set_state(pending_change.state)
 
+            # Update autotranslated state
+            pounit.set_automatically_translated(pending_change.automatically_translated)
+
             # Update disk state from the file to the unit
             unit.details["disk_state"] = {
                 "target": pounit.target,
                 "state": pending_change.state,
                 "explanation": pounit.explanation,
+                "automatically_translated": pending_change.automatically_translated,
             }
             unit.save(update_fields=["details"], only_save=True)
 

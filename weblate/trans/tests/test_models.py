@@ -6,6 +6,7 @@
 
 import os
 from datetime import timedelta
+from pathlib import Path
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.core.management.color import no_style
@@ -1030,3 +1031,62 @@ class PendingUnitChangeTest(RepoTestCase):
             set(components.values_list("pk", flat=True)),
             {self.component.pk, self.component3.pk},
         )
+
+
+class AutomaticallyTranslatedFromFileTest(RepoTestCase):
+    def test_xliff_state_qualifier_loaded_to_database(self) -> None:
+        component = self.create_xliff_auto()
+        translation = component.translation_set.get(language_code="cs")
+        user = create_test_user()
+
+        file_content = Path(translation.get_filename()).read_text(encoding="utf-8")
+        self.assertEqual(file_content.count('state-qualifier="leveraged-mt"'), 1)
+        self.assertEqual(file_content.count('state-qualifier="mt-suggestion"'), 1)
+
+        self.assertTrue(
+            translation.unit_set.get(source="Hello").automatically_translated
+        )
+
+        world_unit = translation.unit_set.get(source="World")
+        self.assertTrue(world_unit.automatically_translated)
+        world_unit.translate(
+            user=user, new_target=world_unit.target, new_state=STATE_TRANSLATED
+        )
+        self.assertFalse(world_unit.automatically_translated)
+
+        car_unit = translation.unit_set.get(source="Car")
+        self.assertFalse(car_unit.automatically_translated)
+        car_unit.translate(
+            user=user,
+            new_target="Automobil",
+            new_state=STATE_TRANSLATED,
+            change_action=ActionEvents.AUTO,
+        )
+        self.assertTrue(car_unit.automatically_translated)
+
+        translation.commit_pending("test", None)
+
+        file_content = Path(translation.get_filename()).read_text(encoding="utf-8")
+        self.assertIn("Automobil", file_content)
+        self.assertEqual(file_content.count('state-qualifier="leveraged-mt"'), 2)
+        self.assertEqual(file_content.count('state-qualifier="mt-suggestion"'), 0)
+
+    def test_xliff_file_sync_gets_automatically_translated_from_file(self) -> None:
+        component = self.create_xliff_auto()
+        translation = component.translation_set.get(language_code="cs")
+
+        car_unit = translation.unit_set.get(source="Car")
+        self.assertFalse(car_unit.automatically_translated)
+
+        file_content = Path(translation.get_filename()).read_text(encoding="utf-8")
+        modified_content = file_content.replace(
+            "<target>Auto</target>",
+            '<target state-qualifier="leveraged-mt">Auto</target>',
+        )
+        Path(translation.get_filename()).write_text(modified_content, encoding="utf-8")
+
+        translation = component.translation_set.get(language_code="cs")
+        translation.check_sync(force=True)
+
+        car_unit = translation.unit_set.get(source="Car")
+        self.assertTrue(car_unit.automatically_translated)

@@ -292,6 +292,10 @@ class TranslationUnit:
         """Check whether unit is read-only."""
         return False
 
+    def is_automatically_translated(self, fallback: bool = False) -> bool:
+        """Check whether unit is automatically translated."""
+        return fallback
+
     def set_target(self, target: str | list[str]) -> None:
         """Set translation unit target."""
         raise NotImplementedError
@@ -305,6 +309,9 @@ class TranslationUnit:
     def set_state(self, state) -> None:
         """Set fuzzy /approved flag on translated unit."""
         raise NotImplementedError
+
+    def set_automatically_translated(self, value: bool) -> None:
+        return
 
     def has_unit(self) -> bool:
         return self.unit is not None
