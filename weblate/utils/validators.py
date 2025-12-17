@@ -65,10 +65,16 @@ FORBIDDEN_EXTENSIONS = {
 }
 
 
-def validate_re(value, groups=None, allow_empty=True) -> None:
+def validate_re(
+    value: str,
+    groups: list[str] | tuple[str, ...] | None = None,
+    *,
+    allow_empty: bool = True,
+) -> None:
     try:
         compiled = re.compile(value)
     except re.error as error:
+        # TODO: change re.error to re.PatternError for Python >= 3.13
         raise ValidationError(
             gettext("Compilation failed: {0}").format(error)
         ) from error
@@ -88,8 +94,8 @@ def validate_re(value, groups=None, allow_empty=True) -> None:
             )
 
 
-def validate_re_nonempty(value):
-    return validate_re(value, allow_empty=False)
+def validate_re_nonempty(value: str) -> None:
+    validate_re(value, allow_empty=False)
 
 
 def validate_bitmap(value) -> None:
