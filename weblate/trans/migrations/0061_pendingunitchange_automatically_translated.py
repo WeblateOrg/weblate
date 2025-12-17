@@ -9,7 +9,7 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("trans", "0060_pendingunitchange_automatically_translated"),
+        ("trans", "0060_alter_component_language_regex"),
     ]
 
     operations = [
