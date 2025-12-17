@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-13 13:30+0100\n"
-"PO-Revision-Date: 2025-12-16 14:12+0000\n"
+"PO-Revision-Date: 2025-12-17 14:43+0000\n"
 "Last-Translator: Takeru Mikenu <mikenu-jp@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -18968,6 +18968,10 @@ msgid ""
 "(see :ref:`custom-module` or :ref:`docker-python-override`) and add fully "
 "qualified class name to :setting:`WEBLATE_MACHINERY`."
 msgstr ""
+"また、数行の Python コードを使用して、独自の機械翻訳サービスを実装することも"
+"できます。Weblate がインポートできるモジュールにコードを配置し（:ref:`custom-"
+"module` または :ref:`docker-python-override` を参照）"
+"、:setting:`WEBLATE_MACHINERY` に完全修飾クラス名を追加してください。"
 
 #: ../../admin/management.rst:4
 msgid "Management commands"
@@ -19125,7 +19129,7 @@ msgstr ""
 
 #: ../../admin/management.rst:161
 msgid "Imports given content into Weblate, useful for benchmarking."
-msgstr ""
+msgstr "与えられたコンテンツを Weblate にインポートします。ベンチマークに便利です。"
 
 #: ../../admin/management.rst:163
 #, fuzzy
@@ -19144,6 +19148,8 @@ msgid ""
 "Creates a demo billing project. Can be executed multiple times to add "
 "additional invoices and billing events."
 msgstr ""
+"デモ用の課金プロジェクトを作成します。追加の請求書や課金イベントを追加するた"
+"めに、複数回実行できます。"
 
 #: ../../admin/management.rst:197
 #, fuzzy
@@ -19350,13 +19356,15 @@ msgstr "TMX または JSON ファイルを Weblate 翻訳メモリにインポ�
 
 #: ../../admin/management.rst:422
 msgid "Supported file formats are TMX, JSON, XLIFF, PO, CSV."
-msgstr ""
+msgstr "サポートされているファイル形式は、TMX、JSON、XLIFF、PO、CSV です。"
 
 #: ../../admin/management.rst:424
 msgid ""
 "Specifying a source and a target languages might be necessary for formats "
 "other than JSON and TMX."
 msgstr ""
+"JSON および TMX 以外のフォーマットでは、原文言語と訳文言語の指定が必要になる"
+"場合があります。"
 
 #: ../../admin/management.rst:429
 msgid ""
@@ -19387,12 +19395,16 @@ msgid ""
 "Specifies the source language for imported translations. Typically needed "
 "for formats where the languages cannot be determined from the file itself."
 msgstr ""
+"インポートされた翻訳の原文言語を指定します。通常、ファイルから言語を特定でき"
+"ないフォーマットで必要とされます。"
 
 #: ../../admin/management.rst:445
 msgid ""
 "Specifies the target language for imported translations. Typically needed "
 "for formats where the languages cannot be determined from the file itself."
 msgstr ""
+"インポートされた翻訳の訳文言語を指定します。通常、ファイル自体から言語を特定"
+"できないフォーマットで必要とされます。"
 
 #: ../../admin/management.rst:458
 msgid ""
@@ -19627,6 +19639,8 @@ msgid ""
 "Use :wladmin:`dumpuserdata` for dumping data from other Weblate server as "
 "that includes user settings as well."
 msgstr ""
+"他の Weblate サーバーからデータをダンプするには、:wladmin:`dumpuserdata` を使"
+"用してください。それにはユーザー設定も含まれているためです。"
 
 #: ../../admin/management.rst:655
 msgid "Installs an add-on to a set of components."
@@ -19688,17 +19702,23 @@ msgstr ":ref:`mt-deepl` のインストール方法:"
 msgid ""
 "Lists add-ons in reStructuredText as a template for :doc:`/admin/addons`."
 msgstr ""
+":doc:`/admin/addons` 用のテンプレートとして、アドオンを reStructuredText 形式"
+"でリストアップします。"
 
 #: ../../admin/management.rst:729
 msgid ""
 "Lists permissions in reStructuredText as a template for :doc:`/admin/access`."
 msgstr ""
+":doc:`/admin/access` 用のテンプレートとして、権限を reStructuredText 形式で"
+"リストアップします。"
 
 #: ../../admin/management.rst:740
 msgid ""
 "Lists quality checks in reStructuredText as a template for :doc:`/admin/"
 "checks` and :doc:`/user/checks`."
 msgstr ""
+":doc:`/admin/checks` および :doc:`/user/checks` 用のテンプレートとして、品質"
+"チェックを reStructuredText 形式でリストアップします。"
 
 #: ../../admin/management.rst:752
 msgid ""
@@ -19721,6 +19741,8 @@ msgid ""
 "Lists automatic suggestions services in reStructuredText as a template "
 "for :doc:`/admin/machine`."
 msgstr ""
+":doc:`/admin/machine` 用のテンプレートとして、自動提案サービスを "
+"reStructuredText 形式でリストアップします。"
 
 #: ../../admin/management.rst:773
 msgid "Lists translators by contributed language for the given project:"
@@ -20076,6 +20098,10 @@ msgid ""
 "entries with pending status are automatically removed when a translation is "
 "approved."
 msgstr ""
+"翻訳メモリのエントリには、**active** と **pending** という2つの異なる"
+"ステータスがあります。保留中のエントリは提案に含まれますが、品質ペナルティが"
+"適用されます。もし :ref:`autoclean-tm` が有効な場合、翻訳が承認されると、保留"
+"ステータスの古くなったエントリや廃止されたエントリは自動的に削除されます。"
 
 #: ../../admin/memory.rst:82 ../../admin/projects.rst:197
 msgid "Autoclean translation memory"
@@ -20661,6 +20687,8 @@ msgid ""
 "The rate limiting is based on sessions when user is signed in and on IP "
 "address if not."
 msgstr ""
+"レート制限は、ユーザーがサインインしている場合はセッションに、そうでない場合"
+"は IP アドレスに基づいています。"
 
 #: ../../admin/optionals.rst:280
 msgid ""
@@ -21038,7 +21066,7 @@ msgstr "翻訳メモリにある用語の抹消に対応。"
 
 #: ../../admin/projects.rst:205
 msgid "This does not affect manually uploaded memory entries."
-msgstr ""
+msgstr "これは手動でアップロードされたメモリのエントリには影響しません。"
 
 #: ../../admin/projects.rst:217
 msgid "Configure per project access control, see :ref:`acl` for more details."
@@ -21091,18 +21119,25 @@ msgid ""
 "changes to the version control system. This setting is available at the "
 "project level and supports the following options:"
 msgstr ""
+"コミットポリシーは、バージョン管理システムに変更をコミットする際に、どの翻訳"
+"が含まれるかを決定します。この設定はプロジェクトレベルで利用可能であり、以下"
+"のオプションをサポートしています："
 
 #: ../../admin/projects.rst:265
 msgid ""
 "**Commit all translations regardless of quality**: All translations will be "
 "committed, including those marked as needing editing or not reviewed."
 msgstr ""
+"**品質に関わらずすべての翻訳をコミットする**: 編集が必要、または未査読として"
+"マークされたものを含め、すべての翻訳がコミットされます。"
 
 #: ../../admin/projects.rst:267
 msgid ""
 "**Skip translations marked as needing editing**: Only translations that "
 "don't have the \"needs editing\" flag will be committed."
 msgstr ""
+"**要編集とマークされた翻訳をスキップする**: 「要編集」フラグを持たない翻訳の"
+"みがコミットされます。"
 
 #: ../../admin/projects.rst:269
 msgid ""
@@ -21110,6 +21145,9 @@ msgid ""
 "approved by a reviewer will be committed. This option requires :ref:`project-"
 "translation_review` to be enabled."
 msgstr ""
+"**承認された翻訳のみを含める**: 査読者によって承認された翻訳のみがコミットさ"
+"れます。このオプションは、:ref:`project-translation_review` が有効であること"
+"を必要とします。"
 
 #: ../../admin/projects.rst:277
 msgid "Enable hooks"
@@ -21675,6 +21713,8 @@ msgid ""
 "Parameters used to configure how translation files are processed, see "
 "also :ref:`file_format_params`."
 msgstr ""
+"翻訳ファイルがどのように処理されるかを設定するために使用されるパラメータです"
+"。:ref:`file_format_params` も参照してください。"
 
 #: ../../admin/projects.rst:636
 msgid "Source string bug reporting address"
