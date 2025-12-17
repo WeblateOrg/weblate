@@ -2,9 +2,9 @@
 
 {% if page_obj.paginator.num_pages > 1 %}
   <ul class="pagination">
-    <li {% if page_obj.number == 1 %}class="disabled"{% endif %}>
+    <li class="page-item{% if page_obj.number == 1 %} disabled{% endif %}">
       <a href="?page=1&amp;limit={{ page_obj.paginator.per_page }}{% if page_obj.paginator.sort_by %}&amp;sort_by={{ page_obj.paginator.sort_by }}{% endif %}{% if query_string %}&amp;{{ query_string }}{% endif %}{% if anchor %}#{{ anchor }}{% endif %}"
-         class="green">
+         class="page-link green">
         {% if LANGUAGE_BIDI %}
           {% icon "page-last.svg" %}
         {% else %}
@@ -12,7 +12,7 @@
         {% endif %}
       </a>
     </li>
-    <li {% if not page_obj.has_previous %}class="disabled"{% endif %}>
+    <li class="page-item{% if not page_obj.has_previous %} disabled{% endif %}">
       <a
         {% if page_obj.has_previous %}
           rel="prev"
@@ -20,7 +20,7 @@
           href="?page={{ page_obj.previous_page_number }}&amp;limit={{ page_obj.paginator.per_page }}{% if page_obj.paginator.sort_by %}&amp;sort_by={{ page_obj.paginator.sort_by }}{% endif %}{% if query_string %}&amp;{{ query_string }}{% endif %}{% if anchor %}#{{ anchor }}{% endif %}"
           {# djlint:on #}
         {% endif %}
-        class="green">
+        class="page-link green">
         {% if LANGUAGE_BIDI %}
           {% icon "page-next.svg" %}
         {% else %}
@@ -28,8 +28,8 @@
         {% endif %}
       </a>
     </li>
-    <li>
-      <a class="position-input" title="{% translate "Click to edit position" %}">
+    <li class="page-item">
+      <a class="page-link position-input" title="{% translate "Click to edit position" %}" href="#">
         {% blocktranslate with position=page_obj.number total=page_obj.paginator.num_pages %}{{ position }} / {{ total }}{% endblocktranslate %}
       </a>
       <a class="position-input-editable" title="{% translate "Go to position" %}">
@@ -64,7 +64,7 @@
           {% if not paginator_form %}</form>{% endif %}
       </a>
     </li>
-    <li {% if not page_obj.has_next %}class="disabled"{% endif %}>
+    <li class="page-item{% if not page_obj.has_next %} disabled{% endif %}">
       <a
         {% if page_obj.has_next %}
           rel="next"
@@ -72,7 +72,7 @@
           href="?page={{ page_obj.next_page_number }}&amp;limit={{ page_obj.paginator.per_page }}{% if page_obj.paginator.sort_by %}&amp;sort_by={{ page_obj.paginator.sort_by }}{% endif %}{% if query_string %}&amp;{{ query_string }}{% endif %}{% if anchor %}#{{ anchor }}{% endif %}"
           {# djlint:on #}
         {% endif %}
-        class="green">
+        class="page-link green">
         {% if not LANGUAGE_BIDI %}
           {% icon "page-next.svg" %}
         {% else %}
@@ -80,9 +80,9 @@
         {% endif %}
       </a>
     </li>
-    <li {% if page_obj.paginator.num_pages == page_obj.number %}class="disabled"{% endif %}>
+    <li class="page-item{% if page_obj.paginator.num_pages == page_obj.number %} disabled{% endif %}">
       <a href="?page={{ page_obj.paginator.num_pages }}&amp;limit={{ page_obj.paginator.per_page }}{% if page_obj.paginator.sort_by %}&amp;sort_by={{ page_obj.paginator.sort_by }}{% endif %}{% if query_string %}&amp;{{ query_string }}{% endif %}{% if anchor %}#{{ anchor }}{% endif %}"
-         class="green">
+         class="page-link green">
         {% if not LANGUAGE_BIDI %}
           {% icon "page-last.svg" %}
         {% else %}
