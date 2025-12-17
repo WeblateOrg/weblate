@@ -2775,6 +2775,8 @@ class Component(
         self.lock.reacquire()
         if self.linked_component and self.linked_component.lock.is_locked:
             self.linked_component.lock.reacquire()
+        if self.repository.lock.is_locked:
+            self.repository.lock.reacquire()
 
     def _create_translations(  # noqa: C901,PLR0915
         self,
