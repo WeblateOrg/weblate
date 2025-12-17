@@ -17,7 +17,7 @@ class ComponentDiscoveryTest(RepoTestCase):
             file_format="po",
             match=r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
             name_template="{{ component|title }}",
-            language_regex="^(?!xx).*$",
+            language_regex="^(?!xx).+$",
         )
 
     def test_matched_files(self) -> None:
@@ -174,7 +174,7 @@ class ComponentDiscoveryTest(RepoTestCase):
             file_format="po",
             match=r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
             name_template="{{ component|title }}",
-            language_regex="^(?!xx).*$",
+            language_regex="^(?!xx).+$",
         )
 
         # Test component removal preview
@@ -209,7 +209,7 @@ class ComponentDiscoveryTest(RepoTestCase):
             self.component,
             match=r"[^/]*(?P<component>po)[^/]*/(?P<language>[^/]*)\.po",
             name_template="{{ component|title }}",
-            language_regex="^(?!xx).*$",
+            language_regex="^(?!xx).+$",
             file_format="po",
         )
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):

@@ -771,6 +771,7 @@ class Component(
     )
     language_regex = RegexField(
         verbose_name=gettext_lazy("Language filter"),
+        validators=[validate_re_nonempty],
         max_length=500,
         default="^[^.]+$",
         help_text=gettext_lazy(
@@ -2566,6 +2567,7 @@ class Component(
         """Return files matching current mask."""
         prefix = path_separator(os.path.join(self.full_path, ""))
         matches = set()
+
         for filename in glob(os.path.join(self.full_path, self.filemask)):
             path = path_separator(filename).replace(prefix, "")
             code = self.get_lang_code(path)
@@ -3463,20 +3465,22 @@ class Component(
         # File format parameters
         self.clean_file_format_params()
 
+        # Get file matches
         try:
             matches = self.get_mask_matches()
-
-            # Verify language codes
-            self.clean_lang_codes(matches)
-
-            # Try parsing files
-            self.clean_files(matches)
         except re.error as error:
+            # This will fail the field validation, but full_clean() does call clean() even with that
             raise ValidationError(
                 gettext(
                     "Can not validate file matches due to invalid regular expression."
                 )
             ) from error
+
+        # Verify language codes
+        self.clean_lang_codes(matches)
+
+        # Try parsing files
+        self.clean_files(matches)
 
         # Suggestions
         if (

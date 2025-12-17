@@ -5905,7 +5905,7 @@ class AddonAPITest(APIBaseTest):
             "file_format": "po",
             "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
             "name_template": "{{ component|title }}",
-            "language_regex": "^(?!xx).*$",
+            "language_regex": "^(?!xx).+$",
         }
         self.assertEqual(Component.objects.all().count(), 2)
         self.create_addon(name="weblate.discovery.discovery", configuration=initial)
