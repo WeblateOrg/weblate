@@ -8,9 +8,11 @@ Weblate 5.15.1
 .. rubric:: Improvements
 
 * Updated list of OpenAI models.
+* Gracefully handle unreachable authentication providers.
 
 .. rubric:: Bug fixes
 
+* Locking error that prevented updating linked components.
 * Fixed e-mail SSL configuration in Docker container.
 * Invitations on sites with required authentication.
 
