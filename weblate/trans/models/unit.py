@@ -387,6 +387,7 @@ class OldUnit(TypedDict):
     context: str
     extra_flags: str
     explanation: str
+    automatically_translated: bool
 
 
 class UnitAttributesDict(TypedDict):
@@ -615,11 +616,11 @@ class Unit(models.Model, LoggerMixin):
             if key in self.__dict__:
                 del self.__dict__[key]
 
-    def save_labels(self, new_labels: list[Label], user: User) -> None:
+    def save_labels(self, labels: list[Label], user: User) -> None:
         """Save new labels for the unit."""
         old_labels = set(self.labels.all())
 
-        self.labels.set(new_labels)
+        self.labels.set(labels)
 
         new_labels = set(self.labels.all())
 
