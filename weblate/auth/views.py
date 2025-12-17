@@ -5,11 +5,13 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from django.contrib.auth.decorators import login_not_required
 from django.core.exceptions import PermissionDenied
 from django.forms import inlineformset_factory
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django.utils.translation import gettext
 from django.views.generic import DetailView, UpdateView
 
@@ -161,6 +163,7 @@ class TeamUpdateView(UpdateView):
         )
 
 
+@method_decorator(login_not_required, name="dispatch")
 class InvitationView(DetailView):
     model = Invitation
 

@@ -12,6 +12,7 @@ Weblate 5.15.1
 .. rubric:: Bug fixes
 
 * Fixed e-mail SSL configuration in Docker container.
+* Invitations on sites with required authentication.
 
 .. rubric:: Compatibility
 
