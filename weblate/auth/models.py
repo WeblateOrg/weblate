@@ -62,7 +62,6 @@ if TYPE_CHECKING:
 
     from django_otp.models import Device
     from social_core.backends.base import BaseAuth
-    from social_django.models import DjangoStorage
 
     from weblate.accounts.models import Subscription
     from weblate.accounts.strategy import WeblateStrategy
@@ -506,9 +505,6 @@ class User(AbstractBaseUser):
     )
 
     objects = UserManager.from_queryset(UserQuerySet)()
-
-    # social_auth integration
-    social_auth: DjangoStorage
 
     # django_otp integration (via OTPMiddleware)
     otp_device: Device
