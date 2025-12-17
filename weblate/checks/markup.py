@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import re
 import threading
+import regex
 from collections import Counter, defaultdict
 from functools import cache, lru_cache
 from itertools import chain
@@ -309,13 +310,13 @@ class XMLCharsAroundTagsCheck(BaseXMLCheck):
             if src_start_idx == 0 or tgt_start_idx == 0:
                 src_next_char = source[src_end_idx]
                 tgt_next_char = target[tgt_end_idx]
-                if self.next_char_check(src_next_char, tgt_next_char):
+                if self.char_check(src_next_char, tgt_next_char):
                     return True
             # if string ends with tag, only check char preceding this tag
             elif src_end_idx == len(source) or tgt_end_idx == len(target):
                 src_prev_char = source[src_start_idx - 1]
                 tgt_prev_char = target[tgt_start_idx - 1]
-                if self.prev_char_check(src_prev_char, tgt_prev_char):
+                if self.char_check(src_prev_char, tgt_prev_char):
                     return True
             # if inline tag, check char preceding and following this tag
             else:
@@ -324,17 +325,17 @@ class XMLCharsAroundTagsCheck(BaseXMLCheck):
                 src_next_char = source[src_end_idx]
                 tgt_next_char = target[tgt_end_idx]
 
-                if self.prev_char_check(src_prev_char, tgt_prev_char):
+                if self.char_check(src_prev_char, tgt_prev_char):
                     return True
-                if self.next_char_check(src_next_char, tgt_next_char):
+                if self.char_check(src_next_char, tgt_next_char):
                     return True
         return False
 
-    def prev_char_check(self, src_prev_char: str, tgt_prev_char: str) -> bool:
-        return (not src_prev_char.isalpha() and tgt_prev_char.isalpha()) or (src_prev_char.isalpha() and not tgt_prev_char.isalpha())
-    
-    def next_char_check(self, src_next_char: str, tgt_next_char: str) -> bool:
-        return (not src_next_char.isalpha() and tgt_next_char.isalpha()) or (src_next_char.isalpha() and not tgt_next_char.isalpha())
+    def char_check(self, src_char: str, tgt_char: str) -> bool:
+        ANY_LETTER = regex.compile(r"\p{L}")
+        src_letter = ANY_LETTER.search(src_char)
+        tgt_letter = ANY_LETTER.search(tgt_char)
+        return (not src_letter and tgt_letter) or (src_letter and not tgt_letter)
 
 
 class MarkdownBaseCheck(TargetCheck):
