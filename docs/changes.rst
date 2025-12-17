@@ -9,10 +9,13 @@ Weblate 5.15.1
 
 * Updated list of OpenAI models.
 * Added :doc:`/devel/migration` guide to help users migrate from other localization platforms.
+* Gracefully handle unreachable authentication providers.
 
 .. rubric:: Bug fixes
 
+* Locking error that prevented updating linked components.
 * Fixed e-mail SSL configuration in Docker container.
+* Invitations on sites with required authentication.
 
 .. rubric:: Compatibility
 
