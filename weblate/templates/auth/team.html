@@ -126,7 +126,7 @@
                     <td>
                       <a href="{{ user.get_absolute_url }}">{{ user.username }}</a>
                       {% if user in admins %}
-                        <span class="badge">{% translate "Team administrator" %}</span>
+                        <span class="badge  text-bg-secondary">{% translate "Team administrator" %}</span>
                       {% endif %}
                     </td>
                     <td>{{ user.full_name }}</td>

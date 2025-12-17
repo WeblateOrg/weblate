@@ -2,13 +2,13 @@
 
 {{ object.plan }}
 {% if object.is_libre_trial and object.payment.libre_request %}
-  <span class="badge">{% translate "Pending approval" %}</span>
+  <span class="badge  text-bg-secondary">{% translate "Pending approval" %}</span>
 {% elif object.is_trial %}
-  <span class="badge">{% translate "Trial" %}</span>
+  <span class="badge  text-bg-secondary">{% translate "Trial" %}</span>
 {% elif object.is_terminated %}
-  <span class="badge">{% translate "Terminated" %}</span>
+  <span class="badge  text-bg-secondary">{% translate "Terminated" %}</span>
 {% elif not object.paid %}
-  <span class="badge">{% translate "Awaiting payment" %}</span>
+  <span class="badge  text-bg-secondary">{% translate "Awaiting payment" %}</span>
 {% elif object.removal %}
-  <span class="badge">{% translate "Scheduled removal" %}</span>
+  <span class="badge  text-bg-secondary">{% translate "Scheduled removal" %}</span>
 {% endif %}

@@ -3,11 +3,11 @@
 <h4>
   {% if service.is_configured %}
     {% if service.sitewide %}
-      <span class="badge float-end"
+      <span class="badge float-end text-bg-secondary"
             title="{% translate "This service is installed site wide." %}">{% translate "site wide" %}</span>
     {% endif %}
     {% if not service.is_enabled %}
-      <span class="badge float-end"
+      <span class="badge float-end text-bg-secondary"
             title="{% translate "This service is installed site wide, but disabled." %}">{% translate "disabled" %}</span>
     {% endif %}
   {% endif %}
