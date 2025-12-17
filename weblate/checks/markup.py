@@ -300,7 +300,7 @@ class XMLCharsAroundTagsCheck(BaseXMLCheck):
         if len(src_tags) != len(tgt_tags):
             return False
 
-        for i in range(len(src_tags)):
+        for i,tag in enumerate(src_tags):
             src_start_idx = src_tags[i].start()
             tgt_start_idx = tgt_tags[i].start()
             src_end_idx = src_tags[i].end()
