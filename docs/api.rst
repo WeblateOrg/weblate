@@ -1331,7 +1331,7 @@ Projects
 
 .. http:get:: /api/projects/(string:project)/languages/(string:language_code)/file/
 
-    .. versionchanged:: 5.15
+    .. versionchanged:: 5.15.1
 
        Added ability to download ZIP file of all components translations in a project for 1 specific language.
 
