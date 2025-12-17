@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-17 14:44+0000\n"
-"PO-Revision-Date: 2025-12-14 11:48+0000\n"
-"Last-Translator: Massimo Pissarello <mapi68@gmail.com>\n"
+"PO-Revision-Date: 2025-12-18 10:12+0000\n"
+"Last-Translator: Pierfrancesco Passerini <p.passerini@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
 "Language: it\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.15-dev\n"
+"X-Generator: Weblate 5.15.1-dev\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: weblate/accounts/avatar.py:89
@@ -3414,7 +3414,7 @@ msgstr "Rimozione pianificata"
 
 #: weblate/billing/models.py:199
 msgid "Paid"
-msgstr "A pagamento"
+msgstr "Pagate"
 
 #: weblate/billing/models.py:203
 msgid "In limits"
@@ -7486,8 +7486,8 @@ msgid ""
 "Quick overview of the General Terms and Conditions and the Privacy Policy, "
 "but you should still read the original documents to fully understand them:"
 msgstr ""
-"Breve panoramica dei Termini e condizioni generali e dell'Informativa sulla "
-"privacy, ma per comprenderli appieno dovresti comunque leggere i documenti "
+"Breve panoramica dei termini e condizioni generali e dell'informativa sulla "
+"privacy: per maggiore chiarezza dovresti comunque leggere i documenti "
 "originali:"
 
 #: weblate/templates/accounts/snippets/login-info.html:26
@@ -9719,8 +9719,9 @@ msgstr ""
 "controllo della versione."
 
 #: weblate/templates/js/git-status.html:192
+#, fuzzy
 msgid "It also removes stale branches which are not used by Weblate."
-msgstr "Rimuove anche i rami obsoleti che non vengono usati da Weblate."
+msgstr "Rimuove anche i branch obsoleti che non vengono usati da Weblate."
 
 #: weblate/templates/js/git-status.html:193
 msgid "Use when there is some garbage left in the Weblate repository."
@@ -12060,9 +12061,9 @@ msgid ""
 "%(link_osi_start)sapproved by OSI%(link_end)s or "
 "%(link_fsf_start)srecognized as libre by FSF%(link_end)s."
 msgstr ""
-"Il contenuto tradotto deve essere rilasciato con una licenza "
-"%(link_osi_start)s approvata da OSI%(link_end)s o %(link_fsf_start)s "
-"riconosciuta come libero da FSF%(link_end)s."
+"Il contenuto tradotto deve essere rilasciato con una licenza %"
+"(link_osi_start)s approvata da OSI%(link_end)s o %(link_fsf_start)s "
+"riconosciuta come libera dalla FSF%(link_end)s."
 
 #: weblate/templates/snippets/libre-basic.html:13
 msgid ""
@@ -12083,7 +12084,7 @@ msgstr ""
 #: weblate/templates/snippets/libre-basic.html:18
 msgid "Non-code projects (such as books or graphic content) are also welcome."
 msgstr ""
-"Sono benvenuti anche progetti non basati su codice (come libri o contenuti "
+"Sono permessi anche progetti non basati su codice (come libri o contenuti "
 "grafici)."
 
 #: weblate/templates/snippets/libre-basic.html:21
@@ -12099,8 +12100,9 @@ msgid ""
 "Mention you use Weblate for translations in the README. It’ll attract new "
 "translators and also help Weblate to be free for more projects."
 msgstr ""
-"Menziona che usi Weblate per le traduzioni nel README. Questo aiuterà "
-"Weblate a essere libero per più progetti e ad attrarre nuovi traduttori."
+"Indica nel README che utilizzi Weblate per le traduzioni. Questo attirerà "
+"nuovi traduttori e aiuterà Weblate a essere disponibile gratuitamente per "
+"più progetti."
 
 #: weblate/templates/snippets/libre-basic.html:29
 msgid "Established projects"
@@ -12117,7 +12119,8 @@ msgstr "Il progetto ha avuto uno sviluppo attivo da almeno tre mesi."
 #: weblate/templates/snippets/libre-checklist.html:16
 msgid "Review guidelines from the community localization checklist."
 msgstr ""
-"Esamina le linee guida dall'elenco di controllo comunità localizzazione."
+"Rivedi le linee guida riportate nella checklist di localizzazione della "
+"community."
 
 #: weblate/templates/snippets/list-objects.html:42
 msgid "Add project"
@@ -16526,10 +16529,11 @@ msgid "Could not update repository: %s"
 msgstr "Impossibile aggiornare il repository: %s"
 
 #: weblate/trans/models/component.py:3391
+#, fuzzy
 msgid "Pull and push branches cannot be the same when using merge requests."
 msgstr ""
-"I rami pull e push non possono essere uguali quando si utilizzano richieste "
-"di unione."
+"I branch pull e push non possono essere uguali quando si utilizzano "
+"richieste di unione."
 
 #: weblate/trans/models/component.py:3401
 #, python-format
@@ -16630,7 +16634,7 @@ msgstr "Impossibile ottenere lo stato del repository!"
 
 #: weblate/trans/models/component.py:4284
 msgid "Invalid symbolic link in a repository."
-msgstr ""
+msgstr "Collegamento simbolico non valido in un repository."
 
 #: weblate/trans/models/componentlist.py:31
 msgid "Component list name"
@@ -16793,9 +16797,11 @@ msgid "Enable hooks"
 msgstr "Abilita agganci"
 
 #: weblate/trans/models/project.py:268
+#, fuzzy
 msgid "Whether to allow updating this repository by remote hooks."
 msgstr ""
-"Se consentire l'aggiornamento di questo repository tramite agganci remoti."
+"Consentire o meno l'aggiornamento di questo repository tramite agganci "
+"remoti."
 
 #: weblate/trans/models/project.py:272
 msgid "Language aliases"
@@ -18043,10 +18049,8 @@ msgstr ""
 "{}"
 
 #: weblate/utils/validators.py:265
-#, fuzzy
-#| msgid "This name is prohibited"
 msgid "The filename contains a prohibited folder."
-msgstr "Questo nome è proibito"
+msgstr "Il nome del file contiene una cartella vietata."
 
 #: weblate/utils/validators.py:306 weblate/utils/validators.py:323
 msgid "This name is prohibited"
