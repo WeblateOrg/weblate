@@ -62,7 +62,7 @@ def cdn_parse_html(addon_id: int, component_id: int) -> None:
         for element in document.cssselect(addon.configuration["css_selector"]):
             text = element.text
             if (
-                element.getchildren()
+                len(element)  # has children
                 or element.tag in IGNORED_TAGS
                 or not text
                 or not text.strip()
