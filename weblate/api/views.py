@@ -24,6 +24,7 @@ from django.utils.datastructures import MultiValueDictKeyError
 from django.utils.html import format_html
 from django.utils.translation import gettext, gettext_lazy
 from django_filters import rest_framework as filters
+from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
 from drf_standardized_errors.handler import ExceptionHandler
 from rest_framework import parsers, viewsets
@@ -431,6 +432,14 @@ class UserFilter(filters.FilterSet):
     class Meta:
         model = User
         fields = ("username", "id")
+
+
+class ComponentSlugFilter(filters.FilterSet):
+    filter = filters.CharFilter(field_name="slug", lookup_expr="icontains")
+
+    class Meta:
+        model = Component
+        fields = ("filter",)
 
 
 @extend_schema_view(
@@ -1078,7 +1087,7 @@ class ProjectViewSet(
 ):
     """Translation projects API."""
 
-    raw_urls: tuple[str, ...] = "project-file"
+    raw_urls: tuple[str, ...] = ("project-file", "project-language-file")
     raw_formats = ("zip", *(f"zip:{exporter}" for exporter in EXPORTERS))
 
     queryset = Project.objects.none()
@@ -1332,6 +1341,53 @@ class ProjectViewSet(
             [instance],
             requested_format,
             name=instance.slug,
+        )
+
+    @extend_schema(
+        description=(
+            "Download all component translation files in the project for a specific "
+            "language."
+        ),
+        methods=["get"],
+        parameters=[
+            OpenApiParameter(
+                name="language_code",
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.PATH,
+                description="Language code for the requested translations.",
+            )
+        ],
+    )
+    @action(
+        detail=True,
+        methods=["get"],
+        url_path=r"languages/(?P<language_code>[^/.]+)/file",
+    )
+    def language_file(self, request: Request, language_code: str, **kwargs):
+        instance = self.get_object()
+
+        if not request.user.has_perm("translation.download", instance):
+            raise PermissionDenied
+
+        components = instance.component_set.filter_access(request.user)
+        filterset = ComponentSlugFilter(
+            request.query_params, queryset=components, request=request
+        )
+        if not filterset.is_valid():
+            raise ValidationError(filterset.errors)
+        components = filterset.qs
+        requested_format = request.query_params.get("format", "zip")
+
+        translations = Translation.objects.filter(
+            language__code=language_code, component__in=components
+        )
+
+        return download_multi(
+            cast("AuthenticatedHttpRequest", request),
+            translations.prefetch(),
+            [instance],
+            requested_format,
+            name=f"{instance.slug}-{language_code}",
         )
 
     @extend_schema(

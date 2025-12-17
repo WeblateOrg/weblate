@@ -5,6 +5,8 @@ Weblate 5.15.1
 
 .. rubric:: New features
 
+* Added :http:get:`/api/projects/(string:project)/languages/(string:language_code)/file/` to download a ZIP file of all component translations of a project for a specified language.
+
 .. rubric:: Improvements
 
 * Updated list of OpenAI models.
