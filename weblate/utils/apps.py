@@ -5,9 +5,7 @@
 from __future__ import annotations
 
 import errno
-import locale
 import os
-import sys
 import time
 from datetime import timedelta
 from itertools import chain
@@ -44,6 +42,7 @@ from .db import (
     measure_database_latency,
     using_postgresql,
 )
+from .encoding import get_filesystem_encoding, get_locale_encoding, get_python_encoding
 from .errors import init_error_collection
 from .site import check_domain, get_site_domain
 from .version import VERSION_BASE, get_latest_version
@@ -435,9 +434,9 @@ def check_encoding(
 ) -> Iterable[CheckMessage]:
     """Check that the encoding is UTF-8."""
     if (
-        sys.getfilesystemencoding() == "utf-8"
-        and sys.getdefaultencoding() == "utf-8"
-        and locale.getlocale()[1].lower() == "utf-8"
+        get_filesystem_encoding() == "utf-8"
+        and get_python_encoding() == "utf-8"
+        and get_locale_encoding() == "utf-8"
     ):
         return []
     return [
