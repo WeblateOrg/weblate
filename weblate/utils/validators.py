@@ -273,6 +273,11 @@ def validate_backup_path(value: str) -> None:
         raise ValidationError(msg)
 
     if loc.proto == "file":
+        # Missing path
+        if not loc.path:
+            msg = "Backup location has to be an absolute path."
+            raise ValidationError(msg)
+
         # The path is already normalized here
         path = Path(loc.path)
 
