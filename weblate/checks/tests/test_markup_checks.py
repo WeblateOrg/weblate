@@ -17,9 +17,9 @@ from weblate.checks.markup import (
     RSTSyntaxCheck,
     SafeHTMLCheck,
     URLCheck,
+    XMLCharsAroundTagsCheck,
     XMLTagsCheck,
     XMLValidityCheck,
-    XMLCharsAroundTagsCheck,
 )
 from weblate.checks.models import Check
 from weblate.checks.tests.test_checks import CheckTestCase
