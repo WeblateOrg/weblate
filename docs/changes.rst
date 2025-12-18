@@ -16,6 +16,8 @@ Weblate 5.15.1
 
 .. rubric:: Bug fixes
 
+* Git config file overwrite remote code execution (:cve:`2025-68398` / :ghsa:`8vcg-cfxj-p5m3`).
+* Arbitrary file read via symbolic links (:cve:`2025-68279` / :ghsa:`g925-f788-4jh7`).
 * Locking error that prevented updating linked components.
 * Fixed e-mail SSL configuration in Docker container.
 * Invitations on sites with required authentication.
