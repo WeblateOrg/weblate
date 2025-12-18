@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-17 14:44+0000\n"
-"PO-Revision-Date: 2025-12-18 19:10+0000\n"
+"PO-Revision-Date: 2025-12-19 20:00+0000\n"
 "Last-Translator: Jim Kats <jim-kats@hotmail.com>\n"
 "Language-Team: Greek <https://hosted.weblate.org/projects/weblate/"
 "application/el/>\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.15.1-dev\n"
+"X-Generator: Weblate 5.15.1\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -1940,19 +1940,19 @@ msgstr "Όλες οι συμβολοσειρές σε αυτήν τη μετάφ
 
 #: weblate/addons/forms.py:496 weblate/templates/addons/pseudolocale.html:9
 msgid "Prepended static text"
-msgstr "Στατικό κείμενο που έχει προσαρτηθεί"
+msgstr "Στατικό κείμενο ως πρόθημα"
 
 #: weblate/addons/forms.py:501 weblate/templates/addons/pseudolocale.html:10
 msgid "Prepended variable text"
-msgstr ""
+msgstr "Μεταβλητό κείμενο ως πρόθημα"
 
 #: weblate/addons/forms.py:506 weblate/templates/addons/pseudolocale.html:13
 msgid "Appended static text"
-msgstr ""
+msgstr "Στατικό κείμενο ως επίθημα"
 
 #: weblate/addons/forms.py:511 weblate/templates/addons/pseudolocale.html:12
 msgid "Appended variable text"
-msgstr "Προσαρτημένο κείμενο μεταβλητής"
+msgstr "Μεταβλητό κείμενο ως επίθημα"
 
 #: weblate/addons/forms.py:516
 msgid "Variable text multiplier"
@@ -1983,20 +1983,18 @@ msgid "Change events"
 msgstr "Αλλαγή συμβάντων"
 
 #: weblate/addons/forms.py:589
-#, fuzzy
-#| msgid "Website URL"
 msgid "Webhook URL"
-msgstr "URL ιστοσελίδας"
+msgstr "URL webhook"
 
 #: weblate/addons/forms.py:603
-#, fuzzy
-#| msgid "Website URL"
 msgid "Webhook secret"
-msgstr "URL ιστοσελίδας"
+msgstr "Μυστικό webhook"
 
 #: weblate/addons/forms.py:609
 msgid "The Standard Webhooks secret is a base64 encoded string."
 msgstr ""
+"Το μυστικό των Standard Webhooks είναι μια base64 κωδικοποιημένη "
+"συμβολοσειρά."
 
 #: weblate/addons/forms.py:622
 msgid "AMQP broker host"
@@ -2008,11 +2006,11 @@ msgstr ""
 
 #: weblate/addons/forms.py:627
 msgid "Use SSL for AMQP connection"
-msgstr ""
+msgstr "Χρήση SSL για σύνδεση AMQP"
 
 #: weblate/addons/forms.py:632
 msgid "CA certificates"
-msgstr ""
+msgstr "Πιστοποιητικά CA"
 
 #: weblate/addons/forms.py:634
 msgid ""
@@ -2021,11 +2019,8 @@ msgid ""
 msgstr ""
 
 #: weblate/addons/forms.py:640
-#, fuzzy
-#| msgctxt "Automatic suggestion service configuration"
-#| msgid "Client ID"
 msgid "Client SSL key"
-msgstr "Αναγνωριστικό πελάτη"
+msgstr "Κλειδί SSL πελάτη"
 
 #: weblate/addons/forms.py:641
 msgid "PEM encoded client private SSL key."
@@ -2033,19 +2028,19 @@ msgstr ""
 
 #: weblate/addons/forms.py:647
 msgid "Client SSL certificates"
-msgstr ""
+msgstr "Πιστοποιητικά SSL πελάτη"
 
 #: weblate/addons/forms.py:648
 msgid "PEM encoded client SSL certificate."
-msgstr ""
+msgstr "PEM κωδικοποιημένο πιστοποιητικό SSL πελάτη."
 
 #: weblate/addons/forms.py:666
 msgid "The SSL certificates have to be provided for SSL connection."
-msgstr ""
+msgstr "Πρέπει να δοθούν τα πιστοποιητικά SSL για να γίνει η σύνδεση SSL."
 
 #: weblate/addons/forms.py:679
 msgid "The SSL certificates are not used without a SSL connection."
-msgstr ""
+msgstr "Τα πιστοποιητικά SSL δεν χρησιμοποιούνται χωρίς μια σύνδεση SSL."
 
 #: weblate/addons/generate.py:38
 msgid "Statistics generator"
@@ -2202,7 +2197,7 @@ msgstr "Το πρόσθετο έχει εγκατασταθεί, ανατρέξ�
 
 #: weblate/addons/webhooks.py:109
 msgid "Webhook"
-msgstr ""
+msgstr "Webhook"
 
 #: weblate/addons/webhooks.py:111
 msgid ""
@@ -2214,7 +2209,7 @@ msgstr ""
 
 #: weblate/addons/webhooks.py:193
 msgid "Slack Webhooks"
-msgstr ""
+msgstr "Webhooks του Slack"
 
 #: weblate/addons/webhooks.py:195
 #, fuzzy
@@ -2274,10 +2269,8 @@ msgid ""
 msgstr "Το σχόλιό σας αφορά ειδικά αυτή τη μετάφραση ή είναι γενικό για όλες;"
 
 #: weblate/api/serializers.py:362
-#, fuzzy
-#| msgid "Comments"
 msgid "Comment text"
-msgstr "Σχόλια"
+msgstr "Κείμενο σχολίου"
 
 #: weblate/api/serializers.py:363 weblate/trans/forms.py:1122
 #: weblate/trans/models/announcement.py:73 weblate/trans/models/project.py:195
@@ -2288,7 +2281,7 @@ msgstr ""
 
 #: weblate/api/serializers.py:367
 msgid "Creation timestamp"
-msgstr "Δημιουργία χρονικής σήμανσης"
+msgstr "Χρονική σήμανση δημιουργίας"
 
 #: weblate/api/serializers.py:369
 msgid ""
@@ -2297,10 +2290,8 @@ msgid ""
 msgstr ""
 
 #: weblate/api/serializers.py:374
-#, fuzzy
-#| msgid "Comments made"
 msgid "Commenter’s email"
-msgstr "Δημιουργήθηκαν σχόλια"
+msgstr "Email σχολιαστή"
 
 #: weblate/api/serializers.py:376
 msgid ""
@@ -2323,7 +2314,7 @@ msgstr "Ενημέρωση με αλλαγή βάσης"
 
 #: weblate/api/serializers.py:1080 weblate/templates/js/git-status.html:91
 msgid "Update with merge"
-msgstr ""
+msgstr "Ενημέρωση με συγχώνευση"
 
 #: weblate/api/serializers.py:1083 weblate/templates/js/git-status.html:101
 msgid "Update with merge without fast-forward"
@@ -2338,10 +2329,8 @@ msgid "Reset all changes in the Weblate repository"
 msgstr "Επαναφορά όλων των αλλαγών στο αποθετήριο του Weblate"
 
 #: weblate/api/serializers.py:1089 weblate/templates/js/git-status.html:178
-#, fuzzy
-#| msgid "Define the base file for new translations"
 msgid "Reset the Weblate repository and reapply translations"
-msgstr "Ορίστε το αρχείο βάσης για νέες μεταφράσεις"
+msgstr "Επαναφορά του αποθετηρίου Weblate και εφαρμογή ξανά των μεταφράσεων"
 
 #: weblate/api/serializers.py:1093 weblate/templates/js/git-status.html:189
 msgid "Cleanup all untracked files in the Weblate repository"
@@ -2360,7 +2349,7 @@ msgstr "Επανέλεγχος όλων των αρχείων μετάφραση
 #: weblate/api/spectacular.py:61
 #: weblate/templates/drf_spectacular/redoc.html:10
 msgid "Weblate's REST API"
-msgstr ""
+msgstr "REST API του Weblate"
 
 #: weblate/api/views.py:171
 #, fuzzy
@@ -3175,7 +3164,7 @@ msgstr "Λήγει"
 
 #: weblate/auth/models.py:493
 msgid "The account will be disabled after the expiry."
-msgstr ""
+msgstr "Ο λογαριασμός θα απενεργοποιηθεί μετά τη λήξη."
 
 #: weblate/auth/models.py:500 weblate/templates/accounts/profile.html:34
 #: weblate/templates/accounts/user.html:194 weblate/templates/auth/team.html:50
@@ -3219,15 +3208,15 @@ msgid "Block expiry"
 msgstr "Λήξη αποκλεισμού"
 
 #: weblate/auth/models.py:1016 weblate/trans/forms.py:1376
-#, fuzzy
-#| msgid "Block user"
 msgid "Block note"
-msgstr "Αποκλεισμός χρήστη"
+msgstr "Σημείωση αποκλεισμού"
 
 #: weblate/auth/models.py:1019 weblate/trans/forms.py:1378
 msgid ""
 "Internal notes regarding blocking the user that are not visible to the user."
 msgstr ""
+"Εσωτερικές σημειώσεις σχετικά με τον αποκλεισμό του χρήστη, οι οποίες δεν "
+"είναι ορατές στο χρήστη."
 
 #: weblate/auth/models.py:1207 weblate/trans/forms.py:1339
 msgid "User to add"
@@ -3275,36 +3264,28 @@ msgstr "Αυτή η μετάφραση είναι προς το παρόν κλ�
 #: weblate/auth/permissions.py:216
 #: weblate/templates/snippets/component/contributor-agreement.html:12
 #: weblate/templates/trans/other-row.html:26
-#, fuzzy
-#| msgid ""
-#| "Contributing to this translation requires agreeing to its contributor "
-#| "agreement."
 msgid ""
 "Contributing to this translation requires agreeing to its contributor "
 "license agreement."
 msgstr ""
 "Για να συνεισφέρετε σε αυτή τη μετάφραση πρέπει να συμφωνήσετε με τη "
-"συμφωνία συνεισφοράς."
+"συμφωνία άδειας χρήσης συνεισφοράς."
 
 #: weblate/auth/permissions.py:224
-#, fuzzy
-#| msgid "Sign in to save the translation."
 msgid "Sign in to save translations."
-msgstr "Συνδεθείτε για να αποθηκεύσετε τη μετάφραση."
+msgstr "Συνδεθείτε για να αποθηκεύσετε μεταφράσεις."
 
 #: weblate/auth/permissions.py:229
-#, fuzzy
-#| msgid "Insufficient privileges for approving translations."
 msgid ""
 "Insufficient privileges for approving translations in a restricted component."
-msgstr "Ανεπαρκή δικαιώματα για την έγκριση μεταφράσεων."
+msgstr ""
+"Ανεπαρκή δικαιώματα για την έγκριση μεταφράσεων σε περιορισμένο στοιχείο."
 
 #: weblate/auth/permissions.py:234
-#, fuzzy
-#| msgid "Insufficient privileges for saving translations."
 msgid ""
 "Insufficient privileges for saving translations in a restricted component."
-msgstr "Ανεπαρκή δικαιώματα για την αποθήκευση μεταφράσεων."
+msgstr ""
+"Ανεπαρκή δικαιώματα για την αποθήκευση μεταφράσεων σε περιορισμένο στοιχείο."
 
 #: weblate/auth/permissions.py:239
 msgid "Insufficient privileges for approving translations."
@@ -3325,10 +3306,6 @@ msgid "Suggestion voting is disabled."
 msgstr "Η ψηφοφορία προτάσεων είναι απενεργοποιημένη."
 
 #: weblate/auth/permissions.py:263
-#, fuzzy
-#| msgid ""
-#| "This translation only accepts suggestions, and these are approved by "
-#| "voting."
 msgid "This translation only accepts suggestions, in turn approved by voting."
 msgstr ""
 "Αυτή η μετάφραση δέχεται μόνο προτάσεις, οι οποίες εγκρίνονται με ψηφοφορία."
@@ -3339,22 +3316,16 @@ msgid "Pay the bills to unlock this project."
 msgstr "Πληρώστε τους λογαριασμούς για να ξεκλειδώσετε αυτό το έργο."
 
 #: weblate/auth/permissions.py:293 weblate/auth/permissions.py:342
-#, fuzzy
-#| msgid "The translation is read only."
 msgid "The translation is read-only."
 msgstr "Η μετάφραση είναι μόνο για ανάγνωση."
 
 #: weblate/auth/permissions.py:296
-#, fuzzy
-#| msgid "Source string reviews are not enabled."
 msgid "Source-string reviews are turned off."
-msgstr "Η αναθεώρηση των κειμένων προέλευσης δεν είναι ενεργοποιημένη."
+msgstr "Η αναθεώρηση των κειμένων προέλευσης είναι απενεργοποιημένη."
 
 #: weblate/auth/permissions.py:297
-#, fuzzy
-#| msgid "Translation suggestions are turned off."
 msgid "Translation reviews are turned off."
-msgstr "Οι προτάσεις μετάφρασης είναι απενεργοποιημένες."
+msgstr "Οι αναθεωρήσεις μετάφρασης είναι απενεργοποιημένες."
 
 #: weblate/auth/permissions.py:309
 msgid "Reviewing is turned off."
@@ -3365,21 +3336,15 @@ msgid "The source string needs review."
 msgstr "Το κείμενο προέλευσης χρειάζεται αναθεώρηση."
 
 #: weblate/auth/permissions.py:326
-#, fuzzy
-#| msgid "The string is read only."
 msgid "The string is read-only."
 msgstr "Το κείμενο είναι μόνο για ανάγνωση."
 
 #: weblate/auth/permissions.py:336
-#, fuzzy
-#| msgid ""
-#| "Only reviewers can change approved strings, please add a suggestion if "
-#| "you think the string should be changed."
 msgid ""
 "Only reviewers can change approved strings. Please add a suggestion if you "
 "think the string should be changed."
 msgstr ""
-"Μόνο οι αναθεωρητές μπορούν να αλλάξουν εγκεκριμένα κείμενα, προσθέστε μια "
+"Μόνο οι αναθεωρητές μπορούν να αλλάξουν εγκεκριμένα κείμενα. Προσθέστε μια "
 "πρόταση εάν πιστεύετε ότι το κείμενο πρέπει να αλλάξει."
 
 #: weblate/auth/permissions.py:359
@@ -3393,17 +3358,13 @@ msgstr ""
 "στοιχείου."
 
 #: weblate/auth/permissions.py:380
-#, fuzzy
-#| msgid "Cannot remove terminology translation, remove source string instead."
 msgid ""
 "Cannot remove terminology translation. Remove the source string instead."
 msgstr ""
-"Δεν είναι δυνατή η αφαίρεση της μετάφρασης ορολογίας, αφαιρέστε το κείμενο "
+"Δεν είναι δυνατή η αφαίρεση της μετάφρασης ορολογίας. Αφαιρέστε το κείμενο "
 "προέλευσης."
 
 #: weblate/auth/permissions.py:392 weblate/auth/permissions.py:411
-#, fuzzy
-#| msgid "File format does not support this."
 msgid "The file format does not support this."
 msgstr "Η μορφή αρχείου δεν το υποστηρίζει αυτό."
 
