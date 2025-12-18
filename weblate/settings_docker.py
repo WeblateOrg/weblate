@@ -15,6 +15,7 @@ from weblate.api.spectacular import (
     get_spectacular_settings,
 )
 from weblate.utils.environment import (
+    get_email_config,
     get_env_bool,
     get_env_credentials,
     get_env_float,
@@ -1328,24 +1329,9 @@ EMAIL_HOST_USER = get_env_str(
 EMAIL_HOST_PASSWORD = get_env_str(
     "WEBLATE_EMAIL_HOST_PASSWORD", get_env_str("WEBLATE_EMAIL_PASSWORD")
 )
-EMAIL_USE_SSL = get_env_bool("WEBLATE_EMAIL_USE_SSL")
-EMAIL_USE_TLS = get_env_bool("WEBLATE_EMAIL_USE_TLS", not EMAIL_USE_SSL)
-DEFAULT_EMAIL_PORT = 25
-if EMAIL_USE_SSL:
-    DEFAULT_EMAIL_PORT = 587
-elif EMAIL_USE_TLS:
-    DEFAULT_EMAIL_PORT = 465
-EMAIL_PORT = get_env_int("WEBLATE_EMAIL_PORT", DEFAULT_EMAIL_PORT)
 
-# Detect SSL/TLS setup if not explicitly stated
-if (
-    "WEBLATE_EMAIL_USE_SSL" not in os.environ
-    and "WEBLATE_EMAIL_USE_TLS" not in os.environ
-):
-    if not EMAIL_USE_TLS and EMAIL_PORT in {25, 587}:
-        EMAIL_USE_TLS = True
-    elif not EMAIL_USE_SSL and EMAIL_PORT == 465:
-        EMAIL_USE_SSL = True
+EMAIL_PORT, EMAIL_USE_TLS, EMAIL_USE_SSL = get_email_config()
+
 
 EMAIL_BACKEND = get_env_str(
     "WEBLATE_EMAIL_BACKEND",
