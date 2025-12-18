@@ -1477,8 +1477,8 @@ class StringsFormat(PropertiesBaseFormat):
     autoload: tuple[str, ...] = ("*.strings",)
     language_format = "bcp"
     loader: ClassVar[dict[str, tuple[str, str]]] = {
-        "utf-16": ("properties", "stringsfile"),
         "utf-8": ("properties", "stringsutf8file"),
+        "utf-16": ("properties", "stringsfile"),
     }
 
     @classmethod
