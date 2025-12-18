@@ -1,7 +1,7 @@
 Weblate 5.15.1
 --------------
 
-*Not yet released.*
+*Released on December 18th 2025.*
 
 .. rubric:: New features
 
@@ -21,8 +21,6 @@ Weblate 5.15.1
 * Locking error that prevented updating linked components.
 * Fixed e-mail SSL configuration in Docker container.
 * Invitations on sites with required authentication.
-
-.. rubric:: Compatibility
 
 .. rubric:: Upgrading
 
