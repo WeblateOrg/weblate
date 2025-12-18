@@ -20,8 +20,16 @@
   --bs-body-color: #fffdfa !important;
   --bs-border-color: #484d50 !important;
 
+  --bs-dark: #25303b;
+  --bs-dark-rgb: 37, 48, 59;
+
   --bs-warning: #342c06;
   --bs-warning-rgb: 52, 44, 6;
+
+  .navbar {
+    --bs-navbar-color: #bfc3c7;
+    --bs-navbar-brand-color: #bfc3c7;
+  }
 
   .card {
     --bs-card-color: #d9d3cc !important;
@@ -307,7 +315,7 @@ blockquote .small {
   color: #ada396;
 }
 .blockquote-reverse,
-blockquote.pull-right {
+blockquote.float-end {
   border-right-color: #3a3f41;
   border-left-color: currentcolor;
 }
@@ -2425,6 +2433,9 @@ a.green:hover path {
 button.red:hover path,
 a.red:hover path {
   fill: #ff5534;
+}
+.search-icon path {
+  fill: #6cf8d8;
 }
 .btn-warning:hover {
   background-color: #218f77;

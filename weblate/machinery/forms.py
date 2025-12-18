@@ -397,6 +397,8 @@ class OpenAIMachineryForm(BaseOpenAIMachineryForm):
         ("auto", pgettext_lazy("OpenAI model selection", "Automatic selection")),
         ("gpt-5-nano", "GPT-5-nano"),
         ("gpt-5-mini", "GPT-5-mini"),
+        ("gpt-5.2", "GPT-5.2"),
+        ("gpt-5.1", "GPT-5.1"),
         ("gpt-5", "GPT-5"),
         ("gpt-4.1-nano", "GPT-4.1-nano"),
         ("gpt-4.1-mini", "GPT-4.1-mini"),

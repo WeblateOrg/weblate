@@ -1337,11 +1337,15 @@ elif EMAIL_USE_TLS:
     DEFAULT_EMAIL_PORT = 465
 EMAIL_PORT = get_env_int("WEBLATE_EMAIL_PORT", DEFAULT_EMAIL_PORT)
 
-# Detect SSL/TLS setup
-if not EMAIL_USE_TLS and EMAIL_PORT in {25, 587}:
-    EMAIL_USE_TLS = True
-elif not EMAIL_USE_SSL and EMAIL_PORT == 465:
-    EMAIL_USE_SSL = True
+# Detect SSL/TLS setup if not explicitly stated
+if (
+    "WEBLATE_EMAIL_USE_SSL" not in os.environ
+    and "WEBLATE_EMAIL_USE_TLS" not in os.environ
+):
+    if not EMAIL_USE_TLS and EMAIL_PORT in {25, 587}:
+        EMAIL_USE_TLS = True
+    elif not EMAIL_USE_SSL and EMAIL_PORT == 465:
+        EMAIL_USE_SSL = True
 
 EMAIL_BACKEND = get_env_str(
     "WEBLATE_EMAIL_BACKEND",

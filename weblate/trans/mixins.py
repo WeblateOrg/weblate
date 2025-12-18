@@ -71,11 +71,11 @@ class PathMixin(LoggerMixin, URLMixin):
         if "full_path" in self.__dict__:
             del self.__dict__["full_path"]
 
-    def check_rename(self, old, validate=False) -> None:
+    def check_rename(self, old, validate=False) -> bool:
         """Detect slug changes and possibly renames underlying directory."""
         # No moving for links
         if getattr(self, "is_repo_link", False) or getattr(old, "is_repo_link", False):
-            return
+            return False
 
         old_path = old.full_path
         # Invalidate path cache (otherwise we would still get old path)
@@ -87,12 +87,14 @@ class PathMixin(LoggerMixin, URLMixin):
                 # Patch using old path for validation
                 # the actual rename happens only on save
                 self.__dict__["full_path"] = old_path
-                return
+                return True
 
             self.log_info("path changed from %s to %s", old_path, new_path)
             if os.path.exists(old_path) and not os.path.exists(new_path):
                 self.log_info('renaming "%s" to "%s"', old_path, new_path)
                 os.rename(old_path, new_path)
+            return True
+        return False
 
     def create_path(self) -> None:
         """Create filesystem directory for storing data."""

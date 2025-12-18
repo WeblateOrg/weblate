@@ -3,10 +3,12 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
+import zipfile
 from copy import copy
 from datetime import UTC, datetime, timedelta
 from io import BytesIO
 from pathlib import Path
+from unittest.mock import patch
 
 import responses
 from django.conf import settings
@@ -1339,6 +1341,33 @@ class RoleAPITest(APIBaseTest):
 
 
 class ProjectAPITest(APIBaseTest):
+    def attach_component_template(
+        self, component: Component, filename: str = "template.pot"
+    ) -> None:
+        template_path = Path(component.full_path, filename)
+        template_path.parent.mkdir(parents=True, exist_ok=True)
+        template_path.write_bytes(Path(TEST_POT).read_bytes())
+        component.template = filename
+        component.save(update_fields=["template"])
+
+    def attach_translation_file(
+        self,
+        component: Component,
+        language_code: str = "cs",
+        filename: str = "po/cs.po",
+    ) -> Translation:
+        language = Language.objects.get(code=language_code)
+        translation, _ = Translation.objects.get_or_create(
+            component=component, language=language
+        )
+        translation.filename = filename
+        translation.save(update_fields=["filename"])
+
+        translation_path = Path(component.full_path, filename)
+        translation_path.parent.mkdir(parents=True, exist_ok=True)
+        translation_path.write_bytes(Path(TEST_PO).read_bytes())
+        return translation
+
     def test_list_projects(self) -> None:
         response = self.client.get(reverse("api:project-list"))
         self.assertEqual(response.data["count"], 1)
@@ -1452,6 +1481,18 @@ class ProjectAPITest(APIBaseTest):
                 "needs_push": False,
                 "needs_merge": False,
                 "needs_commit": False,
+                "weblate_commit": None,
+                "status": None,
+                "merge_failure": None,
+                "outgoing_commits": None,
+                "missing_commits": None,
+                "remote_commit": None,
+                "pending_units": {
+                    "total": 0,
+                    "errors_skipped": 0,
+                    "commit_policy_skipped": 0,
+                    "eligible_for_commit": 0,
+                },
             },
             skip=("url",),
         )
@@ -2621,6 +2662,186 @@ class ProjectAPITest(APIBaseTest):
         )
         self.assertEqual(response.headers["content-type"], "application/zip")
 
+    def test_download_project_translations_language_path(self) -> None:
+        response = self.do_request(
+            "api:project-language-file",
+            {**self.project_kwargs, "language_code": "cs"},
+            method="get",
+            code=200,
+            superuser=True,
+            request={"format": "zip"},
+        )
+        self.assertEqual(response.headers["content-type"], "application/zip")
+        # Validate Content-Disposition and that payload is a valid zip
+        disp = response.headers.get("content-disposition", "")
+        self.assertIn("attachment;", disp)
+        self.assertIn("test-cs.zip", disp)
+        with zipfile.ZipFile(BytesIO(response.content)) as zf:
+            # Ensure archive contains at least one file
+            self.assertGreater(len(zf.namelist()), 0)
+
+    def test_download_project_translations_language_path_unsupported_format_suffix(
+        self,
+    ) -> None:
+        self.do_request(
+            "api:project-language-file",
+            {**self.project_kwargs, "language_code": "cs", "format": "json"},
+            method="get",
+            code=404,
+            superuser=True,
+            request={"format": "zip"},
+        )
+
+    def test_download_project_translations_language_not_present(self) -> None:
+        response = self.do_request(
+            "api:project-language-file",
+            {**self.project_kwargs, "language_code": "fr"},
+            method="get",
+            code=200,
+            superuser=True,
+            request={"format": "zip"},
+        )
+        self.assertEqual(response.headers["content-type"], "application/zip")
+        with zipfile.ZipFile(BytesIO(response.content)) as zf:
+            # No entries, since there are no translations for 'fr'
+            self.assertEqual(len(zf.namelist()), 0)
+
+    def test_download_project_translations_language_path_converted(self) -> None:
+        response = self.do_request(
+            "api:project-language-file",
+            {**self.project_kwargs, "language_code": "cs"},
+            method="get",
+            code=200,
+            superuser=True,
+            request={"format": "zip:csv"},
+        )
+        self.assertEqual(response.headers["content-type"], "application/zip")
+
+    def test_download_private_project_translations_language_path(self) -> None:
+        project = self.component.project
+        project.access_control = Project.ACCESS_PRIVATE
+        project.save(update_fields=["access_control"])
+        self.do_request(
+            "api:project-language-file",
+            {**self.project_kwargs, "language_code": "cs"},
+            method="get",
+            code=404,
+            request={"format": "zip"},
+        )
+
+    def test_download_project_translations_language_path_prohibited(self) -> None:
+        self.authenticate()
+        self.user.groups.clear()
+        self.user.clear_cache()
+        self.do_request(
+            "api:project-language-file",
+            {**self.project_kwargs, "language_code": "cs"},
+            method="get",
+            code=403,
+            request={"format": "zip"},
+        )
+
+    def test_project_language_zip_contents(self) -> None:
+        self.attach_component_template(self.component)
+        translation = self.attach_translation_file(self.component)
+        other_component = self.create_po(name="Other", project=self.component.project)
+        cs = Language.objects.get(code="cs")
+        other_translation, _ = Translation.objects.get_or_create(
+            component=other_component,
+            language=cs,
+        )
+        other_translation.filename = ""
+        other_translation.save(update_fields=["filename"])
+        # Hit the "missing file" path for templates
+        self.component.new_base = "missing-new-base.pot"
+        self.component.save(update_fields=["new_base"])
+        # Inspect actual entries in the zip and they match expectations
+        response = self.do_request(
+            "api:project-language-file",
+            {**self.project_kwargs, "language_code": "cs"},
+            method="get",
+            code=200,
+            superuser=True,
+            request={"format": "zip"},
+        )
+        with zipfile.ZipFile(BytesIO(response.content)) as zf:
+            zip_names = set(zf.namelist())
+
+        root = data_dir("vcs")
+
+        # Assert a few key entries
+        translation_filename = translation.get_filename()
+        self.assertIsNotNone(translation_filename)
+        translation_rel = os.path.relpath(translation_filename, root)
+        template_rel = os.path.relpath(
+            os.path.join(self.component.full_path, self.component.template),
+            root,
+        )
+        missing_new_base_rel = os.path.relpath(
+            os.path.join(self.component.full_path, "missing-new-base.pot"),
+            root,
+        )
+
+        self.assertIn(translation_rel, zip_names)
+        self.assertIn(template_rel, zip_names)
+        self.assertNotIn(missing_new_base_rel, zip_names)
+        self.assertGreater(len(zip_names), 0)
+
+    def test_download_project_translations_language_path_filter(self) -> None:
+        other_component = self.create_po(name="Other", project=self.component.project)
+        self.attach_component_template(self.component)
+        included_translation = self.attach_translation_file(self.component)
+        excluded_translation = self.attach_translation_file(other_component)
+
+        response = self.do_request(
+            "api:project-language-file",
+            {**self.project_kwargs, "language_code": "cs"},
+            method="get",
+            code=200,
+            superuser=True,
+            request={"format": "zip", "filter": "test"},
+        )
+        with zipfile.ZipFile(BytesIO(response.content)) as zf:
+            zip_names = set(zf.namelist())
+
+        root = data_dir("vcs")
+
+        included_translation_filename = included_translation.get_filename()
+        self.assertIsNotNone(included_translation_filename)
+        included_translation_rel = os.path.relpath(included_translation_filename, root)
+        included_template_rel = os.path.relpath(
+            os.path.join(self.component.full_path, self.component.template),
+            root,
+        )
+        excluded_translation_filename = excluded_translation.get_filename()
+        self.assertIsNotNone(excluded_translation_filename)
+        excluded_translation_rel = os.path.relpath(excluded_translation_filename, root)
+
+        self.assertIn(included_translation_rel, zip_names)
+        self.assertIn(included_template_rel, zip_names)
+        self.assertNotIn(excluded_translation_rel, zip_names)
+        self.assertGreater(len(zip_names), 0)
+
+    @patch("weblate.api.views.ComponentSlugFilter")
+    def test_download_project_translations_language_path_filter_invalid(
+        self, filter_class
+    ) -> None:
+        filter_instance = filter_class.return_value
+        filter_instance.is_valid.return_value = False
+        filter_instance.errors = {"filter": ["invalid"]}
+
+        response = self.do_request(
+            "api:project-language-file",
+            {**self.project_kwargs, "language_code": "cs"},
+            method="get",
+            code=400,
+            superuser=True,
+            request={"format": "zip", "filter": "["},
+        )
+
+        filter_instance.is_valid.assert_called_once()
+        self.assertEqual(response.status_code, 400)
+
     def test_credits(self) -> None:
         self.do_request(
             "api:component-credits",
@@ -2958,18 +3179,95 @@ class ComponentAPITest(APIBaseTest):
         self.do_request("api:component-repository", self.component_kwargs, code=403)
 
     def test_repo_status(self) -> None:
-        self.do_request(
+        """Test basic component repository status endpoint."""
+        response = self.do_request(
             "api:component-repository",
             self.component_kwargs,
             superuser=True,
-            data={
-                "needs_push": False,
-                "needs_merge": False,
-                "needs_commit": False,
-                "merge_failure": None,
-            },
-            skip=("remote_commit", "weblate_commit", "status", "url"),
         )
+
+        self.assertEqual(response.data["needs_push"], False)
+        self.assertEqual(response.data["needs_merge"], False)
+        self.assertEqual(response.data["needs_commit"], False)
+        self.assertEqual(response.data["merge_failure"], None)
+
+        self.assertIn("url", response.data)
+        self.assertIn("status", response.data)
+        self.assertIn("remote_commit", response.data)
+        self.assertIn("weblate_commit", response.data)
+        self.assertIn("pending_units", response.data)
+        self.assertIn("outgoing_commits", response.data)
+        self.assertIn("missing_commits", response.data)
+
+        self.assertIsNotNone(response.data["url"])
+        self.assertIsNotNone(response.data["status"])
+
+        self.assertIsInstance(response.data["outgoing_commits"], int)
+        self.assertIsInstance(response.data["missing_commits"], int)
+
+        pending = response.data["pending_units"]
+        self.assertIsNotNone(pending)
+        self.assertEqual(pending["total"], 0)
+
+    def test_repo_status_detailed(self) -> None:
+        """Test component repository status with detailed field verification."""
+        response = self.do_request(
+            "api:component-repository",
+            self.component_kwargs,
+            superuser=True,
+        )
+
+        self.assertIn("needs_commit", response.data)
+        self.assertIn("needs_merge", response.data)
+        self.assertIn("needs_push", response.data)
+        self.assertIn("url", response.data)
+        self.assertIn("status", response.data)
+        self.assertIn("merge_failure", response.data)
+
+        self.assertIn("pending_units", response.data)
+        self.assertIn("outgoing_commits", response.data)
+        self.assertIn("missing_commits", response.data)
+
+        self.assertIn("remote_commit", response.data)
+        self.assertIn("weblate_commit", response.data)
+
+        if response.data["remote_commit"]:
+            commit = response.data["remote_commit"]
+            self.assertIn("revision", commit)
+            self.assertIn("shortrevision", commit)
+            self.assertIn("author", commit)
+            self.assertIn("message", commit)
+            self.assertIn("summary", commit)
+
+        self.assertIsInstance(response.data["outgoing_commits"], int)
+        self.assertIsInstance(response.data["missing_commits"], int)
+
+    def test_repo_status_with_pending_changes(self) -> None:
+        """Test repository status with pending changes and detailed breakdown."""
+        component = Component.objects.get(**self.component_kwargs)
+        translation = component.translation_set.first()
+        unit, unit2 = translation.unit_set.all()[:2]
+
+        unit.translate(self.user, "First change", STATE_TRANSLATED)
+        unit2.translate(self.user, "Second change", STATE_TRANSLATED)
+
+        response = self.do_request(
+            "api:component-repository",
+            self.component_kwargs,
+            superuser=True,
+        )
+
+        self.assertEqual(response.data["needs_commit"], True)
+        self.assertIsNotNone(response.data["pending_units"])
+
+        pending = response.data["pending_units"]
+        self.assertIn("total", pending)
+        self.assertIn("errors_skipped", pending)
+        self.assertIn("commit_policy_skipped", pending)
+        self.assertIn("eligible_for_commit", pending)
+
+        self.assertGreaterEqual(pending["total"], 2)
+        self.assertGreater(pending["eligible_for_commit"], 0)
 
     def test_statistics(self) -> None:
         self.do_request(
@@ -3880,18 +4178,54 @@ class TranslationAPITest(APIBaseTest):
         self.do_request("api:translation-repository", self.translation_kwargs, code=403)
 
     def test_repo_status(self) -> None:
-        self.do_request(
+        response = self.do_request(
             "api:translation-repository",
             self.translation_kwargs,
             superuser=True,
-            data={
-                "needs_push": False,
-                "needs_merge": False,
-                "needs_commit": False,
-                "merge_failure": None,
-            },
-            skip=("remote_commit", "weblate_commit", "status", "url"),
         )
+
+        self.assertIn("needs_commit", response.data)
+        self.assertIn("needs_merge", response.data)
+        self.assertIn("needs_push", response.data)
+        self.assertIn("url", response.data)
+        self.assertIn("status", response.data)
+        self.assertIn("merge_failure", response.data)
+
+        self.assertIn("pending_units", response.data)
+        self.assertIn("outgoing_commits", response.data)
+        self.assertIn("missing_commits", response.data)
+        self.assertIn("remote_commit", response.data)
+        self.assertIn("weblate_commit", response.data)
+
+        self.assertIsInstance(response.data["needs_commit"], bool)
+        self.assertIsInstance(response.data["needs_merge"], bool)
+        self.assertIsInstance(response.data["needs_push"], bool)
+
+        self.assertEqual(response.data["needs_commit"], False)
+
+        self.assertIsNotNone(response.data["url"])
+
+        self.assertIsNotNone(response.data["status"])
+
+        self.assertIsInstance(response.data["outgoing_commits"], int)
+        self.assertIsInstance(response.data["missing_commits"], int)
+
+        pending = response.data["pending_units"]
+        self.assertIsNotNone(pending)
+        self.assertIn("total", pending)
+        self.assertIn("errors_skipped", pending)
+        self.assertIn("commit_policy_skipped", pending)
+        self.assertIn("eligible_for_commit", pending)
+
+        self.assertEqual(pending["total"], 0)
+
+        if response.data["remote_commit"]:
+            commit = response.data["remote_commit"]
+            self.assertIn("revision", commit)
+            self.assertIn("shortrevision", commit)
+            self.assertIn("author", commit)
+            self.assertIn("message", commit)
+            self.assertIn("summary", commit)
 
     def test_statistics(self) -> None:
         self.do_request(
@@ -4358,6 +4692,31 @@ class TranslationAPITest(APIBaseTest):
                 "state": "20",
             },
             code=400,
+        )
+
+    def test_repo_status_with_changes(self) -> None:
+        """Test repository status with actual pending changes."""
+        translation = Translation.objects.get(**self.translation_kwargs)
+        unit = translation.unit_set.first()
+        unit.translate(self.user, "Modified translation", STATE_TRANSLATED)
+
+        response = self.do_request(
+            "api:translation-repository",
+            self.translation_kwargs,
+            superuser=True,
+        )
+
+        self.assertEqual(response.data["needs_commit"], True)
+        self.assertIsNotNone(response.data["pending_units"])
+
+        pending = response.data["pending_units"]
+        self.assertGreater(pending["total"], 0)
+        self.assertGreaterEqual(pending["eligible_for_commit"], 0)
+        self.assertEqual(
+            pending["total"],
+            pending["errors_skipped"]
+            + pending["commit_policy_skipped"]
+            + pending["eligible_for_commit"],
         )
 
     def test_delete(self) -> None:
@@ -5755,13 +6114,13 @@ class AddonAPITest(APIBaseTest):
             "file_format": "po",
             "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
             "name_template": "{{ component|title }}",
-            "language_regex": "^(?!xx).*$",
+            "language_regex": "^(?!xx).+$",
         }
         self.assertEqual(Component.objects.all().count(), 2)
         self.create_addon(name="weblate.discovery.discovery", configuration=initial)
 
         self.assertEqual(self.component.addon_set.get().configuration, initial)
-        self.assertEqual(Component.objects.all().count(), 5)
+        self.assertEqual(Component.objects.all().count(), 6)
 
     def test_edit(self) -> None:
         initial = {"path": "{{ filename|stripext }}.mo"}
@@ -6093,9 +6452,11 @@ class LabelAPITest(APIBaseTest):
 
 class OpenAPITest(APIBaseTest):
     def test_view(self) -> None:
-        self.do_request(
+        response = self.do_request(
             "api-schema",
         )
+        # Ensure schema includes the language-specific project download parameter
+        self.assertIn("language_code", response.content.decode())
 
     def test_redoc(self) -> None:
         self.do_request("redoc")

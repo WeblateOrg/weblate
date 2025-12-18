@@ -8,6 +8,7 @@ import os
 
 from django.db import transaction
 from django.test.utils import override_settings
+from django.urls import reverse
 
 from weblate.lang.models import Language
 from weblate.trans.models import CommitPolicyChoices, Component, PendingUnitChange, Unit
@@ -563,6 +564,41 @@ class MultiRepoTest(ViewTestCase):
         unit = self.get_unit(translation=translation1)
         self.assertEqual(unit.target, "Ahoj světe!\n")
 
+    def test_api(self):
+        """Test the project repository API works for various VCS."""
+        self.push_first()
+        self.project.add_user(self.user, "Administration")
+        headers = {"Authorization": f"Token {self.user.auth_token.key}"}
+
+        response = self.client.get(
+            reverse("api:project-repository", kwargs={"slug": self.project.slug}),
+            headers=headers,
+        )
+        self.assertEqual(response.status_code, 200)
+
+        response = self.client.get(
+            reverse(
+                "api:component-repository",
+                kwargs={
+                    "slug": self.component.slug,
+                    "project__slug": self.project.slug,
+                },
+            )
+        )
+        self.assertEqual(response.status_code, 200)
+
+        response = self.client.get(
+            reverse(
+                "api:translation-repository",
+                kwargs={
+                    "language__code": "cs",
+                    "component__slug": self.component.slug,
+                    "component__project__slug": self.project.slug,
+                },
+            )
+        )
+        self.assertEqual(response.status_code, 200)
+
 
 class FileScanTest(ViewTestCase):
     def test_file_scan_commit_policy(self) -> None:
@@ -598,7 +634,12 @@ class FileScanTest(ViewTestCase):
         self.assertEqual(unit_1.state, STATE_TRANSLATED)
         self.assertEqual(
             unit_1.details["disk_state"],
-            {"target": target_1, "state": STATE_APPROVED, "explanation": explanation_1},
+            {
+                "target": target_1,
+                "state": STATE_APPROVED,
+                "explanation": explanation_1,
+                "automatically_translated": False,
+            },
         )
         self.assertEqual(PendingUnitChange.objects.filter(unit=unit_1).count(), 1)
 
@@ -617,7 +658,12 @@ class FileScanTest(ViewTestCase):
         self.assertEqual(unit_2.state, STATE_TRANSLATED)
         self.assertEqual(
             unit_2.details["disk_state"],
-            {"target": "", "state": STATE_EMPTY, "explanation": explanation_2},
+            {
+                "target": "",
+                "state": STATE_EMPTY,
+                "explanation": explanation_2,
+                "automatically_translated": False,
+            },
         )
         self.assertEqual(PendingUnitChange.objects.filter(unit=unit_2).count(), 2)
 
@@ -631,7 +677,12 @@ class FileScanTest(ViewTestCase):
         )
         self.assertEqual(
             unit_3.details["disk_state"],
-            {"target": "", "state": STATE_EMPTY, "explanation": explanation_3},
+            {
+                "target": "",
+                "state": STATE_EMPTY,
+                "explanation": explanation_3,
+                "automatically_translated": False,
+            },
         )
         self.assertEqual(PendingUnitChange.objects.filter(unit=unit_3).count(), 1)
 
@@ -651,7 +702,12 @@ class FileScanTest(ViewTestCase):
         self.assertEqual(unit_1.state, STATE_TRANSLATED)
         self.assertEqual(
             unit_1.details["disk_state"],
-            {"target": target_1, "state": STATE_APPROVED, "explanation": explanation_1},
+            {
+                "target": target_1,
+                "state": STATE_APPROVED,
+                "explanation": explanation_1,
+                "automatically_translated": False,
+            },
         )
         self.assertEqual(PendingUnitChange.objects.filter(unit=unit_1).count(), 1)
 
@@ -663,7 +719,12 @@ class FileScanTest(ViewTestCase):
         self.assertEqual(unit_2.state, STATE_TRANSLATED)
         self.assertEqual(
             unit_2.details["disk_state"],
-            {"target": target_2, "state": STATE_APPROVED, "explanation": explanation_2},
+            {
+                "target": target_2,
+                "state": STATE_APPROVED,
+                "explanation": explanation_2,
+                "automatically_translated": False,
+            },
         )
         self.assertEqual(PendingUnitChange.objects.filter(unit=unit_2).count(), 1)
 

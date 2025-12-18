@@ -2,14 +2,17 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-import locale
 import platform
-import sys
 
 from django import db
 from django.conf import settings
 
 from weblate.utils.db import using_postgresql
+from weblate.utils.encoding import (
+    get_filesystem_encoding,
+    get_locale_encoding,
+    get_python_encoding,
+)
 from weblate.utils.management.base import BaseCommand
 from weblate.utils.requirements import get_versions_list
 
@@ -51,7 +54,7 @@ class Command(BaseCommand):
         )
         self.write_item(
             "OS encoding",
-            f"filesystem={sys.getfilesystemencoding()}, default={sys.getdefaultencoding()}, locale={locale.getlocale()[1].lower()}",
+            f"filesystem={get_filesystem_encoding()}, default={get_python_encoding()}, locale={get_locale_encoding()}",
         )
         self.write_item(
             "Celery",

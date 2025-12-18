@@ -24,12 +24,12 @@ ROOT_DIR = Path(__file__).parent.parent
 CategoryType = Literal["code", "translations", "docs"]
 
 # Ignore known bots
-IGNORE_AUTHORS: set[str] = {
+IGNORE_AUTHORS: tuple[str, ...] = (
     "GitHub",
     "Anonymous",
     "Hosted Weblate",
     "Copilot",
-}
+)
 
 # GitHub sometimes uses username instead of full name
 MAP_AUTHORS: dict[str, str] = {
@@ -76,7 +76,7 @@ def is_valid_author(author: str) -> bool:
         "(bot)" not in author
         and "[bot]" not in author
         and "add-on" not in author
-        and author not in IGNORE_AUTHORS
+        and not author.startswith(IGNORE_AUTHORS)
     )
 
 

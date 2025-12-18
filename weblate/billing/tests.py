@@ -368,6 +368,22 @@ class BillingTest(BaseTestCase):
         self.plan.save()
         self.test_trial()
 
+    def test_remove_project(self) -> None:
+        second_user = User.objects.create_user(
+            username="bill2", password="kill2", email="noreply2@example.net"
+        )
+        third_user = User.objects.create_user(
+            username="bill3", password="kill3", email="noreply3@example.net"
+        )
+        project = self.add_project()
+        project.add_user(second_user, "Administration")
+        project.add_user(third_user, "Translate")
+        project.delete()
+        self.assertEqual(
+            set(self.billing.owners.values_list("username", flat=True)),
+            {self.user.username, second_user.username},
+        )
+
 
 class HostingTest(RepoTestCase):
     def get_user(self):

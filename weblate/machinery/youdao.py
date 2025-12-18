@@ -10,6 +10,11 @@ from .base import MachineTranslation, MachineTranslationError
 from .forms import KeySecretMachineryForm
 
 if TYPE_CHECKING:
+    from requests import Response
+
+    from weblate.auth.models import User
+    from weblate.trans.models import Unit
+
     from .base import DownloadTranslations
 
 YOUDAO_API_ROOT = "https://openapi.youdao.com/api"
@@ -46,7 +51,7 @@ class YoudaoTranslation(MachineTranslation):
             "id",
         ]
 
-    def check_failure(self, response) -> None:
+    def check_failure(self, response: Response) -> None:
         super().check_failure(response)
         payload = response.json()
         if int(payload["errorCode"]) != 0:
@@ -58,8 +63,8 @@ class YoudaoTranslation(MachineTranslation):
         source_language,
         target_language,
         text: str,
-        unit,
-        user,
+        unit: Unit | None,
+        user: User | None,
         threshold: int = 75,
     ) -> DownloadTranslations:
         """Download list of possible translations from a service."""

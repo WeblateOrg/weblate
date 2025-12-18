@@ -580,16 +580,17 @@ def download_translation_file(
         filenames = translation.filenames
 
         if len(filenames) == 1:
+            filename = filenames[0]
             extension = (
-                os.path.splitext(translation.filename)[1]
+                os.path.splitext(filename)[1]
                 or f".{translation.component.file_format_cls.extension()}"
             )
-            if not os.path.exists(filenames[0]):
+            if not os.path.exists(filename):
                 msg = "File not found"
                 raise Http404(msg)
             # Create response
             response = FileResponse(
-                open(filenames[0], "rb"),  # noqa: SIM115
+                open(filename, "rb"),  # noqa: SIM115
                 content_type=translation.component.file_format_cls.mimetype(),
             )
         else:

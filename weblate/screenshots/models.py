@@ -33,6 +33,7 @@ from weblate.utils.validators import validate_bitmap
 
 if TYPE_CHECKING:
     from weblate.auth.models import User
+    from weblate.trans.models import Component
 
 
 class ScreenshotQuerySet(models.QuerySet):
@@ -132,7 +133,7 @@ def change_screenshot_assignment(sender, instance, action, **kwargs) -> None:
 
 
 @receiver(post_delete, sender=Screenshot)
-def update_alerts_on_screenshot_delete(sender, instance, **kwargs) -> None:
+def update_alerts_on_screenshot_delete(sender, instance: Screenshot, **kwargs) -> None:
     # Update the unused screenshot alert if screenshot is deleted
     if instance.translation.component.alert_set.filter(
         name="UnusedScreenshot"
@@ -140,10 +141,12 @@ def update_alerts_on_screenshot_delete(sender, instance, **kwargs) -> None:
         update_alerts(instance.translation.component, alerts={"UnusedScreenshot"})
 
 
-def validate_screenshot_image(component, filename) -> bool:
+def validate_screenshot_image(component: Component, filename: str) -> bool:
     """Validate a screenshot image."""
+    full_name = os.path.join(component.full_path, filename)
+    if os.path.islink(full_name):
+        return False
     try:
-        full_name = os.path.join(component.full_path, filename)
         with open(full_name, "rb") as f:
             image_file = File(f, name=os.path.basename(filename))
             validate_bitmap(image_file)
@@ -155,7 +158,9 @@ def validate_screenshot_image(component, filename) -> bool:
 
 
 @receiver(vcs_post_update)
-def sync_screenshots_from_repo(sender, component, previous_head: str, **kwargs) -> None:
+def sync_screenshots_from_repo(
+    sender, component: Component, previous_head: str, **kwargs
+) -> None:
     repository = component.repository
     changed_files = repository.get_changed_files(compare_to=previous_head)
 
@@ -171,6 +176,7 @@ def sync_screenshots_from_repo(sender, component, previous_head: str, **kwargs) 
 
         if validate_screenshot_image(component, filename):
             full_name = os.path.join(component.full_path, filename)
+
             with open(full_name, "rb") as f:
                 screenshot.image = File(
                     f,

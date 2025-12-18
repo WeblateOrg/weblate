@@ -658,6 +658,7 @@ form + .login-label {
   background-color: #e5f0f2;
   padding: 8px 10px;
   overflow-wrap: anywhere;
+  white-space: normal;
 }
 .comment-content blockquote {
   border-left: 5px solid #ddd;
@@ -699,6 +700,21 @@ form + .login-label {
   right: 15px;
   transform: translateY(-100%);
   z-index: 10;
+  width: fit-content;
+}
+
+[dir="rtl"] .btn-float {
+  right: auto;
+  left: 15px;
+}
+
+.col-sm-9 .btn-float {
+  right: 25%;
+}
+
+[dir="rtl"] .btn-float {
+  right: auto;
+  left: 25%;
 }
 
 #nearby,
@@ -714,6 +730,7 @@ form + .login-label {
   .btn-float {
     box-shadow: none;
     transform: none;
+    position: static;
   }
 
   #comments #comment-section {
@@ -866,6 +883,10 @@ legend {
 .search-icon svg {
   height: 16px;
   width: 16px;
+}
+
+.search-icon path {
+  fill: #1fa385;
 }
 
 .query-sort-toggle {
@@ -1099,11 +1120,6 @@ input[type="month"].form-control {
   height: 240px;
   text-align: center;
   padding-top: auto;
-}
-
-.dir-rtl .pull-right > .dropdown-menu {
-  left: 0;
-  right: auto;
 }
 
 #profile-name {
@@ -1902,6 +1918,7 @@ a.language:hover {
 }
 .tribute-container > .dropdown-menu {
   position: relative;
+  display: block;
 }
 .tribute-container > .dropdown-menu > li.highlight > a {
   color: #262626;
@@ -2533,6 +2550,10 @@ table.table-simple tbody#glossary-terms td {
 .navbar-nav .nav-link.show {
   color: #ffffff;
   background-color: #1fa385;
+}
+
+.dropdown-toggle::after {
+  vertical-align: middle;
 }
 
 .nav-link.dropdown-toggle::after {

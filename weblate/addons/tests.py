@@ -1046,15 +1046,15 @@ class DiscoveryTest(ViewTestCase):
                     "file_format": "po",
                     "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
                     "name_template": "{{ component|title }}",
-                    "language_regex": "^(?!xx).*$",
+                    "language_regex": "^(?!xx).+$",
                     "base_file_template": "",
                     "remove": True,
                 },
             )
-        self.assertEqual(Component.objects.filter(repo=link).count(), 3)
+        self.assertEqual(Component.objects.filter(repo=link).count(), 4)
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             addon.post_update(self.component, "", False)
-        self.assertEqual(Component.objects.filter(repo=link).count(), 3)
+        self.assertEqual(Component.objects.filter(repo=link).count(), 4)
 
     def test_form(self) -> None:
         self.user.is_superuser = True
@@ -1086,7 +1086,7 @@ class DiscoveryTest(ViewTestCase):
                 "file_format": "po",
                 "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
                 "name_template": "{{ component|title }}.{{ ext }}",
-                "language_regex": "^(?!xx).*$",
+                "language_regex": "^(?!xx).+$",
                 "base_file_template": "",
                 "remove": True,
             },
@@ -1102,7 +1102,7 @@ class DiscoveryTest(ViewTestCase):
                 "file_format": "po",
                 "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.(?P<ext>po)",
                 "name_template": "{{ component|title }}.{{ ext }}",
-                "language_regex": "^(?!xx).*$",
+                "language_regex": "^(?!xx).+$",
                 "base_file_template": "",
                 "remove": True,
             },
@@ -1119,7 +1119,7 @@ class DiscoveryTest(ViewTestCase):
                     "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.(?P<ext>po)",
                     "file_format": "po",
                     "name_template": "{{ component|title }}.{{ ext }}",
-                    "language_regex": "^(?!xx).*$",
+                    "language_regex": "^(?!xx).+$",
                     "base_file_template": "",
                     "remove": True,
                     "confirm": True,

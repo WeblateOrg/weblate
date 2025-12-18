@@ -178,6 +178,8 @@ class ActionEvents(IntegerChoices):
     LABEL_ADD = 86, gettext_lazy("Label added")
     # Translators: Name of event in the history
     LABEL_REMOVE = 87, gettext_lazy("Label removed")
+    # Translators: Name of event in the history
+    REPO_CLEANUP = 88, gettext_lazy("Repository cleanup")
 
 
 # Actions which are logged

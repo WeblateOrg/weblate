@@ -42,13 +42,13 @@ jobs:
       run: ./ci/services-up ${{ matrix.database }}
     - name: Install apt dependencies
       run: sudo ./ci/apt-install "$CI_DATABASE"
-    - uses: astral-sh/setup-uv@ed21f2f24f8dd64503750218de024bcf64c7250a # v7.1.5
+    - uses: astral-sh/setup-uv@681c641aba71e4a1c380be3ab5e12ad51f415867 # v7.1.6
       with:
         enable-cache: true
         # Do not share cache with tests as this uses python 3.11 for older versions
         cache-suffix: multi
         save-cache: ${{ github.ref == 'refs/heads/main' }}
-        version: 0.9.17
+        version: 0.9.18
     - name: Set up Python
       uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v6.1.0
       with:
@@ -89,6 +89,8 @@ jobs:
       run: ./ci/run-migrate 5.13
     - name: Migrate from 5.14
       run: ./ci/run-migrate 5.14
+    - name: Migrate from 5.15
+      run: ./ci/run-migrate 5.15
     - name: Coverage
       run: |
         uv run coverage combine

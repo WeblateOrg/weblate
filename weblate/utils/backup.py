@@ -46,6 +46,7 @@ def backup_lock():
         cache_template="lock:{scope}",
         file_template=".{scope}",
         timeout=120,
+        expiry_timeout=4 * 3600,
     )
 
 

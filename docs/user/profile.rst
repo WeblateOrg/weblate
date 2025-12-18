@@ -156,7 +156,7 @@ Special characters
 
 Additional special characters to include in the :ref:`visual-keyboard`.
 
-.. _subscriptions:
+.. _notifications:
 
 Notifications
 -------------

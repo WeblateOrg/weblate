@@ -24,6 +24,7 @@ from packaging.version import Version
 from weblate.trans.util import get_clean_env, path_separator
 from weblate.utils.data import data_path
 from weblate.utils.errors import add_breadcrumb
+from weblate.utils.files import is_excluded
 from weblate.utils.lock import WeblateLock
 from weblate.vcs.ssh import SSH_WRAPPER
 
@@ -58,6 +59,10 @@ class RepositoryError(Exception):
 
     def __str__(self) -> str:
         return self.get_message()
+
+
+class RepositorySymlinkError(ValueError):
+    """Raised when symlink resolution fails due to links outside the repository tree or excessive symlink depth."""
 
 
 class Repository:
@@ -173,7 +178,11 @@ class Repository:
 
         if not real_path.startswith(repository_path):
             msg = "Too many symlinks or link outside tree"
-            raise ValueError(msg)
+            raise RepositorySymlinkError(msg)
+
+        if is_excluded(real_path):
+            msg = "Link to a restricted location"
+            raise RepositorySymlinkError(msg)
 
         return real_path[len(repository_path) :].lstrip("/")
 
@@ -186,7 +195,7 @@ class Repository:
             # Avoid Git traversing outside the data dir
             "GIT_CEILING_DIRECTORIES": data_path("vcs").as_posix(),
             # Use ssh wrapper
-            "GIT_SSH": SSH_WRAPPER.filename.as_posix(),
+            "GIT_SSH_COMMAND": SSH_WRAPPER.filename.as_posix(),
             "SVN_SSH": SSH_WRAPPER.filename.as_posix(),
         }
         if environment:
@@ -619,7 +628,7 @@ class Repository:
     def get_remote_branch_name(self, branch: str | None = None) -> str:
         return f"origin/{self.branch if branch is None else branch}"
 
-    def list_remote_branches(self):
+    def list_remote_branches(self) -> list[str]:
         return []
 
     def compact(self) -> None:

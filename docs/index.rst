@@ -74,6 +74,7 @@ Learn more about :ref:`contributing`.
     :hidden:
 
     devel/starting
+    devel/migration
     devel/integration
     devel/gettext
     devel/mobile

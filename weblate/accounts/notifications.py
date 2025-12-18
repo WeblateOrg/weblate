@@ -499,6 +499,7 @@ class Notification:
         notifications: dict[int, list[Change]] = defaultdict(list)
         users = {}
         for change in changes:
+            change.fill_in_prefetched()
             for user in self.get_users(frequency, change):
                 if change.project is None or user.can_access_project(change.project):
                     notifications[user.pk].append(change)
@@ -645,7 +646,7 @@ class NewContributorNotificaton(Notification):
 class NewSuggestionNotificaton(Notification):
     actions = (ActionEvents.SUGGESTION,)
     verbose = pgettext_lazy("Notification name", "Suggestion was added")
-    verbose_plural = pgettext_lazy("Notification name", "Suggestion were added")
+    verbose_plural = pgettext_lazy("Notification name", "Suggestions were added")
     template_name = "new_suggestion"
     filter_languages = True
     required_attr = "suggestion"
@@ -703,7 +704,7 @@ class MentionCommentNotificaton(Notification):
     actions = (ActionEvents.COMMENT,)
     verbose = pgettext_lazy("Notification name", "You were mentioned in a comment")
     verbose_plural = pgettext_lazy(
-        "Notification name", "You were mentioned in a comments"
+        "Notification name", "You were mentioned in some comments"
     )
     template_name = "new_comment"
     ignore_watched = True
@@ -1030,7 +1031,7 @@ class ToDoStringsNotification(SummaryNotification):
 
 
 def get_notification_emails(
-    language: str,
+    language: str | None,
     recipients: list[str],
     notification: str,
     context: dict[str, Any] | None = None,
@@ -1071,7 +1072,7 @@ def get_notification_emails(
 
 
 def send_notification_email(
-    language: str,
+    language: str | None,
     recipients: list[str],
     notification: str,
     context: dict[str, Any] | None = None,
