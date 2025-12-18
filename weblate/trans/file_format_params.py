@@ -167,8 +167,11 @@ def get_encoding_param(file_format_params: dict[str, Any] | None) -> str | None:
     if file_format_params is None:
         file_format_params = {}
     for param_name, value in file_format_params.items():
-        if get_param_for_name(param_name).is_encoding():
-            return value
+        try:
+            if get_param_for_name(param_name).is_encoding():
+                return value
+        except ValueError:
+            continue
     return None
 
 
@@ -446,7 +449,7 @@ class StringsEncoding(BaseFileFormatParam):
         ("utf-16", gettext_lazy("UTF-16")),
         ("utf-8", gettext_lazy("UTF-8")),
     ]
-    default = "utf-8"
+    default = "utf-16"
     help_text = gettext_lazy("Encoding used for iOS strings files")
 
 
@@ -464,10 +467,6 @@ class PropertiesEncoding(BaseFileFormatParam):
     default = "iso-8859-1"
     help_text = gettext_lazy("Encoding used for Java Properties files")
 
-    def setup_store(self, store: TranslationStore, **file_format_params) -> None:
-        encoding = self.get_value(file_format_params)
-        store.encoding = encoding
-
 
 @register_file_format_param
 class CSVEncoding(BaseFileFormatParam):
@@ -481,11 +480,6 @@ class CSVEncoding(BaseFileFormatParam):
     ]
     default = "auto"
     help_text = gettext_lazy("Encoding used for CSV files")
-
-    def setup_store(self, store: TranslationStore, **file_format_params) -> None:
-        encoding = self.get_value(file_format_params)
-        if encoding != "auto":
-            store.encoding = encoding
 
 
 @register_file_format_param
@@ -502,11 +496,6 @@ class CSVSimpleEncoding(BaseFileFormatParam):
     default = "auto"
     help_text = gettext_lazy("Encoding used for simple CSV files")
 
-    def setup_store(self, store: TranslationStore, **file_format_params) -> None:
-        encoding = self.get_value(file_format_params)
-        if encoding != "auto":
-            store.encoding = encoding
-
 
 @register_file_format_param
 class GWTEncoding(BaseFileFormatParam):
@@ -520,7 +509,3 @@ class GWTEncoding(BaseFileFormatParam):
     ]
     default = "utf-8"
     help_text = gettext_lazy("Encoding used for GWT Properties files")
-
-    def setup_store(self, store: TranslationStore, **file_format_params) -> None:
-        encoding = self.get_value(file_format_params)
-        store.encoding = encoding

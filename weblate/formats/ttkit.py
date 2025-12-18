@@ -279,7 +279,7 @@ class TTKitFormat(TranslationFormat):
             encoding := (
                 self.force_encoding or get_encoding_param(self.file_format_params)
             )
-        ) is not None:
+        ) is not None and encoding != "auto":
             store.encoding = encoding
         # This gets already native language code, so no conversion is needed
         if self.language_code is not None:
@@ -306,17 +306,34 @@ class TTKitFormat(TranslationFormat):
         return store
 
     @classmethod
-    def get_class(cls, encoding: str | None = None) -> TranslationStore:  # noqa: ARG003
+    def get_class(cls, encoding: str | None = None) -> TranslationStore:
         """Return class for handling this module."""
         # Direct class
         if inspect.isclass(cls.loader):
             return cls.loader
-        # Tuple style loader, import from translate toolkit
-        module_name, class_name = cls.loader
+
+        if isinstance(cls.loader, dict):
+            # With encoding variants
+            if encoding in cls.loader:
+                module_name, class_name = cls.loader[encoding]
+            else:
+                module_name, class_name = next(iter(cls.loader.values()))
+        else:
+            # Tuple style loader, import from translate toolkit
+            module_name, class_name = cls.loader
+
         if "." not in module_name:
             module_name = f"translate.storage.{module_name}"
         module = importlib.import_module(module_name)
+        # Get the class
+        return getattr(module, class_name)
 
+    @staticmethod
+    def resolve_loader(loader: tuple[str, str]) -> TranslationStore:
+        module_name, class_name = loader
+        if "." not in module_name:
+            module_name = f"translate.storage.{module_name}"
+        module = importlib.import_module(module_name)
         # Get the class
         return getattr(module, class_name)
 
@@ -1459,14 +1476,10 @@ class StringsFormat(PropertiesBaseFormat):
     empty_file_template: str | bytes | None = "\n"
     autoload: tuple[str, ...] = ("*.strings",)
     language_format = "bcp"
-
-    @classmethod
-    def get_class(cls, encoding: str | None = None) -> TranslationStore:
-        if encoding == "utf-16":
-            cls.loader = ("properties", "stringsfile")
-        else:
-            cls.loader = ("properties", "stringsutf8file")
-        return super().get_class()
+    loader: ClassVar[dict[str, tuple[str, str]]] = {
+        "utf-16": ("properties", "stringsfile"),
+        "utf-8": ("properties", "stringsutf8file"),
+    }
 
     @classmethod
     def get_new_translation(cls, encoding: str | None = None):
@@ -1479,21 +1492,15 @@ class PropertiesFormat(PropertiesBaseFormat):
     # Translators: File format name
     name = gettext_lazy("Java Properties")
     format_id = "properties"
-    loader = ("properties", "javafile")
+    loader: ClassVar[dict[str, tuple[str, str]]] = {
+        "utf-16": ("properties", "javafile"),
+        "iso-8859-1": ("properties", "javafile"),
+        "utf-8": ("properties", "javautf8file"),
+    }
     language_format = "linux"
     empty_file_template = "\n"
     autoload: tuple[str, ...] = ("*.properties",)
     check_flags = ("auto-java-messageformat",)
-
-    @classmethod
-    def get_class(cls, encoding: str | None = None) -> TranslationStore:
-        if encoding in {"utf-16", "iso-8859-1"}:
-            cls.loader = ("properties", "javafile")
-        elif encoding == "utf-8":
-            cls.loader = ("properties", "javautf8file")
-        else:
-            cls.loader = ("properties", "javafile")
-        return super().get_class(encoding)
 
 
 class JoomlaFormat(PropertiesBaseFormat):
