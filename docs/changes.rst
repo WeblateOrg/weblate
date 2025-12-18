@@ -12,6 +12,7 @@ Weblate 5.15.1
 * Updated list of OpenAI models.
 * Added :doc:`/devel/migration` guide to help users migrate from other localization platforms.
 * Gracefully handle unreachable authentication providers.
+* Update language definitions to CLDR 48.
 
 .. rubric:: Bug fixes
 
