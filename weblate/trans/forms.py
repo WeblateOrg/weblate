@@ -95,9 +95,12 @@ from weblate.utils.forms import (
 from weblate.utils.hash import checksum_to_hash, hash_to_checksum
 from weblate.utils.html import format_html_join_comma
 from weblate.utils.state import (
+    FUZZY_STATES,
     STATE_APPROVED,
     STATE_EMPTY,
+    STATE_FUZZY,
     STATE_NEEDS_CHECKING,
+    STATE_NEEDS_REWRITING,
     STATE_READONLY,
     STATE_TRANSLATED,
     StringState,
@@ -539,6 +542,23 @@ class TranslationForm(UnitForm):
                 for state, label in StringState.choices
                 if state == STATE_READONLY
             ]
+        else:
+            # Filter fuzzy state choices based on current unit state
+            # STATE_NEEDS_CHECKING and STATE_NEEDS_REWRITING are only shown
+            # if the unit is currently in that state
+            if unit.state == STATE_NEEDS_CHECKING:
+                states_to_hide = {STATE_FUZZY, STATE_NEEDS_REWRITING}
+                self.fields["fuzzy"].label = StringState(STATE_NEEDS_CHECKING).label
+            elif unit.state == STATE_NEEDS_REWRITING:
+                states_to_hide = {STATE_FUZZY, STATE_NEEDS_CHECKING}
+                self.fields["fuzzy"].label = StringState(STATE_NEEDS_REWRITING).label
+            else:
+                states_to_hide = {STATE_NEEDS_CHECKING, STATE_NEEDS_REWRITING}
+            self.fields["review"].choices = [
+                (state, get_state_label(state, label, True))
+                for state, label in StringState.choices
+                if state not in {STATE_READONLY, STATE_EMPTY} | states_to_hide
+            ]
         self.user = user
         self.fields["target"].widget.profile = user.profile
         self.fields["review"].widget.attrs["class"] = "review_radio"
@@ -598,6 +618,8 @@ class TranslationForm(UnitForm):
                     )
                 )
 
+        fuzzy_state = unit.state if unit.state in FUZZY_STATES else STATE_FUZZY
+
         # Add extra margin to limit to allow XML tags which might
         # be ignored for the length calculation. On the other side,
         # we do not want to process arbitrarily long strings here.
@@ -608,9 +630,15 @@ class TranslationForm(UnitForm):
         if self.user.has_perm(
             "unit.review", unit.translation
         ) and self.cleaned_data.get("review"):
-            self.cleaned_data["state"] = int(self.cleaned_data["review"])
+            cleaned_state = int(self.cleaned_data["review"])
+            # if the unit is already in a fuzzy state and the new state is also
+            # a fuzzy state, retain the unit's original fuzzy state.
+            if cleaned_state in FUZZY_STATES:
+                self.cleaned_data["state"] = fuzzy_state
+            else:
+                self.cleaned_data["state"] = cleaned_state
         elif self.cleaned_data["fuzzy"]:
-            self.cleaned_data["state"] = STATE_NEEDS_CHECKING
+            self.cleaned_data["state"] = fuzzy_state
         else:
             self.cleaned_data["state"] = STATE_TRANSLATED
 

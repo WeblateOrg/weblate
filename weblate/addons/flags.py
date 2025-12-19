@@ -45,10 +45,10 @@ class FlagBase(BaseAddon):
 
 class SourceEditAddon(FlagBase):
     name = "weblate.flags.source_edit"
-    verbose = gettext_lazy('Flag new source strings as "Needs editing"')
+    verbose = gettext_lazy('Flag new source strings as "Needs checking"')
     description = gettext_lazy(
         "Whenever a new source string is imported from the VCS, it is "
-        "flagged as needing editing in Weblate. This way you can easily "
+        "flagged as needing checking in Weblate. This way you can easily "
         "filter and edit source strings written by the developers."
     )
     compat: ClassVar[CompatDict] = {
@@ -61,16 +61,15 @@ class SourceEditAddon(FlagBase):
             and unit.state >= STATE_TRANSLATED
             and not unit.readonly
         ):
-            # TODO: needs-checking or needs-rewriting as this is source?
             unit.state = STATE_NEEDS_CHECKING
 
 
 class TargetEditAddon(FlagBase):
     name = "weblate.flags.target_edit"
-    verbose = gettext_lazy('Flag new translations as "Needs editing"')
+    verbose = gettext_lazy('Flag new translations as "Needs rewriting"')
     description = gettext_lazy(
         "Whenever a new translatable string is imported from the VCS, it is "
-        "flagged as needing editing in Weblate. This way you can easily "
+        "flagged as needing rewriting in Weblate. This way you can easily "
         "filter and edit translations created by the developers."
     )
 
@@ -80,7 +79,7 @@ class TargetEditAddon(FlagBase):
             and unit.state >= STATE_TRANSLATED
             and not unit.readonly
         ):
-            unit.state = STATE_NEEDS_CHECKING
+            unit.state = STATE_NEEDS_REWRITING
 
 
 class SameEditAddon(FlagBase):
@@ -100,7 +99,7 @@ class SameEditAddon(FlagBase):
             and unit.state >= STATE_TRANSLATED
             and not unit.readonly
         ):
-            unit.state = STATE_NEEDS_CHECKING
+            unit.state = STATE_NEEDS_REWRITING
 
 
 class BulkEditAddon(BaseAddon):
@@ -140,11 +139,11 @@ class TargetRepoUpdateAddon(BaseAddon):
     icon = "flag.svg"
     name = "weblate.flags.target_repo_update"
     verbose = gettext_lazy(
-        'Flag updated translations from repository as "Needs editing"'
+        'Flag updated translations from repository as "Needs rewriting"'
     )
     description = gettext_lazy(
         "Whenever a string translation is changed from the VCS, "
-        "it is flagged as needing editing in Weblate. Especially useful if "
+        "it is flagged as needing rewriting in Weblate. Especially useful if "
         "translation files are often updated manually or by an external service."
     )
 

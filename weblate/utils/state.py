@@ -16,8 +16,14 @@ if TYPE_CHECKING:
 class StringState(IntegerChoices):
     STATE_EMPTY = 0, pgettext_lazy("String state", "Empty")
     STATE_FUZZY = 10, pgettext_lazy("String state", "Needs editing")
-    STATE_NEEDS_REWRITING = 11, pgettext_lazy("String state", "Needs rewriting")
-    STATE_NEEDS_CHECKING = 12, pgettext_lazy("String state", "Needs checking")
+    STATE_NEEDS_REWRITING = (
+        11,
+        pgettext_lazy("String state", "Needs editing (Needs rewriting)"),
+    )
+    STATE_NEEDS_CHECKING = (
+        12,
+        pgettext_lazy("String state", "Needs editing (Needs checking)"),
+    )
     STATE_TRANSLATED = 20, pgettext_lazy("String state", "Translated")
     STATE_APPROVED = 30, pgettext_lazy("String state", "Approved")
     STATE_READONLY = 100, pgettext_lazy("String state", "Read-only")

@@ -68,7 +68,6 @@ class CommentManager(models.Manager):
         if scope == "report":
             if component.has_template():
                 if unit_scope.translated and not unit_scope.readonly:
-                    # TODO: needs-checking for target and needs-rewriting for source?
                     unit_scope.translate(
                         user,
                         unit_scope.target,
