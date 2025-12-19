@@ -131,11 +131,9 @@ jobs:
       with:
         python-version: '3.14'
     - name: Install apt dependencies
-      uses: awalsh128/cache-apt-pkgs-action@acb598e5ddbc6f68a970c5da0688d2f3a9f04d05 # v1.6.0
-      with:
-        packages: graphviz pandoc libgvc6 fonts-liberation2 libann0 libcdt5 libcgraph6 libgts-0.7-5t64 libgts-bin libgvpr2 liblab-gamut1 libpathplan4 pandoc-data
-        version: 2025-12-18-doc
-        execute_install_scripts: true
+      run: |
+        sudo apt update
+        sudo apt install -y graphviz pandoc
     - name: Install Python dependencies
       run: uv sync --only-group docs --frozen
     - name: Sphinx build
