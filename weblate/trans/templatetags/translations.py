@@ -871,21 +871,12 @@ def unit_state_title(unit) -> str:
     checks = unit.active_checks
     if checks:
         state.append(
-            "{} {}".format(
-                pgettext("String state", "Failing checks:"),
-                format_html_join_comma(
-                    "{}",
-                    list_to_tuples(checks),
-                ),
-            )
+            f"{pgettext('String state', 'Failing checks:')} {format_html_join_comma('{}', list_to_tuples(checks))}"
         )
     checks = unit.dismissed_checks
     if checks:
         state.append(
-            "{} {}".format(
-                pgettext("String state", "Dismissed checks:"),
-                format_html_join_comma("{}", list_to_tuples(checks)),
-            )
+            f"{pgettext('String state', 'Dismissed checks:')} {format_html_join_comma('{}', list_to_tuples(checks))}"
         )
     if unit.has_comment:
         state.append(pgettext("String state", "Commented"))
@@ -1061,7 +1052,7 @@ def init_unique_row_id(context) -> str:
 @register.simple_tag(takes_context=True)
 def get_unique_row_id(context: Context, obj):
     """Get unique row ID for multiline tables."""
-    return "{}-{}".format(context["row_uuid"], obj.pk)
+    return f"{context['row_uuid']}-{obj.pk}"
 
 
 @register.simple_tag
@@ -1096,7 +1087,7 @@ def component_alerts(
         yield (
             "state/alert.svg",
             gettext("Fix this component to clear its alerts."),
-            component.get_absolute_url() + "#alerts",
+            f"{component.get_absolute_url()}#alerts",
         )
 
     if component.locked:
@@ -1106,8 +1097,7 @@ def component_alerts(
         yield (
             "state/update.svg",
             gettext("Updating translation component…"),
-            reverse("show_progress", kwargs={"path": component.get_url_path()})
-            + "?info=1",
+            f"{reverse('show_progress', kwargs={'path': component.get_url_path()})}?info=1",
         )
 
 

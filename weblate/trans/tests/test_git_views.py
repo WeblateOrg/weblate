@@ -28,13 +28,11 @@ class GitNoChangeProjectTest(ViewTestCase):
         return reverse(prefix, kwargs={"path": obj.get_url_path()})
 
     def get_expected_redirect(self):
-        return getattr(self, f"{self.TEST_TYPE}_url") + "#repository"
+        return f"{getattr(self, f'{self.TEST_TYPE}_url')}#repository"
 
     def get_expected_redirect_progress(self):
         obj = getattr(self, self.TEST_TYPE)
-        return "{}?info=1".format(
-            reverse("show_progress", kwargs={"path": obj.get_url_path()})
-        )
+        return f"{reverse('show_progress', kwargs={'path': obj.get_url_path()})}?info=1"
 
     def test_commit(self) -> None:
         response = self.client.post(self.get_test_url("commit"))

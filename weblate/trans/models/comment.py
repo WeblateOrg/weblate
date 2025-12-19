@@ -116,9 +116,7 @@ class Comment(models.Model, UserDisplayMixin):
         verbose_name_plural = "string comments"
 
     def __str__(self) -> str:
-        return "comment for {} by {}".format(
-            self.unit, self.user.username if self.user else "unknown"
-        )
+        return f"comment for {self.unit} by {self.user.username if self.user else 'unknown'}"
 
     def report_spam(self) -> None:
         report_spam(

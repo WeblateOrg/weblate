@@ -111,9 +111,9 @@ class XlsxFormat(CSVUtf8Format):
             writer.writerow(values)
 
         if isinstance(storefile, str):
-            name = os.path.basename(storefile) + ".csv"
+            name = f"{os.path.basename(storefile)}.csv"
         else:
-            name = os.path.basename(storefile.name) + ".csv"
+            name = f"{os.path.basename(storefile.name)}.csv"
 
         # return the new csv as bytes
         content = output.getvalue().encode("utf-8")

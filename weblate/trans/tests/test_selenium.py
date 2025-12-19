@@ -180,7 +180,7 @@ class SeleniumTests(
 
     def setUp(self) -> None:
         super().setUp()
-        self.driver.get("{}{}".format(self.live_server_url, reverse("home")))
+        self.driver.get(f"{self.live_server_url}{reverse('home')}")
         self.driver.set_window_size(1200, 1024)
         self.site_domain = settings.SITE_DOMAIN
         settings.SITE_DOMAIN = f"{self.host}:{self.server_thread.port}"

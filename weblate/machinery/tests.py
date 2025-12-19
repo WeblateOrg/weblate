@@ -867,13 +867,13 @@ class GoogleTranslationTest(BaseMachineTranslationTest):
         self.skipTest("Not tested")
 
     def mock_error(self) -> None:
-        responses.add(responses.GET, GOOGLE_API_ROOT + "languages", body="", status=500)
+        responses.add(responses.GET, f"{GOOGLE_API_ROOT}languages", body="", status=500)
         responses.add(responses.GET, GOOGLE_API_ROOT, body="", status=500)
 
     def mock_response(self) -> None:
         responses.add(
             responses.GET,
-            GOOGLE_API_ROOT + "languages",
+            f"{GOOGLE_API_ROOT}languages",
             json={
                 "data": {
                     "languages": [
@@ -1189,26 +1189,26 @@ class TMServerTranslationTest(BaseMachineTranslationTest):
     }
 
     def mock_empty(self) -> None:
-        responses.add(responses.GET, AMAGAMA_LIVE + "/languages/", body="", status=404)
-        responses.add(responses.GET, AMAGAMA_LIVE + "/en/cs/unit/Hello", json=[])
+        responses.add(responses.GET, f"{AMAGAMA_LIVE}/languages/", body="", status=404)
+        responses.add(responses.GET, f"{AMAGAMA_LIVE}/en/cs/unit/Hello", json=[])
 
     def mock_response(self) -> None:
         responses.add(
             responses.GET,
-            AMAGAMA_LIVE + "/languages/",
+            f"{AMAGAMA_LIVE}/languages/",
             json={"sourceLanguages": ["en"], "targetLanguages": ["cs"]},
         )
         responses.add(
-            responses.GET, AMAGAMA_LIVE + "/en/cs/unit/Hello", json=AMAGAMA_JSON
+            responses.GET, f"{AMAGAMA_LIVE}/en/cs/unit/Hello", json=AMAGAMA_JSON
         )
         responses.add(
-            responses.GET, AMAGAMA_LIVE + "/en/de/unit/test", json=AMAGAMA_JSON
+            responses.GET, f"{AMAGAMA_LIVE}/en/de/unit/test", json=AMAGAMA_JSON
         )
 
     def mock_error(self) -> None:
-        responses.add(responses.GET, AMAGAMA_LIVE + "/languages/", body="", status=404)
+        responses.add(responses.GET, f"{AMAGAMA_LIVE}/languages/", body="", status=404)
         responses.add(
-            responses.GET, AMAGAMA_LIVE + "/en/cs/unit/Hello", body="", status=500
+            responses.GET, f"{AMAGAMA_LIVE}/en/cs/unit/Hello", body="", status=500
         )
 
 

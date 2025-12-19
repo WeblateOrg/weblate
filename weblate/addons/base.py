@@ -80,7 +80,7 @@ class BaseAddon:
 
     @classmethod
     def get_doc_anchor(cls) -> str:
-        return "addon-{}".format(cls.name.replace(".", "-").replace("_", "-"))
+        return f"addon-{cls.name.replace('.', '-').replace('_', '-')}"
 
     @classmethod
     def has_settings(cls) -> bool:

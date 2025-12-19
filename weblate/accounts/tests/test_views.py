@@ -173,7 +173,7 @@ class ViewTest(RepoTestCase):
 
         # Repeated attempt should fail
         response = self.client.get(reverse("trial"))
-        self.assertRedirects(response, reverse("contact") + "?t=trial")
+        self.assertRedirects(response, f"{reverse('contact')}?t=trial")
 
     def test_contact_subject(self) -> None:
         # With set subject
@@ -343,7 +343,7 @@ class ViewTest(RepoTestCase):
             },
         )
 
-        self.assertRedirects(response, reverse("profile") + "#account")
+        self.assertRedirects(response, f"{reverse('profile')}#account")
         self.assertTrue(
             User.objects.get(username="testuser").check_password("1pa$$word!")
         )
@@ -360,12 +360,12 @@ class ViewTest(RepoTestCase):
 
         # API key reset
         response = self.client.post(reverse("reset-api-key"))
-        self.assertRedirects(response, reverse("profile") + "#api")
+        self.assertRedirects(response, f"{reverse('profile')}#api")
 
         # API key reset without token
         user.auth_token.delete()
         response = self.client.post(reverse("reset-api-key"))
-        self.assertRedirects(response, reverse("profile") + "#api")
+        self.assertRedirects(response, f"{reverse('profile')}#api")
 
 
 class ProfileTest(FixtureTestCase):
@@ -562,16 +562,16 @@ class ProfileTest(FixtureTestCase):
 
     def test_unsubscribe(self) -> None:
         response = self.client.get(reverse("unsubscribe"), follow=True)
-        self.assertRedirects(response, reverse("profile") + "#notifications")
+        self.assertRedirects(response, f"{reverse('profile')}#notifications")
 
         response = self.client.get(reverse("unsubscribe"), {"i": "x"}, follow=True)
-        self.assertRedirects(response, reverse("profile") + "#notifications")
+        self.assertRedirects(response, f"{reverse('profile')}#notifications")
         self.assertContains(response, "notification change link is no longer valid")
 
         response = self.client.get(
             reverse("unsubscribe"), {"i": TimestampSigner().sign("-1")}, follow=True
         )
-        self.assertRedirects(response, reverse("profile") + "#notifications")
+        self.assertRedirects(response, f"{reverse('profile')}#notifications")
         self.assertContains(response, "notification change link is no longer valid")
 
         subscription = Subscription.objects.create(
@@ -585,7 +585,7 @@ class ProfileTest(FixtureTestCase):
             {"i": TimestampSigner().sign(f"{subscription.pk}")},
             follow=True,
         )
-        self.assertRedirects(response, reverse("profile") + "#notifications")
+        self.assertRedirects(response, f"{reverse('profile')}#notifications")
         self.assertContains(response, "Notification settings adjusted")
         subscription.refresh_from_db()
         self.assertEqual(subscription.frequency, NotificationFrequency.FREQ_NONE)

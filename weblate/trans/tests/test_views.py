@@ -62,9 +62,9 @@ class RegistrationTestMixin(TestCase):
             if "(" in line or ")" in line or "<" in line or ">" in line:
                 continue
             if live_url and line.startswith(live_url):
-                return line + "&confirm=1"
+                return f"{line}&confirm=1"
             if line.startswith("http://example.com/"):
-                return line[18:] + "&confirm=1"
+                return f"{line[18:]}&confirm=1"
 
         self.fail("Confirmation URL not found")
         return ""
@@ -718,7 +718,7 @@ class SourceStringsTest(ViewTestCase):
 
     def test_matrix_load(self) -> None:
         response = self.client.get(
-            reverse("matrix-load", kwargs=self.kw_component) + "?offset=0&lang=cs"
+            f"{reverse('matrix-load', kwargs=self.kw_component)}?offset=0&lang=cs"
         )
         self.assertContains(response, 'lang="cs"')
 

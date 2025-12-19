@@ -190,12 +190,7 @@ class BaseCheck(ClassLoaderProtocol):
         raise Http404(msg)
 
     def get_cache_key(self, unit: Unit, pos: int) -> str:
-        return "check:{}:{}:{}:{}".format(
-            self.check_id,
-            unit.pk,
-            siphash("Weblate   Checks", unit.all_flags.format()),
-            pos,
-        )
+        return f"check:{self.check_id}:{unit.pk}:{siphash('Weblate   Checks', unit.all_flags.format())}:{pos}"
 
     def get_replacement_function(self, unit: Unit):
         def strip_xml(content: str) -> str:

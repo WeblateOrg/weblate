@@ -109,10 +109,7 @@ class ComponentFileFormatsParamsTest(BaseFileFormatsTest):
             follow=True,
         )
 
-        create_url = (
-            reverse("create-component-vcs")
-            + f"?source_component={self.component.pk}#existing"
-        )
+        create_url = f"{reverse('create-component-vcs')}?source_component={self.component.pk}#existing"
         data = response.context["form"].initial
         data.pop("category", None)
         data["project"] = self.component.project_id

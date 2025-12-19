@@ -218,25 +218,21 @@ class ReportsComponentTest(BaseReportsTest):
     def test_credits_invalid_start(self) -> None:
         end = timezone.now()
         start = end - timedelta(days=30)
-        period = "{}invalid - {}".format(
-            start.strftime("%m/%d/%Y"), end.strftime("%m/%d/%Y")
-        )
+        period = f"{start.strftime('%m/%d/%Y')}invalid - {end.strftime('%m/%d/%Y')}"
         response = self.get_credits("json", period=period, follow=True)
         self.assertContains(response, "Error in parameter period: Invalid date!")
 
     def test_credits_invalid_end(self) -> None:
         end = timezone.now()
         start = end - timedelta(days=30)
-        period = "{} - {}invalid".format(
-            start.strftime("%m/%d/%Y"), end.strftime("%m/%d/%Y")
-        )
+        period = f"{start.strftime('%m/%d/%Y')} - {end.strftime('%m/%d/%Y')}invalid"
         response = self.get_credits("json", period=period, follow=True)
         self.assertContains(response, "Error in parameter period: Invalid date!")
 
     def test_credits_inverse_daterange(self) -> None:
         start = timezone.now()
         end = start - timedelta(days=1)
-        period = "{} - {}".format(start.strftime("%m/%d/%Y"), end.strftime("%m/%d/%Y"))
+        period = f"{start.strftime('%m/%d/%Y')} - {end.strftime('%m/%d/%Y')}"
         response = self.get_credits("json", period=period, follow=True)
         self.assertContains(
             response,
@@ -264,7 +260,7 @@ class ReportsComponentTest(BaseReportsTest):
     def test_counts_view_30days(self) -> None:
         end = timezone.now()
         start = end - timedelta(days=30)
-        period = "{} - {}".format(start.strftime("%m/%d/%Y"), end.strftime("%m/%d/%Y"))
+        period = f"{start.strftime('%m/%d/%Y')} - {end.strftime('%m/%d/%Y')}"
         response = self.get_counts("json", period=period)
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(response.content.decode(), self.counts_data)
@@ -273,7 +269,7 @@ class ReportsComponentTest(BaseReportsTest):
         end = timezone.now().replace(day=1) + timedelta(days=31)
         end = end.replace(day=1) - timedelta(days=1)
         start = end.replace(day=1)
-        period = "{} - {}".format(start.strftime("%m/%d/%Y"), end.strftime("%m/%d/%Y"))
+        period = f"{start.strftime('%m/%d/%Y')} - {end.strftime('%m/%d/%Y')}"
         response = self.get_counts("json", period=period)
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(response.content.decode(), self.counts_data)
@@ -281,7 +277,7 @@ class ReportsComponentTest(BaseReportsTest):
     def test_counts_view_month(self) -> None:
         end = timezone.now().replace(day=1) - timedelta(days=1)
         start = end.replace(day=1)
-        period = "{} - {}".format(start.strftime("%m/%d/%Y"), end.strftime("%m/%d/%Y"))
+        period = f"{start.strftime('%m/%d/%Y')} - {end.strftime('%m/%d/%Y')}"
         response = self.get_counts("json", period=period)
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(response.content.decode(), [])
@@ -290,7 +286,7 @@ class ReportsComponentTest(BaseReportsTest):
         year = timezone.now().year - 1
         end = timezone.make_aware(datetime(year, 12, 31))  # noqa: DTZ001
         start = timezone.make_aware(datetime(year, 1, 1))  # noqa: DTZ001
-        period = "{} - {}".format(start.strftime("%m/%d/%Y"), end.strftime("%m/%d/%Y"))
+        period = f"{start.strftime('%m/%d/%Y')} - {end.strftime('%m/%d/%Y')}"
         response = self.get_counts("json", period=period)
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(response.content.decode(), [])
@@ -299,7 +295,7 @@ class ReportsComponentTest(BaseReportsTest):
         year = timezone.now().year
         end = timezone.make_aware(datetime(year, 12, 31))  # noqa: DTZ001
         start = timezone.make_aware(datetime(year, 1, 1))  # noqa: DTZ001
-        period = "{} - {}".format(start.strftime("%m/%d/%Y"), end.strftime("%m/%d/%Y"))
+        period = f"{start.strftime('%m/%d/%Y')} - {end.strftime('%m/%d/%Y')}"
         response = self.get_counts("json", period=period)
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(response.content.decode(), self.counts_data)
@@ -390,25 +386,21 @@ class ReportsComponentTest(BaseReportsTest):
     def test_counts_invalid_start(self) -> None:
         end = timezone.now()
         start = end - timedelta(days=30)
-        period = "{}invalid - {}".format(
-            start.strftime("%m/%d/%Y"), end.strftime("%m/%d/%Y")
-        )
+        period = f"{start.strftime('%m/%d/%Y')}invalid - {end.strftime('%m/%d/%Y')}"
         response = self.get_counts("json", period=period, follow=True)
         self.assertContains(response, "Error in parameter period: Invalid date!")
 
     def test_counts_invalid_end(self) -> None:
         end = timezone.now()
         start = end - timedelta(days=30)
-        period = "{} - {}invalid".format(
-            start.strftime("%m/%d/%Y"), end.strftime("%m/%d/%Y")
-        )
+        period = f"{start.strftime('%m/%d/%Y')} - {end.strftime('%m/%d/%Y')}invalid"
         response = self.get_counts("json", period=period, follow=True)
         self.assertContains(response, "Error in parameter period: Invalid date!")
 
     def test_counts_inverse_daterange(self) -> None:
         start = timezone.now()
         end = start - timedelta(days=1)
-        period = "{} - {}".format(start.strftime("%m/%d/%Y"), end.strftime("%m/%d/%Y"))
+        period = f"{start.strftime('%m/%d/%Y')} - {end.strftime('%m/%d/%Y')}"
         response = self.get_counts("json", period=period, follow=True)
         self.assertContains(
             response,

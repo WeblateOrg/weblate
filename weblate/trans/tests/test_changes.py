@@ -88,14 +88,14 @@ class ChangesTest(ViewTestCase):
     def test_daterange(self) -> None:
         end = timezone.now()
         start = end - timedelta(days=1)
-        period = "{} - {}".format(start.strftime("%m/%d/%Y"), end.strftime("%m/%d/%Y"))
+        period = f"{start.strftime('%m/%d/%Y')} - {end.strftime('%m/%d/%Y')}"
         response = self.client.get(reverse("changes"), {"period": period})
         self.assertContains(response, "Resource update")
 
     def test_pagination(self) -> None:
         end = timezone.now()
         start = end - timedelta(days=1)
-        period = "{} - {}".format(start.strftime("%m/%d/%Y"), end.strftime("%m/%d/%Y"))
+        period = f"{start.strftime('%m/%d/%Y')} - {end.strftime('%m/%d/%Y')}"
         response = self.client.get(reverse("changes"), {"period": period})
         query_string = urlencode({"page": 2, "limit": 20, "period": period})
         self.assertContains(response, escape(query_string))

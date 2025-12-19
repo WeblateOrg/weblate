@@ -1745,7 +1745,7 @@ class BaseWebhookTests:
     @responses.activate
     def test_component_scopes(self) -> None:
         """Test webhook addon installed at component level."""
-        secondary_url = self.WEBHOOK_URL + "-2"
+        secondary_url = f"{self.WEBHOOK_URL}-2"
         component1 = self.component
         component2 = self.create_po(
             new_base="po/project.pot", project=self.project, name="Secondary component"
@@ -1778,7 +1778,7 @@ class BaseWebhookTests:
     @responses.activate
     def test_project_scopes(self) -> None:
         """Test webhook addon installed at project level."""
-        secondary_url = self.WEBHOOK_URL + "-2"
+        secondary_url = f"{self.WEBHOOK_URL}-2"
         project_a = self.project
         component_a1 = self.component
         component_a2 = self.create_po(
@@ -1899,9 +1899,7 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
         # valid request with multiple signatures (space separated)
         new_headers = wh_headers.copy()
         new_headers["webhook-signature"] = (
-            "v1,Ceo5qEr07ixe2NLpvHk3FH9bwy/WavXrAFQ/9tdO6mc= "
-            "v2,Gur4pLd03kjn8RYtBm5eJ1aZx/CbVfSdTq/2gNhA8= "
-            + new_headers["webhook-signature"]
+            f"v1,Ceo5qEr07ixe2NLpvHk3FH9bwy/WavXrAFQ/9tdO6mc= v2,Gur4pLd03kjn8RYtBm5eJ1aZx/CbVfSdTq/2gNhA8= {new_headers['webhook-signature']}"
         )
         wh_utils.verify(wh_request.body, new_headers)
 
@@ -1909,7 +1907,7 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
         with self.assertRaises(WebhookVerificationError):
             new_headers = wh_headers.copy()
             new_headers["webhook-signature"] = (
-                new_headers["webhook-signature"][:-5] + "xxxxx"
+                f"{new_headers['webhook-signature'][:-5]}xxxxx"
             )
             wh_utils.verify(wh_request.body, new_headers)
 

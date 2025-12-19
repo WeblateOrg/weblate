@@ -527,9 +527,7 @@ def users_check(request: AuthenticatedHttpRequest) -> HttpResponse:
         )
         user_list = User.objects.search(query, parser=parser)[:2]
         if user_list.count() != 1:
-            return redirect_param(
-                "manage-users", "?q={}".format(quote(form.cleaned_data["q"]))
-            )
+            return redirect_param("manage-users", f"?q={quote(form.cleaned_data['q'])}")
         return redirect(user_list[0])
     return redirect("manage-users")
 

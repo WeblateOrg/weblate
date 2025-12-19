@@ -361,7 +361,7 @@ class EditValidationTest(ViewTestCase):
         """Merging with invalid parameter."""
         unit = self.get_unit()
         response = self.client.post(
-            unit.translation.get_translate_url() + "?checksum=" + unit.checksum,
+            f"{unit.translation.get_translate_url()}?checksum={unit.checksum}",
             {"merge": "invalid"},
             follow=True,
         )
@@ -373,7 +373,7 @@ class EditValidationTest(ViewTestCase):
         trans = self.component.translation_set.exclude(language_code="cs")[0]
         other = trans.unit_set.get(source=unit.source, context=unit.context)
         response = self.client.post(
-            unit.translation.get_translate_url() + "?checksum=" + unit.checksum,
+            f"{unit.translation.get_translate_url()}?checksum={unit.checksum}",
             {"merge": other.pk},
             follow=True,
         )
@@ -580,7 +580,7 @@ class EditPoMonoTest(EditTest):
         # Actual removal
         response = self.client.post(
             reverse("delete-unit", kwargs={"unit_id": unit.source_unit.pk}),
-            data={"next": self.translate_url + "?offset=3"},
+            data={"next": f"{self.translate_url}?offset=3"},
         )
         self.assertEqual(response.status_code, 302)
         self.assert_redirects_offset(response, self.translate_url, 3)
@@ -910,7 +910,7 @@ class EditComplexTest(ViewTestCase):
         unit = self.get_unit()
         # Try the merge
         response = self.client.post(
-            self.translate_url + "?checksum=" + unit.checksum, {"merge": unit.id}
+            f"{self.translate_url}?checksum={unit.checksum}", {"merge": unit.id}
         )
         self.assert_backend(1)
         # We should stay on same message
@@ -919,7 +919,7 @@ class EditComplexTest(ViewTestCase):
         # Test error handling
         unit2 = self.translation.unit_set.get(source="Thank you for using Weblate.")
         response = self.client.post(
-            self.translate_url + "?checksum=" + unit.checksum, {"merge": unit2.id}
+            f"{self.translate_url}?checksum={unit.checksum}", {"merge": unit2.id}
         )
         self.assertContains(response, "Could not find the merged string.")
 
@@ -939,7 +939,7 @@ class EditComplexTest(ViewTestCase):
         unit = self.get_unit()
         self.assertEqual(unit.all_checks_names, {"inconsistent"})
         self.client.post(
-            self.translate_url + "?checksum=" + unit.checksum, {"merge": unit.id}
+            f"{self.translate_url}?checksum={unit.checksum}", {"merge": unit.id}
         )
         self.assertEqual(
             set(units.values_list("target", flat=True)), {"Nazdar svete!\n"}

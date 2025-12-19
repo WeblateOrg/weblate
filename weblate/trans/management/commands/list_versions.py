@@ -45,7 +45,7 @@ class Command(BaseCommand):
         self.write_item(
             "Cache backends",
             ", ".join(
-                "{}:{}".format(key, value["BACKEND"].split(".")[-1])
+                f"{key}:{value['BACKEND'].split('.')[-1]}"
                 for key, value in settings.CACHES.items()
             ),
         )
@@ -58,11 +58,7 @@ class Command(BaseCommand):
         )
         self.write_item(
             "Celery",
-            "{}, {}, {}".format(
-                getattr(settings, "CELERY_BROKER_URL", "N/A"),
-                getattr(settings, "CELERY_RESULT_BACKEND", "N/A"),
-                "eager" if settings.CELERY_TASK_ALWAYS_EAGER else "regular",
-            ),
+            f"{getattr(settings, 'CELERY_BROKER_URL', 'N/A')}, {getattr(settings, 'CELERY_RESULT_BACKEND', 'N/A')}, {'eager' if settings.CELERY_TASK_ALWAYS_EAGER else 'regular'}",
         )
         self.write_item(
             "Platform",

@@ -441,7 +441,7 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
             group.get_absolute_url(),
             {"delete": group.pk},
         )
-        self.assertRedirects(response, self.access_url + "#teams")
+        self.assertRedirects(response, f"{self.access_url}#teams")
         self.assertFalse(Group.objects.filter(pk=group.pk).exists())
 
     def create_test_group(self):
@@ -459,7 +459,7 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
                 ),
             },
         )
-        self.assertRedirects(response, self.access_url + "#teams")
+        self.assertRedirects(response, f"{self.access_url}#teams")
         return Group.objects.get(name="Czech team")
 
     def test_create_group(self) -> None:
@@ -486,7 +486,7 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
                 ),
             },
         )
-        self.assertRedirects(response, self.access_url + "#teams")
+        self.assertRedirects(response, f"{self.access_url}#teams")
         group = Group.objects.get(name="All team")
         self.assertEqual(group.defining_project, self.project)
         self.assertEqual(group.language_selection, 1)

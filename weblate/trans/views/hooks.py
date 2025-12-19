@@ -272,7 +272,7 @@ class ServiceHookView(APIView):
                     repo__endswith=f"@{repo[8:]}"
                 )
             # Include URLs with trailing slash
-            spfilter |= Q(repo=repo + "/")
+            spfilter |= Q(repo=f"{repo}/")
 
         repo_components = Component.objects.filter(spfilter)
 
@@ -331,7 +331,7 @@ class ServiceHookView(APIView):
         updated_components = [obj.full_slug for obj in enabled_components]
 
         return self.hook_response(
-            "Update triggered: {}".format(", ".join(updated_components)),
+            f"Update triggered: {', '.join(updated_components)}",
             match_status=match_status,
             updated_components=updated_components,
         )
@@ -371,9 +371,9 @@ def bitbucket_extract_full_name(repository: dict) -> str:
     if "fullName" in repository:
         return repository["fullName"]
     if "owner" in repository and "slug" in repository:
-        return "{}/{}".format(repository["owner"], repository["slug"])
+        return f"{repository['owner']}/{repository['slug']}"
     if "project" in repository and "slug" in repository:
-        return "{}/{}".format(repository["project"]["key"], repository["slug"])
+        return f"{repository['project']['key']}/{repository['slug']}"
     msg = "Could not determine repository full name"
     raise ValueError(msg)
 
@@ -384,7 +384,7 @@ def bitbucket_extract_repo_url(data, repository: dict) -> str:
             return repository["links"]["html"]["href"]
         return repository["links"]["self"][0]["href"]
     if "canon_url" in data:
-        return "{}{}".format(data["canon_url"], repository["absolute_url"])
+        return f"{data['canon_url']}{repository['absolute_url']}"
     msg = "Could not determine repository URL"
     raise ValueError(msg)
 
@@ -522,7 +522,7 @@ def gitlab_hook_helper(data: dict, request: Request | None) -> HandlerResponse |
     if "ref" not in data:
         return None
     ssh_url = data["repository"]["url"]
-    http_url = ".".join((data["repository"]["homepage"], "git"))
+    http_url = f"{data['repository']['homepage']}.git"
     branch = re.sub(r"^refs/heads/", "", data["ref"])
 
     # Construct possible repository URLs

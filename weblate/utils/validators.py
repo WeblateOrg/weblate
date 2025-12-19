@@ -401,15 +401,7 @@ class WeblateServiceURLValidator(WeblateURLValidator):
     This is useful for using dockerized services.
     """
 
-    host_re = (
-        "("
-        + WeblateURLValidator.hostname_re
-        + WeblateURLValidator.domain_re
-        + WeblateURLValidator.tld_re
-        + "|"
-        + WeblateURLValidator.hostname_re
-        + ")"
-    )
+    host_re = f"({WeblateURLValidator.hostname_re}{WeblateURLValidator.domain_re}{WeblateURLValidator.tld_re}|{WeblateURLValidator.hostname_re})"
     regex = re.compile(
         r"^(?:[a-z0-9.+-]*)://"  # scheme is validated separately
         r"(?:[^\s:@/]+(?::[^\s:@/]*)?@)?"  # user:pass authentication

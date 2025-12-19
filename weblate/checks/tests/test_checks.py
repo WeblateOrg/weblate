@@ -188,7 +188,7 @@ class CheckTestCase(SimpleTestCase, ABC):
             raise SkipTest(msg)
         if lang is None:
             lang = self.default_lang
-        params = '"{}"/"{}" ({})'.format(*data)
+        params = f'"{data[0]}"/"{data[1]}" ({data[2]})'
 
         unit = MockUnit(None, data[2], lang, source=data[0])
 

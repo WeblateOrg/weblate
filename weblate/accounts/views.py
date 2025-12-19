@@ -382,7 +382,7 @@ def get_notification_forms(request: AuthenticatedHttpRequest):
         )
     for i in range(len(subscriptions), 200):
         prefix = NOTIFICATION_PREFIX_TEMPLATE.format(i)
-        if prefix + "-scope" in request.POST or i < len(subscriptions):
+        if f"{prefix}-scope" in request.POST or i < len(subscriptions):
             yield NotificationForm(
                 user=user,
                 show_default=i > 1,
@@ -637,7 +637,7 @@ def trial(request: AuthenticatedHttpRequest):
                 "best solution for you."
             ),
         )
-        return redirect(reverse("contact") + "?t=trial")
+        return redirect(f"{reverse('contact')}?t=trial")
 
     if request.method == "POST":
         from weblate.billing.models import Billing, BillingEvent, Plan
@@ -657,7 +657,7 @@ def trial(request: AuthenticatedHttpRequest):
                 "create your translation project and start Weblating!"
             ),
         )
-        return redirect(reverse("create-project") + f"?billing={billing.pk}")
+        return redirect(f"{reverse('create-project')}?billing={billing.pk}")
 
     return render(request, "accounts/trial.html", {"title": gettext("Gratis trial")})
 
@@ -681,26 +681,26 @@ class UserPage(UpdateView):
             self.group_form = GroupAddForm(request.POST)
             if self.group_form.is_valid():
                 user.add_team(request, self.group_form.cleaned_data["add_group"])
-                return HttpResponseRedirect(self.get_success_url() + "#groups")
+                return HttpResponseRedirect(f"{self.get_success_url()}#groups")
         if "remove_group" in request.POST:
             form = GroupRemoveForm(request.POST)
             if form.is_valid():
                 user.remove_team(request, form.cleaned_data["remove_group"])
-                return HttpResponseRedirect(self.get_success_url() + "#groups")
+                return HttpResponseRedirect(f"{self.get_success_url()}#groups")
         if "remove_user" in request.POST:
             remove_user(user, request, skip_notify=True)
-            return HttpResponseRedirect(self.get_success_url() + "#groups")
+            return HttpResponseRedirect(f"{self.get_success_url()}#groups")
 
         if "remove_2fa" in request.POST:
             for device in user.profile.second_factors:
                 key_name = get_key_name(device)
                 device.delete()
                 AuditLog.objects.create(user, None, "twofactor-remove", device=key_name)
-            return HttpResponseRedirect(self.get_success_url() + "#edit")
+            return HttpResponseRedirect(f"{self.get_success_url()}#edit")
 
         if "disable_password" in request.POST:
             lock_user(user, "admin-locked")
-            return HttpResponseRedirect(self.get_success_url() + "#edit")
+            return HttpResponseRedirect(f"{self.get_success_url()}#edit")
 
         return super().post(request, *args, **kwargs)
 
@@ -1266,15 +1266,11 @@ def mute(request: AuthenticatedHttpRequest, path):
             component=obj,
             project=None,
         )
-        return redirect(
-            "{}?notify_component={}#notifications".format(reverse("profile"), obj.pk)
-        )
+        return redirect(f"{reverse('profile')}?notify_component={obj.pk}#notifications")
     mute_real(
         request.user, scope=NotificationScope.SCOPE_PROJECT, component=None, project=obj
     )
-    return redirect(
-        "{}?notify_project={}#notifications".format(reverse("profile"), obj.pk)
-    )
+    return redirect(f"{reverse('profile')}?notify_project={obj.pk}#notifications")
 
 
 class SuggestionView(ListView):
@@ -1385,14 +1381,10 @@ def auth_fail(request: AuthenticatedHttpRequest, message: str):
 
 
 def registration_fail(request: AuthenticatedHttpRequest, message: str):
-    messages.error(request, gettext("Could not complete registration.") + " " + message)
+    messages.error(request, f"{gettext('Could not complete registration.')} {message}")
     messages.info(
         request,
-        gettext("Please check if you have already registered an account.")
-        + " "
-        + gettext(
-            "You can also request a new password, if you have lost your credentials."
-        ),
+        f"{gettext('Please check if you have already registered an account.')} {gettext('You can also request a new password, if you have lost your credentials.')}",
     )
 
     return redirect(reverse("login"))

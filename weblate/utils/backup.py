@@ -56,7 +56,7 @@ class BackupError(Exception):
 
 def make_password(length: int = 50):
     generator = SystemRandom()
-    chars = string.ascii_letters + string.digits + "!@#$%^&*()"
+    chars = f"{string.ascii_letters}{string.digits}!@#$%^&*()"
     return "".join(generator.choice(chars) for i in range(length))
 
 

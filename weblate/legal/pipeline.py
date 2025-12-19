@@ -23,11 +23,7 @@ def tos_confirm(strategy, backend, user: User, current_partial, **kwargs):
     if not agreement.is_current():
         if user:
             strategy.request.session["tos_user"] = user.pk
-        url = "{}?partial_token={}".format(
-            reverse("social:complete", args=(backend.name,)), current_partial.token
-        )
-        return redirect(
-            "{}?{}".format(reverse("legal:confirm"), urlencode({"next": url}))
-        )
+        url = f"{reverse('social:complete', args=(backend.name,))}?partial_token={current_partial.token}"
+        return redirect(f"{reverse('legal:confirm')}?{urlencode({'next': url})}")
     strategy.request.session.pop("tos_user", None)
     return None

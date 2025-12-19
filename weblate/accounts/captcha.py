@@ -73,7 +73,7 @@ class MathCaptcha:
         if operation == "-":
             first += self.interval[1]
 
-        return str(first) + " " + operation + " " + str(second)
+        return f"{first!s} {operation} {second!s}"
 
     @staticmethod
     def unserialize(value):

@@ -116,17 +116,11 @@ class TeamUpdateView(UpdateView):
 
     def handle_delete(self, request: AuthenticatedHttpRequest):
         if self.object.defining_project:
-            fallback = (
-                reverse(
-                    "manage-access",
-                    kwargs={"project": self.object.defining_project.slug},
-                )
-                + "#teams"
-            )
+            fallback = f"{reverse('manage-access', kwargs={'project': self.object.defining_project.slug})}#teams"
         elif request.user.is_superuser:
             fallback = reverse("manage-teams")
         else:
-            fallback = reverse("manage_access") + "#teams"
+            fallback = f"{reverse('manage_access')}#teams"
         if self.object.internal and not self.object.defining_project:
             messages.error(request, gettext("Cannot remove built-in team!"))
         else:
