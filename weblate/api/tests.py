@@ -99,7 +99,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         if self.user.is_superuser != superuser:
             self.user.is_superuser = superuser
             self.user.save()
-        self.client.credentials(HTTP_AUTHORIZATION="Token " + self.user.auth_token.key)
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.user.auth_token.key}")
 
     def do_request(
         self,
@@ -726,7 +726,7 @@ class GroupAPITest(APIBaseTest):
         self.assertEqual(group.defining_project, self.component.project)
 
         admin = User.objects.create_user("admin", "admin@example.com")
-        self.client.credentials(HTTP_AUTHORIZATION="Token " + admin.auth_token.key)
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {admin.auth_token.key}")
 
         # serializer validation fails before perm check even happens causing 400 error
         # if trying to use a project without permissions
@@ -2055,8 +2055,7 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(response.data["repo"], repo_url)
         self.assertEqual(
             response.data["linked_component"],
-            "http://example.com"
-            + reverse("api:component-detail", kwargs=self.component_kwargs),
+            f"http://example.com{reverse('api:component-detail', kwargs=self.component_kwargs)}",
         )
 
     def test_create_component_empty_push(self) -> None:
@@ -2086,8 +2085,7 @@ class ProjectAPITest(APIBaseTest):
         self.assertEqual(response.data["repo"], repo_url)
         self.assertEqual(
             response.data["linked_component"],
-            "http://example.com"
-            + reverse("api:component-detail", kwargs=self.component_kwargs),
+            f"http://example.com{reverse('api:component-detail', kwargs=self.component_kwargs)}",
         )
 
     def test_create_component_no_match(self) -> None:
@@ -5362,7 +5360,7 @@ class UnitAPITest(APIBaseTest):
         user2 = User.objects.create_user(
             "commentimport", "commentimport@example.org", "x"
         )
-        self.client.credentials(HTTP_AUTHORIZATION="Token " + user2.auth_token.key)
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {user2.auth_token.key}")
         response = self.do_request(
             reverse("api:unit-comments", kwargs={"pk": unit.pk}),
             request={
@@ -6312,7 +6310,7 @@ class CategoryAPITest(APIBaseTest):
         self.assertEqual(component.get_url_path(), ("test", "category-test", "test"))
 
         # Verify that browsing translations works
-        response = self.do_request(response.data["url"] + "translations/")
+        response = self.do_request(f"{response.data['url']}translations/")
         self.assertEqual(response.data["count"], 4)
 
         for translation in response.data["results"]:

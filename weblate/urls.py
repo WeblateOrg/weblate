@@ -68,7 +68,7 @@ widget_pattern = "<word:widget>-<word:color>.<extension:extension>"
 
 URL_PREFIX = settings.URL_PREFIX
 if URL_PREFIX:
-    URL_PREFIX = URL_PREFIX.strip("/") + "/"
+    URL_PREFIX = f"{URL_PREFIX.strip('/')}/"
 
 real_patterns = [
     path("", weblate.trans.views.dashboard.home, name="home"),
@@ -879,21 +879,21 @@ real_patterns = [
     re_path(
         r"^(android-chrome|favicon)-(?P<size>192|512)x(?P=size)\.png$",
         RedirectView.as_view(
-            url=settings.STATIC_URL + "weblate-%(size)s.png",
+            url=f"{settings.STATIC_URL}weblate-%(size)s.png",
             permanent=True,
         ),
     ),
     path(
         "apple-touch-icon.png",
         RedirectView.as_view(
-            url=settings.STATIC_URL + "weblate-180.png",
+            url=f"{settings.STATIC_URL}weblate-180.png",
             permanent=True,
         ),
     ),
     path(
         "favicon.ico",
         RedirectView.as_view(
-            url=settings.STATIC_URL + "favicon.ico",
+            url=f"{settings.STATIC_URL}favicon.ico",
             permanent=True,
         ),
     ),

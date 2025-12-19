@@ -431,7 +431,7 @@ def guess_filemask_from_doc(data, docfile=None) -> None:
     if not ext and "file_format" in data and data["file_format"] in FILE_FORMATS:
         ext = FILE_FORMATS[data["file_format"]].extension()
 
-    data["filemask"] = "{}/{}{}".format(data.get("slug", "translations"), "*", ext)
+    data["filemask"] = f"{data.get('slug', 'translations')}/*{ext}"
 
 
 def create_component_from_doc(data, docfile, target_language: Language | None = None):

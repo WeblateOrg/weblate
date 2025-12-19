@@ -35,10 +35,10 @@ class CharacterRangeEmitter:
         self.charset = "".join(dict.fromkeys(chars).keys())
 
     def __str__(self) -> str:
-        return "[" + self.charset + "]"
+        return f"[{self.charset}]"
 
     def __repr__(self) -> str:
-        return "[" + self.charset + "]"
+        return f"[{self.charset}]"
 
     def make_generator(self):
         def gen_chars():
@@ -103,10 +103,10 @@ class LiteralEmitter:
         self.lit = lit
 
     def __str__(self) -> str:
-        return "Lit:" + self.lit
+        return f"Lit:{self.lit}"
 
     def __repr__(self) -> str:
-        return "Lit:" + self.lit
+        return f"Lit:{self.lit}"
 
     def make_generator(self):
         def lit_gen():
@@ -211,7 +211,7 @@ def get_parser():
     re_boundary = cflex | dollar
     repetition = (
         (lbrace + Word(nums)("count") + rbrace)
-        | (lbrace + Word(nums)("minCount") + "," + Word(nums)("maxCount") + rbrace)
+        | (f"{lbrace}{Word(nums)('minCount')},{Word(nums)('maxCount')}{rbrace}")
         | one_of(list("*+?"))
     )
 

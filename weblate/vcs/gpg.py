@@ -21,10 +21,8 @@ def gpg_error(name: str, error: Exception, silent: bool = False) -> None:
     report_error(name)
 
     if not silent:
-        GPG_ERRORS[name] = "{}\n{}\n{}".format(
-            cleanup_error_message(str(error)),
-            cleanup_error_message(getattr(error, "stderr", "")),
-            cleanup_error_message(getattr(error, "stdout", "")),
+        GPG_ERRORS[name] = (
+            f"{cleanup_error_message(str(error))}\n{cleanup_error_message(getattr(error, 'stderr', ''))}\n{cleanup_error_message(getattr(error, 'stdout', ''))}"
         )
 
 
@@ -85,9 +83,7 @@ def get_gpg_key(silent=False) -> str | None:
 
 
 def gpg_cache_key(suffix: str) -> str:
-    return "gpg:{}:{}".format(
-        siphash("Weblate GPG hash", settings.WEBLATE_GPG_IDENTITY), suffix
-    )
+    return f"gpg:{siphash('Weblate GPG hash', settings.WEBLATE_GPG_IDENTITY)}:{suffix}"
 
 
 def get_gpg_sign_key() -> str | None:

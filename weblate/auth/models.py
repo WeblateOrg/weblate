@@ -537,7 +537,9 @@ class User(AbstractBaseUser):
         # This is needed with LDAP authentication when the
         # server does not contain full name
         if "first_name" in self.extra_data and "last_name" in self.extra_data:
-            self.full_name = "{first_name} {last_name}".format(**self.extra_data)
+            self.full_name = (
+                f"{self.extra_data['first_name']} {self.extra_data['last_name']}"
+            )
         elif "first_name" in self.extra_data:
             self.full_name = self.extra_data["first_name"]
         elif "last_name" in self.extra_data:

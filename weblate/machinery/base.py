@@ -333,7 +333,7 @@ class BatchMachineTranslation:
     def make_re_placeholder(self, text: str) -> str:
         """Convert placeholder into a regular expression."""
         # Allow additional space before ]
-        return re.escape(text[:-1]) + " *" + re.escape(text[-1:])
+        return f"{re.escape(text[:-1])} *{re.escape(text[-1:])}"
 
     def format_replacement(
         self, h_start: int, h_end: int, h_text: str, h_kind: Unit | None

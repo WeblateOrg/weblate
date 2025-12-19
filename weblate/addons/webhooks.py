@@ -200,7 +200,7 @@ class SlackWebhookAddon(JSONWebhookBaseAddon):
     def build_webhook_payload(self, change: Change) -> PayloadType:
         message_header = ""
         if change.path_object:
-            message_header += key_name(change.path_object) + " - "
+            message_header += f"{key_name(change.path_object)} - "
         message_header += change.get_action_display()
         payload: dict[str, list] = {
             "blocks": [

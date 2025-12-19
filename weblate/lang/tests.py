@@ -305,9 +305,7 @@ class LanguageTestSequenceMeta(type):
             return test
 
         for params in TEST_LANGUAGES:
-            test_name = "test_create_{}".format(
-                params[0].replace("@", "___").replace("+", "_").replace("-", "__")
-            )
+            test_name = f"test_create_{params[0].replace('@', '___').replace('+', '_').replace('-', '__')}"
             if test_name in dict:
                 msg = f"Duplicate test: {params[0]}, mapped to {test_name}"
                 raise ValueError(msg)
@@ -612,7 +610,7 @@ class LanguagesViewTest(FixtureTestCase):
             {"number": "2", "formula": "n != 1"},
         )
         self.assertRedirects(
-            response, reverse("show_language", kwargs={"lang": "cs"}) + "#information"
+            response, f"{reverse('show_language', kwargs={'lang': 'cs'})}#information"
         )
 
 

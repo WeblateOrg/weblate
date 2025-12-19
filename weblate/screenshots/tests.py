@@ -411,7 +411,7 @@ class ScreenshotVCSTest(APITestCase, RepoTestCase):
         self.user = create_test_user()
         self.user.is_superuser = True
         self.user.save()
-        self.client.credentials(HTTP_AUTHORIZATION="Token " + self.user.auth_token.key)
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {self.user.auth_token.key}")
         self.client.login(username="testuser", password="testpassword")
 
         self.component = self._create_component(

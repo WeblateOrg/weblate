@@ -54,7 +54,7 @@ def get_fallback_avatar(size: int) -> bytes:
 def get_avatar_image(user: User, size: int) -> bytes:
     """Return avatar image from cache (if available) or download it."""
     username = user.username
-    cache_key = "-".join(("avatar-img", username, str(size)))
+    cache_key = f"avatar-img-{username}-{size!s}"
 
     # Try using avatar specific cache if available
     try:

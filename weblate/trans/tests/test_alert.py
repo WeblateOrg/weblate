@@ -79,7 +79,7 @@ class AlertTest(ViewTestCase):
             reverse("dismiss-alert", kwargs=self.kw_component),
             {"dismiss": "BrokenBrowserURL"},
         )
-        self.assertRedirects(response, self.component.get_absolute_url() + "#alerts")
+        self.assertRedirects(response, f"{self.component.get_absolute_url()}#alerts")
         self.assertTrue(self.component.alert_set.get(name="BrokenBrowserURL").dismissed)
 
     def test_view(self) -> None:

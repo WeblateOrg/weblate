@@ -55,7 +55,7 @@ class YoudaoTranslation(MachineTranslation):
         super().check_failure(response)
         payload = response.json()
         if int(payload["errorCode"]) != 0:
-            msg = "Error code: {}".format(payload["errorCode"])
+            msg = f"Error code: {payload['errorCode']}"
             raise MachineTranslationError(msg)
 
     def download_translations(

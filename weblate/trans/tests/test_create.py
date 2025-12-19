@@ -197,7 +197,7 @@ class CreateTest(ViewTestCase):
         self.component.save()
 
         response = self.client.get(
-            reverse("create-component") + f"?component={self.component.pk}#existing",
+            f"{reverse('create-component')}?component={self.component.pk}#existing",
             follow=True,
         )
         # init step
@@ -223,8 +223,7 @@ class CreateTest(ViewTestCase):
 
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             response = self.client.post(
-                reverse("create-component-vcs")
-                + f"?source_component={self.component.pk}#existing,",
+                f"{reverse('create-component-vcs')}?source_component={self.component.pk}#existing,",
                 {
                     "name": "Create Component From Existing",
                     "slug": "create-component-from-existing",
@@ -244,8 +243,7 @@ class CreateTest(ViewTestCase):
 
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             response = self.client.post(
-                reverse("create-component-vcs")
-                + f"?source_component={self.component.pk}#existing,",
+                f"{reverse('create-component-vcs')}?source_component={self.component.pk}#existing,",
                 {
                     "name": "Create Component From Existing",
                     "slug": "create-component-from-existing",

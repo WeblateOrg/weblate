@@ -218,7 +218,7 @@ class PoXliffExporterTest(PoExporterTest):
             id="app_name">
             %1$s
         </xliff:g>"""
-        result = self.check_unit(source="x " + xml, target="y " + xml).decode()
+        result = self.check_unit(source=f"x {xml}", target=f"y {xml}").decode()
         self.assertIn("<g", result)
 
     def test_html(self) -> None:
@@ -244,7 +244,7 @@ class CLASSNAME extends BASECLASS {
  }
 }
 ?>"""
-        result = self.check_unit(source="x " + text, target="y " + text).decode()
+        result = self.check_unit(source=f"x {text}", target=f"y {text}").decode()
         self.assertIn("&lt;?php", result)
 
 

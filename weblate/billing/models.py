@@ -643,9 +643,7 @@ class Invoice(models.Model):
             overlapping = overlapping.exclude(pk=self.pk)
 
         if overlapping.exists():
-            msg = "Overlapping invoices exist: {}".format(
-                format_html_join_comma("{}", list_to_tuples(overlapping))
-            )
+            msg = f"Overlapping invoices exist: {format_html_join_comma('{}', list_to_tuples(overlapping))}"
             raise ValidationError(msg)
 
 

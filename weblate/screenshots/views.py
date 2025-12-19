@@ -433,7 +433,7 @@ def get_tesseract(language: Language) -> Generator[PyTessBaseAPI]:
     ensure_tesseract_language(tess_language)
 
     with PyTessBaseAPI(
-        path=data_dir("cache", "tesseract") + "/",
+        path=f"{data_dir('cache', 'tesseract')}/",
         psm=PSM.SPARSE_TEXT_OSD,
         oem=OEM.LSTM_ONLY,
         lang=tess_language,

@@ -582,9 +582,7 @@ class CreateComponentSelection(CreateComponent):
         self.request.session[SESSION_CREATE_KEY] = kwargs
 
         return redirect(
-            "{}?{}".format(
-                reverse("create-component-vcs"), urlencode({SESSION_CREATE_KEY: 1})
-            )
+            f"{reverse('create-component-vcs')}?{urlencode({SESSION_CREATE_KEY: 1})}"
         )
 
     def form_valid(self, form):

@@ -145,9 +145,7 @@ def send_validation(strategy, backend, code, partial_token) -> None:
         session.create()
     session["registration-email-sent"] = True
 
-    url = "{}?verification_code={}&partial_token={}".format(
-        reverse("social:complete", args=(backend.name,)), code.code, partial_token
-    )
+    url = f"{reverse('social:complete', args=(backend.name,))}?verification_code={code.code}&partial_token={partial_token}"
 
     context = {"url": url, "validity": settings.AUTH_TOKEN_VALID // 3600}
 
@@ -576,9 +574,7 @@ def second_factor(strategy, backend, user: User, current_partial, **kwargs):
         strategy.request.session[SESSION_SECOND_FACTOR_USER] = (user.id, "")
         strategy.request.session[SESSION_SECOND_FACTOR_SOCIAL] = True
         # Redirect to second factor login
-        continue_url = "{}?partial_token={}".format(
-            reverse("social:complete", args=(backend.name,)), current_partial.token
-        )
+        continue_url = f"{reverse('social:complete', args=(backend.name,))}?partial_token={current_partial.token}"
         login_params = {"next": continue_url}
         login_url = reverse(
             "2fa-login", kwargs={"backend": user.profile.get_second_factor_type()}

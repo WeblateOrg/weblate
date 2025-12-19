@@ -323,5 +323,5 @@ class GenerateMoGuideline(AddonGuideline):
             return False
         if not translation.filename.endswith(".po"):
             return False
-        mofilename = translation.get_filename()[:-3] + ".mo"
+        mofilename = f"{translation.get_filename()[:-3]}.mo"
         return os.path.exists(mofilename)

@@ -259,9 +259,9 @@ class UnitQuerySet(models.QuerySet["Unit"]):
                     sign = "-" if choice[0] == "-" else ""
                     sort_list.extend(
                         [
-                            sign + "translation__component__priority",
-                            sign + "translation__component__is_glossary",
-                            sign + "translation__component__name",
+                            f"{sign}translation__component__priority",
+                            f"{sign}translation__component__is_glossary",
+                            f"{sign}translation__component__name",
                         ]
                     )
                     continue

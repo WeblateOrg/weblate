@@ -17,7 +17,7 @@ class ProjectTokenTest(ViewTestCase):
         super().setUp()
         self.project.access_control = Project.ACCESS_PRIVATE
         self.project.save()
-        self.access_url = reverse("manage-access", kwargs=self.kw_project) + "#api"
+        self.access_url = f"{reverse('manage-access', kwargs=self.kw_project)}#api"
 
     def create_token(self):
         self.make_manager()

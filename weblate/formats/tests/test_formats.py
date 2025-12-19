@@ -1297,7 +1297,7 @@ class XWikiPropertiesFormatTest(PropertiesFormatTest):
 
         expected = Path(TEST_XWIKI_PROPERTIES_NEW_LANGUAGE).read_text(encoding="utf-8")
 
-        self.assertEqual(expected + "\n", newdata)
+        self.assertEqual(f"{expected}\n", newdata)
 
 
 class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):

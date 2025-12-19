@@ -176,12 +176,12 @@ class Command(BaseCommand):
 
         # Is file format supported?
         if self.file_format not in FILE_FORMATS:
-            msg = "Invalid file format: {}".format(options["file_format"])
+            msg = f"Invalid file format: {options['file_format']}"
             raise CommandError(msg)
 
         # Is vcs supported?
         if self.vcs not in VCS_REGISTRY:
-            msg = "Invalid vcs: {}".format(options["vcs"])
+            msg = f"Invalid vcs: {options['vcs']}"
             raise CommandError(msg)
 
         # Do we have correct mask?
@@ -222,9 +222,7 @@ class Command(BaseCommand):
         try:
             project = Project.objects.get(slug=options["project"])
         except Project.DoesNotExist as error:
-            msg = 'Project "{}" not found, please create it first!'.format(
-                options["project"]
-            )
+            msg = f'Project "{options["project"]}" not found, please create it first!'
             raise CommandError(msg) from error
 
         # Get or create main component

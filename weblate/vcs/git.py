@@ -749,7 +749,7 @@ class SubversionRepository(GitRepository):
         result = ["--prefix=origin/", "--", source, target]
         if cls.is_stdlayout(source):
             result.insert(0, "--stdlayout")
-            revision = cls.get_last_repo_revision(source + "/trunk/")
+            revision = cls.get_last_repo_revision(f"{source}/trunk/")
         else:
             revision = cls.get_last_repo_revision(source)
         if revision:
@@ -1102,11 +1102,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         return urlunparse(
             (
                 parsed_url[0],
-                "{}:{}@{}".format(
-                    urllib.parse.quote(credentials["username"], safe=""),
-                    urllib.parse.quote(credentials["token"], safe=""),
-                    parsed_url[1],
-                ),
+                f"{urllib.parse.quote(credentials['username'], safe='')}:{urllib.parse.quote(credentials['token'], safe='')}@{parsed_url[1]}",
                 *parsed_url[2:],
             )
         )
@@ -1324,6 +1320,9 @@ class GitMergeRequestBase(GitForcePushRepository):
         """
         response.raise_for_status()
 
+    def get_random_suffix(self) -> str:
+        return str(random.randint(1000, 9999))  # noqa: S311
+
 
 class AzureDevOpsRepository(GitMergeRequestBase):
     name: ClassVar[StrOrPromise] = gettext_lazy("Azure DevOps pull request")
@@ -1380,7 +1379,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
         # https urls have /_git/ between owner and slug
         if "/_git/" in slug:
             parts = slug.split("/_git/")
-            owner = owner + "/" + parts[0]  # we want owner to be org/project
+            owner = f"{owner}/{parts[0]}"  # we want owner to be org/project
             slug = parts[1]
 
         else:
@@ -1388,7 +1387,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
             if "/" in slug:
                 parts = slug.split("/")
 
-                owner = owner + "/" + parts[0]  # we want owner to be org/project
+                owner = f"{owner}/{parts[0]}"  # we want owner to be org/project
                 slug = parts[1]
 
         return (scheme, username, password, host, owner, slug)
@@ -1441,10 +1440,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
         )
 
         if "TF400948" in error:  # A Git repository with the name already exists
-            fork_name = "{}-{}".format(
-                credentials["slug"],
-                random.randint(1000, 9999),  # noqa: S311
-            )
+            fork_name = f"{credentials['slug']}-{self.get_random_suffix()}"
 
             request["name"] = fork_name
             response_data, response, error = self.request(
@@ -1481,15 +1477,15 @@ class AzureDevOpsRepository(GitMergeRequestBase):
         fork_branch: str,
         retry_fork: bool = True,
     ) -> None:
-        pr_url = "{}/pullrequests".format(credentials["url"])
+        pr_url = f"{credentials['url']}/pullrequests"
         title, description = self.get_merge_message()
 
         work_item_ids = self.get_credentials()["workItemIds"]
         work_item_refs = [{"id": str(ref)} for ref in work_item_ids]
 
         request = {
-            "sourceRefName": "refs/heads/" + fork_branch,
-            "targetRefName": "refs/heads/" + origin_branch,
+            "sourceRefName": f"refs/heads/{fork_branch}",
+            "targetRefName": f"refs/heads/{origin_branch}",
             "title": title,
             "description": description,
             "workItemRefs": work_item_refs,
@@ -1543,7 +1539,7 @@ class AzureDevOpsRepository(GitMergeRequestBase):
         return None
 
     def __get_forks(self, credentials: GitCredentials) -> list:
-        forks_url = "{}/forks/{}".format(credentials["url"], self.__get_org_id())
+        forks_url = f"{credentials['url']}/forks/{self.__get_org_id()}"
         response_data, response, error = self.request("get", credentials, forks_url)
 
         if response.status_code != 200:
@@ -1629,7 +1625,7 @@ class GithubRepository(GitMergeRequestBase):
         return False
 
     def create_fork(self, credentials: GitCredentials) -> None:
-        fork_url = "{}/forks".format(credentials["url"])
+        fork_url = f"{credentials['url']}/forks"
 
         # GitHub API returns the entire data of the fork, in case the fork
         # already exists. Hence, this is perfectly handled, if the fork already
@@ -1661,7 +1657,7 @@ class GithubRepository(GitMergeRequestBase):
             head = fork_branch
         else:
             head = f"{fork_remote}:{fork_branch}"
-        pr_url = "{}/pulls".format(credentials["url"])
+        pr_url = f"{credentials['url']}/pulls"
         title, description = self.get_merge_message()
         request = {
             "head": head,
@@ -1713,7 +1709,7 @@ class GiteaRepository(GitMergeRequestBase):
     )
 
     def create_fork(self, credentials: GitCredentials) -> None:
-        fork_url = "{}/forks".format(credentials["url"])
+        fork_url = f"{credentials['url']}/forks"
 
         # Empty json body is required here, otherwise we'll get an
         # "Empty Content-Type" error from gitea.
@@ -1754,7 +1750,7 @@ class GiteaRepository(GitMergeRequestBase):
             head = fork_branch
         else:
             head = f"{fork_remote}:{fork_branch}"
-        pr_url = "{}/pulls".format(credentials["url"])
+        pr_url = f"{credentials['url']}/pulls"
         title, description = self.get_merge_message()
         request = {
             "head": head,
@@ -1953,8 +1949,8 @@ class GitLabRepository(GitMergeRequestBase):
             raise RepositoryError(0, f"Could not modify fork {error}")
 
     def create_fork(self, credentials: GitCredentials) -> None:
-        get_fork_url = "{}/forks?owned=True".format(credentials["url"])
-        fork_url = "{}/fork".format(credentials["url"])
+        get_fork_url = f"{credentials['url']}/forks?owned=True"
+        fork_url = f"{credentials['url']}/fork"
         forked_repo = None
 
         # Check if a fork already exists owned by the current user.
@@ -1976,9 +1972,8 @@ class GitLabRepository(GitMergeRequestBase):
                 "ssh_url_to_repo" not in response_data
                 and "has already been taken" in error
             ):
-                fork_name = "{}-{}".format(
-                    credentials["url"].split("%2F")[-1],
-                    random.randint(1000, 9999),  # noqa: S311
+                fork_name = (
+                    f"{credentials['url'].split('%2F')[-1]}-{self.get_random_suffix()}"
                 )
                 forked_repo, response, error = self.request(
                     "post",
@@ -2016,7 +2011,7 @@ class GitLabRepository(GitMergeRequestBase):
         Use to merge branch in forked repository into branch of remote repository.
         """
         target_project_id = None
-        pr_url = "{}/merge_requests".format(credentials["url"])
+        pr_url = f"{credentials['url']}/merge_requests"
         if fork_remote != "origin":
             # GitLab MR works a little differently from GitHub. The MR needs
             # to be sent with the fork's API URL along with a parameter mentioning
@@ -2050,7 +2045,7 @@ class PagureRepository(GitMergeRequestBase):
     )
 
     def create_fork(self, credentials: GitCredentials) -> None:
-        fork_url = "{}/fork".format(credentials["url"])
+        fork_url = f"{credentials['url']}/fork"
 
         base_params = {
             "repo": credentials["slug"],
@@ -2083,8 +2078,8 @@ class PagureRepository(GitMergeRequestBase):
             )
 
         self.configure_fork_remote(
-            "ssh://git@{hostname}/forks/{username}/{slug}.git".format(**credentials),
-            "https://{hostname}/forks/{username}/{slug}.git".format(**credentials),
+            f"ssh://git@{credentials['hostname']}/forks/{credentials['username']}/{credentials['slug']}.git",
+            f"https://{credentials['hostname']}/forks/{credentials['username']}/{credentials['slug']}.git",
             credentials,
         )
 
@@ -2103,13 +2098,13 @@ class PagureRepository(GitMergeRequestBase):
         into a branch of the remote repository.
         """
         if credentials["owner"]:
-            pr_list_url = "{url}/{owner}/{slug}/pull-requests".format(**credentials)
-            pr_create_url = "{url}/{owner}/{slug}/pull-request/new".format(
-                **credentials
-            )
+            pr_list_url = f"{credentials['url']}/{credentials['owner']}/{credentials['slug']}/pull-requests"
+            pr_create_url = f"{credentials['url']}/{credentials['owner']}/{credentials['slug']}/pull-request/new"
         else:
-            pr_list_url = "{url}/{slug}/pull-requests".format(**credentials)
-            pr_create_url = "{url}/{slug}/pull-request/new".format(**credentials)
+            pr_list_url = f"{credentials['url']}/{credentials['slug']}/pull-requests"
+            pr_create_url = (
+                f"{credentials['url']}/{credentials['slug']}/pull-request/new"
+            )
 
         # List existing pull requests
         response_data, _response, error_message = self.request(
@@ -2330,7 +2325,7 @@ class BitbucketCloudRepository(GitMergeRequestBase):
 
     def get_default_reviewers_uuids(self, credentials: GitCredentials) -> list[str]:
         """Get a list of uuids of default reviewers for a repository."""
-        list_reviewers_url = "{}/default-reviewers".format(credentials["url"])
+        list_reviewers_url = f"{credentials['url']}/default-reviewers"
         try:
             reviewers = self.build_full_paginated_result(
                 credentials, list_reviewers_url, "Reviewers listing error: "
@@ -2382,7 +2377,7 @@ class BitbucketCloudRepository(GitMergeRequestBase):
 
         Returns the PR data is PR already exists
         """
-        pr_url = "{}/pullrequests".format(credentials["url"])
+        pr_url = f"{credentials['url']}/pullrequests"
         title, description = self.get_merge_message()
 
         payload = {
@@ -2422,7 +2417,7 @@ class BitbucketCloudRepository(GitMergeRequestBase):
         If it does, it will use that fork.
         If not, it will create a new fork.
         """
-        fork_url = "{}/forks".format(credentials["url"])
+        fork_url = f"{credentials['url']}/forks"
         payload: dict[str, str | dict[str, str]] = {
             "workspace": {"slug": credentials["workspace"]}
         }
@@ -2441,10 +2436,7 @@ class BitbucketCloudRepository(GitMergeRequestBase):
 
             # if name is already taken, append an numeric value at the end
             if "already has a repository with this name" in error:
-                fork_name = "{}-{}".format(
-                    credentials["slug"],
-                    random.randint(1000, 9999),  # noqa: S311
-                )
+                fork_name = f"{credentials['slug']}-{self.get_random_suffix()}"
                 payload["name"] = fork_name
 
                 response_data, response, error = self.request(
@@ -2480,7 +2472,7 @@ class BitbucketCloudRepository(GitMergeRequestBase):
 
     def list_repo_forks(self, credentials: GitCredentials) -> list[dict[str, Any]]:
         """List all forks of a repository."""
-        list_forks_url = "{}/forks".format(credentials["url"])
+        list_forks_url = f"{credentials['url']}/forks"
         return self.build_full_paginated_result(
             credentials, list_forks_url, "Forks listing error: "
         )

@@ -92,7 +92,7 @@ class BaiduTranslation(MachineTranslation):
             else:
                 if error_code == 54003:
                     raise MachineryRateLimitError(payload["error_msg"])
-            msg = "Error {error_code}: {error_msg}".format(**payload)
+            msg = f"Error {payload['error_code']}: {payload['error_msg']}"
             raise MachineTranslationError(msg)
         super().check_failure(response)
 

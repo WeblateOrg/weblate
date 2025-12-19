@@ -42,7 +42,7 @@ SITE_DOMAIN = get_env_str("WEBLATE_SITE_DOMAIN", required=True)
 ENABLE_HTTPS = get_env_bool("WEBLATE_ENABLE_HTTPS")
 
 # Site URL
-SITE_URL = "{}://{}".format("https" if ENABLE_HTTPS else "http", SITE_DOMAIN)
+SITE_URL = f"{'https' if ENABLE_HTTPS else 'http'}://{SITE_DOMAIN}"
 
 #
 # Django settings for Weblate project.
@@ -1361,10 +1361,7 @@ SILENCED_SYSTEM_CHECKS.extend(get_env_list("WEBLATE_SILENCED_SYSTEM_CHECKS"))
 CELERY_TASK_ALWAYS_EAGER = get_env_bool("WEBLATE_CELERY_EAGER")
 CELERY_BROKER_URL = REDIS_URL
 if REDIS_URL.startswith("rediss://"):
-    CELERY_BROKER_URL = "{}?ssl_cert_reqs={}".format(
-        CELERY_BROKER_URL,
-        "CERT_REQUIRED" if get_env_bool("REDIS_VERIFY_SSL", True) else "CERT_NONE",
-    )
+    CELERY_BROKER_URL = f"{CELERY_BROKER_URL}?ssl_cert_reqs={'CERT_REQUIRED' if get_env_bool('REDIS_VERIFY_SSL', True) else 'CERT_NONE'}"
 CELERY_RESULT_BACKEND = CELERY_BROKER_URL
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 CELERY_BROKER_CONNECTION_RETRY = True

@@ -2211,7 +2211,7 @@ class Component(
         return True
 
     def get_repo_link_url(self):
-        return "weblate://{}".format("/".join(self.get_url_path()))
+        return f"weblate://{'/'.join(self.get_url_path())}"
 
     @cached_property
     def linked_children(self) -> ComponentQuerySet:
@@ -4248,7 +4248,7 @@ class Component(
         try:
             return self.repository.status()
         except RepositoryError as error:
-            return "{}\n\n{}".format(gettext("Could not get repository status!"), error)
+            return f"{gettext('Could not get repository status!')}\n\n{error}"
 
     def update_enforced_checks(self) -> None:
         units = Unit.objects.filter(

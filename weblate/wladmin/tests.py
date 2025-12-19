@@ -82,7 +82,7 @@ class AdminTest(ViewTestCase):
         self.assertEqual(check_data_writable(app_configs=None, databases=None), [])
         oldpath = os.environ["PATH"]
         try:
-            os.environ["PATH"] = ":".join((get_test_file(""), os.environ["PATH"]))
+            os.environ["PATH"] = f"{get_test_file('')}:{os.environ['PATH']}"
             # Verify there is button for adding
             response = self.client.get(reverse("manage-ssh"))
             self.assertContains(response, "Add host key")
@@ -222,7 +222,7 @@ class AdminTest(ViewTestCase):
         response = self.client.get(
             reverse("manage-users-check"), {"email": "nonexisting"}, follow=True
         )
-        self.assertRedirects(response, reverse("manage-users") + "?q=nonexisting")
+        self.assertRedirects(response, f"{reverse('manage-users')}?q=nonexisting")
 
     @override_settings(
         EMAIL_HOST="nonexisting.weblate.org",
