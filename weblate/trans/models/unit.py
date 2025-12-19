@@ -56,6 +56,7 @@ from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
     STATE_FUZZY,
+    STATE_NEEDS_CHECKING,
     STATE_NEEDS_REWRITING,
     STATE_READONLY,
     STATE_TRANSLATED,
@@ -1059,11 +1060,11 @@ class Unit(models.Model, LoggerMixin):
                     # Store previous source and fuzzy flag for monolingual
                     if not previous_source:
                         source_change = previous_source = self.source
-                        # Keep prevoious source if already set in case source
+                        # Keep previous source if already set in case source
                         # changes multiple times
                         if self.previous_source:
                             previous_source = self.previous_source
-                    state = STATE_FUZZY
+                    state = STATE_NEEDS_REWRITING
                 pending = True
             elif (
                 comparison_state["state"] in FUZZY_STATES
@@ -1534,9 +1535,9 @@ class Unit(models.Model, LoggerMixin):
                     unit.previous_source = ""
                 elif unit.state >= STATE_TRANSLATED and unit.target:
                     # Set fuzzy on changed
-                    unit.original_state = STATE_NEEDS_REWRITING
+                    unit.original_state = STATE_NEEDS_CHECKING
                     if unit.state < STATE_READONLY:
-                        unit.state = STATE_NEEDS_REWRITING
+                        unit.state = STATE_NEEDS_CHECKING
                         PendingUnitChange.store_unit_change(
                             unit=unit,
                             author=author,
@@ -1931,7 +1932,7 @@ class Unit(models.Model, LoggerMixin):
             and component.enforced_checks
             and self.all_checks_names & set(component.enforced_checks)
         ):
-            self.state = self.original_state = STATE_FUZZY
+            self.state = self.original_state = STATE_NEEDS_REWRITING
             self.save(
                 run_checks=False,
                 same_content=True,
@@ -1942,7 +1943,7 @@ class Unit(models.Model, LoggerMixin):
             )
             if self.pending_unit_change is not None:
                 # Update PendingUnitChange if there is one
-                self.pending_unit_change.state = STATE_FUZZY
+                self.pending_unit_change.state = STATE_NEEDS_REWRITING
                 self.pending_unit_change.save(update_fields=["state"])
             elif saved:
                 # There should be a pending unit if saved

@@ -43,7 +43,7 @@ from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.state import (
     FUZZY_STATES,
     STATE_EMPTY,
-    STATE_FUZZY,
+    STATE_NEEDS_REWRITING,
     STATE_READONLY,
     STATE_TRANSLATED,
 )
@@ -1644,7 +1644,7 @@ class TargetChangeAddonTest(ViewTestCase):
         self.assertTrue(TargetRepoUpdateAddon.can_install(component=self.component))
         TargetRepoUpdateAddon.create(component=self.component)
         unit = self.update_unit_from_repo()
-        self.assertEqual(unit.state, STATE_FUZZY)
+        self.assertEqual(unit.state, STATE_NEEDS_REWRITING)
 
     def test_non_fuzzy_string_from_repo(self) -> None:
         unit = self.update_unit_from_repo()

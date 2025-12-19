@@ -2210,11 +2210,12 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
                 msg = "Please provide both state and target for a partial update"
                 raise ValidationError({"state": msg, "target": msg})
 
+            if new_state in {STATE_NEEDS_CHECKING, STATE_NEEDS_REWRITING}:
+                raise ValidationError({"state": "This state cannot be set manually."})
+
             if new_state not in {
                 STATE_APPROVED,
                 STATE_TRANSLATED,
-                STATE_NEEDS_CHECKING,
-                STATE_NEEDS_REWRITING,
                 STATE_FUZZY,
                 STATE_EMPTY,
             }:

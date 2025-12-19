@@ -95,6 +95,7 @@ class AutoTranslate(BaseAutoTranslate):
         self.progress_base = 0
         self.target_state = STATE_TRANSLATED
         if self.mode == "fuzzy":
+            # TODO: decide which fuzzy state to use?
             self.target_state = STATE_FUZZY
         elif self.mode == "approved" and translation.enable_review:
             self.target_state = STATE_APPROVED

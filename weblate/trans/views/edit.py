@@ -70,7 +70,7 @@ from weblate.utils.messages import get_message_kind
 from weblate.utils.ratelimit import revert_rate_limit, session_ratelimit_post
 from weblate.utils.state import (
     STATE_APPROVED,
-    STATE_NEEDS_CHECKING,
+    STATE_NEEDS_REWRITING,
     STATE_TRANSLATED,
 )
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
@@ -504,7 +504,7 @@ def handle_revert(unit, request: AuthenticatedHttpRequest, next_unit_url):
     unit.translate(
         request.user,
         split_plural(change.old),
-        STATE_NEEDS_CHECKING
+        STATE_NEEDS_REWRITING
         if change.action == ActionEvents.MARKED_EDIT
         else unit.state,
         change_action=ActionEvents.REVERT,

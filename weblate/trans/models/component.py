@@ -117,7 +117,7 @@ from weblate.utils.site import get_site_url
 from weblate.utils.state import (
     FUZZY_STATES,
     STATE_APPROVED,
-    STATE_FUZZY,
+    STATE_NEEDS_REWRITING,
     STATE_READONLY,
     STATE_TRANSLATED,
 )
@@ -4261,7 +4261,7 @@ class Component(
             unit.translate(
                 None,
                 unit.get_target_plurals(),
-                STATE_FUZZY,
+                STATE_NEEDS_REWRITING,
                 change_action=ActionEvents.ENFORCED_CHECK,
                 propagate=False,
             )

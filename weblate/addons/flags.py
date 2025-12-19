@@ -84,10 +84,10 @@ class TargetEditAddon(FlagBase):
 
 class SameEditAddon(FlagBase):
     name = "weblate.flags.same_edit"
-    verbose = gettext_lazy('Flag unchanged translations as "Needs editing"')
+    verbose = gettext_lazy('Flag unchanged translations as "Needs rewriting"')
     description = gettext_lazy(
         "Whenever a new translatable string is imported from the VCS and it matches a "
-        "source string, it is flagged as needing editing in Weblate. Especially "
+        "source string, it is flagged as needing rewriting in Weblate. Especially "
         "useful for file formats that include source strings for untranslated strings."
     )
 

@@ -42,7 +42,12 @@ from weblate.trans.tests.test_models import fixup_languages_seq
 from weblate.trans.tests.utils import RepoTestMixin, create_test_billing, get_test_file
 from weblate.utils.data import data_dir
 from weblate.utils.django_hacks import immediate_on_commit, immediate_on_commit_leave
-from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
+from weblate.utils.state import (
+    STATE_EMPTY,
+    STATE_NEEDS_CHECKING,
+    STATE_NEEDS_REWRITING,
+    STATE_TRANSLATED,
+)
 
 TEST_PO = get_test_file("cs.po")
 TEST_POT = get_test_file("hello-charset.pot")
@@ -4922,6 +4927,31 @@ class UnitAPITest(APIBaseTest):
             request={"state": "20", "target": "Test translation"},
         )
         self.assertTrue(Unit.objects.get(pk=unit.pk).approved)
+
+    def test_unit_state_rejected(self) -> None:
+        """Test that STATE_NEEDS_CHECKING and STATE_NEEDS_REWRITING cannot be set manually via API."""
+        unit = Unit.objects.get(
+            translation__language_code="cs", source="Hello, world!\n"
+        )
+        response = self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=400,
+            request={"state": str(STATE_NEEDS_CHECKING), "target": "Test translation"},
+        )
+        self.assertIn("state", response.json())
+        self.assertIn("This state cannot be set manually", response.json()["state"][0])
+
+        response = self.do_request(
+            "api:unit-detail",
+            kwargs={"pk": unit.pk},
+            method="patch",
+            code=400,
+            request={"state": str(STATE_NEEDS_REWRITING), "target": "Test translation"},
+        )
+        self.assertIn("state", response.json())
+        self.assertIn("This state cannot be set manually", response.json()["state"][0])
 
     def test_translate_source_unit(self) -> None:
         unit = Unit.objects.get(
