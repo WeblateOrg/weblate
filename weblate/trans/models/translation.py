@@ -1015,7 +1015,6 @@ class Translation(
                         project=self.component.project,
                         skip_sentry=True,
                     )
-                    # TODO: decide which fuzzy state to use?
                     unit.state = STATE_FUZZY
                     # Use update instead of hitting expensive save()
                     Unit.objects.filter(pk=unit.pk).update(state=STATE_FUZZY)
@@ -1243,7 +1242,6 @@ class Translation(
 
             state = STATE_TRANSLATED
             if add_fuzzy or set_fuzzy:
-                # TODO: decide fuzzy state?
                 state = STATE_FUZZY
             elif add_approve:
                 state = STATE_APPROVED
