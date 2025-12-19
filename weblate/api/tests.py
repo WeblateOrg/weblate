@@ -4940,8 +4940,9 @@ class UnitAPITest(APIBaseTest):
             code=400,
             request={"state": str(STATE_NEEDS_CHECKING), "target": "Test translation"},
         )
-        self.assertIn("state", response.json())
-        self.assertIn("This state cannot be set manually", response.json()["state"][0])
+        self.assertEqual(
+            "This state cannot be set manually.", response.json()["errors"][0]["detail"]
+        )
 
         response = self.do_request(
             "api:unit-detail",
@@ -4950,8 +4951,9 @@ class UnitAPITest(APIBaseTest):
             code=400,
             request={"state": str(STATE_NEEDS_REWRITING), "target": "Test translation"},
         )
-        self.assertIn("state", response.json())
-        self.assertIn("This state cannot be set manually", response.json()["state"][0])
+        self.assertEqual(
+            "This state cannot be set manually.", response.json()["errors"][0]["detail"]
+        )
 
     def test_translate_source_unit(self) -> None:
         unit = Unit.objects.get(

@@ -56,7 +56,6 @@ from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
     STATE_FUZZY,
-    STATE_NEEDS_CHECKING,
     STATE_NEEDS_REWRITING,
     STATE_READONLY,
     STATE_TRANSLATED,
@@ -1535,9 +1534,9 @@ class Unit(models.Model, LoggerMixin):
                     unit.previous_source = ""
                 elif unit.state >= STATE_TRANSLATED and unit.target:
                     # Set fuzzy on changed
-                    unit.original_state = STATE_NEEDS_CHECKING
+                    unit.original_state = STATE_NEEDS_REWRITING
                     if unit.state < STATE_READONLY:
-                        unit.state = STATE_NEEDS_CHECKING
+                        unit.state = STATE_NEEDS_REWRITING
                         PendingUnitChange.store_unit_change(
                             unit=unit,
                             author=author,

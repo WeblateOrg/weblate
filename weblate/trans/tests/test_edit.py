@@ -1142,7 +1142,7 @@ class EditComplexTest(ViewTestCase):
         self.assert_redirects_offset(response, self.translate_url, 1)
         unit = self.get_unit()
         self.assertEqual(unit.target, "Hello, world!\n")
-        self.assertEqual(unit.state, STATE_FUZZY)
+        self.assertEqual(unit.state, STATE_NEEDS_REWRITING)
         self.assertTrue(unit.has_failing_check)
         self.assertEqual(len(unit.all_checks), 1)
         self.assertEqual(len(unit.active_checks), 1)
@@ -1154,7 +1154,7 @@ class EditComplexTest(ViewTestCase):
         # The pending change should be only fuzzy
         pending_changes = unit.pending_changes.all()
         self.assertEqual(len(pending_changes), 1)
-        self.assertEqual(pending_changes[0].state, STATE_FUZZY)
+        self.assertEqual(pending_changes[0].state, STATE_NEEDS_REWRITING)
 
     def test_enforced_check_noop(self) -> None:
         # Update unit object to match edits in test_enforced_check
@@ -1169,7 +1169,7 @@ class EditComplexTest(ViewTestCase):
         self.component.save(update_fields=["enforced_checks"])
         self.assertEqual(unit.pending_changes.count(), 1)
         unit = self.get_unit()
-        self.assertEqual(unit.state, STATE_FUZZY)
+        self.assertEqual(unit.state, STATE_NEEDS_REWRITING)
 
         # Remove pending units and make the string in the database translated
         unit.pending_changes.all().delete()
