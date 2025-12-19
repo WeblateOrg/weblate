@@ -10,6 +10,7 @@ from django.core.exceptions import ImproperlyConfigured
 from django.test import SimpleTestCase
 
 from weblate.utils.environment import (
+    get_email_config,
     get_env_bool,
     get_env_credentials,
     get_env_int,
@@ -369,5 +370,49 @@ class EnvTest(SimpleTestCase):
                     "attr_full_name": "fullname",
                 },
             )
+        finally:
+            cleanup()
+
+    def test_email_config(self) -> None:
+        def cleanup() -> None:
+            toremove = [
+                name for name in os.environ if name.startswith("WEBLATE_EMAIL_")
+            ]
+            for name in toremove:
+                del os.environ[name]
+
+        cleanup()
+        try:
+            self.assertEqual(get_email_config(), (25, True, False))
+
+            # Test SSL/TLS autoconfig for common ports
+            os.environ["WEBLATE_EMAIL_PORT"] = "587"
+            self.assertEqual(get_email_config(), (587, True, False))
+            os.environ["WEBLATE_EMAIL_PORT"] = "465"
+            self.assertEqual(get_email_config(), (465, False, True))
+
+            # This is invalid configuration and Django will fail on this
+            os.environ["WEBLATE_EMAIL_USE_SSL"] = "1"
+            os.environ["WEBLATE_EMAIL_USE_TLS"] = "1"
+            self.assertEqual(get_email_config(), (465, True, True))
+
+            # Test disabling SSL/TLS is honored
+            os.environ["WEBLATE_EMAIL_USE_SSL"] = "0"
+            os.environ["WEBLATE_EMAIL_USE_TLS"] = "0"
+            self.assertEqual(get_email_config(), (465, False, False))
+
+            # Test port autodetection
+            del os.environ["WEBLATE_EMAIL_PORT"]
+            self.assertEqual(get_email_config(), (25, False, False))
+
+            # Test default port for SSL
+            os.environ["WEBLATE_EMAIL_USE_SSL"] = "1"
+            os.environ["WEBLATE_EMAIL_USE_TLS"] = "0"
+            self.assertEqual(get_email_config(), (465, False, True))
+
+            # Test default port for TLS
+            os.environ["WEBLATE_EMAIL_USE_SSL"] = "0"
+            os.environ["WEBLATE_EMAIL_USE_TLS"] = "1"
+            self.assertEqual(get_email_config(), (587, True, False))
         finally:
             cleanup()

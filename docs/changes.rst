@@ -1,7 +1,30 @@
-Weblate 5.15.1
+Weblate 5.15.2
 --------------
 
 *Not yet released.*
+
+.. rubric:: New features
+
+.. rubric:: Improvements
+
+.. rubric:: Bug fixes
+
+.. rubric:: Compatibility
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.15.2.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/160?closed=1>`__.
+
+Weblate 5.15.1
+--------------
+
+*Released on December 18th 2025.*
 
 .. rubric:: New features
 
@@ -12,14 +35,15 @@ Weblate 5.15.1
 * Updated list of OpenAI models.
 * Added :doc:`/devel/migration` guide to help users migrate from other localization platforms.
 * Gracefully handle unreachable authentication providers.
+* Update language definitions to CLDR 48.
 
 .. rubric:: Bug fixes
 
+* Git config file overwrite remote code execution (:cve:`2025-68398` / :ghsa:`8vcg-cfxj-p5m3`).
+* Arbitrary file read via symbolic links (:cve:`2025-68279` / :ghsa:`g925-f788-4jh7`).
 * Locking error that prevented updating linked components.
 * Fixed e-mail SSL configuration in Docker container.
 * Invitations on sites with required authentication.
-
-.. rubric:: Compatibility
 
 .. rubric:: Upgrading
 

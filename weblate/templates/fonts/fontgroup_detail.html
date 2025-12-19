@@ -34,7 +34,7 @@
       {% for override in object.fontoverride_set.all %}
         <tr>
           <th>
-            <span class="badge float-end">{% translate "language override" %}</span>{{ override.language }}
+            <span class="badge float-end text-bg-secondary">{% translate "language override" %}</span>{{ override.language }}
           </th>
           <td>
             <a href="{{ override.font.get_absolute_url }}">{{ override.font }}</a>

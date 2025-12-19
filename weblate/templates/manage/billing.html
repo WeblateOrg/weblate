@@ -9,42 +9,42 @@
          data-bs-target="#trial"
          role="tab"
          data-bs-toggle="tab"
-         href="#">{% translate "Trial" %} <span class="badge">{{ trial|length|intcomma }}</span></a>
+         href="#">{% translate "Trial" %} <span class="badge  text-bg-secondary">{{ trial|length|intcomma }}</span></a>
     </li>
     <li class="nav-item" role="presentation">
       <a class="nav-link"
          data-bs-target="#pending"
          role="tab"
          data-bs-toggle="tab"
-         href="#">{% translate "Pending approval" %} <span class="badge">{{ pending|length|intcomma }}</span></a>
+         href="#">{% translate "Pending approval" %} <span class="badge  text-bg-secondary">{{ pending|length|intcomma }}</span></a>
     </li>
     <li class="nav-item" role="presentation">
       <a class="nav-link"
          data-bs-target="#paid"
          role="tab"
          data-bs-toggle="tab"
-         href="#">{% translate "Commercial" %} <span class="badge">{{ paid|length|intcomma }}</span></a>
+         href="#">{% translate "Commercial" %} <span class="badge  text-bg-secondary">{{ paid|length|intcomma }}</span></a>
     </li>
     <li class="nav-item" role="presentation">
       <a class="nav-link"
          data-bs-target="#free"
          role="tab"
          data-bs-toggle="tab"
-         href="#">{% translate "Libre" %} <span class="badge">{{ free|length|intcomma }}</span></a>
+         href="#">{% translate "Libre" %} <span class="badge  text-bg-secondary">{{ free|length|intcomma }}</span></a>
     </li>
     <li class="nav-item" role="presentation">
       <a class="nav-link"
          data-bs-target="#removal"
          role="tab"
          data-bs-toggle="tab"
-         href="#">{% translate "Scheduled removal" %} <span class="badge">{{ removal|length|intcomma }}</span></a>
+         href="#">{% translate "Scheduled removal" %} <span class="badge  text-bg-secondary">{{ removal|length|intcomma }}</span></a>
     </li>
     <li class="nav-item" role="presentation">
       <a class="nav-link"
          data-bs-target="#terminated"
          role="tab"
          data-bs-toggle="tab"
-         href="#">{% translate "Terminated" %} <span class="badge">{{ terminated|length|intcomma }}</span></a>
+         href="#">{% translate "Terminated" %} <span class="badge  text-bg-secondary">{{ terminated|length|intcomma }}</span></a>
     </li>
   </ul>
 {% endblock nav_pills %}

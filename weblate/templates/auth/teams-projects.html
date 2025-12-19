@@ -8,6 +8,6 @@
   <em>{% translate "All protected projects" %}</em>
 {% else %}
   {% for project in group.projects.all %}
-    <span class="badge"><a href="{{ project.get_absolute_url }}">{{ project }}</a></span>
+    <span class="badge  text-bg-secondary"><a href="{{ project.get_absolute_url }}">{{ project }}</a></span>
   {% endfor %}
 {% endif %}

@@ -255,7 +255,7 @@
             {% endif %}
             {% indicate_alerts object %}
             {% if custom_workflows and object.pk in custom_workflows %}
-              <span class="badge">{% translate "Customized workflow" %}</span>
+              <span class="badge  text-bg-secondary">{% translate "Customized workflow" %}</span>
             {% endif %}
           </th>
           {% if project and project.enable_review %}

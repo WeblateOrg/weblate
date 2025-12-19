@@ -4,7 +4,7 @@
   {% if scope and scope != "component" and addon.needs_component %}
     <span class="badge badge-danger float-end">{% translate "The add-on can only be installed on the component." %}</span>
   {% elif addon.repo_scope %}
-    <span class="badge float-end"
+    <span class="badge float-end text-bg-secondary"
           title="{% translate "This add-on is used for all components sharing this repository." %}">{% translate "repository wide" %}</span>
   {% endif %}
   {% icon addon.icon %}

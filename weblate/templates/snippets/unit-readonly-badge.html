@@ -2,15 +2,17 @@
 
 {% if unit.readonly %}
   {% if not unit.source_unit.translated %}
-    <span class="badge">{% translate "Source in review" %}</span>
+    <span class="badge  text-bg-secondary">{% translate "Source in review" %}</span>
   {% elif unit.is_source and unit.translation.component.template and not unit.translation.component.edit_template %}
-    <span class="badge" title="{% translate "Source string editing is disabled." %}">{% translate "Source string" %}</span>
+    <span class="badge  text-bg-secondary"
+          title="{% translate "Source string editing is disabled." %}">{% translate "Source string" %}</span>
   {% elif unit.is_source and not unit.translation.component.template and unit.translation.component.manage_units %}
-    <span class="badge"
+    <span class="badge  text-bg-secondary"
           title="{% translate "Source strings can’t be edited. You can delete them and add new ones." %}">{% translate "Source string" %}</span>
   {% elif unit.is_source %}
-    <span class="badge" title="{% translate "The source string cannot be edited." %}">{% translate "Source string" %}</span>
+    <span class="badge  text-bg-secondary"
+          title="{% translate "The source string cannot be edited." %}">{% translate "Source string" %}</span>
   {% else %}
-    <span class="badge">{% translate "Read-only" %}</span>
+    <span class="badge  text-bg-secondary">{% translate "Read-only" %}</span>
   {% endif %}
 {% endif %}

@@ -6,7 +6,7 @@
       <tr id="changes-item"
           class="history-row row"
           {% if in_email %}style="clear:both"{% endif %}>
-        <td class="history-event col-sm-2">
+        <td class="history-event col-md-3">
           <strong class="ms-2">{{ item.change.get_user_display }}</strong>
           <p class="text-muted">{{ item.change.get_action_display }}</p>
           <ul class="breadcrumb">
@@ -16,7 +16,7 @@
             {% if item.ip_address %}<p>{{ item.ip_address }}</p>{% endif %}
           </ul>
         </td>
-        <td class="history-data col-sm-10">
+        <td class="history-data col-md-9">
           {% if not in_email %}
             <div class="btn-float">
               {% if item.permissions.can_revert %}
