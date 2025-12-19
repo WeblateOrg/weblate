@@ -5,6 +5,19 @@ Weblate 5.16
 
 .. rubric:: New features
 
+* Encoding for :ref:`formats` can now be configured using :ref:`file_format_params` (e.g., ``csv_encoding``, ``properties_encoding``).
+
+.. rubric:: Compatibility
+
+* File formats that only differed in encoding (CSV, GWT Properties, Java Properties, iOS Strings) have been merged into single formats.
+
+Weblate 5.15.2
+--------------
+
+*Not yet released.*
+
+.. rubric:: New features
+
 * :ref:`check-multiple-capital` quality check.
 * :setting:`HIDE_SHARED_GLOSSARY_COMPONENTS` to hide glossaries shared into other projects.
 
@@ -166,7 +179,6 @@ Weblate 5.15
 * Dropped support for Web Monetization.
 * :doc:`/formats/laravel` no longer includes ``return`` prefix in the keys.
 * There are several changes in :file:`settings_example.py`, most notable are changed settings ``CRISPY_ALLOWED_TEMPLATE_PACKS`` and ``INSTALLED_APPS``; please adjust your settings accordingly.
-* File formats that only differed in encoding (CSV, GWT Properties, Java Properties, iOS Strings) have been merged into single formats.
 
 .. rubric:: Upgrading
 
