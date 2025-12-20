@@ -12,7 +12,7 @@ from typing import ClassVar
 from django.core import mail
 from django.urls import reverse
 
-from weblate.auth.data import SELECTION_ALL
+from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
 from weblate.auth.models import Group, Role
 from weblate.lang.models import Language
 from weblate.trans.models import Announcement, Category, Component, Project, Translation
@@ -264,6 +264,101 @@ class AnnouncementPermissionTestCase(ViewTestCase):
         category.save()
         url = reverse("announcement", kwargs={"path": category.get_url_path()})
         self.perform_test(url)
+
+    def test_delete_announcement(self) -> None:
+        second_component = self.create_link_existing()
+
+        announcement = Announcement.objects.create(
+            message="test component",
+            component=self.component,
+            project=self.project,
+        )
+        second_announcement = Announcement.objects.create(
+            message="test second announcement",
+            component=second_component,
+            project=self.project,
+        )
+        project_announcement = Announcement.objects.create(
+            message="test project announcement",
+            project=self.project,
+        )
+
+        group = Group.objects.create(
+            name="Component deleters",
+            defining_project=self.project,
+            project_selection=SELECTION_MANUAL,
+            language_selection=SELECTION_ALL,
+        )
+        group.roles.add(Role.objects.get(name="Translation coordinator"))
+        group.components.add(self.component)
+        self.user.groups.add(group)
+
+        response = self.client.post(
+            reverse("announcement-delete", kwargs={"pk": announcement.pk})
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Announcement.objects.filter(pk=announcement.pk).count(), 0)
+
+        response = self.client.post(
+            reverse("announcement-delete", kwargs={"pk": second_announcement.pk})
+        )
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(
+            Announcement.objects.filter(pk=second_announcement.pk).count(), 1
+        )
+
+        response = self.client.post(
+            reverse("announcement-delete", kwargs={"pk": project_announcement.pk})
+        )
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(
+            Announcement.objects.filter(pk=project_announcement.pk).count(), 1
+        )
+
+        group.project_selection = SELECTION_ALL
+        group.components.clear()
+        group.save()
+        self.user.clear_cache()
+
+        response = self.client.post(
+            reverse("announcement-delete", kwargs={"pk": second_announcement.pk})
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            Announcement.objects.filter(pk=second_announcement.pk).count(), 0
+        )
+
+        response = self.client.post(
+            reverse("announcement-delete", kwargs={"pk": project_announcement.pk})
+        )
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(
+            Announcement.objects.filter(pk=project_announcement.pk).count(), 0
+        )
+        self.assertEqual(Announcement.objects.count(), 0)
+
+    def test_delete_global_announcement(self) -> None:
+        announcement = Announcement.objects.create(message="test global")
+
+        group = Group.objects.create(
+            name="Project deleters",
+            defining_project=self.project,
+            language_selection=SELECTION_ALL,
+        )
+        group.roles.add(Role.objects.get(name="Translation coordinator"))
+        group.projects.add(self.project)
+        self.user.groups.add(group)
+        self.user.clear_cache()
+
+        self.client.post(reverse("announcement-delete", kwargs={"pk": announcement.pk}))
+        self.assertEqual(Announcement.objects.count(), 1)
+
+        self.user.is_superuser = True
+        self.user.save()
+        self.user.clear_cache()
+
+        self.client.post(reverse("announcement-delete", kwargs={"pk": announcement.pk}))
+        self.assertEqual(Announcement.objects.count(), 0)
 
 
 class AnnouncementTest(AnnouncementPermissionTestCase):

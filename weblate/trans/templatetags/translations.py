@@ -959,7 +959,10 @@ def announcements(context: Context, project=None, component=None, language=None)
                         "message": render_markdown(announcement.message),
                         "announcement": announcement,
                         "can_delete": user.has_perm(
-                            "meta:announcement.delete", announcement
+                            "announcement.delete",
+                            announcement.component
+                            if announcement.component is not None
+                            else announcement.project,
                         ),
                     },
                 ),
