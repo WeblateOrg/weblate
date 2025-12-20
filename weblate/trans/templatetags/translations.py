@@ -712,9 +712,7 @@ def show_message(tags, message):
 
 
 @register.filter(is_safe=True)
-def naturaltime(
-    value: float | datetime, microseconds: bool = False, *, now: datetime | None = None
-) -> SafeString:
+def naturaltime(value: float | datetime, microseconds: bool = False) -> SafeString:
     """
     Heavily based on Django's django.contrib.humanize implementation of naturaltime.
 
@@ -727,10 +725,6 @@ def naturaltime(
     # datetime is a subclass of date
     if not isinstance(value, date):
         return value
-
-    # Default to current timestamp
-    if now is None:
-        now = timezone.now()
 
     # Strip microseconds
     if isinstance(value, datetime) and not microseconds:
