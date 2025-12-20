@@ -246,9 +246,8 @@ class BasicLanguagesTest(TestCase):
                 langs.append(lang)
         return langs or None
 
-    @staticmethod
-    def get_friendly_result(result, expected, languages) -> str:
-        return f"Expecting {__class__.list_languages(expected, languages)} but got {__class__.list_languages(result, languages)} in basic languages."
+    def get_friendly_result(self, result, expected, languages) -> str:
+        return f"Expecting {self.list_languages(expected, languages)} but got {self.list_languages(result, languages)} in basic languages."
 
     def run_test(self, language_group, adaptive=None) -> None:
         *language_forms, expected = language_group
