@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-17 15:44+0100\n"
-"PO-Revision-Date: 2025-12-18 19:10+0000\n"
+"PO-Revision-Date: 2025-12-21 01:00+0000\n"
 "Last-Translator: Takeru Mikenu <mikenu-jp@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -30,7 +30,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.15.1-dev\n"
+"X-Generator: Weblate 5.15.1\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:215
@@ -23973,12 +23973,16 @@ msgstr "エラーの報告"
 #: ../../api.rst:236
 msgid "Error responses were endpoint specific before this release."
 msgstr ""
+"本リリースより前は、エラーレスポンスの内容はエンドポイントごとに異なりました"
+"。"
 
 #: ../../api.rst:238
 msgid ""
 "Weblate error responses are formatted based on :doc:`drf-standardized-"
 "error:error_response`."
 msgstr ""
+"Weblate のエラーレスポンスは、:doc:`drf-standardized-error:error_response` に"
+"基づいた形式になっています。"
 
 #: ../../api.rst:242
 msgid "API Entry Point"
@@ -24952,6 +24956,8 @@ msgid ""
 "Returns automatic suggestion settings for a project, consisting of the "
 "configurations defined for each translation service installed."
 msgstr ""
+"プロジェクトの自動提案設定を返します。これにはインストールされている各翻訳"
+"サービスに対して定義された設定が含まれます。"
 
 #: ../../api.rst:1318
 #, fuzzy
@@ -25145,7 +25151,7 @@ msgstr "翻訳のファイル形式"
 
 #: ../../api.rst:1556
 msgid "parameters related to the file"
-msgstr ""
+msgstr "ファイルに関連するパラメータ"
 
 #: ../../api.rst:1557
 msgid "mask of translation files in the repository"
@@ -25520,6 +25526,8 @@ msgid ""
 "The ``filter_type`` parameter is no longer supported and filtering is done "
 "by the ``q`` parameter."
 msgstr ""
+"``filter_type`` パラメータはサポートされなくなり、フィルタリングは ``q`` "
+"パラメータによって行われます。"
 
 #: ../../api.rst:2113
 msgid "Trigger automatic translation."
@@ -25900,12 +25908,16 @@ msgid ""
 "commenter's email, can be set only by project admins and defaults to the "
 "authenticated user."
 msgstr ""
+"コメント投稿者のメールアドレスです。プロジェクト管理者のみが設定でき、"
+"デフォルトでは認証済みユーザーになります。"
 
 #: ../../api.rst:2358
 msgid ""
 "creation timestamp of the comment, can be set only by project admins and "
 "defaults to now."
 msgstr ""
+"コメントの作成日時です。プロジェクト管理者のみが設定でき、デフォルトでは現在"
+"時刻になります。"
 
 #: ../../api.rst:2359 ../../api.rst:2372
 #, fuzzy
@@ -26516,7 +26528,7 @@ msgstr ""
 
 #: ../../api.rst:2790
 msgid "The search looks for:"
-msgstr ""
+msgstr "検索対象は以下の通りです："
 
 #: ../../api.rst:2793 ../../api.rst:2804
 msgid "Categories"
@@ -26895,7 +26907,7 @@ msgstr "**改善点**"
 
 #: ../../changes.rst:10
 msgid "Updated list of OpenAI models."
-msgstr ""
+msgstr "OpenAI モデルのリストを更新しました。"
 
 #: ../../changes.rst:11
 #, fuzzy
@@ -27060,18 +27072,25 @@ msgid ""
 "Batch automatic translation can now be manually triggered at project "
 "language, category or component level, see :ref:`auto-translation`."
 msgstr ""
+"一括自動翻訳が、プロジェクトの言語、カテゴリ、またはコンポーネント単位で手動"
+"実行できるようになりました。詳細は :ref:`auto-translation` を参照してください"
+"。"
 
 #: ../../changes.rst:39
 msgid ""
 "Added ability to completely disable the admin contact form by "
 "setting :setting:`CONTACT_FORM` to ``\"disabled\"``."
 msgstr ""
+":setting:`CONTACT_FORM` を ``\"disabled\"`` に設定することで、管理者"
+"コンタクトフォームを完全に無効化できる機能を追加しました。"
 
 #: ../../changes.rst:40
 msgid ""
 "Added new Ollama machinery tool for local Ollama AI model integration, "
 "see :ref:`mt-ollama`."
 msgstr ""
+"ローカルの Ollama AI モデルと連携するための新しいOllama翻訳支援ツールを追加し"
+"ました。詳細は :ref:`mt-ollama` を参照してください。"
 
 #: ../../changes.rst:41
 #, fuzzy
@@ -27088,12 +27107,17 @@ msgstr ""
 #: ../../changes.rst:42
 msgid "Memory contents imported from TMX files include string context."
 msgstr ""
+"TMX ファイルからインポートされた翻訳メモリーの内容に、文字列のコンテキストが"
+"含まれるようになりました。"
 
 #: ../../changes.rst:43
 msgid ""
 ":doc:`/formats/xliff2`, :doc:`/formats/nextcloud-json`, :doc:`/formats/"
 "resjson`, and :doc:`/formats/toml` are now supported file formats."
 msgstr ""
+":doc:`/formats/xliff2`、:doc:`/formats/nextcloud-json`、:doc:`/formats/"
+"resjson`、および :doc:`/formats/toml` がサポート対象のファイル形式になりまし"
+"た。"
 
 #: ../../changes.rst:44
 #, fuzzy
@@ -27138,6 +27162,8 @@ msgid ""
 "Automatically translated strings are now identified by a dedicated flag "
 "instead of a label."
 msgstr ""
+"自動翻訳された文字列は、ラベルの代わりに専用のフラグで識別されるようになりま"
+"した。"
 
 #: ../../changes.rst:53
 #, fuzzy
@@ -27162,6 +27188,8 @@ msgid ""
 ":ref:`block-user` now accepts internal notes that are not visible to the "
 "user."
 msgstr ""
+":ref:`block-user` で、対象のユーザーには表示されない内部メモを記録できるよう"
+"になりました。"
 
 #: ../../changes.rst:56
 #, fuzzy
@@ -27186,12 +27214,16 @@ msgid ""
 "The allowed version control URLs can now be configured "
 "using :setting:`VCS_ALLOW_SCHEMES` and :setting:`VCS_ALLOW_HOSTS`."
 msgstr ""
+"許可されるバージョン管理（VCS）の URL を、:setting:`VCS_ALLOW_SCHEMES` と "
+":setting:`VCS_ALLOW_HOSTS` を使用して設定できるようになりました。"
 
 #: ../../changes.rst:59
 msgid ""
 "The API timeout for creating pull requests or forking can now be configured "
 "via :setting:`VCS_API_TIMEOUT`."
 msgstr ""
+"プルリクエストの作成やフォーク時の API タイムアウトを"
+"、:setting:`VCS_API_TIMEOUT` で設定できるようになりました。"
 
 #: ../../changes.rst:60
 msgid ""
@@ -27199,6 +27231,8 @@ msgid ""
 "variables, commit authorship, hosted vs. self-hosted setup, and "
 "authentication options."
 msgstr ""
+"Docker 環境変数、コミット作成者、ホスト型とセルフホスト型のセットアップ、およ"
+"び認証オプションを明確にするため、VCS 連携のドキュメントを改善しました。"
 
 #: ../../changes.rst:61
 #, fuzzy
@@ -27210,25 +27244,31 @@ msgstr "このファイルの最終変更のタイムスタンプ。"
 msgid ""
 "Improper invitation validation upon accepting "
 "(:cve:`2025-64725` / :ghsa:`m6hq-f4w9-qrjj`)."
-msgstr ""
+msgstr "招待承認時の不適切な検証 (:cve:`2025-64725` / :ghsa:`m6hq-f4w9-qrjj`)。"
 
 #: ../../changes.rst:66
 msgid ""
 "Server-Side Request Forgery while cloning repository "
 "(:cve:`2025-66407` / :ghsa:`hfpv-mc5v-p9mm`)."
 msgstr ""
+"リポジトリのクローン時におけるサーバーサイドリクエストフォージェリ "
+"(:cve:`2025-66407` / :ghsa:`hfpv-mc5v-p9mm`)。"
 
 #: ../../changes.rst:67
 msgid ""
 "Over‑permissive webhook endpoint enabling mass repository updates plus "
 "component enumeration (:cve:`2025-67492` / :ghsa:`pj86-258h-qrvf`)."
 msgstr ""
+"リポジトリの一括更新やコンポーネントの列挙を可能にする、Webhook "
+"エンドポイントの過剰な権限設定 (:cve:`2025-67492` / :ghsa:`pj86-258h-qrvf`)。"
 
 #: ../../changes.rst:68
 msgid ""
 "Notification settings disclosure via Weblate API "
 "(:cve:`2025-67715` / :ghsa:`3pmh-24wp-xpf4`)."
 msgstr ""
+"Weblate API による通知設定の漏洩 (:cve:`2025-67715` / :ghsa:`3pmh-24wp-xpf4`)"
+"。"
 
 #: ../../changes.rst:69
 #, fuzzy
@@ -27243,11 +27283,15 @@ msgid ""
 ":doc:`/formats/csv` format saving translations with empty source fields when "
 "using monolingual base files."
 msgstr ""
+"モノリンガル形式のベースファイル使用時に、:doc:`/formats/csv` 形式で原文"
+"フィールドが空のまま翻訳が保存される不具合。"
 
 #: ../../changes.rst:71
 msgid ""
 "Tighter validation of user and full names to avoid confusing homoglyphs."
 msgstr ""
+"混同を招くホームグリフを防止するための、ユーザー名およびフルネームの検証強化"
+"。"
 
 #: ../../changes.rst:72
 #, fuzzy
