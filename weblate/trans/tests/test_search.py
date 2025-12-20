@@ -14,7 +14,12 @@ from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.db import TransactionsTestMixin
 from weblate.utils.ratelimit import reset_rate_limit
-from weblate.utils.state import STATE_FUZZY, STATE_READONLY, STATE_TRANSLATED
+from weblate.utils.state import (
+    STATE_APPROVED,
+    STATE_FUZZY,
+    STATE_READONLY,
+    STATE_TRANSLATED,
+)
 from weblate.utils.views import get_form_data
 
 
@@ -583,3 +588,23 @@ class BulkEditTest(ViewTestCase):
         self.assertContains(response, "Bulk edit completed, 4 strings were updated.")
         self.assertEqual(translation.unit_set.filter(state=STATE_READONLY).count(), 0)
         self.assertEqual(translation.unit_set.filter(state=STATE_TRANSLATED).count(), 1)
+
+    def test_bulk_approve_clears_automatically_translated(self) -> None:
+        self.project.translation_review = True
+        self.project.save()
+
+        unit = self.get_unit()
+        unit.automatically_translated = True
+        unit.save()
+        self.assertTrue(self.get_unit().automatically_translated)
+
+        response = self.client.post(
+            reverse("bulk-edit", kwargs={"path": self.project.get_url_path()}),
+            {"q": "state:<translated", "state": STATE_APPROVED},
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, 1 string was updated.")
+
+        unit = self.get_unit()
+        self.assertEqual(unit.state, STATE_APPROVED)
+        self.assertFalse(unit.automatically_translated)

@@ -95,6 +95,7 @@ def bulk_perform(  # noqa: C901
                     if user is None or user.has_perm("unit.edit", unit):
                         # Create change object for edit, update is done outside the loop
                         unit.state = target_state
+                        unit.automatically_translated = False
                         unit.generate_change(
                             user, user, ActionEvents.BULK_EDIT, check_new=False
                         )
@@ -105,7 +106,8 @@ def bulk_perform(  # noqa: C901
 
                 # Bulk update state
                 Unit.objects.filter(pk__in=(unit.pk for unit in to_update)).update(
-                    state=target_state
+                    state=target_state,
+                    automatically_translated=False,
                 )
                 for unit in to_update:
                     PendingUnitChange.store_unit_change(unit=unit, author=user)
