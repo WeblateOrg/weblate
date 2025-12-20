@@ -124,7 +124,7 @@ class AppStoreParser(MultiParser):
         ("short[_-]description.txt", "max-length:80"),
         ("summary.txt", "max-length:80"),
         ("full[_-]description.txt", "max-length:4000"),
-        ("subtitle.txt", "max-length:80"),
+        ("subtitle.txt", "max-length:30"),
         ("description.txt", "max-length:4000"),
         ("keywords.txt", "max-length:100"),
         ("video.txt", "max-length:256, url"),
