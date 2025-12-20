@@ -115,6 +115,8 @@ PERMISSIONS = (
     ("vcs.update", gettext_noop("Update the internal repository")),
     # Translators: Permission name
     ("announcement.add", gettext_noop("Post announcements")),
+    # Translators: Permission name
+    ("announcement.delete", gettext_noop("Delete announcements")),
 )
 
 PERMISSION_NAMES = {perm[0] for perm in PERMISSIONS}
@@ -216,6 +218,7 @@ ROLES = (
         TRANSLATE_PERMS
         | {
             "announcement.add",
+            "announcement.delete",
             "translation.add",
             "unit.template",
             "suggestion.delete",
