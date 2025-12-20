@@ -54,7 +54,7 @@ RST_MATCH = re.compile(r"(:[a-z:]+:`[^`]+`|``[^`]+``)")
 
 SPLIT_RE = re.compile(
     r"(?:\&(?:nbsp|rsaquo|lt|gt|amp|ldquo|rdquo|times|quot);|"
-    r'[() ,.^`"\'\\/_<>!?;:|{}*^@%#&~=+\r\n✓—‑…\[\]0-9-])+',
+    r'[() ,.^`"\'\\/_<>!?;:|{}*@%#&~=+\r\n✓—‑…\[\]0-9-])+',
     re.IGNORECASE,
 )
 
