@@ -48,8 +48,9 @@ class BaseFileFormatParam:
     def get_widget_attrs(self) -> dict:
         field_classes = ["file-format-param-field"]
 
-        if self.field_class != forms.BooleanField:
-            # the default radio/checkbox input looks better than bootstrap one
+        if self.field_class == forms.BooleanField:
+            field_classes.append("form-check-input")
+        else:
             field_classes.append("form-control")
 
         return {
