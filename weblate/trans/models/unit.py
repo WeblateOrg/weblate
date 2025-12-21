@@ -1076,7 +1076,6 @@ class Unit(models.Model, LoggerMixin):
         same_state = state == comparison_state["state"] and flags == Flags(self.flags)
         same_metadata = (
             location == self.location
-            and explanation == comparison_state["explanation"]
             and note == self.note
             and pos == self.position
             and automatically_translated == self.automatically_translated
@@ -1092,6 +1091,13 @@ class Unit(models.Model, LoggerMixin):
             and self.source_unit == old_source_unit
             and old_source_unit is not None
         )
+
+        supports_explanation = component.file_format_cls.supports_explanation
+        same_explanation = explanation == comparison_state["explanation"]
+        if supports_explanation:
+            same_data &= same_explanation
+        else:
+            same_metadata &= same_explanation
 
         # Conditionally check original state changes if it would be used. It is not
         # properly tracked in PendingUnitChange, so this would not work for units
@@ -1122,16 +1128,18 @@ class Unit(models.Model, LoggerMixin):
         # Metadata update only, these do not trigger any actions in Weblate and
         # are display only
         if same_data and not same_metadata:
+            update_fields = [
+                "location",
+                "note",
+                "position",
+                "automatically_translated",
+            ]
+            if not supports_explanation:
+                update_fields.append("explanation")
             self.save(
                 same_content=True,
                 only_save=True,
-                update_fields=[
-                    "location",
-                    "explanation",
-                    "note",
-                    "position",
-                    "automatically_translated",
-                ],
+                update_fields=update_fields,
             )
             return
 

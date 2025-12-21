@@ -733,6 +733,36 @@ class FileScanTest(ViewTestCase):
         self.assertNotIn("disk_state", unit_3.details)
         self.assertEqual(PendingUnitChange.objects.filter(unit=unit_3).count(), 0)
 
+    def test_tbx_explanation_sync(self) -> None:
+        """Test that explanation changes from file are treated as data changes for TBX."""
+        request = self.get_request()
+        self.project.commit_policy = CommitPolicyChoices.APPROVED_ONLY
+        self.project.translation_review = True
+        self.project.save()
+
+        component = self.create_tbx(project=self.project, name="TBX component")
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="address bar")
+        self.assertEqual(unit.explanation, "")
+
+        unit.update_explanation("dummy explanation", self.user)
+        self.assertEqual(PendingUnitChange.objects.filter(unit=unit).count(), 1)
+        self.assertEqual(unit.details["disk_state"]["explanation"], "")
+
+        disk_explanation = "text field in a browser"
+        ttk_unit, _ = translation.store.find_unit(unit.context, unit.source)
+        ttk_unit.set_explanation(disk_explanation)
+        translation.store.save()
+        with transaction.atomic():
+            translation.git_commit(request.user, "TEST <test@example.net>")
+
+        component.do_file_scan(request)
+
+        unit = translation.unit_set.get(source="address bar")
+        self.assertEqual(unit.explanation, disk_explanation)
+
+        self.assertEqual(PendingUnitChange.objects.filter(unit=unit).count(), 0)
+
 
 class GitBranchMultiRepoTest(MultiRepoTest):
     _vcs = "git"

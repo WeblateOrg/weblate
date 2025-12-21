@@ -417,8 +417,8 @@ class RepoTestMixin:
             "rc", "winrc/*.rc", "winrc/en-US.rc", edit_template=False
         )
 
-    def create_tbx(self) -> Component:
-        return self._create_component("tbx", "tbx/*.tbx")
+    def create_tbx(self, **kwargs) -> Component:
+        return self._create_component("tbx", "tbx/*.tbx", **kwargs)
 
     def create_link(self, **kwargs) -> Component:
         parent = self.create_iphone(*kwargs)
