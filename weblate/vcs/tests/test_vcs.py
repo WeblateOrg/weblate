@@ -1072,7 +1072,13 @@ class VCSGitHubTest(VCSGitUpstreamTest):
             json={
                 "ssh_url": "git@github.com:test/test.git",
                 "clone_url": "https://github.com/test/test.git",
+                "url": "https://api.github.com/repos/test/test",
             },
+        )
+        responses.add(
+            responses.PUT,
+            "https://api.github.com/repos/test/test/actions/permissions",
+            status=204,
         )
         responses.add(
             responses.POST,

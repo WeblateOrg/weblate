@@ -1267,7 +1267,10 @@ class GitMergeRequestBase(GitForcePushRepository):
 
                 self.add_response_breadcrumb(response)
                 try:
-                    response_data = response.json()
+                    if response.status_code == 204:
+                        response_data = {}
+                    else:
+                        response_data = response.json()
                 except JSONDecodeError as error:
                     report_error("GIT API request json decoding")
                     self.raise_for_response(response)
@@ -1624,6 +1627,24 @@ class GithubRepository(GitMergeRequestBase):
             return True
         return False
 
+    def configure_fork_features(
+        self, credentials: GitCredentials, forked_url: str
+    ) -> None:
+        """
+        Disable features in fork.
+
+        GitHub keeps Actions enabled by default on forks, which is typically
+        not needed for Weblate forks. This function disables Actions to
+        prevent unnecessary CI runs.
+        """
+        actions_url = f"{forked_url}/actions/permissions"
+        _response_data, response, error = self.request(
+            "put", credentials, actions_url, json={"enabled": False}
+        )
+        if response.status_code not in {200, 204}:
+            report_error("Could not disable Actions in fork", message=True)
+            raise RepositoryError(0, f"Could not disable Actions in fork: {error}")
+
     def create_fork(self, credentials: GitCredentials) -> None:
         fork_url = f"{credentials['url']}/forks"
 
@@ -1636,6 +1657,7 @@ class GithubRepository(GitMergeRequestBase):
             raise RepositoryError(
                 0, self.get_fork_failed_message(error, credentials, response)
             )
+        self.configure_fork_features(credentials, response_data["url"])
         self.configure_fork_remote(
             response_data["ssh_url"], response_data["clone_url"], credentials
         )
