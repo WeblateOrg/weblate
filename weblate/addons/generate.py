@@ -20,7 +20,7 @@ from weblate.utils.errors import report_error
 from weblate.utils.render import render_template
 from weblate.utils.state import (
     STATE_EMPTY,
-    STATE_FUZZY,
+    STATE_NEEDS_REWRITING,
     STATE_READONLY,
     STATE_TRANSLATED,
 )
@@ -253,7 +253,7 @@ class PrefillAddon(LocaleGenerateAddonBase):
             updated += self.generate_translation(
                 source_translation,
                 translation,
-                target_state=STATE_FUZZY,
+                target_state=STATE_NEEDS_REWRITING,
                 query=Q(state=STATE_EMPTY),
             )
         if updated:
