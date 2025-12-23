@@ -90,16 +90,21 @@ class DeepLTranslation(
         return super().get_error_message(exc)
 
     def download_languages(self):
+        base_params = {}
+        if self.settings.get("enable_beta_languages"):
+            base_params["enable_beta_languages"] = "1"
+    
         response = self.request(
-            "get", self.get_api_url("languages"), params={"type": "source"}
+            "get", self.get_api_url("languages"), params={**base_params, "type": "source"}
         )
         source_languages = {x["language"] for x in response.json()}
+    
         response = self.request(
-            "get", self.get_api_url("languages"), params={"type": "target"}
+            "get", self.get_api_url("languages"), params={**base_params, "type": "target"}
         )
         # Plain English is not listed, but is supported
         target_languages = {"EN"}
-
+    
         # Handle formality extensions
         for item in response.json():
             lang_code = item["language"].upper()
@@ -107,7 +112,7 @@ class DeepLTranslation(
             if item.get("supports_formality"):
                 target_languages.add(f"{lang_code}@FORMAL")
                 target_languages.add(f"{lang_code}@INFORMAL")
-
+    
         return (
             (source, target)
             for source in source_languages
