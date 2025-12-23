@@ -34,7 +34,6 @@ if TYPE_CHECKING:
     from weblate.checks.models import Check
     from weblate.memory.models import Memory
     from weblate.trans.models import (
-        Announcement,
         Comment,
         Suggestion,
     )
@@ -621,18 +620,13 @@ def check_billing(user: User, permission: str, obj: Project) -> bool | Permissio
     return check_permission(user, "project.permissions", obj)
 
 
-# This does not exist for real
-@register_perm("meta:announcement.delete")
+@register_perm("announcement.delete")
 def check_announcement_delete(
-    user: User, permission: str, obj: Announcement
+    user: User, permission: str, obj: Project | Component | None
 ) -> bool | PermissionResult:
-    if user.is_superuser:
-        return True
-    if obj.component:
-        return check_permission(user, "component.edit", obj.component)
-    if obj.project:
-        return check_permission(user, "project.edit", obj.project)
-    return False
+    if obj is None:
+        return check_global_permission(user, permission)
+    return check_permission(user, permission, obj)
 
 
 # This does not exist for real

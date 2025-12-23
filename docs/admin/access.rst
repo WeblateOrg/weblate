@@ -805,6 +805,10 @@ List of privileges
 | Announcements                | Post announcements                        | :guilabel:`Administration`            |
 |                              |                                           +---------------------------------------+
 |                              |                                           | :guilabel:`Translation coordinator`   |
+|                              +-------------------------------------------+---------------------------------------+
+|                              | Delete announcements                      | :guilabel:`Administration`            |
+|                              |                                           +---------------------------------------+
+|                              |                                           | :guilabel:`Translation coordinator`   |
 +------------------------------+-------------------------------------------+---------------------------------------+
 | Site wide privileges         | Use management interface                  |                                       |
 |                              +-------------------------------------------+---------------------------------------+
@@ -855,6 +859,7 @@ List of built-in roles
 
    * - `Administration`
      - * :guilabel:`Post announcements`
+       * :guilabel:`Delete announcements`
        * :guilabel:`View billing info`
        * :guilabel:`Download changes`
        * :guilabel:`Post comment`
@@ -950,6 +955,7 @@ List of built-in roles
        * :guilabel:`View upstream repository location`
    * - `Translation coordinator`
      - * :guilabel:`Post announcements`
+       * :guilabel:`Delete announcements`
        * :guilabel:`Post comment`
        * :guilabel:`Resolve comment`
        * :guilabel:`Add glossary entry`
