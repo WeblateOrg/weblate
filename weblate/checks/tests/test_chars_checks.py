@@ -23,6 +23,7 @@ from weblate.checks.chars import (
     KabyleCharactersCheck,
     KashidaCheck,
     MaxLengthCheck,
+    MultipleCapitalCheck,  # added class
     NewLineCountCheck,
     PunctuationSpacingCheck,
     ZeroWidthSpaceCheck,
@@ -512,3 +513,15 @@ class KabyleCharactersCheckTest(CheckTestCase):
             ),
             "el",
         )
+
+
+class MultipleCapitalCheckTest(CheckTestCase):
+    check = MultipleCapitalCheck()
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.test_good_matching = ("Hello", "Hello", "")
+        self.test_good_acronym = ("Visit NASA", "Visit NASA", "")
+        self.test_failure_1 = ("Hello", "HEllo", "")
+        self.test_failure_2 = ("camel case", "CAmelCase", "")
+        self.test_failure_3 = ("sigma", "ΣIGMA", "")
