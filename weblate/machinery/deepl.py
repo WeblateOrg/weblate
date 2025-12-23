@@ -157,6 +157,8 @@ class DeepLTranslation(
             params["glossary_id"] = glossary_id
         if self.settings.get("next_gen"):
             params["model_type"] = "prefer_quality_optimized"
+        if self.settings.get("enable_beta_languages"):
+            params["enable_beta_languages"] = True
 
         response = self.request(
             "post",
