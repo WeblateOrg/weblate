@@ -1,3 +1,16 @@
+Weblate 5.16
+------------
+
+*Not yet released.*
+
+.. rubric:: New features
+
+* Encoding for :ref:`formats` can now be configured using :ref:`file_format_params` (e.g., ``csv_encoding``, ``properties_encoding``).
+
+.. rubric:: Compatibility
+
+* File formats that only differed in encoding (CSV, GWT Properties, Java Properties, iOS Strings) have been merged into single formats.
+
 Weblate 5.15.2
 --------------
 
