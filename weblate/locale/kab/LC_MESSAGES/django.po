@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-17 14:44+0000\n"
-"PO-Revision-Date: 2025-12-17 14:43+0000\n"
+"PO-Revision-Date: 2025-12-28 11:00+0000\n"
 "Last-Translator: ButterflyOfFire <boffire@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Kabyle <https://hosted.weblate.org/projects/weblate/"
 "application/kab/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.15.1-dev\n"
+"X-Generator: Weblate 5.15.1\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -1245,11 +1245,9 @@ msgid "Pending suggestions exist"
 msgstr "Isumar yettraǧun"
 
 #: weblate/accounts/notifications.py:1024
-#, fuzzy
-#| msgid "Translated strings"
 msgctxt "Notification name"
 msgid "Unfinished strings exist"
-msgstr "Izriren yattwasuqlen"
+msgstr "Llan yezriren ur ifukken ara"
 
 #: weblate/accounts/password_validation.py:22
 msgid "This password consists of only whitespace."
@@ -11450,28 +11448,24 @@ msgstr "Asatal ntuṭṭfa n ugdil"
 
 #: weblate/templates/mail/todo_strings.html:10 weblate/trans/filter.py:26
 #: weblate/trans/filter.py:123
-#, fuzzy
-#| msgid "Translated strings"
 msgid "Unfinished strings"
-msgstr "Izriren yattwasuqlen"
+msgstr "Izriren ur ifukken ara"
 
 #. Translators: e-mail subject
 #: weblate/templates/mail/todo_strings_subject.txt:6
-#, fuzzy, python-format
-#| msgid "Pending suggestions in %(component)s"
+#, python-format
 msgid "%(count)s unfinished string in %(component)s"
 msgid_plural "%(count)s unfinished strings in %(component)s"
-msgstr[0] "Isumar yettragun deg %(component)s"
-msgstr[1] "Isumar yettragun deg %(component)s"
+msgstr[0] "%(count)s n uzrir ur ifukken ara deg %(component)s"
+msgstr[1] "%(count)s n yezriren ur ifukken ara deg %(component)s"
 
 #. Translators: e-mail subject
 #: weblate/templates/mail/todo_strings_subject.txt:9
-#, fuzzy, python-format
-#| msgid "Pending suggestions"
+#, python-format
 msgid "%(count)s unfinished string"
 msgid_plural "%(count)s unfinished strings"
-msgstr[0] "Isumar yettraǧun"
-msgstr[1] "Isumar yettraǧun"
+msgstr[0] "%(count)s n uzrir ur nfukk ara"
+msgstr[1] "%(count)s n yezriren ur nfukk ara"
 
 #. Translators: e-mail subject
 #: weblate/templates/mail/translated_component_subject.txt:5
@@ -13582,11 +13576,9 @@ msgstr "Ibeddilen yettwasumren:"
 
 #: weblate/templates/snippets/suggestions.html:93
 #: weblate/trans/templatetags/translations.py:875
-#, fuzzy
-#| msgid "Failing checks:"
 msgctxt "String state"
 msgid "Failing checks:"
-msgstr "Asenqed yecceḍ:"
+msgstr "Isenqaden yeccḍen:"
 
 #: weblate/templates/snippets/translation.html:14
 #: weblate/templates/widgets.html:80 weblate/trans/views/widgets.py:105
@@ -16124,10 +16116,8 @@ msgid "Strings with context"
 msgstr "Izriren n yisekkilen deg usatal"
 
 #: weblate/trans/filter.py:36 weblate/trans/filter.py:127
-#, fuzzy
-#| msgid "Approved strings with suggestions"
 msgid "Unfinished strings without suggestions"
-msgstr "Izriren yettwaqeblen s yisumar"
+msgstr "Izriren ur ifukken ara, wid ur nesɛi ara isumar"
 
 #: weblate/trans/filter.py:43
 msgid "Translated strings with any failing checks"
@@ -16162,10 +16152,8 @@ msgid "Pluralized string"
 msgstr "Izriren yattwasuqlen"
 
 #: weblate/trans/filter.py:73 weblate/trans/filter.py:137
-#, fuzzy
-#| msgid "Failing checks:"
 msgid "Failing check: {}"
-msgstr "Asenqed yecceḍ:"
+msgstr "Isenqaden yeccḍen: {}"
 
 #: weblate/trans/filter.py:88
 #, fuzzy
