@@ -854,19 +854,24 @@ $(function () {
   /* Copy to clipboard */
   $(document).on("click", "[data-clipboard-value]", function (e) {
     e.preventDefault();
-    navigator.clipboard
-      .writeText(this.getAttribute("data-clipboard-value"))
-      .then(
-        () => {
-          const text =
-            this.getAttribute("data-clipboard-message") ||
-            gettext("Text copied to clipboard.");
-          addAlert(text, "info");
-        },
-        () => {
-          addAlert(gettext("Please press Ctrl+C to copy."), "danger");
-        },
-      );
+    try {
+      navigator.clipboard
+        .writeText(this.getAttribute("data-clipboard-value"))
+        .then(
+          () => {
+            const text =
+              this.getAttribute("data-clipboard-message") ||
+              gettext("Text copied to clipboard.");
+            addAlert(text, "info");
+          },
+          () => {
+            addAlert(gettext("Please press Ctrl+C to copy."), "danger");
+          },
+        );
+    } catch (e) {
+      addAlert(gettext("Error copying to clipboard."), "danger");
+      console.log(e);
+    }
   });
 
   /* Auto translate source select */
