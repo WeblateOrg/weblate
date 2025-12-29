@@ -1151,7 +1151,7 @@ Markdown links do not match source.
 
 .. seealso::
 
-   `Markdown links`_
+   `Markdown links <https://spec.commonmark.org/0.31.2/#links>`_
 
 
 .. _check-md-reflink:

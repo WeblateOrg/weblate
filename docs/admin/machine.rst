@@ -325,8 +325,7 @@ The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`.
 
    * `DeepL translator <https://www.deepl.com/translator>`_
    * `DeepL pricing <https://www.deepl.com/pro>`_
-   * `DeepL API documentation <https://developers.deepl.com/docs>`_
-   * `DeepL beta languages <https://developers.deepl.com/docs/getting-started/supported-languages#beta-languages>`_
+   * `DeepL API documentation <https://developers.deepl.com/docs/getting-started/intro>`_
 
 .. _mt-glosbe:
 

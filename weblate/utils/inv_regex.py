@@ -215,11 +215,11 @@ def get_parser():
         | one_of(list("*+?"))
     )
 
-    re_range.setParseAction(handle_range)
-    re_literal.setParseAction(handle_literal)
-    re_macro.setParseAction(handle_macro)
-    re_dot.setParseAction(handle_dot)
-    re_boundary.setParseAction(handle_boundary)
+    re_range.set_parse_action(handle_range)
+    re_literal.set_parse_action(handle_literal)
+    re_macro.set_parse_action(handle_macro)
+    re_dot.set_parse_action(handle_dot)
+    re_boundary.set_parse_action(handle_boundary)
 
     re_term = (
         re_boundary | re_literal | re_range | re_macro | re_dot | re_non_capture_group
