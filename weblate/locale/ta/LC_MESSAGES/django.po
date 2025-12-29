@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-17 14:44+0000\n"
-"PO-Revision-Date: 2025-12-29 13:00+0000\n"
+"PO-Revision-Date: 2025-12-30 15:00+0000\n"
 "Last-Translator: தமிழ்நேரம் <tamilneram247@gmail.com>\n"
 "Language-Team: Tamil <https://hosted.weblate.org/projects/weblate/"
 "application/ta/>\n"
@@ -601,10 +601,9 @@ msgid "Two-factor authentication sign in using {device}"
 msgstr "{device}ஐப் பயன்படுத்தி இரண்டு காரணி அங்கீகார உள்நுழைவு"
 
 #: weblate/accounts/models.py:320
-#, fuzzy, python-brace-format
-#| msgid "Two-factor authentication sign in using {device}"
+#, python-brace-format
 msgid "Two-factor authentication failed using {device_type}"
-msgstr "{device}ஐப் பயன்படுத்தி இரண்டு காரணி அங்கீகார உள்நுழைவு"
+msgstr "{device_type}ஐப் பயன்படுத்தி இரண்டு காரணி அங்கீகாரம் தோல்வி"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:328
@@ -2196,10 +2195,9 @@ msgid "Invalid add-on name: ”%s”"
 msgstr "தவறான சேர்க்கை பெயர்: ”%s”"
 
 #: weblate/addons/views.py:131
-#, fuzzy, python-format
-#| msgid "Add-on uninstalled"
+#, python-format
 msgid "Add-on cannot be installed: ”%s”"
-msgstr "நிராகரிக்கப்படவில்லை"
+msgstr "செருகு நிரலை நிறுவ முடியாது: ”%s”"
 
 #: weblate/addons/views.py:154
 msgid "Add-on installed, please review integration instructions."
@@ -6395,10 +6393,8 @@ msgid "Screenshot %s has been deleted."
 msgstr "திரைக்காட்சி %s நீக்கப்பட்டன."
 
 #: weblate/screenshots/views.py:330
-#, fuzzy
-#| msgid "Invalid date!"
 msgid "Invalid unit."
-msgstr "தவறான தேதி!"
+msgstr "தவறான அலகு."
 
 #: weblate/screenshots/views.py:335
 msgid "Source has been removed."
@@ -9566,13 +9562,11 @@ msgid "Repository status"
 msgstr "களஞ்சிய நிலை"
 
 #: weblate/templates/js/git-status.html:28
-#, fuzzy, python-format
-#| msgid "%(count)s pending change"
-#| msgid_plural "%(count)s pending changes"
+#, python-format
 msgid "%(total_count)s pending unit"
 msgid_plural "%(total_count)s pending units"
-msgstr[0] "%(count)s நிலுவையில் உள்ள மாற்றம்"
-msgstr[1] "%(count)s நிலுவையில் உள்ள மாற்றங்கள்"
+msgstr[0] "%(total_count)s நிலுவையில் உள்ள அலகு"
+msgstr[1] "%(total_count)s நிலுவையில் உள்ள அலகுகள்"
 
 #: weblate/templates/js/git-status.html:34
 #, python-format
@@ -11373,10 +11367,9 @@ msgid "Add label"
 msgstr "லேபிளைச் சேர்க்கவும்"
 
 #: weblate/templates/project.html:167
-#, fuzzy, python-format
-#| msgid "Manage teams"
+#, python-format
 msgid "Manage %(team)s"
-msgstr "அணிகளை நிர்வகி"
+msgstr "%(team)s நிர்வகி"
 
 #: weblate/templates/project.html:379
 msgid "Organize project"
@@ -11600,13 +11593,11 @@ msgstr ""
 "தயவுசெய்து பின்னர் வாருங்கள்."
 
 #: weblate/templates/snippets/component/lock.html:27
-#, fuzzy
-#| msgid "The translation was automatically locked due to following alerts:"
 msgid "The translation was automatically locked due to the following alert:"
 msgid_plural ""
 "The translation was automatically locked due to the following alerts:"
-msgstr[0] "பின்வரும் விழிப்பூட்டல்களால் மொழிபெயர்ப்பு தானாக பூட்டப்பட்டது:"
-msgstr[1] "பின்வரும் விழிப்பூட்டல்களால் மொழிபெயர்ப்பு தானாக பூட்டப்பட்டது:"
+msgstr[0] "பின்வரும் எச்சரிக்கையின் காரணமாக மொழிபெயர்ப்பு தானாகவே பூட்டப்பட்டது:"
+msgstr[1] "பின்வரும் விழிப்பூட்டல்கள் காரணமாக மொழிபெயர்ப்பு தானாகவே பூட்டப்பட்டது:"
 
 #: weblate/templates/snippets/donate.html:4
 msgid ""
@@ -13783,10 +13774,9 @@ msgid "Automatically translated"
 msgstr "தானாக மொழிபெயர்க்கப்பட்டுள்ளது"
 
 #: weblate/templates/translate.html:723
-#, fuzzy, python-format
-#| msgid "This string has been translated in the past."
+#, python-format
 msgid "This string was translated automatically by %(author)s."
-msgstr "இந்தச் சரம் கடந்த காலத்தில் மொழிபெயர்க்கப்பட்டுள்ளது."
+msgstr "இந்தச் சரம் %(author)s ஆல் தானாக மொழிபெயர்க்கப்பட்டது."
 
 #: weblate/templates/translate.html:745
 #, python-format
@@ -14618,14 +14608,12 @@ msgid "New revision: {}"
 msgstr "புதிய திருத்தம்: {}"
 
 #: weblate/trans/change_display.py:413
-#, fuzzy, python-format
-#| msgid "%(count)s character edited"
-#| msgid_plural "%(count)s characters edited"
+#, python-format
 msgctxt "Number of edits on a change in Damerau–Levenshtein distance"
 msgid "%(count)d character edited"
 msgid_plural "%(count)d characters edited"
-msgstr[0] "%(count)s இன் எழுத்து திருத்தப்பட்டது"
-msgstr[1] "%(count)s எழுத்துக்கள் திருத்தப்பட்டன"
+msgstr[0] "%(count)d இன் எழுத்து திருத்தப்பட்டது"
+msgstr[1] "%(count)d எழுத்துக்கள் திருத்தப்பட்டன"
 
 #. Translators: Translation context for Gettext
 #: weblate/trans/change_display.py:422 weblate/trans/forms.py:2711
@@ -17168,10 +17156,9 @@ msgid "File format parameters must be a dictionary of key-value pairs."
 msgstr ""
 
 #: weblate/trans/validators.py:84
-#, fuzzy, python-format
-#| msgid "File format"
+#, python-format
 msgid "Unknown file format parameter: \"%(param_name)s\"."
-msgstr "கோப்பு வகை"
+msgstr "அறியப்படாத கோப்பு வடிவமைப்பு அளவுரு: \"%(param_name)s\"."
 
 #: weblate/trans/views/about.py:22
 msgid "Keys"
@@ -17215,32 +17202,33 @@ msgid "Language addition is not supported by any of the components."
 msgstr ""
 
 #: weblate/trans/views/basic.py:840
-#, fuzzy, python-format
-#| msgid "New language added to %(component)s"
+#, python-format
 msgid "Language %(language)s added to %(count)d component."
 msgid_plural "Language %(language)s added to %(count)d components."
-msgstr[0] "புதிய மொழி %(component)s சேர்க்கப்பட்டுள்ளது"
-msgstr[1] "புதிய மொழி %(component)s சேர்க்கப்பட்டுள்ளது"
+msgstr[0] "மொழி %(language)s %(count)d கூறில் சேர்க்கப்பட்டது."
+msgstr[1] "மொழி %(language)s %(count)d கூறுகளில் சேர்க்கப்பட்டது."
 
 #: weblate/trans/views/basic.py:854
-#, fuzzy, python-format
-#| msgid "New language request in %(component)s"
+#, python-format
 msgid "Language %(language)s requested for %(count)d component."
 msgid_plural "Language %(language)s requested for %(count)d components."
-msgstr[0] "%(component)s புதிய மொழி கோரிக்கை"
-msgstr[1] "%(component)s புதிய மொழி கோரிக்கை"
+msgstr[0] "%(count)d கூறுக்கு மொழி %(language)s கோரப்பட்டது."
+msgstr[1] "%(count)d கூறுகளுக்கு மொழி %(language)s கோரப்பட்டது."
 
 #: weblate/trans/views/basic.py:868
-#, fuzzy, python-format
-#| msgid "New language added to %(component)s"
+#, python-format
 msgid ""
 "Language %(language)s could not be added to %(count)d component. Please "
 "check the component's configuration."
 msgid_plural ""
 "Language %(language)s could not be added to %(count)d components. Please "
 "check the components' configuration."
-msgstr[0] "புதிய மொழி %(component)s சேர்க்கப்பட்டுள்ளது"
-msgstr[1] "புதிய மொழி %(component)s சேர்க்கப்பட்டுள்ளது"
+msgstr[0] ""
+"மொழி %(language)s -ஐ %(count)d உபகரணத்தில் சேர்க்க இயலாது. உபகரணத்தின் உள்ளமைவை "
+"சரிபார்க்கவும்."
+msgstr[1] ""
+"மொழி %(language)s %(count)d கூறுகளில் சேர்க்க முடியவில்லை. கூறுகளின் உள்ளமைவைச் "
+"சரிபார்க்கவும்."
 
 #: weblate/trans/views/basic.py:944
 msgid ""
@@ -17948,10 +17936,8 @@ msgstr ""
 "{}"
 
 #: weblate/utils/validators.py:265
-#, fuzzy
-#| msgid "This name is prohibited"
 msgid "The filename contains a prohibited folder."
-msgstr "இந்த பெயர் தடைசெய்யப்பட்டுள்ளது"
+msgstr "இந்தப் பெயர் தடைசெய்யப்பட்டுள்ளது."
 
 #: weblate/utils/validators.py:306 weblate/utils/validators.py:323
 msgid "This name is prohibited"
