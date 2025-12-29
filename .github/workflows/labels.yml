@@ -17,7 +17,7 @@ jobs:
     permissions:
       issues: write  # for peter-evans/create-or-update-comment to create or update comment
       pull-requests: write  # for peter-evans/create-or-update-comment to create or update comment
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-slim
     steps:
     - name: Add backlog comment
       uses: peter-evans/create-or-update-comment@e8674b075228eee787fea43ef493e45ece1004c9 # v5.0.0
