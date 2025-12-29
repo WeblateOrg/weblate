@@ -95,12 +95,16 @@ class DeepLTranslation(
             base_params["enable_beta_languages"] = "1"
 
         response = self.request(
-            "get", self.get_api_url("languages"), params={**base_params, "type": "source"}
+            "get",
+            self.get_api_url("languages"),
+            params={**base_params, "type": "source"},
         )
         source_languages = {x["language"] for x in response.json()}
 
         response = self.request(
-            "get", self.get_api_url("languages"), params={**base_params, "type": "target"}
+            "get",
+            self.get_api_url("languages"),
+            params={**base_params, "type": "target"},
         )
         # Plain English is not listed, but is supported
         target_languages = {"EN"}

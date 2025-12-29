@@ -354,9 +354,7 @@ class DeepLMachineryForm(KeyURLMachineryForm):
             "Automatic suggestion service configuration",
             "Enable beta languages",
         ),
-        help_text=gettext_lazy(
-            "Enable support for languages currently in beta."
-        ),
+        help_text=gettext_lazy("Enable support for languages currently in beta."),
         required=False,
     )
 
