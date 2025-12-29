@@ -401,6 +401,7 @@ PGPASSWORD=weblate psql -h 127.0.0.1 -U weblate -d weblate < /path/to/backup.sql
   git checkout v0.74
   git describe --tags
   sudo apt update
+  sudo apt-get install -y libyaml-tiny-perl
   sudo apt install build-essential libmodule-build-perl gettext
 
   perl Build.PL

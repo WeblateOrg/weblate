@@ -23,7 +23,6 @@ class AsciiDocFormat(ConvertFormat):
     name = gettext_lazy("AsciiDoc file")
     autoload = ("*.adoc",)
     format_id = "asciidoc"
-    check_flags = ("safe-html", "strict-same", "md-text")
     monolingual = True
 
     def _merge_translations(self, store, template_store):
