@@ -352,7 +352,6 @@ class GettextAddonTest(ViewTestCase):
         self.assertEqual(translation.addon_commit_files, [])
 
     def test_generate(self) -> None:
-        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         self.assertTrue(GenerateFileAddon.can_install(component=self.component))
         GenerateFileAddon.create(
             component=self.component,
@@ -363,6 +362,15 @@ class GettextAddonTest(ViewTestCase):
 }""",
             },
         )
+        commit = self.component.repository.show(self.component.repository.last_revision)
+        # Verify file is created upon install
+        self.assertIn("stats/cs.json", commit)
+        # Verify that source language file is not there
+        self.assertNotIn("stats/en.json", commit)
+        self.assertIn('"translated": 0', commit)
+
+        # Verify file is updated upon edit
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         self.get_translation().commit_pending("test", None)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("stats/cs.json", commit)

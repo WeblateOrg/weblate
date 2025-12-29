@@ -33,6 +33,7 @@ if TYPE_CHECKING:
 class GenerateFileAddon(BaseAddon):
     events: ClassVar[set[AddonEvent]] = {
         AddonEvent.EVENT_PRE_COMMIT,
+        AddonEvent.EVENT_INSTALL,
     }
     name = "weblate.generate.generate"
     verbose = gettext_lazy("Statistics generator")
@@ -70,7 +71,22 @@ class GenerateFileAddon(BaseAddon):
             self.instance.configuration["template"], translation=translation
         )
         Path(filename).write_text(content, encoding="utf-8")
+        # For pre_commit hook
         translation.addon_commit_files.append(filename)
+        # For post_install hook
+        self.extra_files.append(filename)
+
+    def post_install(
+        self,
+        component: Component,
+        store_hash: bool,
+        activity_log_id: int | None = None,
+    ) -> dict | None:
+        for translation in component.translation_set.exclude(
+            language_id=component.source_language_id
+        ).iterator():
+            self.pre_commit(translation, "", store_hash, activity_log_id)
+        self.commit_and_push(component)
 
 
 class LocaleGenerateAddonBase(BaseAddon):
