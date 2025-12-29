@@ -20,7 +20,7 @@ translation project or component. Add-ons can be also installed site-wide in :re
 Events that trigger add-ons
 +++++++++++++++++++++++++++
 
-.. _addon-event-install:
+.. _addon-event-add-on-installation:
 
 Add-on installation
 -------------------
@@ -163,7 +163,7 @@ Automatic translation
                 +-----------------+----------------------------------+------------------------------------------------------------------------------------------------------+
                 | ``threshold``   | Score threshold                  |                                                                                                      |
                 +-----------------+----------------------------------+------------------------------------------------------------------------------------------------------+
-:Triggers: :ref:`addon-event-install`, :ref:`addon-event-component-update`, :ref:`addon-event-daily`, :ref:`addon-event-event-change`
+:Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-component-update`, :ref:`addon-event-daily`, :ref:`addon-event-event-change`
 
 Automatically translates strings using machine translation or other components.
 
@@ -191,7 +191,7 @@ JavaScript localization CDN
                 +------------------+---------------------------------+-------------------------------------------------------------------------------------------+
                 | ``files``        | Extract strings from HTML files | List of filenames in current repository or remote URLs to parse for translatable strings. |
                 +------------------+---------------------------------+-------------------------------------------------------------------------------------------+
-:Triggers: :ref:`addon-event-install`, :ref:`addon-event-daily`, :ref:`addon-event-repository-post-commit`, :ref:`addon-event-repository-post-update`
+:Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-daily`, :ref:`addon-event-repository-post-commit`, :ref:`addon-event-repository-post-update`
 
 Publishes translations into content delivery network for use in JavaScript or
 HTML localization.
@@ -229,7 +229,7 @@ Remove blank strings
 
 :Add-on ID: ``weblate.cleanup.blank``
 :Configuration: `This add-on has no configuration.`
-:Triggers: :ref:`addon-event-install`, :ref:`addon-event-repository-post-commit`, :ref:`addon-event-repository-post-update`
+:Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-repository-post-commit`, :ref:`addon-event-repository-post-update`
 
 Removes strings without a translation from translation files.
 
@@ -248,7 +248,7 @@ Cleanup translation files
 
 :Add-on ID: ``weblate.cleanup.generic``
 :Configuration: `This add-on has no configuration.`
-:Triggers: :ref:`addon-event-install`, :ref:`addon-event-repository-post-update`, :ref:`addon-event-repository-pre-commit`
+:Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-repository-post-update`, :ref:`addon-event-repository-pre-commit`
 
 Update all translation files to match the monolingual base file. For most file
 formats, this means removing stale translation keys no longer present in the
@@ -269,7 +269,7 @@ Add missing languages
 
 :Add-on ID: ``weblate.consistency.languages``
 :Configuration: `This add-on has no configuration.`
-:Triggers: :ref:`addon-event-install`, :ref:`addon-event-daily`, :ref:`addon-event-repository-post-add`
+:Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-daily`, :ref:`addon-event-repository-post-add`
 
 Ensures a consistent set of languages is used for all components within a
 project.
@@ -315,7 +315,7 @@ Component discovery
                 +---------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
                 | ``confirm``               | I confirm the above matches look correct                        |                                                                                                                                                             |
                 +---------------------------+-----------------------------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------+
-:Triggers: :ref:`addon-event-install`, :ref:`addon-event-repository-post-update`
+:Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-repository-post-update`
 
 Automatically adds or removes project components based on file changes in the
 version control system.
@@ -655,34 +655,34 @@ Bulk edit
 ---------
 
 :Add-on ID: ``weblate.flags.bulk``
-:Configuration: +-------------------+-----------------------------+------------------------------------+
-                | ``q``             | Query                       |                                    |
-                +-------------------+-----------------------------+------------------------------------+
-                | ``state``         | State to set                | .. list-table:: Available choices: |
-                |                   |                             |    :width: 100%                    |
-                |                   |                             |                                    |
-                |                   |                             |    * - ``-1``                      |
-                |                   |                             |      - Do not change               |
-                |                   |                             |    * - ``10``                      |
-                |                   |                             |      - Needs editing               |
-                |                   |                             |    * - ``11``                      |
-                |                   |                             |      - Needs rewriting             |
-                |                   |                             |    * - ``12``                      |
-                |                   |                             |      - Needs checking              |
-                |                   |                             |    * - ``20``                      |
-                |                   |                             |      - Translated                  |
-                |                   |                             |    * - ``30``                      |
-                |                   |                             |      - Approved                    |
-                +-------------------+-----------------------------+------------------------------------+
-                | ``add_flags``     | Translation flags to add    |                                    |
-                +-------------------+-----------------------------+------------------------------------+
-                | ``remove_flags``  | Translation flags to remove |                                    |
-                +-------------------+-----------------------------+------------------------------------+
-                | ``add_labels``    | Labels to add               |                                    |
-                +-------------------+-----------------------------+------------------------------------+
-                | ``remove_labels`` | Labels to remove            |                                    |
-                +-------------------+-----------------------------+------------------------------------+
-:Triggers: :ref:`addon-event-install`, :ref:`addon-event-component-update`
+:Configuration: +-------------------+-----------------------------+----------------------------------------+
+                | ``q``             | Query                       |                                        |
+                +-------------------+-----------------------------+----------------------------------------+
+                | ``state``         | State to set                | .. list-table:: Available choices:     |
+                |                   |                             |    :width: 100%                        |
+                |                   |                             |                                        |
+                |                   |                             |    * - ``-1``                          |
+                |                   |                             |      - Do not change                   |
+                |                   |                             |    * - ``10``                          |
+                |                   |                             |      - Needs editing                   |
+                |                   |                             |    * - ``11``                          |
+                |                   |                             |      - Needs editing (Needs rewriting) |
+                |                   |                             |    * - ``12``                          |
+                |                   |                             |      - Needs editing (Needs checking)  |
+                |                   |                             |    * - ``20``                          |
+                |                   |                             |      - Translated                      |
+                |                   |                             |    * - ``30``                          |
+                |                   |                             |      - Approved                        |
+                +-------------------+-----------------------------+----------------------------------------+
+                | ``add_flags``     | Translation flags to add    |                                        |
+                +-------------------+-----------------------------+----------------------------------------+
+                | ``remove_flags``  | Translation flags to remove |                                        |
+                +-------------------+-----------------------------+----------------------------------------+
+                | ``add_labels``    | Labels to add               |                                        |
+                +-------------------+-----------------------------+----------------------------------------+
+                | ``remove_labels`` | Labels to remove            |                                        |
+                +-------------------+-----------------------------+----------------------------------------+
+:Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-component-update`
 
 Bulk edit flags, labels, or states of strings.
 
@@ -722,15 +722,15 @@ Bulk edit flags, labels, or states of strings.
 
 .. _addon-weblate.flags.same_edit:
 
-Flag unchanged translations as "Needs editing"
-----------------------------------------------
+Flag unchanged translations as "Needs rewriting"
+------------------------------------------------
 
 :Add-on ID: ``weblate.flags.same_edit``
 :Configuration: `This add-on has no configuration.`
 :Triggers: :ref:`addon-event-unit-pre-create`
 
 Whenever a new translatable string is imported from the VCS and it matches a
-source string, it is flagged as needing editing in Weblate. Especially useful
+source string, it is flagged as needing rewriting in Weblate. Especially useful
 for file formats that include source strings for untranslated strings.
 
 .. hint::
@@ -744,15 +744,15 @@ for file formats that include source strings for untranslated strings.
 
 .. _addon-weblate.flags.source_edit:
 
-Flag new source strings as "Needs editing"
-------------------------------------------
+Flag new source strings as "Needs checking"
+-------------------------------------------
 
 :Add-on ID: ``weblate.flags.source_edit``
 :Configuration: `This add-on has no configuration.`
 :Triggers: :ref:`addon-event-unit-pre-create`
 
 Whenever a new source string is imported from the VCS, it is flagged as needing
-editing in Weblate. This way you can easily filter and edit source strings
+checking in Weblate. This way you can easily filter and edit source strings
 written by the developers.
 
 .. seealso::
@@ -761,15 +761,15 @@ written by the developers.
 
 .. _addon-weblate.flags.target_edit:
 
-Flag new translations as "Needs editing"
-----------------------------------------
+Flag new translations as "Needs rewriting"
+------------------------------------------
 
 :Add-on ID: ``weblate.flags.target_edit``
 :Configuration: `This add-on has no configuration.`
 :Triggers: :ref:`addon-event-unit-pre-create`
 
 Whenever a new translatable string is imported from the VCS, it is flagged as
-needing editing in Weblate. This way you can easily filter and edit
+needing rewriting in Weblate. This way you can easily filter and edit
 translations created by the developers.
 
 .. seealso::
@@ -778,15 +778,15 @@ translations created by the developers.
 
 .. _addon-weblate.flags.target_repo_update:
 
-Flag updated translations from repository as "Needs editing"
-------------------------------------------------------------
+Flag updated translations from repository as "Needs rewriting"
+--------------------------------------------------------------
 
 :Add-on ID: ``weblate.flags.target_repo_update``
 :Configuration: `This add-on has no configuration.`
 :Triggers: :ref:`addon-event-unit-post-sync`
 
 Whenever a string translation is changed from the VCS, it is flagged as needing
-editing in Weblate. Especially useful if translation files are often updated
+rewriting in Weblate. Especially useful if translation files are often updated
 manually or by an external service.
 
 .. seealso::
@@ -802,7 +802,7 @@ Fill read-only strings with source
 
 :Add-on ID: ``weblate.generate.fill_read_only``
 :Configuration: `This add-on has no configuration.`
-:Triggers: :ref:`addon-event-install`, :ref:`addon-event-component-update`, :ref:`addon-event-daily`
+:Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-component-update`, :ref:`addon-event-daily`
 
 Fills in translation of read-only strings with source string.
 
@@ -817,7 +817,7 @@ Statistics generator
                 +--------------+---------------------------+--+
                 | ``template`` | Content of generated file |  |
                 +--------------+---------------------------+--+
-:Triggers: :ref:`addon-event-repository-pre-commit`
+:Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-repository-pre-commit`
 
 Generates a file containing detailed info about the translation status.
 
@@ -853,7 +853,7 @@ Prefill translation with source
 
 :Add-on ID: ``weblate.generate.prefill``
 :Configuration: `This add-on has no configuration.`
-:Triggers: :ref:`addon-event-install`, :ref:`addon-event-component-update`, :ref:`addon-event-daily`
+:Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-component-update`, :ref:`addon-event-daily`
 
 Fills in translation strings with source string.
 
@@ -886,7 +886,7 @@ Pseudolocale generation
                 +----------------------+---------------------------+------------------------------------------------------------------------------------------+
                 | ``include_readonly`` | Include read-only strings |                                                                                          |
                 +----------------------+---------------------------+------------------------------------------------------------------------------------------+
-:Triggers: :ref:`addon-event-install`, :ref:`addon-event-component-update`, :ref:`addon-event-daily`
+:Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-component-update`, :ref:`addon-event-daily`
 
 Generates a translation by adding prefix and suffix to source strings
 automatically.
@@ -959,7 +959,7 @@ Update ALL_LINGUAS variable in the "configure" file
 
 :Add-on ID: ``weblate.gettext.configure``
 :Configuration: `This add-on has no configuration.`
-:Triggers: :ref:`addon-event-install`, :ref:`addon-event-daily`, :ref:`addon-event-repository-post-add`
+:Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-daily`, :ref:`addon-event-repository-post-add`
 
 Updates the ALL_LINGUAS variable in :file:`configure`, :file:`configure.in` or any
 :file:`configure.ac` files, when a new translation is added.
@@ -978,7 +978,7 @@ Update LINGUAS file
 
 :Add-on ID: ``weblate.gettext.linguas``
 :Configuration: `This add-on has no configuration.`
-:Triggers: :ref:`addon-event-install`, :ref:`addon-event-daily`, :ref:`addon-event-repository-post-add`
+:Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-daily`, :ref:`addon-event-repository-post-add`
 
 Updates the LINGUAS file when a new translation is added.
 
@@ -1017,7 +1017,7 @@ Update PO files to match POT (msgmerge)
 
 :Add-on ID: ``weblate.gettext.msgmerge``
 :Configuration: `This add-on has no configuration.`
-:Triggers: :ref:`addon-event-install`, :ref:`addon-event-repository-post-update`
+:Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-repository-post-update`
 
 Updates all PO files (as configured by :ref:`component-filemask`) to match the
 POT file (as configured by :ref:`component-new_base`) using :program:`msgmerge`.
@@ -1062,7 +1062,7 @@ Squash Git commits
                 +---------------------+--------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
                 | ``commit_message``  | Commit message                             | This commit message will be used instead of the combined commit messages from the squashed commits.                                                               |
                 +---------------------+--------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-:Triggers: :ref:`addon-event-install`, :ref:`addon-event-repository-post-commit`
+:Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-repository-post-commit`
 
 Squash Git commits prior to pushing changes.
 
@@ -1128,7 +1128,7 @@ Stale comment removal
 :Configuration: +---------+--------------+--+
                 | ``age`` | Days to keep |  |
                 +---------+--------------+--+
-:Triggers: :ref:`addon-event-install`, :ref:`addon-event-daily`
+:Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-daily`
 
 Set a timeframe for removal of comments.
 
@@ -1147,7 +1147,7 @@ Stale suggestion removal
                 +-----------+------------------+-------------------------------------------------------------------------+
                 | ``votes`` | Voting threshold | Threshold for removal. This field has no effect with voting turned off. |
                 +-----------+------------------+-------------------------------------------------------------------------+
-:Triggers: :ref:`addon-event-install`, :ref:`addon-event-daily`
+:Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-daily`
 
 Set a timeframe for removal of suggestions.
 
@@ -1162,7 +1162,7 @@ Update RESX files
 
 :Add-on ID: ``weblate.resx.update``
 :Configuration: `This add-on has no configuration.`
-:Triggers: :ref:`addon-event-install`, :ref:`addon-event-repository-post-update`
+:Triggers: :ref:`addon-event-add-on-installation`, :ref:`addon-event-repository-post-update`
 
 Update all translation files to match the monolingual upstream base file.
 Unused strings are removed, and new ones added as copies of the source string.
@@ -1332,6 +1332,8 @@ Machine translation engines
      - Google Cloud Translation Advanced
    * - ``google-translate``
      - Google Cloud Translation Basic
+   * - ``microsoft-translator``
+     - Azure AI Translator
    * - ``modernmt``
      - ModernMT
    * - ``openai``
@@ -1513,6 +1515,8 @@ Change events
      - Label added
    * - ``87``
      - Label removed
+   * - ``88``
+     - Repository cleanup
 
 .. _addon-choice-file_format:
 
