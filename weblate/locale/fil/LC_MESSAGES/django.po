@@ -8,8 +8,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-17 14:44+0000\n"
-"PO-Revision-Date: 2025-08-09 22:10+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2025-12-30 15:00+0000\n"
+"Last-Translator: searinminecraft <kitakita@disroot.org>\n"
 "Language-Team: Filipino <https://hosted.weblate.org/projects/weblate/"
 "application/fil/>\n"
 "Language: fil\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1 && n != 2 && n != 3 && (n % 10 == 4 "
 "|| n % 10 == 6 || n % 10 == 9);\n"
-"X-Generator: Weblate 5.13-dev\n"
+"X-Generator: Weblate 5.15.1\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -377,22 +377,24 @@ msgid "Verify the code from the app"
 msgstr "I-verify ang code mula sa app"
 
 #: weblate/accounts/forms.py:1135
-#, fuzzy
-#| msgid "Name your authentication app"
 msgid "Discard previously configured authentication apps"
-msgstr "Ipangalan ang iyong authentication app"
+msgstr "Ipagliban ang mga nakaraang na-configure na authentication app"
 
 #: weblate/accounts/forms.py:1139
 msgid ""
 "All previously configured authentication apps will be discarded upon "
 "verification of the new app."
 msgstr ""
+"Ipapagliban ang lahat ng mga nakaraang na-configure na authentication sa pag-"
+"verify ng bagong app."
 
 #: weblate/accounts/forms.py:1142
 msgid ""
 "Other two-factor methods (such as WebAuthn and security keys) won't be "
 "affected."
 msgstr ""
+"Hindi maaapektuhan ang ibang paraan ng two-factor (tulad ng WebAuthn at mga "
+"security key)."
 
 #: weblate/accounts/forms.py:1148
 msgid "The entered token is not valid."
@@ -562,12 +564,12 @@ msgstr "Na-disable ng tagapangasiwa ang user."
 
 #: weblate/accounts/models.py:296
 msgid "User was disabled because the access has expired."
-msgstr ""
+msgstr "Na-disable ang user dahil nag-expire na ang pag-access."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:299
 msgid "Semiannual support status review was displayed."
-msgstr ""
+msgstr "Pinakita ang kalahating taon na status ng suporta."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:301
@@ -608,10 +610,9 @@ msgid "Two-factor authentication sign in using {device}"
 msgstr "Two-factor authentication sign in gamit ang {device}"
 
 #: weblate/accounts/models.py:320
-#, fuzzy, python-brace-format
-#| msgid "Two-factor authentication sign in using {device}"
+#, python-brace-format
 msgid "Two-factor authentication failed using {device_type}"
-msgstr "Two-factor authentication sign in gamit ang {device}"
+msgstr "Nabigo ang two-factor authentication gamit ang {device_type}"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:328
@@ -721,34 +722,37 @@ msgid ""
 "{{branch}} for branch, {{filename}} and {{line}} as filename and line "
 "placeholders."
 msgstr ""
+"Maglagay ng custom na URL na gagamitin bilang link sa source code. Maaari "
+"mong gamitin ang {{branch}} para sa branch, {{filename}} at {{line}} bilang "
+"pangalan ng file at linya na placeholder."
 
 #: weblate/accounts/models.py:682
 msgid "Translation editor mode"
-msgstr ""
+msgstr "Mode ng editor ng pagsasalin"
 
 #: weblate/accounts/models.py:684
 msgid "Full editor"
-msgstr ""
+msgstr "Punong editor"
 
 #: weblate/accounts/models.py:685
 msgid "Zen mode"
-msgstr ""
+msgstr "Zen mode"
 
 #: weblate/accounts/models.py:692
 msgid "Zen editor mode"
-msgstr ""
+msgstr "Mode na zen editor"
 
 #: weblate/accounts/models.py:694
 msgid "Top to bottom"
-msgstr ""
+msgstr "Itaas hanggang ibaba"
 
 #: weblate/accounts/models.py:695
 msgid "Side by side"
-msgstr ""
+msgstr "Magkatabi"
 
 #: weblate/accounts/models.py:703
 msgid "Special characters"
-msgstr ""
+msgstr "Mga espesyal na character"
 
 #: weblate/accounts/models.py:705
 msgid ""
@@ -756,60 +760,66 @@ msgid ""
 "while translating. It can be useful for characters you use frequently, but "
 "are hard to type on your keyboard."
 msgstr ""
+"Maaari kang tumukoy ng karagdagang mga espesyal na visual na character sa "
+"keyboard na ipapakita habang nagsasalin. Maaari itong maging kapaki-"
+"pakinabang para sa mga character na ginagamit mo nang madalas, ngunit "
+"mahirap i-type sa iyong keyboard."
 
 #: weblate/accounts/models.py:711
 msgid "Number of nearby strings"
-msgstr ""
+msgstr "Bilang ng mga malapit na string"
 
 #: weblate/accounts/models.py:715
 msgid "Number of nearby strings to show in each direction in the full editor."
 msgstr ""
+"Bilang ng mga malapit na string na ipapakita sa bawat direksyon sa punong "
+"editor."
 
 #: weblate/accounts/models.py:719
 msgid "Automatically watch projects on contribution"
-msgstr ""
+msgstr "Awtomatikong panoorin ang mga proyekto sa pagambag"
 
 #: weblate/accounts/models.py:722
 msgid ""
 "Whenever you translate a string in a project, you will start watching it."
 msgstr ""
+"Kapag nagsalin ka ng isang string sa isang proyekto, sisimulan mo itong "
+"panoorin."
 
 #: weblate/accounts/models.py:726
-#, fuzzy
-#| msgid "Current password"
 msgid "Contribute to personal translation memory"
-msgstr "Kasalukuyang password"
+msgstr "Mag-ambag sa personal na memorya ng pagsasalin"
 
 #: weblate/accounts/models.py:729
 msgid ""
 "Allow your translations to be added to your personal translation memory."
 msgstr ""
+"Pinapayagan ang iyong mga pagsasalin na idagdag sa iyong personal na memorya "
+"ng pagsasalin."
 
 #: weblate/accounts/models.py:740 weblate/templates/dashboard/user.html:22
 msgid "Watched translations"
-msgstr ""
+msgstr "Mga pinapanood na pagsasalin"
 
 #: weblate/accounts/models.py:741 weblate/templates/dashboard/user.html:29
-#, fuzzy
-#| msgid "Component list: %s"
 msgid "All component lists"
-msgstr "Talaan ng mga component: %s"
+msgstr "Lahat ng listahan ng component"
 
 #: weblate/accounts/models.py:742 weblate/templates/dashboard/user.html:100
 msgid "Component list"
-msgstr ""
+msgstr "Listahan ng component"
 
 #: weblate/accounts/models.py:743 weblate/templates/dashboard/user.html:36
 msgid "Suggested translations"
-msgstr ""
+msgstr "Mga inimumungkahing pagsasalin"
 
 #: weblate/accounts/models.py:757
 msgid "Default dashboard view"
-msgstr ""
+msgstr "Default na view sa dashboard"
 
 #: weblate/accounts/models.py:763
 msgid "Default component list"
-msgstr ""
+msgstr "Default na listahan ng component"
 
 #: weblate/accounts/models.py:773
 #: weblate/templates/snippets/watch-dropdown.html:59
@@ -818,83 +828,95 @@ msgid ""
 "You can receive notifications for watched projects and they are shown on the "
 "dashboard by default."
 msgstr ""
+"Maaari kang makatanggap ng mga abiso para sa mga pinapanood na proyekto at "
+"pinapakita sila sa dashboard bilang default."
 
 #: weblate/accounts/models.py:781
 msgid "Website URL"
-msgstr ""
+msgstr "URL ng website"
 
 #: weblate/accounts/models.py:786
-#, fuzzy
-#| msgid "Contact"
 msgid "Contact URL"
-msgstr "Contact"
+msgstr "URL ng pakikipag-ugnayan"
 
 #: weblate/accounts/models.py:790
 msgid ""
 "Link to contact you online using services like Signal, SimpleX or Telegram."
 msgstr ""
+"Link para makontak ka online gamit ng mga serbisyo tulad ng Signal, SimpleX "
+"o Telegram."
 
 #: weblate/accounts/models.py:794
 msgid "Liberapay username"
-msgstr ""
+msgstr "Username sa Liberapay"
 
 #: weblate/accounts/models.py:797
 msgid ""
 "Liberapay is a platform to donate money to teams, organizations and "
 "individuals."
 msgstr ""
+"Ang Liberapay ay isang platform para sa pag-abuloy ng pera sa mga koponan, "
+"organisasyon at indibidwal."
 
 #: weblate/accounts/models.py:803
 msgid "Fediverse URL"
-msgstr ""
+msgstr "URL sa Fediverse"
 
 #: weblate/accounts/models.py:806
 msgid ""
 "Link to your Fediverse profile for federated services like Mastodon or "
 "diaspora*."
 msgstr ""
+"Link sa iyong Fediverse profile para sa mga naka-federate na serbisyo tulad "
+"ng Mastodon o diaspora*."
 
 #: weblate/accounts/models.py:812
 msgid "Code site URL"
-msgstr ""
+msgstr "URL sa code site"
 
 #: weblate/accounts/models.py:815
 msgid "Link to your code profile for services like Codeberg or GitLab."
 msgstr ""
+"Link sa iyong code profile para sa mga serbisyo tulad ng Codeberg o GitLab."
 
 #: weblate/accounts/models.py:820
 msgid "GitHub username"
-msgstr ""
+msgstr "Username sa GitHub"
 
 #: weblate/accounts/models.py:825
 msgid "X username"
-msgstr ""
+msgstr "Username sa X"
 
 #: weblate/accounts/models.py:830
 msgid "LinkedIn profile name"
-msgstr ""
+msgstr "Pangalan ng profile sa LinkedIn"
 
 #: weblate/accounts/models.py:832
 msgid "Your LinkedIn profile name from linkedin.com/in/profilename"
 msgstr ""
+"Ang pangalan ng iyong LinkedIn profile mula sa linkedin.com/in/profilename"
 
 #: weblate/accounts/models.py:839
 #: weblate/templates/snippets/embed-units.html:57
 msgid "Location"
-msgstr ""
+msgstr "Lokasyon"
 
 #: weblate/accounts/models.py:844
 msgid "Company"
-msgstr ""
+msgstr "Kumpanya"
 
 #: weblate/accounts/models.py:924
 msgid ""
 "Please choose which component list you want to display on the dashboard."
 msgstr ""
+"Mangyaring piliin kung anong listahan ng component ang gusto mong ipakita sa "
+"dashboard."
 
 #: weblate/accounts/models.py:935
 msgid "Selecting component list has no effect when not shown on the dashboard."
 msgstr ""
+"Walang epekto ang pagpili ng listahan ng component kapag hindi ito "
+"ipinapakita sa dashboard."
 
 #: weblate/accounts/models.py:1114 weblate/trans/views/edit.py:382
 #, python-format
@@ -902,227 +924,188 @@ msgid ""
 "Added %(language)s to your translated languages. You can adjust them in the "
 "settings."
 msgstr ""
+"Dinagdag ang %(language)s sa iyong sinasalin na wika. Maaari mo ito baguhin "
+"sa mga setting."
 
 #: weblate/accounts/models.py:1253
 msgid "Please provide an e-mail address for submitting translations."
 msgstr ""
+"Mangyaring magbigay ng email address para sa pagsumite ng mga pagsasalin."
 
 #: weblate/accounts/notifications.py:64
-#, fuzzy
-#| msgid "Translation notifications"
 msgid "No notification"
-msgstr "Pagsalin na notifications"
+msgstr "Walang notification"
 
 #: weblate/accounts/notifications.py:65
 msgid "Instant notification"
-msgstr ""
+msgstr "Instant na notification"
 
 #: weblate/accounts/notifications.py:66
 msgid "Daily digest"
-msgstr ""
+msgstr "Pang-araw-araw na buod"
 
 #: weblate/accounts/notifications.py:67
 msgid "Weekly digest"
-msgstr ""
+msgstr "Lingguhang buod"
 
 #: weblate/accounts/notifications.py:68
 msgid "Monthly digest"
-msgstr ""
+msgstr "Buwanang buod"
 
 #: weblate/accounts/notifications.py:557
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
-msgstr ""
+msgstr "Ginawa ang operasyon sa repositoryo"
 
 #: weblate/accounts/notifications.py:560
-#, fuzzy
-#| msgid "Backup repository"
 msgctxt "Notification name"
 msgid "Operations were performed in the repository"
-msgstr "Backup repository"
+msgstr "Ginawa ang mga operasyon sa repositoryo"
 
 #: weblate/accounts/notifications.py:571
-#, fuzzy
-#| msgid "Components"
 msgctxt "Notification name"
 msgid "Component was locked or unlocked"
-msgstr "Mga component"
+msgstr "Na-lock o na-unlock ang component"
 
 #: weblate/accounts/notifications.py:573
-#, fuzzy
-#| msgid "Components"
 msgctxt "Notification name"
 msgid "Components were locked or unlocked"
-msgstr "Mga component"
+msgstr "Na-lock o na-unlock ang mga component"
 
 #: weblate/accounts/notifications.py:584
 msgctxt "Notification name"
 msgid "License was changed"
-msgstr ""
+msgstr "Binago ang lisensya"
 
 #: weblate/accounts/notifications.py:591
 msgctxt "Notification name"
 msgid "Parse error occurred"
-msgstr ""
+msgstr "May nangyaring parse error"
 
 #: weblate/accounts/notifications.py:592
 msgctxt "Notification name"
 msgid "Parse errors occurred"
-msgstr ""
+msgstr "May mga nangyaring parse error"
 
 #: weblate/accounts/notifications.py:623
-#, fuzzy
-#| msgid "Current password"
 msgctxt "Notification name"
 msgid "String is available for translation"
-msgstr "Kasalukuyang password"
+msgstr "Available ang string para sa pagsasalin"
 
 #: weblate/accounts/notifications.py:625
-#, fuzzy
-#| msgid "Current password"
 msgctxt "Notification name"
 msgid "Strings are available for translation"
-msgstr "Kasalukuyang password"
+msgstr "Available ang mga string para sa pagsasalin"
 
 #: weblate/accounts/notifications.py:636
-#, fuzzy
-#| msgid "Current password"
 msgctxt "Notification name"
 msgid "Contributor made their first translation"
-msgstr "Kasalukuyang password"
+msgstr "Ginawa ng kontribyutor ang kanilang unang pagsasalin"
 
 #: weblate/accounts/notifications.py:639
-#, fuzzy
-#| msgid "Current password"
 msgctxt "Notification name"
 msgid "Contributors made their first translation"
-msgstr "Kasalukuyang password"
+msgstr "Ginawa ng mga kontribyutor ang kanilang unang pagsasalin"
 
 #: weblate/accounts/notifications.py:648
 msgctxt "Notification name"
 msgid "Suggestion was added"
-msgstr ""
+msgstr "May dinagdag na mungkahi"
 
 #: weblate/accounts/notifications.py:649
-#, fuzzy
-#| msgid "Suggestions made"
 msgctxt "Notification name"
 msgid "Suggestions were added"
-msgstr "Mga mungkahi na ginawa"
+msgstr "May mga dinagdag na mungkahi"
 
 #: weblate/accounts/notifications.py:658
-#, fuzzy
-#| msgid "Languages"
 msgctxt "Notification name"
 msgid "Language was translated"
-msgstr "Mga wika"
+msgstr "Isinalin ang wika"
 
 #: weblate/accounts/notifications.py:659
-#, fuzzy
-#| msgid "Languages"
 msgctxt "Notification name"
 msgid "Languages were translated"
-msgstr "Mga wika"
+msgstr "Isinalin ang mga wika"
 
 #: weblate/accounts/notifications.py:667
-#, fuzzy
-#| msgid "Components"
 msgctxt "Notification name"
 msgid "Component was translated"
-msgstr "Mga component"
+msgstr "isinalin ang component"
 
 #: weblate/accounts/notifications.py:668
-#, fuzzy
-#| msgid "Components"
 msgctxt "Notification name"
 msgid "Components were translated"
-msgstr "Mga component"
+msgstr "isinalin ang mga component"
 
 #: weblate/accounts/notifications.py:676
 msgctxt "Notification name"
 msgid "Comment was added"
-msgstr ""
+msgstr "May dinagdag na komento"
 
 #: weblate/accounts/notifications.py:677
-#, fuzzy
-#| msgid "Comments made"
 msgctxt "Notification name"
 msgid "Comments were added"
-msgstr "Mga komento na ginawa"
+msgstr "May mga dinagdag na komento"
 
 #: weblate/accounts/notifications.py:705
 msgctxt "Notification name"
 msgid "You were mentioned in a comment"
-msgstr ""
+msgstr "Binanggit ka sa isang komento"
 
 #: weblate/accounts/notifications.py:707
-#, fuzzy
-#| msgid "Current password"
 msgctxt "Notification name"
 msgid "You were mentioned in some comments"
-msgstr "Kasalukuyang password"
+msgstr "Binanggit ka sa ilang mga komento"
 
 #: weblate/accounts/notifications.py:742
-#, fuzzy
-#| msgid "Current password"
 msgctxt "Notification name"
 msgid "Your translation received a comment"
-msgstr "Kasalukuyang password"
+msgstr "Nagkaroon ng komento ang iyong pagsasalin"
 
 #: weblate/accounts/notifications.py:744
-#, fuzzy
-#| msgid "Current password"
 msgctxt "Notification name"
 msgid "Your translation received comments"
-msgstr "Kasalukuyang password"
+msgstr "Nagkaroon ng mga komento ang iyong pagsasalin"
 
 #: weblate/accounts/notifications.py:777
 msgctxt "Notification name"
 msgid "String was edited by user"
-msgstr ""
+msgstr "Binago ng user ang string"
 
 #: weblate/accounts/notifications.py:778
 msgctxt "Notification name"
 msgid "Strings were edited by user"
-msgstr ""
+msgstr "Binago ng user ang mga string"
 
 #: weblate/accounts/notifications.py:786
 msgctxt "Notification name"
 msgid "String was approved"
-msgstr ""
+msgstr "Inaprubahan ang string"
 
 #: weblate/accounts/notifications.py:787
-#, fuzzy
-#| msgid "Strings limit"
 msgctxt "Notification name"
 msgid "Strings were approved"
-msgstr "Limit sa mga string"
+msgstr "Inaprubahan ang mga string"
 
 #: weblate/accounts/notifications.py:795
-#, fuzzy
-#| msgid "Strings limit"
 msgctxt "Notification name"
 msgid "String was changed"
-msgstr "Limit sa mga string"
+msgstr "Binago ang string"
 
 #: weblate/accounts/notifications.py:796
-#, fuzzy
-#| msgid "Strings limit"
 msgctxt "Notification name"
 msgid "Strings were changed"
-msgstr "Limit sa mga string"
+msgstr "Binago ang mga string"
 
 #: weblate/accounts/notifications.py:811
 msgctxt "Notification name"
 msgid "New language was added or requested"
-msgstr ""
+msgstr "Dinagdag o hiniling ang bagong wika"
 
 #: weblate/accounts/notifications.py:813
-#, fuzzy
-#| msgid "Languages"
 msgctxt "Notification name"
 msgid "New languages were added or requested"
-msgstr "Mga wika"
+msgstr "Dinagdag o hiniling ang mga wika"
 
 #: weblate/accounts/notifications.py:839
 #, fuzzy
@@ -7992,7 +7975,7 @@ msgstr "Kasalukuyang password"
 #: weblate/templates/trans/project-access.html:38
 #: weblate/trans/models/project.py:230
 msgid "Access control"
-msgstr ""
+msgstr "Kontrol sa pag-access"
 
 #: weblate/templates/auth/team.html:93
 msgid ""
