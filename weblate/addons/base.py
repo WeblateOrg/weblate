@@ -226,10 +226,24 @@ class BaseAddon:
 
         # Trigger post configure event for a VCS component
         previous = component.repository.last_revision
-        if not POST_CONFIGURE_EVENTS & self.events:
+        if (
+            not POST_CONFIGURE_EVENTS & self.events
+            and AddonEvent.EVENT_INSTALL not in self.events
+        ):
             return
 
         base_event_args = (self.instance, component, component)
+        if AddonEvent.EVENT_INSTALL in self.events:
+            component.log_debug("running post_install add-on: %s", self.name)
+            execute_addon_event(
+                *(base_event_args),
+                AddonEvent.EVENT_INSTALL,
+                "post_install",
+                (
+                    component,
+                    True,
+                ),
+            )
         if AddonEvent.EVENT_POST_COMMIT in self.events:
             component.log_debug("running post_commit add-on: %s", self.name)
             execute_addon_event(
@@ -356,6 +370,15 @@ class BaseAddon:
         activity_log_id: int | None = None,
     ) -> dict | None:
         """Event handler before changes are committed to the repository."""
+        # To be implemented in a subclass
+
+    def post_install(
+        self,
+        component: Component,
+        store_hash: bool,
+        activity_log_id: int | None = None,
+    ) -> dict | None:
+        """Event handler after add-on is installed."""
         # To be implemented in a subclass
 
     def post_commit(

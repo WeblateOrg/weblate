@@ -136,7 +136,7 @@ class Command(BaseCommand):
                 f":ref:`{event_link(event)}`" for event in sorted_events(obj.events)
             )
             if POST_CONFIGURE_EVENTS & set(obj.events):
-                events = f":ref:`addon-event-install`, {events}"
+                events = f":ref:`addon-event-add-on-installation`, {events}"
             self.stdout.write(f":Triggers: {events}")
             self.stdout.write("\n")
             self.stdout.write("\n".join(wrap(str(obj.description), 79)))
