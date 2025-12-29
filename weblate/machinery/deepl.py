@@ -90,12 +90,21 @@ class DeepLTranslation(
         return super().get_error_message(exc)
 
     def download_languages(self):
+        base_params = {}
+        if self.settings.get("enable_beta_languages"):
+            base_params["enable_beta_languages"] = "1"
+
         response = self.request(
-            "get", self.get_api_url("languages"), params={"type": "source"}
+            "get",
+            self.get_api_url("languages"),
+            params={**base_params, "type": "source"},
         )
         source_languages = {x["language"] for x in response.json()}
+
         response = self.request(
-            "get", self.get_api_url("languages"), params={"type": "target"}
+            "get",
+            self.get_api_url("languages"),
+            params={**base_params, "type": "target"},
         )
         # Plain English is not listed, but is supported
         target_languages = {"EN"}
@@ -152,6 +161,8 @@ class DeepLTranslation(
             params["glossary_id"] = glossary_id
         if self.settings.get("next_gen"):
             params["model_type"] = "prefer_quality_optimized"
+        if self.settings.get("enable_beta_languages"):
+            params["enable_beta_languages"] = True
 
         response = self.request(
             "post",

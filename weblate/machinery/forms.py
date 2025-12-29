@@ -349,6 +349,14 @@ class DeepLMachineryForm(KeyURLMachineryForm):
         ),
         required=False,
     )
+    enable_beta_languages = forms.BooleanField(
+        label=pgettext_lazy(
+            "Automatic suggestion service configuration",
+            "Enable beta languages",
+        ),
+        help_text=gettext_lazy("Enable support for languages currently in beta."),
+        required=False,
+    )
 
 
 class LLMBasicMachineryForm(BaseMachineryForm):
