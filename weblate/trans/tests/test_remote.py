@@ -5,6 +5,7 @@
 """Test for changes done in remote repository."""
 
 import os
+import pathlib
 
 from django.db import transaction
 from django.test.utils import override_settings
@@ -563,6 +564,51 @@ class MultiRepoTest(ViewTestCase):
         # The pending unit state should be kept
         unit = self.get_unit(translation=translation1)
         self.assertEqual(unit.target, "Ahoj světe!\n")
+
+    def test_pending_changes_preserved_on_non_translation_update(self) -> None:
+        """Test that pending database changes are not overwritten when remote commits non-translation files."""
+        self.component2.allow_translation_propagation = False
+        self.component2.save()
+
+        translation2 = self.component2.translation_set.get(language_code="cs")
+        unit = translation2.unit_set.get(source="Hello, world!\n")
+        new_target = "Ahoj světe - čeká na vyřízení!\n"
+        unit.translate(self.user, new_target, STATE_TRANSLATED)
+
+        self.assertEqual(
+            PendingUnitChange.objects.filter(
+                unit__translation__component=self.component2
+            ).count(),
+            1,
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, new_target)
+
+        # Commit and push the non-translation file change from component1
+        readme_path = os.path.join(self.component.full_path, "README.md")
+        pathlib.Path(readme_path).write_text(
+            "# Test Project\n\nThis is a test README.\n", encoding="utf-8"
+        )
+        with self.component.repository.lock:
+            self.component.repository.execute(["add", "README.md"])
+            self.component.repository.execute(
+                ["commit", "-m", "Add README.md (non-translation file)"]
+            )
+            self.component.repository.push(self.component.push_branch)
+
+        # pull changes from component2
+        result = self.component2.do_update(self.request)
+        self.assertTrue(result)
+
+        # verify the pending change is still preserved
+        self.assertEqual(
+            PendingUnitChange.objects.filter(
+                unit__translation__component=self.component2
+            ).count(),
+            1,
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, new_target)
 
     def test_api(self):
         """Test the project repository API works for various VCS."""
