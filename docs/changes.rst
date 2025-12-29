@@ -11,6 +11,12 @@ Weblate 5.15.2
 
 .. rubric:: Bug fixes
 
+* Explanation sync in :doc:`/formats/tbx`.
+* User interface fixes.
+* Clarified needs editing/checking/rewriting states.
+* Automatically translated flag with bulk approvals.
+* GitHub forks no longer trigger actions.
+
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading
