@@ -1126,7 +1126,7 @@ def delete_unit(request: AuthenticatedHttpRequest, unit_id):
 def browse(request: AuthenticatedHttpRequest, path):
     """Strings browsing."""
     obj, unit_set, context = parse_path_units(
-        request, path, (Translation, ProjectLanguage)
+        request, path, (Translation, ProjectLanguage, CategoryLanguage)
     )
     project = context["project"]
     search_result = search(obj, project, unit_set, request, blank=True, use_cache=False)
