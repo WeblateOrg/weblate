@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-17 15:44+0100\n"
-"PO-Revision-Date: 2025-12-29 13:00+0000\n"
+"PO-Revision-Date: 2025-12-30 15:00+0000\n"
 "Last-Translator: Takeru Mikenu <mikenu-jp@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -27318,6 +27318,10 @@ msgid ""
 "``LOGIN_REQUIRED_URLS_EXCEPTIONS`` no longer supported, including their "
 "Docker environment variable counterparts."
 msgstr ""
+"カスタムの ``RequireLoginMiddleware`` を Django 5.1 の "
+"``LoginRequiredMiddleware`` に置き換えました。これに伴い、設定項目の "
+"``LOGIN_REQUIRED_URLS`` と ``LOGIN_REQUIRED_URLS_EXCEPTIONS`` （および対応す"
+"る Docker 環境変数）はサポートされなくなりました。"
 
 #: ../../changes.rst:79
 #, fuzzy
@@ -27779,6 +27783,8 @@ msgid ""
 "Rate limiting of notification e-mails, configurable "
 "by :setting:`RATELIMIT_NOTIFICATION_LIMITS`."
 msgstr ""
+"通知メールのレートリミット機能を追加しました"
+"。:setting:`RATELIMIT_NOTIFICATION_LIMITS` で設定可能です。"
 
 #: ../../changes.rst:206
 msgid ""
