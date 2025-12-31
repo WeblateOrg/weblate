@@ -2,7 +2,7 @@
   "bomFormat": "CycloneDX",
   "specVersion": "1.5",
   "version": 1,
-  "serialNumber": "urn:uuid:9bfe4fb4-28d8-5cf2-8411-476e6b1042f7",
+  "serialNumber": "urn:uuid:39a975c5-c498-52ba-ad43-9f718f93eed8",
   "metadata": {
     "tools": [
       {
@@ -1275,21 +1275,21 @@
     },
     {
       "type": "library",
-      "bom-ref": "ruamel-yaml-176@0.18.17",
+      "bom-ref": "ruamel-yaml-176@0.19.0",
       "name": "ruamel-yaml",
-      "version": "0.18.17",
-      "purl": "pkg:pypi/ruamel-yaml@0.18.17"
+      "version": "0.19.0",
+      "purl": "pkg:pypi/ruamel-yaml@0.19.0"
     },
     {
       "type": "library",
-      "bom-ref": "ruamel-yaml-clib-177@0.2.15",
-      "name": "ruamel-yaml-clib",
-      "version": "0.2.15",
-      "purl": "pkg:pypi/ruamel-yaml-clib@0.2.15",
+      "bom-ref": "ruamel-yaml-clibz-177@0.3.4",
+      "name": "ruamel-yaml-clibz",
+      "version": "0.3.4",
+      "purl": "pkg:pypi/ruamel-yaml-clibz@0.3.4",
       "properties": [
         {
           "name": "uv:package:marker",
-          "value": "python_full_version < '3.15' and platform_python_implementation == 'CPython'"
+          "value": "platform_python_implementation == 'CPython'"
         }
       ]
     },
@@ -2642,13 +2642,13 @@
       ]
     },
     {
-      "ref": "ruamel-yaml-176@0.18.17",
+      "ref": "ruamel-yaml-176@0.19.0",
       "dependsOn": [
-        "ruamel-yaml-clib-177@0.2.15"
+        "ruamel-yaml-clibz-177@0.3.4"
       ]
     },
     {
-      "ref": "ruamel-yaml-clib-177@0.2.15",
+      "ref": "ruamel-yaml-clibz-177@0.3.4",
       "dependsOn": []
     },
     {
@@ -2745,7 +2745,7 @@
       "ref": "translation-finder-194@2.23",
       "dependsOn": [
         "charset-normalizer-30@3.4.4",
-        "ruamel-yaml-176@0.18.17",
+        "ruamel-yaml-176@0.19.0",
         "weblate-language-data-212@2025.10"
       ]
     },
@@ -2922,7 +2922,7 @@
         "redis-163@6.4.0",
         "regex-165@2025.11.3",
         "requests-166@2.32.5",
-        "ruamel-yaml-176@0.18.17",
+        "ruamel-yaml-176@0.19.0",
         "sentry-sdk-179@2.48.0",
         "siphashc-182@2.7",
         "social-auth-app-django-186@5.7.0",
