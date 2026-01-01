@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # amano <amano@users.noreply.hosted.weblate.org>, 2023, 2024, 2025.
 # Kazushi Hayama <hosted.weblate.3yoe@1984.pmail.li>, 2023.
-# Kyotaro Iijima <kyotaro.eyes@gmail.com>, 2023, 2024, 2025.
+# Kyotaro Iijima <kyotaro.eyes@gmail.com>, 2023, 2024, 2025, 2026.
 # yangyangdaji <1504305527@qq.com>, 2023.
 # Ryo Nakano <ryonakaknock3@gmail.com>, 2024.
 # Miyu Sakatsuki <miyu-sakatsuki@outlook.jp>, 2024.
@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-17 14:44+0000\n"
-"PO-Revision-Date: 2025-12-31 22:01+0000\n"
+"PO-Revision-Date: 2026-01-01 23:01+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -1566,7 +1566,7 @@ msgstr "Fedora Messaging 互換の AMQP Exchange に通知を送信します。"
 
 #: weblate/addons/flags.py:44
 msgid "Flag new source strings as \"Needs editing\""
-msgstr "新しい原文に \"要編集\" フラグを付ける"
+msgstr "新しい原文に \"要修正\" フラグを付ける"
 
 #: weblate/addons/flags.py:46
 msgid ""
@@ -1574,12 +1574,12 @@ msgid ""
 "needing editing in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
-"新しい原文を VCS からインポートするときに、Weblate で \"要編集\" フラグを付け"
+"新しい原文を VCS からインポートするときに、Weblate で \"要修正\" フラグを付け"
 "ます。これにより、開発者が作成した原文を簡単に絞り込んで編集できます。"
 
 #: weblate/addons/flags.py:65
 msgid "Flag new translations as \"Needs editing\""
-msgstr "新しい翻訳に \"要編集\" フラグを付ける"
+msgstr "新しい翻訳に \"要修正\" フラグを付ける"
 
 #: weblate/addons/flags.py:67
 msgid ""
@@ -1587,13 +1587,13 @@ msgid ""
 "as needing editing in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
-"新しい翻訳可能な文章を VCS からインポートするときに、Weblate で \"要編集\" フ"
-"ラグを付けます。これにより、開発者が作成した翻訳文を簡単に絞り込んで編集でき"
-"ます。"
+"新しい翻訳可能な文章を VCS からインポートするときに、Weblate で \"要修正\" "
+"フラグを付けます。これにより、開発者が作成した翻訳文を簡単に絞り込んで編集で"
+"きます。"
 
 #: weblate/addons/flags.py:83
 msgid "Flag unchanged translations as \"Needs editing\""
-msgstr "未翻訳の翻訳文に \"要編集\" フラグを付ける"
+msgstr "未翻訳の翻訳文に \"要修正\" フラグを付ける"
 
 #: weblate/addons/flags.py:85
 msgid ""
@@ -1602,7 +1602,7 @@ msgid ""
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
 "VCS からインポートされた新しい翻訳可能な文字列が原文と同一のとき、Weblate は "
-"\"要編集\" フラグを付けます。特に、未翻訳の文字列は原文で埋めるファイル形式で"
+"\"要修正\" フラグを付けます。特に、未翻訳の文字列は原文で埋めるファイル形式で"
 "は有用です。"
 
 #: weblate/addons/flags.py:106 weblate/templates/category-language.html:53
@@ -1622,7 +1622,7 @@ msgstr "文字列のフラグ、ラベル、状態を一括編集します。"
 
 #: weblate/addons/flags.py:138
 msgid "Flag updated translations from repository as \"Needs editing\""
-msgstr "リポジトリから更新された翻訳文に \"要編集\" フラグを付ける"
+msgstr "リポジトリから更新された翻訳文に \"要修正\" フラグを付ける"
 
 #: weblate/addons/flags.py:141
 msgid ""
@@ -1631,8 +1631,8 @@ msgid ""
 "updated manually or by an external service."
 msgstr ""
 "VCS（バージョン管理システム）で文字列の翻訳文が変更されると、Weblate では "
-"\"要編集\" フラグが付けられます。 翻訳ファイルを手動で更新したり、外部サービ"
-"スで更新したりする場合に特に便利です."
+"\"要修正\" フラグが付けられます。 翻訳ファイルを手動で更新したり、外部"
+"サービスで更新したりする場合に特に便利です."
 
 #: weblate/addons/forms.py:62
 msgid "Path of generated MO file"
@@ -1644,14 +1644,13 @@ msgstr "指定しない場合は、PO ファイルの場所を使用します。
 
 #: weblate/addons/forms.py:70
 msgid "Include strings needing editing"
-msgstr "要編集な文字列を含める"
+msgstr "要修正な文字列を含める"
 
 #: weblate/addons/forms.py:73
 msgid ""
 "Strings needing editing (fuzzy) are typically not ready for use as "
 "translations."
-msgstr ""
-"要編集な文字列（あいまい）は、通常、翻訳として使用できる状態ではありません。"
+msgstr "要修正な文字列（あいまい）は、通常、翻訳として使用できる状態ではありません。"
 
 #: weblate/addons/forms.py:99
 msgid "Name of generated file"
@@ -4507,7 +4506,7 @@ msgstr "reStructuredText の不整合"
 
 #: weblate/checks/markup.py:482
 msgid "Inconsistent reStructuredText markup in the translated message."
-msgstr "翻訳済メッセージの reStructuredText マークアップに一貫性がない。"
+msgstr "翻訳済みメッセージの reStructuredText マークアップに一貫性がない。"
 
 #: weblate/checks/markup.py:487
 msgid "The following reStructuredText markup is missing: {}"
@@ -7936,11 +7935,11 @@ msgstr ""
 
 #: weblate/templates/addons/generate_help.html:36
 msgid "Percents translated"
-msgstr "翻訳済み割合 (パーセント)"
+msgstr "翻訳済みの割合 (パーセント)"
 
 #: weblate/templates/addons/generate_help.html:56
 msgid "Number of translated strings"
-msgstr "翻訳済み文字列の数"
+msgstr "翻訳済みの文字列数"
 
 #: weblate/templates/addons/generate_help.html:66
 msgid "Translation filename"
@@ -8841,7 +8840,7 @@ msgstr "除外"
 #: weblate/templates/snippets/list-objects.html:70 weblate/trans/widgets.py:314
 #: weblate/trans/widgets.py:333
 msgid "Translated"
-msgstr "翻訳済"
+msgstr "翻訳済み"
 
 #: weblate/templates/check_list.html:102
 msgid "View check documentation"
@@ -9628,7 +9627,7 @@ msgstr ""
 
 #: weblate/templates/keyboard-shortcuts.html:88
 msgid "Unmark translation as Needing edit and submit it."
-msgstr "翻訳の要編集フラグを解除して送信する。"
+msgstr "翻訳の要修正フラグを解除して送信する。"
 
 #: weblate/templates/keyboard-shortcuts.html:97
 msgid ""
@@ -9694,7 +9693,7 @@ msgstr "原文をコピーします。"
 
 #: weblate/templates/keyboard-shortcuts.html:187
 msgid "Toggle the Needs editing checkbox."
-msgstr "要編集フラグを反転させます。"
+msgstr "要修正フラグを反転させます。"
 
 #: weblate/templates/keyboard-shortcuts.html:193
 msgid "Browse the next translation string."
@@ -11016,8 +11015,8 @@ msgid ""
 "with all strings marked as \"Needs editing\" and replaced as they are "
 "translated."
 msgstr ""
-"翻訳ファイルは、<code>%(new_base)s</code> を複製し、すべての文字列に「要編"
-"集」が設定された状態で生成されます。翻訳すると「要編集」が解除されます。"
+"翻訳ファイルは、<code>%(new_base)s</code> を複製し、すべての文字列に「要修正"
+"」が設定された状態で生成されます。翻訳すると「要修正」が解除されます。"
 
 #: weblate/templates/new-language.html:49
 msgid ""
@@ -11667,12 +11666,12 @@ msgstr "査読待ち"
 #: weblate/templates/snippets/info.html:326
 msgctxt "Number of strings"
 msgid "Translated"
-msgstr "翻訳済"
+msgstr "翻訳済み"
 
 #: weblate/templates/snippets/info.html:335
 msgctxt "Number of strings"
 msgid "Needs editing"
-msgstr "要編集"
+msgstr "要修正"
 
 #: weblate/templates/snippets/info.html:344
 msgctxt "Number of strings"
@@ -13971,7 +13970,7 @@ msgstr "翻訳の承認"
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:79
 msgid "Marked for edit"
-msgstr "要編集としてマーク"
+msgstr "要修正としてマーク"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:81
@@ -14521,7 +14520,7 @@ msgstr "未翻訳の文字列"
 
 #: weblate/trans/filter.py:28 weblate/trans/filter.py:125
 msgid "Strings marked for edit"
-msgstr "要編集マーク付きの文字列"
+msgstr "要修正マーク付きの文字列"
 
 #: weblate/trans/filter.py:30
 msgid "Strings with variants"
@@ -14609,14 +14608,14 @@ msgstr "翻訳したい文字列は使用できなくなりました。"
 
 #: weblate/trans/forms.py:484
 msgid "Needs editing"
-msgstr "要編集"
+msgstr "要修正"
 
 #: weblate/trans/forms.py:486
 msgid ""
 "Strings are usually marked as \"Needs editing\" after the source string is "
 "updated, or when marked as such manually."
 msgstr ""
-"通常、原文が変更されると要編集フラグが設定されます、また手動で設定される場合"
+"通常、原文が変更されると要修正フラグが設定されます、また手動で設定される場合"
 "もあります。"
 
 #: weblate/trans/forms.py:501
@@ -14655,7 +14654,7 @@ msgstr "ファイルアップロードのモード"
 
 #: weblate/trans/forms.py:671
 msgid "Processing of \"Needs editing\" strings"
-msgstr "「要編集」の文字列の処理方法"
+msgstr "「要修正」の文字列の処理方法"
 
 #: weblate/trans/forms.py:673
 msgid "Do not import"
@@ -14663,7 +14662,7 @@ msgstr "インポートしない"
 
 #: weblate/trans/forms.py:674
 msgid "Import as \"Needs editing\""
-msgstr "「要編集」としてインポート"
+msgstr "「要修正」としてインポート"
 
 #: weblate/trans/forms.py:675
 msgid "Import as translated"
@@ -14769,7 +14768,7 @@ msgstr "翻訳として追加"
 
 #: weblate/trans/forms.py:1046
 msgid "Add as \"Needing edit\""
-msgstr "「要編集」として追加"
+msgstr "「要修正」として追加"
 
 #: weblate/trans/forms.py:1049 weblate/utils/files.py:36
 msgid "Add as approved translation"
@@ -14839,7 +14838,7 @@ msgstr "並べ替える基準"
 
 #: weblate/trans/forms.py:1410
 msgid "Strings translated"
-msgstr "翻訳済の文字列"
+msgstr "翻訳済みの文字列"
 
 #: weblate/trans/forms.py:1416
 msgid "Sort order"
@@ -14937,17 +14936,17 @@ msgid ""
 "Approved-only commit policy requires translation reviews to be enabled. "
 "Please enable translation reviews first or choose a different commit policy."
 msgstr ""
-"「承認済みのみ」のコミットポリシーを使用するには、翻訳レビューが有効になって"
-"いる必要があります。まず翻訳レビューを有効にするか、別のコミットポリシーを選"
-"択してください。"
+"「承認済のみ」のコミットポリシーを使用するには、翻訳レビューが有効になってい"
+"る必要があります。まず翻訳レビューを有効にするか、別のコミットポリシーを選択"
+"してください。"
 
 #: weblate/trans/forms.py:2368
 msgid ""
 "Translation reviews are required for approved-only commit policy. Please "
 "choose a different commit policy before disabling translation reviews."
 msgstr ""
-"翻訳レビューは「承認済みのみ」のコミットポリシーに必須です。翻訳レビューを無"
-"効にする前に、別のコミットポリシーを選択してください。"
+"翻訳レビューは「承認済のみ」のコミットポリシーに必須です。翻訳レビューを無効"
+"にする前に、別のコミットポリシーを選択してください。"
 
 #: weblate/trans/forms.py:2416
 msgid "Access"
@@ -16281,7 +16280,7 @@ msgstr "品質にかかわらず全ての翻訳をコミットする"
 
 #: weblate/trans/models/project.py:52
 msgid "Skip translations marked as needing editing"
-msgstr "要編集とマークされた翻訳をスキップ"
+msgstr "要修正とマークされた翻訳をスキップ"
 
 #: weblate/trans/models/project.py:54
 msgid "Only include approved translations"
@@ -16733,7 +16732,7 @@ msgid ""
 "Imported strings are added as translations needing edit. This can be useful "
 "when you want translations to be used, but also reviewed."
 msgstr ""
-"インポートした翻訳は、要編集の翻訳として追加されます。これは、翻訳を使用しな"
+"インポートした翻訳は、要修正の翻訳として追加されます。これは、翻訳を使用しな"
 "がら査読もしてもらうのに便利です。"
 
 #: weblate/trans/templatetags/upload_methods.py:39
@@ -17278,7 +17277,7 @@ msgstr "SVG ステータス バッジ"
 
 #: weblate/trans/widgets.py:438
 msgid "translated"
-msgstr "翻訳済"
+msgstr "翻訳済み"
 
 #. Translators: status widget name
 #: weblate/trans/widgets.py:453
@@ -17400,7 +17399,7 @@ msgstr "指定したメールアドレスはすでに登録されています。
 
 #: weblate/utils/files.py:38
 msgid "Add as translation needing edit"
-msgstr "要編集の翻訳として追加"
+msgstr "要修正の翻訳として追加"
 
 #: weblate/utils/files.py:39
 msgid "Replace existing translation file"
@@ -17479,12 +17478,12 @@ msgstr "未翻訳"
 #: weblate/utils/state.py:18
 msgctxt "String state"
 msgid "Needs editing"
-msgstr "要編集"
+msgstr "要修正"
 
 #: weblate/utils/state.py:19
 msgctxt "String state"
 msgid "Needs rewriting"
-msgstr "要書き直し"
+msgstr "要再稿"
 
 #: weblate/utils/state.py:20
 msgctxt "String state"
@@ -17494,12 +17493,12 @@ msgstr "要確認"
 #: weblate/utils/state.py:21
 msgctxt "String state"
 msgid "Translated"
-msgstr "翻訳済"
+msgstr "翻訳済み"
 
 #: weblate/utils/state.py:22
 msgctxt "String state"
 msgid "Approved"
-msgstr "承認済"
+msgstr "承認済み"
 
 #: weblate/utils/state.py:23
 msgctxt "String state"
@@ -17895,7 +17894,7 @@ msgstr "プレミアム サポート（お客様のサーバー対象）"
 
 #: weblate/wladmin/models.py:175
 msgid "Unpaid subscription"
-msgstr "未払いサブスクリプション"
+msgstr "未払いのサブスクリプション"
 
 #: weblate/wladmin/models.py:271
 msgid "Backup repository URL"
