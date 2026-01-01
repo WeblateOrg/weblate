@@ -1,13 +1,14 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+# adecorte <adecorte@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.15.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-17 14:44+0000\n"
-"PO-Revision-Date: 2025-08-09 22:10+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2026-01-01 23:01+0000\n"
+"Last-Translator: adecorte <adecorte@gmail.com>\n"
 "Language-Team: Friulian <https://hosted.weblate.org/projects/weblate/"
 "application/fur/>\n"
 "Language: fur\n"
@@ -15,12 +16,12 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.13-dev\n"
+"X-Generator: Weblate 5.15.1\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
 msgid "None"
-msgstr ""
+msgstr "Nissun"
 
 #: weblate/accounts/avatar.py:114 weblate/templates/accounts/profile.html:422
 #: weblate/templates/accounts/user.html:22 weblate/templates/base.html:353
@@ -43,7 +44,7 @@ msgstr ""
 #: weblate/templates/auth/team.html:118 weblate/templates/manage/users.html:45
 #: weblate/templates/trans/project-access.html:59
 msgid "Full name"
-msgstr ""
+msgstr "Non e cognon"
 
 #: weblate/accounts/forms.py:136
 msgid "Name is also used in version control commits."
@@ -76,10 +77,9 @@ msgid "Hide e-mail address from public view"
 msgstr ""
 
 #: weblate/accounts/forms.py:352
-#, fuzzy, python-format
-#| msgid "Components"
+#, python-format
 msgid "Component list: %s"
-msgstr "Components"
+msgstr "Liste dai components: %s"
 
 #: weblate/accounts/forms.py:379
 #, fuzzy
@@ -106,14 +106,12 @@ msgid "I'm not a robot"
 msgstr ""
 
 #: weblate/accounts/forms.py:451
-#, fuzzy
-#| msgid "Translate"
 msgid "Verification completed"
-msgstr "tradûs"
+msgstr "Verifiche finide"
 
 #: weblate/accounts/forms.py:452
 msgid "Verifying…"
-msgstr ""
+msgstr "Daûr a verificâ…"
 
 #: weblate/accounts/forms.py:454
 msgid "Verification is still in progress, please wait."
@@ -137,15 +135,15 @@ msgstr ""
 
 #: weblate/accounts/forms.py:570 weblate/accounts/forms.py:577
 msgid "Validation failed, please try again."
-msgstr ""
+msgstr "Verifiche falide, torne a provâ."
 
 #: weblate/accounts/forms.py:596
 msgid "Subject"
-msgstr ""
+msgstr "Argoment"
 
 #: weblate/accounts/forms.py:599
 msgid "Your name"
-msgstr ""
+msgstr "Il tô non"
 
 #: weblate/accounts/forms.py:601
 msgid "Your e-mail"
@@ -155,7 +153,7 @@ msgstr ""
 #: weblate/templates/manage/performance.html:81
 #: weblate/trans/models/announcement.py:72
 msgid "Message"
-msgstr ""
+msgstr "Messaç"
 
 #: weblate/accounts/forms.py:606
 msgid ""
@@ -1341,7 +1339,7 @@ msgstr ""
 #: weblate/accounts/views.py:662 weblate/templates/accounts/hosting.html:62
 #: weblate/templates/accounts/trial.html:7
 msgid "Gratis trial"
-msgstr ""
+msgstr "Prove gratuite"
 
 #: weblate/accounts/views.py:893 weblate/templates/403.html:20
 #: weblate/templates/404.html:21 weblate/templates/accounts/2fa.html:7
@@ -3519,10 +3517,8 @@ msgid "The following format strings are extra: {}"
 msgstr "Stât de traduzion"
 
 #: weblate/checks/base.py:343
-#, fuzzy
-#| msgid "Translation status"
 msgid "The following errors were found:"
-msgstr "Stât de traduzion"
+msgstr "A son stâts cjatâts chescj erôrs:"
 
 #: weblate/checks/chars.py:49
 msgid "Starting newline"
@@ -3727,12 +3723,11 @@ msgid "Different strings are translated the same."
 msgstr "tradûs"
 
 #: weblate/checks/consistency.py:190
-#, fuzzy, python-format
-#| msgid "Source strings"
+#, python-format
 msgid "Other source string: %s"
 msgid_plural "Other source strings: %s"
-msgstr[0] "Stringhis sorzint"
-msgstr[1] "Stringhis sorzint"
+msgstr[0] "Altre stringhe sorzint: %s"
+msgstr[1] "Altris stringhis sorzint: %s"
 
 #: weblate/checks/consistency.py:192
 #, python-format
@@ -3763,12 +3758,10 @@ msgid "Text contains the same word twice in a row."
 msgstr ""
 
 #: weblate/checks/duplicate.py:103
-#, fuzzy
-#| msgid "Translation status"
 msgid "The following word is duplicated:"
 msgid_plural "The following words are duplicated:"
-msgstr[0] "Stât de traduzion"
-msgstr[1] "Stât de traduzion"
+msgstr[0] "La peraule dopo e je duplicade:"
+msgstr[1] "Lis peraulis dopo a son duplicadis:"
 
 #: weblate/checks/flags.py:54
 msgid "RST text"
@@ -6199,11 +6192,9 @@ msgstr ""
 
 #: weblate/memory/models.py:313 weblate/memory/models.py:331
 #: weblate/memory/models.py:400
-#, fuzzy, python-format
-#| msgid "%(count)s translation"
-#| msgid_plural "%(count)s translations"
+#, python-format
 msgid "Could not find language %s!"
-msgstr "%(count)s traduzion"
+msgstr "No si pues cjatâ la lenghe %s!"
 
 #: weblate/memory/models.py:380
 msgid "Unsupported file!"
@@ -6260,62 +6251,62 @@ msgstr ""
 #: weblate/metrics/wrapper.py:22
 msgctxt "Short name of month"
 msgid "Jan"
-msgstr ""
+msgstr "Zen"
 
 #: weblate/metrics/wrapper.py:23
 msgctxt "Short name of month"
 msgid "Feb"
-msgstr ""
+msgstr "Fev"
 
 #: weblate/metrics/wrapper.py:24
 msgctxt "Short name of month"
 msgid "Mar"
-msgstr ""
+msgstr "Mars"
 
 #: weblate/metrics/wrapper.py:25
 msgctxt "Short name of month"
 msgid "Apr"
-msgstr ""
+msgstr "Avr"
 
 #: weblate/metrics/wrapper.py:26
 msgctxt "Short name of month"
 msgid "May"
-msgstr ""
+msgstr "Mai"
 
 #: weblate/metrics/wrapper.py:27
 msgctxt "Short name of month"
 msgid "Jun"
-msgstr ""
+msgstr "Jugn"
 
 #: weblate/metrics/wrapper.py:28
 msgctxt "Short name of month"
 msgid "Jul"
-msgstr ""
+msgstr "Lui"
 
 #: weblate/metrics/wrapper.py:29
 msgctxt "Short name of month"
 msgid "Aug"
-msgstr ""
+msgstr "Avo"
 
 #: weblate/metrics/wrapper.py:30
 msgctxt "Short name of month"
 msgid "Sep"
-msgstr ""
+msgstr "Set"
 
 #: weblate/metrics/wrapper.py:31
 msgctxt "Short name of month"
 msgid "Oct"
-msgstr ""
+msgstr "Otu"
 
 #: weblate/metrics/wrapper.py:32
 msgctxt "Short name of month"
 msgid "Nov"
-msgstr ""
+msgstr "Nov"
 
 #: weblate/metrics/wrapper.py:33
 msgctxt "Short name of month"
 msgid "Dec"
-msgstr ""
+msgstr "Dic"
 
 #: weblate/middleware.py:287
 #, python-format
@@ -6493,7 +6484,7 @@ msgstr ""
 
 #: weblate/templates/500.html:7 weblate/trans/views/error.py:73
 msgid "Internal Server Error"
-msgstr ""
+msgstr "Erôr interni dal servidôr"
 
 #: weblate/templates/500.html:12
 msgid "Server Error"
@@ -6505,6 +6496,8 @@ msgid ""
 "The server had serious problems serving your request, and this error has "
 "been recorded as %(error_id)s."
 msgstr ""
+"Il servidôr al à vût problemis seris intant che al servive la vuestre "
+"richieste e chest erôr al è stât regjistrât come %(error_id)s."
 
 #: weblate/templates/500.html:37
 msgid ""
@@ -6558,13 +6551,11 @@ msgstr[0] ""
 msgstr[1] ""
 
 #: weblate/templates/about/donate.html:48
-#, fuzzy
-#| msgid "Documentation"
 msgctxt "Label on donate page"
 msgid "Recent change"
 msgid_plural "Recent changes"
-msgstr[0] "Documentazion"
-msgstr[1] "Documentazion"
+msgstr[0] "Cambiament resint"
+msgstr[1] "Cambiaments resints"
 
 #: weblate/templates/about/index.html:19
 #: weblate/templates/manage/index.html:102
@@ -7698,7 +7689,7 @@ msgstr ""
 
 #: weblate/templates/accounts/user.html:276
 msgid "One-time"
-msgstr ""
+msgstr "Dome une volte"
 
 #: weblate/templates/accounts/user.html:329 weblate/templates/auth/team.html:31
 #: weblate/templates/manage/teams.html:28
@@ -9072,7 +9063,7 @@ msgstr ""
 #: weblate/templates/screenshots/screenshot_list.html:16
 #: weblate/templates/snippets/info.html:520 weblate/trans/forms.py:1791
 msgid "Screenshots"
-msgstr ""
+msgstr "Videade"
 
 #: weblate/templates/component.html:146
 #, fuzzy
@@ -9204,7 +9195,7 @@ msgstr ""
 #: weblate/templates/data.html:30 weblate/templates/data.html:71
 #: weblate/templates/data.html:115
 msgid "Link"
-msgstr ""
+msgstr "Colegament"
 
 #: weblate/templates/data.html:38 weblate/templates/data.html:46
 msgid "RSS"
@@ -10067,7 +10058,7 @@ msgstr ""
 #: weblate/templates/mail/base.html:122
 #, python-format
 msgid "Generated on %(timestamp)s."
-msgstr ""
+msgstr "Gjenerât ai %(timestamp)s."
 
 #: weblate/templates/mail/billing_expired.html:7
 msgid "Your billing plan has expired and all its projects have been removed."
@@ -11150,10 +11141,8 @@ msgid "Delete announcement"
 msgstr "Anunzi"
 
 #: weblate/templates/multi-progress.html:16
-#, fuzzy
-#| msgid "Components"
 msgid "Components are being updated…"
-msgstr "Components"
+msgstr "Components daûr a jessi inzornâts…"
 
 #: weblate/templates/new-language.html:26
 msgid ""
@@ -11544,11 +11533,8 @@ msgstr "Stringhis sorzint"
 
 #: weblate/templates/snippets/embed-units-clone.html:10
 #: weblate/templates/snippets/format-translation.html:28
-#, fuzzy
-#| msgid "%(count)s translation"
-#| msgid_plural "%(count)s translations"
 msgid "Clone to translation"
-msgstr "%(count)s traduzion"
+msgstr "Clone inte traduzion"
 
 #: weblate/templates/snippets/embed-units.html:43 weblate/utils/views.py:217
 #, fuzzy
@@ -12453,11 +12439,11 @@ msgstr ""
 
 #: weblate/templates/snippets/suggestions.html:43
 msgid "Accept"
-msgstr ""
+msgstr "Acete"
 
 #: weblate/templates/snippets/suggestions.html:49
 msgid "Accept and approve"
-msgstr ""
+msgstr "Acete e aprove"
 
 #: weblate/templates/snippets/suggestions.html:55
 msgid "Accept and edit"
@@ -13056,7 +13042,7 @@ msgstr ""
 #: weblate/templates/trans/component_form.html:40
 #: weblate/templates/trans/project_form.html:53
 msgid "Continue"
-msgstr ""
+msgstr "Va indevant"
 
 #: weblate/templates/trans/component_create.html:91
 msgid ""
@@ -15048,10 +15034,8 @@ msgstr ""
 
 #: weblate/trans/forms.py:1069 weblate/trans/forms.py:1072
 #: weblate/trans/forms.py:1076 weblate/trans/forms.py:1081
-#, fuzzy
-#| msgid "Components"
 msgid "Component not found!"
-msgstr "Components"
+msgstr "No si pues cjatâ il component!"
 
 #: weblate/trans/forms.py:1088
 msgid "Source component needs to have same source language as target one."
@@ -16301,11 +16285,9 @@ msgid "Could not find any matching language, please check the file mask."
 msgstr ""
 
 #: weblate/trans/models/component.py:3206
-#, fuzzy, python-brace-format
-#| msgid "%(count)s translation"
-#| msgid_plural "%(count)s translations"
+#, python-brace-format
 msgid "Could not parse {file}: {error}"
-msgstr "%(count)s traduzion"
+msgstr "Impossibil di analizâ {file}: {error}"
 
 #: weblate/trans/models/component.py:3214
 #, python-format
@@ -16465,11 +16447,8 @@ msgid "Add new translation string"
 msgstr ""
 
 #: weblate/trans/models/component.py:4251
-#, fuzzy
-#| msgid "%(count)s translation"
-#| msgid_plural "%(count)s translations"
 msgid "Could not get repository status!"
-msgstr "%(count)s traduzion"
+msgstr "No si pues recuperâ il stât dal repositori!"
 
 #: weblate/trans/models/component.py:4284
 msgid "Invalid symbolic link in a repository."
@@ -16642,11 +16621,8 @@ msgid ""
 msgstr ""
 
 #: weblate/trans/models/suggestion.py:159
-#, fuzzy
-#| msgid "%(count)s translation"
-#| msgid_plural "%(count)s translations"
 msgid "Could not accept suggestion!"
-msgstr "%(count)s traduzion"
+msgstr "No si à rivât a acetâ il sugjeriment!"
 
 #: weblate/trans/models/translation.py:293
 #, python-format
@@ -17330,11 +17306,8 @@ msgid "Posted new comment"
 msgstr ""
 
 #: weblate/trans/views/edit.py:881
-#, fuzzy
-#| msgid "%(count)s translation"
-#| msgid_plural "%(count)s translations"
 msgid "Could not add comment!"
-msgstr "%(count)s traduzion"
+msgstr "No si à rivât a zontâ il coment!"
 
 #: weblate/trans/views/edit.py:901
 #, fuzzy
