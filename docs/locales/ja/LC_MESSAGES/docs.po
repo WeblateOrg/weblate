@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-17 15:44+0100\n"
-"PO-Revision-Date: 2026-01-03 12:02+0000\n"
+"PO-Revision-Date: 2026-01-04 13:02+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
@@ -27196,7 +27196,7 @@ msgstr ""
 
 #: ../../changes.rst:468
 msgid ":ref:`check-same` is now skipped for Toki Pona."
-msgstr "Toki Pona では :ref:`check-same` がスキップされるようにに修正。"
+msgstr "Toki Pona では :ref:`check-same` 検査を除外するように修正。"
 
 #: ../../changes.rst:469
 msgid ":ref:`search-strings` supports ``has:location`` lookup."
@@ -27654,8 +27654,8 @@ msgstr "特定のケースで :ref:`language-parsing-codes` が正しく動作�
 #: ../../changes.rst:669
 msgid ":ref:`search-strings` now properly finds exact match on the component."
 msgstr ""
-":ref:`search-strings` がコンポーネント内の完全一致を正しく検出するように修正"
-"。"
+":ref:`search-strings` がコンポーネント内の翻訳文字列の完全一致を正しく検出す"
+"るように修正。"
 
 #: ../../changes.rst:679
 msgid ""
@@ -27738,34 +27738,30 @@ msgid "Fixed restoring of Git repositories from :ref:`projectbackup`."
 msgstr ":ref:`projectbackup` から Git リポジトリを復元する処理を修正。"
 
 #: ../../changes.rst:727
-#, fuzzy
 msgid ""
 "Weblate has switched to a different library for zxcvbn integration, as the "
 "old one is no longer maintained, see :ref:`password-authentication`."
 msgstr ""
-":file:`settings_example.py` にいくつか変更があります。特に "
-"``AUTH_PASSWORD_VALIDATORS`` と ``INSTALLED_APPS`` が変更されています。"
+"Wwblate では、旧ライブラリが保守されなくなったため、zxcvbn 連携に使用する"
+"ライブラリを別のものに切り替えました。参照: :ref:`password-authentication`。"
 
 #: ../../changes.rst:728 ../../vcs.rst:309
 msgid ""
 "Weblate uses proactive authentication with Git 2.46.0 and newer when HTTP "
 "credentials are supplied."
 msgstr ""
+"Weblate は、HTTP 認証情報が提供された場合、Git 2.46.0 以降でプロアクティブ認"
+"証を使用します。"
 
 #: ../../changes.rst:734
-#, fuzzy
-#| msgid ""
-#| "There are several changes in :file:`settings_example.py`, most notable is "
-#| "changes in ``CACHES`` and ``SOCIAL_AUTH_PIPELINE``, please adjust your "
-#| "settings accordingly."
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable are "
 "changed settings ``AUTH_PASSWORD_VALIDATORS`` and ``INSTALLED_APPS``; please "
 "adjust your settings accordingly."
 msgstr ""
-":file:`settings_example.py` に変更があります。特に ``CACHES`` と "
-"``SOCIAL_AUTH_PIPELINE`` に変更があります。変更に合わせて設定を修正してくださ"
-"い。"
+":file:`settings_example.py` に変更があります。特に "
+"``AUTH_PASSWORD_VALIDATORS`` と ``INSTALLED_APPS`` に変更があります。変更に合"
+"わせて設定を修正してください。"
 
 #: ../../changes.rst:740
 msgid ""
@@ -27784,47 +27780,38 @@ msgid "*Released on February 21st 2025.*"
 msgstr "*2025 年 2 月 21日にリリース。*"
 
 #: ../../changes.rst:749
-#, fuzzy
-#| msgid "Skip the :ref:`check-multiple-failures` quality check."
 msgid ""
 ":ref:`check-multiple-failures` better shows failing checks including links "
 "to the strings."
-msgstr ":ref:`check-multiple-failures` の品質検査を除外する。"
+msgstr ""
+":ref:`check-multiple-failures` は、失敗したチェックをより分かりやすく表示し、"
+"該当文字列へのリンクも含むように改良。"
 
 #: ../../changes.rst:750
-#, fuzzy
-#| msgid "Added support for locking components experiencing repository errors."
 msgid ""
 "Detailed overview of locked components on project repository management."
 msgstr ""
-"リポジトリエラーが発生するコンポーネントをロックするためのサポートを追加しま"
-"した。"
+"プロジェクトのリポジトリ管理で、ロックされたコンポーネントの詳細な概要が表示"
+"されるように改良。"
 
 #: ../../changes.rst:751
-#, fuzzy
-#| msgid ":ref:`xliff` now supports displaying source string location."
 msgid ":ref:`search-strings` supports searching by source string state."
-msgstr ":ref:`xliff` が原文の位置表示に対応。"
+msgstr ":ref:`search-strings` がソース文字列の状態による検索に対応。"
 
 #: ../../changes.rst:755
-#, fuzzy
-#| msgid ":doc:`/admin/announcements` can be posted on project/language scope."
 msgid ":ref:`download` performs faster on project and language scopes."
 msgstr ""
-":doc:`/admin/announcements` がプロジェクト内の特定の言語単位で投稿できます。"
+":ref:`download` がプロジェクト単位および言語単位でより高速に動作するように改"
+"良。"
 
 #: ../../changes.rst:756
-#, fuzzy
-#| msgid ":ref:`xliff` now supports displaying source string location."
 msgid ""
 ":ref:`zen-mode` does not display the source string twice when editing it."
-msgstr ":ref:`xliff` が原文の位置表示に対応。"
+msgstr ":ref:`zen-mode` で編集時に原文を二重に表示しないように改良。"
 
 #: ../../changes.rst:757
-#, fuzzy
-#| msgid "Improved glossary highlighting."
 msgid "Fixed :ref:`glossary` terms highlighting."
-msgstr "用語集の強調表示の改善。"
+msgstr ":ref:`glossary` 用語集のハイライトを修正。"
 
 #: ../../changes.rst:767
 msgid ""
@@ -27846,227 +27833,214 @@ msgstr "*2025 年 2 月 14 日にリリース。*"
 msgid ""
 ":ref:`check-rst-references` check to validate reStructuredText references."
 msgstr ""
+":ref:`check-rst-references` は reStructuredText の参照を検証する品質検査です"
+"。"
 
 #: ../../changes.rst:777
 msgid ":ref:`check-rst-syntax` check to validate reStructuredText syntax."
-msgstr ""
+msgstr ":ref:`check-rst-syntax` は reStructuredText の構文を検証する品質検査です。"
 
 #: ../../changes.rst:778
 msgid "API can now produce CSV output."
-msgstr ""
+msgstr "API が CSV 出力に対応。"
 
 #: ../../changes.rst:779
 msgid ""
 "New management command :wladmin:`import_projectbackup` to "
 "import :ref:`projectbackup`."
 msgstr ""
+":ref:`projectbackup` をインポートするための新しい管理コマンド "
+":wladmin:`import_projectbackup` の追加。"
 
 #: ../../changes.rst:783
-#, fuzzy
-#| msgid "Improved error reporting in :ref:`machine-translation-setup`."
 msgid "Improved error handling in :ref:`machine-translation-setup`."
-msgstr ":ref:`machine-translation-setup` でのエラー報告の改良。"
+msgstr ":ref:`machine-translation-setup` のエラーハンドリングの改良。"
 
 #: ../../changes.rst:784
 msgid ""
 ":envvar:`WEBLATE_REGISTRATION_CAPTCHA` is now available in Docker container."
-msgstr ""
+msgstr ":envvar:`WEBLATE_REGISTRATION_CAPTCHA` が Docker コンテナでも利用可能に改良。"
 
 #: ../../changes.rst:785
 msgid ""
 ":guilabel:`Synchronize` on shared repository now operates on all its "
 "components."
 msgstr ""
+"共有リポジトリの :guilabel:`Synchronize` が、すべてのコンポーネントに対して実"
+"行されるように改良。"
 
 #: ../../changes.rst:786
 msgid ""
 ":ref:`check-punctuation-spacing` ignores markup such as Markdown or "
 "reStructuredText."
 msgstr ""
+":ref:`check-punctuation-spacing` が Markdown や reStructuredText のような"
+"マークアップを無視するように改良。"
 
 #: ../../changes.rst:787
 msgid ""
 ":ref:`autofix-punctuation-spacing` does not alter reStructuredText markup."
 msgstr ""
+":ref:`autofix-punctuation-spacing` が reStructuredText のマークアップを変更し"
+"ないように改良。"
 
 #: ../../changes.rst:788
-#, fuzzy
-#| msgid "Improved validation of several forms."
 msgid "Improved validation errors in :doc:`/api`, see :ref:`api-errors`."
-msgstr "複数のフォームの検証の改善。"
+msgstr ":doc:`/api` のバリデーションエラーの改良。参照: :ref:`api-errors`。"
 
 #: ../../changes.rst:789
-#, fuzzy
-#| msgid ""
-#| "The language definitions are in the `weblate-language-data repository "
-#| "<https://github.com/WeblateOrg/language-data/>`_."
 msgid ""
 "Any language changed into an alias in `Weblate language data <https://"
 "github.com/WeblateOrg/language-data/>`__ is now reflected in all existing "
 "installations."
 msgstr ""
-"言語の定義は、`weblate-language-data repository <https://github.com/"
-"WeblateOrg/language-data/>`_ にあります。"
+"`Weblate 言語データ <https://github.com/WeblateOrg/language-data/>`__ で"
+"エイリアスに変更された言語は、既存のすべてのインストールに反映されるように改"
+"良。"
 
 #: ../../changes.rst:790
 msgid ""
 "Blank alias languages (not linked to any translation, profile, "
 "component, ...) are now automatically removed."
 msgstr ""
+"空のエイリアス言語（翻訳者、ユーザー情報、コンポーネントなどにリンクされてい"
+"ない）は自動的に削除されるように改良。"
 
 #: ../../changes.rst:791
 msgid ""
 ":ref:`check-duplicate` better works with markup such as Markdown or "
 "reStructuredText."
 msgstr ""
+":ref:`check-duplicate` が Markdown や reStructuredText のようなマークアップに"
+"対してより適切に動作するように改良。"
 
 #: ../../changes.rst:792
 msgid ""
 "Automatically use DeepL API Free endpoint for the DeepL API Free "
 "authentication keys in :ref:`mt-deepl`."
 msgstr ""
+":ref:`mt-deepl` で DeepL API Free の認証キーを使用している場合、自動的に "
+"Free エンドポイントを利用するように改良。"
 
 #: ../../changes.rst:793
-#, fuzzy
-#| msgid "Compatibility with PostgreSQL database backend."
 msgid ""
 "Compatibility with third-party static files storage backends for Django."
-msgstr "PostgreSQL データベース バックエンドとの互換性に対応。"
+msgstr "Django のサードパーティ製静的ファイルストレージバックエンドとの互換性。"
 
 #: ../../changes.rst:794
-#, fuzzy
-#| msgid ":ref:`mt-microsoft-translator`"
 msgid "Improved language compatibility in :ref:`mt-microsoft-translator`."
-msgstr ":ref:`mt-microsoft-translator`"
+msgstr ":ref:`mt-microsoft-translator` の言語互換性の改良。"
 
 #: ../../changes.rst:795
-#, fuzzy
-#| msgid "Skip the :ref:`check-icu-message-format` quality check."
 msgid ""
 ":ref:`check-reused` check gracefully handles languages which are not case "
 "sensitive."
-msgstr ":ref:`check-icu-message-format` の品質検査を除外する。"
+msgstr ":ref:`check-reused` が大文字小文字を区別しない言語を適切に扱うように改良。"
 
 #: ../../changes.rst:796
 msgid ""
 ":ref:`component-enforced_checks` are now applied on strings imported from "
 "the repository."
 msgstr ""
+":ref:`component-enforced_checks` がリポジトリからインポートされた文字列にも適"
+"用されるように改良。"
 
 #: ../../changes.rst:797
-#, fuzzy
-#| msgid ""
-#| "Reduced false positives of :ref:`check-reused` when fixing the "
-#| "translation."
 msgid ""
 "Reduced false positives in :ref:`check-end-colon` and :ref:`check-end-stop` "
 "for CJK languages."
-msgstr "翻訳を修正する際の :ref:`check-reused` の誤検出を削減。"
+msgstr ""
+"CJK 言語における :ref:`check-end-colon` と :ref:`check-end-stop` の誤検出を削"
+"減。"
 
 #: ../../changes.rst:798
 msgid "OpenAPI schema for API includes more information."
-msgstr ""
+msgstr "API の OpenAPI スキーマに、より多くの情報が含まれるように改良。"
 
 #: ../../changes.rst:799
 msgid ":ref:`check-regex` supports advanced regular expressions."
 msgstr ":ref:`check-regex` は高度な正規表現に対応しています。"
 
 #: ../../changes.rst:800
-#, fuzzy
-#| msgid "Skip the :ref:`check-icu-message-format` quality check."
 msgid ":ref:`check-same` gracefully deals with case-insensitive languages."
-msgstr ":ref:`check-icu-message-format` の品質検査を除外する。"
+msgstr ":ref:`check-same` が大文字小文字を区別しない言語を適切に扱うように改良。"
 
 #: ../../changes.rst:804
-#, fuzzy
-#| msgid ":ref:`check-reused` is no longer triggered for blank strings."
 msgid ":ref:`check-reused` wrongly triggered after fixing the error."
-msgstr ":ref:`check-reused` で、空白の文字列に対して起動しないように修正。"
+msgstr ":ref:`check-reused` がエラー修正後に誤って再度トリガーされる問題の修正。"
 
 #: ../../changes.rst:805
-#, fuzzy
-#| msgid "Not updating statistics in some situations."
 msgid "Dark theme behavior in some situations."
-msgstr "特定の状況で統計が更新されない。"
+msgstr "一部の状況でダークテーマの挙動の改良。"
 
 #: ../../changes.rst:806
 msgid "Translation propagation sometimes did not work as expected."
-msgstr ""
+msgstr "翻訳の伝播が期待通りに動作しないことがあった問題の修正。"
 
 #: ../../changes.rst:807
-#, fuzzy
-#| msgid "Allows to customize ``Content-Security-Policy`` HTTP header."
 msgid ""
 ":http:header:`Content-Security-Policy` is now automatically set for AWS."
-msgstr "``Content-Security-Policy`` HTTP ヘッダーの変更を可能にします。"
+msgstr ""
+"AWS で :http:header:`Content-Security-Policy` ヘッダーが自動的に設定されるよ"
+"うに改良。"
 
 #: ../../changes.rst:808
-#, fuzzy
-#| msgid ""
-#| ":ref:`machine-translation-setup`, :ref:`machine-"
-#| "translation`, :ref:`memory`"
 msgid ""
 ":ref:`machine-translation-setup` sometimes cached results too aggressively."
 msgstr ""
-":ref:`machine-translation-setup`、:ref:`machine-translation`、:ref:`memory`"
+":ref:`machine-translation-setup` が結果を過剰にキャッシュすることがあった問題"
+"の修正。"
 
 #: ../../changes.rst:809
-#, fuzzy
-#| msgid "Improved error reporting in :ref:`machine-translation-setup`."
 msgid "Fixed translations caching in :ref:`machine-translation-setup`."
-msgstr ":ref:`machine-translation-setup` でのエラー報告の改良。"
+msgstr ":ref:`machine-translation-setup` の翻訳キャッシュの修正。"
 
 #: ../../changes.rst:810
 msgid ""
 ":ref:`autofix-html` automatic fixups honors the ``ignore-safe-html`` flag."
 msgstr ""
+":ref:`autofix-html` の自動修正が ``ignore-safe-html`` フラグを尊重するように"
+"改良。"
 
 #: ../../changes.rst:811
-#, fuzzy
-#| msgid "Skip the :ref:`check-punctuation-spacing` quality check."
 msgid ":ref:`check-punctuation-spacing` no longer applies to Breton."
-msgstr ":ref:`check-punctuation-spacing` の品質検査を除外する。"
+msgstr ":ref:`check-punctuation-spacing` がブルトン語には適用されなくなりました。"
 
 #: ../../changes.rst:812
-#, fuzzy
-#| msgid ""
-#| "Renamed :ref:`addon-weblate.consistency.languages` to clarify the purpose."
 msgid "Fixed :ref:`addon-weblate.git.squash` on linked repositories."
 msgstr ""
-"目的を明確にするために :ref:`addon-weblate.consistency.languages` という名前"
-"に変更。"
+"リンクされたリポジトリで :ref:`addon-weblate.git.squash` が正しく動作するよう"
+"に修正。"
 
 #: ../../changes.rst:813
-#, fuzzy
-#| msgid "Skip the :ref:`check-multiple-failures` quality check."
 msgid ""
 ":ref:`check-multiple-failures` avoids false positives and better lists "
 "related checks."
-msgstr ":ref:`check-multiple-failures` の品質検査を除外する。"
+msgstr ""
+":ref:`check-multiple-failures` が誤検出を避け、関連品質検査をより適切に一覧表"
+"示するように改良。"
 
 #: ../../changes.rst:817
 msgid ""
 "Running tests using Django test executor is no longer supported, see :doc:`/"
 "contributing/tests`."
 msgstr ""
+"Django test executor を使ったテストの実行には対応しなくなりました。参照: "
+":doc:`/contributing/tests`。"
 
 #: ../../changes.rst:818
 msgid ""
 ":ref:`check-bbcode` check is now disabled by default. The ``bbcode-text`` "
 "flag is required to activate this check, see :ref:`custom-checks`."
 msgstr ""
+":ref:`check-bbcode` 品質検査はデフォルトで無効になりました。使用するには "
+"``bbcode-text`` フラグが必要です。参照: :ref:`custom-checks`。"
 
 #: ../../changes.rst:819
 msgid "API error responses format has changed, see :ref:`api-errors`."
-msgstr ""
+msgstr "API のエラーレスポンス形式が変更されました。参照: :ref:`api-errors`。"
 
 #: ../../changes.rst:825
-#, fuzzy
-#| msgid ""
-#| "There are several changes in :file:`settings_example.py`, most notable "
-#| "are the new settings for :ref:`2fa` and changes in ``INSTALLED_APPS``, "
-#| "``SOCIAL_AUTH_PIPELINE`` and ``MIDDLEWARE``; please adjust your settings "
-#| "accordingly."
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable are "
 "the new settings for :ref:`api` in ``REST_FRAMEWORK``, "
@@ -28074,14 +28048,13 @@ msgid ""
 "``INSTALLED_APPS``; please adjust your settings accordingly."
 msgstr ""
 ":file:`settings_example.py` にはいくつかの変更点がありますが、最も注目すべき"
-"は :ref:`2fa` の新しい設定と ``INSTALLED_APPS``、``SOCIAL_AUTH_PIPELINE``、"
-"``MIDDLEWARE`` の変更です。それぞれ設定を適切に調整してください。"
+"なのは、:ref:`api` 関連の "
+"``REST_FRAMEWORK``、``SPECTACULAR_SETTINGS``、``DRF_STANDARDIZED_ERRORS``、``INSTALLED_APPS`` "
+"の新しい設定です。"
 
 #: ../../changes.rst:826
-#, fuzzy
-#| msgid "Django 1.8 is no longer supported."
 msgid "PostgreSQL 12 and MariaDB 10.4 are no longer supported."
-msgstr "Django 1.8 への対応終了。"
+msgstr "PostgreSQL 12 と MariaDB 10.4 への対応終了。"
 
 #: ../../changes.rst:832
 msgid ""
@@ -28100,32 +28073,32 @@ msgid "*Released on December 19th 2024.*"
 msgstr "*2024 年 12 月 19 日にリリース。*"
 
 #: ../../changes.rst:841
-#, fuzzy
-#| msgid ":ref:`vcs-bitbucket-data-center`"
 msgid "Renamed :ref:`vcs-bitbucket-data-center` to match new product name."
-msgstr ":ref:`vcs-bitbucket-data-center`"
+msgstr ":ref:`vcs-bitbucket-data-center` は、新しい製品名に合わせて名称を変更。"
 
 #: ../../changes.rst:842
 msgid ":http:get:`/api/users/` supports searching by user ID."
-msgstr ""
+msgstr ":http:get:`/api/users/` は、ユーザー ID による検索に対応。"
 
 #: ../../changes.rst:846
 msgid "Avoid query parser crash in multi-threaded environments."
-msgstr ""
+msgstr "マルチスレッド環境でのクエリ パーサのクラッシュを回避。"
 
 #: ../../changes.rst:847
 msgid "Avoid :ref:`autofix` crash on multi-value strings."
-msgstr ""
+msgstr "複数値の文字列で :ref:`autofix` がクラッシュする問題を回避。"
 
 #: ../../changes.rst:848
 msgid ""
 "Make project tokens work when :ref:`2fa` or :ref:`component-agreement` are "
 "enforced."
 msgstr ""
+":ref:`2fa` や :ref:`component-agreement` が有効な場合でもプロジェクト "
+"トークンが動作するように改良。"
 
 #: ../../changes.rst:849
 msgid "Captcha solution were sometimes not accepted."
-msgstr ""
+msgstr "CAPTCHA の解答が受け付けられないことがあった問題の修正。"
 
 #: ../../changes.rst:859
 msgid ""
@@ -28144,8 +28117,6 @@ msgid "*Released on December 16th 2024.*"
 msgstr "*2024 年 12 月 16 日にリリース。*"
 
 #: ../../changes.rst:868
-#, fuzzy
-#| msgid "Fixed publishing packages to PyPI."
 msgid "Fixed publishing package to PyPI."
 msgstr "PyPI へのパッケージの公開の修正。"
 
@@ -28166,45 +28137,45 @@ msgid ""
 "Per-project :ref:`machine-translation-setup` can now be configured via the "
 "Project :ref:`api`."
 msgstr ""
+"プロジェクト単位の :ref:`machine-translation-setup` がプロジェクト "
+":ref:`api` から設定できるように改良。"
 
 #: ../../changes.rst:889
-#, fuzzy
-#| msgid "Added :http:get:`/api/projects/(string:project)/file/`."
 msgid "Added :http:get:`/api/projects/{string:project}/machinery_settings/`."
-msgstr ":http:get:`/api/projects/(string:project)/file/` の追加。"
+msgstr ":http:get:`/api/projects/{string:project}/machinery_settings/` の追加。"
 
 #: ../../changes.rst:890
-#, fuzzy
-#| msgid "Added :http:get:`/api/projects/(string:project)/file/`."
 msgid "Added :http:post:`/api/projects/{string:project}/machinery_settings/`."
-msgstr ":http:get:`/api/projects/(string:project)/file/` の追加。"
+msgstr ":http:post:`/api/projects/{string:project}/machinery_settings/` の追加。"
 
 #: ../../changes.rst:892
 msgid ""
 "Translation memory import now supports files with XLIFF, PO and CSV formats, "
 "see :ref:`memory-user` and :wladmin:`import_memory` command in :ref:`manage`."
 msgstr ""
+"翻訳メモリインポートが XLIFF、PO、CSV 形式に対応。:ref:`memory-user` および "
+":ref:`manage` の :wladmin:`import_memory` コマンドを参照。"
 
 #: ../../changes.rst:893
 msgid "The registration CAPTCHA now includes proof-of-work mechanism ALTCHA."
-msgstr ""
+msgstr "登録 CAPTCHAに、人間操作証明のための ALTCHA を追加。"
 
 #: ../../changes.rst:894
 msgid ""
 "Leading problematic characters in CSV are now checks for :ref:`glossary`, "
 "see :ref:`check-prohibited-initial-character`."
 msgstr ""
+"CSV の先頭に問題のある文字が含まれる場合、:ref:`glossary` の品質検査対象にな"
+"りました。参照: :ref:`check-prohibited-initial-character`。"
 
 #: ../../changes.rst:895
 msgid "Logging to :ref:`graylog`."
-msgstr ""
+msgstr ":ref:`graylog` へのログ出力の追加。"
 
 #: ../../changes.rst:899
-#, fuzzy
-#| msgid ":ref:`mt-microsoft-translator` supports :ref:`glossary-mt`."
 msgid ""
 ":ref:`mt-google-translate-api-v3` now supports :ref:`glossary-mt` (optional)."
-msgstr ":ref:`mt-microsoft-translator` は :ref:`glossary-mt` に対応。"
+msgstr ":ref:`mt-google-translate-api-v3` は :ref::ref:`glossary-mt` に対応（任意）。"
 
 #: ../../changes.rst:900
 msgid ""
@@ -28215,79 +28186,66 @@ msgstr ""
 "良（:guilabel:`Operations` → :guilabel:`Duplicate this component`）。"
 
 #: ../../changes.rst:901
-#, fuzzy
-#| msgid "Include changes count in credits."
 msgid "Included username when generating :ref:`credits`."
-msgstr "変更回数をクレジットに含めるように変更。"
+msgstr ":ref:`credits` の生成時にユーザー名を含むように変更。"
 
 #: ../../changes.rst:902
 msgid ":ref:`bulk-edit` shows a preview of matched strings."
-msgstr ""
+msgstr ":ref:`bulk-edit` が一致した文字列のプレビューを表示するよう改良。"
 
 #: ../../changes.rst:903
-#, fuzzy
-#| msgid ""
-#| ":http:get:`/api/components/(string:project)/(string:component)/file/`"
 msgid ""
 ":http:get:`/api/components/(string:project)/(string:component)/` exposes "
 "component lock state."
-msgstr ":http:get:`/api/components/(string:project)/(string:component)/file/`"
+msgstr ""
+":http:get:`/api/components/(string:project)/(string:component)/` が"
+"コンポーネントのロック状態を公開するように改良。"
 
 #: ../../changes.rst:904
 msgid "Editor in :ref:`zen-mode` is now stick to bottom of screen."
-msgstr ""
+msgstr ":ref:`zen-mode` のエディタが画面下部に固定されるように改良。"
 
 #: ../../changes.rst:905
-#, fuzzy
-#| msgid "Improved navigation while translating."
 msgid "Added page navigation while :ref:`translating`."
-msgstr "翻訳中の操作性の改良。"
+msgstr ":ref:`translating` 中ページナビゲーションを追加。"
 
 #: ../../changes.rst:906
 msgid ":ref:`manage-appearance` now has distinct settings for dark mode."
-msgstr ""
+msgstr ":ref:`manage-appearance` にダークモード専用の設定を追加。"
 
 #: ../../changes.rst:907
-#, fuzzy
-#| msgid "Improved :ref:`workflow-customization` configuration forms."
 msgid "Improved :ref:`translation-propagation` performance."
-msgstr ":ref:`workflow-customization` 設定フォームの改良。"
+msgstr ":ref:`translation-propagation` のパフォーマンスの改良。"
 
 #: ../../changes.rst:908
-#, fuzzy
-#| msgid ""
-#| ":http:post:`/api/translations/(string:project)/(string:component)/"
-#| "(string:language)/file/`"
 msgid ""
 "More detailed error messages for :http:post:`/api/translations/"
 "(string:project)/(string:component)/(string:language)/file/`."
 msgstr ""
 ":http:post:`/api/translations/(string:project)/(string:component)/"
-"(string:language)/file/`"
+"(string:language)/file/` のエラーメッセージより詳細に改良。"
 
 #: ../../changes.rst:912
 msgid ""
 "Using the ``has:variant`` field now correctly displays strings that have "
 "variants in the search language, see :ref:`search-strings`."
 msgstr ""
+"``has:variant`` フィールドが、検索言語でバリアントを持つ文字列を正しく表示す"
+"るように改良。参照: :ref:`search-strings`。"
 
 #: ../../changes.rst:913
-#, fuzzy
-#| msgid "Fixed translating newly added strings."
 msgid "Saving newly added strings in some formats."
-msgstr "新しく追加した文字列の翻訳を修正。"
+msgstr "一部の形式で新規追加文字列の保存を修正。"
 
 #: ../../changes.rst:914
-#, fuzzy
-#| msgid "Skip the :ref:`check-icu-message-format` quality check."
 msgid ":ref:`check-java-printf-format` gracefully handles escaping."
-msgstr ":ref:`check-icu-message-format` の品質検査を除外する。"
+msgstr ":ref:`check-java-printf-format` がエスケープを適切に扱うように修正。"
 
 #: ../../changes.rst:918
 msgid ""
 ":ref:`rollbar-errors` integration no longer includes client-side error "
 "collection."
-msgstr ""
+msgstr ":ref:`rollbar-errors` 統合にクライアント側のエラー収集は含まれなくなった。"
 
 #: ../../changes.rst:919
 msgid "Weblate now requires Git 2.28 or newer."
@@ -28296,18 +28254,18 @@ msgstr "Weblate は、Git 2.28 以降が必須となりました。"
 #: ../../changes.rst:920
 msgid ""
 "Any custom code that relied on ``Change`` models signals should be reviewed."
-msgstr ""
+msgstr "``Change`` モデルのシグナルに依存するカスタムコードは見直しが必要。"
 
 #: ../../changes.rst:921
 msgid ""
 ":ref:`fedora-messaging` integration needs to be updated to be compatible "
 "with this release."
-msgstr ""
+msgstr ":ref:`fedora-messaging` の統合は、このリリースに合わせて更新が必要。"
 
 #: ../../changes.rst:922
 msgid ""
 ":envvar:`WEB_WORKERS` now configures number of threads instead of processes."
-msgstr ""
+msgstr ":envvar:`WEB_WORKERS` がプロセス数ではなくスレッド数を設定するように変更。"
 
 #: ../../changes.rst:932
 msgid ""
@@ -28328,23 +28286,23 @@ msgstr "*2024 年 11 月 19 日にリリース。*"
 #: ../../changes.rst:941
 msgid ":ref:`search-users` can search based on user changes."
 msgstr ""
+":ref:`search-users` は、ユーザーが行った変更内容をもとに検索できるように改良"
+"。"
 
 #: ../../changes.rst:945
-#, fuzzy
-#| msgid "Fixed possible crash in reports."
 msgid "Fixed occasional crash in :ref:`rss`."
-msgstr "レポートでクラッシュすることがある問題の修正。"
+msgstr ":ref:`rss` のクラッシュの修正。"
 
 #: ../../changes.rst:946
-#, fuzzy
-#| msgid "Skip the :ref:`check-icu-message-format` quality check."
 msgid ":ref:`check-icu-message-format` gracefully handles plural strings."
-msgstr ":ref:`check-icu-message-format` の品質検査を除外する。"
+msgstr ""
+":ref:`check-icu-message-format` の品質検査が複数形文字列を適切に扱うように修"
+"正。"
 
 #: ../../changes.rst:947
 msgid ""
 ":ref:`vcs-bitbucket-cloud` correctly generates pull request description."
-msgstr ""
+msgstr ":ref:`vcs-bitbucket-cloud` はプルリクエストの説明を正しく生成するように修正。"
 
 #: ../../changes.rst:957
 msgid ""
@@ -28363,22 +28321,16 @@ msgid "*Released on November 6th 2024.*"
 msgstr "*2024 年 11 月 6 日にリリース。*"
 
 #: ../../changes.rst:966
-#, fuzzy
-#| msgid "Daily execution of some :ref:`addons`."
 msgid "Formatting of some :ref:`audit-log` entries."
-msgstr "複数の :ref:`addons` を毎日実行。"
+msgstr "一部の :ref:`audit-log` エントリの書式設定の改良。"
 
 #: ../../changes.rst:967 ../../changes.rst:991
-#, fuzzy
-#| msgid "Fixed sorting of machine translation suggestions."
 msgid "Fixed XML escaped output in some machine translation integrations."
-msgstr "機械翻訳の提案の並べ替えを修正。"
+msgstr "一部の機械翻訳統合における XML エスケープ出力の修正。"
 
 #: ../../changes.rst:968
-#, fuzzy
-#| msgid "Fixed translating newly added strings."
 msgid "Fixed duplicate listing of newly added glossary terms."
-msgstr "新しく追加した文字列の翻訳を修正。"
+msgstr "新しく追加した用語集の用語が重複して一覧表示される問題の修正。"
 
 #: ../../changes.rst:978
 msgid ""
@@ -28398,25 +28350,23 @@ msgstr "*2024 年 11 月 1 日にリリース。*"
 
 #: ../../changes.rst:987
 msgid "Update outdated plural definitions during the database migration."
-msgstr ""
+msgstr "データベース移行時に、古い複数形定義が更新されるように改良。"
 
 #: ../../changes.rst:988
-#, fuzzy
-#| msgid "Reduce number of commits when updating upstream repository."
 msgid "Reduced number of database queries when updating multiple strings."
-msgstr "アップストリームリポジトリの更新時のコミット数を削減。"
+msgstr "複数の文字列を更新する際のデータベース クエリの回数を削減。"
 
 #: ../../changes.rst:989
 msgid ""
 "Leading problematic characters in :ref:`glossary` terms are now properly "
 "stripped in uploaded files."
 msgstr ""
+"アップロードされたファイル内の :ref:`glossary` の用語の先頭の問題文字が正しく"
+"除去されるように修正。"
 
 #: ../../changes.rst:990
-#, fuzzy
-#| msgid "Improved :ref:`workflow-customization` configuration forms."
 msgid "Improved :ref:`workflow-customization` performance."
-msgstr ":ref:`workflow-customization` 設定フォームの改良。"
+msgstr ":ref:`workflow-customization` のパフォーマンスの改良。"
 
 #: ../../changes.rst:1001
 msgid ""
@@ -28431,14 +28381,12 @@ msgid "Weblate 5.8.1"
 msgstr "Weblate 5.8.1"
 
 #: ../../changes.rst:1006 ../../changes.rst:1025
-#, fuzzy
-#| msgid "Released on October 15th 2020."
 msgid "*Released on October 15th 2024.*"
-msgstr "*2024 年 10 月 15 日にリリース。"
+msgstr "*2024 年 10 月 15 日にリリース。*"
 
 #: ../../changes.rst:1010
 msgid "Use lower case name for the Python package."
-msgstr ""
+msgstr "Python パッケージ名を小文字に統一。"
 
 #: ../../changes.rst:1020
 msgid ""
@@ -28457,16 +28405,12 @@ msgid "Added :ref:`component-key_filter` in the component."
 msgstr "コンポーネントに :ref:`component-key_filter` を追加しました."
 
 #: ../../changes.rst:1030
-#, fuzzy
-#| msgid ""
-#| ":ref:`Searching` now supports filtering by object path and :ref:`date-"
-#| "search`."
 msgid ""
 ":doc:`/user/search` now supports filtering by object path and :ref:`date-"
 "search`."
 msgstr ""
-":ref:`Searching` を、オブジェクト パスと :ref:`date-search` によるフィルタリ"
-"ングに対応。"
+":doc:`/user/search` がオブジェクトパスや :ref:`date-search` による"
+"フィルタリングに対応。"
 
 #: ../../changes.rst:1031
 msgid ""
@@ -28481,10 +28425,8 @@ msgid ":ref:`mt-azure-openai` automatic suggestion service."
 msgstr ":ref:`mt-azure-openai` 自動提案サービス。"
 
 #: ../../changes.rst:1033
-#, fuzzy
-#| msgid ":ref:`vcs-bitbucket-data-center`"
 msgid ":ref:`vcs-bitbucket-cloud`."
-msgstr ":ref:`vcs-bitbucket-data-center`"
+msgstr ":ref:`vcs-bitbucket-cloud`."
 
 #: ../../changes.rst:1037
 msgid ":ref:`mt-modernmt` supports :ref:`glossary-mt`."
@@ -28509,38 +28451,44 @@ msgid ""
 ":ref:`autofix` for French and Breton now uses a non-breaking space before "
 "colons instead of a narrow one."
 msgstr ""
+"フランス語とブルトン語に対する :ref:`autofix` が、狭いスペースではなく"
+"ノーブレーク スペース（改行禁止空白）をコロン前に使用するように改良。"
 
 #: ../../changes.rst:1042
 msgid ":ref:`api` now has a preview OpenAPI specification."
-msgstr ""
+msgstr ":ref:`api` に OpenAPI 仕様のプレビューを追加。"
 
 #: ../../changes.rst:1043
 msgid "Stale, empty glossaries are now automatically removed."
-msgstr ""
+msgstr "古くなった空の用語集を自動的に削除するように改良。"
 
 #: ../../changes.rst:1044
 msgid ":kbd:`?` now displays available :ref:`keyboard`."
-msgstr ""
+msgstr ":kbd:`?` キーで、使用可能な :ref:`keyboard` を表示するように改良。"
 
 #: ../../changes.rst:1045
 msgid ""
 "Translation and language view in the project now include basic information "
 "about the language and plurals."
 msgstr ""
+"プロジェクト内の翻訳と言語概要画面に、言語と複数形に関する基本情報が含まれる"
+"ように改良。"
 
 #: ../../changes.rst:1046
 msgid ":ref:`search-replace` shows a preview of matched strings."
-msgstr ""
+msgstr ":ref:`search-replace` は一致した文字列のプレビューを表示するように改良。"
 
 #: ../../changes.rst:1047
 msgid ":ref:`aresource` now support translatable attribute in its strings."
-msgstr ""
+msgstr ":ref:`aresource` が文字列内の翻訳可能属性を追加。"
 
 #: ../../changes.rst:1048
 msgid ""
 "Creating component via file upload (Translate document) now supports "
 "bilingual files."
 msgstr ""
+"ファイル アップロード（翻訳済みの文章）によるコンポーネント作成が、"
+"バイリンガル ファイルに対応。"
 
 #: ../../changes.rst:1052
 msgid "Displaying :ref:`workflow-customization` setting in some cases."
@@ -28556,6 +28504,8 @@ msgid ""
 ":ref:`check-unnamed-format` better handles some strings, such as :ref:`check-"
 "python-brace-format`."
 msgstr ""
+":ref:`check-unnamed-format` が :ref:`check-python-brace-format` などの文字列"
+"をより適切に扱うように改良。"
 
 #: ../../changes.rst:1058
 msgid "Weblate now requires Python 3.11 or newer."
@@ -28563,15 +28513,9 @@ msgstr "Weblate は、Python 3.11 以降が必須となりました。"
 
 #: ../../changes.rst:1059
 msgid ":ref:`mt-aws` now requires the ``TranslateFullAccess`` permission."
-msgstr ""
+msgstr ":ref:`mt-aws` が ``TranslateFullAccess`` 権限が必要なように改良。"
 
 #: ../../changes.rst:1065
-#, fuzzy
-#| msgid ""
-#| "There are several changes in :file:`settings_example.py`, most notable "
-#| "are the new settings for :ref:`2fa` and changes in ``INSTALLED_APPS``, "
-#| "``SOCIAL_AUTH_PIPELINE`` and ``MIDDLEWARE``; please adjust your settings "
-#| "accordingly."
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable are "
 "the new settings for :ref:`api` in ``SPECTACULAR_SETTINGS`` and changes in "
@@ -28579,8 +28523,9 @@ msgid ""
 "accordingly."
 msgstr ""
 ":file:`settings_example.py` にはいくつかの変更点がありますが、最も注目すべき"
-"は :ref:`2fa` の新しい設定と ``INSTALLED_APPS``、``SOCIAL_AUTH_PIPELINE``、"
-"``MIDDLEWARE`` の変更です。それぞれ設定を適切に調整してください。"
+"なのは、:ref:`api` 関連の ``SPECTACULAR_SETTINGS`` と "
+"``REST_FRAMEWORK``、``INSTALLED_APPS`` の新しい設定です。設定は、それに応じて"
+"調整してください。"
 
 #: ../../changes.rst:1071
 msgid ""
@@ -28635,14 +28580,10 @@ msgid "*Released on August 30th 2024.*"
 msgstr "*2024 年 8 月 30 日にリリース。*"
 
 #: ../../changes.rst:1106
-#, fuzzy
-#| msgid ""
-#| "Updated language names to better describe different scripts and Sintic "
-#| "languages."
 msgid ""
 "Updated language names to better describe different scripts and Sinitic "
 "languages."
-msgstr "多くの文字とシナ語派の言語を、より適切に説明するために言語名を更新。"
+msgstr "異なる文字体系や漢語系言語をより正確に表すために、言語名を更新。"
 
 #: ../../changes.rst:1107
 msgid ""
@@ -28903,16 +28844,12 @@ msgid "Removal of source strings in :ref:`glossary`."
 msgstr ":ref:`glossary` 内の原文の削除。"
 
 #: ../../changes.rst:1195
-#, fuzzy
-#| msgid ""
-#| "Validation of :ref:`projectbackup` ZIP file upon restoring "
-#| "(CVE-2024-39303 / GHSA-jfgp-674x-6q4p)."
 msgid ""
 "Validation of :ref:`projectbackup` ZIP file upon restoring "
 "(:cve:`2024-39303` / :ghsa:`jfgp-674x-6q4p`)."
 msgstr ""
-"復元時の :ref:`projectbackup` ZIP ファイルの検証 (CVE-2024-39303 / GHSA-"
-"jfgp-674x-6q4p)。"
+":ref:`projectbackup` ZIP ファイルの復元時に検証が行われるよう改良"
+"（:cve:`2024-39303` / :ghsa:`jfgp-674x-6q4p`）。"
 
 #: ../../changes.rst:1201
 msgid ""
@@ -28993,23 +28930,18 @@ msgid ""
 msgstr "自動提案における一時的な機械翻訳エラーを適切に処理。"
 
 #: ../../changes.rst:1239
-#, fuzzy
-#| msgid ""
-#| ":http:get:`/api/units/(int:id)/` now includes `last_updated` timestamp."
 msgid ""
 ":http:get:`/api/units/(int:id)/` now includes ``last_updated`` timestamp."
 msgstr ""
-":http:get:`/api/units/(int:id)/` に `last_updated` のタイムスタンプを含むよう"
-"になりました。"
+":http:get:`/api/units/(int:id)/` の API に、``last_updated`` （最終更新日時）"
+"を追加。"
 
 #: ../../changes.rst:1240
-#, fuzzy
-#| msgid ":http:get:`/api/changes/(int:id)/` now includes `old` and `details`."
 msgid ""
 ":http:get:`/api/changes/(int:id)/` now includes ``old`` and ``details``."
 msgstr ""
-":http:get:`/api/changes/(int:id)/` に `old` と `details` が含まれるようになり"
-"ました。"
+":http:get:`/api/changes/(int:id)/` に ``old`` と ``details`` が含まれるように"
+"改良。"
 
 #: ../../changes.rst:1241
 msgid "Reduced memory usage and increased performance of some views."
@@ -29171,10 +29103,8 @@ msgid "Weblate 5.5.1"
 msgstr "Weblate 5.5.1"
 
 #: ../../changes.rst:1342
-#, fuzzy
-#| msgid ":ref:`Searching` supports ``source_changed:DATETIME``."
 msgid ":doc:`/user/search` supports ``source_changed:DATETIME``."
-msgstr ":ref:`Searching` を ``source_changed:DATETIME`` に対応。"
+msgstr ":doc:`/user/search` で ``source_changed:DATETIME`` に対応。"
 
 #: ../../changes.rst:1343
 msgid "Added several new :ref:`component-language_code_style`."
@@ -29268,10 +29198,8 @@ msgstr ""
 "良。"
 
 #: ../../changes.rst:1381
-#, fuzzy
-#| msgid "API improvements"
 msgid "API improvements."
-msgstr "API の改良"
+msgstr "API の改良。"
 
 #: ../../changes.rst:1383
 msgid "Added :http:get:`/api/categories/(int:id)/statistics/`."
@@ -29440,16 +29368,12 @@ msgstr ""
 "ス。"
 
 #: ../../changes.rst:1436
-#, fuzzy
-#| msgid ""
-#| "Adjusted default :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` to not "
-#| "block :ref:`manage-appearance`."
 msgid ""
 "Adjusted default ``LOGIN_REQUIRED_URLS_EXCEPTIONS`` to not "
 "block :ref:`manage-appearance`."
 msgstr ""
-"デフォルトの :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` を調整し"
-"て、 :ref:`manage-appearance` をブロックしないように修正。"
+"デフォルトの ``LOGIN_REQUIRED_URLS_EXCEPTIONS`` を調整して、 :ref:`manage-"
+"appearance` をブロックしないように修正。"
 
 #: ../../changes.rst:1437
 msgid "Avoid crash on pushing changes to diverged repository."
@@ -29557,10 +29481,8 @@ msgid ":ref:`check-perl-brace-format` quality check."
 msgstr ":ref:`check-perl-brace-format` の品質検査。"
 
 #: ../../changes.rst:1491
-#, fuzzy
-#| msgid ":doc:`/formats/moko`."
 msgid ":doc:`/formats/moko-resources`."
-msgstr ":doc:`/formats/moko`。"
+msgstr ":doc:`/formats/moko-resources`."
 
 #: ../../changes.rst:1492
 msgid ":doc:`/formats/formatjs`."
@@ -29571,10 +29493,8 @@ msgid "Search input is now syntax highlighted, see :doc:`/user/search`."
 msgstr "検索入力の構文が強調表示されるように改良。参照: :doc:`/user/search`。"
 
 #: ../../changes.rst:1494
-#, fuzzy
-#| msgid "Weblate is now available in தமிழ்."
 msgid "Weblate is now available in Tamil."
-msgstr "Weblate が தமிழ் 語にも対応。"
+msgstr "Weblate がタミル語に対応。"
 
 #: ../../changes.rst:1498
 msgid "Better logging in :wladmin:`createadmin`."
@@ -29783,11 +29703,12 @@ msgstr ""
 "ため削除。"
 
 #: ../../changes.rst:1575
-#, fuzzy
 msgid ""
 "``labels`` in units API now expose full label info, see :http:get:`/api/"
 "units/(int:id)/`."
-msgstr "原文ユニットのリンク。参照: :http:get:`/api/units/(int:id)/`。"
+msgstr ""
+"units API の ``labels`` が完全なラベル情報を公開するように改良。参照: "
+":http:get:`/api/units/(int:id)/`。"
 
 #: ../../changes.rst:1581
 msgid ""
@@ -29853,10 +29774,8 @@ msgid "*Released on November 16th 2023.*"
 msgstr "*2023 年 11 月 16 日にリリース。*"
 
 #: ../../changes.rst:1614
-#, fuzzy
-#| msgid ":ref:`vcs-azure-devops`"
 msgid ":ref:`vcs-azure-devops`."
-msgstr ":ref:`vcs-azure-devops`"
+msgstr ":ref:`vcs-azure-devops`。"
 
 #: ../../changes.rst:1618
 msgid "Faster statistics updates."
@@ -31360,10 +31279,10 @@ msgid "Support for locking translation by translator."
 msgstr "翻訳者による翻訳ロック機能の追加。"
 
 #: ../../changes/v1.rst:172
-#, fuzzy
 msgid "Optionally maintain ``Language-Team`` header in po file."
 msgstr ""
-"オプションで``Language-Team`` のヘッダを po ファイルで管理するように改良。"
+"オプションで PO ファイル内の ``Language-Team`` ヘッダーを保持できるように改良"
+"。"
 
 #: ../../changes/v1.rst:173
 msgid "Include some statistics in about page."
@@ -32170,14 +32089,11 @@ msgid "*Released on Jan 20th 2017.*"
 msgstr "*2017 年 1 月 20 日にリリース。*"
 
 #: ../../changes/v2.rst:239
-#, fuzzy
-#| msgid ""
-#| "Do not leak account existence on password reset form (CVE-2017-5537)."
 msgid ""
 "Do not leak account existence on password reset form (:cve:`2017-5537`)."
 msgstr ""
-"パスワード リセット フォーム（CVE-2017-5537）でアカウント有無のリーク防止する"
-"ように改良。"
+"パスワード リセット フォーム（:cve:`2017-5537`）でアカウント有無のリーク防止"
+"するように改良。"
 
 #: ../../changes/v2.rst:242
 msgid "Weblate 2.10"
@@ -32695,9 +32611,8 @@ msgid "Project owners can manage themselves."
 msgstr "プロジェクト所有者が自分自身を管理できるように改良。"
 
 #: ../../changes/v2.rst:396
-#, fuzzy
 msgid "Added support for ``javascript-format`` used in gettext PO."
-msgstr "gettext PO で使用する``javascript-format`` に対応。"
+msgstr "gettext PO で使用する ``javascript-format`` に対応。"
 
 #: ../../changes/v2.rst:397
 msgid "Support for adding new translations in XLIFF."
@@ -33075,10 +32990,8 @@ msgid "Reduced false negatives for unchanged translation check."
 msgstr "未翻訳の翻訳検査の誤検知を減らしました。"
 
 #: ../../changes/v3.rst:21
-#, fuzzy
-#| msgid "Raised bleach dependency to address CVE-2020-6802."
 msgid "Raised bleach dependency to address :cve:`2020-6802`."
-msgstr "CVE-2020-6802 に対応するため、Bleach への依存度を引き上げた。"
+msgstr ":cve:`2020-6802` に対応するため、Bleach への依存度を引き上げた。"
 
 #: ../../changes/v3.rst:22
 msgid "Fixed listing project level changes in history."
@@ -34265,11 +34178,10 @@ msgid ""
 msgstr "翻訳についての問題を強調表示する、コンポーネントの警告を追加。"
 
 #: ../../changes/v3.rst:387
-#, fuzzy
-#| msgid "Expose XLIFF string resname as context when available."
 msgid "Expose XLIFF string ``resname`` as context when available."
 msgstr ""
-"使用可能な場合は、XLIFF 文字列名をコンテキストとして公開する機能の追加。"
+"使用可能な場合は、XLIFF の ``resname`` をコンテキストとして公開する機能の追加"
+"。"
 
 #: ../../changes/v3.rst:388
 msgid "Added support for XLIFF states."
@@ -34380,10 +34292,8 @@ msgid "Add install_addon management command for automated add-on installation."
 msgstr "自動アドオン インストール用の install_addon 管理コマンドの追加。"
 
 #: ../../changes/v3.rst:427
-#, fuzzy
-#| msgid "Allow more fine grained ratelimit settings."
 msgid "Allow more fine grained :ref:`rate-limit` settings."
-msgstr "詳細な接続制限の許可。"
+msgstr ":ref:`rate-limit` の設定がより細かく制御できるように改良。"
 
 #: ../../changes/v3.rst:428
 msgid "Added support for export and import of Excel files."
@@ -34481,7 +34391,7 @@ msgstr "*2018 年 7 月 27 日にリリース。*"
 
 #: ../../changes/v3.rst:456
 msgid "Fix testsuite failure on some setups."
-msgstr "一部の設定で発生してたテストスイートの不具合を修正。"
+msgstr "一部の設定で発生してたテストスイートの失敗を修正。"
 
 #: ../../changes/v3.rst:459
 msgid "Weblate 3.1"
@@ -34808,14 +34718,13 @@ msgstr ""
 "翻訳ファイルを強制的に再読み込みすることが必要な場合があります。"
 
 #: ../../changes/v4.rst:61
-#, fuzzy
 msgid ""
 "There are several changes in :file:`settings_example.py`, most notable is "
 "change in ``COMPRESS_OFFLINE_CONTEXT``, please adjust your settings "
 "accordingly."
 msgstr ""
-":file:`settings_example.py` に変更があります。最も重要なのは "
-"`COMPRESS_OFFLINE_CONTEXT` の変更です。変更に合わせて設定を修正してください。"
+":file:`settings_example.py` に変更があります。特に "
+"``COMPRESS_OFFLINE_CONTEXT`` の変更が重要です。設定を適宜調整してください。"
 
 #: ../../changes/v4.rst:64
 msgid "Weblate 4.17"
@@ -34849,10 +34758,8 @@ msgid "Improved performance of public user profiles."
 msgstr "公開ユーザー プロファイルの性能の改良。"
 
 #: ../../changes/v4.rst:73
-#, fuzzy
-#| msgid "Improved Sentry performance integration."
 msgid "Improved Sentry performance monitoring integration."
-msgstr "Sentry のパフォーマンス計測の連携を改善。"
+msgstr "Sentry のパフォーマンス監視統合の改良。"
 
 #: ../../changes/v4.rst:74
 msgid "Added support for Ed25519 SSH key."
@@ -35939,18 +35846,12 @@ msgid "Weblate 4.11.1"
 msgstr "Weblate 4.11.1"
 
 #: ../../changes/v4.rst:452
-#, fuzzy
-#| msgid ""
-#| "Fixed missing sanitizing of arguments to Git and Mercurial - "
-#| "CVE-2022-23915, see `GHSA-3872-f48p-pxqj <https://github.com/WeblateOrg/"
-#| "weblate/security/advisories/GHSA-3872-f48p-pxqj>`_ for more details."
 msgid ""
 "Fixed missing sanitizing of arguments to Git and Mercurial "
 "- :cve:`2022-23915`, see :ghsa:`3872-f48p-pxqj` for more details."
 msgstr ""
-"Git と Mercurial への引数のサニタイズ不足の修正 — CVE-2022-23915。詳細につい"
-"ては、`GHSA-3872-f48p-pxqj <https://github.com/WeblateOrg/weblate/security/"
-"advisories/GHSA-3872-f48p-pxqj>`_ を確認してください。"
+"Git と Mercurial への引数のサニタイズ不足の修正（:cve:`2022-23915`、詳細につ"
+"いては、:ghsa:`3872-f48p-pxqj` を確認してください）。"
 
 #: ../../changes/v4.rst:453
 msgid "Fixed loading fuzzy strings from CSV files."
@@ -35985,18 +35886,12 @@ msgid "*Released on February 25th 2022.*"
 msgstr "*2022 年 2 月 25 日にリリース。**"
 
 #: ../../changes/v4.rst:465
-#, fuzzy
-#| msgid ""
-#| "Fixes stored XSS - CVE-2022-24710, see `GHSA-6jp6-9rf9-gc66 <https://"
-#| "github.com/WeblateOrg/weblate/security/advisories/GHSA-6jp6-9rf9-gc66>`_ "
-#| "for more details."
 msgid ""
 "Fixes stored XSS - :cve:`2022-24710`, see :ghsa:`6jp6-9rf9-gc66` for more "
 "details."
 msgstr ""
-"保存済みの XSS の修正 — CVE-2022-24710。詳細ついては、`GHSA-6jp6-9rf9-gc66 "
-"<https://github.com/WeblateOrg/weblate/security/advisories/GHSA-6jp6-9rf9-"
-"gc66>`_ を確認してください。"
+"保存型 XSS の修正（:cve:`2022-24710`、詳細は :ghsa:`6jp6-9rf9-gc66` を参照）"
+"。"
 
 #: ../../changes/v4.rst:466
 msgid "Fixed add-on installation using the API."
@@ -37267,16 +37162,12 @@ msgstr ""
 "ださい。"
 
 #: ../../changes/v4.rst:867
-#, fuzzy
-#| msgid ""
-#| "There is a change in :setting:`django:INSTALLED_APPS` - "
-#| "``weblate.metrics`` should be added."
 msgid ""
 "There is a change in :setting:`django:INSTALLED_APPS`; ``weblate.metrics`` "
 "should be added."
 msgstr ""
-":setting:`django:INSTALLED_APPS` は変更されました — ``weblate.metrics`` の追"
-"加が必要です。"
+":setting:`django:INSTALLED_APPS` は変更されました（``weblate.metrics`` の追加"
+"が必要です）。"
 
 #: ../../changes/v4.rst:871
 msgid "There is a new dependency on the `pyahocorasick` module."
@@ -38165,11 +38056,9 @@ msgid "Fixed UI language selection in some cases."
 msgstr "UI の言語選択ができない場合がある問題の修正。"
 
 #: ../../changes/v4.rst:1137
-#, fuzzy
-#| msgid "Allow to whitelist registration methods with registrations closed."
 msgid ""
 "Possibility to allow certain registration methods with registrations closed."
-msgstr "新規登録が閉鎖された状態で、ホワイトリストに新規登録できる機能の追加。"
+msgstr "新規登録が閉鎖された状態で、特定の登録方法を許可する機能の追加。"
 
 #: ../../changes/v4.rst:1138
 msgid "Improved lookup of related terms in glossary."
@@ -38541,15 +38430,12 @@ msgid "Reimplemented translation memory backend."
 msgstr "翻訳メモリのバックエンドを再実装。"
 
 #: ../../changes/v4.rst:1253
-#, fuzzy
 msgid "Added support for several ``is:`` lookups in :doc:`/user/search`."
-msgstr ":doc:`/user/search` に、いくつかの `is:` ルックアップの対応を追加。"
+msgstr ":doc:`/user/search` に、いくつかの ``is:`` ルックアップの追加。"
 
 #: ../../changes/v4.rst:1254
-#, fuzzy
-#| msgid "Allow to make :ref:`check-same` avoid internal blacklist."
 msgid "Allow to make :ref:`check-same` avoid the built-in words exceptions."
-msgstr ":ref:`check-same` で、内部ブラックリストを回避可能に改良。"
+msgstr ":ref:`check-same` が組み込みの例外語を無視するように設定できるように改良。"
 
 #: ../../changes/v4.rst:1255
 msgid "Improved comments extraction from monolingual po files."
@@ -38608,14 +38494,13 @@ msgid "Project goals"
 msgstr "プロジェクトの目標"
 
 #: ../../contributing/about.rst:7
-#, fuzzy
 msgid ""
 "Web-based continuous localization tool with tight :ref:`vcs` supporting a "
 "wide range of :ref:`file formats <formats>`, making it easy for translators "
 "to contribute."
 msgstr ""
-"幅広い :ref:`ファイル形式 <formats>` に対応し、:ref:`vcs` と密接に連携し、翻"
-"訳者が貢献しやすくする Web ベースの継続的な翻訳ツール。"
+"Web ベースの継続的現地語化ツールで、幅広い :ref:`file formats <formats>` と "
+":ref:`vcs` が密接に対応し、翻訳者が貢献しやすくなっています。"
 
 #: ../../contributing/about.rst:13
 msgid "\"Weblate\" is a portmanteau of the words \"web\" and \"translate\"."
@@ -38686,16 +38571,16 @@ msgstr "アドオンが指定したコンポーネントと互換性があるか
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.change_event:1
-#, fuzzy
-#| msgid "Event handler for component update."
 msgid "Event handler for change event."
-msgstr "コンポーネント更新用のイベントハンドラ。"
+msgstr "変更イベント用のイベントハンドラの追加。"
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.check_change_action:1
 msgid ""
 "Early filtering of Change actions before triggering change_event callback."
 msgstr ""
+"change_event コールバックを実行する前に、Change アクションを早期に"
+"フィルタリングするように改良。"
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.component_update:1
@@ -38809,10 +38694,8 @@ msgid "ORM object for an unit."
 msgstr "ユニットの ORM オブジェクト。"
 
 #: ../../contributing/addons.rst:37
-#, fuzzy
-#| msgid "ORM object for an add-on."
 msgid "ORM object for an change."
-msgstr "アドオン用の ORM オブジェクト。"
+msgstr "変更のための ORM オブジェクトの追加。"
 
 #: ../../contributing/addons.rst:41
 msgid "ORM object for an user."
@@ -38823,10 +38706,8 @@ msgid "Translation file wrapper."
 msgstr "翻訳ファイルのラッパー。"
 
 #: ../../contributing/addons.rst:49
-#, fuzzy
-#| msgid "Add support for configuring msgmerge add-on."
 msgid "Base form for configuring add-ons."
-msgstr "msgmerge アドオンの設定に対応。"
+msgstr "アドオンを設定するための基本フォームの追加。"
 
 #: ../../contributing/addons.rst:51
 msgid "Here is an example add-on:"
@@ -38853,10 +38734,8 @@ msgstr ""
 "い。"
 
 #: ../../contributing/snippets/code-guide.rst:3
-#, fuzzy
-#| msgid "License changed"
 msgid "License and copyright"
-msgstr "ライセンスの変更"
+msgstr "ライセンスと著作権"
 
 #: ../../contributing/snippets/code-guide.rst:5
 msgid ""
@@ -38864,22 +38743,21 @@ msgid ""
 "same license as the repository is already using, unless stated and agreed "
 "otherwise."
 msgstr ""
+"プログラム コードを提供する場合、特別な合意がない限り、その変更や新しい"
+"プログラム コードはリポジトリが使用しているライセンスと同じライセンスで提供す"
+"ることに同意したものとみなされます。"
 
 #: ../../contributing/snippets/code-guide.rst:11
 msgid ":doc:`/contributing/license` explains licensing in more details."
-msgstr ""
+msgstr ":doc:`/contributing/license` では、ライセンスについて詳しく説明しています。"
 
 #: ../../contributing/snippets/code-guide.rst:14
-#, fuzzy
-#| msgid "Writing own checks"
 msgid "Writing a good patch"
-msgstr "独自の検査項目の作成"
+msgstr "良いパッチを書くために"
 
 #: ../../contributing/snippets/code-guide.rst:17
-#, fuzzy
-#| msgid "Recent changes"
 msgid "Write separate changes"
-msgstr "最近の更新"
+msgstr "変更は分割して記述する"
 
 #: ../../contributing/snippets/code-guide.rst:19
 msgid ""
@@ -38889,6 +38767,9 @@ msgid ""
 "needs to extract the single interesting patch from somewhere within the "
 "massive pile of sources, and that creates a lot of extra work."
 msgstr ""
+"11 個の問題を修正したとされる巨大なパッチを受け取っても、そのうち 10 個は議論"
+"で合意できなかったり、9 個はすでに別の方法で修正されていたりすると、とても扱"
+"いづらくなります。"
 
 #: ../../contributing/snippets/code-guide.rst:25
 msgid ""
@@ -38897,12 +38778,17 @@ msgid ""
 "correct so that all changes can be selectively applied by the maintainer or "
 "other interested parties."
 msgstr ""
+"理想的には、各修正は個別の パッチ／コミット として分け、何を修正したのか明確"
+"な説明を付けるべきです。そうすることで、保守担当者や他の関係者が必要な変更だ"
+"けを選択して適用できます。"
 
 #: ../../contributing/snippets/code-guide.rst:30
 msgid ""
 "Furthermore, separate changes enable bisecting much better for tracking "
 "issues and regression in the future."
 msgstr ""
+"また、変更が分割されていると、将来的な問題やバグの再発調査のための二分法がは"
+"るかに容易になります。"
 
 #: ../../contributing/snippets/code-guide.rst:34
 msgid "Documentation"
@@ -38915,12 +38801,14 @@ msgid ""
 "together with code changes. Please remember to document methods, complex "
 "code blocks, or user-visible features."
 msgstr ""
+"ドキュメント作成は面倒な作業ですが、誰かが必ず完成させる必要があります。"
+"プログラム コードの変更と同時にドキュメントを提出していただければ、作業がとて"
+"も楽になります。メソッド、複雑なコードブロック、ユーザーに見える機能について"
+"も必ずドキュメントを作成してください。"
 
 #: ../../contributing/snippets/code-guide.rst:47
-#, fuzzy
-#| msgid "Use case"
 msgid "Test cases"
-msgstr "使用例"
+msgstr "テストケース"
 
 #: ../../contributing/snippets/code-guide.rst:49
 msgid ""
@@ -38930,6 +38818,10 @@ msgid ""
 "feature that is added should get at least one valid test case that verifies "
 "that it works as documented."
 msgstr ""
+"テストにより、機能が想定どおりに動作していることを迅速に確認できます。この状"
+"況を維持し、改善するためには、追加されるすべての新機能と関数をテストスイート"
+"でテストすることが必要です。追加されたすべての機能には、ドキュメントどおりに"
+"動作することを検証する有効なテストケースが最低 1 つ必要です。"
 
 #: ../../contributing/snippets/code-guide.rst:60
 msgid "Commit messages"
@@ -38944,29 +38836,26 @@ msgstr ""
 ">`_ 仕様に従う必要があります。"
 
 #: ../../contributing/snippets/code-guide.rst:66
-#, fuzzy
-#| msgid "Permission checking"
 msgid "Type checking"
-msgstr "アクセス権の確認"
+msgstr "型チェック"
 
 #: ../../contributing/snippets/code-guide.rst:68
-#, fuzzy
-#| msgid ""
-#| "Any new code should utilize :pep:`484` type hints. We're not checking "
-#| "this in our CI yet as existing code does not yet include them."
 msgid ""
 "Any new code should utilize :pep:`484` type hints. We are "
 "using :program:`mypy` to check (because it has a Django plugin that makes "
 "type checking of Django apps doable)."
 msgstr ""
-"新しいコードでは、:pep:`484` 型のヒントを使用してください。既存のコードにはま"
-"だ含まれていないため、CI ではまだ検査できていません。"
+"新しいコードでは、:pep:`484` の型ヒントを使用してください。Weblate では "
+":program:`mypy` を使用して型チェックを行っています（Django アプリの型チェック"
+"を可能にするプラグインがあるため）。"
 
 #: ../../contributing/snippets/code-guide.rst:72
 msgid ""
 "The code base is not yet completely covered by type annotations, but some "
 "modules are already enforced for type checking in the CI."
 msgstr ""
+"コードベース全体が型アノテーションで完全にカバーされているわけではありません"
+"が、一部のモジュールは CI で型チェックが強制されています。"
 
 #: ../../contributing/snippets/code-guide.rst:76
 msgid "Coding standard and linting the code"
@@ -38996,21 +38885,19 @@ msgid ""
 "the :file:`pyproject.toml`) turn it on by running ``pre-commit install`` in "
 "Weblate checkout. This way all your changes will be automatically checked."
 msgstr ""
-"これを実行する最も簡単な方法は、`pre-commit`_ をインストールすることです。リ"
-"ポジトリには、コミットされたファイルが正常であることを確認するための設定が含"
-"まれています。インストール後（すでに :file:`pyproject.toml` に含まれていま"
-"す）、Weblate のチェックアウトで ``pre-commit install`` を実行して有効にしま"
-"す。これにより、すべての変更が自動的に検査されます。"
+"これを実行する最も簡単な方法は、`pre-commit`_ をインストールすることです。"
+"リポジトリには、コミットされたファイルが正常であることを確認するための設定が"
+"含まれています。インストール後（pre-commit は、すでに :file:`pyproject.toml` "
+"に含まれています）、Weblate の実行フォルダで ``pre-commit install`` を実行し"
+"て有効にします。これにより、すべての変更が自動的に検査されます。"
 
 #: ../../contributing/snippets/code-guide.rst:90
 msgid "You can also trigger check manually, to check all files run:"
 msgstr "手動で検査を実行し、すべてのファイルを検査する方法:"
 
 #: ../../contributing/snippets/code-guide.rst:99
-#, fuzzy
-#| msgid "Coding style"
 msgid "Coding securely"
-msgstr "コーディング規約"
+msgstr "セキュア コーディング"
 
 #: ../../contributing/snippets/code-guide.rst:101
 msgid ""
@@ -39020,10 +38907,8 @@ msgstr ""
 "Weblate のコードはすべて、 `セキュリティ設計原則`_ を念頭に記述してください。"
 
 #: ../../contributing/snippets/code-guide.rst:107
-#, fuzzy
-#| msgid "Coding guidelines"
 msgid "AI guidelines"
-msgstr "コーディングのガイドライン"
+msgstr "AI ガイドライン"
 
 #: ../../contributing/snippets/code-guide.rst:109
 msgid ""
@@ -39034,10 +38919,16 @@ msgid ""
 "Authors should be explicitly aware that the burden is on them to ensure no "
 "unlicensed code is submitted to the project."
 msgstr ""
+"プロジェクトにコンテンツを投稿する場合、その内容をそのまま使用する許可を "
+"Weblate に与えることになります。また、そのコンテンツを提供する権利が自分にあ"
+"ることの確認が必要です。変更を提出することで、その変更がプロジェクトに採用さ"
+"れ、プロジェクトのライセンスのもとで再配布されることに同意したものとみなされ"
+"ます。作成者は、ライセンスのないコードをプロジェクトに提出しないよう徹底する"
+"責任があることを明確に認識しておくことが必要です。"
 
 #: ../../contributing/snippets/code-guide.rst:116
 msgid "This is independent of whether AI is used or not."
-msgstr ""
+msgstr "これは AI を使用したかどうかに関係なく適用されます。"
 
 #: ../../contributing/snippets/code-guide.rst:118
 msgid ""
@@ -39046,6 +38937,10 @@ msgid ""
 "guidelines. A basic rule of thumb is that if someone can spot that the "
 "contribution was made with the help of AI, you have more work to do."
 msgstr ""
+"プルリクエストを提出する際は、もちろん、提案が質の高いものであり、"
+"ガイドラインに沿った最善の努力に基づいていることを確認してください。一般的な"
+"目安として、AI の助けを借りて提出されたことが誰かに分かる場合は、まだ改善の余"
+"地があるということです。"
 
 #: ../../contributing/snippets/code-guide.rst:123
 msgid ""
@@ -39053,18 +38948,23 @@ msgid ""
 "code must still follow coding standards, be written clearly, be documented, "
 "feature test cases, and adhere to all the normal requirements we have."
 msgstr ""
+"AI の助けを借りて記述されたコードをプロジェクトで採用することもありますが、"
+"コードはコーディング標準規約に従い、明確に記述され、文書化され、テストケース"
+"を備え、通常の要件をすべて満たしていることが条件です。"
 
 #: ../../contributing/code_of_conduct.rst:2
 msgid "Code of Conduct"
-msgstr ""
+msgstr "行動規範"
 
 #: ../../contributing/code_of_conduct.rst:5
 msgid "Our Pledge"
-msgstr ""
+msgstr "誓約"
 
 #: ../../contributing/code_of_conduct.rst:7
 msgid "We pledge to make our community welcoming, safe, and equitable for all."
 msgstr ""
+"私たちは、すべての人が歓迎され、安全で、公平なコミュニティを実現することを誓"
+"います。"
 
 #: ../../contributing/code_of_conduct.rst:9
 msgid ""
@@ -39077,10 +38977,15 @@ msgid ""
 "other status. The same privileges of participation are extended to everyone "
 "who participates in good faith and in accordance with this Covenant."
 msgstr ""
+"私たちは、人種、民族、カースト、肌の色、年齢、身体的特徴、神経多様性、障がい"
+"、性別、性自認または性表現、性的指向、言語、哲学または宗教、国籍または社会的"
+"出身、社会経済的地位、教育水準、その他の地位に関わらず、すべての個人の尊厳、"
+"権利、貢献を尊重し、促進する環境を育むことに尽力します。この規範に従い誠実に"
+"参加するすべての人に、同じ参加の権利が与えられます。"
 
 #: ../../contributing/code_of_conduct.rst:12
 msgid "Encouraged Behaviors"
-msgstr ""
+msgstr "奨励する行動"
 
 #: ../../contributing/code_of_conduct.rst:14
 msgid ""
@@ -39089,50 +38994,53 @@ msgid ""
 "words and actions may be interpreted differently than we intend based on "
 "culture, background, or native language."
 msgstr ""
+"社会的な価値観の違いを理解しつつ、私たちはコミュニティの期待に応えるよう努め"
+"、前向きな行動を心がけます。また、文化、背景、母語の違いによって、私たちの言"
+"動が意図とは異なる形で受け取られる可能性があることも理解しています。"
 
 #: ../../contributing/code_of_conduct.rst:16
 msgid ""
 "With these considerations in mind, we agree to behave mindfully toward each "
 "other and act in ways that center our shared values, including:"
 msgstr ""
+"これらの考慮事項を念頭に置き、私たちはお互いに思いやりを持って行動し、次のよ"
+"うな共通の価値観に基づいた行動を取ることに同意します。"
 
 #: ../../contributing/code_of_conduct.rst:18
 msgid ""
 "Respecting the **purpose of our community**, our activities, and our ways of "
 "gathering."
-msgstr ""
+msgstr "私たちの **コミュニティの目的**、活動、集まり方を尊重します。"
 
 #: ../../contributing/code_of_conduct.rst:19
 msgid "Engaging **kindly and honestly** with others."
-msgstr ""
+msgstr "他人に対して **親切かつ誠実** に関わります。"
 
 #: ../../contributing/code_of_conduct.rst:20
 msgid "Respecting **different viewpoints** and experiences."
-msgstr ""
+msgstr "**異なる意見や経験** を尊重します。"
 
 #: ../../contributing/code_of_conduct.rst:21
 msgid "**Taking responsibility** for our actions and contributions."
-msgstr ""
+msgstr "自分の行動や貢献に **責任を持ちます** 。"
 
 #: ../../contributing/code_of_conduct.rst:22
 msgid "Gracefully giving and accepting **constructive feedback**."
-msgstr ""
+msgstr "**建設的なフィードバック** を丁寧に伝え、また受け入れます。"
 
 #: ../../contributing/code_of_conduct.rst:23
 msgid "Committing to **repairing harm** when it occurs."
-msgstr ""
+msgstr "問題が起きた際には、**改善と修復** に努めます。"
 
 #: ../../contributing/code_of_conduct.rst:24
 msgid ""
 "Behaving in other ways that promote and sustain the **well-being of our "
 "community**."
-msgstr ""
+msgstr "私たちのコミュニティの **健全性と幸福** を維持、向上させる行動をとります。"
 
 #: ../../contributing/code_of_conduct.rst:28
-#, fuzzy
-#| msgid "Restricted access"
 msgid "Restricted Behaviors"
-msgstr "アクセス制限"
+msgstr "禁止行為"
 
 #: ../../contributing/code_of_conduct.rst:30
 msgid ""
@@ -39140,83 +39048,97 @@ msgid ""
 "threats, and promotion of these behaviors are violations of this Code of "
 "Conduct."
 msgstr ""
+"当コミュニティでは、以下の行動を禁止することに同意します。これらの行為の実施"
+"、脅迫、促進は、本行動規範の違反となります。"
 
 #: ../../contributing/code_of_conduct.rst:32
 msgid ""
 "**Harassment.** Violating explicitly expressed boundaries or engaging in "
 "unnecessary personal attention after any clear request to stop."
 msgstr ""
+"**ハラスメント。** 明確に示された境界を侵害したり、停止を求められた後も不必要"
+"な個人的接触を続ける行為。"
 
 #: ../../contributing/code_of_conduct.rst:33
 msgid ""
 "**Character attacks.** Making insulting, demeaning, or pejorative comments "
 "directed at a community member or group of people."
 msgstr ""
+"**人格攻撃。** コミュニティのメンバーやグループの人々に対して侮辱的、品位を傷"
+"つける、または軽蔑的な発言を行うこと。"
 
 #: ../../contributing/code_of_conduct.rst:34
 msgid ""
 "**Stereotyping or discrimination.** Characterizing anyone’s personality or "
 "behavior on the basis of immutable identities or traits."
 msgstr ""
+"**ステレオタイプ化または差別。** 不変のアイデンティティや特性に基づいて、誰か"
+"の人格や行動を決めつけること。"
 
 #: ../../contributing/code_of_conduct.rst:35
 msgid ""
 "**Sexualization.** Behaving in a way that would generally be considered "
 "inappropriately intimate in the context or purpose of the community."
 msgstr ""
+"**性的な扱い。** コミュニティの文脈や目的から見て、一般的に不適切に親密である"
+"と見なされるような行動をとること。"
 
 #: ../../contributing/code_of_conduct.rst:36
 msgid ""
 "**Violating confidentiality**. Sharing or acting on someone's personal or "
 "private information without their permission."
 msgstr ""
+"**守秘義務違反。** 他人の個人情報やプライベートな情報を本人の許可なく共有した"
+"り、それに基づいて行動したりすること。"
 
 #: ../../contributing/code_of_conduct.rst:37
 msgid ""
 "**Endangerment.** Causing, encouraging, or threatening violence or other "
 "harm toward any person or group."
 msgstr ""
+"**危険行為。** 個人またはグループに対して、暴力やその他の危害を加えたり、助長"
+"したり、脅したりすること。"
 
 #: ../../contributing/code_of_conduct.rst:38
 msgid ""
 "Behaving in other ways that **threaten the well-being** of our community."
-msgstr ""
+msgstr "当コミュニティの **健全性や安全性を脅かす** その他の行動をとること。"
 
 #: ../../contributing/code_of_conduct.rst:41
-#, fuzzy
-#| msgid "Other translations"
 msgid "Other Restrictions"
-msgstr "その他の翻訳"
+msgstr "その他の禁止事項"
 
 #: ../../contributing/code_of_conduct.rst:43
 msgid ""
 "**Misleading identity.** Impersonating someone else for any reason, or "
 "pretending to be someone else to evade enforcement actions."
-msgstr ""
+msgstr "**なりすまし。** 他人になりすましたり、処分を避けるために別人を装うこと。"
 
 #: ../../contributing/code_of_conduct.rst:44
 msgid ""
 "**Failing to credit sources.** Not properly crediting the sources of content "
 "you contribute."
-msgstr ""
+msgstr "**出典を示さないこと。** 提供したコンテンツの出典を正確に明記しないこと。"
 
 #: ../../contributing/code_of_conduct.rst:45
 msgid ""
 "**Promotional materials**. Sharing marketing or other commercial content in "
 "a way that is outside the norms of the community."
 msgstr ""
+"**宣伝行為。** コミュニティの規範から外れた方法で、マーケティングやその他の商"
+"業コンテンツを共有すること。"
 
 #: ../../contributing/code_of_conduct.rst:46
 msgid ""
 "**Irresponsible communication.** Failing to responsibly present content "
 "which includes, links or describes any other restricted behaviors."
 msgstr ""
+"**無責任な情報共有。** その他の禁止行動を含む、またはリンクする、あるいは説明"
+"するコンテンツを責任を持って提示しないこと。"
 
 #: ../../contributing/code_of_conduct.rst:50
-#, fuzzy
-#| msgid "Reporting security issues"
 msgid "Reporting an Issue"
-msgstr "セキュリティ問題の報告"
+msgstr "問題の報告"
 
 #: ../../contributing/code_of_conduct.rst:52
 msgid ""
@@ -39225,6 +39147,10 @@ msgid ""
 "violation, and this Code of Conduct reinforces encouraged behaviors and "
 "norms that can help avoid conflicts and minimize harm."
 msgstr ""
+"たとえ最善を尽くして協力しようとしていても、コミュニティのメンバー間で緊張が"
+"生じることがあります。すべての対立が行動規範の違反になるわけではありません。"
+"この行動規範は、対立を避け、被害を最小限にするための望ましい行動や規範を強化"
+"するものです。"
 
 #: ../../contributing/code_of_conduct.rst:54
 msgid ""
@@ -39232,6 +39158,9 @@ msgid ""
 "report a possible violation, please reach the Community Moderators at "
 "community@weblate.org."
 msgstr ""
+"何か問題が発生した場合は、速やかに報告することが重要です。規範違反の可能性が"
+"ある場合は、community@weblate.org のコミュニティ モデレーター（コミュニティ管"
+"理者）に連絡してください。"
 
 #: ../../contributing/code_of_conduct.rst:56
 msgid ""
@@ -39245,10 +39174,16 @@ msgid ""
 "involved parties, but communicating to the whole community may be part of a "
 "mutually agreed upon resolution."
 msgstr ""
+"コミュニティ モデレーターは違反報告を真摯に受け止め、迅速に対応するよう努めま"
+"す。コミュニティ モデレーターは、メッセージ、ログ、録音の確認や、関係者、目撃"
+"者への聞き取りなどを通じて、すべての違反報告を調査します。コミュニティ "
+"モデレーターは、安全性と機密性を最優先しつつ、調査と対応を可能な限り透明に進"
+"めます。この価値を尊重するため、対応は関係者間で非公開に行われますが、合意が"
+"あればコミュニティ全体への共有が行われる場合もあります。"
 
 #: ../../contributing/code_of_conduct.rst:60
 msgid "Addressing and Repairing Harm"
-msgstr ""
+msgstr "被害への対応と修復"
 
 #: ../../contributing/code_of_conduct.rst:62
 msgid ""
@@ -39258,6 +39193,10 @@ msgid ""
 "individuals involved and the community as a whole. Depending on the severity "
 "of a violation, lower rungs on the ladder may be skipped."
 msgstr ""
+"コミュニティ モデレーターによる調査の結果、本行動規範に違反していることが判明"
+"した場合、当該事案が関係者およびコミュニティ全体に及ぼした影響に基づき、以下"
+"の対応の段階に従い、被害を修復するための最善の方法が決定されます。違反の重大"
+"性によっては、下位の段階を省略して対応が行われることもあります。"
 
 #: ../../contributing/code_of_conduct.rst:64
 msgid "Warning"
@@ -39265,27 +39204,31 @@ msgstr "警告"
 
 #: ../../contributing/code_of_conduct.rst:66
 msgid "Event: A violation involving a single incident or series of incidents."
-msgstr ""
+msgstr "発生する出来事： 単発または複数の違反行為。"
 
 #: ../../contributing/code_of_conduct.rst:67
 msgid "Consequence: A private, written warning from the Community Moderators."
-msgstr ""
+msgstr "結果：コミュニティ モデレーターからの非公開の書面による警告。"
 
 #: ../../contributing/code_of_conduct.rst:68
 msgid ""
 "Repair: Examples of repair include a private written apology, "
 "acknowledgement of responsibility, and seeking clarification on expectations."
 msgstr ""
+"問題の修復：修復の例としては、プライベートな書面による謝罪、責任の承認、期待"
+"の明確化の要請などがあります。"
 
 #: ../../contributing/code_of_conduct.rst:70
 msgid "Temporarily Limited Activities"
-msgstr ""
+msgstr "一時的な活動制限"
 
 #: ../../contributing/code_of_conduct.rst:72
 msgid ""
 "Event: A repeated incidence of a violation that previously resulted in a "
 "warning, or the first incidence of a more serious violation."
 msgstr ""
+"発生する出来事： 以前に警告の対象となった違反が再発した場合、またはより重大な"
+"違反が初めて発生した場合。"
 
 #: ../../contributing/code_of_conduct.rst:73
 msgid ""
@@ -39295,6 +39238,10 @@ msgid ""
 "may be limited to particular communication channels or interactions with "
 "particular community members."
 msgstr ""
+"結果：状況の深刻さを理解させ、関係するコミュニティ メンバーに事件を受け止める"
+"時間を与えるため、限定的なクールダウン期間を設けた非公開の書面による警告が行"
+"われます。クールダウン期間は、特定のコミュニケーション チャネルまたは特定の"
+"コミュニティ メンバーとのやり取りに限定されます。"
 
 #: ../../contributing/code_of_conduct.rst:74
 msgid ""
@@ -39302,16 +39249,21 @@ msgid ""
 "period to reflect on actions and impact, and being thoughtful about re-"
 "entering community spaces after the period is over."
 msgstr ""
+"問題の修復：修復の例としては、謝罪すること、クールダウン期間に行動と影響につ"
+"いて振り返ること、期間終了後にコミュニティ スペースに再び入ることについて配慮"
+"することなどが含まれます。"
 
 #: ../../contributing/code_of_conduct.rst:76
 msgid "Temporary Suspension"
-msgstr ""
+msgstr "一時停止処分"
 
 #: ../../contributing/code_of_conduct.rst:78
 msgid ""
 "Event: A pattern of repeated violation which the Community Moderators have "
 "tried to address with warnings, or a single serious violation."
 msgstr ""
+"発生する出来事：コミュニティ モデレーターが警告で対処しようとしたにもかかわら"
+"ず再発された違反、または重大な違反の単発発生。"
 
 #: ../../contributing/code_of_conduct.rst:79
 msgid ""
@@ -39320,6 +39272,9 @@ msgid ""
 "suspended time to reflect upon their behavior and possible corrective "
 "actions."
 msgstr ""
+"結果：一時停止措置からの復帰条件を付した非公開の書面による警告。一般的に、一"
+"時停止措置は、停止処分を受けた者に自身の行動を省察し、是正措置を検討する時間"
+"を与えるものです。"
 
 #: ../../contributing/code_of_conduct.rst:80
 msgid ""
@@ -39327,10 +39282,13 @@ msgid ""
 "meeting the specified conditions for return, and being thoughtful about how "
 "to reintegrate with the community when the suspension is lifted."
 msgstr ""
+"問題の修復：修復の例としては、一時停止処分の精神を尊重すること、復帰のための"
+"指定された条件を満たすこと、一時停止処分が解除されたときにコミュニティ参加に"
+"慎重に配慮することなどが含まれます。"
 
 #: ../../contributing/code_of_conduct.rst:82
 msgid "Permanent Ban"
-msgstr ""
+msgstr "永久追放"
 
 #: ../../contributing/code_of_conduct.rst:84
 msgid ""
@@ -39339,6 +39297,9 @@ msgid ""
 "Community Moderators determine there is no way to keep the community safe "
 "with this person as a member."
 msgstr ""
+"発生する出来事：事前の対応の段階では解決できなかった再発違反のパターン、また"
+"は違反が非常に深刻であるため、この人物をコミュニティに残すことが安全上不可能"
+"であるとコミュニティ モデレーターが判断した場合。"
 
 #: ../../contributing/code_of_conduct.rst:85
 msgid ""
@@ -39347,10 +39308,14 @@ msgid ""
 "should have strong reasoning behind them, and should only be resorted to if "
 "working through other remedies has failed to change the behavior."
 msgstr ""
+"結果：すべてのコミュニティ スペース、ツール、コミュニケーション チャネルへの"
+"アクセス権が抹消されます。一般的に、永久追放は基本的にまれにしか適用されるべ"
+"きではなく、明確な根拠が必要であり、他の手段では改善が見込めない場合に限って"
+"行われます。"
 
 #: ../../contributing/code_of_conduct.rst:86
 msgid "Repair: There is no possible repair in cases of this severity."
-msgstr ""
+msgstr "問題の修復：このレベルの重大な違反に対しては、修復措置は存在しません。"
 
 #: ../../contributing/code_of_conduct.rst:88
 msgid ""
@@ -39358,6 +39323,8 @@ msgid ""
 "ability of Community Managers to use their discretion and judgment, in "
 "keeping with the best interests of our community."
 msgstr ""
+"この対応段階はあくまでガイドラインであり、コミュニティの利益を最優先に判断す"
+"るための裁量権と判断権をコミュニティ マネージャーから奪うものではありません。"
 
 #: ../../contributing/code_of_conduct.rst:94
 msgid ""
@@ -39367,16 +39334,23 @@ msgid ""
 "official email address, posting via an official social media account, or "
 "acting as an appointed representative at an online or offline event."
 msgstr ""
+"この行動規範は、コミュニティ内のすべての場に適用されるだけでなく、メンバーが"
+"公的またはその他の場でコミュニティを代表する場合にも適用されます。"
+"コミュニティを代表する例としては、公式メールアドレスの使用、公式 SNS "
+"アカウントでの投稿、オンラインまたはオフラインイベントでの代表者としての活動"
+"などがあります。"
 
 #: ../../contributing/code_of_conduct.rst:98
 msgid "Attribution"
-msgstr "翻訳の著作情報"
+msgstr "出典"
 
 #: ../../contributing/code_of_conduct.rst:100
 msgid ""
 "This Code of Conduct is adapted from the Contributor Covenant, version 3.0, "
 "permanently available at https://www.contributor-covenant.org/version/3/0/."
 msgstr ""
+"この行動規範は、貢献者契約行動規範 3.0 を基にしており、https://"
+"www.contributor-covenant.org/version/3/0/ に公開されています。"
 
 #: ../../contributing/code_of_conduct.rst:102
 msgid ""
@@ -39384,6 +39358,9 @@ msgid ""
 "licensed under CC BY-SA 4.0. To view a copy of this license, visit https://"
 "creativecommons.org/licenses/by-sa/4.0/."
 msgstr ""
+"貢献者規約は倫理的情報源機構（OCEAN ）によって管理されており、CC BY-SA "
+"4.0ライセンスが適用されます。このライセンスの写し（複製版）は、https://"
+"creativecommons.org/licenses/by-sa/4.0/ で確認できます。"
 
 #: ../../contributing/code_of_conduct.rst:104
 msgid ""
@@ -39394,6 +39371,12 @@ msgid ""
 "covenant.org/resources. The enforcement ladder was inspired by the work of "
 "`Mozilla’s code of conduct team <https://github.com/mozilla/inclusion>`_."
 msgstr ""
+"貢献者規約に関するよくある質問の回答は、https://www.contributor-covenant.org/"
+"faq を確認してください。翻訳版は、https://www.contributor-covenant.org/"
+"translations を確認してください。追加のガイドラインやリソースは、https://"
+"www.contributor-covenant.org/resources で確認できます。この対応の段階は"
+"、`Mozilla の行動規範チーム <https://github.com/mozilla/inclusion>`_ の取り組"
+"みに着想を得ています。"
 
 #: ../../contributing/communication.rst:2
 msgid "Weblate Contributor Communication Guidelines"
@@ -39640,13 +39623,12 @@ msgstr ""
 "改善すべき可能性がある箇所を特定するのに必要な情報を収集してください。"
 
 #: ../../contributing/debugging.rst:97
-#, fuzzy
 msgid ""
 "See :ref:`collecting-errors` for information on setting up Sentry which can "
 "provide useful insights on badly performing operations."
 msgstr ""
-"パフォーマンスの低い操作に関する有用な分析を提供する Sentry の設定方法につい"
-"ては、:ref:`collecting-errors` を確認してください。"
+"Sentry の設定方法については、:ref:`collecting-errors` を確認してください。"
+"Sentry は、パフォーマンスの低い処理に関する有用な情報を提供できます。"
 
 #: ../../contributing/debugging.rst:100
 msgid ""
@@ -39671,10 +39653,8 @@ msgstr ""
 "る :guilabel:`GitHub で編集` ボタンをクリックすると簡単に編集できます。"
 
 #: ../../contributing/documentation.rst:8
-#, fuzzy
-#| msgid "Documentation updates."
 msgid "Documentation guidelines"
-msgstr "ドキュメントの更新。"
+msgstr "ドキュメント作成ガイドライン"
 
 #: ../../contributing/documentation.rst:10
 msgid "Please respect these guidelines while writing:"
@@ -39736,34 +39716,25 @@ msgstr ""
 "す。"
 
 #: ../../contributing/documentation.rst:26
-#, fuzzy
-#| msgid "Typo fixes in the documentation."
 msgid "Building the documentation locally"
-msgstr "ドキュメントのタイプミスの修正。"
+msgstr "ローカルでドキュメントをビルドする"
 
 #: ../../contributing/documentation.rst:28
-#, fuzzy
-#| msgid ""
-#| "Documentation can be also edited and built locally, the Python "
-#| "requirements are in `docs/requirements.txt`. You will also "
-#| "need :program:`graphviz` to build the documentation."
 msgid ""
 "Documentation can be also edited and built locally, the Python requirements "
 "are in the ``docs`` dependency group in :file:`pyproject.toml`. The build "
 "can be performed using :program:`ci/run-docs`."
 msgstr ""
-"ドキュメントはローカルで編集およびビルドすることもできます。Python の必要条件"
-"は `docs/requirements.txt` に記載されています。また、ドキュメントをビルドする"
-"には :program:`graphviz` も必要です。"
+"ドキュメントはローカルで編集およびビルドすることもできます。Python の依存関係"
+"は、:file:`pyproject.toml` の ``docs`` 依存グループに定義されています。ビルド"
+"は :program:`ci/run-docs` を使用して実行できます。"
 
 #: ../../contributing/documentation.rst:34
 msgid ""
 "You will also need :program:`graphviz` installed to build the documentation."
-msgstr ""
+msgstr "ドキュメントをビルドするには、:program:`graphviz` のインストールが必要です。"
 
 #: ../../contributing/documentation.rst:37
-#, fuzzy
-#| msgid "Translate document"
 msgid "Translating the documentation"
 msgstr "ドキュメントの翻訳"
 
@@ -39776,16 +39747,16 @@ msgstr ""
 "documentation/>`_ ができます。"
 
 #: ../../contributing/documentation.rst:42
-#, fuzzy
-#| msgid "Machinery is now called automatic suggestions."
 msgid "Documenting permissions, checks, add-ons and automatic suggestions"
-msgstr "機械翻訳を、新しく自動提案と命名。"
+msgstr "権限、品質検査、アドオン、自動提案のドキュメント化"
 
 #: ../../contributing/documentation.rst:44
 msgid ""
 "Several documentation sections use templates generated from the code. The "
 "following management commands are available:"
 msgstr ""
+"一部のドキュメントの各セクションでは、コードから生成されたテンプレートを使用"
+"しています。使用可能な管理コマンド:"
 
 #: ../../contributing/documentation.rst:53
 msgid ""
@@ -39793,22 +39764,21 @@ msgid ""
 "the documentation. The easiest way to apply changes to the documentation is "
 "using visual diff in your editor."
 msgstr ""
+"このコマンドはすべて、ドキュメントのテンプレートとして使用される "
+"reStructuredText を出力します 。ドキュメントに変更を適用する最も簡単な方法は"
+"、エディタのビジュアル差分機能を使用することです。"
 
 #: ../../contributing/frontend.rst:2
 msgid "Weblate frontend"
 msgstr "Weblate フロントエンド"
 
 #: ../../contributing/frontend.rst:4
-#, fuzzy
-#| msgid ""
-#| "The frontend is currently built using Bootstrap, jQuery and few third "
-#| "party libraries."
 msgid ""
 "The frontend is currently built using Bootstrap, jQuery and few third-party "
 "libraries."
 msgstr ""
-"フロントエンドは、現在 Bootstrap、jQuery、およびいくつかのサード パーティのラ"
-"イブラリを使用して構築されています。"
+"フロントエンドは、現在 Bootstrap、jQuery、および複数のサード パーティの"
+"ライブラリを使用して構築されています。"
 
 #: ../../contributing/frontend.rst:7
 msgid "Supported browsers"
@@ -39845,22 +39815,16 @@ msgid "Dependency management"
 msgstr "依存関係の管理"
 
 #: ../../contributing/frontend.rst:22
-#, fuzzy
-#| msgid ""
-#| "Installing and managing `3rd party` libraries in the `client` of a django "
-#| "project can be a bit tricky. This section provides a step-by-step guide "
-#| "on how to install and manage 3rd party libraries used by the `client "
-#| "side` of Weblate using `Webpack`."
 msgid ""
 "Installing and managing `3rd party` libraries in the `client` of a Django "
 "project can be a bit tricky. This section provides a step-by-step guide on "
 "how to install and manage 3rd party libraries used by the `client side` of "
 "Weblate using `Webpack`."
 msgstr ""
-"Django プロジェクトの `クライアント` で `サードパーティ` のライブラリをインス"
-"トールおよび管理することは手間がかかります。このセクションでは、`Webpack` を"
-"使用して Weblate の `クライアント側` で使用するサードパーティのライブラリをイ"
-"ンストールおよび管理する方法を提供しています。"
+"Django プロジェクトの `クライアント` で `サードパーティ` のライブラリを"
+"インストールおよび管理することは手間がかかります。このセクションでは"
+"、`Webpack` を使用して Weblate の `クライアント側` で使用するサードパーティの"
+"ライブラリをインストールおよび管理するする手順を説明します。"
 
 #: ../../contributing/frontend.rst:27
 msgid "Prerequisites"
@@ -39879,8 +39843,6 @@ msgid "``Nodejs`` version 14 or higher."
 msgstr "``Nodejs`` バージョン 14 以上。"
 
 #: ../../contributing/frontend.rst:32
-#, fuzzy
-#| msgid "The ``yarn`` package manager installed on your system."
 msgid "The ``yarn`` package manager is installed on your system."
 msgstr "``yarn`` パッケージ マネージャーがシステムにインストール済み。"
 
@@ -39889,22 +39851,16 @@ msgid "Run ``cd client``."
 msgstr "``cd client`` を実行。"
 
 #: ../../contributing/frontend.rst:34
-#, fuzzy
-#| msgid "Run ``yarn install``"
 msgid "Run ``yarn install``."
 msgstr "``yarn install`` を実行。"
 
 #: ../../contributing/frontend.rst:39
-#, fuzzy
-#| msgid "To install a library, 1st run the following command:"
 msgid "To install a library, first run the following command:"
 msgstr "ライブラリをインストールするためのコマンド:"
 
 #: ../../contributing/frontend.rst:46
-#, fuzzy
-#| msgid "2- Importing the Library"
 msgid "Importing the Library"
-msgstr "2 - ライブラリのインポート"
+msgstr "ライブラリのインポート"
 
 #: ../../contributing/frontend.rst:48
 msgid "Then, there are two ways to import the library:"
@@ -39922,7 +39878,7 @@ msgstr "``src/main.js`` ファイルにライブラリをインポートする�
 
 #: ../../contributing/frontend.rst:52
 msgid "And declare it in the global scope (if needed)."
-msgstr "そして、それをグローバル スコープで宣言します（必要な場合）。"
+msgstr "そして、それをグローバル スコープで宣言する（必要な場合）。"
 
 #: ../../contributing/frontend.rst:54
 msgid ""
@@ -39941,6 +39897,8 @@ msgid ""
 "Import the library in it. Then inject it into the ``window`` object to be "
 "globally accessible."
 msgstr ""
+"ライブラリをインポートし、``window`` オブジェクトに登録して全体から参照可能に"
+"します。"
 
 #: ../../contributing/frontend.rst:57
 msgid ""
@@ -39954,18 +39912,24 @@ msgid ""
 "Add library name in ``excludePrefixes`` array in ``mainLicenseTransform`` in "
 "``webpack.config.js``."
 msgstr ""
+"``webpack.config.js`` の ``mainLicenseTransform`` 内にある "
+"``excludePrefixes`` 配列にライブラリ名を追加する。"
 
 #: ../../contributing/frontend.rst:60
 msgid ""
 "Add license file name in ``additionalFiles`` in ``LicensePlugin`` in "
 "``plugins`` array in ``webpack.config.js``."
 msgstr ""
+"``webpack.config.js`` の ``plugins`` 配列にある ``LicensePlugin`` の "
+"``additionalFiles`` にライセンス ファイル名を追加する。"
 
 #: ../../contributing/frontend.rst:61
 msgid ""
 "Create a ``<lib-name>LicenseTransform`` function for the license file "
 "introduced in the previous steps and use it."
 msgstr ""
+"前の手順で追加したライセンスファイル用に ``<lib-name>LicenseTransform`` 関数"
+"を作成して使用する。"
 
 #: ../../contributing/frontend.rst:63
 msgid ""
@@ -39975,10 +39939,8 @@ msgstr ""
 "さい。"
 
 #: ../../contributing/frontend.rst:66
-#, fuzzy
-#| msgid "3- Building the Library"
 msgid "Building the Library"
-msgstr "3 - ライブラリーの構築"
+msgstr "ライブラリーのビルド"
 
 #: ../../contributing/frontend.rst:68
 msgid ""
@@ -39986,10 +39948,8 @@ msgid ""
 msgstr "プロジェクトで使用するライブラリをビルドするための実行コマンド:"
 
 #: ../../contributing/frontend.rst:75
-#, fuzzy
-#| msgid "4- Including the Library"
 msgid "Including the Library"
-msgstr "4 - ライブラリのインポート"
+msgstr "ライブラリの組み込み"
 
 #: ../../contributing/frontend.rst:77
 msgid ""
@@ -40033,19 +39993,14 @@ msgid "Localization"
 msgstr "現地語化"
 
 #: ../../contributing/frontend.rst:99
-#, fuzzy
-#| msgid ""
-#| "Should you need any user visible text in the frontend code, it should be "
-#| "localizable. In most cases all you need is to wrap your text inside "
-#| "``gettext`` function, but there are more complex features available:"
 msgid ""
 "Should you need any user visible text in the frontend code, it should be "
 "localizable. In most cases, all you need is to wrap your text inside "
 "``gettext`` function, but there are more complex features available:"
 msgstr ""
-"フロントエンドのコードでユーザーに表示するテキストが必要な場合は、ローカライ"
-"ズ可能にする必要があります。ほとんどの場合、テキストを ``gettext`` 関数内で"
-"ラップするだけですが、もっと複雑な機能も利用できます:"
+"フロントエンドのコードでユーザーに表示するテキストがある場合は、現地語化でき"
+"るようにすることが必要です。ほとんどの場合、テキストを ``gettext`` 関数内で"
+"ラップするだけです。さらに複雑な機能を使用する方法:"
 
 #: ../../contributing/frontend.rst:118
 msgid ""
@@ -40060,18 +40015,12 @@ msgid "Icons"
 msgstr "アイコン"
 
 #: ../../contributing/frontend.rst:123
-#, fuzzy
-#| msgid ""
-#| "Weblate currently uses material design icons. In case you are looking for "
-#| "new symbol, check `Material Design Icons`_ or `Material Design "
-#| "Resources`_."
 msgid ""
 "Weblate currently uses `Material Design Icons`_, in case you are looking for "
 "new symbol, check that."
 msgstr ""
-"Weblate では現在、マテリアル デザインのアイコンを使用しています。新しいシンボ"
-"ル アイコンをお探しの方は `Material Design Icons`_ もしくは `Material Design "
-"Resources`_ を確認してください。"
+"Weblate では現在、`Material Design Icons`_ のアイコンを使用しています。新しい"
+"シンボル アイコンをお探しの方は、その中からお探しください。"
 
 #: ../../contributing/frontend.rst:126
 msgid ""
@@ -40140,13 +40089,6 @@ msgid "Funding Weblate development"
 msgstr "Weblate 開発に資金提供"
 
 #: ../../contributing/index.rst:48
-#, fuzzy
-#| msgid ""
-#| "You can boost Weblate’s development on the `donate page`_. Funds "
-#| "collected there are used to enable gratis hosting for libre software "
-#| "projects and further development of Weblate. Please check the `donate "
-#| "page`_ for options, such as funding goals and the rewards you get as a "
-#| "proud funder."
 msgid ""
 "You can boost Weblate’s development by donating. Funds collected on "
 "donations are used to enable gratis hosting for libre software projects and "
@@ -40154,10 +40096,10 @@ msgid ""
 "<https://weblate.org/donate/>`_ for options, such as funding goals and the "
 "rewards you get as a proud funder."
 msgstr ""
-"Weblate の開発を加速させるには `donate page`_ をご利用ください。集められた資"
-"金は、リブレソフトウェア プロジェクトの無料ホスティング、および Weblate のさ"
-"らなる開発を可能にするために使用されます。資金提供の目標や、資金提供者への謝"
-"礼などのオプションの詳細は `寄付ページ` をご覧ください。"
+"寄付によって Weblate の開発を支援できます。集められた資金は、"
+"リブレソフトウェア プロジェクトの無料ホスティング、および Weblate が依存する"
+"エコシステムの支援に使用されます。資金提供の目標や、資金提供者への特典などに"
+"ついては、`寄付ページ <https://weblate.org/donate/>`_ をご確認ください。"
 
 #: ../../../BACKERS.rst:2
 msgid "Supporters who have funded Weblate"
@@ -40306,22 +40248,25 @@ msgid "Django admin interface customization."
 msgstr "カスタマイズした Django 管理画面。"
 
 #: ../../contributing/internals.rst:111
-#, fuzzy
-#| msgid "Background tasks using Celery"
 msgid "Background tasks internals"
-msgstr "Celery を使用するバックグラウンド タスク"
+msgstr "バックグラウンド タスクの内部構造"
 
 #: ../../contributing/internals.rst:115
 msgid ""
 "This section describes Celery task internals. :ref:`celery` describes how to "
 "configure Celery to run the tasks."
 msgstr ""
+"このセクションでは、Celery タスクの内部構造について説明します。Celery の設定"
+"方法については :ref:`celery` を確認してください。"
 
 #: ../../contributing/internals.rst:117
 msgid ""
 "Weblate uses Celery to execute tasks in the background. Some tasks are event-"
 "triggered, and some tasks are schedule-triggered."
 msgstr ""
+"Weblate はCeleryを使用してバックグラウンドでタスクを実行します。タスクには、"
+"イベントによって実行されるものと、スケジュールによって実行されるものがありま"
+"す。"
 
 #: ../../contributing/internals.rst:120
 msgid ""
@@ -40329,6 +40274,9 @@ msgid ""
 "used to store the periodic task schedule in the database. The tasks schedule "
 "is configured in :file:`tasks.py` in each of the Django apps."
 msgstr ""
+"タスクのスケジューリングには Celery Beat が使用され、定期タスクのスケジュール"
+"は `django-celery-beat` によってデータベースに保存されます。タスクの"
+"スケジュールは、各 Django アプリの :file:`tasks.py` に設定されています。"
 
 #: ../../contributing/internals.rst:124
 msgid ""
@@ -40336,10 +40284,13 @@ msgid ""
 "in :file:`settings.py`. The queues were designed to separate different types "
 "of workload:"
 msgstr ""
+"タスクは複数のキューを使用して処理され、ルーティングは :file:`settings.py` に"
+"設定されています。以下は、異なる種類のワークロードを分離するために設計されて"
+"いるキュー："
 
 #: ../../contributing/internals.rst:129
 msgid "The default queue where background tasks are processed."
-msgstr ""
+msgstr "バックグラウンド タスクが処理されるデフォルトのキュー。"
 
 #: ../../contributing/internals.rst:131
 msgid ""
@@ -40347,6 +40298,9 @@ msgid ""
 "authentication or registration. This is a separate queue to make e-mail "
 "delivery smooth even if there is a backlog of other tasks."
 msgstr ""
+"Weblate 内のイベントや、認証、登録のための通知メールを送信するキュー。他の"
+"タスクが滞留していても、メール配信がスムーズに行われるように分離されたキュー"
+"です。"
 
 #: ../../contributing/internals.rst:133
 msgid ""
@@ -40354,18 +40308,25 @@ msgid ""
 "importing new strings, and long processing does not matter much here, so "
 "having a separate queue avoids blocking other tasks."
 msgstr ""
+"翻訳メモリのエントリを更新するキュー。新しい文字列をインポートすると更新"
+"キューが長くなることがありますが、処理時間が長くてもここではそれほど問題にな"
+"らないため、他のタスクをブロックしないように分離されています。"
 
 #: ../../contributing/internals.rst:135
 msgid ""
 "The backup tasks cannot be executed in parallel, and a single dedicated "
 "worker makes this easier."
 msgstr ""
+"バックアップ タスクは並列実行できないため、専用のワーカーを 1 つ用意すること"
+"で管理しやすくしています。"
 
 #: ../../contributing/internals.rst:137
 msgid ""
 "Automatic translation tasks are known to take long because they hit external "
 "services."
 msgstr ""
+"自動翻訳タスクは外部サービスを利用するため、時間がかかることが知られています"
+"。"
 
 #: ../../contributing/issues.rst:4
 msgid "Reporting issues in Weblate"
@@ -40389,16 +40350,12 @@ msgstr ""
 "に様々なテンプレートを用意しています。"
 
 #: ../../contributing/issues.rst:13
-#, fuzzy
-#| msgid ""
-#| "If what you have found is a security issue in Weblate, please consult "
-#| "the :ref:`security` section below."
 msgid ""
 "If what you have found is a security issue in Weblate, please "
 "see :ref:`security`."
 msgstr ""
-"Weblate のセキュリティ上の問題を発見したときは、下記の :ref:`security` のセク"
-"ションを確認してください。"
+"Weblate のセキュリティ上の問題を発見したときは、:ref:`security` のセクション"
+"を確認してください。"
 
 #: ../../contributing/issues.rst:15
 msgid ""
@@ -40410,13 +40367,15 @@ msgstr ""
 
 #: ../../contributing/issues.rst:20
 msgid "Using AI to create issues"
-msgstr ""
+msgstr "AI を使用して問題報告を作成する場合"
 
 #: ../../contributing/issues.rst:22
 msgid ""
 "If you asked an AI tool to find problems in Weblate or its modules, you "
 "**must** make sure to reveal this fact in your report."
 msgstr ""
+"Weblate またはそのモジュールの問題を AI ツールに探させた場合、その事実を報告"
+"書に **必ず** 明記しなければなりません。"
 
 #: ../../contributing/issues.rst:25
 msgid ""
@@ -40425,6 +40384,9 @@ msgid ""
 "the AI says. AI-based tools frequently generate inaccurate or fabricated "
 "results."
 msgstr ""
+"また、AI が指摘した問題が実際に存在し、AI の説明どおりに再現することを、報告"
+"前に必ず自分で再確認してください。AI ベースのツールは、不正確または捏造された"
+"結果を生成することがよくあります。"
 
 #: ../../contributing/issues.rst:29
 msgid ""
@@ -40436,6 +40398,12 @@ msgid ""
 "makes sure the AI-generated inaccuracies and invented issues are filtered "
 "out early before they waste more people's time."
 msgstr ""
+"AI が生成したレポートをそのままプロジェクトに貼り付けるのは、*ほとんどの場"
+"合*、得策ではありません。生成されたレポートは冗長で要点を外していることが多く"
+"、さらに捏造された内容が含まれることもあります。AI を使って実際に問題を発見し"
+"、それが正しいと自分で確認できた場合は、自分でレポートを書き、理解した内容を"
+"説明してください。これにより、AI が生み出した誤りや架空の問題が早期に排除され"
+"、他の人の時間を無駄にしないようにできます。"
 
 #: ../../contributing/issues.rst:37
 msgid ""
@@ -40445,49 +40413,45 @@ msgid ""
 "effectively prevent us from doing real project work and make us waste time "
 "and resources."
 msgstr ""
+"私たちはセキュリティ報告を重視しており、すべての報告は優先的に調査されます。"
+"この作業は時間と労力を浪費し、他の重要な作業を行う時間を奪います。偽の、また"
+"は捏造されたセキュリティ問題の報告は、実際のプロジェクト作業を妨げ、時間と"
+"リソースの無駄を招きます。"
 
 #: ../../contributing/issues.rst:43
 msgid ""
 "We ban users immediately who submit made-up fake reports to the project."
-msgstr ""
+msgstr "捏造した報告を提出したユーザーは、即座にプロジェクトから追放されます。"
 
 #: ../../contributing/issues.rst:46
 msgid "Issues lifecycle"
-msgstr ""
+msgstr "問題の一連の流れ"
 
 #: ../../contributing/license.rst:2
-#, fuzzy
-#| msgid "Weblate Client"
 msgid "Weblate license"
-msgstr "Weblate クライアント"
+msgstr "Weblate のライセンス"
 
 #: ../../contributing/license.rst:5
-#, fuzzy
-#| msgid "Machine translation"
 msgid "Machine-readable licensing information"
-msgstr "機械翻訳"
+msgstr "機械可読なライセンス情報"
 
 #: ../../contributing/license.rst:7
-#, fuzzy
-#| msgid ""
-#| "Weblate comes with `REUSE 3.0 <https://reuse.software/>`_ compliant "
-#| "license specification."
 msgid ""
 "Weblate comes with `REUSE 3.3 <https://reuse.software/>`_ compliant license "
 "specification in the source code."
 msgstr ""
-"Weblate には、`REUSE 3.0 <https://reuse.software/>`_ 準拠のライセンス仕様が付"
-"属しています。"
+"Weblate には、`REUSE 3.3 <https://reuse.software/>`_ 準拠のライセンス仕様が"
+"ソースコードに含まれています。"
 
 #: ../../contributing/license.rst:10
 msgid "To review licensing of Weblate dependencies please see :ref:`sbom`."
 msgstr ""
+"Weblate の依存関係のライセンスを確認するには、:ref:`sbom` を確認してください"
+"。"
 
 #: ../../contributing/license.rst:13
-#, fuzzy
-#| msgid "Licenses"
 msgid "License terms"
-msgstr "ライセンス"
+msgstr "ライセンス条件"
 
 #: ../../contributing/license.rst:15
 msgid "Copyright © Michal Čihař michal@weblate.org"
@@ -40526,16 +40490,16 @@ msgstr ""
 "てください。"
 
 #: ../../contributing/license.rst:30
-#, fuzzy
-#| msgid "Weblate deployments"
 msgid "Weblate modules license"
-msgstr "Weblate の構築"
+msgstr "Weblate モジュールのライセンス"
 
 #: ../../contributing/license.rst:32
 msgid ""
 "Some Weblate modules use MIT or ISC licenses. Please check the respective "
 "repositories for the actual license."
 msgstr ""
+"Weblate の一部のモジュールは MIT または ISC ライセンスを使用しています。実際"
+"のライセンスについては、各リポジトリを確認してください。"
 
 #: ../../contributing/modules.rst:2
 msgid "Contributing to Weblate modules"
@@ -40571,66 +40535,45 @@ msgstr ""
 "リポジトリ内の翻訳可能なファイルを検出するために使用"
 
 #: ../../contributing/modules.rst:11
-#, fuzzy
-#| msgid ""
-#| "`language-data <https://github.com/WeblateOrg/language-data/>`_, language "
-#| "definitions for Weblate, see :ref:`languages`"
 msgid ""
 "`language-data`_, language definitions for Weblate, see :ref:`languages`"
-msgstr ""
-"`language-data <https://github.com/WeblateOrg/language-data/>`_ 、Weblate の"
-"言語定義。参照: :ref:`languages`"
+msgstr "`language-data`_ 、Weblate の言語定義。参照: :ref:`languages`"
 
 #: ../../contributing/modules.rst:18
 msgid "Extending built-in language definitions"
 msgstr "組み込まれた言語の定義の拡張"
 
 #: ../../contributing/modules.rst:20
-#, fuzzy
-#| msgid ""
-#| "The language definitions are in the `weblate-language-data repository "
-#| "<https://github.com/WeblateOrg/language-data/>`_."
 msgid "The language definitions are in the `language-data`_ repository."
-msgstr ""
-"言語の定義は、`weblate-language-data repository <https://github.com/"
-"WeblateOrg/language-data/>`_ にあります。"
+msgstr "言語定義は `language-data`_ リポジトリに含まれています。"
 
 #: ../../contributing/modules.rst:22
-#, fuzzy
-#| msgid ""
-#| "You are welcome to add missing language definitions "
-#| "to :file:`languages.csv`, other files are generated from that file."
 msgid ""
 "You are welcome to add missing language definitions "
 "to :file:`languages.csv`, other files are generated from that file. The "
 "columns in the CSV file correspond to :ref:`language-definitions`."
 msgstr ""
-"不足している言語は、:file:`languages.csv` に追加して定義すると。そのファイル"
-"から他のファイルを生成します。"
+"不足している言語は、:file:`languages.csv` に追加してください。他のファイルは"
+"、この CSV ファイルから自動生成されます。CSV ファイルの各列は"
+"、:ref:`language-definitions` に対応しています。"
 
 #: ../../contributing/release.rst:2
 msgid "Releasing Weblate"
 msgstr "Weblate のリリース"
 
 #: ../../contributing/release.rst:7
-#, fuzzy
-#| msgid "Release process"
 msgid "Release cycle"
-msgstr "リリースの手順"
+msgstr "リリースの間隔"
 
 #: ../../contributing/release.rst:9
-#, fuzzy
-#| msgid ""
-#| "Weblate has two month release cycle for releases (x.y). These are usually "
-#| "followed by a bunch of bugfix releases to fix issues which slip into them "
-#| "(x.y.z)."
 msgid ""
 "Weblate has two month release cycle for releases (x.y). These are usually "
 "followed by a bunch of bugfix releases to fix issues which slip into them "
 "(x.y.z). This includes bug fixes and addressing security issues."
 msgstr ""
-"Weblate には、二ヶ月おきのリリース (x.y) のリリースサイクルがあります。通常、"
-"これらに紛れ込んだ問題を修正するバグ修正リリース (x.y.z) がいくつも続きます。"
+"Weblate は、2 か月ごとに (x.y) リリースを行います。通常、このリリースには、見"
+"逃された問題を修正するためのバグ修正リリース（x.y.z）が続きます。これにはバグ"
+"修正やセキュリティ問題への対応を含みます。"
 
 #: ../../contributing/release.rst:13
 msgid ""
@@ -40648,6 +40591,9 @@ msgid ""
 "changes in the container itself like dependencies. These updates may include "
 "security updates."
 msgstr ""
+"Docker コンテナのバージョンには、依存関係などコンテナ自体の変更を追跡するため"
+"の追加の数字が含まれます。この更新にはセキュリティ アップデートが含まれること"
+"があります。"
 
 #: ../../contributing/release.rst:27
 msgid "Release planning"
@@ -40672,13 +40618,12 @@ msgid "Things to check prior to release:"
 msgstr "リリース前に必要な確認事項:"
 
 #: ../../contributing/release.rst:37
-#, fuzzy
 msgid ""
 "Check newly translated languages by :command:`./scripts/list-translated-"
 "languages.py`."
 msgstr ""
-":command:`./scripts/list-translated-languages.py` で新規に翻訳された言語の確"
-"認。"
+":command:`./scripts/list-translated-languages.py` で新しく翻訳された言語の品"
+"質検査をする。"
 
 #: ../../contributing/release.rst:38
 msgid "Set final version by :command:`./scripts/prepare-release`."
@@ -40881,6 +40826,8 @@ msgid ""
 "Weblate is configured to use :program:`maildev` container as a e-mail "
 "server. The delivered e-mails can be seen at <http://127.0.0.1:1080/>."
 msgstr ""
+"Weblate は、:program:`maildev` コンテナをメールサーバーとして使用するように設"
+"定されています。配信されたメールは <http://127.0.0.1:1080/> で確認できます。"
 
 #: ../../contributing/start.rst:87
 msgid ""
@@ -40928,16 +40875,12 @@ msgstr ""
 "ます。"
 
 #: ../../contributing/start.rst:120
-#, fuzzy
-#| msgid ""
-#| "This is not a suitable setup for production, as it includes several hacks "
-#| "which are insecure, but they make development easier."
 msgid ""
 "This container is not suitable for production use. Security is sacrificed to "
 "make the development easier."
 msgstr ""
-"これは運用環境には適していません。安全ではないが開発を楽にする複数のハックが"
-"含まれています。"
+"このコンテナは本番環境には適していません。開発を容易にするためにセキュリティ"
+"が犠牲になっています。"
 
 #: ../../contributing/start.rst:126
 msgid "Bootstrapping your devel instance"
@@ -40956,6 +40899,8 @@ msgid ""
 "If you have :ref:`billing` installed as well, you can "
 "use :wladmin:`billing_demo` to create a demo billing project."
 msgstr ""
+":ref:`billing` がインストールされている場合、:wladmin:`billing_demo` を使用し"
+"てデモの課金プロジェクトを作成できます。"
 
 #: ../../contributing/start.rst:135
 msgid "Coding Weblate with PyCharm"
@@ -41063,12 +41008,14 @@ msgid ""
 "Weblate relies on `GitHub Actions`_ to run tests, build documentation, code "
 "linting, and other tasks to ensure code quality."
 msgstr ""
+"Weblate はテストの実行、ドキュメントのビルド、コードの lint、その他の品質保証"
+"タスクを行うために `GitHub Actions`_ を利用しています。"
 
 #: ../../contributing/tests.rst:15
 msgid ""
 "`Codecov`_ collects the code coverage information from the tests that were "
 "run."
-msgstr ""
+msgstr "`Codecov`_ は実行されたテストからコードカバレッジ情報を収集します。"
 
 #: ../../contributing/tests.rst:20
 msgid "There are several jobs to verify different aspects:"
@@ -41077,32 +41024,36 @@ msgstr "さまざまな側面を検証するためのジョブ:"
 #: ../../contributing/tests.rst:22
 msgid "Unit and functional tests using `pytest <https://pytest.org/>`_."
 msgstr ""
+"単体テストおよび機能テストには `pytest <https://pytest.org/>`_ が使用されてい"
+"ます。"
 
 #: ../../contributing/tests.rst:23
-#, fuzzy
-#| msgid ""
-#| "Source code for this documentation, which can be built using `Sphinx "
-#| "<https://www.sphinx-doc.org/>`_."
 msgid ""
 "Documentation build and external links using `Sphinx <https://www.sphinx-"
 "doc.org/>`_."
 msgstr ""
-"このドキュメントのソースコードは、`Sphinx <https://www.sphinx-doc.org/>`_ を"
-"使用して作成しています。"
+"ドキュメントのビルドおよび外部リンクの検証には `Sphinx <https://www.sphinx-"
+"doc.org/>`_ が使用されています。"
 
 #: ../../contributing/tests.rst:24
 msgid ""
 "Code linting and quality assurance using `ruff <https://docs.astral.sh/ruff/"
 ">`_ and `pylint <https://www.pylint.org/>`_."
 msgstr ""
+"コードの lint と品質保証には `ruff <https://docs.astral.sh/ruff/>`_ と "
+"`pylint <https://www.pylint.org/>`_ が使用されています。"
 
 #: ../../contributing/tests.rst:25
 msgid "Code security scanning using `CodeQL <https://codeql.github.com/>`_."
 msgstr ""
+"コードのセキュリティスキャンには `CodeQL <https://codeql.github.com/>`_ が使"
+"用されています。"
 
 #: ../../contributing/tests.rst:26
 msgid "Code formatting using `pre-commit <https://pre-commit.com/>`_."
 msgstr ""
+"コードフォーマットには `pre-commit <https://pre-commit.com/>`_ が使用されてい"
+"ます。"
 
 #: ../../contributing/tests.rst:27
 msgid "Migration testing from all supported releases"
@@ -41116,14 +41067,6 @@ msgstr ""
 "設定の検証（生成された dist ファイルに間違いがなく、テスト済みを保証する）"
 
 #: ../../contributing/tests.rst:30
-#, fuzzy
-#| msgid ""
-#| "The configuration for the CI is in :file:`.github/workflows` directory. "
-#| "It heavily uses helper scripts stored in :file:`ci` directory. The "
-#| "scripts can be also executed manually, but they require several "
-#| "environment variables, mostly defining Django settings file to use and "
-#| "database connection. The example definition of that is in :file:`scripts/"
-#| "test-database.sh`:"
 msgid ""
 "The configuration for the CI is in :file:`.github/workflows` directory. It "
 "heavily uses helper scripts stored in :file:`ci` directory. The scripts can "
@@ -41131,21 +41074,19 @@ msgid ""
 "mostly defining Django settings file to use and test database connection. "
 "The example definition of that is in :file:`scripts/test-database.sh`:"
 msgstr ""
-"CI の構成は、:file:`.github/workflows` ディレクトリにあります。 :file:`ci` "
-"ディレクトリに格納されているヘルパー スクリプトを頻繁に使用します。スクリプト"
-"は手動でも実行できますが、使用する Django 設定ファイルとデータベース接続を設"
-"定するなど、環境変数の設定が必要です。:file:`scripts/test-database.sh` に記述"
-"された設定例:"
+"CI の設定は、:file:`.github/workflows` ディレクトリにあります。 :file:`ci` "
+"ディレクトリに格納されているヘルパー スクリプトを頻繁に使用します。この"
+"スクリプトは手動でも実行できますが、使用する Django 設定ファイルと"
+"データベース接続を設定するなど、環境変数の設定が必要です。確認すべき "
+":file:`scripts/test-database.sh` に記述された設定例:"
 
 #: ../../contributing/tests.rst:39
 msgid "The simple execution can look like:"
 msgstr "単純な実行例:"
 
 #: ../../contributing/tests.rst:51
-#, fuzzy
-#| msgid "Locking down Weblate"
 msgid "Local testing of Weblate"
-msgstr "Weblate の閉鎖"
+msgstr "Weblate のローカル テスト"
 
 #: ../../contributing/tests.rst:53
 msgid ""
@@ -41214,10 +41155,8 @@ msgstr ""
 "index` を確認してください。"
 
 #: ../../contributing/tests.rst:107
-#, fuzzy
-#| msgid "Contributing to Weblate modules"
 msgid "Local testing of Weblate modules"
-msgstr "Weblate モジュールへの貢献"
+msgstr "Weblate モジュールのローカル テスト"
 
 #: ../../contributing/tests.rst:109
 msgid ""
@@ -41232,10 +41171,8 @@ msgid "You can then execute the testsuite in the repository checkout:"
 msgstr "そのあと、チェックアウトしたリポジトリでテストスイートを実行:"
 
 #: ../../contributing/tests.rst:123
-#, fuzzy
-#| msgid "Accessing repositories"
 msgid "Testing repository"
-msgstr "リポジトリへの接続"
+msgstr "テスト用リポジトリ"
 
 #: ../../contributing/tests.rst:125
 msgid ""
@@ -42626,21 +42563,14 @@ msgstr ""
 "をします。"
 
 #: ../../devel/integration.rst:103
-#, fuzzy
-#| msgid ""
-#| "Weblate will also not try to update bilingual files when the source "
-#| "changes, so if you need :file:`po` files to be updated from :file:`pot`, "
-#| "do it yourself by using :guilabel:`Update source strings` :ref:`upload-"
-#| "method`, or by using the :ref:`addon-weblate.gettext.msgmerge` add-on."
 msgid ""
 "Weblate will also not try to update bilingual files when the source changes, "
 "so if you need :file:`po` files to be updated from :file:`pot`, you have two "
 "options:"
 msgstr ""
-"また、Weblate はソースが変更されてもバイリンガル ファイルを更新しません。その"
-"ため、:file:`pot` ファイルから :file:`po` ファイルを更新する必要がある場合"
-"は、:ref:`upload-method` :guilabel:`原文の更新` で手動で更新する"
-"か :ref:`addon-weblate.gettext.msgmerge` アドオンを使用してください。"
+"また、Weblate はソースが変更されてもバイリンガル ファイルを更新しなくなりまし"
+"た。そのため、:file:`pot` ファイルから :file:`po` ファイルを更新することが必"
+"要な場合の２つの選択肢:"
 
 #: ../../devel/integration.rst:106
 msgid ""
@@ -44951,8 +44881,7 @@ msgstr ""
 msgid ""
 "Plurals are handled in the syntax of the strings and not exposed as plurals "
 "in Weblate."
-msgstr ""
-"複数形は文字列の構文で処理され、Weblate では複数形として公開されません。"
+msgstr "複数形は文字列の構文として処理され、Weblate では複数形として公開されません。"
 
 #: ../../formats.rst:367
 msgid "Bilingual and monolingual formats"
@@ -45522,21 +45451,12 @@ msgstr ""
 "ても便利な文字列が翻訳禁止かどうかを確認するための設定方法:"
 
 #: ../../formats/android.rst:65
-#, fuzzy
-#| msgid ""
-#| "`Android string resources documentation <https://developer.android.com/"
-#| "guide/topics/resources/string-resource>`_, `JetBrains Compose "
-#| "Multiplatform Kotlin Resources <https://www.jetbrains.com/help/kotlin-"
-#| "multiplatform-dev/compose-images-resources.html>`_, :doc:`tt:formats/"
-#| "android`"
 msgid ""
 "`Android string resources documentation <https://developer.android.com/guide/"
 "topics/resources/string-resource>`_"
 msgstr ""
 "`Android 文字列リソースのドキュメント <https://developer.android.com/guide/"
-"topics/resources/string-resource>`_ 、`JetBrains Compose マルチプラットフォー"
-"ム Kotlin リソース <https://www.jetbrains.com/help/kotlin-multiplatform-dev/"
-"compose-images-resources.html>`_ 、:doc:`tt:formats/android`"
+"topics/resources/string-resource>`_"
 
 #: ../../formats/android.rst:71 ../../formats/apple.rst:23
 #: ../../formats/appstore.rst:24 ../../formats/arb.rst:27
@@ -45633,27 +45553,14 @@ msgid "Apple iOS strings are usually used as monolingual."
 msgstr "Apple iOS の文字列は、通常、モノリンガルとして使用します。"
 
 #: ../../formats/apple.rst:18
-#, fuzzy
-#| msgid ""
-#| ":ref:`stringsdict`, `Apple \"strings files\" documentation <https://"
-#| "developer.apple.com/library/archive/documentation/MacOSX/Conceptual/"
-#| "BPInternational/MaintaingYourOwnStringsFiles/"
-#| "MaintaingYourOwnStringsFiles.html>`_, `Message Catalog File Format in PWG "
-#| "5100.13 <http://ftp.pwg.org/pub/pwg/candidates/cs-"
-#| "ippjobprinterext3v10-20120727-5100.13.pdf#page=66>`_, :doc:`tt:formats/"
-#| "strings`"
 msgid ""
 "`Apple \"strings files\" documentation <https://developer.apple.com/library/"
 "archive/documentation/MacOSX/Conceptual/BPInternational/"
 "MaintaingYourOwnStringsFiles/MaintaingYourOwnStringsFiles.html>`_"
 msgstr ""
-":ref:`stringsdict`、`Apple \"strings files\" documentation <https://"
-"developer.apple.com/library/archive/documentation/MacOSX/Conceptual/"
-"BPInternational/MaintaingYourOwnStringsFiles/"
-"MaintaingYourOwnStringsFiles.html>`_ 、`Message Catalog File Format in PWG "
-"5100.13 <http://ftp.pwg.org/pub/pwg/candidates/cs-"
-"ippjobprinterext3v10-20120727-5100.13.pdf#page=66>`_ 、:doc:`tt:formats/"
-"strings`"
+"`Apple \"strings files\" ドキュメント <https://developer.apple.com/library/"
+"archive/documentation/MacOSX/Conceptual/BPInternational/"
+"MaintaingYourOwnStringsFiles/MaintaingYourOwnStringsFiles.html>`_"
 
 #: ../../formats/apple.rst:19
 msgid ""
@@ -45800,21 +45707,12 @@ msgid "A variant of :doc:`/formats/android`. It differs in escaping."
 msgstr ""
 
 #: ../../formats/compose-multiplatform-resources.rst:16
-#, fuzzy
-#| msgid ""
-#| "`Android string resources documentation <https://developer.android.com/"
-#| "guide/topics/resources/string-resource>`_, `JetBrains Compose "
-#| "Multiplatform Kotlin Resources <https://www.jetbrains.com/help/kotlin-"
-#| "multiplatform-dev/compose-images-resources.html>`_, :doc:`tt:formats/"
-#| "android`"
 msgid ""
 "`JetBrains Compose Multiplatform Resources <https://www.jetbrains.com/help/"
 "kotlin-multiplatform-dev/compose-multiplatform-resources.html>`_"
 msgstr ""
-"`Android 文字列リソースのドキュメント <https://developer.android.com/guide/"
-"topics/resources/string-resource>`_ 、`JetBrains Compose マルチプラットフォー"
-"ム Kotlin リソース <https://www.jetbrains.com/help/kotlin-multiplatform-dev/"
-"compose-images-resources.html>`_ 、:doc:`tt:formats/android`"
+"`JetBrains Compose Multiplatform Resources <https://www.jetbrains.com/help/"
+"kotlin-multiplatform-dev/compose-multiplatform-resources.html>`_"
 
 #: ../../formats/compose-multiplatform-resources.rst:32
 msgid "`Compose Multiplatform Resource`"
@@ -46024,16 +45922,12 @@ msgstr ""
 "ル形式。"
 
 #: ../../formats/formatjs.rst:13
-#, fuzzy
-#| msgid ""
-#| ":doc:`tt:formats/json`, `Format.JS Message Extraction <https://"
-#| "formatjs.io/docs/getting-started/message-extraction>`_"
 msgid ""
 "`Format.JS Message Extraction <https://formatjs.github.io/docs/getting-"
 "started/message-extraction>`_"
 msgstr ""
-":doc:`tt:formats/json`、`Format.JS メッセージ抽出 <https://formatjs.io/docs/"
-"getting-started/message-extraction>`_"
+"`Format.JS メッセージ抽出 <https://formatjs.github.io/docs/getting-started/"
+"message-extraction>`_"
 
 #: ../../formats/formatjs.rst:50
 msgid "`Format.JS JSON file`"
@@ -46627,10 +46521,8 @@ msgid ""
 msgstr ""
 
 #: ../../formats/laravel.rst:20
-#, fuzzy
-#| msgid ":doc:`tt:formats/php`, `Localization in Laravel`_"
 msgid "`Localization in Laravel`_"
-msgstr ":doc:`tt:formats/php`、`Localization in Laravel`_"
+msgstr "`Localization in Laravel`_"
 
 #: ../../formats/laravel.rst:36
 msgid "`Laravel PHP strings`"
@@ -46772,14 +46664,8 @@ msgstr ""
 "す。"
 
 #: ../../formats/qt.rst:16
-#, fuzzy
-#| msgid ""
-#| "`Qt Linguist manual <https://doc.qt.io/qt-5/qtlinguist-"
-#| "index.html>`_, :doc:`tt:formats/ts`, :ref:`bimono`"
 msgid "`Qt Linguist manual <https://doc.qt.io/qt-6/qtlinguist-index.html>`_"
-msgstr ""
-"`Qt Linguist manual <https://doc.qt.io/qt-5/qtlinguist-"
-"index.html>`_ 、:doc:`tt:formats/ts`、:ref:`bimono`"
+msgstr "`Qt Linguist マニュアル <https://doc.qt.io/qt-6/qtlinguist-index.html>`_"
 
 #: ../../formats/qt.rst:29
 msgid "Typical Weblate :ref:`component` when using as bilingual"
@@ -46881,16 +46767,12 @@ msgid ""
 msgstr "文字列の複数形を格納するためのアップルが使用する XML ベースの形式。"
 
 #: ../../formats/stringsdict.rst:14
-#, fuzzy
-#| msgid ""
-#| ":ref:`apple`, `Stringsdict File Format <https://developer.apple.com/"
-#| "documentation/xcode/localizing-strings-that-contain-plurals>`_"
 msgid ""
 "`Stringsdict File Format <https://developer.apple.com/documentation/xcode/"
 "localizing-strings-that-contain-plurals>`_"
 msgstr ""
-":ref:`apple`、`Stringsdict ファイル形式 <https://developer.apple.com/"
-"documentation/xcode/localizing-strings-that-contain-plurals>`_"
+"`Stringsdict ファイル形式 <https://developer.apple.com/documentation/xcode/"
+"localizing-strings-that-contain-plurals>`_"
 
 #: ../../formats/stringsdict.rst:30
 msgid ""
@@ -47116,20 +46998,12 @@ msgid ""
 msgstr ""
 
 #: ../../formats/webextension.rst:18
-#, fuzzy
-#| msgid ""
-#| ":doc:`tt:formats/json`, `Google chrome.i18n <https://developer.chrome.com/"
-#| "docs/extensions/reference/api/i18n>`_, `Mozilla Extensions "
-#| "Internationalization <https://developer.mozilla.org/en-US/docs/Mozilla/"
-#| "Add-ons/WebExtensions/Internationalization>`_"
 msgid ""
 "`Mozilla Extensions Internationalization <https://developer.mozilla.org/en-"
 "US/docs/Mozilla/Add-ons/WebExtensions/Internationalization>`_"
 msgstr ""
-":doc:`tt:formats/json`、`Google chrome.i18n <https://developer.chrome.com/"
-"docs/extensions/reference/api/i18n>`_ 、`Mozilla Extensions "
-"Internationalization <https://developer.mozilla.org/en-US/docs/Mozilla/Add-"
-"ons/WebExtensions/Internationalization>`_"
+"`Mozilla 拡張機能の現地語化 <https://developer.mozilla.org/en-US/docs/"
+"Mozilla/Add-ons/WebExtensions/Internationalization>`_"
 
 #: ../../formats/webextension.rst:37
 msgid "`WebExtension JSON file`"
@@ -50268,14 +50142,8 @@ msgid "Unsafe HTML cleanup"
 msgstr "安全でない HTML のクリーンアップ"
 
 #: ../../user/checks.rst:77
-#, fuzzy
-#| msgid ""
-#| "Removes unsafe HTML markup from strings flagged as ``safe-html`` "
-#| "(see :ref:`check-safe-html`)."
 msgid "Removes unsafe HTML markup from strings flagged as ``safe-html``."
-msgstr ""
-"``safe-html`` のフラグが付いた文字列から安全でない HTML マークアップを削除す"
-"る（参照: :ref:`check-safe-html`）。"
+msgstr "``safe-html`` のフラグが付いた文字列から安全でない HTML マークアップを削除。"
 
 #: ../../user/checks.rst:84
 msgid "Trailing and leading whitespace fixer"
@@ -50773,16 +50641,12 @@ msgid "nor"
 msgstr "これも一致しません。"
 
 #: ../../user/checks.rst:391 ../../user/checks.rst:2077
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-fluent-source-inner-html`, `Fluent DOM <https://"
-#| "projectfluent.org/dom-l10n-documentation/overview.html>`_"
 msgid ""
 "`Fluent DOM <https://projectfluent.org/dom-l10n-documentation/"
 "overview.html>`_"
 msgstr ""
-":ref:`check-fluent-source-inner-html`、 `Fluent DOM <https://"
-"projectfluent.org/dom-l10n-documentation/overview.html>`_"
+"`Fluent DOM <https://projectfluent.org/dom-l10n-documentation/overview.html>"
+"`_"
 
 #: ../../user/checks.rst:396
 msgid "Fluent translation syntax"
@@ -50813,20 +50677,12 @@ msgstr ""
 "`Fluent 属性 <https://projectfluent.org/fluent/guide/attributes.html>`_"
 
 #: ../../user/checks.rst:418 ../../user/checks.rst:2104
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-fluent-source-syntax`, `Fluent Syntax Guide <https://"
-#| "projectfluent.org/fluent/guide/>`_ `Mozilla Basic Syntax Guide <https://"
-#| "mozilla-l10n.github.io/localizer-documentation/tools/fluent/"
-#| "basic_syntax.html>`_"
 msgid ""
 "`Mozilla Basic Syntax Guide <https://mozilla-l10n.github.io/localizer-"
 "documentation/tools/fluent/basic_syntax.html>`_"
 msgstr ""
-":ref:`check-fluent-source-syntax`、`Fluent 構文ガイド <https://"
-"projectfluent.org/fluent/guide/>`_ 、`Mozilla 基本構文ガイド <https://"
-"mozilla-l10n.github.io/localizer-documentation/tools/fluent/"
-"basic_syntax.html>`_"
+"`Mozilla 基本構文ガイド <https://mozilla-l10n.github.io/localizer-"
+"documentation/tools/fluent/basic_syntax.html>`_"
 
 #: ../../user/checks.rst:423
 msgid "Formatted strings"
@@ -50909,15 +50765,9 @@ msgid "Named format string example"
 msgstr "名前付き書式文字列の例"
 
 #: ../../user/checks.rst:472
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `AngularJS text interpolation <https://angular.io/"
-#| "guide/interpolation>`_"
 msgid ""
 "`AngularJS text interpolation <https://angular.io/guide/interpolation>`_"
-msgstr ""
-":ref:`check-formats`、`AngularJS テキスト補間 <https://angular.jp/guide/"
-"interpolation>`_"
+msgstr "`AngularJS テキスト補間 <https://angular.jp/guide/interpolation>`_"
 
 #: ../../user/checks.rst:477
 msgid "Automattic components formatting"
@@ -50932,20 +50782,16 @@ msgid "Simple format string example"
 msgstr "単純な書式指定文字列の例"
 
 #: ../../user/checks.rst:492
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `i18next interpolation <https://www.i18next.com/"
-#| "translation-function/interpolation>`_"
 msgid ""
 "`Interpolate Components <https://github.com/Automattic/wp-calypso/tree/trunk/"
 "packages/interpolate-components>`_"
 msgstr ""
-":ref:`check-formats`、`i18next 補間 <https://www.i18next.com/translation-"
-"function/interpolation>`_"
+"`コンポーネントの補間 <https://github.com/Automattic/wp-calypso/tree/trunk/"
+"packages/interpolate-components>`_"
 
 #: ../../user/checks.rst:497
 msgid "C format"
-msgstr "C 言語書式"
+msgstr "C 言語形式"
 
 #: ../../user/checks.rst:500
 msgid "C format string does not match source."
@@ -50956,16 +50802,12 @@ msgid "Position format string example"
 msgstr "書式指定文字列の位置の例"
 
 #: ../../user/checks.rst:513
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `Perl Format Strings <https://www.gnu.org/software/"
-#| "gettext/manual/html_node/perl_002dformat.html>`_"
 msgid ""
 "`C format strings <https://www.gnu.org/software/gettext/manual/html_node/"
 "c_002dformat.html>`_"
 msgstr ""
-":ref:`check-formats`、`Perl 形式の文字列 <https://www.gnu.org/software/"
-"gettext/manual/html_node/perl_002dformat.html>`_"
+"`C 言語形式の文字列 <https://www.gnu.org/software/gettext/manual/html_node/"
+"c_002dformat.html>`_"
 
 #: ../../user/checks.rst:514
 #, fuzzy
@@ -50991,16 +50833,12 @@ msgid "``c-sharp-format``, ``csharp-format``"
 msgstr "``c-sharp-format``"
 
 #: ../../user/checks.rst:535
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `C# String Format <https://learn.microsoft.com/en-"
-#| "us/dotnet/api/system.string.format?view=netframework-4.7.2>`_"
 msgid ""
 "`C# String Format <https://learn.microsoft.com/en-us/dotnet/api/"
 "system.string.format?view=netframework-4.7.2>`_"
 msgstr ""
-":ref:`check-formats`、`C# 書式文字列 <https://learn.microsoft.com/ja-jp/"
-"dotnet/api/system.string.format?view=netframework-4.7.2>`_"
+"`C# 形式の文字列 <https://learn.microsoft.com/en-us/dotnet/api/"
+"system.string.format?view=netframework-4.7.2>`_"
 
 #: ../../user/checks.rst:540
 msgid "ECMAScript template literals"
@@ -51015,16 +50853,12 @@ msgid "Interpolation example"
 msgstr "補間の例"
 
 #: ../../user/checks.rst:556
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `Template literals <https://developer.mozilla.org/"
-#| "en-US/docs/Web/JavaScript/Reference/Template_literals>`_"
 msgid ""
 "`Template literals <https://developer.mozilla.org/en-US/docs/Web/JavaScript/"
 "Reference/Template_literals>`_"
 msgstr ""
-":ref:`check-formats`、`テンプレート リテラル <https://developer.mozilla.org/"
-"ja/docs/Web/JavaScript/Reference/Template_literals>`_"
+"`テンプレート リテラル <https://developer.mozilla.org/ja/docs/Web/JavaScript/"
+"Reference/Template_literals>`_"
 
 #: ../../user/checks.rst:561
 msgid "i18next interpolation"
@@ -51045,16 +50879,11 @@ msgid "Nesting example"
 msgstr "ネスティングの例"
 
 #: ../../user/checks.rst:579
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `i18next interpolation <https://www.i18next.com/"
-#| "translation-function/interpolation>`_"
 msgid ""
 "`i18next interpolation <https://www.i18next.com/translation-function/"
 "interpolation>`_"
 msgstr ""
-":ref:`check-formats`、`i18next 補間 <https://www.i18next.com/translation-"
-"function/interpolation>`_"
+"`i18next 補間 <https://www.i18next.com/translation-function/interpolation>`_"
 
 #: ../../user/checks.rst:585
 msgid "ICU MessageFormat"
@@ -51158,16 +50987,12 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:648
-#, fuzzy
-#| msgid ""
-#| ":doc:`tt:formats/json`, `Format.JS Message Extraction <https://"
-#| "formatjs.io/docs/getting-started/message-extraction>`_"
 msgid ""
 "`Format.JS: Message Syntax <https://formatjs.github.io/docs/core-concepts/"
 "icu-syntax>`_"
 msgstr ""
-":doc:`tt:formats/json`、`Format.JS メッセージ抽出 <https://formatjs.io/docs/"
-"getting-started/message-extraction>`_"
+"`Format.JS メッセージ書式 <https://formatjs.io/docs/getting-started/message-"
+"extraction>`_"
 
 #: ../../user/checks.rst:654
 msgid "Java format"
@@ -51198,16 +51023,12 @@ msgstr ""
 "の一貫性を保つために変更されました。"
 
 #: ../../user/checks.rst:674
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `Java Format Strings <https://docs.oracle.com/"
-#| "javase/7/docs/api/java/util/Formatter.html>`_"
 msgid ""
 "`Java Format Strings <https://docs.oracle.com/javase/7/docs/api/java/util/"
 "Formatter.html>`_"
 msgstr ""
-":ref:`check-formats`、`Java 形式の文字列 <https://docs.oracle.com/javase/7/"
-"docs/api/java/util/Formatter.html>`_"
+"`Java 形式の文字列 <https://docs.oracle.com/javase/7/docs/api/java/util/"
+"Formatter.html>`_"
 
 #: ../../user/checks.rst:680
 msgid "Java MessageFormat"
@@ -51252,16 +51073,12 @@ msgstr ""
 "に表示されません。"
 
 #: ../../user/checks.rst:705
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `Java MessageFormat <https://docs.oracle.com/javase/"
-#| "7/docs/api/java/text/MessageFormat.html>`_"
 msgid ""
 "`Java MessageFormat <https://docs.oracle.com/javase/7/docs/api/java/text/"
 "MessageFormat.html>`_"
 msgstr ""
-":ref:`check-formats`、`Java MessageFormat <https://docs.oracle.com/javase/7/"
-"docs/api/java/text/MessageFormat.html>`_"
+"`Java MessageFormat <https://docs.oracle.com/javase/7/docs/api/java/text/"
+"MessageFormat.html>`_"
 
 #: ../../user/checks.rst:710
 msgid "JavaScript format"
@@ -51272,16 +51089,12 @@ msgid "JavaScript format string does not match source."
 msgstr "JavaScript 形式の文字列が原文と不一致。"
 
 #: ../../user/checks.rst:725
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `JavaScript formatting strings <https://www.gnu.org/"
-#| "software/gettext/manual/html_node/javascript_002dformat.html>`_"
 msgid ""
 "`JavaScript formatting strings <https://www.gnu.org/software/gettext/manual/"
 "html_node/javascript_002dformat.html>`_"
 msgstr ""
-":ref:`check-formats`、`JavaScript 形式の文字列 <https://www.gnu.org/software/"
-"gettext/manual/html_node/javascript_002dformat.html>`_"
+"`JavaScript 形式の文字列 <https://www.gnu.org/software/gettext/manual/"
+"html_node/javascript_002dformat.html>`_"
 
 #: ../../user/checks.rst:730
 msgid "Laravel format"
@@ -51306,16 +51119,12 @@ msgid "Lua format string does not match source."
 msgstr "Lua 形式の文字列が原文と不一致。"
 
 #: ../../user/checks.rst:765
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `Lua formatting strings <https://www.gnu.org/"
-#| "software/gettext/manual/html_node/lua_002dformat.html#lua_002dformat>`_"
 msgid ""
 "`Lua formatting strings <https://www.gnu.org/software/gettext/manual/"
 "html_node/lua_002dformat.html#lua_002dformat>`_"
 msgstr ""
-":ref:`check-formats`、`Lua 形式の文字列 <https://www.gnu.org/software/"
-"gettext/manual/html_node/lua_002dformat.html#lua_002dformat>`_"
+"`Lua 形式の文字列 <https://www.gnu.org/software/gettext/manual/html_node/"
+"lua_002dformat.html#lua_002dformat>`_"
 
 #: ../../user/checks.rst:770
 msgid "Object Pascal format"
@@ -51326,17 +51135,14 @@ msgid "Object Pascal format string does not match source."
 msgstr "Object Pascal 形式の文字列が原文と不一致。"
 
 #: ../../user/checks.rst:785
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `Lua formatting strings <https://www.gnu.org/"
-#| "software/gettext/manual/html_node/lua_002dformat.html#lua_002dformat>`_"
 msgid ""
 "`Object Pascal formatting strings <https://www.gnu.org/software/gettext/"
 "manual/html_node/"
 "object_002dpascal_002dformat.html#object_002dpascal_002dformat>`_"
 msgstr ""
-":ref:`check-formats`、`Lua 形式の文字列 <https://www.gnu.org/software/"
-"gettext/manual/html_node/lua_002dformat.html#lua_002dformat>`_"
+"`オブジェクト パスカル形式の文字列 <https://www.gnu.org/software/gettext/"
+"manual/html_node/"
+"object_002dpascal_002dformat.html#object_002dpascal_002dformat>`_"
 
 #: ../../user/checks.rst:786
 msgid ""
@@ -51367,16 +51173,12 @@ msgid "Perl brace format string does not match source."
 msgstr "Perl ブレース書式の指定文字列が原文と一致しない。"
 
 #: ../../user/checks.rst:827 ../../user/checks.rst:849
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `Perl Format Strings <https://www.gnu.org/software/"
-#| "gettext/manual/html_node/perl_002dformat.html>`_"
 msgid ""
 "`Perl Format Strings <https://www.gnu.org/software/gettext/manual/html_node/"
 "perl_002dformat.html>`_"
 msgstr ""
-":ref:`check-formats`、`Perl 形式の文字列 <https://www.gnu.org/software/"
-"gettext/manual/html_node/perl_002dformat.html>`_"
+"`Perl 形式の文字列 <https://www.gnu.org/software/gettext/manual/html_node/"
+"perl_002dformat.html>`_"
 
 #: ../../user/checks.rst:832
 msgid "Perl format"
@@ -51407,16 +51209,12 @@ msgid ""
 msgstr "`phpMyAdmin ドキュメント <https://docs.phpmyadmin.net/>`_"
 
 #: ../../user/checks.rst:871
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `Perl Format Strings <https://www.gnu.org/software/"
-#| "gettext/manual/html_node/perl_002dformat.html>`_"
 msgid ""
 "`PHP Format Strings <https://www.gnu.org/software/gettext/manual/html_node/"
 "php_002dformat.html>`_"
 msgstr ""
-":ref:`check-formats`、`Perl 形式の文字列 <https://www.gnu.org/software/"
-"gettext/manual/html_node/perl_002dformat.html>`_"
+"`PHP 形式の文字列 <https://www.gnu.org/software/gettext/manual/html_node/"
+"php_002dformat.html>`_"
 
 #: ../../user/checks.rst:876
 msgid "Python brace format"
@@ -51437,16 +51235,12 @@ msgid ":ref:`Python brace format <python:formatstrings>`"
 msgstr "Python のブレース書式"
 
 #: ../../user/checks.rst:893 ../../user/checks.rst:915
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `Perl Format Strings <https://www.gnu.org/software/"
-#| "gettext/manual/html_node/perl_002dformat.html>`_"
 msgid ""
 "`Python Format Strings <https://www.gnu.org/software/gettext/manual/"
 "html_node/python_002dformat.html>`_"
 msgstr ""
-":ref:`check-formats`、`Perl 形式の文字列 <https://www.gnu.org/software/"
-"gettext/manual/html_node/perl_002dformat.html>`_"
+"`Python 形式の文字列 <https://www.gnu.org/software/gettext/manual/html_node/"
+"python_002dformat.html>`_"
 
 #: ../../user/checks.rst:898
 msgid "Python format"
@@ -51469,14 +51263,8 @@ msgid "Qt format string does not match source."
 msgstr "Qt 書式文字列が原文と不一致。"
 
 #: ../../user/checks.rst:935
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `Qt QString::arg() <https://doc.qt.io/qt-5/"
-#| "qstring.html#arg>`_"
 msgid "`Qt QString::arg() <https://doc.qt.io/qt-6/qstring.html#arg>`_"
-msgstr ""
-":ref:`check-formats`、`Qt QString::arg() <https://doc.qt.io/qt-5/"
-"qstring.html#arg>`_"
+msgstr "`Qt QString::arg() <https://doc.qt.io/qt-6/qstring.html#arg>`_"
 
 #: ../../user/checks.rst:940
 msgid "Qt plural format"
@@ -51491,16 +51279,12 @@ msgid "Plural format string example"
 msgstr "複数形の書式指定文字列の例"
 
 #: ../../user/checks.rst:955
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `Qt i18n guide <https://doc.qt.io/qt-5/i18n-source-"
-#| "translation.html#handling-plurals>`_"
 msgid ""
 "`Qt i18n guide <https://doc.qt.io/qt-6/i18n-source-translation.html#handle-"
 "plural-forms>`_"
 msgstr ""
-":ref:`check-formats`、`Qt i18n ガイド <https://doc.qt.io/qt-5/i18n-source-"
-"translation.html#handling-plurals>`_"
+"`Qt i18n ガイド <https://doc.qt.io/qt-6/i18n-source-translation.html#handle-"
+"plural-forms>`_"
 
 #: ../../user/checks.rst:960
 msgid "Ruby format"
@@ -51515,16 +51299,12 @@ msgid "Named template string"
 msgstr "名前付きテンプレート文字列"
 
 #: ../../user/checks.rst:978
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `Ruby Kernel#sprintf <https://ruby-doc.org/current/"
-#| "Kernel.html#method-i-sprintf>`_"
 msgid ""
 "`Ruby Kernel#sprintf <https://ruby-doc.org/current/Kernel.html#method-i-"
 "sprintf>`_"
 msgstr ""
-":ref:`check-formats`、`Ruby Kernel#sprintf <https://ruby-doc.org/current/"
-"Kernel.html#method-i-sprintf>`_"
+"`Ruby Kernel#sprintf <https://ruby-doc.org/current/Kernel.html#method-i-"
+"sprintf>`_"
 
 #: ../../user/checks.rst:983
 msgid "Scheme format"
@@ -51543,16 +51323,12 @@ msgid "`Chicken Scheme format <https://wiki.call-cc.org/eggref/5/format>`_"
 msgstr ""
 
 #: ../../user/checks.rst:1000
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `Perl Format Strings <https://www.gnu.org/software/"
-#| "gettext/manual/html_node/perl_002dformat.html>`_"
 msgid ""
 "`Guile Scheme formatted output <https://www.gnu.org/software/guile/manual/"
 "html_node/Formatted-Output.html>`_"
 msgstr ""
-":ref:`check-formats`、`Perl 形式の文字列 <https://www.gnu.org/software/"
-"gettext/manual/html_node/perl_002dformat.html>`_"
+"`Perl 形式の文字列 <https://www.gnu.org/software/guile/manual/html_node/"
+"Formatted-Output.html>`_"
 
 #: ../../user/checks.rst:1005
 msgid "Vue I18n formatting"
@@ -51581,18 +51357,12 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:1023
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-formats`, `Vue I18n Formatting <https://kazupon.github.io/vue-"
-#| "i18n/guide/formatting.html>`_, `Vue I18n Linked locale messages <https://"
-#| "kazupon.github.io/vue-i18n/guide/messages.html#linked-locale-messages>`_"
 msgid ""
 "`Vue I18n Linked locale messages <https://kazupon.github.io/vue-i18n/guide/"
 "messages.html#linked-locale-messages>`_"
 msgstr ""
-":ref:`check-formats`、`Vue I18n 書式 <https://kazupon.github.io/vue-i18n/"
-"guide/formatting.html>`_、`Vue I18n リンク付きロケール メッセージ <https://"
-"kazupon.github.io/vue-i18n/guide/messages.html#linked-locale-messages>`_"
+"`Vue I18n リンク付きロケール メッセージ <https://kazupon.github.io/vue-i18n/"
+"guide/messages.html#linked-locale-messages>`_"
 
 #: ../../user/checks.rst:1028
 msgid "Has been translated"
@@ -53063,15 +52833,11 @@ msgstr ""
 "要については :ref:`fmt_capabs` を確認してください。"
 
 #: ../../user/files.rst:52
-#, fuzzy
-#| msgid ""
-#| ":http:post:`/api/translations/(string:project)/(string:component)/"
-#| "(string:language)/file/`"
 msgid ""
 ":http:get:`/api/translations/(string:project)/(string:component)/"
 "(string:language)/file/`"
 msgstr ""
-":http:post:`/api/translations/(string:project)/(string:component)/"
+":http:get:`/api/translations/(string:project)/(string:component)/"
 "(string:language)/file/`"
 
 #: ../../user/files.rst:58
@@ -54209,18 +53975,12 @@ msgid ""
 msgstr "原文が変更された日付。:ref:`search-operators` に対応。"
 
 #: ../../user/search.rst:89
-#, fuzzy
-#| msgid ""
-#| "String was changed on date, supports :ref:`search-operators`, unlike "
-#| "``changed`` this includes event which don't change content and you can "
-#| "apply custom action filtering using ``change_action``."
 msgid ""
 "Unlike ``changed`` this includes event which don't change content and you "
 "can apply custom action filtering using ``change_action``."
 msgstr ""
-"文字列の内容が変更された日付。:ref:`search-operators` に対応。``changed`` と"
-"は異なり、これには内容が変更されないイベントを含み、変更をした操作 "
-"``change_action`` を使用して独自の絞り込みができます。"
+"``changed`` とは異なり、これには内容が変更されないイベントを含みます。また"
+"、``change_action`` を使用して独自の絞り込みができます。"
 
 #: ../../user/search.rst:92
 msgid ""
@@ -54668,15 +54428,6 @@ msgid "Translation links"
 msgstr "翻訳リンク"
 
 #: ../../user/translating.rst:35
-#, fuzzy
-#| msgid ""
-#| "Having navigated to a component, a set of links lead to its actual "
-#| "translation. The translation is further divided into individual checks, "
-#| "like :guilabel:`Untranslated strings` or :guilabel:`Unfinished strings`. "
-#| "If the whole project is already translated without any "
-#| "errors, :guilabel:`All strings` is still available. Alternatively you can "
-#| "use the :ref:`Search <Searching>` feature to find a specific string or "
-#| "term."
 msgid ""
 "Having navigated to a component, a set of links lead to its actual "
 "translation. The translation is further divided into individual checks, "
@@ -54685,11 +54436,12 @@ msgid ""
 "strings` is still available. Alternatively you can use the :doc:`Search </"
 "user/search>` feature to find a specific string or term."
 msgstr ""
-"コンポーネントには、翻訳の編集画面に移動できるリンクの一覧があります。さらに"
-"翻訳は、例えば :guilabel:`未翻訳の文字列` や :guilabel:`翻訳未完了の文字列` "
-"のような個別の検査結果に分類されています。プロジェクト全体がエラーなしで翻訳"
-"済みの場合であっても、:guilabel:`すべての文字列` を確認できます。また、:ref:`"
-"検索 <Searching>` 機能を使用して特定の文字列または用語の検索もできます。"
+"コンポーネントには、翻訳の編集画面に移動できるリンクの一覧があります。翻訳画"
+"面では、例えば :guilabel:`未翻訳の文字列` や :guilabel:`翻訳未完了の文字列` "
+"のように検査結果応じて個別に分類されています。プロジェクト全体がエラーなく翻"
+"訳済みの場合であっても、:guilabel:`すべての文字列` で確認できます。また"
+"、:doc:`検索 </user/search>` 機能を使用して特定の文字列または用語の検索もでき"
+"ます。"
 
 #: ../../user/translating.rst:50
 msgid "Actual permissions might vary depending on your Weblate configuration."
