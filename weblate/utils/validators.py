@@ -373,8 +373,15 @@ class WeblateURLValidator(URLValidator):
         "https",
     ]
 
+    def __call__(self, value: str | None) -> None:
+        super().__call__(value)
+        if value and confusables.is_dangerous(value):
+            raise ValidationError(
+                gettext("This website cannot be used. Please provide a different one.")
+            )
 
-class WeblateEditorURLValidator(URLValidator):
+
+class WeblateEditorURLValidator(WeblateURLValidator):
     schemes: list[str] = [  # noqa: RUF012
         "editor",
         "netbeans",
