@@ -1,3 +1,12 @@
+Weblate 5.16
+------------
+
+*Not yet released.*
+
+.. rubric:: Improvements
+
+* Validation of VCS settings :ref:`push-changes` has been extended.
+
 Weblate 5.15.2
 --------------
 
