@@ -691,7 +691,12 @@ class Unit(models.Model, LoggerMixin):
 
         """
         if "disk_state" in self.details:
-            return self.details["disk_state"]
+            disk_state = self.details["disk_state"]
+            # Compatibility code to handle disk_state without automatically_translated flag
+            # TODO: remove this in future release
+            if "automatically_translated" not in disk_state:
+                disk_state["automatically_translated"] = self.automatically_translated
+            return disk_state
 
         return {
             "target": self.target,
