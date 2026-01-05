@@ -35,6 +35,7 @@ from weblate.utils.views import parse_path
 if TYPE_CHECKING:
     from django.http import HttpResponse
     from django.http.request import HttpRequest
+    from social_core.backends.base import BaseAuth
 
     from weblate.accounts.strategy import WeblateStrategy
     from weblate.auth.models import AuthenticatedHttpRequest
@@ -432,7 +433,8 @@ class CSPBuilder:
                 social_strategy = self.request.social_strategy
             else:
                 social_strategy = load_strategy(self.request)
-            for backend in get_auth_backends().values():
+            backend_classes: list[type[BaseAuth]] = list(get_auth_backends().values())
+            for backend in backend_classes:
                 urls: list[str] = []
 
                 cache_key = f"social-auth-urls:{backend.name}"
