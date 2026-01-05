@@ -3382,15 +3382,16 @@ class Component(
             msg = gettext("Could not update repository: %s") % text
             raise ValidationError({"repo": msg}) from error
 
-        if (
-            issubclass(self.repository_class, GitMergeRequestBase)
-            and self.repo == self.push
-            and self.branch == self.push_branch
-        ):
-            msg = gettext(
-                "Pull and push branches cannot be the same when using merge requests."
-            )
-            raise ValidationError({"push_branch": msg})
+        if issubclass(self.repository_class, GitMergeRequestBase) and self.push:
+            if self.branch == self.push_branch:
+                msg = gettext(
+                    "Pull and push branches cannot be the same when using merge requests."
+                )
+                raise ValidationError({"push_branch": msg})
+
+            if not self.push_branch:
+                msg = gettext("Push branch cannot be empty when using merge requests.")
+                raise ValidationError({"push_branch": msg})
 
     def clean_file_format_params(self) -> None:
         for param in [

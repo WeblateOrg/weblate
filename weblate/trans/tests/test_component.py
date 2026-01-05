@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import os
 from typing import cast
+from unittest.mock import patch
 
 from django.core.exceptions import ValidationError
 from django.db.models import F
@@ -489,6 +490,50 @@ class ComponentTest(RepoTestCase):
             {"en", "cs", "de", "it"},
         )
         self.verify_component(component, 4, "cs", 4)
+
+    @override_settings(
+        GITHUB_CREDENTIALS={
+            "api.github.com": {
+                "username": "test",
+                "token": "token",
+            }
+        }
+    )
+    def test_vcs_validation(self) -> None:
+        component = self.create_po_push()
+
+        from weblate.vcs.models import VCS_REGISTRY
+
+        # force reload VCS list to include github
+        del VCS_REGISTRY.data
+
+        component.vcs = "github"
+
+        # check push and pull branch cannot be the same when push URL is set
+        component.repo = "https://github.com/WeblateOrg/test.git"
+        component.push = "https://github.com/WeblateOrg/test.git"
+        component.push_branch = "main"
+        with (
+            self.assertRaises(ValidationError) as cm,
+            patch("weblate.trans.models.Component.sync_git_repo", return_value=None),
+        ):
+            component.clean()
+            self.assertIn(
+                str(cm.exception),
+                "Pull and push branches cannot be the same when using merge requests",
+            )
+
+        # check push branch cannot be empty when push URL is set
+        component.push_branch = ""
+        with (
+            self.assertRaises(ValidationError),
+            patch("weblate.trans.models.Component.sync_git_repo", return_value=None),
+        ):
+            component.clean()
+            self.assertIn(
+                str(cm.exception),
+                "Push branch cannot be empty when using merge requests",
+            )
 
 
 class AutoAddonTest(RepoTestCase):
