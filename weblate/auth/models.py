@@ -77,7 +77,7 @@ if TYPE_CHECKING:
     PermissionCacheType = dict[int, PermissionList]
     SimplePermissionCacheType = dict[int, SimplePermissionList]
 
-    class PermissionsDictType(TypedDict, total=False):
+    class PermissionsDictType(TypedDict):
         projects: PermissionCacheType
         components: SimplePermissionCacheType
 
@@ -268,7 +268,7 @@ class UserManager(BaseUserManager["User"]):
         return self._create_user(username, email, password, **extra_fields)
 
     def get_or_create_bot(self, *, scope: str, name: str, verbose: str) -> User:
-        cached = bot_cache.get({})
+        cached = cast("dict[str, User]", bot_cache.get({}))
         username = f"{scope}:{name}"
         try:
             return cached[username]
@@ -571,7 +571,6 @@ class User(AbstractBaseUser):
     def __init__(self, *args, **kwargs) -> None:
         self.extra_data: dict[str, str] = {}
         self.cla_cache: dict[tuple[int, int], bool] = {}
-        self._permissions: PermissionsDictType = {}
         self.current_subscription: Subscription | None = None
         for name in self.DUMMY_FIELDS:
             if name in kwargs:
@@ -580,10 +579,8 @@ class User(AbstractBaseUser):
 
     def clear_cache(self) -> None:
         self.cla_cache = {}
-        self._permissions = {}
         perm_caches = (
-            "project_permissions",
-            "component_permissions",
+            "_permissions",
             "allowed_projects",
             "needs_component_restrictions_filter",
             "needs_project_filter",
@@ -802,7 +799,8 @@ class User(AbstractBaseUser):
     def group_enforces_2fa(self) -> bool:
         return any(group.enforced_2fa for group in self.cached_groups)
 
-    def _fetch_permissions(self) -> None:
+    @cached_property
+    def _permissions(self) -> PermissionsDictType:
         """Fetch all user permissions into a dictionary."""
         projects: PermissionCacheType = defaultdict(list)
         components: SimplePermissionCacheType = defaultdict(list)
@@ -869,20 +867,16 @@ class User(AbstractBaseUser):
                 # Remove all permissions for blocked user
                 projects[block.project_id] = [(None, None)]
 
-        self._permissions = {"projects": projects, "components": components}
+        return {"projects": projects, "components": components}
 
-    @cached_property
+    @property
     def project_permissions(self) -> PermissionCacheType:
         """List all project permissions."""
-        if not self._permissions:
-            self._fetch_permissions()
         return self._permissions["projects"]
 
-    @cached_property
+    @property
     def component_permissions(self) -> SimplePermissionCacheType:
         """List all project permissions."""
-        if not self._permissions:
-            self._fetch_permissions()
         return self._permissions["components"]
 
     @cached_property
