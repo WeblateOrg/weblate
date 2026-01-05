@@ -16,6 +16,7 @@ Weblate 5.15.2
 * Clarified needs editing/checking/rewriting states.
 * Automatically translated flag with bulk approvals.
 * GitHub forks no longer trigger actions.
+* Tighter validation of user provided websites to avoid confusing homoglyphs.
 
 .. rubric:: Compatibility
 

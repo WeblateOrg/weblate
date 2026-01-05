@@ -239,6 +239,9 @@ class WebsiteTest(SimpleTestCase):
         validator("https://domain.tld:5000")
         with self.assertRaises(ValidationError):
             validator("ftp://domain.tld")
+        with self.assertRaises(ValidationError):
+            # The first "e" is replaced with a Cyrillic character
+            validator("https://wеblate.org")
 
     def test_url_validator(self) -> None:
         validator = WeblateURLValidator()
