@@ -8,6 +8,7 @@ Weblate 5.15.2
 .. rubric:: Improvements
 
 * :ref:`addon-weblate.generate.generate` is now triggered upon installation.
+* Screenshots updated from the repository have proper history.
 
 .. rubric:: Bug fixes
 

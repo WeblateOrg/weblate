@@ -2078,6 +2078,7 @@ class Component(
         """Reset repo to match remote."""
         from weblate.trans.tasks import perform_commit
 
+        user = request.user if request else self.acting_user
         with self.repository.lock:
             previous_head = self.repository.last_revision
             # First check we're up to date
@@ -2112,7 +2113,7 @@ class Component(
 
             self.change_set.create(
                 action=ActionEvents.RESET,
-                user=request.user if request else self.acting_user,
+                user=user,
                 details={
                     "new_head": self.repository.last_revision,
                     "previous_head": previous_head,
@@ -2126,6 +2127,7 @@ class Component(
                 self.trigger_post_update(
                     previous_head=previous_head,
                     skip_push=False,
+                    user=user,
                 )
 
                 # create translation objects for all files
@@ -2544,16 +2546,20 @@ class Component(
                 self.trigger_post_update(
                     previous_head=previous_head,
                     skip_push=skip_push,
+                    user=user,
                 )
         return True
 
     @perform_on_link
-    def trigger_post_update(self, *, previous_head: str, skip_push: bool) -> None:
+    def trigger_post_update(
+        self, *, previous_head: str, skip_push: bool, user: User | None
+    ) -> None:
         vcs_post_update.send(
             sender=self.__class__,
             component=self,
             previous_head=previous_head,
             skip_push=skip_push,
+            user=user,
         )
         for component in self.linked_children:
             vcs_post_update.send(
@@ -2561,6 +2567,7 @@ class Component(
                 component=component,
                 previous_head=previous_head,
                 skip_push=skip_push,
+                user=user,
             )
 
     def get_mask_matches(self) -> list[str]:

@@ -1720,6 +1720,7 @@ class Translation(
         self.component.trigger_post_update(
             previous_head=previous_revision,
             skip_push=False,
+            user=user,
         )
 
     def get_store_change_translations(self) -> list[Translation]:

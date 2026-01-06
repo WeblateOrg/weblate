@@ -19,7 +19,7 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.translation import gettext_lazy
 
-from weblate.auth.models import get_anonymous
+from weblate.auth.models import User
 from weblate.checks.flags import Flags
 from weblate.screenshots.fields import ScreenshotField
 from weblate.trans.actions import ActionEvents
@@ -32,7 +32,6 @@ from weblate.utils.errors import report_error
 from weblate.utils.validators import validate_bitmap
 
 if TYPE_CHECKING:
-    from weblate.auth.models import User
     from weblate.trans.models import Component
 
 
@@ -159,8 +158,12 @@ def validate_screenshot_image(component: Component, filename: str) -> bool:
 
 @receiver(vcs_post_update)
 def sync_screenshots_from_repo(
-    sender, component: Component, previous_head: str, **kwargs
+    sender, component: Component, previous_head: str, user: User | None, **kwargs
 ) -> None:
+    if user is None:
+        user = User.objects.get_or_create_bot(
+            scope="weblate", name="screenshots", verbose="Screenshots from repository"
+        )
     repository = component.repository
     changed_files = repository.get_changed_files(compare_to=previous_head)
 
@@ -184,6 +187,11 @@ def sync_screenshots_from_repo(
                 )
                 screenshot.save(update_fields=["image"])
                 component.log_info("updated screenshot from repository: %s", filename)
+                screenshot.change_set.create(
+                    action=ActionEvents.SCREENSHOT_UPLOADED,
+                    user=user,
+                    target=screenshot.name,
+                )
 
     # Add new screenshots matching screenshot filemask
     for filename in changed_files:
@@ -202,7 +210,12 @@ def sync_screenshots_from_repo(
                         ),
                     ),
                     translation=component.source_translation,
-                    user=get_anonymous(),
+                    user=user,
                 )
                 screenshot.save()
                 component.log_info("create screenshot from repository: %s", filename)
+                screenshot.change_set.create(
+                    action=ActionEvents.SCREENSHOT_UPLOADED,
+                    user=user,
+                    target=screenshot.name,
+                )

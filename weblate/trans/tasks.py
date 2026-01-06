@@ -147,6 +147,7 @@ def perform_commit(
             component.trigger_post_update(
                 previous_head=previous_head,
                 skip_push=False,
+                user=user,
             )
             component.create_translations(force=True)
 
