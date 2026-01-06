@@ -18,11 +18,12 @@ from django.urls import reverse
 from django.utils import timezone
 from rest_framework.test import APITestCase
 
+from weblate.auth.models import Group
 from weblate.lang.models import Language
 from weblate.screenshots.models import Screenshot
 from weblate.screenshots.views import get_tesseract, ocr_get_strings
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Change
+from weblate.trans.models import Change, Project
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import create_test_user, get_test_file
@@ -110,6 +111,45 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
         )
         self.assertContains(response, "Picture")
         self.assertEqual(Screenshot.objects.all()[0].name, "Picture")
+
+    def test_view(self) -> None:
+        self.make_manager()
+        self.do_upload()
+        screenshot = Screenshot.objects.all()[0]
+        response = self.client.get(screenshot.get_view_url())
+        # Admin can access this
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response["content-type"], "image/png")
+
+        # Private admin access
+        self.project.access_control = Project.ACCESS_PRIVATE
+        self.project.save()
+        response = self.client.get(screenshot.get_view_url())
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response["content-type"], "image/png")
+
+        # User access
+        self.user.groups.remove(Group.objects.get(name="Managers"))
+        response = self.client.get(screenshot.get_view_url())
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response["content-type"], "image/png")
+
+        # Project privileges removed
+        self.project.remove_user(self.user)
+        response = self.client.get(screenshot.get_view_url())
+        self.assertEqual(response.status_code, 404)
+
+        # Anonymous access
+        self.client.logout()
+        response = self.client.get(screenshot.get_view_url())
+        self.assertEqual(response.status_code, 404)
+
+        # Anonymous access to public
+        self.project.access_control = Project.ACCESS_PUBLIC
+        self.project.save()
+        response = self.client.get(screenshot.get_view_url())
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response["content-type"], "image/png")
 
     def test_delete(self) -> None:
         self.make_manager()

@@ -856,11 +856,6 @@ Generic settings
 
    Configures URL prefix where Weblate is running, see :setting:`URL_PREFIX`.
 
-.. envvar:: WEBLATE_MEDIA_URL
-
-   Configures URL that handles the media served from
-   :setting:`django:MEDIA_ROOT`.
-
 .. envvar:: WEBLATE_STATIC_URL
 
    Configures URL prefix for static files server from :setting:`CACHE_DIR`.

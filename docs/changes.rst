@@ -21,6 +21,8 @@ Weblate 5.15.2
 
 .. rubric:: Compatibility
 
+* Screenshot images are no longer served directly by the HTTP server, please adjust your HTTP server by removing serving of ``/media/``.
+
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.

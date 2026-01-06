@@ -322,7 +322,6 @@ class CSPBuilder:
         self.build_csp_sentry()
         self.build_csp_piwik()
         self.build_csp_google_analytics()
-        self.build_csp_media_url()
         self.build_csp_static_url()
         self.build_csp_cdn()
         self.build_csp_auth()
@@ -400,11 +399,6 @@ class CSPBuilder:
             self.directives["script-src"].add("'unsafe-inline'")
             self.directives["script-src"].add("www.google-analytics.com")
             self.directives["img-src"].add("www.google-analytics.com")
-
-    def build_csp_media_url(self) -> None:
-        # External media URL
-        if "://" in settings.MEDIA_URL:
-            self.add_csp_host(settings.MEDIA_URL, "img-src")
 
     def build_csp_static_url(self) -> None:
         # External static URL
