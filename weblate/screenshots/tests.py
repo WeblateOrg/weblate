@@ -452,6 +452,7 @@ class ScreenshotVCSTest(APITestCase, RepoTestCase):
             self.component.trigger_post_update(
                 previous_head=last_revision,
                 skip_push=True,
+                user=None,
             )
 
         # Verify that screenshot has been updated after the signal.
@@ -482,6 +483,7 @@ class ScreenshotVCSTest(APITestCase, RepoTestCase):
             self.component.trigger_post_update(
                 previous_head=last_revision,
                 skip_push=True,
+                user=None,
             )
 
         # Verify that screenshot has been added after the signal.

@@ -242,6 +242,7 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
         self.component.trigger_post_update(
             previous_head=self.component.repository.last_revision,
             skip_push=False,
+            user=None,
         )
         self.assertEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
@@ -263,6 +264,7 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
         self.component.trigger_post_update(
             previous_head=self.component.repository.last_revision,
             skip_push=False,
+            user=None,
         )
 
         self.assertEqual([], self.component.addons_cache["__names__"])

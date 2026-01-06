@@ -174,13 +174,13 @@ class UserAPITest(APIBaseTest):
 
         self.authenticate(True)
         response = self.client.get(reverse("api:user-list"))
-        self.assertEqual(response.data["count"], 3)
+        self.assertEqual(response.data["count"], 4)
         self.assertIsNotNone(response.data["results"][0]["email"])
 
         self.authenticate(False)
         self.grant_perm_to_user("user.view")
         response = self.client.get(reverse("api:user-list"))
-        self.assertEqual(response.data["count"], 3)
+        self.assertEqual(response.data["count"], 4)
         self.assertIsNotNone(response.data["results"][0]["email"])
 
     def test_get(self) -> None:
@@ -276,7 +276,7 @@ class UserAPITest(APIBaseTest):
         self.authenticate(True)
         # Blank search should return all results for superuser
         response = self.client.get(reverse("api:user-list"), {"username": ""})
-        self.assertEqual(response.data["count"], 3)
+        self.assertEqual(response.data["count"], 4)
         # Short search should return results for superuser
         response = self.client.get(reverse("api:user-list"), {"username": "a"})
         self.assertEqual(response.data["count"], 2)
@@ -315,7 +315,7 @@ class UserAPITest(APIBaseTest):
                 "is_active": True,
             },
         )
-        self.assertEqual(User.objects.count(), 4)
+        self.assertEqual(User.objects.count(), 5)
 
     def test_delete(self) -> None:
         self.do_request(
@@ -337,7 +337,7 @@ class UserAPITest(APIBaseTest):
             superuser=True,
             code=204,
         )
-        self.assertEqual(User.objects.count(), 4)
+        self.assertEqual(User.objects.count(), 5)
         self.assertEqual(User.objects.filter(is_active=True).count(), 1)
 
     def test_add_group(self) -> None:
