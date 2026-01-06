@@ -75,7 +75,7 @@ def merge_file_format_with_encoding(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ("trans", "0061_pendingunitchange_automatically_translated"),
+        ("trans", "0062_alter_pendingunitchange_state_and_more"),
     ]
 
     operations = [
