@@ -24,11 +24,12 @@ from django.utils.translation import activate
 from openpyxl import load_workbook
 from PIL import Image
 
-from weblate.auth.models import Group, get_anonymous, setup_project_groups
+from weblate.auth.models import Group, setup_project_groups
 from weblate.lang.models import Language
 from weblate.trans.models import Component, ComponentList, Project
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.utils import (
+    clear_users_cache,
     create_another_user,
     create_test_user,
     wait_for_celery,
@@ -78,7 +79,7 @@ class RegistrationTestMixin(TestCase):
 class ViewTestCase(RepoTestCase):
     @classmethod
     def setUpTestData(cls) -> None:
-        get_anonymous.cache_clear()
+        clear_users_cache()
         super().setUpTestData()
 
     def setUp(self) -> None:
@@ -303,7 +304,7 @@ class FixtureTestCase(ViewTestCase):
             group.save()
 
         # Make sure anonymous cache is cleared
-        get_anonymous.cache_clear()
+        clear_users_cache()
 
         super().setUpTestData()
 

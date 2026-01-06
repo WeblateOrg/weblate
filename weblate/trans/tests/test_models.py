@@ -9,15 +9,14 @@ from datetime import timedelta
 from pathlib import Path
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-from django.core.management.color import no_style
-from django.db import connection, transaction
+from django.db import transaction
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.utils import timezone
 
 from weblate.auth.models import Group, User
 from weblate.checks.models import Check
-from weblate.lang.models import Language, Plural
+from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.exceptions import SuggestionSimilarToTranslationError
 from weblate.trans.models import (
@@ -39,26 +38,12 @@ from weblate.trans.tests.utils import (
     RepoTestMixin,
     create_another_user,
     create_test_user,
+    fixup_languages_seq,
 )
 from weblate.utils.django_hacks import immediate_on_commit, immediate_on_commit_leave
 from weblate.utils.files import remove_tree
 from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
 from weblate.utils.version import GIT_VERSION
-
-
-def fixup_languages_seq() -> None:
-    # Reset sequence for Language and Plural objects as
-    # we're manipulating with them in FixtureTestCase.setUpTestData
-    # and that seems to affect sequence for other tests as well
-    # on some PostgreSQL versions (probably sequence is not rolled back
-    # in a transaction).
-    commands = connection.ops.sequence_reset_sql(no_style(), [Language, Plural])
-    if commands:
-        with connection.cursor() as cursor:
-            for sql in commands:
-                cursor.execute(sql)
-    # Invalidate object cache for languages
-    Language.objects.flush_object_cache()
 
 
 class BaseTestCase(TestCase):
