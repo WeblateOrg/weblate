@@ -24,7 +24,13 @@ from weblate.accounts.notifications import (
     NotificationScope,
 )
 from weblate.api.serializers import CommentSerializer, RepoOperations
-from weblate.auth.models import Group, Permission, Role, User
+from weblate.auth.models import (
+    Group,
+    Permission,
+    Role,
+    User,
+    get_anonymous,
+)
 from weblate.lang.models import Language
 from weblate.memory.models import Memory
 from weblate.screenshots.models import Screenshot
@@ -74,6 +80,9 @@ class APIBaseTest(APITestCase, RepoTestMixin):
     def setUpTestData(cls) -> None:
         super().setUpTestData()
         fixup_languages_seq()
+
+        # Make sure anonymous cache is cleared
+        get_anonymous.cache_clear()
 
     def setUp(self) -> None:
         Language.objects.flush_object_cache()

@@ -302,6 +302,9 @@ class FixtureTestCase(ViewTestCase):
         for group in Group.objects.iterator():
             group.save()
 
+        # Make sure anonymous cache is cleared
+        get_anonymous.cache_clear()
+
         super().setUpTestData()
 
     def clone_test_repos(self) -> None:
