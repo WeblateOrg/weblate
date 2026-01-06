@@ -15,14 +15,17 @@ from celery.contrib.testing.tasks import ping  # type: ignore[import-untyped]
 from celery.result import allow_join_result
 from django.conf import settings
 from django.contrib.auth.hashers import make_password
+from django.core.management.color import no_style
+from django.db import connection
 from django.test.utils import modify_settings, override_settings
 from django.utils import timezone
 from django.utils.functional import cached_property
 
-from weblate.auth.models import User
+from weblate.auth.models import User, bot_cache, get_anonymous
 from weblate.billing.models import Billing, Invoice, Plan
 from weblate.configuration.models import Setting, SettingCategory
 from weblate.formats.models import FILE_FORMATS
+from weblate.lang.models import Language, Plural
 from weblate.trans.models import Category, Component, Project
 from weblate.utils.files import remove_tree
 from weblate.vcs.models import VCS_REGISTRY
@@ -33,6 +36,28 @@ TEST_DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "data")
 REPOWEB_URL = "https://nonexisting.weblate.org/blob/main/{{filename}}#L{{line}}"
 
 TESTPASSWORD = make_password("testpassword")
+
+
+def fixup_languages_seq() -> None:
+    # Reset sequence for Language and Plural objects as
+    # we're manipulating with them in FixtureTestCase.setUpTestData
+    # and that seems to affect sequence for other tests as well
+    # on some PostgreSQL versions (probably sequence is not rolled back
+    # in a transaction).
+    commands = connection.ops.sequence_reset_sql(no_style(), [Language, Plural])
+    if commands:
+        with connection.cursor() as cursor:
+            for sql in commands:
+                cursor.execute(sql)
+    # Invalidate object cache for languages
+    Language.objects.flush_object_cache()
+
+
+def clear_users_cache() -> None:
+    # Clear anonymous user cache
+    get_anonymous.cache_clear()
+    # Clear bot cache
+    bot_cache.get({}).clear()
 
 
 def wait_for_celery(timeout=10) -> None:

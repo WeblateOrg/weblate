@@ -29,7 +29,6 @@ from weblate.auth.models import (
     Permission,
     Role,
     User,
-    get_anonymous,
 )
 from weblate.lang.models import Language
 from weblate.memory.models import Memory
@@ -44,8 +43,13 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
-from weblate.trans.tests.test_models import fixup_languages_seq
-from weblate.trans.tests.utils import RepoTestMixin, create_test_billing, get_test_file
+from weblate.trans.tests.utils import (
+    RepoTestMixin,
+    clear_users_cache,
+    create_test_billing,
+    fixup_languages_seq,
+    get_test_file,
+)
 from weblate.utils.data import data_dir
 from weblate.utils.django_hacks import immediate_on_commit, immediate_on_commit_leave
 from weblate.utils.state import (
@@ -80,9 +84,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
     def setUpTestData(cls) -> None:
         super().setUpTestData()
         fixup_languages_seq()
-
-        # Make sure anonymous cache is cleared
-        get_anonymous.cache_clear()
+        clear_users_cache()
 
     def setUp(self) -> None:
         Language.objects.flush_object_cache()
