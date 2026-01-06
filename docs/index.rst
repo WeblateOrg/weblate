@@ -1,53 +1,51 @@
-Weblate Documentation
+Información Weblate
 =====================
 
 .. only:: not i18n
 
-  .. note::
+  .. Nota::
 
-     Weblate's documentation is available in various languages and versions.
-     Expand the "Read the Docs" panel at the bottom of the sidebar to see the
-     list.
+    La Información esta disponible en varios lenguajes y Versiones.
+
+    Expanda el apartado "leer documentos", localizado en la barra lateral para desglosar la lista.
 
 .. only:: i18n
 
-  .. note::
+  .. nota:
 
-     This documentation is translated from the `original English one
-     <https://docs.weblate.org/en/latest/>`_ by community members on
+     Este documento a sido traducido de su versión original en ingles
+     <https://docs.weblate.org/en/latest/>`_ por los miembros de la comunidad de
      `Hosted Weblate <https://hosted.weblate.org/projects/weblate/documentation/>`_.
 
-     Depending on the translation effort's completion level, you may find
-     paragraphs or whole pages which are still in English. You can help the
-     community by providing new translations or reviewing existing ones on
-     Weblate.
+     Dependiendo del grado de avance de la traducción, es posible que encuentre párrafos o páginas que aun se encuentren en inglés. Puede ayudar a la comunidad proporcionando nuevas traducciones o revisando las existentes en Weblate.
 
-Welcome to the official documentation of `Weblate <https://weblate.org>`_, the
-libre software web-based continuous localization system.
+Bienvenido a la documentación oficial de Weblate <https://weblate.org>`_, de
+software de sistema De actualizaciócontinua basado en la web.
 
-The table of contents in the sidebar should let you easily access the documentation
-for your topic of interest. You can also use the search function in the top-left corner.
+El índice en la barra lateral debería permitirte acceder fácilmente a la documentación
 
-First time here?
+Sobre el tema que te interesa. También puedes usar la función de búsqueda en la esquina superior izquierda. 
+
+Primera vez por aquí?
 -----------------
-Read the :doc:`user/basic` to get an overview of what Weblate does.
-
-Joining a translation project
+Lee el documento :doc:`user/basic` para unirse al proyecto de traducción. 
 ------------------------------
-If you would like to contribute to a project as a translator, read about :doc:`user/translating`.
+Si deseas contribuir con nosotros como traductor, lee el siguiente documento: doc:`user/translating`.
 
-Starting a translation project
--------------------------------
-For starting your own project on our cloud service Hosted Weblate, refer to :doc:`admin/projects`.
-For self-hosting your own Weblate clone, read our :doc:`admin/install`.
+
+
+Comenzando un proyecto de traducción. 
+--
+Para comenzar tu propio proyecto en nuestro servicio de la nube hospedado en Weblate, utiliza el siguiente documento: doc:`admin/projects`.
+Para self-hosting tu propio clon de Weblate clone, lee lo siguiente: doc:`admin/install`.
 
 FAQ
 ----
 Check our :doc:`faq`.
 
-Community
+Comunidaf
 ----------
-Learn more about :ref:`contributing`.
+Aprende más acerca de nosotros :ref:`contributing`.
 
 .. toctree::
     :caption: User docs
