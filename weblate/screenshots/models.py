@@ -96,6 +96,9 @@ class Screenshot(models.Model, UserDisplayMixin):
     def get_absolute_url(self) -> str:
         return reverse("screenshot", kwargs={"pk": self.pk})
 
+    def get_view_url(self) -> str:
+        return reverse("screenshot-view", kwargs={"pk": self.pk})
+
     @property
     def filter_name(self) -> str:
         return f"screenshot:{Flags.format_value(self.name)}"
