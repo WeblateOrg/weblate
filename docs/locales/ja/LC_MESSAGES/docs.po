@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-17 15:44+0100\n"
-"PO-Revision-Date: 2026-01-05 14:05+0000\n"
-"Last-Translator: amano <amano@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2026-01-06 17:01+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -38453,7 +38453,9 @@ msgstr "登録メールに時々発生する不具合を修正しました。"
 
 #: ../../changes/v4.rst:1258
 msgid "Improved LINGUAS update add-on to handle more syntax variants."
-msgstr "さらに多くの構文を処理するために、LINGUAS 更新アドオンを改善。"
+msgstr ""
+"さらに多くの構文の書き方の違いをを処理するために、LINGUAS 更新アドオンを改良"
+"。"
 
 #: ../../changes/v4.rst:1259
 msgid "Fixed editing monolingual XLIFF source file."
@@ -47321,10 +47323,8 @@ msgid "`XLIFF 2.0 translation file`"
 msgstr "`XLIFF 2.0 翻訳ファイル`"
 
 #: ../../formats/xliff2.rst:22
-#, fuzzy
-#| msgid "`XLIFF 1.2 with placeables support`"
 msgid "`XLIFF 2.0 with placeables support`"
-msgstr "`置換可能な要素に対応する XLIFF 1.2`"
+msgstr "`XLIFF 2.0（プレースホルダー対応）`"
 
 #: ../../formats/xliff2.rst:27
 msgid "`XML Localization Interchange File Format (XLIFF) 2.0`_ specification"
@@ -48458,8 +48458,8 @@ msgstr ""
 "翻訳作業を外部委託したり、クラウドソーシングで第三者に依頼したりすると、追加"
 "のセキュリティおよびプライバシー上のリスクが生じます。社内の開発チームとは異"
 "なり、翻訳者は組織との信頼関係が限定的である場合があり、さまざまな管轄区域で"
-"業務を行っている可能性があります。本モデルは、外部の翻訳協力者に関連する脅威"
-"を特定し、分類するものです。"
+"業務を行っている可能性があります。本モデルは、外部委託先の翻訳者に関連する脅"
+"威を特定し、分類するものです。"
 
 #: ../../security/localization-threat.rst:7
 msgid "Key Assumptions"
@@ -48470,42 +48470,42 @@ msgid ""
 "Translators may be contractors, volunteers, or agencies with varying levels "
 "of vetting."
 msgstr ""
-"翻訳者は、契約者、ボランティア、またはさまざまなレベルの審査を受ける代理店で"
-"ある場合があります。"
+"翻訳者は、契約者、ボランティア、またはさまざまなレベルの審査を受ける外部委託"
+"先である場合があります。"
 
 #: ../../security/localization-threat.rst:9
-#, fuzzy
-#| msgid "Loads translations from the files into Weblate."
 msgid "Translators require access to Weblate."
-msgstr "翻訳をファイルから Weblate に読み込みます。"
+msgstr "翻訳者は Weblate へのアクセスが必要です。"
 
 #: ../../security/localization-threat.rst:10
 msgid ""
 "Translation strings may contain sensitive content such as unreleased "
 "features, legal terms, or security messages."
 msgstr ""
+"翻訳文字列には、未公開機能、法的文言、セキュリティ関連メッセージなど、機密性"
+"の高い内容が含まれている場合があります。"
 
 #: ../../security/localization-threat.rst:11
 msgid ""
 "The organization has limited control over translators' local environments."
-msgstr ""
+msgstr "組織は翻訳者のローカル環境を完全には管理できません。"
 
 #: ../../security/localization-threat.rst:14
 msgid "Threat Categories (STRIDE)"
-msgstr ""
+msgstr "脅威カテゴリ（STRIDE）"
 
 #: ../../security/localization-threat.rst:17
 msgid "1. Spoofing"
-msgstr ""
+msgstr "1. なりすまし（Spoofing）"
 
 #: ../../security/localization-threat.rst:19
 msgid "**S1. Fake translator accounts impersonating legitimate contributors.**"
-msgstr ""
+msgstr "**S1. 正規の翻訳者を装った偽の翻訳者アカウント。**"
 
 #: ../../security/localization-threat.rst:21
 msgid ""
 "Risk: Unauthorized access to projects or injection of malicious strings."
-msgstr ""
+msgstr "リスク: プロジェクトへの不正アクセスまたは悪意のある文字列の挿入。"
 
 #: ../../security/localization-threat.rst:22
 #: ../../security/localization-threat.rst:34
@@ -48519,38 +48519,34 @@ msgid "Mitigations:"
 msgstr "軽減策:"
 
 #: ../../security/localization-threat.rst:24
-#, fuzzy
-#| msgid ""
-#| "This can be enforced for users at the project (see :ref:`project-"
-#| "enforced_2fa`) or team level."
 msgid "Enforce strong authentication (2FA); see :ref:`project-enforced_2fa`."
-msgstr ""
-"この設定は、プロジェクト（参照: :ref:`project-enforced_2fa`）またはチーム単位"
-"で、ユーザーに対して強制できます。"
+msgstr "強力な認証（2FA）を強制する（参照: :ref:`project-enforced_2fa`）。"
 
 #: ../../security/localization-threat.rst:25
-#, fuzzy
-#| msgid "Provide context to the translators"
 msgid "Verify identities of contracted translators."
-msgstr "翻訳者に詳細内容を提供する"
+msgstr "契約した翻訳者の身元を確認する。"
 
 #: ../../security/localization-threat.rst:26
 msgid "Use role-based access to limit project scope; see :ref:`acl`."
 msgstr ""
+"ロールベースのアクセス権を使用して、プロジェクトの範囲を制限する（参照: "
+":ref:`acl`）。"
 
 #: ../../security/localization-threat.rst:29
 msgid "2. Tampering"
-msgstr ""
+msgstr "2. 改ざん（Tampering）"
 
 #: ../../security/localization-threat.rst:31
 msgid "**T1. Malicious translations embedding harmful payloads.**"
-msgstr ""
+msgstr "**T1. 悪意ある翻訳による有害ペイロードの埋め込み。**"
 
 #: ../../security/localization-threat.rst:33
 msgid ""
 "Risk: Injection of JavaScript, HTML, or format-string attacks if "
 "translations are not properly escaped."
 msgstr ""
+"リスク: 翻訳が適切にエスケープされていない場合、JavaScript、HTML、"
+"フォーマット文字列攻撃が注入される可能性。"
 
 #: ../../security/localization-threat.rst:36
 msgid ""
@@ -48558,12 +48554,13 @@ msgid ""
 "like :ref:`check-safe-html` might help. See :ref:`checks` "
 "and :ref:`component-enforced_checks`."
 msgstr ""
+"Weblate で厳格な入力バリデーションを適用してください。:ref:`check-safe-html` "
+"のような品質検査を強制することで改善できる場合があります。参照: "
+":ref:`checks` および :ref:`component-enforced_checks`。"
 
 #: ../../security/localization-threat.rst:37
-#, fuzzy
-#| msgid "Fixed handling of translation files ignored in Git."
 msgid "Use automated security scanning for translation files in your CI."
-msgstr "Git で無視する翻訳ファイルの扱いの修正。"
+msgstr "CI で翻訳ファイルに対する自動セキュリティ スキャンを実行してください。"
 
 #: ../../security/localization-threat.rst:38
 msgid ""
@@ -48571,18 +48568,21 @@ msgid ""
 "used localization framework, this might be implicit, opt-in, or require a "
 "third-party library."
 msgstr ""
+"翻訳ファイルで危険なマークアップの使用を制限してください。使用している現地語"
+"化フレームワークによっては、これが暗黙的に処理される場合もあれば、手動で有効"
+"化が必要な場合、あるいはサードパーティ ライブラリを必要とする場合もあります。"
 
 #: ../../security/localization-threat.rst:40
-#, fuzzy
-#| msgid "Integration of machine translation services."
 msgid "**T2. Insertion of misleading translations.**"
-msgstr "機械翻訳サービスとの連携。"
+msgstr "**T2. 誤解を招く翻訳の挿入**"
 
 #: ../../security/localization-threat.rst:42
 msgid ""
 "Risk: Users misled about application behavior (e.g., consent dialogs "
 "mistranslated)."
 msgstr ""
+"リスク: アプリケーションの動作についてユーザーを誤解させる可能性（例: 同意"
+"ダイアログの誤訳など）。"
 
 #: ../../security/localization-threat.rst:45
 #: ../../security/localization-threat.rst:123
@@ -48590,239 +48590,242 @@ msgid ""
 "Perform peer review of critical strings; see :ref:`peer-review` "
 "or :ref:`reviews`."
 msgstr ""
+"重要な文字列については査読を実施してください。参照: :ref:`peer-review` また"
+"は :ref:`reviews`。"
 
 #: ../../security/localization-threat.rst:46
 msgid "Maintain style guides and :ref:`glossary` to prevent manipulation."
-msgstr ""
+msgstr "改ざんを防ぐため、スタイルガイドと :ref:`glossary` を維持し管理してください。"
 
 #: ../../security/localization-threat.rst:49
-#, fuzzy
-#| msgid "**activity**"
 msgid "3. Repudiation"
-msgstr "**activity**"
+msgstr "3. 否認（Repudiation）"
 
 #: ../../security/localization-threat.rst:51
 msgid "**R1. Disputes over malicious or poor-quality translations.**"
-msgstr ""
+msgstr "**R1. 悪意のある翻訳や品質の低い翻訳をめぐる争い**"
 
 #: ../../security/localization-threat.rst:53
 msgid "Risk: Translators deny responsibility for injected issues."
-msgstr ""
+msgstr "リスク: 挿入された問題について翻訳者が責任を否認する可能性。"
 
 #: ../../security/localization-threat.rst:56
-#, fuzzy
-#| msgid "Allow changes to the Weblate repository"
 msgid "All changes in Weblate are logged."
-msgstr "Weblate のリポジトリに対する変更を許可する"
+msgstr "Weblate で行われたすべての変更は記録されます。"
 
 #: ../../security/localization-threat.rst:57
 msgid "Use Weblate with version control for immutable history."
 msgstr ""
+"履歴の改ざんを防止するため、バージョン管理と併用させて Weblate を使用してくだ"
+"さい。"
 
 #: ../../security/localization-threat.rst:60
-#, fuzzy
-#| msgid "Information about project"
 msgid "4. Information Disclosure"
-msgstr "プロジェクトについての情報"
+msgstr "4. 情報漏えい（Information Disclosure）"
 
 #: ../../security/localization-threat.rst:62
 msgid "**I1. Leakage of unreleased product details.**"
-msgstr ""
+msgstr "**I1. 未公開の製品情報の漏えい。**"
 
 #: ../../security/localization-threat.rst:64
 msgid ""
 "Risk: Translators gain early access to unreleased features or confidential "
 "terminology."
-msgstr ""
+msgstr "リスク: 翻訳者が未公開の機能や機密の用語に早期アクセスしてしまう可能性。"
 
 #: ../../security/localization-threat.rst:67
 msgid "Segment projects to limit access to sensitive strings."
 msgstr ""
+"機密性の高い文字列へのアクセスを制限するため、プロジェクトを分割してください"
+"。"
 
 #: ../../security/localization-threat.rst:68
 msgid "Apply non-disclosure agreements with external agencies."
-msgstr ""
+msgstr "外部委託先には秘密保持契約（NDA）を適用してください。"
 
 #: ../../security/localization-threat.rst:69
 msgid "Delay translation of highly confidential strings until public release."
-msgstr ""
+msgstr "極めて機密性の高い文字列の翻訳は、公開後まで延期してください。"
 
 #: ../../security/localization-threat.rst:71
 msgid "**I2. Exposure of personal data within strings.**"
-msgstr ""
+msgstr "**I2. 文字列内の個人データの公開**"
 
 #: ../../security/localization-threat.rst:73
 msgid "Risk: Translators might access or misuse embedded user data."
 msgstr ""
+"リスク: 翻訳者が埋め込まれたユーザーデータにアクセスしたり、不正に利用したり"
+"する可能性。"
 
 #: ../../security/localization-threat.rst:76
-#, fuzzy
-#| msgid ""
-#| "Possible discarding pending translations after editing source strings."
 msgid "Avoid exposing real user data in source strings."
-msgstr "原文編集後、保留中の翻訳は破棄されることがある。"
+msgstr "原文に実際のユーザーデータを含めないようにしてください。"
 
 #: ../../security/localization-threat.rst:77
-#, fuzzy
-#| msgid "The placeholders check can now be case-insensitive as well."
 msgid "Use placeholders for sensitive fields."
-msgstr "プレースホルダーの検査でも、大文字と小文字を区別できるように変更。"
+msgstr "機密性の高い項目にはプレースホルダーを使用してください。"
 
 #: ../../security/localization-threat.rst:80
-#, fuzzy
-#| msgid "Terms of Service"
 msgid "5. Denial of Service"
-msgstr "利用規約"
+msgstr "5. サービス拒否（Denial of Service）"
 
 #: ../../security/localization-threat.rst:82
 msgid "**D1. Bulk submission of junk translations.**"
-msgstr ""
+msgstr "**D1. ジャンク翻訳の一括送信**"
 
 #: ../../security/localization-threat.rst:84
 msgid "Risk: Review queues overwhelmed; release timelines disrupted."
-msgstr ""
+msgstr "リスク：査読キューが溢れかえり、リリースのスケジュールに支障をきたす。"
 
 #: ../../security/localization-threat.rst:87
 msgid ""
 "Choose an appropriate workflow to match your team capacity. :ref:`workflow-"
 "customization` can allow you to tweak this on a language basis."
 msgstr ""
+"チームの処理能力に応じた適切なワークフローを選択してください。:ref:`workflow-"
+"customization` により、言語単位で詳細に設定できます。"
 
 #: ../../security/localization-threat.rst:88
-#, fuzzy
-#| msgid "Fixed automatic translation with more services."
 msgid "Configure automated translation quality checks; see :ref:`checks`."
-msgstr "多くのサービスで自動翻訳を修正。"
+msgstr "翻訳の品質検査の自動化を設定してください。参照: :ref:`checks`。"
 
 #: ../../security/localization-threat.rst:91
-#, fuzzy
-#| msgid "List of privileges"
 msgid "6. Elevation of Privilege"
-msgstr "権限一覧"
+msgstr "6. 権限昇格（Elevation of Privilege）"
 
 #: ../../security/localization-threat.rst:93
 msgid ""
 "**E1. The translator gains unauthorized project-wide or administrative "
 "rights.**"
-msgstr ""
+msgstr "**E1. 翻訳者が、プロジェクト全体または管理者レベルの権限を不正に取得する。**"
 
 #: ../../security/localization-threat.rst:95
 msgid "Risk: Escalation leading to tampering or data exposure."
 msgstr ""
+"リスク：権限のエスカレーションが発生し、改ざんまたはデータ露出を招く可能性が"
+"ある。"
 
 #: ../../security/localization-threat.rst:98
 msgid "Apply the principle of least privilege."
-msgstr ""
+msgstr "必要最小限の権限のみを付与する原則を適用すること。"
 
 #: ../../security/localization-threat.rst:99
 msgid "Regularly review access rights and group memberships."
-msgstr ""
+msgstr "アクセス権とグループのメンバーを定期的に確認すること。"
 
 #: ../../security/localization-threat.rst:102
 msgid "Asset Inventory"
-msgstr ""
+msgstr "資産一覧（Asset Inventory）"
 
 #: ../../security/localization-threat.rst:104
 msgid ""
 "**Source Strings:** May contain unreleased product features or legal text."
-msgstr ""
+msgstr "**原文:** 未公開の製品機能や法的文言を含む場合があります。"
 
 #: ../../security/localization-threat.rst:105
 msgid "**Translated Strings:** Output presented directly to end users."
 msgstr ""
+"**翻訳済みの文字列:** 翻訳後の文字列であり、エンドユーザーにそのまま表示され"
+"る内容。"
 
 #: ../../security/localization-threat.rst:106
 msgid ""
 "**User Data Placeholders:** Names, emails, or IDs referenced in strings."
 msgstr ""
+"**ユーザーデータのプレースホルダー:** 文字列内で参照される名前、"
+"メールアドレス、ID などのユーザーデータ用プレースホルダー。"
 
 #: ../../security/localization-threat.rst:107
 msgid "**Access Credentials:** Accounts for translators, agencies, or bots."
-msgstr ""
+msgstr "**アクセス資格情報:** 翻訳者、翻訳の外部委託先、またはボット用のアカウント。"
 
 #: ../../security/localization-threat.rst:110
 msgid "Trust Boundaries"
-msgstr ""
+msgstr "頼の境界（Trust Boundaries）"
 
 #: ../../security/localization-threat.rst:112
 msgid ""
 "**Organization ↔ Translators:** Authentication and role-based access must be "
 "enforced."
 msgstr ""
+"**組織 ↔ 翻訳者:** 認証とロールに基づくアクセス制御を厳格に実施することが必要"
+"です。"
 
 #: ../../security/localization-threat.rst:113
 msgid ""
 "**Translation Platform ↔ Source Control:** Synchronization requires secured "
 "tokens/keys."
 msgstr ""
+"**翻訳プラットフォーム ↔ ソース管理:** 同期にはセキュリティ保護された "
+"トークン/キー が必要です。"
 
 #: ../../security/localization-threat.rst:114
 msgid ""
 "**Translators ↔ Translation Platform:** All input must be sanitized before "
 "integration into builds."
 msgstr ""
+"**翻訳者 ↔ 翻訳プラットフォーム:** ビルドに取り込む前に、すべての入力データを"
+"検証、無害化（サニタイズ）することが必要です。"
 
 #: ../../security/localization-threat.rst:115
 msgid ""
 "**Platform ↔ End Users:** Translations must be validated to prevent code "
 "injection."
 msgstr ""
+"**プラットフォーム ↔ エンド ユーザー:** コードインジェクション防止のため、翻"
+"訳結果は必ず検証を行うことが必要です。"
 
 #: ../../security/localization-threat.rst:118
-#, fuzzy
-#| msgid "Translation summary"
 msgid "Mitigation Summary"
-msgstr "翻訳の概要"
+msgstr "緩和策の概要（Mitigation Summary）"
 
 #: ../../security/localization-threat.rst:120
-#, fuzzy
-#| msgid ""
-#| "This can be enforced for users at the project (see :ref:`project-"
-#| "enforced_2fa`) or team level."
 msgid ""
 "Enforce 2FA and RBAC for translator accounts; see :ref:`project-"
 "enforced_2fa`."
 msgstr ""
-"この設定は、プロジェクト（参照: :ref:`project-enforced_2fa`）またはチーム単位"
-"で、ユーザーに対して強制できます。"
+"翻訳者アカウントには 2FA と RBAC を必ず適用してください。参照: :ref:`project-"
+"enforced_2fa`。"
 
 #: ../../security/localization-threat.rst:121
 msgid ""
 "Require non-disclosure agreements or contracts for professional translators."
-msgstr ""
+msgstr "プロの翻訳者には、秘密保持契約（NDA）または必ず契約書を締結してください。"
 
 #: ../../security/localization-threat.rst:122
 msgid ""
 "Use automated quality/security scanning for translations; see :ref:`checks`."
 msgstr ""
+"翻訳には自動的な品質、セキュリティ検査を適用してください。参照: "
+":ref:`checks`。"
 
 #: ../../security/localization-threat.rst:124
 msgid ""
 "Limit project visibility to reduce exposure of sensitive content; "
 "see :ref:`acl`."
 msgstr ""
+"プロジェクトの公開範囲を制限して、機密コンテンツの公開を減らしてください。参"
+"照: :ref:`acl`。"
 
 #: ../../security/localization-threat.rst:125
 msgid ""
 "Regularly patch and harden your Weblate server. You might also "
 "consider :doc:`/admin/support`."
 msgstr ""
+"Weblate サーバーは定期的にパッチ適用とハードニングを行ってください。:doc:`/"
+"admin/support` の使用も検討してください。"
 
 #: ../../security/localization-threat.rst:126
-#, fuzzy
-#| msgid ""
-#| "Automatically adds or removes project components based on file changes in "
-#| "the version control system."
 msgid ""
 "Retain immutable version history for all translation changes in the version "
 "control system."
 msgstr ""
-"バージョン管理システムのファイル変更に基づいて、プロジェクトコンポーネントを"
-"自動的に追加または削除します。"
+"バージョン管理システムで、すべての翻訳の変更に対する改ざんが不可能な"
+"バージョン履歴を保存してください。"
 
 #: ../../security/localization-threat.rst:129
 msgid "Conclusion"
-msgstr ""
+msgstr "結論（Conclusion）"
 
 #: ../../security/localization-threat.rst:131
 msgid ""
@@ -48832,12 +48835,14 @@ msgid ""
 "external translation services while maintaining product integrity and "
 "compliance."
 msgstr ""
+"外部委託先の翻訳者は、社内翻訳者に比べて特有のリスクをもたらします。適切な技"
+"術的、組織的、そして契約上の管理体制を整備することで、組織はこれらのリスクを"
+"軽減し、製品の完全性とコンプライアンスを維持しながら、外部の翻訳サービスを安"
+"全に統合することができます。"
 
 #: ../../security/passwords.rst:2
-#, fuzzy
-#| msgid "Password reset"
 msgid "Password security"
-msgstr "パスワードのリセット"
+msgstr "パスワード セキュリティ"
 
 #: ../../security/passwords.rst:5
 msgid "How Weblate stores passwords"
@@ -48848,80 +48853,70 @@ msgid ""
 "Weblate uses a Django implementation to store hashed passwords; "
 "see :ref:`django:auth_password_storage`."
 msgstr ""
+"Weblate は、ハッシュ化されたパスワードを保存するために Django の実装を使用し"
+"ています。参照: :ref:`django:auth_password_storage`。"
 
 #: ../../security/passwords.rst:9
 msgid ""
 "The recommended Weblate configuration uses Argon2 with time_cost = 2, "
 "memory_cost = 102400, and parallelism = 8."
 msgstr ""
+"推奨される Weblate の設定では、Argon2 を使用し、time_cost = 2、memory_cost = "
+"102400、parallelism = 8 に設定されています。"
 
 #: ../../security/passwords.rst:13
-#, fuzzy
-#| msgid ""
-#| "The backup creation can be customized using :setting:`BORG_EXTRA_ARGS`."
 msgid ""
 "The password hashing can be customized "
 "using :setting:`django:PASSWORD_HASHERS`."
 msgstr ""
-"バックアップの作成は、:setting:`BORG_EXTRA_ARGS` を使用してカスタマイズできま"
-"す。"
+"パスワードのハッシュ化は、:setting:`django:PASSWORD_HASHERS` を使用して"
+"カスタマイズします。"
 
 #: ../../security/passwords.rst:16
-#, fuzzy
-#| msgid "Password authentication"
 msgid "Password validation"
-msgstr "パスワード認証"
+msgstr "パスワードの検証"
 
 #: ../../security/passwords.rst:18
 msgid ""
 "When a user is configuring a password, it is validated to reduce the risk of "
 "using weak passwords."
 msgstr ""
+"ユーザーがパスワードを設定したとき、弱いパスワードの使用リスクを減らすために"
+"検証が行われます。"
 
 #: ../../security/passwords.rst:20
 msgid "The recommended Weblate configuration verifies:"
 msgstr "推奨される Weblate 設定の検証項目:"
 
 #: ../../security/passwords.rst:22
-#, fuzzy
-#| msgid ""
-#| "This password is too long. It must contain at most %(max_length)d "
-#| "character."
-#| msgid_plural ""
-#| "This password is too long. It must contain at most %(max_length)d "
-#| "characters."
 msgid ""
 "The password has to be at least 10 characters long, and at most 72 "
 "characters long."
-msgstr ""
-"このパスワードは長すぎます。%(max_length)d 文字以内で入力してください。"
+msgstr "パスワードは 10 文字以上で、最大 72 文字以上が必須です。"
 
 #: ../../security/passwords.rst:23
 msgid "Password similar to username and other attributes is rejected."
-msgstr ""
+msgstr "ユーザー名やその他の属性と類似したパスワードは拒否されます。"
 
 #: ../../security/passwords.rst:24
 msgid "A common or overly simple password is rejected."
-msgstr ""
+msgstr "よく使われるパスワードや、あまりに単純なパスワードは拒否されます。"
 
 #: ../../security/passwords.rst:25
 msgid "Any password user used recently is rejected."
-msgstr ""
+msgstr "ユーザーが最近設定したパスワードはすべて拒否されます。"
 
 #: ../../security/passwords.rst:26
 msgid "Password strength is optionally checked using the zxcvbn algorithm."
-msgstr ""
+msgstr "パスワードの強度は、設定すると zxcvbn アルゴリズムを用いて検証されます。"
 
 #: ../../security/passwords.rst:30
-#, fuzzy
-#| msgid ""
-#| "The backup creation can be customized using :setting:`BORG_EXTRA_ARGS`."
 msgid ""
 "The password validation can be customized "
 "using :setting:`django:AUTH_PASSWORD_VALIDATORS`."
 msgstr ""
-"バックアップの作成は、:setting:`BORG_EXTRA_ARGS` を使用してカスタマイズできま"
-"す。"
+"パスワードの検証は :setting:`django:AUTH_PASSWORD_VALIDATORS` を使用して"
+"カスタマイズします。"
 
 #: ../../security/passwords.rst:33
 #, fuzzy
