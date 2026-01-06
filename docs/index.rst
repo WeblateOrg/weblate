@@ -24,17 +24,17 @@ software de sistema De actualizaciócontinua basado en la web.
 
 El índice en la barra lateral debería permitirte acceder fácilmente a la documentación
 
-Sobre el tema que te interesa. También puedes usar la función de búsqueda en la esquina superior izquierda. 
+Sobre el tema que te interesa. También puedes usar la función de búsqueda en la esquina superior izquierda.
 
 Primera vez por aquí?
 -----------------
-Lee el documento :doc:`user/basic` para unirse al proyecto de traducción. 
+Lee el documento :doc:`user/basic` para unirse al proyecto de traducción.
 ------------------------------
 Si deseas contribuir con nosotros como traductor, lee el siguiente documento: doc:`user/translating`.
 
 
 
-Comenzando un proyecto de traducción. 
+Comenzando un proyecto de traducción.
 --
 Para comenzar tu propio proyecto en nuestro servicio de la nube hospedado en Weblate, utiliza el siguiente documento: doc:`admin/projects`.
 Para self-hosting tu propio clon de Weblate clone, lee lo siguiente: doc:`admin/install`.
