@@ -509,31 +509,33 @@ class ComponentTest(RepoTestCase):
 
         component.vcs = "github"
 
-        # check push and pull branch cannot be the same when push URL is set
-        component.repo = "https://github.com/WeblateOrg/test.git"
-        component.push = "https://github.com/WeblateOrg/test.git"
-        component.push_branch = "main"
-        with (
-            self.assertRaises(ValidationError) as cm,
-            patch("weblate.trans.models.Component.sync_git_repo", return_value=None),
-        ):
-            component.clean()
-            self.assertIn(
-                str(cm.exception),
-                "Pull and push branches cannot be the same when using merge requests",
-            )
-
         # check push branch cannot be empty when push URL is set
         component.push_branch = ""
         with (
-            self.assertRaises(ValidationError),
             patch("weblate.trans.models.Component.sync_git_repo", return_value=None),
+            self.assertRaises(ValidationError) as cm,
         ):
             component.clean()
-            self.assertIn(
-                str(cm.exception),
-                "Push branch cannot be empty when using merge requests",
-            )
+        self.assertIn(
+            "Push branch cannot be empty when using merge requests",
+            str(cm.exception),
+        )
+
+        # check push and pull branch cannot be the same when push URL is set
+        component.push_branch = "main"
+        with (
+            patch("weblate.trans.models.Component.sync_git_repo", return_value=None),
+            self.assertRaises(ValidationError) as cm,
+        ):
+            component.clean()
+        self.assertIn(
+            "Pull and push branches cannot be the same when using merge requests",
+            str(cm.exception),
+        )
+
+        # valid settings
+        component.push_branch = "branch"
+        component.clean()
 
 
 class AutoAddonTest(RepoTestCase):
