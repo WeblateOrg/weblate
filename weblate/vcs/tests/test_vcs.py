@@ -1638,10 +1638,9 @@ class VCSGitLabTest(VCSGitUpstreamTest):
         self.assertGreater(initial_count, 0)
 
         # Scenario 1: Simulate the commit being pushed to fork
-        # The fork branch name is weblate-{project}-{component}
-        # (matches the logic in push() method)
+        # The fork branch name is from get_fork_branch_name() method
         credentials = self.repo.get_credentials()
-        fork_branch_name = f"weblate-{self.repo.component.project.slug}-{self.repo.component.slug}"
+        fork_branch_name = self.repo.get_fork_branch_name()
         fork_ref = f"refs/remotes/{credentials['username']}/{fork_branch_name}"
         self.repo.execute(["update-ref", fork_ref, "HEAD"])
 

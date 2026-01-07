@@ -881,6 +881,12 @@ class GitMergeRequestBase(GitForcePushRepository):
     REQUIRED_CONFIG: ClassVar[set[str]] = {"username", "token"}
     OPTIONAL_CONFIG: ClassVar[set[str]] = {"scheme"}
 
+    def get_fork_branch_name(self) -> str:
+        """Get the fork branch name used for pushing."""
+        if self.component is not None:
+            return f"weblate-{self.component.project.slug}-{self.component.slug}"
+        return f"weblate-{self.branch}"
+
     def count_outgoing(self, branch: str | None = None) -> int:
         """
         Count outgoing commits.
@@ -891,13 +897,8 @@ class GitMergeRequestBase(GitForcePushRepository):
         duplicate merge requests when commits have already been merged, while also
         avoiding unnecessary pushes when commits are already in the fork.
         """
-        target_branch = self.branch if branch is None else branch
-        origin_branch = f"origin/{target_branch}"
-
-        # First check if commits are already in origin (merged)
-        origin_outgoing = len(
-            self.log_revisions(self.ref_from_remote.format(origin_branch))
-        )
+        # Omit branch to look at pull branch, not push branch
+        origin_outgoing = super().count_outgoing()
         if origin_outgoing == 0:
             # All commits are in origin, nothing to push
             return 0
@@ -907,10 +908,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         # computed from component info
         credentials = self.get_credentials()
         fork_remote = credentials["username"]
-        if self.component is not None:
-            fork_branch_name = f"weblate-{self.component.project.slug}-{self.component.slug}"
-        else:
-            fork_branch_name = f"weblate-{target_branch}"
+        fork_branch_name = self.get_fork_branch_name()
         fork_branch = f"{fork_remote}/{fork_branch_name}"
 
         try:
@@ -1140,12 +1138,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         else:
             fork_remote = credentials["username"]
             self.fork(credentials)
-            if self.component is not None:
-                fork_branch = (
-                    f"weblate-{self.component.project.slug}-{self.component.slug}"
-                )
-            else:
-                fork_branch = f"weblate-{self.branch}"
+            fork_branch = self.get_fork_branch_name()
             self.push_to_fork(credentials, self.branch, fork_branch)
         self.create_pull_request(credentials, self.branch, fork_remote, fork_branch)
 
