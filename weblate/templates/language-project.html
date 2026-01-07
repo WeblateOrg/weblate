@@ -228,7 +228,22 @@
               {% translate "Upload" %}
             </h4>
           </div>
-          <div class="card-body">{% translate "The translation files have to be uploaded into individual translations." %}</div>
+          <div class="card-body">
+            <p>
+              {% blocktranslate %}
+                This page shows all translations in the project for this language.
+                Translation files need to be uploaded on the individual component
+                translation pages. Open the translations list on this page and
+                select the component translation you want to update to upload
+                its file.
+              {% endblocktranslate %}
+            </p>
+            <p>
+              <a href="https://docs.weblate.org/en/latest/user/files.html#uploading-translations">
+                {% translate "Read more about uploading translations in the documentation." %}
+              </a>
+            </p>
+          </div>
         </div>
       </div>
     {% endif %}
