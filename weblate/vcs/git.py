@@ -889,9 +889,15 @@ class GitMergeRequestBase(GitForcePushRepository):
         not the fork remote, to determine if commits are already in the upstream
         repository. This prevents creating duplicate merge requests when commits
         have already been merged.
+
+        Unlike push operations which use the fork remote, counting outgoing commits
+        should always compare against the upstream origin to detect if changes have
+        been merged.
         """
-        # Use origin remote instead of fork when counting outgoing commits
-        remote_branch = f"origin/{self.branch if branch is None else branch}"
+        # Always use origin remote (not fork) when counting outgoing commits
+        # to check if our changes are already in the upstream repository
+        target_branch = self.branch if branch is None else branch
+        remote_branch = f"origin/{target_branch}"
         return len(self.log_revisions(self.ref_from_remote.format(remote_branch)))
 
     def merge(

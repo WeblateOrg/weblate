@@ -1629,21 +1629,22 @@ class VCSGitLabTest(VCSGitUpstreamTest):
     def test_count_outgoing_after_merge(self) -> None:
         """Test that count_outgoing correctly detects no pending changes after merge."""
         self.repo.component.repo = "https://gitlab.com/WeblateOrg/test.git"
-        
+
         # Make a commit locally
         self.test_commit()
-        
+
         # Verify there are outgoing commits before merge
         self.assertTrue(self.repo.count_outgoing() > 0)
-        
+
         # Simulate the commit being merged to origin by updating the origin ref
         # In a real scenario, after a merge request is merged and git fetch is done,
-        # origin/main would contain the local commits
-        self.repo.execute(["update-ref", "refs/remotes/origin/main", "HEAD"])
-        
+        # origin/{branch} would contain the local commits
+        origin_ref = f"refs/remotes/origin/{self.repo.branch}"
+        self.repo.execute(["update-ref", origin_ref, "HEAD"])
+
         # Now count_outgoing should return 0 since origin has our commits
         self.assertEqual(self.repo.count_outgoing(), 0)
-        
+
         # Verify with explicit branch parameter
         self.assertEqual(self.repo.count_outgoing(self.repo.branch), 0)
 
