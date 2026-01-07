@@ -1633,16 +1633,28 @@ class VCSGitLabTest(VCSGitUpstreamTest):
         # Make a commit locally
         self.test_commit()
 
-        # Verify there are outgoing commits before merge
-        self.assertTrue(self.repo.count_outgoing() > 0)
+        # Verify there are outgoing commits before any push/merge
+        initial_count = self.repo.count_outgoing()
+        self.assertTrue(initial_count > 0)
 
-        # Simulate the commit being merged to origin by updating the origin ref
+        # Scenario 1: Simulate the commit being pushed to fork
+        # The fork branch name is weblate-{project}-{component}
+        credentials = self.repo.get_credentials()
+        fork_branch_name = f"weblate-{self.repo.component.project.slug}-{self.repo.component.slug}"
+        fork_ref = f"refs/remotes/{credentials['username']}/{fork_branch_name}"
+        self.repo.execute(["update-ref", fork_ref, "HEAD"])
+
+        # count_outgoing should now be 0 since fork has our commits
+        # (even though origin doesn't yet - MR is pending)
+        self.assertEqual(self.repo.count_outgoing(), 0)
+
+        # Scenario 2: Simulate the merge request being merged to origin
         # In a real scenario, after a merge request is merged and git fetch is done,
         # origin/{branch} would contain the local commits
         origin_ref = f"refs/remotes/origin/{self.repo.branch}"
         self.repo.execute(["update-ref", origin_ref, "HEAD"])
 
-        # Now count_outgoing should return 0 since origin has our commits
+        # count_outgoing should still return 0 since origin has our commits
         self.assertEqual(self.repo.count_outgoing(), 0)
 
         # Verify with explicit branch parameter

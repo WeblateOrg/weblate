@@ -885,20 +885,45 @@ class GitMergeRequestBase(GitForcePushRepository):
         """
         Count outgoing commits.
 
-        For merge request workflows, we need to check against the origin remote,
-        not the fork remote, to determine if commits are already in the upstream
-        repository. This prevents creating duplicate merge requests when commits
-        have already been merged.
-
-        Unlike push operations which use the fork remote, counting outgoing commits
-        should always compare against the upstream origin to detect if changes have
-        been merged.
+        For merge request workflows, we need to check against both the origin
+        remote (to see if commits are already merged) and the fork remote (to see
+        if commits are already pushed but not merged). This prevents creating
+        duplicate merge requests when commits have already been merged, while also
+        avoiding unnecessary pushes when commits are already in the fork.
         """
-        # Always use origin remote (not fork) when counting outgoing commits
-        # to check if our changes are already in the upstream repository
         target_branch = self.branch if branch is None else branch
-        remote_branch = f"origin/{target_branch}"
-        return len(self.log_revisions(self.ref_from_remote.format(remote_branch)))
+        origin_branch = f"origin/{target_branch}"
+        
+        # First check if commits are already in origin (merged)
+        origin_outgoing = len(
+            self.log_revisions(self.ref_from_remote.format(origin_branch))
+        )
+        if origin_outgoing == 0:
+            # All commits are in origin, nothing to push
+            return 0
+        
+        # Check if commits are in the fork (already pushed)
+        # The fork branch has a different name (weblate-project-component)
+        # computed from component info
+        if self.component is not None:
+            credentials = self.get_credentials()
+            fork_remote = credentials["username"]
+            fork_branch_name = f"weblate-{self.component.project.slug}-{self.component.slug}"
+            fork_branch = f"{fork_remote}/{fork_branch_name}"
+            
+            try:
+                fork_outgoing = len(
+                    self.log_revisions(self.ref_from_remote.format(fork_branch))
+                )
+                # If fork has all commits, don't need to push
+                if fork_outgoing == 0:
+                    return 0
+            except RepositoryError:
+                # Fork branch doesn't exist yet, fall through to return origin count
+                pass
+        
+        # Commits are not in origin or fork, need to push
+        return origin_outgoing
 
     def merge(
         self, abort: bool = False, message: str | None = None, no_ff: bool = False
