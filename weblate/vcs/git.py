@@ -881,7 +881,7 @@ class GitMergeRequestBase(GitForcePushRepository):
     REQUIRED_CONFIG: ClassVar[set[str]] = {"username", "token"}
     OPTIONAL_CONFIG: ClassVar[set[str]] = {"scheme"}
 
-    def count_outgoing(self, branch: str | None = None):
+    def count_outgoing(self, branch: str | None = None) -> int:
         """
         Count outgoing commits.
 
