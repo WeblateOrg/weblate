@@ -1252,6 +1252,11 @@ class VCSGitLabTest(VCSGitUpstreamTest):
     _vcs = "git"
     _sets_push = False
 
+    def setUp(self) -> None:
+        super().setUp()
+        # Set repo URL to match configured credentials for GitLab tests
+        self.repo.component.repo = "https://gitlab.com/WeblateOrg/test.git"
+
     def mock_fork_responses(self, get_forks, repo_state=200) -> None:
         if repo_state == 409:
             # Response to mock existing of repo with duplicate name
