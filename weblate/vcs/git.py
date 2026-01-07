@@ -881,6 +881,19 @@ class GitMergeRequestBase(GitForcePushRepository):
     REQUIRED_CONFIG: ClassVar[set[str]] = {"username", "token"}
     OPTIONAL_CONFIG: ClassVar[set[str]] = {"scheme"}
 
+    def count_outgoing(self, branch: str | None = None):
+        """
+        Count outgoing commits.
+
+        For merge request workflows, we need to check against the origin remote,
+        not the fork remote, to determine if commits are already in the upstream
+        repository. This prevents creating duplicate merge requests when commits
+        have already been merged.
+        """
+        # Use origin remote instead of fork when counting outgoing commits
+        remote_branch = f"origin/{self.branch if branch is None else branch}"
+        return len(self.log_revisions(self.ref_from_remote.format(remote_branch)))
+
     def merge(
         self, abort: bool = False, message: str | None = None, no_ff: bool = False
     ) -> None:
