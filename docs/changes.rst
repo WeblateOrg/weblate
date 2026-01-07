@@ -19,6 +19,7 @@ Weblate 5.15.2
 * Automatically translated flag with bulk approvals.
 * GitHub forks no longer trigger actions.
 * Tighter validation of user provided websites to avoid confusing homoglyphs.
+* Glossary support in :ref:`mt-google-translate-api-v3`.
 
 .. rubric:: Compatibility
 
