@@ -4,6 +4,7 @@
 
 {% block nav_pills %}
   {% perm 'project.edit' object.project as user_can_edit_project %}
+  {% perm 'upload.perform' object as user_can_upload_translation %}
 
   <ul class="nav nav-pills">
     <li class="nav-item">
@@ -63,6 +64,11 @@
              href="{% url 'download' path=object.get_url_path %}?format=zip:xlsx"
              title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translations as XLSX in a ZIP file{% endblocktranslate %}</a>
         </li>
+        {% if user_can_upload_translation %}
+          <li>
+            <a class="dropdown-item" data-bs-target="#upload" data-bs-toggle="tab">{% translate "Upload translation" %}</a>
+          </li>
+        {% endif %}
       </ul>
     </li>
     <li class="nav-item dropdown">
@@ -127,6 +133,7 @@
   {% announcements language=language project=project %}
   {% perm 'project.edit' object.project as user_can_edit_project %}
   {% get_translate_url object as translate_url %}
+  {% perm 'upload.perform' object as user_can_upload_translation %}
 
   <div class="tab-content">
 
@@ -209,6 +216,20 @@
             </div>
           </div>
         </form>
+      </div>
+    {% endif %}
+
+    {% if user_can_upload_translation %}
+      <div class="tab-pane" id="upload">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">
+              {% documentation_icon 'user/files' 'upload' right=True %}
+              {% translate "Upload" %}
+            </h4>
+          </div>
+          <div class="card-body">{% translate "The translation files have to be uploaded into individual translations." %}</div>
+        </div>
       </div>
     {% endif %}
 
