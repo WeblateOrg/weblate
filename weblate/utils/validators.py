@@ -434,7 +434,9 @@ def validate_repo_url(url: str) -> None:
         try:
             parsed = urlparse(url)
         except ValueError as error:
-            raise ValidationError(gettext("Could not parse URL: %s") % error) from error
+            raise ValidationError(
+                gettext("Could not parse URL: {}").format(error)
+            ) from error
 
     # Allow Weblate internal URLs
     if parsed.scheme in {"weblate", "local"}:
