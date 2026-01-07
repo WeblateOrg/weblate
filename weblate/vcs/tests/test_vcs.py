@@ -1660,6 +1660,26 @@ class VCSGitLabTest(VCSGitUpstreamTest):
         # Verify with explicit branch parameter
         self.assertEqual(self.repo.count_outgoing(self.repo.branch), 0)
 
+    def test_count_outgoing_non_default_branch(self) -> None:
+        """Test count_outgoing with non-default branch doesn't check fork."""
+        self.repo.component.repo = "https://gitlab.com/WeblateOrg/test.git"
+
+        # Make a commit locally
+        self.test_commit()
+
+        # When called with a different branch than self.branch,
+        # should_use_fork() returns False, so fork checking is skipped
+        # Create a different branch name
+        different_branch = "develop" if self.repo.branch != "develop" else "feature"
+
+        # Update origin ref for the different branch
+        origin_ref = f"refs/remotes/origin/{different_branch}"
+        self.repo.execute(["update-ref", origin_ref, "HEAD"])
+
+        # count_outgoing with different branch should return 0
+        # (commits are in origin for that branch, fork not checked)
+        self.assertEqual(self.repo.count_outgoing(different_branch), 0)
+
 
 @override_settings(
     PAGURE_CREDENTIALS={"pagure.io": {"username": "test", "token": "token"}}
