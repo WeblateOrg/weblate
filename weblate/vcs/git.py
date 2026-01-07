@@ -893,7 +893,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         """
         target_branch = self.branch if branch is None else branch
         origin_branch = f"origin/{target_branch}"
-        
+
         # First check if commits are already in origin (merged)
         origin_outgoing = len(
             self.log_revisions(self.ref_from_remote.format(origin_branch))
@@ -901,27 +901,30 @@ class GitMergeRequestBase(GitForcePushRepository):
         if origin_outgoing == 0:
             # All commits are in origin, nothing to push
             return 0
-        
+
         # Check if commits are in the fork (already pushed)
         # The fork branch has a different name (weblate-project-component)
         # computed from component info
+        credentials = self.get_credentials()
+        fork_remote = credentials["username"]
         if self.component is not None:
-            credentials = self.get_credentials()
-            fork_remote = credentials["username"]
             fork_branch_name = f"weblate-{self.component.project.slug}-{self.component.slug}"
-            fork_branch = f"{fork_remote}/{fork_branch_name}"
-            
-            try:
-                fork_outgoing = len(
-                    self.log_revisions(self.ref_from_remote.format(fork_branch))
-                )
-                # If fork has all commits, don't need to push
-                if fork_outgoing == 0:
-                    return 0
-            except RepositoryError:
-                # Fork branch doesn't exist yet, fall through to return origin count
-                pass
-        
+        else:
+            fork_branch_name = f"weblate-{target_branch}"
+        fork_branch = f"{fork_remote}/{fork_branch_name}"
+
+        try:
+            fork_outgoing = len(
+                self.log_revisions(self.ref_from_remote.format(fork_branch))
+            )
+            # If fork has all commits, don't need to push
+            if fork_outgoing == 0:
+                return 0
+        except RepositoryError:
+            # Fork branch doesn't exist yet or is not accessible,
+            # indicating commits haven't been pushed to fork
+            pass
+
         # Commits are not in origin or fork, need to push
         return origin_outgoing
 

@@ -1639,6 +1639,7 @@ class VCSGitLabTest(VCSGitUpstreamTest):
 
         # Scenario 1: Simulate the commit being pushed to fork
         # The fork branch name is weblate-{project}-{component}
+        # (matches the logic in push() method)
         credentials = self.repo.get_credentials()
         fork_branch_name = f"weblate-{self.repo.component.project.slug}-{self.repo.component.slug}"
         fork_ref = f"refs/remotes/{credentials['username']}/{fork_branch_name}"
