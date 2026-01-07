@@ -114,6 +114,8 @@ RST_ROLE_RE = [
     re.compile(r"""Interpreted text role "([^"]*)" not implemented\."""),
 ]
 
+RST_LIST_START = ("- ", "* ", "+ ")
+
 
 def strip_entities(text):
     """Strip all HTML entities (we don't care about them)."""
@@ -577,7 +579,7 @@ def get_rst_publisher() -> Publisher:
 @lru_cache(maxsize=512)
 def validate_rst_snippet(
     snippet: str, source_tags: tuple[str] | None = None
-) -> tuple[list[str], list[str]]:
+) -> tuple[tuple[str, ...], tuple[str, ...]]:
     publisher = get_rst_publisher()
     document = utils.new_document("", publisher.settings)
 
@@ -632,7 +634,7 @@ def validate_rst_snippet(
         transform = transform_class(transformer.document, startnode=pending)
         transform.apply(**kwargs)
         transformer.applied.append((priority, transform_class, pending, kwargs))
-    return errors, roles
+    return tuple(errors), tuple(roles)
 
 
 class RSTSyntaxCheck(RSTBaseCheck):
@@ -644,7 +646,14 @@ class RSTSyntaxCheck(RSTBaseCheck):
         self, source: str, target: str, unit: Unit
     ) -> bool | MissingExtraDict:
         _errors, source_roles = validate_rst_snippet(source)
-        errors, _target_roles = validate_rst_snippet(target, tuple(source_roles))
+        rst_errors, _target_roles = validate_rst_snippet(target, source_roles)
+        errors = list(rst_errors)
+
+        # This is valid RST, but might mess up the document
+        if not source.startswith(RST_LIST_START) and target.startswith(RST_LIST_START):
+            errors.append(
+                gettext("The translation should not start with a list marker.")
+            )
 
         if errors:
             return {"errors": errors}

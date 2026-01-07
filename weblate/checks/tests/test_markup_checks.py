@@ -904,3 +904,61 @@ class RSTSyntaxCheckTest(CheckTestCase):
                 "rst-text",
             ),
         )
+
+    def test_list(self) -> None:
+        self.do_test(
+            False,
+            (
+                "Text",
+                "Text",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "Text",
+                "* Text",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "Text",
+                "- Text",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "Text",
+                "+ Text",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                "- Text",
+                "- Text",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                "- Text",
+                "* Text",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                "- Text",
+                "+ Text",
+                "rst-text",
+            ),
+        )
