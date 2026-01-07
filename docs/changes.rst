@@ -36,6 +36,7 @@ Weblate 5.15
 * Avoid false positive checks upon committing pending changes.
 * Performance improvements for file upload.
 * Show glossary matches for the source language.
+* Fixed merge request repositories creating duplicate empty merge requests when no translation changes exist.
 
 .. rubric:: Compatibility
 
