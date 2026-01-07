@@ -431,7 +431,12 @@ def validate_repo_url(url: str) -> None:
     if not parsed.scheme:
         # assume all links without schema are ssh links
         url = f"ssh://{url}"
-        parsed = urlparse(url)
+        try:
+            parsed = urlparse(url)
+        except ValueError as error:
+            raise ValidationError(
+                gettext("Could not parse URL: {}").format(error)
+            ) from error
 
     # Allow Weblate internal URLs
     if parsed.scheme in {"weblate", "local"}:
