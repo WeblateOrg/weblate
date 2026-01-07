@@ -590,6 +590,7 @@ class PlainTextFormat(ConvertFormat):
                 input_file=self.store,
                 output_file=None,
                 template_file=templatefile,
+                flavour=self.flavour,
             )
             outputstring = converter.merge_stores()
         handle.write(outputstring.encode("utf-8"))
