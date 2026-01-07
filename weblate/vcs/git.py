@@ -897,16 +897,17 @@ class GitMergeRequestBase(GitForcePushRepository):
         duplicate merge requests when commits have already been merged, while also
         avoiding unnecessary pushes when commits are already in the fork.
         """
-        # Omit branch to look at pull branch, not push branch
+        # Only check fork if we're using fork for this branch
+        if not self.should_use_fork(branch):
+            # Not using fork for this branch, use parent implementation
+            return super().count_outgoing(branch)
+
+        # For fork-based workflows, check the pull branch (not push branch)
+        # to see if commits have been merged to origin
         origin_outgoing = super().count_outgoing()
         if origin_outgoing == 0:
             # All commits are in origin, nothing to push
             return 0
-
-        # Only check fork if we're using fork for this branch
-        if not self.should_use_fork(branch):
-            # Not using fork for this branch, delegate to parent
-            return origin_outgoing
 
         # Check if commits are in the fork (already pushed)
         # The fork branch name is determined by get_fork_branch_name()
