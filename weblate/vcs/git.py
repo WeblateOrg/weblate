@@ -911,21 +911,21 @@ class GitMergeRequestBase(GitForcePushRepository):
 
         # Check if commits are in the fork (already pushed)
         # The fork branch name is determined by get_fork_branch_name()
-        credentials = self.get_credentials()
-        fork_remote = credentials["username"]
-        fork_branch_name = self.get_fork_branch_name()
-        fork_branch = f"{fork_remote}/{fork_branch_name}"
-
         try:
+            credentials = self.get_credentials()
+            fork_remote = credentials["username"]
+            fork_branch_name = self.get_fork_branch_name()
+            fork_branch = f"{fork_remote}/{fork_branch_name}"
+
             fork_outgoing = len(
                 self.log_revisions(self.ref_from_remote.format(fork_branch))
             )
             # If fork has all commits, don't need to push
             if fork_outgoing == 0:
                 return 0
-        except RepositoryError:
-            # Fork branch doesn't exist yet or is not accessible,
-            # indicating commits haven't been pushed to fork
+        except (RepositoryError, KeyError):
+            # Fork branch doesn't exist yet, credentials not configured,
+            # or branch is not accessible - indicating commits haven't been pushed to fork
             pass
 
         # Commits are not in origin or fork, need to push
