@@ -1635,7 +1635,7 @@ class VCSGitLabTest(VCSGitUpstreamTest):
 
         # Verify there are outgoing commits before any push/merge
         initial_count = self.repo.count_outgoing()
-        self.assertTrue(initial_count > 0)
+        self.assertGreater(initial_count, 0)
 
         # Scenario 1: Simulate the commit being pushed to fork
         # The fork branch name is weblate-{project}-{component}
