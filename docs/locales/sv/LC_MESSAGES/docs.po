@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-17 15:44+0100\n"
-"PO-Revision-Date: 2026-01-08 09:02+0000\n"
+"PO-Revision-Date: 2026-01-08 14:38+0000\n"
 "Last-Translator: Daniel Nylander <daniel@danielnylander.se>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "documentation/sv/>\n"
@@ -4816,7 +4816,6 @@ msgstr ""
 "används för att komma åt :ref:`vcs-repos`."
 
 #: ../../admin/admin.rst:92
-#, fuzzy
 msgid ""
 "Manage database objects under any of the sections. The most interesting one "
 "is probably :guilabel:`Weblate translations`, where you can manage "
@@ -4824,16 +4823,15 @@ msgid ""
 msgstr ""
 "Hantera databasobjekt under valfri sektion. Den mest intressanta är "
 "förmodligen :guilabel:`Weblate-översättningar`, där du kan hantera "
-"översättningsbara projekt, se :ref:`projekt` och :ref:`komponent`."
+"översättningsbara projekt, se :ref:`project` och :ref:`component`."
 
 #: ../../admin/admin.rst:96
-#, fuzzy
 msgid ""
 ":guilabel:`Weblate languages` holds language definitions, explained further "
 "in :ref:`languages`."
 msgstr ""
-":guilabel:`Weblate-språk` innehåller språkteckningar, som förklaras närmare "
-"i :ref:`språk`."
+":guilabel:`Weblate-språk` innehåller språkdefinitioner, som förklaras "
+"närmare i :ref:`languages`."
 
 #: ../../admin/admin.rst:100
 msgid "Adding a project"
@@ -5811,12 +5809,11 @@ msgstr ""
 "1Password, Authy eller Keeper."
 
 #: ../../admin/auth.rst:823
-#, fuzzy
 msgid ""
 "Each user can configure this in :ref:`profile-account` and second factor "
 "will be required to sign in addition to the existing authentication method."
 msgstr ""
-"Varje användare kan konfigurera detta i :ref:`profilkonto` och en andra "
+"Varje användare kan konfigurera detta i :ref:`profile-account` och en andra "
 "faktor kommer att krävas för inloggning utöver den befintliga "
 "autentiseringsmetoden."
 
@@ -5903,16 +5900,14 @@ msgstr ""
 "(standardinställningen är att spara högst 3 säkerhetskopior i 30 dagar)."
 
 #: ../../admin/backup.rst:35
-#, fuzzy
 msgid ""
 "Use the generated file to import project when :ref:`adding-projects` or "
 "in :wladmin:`import_projectbackup`."
 msgstr ""
-"Använd den genererade filen för att importera projektet när du :ref:`lägger "
-"till projekt` eller i :wladmin:`import_projectbackup`."
+"Använd den genererade filen för att importera projektet när du :ref:`adding-"
+"projects` eller i :wladmin:`import_projectbackup`."
 
 #: ../../admin/backup.rst:39
-#, fuzzy
 msgid ""
 "Restoring of the backup might fail if the restoring server has different set "
 "of :ref:`languages` or different configuration "
@@ -5921,10 +5916,10 @@ msgid ""
 "definitions manually."
 msgstr ""
 "Återställningen av säkerhetskopian kan misslyckas om återställningsservern "
-"har en annan uppsättning :ref:`språk` eller en annan konfiguration av "
+"har en annan uppsättning :ref:`languages` eller en annan konfiguration av "
 ":setting:`SIMPLIFY_LANGUAGES`. Återställningen kommer att visa vilka "
 "språkkoder som inte kunde bearbetas och du kan sedan lägga till saknade "
-"språkteckningar manuellt."
+"språkdefinitioner manuellt."
 
 #: ../../admin/backup.rst:48
 msgid "Automated backup using BorgBackup"
@@ -6070,7 +6065,6 @@ msgid "Using custom backup storage"
 msgstr "Använda anpassad säkerhetskopieringslagring"
 
 #: ../../admin/backup.rst:115
-#, fuzzy
 msgid ""
 "You can also use your own storage for the backups. SSH can be used to store "
 "backups in the remote destination, the target server needs to have "
@@ -6078,7 +6072,7 @@ msgid ""
 msgstr ""
 "Du kan också använda din egen lagringsplats för säkerhetskopiorna. SSH kan "
 "användas för att lagra säkerhetskopior på den fjärranslutna destinationen, "
-"men målservrarna måste ha BorgBackup installerat."
+"men målservrarna måste ha `BorgBackup`_ installerat."
 
 #: ../../admin/backup.rst:121
 msgid ":doc:`borg:usage/general` in the Borg documentation"
@@ -6288,13 +6282,12 @@ msgstr ""
 ":ref:`docker-volume`."
 
 #: ../../admin/backup.rst:205
-#, fuzzy
 msgid ""
 "Please ensure the files have correct ownership and permissions, "
 "see :ref:`file-permissions`."
 msgstr ""
-"Se till att filerna har rätt ägarskap och behörigheter, se "
-":ref:`filbehörigheter`."
+"Se till att filerna har rätt ägarskap och behörigheter, se :ref:`file-"
+"permissions`."
 
 #: ../../admin/backup.rst:207
 msgid "The Borg session might look like this:"
@@ -6534,11 +6527,10 @@ msgid "Stored in :setting:`DATA_DIR` ``/media``."
 msgstr "Lagras i :setting:`DATA_DIR` ``/media``."
 
 #: ../../admin/backup.rst:348
-#, fuzzy
 msgid "You should back up all user uploaded files (e.g. :ref:`screenshots`)."
 msgstr ""
 "Du bör säkerhetskopiera alla filer som användare har laddat upp (t.ex. "
-":ref:`skärmdumpar`)."
+":ref:`screenshots`)."
 
 #: ../../admin/backup.rst:351
 msgid "Celery tasks"
@@ -6688,12 +6680,11 @@ msgid "Per-string flags extracted from the file format, see :ref:`formats`."
 msgstr "Flaggor per sträng extraherade från filformatet, se :ref:`formats`."
 
 #: ../../admin/checks.rst:40
-#, fuzzy
 msgid ""
 "Translation flags (currently only ``read-only`` flag for bilingual source "
 "string)."
 msgstr ""
-"Översättningsflaggor (för närvarande endast flaggan \"skrivskyddad\" för "
+"Översättningsflaggor (för närvarande endast flaggan ``skrivskyddad`` för "
 "tvåspråkiga källsträngar)."
 
 #: ../../admin/checks.rst:41
@@ -6701,16 +6692,12 @@ msgid "File-format specific flags."
 msgstr "Filformatsspecifika flaggor."
 
 #: ../../admin/checks.rst:42
-#, fuzzy
-#| msgid "Component name"
 msgid ":ref:`component` (:ref:`component-check_flags`)."
-msgstr ":ref:`komponent` (:ref:`komponent-kontrollflaggor`)."
+msgstr ":ref:`component` (:ref:`component-check_flags`)."
 
 #: ../../admin/checks.rst:43
-#, fuzzy
-#| msgid "Component name"
 msgid ":ref:`project` (:ref:`project-check_flags`)."
-msgstr ":ref:`projekt` (:ref:`projekt-kontrollflaggor`)."
+msgstr ":ref:`project` (:ref:`project-check_flags`)."
 
 #: ../../admin/checks.rst:45
 msgid ""
@@ -7373,13 +7360,12 @@ msgstr ""
 "dess identifierare, så du kan använda detta även för dina egna kontroller."
 
 #: ../../admin/checks.rst:352
-#, fuzzy
 msgid ""
 "These flags are understood both in :ref:`component` settings, per source "
 "string settings and in the translation file itself (for example in GNU "
 "gettext)."
 msgstr ""
-"Dessa flaggor förstås både i :ref:`komponent`-inställningar, per "
+"Dessa flaggor förstås både i :ref:`component`-inställningar, per "
 "källstränginställningar och i själva översättningsfilen (till exempel i GNU "
 "gettext)."
 
@@ -7791,10 +7777,8 @@ msgid "This is currently used in the following places:"
 msgstr "Detta används för närvarande på följande platser:"
 
 #: ../../admin/config.rst:73
-#, fuzzy
-#| msgid "Added support for localized screenshots."
 msgid "Screenshot uploads, see :ref:`screenshots`"
-msgstr "Skärmdumpöverföringar, se :ref:`skärmdumpar`"
+msgstr "Skärmdumpsuppladdningar, se :ref:`screenshots`"
 
 #: ../../admin/config.rst:86
 msgid "Configures size limit for fetching assets in Weblate. Defaults to 4 MB."
@@ -7999,9 +7983,8 @@ msgid ":ref:`addon-weblate.autotranslate.autotranslate` add-on"
 msgstr ":ref:`addon-weblate.autotranslate.autotranslate` tillägg"
 
 #: ../../admin/config.rst:259
-#, fuzzy
 msgid ":doc:`checks` recalculation"
-msgstr ":doc:`kontroller` omräkning"
+msgstr ":doc:`checks` omräkning"
 
 #: ../../admin/config.rst:261
 msgid "Possible choices:"
@@ -8100,9 +8083,8 @@ msgstr ""
 ":setting:`django:STATIC_ROOT`. Se :ref:`static-files`."
 
 #: ../../admin/config.rst:346
-#, fuzzy
 msgid "OCR trained data for :ref:`screenshots`."
-msgstr "OCR-tränade data för :ref:`skärmdumpar`."
+msgstr "OCR-tränade data för :ref:`screenshots`."
 
 #: ../../admin/config.rst:356
 msgid ""
@@ -8153,17 +8135,16 @@ msgstr ""
 "dig."
 
 #: ../../admin/config.rst:390
-#, fuzzy
 msgid ""
 "All built-in :ref:`checks` are turned on by default, from where you can "
 "change these settings. By default they are commented out in :ref:`sample-"
 "configuration` so that default values are used. New checks are then carried "
 "out for each new Weblate version."
 msgstr ""
-"Alla inbyggda :ref:`kontroller` är aktiverade som standard, och du kan ändra "
-"dessa inställningar där. Som standard är de kommenterade i "
-":ref:`exempelkonfiguration` så att standardvärdena används. Nya kontroller "
-"utförs sedan för varje ny version av Weblate."
+"Alla inbyggda :ref:`checks` är aktiverade som standard, och du kan ändra "
+"dessa inställningar där. Som standard är de kommenterade i :ref:`sample-"
+"configuration` så att standardvärdena används. Nya kontroller utförs sedan "
+"för varje ny version av Weblate."
 
 #: ../../admin/config.rst:394
 msgid "You can turn off all checks:"
@@ -8340,12 +8321,11 @@ msgstr ""
 "DEFAULT_DELETE_MESSAGE, DEFAULT_MERGE_MESSAGE"
 
 #: ../../admin/config.rst:593
-#, fuzzy
 msgid ""
 "Default commit messages for different operations, please "
 "check :ref:`component` for details."
 msgstr ""
-"Standardbekräftelsemeddelanden för olika åtgärder, se :ref:`komponent` för "
+"Standardbekräftelsemeddelanden för olika åtgärder, se :ref:`component` för "
 "mer information."
 
 #: ../../admin/config.rst:608
@@ -8723,14 +8703,13 @@ msgstr ""
 "relaterad information visas för användarna."
 
 #: ../../admin/config.rst:1056
-#, fuzzy
 msgid ""
 "For example instead of ``https://user:password@git.example.com/repo.git`` it "
 "will show just ``https://git.example.com/repo.git``. It tries to clean up "
 "VCS error messages too in a similar manner."
 msgstr ""
-"Till exempel, istället för \"https://user:password@git.example.com/"
-"repo.git\" visas bara \"https://git.example.com/repo.git\". Det försöker "
+"Till exempel, istället för ``https://användare:lösenord@git.example.com/"
+"repo.git`` visas bara ``https://git.example.com/repo.git``. Det försöker "
 "också rensa upp VCS-felmeddelanden på ett liknande sätt."
 
 #: ../../admin/config.rst:1062
@@ -8899,9 +8878,8 @@ msgid "Following disables the license alert:"
 msgstr "Följande inaktiverar licensvarningen:"
 
 #: ../../admin/config.rst:1261
-#, fuzzy
 msgid "Defines whether the license attribute in :ref:`component` is required."
-msgstr "Definierar om licensattributet i :ref:`komponent` är obligatoriskt."
+msgstr "Definierar om licensattributet i :ref:`component` är obligatoriskt."
 
 #: ../../admin/config.rst:1265
 msgid "This is off by default."
@@ -9049,7 +9027,6 @@ msgid "Set to blank string to disable."
 msgstr "Ställ in på tom sträng för att inaktivera."
 
 #: ../../admin/config.rst:1458
-#, fuzzy
 msgid ""
 "Using different commit e-mail is opt-in for users unless configured "
 "by :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure commit e-mail "
@@ -9057,7 +9034,7 @@ msgid ""
 msgstr ""
 "Att använda olika e-postadresser för commit är valfritt för användare om det "
 "inte konfigureras med :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Användare kan "
-"konfigurera e-postadresser för commit i :ref:`profilen`."
+"konfigurera e-postadresser för commit i :ref:`profile`."
 
 #: ../../admin/config.rst:1469
 msgid ""
@@ -9700,14 +9677,13 @@ msgstr ""
 "kloner helt genom att ställa in detta till 0."
 
 #: ../../admin/config.rst:2136
-#, fuzzy
 msgid ""
 "In case you get ``fatal: protocol error: expected old/new/ref, got 'shallow "
 "<commit hash>'`` error when pushing from Weblate, turn off shallow clones "
 "completely by setting:"
 msgstr ""
-"Om du får felmeddelandet \"fatal: protocol error: expected old/new/ref, got "
-"'shallow <commit hash>'\" när du pushar från Weblate, stäng av shallow "
+"Om du får felmeddelandet ``fatal: protocol error: expected old/new/ref, got "
+"'shallow <commit hash>'`` när du pushar från Weblate, stäng av shallow "
 "clones helt genom att ställa in:"
 
 #: ../../admin/config.rst:2148
@@ -10468,9 +10444,8 @@ msgstr "GitHub-pullförfrågan från gren"
 #: ../../admin/continuous.rst:439 ../../admin/continuous.rst:449
 #: ../../admin/continuous.rst:459 ../../admin/continuous.rst:469
 #: ../../admin/continuous.rst:479
-#, fuzzy
 msgid "SSH URL [#empty]_"
-msgstr "SSH-URL [#tom]_"
+msgstr "SSH URL [#empty]_"
 
 #: ../../admin/continuous.rst:422
 msgid "GitLab merge request from fork"
@@ -11205,13 +11180,12 @@ msgstr ""
 "tas gärna emot."
 
 #: ../../admin/install.rst:177
-#, fuzzy
 msgid ""
 ":ref:`architecture` describes overall Weblate architecture and required "
 "services."
 msgstr ""
-":ref:`arkitektur` beskriver Weblates övergripande arkitektur och nödvändiga "
-"tjänster."
+":ref:`architecture` beskriver Weblates övergripande arkitektur och "
+"nödvändiga tjänster."
 
 #: ../../admin/install.rst:182
 msgid "Python dependencies"
@@ -11296,10 +11270,8 @@ msgid "MySQL or MariaDB, see :ref:`database-setup`"
 msgstr "MySQL eller MariaDB, se :ref:`database-setup`"
 
 #: ../../admin/install.rst:252
-#, fuzzy
-#| msgid ":ref:`database-setup`"
 msgid "PostgreSQL, see :ref:`database-setup`"
-msgstr "PostgreSQL, se :ref:`databas-inställningar`"
+msgstr "PostgreSQL, se :ref:`database-setup`"
 
 #: ../../admin/install.rst:260
 msgid "Integrating SAML 2 IDP into Weblate"
@@ -11548,13 +11520,12 @@ msgid "Nodes"
 msgstr "Noder"
 
 #: ../../admin/install/steps/hw.rst:45
-#, fuzzy
 msgid ""
 "For small and medium-sized sites (millions of hosted words), all Weblate "
 "components (see :ref:`architecture`) can be run on a single node."
 msgstr ""
 "För små och medelstora webbplatser (miljoner värdord) kan alla Weblate-"
-"komponenter (se :ref:`arkitektur`) köras på en enda nod."
+"komponenter (se :ref:`architecture`) köras på en enda nod."
 
 #: ../../admin/install/steps/hw.rst:48
 msgid ""
@@ -11721,9 +11692,8 @@ msgstr ""
 "att ta hänsyn till följande situationer:"
 
 #: ../../admin/install.rst:467
-#, fuzzy
 msgid ":ref:`manage` need their connection as well."
-msgstr ":ref:`hantera` behöver också deras anslutning."
+msgstr ":ref:`manage` behöver också deras anslutning."
 
 #: ../../admin/install.rst:468
 msgid ""
@@ -11892,7 +11862,6 @@ msgstr ""
 "på klientsidan."
 
 #: ../../admin/install.rst:602
-#, fuzzy
 msgid ""
 "Below is an example :file:`/etc/my.cnf.d/server.cnf` for a server with 8 GB "
 "of RAM. These settings should be sufficient for most installs. MySQL and "
@@ -11901,8 +11870,8 @@ msgid ""
 "of concurrent users accessing the system. See the various vendors "
 "documentation on those details."
 msgstr ""
-"Nedan följer ett exempel: fil:`/etc/my.cnf.d/server.cnf` för en server med 8 "
-"GB RAM. Dessa inställningar bör vara tillräckliga för de flesta "
+"Nedan följer ett exempel :file:`/etc/my.cnf.d/server.cnf` för en server med "
+"8 GB RAM. Dessa inställningar bör vara tillräckliga för de flesta "
 "installationer. MySQL och MariaDB har inställningar som ökar serverns "
 "prestanda, men dessa anses inte nödvändiga om du inte planerar att ha ett "
 "stort antal samtidiga användare som använder systemet. Se dokumentationen "
@@ -11919,23 +11888,21 @@ msgstr ""
 "att MySQL/MariaDB startas om innan du påbörjar installationen av Weblate."
 
 #: ../../admin/install.rst:632
-#, fuzzy
 msgid ""
 "In case you are getting ``#1071 - Specified key was too long; max key length "
 "is 767 bytes`` error, please update your configuration to include the "
 "``innodb`` settings above and restart your install."
 msgstr ""
-"Om du får felmeddelandet \"#1071 - Angiven nyckel var för lång; maximal "
-"nyckellängd är 767 byte\", uppdatera din konfiguration så att den inkluderar "
-"inställningarna för \"innodb\" ovan och starta om installationen."
+"Om du får felmeddelandet ``#1071 - Angiven nyckel var för lång; maximal "
+"nyckellängd är 767 byte``, uppdatera din konfiguration så att den inkluderar "
+"inställningarna för ``innodb`` ovan och starta om installationen."
 
 #: ../../admin/install.rst:638
-#, fuzzy
 msgid ""
 "In case you are getting ``#2006 - MySQL server has gone away`` error, "
 "configuring :setting:`django:CONN_MAX_AGE` might help."
 msgstr ""
-"Om du får felmeddelandet \"#2006 - MySQL-servern har försvunnit\" kan det "
+"Om du får felmeddelandet ``#2006 - MySQL-servern har försvunnit`` kan det "
 "hjälpa att konfigurera :setting:`django:CONN_MAX_AGE`."
 
 #: ../../admin/install.rst:646
@@ -12018,13 +11985,12 @@ msgstr ""
 "information skickas korrekt."
 
 #: ../../admin/install.rst:724
-#, fuzzy
 msgid ""
 "To debug this configuration, you can look at :guilabel:`HTTP environment` "
 "in :ref:`manage-performance`."
 msgstr ""
 "För att felsöka denna konfiguration kan du titta på :guilabel:`HTTP-miljö` i "
-":ref:`hantera-prestanda`."
+":ref:`manage-performance`."
 
 #: ../../admin/install.rst:727
 msgid "Client IP address"
@@ -12553,20 +12519,14 @@ msgstr ""
 "registrerings- eller lösenordsåterställningsmeddelanden."
 
 #: ../../admin/install.rst:1220
-#, fuzzy
-#| msgid ":setting:`django:EMAIL_PORT`"
 msgid ":std:setting:`django:EMAIL_BACKEND`"
 msgstr ":std:setting:`django:EMAIL_BACKEND`"
 
 #: ../../admin/install.rst:1221 ../../admin/install/docker.rst:610
-#, fuzzy
-#| msgid ":setting:`django:DEFAULT_FROM_EMAIL`"
 msgid ":std:setting:`django:DEFAULT_FROM_EMAIL`"
 msgstr ":std:setting:`django:DEFAULT_FROM_EMAIL`"
 
 #: ../../admin/install.rst:1222 ../../admin/install/docker.rst:601
-#, fuzzy
-#| msgid ":setting:`django:SERVER_EMAIL`"
 msgid ":std:setting:`django:SERVER_EMAIL`"
 msgstr ":std:setting:`django:SERVER_EMAIL`"
 
@@ -12584,14 +12544,13 @@ msgstr ""
 "förfrågningar att blockeras."
 
 #: ../../admin/install.rst:1233
-#, fuzzy
 msgid ""
 "In case this is not configured to match your HTTP server, you will get "
 "errors like :samp:`Invalid HTTP_HOST header: '1.1.1.1'. You may need to add "
 "'1.1.1.1' to ALLOWED_HOSTS.`"
 msgstr ""
 "Om detta inte är konfigurerat för att matcha din HTTP-server kommer du att "
-"få felmeddelanden som: samp:`Ogiltig HTTP_HOST-rubrik: '1.1.1.1'. Du kan "
+"få felmeddelanden som :samp:`Ogiltig HTTP_HOST-rubrik: '1.1.1.1'. Du kan "
 "behöva lägga till '1.1.1.1' till ALLOWED_HOSTS.`"
 
 #: ../../admin/install.rst:1239
@@ -12885,9 +12844,8 @@ msgstr ""
 "vilket leder till problem vid körning."
 
 #: ../../admin/install.rst:1413
-#, fuzzy
 msgid "See also :ref:`file-permissions` and :ref:`celery`."
-msgstr "Se även :ref:`filbehörigheter` och :ref:`celery`."
+msgstr "Se även :ref:`file-permissions` och :ref:`celery`."
 
 #: ../../admin/install.rst:1416
 msgid "Running web server"
@@ -13238,9 +13196,8 @@ msgstr ""
 "vilket leder till problem vid körning."
 
 #: ../../admin/install.rst:1716
-#, fuzzy
 msgid "See also :ref:`file-permissions` and :ref:`server`."
-msgstr "Se även :ref:`filbehörigheter` och :ref:`server`."
+msgstr "Se även :ref:`file-permissions` och :ref:`server`."
 
 #: ../../admin/install.rst:1719
 msgid "Executing Celery tasks in the WSGI using eager mode"
@@ -13534,9 +13491,8 @@ msgstr ""
 "stöder det."
 
 #: ../../admin/install.rst:1927
-#, fuzzy
 msgid "Migrating between databases described in :ref:`database-migration`."
-msgstr "Migrering mellan databaser beskrivs i :ref:`databas-migrering`."
+msgstr "Migrering mellan databaser beskrivs i :ref:`database-migration`."
 
 #: ../../admin/install.rst:1930
 msgid "Migrating VCS repositories"
@@ -14301,7 +14257,6 @@ msgid "Configures the address for outgoing e-mails."
 msgstr "Konfigurerar adressen för utgående e-postmeddelanden."
 
 #: ../../admin/install/docker.rst:615
-#, fuzzy
 msgid "Configures :setting:`ADMINS_CONTACT`."
 msgstr "Konfigurerar :setting:`ADMINS_CONTACT`."
 
@@ -14419,18 +14374,15 @@ msgid "replaces any hyphens with underscores"
 msgstr "ersätter alla bindestreck med understreck"
 
 #: ../../admin/install/docker.rst:742
-#, fuzzy
 msgid "prepends ``HTTP_`` prefix"
-msgstr "lägger till prefixet \"HTTP_\""
+msgstr "lägger till prefixet ``HTTP_`` före"
 
 #: ../../admin/install/docker.rst:744
-#, fuzzy
 msgid "So ``X-Forwarded-For`` would be mapped to ``HTTP_X_FORWARDED_FOR``."
 msgstr ""
-"Således skulle \"X-Forwarded-For\" mappas till \"HTTP_X_FORWARDED_FOR\"."
+"Således skulle ``X-Forwarded-For`` mappas till ``HTTP_X_FORWARDED_FOR``."
 
 #: ../../admin/install/docker.rst:757
-#, fuzzy
 msgid "Configures :setting:`IP_PROXY_OFFSET`."
 msgstr "Konfigurerar :setting:`IP_PROXY_OFFSET`."
 
@@ -14518,7 +14470,6 @@ msgstr ""
 ":setting:`DEFAULT_TRANSLATION_PROPAGATION`."
 
 #: ../../admin/install/docker.rst:833
-#, fuzzy
 msgid "Configures :setting:`DEFAULT_COMMITER_EMAIL`."
 msgstr "Konfigurerar :setting:`DEFAULT_COMMITER_EMAIL`."
 
@@ -14527,13 +14478,10 @@ msgid "Configures :setting:`DEFAULT_COMMITER_NAME`."
 msgstr "Konfigurerar :setting:`DEFAULT_COMMITER_NAME`."
 
 #: ../../admin/install/docker.rst:841
-#, fuzzy
 msgid "Configures :setting:`DEFAULT_SHARED_TM`."
 msgstr "Konfigurerar :setting:`DEFAULT_SHARED_TM`."
 
 #: ../../admin/install/docker.rst:845
-#, fuzzy
-#| msgid ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
 msgid "Configures :setting:`DEFAULT_AUTOCLEAN_TM`."
 msgstr "Konfigurerar :setting:`DEFAULT_AUTOCLEAN_TM`."
 
@@ -14577,32 +14525,26 @@ msgstr ""
 "Policy`."
 
 #: ../../admin/install/docker.rst:894
-#, fuzzy
 msgid "Configures :setting:`LICENSE_FILTER`."
 msgstr "Konfigurerar :setting:`LICENSE_FILTER`."
 
 #: ../../admin/install/docker.rst:898
-#, fuzzy
 msgid "Configures :setting:`LICENSE_REQUIRED`."
 msgstr "Konfigurerar :setting:`LICENSE_REQUIRED`."
 
 #: ../../admin/install/docker.rst:902
-#, fuzzy
 msgid "Configures :setting:`WEBSITE_REQUIRED`."
 msgstr "Konfigurerar :setting:`WEBSITE_REQUIRED`."
 
 #: ../../admin/install/docker.rst:906
-#, fuzzy
 msgid "Configures :setting:`HIDE_VERSION`."
 msgstr "Konfigurerar :setting:`HIDE_VERSION`."
 
 #: ../../admin/install/docker.rst:910
-#, fuzzy
 msgid "Configures :setting:`BASIC_LANGUAGES`."
 msgstr "Konfigurerar :setting:`BASIC_LANGUAGES`."
 
 #: ../../admin/install/docker.rst:914
-#, fuzzy
 msgid "Configures :setting:`DEFAULT_AUTO_WATCH`."
 msgstr "Konfigurerar :setting:`DEFAULT_AUTO_WATCH`."
 
@@ -14632,22 +14574,18 @@ msgid "Configures :setting:`ENABLE_HOOKS`."
 msgstr "Konfigurerar :setting:`ENABLE_HOOKS`."
 
 #: ../../admin/install/docker.rst:959
-#, fuzzy
 msgid "Configures :setting:`ENABLE_AVATARS`."
 msgstr "Konfigurerar :setting:`ENABLE_AVATARS`."
 
 #: ../../admin/install/docker.rst:965
-#, fuzzy
 msgid "Configures :setting:`AVATAR_URL_PREFIX`."
 msgstr "Konfigurerar :setting:`AVATAR_URL_PREFIX`."
 
 #: ../../admin/install/docker.rst:971
-#, fuzzy
 msgid "Configures :setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`."
 msgstr "Konfigurerar :setting:`LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH`."
 
 #: ../../admin/install/docker.rst:977
-#, fuzzy
 msgid "Configures :setting:`SSH_EXTRA_ARGS`."
 msgstr "Konfigurerar :setting:`SSH_EXTRA_ARGS`."
 
@@ -14659,67 +14597,50 @@ msgstr ""
 "argument."
 
 #: ../../admin/install/docker.rst:996
-#, fuzzy
 msgid "Configures :setting:`ENABLE_SHARING`."
 msgstr "Konfigurerar :setting:`ENABLE_SHARING`."
 
 #: ../../admin/install/docker.rst:1002
-#, fuzzy
 msgid "Configures :setting:`SUPPORT_STATUS_CHECK`."
 msgstr "Konfigurerar :setting:`SUPPORT_STATUS_CHECK`."
 
 #: ../../admin/install/docker.rst:1008
-#, fuzzy
 msgid "Configures :setting:`EXTRA_HTML_HEAD`."
 msgstr "Konfigurerar :setting:`EXTRA_HTML_HEAD`."
 
 #: ../../admin/install/docker.rst:1014
-#, fuzzy
 msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
 msgstr "Konfigurerar :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
 
 #: ../../admin/install/docker.rst:1020
-#, fuzzy
 msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 msgstr "Konfigurerar :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 
 #: ../../admin/install/docker.rst:1026
-#, fuzzy
 msgid "Configures :setting:`UNUSED_ALERT_DAYS`."
 msgstr "Konfigurerar :setting:`UNUSED_ALERT_DAYS`."
 
 #: ../../admin/install/docker.rst:1032
-#, fuzzy
 msgid "Configures :setting:`UPDATE_LANGUAGES`."
 msgstr "Konfigurerar :setting:`UPDATE_LANGUAGES`."
 
 #: ../../admin/install/docker.rst:1038
-#, fuzzy
-#| msgid ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
 msgid "Configures :setting:`VCS_ALLOW_HOSTS`."
 msgstr "Konfigurerar :setting:`VCS_ALLOW_HOSTS`."
 
 #: ../../admin/install/docker.rst:1044
-#, fuzzy
-#| msgid ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
 msgid "Configures :setting:`VCS_ALLOW_SCHEMES`."
 msgstr "Konfigurerar :setting:`VCS_ALLOW_SCHEMES`."
 
 #: ../../admin/install/docker.rst:1050
-#, fuzzy
-#| msgid ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
 msgid "Configures :setting:`VCS_CLONE_DEPTH`."
 msgstr "Konfigurerar :setting:`VCS_CLONE_DEPTH`."
 
 #: ../../admin/install/docker.rst:1056
-#, fuzzy
-#| msgid ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
 msgid "Configures :setting:`VCS_API_DELAY`."
 msgstr "Konfigurerar :setting:`VCS_API_DELAY`."
 
 #: ../../admin/install/docker.rst:1062
-#, fuzzy
-#| msgid ":setting:`INTERLEDGER_PAYMENT_POINTERS`"
 msgid "Configures :setting:`VCS_API_TIMEOUT`."
 msgstr "Konfigurerar :setting:`VCS_API_TIMEOUT`."
 
@@ -15161,7 +15082,6 @@ msgstr ""
 ":command:`pgbouncer`-konfigurationer."
 
 #: ../../admin/install/docker.rst:1618
-#, fuzzy
 msgid ""
 ":setting:`DISABLE_SERVER_SIDE_CURSORS <django:DATABASE-"
 "DISABLE_SERVER_SIDE_CURSORS>`"
@@ -15333,22 +15253,18 @@ msgid "Site integration"
 msgstr "Webbplatsintegration"
 
 #: ../../admin/install/docker.rst:1821
-#, fuzzy
 msgid "Configures :setting:`GET_HELP_URL`."
 msgstr "Konfigurerar :setting:`GET_HELP_URL`."
 
 #: ../../admin/install/docker.rst:1825
-#, fuzzy
 msgid "Configures :setting:`STATUS_URL`."
 msgstr "Konfigurerar :setting:`STATUS_URL`."
 
 #: ../../admin/install/docker.rst:1829
-#, fuzzy
 msgid "Configures :setting:`LEGAL_URL`."
 msgstr "Konfigurerar :setting:`LEGAL_URL`."
 
 #: ../../admin/install/docker.rst:1833
-#, fuzzy
 msgid "Configures :setting:`PRIVACY_URL`."
 msgstr "Konfigurerar :setting:`PRIVACY_URL`."
 
@@ -15395,17 +15311,14 @@ msgstr ""
 "``True``."
 
 #: ../../admin/install/docker.rst:1867
-#, fuzzy
 msgid "Configures :setting:`SENTRY_TRACES_SAMPLE_RATE`."
 msgstr "Konfigurerar :setting:`SENTRY_TRACES_SAMPLE_RATE`."
 
 #: ../../admin/install/docker.rst:1878
-#, fuzzy
 msgid "Configures :setting:`SENTRY_PROFILES_SAMPLE_RATE`."
 msgstr "Konfigurerar :setting:`SENTRY_PROFILES_SAMPLE_RATE`."
 
 #: ../../admin/install/docker.rst:1889
-#, fuzzy
 msgid "Configures :setting:`SENTRY_SEND_PII`."
 msgstr "Konfigurerar :setting:`SENTRY_SEND_PII`."
 
@@ -15683,15 +15596,14 @@ msgstr ""
 "är den användare som används inuti containern."
 
 #: ../../admin/install/docker.rst:2121
-#, fuzzy
 msgid ""
 "Weblate container can also be executed with a read-only root file system. In "
 "this case, two additional ``tmpfs`` volumes should be mounted: :file:`/tmp` "
 "and :file:`/run`."
 msgstr ""
-"Weblate-containern kan också köras med ett skrivskyddat rotsystem. I detta "
-"fall bör två ytterligare tmpfs-volymer monteras: :file:`/tmp` och :file:`/"
-"run`."
+"Weblate-containern kan också köras med ett skrivskyddat rotfilsystem. I "
+"detta fall bör två ytterligare ``tmpfs``-volymer monteras: :file:`/tmp` och "
+":file:`/run`."
 
 #: ../../admin/install/docker.rst:2128
 msgid ""
@@ -16490,7 +16402,6 @@ msgstr ""
 "Kopiera :file:`weblate/settings_example.py` till :file:`weblate/settings.py`."
 
 #: ../../admin/install/steps/adjust-config.rst:1
-#, fuzzy
 msgid ""
 "Adjust the values in the new :file:`settings.py` file to your liking. You "
 "will need to provide at least the database credentials and Django secret "
@@ -16500,7 +16411,7 @@ msgstr ""
 "Justera värdena i den nya filen :file:`settings.py` efter eget tycke. Du "
 "måste ange åtminstone databasens inloggningsuppgifter och Djangos hemliga "
 "nyckel, men du kommer att behöva göra fler ändringar för "
-"produktionskonfigurationen, se :ref:`konfiguration`."
+"produktionskonfigurationen, se :ref:`configuration`."
 
 #: ../../admin/install/source.rst:35
 msgid "Create the database used by Weblate, see :ref:`database-setup`."
@@ -16738,13 +16649,12 @@ msgid "System requirements"
 msgstr "Systemkrav"
 
 #: ../../admin/install/steps/install-system-devel.rst:7
-#, fuzzy
 msgid ""
 "Install the dependencies needed to build the Python modules "
 "(see :ref:`requirements`):"
 msgstr ""
 "Installera de beroenden som behövs för att bygga Python-modulerna (se "
-":ref:`krav`):"
+":ref:`requirements`):"
 
 #: ../../admin/install/steps/install-system-optional.rst:1
 msgid ""
@@ -17125,12 +17035,11 @@ msgstr ""
 "fastställa vad de får användas till."
 
 #: ../../admin/licensing.rst:7
-#, fuzzy
 msgid ""
 "You should specify :ref:`component` license info. You should avoid requiring "
 "a contributor license agreement, though it is possible."
 msgstr ""
-"Du bör ange :ref:`komponent` licensinformation. Du bör undvika att kräva ett "
+"Du bör ange :ref:`component` licensinformation. Du bör undvika att kräva ett "
 "licensavtal för bidragsgivare, även om det är möjligt."
 
 #: ../../admin/licensing.rst:11
@@ -17138,13 +17047,12 @@ msgid "License info"
 msgstr "Licensinformation"
 
 #: ../../admin/licensing.rst:13
-#, fuzzy
 msgid ""
 "Upon specifying license info (license name and URL), this info is shown in "
 "the translation info section of the respective :ref:`component`."
 msgstr ""
 "När licensinformationen (licensnamn och URL) anges visas denna information i "
-"översättningsinformationsavsnittet för respektive :ref:`komponent`."
+"översättningsinformationsavsnittet för respektive :ref:`component`."
 
 #: ../../admin/licensing.rst:16
 msgid ""
@@ -17637,9 +17545,8 @@ msgstr ""
 "v1 API samt en gratis och en betald version av v2 API."
 
 #: ../../admin/machine.rst:293
-#, fuzzy
 msgid "``https://api.deepl.com/v2/`` (default in Weblate)"
-msgstr "https://api.deepl.com/v2/ (standard i Weblate)"
+msgstr "``https://api.deepl.com/v2/`` (standard i Weblate)"
 
 #: ../../admin/machine.rst:294
 msgid ""
@@ -17882,9 +17789,8 @@ msgstr ""
 "att använda API:et gratis."
 
 #: ../../admin/machine.rst:474
-#, fuzzy
 msgid "``https://libretranslate.com/`` (official public instance)"
-msgstr "https://libretranslate.com/ (officiell offentlig instans)"
+msgstr "``https://libretranslate.com/`` (officiell offentlig instans)"
 
 #: ../../admin/machine.rst:475
 msgid "Requires an API key to use outside of the website."
@@ -18093,7 +17999,6 @@ msgid "Huge translation memory with machine translation."
 msgstr "Stort översättningsminne med maskinöversättning."
 
 #: ../../admin/machine.rst:628
-#, fuzzy
 msgid ""
 "Free, anonymous usage is currently limited to 100 requests/day, or to 1000 "
 "requests/day when you provide a contact e-mail address in ``email``. You can "
@@ -18101,7 +18006,7 @@ msgid ""
 msgstr ""
 "Gratis, anonym användning är för närvarande begränsad till 100 förfrågningar "
 "per dag, eller till 1000 förfrågningar per dag om du anger en kontakt-e-"
-"postadress i fältet \"e-post\". Du kan också be dem om fler."
+"postadress i fältet ``e-post``. Du kan också be dem om fler."
 
 #: ../../admin/machine.rst:635
 msgid "`MyMemory website <https://mymemory.translated.net/>`_"
@@ -18604,7 +18509,6 @@ msgstr ""
 ":command:`docker exec`:"
 
 #: ../../admin/management.rst:57
-#, fuzzy
 msgid ""
 "For :program:`docker-compose-plugin` the process is similar, you just have "
 "to use :command:`docker compose exec`:"
@@ -18811,11 +18715,10 @@ msgid "Removes duplicate entries in host keys."
 msgstr "Tar bort dubbla poster i värdnycklar."
 
 #: ../../admin/management.rst:307
-#, fuzzy
 msgid ""
 "Creates an ``admin`` account with a random password, unless it is specified."
 msgstr ""
-"Skapar ett administratörskonto med ett slumpmässigt lösenord, om inget annat "
+"Skapar ett ``admin``-konto med ett slumpmässigt lösenord, om inget annat "
 "anges."
 
 #: ../../admin/management.rst:311
@@ -19511,14 +19414,12 @@ msgstr ""
 "Innehållet i översättningsminnet kan tillämpas på strängar på flera sätt:"
 
 #: ../../admin/memory.rst:15
-#, fuzzy
-#| msgid "Allow translation propagation"
 msgid ""
 "User can accept suggestions from the :ref:`machine-translation` tab while "
 "editing the string."
 msgstr ""
-"Användaren kan acceptera förslag från fliken :ref:`maskinöversättning` medan "
-"strängen redigeras."
+"Användaren kan acceptera förslag från fliken :ref:`machine-translation` "
+"medan strängen redigeras."
 
 #: ../../admin/memory.rst:16
 msgid ""
@@ -19818,7 +19719,6 @@ msgid "Usage"
 msgstr "Användning"
 
 #: ../../admin/optionals.rst:39
-#, fuzzy
 msgid ""
 "The module automatically hooks into Weblate and sets the exported repository "
 "URL in the :ref:`component`. The repositories are accessible under the ``/"
@@ -19826,7 +19726,7 @@ msgid ""
 "weblate/main/``."
 msgstr ""
 "Modulen kopplas automatiskt till Weblate och ställer in den exporterade "
-"repositoriets URL i :ref:`komponenten`. Repositorierna är tillgängliga under "
+"repositoriets URL i :ref:`component`. Repositorierna är tillgängliga under "
 "``/git/``-delen av Weblate-URL:en, till exempel ``https://example.org/git/"
 "weblate/main/``."
 
@@ -19928,7 +19828,6 @@ msgstr ""
 "(faktura) där du kan logga dina kunders betalningar."
 
 #: ../../admin/optionals.rst:104
-#, fuzzy
 msgid ""
 "After installation you can control billing in the admin interface. Users "
 "with billing enabled will get new :guilabel:`Billing` tab in "
@@ -19936,7 +19835,7 @@ msgid ""
 msgstr ""
 "Efter installationen kan du styra faktureringen i "
 "administratörsgränssnittet. Användare med aktiverad fakturering får en ny "
-"flik :guilabel:`Fakturering` i sin :ref:`användarprofil`."
+"flik :guilabel:`Fakturering` i sin :ref:`user-profile`."
 
 #: ../../admin/optionals.rst:108
 msgid ""
@@ -20334,7 +20233,6 @@ msgid "Adding translation projects and components"
 msgstr "Lägga till översättningsprojekt och komponenter"
 
 #: ../../admin/projects.rst:40
-#, fuzzy
 msgid ""
 "Based on your permissions, new translation projects and components can be "
 "created. It is always permitted for users with the :guilabel:`Add new "
@@ -20345,7 +20243,7 @@ msgstr ""
 "Baserat på dina behörigheter kan nya översättningsprojekt och komponenter "
 "skapas. Det är alltid tillåtet för användare med behörigheten "
 ":guilabel:`Lägg till nya projekt`, och om din instans använder fakturering "
-"(t.ex. som https://hosted.weblate.org/ se :ref:`fakturering`), kan du också "
+"(t.ex. som https://hosted.weblate.org/ se :ref:`billing`), kan du också "
 "skapa dessa baserat på din planers tillåtna kvot från det användarkonto som "
 "hanterar faktureringen."
 
@@ -20572,9 +20470,9 @@ msgstr ""
 "information."
 
 #: ../../admin/projects.rst:177 ../../admin/projects.rst:188
-#, fuzzy
 msgid "The default value can be changed by :setting:`DEFAULT_SHARED_TM`."
-msgstr "Standardvärdet kan ändras genom att ställa in :`DEFAULT_SHARED_TM`."
+msgstr ""
+"Standardvärdet kan ändras genom att ställa in :setting:`DEFAULT_SHARED_TM`."
 
 #: ../../admin/projects.rst:182
 msgid "Contribute to shared translation memory"
@@ -20589,13 +20487,12 @@ msgstr ""
 "för mer information."
 
 #: ../../admin/projects.rst:186
-#, fuzzy
 msgid ""
 "This also affects whether the project can be used as source "
 "for :ref:`automatic-translation`."
 msgstr ""
-"Detta påverkar också om projektet kan användas som källa för "
-":ref:`automatisk översättning`."
+"Detta påverkar också om projektet kan användas som källa för :ref:`automatic-"
+"translation`."
 
 #: ../../admin/projects.rst:192
 msgid ""
@@ -20623,10 +20520,10 @@ msgstr ""
 "Konfigurera åtkomstkontroll per projekt, se :ref:`acl` för mer information."
 
 #: ../../admin/projects.rst:219
-#, fuzzy
 msgid "The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
 msgstr ""
-"Standardvärdet kan ändras genom att ställa in :`DEFAULT_ACCESS_CONTROL`."
+"Standardvärdet kan ändras genom att ställa in "
+":setting:`DEFAULT_ACCESS_CONTROL`."
 
 #: ../../admin/projects.rst:224
 msgid "Enforced two-factor authentication"
@@ -20858,9 +20755,8 @@ msgid "Component project"
 msgstr "Komponentprojekt"
 
 #: ../../admin/projects.rst:393
-#, fuzzy
 msgid ":ref:`project` where the component belongs."
-msgstr ":ref:`projekt` där komponenten hör hemma."
+msgstr ":ref:`project` där komponenten hör hemma."
 
 #: ../../admin/projects.rst:398
 msgid "Version control system"
@@ -20962,7 +20858,6 @@ msgid "Exported repository URL"
 msgstr "Exporterat arkiv-URL"
 
 #: ../../admin/projects.rst:460
-#, fuzzy
 msgid ""
 "URL where changes made by Weblate are exported. This is important "
 "when :ref:`continuous-translation` is not used, or when there is a need to "
@@ -20970,8 +20865,8 @@ msgid ""
 "Git repositories."
 msgstr ""
 "URL där ändringar gjorda av Weblate exporteras. Detta är viktigt när "
-":ref:`kontinuerlig översättning` inte används, eller när det finns ett behov "
-"av att manuellt sammanfoga ändringar. Du kan använda :ref:`git-exporter` för "
+":ref:`continuous-translation` inte används, eller när det finns ett behov av "
+"att manuellt sammanfoga ändringar. Du kan använda :ref:`git-exporter` för "
 "att automatisera detta för Git-arkiv."
 
 #: ../../admin/projects.rst:468
@@ -21344,13 +21239,12 @@ msgstr ""
 "översättningar, såvida du inte använder samma ID:n i hela projektet."
 
 #: ../../admin/projects.rst:674
-#, fuzzy
 msgid ""
 "The default value can be changed "
 "by :setting:`DEFAULT_TRANSLATION_PROPAGATION`."
 msgstr ""
-"Standardvärdet kan ändras genom att ställa in: "
-"`DEFAULT_TRANSLATION_PROPAGATION`."
+"Standardvärdet kan ändras genom att ställa in "
+":setting:`DEFAULT_TRANSLATION_PROPAGATION`."
 
 #: ../../admin/projects.rst:683 ../../workflows.rst:114 ../../workflows.rst:146
 #: ../../workflows.rst:179
@@ -21376,9 +21270,8 @@ msgid "Automatically accept suggestions"
 msgstr "Acceptera förslag automatiskt"
 
 #: ../../admin/projects.rst:707
-#, fuzzy
 msgid "Automatically accept voted suggestions, see :ref:`voting`."
-msgstr "Acceptera automatiskt röstade förslag, se :ref:`röstning`."
+msgstr "Acceptera automatiskt röstade förslag, se :ref:`voting`."
 
 #: ../../admin/projects.rst:723
 msgid "Enforced checks"
@@ -21764,9 +21657,9 @@ msgstr ""
 "sammanslagningskommit i Weblate-arkivet."
 
 #: ../../admin/projects.rst:896
-#, fuzzy
 msgid "The default value can be changed by :setting:`DEFAULT_MERGE_STYLE`."
-msgstr "Standardvärdet kan ändras genom att ställa in :`DEFAULT_MERGE_STYLE`."
+msgstr ""
+"Standardvärdet kan ändras genom att ställa in :setting:`DEFAULT_MERGE_STYLE`."
 
 #: ../../admin/projects.rst:906
 msgid "Commit, add, delete, merge, add-on, and merge request messages"
@@ -21823,9 +21716,10 @@ msgstr ""
 "denna period."
 
 #: ../../admin/projects.rst:936
-#, fuzzy
 msgid "The default value can be changed by :setting:`COMMIT_PENDING_HOURS`."
-msgstr "Standardvärdet kan ändras genom att ställa in: `COMMIT_PENDING_HOURS`."
+msgstr ""
+"Standardvärdet kan ändras genom att ställa in "
+":setting:`COMMIT_PENDING_HOURS`."
 
 #: ../../admin/projects.rst:940
 msgid ""
@@ -22309,7 +22203,6 @@ msgid "Optimize configuration"
 msgstr "Optimera konfigurationen"
 
 #: ../../admin/projects.rst:1284
-#, fuzzy
 msgid ""
 "The default configuration is useful for testing and debugging Weblate, while "
 "for a production setup, you should do some adjustments. Many of them have "
@@ -22318,7 +22211,7 @@ msgid ""
 msgstr ""
 "Standardkonfigurationen är användbar för att testa och felsöka Weblate, men "
 "för en produktionsmiljö bör du göra vissa justeringar. Många av dessa har "
-"stor inverkan på prestandan. Se :ref:`produktion` för mer information, "
+"stor inverkan på prestandan. Se :ref:`production` för mer information, "
 "särskilt:"
 
 #: ../../admin/projects.rst:1289
@@ -22662,7 +22555,6 @@ msgid "Translation process"
 msgstr "Översättningsprocess"
 
 #: ../../admin/translating.rst:9
-#, fuzzy
 msgid ""
 "Everyone can add suggestions by default, to be accepted by signed in users. "
 "Suggestion voting can be used to make use of a string when more than one "
@@ -22674,7 +22566,7 @@ msgid ""
 msgstr ""
 "Alla kan lägga till förslag som standard, som sedan godkänns av inloggade "
 "användare. Förslagsröstning kan användas för att använda en sträng när fler "
-"än en inloggad användare är överens, genom att ställa in :ref:`komponenten` "
+"än en inloggad användare är överens, genom att ställa in :ref:`component` "
 "med :guilabel:`Förslagsröstning` för att aktivera röstning och "
 ":guilabel:`Acceptera förslag automatiskt` för att ställa in en tröskel för "
 "godkända förslag (detta inkluderar en röst från användaren som lämnar "
@@ -22927,20 +22819,18 @@ msgid "Generic upgrade instructions"
 msgstr "Generella uppgraderingsinstruktioner"
 
 #: ../../admin/upgrade.rst:20
-#, fuzzy
 msgid ""
 "Always look for new changes to :ref:`requirements` before upgrading. Once "
 "all requirements are installed or upgraded, ensure your :file:`settings.py` "
 "matches the changes in the configuration "
 "(consult :file:`settings_example.py` for correct values)."
 msgstr ""
-"Leta alltid efter nya ändringar i :ref:`krav` innan du uppgraderar. När alla "
-"krav har installerats eller uppgraderats, se till att din "
+"Leta alltid efter nya ändringar i :ref:`requirements` innan du uppgraderar. "
+"När alla krav har installerats eller uppgraderats, se till att din "
 ":file:`settings.py` matchar ändringarna i konfigurationen (se "
 ":file:`settings_example.py` för korrekta värden)."
 
 #: ../../admin/upgrade.rst:25
-#, fuzzy
 msgid ""
 "Always check :ref:`version-specific-instructions` before upgrading. If you "
 "are skipping any versions, be sure to follow instructions for all versions "
@@ -22949,7 +22839,7 @@ msgid ""
 "across multiple releases should work, but is not as well tested as single "
 "version upgrades!"
 msgstr ""
-"Kontrollera alltid :ref:`versionsspecifika instruktioner` innan du "
+"Kontrollera alltid :ref:`version-specific-instructions` innan du "
 "uppgraderar. Om du hoppar över några versioner, se till att följa "
 "instruktionerna för alla versioner du hoppar över under uppgraderingen. "
 "Ibland är det bättre att uppgradera gradvis till en mellanversion för att "
@@ -23004,13 +22894,12 @@ msgstr ""
 "täcker de funktioner du vill ha."
 
 #: ../../admin/upgrade.rst:75
-#, fuzzy
 msgid ""
 "Upgrade the configuration file by following "
 "either :file:`settings_example.py`, or :ref:`version-specific-instructions`."
 msgstr ""
 "Uppgradera konfigurationsfilen genom att följa antingen "
-":file:`settings_example.py` eller :ref:`versionsspecifika instruktioner`."
+":file:`settings_example.py` eller :ref:`version-specific-instructions`."
 
 #: ../../admin/upgrade.rst:78
 msgid "Upgrade the database:"
@@ -23040,10 +22929,9 @@ msgstr ""
 "anropa:"
 
 #: ../../admin/upgrade.rst:103
-#, fuzzy
 msgid "Verify that your setup is sane (see also :ref:`production`):"
 msgstr ""
-"Kontrollera att din konfiguration är korrekt (se även :ref:`produktion`):"
+"Kontrollera att din konfiguration är korrekt (se även :ref:`production`):"
 
 #: ../../admin/upgrade.rst:109
 msgid "Restart the Celery worker (see :ref:`celery`)."
@@ -23284,9 +23172,8 @@ msgid "Request Headers"
 msgstr "Begärande rubriker"
 
 #: ../../api.rst:48
-#, fuzzy
 msgid "the response content type depends on :http:header:`Accept` header"
-msgstr "svarets innehållstyp beror på: http:header:`Accept` header"
+msgstr "svarets innehållstyp beror på :http:header:`Accept`-rubriken"
 
 #: ../../api.rst:50
 msgid "optional token to authenticate as ``Authorization: Token YOUR-TOKEN``"
@@ -23298,9 +23185,8 @@ msgid "Response Headers"
 msgstr "Svarsrubriker"
 
 #: ../../api.rst:52
-#, fuzzy
 msgid "this depends on :http:header:`Accept` header of request"
-msgstr "detta beror på: http:header: `Accept`-rubriken i begäran"
+msgstr "detta beror på :http:header:`Accept`-rubriken i begäran"
 
 #: ../../api.rst:54
 msgid "list of allowed HTTP methods on object"
@@ -23445,7 +23331,6 @@ msgid "Components and categories"
 msgstr "Komponenter och kategorier"
 
 #: ../../api.rst:186
-#, fuzzy
 msgid ""
 "To access a component which is nested inside a :ref:`category`, you need to "
 "URL encode the category name into a component name separated with a slash. "
@@ -23453,7 +23338,7 @@ msgid ""
 "``docs%252Fusage``. Full URL in this case would be for example ``https://"
 "example.com/api/components/hello/docs%252Fusage/repository/``."
 msgstr ""
-"För att komma åt en komponent som är inbäddad i en :ref:`kategori` måste du "
+"För att komma åt en komponent som är inbäddad i en :ref:`category` måste du "
 "URL-koda kategorinamnet till ett komponentnamn separerat med en snedstreck. "
 "Till exempel måste ``usage`` som placeras i kategorin ``docs`` användas som "
 "``docs%252Fusage``. Den fullständiga URL:en i detta fall skulle till exempel "
@@ -23559,12 +23444,11 @@ msgid "User ID to search for"
 msgstr "Användar-ID att söka efter"
 
 #: ../../api.rst:293
-#, fuzzy
 msgid ""
 "Users object attributes are documented at :http:get:`/api/users/"
 "(str:username)/`."
 msgstr ""
-"Användarnas objektattribut dokumenteras på: http:get:`/api/users/"
+"Användarnas objektattribut dokumenteras på :http:get:`/api/users/"
 "(str:username)/`."
 
 #: ../../api.rst:297
@@ -23635,17 +23519,15 @@ msgid "date the user last signed in"
 msgstr "datum då användaren senast loggade in"
 
 #: ../../api.rst:326
-#, fuzzy
 msgid "link to associated groups; see :http:get:`/api/groups/(int:id)/`"
-msgstr "länk till associerade grupper; se: http:get:`/api/groups/(int:id)/`"
+msgstr "länk till associerade grupper; se :http:get:`/api/groups/(int:id)/`"
 
 #: ../../api.rst:327
-#, fuzzy
 msgid ""
 "link to translated languages; see :http:get:`/api/languages/"
 "(string:language)/`"
 msgstr ""
-"länk till översatta språk; se:http:get:`/api/languages/(string:language)/`"
+"länk till översatta språk; se :http:get:`/api/languages/(string:language)/`"
 
 #: ../../api.rst:329 ../../api.rst:529 ../../api.rst:725 ../../api.rst:802
 #: ../../api.rst:913 ../../api.rst:985 ../../api.rst:1410 ../../api.rst:1620
@@ -23706,12 +23588,11 @@ msgid "List translations with contributions from a user."
 msgstr "Lista översättningar med bidrag från en användare."
 
 #: ../../api.rst:424
-#, fuzzy
 msgid ""
 "link to translations; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/`"
 msgstr ""
-"länk till översättningar; se: http:get:`/api/translations/(string:project)/"
+"länk till översättningar; se :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/`"
 
 #: ../../api.rst:428
@@ -23771,11 +23652,10 @@ msgstr ""
 "grupper. Om inte, får du endast se de grupper som användaren är medlem i."
 
 #: ../../api.rst:498
-#, fuzzy
 msgid ""
 "Group object attributes are documented at :http:get:`/api/groups/(int:id)/`."
 msgstr ""
-"Gruppobjektets attribut dokumenteras på: http:get:`/api/groups/(int:id)/`."
+"Gruppobjektets attribut dokumenteras på :http:get:`/api/groups/(int:id)/`."
 
 #: ../../api.rst:502
 msgid "Creates a new group."
@@ -23825,41 +23705,36 @@ msgid "integer corresponding to group of languages"
 msgstr "heltal som motsvarar en grupp av språk"
 
 #: ../../api.rst:522
-#, fuzzy
 msgid "link to associated roles; see :http:get:`/api/roles/(int:id)/`"
-msgstr "länk till associerade roller; se: http:get:`/api/roles/(int:id)/`"
+msgstr "länk till associerade roller; se :http:get:`/api/roles/(int:id)/`"
 
 #: ../../api.rst:523
-#, fuzzy
 msgid ""
 "link to associated projects; see :http:get:`/api/projects/(string:project)/`"
 msgstr ""
-"länk till relaterade projekt; se:http:get:`/api/projects/(string:project)/`"
+"länk till relaterade projekt; se :http:get:`/api/projects/(string:project)/`"
 
 #: ../../api.rst:524 ../../api.rst:2612
-#, fuzzy
 msgid ""
 "link to associated components; see :http:get:`/api/components/"
 "(string:project)/(string:component)/`"
 msgstr ""
-"länk till associerade komponenter; se: http:get:`/api/components/"
+"länk till associerade komponenter; se :http:get:`/api/components/"
 "(string:project)/(string:component)/`"
 
 #: ../../api.rst:525
-#, fuzzy
 msgid ""
 "link to associated componentlist; see :http:get:`/api/component-lists/"
 "(str:slug)/`"
 msgstr ""
-"länk till tillhörande komponentlista; se: http:get:`/api/component-lists/"
+"länk till tillhörande komponentlista; se :http:get:`/api/component-lists/"
 "(str:slug)/`"
 
 #: ../../api.rst:527
-#, fuzzy
 msgid ""
 "link to associated administrators; see :http:get:`/api/users/(str:username)/`"
 msgstr ""
-"länk till associerade administratörer; se: http:get:`/api/users/"
+"länk till associerade administratörer; se :http:get:`/api/users/"
 "(str:username)/`"
 
 #: ../../api.rst:562 ../../api.rst:572
@@ -23951,11 +23826,10 @@ msgstr ""
 "användaren är superanvändare returneras en lista över alla befintliga roller."
 
 #: ../../api.rst:705
-#, fuzzy
 msgid ""
 "Roles object attributes are documented at :http:get:`/api/roles/(int:id)/`."
 msgstr ""
-"Rollobjektets attribut dokumenteras på: http:get:`/api/roles/(int:id)/`."
+"Rollobjektets attribut dokumenteras på :http:get:`/api/roles/(int:id)/`."
 
 #: ../../api.rst:709
 msgid "Creates a new role."
@@ -23994,12 +23868,11 @@ msgid "Returns a list of all languages."
 msgstr "Returnerar en lista över alla språk."
 
 #: ../../api.rst:773
-#, fuzzy
 msgid ""
 "Language object attributes are documented at :http:get:`/api/languages/"
 "(string:language)/`."
 msgstr ""
-"Språkojektets attribut dokumenteras på: http:get:`/api/languages/"
+"Språkobjektets attribut dokumenteras på :http:get:`/api/languages/"
 "(string:language)/`."
 
 #: ../../api.rst:777
@@ -24052,12 +23925,11 @@ msgid "Returns a list of all projects."
 msgstr "Returnerar en lista över alla projekt."
 
 #: ../../api.rst:880
-#, fuzzy
 msgid ""
 "Project object attributes are documented at :http:get:`/api/projects/"
 "(string:project)/`."
 msgstr ""
-"Projektets objektattribut dokumenteras på: http:get:`/api/projects/"
+"Projektets objektattribut dokumenteras på :http:get:`/api/projects/"
 "(string:project)/`."
 
 #: ../../api.rst:884
@@ -24097,12 +23969,11 @@ msgid "project website"
 msgstr "projektets webbplats"
 
 #: ../../api.rst:902
-#, fuzzy
 msgid ""
 "URL to components list; see :http:get:`/api/projects/(string:project)/"
 "components/`"
 msgstr ""
-"URL till komponentlista; se: http:get:`/api/projects/(string:project)/"
+"URL till komponentlista; se :http:get:`/api/projects/(string:project)/"
 "components/`"
 
 #: ../../api.rst:903
@@ -24114,20 +23985,18 @@ msgstr ""
 "repository/`"
 
 #: ../../api.rst:904
-#, fuzzy
 msgid ""
 "URL to changes list; see :http:get:`/api/projects/(string:project)/changes/`"
 msgstr ""
-"URL till ändringslista; se: http:get:`/api/projects/(string:project)/changes/"
+"URL till ändringslista; se :http:get:`/api/projects/(string:project)/changes/"
 "`"
 
 #: ../../api.rst:905
-#, fuzzy
 msgid ""
 "URL to list contributor credits; see :http:get:`/api/projects/"
 "(string:project)/credits/`"
 msgstr ""
-"URL för att lista bidragsgivares krediter; se: http:get:`/api/projects/"
+"URL för att lista bidragsgivare; se :http:get:`/api/projects/"
 "(string:project)/credits/`"
 
 #: ../../api.rst:929
@@ -24189,7 +24058,6 @@ msgid ""
 msgstr "Språkkoden som ska laddas ner. Om inget anges ingår alla språk."
 
 #: ../../api.rst:975
-#, fuzzy
 msgid ""
 "Returns information about the VCS repository status. This endpoint contains "
 "only an overall summary for all repositories for the project. To get more "
@@ -24198,7 +24066,7 @@ msgid ""
 msgstr ""
 "Returnerar information om VCS-arkivets status. Denna slutpunkt innehåller "
 "endast en övergripande sammanfattning för alla arkiv för projektet. För att "
-"få mer detaljerad status, använd: http:get:`/api/components/(string:project)/"
+"få mer detaljerad status, använd :http:get:`/api/components/(string:project)/"
 "(string:component)/repository/`."
 
 #: ../../api.rst:981 ../../api.rst:1688
@@ -24297,12 +24165,11 @@ msgid "Disables automatic repository sharing via :ref:`internal-urls`."
 msgstr "Inaktiverar automatisk delning av arkiv via :ref:`internal-urls`."
 
 #: ../../api.rst:1079
-#, fuzzy
 msgid ""
 "Component parameters, see :http:get:`/api/components/(string:project)/"
 "(string:component)/`"
 msgstr ""
-"Komponentparametrar, se: http:get:`/api/components/(string:project)/"
+"Komponentparametrar, se :http:get:`/api/components/(string:project)/"
 "(string:component)/`"
 
 #: ../../api.rst:1080
@@ -24508,12 +24375,11 @@ msgid "Returns a list of translation components."
 msgstr "Returnerar en lista över översättningskomponenter."
 
 #: ../../api.rst:1346
-#, fuzzy
 msgid ""
 "Component object attributes are documented at :http:get:`/api/components/"
 "(string:project)/(string:component)/`."
 msgstr ""
-"Komponentobjektets attribut dokumenteras på: http:get:`/api/components/"
+"Komponentobjektets attribut dokumenteras på :http:get:`/api/components/"
 "(string:project)/(string:component)/`."
 
 #: ../../api.rst:1350
@@ -24521,10 +24387,9 @@ msgid "Returns information about the translation component."
 msgstr "Returnerar information om översättningskomponenten."
 
 #: ../../api.rst:1356
-#, fuzzy
 msgid ""
 "the translation project; see :http:get:`/api/projects/(string:project)/`"
-msgstr "översättningsprojektet; se:http:get:`/api/projects/(string:project)/`"
+msgstr "översättningsprojektet; se :http:get:`/api/projects/(string:project)/`"
 
 #: ../../api.rst:1360
 msgid "component whose repository is linked via :ref:`internal-urls`"
@@ -24570,48 +24435,43 @@ msgid ""
 msgstr "källspråksobjekt; se :http:get:`/api/languages/(string:language)/`"
 
 #: ../../api.rst:1396
-#, fuzzy
 msgid ""
 "Whether component is locked, this field is read-only; see :http:get:`/api/"
 "components/(string:project)/(string:component)/lock/`"
 msgstr ""
-"Oavsett om komponenten är låst är detta fält skrivskyddat; se: http:get:`/"
-"api/components/(string:project)/(string:component)/lock/`"
+"Huruvida komponenten är låst är detta fält skrivskyddat; se :http:get:`/api/"
+"components/(string:project)/(string:component)/lock/`"
 
 #: ../../api.rst:1403
-#, fuzzy
 msgid ""
 "URL to repository status; see :http:get:`/api/components/(string:project)/"
 "(string:component)/repository/`"
 msgstr ""
-"URL till arkivstatus; se: http:get:`/api/components/(string:project)/"
+"URL till arkivstatus; se :http:get:`/api/components/(string:project)/"
 "(string:component)/repository/`"
 
 #: ../../api.rst:1404
-#, fuzzy
 msgid ""
 "URL to translations list; see :http:get:`/api/components/(string:project)/"
 "(string:component)/translations/`"
 msgstr ""
-"URL till översättningslistan; se: http:get:`/api/components/(string:project)/"
+"URL till översättningslistan; se :http:get:`/api/components/(string:project)/"
 "(string:component)/translations/`"
 
 #: ../../api.rst:1405
-#, fuzzy
 msgid ""
 "URL to lock status; see :http:get:`/api/components/(string:project)/"
 "(string:component)/lock/`"
 msgstr ""
-"URL för låsstatus; se: http:get:`/api/components/(string:project)/"
+"URL för låsstatus; se :http:get:`/api/components/(string:project)/"
 "(string:component)/lock/`"
 
 #: ../../api.rst:1406
-#, fuzzy
 msgid ""
 "URL to changes list; see :http:get:`/api/components/(string:project)/"
 "(string:component)/changes/`"
 msgstr ""
-"URL till ändringslista; se: http:get:`/api/components/(string:project)/"
+"URL till ändringslista; se :http:get:`/api/components/(string:project)/"
 "(string:component)/changes/`"
 
 #: ../../api.rst:1407
@@ -24622,12 +24482,11 @@ msgstr ""
 "(str:uuid)/`"
 
 #: ../../api.rst:1408
-#, fuzzy
 msgid ""
 "URL to list contributor credits; see :http:get:`/api/components/"
 "(string:project)/(string:component)/credits/`"
 msgstr ""
-"URL för att lista bidragsgivares krediter; se: http:get:`/api/components/"
+"URL för att lista bidragsgivare; se :http:get:`/api/components/"
 "(string:project)/(string:component)/credits/`"
 
 #: ../../api.rst:1460
@@ -24708,11 +24567,10 @@ msgid "Returns a list of component screenshots."
 msgstr "Returnerar en lista med skärmdumpar av komponenter."
 
 #: ../../api.rst:1607
-#, fuzzy
 msgid ""
 "array of component screenshots; see :http:get:`/api/screenshots/(int:id)/`"
 msgstr ""
-"serie av skärmdumpar av komponenter; se: http:get:`/api/screenshots/(int:id)/"
+"serie av skärmdumpar av komponenter; se :http:get:`/api/screenshots/(int:id)/"
 "`"
 
 #: ../../api.rst:1612
@@ -24728,12 +24586,11 @@ msgid "Sets component lock status."
 msgstr "Ställer in komponentlåsstatus."
 
 #: ../../api.rst:1633
-#, fuzzy
 msgid ""
 "Response is same as :http:get:`/api/components/(string:project)/"
 "(string:component)/lock/`."
 msgstr ""
-"Svaret är detsamma som: http:get:`/api/components/(string:project)/"
+"Svaret är detsamma som :http:get:`/api/components/(string:project)/"
 "(string:component)/lock/`."
 
 #: ../../api.rst:1639
@@ -24769,12 +24626,11 @@ msgid "Performs the given operation on a VCS repository."
 msgstr "Utför den angivna åtgärden på ett VCS-arkiv."
 
 #: ../../api.rst:1699 ../../api.rst:2196
-#, fuzzy
 msgid ""
 "See :http:post:`/api/projects/(string:project)/repository/` for "
 "documentation."
 msgstr ""
-"Se: http:post:`/api/projects/(string:project)/repository/` för dokumentation."
+"Se :http:post:`/api/projects/(string:project)/repository/` för dokumentation."
 
 #: ../../api.rst:1705 ../../api.rst:2204
 msgid ""
@@ -24809,10 +24665,9 @@ msgid "Creates new translation in the given component."
 msgstr "Skapar en ny översättning i den angivna komponenten."
 
 #: ../../api.rst:1781
-#, fuzzy
 msgid ""
 "translation language code; see :http:get:`/api/languages/(string:language)/`"
-msgstr "översättningsspråkkod; se: http:get:`/api/languages/(string:language)/`"
+msgstr "översättningsspråkkod; se :http:get:`/api/languages/(string:language)/`"
 
 #: ../../api.rst:1782
 msgid "new translation object created"
@@ -24828,9 +24683,8 @@ msgid "Returns projects linked with a component."
 msgstr "Returnerar projekt som är kopplade till en komponent."
 
 #: ../../api.rst:1877
-#, fuzzy
 msgid "associated projects; see :http:get:`/api/projects/(string:project)/`"
-msgstr "relaterade projekt; se:http:get:`/api/projects/(string:project)/`"
+msgstr "relaterade projekt; se :http:get:`/api/projects/(string:project)/`"
 
 #: ../../api.rst:1881
 msgid "Associate project with a component."
@@ -24849,12 +24703,11 @@ msgid "Returns a list of translations."
 msgstr "Returnerar en lista med översättningar."
 
 #: ../../api.rst:1931
-#, fuzzy
 msgid ""
 "Translation object attributes are documented at :http:get:`/api/translations/"
 "(string:project)/(string:component)/(string:language)/`."
 msgstr ""
-"Översättningsobjektets attribut dokumenteras på: http:get:`/api/translations/"
+"Översättningsobjektets attribut dokumenteras på :http:get:`/api/translations/"
 "(string:project)/(string:component)/(string:language)/`."
 
 #: ../../api.rst:1935
@@ -24954,12 +24807,11 @@ msgstr ""
 "(string:component)/(string:language)/file/`"
 
 #: ../../api.rst:1968
-#, fuzzy
 msgid ""
 "URL to changes list; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/changes/`"
 msgstr ""
-"URL till ändringslista; se: http:get:`/api/translations/(string:project)/"
+"URL till ändringslista; se :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/changes/`"
 
 #: ../../api.rst:1969
@@ -25036,9 +24888,8 @@ msgid "String state; see :http:get:`/api/units/(int:id)/`"
 msgstr "Strängstatus; se :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:2100
-#, fuzzy
 msgid "newly created unit; see :http:get:`/api/units/(int:id)/`"
-msgstr "nyligen skapad enhet; se:http:get:`/api/units/(int:id)/`"
+msgstr "nyligen skapad enhet; se :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:2111
 msgid ""
@@ -25199,19 +25050,17 @@ msgstr ""
 "och XLIFF."
 
 #: ../../api.rst:2257
-#, fuzzy
 msgid ""
 "Unit object attributes are documented at :http:get:`/api/units/(int:id)/`."
 msgstr ""
-"Enhetsobjektets attribut dokumenteras på: http:get:`/api/units/(int:id)/`."
+"Enhetsobjektets attribut dokumenteras på :http:get:`/api/units/(int:id)/`."
 
 #: ../../api.rst:2263
-#, fuzzy
 msgid ""
 "The ``target`` and ``source`` are now arrays to properly handle plural "
 "strings."
 msgstr ""
-"\"Mål\" och \"källa\" är nu matriser för att korrekt hantera flera strängar."
+"``Mål`` och ``källa`` är nu matriser för att korrekt hantera flera strängar."
 
 #: ../../api.rst:2268
 msgid "The ``last_updated`` attribute is now exposed."
@@ -25334,9 +25183,8 @@ msgid "URL where the unit can be edited"
 msgstr "URL där enheten kan redigeras"
 
 #: ../../api.rst:2299
-#, fuzzy
 msgid "Source unit link; see :http:get:`/api/units/(int:id)/`"
-msgstr "Källens enhetslänk; se: http:get:`/api/units/(int:id)/`"
+msgstr "Källens enhetslänk; se :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:2300
 msgid "whether the unit is pending for write"
@@ -25452,12 +25300,11 @@ msgid "Returns a list of translation changes."
 msgstr "Returnerar en lista över översättningsändringar."
 
 #: ../../api.rst:2390
-#, fuzzy
 msgid ""
 "Change object attributes are documented at :http:get:`/api/changes/(int:id)/"
 "`."
 msgstr ""
-"Ändrade objektattribut dokumenteras på: http:get:`/api/changes/(int:id)/`."
+"Ändrade objektattribut dokumenteras på :http:get:`/api/changes/(int:id)/`."
 
 #: ../../api.rst:2392
 msgid "Username of user to filters"
@@ -25533,12 +25380,11 @@ msgid "Returns a list of screenshot string information."
 msgstr "Returnerar en lista med information om skärmdumpsträngar."
 
 #: ../../api.rst:2425
-#, fuzzy
 msgid ""
 "Screenshot object attributes are documented at :http:get:`/api/screenshots/"
 "(int:id)/`."
 msgstr ""
-"Skärmdumpsobjektets attribut dokumenteras på: http:get:`/api/screenshots/"
+"Skärmdumpsobjektets attribut dokumenteras på :http:get:`/api/screenshots/"
 "(int:id)/`."
 
 #: ../../api.rst:2429
@@ -25557,10 +25403,9 @@ msgstr "namn på en skärmdump"
 
 #: ../../api.rst:2435 ../../api.rst:2471 ../../api.rst:2494 ../../api.rst:2505
 #: ../../api.rst:2516
-#, fuzzy
 msgid "URL to download a file; see :http:get:`/api/screenshots/(int:id)/file/`"
 msgstr ""
-"URL för att ladda ner en fil; se: http:get:`/api/screenshots/(int:id)/file/`"
+"URL för att ladda ner en fil; se :http:get:`/api/screenshots/(int:id)/file/`"
 
 #: ../../api.rst:2436 ../../api.rst:2472 ../../api.rst:2495 ../../api.rst:2506
 #: ../../api.rst:2517
@@ -25616,11 +25461,10 @@ msgid "Returns a list of add-ons."
 msgstr "Returnerar en lista över tillägg."
 
 #: ../../api.rst:2539
-#, fuzzy
 msgid ""
 "Add-on object attributes are documented at :http:get:`/api/addons/(int:id)/`."
 msgstr ""
-"Tilläggsobjektattribut dokumenteras på: http:get:`/api/addons/(int:id)/`."
+"Tilläggsobjektattribut dokumenteras på :http:get:`/api/addons/(int:id)/`."
 
 #: ../../api.rst:2543
 msgid "Returns information about add-on information."
@@ -25659,12 +25503,11 @@ msgid "Returns a list of component lists."
 msgstr "Returnerar en lista med komponentlistor."
 
 #: ../../api.rst:2601
-#, fuzzy
 msgid ""
 "Component list object attributes are documented at :http:get:`/api/component-"
 "lists/(str:slug)/`."
 msgstr ""
-"Komponentlistans objektattribut dokumenteras på: http:get:`/api/component-"
+"Komponentlistans objektattribut dokumenteras på :http:get:`/api/component-"
 "lists/(str:slug)/`."
 
 #: ../../api.rst:2605
@@ -26114,23 +25957,21 @@ msgstr ""
 "projects/(string:project)/repository/` för dokumentation."
 
 #: ../../api.rst:2887
-#, fuzzy
 msgid ""
 "Please use :http:post:`/api/components/(string:project)/(string:component)/"
 "repository/` instead which works properly with authentication for ACL "
 "limited projects."
 msgstr ""
-"Använd istället:http:post:`/api/components/(string:project)/"
+"Använd istället :http:post:`/api/components/(string:project)/"
 "(string:component)/repository/`, som fungerar korrekt med autentisering för "
 "ACL-begränsade projekt."
 
 #: ../../api.rst:2896
-#, fuzzy
 msgid ""
 "Please use :http:post:`/api/projects/(string:project)/repository/` instead "
 "which works properly with authentication for ACL limited projects."
 msgstr ""
-"Använd istället:http:post:`/api/projects/(string:project)/repository/`, som "
+"Använd istället :http:post:`/api/projects/(string:project)/repository/`, som "
 "fungerar korrekt med autentisering för ACL-begränsade projekt."
 
 #: ../../api.rst:2903
@@ -26537,12 +26378,11 @@ msgstr ""
 "se :ref:`mt-ollama`."
 
 #: ../../changes.rst:41
-#, fuzzy
 msgid ""
 "Added :http:get:`/api/units/(int:id)/comments/` to get a list of comments "
 "for the given translation unit."
 msgstr ""
-"Lagt till: http:get:`/api/units/(int:id)/comments/` för att få en lista över "
+"Lagt till :http:get:`/api/units/(int:id)/comments/` för att få en lista över "
 "kommentarer för den angivna översättningsenheten."
 
 #: ../../changes.rst:42
@@ -27025,10 +26865,8 @@ msgstr ""
 ":ref:`privileges`."
 
 #: ../../changes.rst:186
-#, fuzzy
-#| msgid ":ref:`component-branch`"
 msgid ":ref:`date-search`."
-msgstr ":ref:`datumsökning`."
+msgstr ":ref:`date-search`."
 
 #: ../../changes.rst:187
 msgid "Last changed lookup in :ref:`search-strings`."
@@ -27303,9 +27141,8 @@ msgid "Sign-in form not shown for LDAP."
 msgstr "Inloggningsformuläret visas inte för LDAP."
 
 #: ../../changes.rst:303
-#, fuzzy
 msgid "Access control for :http:get:`/api/users/(str:username)/`."
-msgstr "Åtkomstkontroll för: http:get:`/api/users/(str:username)/`."
+msgstr "Åtkomstkontroll för :http:get:`/api/users/(str:username)/`."
 
 #: ../../changes.rst:304
 msgid ":ref:`check-rst-references` allows translatable reference names."
@@ -27399,13 +27236,12 @@ msgid ":doc:`/formats/catkeys`."
 msgstr ":doc:`/formats/catkeys`."
 
 #: ../../changes.rst:340
-#, fuzzy
 msgid ""
 "Some flags are now added to a string by default, based on locations; "
 "see :ref:`location-based-flags`."
 msgstr ""
 "Vissa flaggor läggs nu till i en sträng som standard, baserat på platser; se "
-":ref:`platsbaserade flaggor`."
+":ref:`location-based-flags`."
 
 #: ../../changes.rst:341
 msgid ""
@@ -27420,12 +27256,11 @@ msgid ":ref:`file_format_params` can now be configured at the component level."
 msgstr ":ref:`file_format_params` kan nu konfigureras på komponentnivå."
 
 #: ../../changes.rst:343
-#, fuzzy
 msgid ""
 "New management command :wladmin:`list_file_format_params` to list all "
 "available file format parameters."
 msgstr ""
-"Nytt kommando för administration: wladmin:`list_file_format_params` för att "
+"Nytt kommando för administration :wladmin:`list_file_format_params` för att "
 "lista alla tillgängliga filformatsparametrar."
 
 #: ../../changes.rst:344
@@ -27673,12 +27508,11 @@ msgstr ""
 "47951` / :ghsa:`57jg-m997-cx3q`)."
 
 #: ../../changes.rst:456
-#, fuzzy
 msgid ""
 "Added :http:post:`/api/units/(int:id)/comments/` to create a new comment for "
 "the given translation unit."
 msgstr ""
-"Lagt till: http:post:`/api/units/(int:id)/comments/` för att skapa en ny "
+"Lagt till :http:post:`/api/units/(int:id)/comments/` för att skapa en ny "
 "kommentar för den angivna översättningsenheten."
 
 #: ../../changes.rst:457
@@ -27712,12 +27546,11 @@ msgid ":ref:`addon-weblate.webhook.slack` is now available as an add-on."
 msgstr ":ref:`addon-weblate.webhook.slack` finns nu tillgängligt som tillägg."
 
 #: ../../changes.rst:464
-#, fuzzy
 msgid ""
 "Added :http:get:`/api/users/(str:username)/contributions/` to retrieve a "
 "list of all translations contributed by the user."
 msgstr ""
-"Lagt till: http:get:`/api/users/(str:username)/contributions/` för att hämta "
+"Lagt till :http:get:`/api/users/(str:username)/contributions/` för att hämta "
 "en lista över alla översättningar som användaren har bidragit med."
 
 #: ../../changes.rst:468
@@ -27830,12 +27663,11 @@ msgid "The projects and categories default tab now shows translated languages."
 msgstr "Fliken Standard för projekt och kategorier visar nu översatta språk."
 
 #: ../../changes.rst:495
-#, fuzzy
 msgid ""
 "If no ``secret`` is provided in the Webhook add-on configuration, the "
 "Webhook request will not be signed, see :ref:`addon-weblate.webhook.webhook`."
 msgstr ""
-"Om inget \"hemligt\" anges i konfigurationen för Webhook-tillägget kommer "
+"Om inget ``hemligt`` anges i konfigurationen för Webhook-tillägget kommer "
 "Webhook-begäran inte att signeras, se :ref:`addon-weblate.webhook.webhook`."
 
 #: ../../changes.rst:496
@@ -27982,22 +27814,20 @@ msgid "*Released on April 15th 2025.*"
 msgstr "*Släpptes den 15 april 2025.*"
 
 #: ../../changes.rst:610
-#, fuzzy
 msgid ""
 "Added :http:get:`/api/units/(int:id)/translations/` to retrieve a list of "
 "all target translation units for the given source translation unit."
 msgstr ""
-"Lagt till: http:get:`/api/units/(int:id)/translations/` för att hämta en "
+"Lagt till :http:get:`/api/units/(int:id)/translations/` för att hämta en "
 "lista över alla målöversättningsenheter för den angivna "
 "källöversättningsenheten."
 
 #: ../../changes.rst:611
-#, fuzzy
 msgid ""
 "Added :http:delete:`/api/groups/(int:id)/roles/(int:role_id)` to delete a "
 "role from a group."
 msgstr ""
-"Lagt till: http:delete:`/api/groups/(int:id)/roles/(int:role_id)` för att ta "
+"Lagt till :http:delete:`/api/groups/(int:id)/roles/(int:role_id)` för att ta "
 "bort en roll från en grupp."
 
 #: ../../changes.rst:612
@@ -28017,13 +27847,12 @@ msgid "Inherited flags can now be discarded, see :ref:`custom-checks`."
 msgstr "Ärvda flaggor kan nu kasseras, se :ref:`custom-checks`."
 
 #: ../../changes.rst:615
-#, fuzzy
-#| msgid "New language added to %(component)s"
 msgid ""
 ":ref:`secondary-languages` can now be specified in :ref:`project` "
 "and :ref:`component`."
 msgstr ""
-":ref:`sekundära språk` kan nu anges i :ref:`projekt` och :ref:`komponent`."
+":ref:`secondary-languages` kan nu anges i :ref:`project` och "
+":ref:`component`."
 
 #: ../../changes.rst:616
 msgid ":ref:`mt-sources` can now be customized."
@@ -28078,9 +27907,8 @@ msgstr ""
 ":ref:`addon-weblate.discovery.discovery` hanterar hundratals träffar bättre."
 
 #: ../../changes.rst:628
-#, fuzzy
 msgid "Dismissing :ref:`checks` automatically updates propagated strings."
-msgstr "Avfärda :ref:`kontroller` uppdaterar automatiskt spridda strängar."
+msgstr "Avfärda :ref:`checks` uppdaterar automatiskt propagerade strängar."
 
 #: ../../changes.rst:629
 msgid ""
@@ -28670,15 +28498,13 @@ msgstr ""
 ":ref:`api`."
 
 #: ../../changes.rst:889
-#, fuzzy
 msgid "Added :http:get:`/api/projects/{string:project}/machinery_settings/`."
-msgstr "Tillagt: http:get:`/api/projects/{string:project}/machinery_settings/`."
+msgstr "Tillagt :http:get:`/api/projects/{string:project}/machinery_settings/`."
 
 #: ../../changes.rst:890
-#, fuzzy
 msgid "Added :http:post:`/api/projects/{string:project}/machinery_settings/`."
 msgstr ""
-"Tillagt: http:post:`/api/projects/{string:project}/machinery_settings/`."
+"Tillagt :http:post:`/api/projects/{string:project}/machinery_settings/`."
 
 #: ../../changes.rst:892
 msgid ""
@@ -28739,10 +28565,8 @@ msgid "Editor in :ref:`zen-mode` is now stick to bottom of screen."
 msgstr "Redaktören i :ref:`zen-mode` fastnar nu längst ner på skärmen."
 
 #: ../../changes.rst:905
-#, fuzzy
-#| msgid "Component name"
 msgid "Added page navigation while :ref:`translating`."
-msgstr "Lade till sidnavigering under :ref:`översättning`."
+msgstr "Lade till sidnavigering under :ref:`translating`."
 
 #: ../../changes.rst:906
 msgid ":ref:`manage-appearance` now has distinct settings for dark mode."
@@ -29002,9 +28826,8 @@ msgid "Stale, empty glossaries are now automatically removed."
 msgstr "Föråldrade, tomma ordlistor tas nu bort automatiskt."
 
 #: ../../changes.rst:1044
-#, fuzzy
 msgid ":kbd:`?` now displays available :ref:`keyboard`."
-msgstr ":kbd:`?` visar nu tillgängliga :ref:`tangentbord`."
+msgstr ":kbd:`?` visar nu tillgängliga :ref:`keyboard`."
 
 #: ../../changes.rst:1045
 msgid ""
@@ -29205,11 +29028,8 @@ msgid ":ref:`labels` now include description to explain them."
 msgstr ":ref:`labels` innehåller nu en beskrivning som förklarar dem."
 
 #: ../../changes.rst:1138
-#, fuzzy
-#| msgid "There are no translations in this component."
 msgid "New :ref:`subscriptions` for completed translation and component."
-msgstr ""
-"Nytt :ref:`prenumerationer` för färdigställd översättning och komponent."
+msgstr "Nytt :ref:`subscriptions` för färdigställd översättning och komponent."
 
 #: ../../changes.rst:1139
 msgid ""
@@ -29238,9 +29058,8 @@ msgstr ""
 ":ref:`promotion`."
 
 #: ../../changes.rst:1146
-#, fuzzy
 msgid ":ref:`reports` are now available for categories."
-msgstr ":ref:`rapporter` finns nu tillgängliga för kategorier."
+msgstr ":ref:`reports` finns nu tillgängliga för kategorier."
 
 #: ../../changes.rst:1147
 msgid "Highlight newlines in the editor."
@@ -29277,10 +29096,8 @@ msgid ":ref:`check-python-brace-format` detects extra curly braces."
 msgstr ":ref:`check-python-brace-format` upptäcker extra klamrar."
 
 #: ../../changes.rst:1153
-#, fuzzy
-#| msgid "Added support for localized screenshots."
 msgid "Screenshots now can be pasted from the clipboard in :ref:`screenshots`."
-msgstr "Skärmdumpar kan nu klistras in från urklipp i :ref:`skärmdumpar`."
+msgstr "Skärmdumpar kan nu klistras in från urklipp i :ref:`screenshots`."
 
 #: ../../changes.rst:1157
 msgid "Accessibility of keyboard navigation."
@@ -29457,15 +29274,12 @@ msgid ":ref:`addons` activity log for tracking add-on activity."
 msgstr ":ref:`addons` aktivitetslogg för spårning av tilläggsaktivitet."
 
 #: ../../changes.rst:1231
-#, fuzzy
-#| msgid "Approved translation in %(translation)s"
 msgid "Improved date range selection in :ref:`reports`."
-msgstr "Förbättrad val av datumintervall i :ref:`rapporter`."
+msgstr "Förbättrad val av datumintervall i :ref:`reports`."
 
 #: ../../changes.rst:1235
-#, fuzzy
 msgid ":ref:`subscriptions` now include strings which need updating."
-msgstr ":ref:`prenumerationer` innehåller nu strängar som behöver uppdateras."
+msgstr ":ref:`subscriptions` innehåller nu strängar som behöver uppdateras."
 
 #: ../../changes.rst:1236
 msgid "Improved compatibility with password managers."
@@ -29576,10 +29390,9 @@ msgid "Add :ref:`addons` history tab in management."
 msgstr "Lägg till :ref:`addons` historikfliken i hanteringen."
 
 #: ../../changes.rst:1286
-#, fuzzy
 msgid "New :ref:`alerts` when :ref:`glossary` might not work as expected."
 msgstr ""
-"Nytt :ref:`varningar` när :ref:`ordlista` kanske inte fungerar som förväntat."
+"Nytt :ref:`alerts` när :ref:`glossary` kanske inte fungerar som förväntat."
 
 #: ../../changes.rst:1287
 msgid ":doc:`/admin/announcements` can be posted on project/language scope."
@@ -29757,32 +29570,27 @@ msgid "API improvements."
 msgstr "API-förbättringar."
 
 #: ../../changes.rst:1383
-#, fuzzy
 msgid "Added :http:get:`/api/categories/(int:id)/statistics/`."
-msgstr "Tillagt: http:get:`/api/categories/(int:id)/statistics/`."
+msgstr "Tillagt :http:get:`/api/categories/(int:id)/statistics/`."
 
 #: ../../changes.rst:1384
-#, fuzzy
 msgid "Added :http:get:`/api/projects/(string:project)/file/`."
-msgstr "Tillagt: http:get:`/api/projects/(string:project)/file/`."
+msgstr "Tillagt :http:get:`/api/projects/(string:project)/file/`."
 
 #: ../../changes.rst:1385
-#, fuzzy
 msgid "Added :http:post:`/api/groups/(int:id)/admins/`."
-msgstr "Tillagt: http:post:`/api/groups/(int:id)/admins/`."
+msgstr "Tillagt :http:post:`/api/groups/(int:id)/admins/`."
 
 #: ../../changes.rst:1386
-#, fuzzy
 msgid "Added :http:delete:`/api/groups/(int:id)/admins/(int:user_id)`."
-msgstr "Tillagt: http:delete:`/api/groups/(int:id)/admins/(int:user_id)`."
+msgstr "Tillagt :http:delete:`/api/groups/(int:id)/admins/(int:user_id)`."
 
 #: ../../changes.rst:1387
-#, fuzzy
 msgid ""
 "Improved :http:post:`/api/translations/(string:project)/(string:component)/"
 "(string:language)/units/`."
 msgstr ""
-"Förbättrad: http:post:`/api/translations/(string:project)/(string:component)/"
+"Förbättrad :http:post:`/api/translations/(string:project)/(string:component)/"
 "(string:language)/units/`."
 
 #: ../../changes.rst:1389
@@ -29816,9 +29624,8 @@ msgid "Added :ref:`check-end-interrobang`."
 msgstr "Lagt till :ref:`check-end-interrobang`."
 
 #: ../../changes.rst:1398
-#, fuzzy
 msgid ":ref:`alerts` are now refreshed when needed, not just daily."
-msgstr ":ref:`varningar` uppdateras nu vid behov, inte bara dagligen."
+msgstr ":ref:`alerts` uppdateras nu vid behov, inte bara dagligen."
 
 #: ../../changes.rst:1399
 msgid ":doc:`/devel/reporting` uses specific word count for CJK languages."
@@ -29869,14 +29676,13 @@ msgstr ""
 "eller :ref:`auto-translation`."
 
 #: ../../changes.rst:1415
-#, fuzzy
 msgid ""
 "Several API calls might be affected by stricter validation of boolean fields "
 "by Django REST Framework. For example :http:post:`/api/projects/"
 "(string:project)/components/`."
 msgstr ""
 "Flera API-anrop kan påverkas av strängare validering av booleska fält av "
-"Django REST Framework. Till exempel: http:post:`/api/projects/"
+"Django REST Framework. Till exempel :http:post:`/api/projects/"
 "(string:project)/components/`."
 
 #: ../../changes.rst:1416
@@ -30054,19 +29860,16 @@ msgid "Weblate is now available in Tamil."
 msgstr "Weblate finns nu tillgängligt på tamil."
 
 #: ../../changes.rst:1498
-#, fuzzy
-#| msgid ":wladmin:`createadmin`"
 msgid "Better logging in :wladmin:`createadmin`."
-msgstr "Bättre inloggning: wladmin:`createadmin`."
+msgstr "Bättre inloggning :wladmin:`createadmin`."
 
 #: ../../changes.rst:1499
 msgid ":ref:`addon-weblate.discovery.discovery` now reports skipped entries."
 msgstr ":ref:`addon-weblate.discovery.discovery` rapporterar nu hoppade poster."
 
 #: ../../changes.rst:1500
-#, fuzzy
 msgid "Adding string in a repository triggers :ref:`subscriptions`."
-msgstr "Att lägga till en sträng i ett arkiv utlöser :ref:`prenumerationer`."
+msgstr "Att lägga till en sträng i ett arkiv utlöser :ref:`subscriptions`."
 
 #: ../../changes.rst:1501
 msgid ":ref:`mt-openai` better handles batch translations and glossaries."
@@ -30194,11 +29997,10 @@ msgid ":ref:`mt-alibaba` automatic suggestion service."
 msgstr ":ref:`mt-alibaba` automatisk förslagstjänst."
 
 #: ../../changes.rst:1554
-#, fuzzy
 msgid ""
 "Added labels API, see :http:get:`/api/projects/(string:project)/labels/`."
 msgstr ""
-"Lade till etiketter API, se: http:get:`/api/projects/(string:project)/labels/"
+"Lade till etiketter API, se :http:get:`/api/projects/(string:project)/labels/"
 "`."
 
 #: ../../changes.rst:1555
@@ -30259,13 +30061,12 @@ msgstr ""
 "den inte längre tillhandahålls av Microsoft."
 
 #: ../../changes.rst:1575
-#, fuzzy
 msgid ""
 "``labels`` in units API now expose full label info, see :http:get:`/api/"
 "units/(int:id)/`."
 msgstr ""
-"``etiketter`` i enhets-API visar nu fullständig etikettinformation, "
-"se:http:get:`/api/units/(int:id)/`."
+"``labels`` i enhets-API visar nu fullständig etikettinformation, se "
+":http:get:`/api/units/(int:id)/`."
 
 #: ../../changes.rst:1581
 msgid ""
@@ -30382,10 +30183,9 @@ msgstr ""
 "arbetsflödet."
 
 #: ../../changes.rst:1626
-#, fuzzy
 msgid "One-click removal of project or component :ref:`subscriptions`."
 msgstr ""
-"Borttagning av projekt eller komponent med ett klick :ref:`prenumerationer`."
+"Borttagning av projekt eller komponent med ett klick :ref:`subscriptions`."
 
 #: ../../changes.rst:1627
 msgid ""
@@ -30560,10 +30360,8 @@ msgid "Show plural form examples more prominently."
 msgstr "Visa exempel på pluralformer tydligare."
 
 #: ../../changes.rst:1694
-#, fuzzy
-#| msgid ":ref:`machine-translation`"
 msgid "Highlight whitespace in :ref:`machine-translation`."
-msgstr "Markera blanktecken i :ref:`maskinöversättning`."
+msgstr "Markera blanktecken i :ref:`machine-translation`."
 
 #: ../../changes.rst:1695
 msgid "Faster comment and component removal."
@@ -30578,10 +30376,8 @@ msgid "New string notification can now be triggered for each string."
 msgstr "Ny strängavisering kan nu aktiveras för varje sträng."
 
 #: ../../changes.rst:1701
-#, fuzzy
-#| msgid "Approved translation in %(translation)s"
 msgid "Improved OCR error handling in :ref:`screenshots`."
-msgstr "Förbättrad OCR-felhantering i :ref:`skärmdumpar`."
+msgstr "Förbättrad OCR-felhantering i :ref:`screenshots`."
 
 #: ../../changes.rst:1702
 msgid ":ref:`autofix` gracefully handle strings from :ref:`multivalue-csv`."
@@ -30590,16 +30386,12 @@ msgstr ""
 "sätt."
 
 #: ../../changes.rst:1703
-#, fuzzy
-#| msgid ":ref:`machine-translation`"
 msgid "Occasional crash in :ref:`machine-translation` caching."
-msgstr "Tillfällig krasch i :ref:`maskinöversättning`-caching."
+msgstr "Tillfällig krasch i :ref:`machine-translation`-caching."
 
 #: ../../changes.rst:1704
-#, fuzzy
-#| msgid "Create component"
 msgid "Fixed history listing for entries within a :ref:`category`."
-msgstr "Fast historiklista för poster inom en :ref:`kategori`."
+msgstr "Fast historiklista för poster inom en :ref:`category`."
 
 #: ../../changes.rst:1705
 msgid "Fixed editing :guilabel:`Administration` team."
@@ -30704,9 +30496,8 @@ msgid "*Released on September 10th 2023.*"
 msgstr "*Släpptes den 10 september 2023.*"
 
 #: ../../changes.rst:1754
-#, fuzzy
 msgid "Added :http:get:`/api/component-lists/(str:slug)/components/`."
-msgstr "Tillagt: http:get:`/api/component-lists/(str:slug)/components/`."
+msgstr "Tillagt :http:get:`/api/component-lists/(str:slug)/components/`."
 
 #: ../../changes.rst:1758
 msgid "Related glossary terms lookup is now faster."
@@ -30830,10 +30621,8 @@ msgstr ""
 ":ref:`check-reused` utlöses inte längre för språk med en enda pluralform."
 
 #: ../../changes.rst:1806
-#, fuzzy
-#| msgid "Added support for localized screenshots."
 msgid "WebP is now supported for :ref:`screenshots`."
-msgstr "WebP stöds nu för :ref:`skärmdumpar`."
+msgstr "WebP stöds nu för :ref:`screenshots`."
 
 #: ../../changes.rst:1807
 msgid ""
@@ -30843,10 +30632,8 @@ msgstr ""
 "områden."
 
 #: ../../changes.rst:1808
-#, fuzzy
-#| msgid "Added support for localized screenshots."
 msgid "OCR support for non-English languages in :ref:`screenshots`."
-msgstr "OCR-stöd för andra språk än engelska i :ref:`skärmdumpar`."
+msgstr "OCR-stöd för andra språk än engelska i :ref:`screenshots`."
 
 #: ../../changes.rst:1809
 msgid ":ref:`xliff` now supports displaying source string location."
@@ -36343,13 +36130,12 @@ msgstr ""
 "81?closed=1>`__."
 
 #: ../../changes/v4.rst:378
-#, fuzzy
 msgid ""
 "The :ref:`languages` are now automatically updated on upgrade, "
 "use :setting:`UPDATE_LANGUAGES` to disable that."
 msgstr ""
-"Språken uppdateras nu automatiskt vid uppgradering. Använd inställningen "
-":setting:`UPDATE_LANGUAGES` för att inaktivera detta."
+":ref:`languages` uppdateras nu automatiskt vid uppgradering. Använd "
+"inställningen :setting:`UPDATE_LANGUAGES` för att inaktivera detta."
 
 #: ../../changes/v4.rst:379
 msgid ""
@@ -36462,11 +36248,10 @@ msgstr ""
 "Utökade alternativ för tillägget :ref:`addon-weblate.generate.pseudolocale`."
 
 #: ../../changes/v4.rst:419
-#, fuzzy
 msgid ""
 "Added ``ignore-all-checks`` flag to ignore all quality checks on a string."
 msgstr ""
-"Lade till flaggan \"ignore-all-checks\" för att ignorera alla "
+"Lade till flaggan ``ignore-all-checks`` för att ignorera alla "
 "kvalitetskontroller på en sträng."
 
 #: ../../changes/v4.rst:420
@@ -36972,10 +36757,9 @@ msgid "Added support for restricting translation file downloads."
 msgstr "Lagt till stöd för att begränsa nedladdningar av översättningsfiler."
 
 #: ../../changes/v4.rst:578
-#, fuzzy
 msgid ""
 "The ``safe-html`` can now understand Markdown when used with ``md-text``."
-msgstr "\"safe-html\" kan nu förstå Markdown när det används med \"md-text\"."
+msgstr "``safe-html`` kan nu förstå Markdown när det används med ``md-text``."
 
 #: ../../changes/v4.rst:579
 msgid ""
@@ -41174,13 +40958,12 @@ msgid ""
 msgstr "Om du har upptäckt ett säkerhetsproblem i Weblate, se :ref:`security`."
 
 #: ../../contributing/issues.rst:15
-#, fuzzy
 msgid ""
 "If you are not sure about your bug report or feature request, you can "
 "try :ref:`discussions`."
 msgstr ""
 "Om du är osäker på din felrapport eller funktionsförfrågan kan du prova "
-":ref:`diskussioner`."
+":ref:`discussions`."
 
 #: ../../contributing/issues.rst:20
 msgid "Using AI to create issues"
@@ -41445,7 +41228,6 @@ msgstr ""
 "languages.py`."
 
 #: ../../contributing/release.rst:38
-#, fuzzy
 msgid "Set final version by :command:`./scripts/prepare-release`."
 msgstr "Ställ in slutlig version med :command:`./scripts/prepare-release`."
 
@@ -41830,12 +41612,11 @@ msgid "Continuous integration"
 msgstr "Kontinuerlig integration"
 
 #: ../../contributing/tests.rst:12
-#, fuzzy
 msgid ""
 "Weblate relies on `GitHub Actions`_ to run tests, build documentation, code "
 "linting, and other tasks to ensure code quality."
 msgstr ""
-"Weblate använder GitHub Actions för att köra tester, skapa dokumentation, "
+"Weblate använder `GitHub Actions`_ för att köra tester, skapa dokumentation, "
 "kodgranska och utföra andra uppgifter för att säkerställa kodkvaliteten."
 
 #: ../../contributing/tests.rst:15
@@ -42430,9 +42211,8 @@ msgid "Parse errors in the translation files"
 msgstr "Parseringsfel i översättningsfilerna"
 
 #: ../../devel/alerts.rst:15
-#, fuzzy
 msgid "Billing limits (see :ref:`billing`)"
-msgstr "Faktureringsgränser (se :ref:`fakturering`)"
+msgstr "Faktureringsgränser (se :ref:`billing`)"
 
 #: ../../devel/alerts.rst:16
 msgid "Repository containing too many outgoing or missing commits"
@@ -42451,10 +42231,8 @@ msgid "Misconfigured monolingual translation."
 msgstr "Felaktigt konfigurerad enspråkig översättning."
 
 #: ../../devel/alerts.rst:20
-#, fuzzy
-#| msgid "Component name"
 msgid "Broken :ref:`component`"
-msgstr "Trasig :ref:`komponent`"
+msgstr "Trasig :ref:`component`"
 
 #: ../../devel/alerts.rst:21
 msgid "Broken URLs"
@@ -42481,13 +42259,12 @@ msgid "Component seems unused"
 msgstr "Komponenten verkar vara oanvänd"
 
 #: ../../devel/alerts.rst:28
-#, fuzzy
 msgid ""
 "The alerts are updated daily, or on related change (for example "
 "when :ref:`component` is changed or when repository is updated)."
 msgstr ""
 "Varningarna uppdateras dagligen eller vid relaterade ändringar (till exempel "
-"när :ref:`komponent` ändras eller när arkivet uppdateras)."
+"när :ref:`component` ändras eller när arkivet uppdateras)."
 
 #: ../../devel/alerts.rst:31
 msgid ""
@@ -42922,7 +42699,6 @@ msgstr ""
 "matchar den nya mallen):"
 
 #: ../../devel/gettext.rst:216
-#, fuzzy
 msgid ""
 "When using Weblate, you typically don't need to run msgmerge manually. "
 "Weblate can handle this automatically through the :ref:`addon-"
@@ -42934,7 +42710,7 @@ msgstr ""
 "Weblate kan hantera detta automatiskt genom tillägget :ref:`addon-"
 "weblate.gettext.msgmerge`, eller så kan du ladda upp den uppdaterade POT-"
 "filen med hjälp av uppladdningsmetoden :guilabel:`Uppdatera källsträngar`. "
-"Se :ref:`uppdatera-målfiler` för mer information."
+"Se :ref:`updating-target-files` för mer information."
 
 #: ../../devel/gettext.rst:222
 msgid "Importing to Weblate"
@@ -43246,7 +43022,6 @@ msgstr ""
 "Komponenter kan tillhöra en kategori, och kategorier kan vara hierarkiska."
 
 #: ../../snippets/basics.rst:17
-#, fuzzy
 msgid ""
 "Internally, each project has translations to common strings propagated "
 "across other components within it by default. This lightens the burden of "
@@ -43257,7 +43032,7 @@ msgstr ""
 "Internt har varje projekt översättningar till vanliga strängar som sprids "
 "till andra komponenter inom projektet som standard. Detta minskar bördan av "
 "repetitiva översättningar och översättningar i flera versioner. "
-"Översättningsspridningen kan inaktiveras per :ref:`komponent` med hjälp av "
+"Översättningsspridningen kan inaktiveras per :ref:`component` med hjälp av "
 ":ref:`component-allow_translation_propagation` om översättningarna skulle "
 "skilja sig åt."
 
@@ -43276,9 +43051,8 @@ msgstr ""
 "mellan dem."
 
 #: ../../snippets/basics.rst:32
-#, fuzzy
 msgid ":ref:`architecture` describes how Weblate works internally."
-msgstr ":ref:`arkitektur` beskriver hur Weblate fungerar internt."
+msgstr ":ref:`architecture` beskriver hur Weblate fungerar internt."
 
 #: ../../snippets/basics.rst:35
 msgid "User attribution"
@@ -43475,12 +43249,11 @@ msgstr ""
 "läggas till."
 
 #: ../../devel/integration.rst:82
-#, fuzzy
 msgid ""
 "Programmatically, using the API :http:post:`/api/translations/"
 "(string:project)/(string:component)/(string:language)/units/`."
 msgstr ""
-"Programmatiskt, med hjälp av API:http:post:`/api/translations/"
+"Programmatiskt, med hjälp av API :http:post:`/api/translations/"
 "(string:project)/(string:component)/(string:language)/units/`."
 
 #: ../../devel/integration.rst:83
@@ -43589,7 +43362,6 @@ msgstr ""
 "strängar med hjälp av :ref:`source-quality-gateway`."
 
 #: ../../devel/integration.rst:139
-#, fuzzy
 msgid ""
 "Bilingual formats typically extract strings from the source code using some "
 "tooling (like :program:`xgettext` or :program:`intltool-update`). Follow "
@@ -43601,8 +43373,8 @@ msgstr ""
 "av vissa verktyg (som :program:`xgettext` eller :program:`intltool-update`). "
 "Följ dokumentationen för ditt lokaliseringsramverk för instruktioner om hur "
 "du gör detta. När strängarna har extraherats kan det behövas ett ytterligare "
-"steg för att uppdatera befintliga översättningar, se :ref:`uppdatera-"
-"målfiler`."
+"steg för att uppdatera befintliga översättningar, se :ref:`updating-target-"
+"files`."
 
 #: ../../devel/integration.rst:147
 msgid ""
@@ -43945,14 +43717,13 @@ msgid "Source strings checks"
 msgstr "Kontroll av källsträngar"
 
 #: ../../devel/review.rst:27
-#, fuzzy
 msgid ""
 "There are many :ref:`checks`, some of them focus on improving the quality of "
 "source strings. Many failing checks suggest a hint to make source strings "
 "easier to translate. All types of failing source checks are displayed on the "
 "source language of every component."
 msgstr ""
-"Det finns många :ref:`kontroller`, varav vissa fokuserar på att förbättra "
+"Det finns många :ref:`checks`, varav vissa fokuserar på att förbättra "
 "kvaliteten på källsträngarna. Många misslyckade kontroller ger tips på hur "
 "källsträngarna kan göras lättare att översätta. Alla typer av misslyckade "
 "källkontroller visas på källspråket för varje komponent."
@@ -44006,7 +43777,6 @@ msgid "Receiving source string feedback"
 msgstr "Mottagande av feedback om källsträngen"
 
 #: ../../devel/review.rst:61
-#, fuzzy
 msgid ""
 "Translators can comment on both translation and source strings. "
 "Each :ref:`component` can be configured to receive such comments to an e-"
@@ -44016,7 +43786,7 @@ msgid ""
 "them quickly."
 msgstr ""
 "Översättare kan kommentera både översättnings- och källsträngar. Varje "
-":ref:`komponent` kan konfigureras för att ta emot sådana kommentarer till en "
+":ref:`component` kan konfigureras för att ta emot sådana kommentarer till en "
 "e-postadress (se :ref:`component-report_source_bugs`), och det bästa sättet "
 "är vanligtvis att använda utvecklarnas e-postlista. På så sätt kan du hålla "
 "koll på när problem uppstår i översättningen, ta hand om dem och åtgärda dem "
@@ -44189,7 +43959,6 @@ msgstr ""
 "detta."
 
 #: ../../devel/starting.rst:18
-#, fuzzy
 msgid ""
 "Last but not least, sometimes it might be necessary to add some context to "
 "the translated string. Imagine a translator would get string ``Sun`` to "
@@ -44198,7 +43967,7 @@ msgid ""
 msgstr ""
 "Sist men inte minst kan det ibland vara nödvändigt att lägga till lite "
 "sammanhang till den översatta strängen. Tänk dig att en översättare får "
-"strängen \"Sun\" att översätta. Utan sammanhang skulle de flesta översätta "
+"strängen ``Sun`` att översätta. Utan sammanhang skulle de flesta översätta "
 "det som vår närmaste stjärna, men det kan faktiskt användas som en "
 "förkortning för söndag."
 
@@ -44776,22 +44545,20 @@ msgstr ""
 "förändring. Se :ref:`hooks` för information om hur du gör det."
 
 #: ../../faq.rst:18
-#, fuzzy
 msgid ""
 "Set a push URL at your :ref:`component` in Weblate, this allows Weblate to "
 "push changes to your repository."
 msgstr ""
-"Ange en push-URL i din :ref:`komponent` i Weblate, så att Weblate kan "
+"Ange en push-URL i din :ref:`component` i Weblate, så att Weblate kan "
 "överföra ändringar till ditt arkiv."
 
 #: ../../faq.rst:20
-#, fuzzy
 msgid ""
 "Turn on :ref:`component-push_on_commit` on your :ref:`component` in Weblate, "
 "this will make Weblate push changes to your repository whenever they happen "
 "at Weblate."
 msgstr ""
-"Aktivera :ref:`component-push_on_commit` på din :ref:`komponent` i Weblate. "
+"Aktivera :ref:`component-push_on_commit` på din :ref:`component` i Weblate. "
 "Detta gör att Weblate skickar ändringar till ditt arkiv så fort de görs i "
 "Weblate."
 
@@ -44878,7 +44645,6 @@ msgid "How do I translate several branches at once?"
 msgstr "Hur översätter jag flera grenar samtidigt?"
 
 #: ../../faq.rst:159
-#, fuzzy
 msgid ""
 "Weblate supports pushing translation changes within one :ref:`project`. For "
 "every :ref:`component` which has it turned on (the default behavior), the "
@@ -44887,8 +44653,8 @@ msgid ""
 "quite a lot, and it is not possible to simply merge translation changes "
 "between them."
 msgstr ""
-"Weblate stöder överföring av översättningsändringar inom ett :ref:`projekt`. "
-"För varje :ref:`komponent` där funktionen är aktiverad (standardinställning) "
+"Weblate stöder överföring av översättningsändringar inom ett :ref:`project`. "
+"För varje :ref:`component` där funktionen är aktiverad (standardinställning) "
 "överförs ändringen automatiskt till andra komponenter. På så sätt hålls "
 "översättningarna synkroniserade även om grenarna i sig redan har divergerat "
 "ganska mycket och det inte är möjligt att helt enkelt slå samman "
@@ -45148,12 +44914,11 @@ msgstr ""
 "Bekräfta alla väntande ändringar och slå ihop dem i uppströmsrepositoriet."
 
 #: ../../faq.rst:304
-#, fuzzy
 msgid ""
 "Disable receiving webhooks the :ref:`project`; this prevents Weblate from "
 "immediately seeing changes in the repository."
 msgstr ""
-"Inaktivera mottagning av webhooks för :ref:`projektet`; detta förhindrar "
+"Inaktivera mottagning av webhooks för :ref:`project`; detta förhindrar "
 "Weblate från att omedelbart se ändringar i arkivet."
 
 #: ../../faq.rst:305
@@ -45165,13 +44930,12 @@ msgstr ""
 ":command:`git mv`), och skicka dem till uppströmsrepositoriet."
 
 #: ../../faq.rst:306
-#, fuzzy
 msgid ""
 "Change the :ref:`component` to match the new setup; upon changing "
 "configuration, Weblate will fetch the updated repository and notice the "
 "changed locations while keeping existing strings."
 msgstr ""
-"Ändra :ref:`komponenten` så att den matchar den nya konfigurationen. När "
+"Ändra :ref:`component` så att den matchar den nya konfigurationen. När "
 "konfigurationen ändras hämtar Weblate det uppdaterade arkivet och noterar de "
 "ändrade platserna samtidigt som befintliga strängar behålls."
 
@@ -45200,12 +44964,11 @@ msgstr ""
 ":ref:`workflows`."
 
 #: ../../faq.rst:320
-#, fuzzy
 msgid ""
 "You can subscribe to any changes made in :ref:`subscriptions` and then check "
 "others contributions as they come in by e-mail."
 msgstr ""
-"Du kan prenumerera på alla ändringar som görs i :ref:`prenumerationer` och "
+"Du kan prenumerera på alla ändringar som görs i :ref:`subscriptions` och "
 "sedan kontrollera andras bidrag när de kommer in via e-post."
 
 #: ../../faq.rst:322
@@ -45297,13 +45060,12 @@ msgid "How do I merge updated POT file with PO translations?"
 msgstr "Hur sammanfogar jag uppdaterade POT-filer med PO-översättningar?"
 
 #: ../../faq.rst:377
-#, fuzzy
 msgid ""
 "See :ref:`updating-target-files` for information on updating PO files when "
 "the POT template changes."
 msgstr ""
-"Se :ref:`uppdatera-målfiler` för information om hur du uppdaterar PO-filer "
-"när POT-mallen ändras."
+"Se :ref:`updating-target-files` för information om hur du uppdaterar PO-"
+"filer när POT-mallen ändras."
 
 #: ../../faq.rst:382
 msgid "Where do language definitions come from and how can I add my own?"
@@ -45632,13 +45394,12 @@ msgstr ""
 "``sr_Latn`` och ``zh@CN`` som ``zh_Hans``."
 
 #: ../../faq.rst:586
-#, fuzzy
 msgid ""
 "Weblate defaults to POSIX style language codes with underscore, "
 "see :ref:`languages` for more details."
 msgstr ""
 "Weblate använder som standard språkkoder i POSIX-stil med understreck, se "
-":ref:`språk` för mer information."
+":ref:`languages` för mer information."
 
 #: ../../formats.rst:4
 msgid "Localization file formats"
@@ -45987,13 +45748,12 @@ msgstr ""
 "kommentar som källsträngbeskrivning."
 
 #: ../../formats.rst:413
-#, fuzzy
 msgid ""
 "The :ref:`additional-explanation` on strings can be stored and parsed from a "
 "few file formats."
 msgstr ""
-"Den :ref:`ytterligare förklaringen` om strängar kan lagras och analyseras "
-"från några filformat."
+"Den :ref:`additional-explanation` om strängar kan lagras och analyseras från "
+"några filformat."
 
 #: ../../formats.rst:416
 msgid "Currently supported only in :ref:`tbx`."
@@ -46491,9 +46251,8 @@ msgstr "Weblate-konfiguration"
 #: ../../formats/tbx.rst:51 ../../formats/toml.rst:34 ../../formats/txt.rst:33
 #: ../../formats/webextension.rst:29 ../../formats/winrc.rst:34
 #: ../../formats/xliff2.rst:45 ../../formats/yaml.rst:30
-#, fuzzy
 msgid "Typical Weblate :ref:`component`"
-msgstr "Typisk Weblate :ref:`komponent`"
+msgstr "Typisk Weblate :ref:`component`"
 
 #: ../../formats/android.rst:80 ../../formats/apple.rst:33
 #: ../../formats/arb.rst:36 ../../formats/catkeys.rst:32
@@ -46791,18 +46550,16 @@ msgid "Example files"
 msgstr "Exempel-filer"
 
 #: ../../formats/csv.rst:66
-#, fuzzy
 msgid "Typical Weblate :ref:`component` for bilingual CSV"
-msgstr "Typisk Weblate :ref:`komponent` för tvåspråkig CSV"
+msgstr "Typisk Weblate :ref:`component` för tvåspråkig CSV"
 
 #: ../../formats/csv.rst:74
 msgid "`CSV file`"
 msgstr "`CSV-fil`"
 
 #: ../../formats/csv.rst:78
-#, fuzzy
 msgid "Typical Weblate :ref:`component` for monolingual CSV"
-msgstr "Typisk Weblate :ref:`komponent` för enspråkig CSV"
+msgstr "Typisk Weblate :ref:`component` för enspråkig CSV"
 
 #: ../../formats/csv.rst:86
 msgid "`Simple CSV file`"
@@ -46825,7 +46582,6 @@ msgid "Excel Open XML (.xlsx) files can be imported and exported."
 msgstr "Excel Open XML-filer (.xlsx) kan importeras och exporteras."
 
 #: ../../formats/excel.rst:8
-#, fuzzy
 msgid ""
 "When uploading XLSX files for translation, be aware that only the active "
 "worksheet is considered, and there must be at least a column called "
@@ -46837,9 +46593,9 @@ msgid ""
 msgstr ""
 "När du laddar upp XLSX-filer för översättning, tänk på att endast det aktiva "
 "kalkylbladet beaktas och att det måste finnas minst en kolumn med namnet "
-"\"source\" (som innehåller källsträngen) och en kolumn med namnet \"target\" "
+"``source`` (som innehåller källsträngen) och en kolumn med namnet ``target`` "
 "(som innehåller översättningen). Dessutom bör det finnas en kolumn med "
-"namnet \"context\" (som innehåller kontextvägen för översättningssträngen). "
+"namnet ``context`` (som innehåller kontextvägen för översättningssträngen). "
 "Om du använder XLSX-nedladdningen för att exportera översättningarna till en "
 "Excel-arbetsbok får du redan en fil med rätt filformat."
 
@@ -47016,13 +46772,12 @@ msgid "Updating PO files from the POT file"
 msgstr "Uppdatera PO-filer från POT-filen"
 
 #: ../../formats/gettext.rst:71
-#, fuzzy
 msgid ""
 ":ref:`addon-weblate.gettext.msgmerge` can be used to update PO files from "
 "the POT file, see :ref:`updating-target-files`."
 msgstr ""
 ":ref:`addon-weblate.gettext.msgmerge` kan användas för att uppdatera PO-"
-"filer från POT-filen, se :ref:`uppdatera-målfiler`."
+"filer från POT-filen, se :ref:`updating-target-files`."
 
 #: ../../formats/gettext.rst:77
 msgid "Monolingual gettext"
@@ -47053,18 +46808,16 @@ msgid "While the base language file will be:"
 msgstr "Basens språkfil kommer att vara:"
 
 #: ../../formats/gettext.rst:141
-#, fuzzy
 msgid "Typical Weblate :ref:`component` for bilingual gettext"
-msgstr "Typisk Weblate :ref:`komponent` för tvåspråkig gettext"
+msgstr "Typisk Weblate :ref:`component` för tvåspråkig gettext"
 
 #: ../../formats/gettext.rst:149
 msgid "`Gettext PO file`"
 msgstr "`Gettext PO-fil`"
 
 #: ../../formats/gettext.rst:153
-#, fuzzy
 msgid "Typical Weblate :ref:`component` for monolingual gettext"
-msgstr "Typisk Weblate :ref:`komponent` för enspråkig gettext"
+msgstr "Typisk Weblate :ref:`component` för enspråkig gettext"
 
 #: ../../formats/gettext.rst:161
 msgid "`Gettext PO file (monolingual)`"
@@ -47111,18 +46864,16 @@ msgid "Example file v2:"
 msgstr "Exempelfil v2:"
 
 #: ../../formats/go-i18n.rst:49
-#, fuzzy
 msgid "Typical Weblate :ref:`component` for v1"
-msgstr "Typisk Weblate :ref:`komponent` för v1"
+msgstr "Typisk Weblate :ref:`component` för v1"
 
 #: ../../formats/go-i18n.rst:57
 msgid "`go-i18n v1 JSON file`"
 msgstr "`go-i18n v1 JSON-fil`"
 
 #: ../../formats/go-i18n.rst:62
-#, fuzzy
 msgid "Typical Weblate :ref:`component` for v2"
-msgstr "Typisk Weblate :ref:`komponent` för v2"
+msgstr "Typisk Weblate :ref:`component` för v2"
 
 #: ../../formats/go-i18n.rst:70
 msgid "`go-i18n v2 JSON file`"
@@ -47656,18 +47407,16 @@ msgid "`Qt Linguist manual <https://doc.qt.io/qt-6/qtlinguist-index.html>`_"
 msgstr "`Qt Linguist-handbok <https://doc.qt.io/qt-6/qtlinguist-index.html>`_"
 
 #: ../../formats/qt.rst:29
-#, fuzzy
 msgid "Typical Weblate :ref:`component` when using as bilingual"
-msgstr "Typisk Weblate :ref:`komponent` vid användning som tvåspråkig"
+msgstr "Typisk Weblate :ref:`component` vid användning som tvåspråkig"
 
 #: ../../formats/qt.rst:37 ../../formats/qt.rst:49
 msgid "`Qt Linguist Translation File`"
 msgstr "`Qt Linguist-översättningsfil`"
 
 #: ../../formats/qt.rst:41
-#, fuzzy
 msgid "Typical Weblate :ref:`component` when using as monolingual"
-msgstr "Typisk Weblate :ref:`komponent` vid användning som enspråkig"
+msgstr "Typisk Weblate :ref:`component` vid användning som enspråkig"
 
 #: ../../formats/resjson.rst:2
 msgid "JavaScript Resource Files (RESJSON)"
@@ -47716,15 +47465,14 @@ msgstr ""
 "Microsoft .NET-applikationer."
 
 #: ../../formats/resx.rst:14
-#, fuzzy
 msgid ""
 "It can use ``.resx`` or ``.resw`` extension. Despite the difference of file "
 "extension, the ``.resw`` file format is identical to the ``.resx`` file "
 "format, except that ``.resw`` files may contain only strings and file paths."
 msgstr ""
-"Den kan använda filändelsen \".resx\" eller \".resw\". Trots skillnaden i "
-"filändelse är filformatet \".resw\" identiskt med filformatet \".resx\", "
-"förutom att \".resw\"-filer endast kan innehålla strängar och filvägar."
+"Den kan använda filändelsen ``.resx`` eller ``.resw``. Trots skillnaden i "
+"filändelse är filformatet ``.resw`` identiskt med filformatet ``.resx``, "
+"förutom att ``.resw``-filer endast kan innehålla strängar och filsökvägar."
 
 #: ../../formats/resx.rst:41
 msgid "`.NET resource file`"
@@ -47827,15 +47575,14 @@ msgid "Administrative status"
 msgstr "Administrativ status"
 
 #: ../../formats/tbx.rst:13
-#, fuzzy
 msgid ""
 "Terms with administrative status ``forbidden`` or ``obsolete`` in "
 "``<termNote type=\"administrativeStatus\">`` are marked with the "
 "``forbidden`` flag (:ref:`glossary-forbidden`)."
 msgstr ""
-"Termer med administrativ status \"förbjuden\" eller \"föråldrad\" i "
-"\"<termNote type=\"administrativeStatus\">\" är markerade med flaggan "
-"\"förbjuden\" (:ref:`glossary-forbidden`)."
+"Termer med administrativ status ``förbjuden`` eller ``föråldrad`` i "
+"``<termNote type=\"administrativeStatus\">`` är markerade med flaggan "
+"``förbjuden`` (:ref:`glossary-forbidden`)."
 
 #: ../../formats/tbx.rst:15
 msgid "Translation needed"
@@ -47854,12 +47601,11 @@ msgid "Usage notes"
 msgstr "Användningsanvisningar"
 
 #: ../../formats/tbx.rst:18
-#, fuzzy
 msgid ""
 "Usage notes from ``<descrip type=\"Usage note\">`` tags are displayed in the "
 "glossary."
 msgstr ""
-"Användningsanvisningar från taggarna \"<descrip type=\"Usage note\">\" visas "
+"Användningsanvisningar från taggarna ``<descrip type=\"Usage note\">`` visas "
 "i ordlistan."
 
 #: ../../formats/tbx.rst:23
@@ -47883,13 +47629,12 @@ msgstr ""
 ":ref:`glossary`."
 
 #: ../../formats/tbx.rst:36
-#, fuzzy
 msgid ""
 "Translation explanation is stored as ``<note from=\"translator\"></note>`` "
 "tag."
 msgstr ""
-"Översättningsförklaringen lagras som taggen \"<note from=\"translator\"></"
-"note>\"."
+"Översättningsförklaringen lagras som taggen ``<note from=\"translator\"></"
+"note>``."
 
 #: ../../formats/tbx.rst:37
 msgid "Source string explanation is stored as ``<descrip></descrip>`` tag."
@@ -48099,7 +47844,6 @@ msgid "Translation states"
 msgstr "Översättningsstatus"
 
 #: ../../formats/xliff.rst:42
-#, fuzzy
 msgid ""
 "The ``state`` attribute in the file is partially processed and mapped to the "
 "\"Needs edit\" state in Weblate (the following states are used to flag the "
@@ -48108,11 +47852,11 @@ msgid ""
 "attribute be missing, a string is considered translated as soon as a "
 "``<target>`` element exists."
 msgstr ""
-"Attributet \"state\" i filen bearbetas delvis och mappas till statusen "
+"Attributet ``state`` i filen bearbetas delvis och mappas till statusen "
 "\"Behöver redigeras\" i Weblate (följande statusar används för att markera "
-"strängen som behöver redigeras om det finns ett mål: \"new\", \"needs-"
-"translation\", \"needs-adaptation\", \"needs-l10n\"). Om attributet "
-"\"state\" saknas betraktas en sträng som översatt så snart ett \"<target>\"-"
+"strängen som behöver redigeras om det finns ett mål: ``new``, ``needs-"
+"translation``, ``needs-adaptation``, ``needs-l10n``). Om attributet "
+"``state`` saknas betraktas en sträng som översatt så snart ett ``<target>``-"
 "element finns."
 
 #: ../../formats/xliff.rst:49
@@ -48133,19 +47877,17 @@ msgstr ""
 "nödvändigt:"
 
 #: ../../formats/xliff.rst:55
-#, fuzzy
 msgid ""
 "The ``state`` attribute is only added in case string is marked as needing "
 "edit."
 msgstr ""
-"Attributet \"state\" läggs endast till om strängen är markerad som "
-"redigeringsbar."
+"Attributet ``state`` läggs endast till om strängen är markerad som behöver "
+"redigering."
 
 #: ../../formats/xliff.rst:56
-#, fuzzy
 msgid ""
 "The ``approved`` attribute is only added in case string has been reviewed."
-msgstr "Attributet \"godkänt\" läggs endast till om strängen har granskats."
+msgstr "Attributet ``godkänt`` läggs endast till om strängen har granskats."
 
 #: ../../formats/xliff.rst:57
 msgid ""
@@ -48264,18 +48006,16 @@ msgid "Example XLIFF file:"
 msgstr "Exempel på XLIFF-fil:"
 
 #: ../../formats/xliff.rst:142
-#, fuzzy
 msgid "Typical Weblate :ref:`component` for bilingual XLIFF"
-msgstr "Typisk Weblate :ref:`komponent` för tvåspråkig XLIFF"
+msgstr "Typisk Weblate :ref:`component` för tvåspråkig XLIFF"
 
 #: ../../formats/xliff.rst:150 ../../formats/xliff.rst:162
 msgid "`XLIFF Translation File`"
 msgstr "`XLIFF-översättningsfil`"
 
 #: ../../formats/xliff.rst:154
-#, fuzzy
 msgid "Typical Weblate :ref:`component` for monolingual XLIFF"
-msgstr "Typisk Weblate :ref:`komponent` för enspråkig XLIFF"
+msgstr "Typisk Weblate :ref:`component` för enspråkig XLIFF"
 
 #: ../../formats/xliff2.rst:2
 msgid "XLIFF 2.0"
@@ -48474,10 +48214,8 @@ msgid "Community"
 msgstr "Gemenskap"
 
 #: ../../index.rst:50
-#, fuzzy
-#| msgid ":ref:`contributing`"
 msgid "Learn more about :ref:`contributing`."
-msgstr "Läs mer om :ref:`bidra`."
+msgstr "Läs mer om :ref:`contributing`."
 
 #: ../../python.rst:8
 msgid "Weblate's Python API"
@@ -51134,14 +50872,13 @@ msgid "Automatic fixups"
 msgstr "Automatiska korrigeringar"
 
 #: ../../user/checks.rst:18
-#, fuzzy
 msgid ""
 "In addition to :ref:`checks`, Weblate can fix some common errors in "
 "translated strings automatically. Use it with caution to not have it add "
 "errors."
 msgstr ""
-"Förutom :ref:`kontroller` kan Weblate automatiskt korrigera vissa vanliga "
-"fel i översatta strängar. Använd funktionen med försiktighet så att den inte "
+"Förutom :ref:`checks` kan Weblate automatiskt korrigera vissa vanliga fel i "
+"översatta strängar. Använd funktionen med försiktighet så att den inte "
 "lägger till fel."
 
 #: ../../user/checks.rst:27
@@ -51801,7 +51538,6 @@ msgstr ""
 "Inaktivera detta genom att lägga till flaggan ``strict-format``."
 
 #: ../../user/checks.rst:439
-#, fuzzy
 msgid ""
 "The flags can be customized per string (see :ref:`additional`) or in "
 "a :ref:`component`. Having it defined per component is simpler, but it can "
@@ -51809,7 +51545,7 @@ msgid ""
 "formatting string, but format string syntax happens to be used."
 msgstr ""
 "Flaggorna kan anpassas per sträng (se :ref:`additional`) eller i en "
-":ref:`komponent`. Att definiera dem per komponent är enklare, men det kan "
+":ref:`component`. Att definiera dem per komponent är enklare, men det kan "
 "leda till falska positiva resultat om strängen inte tolkas som en "
 "formateringssträng, men formateringssträngsyntax råkar användas."
 
@@ -52002,10 +51738,9 @@ msgid "Disable highlighting placeholders in the editor."
 msgstr "Inaktivera markering av platshållare i redigeraren."
 
 #: ../../user/checks.rst:618
-#, fuzzy
 msgid "Disable requiring sub-messages to have an ``other`` selector."
 msgstr ""
-"Inaktivera kravet på att undermeddelanden måste ha en \"annan\" selektor."
+"Inaktivera kravet på att undermeddelanden måste ha en ``annan`` selektor."
 
 #: ../../user/checks.rst:621
 msgid "Skip checking that sub-message selectors match the source."
@@ -52045,13 +51780,12 @@ msgstr ""
 "endast XML-taggar som börjar med ``<x:``:"
 
 #: ../../user/checks.rst:641
-#, fuzzy
 msgid ""
 "This would match ``<x:link>click here</x:link>`` but not ``<strong>this</"
 "strong>``."
 msgstr ""
-"Detta skulle matcha \"<x:link>klicka här</x:link>\" men inte \"<strong>"
-"detta</strong>\"."
+"Detta skulle matcha ``<x:link>klicka här</x:link>`` men inte ``<strong>"
+"detta</strong>``."
 
 #: ../../user/checks.rst:647
 msgid ""
@@ -52651,13 +52385,12 @@ msgstr ""
 "tecken."
 
 #: ../../user/checks.rst:1216
-#, fuzzy
 msgid ""
 "Unlike the other checks, the flag should be set as a ``key:value`` pair like "
 "``max-length:100``."
 msgstr ""
 "Till skillnad från de andra kontrollerna ska flaggan anges som ett "
-"\"nyckel:värde\"-par, till exempel \"max-length:100\"."
+"``nyckel:värde``-par, till exempel ``max-length:100``."
 
 #: ../../user/checks.rst:1221
 msgid ""
@@ -52671,12 +52404,11 @@ msgstr ""
 "återgivningen av texten."
 
 #: ../../user/checks.rst:1225 ../../user/checks.rst:1266
-#, fuzzy
 msgid ""
 "The ``replacements:`` flag might be also useful to expand placeables before "
 "checking the string."
 msgstr ""
-"Flaggan \"replacements:\" kan också vara användbar för att expandera "
+"Flaggan ``replacements:`` kan också vara användbar för att expandera "
 "placerbara objekt innan strängen kontrolleras."
 
 #: ../../user/checks.rst:1228 ../../user/checks.rst:1269
@@ -53000,11 +52732,10 @@ msgid "You can use regular expression as placeholder."
 msgstr "Du kan använda reguljära uttryck som platshållare."
 
 #: ../../user/checks.rst:1518
-#, fuzzy
 msgid ""
 "With the ``case-insensitive`` flag, the placeholders are not case-sensitive."
 msgstr ""
-"Med flaggan \"case-insensitive\" är platshållarna inte skiftlägeskänsliga."
+"Med flaggan ``case-insensitive`` är platshållarna inte skiftlägeskänsliga."
 
 #: ../../user/checks.rst:1520
 msgid ""
@@ -53569,14 +53300,12 @@ msgid "Reason"
 msgstr "Anledning"
 
 #: ../../user/checks.rst:2001
-#, fuzzy
 msgid "The ``<four`` part would be lost as ``.innerHTML``."
-msgstr "Den delen som heter \"<four\" skulle försvinna som \".innerHTML\"."
+msgstr "Den delen som heter ``<four`` skulle försvinna som ``.innerHTML``."
 
 #: ../../user/checks.rst:2005
-#, fuzzy
 msgid "The ``.innerHTML`` would match the ``.textContent``."
-msgstr "\".innerHTML\" skulle matcha \".textContent\"."
+msgstr "``.innerHTML`` skulle matcha ``.textContent``."
 
 #: ../../user/checks.rst:2009
 msgid "Missing a closing tag."
@@ -53608,9 +53337,8 @@ msgid "Non-ASCII tag name."
 msgstr "Icke-ASCII-taggnamn."
 
 #: ../../user/checks.rst:2037
-#, fuzzy
 msgid "The ``&eth`` part would be converted to ``ð``."
-msgstr "Delarna \"&eth\" skulle konverteras till \"ð\"."
+msgstr "Delarna ``&eth`` skulle konverteras till ``ð``."
 
 #: ../../user/checks.rst:2041
 msgid "The character reference seems to be intentional."
@@ -53866,10 +53594,8 @@ msgid "TermBase eXchange (``tbx``)"
 msgstr "TermBase eXchange (``tbx``)"
 
 #: ../../user/files.rst:34
-#, fuzzy
-#| msgid "Translation Memory"
 msgid "Translation Memory eXchange (``tmx``)"
-msgstr "Översättningsminnesutbyte (tmx)"
+msgstr "Translation Memory eXchange (``tmx``)"
 
 #: ../../user/files.rst:35
 msgid ""
@@ -54319,7 +54045,6 @@ msgid "Untranslatable terms"
 msgstr "Oöversättbara termer"
 
 #: ../../user/glossary.rst:67
-#, fuzzy
 msgid ""
 "Flagging certain glossary term translations ``read-only`` by bulk-editing, "
 "typing in the flag, or by using :guilabel:`Tools` ↓ :guilabel:`Mark as "
@@ -54328,7 +54053,7 @@ msgid ""
 "visually highlighted in the glossary sidebar."
 msgstr ""
 "Om du markerar vissa översättningar av termer i ordlistan som "
-"\"skrivskyddade\" genom att redigera dem i bulk, skriva in flaggan eller "
+"``skrivskyddade`` genom att redigera dem i bulk, skriva in flaggan eller "
 "använda :guilabel:`Verktyg` ↓ :guilabel:`Markera som oöversättbar` betyder "
 "det att de inte kan översättas. Använd detta för varumärken eller andra "
 "termer som inte bör ändras i andra språk. Sådana termer markeras visuellt i "
@@ -54339,7 +54064,6 @@ msgid "Forbidden translations"
 msgstr "Förbjudna översättningar"
 
 #: ../../user/glossary.rst:83
-#, fuzzy
 msgid ""
 "Flagging certain glossary term translations as ``forbidden`` by bulk-"
 "editing, typing in the flag, or by using :guilabel:`Tools` ↓ :guilabel:`Mark "
@@ -54347,7 +54071,7 @@ msgid ""
 "clarify translation when some words are ambiguous or could have unexpected "
 "meanings."
 msgstr ""
-"Om du markerar vissa översättningar av termer i ordlistan som \"förbjudna\" "
+"Om du markerar vissa översättningar av termer i ordlistan som ``förbjudna`` "
 "genom att redigera dem i bulk, skriva in flaggan eller använda "
 ":guilabel:`Verktyg` ↓ :guilabel:`Markera som förbjuden översättning` betyder "
 "det att de **inte** får användas. Använd detta för att förtydliga "
@@ -54358,7 +54082,6 @@ msgid "Terminology"
 msgstr "Terminologi"
 
 #: ../../user/glossary.rst:99
-#, fuzzy
 msgid ""
 "Flagging certain glossary terms as ``terminology`` by bulk-editing, typing "
 "in the flag, or by using :guilabel:`Tools` ↓ :guilabel:`Mark as terminology` "
@@ -54366,7 +54089,7 @@ msgid ""
 "important terms that should be well thought out, and retain a consistent "
 "meaning across all languages."
 msgstr ""
-"Om du markerar vissa termer i ordlistan som \"terminologi\" genom att "
+"Om du markerar vissa termer i ordlistan som ``terminologi`` genom att "
 "redigera dem i bulk, skriva in flaggan eller använda :guilabel:`Verktyg` ↓ "
 ":guilabel:`Markera som terminologi` läggs poster för dem till i ordlistan "
 "för alla språk. Använd detta för viktiga termer som bör vara väl genomtänkta "
@@ -54682,13 +54405,12 @@ msgid "Editor link"
 msgstr "Länk till editor"
 
 #: ../../user/profile.rst:137
-#, fuzzy
 msgid ""
 "A source code link is shown in the web-browser configured in "
 "the :ref:`component` by default."
 msgstr ""
 "En länk till källkoden visas i webbläsaren som är konfigurerad i "
-":ref:`komponenten` som standard."
+":ref:`component` som standard."
 
 #: ../../user/profile.rst:142
 msgid ""
@@ -54969,13 +54691,12 @@ msgstr ""
 "``tom``, ``skrivskyddad``)."
 
 #: ../../user/search.rst:50
-#, fuzzy
 msgid ""
 "This field also supports :ref:`search-operators`, so searching for completed "
 "strings can be performed as ``state:>=translated``, searching for strings "
 "needing translation as ``state:<translated``."
 msgstr ""
-"Detta fält stöder även :ref:`sökoperatorer`, så att sökning efter "
+"Detta fält stöder även :ref:`search-operators`, så att sökning efter "
 "fullständiga strängar kan utföras som ``state:>=translated``, och sökning "
 "efter strängar som behöver översättas som ``state:<translated``."
 
@@ -55071,32 +54792,29 @@ msgid "String was changed by author with given username."
 msgstr "Strängen ändrades av författaren med angivet användarnamn."
 
 #: ../../user/search.rst:85
-#, fuzzy
 msgid ""
 "String content was changed on date, supports :ref:`search-operators` "
 "and :ref:`date-search`."
 msgstr ""
-"Stränginnehållet ändrades på datumet, stöder :ref:`sökoperatorer` och "
-":ref:`datumsökning`."
+"Stränginnehållet ändrades på datumet, stöder :ref:`search-operators` och "
+":ref:`date-search`."
 
 #: ../../user/search.rst:87
-#, fuzzy
 msgid ""
 "String was changed on date, supports :ref:`search-operators` and :ref:`date-"
 "search`."
 msgstr ""
-"Strängen ändrades på datumet, stöder :ref:`sökoperatorer` och "
-":ref:`datumsökning`."
+"Strängen ändrades på datumet, stöder :ref:`search-operators` och :ref:`date-"
+"search`."
 
 #: ../../user/search.rst:89
-#, fuzzy
 msgid ""
 "Unlike ``changed`` this includes event which don't change content and you "
 "can apply custom action filtering using ``change_action``."
 msgstr ""
-"Till skillnad från \"changed\" inkluderar detta händelser som inte ändrar "
+"Till skillnad från ``changed`` inkluderar detta händelser som inte ändrar "
 "innehållet och du kan tillämpa anpassad åtgärdsfiltrering med "
-"\"change_action\"."
+"``change_action``."
 
 #: ../../user/search.rst:92
 msgid ""
@@ -55111,22 +54829,20 @@ msgstr ""
 "ersatta med bindestreck. Se :ref:`search-changes` för exempel."
 
 #: ../../user/search.rst:97
-#, fuzzy
 msgid ""
 "Source string was last changed on date, supports :ref:`search-operators` "
 "and :ref:`date-search`."
 msgstr ""
-"Källsträngen ändrades senast den datum, stöder :ref:`sökoperatorer` och "
-":ref:`datumsökning`."
+"Källsträngen ändrades senast den datum, stöder :ref:`search-operators` och "
+":ref:`date-search`."
 
 #: ../../user/search.rst:99
-#, fuzzy
 msgid ""
 "The string was last changed on date, supports :ref:`search-operators` "
 "and :ref:`date-search`."
 msgstr ""
-"Strängen ändrades senast den datum, stöder :ref:`sökoperatorer` och "
-":ref:`datumsökning`."
+"Strängen ändrades senast den datum, stöder :ref:`search-operators` och "
+":ref:`date-search`."
 
 #: ../../user/search.rst:101
 msgid ""
@@ -55217,9 +54933,8 @@ msgid "Parenthesized expression to clearly show the precedence."
 msgstr "Uttryck inom parentes för att tydligt visa prioritet."
 
 #: ../../user/search.rst:143
-#, fuzzy
 msgid "The ``AND`` operator has higher precedence than the ``OR`` operator."
-msgstr "Operatorn \"AND\" har högre prioritet än operatorn \"OR\"."
+msgstr "Operatorn ``AND`` har högre prioritet än operatorn ``OR``."
 
 #: ../../user/search.rst:145
 msgid "Query using an implicit ``AND`` operator."
@@ -55238,9 +54953,8 @@ msgstr ""
 "numeriska sökningar:"
 
 #: ../../user/search.rst:155
-#, fuzzy
 msgid "State is ``translated`` or better (``approved``)."
-msgstr "Status är \"översatt\" eller bättre (\"godkänd\")."
+msgstr "Status är ``översatt`` eller bättre (``godkänd``)."
 
 #: ../../user/search.rst:157 ../../user/search.rst:187
 msgid "Changed between two given dates (inclusive)."
@@ -55263,14 +54977,12 @@ msgstr ""
 "spektrum av sätt att ange datum och tid."
 
 #: ../../user/search.rst:169
-#, fuzzy
 msgid "ISO 8601 formatted like :samp:`2025-09-08T12:16:55.336146+00:00`."
-msgstr "ISO 8601-format som: `2025-09-08T12:16:55.336146+00:00`."
+msgstr "ISO 8601-format som :samp:`2025-09-08T12:16:55.336146+00:00`."
 
 #: ../../user/search.rst:170
-#, fuzzy
 msgid "English written date and time like :samp:`July 4, 2013 PST`."
-msgstr "Engelsk skrivd datum och tid som: `4 juli 2013 PST`."
+msgstr "Engelsk skrivet datum och tid som :samp:`July 4, 2013 PST`."
 
 #: ../../user/search.rst:171
 msgid ""
@@ -55454,9 +55166,8 @@ msgstr ""
 "languages`)."
 
 #: ../../user/search.rst:262
-#, fuzzy
 msgid "String content was changed on date, supports :ref:`search-operators`."
-msgstr "Stränginnehållet ändrades den datum, stöder :ref:`sökoperatorer`."
+msgstr "Stränginnehållet ändrades den datum, stöder :ref:`search-operators`."
 
 #: ../../user/search.rst:264
 msgid "User has contributed to a given language."
@@ -55917,11 +55628,10 @@ msgid ":kbd:`Cmd+M`"
 msgstr ":kbd:`Cmd+M`"
 
 #: ../../user/translating.rst:230
-#, fuzzy
 msgid ""
 "Shows :guilabel:`Automatic suggestions` tab, see :ref:`machine-translation`."
 msgstr ""
-"Visar :guilabel:`Automatiska förslag`-fliken, se :ref:`maskinöversättning`."
+"Visar :guilabel:`Automatiska förslag`-fliken, se :ref:`machine-translation`."
 
 #: ../../user/translating.rst:234
 msgid ":kbd:`Ctrl+1` to :kbd:`Ctrl+9` or"
@@ -56080,13 +55790,12 @@ msgstr ""
 "Saker som meddelande-ID, sammanhang (``msgctxt``) eller plats i källkoden."
 
 #: ../../user/translating.rst:298
-#, fuzzy
 msgid ""
 "Screenshots can be uploaded to Weblate to better inform translators of where "
 "and how the string is used, see :ref:`screenshots`."
 msgstr ""
 "Skärmdumpar kan laddas upp till Weblate för att bättre informera "
-"översättarna om var och hur strängen används, se :ref:`skärmdumpar`."
+"översättarna om var och hur strängen används, se :ref:`screenshots`."
 
 #: ../../user/translating.rst:300
 msgid "Nearby strings"
@@ -56210,7 +55919,6 @@ msgstr ""
 ":ref:`check-max-size`."
 
 #: ../../user/translating.rst:348
-#, fuzzy
 msgid ""
 "Based on configuration and your translated language, Weblate provides "
 "suggestions from several machine translation tools and :ref:`translation-"
@@ -56218,16 +55926,14 @@ msgid ""
 "translation page."
 msgstr ""
 "Baserat på konfigurationen och ditt översatta språk ger Weblate förslag från "
-"flera maskinöversättningsverktyg och :ref:`översättningsminne`. Alla "
+"flera maskinöversättningsverktyg och :ref:`translation-memory`. Alla "
 "maskinöversättningar finns tillgängliga i en enda flik på varje "
 "översättningssida."
 
 #: ../../user/translating.rst:352
-#, fuzzy
-#| msgid "Shared translation memory"
 msgid ""
 "You can also perform a concordance search on the :ref:`translation-memory`."
-msgstr "Du kan också göra en konkordanssökning i :ref:`översättningsminnet`."
+msgstr "Du kan också göra en konkordanssökning i :ref:`translation-memory`."
 
 #: ../../user/translating.rst:356
 msgid ""
@@ -56420,7 +56126,6 @@ msgstr ""
 "vanliga redigeraren (översättning av en sträng)."
 
 #: ../../user/translating.rst:467
-#, fuzzy
 msgid ""
 "You can select the Zen editor as your default editor using the :ref:`profile-"
 "preferences` tab on your :ref:`user-profile`. You can also choose there "
@@ -56428,9 +56133,9 @@ msgid ""
 "or :guilabel:`Side by side`, depending on your personal preference."
 msgstr ""
 "Du kan välja Zen-redigeraren som standardredigerare under fliken "
-":ref:`profilinställningar` i din :ref:`användarprofil`. Där kan du också "
-"välja mellan att visa översättningar :guilabel:`uppifrån och ner` eller "
-":guilabel:`sida vid sida`, beroende på vad du föredrar."
+":ref:`profile-preferences` i din :ref:`user-profile`. Där kan du också välja "
+"mellan att visa översättningar :guilabel:`Uppifrån och ner` eller "
+":guilabel:`Sida vid sida`, beroende på vad du föredrar."
 
 #: ../../vcs.rst:4
 msgid "Version control integration"
@@ -57982,12 +57687,11 @@ msgstr ""
 "suggestion_autoaccept`), kan översättningsflödet anpassas per språk."
 
 #: ../../workflows.rst:24
-#, fuzzy
 msgid ""
 "Site-wide workflow customization can be done while :ref:`changing-languages`."
 msgstr ""
 "Anpassning av arbetsflödet för hela webbplatsen kan göras samtidigt som "
-":ref:`språkbyte`."
+":ref:`changing-languages`."
 
 #: ../../workflows.rst:26
 msgid ""
@@ -58115,15 +57819,14 @@ msgid "Read-only"
 msgstr "Skrivskyddad"
 
 #: ../../workflows.rst:80
-#, fuzzy
 msgid ""
 "String is read-only as a result of having ``read-only`` :ref:`flag <custom-"
 "checks>`, being a non-editable source string, or marked such in the "
 "translation file."
 msgstr ""
-"Strängen är skrivskyddad eftersom den har flaggan ``read-only`` :ref:` "
-"<custom-checks>`, är en icke-redigerbar källsträng eller är markerad som "
-"sådan i översättningsfilen."
+"Strängen är skrivskyddad eftersom den har ``read-only`` :ref:`flag <custom-"
+"checks>`, är en icke-redigerbar källsträng eller är markerad som sådan i "
+"översättningsfilen."
 
 #: ../../workflows.rst:84
 msgid "Suggestions are stored in Weblate only and not in the translation file."
