@@ -3,7 +3,7 @@
 <div class="container-fluid container-gapped">
   {% for comment in comments %}
     <div class="row history-row" id="comments__{{ comment.pk }}">
-      <div id="comment-section" class="col-xs-2 history-event">
+      <div id="comment-section" class="col-md-3 history-event">
         <strong>{{ comment.get_user_display }}</strong>
         <p class="text-muted">
           {% if comment.resolved %}
@@ -18,7 +18,7 @@
       {% perm 'comment.delete' comment as user_can_delete_comment %}
       {% perm 'comment.resolve' comment as user_can_resolve_comment %}
       {% if user_can_delete_comment or user_can_resolve_comment %}
-        <div class="btn-float float-end">
+        <div class="btn-float">
           {% if user_can_resolve_comment and not comment.resolved %}
             <form method="post"
                   action="{% url 'resolve-comment' pk=comment.pk %}"
@@ -46,7 +46,7 @@
           {% endif %}
         </div>
       {% endif %}
-      <div id="comment-section" class="col-xs-10 history-data">
+      <div id="comment-section" class="col-md-9 history-data">
         <div class="comment-content{% if comment.resolved %} comment-resolved{% elif comment.unit.is_source %} comment-source{% endif %}"
              lang="{{ comment.unit.translation.language.code }}"
              dir="{{ comment.unit.translation.language.direction }}">

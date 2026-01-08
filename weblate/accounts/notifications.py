@@ -115,6 +115,7 @@ def dispatch_changes_notifications(changes: Iterable[Change]) -> None:
 class Notification:
     actions: Iterable[int] = ()
     verbose: StrOrPromise = ""
+    verbose_plural: StrOrPromise = ""
     template_name: str = ""
     digest_template: str = "digest"
     filter_languages: bool = False
@@ -294,6 +295,14 @@ class Notification:
         template_name = f"mail/{base_name}{suffix}"
         return render_to_string(template_name, context).strip()
 
+    def get_notification_name(self, num_changes: int) -> StrOrPromise:
+        # We don't use proper ngettext here to simplify the code and
+        # in most languages the specific plural rules won't apply for
+        # subject rendering.
+        if num_changes > 1:
+            return self.verbose_plural
+        return self.verbose
+
     def get_context(
         self,
         change: Change | None = None,
@@ -309,7 +318,9 @@ class Notification:
             "LANGUAGE_BIDI": get_language_bidi(),
             "current_site_url": get_site_url(),
             "site_title": settings.SITE_TITLE,
-            "notification_name": self.verbose,
+            "notification_name": self.get_notification_name(
+                len(changes) if changes is not None else 0
+            ),
         }
         if changes is not None:
             result["changes"] = changes
@@ -317,9 +328,7 @@ class Notification:
             result["changes"] = summaries
         if subscription is not None:
             result["unsubscribe_url"] = get_site_url(
-                "{}?i={}".format(
-                    reverse("unsubscribe"), TimestampSigner().sign(f"{subscription.pk}")
-                )
+                f"{reverse('unsubscribe')}?i={TimestampSigner().sign(f'{subscription.pk}')}"
             )
             result["subscription_user"] = subscription.user
         else:
@@ -488,6 +497,7 @@ class Notification:
         notifications: dict[int, list[Change]] = defaultdict(list)
         users = {}
         for change in changes:
+            change.fill_in_prefetched()
             for user in self.get_users(frequency, change):
                 if change.project is None or user.can_access_project(change.project):
                     notifications[user.pk].append(change)
@@ -544,6 +554,9 @@ class RepositoryNotification(Notification):
     verbose = pgettext_lazy(
         "Notification name", "Operation was performed in the repository"
     )
+    verbose_plural = pgettext_lazy(
+        "Notification name", "Operations were performed in the repository"
+    )
     template_name = "repository_operation"
 
 
@@ -554,6 +567,9 @@ class LockNotification(Notification):
         ActionEvents.UNLOCK,
     )
     verbose = pgettext_lazy("Notification name", "Component was locked or unlocked")
+    verbose_plural = pgettext_lazy(
+        "Notification name", "Components were locked or unlocked"
+    )
     template_name = "component_lock"
 
 
@@ -571,6 +587,7 @@ class LicenseNotification(Notification):
 class ParseErrorNotification(Notification):
     actions = (ActionEvents.PARSE_ERROR,)
     verbose = pgettext_lazy("Notification name", "Parse error occurred")
+    verbose_plural = pgettext_lazy("Notification name", "Parse errors occurred")
     template_name = "parse_error"
 
     def get_context(
@@ -602,6 +619,9 @@ class NewStringNotificaton(Notification):
         ActionEvents.SOURCE_CHANGE,
     )
     verbose = pgettext_lazy("Notification name", "String is available for translation")
+    verbose_plural = pgettext_lazy(
+        "Notification name", "Strings are available for translation"
+    )
     template_name = "new_string"
     filter_languages = True
     required_attr = "unit"
@@ -613,6 +633,9 @@ class NewContributorNotificaton(Notification):
     verbose = pgettext_lazy(
         "Notification name", "Contributor made their first translation"
     )
+    verbose_plural = pgettext_lazy(
+        "Notification name", "Contributors made their first translation"
+    )
     template_name = "new_contributor"
     filter_languages = True
 
@@ -621,6 +644,7 @@ class NewContributorNotificaton(Notification):
 class NewSuggestionNotificaton(Notification):
     actions = (ActionEvents.SUGGESTION,)
     verbose = pgettext_lazy("Notification name", "Suggestion was added")
+    verbose_plural = pgettext_lazy("Notification name", "Suggestions were added")
     template_name = "new_suggestion"
     filter_languages = True
     required_attr = "suggestion"
@@ -630,6 +654,7 @@ class NewSuggestionNotificaton(Notification):
 class LanguageTranslatedNotificaton(Notification):
     actions = (ActionEvents.COMPLETE,)
     verbose = pgettext_lazy("Notification name", "Language was translated")
+    verbose_plural = pgettext_lazy("Notification name", "Languages were translated")
     template_name = "translated_language"
     required_attr = "translation"
 
@@ -638,6 +663,7 @@ class LanguageTranslatedNotificaton(Notification):
 class ComponentTranslatedNotificaton(Notification):
     actions = (ActionEvents.COMPLETED_COMPONENT,)
     verbose = pgettext_lazy("Notification name", "Component was translated")
+    verbose_plural = pgettext_lazy("Notification name", "Components were translated")
     template_name = "translated_component"
     required_attr = "component"
 
@@ -646,6 +672,7 @@ class ComponentTranslatedNotificaton(Notification):
 class NewCommentNotificaton(Notification):
     actions = (ActionEvents.COMMENT,)
     verbose = pgettext_lazy("Notification name", "Comment was added")
+    verbose_plural = pgettext_lazy("Notification name", "Comments were added")
     template_name = "new_comment"
     filter_languages = True
     required_attr = "comment"
@@ -674,6 +701,9 @@ class NewCommentNotificaton(Notification):
 class MentionCommentNotificaton(Notification):
     actions = (ActionEvents.COMMENT,)
     verbose = pgettext_lazy("Notification name", "You were mentioned in a comment")
+    verbose_plural = pgettext_lazy(
+        "Notification name", "You were mentioned in some comments"
+    )
     template_name = "new_comment"
     ignore_watched = True
     required_attr = "comment"
@@ -708,6 +738,9 @@ class MentionCommentNotificaton(Notification):
 class LastAuthorCommentNotificaton(Notification):
     actions = (ActionEvents.COMMENT,)
     verbose = pgettext_lazy("Notification name", "Your translation received a comment")
+    verbose_plural = pgettext_lazy(
+        "Notification name", "Your translation received comments"
+    )
     template_name = "new_comment"
     ignore_watched = True
     required_attr = "comment"
@@ -740,6 +773,7 @@ class TranslatedStringNotificaton(Notification):
         ActionEvents.ACCEPT,
     )
     verbose = pgettext_lazy("Notification name", "String was edited by user")
+    verbose_plural = pgettext_lazy("Notification name", "Strings were edited by user")
     template_name = "translated_string"
     filter_languages = True
 
@@ -748,6 +782,7 @@ class TranslatedStringNotificaton(Notification):
 class ApprovedStringNotificaton(Notification):
     actions = (ActionEvents.APPROVE,)
     verbose = pgettext_lazy("Notification name", "String was approved")
+    verbose_plural = pgettext_lazy("Notification name", "Strings were approved")
     template_name = "approved_string"
     filter_languages = True
 
@@ -756,6 +791,7 @@ class ApprovedStringNotificaton(Notification):
 class ChangedStringNotificaton(Notification):
     actions = Change.ACTIONS_CONTENT
     verbose = pgettext_lazy("Notification name", "String was changed")
+    verbose_plural = pgettext_lazy("Notification name", "Strings were changed")
     template_name = "changed_translation"
     filter_languages = True
     skip_when_notify: ClassVar[set[type[Notification]]] = {
@@ -771,6 +807,9 @@ class NewTranslationNotificaton(Notification):
         ActionEvents.REQUESTED_LANGUAGE,
     )
     verbose = pgettext_lazy("Notification name", "New language was added or requested")
+    verbose_plural = pgettext_lazy(
+        "Notification name", "New languages were added or requested"
+    )
     template_name = "new_language"
 
     def get_context(
@@ -797,6 +836,9 @@ class NewComponentNotificaton(Notification):
     verbose = pgettext_lazy(
         "Notification name", "New translation component was created"
     )
+    verbose_plural = pgettext_lazy(
+        "Notification name", "New translation components were created"
+    )
     template_name = "new_component"
 
 
@@ -804,6 +846,7 @@ class NewComponentNotificaton(Notification):
 class NewAnnouncementNotificaton(Notification):
     actions = (ActionEvents.ANNOUNCEMENT,)
     verbose = pgettext_lazy("Notification name", "Announcement was published")
+    verbose_plural = pgettext_lazy("Notification name", "Announcements were published")
     template_name = "new_announcement"
     required_attr = "announcement"
     any_watched: bool = True
@@ -823,6 +866,9 @@ class NewAnnouncementNotificaton(Notification):
 class NewAlertNotificaton(Notification):
     actions = (ActionEvents.ALERT,)
     verbose = pgettext_lazy("Notification name", "New alert emerged in a component")
+    verbose_plural = pgettext_lazy(
+        "Notification name", "New alerts emerged in a component"
+    )
     template_name = "new_alert"
     required_attr = "alert"
 
@@ -877,6 +923,7 @@ class MergeFailureNotification(Notification):
         ActionEvents.FAILED_PUSH,
     )
     verbose = pgettext_lazy("Notification name", "Repository operation failed")
+    verbose_plural = pgettext_lazy("Notification name", "Repository operations failed")
     template_name = "repository_error"
     skip_when_notify: ClassVar[set[type[Notification]]] = {NewAlertNotificaton}
 
@@ -959,7 +1006,9 @@ class SummaryNotification(Notification):
 
 @register_notification
 class PendingSuggestionsNotification(SummaryNotification):
-    verbose = pgettext_lazy("Notification name", "Pending suggestions exist")
+    verbose_plural = verbose = pgettext_lazy(
+        "Notification name", "Pending suggestions exist"
+    )
     digest_template = "pending_suggestions"
 
     @staticmethod
@@ -969,7 +1018,9 @@ class PendingSuggestionsNotification(SummaryNotification):
 
 @register_notification
 class ToDoStringsNotification(SummaryNotification):
-    verbose = pgettext_lazy("Notification name", "Unfinished strings exist")
+    verbose_plural = verbose = pgettext_lazy(
+        "Notification name", "Unfinished strings exist"
+    )
     digest_template = "todo_strings"
 
     @staticmethod
@@ -978,7 +1029,7 @@ class ToDoStringsNotification(SummaryNotification):
 
 
 def get_notification_emails(
-    language: str,
+    language: str | None,
     recipients: list[str],
     notification: str,
     context: dict[str, Any] | None = None,
@@ -1019,7 +1070,7 @@ def get_notification_emails(
 
 
 def send_notification_email(
-    language: str,
+    language: str | None,
     recipients: list[str],
     notification: str,
     context: dict[str, Any] | None = None,

@@ -68,7 +68,11 @@ from weblate.utils.hash import hash_to_checksum
 from weblate.utils.html import format_html_join_comma, list_to_tuples
 from weblate.utils.messages import get_message_kind
 from weblate.utils.ratelimit import revert_rate_limit, session_ratelimit_post
-from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
+from weblate.utils.state import (
+    STATE_APPROVED,
+    STATE_NEEDS_REWRITING,
+    STATE_TRANSLATED,
+)
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.views import (
     parse_path,
@@ -500,7 +504,9 @@ def handle_revert(unit, request: AuthenticatedHttpRequest, next_unit_url):
     unit.translate(
         request.user,
         split_plural(change.old),
-        STATE_FUZZY if change.action == ActionEvents.MARKED_EDIT else unit.state,
+        STATE_NEEDS_REWRITING
+        if change.action == ActionEvents.MARKED_EDIT
+        else unit.state,
         change_action=ActionEvents.REVERT,
     )
     # Redirect to next entry
@@ -667,9 +673,7 @@ def translate(request: AuthenticatedHttpRequest, path):
     search_result["last_viewed_unit_id"] = unit.id
 
     # Some URLs we will most likely use
-    base_unit_url = "{}?{}&offset=".format(
-        obj.get_translate_url(), search_result["url"]
-    )
+    base_unit_url = f"{obj.get_translate_url()}?{search_result['url']}&offset="
     this_unit_url = base_unit_url + str(offset)
     next_unit_url = base_unit_url + str(offset + 1)
 
@@ -721,7 +725,7 @@ def translate(request: AuthenticatedHttpRequest, path):
         {
             "path_object": obj,
             "this_unit_url": this_unit_url,
-            "first_unit_url": base_unit_url + "1",
+            "first_unit_url": f"{base_unit_url}1",
             "last_unit_url": base_unit_url + str(num_results),
             "next_section_url": base_unit_url
             + str(offset + user.profile.nearby_strings),
@@ -1122,7 +1126,7 @@ def delete_unit(request: AuthenticatedHttpRequest, unit_id):
 def browse(request: AuthenticatedHttpRequest, path):
     """Strings browsing."""
     obj, unit_set, context = parse_path_units(
-        request, path, (Translation, ProjectLanguage)
+        request, path, (Translation, ProjectLanguage, CategoryLanguage)
     )
     project = context["project"]
     search_result = search(obj, project, unit_set, request, blank=True, use_cache=False)
@@ -1132,10 +1136,7 @@ def browse(request: AuthenticatedHttpRequest, path):
         search_result["ids"][(offset - 1) * page : (offset - 1) * page + page]
     )
 
-    base_unit_url = "{}?{}&offset=".format(
-        reverse("browse", kwargs={"path": obj.get_url_path()}),
-        search_result["url"],
-    )
+    base_unit_url = f"{reverse('browse', kwargs={'path': obj.get_url_path()})}?{search_result['url']}&offset="
     num_results = ceil(len(search_result["ids"]) / page)
 
     return render(
@@ -1152,7 +1153,7 @@ def browse(request: AuthenticatedHttpRequest, path):
             "search_form": search_result["form"].reset_offset(),
             "filter_count": num_results,
             "filter_pos": offset,
-            "first_unit_url": base_unit_url + "1",
+            "first_unit_url": f"{base_unit_url}1",
             "last_unit_url": base_unit_url + str(num_results),
             "next_unit_url": base_unit_url + str(offset + 1)
             if offset < num_results

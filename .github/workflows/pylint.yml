@@ -29,11 +29,11 @@ jobs:
       id: setup_python
       with:
         python-version: '3.14'
-    - uses: astral-sh/setup-uv@ed21f2f24f8dd64503750218de024bcf64c7250a # v7.1.5
+    - uses: astral-sh/setup-uv@61cb8a9741eeb8a550a1b8544337180c0fc8476b # v7.2.0
       with:
         save-cache: ${{ github.ref == 'refs/heads/main' }}
         cache-suffix: ${{ steps.setup_python.outputs.python-version }}
-        version: 0.9.16
+        version: 0.9.22
     - name: Install deps
       env:
         CI_DATABASE: postgresql

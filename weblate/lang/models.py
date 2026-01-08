@@ -1056,9 +1056,7 @@ class Plural(models.Model):
         super().save(*args, **kwargs)
 
     def get_absolute_url(self) -> str:
-        return "{}#information".format(
-            reverse("show_language", kwargs={"lang": self.language.code})
-        )
+        return f"{reverse('show_language', kwargs={'lang': self.language.code})}#information"
 
     @cached_property
     def plural_form(self) -> str:

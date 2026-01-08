@@ -24,11 +24,12 @@ from django.utils.translation import activate
 from openpyxl import load_workbook
 from PIL import Image
 
-from weblate.auth.models import Group, get_anonymous, setup_project_groups
+from weblate.auth.models import Group, setup_project_groups
 from weblate.lang.models import Language
 from weblate.trans.models import Component, ComponentList, Project
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.utils import (
+    clear_users_cache,
     create_another_user,
     create_test_user,
     wait_for_celery,
@@ -62,9 +63,9 @@ class RegistrationTestMixin(TestCase):
             if "(" in line or ")" in line or "<" in line or ">" in line:
                 continue
             if live_url and line.startswith(live_url):
-                return line + "&confirm=1"
+                return f"{line}&confirm=1"
             if line.startswith("http://example.com/"):
-                return line[18:] + "&confirm=1"
+                return f"{line[18:]}&confirm=1"
 
         self.fail("Confirmation URL not found")
         return ""
@@ -78,7 +79,7 @@ class RegistrationTestMixin(TestCase):
 class ViewTestCase(RepoTestCase):
     @classmethod
     def setUpTestData(cls) -> None:
-        get_anonymous.cache_clear()
+        clear_users_cache()
         super().setUpTestData()
 
     def setUp(self) -> None:
@@ -301,6 +302,9 @@ class FixtureTestCase(ViewTestCase):
         # Apply group project/language automation
         for group in Group.objects.iterator():
             group.save()
+
+        # Make sure anonymous cache is cleared
+        clear_users_cache()
 
         super().setUpTestData()
 
@@ -718,7 +722,7 @@ class SourceStringsTest(ViewTestCase):
 
     def test_matrix_load(self) -> None:
         response = self.client.get(
-            reverse("matrix-load", kwargs=self.kw_component) + "?offset=0&lang=cs"
+            f"{reverse('matrix-load', kwargs=self.kw_component)}?offset=0&lang=cs"
         )
         self.assertContains(response, 'lang="cs"')
 

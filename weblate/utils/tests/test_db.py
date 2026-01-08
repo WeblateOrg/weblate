@@ -26,24 +26,24 @@ class PostgreSQLOperatorTest(TestCase):
         queryset = Unit.objects.filter(source__search="test").only("id")
         self.assertEqual(
             str(queryset.query),
-            BASE_SQL + '"trans_unit"."source" % test = true',
+            f'{BASE_SQL}"trans_unit"."source" % test = true',
         )
         queryset = Unit.objects.filter(source__search="'''").only("id")
         self.assertEqual(
             str(queryset.query),
-            BASE_SQL + """UPPER("trans_unit"."source") LIKE UPPER(%'''%)""",
+            f'{BASE_SQL}UPPER("trans_unit"."source") LIKE UPPER(%\'\'\'%)',
         )
 
     def test_substring(self) -> None:
         queryset = Unit.objects.filter(source__substring="test").only("id")
         self.assertEqual(
             str(queryset.query),
-            BASE_SQL + '"trans_unit"."source" ILIKE %test%',
+            f'{BASE_SQL}"trans_unit"."source" ILIKE %test%',
         )
         queryset = Unit.objects.filter(source__substring="'''").only("id")
         self.assertEqual(
             str(queryset.query),
-            BASE_SQL + """UPPER("trans_unit"."source") LIKE UPPER(%'''%)""",
+            f'{BASE_SQL}UPPER("trans_unit"."source") LIKE UPPER(%\'\'\'%)',
         )
 
 

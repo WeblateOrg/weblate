@@ -7,18 +7,43 @@ from __future__ import annotations
 import ast
 import os
 from pathlib import Path
-from typing import Any
+from typing import Any, Literal, overload
 from urllib.parse import quote
 
 from django.core.exceptions import ImproperlyConfigured
 
 
+@overload
 def get_env_str(
     name: str,
-    default: str | None = None,
+    default: str,
+    *,
     required: bool = False,
     fallback_name: str | None = None,
-) -> str:
+) -> str: ...
+@overload
+def get_env_str(
+    name: str,
+    default: None = None,
+    *,
+    required: Literal[True],
+    fallback_name: str | None = None,
+) -> str: ...
+@overload
+def get_env_str(
+    name: str,
+    default: None = None,
+    *,
+    required: bool = False,
+    fallback_name: str | None = None,
+) -> str | None: ...
+def get_env_str(
+    name,
+    default=None,
+    *,
+    required=False,
+    fallback_name=None,
+):
     file_env = f"{name}_FILE"
     if filename := os.environ.get(file_env):
         try:
@@ -244,3 +269,27 @@ def get_saml_idp() -> dict[str, Any] | None:
             saml_idp[field] = value
 
     return saml_idp
+
+
+def get_email_config() -> tuple[int, bool, bool]:
+    """Parse e-mmail settings (port, TLS, SSL) from environment."""
+    email_use_ssl = get_env_bool("WEBLATE_EMAIL_USE_SSL")
+    email_use_tls = get_env_bool("WEBLATE_EMAIL_USE_TLS")
+    default_email_port = 25
+    if email_use_ssl:
+        default_email_port = 465
+    elif email_use_tls:
+        default_email_port = 587
+    email_port = get_env_int("WEBLATE_EMAIL_PORT", default_email_port)
+
+    # Detect SSL/TLS setup if not explicitly stated
+    if (
+        "WEBLATE_EMAIL_USE_SSL" not in os.environ
+        and "WEBLATE_EMAIL_USE_TLS" not in os.environ
+    ):
+        if not email_use_tls and email_port in {25, 587}:
+            email_use_tls = True
+        elif not email_use_ssl and email_port == 465:
+            email_use_ssl = True
+
+    return email_port, email_use_tls, email_use_ssl

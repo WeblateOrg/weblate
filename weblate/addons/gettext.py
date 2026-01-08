@@ -118,7 +118,7 @@ class UpdateLinguasAddon(GettextBaseAddon):
             if " " in stripped:
                 expected = " ".join(sorted(codes))
                 if stripped != expected:
-                    lines[i] = expected + "\n"
+                    lines[i] = f"{expected}\n"
                     changed = True
                 codes = set()
                 break

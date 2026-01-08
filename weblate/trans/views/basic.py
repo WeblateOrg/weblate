@@ -962,12 +962,7 @@ def add_languages_to_component(
                             "All languages have been added, updates of translations are in progress."
                         ),
                     )
-                result = "{}?info=1".format(
-                    reverse(
-                        "show_progress",
-                        kwargs={"path": result.get_url_path()},
-                    )
-                )
+                result = f"{reverse('show_progress', kwargs={'path': result.get_url_path()})}?info=1"
 
     if user.has_perm("component.edit", component):
         reset_rate_limit("language", request)

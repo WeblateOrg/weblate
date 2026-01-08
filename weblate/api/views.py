@@ -24,6 +24,7 @@ from django.utils.datastructures import MultiValueDictKeyError
 from django.utils.html import format_html
 from django.utils.translation import gettext, gettext_lazy
 from django_filters import rest_framework as filters
+from drf_spectacular.types import OpenApiTypes
 from drf_spectacular.utils import OpenApiParameter, extend_schema, extend_schema_view
 from drf_standardized_errors.handler import ExceptionHandler
 from rest_framework import parsers, viewsets
@@ -74,6 +75,7 @@ from weblate.api.serializers import (
     ProjectMachinerySettingsSerializer,
     ProjectSerializer,
     RepoRequestSerializer,
+    RepositorySerializer,
     RoleSerializer,
     ScreenshotCreateSerializer,
     ScreenshotFileSerializer,
@@ -105,6 +107,7 @@ from weblate.trans.models import (
     Component,
     ComponentList,
     Label,
+    PendingUnitChange,
     Project,
     Unit,
 )
@@ -258,13 +261,11 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
                 [filename],
                 name=component.slug if component else "weblate",
             )
-        try:
-            open_file = open(filename, "rb")  # noqa: SIM115
-        except FileNotFoundError as error:
+        if not os.path.exists(filename) or os.path.islink(filename):
             msg = "File not found"
-            raise Http404(msg) from error
+            raise Http404(msg)
         return FileResponse(
-            open_file,
+            open(filename, "rb"),
             content_type=content_type,
             as_attachment=True,
             filename=os.path.basename(filename),
@@ -290,7 +291,9 @@ class WeblateViewSet(DownloadViewSet):
         return getattr(obj, method)(*args, request.user, **kwargs)
 
     @extend_schema(
-        description="Return information about VCS repository status.", methods=["get"]
+        description="Return information about VCS repository status.",
+        methods=["get"],
+        responses=RepositorySerializer,
     )
     @extend_schema(
         description="Perform given operation on the VCS repository.", methods=["post"]
@@ -372,7 +375,13 @@ class WeblateViewSet(DownloadViewSet):
             else:
                 data["merge_failure"] = None
 
-        return Response(data)
+            data["outgoing_commits"] = component.count_repo_outgoing
+            data["missing_commits"] = component.count_repo_missing
+
+        data["pending_units"] = PendingUnitChange.objects.detailed_count(obj)
+
+        serializer = RepositorySerializer(data)
+        return Response(serializer.data)
 
 
 class MultipleFieldViewSet(WeblateViewSet):
@@ -425,6 +434,14 @@ class UserFilter(filters.FilterSet):
         fields = ("username", "id")
 
 
+class ComponentSlugFilter(filters.FilterSet):
+    filter = filters.CharFilter(field_name="slug", lookup_expr="icontains")
+
+    class Meta:
+        model = Component
+        fields = ("filter",)
+
+
 @extend_schema_view(
     retrieve=extend_schema(description="Return information about users."),
     partial_update=extend_schema(description="Change the user parameters."),
@@ -472,6 +489,12 @@ class UserViewSet(viewsets.ModelViewSet):
         ):
             # Order to avoid warning from the paginator
             queryset = User.objects.filter(pk=user.pk).order_by("id")
+        elif (
+            not (user.has_perm("user.edit") or user.has_perm("user.view"))
+            and len(request.GET.get(self.lookup_field, "")) < 2
+        ):
+            # Avoid too short matching, the length matches autocomplete setting in the UI
+            queryset = User.objects.none()
         else:
             queryset = self.get_queryset()
 
@@ -485,13 +508,18 @@ class UserViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
-    def perm_check(self, request: Request) -> None:
+    def perm_check(
+        self, request: Request, obj: User | None = None, *, allow_self: bool = False
+    ) -> None:
+        if allow_self and obj is not None and obj == request.user:
+            return
         if not request.user.has_perm("user.edit"):
             self.permission_denied(request, "Can not manage Users")
 
     def update(self, request: Request, *args, **kwargs):
         """Change the user parameters."""
-        self.perm_check(request)
+        instance = self.get_object()
+        self.perm_check(request, instance, allow_self=True)
         return super().update(request, *args, **kwargs)
 
     def create(self, request: Request, *args, **kwargs):
@@ -501,8 +529,8 @@ class UserViewSet(viewsets.ModelViewSet):
 
     def destroy(self, request: Request, *args, **kwargs):
         """Delete all user information and mark the user inactive."""
-        self.perm_check(request)
         instance = self.get_object()
+        self.perm_check(request, instance)
         remove_user(instance, cast("AuthenticatedHttpRequest", request))
         return Response(status=HTTP_204_NO_CONTENT)
 
@@ -511,7 +539,7 @@ class UserViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=["post", "delete"])
     def groups(self, request: Request, **kwargs):
         obj = self.get_object()
-        self.perm_check(request)
+        self.perm_check(request, obj)
 
         if "group_id" not in request.data:
             msg = "Missing group_id parameter"
@@ -544,7 +572,7 @@ class UserViewSet(viewsets.ModelViewSet):
     def notifications(self, request: Request, username: str):
         obj = self.get_object()
         if request.method == "POST":
-            self.perm_check(request)
+            self.perm_check(request, obj)
             with transaction.atomic():
                 serializer = NotificationSerializer(
                     data=request.data, context={"request": request}
@@ -552,6 +580,7 @@ class UserViewSet(viewsets.ModelViewSet):
                 serializer.is_valid(raise_exception=True)
                 serializer.save(user=obj)
                 return Response(serializer.data, status=HTTP_201_CREATED)
+        self.perm_check(request, obj, allow_self=True)
         queryset = obj.subscription_set.order_by("id")
         page = self.paginate_queryset(queryset)
         serializer = NotificationSerializer(
@@ -593,16 +622,17 @@ class UserViewSet(viewsets.ModelViewSet):
             raise Http404(str(error)) from error
 
         if request.method == "DELETE":
-            self.perm_check(request)
+            self.perm_check(request, obj)
             subscription.delete()
             return Response(status=HTTP_204_NO_CONTENT)
 
         if request.method == "GET":
+            self.perm_check(request, obj, allow_self=True)
             serializer = NotificationSerializer(
                 subscription, context={"request": request}
             )
         else:
-            self.perm_check(request)
+            self.perm_check(request, obj)
             serializer = NotificationSerializer(
                 subscription,
                 data=request.data,
@@ -1057,7 +1087,7 @@ class ProjectViewSet(
 ):
     """Translation projects API."""
 
-    raw_urls: tuple[str, ...] = "project-file"
+    raw_urls: tuple[str, ...] = ("project-file", "project-language-file")
     raw_formats = ("zip", *(f"zip:{exporter}" for exporter in EXPORTERS))
 
     queryset = Project.objects.none()
@@ -1311,6 +1341,53 @@ class ProjectViewSet(
             [instance],
             requested_format,
             name=instance.slug,
+        )
+
+    @extend_schema(
+        description=(
+            "Download all component translation files in the project for a specific "
+            "language."
+        ),
+        methods=["get"],
+        parameters=[
+            OpenApiParameter(
+                name="language_code",
+                type=OpenApiTypes.STR,
+                location=OpenApiParameter.PATH,
+                description="Language code for the requested translations.",
+            )
+        ],
+    )
+    @action(
+        detail=True,
+        methods=["get"],
+        url_path=r"languages/(?P<language_code>[^/.]+)/file",
+    )
+    def language_file(self, request: Request, language_code: str, **kwargs):
+        instance = self.get_object()
+
+        if not request.user.has_perm("translation.download", instance):
+            raise PermissionDenied
+
+        components = instance.component_set.filter_access(request.user)
+        filterset = ComponentSlugFilter(
+            request.query_params, queryset=components, request=request
+        )
+        if not filterset.is_valid():
+            raise ValidationError(filterset.errors)
+        components = filterset.qs
+        requested_format = request.query_params.get("format", "zip")
+
+        translations = Translation.objects.filter(
+            language__code=language_code, component__in=components
+        )
+
+        return download_multi(
+            cast("AuthenticatedHttpRequest", request),
+            translations.prefetch(),
+            [instance],
+            requested_format,
+            name=f"{instance.slug}-{language_code}",
         )
 
     @extend_schema(
@@ -2133,11 +2210,12 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
                 msg = "Please provide both state and target for a partial update"
                 raise ValidationError({"state": msg, "target": msg})
 
+            if new_state in {STATE_NEEDS_CHECKING, STATE_NEEDS_REWRITING}:
+                raise ValidationError({"state": "This state cannot be set manually."})
+
             if new_state not in {
                 STATE_APPROVED,
                 STATE_TRANSLATED,
-                STATE_NEEDS_CHECKING,
-                STATE_NEEDS_REWRITING,
                 STATE_FUZZY,
                 STATE_EMPTY,
             }:
@@ -2663,14 +2741,15 @@ class Search(APIView):
                 }
                 for component in components.search(query).order()[:5]
             )
-            results.extend(
-                {
-                    "url": user.get_absolute_url(),
-                    "name": user.username,
-                    "category": gettext("User"),
-                }
-                for user in User.objects.search(query, parser="plain").order()[:5]
-            )
+            if user.is_authenticated:
+                results.extend(
+                    {
+                        "url": user.get_absolute_url(),
+                        "name": user.username,
+                        "category": gettext("User"),
+                    }
+                    for user in User.objects.search(query, parser="plain").order()[:5]
+                )
             results.extend(
                 {
                     "url": language.get_absolute_url(),

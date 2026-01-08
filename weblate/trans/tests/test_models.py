@@ -6,17 +6,17 @@
 
 import os
 from datetime import timedelta
+from pathlib import Path
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-from django.core.management.color import no_style
-from django.db import connection, transaction
+from django.db import transaction
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.utils import timezone
 
 from weblate.auth.models import Group, User
 from weblate.checks.models import Check
-from weblate.lang.models import Language, Plural
+from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.exceptions import SuggestionSimilarToTranslationError
 from weblate.trans.models import (
@@ -38,26 +38,12 @@ from weblate.trans.tests.utils import (
     RepoTestMixin,
     create_another_user,
     create_test_user,
+    fixup_languages_seq,
 )
 from weblate.utils.django_hacks import immediate_on_commit, immediate_on_commit_leave
 from weblate.utils.files import remove_tree
 from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
 from weblate.utils.version import GIT_VERSION
-
-
-def fixup_languages_seq() -> None:
-    # Reset sequence for Language and Plural objects as
-    # we're manipulating with them in FixtureTestCase.setUpTestData
-    # and that seems to affect sequence for other tests as well
-    # on some PostgreSQL versions (probably sequence is not rolled back
-    # in a transaction).
-    commands = connection.ops.sequence_reset_sql(no_style(), [Language, Plural])
-    if commands:
-        with connection.cursor() as cursor:
-            for sql in commands:
-                cursor.execute(sql)
-    # Invalidate object cache for languages
-    Language.objects.flush_object_cache()
 
 
 class BaseTestCase(TestCase):
@@ -1030,3 +1016,62 @@ class PendingUnitChangeTest(RepoTestCase):
             set(components.values_list("pk", flat=True)),
             {self.component.pk, self.component3.pk},
         )
+
+
+class AutomaticallyTranslatedFromFileTest(RepoTestCase):
+    def test_xliff_state_qualifier_loaded_to_database(self) -> None:
+        component = self.create_xliff_auto()
+        translation = component.translation_set.get(language_code="cs")
+        user = create_test_user()
+
+        file_content = Path(translation.get_filename()).read_text(encoding="utf-8")
+        self.assertEqual(file_content.count('state-qualifier="leveraged-mt"'), 1)
+        self.assertEqual(file_content.count('state-qualifier="mt-suggestion"'), 1)
+
+        self.assertTrue(
+            translation.unit_set.get(source="Hello").automatically_translated
+        )
+
+        world_unit = translation.unit_set.get(source="World")
+        self.assertTrue(world_unit.automatically_translated)
+        world_unit.translate(
+            user=user, new_target=world_unit.target, new_state=STATE_TRANSLATED
+        )
+        self.assertFalse(world_unit.automatically_translated)
+
+        car_unit = translation.unit_set.get(source="Car")
+        self.assertFalse(car_unit.automatically_translated)
+        car_unit.translate(
+            user=user,
+            new_target="Automobil",
+            new_state=STATE_TRANSLATED,
+            change_action=ActionEvents.AUTO,
+        )
+        self.assertTrue(car_unit.automatically_translated)
+
+        translation.commit_pending("test", None)
+
+        file_content = Path(translation.get_filename()).read_text(encoding="utf-8")
+        self.assertIn("Automobil", file_content)
+        self.assertEqual(file_content.count('state-qualifier="leveraged-mt"'), 2)
+        self.assertEqual(file_content.count('state-qualifier="mt-suggestion"'), 0)
+
+    def test_xliff_file_sync_gets_automatically_translated_from_file(self) -> None:
+        component = self.create_xliff_auto()
+        translation = component.translation_set.get(language_code="cs")
+
+        car_unit = translation.unit_set.get(source="Car")
+        self.assertFalse(car_unit.automatically_translated)
+
+        file_content = Path(translation.get_filename()).read_text(encoding="utf-8")
+        modified_content = file_content.replace(
+            "<target>Auto</target>",
+            '<target state-qualifier="leveraged-mt">Auto</target>',
+        )
+        Path(translation.get_filename()).write_text(modified_content, encoding="utf-8")
+
+        translation = component.translation_set.get(language_code="cs")
+        translation.check_sync(force=True)
+
+        car_unit = translation.unit_set.get(source="Car")
+        self.assertTrue(car_unit.automatically_translated)

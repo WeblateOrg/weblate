@@ -49,9 +49,9 @@ def fix_newlines(lines) -> None:
     """Convert newlines to unix."""
     for i, line in enumerate(lines):
         if line.endswith("\r\n"):
-            lines[i] = line[:-2] + "\n"
+            lines[i] = f"{line[:-2]}\n"
         elif line.endswith("\r"):
-            lines[i] = line[:-1] + "\n"
+            lines[i] = f"{line[:-1]}\n"
 
 
 def format_unicode(lines) -> None:

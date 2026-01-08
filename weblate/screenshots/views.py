@@ -11,7 +11,7 @@ from typing import TYPE_CHECKING
 import sentry_sdk
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
-from django.http import JsonResponse
+from django.http import FileResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from django.utils.translation import gettext
@@ -31,6 +31,9 @@ from weblate.utils.search import parse_query
 from weblate.utils.views import PathViewMixin
 
 if TYPE_CHECKING:
+    from collections.abc import Generator
+
+    from django.http import HttpResponse
     from tesserocr import PyTessBaseAPI
 
     from weblate.auth.models import AuthenticatedHttpRequest
@@ -197,7 +200,7 @@ def try_add_source(request: AuthenticatedHttpRequest, obj) -> bool:
     return True
 
 
-class ScreenshotList(PathViewMixin, ListView):
+class ScreenshotList(PathViewMixin, ListView):  # type: ignore[misc]
     paginate_by = 25
     model = Screenshot
     supported_path_types = (Component,)
@@ -251,15 +254,29 @@ class ScreenshotList(PathViewMixin, ListView):
         return self.get(request, **kwargs)
 
 
-class ScreenshotDetail(DetailView):
+class ScreenshotBaseView(DetailView):
     model = Screenshot
-    _edit_form = None
     request: AuthenticatedHttpRequest
 
     def get_object(self, *args, **kwargs):
         obj = super().get_object(*args, **kwargs)
         self.request.user.check_access_component(obj.translation.component)
         return obj
+
+
+class ScreenshotView(ScreenshotBaseView):
+    def get(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> FileResponse:  # type: ignore[override]
+        obj = self.get_object()
+        # Django will automatically set Content-Type based on the filename
+        return FileResponse(
+            obj.image.open(),
+            as_attachment=False,
+            filename=os.path.basename(obj.image.name),
+        )
+
+
+class ScreenshotDetail(ScreenshotBaseView):
+    _edit_form = None
 
     def get_context_data(self, **kwargs):
         result = super().get_context_data(**kwargs)
@@ -274,7 +291,7 @@ class ScreenshotDetail(DetailView):
         result["search_query"] = ""
         return result
 
-    def post(self, request: AuthenticatedHttpRequest, **kwargs):
+    def post(self, request: AuthenticatedHttpRequest, *args, **kwargs) -> HttpResponse:
         obj = self.get_object()
         if request.user.has_perm("screenshot.edit", obj.translation):
             self._edit_form = ScreenshotEditForm(
@@ -291,7 +308,7 @@ class ScreenshotDetail(DetailView):
                     )
                 self._edit_form.save()
             else:
-                return self.get(request, **kwargs)
+                return self.get(request, *args, **kwargs)
         return redirect(obj)
 
 
@@ -416,7 +433,7 @@ def ocr_extract(api, image: str, strings, resolution: int):
 
 
 @contextmanager
-def get_tesseract(language: Language) -> PyTessBaseAPI:
+def get_tesseract(language: Language) -> Generator[PyTessBaseAPI]:
     from tesserocr import OEM, PSM, PyTessBaseAPI
 
     # Get matching language
@@ -431,7 +448,7 @@ def get_tesseract(language: Language) -> PyTessBaseAPI:
     ensure_tesseract_language(tess_language)
 
     with PyTessBaseAPI(
-        path=data_dir("cache", "tesseract") + "/",
+        path=f"{data_dir('cache', 'tesseract')}/",
         psm=PSM.SPARSE_TEXT_OSD,
         oem=OEM.LSTM_ONLY,
         lang=tess_language,

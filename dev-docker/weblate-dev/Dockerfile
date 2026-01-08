@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-FROM weblate/weblate:5.14.3.2@sha256:ac919e5891f2f973d66255f288255cd6eca8b9d385810f8e10386686a843b19a
+FROM weblate/weblate:5.15.1.3@sha256:ff26894e9abdd5da0e42c96bf0e02b84c042a7f71d50f9e9a9dafeb44242afc1
 
 ##########
 # WARNING!
@@ -19,7 +19,7 @@ ARG USER_ID=1000
 ARG GROUP_ID=1000
 
 USER root
-ENV PATH=/app/venv/bin:/opt/tools/bin:/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin
+ENV PATH=/app/venv/bin:/opt/python/bin:/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin
 ENV UV_CACHE_DIR=/app/data/uv-cache
 ENV UV_LINK_MODE=copy
 # Make sure user exists in the container

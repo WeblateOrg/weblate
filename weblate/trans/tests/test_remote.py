@@ -5,9 +5,11 @@
 """Test for changes done in remote repository."""
 
 import os
+import pathlib
 
 from django.db import transaction
 from django.test.utils import override_settings
+from django.urls import reverse
 
 from weblate.lang.models import Language
 from weblate.trans.models import CommitPolicyChoices, Component, PendingUnitChange, Unit
@@ -563,6 +565,86 @@ class MultiRepoTest(ViewTestCase):
         unit = self.get_unit(translation=translation1)
         self.assertEqual(unit.target, "Ahoj světe!\n")
 
+    def test_pending_changes_preserved_on_non_translation_update(self) -> None:
+        """Test that pending database changes are not overwritten when remote commits non-translation files."""
+        self.component2.allow_translation_propagation = False
+        self.component2.save()
+
+        translation2 = self.component2.translation_set.get(language_code="cs")
+        unit = translation2.unit_set.get(source="Hello, world!\n")
+        new_target = "Ahoj světe - čeká na vyřízení!\n"
+        unit.translate(self.user, new_target, STATE_TRANSLATED)
+
+        self.assertEqual(
+            PendingUnitChange.objects.filter(
+                unit__translation__component=self.component2
+            ).count(),
+            1,
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, new_target)
+
+        # Commit and push the non-translation file change from component1
+        readme_path = os.path.join(self.component.full_path, "README.md")
+        pathlib.Path(readme_path).write_text(
+            "# Test Project\n\nThis is a test README.\n", encoding="utf-8"
+        )
+        with self.component.repository.lock:
+            self.component.repository.execute(["add", "README.md"])
+            self.component.repository.execute(
+                ["commit", "-m", "Add README.md (non-translation file)"]
+            )
+            self.component.repository.push(self.component.push_branch)
+
+        # pull changes from component2
+        result = self.component2.do_update(self.request)
+        self.assertTrue(result)
+
+        # verify the pending change is still preserved
+        self.assertEqual(
+            PendingUnitChange.objects.filter(
+                unit__translation__component=self.component2
+            ).count(),
+            1,
+        )
+        unit.refresh_from_db()
+        self.assertEqual(unit.target, new_target)
+
+    def test_api(self):
+        """Test the project repository API works for various VCS."""
+        self.push_first()
+        self.project.add_user(self.user, "Administration")
+        headers = {"Authorization": f"Token {self.user.auth_token.key}"}
+
+        response = self.client.get(
+            reverse("api:project-repository", kwargs={"slug": self.project.slug}),
+            headers=headers,
+        )
+        self.assertEqual(response.status_code, 200)
+
+        response = self.client.get(
+            reverse(
+                "api:component-repository",
+                kwargs={
+                    "slug": self.component.slug,
+                    "project__slug": self.project.slug,
+                },
+            )
+        )
+        self.assertEqual(response.status_code, 200)
+
+        response = self.client.get(
+            reverse(
+                "api:translation-repository",
+                kwargs={
+                    "language__code": "cs",
+                    "component__slug": self.component.slug,
+                    "component__project__slug": self.project.slug,
+                },
+            )
+        )
+        self.assertEqual(response.status_code, 200)
+
 
 class FileScanTest(ViewTestCase):
     def test_file_scan_commit_policy(self) -> None:
@@ -598,7 +680,12 @@ class FileScanTest(ViewTestCase):
         self.assertEqual(unit_1.state, STATE_TRANSLATED)
         self.assertEqual(
             unit_1.details["disk_state"],
-            {"target": target_1, "state": STATE_APPROVED, "explanation": explanation_1},
+            {
+                "target": target_1,
+                "state": STATE_APPROVED,
+                "explanation": explanation_1,
+                "automatically_translated": False,
+            },
         )
         self.assertEqual(PendingUnitChange.objects.filter(unit=unit_1).count(), 1)
 
@@ -617,7 +704,12 @@ class FileScanTest(ViewTestCase):
         self.assertEqual(unit_2.state, STATE_TRANSLATED)
         self.assertEqual(
             unit_2.details["disk_state"],
-            {"target": "", "state": STATE_EMPTY, "explanation": explanation_2},
+            {
+                "target": "",
+                "state": STATE_EMPTY,
+                "explanation": explanation_2,
+                "automatically_translated": False,
+            },
         )
         self.assertEqual(PendingUnitChange.objects.filter(unit=unit_2).count(), 2)
 
@@ -631,7 +723,12 @@ class FileScanTest(ViewTestCase):
         )
         self.assertEqual(
             unit_3.details["disk_state"],
-            {"target": "", "state": STATE_EMPTY, "explanation": explanation_3},
+            {
+                "target": "",
+                "state": STATE_EMPTY,
+                "explanation": explanation_3,
+                "automatically_translated": False,
+            },
         )
         self.assertEqual(PendingUnitChange.objects.filter(unit=unit_3).count(), 1)
 
@@ -651,7 +748,12 @@ class FileScanTest(ViewTestCase):
         self.assertEqual(unit_1.state, STATE_TRANSLATED)
         self.assertEqual(
             unit_1.details["disk_state"],
-            {"target": target_1, "state": STATE_APPROVED, "explanation": explanation_1},
+            {
+                "target": target_1,
+                "state": STATE_APPROVED,
+                "explanation": explanation_1,
+                "automatically_translated": False,
+            },
         )
         self.assertEqual(PendingUnitChange.objects.filter(unit=unit_1).count(), 1)
 
@@ -663,7 +765,12 @@ class FileScanTest(ViewTestCase):
         self.assertEqual(unit_2.state, STATE_TRANSLATED)
         self.assertEqual(
             unit_2.details["disk_state"],
-            {"target": target_2, "state": STATE_APPROVED, "explanation": explanation_2},
+            {
+                "target": target_2,
+                "state": STATE_APPROVED,
+                "explanation": explanation_2,
+                "automatically_translated": False,
+            },
         )
         self.assertEqual(PendingUnitChange.objects.filter(unit=unit_2).count(), 1)
 
@@ -671,6 +778,36 @@ class FileScanTest(ViewTestCase):
         self.assertEqual(unit_3.target, disk_target)
         self.assertNotIn("disk_state", unit_3.details)
         self.assertEqual(PendingUnitChange.objects.filter(unit=unit_3).count(), 0)
+
+    def test_tbx_explanation_sync(self) -> None:
+        """Test that explanation changes from file are treated as data changes for TBX."""
+        request = self.get_request()
+        self.project.commit_policy = CommitPolicyChoices.APPROVED_ONLY
+        self.project.translation_review = True
+        self.project.save()
+
+        component = self.create_tbx(project=self.project, name="TBX component")
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="address bar")
+        self.assertEqual(unit.explanation, "")
+
+        unit.update_explanation("dummy explanation", self.user)
+        self.assertEqual(PendingUnitChange.objects.filter(unit=unit).count(), 1)
+        self.assertEqual(unit.details["disk_state"]["explanation"], "")
+
+        disk_explanation = "text field in a browser"
+        ttk_unit, _ = translation.store.find_unit(unit.context, unit.source)
+        ttk_unit.set_explanation(disk_explanation)
+        translation.store.save()
+        with transaction.atomic():
+            translation.git_commit(request.user, "TEST <test@example.net>")
+
+        component.do_file_scan(request)
+
+        unit = translation.unit_set.get(source="address bar")
+        self.assertEqual(unit.explanation, disk_explanation)
+
+        self.assertEqual(PendingUnitChange.objects.filter(unit=unit).count(), 0)
 
 
 class GitBranchMultiRepoTest(MultiRepoTest):

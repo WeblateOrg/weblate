@@ -30,7 +30,6 @@ from weblate.utils.db import using_postgresql
 from weblate.utils.state import (
     FUZZY_STATES,
     STATE_APPROVED,
-    STATE_FUZZY,
     StringState,
 )
 from weblate.utils.version import GIT_VERSION
@@ -105,7 +104,7 @@ class PendingChangeQuerySet(models.QuerySet):
                 Q(
                     unit__translation__component__project__commit_policy=CommitPolicyChoices.WITHOUT_NEEDS_EDITING
                 )
-                & ~Q(state=STATE_FUZZY)
+                & ~Q(state__in=FUZZY_STATES)
             )
             | (
                 Q(
@@ -350,6 +349,7 @@ class PendingUnitChange(models.Model):
     state = models.IntegerField(default=0, choices=StringState.choices, db_index=True)
     timestamp = models.DateTimeField(default=timezone.now, db_index=True)
     add_unit = models.BooleanField(default=False)
+    automatically_translated = models.BooleanField(default=False)
     metadata = models.JSONField(default=dict, blank=True, null=False)
 
     objects = PendingChangeQuerySet.as_manager()
@@ -373,6 +373,7 @@ class PendingUnitChange(models.Model):
         state: int | None = None,
         add_unit: bool = False,
         source_unit_explanation: str | None = None,
+        automatically_translated: bool | None = None,
         timestamp: datetime | None = None,
         store_disk_state: bool = True,
     ) -> PendingUnitChange:
@@ -392,6 +393,8 @@ class PendingUnitChange(models.Model):
             source_unit_explanation = unit.source_unit.explanation
         if author is None:
             author = unit.get_last_content_change()[0]
+        if automatically_translated is None:
+            automatically_translated = unit.automatically_translated
 
         kwargs = {
             "unit": unit,
@@ -401,6 +404,7 @@ class PendingUnitChange(models.Model):
             "state": state,
             "add_unit": add_unit,
             "source_unit_explanation": source_unit_explanation,
+            "automatically_translated": automatically_translated,
         }
         if timestamp is not None:
             kwargs["timestamp"] = timestamp

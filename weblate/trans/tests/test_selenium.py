@@ -180,7 +180,7 @@ class SeleniumTests(
 
     def setUp(self) -> None:
         super().setUp()
-        self.driver.get("{}{}".format(self.live_server_url, reverse("home")))
+        self.driver.get(f"{self.live_server_url}{reverse('home')}")
         self.driver.set_window_size(1200, 1024)
         self.site_domain = settings.SITE_DOMAIN
         settings.SITE_DOMAIN = f"{self.host}:{self.server_thread.port}"
@@ -230,7 +230,7 @@ class SeleniumTests(
             self.actions.move_to_element(element).perform()
             element.click()
         except ElementClickInterceptedException:
-            wait = WebDriverWait(self._driver, timeout=2)
+            wait = WebDriverWait(self.driver, timeout=2)
             wait.until(lambda _: element.is_displayed())
             self.actions.move_to_element(element).perform()
             element.click()
@@ -242,7 +242,13 @@ class SeleniumTests(
             raise ValueError(msg)
         element.send_keys(filename)
 
-    def do_login(self, *, create: bool = True, superuser: bool = False) -> User:
+    @overload
+    def do_login(self, *, create: Literal[False], superuser: bool = False) -> None: ...
+    @overload
+    def do_login(
+        self, *, create: Literal[True] = True, superuser: bool = False
+    ) -> User: ...
+    def do_login(self, *, create=True, superuser=False):
         # login page
         with self.wait_for_page_load():
             self.click(htmlid="login-button")

@@ -113,16 +113,7 @@ def git_export(
         raise Http404(msg)
     if obj.is_repo_link:
         return redirect(
-            "{}?{}".format(
-                reverse(
-                    "git-export",
-                    kwargs={
-                        "path": obj.linked_component.get_url_path(),
-                        "git_request": git_request,
-                    },
-                ),
-                request.META["QUERY_STRING"],
-            ),
+            f"{reverse('git-export', kwargs={'path': obj.linked_component.get_url_path(), 'git_request': git_request})}?{request.META['QUERY_STRING']}",
             permanent=True,
         )
 

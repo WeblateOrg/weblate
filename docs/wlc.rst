@@ -285,7 +285,9 @@ customize this by :option:`--config-section`):
 
 .. describe:: key
 
-    API KEY to access Weblate.
+   .. versionremoved:: 1.17
+
+      Use the ``[keys]`` section to specify keys scoped for individual API URLs.
 
 .. describe:: url
 
@@ -301,10 +303,9 @@ The configuration file is an INI file, for example:
 
     [weblate]
     url = https://hosted.weblate.org/api/
-    key = APIKEY
     translation = weblate/application
 
-Additionally API keys can be stored in the ``[keys]`` section:
+The API keys are stored in the ``[keys]`` section:
 
 .. code-block:: ini
 

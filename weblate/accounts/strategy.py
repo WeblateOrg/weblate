@@ -46,7 +46,7 @@ class WeblateStrategy(DjangoStrategy):
         if "next" in data and not url_has_allowed_host_and_scheme(
             data["next"], allowed_hosts=None
         ):
-            data["next"] = "{}#account".format(reverse("profile"))
+            data["next"] = f"{reverse('profile')}#account"
         return data
 
     def build_absolute_uri(self, path=None):

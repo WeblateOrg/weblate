@@ -4,7 +4,6 @@
 
 from __future__ import annotations
 
-import sys
 from shutil import disk_usage
 
 # pylint: disable-next=unused-import
@@ -48,6 +47,7 @@ from weblate.utils import messages
 from weblate.utils.cache import measure_cache_latency
 from weblate.utils.celery import get_queue_stats
 from weblate.utils.db import measure_database_latency
+from weblate.utils.encoding import get_encoding_list
 from weblate.utils.errors import report_error
 from weblate.utils.stats import prefetch_stats
 from weblate.utils.tasks import database_backup, settings_backup
@@ -394,7 +394,7 @@ def performance(request: AuthenticatedHttpRequest) -> HttpResponse:
         "queues": get_queue_stats().items(),
         "menu_items": MENU,
         "menu_page": "performance",
-        "web_encoding": [sys.getfilesystemencoding(), sys.getdefaultencoding()],
+        "web_encoding": get_encoding_list(),
         "celery_encoding": cache.get("celery_encoding"),
         "celery_latency": cache.get("celery_latency"),
         "database_latency": measure_database_latency(),
@@ -527,9 +527,7 @@ def users_check(request: AuthenticatedHttpRequest) -> HttpResponse:
         )
         user_list = User.objects.search(query, parser=parser)[:2]
         if user_list.count() != 1:
-            return redirect_param(
-                "manage-users", "?q={}".format(quote(form.cleaned_data["q"]))
-            )
+            return redirect_param("manage-users", f"?q={quote(form.cleaned_data['q'])}")
         return redirect(user_list[0])
     return redirect("manage-users")
 

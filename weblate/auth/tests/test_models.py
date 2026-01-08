@@ -22,7 +22,8 @@ class ModelTest(FixtureTestCase):
 
     def test_num_queries(self) -> None:
         with self.assertNumQueries(8):
-            self.user._fetch_permissions()  # noqa: SLF001
+            self.assertEqual(len(self.user.component_permissions), 0)
+            self.assertEqual(len(self.user.project_permissions), 2)
 
     def test_project(self) -> None:
         # No permissions

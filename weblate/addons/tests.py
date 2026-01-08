@@ -43,7 +43,7 @@ from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.state import (
     FUZZY_STATES,
     STATE_EMPTY,
-    STATE_FUZZY,
+    STATE_NEEDS_REWRITING,
     STATE_READONLY,
     STATE_TRANSLATED,
 )
@@ -242,6 +242,7 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
         self.component.trigger_post_update(
             previous_head=self.component.repository.last_revision,
             skip_push=False,
+            user=None,
         )
         self.assertEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
@@ -263,6 +264,7 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
         self.component.trigger_post_update(
             previous_head=self.component.repository.last_revision,
             skip_push=False,
+            user=None,
         )
 
         self.assertEqual([], self.component.addons_cache["__names__"])
@@ -352,7 +354,6 @@ class GettextAddonTest(ViewTestCase):
         self.assertEqual(translation.addon_commit_files, [])
 
     def test_generate(self) -> None:
-        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         self.assertTrue(GenerateFileAddon.can_install(component=self.component))
         GenerateFileAddon.create(
             component=self.component,
@@ -363,6 +364,15 @@ class GettextAddonTest(ViewTestCase):
 }""",
             },
         )
+        commit = self.component.repository.show(self.component.repository.last_revision)
+        # Verify file is created upon install
+        self.assertIn("stats/cs.json", commit)
+        # Verify that source language file is not there
+        self.assertNotIn("stats/en.json", commit)
+        self.assertIn('"translated": 0', commit)
+
+        # Verify file is updated upon edit
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         self.get_translation().commit_pending("test", None)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("stats/cs.json", commit)
@@ -1046,15 +1056,15 @@ class DiscoveryTest(ViewTestCase):
                     "file_format": "po",
                     "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
                     "name_template": "{{ component|title }}",
-                    "language_regex": "^(?!xx).*$",
+                    "language_regex": "^(?!xx).+$",
                     "base_file_template": "",
                     "remove": True,
                 },
             )
-        self.assertEqual(Component.objects.filter(repo=link).count(), 3)
+        self.assertEqual(Component.objects.filter(repo=link).count(), 4)
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             addon.post_update(self.component, "", False)
-        self.assertEqual(Component.objects.filter(repo=link).count(), 3)
+        self.assertEqual(Component.objects.filter(repo=link).count(), 4)
 
     def test_form(self) -> None:
         self.user.is_superuser = True
@@ -1086,7 +1096,7 @@ class DiscoveryTest(ViewTestCase):
                 "file_format": "po",
                 "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
                 "name_template": "{{ component|title }}.{{ ext }}",
-                "language_regex": "^(?!xx).*$",
+                "language_regex": "^(?!xx).+$",
                 "base_file_template": "",
                 "remove": True,
             },
@@ -1102,7 +1112,7 @@ class DiscoveryTest(ViewTestCase):
                 "file_format": "po",
                 "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.(?P<ext>po)",
                 "name_template": "{{ component|title }}.{{ ext }}",
-                "language_regex": "^(?!xx).*$",
+                "language_regex": "^(?!xx).+$",
                 "base_file_template": "",
                 "remove": True,
             },
@@ -1119,7 +1129,7 @@ class DiscoveryTest(ViewTestCase):
                     "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.(?P<ext>po)",
                     "file_format": "po",
                     "name_template": "{{ component|title }}.{{ ext }}",
-                    "language_regex": "^(?!xx).*$",
+                    "language_regex": "^(?!xx).+$",
                     "base_file_template": "",
                     "remove": True,
                     "confirm": True,
@@ -1644,7 +1654,7 @@ class TargetChangeAddonTest(ViewTestCase):
         self.assertTrue(TargetRepoUpdateAddon.can_install(component=self.component))
         TargetRepoUpdateAddon.create(component=self.component)
         unit = self.update_unit_from_repo()
-        self.assertEqual(unit.state, STATE_FUZZY)
+        self.assertEqual(unit.state, STATE_NEEDS_REWRITING)
 
     def test_non_fuzzy_string_from_repo(self) -> None:
         unit = self.update_unit_from_repo()
@@ -1745,7 +1755,7 @@ class BaseWebhookTests:
     @responses.activate
     def test_component_scopes(self) -> None:
         """Test webhook addon installed at component level."""
-        secondary_url = self.WEBHOOK_URL + "-2"
+        secondary_url = f"{self.WEBHOOK_URL}-2"
         component1 = self.component
         component2 = self.create_po(
             new_base="po/project.pot", project=self.project, name="Secondary component"
@@ -1778,7 +1788,7 @@ class BaseWebhookTests:
     @responses.activate
     def test_project_scopes(self) -> None:
         """Test webhook addon installed at project level."""
-        secondary_url = self.WEBHOOK_URL + "-2"
+        secondary_url = f"{self.WEBHOOK_URL}-2"
         project_a = self.project
         component_a1 = self.component
         component_a2 = self.create_po(
@@ -1899,9 +1909,7 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
         # valid request with multiple signatures (space separated)
         new_headers = wh_headers.copy()
         new_headers["webhook-signature"] = (
-            "v1,Ceo5qEr07ixe2NLpvHk3FH9bwy/WavXrAFQ/9tdO6mc= "
-            "v2,Gur4pLd03kjn8RYtBm5eJ1aZx/CbVfSdTq/2gNhA8= "
-            + new_headers["webhook-signature"]
+            f"v1,Ceo5qEr07ixe2NLpvHk3FH9bwy/WavXrAFQ/9tdO6mc= v2,Gur4pLd03kjn8RYtBm5eJ1aZx/CbVfSdTq/2gNhA8= {new_headers['webhook-signature']}"
         )
         wh_utils.verify(wh_request.body, new_headers)
 
@@ -1909,7 +1917,7 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
         with self.assertRaises(WebhookVerificationError):
             new_headers = wh_headers.copy()
             new_headers["webhook-signature"] = (
-                new_headers["webhook-signature"][:-5] + "xxxxx"
+                f"{new_headers['webhook-signature'][:-5]}xxxxx"
             )
             wh_utils.verify(wh_request.body, new_headers)
 

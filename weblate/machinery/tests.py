@@ -13,6 +13,7 @@ from io import StringIO
 from pathlib import Path
 from typing import TYPE_CHECKING, ClassVar, NoReturn
 from unittest.mock import MagicMock, Mock, call, patch
+from urllib.parse import parse_qs, urlparse
 
 import httpx
 import responses
@@ -867,13 +868,13 @@ class GoogleTranslationTest(BaseMachineTranslationTest):
         self.skipTest("Not tested")
 
     def mock_error(self) -> None:
-        responses.add(responses.GET, GOOGLE_API_ROOT + "languages", body="", status=500)
+        responses.add(responses.GET, f"{GOOGLE_API_ROOT}languages", body="", status=500)
         responses.add(responses.GET, GOOGLE_API_ROOT, body="", status=500)
 
     def mock_response(self) -> None:
         responses.add(
             responses.GET,
-            GOOGLE_API_ROOT + "languages",
+            f"{GOOGLE_API_ROOT}languages",
             json={
                 "data": {
                     "languages": [
@@ -1189,26 +1190,26 @@ class TMServerTranslationTest(BaseMachineTranslationTest):
     }
 
     def mock_empty(self) -> None:
-        responses.add(responses.GET, AMAGAMA_LIVE + "/languages/", body="", status=404)
-        responses.add(responses.GET, AMAGAMA_LIVE + "/en/cs/unit/Hello", json=[])
+        responses.add(responses.GET, f"{AMAGAMA_LIVE}/languages/", body="", status=404)
+        responses.add(responses.GET, f"{AMAGAMA_LIVE}/en/cs/unit/Hello", json=[])
 
     def mock_response(self) -> None:
         responses.add(
             responses.GET,
-            AMAGAMA_LIVE + "/languages/",
+            f"{AMAGAMA_LIVE}/languages/",
             json={"sourceLanguages": ["en"], "targetLanguages": ["cs"]},
         )
         responses.add(
-            responses.GET, AMAGAMA_LIVE + "/en/cs/unit/Hello", json=AMAGAMA_JSON
+            responses.GET, f"{AMAGAMA_LIVE}/en/cs/unit/Hello", json=AMAGAMA_JSON
         )
         responses.add(
-            responses.GET, AMAGAMA_LIVE + "/en/de/unit/test", json=AMAGAMA_JSON
+            responses.GET, f"{AMAGAMA_LIVE}/en/de/unit/test", json=AMAGAMA_JSON
         )
 
     def mock_error(self) -> None:
-        responses.add(responses.GET, AMAGAMA_LIVE + "/languages/", body="", status=404)
+        responses.add(responses.GET, f"{AMAGAMA_LIVE}/languages/", body="", status=404)
         responses.add(
-            responses.GET, AMAGAMA_LIVE + "/en/cs/unit/Hello", body="", status=500
+            responses.GET, f"{AMAGAMA_LIVE}/en/cs/unit/Hello", body="", status=500
         )
 
 
@@ -1857,6 +1858,51 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
             "https://api.deepl.com/v2/translate",
             json=DEEPL_RESPONSE,
         )
+
+    @responses.activate
+    def test_beta_languages_language_request(self) -> None:
+        def request_callback(request: PreparedRequest):
+            parsed = urlparse(request.url)
+            params = parse_qs(parsed.query)
+            self.assertEqual(params.get("enable_beta_languages"), ["1"])
+            request_type = params.get("type", [])
+            self.assertEqual(len(request_type), 1)
+            self.assertIn(request_type[0], {"source", "target"})
+            payload = (
+                DEEPL_SOURCE_LANG_RESPONSE
+                if request_type[0] == "source"
+                else DEEPL_TARGET_LANG_RESPONSE
+            )
+            return (200, {}, json.dumps(payload))
+
+        machine = self.MACHINE_CLS(
+            {**self.CONFIGURATION, "enable_beta_languages": True}
+        )
+        machine.delete_cache()
+        responses.add_callback(
+            responses.GET,
+            re.compile(r"https://api\.deepl\.com/v2/languages"),
+            callback=request_callback,
+        )
+        list(machine.download_languages())
+
+    @responses.activate
+    def test_beta_languages_translation_request(self) -> None:
+        def request_callback(request: PreparedRequest):
+            payload = json.loads(request.body)
+            self.assertIs(payload.get("enable_beta_languages"), True)
+            return (200, {}, json.dumps(DEEPL_RESPONSE))
+
+        machine = self.MACHINE_CLS(
+            {**self.CONFIGURATION, "enable_beta_languages": True}
+        )
+        machine.delete_cache()
+        responses.add_callback(
+            responses.POST,
+            "https://api.deepl.com/v2/translate",
+            callback=request_callback,
+        )
+        machine.download_multiple_translations("EN", "DE", [("Hello", None)], None, 75)
 
     @responses.activate
     def test_formality(self) -> None:

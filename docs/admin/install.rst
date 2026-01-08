@@ -1449,6 +1449,9 @@ For testing purposes, you can use the built-in web server in Django:
 Serving static files
 ++++++++++++++++++++
 
+.. versionchanged:: 5.15.2
+   :file:`/media/` is no longer used for serving screenshots.
+
 Django needs to collect its static files in a single directory. To do so,
 execute :samp:`weblate collectstatic --noinput`. This will copy the static
 files into a directory specified by the :setting:`django:STATIC_ROOT` setting (this defaults to
@@ -1460,8 +1463,6 @@ use that for the following paths:
 :file:`/static/`
     Serves static files for Weblate and the admin interface
     (from defined by :setting:`django:STATIC_ROOT`).
-:file:`/media/`
-    Used for user media uploads (e.g. screenshots).
 :file:`/favicon.ico`
     Should be rewritten to rewrite a rule to serve :file:`/static/favicon.ico`.
 

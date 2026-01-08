@@ -42,7 +42,7 @@ class AuthenticationMiddleware(OTPMiddleware):
     """
     Copy of django.contrib.auth.middleware.AuthenticationMiddleware.
 
-    It subclasses OTPMiddleware to get access to _verify_user.
+    It subclasses OTPMiddleware to get access to _verify_user_sync.
     """
 
     def __call__(self, request: AuthenticatedHttpRequest):
@@ -51,7 +51,7 @@ class AuthenticationMiddleware(OTPMiddleware):
         # Django uses lazy object here, but we need the user in pretty
         # much every request, so there is no reason to delay this
         request.user = user = get_user(request)
-        self._verify_user(request, user)
+        self._verify_user_sync(request, user)
 
         # Get language to use in this request
         if user.is_authenticated and user.profile.language:

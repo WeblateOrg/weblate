@@ -4,12 +4,12 @@
 
 services:
   cache:
-    image: valkey/valkey:9.0.0-alpine@sha256:bef37d06d4856710973ee31dd1eac1482e4c8e6e7b847f999ad25433e646587b
+    image: valkey/valkey:9.0.1-alpine@sha256:c106a0c03bcb23cbdf9febe693114cb7800646b11ca8b303aee7409de005faa8
     ports:
     - 60001:6379
     restart: always
   database:
-    image: postgres:18.1-alpine@sha256:eca6fb2d91fda290eb8cfb8ba53dd0dcbf3508a08011e30adb039ea7c8e1e9f2
+    image: postgres:18.1-alpine@sha256:b40d931bd0e7ce6eecc59a5a6ac3b3c04a01e559750e73e7086b6dbd7f8bf545
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: weblate

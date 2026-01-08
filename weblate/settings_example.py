@@ -25,7 +25,7 @@ SITE_DOMAIN = ""
 ENABLE_HTTPS = False
 
 # Site URL
-SITE_URL = "{}://{}".format("https" if ENABLE_HTTPS else "http", SITE_DOMAIN)
+SITE_URL = f"{'https' if ENABLE_HTTPS else 'http'}://{SITE_DOMAIN}"
 
 #
 # Django settings for Weblate project.
@@ -160,10 +160,6 @@ URL_PREFIX = ""
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 MEDIA_ROOT = os.path.join(DATA_DIR, "media")
-
-# URL that handles the media served from MEDIA_ROOT. Make sure to use a
-# trailing slash.
-MEDIA_URL = f"{URL_PREFIX}/media/"
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files

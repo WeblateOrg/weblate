@@ -5,11 +5,13 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from django.contrib.auth.decorators import login_not_required
 from django.core.exceptions import PermissionDenied
 from django.forms import inlineformset_factory
 from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.utils.decorators import method_decorator
 from django.utils.translation import gettext
 from django.views.generic import DetailView, UpdateView
 
@@ -114,17 +116,11 @@ class TeamUpdateView(UpdateView):
 
     def handle_delete(self, request: AuthenticatedHttpRequest):
         if self.object.defining_project:
-            fallback = (
-                reverse(
-                    "manage-access",
-                    kwargs={"project": self.object.defining_project.slug},
-                )
-                + "#teams"
-            )
+            fallback = f"{reverse('manage-access', kwargs={'project': self.object.defining_project.slug})}#teams"
         elif request.user.is_superuser:
             fallback = reverse("manage-teams")
         else:
-            fallback = reverse("manage_access") + "#teams"
+            fallback = f"{reverse('manage_access')}#teams"
         if self.object.internal and not self.object.defining_project:
             messages.error(request, gettext("Cannot remove built-in team!"))
         else:
@@ -161,6 +157,7 @@ class TeamUpdateView(UpdateView):
         )
 
 
+@method_decorator(login_not_required, name="dispatch")
 class InvitationView(DetailView):
     model = Invitation
 

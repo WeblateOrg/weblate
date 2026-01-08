@@ -5,10 +5,17 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
+from requests.exceptions import RequestException
+
 from .base import MachineTranslation, MachineTranslationError
 from .forms import KeyMachineryForm
 
 if TYPE_CHECKING:
+    from requests import Response
+
+    from weblate.auth.models import User
+    from weblate.trans.models import Unit
+
     from .base import DownloadTranslations
 
 
@@ -19,13 +26,13 @@ class YandexTranslation(MachineTranslation):
     max_score = 90
     settings_form = KeyMachineryForm
 
-    def check_failure(self, response) -> None:
+    def check_failure(self, response: Response) -> None:
         super().check_failure(response)
         payload = response.json()
         if "message" in payload:
             raise MachineTranslationError(payload["message"])
         if "code" in payload and payload["code"] != 200:
-            msg = "Error: {}".format(payload["code"])
+            msg = f"Error: {payload['code']}"
             raise MachineTranslationError(msg)
 
     def download_languages(self):
@@ -43,8 +50,8 @@ class YandexTranslation(MachineTranslation):
         source_language,
         target_language,
         text: str,
-        unit,
-        user,
+        unit: Unit | None,
+        user: User | None,
         threshold: int = 75,
     ) -> DownloadTranslations:
         """Download list of possible translations from a service."""
@@ -68,8 +75,10 @@ class YandexTranslation(MachineTranslation):
                 "source": text,
             }
 
-    def get_error_message(self, exc):
-        try:
-            return exc.response.json()["message"]
-        except Exception:
-            return super().get_error_message(exc)
+    def get_error_message(self, exc: Exception) -> str:
+        if isinstance(exc, RequestException):
+            try:
+                return exc.response.json()["message"]
+            except Exception:  # noqa: S110
+                pass
+        return super().get_error_message(exc)

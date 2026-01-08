@@ -869,6 +869,16 @@ class XliffFormatTest(XMLMixin, BaseFormatTest):
             Path(testfile).read_text(encoding="utf-8"),
         )
 
+    def test_state_qualifier_autotranslated(self) -> None:
+        storage = self.parse_file(get_test_file("cs-auto.xliff"))
+        units = storage.all_units
+
+        self.assertTrue(
+            units[0].is_automatically_translated(),
+        )
+        self.assertTrue(units[1].is_automatically_translated())
+        self.assertFalse(units[2].is_automatically_translated())
+
 
 class RichXliffFormatTest(XliffFormatTest):
     format_class = RichXliffFormat
@@ -1287,7 +1297,7 @@ class XWikiPropertiesFormatTest(PropertiesFormatTest):
 
         expected = Path(TEST_XWIKI_PROPERTIES_NEW_LANGUAGE).read_text(encoding="utf-8")
 
-        self.assertEqual(expected + "\n", newdata)
+        self.assertEqual(f"{expected}\n", newdata)
 
 
 class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):

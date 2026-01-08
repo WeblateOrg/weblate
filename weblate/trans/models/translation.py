@@ -323,10 +323,13 @@ class Translation(
         return reverse("translate", kwargs={"path": self.get_url_path()})
 
     def get_filename(self) -> str | None:
-        """Return absolute filename."""
+        """Return validated absolute filename."""
         if not self.filename:
             return None
-        return os.path.join(self.component.full_path, self.filename)
+        filename = os.path.join(self.component.full_path, self.filename)
+
+        # Throws an exception in case of error
+        return self.component.check_file_is_valid(filename)
 
     def load_store(self, fileobj=None, force_intermediate=False):
         """Load translate-toolkit storage from disk."""
@@ -915,7 +918,10 @@ class Translation(
             return []
         if self.component.file_format_cls.simple_filename:
             return [self.get_filename()]
-        return self.store.get_filenames()
+        return [
+            self.component.check_file_is_valid(filename)
+            for filename in self.store.get_filenames()
+        ]
 
     def git_commit(
         self,
@@ -1076,11 +1082,15 @@ class Translation(
             # Update fuzzy/approved flag
             pounit.set_state(pending_change.state)
 
+            # Update autotranslated state
+            pounit.set_automatically_translated(pending_change.automatically_translated)
+
             # Update disk state from the file to the unit
             unit.details["disk_state"] = {
                 "target": pounit.target,
                 "state": pending_change.state,
                 "explanation": pounit.explanation,
+                "automatically_translated": pending_change.automatically_translated,
             }
             unit.save(update_fields=["details"], only_save=True)
 
@@ -1607,6 +1617,9 @@ class Translation(
         self._invalidate_scheduled = False
         self.stats.update_stats()
         self.component.invalidate_glossary_cache()
+        # Delete UnusedComponent alert as the translation has just
+        # apparently received some update.
+        self.component.delete_alert("UnusedComponent")
 
     def invalidate_cache(self) -> None:
         """Invalidate any cached stats."""
@@ -1707,6 +1720,7 @@ class Translation(
         self.component.trigger_post_update(
             previous_head=previous_revision,
             skip_push=False,
+            user=user,
         )
 
     def get_store_change_translations(self) -> list[Translation]:

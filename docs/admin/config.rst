@@ -565,7 +565,7 @@ should be turned on for new users. Defaults to ``True``.
 
 .. seealso::
 
-   :ref:`subscriptions`
+   :ref:`notifications`
 
 .. setting:: DEFAULT_RESTRICTED_COMPONENT
 
@@ -963,7 +963,7 @@ List for credentials for Bitbucket Cloud servers.
 
     BITBUCKETCLOUD_CREDENTIALS = {
         "bitbucket.org": {
-            "username": "your-username",
+            "username": "your-email",
             "workspace": "your-workspace-slug",
             "token": "your-api-token",
         },

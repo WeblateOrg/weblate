@@ -10,6 +10,7 @@ from urllib.parse import urlparse
 
 from django.conf import settings
 from django.contrib import messages
+from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_ipv46_address
 from django.http import Http404, HttpResponsePermanentRedirect
@@ -34,6 +35,7 @@ from weblate.utils.views import parse_path
 if TYPE_CHECKING:
     from django.http import HttpResponse
     from django.http.request import HttpRequest
+    from social_core.backends.base import BaseAuth
 
     from weblate.accounts.strategy import WeblateStrategy
     from weblate.auth.models import AuthenticatedHttpRequest
@@ -320,7 +322,6 @@ class CSPBuilder:
         self.build_csp_sentry()
         self.build_csp_piwik()
         self.build_csp_google_analytics()
-        self.build_csp_media_url()
         self.build_csp_static_url()
         self.build_csp_cdn()
         self.build_csp_auth()
@@ -399,11 +400,6 @@ class CSPBuilder:
             self.directives["script-src"].add("www.google-analytics.com")
             self.directives["img-src"].add("www.google-analytics.com")
 
-    def build_csp_media_url(self) -> None:
-        # External media URL
-        if "://" in settings.MEDIA_URL:
-            self.add_csp_host(settings.MEDIA_URL, "img-src")
-
     def build_csp_static_url(self) -> None:
         # External static URL
         if "://" in settings.STATIC_URL:
@@ -431,31 +427,39 @@ class CSPBuilder:
                 social_strategy = self.request.social_strategy
             else:
                 social_strategy = load_strategy(self.request)
-            for backend in get_auth_backends().values():
+            backend_classes: list[type[BaseAuth]] = list(get_auth_backends().values())
+            for backend in backend_classes:
                 urls: list[str] = []
 
-                # Handle OpenId redirect flow
-                if issubclass(backend, OpenIdAuth):
-                    urls = [backend(social_strategy).openid_url()]
+                cache_key = f"social-auth-urls:{backend.name}"
+                cache_expiry = 3600 * 24
+                cached: list[str] | None = cache.get(cache_key)
+                if cached is not None:
+                    urls = cached
+                else:
+                    # Handle OpenId redirect flow
+                    if issubclass(backend, OpenIdAuth):
+                        urls = [backend(social_strategy).openid_url()]
 
-                # Handle OAuth redirect flow
-                elif issubclass(backend, OAuthAuth):
-                    urls = [backend(social_strategy).authorization_url()]
+                    # Handle OAuth redirect flow
+                    elif issubclass(backend, OAuthAuth):
+                        urls = [backend(social_strategy).authorization_url()]
 
-                # Handle SAML redirect flow
-                elif hasattr(backend, "get_idp"):
-                    # Lazily import here to avoid pulling in xmlsec
-                    from social_core.backends.saml import SAMLAuth
+                    # Handle SAML redirect flow
+                    elif hasattr(backend, "get_idp"):
+                        # Lazily import here to avoid pulling in xmlsec
+                        from social_core.backends.saml import SAMLAuth
 
-                    assert issubclass(backend, SAMLAuth)  # noqa: S101
+                        assert issubclass(backend, SAMLAuth)  # noqa: S101
 
-                    saml_auth = backend(social_strategy)
-                    urls = [
-                        saml_auth.get_idp(idp_name).sso_url
-                        for idp_name in getattr(
-                            settings, "SOCIAL_AUTH_SAML_ENABLED_IDPS", {}
-                        )
-                    ]
+                        saml_auth = backend(social_strategy)
+                        urls = [
+                            saml_auth.get_idp(idp_name).sso_url
+                            for idp_name in getattr(
+                                settings, "SOCIAL_AUTH_SAML_ENABLED_IDPS", {}
+                            )
+                        ]
+                    cache.set(cache_key, urls, cache_expiry)
 
                 for url in urls:
                     domain = self.add_csp_host(url, "form-action")

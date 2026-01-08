@@ -124,7 +124,7 @@ class AppStoreParser(MultiParser):
         ("short[_-]description.txt", "max-length:80"),
         ("summary.txt", "max-length:80"),
         ("full[_-]description.txt", "max-length:4000"),
-        ("subtitle.txt", "max-length:80"),
+        ("subtitle.txt", "max-length:30"),
         ("description.txt", "max-length:4000"),
         ("keywords.txt", "max-length:100"),
         ("video.txt", "max-length:256, url"),
@@ -140,7 +140,7 @@ class AppStoreParser(MultiParser):
         parts = filename.rsplit("changelogs/", 1)
         if len(parts) == 2:
             try:
-                return "-{}".format(int(parts[1].split(".")[0]))
+                return f"-{int(parts[1].split('.')[0])}"
             except ValueError:
                 pass
         return filename

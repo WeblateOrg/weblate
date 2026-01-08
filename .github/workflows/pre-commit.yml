@@ -29,7 +29,7 @@ jobs:
         echo "cache_tag=$(/bin/date --utc '+%Y%m')" >> "$GITHUB_OUTPUT"
         echo "previous_cache_tag=$(/bin/date --date='1 month ago' --utc '+%Y%m')" >> "$GITHUB_OUTPUT"
       shell: bash
-    - uses: actions/cache@0057852bfaa89a56745cba8c7296529d2fc39830 # v4.3.0
+    - uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb # v5.0.1
       id: pre-commit-cache
       with:
         path: ~/.cache/pre-commit
@@ -42,9 +42,9 @@ jobs:
       uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v6.1.0
       with:
         python-version: '3.14'
-    - uses: astral-sh/setup-uv@ed21f2f24f8dd64503750218de024bcf64c7250a # v7.1.5
+    - uses: astral-sh/setup-uv@61cb8a9741eeb8a550a1b8544337180c0fc8476b # v7.2.0
       with:
-        version: 0.9.16
+        version: 0.9.22
         enable-cache: false
     - name: detect method
       id: detect

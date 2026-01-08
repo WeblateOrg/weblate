@@ -140,9 +140,7 @@ class Suggestion(models.Model, UserDisplayMixin):
         verbose_name_plural = "string suggestions"
 
     def __str__(self) -> str:
-        return "suggestion for {} by {}".format(
-            self.unit, self.user.username if self.user else "unknown"
-        )
+        return f"suggestion for {self.unit} by {self.user.username if self.user else 'unknown'}"
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)

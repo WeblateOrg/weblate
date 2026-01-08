@@ -6,9 +6,19 @@
       <tr id="changes-item"
           class="history-row row"
           {% if in_email %}style="clear:both"{% endif %}>
-        <td class="history-event col-3">
+        <td class="history-event col-md-3">
+          <strong class="ms-2">{{ item.change.get_user_display }}</strong>
+          <p class="text-muted">{{ item.change.get_action_display }}</p>
+          <ul class="breadcrumb">
+            {% if item.change.path_object %}
+              {% path_object_breadcrumbs item.change.path_object flags=False %}
+            {% endif %}
+            {% if item.ip_address %}<p>{{ item.ip_address }}</p>{% endif %}
+          </ul>
+        </td>
+        <td class="history-data col-md-9">
           {% if not in_email %}
-            <div class="btn-float float-end">
+            <div class="btn-float">
               {% if item.permissions.can_revert %}
                 <a class="btn btn-link"
                    href="{{ item.change.translation.get_translate_url }}?{% if search_url %}{{ search_url }}&amp;offset={{ offset }}&amp;{% endif %}checksum={{ item.change.unit.checksum }}&amp;revert={{ item.change.id }}"
@@ -29,16 +39,6 @@
                  title="{% translate "View details" %}">{% icon "magnify-plus-outline.svg" %}</a>
             </div>
           {% endif %}
-          <strong class="ms-2">{{ item.change.get_user_display }}</strong>
-          <p class="text-muted">{{ item.change.get_action_display }}</p>
-          <ul class="breadcrumb">
-            {% if item.change.path_object %}
-              {% path_object_breadcrumbs item.change.path_object flags=False %}
-            {% endif %}
-            {% if item.ip_address %}<p>{{ item.ip_address }}</p>{% endif %}
-          </ul>
-        </td>
-        <td class="history-data col-9">
           <div class="comment-content">
             {% if item.history_data.description %}{{ item.history_data.description }}{% endif %}
             {% for history_field in item.history_data.change_details_fields %}

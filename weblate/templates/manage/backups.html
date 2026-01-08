@@ -32,11 +32,11 @@
         <div class="card-body">
 
           {% if service.has_errors and support_status.has_expired_support and service.repository == support_status.backup_repository %}
-            <div class="panel-group"
+            <div class="card-group"
                  id="accordion-{{ service.pk }}"
                  role="tablist"
                  aria-multiselectable="true">
-              <div class="panel panel-danger">
+              <div class="card">
                 <div class="card-header" role="tab">
                   <h4 class="card-title">
                     <a class="collapsed createdbackup"
@@ -58,52 +58,53 @@
                   </div>
                 </div>
               </div>
-            {% endif %}
+            </div>
+          {% endif %}
+          <div class="card">
+            <div class="card-header" role="tab">
+              <h4 class="card-title">
+                <a class="collapsed createdbackup"
+                   role="button"
+                   data-bs-toggle="collapse"
+                   data-parent="#accordion-{{ service.pk }}"
+                   href="#collapse-{{ service.pk }}"
+                   aria-expanded="false"
+                   aria-controls="collapse-{{ service.pk }}">
+                  <span class="badge text-bg-secondary float-end">{{ service.timestamp|date }}</span>
+                  {% translate "Backup service credentials" %}
+                </a>
+              </h4>
+            </div>
+            <div id="collapse-{{ service.pk }}" class="panel-collapse collapse" role="tabpanel">
+              <div class="card-body">{% include "manage/snippets/backup-credentials.html" %}</div>
+            </div>
+          </div>
+          {% for log in service.last_logs %}
             <div class="card">
-              <div class="card-header" role="tab">
+              <div class="card-header {% if log.event == "error" %}text-bg-danger{% endif %}"
+                   role="tab">
                 <h4 class="card-title">
-                  <a class="collapsed createdbackup"
+                  <a class="collapsed"
                      role="button"
                      data-bs-toggle="collapse"
                      data-parent="#accordion-{{ service.pk }}"
-                     href="#collapse-{{ service.pk }}"
+                     href="#collapse-{{ service.pk }}-{{ log.pk }}"
                      aria-expanded="false"
-                     aria-controls="collapse-{{ service.pk }}">
-                    <span class="badge float-end">{{ service.timestamp|date }}</span>
-                    {% translate "Backup service credentials" %}
+                     aria-controls="collapse-{{ service.pk }}-{{ log.pk }}">
+                    <span class="badge float-end text-bg-secondary">{{ log.timestamp|date }}</span>
+                    {{ log.get_event_display }}
                   </a>
                 </h4>
               </div>
-              <div id="collapse-{{ service.pk }}" class="panel-collapse collapse" role="tabpanel">
-                <div class="card-body">{% include "manage/snippets/backup-credentials.html" %}</div>
+              <div id="collapse-{{ service.pk }}-{{ log.pk }}"
+                   class="panel-collapse collapse"
+                   role="tabpanel">
+                <div class="card-body">
+                  <pre>{{ log.log }}</pre>
+                </div>
               </div>
             </div>
-            {% for log in service.last_logs %}
-              <div class="panel {% if log.event == "error" %}panel-danger{% else %}panel-default{% endif %}">
-                <div class="card-header" role="tab">
-                  <h4 class="card-title">
-                    <a class="collapsed"
-                       role="button"
-                       data-bs-toggle="collapse"
-                       data-parent="#accordion-{{ service.pk }}"
-                       href="#collapse-{{ service.pk }}-{{ log.pk }}"
-                       aria-expanded="false"
-                       aria-controls="collapse-{{ service.pk }}-{{ log.pk }}">
-                      <span class="badge float-end">{{ log.timestamp|date }}</span>
-                      {{ log.get_event_display }}
-                    </a>
-                  </h4>
-                </div>
-                <div id="collapse-{{ service.pk }}-{{ log.pk }}"
-                     class="panel-collapse collapse"
-                     role="tabpanel">
-                  <div class="card-body">
-                    <pre>{{ log.log }}</pre>
-                  </div>
-                </div>
-              </div>
-            {% endfor %}
-          </div>
+          {% endfor %}
         </div>
         <div class="card-footer">
           <input type="hidden" name="service" value="{{ service.pk }}" />
@@ -126,11 +127,15 @@
     <form method="post">
       {% csrf_token %}
       <input type="hidden" name="service" value="{{ service.pk }}" />
-      <div class="modal fade" tabindex="-1" role="dialog" id="remove-{{ service.pk }}">
+      <div class="modal fade"
+           tabindex="-1"
+           role="dialog"
+           id="remove-{{ service.pk }}"
+           aria-labelledby="remove-{{ service.pk }}Label">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h4 class="modal-title">{% translate "Are you absolutely sure?" %}</h4>
+              <h4 class="modal-title" id="remove-{{ service.pk }}Label">{% translate "Are you absolutely sure?" %}</h4>
               <button type="button"
                       class="btn-close"
                       data-bs-dismiss="modal"

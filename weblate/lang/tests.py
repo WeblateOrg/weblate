@@ -62,8 +62,7 @@ TEST_LANGUAGES = (
         "sr+latn",
         "sr_Latn",
         "ltr",
-        "n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && "
-        "(n%100<10 || n%100>=20) ? 1 : 2",
+        "n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2",
         "Serbian (Latin script)",
         False,
     ),
@@ -71,8 +70,7 @@ TEST_LANGUAGES = (
         "sr_RS@latin",
         "sr_Latn",
         "ltr",
-        "n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && "
-        "(n%100<10 || n%100>=20) ? 1 : 2",
+        "n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2",
         "Serbian (Latin script)",
         False,
     ),
@@ -80,8 +78,7 @@ TEST_LANGUAGES = (
         "sr-RS@latin",
         "sr_Latn",
         "ltr",
-        "n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && "
-        "(n%100<10 || n%100>=20) ? 1 : 2",
+        "n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2",
         "Serbian (Latin script)",
         False,
     ),
@@ -89,8 +86,7 @@ TEST_LANGUAGES = (
         "sr_RS_latin",
         "sr_Latn",
         "ltr",
-        "n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && "
-        "(n%100<10 || n%100>=20) ? 1 : 2",
+        "n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2",
         "Serbian (Latin script)",
         False,
     ),
@@ -137,8 +133,7 @@ TEST_LANGUAGES = (
         "ar",
         "ar",
         "rtl",
-        "n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 "
-        ": n%100>=11 ? 4 : 5",
+        "n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5",
         "Arabic",
         False,
     ),
@@ -146,8 +141,7 @@ TEST_LANGUAGES = (
         "ar_AA",
         "ar",
         "rtl",
-        "n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 "
-        ": n%100>=11 ? 4 : 5",
+        "n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5",
         "Arabic",
         False,
     ),
@@ -155,8 +149,7 @@ TEST_LANGUAGES = (
         "ar_XX",
         "ar_XX",
         "rtl",
-        "n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 "
-        ": n%100>=11 ? 4 : 5",
+        "n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5",
         "Arabic (ar_XX)",
         True,
     ),
@@ -253,9 +246,8 @@ class BasicLanguagesTest(TestCase):
                 langs.append(lang)
         return langs or None
 
-    @staticmethod
-    def get_friendly_result(result, expected, languages) -> str:
-        return f"Expecting {__class__.list_languages(expected, languages)} but got {__class__.list_languages(result, languages)} in basic languages."
+    def get_friendly_result(self, result, expected, languages) -> str:
+        return f"Expecting {self.list_languages(expected, languages)} but got {self.list_languages(result, languages)} in basic languages."
 
     def run_test(self, language_group, adaptive=None) -> None:
         *language_forms, expected = language_group
@@ -305,9 +297,7 @@ class LanguageTestSequenceMeta(type):
             return test
 
         for params in TEST_LANGUAGES:
-            test_name = "test_create_{}".format(
-                params[0].replace("@", "___").replace("+", "_").replace("-", "__")
-            )
+            test_name = f"test_create_{params[0].replace('@', '___').replace('+', '_').replace('-', '__')}"
             if test_name in dict:
                 msg = f"Duplicate test: {params[0]}, mapped to {test_name}"
                 raise ValueError(msg)
@@ -612,7 +602,7 @@ class LanguagesViewTest(FixtureTestCase):
             {"number": "2", "formula": "n != 1"},
         )
         self.assertRedirects(
-            response, reverse("show_language", kwargs={"lang": "cs"}) + "#information"
+            response, f"{reverse('show_language', kwargs={'lang': 'cs'})}#information"
         )
 
 
@@ -634,8 +624,7 @@ class PluralsCompareTest(TestCase):
         self.assertFalse(
             plural.same_plural(
                 4,
-                "(n%10==1 ? 0 : n%10==1 && n%100!=11 ?"
-                " 1 : n %10>=2 && (n%100<10 || n%100>=20) ? 2 : 3)",
+                "(n%10==1 ? 0 : n%10==1 && n%100!=11 ? 1 : n %10>=2 && (n%100<10 || n%100>=20) ? 2 : 3)",
             )
         )
 
@@ -691,8 +680,7 @@ class PluralTest(BaseTestCase):
             language=language,
             number=3,
             formula=(
-                "(n%10==1 && n%100!=11 ? 0 : "
-                "n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)"
+                "(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)"
             ),
             source=Plural.SOURCE_GETTEXT,
         )

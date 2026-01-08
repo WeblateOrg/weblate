@@ -19,7 +19,7 @@ from django.dispatch import receiver
 from django.urls import reverse
 from django.utils.translation import gettext_lazy
 
-from weblate.auth.models import get_anonymous
+from weblate.auth.models import User
 from weblate.checks.flags import Flags
 from weblate.screenshots.fields import ScreenshotField
 from weblate.trans.actions import ActionEvents
@@ -32,7 +32,7 @@ from weblate.utils.errors import report_error
 from weblate.utils.validators import validate_bitmap
 
 if TYPE_CHECKING:
-    from weblate.auth.models import User
+    from weblate.trans.models import Component
 
 
 class ScreenshotQuerySet(models.QuerySet):
@@ -96,6 +96,9 @@ class Screenshot(models.Model, UserDisplayMixin):
     def get_absolute_url(self) -> str:
         return reverse("screenshot", kwargs={"pk": self.pk})
 
+    def get_view_url(self) -> str:
+        return reverse("screenshot-view", kwargs={"pk": self.pk})
+
     @property
     def filter_name(self) -> str:
         return f"screenshot:{Flags.format_value(self.name)}"
@@ -132,7 +135,7 @@ def change_screenshot_assignment(sender, instance, action, **kwargs) -> None:
 
 
 @receiver(post_delete, sender=Screenshot)
-def update_alerts_on_screenshot_delete(sender, instance, **kwargs) -> None:
+def update_alerts_on_screenshot_delete(sender, instance: Screenshot, **kwargs) -> None:
     # Update the unused screenshot alert if screenshot is deleted
     if instance.translation.component.alert_set.filter(
         name="UnusedScreenshot"
@@ -140,10 +143,12 @@ def update_alerts_on_screenshot_delete(sender, instance, **kwargs) -> None:
         update_alerts(instance.translation.component, alerts={"UnusedScreenshot"})
 
 
-def validate_screenshot_image(component, filename) -> bool:
+def validate_screenshot_image(component: Component, filename: str) -> bool:
     """Validate a screenshot image."""
+    full_name = os.path.join(component.full_path, filename)
+    if os.path.islink(full_name):
+        return False
     try:
-        full_name = os.path.join(component.full_path, filename)
         with open(full_name, "rb") as f:
             image_file = File(f, name=os.path.basename(filename))
             validate_bitmap(image_file)
@@ -155,7 +160,13 @@ def validate_screenshot_image(component, filename) -> bool:
 
 
 @receiver(vcs_post_update)
-def sync_screenshots_from_repo(sender, component, previous_head: str, **kwargs) -> None:
+def sync_screenshots_from_repo(
+    sender, component: Component, previous_head: str, user: User | None, **kwargs
+) -> None:
+    if user is None:
+        user = User.objects.get_or_create_bot(
+            scope="weblate", name="screenshots", verbose="Screenshots from repository"
+        )
     repository = component.repository
     changed_files = repository.get_changed_files(compare_to=previous_head)
 
@@ -171,6 +182,7 @@ def sync_screenshots_from_repo(sender, component, previous_head: str, **kwargs) 
 
         if validate_screenshot_image(component, filename):
             full_name = os.path.join(component.full_path, filename)
+
             with open(full_name, "rb") as f:
                 screenshot.image = File(
                     f,
@@ -178,6 +190,11 @@ def sync_screenshots_from_repo(sender, component, previous_head: str, **kwargs) 
                 )
                 screenshot.save(update_fields=["image"])
                 component.log_info("updated screenshot from repository: %s", filename)
+                screenshot.change_set.create(
+                    action=ActionEvents.SCREENSHOT_UPLOADED,
+                    user=user,
+                    target=screenshot.name,
+                )
 
     # Add new screenshots matching screenshot filemask
     for filename in changed_files:
@@ -196,7 +213,12 @@ def sync_screenshots_from_repo(sender, component, previous_head: str, **kwargs) 
                         ),
                     ),
                     translation=component.source_translation,
-                    user=get_anonymous(),
+                    user=user,
                 )
                 screenshot.save()
                 component.log_info("create screenshot from repository: %s", filename)
+                screenshot.change_set.create(
+                    action=ActionEvents.SCREENSHOT_UPLOADED,
+                    user=user,
+                    target=screenshot.name,
+                )

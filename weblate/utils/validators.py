@@ -33,6 +33,7 @@ from django.utils.translation import gettext, gettext_lazy
 from weblate.trans.util import cleanup_path
 from weblate.utils.const import WEBHOOKS_SECRET_PREFIX
 from weblate.utils.data import data_dir
+from weblate.utils.files import is_excluded
 
 USERNAME_MATCHER = re.compile(r"^[\w@+-][\w.@+-]*$")
 
@@ -64,10 +65,16 @@ FORBIDDEN_EXTENSIONS = {
 }
 
 
-def validate_re(value, groups=None, allow_empty=True) -> None:
+def validate_re(
+    value: str,
+    groups: list[str] | tuple[str, ...] | None = None,
+    *,
+    allow_empty: bool = True,
+) -> None:
     try:
         compiled = re.compile(value)
     except re.error as error:
+        # TODO: change re.error to re.PatternError for Python >= 3.13
         raise ValidationError(
             gettext("Compilation failed: {0}").format(error)
         ) from error
@@ -87,8 +94,8 @@ def validate_re(value, groups=None, allow_empty=True) -> None:
             )
 
 
-def validate_re_nonempty(value):
-    return validate_re(value, allow_empty=False)
+def validate_re_nonempty(value: str) -> None:
+    validate_re(value, allow_empty=False)
 
 
 def validate_bitmap(value) -> None:
@@ -238,7 +245,7 @@ def validate_plural_formula(value) -> None:
         ) from error
 
 
-def validate_filename(value) -> None:
+def validate_filename(value: str, *, check_prohibited: bool = True) -> None:
     if "../" in value or "..\\" in value:
         raise ValidationError(
             gettext("The filename can not contain reference to a parent directory.")
@@ -254,6 +261,8 @@ def validate_filename(value) -> None:
                 "Maybe you want to use: {}"
             ).format(cleaned)
         )
+    if check_prohibited and is_excluded(cleaned):
+        raise ValidationError(gettext("The filename contains a prohibited folder."))
 
 
 def validate_backup_path(value: str) -> None:
@@ -270,6 +279,11 @@ def validate_backup_path(value: str) -> None:
         raise ValidationError(msg)
 
     if loc.proto == "file":
+        # Missing path
+        if not loc.path:
+            msg = "Backup location has to be an absolute path."
+            raise ValidationError(msg)
+
         # The path is already normalized here
         path = Path(loc.path)
 
@@ -359,8 +373,15 @@ class WeblateURLValidator(URLValidator):
         "https",
     ]
 
+    def __call__(self, value: str | None) -> None:
+        super().__call__(value)
+        if value and confusables.is_dangerous(value):
+            raise ValidationError(
+                gettext("This website cannot be used. Please provide a different one.")
+            )
 
-class WeblateEditorURLValidator(URLValidator):
+
+class WeblateEditorURLValidator(WeblateURLValidator):
     schemes: list[str] = [  # noqa: RUF012
         "editor",
         "netbeans",
@@ -387,15 +408,7 @@ class WeblateServiceURLValidator(WeblateURLValidator):
     This is useful for using dockerized services.
     """
 
-    host_re = (
-        "("
-        + WeblateURLValidator.hostname_re
-        + WeblateURLValidator.domain_re
-        + WeblateURLValidator.tld_re
-        + "|"
-        + WeblateURLValidator.hostname_re
-        + ")"
-    )
+    host_re = f"({WeblateURLValidator.hostname_re}{WeblateURLValidator.domain_re}{WeblateURLValidator.tld_re}|{WeblateURLValidator.hostname_re})"
     regex = re.compile(
         r"^(?:[a-z0-9.+-]*)://"  # scheme is validated separately
         r"(?:[^\s:@/]+(?::[^\s:@/]*)?@)?"  # user:pass authentication
@@ -418,7 +431,12 @@ def validate_repo_url(url: str) -> None:
     if not parsed.scheme:
         # assume all links without schema are ssh links
         url = f"ssh://{url}"
-        parsed = urlparse(url)
+        try:
+            parsed = urlparse(url)
+        except ValueError as error:
+            raise ValidationError(
+                gettext("Could not parse URL: {}").format(error)
+            ) from error
 
     # Allow Weblate internal URLs
     if parsed.scheme in {"weblate", "local"}:

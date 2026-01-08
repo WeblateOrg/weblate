@@ -3,13 +3,14 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # தமிழ்நேரம் <anishprabu.t@gmail.com>, 2024, 2025.
 # GitHub webhook <noreply-webhook-github@weblate.org>, 2025.
+# தமிழ்நேரம் <tamilneram247@gmail.com>, 2025.
 msgid ""
 msgstr ""
-"Project-Id-Version: Weblate 5.15\n"
+"Project-Id-Version: Weblate 5.15.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2025-12-06 19:29+0000\n"
-"PO-Revision-Date: 2025-12-03 20:00+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"POT-Creation-Date: 2025-12-17 14:44+0000\n"
+"PO-Revision-Date: 2025-12-30 15:00+0000\n"
+"Last-Translator: தமிழ்நேரம் <tamilneram247@gmail.com>\n"
 "Language-Team: Tamil <https://hosted.weblate.org/projects/weblate/"
 "application/ta/>\n"
 "Language: ta\n"
@@ -17,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.15-dev\n"
+"X-Generator: Weblate 5.15.1\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -42,7 +43,7 @@ msgid "This username is already taken. Please pick something else."
 msgstr "இப்பயனர் பெயர் ஏற்கனவே பயன்பாட்டில் உள்ளது. வேறொன்றை உள்ளிடுக."
 
 #: weblate/accounts/forms.py:134 weblate/accounts/forms.py:1044
-#: weblate/auth/models.py:462 weblate/auth/models.py:1226
+#: weblate/auth/models.py:461 weblate/auth/models.py:1222
 #: weblate/templates/auth/team.html:118 weblate/templates/manage/users.html:45
 #: weblate/templates/trans/project-access.html:59
 msgid "Full name"
@@ -163,7 +164,7 @@ msgstr ""
 "செயல்படுத்த முடியாது."
 
 #: weblate/accounts/forms.py:630 weblate/accounts/templatetags/authnames.py:35
-#: weblate/auth/models.py:468 weblate/auth/models.py:1243
+#: weblate/auth/models.py:467 weblate/auth/models.py:1239
 #: weblate/templates/accounts/user.html:247
 #: weblate/templates/manage/users.html:46
 #: weblate/templates/trans/project-access.html:61 weblate/utils/fields.py:39
@@ -321,15 +322,15 @@ msgstr ""
 "நீங்கள் மொழிபெயர்க்கப்பட்ட மொழிகளுக்கான இந்த அறிவிப்புகளை %(component)s மட்டுமே "
 "பெறுவீர்கள்."
 
-#: weblate/accounts/forms.py:1043 weblate/auth/models.py:449
-#: weblate/auth/models.py:1217 weblate/templates/auth/team.html:117
+#: weblate/accounts/forms.py:1043 weblate/auth/models.py:448
+#: weblate/auth/models.py:1213 weblate/templates/auth/team.html:117
 #: weblate/templates/manage/users.html:44
 #: weblate/templates/trans/project-access.html:58 weblate/utils/forms.py:80
 msgid "Username"
 msgstr "பயனர்பெயர்"
 
-#: weblate/accounts/forms.py:1045 weblate/auth/models.py:497
-#: weblate/trans/forms.py:1397
+#: weblate/accounts/forms.py:1045 weblate/auth/models.py:496
+#: weblate/trans/forms.py:1411
 msgid "Date joined"
 msgstr "இணைந்த தேதி"
 
@@ -600,10 +601,9 @@ msgid "Two-factor authentication sign in using {device}"
 msgstr "{device}ஐப் பயன்படுத்தி இரண்டு காரணி அங்கீகார உள்நுழைவு"
 
 #: weblate/accounts/models.py:320
-#, fuzzy, python-brace-format
-#| msgid "Two-factor authentication sign in using {device}"
+#, python-brace-format
 msgid "Two-factor authentication failed using {device_type}"
-msgstr "{device}ஐப் பயன்படுத்தி இரண்டு காரணி அங்கீகார உள்நுழைவு"
+msgstr "{device_type}ஐப் பயன்படுத்தி இரண்டு காரணி அங்கீகாரம் தோல்வி"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:328
@@ -935,112 +935,264 @@ msgstr "வாராந்திர டைசச்ட்"
 msgid "Monthly digest"
 msgstr "மாதாந்திர டைசச்ட்"
 
-#: weblate/accounts/notifications.py:545
+#: weblate/accounts/notifications.py:557
 msgctxt "Notification name"
 msgid "Operation was performed in the repository"
 msgstr "களஞ்சியத்தில் செயல்பாடு செய்யப்பட்டது"
 
-#: weblate/accounts/notifications.py:556
+#: weblate/accounts/notifications.py:560
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Operation was performed in the repository"
+msgctxt "Notification name"
+msgid "Operations were performed in the repository"
+msgstr "களஞ்சியத்தில் செயல்பாடு செய்யப்பட்டது"
+
+#: weblate/accounts/notifications.py:571
 msgctxt "Notification name"
 msgid "Component was locked or unlocked"
 msgstr "கூறு பூட்டபட்டது அல்லது திறக்கப்பட்டது"
 
-#: weblate/accounts/notifications.py:566
+#: weblate/accounts/notifications.py:573
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Component was locked or unlocked"
+msgctxt "Notification name"
+msgid "Components were locked or unlocked"
+msgstr "கூறு பூட்டபட்டது அல்லது திறக்கப்பட்டது"
+
+#: weblate/accounts/notifications.py:584
 msgctxt "Notification name"
 msgid "License was changed"
 msgstr "உரிமம் மாற்றப்பட்டது"
 
-#: weblate/accounts/notifications.py:573
+#: weblate/accounts/notifications.py:591
 msgctxt "Notification name"
 msgid "Parse error occurred"
 msgstr "பாகுபடுத்தும் பிழை ஏற்பட்டது"
 
-#: weblate/accounts/notifications.py:604
+#: weblate/accounts/notifications.py:592
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Parse error occurred"
+msgctxt "Notification name"
+msgid "Parse errors occurred"
+msgstr "பாகுபடுத்தும் பிழை ஏற்பட்டது"
+
+#: weblate/accounts/notifications.py:623
 msgctxt "Notification name"
 msgid "String is available for translation"
 msgstr "மொழிபெயர்ப்புக்கு சரம் கிடைக்கிறது"
 
-#: weblate/accounts/notifications.py:614
+#: weblate/accounts/notifications.py:625
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "String is available for translation"
+msgctxt "Notification name"
+msgid "Strings are available for translation"
+msgstr "மொழிபெயர்ப்புக்கு சரம் கிடைக்கிறது"
+
+#: weblate/accounts/notifications.py:636
 msgctxt "Notification name"
 msgid "Contributor made their first translation"
 msgstr "பங்களிப்பாளர் தங்கள் முதல் மொழிபெயர்ப்பை செய்தார்"
 
-#: weblate/accounts/notifications.py:623
+#: weblate/accounts/notifications.py:639
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Contributor made their first translation"
+msgctxt "Notification name"
+msgid "Contributors made their first translation"
+msgstr "பங்களிப்பாளர் தங்கள் முதல் மொழிபெயர்ப்பை செய்தார்"
+
+#: weblate/accounts/notifications.py:648
 msgctxt "Notification name"
 msgid "Suggestion was added"
 msgstr "பரிந்துரை சேர்கப்பட்டது"
 
-#: weblate/accounts/notifications.py:632
+#: weblate/accounts/notifications.py:649
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Suggestion was added"
+msgctxt "Notification name"
+msgid "Suggestions were added"
+msgstr "பரிந்துரை சேர்கப்பட்டது"
+
+#: weblate/accounts/notifications.py:658
 msgctxt "Notification name"
 msgid "Language was translated"
 msgstr "மொழி மொழிபெயர்க்கப்பட்டது"
 
-#: weblate/accounts/notifications.py:640
+#: weblate/accounts/notifications.py:659
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Language was translated"
+msgctxt "Notification name"
+msgid "Languages were translated"
+msgstr "மொழி மொழிபெயர்க்கப்பட்டது"
+
+#: weblate/accounts/notifications.py:667
 msgctxt "Notification name"
 msgid "Component was translated"
 msgstr "கூறு மொழிபெயர்க்கப்பட்டது"
 
-#: weblate/accounts/notifications.py:648
+#: weblate/accounts/notifications.py:668
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Component was translated"
+msgctxt "Notification name"
+msgid "Components were translated"
+msgstr "கூறு மொழிபெயர்க்கப்பட்டது"
+
+#: weblate/accounts/notifications.py:676
 msgctxt "Notification name"
 msgid "Comment was added"
 msgstr "கருத்து சேர்க்கப்பட்டது"
 
-#: weblate/accounts/notifications.py:676
+#: weblate/accounts/notifications.py:677
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Comment was added"
+msgctxt "Notification name"
+msgid "Comments were added"
+msgstr "கருத்து சேர்க்கப்பட்டது"
+
+#: weblate/accounts/notifications.py:705
 msgctxt "Notification name"
 msgid "You were mentioned in a comment"
 msgstr "நீங்கள் ஒரு கருத்தில் குறிப்பிடப்பட்டீர்கள்"
 
-#: weblate/accounts/notifications.py:710
+#: weblate/accounts/notifications.py:707
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "You were mentioned in a comment"
+msgctxt "Notification name"
+msgid "You were mentioned in some comments"
+msgstr "நீங்கள் ஒரு கருத்தில் குறிப்பிடப்பட்டீர்கள்"
+
+#: weblate/accounts/notifications.py:742
 msgctxt "Notification name"
 msgid "Your translation received a comment"
 msgstr "உங்கள் மொழிபெயர்ப்பு ஒரு கருத்தைப் பெற்றது"
 
-#: weblate/accounts/notifications.py:742
+#: weblate/accounts/notifications.py:744
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Your translation received a comment"
+msgctxt "Notification name"
+msgid "Your translation received comments"
+msgstr "உங்கள் மொழிபெயர்ப்பு ஒரு கருத்தைப் பெற்றது"
+
+#: weblate/accounts/notifications.py:777
 msgctxt "Notification name"
 msgid "String was edited by user"
 msgstr "சரம் பயனரால் திருத்தப்பட்டது"
 
-#: weblate/accounts/notifications.py:750
+#: weblate/accounts/notifications.py:778
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "String was edited by user"
+msgctxt "Notification name"
+msgid "Strings were edited by user"
+msgstr "சரம் பயனரால் திருத்தப்பட்டது"
+
+#: weblate/accounts/notifications.py:786
 msgctxt "Notification name"
 msgid "String was approved"
 msgstr "சரம் அங்கீகரிக்கப்பட்டது"
 
-#: weblate/accounts/notifications.py:758
+#: weblate/accounts/notifications.py:787
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "String was approved"
+msgctxt "Notification name"
+msgid "Strings were approved"
+msgstr "சரம் அங்கீகரிக்கப்பட்டது"
+
+#: weblate/accounts/notifications.py:795
 msgctxt "Notification name"
 msgid "String was changed"
 msgstr "சரம் மாற்றப்பட்டது"
 
-#: weblate/accounts/notifications.py:773
+#: weblate/accounts/notifications.py:796
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "String was changed"
+msgctxt "Notification name"
+msgid "Strings were changed"
+msgstr "சரம் மாற்றப்பட்டது"
+
+#: weblate/accounts/notifications.py:811
 msgctxt "Notification name"
 msgid "New language was added or requested"
 msgstr "புதிய மொழி சேர்க்கப்பட்டது அல்லது கோரப்பட்டது"
 
-#: weblate/accounts/notifications.py:798
+#: weblate/accounts/notifications.py:813
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "New language was added or requested"
+msgctxt "Notification name"
+msgid "New languages were added or requested"
+msgstr "புதிய மொழி சேர்க்கப்பட்டது அல்லது கோரப்பட்டது"
+
+#: weblate/accounts/notifications.py:839
 msgctxt "Notification name"
 msgid "New translation component was created"
 msgstr "புதிய மொழிபெயர்ப்பு கூறு உருவாக்கப்பட்டது"
 
-#: weblate/accounts/notifications.py:806
+#: weblate/accounts/notifications.py:842
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "New translation component was created"
+msgctxt "Notification name"
+msgid "New translation components were created"
+msgstr "புதிய மொழிபெயர்ப்பு கூறு உருவாக்கப்பட்டது"
+
+#: weblate/accounts/notifications.py:850
 msgctxt "Notification name"
 msgid "Announcement was published"
 msgstr "அறிவிப்பு வெளியிடப்பட்டது"
 
-#: weblate/accounts/notifications.py:825
+#: weblate/accounts/notifications.py:851
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Announcement was published"
+msgctxt "Notification name"
+msgid "Announcements were published"
+msgstr "அறிவிப்பு வெளியிடப்பட்டது"
+
+#: weblate/accounts/notifications.py:870
 msgctxt "Notification name"
 msgid "New alert emerged in a component"
 msgstr "ஒரு கூறுகளில் புதிய எச்சரிக்கை வெளிப்பட்டது"
 
-#: weblate/accounts/notifications.py:879
+#: weblate/accounts/notifications.py:872
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "New alert emerged in a component"
+msgctxt "Notification name"
+msgid "New alerts emerged in a component"
+msgstr "ஒரு கூறுகளில் புதிய எச்சரிக்கை வெளிப்பட்டது"
+
+#: weblate/accounts/notifications.py:927
 msgctxt "Notification name"
 msgid "Repository operation failed"
 msgstr "களஞ்சிய செயல்பாடு தோல்வியடைந்தது"
 
-#: weblate/accounts/notifications.py:962
+#: weblate/accounts/notifications.py:928
+#, fuzzy
+#| msgctxt "Notification name"
+#| msgid "Repository operation failed"
+msgctxt "Notification name"
+msgid "Repository operations failed"
+msgstr "களஞ்சிய செயல்பாடு தோல்வியடைந்தது"
+
+#: weblate/accounts/notifications.py:1012
 msgctxt "Notification name"
 msgid "Pending suggestions exist"
 msgstr "நிலுவையில் உள்ள பரிந்துரைகள் உள்ளன"
 
-#: weblate/accounts/notifications.py:972
+#: weblate/accounts/notifications.py:1024
 msgctxt "Notification name"
 msgid "Unfinished strings exist"
 msgstr "முடிக்கப்படாத சரங்கள் உள்ளன"
@@ -1147,59 +1299,59 @@ msgstr "பாதுகாப்பு விசை (%s)"
 msgid "Authentication app (%s)"
 msgstr "அங்கீகார பயன்பாடு (%s)"
 
-#: weblate/accounts/views.py:203 weblate/accounts/views.py:1103
-#: weblate/accounts/views.py:1161 weblate/templates/accounts/reset.html:7
+#: weblate/accounts/views.py:204 weblate/accounts/views.py:1104
+#: weblate/accounts/views.py:1162 weblate/templates/accounts/reset.html:7
 #: weblate/templates/accounts/reset.html:34
 #: weblate/templates/accounts/user.html:425
 msgid "Password reset"
 msgstr "கடவுச்சொல் மீட்டமைப்பு"
 
-#: weblate/accounts/views.py:206
+#: weblate/accounts/views.py:207
 msgid "Remove account"
 msgstr "கணக்கை அகற்று"
 
-#: weblate/accounts/views.py:209 weblate/accounts/views.py:1004
+#: weblate/accounts/views.py:210 weblate/accounts/views.py:1005
 msgid "User registration"
 msgstr "உபயோகிப்போர் பதிவு"
 
-#: weblate/accounts/views.py:254
+#: weblate/accounts/views.py:255
 msgid "Could not send message to administrator."
 msgstr "நிர்வாகிக்கு செய்தியை அனுப்ப முடியவில்லை."
 
-#: weblate/accounts/views.py:271
+#: weblate/accounts/views.py:272
 msgid "Could not open a ticket, please try again later."
 msgstr "சிக்கலைத் திறக்க முடியவில்லை, பிறகு முயற்சிக்கவும்."
 
-#: weblate/accounts/views.py:276 weblate/accounts/views.py:297
+#: weblate/accounts/views.py:277 weblate/accounts/views.py:298
 msgid "Your request has been sent, you will shortly hear from us."
 msgstr "உங்கள் கோரிக்கை அனுப்பப்பட்டது, நீங்கள் விரைவில் எங்களிடமிருந்து கேட்பீர்கள்."
 
-#: weblate/accounts/views.py:427
+#: weblate/accounts/views.py:428
 msgid "Your profile has been updated."
 msgstr "உங்கள் சுயவிவர மேம்படுத்தப்பட்டது."
 
-#: weblate/accounts/views.py:468
+#: weblate/accounts/views.py:469
 msgid "User profile"
 msgstr "பயனர் சுயவிவரம்"
 
-#: weblate/accounts/views.py:493
+#: weblate/accounts/views.py:494
 msgid "Your account has been removed."
 msgstr "உங்கள் கணக்கு அகற்றப்பட்டது."
 
-#: weblate/accounts/views.py:565
+#: weblate/accounts/views.py:566
 msgid "Too many messages sent, please try again later."
 msgstr "பல செய்திகள் அனுப்பப்பட்டன, தயவுசெய்து பின்னர் மீண்டும் முயற்சிக்கவும்."
 
-#: weblate/accounts/views.py:589 weblate/templates/accounts/contact.html:7
+#: weblate/accounts/views.py:590 weblate/templates/accounts/contact.html:7
 #: weblate/templates/footer.html:37
 msgid "Contact"
 msgstr "தொடர்பு"
 
-#: weblate/accounts/views.py:613 weblate/templates/accounts/hosting.html:7
+#: weblate/accounts/views.py:614 weblate/templates/accounts/hosting.html:7
 msgid "Hosting"
 msgstr "ஓச்டிங்"
 
-#: weblate/accounts/views.py:634
+#: weblate/accounts/views.py:635
 msgid ""
 "Seems you've already requested a trial period recently. Please contact us "
 "with your inquiry so we can find the best solution for you."
@@ -1208,7 +1360,7 @@ msgstr ""
 "உங்கள் விசாரணையுடன் எங்களை தொடர்பு கொள்ளவும், இதன்மூலம் உங்களுக்கான சிறந்த தீர்வை நாங்கள் "
 "காணலாம்."
 
-#: weblate/accounts/views.py:655
+#: weblate/accounts/views.py:656
 msgid ""
 "Your trial period is now up and running; create your translation project and "
 "start Weblating!"
@@ -1216,12 +1368,12 @@ msgstr ""
 "உங்கள் சோதனைக் காலம் இப்போது இயங்குகிறது; உங்கள் மொழிபெயர்ப்பு திட்டத்தை உருவாக்கி "
 "வெப்ளேங்கைத் தொடங்குங்கள்!"
 
-#: weblate/accounts/views.py:661 weblate/templates/accounts/hosting.html:62
+#: weblate/accounts/views.py:662 weblate/templates/accounts/hosting.html:62
 #: weblate/templates/accounts/trial.html:7
 msgid "Gratis trial"
 msgstr "இலவச சோதனை"
 
-#: weblate/accounts/views.py:892 weblate/templates/403.html:20
+#: weblate/accounts/views.py:893 weblate/templates/403.html:20
 #: weblate/templates/404.html:21 weblate/templates/accounts/2fa.html:7
 #: weblate/templates/accounts/2fa.html:33
 #: weblate/templates/accounts/login.html:7
@@ -1233,55 +1385,55 @@ msgstr "இலவச சோதனை"
 msgid "Sign in"
 msgstr "உள்நுழைக"
 
-#: weblate/accounts/views.py:935
+#: weblate/accounts/views.py:936
 msgid "Signed out"
 msgstr "கையொப்பமிடப்பட்டது"
 
-#: weblate/accounts/views.py:1032
+#: weblate/accounts/views.py:1033
 msgid "Register e-mail"
 msgstr "மின்னஞ்சல் பதிவு செய்யுங்கள்"
 
-#: weblate/accounts/views.py:1048 weblate/accounts/views.py:1124
+#: weblate/accounts/views.py:1049 weblate/accounts/views.py:1125
 msgid "Cannot reset password, e-mail authentication is turned off."
 msgstr "கடவுச்சொல்லை மீட்டமைக்க முடியாது, மின்னஞ்சல் ஏற்பு அணைக்கப்படுகிறது."
 
-#: weblate/accounts/views.py:1079 weblate/templates/accounts/password.html:17
+#: weblate/accounts/views.py:1080 weblate/templates/accounts/password.html:17
 #: weblate/templates/accounts/profile.html:206
 #: weblate/wladmin/templates/admin/base.html:13
 msgid "Change password"
 msgstr "கடவுச்சொல்லை மாற்று"
 
-#: weblate/accounts/views.py:1089
+#: weblate/accounts/views.py:1090
 msgid "Password reset has been already completed."
 msgstr "கடவுச்சொல் மீட்டமைப்பு ஏற்கனவே முடிக்கப்பட்டுள்ளது."
 
-#: weblate/accounts/views.py:1329
+#: weblate/accounts/views.py:1330
 msgid "Could not remove user identity"
 msgstr "பயனர் அடையாளத்தை அகற்ற முடியவில்லை"
 
-#: weblate/accounts/views.py:1339
+#: weblate/accounts/views.py:1340
 msgid "Add another identity by confirming your e-mail address first."
 msgstr ""
 "முதலில் உங்கள் மின்னஞ்சல் முகவரியை உறுதிப்படுத்துவதன் மூலம் மற்றொரு அடையாளத்தைச் சேர்க்கவும்."
 
-#: weblate/accounts/views.py:1377
+#: weblate/accounts/views.py:1378
 #, python-format
 msgid "Could not authenticate: %s"
 msgstr "அங்கீகரிக்க முடியவில்லை: %s"
 
-#: weblate/accounts/views.py:1387
+#: weblate/accounts/views.py:1388
 msgid "Could not complete registration."
 msgstr "பதிவை முடிக்க முடியவில்லை."
 
-#: weblate/accounts/views.py:1390
+#: weblate/accounts/views.py:1391
 msgid "Please check if you have already registered an account."
 msgstr "நீங்கள் ஏற்கனவே ஒரு கணக்கை பதிவு செய்துள்ளீர்களா என்று சரிபார்க்கவும்."
 
-#: weblate/accounts/views.py:1393
+#: weblate/accounts/views.py:1394
 msgid "You can also request a new password, if you have lost your credentials."
 msgstr "உங்கள் சான்றுகளை இழந்திருந்தால், புதிய கடவுச்சொல்லையும் கோரலாம்."
 
-#: weblate/accounts/views.py:1404
+#: weblate/accounts/views.py:1405
 msgid ""
 "Try registering again to verify your identity, the confirmation link "
 "probably expired."
@@ -1289,62 +1441,62 @@ msgstr ""
 "உங்கள் அடையாளத்தை சரிபார்க்க மீண்டும் பதிவு செய்ய முயற்சிக்கவும், உறுதிப்படுத்தல் இணைப்பு "
 "காலாவதியானது."
 
-#: weblate/accounts/views.py:1412
+#: weblate/accounts/views.py:1413
 msgid "Could not authenticate due to invalid session state."
 msgstr "தவறான அமர்வு நிலை காரணமாக அங்கீகரிக்க முடியவில்லை."
 
-#: weblate/accounts/views.py:1421
+#: weblate/accounts/views.py:1422
 msgid "Got no e-mail address from third party authentication service."
 msgstr "மூன்றாம் தரப்பு அங்கீகார சேவையிலிருந்து மின்னஞ்சல் முகவரி கிடைக்கவில்லை."
 
-#: weblate/accounts/views.py:1425
+#: weblate/accounts/views.py:1426
 msgid "Please register using e-mail instead."
 msgstr "அதற்கு பதிலாக மின்னஞ்சலைப் பயன்படுத்தி பதிவு செய்யுங்கள்."
 
-#: weblate/accounts/views.py:1432
+#: weblate/accounts/views.py:1433
 msgid "New registrations are turned off."
 msgstr "புதிய பதிவுகள் அணைக்கப்படுகின்றன."
 
-#: weblate/accounts/views.py:1482
+#: weblate/accounts/views.py:1483
 msgid ""
 "Could not authenticate, probably due to an expired token or connection error."
 msgstr "காலாவதியான குறிஅடையாளம் அல்லது இணைப்பு பிழை காரணமாக அங்கீகரிக்க முடியவில்லை."
 
-#: weblate/accounts/views.py:1488
+#: weblate/accounts/views.py:1489
 msgid "Authentication cancelled."
 msgstr "ஏற்பு ரத்து செய்யப்பட்டது."
 
-#: weblate/accounts/views.py:1491
+#: weblate/accounts/views.py:1492
 msgid "The server does not allow authentication."
 msgstr "சேவையகம் அங்கீகாரத்தை அனுமதிக்காது."
 
-#: weblate/accounts/views.py:1496
+#: weblate/accounts/views.py:1497
 msgid "The supplied e-mail address is already in use for another account."
 msgstr "வழங்கப்பட்ட மின்னஞ்சல் முகவரி ஏற்கனவே மற்றொரு கணக்கிற்கு பயன்பாட்டில் உள்ளது."
 
-#: weblate/accounts/views.py:1502
+#: weblate/accounts/views.py:1503
 msgid "The supplied username is already in use for another account."
 msgstr "வழங்கப்பட்ட பயனர்பெயர் ஏற்கனவே மற்றொரு கணக்கிற்கு பயன்பாட்டில் உள்ளது."
 
-#: weblate/accounts/views.py:1508
+#: weblate/accounts/views.py:1509
 #, fuzzy, python-format
 #| msgid "Authentication app (%s)"
 msgid "Authentication failed: %s"
 msgstr "அங்கீகார பயன்பாடு (%s)"
 
-#: weblate/accounts/views.py:1514
+#: weblate/accounts/views.py:1515
 msgid "The supplied user identity is already in use for another account."
 msgstr "வழங்கப்பட்ட பயனர் அடையாளம் ஏற்கனவே மற்றொரு கணக்கிற்கு பயன்பாட்டில் உள்ளது."
 
-#: weblate/accounts/views.py:1520
+#: weblate/accounts/views.py:1521
 msgid "The authentication provider could not be reached."
 msgstr "அங்கீகார வழங்குநரைத் தொடர்பு கொள்ள முடியவில்லை."
 
-#: weblate/accounts/views.py:1555 weblate/accounts/views.py:1569
+#: weblate/accounts/views.py:1556 weblate/accounts/views.py:1570
 msgid "Notification settings adjusted."
 msgstr "அறிவிப்பு அமைப்புகள் சரிசெய்யப்பட்டன."
 
-#: weblate/accounts/views.py:1574
+#: weblate/accounts/views.py:1575
 msgid ""
 "The notification change link is no longer valid, please sign in to configure "
 "notifications."
@@ -1352,25 +1504,25 @@ msgstr ""
 "அறிவிப்பு மாற்ற இணைப்பு இனி செல்லுபடியாகாது, தயவுசெய்து அறிவிப்புகளை உள்ளமைக்க "
 "உள்நுழைக."
 
-#: weblate/accounts/views.py:1698
+#: weblate/accounts/views.py:1699
 msgid "The security key was removed."
 msgstr "பாதுகாப்பு விசை அகற்றப்பட்டது."
 
-#: weblate/accounts/views.py:1699
+#: weblate/accounts/views.py:1700
 #, python-format
 msgid "The security key %s was registered."
 msgstr "பாதுகாப்பு விசை %s பதிவு செய்யப்பட்டன."
 
-#: weblate/accounts/views.py:1736
+#: weblate/accounts/views.py:1737
 msgid "The authentication app was removed."
 msgstr "அங்கீகார பயன்பாடு அகற்றப்பட்டது."
 
-#: weblate/accounts/views.py:1737
+#: weblate/accounts/views.py:1738
 #, python-format
 msgid "The authentication app %s was registered."
 msgstr "அங்கீகார பயன்பாடு %s பதிவு செய்யப்பட்டன."
 
-#: weblate/accounts/views.py:1884
+#: weblate/accounts/views.py:1894
 msgid "Second factor sign in"
 msgstr "இரண்டாவது காரணி உள்நுழைவு"
 
@@ -1391,7 +1543,7 @@ msgstr ""
 msgid "enabled"
 msgstr "இயக்கப்பட்டது"
 
-#: weblate/addons/base.py:506 weblate/trans/views/create.py:268
+#: weblate/addons/base.py:510 weblate/trans/views/create.py:269
 msgid ""
 "The repository is outdated, you might not get expected results until you "
 "update it."
@@ -1525,11 +1677,11 @@ msgstr ""
 "வடிவங்களுக்கு குறிப்பாக பயனுள்ளதாக இருக்கும்."
 
 #: weblate/addons/flags.py:106 weblate/templates/category-language.html:53
-#: weblate/templates/category-language.html:135
+#: weblate/templates/category-language.html:136
 #: weblate/templates/category.html:84 weblate/templates/category.html:221
 #: weblate/templates/component.html:96 weblate/templates/component.html:280
 #: weblate/templates/language-project.html:78
-#: weblate/templates/language-project.html:202
+#: weblate/templates/language-project.html:203
 #: weblate/templates/project.html:99 weblate/templates/project.html:311
 #: weblate/templates/translation.html:80 weblate/templates/translation.html:213
 msgid "Bulk edit"
@@ -1560,19 +1712,19 @@ msgstr ""
 "அது வலைபெயர்ப்பில் திருத்துதல் தேவைப்படுவதாக கொடியிடப்படுகிறது. இந்த வழியில் நீங்கள் "
 "உருவாக்குபவர்களால் உருவாக்கப்பட்ட மொழிபெயர்ப்புகளை எளிதாக வடிகட்டி திருத்தலாம்."
 
-#: weblate/addons/forms.py:61
+#: weblate/addons/forms.py:62
 msgid "Path of generated MO file"
 msgstr "உருவாக்கப்பட்ட mo கோப்பின் பாதை"
 
-#: weblate/addons/forms.py:65
+#: weblate/addons/forms.py:66
 msgid "If not specified, the location of the PO file will be used."
 msgstr "குறிப்பிடப்படாவிட்டால், po கோப்பின் இருப்பிடம் பயன்படுத்தப்படும்."
 
-#: weblate/addons/forms.py:69
+#: weblate/addons/forms.py:70
 msgid "Include strings needing editing"
 msgstr "திருத்துதல் தேவைப்படும் சரங்களை உள்ளடக்கியது"
 
-#: weblate/addons/forms.py:72
+#: weblate/addons/forms.py:73
 msgid ""
 "Strings needing editing (fuzzy) are typically not ready for use as "
 "translations."
@@ -1580,39 +1732,39 @@ msgstr ""
 "திருத்துதல் தேவைப்படும் சரங்கள் (தெளிவற்றவை) பொதுவாக மொழிபெயர்ப்புகளாக பயன்படுத்த "
 "தயாராக இல்லை."
 
-#: weblate/addons/forms.py:98
+#: weblate/addons/forms.py:99
 msgid "Name of generated file"
 msgstr "உருவாக்கப்பட்ட கோப்பின் பெயர்"
 
-#: weblate/addons/forms.py:102
+#: weblate/addons/forms.py:103
 msgid "Content of generated file"
 msgstr "உருவாக்கப்பட்ட கோப்பின் உள்ளடக்கம்"
 
-#: weblate/addons/forms.py:132
+#: weblate/addons/forms.py:133
 msgid "Commit squashing"
 msgstr "ச்குவாசிங் செய்யுங்கள்"
 
-#: weblate/addons/forms.py:135
+#: weblate/addons/forms.py:136
 msgid "All commits into one"
 msgstr "அனைத்தும் ஒன்றில் ஈடுபடுகின்றன"
 
-#: weblate/addons/forms.py:136
+#: weblate/addons/forms.py:137
 msgid "Per language"
 msgstr "ஒரு மொழிக்கு"
 
-#: weblate/addons/forms.py:137
+#: weblate/addons/forms.py:138
 msgid "Per file"
 msgstr "ஒரு கோப்புக்கு"
 
-#: weblate/addons/forms.py:138
+#: weblate/addons/forms.py:139
 msgid "Per author"
 msgstr "ஒரு எழுத்தாளருக்கு"
 
-#: weblate/addons/forms.py:144
+#: weblate/addons/forms.py:145
 msgid "Append trailers to squashed commit message"
 msgstr "டிரெய்லர்களை ச்குவாச் செய்த செய்தியைச் சேர்"
 
-#: weblate/addons/forms.py:148
+#: weblate/addons/forms.py:149
 msgid ""
 "Trailer lines are lines that look similar to RFC 822 e-mail headers, at the "
 "end of the otherwise free-form part of a commit message, such as 'Co-"
@@ -1622,11 +1774,11 @@ msgstr ""
 "இல்லையெனில் ஒரு கமிட் செய்தியின் இலவச வடிவ பகுதியின் முடிவில், 'இணை எழுதியவர்:……' "
 "போன்றவை."
 
-#: weblate/addons/forms.py:154
+#: weblate/addons/forms.py:155
 msgid "Commit message"
 msgstr "செய்தியைச் செய்யுங்கள்"
 
-#: weblate/addons/forms.py:158
+#: weblate/addons/forms.py:159
 msgid ""
 "This commit message will be used instead of the combined commit messages "
 "from the squashed commits."
@@ -1634,47 +1786,47 @@ msgstr ""
 "ச்குவாச்ட் கமிட்சின் ஒருங்கிணைந்த கமிட் செய்திகளுக்கு பதிலாக இந்த கமிட் செய்தி "
 "பயன்படுத்தப்படும்."
 
-#: weblate/addons/forms.py:176
+#: weblate/addons/forms.py:177
 msgid "Days to keep"
 msgstr "வைத்திருக்க நாட்கள்"
 
-#: weblate/addons/forms.py:182
+#: weblate/addons/forms.py:183
 msgid "Voting threshold"
 msgstr "வாக்களிக்கும் வாசல்"
 
-#: weblate/addons/forms.py:186
+#: weblate/addons/forms.py:187
 msgid "Threshold for removal. This field has no effect with voting turned off."
 msgstr ""
 "அகற்றுவதற்கான வாசல். வாக்களிப்பு அணைக்கப்பட்டால் இந்த புலம் எந்த விளைவையும் ஏற்படுத்தாது."
 
-#: weblate/addons/forms.py:193
+#: weblate/addons/forms.py:194
 msgid "Regular expression to match translation files against"
 msgstr "மொழிபெயர்ப்பு கோப்புகளை எதிர்த்து பொருத்த வழக்கமான வெளிப்பாடு"
 
-#: weblate/addons/forms.py:197
+#: weblate/addons/forms.py:198
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:16
 #: weblate/templates/trans/discover-choice.html:7 weblate/trans/forms.py:638
-#: weblate/trans/forms.py:2017 weblate/trans/models/component.py:545
+#: weblate/trans/forms.py:2031 weblate/trans/models/component.py:547
 msgid "File format"
 msgstr "கோப்பு வகை"
 
-#: weblate/addons/forms.py:203
+#: weblate/addons/forms.py:204
 msgid "Customize the component name"
 msgstr "கூறு பெயரைத் தனிப்பயனாக்குங்கள்"
 
-#: weblate/addons/forms.py:208
+#: weblate/addons/forms.py:209
 msgid "Define the monolingual base filename"
 msgstr "ஒருமொழி அடிப்படை கோப்பு பெயரை வரையறுக்கவும்"
 
-#: weblate/addons/forms.py:211
+#: weblate/addons/forms.py:212
 msgid "Leave empty for bilingual translation files."
 msgstr "இருமொழி மொழிபெயர்ப்பு கோப்புகளுக்கு காலியாக விடவும்."
 
-#: weblate/addons/forms.py:214
+#: weblate/addons/forms.py:215
 msgid "Define the base file for new translations"
 msgstr "புதிய மொழிபெயர்ப்புகளுக்கான அடிப்படை கோப்பை வரையறுக்கவும்"
 
-#: weblate/addons/forms.py:218 weblate/trans/models/component.py:539
+#: weblate/addons/forms.py:219 weblate/trans/models/component.py:541
 msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
@@ -1682,13 +1834,13 @@ msgstr ""
 "புதிய மொழிபெயர்ப்புகளை உருவாக்கப் பயன்படுத்தப்படும் கோப்பின் கோப்பு பெயர். உரைபெறு "
 "க்கு .pot கோப்பைத் தேர்வுசெய்க."
 
-#: weblate/addons/forms.py:223
+#: weblate/addons/forms.py:224
 #: weblate/templates/trans/alert/inexistantfiles.html:14
-#: weblate/trans/models/component.py:523
+#: weblate/trans/models/component.py:525
 msgid "Intermediate language file"
 msgstr "இடைநிலை மொழி கோப்பு"
 
-#: weblate/addons/forms.py:227 weblate/trans/models/component.py:527
+#: weblate/addons/forms.py:228 weblate/trans/models/component.py:529
 msgid ""
 "Filename of intermediate translation file. In most cases this is a "
 "translation file provided by developers and is used when creating actual "
@@ -1698,11 +1850,11 @@ msgstr ""
 "உருவாக்குபவர்களால் வழங்கப்பட்ட மொழிபெயர்ப்பு கோப்பு மற்றும் உண்மையான மூல சரங்களை "
 "உருவாக்கும்போது பயன்படுத்தப்படுகிறது."
 
-#: weblate/addons/forms.py:234 weblate/trans/models/component.py:771
+#: weblate/addons/forms.py:235 weblate/trans/models/component.py:773
 msgid "Language filter"
 msgstr "மொழி வடிகட்டி"
 
-#: weblate/addons/forms.py:239
+#: weblate/addons/forms.py:240
 msgid ""
 "Regular expression to filter translation files against when scanning for "
 "file mask."
@@ -1710,65 +1862,65 @@ msgstr ""
 "கோப்பு முகமூடியை ச்கேன் செய்யும் போது மொழிபெயர்ப்பு கோப்புகளை வடிகட்ட வழக்கமான "
 "வெளிப்பாடு."
 
-#: weblate/addons/forms.py:245
+#: weblate/addons/forms.py:246
 msgid "Clone add-ons from the main component to the newly created ones"
 msgstr "முக்கிய கூறுகளிலிருந்து புதிதாக உருவாக்கப்பட்டவற்றுக்கு நகலி துணை நிரல்கள்"
 
-#: weblate/addons/forms.py:251
+#: weblate/addons/forms.py:252
 msgid "Remove components for inexistent files"
 msgstr "தவிர்க்கமுடியாத கோப்புகளுக்கான கூறுகளை அகற்று"
 
-#: weblate/addons/forms.py:254
+#: weblate/addons/forms.py:255
 msgid "I confirm the above matches look correct"
 msgstr "மேற்கண்ட போட்டிகள் சரியாக இருப்பதை நான் உறுதிப்படுத்துகிறேன்"
 
-#: weblate/addons/forms.py:311 weblate/trans/models/component.py:3313
+#: weblate/addons/forms.py:312 weblate/trans/models/component.py:3345
 msgid "You can not use a monolingual translation without a base file."
 msgstr "அடிப்படை கோப்பு இல்லாமல் நீங்கள் ஒரு ஒருமொழி மொழிபெயர்ப்பைப் பயன்படுத்த முடியாது."
 
-#: weblate/addons/forms.py:319 weblate/trans/models/component.py:3246
+#: weblate/addons/forms.py:320 weblate/trans/models/component.py:3278
 msgid "You can not use a base file for bilingual translation."
 msgstr "இருமொழி மொழிபெயர்ப்புக்கு நீங்கள் ஒரு அடிப்படை கோப்பைப் பயன்படுத்த முடியாது."
 
-#: weblate/addons/forms.py:333
+#: weblate/addons/forms.py:334
 msgid "Please review and confirm the matched components."
 msgstr "பொருந்திய கூறுகளை மதிப்பாய்வு செய்து உறுதிப்படுத்தவும்."
 
-#: weblate/addons/forms.py:361
+#: weblate/addons/forms.py:362
 msgid "Please include component markup in the template."
 msgstr "வார்ப்புருவில் கூறு மார்க்அப்பைச் சேர்க்கவும்."
 
-#: weblate/addons/forms.py:416
+#: weblate/addons/forms.py:417
 msgid "Translation threshold"
 msgstr "மொழிபெயர்ப்பு வாசல்"
 
-#: weblate/addons/forms.py:422
+#: weblate/addons/forms.py:423
 msgid ""
 "The percentage of translated strings that must be present for translation to "
 "be included."
 msgstr "மொழிபெயர்ப்பு சேர்க்கப்பட வேண்டிய மொழிபெயர்க்கப்பட்ட சரங்களின் விழுக்காடு."
 
-#: weblate/addons/forms.py:426
+#: weblate/addons/forms.py:427
 msgid "CSS selector"
 msgstr "css தேர்வாளர்"
 
-#: weblate/addons/forms.py:429
+#: weblate/addons/forms.py:430
 msgid "CSS selector to detect localizable elements."
 msgstr "உள்ளூர்மயமாக்கக்கூடிய கூறுகளைக் கண்டறிய css தேர்வாளர்."
 
-#: weblate/addons/forms.py:432
+#: weblate/addons/forms.py:433
 msgid "Language cookie name"
 msgstr "மொழி குக்கீ பெயர்"
 
-#: weblate/addons/forms.py:435
+#: weblate/addons/forms.py:436
 msgid "Name of cookie which stores language preference."
 msgstr "மொழி விருப்பத்தை சேமிக்கும் குக்கீயின் பெயர்."
 
-#: weblate/addons/forms.py:440
+#: weblate/addons/forms.py:441
 msgid "Extract strings from HTML files"
 msgstr "html கோப்புகளிலிருந்து சரங்களை பிரித்தெடுக்கவும்"
 
-#: weblate/addons/forms.py:443
+#: weblate/addons/forms.py:444
 msgid ""
 "List of filenames in current repository or remote URLs to parse for "
 "translatable strings."
@@ -1776,12 +1928,12 @@ msgstr ""
 "மொழிபெயர்க்கக்கூடிய சரங்களுக்கு பாகுபடுத்த தற்போதைய களஞ்சியத்தில் அல்லது தொலைநிலை "
 "முகவரி களில் கோப்பு பெயர்களின் பட்டியல்."
 
-#: weblate/addons/forms.py:471
+#: weblate/addons/forms.py:472
 #, python-format
 msgid "Could not parse CSS selector: %s"
 msgstr "css தேர்வாளரை அலச முடியவில்லை: %s"
 
-#: weblate/addons/forms.py:483 weblate/billing/models.py:307
+#: weblate/addons/forms.py:484 weblate/billing/models.py:307
 #: weblate/templates/snippets/query-builder.html:16
 #: weblate/templates/snippets/query-builder.html:20
 #: weblate/templates/snippets/translation.html:12 weblate/trans/admin.py:99
@@ -1789,116 +1941,116 @@ msgstr "css தேர்வாளரை அலச முடியவில்ல
 msgid "Source strings"
 msgstr "மூல சரங்கள்"
 
-#: weblate/addons/forms.py:488
+#: weblate/addons/forms.py:489
 msgid "Target translation"
 msgstr "இலக்கு மொழிபெயர்ப்பு"
 
-#: weblate/addons/forms.py:490
+#: weblate/addons/forms.py:491
 msgid "All strings in this translation will be overwritten"
 msgstr "இந்த மொழிபெயர்ப்பில் உள்ள அனைத்து சரங்களும் மேலெழுதப்படும்"
 
-#: weblate/addons/forms.py:495 weblate/templates/addons/pseudolocale.html:9
+#: weblate/addons/forms.py:496 weblate/templates/addons/pseudolocale.html:9
 msgid "Prepended static text"
 msgstr "தயாரிக்கப்பட்ட நிலையான உரை"
 
-#: weblate/addons/forms.py:500 weblate/templates/addons/pseudolocale.html:10
+#: weblate/addons/forms.py:501 weblate/templates/addons/pseudolocale.html:10
 msgid "Prepended variable text"
 msgstr "தயாரிக்கப்பட்ட மாறி உரை"
 
-#: weblate/addons/forms.py:505 weblate/templates/addons/pseudolocale.html:13
+#: weblate/addons/forms.py:506 weblate/templates/addons/pseudolocale.html:13
 msgid "Appended static text"
 msgstr "சேர்க்கப்பட்ட நிலையான உரை"
 
-#: weblate/addons/forms.py:510 weblate/templates/addons/pseudolocale.html:12
+#: weblate/addons/forms.py:511 weblate/templates/addons/pseudolocale.html:12
 msgid "Appended variable text"
 msgstr "சேர்க்கப்பட்ட மாறி உரை"
 
-#: weblate/addons/forms.py:515
+#: weblate/addons/forms.py:516
 msgid "Variable text multiplier"
 msgstr "மாறி உரை பெருக்கி"
 
-#: weblate/addons/forms.py:519
+#: weblate/addons/forms.py:520
 msgid ""
 "How many times to repeat the variable text depending on the length of the "
 "source string."
 msgstr "மூல சரத்தின் நீளத்தைப் பொறுத்து மாறி உரையை மீண்டும் செய்ய எத்தனை முறை."
 
-#: weblate/addons/forms.py:524
+#: weblate/addons/forms.py:525
 msgid "Include read-only strings"
 msgstr "படிக்க மட்டும் சரங்களைச் சேர்"
 
-#: weblate/addons/forms.py:554
+#: weblate/addons/forms.py:555
 msgid "The source and target have to be different languages."
 msgstr "மூலமும் இலக்கு வெவ்வேறு மொழிகளாக இருக்க வேண்டும்."
 
-#: weblate/addons/forms.py:567
+#: weblate/addons/forms.py:568
 msgid "Enable case-sensitive key sorting"
 msgstr "வழக்கு-உணர்திறன் விசை வரிசையாக்கத்தை இயக்கவும்"
 
-#: weblate/addons/forms.py:577
+#: weblate/addons/forms.py:578
 msgid "Change events"
 msgstr "நிகழ்வுகள் மாற்று"
 
-#: weblate/addons/forms.py:588
+#: weblate/addons/forms.py:589
 msgid "Webhook URL"
 msgstr "வலைகொக்கி முகவரி"
 
-#: weblate/addons/forms.py:602
+#: weblate/addons/forms.py:603
 #, fuzzy
 #| msgid "Webhook"
 msgid "Webhook secret"
 msgstr "வலைகொக்கி"
 
-#: weblate/addons/forms.py:608
+#: weblate/addons/forms.py:609
 msgid "The Standard Webhooks secret is a base64 encoded string."
 msgstr ""
 
-#: weblate/addons/forms.py:621
+#: weblate/addons/forms.py:622
 msgid "AMQP broker host"
 msgstr ""
 
-#: weblate/addons/forms.py:622
+#: weblate/addons/forms.py:623
 msgid "The AMQP broker to connect to."
 msgstr ""
 
-#: weblate/addons/forms.py:626
+#: weblate/addons/forms.py:627
 msgid "Use SSL for AMQP connection"
 msgstr ""
 
-#: weblate/addons/forms.py:631
+#: weblate/addons/forms.py:632
 msgid "CA certificates"
 msgstr ""
 
-#: weblate/addons/forms.py:633
+#: weblate/addons/forms.py:634
 msgid ""
 "Bundle of PEM encoded CA certificates used to validate the certificate "
 "presented by the server."
 msgstr ""
 
-#: weblate/addons/forms.py:639
+#: weblate/addons/forms.py:640
 #, fuzzy
 #| msgctxt "Automatic suggestion service configuration"
 #| msgid "Client ID"
 msgid "Client SSL key"
 msgstr "வாங்கி ஐடி"
 
-#: weblate/addons/forms.py:640
+#: weblate/addons/forms.py:641
 msgid "PEM encoded client private SSL key."
 msgstr ""
 
-#: weblate/addons/forms.py:646
+#: weblate/addons/forms.py:647
 msgid "Client SSL certificates"
 msgstr ""
 
-#: weblate/addons/forms.py:647
+#: weblate/addons/forms.py:648
 msgid "PEM encoded client SSL certificate."
 msgstr ""
 
-#: weblate/addons/forms.py:665
+#: weblate/addons/forms.py:666
 msgid "The SSL certificates have to be provided for SSL connection."
 msgstr ""
 
-#: weblate/addons/forms.py:678
+#: weblate/addons/forms.py:679
 msgid "The SSL certificates are not used without a SSL connection."
 msgstr ""
 
@@ -2043,20 +2195,19 @@ msgid "Invalid add-on name: ”%s”"
 msgstr "தவறான சேர்க்கை பெயர்: ”%s”"
 
 #: weblate/addons/views.py:131
-#, fuzzy, python-format
-#| msgid "Add-on uninstalled"
+#, python-format
 msgid "Add-on cannot be installed: ”%s”"
-msgstr "நிராகரிக்கப்படவில்லை"
+msgstr "செருகு நிரலை நிறுவ முடியாது: ”%s”"
 
 #: weblate/addons/views.py:154
 msgid "Add-on installed, please review integration instructions."
 msgstr "நிறுவப்பட்ட கூடுதல், தயவுசெய்து ஒருங்கிணைப்பு வழிமுறைகளை மதிப்பாய்வு செய்யவும்."
 
-#: weblate/addons/webhooks.py:113
+#: weblate/addons/webhooks.py:109
 msgid "Webhook"
 msgstr "வலைகொக்கி"
 
-#: weblate/addons/webhooks.py:115
+#: weblate/addons/webhooks.py:111
 msgid ""
 "Sends notifications to external services based on selected events, following "
 "the Standard Webhooks specification."
@@ -2064,11 +2215,11 @@ msgstr ""
 "நிலையான வெப்ஊக்ச் விவரக்குறிப்பைப் பின்பற்றி, தேர்ந்தெடுக்கப்பட்ட நிகழ்வுகளின் அடிப்படையில் "
 "வெளிப்புற சேவைகளுக்கு அறிவிப்புகளை அனுப்புகிறது."
 
-#: weblate/addons/webhooks.py:197
+#: weblate/addons/webhooks.py:193
 msgid "Slack Webhooks"
 msgstr "ச்லாக் வெப்ஊக்ச்"
 
-#: weblate/addons/webhooks.py:199
+#: weblate/addons/webhooks.py:195
 msgid "Sends notification to a Slack channel based on selected events."
 msgstr ""
 "தேர்ந்தெடுக்கப்பட்ட நிகழ்வுகளின் அடிப்படையில் ச்லாக் சேனலுக்கு அறிவிப்பை அனுப்புகிறது."
@@ -2111,31 +2262,31 @@ msgstr "செய்ய மீதமுள்ள கோரிக்கைகள�
 msgid "Number of seconds until the rate-limit window resets"
 msgstr "வீத வரம்பு சாளரம் மீட்டமைக்கப்படும் வரை விநாடிகளின் எண்ணிக்கை"
 
-#: weblate/api/serializers.py:353 weblate/templates/accounts/user.html:272
-#: weblate/trans/forms.py:1084
+#: weblate/api/serializers.py:354 weblate/templates/accounts/user.html:272
+#: weblate/trans/forms.py:1098
 msgid "Scope"
 msgstr "வாய்ப்பு"
 
-#: weblate/api/serializers.py:355 weblate/trans/forms.py:1086
+#: weblate/api/serializers.py:356 weblate/trans/forms.py:1100
 msgid ""
 "Is your comment specific to this translation, or generic for all of them?"
 msgstr ""
 "இந்த மொழிபெயர்ப்புக்கு உங்கள் கருத்து குறிப்பிட்டதா, அல்லது அவை அனைத்திற்கும் பொதுவானதா?"
 
-#: weblate/api/serializers.py:361
+#: weblate/api/serializers.py:362
 msgid "Comment text"
 msgstr "கருத்து உரை"
 
-#: weblate/api/serializers.py:362 weblate/trans/forms.py:1108
+#: weblate/api/serializers.py:363 weblate/trans/forms.py:1122
 #: weblate/trans/models/announcement.py:73 weblate/trans/models/project.py:195
 msgid "You can use Markdown and mention users by @username."
 msgstr "நீங்கள் மார்க் டவுனைப் பயன்படுத்தலாம் மற்றும் பயனர்களை @username மூலம் குறிப்பிடலாம்."
 
-#: weblate/api/serializers.py:366
+#: weblate/api/serializers.py:367
 msgid "Creation timestamp"
 msgstr "உருவாக்க நேர முத்திரை"
 
-#: weblate/api/serializers.py:368
+#: weblate/api/serializers.py:369
 msgid ""
 "If you’re an admin, you can set the explicit timestamp at which the comment "
 "was created."
@@ -2143,11 +2294,11 @@ msgstr ""
 "நீங்கள் ஒரு நிர்வாகியாக இருந்தால், கருத்து உருவாக்கப்பட்ட வெளிப்படையான நேர முத்திரையை "
 "நீங்கள் அமைக்கலாம்."
 
-#: weblate/api/serializers.py:373
+#: weblate/api/serializers.py:374
 msgid "Commenter’s email"
 msgstr "வர்ணனையாளரின் மின்னஞ்சல்"
 
-#: weblate/api/serializers.py:375
+#: weblate/api/serializers.py:376
 msgid ""
 "If you’re an admin, you can attribute this comment to another user by their "
 "email."
@@ -2155,51 +2306,51 @@ msgstr ""
 "நீங்கள் ஒரு நிர்வாகியாக இருந்தால், இந்த கருத்தை அவர்களின் மின்னஞ்சல் மூலம் மற்றொரு பயனரிடம் "
 "கூறலாம்."
 
-#: weblate/api/serializers.py:1076 weblate/templates/js/git-status.html:25
+#: weblate/api/serializers.py:1077 weblate/templates/js/git-status.html:25
 msgid "Commit"
 msgstr "உறுதிமொழி"
 
-#: weblate/api/serializers.py:1077 weblate/templates/fonts/font_detail.html:63
+#: weblate/api/serializers.py:1078 weblate/templates/fonts/font_detail.html:63
 #: weblate/templates/js/git-status.html:79
 msgid "Update"
 msgstr "புதுப்பிப்பு"
 
-#: weblate/api/serializers.py:1078 weblate/templates/js/git-status.html:96
+#: weblate/api/serializers.py:1079 weblate/templates/js/git-status.html:96
 msgid "Update with rebase"
 msgstr "மறுசீரமைப்புடன் புதுப்பிக்கவும்"
 
-#: weblate/api/serializers.py:1079 weblate/templates/js/git-status.html:91
+#: weblate/api/serializers.py:1080 weblate/templates/js/git-status.html:91
 msgid "Update with merge"
 msgstr "ஒன்றிணைப்புடன் புதுப்பிக்கவும்"
 
-#: weblate/api/serializers.py:1082 weblate/templates/js/git-status.html:101
+#: weblate/api/serializers.py:1083 weblate/templates/js/git-status.html:101
 msgid "Update with merge without fast-forward"
 msgstr "வேகமாக முன்னோக்கி இல்லாமல் ஒன்றிணைக்கவும்"
 
-#: weblate/api/serializers.py:1084 weblate/templates/js/git-status.html:63
+#: weblate/api/serializers.py:1085 weblate/templates/js/git-status.html:63
 msgid "Push"
 msgstr "புச்"
 
-#: weblate/api/serializers.py:1085 weblate/templates/js/git-status.html:166
+#: weblate/api/serializers.py:1086 weblate/templates/js/git-status.html:166
 msgid "Reset all changes in the Weblate repository"
 msgstr "வலைபெயர்ப்பு களஞ்சியத்தில் உள்ள அனைத்து மாற்றங்களையும் மீட்டமைக்கவும்"
 
-#: weblate/api/serializers.py:1088 weblate/templates/js/git-status.html:178
+#: weblate/api/serializers.py:1089 weblate/templates/js/git-status.html:178
 #, fuzzy
 #| msgid "Define the base file for new translations"
 msgid "Reset the Weblate repository and reapply translations"
 msgstr "புதிய மொழிபெயர்ப்புகளுக்கான அடிப்படை கோப்பை வரையறுக்கவும்"
 
-#: weblate/api/serializers.py:1092 weblate/templates/js/git-status.html:189
+#: weblate/api/serializers.py:1093 weblate/templates/js/git-status.html:189
 msgid "Cleanup all untracked files in the Weblate repository"
 msgstr ""
 "வலைபெயர்ப்பு களஞ்சியத்தில் கட்டுப்படுத்தப்படாத அனைத்து கோப்புகளையும் தூய்மை செய்யுங்கள்"
 
-#: weblate/api/serializers.py:1096 weblate/templates/js/git-status.html:200
+#: weblate/api/serializers.py:1097 weblate/templates/js/git-status.html:200
 msgid "Force writing all translations to the Weblate repository"
 msgstr "அனைத்து மொழிபெயர்ப்புகளையும் வலைபெயர்ப்பு களஞ்சியத்திற்கு எழுதுதல்"
 
-#: weblate/api/serializers.py:1100 weblate/templates/js/git-status.html:210
+#: weblate/api/serializers.py:1101 weblate/templates/js/git-status.html:210
 msgid "Rescan all translation files in the Weblate repository"
 msgstr "வலைபெயர்ப்பு களஞ்சியத்தில் உள்ள அனைத்து மொழிபெயர்ப்பு கோப்புகளையும் மீட்டமைக்கவும்"
 
@@ -2208,69 +2359,69 @@ msgstr "வலைபெயர்ப்பு களஞ்சியத்தி�
 msgid "Weblate's REST API"
 msgstr "வலைபெயர்ப்பு ரெச்ட் பநிஇ"
 
-#: weblate/api/views.py:169
+#: weblate/api/views.py:171
 msgid "Could not obtain the lock to perform the operation."
 msgstr "செயல்பாட்டைச் செய்ய பூட்டைப் பெற முடியவில்லை."
 
-#: weblate/api/views.py:175
+#: weblate/api/views.py:177
 msgid "Specified unit id is not a translation source unit."
 msgstr "குறிப்பிட்ட அலகு அடையாளம் மொழிபெயர்ப்பு மூல அலகு அல்ல."
 
-#: weblate/api/views.py:186
+#: weblate/api/views.py:188
 #, python-format
 msgid "Could not obtain the repository lock for %s to perform the operation."
 msgstr "செயல்பாட்டைச் செய்ய %s க்கான களஞ்சியப் பூட்டைப் பெற முடியவில்லை."
 
-#: weblate/api/views.py:194
+#: weblate/api/views.py:196
 #, python-format
 msgid ""
 "Could not obtain the update lock for component %s to perform the operation."
 msgstr "செயல்பாட்டைச் செய்யக் கூறு %s க்கான புதுப்பிப்பு பூட்டைப் பெற முடியவில்லை."
 
-#: weblate/api/views.py:201
+#: weblate/api/views.py:203
 #, python-format
 msgid ""
 "Could not obtain the %(scope)s lock for %(origin)s to perform the operation."
 msgstr "செயல்பாட்டைச் செய்ய %(origin)s க்கான %(scope)s பூட்டைப் பெற முடியவில்லை."
 
-#: weblate/api/views.py:2646 weblate/auth/models.py:1016
+#: weblate/api/views.py:2667 weblate/auth/models.py:1012
 #: weblate/checks/views.py:232 weblate/checks/views.py:239
 #: weblate/templates/accounts/user.html:274
 #: weblate/templates/accounts/user.html:327
 #: weblate/templates/dashboard/user.html:106 weblate/templates/data.html:28
 #: weblate/templates/data.html:69 weblate/templates/data.html:113
 #: weblate/templates/language.html:73 weblate/templates/list-projects.html:3
-#: weblate/templates/snippets/list-objects.html:50 weblate/trans/forms.py:1973
+#: weblate/templates/snippets/list-objects.html:50 weblate/trans/forms.py:1987
 #: weblate/trans/models/announcement.py:77 weblate/trans/models/category.py:67
 #: weblate/trans/models/component.py:392 weblate/trans/models/component.py:426
 msgid "Project"
 msgstr "திட்டம்"
 
-#: weblate/api/views.py:2654 weblate/trans/forms.py:1977
+#: weblate/api/views.py:2675 weblate/trans/forms.py:1991
 #: weblate/trans/models/announcement.py:84 weblate/trans/models/category.py:72
 #: weblate/trans/models/component.py:398
 msgid "Category"
 msgstr "வகை"
 
-#: weblate/api/views.py:2662 weblate/checks/views.py:234
+#: weblate/api/views.py:2683 weblate/checks/views.py:234
 #: weblate/checks/views.py:241 weblate/templates/accounts/user.html:275
 #: weblate/templates/addons/discovery_preview.html:6
-#: weblate/templates/category-language.html:79
+#: weblate/templates/category-language.html:80
 #: weblate/templates/category.html:148 weblate/templates/component-list.html:42
-#: weblate/templates/language-project.html:134
+#: weblate/templates/language-project.html:135
 #: weblate/templates/project.html:242 weblate/templates/translate.html:406
 #: weblate/templates/translate.html:790 weblate/templates/translation.html:159
-#: weblate/templates/widgets.html:51 weblate/trans/forms.py:940
-#: weblate/trans/forms.py:994 weblate/trans/forms.py:1916
+#: weblate/templates/widgets.html:51 weblate/trans/forms.py:954
+#: weblate/trans/forms.py:1008 weblate/trans/forms.py:1930
 #: weblate/trans/models/announcement.py:91
 msgid "Component"
 msgstr "கூறு"
 
-#: weblate/api/views.py:2670 weblate/templates/billing/detail.html:121
+#: weblate/api/views.py:2692 weblate/templates/billing/detail.html:121
 msgid "User"
 msgstr "பயனர்"
 
-#: weblate/api/views.py:2678 weblate/fonts/models.py:153
+#: weblate/api/views.py:2700 weblate/fonts/models.py:153
 #: weblate/templates/category.html:160 weblate/templates/component.html:195
 #: weblate/templates/lang/language_form.html:8
 #: weblate/templates/languages.html:14 weblate/templates/project.html:254
@@ -2279,8 +2430,8 @@ msgstr "பயனர்"
 #: weblate/templates/snippets/info.html:175
 #: weblate/templates/trans/alert/duplicatelanguage.html:51
 #: weblate/templates/trans/alert/duplicatestring.html:10
-#: weblate/templates/widgets.html:45 weblate/trans/forms.py:1180
-#: weblate/trans/forms.py:1389 weblate/trans/models/announcement.py:98
+#: weblate/templates/widgets.html:45 weblate/trans/forms.py:1194
+#: weblate/trans/forms.py:1403 weblate/trans/models/announcement.py:98
 msgid "Language"
 msgstr "மொழி"
 
@@ -2292,7 +2443,7 @@ msgstr "தனிப்பட்ட செய்தி"
 msgid "Authentication"
 msgstr "அங்கீகார"
 
-#: weblate/auth/admin.py:171 weblate/auth/models.py:107
+#: weblate/auth/admin.py:171 weblate/auth/models.py:106
 msgid "Permissions"
 msgstr "அனுமதிகள்"
 
@@ -2823,7 +2974,7 @@ msgctxt "Per-project access-control team name"
 msgid "Billing"
 msgstr "பில்லிங்"
 
-#: weblate/auth/forms.py:100 weblate/auth/views.py:210
+#: weblate/auth/forms.py:100 weblate/auth/views.py:213
 msgid "User invitation e-mail was sent."
 msgstr "பயனர் அழைப்பிதழ் மின்னஞ்சல் அனுப்பப்பட்டது."
 
@@ -2831,60 +2982,60 @@ msgstr "பயனர் அழைப்பிதழ் மின்னஞ்ச�
 msgid "Cannot change this on a built-in team."
 msgstr "உள்ளமைக்கப்பட்ட குழுவில் இதை மாற்ற முடியாது."
 
-#: weblate/auth/models.py:97
+#: weblate/auth/models.py:96
 #, python-format
 msgid "%s (site-wide permission)"
 msgstr "%s (தள அளவிலான அனுமதி)"
 
-#: weblate/auth/models.py:103 weblate/auth/models.py:127
+#: weblate/auth/models.py:102 weblate/auth/models.py:126
 #: weblate/templates/fonts/fontgroup_detail.html:25
 #: weblate/templates/manage/performance.html:27
 #: weblate/templates/manage/performance.html:80
 #: weblate/templates/manage/teams.html:23
 #: weblate/templates/trans/project-access.html:230
-#: weblate/templates/trans/project-access.html:325 weblate/trans/forms.py:1672
+#: weblate/templates/trans/project-access.html:325 weblate/trans/forms.py:1686
 msgid "Name"
 msgstr "பெயர்"
 
-#: weblate/auth/models.py:109
+#: weblate/auth/models.py:108
 msgid "Choose permissions granted to this role."
 msgstr "இந்த பாத்திரத்திற்கு வழங்கப்பட்ட அனுமதிகளைத் தேர்வுசெய்க."
 
-#: weblate/auth/models.py:130 weblate/templates/accounts/profile.html:439
+#: weblate/auth/models.py:129 weblate/templates/accounts/profile.html:439
 #: weblate/templates/auth/team.html:72 weblate/templates/manage/teams.html:24
 #: weblate/templates/trans/project-access.html:231
 msgid "Roles"
 msgstr "பாத்திரங்கள்"
 
-#: weblate/auth/models.py:132
+#: weblate/auth/models.py:131
 msgid "Choose roles granted to this team."
 msgstr "இந்த அணிக்கு வழங்கப்பட்ட பாத்திரங்களைத் தேர்வுசெய்க."
 
-#: weblate/auth/models.py:144
+#: weblate/auth/models.py:143
 msgid "Project selection"
 msgstr "திட்ட தேர்வு"
 
-#: weblate/auth/models.py:146 weblate/auth/models.py:174
+#: weblate/auth/models.py:145 weblate/auth/models.py:173
 msgid "As defined"
 msgstr "வரையறுக்கப்பட்டபடி"
 
-#: weblate/auth/models.py:147 weblate/templates/auth/teams-projects.html:4
+#: weblate/auth/models.py:146 weblate/templates/auth/teams-projects.html:4
 msgid "All projects"
 msgstr "அனைத்து திட்டங்களும்"
 
-#: weblate/auth/models.py:148 weblate/templates/auth/teams-projects.html:6
+#: weblate/auth/models.py:147 weblate/templates/auth/teams-projects.html:6
 msgid "All public projects"
 msgstr "அனைத்து பொது திட்டங்களும்"
 
-#: weblate/auth/models.py:149 weblate/templates/auth/teams-projects.html:8
+#: weblate/auth/models.py:148 weblate/templates/auth/teams-projects.html:8
 msgid "All protected projects"
 msgstr "அனைத்து பாதுகாக்கப்பட்ட திட்டங்களும்"
 
-#: weblate/auth/models.py:150
+#: weblate/auth/models.py:149
 msgid "From component list"
 msgstr "கூறு பட்டியலிலிருந்து"
 
-#: weblate/auth/models.py:155 weblate/billing/admin.py:76
+#: weblate/auth/models.py:154 weblate/billing/admin.py:76
 #: weblate/billing/models.py:299 weblate/templates/accounts/profile.html:440
 #: weblate/templates/auth/team.html:80 weblate/templates/base.html:147
 #: weblate/templates/billing/list.html:7
@@ -2897,7 +3048,7 @@ msgstr "கூறு பட்டியலிலிருந்து"
 msgid "Projects"
 msgstr "திட்டங்கள்"
 
-#: weblate/auth/models.py:159 weblate/templates/accounts/profile.html:442
+#: weblate/auth/models.py:158 weblate/templates/accounts/profile.html:442
 #: weblate/templates/auth/team.html:84
 #: weblate/templates/category-language.html:14
 #: weblate/templates/category.html:17 weblate/templates/component-list.html:11
@@ -2906,28 +3057,28 @@ msgstr "திட்டங்கள்"
 #: weblate/templates/project.html:19 weblate/templates/snippets/info.html:407
 #: weblate/templates/snippets/info.html:443
 #: weblate/templates/snippets/info.html:502
-#: weblate/templates/trans/project-access.html:233 weblate/trans/forms.py:2439
+#: weblate/templates/trans/project-access.html:233 weblate/trans/forms.py:2453
 msgid "Components"
 msgstr "கூறுகள்"
 
-#: weblate/auth/models.py:162
+#: weblate/auth/models.py:161
 msgid "Empty selection grants access to all components in project scope."
 msgstr "வெற்று தேர்வு திட்ட நோக்கத்தில் உள்ள அனைத்து கூறுகளுக்கும் அணுகலை வழங்குகிறது."
 
-#: weblate/auth/models.py:167
+#: weblate/auth/models.py:166
 msgid "Component lists"
 msgstr "கூறு பட்டியல்கள்"
 
-#: weblate/auth/models.py:172
+#: weblate/auth/models.py:171
 msgid "Language selection"
 msgstr "மொழி தேர்வு"
 
-#: weblate/auth/models.py:175 weblate/templates/auth/teams-languages.html:4
-#: weblate/trans/forms.py:1140 weblate/trans/forms.py:1390
+#: weblate/auth/models.py:174 weblate/templates/auth/teams-languages.html:4
+#: weblate/trans/forms.py:1154 weblate/trans/forms.py:1404
 msgid "All languages"
 msgstr "அனைத்து மொழிகளும்"
 
-#: weblate/auth/models.py:180 weblate/billing/models.py:335
+#: weblate/auth/models.py:179 weblate/billing/models.py:335
 #: weblate/lang/views.py:53 weblate/templates/accounts/profile.html:19
 #: weblate/templates/accounts/profile.html:70
 #: weblate/templates/accounts/profile.html:441
@@ -2942,139 +3093,139 @@ msgstr "அனைத்து மொழிகளும்"
 #: weblate/templates/snippets/info.html:436
 #: weblate/templates/snippets/info.html:508
 #: weblate/templates/trans/project-access.html:232 weblate/trans/admin.py:107
-#: weblate/trans/forms.py:1164 weblate/trans/forms.py:2608
-#: weblate/trans/templatetags/translations.py:1537
+#: weblate/trans/forms.py:1178 weblate/trans/forms.py:2622
+#: weblate/trans/templatetags/translations.py:1426
 #: weblate/wladmin/models.py:241
 msgid "Languages"
 msgstr "மொழிகள்"
 
-#: weblate/auth/models.py:184
+#: weblate/auth/models.py:183
 msgid "Internal Weblate team"
 msgstr "உள் வலைபெயர்ப்பு குழு"
 
-#: weblate/auth/models.py:189
+#: weblate/auth/models.py:188
 msgid "Team administrators"
 msgstr "நிர்வாக குழு"
 
-#: weblate/auth/models.py:192
+#: weblate/auth/models.py:191
 msgid "The administrator can add or remove users from a team."
 msgstr "நிர்வாகி ஒரு குழுவிலிருந்து பயனர்களைச் சேர்க்கலாம் அல்லது அகற்றலாம்."
 
-#: weblate/auth/models.py:197 weblate/trans/models/project.py:236
+#: weblate/auth/models.py:196 weblate/trans/models/project.py:236
 msgid "Enforced two-factor authentication"
 msgstr "இரண்டு காரணி அங்கீகாரத்தை செயல்படுத்தியது"
 
-#: weblate/auth/models.py:200
+#: weblate/auth/models.py:199
 msgid "Requires users to have two-factor authentication configured."
 msgstr "பயனர்கள் இரண்டு காரணி அங்கீகாரத்தை உள்ளமைக்க வேண்டும்."
 
-#: weblate/auth/models.py:453 weblate/utils/forms.py:77
-#: weblate/utils/validators.py:194
+#: weblate/auth/models.py:452 weblate/utils/forms.py:77
+#: weblate/utils/validators.py:201
 msgid ""
 "Username may only contain letters, numbers or the following characters: @ . "
 "+ - _"
 msgstr ""
 "பயனர்பெயரில் கடிதங்கள், எண்கள் அல்லது பின்வரும் எழுத்துக்கள் மட்டுமே இருக்கலாம்: @. + - _"
 
-#: weblate/auth/models.py:458
+#: weblate/auth/models.py:457
 msgid "A user with that username already exists."
 msgstr "அதே பயனர்ப்பெயரில் ஒரு பயனர் உள்ளார்."
 
-#: weblate/auth/models.py:474 weblate/auth/models.py:1247
+#: weblate/auth/models.py:473 weblate/auth/models.py:1243
 msgid "Superuser status"
 msgstr "சூப்பர் யூசர் நிலை"
 
-#: weblate/auth/models.py:476 weblate/auth/models.py:1249
+#: weblate/auth/models.py:475 weblate/auth/models.py:1245
 msgid "User has all possible permissions."
 msgstr "பயனருக்கு சாத்தியமான அனைத்து அனுமதிகளும் உள்ளன."
 
-#: weblate/auth/models.py:479 weblate/billing/models.py:179
+#: weblate/auth/models.py:478 weblate/billing/models.py:179
 #: weblate/memory/models.py:433 weblate/templates/check_list.html:38
 msgid "Active"
 msgstr "செயலில்"
 
-#: weblate/auth/models.py:481
+#: weblate/auth/models.py:480
 msgid "Mark user as inactive instead of removing."
 msgstr "அகற்றுவதற்கு பதிலாக பயனரை செயலற்றதாகக் குறிக்கவும்."
 
-#: weblate/auth/models.py:489 weblate/templates/trans/project-access.html:326
+#: weblate/auth/models.py:488 weblate/templates/trans/project-access.html:326
 msgid "Expires"
 msgstr "காலாவதியாகிறது"
 
-#: weblate/auth/models.py:494
+#: weblate/auth/models.py:493
 msgid "The account will be disabled after the expiry."
 msgstr ""
 
-#: weblate/auth/models.py:501 weblate/templates/accounts/profile.html:34
+#: weblate/auth/models.py:500 weblate/templates/accounts/profile.html:34
 #: weblate/templates/accounts/user.html:194 weblate/templates/auth/team.html:50
 #: weblate/templates/manage/teams.html:10
 #: weblate/templates/manage/users.html:48
 #: weblate/templates/trans/project-access.html:21
 #: weblate/templates/trans/project-access.html:64
 #: weblate/templates/trans/project-access.html:224
-#: weblate/templates/trans/project-access.html:327 weblate/trans/forms.py:3162
+#: weblate/templates/trans/project-access.html:327 weblate/trans/forms.py:3176
 #: weblate/wladmin/views.py:98
 msgid "Teams"
 msgstr "அணிகள்"
 
-#: weblate/auth/models.py:504 weblate/auth/models.py:1238
+#: weblate/auth/models.py:503 weblate/auth/models.py:1234
 msgid ""
 "The user is granted all permissions included in membership of these teams."
 msgstr ""
 "இந்த அணிகளின் உறுப்பினர்களில் சேர்க்கப்பட்டுள்ள அனைத்து அனுமதிகளையும் பயனருக்கு "
 "வழங்கப்படுகிறது."
 
-#: weblate/auth/models.py:987
+#: weblate/auth/models.py:983
 msgid "Regular expression for e-mail address"
 msgstr "மின்னஞ்சல் முகவரிக்கு வழக்கமான வெளிப்பாடு"
 
-#: weblate/auth/models.py:991
+#: weblate/auth/models.py:987
 msgid "Users with e-mail addresses found to match will be added to this team."
 msgstr "பொருந்தக்கூடிய மின்னஞ்சல் முகவரிகளைக் கொண்ட பயனர்கள் இந்த அணியில் சேர்க்கப்படுவார்கள்."
 
-#: weblate/auth/models.py:996
+#: weblate/auth/models.py:992
 msgid "Team to assign"
 msgstr "ஒதுக்க குழு"
 
-#: weblate/auth/models.py:1011 weblate/trans/forms.py:1344
+#: weblate/auth/models.py:1007 weblate/trans/forms.py:1358
 msgid "User to block"
 msgstr "தடுக்க பயனர்"
 
-#: weblate/auth/models.py:1018
+#: weblate/auth/models.py:1014
 msgid "Block expiry"
 msgstr "தொகுதி காலாவதி"
 
-#: weblate/auth/models.py:1020 weblate/trans/forms.py:1362
+#: weblate/auth/models.py:1016 weblate/trans/forms.py:1376
 #, fuzzy
 #| msgid "Block user"
 msgid "Block note"
 msgstr "பயனரை தடைசெய்"
 
-#: weblate/auth/models.py:1023 weblate/trans/forms.py:1364
+#: weblate/auth/models.py:1019 weblate/trans/forms.py:1378
 msgid ""
 "Internal notes regarding blocking the user that are not visible to the user."
 msgstr ""
 
-#: weblate/auth/models.py:1211 weblate/trans/forms.py:1325
+#: weblate/auth/models.py:1207 weblate/trans/forms.py:1339
 msgid "User to add"
 msgstr "சேர்க்க பயனர்"
 
-#: weblate/auth/models.py:1213 weblate/trans/forms.py:1328
-#: weblate/trans/forms.py:1346
+#: weblate/auth/models.py:1209 weblate/trans/forms.py:1342
+#: weblate/trans/forms.py:1360
 msgid "Please type in an existing Weblate account name or e-mail address."
 msgstr ""
 "தயவுசெய்து ஏற்கனவே உள்ள வலைபெயர்ப்பு கணக்கு பெயர் அல்லது மின்னஞ்சல் முகவரியை தட்டச்சு "
 "செய்க."
 
-#: weblate/auth/models.py:1221
+#: weblate/auth/models.py:1217
 msgid "Suggest username for the user. It can be changed later."
 msgstr "பயனருக்கு பயனர்பெயரை பரிந்துரைக்கவும். அதை பின்னர் மாற்றலாம்."
 
-#: weblate/auth/models.py:1230
+#: weblate/auth/models.py:1226
 msgid "Suggest full name for the user. It can be changed later."
 msgstr "பயனருக்கு முழு பெயரை பரிந்துரைக்கவும். அதை பின்னர் மாற்றலாம்."
 
-#: weblate/auth/models.py:1236 weblate/templates/accounts/profile.html:438
+#: weblate/auth/models.py:1232 weblate/templates/accounts/profile.html:438
 #: weblate/templates/accounts/user.html:328
 msgid "Team"
 msgstr "அணி"
@@ -3213,21 +3364,21 @@ msgstr "இந்த கூறு தற்போது பூட்டப்ப
 msgid "The file format does not support updating source strings."
 msgstr "கோப்பு வடிவம் இதை ஆதரிக்காது."
 
-#: weblate/auth/views.py:129
+#: weblate/auth/views.py:131
 msgid "Cannot remove built-in team!"
 msgstr "உள்ளமைக்கப்பட்ட குழுவை அகற்ற முடியாது!"
 
-#: weblate/auth/views.py:175
+#: weblate/auth/views.py:178
 msgid ""
 "This invitation can be accepted only by the e-mail address chosen by the "
 "inviter; it can't be used by your account."
 msgstr ""
 
-#: weblate/auth/views.py:213
+#: weblate/auth/views.py:216
 msgid "User invitation was removed."
 msgstr "பயனர் அழைப்பு அகற்றப்பட்டது."
 
-#: weblate/auth/views.py:257
+#: weblate/auth/views.py:260
 #, python-format
 msgid "Accepted invitation to the %s team."
 msgstr "%s அணிக்கு ஏற்றுக்கொள்ளப்பட்ட அழைப்பு."
@@ -3359,7 +3510,7 @@ msgstr "லிப்ரே உரிமம் அல்ல"
 #: weblate/templates/billing/detail.html:10
 #: weblate/templates/billing/overview.html:10
 #: weblate/templates/manage/billing.html:57 weblate/templates/project.html:192
-#: weblate/templates/snippets/info.html:35 weblate/trans/forms.py:2475
+#: weblate/templates/snippets/info.html:35 weblate/trans/forms.py:2489
 #: weblate/wladmin/views.py:105
 msgid "Billing"
 msgstr "பட்டியலிடல்"
@@ -3677,11 +3828,11 @@ msgstr "கடுமையான மாறாத சரிபார்ப்ப�
 msgid "Strict format string checks"
 msgstr "கடுமையான வடிவமைப்பு சரம் சோதனைகள்"
 
-#: weblate/checks/flags.py:65 weblate/trans/forms.py:2746
+#: weblate/checks/flags.py:65 weblate/trans/forms.py:2760
 msgid "Forbidden translation"
 msgstr "தடைசெய்யப்பட்ட மொழிபெயர்ப்பு"
 
-#: weblate/checks/flags.py:66 weblate/trans/forms.py:2741
+#: weblate/checks/flags.py:66 weblate/trans/forms.py:2755
 msgid "Terminology"
 msgstr "சொல்"
 
@@ -3719,7 +3870,7 @@ msgstr "icu messageformat கொடிகள்"
 msgid "ICU MessageFormat tag prefix"
 msgstr "icu messageformat குறிச்சொல் முன்னொட்டு"
 
-#: weblate/checks/flags.py:84 weblate/trans/models/component.py:793
+#: weblate/checks/flags.py:84 weblate/trans/models/component.py:796
 #: weblate/utils/views.py:214
 msgid "Priority"
 msgstr "முன்னுரிமை"
@@ -4132,168 +4283,180 @@ msgstr "சரள மொழிபெயர்ப்பு தொடரியல�
 msgid "Fluent syntax error in the translation."
 msgstr "மொழிபெயர்ப்பில் சரளமான தொடரியல் பிழை."
 
-#: weblate/checks/format.py:494
+#: weblate/checks/format.py:500
 #, python-format
 msgid "The following format strings are in the wrong order: %s"
 msgstr "பின்வரும் வடிவமைப்பு சரங்கள் தவறான வரிசையில் உள்ளன: %s"
 
-#: weblate/checks/format.py:582
+#: weblate/checks/format.py:588
 msgid "Python format"
 msgstr "பைதான் வடிவம்"
 
-#: weblate/checks/format.py:583
+#: weblate/checks/format.py:589
 msgid "Python format string does not match source."
 msgstr "பைதான் வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை."
 
-#: weblate/checks/format.py:591
+#: weblate/checks/format.py:597
 msgid "PHP format"
 msgstr "php வடிவம்"
 
-#: weblate/checks/format.py:592
+#: weblate/checks/format.py:598
 msgid "PHP format string does not match source."
 msgstr "பிஎச்பி வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை."
 
-#: weblate/checks/format.py:599
+#: weblate/checks/format.py:605
 msgid "C format"
 msgstr "சி வடிவம்"
 
-#: weblate/checks/format.py:600
+#: weblate/checks/format.py:606
 msgid "C format string does not match source."
 msgstr "சி வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை."
 
-#: weblate/checks/format.py:607
+#: weblate/checks/format.py:613
 msgid "Perl brace format"
 msgstr "பெர்ல் அடைப்புக்குறி வடிவம்"
 
-#: weblate/checks/format.py:608
+#: weblate/checks/format.py:614
 msgid "Perl brace format string does not match source."
 msgstr "பெர்ள் அடைப்புக்குறி வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை."
 
-#: weblate/checks/format.py:620
+#: weblate/checks/format.py:626
 msgid "Perl format"
 msgstr "பெர்ல் வடிவம்"
 
-#: weblate/checks/format.py:621
+#: weblate/checks/format.py:627
 msgid "Perl format string does not match source."
 msgstr "பெர்ள் வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை."
 
-#: weblate/checks/format.py:628
+#: weblate/checks/format.py:634
 msgid "JavaScript format"
 msgstr "சாவாச்கிரிப்ட் வடிவம்"
 
-#: weblate/checks/format.py:629
+#: weblate/checks/format.py:635
 msgid "JavaScript format string does not match source."
 msgstr "சாவாகைஉரை வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை."
 
-#: weblate/checks/format.py:636
+#: weblate/checks/format.py:642
 msgid "Lua format"
 msgstr "லுவா வடிவம்"
 
-#: weblate/checks/format.py:637
+#: weblate/checks/format.py:643
 msgid "Lua format string does not match source."
 msgstr "இரண்டு வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை."
 
-#: weblate/checks/format.py:644
+#: weblate/checks/format.py:650
 msgid "Object Pascal format"
 msgstr "பொருள் பாச்கல் வடிவம்"
 
-#: weblate/checks/format.py:645
+#: weblate/checks/format.py:651
 msgid "Object Pascal format string does not match source."
 msgstr "பொருள் பாச்கல் வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை."
 
-#: weblate/checks/format.py:653
+#: weblate/checks/format.py:659
 msgid "Scheme format"
 msgstr "திட்ட வடிவம்"
 
-#: weblate/checks/format.py:654
+#: weblate/checks/format.py:660
 msgid "Scheme format string does not match source."
 msgstr "திட்ட வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை."
 
-#: weblate/checks/format.py:665
+#: weblate/checks/format.py:671
 msgid "Python brace format"
 msgstr "பைதான் அடைப்புக்குறி வடிவம்"
 
-#: weblate/checks/format.py:666
+#: weblate/checks/format.py:672
 msgid "Python brace format string does not match source."
 msgstr "பைதான் அடைப்புக்குறி வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை."
 
-#: weblate/checks/format.py:685
+#: weblate/checks/format.py:691
 msgid "Single {} encountered in the format string."
 msgstr "ஒற்றை {} வடிவமைப்பு சரத்தில் எதிர்கொள்ளப்படுகிறது."
 
-#: weblate/checks/format.py:712
+#: weblate/checks/format.py:718
 msgid "C# format"
 msgstr "சி# வடிவம்"
 
-#: weblate/checks/format.py:713
+#: weblate/checks/format.py:719
 msgid "C# format string does not match source."
 msgstr "சி# வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை."
 
-#: weblate/checks/format.py:728
+#: weblate/checks/format.py:734
+#, fuzzy
+#| msgid "Lua format"
+msgid "Laravel format"
+msgstr "லுவா வடிவம்"
+
+#: weblate/checks/format.py:735
+#, fuzzy
+#| msgid "Lua format string does not match source."
+msgid "Laravel format string does not match source."
+msgstr "இரண்டு வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை."
+
+#: weblate/checks/format.py:745
 msgid "Java format"
 msgstr "சாவா வடிவம்"
 
-#: weblate/checks/format.py:729
+#: weblate/checks/format.py:746
 msgid "Java format string does not match source."
 msgstr "சாவா வடிவமைப்பு சரம் மூலத்துடன் பொருந்தவில்லை."
 
-#: weblate/checks/format.py:736
+#: weblate/checks/format.py:753
 msgid "Java MessageFormat"
 msgstr "சாவா செய்தி"
 
-#: weblate/checks/format.py:737
+#: weblate/checks/format.py:754
 msgid "Java MessageFormat string does not match source."
 msgstr "சாவா செய்தி வடிவ சரம் மூலத்துடன் பொருந்தவில்லை."
 
-#: weblate/checks/format.py:776
+#: weblate/checks/format.py:793
 msgid "You need to pair up an apostrophe with another one."
 msgstr "நீங்கள் ஒரு அப்போச்ட்ரோபியை இன்னொருவருடன் இணைக்க வேண்டும்."
 
-#: weblate/checks/format.py:782
+#: weblate/checks/format.py:799
 msgid "i18next interpolation"
 msgstr "i18next இடைக்கணிப்பு"
 
-#: weblate/checks/format.py:783
+#: weblate/checks/format.py:800
 msgid "The i18next interpolation does not match source."
 msgstr "ப18ல்நீட் இடைக்கணிப்பு மூலத்துடன் பொருந்தவில்லை."
 
-#: weblate/checks/format.py:796
+#: weblate/checks/format.py:813
 msgid "ECMAScript template literals"
 msgstr "ecmascript வார்ப்புரு எழுத்துக்கள்"
 
-#: weblate/checks/format.py:797
+#: weblate/checks/format.py:814
 msgid "ECMAScript template literals do not match source."
 msgstr "இசிஎம்எகைஉரை வார்ப்புரு எழுத்தாளர்கள் மூலத்துடன் பொருந்தவில்லை."
 
-#: weblate/checks/format.py:810
+#: weblate/checks/format.py:827
 msgid "Percent placeholders"
 msgstr "விழுக்காடு ஒதுக்கிடங்கள்"
 
-#: weblate/checks/format.py:811
+#: weblate/checks/format.py:828
 msgid "The percent placeholders do not match source."
 msgstr "விழுக்காடு ஒதுக்கிடங்கள் மூலத்துடன் பொருந்தவில்லை."
 
-#: weblate/checks/format.py:818
+#: weblate/checks/format.py:835
 msgid "Vue I18n formatting"
 msgstr "vue ப18ல் வடிவமைப்பு"
 
-#: weblate/checks/format.py:819
+#: weblate/checks/format.py:836
 msgid "The Vue I18n formatting does not match source."
 msgstr "பார்வை ப18ல் வடிவமைப்பு மூலத்துடன் பொருந்தவில்லை."
 
-#: weblate/checks/format.py:827
+#: weblate/checks/format.py:844
 msgid "Automattic components formatting"
 msgstr "ஆட்டோமேடிக் கூறுகள் வடிவமைத்தல்"
 
-#: weblate/checks/format.py:829
+#: weblate/checks/format.py:846
 msgid "The Automattic components' placeholders do not match the source."
 msgstr "தானி பாகங்களின் ஒதுக்கிடங்கள் மூலத்துடன் பொருந்தவில்லை."
 
-#: weblate/checks/format.py:847
+#: weblate/checks/format.py:864
 msgid "Multiple unnamed variables"
 msgstr "பெயரிடப்படாத பல மாறிகள்"
 
-#: weblate/checks/format.py:849
+#: weblate/checks/format.py:866
 msgid ""
 "There are multiple unnamed variables in the string, making it impossible for "
 "translators to reorder them."
@@ -4635,7 +4798,7 @@ msgstr "காசோலை"
 #: weblate/templates/snippets/embed-units.html:10
 #: weblate/templates/translate.html:90 weblate/templates/translate.html:409
 #: weblate/templates/translate.html:509 weblate/templates/translation.html:21
-#: weblate/trans/forms.py:1698
+#: weblate/trans/forms.py:1712
 msgid "Translation"
 msgstr "மொழிபெயர்ப்பு"
 
@@ -4683,7 +4846,7 @@ msgid "Font"
 msgstr "எழுத்துரு"
 
 #: weblate/fonts/validators.py:17 weblate/fonts/validators.py:23
-#: weblate/utils/validators.py:184
+#: weblate/utils/validators.py:191
 msgid "Unsupported file format."
 msgstr "ஆதரிக்கப்படாத கோப்பு வடிவம்."
 
@@ -4734,42 +4897,42 @@ msgstr ""
 "கோப்பிலிருந்து சரங்களை ஏற்ற முடியவில்லை, பிற வடிவமைப்பைத் தேர்வுசெய்ய முயற்சிக்கவும்."
 
 #. Translators: File format name
-#: weblate/formats/convert.py:290
+#: weblate/formats/convert.py:293
 msgid "HTML file"
 msgstr "html கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/convert.py:325
+#: weblate/formats/convert.py:328
 msgid "Markdown file"
 msgstr "மார்க் பேரூர் கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/convert.py:365
+#: weblate/formats/convert.py:368
 msgid "OpenDocument file"
 msgstr "opendocument கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/convert.py:431
+#: weblate/formats/convert.py:434
 msgid "IDML file"
 msgstr "ஐடிஎம்எல் கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/convert.py:491
+#: weblate/formats/convert.py:494
 msgid "RC file"
 msgstr "ஆர்.சி கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/convert.py:559
+#: weblate/formats/convert.py:562
 msgid "Plain text file"
 msgstr "எளிய உரை கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/convert.py:597
+#: weblate/formats/convert.py:600
 msgid "DokuWiki text file"
 msgstr "டோகுவிகி உரை கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/convert.py:605
+#: weblate/formats/convert.py:608
 msgid "MediaWiki text file"
 msgstr "மீடியாவிகி உரை கோப்பு"
 
@@ -4811,17 +4974,17 @@ msgstr "மல்டிவல் சி.எச்.வி கோப்பு (ய
 msgid "XLSX"
 msgstr "xlsx"
 
-#: weblate/formats/exporters.py:352 weblate/trans/forms.py:1380
+#: weblate/formats/exporters.py:352 weblate/trans/forms.py:1394
 msgid "JSON"
 msgstr "சாதொபொகு"
 
 #. Translators: File format name
-#: weblate/formats/exporters.py:357 weblate/formats/ttkit.py:1612
+#: weblate/formats/exporters.py:357 weblate/formats/ttkit.py:1616
 msgid "JSON nested structure file"
 msgstr "சாதொபொகு உள்ளமைக்கப்பட்ட கட்டமைப்பு கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/exporters.py:366 weblate/formats/ttkit.py:1541
+#: weblate/formats/exporters.py:366 weblate/formats/ttkit.py:1545
 msgid "Android String Resource"
 msgstr "ஆண்ட்ராய்டு சரம் சான்று"
 
@@ -4838,294 +5001,294 @@ msgid "Multivalue CSV file (UTF-8)"
 msgstr "மல்டிவல் சி.எச்.வி கோப்பு (யுடிஎஃப் -8)"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1202
+#: weblate/formats/ttkit.py:1205
 msgid "gettext PO file"
 msgstr "உரைபெறு po கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1272
+#: weblate/formats/ttkit.py:1275
 msgid "gettext PO file (monolingual)"
 msgstr "உரைபெறு po கோப்பு (ஒருமொழி)"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1297
+#: weblate/formats/ttkit.py:1300
 msgid "Qt Linguist translation file"
 msgstr "கியுடி மொழியியல் மொழிபெயர்ப்பு கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1312
+#: weblate/formats/ttkit.py:1315
 msgid "XLIFF 1.2 translation file"
 msgstr "ஃலிப்ப் 1.2 மொழிபெயர்ப்பு கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1357
+#: weblate/formats/ttkit.py:1360
 msgid "XLIFF 1.2 with placeables support"
 msgstr "எக்ச்எல்ஐஎஃப் 1.2 வேலைவாய்ப்பு ஆதரவுடன்"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1365
+#: weblate/formats/ttkit.py:1368
 msgid "XLIFF 1.2 with gettext extensions"
 msgstr "உரைபெறு நீட்டிப்புகளுடன் ஃலிப்ப் 1.2"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1374
+#: weblate/formats/ttkit.py:1377
 #, fuzzy
 #| msgid "XLIFF 1.2 translation file"
 msgid "XLIFF 2.0 translation file"
 msgstr "ஃலிப்ப் 1.2 மொழிபெயர்ப்பு கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1389
+#: weblate/formats/ttkit.py:1392
 #, fuzzy
 #| msgid "XLIFF 1.2 with placeables support"
 msgid "XLIFF 2.0 translation file with placeables support"
 msgstr "எக்ச்எல்ஐஎஃப் 1.2 வேலைவாய்ப்பு ஆதரவுடன்"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1419
+#: weblate/formats/ttkit.py:1422
 msgid "iOS strings (UTF-16)"
 msgstr "ஐஇமு சரங்கள் (utf-16)"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1429
+#: weblate/formats/ttkit.py:1432
 msgid "iOS strings (UTF-8)"
 msgstr "ஐஇமு சரங்கள் (utf-8)"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1437
+#: weblate/formats/ttkit.py:1440
 msgid "Java Properties (UTF-8)"
 msgstr "சாவா பண்புகள் (யுடிஎஃப் -8)"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1447
+#: weblate/formats/ttkit.py:1450
 msgid "Java Properties (UTF-16)"
 msgstr "சாவா பண்புகள் (யுடிஎஃப் -16)"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1458
+#: weblate/formats/ttkit.py:1461
 msgid "Java Properties (ISO 8859-1)"
 msgstr "சாவா பண்புகள் (ஐஎச்ஓ 8859-1)"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1471
+#: weblate/formats/ttkit.py:1474
 msgid "Joomla language file"
 msgstr "சூம்லா மொழி கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1481
+#: weblate/formats/ttkit.py:1484
 msgid "GWT properties (UTF-8)"
 msgstr "gwt பண்புகள் (utf-8)"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1492
+#: weblate/formats/ttkit.py:1495
 msgid "GWT properties (ISO-8859-1)"
 msgstr "gwt பண்புகள் (iso-8859-1)"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1499
+#: weblate/formats/ttkit.py:1502
 msgid "PHP strings"
 msgstr "php strings"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1519
+#: weblate/formats/ttkit.py:1522
 msgid "Laravel PHP strings"
 msgstr "லாரவெல் php strings"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1527
+#: weblate/formats/ttkit.py:1531
 msgid ".NET resource file"
 msgstr "நெட் வள கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1564
+#: weblate/formats/ttkit.py:1568
 msgid "Mobile Kotlin Resource"
 msgstr "கைப்பேசி கோட்டலின் ஆதாரம்"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1571
+#: weblate/formats/ttkit.py:1575
 msgid "Compose Multiplatform Resource"
 msgstr "மல்டிபிளாட்ஃபார்ம் வளத்தை உருவாக்கவும்"
 
-#: weblate/formats/ttkit.py:1585
+#: weblate/formats/ttkit.py:1589
 #, python-format
 msgid "Could not parse the key: %s"
 msgstr "விசையை அலச முடியவில்லை: %s"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1591
+#: weblate/formats/ttkit.py:1595
 msgid "JSON file"
 msgstr "சாதொபொகு கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1620
+#: weblate/formats/ttkit.py:1624
 msgid "WebExtension JSON file"
 msgstr "weblextension சாதொபொகு கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1631
+#: weblate/formats/ttkit.py:1635
 msgid "i18next JSON file v3"
 msgstr "i18next சாதொபொகு கோப்பு v3"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1642
+#: weblate/formats/ttkit.py:1646
 msgid "i18next JSON file v4"
 msgstr "i18next சாதொபொகு கோப்பு v4"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1649
+#: weblate/formats/ttkit.py:1653
 msgid "go-i18n v1 JSON file"
 msgstr "go-i18n v1 சாதொபொகு கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1659
+#: weblate/formats/ttkit.py:1663
 msgid "go-i18n v2 JSON file"
 msgstr "go-i18n v2 சாதொபொகு கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1668
+#: weblate/formats/ttkit.py:1672
 msgid "ARB file"
 msgstr "arb கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1678
+#: weblate/formats/ttkit.py:1682
 msgid "gotext JSON file"
 msgstr "gotext சாதொபொகு கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1688
+#: weblate/formats/ttkit.py:1692
 msgid "Format.JS JSON file"
 msgstr "format.js சாதொபொகு கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1697
+#: weblate/formats/ttkit.py:1701
 #, fuzzy
 #| msgid "gotext JSON file"
 msgid "Nextcloud JSON file"
 msgstr "gotext சாதொபொகு கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1708
+#: weblate/formats/ttkit.py:1712
 #, fuzzy
 #| msgid "JSON file"
 msgid "RESJSON file"
 msgstr "சாதொபொகு கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1718
+#: weblate/formats/ttkit.py:1722
 #, fuzzy
 #| msgid "HTML file"
 msgid "TOML file"
 msgstr "html கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1738
+#: weblate/formats/ttkit.py:1742
 #, fuzzy
 #| msgid "go-i18n v1 JSON file"
 msgid "go-i18n TOML file"
 msgstr "go-i18n v1 சாதொபொகு கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1748
+#: weblate/formats/ttkit.py:1752
 msgid "CSV file"
 msgstr "சி.எச்.வி கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1853
+#: weblate/formats/ttkit.py:1857
 msgid "CSV file (UTF-8)"
 msgstr "சி.எச்.வி கோப்பு (யுடிஎஃப் -8)"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1861
+#: weblate/formats/ttkit.py:1865
 msgid "Simple CSV file"
 msgstr "எளிய சி.எச்.வி கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1881
+#: weblate/formats/ttkit.py:1885
 msgid "Simple CSV file (ISO-8859-1)"
 msgstr "எளிய காபிம கோப்பு (iso-8859-1)"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1889
+#: weblate/formats/ttkit.py:1893
 msgid "Simple CSV file (UTF-8)"
 msgstr "எளிய சி.எச்.வி கோப்பு (யுடிஎஃப் -8)"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1897
+#: weblate/formats/ttkit.py:1901
 msgid "YAML file"
 msgstr "yaml கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1917
+#: weblate/formats/ttkit.py:1921
 msgid "Ruby YAML file"
 msgstr "ரூபி யம்ல் கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1926
+#: weblate/formats/ttkit.py:1930
 msgid "DTD file"
 msgstr "டி.டி.டி கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1971
+#: weblate/formats/ttkit.py:1975
 msgid "SubRip subtitle file"
 msgstr "சப்ரிப் வசன கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1987
+#: weblate/formats/ttkit.py:1991
 msgid "MicroDVD subtitle file"
 msgstr "மைக்ரோடிவிடி வசன கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:1995
+#: weblate/formats/ttkit.py:1999
 msgid "Advanced SubStation Alpha subtitle file"
 msgstr "மேம்பட்ட துணை மின்நிலை ஆல்பா வசன கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:2003
+#: weblate/formats/ttkit.py:2007
 msgid "SubStation Alpha subtitle file"
 msgstr "சப்ச்பேசன் ஆல்பா வசன கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:2011
+#: weblate/formats/ttkit.py:2015
 msgid "Flat XML file"
 msgstr "தட்டையான எக்ச்எம்எல் கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:2034
+#: weblate/formats/ttkit.py:2038
 msgid "ResourceDictionary file"
 msgstr "ஆதாரக் கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:2048
+#: weblate/formats/ttkit.py:2052
 msgid "INI file"
 msgstr "இனி கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:2092
+#: weblate/formats/ttkit.py:2096
 msgid "Inno Setup INI file"
 msgstr "இன்னோ அமைவு இனி கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:2300
+#: weblate/formats/ttkit.py:2304
 msgid "TermBase eXchange file"
 msgstr "டெர்ம்பேச் பரிமாற்ற கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:2351
+#: weblate/formats/ttkit.py:2355
 msgid "@draggable/i18n lang file"
 msgstr "@draggable/i18n lang கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:2361
+#: weblate/formats/ttkit.py:2365
 msgid "Haiku catkeys"
 msgstr ""
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:2381
+#: weblate/formats/ttkit.py:2385
 msgid "Stringsdict file"
 msgstr "stringsdict கோப்பு"
 
 #. Translators: File format name
-#: weblate/formats/ttkit.py:2451
+#: weblate/formats/ttkit.py:2455
 msgid "Fluent file"
 msgstr "சரள கோப்பு"
 
@@ -5147,8 +5310,8 @@ msgid "Invalid integer list!"
 msgstr "தவறான முழு எண் பட்டியல்!"
 
 #: weblate/glossary/forms.py:87 weblate/templates/mail/base.html:37
-#: weblate/templates/translate.html:749 weblate/trans/forms.py:1691
-#: weblate/trans/templatetags/translations.py:1482
+#: weblate/templates/translate.html:749 weblate/trans/forms.py:1705
+#: weblate/trans/templatetags/translations.py:1371
 msgid "Glossary"
 msgstr "சொற்களஞ்சியம்"
 
@@ -5589,7 +5752,7 @@ msgstr "விதிமுறை"
 msgid "Overview"
 msgstr "கண்ணோட்டம்"
 
-#: weblate/machinery/apertium.py:108 weblate/machinery/base.py:129
+#: weblate/machinery/apertium.py:108 weblate/machinery/base.py:130
 #, python-format
 msgid "Could not fetch supported languages: %s"
 msgstr "உதவி மொழிகளைப் பெற முடியவில்லை: %s"
@@ -5599,7 +5762,7 @@ msgstr "உதவி மொழிகளைப் பெற முடியவி
 msgid "No supported languages found: %s"
 msgstr "உதவி மொழிகள் எதுவும் கிடைக்கவில்லை: %s"
 
-#: weblate/machinery/apertium.py:122 weblate/machinery/base.py:135
+#: weblate/machinery/apertium.py:122 weblate/machinery/base.py:136
 #, python-format
 msgid "Could not fetch translation: %s"
 msgstr "மொழிபெயர்ப்பைப் பெற முடியவில்லை: %s"
@@ -5617,7 +5780,7 @@ msgstr "பநிஇ விசை"
 
 #: weblate/machinery/forms.py:55 weblate/machinery/forms.py:281
 #: weblate/machinery/forms.py:313 weblate/machinery/forms.py:356
-#: weblate/machinery/forms.py:479
+#: weblate/machinery/forms.py:481
 msgctxt "Automatic suggestion service configuration"
 msgid "API URL"
 msgstr "பநிஇ முகவரி"
@@ -5886,73 +6049,73 @@ msgctxt "OpenAI model selection"
 msgid "Automatic selection"
 msgstr "தானியங்கி தேர்வு"
 
-#: weblate/machinery/forms.py:411
+#: weblate/machinery/forms.py:413
 msgctxt "OpenAI model selection"
 msgid "Custom model"
 msgstr "தனிப்பயன் மாதிரி"
 
-#: weblate/machinery/forms.py:416
+#: weblate/machinery/forms.py:418
 msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI API base URL"
 msgstr "OpenAI பநிஇ அடிப்படை முகவரி"
 
-#: weblate/machinery/forms.py:420
+#: weblate/machinery/forms.py:422
 msgid "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
 msgstr ""
 "OpenAI பநிஇ இன் அடிப்படை முகவரி, இது OpenAI இயல்புநிலை முகவரி இலிருந்து வேறுபட்டால்"
 
-#: weblate/machinery/forms.py:427
+#: weblate/machinery/forms.py:429
 msgctxt "Automatic suggestion service configuration"
 msgid "OpenAI model"
 msgstr "ஓபனாய் மாதிரி"
 
-#: weblate/machinery/forms.py:435
+#: weblate/machinery/forms.py:437
 msgctxt "OpenAI model selection"
 msgid "Custom model name"
 msgstr "தனிப்பயன் மாதிரி பெயர்"
 
-#: weblate/machinery/forms.py:437
+#: weblate/machinery/forms.py:439
 msgid "Only needed when model is set to 'Custom model'"
 msgstr "மாதிரி 'தனிப்பயன் மாதிரி' என அமைக்கப்பட்டால் மட்டுமே தேவைப்படுகிறது"
 
-#: weblate/machinery/forms.py:447
+#: weblate/machinery/forms.py:449
 msgid "Missing custom model name."
 msgstr "தனிப்பயன் மாதிரி பெயரைக் காணவில்லை."
 
-#: weblate/machinery/forms.py:451
+#: weblate/machinery/forms.py:453
 msgid "Choose custom model here to enable it."
 msgstr "தனிப்பயன் மாதிரியை இயக்க இங்கே தேர்வு செய்யவும்."
 
-#: weblate/machinery/forms.py:460
+#: weblate/machinery/forms.py:462
 msgctxt "Automatic suggestion service configuration"
 msgid "Azure OpenAI endpoint URL"
 msgstr "அசூர் Openai Endpoint முகவரி"
 
-#: weblate/machinery/forms.py:464
+#: weblate/machinery/forms.py:466
 msgid ""
 "Endpoint URL of the instance, e.g: https://my-instance.openai.azure.com."
 msgstr ""
 "நிகழ்வின் இறுதிப் புள்ளி முகவரி, எ.கா: https://my-instance.openai.azure.com."
 
-#: weblate/machinery/forms.py:470
+#: weblate/machinery/forms.py:472
 msgctxt "Automatic suggestion service configuration"
 msgid "Azure OpenAI deployment"
 msgstr "அசூர் ஓபனாய் வரிசைப்படுத்தல்"
 
-#: weblate/machinery/forms.py:473
+#: weblate/machinery/forms.py:475
 msgid "The model's unique deployment name."
 msgstr "மாதிரியின் தனித்துவமான வரிசைப்படுத்தல் பெயர்."
 
-#: weblate/machinery/forms.py:481
+#: weblate/machinery/forms.py:483
 msgid "Base URL of the Ollama API, localhost and port 11434 by default."
 msgstr ""
 
-#: weblate/machinery/forms.py:488
+#: weblate/machinery/forms.py:490
 msgctxt "Automatic suggestion service configuration"
 msgid "Ollama model"
 msgstr ""
 
-#: weblate/machinery/forms.py:490
+#: weblate/machinery/forms.py:492
 msgid "Name of the model described in Ollama catalogue."
 msgstr ""
 
@@ -5986,7 +6149,7 @@ msgstr "கோப்பு"
 msgid "You can upload a file of following formats: %s."
 msgstr "பின்வரும் வடிவங்களின் கோப்பை நீங்கள் பதிவேற்றலாம்: %s."
 
-#: weblate/memory/forms.py:28 weblate/trans/models/component.py:765
+#: weblate/memory/forms.py:28 weblate/trans/models/component.py:767
 msgid "Source language"
 msgstr "மூல மொழி"
 
@@ -5994,7 +6157,7 @@ msgstr "மூல மொழி"
 msgid "Source language of the document when not specified in file"
 msgstr "கோப்பில் குறிப்பிடப்படாதபோது ஆவணத்தின் மூல மொழி"
 
-#: weblate/memory/forms.py:37 weblate/trans/forms.py:2058
+#: weblate/memory/forms.py:37 weblate/trans/forms.py:2072
 msgid "Target language"
 msgstr "இலக்கு மொழி"
 
@@ -6152,7 +6315,7 @@ msgctxt "Short name of month"
 msgid "Dec"
 msgstr "டிச"
 
-#: weblate/middleware.py:286
+#: weblate/middleware.py:287
 #, python-format
 msgid "%s translation is currently not available, but can be added."
 msgstr "%s மொழிபெயர்ப்பு தற்போது கிடைக்கவில்லை, ஆனால் சேர்க்கலாம்."
@@ -6175,7 +6338,7 @@ msgstr ""
 msgid "Image is too big."
 msgstr ""
 
-#: weblate/screenshots/forms.py:85 weblate/utils/validators.py:135
+#: weblate/screenshots/forms.py:85 weblate/utils/validators.py:142
 #, python-format
 msgid "Unsupported image type: %s"
 msgstr "ஆதரிக்கப்படாத பட வகை: %s"
@@ -6193,49 +6356,47 @@ msgstr "பட முகவரி"
 msgid "The image will be downloaded and stored."
 msgstr ""
 
-#: weblate/screenshots/models.py:58
+#: weblate/screenshots/models.py:59
 #: weblate/templates/screenshots/screenshot_list.html:47
 msgid "Screenshot name"
 msgstr "திரைக்காட்சி பெயர்"
 
-#: weblate/screenshots/models.py:61
+#: weblate/screenshots/models.py:62
 msgid "Repository path to screenshot"
 msgstr "ச்கிரீன்சாட்டுக்கு களஞ்சிய பாதை"
 
-#: weblate/screenshots/models.py:62
+#: weblate/screenshots/models.py:63
 msgid "Scan for screenshot file change on repository update."
 msgstr "களஞ்சிய புதுப்பிப்பில் திரைக்காட்சி கோப்பு மாற்றத்திற்கான ச்கேன்."
 
-#: weblate/screenshots/models.py:67
+#: weblate/screenshots/models.py:68
 #: weblate/templates/screenshots/screenshot_detail.html:83
 #: weblate/templates/screenshots/screenshot_list.html:48
 msgid "Image"
 msgstr "படம்"
 
-#: weblate/screenshots/models.py:68
+#: weblate/screenshots/models.py:69
 msgid "Upload image up to 2000x2000 pixels."
 msgstr "படத்தை 2000x2000 படப்புள்ளிகள் வரை பதிவேற்றவும்."
 
-#: weblate/screenshots/views.py:243
+#: weblate/screenshots/views.py:245
 msgid "Screenshot has been uploaded, you can now assign it to source strings."
 msgstr "திரைக்காட்சி பதிவேற்றப்பட்டுள்ளது, இப்போது நீங்கள் அதை மூல சரங்களுக்கு ஒதுக்கலாம்."
 
-#: weblate/screenshots/views.py:249
+#: weblate/screenshots/views.py:251
 msgid "Could not upload screenshot, please fix errors below."
 msgstr "ச்கிரீன்சாட்டை பதிவேற்ற முடியவில்லை, தயவுசெய்து கீழே உள்ள பிழைகளை சரிசெய்யவும்."
 
-#: weblate/screenshots/views.py:308
+#: weblate/screenshots/views.py:310
 #, python-format
 msgid "Screenshot %s has been deleted."
 msgstr "திரைக்காட்சி %s நீக்கப்பட்டன."
 
-#: weblate/screenshots/views.py:328
-#, fuzzy
-#| msgid "Invalid date!"
+#: weblate/screenshots/views.py:330
 msgid "Invalid unit."
-msgstr "தவறான தேதி!"
+msgstr "தவறான அலகு."
 
-#: weblate/screenshots/views.py:333
+#: weblate/screenshots/views.py:335
 msgid "Source has been removed."
 msgstr "சான்று அகற்றப்பட்டுள்ளது."
 
@@ -7339,6 +7500,8 @@ msgid ""
 "By registering, you agree that your name and username will be visible "
 "publicly as long as your account exists."
 msgstr ""
+"பதிவு செய்வதன் மூலம், உங்கள் கணக்கு இருக்கும் வரை உங்கள் பெயர் மற்றும் பயனர் பெயர் பொதுவில் "
+"தெரியும் என்பதை ஒப்புக்கொள்கிறீர்கள்."
 
 #: weblate/templates/accounts/snippets/login-info.html:30
 msgid ""
@@ -7364,6 +7527,8 @@ msgid ""
 "You provide your contribution under the license defined by each project you "
 "contributed to."
 msgstr ""
+"நீங்கள் பங்களித்த ஒவ்வொரு கருத்திட்டத்தாலும் வரையறுக்கப்பட்ட உரிமத்தின் கீழ் உங்கள் பங்களிப்பை "
+"வழங்குகிறீர்கள்."
 
 #: weblate/templates/accounts/snippets/login-title.html:4
 msgid "Weblate single sign on"
@@ -7648,8 +7813,8 @@ msgstr "கணக்கு அகற்றுதல் அனைத்து ப
 #: weblate/templates/fonts/font_detail.html:69
 #: weblate/templates/fonts/fontgroup_detail.html:58
 #: weblate/templates/language.html:38 weblate/templates/list-comments.html:44
-#: weblate/templates/manage/backups.html:121
-#: weblate/templates/manage/backups.html:151
+#: weblate/templates/manage/backups.html:122
+#: weblate/templates/manage/backups.html:156
 #: weblate/templates/manage/teams.html:50
 #: weblate/templates/manage/teams.html:82
 #: weblate/templates/memory/index.html:59
@@ -7666,7 +7831,7 @@ msgstr "நீக்குக"
 
 #: weblate/templates/accounts/user.html:456
 #: weblate/templates/auth/team.html:197
-#: weblate/templates/manage/backups.html:133
+#: weblate/templates/manage/backups.html:138
 #: weblate/templates/manage/teams.html:64
 #: weblate/templates/memory/index.html:67
 #: weblate/templates/memory/index.html:99
@@ -7684,8 +7849,8 @@ msgstr "நீங்கள் நிச்சயமாக உறுதியா�
 #: weblate/templates/base.html:521 weblate/templates/base.html:530
 #: weblate/templates/keyboard-shortcuts.html:16
 #: weblate/templates/keyboard-shortcuts.html:205
-#: weblate/templates/manage/backups.html:137
-#: weblate/templates/manage/backups.html:147
+#: weblate/templates/manage/backups.html:142
+#: weblate/templates/manage/backups.html:152
 #: weblate/templates/manage/teams.html:68
 #: weblate/templates/memory/index.html:71
 #: weblate/templates/memory/index.html:103
@@ -7909,7 +8074,7 @@ msgstr "பின்வரும் கூறுகள் உருவாக்�
 #: weblate/templates/addons/discovery_preview.html:88
 #: weblate/templates/snippets/info.html:142
 #: weblate/templates/trans/alert/inexistantfiles.html:12
-#: weblate/trans/models/component.py:504
+#: weblate/trans/models/component.py:506
 msgid "Monolingual base language file"
 msgstr "ஒருமொழி அடிப்படை மொழி கோப்பு"
 
@@ -7918,7 +8083,7 @@ msgstr "ஒருமொழி அடிப்படை மொழி கோப்
 #: weblate/templates/addons/discovery_preview.html:91
 #: weblate/templates/snippets/info.html:134
 #: weblate/templates/trans/discover-choice.html:7
-#: weblate/trans/models/component.py:484
+#: weblate/trans/models/component.py:486
 msgid "File mask"
 msgstr "கோப்பு முகமூடி"
 
@@ -7986,7 +8151,7 @@ msgstr "பின்வரும் முறையைப் பயன்பட�
 #: weblate/templates/snippets/unit-readonly-badge.html:7
 #: weblate/templates/snippets/unit-readonly-badge.html:10
 #: weblate/templates/snippets/unit-readonly-badge.html:12
-#: weblate/templates/translate.html:88 weblate/trans/forms.py:2709
+#: weblate/templates/translate.html:88 weblate/trans/forms.py:2723
 #: weblate/utils/views.py:216
 msgid "Source string"
 msgstr "மூல சரம்"
@@ -8064,7 +8229,7 @@ msgstr "தானியங்கி ஒதுக்கீட்டைச் ச�
 msgid "Last sign in"
 msgstr "கடைசி உள்நுழைவுக்கு"
 
-#: weblate/templates/auth/team.html:129 weblate/trans/forms.py:1337
+#: weblate/templates/auth/team.html:129 weblate/trans/forms.py:1351
 msgid "Team administrator"
 msgstr "குழு நிர்வாகி"
 
@@ -8096,8 +8261,8 @@ msgstr "இது <b>%(user)s</b> இந்த திட்டத்திற்
 #: weblate/templates/auth/team.html:239 weblate/templates/base.html:304
 #: weblate/templates/category.html:248 weblate/templates/category.html:306
 #: weblate/templates/component.html:315 weblate/templates/lang/create.html:20
-#: weblate/templates/language-project.html:232
-#: weblate/templates/manage/backups.html:178
+#: weblate/templates/language-project.html:233
+#: weblate/templates/manage/backups.html:183
 #: weblate/templates/manage/users.html:31 weblate/templates/project.html:342
 #: weblate/templates/project.html:363
 #: weblate/templates/snippets/query-builder.html:55
@@ -8121,7 +8286,7 @@ msgstr "இது <b>%(user)s</b> இந்த திட்டத்திற்
 msgid "Add"
 msgstr "கூட்டு"
 
-#: weblate/templates/auth/teams-components.html:6 weblate/trans/forms.py:1147
+#: weblate/templates/auth/teams-components.html:6 weblate/trans/forms.py:1161
 msgid "All components"
 msgstr "அனைத்து கூறுகளும்"
 
@@ -8297,7 +8462,7 @@ msgstr "ஆதரவை பெறு"
 #: weblate/templates/footer.html:41
 #: weblate/templates/trans/alert/repositorychanges.html:8
 #: weblate/templates/trans/alert/repositoryoutdated.html:8
-#: weblate/trans/templatetags/translations.py:681
+#: weblate/trans/templatetags/translations.py:682
 #: weblate/wladmin/templates/admin/base.html:10
 #: weblate/wladmin/templates/admin/permissions/change_form.html:8
 #: weblate/wladmin/templates/admin/trans/change_form.html:20
@@ -8414,7 +8579,7 @@ msgstr "விபரங்களை பார்"
 #: weblate/templates/snippets/info.html:156
 #: weblate/templates/translation.html:348
 msgid "Download"
-msgstr "பதிவிறக்க tamil"
+msgstr "பதிவிறக்கம்"
 
 #: weblate/templates/billing/detail.html:150
 msgid "Libre hosting"
@@ -8601,7 +8766,7 @@ msgstr ""
 "திட்டத்திற்கான உங்கள் அணுகலை ரத்து செய்யக்கூடும்."
 
 #: weblate/templates/bootstrap5/layout/radioselect_access.html:77
-#: weblate/trans/forms.py:2308 weblate/trans/forms.py:2381
+#: weblate/trans/forms.py:2322 weblate/trans/forms.py:2395
 msgid "You do not have permission to change project access control."
 msgstr "திட்ட அணுகல் கட்டுப்பாட்டை மாற்ற உங்களுக்கு இசைவு இல்லை."
 
@@ -8637,7 +8802,7 @@ msgstr "நுண்ணறிவு"
 #: weblate/templates/category.html:50 weblate/templates/component-list.html:18
 #: weblate/templates/component.html:62
 #: weblate/templates/language-project.html:44 weblate/templates/project.html:63
-#: weblate/templates/translation.html:53 weblate/trans/forms.py:1754
+#: weblate/templates/translation.html:53 weblate/trans/forms.py:1768
 msgid "Files"
 msgstr "கோப்புகள்"
 
@@ -8672,11 +8837,11 @@ msgid "Operations"
 msgstr "பதிவு"
 
 #: weblate/templates/category-language.html:48
-#: weblate/templates/category-language.html:114
+#: weblate/templates/category-language.html:115
 #: weblate/templates/category.html:79 weblate/templates/category.html:200
 #: weblate/templates/component.html:91 weblate/templates/component.html:259
 #: weblate/templates/language-project.html:73
-#: weblate/templates/language-project.html:181
+#: weblate/templates/language-project.html:182
 #: weblate/templates/project.html:94 weblate/templates/project.html:290
 #: weblate/templates/replace.html:7 weblate/templates/translation.html:75
 #: weblate/templates/translation.html:192
@@ -8690,23 +8855,23 @@ msgstr "தேடி மாற்றவும்"
 msgid "Organize or remove"
 msgstr "ஒழுங்கமைக்கவும் அல்லது அகற்றவும்"
 
-#: weblate/templates/category-language.html:90
-#: weblate/templates/language-project.html:145
+#: weblate/templates/category-language.html:91
+#: weblate/templates/language-project.html:146
 #: weblate/templates/language.html:83
 msgid "Browse all changes for this language"
 msgstr "இந்த மொழிக்கான அனைத்து மாற்றங்களையும் உலாவுக"
 
-#: weblate/templates/category-language.html:119
+#: weblate/templates/category-language.html:120
 #: weblate/templates/category.html:205 weblate/templates/component.html:264
-#: weblate/templates/language-project.html:186
+#: weblate/templates/language-project.html:187
 #: weblate/templates/project.html:295 weblate/templates/replace.html:53
 #: weblate/templates/translation.html:197
 msgid "Replace"
 msgstr "மாற்றவும்"
 
-#: weblate/templates/category-language.html:140
+#: weblate/templates/category-language.html:141
 #: weblate/templates/category.html:226 weblate/templates/component.html:285
-#: weblate/templates/language-project.html:207
+#: weblate/templates/language-project.html:208
 #: weblate/templates/project.html:316
 #: weblate/templates/snippets/autoform.html:26
 #: weblate/templates/translation.html:218
@@ -8757,7 +8922,7 @@ msgstr "புதிய வகையைச் சேர்"
 #: weblate/templates/category.html:112 weblate/templates/category.html:295
 #: weblate/templates/component.html:134 weblate/templates/component.html:304
 #: weblate/templates/language-project.html:99
-#: weblate/templates/language-project.html:221
+#: weblate/templates/language-project.html:222
 #: weblate/templates/manage/tools.html:23 weblate/templates/project.html:127
 #: weblate/templates/project.html:331 weblate/templates/translation.html:109
 #: weblate/templates/translation.html:392
@@ -8765,7 +8930,7 @@ msgid "Post announcement"
 msgstr "இடுகை அறிவிப்பு"
 
 #: weblate/templates/category.html:166 weblate/templates/category.html:173
-#: weblate/templates/language-project.html:152
+#: weblate/templates/language-project.html:153
 #: weblate/templates/project.html:260 weblate/templates/project.html:267
 msgid "Browse all project changes"
 msgstr "அனைத்து திட்ட மாற்றங்களையும் உலாவுக"
@@ -8800,7 +8965,7 @@ msgid "Organize"
 msgstr "ஒழுங்கமைக்கவும்"
 
 #: weblate/templates/category.html:302
-#: weblate/templates/language-project.html:228
+#: weblate/templates/language-project.html:229
 #: weblate/templates/project.html:338
 msgid ""
 "The message is shown for all translations within the project, until its "
@@ -8931,7 +9096,7 @@ msgstr "களஞ்சிய பராமரிப்பு"
 #: weblate/templates/component.html:124
 #: weblate/templates/screenshots/screenshot_detail.html:21
 #: weblate/templates/screenshots/screenshot_list.html:16
-#: weblate/templates/snippets/info.html:520 weblate/trans/forms.py:1777
+#: weblate/templates/snippets/info.html:520 weblate/trans/forms.py:1791
 msgid "Screenshots"
 msgstr "திரைக்காட்சிகள்"
 
@@ -9000,7 +9165,7 @@ msgstr ""
 #: weblate/templates/snippets/info.html:80
 #: weblate/templates/snippets/libre-checklist.html:22
 #: weblate/templates/trans/other-row.html:26
-#: weblate/trans/models/component.py:635
+#: weblate/trans/models/component.py:637
 msgid "Contributor license agreement"
 msgstr "பங்களிப்பாளர் உரிம ஒப்பந்தம்"
 
@@ -9175,7 +9340,7 @@ msgstr[1] "மொழிகள்"
 #. Translators: Formatting of the translation percent, insert non-breakable space if
 #. your language expects it before the percent sign.
 #: weblate/templates/engage.html:35
-#: weblate/trans/templatetags/translations.py:1403 weblate/trans/widgets.py:121
+#: weblate/trans/templatetags/translations.py:1292 weblate/trans/widgets.py:121
 #, python-format
 msgctxt "Translated percents"
 msgid "%(percent)s%%"
@@ -9397,13 +9562,11 @@ msgid "Repository status"
 msgstr "களஞ்சிய நிலை"
 
 #: weblate/templates/js/git-status.html:28
-#, fuzzy, python-format
-#| msgid "%(count)s pending change"
-#| msgid_plural "%(count)s pending changes"
+#, python-format
 msgid "%(total_count)s pending unit"
 msgid_plural "%(total_count)s pending units"
-msgstr[0] "%(count)s நிலுவையில் உள்ள மாற்றம்"
-msgstr[1] "%(count)s நிலுவையில் உள்ள மாற்றங்கள்"
+msgstr[0] "%(total_count)s நிலுவையில் உள்ள அலகு"
+msgstr[1] "%(total_count)s நிலுவையில் உள்ள அலகுகள்"
 
 #: weblate/templates/js/git-status.html:34
 #, python-format
@@ -9640,7 +9803,7 @@ msgstr "அனைத்து சரம் மாற்றங்களையு�
 msgid "Shortcut"
 msgstr "குறுக்குவழி"
 
-#: weblate/templates/keyboard-shortcuts.html:23 weblate/trans/forms.py:3046
+#: weblate/templates/keyboard-shortcuts.html:23 weblate/trans/forms.py:3060
 msgid "Action"
 msgstr "செயல்"
 
@@ -9797,7 +9960,7 @@ msgid ""
 "href=\"%(url)s\">Consult the documentation about proper handling of this.</a>"
 msgstr ""
 
-#: weblate/templates/lang/language_form.html:11 weblate/trans/forms.py:2412
+#: weblate/templates/lang/language_form.html:11 weblate/trans/forms.py:2426
 msgid "Workflow"
 msgstr "பணிப்பாய்வு"
 
@@ -10512,23 +10675,23 @@ msgstr ""
 msgid "Manage your subscription"
 msgstr "உங்கள் சந்தாவை நிர்வகிக்கவும்"
 
-#: weblate/templates/manage/backups.html:73
+#: weblate/templates/manage/backups.html:74
 msgid "Backup service credentials"
 msgstr "காப்புப்பிரதி பணி நற்சான்றிதழ்கள்"
 
-#: weblate/templates/manage/backups.html:113
+#: weblate/templates/manage/backups.html:114
 msgid "Turn off"
 msgstr "அணைக்கவும்"
 
-#: weblate/templates/manage/backups.html:113
+#: weblate/templates/manage/backups.html:114
 msgid "Turn on"
 msgstr "இயக்கவும்"
 
-#: weblate/templates/manage/backups.html:117
+#: weblate/templates/manage/backups.html:118
 msgid "Perform backup"
 msgstr "காப்புப்பிரதி செய்யுங்கள்"
 
-#: weblate/templates/manage/backups.html:141
+#: weblate/templates/manage/backups.html:146
 msgid ""
 "By removing the backup service, the credentials will be removed and you "
 "might lose access to the backups."
@@ -10536,7 +10699,7 @@ msgstr ""
 "காப்புப்பிரதி சேவையை அகற்றுவதன் மூலம், சான்றுகள் அகற்றப்படும், மேலும் "
 "காப்புப்பிரதிகளுக்கான அணுகலை நீங்கள் இழக்க நேரிடும்."
 
-#: weblate/templates/manage/backups.html:143
+#: weblate/templates/manage/backups.html:148
 msgid ""
 "In case you want to be able to restore the backups, please record "
 "credentials below."
@@ -10544,7 +10707,7 @@ msgstr ""
 "நீங்கள் காப்புப்பிரதிகளை மீட்டெடுக்க விரும்பினால், தயவுசெய்து கீழே உள்ள சான்றுகளை பதிவு "
 "செய்யுங்கள்."
 
-#: weblate/templates/manage/backups.html:170
+#: weblate/templates/manage/backups.html:175
 msgid "Add backup service"
 msgstr "காப்பு சேவையைச் சேர்க்கவும்"
 
@@ -11171,7 +11334,7 @@ msgstr "/ %(total)s"
 
 #: weblate/templates/project-label-edit.html:10
 #: weblate/templates/project-labels.html:10 weblate/templates/project.html:176
-#: weblate/templates/translate.html:861 weblate/trans/models/unit.py:460
+#: weblate/templates/translate.html:861 weblate/trans/models/unit.py:461
 #: weblate/utils/views.py:215
 msgid "Labels"
 msgstr "சிட்டைகள்"
@@ -11204,10 +11367,9 @@ msgid "Add label"
 msgstr "லேபிளைச் சேர்க்கவும்"
 
 #: weblate/templates/project.html:167
-#, fuzzy, python-format
-#| msgid "Manage teams"
+#, python-format
 msgid "Manage %(team)s"
-msgstr "அணிகளை நிர்வகி"
+msgstr "%(team)s நிர்வகி"
 
 #: weblate/templates/project.html:379
 msgid "Organize project"
@@ -11409,7 +11571,7 @@ msgstr ""
 "மாற்றலாம்."
 
 #: weblate/templates/snippets/component-progress.html:8
-#: weblate/templates/snippets/last-changes-content.html:29
+#: weblate/templates/snippets/last-changes-content.html:39
 #: weblate/templates/snippets/suggestions.html:20
 msgid "View details"
 msgstr "விபரங்களை பார்"
@@ -11431,13 +11593,11 @@ msgstr ""
 "தயவுசெய்து பின்னர் வாருங்கள்."
 
 #: weblate/templates/snippets/component/lock.html:27
-#, fuzzy
-#| msgid "The translation was automatically locked due to following alerts:"
 msgid "The translation was automatically locked due to the following alert:"
 msgid_plural ""
 "The translation was automatically locked due to the following alerts:"
-msgstr[0] "பின்வரும் விழிப்பூட்டல்களால் மொழிபெயர்ப்பு தானாக பூட்டப்பட்டது:"
-msgstr[1] "பின்வரும் விழிப்பூட்டல்களால் மொழிபெயர்ப்பு தானாக பூட்டப்பட்டது:"
+msgstr[0] "பின்வரும் எச்சரிக்கையின் காரணமாக மொழிபெயர்ப்பு தானாகவே பூட்டப்பட்டது:"
+msgstr[1] "பின்வரும் விழிப்பூட்டல்கள் காரணமாக மொழிபெயர்ப்பு தானாகவே பூட்டப்பட்டது:"
 
 #: weblate/templates/snippets/donate.html:4
 msgid ""
@@ -11521,7 +11681,7 @@ msgid "Source code repository"
 msgstr "மூல குறியீடு களஞ்சியம்"
 
 #: weblate/templates/snippets/git-info.html:17
-#: weblate/trans/templatetags/translations.py:1201
+#: weblate/trans/templatetags/translations.py:1090
 #, python-format
 msgid "This component is linked to the %(target)s repository."
 msgstr "இந்த கூறு %(target)s களஞ்சியத்துடன் இணைக்கப்பட்டுள்ளது."
@@ -11531,7 +11691,7 @@ msgstr "இந்த கூறு %(target)s களஞ்சியத்து�
 msgid "Repository URL copied to clipboard."
 msgstr "களஞ்சிய முகவரி கிளிப்போர்டுக்கு நகலெடுக்கப்பட்டது."
 
-#: weblate/templates/snippets/git-info.html:29 weblate/trans/forms.py:1929
+#: weblate/templates/snippets/git-info.html:29 weblate/trans/forms.py:1943
 #: weblate/trans/models/component.py:468
 msgid "Repository branch"
 msgstr "களஞ்சிய கிளை"
@@ -11556,7 +11716,7 @@ msgid "Weblate repository"
 msgstr "வலைபெயர்ப்பு களஞ்சியம்"
 
 #: weblate/templates/snippets/glossary.html:5
-#: weblate/trans/templatetags/translations.py:1008
+#: weblate/trans/templatetags/translations.py:897
 msgid "This translation is forbidden."
 msgstr "இந்த மொழிபெயர்ப்பு தடைசெய்யப்பட்டுள்ளது."
 
@@ -11615,7 +11775,7 @@ msgid "Automatic component list assignment"
 msgstr "தானியங்கி கூறு பட்டியல் பணி"
 
 #: weblate/templates/snippets/info.html:67
-#: weblate/trans/models/component.py:628
+#: weblate/trans/models/component.py:630
 msgid "Translation license"
 msgstr "மொழிபெயர்ப்பு உரிமம்"
 
@@ -11846,17 +12006,17 @@ msgstr "கூடுதல் லேபிள்களை <a href=\"%(url)s\">�
 msgid "Additional labels can be defined by project administrators."
 msgstr "கூடுதல் லேபிள்களை திட்ட நிர்வாகிகளால் வரையறுக்கலாம்."
 
-#: weblate/templates/snippets/last-changes-content.html:15
+#: weblate/templates/snippets/last-changes-content.html:25
 msgid "Revert"
 msgstr "மாற்றியமைக்கவும்"
 
-#: weblate/templates/snippets/last-changes-content.html:20
+#: weblate/templates/snippets/last-changes-content.html:30
 #: weblate/templates/snippets/suggestions.html:80
 #: weblate/templates/trans/project-access.html:187
 msgid "Block user"
 msgstr "பயனரை தடைசெய்"
 
-#: weblate/templates/snippets/last-changes-content.html:25
+#: weblate/templates/snippets/last-changes-content.html:35
 #: weblate/templates/trans/change_list.html:21
 #: weblate/templates/trans/change_list.html:25
 msgid "View notification"
@@ -11963,7 +12123,7 @@ msgid "Sort this column"
 msgstr "இந்த நிரலை வரிசைப்படுத்து"
 
 #: weblate/templates/snippets/list-objects.html:61
-#: weblate/trans/templatetags/translations.py:904
+#: weblate/trans/templatetags/translations.py:793
 msgid "Approved"
 msgstr "அங்கீகரிக்கப்பட்டது"
 
@@ -11986,7 +12146,7 @@ msgstr "மொழிபெயர்க்கப்படாதது"
 #: weblate/templates/snippets/list-objects.html:124
 #: weblate/templates/trans/suggestion_list.html:13
 #: weblate/templates/translate.html:312 weblate/templates/translate.html:603
-#: weblate/trans/forms.py:1700
+#: weblate/trans/forms.py:1714
 msgid "Suggestions"
 msgstr "பரிந்துரைகள்"
 
@@ -12293,11 +12453,11 @@ msgstr "நிலை விட்செட்டுகள்"
 msgid "Sort By"
 msgstr "வரிசைப்படுத்தவும்"
 
-#: weblate/templates/snippets/sort-field.html:33 weblate/trans/forms.py:1405
+#: weblate/templates/snippets/sort-field.html:33 weblate/trans/forms.py:1419
 msgid "Ascending"
 msgstr "ஏறுதல்"
 
-#: weblate/templates/snippets/sort-field.html:34 weblate/trans/forms.py:1404
+#: weblate/templates/snippets/sort-field.html:34 weblate/trans/forms.py:1418
 msgid "Descending"
 msgstr "இறங்கு"
 
@@ -12382,7 +12542,7 @@ msgid "Suggested change:"
 msgstr "பரிந்துரைக்கப்பட்ட மாற்றம்:"
 
 #: weblate/templates/snippets/suggestions.html:93
-#: weblate/trans/templatetags/translations.py:986
+#: weblate/trans/templatetags/translations.py:875
 msgctxt "String state"
 msgid "Failing checks:"
 msgstr "தோல்வியுற்ற சரிபார்ப்புகள்:"
@@ -12740,7 +12900,7 @@ msgid "Following files are no longer present in the repository:"
 msgstr "பின்வரும் கோப்புகள் இனி களஞ்சியத்தில் இல்லை:"
 
 #: weblate/templates/trans/alert/inexistantfiles.html:16
-#: weblate/trans/models/component.py:535
+#: weblate/trans/models/component.py:537
 msgid "Template for new translations"
 msgstr "புதிய மொழிபெயர்ப்புகளுக்கான வார்ப்புரு"
 
@@ -13255,7 +13415,7 @@ msgid "Propagated"
 msgstr "பிரச்சாரம்"
 
 #: weblate/templates/trans/other-row.html:21
-#: weblate/trans/models/component.py:559
+#: weblate/trans/models/component.py:561
 msgid "Locked"
 msgstr "பூட்டப்பட்டது"
 
@@ -13412,11 +13572,11 @@ msgstr "இடைநிலை மொழி"
 
 #: weblate/templates/translate.html:137 weblate/templates/translate.html:830
 #: weblate/templates/zen-units.html:35 weblate/trans/forms.py:512
-#: weblate/trans/models/unit.py:446
+#: weblate/trans/models/unit.py:447
 msgid "Explanation"
 msgstr "விளக்கம்"
 
-#: weblate/templates/translate.html:173 weblate/trans/forms.py:1091
+#: weblate/templates/translate.html:173 weblate/trans/forms.py:1105
 msgid "Report issue with the source string"
 msgstr "மூல சரத்துடன் சிக்கலைப் புகாரளிக்கவும்"
 
@@ -13552,7 +13712,7 @@ msgstr "தோற்றம்"
 msgid "Similarity"
 msgstr "ஒற்றுமை"
 
-#: weblate/templates/translate.html:567 weblate/trans/forms.py:1107
+#: weblate/templates/translate.html:567 weblate/trans/forms.py:1121
 msgid "New comment"
 msgstr "புதிய கருத்து"
 
@@ -13609,15 +13769,14 @@ msgstr[1] "இந்த சரத்தின் %(count)s மாறுபாட
 
 #. Translators: Name of event in the history
 #: weblate/templates/translate.html:720 weblate/trans/actions.py:24
-#: weblate/trans/models/unit.py:464
+#: weblate/trans/models/unit.py:465
 msgid "Automatically translated"
 msgstr "தானாக மொழிபெயர்க்கப்பட்டுள்ளது"
 
 #: weblate/templates/translate.html:723
-#, fuzzy, python-format
-#| msgid "This string has been translated in the past."
+#, python-format
 msgid "This string was translated automatically by %(author)s."
-msgstr "இந்தச் சரம் கடந்த காலத்தில் மொழிபெயர்க்கப்பட்டுள்ளது."
+msgstr "இந்தச் சரம் %(author)s ஆல் தானாக மொழிபெயர்க்கப்பட்டது."
 
 #: weblate/templates/translate.html:745
 #, python-format
@@ -13625,7 +13784,7 @@ msgid "Browse glossary %(name)s"
 msgstr "குளோசரி %(name)s உலாவுக"
 
 #: weblate/templates/translate.html:770 weblate/templates/translate.html:1075
-#: weblate/trans/models/component.py:4154
+#: weblate/trans/models/component.py:4201
 msgid "Add term to glossary"
 msgstr "சொற்களஞ்சியத்தில் காலத்தைச் சேர்க்கவும்"
 
@@ -13874,7 +14033,7 @@ msgstr "விட்செட்"
 msgid "Code"
 msgstr "குறியீடு"
 
-#: weblate/templates/widgets.html:59 weblate/trans/forms.py:1381
+#: weblate/templates/widgets.html:59 weblate/trans/forms.py:1395
 msgid "HTML"
 msgstr "உஉகுமொ"
 
@@ -13886,7 +14045,7 @@ msgstr "பிபி கோட்"
 msgid "Markdown"
 msgstr "மார்க் பேரூர்"
 
-#: weblate/templates/widgets.html:62 weblate/trans/forms.py:1379
+#: weblate/templates/widgets.html:62 weblate/trans/forms.py:1393
 msgid "reStructuredText"
 msgstr "மறுசீரமைப்பு"
 
@@ -14336,6 +14495,13 @@ msgstr "சிட்டை பெயர்"
 msgid "Label removed"
 msgstr "அகற்ற சிட்டைகள்"
 
+#. Translators: Name of event in the history
+#: weblate/trans/actions.py:182
+#, fuzzy
+#| msgid "Repository changes"
+msgid "Repository cleanup"
+msgstr "களஞ்சிய மாற்றங்கள்"
+
 #: weblate/trans/admin.py:38
 msgid "Commit pending changes"
 msgstr "நிலுவையில் உள்ள மாற்றங்களைச் செய்யுங்கள்"
@@ -14442,18 +14608,16 @@ msgid "New revision: {}"
 msgstr "புதிய திருத்தம்: {}"
 
 #: weblate/trans/change_display.py:413
-#, fuzzy, python-format
-#| msgid "%(count)s character edited"
-#| msgid_plural "%(count)s characters edited"
+#, python-format
 msgctxt "Number of edits on a change in Damerau–Levenshtein distance"
 msgid "%(count)d character edited"
 msgid_plural "%(count)d characters edited"
-msgstr[0] "%(count)s இன் எழுத்து திருத்தப்பட்டது"
-msgstr[1] "%(count)s எழுத்துக்கள் திருத்தப்பட்டன"
+msgstr[0] "%(count)d இன் எழுத்து திருத்தப்பட்டது"
+msgstr[1] "%(count)d எழுத்துக்கள் திருத்தப்பட்டன"
 
 #. Translators: Translation context for Gettext
-#: weblate/trans/change_display.py:422 weblate/trans/forms.py:2697
-#: weblate/trans/models/component.py:4068
+#: weblate/trans/change_display.py:422 weblate/trans/forms.py:2711
+#: weblate/trans/models/component.py:4115
 msgid "Context"
 msgstr "தருணம்"
 
@@ -14755,7 +14919,7 @@ msgstr ""
 msgid "Review state"
 msgstr "மறுஆய்வு நிலை"
 
-#: weblate/trans/forms.py:514 weblate/trans/models/unit.py:450
+#: weblate/trans/forms.py:514 weblate/trans/models/unit.py:451
 msgid "Additional explanation to clarify meaning or usage of the string."
 msgstr "சரத்தின் பொருள் அல்லது பயன்பாட்டை தெளிவுபடுத்த கூடுதல் விளக்கம்."
 
@@ -14801,49 +14965,49 @@ msgstr "\"திருத்துதல் தேவை\" என இறக்�
 msgid "Import as translated"
 msgstr "மொழிபெயர்க்கப்பட்டபடி இறக்குமதி"
 
-#: weblate/trans/forms.py:700
+#: weblate/trans/forms.py:705
 msgid "Conflict handling"
 msgstr "மோதல் கையாளுதல்"
 
-#: weblate/trans/forms.py:702
+#: weblate/trans/forms.py:707
 msgid ""
 "Whether to overwrite existing translations if the string is already "
 "translated."
 msgstr "சரம் ஏற்கனவே மொழிபெயர்க்கப்பட்டால், இருக்கும் மொழிபெயர்ப்புகளை மேலெழுத வேண்டுமா."
 
-#: weblate/trans/forms.py:706
+#: weblate/trans/forms.py:711
 msgid "Change only untranslated strings"
 msgstr "மொழிபெயர்க்கப்படாத சரங்களை மட்டுமே மாற்றவும்"
 
-#: weblate/trans/forms.py:707
+#: weblate/trans/forms.py:712
 msgid "Change translated strings"
 msgstr "மொழிபெயர்க்கப்பட்ட சரங்களை மாற்றவும்"
 
-#: weblate/trans/forms.py:710
+#: weblate/trans/forms.py:715
 msgid "Change translated and approved strings"
 msgstr "மொழிபெயர்க்கப்பட்ட மற்றும் அங்கீகரிக்கப்பட்ட சரங்களை மாற்றவும்"
 
-#: weblate/trans/forms.py:721
+#: weblate/trans/forms.py:730
 msgid "Author name"
 msgstr "ஆசிரியரின் பெயர்"
 
-#: weblate/trans/forms.py:722
+#: weblate/trans/forms.py:731
 msgid "Author e-mail"
 msgstr "ஆசிரியர் மின்னஞ்சல்"
 
-#: weblate/trans/forms.py:887 weblate/trans/forms.py:891
+#: weblate/trans/forms.py:901 weblate/trans/forms.py:905
 msgid "Could not find the merged string."
 msgstr "இணைக்கப்பட்ட சரம் கண்டுபிடிக்க முடியவில்லை."
 
-#: weblate/trans/forms.py:910
+#: weblate/trans/forms.py:924
 msgid "Could not find the reverted change."
 msgstr "மாற்றியமைக்கப்பட்ட மாற்றத்தைக் கண்டுபிடிக்க முடியவில்லை."
 
-#: weblate/trans/forms.py:919
+#: weblate/trans/forms.py:933
 msgid "Automatic translation mode"
 msgstr "தானியங்கி மொழிபெயர்ப்பு முறை"
 
-#: weblate/trans/forms.py:926
+#: weblate/trans/forms.py:940
 msgid ""
 "Please note that translating all strings will discard all existing "
 "translations."
@@ -14851,19 +15015,19 @@ msgstr ""
 "எல்லா சரங்களையும் மொழிபெயர்ப்பது தற்போதுள்ள அனைத்து மொழிபெயர்ப்புகளையும் நிராகரிக்கும் "
 "என்பதை நினைவில் கொள்க."
 
-#: weblate/trans/forms.py:931
+#: weblate/trans/forms.py:945
 msgid "Source of automated translations"
 msgstr "தானியங்கு மொழிபெயர்ப்புகளின் சான்று"
 
-#: weblate/trans/forms.py:933
+#: weblate/trans/forms.py:947
 msgid "Other translation components"
 msgstr "பிற மொழிபெயர்ப்பு கூறுகள்"
 
-#: weblate/trans/forms.py:934
+#: weblate/trans/forms.py:948
 msgid "Machine translation"
 msgstr "இயந்திர மொழிபெயர்ப்பு"
 
-#: weblate/trans/forms.py:943
+#: weblate/trans/forms.py:957
 msgid ""
 "Turn on contribution to shared translation memory for the project to get "
 "access to additional components."
@@ -14871,15 +15035,15 @@ msgstr ""
 "கூடுதல் கூறுகளை அணுக திட்டத்திற்கு பகிரப்பட்ட மொழிபெயர்ப்பு நினைவகத்திற்கு பங்களிப்பை "
 "இயக்கவும்."
 
-#: weblate/trans/forms.py:949
+#: weblate/trans/forms.py:963
 msgid "Machine translation engines"
 msgstr "இயந்திர மொழிபெயர்ப்பு இயந்திரங்கள்"
 
-#: weblate/trans/forms.py:952
+#: weblate/trans/forms.py:966
 msgid "Score threshold"
 msgstr "ச்கோர் வாசல்"
 
-#: weblate/trans/forms.py:996
+#: weblate/trans/forms.py:1010
 msgid ""
 "Enter slug of a component to use as source, keep blank to use all components "
 "in the current project."
@@ -14887,176 +15051,176 @@ msgstr ""
 "மூலமாகப் பயன்படுத்த ஒரு கூறுகளின் ச்லக்கை உள்ளிடவும், தற்போதைய திட்டத்தில் உள்ள அனைத்து "
 "கூறுகளையும் பயன்படுத்த காலியாக வைக்கவும்."
 
-#: weblate/trans/forms.py:1007
+#: weblate/trans/forms.py:1021
 msgid "All components in current project"
 msgstr "தற்போதைய திட்டத்தில் உள்ள அனைத்து கூறுகளும்"
 
-#: weblate/trans/forms.py:1030 weblate/utils/files.py:37
+#: weblate/trans/forms.py:1044 weblate/utils/files.py:37
 msgid "Add as suggestion"
 msgstr "ஆலோசனையாக சேர்க்கவும்"
 
-#: weblate/trans/forms.py:1031 weblate/utils/files.py:35
+#: weblate/trans/forms.py:1045 weblate/utils/files.py:35
 msgid "Add as translation"
 msgstr "மொழிபெயர்ப்பாக சேர்க்கவும்"
 
-#: weblate/trans/forms.py:1032
+#: weblate/trans/forms.py:1046
 msgid "Add as \"Needing edit\""
 msgstr "\"திருத்து தேவை\" என்று சேர்க்கவும்"
 
-#: weblate/trans/forms.py:1035 weblate/utils/files.py:36
+#: weblate/trans/forms.py:1049 weblate/utils/files.py:36
 msgid "Add as approved translation"
 msgstr "அங்கீகரிக்கப்பட்ட மொழிபெயர்ப்பாகச் சேர்க்கவும்"
 
-#: weblate/trans/forms.py:1055 weblate/trans/forms.py:1058
-#: weblate/trans/forms.py:1062 weblate/trans/forms.py:1067
+#: weblate/trans/forms.py:1069 weblate/trans/forms.py:1072
+#: weblate/trans/forms.py:1076 weblate/trans/forms.py:1081
 msgid "Component not found!"
 msgstr "கூறு கிடைக்கவில்லை!"
 
-#: weblate/trans/forms.py:1074
+#: weblate/trans/forms.py:1088
 msgid "Source component needs to have same source language as target one."
 msgstr "மூல கூறு இலக்கு ஒன்றின் அதே மூல மொழியைக் கொண்டிருக்க வேண்டும்."
 
-#: weblate/trans/forms.py:1096
+#: weblate/trans/forms.py:1110
 msgid "Source string comment, suggestions for changes to this string"
 msgstr "மூல சரம் கருத்து, இந்த சரத்தின் மாற்றங்களுக்கான பரிந்துரைகள்"
 
-#: weblate/trans/forms.py:1101
+#: weblate/trans/forms.py:1115
 msgid "Translation comment, discussions with other translators"
 msgstr "மொழிபெயர்ப்பு கருத்து, பிற மொழிபெயர்ப்பாளர்களுடனான கலந்துரையாடல்கள்"
 
-#: weblate/trans/forms.py:1186
+#: weblate/trans/forms.py:1200
 msgid "Please choose"
 msgstr "தயவு செய்துதேர்ந்துஎடுக்கவும்"
 
-#: weblate/trans/forms.py:1338
+#: weblate/trans/forms.py:1352
 msgid "Allow user to add or remove users from a team."
 msgstr "ஒரு குழுவிலிருந்து பயனர்களைச் சேர்க்க அல்லது அகற்ற பயனரை அனுமதிக்கவும்."
 
-#: weblate/trans/forms.py:1350
+#: weblate/trans/forms.py:1364
 msgid "Block duration"
 msgstr "தொகுதி காலம்"
 
-#: weblate/trans/forms.py:1352
+#: weblate/trans/forms.py:1366
 msgid "Block the user until I unblock"
 msgstr "நான் தடைசெய்யும் வரை பயனரைத் தடுக்கவும்"
 
-#: weblate/trans/forms.py:1353
+#: weblate/trans/forms.py:1367
 msgid "Block the user for one day"
 msgstr "ஒரு நாள் பயனரைத் தடுக்கவும்"
 
-#: weblate/trans/forms.py:1354
+#: weblate/trans/forms.py:1368
 msgid "Block the user for one week"
 msgstr "ஒரு வாரத்திற்கு பயனரைத் தடுக்கவும்"
 
-#: weblate/trans/forms.py:1355
+#: weblate/trans/forms.py:1369
 msgid "Block the user for one month"
 msgstr "ஒரு மாதத்திற்கு பயனரைத் தடுக்கவும்"
 
-#: weblate/trans/forms.py:1376
+#: weblate/trans/forms.py:1390
 msgid "Report format"
 msgstr "அறிக்கை வடிவமைப்பு"
 
-#: weblate/trans/forms.py:1377
+#: weblate/trans/forms.py:1391
 msgid "Choose a file format for the report"
 msgstr "அறிக்கைக்கு கோப்பு வடிவமைப்பைத் தேர்வுசெய்க"
 
-#: weblate/trans/forms.py:1385
+#: weblate/trans/forms.py:1399
 msgid "Report period"
 msgstr "அறிக்கை காலம்"
 
-#: weblate/trans/forms.py:1394
+#: weblate/trans/forms.py:1408
 msgid "Sort by"
 msgstr "வரிசைப்படுத்தவும்"
 
-#: weblate/trans/forms.py:1396
+#: weblate/trans/forms.py:1410
 msgid "Strings translated"
 msgstr "சரங்கள் மொழிபெயர்க்கப்பட்டுள்ளன"
 
-#: weblate/trans/forms.py:1402
+#: weblate/trans/forms.py:1416
 msgid "Sort order"
 msgstr "வரிசைப்படுத்தும் முறை"
 
-#: weblate/trans/forms.py:1451
+#: weblate/trans/forms.py:1465
 msgid "You do not have permission to access this component."
 msgstr "இந்த கூறுகளை அணுக உங்களுக்கு இசைவு இல்லை."
 
-#: weblate/trans/forms.py:1578
+#: weblate/trans/forms.py:1592
 msgid "This submission has been identified as spam!"
 msgstr "இந்த சமர்ப்பிப்பு ச்பேம் என அடையாளம் காணப்பட்டுள்ளது!"
 
-#: weblate/trans/forms.py:1670 weblate/trans/forms.py:2388
+#: weblate/trans/forms.py:1684 weblate/trans/forms.py:2402
 msgid "Basic"
 msgstr "அடிப்படை"
 
-#: weblate/trans/forms.py:1682
+#: weblate/trans/forms.py:1696
 msgid "License"
 msgstr "உரிமம்"
 
-#: weblate/trans/forms.py:1683
+#: weblate/trans/forms.py:1697
 msgid "Upstream links"
 msgstr "மேலோடை இணைப்புகள்"
 
-#: weblate/trans/forms.py:1685
+#: weblate/trans/forms.py:1699
 msgid "Listing and access"
 msgstr "பட்டியல் மற்றும் அணுகல்"
 
-#: weblate/trans/forms.py:1706
+#: weblate/trans/forms.py:1720
 msgid "Translation settings"
 msgstr "மொழிபெயர்ப்பு அமைப்புகள்"
 
-#: weblate/trans/forms.py:1719
+#: weblate/trans/forms.py:1733
 msgid "Version control"
 msgstr "பதிப்பு கட்டுப்பாடு"
 
-#: weblate/trans/forms.py:1721
+#: weblate/trans/forms.py:1735
 msgid "Locations"
 msgstr "இருப்பிடங்கள்"
 
-#: weblate/trans/forms.py:1731
+#: weblate/trans/forms.py:1745
 msgid "Version control settings"
 msgstr "பதிப்பு கட்டுப்பாட்டு அமைப்புகள்"
 
-#: weblate/trans/forms.py:1740
+#: weblate/trans/forms.py:1754
 msgid "Commit messages"
 msgstr "செய்திகளைச் செய்யுங்கள்"
 
-#: weblate/trans/forms.py:1756
+#: weblate/trans/forms.py:1770
 msgid "Translation files"
 msgstr "மொழிபெயர்ப்பு கோப்புகள்"
 
-#: weblate/trans/forms.py:1765
+#: weblate/trans/forms.py:1779
 msgid "Monolingual translations"
 msgstr "ஒருமொழி மொழிபெயர்ப்புகள்"
 
-#: weblate/trans/forms.py:1771
+#: weblate/trans/forms.py:1785
 msgid "Adding new languages"
 msgstr "புதிய மொழிகளைச் சேர்ப்பது"
 
-#: weblate/trans/forms.py:1917
+#: weblate/trans/forms.py:1931
 msgid "Select an existing component configuration to copy."
 msgstr "நகலெடுக்க ஏற்கனவே உள்ள கூறு உள்ளமைவைத் தேர்ந்தெடுக்கவும்."
 
-#: weblate/trans/forms.py:2033
+#: weblate/trans/forms.py:2047
 msgid "ZIP file containing translations"
 msgstr "மொழிபெயர்ப்புகளைக் கொண்ட சுருக்கு கோப்பு"
 
-#: weblate/trans/forms.py:2052
+#: weblate/trans/forms.py:2066
 msgid "Document to translate"
 msgstr "மொழிபெயர்க்க ஆவணம்"
 
-#: weblate/trans/forms.py:2059
+#: weblate/trans/forms.py:2073
 msgid "Target language of the document for bilingual files"
 msgstr "இருமொழி கோப்புகளுக்கான ஆவணத்தின் இலக்கு மொழி"
 
-#: weblate/trans/forms.py:2131
+#: weblate/trans/forms.py:2145
 msgid "Choose translation files to import"
 msgstr "இறக்குமதி செய்ய மொழிபெயர்ப்பு கோப்புகளைத் தேர்வுசெய்க"
 
-#: weblate/trans/forms.py:2132
+#: weblate/trans/forms.py:2146
 msgid "Specify configuration manually"
 msgstr "உள்ளமைவை கைமுறையாகக் குறிப்பிடவும்"
 
-#: weblate/trans/forms.py:2318
+#: weblate/trans/forms.py:2332
 #, python-format
 msgid ""
 "You must specify a license for these components to make them publicly "
@@ -15064,66 +15228,66 @@ msgid ""
 msgstr ""
 "இந்த கூறுகளுக்கான உரிமத்தை பகிரங்கமாக அணுகக்கூடியதாக நீங்கள் குறிப்பிட வேண்டும்: %s"
 
-#: weblate/trans/forms.py:2339
+#: weblate/trans/forms.py:2353
 msgid ""
 "Approved-only commit policy requires translation reviews to be enabled. "
 "Please enable translation reviews first or choose a different commit policy."
 msgstr ""
 
-#: weblate/trans/forms.py:2354
+#: weblate/trans/forms.py:2368
 msgid ""
 "Translation reviews are required for approved-only commit policy. Please "
 "choose a different commit policy before disabling translation reviews."
 msgstr ""
 
-#: weblate/trans/forms.py:2402
+#: weblate/trans/forms.py:2416
 msgid "Access"
 msgstr "அணுகல்"
 
-#: weblate/trans/forms.py:2453
+#: weblate/trans/forms.py:2467
 msgid ""
 "Uses and contributes to the pool of shared translations between projects."
 msgstr ""
 "திட்டங்களுக்கு இடையில் பகிரப்பட்ட மொழிபெயர்ப்புகளின் குளத்திற்கு பயன்படுத்துகிறது மற்றும் "
 "பங்களிக்கிறது."
 
-#: weblate/trans/forms.py:2521
+#: weblate/trans/forms.py:2535
 msgid "ZIP file containing project backup"
 msgstr "திட்ட காப்புப்பிரதி கொண்ட சுருக்கு கோப்பு"
 
-#: weblate/trans/forms.py:2548
+#: weblate/trans/forms.py:2562
 #, python-format
 msgid ""
 "Could not load project backup: The backup is from an incompatible version "
 "(%(version)s). Please upgrade your Weblate instance."
 msgstr ""
 
-#: weblate/trans/forms.py:2554
+#: weblate/trans/forms.py:2568
 #, python-format
 msgid "Could not load project backup: %s"
 msgstr "திட்ட காப்புப்பிரதியை ஏற்ற முடியவில்லை: %s"
 
-#: weblate/trans/forms.py:2563
+#: weblate/trans/forms.py:2577
 msgid "Optional additional filter applied to the strings"
 msgstr "விருப்ப கூடுதல் வடிகட்டி சரங்களுக்கு பயன்படுத்தப்படுகிறது"
 
-#: weblate/trans/forms.py:2567
+#: weblate/trans/forms.py:2581
 msgid "Search string"
 msgstr "சரம் தேடல்"
 
-#: weblate/trans/forms.py:2571
+#: weblate/trans/forms.py:2585
 msgid "Case-sensitive string to search for and replace."
 msgstr "தேடவும் மாற்றவும் வழக்கு-உணர்திறன் சரம்."
 
-#: weblate/trans/forms.py:2574
+#: weblate/trans/forms.py:2588
 msgid "Replacement string"
 msgstr "மாற்று சரம்"
 
-#: weblate/trans/forms.py:2673
+#: weblate/trans/forms.py:2687
 msgid "Translation key"
 msgstr "மொழிபெயர்ப்பு விசை"
 
-#: weblate/trans/forms.py:2675
+#: weblate/trans/forms.py:2689
 msgid ""
 "Key used to identify the string in the translation file. File-format "
 "specific rules might apply."
@@ -15131,138 +15295,138 @@ msgstr ""
 "மொழிபெயர்ப்பு கோப்பில் உள்ள சரத்தை அடையாளம் காண விசை பயன்படுத்தப்படுகிறது. கோப்பு வடிவ "
 "குறிப்பிட்ட விதிகள் பொருந்தக்கூடும்."
 
-#: weblate/trans/forms.py:2681
+#: weblate/trans/forms.py:2695
 msgid "Source language text"
 msgstr "மூல மொழி உரை"
 
-#: weblate/trans/forms.py:2683
+#: weblate/trans/forms.py:2697
 msgid ""
 "You can edit this later, as with any other string in the source language."
 msgstr "மூல மொழியில் வேறு எந்த சரத்தையும் போலவே இதை நீங்கள் பின்னர் திருத்தலாம்."
 
-#: weblate/trans/forms.py:2698
+#: weblate/trans/forms.py:2712
 msgid "Optional context to clarify the source strings."
 msgstr "மூல சரங்களை தெளிவுபடுத்த விருப்ப சூழல்."
 
-#: weblate/trans/forms.py:2705
+#: weblate/trans/forms.py:2719
 msgid "Auto-adjust context when an identical string already exists."
 msgstr "ஒரே மாதிரியான சரம் ஏற்கனவே இருக்கும்போது தானாக சரிசெய்யும் சூழல்."
 
-#: weblate/trans/forms.py:2725
+#: weblate/trans/forms.py:2739
 msgid "Translated string"
 msgstr "மொழிபெயர்க்கப்பட்ட சரம்"
 
-#: weblate/trans/forms.py:2727
+#: weblate/trans/forms.py:2741
 msgid "You can edit this later, as with any other string in the translation."
 msgstr "மொழிபெயர்ப்பில் வேறு எந்த சரத்தையும் போலவே இதை நீங்கள் பின்னர் திருத்தலாம்."
 
-#: weblate/trans/forms.py:2742
+#: weblate/trans/forms.py:2756
 msgid "String will be part of the glossary in all languages"
 msgstr "சரம் அனைத்து மொழிகளிலும் சொற்களஞ்சியத்தின் ஒரு பகுதியாக இருக்கும்"
 
-#: weblate/trans/forms.py:2748
+#: weblate/trans/forms.py:2762
 msgid "Mark this option for translations that should not be used."
 msgstr ""
 
-#: weblate/trans/forms.py:2753
+#: weblate/trans/forms.py:2767
 msgid "Untranslatable term"
 msgstr "மொழிபெயர்க்க முடியாத சொல்"
 
-#: weblate/trans/forms.py:2755
+#: weblate/trans/forms.py:2769
 msgid ""
 "Mark this option if the sentence should stay as in the source language, "
 "without change."
 msgstr ""
 
-#: weblate/trans/forms.py:2784
+#: weblate/trans/forms.py:2798
 msgid "You do not have permission to create terminology."
 msgstr "சொற்களை உருவாக்க உங்களுக்கு இசைவு இல்லை."
 
-#: weblate/trans/forms.py:2850
+#: weblate/trans/forms.py:2864
 msgid "State to set"
 msgstr "அமைக்க மாநிலம்"
 
-#: weblate/trans/forms.py:2851
+#: weblate/trans/forms.py:2865
 msgid "Do not change"
 msgstr "மாற்ற வேண்டாம்"
 
-#: weblate/trans/forms.py:2855
+#: weblate/trans/forms.py:2869
 msgid "Translation flags to add"
 msgstr "சேர்க்க மொழிபெயர்ப்பு கொடிகள்"
 
-#: weblate/trans/forms.py:2858
+#: weblate/trans/forms.py:2872
 msgid "Translation flags to remove"
 msgstr "அகற்ற மொழிபெயர்ப்பு கொடிகள்"
 
-#: weblate/trans/forms.py:2862
+#: weblate/trans/forms.py:2876
 msgid "Labels to add"
 msgstr "சேர்க்க சிட்டைகள்"
 
-#: weblate/trans/forms.py:2868
+#: weblate/trans/forms.py:2882
 msgid "Labels to remove"
 msgstr "அகற்ற சிட்டைகள்"
 
-#: weblate/trans/forms.py:2922
+#: weblate/trans/forms.py:2936
 msgid "I accept the contributor license agreement"
 msgstr "பங்களிப்பாளர் உரிம ஒப்பந்தத்தை நான் ஏற்றுக்கொள்கிறேன்"
 
-#: weblate/trans/forms.py:2951
+#: weblate/trans/forms.py:2965
 msgid "The slug does not match the one marked for deletion!"
 msgstr "நீக்குவதற்கு குறிக்கப்பட்டவற்றுடன் குருட்டடி பொருந்தவில்லை!"
 
-#: weblate/trans/forms.py:2957 weblate/trans/forms.py:2976
-#: weblate/trans/forms.py:2987 weblate/trans/forms.py:3003
-#: weblate/trans/forms.py:3012 weblate/trans/forms.py:3023
+#: weblate/trans/forms.py:2971 weblate/trans/forms.py:2990
+#: weblate/trans/forms.py:3001 weblate/trans/forms.py:3017
+#: weblate/trans/forms.py:3026 weblate/trans/forms.py:3037
 msgid "Removal confirmation"
 msgstr "அகற்றுதல் உறுதிப்படுத்தல்"
 
-#: weblate/trans/forms.py:2959
+#: weblate/trans/forms.py:2973
 msgid "Please type in the full slug of the translation to confirm."
 msgstr "உறுதிப்படுத்த மொழிபெயர்ப்பின் முழு குருட்டடி தட்டச்சு செய்க."
 
-#: weblate/trans/forms.py:2978
+#: weblate/trans/forms.py:2992
 msgid "Please type in the full slug of the component to confirm."
 msgstr "உறுதிப்படுத்த கூறுகளின் முழு குருட்டடி தட்டச்சு செய்க."
 
-#: weblate/trans/forms.py:2988
+#: weblate/trans/forms.py:3002
 msgid "Please type in the slug of the project to confirm."
 msgstr "உறுதிப்படுத்த திட்டத்தின் குருட்டடி தட்டச்சு செய்க."
 
-#: weblate/trans/forms.py:3004
+#: weblate/trans/forms.py:3018
 msgid "Please type in the slug of the category to confirm."
 msgstr "உறுதிப்படுத்த வகையின் குருட்டடி தட்டச்சு செய்க."
 
-#: weblate/trans/forms.py:3014
+#: weblate/trans/forms.py:3028
 msgid "Please type in the slug of the project and language to confirm."
 msgstr "உறுதிப்படுத்த திட்ட மற்றும் மொழியின் குருட்டடி தட்டச்சு செய்க."
 
-#: weblate/trans/forms.py:3025
+#: weblate/trans/forms.py:3039
 msgid "Please type in the slug of the category and language to confirm."
 msgstr "உறுதிப்படுத்த வகை மற்றும் மொழியின் குருட்டடி தட்டச்சு செய்க."
 
-#: weblate/trans/forms.py:3052
+#: weblate/trans/forms.py:3066
 msgid "Author username"
 msgstr "ஆசிரியர் பயனர்பெயர்"
 
-#: weblate/trans/forms.py:3055
+#: weblate/trans/forms.py:3069
 msgid "Exclude author (username)"
 msgstr "எழுத்தாளரை விலக்கு (பயனர்பெயர்)"
 
-#: weblate/trans/forms.py:3058
+#: weblate/trans/forms.py:3072
 #, fuzzy
 #| msgid "Date joined"
 msgid "Date range"
 msgstr "இணைந்த தேதி"
 
-#: weblate/trans/forms.py:3141
+#: weblate/trans/forms.py:3155
 msgid "Expiry cannot be in the past."
 msgstr "காலாவதி கடந்த காலத்தில் இருக்க முடியாது."
 
-#: weblate/trans/forms.py:3180
+#: weblate/trans/forms.py:3194
 msgid "Customize translation workflow for this language"
 msgstr "இந்த மொழிக்கு மொழிபெயர்ப்பு பணிப்பாய்வுகளைத் தனிப்பயனாக்குங்கள்"
 
-#: weblate/trans/forms.py:3182
+#: weblate/trans/forms.py:3196
 msgid ""
 "The translation workflow is configured at project and component. By enabling "
 "customization here, you override these settings for this language."
@@ -15270,11 +15434,11 @@ msgstr ""
 "மொழிபெயர்ப்பு பணிப்பாய்வு திட்டம் மற்றும் கூறுகளில் கட்டமைக்கப்பட்டுள்ளது. இங்கே "
 "தனிப்பயனாக்கலை இயக்குவதன் மூலம், இந்த மொழிக்காக இந்த அமைப்புகளை மீறுகிறீர்கள்."
 
-#: weblate/trans/forms.py:3225
+#: weblate/trans/forms.py:3239
 msgid "Customize translation workflow for this language in this project"
 msgstr "இந்தத் திட்டதில் இந்த மொழிக்கு மொழிபெயர்ப்பு பணிப்பாய்வுகளைத் தனிப்பயனாக்குங்கள்"
 
-#: weblate/trans/forms.py:3228
+#: weblate/trans/forms.py:3242
 msgid ""
 "The translation workflow is configured at project, component, and language. "
 "By enabling customization here, you override these settings for this "
@@ -15312,7 +15476,7 @@ msgstr ""
 msgid "Make your translations available under a libre license."
 msgstr "உங்கள் மொழிபெயர்ப்புகளை லிப்ரே உரிமத்தின் கீழ் கிடைக்கச் செய்யுங்கள்."
 
-#: weblate/trans/guide.py:160 weblate/trans/templatetags/translations.py:1209
+#: weblate/trans/guide.py:160 weblate/trans/templatetags/translations.py:1098
 msgid "Fix this component to clear its alerts."
 msgstr "இந்த கூறுகளை அதன் விழிப்பூட்டல்களை அழிக்க சரிசெய்யவும்."
 
@@ -15340,12 +15504,12 @@ msgstr ""
 msgid "Workflow customization"
 msgstr "பணிப்பாய்வு தனிப்பயனாக்கம்"
 
-#: weblate/trans/mixins.py:144
+#: weblate/trans/mixins.py:146
 msgid ""
 "Component or category with the same URL slug already exists at this level."
 msgstr "அதே முகவரி குருட்டடி கொண்ட கூறு அல்லது வகை ஏற்கனவே இந்த மட்டத்தில் உள்ளது."
 
-#: weblate/trans/mixins.py:151
+#: weblate/trans/mixins.py:153
 msgid "Component or category with the same name already exists at this level."
 msgstr "அதே பெயருடன் கூறு அல்லது வகை ஏற்கனவே இந்த மட்டத்தில் உள்ளது."
 
@@ -15744,10 +15908,13 @@ msgid "Push branch"
 msgstr "புச் கிளை"
 
 #: weblate/trans/models/component.py:478
-msgid "Branch for pushing changes, leave empty to use repository branch"
-msgstr "மாற்றங்களைத் தள்ளும் கிளை, களஞ்சிய கிளையைப் பயன்படுத்த காலியாக விடவும்"
+msgid ""
+"Branch for pushing changes. Leave empty to use repository branch when "
+"pushing directly to the repository. When using pull/merge requests, specify "
+"a branch name different from the repository branch."
+msgstr ""
 
-#: weblate/trans/models/component.py:488
+#: weblate/trans/models/component.py:490
 msgid ""
 "Path of files to translate relative to repository root, use * instead of "
 "language code, for example: po/*.po or locale/*/LC_MESSAGES/django.po."
@@ -15756,11 +15923,11 @@ msgstr ""
 "பதிலாக*பயன்படுத்தவும், எடுத்துக்காட்டாக: po/*. po அல்லது locale/*/lc_messages/"
 "jango.po."
 
-#: weblate/trans/models/component.py:494
+#: weblate/trans/models/component.py:496
 msgid "Screenshot file mask"
 msgstr "திரைக்காட்சி கோப்பு முகமூடி"
 
-#: weblate/trans/models/component.py:499
+#: weblate/trans/models/component.py:501
 msgid ""
 "Path of screenshots relative to repository root, for example: docs/"
 "screenshots/*.png."
@@ -15768,7 +15935,7 @@ msgstr ""
 "களஞ்சிய மூலத்துடன் தொடர்புடைய திரை சாட்களின் பாதை, எடுத்துக்காட்டாக: டாக்ச்/ச்கிரீன் சாட்கள்/"
 "*. பி.என்.சி."
 
-#: weblate/trans/models/component.py:508
+#: weblate/trans/models/component.py:510
 msgid ""
 "Filename of translation base file, containing all strings and their source "
 "for monolingual translations."
@@ -15776,54 +15943,54 @@ msgstr ""
 "மொழிபெயர்ப்பு அடிப்படை கோப்பின் கோப்பு பெயர், அனைத்து சரங்களையும், ஒருமொழி "
 "மொழிபெயர்ப்புகளுக்கான அவற்றின் மூலத்தையும் கொண்டுள்ளது."
 
-#: weblate/trans/models/component.py:515
+#: weblate/trans/models/component.py:517
 msgid "Edit base file"
 msgstr "அடிப்படை கோப்பைத் திருத்தவும்"
 
-#: weblate/trans/models/component.py:518
+#: weblate/trans/models/component.py:520
 msgid ""
 "Whether users will be able to edit the base file for monolingual "
 "translations."
 msgstr "ஒருமொழி மொழிபெயர்ப்புகளுக்கான அடிப்படை கோப்பை பயனர்கள் திருத்த முடியுமா."
 
-#: weblate/trans/models/component.py:552
+#: weblate/trans/models/component.py:554
 #, fuzzy
 #| msgid "File format"
 msgid "File format parameters"
 msgstr "கோப்பு வகை"
 
-#: weblate/trans/models/component.py:562
+#: weblate/trans/models/component.py:564
 msgid "Locked component will not get any translation updates."
 msgstr "பூட்டப்பட்ட கூறு எந்த மொழிபெயர்ப்பு புதுப்பிப்புகளையும் பெறாது."
 
-#: weblate/trans/models/component.py:566
+#: weblate/trans/models/component.py:568
 #, fuzzy
 #| msgid "Does not follow glossary"
 msgid "Do not show glossary matches"
 msgstr "சொற்களஞ்சியத்தைப் பின்பற்றாது"
 
-#: weblate/trans/models/component.py:568
+#: weblate/trans/models/component.py:570
 #, fuzzy
 #| msgid "Focus on translation editor."
 msgid "Hides the glossary panel in the translation editor."
 msgstr "மொழிபெயர்ப்பு எடிட்டரில் கவனம் செலுத்துங்கள்."
 
-#: weblate/trans/models/component.py:571
+#: weblate/trans/models/component.py:573
 msgid "Allow translation propagation"
 msgstr "மொழிபெயர்ப்பு பரப்புதலை அனுமதிக்கவும்"
 
-#: weblate/trans/models/component.py:574
+#: weblate/trans/models/component.py:576
 msgid ""
 "Whether translation updates in other components will cause automatic "
 "translation in this one"
 msgstr ""
 "பிற கூறுகளில் மொழிபெயர்ப்பு புதுப்பிப்புகள் இதில் தானியங்கி மொழிபெயர்ப்பை ஏற்படுத்துமா"
 
-#: weblate/trans/models/component.py:579
+#: weblate/trans/models/component.py:581
 msgid "Contribute to project translation memory"
 msgstr "திட்ட மொழிபெயர்ப்பு நினைவகத்திற்கு பங்களிப்பு செய்யுங்கள்"
 
-#: weblate/trans/models/component.py:582
+#: weblate/trans/models/component.py:584
 msgid ""
 "Allow this component's translations to be added to the project-level "
 "translation memory."
@@ -15831,29 +15998,29 @@ msgstr ""
 "இந்த கூறுகளின் மொழிபெயர்ப்புகளை திட்ட-நிலை மொழிபெயர்ப்பு நினைவகத்தில் சேர்க்க "
 "அனுமதிக்கவும்."
 
-#: weblate/trans/models/component.py:588 weblate/trans/models/workflow.py:29
+#: weblate/trans/models/component.py:590 weblate/trans/models/workflow.py:29
 msgid "Turn on suggestions"
 msgstr "பரிந்துரைகளை இயக்கவும்"
 
-#: weblate/trans/models/component.py:590 weblate/trans/models/workflow.py:31
+#: weblate/trans/models/component.py:592 weblate/trans/models/workflow.py:31
 msgid "Whether to allow translation suggestions at all."
 msgstr "மொழிபெயர்ப்பு பரிந்துரைகளை அனுமதிக்க வேண்டுமா."
 
-#: weblate/trans/models/component.py:594 weblate/trans/models/workflow.py:35
+#: weblate/trans/models/component.py:596 weblate/trans/models/workflow.py:35
 msgid "Suggestion voting"
 msgstr "பரிந்துரை வாக்களிப்பு"
 
-#: weblate/trans/models/component.py:597 weblate/trans/models/workflow.py:38
+#: weblate/trans/models/component.py:599 weblate/trans/models/workflow.py:38
 msgid "Users can only vote for suggestions and can’t make direct translations."
 msgstr ""
 "பயனர்கள் பரிந்துரைகளுக்கு மட்டுமே வாக்களிக்க முடியும் மற்றும் நேரடி மொழிபெயர்ப்புகளை "
 "உருவாக்க முடியாது."
 
-#: weblate/trans/models/component.py:602 weblate/trans/models/workflow.py:43
+#: weblate/trans/models/component.py:604 weblate/trans/models/workflow.py:43
 msgid "Automatically accept suggestions"
 msgstr "தானாகப் பரிந்துரைகளை ஏற்றுகொள்"
 
-#: weblate/trans/models/component.py:605 weblate/trans/models/workflow.py:46
+#: weblate/trans/models/component.py:607 weblate/trans/models/workflow.py:46
 msgid ""
 "Automatically accept suggestions with this number of votes, use 0 to turn it "
 "off."
@@ -15861,27 +16028,27 @@ msgstr ""
 "இந்த எண்ணிக்கையிலான வாக்குகளுடன் பரிந்துரைகளை தானாக ஏற்றுக்கொள்ளுங்கள், அதை அணைக்க 0 ஐப் "
 "பயன்படுத்தவும்."
 
-#: weblate/trans/models/component.py:611 weblate/trans/models/project.py:294
-#: weblate/trans/models/unit.py:437
+#: weblate/trans/models/component.py:613 weblate/trans/models/project.py:294
+#: weblate/trans/models/unit.py:438
 msgid "Translation flags"
 msgstr "மொழிபெயர்ப்பு கொடிகள்"
 
-#: weblate/trans/models/component.py:614 weblate/trans/models/project.py:297
-#: weblate/trans/models/unit.py:440
+#: weblate/trans/models/component.py:616 weblate/trans/models/project.py:297
+#: weblate/trans/models/unit.py:441
 msgid "Additional comma-separated flags to influence Weblate behavior."
 msgstr "வலைபெயர்ப்பு நடத்தையை பாதிக்க கூடுதல் கமாவால் பிரிக்கப்பட்ட கொடிகள்."
 
-#: weblate/trans/models/component.py:620
+#: weblate/trans/models/component.py:622
 msgid "Enforced checks"
 msgstr "செயல்படுத்தப்பட்ட சோதனைகள்"
 
-#: weblate/trans/models/component.py:621
+#: weblate/trans/models/component.py:623
 #, fuzzy
 #| msgid "List of checks which can not be ignored."
 msgid "List of checks which can not be dismissed."
 msgstr "புறக்கணிக்க முடியாத சரிபார்ப்புகளின் பட்டியல்."
 
-#: weblate/trans/models/component.py:639
+#: weblate/trans/models/component.py:641
 msgid ""
 "Contributor license agreement which needs to be approved before a user can "
 "translate this component."
@@ -15889,19 +16056,19 @@ msgstr ""
 "ஒரு பயனர் இந்த கூறுகளை மொழிபெயர்க்க முன் அங்கீகரிக்கப்பட வேண்டிய பங்களிப்பாளர் உரிம "
 "ஒப்பந்தம்."
 
-#: weblate/trans/models/component.py:646
+#: weblate/trans/models/component.py:648
 msgid "Adding new translation"
 msgstr "புதிய மொழிபெயர்ப்பைச் சேர்ப்பது"
 
-#: weblate/trans/models/component.py:650
+#: weblate/trans/models/component.py:652
 msgid "How to handle requests for creating new translations."
 msgstr "புதிய மொழிபெயர்ப்புகளை உருவாக்குவதற்கான கோரிக்கைகளை எவ்வாறு கையாள்வது."
 
-#: weblate/trans/models/component.py:653
+#: weblate/trans/models/component.py:655
 msgid "Language code style"
 msgstr "மொழி குறியீடு நடை"
 
-#: weblate/trans/models/component.py:659
+#: weblate/trans/models/component.py:661
 msgid ""
 "Customize language code used to generate the filename for translations "
 "created by Weblate."
@@ -15909,11 +16076,11 @@ msgstr ""
 "வலைபெயர்ப்பு உருவாக்கிய மொழிபெயர்ப்புகளுக்கான கோப்பு பெயரை உருவாக்கப் பயன்படுத்தப்படும் "
 "மொழி குறியீட்டைத் தனிப்பயனாக்குங்கள்."
 
-#: weblate/trans/models/component.py:664
+#: weblate/trans/models/component.py:666
 msgid "Manage strings"
 msgstr "சரங்களை நிர்வகி"
 
-#: weblate/trans/models/component.py:667
+#: weblate/trans/models/component.py:669
 msgid ""
 "Enables adding and removing strings straight from Weblate. If your strings "
 "are extracted from the source code or managed externally you probably want "
@@ -15923,11 +16090,11 @@ msgstr ""
 "சரங்கள் மூலக் குறியீட்டிலிருந்து பிரித்தெடுக்கப்பட்டால் அல்லது வெளிப்புறமாக "
 "நிர்வகிக்கப்பட்டால், அதை முடக்க வைக்க விரும்பலாம்."
 
-#: weblate/trans/models/component.py:675
+#: weblate/trans/models/component.py:677
 msgid "Merge style"
 msgstr "பாணியை ஒன்றிணைக்கவும்"
 
-#: weblate/trans/models/component.py:680
+#: weblate/trans/models/component.py:682
 msgid ""
 "Define whether Weblate should merge the upstream repository or rebase "
 "changes onto it."
@@ -15935,13 +16102,13 @@ msgstr ""
 "வலைபெயர்ப்பு மேலோடை களஞ்சியத்தை ஒன்றிணைக்க வேண்டுமா அல்லது மாற்றங்களை மீண்டும் மாற்ற "
 "வேண்டுமா என்பதை வரையறுக்கவும்."
 
-#: weblate/trans/models/component.py:685
+#: weblate/trans/models/component.py:687
 msgid "Commit message when translating"
 msgstr "மொழிபெயர்க்கும்போது செய்தியைச் செய்யுங்கள்"
 
-#: weblate/trans/models/component.py:687 weblate/trans/models/component.py:696
-#: weblate/trans/models/component.py:705 weblate/trans/models/component.py:715
-#: weblate/trans/models/component.py:724 weblate/trans/models/component.py:733
+#: weblate/trans/models/component.py:689 weblate/trans/models/component.py:698
+#: weblate/trans/models/component.py:707 weblate/trans/models/component.py:717
+#: weblate/trans/models/component.py:726 weblate/trans/models/component.py:735
 msgid ""
 "You can use template language for various info, please consult the "
 "documentation for more details."
@@ -15949,58 +16116,58 @@ msgstr ""
 "பல்வேறு தகவல்களுக்கு நீங்கள் வார்ப்புரு மொழியைப் பயன்படுத்தலாம், மேலும் விவரங்களுக்கு "
 "ஆவணங்களை அணுகவும்."
 
-#: weblate/trans/models/component.py:694
+#: weblate/trans/models/component.py:696
 msgid "Commit message when adding translation"
 msgstr "மொழிபெயர்ப்பைச் சேர்க்கும்போது செய்தியைச் செய்யுங்கள்"
 
-#: weblate/trans/models/component.py:703
+#: weblate/trans/models/component.py:705
 msgid "Commit message when removing translation"
 msgstr "மொழிபெயர்ப்பை அகற்றும்போது செய்தியைச் செய்யுங்கள்"
 
 #. Translators: The commit message, for when merging the translation
-#: weblate/trans/models/component.py:713
+#: weblate/trans/models/component.py:715
 msgid "Commit message when merging translation"
 msgstr "மொழிபெயர்ப்பை இணைக்கும்போது செய்தியைச் செய்யுங்கள்"
 
-#: weblate/trans/models/component.py:722
+#: weblate/trans/models/component.py:724
 msgid "Commit message when add-on makes a change"
 msgstr "கூடுதல் மாற்றத்தை ஏற்படுத்தும் போது செய்தியைச் செய்யுங்கள்"
 
-#: weblate/trans/models/component.py:731
+#: weblate/trans/models/component.py:733
 msgid "Merge request message"
 msgstr "கோரிக்கை செய்தியை ஒன்றிணைக்கவும்"
 
-#: weblate/trans/models/component.py:740
+#: weblate/trans/models/component.py:742
 msgid "Push on commit"
 msgstr "கமிட் மீது தள்ளுங்கள்"
 
-#: weblate/trans/models/component.py:743
+#: weblate/trans/models/component.py:745
 msgid "Whether the repository should be pushed upstream on every commit."
 msgstr "ஒவ்வொரு உறுதிப்பாட்டிலும் களஞ்சியத்தை நீக்கி தள்ள வேண்டுமா."
 
-#: weblate/trans/models/component.py:747
+#: weblate/trans/models/component.py:749
 msgid "Age of changes to commit"
 msgstr "செய்ய மாற்றங்களின் அகவை"
 
-#: weblate/trans/models/component.py:751
+#: weblate/trans/models/component.py:753
 msgid ""
 "Time in hours after which any pending changes will be committed to the VCS."
 msgstr ""
 "நிலுவையில் உள்ள எந்த மாற்றங்களும் வி.சி.எச் -க்கு உறுதியளிக்கும் மணிநேரங்களில் நேரம்."
 
-#: weblate/trans/models/component.py:756
+#: weblate/trans/models/component.py:758
 msgid "Lock on error"
 msgstr "பிழையைப் பூட்டவும்"
 
-#: weblate/trans/models/component.py:759
+#: weblate/trans/models/component.py:761
 msgid "Whether the component should be locked on repository errors."
 msgstr "களஞ்சிய பிழைகள் மீது கூறு பூட்டப்பட வேண்டுமா."
 
-#: weblate/trans/models/component.py:766
+#: weblate/trans/models/component.py:768
 msgid "Language used for source strings in all components"
 msgstr "அனைத்து கூறுகளிலும் மூல சரங்களுக்கு பயன்படுத்தப்படும் மொழி"
 
-#: weblate/trans/models/component.py:775
+#: weblate/trans/models/component.py:778
 msgid ""
 "Regular expression used to filter translation files when scanning for file "
 "mask."
@@ -16008,40 +16175,40 @@ msgstr ""
 "கோப்பு முகமூடிக்கு ச்கேன் செய்யும் போது மொழிபெயர்ப்பு கோப்புகளை வடிகட்ட வழக்கமான "
 "வெளிப்பாடு பயன்படுத்தப்படுகிறது."
 
-#: weblate/trans/models/component.py:780
+#: weblate/trans/models/component.py:783
 msgid "Variants regular expression"
 msgstr "மாறுபாடுகள் வழக்கமான வெளிப்பாடு"
 
-#: weblate/trans/models/component.py:786
+#: weblate/trans/models/component.py:789
 msgid "Regular expression used to determine variants of a string."
 msgstr "ஒரு சரத்தின் மாறுபாடுகளைத் தீர்மானிக்க வழக்கமான வெளிப்பாடு பயன்படுத்தப்படுகிறது."
 
-#: weblate/trans/models/component.py:795
+#: weblate/trans/models/component.py:798
 msgid "Components with higher priority are offered first to translators."
 msgstr "அதிக முன்னுரிமை கொண்ட கூறுகள் முதலில் மொழிபெயர்ப்பாளர்களுக்கு வழங்கப்படுகின்றன."
 
-#: weblate/trans/models/component.py:799
+#: weblate/trans/models/component.py:802
 msgid "Restricted component"
 msgstr "தடைசெய்யப்பட்ட கூறு"
 
-#: weblate/trans/models/component.py:803
+#: weblate/trans/models/component.py:806
 msgid ""
 "Restrict access to the component to only those explicitly given permission."
 msgstr "கூறுக்கான அணுகலை வெளிப்படையாக வழங்கப்பட்ட அனுமதிக்கு மட்டுமே கட்டுப்படுத்தவும்."
 
-#: weblate/trans/models/component.py:810
+#: weblate/trans/models/component.py:813
 msgid "Share in projects"
 msgstr "திட்டங்களில் பங்கு"
 
-#: weblate/trans/models/component.py:814
+#: weblate/trans/models/component.py:817
 msgid "Choose additional projects where this component will be listed."
 msgstr "இந்த கூறு பட்டியலிடப்படும் கூடுதல் திட்டங்களைத் தேர்வுசெய்க."
 
-#: weblate/trans/models/component.py:820
+#: weblate/trans/models/component.py:823
 msgid "Use as a glossary"
 msgstr "சொற்களஞ்சியமாக பயன்படுத்து"
 
-#: weblate/trans/models/component.py:824
+#: weblate/trans/models/component.py:827
 msgid ""
 "Glossaries are different from regular translations but help keep track of "
 "and share consistent terminology."
@@ -16049,15 +16216,15 @@ msgstr ""
 "சொற்களஞ்சியங்கள் வழக்கமான மொழிபெயர்ப்புகளிலிருந்து வேறுபட்டவை, ஆனால் நிலையான சொற்களைக் "
 "கண்காணிக்கவும் பகிர்ந்து கொள்ளவும் உதவுகின்றன."
 
-#: weblate/trans/models/component.py:828
+#: weblate/trans/models/component.py:831
 msgid "Glossary color"
 msgstr "சொற்களஞ்சிய நிறம்"
 
-#: weblate/trans/models/component.py:839
+#: weblate/trans/models/component.py:842
 msgid "Key filter"
 msgstr "விசை வடிகட்டி"
 
-#: weblate/trans/models/component.py:843
+#: weblate/trans/models/component.py:846
 msgid ""
 "Regular expression used to filter keys. This is only available for "
 "monolingual formats."
@@ -16065,21 +16232,21 @@ msgstr ""
 "விசைகளை வடிகட்ட பயன்படுத்தப்படும் வழக்கமான வெளிப்பாடு. இது ஒருமொழி வடிவங்களுக்கு "
 "மட்டுமே கிடைக்கிறது."
 
-#: weblate/trans/models/component.py:850 weblate/trans/models/project.py:283
+#: weblate/trans/models/component.py:853 weblate/trans/models/project.py:283
 msgid "Secondary language"
 msgstr "இரண்டாம் நிலை மொழி"
 
-#: weblate/trans/models/component.py:854 weblate/trans/models/project.py:285
+#: weblate/trans/models/component.py:857 weblate/trans/models/project.py:285
 msgid ""
 "Additional language to show together with the source language while "
 "translating."
 msgstr "மொழிபெயர்க்கும் போது மூல மொழியுடன் ஒன்றாகக் காட்ட கூடுதல் மொழி."
 
-#: weblate/trans/models/component.py:856
+#: weblate/trans/models/component.py:859
 msgid "This setting is inherited from the project if left empty."
 msgstr "காலியாக இருந்தால் இந்த அமைப்பு திட்டத்திலிருந்து பெறப்படுகிறது."
 
-#: weblate/trans/models/component.py:1719
+#: weblate/trans/models/component.py:1722
 msgid ""
 "Could not verify SSH host key, please add them in SSH page in the admin "
 "interface."
@@ -16087,7 +16254,7 @@ msgstr ""
 "பாஓடு புரவலன் விசையை சரிபார்க்க முடியவில்லை, தயவுசெய்து அவற்றை நிர்வாக இடைமுகத்தில் "
 "பாஓடு பக்கத்தில் சேர்க்கவும்."
 
-#: weblate/trans/models/component.py:1728
+#: weblate/trans/models/component.py:1731
 msgid ""
 "The repository requires authentication, please specify credentials in the "
 "URL or use SSH access instead."
@@ -16095,70 +16262,70 @@ msgstr ""
 "களஞ்சியத்திற்கு ஏற்பு தேவைப்படுகிறது, தயவுசெய்து முகவரியில் சான்றுகளைக் குறிப்பிடவும் "
 "அல்லது அதற்கு பதிலாக பாஓடு அணுகலைப் பயன்படுத்தவும்."
 
-#: weblate/trans/models/component.py:1734
+#: weblate/trans/models/component.py:1737
 #, python-format
 msgid "Could not fetch the repository: %s"
 msgstr "களஞ்சியத்தைப் பெற முடியவில்லை: %s"
 
-#: weblate/trans/models/component.py:1807
-#: weblate/trans/models/component.py:3227
-#: weblate/trans/models/component.py:3291
+#: weblate/trans/models/component.py:1810
+#: weblate/trans/models/component.py:3259
+#: weblate/trans/models/component.py:3323
 msgid "File does not exist."
 msgstr "கோப்பு இல்லை."
 
-#: weblate/trans/models/component.py:1992
+#: weblate/trans/models/component.py:1995
 #, python-format
 msgid "Could not push %(component)s: %(error_text)s"
 msgstr "%(component)s: %(error_text)s தள்ள முடியவில்லை"
 
-#: weblate/trans/models/component.py:2026
+#: weblate/trans/models/component.py:2029
 #, python-format
 msgid "Push is turned off for %s."
 msgstr "%s க்கு உந்துதல் அணைக்கப்படுகிறது."
 
-#: weblate/trans/models/component.py:2106
+#: weblate/trans/models/component.py:2109
 #, python-format
 msgid "Could not reset to remote branch on %s."
 msgstr "%s இல் தொலை கிளைக்கு மீட்டமைக்க முடியவில்லை."
 
-#: weblate/trans/models/component.py:2157
+#: weblate/trans/models/component.py:2160
 #, python-format
 msgid "Could not clean the repository on %s."
 msgstr "%s இல் களஞ்சியத்தை தூய்மை செய்ய முடியவில்லை."
 
-#: weblate/trans/models/component.py:2456
+#: weblate/trans/models/component.py:2465
 #, python-format
 msgid "Could not rebase local branch onto remote branch %s."
 msgstr "உள்ளக கிளையை %s தொலை கிளையில் மறுசீரமைக்க முடியவில்லை."
 
-#: weblate/trans/models/component.py:2462
+#: weblate/trans/models/component.py:2471
 #, python-format
 msgid "Could not merge remote branch into %s."
 msgstr "தொலைநிலை கிளையை %s ஆக இணைக்க முடியவில்லை."
 
-#: weblate/trans/models/component.py:3068
+#: weblate/trans/models/component.py:3100
 msgid "Category does not belong to this project."
 msgstr "வகை இந்த திட்டத்திற்கு சொந்தமானது அல்ல."
 
-#: weblate/trans/models/component.py:3072
+#: weblate/trans/models/component.py:3104
 msgid "Categorized component can not be shared."
 msgstr "வகைப்படுத்தப்பட்ட கூறுகளை பகிர முடியாது."
 
-#: weblate/trans/models/component.py:3084
+#: weblate/trans/models/component.py:3116
 msgid "Invalid link to a Weblate project, use weblate://project/component."
 msgstr ""
 "வலைபெயர்ப்பு திட்டத்திற்கு தவறான இணைப்பு, வலைபெயர்ப்பு: // திட்டம்/கூறு பயன்படுத்தவும்."
 
-#: weblate/trans/models/component.py:3093
+#: weblate/trans/models/component.py:3125
 msgid "Invalid link to a Weblate project, cannot link to linked repository!"
 msgstr ""
 "வலைபெயர்ப்பு திட்டத்திற்கான தவறான இணைப்பு, இணைக்கப்பட்ட களஞ்சியத்துடன் இணைக்க முடியாது!"
 
-#: weblate/trans/models/component.py:3102
+#: weblate/trans/models/component.py:3134
 msgid "Invalid link to a Weblate project, cannot link it to itself!"
 msgstr "வலைபெயர்ப்பு திட்டத்திற்கான தவறான இணைப்பு, அதை தன்னுடன் இணைக்க முடியாது!"
 
-#: weblate/trans/models/component.py:3113
+#: weblate/trans/models/component.py:3145
 msgid ""
 "Option is not available for linked repositories. Setting from linked "
 "component will be used."
@@ -16166,11 +16333,11 @@ msgstr ""
 "இணைக்கப்பட்ட களஞ்சியங்களுக்கு விருப்பம் கிடைக்கவில்லை. இணைக்கப்பட்ட கூறுகளிலிருந்து "
 "அமைப்பது பயன்படுத்தப்படும்."
 
-#: weblate/trans/models/component.py:3125
+#: weblate/trans/models/component.py:3157
 msgid "The file mask did not match any files."
 msgstr "கோப்பு முகமூடி எந்த கோப்புகளும் பொருந்தவில்லை."
 
-#: weblate/trans/models/component.py:3135
+#: weblate/trans/models/component.py:3167
 #, python-format
 msgid ""
 "There is more than one file for %(language)s language: %(filename1)s, "
@@ -16181,25 +16348,25 @@ msgstr ""
 "%(filename2)s கோப்பு முகமூடியை சரிசெய்து வெவ்வேறு வளங்களை மொழிபெயர்க்க கூறுகளைப் "
 "பயன்படுத்தவும்."
 
-#: weblate/trans/models/component.py:3153
+#: weblate/trans/models/component.py:3185
 msgid "Could not find any matching language, please check the file mask."
 msgstr ""
 "பொருந்தக்கூடிய எந்த மொழியையும் கண்டுபிடிக்க முடியவில்லை, தயவுசெய்து கோப்பு முகமூடியை "
 "சரிபார்க்கவும்."
 
-#: weblate/trans/models/component.py:3174
+#: weblate/trans/models/component.py:3206
 #, python-brace-format
 msgid "Could not parse {file}: {error}"
 msgstr "{file} ஐப் பாகுபடுத்த முடியவில்லை: {error}"
 
-#: weblate/trans/models/component.py:3182
+#: weblate/trans/models/component.py:3214
 #, python-format
 msgid "Could not parse %d matched file."
 msgid_plural "Could not parse %d matched files."
 msgstr[0] "%d பொருந்திய கோப்பை அலச முடியவில்லை."
 msgstr[1] "%d பொருந்திய கோப்புகளை அலச முடியவில்லை."
 
-#: weblate/trans/models/component.py:3220
+#: weblate/trans/models/component.py:3252
 msgid ""
 "You have set up Weblate to add new translation files, but did not provide a "
 "base file to do that."
@@ -16207,26 +16374,26 @@ msgstr ""
 "புதிய மொழிபெயர்ப்பு கோப்புகளைச் சேர்க்க நீங்கள் வலைபெயர்ப்புடை அமைத்துள்ளீர்கள், ஆனால் அதைச் "
 "செய்ய அடிப்படை கோப்பை வழங்கவில்லை."
 
-#: weblate/trans/models/component.py:3231
+#: weblate/trans/models/component.py:3263
 #, python-format
 msgid "Could not parse base file for new translations: %s"
 msgstr "புதிய மொழிபெயர்ப்புகளுக்கான அடிப்படை கோப்பை அலச முடியவில்லை: %s"
 
-#: weblate/trans/models/component.py:3235
+#: weblate/trans/models/component.py:3267
 msgid "Unrecognized base file for new translations."
 msgstr "புதிய மொழிபெயர்ப்புகளுக்கான அங்கீகரிக்கப்படாத அடிப்படை கோப்பு."
 
-#: weblate/trans/models/component.py:3250
+#: weblate/trans/models/component.py:3282
 msgid "Editing template is not supported with this file format."
 msgstr "இந்த கோப்பு வடிவத்துடன் வார்ப்புருவை திருத்துதல் ஆதரிக்கவில்லை."
 
-#: weblate/trans/models/component.py:3256
-#: weblate/trans/models/component.py:3273
+#: weblate/trans/models/component.py:3288
+#: weblate/trans/models/component.py:3305
 msgid ""
 "An intermediate language file can not be used without an editing template."
 msgstr "திருத்துதல் வார்ப்புரு இல்லாமல் ஒரு இடைநிலை மொழி கோப்பைப் பயன்படுத்த முடியாது."
 
-#: weblate/trans/models/component.py:3265
+#: weblate/trans/models/component.py:3297
 msgid ""
 "An intermediate language file has to be different from monolingual base "
 "language file. You can probably keep it empty."
@@ -16234,29 +16401,29 @@ msgstr ""
 "ஒரு இடைநிலை மொழி கோப்பு ஒருமொழி அடிப்படை மொழி கோப்பிலிருந்து வேறுபட்டதாக இருக்க "
 "வேண்டும். நீங்கள் அதை காலியாக வைத்திருக்கலாம்."
 
-#: weblate/trans/models/component.py:3280
+#: weblate/trans/models/component.py:3312
 msgid "Using a .pot file as base file is unsupported."
 msgstr ".pot கோப்பை அடிப்படை கோப்பாகப் பயன்படுத்துவது ஆதரிக்கப்படாதது."
 
-#: weblate/trans/models/component.py:3296
+#: weblate/trans/models/component.py:3328
 #, python-format
 msgid "Could not parse translation base file: %s"
 msgstr "மொழிபெயர்ப்பு அடிப்படை கோப்பை அலச முடியவில்லை: %s"
 
-#: weblate/trans/models/component.py:3307
+#: weblate/trans/models/component.py:3339
 #, python-brace-format
 msgid "Template language ({0}) does not match source language ({1})!"
 msgstr "வார்ப்புரு மொழி ({0}) மூல மொழியுடன் பொருந்தவில்லை ({1})!"
 
-#: weblate/trans/models/component.py:3326
+#: weblate/trans/models/component.py:3358
 msgid "Choose No remote repository for local: URL."
 msgstr "உள்ளக தொலைதூர களஞ்சியத்தைத் தேர்வுசெய்க: முகவரி."
 
-#: weblate/trans/models/component.py:3331
+#: weblate/trans/models/component.py:3363
 msgid "Push URL is not used without a remote repository."
 msgstr "தொலைதூர களஞ்சியம் இல்லாமல் புச் முகவரி பயன்படுத்தப்படாது."
 
-#: weblate/trans/models/component.py:3345
+#: weblate/trans/models/component.py:3377
 msgid ""
 "Your push URL seems to miss credentials. Either provide them in the URL or "
 "use SSH with key based authentication."
@@ -16264,24 +16431,24 @@ msgstr ""
 "உங்கள் புச் முகவரி நற்சான்றிதழ்களைத் தவறவிடுகிறது. அவற்றை முகவரி இல் வழங்கவும் அல்லது "
 "முக்கிய அடிப்படையிலான அங்கீகாரத்துடன் பாஓடு ஐப் பயன்படுத்தவும்."
 
-#: weblate/trans/models/component.py:3350
+#: weblate/trans/models/component.py:3382
 #, python-format
 msgid "Could not update repository: %s"
 msgstr "களஞ்சியத்தை புதுப்பிக்க முடியவில்லை: %s"
 
-#: weblate/trans/models/component.py:3359
+#: weblate/trans/models/component.py:3391
 msgid "Pull and push branches cannot be the same when using merge requests."
 msgstr ""
 "ஒன்றிணைக்கும் கோரிக்கைகளைப் பயன்படுத்தும் போது இழுத்து புச் கிளைகள் ஒரே மாதிரியாக இருக்க "
 "முடியாது."
 
-#: weblate/trans/models/component.py:3369
+#: weblate/trans/models/component.py:3401
 #, python-format
 msgid ""
 "The parameter '%(param)s' is not applicable for the file format '%(format)s'."
 msgstr ""
 
-#: weblate/trans/models/component.py:3383
+#: weblate/trans/models/component.py:3415
 msgid ""
 "Please either fill in an instruction URL or use a different option for "
 "adding a new language."
@@ -16289,41 +16456,41 @@ msgstr ""
 "தயவுசெய்து ஒரு அறிவுறுத்தல் முகவரி ஐ நிரப்பவும் அல்லது புதிய மொழியைச் சேர்க்க வேறு "
 "விருப்பத்தைப் பயன்படுத்தவும்."
 
-#: weblate/trans/models/component.py:3414
+#: weblate/trans/models/component.py:3447
 msgid ""
 "Source language can not be changed, please recreate the component instead."
 msgstr "மூல மொழியை மாற்ற முடியாது, அதற்கு பதிலாக கூறுகளை மீண்டும் உருவாக்கவும்."
 
-#: weblate/trans/models/component.py:3449
+#: weblate/trans/models/component.py:3479
 msgid "Can not validate file matches due to invalid regular expression."
 msgstr "தவறான வழக்கமான வெளிப்பாடு காரணமாக கோப்பு போட்டிகளை சரிபார்க்க முடியாது."
 
-#: weblate/trans/models/component.py:3460 weblate/trans/models/workflow.py:58
+#: weblate/trans/models/component.py:3496 weblate/trans/models/workflow.py:58
 msgid "Accepting suggestions automatically only works with voting turned on."
 msgstr "பரிந்துரைகளை ஏற்றுக்கொள்வது தானாகவே வாக்களிப்புடன் மட்டுமே செயல்படும்."
 
-#: weblate/trans/models/component.py:3468
+#: weblate/trans/models/component.py:3504
 msgid "To use the key filter, the file format must be monolingual."
 msgstr "முக்கிய வடிப்பானைப் பயன்படுத்த, கோப்பு வடிவம் ஒருமொழி இருக்க வேண்டும்."
 
-#: weblate/trans/models/component.py:3854
+#: weblate/trans/models/component.py:3901
 msgid "Could not add new translation file."
 msgstr "புதிய மொழிபெயர்ப்பு கோப்பைச் சேர்க்க முடியவில்லை."
 
-#: weblate/trans/models/component.py:3861
+#: weblate/trans/models/component.py:3908
 msgid "You do not have permissions to add new translation file."
 msgstr "புதிய மொழிபெயர்ப்பு கோப்பைச் சேர்க்க உங்களுக்கு இசைவு இல்லை."
 
-#: weblate/trans/models/component.py:3869
-#: weblate/trans/models/component.py:3877
+#: weblate/trans/models/component.py:3916
+#: weblate/trans/models/component.py:3924
 msgid "The monolingual base language file is invalid."
 msgstr "ஒருமொழி அடிப்படை மொழி கோப்பு தவறானது."
 
-#: weblate/trans/models/component.py:3882
+#: weblate/trans/models/component.py:3929
 msgid "The template for new translations is invalid."
 msgstr "புதிய மொழிபெயர்ப்புகளுக்கான வார்ப்புரு தவறானது."
 
-#: weblate/trans/models/component.py:3931
+#: weblate/trans/models/component.py:3978
 #, fuzzy
 #| msgid "The given language is filtered by the language filter."
 msgid ""
@@ -16331,39 +16498,43 @@ msgid ""
 "settings."
 msgstr "மொழி வடிகட்டியால் கொடுக்கப்பட்ட மொழி வடிகட்டப்படுகிறது."
 
-#: weblate/trans/models/component.py:3937
+#: weblate/trans/models/component.py:3984
 msgid "The given language is used as a source language."
 msgstr "கொடுக்கப்பட்ட மொழி மூல மொழியாக பயன்படுத்தப்படுகிறது."
 
-#: weblate/trans/models/component.py:3941
+#: weblate/trans/models/component.py:3988
 msgid "The given language already exists."
 msgstr "கொடுக்கப்பட்ட மொழி ஏற்கனவே உள்ளது."
 
-#: weblate/trans/models/component.py:3947
+#: weblate/trans/models/component.py:3994
 msgid "The given language is filtered by the language filter."
 msgstr "மொழி வடிகட்டியால் கொடுக்கப்பட்ட மொழி வடிகட்டப்படுகிறது."
 
-#: weblate/trans/models/component.py:3979
+#: weblate/trans/models/component.py:4026
 msgid "Translation file already exists!"
 msgstr "மொழிபெயர்ப்பு கோப்பு ஏற்கனவே உள்ளது!"
 
-#: weblate/trans/models/component.py:4008
+#: weblate/trans/models/component.py:4055
 msgid "The translation will be updated in the background."
 msgstr "மொழிபெயர்ப்பு பின்னணியில் புதுப்பிக்கப்படும்."
 
 #. Translators: Translation key for monolingual translations
-#: weblate/trans/models/component.py:4070 weblate/utils/views.py:223
+#: weblate/trans/models/component.py:4117 weblate/utils/views.py:223
 msgctxt "Translation key"
 msgid "Key"
 msgstr "விசை"
 
-#: weblate/trans/models/component.py:4155
+#: weblate/trans/models/component.py:4202
 msgid "Add new translation string"
 msgstr "புதிய மொழிபெயர்ப்பு சரம் சேர்க்கவும்"
 
-#: weblate/trans/models/component.py:4204
+#: weblate/trans/models/component.py:4251
 msgid "Could not get repository status!"
 msgstr "களஞ்சிய நிலையைப் பெற முடியவில்லை!"
+
+#: weblate/trans/models/component.py:4284
+msgid "Invalid symbolic link in a repository."
+msgstr ""
 
 #: weblate/trans/models/componentlist.py:31
 msgid "Component list name"
@@ -16550,103 +16721,103 @@ msgstr ""
 msgid "Could not parse file %(file)s: %(error)s"
 msgstr "கோப்பு %(file)s: %(error)s அலச முடியவில்லை"
 
-#: weblate/trans/models/translation.py:1171
+#: weblate/trans/models/translation.py:1177
 msgid "“{}”"
 msgstr "“{}”"
 
-#: weblate/trans/models/translation.py:1174
+#: weblate/trans/models/translation.py:1180
 msgid "…"
 msgstr "…"
 
-#: weblate/trans/models/translation.py:1181
+#: weblate/trans/models/translation.py:1187
 #, python-format
 msgid "Could not find %d string:"
 msgid_plural "Could not find %d strings:"
 msgstr[0] "%d சரம் கண்டுபிடிக்க முடியவில்லை:"
 msgstr[1] "%d சரங்களை கண்டுபிடிக்க முடியவில்லை:"
 
-#: weblate/trans/models/translation.py:1372
-#: weblate/trans/models/translation.py:1425
-#: weblate/trans/models/translation.py:1507
+#: weblate/trans/models/translation.py:1378
+#: weblate/trans/models/translation.py:1431
+#: weblate/trans/models/translation.py:1513
 #, python-format
 msgid "Could not commit pending changes: %s"
 msgstr "நிலுவையில் உள்ள மாற்றங்களைச் செய்ய முடியவில்லை: %s"
 
-#: weblate/trans/models/translation.py:2086
+#: weblate/trans/models/translation.py:2095
 msgid "Plurals are not supported by the file format."
 msgstr "கோப்பு வடிவத்தால் பன்மை ஆதரிக்கப்படவில்லை."
 
-#: weblate/trans/models/translation.py:2091 weblate/trans/models/unit.py:848
+#: weblate/trans/models/translation.py:2100 weblate/trans/models/unit.py:849
 #: weblate/utils/forms.py:127
 #, python-format
 msgid "String contains control character: %s"
 msgstr "சரம் கட்டுப்பாட்டு எழுத்து: %s"
 
-#: weblate/trans/models/translation.py:2096
+#: weblate/trans/models/translation.py:2105
 msgid "Empty state is supported for blank strings only."
 msgstr "வெற்று மாநிலங்கள் வெற்று சரங்களுக்கு மட்டுமே ஆதரிக்கப்படுகின்றன."
 
-#: weblate/trans/models/translation.py:2099
+#: weblate/trans/models/translation.py:2108
 msgid "Blank strings require an empty state."
 msgstr "வெற்று சரங்களுக்கு வெற்று நிலை தேவை."
 
-#: weblate/trans/models/translation.py:2103
+#: weblate/trans/models/translation.py:2112
 msgid "Approved state is not available as reviews are not enabled."
 msgstr "மதிப்புரைகள் இயக்கப்படாததால் அங்கீகரிக்கப்பட்ட நிலை கிடைக்கவில்லை."
 
-#: weblate/trans/models/translation.py:2111
+#: weblate/trans/models/translation.py:2120
 msgid "This string seems to already exist."
 msgstr "இந்த சரம் ஏற்கனவே இருப்பதாக தெரிகிறது."
 
-#: weblate/trans/models/translation.py:2118
+#: weblate/trans/models/translation.py:2127
 msgid "Failed adding string, no translation found."
 msgstr "சரம் சேர்ப்பதில் தோல்வி, மொழிபெயர்ப்பு எதுவும் கிடைக்கவில்லை."
 
-#: weblate/trans/models/unit.py:466
+#: weblate/trans/models/unit.py:467
 msgid "Indicates whether this string was translated automatically."
 msgstr ""
 
-#: weblate/trans/models/unit.py:1280
+#: weblate/trans/models/unit.py:1281
 #, python-format
 msgid "String could not be propagated to %(component)s: %(reason)s"
 msgstr "சரத்தை %(component)s: %(reason)s பரப்ப முடியாது"
 
-#: weblate/trans/models/unit.py:1305
+#: weblate/trans/models/unit.py:1306
 #, python-format
 msgid "String could not be propagated to %d component."
 msgid_plural "String could not be propagated to %d components."
 msgstr[0] "சரத்தை %d கூறுக்கு பரப்ப முடியவில்லை."
 msgstr[1] "சரங்களை %d கூறுக்கு பரப்ப முடியவில்லை."
 
-#: weblate/trans/models/unit.py:2116
+#: weblate/trans/models/unit.py:2117
 msgid "Unmark as read-only"
 msgstr "படிக்க மட்டும் என குறிக்காதே"
 
-#: weblate/trans/models/unit.py:2119
+#: weblate/trans/models/unit.py:2120
 msgid "Mark as read-only"
 msgstr "படிக்க மட்டும் குறிக்கவும்"
 
-#: weblate/trans/models/unit.py:2123
+#: weblate/trans/models/unit.py:2124
 msgid "Unmark as untranslatable"
 msgstr "மொழிபெயர்க்க முடியாதது எனக் குறிக்காதே"
 
-#: weblate/trans/models/unit.py:2127
+#: weblate/trans/models/unit.py:2128
 msgid "Mark as untranslatable"
 msgstr "மொழிபெயர்க்க முடியாதது எனக் குறிக்கவும்"
 
-#: weblate/trans/models/unit.py:2134
+#: weblate/trans/models/unit.py:2135
 msgid "Unmark as forbidden translation"
 msgstr "தடைசெய்யப்பட்ட மொழிபெயர்ப்பு என மதிப்பிடப்பட்டுள்ளது"
 
-#: weblate/trans/models/unit.py:2142
+#: weblate/trans/models/unit.py:2143
 msgid "Mark as forbidden translation"
 msgstr "தடைசெய்யப்பட்ட மொழிபெயர்ப்பு என குறிக்கவும்"
 
-#: weblate/trans/models/unit.py:2150
+#: weblate/trans/models/unit.py:2151
 msgid "Unmark as terminology"
 msgstr "சொற்களஞ்சியமாக குறிக்காதே"
 
-#: weblate/trans/models/unit.py:2158
+#: weblate/trans/models/unit.py:2159
 msgid "Mark as terminology"
 msgstr "சொற்களஞ்சியமாகக் குறிக்கவும்"
 
@@ -16707,299 +16878,193 @@ msgstr "எம் கோடு"
 msgid "User configured character: {}"
 msgstr "பயனர் கட்டமைக்கப்பட்ட எழுத்து: {}"
 
-#: weblate/trans/templatetags/translations.py:105
+#: weblate/trans/templatetags/translations.py:106
 msgid "Good configuration"
 msgstr "நல்ல உள்ளமைவு"
 
-#: weblate/trans/templatetags/translations.py:106
+#: weblate/trans/templatetags/translations.py:107
 msgid "Bad configuration"
 msgstr "மோசமான உள்ளமைவு"
 
-#: weblate/trans/templatetags/translations.py:107
+#: weblate/trans/templatetags/translations.py:108
 msgid "Possible configuration"
 msgstr "சாத்தியமான உள்ளமைவு"
 
 #. Translators: Glossary term formatting used in a tooltip
-#: weblate/trans/templatetags/translations.py:277
+#: weblate/trans/templatetags/translations.py:278
 #, python-brace-format
 msgctxt "glossary term"
 msgid "{target} [{source}]"
 msgstr "{target} [{source}]"
 
-#: weblate/trans/templatetags/translations.py:295
+#: weblate/trans/templatetags/translations.py:296
 msgid "Forbidden translation:"
 msgid_plural "Forbidden translations:"
 msgstr[0] "தடைசெய்யப்பட்ட மொழிபெயர்ப்பு:"
 msgstr[1] "தடைசெய்யப்பட்ட மொழிபெயர்ப்புகள்:"
 
-#: weblate/trans/templatetags/translations.py:308
+#: weblate/trans/templatetags/translations.py:309
 msgid "Untranslatable term:"
 msgid_plural "Untranslatable terms:"
 msgstr[0] "மொழிபெயர்க்க முடியாத சொல்:"
 msgstr[1] "மொழிபெயர்க்க முடியாத சொற்கள்:"
 
-#: weblate/trans/templatetags/translations.py:321
+#: weblate/trans/templatetags/translations.py:322
 msgid "Glossary term:"
 msgid_plural "Glossary terms:"
 msgstr[0] "சொற்களஞ்சிய சொல்:"
 msgstr[1] "சொற்களஞ்சிய சொற்கள்:"
 
-#: weblate/trans/templatetags/translations.py:720
-msgid "a year ago"
-msgstr "ஒரு ஆண்டு முன்பு"
-
-#: weblate/trans/templatetags/translations.py:721
-#, python-format
-msgid "%(count)s year ago"
-msgid_plural "%(count)s years ago"
-msgstr[0] "%(count)s ஆண்டுக்கு முன்பு"
-msgstr[1] "%(count)s ஆண்டுகளுக்கு முன்பு"
-
-#: weblate/trans/templatetags/translations.py:727
-msgid "a month ago"
-msgstr "ஒரு திங்களுக்கு முன்"
-
-#: weblate/trans/templatetags/translations.py:728
-#, python-format
-msgid "%(count)s month ago"
-msgid_plural "%(count)s months ago"
-msgstr[0] "%(count)s திங்களுக்கு முன்பு"
-msgstr[1] "%(count)s திங்கள்களுக்கு முன்பு"
-
-#: weblate/trans/templatetags/translations.py:733
-#, python-format
-msgid "%(count)s week ago"
-msgid_plural "%(count)s weeks ago"
-msgstr[0] "%(count)s வாரத்திற்கு முன்பு"
-msgstr[1] "%(count)s வாரங்களுக்கு முன்பு"
-
-#: weblate/trans/templatetags/translations.py:738
-msgid "a week ago"
-msgstr "ஒரு வாரத்திற்கு முன்பு"
-
-#: weblate/trans/templatetags/translations.py:740
-msgid "yesterday"
-msgstr "நேற்று"
-
-#: weblate/trans/templatetags/translations.py:741
-#, python-format
-msgid "%(count)s day ago"
-msgid_plural "%(count)s days ago"
-msgstr[0] "%(count)s நாள் முன்பு"
-msgstr[1] "%(count)s நாட்களுக்கு முன்பு"
-
-#: weblate/trans/templatetags/translations.py:745
-#: weblate/trans/templatetags/translations.py:799
-msgid "now"
-msgstr "இப்போது"
-
-#: weblate/trans/templatetags/translations.py:748
-msgid "a second ago"
-msgstr "ஒரு நொடி முன்பு"
-
-#: weblate/trans/templatetags/translations.py:750
-#, python-format
-msgid "%(count)s second ago"
-msgid_plural "%(count)s seconds ago"
-msgstr[0] "%(count)s நொடி முன்"
-msgstr[1] "%(count)s நொடிகளுக்கு முன்பு"
-
-#: weblate/trans/templatetags/translations.py:755
-msgid "a minute ago"
-msgstr "ஒரு மணிதுளி முன்பு"
-
-#: weblate/trans/templatetags/translations.py:756
-#, python-format
-msgid "%(count)s minute ago"
-msgid_plural "%(count)s minutes ago"
-msgstr[0] "%(count)s ஒரு மணிதுளி முன்பு"
-msgstr[1] "%(count)s மணிதுளிகளுக்கு முன்பு"
-
-#: weblate/trans/templatetags/translations.py:761
-msgid "an hour ago"
-msgstr "ஒரு மணி நேரம் முன்பு"
-
-#: weblate/trans/templatetags/translations.py:762
-#, python-format
-msgid "%(count)s hour ago"
-msgid_plural "%(count)s hours ago"
-msgstr[0] "%(count)s மணி நேரத்திற்கு முன்பு"
-msgstr[1] "%(count)s மணி நேரத்திற்கு முன்பு"
-
-#: weblate/trans/templatetags/translations.py:774
-msgid "a year from now"
-msgstr "இப்போதிலிருந்து ஒரு ஆண்டு"
-
-#: weblate/trans/templatetags/translations.py:776
-#, python-format
-msgid "%(count)s year from now"
-msgid_plural "%(count)s years from now"
-msgstr[0] "இப்போதிலிருந்து %(count)s ஆண்டு"
-msgstr[1] "இப்போதிலிருந்து %(count)s ஆண்டுகள்"
-
-#: weblate/trans/templatetags/translations.py:781
-msgid "a month from now"
-msgstr "இப்போதிலிருந்து ஒரு திங்கள்"
-
-#: weblate/trans/templatetags/translations.py:783
-#, python-format
-msgid "%(count)s month from now"
-msgid_plural "%(count)s months from now"
-msgstr[0] "இப்போதிலிருந்து %(count)s திங்கள்"
-msgstr[1] "இப்போதிலிருந்து %(count)s திங்கள்கள்"
-
-#: weblate/trans/templatetags/translations.py:788
-#, python-format
-msgid "%(count)s week from now"
-msgid_plural "%(count)s weeks from now"
-msgstr[0] "இப்போதிலிருந்து %(count)s வாரம்"
-msgstr[1] "இப்போதிலிருந்து %(count)s வாரங்கள்"
-
-#: weblate/trans/templatetags/translations.py:792
-msgid "tomorrow"
-msgstr "நாளை"
-
-#: weblate/trans/templatetags/translations.py:794
-msgid "a week from now"
-msgstr "இப்போதிலிருந்து ஒரு வாரம்"
-
-#: weblate/trans/templatetags/translations.py:796
-#, python-format
-msgid "%(count)s day from now"
-msgid_plural "%(count)s days from now"
-msgstr[0] "இப்போதிலிருந்து %(count)s நாள்"
-msgstr[1] "இப்போதிலிருந்து %(count)s நாட்கள்"
-
-#: weblate/trans/templatetags/translations.py:802
-msgid "a second from now"
-msgstr "இப்போதிலிருந்து ஒரு நொடி"
-
-#: weblate/trans/templatetags/translations.py:804
-#, python-format
-msgid "%(count)s second from now"
-msgid_plural "%(count)s seconds from now"
-msgstr[0] "இப்போதிலிருந்து %(count)s நொடி"
-msgstr[1] "இப்போதிலிருந்து %(count)s நொடிகள்"
-
 #: weblate/trans/templatetags/translations.py:809
-msgid "a minute from now"
-msgstr "இப்போதிலிருந்து ஒரு மணிதுளி"
-
-#: weblate/trans/templatetags/translations.py:811
-#, python-format
-msgid "%(count)s minute from now"
-msgid_plural "%(count)s minutes from now"
-msgstr[0] "இப்போதிலிருந்து %(count)s மணிதுளி"
-msgstr[1] "இப்போதிலிருந்து %(count)s மணிதுளிகள்"
-
-#: weblate/trans/templatetags/translations.py:815
-msgid "an hour from now"
-msgstr "இப்போதிலிருந்து ஒரு மணி நேரம்"
-
-#: weblate/trans/templatetags/translations.py:816
-#, python-format
-msgid "%(count)s hour from now"
-msgid_plural "%(count)s hours from now"
-msgstr[0] "இப்போதிலிருந்து %(count)s மணிநேரம்"
-msgstr[1] "இப்போதிலிருந்து %(count)s மணிநேரங்கள்"
-
-#: weblate/trans/templatetags/translations.py:920
 msgid "Translated without any problems"
 msgstr "எந்த பிரச்சனையும் இல்லாமல் மொழிபெயர்க்கப்பட்டுள்ளது"
 
-#: weblate/trans/templatetags/translations.py:925
+#: weblate/trans/templatetags/translations.py:814
 msgid "Needs attention"
 msgstr "கவனம் தேவை"
 
-#: weblate/trans/templatetags/translations.py:997
+#: weblate/trans/templatetags/translations.py:886
 msgctxt "String state"
 msgid "Dismissed checks:"
 msgstr "தள்ளுபடி செய்யப்பட்ட சரிபார்ப்புகள்:"
 
-#: weblate/trans/templatetags/translations.py:1002
+#: weblate/trans/templatetags/translations.py:891
 msgctxt "String state"
 msgid "Commented"
 msgstr "கருத்திடப்பட்டது"
 
-#: weblate/trans/templatetags/translations.py:1004
+#: weblate/trans/templatetags/translations.py:893
 msgctxt "String state"
 msgid "Suggested"
 msgstr "பரிந்துரைக்கப்பட்டது"
 
-#: weblate/trans/templatetags/translations.py:1006
+#: weblate/trans/templatetags/translations.py:895
 msgctxt "String state"
 msgid "Automatically translated"
 msgstr "தானாக மொழிபெயர்க்கப்பட்டுள்ளது"
 
-#: weblate/trans/templatetags/translations.py:1046
+#: weblate/trans/templatetags/translations.py:935
 #, python-format
 msgid "string ID %s"
 msgstr "சரம் அடையளம் %s"
 
-#: weblate/trans/templatetags/translations.py:1190
+#: weblate/trans/templatetags/translations.py:1079
 msgid "This language is used for source strings."
 msgstr "இந்த மொழி மூல சரங்களுக்கு பயன்படுத்தப்படுகிறது."
 
-#: weblate/trans/templatetags/translations.py:1214
-#: weblate/trans/templatetags/translations.py:1234
+#: weblate/trans/templatetags/translations.py:1103
+#: weblate/trans/templatetags/translations.py:1123
 msgid "This translation is locked."
 msgstr "இந்த மொழிபெயர்ப்பு பூட்டப்பட்டுள்ளது."
 
-#: weblate/trans/templatetags/translations.py:1219
+#: weblate/trans/templatetags/translations.py:1108
 msgid "Updating translation component…"
 msgstr "மொழிபெயர்ப்பு கூறு புதுப்பித்தல்…"
 
-#: weblate/trans/templatetags/translations.py:1229
+#: weblate/trans/templatetags/translations.py:1118
 msgid "Some of the components within this project have alerts."
 msgstr "இந்த திட்டத்தில் உள்ள சில கூறுகள் விழிப்பூட்டல்களைக் கொண்டுள்ளன."
 
-#: weblate/trans/templatetags/translations.py:1258
+#: weblate/trans/templatetags/translations.py:1147
 msgid "You administrate this project."
 msgstr "இந்த திட்டத்தை நீங்கள் நிர்வகிக்கிறீர்கள்."
 
-#: weblate/trans/templatetags/translations.py:1270
+#: weblate/trans/templatetags/translations.py:1159
 msgid "This translation does not yet exist."
 msgstr "இந்த மொழிபெயர்ப்பு இன்னும் இல்லை."
 
-#: weblate/trans/templatetags/translations.py:1283
+#: weblate/trans/templatetags/translations.py:1172
 #, python-format
 msgid "%(count)s string is not being translated here."
 msgid_plural "%(count)s strings are not being translated here."
 msgstr[0] "%(count)s எச் சரம் இங்கே மொழிபெயர்க்கப்படவில்லை."
 msgstr[1] "%(count)s எச் சரங்கள் இங்கே மொழிபெயர்க்கப்படவில்லை."
 
-#: weblate/trans/templatetags/translations.py:1296
+#: weblate/trans/templatetags/translations.py:1185
 #, python-format
 msgid "Shared from the %s project."
 msgstr "%s திட்டத்திலிருந்து பகிரப்பட்டது."
 
 #. Translators: Number format, in millions (mega)
-#: weblate/trans/templatetags/translations.py:1414
+#: weblate/trans/templatetags/translations.py:1303
 #, python-format
 msgid "%s M"
 msgstr "%s மெ"
 
 #. Translators: Number format, in thousands (kilo)
-#: weblate/trans/templatetags/translations.py:1418
+#: weblate/trans/templatetags/translations.py:1307
 #, python-format
 msgid "%s k"
 msgstr "%s கி"
 
-#: weblate/trans/templatetags/translations.py:1665
+#: weblate/trans/templatetags/translations.py:1554
 #, python-format
 msgid "Completed translation with %(count)s string"
 msgid_plural "Completed translation with %(count)s strings"
 msgstr[0] "%(count)s சரம் கொண்ட மொழிபெயர்ப்பு"
 msgstr[1] "%(count)s சரங்களுடன் மொழிபெயர்ப்பு"
 
-#: weblate/trans/templatetags/translations.py:1675
+#: weblate/trans/templatetags/translations.py:1564
 msgid "No strings to translate"
 msgstr "மொழிபெயர்க்க சரங்கள் இல்லை"
 
-#: weblate/trans/templatetags/translations.py:1693
+#: weblate/trans/templatetags/translations.py:1582
 #, python-format
 msgid "%(value)s of %(all)s"
 msgstr "%(value)s %(all)s இல்"
+
+#: weblate/trans/templatetags/upload_methods.py:23
+msgid ""
+"Imported strings are added as translations to existing strings. This is the "
+"most common usecase, and the default behavior."
+msgstr ""
+"இறக்குமதி செய்யப்பட்ட சரங்கள் இருக்கும் சரத்திற்கு மொழிபெயர்ப்புகளாக சேர்க்கப்படுகின்றன. இது "
+"மிகவும் பொதுவான பயன்பாட்டு வழக்கு, மற்றும் இயல்புநிலை நடத்தை."
+
+#: weblate/trans/templatetags/upload_methods.py:27
+msgid ""
+"Imported strings are added as approved translations. Do this when you "
+"already reviewed your translations before uploading them."
+msgstr ""
+"இறக்குமதி செய்யப்பட்ட சரங்கள் அங்கீகரிக்கப்பட்ட மொழிபெயர்ப்புகளாக சேர்க்கப்படுகின்றன. உங்கள் "
+"மொழிபெயர்ப்புகளை பதிவேற்றுவதற்கு முன் அவற்றை ஏற்கனவே மதிப்பாய்வு செய்தபோது இதைச் "
+"செய்யுங்கள்."
+
+#: weblate/trans/templatetags/upload_methods.py:31
+msgid ""
+"Imported strings are added as suggestions. Do this when you want to have "
+"your uploaded strings reviewed."
+msgstr ""
+"இறக்குமதி செய்யப்பட்ட சரங்கள் பரிந்துரைகளாக சேர்க்கப்படுகின்றன. நீங்கள் பதிவேற்றிய சரங்களை "
+"மதிப்பாய்வு செய்ய விரும்பும் போது இதைச் செய்யுங்கள்."
+
+#: weblate/trans/templatetags/upload_methods.py:35
+msgid ""
+"Imported strings are added as translations needing edit. This can be useful "
+"when you want translations to be used, but also reviewed."
+msgstr ""
+"திருத்த வேண்டிய மொழிபெயர்ப்புகளாக இறக்குமதி செய்யப்பட்ட சரங்கள் சேர்க்கப்படுகின்றன. "
+"மொழிபெயர்ப்புகள் பயன்படுத்தப்பட வேண்டும் என்று நீங்கள் விரும்பும்போது இது பயனுள்ளதாக "
+"இருக்கும், ஆனால் மதிப்பாய்வு செய்யப்படுகிறது."
+
+#: weblate/trans/templatetags/upload_methods.py:39
+msgid ""
+"Existing file is replaced with new content. This can lead to loss of "
+"existing translations, use with caution."
+msgstr ""
+"தற்போதுள்ள கோப்பு புதிய உள்ளடக்கத்துடன் மாற்றப்படுகிறது. இது தற்போதுள்ள மொழிபெயர்ப்புகளை "
+"இழக்க வழிவகுக்கும், எச்சரிக்கையுடன் பயன்படுத்தலாம்."
+
+#: weblate/trans/templatetags/upload_methods.py:43
+msgid ""
+"Adds new strings to the translation. It skips the ones which already exist."
+msgstr ""
+
+#: weblate/trans/templatetags/upload_methods.py:46
+#, fuzzy
+#| msgid "Leave empty for bilingual translation files."
+msgid "Updates source strings in bilingual translation file."
+msgstr "இருமொழி மொழிபெயர்ப்பு கோப்புகளுக்கு காலியாக விடவும்."
 
 #: weblate/trans/util.py:77
 msgid "Very high"
@@ -17091,10 +17156,9 @@ msgid "File format parameters must be a dictionary of key-value pairs."
 msgstr ""
 
 #: weblate/trans/validators.py:84
-#, fuzzy, python-format
-#| msgid "File format"
+#, python-format
 msgid "Unknown file format parameter: \"%(param_name)s\"."
-msgstr "கோப்பு வகை"
+msgstr "அறியப்படாத கோப்பு வடிவமைப்பு அளவுரு: \"%(param_name)s\"."
 
 #: weblate/trans/views/about.py:22
 msgid "Keys"
@@ -17138,32 +17202,33 @@ msgid "Language addition is not supported by any of the components."
 msgstr ""
 
 #: weblate/trans/views/basic.py:840
-#, fuzzy, python-format
-#| msgid "New language added to %(component)s"
+#, python-format
 msgid "Language %(language)s added to %(count)d component."
 msgid_plural "Language %(language)s added to %(count)d components."
-msgstr[0] "புதிய மொழி %(component)s சேர்க்கப்பட்டுள்ளது"
-msgstr[1] "புதிய மொழி %(component)s சேர்க்கப்பட்டுள்ளது"
+msgstr[0] "மொழி %(language)s %(count)d கூறில் சேர்க்கப்பட்டது."
+msgstr[1] "மொழி %(language)s %(count)d கூறுகளில் சேர்க்கப்பட்டது."
 
 #: weblate/trans/views/basic.py:854
-#, fuzzy, python-format
-#| msgid "New language request in %(component)s"
+#, python-format
 msgid "Language %(language)s requested for %(count)d component."
 msgid_plural "Language %(language)s requested for %(count)d components."
-msgstr[0] "%(component)s புதிய மொழி கோரிக்கை"
-msgstr[1] "%(component)s புதிய மொழி கோரிக்கை"
+msgstr[0] "%(count)d கூறுக்கு மொழி %(language)s கோரப்பட்டது."
+msgstr[1] "%(count)d கூறுகளுக்கு மொழி %(language)s கோரப்பட்டது."
 
 #: weblate/trans/views/basic.py:868
-#, fuzzy, python-format
-#| msgid "New language added to %(component)s"
+#, python-format
 msgid ""
 "Language %(language)s could not be added to %(count)d component. Please "
 "check the component's configuration."
 msgid_plural ""
 "Language %(language)s could not be added to %(count)d components. Please "
 "check the components' configuration."
-msgstr[0] "புதிய மொழி %(component)s சேர்க்கப்பட்டுள்ளது"
-msgstr[1] "புதிய மொழி %(component)s சேர்க்கப்பட்டுள்ளது"
+msgstr[0] ""
+"மொழி %(language)s -ஐ %(count)d உபகரணத்தில் சேர்க்க இயலாது. உபகரணத்தின் உள்ளமைவை "
+"சரிபார்க்கவும்."
+msgstr[1] ""
+"மொழி %(language)s %(count)d கூறுகளில் சேர்க்க முடியவில்லை. கூறுகளின் உள்ளமைவைச் "
+"சரிபார்க்கவும்."
 
 #: weblate/trans/views/basic.py:944
 msgid ""
@@ -17206,16 +17271,16 @@ msgctxt "Changes in language"
 msgid "Changes in %s"
 msgstr "%s இல் மாற்றங்கள்"
 
-#: weblate/trans/views/create.py:74
+#: weblate/trans/views/create.py:75
 msgid "The supplied configuration is incorrect. Please check the errors below."
 msgstr "வழங்கப்பட்ட உள்ளமைவு தவறானது. கீழே உள்ள பிழைகளை சரிபார்க்கவும்."
 
-#: weblate/trans/views/create.py:281
+#: weblate/trans/views/create.py:282
 #, python-format
 msgid "Detected license as %s, please check whether it is correct."
 msgstr "உரிமம் %s என கண்டறியப்பட்டது, அது சரியானதா என்பதை சரிபார்க்கவும்."
 
-#: weblate/trans/views/create.py:434
+#: weblate/trans/views/create.py:435
 msgid "Could not parse uploaded ZIP file."
 msgstr "பதிவேற்றிய சுருக்கு கோப்பை அலச முடியவில்லை."
 
@@ -17570,7 +17635,7 @@ msgstr "மொழி எண்ணிக்கை ஒட்டு"
 msgid "Threshold"
 msgstr "வாசல்"
 
-#: weblate/trans/widgets.py:575 weblate/utils/views.py:636
+#: weblate/trans/widgets.py:575 weblate/utils/views.py:637
 #, python-format
 msgid "Error in parameter %(field)s: %(error)s"
 msgstr "அளவுரு %(field)s: %(error)s பிழை"
@@ -17784,16 +17849,16 @@ msgctxt "String state"
 msgid "Waiting for review"
 msgstr "மதிப்பாய்வுக்காக காத்திருக்கிறது"
 
-#: weblate/utils/validators.py:72
+#: weblate/utils/validators.py:79
 #, python-brace-format
 msgid "Compilation failed: {0}"
 msgstr "தொகுப்பு தோல்வியுற்றது: {0}"
 
-#: weblate/utils/validators.py:76
+#: weblate/utils/validators.py:83
 msgid "The regular expression can not match an empty string."
 msgstr "வழக்கமான வெளிப்பாடு வெற்று சரத்துடன் பொருந்தாது."
 
-#: weblate/utils/validators.py:84
+#: weblate/utils/validators.py:91
 #, python-brace-format
 msgid ""
 "Regular expression is missing named group \"{0}\", the simplest way to "
@@ -17802,112 +17867,116 @@ msgstr ""
 "வழக்கமான வெளிப்பாடு பெயரிடப்பட்ட குழு \"{0}\" ஐக் காணவில்லை, அதை வரையறுக்க எளிய வழி "
 "{1}."
 
-#: weblate/utils/validators.py:126
+#: weblate/utils/validators.py:133
 msgid "The uploaded image was invalid."
 msgstr "பதிவேற்றிய படம் தவறானது."
 
-#: weblate/utils/validators.py:143
+#: weblate/utils/validators.py:150
 msgid "The image is too big, please crop or scale it down."
 msgstr "படம் மிகப் பெரியது, தயவுசெய்து அதை வெட்டு அல்லது அளவிடவும்."
 
-#: weblate/utils/validators.py:162
+#: weblate/utils/validators.py:169
 msgid "Please avoid using special characters in the full name."
 msgstr "முழு பெயரில் சிறப்பு எழுத்துக்களைப் பயன்படுத்துவதைத் தவிர்க்கவும்."
 
-#: weblate/utils/validators.py:167
+#: weblate/utils/validators.py:174
 msgid "This name cannot be registered. Please choose a different one."
 msgstr ""
 
-#: weblate/utils/validators.py:172
+#: weblate/utils/validators.py:179
 msgid "Name consists only of disallowed characters."
 msgstr "பெயர் அனுமதிக்கப்படாத கதாபாத்திரங்களை மட்டுமே கொண்டுள்ளது."
 
-#: weblate/utils/validators.py:175
+#: weblate/utils/validators.py:182
 #, fuzzy
 #| msgid "Name consists only of disallowed characters."
 msgid "Name contains disallowed characters."
 msgstr "பெயர் அனுமதிக்கப்படாத கதாபாத்திரங்களை மட்டுமே கொண்டுள்ளது."
 
-#: weblate/utils/validators.py:190
+#: weblate/utils/validators.py:197
 msgid "The username can not start with a full stop."
 msgstr "பயனர்பெயர் முழு நிறுத்தத்துடன் தொடங்க முடியாது."
 
-#: weblate/utils/validators.py:201
+#: weblate/utils/validators.py:208
 msgid "This username cannot be registered. Please choose a different one."
 msgstr ""
 
-#: weblate/utils/validators.py:207 weblate/utils/validators.py:215
+#: weblate/utils/validators.py:214 weblate/utils/validators.py:222
 msgid "Enter a valid e-mail address."
 msgstr "செல்லுபடியாகும் மின்னஞ்சல் முகவரியை உள்ளிடவும்."
 
-#: weblate/utils/validators.py:217
+#: weblate/utils/validators.py:224
 msgid "This e-mail address is disallowed."
 msgstr "இந்த மின்னஞ்சல் முகவரி அனுமதிக்கப்படவில்லை."
 
-#: weblate/utils/validators.py:222
+#: weblate/utils/validators.py:229
 msgid "Invalid e-mail address: {}"
 msgstr "தவறான மின்னஞ்சல் முகவரி: {}"
 
-#: weblate/utils/validators.py:226
+#: weblate/utils/validators.py:233
 msgid "Disposable e-mail domains are disallowed."
 msgstr "செலவழிப்பு மின்னஞ்சல் களங்கள் அனுமதிக்கப்படவில்லை."
 
-#: weblate/utils/validators.py:237
+#: weblate/utils/validators.py:244
 msgid "Could not evaluate plural formula: {}"
 msgstr "பன்மை சூத்திரத்தை மதிப்பீடு செய்ய முடியவில்லை: {}"
 
-#: weblate/utils/validators.py:244
+#: weblate/utils/validators.py:251
 msgid "The filename can not contain reference to a parent directory."
 msgstr "கோப்பு பெயரில் பெற்றோர் கோப்பகத்தின் குறிப்பு இருக்க முடியாது."
 
-#: weblate/utils/validators.py:247
+#: weblate/utils/validators.py:254
 msgid "The filename can not be an absolute path."
 msgstr "கோப்பு பெயர் ஒரு முழுமையான பாதையாக இருக்க முடியாது."
 
-#: weblate/utils/validators.py:253
+#: weblate/utils/validators.py:260
 msgid "The filename should be as simple as possible. Maybe you want to use: {}"
 msgstr ""
 "கோப்பு பெயர் முடிந்தவரை எளிமையாக இருக்க வேண்டும். ஒருவேளை நீங்கள் பயன்படுத்த விரும்பலாம்: "
 "{}"
 
-#: weblate/utils/validators.py:292 weblate/utils/validators.py:309
+#: weblate/utils/validators.py:265
+msgid "The filename contains a prohibited folder."
+msgstr "இந்தப் பெயர் தடைசெய்யப்பட்டுள்ளது."
+
+#: weblate/utils/validators.py:306 weblate/utils/validators.py:323
 msgid "This name is prohibited"
 msgstr "இந்த பெயர் தடைசெய்யப்பட்டுள்ளது"
 
-#: weblate/utils/validators.py:301
+#: weblate/utils/validators.py:315
 msgid "Syntax error in language aliases."
 msgstr "மொழி மாற்றுப்பெயர்களில் தொடரியல் பிழை."
 
-#: weblate/utils/validators.py:317 weblate/utils/validators.py:326
-#: weblate/utils/validators.py:335
+#: weblate/utils/validators.py:331 weblate/utils/validators.py:340
+#: weblate/utils/validators.py:349
 msgid "This URL is prohibited"
 msgstr "இந்த முகவரி தடைசெய்யப்பட்டுள்ளது"
 
-#: weblate/utils/validators.py:346
+#: weblate/utils/validators.py:360
 msgid "Invalid base64 encoded string"
 msgstr "தவறான அடிப்படை64 குறிமுறையாக்கப்பட்டசரம்"
 
-#: weblate/utils/validators.py:349
+#: weblate/utils/validators.py:363
 #, fuzzy
 #| msgid "The chosen sorting is not supported."
 msgid "The provided secret is too short."
 msgstr "தேர்ந்தெடுக்கப்பட்ட வரிசையாக்கம் ஆதரிக்கப்படவில்லை."
 
-#: weblate/utils/validators.py:351
+#: weblate/utils/validators.py:365
 msgid "The provided secret is too long."
 msgstr ""
 
-#: weblate/utils/validators.py:430
+#: weblate/utils/validators.py:444
 #, python-format
 msgid "Fetching VCS repository using %s is not allowed."
 msgstr ""
 
-#: weblate/utils/validators.py:441
+#: weblate/utils/validators.py:455
 #, python-format
 msgid "Fetching VCS repository from %s is not allowed."
 msgstr ""
 
-#: weblate/utils/validators.py:458
+#: weblate/utils/validators.py:472
 #, fuzzy
 #| msgid "Enter a valid e-mail address."
 msgid "Enter a valid domain name or IP address."
@@ -17941,7 +18010,7 @@ msgstr "சரம் இடம்"
 msgid "Component and priority"
 msgstr "கூறு மற்றும் முன்னுரிமை"
 
-#: weblate/vcs/base.py:80
+#: weblate/vcs/base.py:85
 msgid "This will push changes to the upstream repository."
 msgstr "இது மேலோடை களஞ்சியத்தில் மாற்றங்களைத் தூண்டும்."
 
@@ -17949,80 +18018,80 @@ msgstr "இது மேலோடை களஞ்சியத்தில் ம
 msgid "This will push changes to the upstream Git repository."
 msgstr "இது மேலோடை அறிவிலி களஞ்சியத்தில் மாற்றங்களைத் தள்ளும்."
 
-#: weblate/vcs/git.py:632
+#: weblate/vcs/git.py:626
 msgid "Possible cleanups:"
 msgstr "சாத்தியமான தூய்மைப்படுத்தல்கள்:"
 
-#: weblate/vcs/git.py:644
+#: weblate/vcs/git.py:638
 msgid "This will push changes to Gerrit for a review."
 msgstr "இது ஒரு மதிப்பாய்வுக்காக செரிட்டுக்கு மாற்றங்களைத் தூண்டும்."
 
-#: weblate/vcs/git.py:691
+#: weblate/vcs/git.py:685
 msgid "This will commit changes to the Subversion repository."
 msgstr "இது சப்வர்சன் களஞ்சியத்தில் மாற்றங்களைச் செய்யும்."
 
-#: weblate/vcs/git.py:868
+#: weblate/vcs/git.py:862
 msgid "Git with force push"
 msgstr "படை உந்துதலுடன் அறிவிலி"
 
-#: weblate/vcs/git.py:872
+#: weblate/vcs/git.py:866
 msgid "This will force push changes to the upstream repository."
 msgstr "இது மேலோடை களஞ்சியத்தில் மாற்றங்களை கட்டாயப்படுத்தும்."
 
-#: weblate/vcs/git.py:1335
+#: weblate/vcs/git.py:1329
 msgid "Azure DevOps pull request"
 msgstr "அசூர் வளர்செயல் இழு கோரிக்கை"
 
-#: weblate/vcs/git.py:1347
+#: weblate/vcs/git.py:1341
 msgid "This will push changes and create a Azure DevOps pull request."
 msgstr "இது மாற்றங்களைத் தள்ளி, அசூர் வளர்செயல் இழுக்கும் கோரிக்கையை உருவாக்கும்."
 
-#: weblate/vcs/git.py:1594
+#: weblate/vcs/git.py:1588
 msgid "GitHub pull request"
 msgstr "அறிவிலிமையம் இழு கோரிக்கை"
 
-#: weblate/vcs/git.py:1599
+#: weblate/vcs/git.py:1593
 msgid "This will push changes and create a GitHub pull request."
 msgstr "இது மாற்றங்களைத் தள்ளி, அறிவிலிமையம் இழு கோரிக்கையை உருவாக்கும்."
 
-#: weblate/vcs/git.py:1713
+#: weblate/vcs/git.py:1707
 msgid "Gitea pull request"
 msgstr "அறிவிலிதேநீர் இழுத்தல் கோரிக்கை"
 
-#: weblate/vcs/git.py:1718
+#: weblate/vcs/git.py:1712
 msgid "This will push changes and create a Gitea pull request."
 msgstr "இது மாற்றங்களைத் தள்ளி, கிடியா இழுக்கும் கோரிக்கையை உருவாக்கும்."
 
-#: weblate/vcs/git.py:1790
+#: weblate/vcs/git.py:1784
 msgid "No remote repository"
 msgstr "தொலைதூர களஞ்சியம் இல்லை"
 
-#: weblate/vcs/git.py:1893
+#: weblate/vcs/git.py:1887
 msgid "GitLab merge request"
 msgstr "அறிவிலிஆய்வு ஒன்றிணைக்கும் கோரிக்கை"
 
-#: weblate/vcs/git.py:1900
+#: weblate/vcs/git.py:1894
 msgid "This will push changes and create a GitLab merge request."
 msgstr "இது மாற்றங்களைத் தள்ளி, அறிவிலிஆய்வு ஒன்றிணைக்கும் கோரிக்கையை உருவாக்கும்."
 
-#: weblate/vcs/git.py:2050
+#: weblate/vcs/git.py:2044
 msgid "Pagure merge request"
 msgstr "பேசூர் ஒன்றிணைப்பு கோரிக்கை"
 
-#: weblate/vcs/git.py:2055
+#: weblate/vcs/git.py:2049
 msgid "This will push changes and create a Pagure merge request."
 msgstr "இது மாற்றங்களைத் தள்ளி, பேசூர் ஒன்றிணைக்கும் கோரிக்கையை உருவாக்கும்."
 
 #. Translators: Bitbucket Data Center is a product name, it differs from Bitbucked Cloud
-#: weblate/vcs/git.py:2155
+#: weblate/vcs/git.py:2149
 msgid "Bitbucket Data Center pull request"
 msgstr "பிட்பக்கெட் தரவு நடுவண் இழுக்கும் கோரிக்கை"
 
-#: weblate/vcs/git.py:2162
+#: weblate/vcs/git.py:2156
 msgid "This will push changes and create a Bitbucket Data Center pull request."
 msgstr "இது மாற்றங்களைத் தள்ளி, பிட்பக்கெட் தரவு மைய இழுப்பு கோரிக்கையை உருவாக்கும்."
 
-#: weblate/vcs/git.py:2312
+#: weblate/vcs/git.py:2306
 msgid "Bitbucket Cloud merge request"
 msgstr "பிட்பக்கெட் முகில் ஒன்றிணைப்பு கோரிக்கை"
 
@@ -18292,6 +18361,138 @@ msgstr "காப்பு செயல்முறை தூண்டப்ப�
 #: weblate/wladmin/views.py:370
 msgid "Could not dismiss the configuration error!"
 msgstr "உள்ளமைவு பிழையை நிராகரிக்க முடியவில்லை!"
+
+#~ msgid "Branch for pushing changes, leave empty to use repository branch"
+#~ msgstr "மாற்றங்களைத் தள்ளும் கிளை, களஞ்சிய கிளையைப் பயன்படுத்த காலியாக விடவும்"
+
+#~ msgid "a year ago"
+#~ msgstr "ஒரு ஆண்டு முன்பு"
+
+#, python-format
+#~ msgid "%(count)s year ago"
+#~ msgid_plural "%(count)s years ago"
+#~ msgstr[0] "%(count)s ஆண்டுக்கு முன்பு"
+#~ msgstr[1] "%(count)s ஆண்டுகளுக்கு முன்பு"
+
+#~ msgid "a month ago"
+#~ msgstr "ஒரு திங்களுக்கு முன்"
+
+#, python-format
+#~ msgid "%(count)s month ago"
+#~ msgid_plural "%(count)s months ago"
+#~ msgstr[0] "%(count)s திங்களுக்கு முன்பு"
+#~ msgstr[1] "%(count)s திங்கள்களுக்கு முன்பு"
+
+#, python-format
+#~ msgid "%(count)s week ago"
+#~ msgid_plural "%(count)s weeks ago"
+#~ msgstr[0] "%(count)s வாரத்திற்கு முன்பு"
+#~ msgstr[1] "%(count)s வாரங்களுக்கு முன்பு"
+
+#~ msgid "a week ago"
+#~ msgstr "ஒரு வாரத்திற்கு முன்பு"
+
+#~ msgid "yesterday"
+#~ msgstr "நேற்று"
+
+#, python-format
+#~ msgid "%(count)s day ago"
+#~ msgid_plural "%(count)s days ago"
+#~ msgstr[0] "%(count)s நாள் முன்பு"
+#~ msgstr[1] "%(count)s நாட்களுக்கு முன்பு"
+
+#~ msgid "now"
+#~ msgstr "இப்போது"
+
+#~ msgid "a second ago"
+#~ msgstr "ஒரு நொடி முன்பு"
+
+#, python-format
+#~ msgid "%(count)s second ago"
+#~ msgid_plural "%(count)s seconds ago"
+#~ msgstr[0] "%(count)s நொடி முன்"
+#~ msgstr[1] "%(count)s நொடிகளுக்கு முன்பு"
+
+#~ msgid "a minute ago"
+#~ msgstr "ஒரு மணிதுளி முன்பு"
+
+#, python-format
+#~ msgid "%(count)s minute ago"
+#~ msgid_plural "%(count)s minutes ago"
+#~ msgstr[0] "%(count)s ஒரு மணிதுளி முன்பு"
+#~ msgstr[1] "%(count)s மணிதுளிகளுக்கு முன்பு"
+
+#~ msgid "an hour ago"
+#~ msgstr "ஒரு மணி நேரம் முன்பு"
+
+#, python-format
+#~ msgid "%(count)s hour ago"
+#~ msgid_plural "%(count)s hours ago"
+#~ msgstr[0] "%(count)s மணி நேரத்திற்கு முன்பு"
+#~ msgstr[1] "%(count)s மணி நேரத்திற்கு முன்பு"
+
+#~ msgid "a year from now"
+#~ msgstr "இப்போதிலிருந்து ஒரு ஆண்டு"
+
+#, python-format
+#~ msgid "%(count)s year from now"
+#~ msgid_plural "%(count)s years from now"
+#~ msgstr[0] "இப்போதிலிருந்து %(count)s ஆண்டு"
+#~ msgstr[1] "இப்போதிலிருந்து %(count)s ஆண்டுகள்"
+
+#~ msgid "a month from now"
+#~ msgstr "இப்போதிலிருந்து ஒரு திங்கள்"
+
+#, python-format
+#~ msgid "%(count)s month from now"
+#~ msgid_plural "%(count)s months from now"
+#~ msgstr[0] "இப்போதிலிருந்து %(count)s திங்கள்"
+#~ msgstr[1] "இப்போதிலிருந்து %(count)s திங்கள்கள்"
+
+#, python-format
+#~ msgid "%(count)s week from now"
+#~ msgid_plural "%(count)s weeks from now"
+#~ msgstr[0] "இப்போதிலிருந்து %(count)s வாரம்"
+#~ msgstr[1] "இப்போதிலிருந்து %(count)s வாரங்கள்"
+
+#~ msgid "tomorrow"
+#~ msgstr "நாளை"
+
+#~ msgid "a week from now"
+#~ msgstr "இப்போதிலிருந்து ஒரு வாரம்"
+
+#, python-format
+#~ msgid "%(count)s day from now"
+#~ msgid_plural "%(count)s days from now"
+#~ msgstr[0] "இப்போதிலிருந்து %(count)s நாள்"
+#~ msgstr[1] "இப்போதிலிருந்து %(count)s நாட்கள்"
+
+#~ msgid "a second from now"
+#~ msgstr "இப்போதிலிருந்து ஒரு நொடி"
+
+#, python-format
+#~ msgid "%(count)s second from now"
+#~ msgid_plural "%(count)s seconds from now"
+#~ msgstr[0] "இப்போதிலிருந்து %(count)s நொடி"
+#~ msgstr[1] "இப்போதிலிருந்து %(count)s நொடிகள்"
+
+#~ msgid "a minute from now"
+#~ msgstr "இப்போதிலிருந்து ஒரு மணிதுளி"
+
+#, python-format
+#~ msgid "%(count)s minute from now"
+#~ msgid_plural "%(count)s minutes from now"
+#~ msgstr[0] "இப்போதிலிருந்து %(count)s மணிதுளி"
+#~ msgstr[1] "இப்போதிலிருந்து %(count)s மணிதுளிகள்"
+
+#~ msgid "an hour from now"
+#~ msgstr "இப்போதிலிருந்து ஒரு மணி நேரம்"
+
+#, python-format
+#~ msgid "%(count)s hour from now"
+#~ msgid_plural "%(count)s hours from now"
+#~ msgstr[0] "இப்போதிலிருந்து %(count)s மணிநேரம்"
+#~ msgstr[1] "இப்போதிலிருந்து %(count)s மணிநேரங்கள்"
 
 #~ msgid "Secret"
 #~ msgstr "மறைபொருள்"

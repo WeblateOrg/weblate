@@ -9,7 +9,7 @@ from collections import defaultdict
 from contextvars import ContextVar
 from functools import cache as functools_cache
 from itertools import chain
-from typing import TYPE_CHECKING, Any, ClassVar, Literal, TypedDict, cast
+from typing import TYPE_CHECKING, Any, ClassVar, Literal, Self, TypedDict, cast
 
 import sentry_sdk
 from appconf import AppConf
@@ -62,7 +62,6 @@ if TYPE_CHECKING:
 
     from django_otp.models import Device
     from social_core.backends.base import BaseAuth
-    from social_django.models import DjangoStorage
 
     from weblate.accounts.models import Subscription
     from weblate.accounts.strategy import WeblateStrategy
@@ -78,7 +77,7 @@ if TYPE_CHECKING:
     PermissionCacheType = dict[int, PermissionList]
     SimplePermissionCacheType = dict[int, SimplePermissionList]
 
-    class PermissionsDictType(TypedDict, total=False):
+    class PermissionsDictType(TypedDict):
         projects: PermissionCacheType
         components: SimplePermissionCacheType
 
@@ -269,7 +268,7 @@ class UserManager(BaseUserManager["User"]):
         return self._create_user(username, email, password, **extra_fields)
 
     def get_or_create_bot(self, *, scope: str, name: str, verbose: str) -> User:
-        cached = bot_cache.get({})
+        cached = cast("dict[str, User]", bot_cache.get({}))
         username = f"{scope}:{name}"
         try:
             return cached[username]
@@ -289,7 +288,7 @@ class UserManager(BaseUserManager["User"]):
 
 
 class UserQuerySet(models.QuerySet["User"]):
-    def having_perm(self, perm, project):
+    def having_perm(self, perm: str, project: Project) -> Self:
         """
         All users having explicit permission on a project.
 
@@ -300,7 +299,7 @@ class UserQuerySet(models.QuerySet["User"]):
             groups__roles__permissions__codename=perm, groups__projects=project
         ).distinct()
 
-    def all_admins(self, project):
+    def all_admins(self, project: Project) -> Self:
         """All admins in a project."""
         return self.having_perm("project.edit", project)
 
@@ -507,9 +506,6 @@ class User(AbstractBaseUser):
 
     objects = UserManager.from_queryset(UserQuerySet)()
 
-    # social_auth integration
-    social_auth: DjangoStorage
-
     # django_otp integration (via OTPMiddleware)
     otp_device: Device
 
@@ -541,7 +537,9 @@ class User(AbstractBaseUser):
         # This is needed with LDAP authentication when the
         # server does not contain full name
         if "first_name" in self.extra_data and "last_name" in self.extra_data:
-            self.full_name = "{first_name} {last_name}".format(**self.extra_data)
+            self.full_name = (
+                f"{self.extra_data['first_name']} {self.extra_data['last_name']}"
+            )
         elif "first_name" in self.extra_data:
             self.full_name = self.extra_data["first_name"]
         elif "last_name" in self.extra_data:
@@ -573,7 +571,6 @@ class User(AbstractBaseUser):
     def __init__(self, *args, **kwargs) -> None:
         self.extra_data: dict[str, str] = {}
         self.cla_cache: dict[tuple[int, int], bool] = {}
-        self._permissions: PermissionsDictType = {}
         self.current_subscription: Subscription | None = None
         for name in self.DUMMY_FIELDS:
             if name in kwargs:
@@ -582,10 +579,8 @@ class User(AbstractBaseUser):
 
     def clear_cache(self) -> None:
         self.cla_cache = {}
-        self._permissions = {}
         perm_caches = (
-            "project_permissions",
-            "component_permissions",
+            "_permissions",
             "allowed_projects",
             "needs_component_restrictions_filter",
             "needs_project_filter",
@@ -804,7 +799,8 @@ class User(AbstractBaseUser):
     def group_enforces_2fa(self) -> bool:
         return any(group.enforced_2fa for group in self.cached_groups)
 
-    def _fetch_permissions(self) -> None:
+    @cached_property
+    def _permissions(self) -> PermissionsDictType:
         """Fetch all user permissions into a dictionary."""
         projects: PermissionCacheType = defaultdict(list)
         components: SimplePermissionCacheType = defaultdict(list)
@@ -871,20 +867,16 @@ class User(AbstractBaseUser):
                 # Remove all permissions for blocked user
                 projects[block.project_id] = [(None, None)]
 
-        self._permissions = {"projects": projects, "components": components}
+        return {"projects": projects, "components": components}
 
-    @cached_property
+    @property
     def project_permissions(self) -> PermissionCacheType:
         """List all project permissions."""
-        if not self._permissions:
-            self._fetch_permissions()
         return self._permissions["projects"]
 
-    @cached_property
+    @property
     def component_permissions(self) -> SimplePermissionCacheType:
         """List all project permissions."""
-        if not self._permissions:
-            self._fetch_permissions()
         return self._permissions["components"]
 
     @cached_property

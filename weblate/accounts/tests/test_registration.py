@@ -269,7 +269,7 @@ class RegistrationTest(BaseRegistrationTest):
         url = self.assert_registration_mailbox()
 
         # Remove partial_token from URL
-        url = url.split("?")[0]
+        url = url.split("?", maxsplit=1)[0]
 
         # Confirm account
         response = self.client.get(url, follow=True)
@@ -487,7 +487,7 @@ class RegistrationTest(BaseRegistrationTest):
         response = self.client.post(
             reverse("confirm"), {"password": "1pa$$word!"}, follow=True
         )
-        self.assertRedirects(response, "{}#account".format(reverse("profile")))
+        self.assertRedirects(response, f"{reverse('profile')}#account")
 
         # Check database models
         user = User.objects.get(username="username")

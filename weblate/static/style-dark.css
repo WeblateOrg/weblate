@@ -20,8 +20,16 @@
   --bs-body-color: #fffdfa !important;
   --bs-border-color: #484d50 !important;
 
+  --bs-dark: #25303b;
+  --bs-dark-rgb: 37, 48, 59;
+
   --bs-warning: #342c06;
   --bs-warning-rgb: 52, 44, 6;
+
+  .navbar {
+    --bs-navbar-color: #bfc3c7;
+    --bs-navbar-brand-color: #bfc3c7;
+  }
 
   .card {
     --bs-card-color: #d9d3cc !important;
@@ -307,7 +315,7 @@ blockquote .small {
   color: #ada396;
 }
 .blockquote-reverse,
-blockquote.pull-right {
+blockquote.float-end {
   border-right-color: #3a3f41;
   border-left-color: currentcolor;
 }
@@ -572,7 +580,7 @@ fieldset[disabled] .form-control {
     rgba(0, 0, 0, 0.07) 0px 1px 1px inset,
     #468a58 0px 0px 6px;
 }
-.has-success .input-group-addon {
+.has-success .input-group-text {
   color: #99d89a;
   background-color: #2d4219;
   border-color: #4b934c;
@@ -602,7 +610,7 @@ fieldset[disabled] .form-control {
     rgba(0, 0, 0, 0.07) 0px 1px 1px inset,
     #8a6c3a 0px 0px 6px;
 }
-.has-warning .input-group-addon {
+.has-warning .input-group-text {
   color: #dabc87;
   background-color: #342c06;
   border-color: #977741;
@@ -632,7 +640,7 @@ fieldset[disabled] .form-control {
     rgba(0, 0, 0, 0.07) 0px 1px 1px inset,
     #7a3230 0px 0px 6px;
 }
-.has-error .input-group-addon {
+.has-error .input-group-text {
   color: #d5706e;
   background-color: #3e1818;
   border-color: #923a39;
@@ -719,7 +727,7 @@ fieldset[disabled] .btn-default.focus {
 }
 .btn-primary {
   color: #fffdfa;
-  background-color: #2eccaa;
+  background-color: #1c8f75;
   border-color: #8b8172;
 }
 .btn-primary:focus,
@@ -1078,15 +1086,15 @@ fieldset[disabled] .btn-link:focus {
 .btn-group.open .dropdown-toggle.btn-link {
   box-shadow: none;
 }
-.input-group-addon {
+.input-group-text {
   color: #c4bdb2;
   background-color: #25282a;
   border-color: #444b4d;
 }
-.input-group-addon:first-child {
+.input-group-text:first-child {
   border-right-color: currentcolor;
 }
-.input-group-addon:last-child {
+.input-group-text:last-child {
   border-left-color: currentcolor;
 }
 .nav {
@@ -2013,8 +2021,8 @@ button.list-group-item-danger.active:focus {
   border-top-color: #186372;
 }
 .card:has(.card-header.text-bg-info) > .card-header .badge {
-  color: #cdf4ff;
-  background-color: #2b637d;
+  color: #cdf4ff !important;
+  background-color: #2b637d !important;
 }
 .card:has(.card-header.text-bg-info)
   > .card-footer
@@ -2040,8 +2048,8 @@ button.list-group-item-danger.active:focus {
   border-top-color: #77540c;
 }
 .card:has(.card-header.text-bg-warning) > .card-header .badge {
-  color: #ffffd0;
-  background-color: #796034;
+  color: #ffffd0 !important;
+  background-color: #796034 !important;
 }
 .card:has(.card-header.text-bg-warning)
   > .card-footer
@@ -2067,8 +2075,8 @@ button.list-group-item-danger.active:focus {
   border-top-color: #484d50;
 }
 .card:has(.card-header.text-bg-danger) > .card-header .badge {
-  color: #ff7559;
-  background-color: #1a1d1e;
+  color: #ac2109 !important;
+  background-color: #1a1d1e !important;
 }
 .card:has(.card-header.text-bg-danger)
   > .card-footer
@@ -2197,7 +2205,8 @@ ul.legend li {
 .translatetext {
   background-color: #25282a !important;
 }
-.current_translation {
+.current_translation,
+.current_translation > td {
   background-color: #212324;
 }
 .hlcheck,
@@ -2425,6 +2434,9 @@ a.green:hover path {
 button.red:hover path,
 a.red:hover path {
   fill: #ff5534;
+}
+.search-icon path {
+  fill: #6cf8d8;
 }
 .btn-warning:hover {
   background-color: #218f77;

@@ -40,4 +40,4 @@ class Command(WeblateComponentCommand):
             name, translators = language.popitem()
             self.stdout.write(f"[{name}]\n")
             for translator in translators:
-                self.stdout.write("{1} <{0}>\n".format(*translator))
+                self.stdout.write(f"{translator[1]} <{translator[0]}>\n")

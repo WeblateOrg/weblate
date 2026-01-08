@@ -60,7 +60,7 @@ class GoogleTranslation(GoogleBaseTranslation):
     def download_languages(self):
         """List of supported languages."""
         response = self.request(
-            "get", GOOGLE_API_ROOT + "languages", params={"key": self.settings["key"]}
+            "get", f"{GOOGLE_API_ROOT}languages", params={"key": self.settings["key"]}
         )
         payload = response.json()
 

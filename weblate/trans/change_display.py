@@ -219,7 +219,7 @@ class RenderAccessEdit(BaseDetailsRenderStrategy):
         for number, name in Project.ACCESS_CHOICES:
             if number == details["access_control"]:
                 return name
-        return "Unknown {}".format(details["access_control"])
+        return f"Unknown {details['access_control']}"
 
 
 @register_details_display_strategy
@@ -308,7 +308,7 @@ class RenderParseError(BaseDetailsRenderStrategy):
     details_required = True
 
     def render_details(self, change: Change) -> StrOrPromise:
-        return "{filename}: {error_message}".format(**change.details)
+        return f"{change.details['filename']}: {change.details['error_message']}"
 
 
 @register_details_display_strategy
@@ -319,7 +319,7 @@ class RenderHook(BaseDetailsRenderStrategy):
     details_required = True
 
     def render_details(self, change: Change) -> StrOrPromise:
-        return "{service_long_name}: {repo_url}, {branch}".format(**change.details)
+        return f"{change.details['service_long_name']}: {change.details['repo_url']}, {change.details['branch']}"
 
 
 @register_details_display_strategy

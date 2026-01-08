@@ -139,6 +139,16 @@ class FilenameTest(SimpleTestCase):
     def test_empty(self) -> None:
         validate_filename("")
 
+    def test_prohibited(self) -> None:
+        with self.assertRaises(ValidationError):
+            validate_filename(".git/config")
+        validate_filename(".git/config", check_prohibited=False)
+
+    def test_prohibited_subdir(self) -> None:
+        with self.assertRaises(ValidationError):
+            validate_filename("path/.git/config")
+        validate_filename("path/.git/config", check_prohibited=False)
+
 
 class RegexTest(SimpleTestCase):
     def test_empty(self) -> None:
@@ -229,6 +239,9 @@ class WebsiteTest(SimpleTestCase):
         validator("https://domain.tld:5000")
         with self.assertRaises(ValidationError):
             validator("ftp://domain.tld")
+        with self.assertRaises(ValidationError):
+            # The first "e" is replaced with a Cyrillic character
+            validator("https://wеblate.org")
 
     def test_url_validator(self) -> None:
         validator = WeblateURLValidator()
@@ -267,6 +280,10 @@ class RepoURLValidationTestCase(SimpleTestCase):
             self.assertRaises(ValidationError),
         ):
             validate_repo_url("file:///home/weblate")
+
+    def test_invalid(self):
+        with self.assertRaises(ValidationError):
+            validate_repo_url("[/weblate")
 
     def test_file(self):
         with override_settings(VCS_ALLOW_SCHEMES={"https", "ssh", "file"}):

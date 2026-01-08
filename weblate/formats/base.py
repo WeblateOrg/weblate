@@ -110,7 +110,8 @@ class UnitNotFoundError(Exception):
         args = list(self.args)
         if "" in args:
             args.remove("")
-        return "Unit not found: {}".format(", ".join(args))
+        args_str = ", ".join(args)
+        return f"Unit not found: {args_str}"
 
 
 class UpdateError(Exception):
@@ -292,6 +293,10 @@ class TranslationUnit:
         """Check whether unit is read-only."""
         return False
 
+    def is_automatically_translated(self, fallback: bool = False) -> bool:
+        """Check whether unit is automatically translated."""
+        return fallback
+
     def set_target(self, target: str | list[str]) -> None:
         """Set translation unit target."""
         raise NotImplementedError
@@ -305,6 +310,9 @@ class TranslationUnit:
     def set_state(self, state) -> None:
         """Set fuzzy /approved flag on translated unit."""
         raise NotImplementedError
+
+    def set_automatically_translated(self, value: bool) -> None:
+        return
 
     def has_unit(self) -> bool:
         return self.unit is not None
@@ -379,10 +387,9 @@ class TranslationFormat:
         self.file_format_params = file_format_params or {}
         self.store = self.load(storefile, template_store)
 
+        filename = getattr(storefile, "filename", storefile)
         self.add_breadcrumb(
-            "Loaded translation file {}".format(
-                getattr(storefile, "filename", storefile)
-            ),
+            f"Loaded translation file {filename}",
             template_store=str(template_store),
             is_template=is_template,
         )
@@ -512,7 +519,7 @@ class TranslationFormat:
         return
 
     @staticmethod
-    def save_atomic(filename, callback) -> None:
+    def save_atomic(filename: str, callback: Callable[[BinaryIO], None]) -> None:
         dirname, basename = os.path.split(filename)
         if dirname and not os.path.exists(dirname):
             os.makedirs(dirname)
@@ -654,7 +661,8 @@ class TranslationFormat:
 
         # Handle variants
         if "_" in sanitized and len(sanitized.split("_")[1]) > 2:
-            return "b+{}".format(sanitized.replace("_", "+"))
+            variant_code = sanitized.replace("_", "+")
+            return f"b+{variant_code}"
 
         # Handle countries
         return sanitized.replace("_", "-r")
@@ -1059,13 +1067,10 @@ class BaseExporter:
             )
         # Suggestions
         for suggestion in unit.suggestions:
+            suggestions_str = ", ".join(split_plural(suggestion.target))
             self.add_note(
                 output,
-                self.string_filter(
-                    "Suggested in Weblate: {}".format(
-                        ", ".join(split_plural(suggestion.target))
-                    )
-                ),
+                self.string_filter(f"Suggested in Weblate: {suggestions_str}"),
                 origin="translator",
             )
 

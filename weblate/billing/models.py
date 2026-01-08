@@ -643,9 +643,7 @@ class Invoice(models.Model):
             overlapping = overlapping.exclude(pk=self.pk)
 
         if overlapping.exists():
-            msg = "Overlapping invoices exist: {}".format(
-                format_html_join_comma("{}", list_to_tuples(overlapping))
-            )
+            msg = f"Overlapping invoices exist: {format_html_join_comma('{}', list_to_tuples(overlapping))}"
             raise ValidationError(msg)
 
 
@@ -718,6 +716,13 @@ def record_project_bill(
             return
     if isinstance(instance, Component):
         instance = instance.project
+
+    # Sync billing access upon project removal, otherwise users will lose access
+    if isinstance(instance, Project):
+        users = User.objects.having_perm("billing.view", instance)
+        for billing in instance.billing_set.all():
+            billing.owners.add(*users)
+
     # Collect billings to update for delete_project_bill
     instance.billings_to_update = list(
         instance.billing_set.values_list("pk", flat=True)

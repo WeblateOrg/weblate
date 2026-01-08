@@ -263,25 +263,27 @@ DeepL
 :Maximal score: 91
 :Advanced features: * :ref:`placeables-mt`
                     * :ref:`glossary-mt`
-:Configuration: +---------------------+---------------------------+-------------------------------------------------------------------------------------+
-                | ``source_language`` | Source language selection | Available choices:                                                                  |
-                |                     |                           |                                                                                     |
-                |                     |                           | ``auto`` -- Automatic selection                                                     |
-                |                     |                           |                                                                                     |
-                |                     |                           | ``source`` -- Component source language                                             |
-                |                     |                           |                                                                                     |
-                |                     |                           | ``secondary`` -- Secondary language defined in project or component                 |
-                +---------------------+---------------------------+-------------------------------------------------------------------------------------+
-                | ``url``             | API URL                   |                                                                                     |
-                +---------------------+---------------------------+-------------------------------------------------------------------------------------+
-                | ``key``             | API key                   |                                                                                     |
-                +---------------------+---------------------------+-------------------------------------------------------------------------------------+
-                | ``formality``       | Formality                 | Uses the specified formality if language is not specified as (in)formal             |
-                +---------------------+---------------------------+-------------------------------------------------------------------------------------+
-                | ``context``         | Translation context       | Describe the context of the translation to improve the accuracy of the translation. |
-                +---------------------+---------------------------+-------------------------------------------------------------------------------------+
-                | ``next_gen``        | Use next-gen model        | Prefer next-gen LLM over classic machine translation model.                         |
-                +---------------------+---------------------------+-------------------------------------------------------------------------------------+
+:Configuration: +---------------------------+---------------------------+-------------------------------------------------------------------------------------+
+                | ``source_language``       | Source language selection | Available choices:                                                                  |
+                |                           |                           |                                                                                     |
+                |                           |                           | ``auto`` -- Automatic selection                                                     |
+                |                           |                           |                                                                                     |
+                |                           |                           | ``source`` -- Component source language                                             |
+                |                           |                           |                                                                                     |
+                |                           |                           | ``secondary`` -- Secondary language defined in project or component                 |
+                +---------------------------+---------------------------+-------------------------------------------------------------------------------------+
+                | ``url``                   | API URL                   |                                                                                     |
+                +---------------------------+---------------------------+-------------------------------------------------------------------------------------+
+                | ``key``                   | API key                   |                                                                                     |
+                +---------------------------+---------------------------+-------------------------------------------------------------------------------------+
+                | ``formality``             | Formality                 | Uses the specified formality if language is not specified as (in)formal             |
+                +---------------------------+---------------------------+-------------------------------------------------------------------------------------+
+                | ``context``               | Translation context       | Describe the context of the translation to improve the accuracy of the translation. |
+                +---------------------------+---------------------------+-------------------------------------------------------------------------------------+
+                | ``next_gen``              | Use next-gen model        | Prefer next-gen LLM over classic machine translation model.                         |
+                +---------------------------+---------------------------+-------------------------------------------------------------------------------------+
+                | ``enable_beta_languages`` | Enable beta languages     | Enable support for languages currently in beta.                                     |
+                +---------------------------+---------------------------+-------------------------------------------------------------------------------------+
 
 DeepL is paid service providing good machine translation for a few languages.
 You need to purchase :guilabel:`DeepL API` subscription or you can use legacy
@@ -312,11 +314,18 @@ The translation context can optionally be specified to improve translations qual
 
 The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`.
 
+.. note::
+
+   When beta languages are enabled, glossary and formality features are not
+   available for those languages. See `DeepL beta languages documentation
+   <https://developers.deepl.com/docs/getting-started/supported-languages#beta-languages>`_
+   for details.
+
 .. seealso::
 
    * `DeepL translator <https://www.deepl.com/translator>`_
    * `DeepL pricing <https://www.deepl.com/pro>`_
-   * `DeepL API documentation <https://developers.deepl.com/docs>`_
+   * `DeepL API documentation <https://developers.deepl.com/docs/getting-started/intro>`_
 
 .. _mt-glosbe:
 
@@ -371,7 +380,7 @@ billing in the Google API console.
 
 .. seealso::
 
-    `Google translate documentation <https://cloud.google.com/translate/docs>`_
+    `Google translate documentation <https://docs.cloud.google.com/translate/docs>`_
 
 .. _mt-google-translate-api-v3:
 
@@ -412,8 +421,8 @@ In order to use this service, you first need to go through the following steps:
 4. `Setup Authentication.`_
 
 .. _Select or create a Cloud Platform project.: https://console.cloud.google.com/project
-.. _Enable billing for your project.: https://cloud.google.com/billing/docs/how-to/modify-project#enable_billing_for_a_project
-.. _Enable the Cloud Translation.: https://cloud.google.com/translate/docs/
+.. _Enable billing for your project.: https://docs.cloud.google.com/billing/docs/how-to/modify-project#enable_billing_for_a_project
+.. _Enable the Cloud Translation.: https://docs.cloud.google.com/translate/docs
 .. _Setup Authentication.: https://googleapis.dev/python/google-api-core/latest/auth.html
 
 
@@ -423,17 +432,17 @@ Optionally, you can configure the service to use :ref:`glossary` by setting up a
 2. `Set bucket location to "us-central1".`_
 3. `Grant 'Storage Admin' permission to the Service Account.`_
 
-.. _Create a Google Cloud bucket.: https://cloud.google.com/storage/docs/creating-buckets
-.. _Set bucket location to "us-central1".: https://cloud.google.com/translate/docs/migrate-to-v3#resources_projects_and_locations
-.. _Grant 'Storage Admin' permission to the Service Account.: https://cloud.google.com/translate/docs/access-control
+.. _Create a Google Cloud bucket.: https://docs.cloud.google.com/storage/docs/creating-buckets
+.. _Set bucket location to "us-central1".: https://docs.cloud.google.com/translate/docs/migrate-to-v3#resources_projects_and_locations
+.. _Grant 'Storage Admin' permission to the Service Account.: https://docs.cloud.google.com/translate/docs/access-control
 
 
 .. seealso::
 
-   * `Google translate documentation <https://cloud.google.com/translate/docs>`_
-   * `Authenticate to Cloud services using client libraries <https://cloud.google.com/docs/authentication/client-libraries>`_
-   * `Creating Google Translate project <https://cloud.google.com/appengine/docs/standard/nodejs/building-app/creating-project>`_
-   * `Google Cloud App Engine locations <https://cloud.google.com/appengine/docs/standard/locations>`_
+   * `Google translate documentation <https://docs.cloud.google.com/translate/docs>`_
+   * `Authenticate to Cloud services using client libraries <https://docs.cloud.google.com/docs/authentication/client-libraries>`_
+   * `Creating Google Translate project <https://docs.cloud.google.com/appengine/docs/standard/nodejs/building-app/creating-project>`_
+   * `Google Cloud App Engine locations <https://docs.cloud.google.com/appengine/docs/standard/locations>`_
 
 .. _mt-ibm:
 

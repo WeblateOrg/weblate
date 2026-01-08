@@ -1,7 +1,78 @@
+Weblate 5.15.2
+--------------
+
+*Not yet released.*
+
+.. rubric:: New features
+
+.. rubric:: Improvements
+
+* :ref:`addon-weblate.generate.generate` is now triggered upon installation.
+* Screenshots updated from the repository have proper history.
+* :ref:`check-rst-syntax` now reports unintended list conversion.
+
+.. rubric:: Bug fixes
+
+* Explanation sync in :doc:`/formats/tbx`.
+* User interface fixes.
+* Clarified needs editing/checking/rewriting states.
+* Automatically translated flag with bulk approvals.
+* GitHub forks no longer trigger actions.
+* Tighter validation of user provided websites to avoid confusing homoglyphs.
+* Glossary support in :ref:`mt-google-translate-api-v3`.
+
+.. rubric:: Compatibility
+
+* Screenshot images are no longer served directly by the HTTP server, please adjust your HTTP server by removing serving of ``/media/``.
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.15.2.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/160?closed=1>`__.
+
+Weblate 5.15.1
+--------------
+
+*Released on December 18th 2025.*
+
+.. rubric:: New features
+
+* Added :http:get:`/api/projects/(string:project)/languages/(string:language_code)/file/` to download a ZIP file of all component translations of a project for a specified language.
+
+.. rubric:: Improvements
+
+* Updated list of OpenAI models.
+* Added :doc:`/devel/migration` guide to help users migrate from other localization platforms.
+* Gracefully handle unreachable authentication providers.
+* Update language definitions to CLDR 48.
+
+.. rubric:: Bug fixes
+
+* Git config file overwrite remote code execution (:cve:`2025-68398` / :ghsa:`8vcg-cfxj-p5m3`).
+* Arbitrary file read via symbolic links (:cve:`2025-68279` / :ghsa:`g925-f788-4jh7`).
+* Locking error that prevented updating linked components.
+* Fixed e-mail SSL configuration in Docker container.
+* Invitations on sites with required authentication.
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.15.1.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/159?closed=1>`__.
+
 Weblate 5.15
 ------------
 
-*Not yet released.*
+*Released on December 15th 2025.*
 
 .. rubric:: New features
 
@@ -12,6 +83,7 @@ Weblate 5.15
 * Memory contents imported from TMX files include string context.
 * :doc:`/formats/xliff2`, :doc:`/formats/nextcloud-json`, :doc:`/formats/resjson`, and :doc:`/formats/toml` are now supported file formats.
 * :ref:`addon-weblate.fedora_messaging.publish` integration is now available as add-on.
+* Added :ref:`check-laravel-format` quality check.
 
 .. rubric:: Improvements
 
@@ -27,9 +99,15 @@ Weblate 5.15
 * The allowed version control URLs can now be configured using :setting:`VCS_ALLOW_SCHEMES` and :setting:`VCS_ALLOW_HOSTS`.
 * The API timeout for creating pull requests or forking can now be configured via :setting:`VCS_API_TIMEOUT`.
 * Improved VCS integration documentation to clarify Docker environment variables, commit authorship, hosted vs. self-hosted setup, and authentication options.
+* Timestamps from past are now shown with more detail.
+* Added two new :ref:`states` to provide more detailed tracking of work-in-progress translations.
 
 .. rubric:: Bug fixes
 
+* Improper invitation validation upon accepting (:cve:`2025-64725` / :ghsa:`m6hq-f4w9-qrjj`).
+* Server-Side Request Forgery while cloning repository (:cve:`2025-66407` / :ghsa:`hfpv-mc5v-p9mm`).
+* Over‑permissive webhook endpoint enabling mass repository updates plus component enumeration (:cve:`2025-67492` / :ghsa:`pj86-258h-qrvf`).
+* Notification settings disclosure via Weblate API (:cve:`2025-67715` / :ghsa:`3pmh-24wp-xpf4`).
 * :ref:`mt-deepl` integration now correctly handles translating to Chinese variants.
 * :doc:`/formats/csv` format saving translations with empty source fields when using monolingual base files.
 * Tighter validation of user and full names to avoid confusing homoglyphs.
@@ -1100,7 +1178,7 @@ Weblate 5.7
 * :ref:`2fa` can be enforced at the team or project level.
 * :ref:`adding-new-strings` can now create plural strings in the user interface.
 * :ref:`labels` now include description to explain them.
-* New :ref:`subscriptions` for completed translation and component.
+* New :ref:`notifications` for completed translation and component.
 * :ref:`mt-openai` now supports custom models and URLs and offers rephrasing of existing strings.
 * :ref:`mt-cyrtranslit` automatic suggestion service.
 
@@ -1197,7 +1275,7 @@ Weblate 5.6
 
 .. rubric:: Improvements
 
-* :ref:`subscriptions` now include strings which need updating.
+* :ref:`notifications` now include strings which need updating.
 * Improved compatibility with password managers.
 * Improved tracking of uploaded changes.
 * Gracefully handle temporary machine translation errors in automatic suggestions.
@@ -1462,7 +1540,7 @@ Weblate 5.4
 
 * Better logging in :wladmin:`createadmin`.
 * :ref:`addon-weblate.discovery.discovery` now reports skipped entries.
-* Adding string in a repository triggers :ref:`subscriptions`.
+* Adding string in a repository triggers :ref:`notifications`.
 * :ref:`mt-openai` better handles batch translations and glossaries.
 * :ref:`mt-libretranslate` better handles batch translations.
 * Text variant of notification e-mails now properly indicate changed strings.
@@ -1588,7 +1666,7 @@ Weblate 5.2
 * :ref:`addon-weblate.gettext.mo` can optionally include strings needing editing.
 * Use :http:header:`Accept-Language` to order translations for unauthenticated users.
 * Add option to directly approve suggestions with :ref:`reviews` workflow.
-* One-click removal of project or component :ref:`subscriptions`.
+* One-click removal of project or component :ref:`notifications`.
 * :ref:`api-statistics` now includes character and word counts for more string states.
 
 .. rubric:: Bug fixes

@@ -167,7 +167,7 @@
                       {% endif %}
                       <a class="language" href="{{ unit.source_unit.get_absolute_url }}">{{ unit.translation.component.source_language }}</a>
                       {% if not unit.source_unit.translated %}
-                        <span class="badge text-bg-danger">{% translate "The source string needs review." %}</span>
+                        <span class="badge text-bg-secondary">{% translate "The source string needs review." %}</span>
                       {% endif %}
                       {% if unit.translation.component.project.source_review %}
                         <a title="{% translate "Report issue with the source string" %}"
@@ -623,7 +623,7 @@
                     <span class="red">{% icon "alert.svg" %}</span>
                     {{ check.get_name }}
                     {% if check.is_enforced %}
-                      <span class="badge">{% translate "Enforced" %}</span>
+                      <span class="badge text-bg-warning">{% translate "Enforced" %}</span>
                     {% else %}
                       <span class="check-number"></span>
                     {% endif %}
@@ -802,7 +802,7 @@
                   {% translate "Screenshot context" %}
                 </h5>
                 {% for screenshot in screenshots %}
-                  {% include "screenshots/screenshot_show.html" %}
+                  <div class="mt-3 mb-3">{% include "screenshots/screenshot_show.html" %}</div>
                 {% empty %}
                   <em>{% translate "No screenshot currently associated." %}</em>
                 {% endfor %}
@@ -920,7 +920,7 @@
                     <span class="wrap-text">{% blocktranslate with position=unit.position %}string {{ position }}{% endblocktranslate %}</span>
                   {% endif %}
                   {% if unit.has_pending_changes %}
-                    <span class="badge"
+                    <span class="badge text-bg-secondary"
                           title="{% translate "Pending changes not yet committed to the Weblate repository" %}">{% translate "pending" %}</span>
                   {% endif %}
                 </span>

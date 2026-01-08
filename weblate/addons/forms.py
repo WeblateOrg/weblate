@@ -32,6 +32,7 @@ from weblate.utils.validators import (
     DomainOrIPValidator,
     validate_filename,
     validate_re,
+    validate_re_nonempty,
     validate_webhook_secret_string,
 )
 
@@ -234,7 +235,7 @@ class DiscoveryForm(BaseAddonForm):
         label=gettext_lazy("Language filter"),
         max_length=200,
         initial="^[^.]+$",
-        validators=[validate_re],
+        validators=[validate_re_nonempty],
         help_text=gettext_lazy(
             "Regular expression to filter "
             "translation files against when scanning for file mask."

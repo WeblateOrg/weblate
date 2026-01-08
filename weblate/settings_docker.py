@@ -15,6 +15,7 @@ from weblate.api.spectacular import (
     get_spectacular_settings,
 )
 from weblate.utils.environment import (
+    get_email_config,
     get_env_bool,
     get_env_credentials,
     get_env_float,
@@ -41,7 +42,7 @@ SITE_DOMAIN = get_env_str("WEBLATE_SITE_DOMAIN", required=True)
 ENABLE_HTTPS = get_env_bool("WEBLATE_ENABLE_HTTPS")
 
 # Site URL
-SITE_URL = "{}://{}".format("https" if ENABLE_HTTPS else "http", SITE_DOMAIN)
+SITE_URL = f"{'https' if ENABLE_HTTPS else 'http'}://{SITE_DOMAIN}"
 
 #
 # Django settings for Weblate project.
@@ -175,10 +176,6 @@ URL_PREFIX = get_env_str("WEBLATE_URL_PREFIX", "")
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 MEDIA_ROOT = os.path.join(DATA_DIR, "media")
-
-# URL that handles the media served from MEDIA_ROOT. Make sure to use a
-# trailing slash.
-MEDIA_URL = get_env_str("WEBLATE_MEDIA_URL", f"{URL_PREFIX}/media/")
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
@@ -1328,20 +1325,9 @@ EMAIL_HOST_USER = get_env_str(
 EMAIL_HOST_PASSWORD = get_env_str(
     "WEBLATE_EMAIL_HOST_PASSWORD", get_env_str("WEBLATE_EMAIL_PASSWORD")
 )
-EMAIL_USE_SSL = get_env_bool("WEBLATE_EMAIL_USE_SSL")
-EMAIL_USE_TLS = get_env_bool("WEBLATE_EMAIL_USE_TLS", not EMAIL_USE_SSL)
-DEFAULT_EMAIL_PORT = 25
-if EMAIL_USE_SSL:
-    DEFAULT_EMAIL_PORT = 587
-elif EMAIL_USE_TLS:
-    DEFAULT_EMAIL_PORT = 465
-EMAIL_PORT = get_env_int("WEBLATE_EMAIL_PORT", DEFAULT_EMAIL_PORT)
 
-# Detect SSL/TLS setup
-if not EMAIL_USE_TLS and EMAIL_PORT in {25, 587}:
-    EMAIL_USE_TLS = True
-elif not EMAIL_USE_SSL and EMAIL_PORT == 465:
-    EMAIL_USE_SSL = True
+EMAIL_PORT, EMAIL_USE_TLS, EMAIL_USE_SSL = get_email_config()
+
 
 EMAIL_BACKEND = get_env_str(
     "WEBLATE_EMAIL_BACKEND",
@@ -1371,10 +1357,7 @@ SILENCED_SYSTEM_CHECKS.extend(get_env_list("WEBLATE_SILENCED_SYSTEM_CHECKS"))
 CELERY_TASK_ALWAYS_EAGER = get_env_bool("WEBLATE_CELERY_EAGER")
 CELERY_BROKER_URL = REDIS_URL
 if REDIS_URL.startswith("rediss://"):
-    CELERY_BROKER_URL = "{}?ssl_cert_reqs={}".format(
-        CELERY_BROKER_URL,
-        "CERT_REQUIRED" if get_env_bool("REDIS_VERIFY_SSL", True) else "CERT_NONE",
-    )
+    CELERY_BROKER_URL = f"{CELERY_BROKER_URL}?ssl_cert_reqs={'CERT_REQUIRED' if get_env_bool('REDIS_VERIFY_SSL', True) else 'CERT_NONE'}"
 CELERY_RESULT_BACKEND = CELERY_BROKER_URL
 CELERY_BROKER_CONNECTION_RETRY_ON_STARTUP = True
 CELERY_BROKER_CONNECTION_RETRY = True

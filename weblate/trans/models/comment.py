@@ -15,7 +15,7 @@ from weblate.trans.actions import ActionEvents
 from weblate.trans.mixins import UserDisplayMixin
 from weblate.utils.antispam import report_spam
 from weblate.utils.request import get_ip_address, get_user_agent_raw
-from weblate.utils.state import STATE_FUZZY
+from weblate.utils.state import STATE_NEEDS_CHECKING, STATE_NEEDS_REWRITING
 
 if TYPE_CHECKING:
     from datetime import datetime
@@ -71,7 +71,9 @@ class CommentManager(models.Manager):
                     unit_scope.translate(
                         user,
                         unit_scope.target,
-                        STATE_FUZZY,
+                        STATE_NEEDS_CHECKING
+                        if unit_scope.is_source
+                        else STATE_NEEDS_REWRITING,
                         change_action=ActionEvents.MARKED_EDIT,
                     )
             else:
@@ -116,9 +118,7 @@ class Comment(models.Model, UserDisplayMixin):
         verbose_name_plural = "string comments"
 
     def __str__(self) -> str:
-        return "comment for {} by {}".format(
-            self.unit, self.user.username if self.user else "unknown"
-        )
+        return f"comment for {self.unit} by {self.user.username if self.user else 'unknown'}"
 
     def report_spam(self) -> None:
         report_spam(

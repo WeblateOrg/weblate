@@ -35,10 +35,10 @@ class CharacterRangeEmitter:
         self.charset = "".join(dict.fromkeys(chars).keys())
 
     def __str__(self) -> str:
-        return "[" + self.charset + "]"
+        return f"[{self.charset}]"
 
     def __repr__(self) -> str:
-        return "[" + self.charset + "]"
+        return f"[{self.charset}]"
 
     def make_generator(self):
         def gen_chars():
@@ -103,10 +103,10 @@ class LiteralEmitter:
         self.lit = lit
 
     def __str__(self) -> str:
-        return "Lit:" + self.lit
+        return f"Lit:{self.lit}"
 
     def __repr__(self) -> str:
-        return "Lit:" + self.lit
+        return f"Lit:{self.lit}"
 
     def make_generator(self):
         def lit_gen():
@@ -211,15 +211,15 @@ def get_parser():
     re_boundary = cflex | dollar
     repetition = (
         (lbrace + Word(nums)("count") + rbrace)
-        | (lbrace + Word(nums)("minCount") + "," + Word(nums)("maxCount") + rbrace)
+        | (f"{lbrace}{Word(nums)('minCount')},{Word(nums)('maxCount')}{rbrace}")
         | one_of(list("*+?"))
     )
 
-    re_range.setParseAction(handle_range)
-    re_literal.setParseAction(handle_literal)
-    re_macro.setParseAction(handle_macro)
-    re_dot.setParseAction(handle_dot)
-    re_boundary.setParseAction(handle_boundary)
+    re_range.set_parse_action(handle_range)
+    re_literal.set_parse_action(handle_literal)
+    re_macro.set_parse_action(handle_macro)
+    re_dot.set_parse_action(handle_dot)
+    re_boundary.set_parse_action(handle_boundary)
 
     re_term = (
         re_boundary | re_literal | re_range | re_macro | re_dot | re_non_capture_group

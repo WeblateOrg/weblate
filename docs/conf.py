@@ -77,7 +77,7 @@ project_copyright = "Michal Čihař"
 author = "Michal Čihař"
 
 # The full version, including alpha/beta/rc tags
-release = "5.15"
+release = "5.15.2"
 
 # -- General configuration ---------------------------------------------------
 
@@ -396,6 +396,8 @@ linkcheck_ignore = [
     "https://translate.yandex.com/",
     "https://www.gnu.org/",
     "https://dev.mysql.com/",
+    # Responds with HTTP 418 I'm a teapot
+    "https://www.freedesktop.org/",
 ]
 
 # HTTP docs

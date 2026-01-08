@@ -502,18 +502,6 @@ class VCSGitTest(TestCase, RepoTestMixin, TempDirMixin):
         self.assertIn("msgid", self.repo.get_file("po/cs.po", self.repo.last_revision))
 
     def test_remote_branches(self) -> None:
-        # The initial setup clones just single branch
-        self.assertEqual(
-            [self._remote_branch] if self._remote_branches else [],
-            self.repo.list_remote_branches(),
-        )
-
-        # Full configure adds all other branches
-        with self.repo.lock:
-            self.repo.configure_remote(
-                self.get_remote_repo_url(), "", self.repo.branch, fast=False
-            )
-            self.repo.update_remote()
         self.assertEqual(self._remote_branches, self.repo.list_remote_branches())
 
     def test_remote_branch(self) -> None:
@@ -1084,7 +1072,13 @@ class VCSGitHubTest(VCSGitUpstreamTest):
             json={
                 "ssh_url": "git@github.com:test/test.git",
                 "clone_url": "https://github.com/test/test.git",
+                "url": "https://api.github.com/repos/test/test",
             },
+        )
+        responses.add(
+            responses.PUT,
+            "https://api.github.com/repos/test/test/actions/permissions",
+            status=204,
         )
         responses.add(
             responses.POST,

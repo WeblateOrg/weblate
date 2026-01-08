@@ -189,7 +189,7 @@ def home(request: AuthenticatedHttpRequest) -> HttpResponse:
             request,
             format_html(
                 '<a href="{}">{}</a>',
-                reverse("profile") + "#account",
+                f"{reverse('profile')}#account",
                 gettext("Please set your full name and e-mail in your profile."),
             ),
         )
