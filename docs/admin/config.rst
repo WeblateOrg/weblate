@@ -963,7 +963,7 @@ List for credentials for Bitbucket Cloud servers.
 
     BITBUCKETCLOUD_CREDENTIALS = {
         "bitbucket.org": {
-            "username": "your-username",
+            "username": "your-email",
             "workspace": "your-workspace-slug",
             "token": "your-api-token",
         },
