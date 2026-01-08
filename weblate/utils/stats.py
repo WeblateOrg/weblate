@@ -1107,6 +1107,10 @@ class ProjectLanguage(BaseURLMixin, TranslationChecklistMixin):
         return self.project.enable_review
 
     @property
+    def enable_suggestions(self) -> bool:
+        return True
+
+    @property
     def is_readonly(self) -> bool:
         return False
 
