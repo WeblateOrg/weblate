@@ -16,6 +16,7 @@ from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Project
 from weblate.trans.tests.test_views import FixtureTestCase, RegistrationTestMixin
+from weblate.trans.tests.utils import enable_login_required_settings
 from weblate.utils.pii import mask_email
 
 if TYPE_CHECKING:
@@ -537,7 +538,7 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         )
 
 
-# @enable_login_required_settings()
+@enable_login_required_settings()
 class ACLLoginRequiredTestCase(ACLTest):
     pass
 
