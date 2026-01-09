@@ -513,12 +513,13 @@ class VCSGitForcePushTest(VCSGitTest):
 
 
 class VCSGitUpstreamTest(VCSGitTest):
-    _repo_override: str
+    _repo_override: str = ""
 
     def setUp(self) -> None:
         super().setUp()
         # Set repo URL to match configured credentials
-        self.repo.component.repo = self._repo_override
+        if self._repo_override:
+            self.repo.component.repo = self._repo_override
 
     def add_remote_commit(self, conflict=False, rename=False) -> None:
         # Use Git to create changed upstream repo
