@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
-from weblate.trans.management.commands import WeblateComponentCommand
+from weblate.utils.management.base import WeblateComponentCommand
 
 
 class Command(WeblateComponentCommand):
