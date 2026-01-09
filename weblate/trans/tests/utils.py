@@ -541,3 +541,15 @@ class social_core_override_settings(SocialCacheMixin, override_settings):  # noq
 # Lowercase name to be consistent with Django
 class social_core_modify_settings(SocialCacheMixin, modify_settings):  # noqa: N801
     pass
+
+
+# Lowercase name to be consistent with Django
+class enable_login_required_settings(override_settings):  # noqa: N801
+    def __init__(self):
+        middleware = settings.MIDDLEWARE.copy()
+        middleware.insert(
+            middleware.index("weblate.api.middleware.ThrottlingMiddleware"),
+            "django.contrib.auth.middleware.LoginRequiredMiddleware",
+        )
+        self.options = {"MIDDLEWARE": middleware}
+        super(override_settings, self).__init__()

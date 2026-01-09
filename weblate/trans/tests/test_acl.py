@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING, cast
 
 from django.conf import settings
 from django.core import mail
-from django.test.utils import override_settings
+from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 
 from weblate.auth.models import Group, Invitation, Role, User, get_anonymous
@@ -146,7 +146,14 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         self.assertEqual(change.get_details_display(), self.user.username)
 
     @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
-    def test_invite_user(self) -> None:
+    def test_invite_user_open(self) -> None:
+        self._invite_user_test()
+
+    @override_settings(REGISTRATION_OPEN=False, REGISTRATION_CAPTCHA=False)
+    def test_invite_user_closed(self) -> None:
+        self._invite_user_test()
+
+    def _invite_user_test(self) -> None:
         """Test inviting user."""
         self.project.add_user(self.user, "Administration")
         response = self.client.post(
@@ -197,6 +204,7 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         response = user_client.get(invitation.get_absolute_url(), follow=True)
         self.assertRedirects(response, reverse("register"))
         self.assertContains(response, "user@example.com")
+        self.assertContains(response, "You were invited")
 
         # Perform registration
         response = user_client.post(
@@ -210,6 +218,11 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         )
         url = self.assert_registration_mailbox()
         response = user_client.get(url, follow=True)
+
+        # Accept terms if using legal
+        if "weblate.legal.pipeline.tos_confirm" in settings.SOCIAL_AUTH_PIPELINE:
+            response = self.confirm_tos(user_client, response)
+
         self.assertRedirects(response, reverse("password"))
 
         # Verify user was added
@@ -522,3 +535,13 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         self.assertNotEqual(
             list(group.languages.values_list("code", flat=True)), ["cs"]
         )
+
+
+# @enable_login_required_settings()
+class ACLLoginRequiredTestCase(ACLTest):
+    pass
+
+
+@modify_settings(SOCIAL_AUTH_PIPELINE={"append": "weblate.legal.pipeline.tos_confirm"})
+class ACLLegalTestCase(ACLLoginRequiredTestCase):
+    pass
