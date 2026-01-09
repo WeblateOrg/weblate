@@ -20,7 +20,7 @@ Weblate 5.15.2
 * GitHub forks no longer trigger actions.
 * Tighter validation of user provided websites to avoid confusing homoglyphs.
 * Glossary support in :ref:`mt-google-translate-api-v3`.
-* Accepting invitations with :setting:`REQUIRE_LOGIN` turned on.
+* Invitations accepting when :setting:`REQUIRE_LOGIN` is turned on.
 
 .. rubric:: Compatibility
 
