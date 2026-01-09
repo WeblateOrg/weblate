@@ -19,11 +19,13 @@ if TYPE_CHECKING:
 @partial
 def tos_confirm(strategy, backend, user: User | None, current_partial, **kwargs):
     """Ensure the user has accepted the current terms of service for social login."""
-    if user:
-        agreement = Agreement.objects.get_or_create(user=user)[0]
-        if not agreement.is_current():
-            strategy.request.session["tos_user"] = user.pk
-            url = f"{reverse('social:complete', args=(backend.name,))}?partial_token={current_partial.token}"
-            return redirect(f"{reverse('legal:confirm')}?{urlencode({'next': url})}")
-        strategy.request.session.pop("tos_user", None)
+    if not user:
+        msg = "Missing user"
+        raise ValueError(msg)
+    agreement = Agreement.objects.get_or_create(user=user)[0]
+    if not agreement.is_current():
+        strategy.request.session["tos_user"] = user.pk
+        url = f"{reverse('social:complete', args=(backend.name,))}?partial_token={current_partial.token}"
+        return redirect(f"{reverse('legal:confirm')}?{urlencode({'next': url})}")
+    strategy.request.session.pop("tos_user", None)
     return None

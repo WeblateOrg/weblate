@@ -9,7 +9,7 @@ from __future__ import annotations
 from io import BytesIO
 from typing import TYPE_CHECKING
 from unittest import TestCase
-from urllib.parse import urlsplit
+from urllib.parse import parse_qs, urlparse, urlsplit
 from zipfile import ZipFile
 
 from django.contrib.messages import get_messages
@@ -39,6 +39,9 @@ from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.xml import parse_xml
 
 if TYPE_CHECKING:
+    from django.http import HttpResponse
+    from django.test.client import Client as TestClient
+
     from weblate.auth.models import User
     from weblate.trans.models import Translation, Unit
     from weblate.utils.state import StringState
@@ -73,6 +76,17 @@ class RegistrationTestMixin(TestCase):
     def assert_notify_mailbox(self, sent_mail) -> None:
         self.assertEqual(
             sent_mail.subject, "[Weblate] Activity on your account at Weblate"
+        )
+
+    def confirm_tos(
+        self, user_client: TestClient, response: HttpResponse
+    ) -> HttpResponse:
+        url = response.redirect_chain[-1][0]
+        parsed_url = urlparse(url)
+        parsed_query = parse_qs(parsed_url.query)
+        self.assertTrue(url.startswith(reverse("legal:confirm")))
+        return user_client.post(
+            url, {"confirm": "1", "next": parsed_query["next"]}, follow=True
         )
 
 
