@@ -875,6 +875,56 @@ class GitMergeRequestBase(GitForcePushRepository):
     REQUIRED_CONFIG: ClassVar[set[str]] = {"username", "token"}
     OPTIONAL_CONFIG: ClassVar[set[str]] = {"scheme"}
 
+    def get_fork_branch_name(self) -> str:
+        """Get the fork branch name used for pushing."""
+        if self.component is not None:
+            return f"weblate-{self.component.project.slug}-{self.component.slug}"
+        return f"weblate-{self.branch}"
+
+    def count_outgoing(self, branch: str | None = None) -> int:
+        """
+        Count outgoing commits.
+
+        For merge request workflows, we need to check against both the origin
+        remote (to see if commits are already merged) and the fork remote (to see
+        if commits are already pushed but not merged). This prevents creating
+        duplicate merge requests when commits have already been merged, while also
+        avoiding unnecessary pushes when commits are already in the fork.
+        """
+        # Check if fork is used for this branch (default and matching branches use fork)
+        if not self.should_use_fork(branch):
+            # Fork not used: check specified branch directly on origin
+            return super().count_outgoing(branch)
+
+        # Fork workflow: check if commits have been merged to origin's pull branch
+        # Omit branch parameter to check the repository's default pull branch
+        origin_outgoing = super().count_outgoing()
+        if origin_outgoing == 0:
+            # All commits are in origin, nothing to push
+            return 0
+
+        # Check if commits are in the fork (already pushed)
+        # The fork branch name is determined by get_fork_branch_name()
+        credentials = self.get_credentials()
+        fork_remote = credentials["username"]
+        fork_branch_name = self.get_fork_branch_name()
+        fork_branch = f"{fork_remote}/{fork_branch_name}"
+
+        try:
+            fork_outgoing = len(
+                self.log_revisions(self.ref_from_remote.format(fork_branch))
+            )
+            # If fork has all commits, don't need to push
+            if fork_outgoing == 0:
+                return 0
+        except RepositoryError:
+            # Fork branch doesn't exist yet or is not accessible,
+            # indicating commits haven't been pushed to fork
+            pass
+
+        # Commits are not in origin or fork, need to push
+        return origin_outgoing
+
     def merge(
         self, abort: bool = False, message: str | None = None, no_ff: bool = False
     ) -> None:
@@ -1087,12 +1137,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         else:
             fork_remote = credentials["username"]
             self.fork(credentials)
-            if self.component is not None:
-                fork_branch = (
-                    f"weblate-{self.component.project.slug}-{self.component.slug}"
-                )
-            else:
-                fork_branch = f"weblate-{self.branch}"
+            fork_branch = self.get_fork_branch_name()
             self.push_to_fork(credentials, self.branch, fork_branch)
         self.create_pull_request(credentials, self.branch, fork_remote, fork_branch)
 
