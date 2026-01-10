@@ -1,7 +1,7 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-# 이정희 <daemul72@gmail.com>, 2023, 2024, 2025.
+# 이정희 <daemul72@gmail.com>, 2023, 2024, 2025, 2026.
 # Fill read-only add-on <noreply-addon-fill@weblate.org>, 2023, 2024, 2025.
 # Minseo Lee <itoupluk427@gmail.com>, 2023.
 # simmon <simmon@nplob.com>, 2024.
@@ -18,8 +18,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-17 15:44+0100\n"
-"PO-Revision-Date: 2025-12-17 14:43+0000\n"
-"Last-Translator: 김인수 <simmon@nplob.com>\n"
+"PO-Revision-Date: 2026-01-11 06:01+0000\n"
+"Last-Translator: 이정희 <daemul72@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "documentation/ko/>\n"
 "Language: ko\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.15.1-dev\n"
+"X-Generator: Weblate 5.15.1\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:215
@@ -225,8 +225,7 @@ msgstr "검토를 통해 번역을 승인합니다."
 
 #: ../../admin/access.rst:108
 msgid "Available only if :ref:`review workflow <reviews>` is on."
-msgstr ""
-"만약 :ref:`review workflow <reviews>` 가 켜져 있을 때만 사용 할 수 있습니다."
+msgstr ":ref:`review workflow <reviews>` 가 활성화된 경우에만 사용할 수 있습니다."
 
 #: ../../admin/access.rst:110
 msgid "For `Protected` and `Private` projects only:"
@@ -309,17 +308,12 @@ msgid "Access billing info and settings (see :ref:`billing`)."
 msgstr "결제 정보 및 설정에 액세스합니다(:ref:`billing` 참조)."
 
 #: ../../admin/access.rst:143
-#, fuzzy
-#| msgid ""
-#| "These features are available on the :guilabel:`Access control` page, "
-#| "which can be accessed from the project’s menu :guilabel:`Manage` "
-#| "↓ :guilabel:`Users`."
 msgid ""
 "These features are available on the :guilabel:`Access control` page in the "
 "project’s menu :guilabel:`Operations` ↓ :guilabel:`Users`."
 msgstr ""
-"이 기능은 프로젝트 메뉴 :guilabel:`관리` ↓ :guilabel:`사용자`에서 액세스할 "
-"수 있는 :guilabel:`접근 제어` 페이지에서 사용할 수 있습니다."
+"이러한 기능은 프로젝트 메뉴의 :guilabel:`작업` ↓ :guilabel:`사용자` 내 "
+":guilabel:`접근 제어` 페이지에서 사용할 수 있습니다."
 
 #: ../../admin/access.rst:148
 msgid ""
@@ -527,8 +521,8 @@ msgid ""
 "`Users` (this is done by default by the :ref:`automatic team assignment "
 "<autoteam>`)."
 msgstr ""
-"`Users` (this is done by default by the :ref:`automatic team assignment "
-"<autoteam>`)."
+"`사용자` (이 작업은 기본적으로 :ref:`자동 팀 할당 <autoteam>` 에 의해 "
+"수행됩니다)."
 
 #: ../../admin/access.rst:263
 msgid ""
@@ -861,6 +855,8 @@ msgid ""
 "Manage VCS for the whole ``foo/bar`` repository e.g. commit pending changes "
 "made by translators for all languages."
 msgstr ""
+"전체 ``foo/bar`` 저장소의 VCS를 관리합니다. 예: 모든 언어에 대해 번역자가 "
+"수정한 대기 중인 변경사항을 커밋합니다."
 
 #: ../../admin/access.rst:445
 #, fuzzy
@@ -1353,7 +1349,7 @@ msgstr "내부 저장소에 접근하기"
 
 #: ../../admin/access.rst:779
 msgid "Commit changes to the internal repository"
-msgstr "내부 저장소에 변경 사항 커밋하기"
+msgstr "내부 저장소에 변경사항 커밋하기"
 
 #: ../../admin/access.rst:783
 msgid "Push change from the internal repository"
@@ -3062,7 +3058,6 @@ msgid "Marking certain strings read-only"
 msgstr "특정 문자열을 읽기 전용으로 마킹"
 
 #: ../../admin/addons.rst:712
-#, fuzzy
 msgid "``source:r\"^\\`\\`[.a-zA-Z0-9_-]*\\`\\`$\" AND language:en``"
 msgstr "``source:r\"^\\`\\`[.a-zA-Z0-9_-]*\\`\\`$\" AND language:en``"
 
@@ -3269,15 +3264,6 @@ msgid ""
 msgstr ""
 
 #: ../../admin/addons.rst:902
-#, fuzzy
-#| msgid ""
-#| "Using the variable parts makes it possible to look for strings which "
-#| "might not fit into the user interface after the localization - it extends "
-#| "the text based on the source string length. The variable parts are "
-#| "repeated by length of the text multiplied by the multiplier. For example "
-#| "``Hello world`` with variable suffix ``_`` and variable multiplier of 1 "
-#| "becomes ``Hello world___________`` - the suffix is repeated once for each "
-#| "character in the source string."
 msgid ""
 "Using the variable parts makes it possible to look for strings which might "
 "not fit into the user interface after the localization - it extends the text "
@@ -3288,11 +3274,11 @@ msgid ""
 "source string."
 msgstr ""
 "변수 부분을 사용하면 현지화 후 사용자 인터페이스에 맞지 않는 문자열을 찾을 "
-"수 있습니다. 즉, 원문 문자열 길이를 기준으로 텍스트를 확장합니다. 변수 텍스트"
-"는 텍스트 길이에 승수를 곱한 값만큼 반복됩니다. 예를 들어, ``Hello world``에 "
-"변수 텍스트 ``_``를 지정하고 변수 승수를 1로 지정하면 ``Hello "
-"world___________``가 됩니다. 즉, 텍스트는 원문 문자열의 각 문자에 대해 한 번"
-"씩 반복됩니다."
+"수 있습니다. 즉, 원문 문자열 길이를 기준으로 텍스트를 확장합니다. 변수 "
+"텍스트는 텍스트 길이에 승수를 곱한 값만큼 반복됩니다. 예를 들어, ``Hello "
+"world`` 에 변수 텍스트 ``_`` 를 지정하고 변수 승수를 1로 지정하면 ``Hello "
+"world___________`` 가 됩니다. 즉, 텍스트는 원문 문자열의 각 문자에 대해 한 "
+"번씩 반복됩니다."
 
 #: ../../admin/addons.rst:909
 msgid "The strings will be generated using following pattern:"
@@ -3504,8 +3490,8 @@ msgid ""
 "end of the otherwise free-form part of a commit message, such as 'Co-"
 "authored-by: …'."
 msgstr ""
-"뒷줄은 RFC 822 전자 메일 헤더와 비슷한 줄로, '공저자 : …'와 같은 커밋 메시지"
-"의 자유 형식 부분 끝에 있습니다."
+"트레일러 라인은 커밋 메시지의 자유 형식 부분 끝에 '공동 작성자: …'와 같이 "
+"RFC 822 이메일 헤더와 유사하게 보이는 줄입니다."
 
 #: ../../admin/addons.rst:1063
 msgid "Commit message"
@@ -4546,10 +4532,8 @@ msgid "Filename of the file used for creating new translations (can be empty)."
 msgstr "새로운 번역을 위해 만든 파일을 위한 이름(비어 있어도 됨)."
 
 #: ../../admin/addons.rst:1739
-#, fuzzy
-#| msgid "All components in current project"
 msgid "File format used in current component."
-msgstr "현재 프로젝트의 모든 구성 요소"
+msgstr "현재 구성요소에서 사용되는 파일 형식입니다."
 
 #: ../../admin/addons.rst:1743
 msgid ""
@@ -4698,10 +4682,8 @@ msgid "Configure :ref:`machine-translation-setup`."
 msgstr ":ref:`machine-translation`"
 
 #: ../../admin/admin.rst:23
-#, fuzzy
-#| msgid "Source string description"
 msgid "Configure site-wide addons, see :ref:`addons`."
-msgstr "사이트 전체에 적용되는 애드온을 구성하려면 :ref:`addons`를 참조하세요."
+msgstr "사이트 전체 애드온을 구성하려면, :ref:`addons` 를 참조하세요."
 
 #: ../../admin/admin.rst:28
 msgid "Performance report"
@@ -7949,6 +7931,8 @@ msgstr "예시:"
 #: ../../admin/config.rst:643
 msgid "Committer e-mail address, defaulting to ``noreply@weblate.org``."
 msgstr ""
+"커미터 이메일 주소, 지정하지 않으면 ``noreply@weblate.org`` 가 기본으로 "
+"사용됩니다."
 
 #: ../../admin/config.rst:654
 msgid "Committer name, defaulting to ``Weblate``."
@@ -8499,18 +8483,22 @@ msgid ""
 "Configures whether the private commit e-mail is opt-in or opt-out (by "
 "default it is opt-in)."
 msgstr ""
+"개인 커밋 이메일 수신 여부를 선택(옵트인) 또는 거부(옵트아웃)로 설정할 수 "
+"있습니다(기본값: 옵트인)."
 
 #: ../../admin/config.rst:1438
 msgid ""
 "This setting only applies to users which have not explicitly chosen a commit "
 "e-mail."
-msgstr ""
+msgstr "이 설정은 커밋 이메일을 명시적으로 선택하지 않은 사용자에게만 적용됩니다."
 
 #: ../../admin/config.rst:1452
 msgid ""
 "Template to generate private commit e-mail for an user. Defaults to "
 "``\"{username}@users.noreply.{site_domain}\"``."
 msgstr ""
+"사용자용 비공개 커밋 이메일 생성 템플릿입니다. 설정하지 않으면 ``\"{username}"
+"@users.noreply.{site_domain}\"`` 을 기본으로 사용합니다."
 
 #: ../../admin/config.rst:1454
 #, fuzzy
@@ -8524,6 +8512,9 @@ msgid ""
 "by :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure commit e-mail "
 "in the :ref:`profile`."
 msgstr ""
+"다른 커밋 이메일을 사용하는 것은 :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` 으로 "
+"구성되지 않는 한 사용자에게 옵트인됩니다. 사용자는 :ref:`profile` 에서 커밋 "
+"이메일을 구성할 수 있습니다."
 
 #: ../../admin/config.rst:1469
 msgid ""
@@ -15170,16 +15161,12 @@ msgid ""
 msgstr ""
 
 #: ../../admin/machine.rst:22
-#, fuzzy
-#| msgid ""
-#| "In case the translation to the source language is desired, please change "
-#| "the source language in the project settings."
 msgid ""
 "The services translate from the source language as configured "
 "at :ref:`component`, see :ref:`component-source_language`."
 msgstr ""
-"서비스는 :ref:`component`에서 구성된 원문 언어에서 번역합니"
-"다. :ref:`component-source_language`를 참조하세요."
+"서비스는 :ref:`component` 에서 구성된 원문 언어에서 번역합니다. "
+":ref:`component-source_language` 를 참조하세요."
 
 #: ../../admin/machine.rst:25
 msgid ""
@@ -24490,13 +24477,11 @@ msgid ""
 msgstr ""
 
 #: ../../changes.rst:359
-#, fuzzy
-#| msgid "Source string location"
 msgid ""
 ":ref:`xliff` now supports starting from scratch when :ref:`adding-projects`."
 msgstr ""
-":ref:`xliff`는 이제 :ref:`adding-projects`를 실행할 때 처음부터 시작하는 것"
-"을 지원합니다."
+":ref:`xliff` 는 이제 :ref:`adding-projects` 를 실행할 때 처음부터 시작하는 "
+"것을 지원합니다."
 
 #: ../../changes.rst:360
 #, fuzzy
@@ -25286,21 +25271,17 @@ msgid ""
 msgstr "이 애드온은 이 저장소를 공유하는 모든 구성 요소에서 사용됩니다."
 
 #: ../../changes.rst:751
-#, fuzzy
-#| msgid "Source string location"
 msgid ":ref:`search-strings` supports searching by source string state."
-msgstr ":ref:`search-strings`는 원문 문자열 상태로 검색을 지원합니다."
+msgstr ":ref:`search-strings` 는 원문 문자열 상태로 검색을 지원합니다."
 
 #: ../../changes.rst:755
 msgid ":ref:`download` performs faster on project and language scopes."
 msgstr ""
 
 #: ../../changes.rst:756
-#, fuzzy
-#| msgid "Source string location"
 msgid ""
 ":ref:`zen-mode` does not display the source string twice when editing it."
-msgstr ":ref:`zen-mode`는 편집 시 원문 문자열을 두 번 표시하지 않습니다."
+msgstr ":ref:`zen-mode` 는 편집 시 원문 문자열을 두 번 표시하지 않습니다."
 
 #: ../../changes.rst:757
 #, fuzzy
@@ -25912,10 +25893,8 @@ msgid ":ref:`mt-modernmt` supports :ref:`glossary-mt`."
 msgstr ":ref:`mt-microsoft-terminology`"
 
 #: ../../changes.rst:1038
-#, fuzzy
-#| msgid "Source string location"
 msgid ":ref:`mt-deepl` now supports specifying translation context."
-msgstr ":ref:`mt-deepl`은 이제 번역 컨텍스트 지정을 지원합니다."
+msgstr ":ref:`mt-deepl` 은 이제 번역 컨텍스트 지정을 지원합니다."
 
 #: ../../changes.rst:1039
 #, fuzzy
@@ -26820,16 +26799,12 @@ msgid "Superuser access to components with :ref:`component-restricted`."
 msgstr ""
 
 #: ../../changes.rst:1436
-#, fuzzy
-#| msgid ""
-#| "Adjusted default :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` to not "
-#| "block :ref:`manage-appearance`."
 msgid ""
 "Adjusted default ``LOGIN_REQUIRED_URLS_EXCEPTIONS`` to not "
 "block :ref:`manage-appearance`."
 msgstr ""
-":ref:`manage-appearance` 를 차단하지 않도록 기"
-"본 :setting:`LOGIN_REQUIRED_URLS_EXCEPTIONS` 를 조정했습니다."
+":ref:`manage-appearance` 를 차단하지 않도록 기본 "
+"``LOGIN_REQUIRED_URLS_EXCEPTIONS`` 를 조정했습니다."
 
 #: ../../changes.rst:1437
 #, fuzzy
@@ -27757,10 +27732,8 @@ msgid "OCR support for non-English languages in :ref:`screenshots`."
 msgstr ":ref:`screenshots` 에서 영어 이외의 언어에 대한 OCR을 지원합니다."
 
 #: ../../changes.rst:1809
-#, fuzzy
-#| msgid "Source string location"
 msgid ":ref:`xliff` now supports displaying source string location."
-msgstr ":ref:`xliff`는 이제 원문 문자열 위치 표시를 지원합니다."
+msgstr ":ref:`xliff` 는 이제 원문 문자열 위치 표시를 지원합니다."
 
 #: ../../changes.rst:1810
 #, fuzzy
@@ -32618,7 +32591,9 @@ msgstr "API에서 레이블에 대한 지원이 추가되었습니다."
 msgid ""
 "Added support for choosing different e-mail for commits than for "
 "notifications."
-msgstr "커밋과 알림에 대해 다른 이메일을 선택하기 위한 지원이 추가되었습니다."
+msgstr ""
+"커밋을 위한 이메일과 알림을 위한 이메일을 다르게 선택할 수 있는 지원이 "
+"추가되었습니다."
 
 #: ../../changes/v4.rst:228
 msgid "The Docker image no longer enables debug mode by default."
@@ -39280,6 +39255,10 @@ msgid ""
 "allows services like GitHub to associate your contributions done in Weblate "
 "with your GitHub profile."
 msgstr ""
+"Weblate는 번역자가 작성한 번역을 이름과 이메일을 사용하여 버전 관리 저장소에 "
+"올바르게 보관합니다. 실제 이메일이 커밋에 첨부되면 분산 버전 관리 스피릿을 "
+"따르며, GitHub와 같은 서비스는 Weblate에서 작성한 기여를 GitHub 프로필과 "
+"연결할 수 있습니다."
 
 #: ../../snippets/basics.rst:43
 msgid ""
@@ -39288,6 +39267,10 @@ msgid ""
 "(such as GitHub), there is effectively no way to redact it. Weblate allows "
 "choosing a private commit e-mail in :ref:`profile-account` to avoid this."
 msgstr ""
+"이 기능은 버전 관리 커밋에 이메일 주소를 공개하는 오용 위험을 수반합니다. "
+"더욱이, 이러한 커밋이 GitHub와 같은 공개 호스팅 플랫폼에 게시되면 사실상 "
+"삭제할 방법이 없습니다. Weblate는 이러한 문제를 방지하기 위해 :ref:`profile-"
+"account` 에서 개인 커밋 이메일을 선택할 수 있도록 지원합니다."
 
 #: ../../snippets/basics.rst:48
 msgid "Therefore, admins should consider this while configuring Weblate:"
@@ -39303,6 +39286,8 @@ msgstr ""
 msgid ""
 ":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` can make e-mails private by default."
 msgstr ""
+":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` 은 이메일을 기본적으로 비공개로 "
+"설정할 수 있습니다."
 
 #: ../../devel/integration.rst:7
 #, fuzzy
@@ -40720,6 +40705,9 @@ msgid ""
 "set to the anonymous user. You can configure the anonymous user's name and e-"
 "mail in :setting:`ANONYMOUS_USER_NAME`."
 msgstr ""
+"작성자를 확인할 수 없는 커밋(예: 익명 제안이나 기계 번역 결과로 인한 자동 "
+"변경)의 경우 작성자는 익명 사용자로 설정됩니다. 익명 사용자의 이름과 이메일 "
+"주소는 :setting:`ANONYMOUS_USER_NAME` 에서 구성할 수 있습니다."
 
 #: ../../faq.rst:292
 msgid "How to move files in the repository without losing history in Weblate?"
@@ -41023,10 +41011,6 @@ msgid ""
 msgstr ""
 
 #: ../../faq.rst:504
-#, fuzzy
-#| msgid ""
-#| "In case the translation to the source language is desired, please change "
-#| "the source language in the project settings."
 msgid ""
 "In case the translation to the source language is desired, please change "
 "the :ref:`component-source_language` in the component settings. You might "
@@ -41034,8 +41018,8 @@ msgid ""
 "utilize :ref:`source-quality-gateway`."
 msgstr ""
 "원문 언어로 번역이 필요한 경우, 컴포넌트 설정에서 :ref:`component-"
-"source_language`를 변경하세요. 원문 언어로 `영어(개발자)`를 사용하거"
-"나 :ref:`source-quality-gateway`를 활용할 수 있습니다."
+"source_language` 를 변경하세요. 원문 언어로 `영어(개발자)` 를 사용하거나 "
+":ref:`source-quality-gateway` 를 활용할 수 있습니다."
 
 #: ../../faq.rst:505
 msgid ""
@@ -46610,7 +46594,6 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:346
-#, fuzzy
 msgid ""
 "Second, the HTML elements found in the translated value will be compared "
 "against the HTML elements found in the source value. Two elements will match "
@@ -46621,13 +46604,12 @@ msgid ""
 "there are multiple elements in the value, they need not appear in the same "
 "order in the translation value."
 msgstr ""
-"둘째, 번역된 값에서 발견된 HTML 요소는 원문 값에서 발견된 HTML 요소와 비교될 "
-"것입니다. 두 요소는 정확히 동일한 태그 이름, 정확히 동일한 속성 및 값을 공유"
-"하고, 모든 상위 요소(ancestors)가 동일한 방식으로 일치할 때 일치하는 것으로 "
-"간주됩니다.\n"
-" 이 검사는 원문의 모든 요소가 번역문 어딘가에, 동일한 횟수로 나타나며, 추가"
-"된 요소는 없음을 보장합니다. 값 안에 여러 요소가 있을 경우, 번역 값에서 반드"
-"시 같은 순서로 나타날 필요는 없습니다."
+"둘째, 번역된 값에 포함된 HTML 요소들을 원문 값의 HTML 요소들과 비교합니다. "
+"두 요소의 태그 이름과 속성 및 속성값이 완전히 일치하고, 모든 상위 요소"
+"(ancestors)가 동일하게 일치할 때 두 요소가 서로 매칭되는 것으로 간주합니다. "
+"이 검사를 통해 원문의 모든 요소가 번역문 내에 동일한 *횟수* 로 나타나는지, "
+"그리고 추가된 요소는 없는지 확인합니다. 요소가 여러 개인 경우, 번역문 내에서 "
+"원본과 반드시 동일한 순서로 나타날 필요는 없습니다."
 
 #: ../../user/checks.rst:355
 msgid ""
@@ -47382,14 +47364,12 @@ msgid ""
 "reStructuredText term references or other markup do not match source, the "
 "typical causes for these errors are:"
 msgstr ""
-"reStructuredText 용어 참조 또는 기타 마크업이 소스와 일치하지 않는 경우, 이"
-"런 오류의 일반적인 원인은 다음과 같음:"
+"reStructuredText 용어 참조 또는 다른 마크업이 원문과 일치하지 않는 경우, "
+"이런 오류의 일반적인 원인은 다음과 같음:"
 
 #: ../../user/checks.rst:1102
-#, fuzzy
-#| msgid "Mismatched question mark"
 msgid "Mismatched or missing backticks."
-msgstr "일치하지 않는 물음표(?)"
+msgstr "백틱(`)이 불일치하거나 누락되었습니다."
 
 #: ../../user/checks.rst:1103 ../../user/checks.rst:1644
 msgid ""
@@ -47404,10 +47384,8 @@ msgid "Space between inline tag and backticks."
 msgstr ""
 
 #: ../../user/checks.rst:1105
-#, fuzzy
-#| msgid "This term should not be translated."
 msgid "The reference name is not being translated."
-msgstr "번역하면 안 되는 용어입니다."
+msgstr "참조 이름이 번역되지 않고 있습니다."
 
 #: ../../user/checks.rst:1106 ../../user/checks.rst:1645
 msgid "Using quotes instead of backticks."
@@ -47423,7 +47401,7 @@ msgstr "`reStructuredText Primer`_"
 
 #: ../../user/checks.rst:1117
 msgid "Kashida letter used"
-msgstr "카쉬다(Kashida) 문자가 사용됨"
+msgstr "카쉬다(Kashida) 문자 사용됨"
 
 #: ../../user/checks.rst:1120
 msgid "The decorative kashida letters should not be used."
@@ -47571,7 +47549,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1296
 msgid "Mismatched colon"
-msgstr "일치하지 않는 콜론(:)"
+msgstr "콜론 불일치 (:)"
 
 #: ../../user/checks.rst:1299
 msgid "Source and translation do not both end with a colon."
@@ -47591,7 +47569,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1318
 msgid "Mismatched ellipsis"
-msgstr "일치하지 않는 줄임표"
+msgstr "줄임표 불일치 (...)"
 
 #: ../../user/checks.rst:1321
 msgid "Source and translation do not both end with an ellipsis."
@@ -47616,7 +47594,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1341
 msgid "Mismatched exclamation mark"
-msgstr "일치하지 않는 느낌표(!)"
+msgstr "느낌표 불일치 (!)"
 
 #: ../../user/checks.rst:1344
 msgid "Source and translation do not both end with an exclamation mark."
@@ -47638,7 +47616,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1363
 msgid "Mismatched full stop"
-msgstr "일치하지 않는 마침표(.)"
+msgstr "마침표 불일치 (.)"
 
 #: ../../user/checks.rst:1366
 msgid "Source and translation do not both end with a full stop."
@@ -47657,7 +47635,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1384
 msgid "Mismatched interrobang"
-msgstr "일치하지 않는 인터로뱅"
+msgstr "물음느낌표 불일치 (‽)"
 
 #: ../../user/checks.rst:1387
 msgid "Source and translation do not both end with an interrobang expression."
@@ -47676,7 +47654,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1404
 msgid "Mismatched question mark"
-msgstr "일치하지 않는 물음표(?)"
+msgstr "물음표 불일치 (?)"
 
 #: ../../user/checks.rst:1407
 msgid "Source and translation do not both end with a question mark."
@@ -47697,7 +47675,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1427
 msgid "Mismatched semicolon"
-msgstr "일치하지 않는 쌍반점 (;)"
+msgstr "세미콜론 불일치 (;)"
 
 #: ../../user/checks.rst:1430
 msgid "Source and translation do not both end with a semicolon."
@@ -47715,7 +47693,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1446
 msgid "Mismatching line breaks"
-msgstr "일치하지 않는 줄 바꿈"
+msgstr "줄 바꿈 불일치"
 
 #: ../../user/checks.rst:1449
 msgid "Number of new lines in translation does not match source."
@@ -48938,7 +48916,6 @@ msgid "Forbidden translations"
 msgstr "평판이 좋은 번역"
 
 #: ../../user/glossary.rst:83
-#, fuzzy
 msgid ""
 "Flagging certain glossary term translations as ``forbidden`` by bulk-"
 "editing, typing in the flag, or by using :guilabel:`Tools` ↓ :guilabel:`Mark "
@@ -48946,10 +48923,10 @@ msgid ""
 "clarify translation when some words are ambiguous or could have unexpected "
 "meanings."
 msgstr ""
-"일괄 편집, 플래그 입력 또는 :guilabel:`도구` ↓ :guilabel:`금지된 번역으로 표"
-"시하기` 를 사용하여 특정 용어 번역을 ``forbidden`` 으로 표시하는 것은 사용할 "
-"수 있습니다. 일부 단어가 모호하거나 예기치 않은 의미를 가질 수 있는 경우 이"
-"를 사용하여 번역을 명확하게 설명합니다."
+"일괄 편집, 플래그 직접 입력 또는 :guilabel:`도구` ↓ :guilabel:`금지된 "
+"번역으로 표시하기` 기능을 통해 특정 용어 번역을 ``금지됨`` 으로 표시하면, "
+"해당 번역은 **사용할 수 없습니다**. 일부 단어가 모호하거나 예상치 못한 "
+"의미를 가질 수 있는 경우 번역을 명확히 하기 위해 이 기능을 사용하세요."
 
 #: ../../user/glossary.rst:95
 msgid "Terminology"
@@ -49144,6 +49121,8 @@ msgid ""
 "The user profile contains your preferences. Name and e-mail address is used "
 "in VCS commits, so keep this info accurate."
 msgstr ""
+"사용자 프로필에는 사용자의 환경설정이 포함되어 있습니다. 이름과 이메일 "
+"주소는 VCS 커밋에 사용되므로 정확하게 유지하십시오."
 
 #: ../../user/profile.rst:68
 msgid "All language selections only offer currently translated languages."
@@ -49322,6 +49301,11 @@ msgid ""
 "profile on GitHub). The private e-mail can be turned on site-wide "
 "using :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 msgstr ""
+"개인 커밋 이메일은 버전 관리 커밋 시 계정 이메일 대신 사용됩니다. 실제 "
+"이메일 유출을 방지하려면 이 기능을 활용하세요. 다른 이메일을 사용하면 다른 "
+"서버에서의 기여 내역이 연결되지 않을 수 있습니다(예: GitHub 프로필과 기여 "
+"내역이 더 이상 연결되지 않음). 개인 이메일은 사이트 전체에서 "
+":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` 을 사용하여 활성화할 수 있습니다."
 
 #: ../../user/profile.rst:211
 msgid ""
