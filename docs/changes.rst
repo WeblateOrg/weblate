@@ -10,6 +10,7 @@ Weblate 5.15.2
 * :ref:`addon-weblate.generate.generate` is now triggered upon installation.
 * Screenshots updated from the repository have proper history.
 * :ref:`check-rst-syntax` now reports unintended list conversion.
+* :ref:`check-same` check ignores AsciiDoc source code blocks.
 
 .. rubric:: Bug fixes
 
