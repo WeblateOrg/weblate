@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2025-12-17 15:44+0100\n"
-"PO-Revision-Date: 2026-01-13 15:18+0000\n"
+"PO-Revision-Date: 2026-01-13 15:36+0000\n"
 "Last-Translator: தமிழ்நேரம் <tamilneram247@gmail.com>\n"
 "Language-Team: Tamil <https://hosted.weblate.org/projects/weblate/"
 "documentation/ta/>\n"
@@ -6381,65 +6381,58 @@ msgid "Files"
 msgstr "கோப்புகள்"
 
 #: ../../admin/backup.rst:289
-#, fuzzy
 msgid ""
 "If you have enough backup space, simply back up the "
 "whole :setting:`DATA_DIR`. This is a safe bet even if it includes some files "
 "you don't want. The following sections describe what you should back up and "
 "what you can skip in detail."
 msgstr ""
-"உங்களிடம் போதுமான காப்புப்பிரதி இடம் இருந்தால், முழுவதையும் காப்புப் பிரதி எடுக்கவும்: "
-"அமைப்பு: `data_dir`. நீங்கள் விரும்பாத சில கோப்புகளை உள்ளடக்கியிருந்தாலும் இது ஒரு "
-"பாதுகாப்பான பந்தயம். பின்வரும் பிரிவுகள் நீங்கள் எதை காப்புப் பிரதி எடுக்க வேண்டும் "
-"என்பதையும், நீங்கள் விரிவாகத் தவிர்க்கக்கூடியதை விவரிக்கவும்."
+"உங்களிடம் போதுமான காப்புப்பிரதி இடம் இருந்தால், முழு :setting:`DATA_DIR` ஐ காப்புப் பிரதி "
+"எடுக்கவும். நீங்கள் விரும்பாத சில கோப்புகளை உள்ளடக்கியிருந்தாலும் இது பாதுகாப்பான பந்தயம். நீங்கள் "
+"எதை காப்புப் பிரதி எடுக்க வேண்டும் மற்றும் எதைத் தவிர்க்கலாம் என்பதை பின்வரும் பிரிவுகள் "
+"விவரிக்கின்றன."
 
 #: ../../admin/backup.rst:297
 msgid "Dumped data for backups"
 msgstr "காப்புப்பிரதிகளுக்கான தரவை கொட்டியது"
 
 #: ../../admin/backup.rst:301
-#, fuzzy
 msgid ""
 "The environment dump was added as :file:`environment.yml` to help in "
 "restoring in the Docker environments."
 msgstr ""
-"சுற்றுச்சூழல் டம்ப் இவ்வாறு சேர்க்கப்பட்டது: கோப்பு: `சுற்றுச்சூழல்.ஒய்எம்எல்` கப்பல்துறை "
-"சூழல்களில் மீட்டமைக்க உதவ."
+"கப்பல்துறை சூழல்களில் மீட்டமைக்க உதவும் வகையில் சூழல் டம்ப் :file:`environment.yml` என "
+"சேர்க்கப்பட்டது."
 
 #: ../../admin/backup.rst:304
-#, fuzzy
 msgid "Stored in :setting:`DATA_DIR` ``/backups``."
-msgstr "சேமிக்கப்படுகிறது: அமைத்தல்: `data_dir`` `/காப்புப்பிரதிகள்``."
+msgstr ":setting:`DATA_DIR` ``/backups`` இல் சேமிக்கப்பட்டது."
 
 #: ../../admin/backup.rst:306
-#, fuzzy
 msgid ""
 "Weblate dumps various data here, and you can include these files for more "
 "complete backups. The files are updated daily (requires a running Celery "
 "beats server, see :ref:`celery`). Currently, this includes:"
 msgstr ""
-"வலைபெயர்ப்பு இங்கே பல்வேறு தரவைத் துடைக்கிறது, மேலும் முழுமையான காப்புப்பிரதிகளுக்கு "
-"இந்த கோப்புகளை நீங்கள் சேர்க்கலாம். கோப்புகள் தினமும் புதுப்பிக்கப்படுகின்றன (இயங்கும் செலரி "
-"பீட்ச் சேவையகம் தேவைப்படுகிறது, பார்க்க: குறிப்பு: `செலரி`). தற்போது, இது அடங்கும்:"
+"வலைபெயர்ப்பு பல்வேறு தரவை இங்கே கொட்டுகிறது, மேலும் முழுமையான காப்புப்பிரதிகளுக்கு இந்தக் "
+"கோப்புகளைச் சேர்க்கலாம். கோப்புகள் தினமும் புதுப்பிக்கப்படும் (செலரி பீட்ச் சர்வர் இயங்க "
+"வேண்டும், பார்க்க :ref:`celery`). தற்போது, இதில் அடங்கும்:"
 
 #: ../../admin/backup.rst:310
-#, fuzzy
 msgid ""
 "Weblate settings as :file:`settings.py` (there is also expanded version "
 "in :file:`settings-expanded.py`)."
 msgstr ""
-"வலைபெயர்ப்பு அமைப்புகள்: கோப்பு: `sentings.py` (விரிவாக்கப்பட்ட பதிப்பும் உள்ளது: "
-"கோப்பு:` அமைப்புகள்-விரிவாக்கப்பட்டது."
+"வலைபெயர்ப்பு அமைப்புகள் :file:`settings.py` (:file:`settings-expanded.py` இல் "
+"விரிவாக்கப்பட்ட பதிப்பும் உள்ளது)."
 
 #: ../../admin/backup.rst:311
-#, fuzzy
 msgid "PostgreSQL database backup as :file:`database.sql`."
-msgstr "PostgresQl தரவுத்தள காப்புப்பிரதி: கோப்பு: `தரவுத்தளம்.ச்யூல்`."
+msgstr "PostgreSQL தரவுத்தள காப்புப்பிரதி :file:`database.sql`."
 
 #: ../../admin/backup.rst:312
-#, fuzzy
 msgid "Environment dump as :file:`environment.yml`."
-msgstr "சுற்றுச்சூழல் டம்ப்: கோப்பு: `சுற்றுச்சூழல்.yml`."
+msgstr "சுற்றுச்சூழல் டம்ப் :file:`environment.yml`."
 
 #: ../../admin/backup.rst:314
 #, fuzzy
