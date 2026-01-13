@@ -19,6 +19,12 @@ To use the commands below, you need to install :program:`wlc` using pip:
 
     pip install wlc
 
+You can also execute it directly using :program:`uvx`:
+
+.. code-block:: sh
+
+   uvx wlc --help
+
 .. hint::
 
    You can also use this :program:`wlc` as a Python module, see :mod:`wlc`.
