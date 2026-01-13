@@ -5,7 +5,7 @@
 # inson1 <vaclav.svarc01@seznam.cz>, 2023.
 # Michal Čihař <michal@weblate.org>, 2024, 2025.
 # Odweta <code.62rdl@aleeas.com>, 2024.
-# Fjuro <fjuro@alius.cz>, 2024, 2025.
+# Fjuro <fjuro@alius.cz>, 2024, 2025, 2026.
 # Martin Najemi <martin@najemi.cz>, 2024.
 # Fjuro <fjuro@users.noreply.hosted.weblate.org>, 2025.
 # Fjuro <git@alius.cz>, 2025.
@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-01-13 17:24+0100\n"
-"PO-Revision-Date: 2025-12-28 11:00+0000\n"
+"PO-Revision-Date: 2026-01-14 00:15+0000\n"
 "Last-Translator: Fjuro <fjuro@alius.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "documentation/cs/>\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
-"X-Generator: Weblate 5.15.1\n"
+"X-Generator: Weblate 5.15.2-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:215
@@ -3144,18 +3144,10 @@ msgid "``source:r\"^\\`\\`[.a-zA-Z0-9_-]*\\`\\`$\" AND language:en``"
 msgstr ""
 
 #: ../../admin/addons.rst:726
-#, fuzzy
-#| msgid "Flag unchanged translations as \"Needs editing\""
 msgid "Flag unchanged translations as \"Needs rewriting\""
-msgstr "Označit nezměněné překlady za „Potřebuje upravit“"
+msgstr "Označit nezměněné překlady jako „Potřebuje přepsat“"
 
 #: ../../admin/addons.rst:732
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS and it "
-#| "matches a source string, it is flagged as needing editing in Weblate. "
-#| "Especially useful for file formats that include source strings for "
-#| "untranslated strings."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing rewriting in Weblate. Especially "
@@ -3163,7 +3155,7 @@ msgid ""
 msgstr ""
 "Kdykoli je ze systému správy verzí zdrojových kódů importován nový "
 "přeložitelný řetězec a odpovídá tomu zdrojovému, je ve Weblate označen jako "
-"vyžadující úpravu. Takto je užitečné hlavně pro souborové formáty, které "
+"potřebující přepsat. Takto je užitečné hlavně pro souborové formáty, které "
 "obsahují všechny řetězce, i když nejsou přeložené."
 
 #: ../../admin/addons.rst:738
@@ -3173,67 +3165,46 @@ msgid ""
 msgstr ""
 
 #: ../../admin/addons.rst:748
-#, fuzzy
-#| msgid "Flag new source strings as \"Needs editing\""
 msgid "Flag new source strings as \"Needs checking\""
-msgstr "Označit nové řetězce ve zdroji za „Potřebuje upravit“"
+msgstr "Označit nové zdrojové řetězce jako „Potřebuje zkontrolovat“"
 
 #: ../../admin/addons.rst:754
-#, fuzzy
-#| msgid ""
-#| "Whenever a new source string is imported from the VCS, it is flagged as "
-#| "needing editing in Weblate. This way you can easily filter and edit "
-#| "source strings written by the developers."
 msgid ""
 "Whenever a new source string is imported from the VCS, it is flagged as "
 "needing checking in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
 "Kdykoli jsou ze systému správy verzí zdrojových kódů importovány nové "
-"zdrojové řetězce, jsou ve Weblate označeny jako vyžadující úpravu. Takto je "
-"možné snadno vyfiltrovat a upravit řetězce zapsané vývojáři."
+"zdrojové řetězce, jsou ve Weblate označeny jako potřebující kontrolu. Takto "
+"je možné snadno vyfiltrovat a upravit řetězce zapsané vývojáři."
 
 #: ../../admin/addons.rst:765
-#, fuzzy
-#| msgid "Flag new translations as \"Needs editing\""
 msgid "Flag new translations as \"Needs rewriting\""
-msgstr "Označit nové překlady za „Potřebuje upravit“"
+msgstr "Označit nové překlady jako „Potřebuje přepsat“"
 
 #: ../../admin/addons.rst:771
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS, it is "
-#| "flagged as needing editing in Weblate. This way you can easily filter and "
-#| "edit translations created by the developers."
 msgid ""
 "Whenever a new translatable string is imported from the VCS, it is flagged "
 "as needing rewriting in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
 "Kdykoli je ze systému správy verzí zdrojových kódů importován nový "
-"přeložitelný řetězec, je ve Weblate označen jako vyžadující úpravu. Takto je "
-"možné snadno vyfiltrovat a upravit překlady vytvořené vývojáři."
+"přeložitelný řetězec, je ve Weblate označen jako potřebující kontrolu. Takto "
+"je možné snadno vyfiltrovat a upravit překlady vytvořené vývojáři."
 
 #: ../../admin/addons.rst:782
-#, fuzzy
-#| msgid "Flag updated translations from repository as \"Needs editing\""
 msgid "Flag updated translations from repository as \"Needs rewriting\""
-msgstr "Označit upravené překlady z repozitáře jako „Potřebuje upravit“"
+msgstr "Označit upravené překlady z repozitáře jako „Potřebuje přepsat“"
 
 #: ../../admin/addons.rst:788
-#, fuzzy
-#| msgid ""
-#| "Whenever a string translation is changed from the VCS, it is flagged as "
-#| "needing editing in Weblate. Especially useful if translation files are "
-#| "often updated manually or by an external service."
 msgid ""
 "Whenever a string translation is changed from the VCS, it is flagged as "
 "needing rewriting in Weblate. Especially useful if translation files are "
 "often updated manually or by an external service."
 msgstr ""
 "Kdykoli je v systému VCS změněn překlad řetězce, je ve Weblate označen jako "
-"vyžadující úpravu. Užitečné, pokud jsou soubory překladů často aktualizovány "
-"ručně nebo externí službou."
+"potřebující přepsat. Užitečné, pokud jsou soubory překladů často "
+"aktualizovány ručně nebo externí službou."
 
 #: ../../admin/addons.rst:799
 msgid "Fill read-only strings with source"
