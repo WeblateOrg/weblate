@@ -32,7 +32,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-01-13 17:24+0100\n"
-"PO-Revision-Date: 2026-01-05 14:05+0000\n"
+"PO-Revision-Date: 2026-01-13 21:24+0000\n"
 "Last-Translator: Mickaël Binos <mickaelbinos@outlook.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "documentation/fr/>\n"
@@ -41,7 +41,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.15.1\n"
+"X-Generator: Weblate 5.15.2-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:215
@@ -3186,28 +3186,20 @@ msgid "``source:r\"^\\`\\`[.a-zA-Z0-9_-]*\\`\\`$\" AND language:en``"
 msgstr "``source:r\"^\\`\\`[.a-zA-Z0-9_-]*\\`\\`$\" AND language:en``"
 
 #: ../../admin/addons.rst:726
-#, fuzzy
-#| msgid "Flag unchanged translations as \"Needs editing\""
 msgid "Flag unchanged translations as \"Needs rewriting\""
-msgstr "Marquer les traductions inchangées comme « À vérifier »"
+msgstr "Signaler les traductions inchangées comme « À réécrire »"
 
 #: ../../admin/addons.rst:732
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS and it "
-#| "matches a source string, it is flagged as needing editing in Weblate. "
-#| "Especially useful for file formats that include source strings for "
-#| "untranslated strings."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing rewriting in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
-"Chaque nouvelle chaîne de traduction importée depuis le système de contrôle "
-"des versions et identique à la chaîne source sera marquée comme « À "
-"vérifier » dans Weblate. Ce paramètre est particulièrement utile pour les "
-"formats de fichier contenant une copie des chaînes sources dans les chaînes "
-"à traduire."
+"Lorsqu'une nouvelle chaîne traduisible est importée du système de contrôle "
+"de version et qu'elle correspond à une chaîne source, Weblate la signale "
+"comme nécessitant une réécriture. Cette fonctionnalité est particulièrement "
+"utile pour les formats de fichiers contenant des chaînes sources pour les "
+"chaînes non traduites."
 
 #: ../../admin/addons.rst:738
 msgid ""
@@ -3219,70 +3211,50 @@ msgstr ""
 "à :ref:`component-check_flags`."
 
 #: ../../admin/addons.rst:748
-#, fuzzy
-#| msgid "Flag new source strings as \"Needs editing\""
 msgid "Flag new source strings as \"Needs checking\""
-msgstr "Marquer les nouvelles chaînes sources comme « À vérifier »"
+msgstr ""
+"Signaler les nouvelles chaînes de caractères sources comme « À vérifier »"
 
 #: ../../admin/addons.rst:754
-#, fuzzy
-#| msgid ""
-#| "Whenever a new source string is imported from the VCS, it is flagged as "
-#| "needing editing in Weblate. This way you can easily filter and edit "
-#| "source strings written by the developers."
 msgid ""
 "Whenever a new source string is imported from the VCS, it is flagged as "
 "needing checking in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
-"Quand une nouvelle chaîne source est importée du système de contrôle de "
-"versions, elle est marquée dans Weblate comme « À vérifier ». Vous pouvez "
-"ainsi filtrer et modifier facilement les chaînes sources rédigées par les "
-"développeurs."
+"Lorsqu'une nouvelle chaîne de caractères est importée du système de contrôle "
+"de version, elle est signalée comme nécessitant une vérification dans "
+"Weblate. Vous pouvez ainsi facilement filtrer et modifier les chaînes de "
+"caractères écrites par les développeurs."
 
 #: ../../admin/addons.rst:765
-#, fuzzy
-#| msgid "Flag new translations as \"Needs editing\""
 msgid "Flag new translations as \"Needs rewriting\""
-msgstr "Marquer les nouvelles traductions comme « À vérifier »"
+msgstr "Signaler les nouvelles traductions comme « À réécrire »"
 
 #: ../../admin/addons.rst:771
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS, it is "
-#| "flagged as needing editing in Weblate. This way you can easily filter and "
-#| "edit translations created by the developers."
 msgid ""
 "Whenever a new translatable string is imported from the VCS, it is flagged "
 "as needing rewriting in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
-"Lorsqu’une nouvelle chaîne à traduire est importée dans Weblate depuis le "
-"système de contrôle de versions, elle est marquée comme « À vérifier ». Vous "
-"pouvez ainsi filtrer et modifier facilement les traductions créées par les "
-"développeurs."
+"Lorsqu'une nouvelle chaîne traduisible est importée du système de contrôle "
+"de version, elle est signalée comme nécessitant une réécriture dans Weblate. "
+"Vous pouvez ainsi facilement filtrer et modifier les traductions créées par "
+"les développeurs."
 
 #: ../../admin/addons.rst:782
-#, fuzzy
-#| msgid "Flag updated translations from repository as \"Needs editing\""
 msgid "Flag updated translations from repository as \"Needs rewriting\""
-msgstr "Marquer les traductions modifiées du dépôt comme étant « À vérifier »"
+msgstr "Signaler les traductions mises à jour du dépôt comme « À réécrire »"
 
 #: ../../admin/addons.rst:788
-#, fuzzy
-#| msgid ""
-#| "Whenever a string translation is changed from the VCS, it is flagged as "
-#| "needing editing in Weblate. Especially useful if translation files are "
-#| "often updated manually or by an external service."
 msgid ""
 "Whenever a string translation is changed from the VCS, it is flagged as "
 "needing rewriting in Weblate. Especially useful if translation files are "
 "often updated manually or by an external service."
 msgstr ""
-"Lorsqu’une chaîne à traduire est modifiée depuis le système de contrôle des "
-"versions, elle est marquée dans Weblate comme étant « À vérifier ». Ce qui "
-"est particulièrement utile quand les fichiers de traduction sont souvent mis "
-"à jour manuellement ou par un service externe."
+"Lorsqu'une traduction de chaîne est modifiée dans le système de contrôle de "
+"version, Weblate la signale comme nécessitant une réécriture. Cette "
+"fonctionnalité est particulièrement utile si les fichiers de traduction sont "
+"fréquemment mis à jour manuellement ou par un service externe."
 
 #: ../../admin/addons.rst:799
 msgid "Fill read-only strings with source"
