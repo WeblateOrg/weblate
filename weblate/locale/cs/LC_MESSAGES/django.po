@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Michal Čihař <michal@weblate.org>, 2023, 2024, 2025.
 # inson1 <vaclav.svarc01@seznam.cz>, 2023.
-# Fjuro <fjuro@alius.cz>, 2024, 2025.
+# Fjuro <fjuro@alius.cz>, 2024, 2025, 2026.
 # Fjuro <fjuro@users.noreply.hosted.weblate.org>, 2025.
 # Fjuro <git@alius.cz>, 2025.
 # zenobit <zenobit@disroot.org>, 2025.
@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-01-13 16:24+0000\n"
-"PO-Revision-Date: 2025-12-28 11:00+0000\n"
+"PO-Revision-Date: 2026-01-14 00:15+0000\n"
 "Last-Translator: Fjuro <fjuro@alius.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
-"X-Generator: Weblate 5.15.1\n"
+"X-Generator: Weblate 5.15.2-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -1574,60 +1574,38 @@ msgid "Sends notifications to a Fedora Messaging compatible AMQP exchange."
 msgstr "Odešle oznámení na server AMQP kompatibilní se Zprávami Fedora."
 
 #: weblate/addons/flags.py:48
-#, fuzzy
-#| msgid "Flag new source strings as \"Needs editing\""
 msgid "Flag new source strings as \"Needs checking\""
-msgstr "Označit nové řetězce ve zdroji za „Potřebuje upravit“"
+msgstr "Označit nové zdrojové řetězce jako „Potřebuje zkontrolovat“"
 
 #: weblate/addons/flags.py:50
-#, fuzzy
-#| msgid ""
-#| "Whenever a new source string is imported from the VCS, it is flagged as "
-#| "needing editing in Weblate. This way you can easily filter and edit "
-#| "source strings written by the developers."
 msgid ""
 "Whenever a new source string is imported from the VCS, it is flagged as "
 "needing checking in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
 "Kdykoli jsou ze systému správy verzí zdrojových kódů importovány nové "
-"zdrojové řetězce, jsou ve Weblate označeny jako vyžadující úpravu. Takto je "
-"možné snadno vyfiltrovat a upravit řetězce zapsané vývojáři."
+"zdrojové řetězce, jsou ve Weblate označeny jako potřebující kontrolu. Takto "
+"je možné snadno vyfiltrovat a upravit řetězce zapsané vývojáři."
 
 #: weblate/addons/flags.py:69
-#, fuzzy
-#| msgid "Flag new translations as \"Needs editing\""
 msgid "Flag new translations as \"Needs rewriting\""
-msgstr "Označit nové překlady za „Potřebuje upravit“"
+msgstr "Označit nové překlady jako „Potřebuje přepsat“"
 
 #: weblate/addons/flags.py:71
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS, it is "
-#| "flagged as needing editing in Weblate. This way you can easily filter and "
-#| "edit translations created by the developers."
 msgid ""
 "Whenever a new translatable string is imported from the VCS, it is flagged "
 "as needing rewriting in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
 "Kdykoli je ze systému správy verzí zdrojových kódů importován nový "
-"přeložitelný řetězec, je ve Weblate označen jako vyžadující úpravu. Takto je "
-"možné snadno vyfiltrovat a upravit překlady vytvořené vývojáři."
+"přeložitelný řetězec, je ve Weblate označen jako potřebující kontrolu. Takto "
+"je možné snadno vyfiltrovat a upravit překlady vytvořené vývojáři."
 
 #: weblate/addons/flags.py:87
-#, fuzzy
-#| msgid "Flag unchanged translations as \"Needs editing\""
 msgid "Flag unchanged translations as \"Needs rewriting\""
-msgstr "Označit nezměněné překlady za „Potřebuje upravit“"
+msgstr "Označit nezměněné překlady jako „Potřebuje přepsat“"
 
 #: weblate/addons/flags.py:89
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS and it "
-#| "matches a source string, it is flagged as needing editing in Weblate. "
-#| "Especially useful for file formats that include source strings for "
-#| "untranslated strings."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing rewriting in Weblate. Especially "
@@ -1635,7 +1613,7 @@ msgid ""
 msgstr ""
 "Kdykoli je ze systému správy verzí zdrojových kódů importován nový "
 "přeložitelný řetězec a odpovídá tomu zdrojovému, je ve Weblate označen jako "
-"vyžadující úpravu. Takto je užitečné hlavně pro souborové formáty, které "
+"potřebující přepsat. Takto je užitečné hlavně pro souborové formáty, které "
 "obsahují všechny řetězce, i když nejsou přeložené."
 
 #: weblate/addons/flags.py:110 weblate/templates/category-language.html:53
@@ -1654,25 +1632,18 @@ msgid "Bulk edit flags, labels, or states of strings."
 msgstr "Hromadné úpravy příznaků, štítků nebo stavů řetězců."
 
 #: weblate/addons/flags.py:142
-#, fuzzy
-#| msgid "Flag updated translations from repository as \"Needs editing\""
 msgid "Flag updated translations from repository as \"Needs rewriting\""
-msgstr "Označit upravené překlady z repozitáře jako „Potřebuje upravit“"
+msgstr "Označit upravené překlady z repozitáře jako „Potřebuje přepsat“"
 
 #: weblate/addons/flags.py:145
-#, fuzzy
-#| msgid ""
-#| "Whenever a string translation is changed from the VCS, it is flagged as "
-#| "needing editing in Weblate. Especially useful if translation files are "
-#| "often updated manually or by an external service."
 msgid ""
 "Whenever a string translation is changed from the VCS, it is flagged as "
 "needing rewriting in Weblate. Especially useful if translation files are "
 "often updated manually or by an external service."
 msgstr ""
 "Kdykoli je v systému VCS změněn překlad řetězce, je ve Weblate označen jako "
-"vyžadující úpravu. Užitečné, pokud jsou soubory překladů často aktualizovány "
-"ručně nebo externí službou."
+"potřebující přepsat. Užitečné, pokud jsou soubory překladů často "
+"aktualizovány ručně nebo externí službou."
 
 #: weblate/addons/forms.py:62
 msgid "Path of generated MO file"
@@ -4585,10 +4556,8 @@ msgid "reStructuredText syntax error in the translation."
 msgstr "Chyba syntaxe reStructuredText v překladu."
 
 #: weblate/checks/markup.py:655
-#, fuzzy
-#| msgid "Source and translation do not both start with a newline."
 msgid "The translation should not start with a list marker."
-msgstr "Překlad a zdroj oba nezačínají novým řádkem."
+msgstr "Překlad by neměl začínat značkou seznamu."
 
 #: weblate/checks/placeholders.py:31
 msgid "Placeholders"
@@ -9885,6 +9854,9 @@ msgid ""
 "be uploaded on the individual translations. Switch to the \"Components\" tab "
 "above, open the desired component, and perform the upload there."
 msgstr ""
+"Celoprojektová nahrání nejsou v současné době podporována. Soubory překladů "
+"musí být nahrány u individuálních překladů. Přepněte na kartu „Součásti“ "
+"výše, otevřete požadovanou součást a tam proveďte nahrání."
 
 #: weblate/templates/language.html:26 weblate/templates/manage/tools.html:10
 #: weblate/templates/translate.html:203 weblate/wladmin/views.py:100
@@ -17723,20 +17695,14 @@ msgid "Needs editing"
 msgstr "Potřebuje upravit"
 
 #: weblate/utils/state.py:21
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Needs rewriting"
 msgctxt "String state"
 msgid "Needs editing (Needs rewriting)"
-msgstr "Potřebuje přepsat"
+msgstr "Potřebuje upravit (Potřebuje přepsat)"
 
 #: weblate/utils/state.py:25
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Needs checking"
 msgctxt "String state"
 msgid "Needs editing (Needs checking)"
-msgstr "Potřebuje zkontrolovat"
+msgstr "Potřebuje upravit (Potřebuje zkontrolovat)"
 
 #: weblate/utils/state.py:27
 msgctxt "String state"
@@ -17871,16 +17837,12 @@ msgid "The provided secret is too long."
 msgstr "Zadaný tajný klíč je příliš dlouhý."
 
 #: weblate/utils/validators.py:380
-#, fuzzy
-#| msgid "This name cannot be registered. Please choose a different one."
 msgid "This website cannot be used. Please provide a different one."
-msgstr "Toto jméno nelze zaregistrovat. Zvolte si prosím jiné."
+msgstr "Tuto webovou stránku nelze použít. Zvolte prosím jinou."
 
 #: weblate/utils/validators.py:438
-#, fuzzy
-#| msgid "Could not parse JSON: %s"
 msgid "Could not parse URL: {}"
-msgstr "Nepodařilo ze zpracovat JSON: %s"
+msgstr "Nepodařilo ze zpracovat adresu URL: {}"
 
 #: weblate/utils/validators.py:448
 #, python-format
