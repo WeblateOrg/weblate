@@ -89,6 +89,33 @@ You can then invoke commands on the default server:
 
     :ref:`wlc-config`
 
+.. _wlc_legacy:
+
+Legacy configuration
+++++++++++++++++++++
+
+.. versionchanged:: 1.17
+
+   The legacy configuration using unscoped ``key`` is no longer supported.
+
+Migrate legacy configuration:
+
+.. code-block:: ini
+
+   [weblate]
+   url = https://hosted.weblate.org/api
+   key = YOUR_KEY_HERE
+
+To a configuration with key scoped to an API URL:
+
+.. code-block:: ini
+
+   [weblate]
+   url = https://hosted.weblate.org/api
+
+   [keys]
+   https://hosted.weblate.org/api = YOUR_KEY_HERE
+
 Synopsis
 ++++++++
 
@@ -287,7 +314,7 @@ customize this by :option:`--config-section`):
 
    .. versionremoved:: 1.17
 
-      Use the ``[keys]`` section to specify keys scoped for individual API URLs.
+      Use the ``[keys]`` section to specify keys scoped for individual API URLs, see :ref:`wlc_legacy`.
 
 .. describe:: url
 
