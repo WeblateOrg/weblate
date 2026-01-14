@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import re
+import threading
 from collections import Counter, defaultdict
 from functools import cache, lru_cache
 from itertools import chain
@@ -60,6 +61,7 @@ if TYPE_CHECKING:
     from .base import FixupType
     from .models import Check
 
+DOCUTILS_PARSER_LOCK = threading.Lock()
 BBCODE_MATCH = re.compile(
     r"(?P<start>\[(?P<tag>[^]]+)(@[^]]*)?\])(.*?)(?P<end>\[\/(?P=tag)\])", re.MULTILINE
 )
@@ -428,7 +430,8 @@ def extract_rst_references(text: str) -> tuple[dict[str, str], Counter, list[str
     )
     inliner = Inliner()
     inliner.init_customizations(document.settings)
-    nodes, system_messages = inliner.parse(text, 0, memo, document)
+    with DOCUTILS_PARSER_LOCK:
+        nodes, system_messages = inliner.parse(text, 0, memo, document)
 
     message_ids = {
         message["ids"][0]: Element.astext(message)
@@ -615,7 +618,8 @@ def validate_rst_snippet(
         errors.append(message)
 
     document.reporter.attach_observer(error_collector)
-    cast("Parser", publisher.reader.parser).parse(snippet, document)
+    with DOCUTILS_PARSER_LOCK:
+        cast("Parser", publisher.reader.parser).parse(snippet, document)
     transformer = document.transformer
     transformer.populate_from_components(
         (
