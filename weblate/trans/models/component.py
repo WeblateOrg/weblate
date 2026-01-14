@@ -2374,6 +2374,7 @@ class Component(
                 extra_context=extra_context,
                 message=message,
                 component=self,
+                store_hash=store_hash,
             )
 
         with self.start_sentry_span("commit_files"):
