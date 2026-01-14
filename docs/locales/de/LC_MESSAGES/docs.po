@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-01-13 17:24+0100\n"
-"PO-Revision-Date: 2026-01-14 06:16+0000\n"
+"PO-Revision-Date: 2026-01-14 06:30+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -3053,18 +3053,12 @@ msgid "Needs editing"
 msgstr "Bearbeitungsbedürftig"
 
 #: ../../admin/addons.rst:669
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Needs rewriting"
 msgid "Needs editing (Needs rewriting)"
-msgstr "Muss umgeschrieben werden"
+msgstr "Bearbeitungsbedürftig (Muss umgeschrieben werden)"
 
 #: ../../admin/addons.rst:671
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Needs checking"
 msgid "Needs editing (Needs checking)"
-msgstr "Muss überprüft werden"
+msgstr "Bearbeitungsbedürftig (Muss überprüft werden)"
 
 #: ../../admin/addons.rst:673
 msgid "Translated"
@@ -3092,11 +3086,10 @@ msgid "Labels to remove"
 msgstr "Labels zum Entfernen"
 
 #: ../../admin/addons.rst:685
-#, fuzzy
-#| msgid ":ref:`addon-event-install`, :ref:`addon-event-component-update`"
 msgid ""
 ":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-update`"
-msgstr ":ref:`addon-event-install`, :ref:`addon-event-component-update`"
+msgstr ""
+":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-update`"
 
 #: ../../admin/addons.rst:687
 msgid "Bulk edit flags, labels, or states of strings."
@@ -3135,18 +3128,10 @@ msgid "``source:r\"^\\`\\`[.a-zA-Z0-9_-]*\\`\\`$\" AND language:en``"
 msgstr "``source:r\"^\\`\\`[.a-zA-Z0-9_-]*\\`\\`$\" AND language:en``"
 
 #: ../../admin/addons.rst:726
-#, fuzzy
-#| msgid "Flag unchanged translations as \"Needs editing\""
 msgid "Flag unchanged translations as \"Needs rewriting\""
-msgstr "Unveränderte Übersetzungen als „Bearbeitungsbedürftig“ markieren"
+msgstr "Unveränderte Übersetzungen als „Muss umgeschrieben werden“ markieren"
 
 #: ../../admin/addons.rst:732
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS and it "
-#| "matches a source string, it is flagged as needing editing in Weblate. "
-#| "Especially useful for file formats that include source strings for "
-#| "untranslated strings."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing rewriting in Weblate. Especially "
@@ -3154,8 +3139,8 @@ msgid ""
 msgstr ""
 "Jedes Mal wenn eine neue übersetzbare Zeichenkette aus dem VCS importiert "
 "wird und mit der Ausgangszeichenkette übereinstimmt, wird sie in Weblate als "
-"bearbeitungsbedürftig markiert. Dies ist besonders nützlich für "
-"Dateiformate, die nicht übersetzte Ausgangszeichenketten enthalten."
+"umzuschreibend markiert. Dies ist besonders nützlich für Dateiformate, die "
+"nicht übersetzte Ausgangszeichenketten enthalten."
 
 #: ../../admin/addons.rst:738
 msgid ""
@@ -3181,48 +3166,33 @@ msgstr ""
 "bearbeiten."
 
 #: ../../admin/addons.rst:765
-#, fuzzy
-#| msgid "Flag new translations as \"Needs editing\""
 msgid "Flag new translations as \"Needs rewriting\""
-msgstr "Neue Übersetzungen als „Bearbeitungsbedürftig“ markieren"
+msgstr "Neue Übersetzungen als „Muss umgeschrieben werden“ markieren"
 
 #: ../../admin/addons.rst:771
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS, it is "
-#| "flagged as needing editing in Weblate. This way you can easily filter and "
-#| "edit translations created by the developers."
 msgid ""
 "Whenever a new translatable string is imported from the VCS, it is flagged "
 "as needing rewriting in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
 "Bei jedem Import einer neuen übersetzbaren Zeichenkette aus dem VCS wird "
-"diese in Weblate als bearbeitungsbedürftig markiert. Auf diese Weise können "
-"Sie die von den Entwicklern erstellten Übersetzungen einfach filtern und "
-"bearbeiten."
+"diese in Weblate als umzuschreibend markiert. Auf diese Weise können Sie die "
+"von den Entwicklern erstellten Übersetzungen einfach filtern und bearbeiten."
 
 #: ../../admin/addons.rst:782
-#, fuzzy
-#| msgid "Flag updated translations from repository as \"Needs editing\""
 msgid "Flag updated translations from repository as \"Needs rewriting\""
 msgstr ""
-"Aktualisierte Übersetzungen vom Repository als „Bearbeitungsbedürftig“ "
+"Aktualisierte Übersetzungen vom Repository als „Muss umgeschrieben werden“ "
 "markieren"
 
 #: ../../admin/addons.rst:788
-#, fuzzy
-#| msgid ""
-#| "Whenever a string translation is changed from the VCS, it is flagged as "
-#| "needing editing in Weblate. Especially useful if translation files are "
-#| "often updated manually or by an external service."
 msgid ""
 "Whenever a string translation is changed from the VCS, it is flagged as "
 "needing rewriting in Weblate. Especially useful if translation files are "
 "often updated manually or by an external service."
 msgstr ""
 "Immer wenn eine Zeichenketten-Übersetzung aus dem VCS geändert wird, wird "
-"sie als bearbeitungsbedürftig in Weblate markiert. Besonders nützlich, wenn "
+"sie als umzuschreibend in Weblate markiert. Besonders nützlich, wenn "
 "Übersetzungsdateien häufig manuell oder durch einen externen Dienst "
 "aktualisiert werden."
 
