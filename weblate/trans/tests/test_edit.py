@@ -856,7 +856,7 @@ class ZenViewTest(ViewTestCase):
             {"q": "has:nonexisting"},
             follow=True,
         )
-        self.assertContains(response, "Unsupported has lookup")
+        self.assertContains(response, "Unsupported lookup for has: nonexisting")
 
     def test_load_zen(self) -> None:
         response = self.client.get(reverse("load_zen", kwargs=self.kw_translation))

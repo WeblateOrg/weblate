@@ -8,6 +8,7 @@ Weblate 5.16
 .. rubric:: Improvements
 
 * Delete announcements permission can be assigned to teams, see :ref:`privileges`.
+* :doc:`/user/search` better reports errors in the query strings.
 
 .. rubric:: Bug fixes
 

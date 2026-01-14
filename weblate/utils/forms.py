@@ -14,13 +14,11 @@ from django.forms.models import ModelChoiceIterator
 from django.template.loader import render_to_string
 from django.utils.text import normalize_newlines
 from django.utils.translation import gettext, gettext_lazy
-from pyparsing import ParseException
 
 from weblate.formats.helpers import CONTROLCHARS
 from weblate.trans.defines import EMAIL_LENGTH, USERNAME_LENGTH
 from weblate.trans.filter import FILTERS
 from weblate.trans.util import sort_unicode
-from weblate.utils.errors import report_error
 
 from .validators import WeblateServiceURLValidator, validate_email, validate_username
 
@@ -39,7 +37,7 @@ class QueryField(forms.CharField):
         super().__init__(**kwargs)
 
     def clean(self, value):
-        from weblate.utils.search import parse_query
+        from weblate.utils.search import SearchQueryError, parse_query
 
         if not value:
             if self.required:
@@ -47,12 +45,7 @@ class QueryField(forms.CharField):
             return ""
         try:
             parse_query(value, parser=self.parser)
-        except (ValueError, ParseException) as error:
-            raise ValidationError(
-                gettext("Could not parse query string: {}").format(error)
-            ) from error
-        except Exception as error:
-            report_error("Error parsing search query")
+        except SearchQueryError as error:
             raise ValidationError(
                 gettext("Could not parse query string: {}").format(error)
             ) from error
