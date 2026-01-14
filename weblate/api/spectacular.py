@@ -5,7 +5,6 @@
 
 from __future__ import annotations
 
-import warnings
 from typing import Any
 
 from django.utils.functional import lazy
@@ -222,20 +221,6 @@ def get_drf_standardized_errors_settings() -> dict[str, Any]:
         },
         "EXCEPTION_HANDLER_CLASS": "weblate.api.views.WeblateExceptionHandler",
     }
-
-
-# spellchecker:off
-def get_drf_standardized_errors_sertings() -> dict[str, Any]:
-    # TODO: Remove in Weblate 5.14
-    warnings.warn(
-        "The get_drf_standardized_errors_sertings was renamed to get_drf_standardized_errors_settings",
-        DeprecationWarning,
-        stacklevel=1,
-    )
-    return get_drf_standardized_errors_settings()
-
-
-# spellchecker:on
 
 
 def get_drf_settings(
