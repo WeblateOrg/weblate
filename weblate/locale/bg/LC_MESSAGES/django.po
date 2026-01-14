@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 # 109247019824 <stoyan@gmx.com>, 2023, 2024.
-# Любомир Василев <lyubomirv@gmx.com>, 2023, 2024, 2025.
+# Любомир Василев <lyubomirv@gmx.com>, 2023, 2024, 2025, 2026.
 # Georgi Georgiev <g.georgiev.shumen@gmail.com>, 2024.
 # 109247019824 <109247019824@users.noreply.hosted.weblate.org>, 2025.
 # GitHub webhook <noreply-webhook-github@weblate.org>, 2025.
@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-01-13 16:24+0000\n"
-"PO-Revision-Date: 2025-12-22 20:00+0000\n"
+"PO-Revision-Date: 2026-01-14 07:10+0000\n"
 "Last-Translator: Любомир Василев <lyubomirv@gmx.com>\n"
 "Language-Team: Bulgarian <https://hosted.weblate.org/projects/weblate/"
 "application/bg/>\n"
@@ -20,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.15.1\n"
+"X-Generator: Weblate 5.15.2-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -1596,62 +1596,40 @@ msgstr ""
 "на Fedora."
 
 #: weblate/addons/flags.py:48
-#, fuzzy
-#| msgid "Flag new source strings as \"Needs editing\""
 msgid "Flag new source strings as \"Needs checking\""
-msgstr "Отбелязване на новите изходни низове като „Нуждае се от редактиране“"
+msgstr "Отбелязване на новите изходни низове като „Нуждае се от проверка“"
 
 #: weblate/addons/flags.py:50
-#, fuzzy
-#| msgid ""
-#| "Whenever a new source string is imported from the VCS, it is flagged as "
-#| "needing editing in Weblate. This way you can easily filter and edit "
-#| "source strings written by the developers."
 msgid ""
 "Whenever a new source string is imported from the VCS, it is flagged as "
 "needing checking in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
 "Когато от системата за контрол на версиите бъде внесен нов изходен низ за "
-"превод, той ще бъде отбелязан като нуждаещ се от редактиране. По този начин "
+"превод, той ще бъде отбелязан като нуждаещ се от проверка. По този начин "
 "можете лесно да филтрирате и редактирате низовете, написани от "
 "разработчиците."
 
 #: weblate/addons/flags.py:69
-#, fuzzy
-#| msgid "Flag new translations as \"Needs editing\""
 msgid "Flag new translations as \"Needs rewriting\""
-msgstr "Отбелязване на новите преводи като „нуждаещи се от редактиране“"
+msgstr "Отбелязване на новите преводи като „нуждаещи се от пренаписване“"
 
 #: weblate/addons/flags.py:71
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS, it is "
-#| "flagged as needing editing in Weblate. This way you can easily filter and "
-#| "edit translations created by the developers."
 msgid ""
 "Whenever a new translatable string is imported from the VCS, it is flagged "
 "as needing rewriting in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
 "Когато от системата за контрол на версиите бъде внесен нов низ за превод, "
-"той ще бъде отбелязан като нуждаещ се от редактиране в Weblate. По този "
+"той ще бъде отбелязан като нуждаещ се от пренаписване в Weblate. По този "
 "начин можете лесно да филтрирате и редактирате преводите, създадени от "
 "разработчиците."
 
 #: weblate/addons/flags.py:87
-#, fuzzy
-#| msgid "Flag unchanged translations as \"Needs editing\""
 msgid "Flag unchanged translations as \"Needs rewriting\""
-msgstr "Отбелязване на непроменените преводи като „нуждаещи се от редактиране“"
+msgstr "Отбелязване на непроменените преводи като „нуждаещи се от пренаписване“"
 
 #: weblate/addons/flags.py:89
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS and it "
-#| "matches a source string, it is flagged as needing editing in Weblate. "
-#| "Especially useful for file formats that include source strings for "
-#| "untranslated strings."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing rewriting in Weblate. Especially "
@@ -1659,7 +1637,7 @@ msgid ""
 msgstr ""
 "Когато от системата за контрол на версиите бъде внесен нов низ за превод, "
 "който съвпада с изходен низ, той ще бъде отбелязан като нуждаещ се от "
-"редактиране в Weblate. Това е особено полезно за файловите формати, които "
+"пренаписване в Weblate. Това е особено полезно за файловите формати, които "
 "използват изходните низове при липса на превод."
 
 #: weblate/addons/flags.py:110 weblate/templates/category-language.html:53
@@ -1678,26 +1656,19 @@ msgid "Bulk edit flags, labels, or states of strings."
 msgstr "Масово редактиране на флагове, етикети или състояние на низовете."
 
 #: weblate/addons/flags.py:142
-#, fuzzy
-#| msgid "Flag updated translations from repository as \"Needs editing\""
 msgid "Flag updated translations from repository as \"Needs rewriting\""
 msgstr ""
 "Отбелязване на обновените преводи от хранилището като „нуждаещи се от "
-"редактиране“"
+"пренаписване“"
 
 #: weblate/addons/flags.py:145
-#, fuzzy
-#| msgid ""
-#| "Whenever a string translation is changed from the VCS, it is flagged as "
-#| "needing editing in Weblate. Especially useful if translation files are "
-#| "often updated manually or by an external service."
 msgid ""
 "Whenever a string translation is changed from the VCS, it is flagged as "
 "needing rewriting in Weblate. Especially useful if translation files are "
 "often updated manually or by an external service."
 msgstr ""
 "Когато от системата за контрол на версиите бъде променен превода на низ, той "
-"ще бъде отбелязан като нуждаещ се от редактиране в Weblate. Това е особено "
+"ще бъде отбелязан като нуждаещ се от пренаписване в Weblate. Това е особено "
 "полезно, ако във файловете за превод често се правят промени ръчно или от "
 "външна услуга."
 
@@ -4656,10 +4627,8 @@ msgid "reStructuredText syntax error in the translation."
 msgstr "Синтактична грешка в превода на reStructuredText."
 
 #: weblate/checks/markup.py:655
-#, fuzzy
-#| msgid "Source and translation do not both start with a newline."
 msgid "The translation should not start with a list marker."
-msgstr "Изходният низ и преводът не започват с нов ред."
+msgstr "Преводът не трябва да започва с маркер за списък."
 
 #: weblate/checks/placeholders.py:31
 msgid "Placeholders"
@@ -10001,6 +9970,9 @@ msgid ""
 "be uploaded on the individual translations. Switch to the \"Components\" tab "
 "above, open the desired component, and perform the upload there."
 msgstr ""
+"В момента не се поддържа качване на файлове за целия проект. Файловете за "
+"превод трябва да се качват към отделните преводи. Преминете към раздела „"
+"Компоненти“ по-горе, отворете желания компонент и направете качването там."
 
 #: weblate/templates/language.html:26 weblate/templates/manage/tools.html:10
 #: weblate/templates/translate.html:203 weblate/wladmin/views.py:100
@@ -17909,20 +17881,14 @@ msgid "Needs editing"
 msgstr "Нуждае се от редактиране"
 
 #: weblate/utils/state.py:21
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Needs rewriting"
 msgctxt "String state"
 msgid "Needs editing (Needs rewriting)"
-msgstr "Нуждае се от пренаписване"
+msgstr "Нуждае се от редактиране (Нуждае се от пренаписване)"
 
 #: weblate/utils/state.py:25
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Needs checking"
 msgctxt "String state"
 msgid "Needs editing (Needs checking)"
-msgstr "Нуждае се от проверка"
+msgstr "Нуждае се от редактиране (Нуждае се от проверка)"
 
 #: weblate/utils/state.py:27
 msgctxt "String state"
@@ -18058,16 +18024,12 @@ msgid "The provided secret is too long."
 msgstr "Избраната тайна е твърде дълга."
 
 #: weblate/utils/validators.py:380
-#, fuzzy
-#| msgid "This name cannot be registered. Please choose a different one."
 msgid "This website cannot be used. Please provide a different one."
-msgstr "Това име не може да бъде регистрирано. Изберете друго."
+msgstr "Този уеб сайт не може да бъде използван. Посочете друг."
 
 #: weblate/utils/validators.py:438
-#, fuzzy
-#| msgid "Could not parse JSON: %s"
 msgid "Could not parse URL: {}"
-msgstr "Неуспешен анализ на JSON: %s"
+msgstr "Неуспешен анализ на адреса: {}"
 
 #: weblate/utils/validators.py:448
 #, python-format
