@@ -105,6 +105,9 @@ class BatchMachineTranslation:
     # Cache results for 30 days
     cache_expiry = 30 * 24 * 3600
 
+    validate_source_language = "en"
+    validate_target_language = "de"
+
     @classmethod
     def get_rank(cls):
         return cls.max_score + cls.rank_boost
@@ -130,7 +133,13 @@ class BatchMachineTranslation:
                 gettext("Could not fetch supported languages: %s") % error
             ) from error
         try:
-            self.download_multiple_translations("en", "de", [("test", None)], None, 75)
+            self.download_multiple_translations(
+                self.validate_source_language,
+                self.validate_target_language,
+                [("test", None)],
+                None,
+                75,
+            )
         except Exception as error:
             raise ValidationError(
                 gettext("Could not fetch translation: %s") % error
