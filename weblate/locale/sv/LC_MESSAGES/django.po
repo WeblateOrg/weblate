@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-01-13 16:24+0000\n"
-"PO-Revision-Date: 2026-01-09 16:01+0000\n"
+"PO-Revision-Date: 2026-01-14 15:33+0000\n"
 "Last-Translator: Daniel Nylander <daniel@danielnylander.se>\n"
 "Language-Team: Swedish <https://hosted.weblate.org/projects/weblate/"
 "application/sv/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.15.1\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -1585,69 +1585,47 @@ msgid "Sends notifications to a Fedora Messaging compatible AMQP exchange."
 msgstr "Skickar aviseringar till en Fedora Messaging-kompatibel AMQP-växel."
 
 #: weblate/addons/flags.py:48
-#, fuzzy
-#| msgid "Flag new source strings as \"Needs editing\""
 msgid "Flag new source strings as \"Needs checking\""
-msgstr "Markera nya källsträngar med \"Behöver redigeras\""
+msgstr "Markera nya källsträngar som \"Behöver kontrolleras\""
 
 #: weblate/addons/flags.py:50
-#, fuzzy
-#| msgid ""
-#| "Whenever a new source string is imported from the VCS, it is flagged as "
-#| "needing editing in Weblate. This way you can easily filter and edit "
-#| "source strings written by the developers."
 msgid ""
 "Whenever a new source string is imported from the VCS, it is flagged as "
 "needing checking in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
-"När nya källsträngar importeras från VCS så kommer de att markeras med "
-"'behöver redigeras' i Weblate. Med hjälp av detta kan du enkelt filtrera och "
-"redigera källsträngar som har lagts till av utvecklarna."
+"När en ny källsträng importeras från VCS markeras den som att den behöver "
+"kontrolleras i Weblate. På så sätt kan du enkelt filtrera och redigera "
+"källsträngar som skrivits av utvecklarna."
 
 #: weblate/addons/flags.py:69
-#, fuzzy
-#| msgid "Flag new translations as \"Needs editing\""
 msgid "Flag new translations as \"Needs rewriting\""
-msgstr "Markera nya översättningar med \"Behöver redigeras\""
+msgstr "Markera nya översättningar som \"Behöver skrivas om\""
 
 #: weblate/addons/flags.py:71
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS, it is "
-#| "flagged as needing editing in Weblate. This way you can easily filter and "
-#| "edit translations created by the developers."
 msgid ""
 "Whenever a new translatable string is imported from the VCS, it is flagged "
 "as needing rewriting in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
-"När en ny översättningsbar sträng importeras från VCS så kommer den att "
-"markeras med 'behöver redigeras' i Weblate. Med hjälp av detta kan du enkelt "
-"filtrera och redigera översättningar som har skapats av utvecklarna."
+"När en ny översättningsbar sträng importeras från VCS markeras den som "
+"omskrivningsbar i Weblate. På så sätt kan du enkelt filtrera och redigera "
+"översättningar som skapats av utvecklarna."
 
 #: weblate/addons/flags.py:87
-#, fuzzy
-#| msgid "Flag unchanged translations as \"Needs editing\""
 msgid "Flag unchanged translations as \"Needs rewriting\""
-msgstr "Markera oförändrade översättningar med \"Behöver redigeras\""
+msgstr "Markera oförändrade översättningar som \"Behöver skrivas om\""
 
 #: weblate/addons/flags.py:89
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS and it "
-#| "matches a source string, it is flagged as needing editing in Weblate. "
-#| "Especially useful for file formats that include source strings for "
-#| "untranslated strings."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing rewriting in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
-"När en ny översättningsbar sträng importeras från VCS som matchar en "
-"källsträng så kommer den att markeras med 'behöver redigeras' i Weblate. "
-"Speciellt användbart för filformat som inkluderar källsträngar för "
-"oöversatta strängar."
+"När en ny översättningsbar sträng importeras från VCS och den matchar en "
+"källsträng, markeras den som att den behöver skrivas om i Weblate. Detta är "
+"särskilt användbart för filformat som innehåller källsträngar för oöversatta "
+"strängar."
 
 #: weblate/addons/flags.py:110 weblate/templates/category-language.html:53
 #: weblate/templates/category-language.html:136
@@ -1665,26 +1643,19 @@ msgid "Bulk edit flags, labels, or states of strings."
 msgstr "Massredigering av flaggor, etiketter eller strängstatus."
 
 #: weblate/addons/flags.py:142
-#, fuzzy
-#| msgid "Flag updated translations from repository as \"Needs editing\""
 msgid "Flag updated translations from repository as \"Needs rewriting\""
 msgstr ""
-"Markera uppdaterade översättningar från arkivet som \"Behöver redigeras\""
+"Markera uppdaterade översättningar från arkivet som \"Behöver skrivas om\""
 
 #: weblate/addons/flags.py:145
-#, fuzzy
-#| msgid ""
-#| "Whenever a string translation is changed from the VCS, it is flagged as "
-#| "needing editing in Weblate. Especially useful if translation files are "
-#| "often updated manually or by an external service."
 msgid ""
 "Whenever a string translation is changed from the VCS, it is flagged as "
 "needing rewriting in Weblate. Especially useful if translation files are "
 "often updated manually or by an external service."
 msgstr ""
-"När en strängöversättning ändras från VCS markeras den som redigeringsbar i "
-"Weblate. Detta är särskilt användbart om översättningsfiler ofta uppdateras "
-"manuellt eller av en extern tjänst."
+"När en strängöversättning ändras från VCS markeras den som behöver skrivas "
+"om i Weblate. Detta är särskilt användbart om översättningsfiler ofta "
+"uppdateras manuellt eller av en extern tjänst."
 
 #: weblate/addons/forms.py:62
 msgid "Path of generated MO file"
@@ -2771,7 +2742,7 @@ msgstr "Administration"
 #: weblate/auth/data.py:190
 msgctxt "Access-control role"
 msgid "Edit source"
-msgstr "Ändra källa"
+msgstr "Redigera källa"
 
 #: weblate/auth/data.py:193
 msgctxt "Access-control role"
@@ -4614,10 +4585,8 @@ msgid "reStructuredText syntax error in the translation."
 msgstr "reStructuredText-syntaxfel i översättningen."
 
 #: weblate/checks/markup.py:655
-#, fuzzy
-#| msgid "Source and translation do not both start with a newline."
 msgid "The translation should not start with a list marker."
-msgstr "Källan och översättningen börjar inte båda med en ny rad."
+msgstr "Översättningen ska inte börja med en listmarkör."
 
 #: weblate/checks/placeholders.py:31
 msgid "Placeholders"
@@ -9906,6 +9875,10 @@ msgid ""
 "be uploaded on the individual translations. Switch to the \"Components\" tab "
 "above, open the desired component, and perform the upload there."
 msgstr ""
+"Projektomfattande uppladdningar stöds för närvarande inte. "
+"Översättningsfiler måste laddas upp för varje enskild översättning. Växla "
+"till fliken \"Komponenter\" ovan, öppna önskad komponent och utför "
+"uppladdningen där."
 
 #: weblate/templates/language.html:26 weblate/templates/manage/tools.html:10
 #: weblate/templates/translate.html:203 weblate/wladmin/views.py:100
@@ -17746,20 +17719,14 @@ msgid "Needs editing"
 msgstr "Behöver redigeras"
 
 #: weblate/utils/state.py:21
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Needs rewriting"
 msgctxt "String state"
 msgid "Needs editing (Needs rewriting)"
-msgstr "Behöver skrivas om"
+msgstr "Behöver redigeras (Behöver skrivas om)"
 
 #: weblate/utils/state.py:25
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Needs checking"
 msgctxt "String state"
 msgid "Needs editing (Needs checking)"
-msgstr "Behöver kontrolleras"
+msgstr "Behöver redigeras (Behöver kontrolleras)"
 
 #: weblate/utils/state.py:27
 msgctxt "String state"
@@ -17893,16 +17860,12 @@ msgid "The provided secret is too long."
 msgstr "Den tillhandahållna hemligheten är för lång."
 
 #: weblate/utils/validators.py:380
-#, fuzzy
-#| msgid "This name cannot be registered. Please choose a different one."
 msgid "This website cannot be used. Please provide a different one."
-msgstr "Det här namnet kan inte registreras. Välj ett annat namn."
+msgstr "Denna webbplats kan inte användas. Ange en annan."
 
 #: weblate/utils/validators.py:438
-#, fuzzy
-#| msgid "Could not parse JSON: %s"
 msgid "Could not parse URL: {}"
-msgstr "Kunde inte tolka JSON: %s"
+msgstr "Kunde inte tolka URL: {}"
 
 #: weblate/utils/validators.py:448
 #, python-format
