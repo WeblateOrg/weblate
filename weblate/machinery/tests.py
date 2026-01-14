@@ -2867,12 +2867,29 @@ class WeblateTranslationTest(TransactionsTestMixin, FixtureTestCase):
         self.assertNotEqual(results, [])
 
 
-class CyrTranslitTranslationTest(ViewTestCase):
+class CyrTranslitTranslationTest(ViewTestCase, BaseMachineTranslationTest):
+    ENGLISH = "sr@latin"
+    MACHINE_CLS = CyrTranslitTranslation
+    SUPPORTED = "sr@cyrillic"
+    NOTSUPPORTED = "cs"
+
+    def test_english_map(self) -> None:
+        self.skipTest("Not tested")
+
     def create_component(self):
         return self.create_po_new_base()
 
-    def get_machine(self):
-        return CyrTranslitTranslation({})
+    def test_batch(self, machine=None) -> None:
+        # Class does not work on mocked units
+        self.skipTest("Not tested")
+
+    def test_translate_empty(self) -> None:
+        # Class does not work on mocked units
+        self.skipTest("Not tested")
+
+    def test_translate(self, **kwargs) -> None:
+        # Class does not work on mocked units
+        self.skipTest("Not tested")
 
     def test_notsupported(self) -> None:
         machine = self.get_machine()

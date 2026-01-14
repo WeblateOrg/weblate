@@ -22,6 +22,7 @@ Weblate 5.15.2
 * Tighter validation of user provided websites to avoid confusing homoglyphs.
 * Glossary support in :ref:`mt-google-translate-api-v3`.
 * Invitations accepting when :setting:`REQUIRE_LOGIN` is turned on.
+* :ref:`mt-cyrtranslit` installation.
 
 .. rubric:: Compatibility
 
