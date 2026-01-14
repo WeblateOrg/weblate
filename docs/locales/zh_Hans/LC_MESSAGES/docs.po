@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-01-13 17:24+0100\n"
-"PO-Revision-Date: 2026-01-14 11:50+0000\n"
+"PO-Revision-Date: 2026-01-14 14:18+0000\n"
 "Last-Translator: 大王叫我来巡山 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -5245,7 +5245,7 @@ msgstr "SAML XML 元数据 URL 为 ``/accounts/metadata/saml/``，这也是条�
 #: ../../admin/auth.rst:493
 msgid ""
 "The sign-in URL is ``/accounts/complete/saml/`` (also known as ACS URL)."
-msgstr ""
+msgstr "登录 URL ``/accounts/complete/saml/`` (也叫 ACS URL）。"
 
 #: ../../admin/auth.rst:494
 msgid ""
@@ -11995,7 +11995,7 @@ msgstr "为静态文件提供服务"
 
 #: ../../admin/install.rst:1452
 msgid ":file:`/media/` is no longer used for serving screenshots."
-msgstr ""
+msgstr ":file:`/media/` 不再用于提供截屏。"
 
 #: ../../admin/install.rst:1455
 msgid ""
@@ -22577,6 +22577,10 @@ msgid ""
 "archive named `{project-slug}-{language-code}.zip` and organized by "
 "component paths (e.g., `component-slug/po/lang.po`)."
 msgstr ""
+"将给定 ``项目`` 全部部件中某一 ``语言代码`` 的所有翻译文件下载为单个 ZIP 文件"
+"，而不是下载单独的多个翻译文件，手动将它们打包。所下载的单个 ZIP 压缩包命名格"
+"式为 `{project-slug}-{language-code}.zip` 并按照部件路径进行组织（如 "
+"`component-slug/po/lang.po`）。"
 
 #: ../../api.rst:1344
 msgid ""
@@ -22585,6 +22589,9 @@ msgid ""
 "only components whose slugs contain the substring will be included in the "
 "download."
 msgstr ""
+"可选的不区分大小写的子字符串来按照标识串筛选部件（如 ``?filter=core`` 会匹配"
+"标识串中任何地方有 'core' 字样的部件）；只有标识串包含该字符串的部件才会被包"
+"括在下载中。"
 
 #: ../../api.rst:1349
 msgid "Possible responses:"
@@ -22596,6 +22603,8 @@ msgid ""
 "across all components in the project. If no components have translations for "
 "the specified language, an empty ZIP file will be returned."
 msgstr ""
+"``200 OK`` 项目所有部件中指定语言译文的 ZIP 文件。如果没有部件含指定语言的译"
+"文则返回空的 ZIP 文件。"
 
 #: ../../api.rst:1352
 msgid "``403 Forbidden`` if the user does not have permission to the project."
@@ -22603,7 +22612,7 @@ msgstr "``403 Forbidden`` 表示用户没有该项目的权限。"
 
 #: ../../api.rst:1353
 msgid "``404 Not Found`` if the project slug does not exist."
-msgstr ""
+msgstr "``404 Not Found`` 项目标识串不存在。"
 
 #: ../../api.rst:1360
 msgid ""
@@ -24381,7 +24390,7 @@ msgstr "现在在安装时触发 :ref:`addon-weblate.generate.generate` 。"
 
 #: ../../changes.rst:11
 msgid "Screenshots updated from the repository have proper history."
-msgstr ""
+msgstr "从仓库更新的截屏有正确的历史记录。"
 
 #: ../../changes.rst:12
 msgid ":ref:`check-rst-syntax` now reports unintended list conversion."
@@ -24423,7 +24432,7 @@ msgstr "用户界面修复。"
 
 #: ../../changes.rst:19
 msgid "Clarified needs editing/checking/rewriting states."
-msgstr ""
+msgstr "澄清需要编辑/需要检查/需要重写状态。"
 
 #: ../../changes.rst:20
 msgid "Automatically translated flag with bulk approvals."
@@ -24431,7 +24440,7 @@ msgstr "批量批准自动翻译的标记。"
 
 #: ../../changes.rst:21
 msgid "GitHub forks no longer trigger actions."
-msgstr ""
+msgstr "GitHub forks 不再触发操作。"
 
 #: ../../changes.rst:22
 msgid ""
@@ -24444,7 +24453,7 @@ msgstr ":ref:`mt-google-translate-api-v3` 的术语表支持。"
 
 #: ../../changes.rst:24
 msgid "Invitations accepting when :setting:`REQUIRE_LOGIN` is turned on."
-msgstr ""
+msgstr "打开 :setting:`REQUIRE_LOGIN` 时的接受邀请。"
 
 #: ../../changes.rst:27 ../../changes.rst:122 ../../changes.rst:265
 #: ../../changes.rst:360 ../../changes.rst:415 ../../changes.rst:538
@@ -24461,6 +24470,8 @@ msgid ""
 "Screenshot images are no longer served directly by the HTTP server, please "
 "adjust your HTTP server by removing serving of ``/media/``."
 msgstr ""
+"截屏图片不再直接通过 HTTP 服务器提供，请删除 ``/media/`` 路径调整你的 HTTP 服"
+"务器。"
 
 #: ../../changes.rst:31 ../../changes.rst:65 ../../changes.rst:132
 #: ../../changes.rst:152 ../../changes.rst:175 ../../changes.rst:210
@@ -24558,6 +24569,9 @@ msgid ""
 "(string:language_code)/file/` to download a ZIP file of all component "
 "translations of a project for a specified language."
 msgstr ""
+"新增 :http:get:`/api/projects/(string:project)/languages/"
+"(string:language_code)/file/` 将指定语言在项目全部部件中的译文下载为单个 ZIP "
+"文件。"
 
 #: ../../changes.rst:51
 msgid "Updated list of OpenAI models."
@@ -24567,7 +24581,7 @@ msgstr "更新了 OpenAI 模型列表。"
 msgid ""
 "Added :doc:`/devel/migration` guide to help users migrate from other "
 "localization platforms."
-msgstr ""
+msgstr "新增 :doc:`/devel/migration` 指南帮助用户从其他本地化平台迁移。"
 
 #: ../../changes.rst:53
 msgid "Gracefully handle unreachable authentication providers."
@@ -24582,12 +24596,14 @@ msgid ""
 "Git config file overwrite remote code execution "
 "(:cve:`2025-68398` / :ghsa:`8vcg-cfxj-p5m3`)."
 msgstr ""
+"Git 配置文件覆盖远程代码执行漏洞 (:cve:`2025-68398` / :ghsa:`8vcg-cfxj-p5m3`)"
+"。"
 
 #: ../../changes.rst:59
 msgid ""
 "Arbitrary file read via symbolic links (:cve:`2025-68279` / :ghsa:`g925-"
 "f788-4jh7`)."
-msgstr ""
+msgstr "通过符号链接读取任意文件漏洞（:cve:`2025-68279`/:ghsa:`g925-f788-4jh7`）。"
 
 #: ../../changes.rst:60
 msgid "Locking error that prevented updating linked components."
@@ -24841,7 +24857,7 @@ msgstr "现在更加详细地展示过往时间戳。"
 msgid ""
 "Added two new :ref:`states` to provide more detailed tracking of work-in-"
 "progress translations."
-msgstr ""
+msgstr "新增两个 :ref:`states` 提供进行中翻译更详细的跟踪。"
 
 #: ../../changes.rst:109
 msgid ""
@@ -24904,7 +24920,7 @@ msgstr "显示源语言的术语表匹配。"
 
 #: ../../changes.rst:119
 msgid "Pull/merge requests are now only created when necessary."
-msgstr ""
+msgstr "现在只在必要时创建拉取/合并请求。"
 
 #: ../../changes.rst:123
 msgid ""
@@ -40643,6 +40659,8 @@ msgid ""
 "migrate your translation project from platforms like Transifex, Crowdin, "
 "Lokalise, or similar services."
 msgstr ""
+"在使用别的本地化平台并考虑切换到 Weblate 吗？本指南提供快捷步骤详尽的流程帮助"
+"你从 Transifex、Crowdin、Lokalise 或等平台或其他类似服务迁移你的项目。"
 
 #: ../../devel/migration.rst:8
 msgid ""
@@ -40650,6 +40668,8 @@ msgid ""
 "its core, making it ideal for teams that want to keep translations close to "
 "their development workflow."
 msgstr ""
+"Weblate 围绕持续本地化进行设计，核心为 Git 集成，这使它对于想让翻译贴近开发流"
+"程的团队而言是一个理想选择。"
 
 #: ../../devel/migration.rst:13
 msgid ":doc:`starting` for choosing the right internationalization framework"
@@ -40661,15 +40681,15 @@ msgstr "详细的集成选项 :doc:`integration` 文档"
 
 #: ../../devel/migration.rst:15
 msgid ":doc:`/admin/continuous` for setting up automated workflows"
-msgstr ""
+msgstr ":doc:`/admin/continuous` 获取设置自动工作流的信息"
 
 #: ../../devel/migration.rst:20
 msgid "Before starting your migration, ensure you have:"
-msgstr ""
+msgstr "开始迁移前，确保你有："
 
 #: ../../devel/migration.rst:22
 msgid "**On your localization platform:**"
-msgstr ""
+msgstr "**在你的本地化平台上：**"
 
 #: ../../devel/migration.rst:24
 msgid "Access to export your translation files"
@@ -40682,7 +40702,7 @@ msgstr "译者列表及其角色/权限"
 #: ../../devel/migration.rst:26
 msgid ""
 "Understanding of your current workflow (review process, automation, etc.)"
-msgstr ""
+msgstr "理解当前的工作流程（审校流程、自动化等）"
 
 #: ../../devel/migration.rst:28
 msgid "**For Weblate:**"
@@ -40693,10 +40713,12 @@ msgid ""
 "A Weblate instance (either `Hosted Weblate <https://hosted.weblate.org/>`_ "
 "or :doc:`self-hosted </admin/install>`)"
 msgstr ""
+"Weblate 实例 (`Hosted Weblate <https://hosted.weblate.org/>`_ 或 :doc:`self-"
+"hosted </admin/install>`)"
 
 #: ../../devel/migration.rst:31
 msgid "Admin or project creation permissions on your Weblate instance"
-msgstr ""
+msgstr "Weblate 实例上的管理或项目创建权限"
 
 #: ../../devel/migration.rst:34
 msgid "Prepare your translation files"
@@ -41132,26 +41154,20 @@ msgid "Information about your review process"
 msgstr "关于审校过程的信息"
 
 #: ../../devel/migration.rst:251
-#, fuzzy
-#| msgid "Add :ref:`addons` history tab in management."
 msgid ":ref:`manage-acl` for team management"
-msgstr "在管理中添加 :ref:`addons` 历史记录选项卡。"
+msgstr ":ref:`manage-acl` 获取团队管理信息"
 
 #: ../../devel/migration.rst:252
 msgid ":doc:`/admin/access` for advanced permission configuration"
 msgstr ""
 
 #: ../../devel/migration.rst:256
-#, fuzzy
-#| msgid "Next section"
 msgid "Next steps"
-msgstr "下个部分"
+msgstr "接下去的步骤"
 
 #: ../../devel/migration.rst:258
-#, fuzzy
-#| msgid "Promoting the translation"
 msgid "After completing the migration:"
-msgstr "推广翻译"
+msgstr "完成迁移后："
 
 #: ../../devel/migration.rst:260
 msgid ""
@@ -41187,16 +41203,12 @@ msgid ""
 msgstr ""
 
 #: ../../devel/migration.rst:272
-#, fuzzy
-#| msgid "Additional projects"
 msgid "Additional resources"
-msgstr "其他项目"
+msgstr "附加资源"
 
 #: ../../devel/migration.rst:274
-#, fuzzy
-#| msgid "The documentation has detailed instructions"
 msgid ":doc:`integration` - Detailed integration patterns"
-msgstr "文档中有详细的说明"
+msgstr ":doc:`integration` —— 详细集成模式"
 
 #: ../../devel/migration.rst:275
 msgid ":doc:`/workflows` - Different workflow configurations"
@@ -41215,10 +41227,8 @@ msgid ":doc:`/devel/reporting` - Setting up translation progress reports"
 msgstr ""
 
 #: ../../devel/migration.rst:279
-#, fuzzy
-#| msgid "Frequently Asked Questions"
 msgid ":doc:`/faq` - Frequently asked questions"
-msgstr "常见问题"
+msgstr ":doc:`/faq` —— 常见问题"
 
 #: ../../devel/migration.rst:283
 msgid ""
@@ -42629,15 +42639,11 @@ msgid ""
 msgstr "在 Weblate 中，基于工作流程有几种复查方式，请参见 :ref:`workflows`。"
 
 #: ../../faq.rst:320
-#, fuzzy
-#| msgid ""
-#| "You can subscribe to any changes made in :ref:`subscriptions` and then "
-#| "check others contributions as they come in by e-mail."
 msgid ""
 "You can subscribe to any changes made in :ref:`notifications` and then check "
 "others contributions as they come in by e-mail."
 msgstr ""
-"你可以在 :ref:`subscriptions` 中订阅做出的任何更改，然后通过电子邮件查看其他"
+"你可以在 :ref:`notifications` 中订阅做出的任何更改，然后通过电子邮件查看其他"
 "人的贡献。"
 
 #: ../../faq.rst:322
@@ -44034,16 +44040,12 @@ msgid "A variant of :doc:`/formats/android`. It differs in escaping."
 msgstr ":doc:`/formats/android` 的变体，转义规则不同。"
 
 #: ../../formats/compose-multiplatform-resources.rst:16
-#, fuzzy
-#| msgid ""
-#| "`JetBrains Compose Multiplatform Resources <https://www.jetbrains.com/"
-#| "help/kotlin-multiplatform-dev/compose-multiplatform-resources.html>`_"
 msgid ""
 "`Koltin Compose Multiplatform Resources <https://kotlinlang.org/docs/"
 "multiplatform/compose-multiplatform-resources.html>`_"
 msgstr ""
-"`JetBrains Compose 多平台资源 <https://www.jetbrains.com/help/kotlin-"
-"multiplatform-dev/compose-multiplatform-resources.html>`_"
+"`Koltin Compose 多平台资源 <https://kotlinlang.org/docs/multiplatform/"
+"compose-multiplatform-resources.html>`_"
 
 #: ../../formats/compose-multiplatform-resources.rst:32
 msgid "`Compose Multiplatform Resource`"
@@ -51263,11 +51265,6 @@ msgid "Translated languages"
 msgstr "翻译语言"
 
 #: ../../user/profile.rst:88
-#, fuzzy
-#| msgid ""
-#| "Choose which languages you prefer to translate, and they will be offered "
-#| "on the main page of watched projects, so that you have easier access to "
-#| "these all translations in each of those languages."
 msgid ""
 "Choose which languages you prefer to translate, and they will be offered on "
 "the main page of watched projects, so that you have easier access to all "
@@ -53977,20 +53974,16 @@ msgid "You can then invoke commands on the default server:"
 msgstr "然后，您可以在默认服务器上调用命令："
 
 #: ../../wlc.rst:95
-#, fuzzy
-#| msgid "Bad configuration"
 msgid "Legacy configuration"
-msgstr "坏的设定"
+msgstr "旧式设定"
 
 #: ../../wlc.rst:99
 msgid "The legacy configuration using unscoped ``key`` is no longer supported."
 msgstr ""
 
 #: ../../wlc.rst:101
-#, fuzzy
-#| msgid "Example configuration:"
 msgid "Migrate legacy configuration:"
-msgstr "配置的示例："
+msgstr "迁移旧配置："
 
 #: ../../wlc.rst:109
 msgid "To a configuration with key scoped to an API URL:"
@@ -54284,10 +54277,8 @@ msgid "The configuration file is an INI file, for example:"
 msgstr "配置文件是一个 INI 文件，例如："
 
 #: ../../wlc.rst:335
-#, fuzzy
-#| msgid "Additionally API keys can be stored in the ``[keys]`` section:"
 msgid "The API keys are stored in the ``[keys]`` section:"
-msgstr "另外，API 密钥可以存储在 ``[keys]`` 部分中："
+msgstr "API 密钥存储在 ``[keys]`` 部分："
 
 #: ../../wlc.rst:342
 msgid ""
@@ -54442,19 +54433,10 @@ msgid ""
 msgstr "翻译是空的，取决于文件格式，翻译是否可能存储在文件中。"
 
 #: ../../workflows.rst:66
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Needs rewriting"
 msgid "Needs editing / Needs rewriting / Needs checking"
-msgstr "需要重写"
+msgstr "需要编辑/需要重写/需要检查"
 
 #: ../../workflows.rst:67
-#, fuzzy
-#| msgid ""
-#| "Translation needs editing, this is usually the result of a source string "
-#| "change, fuzzy matching or translator action. The translation is stored in "
-#| "the file, depending on the file format it might be marked as needing edit "
-#| "(for example as it gets a ``fuzzy`` flag in the gettext file)."
 msgid ""
 "Translation needs editing, this is usually the result of a source string "
 "change, fuzzy matching or translator action. The translation is stored in "
@@ -54462,9 +54444,9 @@ msgid ""
 "file format it might be marked as needing edit (for example as it gets a "
 "``fuzzy`` flag in the gettext file)."
 msgstr ""
-"翻译需要编辑，这通常是源字符串更改、模糊匹配或译者操作的结果。翻译存储在文件"
-"中，具体取决于文件格式，它可能被标记为需要编辑（例如，当它在 gettext 文件中获"
-"得一个 ``fuzzy`` 标记）。"
+"翻译需要编辑，这通常是源字符串更改、模糊匹配或译者操作的结果。如果 "
+":ref:`project-commit_policy` 允许，翻译存储在文件中 。根据文件格式不同，它可"
+"能被标记为需要编辑（例如，当它在 gettext 文件中获得一个 ``fuzzy`` 标记）。"
 
 #: ../../workflows.rst:70
 msgid "Waiting for review"
