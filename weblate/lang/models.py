@@ -15,6 +15,7 @@ from appconf import AppConf
 from django.conf import settings
 from django.contrib.admin.utils import NestedObjects
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.validators import MinValueValidator
 from django.db import models, transaction
 from django.db.models import Exists, OuterRef, Q
 from django.db.utils import OperationalError
@@ -1026,7 +1027,9 @@ class Plural(models.Model):
         ),
     )
     number = models.SmallIntegerField(
-        default=2, verbose_name=gettext_lazy("Number of plurals")
+        default=2,
+        verbose_name=gettext_lazy("Number of plurals"),
+        validators=[MinValueValidator(1)],
     )
     formula = models.TextField(
         default="n != 1",
@@ -1085,13 +1088,16 @@ class Plural(models.Model):
         return result
 
     @staticmethod
-    def parse_plural_forms(plurals):
+    def parse_plural_forms(plurals: str) -> tuple[int, str]:
         matches = PLURAL_RE.match(plurals)
         if matches is None:
             msg = "Could not parse plural forms"
             raise ValueError(msg)
 
         number = int(matches.group(1))
+        if number <= 0:
+            msg = "Plural number has to be greater than zero"
+            raise ValueError(msg)
         formula = matches.group(2)
         if not formula:
             formula = "0"
