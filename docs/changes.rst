@@ -14,6 +14,7 @@ Weblate 5.15.2
 
 .. rubric:: Bug fixes
 
+* Information leak via screenshots (:cve:`2026-21889` / :ghsa:`3g2f-4rjg-9385`).
 * Explanation sync in :doc:`/formats/tbx`.
 * User interface fixes.
 * Clarified needs editing/checking/rewriting states.
@@ -26,11 +27,13 @@ Weblate 5.15.2
 
 .. rubric:: Compatibility
 
-* Screenshot images are no longer served directly by the HTTP server, please adjust your HTTP server by removing serving of ``/media/``.
+* Screenshot images are no longer served directly by the HTTP server, please adjust your HTTP server by removing serving of :file:`/media/`.
 
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* To make the fix for :cve:`2026-21889` effective, the serving of :file:`/media/` path should be removed from the HTTP server configuration; see :ref:`static-files`.
 
 .. rubric:: Contributors
 
