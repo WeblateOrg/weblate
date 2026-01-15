@@ -2106,7 +2106,8 @@ class Translation(
         skip_existing: bool = False,
     ) -> None:
         component = self.component
-        extra = []
+        # extra holds Q objects to be unpacked in the filter() call below
+        extra: list[Q] = []
         if isinstance(source, str):
             source = [source]
         if len(source) > 1 and not component.file_format_cls.supports_plural:
@@ -2135,10 +2136,11 @@ class Translation(
             component.file_format_cls.validate_context(context)
         if not component.has_template():
             source_query = Q(source=join_plural(source))
-            # Validate non-pluralized strings against pluralized ones because having same with the same sources
-            # does not work for most of the formats
+            # Validate non-pluralized strings against pluralized ones because
+            # having singular and plural entries with matching sources does not
+            # work for most of the formats
 
-            # Look for plural string with the same singular (also
+            # Look for plural string with the same singular (also matches strings with any plural form)
             source_query |= Q(source__startswith=join_plural([source[0], ""]))
 
             # Look for singular string with the same text
