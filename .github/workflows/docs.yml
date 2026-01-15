@@ -20,8 +20,49 @@ permissions:
   contents: read
 
 jobs:
+  update-snippets:
+    runs-on: ubuntu-24.04
+    env:
+      CI_DATABASE: postgresql
+      CI_REDIS_HOST: 127.0.0.1
+      CI_REDIS_PORT: '60001'
+      CI_DB_PASSWORD: weblate
+      CI_DB_HOST: 127.0.0.1
+      CI_DB_PORT: '60000'
+      CI_SELENIUM: '1'
+      DJANGO_SETTINGS_MODULE: weblate.settings_test
+    steps:
+    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8   # v6.0.1
+      with:
+        persist-credentials: false
+    - name: Set up Python
+      uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548   # v6.1.0
+      with:
+        python-version: '3.14'
+    - uses: astral-sh/setup-uv@61cb8a9741eeb8a550a1b8544337180c0fc8476b   # v7.2.0
+      with:
+        enable-cache: false
+        version: 0.9.25
+    - name: Install apt dependencies
+      run: sudo ./ci/apt-install "$CI_DATABASE"
+    - name: Install Python dependencies
+      run: ./ci/pip-install latest
+    - run: make -C docs update-doc-snippets
+    - run: uv run --only-group pre-commit pre-commit run --all
+      continue-on-error: true
+
+    - run: git diff
+
+    - name: Update current branch
+    # if: github.event_name == 'push' && github.ref_name != 'main'
+      uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9   # v7.1.0
+      with:
+        commit_message: 'docs: Update documentation snippets'
+
   list-languages:
     runs-on: ubuntu-24.04
+    needs:
+    - update-snippets
     outputs:
       languages: ${{ steps.list.outputs.languages }}
     steps:
