@@ -28,7 +28,7 @@ def check_fonts(
 ) -> Iterable[CheckMessage]:
     """Check font rendering."""
     try:
-        render_size(text="test")
+        render_size(text="test", use_cache=False)
     except Exception as error:
         return [weblate_check("weblate.C024", f"Could not use Pango: {error}")]
     return []
