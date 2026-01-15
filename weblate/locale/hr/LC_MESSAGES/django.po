@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-01-13 16:24+0000\n"
-"PO-Revision-Date: 2026-01-14 23:39+0000\n"
+"PO-Revision-Date: 2026-01-15 23:05+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -1590,39 +1590,24 @@ msgstr ""
 "jednostavno filtrirati i urediti izvorne izraze koje su napisali programeri."
 
 #: weblate/addons/flags.py:69
-#, fuzzy
-#| msgid "Flag new translations as \"Needs editing\""
 msgid "Flag new translations as \"Needs rewriting\""
-msgstr "Označi nove prijevode s oznakom „Treba urediti”"
+msgstr "Označi nove prijevode s oznakom „Treba preraditi”"
 
 #: weblate/addons/flags.py:71
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS, it is "
-#| "flagged as needing editing in Weblate. This way you can easily filter and "
-#| "edit translations created by the developers."
 msgid ""
 "Whenever a new translatable string is imported from the VCS, it is flagged "
 "as needing rewriting in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
 "Kada god se uveze novi prevodiv izraz iz sustava za kontrolu verzija, on se "
-"u Weblateu označava s oznakom da ga se treba urediti. Na taj način možeš "
+"u Weblateu označava s oznakom da ga se treba preraditi. Na taj način možeš "
 "jednostavno filtrirati i urediti prijevode koje su napisali programeri."
 
 #: weblate/addons/flags.py:87
-#, fuzzy
-#| msgid "Flag unchanged translations as \"Needs editing\""
 msgid "Flag unchanged translations as \"Needs rewriting\""
-msgstr "Označi nepromijenjene prijevode s oznakom „Treba urediti”"
+msgstr "Označi nepromijenjene prijevode s oznakom „Treba preraditi”"
 
 #: weblate/addons/flags.py:89
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS and it "
-#| "matches a source string, it is flagged as needing editing in Weblate. "
-#| "Especially useful for file formats that include source strings for "
-#| "untranslated strings."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing rewriting in Weblate. Especially "
@@ -1630,7 +1615,7 @@ msgid ""
 msgstr ""
 "Kad god se uveze novi prevodiv izraz iz sustava za kontrolu verzija koji se "
 "poklapa s izvornim izrazom, on se u Weblateu označava s oznakom da ga se "
-"treba urediti. To je naročito korisno za datotečne formate koji uključuju "
+"treba preraditi. To je naročito korisno za datotečne formate koji uključuju "
 "neprevedene izvorne izraze."
 
 #: weblate/addons/flags.py:110 weblate/templates/category-language.html:53
@@ -1649,26 +1634,19 @@ msgid "Bulk edit flags, labels, or states of strings."
 msgstr "Skupno uređivanje oznaka, etiketa ili stanja izraza."
 
 #: weblate/addons/flags.py:142
-#, fuzzy
-#| msgid "Flag updated translations from repository as \"Needs editing\""
 msgid "Flag updated translations from repository as \"Needs rewriting\""
 msgstr ""
-"Označi aktualizirane prijevode iz ropozitorija s oznakom „Treba urediti”"
+"Označi aktualizirane prijevode iz ropozitorija s oznakom „Treba preraditi”"
 
 #: weblate/addons/flags.py:145
-#, fuzzy
-#| msgid ""
-#| "Whenever a string translation is changed from the VCS, it is flagged as "
-#| "needing editing in Weblate. Especially useful if translation files are "
-#| "often updated manually or by an external service."
 msgid ""
 "Whenever a string translation is changed from the VCS, it is flagged as "
 "needing rewriting in Weblate. Especially useful if translation files are "
 "often updated manually or by an external service."
 msgstr ""
 "Kada god se promijeni prijevod izraza iz sustava za kontrolu verzija, on se "
-"u Weblateu označava s oznakom da ga se treba urediti. Posebno korisno ako se "
-"prevodilačke datoteke često aktualiziraju ručno ili putem eksterne usluge."
+"u Weblateu označava s oznakom da ga se treba preraditi. Posebno korisno ako "
+"se prevodilačke datoteke često aktualiziraju ručno ili putem eksterne usluge."
 
 #: weblate/addons/forms.py:62
 msgid "Path of generated MO file"
@@ -4595,10 +4573,8 @@ msgid "reStructuredText syntax error in the translation."
 msgstr "Greška reStructuredText sintakse u prijevodu."
 
 #: weblate/checks/markup.py:655
-#, fuzzy
-#| msgid "Source and translation do not both start with a newline."
 msgid "The translation should not start with a list marker."
-msgstr "Izvor i prijevod ne započinju s novim retkom."
+msgstr "Prijevod ne bi trebao započinjati s oznakom za popis."
 
 #: weblate/checks/placeholders.py:31
 msgid "Placeholders"
@@ -9911,6 +9887,10 @@ msgid ""
 "be uploaded on the individual translations. Switch to the \"Components\" tab "
 "above, open the desired component, and perform the upload there."
 msgstr ""
+"Prijenosi datoteka na razini cijelog projekta trenutačno nisu podržani. "
+"Datoteke prijevoda se moraju učitati za pojedinačne prijevode. Prijeđi na "
+"gornju karticu „Komponente”, otvori željenu komponentu i tamo izvrši "
+"prijenos."
 
 #: weblate/templates/language.html:26 weblate/templates/manage/tools.html:10
 #: weblate/templates/translate.html:203 weblate/wladmin/views.py:100
@@ -17801,20 +17781,14 @@ msgid "Needs editing"
 msgstr "Treba urediti"
 
 #: weblate/utils/state.py:21
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Needs rewriting"
 msgctxt "String state"
 msgid "Needs editing (Needs rewriting)"
-msgstr "Treba prepraviti"
+msgstr "Treba urediti (Treba prepraviti)"
 
 #: weblate/utils/state.py:25
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Needs checking"
 msgctxt "String state"
 msgid "Needs editing (Needs checking)"
-msgstr "Treba provjeriti"
+msgstr "Treba urediti (Treba provjeriti)"
 
 #: weblate/utils/state.py:27
 msgctxt "String state"
@@ -17950,16 +17924,12 @@ msgid "The provided secret is too long."
 msgstr "Navedena tajna je predugačka."
 
 #: weblate/utils/validators.py:380
-#, fuzzy
-#| msgid "This name cannot be registered. Please choose a different one."
 msgid "This website cannot be used. Please provide a different one."
-msgstr "Ovo se ime ne može registrirati. Odaberi jedno drugo ime."
+msgstr "Ova se web-stranica se ne može koristiti. Zadaj jednu drugu."
 
 #: weblate/utils/validators.py:438
-#, fuzzy
-#| msgid "Could not parse JSON: %s"
 msgid "Could not parse URL: {}"
-msgstr "Nije bilo moguće analizirati JSON: %s"
+msgstr "Nije bilo moguće analizirati URL: {}"
 
 #: weblate/utils/validators.py:448
 #, python-format
