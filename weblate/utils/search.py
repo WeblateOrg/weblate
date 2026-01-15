@@ -825,7 +825,7 @@ def parser_to_query(obj: ParseResults | BaseTermExpr, context: dict) -> Q:
     for item in obj:
         if isinstance(item, str) and (current := item.upper()) in {"OR", "AND", "NOT"}:
             if operator and current != operator:
-                msg = "Mixed operators!"
+                msg = gettext("Mixed operators!")
                 raise SearchQueryError(msg)
             operator = current
             was_operator = True
