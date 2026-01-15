@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import os
 from io import BytesIO, StringIO
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 from zipfile import BadZipFile
 
 from django.utils.translation import gettext_lazy
@@ -19,6 +19,8 @@ from weblate.formats.ttkit import CSVUtf8Format
 
 if TYPE_CHECKING:
     from collections.abc import Callable
+
+    from weblate.trans.file_format_params import FileFormatParams
 
 CSV_DIALECT = "unix"
 
@@ -138,7 +140,7 @@ class XlsxFormat(CSVUtf8Format):
         language: str,
         base: str,
         callback: Callable | None = None,
-        file_format_params: dict[str, Any] | None = None,  # noqa: ARG003
+        file_format_params: FileFormatParams | None = None,  # noqa: ARG003
     ) -> None:
         """Handle creation of new translation file."""
         if not base:

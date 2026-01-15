@@ -77,6 +77,8 @@ if TYPE_CHECKING:
 
     from translate.storage.base import TranslationUnit as TranslateToolkitUnit
 
+    from weblate.trans.file_format_params import FileFormatParams
+
 LOCATIONS_RE = re.compile(r"^([+-]|.*, [+-]|.*:[+-])")
 PO_DOCSTRING_LOCATION = re.compile(r":docstring of [a-zA-Z0-9._]+:[0-9]+")
 SUPPORTS_FUZZY = (pounit, tsunit, csvunit)
@@ -480,7 +482,7 @@ class TTKitFormat(TranslationFormat):
         language: str,
         base: str,
         callback: Callable | None = None,
-        file_format_params: dict[str, Any] | None = None,
+        file_format_params: FileFormatParams | None = None,
     ) -> None:
         """Handle creation of new translation file."""
         if base:
@@ -503,7 +505,7 @@ class TTKitFormat(TranslationFormat):
         monolingual: bool,
         errors: list[Exception] | None = None,
         fast: bool = False,
-        file_format_params: dict[str, Any] | None = None,
+        file_format_params: FileFormatParams | None = None,
     ) -> bool:
         """Check whether base is valid."""
         if not base:
@@ -1790,7 +1792,7 @@ class CSVFormat(TTKitFormat):
         source_language: str | None = None,
         is_template: bool = False,
         existing_units: list[Any] | None = None,
-        file_format_params: dict[str, Any] | None = None,
+        file_format_params: FileFormatParams | None = None,
     ) -> None:
         super().__init__(
             storefile,
@@ -2361,7 +2363,7 @@ class TBXFormat(TTKitFormat):
         source_language: str | None = None,
         is_template: bool = False,
         existing_units: list[Any] | None = None,
-        file_format_params: dict[str, Any] | None = None,
+        file_format_params: FileFormatParams | None = None,
     ) -> None:
         super().__init__(
             storefile,
