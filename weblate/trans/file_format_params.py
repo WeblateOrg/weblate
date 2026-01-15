@@ -234,7 +234,7 @@ class GettextNoLocation(BaseGettextFormatParam):
     name = "po_no_location"
     label = gettext_lazy("Do not include location information in the file")
     field_class = forms.BooleanField
-    default = True
+    default = False
 
 
 @register_file_format_param
@@ -242,7 +242,7 @@ class GettextFuzzyMatching(BaseGettextFormatParam):
     name = "po_fuzzy_matching"
     label = gettext_lazy("Use fuzzy matching")
     field_class = forms.BooleanField
-    default = False
+    default = True
 
 
 class BaseYAMLFormatParam(BaseFileFormatParam):
