@@ -953,7 +953,7 @@
             </div>
             <div class="modal-body">
               {% crispy context_form %}
-              {% if unit.translation.check_flags or unit.translation.component.check_flags or unit.flags or unit.translation.component.file_format_flags %}
+              {% if unit.translation.check_flags or unit.translation.component.check_flags or unit.flags or unit.translation.component.file_format_flags or unit.translation.component.project.check_flags %}
                 <div class="form-group">
                   <label>
                     {% translate "Inherited flags" %}
