@@ -606,9 +606,7 @@
                     {% blocktranslate count count=unit.suggestions|length %}There is {{ count }} suggestion for this string.{% plural %}There are {{ count }} suggestions for this string.{% endblocktranslate %}
                   </p>
                   <p class="list-group-item-text list-buttons">
-                    <a data="bs"
-                       target
-                       None="#suggestions"
+                    <a data-bs-target="#suggestions"
                        data-bs-toggle="tab"
                        class="btn btn-warning"
                        href="#">{% translate "View" %}</a>
