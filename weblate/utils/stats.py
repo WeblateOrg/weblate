@@ -42,7 +42,7 @@ if TYPE_CHECKING:
 
     from django.db.models import Model
 
-    from weblate.trans.models import Category, Component, Project
+    from weblate.trans.models import Category, Change, Component, Project
 
 StatItem = int | float | str | datetime | None
 StatDict = dict[str, StatItem]
@@ -193,7 +193,7 @@ class BaseStats:
         self._data: StatDict = {}
         self._loaded: bool = False
         self._pending_save: bool = False
-        self.last_change_cache = None
+        self.last_change_cache: Change | None = None
         self._collected_update_objects: list[BaseStats] | None = None
 
     def __repr__(self) -> str:
