@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-01-13 16:24+0000\n"
-"PO-Revision-Date: 2026-01-13 11:03+0000\n"
+"PO-Revision-Date: 2026-01-15 23:05+0000\n"
 "Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -30,7 +30,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.15.2-dev\n"
+"X-Generator: Weblate 5.15.2\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -1558,73 +1558,51 @@ msgstr "このアドオンは、スクリプトを実行します。"
 
 #: weblate/addons/fedora_messaging.py:32
 msgid "Fedora Messaging"
-msgstr "Fedora Messaging"
+msgstr "Fedora メッセージング"
 
 #: weblate/addons/fedora_messaging.py:34
 msgid "Sends notifications to a Fedora Messaging compatible AMQP exchange."
 msgstr "Fedora Messaging 互換の AMQP Exchange に通知を送信します。"
 
 #: weblate/addons/flags.py:48
-#, fuzzy
-#| msgid "Flag new source strings as \"Needs editing\""
 msgid "Flag new source strings as \"Needs checking\""
-msgstr "新しい原文に \"要修正\" フラグを付ける"
+msgstr "新しい原文に \"要確認\" フラグを付ける"
 
 #: weblate/addons/flags.py:50
-#, fuzzy
-#| msgid ""
-#| "Whenever a new source string is imported from the VCS, it is flagged as "
-#| "needing editing in Weblate. This way you can easily filter and edit "
-#| "source strings written by the developers."
 msgid ""
 "Whenever a new source string is imported from the VCS, it is flagged as "
 "needing checking in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
-"新しい原文を VCS からインポートするときに、Weblate で \"要修正\" フラグを付け"
+"新しい原文を VCS からインポートするときに、Weblate で \"要確認\" フラグを付け"
 "ます。これにより、開発者が作成した原文を簡単に絞り込んで編集できます。"
 
 #: weblate/addons/flags.py:69
-#, fuzzy
-#| msgid "Flag new translations as \"Needs editing\""
 msgid "Flag new translations as \"Needs rewriting\""
-msgstr "新しい翻訳に \"要修正\" フラグを付ける"
+msgstr "新しい翻訳に \"要改稿\" フラグを付ける"
 
 #: weblate/addons/flags.py:71
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS, it is "
-#| "flagged as needing editing in Weblate. This way you can easily filter and "
-#| "edit translations created by the developers."
 msgid ""
 "Whenever a new translatable string is imported from the VCS, it is flagged "
 "as needing rewriting in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
-"新しい翻訳可能な文章を VCS からインポートするときに、Weblate で \"要修正\" フ"
-"ラグを付けます。これにより、開発者が作成した翻訳文を簡単に絞り込んで編集でき"
-"ます。"
+"新しい翻訳可能な文章を VCS からインポートするときに、Weblate で \"要改稿\" "
+"フラグを付けます。これにより、開発者が作成した翻訳文を簡単に絞り込んで編集で"
+"きます。"
 
 #: weblate/addons/flags.py:87
-#, fuzzy
-#| msgid "Flag unchanged translations as \"Needs editing\""
 msgid "Flag unchanged translations as \"Needs rewriting\""
-msgstr "未翻訳の翻訳文に \"要修正\" フラグを付ける"
+msgstr "未翻訳の翻訳文に \"要改稿\" フラグを付ける"
 
 #: weblate/addons/flags.py:89
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS and it "
-#| "matches a source string, it is flagged as needing editing in Weblate. "
-#| "Especially useful for file formats that include source strings for "
-#| "untranslated strings."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing rewriting in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
 "VCS からインポートされた新しい翻訳可能な文字列が原文と同一のとき、Weblate は "
-"\"要修正\" フラグを付けます。特に、未翻訳の文字列は原文で埋めるファイル形式で"
+"\"要改稿\" フラグを付けます。特に、未翻訳の文字列は原文で埋めるファイル形式で"
 "は有用です。"
 
 #: weblate/addons/flags.py:110 weblate/templates/category-language.html:53
@@ -1643,25 +1621,18 @@ msgid "Bulk edit flags, labels, or states of strings."
 msgstr "文字列のフラグ、ラベル、状態を一括編集します。"
 
 #: weblate/addons/flags.py:142
-#, fuzzy
-#| msgid "Flag updated translations from repository as \"Needs editing\""
 msgid "Flag updated translations from repository as \"Needs rewriting\""
-msgstr "リポジトリから更新された翻訳文に \"要修正\" フラグを付ける"
+msgstr "リポジトリから更新された翻訳文に \"要改稿\" フラグを付ける"
 
 #: weblate/addons/flags.py:145
-#, fuzzy
-#| msgid ""
-#| "Whenever a string translation is changed from the VCS, it is flagged as "
-#| "needing editing in Weblate. Especially useful if translation files are "
-#| "often updated manually or by an external service."
 msgid ""
 "Whenever a string translation is changed from the VCS, it is flagged as "
 "needing rewriting in Weblate. Especially useful if translation files are "
 "often updated manually or by an external service."
 msgstr ""
 "VCS（バージョン管理システム）で文字列の翻訳文が変更されると、Weblate では "
-"\"要修正\" フラグが付けられます。 翻訳ファイルを手動で更新したり、外部サービ"
-"スで更新したりする場合に特に便利です."
+"\"要改稿\" フラグが付けられます。 翻訳ファイルを手動で更新したり、外部"
+"サービスで更新したりする場合に特に便利です."
 
 #: weblate/addons/forms.py:62
 msgid "Path of generated MO file"
@@ -4556,10 +4527,8 @@ msgid "reStructuredText syntax error in the translation."
 msgstr "翻訳に reStructuredText の構文エラーがあります。"
 
 #: weblate/checks/markup.py:655
-#, fuzzy
-#| msgid "Source and translation do not both start with a newline."
 msgid "The translation should not start with a list marker."
-msgstr "原文と翻訳文で一致しない文頭の改行。"
+msgstr "翻訳はリストマーカーから始めてはならない。"
 
 #: weblate/checks/placeholders.py:31
 msgid "Placeholders"
@@ -9793,6 +9762,9 @@ msgid ""
 "be uploaded on the individual translations. Switch to the \"Components\" tab "
 "above, open the desired component, and perform the upload there."
 msgstr ""
+"プロジェクト全体での一括アップロードには現在対応していません。翻訳ファイルは"
+"各翻訳ごとに個別にアップロードしてください。上部の「コンポーネント」タブに切"
+"り替え、対象のコンポーネントを開いて、そこでアップロードを行ってください。"
 
 #: weblate/templates/language.html:26 weblate/templates/manage/tools.html:10
 #: weblate/templates/translate.html:203 weblate/wladmin/views.py:100
@@ -17532,20 +17504,14 @@ msgid "Needs editing"
 msgstr "要修正"
 
 #: weblate/utils/state.py:21
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Needs rewriting"
 msgctxt "String state"
 msgid "Needs editing (Needs rewriting)"
-msgstr "要再稿"
+msgstr "要修正（要改稿）"
 
 #: weblate/utils/state.py:25
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Needs checking"
 msgctxt "String state"
 msgid "Needs editing (Needs checking)"
-msgstr "要確認"
+msgstr "要修正（要確認）"
 
 #: weblate/utils/state.py:27
 msgctxt "String state"
@@ -17679,16 +17645,12 @@ msgid "The provided secret is too long."
 msgstr "提供されたシークレットが長すぎます。"
 
 #: weblate/utils/validators.py:380
-#, fuzzy
-#| msgid "This name cannot be registered. Please choose a different one."
 msgid "This website cannot be used. Please provide a different one."
-msgstr "名前は登録できません。別の名前を選択してください。"
+msgstr "指定の WEB サイトは使用できません。別のサイトをご用意ください。"
 
 #: weblate/utils/validators.py:438
-#, fuzzy
-#| msgid "Could not parse JSON: %s"
 msgid "Could not parse URL: {}"
-msgstr "JSON の解析に失敗しました: %s"
+msgstr "URL の解析に失敗: {}"
 
 #: weblate/utils/validators.py:448
 #, python-format
