@@ -62,7 +62,7 @@ You treat strings like {placeable_1} or {placeable_2} as placeables for user inp
 
 class BaseLLMTranslation(BatchMachineTranslation):
     max_score = 90
-    request_timeout = 60
+    request_timeout = 120
     glossary_support = True
 
     def is_supported(self, source_language, target_language) -> bool:
