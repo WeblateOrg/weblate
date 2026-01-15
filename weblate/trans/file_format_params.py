@@ -29,7 +29,7 @@ class FieldKwargsDict(TypedDict, total=False):
 
 class FileFormatParams(TypedDict, total=False):
     json_sort_keys: bool
-    json_indent: bool
+    json_indent: int
     json_indent_style: Literal["spaces", "tabs"]
     json_use_compact_separators: bool
     po_line_wrap: int
@@ -37,8 +37,8 @@ class FileFormatParams(TypedDict, total=False):
     po_no_location: bool
     po_fuzzy_matching: bool
     yaml_indent: int
-    yaml_line_wrap: bool
-    yaml_line_break: bool
+    yaml_line_wrap: int
+    yaml_line_break: str
     xml_closing_tags: bool
     flatxml_root_name: str
     flatxml_value_name: str
@@ -133,10 +133,10 @@ def get_params_for_file_format(file_format: str) -> list[type[BaseFileFormatPara
     return [param for param in FILE_FORMATS_PARAMS if file_format in param.file_formats]
 
 
-def get_default_params_for_file_format(file_format: str) -> dict[str, str | int | bool]:
+def get_default_params_for_file_format(file_format: str) -> FileFormatParams:
     """Get default values for all registered file format parameters."""
     params = get_params_for_file_format(file_format)
-    return {param.name: param.default for param in params}
+    return cast("FileFormatParams", {param.name: param.default for param in params})
 
 
 def strip_unused_file_format_params(

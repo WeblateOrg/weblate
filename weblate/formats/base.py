@@ -936,20 +936,14 @@ class BilingualUpdateMixin:
 
         This is used to pass additional arguments to update command.
         """
-        from weblate.addons.gettext import MsgmergeAddon
-
         params = component.file_format_params
         args: list[str] = []
-        if component.get_addon(MsgmergeAddon.name):
-            if not params.get("po_fuzzy_matching", True):
-                args.append("--no-fuzzy-matching")
-            if params.get("po_keep_previous", True):
-                args.append("--previous")
-            if params.get("po_no_location", False):
-                args.append("--no-location")
-        else:
+        if not params.get("po_fuzzy_matching", True):
+            args.append("--no-fuzzy-matching")
+        if params.get("po_keep_previous", True):
             args.append("--previous")
-
+        if params.get("po_no_location", False):
+            args.append("--no-location")
         if int(params.get("po_line_wrap", 77)) != 77:
             args.append("--no-wrap")
         return args
