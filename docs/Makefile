@@ -16,7 +16,7 @@ BUILDDIR      = _build
 help:
 	@$(SPHINXBUILD) -M help "$(SOURCEDIR)" "$(BUILDDIR)" $(SPHINXOPTS) $(O)
 
-.PHONY: help Makefile update-po update-screenshots update-schemas update-openapi run-selenium
+.PHONY: help Makefile update-po update-screenshots update-schemas update-openapi update-doc-snippets run-selenium
 
 run-selenium:
 	@rm -rf ../data-test ../test-images
@@ -41,6 +41,12 @@ update-schemas:
 
 update-openapi:
 	@WEBLATE_HIDE_VERSION=1 uv run --no-sync ../manage.py spectacular --skip-checks --fail-on-warn --validate > specs/openapi.yaml
+
+update-doc-snippets:
+	@uv run --no-sync ../manage.py list_change_events > docs/snippets/change-events.rst
+	@uv run --no-sync ../manage.py list_file_format_params > docs/snippets/file-format-parameters.rst
+	@uv run --no-sync ../manage.py list_permissions --sections perms > docs/snippets/permissions.rst
+	@uv run --no-sync ../manage.py list_permissions --sections roles > docs/snippets/roles.rst
 
 update-po: $(wildcard locales/*/LC_MESSAGES/docs.po)
 
