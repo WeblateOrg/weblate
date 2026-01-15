@@ -32,7 +32,8 @@ if TYPE_CHECKING:
 
     from django_stubs_ext import StrOrPromise
 
-    from weblate.trans.models import Translation, Unit
+    from weblate.trans.file_format_params import FileFormatParams
+    from weblate.trans.models import Component, Translation, Unit
 
 
 EXPAND_LANGS = {code[:2]: f"{code[:2]}_{code[3:].upper()}" for code in DEFAULT_LANGS}
@@ -366,7 +367,7 @@ class TranslationFormat:
         source_language: str | None = None,
         is_template: bool = False,
         existing_units: list[Unit] | None = None,
-        file_format_params: dict[str, Any] | None = None,
+        file_format_params: FileFormatParams | None = None,
     ) -> None:
         """Create file format object, wrapping up translate-toolkit's store."""
         if isinstance(storefile, Path):
@@ -600,7 +601,7 @@ class TranslationFormat:
         monolingual: bool,
         errors: list[Exception] | None = None,
         fast: bool = False,
-        file_format_params: dict[str, Any] | None = None,
+        file_format_params: FileFormatParams | None = None,
     ) -> bool:
         """Check whether base is valid."""
         raise NotImplementedError
@@ -698,7 +699,7 @@ class TranslationFormat:
         language: str,
         base: str,
         callback: Callable | None = None,
-        file_format_params: dict[str, Any] | None = None,
+        file_format_params: FileFormatParams | None = None,
     ) -> None:
         """Add new language file."""
         # Create directory for a translation
@@ -723,7 +724,7 @@ class TranslationFormat:
         language: str,
         base: str,
         callback: Callable | None = None,
-        file_format_params: dict[str, Any] | None = None,
+        file_format_params: FileFormatParams | None = None,
     ) -> None:
         """Handle creation of new translation file."""
         raise NotImplementedError
@@ -929,7 +930,7 @@ class BilingualUpdateMixin:
                 os.unlink(temp.name)
 
     @classmethod
-    def get_msgmerge_args(cls, component) -> list[str]:
+    def get_msgmerge_args(cls, component: Component) -> list[str]:
         """
         Return list of arguments for update command.
 

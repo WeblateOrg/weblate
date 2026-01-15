@@ -53,9 +53,8 @@ if TYPE_CHECKING:
     from translate.storage.base import TranslationStore
     from translate.storage.base import TranslationUnit as TranslateToolkitUnit
 
-    from weblate.formats.base import (
-        TranslationUnit,
-    )
+    from weblate.formats.base import TranslationUnit
+    from weblate.trans.file_format_params import FileFormatParams
     from weblate.trans.models import Unit
 
 
@@ -173,7 +172,7 @@ class ConvertFormat(TranslationFormat):
         language: str,  # noqa: ARG003
         base: str,
         callback: Callable | None = None,  # noqa: ARG003
-        file_format_params: dict[str, Any] | None = None,  # noqa: ARG003
+        file_format_params: FileFormatParams | None = None,  # noqa: ARG003
     ) -> None:
         """Handle creation of new translation file."""
         if not base:
@@ -189,7 +188,7 @@ class ConvertFormat(TranslationFormat):
         monolingual: bool,  # noqa: ARG003
         errors: list[Exception] | None = None,
         fast: bool = False,
-        file_format_params: dict[str, Any] | None = None,  # noqa: ARG003
+        file_format_params: FileFormatParams | None = None,  # noqa: ARG003
     ) -> bool:
         """Check whether base is valid."""
         if not base:

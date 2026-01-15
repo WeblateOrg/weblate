@@ -10,7 +10,7 @@ import os
 from glob import glob
 from itertools import chain
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, BinaryIO, NoReturn
+from typing import TYPE_CHECKING, BinaryIO, NoReturn
 
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy
@@ -25,6 +25,8 @@ from weblate.utils.errors import report_error
 
 if TYPE_CHECKING:
     from collections.abc import Callable
+
+    from weblate.trans.file_format_params import FileFormatParams
 
 
 class MultiparserError(Exception):
@@ -229,7 +231,7 @@ class AppStoreFormat(TranslationFormat):
         language: str,  # noqa: ARG003
         base: str,  # noqa: ARG003
         callback: Callable | None = None,  # noqa: ARG003
-        file_format_params: dict[str, Any] | None = None,  # noqa: ARG003
+        file_format_params: FileFormatParams | None = None,  # noqa: ARG003
     ) -> None:
         """Handle creation of new translation file."""
         os.makedirs(filename)
@@ -265,7 +267,7 @@ class AppStoreFormat(TranslationFormat):
         monolingual: bool,  # noqa: ARG003
         errors: list[Exception] | None = None,
         fast: bool = False,
-        file_format_params: dict[str, Any] | None = None,  # noqa: ARG003
+        file_format_params: FileFormatParams | None = None,  # noqa: ARG003
     ) -> bool:
         """Check whether base is valid."""
         if not base:
