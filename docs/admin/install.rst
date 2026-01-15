@@ -1841,6 +1841,19 @@ This is especially useful in case of failing Celery tasks, which would
 otherwise only report error to the logs and you won't get notified on them.
 Weblate has support for the following services:
 
+E-mail
+++++++
+
+The default Weblate configuration instruments Django to send e-mails upon
+server errors via :py:class:`django:django.utils.log.AdminEmailHandler`. This
+is the least effort setup, but you should consider other options for privacy
+reasons, as the error e-mails might include sensitive data. You can read more on
+that in :ref:`django:logging-security-implications`.
+
+To disable this behavior, remove ``mail_admins`` from the
+:setting:`django:LOGGING` in Weblate settings, or disable
+:envvar:`WEBLATE_ADMIN_NOTIFY_ERROR` in the Docker environment.
+
 Sentry
 ++++++
 
