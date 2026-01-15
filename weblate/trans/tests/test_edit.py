@@ -932,6 +932,36 @@ class EditComplexTest(ViewTestCase):
         self.translation = self.get_translation()
         self.translate_url = reverse("translate", kwargs=self.kw_translation)
 
+    def test_add_duplicate_plural(self) -> None:
+        self.component.manage_units = True
+        self.component.save()
+        self.user.is_superuser = True
+        self.user.save()
+        response = self.client.post(
+            reverse("new-unit", kwargs=self.kw_translation),
+            {
+                "source_0": "Hello, world!\n",
+                "source_1": "Hello, worlds!\n",
+                "target_0": "Ahoj světe!\n",
+                "target_1": "Ahoj světy!\n",
+                "target_2": "Ahoj světy!\n",
+            },
+            follow=True,
+        )
+        self.assertContains(response, "This string seems to already exist.")
+        response = self.client.post(
+            reverse("new-unit", kwargs=self.kw_translation),
+            {
+                "source_0": "Hello, %d world!\n",
+                "source_1": "Hello, %d worlds!\n",
+                "target_0": "Ahoj %d světe!\n",
+                "target_1": "Ahoj %d světy!\n",
+                "target_2": "Ahoj %d světy!\n",
+            },
+            follow=True,
+        )
+        self.assertNotContains(response, "This string seems to already exist.")
+
     def test_merge(self) -> None:
         # Translate unit to have something to start with
         response = self.edit_unit("Hello, world!\n", "Nazdar svete!\n")

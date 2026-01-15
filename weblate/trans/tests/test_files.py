@@ -23,6 +23,7 @@ from weblate.trans.tests.utils import get_test_file
 from weblate.utils.state import STATE_READONLY
 
 TEST_PO = get_test_file("cs.po")
+TEST_PO_PLURAL = get_test_file("cs-plural.po")
 TEST_CSV = get_test_file("cs.csv")
 TEST_CSV_QUOTES = get_test_file("cs-quotes.csv")
 TEST_CSV_QUOTES_ESCAPED = get_test_file("cs-quotes-escaped.csv")
@@ -753,6 +754,25 @@ class ImportAddTest(ImportBaseTest):
         self.assertEqual(translation.stats.translated, 164)
         self.assertEqual(translation.stats.fuzzy, 0)
         self.assertEqual(translation.stats.all, 168)
+
+    def test_add_plural(self) -> None:
+        self.component.manage_units = True
+        self.component.save(update_fields=["manage_units"])
+        response = self.do_import(method="add", follow=True, test_file=TEST_PO_PLURAL)
+        self.assertRedirects(response, self.translation_url)
+        messages = [message.message for message in response.context["messages"]]
+        self.assertIn(
+            (
+                "Processed 1 string from the uploaded files (skipped: 1, not found: 0, updated: 0)."
+            ),
+            messages,
+        )
+
+        # Verify stats
+        translation = self.get_translation()
+        self.assertEqual(translation.stats.translated, 0)
+        self.assertEqual(translation.stats.fuzzy, 0)
+        self.assertEqual(translation.stats.all, 4)
 
 
 class ImportSourceBrokenTest(ImportSourceTest):
