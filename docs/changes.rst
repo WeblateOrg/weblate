@@ -12,6 +12,8 @@ Weblate 5.16
 
 .. rubric:: Bug fixes
 
+* Adding plural strings with singular matching existing string is now prohibited for bilingual translations (see :ref:`bimono`).
+
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading
