@@ -3886,6 +3886,12 @@ LICENSES = (
         False,
     ),
     (
+        "UnRAR",
+        "UnRAR License",
+        "https://spdx.org/licenses/UnRAR.html",
+        False,
+    ),
+    (
         "UCL-1.0",
         "Upstream Compatibility License v1.0",
         "https://spdx.org/licenses/UCL-1.0.html",
