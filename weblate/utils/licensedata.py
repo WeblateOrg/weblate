@@ -2050,6 +2050,12 @@ LICENSES = (
         False,
     ),
     (
+        "HPND-sell-variant-critical-systems",
+        "HPND - sell variant with safety critical systems clause",
+        "https://spdx.org/licenses/HPND-sell-variant-critical-systems.html",
+        False,
+    ),
+    (
         "HPND-sell-variant-MIT-disclaimer",
         "HPND sell variant with MIT disclaimer",
         "https://spdx.org/licenses/HPND-sell-variant-MIT-disclaimer.html",
