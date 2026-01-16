@@ -1108,6 +1108,7 @@ CHECK_LIST = [
     "weblate.checks.chars.EndEllipsisCheck",
     "weblate.checks.chars.EndSemicolonCheck",
     "weblate.checks.chars.MaxLengthCheck",
+    "weblate.checks.chars.MultipleCapitalCheck",
     "weblate.checks.chars.KashidaCheck",
     "weblate.checks.chars.PunctuationSpacingCheck",
     "weblate.checks.chars.KabyleCharactersCheck",

@@ -23,7 +23,7 @@ from weblate.checks.chars import (
     KabyleCharactersCheck,
     KashidaCheck,
     MaxLengthCheck,
-    MultipleCapitalCheck,  # added class
+    MultipleCapitalCheck,
     NewLineCountCheck,
     PunctuationSpacingCheck,
     ZeroWidthSpaceCheck,

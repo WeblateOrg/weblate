@@ -1476,6 +1476,22 @@ Specifics on how each plural form is used can be found in the string definition.
 Failing to fill in plural forms will in some cases lead to displaying nothing when
 the plural form is in use.
 
+.. _check-multiple-capital:
+
+Multiple capitals
+~~~~~~~~~~~~~~~~~
+
+.. versionadded:: 5.16
+
+:Summary: Translation contains words with multiple misplaced capital letters.
+:Scope: translated strings
+:Check class: ``weblate.checks.chars.MultipleCapitalCheck``
+:Check identifier: ``multiple_capital``
+:Trigger: This check is always enabled but can be ignored using a flag.
+:Flag to ignore: ``ignore-multiple-capital``
+
+Checks for misplaced capitalization, which often is a mistake when typing words with a first uppercased letter.
+
 .. _check-kabyle-characters:
 
 Non‑standard characters in Kabyle
