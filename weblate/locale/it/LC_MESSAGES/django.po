@@ -1,7 +1,7 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-# Massimo Pissarello <mapi68@gmail.com>, 2023, 2024, 2025.
+# Massimo Pissarello <mapi68@gmail.com>, 2023, 2024, 2025, 2026.
 # bovirus <roberto.boriotti@canon.it>, 2023, 2024, 2025.
 # Pierfrancesco Passerini <p.passerini@gmail.com>, 2023, 2024, 2025.
 # coronabond <coronabond@airmail.cc>, 2023, 2025.
@@ -13,8 +13,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-01-13 16:24+0000\n"
-"PO-Revision-Date: 2025-12-23 23:00+0000\n"
-"Last-Translator: Pierfrancesco Passerini <p.passerini@gmail.com>\n"
+"PO-Revision-Date: 2026-01-17 00:02+0000\n"
+"Last-Translator: Massimo Pissarello <mapi68@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "application/it/>\n"
 "Language: it\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.15.1\n"
+"X-Generator: Weblate 5.15.2\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 
 #: weblate/accounts/avatar.py:89
@@ -1595,70 +1595,48 @@ msgid "Sends notifications to a Fedora Messaging compatible AMQP exchange."
 msgstr "Invia notifiche a uno scambio AMQP compatibile con Fedora Messaging."
 
 #: weblate/addons/flags.py:48
-#, fuzzy
-#| msgid "Flag new source strings as \"Needs editing\""
 msgid "Flag new source strings as \"Needs checking\""
-msgstr "Contrassegna le nuove stringhe sorgenti come \"Richiede modifica\""
+msgstr "Contrassegna le nuove stringhe sorgenti come \"Da verificare\""
 
 #: weblate/addons/flags.py:50
-#, fuzzy
-#| msgid ""
-#| "Whenever a new source string is imported from the VCS, it is flagged as "
-#| "needing editing in Weblate. This way you can easily filter and edit "
-#| "source strings written by the developers."
 msgid ""
 "Whenever a new source string is imported from the VCS, it is flagged as "
 "needing checking in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
 "Ogni volta che una nuova stringa sorgente viene importata dal VCS in "
-"Weblate, verrà contrassegnata come \"Richiede modifica\". In questo modo "
-"puoi facilmente filtrare e modificare le stringhe sorgenti inserite dagli "
+"Weblate, verrà contrassegnata come da verificare. In questo modo puoi "
+"facilmente filtrare e modificare le stringhe sorgenti inserite dagli "
 "sviluppatori."
 
 #: weblate/addons/flags.py:69
-#, fuzzy
-#| msgid "Flag new translations as \"Needs editing\""
 msgid "Flag new translations as \"Needs rewriting\""
-msgstr "Contrassegna le nuove traduzioni come \"Richiede modifica\""
+msgstr "Contrassegna le nuove traduzioni come \"Da riscrivere\""
 
 #: weblate/addons/flags.py:71
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS, it is "
-#| "flagged as needing editing in Weblate. This way you can easily filter and "
-#| "edit translations created by the developers."
 msgid ""
 "Whenever a new translatable string is imported from the VCS, it is flagged "
 "as needing rewriting in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
 "Ogni volta che una nuova traduzione viene importata dal VCS in Weblate, "
-"verrà contrassegnata come \"Richiede modifica\". In questo modo puoi "
-"facilmente filtrare e modificare le traduzioni scritte dagli sviluppatori."
+"verrà contrassegnata come da riscrivere. In questo modo puoi facilmente "
+"filtrare e modificare le traduzioni scritte dagli sviluppatori."
 
 #: weblate/addons/flags.py:87
-#, fuzzy
-#| msgid "Flag unchanged translations as \"Needs editing\""
 msgid "Flag unchanged translations as \"Needs rewriting\""
-msgstr "Contrassegna le traduzioni invariate come \"Richiede modifica\""
+msgstr "Contrassegna le traduzioni invariate come \"Da riscrivere\""
 
 #: weblate/addons/flags.py:89
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS and it "
-#| "matches a source string, it is flagged as needing editing in Weblate. "
-#| "Especially useful for file formats that include source strings for "
-#| "untranslated strings."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing rewriting in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
 "Ogni volta che una nuova stringa traducibile viene importata da VCS e "
-"corrisponde a una stringa sorgente, viene contrassegnata come stringa che "
-"necessita di modifica in Weblate. Particolarmente utile per i formati di "
-"file che includono stringhe sorgente per stringhe non tradotte."
+"corrisponde a una stringa sorgente, viene contrassegnata come stringa da "
+"riscrivere in Weblate. Particolarmente utile per i formati di file che "
+"includono stringhe sorgente per stringhe non tradotte."
 
 #: weblate/addons/flags.py:110 weblate/templates/category-language.html:53
 #: weblate/templates/category-language.html:136
@@ -1677,28 +1655,20 @@ msgstr ""
 "Modifica in blocco dei flag, delle etichette o dello stato delle stringhe."
 
 #: weblate/addons/flags.py:142
-#, fuzzy
-#| msgid "Flag updated translations from repository as \"Needs editing\""
 msgid "Flag updated translations from repository as \"Needs rewriting\""
 msgstr ""
-"Contrassegna le traduzioni aggiornate dal repository come \"Richiede "
-"modifica\""
+"Contrassegna le traduzioni aggiornate dal repository come \"Da riscrivere\""
 
 #: weblate/addons/flags.py:145
-#, fuzzy
-#| msgid ""
-#| "Whenever a string translation is changed from the VCS, it is flagged as "
-#| "needing editing in Weblate. Especially useful if translation files are "
-#| "often updated manually or by an external service."
 msgid ""
 "Whenever a string translation is changed from the VCS, it is flagged as "
 "needing rewriting in Weblate. Especially useful if translation files are "
 "often updated manually or by an external service."
 msgstr ""
 "Ogni volta che una traduzione di stringhe viene modificata dal VCS, viene "
-"contrassegnata come \"Richiede modifica\" in Weblate. Particolarmente utile "
-"se i file di traduzione vengono spesso aggiornati manualmente o da un "
-"servizio esterno."
+"contrassegnata come da riscrivere in Weblate. Particolarmente utile se i "
+"file di traduzione vengono spesso aggiornati manualmente o da un servizio "
+"esterno."
 
 #: weblate/addons/forms.py:62
 msgid "Path of generated MO file"
@@ -4665,10 +4635,8 @@ msgid "reStructuredText syntax error in the translation."
 msgstr "Errore di sintassi reStructuredText nella traduzione."
 
 #: weblate/checks/markup.py:655
-#, fuzzy
-#| msgid "Source and translation do not both start with a newline."
 msgid "The translation should not start with a list marker."
-msgstr "Sorgente e traduzione non iniziano entrambe con una riga vuota."
+msgstr "La traduzione non dovrebbe iniziare con un indicatore di elenco."
 
 #: weblate/checks/placeholders.py:31
 msgid "Placeholders"
@@ -10001,6 +9969,10 @@ msgid ""
 "be uploaded on the individual translations. Switch to the \"Components\" tab "
 "above, open the desired component, and perform the upload there."
 msgstr ""
+"Al momento, i caricamenti a livello di progetto non sono supportati. I file "
+"di traduzione devono essere caricati nelle singole traduzioni. Passa alla "
+"scheda \"Componenti\" in alto, apri il componente desiderato ed esegui il "
+"caricamento da lì."
 
 #: weblate/templates/language.html:26 weblate/templates/manage/tools.html:10
 #: weblate/templates/translate.html:203 weblate/wladmin/views.py:100
@@ -17970,20 +17942,14 @@ msgid "Needs editing"
 msgstr "Richiede modifica"
 
 #: weblate/utils/state.py:21
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Needs rewriting"
 msgctxt "String state"
 msgid "Needs editing (Needs rewriting)"
-msgstr "Richiede riscrittura"
+msgstr "Da modificare (da riscrivere)"
 
 #: weblate/utils/state.py:25
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Needs checking"
 msgctxt "String state"
 msgid "Needs editing (Needs checking)"
-msgstr "Richiede controllo"
+msgstr "Da modificare (da verificare)"
 
 #: weblate/utils/state.py:27
 msgctxt "String state"
@@ -18119,16 +18085,12 @@ msgid "The provided secret is too long."
 msgstr "Il segreto fornito è troppo lungo."
 
 #: weblate/utils/validators.py:380
-#, fuzzy
-#| msgid "This name cannot be registered. Please choose a different one."
 msgid "This website cannot be used. Please provide a different one."
-msgstr "Questo nome non può essere registrato. Scegline uno diverso."
+msgstr "Non è possibile usare questo sito web. Indicane uno differente."
 
 #: weblate/utils/validators.py:438
-#, fuzzy
-#| msgid "Could not parse JSON: %s"
 msgid "Could not parse URL: {}"
-msgstr "Impossibile analizzare JSON: %s"
+msgstr "Impossibile analizzare l'URL: {}"
 
 #: weblate/utils/validators.py:448
 #, python-format
