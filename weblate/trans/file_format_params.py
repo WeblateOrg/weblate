@@ -43,6 +43,11 @@ class FileFormatParams(TypedDict, total=False):
     flatxml_root_name: str
     flatxml_value_name: str
     flatxml_key_name: str
+    strings_encoding: str
+    properties_encoding: str
+    csv_encoding: str
+    csv_simple_encoding: str
+    gwt_encoding: str
 
 
 class BaseFileFormatParam:
@@ -62,6 +67,11 @@ class BaseFileFormatParam:
         "flatxml_root_name",
         "flatxml_value_name",
         "flatxml_key_name",
+        "strings_encoding",
+        "properties_encoding",
+        "csv_encoding",
+        "csv_simple_encoding",
+        "gwt_encoding",
     ]
     file_formats: Sequence[str] = []
     field_class: type[forms.Field] = forms.CharField
