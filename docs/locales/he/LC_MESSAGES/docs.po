@@ -1,7 +1,7 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
-# Yaron Shahrabani <sh.yaron@gmail.com>, 2023, 2024, 2025.
+# Yaron Shahrabani <sh.yaron@gmail.com>, 2023, 2024, 2025, 2026.
 # Fill read-only add-on <noreply-addon-fill@weblate.org>, 2023, 2024, 2025.
 # שלמה <shlomo.mail16@gmail.com>, 2023.
 # Michal Čihař <michal@weblate.org>, 2025.
@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-01-13 17:24+0100\n"
-"PO-Revision-Date: 2025-12-14 11:48+0000\n"
+"PO-Revision-Date: 2026-01-17 00:02+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "documentation/he/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Weblate 5.15-dev\n"
+"X-Generator: Weblate 5.15.2\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:215
@@ -3023,7 +3023,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:655 ../../user/translating.rst:426
 msgid "Bulk edit"
-msgstr "עריכה כמותית"
+msgstr "עריכה במרוכז"
 
 #: ../../admin/addons.rst:661
 msgid "State to set"
@@ -3085,7 +3085,7 @@ msgstr "לאפשר הפצת תרגום"
 
 #: ../../admin/addons.rst:687
 msgid "Bulk edit flags, labels, or states of strings."
-msgstr "עריכה כמותית של דגלונים, תוויות או מצבים של מחרוזות."
+msgstr "עריכה במרוכז של דגלונים, תוויות או מצבים של מחרוזות."
 
 #: ../../admin/addons.rst:689 ../../admin/config.rst:1869
 msgid "**Examples:**"
@@ -3123,25 +3123,17 @@ msgid "``source:r\"^\\`\\`[.a-zA-Z0-9_-]*\\`\\`$\" AND language:en``"
 msgstr ""
 
 #: ../../admin/addons.rst:726
-#, fuzzy
-#| msgid "Flag unchanged translations as \"Needs editing\""
 msgid "Flag unchanged translations as \"Needs rewriting\""
-msgstr "סימון תרגומים ללא שינוי כ„טעוני שיפור”"
+msgstr "סימון תרגומים ללא שינוי כ„טעוני שכתוב”"
 
 #: ../../admin/addons.rst:732
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS and it "
-#| "matches a source string, it is flagged as needing editing in Weblate. "
-#| "Especially useful for file formats that include source strings for "
-#| "untranslated strings."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing rewriting in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
 "כשמחרוזת חדשה לתרגום מיובאת ממערכת ניהול הקוד והיא תואמת למחרוזת מקור, היא "
-"מסומנת כטעונת שיפור ב־Weblate. שימושי מאוד לתבניות קבצים שכוללות מחרוזות "
+"מסומנת כטעונת שכתוב ב־Weblate. שימושי מאוד לתבניות קבצים שכוללות מחרוזות "
 "מקור למחרוזות שאינן מתורגמות."
 
 #: ../../admin/addons.rst:738
@@ -3151,66 +3143,43 @@ msgid ""
 msgstr ""
 
 #: ../../admin/addons.rst:748
-#, fuzzy
-#| msgid "Flag new source strings as \"Needs editing\""
 msgid "Flag new source strings as \"Needs checking\""
-msgstr "סימון מחרוזות מקור חדשות כ„טעונות שיפור”"
+msgstr "סימון מחרוזות מקור חדשות כ„נתונות לבדיקה”"
 
 #: ../../admin/addons.rst:754
-#, fuzzy
-#| msgid ""
-#| "Whenever a new source string is imported from the VCS, it is flagged as "
-#| "needing editing in Weblate. This way you can easily filter and edit "
-#| "source strings written by the developers."
 msgid ""
 "Whenever a new source string is imported from the VCS, it is flagged as "
 "needing checking in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
-"כשמחרוזת מקור חדשה לתרגום מיובאת ממערכת ניהול הקוד, היא מסומנת כטעונת שיפור "
+"כשמחרוזת מקור חדשה לתרגום מיובאת ממערכת ניהול הקוד, היא מסומנת כנתונה לבדיקה "
 "ב־Weblate. באופן הזה ניתן לסנן ולערוך מחרוזות מקור שנכתבו על ידי המפתחים."
 
 #: ../../admin/addons.rst:765
-#, fuzzy
-#| msgid "Flag new translations as \"Needs editing\""
 msgid "Flag new translations as \"Needs rewriting\""
-msgstr "סימון תרגומים חדשים כ„טעוני שיפור”"
+msgstr "סימון תרגומים חדשים כ„טעוני שכתוב”"
 
 #: ../../admin/addons.rst:771
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS, it is "
-#| "flagged as needing editing in Weblate. This way you can easily filter and "
-#| "edit translations created by the developers."
 msgid ""
 "Whenever a new translatable string is imported from the VCS, it is flagged "
 "as needing rewriting in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
-"כשמחרוזת חדשה לתרגום מיובאת ממערכת ניהול הקוד, היא מסומנת כטעונת שיפור "
-"ב־Weblate. באופן הזה ניתן לסנן ולערוך בקלות מחרוזות מקור שנכתבו על ידי "
-"המפתחים."
+"כשמחרוזת חדשה לתרגום מיובאת ממערכת ניהול הקוד, היא מסומנת כטעונת שכתוב ב־"
+"Weblate. באופן הזה ניתן לסנן ולערוך בקלות מחרוזות מקור שנכתבו על ידי המפתחים."
 
 #: ../../admin/addons.rst:782
-#, fuzzy
-#| msgid "Flag updated translations from repository as \"Needs editing\""
 msgid "Flag updated translations from repository as \"Needs rewriting\""
-msgstr "סימון תרגומים שעודכנו מהמאגר כ„טעוני שיפור”"
+msgstr "סימון תרגומים שעודכנו מהמאגר כ„טעוני שכתוב”"
 
 #: ../../admin/addons.rst:788
-#, fuzzy
-#| msgid ""
-#| "Whenever a string translation is changed from the VCS, it is flagged as "
-#| "needing editing in Weblate. Especially useful if translation files are "
-#| "often updated manually or by an external service."
 msgid ""
 "Whenever a string translation is changed from the VCS, it is flagged as "
 "needing rewriting in Weblate. Especially useful if translation files are "
 "often updated manually or by an external service."
 msgstr ""
-"כאשר תרגום של מחרוזת משתנה במערכת בקרת הגרסאות, הוא מסומן כטעון שיפור "
-"ב־Weblate. שימושי במיוחד אם קובצי התרגום מעודכנים ידנית או על ידי שירות "
-"חיצוני."
+"כאשר תרגום של מחרוזת משתנה במערכת בקרת הגרסאות, הוא מסומן כטעון שכתוב ב־"
+"Weblate. שימושי במיוחד אם קובצי התרגום מעודכנים ידנית או על ידי שירות חיצוני."
 
 #: ../../admin/addons.rst:799
 msgid "Fill read-only strings with source"
@@ -50458,6 +50427,7 @@ msgid ""
 "Imported strings are added as suggestions. Do this when you want to have "
 "your uploaded strings reviewed."
 msgstr ""
+"מחרוזות מיובאות נוספות כהצעות. כדאי להשתמש בזה כדי שהמחרוזות שמועלות תיבדקנה."
 
 #: ../../user/files.rst:113
 msgid ""
@@ -50541,7 +50511,7 @@ msgstr "הוספת מחרוזת חדשה"
 #: ../../user/files.rst:141
 msgid ""
 "Adds new strings to the translation. It skips the ones which already exist."
-msgstr ""
+msgstr "הוספת מחרוזות חדשות לתרגום. דילוג על כאלו שכבר קיימות."
 
 #: ../../user/files.rst:143
 msgid ""
