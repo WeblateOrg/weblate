@@ -561,7 +561,6 @@ class TranslationForm(UnitForm):
             ]
         self.user = user
         self.fields["target"].widget.profile = user.profile
-        self.fields["review"].widget.attrs["class"] = "review_radio"
         # Avoid failing validation on untranslated string
         if args:
             self.fields["review"].choices.append((STATE_EMPTY, ""))
@@ -574,7 +573,7 @@ class TranslationForm(UnitForm):
             Field("fuzzy"),
             Field("contentsum"),
             Field("translationsum"),
-            InlineRadios("review"),
+            InlineRadios("review", css_class="review_radio"),
             Field("explanation"),
         )
         if unit and user.has_perm("unit.review", unit.translation):
