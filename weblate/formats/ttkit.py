@@ -328,7 +328,6 @@ class TTKitFormat(TranslationFormat):
         # Get the class
         return getattr(module, class_name)
 
-
     def get_format_class_kwargs(self) -> dict[str, Any]:
         return {}
 
