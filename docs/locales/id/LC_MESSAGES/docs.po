@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-01-13 17:24+0100\n"
-"PO-Revision-Date: 2026-01-15 17:28+0000\n"
+"PO-Revision-Date: 2026-01-17 00:02+0000\n"
 "Last-Translator: Zahid Rizky Fakhri <zahidrizkyfakhri@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "documentation/id/>\n"
@@ -24617,6 +24617,11 @@ msgid ""
 "archive named `{project-slug}-{language-code}.zip` and organized by "
 "component paths (e.g., `component-slug/po/lang.po`)."
 msgstr ""
+"Unduh berkas ZIP yang berisi semua berkas terjemahan untuk ``language_code`` "
+"tertentu di semua komponen untuk ``project`` tertentu, alih-alih mengunduh "
+"berkas terjemahan satu per satu dan mengompresnya secara manual, dengan "
+"arsip bernama `{project-slug}-{language-code}.zip` dan diorganisir "
+"berdasarkan jalur komponen (misalnya, `component-slug/po/lang.po`)."
 
 #: ../../api.rst:1344
 msgid ""
@@ -24625,6 +24630,10 @@ msgid ""
 "only components whose slugs contain the substring will be included in the "
 "download."
 msgstr ""
+"Substring opsional yang tidak peka huruf besar/kecil untuk memfilter "
+"komponen berdasarkan slug (misalnya, ``?filter=core`` akan mencocokkan "
+"komponen dengan 'core' di mana pun dalam slug-nya); hanya komponen yang slug-"
+"nya mengandung substring tersebut yang akan disertakan dalam unduhan."
 
 #: ../../api.rst:1349
 msgid "Possible responses:"
@@ -24636,6 +24645,9 @@ msgid ""
 "across all components in the project. If no components have translations for "
 "the specified language, an empty ZIP file will be returned."
 msgstr ""
+"``200 OK`` dengan berkas ZIP berisi terjemahan untuk bahasa yang ditentukan "
+"di semua komponen dalam proyek. Jika tidak ada komponen yang memiliki "
+"terjemahan untuk bahasa yang ditentukan, berkas ZIP kosong akan dikembalikan."
 
 #: ../../api.rst:1352
 msgid "``403 Forbidden`` if the user does not have permission to the project."
@@ -26511,23 +26523,17 @@ msgstr ""
 #: ../../changes.rst:11
 msgid "Screenshots updated from the repository have proper history."
 msgstr ""
+"Tangkapan layar yang diperbarui dari repositori memiliki riwayat yang tepat."
 
 #: ../../changes.rst:12
-#, fuzzy
-#| msgid ":ref:`check-rst-syntax` check to validate reStructuredText syntax."
 msgid ":ref:`check-rst-syntax` now reports unintended list conversion."
 msgstr ""
-":ref:`check-rst-syntax` memeriksa untuk memvalidasi sintaksis "
-"reStructuredText."
+":ref:`check-rst-syntax` sekarang melaporkan konversi daftar yang tidak "
+"disengaja."
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-same` check now honors placeholders even in the strict mode."
 msgid ":ref:`check-same` check ignores AsciiDoc source code blocks."
-msgstr ""
-":ref:`check-same` pemeriksaan sekarang menghormati penempatan bahkan dalam "
-"mode ketat."
+msgstr "Pemerikasaan :ref:`check-same` mengabaikan blok kode sumber AsciiDoc."
 
 #: ../../changes.rst:16 ../../changes.rst:57 ../../changes.rst:108
 #: ../../changes.rst:147 ../../changes.rst:171 ../../changes.rst:201
@@ -26561,7 +26567,7 @@ msgstr "Perbaikan antarmuka pengguna."
 
 #: ../../changes.rst:19
 msgid "Clarified needs editing/checking/rewriting states."
-msgstr ""
+msgstr "Diklarifikasi perlu status disunting/diperiksa/ditulis ulang."
 
 #: ../../changes.rst:20
 msgid "Automatically translated flag with bulk approvals."
@@ -26569,17 +26575,14 @@ msgstr "Penanda yang diterjemahkan otomatis dengan persetujuan massal."
 
 #: ../../changes.rst:21
 msgid "GitHub forks no longer trigger actions."
-msgstr ""
+msgstr "Fork GitHub tidak lagi memicu tindakan."
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid ""
-#| "Tighter validation of user and full names to avoid confusing homoglyphs."
 msgid ""
 "Tighter validation of user provided websites to avoid confusing homoglyphs."
 msgstr ""
-"Validasi yang lebih ketat pada nama pengguna dan nama lengkap untuk "
-"menghindari karakter mirip (homoglyph) yang membingungkan."
+"Validasi yang lebih ketat terhadap situs web yang disediakan pengguna untuk "
+"menghindari homoglif yang membingungkan."
 
 #: ../../changes.rst:23
 msgid "Glossary support in :ref:`mt-google-translate-api-v3`."
@@ -26587,7 +26590,7 @@ msgstr "Dukungan glosarium di :ref:`mt-google-translate-api-v3`."
 
 #: ../../changes.rst:24
 msgid "Invitations accepting when :setting:`REQUIRE_LOGIN` is turned on."
-msgstr ""
+msgstr "Undangan diterima ketika :setting:`REQUIRE_LOGIN` dinyalakan."
 
 #: ../../changes.rst:27 ../../changes.rst:122 ../../changes.rst:265
 #: ../../changes.rst:360 ../../changes.rst:415 ../../changes.rst:538
@@ -26604,6 +26607,8 @@ msgid ""
 "Screenshot images are no longer served directly by the HTTP server, please "
 "adjust your HTTP server by removing serving of ``/media/``."
 msgstr ""
+"Gambar tangkapan layar tidak lagi disimpan langsung oleh server HTTP, harap "
+"sesuaikan server HTTP Anda dengan menghapus penyimpanan ``/media/``."
 
 #: ../../changes.rst:31 ../../changes.rst:65 ../../changes.rst:132
 #: ../../changes.rst:152 ../../changes.rst:175 ../../changes.rst:210
@@ -26702,6 +26707,9 @@ msgid ""
 "(string:language_code)/file/` to download a ZIP file of all component "
 "translations of a project for a specified language."
 msgstr ""
+"Menambahkan :http:get:`/api/projects/(string:project)/languages/"
+"(string:language_code)/file/` untuk mengunduh berkas ZIP yang berisi semua "
+"terjemahan komponen suatu proyek untuk bahasa tertentu."
 
 #: ../../changes.rst:51
 msgid "Updated list of OpenAI models."
@@ -26712,28 +26720,32 @@ msgid ""
 "Added :doc:`/devel/migration` guide to help users migrate from other "
 "localization platforms."
 msgstr ""
+"Menambahkan panduan :doc:`/devel/migration` untuk membantu pengguna "
+"bermigrasi dari platform lokalisasi lain."
 
 #: ../../changes.rst:53
 msgid "Gracefully handle unreachable authentication providers."
 msgstr "Tangani penyedia autentikasi yang tidak dapat dijangkau dengan elegan."
 
 #: ../../changes.rst:54
-#, fuzzy
-#| msgid "Updated language definitions."
 msgid "Update language definitions to CLDR 48."
-msgstr "Definisi bahasa yang diperbarui."
+msgstr "Perbarui definisi bahasa ke CLDR 48."
 
 #: ../../changes.rst:58
 msgid ""
 "Git config file overwrite remote code execution "
 "(:cve:`2025-68398` / :ghsa:`8vcg-cfxj-p5m3`)."
 msgstr ""
+"Berkas konfigurasi Git menimpa eksekusi kode jarak jauh (:cve:`2025-68398` / "
+":ghsa:`8vcg-cfxj-p5m3`)."
 
 #: ../../changes.rst:59
 msgid ""
 "Arbitrary file read via symbolic links (:cve:`2025-68279` / :ghsa:`g925-"
 "f788-4jh7`)."
 msgstr ""
+"Berkas arbitrer dibaca melalui tautan simbolik (:cve:`2025-68279` / "
+":ghsa:`g925-f788-4jh7`)."
 
 #: ../../changes.rst:60
 msgid "Locking error that prevented updating linked components."
@@ -26999,6 +27011,8 @@ msgid ""
 "Added two new :ref:`states` to provide more detailed tracking of work-in-"
 "progress translations."
 msgstr ""
+"Menambahkan dua :ref:`states` baru untuk memberikan pelacakan yang lebih "
+"terperinci terhadap terjemahan yang sedang dalam proses pengerjaan."
 
 #: ../../changes.rst:109
 msgid ""
@@ -27070,7 +27084,7 @@ msgstr "Tampilkan pencocokan glosarium untuk bahasa sumber."
 
 #: ../../changes.rst:119
 msgid "Pull/merge requests are now only created when necessary."
-msgstr ""
+msgstr "Permintaan tarik/gabung sekarang hanya dibuat bila diperlukan."
 
 #: ../../changes.rst:123
 msgid ""
@@ -39883,10 +39897,8 @@ msgstr "Penanganan peristiwa setelah perubahan dikomit ke repositori."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_install:1
-#, fuzzy
-#| msgid "Hook triggered after a file is parsed."
 msgid "Event handler after add-on is installed."
-msgstr "Kait dipicu setelah berkas diuraikan."
+msgstr "Pengananan peristiwa setelah pengaya diinstal."
 
 #: ../../../weblate/addons/base.py:docstring of
 #: weblate.addons.base.BaseAddon.post_push:1
@@ -44196,10 +44208,8 @@ msgstr ""
 "dari repositori, jadi biasanya tidak perlu mengelolanya secara manual."
 
 #: ../../devel/migration.rst:2
-#, fuzzy
-#| msgid "Importing to Weblate"
 msgid "Migrating to Weblate"
-msgstr "Mengimpor ke Weblate"
+msgstr "Memigrasikan ke Weblate"
 
 #: ../../devel/migration.rst:4
 msgid ""
@@ -44208,6 +44218,11 @@ msgid ""
 "migrate your translation project from platforms like Transifex, Crowdin, "
 "Lokalise, or similar services."
 msgstr ""
+"Apakah Anda menggunakan platform lokalisasi yang berbeda dan "
+"mempertimbangkan untuk beralih ke Weblate? Panduan ini menyediakan proses "
+"langkah demi langkah yang cepat untuk membantu Anda memigrasikan proyek "
+"terjemahan Anda dari platform seperti Transifex, Crowdin, Lokalise, atau "
+"layanan serupa lainnya."
 
 #: ../../devel/migration.rst:8
 msgid ""
@@ -44215,6 +44230,9 @@ msgid ""
 "its core, making it ideal for teams that want to keep translations close to "
 "their development workflow."
 msgstr ""
+"Weblate dirancang dengan fokus pada lokalisasi berkelanjutan dengan "
+"integrasi Git sebagai intinya, menjadikannya ideal bagi tim yang ingin "
+"menjaga terjemahan tetap dekat dengan alur kerja pengembangan mereka."
 
 #: ../../devel/migration.rst:13
 msgid ":doc:`starting` for choosing the right internationalization framework"
@@ -44227,30 +44245,30 @@ msgstr ":doc:`integration` untuk opsi integrasi terperinci"
 
 #: ../../devel/migration.rst:15
 msgid ":doc:`/admin/continuous` for setting up automated workflows"
-msgstr ""
+msgstr ":doc:`/admin/continuous` untuk menyiapkan alur kerja otomatis"
 
 #: ../../devel/migration.rst:20
 msgid "Before starting your migration, ensure you have:"
-msgstr ""
+msgstr "Sebelum memulai migrasi Anda, pastikan Anda memiliki:"
 
 #: ../../devel/migration.rst:22
 msgid "**On your localization platform:**"
-msgstr ""
+msgstr "**Pada platform lokalisasi Anda:**"
 
 #: ../../devel/migration.rst:24
 msgid "Access to export your translation files"
 msgstr "Akses untuk mengekspor berkas terjemahan Anda"
 
 #: ../../devel/migration.rst:25
-#, fuzzy
-#| msgid "mask of translation files in the repository"
 msgid "List of translators and their roles/permissions"
-msgstr "topeng berkas terjemahan di repositori"
+msgstr "Daftar penerjemah dan peran/izin mereka"
 
 #: ../../devel/migration.rst:26
 msgid ""
 "Understanding of your current workflow (review process, automation, etc.)"
 msgstr ""
+"Pemahaman tentang alur kerja Anda saat ini (proses peninjauan, otomatisasi, "
+"dll.)"
 
 #: ../../devel/migration.rst:28
 msgid "**For Weblate:**"
@@ -44261,27 +44279,27 @@ msgid ""
 "A Weblate instance (either `Hosted Weblate <https://hosted.weblate.org/>`_ "
 "or :doc:`self-hosted </admin/install>`)"
 msgstr ""
+"Instansi Weblate (baik `Hosted Weblate <https://hosted.weblate.org/>`_ atau "
+":doc:`self-hosted </admin/install>`)"
 
 #: ../../devel/migration.rst:31
 msgid "Admin or project creation permissions on your Weblate instance"
-msgstr ""
+msgstr "Izin admin atau pembuatan proyek pada instansi Weblate Anda"
 
 #: ../../devel/migration.rst:34
-#, fuzzy
-#| msgid "Share your translation"
 msgid "Prepare your translation files"
-msgstr "Berbagikan penerjemahan Anda"
+msgstr "Siapkan berkas terjemahan Anda"
 
 #: ../../devel/migration.rst:37
-#, fuzzy
-#| msgid "Save translation history"
 msgid "Export translations from your current platform"
-msgstr "Simpan riwayat penerjemahan"
+msgstr "Ekspor terjemahan dari platform Anda saat ini"
 
 #: ../../devel/migration.rst:39
 msgid ""
 "Most localization platforms allow you to export all translations at once:"
 msgstr ""
+"Sebagian besar platform lokalisasi memungkinkan Anda mengekspor semua "
+"terjemahan sekaligus:"
 
 #: ../../devel/migration.rst:41
 msgid ""
@@ -44295,14 +44313,15 @@ msgstr ""
 msgid ""
 "**Crowdin**: Export all translations as a ZIP file from project settings"
 msgstr ""
+"**Crowdin**: Ekspor semua terjemahan sebagai file ZIP dari pengaturan proyek"
 
 #: ../../devel/migration.rst:43
 msgid "**Lokalise**: Use the bulk export feature"
-msgstr ""
+msgstr "**Lokalise**: Gunakan fitur ekspor massal"
 
 #: ../../devel/migration.rst:44
 msgid "**Phrase**: Download all locales from the project dashboard"
-msgstr ""
+msgstr "**Phrase**: Unduh semua lokal dari dasbor proyek"
 
 #: ../../devel/migration.rst:48
 msgid ""
@@ -44310,12 +44329,13 @@ msgid ""
 "internationalization framework (PO, XLIFF, JSON, etc.) rather than "
 "converting them. Weblate supports :ref:`many formats <formats>`."
 msgstr ""
+"Simpan berkas terjemahan Anda dalam format asli kerangka kerja "
+"internasionalisasi Anda (PO, XLIFF, JSON, dll.) daripada mengonversinya. "
+"Weblate mendukung :ref:`many formats <formats>`."
 
 #: ../../devel/migration.rst:53
-#, fuzzy
-#| msgid "Commit changes to the internal repository"
 msgid "Commit translations to your Git repository"
-msgstr "Commit perubahan ke repositori lokal"
+msgstr "Komit terjemahan ke repositori Git Anda"
 
 #: ../../devel/migration.rst:57
 msgid ""
@@ -44333,23 +44353,19 @@ msgstr "Jika terjemahan Anda belum ada di Git:"
 
 #: ../../devel/migration.rst:63
 msgid "Create a Git repository or use your existing project repository"
-msgstr ""
+msgstr "Buat repositori Git atau gunakan repositori proyek Anda yang sudah ada"
 
 #: ../../devel/migration.rst:64
 msgid "Organize translation files following your project structure"
-msgstr ""
+msgstr "Organisir berkas terjemahan sesuai dengan struktur proyek Anda"
 
 #: ../../devel/migration.rst:65
-#, fuzzy
-#| msgid ""
-#| "Accessing repositories on code hosting sites (GitHub, GitLab, Bitbucket, "
-#| "Azure DevOps, ...)"
 msgid ""
 "Commit and push the files to your Git hosting service (GitHub, GitLab, "
 "Bitbucket, etc.)"
 msgstr ""
-"Mengakses repositori di situs hosting kode (GitHub, GitLab, Bitbucket, Azure "
-"DevOps, ...)"
+"Komit dan dorong berkas ke layanan hosting Git Anda (GitHub, GitLab, "
+"Bitbucket, Azure DevOps, dll.)"
 
 #: ../../devel/migration.rst:75
 msgid ":ref:`continuous-translation` for optimal repository structure"
@@ -44360,10 +44376,8 @@ msgid ":doc:`/vcs` for supported version control systems"
 msgstr ":doc:`/vcs` untuk sistem kontrol versi yang didukung"
 
 #: ../../devel/migration.rst:79
-#, fuzzy
-#| msgid "Importing a localization project into Weblate"
 msgid "Import your project into Weblate"
-msgstr "Mengimpor proyek lokalisasi ke Weblate"
+msgstr "Impor proyek Anda ke Weblate"
 
 #: ../../devel/migration.rst:82
 msgid "Create a new project"
@@ -44379,15 +44393,15 @@ msgstr "Klik :guilabel:`Tambahkan proyek terjemahan baru` di menu **+**."
 
 #: ../../devel/migration.rst:86
 msgid "Fill in your project details:"
-msgstr ""
+msgstr "Isilah rincian proyek Anda:"
 
 #: ../../devel/migration.rst:88
 msgid "**Project name**: Your application or project name"
-msgstr ""
+msgstr "**Nama proyek**: Nama aplikasi atau proyek Anda"
 
 #: ../../devel/migration.rst:89
 msgid "**URL slug**: Short identifier (e.g., ``myapp``)"
-msgstr ""
+msgstr "**Slug URL**: Pengidentifikasi singkat (misalnya, ``myapp``)"
 
 #: ../../devel/migration.rst:90
 msgid "**Project website**: Your project homepage (optional)"
@@ -44396,6 +44410,7 @@ msgstr "**Situs web proyek**: Halaman beranda proyek Anda (opsional)"
 #: ../../devel/migration.rst:96
 msgid ":ref:`adding-projects` for detailed project creation instructions"
 msgstr ""
+":ref:`adding-projects` untuk petunjuk pembuatan proyek secara terperinci"
 
 #: ../../devel/migration.rst:99
 msgid "Add a component from your Git repository"
@@ -44420,32 +44435,32 @@ msgid ""
 "**Component name**: e.g., \"Application strings\", \"Website\", "
 "\"Documentation\""
 msgstr ""
+"**Nama komponen**: contoh: \"String aplikasi\", \"Situs web\", "
+"\"Dokumentasi\""
 
 #: ../../devel/migration.rst:106
 msgid "**Repository URL**: Your Git repository URL (HTTPS or SSH)"
-msgstr ""
+msgstr "**URL repositori**: URL repositori Git Anda (HTTPS atau SSH)"
 
 #: ../../devel/migration.rst:107
 msgid ""
 "**Repository branch**: Optional: Specify repository branch (Weblate "
 "automatically detects the default branch if not specified)"
 msgstr ""
+"**Cabang repositori**: Opsional: Tentukan cabang repositori (Weblate secara "
+"otomatis mendeteksi cabang bawaan jika tidak ditentukan)"
 
 #: ../../devel/migration.rst:109
 msgid "Weblate will automatically detect:"
-msgstr ""
+msgstr "Weblate akan secara otomatis mendeteksi:"
 
 #: ../../devel/migration.rst:111
-#, fuzzy
-#| msgid "Translation file"
 msgid "Translation file format"
-msgstr "Berkas penerjemahan"
+msgstr "Format berkas terjemahan"
 
 #: ../../devel/migration.rst:112
-#, fuzzy
-#| msgid "All languages"
 msgid "Available languages"
-msgstr "Semua bahasa"
+msgstr "Bahasa yang tersedia"
 
 #: ../../devel/migration.rst:115
 msgid "Review and confirm the detected settings"
@@ -44457,6 +44472,9 @@ msgid ""
 "for backend, frontend, documentation), create a separate Weblate component "
 "for each."
 msgstr ""
+"Untuk repositori dengan beberapa komponen terjemahan (misalnya, berkas "
+"terpisah untuk backend, frontend, dokumentasi), buat komponen Weblate "
+"terpisah untuk masing-masing komponen."
 
 #: ../../devel/migration.rst:125
 msgid ""
@@ -44474,23 +44492,19 @@ msgstr ":ref:`component` untuk semua opsi konfigurasi"
 
 #: ../../devel/migration.rst:132
 msgid ":ref:`bimono` for understanding monolingual vs. bilingual formats"
-msgstr ""
+msgstr ":ref:`bimono` untuk memahami format monolingual vs. bilingual"
 
 #: ../../devel/migration.rst:136
-#, fuzzy
-#| msgid "Configure the password"
 msgid "Configure your workflow"
-msgstr "Sesuaikan kata sandi"
+msgstr "Konfigurasikan alur kerja Anda"
 
 #: ../../devel/migration.rst:139
-#, fuzzy
-#| msgid "Project access control"
 msgid "Set up access control"
-msgstr "Kontrol akses proyek"
+msgstr "Atur kontrol akses"
 
 #: ../../devel/migration.rst:141
 msgid "Choose your project's visibility and access level:"
-msgstr ""
+msgstr "Pilih tingkat visibilitas dan akses proyek Anda:"
 
 #: ../../devel/migration.rst:143
 msgid ""
@@ -44502,33 +44516,35 @@ msgstr ""
 
 #: ../../devel/migration.rst:144
 msgid "Select the appropriate :ref:`access control <acl>`:"
-msgstr ""
+msgstr "Pilih :ref:`access control <acl>` yang sesuai:"
 
 #: ../../devel/migration.rst:146
 msgid "**Public**: Open-source projects, anyone can contribute"
-msgstr ""
+msgstr "**Publik**: Proyek sumber terbuka, siapa pun dapat berkontribusi"
 
 #: ../../devel/migration.rst:147
 msgid "**Protected**: Visible to all, but only invited users can translate"
 msgstr ""
+"**Dilindungi**: Terlihat oleh semua orang, tetapi hanya pengguna yang "
+"diundang yang dapat menerjemahkan"
 
 #: ../../devel/migration.rst:148
 msgid "**Private**: Only invited users can view and translate"
 msgstr ""
+"**Pribadi**: Hanya pengguna yang diundang yang dapat melihat dan "
+"menerjemahkan"
 
 #: ../../devel/migration.rst:154
 msgid ":ref:`manage-acl` for detailed access control configuration"
-msgstr ""
+msgstr ":ref:`manage-acl` untuk konfigurasi kontrol akses terperinci"
 
 #: ../../devel/migration.rst:157
-#, fuzzy
-#| msgid "Continuous localization"
 msgid "Set up continuous localization"
-msgstr "Pelokalan berkelanjutan"
+msgstr "Atur lokalisasi berkelanjutan"
 
 #: ../../devel/migration.rst:159
 msgid "Enable automatic updates and commits:"
-msgstr ""
+msgstr "Aktifkan pembaruan dan komit otomatis:"
 
 #: ../../devel/migration.rst:161
 msgid "Configure repository integration:"
@@ -44539,12 +44555,16 @@ msgid ""
 "**Pull changes**: Set up a :ref:`webhook <update-vcs>` so Weblate updates "
 "when your source code changes"
 msgstr ""
+"**Tarik perubahan**: Atur :ref:`webhook <update-vcs>` agar Weblate "
+"diperbarui saat kode sumber Anda berubah"
 
 #: ../../devel/migration.rst:164
 msgid ""
 "**Push changes**: Configure :ref:`push-changes` so translations are "
 "committed back to your repository"
 msgstr ""
+"**Dorong perubahan**: Konfigurasikan :ref:`push-changes` agar terjemahan "
+"dikomit kembali ke repositori Anda"
 
 #: ../../devel/migration.rst:166
 msgid "Enable automatic actions in component settings:"
@@ -44560,16 +44580,16 @@ msgid ""
 "**Commit interval**: Set how often pending translations are committed (e.g., "
 "every 24 hours)"
 msgstr ""
+"**Interval komit**: Atur seberapa sering terjemahan yang tertunda dikomit "
+"(misalnya, setiap 24 jam)"
 
 #: ../../devel/migration.rst:173
 msgid ":ref:`continuous-translation` for complete workflow automation"
 msgstr ":ref:`continuous-translation` untuk otomatisasi alur kerja lengkap"
 
 #: ../../devel/migration.rst:176
-#, fuzzy
-#| msgid "Configure the password"
 msgid "Configure quality checks and workflows"
-msgstr "Sesuaikan kata sandi"
+msgstr "Konfigurasikan pemeriksaan kualitas dan alur kerja"
 
 #: ../../devel/migration.rst:178
 msgid "Customize translation quality controls:"
@@ -44588,12 +44608,16 @@ msgid ""
 "**Set up review workflow**: Enable :ref:`project-translation_review` if you "
 "want an approval process."
 msgstr ""
+"**Atur alur kerja peninjauan**: Aktifkan :ref:`project-translation_review` "
+"jika Anda menginginkan proses persetujuan."
 
 #: ../../devel/migration.rst:182
 msgid ""
 "**Add enforced checks**: Configure which quality checks should block "
 "translations."
 msgstr ""
+"**Tambahkan pemeriksaan yagn dipaksakan**: Konfigurasikan pemeriksaan "
+"kualitas mana yang harus memblokir terjemahan."
 
 #: ../../devel/migration.rst:185
 msgid "Optional: Enable add-ons"
@@ -44601,7 +44625,7 @@ msgstr "Opsional: Aktifkan pengaya"
 
 #: ../../devel/migration.rst:187
 msgid "Weblate offers :ref:`addons` to automate common tasks:"
-msgstr ""
+msgstr "Weblate menawarkan :ref:`addons` untuk mengotomatiskan tugas umum:"
 
 #: ../../devel/migration.rst:189
 msgid ""
@@ -44635,13 +44659,11 @@ msgstr ""
 
 #: ../../devel/migration.rst:196
 msgid ":doc:`/admin/addons` for all available add-ons"
-msgstr ""
+msgstr ":doc:`/admin/addons` untuk semua pengaya yang tersedia"
 
 #: ../../devel/migration.rst:199
-#, fuzzy
-#| msgid "Reset and reapply"
 msgid "Test and verify"
-msgstr "Atur ulang dan terapkan kembali"
+msgstr "Uji coba dan verifikasikan"
 
 #: ../../devel/migration.rst:201
 msgid "Before announcing the migration to your translators:"
@@ -44649,19 +44671,15 @@ msgstr "Sebelum mengumumkan migrasi kepada penerjemah Anda:"
 
 #: ../../devel/migration.rst:203
 msgid "**Test the workflow**:"
-msgstr ""
+msgstr "**Uji alur kerja**:"
 
 #: ../../devel/migration.rst:205
-#, fuzzy
-#| msgid "Target translation"
 msgid "Make a test translation"
-msgstr "Target Terjemahan"
+msgstr "Buat terjemahan uji coba"
 
 #: ../../devel/migration.rst:206
-#, fuzzy
-#| msgid "Reset changes in the internal repository"
 msgid "Verify it appears in your Git repository"
-msgstr "Reset perubahan dalam repositori internal"
+msgstr "Verifikasikan perubahan tersebut di repositori Anda"
 
 #: ../../devel/migration.rst:207
 msgid "Test pulling changes from your repository into Weblate"
@@ -44677,7 +44695,7 @@ msgstr "Gunakan :ref:`translation-memory` untuk mengimpor terjemahan sebelumnya"
 
 #: ../../devel/migration.rst:212
 msgid "This helps with consistency and speeds up translation"
-msgstr ""
+msgstr "Hal ini membantu menjaga konsistensi dan mempercepat proses terjemahan"
 
 #: ../../devel/migration.rst:214
 msgid "**Configure notifications**:"
@@ -44693,19 +44711,15 @@ msgstr "Konfigurasikan :ref:`hooks` repositori untuk layanan hosting Git Anda"
 
 #: ../../devel/migration.rst:221
 msgid ":doc:`/admin/memory` for translation memory management"
-msgstr ""
+msgstr ":doc:`/admin/memory` untuk manajemen memori terjemahan"
 
 #: ../../devel/migration.rst:224
-#, fuzzy
-#| msgid "Invite new user"
 msgid "Invite and manage users"
-msgstr "Undang pengguna baru"
+msgstr "Undang dan kelola pengguna"
 
 #: ../../devel/migration.rst:227
-#, fuzzy
-#| msgid "list_translators"
 msgid "Invite translators"
-msgstr "list_translators"
+msgstr "Undang penerjemah"
 
 #: ../../devel/migration.rst:229
 msgid "For **Protected** and **Private** projects:"
@@ -44722,7 +44736,7 @@ msgstr "Gunakan :guilabel:`Tambahkan pengguna` untuk mengundang penerjemah"
 
 #: ../../devel/migration.rst:233
 msgid "Assign them to appropriate teams:"
-msgstr ""
+msgstr "Tugaskan mereka ke tim yang sesuai:"
 
 #: ../../devel/migration.rst:235
 msgid "**Translators**: Can translate strings"
@@ -44734,17 +44748,19 @@ msgstr "**Peninjau**: Dapat meninjau dan menyetujui terjemahan"
 
 #: ../../devel/migration.rst:237
 msgid "**Managers**: Can manage project settings"
-msgstr ""
+msgstr "**Manajer**: Dapat mengelola pengaturan proyek"
 
 #: ../../devel/migration.rst:239
 msgid ""
 "For **Public** projects, users can start contributing immediately after "
 "signing up."
 msgstr ""
+"Untuk proyek **Publik**, pengguna dapat mulai berkontribusi segera setelah "
+"mendaftar."
 
 #: ../../devel/migration.rst:243
 msgid "Send your translators a welcome message with:"
-msgstr ""
+msgstr "Kirimkan pesan selamat datang kepada penerjemah Anda dengan isi:"
 
 #: ../../devel/migration.rst:245
 msgid "Link to your project on Weblate"
@@ -44752,13 +44768,11 @@ msgstr "Tautkan ke proyek Anda di Weblate"
 
 #: ../../devel/migration.rst:246
 msgid "Overview of any project-specific terminology or style guides"
-msgstr ""
+msgstr "Ikhtisar terminologi atau panduan gaya khusus proyek apa pun"
 
 #: ../../devel/migration.rst:247
-#, fuzzy
-#| msgid "Information about project"
 msgid "Information about your review process"
-msgstr "Informasi tentang proyek"
+msgstr "Informasi tentang proses tinjauan Anda"
 
 #: ../../devel/migration.rst:251
 msgid ":ref:`manage-acl` for team management"
@@ -44766,56 +44780,65 @@ msgstr ":ref:`manage-acl` untuk manajemen tim"
 
 #: ../../devel/migration.rst:252
 msgid ":doc:`/admin/access` for advanced permission configuration"
-msgstr ""
+msgstr ":doc:`/admin/access` untuk konfigurasi izin tingkat lanjut"
 
 #: ../../devel/migration.rst:256
-#, fuzzy
-#| msgid "Next section"
 msgid "Next steps"
-msgstr "Bagian berikutnya"
+msgstr "Langkah selanjutnya"
 
 #: ../../devel/migration.rst:258
 msgid "After completing the migration:"
-msgstr ""
+msgstr "Setelah menyelesaikan migrasi:"
 
 #: ../../devel/migration.rst:260
 msgid ""
 "**Announce to translators**: Let your translation team know about the "
 "migration with clear instructions"
 msgstr ""
+"**Pengumuman kepada penerjemah**: Beri tahu tim penerjemah Anda tentang "
+"migrasi ini dengan instruksi yang jelas"
 
 #: ../../devel/migration.rst:261
 msgid ""
 "**Monitor initial usage**: Watch for any issues during the first few days"
 msgstr ""
+"**Pantau penggunaan awal**: Perhatikan setiap masalah selama beberapa hari "
+"pertama"
 
 #: ../../devel/migration.rst:262
 msgid ""
 "**Gather feedback**: Ask translators about their experience compared to the "
 "previous platform"
 msgstr ""
+"**Kumpulkan umpan balik**: Tanyakan kepada penerjemah tentang pengalaman "
+"mereka dibandingkan dengan platform sebelumnya"
 
 #: ../../devel/migration.rst:263
 msgid "**Optimize workflow**: Adjust settings based on your team's needs"
 msgstr ""
+"**Optimalkan alur kerja**: Sesuaikan pengaturan berdasarkan kebutuhan tim "
+"Anda"
 
 #: ../../devel/migration.rst:264
 msgid ""
 "**Remove previous platform**: Once the migration is completed, remember to "
 "revoke access granted to the previous platform."
 msgstr ""
+"**Hapus platform sebelumnya**: Setelah migrasi selesai, ingatlah untuk "
+"mencabut akses yang diberikan ke platform sebelumnya."
 
 #: ../../devel/migration.rst:268
 msgid ""
 "During migration, you can run both platforms in parallel for a transition "
 "period to ensure everything works as expected before fully switching over."
 msgstr ""
+"Selama migrasi, Anda dapat menjalankan kedua platform secara paralel untuk "
+"periode transisi guna memastikan semuanya berfungsi seperti yang diharapkan "
+"sebelum beralih sepenuhnya."
 
 #: ../../devel/migration.rst:272
-#, fuzzy
-#| msgid "Additional context"
 msgid "Additional resources"
-msgstr "Konteks tambahan"
+msgstr "Sumber daya tambahan"
 
 #: ../../devel/migration.rst:274
 msgid ":doc:`integration` - Detailed integration patterns"
@@ -44823,19 +44846,19 @@ msgstr ":doc:`integration` - Pola integrasi terperinci"
 
 #: ../../devel/migration.rst:275
 msgid ":doc:`/workflows` - Different workflow configurations"
-msgstr ""
+msgstr ":doc:`/workflows` - Konfigurasi alur kerja yang berbeda"
 
 #: ../../devel/migration.rst:276
 msgid ":doc:`/admin/continuous` - Automated continuous localization"
-msgstr ""
+msgstr ":doc:`/admin/continuous` - Lokalisasi berkelanjutan otomatis"
 
 #: ../../devel/migration.rst:277
 msgid ":doc:`/api` - API for automation and integrations"
-msgstr ""
+msgstr ":doc:`/api` - API untuk otomatisasi dan integrasi"
 
 #: ../../devel/migration.rst:278
 msgid ":doc:`/devel/reporting` - Setting up translation progress reports"
-msgstr ""
+msgstr ":doc:`/devel/reporting` - Mengatur laporan kemajuan penerjemahan"
 
 #: ../../devel/migration.rst:279
 msgid ":doc:`/faq` - Frequently asked questions"
@@ -44846,6 +44869,8 @@ msgid ""
 "Join the `Weblate community <https://weblate.org/support/>`_ if you need "
 "help during your migration. The community is active and helpful!"
 msgstr ""
+"Gabunglah `komunitas Weblate <https://weblate.org/support/>`_ jika Anda "
+"membutuhkan bantuan selama migrasi. Komunitas ini aktif dan sangat membantu!"
 
 #: ../../devel/mobile.rst:2
 msgid "Multi-platform localization"
@@ -47940,16 +47965,12 @@ msgid "A variant of :doc:`/formats/android`. It differs in escaping."
 msgstr "Varian dari :doc:`/formats/android`. Berbeda dalam hal escape."
 
 #: ../../formats/compose-multiplatform-resources.rst:16
-#, fuzzy
-#| msgid ""
-#| "`JetBrains Compose Multiplatform Resources <https://www.jetbrains.com/"
-#| "help/kotlin-multiplatform-dev/compose-multiplatform-resources.html>`_"
 msgid ""
 "`Koltin Compose Multiplatform Resources <https://kotlinlang.org/docs/"
 "multiplatform/compose-multiplatform-resources.html>`_"
 msgstr ""
-"`Sumber Daya Multiplatform JetBrains Compose <https://www.jetbrains.com/help/"
-"kotlin-multiplatform-dev/compose-multiplatform-resources.html>`_"
+"`Sumber Daya Multiplatform Kotlin Compose <https://kotlinlang.org/docs/"
+"multiplatform/compose-multiplatform-resources.html>`_"
 
 #: ../../formats/compose-multiplatform-resources.rst:32
 msgid "`Compose Multiplatform Resource`"
@@ -55896,19 +55917,14 @@ msgid "Translated languages"
 msgstr "Bahasa yang diterjemahkan"
 
 #: ../../user/profile.rst:88
-#, fuzzy
-#| msgid ""
-#| "Choose which languages you prefer to translate, and they will be offered "
-#| "on the main page of watched projects, so that you have easier access to "
-#| "these all translations in each of those languages."
 msgid ""
 "Choose which languages you prefer to translate, and they will be offered on "
 "the main page of watched projects, so that you have easier access to all "
 "these translations in each of those languages."
 msgstr ""
-"Pilih bahasa mana yang ingin Anda terjemahkan, dan bahasa tersebut akan "
-"ditawarkan di halaman utama proyek yang ditonton, sehingga Anda lebih mudah "
-"mengakses semua terjemahan dalam setiap bahasa tersebut."
+"Pilih bahasa mana yang Anda pilih untuk diterjemahkan, dan terjemahan "
+"tersebut akan ditawarkan di halaman utama proyek yang dipantau, sehingga "
+"Anda lebih mudah mengakses semua terjemahan dalam setiap bahasa tersebut."
 
 #: ../../user/profile.rst:97
 msgid "Secondary languages"
@@ -58890,24 +58906,21 @@ msgid "You can then invoke commands on the default server:"
 msgstr "Anda kemudian dapat menjalankan perintah pada server bawaan:"
 
 #: ../../wlc.rst:95
-#, fuzzy
-#| msgid "Bad configuration"
 msgid "Legacy configuration"
-msgstr "Konfigurasi buruk"
+msgstr "Konfigurasi lama"
 
 #: ../../wlc.rst:99
 msgid "The legacy configuration using unscoped ``key`` is no longer supported."
 msgstr ""
+"Konfigurasi lama yang menggunakan ``key`` tanpa cakupan tidak lagi didukung."
 
 #: ../../wlc.rst:101
-#, fuzzy
-#| msgid "Example configuration:"
 msgid "Migrate legacy configuration:"
-msgstr "Contoh konfigurasi:"
+msgstr "Migrasikan konfigurasi lama:"
 
 #: ../../wlc.rst:109
 msgid "To a configuration with key scoped to an API URL:"
-msgstr ""
+msgstr "Ke konfigurasi dengan kunci yang terlingkup pada URL API:"
 
 #: ../../wlc.rst:120
 msgid "Synopsis"
@@ -59207,6 +59220,8 @@ msgid ""
 "Use the ``[keys]`` section to specify keys scoped for individual API URLs, "
 "see :ref:`wlc_legacy`."
 msgstr ""
+"Gunakan bagian ``[keys]`` untuk menentukan kunci yang dicakup untuk URL API "
+"individual, lihat :ref:`wlc_legacy`."
 
 #: ../../wlc.rst:321
 msgid "API server URL, defaults to ``http://127.0.0.1:8000/api/``."
@@ -59221,10 +59236,8 @@ msgid "The configuration file is an INI file, for example:"
 msgstr "Berkas konfigurasi adalah berkas INI, misalnya:"
 
 #: ../../wlc.rst:335
-#, fuzzy
-#| msgid "Additionally API keys can be stored in the ``[keys]`` section:"
 msgid "The API keys are stored in the ``[keys]`` section:"
-msgstr "Selain itu kunci API dapat disimpan di bagian ``[kunci]``:"
+msgstr "Kunci API disimpan di bagian ``[keys]``:"
 
 #: ../../wlc.rst:342
 msgid ""
@@ -59397,11 +59410,8 @@ msgstr ""
 "format file."
 
 #: ../../workflows.rst:66
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Needs rewriting"
 msgid "Needs editing / Needs rewriting / Needs checking"
-msgstr "Perlu ditulis ulang"
+msgstr "Perlu disunting / Perlu ditulis ulang / Perlu diperiksa"
 
 #: ../../workflows.rst:67
 msgid ""
