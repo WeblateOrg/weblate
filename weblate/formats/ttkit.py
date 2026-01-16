@@ -328,14 +328,6 @@ class TTKitFormat(TranslationFormat):
         # Get the class
         return getattr(module, class_name)
 
-    @staticmethod
-    def resolve_loader(loader: tuple[str, str]) -> TranslationStore:
-        module_name, class_name = loader
-        if "." not in module_name:
-            module_name = f"translate.storage.{module_name}"
-        module = importlib.import_module(module_name)
-        # Get the class
-        return getattr(module, class_name)
 
     def get_format_class_kwargs(self) -> dict[str, Any]:
         return {}
@@ -1517,7 +1509,11 @@ class GWTFormat(PropertiesBaseFormat):
     # Translators: File format name
     name = gettext_lazy("GWT properties")
     format_id = "gwt"
-    loader = ("properties", "gwtfile")
+    loader: ClassVar[dict[str, tuple[str, str]]] = {
+        "utf-16": ("properties", "gwtfile"),
+        "iso-8859-1": ("properties", "gwtfile"),
+        "utf-8": ("properties", "gwtutf8file"),
+    }
     empty_file_template = "\n"
     autoload: tuple[str, ...] = ("*.strings",)
     check_flags = ("auto-java-messageformat",)

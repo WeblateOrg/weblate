@@ -131,7 +131,7 @@ EOF
     check
 fi
 
-semver_compare "$1" "<" "5.15"
+semver_compare "$1" "<" "5.16"
 file_format_encoding_merge=$?
 if [ "$file_format_encoding_merge" -eq 0 ]; then
     ./manage.py shell << EOF
