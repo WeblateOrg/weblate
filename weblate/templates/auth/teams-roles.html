@@ -1,7 +1,7 @@
 {% load i18n %}
 
 {% for role in group.roles.all %}
-  <span class="badge">{{ role }}</span>
+  <span class="badge  text-bg-secondary">{{ role }}</span>
 {% empty %}
   <em>{% translate "Access only" %}</em>
 {% endfor %}

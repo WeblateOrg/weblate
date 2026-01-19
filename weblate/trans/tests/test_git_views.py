@@ -15,6 +15,7 @@ class GitNoChangeProjectTest(ViewTestCase):
 
     TEST_TYPE = "project"
     EXPECTED_COMMITS = 3
+    EXPECTED_CHANGE_KEEP = False
 
     def setUp(self) -> None:
         super().setUp()
@@ -27,13 +28,11 @@ class GitNoChangeProjectTest(ViewTestCase):
         return reverse(prefix, kwargs={"path": obj.get_url_path()})
 
     def get_expected_redirect(self):
-        return getattr(self, f"{self.TEST_TYPE}_url") + "#repository"
+        return f"{getattr(self, f'{self.TEST_TYPE}_url')}#repository"
 
     def get_expected_redirect_progress(self):
         obj = getattr(self, self.TEST_TYPE)
-        return "{}?info=1".format(
-            reverse("show_progress", kwargs={"path": obj.get_url_path()})
-        )
+        return f"{reverse('show_progress', kwargs={'path': obj.get_url_path()})}?info=1"
 
     def test_commit(self) -> None:
         response = self.client.post(self.get_test_url("commit"))
@@ -68,6 +67,7 @@ class GitNoChangeProjectTest(ViewTestCase):
         )
         self.assertEqual(self.component.count_repo_outgoing, 0)
         self.assertEqual(PendingUnitChange.objects.count(), 0)
+        self.assertEqual(self.get_unit().target, "")
 
     def test_reset_keep(self) -> None:
         response = self.client.post(self.get_test_url("reset"), {"keep_changes": "1"})
@@ -83,6 +83,10 @@ class GitNoChangeProjectTest(ViewTestCase):
         # One change for each translation and translator
         self.assertEqual(self.component.count_repo_outgoing, self.EXPECTED_COMMITS)
         self.assertEqual(PendingUnitChange.objects.count(), 0)
+        self.assertEqual(
+            self.get_unit().target,
+            "Nazdar světe!\n" if self.EXPECTED_CHANGE_KEEP else "",
+        )
 
     def test_cleanup(self) -> None:
         response = self.client.post(self.get_test_url("cleanup"))
@@ -125,6 +129,7 @@ class GitChangeProjectTest(GitNoChangeProjectTest):
     """Testing of project git manipulations with not committed change."""
 
     EXPECTED_COMMITS = 4
+    EXPECTED_CHANGE_KEEP = True
 
     def setUp(self) -> None:
         super().setUp()

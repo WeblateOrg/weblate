@@ -9,11 +9,11 @@ from django.test import TestCase
 from django.test.utils import override_settings
 from packaging.version import Version
 
-import weblate.vcs.gpg
 from weblate.utils.apps import check_data_writable
 from weblate.utils.unittest import tempdir_setting
 from weblate.vcs.gpg import (
     generate_gpg_key,
+    get_gpg_errors,
     get_gpg_key,
     get_gpg_public_key,
     get_gpg_sign_key,
@@ -45,7 +45,7 @@ class GPGTest(TestCase):
             self.skipTest(self.gpg_error)
 
     def check_errors(self) -> None:
-        self.assertEqual(weblate.vcs.gpg.GPG_ERRORS, {})
+        self.assertEqual(get_gpg_errors(), {})
 
     @tempdir_setting("DATA_DIR")
     @override_settings(

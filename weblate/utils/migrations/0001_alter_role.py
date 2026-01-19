@@ -18,9 +18,7 @@ def alter_role(apps, schema_editor) -> None:
 
     settings = schema_editor.connection.settings_dict
 
-    template = "ALTER ROLE {} SET {{}} = {{}}".format(
-        schema_editor.quote_name(settings.get("ALTER_ROLE", settings["USER"]))
-    )
+    template = f"ALTER ROLE {schema_editor.quote_name(settings.get('ALTER_ROLE', settings['USER']))} SET {{}} = {{}}"
 
     schema_editor.execute(template.format("timezone", "UTC"))
 

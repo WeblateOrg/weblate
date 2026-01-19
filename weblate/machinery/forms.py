@@ -225,8 +225,8 @@ class GoogleV3MachineryForm(BaseMachineryForm):
         ),
         widget=forms.Select(
             choices=(
-                ("global ", pgettext_lazy("Google Cloud region", "Global")),
-                ("europe-west1 ", pgettext_lazy("Google Cloud region", "Europe")),
+                ("global", pgettext_lazy("Google Cloud region", "Global")),
+                ("europe-west1", pgettext_lazy("Google Cloud region", "Europe")),
                 ("us-west1", pgettext_lazy("Google Cloud region", "US")),
             )
         ),
@@ -320,7 +320,7 @@ class DeepLMachineryForm(KeyURLMachineryForm):
         ),
         widget=forms.Select(
             choices=(
-                ("default ", "Default"),
+                ("default", "Default"),
                 ("prefer_more", "Formal"),
                 ("prefer_less", "Informal"),
             )
@@ -351,7 +351,18 @@ class DeepLMachineryForm(KeyURLMachineryForm):
     )
 
 
-class BaseOpenAIMachineryForm(KeyMachineryForm):
+class LLMBasicMachineryForm(BaseMachineryForm):
+    base_url = WeblateServiceURLField(
+        label=pgettext_lazy("Automatic suggestion service configuration", "API URL"),
+        required=False,
+    )
+    model = forms.CharField(
+        label=pgettext_lazy(
+            "Automatic suggestion service configuration",
+            "LLM model",
+        ),
+        required=False,
+    )
     persona = forms.CharField(
         label=pgettext_lazy(
             "Automatic suggestion service configuration",
@@ -376,12 +387,18 @@ class BaseOpenAIMachineryForm(KeyMachineryForm):
     )
 
 
+class BaseOpenAIMachineryForm(KeyMachineryForm, LLMBasicMachineryForm):
+    pass
+
+
 class OpenAIMachineryForm(BaseOpenAIMachineryForm):
     # Ordering choices here defines priority for automatic selection
     MODEL_CHOICES = (
         ("auto", pgettext_lazy("OpenAI model selection", "Automatic selection")),
         ("gpt-5-nano", "GPT-5-nano"),
         ("gpt-5-mini", "GPT-5-mini"),
+        ("gpt-5.2", "GPT-5.2"),
+        ("gpt-5.1", "GPT-5.1"),
         ("gpt-5", "GPT-5"),
         ("gpt-4.1-nano", "GPT-4.1-nano"),
         ("gpt-4.1-mini", "GPT-4.1-mini"),
@@ -456,4 +473,22 @@ class AzureOpenAIMachineryForm(BaseOpenAIMachineryForm):
         ),
         widget=forms.TextInput,
         help_text=gettext_lazy("The model's unique deployment name."),
+    )
+
+
+class OllamaMachineryForm(LLMBasicMachineryForm):
+    base_url = WeblateServiceURLField(
+        label=pgettext_lazy("Automatic suggestion service configuration", "API URL"),
+        help_text=gettext_lazy(
+            "Base URL of the Ollama API, localhost and port 11434 by default."
+        ),
+        initial="http://localhost:11434",
+    )
+    model = forms.CharField(
+        label=pgettext_lazy(
+            "Automatic suggestion service configuration",
+            "Ollama model",
+        ),
+        help_text=gettext_lazy("Name of the model described in Ollama catalogue."),
+        initial="llama3.2:3b",
     )

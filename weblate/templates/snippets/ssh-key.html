@@ -2,16 +2,16 @@
 
 {% for ssh_key in public_ssh_keys.values %}
   {% if ssh_key.key %}
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">
           {% documentation_icon 'vcs' 'ssh-repos' right=True %}
           {% blocktranslate with key_type=ssh_key.name %}Public {{ key_type }} SSH key{% endblocktranslate %}
         </h4>
       </div>
-      <div class="panel-body">
+      <div class="card-body">
         <button type="button"
-                class="btn btn-link btn-xs pull-right flip"
+                class="btn btn-link btn-xs float-end"
                 data-clipboard-value="{{ ssh_key.key }}"
                 data-clipboard-message="{% translate "Public key copied to clipboard." %}"
                 title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>
@@ -21,7 +21,7 @@
         <div class="list-group-item pre-scrollable">{{ ssh_key.key|linebreaks }}</div>
       </div>
       {% if key_download %}
-        <div class="panel-footer">
+        <div class="card-footer">
           <a href="{% url 'manage-ssh-key' %}?type={{ ssh_key.type }}"
              class="btn btn-primary">
             {% blocktranslate with key_type=ssh_key.name %}Download {{ key_type }} private key{% endblocktranslate %}
@@ -33,21 +33,21 @@
 {% endfor %}
 
 {% if ip_addresses %}
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">
         {% documentation_icon 'vcs' 'ssh-repos' right=True %}
         {% translate "IP addresses" %}
       </h4>
     </div>
-    <div class="panel-body">
+    <div class="card-body">
       <p>{% translate "Weblate utilizes the IP addresses listed below to access repositories or initiate webhooks." %}</p>
       <ul class="list-group">
         {% for address in ip_addresses %}
           <li class="list-group-item">
             {{ address }}
             <button type="button"
-                    class="btn btn-link btn-xs pull-right flip"
+                    class="btn btn-link btn-xs float-end"
                     data-clipboard-value="{{ address }}"
                     data-clipboard-message="{% translate "IP address copied to clipboard." %}"
                     title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>

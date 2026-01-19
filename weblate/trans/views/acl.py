@@ -134,7 +134,8 @@ def block_user(request: AuthenticatedHttpRequest, project):
         else:
             expiry = None
         _userblock, created = user.userblock_set.get_or_create(
-            project=obj, defaults={"expiry": expiry}
+            project=obj,
+            defaults={"expiry": expiry, "note": form.cleaned_data.get("note", "")},
         )
         if created:
             AuditLog.objects.create(
@@ -172,6 +173,8 @@ def unblock_user(request: AuthenticatedHttpRequest, project):
 @login_required
 def invite_user(request: AuthenticatedHttpRequest, project):
     """Invite user to a project."""
+    if not settings.REGISTRATION_OPEN:
+        raise PermissionDenied
     obj, form = check_user_form(
         request, project, form_class=InviteEmailForm, pass_project=True
     )

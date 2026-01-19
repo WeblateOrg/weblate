@@ -56,7 +56,7 @@ class ComponentLinkTestCase(ViewTestCase):
     def test_cycle(self) -> None:
         ignore_keys = ("last_changed", "stats_timestamp")
 
-        def compare_stats(one: dict, other: dict, *, equals: bool = True):
+        def compare_stats(one: dict, other: dict, *, equals: bool = True) -> None:
             for key in ignore_keys:
                 for data in (one, other):
                     data.pop(key)

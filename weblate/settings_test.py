@@ -83,7 +83,8 @@ CELERY_RESULT_BACKEND = None
 STATS_LAZY = True
 
 VCS_API_DELAY = 0
-VCS_FILE_PROTOCOL = True
+# Allow file protocol for tests
+VCS_ALLOW_SCHEMES = {"https", "ssh", "file"}
 
 # Localize CDN addon
 LOCALIZE_CDN_URL = "https://cdn.example.com/"
@@ -128,9 +129,7 @@ CACHES = {"default": {"BACKEND": "django.core.cache.backends.locmem.LocMemCache"
 if "CI_REDIS_HOST" in os.environ:
     CACHES["avatar"] = {
         "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://{}:{}/0".format(
-            os.environ["CI_REDIS_HOST"], os.environ.get("CI_REDIS_PORT", "6379")
-        ),
+        "LOCATION": f"redis://{os.environ['CI_REDIS_HOST']}:{os.environ.get('CI_REDIS_PORT', '6379')}/0",
     }
 
 # Selenium can not clear HttpOnly cookies in MSIE
@@ -151,6 +150,7 @@ AUTHENTICATION_BACKENDS = (
 
 # Disable random admin checks trigger
 BACKGROUND_ADMIN_CHECKS = False
+
 
 # Use weak password hasher for testing
 PASSWORD_HASHERS = [

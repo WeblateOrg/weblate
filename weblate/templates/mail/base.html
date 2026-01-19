@@ -34,7 +34,7 @@
                 {% if component %}
                   /
                   {% if component.is_glossary %}
-                    <span class="label label-{{ component.glossary_color }}">{% translate "Glossary" %}</span>
+                    <span class="badge label-{{ component.glossary_color }}">{% translate "Glossary" %}</span>
                   {% endif %}
                   <a href="{{ component.get_absolute_url }}">{{ component.name }}</a>
                 {% endif %}

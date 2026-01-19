@@ -3,30 +3,30 @@
 {% load i18n %}
 
 {% block breadcrumbs %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'about' %}">{% translate "About Weblate" %}</a>
   </li>
 {% endblock breadcrumbs %}
 
 {% block content %}
 
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">{% translate "About Weblate" %}</h4>
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">{% translate "About Weblate" %}</h4>
     </div>
-    <div class="panel-body">{% include "snippets/about.html" %}</div>
-    <div class="panel-footer">
+    <div class="card-body">{% include "snippets/about.html" %}</div>
+    <div class="card-footer">
       <a class="btn btn-primary" href="https://weblate.org/donate/">{% translate "Give to Weblate" %}</a>
     </div>
   </div>
 
 
   {% if offer_hosting %}
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">{% translate "Hosting translations" %}</h4>
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{% translate "Hosting translations" %}</h4>
       </div>
-      <div class="panel-body">
+      <div class="card-body">
         <p>
           {% translate "This Weblate instance hosts translations for various libre software projects." %}
           {% blocktranslate %}Weblate can host your project as well, please get in touch.{% endblocktranslate %}
@@ -35,12 +35,12 @@
           {% translate "Start your gratis trial today and explore our competitively priced commercial hosting solutions." %}
         </p>
       </div>
-      <div class="panel-footer">
+      <div class="card-footer">
         <a class="btn btn-primary" href="{% url 'hosting' %}">{% translate "Ask for Libre hosting" %}</a>
         <a class="btn btn-primary btn-spaced" href="https://weblate.org/hosting/">{% translate "View hosting plans" %}</a>
         {% if payment_enabled %}
           <a class="btn btn-primary btn-spaced" href="{% url 'trial' %}">{% translate "Gratis trial for commercial hosting" %}</a>
-        {% else %}
+        {% elif contact_form != "disabled" %}
           <a class="btn btn-primary btn-spaced" href="{% url 'contact' %}?t=hosting">{% translate "Contact us for commercial hosting" %}</a>
         {% endif %}
       </div>
@@ -48,11 +48,11 @@
   {% endif %}
 
 
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">{% translate "Weblate is built on libre software" %}</h4>
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">{% translate "Weblate is built on libre software" %}</h4>
     </div>
-    <div class="panel-body formats">
+    <div class="card-body formats">
       {% for ver in versions %}
         <a class="format-item" href="{{ ver.1 }}">{{ ver.0 }}
           {% if not hide_version or user.is_superuser %}<span>{{ ver.2 }}</span>{% endif %}

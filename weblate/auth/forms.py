@@ -56,6 +56,7 @@ class InviteUserForm(forms.ModelForm):
             if field in self.fields:
                 self.fields[field].required = True
 
+    # pylint: disable-next=arguments-renamed
     def save(self, request: AuthenticatedHttpRequest, commit: bool = True) -> None:
         self.instance.author = author = request.user
         # Migrate to user if e-mail matches

@@ -10,6 +10,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.contrib.admin import AdminSite, sites
 from django.contrib.auth import REDIRECT_FIELD_NAME
+from django.contrib.auth.decorators import login_not_required
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.utils.decorators import method_decorator
@@ -38,6 +39,7 @@ class WeblateAdminSite(AdminSite):
         return WeblateLogoutView.as_view()(request)
 
     @method_decorator(never_cache)
+    @method_decorator(login_not_required)
     def login(self, request, extra_context=None):
         """
         Display the login form for the given HttpRequest.

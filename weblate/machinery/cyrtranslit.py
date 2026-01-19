@@ -39,6 +39,12 @@ CYRTRANSLIT_TO_WEBLATE_LANGS = {
     # ukrainian
     "ua@latin": [],
     "ua@cyrillic": ["uk"],
+    # Greek
+    "el@latin": ["el_Latn"],
+    "el@cyrillic": ["el"],
+    # Belarusian
+    "be@latin": ["by_Latn"],
+    "be@cyrillic": ["by"],
 }
 
 
@@ -50,6 +56,8 @@ class CyrTranslitTranslation(MachineTranslation):
     cache_translations = False
     replacement_start = "[___"
     replacement_end = "___]"
+    validate_source_language = "sr@latin"
+    validate_target_language = "sr@cyrillic"
 
     def download_languages(self):
         """List of supported languages."""
@@ -96,9 +104,9 @@ class CyrTranslitTranslation(MachineTranslation):
         target_language, script = target_language.split("@")
 
         translated_text = (
-            cyrtranslit.to_cyrillic(text, target_language)
+            cyrtranslit.to_cyrillic(text, target_language, preserve_accents=True)
             if script == "cyrillic"
-            else cyrtranslit.to_latin(text, target_language)
+            else cyrtranslit.to_latin(text, target_language, preserve_accents=True)
         )
 
         yield TranslationResultDict(

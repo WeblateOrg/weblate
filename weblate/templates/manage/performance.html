@@ -3,19 +3,19 @@
 {% load check_links humanize i18n translations %}
 
 {% block breadcrumbs %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
   </li>
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'manage-performance' %}">{% translate "Performance report" %}</a>
   </li>
 {% endblock breadcrumbs %}
 
 {% block content %}
   {% if errors %}
-    <div class="panel panel-danger">
-      <div class="panel-heading">
-        <h4 class="panel-title">
+    <div class="card">
+      <div class="card-header text-bg-danger">
+        <h4 class="card-title">
           {% documentation_icon 'admin/install' 'production' right=True %}
           {% translate "Configuration errors" %}
         </h4>
@@ -58,7 +58,7 @@
           {% endfor %}
         </tbody>
       </table>
-      <div class="panel-footer">
+      <div class="card-footer">
         <p class="help-block">
           {% translate "You can safely permanently ignore errors for features you do not intend to use. These are usually caused by missing or outdated dependencies." %}
         </p>
@@ -67,9 +67,9 @@
   {% endif %}
 
   {% if checks %}
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">
           {% documentation_icon 'admin/install' 'production' right=True %}
           {% translate "System checks" %}
         </h4>
@@ -104,9 +104,9 @@
 
   <div class="row">
     <div class="col-md-6">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
             {% documentation_icon 'admin/install' 'celery' right=True %}
             {% translate "Celery queues" %}
           </h4>
@@ -122,12 +122,125 @@
           </tbody>
         </table>
       </div>
+
+      {% if disk_usage %}
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">
+              {% documentation_icon 'admin/install' 'hardware' right=True %}
+              {% translate "Disk usage" %}
+            </h4>
+          </div>
+
+          <table class="table table-striped">
+
+            <tbody>
+              <tr>
+                <td colspan="3">
+                  <div class="progress">
+                    <div class="progress-bar {% if disk_usage_percent < 90 %}progress-bar-success{% elif disk_usage_percent < 95 %}progress-bar-warning{% else %}progress-bar-danger{% endif %}"
+                         role="progressbar"
+                         aria-valuenow="{{ disk_usage_percent }}"
+                         aria-valuemin="0"
+                         aria-valuemax="100"
+                         aria-label="{% translate "Disk usage" %}"
+                         style="width: {{ disk_usage_percent }}%"></div>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <th>{% translate "Disk size" %}</th>
+                <th>{% translate "Disk used" %}</th>
+                <th>{% translate "Disk free" %}</th>
+              </tr>
+              <tr>
+                <td>{{ disk_usage.total|filesizeformat }}</td>
+                <td>{{ disk_usage.used|filesizeformat }}</td>
+                <td>{{ disk_usage.free|filesizeformat }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      {% endif %}
+
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
+            {% documentation_icon 'admin/install' 'production-encoding' right=True %}
+            {% translate "System encoding" %}
+          </h4>
+        </div>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th></th>
+              <th>{% translate "Web server" %}</th>
+              <th>{% translate "Celery worker" %}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{% translate "Filenames encoding" %}</td>
+              <td>{{ web_encoding.0 }}</td>
+              <td>
+                {% if celery_encoding %}
+                  {{ celery_encoding.0 }}
+                {% else %}
+                  {% translate "Unknown encoding" %}
+                {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <td>{% translate "Content encoding" %}</td>
+              <td>{{ web_encoding.1 }}</td>
+              <td>
+                {% if celery_encoding %}
+                  {{ celery_encoding.1 }}
+                {% else %}
+                  {% translate "Unknown encoding" %}
+                {% endif %}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
+            {% documentation_icon 'admin/install' 'production-database' right=True %}
+            {% translate "Connectivity" %}
+          </h4>
+        </div>
+        <table class="table table-striped">
+          <tbody>
+            <tr>
+              <td>{% translate "Database latency" %}</td>
+              <td class="number">{{ database_latency }} ms</td>
+            </tr>
+            <tr>
+              <td>{% translate "Cache latency" %}</td>
+              <td class="number">{{ cache_latency }} ms</td>
+            </tr>
+            <tr>
+              <td>{% translate "Celery latency" %}</td>
+              <td class="number">
+                {% if celery_latency %}
+                  {{ celery_latency }} ms
+                {% else %}
+                  {% translate "Not yet measured" %}
+                {% endif %}
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
 
     <div class="col-md-6">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
             {% documentation_icon 'admin/install' 'reverse-proxy' right=True %}
             {% translate "HTTP environment" %}
           </h4>
@@ -170,7 +283,7 @@
               </td>
               <td>
                 <code>
-                  {% if enable_ssl %}
+                  {% if enable_https %}
                     https
                   {% else %}
                     http
@@ -182,14 +295,14 @@
         </table>
       </div>
 
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
             {% documentation_icon 'admin/install' 'reverse-proxy' right=True %}
             {% translate "HTTP headers" %}
           </h4>
         </div>
-        <div class="panel-body">
+        <div class="card-body">
           {% for name, value in request.headers.items %}
             <code>{{ name }}: {{ value }}</code>
             <br />
@@ -197,78 +310,6 @@
         </div>
       </div>
 
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            {% documentation_icon 'admin/install' 'production-encoding' right=True %}
-            {% translate "System encoding" %}
-          </h4>
-        </div>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th></th>
-              <th>{% translate "Web server" %}</th>
-              <th>{% translate "Celery worker" %}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{% translate "Filenames encoding" %}</td>
-              <td>{{ web_encoding.0 }}</td>
-              <td>
-                {% if celery_encoding %}
-                  {{ celery_encoding.0 }}
-                {% else %}
-                  {% translate "Unknown encoding" %}
-                {% endif %}
-              </td>
-            </tr>
-            <tr>
-              <td>{% translate "Content encoding" %}</td>
-              <td>{{ web_encoding.1 }}</td>
-              <td>
-                {% if celery_encoding %}
-                  {{ celery_encoding.1 }}
-                {% else %}
-                  {% translate "Unknown encoding" %}
-                {% endif %}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-      </div>
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
-            {% documentation_icon 'admin/install' 'production-database' right=True %}
-            {% translate "Connectivity" %}
-          </h4>
-        </div>
-        <table class="table table-striped">
-          <tbody>
-            <tr>
-              <td>{% translate "Database latency" %}</td>
-              <td class="number">{{ database_latency }} ms</td>
-            </tr>
-            <tr>
-              <td>{% translate "Cache latency" %}</td>
-              <td class="number">{{ cache_latency }} ms</td>
-            </tr>
-            <tr>
-              <td>{% translate "Celery latency" %}</td>
-              <td class="number">
-                {% if celery_latency %}
-                  {{ celery_latency }} ms
-                {% else %}
-                  {% translate "Not yet measured" %}
-                {% endif %}
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
 
     </div>
   </div>

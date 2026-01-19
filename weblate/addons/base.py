@@ -80,7 +80,7 @@ class BaseAddon:
 
     @classmethod
     def get_doc_anchor(cls) -> str:
-        return "addon-{}".format(cls.name.replace(".", "-").replace("_", "-"))
+        return f"addon-{cls.name.replace('.', '-').replace('_', '-')}"
 
     @classmethod
     def has_settings(cls) -> bool:
@@ -218,7 +218,7 @@ class BaseAddon:
 
         if project := self.instance.project:
             for component in project.component_set.iterator():
-                if self.can_install(component, None):
+                if self.can_install(component=component):
                     self.post_configure_run_component(component)
 
     def post_configure_run_component(self, component: Component) -> None:
@@ -226,10 +226,24 @@ class BaseAddon:
 
         # Trigger post configure event for a VCS component
         previous = component.repository.last_revision
-        if not (POST_CONFIGURE_EVENTS & self.events):
+        if (
+            not POST_CONFIGURE_EVENTS & self.events
+            and AddonEvent.EVENT_INSTALL not in self.events
+        ):
             return
 
         base_event_args = (self.instance, component, component)
+        if AddonEvent.EVENT_INSTALL in self.events:
+            component.log_debug("running post_install add-on: %s", self.name)
+            execute_addon_event(
+                *(base_event_args),
+                AddonEvent.EVENT_INSTALL,
+                "post_install",
+                (
+                    component,
+                    True,
+                ),
+            )
         if AddonEvent.EVENT_POST_COMMIT in self.events:
             component.log_debug("running post_commit add-on: %s", self.name)
             execute_addon_event(
@@ -288,12 +302,28 @@ class BaseAddon:
         self.instance.save(update_fields=["state"])
 
     @classmethod
-    def can_install(cls, component: Component, user: User | None) -> bool:  # noqa: ARG003
+    def can_install(
+        cls,
+        *,
+        component: Component | None = None,
+        project: Project | None = None,  # noqa: ARG003
+    ) -> bool:
         """Check whether add-on is compatible with given component."""
-        return all(
-            getattr(component, key) in cast("set", values)
-            for key, values in cls.compat.items()
-        )
+        if component is not None:
+            return all(
+                getattr(component, key) in cast("set", values)
+                for key, values in cls.compat.items()
+            )
+        return True
+
+    @classmethod
+    def can_process(
+        cls,
+        *,
+        component: Component | None = None,
+        project: Project | None = None,
+    ) -> bool:
+        return cls.can_install(component=component, project=project)
 
     def pre_push(
         self, component: Component, activity_log_id: int | None = None
@@ -342,6 +372,15 @@ class BaseAddon:
         """Event handler before changes are committed to the repository."""
         # To be implemented in a subclass
 
+    def post_install(
+        self,
+        component: Component,
+        store_hash: bool,
+        activity_log_id: int | None = None,
+    ) -> dict | None:
+        """Event handler after add-on is installed."""
+        # To be implemented in a subclass
+
     def post_commit(
         self,
         component: Component,
@@ -374,6 +413,10 @@ class BaseAddon:
     ) -> dict | None:
         """Event handler for component update."""
         # To be implemented in a subclass
+
+    def check_change_action(self, change: Change) -> bool:
+        """Early filtering of Change actions before triggering change_event callback."""
+        return True
 
     def change_event(
         self, change: Change, activity_log_id: int | None = None
@@ -561,3 +604,10 @@ class ChangeBaseAddon(BaseAddon):
     }
 
     multiple = False
+
+    @cached_property
+    def configured_change_events(self) -> set[int]:
+        return {int(event) for event in self.instance.configuration["events"]}
+
+    def check_change_action(self, change: Change) -> bool:
+        return change.action in self.configured_change_events

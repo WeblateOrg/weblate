@@ -18,7 +18,6 @@ from weblate.utils.html import format_html_join_comma, list_to_tuples
 
 if TYPE_CHECKING:
     from collections.abc import Callable, Iterable
-    from re import Pattern
 
     from django_stubs_ext import StrOrPromise
 
@@ -240,6 +239,7 @@ WHITESPACE = re.compile(r"\s+")
 
 # See https://github.com/Automattic/wp-calypso/blob/899d4cba090893f5a62012a08a6d0a4e8d028d98/packages/interpolate-components/src/tokenize.js#L30
 AUTOMATTIC_COMPONENTS_MATCH = re.compile(r"(\{\{/?\s*\w+\s*/?}})")
+LARAVEL_MATCH = re.compile(r"(:[A-Za-z][A-Za-z0-9_]*)")
 
 
 def c_format_is_position_based(string: str):
@@ -344,14 +344,19 @@ FLAG_RULES: dict[
         format_not_position_based,
         extract_string_simple,
     ),
+    "laravel-format": (
+        LARAVEL_MATCH,
+        name_format_is_position_based,
+        extract_string_simple,
+    ),
 }
 
 
 class BaseFormatCheck(TargetCheck):
     """Base class for format string checks."""
 
-    regexp: Pattern[str] | None = None
-    plural_parameter_regexp: Pattern[str] | None = None
+    regexp: re.Pattern[str] | None = None
+    plural_parameter_regexp: re.Pattern[str] | None = None
     default_disabled = True
     normalize_remove: ClassVar[set[str]] = set()
 
@@ -720,6 +725,17 @@ class CSharpFormatCheck(BaseFormatCheck):
 
     def format_string(self, string: str) -> str:
         return f"{{{string}}}"
+
+
+class LaravelFormatCheck(BasePrintfCheck):
+    """Check for Laravel format string."""
+
+    check_id = "laravel_format"
+    name = gettext_lazy("Laravel format")
+    description = gettext_lazy("Laravel format string does not match source.")
+
+    def format_string(self, string: str) -> str:
+        return string
 
 
 class JavaFormatCheck(BasePrintfCheck):

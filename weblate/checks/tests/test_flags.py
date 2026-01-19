@@ -255,18 +255,9 @@ class FlagTest(SimpleTestCase):
             self.assertEqual(set(flags), expected_flags)
 
         # test rst-text flag
-        content = PO_HEADER + (
-            "#: ../../path/file.rst:24 ../../path/file.rst:52"
-            "#: ../../path/file.rst:63"
-            'msgid "Hello, world!"'
-            'msgstr "Nazdar svete!"'
-        )
+        content = f'{PO_HEADER}#: ../../path/file.rst:24 ../../path/file.rst:52#: ../../path/file.rst:63msgid "Hello, world!"msgstr "Nazdar svete!"'
         check_location_flags(content, {"rst-text"})
 
         # test md-text flag
-        content = PO_HEADER + (
-            "#: ../../path/file.md:24 ../../path/file.md:52"
-            'msgid "Hello, world!"'
-            'msgstr "Nazdar svete!"'
-        )
+        content = f'{PO_HEADER}#: ../../path/file.md:24 ../../path/file.md:52msgid "Hello, world!"msgstr "Nazdar svete!"'
         check_location_flags(content, {"md-text"})

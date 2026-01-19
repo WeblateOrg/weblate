@@ -17,15 +17,23 @@ from pathlib import Path
 from typing import cast
 from urllib.parse import urlparse
 
+from confusable_homoglyphs import confusables
 from disposable_email_domains import blocklist
 from django.conf import settings
 from django.core.exceptions import ValidationError
 from django.core.validators import EmailValidator as EmailValidatorDjango
-from django.core.validators import URLValidator, validate_ipv46_address
+from django.core.validators import (
+    URLValidator,
+    validate_domain_name,
+    validate_ipv46_address,
+)
+from django.utils.deconstruct import deconstructible
 from django.utils.translation import gettext, gettext_lazy
 
 from weblate.trans.util import cleanup_path
+from weblate.utils.const import WEBHOOKS_SECRET_PREFIX
 from weblate.utils.data import data_dir
+from weblate.utils.files import is_excluded
 
 USERNAME_MATCHER = re.compile(r"^[\w@+-][\w.@+-]*$")
 
@@ -34,6 +42,8 @@ EMAIL_BLACKLIST = re.compile(r"^([./|]|.*([@%!`#&?]|/\.\./))")
 
 # Matches Git condition on "name consists only of disallowed characters"
 CRUD_RE = re.compile(r"^[.,;:<>\"'\\]+$")
+# Block certain characters from full name
+FULL_NAME_RESTRICT = re.compile(r'[<>"]')
 
 ALLOWED_IMAGES = {"image/jpeg", "image/png", "image/apng", "image/gif", "image/webp"}
 
@@ -55,10 +65,16 @@ FORBIDDEN_EXTENSIONS = {
 }
 
 
-def validate_re(value, groups=None, allow_empty=True) -> None:
+def validate_re(
+    value: str,
+    groups: list[str] | tuple[str, ...] | None = None,
+    *,
+    allow_empty: bool = True,
+) -> None:
     try:
         compiled = re.compile(value)
     except re.error as error:
+        # TODO: change re.error to re.PatternError for Python >= 3.13
         raise ValidationError(
             gettext("Compilation failed: {0}").format(error)
         ) from error
@@ -78,8 +94,8 @@ def validate_re(value, groups=None, allow_empty=True) -> None:
             )
 
 
-def validate_re_nonempty(value):
-    return validate_re(value, allow_empty=False)
+def validate_re_nonempty(value: str) -> None:
+    validate_re(value, allow_empty=False)
 
 
 def validate_bitmap(value) -> None:
@@ -152,9 +168,18 @@ def validate_fullname(val):
         raise ValidationError(
             gettext("Please avoid using special characters in the full name.")
         )
+
+    if confusables.is_dangerous(val):
+        raise ValidationError(
+            gettext("This name cannot be registered. Please choose a different one.")
+        )
+
     # Validates full name that would be rejected by Git
     if CRUD_RE.match(val):
         raise ValidationError(gettext("Name consists only of disallowed characters."))
+
+    if FULL_NAME_RESTRICT.match(val):
+        raise ValidationError(gettext("Name contains disallowed characters."))
 
     return val
 
@@ -175,6 +200,12 @@ def validate_username(value) -> None:
             gettext(
                 "Username may only contain letters, "
                 "numbers or the following characters: @ . + - _"
+            )
+        )
+    if confusables.is_dangerous(value):
+        raise ValidationError(
+            gettext(
+                "This username cannot be registered. Please choose a different one."
             )
         )
 
@@ -214,7 +245,7 @@ def validate_plural_formula(value) -> None:
         ) from error
 
 
-def validate_filename(value) -> None:
+def validate_filename(value: str, *, check_prohibited: bool = True) -> None:
     if "../" in value or "..\\" in value:
         raise ValidationError(
             gettext("The filename can not contain reference to a parent directory.")
@@ -230,6 +261,8 @@ def validate_filename(value) -> None:
                 "Maybe you want to use: {}"
             ).format(cleaned)
         )
+    if check_prohibited and is_excluded(cleaned):
+        raise ValidationError(gettext("The filename contains a prohibited folder."))
 
 
 def validate_backup_path(value: str) -> None:
@@ -246,6 +279,11 @@ def validate_backup_path(value: str) -> None:
         raise ValidationError(msg)
 
     if loc.proto == "file":
+        # Missing path
+        if not loc.path:
+            msg = "Backup location has to be an absolute path."
+            raise ValidationError(msg)
+
         # The path is already normalized here
         path = Path(loc.path)
 
@@ -311,12 +349,20 @@ def validate_project_web(value) -> None:
             raise ValidationError(gettext("This URL is prohibited"))
 
 
-def validate_base64_encoded_string(value: str) -> None:
+def validate_webhook_secret_string(value: str) -> None:
     """Validate that the given string is a valid base64 encoded string."""
+    if not value:
+        return
+    value = value.removeprefix(WEBHOOKS_SECRET_PREFIX)
     try:
-        base64.b64decode(value)
+        decoded = base64.b64decode(value)
     except binascii.Error as error:
         raise ValidationError(gettext("Invalid base64 encoded string")) from error
+
+    if len(decoded) < 24:
+        raise ValidationError(gettext("The provided secret is too short."))
+    if len(decoded) > 64:
+        raise ValidationError(gettext("The provided secret is too long."))
 
 
 class WeblateURLValidator(URLValidator):
@@ -327,8 +373,15 @@ class WeblateURLValidator(URLValidator):
         "https",
     ]
 
+    def __call__(self, value: str | None) -> None:
+        super().__call__(value)
+        if value and confusables.is_dangerous(value):
+            raise ValidationError(
+                gettext("This website cannot be used. Please provide a different one.")
+            )
 
-class WeblateEditorURLValidator(URLValidator):
+
+class WeblateEditorURLValidator(WeblateURLValidator):
     schemes: list[str] = [  # noqa: RUF012
         "editor",
         "netbeans",
@@ -355,15 +408,7 @@ class WeblateServiceURLValidator(WeblateURLValidator):
     This is useful for using dockerized services.
     """
 
-    host_re = (
-        "("
-        + WeblateURLValidator.hostname_re
-        + WeblateURLValidator.domain_re
-        + WeblateURLValidator.tld_re
-        + "|"
-        + WeblateURLValidator.hostname_re
-        + ")"
-    )
+    host_re = f"({WeblateURLValidator.hostname_re}{WeblateURLValidator.domain_re}{WeblateURLValidator.tld_re}|{WeblateURLValidator.hostname_re})"
     regex = re.compile(
         r"^(?:[a-z0-9.+-]*)://"  # scheme is validated separately
         r"(?:[^\s:@/]+(?::[^\s:@/]*)?@)?"  # user:pass authentication
@@ -379,3 +424,55 @@ class WeblateServiceURLValidator(WeblateURLValidator):
         r"\Z",
         re.IGNORECASE,
     )
+
+
+def validate_repo_url(url: str) -> None:
+    parsed = urlparse(url)
+    if not parsed.scheme:
+        # assume all links without schema are ssh links
+        url = f"ssh://{url}"
+        try:
+            parsed = urlparse(url)
+        except ValueError as error:
+            raise ValidationError(
+                gettext("Could not parse URL: {}").format(error)
+            ) from error
+
+    # Allow Weblate internal URLs
+    if parsed.scheme in {"weblate", "local"}:
+        return
+
+    # Filter out schemes early
+    if parsed.scheme not in settings.VCS_ALLOW_SCHEMES:
+        raise ValidationError(
+            gettext("Fetching VCS repository using %s is not allowed.") % parsed.scheme
+        )
+
+    # URL validation using for http (the URL validator is too strict to handle others)
+    if parsed.scheme in {"http", "https"}:
+        validator = URLValidator(schemes=settings.VCS_ALLOW_SCHEMES)
+        validator(url)
+
+    # Filter hosts if configured
+    if settings.VCS_ALLOW_HOSTS and parsed.hostname not in settings.VCS_ALLOW_HOSTS:
+        raise ValidationError(
+            gettext("Fetching VCS repository from %s is not allowed.") % parsed.hostname
+        )
+
+
+@deconstructible
+class DomainOrIPValidator:
+    def __call__(self, value: str):
+        try:
+            validate_ipv46_address(value)
+        except ValidationError:
+            try:
+                # Note: Django's DomainNameValidator (or validate_domain_name function)
+                # does not accept IP addresses as valid domain names, which is what we want.
+                validate_domain_name(value)
+            except ValidationError:
+                # If both fail, raise a final ValidationError
+                raise ValidationError(
+                    gettext("Enter a valid domain name or IP address."),
+                    code="invalid_domain_or_ip",
+                ) from None

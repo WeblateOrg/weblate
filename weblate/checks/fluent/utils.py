@@ -65,7 +65,7 @@ def variant_name(branches: list[FluentSelectorBranch]) -> str:
     """Get a variant name for the given branch path."""
     if not branches:
         return ""
-    return "[" + "][".join(branch.key for branch in branches) + "]"
+    return f"[{']['.join(branch.key for branch in branches)}]"
 
 
 class FluentPatterns:
@@ -74,31 +74,11 @@ class FluentPatterns:
     BLANK = r"( |\n|\r\n)*"
     # Match string or number literals.
     ESCAPED_CHAR = r'(\\\\|\\"|\\u[0-9a-fA-F]{4}|\\U[0-9a-fA-F]{6})'
-    STRING_LITERAL = r'"(' + ESCAPED_CHAR + r'|[^"\\])*"'
+    STRING_LITERAL = rf'"({ESCAPED_CHAR}|[^"\\])*"'
     NUMBER_LITERAL = r"-?[0-9]+(\.[0-9]+)?"
     IDENTIFIER = r"[a-zA-Z][a-zA-Z0-9_-]*"
-    NAMED_ARGUMENT = (
-        IDENTIFIER
-        + BLANK
-        + r":"
-        + BLANK
-        + r"("
-        + STRING_LITERAL
-        + r"|"
-        + NUMBER_LITERAL
-        + r")"
-    )
-    NAMED_ARGUMENT_LIST = (
-        r"("
-        + NAMED_ARGUMENT
-        + BLANK
-        + r","
-        + BLANK
-        + r")*"
-        + r"("
-        + NAMED_ARGUMENT
-        + r")?"
-    )
+    NAMED_ARGUMENT = f"{IDENTIFIER}{BLANK}:{BLANK}({STRING_LITERAL}|{NUMBER_LITERAL})"
+    NAMED_ARGUMENT_LIST = rf"({NAMED_ARGUMENT}{BLANK},{BLANK})*({NAMED_ARGUMENT})?"
     NAMED_ARGUMENTS_CALL = BLANK + r"\(" + BLANK + NAMED_ARGUMENT_LIST + BLANK + r"\)"
 
     @classmethod
@@ -127,7 +107,7 @@ class FluentPatterns:
             # Instead, we just build the regex to match named arguments, which
             # can only be string or number literals.
             return cls.placeable(
-                r"-" + re.escape(ref.name) + r"(" + cls.NAMED_ARGUMENTS_CALL + ")?"
+                rf"-{re.escape(ref.name)}({cls.NAMED_ARGUMENTS_CALL})?"
             )
         if ref.type_name == "variable":
             return cls.placeable(r"\$" + re.escape(ref.name))

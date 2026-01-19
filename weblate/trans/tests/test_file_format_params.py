@@ -5,7 +5,11 @@
 
 """Test for File format params."""
 
+from __future__ import annotations
+
 import os.path
+from pathlib import Path
+from typing import TYPE_CHECKING, Unpack
 
 from django.test.utils import override_settings
 from django.urls import reverse
@@ -17,6 +21,9 @@ from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.views import get_form_data
 
+if TYPE_CHECKING:
+    from weblate.trans.file_format_params import FileFormatParams
+
 
 class BaseFileFormatsTest(ViewTestCase):
     def setUp(self) -> None:
@@ -24,18 +31,21 @@ class BaseFileFormatsTest(ViewTestCase):
         self.user.is_superuser = True
         self.user.save()
 
-    def update_component_file_params(self, **file_param_kwargs) -> None:
-        file_param_kwargs = (
-            get_default_params_for_file_format(self.component.file_format)
-            | file_param_kwargs
+    def update_component_file_params(
+        self, **new_file_param_kwargs: Unpack[FileFormatParams]
+    ) -> None:
+        file_param_kwargs = get_default_params_for_file_format(
+            self.component.file_format
         )
+        file_param_kwargs.update(new_file_param_kwargs)
         url = reverse("settings", kwargs={"path": self.component.get_url_path()})
         response = self.client.get(url)
         data = get_form_data(response.context["form"].initial)
         data.update(
             {f"file_format_params_{k}": v for k, v in file_param_kwargs.items()}
         )
-        self.client.post(url, data, follow=True)
+        response = self.client.post(url, data, follow=True)
+        self.assertContains(response, "Settings saved")
         self.component.refresh_from_db()
 
 
@@ -108,10 +118,7 @@ class ComponentFileFormatsParamsTest(BaseFileFormatsTest):
             follow=True,
         )
 
-        create_url = (
-            reverse("create-component-vcs")
-            + f"?source_component={self.component.pk}#existing"
-        )
+        create_url = f"{reverse('create-component-vcs')}?source_component={self.component.pk}#existing"
         data = response.context["form"].initial
         data.pop("category", None)
         data["project"] = self.component.project_id
@@ -247,8 +254,8 @@ class YAMLParamsTest(BaseFileFormatsTest):
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn(f"{expected}try:", commit)
         self.assertIn("cs.yml", commit)
-        with open(self.get_translation().get_filename(), "rb") as handle:
-            self.assertIn(b"\r\n", handle.read())
+        filepath = Path(self.get_translation().get_filename())
+        self.assertIn(b"\r\n", filepath.read_bytes())
 
     def test_customize(self) -> None:
         self.update_component_file_params(
@@ -321,11 +328,11 @@ class TSParamsTest(BaseFileFormatsTest):
             self.assertIn('<location filename="main.c" line="11"/>', new_commit)
             self.assertNotIn("</location>", new_commit)
 
-    def test_closing_tags(self):
+    def test_closing_tags(self) -> None:
         self.update_component_file_params(xml_closing_tags=True)
         self._test_closing_tags(True)
 
-    def test_closing_tags_off(self):
+    def test_closing_tags_off(self) -> None:
         """Check that closing tags are turned off as default behavior."""
         self._test_closing_tags(False)
 
@@ -335,7 +342,7 @@ class GettextParamsTest(BaseFileFormatsTest):
         return self.create_po_new_base(new_lang="add")
 
     def test_msgmerge(self, wrapped=True) -> None:
-        self.assertTrue(MsgmergeAddon.can_install(self.component, None))
+        self.assertTrue(MsgmergeAddon.can_install(component=self.component))
         rev = self.component.repository.last_revision
         addon = MsgmergeAddon.create(component=self.component)
         self.assertNotEqual(rev, self.component.repository.last_revision)
@@ -393,18 +400,21 @@ class GettextParamsTest(BaseFileFormatsTest):
             po_no_location=True,
             po_line_wrap=77,
         )
-
-        # if Msgmerge addon is not installed, only default parameters are returned
         self.assertEqual(
-            BilingualUpdateMixin.get_msgmerge_args(self.component), ["--previous"]
+            set(BilingualUpdateMixin.get_msgmerge_args(self.component)),
+            {"--no-fuzzy-matching", "--no-location"},
         )
 
-        MsgmergeAddon.create(component=self.component)
-
-        msgmerge_args = BilingualUpdateMixin.get_msgmerge_args(self.component)
-        self.assertNotIn("--previous", msgmerge_args)
-        self.assertIn("--no-fuzzy-matching", msgmerge_args)
-        self.assertIn("--no-location", msgmerge_args)
+        self.update_component_file_params(
+            po_fuzzy_matching=False,
+            po_keep_previous=True,
+            po_no_location=False,
+            po_line_wrap=77,
+        )
+        self.assertEqual(
+            set(BilingualUpdateMixin.get_msgmerge_args(self.component)),
+            {"--no-fuzzy-matching", "--previous"},
+        )
 
         self.update_component_file_params(
             po_fuzzy_matching=False,
@@ -412,6 +422,7 @@ class GettextParamsTest(BaseFileFormatsTest):
             po_no_location=True,
             po_line_wrap=-1,
         )
-        self.assertIn(
-            "--no-wrap", BilingualUpdateMixin.get_msgmerge_args(self.component)
+        self.assertEqual(
+            set(BilingualUpdateMixin.get_msgmerge_args(self.component)),
+            {"--no-fuzzy-matching", "--no-location", "--no-wrap"},
         )

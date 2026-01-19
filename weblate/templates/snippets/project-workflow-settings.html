@@ -8,7 +8,7 @@
        href="{% url 'settings' path=project_language.get_url_path %}">
       {{ project_language.language }}
       {% if project_language.language.id in custom_workflows %}
-        <span class="badge">{% translate "Customized workflow" %}</span>
+        <span class="badge  text-bg-secondary">{% translate "Customized workflow" %}</span>
       {% endif %}
     </a>
   {% endfor %}

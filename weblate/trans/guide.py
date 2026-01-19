@@ -261,7 +261,7 @@ class AddonGuideline(Guideline):
         if self.addon not in ADDONS:
             return False
         addon = ADDONS[self.addon]
-        return addon.can_install(self.component, None)
+        return addon.can_install(component=self.component)
 
     def get_doc_url(self, user=None):
         return get_doc_url(
@@ -323,5 +323,5 @@ class GenerateMoGuideline(AddonGuideline):
             return False
         if not translation.filename.endswith(".po"):
             return False
-        mofilename = translation.get_filename()[:-3] + ".mo"
+        mofilename = f"{translation.get_filename()[:-3]}.mo"
         return os.path.exists(mofilename)

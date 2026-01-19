@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import os
 from datetime import timedelta
+from pathlib import Path
 
 from celery.schedules import crontab
 from django.conf import settings
@@ -24,7 +25,7 @@ from weblate.trans.models import Change, Component, Project
 from weblate.utils.celery import app
 from weblate.utils.hash import calculate_checksum
 from weblate.utils.lock import WeblateLockTimeoutError
-from weblate.utils.requests import request
+from weblate.utils.requests import http_request
 
 IGNORED_TAGS = {"script", "style"}
 
@@ -46,11 +47,12 @@ def cdn_parse_html(addon_id: int, component_id: int) -> None:
         filename = filename.strip()
         try:
             if filename.startswith(("http://", "https://")):
-                with request("get", filename) as handle:
+                with http_request("get", filename) as handle:
                     content = handle.text
             else:
-                with open(os.path.join(component.full_path, filename)) as handle:
-                    content = handle.read()
+                content = Path(os.path.join(component.full_path, filename)).read_text(
+                    encoding="utf-8"
+                )
         except OSError as error:
             errors.append({"filename": filename, "error": str(error)})
             continue
@@ -60,7 +62,7 @@ def cdn_parse_html(addon_id: int, component_id: int) -> None:
         for element in document.cssselect(addon.configuration["css_selector"]):
             text = element.text
             if (
-                element.getchildren()
+                len(element)  # has children
                 or element.tag in IGNORED_TAGS
                 or not text
                 or not text.strip()
@@ -105,8 +107,8 @@ def language_consistency(
         return
     project = Project.objects.get(pk=project_id)
     languages = Language.objects.filter(id__in=language_ids)
-    request = HttpRequest()
-    request.user = addon.addon.user
+    fake_request = HttpRequest()
+    fake_request.user = addon.addon.user
 
     # Filter components with missing translation
     components = project.component_set.annotate(
@@ -127,9 +129,10 @@ def language_consistency(
                 continue
             component.commit_pending("language consistency", None)
             for language in missing:
+                component.refresh_lock()
                 new_lang = component.add_new_language(
                     language,
-                    request,
+                    fake_request,
                     send_signal=False,
                     create_translations=False,
                 )
@@ -186,8 +189,6 @@ def update_addon_activity_log(
 @app.task(trail=False)
 def cleanup_addon_activity_log() -> None:
     """Cleanup old add-on activity log entries."""
-    from weblate.addons.models import AddonActivityLog
-
     AddonActivityLog.objects.filter(
         created__lt=now() - timedelta(days=settings.ADDON_ACTIVITY_LOG_EXPIRY)
     ).delete()
@@ -235,6 +236,7 @@ def addon_change(change_ids: list[int], **kwargs) -> None:
             for addon in addons
             if (not addon.component or addon.component == change.component)
             and (not addon.project or addon.project == change.project)
+            and addon.addon.check_change_action(change)
         ]
         if change_addons:
             handle_addon_event(

@@ -62,8 +62,7 @@ TEST_LANGUAGES = (
         "sr+latn",
         "sr_Latn",
         "ltr",
-        "n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && "
-        "(n%100<10 || n%100>=20) ? 1 : 2",
+        "n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2",
         "Serbian (Latin script)",
         False,
     ),
@@ -71,8 +70,7 @@ TEST_LANGUAGES = (
         "sr_RS@latin",
         "sr_Latn",
         "ltr",
-        "n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && "
-        "(n%100<10 || n%100>=20) ? 1 : 2",
+        "n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2",
         "Serbian (Latin script)",
         False,
     ),
@@ -80,8 +78,7 @@ TEST_LANGUAGES = (
         "sr-RS@latin",
         "sr_Latn",
         "ltr",
-        "n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && "
-        "(n%100<10 || n%100>=20) ? 1 : 2",
+        "n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2",
         "Serbian (Latin script)",
         False,
     ),
@@ -89,8 +86,7 @@ TEST_LANGUAGES = (
         "sr_RS_latin",
         "sr_Latn",
         "ltr",
-        "n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && "
-        "(n%100<10 || n%100>=20) ? 1 : 2",
+        "n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2",
         "Serbian (Latin script)",
         False,
     ),
@@ -137,8 +133,7 @@ TEST_LANGUAGES = (
         "ar",
         "ar",
         "rtl",
-        "n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 "
-        ": n%100>=11 ? 4 : 5",
+        "n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5",
         "Arabic",
         False,
     ),
@@ -146,8 +141,7 @@ TEST_LANGUAGES = (
         "ar_AA",
         "ar",
         "rtl",
-        "n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 "
-        ": n%100>=11 ? 4 : 5",
+        "n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5",
         "Arabic",
         False,
     ),
@@ -155,8 +149,7 @@ TEST_LANGUAGES = (
         "ar_XX",
         "ar_XX",
         "rtl",
-        "n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 "
-        ": n%100>=11 ? 4 : 5",
+        "n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5",
         "Arabic (ar_XX)",
         True,
     ),
@@ -230,11 +223,12 @@ class BasicLanguagesTest(TestCase):
                 else:
                     if i == 1:
                         base_language = languages[0]
-                        if base_language in ALIASES:
-                            base_alias = ALIASES[base_language]
+                        base_alias = ALIASES.get(base_language, None)
                     check = (
-                        lang == base_alias and not result & BASE_FORM
-                    ) or lang in data.UNDERSCORE_EXCEPTIONS
+                        not result & BASE_FORM
+                        if lang == base_alias
+                        else lang in data.UNDERSCORE_EXCEPTIONS
+                    )
             else:
                 check = lang in data.BASIC_LANGUAGES
             result += check << i
@@ -252,9 +246,8 @@ class BasicLanguagesTest(TestCase):
                 langs.append(lang)
         return langs or None
 
-    @staticmethod
-    def get_friendly_result(result, expected, languages) -> str:
-        return f"Expecting {__class__.list_languages(expected, languages)} but got {__class__.list_languages(result, languages)} in basic languages."
+    def get_friendly_result(self, result, expected, languages) -> str:
+        return f"Expecting {self.list_languages(expected, languages)} but got {self.list_languages(result, languages)} in basic languages."
 
     def run_test(self, language_group, adaptive=None) -> None:
         *language_forms, expected = language_group
@@ -295,6 +288,7 @@ class BasicLanguagesTest(TestCase):
 
 
 class LanguageTestSequenceMeta(type):
+    # pylint: disable-next=redefined-builtin
     def __new__(mcs, name, bases, dict):  # noqa: A002
         def gen_test(original, expected, direction, plural, name, create):
             def test(self) -> None:
@@ -303,9 +297,7 @@ class LanguageTestSequenceMeta(type):
             return test
 
         for params in TEST_LANGUAGES:
-            test_name = "test_create_{}".format(
-                params[0].replace("@", "___").replace("+", "_").replace("-", "__")
-            )
+            test_name = f"test_create_{params[0].replace('@', '___').replace('+', '_').replace('-', '__')}"
             if test_name in dict:
                 msg = f"Duplicate test: {params[0]}, mapped to {test_name}"
                 raise ValueError(msg)
@@ -610,7 +602,7 @@ class LanguagesViewTest(FixtureTestCase):
             {"number": "2", "formula": "n != 1"},
         )
         self.assertRedirects(
-            response, reverse("show_language", kwargs={"lang": "cs"}) + "#information"
+            response, f"{reverse('show_language', kwargs={'lang': 'cs'})}#information"
         )
 
 
@@ -632,8 +624,7 @@ class PluralsCompareTest(TestCase):
         self.assertFalse(
             plural.same_plural(
                 4,
-                "(n%10==1 ? 0 : n%10==1 && n%100!=11 ?"
-                " 1 : n %10>=2 && (n%100<10 || n%100>=20) ? 2 : 3)",
+                "(n%10==1 ? 0 : n%10==1 && n%100!=11 ? 1 : n %10>=2 && (n%100<10 || n%100>=20) ? 2 : 3)",
             )
         )
 
@@ -689,8 +680,7 @@ class PluralTest(BaseTestCase):
             language=language,
             number=3,
             formula=(
-                "(n%10==1 && n%100!=11 ? 0 : "
-                "n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)"
+                "(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)"
             ),
             source=Plural.SOURCE_GETTEXT,
         )
@@ -703,6 +693,24 @@ class PluralTest(BaseTestCase):
         for plural in plurals:
             self.assertIn(plural, choices)
             self.assertIn(plural, data.PLURAL_NAMES)
+
+    def test_parse(self) -> None:
+        self.assertEqual(
+            Plural.parse_plural_forms("nplurals=2; plural=(n == 1) ? 0 : 1;"),
+            (2, "(n == 1) ? 0 : 1"),
+        )
+
+    def test_parse_empty(self) -> None:
+        with self.assertRaises(ValueError):
+            Plural.parse_plural_forms("")
+
+    def test_parse_partial(self) -> None:
+        with self.assertRaises(ValueError):
+            Plural.parse_plural_forms("nplurals=2")
+
+    def test_parse_invalid(self) -> None:
+        with self.assertRaises(ValueError):
+            Plural.parse_plural_forms("nplurals=0; plural=(n == 1) ? 0 : 1;")
 
 
 class PluralMapperTestCase(FixtureTestCase):
@@ -828,17 +836,17 @@ class LanguageAliasesChangeTest(ViewTestCase):
         """Set up test environment."""
         super().setUp()
 
-        def update_codes_in_dict(data: dict) -> dict:
+        def update_codes_in_dict(codes: dict) -> dict:
             """Replace old_code key with new_code in a language dict."""
-            copy = data.copy()
+            copy = codes.copy()
             value = copy.pop(self.old_code)
             copy[self.new_code] = value
             return copy
 
-        def update_code_in_tuple(data: tuple) -> tuple:
+        def update_code_in_tuple(codes: tuple) -> tuple:
             """Replace old_code with new_code in a language tuple."""
             new_data = []
-            for item in data:
+            for item in codes:
                 if item[0] == self.old_code:
                     item = (self.new_code, *item[1:])
                 new_data.append(item)
@@ -917,3 +925,7 @@ class LanguageAliasesChangeTest(ViewTestCase):
         )
         self.component.add_new_language(it_xx, None)
         self.do_alias_language_update_and_check(False, False)
+
+    def test_get_aliases(self) -> None:
+        language = Language.objects.get(code="ka")
+        self.assertEqual(language.get_aliases_names(), ["geo", "ka_ge", "kat"])

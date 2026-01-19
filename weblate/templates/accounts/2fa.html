@@ -3,7 +3,7 @@
 {% load authnames crispy_forms_tags i18n translations %}
 
 {% block breadcrumbs %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'login' %}">{% translate "Sign in" %}</a>
   </li>
 {% endblock breadcrumbs %}
@@ -15,11 +15,11 @@
     <h2>{% include "accounts/snippets/login-title.html" %}</h2>
     <div class="row">
 
-      <div class="col-sm-6 col-sm-push-6">
+      <div class="col-sm-6 order-sm-2">
 
         <h4>{% translate "Second factor sign-in" %}</h4>
-        <div class="panel panel-default">
-          <div class="panel-body">
+        <div class="card">
+          <div class="card-body">
             <form method="post">
 
               <p class="help-block">{% translate "Please complete your sign-in using second factor credential." %}</p>
@@ -50,7 +50,7 @@
         </div>
       </div>
 
-      <div class="col-sm-6 col-sm-pull-6">{% include "accounts/snippets/login-info.html" %}</div>
+      <div class="col-sm-6 order-sm-1">{% include "accounts/snippets/login-info.html" %}</div>
     </div>
   </div>
 

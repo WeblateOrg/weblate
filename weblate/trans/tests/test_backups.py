@@ -62,7 +62,7 @@ class BackupsTest(ViewTestCase):
         )
         with open(TEST_SCREENSHOT, "rb") as handle:
             shot.image.save("screenshot.png", File(handle))
-        shot.units.add(unit)
+        shot.add_unit(unit, user=self.user)
 
         unit.comment_set.create(
             comment="Test comment",
@@ -205,7 +205,7 @@ class BackupsTest(ViewTestCase):
         # Verify that Git operations work on restored repos
         restored.do_reset()
 
-    def test_create_duplicate(self):
+    def test_create_duplicate(self) -> None:
         def extract_names(qs) -> list[str]:
             return list(qs.order_by("name").values_list("name", flat=True))
 

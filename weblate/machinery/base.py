@@ -28,7 +28,7 @@ from weblate.lang.models import Language, PluralMapper
 from weblate.machinery.forms import BaseMachineryForm
 from weblate.utils.errors import report_error
 from weblate.utils.hash import calculate_dict_hash, calculate_hash, hash_to_checksum
-from weblate.utils.requests import request
+from weblate.utils.requests import http_request
 from weblate.utils.similarity import Comparer
 from weblate.utils.site import get_site_url
 
@@ -39,6 +39,7 @@ from .types import (
 if TYPE_CHECKING:
     from collections.abc import Iterable, Iterator
 
+    from requests import Response
     from requests.auth import AuthBase
 
     from weblate.auth.models import User
@@ -104,6 +105,9 @@ class BatchMachineTranslation:
     # Cache results for 30 days
     cache_expiry = 30 * 24 * 3600
 
+    validate_source_language = "en"
+    validate_target_language = "de"
+
     @classmethod
     def get_rank(cls):
         return cls.max_score + cls.rank_boost
@@ -129,7 +133,13 @@ class BatchMachineTranslation:
                 gettext("Could not fetch supported languages: %s") % error
             ) from error
         try:
-            self.download_multiple_translations("en", "de", [("test", None)], None, 75)
+            self.download_multiple_translations(
+                self.validate_source_language,
+                self.validate_target_language,
+                [("test", None)],
+                None,
+                75,
+            )
         except Exception as error:
             raise ValidationError(
                 gettext("Could not fetch translation: %s") % error
@@ -170,7 +180,7 @@ class BatchMachineTranslation:
     def get_auth(self) -> tuple[str, str] | AuthBase | None:
         return None
 
-    def check_failure(self, response) -> None:
+    def check_failure(self, response: Response) -> None:
         # Directly raise error as last resort, subclass can prepend this
         # with something more clever
         try:
@@ -213,7 +223,7 @@ class BatchMachineTranslation:
             headers.update(self.get_headers())
 
         # Fire request
-        response = request(
+        response = http_request(
             method,
             url,
             headers=headers,
@@ -271,21 +281,21 @@ class BatchMachineTranslation:
         cache.set(self.languages_cache, languages, 3600 * 48)
         return languages
 
-    def is_supported(self, source, language):
+    def is_supported(self, source_language, target_language):
         """Check whether given language combination is supported."""
         return (
-            language in self.supported_languages
-            and source in self.supported_languages
-            and source != language
+            target_language in self.supported_languages
+            and source_language in self.supported_languages
+            and source_language != target_language
         )
 
-    def is_rate_limited(self):
+    def is_rate_limited(self) -> bool:
         return cache.get(self.rate_limit_cache, False)
 
-    def set_rate_limit(self):
-        return cache.set(self.rate_limit_cache, True, 1800)
+    def set_rate_limit(self) -> None:
+        cache.set(self.rate_limit_cache, True, 1800)
 
-    def is_rate_limit_error(self, exc) -> bool:
+    def is_rate_limit_error(self, exc: Exception) -> bool:
         if isinstance(exc, MachineryRateLimitError):
             return True
         if not isinstance(exc, HTTPError):
@@ -321,18 +331,18 @@ class BatchMachineTranslation:
 
         return ":".join(str(part) for part in key)
 
-    def unescape_text(self, text: str):
+    def unescape_text(self, text: str) -> str:
         """Unescaping of the text with replacements."""
         return text
 
-    def escape_text(self, text: str):
+    def escape_text(self, text: str) -> str:
         """Escaping of the text with replacements."""
         return text
 
-    def make_re_placeholder(self, text: str):
+    def make_re_placeholder(self, text: str) -> str:
         """Convert placeholder into a regular expression."""
         # Allow additional space before ]
-        return re.escape(text[:-1]) + " *" + re.escape(text[-1:])
+        return f"{re.escape(text[:-1])} *{re.escape(text[-1:])}"
 
     def format_replacement(
         self, h_start: int, h_end: int, h_text: str, h_kind: Unit | None
@@ -368,9 +378,16 @@ class BatchMachineTranslation:
 
         return "".join(parts), replacements
 
+    def uncleanup_text_item(self, text: str, source: str, target: str) -> str:
+        def replace_target(_match: re.Match) -> str:
+            return target
+
+        # Use callable for replacement to avoid interpreting escape sequences
+        return re.sub(self.make_re_placeholder(source), replace_target, text)
+
     def uncleanup_text(self, replacements: dict[str, str], text: str) -> str:
         for source, target in replacements.items():
-            text = re.sub(self.make_re_placeholder(source), target, text)
+            text = self.uncleanup_text_item(text, source, target)
         return self.unescape_text(text)
 
     def uncleanup_results(
@@ -444,7 +461,8 @@ class BatchMachineTranslation:
             )
         except UnsupportedLanguageError:
             unit.translation.log_debug(
-                "machinery failed: not supported language pair: %s - %s",
+                "machinery %s failed: not supported language pair: %s - %s",
+                self.__class__.__name__,
                 translation.component.source_language.code,
                 translation.language.code,
             )
@@ -497,7 +515,8 @@ class BatchMachineTranslation:
             )
         except UnsupportedLanguageError:
             unit.translation.log_debug(
-                "machinery failed: not supported language pair: %s - %s",
+                "machinery %s failed: not supported language pair: %s - %s",
+                self.__class__.__name__,
                 source_language.code,
                 translation.language.code,
             )
@@ -949,7 +968,7 @@ class XMLMachineTranslationMixin(BatchMachineTranslation):
 
 
 class ResponseStatusMachineTranslation(MachineTranslation):
-    def check_failure(self, response) -> None:
+    def check_failure(self, response: Response) -> None:
         payload = response.json()
 
         # Check response status

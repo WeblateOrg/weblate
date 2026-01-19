@@ -4,7 +4,7 @@
 
 from unittest import TestCase
 
-from weblate.trans.models import Unit
+from weblate.trans.models import Component, Project, Unit
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.utils.db import re_escape, using_postgresql
 
@@ -26,24 +26,24 @@ class PostgreSQLOperatorTest(TestCase):
         queryset = Unit.objects.filter(source__search="test").only("id")
         self.assertEqual(
             str(queryset.query),
-            BASE_SQL + '"trans_unit"."source" % test = true',
+            f'{BASE_SQL}"trans_unit"."source" % test = true',
         )
         queryset = Unit.objects.filter(source__search="'''").only("id")
         self.assertEqual(
             str(queryset.query),
-            BASE_SQL + """UPPER("trans_unit"."source") LIKE UPPER(%'''%)""",
+            f'{BASE_SQL}UPPER("trans_unit"."source") LIKE UPPER(%\'\'\'%)',
         )
 
     def test_substring(self) -> None:
         queryset = Unit.objects.filter(source__substring="test").only("id")
         self.assertEqual(
             str(queryset.query),
-            BASE_SQL + '"trans_unit"."source" ILIKE %test%',
+            f'{BASE_SQL}"trans_unit"."source" ILIKE %test%',
         )
         queryset = Unit.objects.filter(source__substring="'''").only("id")
         self.assertEqual(
             str(queryset.query),
-            BASE_SQL + """UPPER("trans_unit"."source") LIKE UPPER(%'''%)""",
+            f'{BASE_SQL}UPPER("trans_unit"."source") LIKE UPPER(%\'\'\'%)',
         )
 
 
@@ -51,7 +51,6 @@ class SearchSQLOperatorTest(FixtureTestCase):
     def test_search(self) -> None:
         # Verifies that even complex query with a fallback is built properly
         # This is essentially what bulk edit does with such search
-        from weblate.trans.models import Component, Project, Unit
 
         obj = Project.objects.all()[0]
         unit_set = Unit.objects.filter(translation__component__project=obj).prefetch()

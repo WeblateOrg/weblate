@@ -226,6 +226,7 @@ class Billing(models.Model):
         trial = ", trial" if self.is_trial else ""
         return f"{base} ({self.plan}{trial})"
 
+    # pylint: disable-next=arguments-differ
     def save(
         self,
         force_insert=False,
@@ -642,9 +643,7 @@ class Invoice(models.Model):
             overlapping = overlapping.exclude(pk=self.pk)
 
         if overlapping.exists():
-            msg = "Overlapping invoices exist: {}".format(
-                format_html_join_comma("{}", list_to_tuples(overlapping))
-            )
+            msg = f"Overlapping invoices exist: {format_html_join_comma('{}', list_to_tuples(overlapping))}"
             raise ValidationError(msg)
 
 
@@ -660,6 +659,7 @@ class BillingEvent(models.IntegerChoices):
     LIBRE_APPROVED = 9, "Approved Libre hosting"
     TERMINATED = 10, "Billing terminated"
     EXTENDED_TRIAL = 11, "Trial extended"
+    PROJECT_BACKUP = 12, "Project backed up"
 
 
 class BillingLogQuerySet(models.QuerySet["BillingLog"]):
@@ -682,6 +682,7 @@ class BillingLog(models.Model):
     )
     summary = models.CharField(max_length=200, verbose_name="Summary")
     user = models.ForeignKey(User, null=True, on_delete=models.RESTRICT)
+    details = models.JSONField(default=dict)
 
     objects = BillingLogQuerySet.as_manager()
 
@@ -715,6 +716,13 @@ def record_project_bill(
             return
     if isinstance(instance, Component):
         instance = instance.project
+
+    # Sync billing access upon project removal, otherwise users will lose access
+    if isinstance(instance, Project):
+        users = User.objects.having_perm("billing.view", instance)
+        for billing in instance.billing_set.all():
+            billing.owners.add(*users)
+
     # Collect billings to update for delete_project_bill
     instance.billings_to_update = list(
         instance.billing_set.values_list("pk", flat=True)

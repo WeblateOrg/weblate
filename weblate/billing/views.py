@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
+import re
 from datetime import timedelta
 from typing import TYPE_CHECKING
 
@@ -16,9 +17,13 @@ from django.utils import timezone
 from weblate.accounts.views import mail_admins_contact
 from weblate.billing.forms import HostingForm
 from weblate.billing.models import Billing, BillingEvent, Invoice, Plan
+from weblate.trans.backups import PROJECTBACKUP_PREFIX
+from weblate.utils.data import data_path
 from weblate.utils.views import show_form_errors
 
 if TYPE_CHECKING:
+    from django.http import HttpResponse
+
     from weblate.auth.models import AuthenticatedHttpRequest
 
 HOSTING_TEMPLATE = """
@@ -36,7 +41,7 @@ Please review at https://hosted.weblate.org%(billing_url)s
 
 
 @login_required
-def download_invoice(request: AuthenticatedHttpRequest, pk):
+def download_invoice(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
     """Download invoice PDF."""
     invoice = get_object_or_404(Invoice, pk=pk)
 
@@ -58,6 +63,29 @@ def download_invoice(request: AuthenticatedHttpRequest, pk):
         as_attachment=True,
         filename=invoice.filename,
         content_type="application/pdf",
+    )
+
+
+BACKUP_RE = re.compile(r"^[0-9]+/[0-9]+.zip$")
+
+
+@login_required
+def restore_backup(request: AuthenticatedHttpRequest) -> HttpResponse:
+    if not request.user.is_superuser:
+        raise PermissionDenied
+    path = request.GET.get("path")
+    if not path or not BACKUP_RE.match(path):
+        msg = "Invalid backup path!"
+        raise Http404(msg)
+    backup_path = data_path(PROJECTBACKUP_PREFIX) / path
+    if not backup_path.exists():
+        msg = "File not found!"
+        raise Http404(msg)
+    return FileResponse(
+        backup_path.open("rb"),
+        as_attachment=True,
+        filename=backup_path.name,
+        content_type="application/zip",
     )
 
 
@@ -132,7 +160,7 @@ def handle_post(request: AuthenticatedHttpRequest, billing) -> None:
 
 
 @login_required
-def overview(request: AuthenticatedHttpRequest):
+def overview(request: AuthenticatedHttpRequest) -> HttpResponse:
     billings = Billing.objects.for_user(request.user).prefetch_related(
         "plan", "projects", "invoice_set"
     )
@@ -151,7 +179,7 @@ def overview(request: AuthenticatedHttpRequest):
 
 
 @login_required
-def detail(request: AuthenticatedHttpRequest, pk):
+def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
     billing = get_object_or_404(Billing, pk=pk)
 
     if not request.user.has_perm("billing.view", billing):

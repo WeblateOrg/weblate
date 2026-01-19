@@ -44,7 +44,7 @@ def detect_strxfrm() -> bool:
     # macOS problematic behavior
     if platform.system() == "Darwin":
         version = Version(platform.mac_ver()[0])
-        if version > Version("15.0") and version < Version("15.6"):
+        if Version("15.0") < version < Version("15.6"):
             # Avoid triggering strxfrm on macOS 15 until 15.6 where it either
             # crashes with OSError or causes Python segmentation fault.
             return False
@@ -101,7 +101,7 @@ def join_plural(plurals: Iterable[str]) -> str:
 
 
 def get_string(
-    text: str | multistring | list | Generator[str, None, None] | None,
+    text: str | multistring | list | Generator[str] | None,
 ) -> str:
     """Return correctly formatted string from ttkit unit data."""
     # Check for null target (happens with XLIFF)
@@ -204,9 +204,9 @@ def get_clean_env(
     # not break existing ordering (for example PATH injection used in tests)
     venv_path = os.path.join(sys.exec_prefix, "bin")
     if venv_path not in environ["PATH"]:
-        environ["PATH"] = "{}:{}".format(venv_path, environ["PATH"])
+        environ["PATH"] = f"{venv_path}:{environ['PATH']}"
     if extra_path and extra_path not in environ["PATH"]:
-        environ["PATH"] = "{}:{}".format(extra_path, environ["PATH"])
+        environ["PATH"] = f"{extra_path}:{environ['PATH']}"
     return environ
 
 

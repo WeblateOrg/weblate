@@ -3,10 +3,10 @@
 {% load crispy_forms_tags i18n permissions translations %}
 
 {% block breadcrumbs %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
   </li>
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'manage-tools' %}">{% translate "Tools" %}</a>
   </li>
 {% endblock breadcrumbs %}
@@ -16,41 +16,41 @@
 
   <form method="post">
     {% csrf_token %}
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">
           {% documentation_icon 'admin/announcements' right=True %}
           {% translate "Post announcement" %}
         </h4>
       </div>
-      <div class="panel-body">{{ announce_form|crispy }}</div>
-      <div class="panel-footer">
+      <div class="card-body">{{ announce_form|crispy }}</div>
+      <div class="card-footer">
         <input type="submit" class="btn btn-primary" value="{% translate "Send" %}" />
       </div>
     </div>
   </form>
 
 
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">{% translate "Django admin interface" %}</h4>
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">{% translate "Django admin interface" %}</h4>
     </div>
-    <div class="panel-body">
+    <div class="card-body">
       <p>{% translate "The Django admin interface might be useful to perform certain management operations." %}</p>
     </div>
-    <div class="panel-footer">
+    <div class="card-footer">
       <a href="{% url "admin:index" %}" class="btn btn-primary">{% translate "Django admin interface" %}</a>
     </div>
   </div>
 
   <form method="post">
     {% csrf_token %}
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">{% translate "Send test e-mail" %}</h4>
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{% translate "Send test e-mail" %}</h4>
       </div>
-      <div class="panel-body">{{ email_form|crispy }}</div>
-      <div class="panel-footer">
+      <div class="card-body">{{ email_form|crispy }}</div>
+      <div class="card-footer">
         <input type="submit" class="btn btn-primary" value="{% translate "Send" %}" />
       </div>
     </div>
@@ -59,18 +59,18 @@
   {% if has_sentry %}
     <form method="post">
       {% csrf_token %}
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
             {# Translators: Integration with Sentry <https://sentry.io> service #}
             {% translate "Test Sentry integration" %}
           </h4>
         </div>
-        <div class="panel-body">
+        <div class="card-body">
           <input type="hidden" name="sentry" value="1" />
           <p>{% translate "Generate a test event to test Sentry integration." %}</p>
         </div>
-        <div class="panel-footer">
+        <div class="card-footer">
           <input type="submit" class="btn btn-primary" value="{% translate "Send" %}" />
         </div>
       </div>

@@ -72,7 +72,7 @@ class ComponentList(models.Model, CacheKeyMixin):
         return reverse("component-list", kwargs={"name": self.slug})
 
     def tab_slug(self):
-        return "list-" + self.slug
+        return f"list-{self.slug}"
 
 
 class AutoComponentList(models.Model):

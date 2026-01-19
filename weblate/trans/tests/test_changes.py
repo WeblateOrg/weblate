@@ -88,14 +88,14 @@ class ChangesTest(ViewTestCase):
     def test_daterange(self) -> None:
         end = timezone.now()
         start = end - timedelta(days=1)
-        period = "{} - {}".format(start.strftime("%m/%d/%Y"), end.strftime("%m/%d/%Y"))
+        period = f"{start.strftime('%m/%d/%Y')} - {end.strftime('%m/%d/%Y')}"
         response = self.client.get(reverse("changes"), {"period": period})
         self.assertContains(response, "Resource update")
 
     def test_pagination(self) -> None:
         end = timezone.now()
         start = end - timedelta(days=1)
-        period = "{} - {}".format(start.strftime("%m/%d/%Y"), end.strftime("%m/%d/%Y"))
+        period = f"{start.strftime('%m/%d/%Y')} - {end.strftime('%m/%d/%Y')}"
         response = self.client.get(reverse("changes"), {"period": period})
         query_string = urlencode({"page": 2, "limit": 20, "period": period})
         self.assertContains(response, escape(query_string))
@@ -106,8 +106,12 @@ class ChangesTest(ViewTestCase):
 
     def test_last_changes_display(self) -> None:
         unit_to_delete = self.get_unit("Orangutan has %d banana")
+        unit_to_delete.context = "Orangutan unit context"
+        unit_to_delete.save()
         self.translation.delete_unit(None, unit_to_delete)
         response = self.client.get(reverse("changes"))
         self.assertContains(
             response, "String removed", count=2
         )  # one is from search options, second from history-data
+        # check the string context is also displayed
+        self.assertContains(response, "Orangutan unit context")

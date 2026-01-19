@@ -62,6 +62,7 @@ class Command(BaseCommand):
             "watched": data["subscriptions"],
         }
 
+    # pylint: disable-next=arguments-differ
     def handle(self, **options) -> None:
         """
         Create default set of groups.

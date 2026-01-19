@@ -1,14 +1,14 @@
 {% load i18n %}
 
 {% if show_full_language %}
-  <tr class="info{% if bootstrap_5 %} table-active{% endif %}">
+  <tr class="info table-active">
     <th colspan="3">
       {% if user_can_edit_language %}
-        <a class="btn btn-primary btn-xs pull-right flip"
+        <a class="btn btn-primary btn-xs float-end"
            href="{% url 'edit-plural' pk=plural.pk %}">{% translate "Edit" %}</a>
       {% endif %}
       {% blocktranslate with source_description=plural.get_source_display %}Plural: {{ source_description }}{% endblocktranslate %}
-      <span class="badge{% if bootstrap_5 %} text-bg-secondary{% endif %}">{% blocktranslate count count=plural.translation_set.count %}{{ count }} translation{% plural %}{{ count }} translations{% endblocktranslate %}</span>
+      <span class="badge text-bg-secondary">{% blocktranslate count count=plural.translation_set.count %}{{ count }} translation{% plural %}{{ count }} translations{% endblocktranslate %}</span>
     </th>
   </tr>
 {% endif %}

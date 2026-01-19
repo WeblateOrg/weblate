@@ -27,7 +27,7 @@ def print_chars(data: list[str]) -> None:
         if char == '"':
             value = """'"'"""
         else:
-            value = '"{}"'.format(char.encode("unicode-escape").decode())
+            value = f'"{char.encode("unicode-escape").decode()}"'
         print(f"    {value},")
 
 

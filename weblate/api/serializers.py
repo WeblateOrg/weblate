@@ -98,6 +98,7 @@ class MultiFieldHyperlinkedIdentityField(serializers.HyperlinkedIdentityField):
         super().__init__(**kwargs)
         self.lookup_field = lookup_field
 
+    # pylint: disable-next=redefined-builtin
     def get_url(self, obj, view_name, request: AuthenticatedHttpRequest, format):  # noqa: A002
         """
         Given an object, return the URL that hyperlinks to the object.
@@ -287,6 +288,7 @@ class BasicUserSerializer(serializers.ModelSerializer[User]):
             "full_name",
             "username",
         )
+        read_only_fields = ("id",)
 
 
 @extend_schema_field(str)
@@ -464,6 +466,12 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
         queryset=Project.objects.none(),
         required=False,
     )
+    admins = serializers.HyperlinkedRelatedField(
+        view_name="api:user-detail",
+        lookup_field="username",
+        many=True,
+        read_only=True,
+    )
 
     class Meta:
         model = Group
@@ -480,6 +488,7 @@ class GroupSerializer(serializers.ModelSerializer[Group]):
             "componentlists",
             "components",
             "enforced_2fa",
+            "admins",
         )
         extra_kwargs = {  # noqa: RUF012
             "url": {"view_name": "api:group-detail", "lookup_field": "id"},
@@ -589,6 +598,7 @@ class RelatedTaskField(serializers.HyperlinkedRelatedField):
     def get_attribute(self, instance):
         return instance
 
+    # pylint: disable-next=redefined-builtin
     def get_url(self, obj, view_name, request: Request, format):  # noqa: A002
         if not obj.in_progress():
             return None
@@ -1098,6 +1108,119 @@ class RepoRequestSerializer(ReadOnlySerializer):
     )
 
 
+class CommitInfoSerializer(ReadOnlySerializer):
+    """Detailed information about a Git commit."""
+
+    revision = serializers.CharField(
+        required=False, allow_null=True, help_text="Full commit hash."
+    )
+    shortrevision = serializers.CharField(
+        required=False, allow_null=True, help_text="Abbreviated commit hash."
+    )
+    author = serializers.CharField(
+        required=False,
+        allow_null=True,
+        help_text="Commit author with email (e.g., 'Name <email@example.com>').",
+    )
+    author_name = serializers.CharField(
+        required=False, allow_null=True, help_text="Author name."
+    )
+    author_email = serializers.CharField(
+        required=False, allow_null=True, help_text="Author email address."
+    )
+    authordate = serializers.DateTimeField(
+        required=False, allow_null=True, help_text="Date when the commit was authored."
+    )
+    commit = serializers.CharField(
+        required=False,
+        allow_null=True,
+        help_text="Committer with email (e.g., 'Name <email@example.com>').",
+    )
+    commit_name = serializers.CharField(
+        required=False, allow_null=True, help_text="Committer name."
+    )
+    commit_email = serializers.CharField(
+        required=False, allow_null=True, help_text="Committer email address."
+    )
+    commitdate = serializers.DateTimeField(
+        required=False, allow_null=True, help_text="Date when the commit was committed."
+    )
+    message = serializers.CharField(
+        required=False, allow_null=True, help_text="Full commit message."
+    )
+    summary = serializers.CharField(
+        required=False, allow_null=True, help_text="First line of the commit message."
+    )
+
+
+class PendingUnitsSerializer(ReadOnlySerializer):
+    """Detailed breakdown of pending translation units."""
+
+    total = serializers.IntegerField(
+        help_text="Total number of translation units with pending changes."
+    )
+    errors_skipped = serializers.IntegerField(
+        help_text="Number of units skipped due to commit errors (blocked by retry policy)."
+    )
+    commit_policy_skipped = serializers.IntegerField(
+        help_text="Number of units skipped by the commit policy (e.g., needs editing, not approved)."
+    )
+    eligible_for_commit = serializers.IntegerField(
+        help_text="Number of units eligible to be committed based on the current policy."
+    )
+
+
+class RepositorySerializer(ReadOnlySerializer):
+    """Serializer for repository status information."""
+
+    needs_commit = serializers.BooleanField(
+        help_text="Whether the repository has pending changes that need to be committed."
+    )
+    needs_merge = serializers.BooleanField(
+        help_text="Whether the repository needs to pull changes from upstream."
+    )
+    needs_push = serializers.BooleanField(
+        help_text="Whether the repository has commits that need to be pushed."
+    )
+    url = serializers.CharField(help_text="URL to the repository API endpoint.")
+    remote_commit = CommitInfoSerializer(
+        required=False,
+        allow_null=True,
+        help_text="Detailed information about the last commit in the remote repository (component/translation only).",
+    )
+    weblate_commit = CommitInfoSerializer(
+        required=False,
+        allow_null=True,
+        help_text="Detailed information about the last commit in the Weblate repository (component/translation only).",
+    )
+    status = serializers.CharField(
+        required=False,
+        allow_null=True,
+        allow_blank=True,
+        help_text="Full repository status text (component/translation only).",
+    )
+    merge_failure = serializers.CharField(
+        required=False,
+        allow_null=True,
+        help_text="Details about merge failure if any (component/translation only).",
+    )
+    pending_units = PendingUnitsSerializer(
+        required=False,
+        allow_null=True,
+        help_text="Detailed breakdown of translation units with pending changes.",
+    )
+    outgoing_commits = serializers.IntegerField(
+        required=False,
+        allow_null=True,
+        help_text="Number of commits ready to be pushed to the remote repository (component/translation only).",
+    )
+    missing_commits = serializers.IntegerField(
+        required=False,
+        allow_null=True,
+        help_text="Number of commits in the remote repository that need to be pulled (component/translation only).",
+    )
+
+
 class StatisticsSerializer(ReadOnlySerializer):
     def to_representation(self, instance):
         stats = instance.stats
@@ -1226,8 +1349,8 @@ class UnitLabelsSerializer(serializers.RelatedField, LabelSerializer):
 
 
 class UnitFlatLabelsSerializer(UnitLabelsSerializer):
-    def to_representation(self, value):
-        return value.id
+    def to_representation(self, instance):
+        return instance.id
 
 
 class UnitSerializer(serializers.ModelSerializer[Unit]):
@@ -1288,6 +1411,7 @@ class UnitSerializer(serializers.ModelSerializer[Unit]):
             "pending",
             "timestamp",
             "last_updated",
+            "automatically_translated",
         )
         extra_kwargs = {  # noqa: RUF012
             "url": {"view_name": "api:unit-detail"},
@@ -1657,7 +1781,7 @@ class AddonSerializer(serializers.ModelSerializer[Addon]):
         if not instance:
             if component:
                 self.check_addon(name, Addon.objects.filter_component(component))
-                if not addon.can_install(component, None):
+                if not addon.can_install(component=component):
                     raise serializers.ValidationError(
                         {"name": f"could not enable add-on {name}, not compatible"}
                     )

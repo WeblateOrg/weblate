@@ -45,6 +45,7 @@ from weblate.checks.flags import Flags
 from weblate.checks.models import CHECKS
 from weblate.checks.utils import highlight_string
 from weblate.configuration.models import Setting, SettingCategory
+from weblate.formats.base import BilingualUpdateMixin
 from weblate.formats.models import EXPORTERS, FILE_FORMATS
 from weblate.lang.models import Language
 from weblate.machinery.models import MACHINERY
@@ -94,9 +95,12 @@ from weblate.utils.forms import (
 from weblate.utils.hash import checksum_to_hash, hash_to_checksum
 from weblate.utils.html import format_html_join_comma
 from weblate.utils.state import (
+    FUZZY_STATES,
     STATE_APPROVED,
     STATE_EMPTY,
     STATE_FUZZY,
+    STATE_NEEDS_CHECKING,
+    STATE_NEEDS_REWRITING,
     STATE_READONLY,
     STATE_TRANSLATED,
     StringState,
@@ -118,19 +122,19 @@ if TYPE_CHECKING:
     from weblate.trans.models.translation import NewUnitParams
 
 BUTTON_TEMPLATE = """
-<button type="button" class="btn btn-default {0}" title="{1}" {2}>{3}</button>
+<button type="button" class="btn btn-outline-primary {0}" title="{1}" {2}>{3}</button>
 """
 RADIO_TEMPLATE = """
-<label class="btn btn-default {0}" title="{1}">
+<label class="btn btn-outline-primary {0}" title="{1}">
 <input type="radio" name="{2}" value="{3}" {4}/>
 {5}
 </label>
 """
 GROUP_TEMPLATE = """
-<div class="btn-group btn-group-xs" {0}>{1}</div>
+<div class="btn-group btn-group-sm" {0}>{1}</div>
 """
 TOOLBAR_TEMPLATE = """
-<div class="btn-toolbar pull-right flip editor-toolbar">{0}</div>
+<div class="btn-toolbar float-end editor-toolbar">{0}</div>
 """
 
 
@@ -284,7 +288,7 @@ class PluralTextarea(forms.Textarea):
             GROUP_TEMPLATE,
             [
                 (
-                    mark_safe('data-toggle="buttons"'),
+                    mark_safe('data-bs-toggle="buttons"'),
                     rtl_switch,
                 )
             ],  # Only one group.
@@ -538,9 +542,25 @@ class TranslationForm(UnitForm):
                 for state, label in StringState.choices
                 if state == STATE_READONLY
             ]
+        else:
+            # Filter fuzzy state choices based on current unit state
+            # STATE_NEEDS_CHECKING and STATE_NEEDS_REWRITING are only shown
+            # if the unit is currently in that state
+            if unit.state == STATE_NEEDS_CHECKING:
+                states_to_hide = {STATE_FUZZY, STATE_NEEDS_REWRITING}
+                self.fields["fuzzy"].label = StringState(STATE_NEEDS_CHECKING).label
+            elif unit.state == STATE_NEEDS_REWRITING:
+                states_to_hide = {STATE_FUZZY, STATE_NEEDS_CHECKING}
+                self.fields["fuzzy"].label = StringState(STATE_NEEDS_REWRITING).label
+            else:
+                states_to_hide = {STATE_NEEDS_CHECKING, STATE_NEEDS_REWRITING}
+            self.fields["review"].choices = [
+                (state, get_state_label(state, label, True))
+                for state, label in StringState.choices
+                if state not in {STATE_READONLY, STATE_EMPTY} | states_to_hide
+            ]
         self.user = user
         self.fields["target"].widget.profile = user.profile
-        self.fields["review"].widget.attrs["class"] = "review_radio"
         # Avoid failing validation on untranslated string
         if args:
             self.fields["review"].choices.append((STATE_EMPTY, ""))
@@ -553,7 +573,7 @@ class TranslationForm(UnitForm):
             Field("fuzzy"),
             Field("contentsum"),
             Field("translationsum"),
-            InlineRadios("review"),
+            InlineRadios("review", css_class="review_radio"),
             Field("explanation"),
         )
         if unit and user.has_perm("unit.review", unit.translation):
@@ -597,6 +617,8 @@ class TranslationForm(UnitForm):
                     )
                 )
 
+        fuzzy_state = unit.state if unit.state in FUZZY_STATES else STATE_FUZZY
+
         # Add extra margin to limit to allow XML tags which might
         # be ignored for the length calculation. On the other side,
         # we do not want to process arbitrarily long strings here.
@@ -607,9 +629,15 @@ class TranslationForm(UnitForm):
         if self.user.has_perm(
             "unit.review", unit.translation
         ) and self.cleaned_data.get("review"):
-            self.cleaned_data["state"] = int(self.cleaned_data["review"])
+            cleaned_state = int(self.cleaned_data["review"])
+            # if the unit is already in a fuzzy state and the new state is also
+            # a fuzzy state, retain the unit's original fuzzy state.
+            if cleaned_state in FUZZY_STATES:
+                self.cleaned_data["state"] = fuzzy_state
+            else:
+                self.cleaned_data["state"] = cleaned_state
         elif self.cleaned_data["fuzzy"]:
-            self.cleaned_data["state"] = STATE_FUZZY
+            self.cleaned_data["state"] = fuzzy_state
         else:
             self.cleaned_data["state"] = STATE_TRANSLATED
 
@@ -680,6 +708,11 @@ class SimpleUploadForm(FieldDocsMixin, forms.Form):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_tag = False
+        self.helper.layout = Layout(
+            Field("file"),
+            Field("method", template="%s/layout/radioselect_upload_method.html"),
+            Field("fuzzy"),
+        )
 
     def get_field_doc(self, field: forms.Field) -> tuple[str, str] | None:
         return ("user/files", f"upload-{field.name}")
@@ -713,12 +746,21 @@ class UploadForm(SimpleUploadForm):
         initial="replace-translated",
     )
 
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.helper.layout.fields.append(Field("conflicts"))
+
 
 class ExtraUploadForm(UploadForm):
     """Advanced upload form for users who can override authorship."""
 
     author_name = forms.CharField(label=gettext_lazy("Author name"))
     author_email = EmailField(label=gettext_lazy("Author e-mail"))
+
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.helper.layout.fields.append(Field("author_name"))
+        self.helper.layout.fields.append(Field("author_email"))
 
 
 def get_upload_form(user: User, translation: Translation, *args, **kwargs):
@@ -766,7 +808,6 @@ class SearchForm(forms.Form):
         language: Language | None = None,
         show_builder=True,
         obj: type[Model | BaseURLMixin] | None = None,
-        bootstrap_5=False,
         **kwargs,
     ) -> None:
         """Generate choices for other components in the same project."""
@@ -780,8 +821,6 @@ class SearchForm(forms.Form):
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True
         self.helper.form_tag = False
-        if bootstrap_5:
-            self.helper.template_pack = "bootstrap5"
         self.helper.layout = Layout(
             Div(
                 Field("offset", **self.offset_kwargs),
@@ -796,7 +835,6 @@ class SearchForm(forms.Form):
                     "user": self.user,
                     "show_builder": show_builder,
                     "language": self.language,
-                    "bootstrap_5": bootstrap_5,
                 },
             ),
             Field("checksum"),
@@ -889,10 +927,9 @@ class MergeForm(UnitForm):
             raise ValidationError(
                 gettext("Could not find the merged string.")
             ) from error
-        else:
-            # Compare in Python to ensure case sensitiveness on MySQL
-            if not translation.is_source and unit.source != merge_unit.source:
-                raise ValidationError(gettext("Could not find the merged string."))
+        # Compare in Python to ensure case sensitiveness on MySQL
+        if not translation.is_source and unit.source != merge_unit.source:
+            raise ValidationError(gettext("Could not find the merged string."))
         return self.cleaned_data
 
 
@@ -1319,7 +1356,7 @@ class ContextForm(FieldDocsMixin, forms.ModelForm):
         )
         if commit:
             self.instance.save(same_content=True)
-            self._save_m2m()
+            self.instance.save_labels(self.cleaned_data["labels"], self.user)
             return self.instance
         return super().save(commit)
 
@@ -1359,6 +1396,14 @@ class UserBlockForm(forms.Form):
             ("30", gettext_lazy("Block the user for one month")),
         ),
         required=False,
+    )
+    note = forms.CharField(
+        required=False,
+        widget=forms.Textarea,
+        label=gettext_lazy("Block note"),
+        help_text=gettext_lazy(
+            "Internal notes regarding blocking the user that are not visible to the user."
+        ),
     )
 
     def __init__(self, *args, **kwargs) -> None:
@@ -1432,12 +1477,6 @@ class ReportsForm(forms.Form):
             raise ValueError(msg)
         self.fields["language"].choices += languages.as_choices()
 
-    def clean(self) -> None:
-        super().clean()
-        # Invalid value, skip rest of the validation
-        if "period" not in self.cleaned_data:
-            return
-
 
 class CleanRepoMixin:
     def clean_repo(self):
@@ -1502,7 +1541,7 @@ class SelectChecksField(forms.JSONField):
 
 
 class FormParamsWidget(forms.MultiWidget):
-    template_name = "bootstrap3/labelled_multiwidget.html"
+    template_name = "bootstrap5/labelled_multiwidget.html"
     subwidget_class = "file-format-param"
 
     def __init__(
@@ -2019,7 +2058,8 @@ class ComponentScratchCreateForm(ComponentProjectForm):
         label=gettext_lazy("File format"),
         initial="po-mono",
         choices=FILE_FORMATS.get_choices(
-            cond=lambda x: bool(x.new_translation) or hasattr(x, "update_bilingual")
+            cond=lambda x: bool(x.new_translation)
+            or issubclass(x, BilingualUpdateMixin)
         ),
     )
     file_format_params = FormParamsField()
@@ -2875,7 +2915,6 @@ class BulkEditForm(forms.Form):
         self, user: User | None, obj: URLMixin | None, *args, **kwargs
     ) -> None:
         project = kwargs.pop("project", None)
-        bootstrap_5 = kwargs.pop("bootstrap_5", False)
         kwargs["auto_id"] = "id_bulk_%s"
         if obj is not None:
             kwargs["initial"] = {"path": obj.full_slug}
@@ -2917,8 +2956,6 @@ class BulkEditForm(forms.Form):
         if labels:
             self.helper.layout.append(InlineCheckboxes("add_labels"))
             self.helper.layout.append(InlineCheckboxes("remove_labels"))
-        if bootstrap_5:
-            self.helper.template_pack = "bootstrap5"
 
 
 class ContributorAgreementForm(forms.Form):

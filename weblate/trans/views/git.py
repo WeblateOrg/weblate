@@ -7,6 +7,7 @@ from typing import TYPE_CHECKING
 
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
+from django.db import transaction
 from django.shortcuts import redirect
 from django.urls import reverse
 from django.utils.translation import gettext
@@ -23,6 +24,7 @@ if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
 
 
+@transaction.atomic
 def execute_locked(
     request: AuthenticatedHttpRequest, obj, message, call, *args, **kwargs
 ):
@@ -66,9 +68,7 @@ def update(request: AuthenticatedHttpRequest, path):
     )
     if result:
         return redirect(
-            "{}?info=1".format(
-                reverse("show_progress", kwargs={"path": obj.get_url_path()})
-            )
+            f"{reverse('show_progress', kwargs={'path': obj.get_url_path()})}?info=1"
         )
     return result
 
@@ -104,9 +104,7 @@ def reset(request: AuthenticatedHttpRequest, path):
     )
     if result:
         return redirect(
-            "{}?info=1".format(
-                reverse("show_progress", kwargs={"path": obj.get_url_path()})
-            )
+            f"{reverse('show_progress', kwargs={'path': obj.get_url_path()})}?info=1"
         )
     return result
 
@@ -159,9 +157,7 @@ def file_scan(request: AuthenticatedHttpRequest, path):
     )
     if result:
         return redirect(
-            "{}?info=1".format(
-                reverse("show_progress", kwargs={"path": obj.get_url_path()})
-            )
+            f"{reverse('show_progress', kwargs={'path': obj.get_url_path()})}?info=1"
         )
     return result
 

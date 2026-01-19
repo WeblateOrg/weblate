@@ -22,5 +22,5 @@ class Command(BaseCommand):
 
         for item in results:
             self.stdout.write(
-                "{:5d} {}".format(item["unit__source__count"], item["unit__source"])
+                f"{item['unit__source__count']:5d} {item['unit__source']}"
             )

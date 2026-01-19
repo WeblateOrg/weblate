@@ -22,7 +22,7 @@ from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.unicodechars import CONTROLCHARS
 
 if TYPE_CHECKING:
-    from weblate.trans.models.translation import Translation
+    from weblate.trans.models import Project, Translation
 
 SPLIT_RE = re.compile(r"[\s,.:!?]+")
 NON_WORD_RE = re.compile(r"\W")
@@ -38,7 +38,7 @@ def get_glossary_sources(component):
     )
 
 
-def get_glossary_automaton(project):
+def get_glossary_automaton(project: Project) -> ahocorasick_rs.AhoCorasick:
     from weblate.trans.models.component import prefetch_glossary_terms
 
     with sentry_sdk.start_span(op="glossary.automaton", name=project.slug):
@@ -102,10 +102,6 @@ def fetch_glossary_terms(  # noqa: C901
             continue
         project = component.project
         source_language = component.source_language
-
-        # Short circuit source language
-        if language == source_language:
-            continue
 
         # Extract all source strings
         sources = [unit.source.lower() for unit in translation_units[translation_id]]
@@ -252,7 +248,7 @@ def render_glossary_units_tsv(units) -> str:
         """
         text = text.translate(CONTROLCHARS_TRANS)
         prohibited_initial_chars_pattern = (
-            "^(" + "|".join(re.escape(char) for char in PROHIBITED_INITIAL_CHARS) + ")*"
+            f"^({'|'.join(re.escape(char) for char in PROHIBITED_INITIAL_CHARS)})*"
         )
 
         return re.sub(prohibited_initial_chars_pattern, "", text).strip()

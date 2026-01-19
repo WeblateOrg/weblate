@@ -1,7 +1,8 @@
 <ul class="nav nav-pills">
   {% for item in legal_menu %}
-    <li {% if item.0 == legal_page %}class="active"{% endif %}>
-      <a href="{% url item.1 %}">{{ item.2 }}</a>
+    <li class="nav-item">
+      <a {% if item.0 == legal_page %}class="nav-link active"{% else %}class="nav-link"{% endif %}
+         href="{% url item.1 %}">{{ item.2 }}</a>
     </li>
   {% endfor %}
 </ul>

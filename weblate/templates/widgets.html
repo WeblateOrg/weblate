@@ -3,10 +3,10 @@
 {% load i18n icons static %}
 
 {% block breadcrumbs %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{{ object.get_absolute_url }}">{{ object }}</a>
   </li>
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url "widgets" path=object.get_url_path %}">{% translate "Widgets" %}</a>
   </li>
 {% endblock breadcrumbs %}
@@ -85,7 +85,7 @@
       <div class="widget-card p-3">
         <button id="embed-code-copy-button"
                 type="button"
-                class="btn btn-link btn-xs pull-right flip"
+                class="btn btn-link btn-xs float-end"
                 data-clipboard-value=""
                 data-clipboard-message="{% translate "Embed code copied to clipboard." %}"
                 title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>

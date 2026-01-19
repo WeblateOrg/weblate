@@ -1,9 +1,10 @@
-{% extends "base5.html" %}
+{% extends "base.html" %}
 
 {% load crispy_forms_tags i18n metrics permissions translations %}
 
 {% block nav_pills %}
   {% perm 'project.edit' object.project as user_can_edit_project %}
+  {% perm 'upload.perform' object as user_can_upload_translation %}
 
   <ul class="nav nav-pills">
     <li class="nav-item">
@@ -63,6 +64,11 @@
              href="{% url 'download' path=object.get_url_path %}?format=zip:xlsx"
              title="{% translate "Download for offline translation." %}">{% blocktranslate %}Download translations as XLSX in a ZIP file{% endblocktranslate %}</a>
         </li>
+        {% if user_can_upload_translation %}
+          <li>
+            <a class="dropdown-item" data-bs-target="#upload" data-bs-toggle="tab">{% translate "Upload translation" %}</a>
+          </li>
+        {% endif %}
       </ul>
     </li>
     <li class="nav-item dropdown">
@@ -76,6 +82,11 @@
         {% if bulk_state_form %}
           <li>
             <a class="dropdown-item" data-bs-target="#bulk-edit" data-bs-toggle="tab" href="#">{% translate "Bulk edit" %}</a>
+          </li>
+        {% endif %}
+        {% if autoform %}
+          <li>
+            <a class="dropdown-item" data-bs-target="#auto" data-bs-toggle="tab" href="#">{% translate "Batch automatic translation" %}</a>
           </li>
         {% endif %}
         <li>
@@ -104,13 +115,13 @@
         {% endif %}
       </ul>
     </li>
-    {% include "snippets/share-menu5.html" with object=object %}
-    {% include "snippets/watch-dropdown5.html" %}
+    {% include "snippets/share-menu.html" with object=object %}
+    {% include "snippets/watch-dropdown.html" %}
   </ul>
 {% endblock nav_pills %}
 
 {% block breadcrumbs %}
-  {% path_object_breadcrumbs5 path_object %}
+  {% path_object_breadcrumbs path_object %}
 
   <a class="ms-auto" href="{{ object.get_widgets_url }}">
     <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
@@ -119,8 +130,10 @@
 
 {% block content %}
 
-  {% announcements language=language project=project bootstrap_5=True %}
+  {% announcements language=language project=project %}
   {% perm 'project.edit' object.project as user_can_edit_project %}
+  {% get_translate_url object as translate_url %}
+  {% perm 'upload.perform' object as user_can_upload_translation %}
 
   <div class="tab-content">
 
@@ -132,17 +145,17 @@
     </div>
 
     <div class="tab-pane" id="information">
-      {% show_info5 project=project language=language stats=language_stats metrics=object|metrics show_full_language=False %}
+      {% show_info project=project language=language stats=language_stats metrics=object|metrics show_full_language=False %}
     </div>
 
     <div class="tab-pane" id="history">
-      {% format_last_changes_content last_changes=last_changes user=user bootstrap_5=True %}
+      {% format_last_changes_content last_changes=last_changes user=user %}
       <a class="btn btn-primary" href="{% url 'changes' path=object.get_url_path %}">{% translate "Browse all changes for this language" %}</a>
     </div>
 
     {% if last_announcements %}
       <div class="tab-pane" id="announcement-history">
-        {% format_last_changes_content last_changes=last_announcements user=user bootstrap_5=True %}
+        {% format_last_changes_content last_changes=last_announcements user=user %}
         <a class="btn btn-primary"
            href="{% url 'changes' path=object.get_url_path %}?action=46">{% translate "Browse all project changes" %}</a>
       </div>
@@ -150,11 +163,15 @@
 
     <div class="tab-pane" id="search">
 
-      <form action="{% url 'search' path=object.get_url_path %}" method="get">
+      <form action="{{ translate_url }}" method="get">
         {% include "snippets/search-form.html" %}
       </form>
 
     </div>
+
+    {% if autoform %}
+      <div class="tab-pane" id="auto">{% include "snippets/autoform.html" with object=object autoform=autoform %}</div>
+    {% endif %}
 
     {% if delete_form %}
       <div class="tab-pane" id="organize">{% include "trans/delete-form.html" %}</div>
@@ -168,7 +185,7 @@
           <div class="card">
             <div class="card-header">
               <h4 class="card-title">
-                {% documentation_icon5 'user/translating' 'search-replace' right=True %}
+                {% documentation_icon 'user/translating' 'search-replace' right=True %}
                 {% translate "Search and replace" %}
               </h4>
             </div>
@@ -189,7 +206,7 @@
           <div class="card">
             <div class="card-header">
               <h4 class="card-title">
-                {% documentation_icon5 'user/translating' 'bulk-edit' right=True %}
+                {% documentation_icon 'user/translating' 'bulk-edit' right=True %}
                 {% translate "Bulk edit" %}
               </h4>
             </div>
@@ -202,13 +219,36 @@
       </div>
     {% endif %}
 
+    {% if user_can_upload_translation %}
+      <div class="tab-pane" id="upload">
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">
+              {% documentation_icon 'user/files' 'upload' right=True %}
+              {% translate "Upload" %}
+            </h4>
+          </div>
+          <div class="card-body">
+            <p>
+              {% blocktranslate trimmed %}
+                Project-wide uploads are currently not supported. Translation
+                files need to be uploaded on the individual translations. Switch
+                to the "Components" tab above, open the desired component, and
+                perform the upload there.
+              {% endblocktranslate %}
+            </p>
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
     {% if announcement_form %}
       <div class="tab-pane" id="announcement">
         <form action="{% url 'announcement' path=object.get_url_path %}" method="post">
           <div class="card">
             <div class="card-header">
               <h4 class="card-title">
-                {% documentation_icon5 'admin/announcements' right=True %}
+                {% documentation_icon 'admin/announcements' right=True %}
                 {% translate "Post announcement" %}
               </h4>
             </div>

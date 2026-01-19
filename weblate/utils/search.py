@@ -24,6 +24,7 @@ from pyparsing import (
     CaselessKeyword,
     OpAssoc,
     Optional,
+    ParseException,
     ParseResults,
     Regex,
     Word,
@@ -38,8 +39,8 @@ from weblate.trans.models import Category, Component, Project, Translation
 from weblate.trans.util import PLURAL_SEPARATOR
 from weblate.utils.db import re_escape, using_postgresql
 from weblate.utils.state import (
+    FUZZY_STATES,
     STATE_APPROVED,
-    STATE_FUZZY,
     STATE_NAMES,
     STATE_READONLY,
     STATE_TRANSLATED,
@@ -51,9 +52,11 @@ if TYPE_CHECKING:
     from collections.abc import Callable
 
     from django.db.models import Expression
-    from pyparsing import (
-        ParserElement,
-    )
+    from pyparsing import ParserElement
+
+
+class SearchQueryError(Exception):
+    """Error in the search expression."""
 
 
 # Helper parsing objects
@@ -166,7 +169,9 @@ class BaseTermExpr:
         try:
             return STATE_NAMES[text]
         except KeyError as exc:
-            raise ValueError(gettext("Unsupported state: {}").format(text)) from exc
+            raise SearchQueryError(
+                gettext("Unsupported state: {}").format(text)
+            ) from exc
 
     def convert_bool(self, text: str) -> bool:
         ltext = text.lower()
@@ -174,8 +179,9 @@ class BaseTermExpr:
             return True
         if ltext in {"no", "false", "off", "0"}:
             return False
-        msg = f"Invalid boolean value: {text}"
-        raise ValueError(msg)
+        raise SearchQueryError(
+            gettext("Could not parse boolean value: {}").format(text)
+        )
 
     @overload
     def convert_int(self, text: RangeExpr) -> tuple[int, int]: ...
@@ -187,7 +193,12 @@ class BaseTermExpr:
                 self.convert_int(text.start),
                 self.convert_int(text.end),
             )
-        return int(text)
+        try:
+            return int(text)
+        except ValueError as error:
+            raise SearchQueryError(
+                gettext("Could not parse numeric value: {}").format(text)
+            ) from error
 
     def convert_id(self, text: str) -> int | set[int]:
         if "," in text:
@@ -293,8 +304,9 @@ class BaseTermExpr:
         date_obj: datetime | None = data.date_obj
 
         if date_obj is None:
-            msg = "Could not parse timestamp"
-            raise ValueError(msg)
+            raise SearchQueryError(
+                gettext("Could not parse timestamp: {}").format(text)
+            )
 
         # Always include timezone
         if date_obj.tzinfo is None:
@@ -383,8 +395,6 @@ class BaseTermExpr:
             return self.date_parse_human(
                 text, hour=hour, minute=minute, second=second, microsecond=microsecond
             )
-            msg = "Could not parse timestamp"
-            raise ValueError(msg)
 
         if (
             hour is None
@@ -432,8 +442,7 @@ class BaseTermExpr:
             if suffix not in {"substring", "iexact"}:
                 return f"{self.NONTEXT_FIELDS[field]}__{suffix}"
             return self.NONTEXT_FIELDS[field]
-        msg = f"Unsupported field: {field}"
-        raise ValueError(msg)
+        raise SearchQueryError(gettext("Unknown search field: {}").format(field))
 
     def convert_non_field(self) -> Q:
         raise NotImplementedError
@@ -469,7 +478,7 @@ class BaseTermExpr:
                     ).exists()
                 except (DataError, OperationalError) as error:
                     # PostgreSQL raises DataError, MySQL OperationalError
-                    raise ValueError(
+                    raise SearchQueryError(
                         gettext("Invalid regular expression: {}").format(error)
                     ) from error
             return Q(**{self.field_name(field, "trgm_regex"): match.expr})
@@ -499,12 +508,18 @@ class BaseTermExpr:
         return query
 
     def is_field(self, text: str, context: dict) -> Q:
-        msg = f"Unsupported is lookup: {text}"
-        raise ValueError(msg)
+        raise SearchQueryError(
+            gettext("Unsupported lookup for {field}: {value}").format(
+                field="is", value=text
+            )
+        )
 
     def has_field(self, text: str, context: dict) -> Q:
-        msg = f"Unsupported has lookup: {text}"
-        raise ValueError(msg)
+        raise SearchQueryError(
+            gettext("Unsupported lookup for {field}: {value}").format(
+                field="has", value=text
+            )
+        )
 
 
 class UnitTermExpr(BaseTermExpr):
@@ -555,13 +570,15 @@ class UnitTermExpr(BaseTermExpr):
         if text == "approved":
             return Q(state=STATE_APPROVED)
         if text in {"fuzzy", "needs-editing"}:
-            return Q(state=STATE_FUZZY)
+            return Q(state__in=FUZZY_STATES)
         if text == "translated":
             return Q(state__gte=STATE_TRANSLATED)
         if text == "untranslated":
             return Q(state__lt=STATE_TRANSLATED)
         if text == "pending":
             return Q(pending_changes__isnull=False)
+        if text in {"automatically-translated", "automatically_translated"}:
+            return Q(automatically_translated=True)
 
         return super().is_field(text, context)
 
@@ -597,7 +614,7 @@ class UnitTermExpr(BaseTermExpr):
                 & Q(context__regex=F("variant__variant_regex"))
             )
         if text == "label":
-            return Q(source_unit__labels__isnull=False) | Q(labels__isnull=False)
+            return Q(source_unit__labels__isnull=False)
         if text == "context":
             return ~Q(context="")
         if text == "screenshot":
@@ -714,8 +731,6 @@ class UnitTermExpr(BaseTermExpr):
             return query & Q(check__dismissed=False)
         if field == "dismissed_check":
             return query & Q(check__dismissed=True)
-        if field == "label":
-            return query | Q(labels__name__iexact=match)
         if field == "screenshot":
             return query | Q(screenshots__name__iexact=match)
         if field == "comment":
@@ -734,7 +749,7 @@ class UnitTermExpr(BaseTermExpr):
 
     def get_annotations(self, context: dict) -> dict[str, Expression]:
         if self.field == "labels_count":
-            return {"labels_count": Count("source_unit__labels") + Count("labels")}
+            return {"labels_count": Count("source_unit__labels")}
         return super().get_annotations(context)
 
 
@@ -758,8 +773,6 @@ class UserTermExpr(BaseTermExpr):
         return Q(username__icontains=self.match) | Q(full_name__icontains=self.match)
 
     def contributes_field(self, text: str, context: dict) -> Q:
-        from weblate.trans.models import Component
-
         if "/" not in text:
             return Q(change__project__slug__iexact=text)
         return Q(
@@ -812,8 +825,8 @@ def parser_to_query(obj: ParseResults | BaseTermExpr, context: dict) -> Q:
     for item in obj:
         if isinstance(item, str) and (current := item.upper()) in {"OR", "AND", "NOT"}:
             if operator and current != operator:
-                msg = "Mixed operators!"
-                raise ValueError(msg)
+                msg = gettext("Mixed operators!")
+                raise SearchQueryError(msg)
             operator = current
             was_operator = True
             continue
@@ -852,10 +865,14 @@ def parse_string(
     text: str, parser: Literal["unit", "user", "superuser"]
 ) -> ParseResults:
     if "\x00" in text:
-        msg = "Invalid query string."
-        raise ValueError(msg)
+        raise SearchQueryError(gettext("Invalid character in the query string"))
     with PARSER_LOCK:
-        return PARSERS[parser].parse_string(text, parse_all=True)
+        try:
+            return PARSERS[parser].parse_string(text, parse_all=True)
+        except ParseException as error:
+            raise SearchQueryError(
+                gettext("Failed to parse the query string: {}").format(error)
+            ) from error
 
 
 def parse_query(

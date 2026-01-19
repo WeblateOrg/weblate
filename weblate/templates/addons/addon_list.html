@@ -4,11 +4,11 @@
 
 {% block nav_pills %}
   <ul class="nav nav-pills">
-    <li class="active">
-      <a href="#addons" data-toggle="tab">{% translate "Add-ons" %}</a>
+    <li class="nav-item">
+      <a class="nav-link active" data-bs-target="#addons" data-bs-toggle="tab" href="#">{% translate "Add-ons" %}</a>
     </li>
-    <li>
-      <a href="#history" data-toggle="tab">{% translate "History" %}</a>
+    <li class="nav-item">
+      <a class="nav-link" data-bs-target="#history" data-bs-toggle="tab" href="#">{% translate "History" %}</a>
     </li>
   </ul>
 {% endblock nav_pills %}
@@ -16,14 +16,14 @@
 {% block breadcrumbs %}
   {% if object %}
     {% path_object_breadcrumbs object %}
-    <li>
+    <li class="breadcrumb-item">
       <a href="{% url 'addons' path=object.get_url_path %}">{% translate "Add-ons" %}</a>
     </li>
   {% else %}
-    <li>
+    <li class="breadcrumb-item">
       <a href="{% url 'manage' %}">{% translate "Manage" %}</a>
     </li>
-    <li>
+    <li class="breadcrumb-item">
       <a href="{% url 'manage-addons' %}">{% translate "Add-ons" %}</a>
     </li>
   {% endif %}
@@ -34,9 +34,9 @@
   <div class="tab-content">
 
     <div class="tab-pane active" id="addons">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
             {% documentation_icon 'admin/addons' right=True %}
             {% if not object_list %}
               {% translate "No add-ons currently installed" %}
@@ -71,7 +71,7 @@
             {% endfor %}
           </tbody>
         </table>
-        <div class="panel-footer">
+        <div class="card-footer">
           {% if scope == "sitewide" %}
             {% translate "Add-ons can also be installed at the project and the component levels." %}
           {% endif %}
@@ -92,9 +92,9 @@
         </div>
       </div>
 
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">
             {% documentation_icon 'admin/addons' right=True %}
             {% translate "Available add-ons" %}
           </h4>
@@ -123,7 +123,7 @@
             {% endfor %}
           </tbody>
         </table>
-        <div class="panel-footer">
+        <div class="card-footer">
           {% if not available %}
             {% translate "Could not find any additional add-ons compatible with this translation component." %}
           {% else %}

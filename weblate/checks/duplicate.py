@@ -19,7 +19,7 @@ if TYPE_CHECKING:
     from weblate.trans.models import Unit
 
 # Regexp for non word chars
-NON_WORD = re.compile("[{}\\]]+".format("".join(NON_WORD_CHARS)))
+NON_WORD = re.compile(f"[{''.join(NON_WORD_CHARS)}\\]]+")
 
 # Per language ignore list
 IGNORES = {

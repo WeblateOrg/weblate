@@ -3,7 +3,7 @@
 {% load crispy_forms_tags i18n icons translations %}
 
 {% block breadcrumbs %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'hosting' %}">{% translate "Hosting" %}</a>
   </li>
 {% endblock breadcrumbs %}
@@ -11,9 +11,9 @@
 {% block content %}
 
   {% if billings %}
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">{% translate "Trial subscriptions" %}</h4>
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{% translate "Trial subscriptions" %}</h4>
       </div>
       {% include "billing/list.html" with objects=billings %}
     </div>
@@ -25,11 +25,11 @@
       <form method="post" action="{% url 'trial' %}">
         {% csrf_token %}
         <input type="hidden" name="plan" value="libre" />
-        <div class="panel panel-default">
-          <div class="panel-heading">
-            <h4 class="panel-title">{% translate "Set up your libre project" %}</h4>
+        <div class="card">
+          <div class="card-header">
+            <h4 class="card-title">{% translate "Set up your libre project" %}</h4>
           </div>
-          <div class="panel-body">
+          <div class="card-body">
 
             {% include "snippets/libre-basic.html" %}
             <h4>{% translate "Your trial" %}</h4>
@@ -41,7 +41,7 @@
             </ul>
 
           </div>
-          <div class="panel-footer">
+          <div class="card-footer">
             <input type="submit" value="{% translate "Get started" %}" class="btn btn-primary" />
           </div>
         </div>
@@ -49,16 +49,16 @@
     </div>
 
     <div class="col-md-6">
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4 class="panel-title">{% translate "Looking for commercial hosting?" %}</h4>
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{% translate "Looking for commercial hosting?" %}</h4>
         </div>
-        <div class="panel-body">
+        <div class="card-body">
           <p>
             {% translate "Start your gratis trial today and explore our competitively priced commercial hosting solutions." %}
           </p>
         </div>
-        <div class="panel-footer">
+        <div class="card-footer">
           <a class="btn btn-primary" href="{% url 'trial' %}">{% translate "Gratis trial" %}</a>
         </div>
       </div>

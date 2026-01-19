@@ -9,15 +9,21 @@ from weblate.accounts.templatetags.urlformat import urlformat
 
 
 class TemplateTagsTestCase(SimpleTestCase):
-    def test_simple(self) -> None:
+    def test_add_site_url_filter(self) -> None:
         template = Template("""
                 {% load site_url %}
                 <html><body>
                 {% filter add_site_url %}
+                <p>
                     text:
                     <a href="/foo"><span>Foo</span></a>
-
+                </p>
                 {% endfilter %}
+                <p>
+                {% filter add_site_url %}
+                    other&amp;
+                {% endfilter %}
+                </p>
                 </body>
                 </html>
             """)
@@ -33,6 +39,7 @@ class TemplateTagsTestCase(SimpleTestCase):
                         </span>
                     </a>
                 </p>
+                <p>other&amp;</p>
             </body>
             </html>
             """,

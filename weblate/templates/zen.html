@@ -11,10 +11,10 @@
 
 {% block breadcrumbs %}
   {% path_object_breadcrumbs path_object %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'zen' path=object.get_url_path %}">{% translate "Zen" %}</a>
   </li>
-  <a class="pull-right flip" href="{{ object.get_widgets_url }}">
+  <a class="float-end ms-auto" href="{{ object.get_widgets_url }}">
     <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
   </a>
 {% endblock breadcrumbs %}
@@ -31,7 +31,7 @@
     {% include "snippets/component/state.html" with object=object.component %}
   {% endif %}
 
-  <div class="btn-group pull-right flip btn-group-settings" role="group">
+  <div class="btn-group float-end btn-group-settings" role="group">
 
     <a href="{% url 'translate' path=object.get_url_path %}?{{ search_url }}"
        data-params="{{ search_url }}"
@@ -49,7 +49,7 @@
     </form>
   </div>
 
-  <table class="zen table table-condensed {% if user.profile.zen_mode == user.profile.ZEN_HORIZONTAL %}zen-horizontal{% endif %}">
+  <table class="zen table table-sm {% if user.profile.zen_mode == user.profile.ZEN_HORIZONTAL %}zen-horizontal{% endif %}">
     {% include 'zen-units.html' %}
     <tfoot>
       <tr>

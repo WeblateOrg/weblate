@@ -377,7 +377,7 @@ CODES = {lang[0] for lang in LANGUAGES}
 
 
 # Parse CSV passed on the command line
-with open(sys.argv[1]) as handle:
+with open(sys.argv[1], encoding="utf-8") as handle:
     for (
         pos,
         _change,
@@ -396,8 +396,7 @@ with open(sys.argv[1]) as handle:
             if not locale:
                 continue
             code = locale.split("(")[-1].split(")")[0]
-            if code in ALIASES:
-                code = ALIASES[code]
+            code = ALIASES.get(code, code)
             if code not in CODES:
                 sys.stderr.write(f"Skipping not known {code}\n")
                 continue

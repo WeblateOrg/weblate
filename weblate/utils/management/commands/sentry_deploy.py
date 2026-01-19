@@ -35,7 +35,7 @@ class Command(BaseCommand):
 
         sentry_auth = {"Authorization": f"Bearer {settings.SENTRY_TOKEN}"}
         sentry_url = settings.SENTRY_RELEASES_API_URL
-        release_url = sentry_url + version + "/"
+        release_url = f"{sentry_url}{version}/"
 
         # Ensure the release is tracked on Sentry
         response = requests.get(release_url, headers=sentry_auth, timeout=30)
@@ -54,10 +54,10 @@ class Command(BaseCommand):
 
         # Track the deploy
         response = requests.post(
-            release_url + "deploys/",
+            f"{release_url}deploys/",
             data={"environment": settings.SENTRY_ENVIRONMENT},
             headers=sentry_auth,
             timeout=30,
         )
         response.raise_for_status()
-        self.stdout.write("Created new Sentry deploy {}".format(response.json()["id"]))
+        self.stdout.write(f"Created new Sentry deploy {response.json()['id']}")

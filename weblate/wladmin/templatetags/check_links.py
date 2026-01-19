@@ -27,4 +27,7 @@ def check_link(check: CheckMessage) -> str:
 
 @register.simple_tag
 def configuration_error_link(check: str, fallback: str | None = None) -> str:
-    return render_documentation_icon(check_doc_link(check) or fallback)
+    doc_link = check_doc_link(check) or fallback
+    if not doc_link:
+        return ""
+    return render_documentation_icon(doc_link)

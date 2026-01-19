@@ -33,7 +33,7 @@ from weblate.auth.models import Invitation, User, get_anonymous
 from weblate.trans.defines import FULLNAME_LENGTH
 from weblate.utils import messages
 from weblate.utils.ratelimit import reset_rate_limit
-from weblate.utils.requests import request
+from weblate.utils.requests import http_request
 from weblate.utils.validators import (
     CRUD_RE,
     USERNAME_MATCHER,
@@ -55,7 +55,7 @@ class EmailAlreadyAssociated(AuthAlreadyAssociated):
 
 def get_github_emails(access_token):
     """Get real e-mail from GitHub."""
-    response = request(
+    response = http_request(
         "get",
         "https://api.github.com/user/emails",
         headers={"Authorization": f"token {access_token}"},
@@ -145,9 +145,7 @@ def send_validation(strategy, backend, code, partial_token) -> None:
         session.create()
     session["registration-email-sent"] = True
 
-    url = "{}?verification_code={}&partial_token={}".format(
-        reverse("social:complete", args=(backend.name,)), code.code, partial_token
-    )
+    url = f"{reverse('social:complete', args=(backend.name,))}?verification_code={code.code}&partial_token={partial_token}"
 
     context = {"url": url, "validity": settings.AUTH_TOKEN_VALID // 3600}
 
@@ -328,7 +326,7 @@ def revoke_mail_code(strategy, details, **kwargs) -> None:
             )
             code.delete()
         except strategy.storage.code.DoesNotExist:
-            return
+            pass
 
 
 def ensure_valid(
@@ -576,9 +574,7 @@ def second_factor(strategy, backend, user: User, current_partial, **kwargs):
         strategy.request.session[SESSION_SECOND_FACTOR_USER] = (user.id, "")
         strategy.request.session[SESSION_SECOND_FACTOR_SOCIAL] = True
         # Redirect to second factor login
-        continue_url = "{}?partial_token={}".format(
-            reverse("social:complete", args=(backend.name,)), current_partial.token
-        )
+        continue_url = f"{reverse('social:complete', args=(backend.name,))}?partial_token={current_partial.token}"
         login_params = {"next": continue_url}
         login_url = reverse(
             "2fa-login", kwargs={"backend": user.profile.get_second_factor_type()}

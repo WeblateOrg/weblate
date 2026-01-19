@@ -6,6 +6,7 @@ from __future__ import annotations
 import json
 from typing import TYPE_CHECKING
 
+from django.contrib.auth.decorators import login_not_required
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -113,6 +114,7 @@ class WidgetRedirectView(RedirectView):
     permanent = True
     query_string = True
 
+    # pylint: disable=arguments-differ
     def get_redirect_url(
         self,
         project: str,
@@ -144,6 +146,7 @@ class WidgetRedirectView(RedirectView):
 
 
 @vary_on_cookie
+@login_not_required
 @cache_control(max_age=3600)
 def render_widget(
     request: AuthenticatedHttpRequest,

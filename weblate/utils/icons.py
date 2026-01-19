@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 from functools import lru_cache
+from pathlib import Path
 
 from django.contrib.staticfiles import finders
 
@@ -29,7 +30,6 @@ def load_icon(name: str, *, auto_prefix: bool = True) -> bytes:
     if auto_prefix and "/" not in name:
         name = f"icons/{name}"
 
-    filename = find_static_file(name)
+    filename = Path(find_static_file(name))
 
-    with open(filename, "rb") as handle:
-        return handle.read()
+    return filename.read_bytes()

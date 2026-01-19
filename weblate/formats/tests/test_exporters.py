@@ -7,6 +7,7 @@ import os
 import shutil
 import subprocess
 import tempfile
+from pathlib import Path
 from typing import TYPE_CHECKING
 
 import pytest
@@ -217,7 +218,7 @@ class PoXliffExporterTest(PoExporterTest):
             id="app_name">
             %1$s
         </xliff:g>"""
-        result = self.check_unit(source="x " + xml, target="y " + xml).decode()
+        result = self.check_unit(source=f"x {xml}", target=f"y {xml}").decode()
         self.assertIn("<g", result)
 
     def test_html(self) -> None:
@@ -243,7 +244,7 @@ class CLASSNAME extends BASECLASS {
  }
 }
 ?>"""
-        result = self.check_unit(source="x " + text, target="y " + text).decode()
+        result = self.check_unit(source=f"x {text}", target=f"y {text}").decode()
         self.assertIn("&lt;?php", result)
 
 
@@ -438,8 +439,7 @@ class MultiCSVExporterTest(PoExporterTest):
 "Primary open reduction of fracture and functional bracing","Primární otevřená redukce zlomeniny a funkční ortéza","179054002","http://snomed.info/id/179054002 - Primary open reduction of fracture and functional bracing (procedure)"'''
 
             csv_file_path = os.path.join(git_dir, "test.csv")
-            with open(csv_file_path, "w", encoding="utf-8") as f:
-                f.write(csv_content)
+            Path(csv_file_path).write_text(csv_content, encoding="utf-8")
 
             # Add and commit the file
             subprocess.run(["git", "add", "test.csv"], cwd=git_dir, check=True)

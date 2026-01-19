@@ -4,11 +4,11 @@
 
 {% block breadcrumbs %}
   {% path_object_breadcrumbs path_object %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'guide' path=object.get_url_path %}">{% translate "Community localization checklist" %}</a>
   </li>
 
-  <a class="pull-right flip" href="{{ object.get_widgets_url }}">
+  <a class="float-end" href="{{ object.get_widgets_url }}">
     <img src="{% url 'widget-image' path=object.get_url_path widget='svg' color='badge' extension='svg' %}?native=1" />
   </a>
 {% endblock breadcrumbs %}
@@ -21,9 +21,9 @@
 
   {% perm 'component.edit' object as user_can_edit_component %}
 
-  <div class="panel panel-default">
-    <div class="panel-heading">{% translate "Community localization checklist" %}</div>
-    <div class="panel-body">
+  <div class="card">
+    <div class="card-header">{% translate "Community localization checklist" %}</div>
+    <div class="card-body">
       {% translate "Here you can find guidance to make your localization project attractive to the community." %}
     </div>
 
@@ -62,7 +62,7 @@
         {% endif %}
       {% endfor %}
     </table>
-    <div class="panel-footer">
+    <div class="card-footer">
       <a href="{{ object.get_absolute_url }}" class="btn btn-primary">{% translate "Return to the component" %}</a>
     </div>
   </div>

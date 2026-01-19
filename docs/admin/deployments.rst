@@ -47,4 +47,4 @@ It also is possible to use the command-line interface:
 
 .. code-block:: sh
 
-    yunohost app install https://github.com/YunoHost-Apps/weblate_ynh
+    yunohost app install weblate

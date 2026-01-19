@@ -10,6 +10,7 @@ import os
 import tempfile
 from datetime import timedelta
 from io import StringIO
+from pathlib import Path
 from typing import TYPE_CHECKING, ClassVar
 from unittest.mock import patch
 
@@ -29,6 +30,7 @@ from weblate.trans.actions import ActionEvents
 from weblate.trans.models import (
     Announcement,
     Category,
+    Change,
     Comment,
     Component,
     PendingUnitChange,
@@ -39,8 +41,9 @@ from weblate.trans.models import (
 )
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.state import (
+    FUZZY_STATES,
     STATE_EMPTY,
-    STATE_FUZZY,
+    STATE_NEEDS_REWRITING,
     STATE_READONLY,
     STATE_TRANSLATED,
 )
@@ -54,6 +57,7 @@ from .consistency import LanguageConsistencyAddon
 from .discovery import DiscoveryAddon
 from .example import ExampleAddon
 from .example_pre import ExamplePreAddon
+from .fedora_messaging import FedoraMessagingAddon
 from .flags import (
     BulkEditAddon,
     SameEditAddon,
@@ -84,7 +88,9 @@ from .tasks import addon_change, cleanup_addon_activity_log, daily_addons
 from .webhooks import SlackWebhookAddon, WebhookAddon
 
 if TYPE_CHECKING:
-    from weblate.auth.models import User
+    from weblate.trans.models import (
+        Project,
+    )
 
     from .webhooks import JSONWebhookBaseAddon
 
@@ -115,7 +121,12 @@ class CrashAddon(UpdateBaseAddon):
             raise CrashAddonError(msg)
 
     @classmethod
-    def can_install(cls, component: Component, user: User | None) -> bool:  # noqa: ARG003
+    def can_install(
+        cls,
+        *,
+        component: Component | None = None,  # noqa: ARG003
+        project: Project | None = None,  # noqa: ARG003
+    ) -> bool:
         return False
 
 
@@ -137,10 +148,10 @@ class TestAddonMixin:
 
 class AddonBaseTest(TestAddonMixin, ViewTestCase):
     def test_can_install(self) -> None:
-        self.assertTrue(NoOpAddon.can_install(self.component, None))
+        self.assertTrue(NoOpAddon.can_install(component=self.component))
 
     def test_example(self) -> None:
-        self.assertTrue(ExampleAddon.can_install(self.component, None))
+        self.assertTrue(ExampleAddon.can_install(component=self.component))
         addon = ExampleAddon.create(component=self.component)
         addon.pre_commit(None, "", True)
 
@@ -231,6 +242,7 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
         self.component.trigger_post_update(
             previous_head=self.component.repository.last_revision,
             skip_push=False,
+            user=None,
         )
         self.assertEqual(rev, self.component.repository.last_revision)
         commit = self.component.repository.show(self.component.repository.last_revision)
@@ -252,6 +264,7 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
         self.component.trigger_post_update(
             previous_head=self.component.repository.last_revision,
             skip_push=False,
+            user=None,
         )
 
         self.assertEqual([], self.component.addons_cache["__names__"])
@@ -269,14 +282,14 @@ class GettextAddonTest(ViewTestCase):
 
     def test_gettext_mo(self) -> None:
         translation = self.get_translation()
-        self.assertTrue(GenerateMoAddon.can_install(translation.component, None))
+        self.assertTrue(GenerateMoAddon.can_install(component=translation.component))
         addon = GenerateMoAddon.create(component=translation.component)
         addon.pre_commit(translation, "", True)
         self.assertTrue(os.path.exists(translation.addon_commit_files[0]))
 
     def test_update_linguas(self) -> None:
         translation = self.get_translation()
-        self.assertTrue(UpdateLinguasAddon.can_install(translation.component, None))
+        self.assertTrue(UpdateLinguasAddon.can_install(component=translation.component))
         addon = UpdateLinguasAddon.create(component=translation.component)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("LINGUAS", commit)
@@ -287,8 +300,8 @@ class GettextAddonTest(ViewTestCase):
         other = self._create_component(
             "po", "po-duplicates/*.dpo", name="Other", project=self.project
         )
-        self.assertTrue(UpdateLinguasAddon.can_install(other, None))
-        addon = UpdateLinguasAddon.create(component=other)
+        self.assertTrue(UpdateLinguasAddon.can_install(component=other))
+        UpdateLinguasAddon.create(component=other)
         commit = other.repository.show(other.repository.last_revision)
         self.assertIn("LINGUAS", commit)
         self.assertIn("\n+cs de it", commit)
@@ -333,14 +346,15 @@ class GettextAddonTest(ViewTestCase):
 
     def test_update_configure(self) -> None:
         translation = self.get_translation()
-        self.assertTrue(UpdateConfigureAddon.can_install(translation.component, None))
+        self.assertTrue(
+            UpdateConfigureAddon.can_install(component=translation.component)
+        )
         addon = UpdateConfigureAddon.create(component=translation.component)
         addon.post_add(translation)
         self.assertEqual(translation.addon_commit_files, [])
 
     def test_generate(self) -> None:
-        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
-        self.assertTrue(GenerateFileAddon.can_install(self.component, None))
+        self.assertTrue(GenerateFileAddon.can_install(component=self.component))
         GenerateFileAddon.create(
             component=self.component,
             configuration={
@@ -350,6 +364,15 @@ class GettextAddonTest(ViewTestCase):
 }""",
             },
         )
+        commit = self.component.repository.show(self.component.repository.last_revision)
+        # Verify file is created upon install
+        self.assertIn("stats/cs.json", commit)
+        # Verify that source language file is not there
+        self.assertNotIn("stats/en.json", commit)
+        self.assertIn('"translated": 0', commit)
+
+        # Verify file is updated upon edit
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
         self.get_translation().commit_pending("test", None)
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("stats/cs.json", commit)
@@ -357,15 +380,16 @@ class GettextAddonTest(ViewTestCase):
 
     def test_gettext_comment(self) -> None:
         translation = self.get_translation()
-        self.assertTrue(GettextAuthorComments.can_install(translation.component, None))
+        self.assertTrue(
+            GettextAuthorComments.can_install(component=translation.component)
+        )
         addon = GettextAuthorComments.create(component=translation.component)
         addon.pre_commit(translation, "Stojan Jakotyc <stojan@example.com>", True)
-        with open(translation.get_filename()) as handle:
-            content = handle.read()
+        content = Path(translation.get_filename()).read_text(encoding="utf-8")
         self.assertIn("Stojan Jakotyc", content)
 
     def test_pseudolocale(self) -> None:
-        self.assertTrue(PseudolocaleAddon.can_install(self.component, None))
+        self.assertTrue(PseudolocaleAddon.can_install(component=self.component))
         PseudolocaleAddon.create(
             component=self.component,
             configuration={
@@ -384,7 +408,7 @@ class GettextAddonTest(ViewTestCase):
                 self.assertTrue(text.endswith(("!!!", "!!!\n")))
 
     def test_pseudolocale_variable(self) -> None:
-        self.assertTrue(PseudolocaleAddon.can_install(self.component, None))
+        self.assertTrue(PseudolocaleAddon.can_install(component=self.component))
         PseudolocaleAddon.create(
             component=self.component,
             configuration={
@@ -411,7 +435,7 @@ class GettextAddonTest(ViewTestCase):
         self.assertEqual(translation.check_flags, "")
 
     def test_prefill(self) -> None:
-        self.assertTrue(PrefillAddon.can_install(self.component, None))
+        self.assertTrue(PrefillAddon.can_install(component=self.component))
         PrefillAddon.create(component=self.component)
         for translation in self.component.translation_set.prefetch():
             self.assertEqual(translation.stats.nottranslated, 0)
@@ -422,7 +446,7 @@ class GettextAddonTest(ViewTestCase):
         self.assertFalse(PendingUnitChange.objects.exists())
 
     def test_read_only(self) -> None:
-        self.assertTrue(FillReadOnlyAddon.can_install(self.component, None))
+        self.assertTrue(FillReadOnlyAddon.can_install(component=self.component))
         addon = FillReadOnlyAddon.create(component=self.component)
         for translation in self.component.translation_set.prefetch():
             if translation.is_source:
@@ -452,7 +476,7 @@ class AppStoreAddonTest(ViewTestCase):
         return self.create_appstore()
 
     def test_cleanup(self) -> None:
-        self.assertTrue(CleanupAddon.can_install(self.component, None))
+        self.assertTrue(CleanupAddon.can_install(component=self.component))
         rev = self.component.repository.last_revision
         addon = CleanupAddon.create(component=self.component)
         self.assertNotEqual(rev, self.component.repository.last_revision)
@@ -469,7 +493,7 @@ class AndroidAddonTest(ViewTestCase):
         return self.create_android(suffix="-not-synced", new_lang="add")
 
     def test_cleanup(self) -> None:
-        self.assertTrue(CleanupAddon.can_install(self.component, None))
+        self.assertTrue(CleanupAddon.can_install(component=self.component))
         rev = self.component.repository.last_revision
         addon = CleanupAddon.create(component=self.component)
         self.assertNotEqual(rev, self.component.repository.last_revision)
@@ -487,7 +511,7 @@ class WindowsRCAddonTest(ViewTestCase):
         return self.create_winrc()
 
     def test_cleanup(self) -> None:
-        self.assertTrue(CleanupAddon.can_install(self.component, None))
+        self.assertTrue(CleanupAddon.can_install(component=self.component))
         rev = self.component.repository.last_revision
         addon = CleanupAddon.create(component=self.component)
         self.assertNotEqual(rev, self.component.repository.last_revision)
@@ -505,7 +529,7 @@ class IntermediateAddonTest(ViewTestCase):
         return self.create_json_intermediate(new_lang="add")
 
     def test_cleanup(self) -> None:
-        self.assertTrue(CleanupAddon.can_install(self.component, None))
+        self.assertTrue(CleanupAddon.can_install(component=self.component))
         rev = self.component.repository.last_revision
         addon = CleanupAddon.create(component=self.component)
         self.assertNotEqual(rev, self.component.repository.last_revision)
@@ -524,7 +548,7 @@ class ResxAddonTest(ViewTestCase):
         return self.create_resx()
 
     def test_cleanup(self) -> None:
-        self.assertTrue(CleanupAddon.can_install(self.component, None))
+        self.assertTrue(CleanupAddon.can_install(component=self.component))
         rev = self.component.repository.last_revision
         addon = CleanupAddon.create(component=self.component)
         # Unshallow the local repo
@@ -538,7 +562,7 @@ class ResxAddonTest(ViewTestCase):
         self.assertIn("resx/cs.resx", commit)
 
     def test_update(self) -> None:
-        self.assertTrue(ResxUpdateAddon.can_install(self.component, None))
+        self.assertTrue(ResxUpdateAddon.can_install(component=self.component))
         addon = ResxUpdateAddon.create(component=self.component)
         rev = self.component.repository.last_revision
         # Unshallow the local repo
@@ -557,7 +581,7 @@ class CSVAddonTest(ViewTestCase):
         return self.create_csv_mono()
 
     def test_cleanup(self) -> None:
-        self.assertTrue(CleanupAddon.can_install(self.component, None))
+        self.assertTrue(CleanupAddon.can_install(component=self.component))
         rev = self.component.repository.last_revision
         addon = CleanupAddon.create(component=self.component)
         addon.post_update(
@@ -568,7 +592,7 @@ class CSVAddonTest(ViewTestCase):
         self.assertIn("csv-mono/cs.csv", commit)
 
     def test_remove_blank(self) -> None:
-        self.assertTrue(RemoveBlankAddon.can_install(self.component, None))
+        self.assertTrue(RemoveBlankAddon.can_install(component=self.component))
         rev = self.component.repository.last_revision
         addon = RemoveBlankAddon.create(component=self.component)
         addon.post_update(
@@ -584,7 +608,7 @@ class JsonAddonTest(ViewTestCase):
         return self.create_json_mono(suffix="mono-sync")
 
     def test_cleanup(self) -> None:
-        self.assertTrue(CleanupAddon.can_install(self.component, None))
+        self.assertTrue(CleanupAddon.can_install(component=self.component))
         rev = self.component.repository.last_revision
         addon = CleanupAddon.create(component=self.component)
         self.assertNotEqual(rev, self.component.repository.last_revision)
@@ -595,7 +619,7 @@ class JsonAddonTest(ViewTestCase):
         self.assertIn("json-mono-sync/cs.json", commit)
 
     def test_remove_blank(self) -> None:
-        self.assertTrue(RemoveBlankAddon.can_install(self.component, None))
+        self.assertTrue(RemoveBlankAddon.can_install(component=self.component))
         rev = self.component.repository.last_revision
         addon = RemoveBlankAddon.create(component=self.component)
         self.assertNotEqual(rev, self.component.repository.last_revision)
@@ -606,9 +630,9 @@ class JsonAddonTest(ViewTestCase):
         self.assertIn("json-mono-sync/cs.json", commit)
 
     def test_unit_flags(self) -> None:
-        self.assertTrue(SourceEditAddon.can_install(self.component, None))
-        self.assertTrue(TargetEditAddon.can_install(self.component, None))
-        self.assertTrue(SameEditAddon.can_install(self.component, None))
+        self.assertTrue(SourceEditAddon.can_install(component=self.component))
+        self.assertTrue(TargetEditAddon.can_install(component=self.component))
+        self.assertTrue(SameEditAddon.can_install(component=self.component))
         SourceEditAddon.create(component=self.component)
         TargetEditAddon.create(component=self.component)
         SameEditAddon.create(component=self.component)
@@ -617,7 +641,7 @@ class JsonAddonTest(ViewTestCase):
         self.component.create_translations_immediate(force=True)
         self.assertFalse(
             Unit.objects.filter(translation__language__code="cs")
-            .exclude(state__in=(STATE_FUZZY, STATE_EMPTY))
+            .exclude(state__in=(*FUZZY_STATES, STATE_EMPTY))
             .exists()
         )
 
@@ -625,7 +649,7 @@ class JsonAddonTest(ViewTestCase):
         self.component.create_translations_immediate(force=True)
         self.assertFalse(
             Unit.objects.exclude(
-                state__in=(STATE_FUZZY, STATE_EMPTY, STATE_READONLY)
+                state__in=(*FUZZY_STATES, STATE_EMPTY, STATE_READONLY)
             ).exists()
         )
 
@@ -834,7 +858,7 @@ class PropertiesAddonTest(ViewTestCase):
 
     def test_sort(self) -> None:
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
-        self.assertTrue(PropertiesSortAddon.can_install(self.component, None))
+        self.assertTrue(PropertiesSortAddon.can_install(component=self.component))
         PropertiesSortAddon.create(component=self.component)
         self.get_translation().commit_pending("test", None)
         commit = self.component.repository.show(self.component.repository.last_revision)
@@ -842,7 +866,7 @@ class PropertiesAddonTest(ViewTestCase):
 
     def test_sort_case_sensitive(self) -> None:
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n")
-        self.assertTrue(PropertiesSortAddon.can_install(self.component, None))
+        self.assertTrue(PropertiesSortAddon.can_install(component=self.component))
         PropertiesSortAddon.create(
             component=self.component, configuration={"case_sensitive": True}
         )
@@ -851,7 +875,7 @@ class PropertiesAddonTest(ViewTestCase):
         self.assertIn("java/swing_messages_cs.properties", commit)
 
     def test_cleanup(self) -> None:
-        self.assertTrue(CleanupAddon.can_install(self.component, None))
+        self.assertTrue(CleanupAddon.can_install(component=self.component))
         init_rev = self.component.repository.last_revision
         addon = CleanupAddon.create(component=self.component)
         self.assertNotEqual(init_rev, self.component.repository.last_revision)
@@ -1032,15 +1056,15 @@ class DiscoveryTest(ViewTestCase):
                     "file_format": "po",
                     "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
                     "name_template": "{{ component|title }}",
-                    "language_regex": "^(?!xx).*$",
+                    "language_regex": "^(?!xx).+$",
                     "base_file_template": "",
                     "remove": True,
                 },
             )
-        self.assertEqual(Component.objects.filter(repo=link).count(), 3)
+        self.assertEqual(Component.objects.filter(repo=link).count(), 4)
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             addon.post_update(self.component, "", False)
-        self.assertEqual(Component.objects.filter(repo=link).count(), 3)
+        self.assertEqual(Component.objects.filter(repo=link).count(), 4)
 
     def test_form(self) -> None:
         self.user.is_superuser = True
@@ -1072,7 +1096,7 @@ class DiscoveryTest(ViewTestCase):
                 "file_format": "po",
                 "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
                 "name_template": "{{ component|title }}.{{ ext }}",
-                "language_regex": "^(?!xx).*$",
+                "language_regex": "^(?!xx).+$",
                 "base_file_template": "",
                 "remove": True,
             },
@@ -1088,7 +1112,7 @@ class DiscoveryTest(ViewTestCase):
                 "file_format": "po",
                 "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.(?P<ext>po)",
                 "name_template": "{{ component|title }}.{{ ext }}",
-                "language_regex": "^(?!xx).*$",
+                "language_regex": "^(?!xx).+$",
                 "base_file_template": "",
                 "remove": True,
             },
@@ -1105,7 +1129,7 @@ class DiscoveryTest(ViewTestCase):
                     "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.(?P<ext>po)",
                     "file_format": "po",
                     "name_template": "{{ component|title }}.{{ ext }}",
-                    "language_regex": "^(?!xx).*$",
+                    "language_regex": "^(?!xx).+$",
                     "base_file_template": "",
                     "remove": True,
                     "confirm": True,
@@ -1117,7 +1141,7 @@ class DiscoveryTest(ViewTestCase):
 
 class ScriptsTest(TestAddonMixin, ViewTestCase):
     def test_example_pre(self) -> None:
-        self.assertTrue(ExamplePreAddon.can_install(self.component, None))
+        self.assertTrue(ExamplePreAddon.can_install(component=self.component))
         translation = self.get_translation()
         addon = ExamplePreAddon.create(component=self.component)
         addon.pre_commit(translation, "", True)
@@ -1180,7 +1204,7 @@ class LanguageConsistencyTest(ViewTestCase):
 
 class GitSquashAddonTest(ViewTestCase):
     def create(self, mode: str, sitewide: bool = False):
-        self.assertTrue(GitSquashAddon.can_install(self.component, None))
+        self.assertTrue(GitSquashAddon.can_install(component=self.component))
         component = None if sitewide else self.component
         if sitewide:
             # This is not needed in real life as installation will happen
@@ -1285,8 +1309,8 @@ class GitSquashAddonTest(ViewTestCase):
 
 class TestRemoval(ViewTestCase):
     def install(self, sitewide: bool = False):
-        self.assertTrue(RemoveComments.can_install(self.component, None))
-        self.assertTrue(RemoveSuggestions.can_install(self.component, None))
+        self.assertTrue(RemoveComments.can_install(component=self.component))
+        self.assertTrue(RemoveSuggestions.can_install(component=self.component))
         return (
             RemoveSuggestions.create(
                 component=None if sitewide else self.component,
@@ -1366,7 +1390,7 @@ class TestRemoval(ViewTestCase):
 
 class AutoTranslateAddonTest(ViewTestCase):
     def test_auto(self) -> None:
-        self.assertTrue(AutoTranslateAddon.can_install(self.component, None))
+        self.assertTrue(AutoTranslateAddon.can_install(component=self.component))
         addon = AutoTranslateAddon.create(
             component=self.component,
             configuration={
@@ -1381,7 +1405,7 @@ class AutoTranslateAddonTest(ViewTestCase):
         addon.component_update(self.component)
 
     @override_settings(CELERY_TASK_ALWAYS_EAGER=True)
-    def test_auto_change_event(self):
+    def test_auto_change_event(self) -> None:
         component_1 = self.create_po_new_base(name="Component 1", project=self.project)
         component_1.allow_translation_propagation = False
         component_1.save()
@@ -1422,7 +1446,7 @@ class AutoTranslateAddonTest(ViewTestCase):
 class BulkEditAddonTest(ViewTestCase):
     def test_bulk(self) -> None:
         label = self.project.label_set.create(name="test", color="navy")
-        self.assertTrue(BulkEditAddon.can_install(self.component, None))
+        self.assertTrue(BulkEditAddon.can_install(component=self.component))
         addon = BulkEditAddon.create(
             component=self.component,
             configuration={
@@ -1470,13 +1494,13 @@ class CDNJSAddonTest(ViewTestCase):
 
     @override_settings(LOCALIZE_CDN_URL=None)
     def test_noconfigured(self) -> None:
-        self.assertFalse(CDNJSAddon.can_install(self.component, None))
+        self.assertFalse(CDNJSAddon.can_install(component=self.component))
 
     @tempdir_setting("LOCALIZE_CDN_PATH")
     @override_settings(LOCALIZE_CDN_URL="http://localhost/")
     def test_cdn(self) -> None:
         self.make_manager()
-        self.assertTrue(CDNJSAddon.can_install(self.component, None))
+        self.assertTrue(CDNJSAddon.can_install(component=self.component))
 
         # Install addon
         addon = CDNJSAddon.create(
@@ -1499,10 +1523,9 @@ class CDNJSAddonTest(ViewTestCase):
         self.component.commit_pending("test", None)
 
         # Check translation files
-        with open(jsname) as handle:
-            content = handle.read()
-            self.assertIn(".l10n", content)
-            self.assertIn('"cs"', content)
+        content = Path(jsname).read_text(encoding="utf-8")
+        self.assertIn(".l10n", content)
+        self.assertIn('"cs"', content)
         self.assertTrue(os.path.isfile(addon.cdn_path("cs.json")))
 
         # Configuration
@@ -1513,7 +1536,7 @@ class CDNJSAddonTest(ViewTestCase):
     @override_settings(LOCALIZE_CDN_URL="http://localhost/")
     def test_extract(self) -> None:
         self.make_manager()
-        self.assertTrue(CDNJSAddon.can_install(self.component, None))
+        self.assertTrue(CDNJSAddon.can_install(component=self.component))
         self.assertEqual(
             Unit.objects.filter(translation__component=self.component).count(), 8
         )
@@ -1538,7 +1561,7 @@ class CDNJSAddonTest(ViewTestCase):
     @override_settings(LOCALIZE_CDN_URL="http://localhost/")
     def test_extract_broken(self) -> None:
         self.make_manager()
-        self.assertTrue(CDNJSAddon.can_install(self.component, None))
+        self.assertTrue(CDNJSAddon.can_install(component=self.component))
         self.assertEqual(
             Unit.objects.filter(translation__component=self.component).count(), 8
         )
@@ -1609,8 +1632,9 @@ class TargetChangeAddonTest(ViewTestCase):
                 component=self.component,
             )
             translation_remote_file = os.path.join(tempdir, translation.filename)
-            with open(translation_remote_file, "w") as handle:
-                handle.write(updated_json_content)
+            Path(translation_remote_file).write_text(
+                updated_json_content, encoding="utf-8"
+            )
             with repo.lock:
                 repo.set_committer("Toast", "toast@example.net")
                 repo.commit(
@@ -1627,10 +1651,10 @@ class TargetChangeAddonTest(ViewTestCase):
         return unit
 
     def test_fuzzy_string_from_repo(self) -> None:
-        self.assertTrue(TargetRepoUpdateAddon.can_install(self.component, None))
+        self.assertTrue(TargetRepoUpdateAddon.can_install(component=self.component))
         TargetRepoUpdateAddon.create(component=self.component)
         unit = self.update_unit_from_repo()
-        self.assertEqual(unit.state, STATE_FUZZY)
+        self.assertEqual(unit.state, STATE_NEEDS_REWRITING)
 
     def test_non_fuzzy_string_from_repo(self) -> None:
         unit = self.update_unit_from_repo()
@@ -1654,6 +1678,12 @@ class BaseWebhookTests:
     def reset_addon_configuration(self) -> None:
         self.addon_configuration["events"] = [str(ActionEvents.NEW)]
 
+    def count_requests(self) -> int:
+        return len(responses.calls)
+
+    def reset_calls(self) -> None:
+        responses.calls.reset()
+
     def do_translation_added_test(
         self, response_code=None, expected_calls: int = 1, **responses_kwargs
     ) -> None:
@@ -1670,7 +1700,7 @@ class BaseWebhookTests:
         self.translation.delete_unit(
             None, unit_to_delete
         )  # triggers ActionEvents.STRING_REMOVE event
-        self.assertEqual(len(responses.calls), expected_calls)
+        self.assertEqual(self.count_requests(), expected_calls)
 
     @responses.activate
     def test_bulk_changes(self) -> None:
@@ -1690,16 +1720,16 @@ class BaseWebhookTests:
 
         # create translation for unit and similar units across project
         self.change_unit("Nazdar svete!\n", "Hello, world!\n", "cs")
-        self.assertEqual(len(responses.calls), 2)
+        self.assertEqual(self.count_requests(), 2)
 
     @responses.activate
     def test_translation_added(self) -> None:
         """Test translation added and translation edited action change."""
         self.addon_configuration["events"].append(ActionEvents.CHANGE)
         self.do_translation_added_test(response_code=200)
-        responses.calls.reset()
+        self.reset_calls()
         self.edit_unit("Hello, world!\n", "Nazdar svete edit!\n")
-        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(self.count_requests(), 1)
 
     @responses.activate
     def test_announcement(self) -> None:
@@ -1710,22 +1740,22 @@ class BaseWebhookTests:
             configuration=self.addon_configuration, project=self.project
         )
 
-        responses.calls.reset()
+        self.reset_calls()
         Announcement.objects.create(user=self.user, message="Site-wide")
         # Only site-wide add-on should receive this
-        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(self.count_requests(), 1)
 
-        responses.calls.reset()
+        self.reset_calls()
         Announcement.objects.create(
             user=self.user, message="Project-wide", project=self.project
         )
         # Both site-wide and project-wide add-ons should receive this
-        self.assertEqual(len(responses.calls), 2)
+        self.assertEqual(self.count_requests(), 2)
 
     @responses.activate
     def test_component_scopes(self) -> None:
         """Test webhook addon installed at component level."""
-        secondary_url = self.WEBHOOK_URL + "-2"
+        secondary_url = f"{self.WEBHOOK_URL}-2"
         component1 = self.component
         component2 = self.create_po(
             new_base="po/project.pot", project=self.project, name="Secondary component"
@@ -1758,7 +1788,7 @@ class BaseWebhookTests:
     @responses.activate
     def test_project_scopes(self) -> None:
         """Test webhook addon installed at project level."""
-        secondary_url = self.WEBHOOK_URL + "-2"
+        secondary_url = f"{self.WEBHOOK_URL}-2"
         project_a = self.project
         component_a1 = self.component
         component_a2 = self.create_po(
@@ -1814,7 +1844,7 @@ class BaseWebhookTests:
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n", translation=translation_a1)
         self.edit_unit("Hello, world!\n", "Nazdar svete!\n", translation=translation_b1)
 
-        self.assertEqual(len(responses.calls), 2)
+        self.assertEqual(self.count_requests(), 2)
 
     @responses.activate
     def test_connection_error(self) -> None:
@@ -1839,6 +1869,25 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
         self.do_translation_added_test(response_code=301)
 
     @responses.activate
+    def test_webhook_signature_prefix(self) -> None:
+        """Test webhook signature features."""
+        self.addon_configuration["secret"] = "whsec_secret-string"
+        self.do_translation_added_test(response_code=200)
+
+        wh_request = responses.calls[0].request
+        wh_utils = Webhook("whsec_secret-string")
+        wh_utils.verify(wh_request.body, wh_request.headers)
+
+        # This should be equivalent
+        wh_utils = Webhook("secret-string")
+        wh_utils.verify(wh_request.body, wh_request.headers)
+
+        # Verify that different secret fails
+        with self.assertRaises(WebhookVerificationError):
+            wh_utils = Webhook("public-string")
+            wh_utils.verify(wh_request.body, wh_request.headers)
+
+    @responses.activate
     def test_webhook_signature(self) -> None:
         """Test webhook signature features."""
         self.addon_configuration["secret"] = "secret-string"
@@ -1860,9 +1909,7 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
         # valid request with multiple signatures (space separated)
         new_headers = wh_headers.copy()
         new_headers["webhook-signature"] = (
-            "v1,Ceo5qEr07ixe2NLpvHk3FH9bwy/WavXrAFQ/9tdO6mc= "
-            "v2,Gur4pLd03kjn8RYtBm5eJ1aZx/CbVfSdTq/2gNhA8= "
-            + new_headers["webhook-signature"]
+            f"v1,Ceo5qEr07ixe2NLpvHk3FH9bwy/WavXrAFQ/9tdO6mc= v2,Gur4pLd03kjn8RYtBm5eJ1aZx/CbVfSdTq/2gNhA8= {new_headers['webhook-signature']}"
         )
         wh_utils.verify(wh_request.body, new_headers)
 
@@ -1870,7 +1917,7 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
         with self.assertRaises(WebhookVerificationError):
             new_headers = wh_headers.copy()
             new_headers["webhook-signature"] = (
-                new_headers["webhook-signature"][:-5] + "xxxxx"
+                f"{new_headers['webhook-signature'][:-5]}xxxxx"
             )
             wh_utils.verify(wh_request.body, new_headers)
 
@@ -1964,7 +2011,7 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
                 "name": "weblate.webhook.webhook",
                 "form": "1",
                 "webhook_url": "https://example.com/webhooks",
-                "secret": "xxxx-xxxx-xxxx",
+                "secret": "xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx-xxxx",
                 "events": [ActionEvents.NEW],
             },
             follow=True,
@@ -2038,3 +2085,123 @@ class SlackWebhooksAddonsTest(BaseWebhookTests, ViewTestCase):
     def test_invalid_response(self) -> None:
         """Test invalid response from client."""
         self.do_translation_added_test(response_code=410, body=b"channel_is_archived")
+
+
+class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
+    WEBHOOK_CLS = FedoraMessagingAddon
+    # Not really used
+    WEBHOOK_URL = "https://example.com/webhooks"
+    addon_configuration: ClassVar[dict] = {
+        "amqp_host": "nonexisting.example.com",
+        "events": [str(ActionEvents.NEW)],
+    }
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.patcher = patch("fedora_messaging.api._twisted_publish_wrapper")
+        self.mock_class = self.patcher.start()
+
+    def tearDown(self) -> None:
+        del self.mock_class
+        self.patcher.stop()
+        del self.patcher
+        super().tearDown()
+
+    def count_requests(self) -> int:
+        return self.mock_class.call_count
+
+    def reset_calls(self) -> None:
+        self.mock_class.call_count = 0
+
+    def test_topic(self):
+        for change in Change.objects.all():
+            self.assertIsNotNone(FedoraMessagingAddon.get_change_topic(change))
+
+    def test_body(self):
+        for change in Change.objects.all():
+            self.assertIsNotNone(FedoraMessagingAddon.get_change_body(change))
+
+    def test_headers(self):
+        for change in Change.objects.all():
+            self.assertIsNotNone(FedoraMessagingAddon.get_change_headers(change))
+
+    def test_component_scopes(self) -> None:
+        pass
+
+    def test_project_scopes(self) -> None:
+        pass
+
+    def test_form(self) -> None:
+        """Test FedoraMessagingAddonForm."""
+        self.user.is_superuser = True
+        self.user.save()
+        params = self.addon_configuration.copy()
+        params["name"] = self.WEBHOOK_CLS.name
+        params["form"] = "1"
+
+        # Wrong scope
+        response = self.client.post(
+            reverse("addons", kwargs=self.kw_component),
+            params,
+            follow=True,
+        )
+        self.assertNotContains(response, "Installed 1 add-on")
+        response = self.client.post(
+            reverse("addons", kwargs=self.kw_project_path),
+            params,
+            follow=True,
+        )
+        self.assertNotContains(response, "Installed 1 add-on")
+
+        # Install
+        response = self.client.post(
+            reverse("manage-addons"),
+            params,
+            follow=True,
+        )
+        self.assertContains(response, "Installed 1 add-on")
+
+        # delete addon
+        addon_id = Addon.objects.get(name=self.WEBHOOK_CLS.name).id
+        response = self.client.post(
+            reverse("addon-detail", kwargs={"pk": addon_id}),
+            {"delete": "weblate.webhook.webhook"},
+            follow=True,
+        )
+        self.assertContains(response, "No add-ons currently installed")
+
+        # missing certs for SSL
+        params["amqp_ssl"] = "1"
+        response = self.client.post(
+            reverse("manage-addons"),
+            params,
+            follow=True,
+        )
+        self.assertContains(
+            response, "The SSL certificates have to be provided for SSL connection."
+        )
+        self.assertNotContains(response, "Installed 1 add-on")
+
+        # certs but no SSL
+        del params["amqp_ssl"]
+        params["ca_cert"] = "x"
+        params["client_key"] = "x"
+        params["client_cert"] = "x"
+        response = self.client.post(
+            reverse("manage-addons"),
+            params,
+            follow=True,
+        )
+        self.assertContains(
+            response, "The SSL certificates are not used without a SSL connection."
+        )
+        self.assertNotContains(response, "Installed 1 add-on")
+
+        # Install with SSL
+        params["amqp_ssl"] = "1"
+        response = self.client.post(
+            reverse("manage-addons"),
+            params,
+            follow=True,
+        )
+        self.assertContains(response, "Installed 1 add-on")

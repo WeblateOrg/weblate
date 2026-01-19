@@ -347,6 +347,7 @@ class MemoryManager(models.Manager):
                     source=source,
                     target=text,
                     origin=origin,
+                    context=unit.getcontext(),
                     **kwargs,
                 )
                 found += 1

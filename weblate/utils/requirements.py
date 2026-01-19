@@ -69,6 +69,7 @@ OPTIONAL = [
     "psycopg-binary",
     "phply",
     "ruamel.yaml",
+    "tomlkit",
     "tesserocr",
     "boto3",
     "aeidon",
@@ -182,7 +183,7 @@ def get_db_version() -> tuple[str, str, str] | None:
         report_error("MySQL version check")
         return None
     return (
-        f"{connection.display_name} sever",
+        f"{connection.display_name} server",
         "https://mariadb.org/"
         if connection.mysql_is_mariadb  # type: ignore[attr-defined]
         else "https://www.mysql.com/",
@@ -198,6 +199,12 @@ def get_cache_version() -> tuple[str, str, str] | None:
             report_error("Redis version check")
             return None
 
+        if version := client_info.get("redict_version"):  # codespell:ignore redict
+            return (
+                "Redict server",  # codespell:ignore redict
+                "https://redict.io/",  # codespell:ignore redict
+                version,
+            )
         if version := client_info.get("valkey_version"):
             return ("Valkey server", "https://valkey.io/", version)
         if version := client_info.get("redis_version"):

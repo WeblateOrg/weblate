@@ -11,6 +11,7 @@ import time
 import warnings
 from contextlib import contextmanager
 from datetime import timedelta
+from pathlib import Path
 from typing import TYPE_CHECKING, Literal, cast, overload
 
 from django.conf import settings
@@ -179,7 +180,7 @@ class SeleniumTests(
 
     def setUp(self) -> None:
         super().setUp()
-        self.driver.get("{}{}".format(self.live_server_url, reverse("home")))
+        self.driver.get(f"{self.live_server_url}{reverse('home')}")
         self.driver.set_window_size(1200, 1024)
         self.site_domain = settings.SITE_DOMAIN
         settings.SITE_DOMAIN = f"{self.host}:{self.server_thread.port}"
@@ -208,8 +209,9 @@ class SeleniumTests(
         self.driver.set_window_size(max(1200, scroll_width), scroll_height + 180)
         time.sleep(0.2)
         # Get screenshot
-        with open(os.path.join(self.image_path, name), "wb") as handle:
-            handle.write(self.driver.get_screenshot_as_png())
+        Path(os.path.join(self.image_path, name)).write_bytes(
+            self.driver.get_screenshot_as_png()
+        )
 
     def click(self, element: WebElement | str = "", htmlid: str | None = None) -> None:
         """Click on element and scroll it into view."""
@@ -228,7 +230,7 @@ class SeleniumTests(
             self.actions.move_to_element(element).perform()
             element.click()
         except ElementClickInterceptedException:
-            wait = WebDriverWait(self._driver, timeout=2)
+            wait = WebDriverWait(self.driver, timeout=2)
             wait.until(lambda _: element.is_displayed())
             self.actions.move_to_element(element).perform()
             element.click()
@@ -240,7 +242,13 @@ class SeleniumTests(
             raise ValueError(msg)
         element.send_keys(filename)
 
-    def do_login(self, *, create: bool = True, superuser: bool = False) -> User:
+    @overload
+    def do_login(self, *, create: Literal[False], superuser: bool = False) -> None: ...
+    @overload
+    def do_login(
+        self, *, create: Literal[True] = True, superuser: bool = False
+    ) -> User: ...
+    def do_login(self, *, create=True, superuser=False):
         # login page
         with self.wait_for_page_load():
             self.click(htmlid="login-button")

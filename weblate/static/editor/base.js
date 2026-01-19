@@ -43,7 +43,7 @@ WLT.Utils = (() => ({
    */
   indicateChanges: (e) => {
     const $warning = $(
-      "<div id='unsaved-label' class='text-warning pull-right flip'/>",
+      "<div id='unsaved-label' class='text-warning float-end'/>",
     );
     const $editorArea = e
       ? $(e.target).closest(".translation-editor")

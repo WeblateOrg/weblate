@@ -5,10 +5,12 @@
 from __future__ import annotations
 
 import re
+import threading
 from collections import Counter, defaultdict
 from functools import cache, lru_cache
 from itertools import chain
-from typing import TYPE_CHECKING
+from types import SimpleNamespace
+from typing import TYPE_CHECKING, cast
 
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
@@ -28,8 +30,10 @@ from docutils.nodes import (
     strong,
     substitution_reference,
 )
-from docutils.parsers.rst import languages
-from docutils.parsers.rst.states import Inliner, Struct
+from docutils.parsers.rst import Parser, languages
+from docutils.parsers.rst.states import Inliner
+from docutils.readers.standalone import Reader
+from docutils.writers.null import Writer
 
 from weblate.checks.base import TargetCheck
 from weblate.utils.html import (
@@ -57,6 +61,7 @@ if TYPE_CHECKING:
     from .base import FixupType
     from .models import Check
 
+DOCUTILS_PARSER_LOCK = threading.Lock()
 BBCODE_MATCH = re.compile(
     r"(?P<start>\[(?P<tag>[^]]+)(@[^]]*)?\])(.*?)(?P<end>\[\/(?P=tag)\])", re.MULTILINE
 )
@@ -110,6 +115,8 @@ RST_ROLE_RE = [
     re.compile(r"""Unknown interpreted text role "([^"]*)"\."""),
     re.compile(r"""Interpreted text role "([^"]*)" not implemented\."""),
 ]
+
+RST_LIST_START = ("- ", "* ", "+ ")
 
 
 def strip_entities(text):
@@ -363,7 +370,7 @@ class MarkdownSyntaxCheck(MarkdownBaseCheck):
             start = match.start()
             end = match.end()
             yield (start, start + len(value), value)
-            yield ((end - len(value), end, value if value != "<" else ">"))
+            yield (end - len(value), end, value if value != "<" else ">")
 
 
 class URLCheck(TargetCheck):
@@ -413,10 +420,9 @@ class RSTBaseCheck(TargetCheck):
 
 @lru_cache(maxsize=512)
 def extract_rst_references(text: str) -> tuple[dict[str, str], Counter, list[str]]:
-    memo = Struct()
+    memo = SimpleNamespace()
     publisher = get_rst_publisher()
-    document = utils.new_document(None, publisher.settings)
-    document.reporter.stream = None
+    document = utils.new_document("", publisher.settings)
     memo.reporter = document.reporter
     memo.document = document
     memo.language = languages.get_language(
@@ -424,7 +430,8 @@ def extract_rst_references(text: str) -> tuple[dict[str, str], Counter, list[str
     )
     inliner = Inliner()
     inliner.init_customizations(document.settings)
-    nodes, system_messages = inliner.parse(text, 0, memo, document)
+    with DOCUTILS_PARSER_LOCK:
+        nodes, system_messages = inliner.parse(text, 0, memo, document)
 
     message_ids = {
         message["ids"][0]: Element.astext(message)
@@ -521,7 +528,7 @@ class RSTReferencesCheck(RSTBaseCheck):
         unit = check_obj.unit
 
         errors: list[StrOrPromise] = []
-        results: MissingExtraDict = defaultdict(list)
+        results: MissingExtraDict = cast("MissingExtraDict", defaultdict(list))
 
         # Merge plurals
         for result in self.check_target_generator(
@@ -553,11 +560,15 @@ class RSTReferencesCheck(RSTBaseCheck):
 
 @cache
 def get_rst_publisher() -> Publisher:
-    publisher = Publisher(settings=None)
-    publisher.set_components("standalone", "restructuredtext", "null")
+    parser = Parser()
+    reader: Reader = Reader(parser)
+    writer = Writer()
+    publisher = Publisher(settings=None, reader=reader, parser=parser, writer=writer)
     publisher.get_settings(
         # Never halt parsing with an exception
         halt_level=5,
+        # Disable warnings
+        warning_stream=False,
         # Do not allow file insertion
         file_insertion_enabled=False,
         # Following are needed in case django.contrib.admindocs is imported
@@ -571,10 +582,9 @@ def get_rst_publisher() -> Publisher:
 @lru_cache(maxsize=512)
 def validate_rst_snippet(
     snippet: str, source_tags: tuple[str] | None = None
-) -> tuple[list[str], list[str]]:
+) -> tuple[tuple[str, ...], tuple[str, ...]]:
     publisher = get_rst_publisher()
-    document = utils.new_document(None, publisher.settings)
-    document.reporter.stream = None
+    document = utils.new_document("", publisher.settings)
 
     errors: list[str] = []
     roles: list[str] = []
@@ -608,15 +618,14 @@ def validate_rst_snippet(
         errors.append(message)
 
     document.reporter.attach_observer(error_collector)
-    publisher.reader.parser.parse(snippet, document)
+    with DOCUTILS_PARSER_LOCK:
+        cast("Parser", publisher.reader.parser).parse(snippet, document)
     transformer = document.transformer
     transformer.populate_from_components(
         (
-            publisher.source,
             publisher.reader,
-            publisher.reader.parser,
+            cast("Parser", publisher.reader.parser),
             publisher.writer,
-            publisher.destination,
         )
     )
     while transformer.transforms:
@@ -624,12 +633,12 @@ def validate_rst_snippet(
             # Unsorted initially, and whenever a transform is added.
             transformer.transforms.sort()
             transformer.transforms.reverse()
-            transformer.sorted = 1
+            transformer.sorted = True
         priority, transform_class, pending, kwargs = transformer.transforms.pop()
         transform = transform_class(transformer.document, startnode=pending)
         transform.apply(**kwargs)
         transformer.applied.append((priority, transform_class, pending, kwargs))
-    return errors, roles
+    return tuple(errors), tuple(roles)
 
 
 class RSTSyntaxCheck(RSTBaseCheck):
@@ -641,7 +650,14 @@ class RSTSyntaxCheck(RSTBaseCheck):
         self, source: str, target: str, unit: Unit
     ) -> bool | MissingExtraDict:
         _errors, source_roles = validate_rst_snippet(source)
-        errors, _target_roles = validate_rst_snippet(target, tuple(source_roles))
+        rst_errors, _target_roles = validate_rst_snippet(target, source_roles)
+        errors = list(rst_errors)
+
+        # This is valid RST, but might mess up the document
+        if not source.startswith(RST_LIST_START) and target.startswith(RST_LIST_START):
+            errors.append(
+                gettext("The translation should not start with a list marker.")
+            )
 
         if errors:
             return {"errors": errors}
@@ -651,7 +667,7 @@ class RSTSyntaxCheck(RSTBaseCheck):
         unit = check_obj.unit
 
         errors: list[StrOrPromise] = []
-        results: MissingExtraDict = defaultdict(list)
+        results: MissingExtraDict = cast("MissingExtraDict", defaultdict(list))
 
         # Merge plurals
         for result in self.check_target_generator(

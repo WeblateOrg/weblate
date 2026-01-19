@@ -63,10 +63,10 @@ Each translated string can be in one of the following states:
 Untranslated
     Translation is empty, it might or not be stored in the file, depending
     on the file format.
-Needs editing
+Needs editing / Needs rewriting / Needs checking
     Translation needs editing, this is usually the result of a source string change, fuzzy matching or translator action.
-    The translation is stored in the file, depending on the file format it might
-    be marked as needing edit (for example as it gets a ``fuzzy`` flag in the gettext file).
+    The translation is stored in the file if the :ref:`project-commit_policy` allows it.
+    Depending on the file format it might be marked as needing edit (for example as it gets a ``fuzzy`` flag in the gettext file).
 Waiting for review
     Translation is made, but not reviewed. It is stored in the file as a valid
     translation.

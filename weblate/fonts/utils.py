@@ -22,6 +22,8 @@ from weblate.utils.icons import find_static_file
 
 gi.require_version("PangoCairo", "1.0")
 gi.require_version("Pango", "1.0")
+
+# pylint: disable-next=wrong-import-position,wrong-import-order
 from gi.repository import Pango, PangoCairo  # noqa: E402
 
 
@@ -248,11 +250,13 @@ def render_size(
     cache_key: str | None = None,
     surface_height: int | None = None,
     surface_width: int | None = None,
+    use_cache: bool = True,
 ) -> tuple[Dimensions, int]:
     render_cache_key = f"render:{calculate_hash(text)}:{calculate_hash(font)}:{int(weight) if weight is not None else ''}:{size}:{spacing}:{width}:{lines}:{cache_key}:{surface_height}:{surface_width}"
-    cached: tuple[Dimensions, int] | None = django_cache.get(render_cache_key)
-    if cached and (cache_key is None or django_cache.get(cache_key)):
-        return cached
+    if use_cache:
+        cached: tuple[Dimensions, int] | None = django_cache.get(render_cache_key)
+        if cached and (cache_key is None or django_cache.get(cache_key)):
+            return cached
     pixel_size, line_count, buffer = _render_size(
         text,
         font=font,

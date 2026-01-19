@@ -3,10 +3,10 @@
 {% load i18n translations %}
 
 {% block breadcrumbs %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'register' %}">{% translate "Registration" %}</a>
   </li>
-  <li>
+  <li class="breadcrumb-item">
     <a>{{ title }}</a>
   </li>
 {% endblock breadcrumbs %}
@@ -52,9 +52,11 @@
       {% translate "E-mail is not an instant technology. Please wait for the confirmation e-mail at least 30 minutes before you write to us about issues." %}
     </p>
 
-    <p>
-      <a href="{% url 'contact' %}?t=reg">{% blocktranslate %}If there is a problem with your registration, please contact us.{% endblocktranslate %}</a>
-    </p>
+    {% if contact_form != "disabled" %}
+      <p>
+        <a href="{% url 'contact' %}?t=reg">{% blocktranslate %}If there is a problem with your registration, please contact us.{% endblocktranslate %}</a>
+      </p>
+    {% endif %}
 
   </div>
 {% endblock content %}

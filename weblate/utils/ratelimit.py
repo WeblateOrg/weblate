@@ -127,7 +127,7 @@ class RateLimitBase:
     cache_items: list[CacheCounterItem]
     key: str
 
-    def __init__(self, base_key: str, rate_limits: list[tuple[int, int]]):
+    def __init__(self, base_key: str, rate_limits: list[tuple[int, int]]) -> None:
         self.key = base_key
 
         self.cache_items = [
@@ -148,21 +148,21 @@ class RateLimitBase:
             cache_item.decrement()
         return False, ""
 
-    def touch(self, timeout: int):
+    def touch(self, timeout: int) -> None:
         for cache_item in self.cache_items:
             cache_item.touch(timeout)
 
-    def revert(self):
+    def revert(self) -> None:
         for cache_item in self.cache_items:
             cache_item.increment()
 
-    def reset(self):
+    def reset(self) -> None:
         for cache_item in self.cache_items:
             cache_item.delete()
 
 
 class RateLimitNotify(RateLimitBase):
-    def __init__(self, base_key: str, rate_limits: list[tuple[int, int]]):
+    def __init__(self, base_key: str, rate_limits: list[tuple[int, int]]) -> None:
         RateLimitBase.__init__(self, f"notify:rate:{base_key}", rate_limits)
 
 
@@ -173,7 +173,7 @@ class RateLimitHttpRequest(RateLimitBase):
         request: AuthenticatedHttpRequest | None = None,
         address: str | None = None,
         user: User | None = None,
-    ):
+    ) -> None:
         if request is not None and request.user.is_authenticated and user is None:
             user = request.user
         key: int | str
@@ -203,7 +203,7 @@ class CacheCounterItem:
     attempts: int
     window: int
 
-    def __init__(self, base_key: str, attempts: int, window: int):
+    def __init__(self, base_key: str, attempts: int, window: int) -> None:
         self.cache_key = f"{base_key}:{attempts}:{window}"
         self.attempts = attempts
         self.window = window

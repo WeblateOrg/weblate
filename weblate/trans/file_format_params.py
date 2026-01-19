@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, ClassVar, TypedDict, cast
+from typing import TYPE_CHECKING, ClassVar, Literal, TypedDict, Unpack, cast
 
 from django import forms
 from django.utils.functional import classproperty
@@ -27,8 +27,42 @@ class FieldKwargsDict(TypedDict, total=False):
     min_length: int
 
 
+class FileFormatParams(TypedDict, total=False):
+    json_sort_keys: bool
+    json_indent: int
+    json_indent_style: Literal["spaces", "tabs"]
+    json_use_compact_separators: bool
+    po_line_wrap: int
+    po_keep_previous: bool
+    po_no_location: bool
+    po_fuzzy_matching: bool
+    yaml_indent: int
+    yaml_line_wrap: int
+    yaml_line_break: str
+    xml_closing_tags: bool
+    flatxml_root_name: str
+    flatxml_value_name: str
+    flatxml_key_name: str
+
+
 class BaseFileFormatParam:
-    name: str = ""
+    name: Literal[
+        "json_sort_keys",
+        "json_indent",
+        "json_indent_style",
+        "json_use_compact_separators",
+        "po_line_wrap",
+        "po_keep_previous",
+        "po_no_location",
+        "po_fuzzy_matching",
+        "yaml_indent",
+        "yaml_line_wrap",
+        "yaml_line_break",
+        "xml_closing_tags",
+        "flatxml_root_name",
+        "flatxml_value_name",
+        "flatxml_key_name",
+    ]
     file_formats: Sequence[str] = []
     field_class: type[forms.Field] = forms.CharField
     label: StrOrPromise = ""
@@ -48,8 +82,9 @@ class BaseFileFormatParam:
     def get_widget_attrs(self) -> dict:
         field_classes = ["file-format-param-field"]
 
-        if self.field_class != forms.BooleanField:
-            # the default radio/checkbox input looks better than bootstrap one
+        if self.field_class == forms.BooleanField:
+            field_classes.append("form-check-input")
+        else:
             field_classes.append("form-control")
 
         return {
@@ -67,15 +102,17 @@ class BaseFileFormatParam:
             kwargs["help_text"] = self.help_text
         return kwargs
 
-    def setup_store(self, store: TranslationStore, **file_format_params) -> None:
+    def setup_store(
+        self, store: TranslationStore, **file_format_params: Unpack[FileFormatParams]
+    ) -> None:
         """Configure store with this file format parameters."""
 
     @classmethod
-    def get_value(cls, file_format_params: dict):
+    def get_value(cls, file_format_params: FileFormatParams):
         value = file_format_params.get(cls.name, cls.default)
-        cast = type(cls.default)
+        type_cast = type(cls.default)
         try:
-            return cast(value)
+            return type_cast(value)
         except (ValueError, TypeError):
             return cls.default
 
@@ -96,13 +133,15 @@ def get_params_for_file_format(file_format: str) -> list[type[BaseFileFormatPara
     return [param for param in FILE_FORMATS_PARAMS if file_format in param.file_formats]
 
 
-def get_default_params_for_file_format(file_format: str) -> dict[str, str | int | bool]:
+def get_default_params_for_file_format(file_format: str) -> FileFormatParams:
     """Get default values for all registered file format parameters."""
     params = get_params_for_file_format(file_format)
-    return {param.name: param.default for param in params}
+    return cast("FileFormatParams", {param.name: param.default for param in params})
 
 
-def strip_unused_file_format_params(file_format: str, file_format_params: dict) -> dict:
+def strip_unused_file_format_params(
+    file_format: str, file_format_params: FileFormatParams
+) -> FileFormatParams:
     """Clean file format parameters, removing those not applicable to the given file format."""
     for param in FILE_FORMATS_PARAMS:
         if file_format not in param.file_formats:
@@ -132,7 +171,10 @@ class JSONOutputSortKeys(JSONOutputCustomizationBaseParam):
     field_class = forms.BooleanField
     default = False
 
-    def setup_store(self, store: TranslationStore, **file_format_params) -> None:
+    def setup_store(
+        self, store: TranslationStore, **file_format_params: Unpack[FileFormatParams]
+    ) -> None:
+        # TODO: Type annotation will be fixed upstream via https://github.com/translate/translate/pull/5999
         cast("JsonFile", store).dump_args["sort_keys"] = self.get_value(
             file_format_params
         )
@@ -158,7 +200,9 @@ class JSONOutputIndentStyle(JSONOutputCustomizationBaseParam):
     ]
     default = "spaces"
 
-    def setup_store(self, store: TranslationStore, **file_format_params) -> None:
+    def setup_store(
+        self, store: TranslationStore, **file_format_params: Unpack[FileFormatParams]
+    ) -> None:
         indent = JSONOutputIndentation.get_value(file_format_params)
         dump_args = cast("JsonFile", store).dump_args
         if self.get_value(file_format_params) == "tabs":
@@ -174,7 +218,9 @@ class JSONOutputCompactSeparators(JSONOutputCustomizationBaseParam):
     field_class = forms.BooleanField
     default = False
 
-    def setup_store(self, store: TranslationStore, **file_format_params) -> None:
+    def setup_store(
+        self, store: TranslationStore, **file_format_params: Unpack[FileFormatParams]
+    ) -> None:
         dump_args = cast("JsonFile", store).dump_args
         use_compact_separators = self.get_value(file_format_params)
         dump_args["separators"] = (
@@ -211,7 +257,9 @@ class GettextPoLineWrap(BaseFileFormatParam):
         "With the --no-wrap parameter, wrapping is only done at newlines."
     )
 
-    def setup_store(self, store: TranslationStore, **file_format_params) -> None:
+    def setup_store(
+        self, store: TranslationStore, **file_format_params: Unpack[FileFormatParams]
+    ) -> None:
         cast("pofile", store).wrapper.width = int(self.get_value(file_format_params))
 
 
@@ -232,7 +280,7 @@ class GettextNoLocation(BaseGettextFormatParam):
     name = "po_no_location"
     label = gettext_lazy("Do not include location information in the file")
     field_class = forms.BooleanField
-    default = True
+    default = False
 
 
 @register_file_format_param
@@ -240,7 +288,7 @@ class GettextFuzzyMatching(BaseGettextFormatParam):
     name = "po_fuzzy_matching"
     label = gettext_lazy("Use fuzzy matching")
     field_class = forms.BooleanField
-    default = False
+    default = True
 
 
 class BaseYAMLFormatParam(BaseFileFormatParam):
@@ -258,7 +306,9 @@ class YAMLOutputIndentation(BaseYAMLFormatParam):
     default = 2
     field_kwargs: ClassVar[FieldKwargsDict] = {"min_value": 1, "max_value": 10}
 
-    def setup_store(self, store: TranslationStore, **file_format_params) -> None:
+    def setup_store(
+        self, store: TranslationStore, **file_format_params: Unpack[FileFormatParams]
+    ) -> None:
         cast("YAMLFile", store).dump_args["indent"] = int(  # type: ignore[assignment]
             self.get_value(file_format_params)
         )
@@ -278,7 +328,9 @@ class YAMLLineWrap(BaseYAMLFormatParam):
         (65535, gettext_lazy("No line wrapping")),
     ]
 
-    def setup_store(self, store: TranslationStore, **file_format_params) -> None:
+    def setup_store(
+        self, store: TranslationStore, **file_format_params: Unpack[FileFormatParams]
+    ) -> None:
         cast("YAMLFile", store).dump_args["width"] = int(  # type: ignore[assignment]
             self.get_value(file_format_params)
         )
@@ -296,7 +348,9 @@ class YAMLLineBreak(BaseYAMLFormatParam):
     ]
     default = "unix"
 
-    def setup_store(self, store: TranslationStore, **file_format_params) -> None:
+    def setup_store(
+        self, store: TranslationStore, **file_format_params: Unpack[FileFormatParams]
+    ) -> None:
         breaks = {"dos": "\r\n", "mac": "\r", "unix": "\n"}
         line_break = self.get_value(file_format_params)
         cast("YAMLFile", store).dump_args["line_break"] = breaks[line_break]  # type: ignore[assignment]
@@ -320,7 +374,9 @@ class XMLClosingTags(BaseFileFormatParam):
                 result.append(file_format)
         return result
 
-    def setup_store(self, store: TranslationStore, **file_format_params) -> None:
+    def setup_store(
+        self, store: TranslationStore, **file_format_params: Unpack[FileFormatParams]
+    ) -> None:
         cast("LISAfile", store).XMLSelfClosingTags = not self.get_value(
             file_format_params
         )

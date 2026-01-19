@@ -11,7 +11,6 @@ from typing import TYPE_CHECKING, ClassVar, Literal, TypedDict
 import cairo
 import gi
 from django.conf import settings
-from django.http import HttpResponse
 from django.template.loader import render_to_string
 from django.utils.html import format_html
 from django.utils.translation import (
@@ -53,6 +52,7 @@ gi.require_version("PangoCairo", "1.0")
 gi.require_version("Pango", "1.0")
 gi.require_version("Rsvg", "2.0")
 
+# pylint: disable-next=wrong-import-position,wrong-import-order
 from gi.repository import Pango, PangoCairo, Rsvg  # noqa: E402
 
 COLOR_DATA = {

@@ -30,7 +30,7 @@ class MySQLTimestampAdd(Func):
     function = "TIMESTAMPADD"
     output_field = DateTimeField()
 
-    def __init__(self, unit: str, interval: Expression, timestamp: Expression):
+    def __init__(self, unit: str, interval: Expression, timestamp: Expression) -> None:
         # unit is a string (not a Value/Expression) as mysql/mariadb throws an
         # error if the unit argument to TIMESTAMPADD is quoted.
         if unit not in VALID_UNIT_VALUES:

@@ -27,13 +27,11 @@ from django.urls import reverse
 from django.utils.translation import gettext
 from django.views.decorators.http import require_POST
 
-from weblate.auth.models import AuthenticatedHttpRequest
 from weblate.checks.models import CHECKS, get_display_checks
 from weblate.glossary.forms import TermForm
 from weblate.glossary.models import fetch_glossary_terms, get_glossary_terms
 from weblate.screenshots.forms import ScreenshotForm
 from weblate.trans.actions import ActionEvents
-from weblate.trans.autotranslate import AutoTranslate
 from weblate.trans.exceptions import FileParseError, SuggestionSimilarToTranslationError
 from weblate.trans.forms import (
     AutoForm,
@@ -47,7 +45,15 @@ from weblate.trans.forms import (
     ZenTranslationForm,
     get_new_unit_form,
 )
-from weblate.trans.models import Comment, Suggestion, Translation, Unit, Vote
+from weblate.trans.models import (
+    Category,
+    Comment,
+    Component,
+    Suggestion,
+    Translation,
+    Unit,
+    Vote,
+)
 from weblate.trans.models.unit import fill_in_source_translation
 from weblate.trans.tasks import auto_translate
 from weblate.trans.templatetags.translations import (
@@ -62,7 +68,11 @@ from weblate.utils.hash import hash_to_checksum
 from weblate.utils.html import format_html_join_comma, list_to_tuples
 from weblate.utils.messages import get_message_kind
 from weblate.utils.ratelimit import revert_rate_limit, session_ratelimit_post
-from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
+from weblate.utils.state import (
+    STATE_APPROVED,
+    STATE_NEEDS_REWRITING,
+    STATE_TRANSLATED,
+)
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 from weblate.utils.views import (
     parse_path,
@@ -494,7 +504,9 @@ def handle_revert(unit, request: AuthenticatedHttpRequest, next_unit_url):
     unit.translate(
         request.user,
         split_plural(change.old),
-        STATE_FUZZY if change.action == ActionEvents.MARKED_EDIT else unit.state,
+        STATE_NEEDS_REWRITING
+        if change.action == ActionEvents.MARKED_EDIT
+        else unit.state,
         change_action=ActionEvents.REVERT,
     )
     # Redirect to next entry
@@ -661,9 +673,7 @@ def translate(request: AuthenticatedHttpRequest, path):
     search_result["last_viewed_unit_id"] = unit.id
 
     # Some URLs we will most likely use
-    base_unit_url = "{}?{}&offset=".format(
-        obj.get_translate_url(), search_result["url"]
-    )
+    base_unit_url = f"{obj.get_translate_url()}?{search_result['url']}&offset="
     this_unit_url = base_unit_url + str(offset)
     next_unit_url = base_unit_url + str(offset + 1)
 
@@ -715,7 +725,7 @@ def translate(request: AuthenticatedHttpRequest, path):
         {
             "path_object": obj,
             "this_unit_url": this_unit_url,
-            "first_unit_url": base_unit_url + "1",
+            "first_unit_url": f"{base_unit_url}1",
             "last_unit_url": base_unit_url + str(num_results),
             "next_section_url": base_unit_url
             + str(offset + user.profile.nearby_strings),
@@ -778,36 +788,67 @@ def translate(request: AuthenticatedHttpRequest, path):
 @require_POST
 @login_required
 def auto_translation(request: AuthenticatedHttpRequest, path):
-    translation = parse_path(request, path, (Translation,))
-    project = translation.component.project
+    obj = parse_path(request, path, (Translation, Component, Category, ProjectLanguage))
+    update_locked = False
+    task_kwargs = {}
+
+    match obj:
+        case Translation():
+            translation = obj
+            project = translation.component.project
+            autoform = AutoForm(translation.component, request.user, request.POST)
+            update_locked = translation.component.locked
+            task_kwargs["translation_id"] = translation.id
+        case Component():
+            component = obj
+            project = component.project
+            autoform = AutoForm(component, request.user, request.POST)
+            update_locked = component.locked
+            task_kwargs["component_id"] = component.id
+        case Category():
+            category = obj
+            project = category.project
+            autoform = AutoForm(category.project, request.user, request.POST)
+            update_locked = category.component_set.filter(locked=True).exists()
+            task_kwargs["category_id"] = category.id
+        case ProjectLanguage():
+            project = obj.project
+            autoform = AutoForm(project, request.user, request.POST)
+            update_locked = project.locked
+            task_kwargs.update(
+                {
+                    "project_id": project.id,
+                    "language_id": obj.language.id,
+                }
+            )
+        case _:  # pragma: no cover
+            msg = "Unsupported object for auto translation"
+            raise PermissionDenied(msg)
+
     if not request.user.has_perm("translation.auto", project):
         raise PermissionDenied
 
-    autoform = AutoForm(translation.component, request.user, request.POST)
-
-    if translation.component.locked or not autoform.is_valid():
+    if update_locked or not autoform.is_valid():
         messages.error(request, gettext("Could not process form!"))
         show_form_errors(request, autoform)
-        return redirect(translation)
+        return redirect(obj)
 
     if settings.CELERY_TASK_ALWAYS_EAGER:
-        auto = AutoTranslate(
-            user=request.user,
-            translation=translation,
+        result = auto_translate(
+            **task_kwargs,
+            user_id=request.user.id,
             mode=autoform.cleaned_data["mode"],
             q=autoform.cleaned_data.get("q"),
-        )
-        message = auto.perform(
             auto_source=autoform.cleaned_data["auto_source"],
-            source=autoform.cleaned_data["component"],
+            component=autoform.cleaned_data["component"],
             engines=autoform.cleaned_data["engines"],
             threshold=autoform.cleaned_data["threshold"],
         )
-        messages.success(request, message)
+        messages.success(request, result["message"])
     else:
         task = auto_translate.delay(
+            **task_kwargs,
             user_id=request.user.id,
-            translation_id=translation.id,
             mode=autoform.cleaned_data["mode"],
             q=autoform.cleaned_data.get("q"),
             auto_source=autoform.cleaned_data["auto_source"],
@@ -819,7 +860,7 @@ def auto_translation(request: AuthenticatedHttpRequest, path):
             request, gettext("Automatic translation in progress"), f"task:{task.id}"
         )
 
-    return redirect(translation)
+    return redirect(obj)
 
 
 @login_required
@@ -1085,7 +1126,7 @@ def delete_unit(request: AuthenticatedHttpRequest, unit_id):
 def browse(request: AuthenticatedHttpRequest, path):
     """Strings browsing."""
     obj, unit_set, context = parse_path_units(
-        request, path, (Translation, ProjectLanguage)
+        request, path, (Translation, ProjectLanguage, CategoryLanguage)
     )
     project = context["project"]
     search_result = search(obj, project, unit_set, request, blank=True, use_cache=False)
@@ -1095,10 +1136,7 @@ def browse(request: AuthenticatedHttpRequest, path):
         search_result["ids"][(offset - 1) * page : (offset - 1) * page + page]
     )
 
-    base_unit_url = "{}?{}&offset=".format(
-        reverse("browse", kwargs={"path": obj.get_url_path()}),
-        search_result["url"],
-    )
+    base_unit_url = f"{reverse('browse', kwargs={'path': obj.get_url_path()})}?{search_result['url']}&offset="
     num_results = ceil(len(search_result["ids"]) / page)
 
     return render(
@@ -1115,7 +1153,7 @@ def browse(request: AuthenticatedHttpRequest, path):
             "search_form": search_result["form"].reset_offset(),
             "filter_count": num_results,
             "filter_pos": offset,
-            "first_unit_url": base_unit_url + "1",
+            "first_unit_url": f"{base_unit_url}1",
             "last_unit_url": base_unit_url + str(num_results),
             "next_unit_url": base_unit_url + str(offset + 1)
             if offset < num_results

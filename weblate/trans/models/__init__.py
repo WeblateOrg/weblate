@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
+from contextlib import suppress
 from functools import partial
 
 from django.db import transaction
@@ -107,7 +108,7 @@ def translation_post_delete(sender, instance, **kwargs) -> None:
 
 @receiver(m2m_changed, sender=Component.links.through)
 @disable_for_loaddata
-def update_project_stats_link(sender, instance, action, pk_set, **kwargs) -> None:
+def component_links_updated(sender, instance, action, pk_set, **kwargs) -> None:
     from weblate.utils.tasks import update_project_stats_link
 
     if action in {"post_add", "post_remove", "post_clear"}:
@@ -195,11 +196,9 @@ def auto_component_list(sender, instance, **kwargs) -> None:
 @disable_for_loaddata
 def post_delete_linked(sender, instance, **kwargs) -> None:
     # When removing project, the linked component might be already deleted now
-    try:
+    with suppress(Component.DoesNotExist):
         if instance.linked_component:
             instance.linked_component.update_alerts()
-    except Component.DoesNotExist:
-        pass
 
 
 @receiver(post_save, sender=Comment)

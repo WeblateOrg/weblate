@@ -1,0 +1,86 @@
+{% load crispy_forms_filters i18n l10n static translations %}
+
+{% comment %}Modified version of radioselect_inline.html and radioselect.html from crispy_forms{% endcomment %}
+<div id="div_{{ field.auto_id }}"
+     class="form-group{% if wrapper_class %} {{ wrapper_class }}{% endif %}{% if form_show_errors and field.errors %} has-error{% endif %}{% if field.css_classes %} {{ field.css_classes }}{% endif %}">
+  {% if field.label %}
+    <label for="{{ field.auto_id }}"
+           class="control-label {{ label_class }}{% if field.field.required %} requiredField{% endif %}">
+      {{ field.label|safe }}
+      {% if field.field.required %}<span class="asteriskField">*</span>{% endif %}
+      {% documentation_icon 'admin/access' 'acl' %}
+    </label>
+  {% endif %}
+
+  <div class="controls {% if "disabled" in flat_attrs %}access-control-disabled{% endif %} {{ field_class }}"
+       {% if flat_attrs %}{{ flat_attrs|safe }}{% endif %}>
+    {% include 'bootstrap5/layout/field_errors_block.html' %}
+    <div class="row">
+      {% for choice in field.field.choices %}
+        {% with choice_str=choice.0|stringformat:"s" %}
+          <div class="col-sm-3">
+            <label for="id_{{ field.html_name }}_{{ forloop.counter }}"
+                   class="{% if inline_class %}radio-{{ inline_class }}{% endif %}">
+              <h5>
+                <input type="radio"
+                       {% if choice_str == field.value|default_if_none:""|stringformat:"s" %}checked="checked"{% endif %}
+                       name="{{ field.html_name }}"
+                       id="id_{{ field.html_name }}_{{ forloop.counter }}"
+                       value="{{ choice.0|unlocalize }}"
+                       {{ field.field.widget.attrs|flatatt }}>
+                {% with image_name="access/"|add:choice_str|add:".svg" %}
+                  <img class="access-icon" src="{% static image_name %}" />
+                {% endwith %}
+                {{ choice.1|unlocalize }}
+              </h5>
+              {% if choice_str == "0" %}
+                <p>{% translate "Visible to everybody." %}</p>
+                <p>{% translate "Any authenticated user can contribute." %}</p>
+                {% if has_gitexport %}
+                  <p>
+                    {% translate "VCS repository is accessible to everybody." %} {% documentation_icon 'admin/optionals' 'git-exporter' %}
+                  </p>
+                {% endif %}
+              {% elif choice_str == "1" %}
+                <p>{% translate "Visible to everybody." %}</p>
+                <p>{% translate "Only chosen users can contribute." %}</p>
+                {% if has_gitexport %}
+                  <p>
+                    {% translate "Only chosen users can access VCS repository." %} {% documentation_icon 'admin/optionals' 'git-exporter' %}
+                  </p>
+                {% endif %}
+              {% elif choice_str == "100" %}
+                <p>{% translate "Visible only to chosen users." %}</p>
+                <p>{% translate "Only chosen users can contribute." %}</p>
+                {% if has_gitexport %}
+                  <p>
+                    {% translate "Only chosen users can access VCS repository." %} {% documentation_icon 'admin/optionals' 'git-exporter' %}
+                  </p>
+                {% endif %}
+              {% elif choice_str == "200" %}
+                <p>{% translate "Permissions are not managed in Weblate." %}</p>
+                <p>
+                  <strong>
+                    {% translate "Only use this if you know what you are doing, enabling it might revoke your access to this project." %}
+                  </strong>
+                </p>
+              {% endif %}
+            {% endwith %}
+          </label>
+        </div>
+      {% endfor %}
+    </div>
+    {% if "disabled" in flat_attrs %}
+      <div>
+        <p>
+          {% translate "You do not have permission to change project access control." %}
+          {% if has_billing %}
+            <a href="{% url 'billing' %}">{% translate "Check your billing status" %}</a>
+          {% endif %}
+        </p>
+      </div>
+    {% endif %}
+
+  </div>
+
+</div>

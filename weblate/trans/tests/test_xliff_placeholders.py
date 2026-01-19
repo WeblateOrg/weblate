@@ -4,6 +4,8 @@
 
 """Tests for XLIFF rich string."""
 
+from pathlib import Path
+
 from django.test import TestCase
 from translate.storage.placeables.strelem import StringElem
 from translate.storage.xliff import xlifffile
@@ -33,8 +35,7 @@ class XliffPlaceholdersTest(TestCase):
             self.assertEqual(string, final_string)
 
     def test_xliff_roundtrip(self) -> None:
-        with open(TEST_X, "rb") as handle:
-            source = handle.read()
+        source = Path(TEST_X).read_bytes()
 
         store = xlifffile.parsestring(source)
         string = rich_to_xliff_string(store.units[0].rich_source)
@@ -45,8 +46,7 @@ class XliffPlaceholdersTest(TestCase):
         self.assertXMLEqual(source.decode(), bytes(store).decode())
 
     def test_xliff_roundtrip_unknown(self) -> None:
-        with open(TEST_MRK, "rb") as handle:
-            source = handle.read()
+        source = Path(TEST_MRK).read_bytes()
 
         store = xlifffile.parsestring(source)
         string = rich_to_xliff_string(store.units[0].rich_source)

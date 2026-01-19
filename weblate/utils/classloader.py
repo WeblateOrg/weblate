@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from importlib import import_module
-from typing import TYPE_CHECKING, Generic, Protocol, TypeVar
+from typing import TYPE_CHECKING, Protocol, TypeVar
 from weakref import WeakValueDictionary
 
 from django.conf import settings
@@ -46,7 +46,7 @@ class ClassLoaderProtocol(Protocol):
 T = TypeVar("T", bound=ClassLoaderProtocol)
 
 
-class ClassLoader(Generic[T]):
+class ClassLoader[T: ClassLoaderProtocol]:
     """Dict like object to lazy load list of classes."""
 
     instances: WeakValueDictionary[str, ClassLoader] = WeakValueDictionary()

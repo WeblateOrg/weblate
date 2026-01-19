@@ -14,7 +14,6 @@ from django.db import migrations, models
 import weblate.lang.models
 import weblate.trans.fields
 import weblate.trans.mixins
-import weblate.trans.models.unit
 import weblate.trans.validators
 import weblate.utils.fields
 import weblate.utils.render
@@ -1069,7 +1068,7 @@ class Migration(migrations.Migration):
                 ("timestamp", models.DateTimeField(auto_now_add=True)),
                 (
                     "labels",
-                    weblate.trans.models.unit.LabelsField(
+                    models.ManyToManyField(
                         blank=True, to="trans.label", verbose_name="Labels"
                     ),
                 ),

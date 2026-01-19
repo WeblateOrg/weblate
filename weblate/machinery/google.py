@@ -32,10 +32,10 @@ class GoogleBaseTranslation(MachineTranslation):
         """Convert language to service specific code."""
         return super().map_language_code(code).replace("_", "-").split("@")[0]
 
-    def is_supported(self, source, language):
+    def is_supported(self, source_language, target_language):
         # Avoid translation between aliases
-        return super().is_supported(source, language) and not any(
-            {source, language} == item for item in self.language_aliases
+        return super().is_supported(source_language, target_language) and not any(
+            {source_language, target_language} == item for item in self.language_aliases
         )
 
 
@@ -60,7 +60,7 @@ class GoogleTranslation(GoogleBaseTranslation):
     def download_languages(self):
         """List of supported languages."""
         response = self.request(
-            "get", GOOGLE_API_ROOT + "languages", params={"key": self.settings["key"]}
+            "get", f"{GOOGLE_API_ROOT}languages", params={"key": self.settings["key"]}
         )
         payload = response.json()
 
@@ -68,8 +68,8 @@ class GoogleTranslation(GoogleBaseTranslation):
 
     def download_translations(
         self,
-        source,
-        language,
+        source_language,
+        target_language,
         text: str,
         unit,
         user,
@@ -82,8 +82,8 @@ class GoogleTranslation(GoogleBaseTranslation):
             params={
                 "key": self.settings["key"],
                 "q": text,
-                "source": source,
-                "target": language,
+                "source": source_language,
+                "target": target_language,
                 "format": "text",
             },
         )

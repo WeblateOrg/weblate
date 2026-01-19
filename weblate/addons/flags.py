@@ -13,12 +13,15 @@ from weblate.addons.events import AddonEvent
 from weblate.addons.forms import BulkEditAddonForm
 from weblate.trans.bulk import bulk_perform
 from weblate.trans.models import Unit
-from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
+from weblate.utils.state import (
+    STATE_NEEDS_CHECKING,
+    STATE_NEEDS_REWRITING,
+    STATE_TRANSLATED,
+)
 
 if TYPE_CHECKING:
     from weblate.addons.base import CompatDict
-    from weblate.auth.models import User
-    from weblate.trans.models import Component
+    from weblate.trans.models import Component, Project
 
 
 class FlagBase(BaseAddon):
@@ -28,19 +31,24 @@ class FlagBase(BaseAddon):
     icon = "flag.svg"
 
     @classmethod
-    def can_install(cls, component: Component, user: User | None) -> bool:
+    def can_install(
+        cls,
+        *,
+        component: Component | None = None,
+        project: Project | None = None,
+    ) -> bool:
         # Following formats support fuzzy flag, so avoid messing up with them
-        if component.file_format in {"ts", "po", "po-mono"}:
+        if component is not None and component.file_format in {"ts", "po", "po-mono"}:
             return False
-        return super().can_install(component, user)
+        return super().can_install(component=component, project=project)
 
 
 class SourceEditAddon(FlagBase):
     name = "weblate.flags.source_edit"
-    verbose = gettext_lazy('Flag new source strings as "Needs editing"')
+    verbose = gettext_lazy('Flag new source strings as "Needs checking"')
     description = gettext_lazy(
         "Whenever a new source string is imported from the VCS, it is "
-        "flagged as needing editing in Weblate. This way you can easily "
+        "flagged as needing checking in Weblate. This way you can easily "
         "filter and edit source strings written by the developers."
     )
     compat: ClassVar[CompatDict] = {
@@ -53,15 +61,15 @@ class SourceEditAddon(FlagBase):
             and unit.state >= STATE_TRANSLATED
             and not unit.readonly
         ):
-            unit.state = STATE_FUZZY
+            unit.state = STATE_NEEDS_CHECKING
 
 
 class TargetEditAddon(FlagBase):
     name = "weblate.flags.target_edit"
-    verbose = gettext_lazy('Flag new translations as "Needs editing"')
+    verbose = gettext_lazy('Flag new translations as "Needs rewriting"')
     description = gettext_lazy(
         "Whenever a new translatable string is imported from the VCS, it is "
-        "flagged as needing editing in Weblate. This way you can easily "
+        "flagged as needing rewriting in Weblate. This way you can easily "
         "filter and edit translations created by the developers."
     )
 
@@ -71,15 +79,15 @@ class TargetEditAddon(FlagBase):
             and unit.state >= STATE_TRANSLATED
             and not unit.readonly
         ):
-            unit.state = STATE_FUZZY
+            unit.state = STATE_NEEDS_REWRITING
 
 
 class SameEditAddon(FlagBase):
     name = "weblate.flags.same_edit"
-    verbose = gettext_lazy('Flag unchanged translations as "Needs editing"')
+    verbose = gettext_lazy('Flag unchanged translations as "Needs rewriting"')
     description = gettext_lazy(
         "Whenever a new translatable string is imported from the VCS and it matches a "
-        "source string, it is flagged as needing editing in Weblate. Especially "
+        "source string, it is flagged as needing rewriting in Weblate. Especially "
         "useful for file formats that include source strings for untranslated strings."
     )
 
@@ -91,7 +99,7 @@ class SameEditAddon(FlagBase):
             and unit.state >= STATE_TRANSLATED
             and not unit.readonly
         ):
-            unit.state = STATE_FUZZY
+            unit.state = STATE_NEEDS_REWRITING
 
 
 class BulkEditAddon(BaseAddon):
@@ -131,14 +139,14 @@ class TargetRepoUpdateAddon(BaseAddon):
     icon = "flag.svg"
     name = "weblate.flags.target_repo_update"
     verbose = gettext_lazy(
-        'Flag updated translations from repository as "Needs editing"'
+        'Flag updated translations from repository as "Needs rewriting"'
     )
     description = gettext_lazy(
         "Whenever a string translation is changed from the VCS, "
-        "it is flagged as needing editing in Weblate. Especially useful if "
+        "it is flagged as needing rewriting in Weblate. Especially useful if "
         "translation files are often updated manually or by an external service."
     )
 
     def unit_post_sync(self, unit: Unit, changed_attr: str, **kwargs) -> None:
         if changed_attr == "target":
-            unit.state = STATE_FUZZY
+            unit.state = STATE_NEEDS_REWRITING

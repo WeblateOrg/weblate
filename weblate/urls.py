@@ -9,6 +9,7 @@ import django.views.i18n
 import django.views.static
 from django.conf import settings
 from django.contrib import admin
+from django.contrib.auth.decorators import login_not_required
 from django.urls import include, path, re_path
 from django.views.decorators.cache import cache_control, cache_page
 from django.views.decorators.vary import vary_on_cookie
@@ -67,7 +68,7 @@ widget_pattern = "<word:widget>-<word:color>.<extension:extension>"
 
 URL_PREFIX = settings.URL_PREFIX
 if URL_PREFIX:
-    URL_PREFIX = URL_PREFIX.strip("/") + "/"
+    URL_PREFIX = f"{URL_PREFIX.strip('/')}/"
 
 real_patterns = [
     path("", weblate.trans.views.dashboard.home, name="home"),
@@ -453,6 +454,11 @@ real_patterns = [
         name="screenshot",
     ),
     path(
+        "screenshot/<int:pk>/view/",
+        weblate.screenshots.views.ScreenshotView.as_view(),
+        name="screenshot-view",
+    ),
+    path(
         "screenshot/<int:pk>/delete/",
         weblate.screenshots.views.delete_screenshot,
         name="screenshot-delete",
@@ -716,8 +722,10 @@ real_patterns = [
     path(
         "js/i18n/",
         cache_page(3600, key_prefix=VERSION)(
-            vary_on_cookie(
-                django.views.i18n.JavaScriptCatalog.as_view(packages=["weblate"])
+            login_not_required(
+                vary_on_cookie(
+                    django.views.i18n.JavaScriptCatalog.as_view(packages=["weblate"])
+                )
             )
         ),
         name="js-catalog",
@@ -727,6 +735,11 @@ real_patterns = [
         "js/translate/<name:service>/<int:unit_id>/",
         weblate.machinery.views.translate,
         name="js-translate",
+    ),
+    path(
+        "js/dismiss-automatically-translated/<int:unit_id>/",
+        weblate.trans.views.js.dismiss_automatically_translated,
+        name="js-dismiss-automatically-translated",
     ),
     path(
         "js/memory/<int:unit_id>/",
@@ -871,21 +884,21 @@ real_patterns = [
     re_path(
         r"^(android-chrome|favicon)-(?P<size>192|512)x(?P=size)\.png$",
         RedirectView.as_view(
-            url=settings.STATIC_URL + "weblate-%(size)s.png",
+            url=f"{settings.STATIC_URL}weblate-%(size)s.png",
             permanent=True,
         ),
     ),
     path(
         "apple-touch-icon.png",
         RedirectView.as_view(
-            url=settings.STATIC_URL + "weblate-180.png",
+            url=f"{settings.STATIC_URL}weblate-180.png",
             permanent=True,
         ),
     ),
     path(
         "favicon.ico",
         RedirectView.as_view(
-            url=settings.STATIC_URL + "favicon.ico",
+            url=f"{settings.STATIC_URL}favicon.ico",
             permanent=True,
         ),
     ),
@@ -906,15 +919,19 @@ real_patterns = [
     path(
         "site.webmanifest",
         cache_control(max_age=86400)(
-            TemplateView.as_view(
-                template_name="site.webmanifest", content_type="application/json"
+            login_not_required(
+                TemplateView.as_view(
+                    template_name="site.webmanifest", content_type="application/json"
+                )
             )
         ),
     ),
     # Redirects for .well-known
     path(
         ".well-known/change-password",
-        RedirectView.as_view(pattern_name="password", permanent=True),
+        login_not_required(
+            RedirectView.as_view(pattern_name="password", permanent=True)
+        ),
     ),
 ]
 
@@ -929,6 +946,11 @@ if "weblate.billing" in settings.INSTALLED_APPS:
             name="invoice-download",
         ),
         path("billing/", weblate.billing.views.overview, name="billing"),
+        path(
+            "manage/restore-backup/",
+            weblate.billing.views.restore_backup,
+            name="restore_backup",
+        ),
         path("billing/<int:pk>/", weblate.billing.views.detail, name="billing-detail"),
         path("manage/billing/", weblate.wladmin.views.billing, name="manage-billing"),
     ]

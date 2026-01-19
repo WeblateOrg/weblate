@@ -3,10 +3,10 @@
 {% load i18n translations %}
 
 {% block breadcrumbs %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'legal:index' %}">{% translate "Legal" %}</a>
   </li>
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'legal:privacy' %}">{% translate "Privacy" %}</a>
   </li>
 {% endblock breadcrumbs %}
@@ -15,11 +15,11 @@
 
   {% include 'legal/menu.html' %}
 
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">{% translate "Privacy Policy" %}</h4>
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">{% translate "Privacy Policy" %}</h4>
     </div>
-    <div class="panel-body tos">{% include "legal/documents/privacy.html" %}</div>
+    <div class="card-body tos">{% include "legal/documents/privacy.html" %}</div>
   </div>
 
 {% endblock content %}

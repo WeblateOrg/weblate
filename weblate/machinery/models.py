@@ -49,6 +49,7 @@ class WeblateConf(AppConf):
         "weblate.machinery.youdao.YoudaoTranslation",
         "weblate.machinery.systran.SystranTranslation",
         "weblate.machinery.openai.OpenAITranslation",
+        "weblate.machinery.ollama.OllamaTranslation",
         "weblate.machinery.openai.AzureOpenAITranslation",
         "weblate.machinery.weblatetm.WeblateTranslation",
         "weblate.memory.machine.WeblateMemory",

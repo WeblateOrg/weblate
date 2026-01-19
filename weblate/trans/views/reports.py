@@ -13,7 +13,6 @@ from django.http import HttpResponse, JsonResponse
 from django.utils.html import conditional_escape, format_html, format_html_join
 from django.views.decorators.http import require_POST
 
-from weblate.auth.models import AuthenticatedHttpRequest
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.forms import ReportsForm
@@ -83,7 +82,7 @@ def generate_credits(
 
     order_by = "change_count" if sort_by == "count" else "author__date_joined"
     if sort_order == "descending":
-        order_by = "-" + order_by
+        order_by = f"-{order_by}"
 
     for *author, language in (
         base.filter(language__in=languages, **kwargs)
@@ -272,12 +271,12 @@ def generate_counts(
 
         suffix = action_map.get(change.action, "edit")
 
-        current["t_chars_" + suffix] += tgt_chars
-        current["t_words_" + suffix] += tgt_words
-        current["chars_" + suffix] += src_chars
-        current["words_" + suffix] += src_words
-        current["edits_" + suffix] += edits
-        current["count_" + suffix] += 1
+        current[f"t_chars_{suffix}"] += tgt_chars
+        current[f"t_words_{suffix}"] += tgt_words
+        current[f"chars_{suffix}"] += src_chars
+        current[f"words_{suffix}"] += src_words
+        current[f"edits_{suffix}"] += edits
+        current[f"count_{suffix}"] += 1
 
     result_list = list(result.values())
     sort_by_key = "count" if sort_by == "count" else "date_joined"
@@ -366,11 +365,9 @@ def get_counts(request: AuthenticatedHttpRequest, path=None):
         format_html_or_plain = format_html
         format_html_or_plain_join = format_html_join
     else:
-        start = "{0}\n{1} {2}\n{0}".format(
-            RST_HEADING,
-            " ".join(f"{h:40}" for h in headers[:3]),
-            " ".join(f"{h:24}" for h in headers[3:]),
-        )
+        long_headers = " ".join(f"{h:40}" for h in headers[:3])
+        short_headers = " ".join(f"{h:24}" for h in headers[3:])
+        start = f"{RST_HEADING}\n{long_headers} {short_headers}\n{RST_HEADING}"
         row_start = ""
         cell_name = "{0:40} "
         cell_count = "{0:24} "

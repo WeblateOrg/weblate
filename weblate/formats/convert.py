@@ -53,9 +53,8 @@ if TYPE_CHECKING:
     from translate.storage.base import TranslationStore
     from translate.storage.base import TranslationUnit as TranslateToolkitUnit
 
-    from weblate.formats.base import (
-        TranslationUnit,
-    )
+    from weblate.formats.base import TranslationUnit
+    from weblate.trans.file_format_params import FileFormatParams
     from weblate.trans.models import Unit
 
 
@@ -132,12 +131,16 @@ class ConvertFormat(TranslationFormat):
 
     def save(self) -> None:
         """Save underlying store to disk."""
+        if not isinstance(self.storefile, str):
+            msg = "Can save only to a file."
+            raise TypeError(msg)
         self.save_atomic(self.storefile, self.save_content)
 
     def convertfile(self, storefile, template_store) -> NoReturn:
         raise NotImplementedError
 
     @staticmethod
+    # pylint: disable-next=arguments-differ
     def needs_target_sync(template_store) -> bool:  # noqa: ARG004
         return False
 
@@ -169,7 +172,7 @@ class ConvertFormat(TranslationFormat):
         language: str,  # noqa: ARG003
         base: str,
         callback: Callable | None = None,  # noqa: ARG003
-        file_format_params: dict[str, Any] | None = None,  # noqa: ARG003
+        file_format_params: FileFormatParams | None = None,  # noqa: ARG003
     ) -> None:
         """Handle creation of new translation file."""
         if not base:
@@ -185,7 +188,7 @@ class ConvertFormat(TranslationFormat):
         monolingual: bool,  # noqa: ARG003
         errors: list[Exception] | None = None,
         fast: bool = False,
-        file_format_params: dict[str, Any] | None = None,  # noqa: ARG003
+        file_format_params: FileFormatParams | None = None,  # noqa: ARG003
     ) -> bool:
         """Check whether base is valid."""
         if not base:
@@ -386,6 +389,7 @@ class OpenDocumentFormat(ConvertFormat):
     unit_class = ConvertXliffUnit
 
     @staticmethod
+    # pylint: disable-next=arguments-differ
     def convertfile(storefile, template_store):  # noqa: ARG004
         store = xlifffile()
         store.setfilename(store.getfilenode("NoName"), "odf")
@@ -432,6 +436,7 @@ class IDMLFormat(ConvertFormat):
     check_flags = ("strict-same",)
 
     @staticmethod
+    # pylint: disable-next=arguments-differ
     def convertfile(storefile, template_store):  # noqa: ARG004
         store = pofile()
 
@@ -584,6 +589,7 @@ class PlainTextFormat(ConvertFormat):
                 input_file=self.store,
                 output_file=None,
                 template_file=templatefile,
+                flavour=self.flavour,
             )
             outputstring = converter.merge_stores()
         handle.write(outputstring.encode("utf-8"))

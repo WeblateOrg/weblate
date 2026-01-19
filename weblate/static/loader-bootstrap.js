@@ -31,18 +31,11 @@ function decreaseLoading(sel) {
   }
 }
 
-function addAlert(message, kind = "danger", delay = 3000, bootstrap5 = false) {
+function addAlert(message, kind = "danger", delay = 3000) {
   const alerts = $("#popup-alerts");
-  let e;
-  if (bootstrap5) {
-    e = $(
-      '<div class="alert alert-dismissible fade show" role="alert"><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>',
-    );
-  } else {
-    e = $(
-      '<div class="alert alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button></div>',
-    );
-  }
+  const e = $(
+    '<div class="alert alert-dismissible fade show" role="alert"><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>',
+  );
   e.addClass(`alert-${kind}`);
   e.append(new Text(message));
   e.hide();
@@ -324,7 +317,6 @@ function pgettext(context, msgid) {
   }
   return msgid;
 }
-// biome-ignore lint/correctness/noUnusedVariables: Global function
 function interpolate(fmt, obj, named) {
   if (typeof django !== "undefined") {
     return django.interpolate(fmt, obj, named);
@@ -564,35 +556,6 @@ $(function () {
   /* AJAX loading of tabs/pills */
   $document.on(
     "show.bs.tab",
-    '[data-toggle="tab"][data-href], [data-toggle="pill"][data-href]',
-    (e) => {
-      const $target = $(e.target);
-      let $content = $($target.attr("href"));
-      if ($target.data("loaded")) {
-        return;
-      }
-      if ($content.find(".panel-body").length > 0) {
-        $content = $content.find(".panel-body");
-      }
-      $content.load($target.data("href"), (_responseText, status, xhr) => {
-        if (status !== "success") {
-          const msg = gettext("Error while loading page:");
-          $content.html(
-            `<div class="alert alert-danger" role="alert">
-                ${msg} ${xhr.statusText} (${xhr.status})
-              </div>
-            `,
-          );
-        }
-        $target.data("loaded", 1);
-        loadTableSorting();
-      });
-    },
-  );
-
-  /* Same for Bootstrap 5 */
-  $document.on(
-    "show.bs.tab",
     '[data-bs-toggle="tab"][data-href], [data-bs-toggle="pill"][data-href]',
     (e) => {
       const $target = $(e.target);
@@ -679,20 +642,14 @@ $(function () {
   ) {
     /* From local storage */
     activeTab = $(
-      `[data-toggle=tab][href="${localStorage.getItem("translate-tab")}"]`,
+      `[data-bs-toggle=tab][data-bs-target="${localStorage.getItem("translate-tab")}"]`,
     );
     if (activeTab.length > 0) {
-      activeTab.tab("show");
+      bootstrap.Tab.getOrCreateInstance(activeTab).show();
     }
   }
 
   /* Add a hash to the URL when the user clicks on a tab */
-  $('a[data-toggle="tab"]').on("shown.bs.tab", function (_e) {
-    history.pushState(null, null, $(this).attr("href"));
-    /* Remove focus on rows */
-    $(".selectable-row").removeClass("active");
-  });
-  /* Same for Bootstrap 5 tabs */
   $('a[data-bs-toggle="tab"]').on("shown.bs.tab", function (_e) {
     history.pushState(null, null, $(this).attr("data-bs-target"));
     /* Remove focus on rows */
@@ -702,14 +659,14 @@ $(function () {
   /* Navigate to a tab when the history changes */
   window.addEventListener("popstate", (_e) => {
     if (location.hash !== "") {
-      activeTab = $(`[data-toggle=tab][href="${location.hash}"]`);
+      activeTab = $(`[data-bs-toggle=tab][data-bs-target="${location.hash}"]`);
     } else {
       activeTab = [];
     }
     if (activeTab.length > 0) {
-      activeTab.tab("show");
+      bootstrap.Tab.getOrCreateInstance(activeTab).show();
     } else {
-      $(".nav-tabs a:first").tab("show");
+      bootstrap.Tab.getOrCreateInstance($(".nav-tabs a:first")).show();
     }
   });
 
@@ -718,7 +675,9 @@ $(function () {
   if (formErrors.length > 0) {
     const tab = formErrors.closest("div.tab-pane");
     if (tab.length > 0) {
-      $(`[data-toggle=tab][href="#${tab.attr("id")}"]`).tab("show");
+      bootstrap.Tab.getOrCreateInstance(
+        $(`[data-bs-toggle=tab][data-bs-target="#${tab.attr("id")}"]`),
+      ).show();
     }
   }
 
@@ -895,42 +854,24 @@ $(function () {
   /* Copy to clipboard */
   $(document).on("click", "[data-clipboard-value]", function (e) {
     e.preventDefault();
-    navigator.clipboard
-      .writeText(this.getAttribute("data-clipboard-value"))
-      .then(
-        () => {
-          const text =
-            this.getAttribute("data-clipboard-message") ||
-            gettext("Text copied to clipboard.");
-          addAlert(text, "info");
-        },
-        () => {
-          addAlert(gettext("Please press Ctrl+C to copy."), "danger");
-        },
-      );
-  });
-
-  /* Same for Bootstrap 5 */
-  $(document).on("click", "[data-bs-clipboard-value]", function (e) {
-    e.preventDefault();
-    navigator.clipboard
-      .writeText(this.getAttribute("data-clipboard-value"))
-      .then(
-        () => {
-          const text =
-            this.getAttribute("data-clipboard-message") ||
-            gettext("Text copied to clipboard.");
-          addAlert(text, "info", 3000, true);
-        },
-        () => {
-          addAlert(
-            gettext("Please press Ctrl+C to copy."),
-            "danger",
-            3000,
-            true,
-          );
-        },
-      );
+    try {
+      navigator.clipboard
+        .writeText(this.getAttribute("data-clipboard-value"))
+        .then(
+          () => {
+            const text =
+              this.getAttribute("data-clipboard-message") ||
+              gettext("Text copied to clipboard.");
+            addAlert(text, "info");
+          },
+          () => {
+            addAlert(gettext("Please press Ctrl+C to copy."), "danger");
+          },
+        );
+    } catch (e) {
+      addAlert(gettext("Error copying to clipboard."), "danger");
+      console.log(e);
+    }
   });
 
   /* Auto translate source select */
@@ -1299,6 +1240,7 @@ $(function () {
   const tribute = new Tribute({
     trigger: "@",
     requireLeadingSpace: true,
+    /* The length should match validation in API */
     menuShowMinLength: 2,
     searchOpts: {
       pre: "​",
@@ -1308,6 +1250,8 @@ $(function () {
     menuItemTemplate: (item) => {
       const link = document.createElement("a");
       link.innerText = item.string;
+      link.classList.add("dropdown-item");
+      link.href = "#";
       return link.outerHTML;
     },
     values: (text, callback) => {
@@ -1332,7 +1276,7 @@ $(function () {
   document.querySelectorAll(".markdown-editor").forEach((editor) => {
     editor.addEventListener("tribute-active-true", (_e) => {
       $(".tribute-container").addClass("open");
-      $(".tribute-container ul").addClass("dropdown-menu");
+      $(".tribute-container ul").addClass("dropdown-menu shadow");
     });
   });
 
@@ -1409,7 +1353,6 @@ $(function () {
           ),
           "info",
           3000,
-          true,
         );
       });
     });
@@ -1539,13 +1482,16 @@ $(function () {
   });
 
   /* Move current translation into the view */
-  $('a[data-toggle="tab"][href="#nearby"]').on("shown.bs.tab", (_e) => {
-    document.querySelector("#nearby .current_translation").scrollIntoView({
-      block: "nearest",
-      inline: "nearest",
-      behavior: "smooth",
-    });
-  });
+  $('a[data-bs-toggle="tab"][data-bs-target="#nearby"]').on(
+    "shown.bs.tab",
+    (_e) => {
+      document.querySelector("#nearby .current_translation").scrollIntoView({
+        block: "nearest",
+        inline: "nearest",
+        behavior: "smooth",
+      });
+    },
+  );
 
   document.querySelectorAll("[data-visibility]").forEach((toggle) => {
     toggle.addEventListener("click", (_event) => {
@@ -1691,7 +1637,7 @@ $(function () {
 
   /* Allow styling of auth icons that we ship */
   document.querySelectorAll(".auth-image").forEach((el) => {
-    src = el.getAttribute("src");
+    const src = el.getAttribute("src");
     if (src !== null) {
       if (
         src.endsWith("password.svg") ||
@@ -1759,6 +1705,10 @@ $(function () {
       file_format_params_fields_ids.forEach((fieldId) => {
         form.find(fieldId).toggle(displayFieldLabel);
       });
+    } else {
+      file_format_params_fields_ids.forEach((fieldId) => {
+        form.find(fieldId).hide();
+      });
     }
   }
 
@@ -1780,5 +1730,51 @@ $(function () {
     const tab = document.querySelector("[data-bs-target='#new'");
     bootstrap.Tab.getOrCreateInstance(tab).show();
     tab.closest(".dropdown-menu").classList.remove("show");
+  });
+
+  /* Datetime formatting */
+  const dateFormatter = new Intl.DateTimeFormat(document.documentElement.lang, {
+    timeStyle: "medium",
+    dateStyle: "short",
+  });
+  document.querySelectorAll(".naturaltime").forEach((timespan) => {
+    const timestamp = Date.parse(timespan.getAttribute("data-datetime"));
+    const difference = (Date.now() - timestamp) / 1000;
+    let value = "";
+    if (Math.abs(difference) < 2) {
+      value = gettext("just now");
+    } else if (difference > 0) {
+      if (difference < 60) {
+        const seconds = Math.floor(difference);
+        value = interpolate(
+          ngettext("%s second ago", "%s seconds ago", seconds),
+          [seconds],
+        );
+      } else if (difference < 60 * 60) {
+        const minutes = Math.floor(difference / 60);
+        if (minutes === 1) {
+          value = gettext("a minute ago");
+        } else {
+          value = interpolate(
+            ngettext("%s minute ago", "%s minutes ago", minutes),
+            [minutes],
+          );
+        }
+      } else if (difference < 60 * 60 * 24) {
+        const hours = Math.floor(difference / (60 * 60));
+        if (hours === 1) {
+          value = gettext("a hour ago");
+        } else {
+          value = interpolate(ngettext("%s hour ago", "%s hours ago", hours), [
+            hours,
+          ]);
+        }
+      }
+    }
+    if (value === "") {
+      value = dateFormatter.format(new Date(timestamp));
+    }
+    console.log(timestamp, value);
+    timespan.textContent = value;
   });
 });

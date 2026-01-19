@@ -10,8 +10,11 @@ from contextlib import suppress
 from email import message_from_string
 from functools import partial
 from selectors import EVENT_READ, DefaultSelector
+
+# pylint: disable-next=unused-import
 from typing import TYPE_CHECKING, BinaryIO, cast
 
+from django.contrib.auth.decorators import login_not_required
 from django.core.exceptions import PermissionDenied, SuspiciousOperation
 from django.http import Http404, StreamingHttpResponse
 from django.http.response import HttpResponse, HttpResponseServerError
@@ -69,6 +72,7 @@ def authenticate(request: HttpRequest, auth: str) -> bool:
 
 @never_cache
 @csrf_exempt
+@login_not_required
 def git_export(
     request: AuthenticatedHttpRequest, path: list[str], git_request: str
 ) -> HttpResponseBase:
@@ -109,16 +113,7 @@ def git_export(
         raise Http404(msg)
     if obj.is_repo_link:
         return redirect(
-            "{}?{}".format(
-                reverse(
-                    "git-export",
-                    kwargs={
-                        "path": obj.linked_component.get_url_path(),
-                        "git_request": git_request,
-                    },
-                ),
-                request.META["QUERY_STRING"],
-            ),
+            f"{reverse('git-export', kwargs={'path': obj.linked_component.get_url_path(), 'git_request': git_request})}?{request.META['QUERY_STRING']}",
             permanent=True,
         )
 
@@ -266,7 +261,7 @@ class GitHTTPBackendWrapper:
             streaming_content=self, content_type=message["content-type"]
         )
 
-    def wait(self):
+    def wait(self) -> None:
         self.process.wait()
         if self.process.stdout is not None:
             self.process.stdout.close()

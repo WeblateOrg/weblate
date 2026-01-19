@@ -153,21 +153,12 @@ class RegexCheck(TargetCheckParametrized):
             return True
         return not self.get_value(unit).pattern
 
-    def check_highlight(self, source: str, unit: Unit):
-        if self.should_skip(unit):
-            return
-
-        regex = self.get_value(unit)
-
-        for match in regex.finditer(source):
-            yield (match.start(), match.end(), match.group())
-
     def get_description(self, check_obj):
         unit = check_obj.unit
         if not self.has_value(unit):
             return super().get_description(check_obj)
-        regex = self.get_value(unit)
+        check_regex = self.get_value(unit)
         return format_html(
             escape(gettext_lazy("Does not match regular expression {}.")),
-            format_html("<code>{}</code>", regex.pattern),
+            format_html("<code>{}</code>", check_regex.pattern),
         )

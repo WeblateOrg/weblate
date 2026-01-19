@@ -49,17 +49,18 @@ EXCEPTIONS = {
     "Beerware",
 }
 
-with open("scripts/spdx-license-list/json/licenses.json") as handle:
+with open("scripts/spdx-license-list/json/licenses.json", encoding="utf-8") as handle:
     data = json.load(handle)
 
-with open("weblate/utils/licensedata.py", "w") as output:
+with open("weblate/utils/licensedata.py", "w", encoding="utf-8") as output:
     output.write(HEADER)
     output.write("LICENSES = (\n")
     for item in sorted(data["licenses"], key=lambda x: x["name"].lower()):
         if item["isDeprecatedLicenseId"]:
             continue
         with open(
-            f"scripts/spdx-license-list/json/details/{item['licenseId']}.json"
+            f"scripts/spdx-license-list/json/details/{item['licenseId']}.json",
+            encoding="utf-8",
         ) as handle:
             details = json.load(handle)
         libre = (

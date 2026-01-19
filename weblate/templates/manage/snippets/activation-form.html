@@ -2,20 +2,20 @@
 
 <form action="{% url 'manage-activate' %}" method="post">
   {% csrf_token %}
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">
         {% documentation_icon 'admin/support' right=True %}
         {% translate "Activate support package" %}
       </h4>
     </div>
-    <div class="panel-body">
+    <div class="card-body">
       <p>
         {% translate "The support packages include priority e-mail support, or cloud backups of your Weblate installation." %}
       </p>
       {{ activate_form|crispy }}
     </div>
-    <div class="panel-footer">
+    <div class="card-footer">
       <input type="submit" class="btn btn-primary" value="{% translate "Activate" %}" />
       <a href="{{ support_url }}" class="btn btn-link">{% translate "Purchase support package" %}</a>
     </div>

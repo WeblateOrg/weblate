@@ -101,7 +101,7 @@ def auth_name(auth: str, separator: str = auth_name_default_separator, only: str
     params = get_auth_params(auth)
 
     if not params["image"].startswith("http"):
-        params["image"] = staticfiles_storage.url("auth/" + params["image"])
+        params["image"] = staticfiles_storage.url(f"auth/{params['image']}")
     params["icon"] = format_html(IMAGE_SOCIAL_TEMPLATE, separator=separator, **params)
 
     if only:

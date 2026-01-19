@@ -3,41 +3,183 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
+from pathlib import Path
 
+from django.conf import settings
 from django.core.exceptions import ImproperlyConfigured
 from django.test import SimpleTestCase
 
 from weblate.utils.environment import (
+    get_email_config,
     get_env_bool,
     get_env_credentials,
     get_env_int,
+    get_env_int_or_none,
     get_env_list,
+    get_env_list_or_none,
     get_env_map,
+    get_env_map_or_none,
     get_env_ratelimit,
     get_env_redis_url,
+    get_env_str,
     get_saml_idp,
     modify_env_list,
 )
+from weblate.utils.files import remove_tree
+from weblate.utils.unittest import tempdir_setting
 
 
 class EnvTest(SimpleTestCase):
+    def test_str(self) -> None:
+        os.environ["TEST_DATA"] = "foo"
+        self.assertEqual(get_env_str("TEST_DATA"), "foo")
+        self.assertEqual(get_env_str("TEST_DATA", default="bar", required=True), "foo")
+        os.environ["TEST_DATA"] = ""
+        self.assertEqual(get_env_str("TEST_DATA"), "")
+        self.assertEqual(get_env_str("TEST_DATA", default="bar"), "")
+        del os.environ["TEST_DATA"]
+        self.assertIsNone(get_env_str("TEST_DATA"))
+        self.assertEqual(get_env_str("TEST_DATA", default="bar"), "bar")
+        self.assertEqual(get_env_str("TEST_DATA", default="bar", required=True), "bar")
+        with self.assertRaises(ImproperlyConfigured):
+            get_env_str("TEST_DATA", required=True)
+
+    @tempdir_setting("DATA_DIR")
+    def test_str_files(self) -> None:
+        target = os.path.join(settings.DATA_DIR, "test")
+        os.makedirs(target)
+        filepath = Path(os.path.join(target, "file"))
+        filepath.write_text("bar", encoding="utf-8")
+        os.environ["TEST_DATA_FILE"] = str(filepath)
+        self.assertEqual(get_env_str("TEST_DATA"), "bar")
+        self.assertEqual(get_env_str("TEST_DATA", required=True), "bar")
+        self.assertEqual(get_env_str("TEST_DATA", default="baz", required=True), "bar")
+        os.environ["TEST_DATA"] = "foo"
+        self.assertEqual(get_env_str("TEST_DATA"), "bar")
+        self.assertEqual(get_env_str("TEST_DATA"), "bar")
+        self.assertEqual(get_env_str("TEST_DATA", required=True), "bar")
+        self.assertEqual(get_env_str("TEST_DATA", default="baz", required=True), "bar")
+        filepath.write_text("", encoding="utf-8")
+        self.assertEqual(get_env_str("TEST_DATA"), "")
+        del os.environ["TEST_DATA_FILE"]
+        self.assertEqual(get_env_str("TEST_DATA"), "foo")
+        self.assertEqual(get_env_str("TEST_DATA", required=True), "foo")
+        self.assertEqual(get_env_str("TEST_DATA", default="baz", required=True), "foo")
+        del os.environ["TEST_DATA"]
+        self.assertIsNone(get_env_str("TEST_DATA"))
+        remove_tree(target)
+
+    @tempdir_setting("DATA_DIR")
+    def test_str_fallback(self) -> None:
+        target = os.path.join(settings.DATA_DIR, "test")
+        os.makedirs(target)
+        filepath = Path(os.path.join(target, "file"))
+        filepath.write_text("baz", encoding="utf-8")
+
+        os.environ["TEST_DATA"] = "foo"
+        os.environ["TEST_DATA_FALLBACK"] = "bar"
+        os.environ["TEST_DATA_FALLBACK_FILE"] = str(filepath)
+        self.assertEqual(
+            get_env_str("TEST_DATA", fallback_name="TEST_DATA_FALLBACK"), "foo"
+        )
+        self.assertEqual(
+            get_env_str("TEST_DATA", required=True, fallback_name="TEST_DATA_FALLBACK"),
+            "foo",
+        )
+        self.assertEqual(
+            get_env_str(
+                "TEST_DATA",
+                default="foobar",
+                required=True,
+                fallback_name="TEST_DATA_FALLBACK",
+            ),
+            "foo",
+        )
+        del os.environ["TEST_DATA"]
+        self.assertEqual(
+            get_env_str("TEST_DATA", fallback_name="TEST_DATA_FALLBACK"), "baz"
+        )
+        self.assertEqual(
+            get_env_str("TEST_DATA", required=True, fallback_name="TEST_DATA_FALLBACK"),
+            "baz",
+        )
+        self.assertEqual(
+            get_env_str(
+                "TEST_DATA",
+                default="foobar",
+                required=True,
+                fallback_name="TEST_DATA_FALLBACK",
+            ),
+            "baz",
+        )
+        del os.environ["TEST_DATA_FALLBACK_FILE"]
+        self.assertEqual(
+            get_env_str("TEST_DATA", fallback_name="TEST_DATA_FALLBACK"), "bar"
+        )
+        self.assertEqual(
+            get_env_str("TEST_DATA", required=True, fallback_name="TEST_DATA_FALLBACK"),
+            "bar",
+        )
+        self.assertEqual(
+            get_env_str(
+                "TEST_DATA",
+                default="foobar",
+                required=True,
+                fallback_name="TEST_DATA_FALLBACK",
+            ),
+            "bar",
+        )
+        del os.environ["TEST_DATA_FALLBACK"]
+        self.assertIsNone(get_env_str("TEST_DATA", fallback_name="TEST_DATA_FALLBACK"))
+        self.assertEqual(
+            get_env_str(
+                "TEST_DATA", default="foobar", fallback_name="TEST_DATA_FALLBACK"
+            ),
+            "foobar",
+        )
+        remove_tree(target)
+
     def test_list(self) -> None:
         os.environ["TEST_DATA"] = "foo,bar,baz"
         self.assertEqual(get_env_list("TEST_DATA"), ["foo", "bar", "baz"])
         os.environ["TEST_DATA"] = "foo"
         self.assertEqual(get_env_list("TEST_DATA"), ["foo"])
+        os.environ["TEST_DATA"] = ""
+        self.assertEqual(get_env_list("TEST_DATA"), [""])
         del os.environ["TEST_DATA"]
         self.assertEqual(get_env_list("TEST_DATA"), [])
         self.assertEqual(get_env_list("TEST_DATA", ["x"]), ["x"])
+
+    def test_list_or_none(self) -> None:
+        os.environ["TEST_DATA"] = "foo,bar,baz"
+        self.assertEqual(get_env_list_or_none("TEST_DATA"), ["foo", "bar", "baz"])
+        os.environ["TEST_DATA"] = "foo"
+        self.assertEqual(get_env_list_or_none("TEST_DATA"), ["foo"])
+        os.environ["TEST_DATA"] = ""
+        self.assertEqual(get_env_list_or_none("TEST_DATA"), [""])
+        del os.environ["TEST_DATA"]
+        self.assertIsNone(get_env_list_or_none("TEST_DATA"))
 
     def test_map(self) -> None:
         os.environ["TEST_DATA"] = "foo:bar,baz:bag"
         self.assertEqual(get_env_map("TEST_DATA"), {"foo": "bar", "baz": "bag"})
         os.environ["TEST_DATA"] = "foo:bar"
         self.assertEqual(get_env_map("TEST_DATA"), {"foo": "bar"})
+        os.environ["TEST_DATA"] = ""
+        self.assertEqual(get_env_map("TEST_DATA"), {})
         del os.environ["TEST_DATA"]
         self.assertEqual(get_env_map("TEST_DATA"), {})
         self.assertEqual(get_env_map("TEST_DATA", {"x": "y"}), {"x": "y"})
+
+    def test_map_or_none(self) -> None:
+        os.environ["TEST_DATA"] = "foo:bar,baz:bag"
+        self.assertEqual(get_env_map_or_none("TEST_DATA"), {"foo": "bar", "baz": "bag"})
+        os.environ["TEST_DATA"] = "foo:bar"
+        self.assertEqual(get_env_map_or_none("TEST_DATA"), {"foo": "bar"})
+        os.environ["TEST_DATA"] = ""
+        self.assertEqual(get_env_map_or_none("TEST_DATA"), {})
+        del os.environ["TEST_DATA"]
+        self.assertIsNone(get_env_map_or_none("TEST_DATA"))
 
     def test_bool(self) -> None:
         os.environ["TEST_DATA"] = "1"
@@ -52,14 +194,28 @@ class EnvTest(SimpleTestCase):
         self.assertFalse(get_env_bool("TEST_DATA"))
         os.environ["TEST_DATA"] = "0"
         self.assertFalse(get_env_bool("TEST_DATA"))
+        os.environ["TEST_DATA"] = ""
+        self.assertFalse(get_env_bool("TEST_DATA"))
         del os.environ["TEST_DATA"]
         self.assertFalse(get_env_bool("TEST_DATA"))
 
     def test_int(self) -> None:
         os.environ["TEST_DATA"] = "1"
         self.assertEqual(get_env_int("TEST_DATA"), 1)
+        os.environ["TEST_DATA"] = ""
+        with self.assertRaises(ImproperlyConfigured):
+            get_env_int("TEST_DATA")
         del os.environ["TEST_DATA"]
         self.assertEqual(get_env_int("TEST_DATA"), 0)
+
+    def test_int_or_none(self) -> None:
+        os.environ["TEST_DATA"] = "1"
+        self.assertEqual(get_env_int_or_none("TEST_DATA"), 1)
+        os.environ["TEST_DATA"] = ""
+        with self.assertRaises(ImproperlyConfigured):
+            get_env_int_or_none("TEST_DATA")
+        del os.environ["TEST_DATA"]
+        self.assertIsNone(get_env_int_or_none("TEST_DATA"))
 
     def test_modify_list(self) -> None:
         os.environ["WEBLATE_ADD_TEST"] = "foo,bar"
@@ -125,8 +281,8 @@ class EnvTest(SimpleTestCase):
             get_env_ratelimit("RATELIMIT_ANON", "")
         del os.environ["RATELIMIT_ANON"]
 
-    def test_redis_url(self):
-        def cleanup():
+    def test_redis_url(self) -> None:
+        def cleanup() -> None:
             toremove = [name for name in os.environ if name.startswith("REDIS_")]
             for name in toremove:
                 del os.environ[name]
@@ -168,8 +324,8 @@ class EnvTest(SimpleTestCase):
         finally:
             cleanup()
 
-    def test_saml(self):
-        def cleanup():
+    def test_saml(self) -> None:
+        def cleanup() -> None:
             toremove = [name for name in os.environ if name.startswith("WEBLATE_SAML_")]
             for name in toremove:
                 del os.environ[name]
@@ -214,5 +370,49 @@ class EnvTest(SimpleTestCase):
                     "attr_full_name": "fullname",
                 },
             )
+        finally:
+            cleanup()
+
+    def test_email_config(self) -> None:
+        def cleanup() -> None:
+            toremove = [
+                name for name in os.environ if name.startswith("WEBLATE_EMAIL_")
+            ]
+            for name in toremove:
+                del os.environ[name]
+
+        cleanup()
+        try:
+            self.assertEqual(get_email_config(), (25, True, False))
+
+            # Test SSL/TLS autoconfig for common ports
+            os.environ["WEBLATE_EMAIL_PORT"] = "587"
+            self.assertEqual(get_email_config(), (587, True, False))
+            os.environ["WEBLATE_EMAIL_PORT"] = "465"
+            self.assertEqual(get_email_config(), (465, False, True))
+
+            # This is invalid configuration and Django will fail on this
+            os.environ["WEBLATE_EMAIL_USE_SSL"] = "1"
+            os.environ["WEBLATE_EMAIL_USE_TLS"] = "1"
+            self.assertEqual(get_email_config(), (465, True, True))
+
+            # Test disabling SSL/TLS is honored
+            os.environ["WEBLATE_EMAIL_USE_SSL"] = "0"
+            os.environ["WEBLATE_EMAIL_USE_TLS"] = "0"
+            self.assertEqual(get_email_config(), (465, False, False))
+
+            # Test port autodetection
+            del os.environ["WEBLATE_EMAIL_PORT"]
+            self.assertEqual(get_email_config(), (25, False, False))
+
+            # Test default port for SSL
+            os.environ["WEBLATE_EMAIL_USE_SSL"] = "1"
+            os.environ["WEBLATE_EMAIL_USE_TLS"] = "0"
+            self.assertEqual(get_email_config(), (465, False, True))
+
+            # Test default port for TLS
+            os.environ["WEBLATE_EMAIL_USE_SSL"] = "0"
+            os.environ["WEBLATE_EMAIL_USE_TLS"] = "1"
+            self.assertEqual(get_email_config(), (587, True, False))
         finally:
             cleanup()

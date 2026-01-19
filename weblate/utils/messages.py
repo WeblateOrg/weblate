@@ -14,10 +14,9 @@ from typing import TYPE_CHECKING
 
 from django.contrib.messages import add_message as django_add_message
 from django.contrib.messages import constants
-from django.http import HttpRequest
 
 if TYPE_CHECKING:
-    from weblate.auth.models import HttpRequest
+    from django.http import HttpRequest
 
 
 def get_request(request: HttpRequest):

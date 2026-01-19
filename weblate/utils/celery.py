@@ -9,17 +9,23 @@ from __future__ import annotations
 import os
 import time
 from collections import defaultdict
+from typing import Any
 
 from celery import Celery
+from celery.contrib.django.task import DjangoTask
 from celery.signals import after_setup_logger, task_failure
 from django.conf import settings
 from django.core.cache import cache
 from django.core.checks import run_checks
 
+# Type annotation compatibility
+Celery.__class_getitem__ = classmethod(lambda cls, *args, **kwargs: cls)  # noqa: ARG005
+DjangoTask.__class_getitem__ = classmethod(lambda cls, *args, **kwargs: cls)  # noqa: ARG005
+
 # set the default Django settings module for the 'celery' program.
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "weblate.settings")
 
-app = Celery("weblate")
+app = Celery[DjangoTask[..., Any]]("weblate")
 
 # Using a string here means the worker doesn't have to serialize
 # the configuration object to child processes.

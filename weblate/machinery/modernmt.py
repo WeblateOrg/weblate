@@ -41,6 +41,10 @@ class ModernMTTranslation(GlossaryMachineTranslationMixin):
         "zh_Hant": "zh-TW",
         "zh_Hans": "zh-CN",
     }
+    # Supported language variants not visible in the API
+    language_variants: ClassVar[dict[str, list[str]]] = {
+        "sr": ["sr-Cyrl", "sr-Latn"],
+    }
     glossary_count_limit = 1000
 
     def map_language_code(self, code):
@@ -55,10 +59,6 @@ class ModernMTTranslation(GlossaryMachineTranslationMixin):
             "MMT-PlatformVersion": weblate.utils.version.VERSION,
         }
 
-    def is_supported(self, source_language, target_language):
-        """Check whether given language combination is supported."""
-        return (source_language, target_language) in self.supported_languages
-
     def check_failure(self, response) -> None:
         super().check_failure(response)
         payload = response.json()
@@ -68,14 +68,14 @@ class ModernMTTranslation(GlossaryMachineTranslationMixin):
 
     def download_languages(self):
         """List of supported languages."""
-        response = self.request("get", self.get_api_url("languages"))
+        response = self.request("get", self.get_api_url("translate", "languages"))
         payload = response.json()
 
-        for source_language, target_languages in payload["data"].items():
-            yield from (
-                (source_language, target_language)
-                for target_language in target_languages
-            )
+        for language in payload["data"]:
+            if language in self.language_variants:
+                yield from self.language_variants[language]
+            else:
+                yield language
 
     def download_translations(
         self,
@@ -190,7 +190,7 @@ class ModernMTTranslation(GlossaryMachineTranslationMixin):
 
         try:
             with open(temp_filename, "rb") as file_content:
-                response = self.request(
+                self.request(
                     "post",
                     self.get_api_url("memories", str(glossary_id), "glossary"),
                     data={

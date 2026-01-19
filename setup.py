@@ -6,11 +6,11 @@
 from __future__ import annotations
 
 import os
-from distutils import log  # type: ignore[attr-defined]
-from distutils.core import Command  # type: ignore[import-not-found]
 from glob import glob
 from itertools import chain
 
+from distutils import log  # type: ignore[attr-defined]
+from distutils.core import Command  # type: ignore[import-not-found]
 from setuptools import setup
 from setuptools.command.build import build
 from setuptools.command.build_py import build_py

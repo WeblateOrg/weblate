@@ -184,6 +184,23 @@ Imports given content into Weblate, useful for benchmarking.
    # Display it
    fixefox memray-flamegraph-manage.py.2554179.html
 
+billing_demo
+------------
+
+.. weblate-admin:: billing_demo
+
+.. versionadded:: 5.15
+
+Creates a demo billing project. Can be executed multiple times to add
+additional invoices and billing events.
+
+This can be useful when developing Weblate. Needs :ref:`billing` installed.
+
+.. seealso::
+
+   * :wladmin:`import_demo`
+   * :ref:`devel-demo`
+
 
 celery_queues
 -------------
@@ -351,6 +368,11 @@ This can be useful when developing Weblate.
 .. weblate-admin-option:: --delete
 
    Removes existing demo project.
+
+.. seealso::
+
+   * :wladmin:`billing_demo`
+   * :ref:`devel-demo`
 
 
 import_json
@@ -730,7 +752,7 @@ list_languages
 Lists supported languages in MediaWiki markup - language codes, English names
 and localized names.
 
-This is used to generate <https://wiki.l10n.cz/Slovn%C3%ADk_s_n%C3%A1zvy_jazyk%C5%AF>.
+This is used to generate <https://www.l10n.cz/wiki/Slovn%C3%ADky/Slovn%C3%ADk_s_n%C3%A1zvy_jazyk%C5%AF/>.
 
 list_machinery
 --------------

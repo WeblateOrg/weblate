@@ -185,9 +185,10 @@ class MoExporter(PoExporter):
             if self.monolingual:
                 try:
                     unit = translation.store.content_units[0]
-                    self.use_context = not unit.template.source
                 except IndexError:
-                    pass
+                    self.use_context = False
+                else:
+                    self.use_context = not unit.template.source
 
     def store_flags(self, output, flags) -> None:
         return
@@ -276,7 +277,7 @@ class MultiCSVExporter(CVSBaseExporter):
             return "'{}'".format(text.replace("|", "\\|"))
         return text
 
-    def add_units(self, units):
+    def add_units(self, units) -> None:
         # Override add_units to handle multivalue units by adding each translation
         # as a separate row in the CSV export.
 

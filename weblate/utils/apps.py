@@ -6,11 +6,11 @@ from __future__ import annotations
 
 import errno
 import os
-import sys
 import time
 from datetime import timedelta
 from itertools import chain
 from pathlib import Path
+from shutil import disk_usage
 from typing import TYPE_CHECKING, cast
 
 from celery.exceptions import TimeoutError as CeleryTimeoutError
@@ -42,6 +42,7 @@ from .db import (
     measure_database_latency,
     using_postgresql,
 )
+from .encoding import get_filesystem_encoding, get_locale_encoding, get_python_encoding
 from .errors import init_error_collection
 from .site import check_domain, get_site_domain
 from .version import VERSION_BASE, get_latest_version
@@ -73,7 +74,7 @@ def check_mail_connection(
     databases: Sequence[str] | None,
     **kwargs,
 ) -> Iterable[CheckMessage]:
-    errors = []
+    errors: list[CheckMessage] = []
     try:
         connection = get_connection(timeout=5)
         connection.open()
@@ -95,7 +96,7 @@ def check_celery(
     # Import this lazily to avoid evaluating settings too early
     from weblate.utils.tasks import ping
 
-    errors = []
+    errors: list[CheckMessage] = []
     if settings.CELERY_TASK_ALWAYS_EAGER:
         errors.append(
             weblate_check(
@@ -138,10 +139,7 @@ def check_celery(
                 errors.append(
                     weblate_check(
                         "weblate.E034",
-                        "The Celery process is outdated or misconfigured."
-                        " Following items differ: {}".format(
-                            format_html_join_comma("{}", list_to_tuples(differing))
-                        ),
+                        f"The Celery process is outdated or misconfigured. Following items differ: {format_html_join_comma('{}', list_to_tuples(differing))}",
                     )
                 )
         except CeleryTimeoutError:
@@ -187,7 +185,7 @@ def check_database(
     databases: Sequence[str] | None,
     **kwargs,
 ) -> Iterable[CheckMessage]:
-    errors = []
+    errors: list[CheckMessage] = []
     if not using_postgresql():
         errors.append(
             weblate_check(
@@ -226,7 +224,7 @@ def check_cache(
     **kwargs,
 ) -> Iterable[CheckMessage]:
     """Check for sane caching."""
-    errors = []
+    errors: list[CheckMessage] = []
 
     cache_backend = cast("str", settings.CACHES["default"]["BACKEND"]).split(".")[-1]
     if cache_backend not in GOOD_CACHE:
@@ -259,7 +257,7 @@ def check_settings(
     **kwargs,
 ) -> Iterable[CheckMessage]:
     """Check for sane settings."""
-    errors = []
+    errors: list[CheckMessage] = []
 
     if not settings.ADMINS or any(x[1] in DEFAULT_MAILS for x in settings.ADMINS):
         errors.append(
@@ -323,7 +321,7 @@ def check_data_writable(
     **kwargs,
 ) -> Iterable[CheckMessage]:
     """Check we can write to data dir."""
-    errors = []
+    errors: list[CheckMessage] = []
     if not settings.DATA_DIR:
         return [
             weblate_check(
@@ -344,7 +342,7 @@ def check_data_writable(
     for path in dirs:
         path.mkdir(parents=True, exist_ok=True)
         if not os.access(path, os.W_OK):
-            errors.append(weblate_check("weblate.E002", message.format(path)))
+            errors.append(weblate_check("weblate.E002", message.format(path), Error))
 
     return errors
 
@@ -356,7 +354,7 @@ def check_site(
     databases: Sequence[str] | None,
     **kwargs,
 ) -> Iterable[CheckMessage]:
-    errors = []
+    errors: list[CheckMessage] = []
     if not check_domain(get_site_domain()):
         errors.append(weblate_check("weblate.E017", "Correct the site domain"))
     return errors
@@ -373,7 +371,7 @@ def check_perms(
     if not settings.DATA_DIR:
         return []
     start = time.monotonic()
-    errors = []
+    errors: list[CheckMessage] = []
     uid = os.getuid()
     message = "The path {} is owned by a different user, check your DATA_DIR settings."
     for dirpath, dirnames, filenames in os.walk(settings.DATA_DIR):
@@ -432,7 +430,11 @@ def check_encoding(
     **kwargs,
 ) -> Iterable[CheckMessage]:
     """Check that the encoding is UTF-8."""
-    if sys.getfilesystemencoding() == "utf-8" and sys.getdefaultencoding() == "utf-8":
+    if (
+        get_filesystem_encoding() == "utf-8"
+        and get_python_encoding() == "utf-8"
+        and get_locale_encoding() == "utf-8"
+    ):
         return []
     return [
         weblate_check(
@@ -451,9 +453,20 @@ def check_diskspace(
 ) -> Iterable[CheckMessage]:
     """Check free disk space."""
     if settings.DATA_DIR:
-        stat = os.statvfs(settings.DATA_DIR)
-        if stat.f_bavail * stat.f_bsize < 10000000:
-            return [weblate_check("weblate.C032", "The disk is nearly full")]
+        try:
+            usage = disk_usage(settings.DATA_DIR)
+        except OSError:
+            # check_data_writable will trigger for this
+            return []
+        if usage is None:
+            return []
+        # Show critical error on really low space, error on low space
+        if usage.free < 20_000_000:
+            message = f"There is not enough free space in {settings.DATA_DIR}"
+            return [weblate_check("weblate.C032", message)]
+        if usage.free < 100_000_000:
+            message = f"The disk space in {settings.DATA_DIR} is running low"
+            return [weblate_check("weblate.E043", message, Error)]
     return []
 
 

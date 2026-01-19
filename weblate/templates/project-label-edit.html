@@ -3,10 +3,10 @@
 {% load crispy_forms_tags i18n permissions translations %}
 
 {% block breadcrumbs %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{{ object.get_absolute_url }}">{{ object }}</a>
   </li>
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'labels' project=object.slug %}">{% translate "Labels" %}</a>
   </li>
 {% endblock breadcrumbs %}
@@ -14,12 +14,12 @@
 {% block content %}
 
   <form method="post">
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <h4 class="panel-title">{% translate "Edit label" %}</h4>
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">{% translate "Edit label" %}</h4>
       </div>
-      <div class="panel-body">{% crispy form %}</div>
-      <div class="panel-footer">
+      <div class="card-body">{% crispy form %}</div>
+      <div class="card-footer">
         <input type="submit" class="btn btn-primary" value="{% translate "Save" %}" />
       </div>
     </div>

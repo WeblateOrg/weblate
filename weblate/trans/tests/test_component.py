@@ -196,7 +196,11 @@ class ComponentTest(RepoTestCase):
 
     def test_create_po_link(self) -> None:
         component = self.create_po_link()
-        self.verify_component(component, 5, "cs", 4)
+        self.assertEqual(
+            set(component.translation_set.values_list("language_code", flat=True)),
+            {"en", "cs", "de", "it"},
+        )
+        self.verify_component(component, 4, "cs", 4)
 
     def test_create_po_mono(self) -> None:
         component = self.create_po_mono()
@@ -475,6 +479,16 @@ class ComponentTest(RepoTestCase):
         component.check_flags = f"ignore-{check.name}"
         component.save()
         self.assertEqual(Check.objects.count(), 0)
+
+    def test_create_symlinks(self):
+        component = self._create_component("po", "po-brokenlink/*.po")
+        # - xx should not be present as it is a symlink to existing translation
+        # - fr should not be present as it is a symlink out of tree
+        self.assertEqual(
+            set(component.translation_set.values_list("language_code", flat=True)),
+            {"en", "cs", "de", "it"},
+        )
+        self.verify_component(component, 4, "cs", 4)
 
 
 class AutoAddonTest(RepoTestCase):
@@ -936,7 +950,7 @@ class ComponentErrorTest(RepoTestCase):
 
     def test_failed_push(self) -> None:
         testfile = os.path.join(self.component.full_path, "README.md")
-        with open(testfile, "a") as handle:
+        with open(testfile, "a", encoding="utf-8") as handle:
             handle.write("CHANGE")
         with self.component.repository.lock:
             self.component.repository.commit("test", files=["README.md"])
@@ -952,6 +966,7 @@ class ComponentErrorTest(RepoTestCase):
         self.component.drop_template_store_cache()
 
         with self.assertRaises(FileParseError):
+            # pylint: disable-next=pointless-statement
             self.component.template_store  # noqa: B018
 
         with self.assertRaises(ValidationError):
@@ -961,27 +976,30 @@ class ComponentErrorTest(RepoTestCase):
         translation = self.component.translation_set.get(language_code="cs")
         translation.filename = "foo.bar"
         with self.assertRaises(FileParseError):
+            # pylint: disable-next=pointless-statement
             translation.store  # noqa: B018
         with self.assertRaises(ValidationError):
             translation.clean()
 
     def test_invalid_storage(self) -> None:
         testfile = os.path.join(self.component.full_path, "ts-mono", "cs.ts")
-        with open(testfile, "a") as handle:
+        with open(testfile, "a", encoding="utf-8") as handle:
             handle.write("CHANGE")
         translation = self.component.translation_set.get(language_code="cs")
         with self.assertRaises(FileParseError):
+            # pylint: disable-next=pointless-statement
             translation.store  # noqa: B018
         with self.assertRaises(ValidationError):
             translation.clean()
 
     def test_invalid_template_storage(self) -> None:
         testfile = os.path.join(self.component.full_path, "ts-mono", "en.ts")
-        with open(testfile, "a") as handle:
+        with open(testfile, "a", encoding="utf-8") as handle:
             handle.write("CHANGE")
         self.component.drop_template_store_cache()
 
         with self.assertRaises(FileParseError):
+            # pylint: disable-next=pointless-statement
             self.component.template_store  # noqa: B018
         with self.assertRaises(ValidationError):
             self.component.clean()

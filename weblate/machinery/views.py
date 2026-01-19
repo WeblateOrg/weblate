@@ -28,7 +28,6 @@ from weblate.machinery.base import (
 from weblate.machinery.models import MACHINERY
 from weblate.trans.models import Project, Unit
 from weblate.trans.templatetags.translations import format_language_string
-from weblate.utils.diff import Differ
 from weblate.utils.errors import report_error
 from weblate.utils.views import parse_path
 from weblate.wladmin.views import MENU as MANAGE_MENU
@@ -401,7 +400,6 @@ def handle_machinery(request: AuthenticatedHttpRequest, service, unit, search=No
     }
 
     machinery_settings = component.project.get_machinery_settings()
-    Differ()
     targets = unit.get_target_plurals()
 
     try:
@@ -433,7 +431,9 @@ def handle_machinery(request: AuthenticatedHttpRequest, service, unit, search=No
             response["responseDetails"] = f"{error.__class__.__name__}: {error}"
 
     if response["responseStatus"] != 200:
-        translation.log_info("machinery failed: %s", response["responseDetails"])
+        translation.log_info(
+            "machinery %s failed: %s", service, response["responseDetails"]
+        )
 
     return JsonResponse(data=response)
 

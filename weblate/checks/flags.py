@@ -210,6 +210,9 @@ class Flags:
         for flags in args:
             self.merge(flags)
 
+    def __repr__(self) -> str:
+        return f"<Flags {self.format()}>"
+
     def get_items(
         self, flags: str | etree._Element | Flags | tuple[str | tuple[Any, ...]] | None
     ) -> tuple[str | tuple[Any, ...], ...]:

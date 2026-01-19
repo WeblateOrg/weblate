@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from contextlib import suppress
 from typing import TYPE_CHECKING
 
 from django.conf import settings
@@ -35,12 +36,11 @@ class WeblateUserBackend(ModelBackend):
         if username == settings.ANONYMOUS_USER_NAME or username is None:
             return None
 
-        try:
+        with suppress(User.DoesNotExist, User.MultipleObjectsReturned):
             user = try_get_user(username)
             if user.check_password(password):
                 return user
-        except (User.DoesNotExist, User.MultipleObjectsReturned):
-            pass
+
         return None
 
     def get_user(self, user_id):

@@ -114,9 +114,7 @@ class Command(BaseCommand):
                     component.full_clean()
                 except ValidationError as error:
                     for key, value in error.message_dict.items():
-                        self.stderr.write(
-                            "Error in {}: {}".format(key, ", ".join(value))
-                        )
+                        self.stderr.write(f"Error in {key}: {', '.join(value)}")
                     msg = "Component failed validation!"
                     raise CommandError(msg) from error
                 component.save(force_insert=True)

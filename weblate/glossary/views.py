@@ -47,7 +47,7 @@ def add_glossary_term(request: AuthenticatedHttpRequest, unit_id):
             code = 200
 
             # Fetch matching terms
-            all_terms = get_glossary_terms(unit)
+            all_terms = get_glossary_terms(unit, full=True)
 
             # Create a set of existing term IDs
             existing_term_ids = {term.pk for term in all_terms}

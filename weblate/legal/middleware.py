@@ -52,10 +52,7 @@ class RequireTOSMiddleware:
                 ),
             )
             return redirect(
-                "{}?{}".format(
-                    reverse("legal:confirm"),
-                    urlencode({"next": request.get_full_path()}),
-                )
+                f"{reverse('legal:confirm')}?{urlencode({'next': request.get_full_path()})}"
             )
 
         # Explicitly return None for all non-matching requests

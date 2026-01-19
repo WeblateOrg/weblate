@@ -18,6 +18,7 @@ from weblate.checks.format import (
     I18NextInterpolationCheck,
     JavaFormatCheck,
     JavaMessageFormatCheck,
+    LaravelFormatCheck,
     LuaFormatCheck,
     MultipleUnnamedFormatsCheck,
     ObjectPascalFormatCheck,
@@ -446,6 +447,112 @@ class CFormatCheckTest(CheckTestCase):
 class LuaFormatCheckTest(CFormatCheckTest):
     check = LuaFormatCheck()
     flag = "lua-format"
+
+
+class LaravelFormatCheckTest(CheckTestCase):
+    check = LaravelFormatCheck()
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.test_highlight = (
+            "laravel-format",
+            "Test :name",
+            [(5, 10, ":name")],
+        )
+
+    def test_no_format(self):
+        self.assertFalse(self.check.check_format("Test", "Test", False, Unit()))
+
+    def test_format(self):
+        self.assertFalse(
+            self.check.check_format("Test :name", "Test :name", False, Unit())
+        )
+
+    def test_missing_format(self):
+        self.assertTrue(self.check.check_format("Test :name", "Test", False, Unit()))
+
+    def test_extra_format(self):
+        self.assertEqual(
+            self.check.check_format("Test", "Test :name", False, Unit()),
+            {"missing": [], "extra": [":name"]},
+        )
+
+    def test_multiple_placeholders(self):
+        self.assertFalse(
+            self.check.check_format(
+                "The :attribute must be :value",
+                "The :attribute must be :value",
+                False,
+                Unit(),
+            )
+        )
+
+    def test_reordering(self):
+        self.assertFalse(
+            self.check.check_format(
+                ":name :value",
+                ":value :name",
+                False,
+                Unit(),
+            )
+        )
+
+    def test_wrong_placeholder_names(self):
+        self.assertEqual(
+            self.check.check_format(":attribute", ":name", False, Unit()),
+            {"missing": [":attribute"], "extra": [":name"]},
+        )
+
+    def test_case_sensitivity(self):
+        self.assertEqual(
+            self.check.check_format(":name", ":Name", False, Unit()),
+            {"missing": [":name"], "extra": [":Name"]},
+        )
+
+    def test_special_characters(self):
+        self.assertFalse(
+            self.check.check_format(
+                ":user_id :value2",
+                ":user_id :value2",
+                False,
+                Unit(),
+            )
+        )
+
+    def test_edge_positions(self):
+        self.assertFalse(
+            self.check.check_format(
+                ":start middle :end",
+                ":start middle :end",
+                False,
+                Unit(),
+            )
+        )
+
+    def test_description(self) -> None:
+        unit = Unit(
+            source=":name",
+            target=":value",
+            extra_flags="laravel-format",
+            translation=Translation(
+                component=Component(
+                    file_format="po",
+                    source_language=Language(code="en"),
+                    project=Project(),
+                )
+            ),
+        )
+        check = Check(unit=unit)
+        self.assertHTMLEqual(
+            str(self.check.get_description(check)),
+            """
+            The following format strings are missing:
+            <span class="hlcheck" data-value=":name">:name</span>
+            <br />
+            The following format strings are extra:
+            <span class="hlcheck" data-value=":value">:value</span>
+            """,
+        )
 
 
 class ObjectPascalFormatCheckTest(CheckTestCase):

@@ -3,10 +3,10 @@
 {% load i18n icons translations %}
 
 {% block breadcrumbs %}
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'about' %}">{% translate "About Weblate" %}</a>
   </li>
-  <li>
+  <li class="breadcrumb-item">
     <a href="{% url 'about' %}">{% translate "Weblate keys" %}</a>
   </li>
 {% endblock breadcrumbs %}
@@ -15,18 +15,18 @@
 
   {% include "snippets/ssh-key.html" %}
 
-  <div class="panel panel-default">
-    <div class="panel-heading">
-      <h4 class="panel-title">
+  <div class="card">
+    <div class="card-header">
+      <h4 class="card-title">
         {% documentation_icon 'admin/optionals' 'gpg-sign' right=True %}
         {% translate "Commit signing" %}
       </h4>
     </div>
 
-    <div class="panel-body">
+    <div class="card-body">
       {% if gpg_key %}
         <button type="button"
-                class="btn btn-link btn-xs pull-right flip"
+                class="btn btn-link btn-xs float-end"
                 data-clipboard-value="{{ gpg_key }}"
                 data-clipboard-message="{% translate "Public key copied to clipboard." %}"
                 title="{% translate "Copy to clipboard" %}">{% icon "copy.svg" %}</button>

@@ -9,6 +9,7 @@ from __future__ import annotations
 import os
 import string
 import subprocess
+from pathlib import Path
 from random import SystemRandom
 from urllib.parse import urlparse
 
@@ -45,6 +46,7 @@ def backup_lock():
         cache_template="lock:{scope}",
         file_template=".{scope}",
         timeout=120,
+        expiry_timeout=4 * 3600,
     )
 
 
@@ -54,7 +56,7 @@ class BackupError(Exception):
 
 def make_password(length: int = 50):
     generator = SystemRandom()
-    chars = string.ascii_letters + string.digits + "!@#$%^&*()"
+    chars = f"{string.ascii_letters}{string.digits}!@#$%^&*()"
     return "".join(generator.choice(chars) for i in range(length))
 
 
@@ -79,8 +81,7 @@ def tag_cache_dirs() -> None:
     for name in dirs:
         tagfile = os.path.join(name, "CACHEDIR.TAG")
         if os.path.exists(name) and not os.path.exists(tagfile):
-            with open(tagfile, "w") as handle:
-                handle.write(CACHEDIR)
+            Path(tagfile).write_text(CACHEDIR, encoding="utf-8")
 
 
 def run_borg(cmd: list[str], env: dict[str, str] | None = None) -> str:

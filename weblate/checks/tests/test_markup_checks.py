@@ -229,10 +229,8 @@ class MarkdownLinkCheckTest(CheckTestCase):
         self.do_test(
             False,
             (
-                "[Weblate](#weblate) has an [example]({{example}}) "
-                "for illustrating the usage of [Weblate](#weblate)",
-                "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "  # codespell:ignore
-                "illustriert die Verwendung von [Webspät](#weblate)",
+                "[Weblate](#weblate) has an [example]({{example}}) for illustrating the usage of [Weblate](#weblate)",
+                "Ein [Beispiel]({{example}}) in [Webspät](#weblate) illustriert die Verwendung von [Webspät](#weblate)",  # codespell:ignore
                 "md-text",
             ),
         )
@@ -240,20 +238,16 @@ class MarkdownLinkCheckTest(CheckTestCase):
         self.do_test(
             True,
             (
-                "[Weblate](#weblate) has an [example]({{example}}) "
-                "for illustrating the usage of [Weblate](#weblate)",
-                "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "  # codespell:ignore
-                "illustriert die Verwendung von [Webspät](#Webspät)",
+                "[Weblate](#weblate) has an [example]({{example}}) for illustrating the usage of [Weblate](#weblate)",
+                "Ein [Beispiel]({{example}}) in [Webspät](#weblate) illustriert die Verwendung von [Webspät](#Webspät)",  # codespell:ignore
                 "md-text",
             ),
         )
         self.do_test(
             True,
             (
-                "[Weblate](#weblate) has an [example]({{example}}) "
-                "for illustrating the usage of [Weblate](#weblate)",
-                "Ein [Beispiel]({{example}}) in [Webspät](#weblate) "  # codespell:ignore
-                "illustriert die Verwendung von Webspät",
+                "[Weblate](#weblate) has an [example]({{example}}) for illustrating the usage of [Weblate](#weblate)",
+                "Ein [Beispiel]({{example}}) in [Webspät](#weblate) illustriert die Verwendung von Webspät",  # codespell:ignore
                 "md-text",
             ),
         )
@@ -907,6 +901,64 @@ class RSTSyntaxCheckTest(CheckTestCase):
             (
                 "|regular| Small",
                 "|regular| Small",
+                "rst-text",
+            ),
+        )
+
+    def test_list(self) -> None:
+        self.do_test(
+            False,
+            (
+                "Text",
+                "Text",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "Text",
+                "* Text",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "Text",
+                "- Text",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            True,
+            (
+                "Text",
+                "+ Text",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                "- Text",
+                "- Text",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                "- Text",
+                "* Text",
+                "rst-text",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                "- Text",
+                "+ Text",
                 "rst-text",
             ),
         )

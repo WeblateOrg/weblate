@@ -15,6 +15,7 @@ from appconf import AppConf
 from django.conf import settings
 from django.contrib.admin.utils import NestedObjects
 from django.core.exceptions import ObjectDoesNotExist
+from django.core.validators import MinValueValidator
 from django.db import models, transaction
 from django.db.models import Exists, OuterRef, Q
 from django.db.utils import OperationalError
@@ -848,7 +849,7 @@ class Language(models.Model, CacheKeyMixin):
             aliases.extend(
                 default_lang
                 for default_lang in DEFAULT_LANGS
-                if default_lang.startswith(self.code)
+                if default_lang.startswith(f"{self.code}_")
             )
         return sorted(aliases)
 
@@ -1026,7 +1027,9 @@ class Plural(models.Model):
         ),
     )
     number = models.SmallIntegerField(
-        default=2, verbose_name=gettext_lazy("Number of plurals")
+        default=2,
+        verbose_name=gettext_lazy("Number of plurals"),
+        validators=[MinValueValidator(1)],
     )
     formula = models.TextField(
         default="n != 1",
@@ -1056,9 +1059,7 @@ class Plural(models.Model):
         super().save(*args, **kwargs)
 
     def get_absolute_url(self) -> str:
-        return "{}#information".format(
-            reverse("show_language", kwargs={"lang": self.language.code})
-        )
+        return f"{reverse('show_language', kwargs={'lang': self.language.code})}#information"
 
     @cached_property
     def plural_form(self) -> str:
@@ -1087,13 +1088,16 @@ class Plural(models.Model):
         return result
 
     @staticmethod
-    def parse_plural_forms(plurals):
+    def parse_plural_forms(plurals: str) -> tuple[int, str]:
         matches = PLURAL_RE.match(plurals)
         if matches is None:
             msg = "Could not parse plural forms"
             raise ValueError(msg)
 
         number = int(matches.group(1))
+        if number <= 0:
+            msg = "Plural number has to be greater than zero"
+            raise ValueError(msg)
         formula = matches.group(2)
         if not formula:
             formula = "0"
@@ -1173,7 +1177,7 @@ class PluralMapper:
         self.target_plural = target_plural
         self.same_plurals = source_plural.same_as(target_plural)
 
-    def __str__(self):
+    def __str__(self) -> str:
         return f"<PluralMapper '{self.source_plural}' -> '{self.target_plural}'>"
 
     @cached_property

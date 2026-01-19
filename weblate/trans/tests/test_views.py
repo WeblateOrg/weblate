@@ -9,7 +9,7 @@ from __future__ import annotations
 from io import BytesIO
 from typing import TYPE_CHECKING
 from unittest import TestCase
-from urllib.parse import urlsplit
+from urllib.parse import parse_qs, urlparse, urlsplit
 from zipfile import ZipFile
 
 from django.contrib.messages import get_messages
@@ -24,11 +24,12 @@ from django.utils.translation import activate
 from openpyxl import load_workbook
 from PIL import Image
 
-from weblate.auth.models import Group, get_anonymous, setup_project_groups
+from weblate.auth.models import Group, setup_project_groups
 from weblate.lang.models import Language
 from weblate.trans.models import Component, ComponentList, Project
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.utils import (
+    clear_users_cache,
     create_another_user,
     create_test_user,
     wait_for_celery,
@@ -38,8 +39,12 @@ from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.xml import parse_xml
 
 if TYPE_CHECKING:
+    from django.http import HttpResponse
+    from django.test.client import Client as TestClient
+
     from weblate.auth.models import User
     from weblate.trans.models import Translation, Unit
+    from weblate.utils.state import StringState
 
 
 class RegistrationTestMixin(TestCase):
@@ -61,9 +66,9 @@ class RegistrationTestMixin(TestCase):
             if "(" in line or ")" in line or "<" in line or ">" in line:
                 continue
             if live_url and line.startswith(live_url):
-                return line + "&confirm=1"
+                return f"{line}&confirm=1"
             if line.startswith("http://example.com/"):
-                return line[18:] + "&confirm=1"
+                return f"{line[18:]}&confirm=1"
 
         self.fail("Confirmation URL not found")
         return ""
@@ -73,11 +78,22 @@ class RegistrationTestMixin(TestCase):
             sent_mail.subject, "[Weblate] Activity on your account at Weblate"
         )
 
+    def confirm_tos(
+        self, user_client: TestClient, response: HttpResponse
+    ) -> HttpResponse:
+        url = response.redirect_chain[-1][0]
+        parsed_url = urlparse(url)
+        parsed_query = parse_qs(parsed_url.query)
+        self.assertTrue(url.startswith(reverse("legal:confirm")))
+        return user_client.post(
+            url, {"confirm": "1", "next": parsed_query["next"]}, follow=True
+        )
+
 
 class ViewTestCase(RepoTestCase):
     @classmethod
     def setUpTestData(cls) -> None:
-        get_anonymous.cache_clear()
+        clear_users_cache()
         super().setUpTestData()
 
     def setUp(self) -> None:
@@ -171,10 +187,13 @@ class ViewTestCase(RepoTestCase):
         target: str,
         source: str = "Hello, world!\n",
         language: str = "cs",
+        translation: Translation | None = None,
         user: User | None = None,
-    ) -> None:
-        unit = self.get_unit(source, language)
-        unit.translate(user or self.user, target, STATE_TRANSLATED)
+        state: StringState = STATE_TRANSLATED,
+    ) -> Unit:
+        unit = self.get_unit(source, language, translation=translation)
+        unit.translate(user or self.user, target, state)
+        return unit
 
     def edit_unit(
         self,
@@ -298,11 +317,15 @@ class FixtureTestCase(ViewTestCase):
         for group in Group.objects.iterator():
             group.save()
 
+        # Make sure anonymous cache is cleared
+        clear_users_cache()
+
         super().setUpTestData()
 
     def clone_test_repos(self) -> None:
         return
 
+    # pylint: disable=arguments-differ
     def create_project(self):
         project = Project.objects.all()[0]
         setup_project_groups(self, project)
@@ -713,7 +736,7 @@ class SourceStringsTest(ViewTestCase):
 
     def test_matrix_load(self) -> None:
         response = self.client.get(
-            reverse("matrix-load", kwargs=self.kw_component) + "?offset=0&lang=cs"
+            f"{reverse('matrix-load', kwargs=self.kw_component)}?offset=0&lang=cs"
         )
         self.assertContains(response, 'lang="cs"')
 

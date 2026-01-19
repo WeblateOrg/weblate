@@ -6,7 +6,7 @@
 
 {% block message %}
   {% perm 'component.lock' object as user_can_lock_component %}
-  <div class="pull-right flip">
+  <div class="float-end">
     {% if user_can_lock_component %}
       <a href=""
          class="btn btn-warning link-post"
@@ -23,8 +23,15 @@
   {% with alerts=object.lock_alerts %}
     {% if alerts %}
       <br />
-      {% translate "The translation was automatically locked due to following alerts:" %}
-      {% for alert in alerts %}<a href="{{ object.get_absolute_url }}#alerts">{{ alert }}</a>{% endfor %}
+
+      {% blocktranslate count count=alerts|length %}The translation was automatically locked due to the following alert:{% plural %}The translation was automatically locked due to the following alerts:{% endblocktranslate %}
+      <ul>
+        {% for alert in alerts %}
+          <li>
+            <a href="{{ object.get_absolute_url }}#alerts">{{ alert }}</a>
+          </li>
+        {% endfor %}
+      </ul>
     {% endif %}
   {% endwith %}
 {% endblock message %}

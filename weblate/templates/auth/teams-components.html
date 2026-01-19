@@ -1,7 +1,7 @@
 {% load i18n %}
 
 {% for component in group.components.all %}
-  <span class="badge">{{ component }}</span>
+  <span class="badge  text-bg-secondary">{{ component }}</span>
 {% empty %}
   <em>{% translate "All components" %}</em>
 {% endfor %}

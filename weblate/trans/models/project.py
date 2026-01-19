@@ -11,11 +11,11 @@ from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
 from django.db import models, transaction
-from django.db.models import Count, F, Q, Value
+from django.db.models import Count, F, Q, QuerySet, Value
 from django.db.models.functions import Replace
 from django.urls import reverse
 from django.utils.functional import cached_property
-from django.utils.translation import gettext_lazy, gettext_noop
+from django.utils.translation import gettext_lazy
 
 from weblate.configuration.models import Setting, SettingCategory
 from weblate.formats.models import FILE_FORMATS
@@ -36,10 +36,14 @@ from weblate.utils.validators import (
 )
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
+    from collections.abc import Callable, Iterable
+
+    from ahocorasick_rs import AhoCorasick
 
     from weblate.auth.models import AuthenticatedHttpRequest, Group, User
+    from weblate.billing.models import Billing
     from weblate.machinery.types import SettingsDict
+    from weblate.trans.models import Alert
     from weblate.trans.models.component import Component, ComponentQuerySet
     from weblate.trans.models.label import Label
     from weblate.trans.models.translation import TranslationQuerySet
@@ -59,14 +63,14 @@ class ProjectLanguageFactory(UserDict):
         super().__init__()
         self._project = project
 
-    def __getitem__(self, key: Language):
+    def __getitem__(self, key: Language) -> ProjectLanguage:
         try:
             return super().__getitem__(key.id)
         except KeyError:
             self[key.id] = result = ProjectLanguage(self._project, key)
             return result
 
-    def preload(self):
+    def preload(self) -> list[ProjectLanguage]:
         return [self[language] for language in self._project.languages]
 
     def preload_workflow_settings(self) -> None:
@@ -90,8 +94,8 @@ class ProjectLanguageFactory(UserDict):
             instance.__dict__["workflow_settings"] = None
 
 
-class ProjectQuerySet(models.QuerySet["Project"]):
-    def order(self):
+class ProjectQuerySet(QuerySet["Project"]):
+    def order(self) -> Self:
         return self.order_by("name")
 
     def only(self, *fields: str) -> Self:
@@ -100,10 +104,10 @@ class ProjectQuerySet(models.QuerySet["Project"]):
         only_fields.update(("access_control", "translation_review", "source_review"))
         return super().only(*only_fields)
 
-    def search(self, query: str):
+    def search(self, query: str) -> Self:
         return self.filter(Q(name__icontains=query) | Q(slug__icontains=query))
 
-    def prefetch_languages(self):
+    def prefetch_languages(self) -> Self:
         # Bitmap for languages
         language_map = set(
             self.values_list("id", "component__translation__language_id").distinct()
@@ -126,10 +130,10 @@ class ProjectQuerySet(models.QuerySet["Project"]):
         return self
 
 
-def prefetch_project_flags(projects):
-    lookup = {project.id: project for project in projects}
-    if lookup:
-        queryset = Project.objects.filter(id__in=lookup.keys()).values("id")
+def prefetch_project_flags(projects: Iterable[Project]) -> Iterable[Project]:
+    id_lookup = {project.id: project for project in projects}
+    if id_lookup:
+        queryset = Project.objects.filter(id__in=id_lookup.keys()).values("id")
         # Fallback value for locking and alerts
         for project in projects:
             project.__dict__["locked"] = True
@@ -138,7 +142,7 @@ def prefetch_project_flags(projects):
         for alert in queryset.filter(component__alert__dismissed=False).annotate(
             Count("component__alert")
         ):
-            lookup[alert["id"]].__dict__["has_alerts"] = bool(
+            id_lookup[alert["id"]].__dict__["has_alerts"] = bool(
                 alert["component__alert__count"]
             )
         # Filter unlocked projects
@@ -147,12 +151,14 @@ def prefetch_project_flags(projects):
             .distinct()
             .annotate(Count("component__id"))
         ):
-            lookup[locks["id"]].__dict__["locked"] = locks["component__id__count"] == 0
+            id_lookup[locks["id"]].__dict__["locked"] = (
+                locks["component__id__count"] == 0
+            )
 
     # Prefetch source language ids
-    lookup = {project.source_language_cache_key: project for project in projects}
-    for item, value in cache.get_many(lookup.keys()).items():
-        lookup[item].__dict__["source_language_ids"] = value
+    key_lookup = {project.source_language_cache_key: project for project in projects}
+    for item, value in cache.get_many(key_lookup.keys()).items():
+        key_lookup[item].__dict__["source_language_ids"] = value
     return projects
 
 
@@ -375,7 +381,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         if update_tm:
             import_memory.delay_on_commit(self.id)
 
-    def generate_changes(self, old) -> None:
+    def generate_changes(self, old: Project) -> None:
         tracked = (("slug", ActionEvents.RENAME_PROJECT),)
         for attribute, action in tracked:
             old_value = getattr(old, attribute)
@@ -389,7 +395,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
                 )
 
     @cached_property
-    def language_aliases_dict(self):
+    def language_aliases_dict(self) -> dict[str, str]:
         if not self.language_aliases:
             return {}
         return dict(part.split(":") for part in self.language_aliases.split(","))
@@ -422,14 +428,14 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         for group in self.defined_groups.iterator():
             user.remove_team(None, group)
 
-    def get_url_path(self):
+    def get_url_path(self) -> tuple[str, ...]:
         return (self.slug,)
 
-    def get_widgets_url(self):
+    def get_widgets_url(self) -> str:
         """Return absolute URL for widgets."""
         return get_site_url(reverse("widgets", kwargs={"path": self.get_url_path()}))
 
-    def get_share_url(self):
+    def get_share_url(self) -> str:
         """Return absolute URL usable for sharing."""
         return get_site_url(reverse("engage", kwargs={"path": self.get_url_path()}))
 
@@ -452,7 +458,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         return self.component_set.filter(locked=True).count()
 
     @cached_property
-    def languages(self):
+    def languages(self) -> Iterable[Language]:
         """Return list of all languages used in project."""
         return (
             Language.objects.filter(
@@ -464,7 +470,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         )
 
     @property
-    def count_pending_units(self):
+    def count_pending_units(self) -> int:
         """Check whether there are any uncommitted changes."""
         from weblate.trans.models import Unit
 
@@ -472,11 +478,11 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             translation__component__project=self, pending_changes__isnull=False
         ).count()
 
-    def needs_commit(self):
+    def needs_commit(self) -> bool:
         """Check whether there are some not committed changes."""
         return self.count_pending_units > 0
 
-    def on_repo_components(self, use_all: bool, func: str, *args, **kwargs):
+    def on_repo_components(self, use_all: bool, func: str, *args, **kwargs) -> bool:
         """Perform operation on all repository components."""
         generator = (
             getattr(component, func)(*args, **kwargs)
@@ -488,23 +494,23 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         # This is status checking, call only needed methods
         return any(generator)
 
-    def commit_pending(self, reason, user: User):
+    def commit_pending(self, reason: str, user: User) -> bool:
         """Commit any pending changes."""
         return self.on_repo_components(True, "commit_pending", reason, user)
 
-    def repo_needs_merge(self):
+    def repo_needs_merge(self) -> bool:
         return self.on_repo_components(False, "repo_needs_merge")
 
-    def repo_needs_push(self):
+    def repo_needs_push(self) -> bool:
         return self.on_repo_components(False, "repo_needs_push")
 
     def do_update(
         self, request: AuthenticatedHttpRequest | None = None, method: str | None = None
-    ):
+    ) -> bool:
         """Update all Git repos."""
         return self.on_repo_components(True, "do_update", request, method=method)
 
-    def do_push(self, request: AuthenticatedHttpRequest | None = None):
+    def do_push(self, request: AuthenticatedHttpRequest | None = None) -> bool:
         """Push all Git repos."""
         return self.on_repo_components(True, "do_push", request)
 
@@ -519,28 +525,28 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             True, "do_reset", request, keep_changes=keep_changes
         )
 
-    def do_cleanup(self, request: AuthenticatedHttpRequest | None = None):
+    def do_cleanup(self, request: AuthenticatedHttpRequest | None = None) -> bool:
         """Push all Git repos."""
         return self.on_repo_components(True, "do_cleanup", request)
 
-    def do_file_sync(self, request: AuthenticatedHttpRequest | None = None):
+    def do_file_sync(self, request: AuthenticatedHttpRequest | None = None) -> bool:
         """Force updating of all files."""
         return self.on_repo_components(True, "do_file_sync", request)
 
-    def do_file_scan(self, request: AuthenticatedHttpRequest | None = None):
+    def do_file_scan(self, request: AuthenticatedHttpRequest | None = None) -> bool:
         """Rescanls all VCS repos."""
         return self.on_repo_components(True, "do_file_scan", request)
 
-    def has_push_configuration(self):
+    def has_push_configuration(self) -> bool:
         """Check whether any suprojects can push."""
         return self.on_repo_components(False, "has_push_configuration")
 
-    def can_push(self):
+    def can_push(self) -> bool:
         """Check whether any suprojects can push."""
         return self.on_repo_components(False, "can_push")
 
     @cached_property
-    def all_repo_components(self) -> Iterable[Component]:
+    def all_repo_components(self) -> list[Component]:
         """Return list of all unique VCS components."""
         result = list(self.component_set.with_repo())
         included = {component.id for component in result}
@@ -555,28 +561,28 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         return result
 
     @cached_property
-    def billings(self):
+    def billings(self) -> list[Billing] | QuerySet[Billing]:
         if "weblate.billing" not in settings.INSTALLED_APPS:
             return []
         return self.billing_set.all()
 
     @property
-    def billing(self):
+    def billing(self) -> Billing:
         return self.billings[0]
 
     @cached_property
-    def paid(self):
+    def paid(self) -> bool:
         return not self.billings or any(billing.paid for billing in self.billings)
 
     @cached_property
-    def is_trial(self):
+    def is_trial(self) -> bool:
         return any(billing.is_trial for billing in self.billings)
 
     @cached_property
-    def is_libre_trial(self):
+    def is_libre_trial(self) -> bool:
         return any(billing.is_libre_trial for billing in self.billings)
 
-    def post_create(self, user: User, billing=None) -> None:
+    def post_create(self, user: User, billing: Billing | None = None) -> None:
         if billing:
             billing.projects.add(self)
             if billing.plan.change_access_control:
@@ -591,7 +597,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         )
 
     @cached_property
-    def all_active_alerts(self):
+    def all_active_alerts(self) -> QuerySet[Alert]:
         from weblate.trans.models import Alert
 
         result = Alert.objects.filter(component__project=self, dismissed=False)
@@ -599,11 +605,11 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         return result
 
     @cached_property
-    def has_alerts(self):
+    def has_alerts(self) -> bool:
         return self.all_active_alerts.exists()
 
     @cached_property
-    def all_admins(self):
+    def all_admins(self) -> QuerySet[User]:
         from weblate.auth.models import User
 
         return (
@@ -611,7 +617,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         )
 
     @cached_property
-    def all_reviewers(self):
+    def all_reviewers(self) -> QuerySet[User]:
         from weblate.auth.models import User
 
         if not self.enable_review:
@@ -622,7 +628,11 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             .select_related("profile")
         )
 
-    def get_child_components_access(self, user: User, filter_callback=None):
+    def get_child_components_access(
+        self,
+        user: User,
+        filter_callback: Callable[[ComponentQuerySet], ComponentQuerySet] | None = None,
+    ) -> ComponentQuerySet:
         """
         List child components.
 
@@ -630,7 +640,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         filtering on the result.
         """
 
-        def filter_access(qs):
+        def filter_access(qs: ComponentQuerySet) -> ComponentQuerySet:
             if filter_callback:
                 qs = filter_callback(qs)
             return qs.filter_access(user).prefetch()
@@ -641,7 +651,9 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     def has_shared_components(self) -> bool:
         return self.shared_components.exists()
 
-    def get_child_components_filter(self, filter_callback):
+    def get_child_components_filter(
+        self, filter_callback: Callable[[ComponentQuerySet], ComponentQuerySet]
+    ) -> ComponentQuerySet:
         own = filter_callback(self.component_set.defer_huge())
         if self.has_shared_components:
             shared = filter_callback(self.shared_components.defer_huge())
@@ -649,29 +661,30 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         return own
 
     @cached_property
-    def child_components(self):
+    def child_components(self) -> ComponentQuerySet:
         return self.get_child_components_filter(lambda qs: qs)
 
     @property
     def source_language_cache_key(self) -> str:
         return f"project-source-language-ids-{self.pk}"
 
-    def get_glossary_tsv_cache_key(self, source_language, language) -> str:
+    def get_glossary_tsv_cache_key(
+        self, source_language: Language, language: Language
+    ) -> str:
         return f"project-glossary-tsv-{self.pk}-{source_language.code}-{language.code}"
 
     def invalidate_source_language_cache(self) -> None:
         cache.delete(self.source_language_cache_key)
 
     @cached_property
-    def source_language_ids(self):
+    def source_language_ids(self) -> set[int]:
+        def filter_source_language(qs: ComponentQuerySet) -> ComponentQuerySet:
+            return qs.values_list("source_language_id", flat=True).distinct()  # type: ignore[return-value]
+
         cached = cache.get(self.source_language_cache_key)
         if cached is not None:
             return cached
-        result = set(
-            self.get_child_components_filter(
-                lambda qs: qs.values_list("source_language_id", flat=True).distinct()
-            )
-        )
+        result = set(self.get_child_components_filter(filter_source_language))
         cache.set(self.source_language_cache_key, result, 7 * 24 * 3600)
         return result
 
@@ -679,12 +692,12 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         self,
         name: str,
         slug: str,
-        source_language,
+        source_language: Language,
         file_format: str,
         has_template: bool | None = None,
         is_glossary: bool = False,
         **kwargs,
-    ):
+    ) -> Component:
         format_cls = FILE_FORMATS[file_format]
         if has_template is None:
             has_template = format_cls.monolingual is None or format_cls.monolingual
@@ -712,7 +725,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         return self.component_set.create(name=name, slug=slug, **kwargs)
 
     @cached_property
-    def glossaries(self):
+    def glossaries(self) -> list[Component]:
         return list(
             self.get_child_components_filter(lambda qs: qs.filter(is_glossary=True))
         )
@@ -730,30 +743,30 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         cache.delete_many(tsv_cache_keys)
 
     @cached_property
-    def glossary_automaton(self):
+    def glossary_automaton(self) -> AhoCorasick:
         from weblate.glossary.models import get_glossary_automaton
 
         return get_glossary_automaton(self)
 
     def get_machinery_settings(self) -> dict[str, SettingsDict]:
-        settings = cast(
+        mt_settings = cast(
             "dict[str, SettingsDict]",
             Setting.objects.get_settings_dict(SettingCategory.MT),
         )
         for item, value in self.machinery_settings.items():
             if value is None:
-                if item in settings:
-                    del settings[item]
+                if item in mt_settings:
+                    del mt_settings[item]
             else:
-                settings[item] = value
+                mt_settings[item] = value
                 # Include project field so that different projects do not share
                 # cache keys via MachineTranslation.get_cache_key when service
                 # is installed at project level.
-                settings[item]["_project"] = self
-        return settings
+                mt_settings[item]["_project"] = self
+        return mt_settings
 
     @cached_property
-    def enable_review(self):
+    def enable_review(self) -> bool:
         return self.translation_review or self.source_review
 
     @transaction.atomic
@@ -772,19 +785,10 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     def can_add_category(self) -> bool:
         return True
 
-    @cached_property
-    def automatically_translated_label(self) -> Label:
-        return self.label_set.get_or_create(
-            name=gettext_noop("Automatically translated"),
-            defaults={"color": "yellow"},
-        )[0]
-
     def collect_label_cleanup(self, label: Label) -> None:
         from weblate.trans.models.translation import Translation
 
-        translations = Translation.objects.filter(
-            Q(unit__labels=label) | Q(unit__source_unit__labels=label)
-        )
+        translations = Translation.objects.filter(unit__source_unit__labels=label)
         if self.label_cleanups is None:
             self.label_cleanups = translations
         else:
@@ -802,7 +806,7 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
         if not user.has_perm("project.edit", self):
             filter_ |= Q(new_lang="none") | Q(new_lang="url")
 
-        def filter_callback(qs):
+        def filter_callback(qs: ComponentQuerySet) -> ComponentQuerySet:
             return qs.exclude(filter_)
 
         return self.get_child_components_access(user, filter_callback)

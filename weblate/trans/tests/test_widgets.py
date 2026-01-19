@@ -61,8 +61,8 @@ class WidgetsMeta(type):
 
             return test
 
-        for widget in WIDGETS:
-            for color in WIDGETS[widget].colors:
+        for widget, widget_data in WIDGETS.items():
+            for color in widget_data.colors:
                 test_name = f"test_{widget}_{color}"
                 attrs[test_name] = gen_test(widget, color)
         return type.__new__(mcs, name, bases, attrs)

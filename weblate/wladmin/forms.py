@@ -35,7 +35,7 @@ class SSHAddForm(forms.Form):
         self.helper = FormHelper(self)
         self.helper.form_tag = False
         self.helper.form_class = "form-inline"
-        self.helper.field_template = "bootstrap3/layout/inline_field.html"
+        self.helper.field_template = "bootstrap5/layout/inline_field.html"
 
 
 class TestMailForm(forms.Form):
@@ -67,8 +67,8 @@ class FontField(forms.CharField):
 class ThemeColorWidget(MultiWidget):
     def __init__(self, attrs=None) -> None:
         widgets = (
-            forms.TextInput(attrs={"type": "color", "class": "light-theme"}),
-            forms.TextInput(attrs={"type": "color", "class": "dark-theme"}),
+            forms.TextInput(attrs={"type": "color", "class": "col light-theme"}),
+            forms.TextInput(attrs={"type": "color", "class": "col dark-theme"}),
         )
         super().__init__(widgets, attrs)
 
@@ -129,6 +129,7 @@ class AppearanceForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.form_tag = False
+        self.helper.field_class = "row"
 
 
 class ChangedCharField(forms.CharField):

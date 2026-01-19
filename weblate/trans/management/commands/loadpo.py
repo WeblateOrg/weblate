@@ -5,8 +5,8 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from weblate.trans.management.commands import WeblateLangCommand
 from weblate.trans.tasks import perform_load
+from weblate.utils.management.base import WeblateLangCommand
 
 if TYPE_CHECKING:
     from django.core.management.base import CommandParser

@@ -86,7 +86,7 @@ Translated languages
 ++++++++++++++++++++
 
 Choose which languages you prefer to translate, and they will be offered on the
-main page of watched projects, so that you have easier access to these all translations
+main page of watched projects, so that you have easier access to all these translations
 in each of those languages.
 
 .. image:: /screenshots/your-translations.webp
@@ -156,7 +156,7 @@ Special characters
 
 Additional special characters to include in the :ref:`visual-keyboard`.
 
-.. _subscriptions:
+.. _notifications:
 
 Notifications
 -------------

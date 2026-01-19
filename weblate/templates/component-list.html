@@ -1,4 +1,4 @@
-{% extends "base5.html" %}
+{% extends "base.html" %}
 
 {% load crispy_forms_tags humanize i18n metrics translations %}
 
@@ -45,7 +45,7 @@
     </div>
 
     <div class="tab-pane" id="information">
-      {% show_info5 componentlist=object stats=object.stats metrics=object|metrics show_source=True %}
+      {% show_info componentlist=object stats=object.stats metrics=object|metrics show_source=True %}
     </div>
 
   </div>

@@ -1,6 +1,7 @@
 comment:
-  layout: reach, changes, diff, files
+  layout: condensed_header, condensed_files, condensed_footer
   require_changes: coverage_drop OR uncovered_patch
+  after_n_builds: 11
 coverage:
   ignore:
   - .*/settings_.*.py
@@ -28,4 +29,4 @@ codecov:
   notify:
     # Wait for reasonable amount of tests to complete before
     # reporting coverage
-    after_n_builds: 8
+    after_n_builds: 11

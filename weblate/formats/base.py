@@ -10,7 +10,7 @@ import os
 import tempfile
 from copy import copy
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, BinaryIO, ClassVar, TypeAlias
+from typing import TYPE_CHECKING, Any, BinaryIO, ClassVar
 
 from django.http import HttpResponse
 from django.utils.functional import cached_property
@@ -32,7 +32,8 @@ if TYPE_CHECKING:
 
     from django_stubs_ext import StrOrPromise
 
-    from weblate.trans.models import Translation, Unit
+    from weblate.trans.file_format_params import FileFormatParams
+    from weblate.trans.models import Component, Translation, Unit
 
 
 EXPAND_LANGS = {code[:2]: f"{code[:2]}_{code[3:].upper()}" for code in DEFAULT_LANGS}
@@ -110,7 +111,8 @@ class UnitNotFoundError(Exception):
         args = list(self.args)
         if "" in args:
             args.remove("")
-        return "Unit not found: {}".format(", ".join(args))
+        args_str = ", ".join(args)
+        return f"Unit not found: {args_str}"
 
 
 class UpdateError(Exception):
@@ -128,14 +130,14 @@ class BaseItem:
     pass
 
 
-InnerUnit: TypeAlias = TranslateToolkitUnit | BaseItem
+type InnerUnit = TranslateToolkitUnit | BaseItem
 
 
 class BaseStore:
     units: Sequence[InnerUnit]
 
 
-InnerStore: TypeAlias = TranslateToolkitStore | BaseStore
+type InnerStore = TranslateToolkitStore | BaseStore
 
 
 class TranslationUnit:
@@ -292,6 +294,10 @@ class TranslationUnit:
         """Check whether unit is read-only."""
         return False
 
+    def is_automatically_translated(self, fallback: bool = False) -> bool:
+        """Check whether unit is automatically translated."""
+        return fallback
+
     def set_target(self, target: str | list[str]) -> None:
         """Set translation unit target."""
         raise NotImplementedError
@@ -305,6 +311,9 @@ class TranslationUnit:
     def set_state(self, state) -> None:
         """Set fuzzy /approved flag on translated unit."""
         raise NotImplementedError
+
+    def set_automatically_translated(self, value: bool) -> None:
+        return
 
     def has_unit(self) -> bool:
         return self.unit is not None
@@ -358,7 +367,7 @@ class TranslationFormat:
         source_language: str | None = None,
         is_template: bool = False,
         existing_units: list[Unit] | None = None,
-        file_format_params: dict[str, Any] | None = None,
+        file_format_params: FileFormatParams | None = None,
     ) -> None:
         """Create file format object, wrapping up translate-toolkit's store."""
         if isinstance(storefile, Path):
@@ -379,10 +388,9 @@ class TranslationFormat:
         self.file_format_params = file_format_params or {}
         self.store = self.load(storefile, template_store)
 
+        filename = getattr(storefile, "filename", storefile)
         self.add_breadcrumb(
-            "Loaded translation file {}".format(
-                getattr(storefile, "filename", storefile)
-            ),
+            f"Loaded translation file {filename}",
             template_store=str(template_store),
             is_template=is_template,
         )
@@ -512,7 +520,7 @@ class TranslationFormat:
         return
 
     @staticmethod
-    def save_atomic(filename, callback) -> None:
+    def save_atomic(filename: str, callback: Callable[[BinaryIO], None]) -> None:
         dirname, basename = os.path.split(filename)
         if dirname and not os.path.exists(dirname):
             os.makedirs(dirname)
@@ -582,6 +590,7 @@ class TranslationFormat:
         """Check whether store seems to be valid."""
         for unit in self.content_units:
             # Just ensure that id_hash can be calculated
+            # pylint: disable-next=pointless-statement
             unit.id_hash  # noqa: B018
         return True
 
@@ -592,7 +601,7 @@ class TranslationFormat:
         monolingual: bool,
         errors: list[Exception] | None = None,
         fast: bool = False,
-        file_format_params: dict[str, Any] | None = None,
+        file_format_params: FileFormatParams | None = None,
     ) -> bool:
         """Check whether base is valid."""
         raise NotImplementedError
@@ -653,7 +662,8 @@ class TranslationFormat:
 
         # Handle variants
         if "_" in sanitized and len(sanitized.split("_")[1]) > 2:
-            return "b+{}".format(sanitized.replace("_", "+"))
+            variant_code = sanitized.replace("_", "+")
+            return f"b+{variant_code}"
 
         # Handle countries
         return sanitized.replace("_", "-r")
@@ -689,7 +699,7 @@ class TranslationFormat:
         language: str,
         base: str,
         callback: Callable | None = None,
-        file_format_params: dict[str, Any] | None = None,
+        file_format_params: FileFormatParams | None = None,
     ) -> None:
         """Add new language file."""
         # Create directory for a translation
@@ -714,7 +724,7 @@ class TranslationFormat:
         language: str,
         base: str,
         callback: Callable | None = None,
-        file_format_params: dict[str, Any] | None = None,
+        file_format_params: FileFormatParams | None = None,
     ) -> None:
         """Handle creation of new translation file."""
         raise NotImplementedError
@@ -890,6 +900,7 @@ class EmptyFormat(TranslationFormat):
     """For testing purposes."""
 
     @classmethod
+    # pylint: disable-next=arguments-differ
     def load(cls, storefile, template_store):  # noqa: ARG003
         return type("", (object,), {"units": []})()
 
@@ -919,26 +930,20 @@ class BilingualUpdateMixin:
                 os.unlink(temp.name)
 
     @classmethod
-    def get_msgmerge_args(cls, component) -> list[str]:
+    def get_msgmerge_args(cls, component: Component) -> list[str]:
         """
         Return list of arguments for update command.
 
         This is used to pass additional arguments to update command.
         """
-        from weblate.addons.gettext import MsgmergeAddon
-
         params = component.file_format_params
         args: list[str] = []
-        if component.get_addon(MsgmergeAddon.name):
-            if not params.get("po_fuzzy_matching", True):
-                args.append("--no-fuzzy-matching")
-            if params.get("po_keep_previous", True):
-                args.append("--previous")
-            if params.get("po_no_location", False):
-                args.append("--no-location")
-        else:
+        if not params.get("po_fuzzy_matching", True):
+            args.append("--no-fuzzy-matching")
+        if params.get("po_keep_previous", True):
             args.append("--previous")
-
+        if params.get("po_no_location", False):
+            args.append("--no-location")
         if int(params.get("po_line_wrap", 77)) != 77:
             args.append("--no-wrap")
         return args
@@ -1057,13 +1062,10 @@ class BaseExporter:
             )
         # Suggestions
         for suggestion in unit.suggestions:
+            suggestions_str = ", ".join(split_plural(suggestion.target))
             self.add_note(
                 output,
-                self.string_filter(
-                    "Suggested in Weblate: {}".format(
-                        ", ".join(split_plural(suggestion.target))
-                    )
-                ),
+                self.string_filter(f"Suggested in Weblate: {suggestions_str}"),
                 origin="translator",
             )
 

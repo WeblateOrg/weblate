@@ -225,6 +225,9 @@ class ComponentDiscovery:
         for key in COPY_ATTRIBUTES:
             if key not in kwargs and main is not None:
                 kwargs[key] = getattr(main, key)
+        # Copy file format parameters if the format is same
+        if main is not None and self.file_format == main.file_format:
+            kwargs["file_format_params"] = main.file_format_params
 
         # Disable template editing if not supported by format
         if not self.file_format_cls.can_edit_base:
