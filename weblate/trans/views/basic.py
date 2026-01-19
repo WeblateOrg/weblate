@@ -8,7 +8,6 @@ from contextlib import suppress
 from typing import TYPE_CHECKING, Any
 
 from django.conf import settings
-from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import login_not_required, login_required
 from django.db import transaction
 from django.db.models import Q
