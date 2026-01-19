@@ -55,10 +55,10 @@ jobs:
     - run: git diff
 
     - name: Update current branch
-    # if: github.event_name == 'push' && github.ref_name != 'main'
+      if: github.event_name == 'push' && github.ref_name != 'main'
       uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9   # v7.1.0
       with:
-        commit_message: 'docs: Update documentation snippets'
+        commit_message: 'docs: Documentation snippets update'
 
   list-languages:
     runs-on: ubuntu-24.04
