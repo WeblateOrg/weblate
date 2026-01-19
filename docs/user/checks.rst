@@ -1490,7 +1490,10 @@ Multiple capitals
 :Trigger: This check is always enabled but can be ignored using a flag.
 :Flag to ignore: ``ignore-multiple-capital``
 
-Checks for misplaced capitalization, which often is a mistake when typing words with a first uppercased letter.
+Checks for misplaced capitalization by detecting words that contain consecutive
+uppercase letters in otherwise lowercase or normally capitalized text (for
+example, ``HEllo`` or ``CAmelCase``). Strings that contain capitalization in the
+source string are allowed to contain capitalization in the translation.
 
 .. _check-kabyle-characters:
 

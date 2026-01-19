@@ -521,7 +521,26 @@ class MultipleCapitalCheckTest(CheckTestCase):
     def setUp(self) -> None:
         super().setUp()
         self.test_good_matching = ("Hello", "Hello", "")
-        self.test_good_acronym = ("Visit NASA", "Visit NASA", "")
         self.test_failure_1 = ("Hello", "HEllo", "")
         self.test_failure_2 = ("camel case", "CAmelCase", "")
         self.test_failure_3 = ("sigma", "ΣIGMA", "")
+
+    def test_acronyms(self) -> None:
+        self.do_test(
+            False,
+            (
+                "Welcome NATO",
+                "Bonjour OTAN",
+                "",
+            ),
+            "fr",
+        )
+        self.do_test(
+            False,
+            (
+                "Welcome NATO",
+                "Vítej NATO",
+                "",
+            ),
+            "cs",
+        )
