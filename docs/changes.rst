@@ -5,6 +5,8 @@ Weblate 5.16
 
 .. rubric:: New features
 
+* :setting:`HIDE_SHARED_GLOSSARY_COMPONENTS` to hide glossaries shared into other projects.
+
 .. rubric:: Improvements
 
 * Delete announcements permission can be assigned to teams, see :ref:`privileges`.
