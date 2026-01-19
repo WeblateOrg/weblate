@@ -42,7 +42,13 @@ from weblate.trans.tests.utils import (
 )
 from weblate.utils.django_hacks import immediate_on_commit, immediate_on_commit_leave
 from weblate.utils.files import remove_tree
-from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
+from weblate.utils.state import (
+    STATE_APPROVED,
+    STATE_FUZZY,
+    STATE_NEEDS_CHECKING,
+    STATE_READONLY,
+    STATE_TRANSLATED,
+)
 from weblate.utils.version import GIT_VERSION
 
 
@@ -620,6 +626,32 @@ class ComponentListTest(RepoTestCase):
             project_match="^none$", component_match="^.*$", componentlist=clist
         )
         self.assertEqual(clist.components.count(), 0)
+
+    def test_source_review(self) -> None:
+        component = self.create_json_intermediate()
+
+        source = component.translation_set.get(language_code="en")
+        unit = source.unit_set.get(source="Hello world!\n")
+
+        translation_unit = unit.unit_set.get(translation__language__code="cs")
+        self.assertEqual(translation_unit.state, STATE_TRANSLATED)
+
+        unit.translate(None, "Hello, world!\n", STATE_NEEDS_CHECKING)
+
+        translation_unit = unit.unit_set.get(translation__language__code="en")
+        self.assertEqual(translation_unit.state, STATE_NEEDS_CHECKING)
+
+        # Verify the state after editing
+        translation_unit = unit.unit_set.get(translation__language__code="cs")
+        self.assertEqual(translation_unit.state, STATE_READONLY)
+
+        # Commit changes to the repository
+        component.commit_pending("test", None)
+
+        # Verify the state after reset
+        component.do_file_scan()
+        translation_unit = unit.unit_set.get(translation__language__code="cs")
+        self.assertEqual(translation_unit.state, STATE_READONLY)
 
 
 class ModelTestCase(RepoTestCase):
