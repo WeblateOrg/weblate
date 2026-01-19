@@ -143,6 +143,7 @@ if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.checks.base import BaseCheck
     from weblate.formats.base import TranslationFormat
+    from weblate.trans.models import Project
     from weblate.trans.models.unit import UnitAttributesDict
     from weblate.vcs.base import Repository
 
@@ -1059,7 +1060,7 @@ class Component(
             import_memory.delay_on_commit(self.project.id, self.pk)
 
     @cached_property
-    def cached_links(self) -> models.QuerySet[Component]:
+    def cached_links(self) -> models.QuerySet[Project]:
         return self.links.all()
 
     def generate_changes(self, old) -> None:
@@ -1678,7 +1679,7 @@ class Component(
 
         return None
 
-    def error_text(self, error):
+    def error_text(self, error: RepositoryError) -> str:
         """Return text message for a RepositoryError."""
         message = error.get_message()
         if not settings.HIDE_REPO_CREDENTIALS:
@@ -1710,7 +1711,7 @@ class Component(
         if self.push:
             add(self.push)
 
-    def handle_update_error(self, error_text, retry) -> None:
+    def handle_update_error(self, error_text: str, retry: bool) -> None:
         if "Host key verification failed" in error_text:
             if retry:
                 # Add ssh key and retry
@@ -1738,7 +1739,7 @@ class Component(
         )
 
     @perform_on_link
-    def update_remote_branch(self, validate=False, retry=True):
+    def update_remote_branch(self, validate: bool = False, retry: bool = True) -> bool:
         """Pull from remote repository."""
         # Update
         self.log_info("updating repository")
@@ -2080,7 +2081,10 @@ class Component(
 
         user = request.user if request else self.acting_user
         with self.repository.lock:
-            previous_head = self.repository.last_revision
+            try:
+                previous_head = self.repository.last_revision
+            except RepositoryError:
+                previous_head = "N/A"
             # First check we're up to date
             self.update_remote_branch()
 
@@ -2496,18 +2500,18 @@ class Component(
                 )
 
                 # In case merge has failure recover
-                error = self.error_text(error)
+                error_text = self.error_text(error)
                 status = self.repository.status()
 
                 # Log error
                 if self.id:
                     self.change_set.create(
                         action=action_failed,
-                        target=error,
+                        target=error_text,
                         user=user,
-                        details={"error": error, "status": status},
+                        details={"error": error_text, "status": status},
                     )
-                    self.add_alert("MergeFailure", error=error)
+                    self.add_alert("MergeFailure", error=error_text)
 
                 # Reset repo back
                 method_func(abort=True)

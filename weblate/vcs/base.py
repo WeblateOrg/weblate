@@ -187,7 +187,11 @@ class Repository:
         return real_path[len(repository_path) :].lstrip("/")
 
     @staticmethod
-    def _getenv(environment: dict[str, str] | None = None) -> dict[str, str]:
+    def _getenv(
+        environment: dict[str, str] | None = None,
+        *,
+        cwd: str | None = None,
+    ) -> dict[str, str]:
         """Generate environment for process execution."""
         base: dict[str, str] = {
             # Avoid prompts from Git
@@ -198,6 +202,8 @@ class Repository:
             "GIT_SSH_COMMAND": SSH_WRAPPER.filename.as_posix(),
             "SVN_SSH": SSH_WRAPPER.filename.as_posix(),
         }
+        if cwd:
+            base["GIT_DIR"] = os.path.join(cwd, ".git")
         if environment:
             base.update(environment)
         return get_clean_env(base, extra_path=SSH_WRAPPER.path.as_posix())
@@ -234,7 +240,7 @@ class Repository:
             process = subprocess.run(
                 args=args,
                 cwd=cwd,
-                env=environment or {} if local else cls._getenv(environment),
+                env=environment or {} if local else cls._getenv(environment, cwd=cwd),
                 stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT if merge_err else subprocess.PIPE,
                 text=not raw,
