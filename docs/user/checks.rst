@@ -1619,6 +1619,10 @@ The matching also supports Unicode codepoint properties, including scripts and b
 
    regex:^[-_\p{L}\p{N}\p{sc=Deva}\p{sc=Thai}]{1,32}$
 
+.. hint::
+
+   Use :ref:`check-placeholders` for detecting missing placeholders in the string.
+
 .. seealso::
 
    `regex documentation <https://github.com/mrabarnett/mrab-regex>`_
