@@ -594,8 +594,9 @@ class MultipleCapitalCheck(TargetCheck):
     # matches sequences of 2+ uppercase letters in *any language*
     UPPERCASE_SEQ = regex.compile(r"\p{Lu}{2,}")
 
-    def check_single(self, source: str, target: str, unit: Unit):
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
         # Flag if any uppercase sequence is present in target and not present in the source
-        return self.UPPERCASE_SEQ.findall(target) and not self.UPPERCASE_SEQ.findall(
-            source
+        return (
+            self.UPPERCASE_SEQ.search(target) is not None
+            and not self.UPPERCASE_SEQ.search(source) is not None
         )
