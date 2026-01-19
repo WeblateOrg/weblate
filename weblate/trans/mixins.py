@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 import os
-from typing import ClassVar, NoReturn
+from typing import ClassVar
 
 from django.core.exceptions import ValidationError
 from django.urls import reverse
@@ -18,7 +18,7 @@ from weblate.utils.data import data_dir
 
 
 class BaseURLMixin:
-    def get_url_path(self) -> NoReturn:
+    def get_url_path(self) -> tuple[str, ...]:
         raise NotImplementedError
 
     @cached_property
