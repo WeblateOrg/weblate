@@ -22,7 +22,7 @@ from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.unicodechars import CONTROLCHARS
 
 if TYPE_CHECKING:
-    from weblate.trans.models.translation import Translation
+    from weblate.trans.models import Project, Translation
 
 SPLIT_RE = re.compile(r"[\s,.:!?]+")
 NON_WORD_RE = re.compile(r"\W")
@@ -38,7 +38,7 @@ def get_glossary_sources(component):
     )
 
 
-def get_glossary_automaton(project):
+def get_glossary_automaton(project: Project) -> ahocorasick_rs.AhoCorasick:
     from weblate.trans.models.component import prefetch_glossary_terms
 
     with sentry_sdk.start_span(op="glossary.automaton", name=project.slug):

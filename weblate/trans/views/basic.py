@@ -84,6 +84,7 @@ if TYPE_CHECKING:
     from collections.abc import Callable
 
     from weblate.auth.models import AuthenticatedHttpRequest, User
+    from weblate.trans.models.component import ComponentQuerySet
 
 
 @never_cache
@@ -376,15 +377,16 @@ def show_category_language(request: AuthenticatedHttpRequest, obj):
 
 
 def show_project(request: AuthenticatedHttpRequest, obj):
+    def filter_no_category(qs: ComponentQuerySet) -> ComponentQuerySet:
+        return qs.filter(category=None)
+
     user = request.user
 
     all_changes = obj.change_set.filter_components(request.user).prefetch()
     last_changes = all_changes.recent()
     last_announcements = all_changes.filter_announcements().recent()
 
-    all_components = obj.get_child_components_access(
-        user, lambda qs: qs.filter(category=None)
-    )
+    all_components = obj.get_child_components_access(user, filter_no_category)
     all_components = get_paginator(request, all_components, stats=True)
     for component in all_components:
         component.is_shared = None if component.project == obj else component.project
