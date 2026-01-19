@@ -146,15 +146,18 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         )
         self.assertEqual(change.get_details_display(), self.user.username)
 
-    @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
-    def test_invite_user_open(self) -> None:
-        self._invite_user_test()
-
     @override_settings(REGISTRATION_OPEN=False, REGISTRATION_CAPTCHA=False)
     def test_invite_user_closed(self) -> None:
-        self._invite_user_test()
+        self.project.add_user(self.user, "Administration")
+        response = self.client.post(
+            reverse("invite-user", kwargs=self.kw_project),
+            {"email": "user@example.com", "group": self.admin_group.pk},
+            follow=True,
+        )
+        self.assertEqual(response.status_code, 403)
 
-    def _invite_user_test(self) -> None:
+    @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
+    def test_invite_user_open(self) -> None:
         """Test inviting user."""
         self.project.add_user(self.user, "Administration")
         response = self.client.post(
