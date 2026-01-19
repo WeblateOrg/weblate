@@ -959,6 +959,7 @@ class ComponentErrorTest(RepoTestCase):
     def test_failed_reset(self) -> None:
         # Corrupt Git database so that reset fails
         remove_tree(os.path.join(self.component.full_path, ".git", "objects", "pack"))
+        self.component.repository.clean_revision_cache()
         self.assertFalse(self.component.do_reset(None))
 
     def test_invalid_templatename(self) -> None:
