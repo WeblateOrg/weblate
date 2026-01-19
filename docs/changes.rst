@@ -5,6 +5,7 @@ Weblate 5.16
 
 .. rubric:: New features
 
+* :ref:`check-multiple-capital` quality check.
 * :setting:`HIDE_SHARED_GLOSSARY_COMPONENTS` to hide glossaries shared into other projects.
 
 .. rubric:: Improvements
