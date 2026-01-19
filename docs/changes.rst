@@ -5,6 +5,8 @@ Weblate 5.16
 
 .. rubric:: New features
 
+* :ref:`check-multiple-capital` quality check.
+
 .. rubric:: Improvements
 
 * Delete announcements permission can be assigned to teams, see :ref:`privileges`.
