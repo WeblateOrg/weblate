@@ -17,7 +17,7 @@ from django.views.decorators.http import require_POST
 from weblate.auth.models import User
 from weblate.trans.models import Suggestion, Translation
 from weblate.utils.state import STATE_TRANSLATED
-from weblate.utils.views import parse_path  # DAS IST DIE LÖSUNG!
+from weblate.utils.views import parse_path
 
 if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
@@ -36,15 +36,13 @@ class BulkAcceptForm(forms.Form):
         try:
             return User.objects.get(username=username)
         except User.DoesNotExist:
-            raise ValidationError(gettext("User not found."))
+            raise ValidationError(gettext("User not found.")) from None
 
 
 @require_POST
 @login_required
 @transaction.atomic
-def bulk_accept_user_suggestions(
-    request: AuthenticatedHttpRequest, path: str
-):
+def bulk_accept_user_suggestions(request: AuthenticatedHttpRequest, path: str):
     """Accept all suggestions from a specific user for a translation."""
     # Get the translation object using parse_path (Weblate's standard way)
     translation = parse_path(request, path, (Translation,))
@@ -73,7 +71,7 @@ def bulk_accept_user_suggestions(
     ).select_related("unit")
 
     total = suggestions.count()
-    
+
     # Rate limiting - prevent abuse
     if total > 1000:
         return JsonResponse(

@@ -76,14 +76,12 @@ if URL_PREFIX:
 real_patterns = [
     path("", weblate.trans.views.dashboard.home, name="home"),
     path("projects/", weblate.trans.views.basic.list_projects, name="projects"),
-
     # BULK ACCEPT FEATURE - Must be BEFORE the generic projects/<object_path:path>/ pattern
     path(
         "projects/<object_path:path>/bulk-accept-suggestions/",
         bulk_accept_user_suggestions,
         name="bulk-accept-user-suggestions",
     ),
-
     # Object display
     path(
         "projects/<object_path:path>/",
