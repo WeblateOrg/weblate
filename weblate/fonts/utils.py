@@ -112,10 +112,12 @@ def configure_fontconfig() -> None:
             fonts_dir.as_posix(),
             os.path.dirname(
                 find_static_file(
-                    "js/vendor/fonts/font-source/TTF/SourceSans3-Regular.ttf"
+                    "weblate_fonts/source-sans/ttf/SourceSans3-Regular.ttf"
                 )
             ),
-            os.path.dirname(find_static_file("vendor/font-kurinto/KurintoSans-Rg.ttf")),
+            os.path.dirname(
+                find_static_file("weblate_fonts/kurinto/ttf/KurintoSans-Rg.ttf")
+            ),
         )
     )
 
