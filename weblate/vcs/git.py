@@ -1366,7 +1366,11 @@ class GitMergeRequestBase(GitForcePushRepository):
         even though the response was an error. This method exists to let the
         inheritors override it if they have special cases.
         """
-        response.raise_for_status()
+        try:
+            response.raise_for_status()
+        except HTTPError as error:
+            report_error("Git API request")
+            raise RepositoryError(0, str(error)) from error
 
     def get_random_suffix(self) -> str:
         return str(random.randint(1000, 9999))  # noqa: S311
