@@ -56,7 +56,6 @@ from weblate.configuration.views import CustomCSSView
 from weblate.sitemaps import SITEMAPS
 from weblate.trans.feeds import ChangesFeed, LanguageChangesFeed, TranslationChangesFeed
 
-# BULK ACCEPT FEATURE - Import the new view
 from weblate.trans.views.bulk_suggestions import bulk_accept_user_suggestions
 from weblate.trans.views.changes import ChangesCSVView, ChangesView, show_change
 from weblate.trans.views.hooks import ServiceHookView
@@ -76,7 +75,7 @@ if URL_PREFIX:
 real_patterns = [
     path("", weblate.trans.views.dashboard.home, name="home"),
     path("projects/", weblate.trans.views.basic.list_projects, name="projects"),
-    # BULK ACCEPT FEATURE - Must be BEFORE the generic projects/<object_path:path>/ pattern
+    # Bulk accept all suggestions from a specific user
     path(
         "projects/<object_path:path>/bulk-accept-suggestions/",
         bulk_accept_user_suggestions,
