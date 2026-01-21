@@ -10,8 +10,10 @@ import subprocess
 from base64 import b64decode, b64encode
 from contextlib import suppress
 from typing import TYPE_CHECKING, Literal, TypedDict
+from urllib.parse import urlparse
 
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.core.management.utils import find_command
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, pgettext_lazy
@@ -21,6 +23,7 @@ from weblate.utils import messages
 from weblate.utils.data import data_path
 from weblate.utils.files import cleanup_error_message
 from weblate.utils.hash import calculate_checksum
+from weblate.utils.validators import DomainOrIPValidator
 
 if TYPE_CHECKING:
     from pathlib import Path
@@ -199,7 +202,43 @@ def generate_ssh_key(
     messages.success(request, gettext("Created new SSH key."))
 
 
-def add_host_key(request: AuthenticatedHttpRequest | None, host, port="") -> None:
+def extract_url_host_port(repo: str) -> tuple[str | None, int | None]:
+    """Extract hostname and port from repository URL."""
+    parsed = urlparse(repo)
+    if not parsed.hostname:
+        parsed = urlparse(f"ssh://{repo}")
+    if not parsed.hostname:
+        # Could not parse URL
+        return None, None
+    validator = DomainOrIPValidator()
+    try:
+        validator(parsed.hostname)
+    except ValidationError:
+        # Not a valid hostname
+        return None, None
+    port: int | None
+    try:
+        port = parsed.port
+    except ValueError:
+        port = None
+    return parsed.hostname, port
+
+
+def add_host_key_error(
+    request: AuthenticatedHttpRequest | None, error_text: str
+) -> None:
+    error_text = cleanup_error_message(error_text.strip())
+    if error_text:
+        messages.error(
+            request, gettext("Could not fetch public key for a host: %s") % error_text
+        )
+    else:
+        messages.error(request, gettext("Could not fetch public key for a host."))
+
+
+def add_host_key(
+    request: AuthenticatedHttpRequest | None, host: str, port: int | None = None
+) -> None:
     """Add host key for a host."""
     if not host:
         messages.error(request, gettext("Invalid host name given!"))
@@ -245,19 +284,11 @@ def add_host_key(request: AuthenticatedHttpRequest | None, host, port="") -> Non
                             handle.write(key)
                             handle.write("\n")
             else:
-                messages.error(
-                    request,
-                    gettext("Could not fetch public key for a host: %s") % result.stderr
-                    or result.stdout,
-                )
+                add_host_key_error(request, result.stderr or result.stdout)
         except subprocess.CalledProcessError as exc:
-            messages.error(
-                request,
-                gettext("Could not fetch public key for a host: %s")
-                % cleanup_error_message(exc.stderr or exc.stdout),
-            )
+            add_host_key_error(request, exc.stderr or exc.stdout)
         except OSError as exc:
-            messages.error(request, gettext("Could not get host key: %s") % str(exc))
+            add_host_key_error(request, str(exc))
 
 
 GITHUB_RSA_KEY = (
