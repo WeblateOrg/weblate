@@ -170,7 +170,6 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
         """Test that rate limiting prevents abuse (>1000 suggestions)."""
         # This test documents the expected behavior without creating 1001 suggestions
         # The actual rate limiting is tested implicitly in the view logic
-        pass
 
     def test_bulk_accept_only_target_translation(self):
         """Test that only suggestions for the specified translation are accepted."""
@@ -183,9 +182,7 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
         # Create suggestion in different translation
         de_translation = self.component.translation_set.get(language_code="de")
         de_unit = de_translation.unit_set.first()
-        Suggestion.objects.create(
-            unit=de_unit, target="Test de suggestion", user=user
-        )
+        Suggestion.objects.create(unit=de_unit, target="Test de suggestion", user=user)
 
         # Accept suggestions only for Czech translation
         response = self.client.post(
@@ -220,4 +217,3 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
         """Test that some suggestions fail if user lacks per-unit permissions."""
         # This test documents the expected behavior for complex permission scenarios
         # The actual per-unit permission checks are tested in the view logic
-        pass

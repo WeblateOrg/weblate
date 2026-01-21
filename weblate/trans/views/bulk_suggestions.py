@@ -9,7 +9,6 @@ from typing import TYPE_CHECKING
 from django import forms
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
-from django.db import transaction
 from django.http import JsonResponse
 from django.utils.translation import gettext, ngettext
 from django.views.decorators.http import require_POST
@@ -42,8 +41,7 @@ class BulkAcceptForm(forms.Form):
 @require_POST
 @login_required
 def bulk_accept_user_suggestions(
-    request: AuthenticatedHttpRequest, 
-    path: list[str] | tuple[str, ...]
+    request: AuthenticatedHttpRequest, path: list[str] | tuple[str, ...]
 ):
     """Accept all suggestions from a specific user for a translation."""
     # Get the translation object using parse_path (Weblate's standard way)
@@ -106,7 +104,6 @@ def bulk_accept_user_suggestions(
                 e,
             )
             failed_count += 1
-
 
     # Build appropriate message based on results
     if failed_count == 0:

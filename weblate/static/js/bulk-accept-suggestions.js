@@ -18,7 +18,11 @@ document.addEventListener("DOMContentLoaded", () => {
       );
       if (!csrfTokenElement) {
         console.error("CSRF token not found");
-        showError(btn, gettext("Security token missing. Please reload the page."), null);
+        showError(
+          btn,
+          gettext("Security token missing. Please reload the page."),
+          null,
+        );
         return;
       }
       const csrfToken = csrfTokenElement.value;
@@ -38,7 +42,7 @@ document.addEventListener("DOMContentLoaded", () => {
       document.body.appendChild(srStatus);
       srStatus.textContent = interpolate(
         gettext("Processing bulk accept for %s"),
-        [username]
+        [username],
       );
 
       // Clear button text for status display
@@ -64,10 +68,10 @@ document.addEventListener("DOMContentLoaded", () => {
           } catch {
             errorData = {};
           }
-        const errorMessage =
-          errorData.error ||
-          response.statusText ||
-          interpolate(gettext("Server error (%s)"), [response.status]);
+          const errorMessage =
+            errorData.error ||
+            response.statusText ||
+            interpolate(gettext("Server error (%s)"), [response.status]);
           showError(btn, errorMessage, srStatus);
 
           enableAllButtons(allBtns);
@@ -78,7 +82,7 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
           data = await response.json();
         } catch (_parseError) {
-        showError(btn, gettext("Invalid server response"), srStatus);
+          showError(btn, gettext("Invalid server response"), srStatus);
           enableAllButtons(allBtns);
           return;
         }
@@ -90,10 +94,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
           const acceptedDiv = document.createElement("div");
           acceptedDiv.className = "aa-accepted-count";
-        acceptedDiv.textContent = interpolate(
-          ngettext("%s accepted", "%s accepted", data.accepted),
-          [data.accepted]
-        );
+          acceptedDiv.textContent = interpolate(
+            ngettext("%s accepted", "%s accepted", data.accepted),
+            [data.accepted],
+          );
 
           const progressDiv = document.createElement("div");
           progressDiv.className = "aa-progress";
@@ -109,24 +113,24 @@ document.addEventListener("DOMContentLoaded", () => {
           // Add "Done" message
           const doneDiv = document.createElement("div");
           doneDiv.className = "aa-done";
-        doneDiv.textContent = gettext("Done");
+          doneDiv.textContent = gettext("Done");
           statusDiv.appendChild(doneDiv);
 
           btn.appendChild(statusDiv);
           // Announce to screen readers
-        srStatus.textContent = interpolate(
-          ngettext(
-            "Successfully accepted %s suggestion. Page will reload in 2 seconds.",
-            "Successfully accepted %s suggestions. Page will reload in 2 seconds.",
-            data.accepted
-          ),
-          [data.accepted]
-        );
+          srStatus.textContent = interpolate(
+            ngettext(
+              "Successfully accepted %s suggestion. Page will reload in 2 seconds.",
+              "Successfully accepted %s suggestions. Page will reload in 2 seconds.",
+              data.accepted,
+            ),
+            [data.accepted],
+          );
 
           // Reload page after 2 seconds
           setTimeout(() => location.reload(), 2000);
         } else {
-        showError(btn, data.error || gettext("Unknown error"), srStatus);
+          showError(btn, data.error || gettext("Unknown error"), srStatus);
           enableAllButtons(allBtns);
         }
       } catch (err) {
