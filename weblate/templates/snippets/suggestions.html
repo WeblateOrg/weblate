@@ -41,9 +41,7 @@
                   <button class="aa-accept-all-btn btn btn-link green"
                           data-username="{{ suggestion.user.username }}"
                           data-translation-url="{% url 'bulk-accept-user-suggestions' path=suggestion.unit.translation.get_url_path %}"
-                          title="Accept all from {{ suggestion.user.username }}">
-                    {% icon "check-all.svg" %}
-                  </button>
+                          title="Accept all from {{ suggestion.user.username }}">{% icon "check-all.svg" %}</button>
                 {% endif %}
                 <button type="submit"
                         class="btn btn-link green"
