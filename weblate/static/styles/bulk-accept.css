@@ -1,37 +1,19 @@
-/* Copyright © 2026 Hendrik Leethaus <hendrik@leethaus.de>
- *
+/* Copyright © 2026 Hendrik Leethaus
+
  * SPDX-License-Identifier: GPL-3.0-or-later
+
  */
-
-/* Bulk accept button styling */
-.aa-accept-all-btn {
-  width: 100%;
-  margin-top: 6px;
-  padding: 8px 8px;
-  border-radius: 26px;
-  border: 0;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 600;
-  background-color: #2eccaa !important;
-  color: #ffffff !important;
-  transition: background-color 0.2s;
-}
-
-.aa-accept-all-btn:hover:not(:disabled) {
-  background-color: #25a88c !important;
-  color: #ffffff !important;
-}
-
-.aa-accept-all-btn:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-}
 
 /* Error state */
 .aa-accept-all-btn.aa-error {
   background-color: var(--bs-danger) !important;
   color: var(--background-color) !important;
+}
+
+/* Disabled state */
+.aa-accept-all-btn:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 
 /* Status display */

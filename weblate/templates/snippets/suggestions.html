@@ -5,16 +5,6 @@
     <div class="row history-row">
       <div class="col-sm-2 history-event">
         <strong>{{ suggestion.get_user_display }}</strong>
-
-        {# Bulk accept suggestions feature #}
-        {% if not multi_unit and user_can_accept_suggestion and forloop.first %}
-          <button class="aa-accept-all-btn"
-                  data-username="{{ suggestion.user.username }}"
-                  data-translation-url="{% url 'bulk-accept-user-suggestions' path=suggestion.unit.translation.get_url_path %}">
-            Accept all from {{ suggestion.user.username }}
-          </button>
-        {% endif %}
-
         <p class="text-muted">{% translate "Suggestion added" %}</p>
         {% if user_can_vote_suggestion %}
           <p class="help-block">
@@ -63,9 +53,20 @@
                         name="accept_edit"
                         value="{{ suggestion.id }}"
                         title="{% translate "Accept and edit" %}">{% icon "pencil.svg" %}</button>
+                
+                {# Bulk accept suggestions feature #}
+                {% if forloop.first %}
+                  <button class="aa-accept-all-btn btn btn-link green"
+                          data-username="{{ suggestion.user.username }}"
+                          data-translation-url="{% url 'bulk-accept-user-suggestions' path=suggestion.unit.translation.get_url_path %}"
+                          title="Accept all from {{ suggestion.user.username }}">
+                    {% icon "check-all.svg" %}
+                  </button>
+                {% endif %}
               {% endif %}
               {% if user_can_delete_suggestion %}
                 {% if has_antispam and suggestion.user != user %}
+
                   <button type="submit"
                           class="btn btn-link red"
                           name="spam"
