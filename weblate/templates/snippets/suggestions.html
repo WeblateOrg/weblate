@@ -37,11 +37,14 @@
               {% endif %}
               {% if user_can_accept_suggestion %}
                 {# Bulk accept suggestions feature #}
-                {% if forloop.first %}
-                  <button class="aa-accept-all-btn btn btn-link green"
-                          data-username="{{ suggestion.user.username }}"
-                          data-translation-url="{% url 'bulk-accept-user-suggestions' path=suggestion.unit.translation.get_url_path %}"
-                          title="Accept all from {{ suggestion.user.username }}">{% icon "check-all.svg" %}</button>
+                {% if suggestion.user and not suggestion.user.is_anonymous %}
+                  {% ifchanged suggestion.user.username %}
+                    <button type="button"
+                            class="aa-accept-all-btn btn btn-link green"
+                            data-username="{{ suggestion.user.username }}"
+                            data-translation-url="{% url 'bulk-accept-user-suggestions' path=suggestion.unit.translation.get_url_path %}"
+                            title="{% blocktranslate with username=suggestion.user.username %}Accept all from {{ username }}{% endblocktranslate %}">{% icon "check-all.svg" %}</button>
+                  {% endifchanged %}
                 {% endif %}
                 <button type="submit"
                         class="btn btn-link green"

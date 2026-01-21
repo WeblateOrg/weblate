@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
       );
       if (!csrfTokenElement) {
         console.error("CSRF token not found");
-        showError(btn, "Security token missing. Please reload the page.", null);
+        showError(btn, gettext("Security token missing. Please reload the page."), null);
         return;
       }
       const csrfToken = csrfTokenElement.value;
@@ -36,7 +36,10 @@ document.addEventListener("DOMContentLoaded", () => {
       srStatus.setAttribute("aria-live", "polite");
       srStatus.setAttribute("aria-atomic", "true");
       document.body.appendChild(srStatus);
-      srStatus.textContent = `Processing bulk accept for ${username}`;
+      srStatus.textContent = interpolate(
+        gettext("Processing bulk accept for %s"),
+        [username]
+      );
 
       // Clear button text for status display
       btn.textContent = "";
@@ -61,10 +64,10 @@ document.addEventListener("DOMContentLoaded", () => {
           } catch {
             errorData = {};
           }
-          const errorMessage =
-            errorData.error ||
-            response.statusText ||
-            `Server error (${response.status})`;
+        const errorMessage =
+          errorData.error ||
+          response.statusText ||
+          interpolate(gettext("Server error (%s)"), [response.status]);
           showError(btn, errorMessage, srStatus);
 
           enableAllButtons(allBtns);
@@ -75,7 +78,7 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
           data = await response.json();
         } catch (_parseError) {
-          showError(btn, "Invalid server response", srStatus);
+        showError(btn, gettext("Invalid server response"), srStatus);
           enableAllButtons(allBtns);
           return;
         }
@@ -87,7 +90,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
           const acceptedDiv = document.createElement("div");
           acceptedDiv.className = "aa-accepted-count";
-          acceptedDiv.textContent = `${data.accepted} accepted`;
+        acceptedDiv.textContent = interpolate(
+          ngettext("%s accepted", "%s accepted", data.accepted),
+          [data.accepted]
+        );
 
           const progressDiv = document.createElement("div");
           progressDiv.className = "aa-progress";
@@ -103,22 +109,29 @@ document.addEventListener("DOMContentLoaded", () => {
           // Add "Done" message
           const doneDiv = document.createElement("div");
           doneDiv.className = "aa-done";
-          doneDiv.textContent = "Done";
+        doneDiv.textContent = gettext("Done");
           statusDiv.appendChild(doneDiv);
 
           btn.appendChild(statusDiv);
           // Announce to screen readers
-          srStatus.textContent = `Successfully accepted ${data.accepted} suggestions. Page will reload in 2 seconds.`;
+        srStatus.textContent = interpolate(
+          ngettext(
+            "Successfully accepted %s suggestion. Page will reload in 2 seconds.",
+            "Successfully accepted %s suggestions. Page will reload in 2 seconds.",
+            data.accepted
+          ),
+          [data.accepted]
+        );
 
           // Reload page after 2 seconds
           setTimeout(() => location.reload(), 2000);
         } else {
-          showError(btn, data.error || "Unknown error", srStatus);
+        showError(btn, data.error || gettext("Unknown error"), srStatus);
           enableAllButtons(allBtns);
         }
       } catch (err) {
         console.error("Bulk accept error:", err);
-        showError(btn, err.message || "Network error", srStatus);
+        showError(btn, err.message || gettext("Network error"), srStatus);
         enableAllButtons(allBtns);
       }
     });
@@ -126,13 +139,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // Helper function to show errors
   function showError(button, message, statusElement) {
-    button.textContent = `Error: ${message}`;
+    button.textContent = interpolate(gettext("Error: %s"), [message]);
     button.classList.add("aa-error");
     button.setAttribute("aria-busy", "false");
 
     // Announce error to screen readers
     if (statusElement) {
-      statusElement.textContent = `Error: ${message}`;
+      statusElement.textContent = interpolate(gettext("Error: %s"), [message]);
     }
   }
 

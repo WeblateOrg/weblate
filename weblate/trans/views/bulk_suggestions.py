@@ -41,8 +41,10 @@ class BulkAcceptForm(forms.Form):
 
 @require_POST
 @login_required
-@transaction.atomic
-def bulk_accept_user_suggestions(request: AuthenticatedHttpRequest, path: str):
+def bulk_accept_user_suggestions(
+    request: AuthenticatedHttpRequest, 
+    path: list[str] | tuple[str, ...]
+):
     """Accept all suggestions from a specific user for a translation."""
     # Get the translation object using parse_path (Weblate's standard way)
     translation = parse_path(request, path, (Translation,))
@@ -94,8 +96,17 @@ def bulk_accept_user_suggestions(request: AuthenticatedHttpRequest, path: str):
             continue
 
         # Accept the suggestion
-        suggestion.accept(request, state=STATE_TRANSLATED)
-        accepted_count += 1
+        try:
+            suggestion.accept(request, state=STATE_TRANSLATED)
+            accepted_count += 1
+        except Exception as e:
+            logger.warning(
+                "Failed to accept suggestion %s: %s",
+                suggestion.pk,
+                e,
+            )
+            failed_count += 1
+
 
     # Build appropriate message based on results
     if failed_count == 0:
