@@ -55,7 +55,6 @@ from weblate.auth.decorators import management_access
 from weblate.configuration.views import CustomCSSView
 from weblate.sitemaps import SITEMAPS
 from weblate.trans.feeds import ChangesFeed, LanguageChangesFeed, TranslationChangesFeed
-
 from weblate.trans.views.bulk_suggestions import bulk_accept_user_suggestions
 from weblate.trans.views.changes import ChangesCSVView, ChangesView, show_change
 from weblate.trans.views.hooks import ServiceHookView
