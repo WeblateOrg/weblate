@@ -84,6 +84,9 @@ class WeblateConf(AppConf):
     # Hiding repository credentials
     HIDE_REPO_CREDENTIALS = True
 
+    # Hiding shared glossary components
+    HIDE_SHARED_GLOSSARY_COMPONENTS = False
+
     CREATE_GLOSSARIES = True
 
     # Default committer
