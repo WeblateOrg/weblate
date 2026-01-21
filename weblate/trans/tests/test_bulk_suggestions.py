@@ -46,7 +46,7 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
     def test_bulk_accept_requires_permission(self):
         """Test that users without suggestion.accept permission get 403."""
         # Create a user without permissions
-        user = User.objects.create_user(username="noperm", password="test")
+        User.objects.create_user(username="noperm", password="test")
         self.client.login(username="noperm", password="test")
 
         response = self.client.post(
