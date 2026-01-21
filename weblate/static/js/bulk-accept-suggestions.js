@@ -18,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
       );
       if (!csrfTokenElement) {
         console.error("CSRF token not found");
-        showError(btn, "Security token missing. Please reload the page.");
+        showError(btn, "Security token missing. Please reload the page.", null);
         return;
       }
       const csrfToken = csrfTokenElement.value;
@@ -27,7 +27,16 @@ document.addEventListener("DOMContentLoaded", () => {
       const allBtns = document.querySelectorAll(".aa-accept-all-btn");
       for (const b of allBtns) {
         b.disabled = true;
+        b.setAttribute("aria-busy", "true");
       }
+      // Create screen reader status element
+      const srStatus = document.createElement("div");
+      srStatus.className = "sr-only";
+      srStatus.setAttribute("role", "status");
+      srStatus.setAttribute("aria-live", "polite");
+      srStatus.setAttribute("aria-atomic", "true");
+      document.body.appendChild(srStatus);
+      srStatus.textContent = `Processing bulk accept for ${username}`;
 
       // Clear button text for status display
       btn.textContent = "";
@@ -46,15 +55,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Check if HTTP request was successful
         if (!response.ok) {
-          const errorData = await response.json().catch(() => ({}));
+          let errorData;
+          try {
+            errorData = await response.json();
+          } catch {
+            errorData = {};
+          }
           const errorMessage =
-            errorData.error || `Server error (${response.status})`;
-          showError(btn, errorMessage);
+            errorData.error ||
+            response.statusText ||
+            `Server error (${response.status})`;
+          showError(btn, errorMessage, srStatus);
+
           enableAllButtons(allBtns);
           return;
         }
 
-        const data = await response.json();
+        let data;
+        try {
+          data = await response.json();
+        } catch (_parseError) {
+          showError(btn, "Invalid server response", srStatus);
+          enableAllButtons(allBtns);
+          return;
+        }
 
         if (data.success) {
           // Create status display
@@ -83,31 +107,40 @@ document.addEventListener("DOMContentLoaded", () => {
           statusDiv.appendChild(doneDiv);
 
           btn.appendChild(statusDiv);
+          // Announce to screen readers
+          srStatus.textContent = `Successfully accepted ${data.accepted} suggestions. Page will reload in 2 seconds.`;
 
           // Reload page after 2 seconds
           setTimeout(() => location.reload(), 2000);
         } else {
-          showError(btn, data.error || "Unknown error");
+          showError(btn, data.error || "Unknown error", srStatus);
           enableAllButtons(allBtns);
         }
       } catch (err) {
         console.error("Bulk accept error:", err);
-        showError(btn, err.message || "Network error");
+        showError(btn, err.message || "Network error", srStatus);
         enableAllButtons(allBtns);
       }
     });
   });
 
   // Helper function to show errors
-  function showError(button, message) {
+  function showError(button, message, statusElement) {
     button.textContent = `Error: ${message}`;
     button.classList.add("aa-error");
+    button.setAttribute("aria-busy", "false");
+
+    // Announce error to screen readers
+    if (statusElement) {
+      statusElement.textContent = `Error: ${message}`;
+    }
   }
 
   // Helper function to re-enable all buttons
   function enableAllButtons(buttons) {
     for (const btn of buttons) {
       btn.disabled = false;
+      btn.setAttribute("aria-busy", "false");
     }
   }
 });
