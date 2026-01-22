@@ -772,6 +772,12 @@ LICENSES = (
         False,
     ),
     (
+        "CAPEC-tou",
+        "Common Attack    Pattern Enumeration and Classification License",
+        "https://spdx.org/licenses/CAPEC-tou.html",
+        False,
+    ),
+    (
         "CDDL-1.0",
         "Common Development and Distribution License 1.0",
         "https://spdx.org/licenses/CDDL-1.0.html",
@@ -3163,6 +3169,12 @@ LICENSES = (
         "PADL",
         "PADL License",
         "https://spdx.org/licenses/PADL.html",
+        False,
+    ),
+    (
+        "ParaType-Free-Font-1.3",
+        "ParaType Free Font Licensing Agreement v1.3",
+        "https://spdx.org/licenses/ParaType-Free-Font-1.3.html",
         False,
     ),
     (
