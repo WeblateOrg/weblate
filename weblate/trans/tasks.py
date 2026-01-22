@@ -82,6 +82,7 @@ def perform_update(
                 obj = Project.objects.get(pk=pk)
             else:
                 obj = Component.objects.get(pk=pk)
+        obj.log_info("Updating remote repository")
         if settings.AUTO_UPDATE in {"full", True} or not auto:
             obj.do_update(request)
         else:
@@ -266,6 +267,25 @@ def update_remotes() -> None:
     )
     for component in components.prefetch().iterator(chunk_size=100):
         perform_update("Component", -1, auto=True, obj=component)
+
+
+@app.task(trail=False)
+def cleanup_repos() -> None:
+    """Cleanup of all internal repositories."""
+    now = timezone.now()
+
+    components = (
+        Component.objects.with_repo()
+        .annotate(id_mod=F("id") % (30 * 24))
+        .filter(id_mod=(now.day - 1) * 24 + now.hour)
+    )
+    for component in components.prefetch().iterator(chunk_size=100):
+        try:
+            with component.repository.lock:
+                component.log_info("Performing repository maintenance")
+                component.repository.maintenance()
+        except (RepositoryError, WeblateLockTimeoutError):
+            report_error("Repository maintenance failed", project=component.project)
 
 
 @app.task(trail=False)
@@ -749,6 +769,7 @@ def cleanup_project_backup_download() -> None:
 def setup_periodic_tasks(sender, **kwargs) -> None:
     sender.add_periodic_task(3600, commit_pending.s(), name="commit-pending")
     sender.add_periodic_task(3600, update_remotes.s(), name="update-remotes")
+    sender.add_periodic_task(3600, cleanup_repos.s(), name="cleanup-repos")
     sender.add_periodic_task(
         crontab(minute=30), daily_update_checks.s(), name="daily-update-checks"
     )

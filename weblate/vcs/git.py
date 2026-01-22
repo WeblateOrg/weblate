@@ -574,9 +574,8 @@ class GitRepository(Repository):
             merge_err=False,
         )
 
-    def cleanup(self) -> None:
-        """Remove not tracked files from the repository."""
-        self.execute(["clean", "-f", "-d"])
+    def remove_stale_branches(self) -> None:
+        """Remove stale branches and tags from the repository."""
         # Remove possible stale branches
         for branch in self.list_branches():
             if branch != self.branch:
@@ -584,6 +583,11 @@ class GitRepository(Repository):
         # Remove any tags
         for tag in self.execute(["tag", "--list"], merge_err=False).splitlines():
             self.execute(["tag", "--delete", tag])
+
+    def cleanup(self) -> None:
+        """Remove not tracked files from the repository."""
+        super().cleanup()
+        self.execute(["clean", "-f", "-d"])
 
     def list_remote_branches(self) -> list[str]:
         """Return a list of remote branch names by querying the remote repository using 'git ls-remote --heads origin'."""
@@ -629,6 +633,12 @@ class GitRepository(Repository):
 
     def compact(self) -> None:
         self.execute(["gc"])
+
+    def maintenance(self) -> None:
+        # Expire old reflog entries (using Git defaults)
+        self.execute(["reflog", "expire"])
+        # Super will invoke remove_stale_branches() and compact()
+        super().maintenance()
 
 
 class GitWithGerritRepository(GitRepository):
