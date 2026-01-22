@@ -90,10 +90,19 @@ if [ "$addon_scopes" -eq 0 ] && [ "$file_format_params" -eq 0 ]; then
     check
 fi
 
+# File format encoding migration
 semver_compare "$1" "<" "5.16"
 file_format_encoding_merge=$?
 if [ "$file_format_encoding_merge" -eq 0 ]; then
     ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-formats.py"
+    check
+fi
+
+# Add users with billing permission
+semver_compare "$1" "<" "5.16"
+billing_users_migrate=$?
+if [ "$billing_users_migrate" -eq 0 ]; then
+    ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/setup-billing.py"
     check
 fi
 
@@ -124,4 +133,9 @@ fi
 if [ "$file_format_encoding_merge" -eq 0 ]; then
     # check that different encoding file-formats are merged into a single one with correct file format params
     uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-encoding.py"
+fi
+
+if [ "$billing_users_migrate" -eq 0 ]; then
+    # Verify that the user has been migrated from the billing permission to the owner
+    uv run --all-extras ./manage.py shell < "$MIGRATE_DIR/migrate-scripts/assert-billing.py"
 fi

@@ -8,7 +8,6 @@ from weblate.utils.rst import format_table
 
 GROUP_NAMES = {
     "announcement": "Announcements",
-    "billing": "Billing (see :ref:`billing`)",
     "change": "Changes",
     "comment": "Comments",
     "component": "Component",

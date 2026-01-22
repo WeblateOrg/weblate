@@ -120,14 +120,10 @@ class BillingQuerySet(models.QuerySet["Billing"]):
 
     def for_user(self, user: User):
         if user.has_perm("billing.manage"):
-            return self.all().order_by("state")
-        return (
-            self.filter(
-                Q(projects__in=user.projects_with_perm("billing.view")) | Q(owners=user)
-            )
-            .distinct()
-            .order_by("state")
-        )
+            billings = self.all()
+        else:
+            billings = self.filter(owners=user).distinct()
+        return billings.order_by("state")
 
     def for_user_within_limits(self, user: User):
         """Return billings for the given user which are valid and within project creation limits."""
@@ -471,10 +467,7 @@ class Billing(models.Model):
         return self.state in Billing.ACTIVE_STATES
 
     def get_notify_users(self):
-        users = self.owners.distinct()
-        for project in self.projects.iterator():
-            users |= User.objects.having_perm("billing.view", project)
-        return users.exclude(is_superuser=True)
+        return self.owners.all()
 
     def _get_libre_checklist(self):
         message = ngettext(
@@ -660,6 +653,9 @@ class BillingEvent(models.IntegerChoices):
     TERMINATED = 10, "Billing terminated"
     EXTENDED_TRIAL = 11, "Trial extended"
     PROJECT_BACKUP = 12, "Project backed up"
+    ADMIN_ADDED = 13, "Admin added"
+    ADMIN_ADDED_PROJECT = 14, "Admin added on project removal"
+    ADMIN_REMOVED = 15, "Admin removed"
 
 
 class BillingLogQuerySet(models.QuerySet["BillingLog"]):
@@ -717,11 +713,16 @@ def record_project_bill(
     if isinstance(instance, Component):
         instance = instance.project
 
-    # Sync billing access upon project removal, otherwise users will lose access
+    # Sync billing access upon project removal, otherwise users might not be able to
+    # terminate billing for removed project
     if isinstance(instance, Project):
-        users = User.objects.having_perm("billing.view", instance)
+        users = User.objects.having_perm("project.edit", instance)
         for billing in instance.billing_set.all():
-            billing.owners.add(*users)
+            for user in users:
+                billing.owners.add(user)
+                billing.billinglog_set.create(
+                    event=BillingEvent.ADMIN_ADDED_PROJECT, summary=user.username
+                )
 
     # Collect billings to update for delete_project_bill
     instance.billings_to_update = list(

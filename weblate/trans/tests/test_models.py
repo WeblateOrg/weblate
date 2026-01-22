@@ -217,7 +217,6 @@ class ProjectTest(RepoTestCase):
             {
                 "Administration",
                 "Automatic translation",
-                "Billing",
                 "Bulk editing",
                 "Glossary",
                 "Languages",
@@ -249,7 +248,6 @@ class ProjectTest(RepoTestCase):
             {
                 "Administration",
                 "Automatic translation",
-                "Billing",
                 "Bulk editing",
                 "Glossary",
                 "Languages",
