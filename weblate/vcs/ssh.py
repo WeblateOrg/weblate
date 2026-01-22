@@ -9,7 +9,7 @@ import stat
 import subprocess
 from base64 import b64decode, b64encode
 from contextlib import suppress
-from typing import TYPE_CHECKING, Literal, TypedDict
+from typing import TYPE_CHECKING, Any, Literal, NotRequired, TypedDict
 
 from django.conf import settings
 from django.core.management.utils import find_command
@@ -23,6 +23,7 @@ from weblate.utils.files import cleanup_error_message
 from weblate.utils.hash import calculate_checksum
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
     from pathlib import Path
 
     from django_stubs_ext import StrOrPromise
@@ -42,6 +43,16 @@ class KeyInfo(TypedDict):
 
 
 KeyType = Literal["rsa", "ed25519"]
+
+
+class KeyDetails(TypedDict):
+    key: str | None
+    fingerprint: NotRequired[str]
+    id: NotRequired[str]
+    filename: NotRequired[str]
+    type: KeyType
+    name: StrOrPromise
+
 
 KEYS: dict[KeyType, KeyInfo] = {
     "rsa": {
@@ -118,7 +129,7 @@ def get_key_data_raw(
     return filename, None
 
 
-def get_key_data(key_type: KeyType = "rsa") -> dict[str, StrOrPromise | None]:
+def get_key_data(key_type: KeyType = "rsa") -> KeyDetails:
     """Parse host key and returns it."""
     filename, key_data = get_key_data_raw(key_type)
     if key_data is not None:
@@ -138,12 +149,12 @@ def get_key_data(key_type: KeyType = "rsa") -> dict[str, StrOrPromise | None]:
     }
 
 
-def get_all_key_data() -> dict[str, dict[str, StrOrPromise | None]]:
+def get_all_key_data() -> dict[KeyType, KeyDetails]:
     """Return all supported SSH keys."""
     return {key_type: get_key_data(key_type) for key_type in KEYS}
 
 
-def ensure_ssh_key():
+def ensure_ssh_key() -> KeyDetails | None:
     """Ensure SSH key is existing."""
     result = None
     for key_type in KEYS:
@@ -269,11 +280,14 @@ GITHUB_RSA_KEY = (
 )
 
 
-def cleanup_host_keys(*args, **kwargs) -> None:
+def cleanup_host_keys(
+    *args: Any,  # noqa: ANN401
+    logger: Callable[[str], Any] = print,
+    **kwargs: Any,  # noqa: ANN401
+) -> None:
     known_hosts_file = ssh_file(KNOWN_HOSTS)
     if not known_hosts_file.exists():
         return
-    logger = kwargs.get("logger", print)
     keys = []
     with known_hosts_file.open() as handle:
         for line in handle:
@@ -296,7 +310,7 @@ def cleanup_host_keys(*args, **kwargs) -> None:
         handle.writelines(keys)
 
 
-def can_generate_key():
+def can_generate_key() -> bool:
     """Check whether we can generate key."""
     return find_command("ssh-keygen") is not None
 
