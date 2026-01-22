@@ -514,6 +514,8 @@ filterwarnings = [
   "ignore:Python 3.14 will, by default, filter extracted tar archives and reject files or modify their metadata:Warning",
   # There is no way to address this in a backwards compatible way
   "ignore:The FORMS_URLFIELD_ASSUME_HTTPS transitional setting:django.utils.deprecation.RemovedInDjango60Warning",
+  # Warning in the third-party module (borg)
+  "ignore:Version._version:DeprecationWarning:borg",
   # Triggered when Selenium can not be started
   'default:Selenium error:UserWarning',
   # TODO: Selenium code should be migrated
