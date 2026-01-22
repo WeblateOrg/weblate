@@ -597,9 +597,13 @@ class Repository:
             return None
         return merge_driver
 
+    def remove_stale_branches(self) -> None:
+        """Remove stale branches and tags from the repository."""
+        raise NotImplementedError
+
     def cleanup(self) -> None:
         """Remove not tracked files from the repository."""
-        raise NotImplementedError
+        self.remove_stale_branches()
 
     def log_revisions(self, refspec: str) -> list[str]:
         """
@@ -642,3 +646,7 @@ class Repository:
 
     def show(self, revision: str) -> str:
         raise NotImplementedError
+
+    def maintenance(self) -> None:
+        self.remove_stale_branches()
+        self.compact()
