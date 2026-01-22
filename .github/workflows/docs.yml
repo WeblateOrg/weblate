@@ -32,10 +32,15 @@ jobs:
       CI_SELENIUM: '1'
       DJANGO_SETTINGS_MODULE: weblate.settings_test
     steps:
-    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8   # v6.0.1
+    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      if: github.event_name != 'pull_request'
       with:
         token: ${{ secrets.WEBLATE_CI_TOKEN }}
         persist-credentials: true
+    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+      if: github.event_name == 'pull_request'
+      with:
+        persist-credentials: false
     - name: Set up Python
       uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548   # v6.1.0
       with:
@@ -52,13 +57,14 @@ jobs:
     - run: uv run --only-group pre-commit pre-commit run --all
       continue-on-error: true
 
-    - run: git diff
-
-    - name: Update current branch
-      if: github.event_name == 'push' && github.ref_name != 'main'
-      uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9   # v7.1.0
+    - name: Commit or create pull request
+      uses: ./.github/actions/auto-commit
       with:
-        commit_message: 'docs: Documentation snippets update'
+        message: 'docs: Documentation snippets update'
+        pr-branch: create-pull-request/doc-snippets-update
+        pr-labels: |
+          dependencies
+        github-token: ${{ secrets.WEBLATE_CI_TOKEN }}
 
   list-languages:
     runs-on: ubuntu-24.04
