@@ -3112,6 +3112,12 @@ LICENSES = (
         False,
     ),
     (
+        "OpenMDW-1.0",
+        "OpenMDW License Agreement v1.0",
+        "https://spdx.org/licenses/OpenMDW-1.0.html",
+        False,
+    ),
+    (
         "OpenPBS-2.3",
         "OpenPBS v2.3 Software License",
         "https://spdx.org/licenses/OpenPBS-2.3.html",
