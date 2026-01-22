@@ -37,7 +37,7 @@ jobs:
         enable-cache: false
         version: 0.9.26
     - name: Setup Python
-      uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v6.1.0
+      uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       with:
         # Avoid 3.14 until https://github.com/sigstore/gh-action-sigstore-python/issues/215 is addressed
         python-version: '3.14'
@@ -81,7 +81,7 @@ jobs:
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
     - name: Set up Python
-      uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v6.1.0
+      uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       with:
         python-version: '3.14'
     - uses: astral-sh/setup-uv@61cb8a9741eeb8a550a1b8544337180c0fc8476b # v7.2.0
@@ -127,7 +127,7 @@ jobs:
         enable-cache: false
         version: 0.9.26
     - name: Set up Python
-      uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v6.1.0
+      uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       with:
         python-version: '3.14'
     - name: Install apt dependencies
