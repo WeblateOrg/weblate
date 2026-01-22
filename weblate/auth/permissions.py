@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, cast
+from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.utils.translation import gettext
@@ -27,16 +27,13 @@ from .results import Allowed, Denied
 if TYPE_CHECKING:
     from collections.abc import Callable
 
-    from django.db.models import Model
+    from django.db.models import Model, QuerySet
 
     from weblate.auth.models import Group, User
     from weblate.billing.models import Billing
     from weblate.checks.models import Check
     from weblate.memory.models import Memory
-    from weblate.trans.models import (
-        Comment,
-        Suggestion,
-    )
+    from weblate.trans.models import Comment, Suggestion
 
     from .results import PermissionResult
 
@@ -597,19 +594,23 @@ def check_team_edit_users(
     )
 
 
-@register_perm("billing.view")
+@register_perm("meta:billing.view")
 def check_billing_view(
     user: User, permission: str, obj: Billing | Project
 ) -> bool | PermissionResult:
+    if user.has_perm("billing.manage"):
+        return True
+
+    billings: list[Billing] | QuerySet[Billing]
     # We check Billing by hasattr to avoid importing optional Django app. To make type
     # checker understand this, there is negative check on Project and cast in the
     # check_permission call.
     if hasattr(obj, "all_projects") and not isinstance(obj, Project):
-        if user.has_perm("billing.manage") or obj.owners.filter(pk=user.pk).exists():
-            return True
-        # This is a billing object
-        return any(check_permission(user, permission, prj) for prj in obj.all_projects)
-    return check_permission(user, permission, cast("Project", obj))
+        billings = [obj]
+    else:
+        billings = obj.billings
+
+    return any(billing.owners.filter(pk=user.pk).exists() for billing in billings)
 
 
 @register_perm("billing:project.permissions")

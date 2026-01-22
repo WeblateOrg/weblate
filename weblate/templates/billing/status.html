@@ -122,29 +122,5 @@
         </td>
       </tr>
     {% endif %}
-    {% if user_can_manage_billing %}
-      <tr>
-        <th>{% translate "Owners" %}</th>
-        <td colspan="2">
-          {% for owner in billing.owners.all %}
-            <p>
-              <span class="profile-icon">{% icon "account.svg" %}</span>
-              <span class="middle-dot-divider">{{ owner }}</span>
-              <span class="middle-dot-divider">
-                <a href="{{ owner.get_absolute_url }}">@{{ owner.username }}</a>
-              </span>
-              <span class="middle-dot-divider">
-                <a href="mailto:{{ owner.email }}">{{ owner.email }}</a>
-              </span>
-              {% if user_can_manage_billing %}
-                <span class="middle-dot-divider">
-                  <a href="{% url "manage-users-check" %}?email={{ owner.email|urlencode }}">{% translate "Check user access" %}</a>
-                </span>
-              {% endif %}
-            </p>
-          {% endfor %}
-        </td>
-      </tr>
-    {% endif %}
   </table>
 {% endwith %}

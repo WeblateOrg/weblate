@@ -20,7 +20,7 @@
 
   <div class="row">
 
-    <div class="col-lg-6" id="billing-{{ billing.pk }}">
+    <div class="col-lg-6">
       <div class="card">
         <div class="card-header {% if not billing.paid or not billing.in_limits %}text-bg-danger{% endif %}">
           <h4 class="card-title">
@@ -67,6 +67,48 @@
         {% endif %}
       </div>
 
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">{% translate "Billing admins" %}</h4>
+        </div>
+        <table class="table">
+
+          {% with owners=billing.owners.all %}
+            {% for owner in owners %}
+              <tr>
+                <td>{{ owner }}</td>
+                <td>
+                  <a href="{{ owner.get_absolute_url }}">@{{ owner.username }}</a>
+                </td>
+                <td>
+                  <a href="mailto:{{ owner.email }}">{{ owner.email }}</a>
+                </td>
+                <td>
+                  {% if owner.pk == user.pk %}
+                    <a href="#"
+                       class="btn btn-danger disabled"
+                       tabindex="-1"
+                       role="button"
+                       aria-disabled="true"
+                       title="{% translate "You cannot remove yourself." %}">{% translate "Revoke access" %}</a>
+                  {% else %}
+                    <a href=""
+                       class="link-post btn btn-danger"
+                       data-href="{% url 'billing-owner-remove' pk=billing.pk user_id=owner.pk %}">{% translate "Revoke access" %}</a>
+                  {% endif %}
+                </td>
+              </tr>
+            {% endfor %}
+          {% endwith %}
+        </table>
+        <form method="post" action="{% url "billing-owner-add" pk=billing.pk %}">
+          <div class="card-footer">
+            {% crispy user_form %}
+            <input type="submit" class="btn btn-primary" value="{% translate "Add admin" %}">
+          </div>
+        </form>
+      </div>
+
       {% if user_can_manage_billing %}
         <form method="get" action="{% url "billing-merge" pk=billing.pk %}">
           <div class="card">
@@ -80,6 +122,7 @@
           </div>
         </form>
       {% endif %}
+
     </div>
 
     <div class="col-lg-6">

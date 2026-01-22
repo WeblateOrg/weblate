@@ -14,6 +14,7 @@ from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 from django.utils.translation import gettext
+from django.views.decorators.http import require_POST
 
 from weblate.accounts.views import mail_admins_contact
 from weblate.trans.backups import PROJECTBACKUP_PREFIX
@@ -21,7 +22,12 @@ from weblate.utils import messages
 from weblate.utils.data import data_path
 from weblate.utils.views import show_form_errors
 
-from .forms import BillingMergeConfirmForm, BillingMergeForm, HostingForm
+from .forms import (
+    BillingMergeConfirmForm,
+    BillingMergeForm,
+    BillingUserForm,
+    HostingForm,
+)
 from .models import Billing, BillingEvent, Invoice, Plan
 
 if TYPE_CHECKING:
@@ -54,7 +60,7 @@ def download_invoice(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
         msg = "No reference!"
         raise Http404(msg)
 
-    if not request.user.has_perm("billing.view", invoice.billing):
+    if not request.user.has_perm("meta:billing.view", invoice.billing):
         raise PermissionDenied
 
     if not invoice.filename_valid:
@@ -231,11 +237,63 @@ def merge(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
     return redirect(confirm_form.cleaned_data["other"])
 
 
+@require_POST
+@login_required
+def owner_add(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
+    billing = get_object_or_404(Billing, pk=pk)
+    if not request.user.has_perm("meta:billing.view", billing):
+        raise PermissionDenied
+
+    form = BillingUserForm(request.POST)
+    if form.is_valid():
+        # Audit log
+        billing.billinglog_set.create(
+            event=BillingEvent.ADMIN_ADDED,
+            user=request.user,
+            summary=form.cleaned_data["user"].username,
+        )
+        # Actually add
+        billing.owners.add(form.cleaned_data["user"])
+        messages.success(
+            request,
+            gettext("User %s was added as a billing admin.")
+            % form.cleaned_data["user"].username,
+        )
+    else:
+        show_form_errors(request, form)
+    return redirect(billing)
+
+
+@require_POST
+@login_required
+def owner_remove(request: AuthenticatedHttpRequest, pk, user_id) -> HttpResponse:
+    billing = get_object_or_404(Billing, pk=pk)
+    if not request.user.has_perm("meta:billing.view", billing):
+        raise PermissionDenied
+
+    user = get_object_or_404(billing.owners, pk=user_id)
+
+    if user == request.user:
+        messages.error(request, gettext("You cannot remove yourself."))
+    else:
+        # Audit log
+        billing.billinglog_set.create(
+            event=BillingEvent.ADMIN_REMOVED, user=request.user, summary=user.username
+        )
+        # Actual removal
+        billing.owners.remove(user)
+        messages.success(
+            request, gettext("User %s was removed as a billing admin.") % user.username
+        )
+
+    return redirect(billing)
+
+
 @login_required
 def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
     billing = get_object_or_404(Billing, pk=pk)
 
-    if not request.user.has_perm("billing.view", billing):
+    if not request.user.has_perm("meta:billing.view", billing):
         raise PermissionDenied
 
     if request.method == "POST":
@@ -249,5 +307,6 @@ def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
             "billing": billing,
             "hosting_form": HostingForm(),
             "merge_form": BillingMergeForm(),
+            "user_form": BillingUserForm(),
         },
     )

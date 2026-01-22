@@ -12,9 +12,9 @@ from weblate.memory.models import Memory
 from weblate.metrics.models import METRIC_ORDER, Metric
 from weblate.trans.models import Component, Project, Suggestion, Translation
 
-# Force creating project groups
+# Force creating project groups including billing
 for project in Project.objects.iterator():
-    project.old_access_control = Project.ACCESS_CUSTOM
+    project.access_control = Project.ACCESS_PROTECTED
     project.save()
 
 # Enable suggestion voting

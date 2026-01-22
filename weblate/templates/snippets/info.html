@@ -27,7 +27,7 @@
               </tr>
             {% endif %}
 
-            {% perm 'billing.view' project as user_can_view_billing %}
+            {% perm 'meta:billing.view' project as user_can_view_billing %}
 
             {% if user_can_view_billing %}
               {% if project.billings %}
