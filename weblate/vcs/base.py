@@ -601,9 +601,21 @@ class Repository:
         """Remove stale branches and tags from the repository."""
         raise NotImplementedError
 
-    def cleanup(self) -> None:
+    def cleanup_files(self) -> None:
         """Remove not tracked files from the repository."""
+        raise NotImplementedError
+
+    def cleanup(self) -> None:
+        """Cleanup repository status."""
+        # Recover from failed merge/rebase
+        with suppress(RepositoryError):
+            self.merge(abort=True)
+        with suppress(RepositoryError):
+            self.rebase(abort=True)
+        # Remove stale branches
         self.remove_stale_branches()
+        # Cleanup files
+        self.cleanup_files()
 
     def log_revisions(self, refspec: str) -> list[str]:
         """

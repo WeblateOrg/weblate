@@ -404,11 +404,10 @@ class HgRepository(Repository):
         """Remove stale branches and tags from the repository."""
         return
 
-    def cleanup(self) -> None:
+    def cleanup_files(self) -> None:
         """Remove not tracked files from the repository."""
         self.set_config_values(("extensions", "purge", ""))
         self.execute(["purge"])
-        super().cleanup()
 
     def update_remote(self) -> None:
         """Update remote repository."""

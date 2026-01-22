@@ -584,9 +584,8 @@ class GitRepository(Repository):
         for tag in self.execute(["tag", "--list"], merge_err=False).splitlines():
             self.execute(["tag", "--delete", tag])
 
-    def cleanup(self) -> None:
+    def cleanup_files(self) -> None:
         """Remove not tracked files from the repository."""
-        super().cleanup()
         self.execute(["clean", "-f", "-d"])
 
     def list_remote_branches(self) -> list[str]:
