@@ -1,0 +1,60 @@
+# Copyright © Michal Čihař <michal@weblate.org>
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+
+name: Auto Commit Changes
+description: Automatically commit and push changes based on workflow context
+
+inputs:
+  message:
+    description: Commit message and PR title to use
+    required: true
+  pr-branch:
+    description: Branch name for pull request (if created)
+    required: false
+    default: create-pull-request/auto-update
+  pr-labels:
+    description: Labels to apply to pull request (one per line)
+    required: false
+    default: ''
+  github-token:
+    description: GitHub token for creating pull requests
+    required: true
+
+runs:
+  using: composite
+  steps:
+    # PRs from forks / outside collaborators
+  - name: Commit changes (external PR)
+    if: github.event_name == 'pull_request' && github.actor != 'renovate[bot]'
+    uses: pre-commit-ci/lite-action@5d6cc0eb514c891a40562a58a8e71576c5c7fb43   # v1.1.0
+    with:
+      msg: ${{ inputs.message }}
+
+    # in-repository PRs (non-main branches)
+  - name: Update current branch
+    if: github.event_name == 'push' && github.ref_name != 'main'
+    uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9   # v7.1.0
+    with:
+      commit_message: ${{ inputs.message }}
+
+    # for main branch or scheduled runs: create PR
+  - name: Create Pull Request
+    id: cpr
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.ref_name == 'main'
+    uses: peter-evans/create-pull-request@c0f553fe549906ede9cf27b5156039d195d2ece0 # v8.1.0
+    with:
+      branch: ${{ inputs.pr-branch }}
+      title: ${{ inputs.message }}
+      commit-message: ${{ inputs.message }}
+      token: ${{ inputs.github-token }}
+      labels: ${{ inputs.pr-labels }}
+
+    # Enable automerge
+  - name: Enable Pull Request Automerge
+    if: steps.cpr.outputs.pull-request-operation && steps.cpr.outputs.pull-request-operation != 'none'
+    shell: bash
+    run: gh pr merge --rebase --auto "$PR_NUMBER"
+    env:
+      GH_TOKEN: ${{ inputs.github-token }}
+      PR_NUMBER: ${{ steps.cpr.outputs.pull-request-number }}
