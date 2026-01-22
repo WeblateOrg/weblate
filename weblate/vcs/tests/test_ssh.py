@@ -12,7 +12,7 @@ from django.test.utils import override_settings
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.apps import check_data_writable
 from weblate.utils.unittest import tempdir_setting
-from weblate.vcs.ssh import SSHWrapper, get_host_keys, ssh_file
+from weblate.vcs.ssh import SSHWrapper, extract_url_host_port, get_host_keys, ssh_file
 
 TEST_HOSTS = get_test_file("known_hosts")
 
@@ -56,3 +56,14 @@ class SSHTest(TestCase):
         timestamp = os.stat(filename).st_mtime
         wrapper.create()
         self.assertEqual(timestamp, os.stat(filename).st_mtime)
+
+    def test_extract_url_host_port(self) -> None:
+        self.assertEqual((None, None), extract_url_host_port(""))
+        self.assertEqual((None, None), extract_url_host_port("http://"))
+        self.assertEqual((None, None), extract_url_host_port("http:// invalid/url"))
+        self.assertEqual(
+            ("github.com", None), extract_url_host_port("git@github.com:repo")
+        )
+        self.assertEqual(
+            ("github.com", 1234), extract_url_host_port("git://github.com:1234/repo")
+        )

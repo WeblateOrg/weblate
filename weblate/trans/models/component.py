@@ -131,7 +131,7 @@ from weblate.utils.validators import (
 from weblate.vcs.base import RepositoryError, RepositorySymlinkError
 from weblate.vcs.git import GitMergeRequestBase, LocalRepository
 from weblate.vcs.models import VCS_REGISTRY
-from weblate.vcs.ssh import add_host_key
+from weblate.vcs.ssh import add_host_key, extract_url_host_port
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -1695,17 +1695,11 @@ class Component(
 
         def add(repo) -> None:
             self.log_info("checking for key to add for %s", repo)
-            parsed = urlparse(repo)
-            if not parsed.hostname:
-                parsed = urlparse(f"ssh://{repo}")
-            if not parsed.hostname:
+            hostname, port = extract_url_host_port(repo)
+            if not hostname:
                 return
-            try:
-                port = parsed.port
-            except ValueError:
-                port = ""
-            self.log_info("adding SSH key for %s:%s", parsed.hostname, port)
-            add_host_key(None, parsed.hostname, port)
+            self.log_info("adding SSH key for %s:%s", hostname, port)
+            add_host_key(None, hostname, port)
 
         add(self.repo)
         if self.push:

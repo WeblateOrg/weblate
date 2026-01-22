@@ -400,10 +400,15 @@ class HgRepository(Repository):
             ["cat", "--rev", revision, path], needs_lock=False, merge_err=False
         )
 
+    def remove_stale_branches(self) -> None:
+        """Remove stale branches and tags from the repository."""
+        return
+
     def cleanup(self) -> None:
         """Remove not tracked files from the repository."""
         self.set_config_values(("extensions", "purge", ""))
         self.execute(["purge"])
+        super().cleanup()
 
     def update_remote(self) -> None:
         """Update remote repository."""

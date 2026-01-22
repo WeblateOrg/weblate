@@ -97,4 +97,6 @@ def is_excluded(path: str) -> bool:
 
 def cleanup_error_message(text: str) -> str:
     """Remove absolute paths from the text."""
-    return text.replace(settings.CACHE_DIR, "...").replace(settings.DATA_DIR, "...")
+    return text.replace(settings.CACHE_DIR or "NONEXISTING_CACHE", "...").replace(
+        settings.DATA_DIR, "..."
+    )

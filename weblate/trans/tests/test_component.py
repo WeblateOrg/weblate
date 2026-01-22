@@ -490,6 +490,33 @@ class ComponentTest(RepoTestCase):
         )
         self.verify_component(component, 4, "cs", 4)
 
+    def _test_maintenance(self, component: Component) -> None:
+        self.verify_component(component, 4, "cs", 4)
+        with component.repository.lock:
+            component.repository.maintenance()
+        component.create_translations_immediate(force=True)
+        self.verify_component(component, 4, "cs", 4)
+        with component.repository.lock:
+            component.repository.cleanup()
+        component.create_translations_immediate(force=True)
+        self.verify_component(component, 4, "cs", 4)
+
+    def test_maintenance_po(self):
+        component = self.create_po()
+        self._test_maintenance(component)
+
+    def test_maintenance_po_branch(self):
+        component = self.create_po_branch()
+        self._test_maintenance(component)
+
+    def test_maintenance_po_mercurial(self):
+        component = self.create_po_mercurial()
+        self._test_maintenance(component)
+
+    def test_maintenance_po_mercurial_branch(self):
+        component = self.create_po_mercurial_branch()
+        self._test_maintenance(component)
+
 
 class AutoAddonTest(RepoTestCase):
     CREATE_GLOSSARIES = True
