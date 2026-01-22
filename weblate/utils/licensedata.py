@@ -2542,6 +2542,12 @@ LICENSES = (
         True,
     ),
     (
+        "MMPL-1.0.1",
+        "Minecraft Mod Public License v1.0.1",
+        "https://spdx.org/licenses/MMPL-1.0.1.html",
+        False,
+    ),
+    (
         "Minpack",
         "Minpack License",
         "https://spdx.org/licenses/Minpack.html",
