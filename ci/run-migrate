@@ -87,6 +87,8 @@ check
 ./manage.py shell -c 'from weblate.memory.models import Memory; from weblate.lang.models import Language; Memory.objects.create(source_language=Language.objects.get(code="en"), target_language=Language.objects.get(code="cs"), source="source"*1000, target="target"*1000, origin="origin"*1000)'
 check
 
+# TODO: Add users with billing permission
+
 # Add a pending unit
 semver_compare "$1" "<" "5.12"
 pending_migration_test=$?
