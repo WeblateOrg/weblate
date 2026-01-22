@@ -132,7 +132,7 @@ class SeleniumTests(
             if "CI_SELENIUM" in os.environ:
                 raise
         else:
-            # Increase webdriver timeout to avoid occasssional errors in CI
+            # Increase webdriver timeout to avoid occasional errors in CI
             cls._driver.command_executor.client_config.timeout = 300
 
         # Restore custom fontconfig settings
