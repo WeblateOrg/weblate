@@ -521,17 +521,18 @@ class TranslationForm(UnitForm):
     )
 
     def __init__(self, user: User, unit: Unit, *args, **kwargs) -> None:
-        if unit is not None:
-            kwargs["initial"] = {
-                "checksum": unit.checksum,
-                "contentsum": hash_to_checksum(unit.content_hash),
-                "translationsum": hash_to_checksum(unit.get_target_hash()),
-                "target": unit,
-                "fuzzy": unit.fuzzy,
-                "review": unit.state,
-                "explanation": unit.explanation,
-            }
-            kwargs["auto_id"] = f"id_{unit.checksum}_%s"
+        translation = unit.translation
+        component = translation.component
+        kwargs["initial"] = {
+            "checksum": unit.checksum,
+            "contentsum": hash_to_checksum(unit.content_hash),
+            "translationsum": hash_to_checksum(unit.get_target_hash()),
+            "target": unit,
+            "fuzzy": unit.fuzzy,
+            "review": unit.state,
+            "explanation": unit.explanation,
+        }
+        kwargs["auto_id"] = f"id_{unit.checksum}_%s"
         super().__init__(unit, *args, **kwargs)
         if unit.readonly:
             self.fields["target"].widget.attrs["readonly"] = 1
@@ -576,17 +577,22 @@ class TranslationForm(UnitForm):
             InlineRadios("review", css_class="review_radio"),
             Field("explanation"),
         )
-        if unit and user.has_perm("unit.review", unit.translation):
+        if unit and user.has_perm("unit.review", translation):
             self.fields["fuzzy"].widget = forms.HiddenInput()
         else:
             self.fields["review"].widget = forms.HiddenInput()
-        if unit.translation.component.is_glossary:
+        if component.is_glossary:
             if unit.is_source:
                 self.fields["explanation"].label = gettext("Source string explanation")
             else:
                 self.fields["explanation"].label = gettext("Translation explanation")
         else:
             self.fields["explanation"].widget = forms.HiddenInput()
+
+        if component.project.commit_policy:
+            commit_policy = f" {component.project.get_commit_policy_description()}"
+            self.fields["review"].help_text += commit_policy
+            self.fields["fuzzy"].help_text += commit_policy
 
     def clean(self) -> None:
         super().clean()

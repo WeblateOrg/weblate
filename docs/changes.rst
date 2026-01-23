@@ -15,6 +15,7 @@ Weblate 5.16
 * :doc:`/user/search` better reports errors in the query strings.
 * Regular repository maintenance is now performed in the background.
 * Repository cleanup now recovers failed merges or rebases.
+* Better visibility of :ref:`project-commit_policy` to translators.
 
 .. rubric:: Bug fixes
 

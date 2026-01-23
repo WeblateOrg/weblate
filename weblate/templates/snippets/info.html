@@ -124,6 +124,7 @@
                   {% else %}
                     <li>{% translate "The translation uses bilingual files." %}</li>
                   {% endif %}
+                  {% if component.project.commit_policy %}<li>{{ component.project.get_commit_policy_description }}</li>{% endif %}
                 </ul>
               </td>
             </tr>
