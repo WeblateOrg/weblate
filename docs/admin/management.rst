@@ -801,6 +801,13 @@ list_file_format_params
 
 Lists File format parameters.
 
+list_change_events
+------------------
+
+.. weblate-admin:: list_change_events
+
+Lists all possible change event types.
+
 loadpo
 ------
 

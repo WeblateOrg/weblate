@@ -15,6 +15,11 @@ from django.test.utils import override_settings
 
 from weblate.accounts.models import Profile
 from weblate.runner import main
+from weblate.trans.file_format_params import (
+    FILE_FORMATS_PARAMS,
+    BaseFileFormatParam,
+    register_file_format_param,
+)
 from weblate.trans.models import Component, Translation
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
@@ -674,3 +679,27 @@ class ImportCommandTest(RepoTestCase):
             override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES),
         ):
             call_command("import_json", "--project", "test", "/nonexisting/dfile")
+
+
+class DocumentationCommandTest(TestCase):
+    def test_list_file_format_params(self) -> None:
+        class TestJSONFileFormatParam(BaseFileFormatParam):
+            name = "json-test"
+            label = "JSONTest"
+            file_formats = ("test", "json")
+            help_text = "Test JSON file format parameter"
+
+        register_file_format_param(TestJSONFileFormatParam)
+
+        output = StringIO()
+        call_command("list_file_format_params", stdout=output)
+        self.assertIn("JSONTest", output.getvalue())
+        self.assertIn("Test JSON file format parameter", output.getvalue())
+        self.assertIn("json-test", output.getvalue())
+
+        FILE_FORMATS_PARAMS.remove(TestJSONFileFormatParam)
+
+    def test_list_change_events(self) -> None:
+        output = StringIO()
+        call_command("list_change_events", stdout=output)
+        self.assertIn("Forced synchronization of translations", output.getvalue())
