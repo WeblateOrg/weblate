@@ -194,25 +194,29 @@
             </div>
           </form>
         </div>
-        {% if invite_email_form %}
-          <div class="col-sm-6">
-            <form action="{% url "invite-user" project=object.slug %}" method="post">
-              {% csrf_token %}
-              <div class="card">
-                <div class="card-header">
-                  <h4 class="card-title">
-                    {% documentation_icon 'admin/access' 'invite-user' right=True %}
-                    {% translate "Invite new user" %}
-                  </h4>
-                </div>
+        <div class="col-sm-6">
+          <form action="{% url "invite-user" project=object.slug %}" method="post">
+            {% csrf_token %}
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title">
+                  {% documentation_icon 'admin/access' 'invite-user' right=True %}
+                  {% translate "Invite new user" %}
+                </h4>
+              </div>
+              {% if invite_email_form %}
                 <div class="card-body">{{ invite_email_form|crispy }}</div>
                 <div class="card-footer">
                   <input type="submit" class="btn btn-primary" value="{% translate "Invite" %}" />
                 </div>
-              </div>
-            </form>
-          </div>
-        {% endif %}
+              {% else %}
+                <div class="card-body">
+                  {% translate "You are not allowed to invite new users because new registrations are turned off." %}
+                </div>
+              {% endif %}
+            </div>
+          </form>
+        </div>
       </div>
     </div>
 
