@@ -18,6 +18,7 @@ Weblate 5.16
 .. rubric:: Bug fixes
 
 * Adding plural strings with singular matching existing string is now prohibited for bilingual translations (see :ref:`bimono`).
+* Automatic :ref:`component-repoweb` URL for common code hosting sites.
 
 .. rubric:: Compatibility
 
