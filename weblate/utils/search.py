@@ -15,7 +15,7 @@ from typing import TYPE_CHECKING, Any, ClassVar, Literal, cast, overload
 from dateutil.parser import ParserError
 from dateutil.parser import parse as dateutil_parse
 from django.db import transaction
-from django.db.models import Count, F, Q, Value
+from django.db.models import Count, Exists, F, OuterRef, Q, Value
 from django.db.utils import DataError, OperationalError
 from django.http import Http404
 from django.utils import timezone
@@ -35,7 +35,7 @@ from pyparsing import (
 
 from weblate.checks.parser import RawQuotedString
 from weblate.lang.models import Language
-from weblate.trans.models import Category, Component, Project, Translation
+from weblate.trans.models import Category, Component, Label, Project, Translation
 from weblate.trans.util import PLURAL_SEPARATOR
 from weblate.utils.db import re_escape, using_postgresql
 from weblate.utils.state import (
@@ -700,6 +700,22 @@ class UnitTermExpr(BaseTermExpr):
     def pending_field(self, text: str, context: dict) -> Q:
         boolean_value = self.convert_bool(text)
         return Q(pending_changes__isnull=not boolean_value)
+
+    def label_field(self, text: str, context: dict) -> Q:
+        """
+        Handle label filtering.
+
+        This is needed because filtering on a reverse ManyToMany relation
+        with and using exists ensures each label condition gets its own join.
+        """
+        lookup = "name__iexact" if self.operator == ":=" else "name__icontains"
+        label_filter = {lookup: text}
+        label_query = Label.objects.filter(**label_filter)
+        project = context.get("project")
+        if project:
+            label_query = label_query.filter(project=project)
+
+        return Q(Exists(label_query.filter(unit__id=OuterRef("source_unit_id"))))
 
     def convert_changed(self, text: str) -> datetime | tuple[datetime, datetime]:
         return self.convert_datetime(text)

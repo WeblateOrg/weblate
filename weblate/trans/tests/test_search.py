@@ -273,6 +273,27 @@ class SearchViewTest(TransactionsTestMixin, ViewTestCase):
     def test_checksum(self) -> None:
         self.do_search({"checksum": "invalid"}, None, anchor="")
 
+    def test_search_multiple_labels(self) -> None:
+        """Test that searching with label:ABC AND label:XYZ works correctly."""
+        label1 = self.project.label_set.create(name="ABC", color="black")
+        label2 = self.project.label_set.create(name="XYZ", color="blue")
+
+        unit = self.get_unit()
+        source_unit = unit.source_unit
+        source_unit.labels.add(label1, label2)
+
+        unit.translation.stats.clear()
+
+        self.do_search({"q": "label:ABC"}, "Hello, world!")
+        self.do_search({"q": "label:XYZ"}, "Hello, world!")
+        self.do_search({"q": "label:ABC AND label:XYZ"}, "Hello, world!")
+        self.do_search({"q": "label:ABC label:XYZ"}, "Hello, world!")
+
+        source_unit.labels.remove(label2)
+        unit.translation.stats.clear()
+        self.do_search({"q": "label:ABC AND label:XYZ"}, None)
+        self.do_search({"q": "label:ABC label:XYZ"}, None)
+
 
 class ReplaceTest(ViewTestCase):
     """Test for search and replace functionality."""
