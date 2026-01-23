@@ -910,7 +910,10 @@
             </div>
             {% if unit.position %}
               <div class="list-group-item">
-                <h5>{% translate "Translation file" %}</h5>
+                <h5>
+                  {% translate "Translation file" %}
+                  <span class="badge bg-secondary">{{ unit.translation.component.get_file_format_display }}</span>
+                </h5>
                 <span>
                   {% if unit.translation.filename %}
                     <span class="wrap-text">{% blocktranslate with filename=translation_file_link position=unit.position %}{{ filename }}, string {{ position }}{% endblocktranslate %}</span>
