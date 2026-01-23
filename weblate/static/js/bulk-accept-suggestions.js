@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       // Create screen reader status element
       const srStatus = document.createElement("div");
-      srStatus.className = "sr-only";
+      srStatus.className = "visually-hidden";
       srStatus.setAttribute("role", "status");
       srStatus.setAttribute("aria-live", "polite");
       srStatus.setAttribute("aria-atomic", "true");

@@ -44,7 +44,7 @@
                             data-username="{{ suggestion.user.username }}"
                             data-translation-url="{% url 'bulk-accept-user-suggestions' path=suggestion.unit.translation.get_url_path %}"
                             title="{% blocktranslate with username=suggestion.user.username %}Accept all from {{ username }}{% endblocktranslate %}">
-                      {% icon "check-all.svg" %}
+                      {% icon "account-check.svg" %}
                     </button>
                   {% endifchanged %}
                 {% endif %}
