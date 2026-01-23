@@ -81,22 +81,50 @@ class AdminTest(ViewTestCase):
     def test_ssh_add(self) -> None:
         self.assertEqual(check_data_writable(app_configs=None, databases=None), [])
         oldpath = os.environ["PATH"]
+        hostsfile = data_path("ssh") / "known_hosts"
         try:
             os.environ["PATH"] = f"{get_test_file('')}:{os.environ['PATH']}"
             # Verify there is button for adding
             response = self.client.get(reverse("manage-ssh"))
             self.assertContains(response, "Add host key")
 
+            # Invalid parameters
+            response = self.client.post(
+                reverse("manage-ssh"), {"action": "add-host", "host": "-github.com"}
+            )
+            self.assertContains(response, "Enter a valid domain name or IP address.")
+            self.assertFalse(hostsfile.exists())
+
+            # Non-responding host
+            response = self.client.post(
+                reverse("manage-ssh"), {"action": "add-host", "host": "1.2.3.4"}
+            )
+            self.assertContains(response, "Could not fetch public key for a host.")
+            self.assertFalse(hostsfile.exists())
+
+            # Error response
+            response = self.client.post(
+                reverse("manage-ssh"),
+                {
+                    "action": "add-host",
+                    "host": "2001:0db8:85a3:0000:0000:8a2e:0370:7334",
+                },
+            )
+            self.assertContains(
+                response, "Could not fetch public key for a host: test error"
+            )
+            self.assertFalse(hostsfile.exists())
+
             # Add the key
             response = self.client.post(
                 reverse("manage-ssh"), {"action": "add-host", "host": "github.com"}
             )
             self.assertContains(response, "Added host key for github.com")
+            self.assertTrue(hostsfile.exists())
         finally:
             os.environ["PATH"] = oldpath
 
         # Check the file contains it
-        hostsfile = data_path("ssh") / "known_hosts"
         self.assertIn("github.com", hostsfile.read_text())
 
     @tempdir_setting("BACKUP_DIR")

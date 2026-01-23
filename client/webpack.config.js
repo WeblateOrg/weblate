@@ -86,10 +86,6 @@ function altchaLicenseTransform(packages) {
   );
 }
 
-function fontsLicenseTransform(packages) {
-  return genericTransform(packages, (pkg) => pkg.name.startsWith("source-"));
-}
-
 function bootstrapLicenseTransform(packages) {
   return genericTransform(packages, (pkg) => pkg.name.startsWith("bootstrap"));
 }
@@ -143,7 +139,6 @@ module.exports = {
     altcha: "./src/altcha.js",
     bootstrap5: "./src/bootstrap5.js",
     bootstrap5_rtl: "./src/bootstrap5_rtl.css",
-    "fonts/fonts": "./src/fonts.js",
   },
   mode: "production",
   optimization: {
@@ -165,20 +160,6 @@ module.exports = {
         test: /\.css$/,
         use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
-      {
-        test: /\.(woff|woff2|eot|otf)$/i,
-        type: "asset/resource",
-        generator: {
-          filename: "fonts/font-source/[name][ext]",
-        },
-      },
-      {
-        test: /\.(ttf)$/i,
-        type: "asset/resource",
-        generator: {
-          filename: "fonts/font-source/TTF/[name][ext]",
-        },
-      },
     ],
   },
   plugins: [
@@ -194,8 +175,6 @@ module.exports = {
         "mousetrap.js.license": mousetrapLicenseTransform,
         "prismjs.js.license": prismJsLicenseTransform,
         "altcha.js.license": altchaLicenseTransform,
-        "fonts/fonts.js.license": fontsLicenseTransform,
-        "../../styles/vendor/fonts/fonts.css.license": fontsLicenseTransform,
         "bootstrap5.js.license": bootstrapLicenseTransform,
         "bootstrap5_rtl.js.license": bootstrapLicenseTransform,
         "../../styles/vendor/bootstrap5.css.license": bootstrapLicenseTransform,

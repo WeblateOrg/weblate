@@ -24,7 +24,12 @@ from weblate.accounts.notifications import (
     NotificationScope,
 )
 from weblate.api.serializers import CommentSerializer, RepoOperations
-from weblate.auth.models import Group, Permission, Role, User
+from weblate.auth.models import (
+    Group,
+    Permission,
+    Role,
+    User,
+)
 from weblate.lang.models import Language
 from weblate.memory.models import Memory
 from weblate.screenshots.models import Screenshot
@@ -38,8 +43,13 @@ from weblate.trans.models import (
     Translation,
     Unit,
 )
-from weblate.trans.tests.test_models import fixup_languages_seq
-from weblate.trans.tests.utils import RepoTestMixin, create_test_billing, get_test_file
+from weblate.trans.tests.utils import (
+    RepoTestMixin,
+    clear_users_cache,
+    create_test_billing,
+    fixup_languages_seq,
+    get_test_file,
+)
 from weblate.utils.data import data_dir
 from weblate.utils.django_hacks import immediate_on_commit, immediate_on_commit_leave
 from weblate.utils.state import (
@@ -74,6 +84,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
     def setUpTestData(cls) -> None:
         super().setUpTestData()
         fixup_languages_seq()
+        clear_users_cache()
 
     def setUp(self) -> None:
         Language.objects.flush_object_cache()
@@ -165,13 +176,13 @@ class UserAPITest(APIBaseTest):
 
         self.authenticate(True)
         response = self.client.get(reverse("api:user-list"))
-        self.assertEqual(response.data["count"], 3)
+        self.assertEqual(response.data["count"], 4)
         self.assertIsNotNone(response.data["results"][0]["email"])
 
         self.authenticate(False)
         self.grant_perm_to_user("user.view")
         response = self.client.get(reverse("api:user-list"))
-        self.assertEqual(response.data["count"], 3)
+        self.assertEqual(response.data["count"], 4)
         self.assertIsNotNone(response.data["results"][0]["email"])
 
     def test_get(self) -> None:
@@ -267,7 +278,7 @@ class UserAPITest(APIBaseTest):
         self.authenticate(True)
         # Blank search should return all results for superuser
         response = self.client.get(reverse("api:user-list"), {"username": ""})
-        self.assertEqual(response.data["count"], 3)
+        self.assertEqual(response.data["count"], 4)
         # Short search should return results for superuser
         response = self.client.get(reverse("api:user-list"), {"username": "a"})
         self.assertEqual(response.data["count"], 2)
@@ -306,7 +317,7 @@ class UserAPITest(APIBaseTest):
                 "is_active": True,
             },
         )
-        self.assertEqual(User.objects.count(), 4)
+        self.assertEqual(User.objects.count(), 5)
 
     def test_delete(self) -> None:
         self.do_request(
@@ -328,7 +339,7 @@ class UserAPITest(APIBaseTest):
             superuser=True,
             code=204,
         )
-        self.assertEqual(User.objects.count(), 4)
+        self.assertEqual(User.objects.count(), 5)
         self.assertEqual(User.objects.filter(is_active=True).count(), 1)
 
     def test_add_group(self) -> None:

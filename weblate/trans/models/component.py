@@ -131,7 +131,7 @@ from weblate.utils.validators import (
 from weblate.vcs.base import RepositoryError, RepositorySymlinkError
 from weblate.vcs.git import GitMergeRequestBase, LocalRepository
 from weblate.vcs.models import VCS_REGISTRY
-from weblate.vcs.ssh import add_host_key
+from weblate.vcs.ssh import add_host_key, extract_url_host_port
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -143,6 +143,7 @@ if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.checks.base import BaseCheck
     from weblate.formats.base import TranslationFormat
+    from weblate.trans.models import Project
     from weblate.trans.models.unit import UnitAttributesDict
     from weblate.vcs.base import Repository
 
@@ -218,6 +219,10 @@ AZURE_REPOS_REGEXP = [
     r"(?:[^/]*)\@vs-ssh.visualstudio.com:v3\/([^/]*)\/([^/]*)\/([^/]*)",
     r"(?:git@ssh.dev.azure.com:v3)\/([^/]*)\/([^/]*)\/([^/]*)",
 ]
+
+REPOWEB_BRANCH = "{{branch}}"
+REPOWEB_FILENAME = "{{filename}}"
+REPOWEB_LINE = "{{line}}"
 
 
 def perform_on_link(func):
@@ -1059,7 +1064,7 @@ class Component(
             import_memory.delay_on_commit(self.project.id, self.pk)
 
     @cached_property
-    def cached_links(self) -> models.QuerySet[Component]:
+    def cached_links(self) -> models.QuerySet[Project]:
         return self.links.all()
 
     def generate_changes(self, old) -> None:
@@ -1547,7 +1552,7 @@ class Component(
         filename: str,
         line: str,
         template: str | None = None,
-        user=None,
+        user: User | None = None,
     ):
         """
         Generate link to source code browser for given file and line.
@@ -1625,9 +1630,7 @@ class Component(
             owner = matches.group(1)
             slug = self.get_clean_slug(matches.group(2))
         if owner and slug:
-            return (
-                f"https://{domain}/{owner}/{slug}/blob/{{branch}}/{{filename}}#{{line}}"
-            )
+            return f"https://{domain}/{owner}/{slug}/blob/{REPOWEB_BRANCH}/{REPOWEB_FILENAME}#{REPOWEB_LINE}"
 
         return None
 
@@ -1641,7 +1644,7 @@ class Component(
             owner = matches.group(1)
             slug = self.get_clean_slug(matches.group(2))
         if owner and slug:
-            return f"https://{domain}/{owner}/{slug}/blob/{{branch}}/{{filename}}#L{{line}}"
+            return f"https://{domain}/{owner}/{slug}/blob/{REPOWEB_BRANCH}/{REPOWEB_FILENAME}#L{REPOWEB_LINE}"
 
         return None
 
@@ -1653,7 +1656,7 @@ class Component(
             slug = matches.group(2)
 
         if owner and slug:
-            return f"https://{domain}/{owner}/{slug}/blob/{{branch}}/f/{{filename}}/#_{{line}}"
+            return f"https://{domain}/{owner}/{slug}/blob/{REPOWEB_BRANCH}/f/{REPOWEB_FILENAME}/#_{REPOWEB_LINE}"
 
         return None
 
@@ -1674,11 +1677,11 @@ class Component(
             repository = matches.group(3)
 
         if organization and project and repository:
-            return f"https://{domain}/{organization}/{project}/_git/{repository}/blob/{{branch}}/{{filename}}#L{{line}}"
+            return f"https://{domain}/{organization}/{project}/_git/{repository}/blob/{REPOWEB_BRANCH}/{REPOWEB_FILENAME}#L{REPOWEB_LINE}"
 
         return None
 
-    def error_text(self, error):
+    def error_text(self, error: RepositoryError) -> str:
         """Return text message for a RepositoryError."""
         message = error.get_message()
         if not settings.HIDE_REPO_CREDENTIALS:
@@ -1694,23 +1697,17 @@ class Component(
 
         def add(repo) -> None:
             self.log_info("checking for key to add for %s", repo)
-            parsed = urlparse(repo)
-            if not parsed.hostname:
-                parsed = urlparse(f"ssh://{repo}")
-            if not parsed.hostname:
+            hostname, port = extract_url_host_port(repo)
+            if not hostname:
                 return
-            try:
-                port = parsed.port
-            except ValueError:
-                port = ""
-            self.log_info("adding SSH key for %s:%s", parsed.hostname, port)
-            add_host_key(None, parsed.hostname, port)
+            self.log_info("adding SSH key for %s:%s", hostname, port)
+            add_host_key(None, hostname, port)
 
         add(self.repo)
         if self.push:
             add(self.push)
 
-    def handle_update_error(self, error_text, retry) -> None:
+    def handle_update_error(self, error_text: str, retry: bool) -> None:
         if "Host key verification failed" in error_text:
             if retry:
                 # Add ssh key and retry
@@ -1738,7 +1735,7 @@ class Component(
         )
 
     @perform_on_link
-    def update_remote_branch(self, validate=False, retry=True):
+    def update_remote_branch(self, validate: bool = False, retry: bool = True) -> bool:
         """Pull from remote repository."""
         # Update
         self.log_info("updating repository")
@@ -2078,8 +2075,12 @@ class Component(
         """Reset repo to match remote."""
         from weblate.trans.tasks import perform_commit
 
+        user = request.user if request else self.acting_user
         with self.repository.lock:
-            previous_head = self.repository.last_revision
+            try:
+                previous_head = self.repository.last_revision
+            except RepositoryError:
+                previous_head = "N/A"
             # First check we're up to date
             self.update_remote_branch()
 
@@ -2112,7 +2113,7 @@ class Component(
 
             self.change_set.create(
                 action=ActionEvents.RESET,
-                user=request.user if request else self.acting_user,
+                user=user,
                 details={
                     "new_head": self.repository.last_revision,
                     "previous_head": previous_head,
@@ -2126,6 +2127,7 @@ class Component(
                 self.trigger_post_update(
                     previous_head=previous_head,
                     skip_push=False,
+                    user=user,
                 )
 
                 # create translation objects for all files
@@ -2372,6 +2374,7 @@ class Component(
                 extra_context=extra_context,
                 message=message,
                 component=self,
+                store_hash=store_hash,
             )
 
         with self.start_sentry_span("commit_files"):
@@ -2493,18 +2496,18 @@ class Component(
                 )
 
                 # In case merge has failure recover
-                error = self.error_text(error)
+                error_text = self.error_text(error)
                 status = self.repository.status()
 
                 # Log error
                 if self.id:
                     self.change_set.create(
                         action=action_failed,
-                        target=error,
+                        target=error_text,
                         user=user,
-                        details={"error": error, "status": status},
+                        details={"error": error_text, "status": status},
                     )
-                    self.add_alert("MergeFailure", error=error)
+                    self.add_alert("MergeFailure", error=error_text)
 
                 # Reset repo back
                 method_func(abort=True)
@@ -2544,16 +2547,20 @@ class Component(
                 self.trigger_post_update(
                     previous_head=previous_head,
                     skip_push=skip_push,
+                    user=user,
                 )
         return True
 
     @perform_on_link
-    def trigger_post_update(self, *, previous_head: str, skip_push: bool) -> None:
+    def trigger_post_update(
+        self, *, previous_head: str, skip_push: bool, user: User | None
+    ) -> None:
         vcs_post_update.send(
             sender=self.__class__,
             component=self,
             previous_head=previous_head,
             skip_push=skip_push,
+            user=user,
         )
         for component in self.linked_children:
             vcs_post_update.send(
@@ -2561,6 +2568,7 @@ class Component(
                 component=component,
                 previous_head=previous_head,
                 skip_push=skip_push,
+                user=user,
             )
 
     def get_mask_matches(self) -> list[str]:

@@ -3,35 +3,74 @@ Weblate 5.16
 
 *Not yet released.*
 
+.. rubric:: New features
+
+* :ref:`check-multiple-capital` quality check.
+* :setting:`HIDE_SHARED_GLOSSARY_COMPONENTS` to hide glossaries shared into other projects.
+* Added new management command :wladmin:`list_change_events`, which lists all possible change events, :ref:`addon-choice-events`.
+
 .. rubric:: Improvements
 
+* Delete announcements permission can be assigned to teams, see :ref:`privileges`.
+* :doc:`/user/search` better reports errors in the query strings.
+* Regular repository maintenance is now performed in the background.
+* Repository cleanup now recovers failed merges or rebases.
+* Better visibility of :ref:`project-commit_policy` to translators.
 * Validation of VCS settings :ref:`push-changes` has been extended.
+
+.. rubric:: Bug fixes
+
+* Adding plural strings with singular matching existing string is now prohibited for bilingual translations (see :ref:`bimono`).
+* Automatic :ref:`component-repoweb` URL for common code hosting sites.
+
+.. rubric:: Compatibility
+
+* :ref:`check-regex` no longer marks matched portions as non-translatable to allow generic regular-expression-based checking of strings. Use :ref:`check-placeholders` for checking regular expression matched placeholders.
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.16.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/156?closed=1>`__.
 
 Weblate 5.15.2
 --------------
 
-*Not yet released.*
-
-.. rubric:: New features
+*Released on January 14th 2026.*
 
 .. rubric:: Improvements
 
 * :ref:`addon-weblate.generate.generate` is now triggered upon installation.
+* Screenshots updated from the repository have proper history.
+* :ref:`check-rst-syntax` now reports unintended list conversion.
+* :ref:`check-same` check ignores AsciiDoc source code blocks.
 
 .. rubric:: Bug fixes
 
+* Information leak via screenshots (:cve:`2026-21889` / :ghsa:`3g2f-4rjg-9385`).
 * Explanation sync in :doc:`/formats/tbx`.
 * User interface fixes.
 * Clarified needs editing/checking/rewriting states.
 * Automatically translated flag with bulk approvals.
 * GitHub forks no longer trigger actions.
 * Tighter validation of user provided websites to avoid confusing homoglyphs.
+* Glossary support in :ref:`mt-google-translate-api-v3`.
+* Invitations accepting when :setting:`REQUIRE_LOGIN` is turned on.
+* :ref:`mt-cyrtranslit` installation.
 
 .. rubric:: Compatibility
+
+* Screenshot images are no longer served directly by the HTTP server, please adjust your HTTP server by removing serving of :file:`/media/`.
 
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* To make the fix for :cve:`2026-21889` effective, the serving of :file:`/media/` path should be removed from the HTTP server configuration; see :ref:`static-files`.
 
 .. rubric:: Contributors
 
@@ -118,6 +157,7 @@ Weblate 5.15
 * Avoid false positive checks upon committing pending changes.
 * Performance improvements for file upload.
 * Show glossary matches for the source language.
+* Pull/merge requests are now only created when necessary.
 
 .. rubric:: Compatibility
 

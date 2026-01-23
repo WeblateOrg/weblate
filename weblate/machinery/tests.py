@@ -13,7 +13,6 @@ from io import StringIO
 from pathlib import Path
 from typing import TYPE_CHECKING, ClassVar, NoReturn
 from unittest.mock import MagicMock, Mock, call, patch
-from urllib.parse import parse_qs, urlparse
 
 import httpx
 import responses
@@ -1860,51 +1859,6 @@ class DeepLTranslationTest(BaseMachineTranslationTest):
         )
 
     @responses.activate
-    def test_beta_languages_language_request(self) -> None:
-        def request_callback(request: PreparedRequest):
-            parsed = urlparse(request.url)
-            params = parse_qs(parsed.query)
-            self.assertEqual(params.get("enable_beta_languages"), ["1"])
-            request_type = params.get("type", [])
-            self.assertEqual(len(request_type), 1)
-            self.assertIn(request_type[0], {"source", "target"})
-            payload = (
-                DEEPL_SOURCE_LANG_RESPONSE
-                if request_type[0] == "source"
-                else DEEPL_TARGET_LANG_RESPONSE
-            )
-            return (200, {}, json.dumps(payload))
-
-        machine = self.MACHINE_CLS(
-            {**self.CONFIGURATION, "enable_beta_languages": True}
-        )
-        machine.delete_cache()
-        responses.add_callback(
-            responses.GET,
-            re.compile(r"https://api\.deepl\.com/v2/languages"),
-            callback=request_callback,
-        )
-        list(machine.download_languages())
-
-    @responses.activate
-    def test_beta_languages_translation_request(self) -> None:
-        def request_callback(request: PreparedRequest):
-            payload = json.loads(request.body)
-            self.assertIs(payload.get("enable_beta_languages"), True)
-            return (200, {}, json.dumps(DEEPL_RESPONSE))
-
-        machine = self.MACHINE_CLS(
-            {**self.CONFIGURATION, "enable_beta_languages": True}
-        )
-        machine.delete_cache()
-        responses.add_callback(
-            responses.POST,
-            "https://api.deepl.com/v2/translate",
-            callback=request_callback,
-        )
-        machine.download_multiple_translations("EN", "DE", [("Hello", None)], None, 75)
-
-    @responses.activate
     def test_formality(self) -> None:
         expected_formality = "more"
 
@@ -2913,12 +2867,29 @@ class WeblateTranslationTest(TransactionsTestMixin, FixtureTestCase):
         self.assertNotEqual(results, [])
 
 
-class CyrTranslitTranslationTest(ViewTestCase):
+class CyrTranslitTranslationTest(ViewTestCase, BaseMachineTranslationTest):
+    ENGLISH = "sr@latin"
+    MACHINE_CLS = CyrTranslitTranslation
+    SUPPORTED = "sr@cyrillic"
+    NOTSUPPORTED = "cs"
+
+    def test_english_map(self) -> None:
+        self.skipTest("Not tested")
+
     def create_component(self):
         return self.create_po_new_base()
 
-    def get_machine(self):
-        return CyrTranslitTranslation({})
+    def test_batch(self, machine=None) -> None:
+        # Class does not work on mocked units
+        self.skipTest("Not tested")
+
+    def test_translate_empty(self) -> None:
+        # Class does not work on mocked units
+        self.skipTest("Not tested")
+
+    def test_translate(self, **kwargs) -> None:
+        # Class does not work on mocked units
+        self.skipTest("Not tested")
 
     def test_notsupported(self) -> None:
         machine = self.get_machine()

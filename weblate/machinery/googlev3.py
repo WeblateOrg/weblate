@@ -114,10 +114,12 @@ class GoogleV3Translation(
         }
         glossary_path: str | None = None
         if self.settings.get("bucket_name"):
-            glossary_path = self.get_glossary_id(source_language, target_language, unit)
-            request["glossary_config"] = TranslateTextGlossaryConfig(
-                glossary=glossary_path
-            )
+            glossary_id = self.get_glossary_id(source_language, target_language, unit)
+            if glossary_id is not None:
+                glossary_path = self.get_glossary_resource_path(glossary_id)
+                request["glossary_config"] = TranslateTextGlossaryConfig(
+                    glossary=glossary_path
+                )
 
         response = self.client.translate_text(request)
 

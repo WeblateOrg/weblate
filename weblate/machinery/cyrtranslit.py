@@ -56,6 +56,8 @@ class CyrTranslitTranslation(MachineTranslation):
     cache_translations = False
     replacement_start = "[___"
     replacement_end = "___]"
+    validate_source_language = "sr@latin"
+    validate_target_language = "sr@cyrillic"
 
     def download_languages(self):
         """List of supported languages."""

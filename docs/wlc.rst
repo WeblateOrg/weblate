@@ -19,6 +19,12 @@ To use the commands below, you need to install :program:`wlc` using pip:
 
     pip install wlc
 
+You can also execute it directly using :program:`uvx`:
+
+.. code-block:: sh
+
+   uvx wlc --help
+
 .. hint::
 
    You can also use this :program:`wlc` as a Python module, see :mod:`wlc`.
@@ -88,6 +94,33 @@ You can then invoke commands on the default server:
 .. seealso::
 
     :ref:`wlc-config`
+
+.. _wlc_legacy:
+
+Legacy configuration
+++++++++++++++++++++
+
+.. versionchanged:: 1.17
+
+   The legacy configuration using unscoped ``key`` is no longer supported.
+
+Migrate legacy configuration:
+
+.. code-block:: ini
+
+   [weblate]
+   url = https://hosted.weblate.org/api
+   key = YOUR_KEY_HERE
+
+To a configuration with key scoped to an API URL:
+
+.. code-block:: ini
+
+   [weblate]
+   url = https://hosted.weblate.org/api
+
+   [keys]
+   https://hosted.weblate.org/api = YOUR_KEY_HERE
 
 Synopsis
 ++++++++
@@ -285,7 +318,9 @@ customize this by :option:`--config-section`):
 
 .. describe:: key
 
-    API KEY to access Weblate.
+   .. versionremoved:: 1.17
+
+      Use the ``[keys]`` section to specify keys scoped for individual API URLs, see :ref:`wlc_legacy`.
 
 .. describe:: url
 
@@ -301,10 +336,9 @@ The configuration file is an INI file, for example:
 
     [weblate]
     url = https://hosted.weblate.org/api/
-    key = APIKEY
     translation = weblate/application
 
-Additionally API keys can be stored in the ``[keys]`` section:
+The API keys are stored in the ``[keys]`` section:
 
 .. code-block:: ini
 

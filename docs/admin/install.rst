@@ -766,8 +766,8 @@ Client protocol
    .. important::
 
       The header value is case-sensitive in the configuration, so
-      ``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,https`` and
-      ``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,HTTPS`` are not
+      ``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_FORWARDED_PROTO,https`` and
+      ``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_FORWARDED_PROTO,HTTPS`` are not
       interchangeable.
 
    .. hint::
@@ -1449,6 +1449,9 @@ For testing purposes, you can use the built-in web server in Django:
 Serving static files
 ++++++++++++++++++++
 
+.. versionchanged:: 5.15.2
+   :file:`/media/` is no longer used for serving screenshots.
+
 Django needs to collect its static files in a single directory. To do so,
 execute :samp:`weblate collectstatic --noinput`. This will copy the static
 files into a directory specified by the :setting:`django:STATIC_ROOT` setting (this defaults to
@@ -1460,8 +1463,6 @@ use that for the following paths:
 :file:`/static/`
     Serves static files for Weblate and the admin interface
     (from defined by :setting:`django:STATIC_ROOT`).
-:file:`/media/`
-    Used for user media uploads (e.g. screenshots).
 :file:`/favicon.ico`
     Should be rewritten to rewrite a rule to serve :file:`/static/favicon.ico`.
 
@@ -1839,6 +1840,19 @@ states we recommend to use third party services to collect such information.
 This is especially useful in case of failing Celery tasks, which would
 otherwise only report error to the logs and you won't get notified on them.
 Weblate has support for the following services:
+
+E-mail
+++++++
+
+The default Weblate configuration instruments Django to send e-mails upon
+server errors via :py:class:`django:django.utils.log.AdminEmailHandler`. This
+is the least effort setup, but you should consider other options for privacy
+reasons, as the error e-mails might include sensitive data. You can read more on
+that in :ref:`django:logging-security-implications`.
+
+To disable this behavior, remove ``mail_admins`` from the
+:setting:`django:LOGGING` in Weblate settings, or disable
+:envvar:`WEBLATE_ADMIN_NOTIFY_ERROR` in the Docker environment.
 
 Sentry
 ++++++

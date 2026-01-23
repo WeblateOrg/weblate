@@ -34,7 +34,6 @@ if TYPE_CHECKING:
     from weblate.checks.models import Check
     from weblate.memory.models import Memory
     from weblate.trans.models import (
-        Announcement,
         Comment,
         Suggestion,
     )
@@ -312,7 +311,9 @@ def check_unit_review(
 
 @register_perm("unit.edit", "suggestion.accept")
 def check_edit_approved(
-    user: User, permission: str, obj: Unit | Translation | Component | Project
+    user: User,
+    permission: str,
+    obj: Unit | Translation | Component | Project | ProjectLanguage,
 ) -> bool | PermissionResult:
     component = None
     if isinstance(obj, Unit):
@@ -460,7 +461,7 @@ def check_suggestion_vote(
 
 @register_perm("suggestion.add")
 def check_suggestion_add(
-    user: User, permission: str, obj: Unit | Translation
+    user: User, permission: str, obj: Unit | Translation | ProjectLanguage
 ) -> bool | PermissionResult:
     if isinstance(obj, Unit):
         obj = obj.translation
@@ -469,6 +470,7 @@ def check_suggestion_add(
     # Check contributor license agreement
     if (
         not user.is_bot
+        and isinstance(obj, Translation)
         and obj.component.agreement
         and not ContributorAgreement.objects.has_agreed(user, obj.component)
     ):
@@ -478,7 +480,7 @@ def check_suggestion_add(
 
 @register_perm("upload.perform")
 def check_upload(
-    user: User, permission: str, translation: Translation
+    user: User, permission: str, obj: Translation | ProjectLanguage
 ) -> bool | PermissionResult:
     """
     Check whether user can perform any upload operation.
@@ -486,29 +488,33 @@ def check_upload(
     The actual check for the method is implemented in
     weblate.trans.util.check_upload_method_permissions.
     """
-    # Source upload
-    if translation.is_source and not user.has_perm("source.edit", translation):
-        return Denied(gettext("Insufficient privileges for editing source strings."))
-    # Bilingual source translations
-    if (
-        translation.is_source
-        and not translation.is_template
-        and not issubclass(translation.component.file_format_cls, BilingualUpdateMixin)
-    ):
-        return Denied(
-            gettext("The file format does not support updating source strings.")
-        )
-    if translation.component.is_glossary:
-        permission = "glossary.upload"
-    return check_can_edit(user, permission, translation) and (
-        # Normal upload
-        check_edit_approved(user, "unit.edit", translation)
-        # Suggestion upload
-        or check_suggestion_add(user, "suggestion.add", translation)
-        # Add upload
-        or check_suggestion_add(user, "unit.add", translation)
+    if isinstance(obj, Translation):
         # Source upload
-        or translation.is_source
+        if obj.is_source and not user.has_perm("source.edit", obj):
+            return Denied(
+                gettext("Insufficient privileges for editing source strings.")
+            )
+        # Bilingual source translations
+        if (
+            obj.is_source
+            and not obj.is_template
+            and not issubclass(obj.component.file_format_cls, BilingualUpdateMixin)
+        ):
+            return Denied(
+                gettext("The file format does not support updating source strings.")
+            )
+        if obj.component.is_glossary:
+            permission = "glossary.upload"
+
+    return check_can_edit(user, permission, obj) and (
+        # Normal upload
+        check_edit_approved(user, "unit.edit", obj)
+        # Suggestion upload
+        or check_suggestion_add(user, "suggestion.add", obj)
+        # Add upload
+        or check_suggestion_add(user, "unit.add", obj)
+        # Source upload
+        or (isinstance(obj, Translation) and obj.is_source)
     )
 
 
@@ -621,18 +627,13 @@ def check_billing(user: User, permission: str, obj: Project) -> bool | Permissio
     return check_permission(user, "project.permissions", obj)
 
 
-# This does not exist for real
-@register_perm("meta:announcement.delete")
+@register_perm("announcement.delete")
 def check_announcement_delete(
-    user: User, permission: str, obj: Announcement
+    user: User, permission: str, obj: Project | Component | None
 ) -> bool | PermissionResult:
-    if user.is_superuser:
-        return True
-    if obj.component:
-        return check_permission(user, "component.edit", obj.component)
-    if obj.project:
-        return check_permission(user, "project.edit", obj.project)
-    return False
+    if obj is None:
+        return check_global_permission(user, permission)
+    return check_permission(user, permission, obj)
 
 
 # This does not exist for real

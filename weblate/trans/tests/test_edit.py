@@ -856,7 +856,7 @@ class ZenViewTest(ViewTestCase):
             {"q": "has:nonexisting"},
             follow=True,
         )
-        self.assertContains(response, "Unsupported has lookup")
+        self.assertContains(response, "Unsupported lookup for has: nonexisting")
 
     def test_load_zen(self) -> None:
         response = self.client.get(reverse("load_zen", kwargs=self.kw_translation))
@@ -931,6 +931,36 @@ class EditComplexTest(ViewTestCase):
         super().setUp()
         self.translation = self.get_translation()
         self.translate_url = reverse("translate", kwargs=self.kw_translation)
+
+    def test_add_duplicate_plural(self) -> None:
+        self.component.manage_units = True
+        self.component.save()
+        self.user.is_superuser = True
+        self.user.save()
+        response = self.client.post(
+            reverse("new-unit", kwargs=self.kw_translation),
+            {
+                "source_0": "Hello, world!\n",
+                "source_1": "Hello, worlds!\n",
+                "target_0": "Ahoj světe!\n",
+                "target_1": "Ahoj světy!\n",
+                "target_2": "Ahoj světy!\n",
+            },
+            follow=True,
+        )
+        self.assertContains(response, "This string seems to already exist.")
+        response = self.client.post(
+            reverse("new-unit", kwargs=self.kw_translation),
+            {
+                "source_0": "Hello, %d world!\n",
+                "source_1": "Hello, %d worlds!\n",
+                "target_0": "Ahoj %d světe!\n",
+                "target_1": "Ahoj %d světy!\n",
+                "target_2": "Ahoj %d světy!\n",
+            },
+            follow=True,
+        )
+        self.assertNotContains(response, "This string seems to already exist.")
 
     def test_merge(self) -> None:
         # Translate unit to have something to start with

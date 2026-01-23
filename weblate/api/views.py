@@ -123,7 +123,7 @@ from weblate.utils.celery import get_task_progress
 from weblate.utils.docs import get_doc_url
 from weblate.utils.errors import report_error
 from weblate.utils.lock import WeblateLockTimeoutError
-from weblate.utils.search import parse_query
+from weblate.utils.search import SearchQueryError, parse_query
 from weblate.utils.state import (
     STATE_APPROVED,
     STATE_EMPTY,
@@ -1901,7 +1901,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
                 raise ValidationError({"q": "Query string is ignored without format"})
             try:
                 parse_query(query_string)
-            except Exception as error:
+            except SearchQueryError as error:
                 raise ValidationError(
                     {"q": f"Could not parse query string: {error}"}
                 ) from error
@@ -2023,7 +2023,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
         query_string = request.GET.get("q", "")
         try:
             parse_query(query_string)
-        except Exception as error:
+        except SearchQueryError as error:
             msg = f"Could not parse query string: {error}"
             raise ValidationError({"q": msg}) from error
 
@@ -2171,7 +2171,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
         query_string = self.request.GET.get("q", "")
         try:
             parse_query(query_string)
-        except Exception as error:
+        except SearchQueryError as error:
             msg = f"Could not parse query string: {error}"
             raise ValidationError({"q": msg}) from error
         if query_string:

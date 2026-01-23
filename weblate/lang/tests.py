@@ -694,6 +694,24 @@ class PluralTest(BaseTestCase):
             self.assertIn(plural, choices)
             self.assertIn(plural, data.PLURAL_NAMES)
 
+    def test_parse(self) -> None:
+        self.assertEqual(
+            Plural.parse_plural_forms("nplurals=2; plural=(n == 1) ? 0 : 1;"),
+            (2, "(n == 1) ? 0 : 1"),
+        )
+
+    def test_parse_empty(self) -> None:
+        with self.assertRaises(ValueError):
+            Plural.parse_plural_forms("")
+
+    def test_parse_partial(self) -> None:
+        with self.assertRaises(ValueError):
+            Plural.parse_plural_forms("nplurals=2")
+
+    def test_parse_invalid(self) -> None:
+        with self.assertRaises(ValueError):
+            Plural.parse_plural_forms("nplurals=0; plural=(n == 1) ? 0 : 1;")
+
 
 class PluralMapperTestCase(FixtureTestCase):
     def test_english_czech(self) -> None:

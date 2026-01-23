@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import logging
 from datetime import date, datetime, timedelta
-from typing import TYPE_CHECKING, ClassVar, overload
+from typing import TYPE_CHECKING, ClassVar, cast, overload
 from uuid import uuid5
 
 import sentry_sdk
@@ -44,7 +44,8 @@ if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
 
     from weblate.auth.models import User
-    from weblate.trans.models import Translation
+    from weblate.lang.models import Language
+    from weblate.trans.models import Category, Component, Translation, Unit
 
 LOGGER = logging.getLogger("weblate.change")
 
@@ -90,14 +91,14 @@ def dt_as_day_range(dt: datetime | date) -> tuple[datetime, datetime]:
 
 
 class ChangeQuerySet(models.QuerySet["Change"]):
-    def content(self, prefetch=False) -> ChangeQuerySet:
+    def content(self, prefetch: bool = False) -> ChangeQuerySet:
         """Return queryset with content changes."""
         base = self
         if prefetch:
             base = base.prefetch()
         return base.filter(action__in=ACTIONS_CONTENT)
 
-    def for_category(self, category) -> ChangeQuerySet:
+    def for_category(self, category: Category) -> ChangeQuerySet:
         return self.filter(
             Q(component_id__in=category.all_component_ids) | Q(category=category)
         )
@@ -132,11 +133,11 @@ class ChangeQuerySet(models.QuerySet["Change"]):
         self,
         days: int,
         step: int,
-        project=None,
-        component=None,
-        translation=None,
-        language=None,
-        user=None,
+        project: Project | None = None,
+        component: Component | None = None,
+        translation: Translation | None = None,
+        language: Language | None = None,
+        user: User | None = None,
     ) -> list[tuple[datetime, int]]:
         """Core of daily/weekly/monthly stats calculation."""
         # Get range (actually start)
@@ -353,7 +354,7 @@ class ChangeQuerySet(models.QuerySet["Change"]):
 
 
 class ChangeManager(models.Manager["Change"]):
-    def create(self, *, user=None, **kwargs):
+    def create(self, *, user: User | None = None, **kwargs) -> Change:
         """
         Create a change object.
 
@@ -365,14 +366,14 @@ class ChangeManager(models.Manager["Change"]):
 
     def last_changes(
         self,
-        user,
-        unit=None,
-        translation=None,
-        component=None,
-        project=None,
-        category=None,
-        language=None,
-    ):
+        user: User,
+        unit: Unit | None = None,
+        translation: Translation | None = None,
+        component: Component | None = None,
+        project: Project | None = None,
+        category: Category | None = None,
+        language: Language | None = None,
+    ) -> models.QuerySet[Change, Change]:
         """
         Return the most recent changes for an user.
 
@@ -402,14 +403,12 @@ class ChangeManager(models.Manager["Change"]):
         elif language is not None:
             result = language.change_set.filter_projects(user).filter_components(user)
         else:
-            result = self.filter_projects(user).filter_components(user)
+            result = self.filter_projects(user).filter_components(user)  # type: ignore[attr-defined]
         return result.prefetch_for_render().order()
 
 
 class Change(models.Model, UserDisplayMixin):
-    ACTIONS_DICT: ClassVar[dict[ActionEvents, StrOrPromise]] = dict(
-        ActionEvents.choices
-    )
+    ACTIONS_DICT: ClassVar[dict[int, StrOrPromise]] = dict(ActionEvents.choices)
     ACTION_STRINGS: ClassVar[dict[str, int]] = {
         name.lower().replace(" ", "-"): value for value, name in ActionEvents.choices
     }
@@ -421,7 +420,7 @@ class Change(models.Model, UserDisplayMixin):
     ACTIONS_MERGE_FAILURE = ACTIONS_MERGE_FAILURE
     ACTIONS_ADDON = ACTIONS_ADDON
 
-    ACTION_NAMES: ClassVar[set[str]] = {
+    ACTION_NAMES: ClassVar[dict[str, int]] = {
         str(name): value for value, name in ActionEvents.choices
     }
     AUTO_ACTIONS: ClassVar[dict[ActionEvents, StrOrPromise]] = {
@@ -560,7 +559,6 @@ class Change(models.Model, UserDisplayMixin):
         }
 
     def __init__(self, *args, **kwargs) -> None:
-        self.notify_state = {}
         for attr in ("user", "author"):
             user = kwargs.get(attr)
             if user is not None and hasattr(user, "get_token_user"):
@@ -576,16 +574,17 @@ class Change(models.Model, UserDisplayMixin):
         super().save(*args, **kwargs)
 
         if self.is_last_content_change_storable():
+            translation = cast("Translation", self.translation)
             # Update cache for stats so that it does not have to hit
             # the database again
-            self.translation.stats.last_change_cache = self
+            translation.stats.last_change_cache = self
             # Update currently loaded
-            if self.translation.stats.is_loaded:
-                self.translation.stats.fetch_last_change()
+            if translation.stats.is_loaded:
+                translation.stats.fetch_last_change()
             # Update stats at the end of transaction
             transaction.on_commit(self.update_cache_last_change)
             # Make sure stats is updated at the end of transaction
-            self.translation.invalidate_cache()
+            translation.invalidate_cache()
 
         if self.action == ActionEvents.RENAME_PROJECT:
             Change.objects.generate_project_rename_lookup()
@@ -627,7 +626,7 @@ class Change(models.Model, UserDisplayMixin):
                 LOGGER.info("%s", message)
 
     @property
-    def path_object(self):
+    def path_object(self) -> Translation | Component | Category | Project | None:
         """Return link either to unit or translation."""
         if self.translation is not None:
             return self.translation
@@ -653,7 +652,7 @@ class Change(models.Model, UserDisplayMixin):
         return self.translation_id is not None
 
     def update_cache_last_change(self) -> None:
-        self.store_last_change(self.translation, self)
+        self.store_last_change(cast("Translation", self.translation), self)
 
     def fixup_references(self) -> None:
         """
@@ -677,61 +676,65 @@ class Change(models.Model, UserDisplayMixin):
             self.details["ip_address"] = ip_address
 
     @property
-    def plural_count(self):
+    def plural_count(self) -> int:
         return self.details.get("count", 1)
 
     @property
-    def auto_status(self):
+    def auto_status(self) -> bool:
         return self.details.get("auto", False)
 
-    def get_action_display(self):
+    def get_action_display(self) -> str:  # type: ignore[no-redef]
         return str(self.ACTIONS_DICT.get(self.action, self.action))
 
-    def get_state_display(self):
+    def get_state_display(self) -> StrOrPromise:
         state = self.details.get("state")
         if state is None:
             return ""
         return StringState(state).label
 
-    def is_merge_failure(self):
+    def is_merge_failure(self) -> bool:
         return self.action in ACTIONS_MERGE_FAILURE
 
-    def can_revert(self):
-        return self.unit is not None and self.old and self.action in ACTIONS_REVERTABLE
+    def can_revert(self) -> bool:
+        return (
+            self.unit is not None
+            and bool(self.old)
+            and self.action in ACTIONS_REVERTABLE
+        )
 
-    def show_source(self):
+    def show_source(self) -> bool:
         """Whether to show content as source change."""
         return self.action in {
             ActionEvents.SOURCE_CHANGE,
             ActionEvents.NEW_SOURCE,
         }
 
-    def show_diff(self):
+    def show_diff(self) -> bool:
         """Whether to show content as diff."""
         return self.action in {
             ActionEvents.EXPLANATION,
             ActionEvents.EXTRA_FLAGS,
         }
 
-    def show_removed_string(self):
+    def show_removed_string(self) -> bool:
         """Whether to show content as source change."""
         return self.action == ActionEvents.STRING_REMOVE
 
-    def show_content(self):
+    def show_content(self) -> bool:
         """Whether to show content as translation."""
         return self.action in ACTIONS_SHOW_CONTENT or self.action in ACTIONS_REVERTABLE
 
-    def get_details_display(self) -> str:
+    def get_details_display(self) -> StrOrPromise:
         from weblate.trans.change_display import ChangeDetailsRenderFactory
 
         strategy = ChangeDetailsRenderFactory.get_strategy(self)
         return strategy.render_details(self)
 
-    def get_distance(self):
+    def get_distance(self) -> int:
         return DamerauLevenshtein.distance(self.old, self.target)
 
-    def get_source(self):
-        return self.details.get("source", self.unit.source)
+    def get_source(self) -> str:
+        return self.details.get("source", cast("Unit", self.unit).source)
 
     def get_ip_address(self) -> str | None:
         if ip_address := self.details.get("ip_address"):
@@ -744,7 +747,7 @@ class Change(models.Model, UserDisplayMixin):
             return ip_address
         return None
 
-    def show_unit_state(self):
+    def show_unit_state(self) -> bool:
         return "state" in self.details and self.action not in {
             ActionEvents.SUGGESTION,
             ActionEvents.SUGGESTION_DELETE,
@@ -763,20 +766,20 @@ class Change(models.Model, UserDisplayMixin):
         - Uses data from prefetch_for_render
         """
         if self.unit:
-            self.unit.translation = self.translation
+            self.unit.translation = cast("Translation", self.translation)
         if self.screenshot:
-            self.screenshot.translation = self.translation
+            self.screenshot.translation = cast("Translation", self.translation)
         if self.translation:
-            self.translation.component = self.component
-            self.translation.language = self.language
+            self.translation.component = cast("Component", self.component)
+            self.translation.language = cast("Language", self.language)
         if self.component:
-            self.component.project = self.project
-            self.component.category = self.category
+            self.component.project = cast("Project", self.project)
+            self.component.category = cast("Category", self.category)
 
 
 @receiver(post_save, sender=Change)
 @disable_for_loaddata
-def change_notify(sender, instance, created=False, **kwargs) -> None:
+def change_notify(sender, instance: Change, created: bool = False, **kwargs) -> None:
     from weblate.accounts.notifications import dispatch_changes_notifications
 
     dispatch_changes_notifications([instance])

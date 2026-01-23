@@ -186,6 +186,7 @@ NOTIFICATION_PREFIX_TEMPLATE = "notifications__{}"
 settings.SOCIAL_AUTH_USER_AGENT = USER_AGENT
 
 
+@method_decorator(login_not_required, name="dispatch")
 class EmailSentView(TemplateView):
     r"""Class for rendering "E-mail sent" page."""
 

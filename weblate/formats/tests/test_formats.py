@@ -73,6 +73,7 @@ from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
 
 if TYPE_CHECKING:
     from weblate.formats.base import TranslationFormat
+    from weblate.trans.file_format_params import FileFormatParams
 
 TEST_PO = get_test_file("cs.po")
 TEST_CSV = get_test_file("cs-mono.csv")
@@ -210,7 +211,7 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
     EDIT_OFFSET = 0
     EDIT_TARGET: ClassVar[str | list[str]] = "Nazdar, svete!\n"
     MONOLINGUAL = False
-    FILE_FORMAT_PARAMS: ClassVar[dict[str, int | str | bool]] = {}
+    FILE_FORMAT_PARAMS: ClassVar[FileFormatParams] = {}
 
     def setUp(self) -> None:
         super().setUp()
@@ -1209,7 +1210,7 @@ class CustomFlatXMLFormatTest(FlatXMLFormatTest):
     FILE = TEST_CUSTOM_FLATXML
     BASE = TEST_CUSTOM_FLATXML
     NEW_UNIT_MATCH = b'<entry name="key">Source string</entry>\n'
-    FILE_FORMAT_PARAMS: ClassVar[dict[str, int | str | bool]] = {
+    FILE_FORMAT_PARAMS: ClassVar[FileFormatParams] = {
         "flatxml_root_name": "dictionary",
         "flatxml_value_name": "entry",
         "flatxml_key_name": "name",

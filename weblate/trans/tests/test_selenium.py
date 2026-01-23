@@ -29,7 +29,6 @@ from selenium.common.exceptions import (
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.remote.remote_connection import RemoteConnection
 from selenium.webdriver.support.expected_conditions import (
     presence_of_element_located,
     staleness_of,
@@ -37,7 +36,7 @@ from selenium.webdriver.support.expected_conditions import (
 from selenium.webdriver.support.ui import Select, WebDriverWait
 
 from weblate.auth.models import User
-from weblate.fonts.tests.utils import FONT
+from weblate.fonts.tests.utils import FONT, FONT_SOURCE
 from weblate.lang.models import Language
 from weblate.screenshots.views import ensure_tesseract_language
 from weblate.trans.actions import ActionEvents
@@ -73,17 +72,6 @@ TEST_BACKENDS = (
     "social_core.backends.fedora.FedoraOpenId",
     "social_core.backends.facebook.FacebookOAuth2",
     "weblate.accounts.auth.WeblateUserBackend",
-)
-
-SOURCE_FONT = os.path.join(
-    os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
-    "static",
-    "js",
-    "vendor",
-    "fonts",
-    "font-source",
-    "TTF",
-    "SourceSans3-Bold.ttf",
 )
 
 
@@ -143,6 +131,9 @@ class SeleniumTests(
             cls._driver_error = str(error)
             if "CI_SELENIUM" in os.environ:
                 raise
+        else:
+            # Increase webdriver timeout to avoid occasional errors in CI
+            cls._driver.command_executor.client_config.timeout = 300
 
         # Restore custom fontconfig settings
         if backup_fc is not None:
@@ -154,11 +145,6 @@ class SeleniumTests(
             os.environ["LANG"] = backup_lang
 
         if cls._driver is not None:
-            # Increase webdriver timeout to avoid occasssional errors
-            # in macos CI
-            if isinstance(cls._driver.command_executor, RemoteConnection):
-                cls._driver.command_executor.set_timeout(240)
-
             cls._driver.implicitly_wait(5)
 
         # Configure verbose logging to be shown in case of the test failure
@@ -235,12 +221,19 @@ class SeleniumTests(
             self.actions.move_to_element(element).perform()
             element.click()
 
-    def upload_file(self, element: WebElement, filename: str) -> None:
-        filename = os.path.abspath(filename)
-        if not os.path.exists(filename):
+    def upload_file(self, element: WebElement, filename: str | Path) -> None:
+        name: str
+        exists: bool
+        if isinstance(filename, Path):
+            name = filename.as_posix()
+            exists = filename.exists()
+        else:
+            name = os.path.abspath(filename)
+            exists = os.path.exists(filename)
+        if not exists:
             msg = f"Test file not found: {filename}"
             raise ValueError(msg)
-        element.send_keys(filename)
+        element.send_keys(name)
 
     @overload
     def do_login(self, *, create: Literal[False], superuser: bool = False) -> None: ...
@@ -1102,7 +1095,7 @@ class SeleniumTests(
 
         # Upload font
         element = self.driver.find_element(By.ID, "id_font")
-        self.upload_file(element, FONT.as_posix())
+        self.upload_file(element, FONT)
         with self.wait_for_page_load():
             self.click(htmlid="upload_font_submit")
 
@@ -1113,7 +1106,7 @@ class SeleniumTests(
 
         # Upload second font
         element = self.driver.find_element(By.ID, "id_font")
-        self.upload_file(element, SOURCE_FONT)
+        self.upload_file(element, FONT_SOURCE)
         with self.wait_for_page_load():
             self.click(htmlid="upload_font_submit")
 

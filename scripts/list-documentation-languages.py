@@ -7,7 +7,7 @@
 # /// script
 # requires-python = ">=3.11"
 # dependencies = [
-#     "weblate-language-data==2025.10",
+#     "weblate-language-data==2026.1",
 # ]
 # ///
 

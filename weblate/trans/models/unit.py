@@ -34,7 +34,7 @@ from weblate.trans.models.category import Category
 from weblate.trans.models.change import Change
 from weblate.trans.models.comment import Comment
 from weblate.trans.models.pending import PendingUnitChange
-from weblate.trans.models.project import Project
+from weblate.trans.models.project import CommitPolicyChoices, Project
 from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.models.variant import Variant
 from weblate.trans.signals import unit_post_sync, unit_pre_create
@@ -819,18 +819,17 @@ class Unit(models.Model, LoggerMixin):
         if unit.is_readonly():
             return STATE_READONLY
 
-        if flags is not None:
-            # Read-only from the source
-            if (
-                not self.is_source
-                and self.source_unit.state < STATE_TRANSLATED
-                and self.translation.component.intermediate
-            ):
-                return STATE_READONLY
+        # Read-only from the source
+        if (
+            not self.is_source
+            and self.source_unit.state < STATE_TRANSLATED
+            and self.translation.component.intermediate
+        ):
+            return STATE_READONLY
 
-            # Read-only from flags
-            if "read-only" in self.get_all_flags(flags):
-                return STATE_READONLY
+        # Read-only from flags (flags=None indicates skipping this logic)
+        if flags is not None and "read-only" in self.get_all_flags(flags):
+            return STATE_READONLY
 
         # We need to keep approved/fuzzy state for formats which do not
         # support saving it
@@ -2321,3 +2320,13 @@ class Unit(models.Model, LoggerMixin):
     @property
     def has_pending_changes(self) -> bool:
         return self.pending_changes.exists()
+
+    @property
+    def is_blocked_by_commit_policy(self) -> bool:
+        commit_policy = self.translation.component.project.commit_policy
+        return not self.readonly and (
+            (commit_policy == CommitPolicyChoices.WITHOUT_NEEDS_EDITING and self.fuzzy)
+            or (
+                commit_policy == CommitPolicyChoices.APPROVED_ONLY and not self.approved
+            )
+        )

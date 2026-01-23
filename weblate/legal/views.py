@@ -65,6 +65,7 @@ class ContractsView(LegalView):
 
 
 @never_cache
+@login_not_required
 def tos_confirm(request: AuthenticatedHttpRequest):
     user = None
     if request.user.is_authenticated:

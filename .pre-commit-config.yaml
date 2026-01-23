@@ -11,7 +11,6 @@ repos:
   - id: check-toml
   - id: check-merge-conflict
   - id: check-json
-  - id: debug-statements
   - id: mixed-line-ending
     args: [--fix=lf]
   - id: pretty-format-json
@@ -30,11 +29,11 @@ repos:
     types_or: [html, text]
     files: ^weblate/.*templates/.*\.(txt|html|tmx)$
 - repo: https://github.com/adrienverge/yamllint
-  rev: v1.37.1
+  rev: v1.38.0
   hooks:
   - id: yamllint
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.14.10
+  rev: v0.14.14
   hooks:
   - id: ruff-check
     args:
@@ -42,18 +41,18 @@ repos:
     - --exit-non-zero-on-fix
   - id: ruff-format
 - repo: https://github.com/adamtheturtle/doccmd-pre-commit
-  rev: v2025.12.13
+  rev: v2026.1.18
   hooks:
   - id: doccmd
     args: [--language, python, --no-pad-file, --command, ruff format]
     additional_dependencies:
-    - ruff==0.14.10
+    - ruff==0.14.14
 - repo: meta
   hooks:
   - id: check-hooks-apply
   - id: check-useless-excludes
 - repo: https://github.com/macisamuele/language-formatters-pre-commit-hooks
-  rev: v2.15.0
+  rev: v2.16.0
   hooks:
   - id: pretty-format-yaml
     args: [--autofix, --indent, '2']
@@ -87,7 +86,7 @@ repos:
   - id: biome-check
     args: [--error-on-warnings]
     additional_dependencies:
-    - '@biomejs/biome@2.3.10'
+    - '@biomejs/biome@2.3.11'
 - repo: https://github.com/abravalheri/validate-pyproject
   rev: v0.24.1
   hooks:
@@ -156,7 +155,7 @@ repos:
     - tomli
     exclude: client/yarn.lock
 - repo: https://github.com/crate-ci/typos
-  rev: v1.41.0
+  rev: v1.42.1
   hooks:
   - id: typos
     args: []
@@ -167,7 +166,7 @@ repos:
   hooks:
   - id: actionlint
 - repo: https://github.com/zizmorcore/zizmor-pre-commit
-  rev: v1.19.0
+  rev: v1.22.0
   hooks:
   - id: zizmor
 - repo: https://github.com/docker-compose-linter/pre-commit-dclint

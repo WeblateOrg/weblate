@@ -16,9 +16,11 @@
 #
 import os
 import sys
+from importlib import resources
 from pathlib import Path
 
 import sphinx.builders.gettext
+import weblate_fonts
 from matplotlib import font_manager
 from sphinx.util.tags import Tags
 
@@ -26,8 +28,9 @@ from sphinx.util.tags import Tags
 
 file_dir = Path(__file__).parent.resolve()
 font_locations = (
-    "weblate/static/js/vendor/fonts/font-source/",
-    "weblate/static/vendor/font-kurinto/",
+    "static/weblate_fonts/source-sans/ttf",
+    "static/weblate_fonts/source-code/ttf",
+    "static/weblate_fonts/kurinto/ttf",
 )
 
 weblate_dir = file_dir.parent
@@ -57,8 +60,10 @@ def setup(app) -> None:
 
     font_dirs: list[str] = []
 
+    package_dir = resources.files(weblate_fonts)
+
     for font_location in font_locations:
-        font_dir = weblate_dir / font_location
+        font_dir = package_dir / font_location
         if not font_dir.is_dir():
             msg = f"Font directory not found: {font_dir}"
             raise NotADirectoryError(msg)
@@ -77,7 +82,7 @@ project_copyright = "Michal Čihař"
 author = "Michal Čihař"
 
 # The full version, including alpha/beta/rc tags
-release = "5.15.2"
+release = "5.16"
 
 # -- General configuration ---------------------------------------------------
 
@@ -173,8 +178,8 @@ html_theme_options = {
 }
 
 html_css_files = [
-    "https://weblate.org/static/vendor/font-source/source-sans-3.css",
-    "https://weblate.org/static/vendor/font-source/source-code-pro.css",
+    "https://weblate.org/static/weblate_fonts/source-sans-3.css",
+    "https://weblate.org/static/weblate_fonts/source-code-pro.css",
 ]
 
 # -- Options for HTMLHelp output ---------------------------------------------

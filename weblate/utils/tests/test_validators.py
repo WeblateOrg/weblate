@@ -281,6 +281,10 @@ class RepoURLValidationTestCase(SimpleTestCase):
         ):
             validate_repo_url("file:///home/weblate")
 
+    def test_invalid(self):
+        with self.assertRaises(ValidationError):
+            validate_repo_url("[/weblate")
+
     def test_file(self):
         with override_settings(VCS_ALLOW_SCHEMES={"https", "ssh", "file"}):
             validate_repo_url("file:///home/weblate")

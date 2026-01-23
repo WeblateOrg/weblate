@@ -263,27 +263,25 @@ DeepL
 :Maximal score: 91
 :Advanced features: * :ref:`placeables-mt`
                     * :ref:`glossary-mt`
-:Configuration: +---------------------------+---------------------------+-------------------------------------------------------------------------------------+
-                | ``source_language``       | Source language selection | Available choices:                                                                  |
-                |                           |                           |                                                                                     |
-                |                           |                           | ``auto`` -- Automatic selection                                                     |
-                |                           |                           |                                                                                     |
-                |                           |                           | ``source`` -- Component source language                                             |
-                |                           |                           |                                                                                     |
-                |                           |                           | ``secondary`` -- Secondary language defined in project or component                 |
-                +---------------------------+---------------------------+-------------------------------------------------------------------------------------+
-                | ``url``                   | API URL                   |                                                                                     |
-                +---------------------------+---------------------------+-------------------------------------------------------------------------------------+
-                | ``key``                   | API key                   |                                                                                     |
-                +---------------------------+---------------------------+-------------------------------------------------------------------------------------+
-                | ``formality``             | Formality                 | Uses the specified formality if language is not specified as (in)formal             |
-                +---------------------------+---------------------------+-------------------------------------------------------------------------------------+
-                | ``context``               | Translation context       | Describe the context of the translation to improve the accuracy of the translation. |
-                +---------------------------+---------------------------+-------------------------------------------------------------------------------------+
-                | ``next_gen``              | Use next-gen model        | Prefer next-gen LLM over classic machine translation model.                         |
-                +---------------------------+---------------------------+-------------------------------------------------------------------------------------+
-                | ``enable_beta_languages`` | Enable beta languages     | Enable support for languages currently in beta.                                     |
-                +---------------------------+---------------------------+-------------------------------------------------------------------------------------+
+:Configuration: +---------------------+---------------------------+-------------------------------------------------------------------------------------+
+                | ``source_language`` | Source language selection | Available choices:                                                                  |
+                |                     |                           |                                                                                     |
+                |                     |                           | ``auto`` -- Automatic selection                                                     |
+                |                     |                           |                                                                                     |
+                |                     |                           | ``source`` -- Component source language                                             |
+                |                     |                           |                                                                                     |
+                |                     |                           | ``secondary`` -- Secondary language defined in project or component                 |
+                +---------------------+---------------------------+-------------------------------------------------------------------------------------+
+                | ``url``             | API URL                   |                                                                                     |
+                +---------------------+---------------------------+-------------------------------------------------------------------------------------+
+                | ``key``             | API key                   |                                                                                     |
+                +---------------------+---------------------------+-------------------------------------------------------------------------------------+
+                | ``formality``       | Formality                 | Uses the specified formality if language is not specified as (in)formal             |
+                +---------------------+---------------------------+-------------------------------------------------------------------------------------+
+                | ``context``         | Translation context       | Describe the context of the translation to improve the accuracy of the translation. |
+                +---------------------+---------------------------+-------------------------------------------------------------------------------------+
+                | ``next_gen``        | Use next-gen model        | Prefer next-gen LLM over classic machine translation model.                         |
+                +---------------------+---------------------------+-------------------------------------------------------------------------------------+
 
 DeepL is paid service providing good machine translation for a few languages.
 You need to purchase :guilabel:`DeepL API` subscription or you can use legacy
@@ -313,13 +311,6 @@ The translation context can optionally be specified to improve translations qual
 `DeepL translation context documentation <https://developers.deepl.com/docs/best-practices/working-with-context>`_.
 
 The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`.
-
-.. note::
-
-   When beta languages are enabled, glossary and formality features are not
-   available for those languages. See `DeepL beta languages documentation
-   <https://developers.deepl.com/docs/getting-started/supported-languages#beta-languages>`_
-   for details.
 
 .. seealso::
 

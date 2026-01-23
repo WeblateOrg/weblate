@@ -48,6 +48,20 @@ class SameCheckTest(CheckTestCase):
             )
         )
 
+    def test_same_asciidoc_block(self) -> None:
+        self.assertTrue(
+            self.check.check_single(
+                "some text is here", "some text is here", MockUnit(code="de")
+            )
+        )
+        self.assertFalse(
+            self.check.check_single(
+                "some text is here",
+                "some text is here",
+                MockUnit(code="de", note="type: delimited block -"),
+            )
+        )
+
     def test_same_numbers(self) -> None:
         self.do_test(False, ("1:4", "1:4", ""))
         self.do_test(False, ("1, 3, 10", "1, 3, 10", ""))
@@ -151,6 +165,14 @@ class SameCheckTest(CheckTestCase):
             (
                 "[2]: https://sourceforge.net/projects/pywin32/",
                 "[2]: https://sourceforge.net/projects/pywin32/",
+                "",
+            ),
+        )
+        self.do_test(
+            False,
+            (
+                "https://<FQDN_MLM>/rhn/manager/sso/sls",
+                "https://<FQDN_MLM>/rhn/manager/sso/sls",
                 "",
             ),
         )

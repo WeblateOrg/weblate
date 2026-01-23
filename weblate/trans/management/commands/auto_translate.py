@@ -11,8 +11,8 @@ from django.core.management.base import CommandError
 from weblate.auth.models import User
 from weblate.machinery.models import MACHINERY
 from weblate.trans.autotranslate import AutoTranslate
-from weblate.trans.management.commands import WeblateTranslationCommand
 from weblate.trans.models import Component
+from weblate.utils.management.base import WeblateTranslationCommand
 
 if TYPE_CHECKING:
     from django.core.management.base import CommandParser

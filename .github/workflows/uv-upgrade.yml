@@ -2,7 +2,6 @@
 #
 # SPDX-License-Identifier: CC0-1.0
 
-# This file is maintained in https://github.com/WeblateOrg/meta/
 name: uv lock update
 
 on:
@@ -32,30 +31,30 @@ jobs:
       contents: write
 
     steps:
-    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       if: github.event_name != 'pull_request'
       with:
         token: ${{ secrets.WEBLATE_CI_TOKEN }}
         persist-credentials: true
-    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6.0.1
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       if: github.event_name == 'pull_request'
       with:
         persist-credentials: false
-    - uses: actions/cache@9255dc7a253b0ccc959486e2bca901246202afeb # v5.0.1
+    - uses: actions/cache@8b402f58fbc84540c8b491a91e594a4576fec3d7 # v5.0.2
       with:
         path: ~/.cache/pre-commit
         key: ${{ runner.os }}-pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
     - name: Set up Python
       id: setup_python
-      uses: actions/setup-python@83679a892e2d95755f2dac6acb0bfd1e9ac5d548 # v6.1.0
+      uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       with:
         python-version: '3.14'
-    - uses: astral-sh/setup-uv@681c641aba71e4a1c380be3ab5e12ad51f415867 # v7.1.6
+    - uses: astral-sh/setup-uv@61cb8a9741eeb8a550a1b8544337180c0fc8476b # v7.2.0
       with:
         save-cache: ${{ github.ref == 'refs/heads/main' }}
         cache-suffix: ${{ steps.setup_python.outputs.python-version }}
 
-        version: 0.9.21
+        version: 0.9.26
     - name: Install apt dependencies
       run: |
         if [ -f ./ci/apt-install ] ; then
@@ -93,33 +92,11 @@ jobs:
 
     - run: git diff
 
-    - uses: pre-commit-ci/lite-action@5d6cc0eb514c891a40562a58a8e71576c5c7fb43 # v1.1.0
-      if: github.event_name == 'pull_request' && github.actor != 'renovate[bot]'
+    - name: Commit or create pull request
+      uses: ./.github/actions/auto-commit
       with:
-        msg: 'chore(deps): update lockfile'
-
-    - name: Update current branch
-      if: github.event_name == 'push' && github.ref_name != 'main'
-      uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9 # v7.1.0
-      with:
-        commit_message: 'chore(deps): update lockfile'
-
-    - name: Create Pull Request
-      id: cpr
-      if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.ref_name == 'main'
-      uses: peter-evans/create-pull-request@98357b18bf14b5342f975ff684046ec3b2a07725 # v8.0.0
-      with:
-        branch: create-pull-request/uv-lock-update
-        title: 'chore(deps): update lockfile'
-        commit-message: 'chore(deps): update lockfile'
-
-        token: ${{ secrets.WEBLATE_CI_TOKEN }}
-        labels: |
+        message: 'chore(deps): update lockfile'
+        pr-branch: create-pull-request/uv-lock-update
+        pr-labels: |
           dependencies
-
-    - name: Enable Pull Request Automerge
-      if: steps.cpr.outputs.pull-request-operation && steps.cpr.outputs.pull-request-operation != 'none'
-      run: gh pr merge --rebase --auto "$PR_NUMBER"
-      env:
-        GH_TOKEN: ${{ secrets.WEBLATE_CI_TOKEN }}
-        PR_NUMBER: ${{ steps.cpr.outputs.pull-request-number }}
+        github-token: ${{ secrets.WEBLATE_CI_TOKEN }}

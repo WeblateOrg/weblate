@@ -816,6 +816,10 @@ Generic settings
 
     Configures the language simplification policy, see :setting:`SIMPLIFY_LANGUAGES`.
 
+.. envvar:: WEBLATE_HIDE_SHARED_GLOSSARY_COMPONENTS
+
+    Hides glossary components when shared to other projects, see :setting:`HIDE_SHARED_GLOSSARY_COMPONENTS`.
+
 .. envvar:: WEBLATE_DEFAULT_ACCESS_CONTROL
 
     Configures the default :ref:`project-access_control` for new projects, see :setting:`DEFAULT_ACCESS_CONTROL`.
@@ -855,11 +859,6 @@ Generic settings
 .. envvar:: WEBLATE_URL_PREFIX
 
    Configures URL prefix where Weblate is running, see :setting:`URL_PREFIX`.
-
-.. envvar:: WEBLATE_MEDIA_URL
-
-   Configures URL that handles the media served from
-   :setting:`django:MEDIA_ROOT`.
 
 .. envvar:: WEBLATE_STATIC_URL
 

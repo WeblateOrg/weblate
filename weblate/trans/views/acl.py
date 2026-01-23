@@ -173,6 +173,8 @@ def unblock_user(request: AuthenticatedHttpRequest, project):
 @login_required
 def invite_user(request: AuthenticatedHttpRequest, project):
     """Invite user to a project."""
+    if not settings.REGISTRATION_OPEN:
+        raise PermissionDenied
     obj, form = check_user_form(
         request, project, form_class=InviteEmailForm, pass_project=True
     )

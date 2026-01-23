@@ -454,6 +454,11 @@ real_patterns = [
         name="screenshot",
     ),
     path(
+        "screenshot/<int:pk>/view/",
+        weblate.screenshots.views.ScreenshotView.as_view(),
+        name="screenshot-view",
+    ),
+    path(
         "screenshot/<int:pk>/delete/",
         weblate.screenshots.views.delete_screenshot,
         name="screenshot-delete",

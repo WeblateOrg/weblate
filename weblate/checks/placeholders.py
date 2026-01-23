@@ -153,15 +153,6 @@ class RegexCheck(TargetCheckParametrized):
             return True
         return not self.get_value(unit).pattern
 
-    def check_highlight(self, source: str, unit: Unit):
-        if self.should_skip(unit):
-            return
-
-        check_regex = self.get_value(unit)
-
-        for match in check_regex.finditer(source):
-            yield (match.start(), match.end(), match.group())
-
     def get_description(self, check_obj):
         unit = check_obj.unit
         if not self.has_value(unit):

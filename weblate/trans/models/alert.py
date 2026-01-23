@@ -620,7 +620,7 @@ class NoLibreConditions(BaseAlert):
     def check_component(component: Component) -> bool | dict | None:
         return (
             settings.OFFER_HOSTING
-            and component.project.billings
+            and bool(component.project.billings)
             and component.project.billing.plan.price == 0
             and not component.project.billing.valid_libre
         )

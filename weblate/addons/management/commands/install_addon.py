@@ -9,7 +9,7 @@ from typing import TYPE_CHECKING
 from django.core.management.base import CommandError
 
 from weblate.addons.models import ADDONS, Addon
-from weblate.trans.management.commands import WeblateComponentCommand
+from weblate.utils.management.base import WeblateComponentCommand
 
 if TYPE_CHECKING:
     from django.core.management.base import CommandParser

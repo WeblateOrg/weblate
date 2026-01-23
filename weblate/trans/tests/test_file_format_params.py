@@ -5,8 +5,11 @@
 
 """Test for File format params."""
 
+from __future__ import annotations
+
 import os.path
 from pathlib import Path
+from typing import TYPE_CHECKING, Unpack
 
 from django.test.utils import override_settings
 from django.urls import reverse
@@ -18,6 +21,9 @@ from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.views import get_form_data
 
+if TYPE_CHECKING:
+    from weblate.trans.file_format_params import FileFormatParams
+
 
 class BaseFileFormatsTest(ViewTestCase):
     def setUp(self) -> None:
@@ -25,18 +31,21 @@ class BaseFileFormatsTest(ViewTestCase):
         self.user.is_superuser = True
         self.user.save()
 
-    def update_component_file_params(self, **file_param_kwargs) -> None:
-        file_param_kwargs = (
-            get_default_params_for_file_format(self.component.file_format)
-            | file_param_kwargs
+    def update_component_file_params(
+        self, **new_file_param_kwargs: Unpack[FileFormatParams]
+    ) -> None:
+        file_param_kwargs = get_default_params_for_file_format(
+            self.component.file_format
         )
+        file_param_kwargs.update(new_file_param_kwargs)
         url = reverse("settings", kwargs={"path": self.component.get_url_path()})
         response = self.client.get(url)
         data = get_form_data(response.context["form"].initial)
         data.update(
             {f"file_format_params_{k}": v for k, v in file_param_kwargs.items()}
         )
-        self.client.post(url, data, follow=True)
+        response = self.client.post(url, data, follow=True)
+        self.assertContains(response, "Settings saved")
         self.component.refresh_from_db()
 
 
@@ -391,18 +400,21 @@ class GettextParamsTest(BaseFileFormatsTest):
             po_no_location=True,
             po_line_wrap=77,
         )
-
-        # if Msgmerge addon is not installed, only default parameters are returned
         self.assertEqual(
-            BilingualUpdateMixin.get_msgmerge_args(self.component), ["--previous"]
+            set(BilingualUpdateMixin.get_msgmerge_args(self.component)),
+            {"--no-fuzzy-matching", "--no-location"},
         )
 
-        MsgmergeAddon.create(component=self.component)
-
-        msgmerge_args = BilingualUpdateMixin.get_msgmerge_args(self.component)
-        self.assertNotIn("--previous", msgmerge_args)
-        self.assertIn("--no-fuzzy-matching", msgmerge_args)
-        self.assertIn("--no-location", msgmerge_args)
+        self.update_component_file_params(
+            po_fuzzy_matching=False,
+            po_keep_previous=True,
+            po_no_location=False,
+            po_line_wrap=77,
+        )
+        self.assertEqual(
+            set(BilingualUpdateMixin.get_msgmerge_args(self.component)),
+            {"--no-fuzzy-matching", "--previous"},
+        )
 
         self.update_component_file_params(
             po_fuzzy_matching=False,
@@ -410,6 +422,7 @@ class GettextParamsTest(BaseFileFormatsTest):
             po_no_location=True,
             po_line_wrap=-1,
         )
-        self.assertIn(
-            "--no-wrap", BilingualUpdateMixin.get_msgmerge_args(self.component)
+        self.assertEqual(
+            set(BilingualUpdateMixin.get_msgmerge_args(self.component)),
+            {"--no-fuzzy-matching", "--no-location", "--no-wrap"},
         )

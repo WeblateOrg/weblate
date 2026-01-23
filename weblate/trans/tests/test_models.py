@@ -9,15 +9,14 @@ from datetime import timedelta
 from pathlib import Path
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-from django.core.management.color import no_style
-from django.db import connection, transaction
+from django.db import transaction
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.utils import timezone
 
 from weblate.auth.models import Group, User
 from weblate.checks.models import Check
-from weblate.lang.models import Language, Plural
+from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.exceptions import SuggestionSimilarToTranslationError
 from weblate.trans.models import (
@@ -39,26 +38,18 @@ from weblate.trans.tests.utils import (
     RepoTestMixin,
     create_another_user,
     create_test_user,
+    fixup_languages_seq,
 )
 from weblate.utils.django_hacks import immediate_on_commit, immediate_on_commit_leave
 from weblate.utils.files import remove_tree
-from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
+from weblate.utils.state import (
+    STATE_APPROVED,
+    STATE_FUZZY,
+    STATE_NEEDS_CHECKING,
+    STATE_READONLY,
+    STATE_TRANSLATED,
+)
 from weblate.utils.version import GIT_VERSION
-
-
-def fixup_languages_seq() -> None:
-    # Reset sequence for Language and Plural objects as
-    # we're manipulating with them in FixtureTestCase.setUpTestData
-    # and that seems to affect sequence for other tests as well
-    # on some PostgreSQL versions (probably sequence is not rolled back
-    # in a transaction).
-    commands = connection.ops.sequence_reset_sql(no_style(), [Language, Plural])
-    if commands:
-        with connection.cursor() as cursor:
-            for sql in commands:
-                cursor.execute(sql)
-    # Invalidate object cache for languages
-    Language.objects.flush_object_cache()
 
 
 class BaseTestCase(TestCase):
@@ -438,6 +429,8 @@ class TranslationTest(RepoTestCase):
         project.commit_policy = CommitPolicyChoices.APPROVED_ONLY
         project.save()
 
+        self.assertIn("approved", project.get_commit_policy_description())
+
         unit1 = translation.unit_set.get(source="Hello, world!\n")
         unit1.translate(user, "Unit 1 - Test 1", STATE_TRANSLATED)
         unit1.translate(user, "Unit 1 - Test 2", STATE_FUZZY)
@@ -471,6 +464,8 @@ class TranslationTest(RepoTestCase):
         project.commit_policy = CommitPolicyChoices.WITHOUT_NEEDS_EDITING
         project.save()
 
+        self.assertIn("needing editing", project.get_commit_policy_description())
+
         changes = list(PendingUnitChange.objects.for_translation(translation))
         self.assertEqual(len(changes), 1)
         self.assertTrue(all(p.unit == unit3 for p in changes))
@@ -481,6 +476,8 @@ class TranslationTest(RepoTestCase):
 
         project.commit_policy = CommitPolicyChoices.ALL
         project.save()
+
+        self.assertEqual("", project.get_commit_policy_description())
 
         changes = list(PendingUnitChange.objects.for_translation(translation))
         self.assertEqual(len(changes), 2)
@@ -635,6 +632,32 @@ class ComponentListTest(RepoTestCase):
             project_match="^none$", component_match="^.*$", componentlist=clist
         )
         self.assertEqual(clist.components.count(), 0)
+
+    def test_source_review(self) -> None:
+        component = self.create_json_intermediate()
+
+        source = component.translation_set.get(language_code="en")
+        unit = source.unit_set.get(source="Hello world!\n")
+
+        translation_unit = unit.unit_set.get(translation__language__code="cs")
+        self.assertEqual(translation_unit.state, STATE_TRANSLATED)
+
+        unit.translate(None, "Hello, world!\n", STATE_NEEDS_CHECKING)
+
+        translation_unit = unit.unit_set.get(translation__language__code="en")
+        self.assertEqual(translation_unit.state, STATE_NEEDS_CHECKING)
+
+        # Verify the state after editing
+        translation_unit = unit.unit_set.get(translation__language__code="cs")
+        self.assertEqual(translation_unit.state, STATE_READONLY)
+
+        # Commit changes to the repository
+        component.commit_pending("test", None)
+
+        # Verify the state after reset
+        component.do_file_scan()
+        translation_unit = unit.unit_set.get(translation__language__code="cs")
+        self.assertEqual(translation_unit.state, STATE_READONLY)
 
 
 class ModelTestCase(RepoTestCase):

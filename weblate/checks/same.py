@@ -29,8 +29,7 @@ EMAIL_RE = re.compile(r"[a-z0-9_.-]+@[a-z0-9_.-]+\.[a-z0-9-]{2,}", re.IGNORECASE
 
 URL_RE = re.compile(
     r"(?:http|ftp)s?://"  # http:// or https://
-    r"(?:(?:[A-Z0-9](?:[A-Z0-9-]{0,61}[A-Z0-9])?\.)+"
-    r"(?:[A-Z]{2,6}\.?|[A-Z0-9-]{2,}\.?)|"  # domain...
+    r"(?:[a-z0-9_.-]*|"  # domain...
     r"localhost|"  # localhost...
     r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})"  # ...or ip
     r"(?::\d+)?"  # optional port
@@ -157,8 +156,12 @@ class SameCheck(TargetCheck):
         from weblate.checks.flags import TYPED_FLAGS
         from weblate.glossary.models import get_glossary_terms
 
-        # Ignore some docbook tags
-        if unit.note.startswith("Tag: ") and unit.note[5:] in DB_TAGS:
+        # Ignore some strings based on notes (typically from gettext PO file)
+        # - certain docbook tags
+        # - po4a converted AsciiDoc code examples (--- delimited block)
+        if (
+            unit.note.startswith("Tag: ") and unit.note[5:] in DB_TAGS
+        ) or unit.note == "type: delimited block -":
             return True
 
         stripped = source

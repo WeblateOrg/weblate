@@ -16,7 +16,7 @@ from weblate.trans.models import Change, Project, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.util import PLURAL_SEPARATOR
 from weblate.utils.db import using_postgresql
-from weblate.utils.search import parse_query
+from weblate.utils.search import SearchQueryError, parse_query
 from weblate.utils.state import (
     FUZZY_STATES,
     STATE_APPROVED,
@@ -127,11 +127,11 @@ class UnitQueryParserTest(SearchTestCase):
     def test_regex(self) -> None:
         self.assert_query('source:r"^hello"', Q(source__trgm_regex="^hello"))
         # Invalid regex
-        with self.assertRaises(ValueError):
+        with self.assertRaises(SearchQueryError):
             self.assert_query('source:r"^(hello"', Q(source__trgm_regex="^(hello"))
         # Not supported regex on PostgreSQL
         if using_postgresql():
-            with self.assertRaises(ValueError):
+            with self.assertRaises(SearchQueryError):
                 self.assert_query(
                     'source:r"^(?i)hello"', Q(source__trgm_regex="^(?i)hello")
                 )
@@ -151,7 +151,7 @@ class UnitQueryParserTest(SearchTestCase):
         self.assert_query("", Q())
 
     def test_invalid(self) -> None:
-        with self.assertRaises(ValueError):
+        with self.assertRaises(SearchQueryError):
             self.assert_query(
                 "changed:inval AND target:world", Q(target__substring="world")
             )
@@ -209,9 +209,9 @@ class UnitQueryParserTest(SearchTestCase):
             Q(change__timestamp__gte=datetime(2019, 3, 1, 0, 0, tzinfo=UTC))
             & action_change,
         )
-        with self.assertRaises(ValueError):
+        with self.assertRaises(SearchQueryError):
             self.assert_query("changed:>'Not a date'", Q())
-        with self.assertRaises(ValueError):
+        with self.assertRaises(SearchQueryError):
             self.assert_query("changed:>'Invalid 1, 2019'", Q())
 
     def test_date_range(self) -> None:
@@ -248,7 +248,7 @@ class UnitQueryParserTest(SearchTestCase):
         self.assert_query("pending:true", Q(pending_changes__isnull=False))
 
     def test_nonexisting(self) -> None:
-        with self.assertRaises(ValueError):
+        with self.assertRaises(SearchQueryError):
             self.assert_query("nonexisting:true", Q())
 
     def test_state(self) -> None:
@@ -281,7 +281,7 @@ class UnitQueryParserTest(SearchTestCase):
         self.assert_query("position:[1 to 10]", Q(position__range=(1, 10)))
 
     def test_invalid_state(self) -> None:
-        with self.assertRaises(ValueError):
+        with self.assertRaises(SearchQueryError):
             self.assert_query("state:invalid", Q())
 
     def test_parenthesis(self) -> None:
@@ -610,7 +610,7 @@ class UnitQueryParserTest(SearchTestCase):
             "labels_count:<=1", Q(labels_count__lte=1), expected_annotations=annotation
         )
 
-        with self.assertRaises(ValueError):
+        with self.assertRaises(SearchQueryError):
             self.assert_query("labels_count:invalid", Q())
 
 
@@ -635,18 +635,18 @@ class UserQueryParserTest(SearchTestCase):
         )
 
     def test_is(self) -> None:
-        with self.assertRaises(ValueError):
+        with self.assertRaises(SearchQueryError):
             self.assert_query("is:bot", Q(is_bot=True))
-        with self.assertRaises(ValueError):
+        with self.assertRaises(SearchQueryError):
             self.assert_query("is:superuser", Q(is_superuser=True))
-        with self.assertRaises(ValueError):
+        with self.assertRaises(SearchQueryError):
             self.assert_query("is:active", Q(is_active=True))
 
     def test_language(self) -> None:
         self.assert_query("language:cs", (Q(profile__languages__code__iexact="cs")))
 
     def test_email(self) -> None:
-        with self.assertRaises(ValueError):
+        with self.assertRaises(SearchQueryError):
             self.assert_query(
                 "email:hello",
                 Q(social_auth__verifiedemail__email__icontains="hello"),

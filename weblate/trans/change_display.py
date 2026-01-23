@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, ClassVar, cast
+from typing import TYPE_CHECKING, Any, ClassVar, TypedDict, cast
 
 from django.template.loader import render_to_string
 from django.utils.html import escape, format_html
@@ -361,12 +361,19 @@ def get_change_history_context(change: Change) -> dict[str, Any]:
     return ShowChangeAction(change).get_context()
 
 
+class FieldDict(TypedDict):
+    label: str
+    content: str
+    tags: list[StrOrPromise]
+    label_class: str
+
+
 class BaseChangeHistoryContext:
     """Base class for change history context rendering."""
 
     def __init__(self, change: Change) -> None:
         self.change = change
-        self.fields: list[dict[str, Any]] = []
+        self.fields: list[FieldDict] = []
 
     def get_context(self) -> dict[str, Any]:
         """Get context for rendering change history."""
@@ -378,7 +385,7 @@ class BaseChangeHistoryContext:
     def get_description(self) -> str:
         return ""
 
-    def get_change_details_fields(self) -> list[dict]:
+    def get_change_details_fields(self) -> list[FieldDict]:
         """
         Generate a list of dictionaries representing fields to be displayed as label and input-like content.
 
@@ -392,9 +399,9 @@ class BaseChangeHistoryContext:
         self,
         label: str,
         field_content: str,
-        label_badges: list[str] | None = None,
+        label_badges: list[StrOrPromise] | None = None,
         extra_label_classes: list[str] | None = None,
-    ) -> dict:
+    ) -> FieldDict:
         return {
             "label": label,
             "content": field_content,
@@ -450,7 +457,7 @@ class ShowChangeContent(BaseChangeHistoryContext):
     </div>
     """
 
-    def get_change_details_fields(self) -> list[dict]:
+    def get_change_details_fields(self) -> list[FieldDict]:
         """Return the fields to be displayed in the change history."""
         self.fields = []
         change = self.change
@@ -482,7 +489,7 @@ class ShowChangeContent(BaseChangeHistoryContext):
         )
 
         # translation language field
-        translation_language_badges = [
+        translation_language_badges: list[StrOrPromise] = [
             self.make_distance_badge(change.get_distance()),
         ]
 
@@ -513,7 +520,7 @@ class ShowChangeContent(BaseChangeHistoryContext):
 class ShowChangeSource(BaseChangeHistoryContext):
     """Display the source of a change in the history context."""
 
-    def get_change_details_fields(self) -> list[dict]:
+    def get_change_details_fields(self) -> list[FieldDict]:
         self.fields = []
         change = self.change
         if change.unit is None:
@@ -522,7 +529,7 @@ class ShowChangeSource(BaseChangeHistoryContext):
         unit = change.unit
 
         # source language field
-        source_lang_badges = [
+        source_lang_badges: list[StrOrPromise] = [
             self.make_distance_badge(change.get_distance()),
         ]
         if change.show_unit_state():
@@ -549,7 +556,7 @@ class ShowChangeSource(BaseChangeHistoryContext):
 class ShowChangeDiff(BaseChangeHistoryContext):
     """Display the diff of a change in the history context."""
 
-    def get_change_details_fields(self) -> list[dict]:
+    def get_change_details_fields(self) -> list[FieldDict]:
         change = self.change
         if change.unit is None:
             msg = "Change does not contain unit, can not render content!"
@@ -569,7 +576,7 @@ class ShowChangeDiff(BaseChangeHistoryContext):
 class ShowRemovedString(BaseChangeHistoryContext):
     """Display the removed string of a change in the history context."""
 
-    def get_change_details_fields(self) -> list[dict]:
+    def get_change_details_fields(self) -> list[FieldDict]:
         change = self.change
         component = change.component
         translation = change.translation

@@ -220,7 +220,7 @@ class RegexTest(CheckTestCase):
         self.test_failure_1 = ("string URL", "string", "regex:URL")
         self.test_failure_2 = ("string URL", "string url", "regex:URL")
         self.test_failure_3 = ("string URL", "string URL", "regex:^URL$")
-        self.test_highlight = ("regex:URL", "See URL", [(4, 7, "URL")])
+        self.test_highlight = ("regex:URL", "See URL", [])
 
     def do_test(self, expected, data, lang=None) -> None:
         # Skip using check_single as the Check does not use that
@@ -242,14 +242,7 @@ class RegexTest(CheckTestCase):
             self.default_lang,
             "@:(foo.bar.baz) | @:(hello.world) | {foo32}",
         )
-        self.assertEqual(
-            list(self.check.check_highlight(unit.source, unit)),
-            [
-                (0, 15, "@:(foo.bar.baz)"),
-                (18, 33, "@:(hello.world)"),
-                (36, 43, "{foo32}"),
-            ],
-        )
+        self.assertEqual(list(self.check.check_highlight(unit.source, unit)), [])
 
     def test_unicode_regex(self) -> None:
         unit = MockUnit(
@@ -261,9 +254,5 @@ class RegexTest(CheckTestCase):
         )
         self.assertEqual(
             list(self.check.check_highlight(unit.source, unit)),
-            [
-                (0, 11, "@:(你好世界一۲༣)"),
-                (50, 63, "@:(-你好世界一۲༣_)"),
-                (66, 82, "{hello-world123}"),
-            ],
+            [],
         )

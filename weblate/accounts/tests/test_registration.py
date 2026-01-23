@@ -15,7 +15,7 @@ import responses
 from django.conf import settings
 from django.core import mail
 from django.test import Client, TestCase
-from django.test.utils import override_settings
+from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 
 from weblate.accounts.captcha import solve_altcha
@@ -23,7 +23,11 @@ from weblate.accounts.models import VerifiedEmail
 from weblate.accounts.tasks import cleanup_social_auth
 from weblate.auth.models import User
 from weblate.trans.tests.test_views import RegistrationTestMixin
-from weblate.trans.tests.utils import get_test_file, social_core_override_settings
+from weblate.trans.tests.utils import (
+    enable_login_required_settings,
+    get_test_file,
+    social_core_override_settings,
+)
 from weblate.utils.django_hacks import immediate_on_commit, immediate_on_commit_leave
 from weblate.utils.ratelimit import reset_rate_limit
 
@@ -106,6 +110,10 @@ class BaseRegistrationTest(TestCase, RegistrationTestMixin):
             )
             self.assertContains(response, "Your password has been changed")
         else:
+            # Accept terms if using legal
+            if "weblate.legal.pipeline.tos_confirm" in settings.SOCIAL_AUTH_PIPELINE:
+                response = self.confirm_tos(self.client, response)
+
             self.assertRedirects(response, reverse("password"))
         return url
 
@@ -148,9 +156,12 @@ class BaseRegistrationTest(TestCase, RegistrationTestMixin):
         self.assertEqual(len(mail.outbox), 0)
 
         # Ensure the audit log matches expectations
+        expected_audit = {"sent-email", "password", "team-add"}
+        if "weblate.legal.pipeline.tos_confirm" in settings.SOCIAL_AUTH_PIPELINE:
+            expected_audit.add("tos")
         self.assertEqual(
             set(user.auditlog_set.values_list("activity", flat=True)),
-            {"sent-email", "password", "team-add"},
+            expected_audit,
         )
 
 
@@ -240,6 +251,9 @@ class RegistrationTest(BaseRegistrationTest):
         self.assertTrue(
             User.objects.filter(email="noreply-weblate@example.org").exists()
         )
+        # Accept terms if using legal
+        if "weblate.legal.pipeline.tos_confirm" in settings.SOCIAL_AUTH_PIPELINE:
+            response = self.confirm_tos(self.client, response)
         self.assertRedirects(response, reverse("password"))
         if logout:
             self.client.post(reverse("logout"))
@@ -670,6 +684,9 @@ class RegistrationTest(BaseRegistrationTest):
             response = self.client.post(
                 reverse("confirm"), {"password": confirm}, follow=True
             )
+        # Accept terms if using legal
+        if "weblate.legal.pipeline.tos_confirm" in settings.SOCIAL_AUTH_PIPELINE:
+            response = self.confirm_tos(self.client, response)
         self.assertContains(response, "Test Weblate Name")
         user = User.objects.get(username="weblate")
         self.assertEqual(user.full_name, "Test Weblate Name")
@@ -900,3 +917,13 @@ class RegistrationLimitTest(TestCase):
     def test_closed_partial_open(self) -> None:
         """Registration closed for certain backend."""
         self.do_register(False)
+
+
+@enable_login_required_settings()
+class RegistrationLoginRequiredTestCase(RegistrationTest):
+    pass
+
+
+@modify_settings(SOCIAL_AUTH_PIPELINE={"append": "weblate.legal.pipeline.tos_confirm"})
+class RegistrationLegalTestCase(RegistrationLoginRequiredTestCase):
+    pass

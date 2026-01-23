@@ -337,9 +337,15 @@ def announcement(request: AuthenticatedHttpRequest, path):
 def announcement_delete(request: AuthenticatedHttpRequest, pk):
     announcement = get_object_or_404(Announcement, pk=pk)
 
-    if request.user.has_perm("meta:announcement.delete", announcement):
-        announcement.delete()
+    obj = (
+        announcement.component
+        if announcement.component is not None
+        else announcement.project
+    )
+    if not request.user.has_perm("announcement.delete", obj):
+        raise PermissionDenied
 
+    announcement.delete()
     return JsonResponse({"responseStatus": 200})
 
 

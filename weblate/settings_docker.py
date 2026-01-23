@@ -177,10 +177,6 @@ URL_PREFIX = get_env_str("WEBLATE_URL_PREFIX", "")
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 MEDIA_ROOT = os.path.join(DATA_DIR, "media")
 
-# URL that handles the media served from MEDIA_ROOT. Make sure to use a
-# trailing slash.
-MEDIA_URL = get_env_str("WEBLATE_MEDIA_URL", f"{URL_PREFIX}/media/")
-
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
@@ -768,6 +764,7 @@ INSTALLED_APPS = [
     "weblate.addons",
     "weblate.auth",
     "weblate.checks",
+    "weblate_fonts",
     "weblate.formats",
     "weblate.glossary",
     "weblate.machinery",
@@ -1089,6 +1086,11 @@ LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH = get_env_bool(
 # Use simple language codes for default language/country combinations
 SIMPLIFY_LANGUAGES = get_env_bool("WEBLATE_SIMPLIFY_LANGUAGES", True)
 
+# This allows to hide glossary components when shared to other projects
+HIDE_SHARED_GLOSSARY_COMPONENTS = get_env_bool(
+    "WEBLATE_HIDE_SHARED_GLOSSARY_COMPONENTS", False
+)
+
 # Default number of elements to display when pagination is active
 DEFAULT_PAGE_LIMIT = get_env_int("WEBLATE_DEFAULT_PAGE_LIMIT", 100)
 
@@ -1112,6 +1114,7 @@ CHECK_LIST = [
     "weblate.checks.chars.EndEllipsisCheck",
     "weblate.checks.chars.EndSemicolonCheck",
     "weblate.checks.chars.MaxLengthCheck",
+    "weblate.checks.chars.MultipleCapitalCheck",
     "weblate.checks.chars.KashidaCheck",
     "weblate.checks.chars.PunctuationSpacingCheck",
     "weblate.checks.chars.KabyleCharactersCheck",

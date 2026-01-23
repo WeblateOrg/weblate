@@ -20,6 +20,7 @@ if TYPE_CHECKING:
     from collections.abc import Generator
 
     from weblate.formats.base import TranslationFormat
+    from weblate.trans.file_format_params import FileFormatParams
 
 
 def detect_filename(filename: str) -> type[TranslationFormat] | None:
@@ -86,7 +87,7 @@ def try_load(
     language_code: str | None = None,
     source_language: str | None = None,
     is_template: bool = False,
-    file_format_params: dict[str, Any] | None = None,
+    file_format_params: FileFormatParams | None = None,
 ) -> TranslationFormat:
     """Try to load file by guessing type."""
     failure = None
