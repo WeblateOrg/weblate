@@ -158,6 +158,67 @@ The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`.
    * `Amazon Translate Documentation <https://docs.aws.amazon.com/translate/>`_
    * `AWS TranslateFullAccess Policy <https://docs.aws.amazon.com/aws-managed-policy/latest/reference/TranslateFullAccess.html>`_
 
+.. _mt-anthropic:
+
+Anthropic
+---------
+
+.. versionadded:: 5.16
+
+:Service ID: ``anthropic``
+:Maximal score: 90
+:Advanced features: * :ref:`glossary-mt`
+:Configuration: +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``source_language`` | Source language selection | Available choices:                                                                                                        |
+                |                     |                           |                                                                                                                           |
+                |                     |                           | ``auto`` -- Automatic selection                                                                                           |
+                |                     |                           |                                                                                                                           |
+                |                     |                           | ``source`` -- Component source language                                                                                   |
+                |                     |                           |                                                                                                                           |
+                |                     |                           | ``secondary`` -- Secondary language defined in project or component                                                       |
+                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``key``             | API key                   |                                                                                                                           |
+                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``base_url``        | Anthropic API URL         | Base URL of the Anthropic API. Leave empty to use the default URL.                                                        |
+                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``model``           | Anthropic model           | Available choices:                                                                                                        |
+                |                     |                           |                                                                                                                           |
+                |                     |                           | ``claude-sonnet-4-5`` -- Claude Sonnet 4.5 (Recommended)                                                         |
+                |                     |                           |                                                                                                                           |
+                |                     |                           | ``claude-haiku-4-5`` -- Claude Haiku 4.5                                                                               |
+                |                     |                           |                                                                                                                           |
+                |                     |                           | ``claude-opus-4-5`` -- Claude Opus 4.5                                                                           |
+                |                     |                           |                                                                                                                           |
+                |                     |                           | ``custom`` -- Custom model                                                                                                |
+                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``custom_model``    | Custom model name         | Only needed when model is set to 'Custom model'                                                                           |
+                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``max_tokens``      | Max tokens                | Maximum number of tokens to generate in the response.                                                                     |
+                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``persona``         | Translator persona        | Describe the persona of translator to improve the accuracy of the translation. For example: "You are a squirrel breeder." |
+                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+                | ``style``           | Translator style          | Describe the style of translation. For example: "Use informal language."                                                  |
+                +---------------------+---------------------------+---------------------------------------------------------------------------------------------------------------------------+
+
+Performs translation using `Anthropic's Claude`_ models.
+
+The Anthropic API provides access to the Claude family of models, which are
+known for their strong reasoning and language capabilities. You need an API key
+from Anthropic to use this service.
+
+Use persona and style fields to further fine-tune translations. These will be
+used in a prompt for Claude and allow you to change the style of the
+translations.
+
+The service automatically uses :ref:`glossary`, see :ref:`glossary-mt`.
+
+.. seealso::
+
+   * `Anthropic API documentation <https://docs.anthropic.com/en/api/getting-started>`_
+   * `Anthropic Console <https://console.anthropic.com/>`_
+
+.. _Anthropic's Claude: https://www.anthropic.com/
+
 .. _mt-azure-openai:
 
 Azure OpenAI

@@ -492,3 +492,74 @@ class OllamaMachineryForm(LLMBasicMachineryForm):
         help_text=gettext_lazy("Name of the model described in Ollama catalogue."),
         initial="llama3.2:3b",
     )
+
+
+class AnthropicMachineryForm(KeyMachineryForm, LLMBasicMachineryForm):
+    MODEL_CHOICES = (
+        (
+            "claude-sonnet-4-5",
+            pgettext_lazy(
+                "Anthropic model selection", "Claude Sonnet 4.5 (Recommended)"
+            ),
+        ),
+        (
+            "claude-haiku-4-5",
+            pgettext_lazy("Anthropic model selection", "Claude Haiku 4.5"),
+        ),
+        (
+            "claude-opus-4-5",
+            pgettext_lazy("Anthropic model selection", "Claude Opus 4.5"),
+        ),
+        ("custom", pgettext_lazy("Anthropic model selection", "Custom model")),
+    )
+    base_url = WeblateServiceURLField(
+        label=pgettext_lazy(
+            "Automatic suggestion service configuration",
+            "Anthropic API URL",
+        ),
+        help_text=gettext_lazy(
+            "Base URL of the Anthropic API. Leave empty to use the default URL."
+        ),
+        initial="https://api.anthropic.com",
+        required=False,
+    )
+    model = forms.ChoiceField(
+        label=pgettext_lazy(
+            "Automatic suggestion service configuration",
+            "Anthropic model",
+        ),
+        initial="claude-sonnet-4-5",
+        choices=MODEL_CHOICES,
+    )
+    custom_model = forms.CharField(
+        label=pgettext_lazy(
+            "Anthropic model selection",
+            "Custom model name",
+        ),
+        help_text=gettext_lazy("Only needed when model is set to 'Custom model'"),
+        required=False,
+    )
+    max_tokens = forms.IntegerField(
+        label=pgettext_lazy(
+            "Automatic suggestion service configuration",
+            "Max tokens",
+        ),
+        help_text=gettext_lazy("Maximum number of tokens to generate in the response."),
+        initial=4096,
+        min_value=1,
+        max_value=64000,
+    )
+
+    def clean(self) -> None:
+        """Validate custom_model and model fields."""
+        has_custom_model = bool(self.cleaned_data.get("custom_model"))
+        model = self.cleaned_data.get("model")
+        if model == "custom" and not has_custom_model:
+            raise ValidationError(
+                {"custom_model": gettext("Missing custom model name.")}
+            )
+        if model != "custom" and has_custom_model:
+            raise ValidationError(
+                {"model": gettext("Choose custom model here to enable it.")}
+            )
+        super().clean()
