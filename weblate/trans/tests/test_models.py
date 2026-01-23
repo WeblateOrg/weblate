@@ -429,6 +429,8 @@ class TranslationTest(RepoTestCase):
         project.commit_policy = CommitPolicyChoices.APPROVED_ONLY
         project.save()
 
+        self.assertIn("approved", project.get_commit_policy_description())
+
         unit1 = translation.unit_set.get(source="Hello, world!\n")
         unit1.translate(user, "Unit 1 - Test 1", STATE_TRANSLATED)
         unit1.translate(user, "Unit 1 - Test 2", STATE_FUZZY)
@@ -462,6 +464,8 @@ class TranslationTest(RepoTestCase):
         project.commit_policy = CommitPolicyChoices.WITHOUT_NEEDS_EDITING
         project.save()
 
+        self.assertIn("needing editing", project.get_commit_policy_description())
+
         changes = list(PendingUnitChange.objects.for_translation(translation))
         self.assertEqual(len(changes), 1)
         self.assertTrue(all(p.unit == unit3 for p in changes))
@@ -472,6 +476,8 @@ class TranslationTest(RepoTestCase):
 
         project.commit_policy = CommitPolicyChoices.ALL
         project.save()
+
+        self.assertEqual("", project.get_commit_policy_description())
 
         changes = list(PendingUnitChange.objects.for_translation(translation))
         self.assertEqual(len(changes), 2)
