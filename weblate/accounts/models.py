@@ -124,6 +124,8 @@ class WeblateAccountsConf(AppConf):
 
     PRIVATE_COMMIT_EMAIL_TEMPLATE = "{username}@users.noreply.{site_domain}"
     PRIVATE_COMMIT_EMAIL_OPT_IN = True
+    PRIVATE_COMMIT_NAME_TEMPLATE = "{site_title} user {user_id}"
+    PRIVATE_COMMIT_NAME_OPT_IN = True
 
     # Auth0 provider default image & title on login page
     SOCIAL_AUTH_AUTH0_IMAGE = "auth0.svg"
@@ -188,6 +190,7 @@ def format_private_email(username: str, user_id: int) -> str:
         username = f"user-{user_id}"
     return settings.PRIVATE_COMMIT_EMAIL_TEMPLATE.format(
         username=username.lower(),
+        user_id=user_id,
         site_domain=settings.SITE_DOMAIN.rsplit(":", 1)[0],
     )
 
@@ -614,6 +617,9 @@ class VerifiedEmail(models.Model):
 class Profile(models.Model):
     """User profiles storage."""
 
+    COMMIT_NAME_PUBLIC = "public"
+    COMMIT_NAME_PRIVATE = "private"
+
     user = models.OneToOneField(
         User, unique=True, editable=False, on_delete=models.deletion.CASCADE
     )
@@ -855,6 +861,11 @@ class Profile(models.Model):
         verbose_name=gettext_lazy("Commit e-mail"),
         blank=True,
         max_length=EMAIL_LENGTH,
+    )
+    commit_name = models.CharField(
+        verbose_name=gettext_lazy("Commit name"),
+        blank=True,
+        max_length=200,
     )
 
     last_2fa = models.CharField(
@@ -1134,6 +1145,34 @@ class Profile(models.Model):
 
     def get_site_commit_email(self) -> str:
         return format_private_email(self.user.username, self.user.pk)
+
+    def get_commit_name(self) -> str:
+        """Return the commit name to be used for version-control commits."""
+        if self.user.is_bot:
+            return self.user.get_visible_name()
+
+        if self.commit_name == self.COMMIT_NAME_PUBLIC:
+            return self.user.get_visible_name()
+
+        if self.commit_name == self.COMMIT_NAME_PRIVATE:
+            return self.get_site_commit_name() or self.user.get_visible_name()
+
+        if getattr(settings, "PRIVATE_COMMIT_NAME_OPT_IN", False):
+            return self.user.get_visible_name()
+
+        return self.get_site_commit_name() or self.user.get_visible_name()
+
+    def get_site_commit_name(self) -> str:
+        """Return the generated private commit name from the site template."""
+        if not settings.PRIVATE_COMMIT_NAME_TEMPLATE:
+            return ""
+
+        return settings.PRIVATE_COMMIT_NAME_TEMPLATE.format(
+            user_id=self.user.id,
+            username=self.user.username,
+            site_title=settings.SITE_TITLE,
+            site_domain=settings.SITE_DOMAIN.rsplit(":", 1)[0],
+        )
 
     def _get_second_factors(self) -> Iterable[Device]:
         backend: type[Device]
