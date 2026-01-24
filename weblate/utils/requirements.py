@@ -73,7 +73,6 @@ OPTIONAL = [
     "boto3",
     "aeidon",
     "iniparse",
-    "mysqlclient",
     "google-cloud-translate",
     "openai",
 ]
