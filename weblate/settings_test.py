@@ -16,20 +16,7 @@ CI_DATABASE = os.environ.get("CI_DATABASE", "")
 
 default_user = "weblate"
 default_name = "weblate"
-if CI_DATABASE in {"mysql", "mariadb"}:
-    DATABASES["default"]["ENGINE"] = "django.db.backends.mysql"
-    default_user = "root"
-    DATABASES["default"]["OPTIONS"] = {
-        "init_command": (
-            "SET NAMES utf8mb4, "
-            "wait_timeout=28800, "
-            "default_storage_engine=INNODB, "
-            'sql_mode="STRICT_TRANS_TABLES"'
-        ),
-        "charset": "utf8",
-        "isolation_level": "read committed",
-    }
-elif CI_DATABASE == "postgresql":
+if CI_DATABASE == "postgresql":
     DATABASES["default"]["ENGINE"] = "django.db.backends.postgresql"
     default_user = "postgres"
 else:
