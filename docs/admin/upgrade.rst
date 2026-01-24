@@ -140,7 +140,12 @@ supported and will break.
 Migrating from other databases to PostgreSQL
 --------------------------------------------
 
-If you are running Weblate with a different database than PostgreSQL,
+.. warning::
+
+   MySQL and MariaDB are no longer supported in Weblate. You must migrate
+   to PostgreSQL before upgrading.
+
+If you are running Weblate with MySQL or MariaDB,
 consider migrating to PostgreSQL for better performance by doing the following steps.
 Remember to stop both, the web and Celery servers beforehand,
 otherwise you might end up with inconsistent data.

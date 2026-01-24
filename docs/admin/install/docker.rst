@@ -1662,13 +1662,6 @@ both Weblate and PostgreSQL containers.
    connection. Use :ref:`docker-settings-override` to configure the database
    connection manually.
 
-MySQL or MariaDB server
-+++++++++++++++++++++++
-
-Neither MySQL nor MariaDB can not be configured via environment variables. See
-:ref:`mysql` for info on using those with Weblate. Use :envvar:`WEBLATE_DATABASES`
-to configure the database connection manually.
-
 Database backup settings
 ++++++++++++++++++++++++
 

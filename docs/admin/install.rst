@@ -239,10 +239,6 @@ Django REST Framework
        - | `mercurial <https://pypi.org/project/mercurial>`_
        - :ref:`vcs-mercurial`
 
-     * - ``mysql``
-       - | `mysqlclient <https://pypi.org/project/mysqlclient>`_
-       - MySQL or MariaDB, see :ref:`database-setup`
-
      * - ``openai``
        - | `openai <https://pypi.org/project/openai>`_
        - :ref:`mt-openai`
@@ -426,15 +422,6 @@ It is recommended to run Weblate with a PostgreSQL database server.
 
 PostgreSQL 13 and higher is supported. PostgreSQL 15 or newer is recommended.
 
-:ref:`mysql` is supported, but not recommended for new installs.
-
-.. include:: /snippets/mysql-warning.rst
-
-.. note::
-
-   No other database servers are currently supported, but support for other
-   Django supported databases should be possible to implement.
-
 .. seealso::
 
    * :ref:`production-database`
@@ -558,124 +545,6 @@ about non-existing role during the database migration
 This is known to happen with Azure Database for PostgreSQL, but it's not
 limited to this environment. Please set ``ALTER_ROLE`` to change the name of the
 role Weblate should alter during the database migration.
-
-.. seealso::
-
-   :ref:`db-connections`
-
-.. _mysql:
-
-MySQL and MariaDB
-+++++++++++++++++
-
-.. include:: /snippets/mysql-warning.rst
-
-.. warning::
-
-   While MySQL and MariaDB support is still maintained in Weblate, our primary
-   focus is PostgreSQL. It is recommended to use PostgreSQL for new installs,
-   and to migrate existing installs to PostgreSQL, see
-   :ref:`database-migration`.
-
-   Some Weblate features will perform better with :ref:`postgresql`. This
-   includes searching and translation memory, which both utilize full-text
-   features in the database and PostgreSQL implementation is superior.
-
-Weblate can be also used with MySQL or MariaDB, please see
-:ref:`django:mysql-notes` and :ref:`django:mariadb-notes` for caveats using
-Django with those. Because of the limitations it is recommended to use
-:ref:`postgresql` for new installations.
-
-Weblate requires MySQL at least 8 or MariaDB at least 10.5.
-
-Following configuration is recommended for Weblate:
-
-* Use the ``utf8mb4`` charset to allow representation of higher Unicode planes (for example emojis).
-* Configure the server with ``innodb_large_prefix`` to allow longer indices on text fields.
-* Set the isolation level to ``READ COMMITTED``.
-* The SQL mode should be set to ``STRICT_TRANS_TABLES``.
-
-MySQL 8.x, MariaDB 10.5.x or newer have reasonable default configuration so
-that no server tweaking should be necessary and all what is needed can be
-configured on the client side.
-
-Below is an example :file:`/etc/my.cnf.d/server.cnf` for a server with 8 GB of
-RAM. These settings should be sufficient for most installs. MySQL and MariaDB
-have tunables that will increase the performance of your server that are
-considered not necessary unless you are planning on having large numbers of
-concurrent users accessing the system. See the various vendors documentation on
-those details.
-
-It is absolutely critical to reduce issues when installing that the setting
-``innodb_file_per_table`` is set properly and MySQL/MariaDB restarted before
-you start your Weblate install.
-
-.. code-block:: ini
-
-   [mysqld]
-   character-set-server = utf8mb4
-   character-set-client = utf8mb4
-   collation-server = utf8mb4_unicode_ci
-
-   datadir=/var/lib/mysql
-
-   log-error=/var/log/mariadb/mariadb.log
-
-   innodb_large_prefix=1
-   innodb_file_format=Barracuda
-   innodb_file_per_table=1
-   innodb_buffer_pool_size=2G
-   sql_mode=STRICT_TRANS_TABLES
-
-.. hint::
-
-   In case you are getting ``#1071 - Specified key was too long; max key length
-   is 767 bytes`` error, please update your configuration to include the ``innodb``
-   settings above and restart your install.
-
-.. hint::
-
-   In case you are getting ``#2006 - MySQL server has gone away`` error,
-   configuring :setting:`django:CONN_MAX_AGE` might help.
-
-.. seealso::
-
-   :ref:`db-connections`
-
-Configuring Weblate to use MySQL/MariaDB
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-The :file:`settings.py` snippet for MySQL and MariaDB:
-
-.. code-block:: python
-
-    DATABASES = {
-        "default": {
-            # Database engine
-            "ENGINE": "django.db.backends.mysql",
-            # Database name
-            "NAME": "weblate",
-            # Database user
-            "USER": "weblate",
-            # Database password
-            "PASSWORD": "password",
-            # Set to empty string for localhost
-            "HOST": "127.0.0.1",
-            # Set to empty string for default
-            "PORT": "3306",
-            # In case you wish to use additional
-            # connection options
-            "OPTIONS": {},
-        }
-    }
-
-You should also create the ``weblate`` user account in MySQL or MariaDB before
-you begin the install. Use the commands below to achieve that:
-
-.. code-block:: sh
-
-   GRANT ALL ON weblate.* to 'weblate'@'localhost' IDENTIFIED BY 'password';
-   FLUSH PRIVILEGES;
 
 .. seealso::
 
@@ -1101,8 +970,6 @@ sets the :ref:`django:http-strict-transport-security` header on all responses th
 
 Use a powerful database engine
 ++++++++++++++++++++++++++++++
-
-.. include:: /snippets/mysql-warning.rst
 
 * Please use PostgreSQL for a production environment, see :ref:`database-setup`
   for more info.
@@ -1930,11 +1797,9 @@ to stop Weblate for the migration.
 Migrating database
 ++++++++++++++++++
 
-Depending on your database backend, you might have several options to migrate
-the database. The most straightforward approach is to use database native
-tools, as they are usually the most effective (e.g. :command:`mysqldump` or
-:command:`pg_dump`). Alternatively you can use replication in
-case your database supports it.
+The most straightforward approach is to use database native tools, as they are
+usually the most effective (e.g. :command:`pg_dump`). Alternatively you can use
+replication if your database supports it.
 
 .. seealso::
 

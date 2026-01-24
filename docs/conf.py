@@ -399,7 +399,6 @@ linkcheck_ignore = [
     "https://docs.github.com/",
     "https://translate.yandex.com/",
     "https://www.gnu.org/",
-    "https://dev.mysql.com/",
     # Responds with HTTP 418 I'm a teapot
     "https://www.freedesktop.org/",
 ]
