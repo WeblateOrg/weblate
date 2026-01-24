@@ -37,7 +37,7 @@ from weblate.checks.parser import RawQuotedString
 from weblate.lang.models import Language
 from weblate.trans.models import Category, Component, Label, Project, Translation
 from weblate.trans.util import PLURAL_SEPARATOR
-from weblate.utils.db import re_escape, using_postgresql
+from weblate.utils.db import re_escape
 from weblate.utils.state import (
     FUZZY_STATES,
     STATE_APPROVED,
@@ -630,10 +630,7 @@ class UnitTermExpr(BaseTermExpr):
             )
             if not terms:
                 return Q(source__isnull=True)
-            if using_postgresql():
-                template = r"[[:<:]]({})[[:>:]]"
-            else:
-                template = r"(^|[ \t\n\r\f\v])({})($|[ \t\n\r\f\v])"
+            template = r"[[:<:]]({})[[:>:]]"
             return Q(
                 source__iregex=template.format(
                     "|".join(re_escape(term) for term in terms)

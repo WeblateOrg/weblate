@@ -12,7 +12,7 @@ from uuid import uuid5
 import sentry_sdk
 from django.conf import settings
 from django.core.cache import cache
-from django.db import connection, models, transaction
+from django.db import models, transaction
 from django.db.models import Count, Q
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -256,21 +256,13 @@ class ChangeQuerySet(models.QuerySet["Change"]):
         """
         from weblate.accounts.notifications import dispatch_changes_notifications
 
-        if connection.features.can_return_rows_from_bulk_insert:
-            changes = super().bulk_create(*args, **kwargs)
+        changes = super().bulk_create(*args, **kwargs)
 
-            # Dispatch notifications
-            dispatch_changes_notifications(changes)
+        # Dispatch notifications
+        dispatch_changes_notifications(changes)
 
-            # Executes post save to ensure messages are sent to fedora messaging
-            change_bulk_create.send(Change, instances=changes)
-        else:
-            # bulk_create doesn't set the .pk of instance with MySQL
-            # Save each instance individually in order to set it
-            changes = []
-            for change in args[0]:
-                change.save()
-                changes.append(change)
+        # Executes post save to ensure messages are sent to fedora messaging
+        change_bulk_create.send(Change, instances=changes)
 
         # Store last content change in cache for improved performance
         translations = set()

@@ -12,7 +12,6 @@ from django.db import DatabaseError, connection
 
 import weblate.utils.version
 from weblate.utils.cache import is_redis_cache
-from weblate.utils.db import using_postgresql
 from weblate.utils.errors import report_error
 from weblate.vcs.git import GitRepository, GitWithGerritRepository, SubversionRepository
 from weblate.vcs.mercurial import HgRepository
@@ -162,32 +161,18 @@ def get_versions() -> list[tuple[str, str, str]]:
 
 
 def get_db_version() -> tuple[str, str, str] | None:
-    if using_postgresql():
-        try:
-            with connection.cursor() as cursor:
-                cursor.execute("SHOW server_version")
-                version = cursor.fetchone()
-        except (RuntimeError, DatabaseError):
-            report_error("PostgreSQL version check")
-            return None
-
-        return (
-            "PostgreSQL server",
-            "https://www.postgresql.org/",
-            version[0].split(" ")[0],
-        )
     try:
         with connection.cursor() as cursor:
-            version = cursor.connection.get_server_info()
+            cursor.execute("SHOW server_version")
+            version = cursor.fetchone()
     except (RuntimeError, DatabaseError):
-        report_error("MySQL version check")
+        report_error("PostgreSQL version check")
         return None
+
     return (
-        f"{connection.display_name} server",
-        "https://mariadb.org/"
-        if connection.mysql_is_mariadb  # type: ignore[attr-defined]
-        else "https://www.mysql.com/",
-        version.split("-", 1)[0],
+        "PostgreSQL server",
+        "https://www.postgresql.org/",
+        version[0].split(" ")[0],
     )
 
 
