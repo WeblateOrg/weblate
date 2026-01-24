@@ -37,18 +37,6 @@ jobs:
         experimental:
         - false
         include:
-        # Reduced testing for mysql
-        - python-version: '3.14'
-          requirements: latest
-          database: mysql
-          datastore: valkey
-          experimental: false
-        # Reduced testing for mariadb
-        - python-version: '3.14'
-          requirements: latest
-          database: mariadb
-          datastore: valkey
-          experimental: false
         # Reduced testing for redis
         - python-version: '3.14'
           requirements: latest

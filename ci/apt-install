@@ -6,8 +6,6 @@
 
 set -e -x
 
-CI_DATABASE="$1"
-
 mkdir -p /run/user/1000
 chown -R 1000:1000 /run/user/1000
 
@@ -49,9 +47,3 @@ apt-get install -y \
 # TODO: remove this once Python 3.13 wheels are available, see
 # https://github.com/sirfz/tesserocr/pull/357
 apt-get install -y libleptonica-dev libtesseract-dev
-
-# Remove MySQL 8.x client, use older MariaDB one to ensure compatibility
-if [ "$CI_DATABASE" = "mariadb" ]; then
-    apt-get purge 'mysql-client.*'
-    apt-get install -y mariadb-client
-fi
