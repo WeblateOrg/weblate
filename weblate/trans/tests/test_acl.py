@@ -156,6 +156,16 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         )
         self.assertEqual(response.status_code, 403)
 
+        # It should work for the superuser
+        self.user.is_superuser = True
+        self.user.save()
+        response = self.client.post(
+            reverse("invite-user", kwargs=self.kw_project),
+            {"email": "user@example.com", "group": self.admin_group.pk},
+            follow=True,
+        )
+        self.assertEqual(response.status_code, 200)
+
     @override_settings(REGISTRATION_OPEN=True, REGISTRATION_CAPTCHA=False)
     def test_invite_user_open(self) -> None:
         """Test inviting user."""
