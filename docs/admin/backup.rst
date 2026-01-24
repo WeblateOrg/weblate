@@ -12,7 +12,7 @@ Project level backups
 
 .. warning::
 
-   Restoring backups is only supported when using PostgreSQL or MariaDB 10.5+ as a database.
+   Restoring backups is only supported when using PostgreSQL as a database.
 
 The project backups all translation content from Weblate (project, components,
 translations, string comments, suggestions or checks). It is suitable for
@@ -54,7 +54,7 @@ the cloud. The backups can be controlled in the management interface from the
 
 .. versionchanged:: 4.4.1
 
-   Both PostgreSQL and MySQL/MariaDB databases are included in the automated backups.
+   PostgreSQL databases are included in the automated backups.
 
 The backups using Borg are incremental and Weblate is configured to keep following backups:
 
@@ -253,8 +253,8 @@ Native database backup
 ++++++++++++++++++++++
 
 The recommended approach is to save a dump of the database using database-native
-tools such as :program:`pg_dump` or :program:`mysqldump`. It usually performs
-better than Django backup, and it restores complete tables with all their data.
+tools such as :program:`pg_dump`. It usually performs better than Django backup,
+and it restores complete tables with all their data.
 
 You can restore this backup in a newer Weblate release, it will perform all the
 necessary migrations when running in :wladmin:`migrate`. Please consult
