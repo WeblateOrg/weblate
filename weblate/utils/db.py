@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import time
 
-from django.db import ProgrammingError, connections, models, transaction
+from django.db import ProgrammingError, connections, transaction
 from django.db.models.lookups import PatternLookup, Regex
 
 from .inv_regex import invert_re
@@ -18,9 +18,6 @@ ESCAPED = frozenset(".\\+*?[^]$(){}=!<>|:-")
 PG_TRGM = "CREATE INDEX {0}_{1}_fulltext ON trans_{0} USING GIN ({1} gin_trgm_ops {2})"
 PG_DROP = "DROP INDEX {0}_{1}_fulltext"
 
-MY_FTX = "CREATE FULLTEXT INDEX {0}_{1}_fulltext ON trans_{0}({1})"
-MY_DROP = "ALTER TABLE trans_{0} DROP INDEX {0}_{1}_fulltext"
-
 
 class MissingTransactionError(ProgrammingError):
     pass
@@ -28,18 +25,6 @@ class MissingTransactionError(ProgrammingError):
 
 def using_postgresql():
     return connections["default"].vendor == "postgresql"
-
-
-class TransactionsTestMixin:
-    @classmethod
-    def _databases_support_transactions(cls):
-        # This is workaround for MySQL as FULL TEXT index does not work
-        # well inside a transaction, so we avoid using transactions for
-        # tests. Otherwise we end up with no matches for the query.
-        # See https://dev.mysql.com/doc/refman/5.6/en/innodb-fulltext-index.html
-        if not using_postgresql():
-            return False
-        return super()._databases_support_transactions()  # type: ignore[misc]
 
 
 def adjust_similarity_threshold(value: float) -> None:
@@ -124,16 +109,6 @@ class PostgreSQLSearchLookup(PostgreSQLFallbackLookup):
         if self._needs_fallback:
             return connection.operators["icontains"] % rhs
         return f"%% {rhs} = true"
-
-
-class MySQLSearchLookup(models.Lookup):
-    lookup_name = "search"
-
-    def as_sql(self, compiler, connection):
-        lhs, lhs_params = self.process_lhs(compiler, connection)
-        rhs, rhs_params = self.process_rhs(compiler, connection)
-        params = lhs_params + rhs_params  # type: ignore[operator]
-        return f"MATCH ({lhs}) AGAINST ({rhs} IN NATURAL LANGUAGE MODE)", params
 
 
 class PostgreSQLSubstringLookup(PostgreSQLFallbackLookup):
