@@ -60,6 +60,6 @@ class AnthropicTranslation(BaseLLMTranslation):
         response_data = response.json()
 
         content_blocks = response_data.get("content", [])
-        if content_blocks and len(content_blocks) > 0:
+        if content_blocks:
             return content_blocks[0].get("text")
         return None
