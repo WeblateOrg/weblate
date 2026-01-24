@@ -93,7 +93,6 @@ from weblate.trans.validators import (
 from weblate.utils import messages
 from weblate.utils.celery import get_task_progress
 from weblate.utils.colors import ColorChoices
-from weblate.utils.db import using_postgresql
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
 from weblate.utils.fields import EmailField
@@ -3771,9 +3770,7 @@ class Component(
         queryset = PendingUnitChange.objects.for_component(
             self, apply_filters=apply_filters
         )
-        if using_postgresql():
-            return queryset.distinct("unit_id").count()
-        return queryset.values("unit_id").distinct().count()
+        return queryset.distinct("unit_id").count()
 
     @property
     def count_repo_missing(self):

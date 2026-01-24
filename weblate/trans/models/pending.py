@@ -25,8 +25,6 @@ from django.db.models.fields.json import KT
 from django.db.models.functions import Cast, Now
 from django.utils import timezone
 
-from weblate.trans.functions import MySQLTimestampAdd
-from weblate.utils.db import using_postgresql
 from weblate.utils.state import (
     FUZZY_STATES,
     STATE_APPROVED,
@@ -73,16 +71,12 @@ class PendingChangeQuerySet(models.QuerySet):
         if hours is not None:
             age_cutoff = timezone.now() - timedelta(hours=hours)
         # Use per-component commit_pending_age setting to calculate age cutoff.
-        elif using_postgresql():
+        else:
             age_cutoff = ExpressionWrapper(
                 Now()
                 - F("unit__translation__component__commit_pending_age")
                 * timedelta(hours=1),
                 output_field=DateTimeField(),
-            )
-        else:
-            age_cutoff = MySQLTimestampAdd(
-                "HOUR", -F("unit__translation__component__commit_pending_age"), Now()
             )
 
         pending_changes = pending_changes.filter(timestamp__lt=age_cutoff)
@@ -277,17 +271,12 @@ class PendingChangeQuerySet(models.QuerySet):
 
     # pylint: disable-next=arguments-differ
     def select_for_update(self) -> PendingChangeQuerySet:  # type: ignore[override]
-        if using_postgresql():
-            # Use weaker locking and limit locking to this table only
-            return super().select_for_update(no_key=True, of=("self",))
-        # Discard any select_related to avoid locking additional tables
-        return super().select_for_update().select_related(None)
+        # Use weaker locking and limit locking to this table only
+        return super().select_for_update(no_key=True, of=("self",))
 
     def _count_units_helper(self, qs: QuerySet) -> int:
         """Count distinct units in a PendingUnitChange queryset."""
-        if using_postgresql():
-            return qs.distinct("unit_id").count()
-        return qs.values("unit_id").distinct().count()
+        return qs.distinct("unit_id").count()
 
     def detailed_count(self, obj: Project | Component | Translation) -> dict[str, int]:
         """Count total, skipped and eligible units pending and eligible for commit for the given object."""

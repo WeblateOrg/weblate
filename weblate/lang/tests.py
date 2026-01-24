@@ -25,7 +25,6 @@ from weblate.trans.models import Unit
 from weblate.trans.tests.test_models import BaseTestCase
 from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
 from weblate.trans.util import join_plural
-from weblate.utils.db import using_postgresql
 from weblate.utils.state import STATE_TRANSLATED
 
 TEST_LANGUAGES = (
@@ -370,9 +369,6 @@ class LanguagesTest(BaseTestCase, metaclass=LanguageTestSequenceMeta):
 
     def test_case_sensitive_fuzzy_get(self) -> None:
         """Test handling of manually created zh-TW, zh-TW and zh_TW languages."""
-        if not using_postgresql():
-            self.skipTest("Not supported on MySQL")
-
         language = Language.objects.create(code="zh_TW", name="Chinese (Taiwan)")
         language.plural_set.create(
             number=0,

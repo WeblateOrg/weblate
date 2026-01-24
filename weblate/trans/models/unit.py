@@ -48,7 +48,7 @@ from weblate.trans.util import (
 )
 from weblate.trans.validators import validate_check_flags
 from weblate.utils import messages
-from weblate.utils.db import using_postgresql, verify_in_transaction
+from weblate.utils.db import verify_in_transaction
 from weblate.utils.errors import report_error
 from weblate.utils.hash import calculate_hash, hash_to_checksum
 from weblate.utils.state import (
@@ -367,11 +367,8 @@ class UnitQuerySet(models.QuerySet["Unit"]):
 
     # pylint: disable-next=arguments-differ
     def select_for_update(self) -> UnitQuerySet:  # type: ignore[override]
-        if using_postgresql():
-            # Use weaker locking and limit locking to Unit table only
-            return super().select_for_update(no_key=True, of=("self",))
-        # Discard any select_related to avoid locking additional tables
-        return super().select_for_update().select_related(None)
+        # Use weaker locking and limit locking to Unit table only
+        return super().select_for_update(no_key=True, of=("self",))
 
     def annotate_stats(self):
         return self.annotate(

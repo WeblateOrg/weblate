@@ -29,7 +29,6 @@ from weblate.trans.util import get_clean_env
 from weblate.utils.backup import backup_lock
 from weblate.utils.celery import app
 from weblate.utils.data import data_dir
-from weblate.utils.db import using_postgresql
 from weblate.utils.errors import add_breadcrumb, report_error
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.vcs.models import VCS_REGISTRY
@@ -114,50 +113,30 @@ def database_backup() -> None:
         out_compressed = data_dir("backups", "database.sql.gz")
         out_text = data_dir("backups", "database.sql")
 
-        if using_postgresql():
-            cmd = [
-                "pg_dump",
-                # Superuser only, crashes on Alibaba Cloud Database PolarDB
-                "--no-subscriptions",
-                "--clean",
-                "--if-exists",
-                "--dbname",
-                database["NAME"],
-            ]
+        cmd = [
+            "pg_dump",
+            # Superuser only, crashes on Alibaba Cloud Database PolarDB
+            "--no-subscriptions",
+            "--clean",
+            "--if-exists",
+            "--dbname",
+            database["NAME"],
+        ]
 
-            if database["HOST"]:
-                cmd.extend(["--host", database["HOST"]])
-            if database["PORT"]:
-                cmd.extend(["--port", database["PORT"]])
-            if database["USER"]:
-                cmd.extend(["--username", database["USER"]])
-            if settings.DATABASE_BACKUP == "compressed":
-                cmd.extend(["--file", out_compressed])
-                cmd.extend(["--compress", "6"])
-                compress = False
-            else:
-                cmd.extend(["--file", out_text])
-
-            env["PGPASSWORD"] = cast("str", database["PASSWORD"])
+        if database["HOST"]:
+            cmd.extend(["--host", database["HOST"]])
+        if database["PORT"]:
+            cmd.extend(["--port", database["PORT"]])
+        if database["USER"]:
+            cmd.extend(["--username", database["USER"]])
+        if settings.DATABASE_BACKUP == "compressed":
+            cmd.extend(["--file", out_compressed])
+            cmd.extend(["--compress", "6"])
+            compress = False
         else:
-            cmd = [
-                "mysqldump",
-                "--result-file",
-                out_text,
-                "--single-transaction",
-                "--skip-lock-tables",
-            ]
+            cmd.extend(["--file", out_text])
 
-            if database["HOST"]:
-                cmd.extend(["--host", database["HOST"]])
-            if database["PORT"]:
-                cmd.extend(["--port", database["PORT"]])
-            if database["USER"]:
-                cmd.extend(["--user", database["USER"]])
-
-            cmd.extend(["--databases", database["NAME"]])
-
-            env["MYSQL_PWD"] = cast("str", database["PASSWORD"])
+        env["PGPASSWORD"] = cast("str", database["PASSWORD"])
 
         try:
             subprocess.run(

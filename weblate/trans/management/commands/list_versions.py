@@ -7,7 +7,6 @@ import platform
 from django import db
 from django.conf import settings
 
-from weblate.utils.db import using_postgresql
 from weblate.utils.encoding import (
     get_filesystem_encoding,
     get_locale_encoding,
@@ -31,16 +30,15 @@ class Command(BaseCommand):
             "Database backends",
             ", ".join(conn["ENGINE"] for conn in db.connections.databases.values()),
         )
-        if using_postgresql():
-            from django.db.backends.postgresql.psycopg_any import is_psycopg3
+        from django.db.backends.postgresql.psycopg_any import is_psycopg3
 
-            if is_psycopg3:
-                from psycopg.pq import __impl__
+        if is_psycopg3:
+            from psycopg.pq import __impl__
 
-                pg_engine = f"psycopg3 ({__impl__})"
-            else:
-                pg_engine = "psycopg2"
-            self.write_item("PostgreSQL implementation", pg_engine)
+            pg_engine = f"psycopg3 ({__impl__})"
+        else:
+            pg_engine = "psycopg2"
+        self.write_item("PostgreSQL implementation", pg_engine)
 
         self.write_item(
             "Cache backends",

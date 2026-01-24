@@ -49,9 +49,6 @@ def adjust_similarity_threshold(value: float) -> None:
     Ideally we would use directly similarity() in the search, but that doesn't seem
     to use index, while using % does.
     """
-    if not using_postgresql():
-        return
-
     if "memory_db" in connections:
         connection = connections["memory_db"]
     else:

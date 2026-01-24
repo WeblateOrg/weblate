@@ -28,7 +28,7 @@ from weblate.memory.utils import (
     CATEGORY_USER_OFFSET,
     is_valid_memory_entry,
 )
-from weblate.utils.db import adjust_similarity_threshold, using_postgresql
+from weblate.utils.db import adjust_similarity_threshold
 from weblate.utils.errors import report_error
 
 if TYPE_CHECKING:
@@ -88,18 +88,15 @@ class MemoryQuerySet(models.QuerySet):
         return base.filter(query)
 
     def filter(self, *args, **kwargs):
-        if using_postgresql():
-            # Use MD5 for filtering to utilize MD5 index,
-            # MariaDB does not support that, but has partial
-            # index on text fields created manually
-            for field in ("source", "target", "origin"):
-                if field in kwargs:
-                    kwargs[f"{field}__md5"] = MD5(Value(kwargs.pop(field)))
-                in_field = f"{field}__in"
-                if in_field in kwargs:
-                    kwargs[f"{field}__md5__in"] = [
-                        MD5(Value(value)) for value in kwargs.pop(in_field)
-                    ]
+        # Use MD5 for filtering to utilize MD5 index
+        for field in ("source", "target", "origin"):
+            if field in kwargs:
+                kwargs[f"{field}__md5"] = MD5(Value(kwargs.pop(field)))
+            in_field = f"{field}__in"
+            if in_field in kwargs:
+                kwargs[f"{field}__md5__in"] = [
+                    MD5(Value(value)) for value in kwargs.pop(in_field)
+                ]
         return super().filter(*args, **kwargs)
 
     def threshold_to_similarity(self, text: str, threshold: int) -> float:
@@ -485,7 +482,6 @@ class Memory(models.Model):
                 name="memory_md5_index",
             ),
             # Partial index for to optimize lookup for file based entries
-            # MySQL/MariaDB does not supports condition and uses full index instead.
             models.Index(
                 "from_file",
                 condition=Q(from_file=True),
