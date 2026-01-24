@@ -22,7 +22,7 @@ jobs:
     runs-on: ubuntu-24.04
     strategy:
       matrix:
-        database: [postgresql, mysql]
+        database: [postgresql]
       fail-fast: false
     name: ${{ matrix.database }}
     env:

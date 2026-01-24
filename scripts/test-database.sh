@@ -6,7 +6,7 @@
 
 # shellcheck shell=sh
 
-# Database backend to use postgresql / mysql / mariadb
+# Database backend to use
 export CI_DATABASE="${1:-postgresql}"
 
 # Database server configuration
