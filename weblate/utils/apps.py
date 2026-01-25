@@ -188,8 +188,8 @@ def check_database(
         errors.append(
             weblate_check(
                 "weblate.E006",
-                "Weblate performs best with PostgreSQL, consider migrating to it.",
-                Info,
+                "Weblate now requires PostgreSQL. Support for other databases has been removed.",
+                Error,
             )
         )
 
