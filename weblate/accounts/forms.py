@@ -236,7 +236,9 @@ class CommitForm(ProfileBaseForm):
         visible_name = self.instance.user.get_visible_name()
 
         if not settings.PRIVATE_COMMIT_NAME_OPT_IN:
-            self.fields["commit_name"].choices = [("", gettext_lazy("Use anonymous account name"))]
+            self.fields["commit_name"].choices = [
+                ("", gettext_lazy("Use anonymous account name"))
+            ]
 
         self.fields["commit_name"].choices += [
             (Profile.COMMIT_NAME_PUBLIC, visible_name),
