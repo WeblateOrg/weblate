@@ -35,7 +35,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-01-26 10:05+0000\n"
-"PO-Revision-Date: 2026-01-17 00:02+0000\n"
+"PO-Revision-Date: 2026-01-27 04:09+0000\n"
 "Last-Translator: Blueberry <igory.ygr200@gmail.com>\n"
 "Language-Team: Russian <https://hosted.weblate.org/projects/weblate/"
 "application/ru/>\n"
@@ -45,7 +45,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.15.2\n"
+"X-Generator: Weblate 5.16-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -2703,10 +2703,8 @@ msgstr "Опубликовать объявления"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:119
-#, fuzzy
-#| msgid "Delete announcement"
 msgid "Delete announcements"
-msgstr "Удалить объявление"
+msgstr "Удаление объявлений"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:127
@@ -3713,16 +3711,14 @@ msgid "Missing non breakable space before double punctuation sign."
 msgstr "Отсутствует неразрывный пробел перед двойным знаком пунктуации."
 
 #: weblate/checks/chars.py:589
-#, fuzzy
-#| msgid "Multiple unnamed variables"
 msgid "Multiple capitals"
-msgstr "Несколько переменных без названий"
+msgstr "Несколько заглавных"
 
 #: weblate/checks/chars.py:591
-#, fuzzy
-#| msgid "Translation contains extra zero-width space character."
 msgid "Translation contains words with multiple misplaced capital letters."
-msgstr "Перевод содержит лишние символы пробела нулевой ширины."
+msgstr ""
+"Перевод содержит слова с несколькими неправильно расположенными заглавными "
+"буквами."
 
 #: weblate/checks/consistency.py:33
 msgid "Missing plurals"
@@ -9819,6 +9815,8 @@ msgid ""
 "This might discard edits that cannot be committed because of the configured "
 "commit policy."
 msgstr ""
+"Это может привести к отмене изменений, которые не могут быть внесены из-за "
+"настроенной политики внесений."
 
 #: weblate/templates/js/git-status.html:219
 msgid "Use these operations with caution, they can lead to data loss."
@@ -13559,6 +13557,8 @@ msgid ""
 "You are not allowed to invite new users because new registrations are turned "
 "off."
 msgstr ""
+"Вы не можете приглашать новых пользователей, поскольку новая регистрация "
+"отключена."
 
 #: weblate/templates/trans/project-access.html:278
 #, python-format
@@ -16589,12 +16589,8 @@ msgstr ""
 "запросов слияния."
 
 #: weblate/trans/models/component.py:3401
-#, fuzzy
-#| msgid "Pull and push branches cannot be the same when using merge requests."
 msgid "Push branch cannot be empty when using merge requests."
-msgstr ""
-"Ветки извлечения и отправки не могут быть одинаковыми при использовании "
-"запросов слияния."
+msgstr "Ветка отправки не может быть пустой при использовании запросов слияния."
 
 #: weblate/trans/models/component.py:3410
 #, python-format
@@ -16866,18 +16862,14 @@ msgstr ""
 "en_GB:en,en_US:en"
 
 #: weblate/trans/models/project.py:834
-#, fuzzy
-#| msgid "Forces writing all strings to the translation files."
 msgid ""
 "Translations marked as needing editing are not written to the translation "
 "file."
-msgstr "Принудительная запись всех строк в файлы перевода."
+msgstr "Переводы, помеченные «На правку», не записываются в файл перевода."
 
 #: weblate/trans/models/project.py:838
-#, fuzzy
-#| msgid "Approved translation in %(translation)s"
 msgid "Only approved translations are written to the translation file."
-msgstr "Одобренный перевод в %(translation)s"
+msgstr "В файл перевода записываются только одобренные переводы."
 
 #: weblate/trans/models/suggestion.py:157
 msgid "Could not accept suggestion!"
@@ -17988,28 +17980,20 @@ msgid "Unsupported state: {}"
 msgstr "Неподдерживаемое состояние: {0}"
 
 #: weblate/utils/search.py:183
-#, fuzzy
-#| msgid "Could not parse URL: {}"
 msgid "Could not parse boolean value: {}"
-msgstr "Не удалось разобрать URL: {}"
+msgstr "Не удалось разобрать логическое значение: {}"
 
 #: weblate/utils/search.py:200
-#, fuzzy
-#| msgid "Could not parse query string: {}"
 msgid "Could not parse numeric value: {}"
-msgstr "Не удалось разобрать строку запроса: {}"
+msgstr "Не удалось разобрать числовое значение: {}"
 
 #: weblate/utils/search.py:308
-#, fuzzy
-#| msgid "Could not parse URL: {}"
 msgid "Could not parse timestamp: {}"
-msgstr "Не удалось разобрать URL: {}"
+msgstr "Не удалось разобрать метку времени: {}"
 
 #: weblate/utils/search.py:445
-#, fuzzy
-#| msgid "Focus on search field."
 msgid "Unknown search field: {}"
-msgstr "Фокус на поле поиска."
+msgstr "Неизвестное поле поиска: {}"
 
 #: weblate/utils/search.py:482
 msgid "Invalid regular expression: {}"
@@ -18018,21 +18002,17 @@ msgstr "Недопустимое регулярное выражение: {}"
 #: weblate/utils/search.py:512 weblate/utils/search.py:519
 #, python-brace-format
 msgid "Unsupported lookup for {field}: {value}"
-msgstr ""
+msgstr "Неподдерживаемый поиск для {field}: {value}"
 
 #: weblate/utils/search.py:828
 msgid "Mixed operators!"
-msgstr ""
+msgstr "Смешанные операторы!"
 
 #: weblate/utils/search.py:868
-#, fuzzy
-#| msgid "Invalid search string!"
 msgid "Invalid character in the query string"
-msgstr "Недопустимая строка поиска!"
+msgstr "Недопустимый символ в строке запроса"
 
 #: weblate/utils/search.py:874
-#, fuzzy
-#| msgid "Could not parse query string: {}"
 msgid "Failed to parse the query string: {}"
 msgstr "Не удалось разобрать строку запроса: {}"
 
@@ -18372,10 +18352,8 @@ msgid "Could not fetch public key for a host: %s"
 msgstr "Не удалось получить открытый ключ для сервера: %s"
 
 #: weblate/vcs/ssh.py:247
-#, fuzzy
-#| msgid "Could not fetch public key for a host: %s"
 msgid "Could not fetch public key for a host."
-msgstr "Не удалось получить открытый ключ для сервера: %s"
+msgstr "Не удалось получить открытый ключ для сервера."
 
 #: weblate/vcs/ssh.py:255
 msgid "Invalid host name given!"
