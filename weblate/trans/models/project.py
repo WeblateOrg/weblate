@@ -248,12 +248,12 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     # This should match definition in WorkflowSetting
     translation_review = models.BooleanField(
         verbose_name=gettext_lazy("Enable reviews"),
-        default=False,
+        default=settings.DEFAULT_TRANSLATION_REVIEW,
         help_text=gettext_lazy("Requires dedicated reviewers to approve translations."),
     )
     source_review = models.BooleanField(
         verbose_name=gettext_lazy("Enable source reviews"),
-        default=False,
+        default=settings.DEFAULT_SOURCE_REVIEW,
         help_text=gettext_lazy(
             "Requires dedicated reviewers to approve source strings."
         ),
