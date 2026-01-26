@@ -181,7 +181,7 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
 
         # Create suggestion in different translation
         de_translation = self.component.translation_set.get(language_code="de")
-        de_unit = de_translation.unit_set.first()
+        de_unit = de_translation.unit_set.get(source="Hello, world!\n")
         Suggestion.objects.create(unit=de_unit, target="Test de suggestion", user=user)
 
         # Accept suggestions only for Czech translation

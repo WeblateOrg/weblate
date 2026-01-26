@@ -76,7 +76,7 @@ real_patterns = [
     path("projects/", weblate.trans.views.basic.list_projects, name="projects"),
     # Bulk accept all suggestions from a specific user
     path(
-        "projects/<object_path:path>/bulk-accept-suggestions/",
+        "js/bulk-accept-suggestions/<object_path:path>/",
         bulk_accept_user_suggestions,
         name="bulk-accept-user-suggestions",
     ),
