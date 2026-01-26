@@ -275,17 +275,16 @@ class TTKitFormat(TranslationFormat):
 
     def fixup(self, store) -> None:
         """Perform optional fixups on store."""
-        if (
-            encoding := (
-                self.force_encoding or get_encoding_param(self.file_format_params)
-            )
-        ) is not None and encoding != "auto":
+        if (encoding := self.get_encoding()) is not None and encoding != "auto":
             store.encoding = encoding
         # This gets already native language code, so no conversion is needed
         if self.language_code is not None:
             store.settargetlanguage(self.language_code)
         if self.source_language is not None:
             store.setsourcelanguage(self.source_language)
+
+    def get_encoding(self) -> str | None:
+        return get_encoding_param(self.file_format_params)
 
     def load(
         self,

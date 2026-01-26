@@ -27,6 +27,10 @@ FILE_FORMAT_MAPPING: dict[str, tuple[str, dict[str, str]]] = {
         "properties",
         {"properties_encoding": "utf-16"},
     ),
+    "xwiki-page-properties": (
+        "xwiki-page-properties",
+        {"properties_encoding": "utf-8"},
+    ),
     "csv": (
         "csv",
         {"csv_encoding": "auto"},
@@ -54,6 +58,10 @@ FILE_FORMAT_MAPPING: dict[str, tuple[str, dict[str, str]]] = {
     "gwt": (
         "gwt",
         {"gwt_encoding": "utf-8"},
+    ),
+    "csv-multi-utf-8": (
+        "csv-multi",
+        {"csv_encoding": "utf-8"},
     ),
 }
 

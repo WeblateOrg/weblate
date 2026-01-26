@@ -465,7 +465,10 @@ class StringsEncoding(BaseFileFormatParam):
 
 @register_file_format_param
 class PropertiesEncoding(BaseFileFormatParam):
-    file_formats = ("properties",)
+    file_formats = (
+        "properties",
+        "xwiki-page-properties",
+    )
     name = "properties_encoding"
     label = gettext_lazy("File encoding")
     field_class = forms.ChoiceField
@@ -480,7 +483,7 @@ class PropertiesEncoding(BaseFileFormatParam):
 
 @register_file_format_param
 class CSVEncoding(BaseFileFormatParam):
-    file_formats = ("csv",)
+    file_formats = ("csv", "csv-multi")
     name = "csv_encoding"
     label = gettext_lazy("File encoding")
     field_class = forms.ChoiceField

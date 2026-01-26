@@ -139,7 +139,7 @@ class FormatsConf(AppConf):
         "weblate.formats.ttkit.TOMLFormat",
         "weblate.formats.ttkit.RESJSONFormat",
         "weblate.formats.ttkit.NextcloudJSONFormat",
-        "weblate.formats.multi.MultiCSVUtf8Format",
+        "weblate.formats.multi.MultiCSVFormat",
     )
 
     class Meta:

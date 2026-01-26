@@ -173,8 +173,8 @@ class MultiFormatMixin(TranslationFormat):
             super().add_unit(unit)
 
 
-class MultiCSVUtf8Format(MultiFormatMixin, CSVFormat):
-    name = gettext_lazy("Multivalue CSV file (UTF-8)")
-    format_id = "csv-multi-utf-8"
+class MultiCSVFormat(MultiFormatMixin, CSVFormat):
+    name = gettext_lazy("Multivalue CSV file")
+    format_id = "csv-multi"
     autoload: tuple[str, ...] = ()
     force_encoding = "utf-8"

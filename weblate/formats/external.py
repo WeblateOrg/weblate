@@ -31,6 +31,9 @@ class XlsxFormat(CSVFormat):
     autoload = ("*.xlsx",)
     force_encoding = "utf-8"
 
+    def get_encoding(self) -> str | None:
+        return "utf-8"
+
     def write_cell(self, worksheet, column: int, row: int, value: str):
         from openpyxl.cell.cell import TYPE_STRING
 
