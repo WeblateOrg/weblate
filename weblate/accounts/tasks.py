@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import logging
 from datetime import timedelta
-from email.mime.image import MIMEImage
+from email.message import MIMEPart
 from smtplib import SMTP, SMTPConnectError
 from types import MethodType
 from typing import TYPE_CHECKING, TypedDict
@@ -210,9 +210,15 @@ def send_mails(mails: list[OutgoingEmail]) -> None:
     images = []
     with sentry_sdk.start_span(op="email.images"):
         for name in ("email-logo.png", "email-logo-footer.png"):
-            image = MIMEImage(load_icon(name, auto_prefix=False))
-            image.add_header("Content-ID", f"<{name}@cid.weblate.org>")
-            image.add_header("Content-Disposition", "inline", filename=name)
+            image = MIMEPart()
+            image.set_content(
+                load_icon(name, auto_prefix=False),
+                maintype="image",
+                subtype="png",
+                disposition="inline",
+                filename=name,
+                cid=f"<{name}@cid.weblate.org>",
+            )
             images.append(image)
 
     with sentry_sdk.start_span(op="email.connect"):
