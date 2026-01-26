@@ -130,7 +130,6 @@ Weblate 5.15
 * :doc:`/formats/xliff2`, :doc:`/formats/nextcloud-json`, :doc:`/formats/resjson`, and :doc:`/formats/toml` are now supported file formats.
 * :ref:`addon-weblate.fedora_messaging.publish` integration is now available as add-on.
 * Added :ref:`check-laravel-format` quality check.
-* Encoding for :ref:`formats` can now be configured using :ref:`file_format_params` (e.g., ``csv_encoding``, ``properties_encoding``).
 
 .. rubric:: Improvements
 
