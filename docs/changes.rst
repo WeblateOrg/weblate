@@ -6,6 +6,7 @@ Weblate 5.16
 .. rubric:: New features
 
 * :ref:`check-multiple-capital` quality check.
+* Bulk accepting suggestions from a specific user in :ref:`suggestions`.
 
 .. rubric:: Improvements
 
