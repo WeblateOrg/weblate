@@ -168,8 +168,34 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
 
     def test_bulk_accept_rate_limiting(self):
         """Test that rate limiting prevents abuse (>1000 suggestions)."""
-        # This test documents the expected behavior without creating 1001 suggestions
-        # The actual rate limiting is tested implicitly in the view logic
+        # Create a user with too many suggestions (simulated with queryset patch)
+        user = User.objects.create_user(username="spammer", password="test")
+        
+        # Create a few real suggestions
+        for i in range(5):
+            Suggestion.objects.create(
+                unit=self.unit,
+                target=f"Spam {i}",
+                user=user,
+            )
+        
+        # Mock the count to simulate >1000 suggestions
+        from unittest.mock import patch
+        with patch.object(
+            type(Suggestion.objects.filter()), "count", return_value=1001
+        ):
+            response = self.client.post(
+                reverse(
+                    "bulk-accept-user-suggestions",
+                    kwargs={"path": self.translation.get_url_path()},
+                ),
+                {"username": "spammer"},
+            )
+        
+        self.assertEqual(response.status_code, 400)
+        data = response.json()
+        self.assertIn("error", data)
+        self.assertIn("1001", data["error"])
 
     def test_bulk_accept_only_target_translation(self):
         """Test that only suggestions for the specified translation are accepted."""
