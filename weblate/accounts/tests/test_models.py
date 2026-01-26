@@ -98,4 +98,4 @@ class ProfileCommitNameTestCase(TestCase):
     )
     def test_get_commit_name_empty_template_fallback(self) -> None:
         self.profile.commit_name = Profile.COMMIT_NAME_PRIVATE
-        self.assertTrue(len(self.profile.get_commit_name()) > 0)
+        self.assertEqual(self.profile.get_commit_name(), "Test User")
