@@ -17,7 +17,7 @@
 # 马牛逼（Felix） <felixliujy@gmail.com>, 2024.
 # Sketch6580 <Sketch6580@users.noreply.hosted.weblate.org>, 2024.
 # 大学没毕业 <ziweidao@foxmail.com>, 2024, 2025.
-# Sketch6580 <sketch6580@users.noreply.hosted.weblate.org>, 2025.
+# Sketch6580 <sketch6580@users.noreply.hosted.weblate.org>, 2025, 2026.
 # Michal Čihař <michal@weblate.org>, 2025.
 # wang <wyr200712@163.com>, 2025.
 # Poesty Li <poesty7450@gmail.com>, 2025.
@@ -30,9 +30,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-01-26 11:05+0100\n"
-"PO-Revision-Date: 2026-01-24 16:42+0000\n"
-"Last-Translator: 大王叫我来巡山 "
-"<hamburger2048@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2026-01-27 04:08+0000\n"
+"Last-Translator: Sketch6580 <sketch6580@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -1366,8 +1365,6 @@ msgid "Post announcements"
 msgstr "发布公告"
 
 #: ../../snippets/permissions.rst:327
-#, fuzzy
-#| msgid "Delete announcement"
 msgid "Delete announcements"
 msgstr "删除公告"
 
@@ -1461,10 +1458,8 @@ msgid ":guilabel:`Post announcements`"
 msgstr ":guilabel:`发布公告`"
 
 #: ../../snippets/roles.rst:12 ../../snippets/roles.rst:114
-#, fuzzy
-#| msgid ":guilabel:`Post announcements`"
 msgid ":guilabel:`Delete announcements`"
-msgstr ":guilabel:`发布公告`"
+msgstr ":guilabel:`删除公告`"
 
 #: ../../snippets/roles.rst:13 ../../snippets/roles.rst:200
 msgid ":guilabel:`View billing info`"
@@ -9685,15 +9680,6 @@ msgid ""
 msgstr "推送选项根据使用的 :ref:`vcs` 而不同，更多细节可以在那个章节中找到。"
 
 #: ../../admin/continuous.rst:365
-#, fuzzy
-#| msgid ""
-#| "In case you do not want direct pushes by Weblate, there is support "
-#| "for :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-"
-#| "pagure`, :ref:`vcs-azure-devops` pull requests or :ref:`vcs-gerrit` "
-#| "reviews, you can activate these by "
-#| "choosing :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit`, :guilabel:`Azure "
-#| "DevOps`, or :guilabel:`Pagure` as :ref:`component-vcs` "
-#| "in :ref:`component`."
 msgid ""
 "In case you do not want direct pushes by Weblate, there is support "
 "for :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-"
@@ -9703,9 +9689,9 @@ msgid ""
 "DevOps`, or :guilabel:`Pagure` as :ref:`component-vcs` in :ref:`component`."
 msgstr ""
 "如果不想要 Weblate 的直接推送，系统也支持 :ref:`vcs-github`、:ref:`vcs-"
-"gitlab`、:ref:`vcs-gitea`、:ref:`vcs-pagure`、:ref:`vcs-azure-devops` 的拉取"
-"请求或 :ref:`vcs-gerrit` 审核。你可以通过在 :ref:`component` 中选"
-"择 :guilabel:`GitHub`、:guilabel:`GitLab`、:guilabel:`Gitea`、:guilabel:`Gerrit`、:guilabel:`Azure "
+"gitlab`、:ref:`vcs-gitea`、:ref:`vcs-pagure`、:ref:`vcs-azure-devops` 或 "
+":ref:`vcs-gerrit` 审核。您可以通过在 :ref:`component` 中选择 "
+":guilabel:`GitHub`、:guilabel:`GitLab`、:guilabel:`Gitea`、:guilabel:`Gerrit`、:guilabel:`Azure "
 "DevOps` 或 :guilabel:`Pagure` 作为 :ref:`component-vcs` 来激活这些。"
 
 #: ../../admin/continuous.rst:371
@@ -11303,12 +11289,6 @@ msgstr ""
 "或 :envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER` (Docker 环境) 中配置这个标头。"
 
 #: ../../admin/install.rst:768
-#, fuzzy
-#| msgid ""
-#| "The header value is case-sensitive in the configuration, so "
-#| "``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,https`` and "
-#| "``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,HTTPS`` are not "
-#| "interchangeable."
 msgid ""
 "The header value is case-sensitive in the configuration, so "
 "``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_FORWARDED_PROTO,https`` and "
@@ -11316,8 +11296,8 @@ msgid ""
 "interchangeable."
 msgstr ""
 "标头值在配置中区分大小写，因此 "
-"``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,https`` 和 "
-"``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,HTTPS`` 不可互换。"
+"``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_FORWARDED_PROTO,https`` 和 "
+"``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_FORWARDED_PROTO,HTTPS`` 不可互换。"
 
 #: ../../admin/install.rst:775
 msgid ""
@@ -17895,7 +17875,7 @@ msgstr "列出文件格式参数。"
 
 #: ../../admin/management.rst:809
 msgid "Lists all possible change event types."
-msgstr ""
+msgstr "列出所有可能的更改事件类型。"
 
 #: ../../admin/management.rst:816
 msgid ""
@@ -24419,10 +24399,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`维基百科上的 RSS <https://zh.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.1"
 msgid "Weblate 5.16"
-msgstr "Weblate 5.1"
+msgstr "Weblate 5.16"
 
 #: ../../changes.rst:4
 msgid "*Not yet released.*"
@@ -24439,10 +24417,8 @@ msgid "New features"
 msgstr "新功能"
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Skip the :ref:`check-multiple-failures` quality check."
 msgid ":ref:`check-multiple-capital` quality check."
-msgstr "跳过 :ref:`check-multiple-failures` 质量检查。"
+msgstr ":ref:`check-multiple-capital` 质量检查。"
 
 #: ../../changes.rst:9
 msgid ""
@@ -24625,26 +24601,20 @@ msgid "Contributors"
 msgstr "贡献者"
 
 #: ../../changes.rst:38
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "56?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/156?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/56?"
-"closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/156?closed=1>"
+"`__。"
 
 #: ../../changes.rst:41
 msgid "Weblate 5.15.2"
 msgstr "Weblate 5.15.2"
 
 #: ../../changes.rst:43
-#, fuzzy
-#| msgid "*Released on January 14th 2021.*"
 msgid "*Released on January 14th 2026.*"
-msgstr "*发布于 2021 年 1 月 14 日。*"
+msgstr "*发布于 2026 年 1 月 14 日。*"
 
 #: ../../changes.rst:47
 msgid ""
@@ -24664,15 +24634,10 @@ msgid ":ref:`check-same` check ignores AsciiDoc source code blocks."
 msgstr ":ref:`check-same` 检查忽略 AsciiDoc 源码块。"
 
 #: ../../changes.rst:54
-#, fuzzy
-#| msgid ""
-#| "Arbitrary file read via symbolic links (:cve:`2025-68279` / :ghsa:`g925-"
-#| "f788-4jh7`)."
 msgid ""
 "Information leak via screenshots "
 "(:cve:`2026-21889` / :ghsa:`3g2f-4rjg-9385`)."
-msgstr ""
-"通过符号链接读取任意文件漏洞（:cve:`2025-68279`/:ghsa:`g925-f788-4jh7`）。"
+msgstr "通过屏幕截图泄露信息（:cve:`2026-21889` / :ghsa:`3g2f-4rjg-9385`）。"
 
 #: ../../changes.rst:55
 msgid "Explanation sync in :doc:`/formats/tbx`."
@@ -24708,22 +24673,16 @@ msgid "Invitations accepting when :setting:`REQUIRE_LOGIN` is turned on."
 msgstr "打开 :setting:`REQUIRE_LOGIN` 时的接受邀请。"
 
 #: ../../changes.rst:63
-#, fuzzy
-#| msgid ":ref:`mt-cyrtranslit` automatic suggestion service."
 msgid ":ref:`mt-cyrtranslit` installation."
-msgstr ":ref:`mt-cyrtranslit` 自动建议服务。"
+msgstr ":ref:`mt-cyrtranslit` 安装。"
 
 #: ../../changes.rst:67
-#, fuzzy
-#| msgid ""
-#| "Screenshot images are no longer served directly by the HTTP server, "
-#| "please adjust your HTTP server by removing serving of ``/media/``."
 msgid ""
 "Screenshot images are no longer served directly by the HTTP server, please "
 "adjust your HTTP server by removing serving of :file:`/media/`."
 msgstr ""
-"截屏图片不再直接通过 HTTP 服务器提供，请删除 ``/media/`` 路径调整你的 HTTP 服"
-"务器。"
+"截屏图片不再直接通过 HTTP 服务器提供，请移除 :file:`/media/` 路径调整您的 "
+"HTTP 服务器。"
 
 #: ../../changes.rst:73
 msgid ""
@@ -49996,16 +49955,12 @@ msgid ""
 msgstr "在某些情况下，未能填写复数形式将导致在使用复数形式时不显示任何内容。"
 
 #: ../../user/checks.rst:1482
-#, fuzzy
-#| msgid "Multiple unnamed variables"
 msgid "Multiple capitals"
-msgstr "多个未命名的变量"
+msgstr "多个大写字母"
 
 #: ../../user/checks.rst:1486
-#, fuzzy
-#| msgid "Translation contains extra zero-width space character."
 msgid "Translation contains words with multiple misplaced capital letters."
-msgstr "译文中含有额外的零宽空格字符。"
+msgstr "译文中含有多个大写字母错位的单词。"
 
 #: ../../user/checks.rst:1493
 msgid ""
@@ -50147,13 +50102,10 @@ msgid ""
 msgstr "匹配还支持 Unicode 码位属性，包括脚本和代码块："
 
 #: ../../user/checks.rst:1643
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-same` check now honors placeholders even in the strict mode."
 msgid ""
 "Use :ref:`check-placeholders` for detecting missing placeholders in the "
 "string."
-msgstr ":ref:`check-same` 检查现在遵守占位符，即使在严格模式下也是如此。"
+msgstr "使用 :ref:`check-placeholders` 检测字符串中缺少的占位符。"
 
 #: ../../user/checks.rst:1647
 msgid "`regex documentation <https://github.com/mrabarnett/mrab-regex>`_"
@@ -54149,10 +54101,8 @@ msgstr ""
 "pip 安装 :program:`wlc`："
 
 #: ../../wlc.rst:22
-#, fuzzy
-#| msgid "You can also designate what project :program:`wlc` should work on:"
 msgid "You can also execute it directly using :program:`uvx`:"
-msgstr "您还可以指定 :program:`wlc` 应该从事的项目："
+msgstr "您也可以直接使用 :program:`uvx` 执行它："
 
 #: ../../wlc.rst:30
 msgid ""
