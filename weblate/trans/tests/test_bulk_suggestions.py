@@ -170,7 +170,7 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
         """Test that rate limiting prevents abuse (>1000 suggestions)."""
         # Create a user with too many suggestions (simulated with queryset patch)
         user = User.objects.create_user(username="spammer", password="test")
-        
+
         # Create a few real suggestions
         for i in range(5):
             Suggestion.objects.create(
@@ -178,9 +178,10 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
                 target=f"Spam {i}",
                 user=user,
             )
-        
+
         # Mock the count to simulate >1000 suggestions
         from unittest.mock import patch
+
         with patch.object(
             type(Suggestion.objects.filter()), "count", return_value=1001
         ):
@@ -191,7 +192,7 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
                 ),
                 {"username": "spammer"},
             )
-        
+
         self.assertEqual(response.status_code, 400)
         data = response.json()
         self.assertIn("error", data)
