@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-01-26 11:05+0100\n"
-"PO-Revision-Date: 2026-01-19 12:01+0000\n"
+"PO-Revision-Date: 2026-01-27 04:09+0000\n"
 "Last-Translator: Максим Горпиніч <gorpinicmaksim0@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -33,8 +33,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : "
-"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n%10>"
+"=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 5.16-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
@@ -1459,10 +1459,8 @@ msgid "Post announcements"
 msgstr "Оголошення про публікації"
 
 #: ../../snippets/permissions.rst:327
-#, fuzzy
-#| msgid "Delete announcement"
 msgid "Delete announcements"
-msgstr "Вилучити оголошення"
+msgstr "Видалити оголошення"
 
 #: ../../snippets/permissions.rst:331
 msgid "Site wide privileges"
@@ -1555,10 +1553,8 @@ msgid ":guilabel:`Post announcements`"
 msgstr ":guilabel:`Post announcements`"
 
 #: ../../snippets/roles.rst:12 ../../snippets/roles.rst:114
-#, fuzzy
-#| msgid ":guilabel:`Post announcements`"
 msgid ":guilabel:`Delete announcements`"
-msgstr ":guilabel:`Post announcements`"
+msgstr ":guilabel:`Delete announcements`"
 
 #: ../../snippets/roles.rst:13 ../../snippets/roles.rst:200
 msgid ":guilabel:`View billing info`"
@@ -9574,13 +9570,17 @@ msgid ""
 "of projects that are using them, it can cause confusion or distract "
 "translators from the actual components that are meant to be translated."
 msgstr ""
+"Компоненти глосарію зазвичай передаються в інші проекти, щоб зробити їх "
+"доступними для перекладацької роботи. Коли вони відображаються у списку "
+"компонентів проектів, які їх використовують, це може спричинити плутанину "
+"або відволікти перекладачів від фактичних компонентів, які призначені для "
+"перекладу."
 
 #: ../../admin/config.rst:1871
-#, fuzzy
-#| msgid "This is turned off by default now, used to be turned on by default."
 msgid ""
 "This is turned off by default, making shared glossary components visible."
-msgstr "У поточній версії типово вимкнено, раніше було увімкнено."
+msgstr ""
+"За замовчуванням це вимкнено, що робить спільні компоненти глосарію видимими."
 
 #: ../../admin/config.rst:1878
 msgid ""
@@ -10552,15 +10552,6 @@ msgstr ""
 "знайти у цьому розділі."
 
 #: ../../admin/continuous.rst:365
-#, fuzzy
-#| msgid ""
-#| "In case you do not want direct pushes by Weblate, there is support "
-#| "for :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-"
-#| "pagure`, :ref:`vcs-azure-devops` pull requests or :ref:`vcs-gerrit` "
-#| "reviews, you can activate these by "
-#| "choosing :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit`, :guilabel:`Azure "
-#| "DevOps`, or :guilabel:`Pagure` as :ref:`component-vcs` "
-#| "in :ref:`component`."
 msgid ""
 "In case you do not want direct pushes by Weblate, there is support "
 "for :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-"
@@ -10569,13 +10560,12 @@ msgid ""
 "choosing :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit`, :guilabel:`Azure "
 "DevOps`, or :guilabel:`Pagure` as :ref:`component-vcs` in :ref:`component`."
 msgstr ""
-"Якщо вам не потрібне безпосереднє записування до сховища від Weblate, "
-"передбачено підтримку запитів щодо об'єднання :ref:`vcs-github`, :ref:`vcs-"
-"gitlab`, :ref:`vcs-gitea` , :ref:`vcs-pagure` , :ref:`vcs-azure-devops` або "
-"рецензувань :ref:`vcs-gerrit`. Ви можете активувати їх "
-"вибором :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit` , :guilabel:`Azure "
-"DevOps` або :guilabel:`Pagure` як :ref:`component-vcs` у "
-"розділі :ref:`component`."
+"Якщо ви не хочете отримувати прямі надсилання змін від Weblate, існує "
+"підтримка для оглядів :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-"
+"gitea`, :ref:`vcs-pagure`, :ref:`vcs-azure-devops` або :ref:`vcs-gerrit`. Ви "
+"можете активувати їх, вибравши :guilabel:`GitHub`, :guilabel:`GitLab`, "
+":guilabel:`Gitea`, :guilabel:`Gerrit`, :guilabel:`Azure DevOps` або "
+":guilabel:`Pagure` як :ref:`component-vcs` у :ref:`component`."
 
 #: ../../admin/continuous.rst:371
 msgid ""
@@ -12326,12 +12316,6 @@ msgstr ""
 "або :envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER` (середовище Docker)."
 
 #: ../../admin/install.rst:768
-#, fuzzy
-#| msgid ""
-#| "The header value is case-sensitive in the configuration, so "
-#| "``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,https`` and "
-#| "``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,HTTPS`` are not "
-#| "interchangeable."
 msgid ""
 "The header value is case-sensitive in the configuration, so "
 "``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_FORWARDED_PROTO,https`` and "
@@ -12339,8 +12323,8 @@ msgid ""
 "interchangeable."
 msgstr ""
 "Значення заголовка в конфігурації чутливе до регістру, тому "
-"``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,https`` і "
-"``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,HTTPS`` не є "
+"``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_FORWARDED_PROTO,https`` та "
+"``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_FORWARDED_PROTO,HTTPS`` не є "
 "взаємозамінними."
 
 #: ../../admin/install.rst:775
@@ -13656,6 +13640,13 @@ msgid ""
 "privacy reasons, as the error e-mails might include sensitive data. You can "
 "read more on that in :ref:`django:logging-security-implications`."
 msgstr ""
+"Стандартна конфігурація Weblate використовує Django для надсилання "
+"електронних листів про помилки сервера через "
+":py:class:`django:django.utils.log.AdminEmailHandler`. Це найменш складне "
+"налаштування, але вам слід розглянути інші варіанти з міркувань "
+"конфіденційності, оскільки електронні листи про помилки можуть містити "
+"конфіденційні дані. Ви можете дізнатися більше про це в :ref:`django:logging-"
+"security-implications`."
 
 #: ../../admin/install.rst:1853
 msgid ""
@@ -13663,6 +13654,9 @@ msgid ""
 "the :setting:`django:LOGGING` in Weblate settings, or "
 "disable :envvar:`WEBLATE_ADMIN_NOTIFY_ERROR` in the Docker environment."
 msgstr ""
+"Щоб вимкнути цю поведінку, видаліть ``mail_admins`` з "
+":setting:`django:LOGGING` у налаштуваннях Weblate або вимкніть "
+":envvar:`WEBLATE_ADMIN_NOTIFY_ERROR` у середовищі Docker."
 
 #: ../../admin/install.rst:1858
 msgid "Sentry"
@@ -14760,6 +14754,8 @@ msgid ""
 "Hides glossary components when shared to other projects, "
 "see :setting:`HIDE_SHARED_GLOSSARY_COMPONENTS`."
 msgstr ""
+"Приховує компоненти глосарію під час спільного використання з іншими "
+"проектами, див. :setting:`HIDE_SHARED_GLOSSARY_COMPONENTS`."
 
 #: ../../admin/install/docker.rst:825
 msgid ""
@@ -19623,7 +19619,7 @@ msgstr "Перелічує параметри формату файлу."
 
 #: ../../admin/management.rst:809
 msgid "Lists all possible change event types."
-msgstr ""
+msgstr "Перелічує всі можливі типи подій змін."
 
 #: ../../admin/management.rst:816
 msgid ""
@@ -26737,10 +26733,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS у Вікіпедії <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.1"
 msgid "Weblate 5.16"
-msgstr "Weblate 5.1"
+msgstr "Weblate 5.16"
 
 #: ../../changes.rst:4
 msgid "*Not yet released.*"
@@ -26757,22 +26751,24 @@ msgid "New features"
 msgstr "Нові функції"
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Skip the :ref:`check-multiple-failures` quality check."
 msgid ":ref:`check-multiple-capital` quality check."
-msgstr "Пропустити перевірку якості :ref:`check-multiple-failures`."
+msgstr ":ref:`check-multiple-capital` перевірка якості."
 
 #: ../../changes.rst:9
 msgid ""
 ":setting:`HIDE_SHARED_GLOSSARY_COMPONENTS` to hide glossaries shared into "
 "other projects."
 msgstr ""
+":setting:`HIDE_SHARED_GLOSSARY_COMPONENTS` для приховування глосаріїв, якими "
+"користуються інші проєкти."
 
 #: ../../changes.rst:10
 msgid ""
 "Added new management command :wladmin:`list_change_events`, which lists all "
 "possible change events, :ref:`addon-choice-events`."
 msgstr ""
+"Додано нову команду керування :wladmin:`list_change_events`, яка відображає "
+"всі можливі події змін, :ref:`addon-choice-events`."
 
 #: ../../changes.rst:13 ../../changes.rst:46 ../../changes.rst:91
 #: ../../changes.rst:132 ../../changes.rst:208 ../../changes.rst:235
@@ -26797,26 +26793,29 @@ msgid ""
 "Delete announcements permission can be assigned to teams, "
 "see :ref:`privileges`."
 msgstr ""
+"Дозвіл на видалення оголошень можна призначити командам, див. "
+":ref:`privileges`."
 
 #: ../../changes.rst:15
 msgid ":doc:`/user/search` better reports errors in the query strings."
-msgstr ""
+msgstr ":doc:`/user/search` краще повідомляє про помилки в рядках запиту."
 
 #: ../../changes.rst:16
 msgid "Regular repository maintenance is now performed in the background."
 msgstr ""
+"Регулярне обслуговування репозиторію тепер виконується у фоновому режимі."
 
 #: ../../changes.rst:17
 msgid "Repository cleanup now recovers failed merges or rebases."
-msgstr ""
+msgstr "Очищення репозиторію тепер відновлює невдалі злиття або перебазування."
 
 #: ../../changes.rst:18
 msgid "Better visibility of :ref:`project-commit_policy` to translators."
-msgstr ""
+msgstr "Краща видимість :ref:`project-commit_policy` для перекладачів."
 
 #: ../../changes.rst:19
 msgid "Validation of VCS settings :ref:`push-changes` has been extended."
-msgstr ""
+msgstr "Перевірку налаштувань VCS :ref:`push-changes` розширено."
 
 #: ../../changes.rst:22 ../../changes.rst:53 ../../changes.rst:98
 #: ../../changes.rst:149 ../../changes.rst:188 ../../changes.rst:212
@@ -26846,10 +26845,14 @@ msgid ""
 "Adding plural strings with singular matching existing string is now "
 "prohibited for bilingual translations (see :ref:`bimono`)."
 msgstr ""
+"Додавання рядків у множині з одниною, що відповідає існуючому рядку, тепер "
+"заборонено для двомовних перекладів (див. :ref:`bimono`)."
 
 #: ../../changes.rst:24
 msgid "Automatic :ref:`component-repoweb` URL for common code hosting sites."
 msgstr ""
+"Автоматична URL-адреса :ref:`component-repoweb` для поширених сайтів "
+"розміщення коду."
 
 #: ../../changes.rst:27 ../../changes.rst:66 ../../changes.rst:163
 #: ../../changes.rst:306 ../../changes.rst:401 ../../changes.rst:456
@@ -26867,6 +26870,10 @@ msgid ""
 "allow generic regular-expression-based checking of strings. Use :ref:`check-"
 "placeholders` for checking regular expression matched placeholders."
 msgstr ""
+":ref:`check-regex` більше не позначає збіги у фрагментах як неперекладні, що "
+"дозволяє загальну перевірку рядків на основі регулярних виразів. "
+"Використовуйте :ref:`check-placeholders` для перевірки збігів у фрагментах "
+"регулярних виразів."
 
 #: ../../changes.rst:31 ../../changes.rst:70 ../../changes.rst:106
 #: ../../changes.rst:173 ../../changes.rst:193 ../../changes.rst:216
@@ -26945,26 +26952,20 @@ msgid "Contributors"
 msgstr "Учасники"
 
 #: ../../changes.rst:38
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "56?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/156?"
 "closed=1>`__."
 msgstr ""
-"`Докладний опис усіх змін <https://github.com/WeblateOrg/weblate/milestone/"
-"56?closed=1>`__."
+"`Всі зміни детально <https://github.com/WeblateOrg/weblate/milestone/"
+"156?closed=1>`__."
 
 #: ../../changes.rst:41
 msgid "Weblate 5.15.2"
 msgstr "Weblate 5.15.2"
 
 #: ../../changes.rst:43
-#, fuzzy
-#| msgid "*Released on January 14th 2021.*"
 msgid "*Released on January 14th 2026.*"
-msgstr "*Випущено 14 січня 2021 року.*"
+msgstr "*Випущено 14 січня 2026 року.*"
 
 #: ../../changes.rst:47
 msgid ""
@@ -26986,16 +26987,12 @@ msgid ":ref:`check-same` check ignores AsciiDoc source code blocks."
 msgstr "Перевірка :ref:`check-same` ігнорує блоки вихідного коду AsciiDoc."
 
 #: ../../changes.rst:54
-#, fuzzy
-#| msgid ""
-#| "Arbitrary file read via symbolic links (:cve:`2025-68279` / :ghsa:`g925-"
-#| "f788-4jh7`)."
 msgid ""
 "Information leak via screenshots "
 "(:cve:`2026-21889` / :ghsa:`3g2f-4rjg-9385`)."
 msgstr ""
-"Довільний файл, що зчитується через символічні посилання "
-"(:cve:`2025-68279` / :ghsa:`g925-f788-4jh7`)."
+"Витік інформації через скріншоти (:cve:`2026-21889` / :ghsa:`3g2f-4rjg-9385`)"
+"."
 
 #: ../../changes.rst:55
 msgid "Explanation sync in :doc:`/formats/tbx`."
@@ -27033,22 +27030,16 @@ msgid "Invitations accepting when :setting:`REQUIRE_LOGIN` is turned on."
 msgstr "Запрошення приймаються, коли увімкнено :setting:`REQUIRE_LOGIN`."
 
 #: ../../changes.rst:63
-#, fuzzy
-#| msgid ":ref:`mt-cyrtranslit` automatic suggestion service."
 msgid ":ref:`mt-cyrtranslit` installation."
-msgstr "Служба автоматичних пропозицій :ref:`mt-cyrtranslit`."
+msgstr "Встановлення :ref:`mt-cyrtranslit`."
 
 #: ../../changes.rst:67
-#, fuzzy
-#| msgid ""
-#| "Screenshot images are no longer served directly by the HTTP server, "
-#| "please adjust your HTTP server by removing serving of ``/media/``."
 msgid ""
 "Screenshot images are no longer served directly by the HTTP server, please "
 "adjust your HTTP server by removing serving of :file:`/media/`."
 msgstr ""
-"Зображення екрана більше не обслуговуються безпосередньо HTTP-сервером. Будь "
-"ласка, налаштуйте свій HTTP-сервер, видаливши обслуговування ``/media/``."
+"Знімки екрана більше не обслуговуються безпосередньо HTTP-сервером. Будь "
+"ласка, налаштуйте свій HTTP-сервер, видаливши обслуговування :file:`/media/`."
 
 #: ../../changes.rst:73
 msgid ""
@@ -27056,6 +27047,9 @@ msgid ""
 "media/` path should be removed from the HTTP server configuration; "
 "see :ref:`static-files`."
 msgstr ""
+"Щоб виправлення для :cve:`2026-21889` було ефективним, обслуговування шляху "
+":file:`/media/` слід видалити з конфігурації HTTP-сервера; див. :ref:`static-"
+"files`."
 
 #: ../../changes/contributors/5.10.1.rst:2
 #: ../../changes/contributors/5.10.2.rst:2
@@ -54877,16 +54871,13 @@ msgstr ""
 "показано порожній рядок замість форми множини."
 
 #: ../../user/checks.rst:1482
-#, fuzzy
-#| msgid "Multiple unnamed variables"
 msgid "Multiple capitals"
-msgstr "Декілька змінних без назв"
+msgstr "Кілька столиць"
 
 #: ../../user/checks.rst:1486
-#, fuzzy
-#| msgid "Translation contains extra zero-width space character."
 msgid "Translation contains words with multiple misplaced capital letters."
-msgstr "Переклад містить зайві символи пропуску нульової ширини."
+msgstr ""
+"Переклад містить слова з кількома неправильно розміщеними великими літерами."
 
 #: ../../user/checks.rst:1493
 msgid ""
@@ -54896,6 +54887,11 @@ msgid ""
 "capitalization in the source string are allowed to contain capitalization in "
 "the translation."
 msgstr ""
+"Перевіряє наявність неправильно розміщених великих літер, виявляючи слова, "
+"що містять послідовно великі літери в тексті, що зазвичай використовується в "
+"нижньому регістрі або з великою літерою (наприклад, ``HEllo`` або "
+"``CAmelCase``). Рядкам, які містять великі літери у вихідному рядку, "
+"дозволено містити великі літери в перекладі."
 
 #: ../../user/checks.rst:1501
 msgid "Non‑standard characters in Kabyle"
@@ -55049,15 +55045,12 @@ msgstr ""
 "сценарії та блоки:"
 
 #: ../../user/checks.rst:1643
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-same` check now honors placeholders even in the strict mode."
 msgid ""
 "Use :ref:`check-placeholders` for detecting missing placeholders in the "
 "string."
 msgstr ""
-"У новій версії у перевірці :ref:`check-same` враховуються замінники, навіть "
-"у строгому режимі."
+"Використовуйте :ref:`check-placeholders` для виявлення відсутніх "
+"заповнювачів у рядку."
 
 #: ../../user/checks.rst:1647
 msgid "`regex documentation <https://github.com/mrabarnett/mrab-regex>`_"
@@ -59507,10 +59500,9 @@ msgstr ""
 "за допомогою pip:"
 
 #: ../../wlc.rst:22
-#, fuzzy
-#| msgid "You can also designate what project :program:`wlc` should work on:"
 msgid "You can also execute it directly using :program:`uvx`:"
-msgstr "Ви також можете позначити проєкт, з яким має працювати :program:`wlc`:"
+msgstr ""
+"Ви також можете виконати його безпосередньо, використовуючи :program:`uvx`:"
 
 #: ../../wlc.rst:30
 msgid ""
