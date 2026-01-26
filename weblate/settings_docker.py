@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
+from html import escape
 from logging.handlers import SysLogHandler
 from pathlib import Path
 
@@ -428,7 +429,7 @@ if WEBLATE_SAML_IDP:
     SOCIAL_AUTH_SAML_ORG_INFO = {
         "en-US": {
             "name": "weblate",
-            "displayname": SITE_TITLE,
+            "displayname": escape(SITE_TITLE),
             "url": SITE_URL,
         }
     }

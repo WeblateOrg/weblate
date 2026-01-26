@@ -15,20 +15,23 @@ from urllib.parse import quote
 
 import qrcode
 import qrcode.image.svg
-import social_django.utils
 from django.conf import settings
 from django.contrib.auth import REDIRECT_FIELD_NAME, get_backends
 from django.contrib.auth import login as auth_login
 from django.contrib.auth import logout as auth_logout
 from django.contrib.auth.decorators import login_not_required, login_required
 from django.contrib.auth.views import LoginView, RedirectURLMixin
-from django.core.exceptions import ObjectDoesNotExist, PermissionDenied, ValidationError
+from django.core.exceptions import (
+    ImproperlyConfigured,
+    ObjectDoesNotExist,
+    PermissionDenied,
+    ValidationError,
+)
 from django.core.mail.message import EmailMessage
 from django.core.signing import BadSignature, SignatureExpired, TimestampSigner
 from django.db import transaction
 from django.db.models import Count, Q
 from django.http import Http404, HttpResponse, HttpResponseRedirect, JsonResponse
-from django.http.response import HttpResponseServerError
 from django.middleware.csrf import rotate_token
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
@@ -1582,16 +1585,16 @@ def saml_metadata(request: AuthenticatedHttpRequest):
 
     # Generate metadata
     complete_url = reverse("social:complete", args=("saml",))
-    saml_backend = social_django.utils.load_backend(
-        load_strategy(request), "saml", complete_url
-    )
+    saml_backend = load_backend(load_strategy(request), "saml", complete_url)
     metadata, errors = saml_backend.generate_metadata_xml()
 
     # Handle errors
     if errors:
-        add_breadcrumb(category="auth", message="SAML errors", errors=errors)
-        report_error("SAML metadata", level="error")
-        return HttpResponseServerError(content=", ".join(errors))
+        add_breadcrumb(
+            category="auth", message="SAML errors", errors=errors, metadata=metadata
+        )
+        msg = "Invalid SAML metadata"
+        raise ImproperlyConfigured(msg)
 
     return HttpResponse(content=metadata, content_type="text/xml")
 
