@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.15.2\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-01-13 16:24+0000\n"
-"PO-Revision-Date: 2026-01-17 00:02+0000\n"
-"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
+"PO-Revision-Date: 2026-01-26 10:04+0000\n"
+"Last-Translator: amano <amano@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
 "Language: ja\n"
@@ -30,7 +30,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.15.2\n"
+"X-Generator: Weblate 5.16-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -2099,9 +2099,9 @@ msgid ""
 "Unused strings are removed, and new ones added as copies of the source "
 "string."
 msgstr ""
-"すべての翻訳ファイルを、アップストリームにあるモノリンガル用の基礎となる翻訳"
-"ファイルと整合するように更新します。使われない文字列は削除され、新しい文字列"
-"は原文をコピーして追加されます。"
+"すべての翻訳ファイルを、上流にあるモノリンガル用の基礎となる翻訳ファイルと整"
+"合するように更新します。使われない文字列は削除され、新しい文字列は原文を"
+"コピーして追加されます。"
 
 #: weblate/addons/views.py:122 weblate/addons/views.py:125
 #, python-format
@@ -2605,7 +2605,7 @@ msgstr "内部リポジトリの変更点のリセット"
 #. Translators: Permission name
 #: weblate/auth/data.py:113
 msgid "View upstream repository location"
-msgstr "アップストリームリポジトリの場所の表示"
+msgstr "上流リポジトリの場所の表示"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:115
@@ -9399,8 +9399,7 @@ msgstr[0] "%(count)s 個の不足したコミット"
 
 #: weblate/templates/js/git-status.html:109
 msgid "This will update the Weblate repository with the upstream changes."
-msgstr ""
-"これにより、Weblate のリポジトリがアップストリームの変更と同期されます。"
+msgstr "これにより、Weblate のリポジトリが上流の変更と同期されます。"
 
 #: weblate/templates/js/git-status.html:118
 msgid "Allow changes to the Weblate repository"
@@ -9462,19 +9461,18 @@ msgid ""
 "Resets Weblate’s repository to match upstream and discards any pending "
 "changes in Weblate."
 msgstr ""
-"Weblateのリポジトリをアップストリーム（アップストリーム）に合わせてリセット"
-"し、Weblate内の保留中の変更をすべて破棄します。"
+"Weblateのリポジトリを上流に合わせてリセットし、Weblate内の保留中の変更をすべ"
+"て破棄します。"
 
 #: weblate/templates/js/git-status.html:169
 msgid "Use when you want the upstream to be the authority for translations."
-msgstr "アップストリームを翻訳の正としたい場合に利用します。"
+msgstr "上流を翻訳の正としたい場合に利用します。"
 
 #: weblate/templates/js/git-status.html:170
 msgid ""
 "It will discard changes in Weblate repo and bring it in sync with the "
 "upstream repository."
-msgstr ""
-"Weblate リポジトリの変更を破棄し、アップストリーム リポジトリと同期させます。"
+msgstr "Weblate リポジトリの変更を破棄し、上流リポジトリと同期させます。"
 
 #: weblate/templates/js/git-status.html:177
 msgid "Reset and reapply"
@@ -9485,8 +9483,8 @@ msgid ""
 "Resets Weblate’s repository to match upstream and replace upstream "
 "translations with the current state from Weblate."
 msgstr ""
-"Weblate のリポジトリをアップストリームに合わせてリセットし、アップストリーム"
-"の翻訳を Weblate の現在の状態に置き換えます。"
+"Weblate のリポジトリを上流に合わせてリセットし、上流の翻訳を Weblate の現在の"
+"状態に置き換えます。"
 
 #: weblate/templates/js/git-status.html:181
 msgid "Use when you want Weblate to be the authority for translations."
@@ -9496,9 +9494,7 @@ msgstr "翻訳の主導権を Weblate に与える場合に使用します。"
 msgid ""
 "It will keep changes from Weblate but bring its repository in sync with the "
 "upstream repository."
-msgstr ""
-"Weblate での変更を保持しつつ、リポジトリをアップストリームのリポジトリと同期"
-"させます。"
+msgstr "Weblate での変更を保持しつつ、リポジトリを上流のリポジトリと同期させます。"
 
 #: weblate/templates/js/git-status.html:188
 msgid "Cleanup"
@@ -11848,7 +11844,7 @@ msgstr "プロジェクトの同意"
 
 #: weblate/templates/snippets/libre-basic.html:23
 msgid "Using Weblate has been approved by the upstream project."
-msgstr "Weblate の使用が、アップストリームのプロジェクトで承認されていること。"
+msgstr "Weblate の使用が、上流のプロジェクトで承認されていること。"
 
 #: weblate/templates/snippets/libre-basic.html:25
 msgid ""
@@ -12493,16 +12489,16 @@ msgid ""
 "The upstream repository was not found. Please check whether it exists and is "
 "accessible to Weblate."
 msgstr ""
-"アップストリームリポジトリが見つかりませんでした。それが存在し、Weblate にア"
-"クセスできるかどうかを確認してください。"
+"上流リポジトリが見つかりませんでした。それが存在し、Weblate にアクセスできる"
+"かどうかを確認してください。"
 
 #: weblate/templates/trans/alert/common-repo.html:11
 msgid ""
 "The upstream repository could not be accessed. Please check whether it is "
 "accessible to Weblate."
 msgstr ""
-"アップストリームリポジトリにアクセスできませんでした。Weblate からアクセス可"
-"能かどうかを確認してください。"
+"上流リポジトリにアクセスできませんでした。Weblate からアクセス可能かどうかを"
+"確認してください。"
 
 #: weblate/templates/trans/alert/common-repo.html:17
 msgid ""
@@ -12519,8 +12515,8 @@ msgid ""
 "The upstream repository could not be temporarily accessed. Please try it "
 "again later."
 msgstr ""
-"一時的にアップストリームリポジトリにアクセスできませんでした。後でもう一度試"
-"してください。"
+"一時的に上流リポジトリにアクセスできませんでした。後でもう一度試してください"
+"。"
 
 #: weblate/templates/trans/alert/common-repo.html:27
 msgid ""
@@ -12549,8 +12545,8 @@ msgid ""
 "The Weblate repository is missing some commits from upstream. Perhaps it is "
 "not receiving notifications upon updates of the remote repository."
 msgstr ""
-"Weblate リポジトリには、アップストリームからのコミットが欠落しています。おそ"
-"らく、リポジトリの更新の通知を受信していません。"
+"Weblate リポジトリには、上流からのコミットが欠落しています。おそらく、"
+"リポジトリの更新の通知を受信していません。"
 
 #: weblate/templates/trans/alert/common-repo.html:48
 msgid ""
@@ -12671,9 +12667,7 @@ msgstr "新しい翻訳のテンプレート"
 
 #: weblate/templates/trans/alert/mergefailure.html:3
 msgid "Weblate could not merge upstream changes while updating the repository."
-msgstr ""
-"Weblate はリポジトリの更新中にアップストリームの変更をマージできませんでし"
-"た。"
+msgstr "Weblate はリポジトリの更新中に上流の変更をマージできませんでした。"
 
 #: weblate/templates/trans/alert/missinglicense.html:4
 msgid ""
@@ -12752,8 +12746,7 @@ msgstr "Weblate は翻訳の更新中に翻訳ファイルを解析できませ�
 
 #: weblate/templates/trans/alert/pushfailure.html:3
 msgid "Weblate could not push changes to the upstream repository."
-msgstr ""
-"Weblate は変更をアップストリームのリポジトリにプッシュできませんでした。"
+msgstr "Weblate は変更を上流のリポジトリにプッシュできませんでした。"
 
 #: weblate/templates/trans/alert/pushfailure.html:14
 msgid "Push the repository"
@@ -12764,17 +12757,16 @@ msgid ""
 "The VCS repository has many changes compared to the upstream. Please merge "
 "the changes manually or set up push to automate this."
 msgstr ""
-"VCS のリポジトリには、アップストリームに比べて多くの変更があります。変更を手"
-"動でマージするか、マージを自動化するためのプッシュを設定してください。"
+"VCS のリポジトリには、上流に比べて多くの変更があります。変更を手動でマージす"
+"るか、マージを自動化するためのプッシュを設定してください。"
 
 #: weblate/templates/trans/alert/repositoryoutdated.html:4
 msgid ""
 "The VCS repository is not up to date with the upstream one. Please merge "
 "changes manually or set up hooks to automate this."
 msgstr ""
-"VCS のリポジトリは、アップストリームのリポジトリと比較して最新の状態ではあり"
-"ません。変更を手動でマージするか、マージを自動化するためのフックを設定してく"
-"ださい。"
+"VCS のリポジトリは、上流のリポジトリと比較して最新の状態ではありません。変更"
+"を手動でマージするか、マージを自動化するためのフックを設定してください。"
 
 #: weblate/templates/trans/alert/unsupportedconfiguration.html:10
 #: weblate/trans/models/component.py:404
@@ -12836,8 +12828,7 @@ msgstr "スクリーンショットの管理"
 
 #: weblate/templates/trans/alert/updatefailure.html:3
 msgid "Weblate could not fetch upstream changes when updating the repository."
-msgstr ""
-"Weblate はリポジトリの更新中にアップストリームの変更を取得できませんでした。"
+msgstr "Weblate はリポジトリの更新中に上流の変更を取得できませんでした。"
 
 #: weblate/templates/trans/alert/updatefailure.html:14
 msgid "Update the repository"
@@ -13136,8 +13127,8 @@ msgstr "マージの競合を解決する一般的な方法:"
 msgid ""
 "Open an existing checkout of the upstream repository or perform a fresh one."
 msgstr ""
-"アップストリームリポジトリの既存のチェックアウトを開くか、新しいチェックアウ"
-"トを実行する。"
+"上流リポジトリの既存のチェックアウトを開くか、新しいチェックアウトを実行する"
+"。"
 
 #: weblate/templates/trans/merge_instructions.html:10
 msgid ""
@@ -13156,7 +13147,7 @@ msgstr "Weblate の変更をマージして競合を解決する。"
 
 #: weblate/templates/trans/merge_instructions.html:26
 msgid "Rebase Weblate changes on top of upstream and resolve any conflicts."
-msgstr "Weblate の変更をアップストリームの上にリベースし、競合を解決します。"
+msgstr "Weblate の変更を上流の上にリベースし、競合を解決します。"
 
 #: weblate/templates/trans/merge_instructions.html:32
 msgid "Push changes into upstream repository."
@@ -14888,7 +14879,7 @@ msgstr "ライセンス"
 
 #: weblate/trans/forms.py:1725
 msgid "Upstream links"
-msgstr "アップストリームのリンク"
+msgstr "上流のリンク"
 
 #: weblate/trans/forms.py:1727
 msgid "Listing and access"
@@ -15823,8 +15814,8 @@ msgid ""
 "Define whether Weblate should merge the upstream repository or rebase "
 "changes onto it."
 msgstr ""
-"Weblate がアップストリームのリポジトリをマージするか、変更点をリベースするか"
-"どうかを設定します。"
+"Weblate が上流のリポジトリをマージするか、変更点をリベースするかどうかを設定"
+"します。"
 
 #: weblate/trans/models/component.py:687
 msgid "Commit message when translating"
@@ -15867,7 +15858,7 @@ msgstr "コミット時にプッシュする"
 
 #: weblate/trans/models/component.py:745
 msgid "Whether the repository should be pushed upstream on every commit."
-msgstr "各コミット時にリポジトリをアップストリームにプッシュするかどうか。"
+msgstr "各コミット時にリポジトリを上流にプッシュするかどうか。"
 
 #: weblate/trans/models/component.py:749
 msgid "Age of changes to commit"
@@ -17699,12 +17690,11 @@ msgstr "コンポーネントと優先度"
 
 #: weblate/vcs/base.py:85
 msgid "This will push changes to the upstream repository."
-msgstr "これにより、変更がアップストリームのリポジトリにプッシュされます。"
+msgstr "これにより、変更が上流のリポジトリにプッシュされます。"
 
 #: weblate/vcs/git.py:106
 msgid "This will push changes to the upstream Git repository."
-msgstr ""
-"これにより、変更がアップストリームの Git リポジトリにプッシュされます。"
+msgstr "これにより、変更が上流の Git リポジトリにプッシュされます。"
 
 #: weblate/vcs/git.py:626
 msgid "Possible cleanups:"
@@ -17724,8 +17714,7 @@ msgstr "Git に強制プッシュ"
 
 #: weblate/vcs/git.py:866
 msgid "This will force push changes to the upstream repository."
-msgstr ""
-"これにより、変更がアップストリームリポジトリに強制的にプッシュされます。"
+msgstr "これにより、変更が上流リポジトリに強制的にプッシュされます。"
 
 #: weblate/vcs/git.py:1376
 msgid "Azure DevOps pull request"
@@ -17791,8 +17780,7 @@ msgstr "Bitbucket Cloud マージリクエスト"
 
 #: weblate/vcs/mercurial.py:57
 msgid "This will push changes to the upstream Mercurial repository."
-msgstr ""
-"これにより、アップストリームの Mercurial リポジトリに変更がプッシュされます。"
+msgstr "これにより、上流の Mercurial リポジトリに変更がプッシュされます。"
 
 #: weblate/vcs/ssh.py:50
 msgctxt "SSH key type"
