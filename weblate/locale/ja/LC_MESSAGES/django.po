@@ -21,7 +21,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-01-26 10:05+0000\n"
-"PO-Revision-Date: 2026-01-26 10:04+0000\n"
+"PO-Revision-Date: 2026-01-27 04:08+0000\n"
 "Last-Translator: amano <amano@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
@@ -1650,8 +1650,7 @@ msgstr "要修正な文字列を含める"
 msgid ""
 "Strings needing editing (fuzzy) are typically not ready for use as "
 "translations."
-msgstr ""
-"要修正な文字列（あいまい）は、通常、翻訳として使用できる状態ではありません。"
+msgstr "要修正（あいまい）な文字列は、通常、翻訳として使用できる状態ではありません。"
 
 #: weblate/addons/forms.py:99
 msgid "Name of generated file"
@@ -2619,8 +2618,6 @@ msgstr "お知らせの投稿"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:119
-#, fuzzy
-#| msgid "Delete announcement"
 msgid "Delete announcements"
 msgstr "お知らせの削除"
 
@@ -3612,16 +3609,12 @@ msgid "Missing non breakable space before double punctuation sign."
 msgstr "二重句読点の前に改行しないスペースがない。"
 
 #: weblate/checks/chars.py:589
-#, fuzzy
-#| msgid "Multiple unnamed variables"
 msgid "Multiple capitals"
-msgstr "複数の無名変数"
+msgstr "複数の大文字"
 
 #: weblate/checks/chars.py:591
-#, fuzzy
-#| msgid "Translation contains extra zero-width space character."
 msgid "Translation contains words with multiple misplaced capital letters."
-msgstr "ゼロ幅スペース文字を含む翻訳文。"
+msgstr "翻訳文に誤って複数の大文字を含む単語がある。"
 
 #: weblate/checks/consistency.py:33
 msgid "Missing plurals"
@@ -13241,7 +13234,7 @@ msgstr "招待"
 msgid ""
 "You are not allowed to invite new users because new registrations are turned "
 "off."
-msgstr ""
+msgstr "新規登録が無効になっているため、新しいユーザーを招待できません。"
 
 #: weblate/templates/trans/project-access.html:278
 #, python-format
@@ -16061,7 +16054,7 @@ msgstr "カテゴリーはこのプロジェクトに属していません。"
 
 #: weblate/trans/models/component.py:3112
 msgid "Categorized component can not be shared."
-msgstr "分類されたコンポーネントは共有できません。"
+msgstr "カテゴリーに入ったコンポーネントは共有できません。"
 
 #: weblate/trans/models/component.py:3124
 msgid "Invalid link to a Weblate project, use weblate://project/component."
@@ -16196,12 +16189,10 @@ msgstr ""
 "ことはできません。"
 
 #: weblate/trans/models/component.py:3401
-#, fuzzy
-#| msgid "Pull and push branches cannot be the same when using merge requests."
 msgid "Push branch cannot be empty when using merge requests."
 msgstr ""
-"マージ リクエストを使用する場合、プル ブランチとプッシュ ブランチを同じにする"
-"ことはできません。"
+"マージ リクエストを使用する場合、プッシュ ブランチを空にすることはできません"
+"。"
 
 #: weblate/trans/models/component.py:3410
 #, python-format
@@ -16458,21 +16449,17 @@ msgstr "言語の別名"
 msgid ""
 "Comma-separated list of language code mappings, for example: "
 "en_GB:en,en_US:en"
-msgstr "カンマで区切られた言語コード対応表、例: en_GB:en, en_US:en"
+msgstr "カンマで区切られた言語コード対応一覧。例: en_GB:en,en_US:en"
 
 #: weblate/trans/models/project.py:834
-#, fuzzy
-#| msgid "Forces writing all strings to the translation files."
 msgid ""
 "Translations marked as needing editing are not written to the translation "
 "file."
-msgstr "すべての文字列を翻訳ファイルに強制的に書き込みます。"
+msgstr "要修正の翻訳は翻訳ファイルに書き込みません。"
 
 #: weblate/trans/models/project.py:838
-#, fuzzy
-#| msgid "Approved translation in %(translation)s"
 msgid "Only approved translations are written to the translation file."
-msgstr "%(translation)s で承認された翻訳"
+msgstr "承認された翻訳のみ翻訳ファイルに書き込みます。"
 
 #: weblate/trans/models/suggestion.py:157
 msgid "Could not accept suggestion!"
@@ -17541,28 +17528,20 @@ msgid "Unsupported state: {}"
 msgstr "未対応の状態: {}"
 
 #: weblate/utils/search.py:183
-#, fuzzy
-#| msgid "Could not parse URL: {}"
 msgid "Could not parse boolean value: {}"
-msgstr "URL の解析に失敗: {}"
+msgstr "ブール値の解析に失敗: {}"
 
 #: weblate/utils/search.py:200
-#, fuzzy
-#| msgid "Could not parse query string: {}"
 msgid "Could not parse numeric value: {}"
-msgstr "検索式の文字列を解析できませんでした: {}"
+msgstr "数値の解析に失敗: {}"
 
 #: weblate/utils/search.py:308
-#, fuzzy
-#| msgid "Could not parse URL: {}"
 msgid "Could not parse timestamp: {}"
-msgstr "URL の解析に失敗: {}"
+msgstr "タイムスタンプの解析に失敗: {}"
 
 #: weblate/utils/search.py:445
-#, fuzzy
-#| msgid "Focus on search field."
 msgid "Unknown search field: {}"
-msgstr "検索入力フォームにカーソル移動。"
+msgstr "不明な検索フィールド: {}"
 
 #: weblate/utils/search.py:482
 msgid "Invalid regular expression: {}"
@@ -17911,13 +17890,11 @@ msgstr "新しい SSH 鍵を作成しました。"
 #: weblate/vcs/ssh.py:244
 #, python-format
 msgid "Could not fetch public key for a host: %s"
-msgstr "取得できなかったホストの公開鍵: %s"
+msgstr "ホストの公開鍵を取得できませんでした: %s"
 
 #: weblate/vcs/ssh.py:247
-#, fuzzy
-#| msgid "Could not fetch public key for a host: %s"
 msgid "Could not fetch public key for a host."
-msgstr "取得できなかったホストの公開鍵: %s"
+msgstr "ホストの公開鍵を取得できませんでした。"
 
 #: weblate/vcs/ssh.py:255
 msgid "Invalid host name given!"
