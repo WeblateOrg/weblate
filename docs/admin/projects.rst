@@ -237,7 +237,8 @@ Enable review workflow for translations, see :ref:`reviews`.
 
 .. seealso::
 
-   :ref:`workflow-customization`
+   * :setting:`DEFAULT_TRANSLATION_REVIEW`
+   * :ref:`workflow-customization`
 
 .. _project-source_review:
 
@@ -248,6 +249,7 @@ Enable review workflow for source strings, see :ref:`source-reviews`.
 
 .. seealso::
 
+   * :setting:`DEFAULT_SOURCE_REVIEW`
    * :ref:`report-source`
    * :ref:`user-comments`
 

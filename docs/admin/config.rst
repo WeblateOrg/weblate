@@ -695,6 +695,25 @@ DEFAULT_SHARED_TM
 
 Configures the default value of :ref:`project-use_shared_tm` and :ref:`project-contribute_shared_tm`.
 
+
+.. setting:: DEFAULT_TRANSLATION_REVIEW
+
+DEFAULT_TRANSLATION_REVIEW
+--------------------------
+
+.. versionadded:: 5.16
+
+Configures the default value for :ref:`project-translation_review`, turned off by default.
+
+.. setting:: DEFAULT_SOURCE_REVIEW
+
+DEFAULT_SOURCE_REVIEW
+---------------------
+
+.. versionadded:: 5.16
+
+Configures the default value for :ref:`project-source_review`, turned off by default.
+
 .. setting:: DEFAULT_AUTOCLEAN_TM
 
 DEFAULT_AUTOCLEAN_TM

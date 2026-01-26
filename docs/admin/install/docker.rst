@@ -824,6 +824,18 @@ Generic settings
 
     Configures the default :ref:`project-access_control` for new projects, see :setting:`DEFAULT_ACCESS_CONTROL`.
 
+.. envvar:: WEBLATE_DEFAULT_TRANSLATION_REVIEW
+
+   .. versionadded:: 5.16
+
+   Configures the default value for :ref:`project-translation_review`, turned off by default.
+
+.. envvar:: WEBLATE_DEFAULT_SOURCE_REVIEW
+
+   .. versionadded:: 5.16
+
+   Configures the default value for :ref:`project-source_review`, turned off by default.
+
 .. envvar:: WEBLATE_DEFAULT_RESTRICTED_COMPONENT
 
     Configures the default value for :ref:`component-restricted` for new components, see :setting:`DEFAULT_RESTRICTED_COMPONENT`.

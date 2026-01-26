@@ -18,6 +18,7 @@ Weblate 5.16
 * Repository cleanup now recovers failed merges or rebases.
 * Better visibility of :ref:`project-commit_policy` to translators.
 * Validation of VCS settings :ref:`push-changes` has been extended.
+* The default values for :ref:`project-translation_review` and :ref:`project-source_review` can be configured in settings.
 
 .. rubric:: Bug fixes
 
