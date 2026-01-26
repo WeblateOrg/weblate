@@ -17,8 +17,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-01-26 10:05+0000\n"
-"PO-Revision-Date: 2026-01-14 14:18+0000\n"
-"Last-Translator: Agnieszka C <aga_04@o2.pl>\n"
+"PO-Revision-Date: 2026-01-27 04:08+0000\n"
+"Last-Translator: Matthaiks <kitynska@gmail.com>\n"
 "Language-Team: Polish <https://hosted.weblate.org/projects/weblate/"
 "application/pl/>\n"
 "Language: pl\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 "
 "|| n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.15.2-dev\n"
+"X-Generator: Weblate 5.16-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -2678,10 +2678,8 @@ msgstr "Opublikuj ogłoszenia"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:119
-#, fuzzy
-#| msgid "Delete announcement"
 msgid "Delete announcements"
-msgstr "Usuń ogłoszenie"
+msgstr "Usuń ogłoszenia"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:127
@@ -3684,16 +3682,13 @@ msgid "Missing non breakable space before double punctuation sign."
 msgstr "Brak niełamliwej spacji przed podwójnym znakiem interpunkcyjnym."
 
 #: weblate/checks/chars.py:589
-#, fuzzy
-#| msgid "Multiple unnamed variables"
 msgid "Multiple capitals"
-msgstr "Wiele nienazwanych zmiennych"
+msgstr "Wiele wersalików"
 
 #: weblate/checks/chars.py:591
-#, fuzzy
-#| msgid "Translation contains extra zero-width space character."
 msgid "Translation contains words with multiple misplaced capital letters."
-msgstr "Tłumaczenie zawiera dodatkowy znak spacji o zerowej szerokości."
+msgstr ""
+"Tłumaczenie zawiera słowa z wieloma błędnie postawionymi wielkimi literami."
 
 #: weblate/checks/consistency.py:33
 msgid "Missing plurals"
@@ -9784,6 +9779,8 @@ msgid ""
 "This might discard edits that cannot be committed because of the configured "
 "commit policy."
 msgstr ""
+"Może to spowodować odrzucenie edycji, których nie można zatwierdzić ze "
+"względu na skonfigurowaną politykę zatwierdzania."
 
 #: weblate/templates/js/git-status.html:219
 msgid "Use these operations with caution, they can lead to data loss."
@@ -13531,6 +13528,8 @@ msgid ""
 "You are not allowed to invite new users because new registrations are turned "
 "off."
 msgstr ""
+"Nie możesz zapraszać nowych użytkowników, ponieważ możliwość dokonywania "
+"nowych rejestracji jest wyłączona."
 
 #: weblate/templates/trans/project-access.html:278
 #, python-format
@@ -16558,12 +16557,8 @@ msgstr ""
 "scalania."
 
 #: weblate/trans/models/component.py:3401
-#, fuzzy
-#| msgid "Pull and push branches cannot be the same when using merge requests."
 msgid "Push branch cannot be empty when using merge requests."
-msgstr ""
-"Gałęzie pull i push nie mogą być takie same podczas korzystania z żądań "
-"scalania."
+msgstr "Gałąź push nie może być pusta w przypadku używania żądań scalenia."
 
 #: weblate/trans/models/component.py:3410
 #, python-format
@@ -16833,18 +16828,16 @@ msgstr ""
 "en_GB:en,en_US:en"
 
 #: weblate/trans/models/project.py:834
-#, fuzzy
-#| msgid "Forces writing all strings to the translation files."
 msgid ""
 "Translations marked as needing editing are not written to the translation "
 "file."
-msgstr "Wymusza zapisanie wszystkich ciągów do plików tłumaczeń."
+msgstr ""
+"Tłumaczenia oznaczone jako wymagające edycji nie są zapisywane w pliku "
+"tłumaczenia."
 
 #: weblate/trans/models/project.py:838
-#, fuzzy
-#| msgid "Approved translation in %(translation)s"
 msgid "Only approved translations are written to the translation file."
-msgstr "Tłumaczenie zatwierdzone w projekcie %(translation)s"
+msgstr "Tylko zatwierdzone tłumaczenia są zapisywane do pliku tłumaczenia."
 
 #: weblate/trans/models/suggestion.py:157
 msgid "Could not accept suggestion!"
@@ -17955,28 +17948,20 @@ msgid "Unsupported state: {}"
 msgstr "Stan nieobsługiwany: {}"
 
 #: weblate/utils/search.py:183
-#, fuzzy
-#| msgid "Could not parse URL: {}"
 msgid "Could not parse boolean value: {}"
-msgstr "Nie udało się przeanalizować adresu URL: {}"
+msgstr "Nie można przeanalizować wartości logicznej: {}"
 
 #: weblate/utils/search.py:200
-#, fuzzy
-#| msgid "Could not parse query string: {}"
 msgid "Could not parse numeric value: {}"
-msgstr "Nie udało się przeanalizować ciągu zapytania: {}"
+msgstr "Nie można przeanalizować wartości liczbowej: {}"
 
 #: weblate/utils/search.py:308
-#, fuzzy
-#| msgid "Could not parse URL: {}"
 msgid "Could not parse timestamp: {}"
-msgstr "Nie udało się przeanalizować adresu URL: {}"
+msgstr "Nie można przeanalizować znacznika czasu: {}"
 
 #: weblate/utils/search.py:445
-#, fuzzy
-#| msgid "Focus on search field."
 msgid "Unknown search field: {}"
-msgstr "Skup się na polu wyszukiwania."
+msgstr "Nieznane pole wyszukiwania: {}"
 
 #: weblate/utils/search.py:482
 msgid "Invalid regular expression: {}"
@@ -17985,21 +17970,17 @@ msgstr "Nieprawidłowe wyrażenie regularne: {}"
 #: weblate/utils/search.py:512 weblate/utils/search.py:519
 #, python-brace-format
 msgid "Unsupported lookup for {field}: {value}"
-msgstr ""
+msgstr "Nieobsługiwane wyszukiwanie dla {field}: {value}"
 
 #: weblate/utils/search.py:828
 msgid "Mixed operators!"
-msgstr ""
+msgstr "Mieszane operatory!"
 
 #: weblate/utils/search.py:868
-#, fuzzy
-#| msgid "Invalid search string!"
 msgid "Invalid character in the query string"
-msgstr "Nieprawidłowy szukany ciąg!"
+msgstr "Nieprawidłowy znak w ciągu zapytania"
 
 #: weblate/utils/search.py:874
-#, fuzzy
-#| msgid "Could not parse query string: {}"
 msgid "Failed to parse the query string: {}"
 msgstr "Nie udało się przeanalizować ciągu zapytania: {}"
 
@@ -18327,10 +18308,8 @@ msgid "Could not fetch public key for a host: %s"
 msgstr "Nie udało się pobrać klucza publicznego dla hosta: %s"
 
 #: weblate/vcs/ssh.py:247
-#, fuzzy
-#| msgid "Could not fetch public key for a host: %s"
 msgid "Could not fetch public key for a host."
-msgstr "Nie udało się pobrać klucza publicznego dla hosta: %s"
+msgstr "Nie udało się pobrać klucza publicznego dla hosta."
 
 #: weblate/vcs/ssh.py:255
 msgid "Invalid host name given!"
