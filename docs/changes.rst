@@ -28,8 +28,8 @@ Weblate 5.16
 
 .. rubric:: Compatibility
 
+* :ref:`check-regex` no longer marks matched portions as non-translatable to allow generic regular-expression-based checking of strings. Use :ref:`check-placeholders` for checking regular expression matched placeholders.
 * The default value for :setting:`WEBLATE_FORMATS` changed because of the removal of encoding-specific formats.
-
 
 .. rubric:: Upgrading
 
