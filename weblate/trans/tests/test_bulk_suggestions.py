@@ -171,6 +171,8 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
         # Create a user with too many suggestions (simulated with queryset patch)
         user = User.objects.create_user(username="spammer", password="test")
 
+        self.assertIsNotNone(self.unit)
+
         # Create a few real suggestions
         for i in range(5):
             Suggestion.objects.create(
