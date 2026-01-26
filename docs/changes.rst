@@ -5,21 +5,11 @@ Weblate 5.16
 
 .. rubric:: New features
 
-* Encoding for :ref:`formats` can now be configured using :ref:`file_format_params` (e.g., ``csv_encoding``, ``properties_encoding``).
-
-.. rubric:: Compatibility
-
-* File formats that only differed in encoding (CSV, GWT Properties, Java Properties, iOS Strings) have been merged into single formats.
-
-Weblate 5.15.2
---------------
-
-*Not yet released.*
-
-.. rubric:: New features
-
 * :ref:`check-multiple-capital` quality check.
 * :setting:`HIDE_SHARED_GLOSSARY_COMPONENTS` to hide glossaries shared into other projects.
+* Added new management command :wladmin:`list_change_events`, which lists all possible change events, :ref:`addon-choice-events`.
+* Added Anthropic machinery integration, see :ref:`mt-anthropic`.
+* Encoding for :ref:`formats` can now be configured using :ref:`file_format_params` (e.g., ``csv_encoding``, ``properties_encoding``).
 
 .. rubric:: Improvements
 
@@ -27,11 +17,14 @@ Weblate 5.15.2
 * :doc:`/user/search` better reports errors in the query strings.
 * Regular repository maintenance is now performed in the background.
 * Repository cleanup now recovers failed merges or rebases.
+* Better visibility of :ref:`project-commit_policy` to translators.
+* Validation of VCS settings :ref:`push-changes` has been extended.
 
 .. rubric:: Bug fixes
 
 * Adding plural strings with singular matching existing string is now prohibited for bilingual translations (see :ref:`bimono`).
 * Automatic :ref:`component-repoweb` URL for common code hosting sites.
+* File formats that only differed in encoding (CSV, GWT Properties, Java Properties, iOS Strings) have been merged into single formats.
 
 .. rubric:: Compatibility
 

@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 from __future__ import annotations
 
-from typing import Literal
+from typing import TYPE_CHECKING, Literal
 
 from crispy_forms.layout import Div, Field
 from crispy_forms.utils import TEMPLATE_PACK
@@ -21,6 +21,9 @@ from weblate.trans.filter import FILTERS
 from weblate.trans.util import sort_unicode
 
 from .validators import WeblateServiceURLValidator, validate_email, validate_username
+
+if TYPE_CHECKING:
+    from django_stubs_ext import StrOrPromise
 
 
 class QueryField(forms.CharField):
@@ -58,29 +61,31 @@ class UsernameField(forms.CharField):
     def __init__(
         self,
         *,
-        max_length: int | None = None,
+        max_length: int | None = USERNAME_LENGTH,
         min_length: int | None = None,
         strip: bool = True,
         empty_value: str = "",
+        required: bool = True,
+        label: StrOrPromise | None = None,
+        help_text: StrOrPromise | None = None,
         **kwargs,
     ) -> None:
-        params = {
-            "max_length": USERNAME_LENGTH,
-            "help_text": gettext_lazy(
-                "Username may only contain letters, "
-                "numbers or the following characters: @ . + - _"
-            ),
-            "label": gettext_lazy("Username"),
-            "required": True,
-        }
-        params.update(kwargs)
         self.valid = None
+        if not label:
+            label = gettext_lazy("Username")
+        if not help_text:
+            help_text = gettext_lazy(
+                "Username may only contain letters, numbers or the following characters: @ . + - _"
+            )
 
         super().__init__(
             max_length=max_length,
             min_length=min_length,
             strip=strip,
             empty_value=empty_value,
+            help_text=help_text,
+            label=label,
+            required=required,
             **kwargs,
         )
 
@@ -178,8 +183,11 @@ class SearchField(Field):
         kwargs["template"] = "snippets/query-field.html"
         super().__init__(*args, **kwargs)
 
-    # pylint: disable-next=arguments-differ
-    def render(self, form, context, template_pack=TEMPLATE_PACK, **kwargs):
+    def render(
+        self, form, context, template_pack=TEMPLATE_PACK, extra_context=None, **kwargs
+    ):
+        if extra_context is not None:
+            raise TypeError
         extra_context = {"custom_filter_list": self.get_search_query_choices()}
         return super().render(form, context, template_pack, extra_context, **kwargs)
 

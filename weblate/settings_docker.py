@@ -1229,6 +1229,7 @@ WEBLATE_MACHINERY = [
     "weblate.machinery.apertium.ApertiumAPYTranslation",
     "weblate.machinery.aws.AWSTranslation",
     "weblate.machinery.alibaba.AlibabaTranslation",
+    "weblate.machinery.anthropic.AnthropicTranslation",
     "weblate.machinery.baidu.BaiduTranslation",
     "weblate.machinery.deepl.DeepLTranslation",
     "weblate.machinery.glosbe.GlosbeTranslation",

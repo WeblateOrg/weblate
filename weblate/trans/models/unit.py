@@ -34,7 +34,7 @@ from weblate.trans.models.category import Category
 from weblate.trans.models.change import Change
 from weblate.trans.models.comment import Comment
 from weblate.trans.models.pending import PendingUnitChange
-from weblate.trans.models.project import Project
+from weblate.trans.models.project import CommitPolicyChoices, Project
 from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.models.variant import Variant
 from weblate.trans.signals import unit_post_sync, unit_pre_create
@@ -2320,3 +2320,13 @@ class Unit(models.Model, LoggerMixin):
     @property
     def has_pending_changes(self) -> bool:
         return self.pending_changes.exists()
+
+    @property
+    def is_blocked_by_commit_policy(self) -> bool:
+        commit_policy = self.translation.component.project.commit_policy
+        return not self.readonly and (
+            (commit_policy == CommitPolicyChoices.WITHOUT_NEEDS_EDITING and self.fuzzy)
+            or (
+                commit_policy == CommitPolicyChoices.APPROVED_ONLY and not self.approved
+            )
+        )

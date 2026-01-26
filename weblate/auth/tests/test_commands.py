@@ -4,6 +4,8 @@
 
 """Test for user handling."""
 
+from io import StringIO
+
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.test import TestCase
@@ -108,3 +110,22 @@ class CommandTest(TestCase, TempDirMixin):
         call_command("setupgroups")
         group = Group.objects.get(name="Users")
         self.assertTrue(group.roles.filter(name="Power user").exists())
+
+    def test_list_permissions(self) -> None:
+        """Test list permissions command."""
+        out = StringIO()
+        call_command("list_permissions", stdout=out)
+        self.assertIn("Managing per-project access control", out.getvalue())
+        self.assertIn("List of privileges", out.getvalue())
+        self.assertIn("List of built-in roles", out.getvalue())
+        self.assertIn("List of teams", out.getvalue())
+
+        out = StringIO()
+        call_command("list_permissions", "--sections", "teams", stdout=out)
+        self.assertIn("List of teams", out.getvalue())
+        self.assertNotIn("List of built-in roles", out.getvalue())
+
+        out = StringIO()
+        call_command("list_permissions", "--sections", "roles", stdout=out)
+        self.assertNotIn("List of teams", out.getvalue())
+        self.assertIn("List of built-in roles", out.getvalue())

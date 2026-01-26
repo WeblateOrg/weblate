@@ -253,8 +253,8 @@ Enable review workflow for source strings, see :ref:`source-reviews`.
 
 .. _project-commit_policy:
 
-Commit Policy
-+++++++++++++
+Translation quality filter
+++++++++++++++++++++++++++
 
 .. versionadded:: 5.13
 

@@ -169,11 +169,15 @@ def unblock_user(request: AuthenticatedHttpRequest, project):
     return redirect("manage-access", project=obj.slug)
 
 
+def can_invite_users(request: AuthenticatedHttpRequest) -> bool:
+    return settings.REGISTRATION_OPEN or request.user.has_perm("user.edit")
+
+
 @require_POST
 @login_required
 def invite_user(request: AuthenticatedHttpRequest, project):
     """Invite user to a project."""
-    if not settings.REGISTRATION_OPEN:
+    if not can_invite_users(request):
         raise PermissionDenied
     obj, form = check_user_form(
         request, project, form_class=InviteEmailForm, pass_project=True
@@ -289,7 +293,7 @@ def manage_access(request: AuthenticatedHttpRequest, project):
             ),
             "invite_user_form": InviteUserForm(project=obj),
             "invite_email_form": InviteEmailForm(project=obj)
-            if settings.REGISTRATION_OPEN
+            if can_invite_users(request)
             else None,
             "public_ssh_keys": get_all_key_data(),
         },
