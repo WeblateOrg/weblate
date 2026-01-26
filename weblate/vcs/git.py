@@ -190,8 +190,9 @@ class GitRepository(Repository):
                     config.set(section, key, value)
 
     def config_update(self, *updates: tuple[str, str, str | None]) -> None:
-        filename = Path(self.path) / ".git" / "config"
-        self.git_config_update(filename, *updates)
+        with self.lock:
+            filename = Path(self.path) / ".git" / "config"
+            self.git_config_update(filename, *updates)
 
     def check_config(self) -> None:
         """Check VCS configuration."""
