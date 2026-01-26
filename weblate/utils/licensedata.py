@@ -772,6 +772,12 @@ LICENSES = (
         False,
     ),
     (
+        "CAPEC-tou",
+        "Common Attack    Pattern Enumeration and Classification License",
+        "https://spdx.org/licenses/CAPEC-tou.html",
+        False,
+    ),
+    (
         "CDDL-1.0",
         "Common Development and Distribution License 1.0",
         "https://spdx.org/licenses/CDDL-1.0.html",
@@ -2542,6 +2548,12 @@ LICENSES = (
         True,
     ),
     (
+        "MMPL-1.0.1",
+        "Minecraft Mod Public License v1.0.1",
+        "https://spdx.org/licenses/MMPL-1.0.1.html",
+        False,
+    ),
+    (
         "Minpack",
         "Minpack License",
         "https://spdx.org/licenses/Minpack.html",
@@ -3112,6 +3124,12 @@ LICENSES = (
         False,
     ),
     (
+        "OpenMDW-1.0",
+        "OpenMDW License Agreement v1.0",
+        "https://spdx.org/licenses/OpenMDW-1.0.html",
+        False,
+    ),
+    (
         "OpenPBS-2.3",
         "OpenPBS v2.3 Software License",
         "https://spdx.org/licenses/OpenPBS-2.3.html",
@@ -3151,6 +3169,12 @@ LICENSES = (
         "PADL",
         "PADL License",
         "https://spdx.org/licenses/PADL.html",
+        False,
+    ),
+    (
+        "ParaType-Free-Font-1.3",
+        "ParaType Free Font Licensing Agreement v1.3",
+        "https://spdx.org/licenses/ParaType-Free-Font-1.3.html",
         False,
     ),
     (

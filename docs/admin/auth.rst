@@ -533,6 +533,12 @@ Example configuration:
         "emailAddress": "support@example.com"
     }
 
+You can generate a new pair of keys using:
+
+.. code-block:: sh
+
+   openssl req -newkey rsa:4096 -new -x509 -days 3652 -nodes -out saml.crt -keyout saml.key
+
 The default configuration extracts user details from following attributes,
 configure your IdP to provide them:
 

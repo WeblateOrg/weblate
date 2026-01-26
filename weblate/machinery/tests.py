@@ -36,6 +36,7 @@ from weblate.configuration.models import Setting, SettingCategory
 from weblate.glossary.models import render_glossary_units_tsv
 from weblate.lang.models import Language
 from weblate.machinery.alibaba import AlibabaTranslation
+from weblate.machinery.anthropic import AnthropicTranslation
 from weblate.machinery.apertium import ApertiumAPYTranslation
 from weblate.machinery.aws import AWSTranslation
 from weblate.machinery.baidu import BAIDU_API, BaiduTranslation
@@ -2845,6 +2846,97 @@ class OllamaRemoteModelTranslationTest(OllamaTranslationTest):
                 "eval_count": 481,
             },
         )
+
+
+class AnthropicTranslationTest(BaseMachineTranslationTest):
+    MACHINE_CLS: type[BatchMachineTranslation] = AnthropicTranslation
+    EXPECTED_LEN = 1
+    ENGLISH = "en"
+    SUPPORTED = "de"
+    NOTSUPPORTED = None
+    CONFIGURATION: ClassVar[SettingsDict] = {
+        "key": "test-api-key",
+        "base_url": "https://api.anthropic.com",
+        "model": "claude-sonnet-4-5",
+        "max_tokens": 4096,
+        "persona": "",
+        "style": "",
+    }
+
+    def mock_empty(self) -> NoReturn:
+        self.skipTest("Not tested")
+
+    def mock_error(self) -> None:
+        responses.add(
+            responses.POST,
+            "https://api.anthropic.com/v1/messages",
+            status=400,
+            json={
+                "type": "error",
+                "error": {
+                    "type": "invalid_request_error",
+                    "message": "Invalid API key provided",
+                },
+            },
+        )
+
+    def mock_response(self) -> None:
+        responses.add(
+            responses.POST,
+            "https://api.anthropic.com/v1/messages",
+            status=200,
+            json={
+                "id": "msg_01XFDUDYJgAACzvnptvVoYEL",
+                "type": "message",
+                "role": "assistant",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": "Hallo Welt",
+                    }
+                ],
+                "model": "claude-sonnet-4-5",
+                "stop_reason": "end_turn",
+                "stop_sequence": None,
+                "usage": {
+                    "input_tokens": 25,
+                    "output_tokens": 5,
+                },
+            },
+        )
+
+
+class AnthropicCustomModelTranslationTest(AnthropicTranslationTest):
+    CONFIGURATION: ClassVar[SettingsDict] = {
+        "key": "test-api-key",
+        "base_url": "https://api.anthropic.com",
+        "model": "custom",
+        "custom_model": "claude-3-opus-20240229",
+        "max_tokens": 4096,
+        "persona": "",
+        "style": "",
+    }
+
+    @responses.activate
+    def test_clean_custom(self) -> None:
+        self.mock_response()
+        settings = self.CONFIGURATION.copy()
+        machine = self.MACHINE_CLS
+        form = machine.settings_form(machine, settings)
+        self.assertTrue(form.is_valid())
+
+        settings["model"] = "custom"
+        settings["custom_model"] = ""
+        form = machine.settings_form(machine, settings)
+        self.assertFalse(form.is_valid())
+
+        settings["custom_model"] = "custom-model"
+        form = machine.settings_form(machine, settings)
+        self.assertTrue(form.is_valid())
+
+        settings["model"] = "claude-sonnet-4-5"
+        form = machine.settings_form(machine, settings)
+        self.assertFalse(form.is_valid())
 
 
 class WeblateTranslationTest(TransactionsTestMixin, FixtureTestCase):

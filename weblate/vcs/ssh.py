@@ -9,9 +9,11 @@ import stat
 import subprocess
 from base64 import b64decode, b64encode
 from contextlib import suppress
-from typing import TYPE_CHECKING, Literal, TypedDict
+from typing import TYPE_CHECKING, Any, Literal, NotRequired, TypedDict
+from urllib.parse import urlparse
 
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.core.management.utils import find_command
 from django.utils.functional import cached_property
 from django.utils.translation import gettext, pgettext_lazy
@@ -21,8 +23,10 @@ from weblate.utils import messages
 from weblate.utils.data import data_path
 from weblate.utils.files import cleanup_error_message
 from weblate.utils.hash import calculate_checksum
+from weblate.utils.validators import DomainOrIPValidator
 
 if TYPE_CHECKING:
+    from collections.abc import Callable
     from pathlib import Path
 
     from django_stubs_ext import StrOrPromise
@@ -42,6 +46,16 @@ class KeyInfo(TypedDict):
 
 
 KeyType = Literal["rsa", "ed25519"]
+
+
+class KeyDetails(TypedDict):
+    key: str | None
+    fingerprint: NotRequired[str]
+    id: NotRequired[str]
+    filename: NotRequired[str]
+    type: KeyType
+    name: StrOrPromise
+
 
 KEYS: dict[KeyType, KeyInfo] = {
     "rsa": {
@@ -118,7 +132,7 @@ def get_key_data_raw(
     return filename, None
 
 
-def get_key_data(key_type: KeyType = "rsa") -> dict[str, StrOrPromise | None]:
+def get_key_data(key_type: KeyType = "rsa") -> KeyDetails:
     """Parse host key and returns it."""
     filename, key_data = get_key_data_raw(key_type)
     if key_data is not None:
@@ -138,12 +152,12 @@ def get_key_data(key_type: KeyType = "rsa") -> dict[str, StrOrPromise | None]:
     }
 
 
-def get_all_key_data() -> dict[str, dict[str, StrOrPromise | None]]:
+def get_all_key_data() -> dict[KeyType, KeyDetails]:
     """Return all supported SSH keys."""
     return {key_type: get_key_data(key_type) for key_type in KEYS}
 
 
-def ensure_ssh_key():
+def ensure_ssh_key() -> KeyDetails | None:
     """Ensure SSH key is existing."""
     result = None
     for key_type in KEYS:
@@ -199,7 +213,43 @@ def generate_ssh_key(
     messages.success(request, gettext("Created new SSH key."))
 
 
-def add_host_key(request: AuthenticatedHttpRequest | None, host, port="") -> None:
+def extract_url_host_port(repo: str) -> tuple[str | None, int | None]:
+    """Extract hostname and port from repository URL."""
+    parsed = urlparse(repo)
+    if not parsed.hostname:
+        parsed = urlparse(f"ssh://{repo}")
+    if not parsed.hostname:
+        # Could not parse URL
+        return None, None
+    validator = DomainOrIPValidator()
+    try:
+        validator(parsed.hostname)
+    except ValidationError:
+        # Not a valid hostname
+        return None, None
+    port: int | None
+    try:
+        port = parsed.port
+    except ValueError:
+        port = None
+    return parsed.hostname, port
+
+
+def add_host_key_error(
+    request: AuthenticatedHttpRequest | None, error_text: str
+) -> None:
+    error_text = cleanup_error_message(error_text.strip())
+    if error_text:
+        messages.error(
+            request, gettext("Could not fetch public key for a host: %s") % error_text
+        )
+    else:
+        messages.error(request, gettext("Could not fetch public key for a host."))
+
+
+def add_host_key(
+    request: AuthenticatedHttpRequest | None, host: str, port: int | None = None
+) -> None:
     """Add host key for a host."""
     if not host:
         messages.error(request, gettext("Invalid host name given!"))
@@ -245,19 +295,11 @@ def add_host_key(request: AuthenticatedHttpRequest | None, host, port="") -> Non
                             handle.write(key)
                             handle.write("\n")
             else:
-                messages.error(
-                    request,
-                    gettext("Could not fetch public key for a host: %s") % result.stderr
-                    or result.stdout,
-                )
+                add_host_key_error(request, result.stderr or result.stdout)
         except subprocess.CalledProcessError as exc:
-            messages.error(
-                request,
-                gettext("Could not fetch public key for a host: %s")
-                % cleanup_error_message(exc.stderr or exc.stdout),
-            )
+            add_host_key_error(request, exc.stderr or exc.stdout)
         except OSError as exc:
-            messages.error(request, gettext("Could not get host key: %s") % str(exc))
+            add_host_key_error(request, str(exc))
 
 
 GITHUB_RSA_KEY = (
@@ -269,11 +311,14 @@ GITHUB_RSA_KEY = (
 )
 
 
-def cleanup_host_keys(*args, **kwargs) -> None:
+def cleanup_host_keys(
+    *args: Any,  # noqa: ANN401
+    logger: Callable[[str], Any] = print,
+    **kwargs: Any,  # noqa: ANN401
+) -> None:
     known_hosts_file = ssh_file(KNOWN_HOSTS)
     if not known_hosts_file.exists():
         return
-    logger = kwargs.get("logger", print)
     keys = []
     with known_hosts_file.open() as handle:
         for line in handle:
@@ -296,7 +341,7 @@ def cleanup_host_keys(*args, **kwargs) -> None:
         handle.writelines(keys)
 
 
-def can_generate_key():
+def can_generate_key() -> bool:
     """Check whether we can generate key."""
     return find_command("ssh-keygen") is not None
 

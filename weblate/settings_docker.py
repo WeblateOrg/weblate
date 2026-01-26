@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
+from html import escape
 from logging.handlers import SysLogHandler
 from pathlib import Path
 
@@ -428,7 +429,7 @@ if WEBLATE_SAML_IDP:
     SOCIAL_AUTH_SAML_ORG_INFO = {
         "en-US": {
             "name": "weblate",
-            "displayname": SITE_TITLE,
+            "displayname": escape(SITE_TITLE),
             "url": SITE_URL,
         }
     }
@@ -1086,6 +1087,11 @@ LIMIT_TRANSLATION_LENGTH_BY_SOURCE_LENGTH = get_env_bool(
 # Use simple language codes for default language/country combinations
 SIMPLIFY_LANGUAGES = get_env_bool("WEBLATE_SIMPLIFY_LANGUAGES", True)
 
+# This allows to hide glossary components when shared to other projects
+HIDE_SHARED_GLOSSARY_COMPONENTS = get_env_bool(
+    "WEBLATE_HIDE_SHARED_GLOSSARY_COMPONENTS", False
+)
+
 # Default number of elements to display when pagination is active
 DEFAULT_PAGE_LIMIT = get_env_int("WEBLATE_DEFAULT_PAGE_LIMIT", 100)
 
@@ -1224,6 +1230,7 @@ WEBLATE_MACHINERY = [
     "weblate.machinery.apertium.ApertiumAPYTranslation",
     "weblate.machinery.aws.AWSTranslation",
     "weblate.machinery.alibaba.AlibabaTranslation",
+    "weblate.machinery.anthropic.AnthropicTranslation",
     "weblate.machinery.baidu.BaiduTranslation",
     "weblate.machinery.deepl.DeepLTranslation",
     "weblate.machinery.glosbe.GlosbeTranslation",
@@ -1401,6 +1408,9 @@ AVATAR_URL_PREFIX = get_env_str(
 
 # Default access control
 DEFAULT_ACCESS_CONTROL = get_env_int("WEBLATE_DEFAULT_ACCESS_CONTROL")
+
+DEFAULT_TRANSLATION_REVIEW = get_env_bool("WEBLATE_DEFAULT_TRANSLATION_REVIEW", False)
+DEFAULT_SOURCE_REVIEW = get_env_bool("WEBLATE_DEFAULT_SOURCE_REVIEW", False)
 
 # Default access control
 DEFAULT_RESTRICTED_COMPONENT = get_env_bool("WEBLATE_DEFAULT_RESTRICTED_COMPONENT")

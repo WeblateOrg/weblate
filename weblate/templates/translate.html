@@ -599,7 +599,7 @@
 
       <div class="col-sm-3 source-info">
 
-        {% if unit.all_checks or comments_to_check or unit.suggestions or variants|length > 1 or display_checks or unit.automatically_translated %}
+        {% if unit.all_checks or comments_to_check or unit.suggestions or variants|length > 1 or display_checks or unit.automatically_translated or unit.is_blocked_by_commit_policy %}
           <div class="card">
             <div class="card-header text-bg-danger">
               <h4 class="card-title">{% translate "Things to check" %}</h4>
@@ -736,6 +736,18 @@
                          class="btn btn-warning dismiss-automatically-translated">{% translate "Dismiss" %}</a>
                     </p>
                   {% endif %}
+                </div>
+              {% endif %}
+
+
+              {% if unit.is_blocked_by_commit_policy %}
+                <div class="list-group-item check check-item">
+                  <h5>
+                    {% documentation_icon 'admin/projects' 'project-commit-policy' right=True %}
+                    {% icon "file-sync-outline.svg" %}
+                    {% translate "Translation quality filter" %}
+                  </h5>
+                  <p class="list-group-item-text check-description">{{ project.get_commit_policy_description }}</p>
                 </div>
               {% endif %}
 
@@ -921,7 +933,10 @@
             </div>
             {% if unit.position %}
               <div class="list-group-item">
-                <h5>{% translate "Translation file" %}</h5>
+                <h5>
+                  {% translate "Translation file" %}
+                  <span class="badge bg-secondary">{{ unit.translation.component.get_file_format_display }}</span>
+                </h5>
                 <span>
                   {% if unit.translation.filename %}
                     <span class="wrap-text">{% blocktranslate with filename=translation_file_link position=unit.position %}{{ filename }}, string {{ position }}{% endblocktranslate %}</span>

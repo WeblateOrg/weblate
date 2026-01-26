@@ -29,7 +29,6 @@ from selenium.common.exceptions import (
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.remote.remote_connection import RemoteConnection
 from selenium.webdriver.support.expected_conditions import (
     presence_of_element_located,
     staleness_of,
@@ -132,6 +131,9 @@ class SeleniumTests(
             cls._driver_error = str(error)
             if "CI_SELENIUM" in os.environ:
                 raise
+        else:
+            # Increase webdriver timeout to avoid occasional errors in CI
+            cls._driver.command_executor.client_config.timeout = 300
 
         # Restore custom fontconfig settings
         if backup_fc is not None:
@@ -143,11 +145,6 @@ class SeleniumTests(
             os.environ["LANG"] = backup_lang
 
         if cls._driver is not None:
-            # Increase webdriver timeout to avoid occasssional errors
-            # in macos CI
-            if isinstance(cls._driver.command_executor, RemoteConnection):
-                cls._driver.command_executor.set_timeout(240)
-
             cls._driver.implicitly_wait(5)
 
         # Configure verbose logging to be shown in case of the test failure

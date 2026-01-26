@@ -84,6 +84,9 @@ class WeblateConf(AppConf):
     # Hiding repository credentials
     HIDE_REPO_CREDENTIALS = True
 
+    # Hiding shared glossary components
+    HIDE_SHARED_GLOSSARY_COMPONENTS = False
+
     CREATE_GLOSSARIES = True
 
     # Default committer
@@ -97,6 +100,8 @@ class WeblateConf(AppConf):
     DEFAULT_RESTRICTED_COMPONENT = False
     DEFAULT_SHARED_TM = True
     DEFAULT_AUTOCLEAN_TM = False
+    DEFAULT_TRANSLATION_REVIEW = False
+    DEFAULT_SOURCE_REVIEW = False
 
     DEFAULT_PUSH_ON_COMMIT = True
     DEFAULT_AUTO_LOCK_ERROR = True

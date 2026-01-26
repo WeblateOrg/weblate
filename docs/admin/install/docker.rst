@@ -816,9 +816,25 @@ Generic settings
 
     Configures the language simplification policy, see :setting:`SIMPLIFY_LANGUAGES`.
 
+.. envvar:: WEBLATE_HIDE_SHARED_GLOSSARY_COMPONENTS
+
+    Hides glossary components when shared to other projects, see :setting:`HIDE_SHARED_GLOSSARY_COMPONENTS`.
+
 .. envvar:: WEBLATE_DEFAULT_ACCESS_CONTROL
 
     Configures the default :ref:`project-access_control` for new projects, see :setting:`DEFAULT_ACCESS_CONTROL`.
+
+.. envvar:: WEBLATE_DEFAULT_TRANSLATION_REVIEW
+
+   .. versionadded:: 5.16
+
+   Configures the default value for :ref:`project-translation_review`, turned off by default.
+
+.. envvar:: WEBLATE_DEFAULT_SOURCE_REVIEW
+
+   .. versionadded:: 5.16
+
+   Configures the default value for :ref:`project-source_review`, turned off by default.
 
 .. envvar:: WEBLATE_DEFAULT_RESTRICTED_COMPONENT
 

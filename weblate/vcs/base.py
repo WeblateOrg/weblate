@@ -597,9 +597,25 @@ class Repository:
             return None
         return merge_driver
 
-    def cleanup(self) -> None:
+    def remove_stale_branches(self) -> None:
+        """Remove stale branches and tags from the repository."""
+        raise NotImplementedError
+
+    def cleanup_files(self) -> None:
         """Remove not tracked files from the repository."""
         raise NotImplementedError
+
+    def cleanup(self) -> None:
+        """Cleanup repository status."""
+        # Recover from failed merge/rebase
+        with suppress(RepositoryError):
+            self.merge(abort=True)
+        with suppress(RepositoryError):
+            self.rebase(abort=True)
+        # Remove stale branches
+        self.remove_stale_branches()
+        # Cleanup files
+        self.cleanup_files()
 
     def log_revisions(self, refspec: str) -> list[str]:
         """
@@ -642,3 +658,7 @@ class Repository:
 
     def show(self, revision: str) -> str:
         raise NotImplementedError
+
+    def maintenance(self) -> None:
+        self.remove_stale_branches()
+        self.compact()

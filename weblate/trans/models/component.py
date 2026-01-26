@@ -131,7 +131,7 @@ from weblate.utils.validators import (
 from weblate.vcs.base import RepositoryError, RepositorySymlinkError
 from weblate.vcs.git import GitMergeRequestBase, LocalRepository
 from weblate.vcs.models import VCS_REGISTRY
-from weblate.vcs.ssh import add_host_key
+from weblate.vcs.ssh import add_host_key, extract_url_host_port
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -219,6 +219,10 @@ AZURE_REPOS_REGEXP = [
     r"(?:[^/]*)\@vs-ssh.visualstudio.com:v3\/([^/]*)\/([^/]*)\/([^/]*)",
     r"(?:git@ssh.dev.azure.com:v3)\/([^/]*)\/([^/]*)\/([^/]*)",
 ]
+
+REPOWEB_BRANCH = "{{branch}}"
+REPOWEB_FILENAME = "{{filename}}"
+REPOWEB_LINE = "{{line}}"
 
 
 def perform_on_link(func):
@@ -1548,7 +1552,7 @@ class Component(
         filename: str,
         line: str,
         template: str | None = None,
-        user=None,
+        user: User | None = None,
     ):
         """
         Generate link to source code browser for given file and line.
@@ -1626,9 +1630,7 @@ class Component(
             owner = matches.group(1)
             slug = self.get_clean_slug(matches.group(2))
         if owner and slug:
-            return (
-                f"https://{domain}/{owner}/{slug}/blob/{{branch}}/{{filename}}#{{line}}"
-            )
+            return f"https://{domain}/{owner}/{slug}/blob/{REPOWEB_BRANCH}/{REPOWEB_FILENAME}#{REPOWEB_LINE}"
 
         return None
 
@@ -1642,7 +1644,7 @@ class Component(
             owner = matches.group(1)
             slug = self.get_clean_slug(matches.group(2))
         if owner and slug:
-            return f"https://{domain}/{owner}/{slug}/blob/{{branch}}/{{filename}}#L{{line}}"
+            return f"https://{domain}/{owner}/{slug}/blob/{REPOWEB_BRANCH}/{REPOWEB_FILENAME}#L{REPOWEB_LINE}"
 
         return None
 
@@ -1654,7 +1656,7 @@ class Component(
             slug = matches.group(2)
 
         if owner and slug:
-            return f"https://{domain}/{owner}/{slug}/blob/{{branch}}/f/{{filename}}/#_{{line}}"
+            return f"https://{domain}/{owner}/{slug}/blob/{REPOWEB_BRANCH}/f/{REPOWEB_FILENAME}/#_{REPOWEB_LINE}"
 
         return None
 
@@ -1675,7 +1677,7 @@ class Component(
             repository = matches.group(3)
 
         if organization and project and repository:
-            return f"https://{domain}/{organization}/{project}/_git/{repository}/blob/{{branch}}/{{filename}}#L{{line}}"
+            return f"https://{domain}/{organization}/{project}/_git/{repository}/blob/{REPOWEB_BRANCH}/{REPOWEB_FILENAME}#L{REPOWEB_LINE}"
 
         return None
 
@@ -1695,17 +1697,11 @@ class Component(
 
         def add(repo) -> None:
             self.log_info("checking for key to add for %s", repo)
-            parsed = urlparse(repo)
-            if not parsed.hostname:
-                parsed = urlparse(f"ssh://{repo}")
-            if not parsed.hostname:
+            hostname, port = extract_url_host_port(repo)
+            if not hostname:
                 return
-            try:
-                port = parsed.port
-            except ValueError:
-                port = ""
-            self.log_info("adding SSH key for %s:%s", parsed.hostname, port)
-            add_host_key(None, parsed.hostname, port)
+            self.log_info("adding SSH key for %s:%s", hostname, port)
+            add_host_key(None, hostname, port)
 
         add(self.repo)
         if self.push:
@@ -3394,15 +3390,16 @@ class Component(
             msg = gettext("Could not update repository: %s") % text
             raise ValidationError({"repo": msg}) from error
 
-        if (
-            issubclass(self.repository_class, GitMergeRequestBase)
-            and self.repo == self.push
-            and self.branch == self.push_branch
-        ):
-            msg = gettext(
-                "Pull and push branches cannot be the same when using merge requests."
-            )
-            raise ValidationError({"push_branch": msg})
+        if issubclass(self.repository_class, GitMergeRequestBase) and self.push:
+            if self.branch == self.push_branch:
+                msg = gettext(
+                    "Pull and push branches cannot be the same when using merge requests."
+                )
+                raise ValidationError({"push_branch": msg})
+
+            if not self.push_branch:
+                msg = gettext("Push branch cannot be empty when using merge requests.")
+                raise ValidationError({"push_branch": msg})
 
     def clean_file_format_params(self) -> None:
         for param in [

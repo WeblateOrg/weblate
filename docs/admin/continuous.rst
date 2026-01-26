@@ -364,7 +364,7 @@ The push options differ based on the :ref:`vcs` used, more details are found in 
 
 In case you do not want direct pushes by Weblate, there is support for
 :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure`,
-:ref:`vcs-azure-devops` pull requests or :ref:`vcs-gerrit` reviews, you can activate these by
+:ref:`vcs-azure-devops` or :ref:`vcs-gerrit` reviews, you can activate these by
 choosing :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit`,
 :guilabel:`Azure DevOps`, or :guilabel:`Pagure` as :ref:`component-vcs` in :ref:`component`.
 

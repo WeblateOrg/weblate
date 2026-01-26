@@ -7,6 +7,7 @@ from collections import Counter
 from contextlib import suppress
 from typing import TYPE_CHECKING, Any
 
+from django.conf import settings
 from django.contrib.auth.decorators import login_not_required, login_required
 from django.db import transaction
 from django.db.models import Q
@@ -378,6 +379,8 @@ def show_category_language(request: AuthenticatedHttpRequest, obj):
 
 def show_project(request: AuthenticatedHttpRequest, obj):
     def filter_no_category(qs: ComponentQuerySet) -> ComponentQuerySet:
+        if settings.HIDE_SHARED_GLOSSARY_COMPONENTS:
+            qs = qs.exclude(Q(is_glossary=True) & ~Q(project=obj))
         return qs.filter(category=None)
 
     user = request.user

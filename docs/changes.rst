@@ -7,15 +7,24 @@ Weblate 5.16
 
 * :ref:`check-multiple-capital` quality check.
 * Bulk accepting suggestions from a specific user in :ref:`suggestions`.
+* :setting:`HIDE_SHARED_GLOSSARY_COMPONENTS` to hide glossaries shared into other projects.
+* Added new management command :wladmin:`list_change_events`, which lists all possible change events, :ref:`addon-choice-events`.
+* Added Anthropic machinery integration, see :ref:`mt-anthropic`.
 
 .. rubric:: Improvements
 
 * Delete announcements permission can be assigned to teams, see :ref:`privileges`.
 * :doc:`/user/search` better reports errors in the query strings.
+* Regular repository maintenance is now performed in the background.
+* Repository cleanup now recovers failed merges or rebases.
+* Better visibility of :ref:`project-commit_policy` to translators.
+* Validation of VCS settings :ref:`push-changes` has been extended.
+* The default values for :ref:`project-translation_review` and :ref:`project-source_review` can be configured in settings.
 
 .. rubric:: Bug fixes
 
 * Adding plural strings with singular matching existing string is now prohibited for bilingual translations (see :ref:`bimono`).
+* Automatic :ref:`component-repoweb` URL for common code hosting sites.
 
 .. rubric:: Compatibility
 

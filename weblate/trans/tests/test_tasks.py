@@ -13,9 +13,11 @@ from weblate.trans.models.project import CommitPolicyChoices
 from weblate.trans.tasks import (
     cleanup_old_comments,
     cleanup_old_suggestions,
+    cleanup_repos,
     cleanup_suggestions,
     commit_pending,
     daily_update_checks,
+    update_remotes,
 )
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
@@ -95,6 +97,12 @@ class CleanupTest(ViewTestCase):
 class TasksTest(ViewTestCase):
     def test_daily_update_checks(self) -> None:
         daily_update_checks()
+
+    def test_cleanup_repos(self) -> None:
+        cleanup_repos()
+
+    def test_update_remotes(self) -> None:
+        update_remotes()
 
     def test_commit_pending(self) -> None:
         self.component.commit_pending_age = 1

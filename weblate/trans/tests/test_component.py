@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import os
 from typing import cast
+from unittest.mock import patch
 
 from django.core.exceptions import ValidationError
 from django.db.models import F
@@ -19,7 +20,7 @@ from weblate.trans.actions import ActionEvents
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import Component, Project, Unit
 from weblate.trans.tests.test_models import RepoTestCase
-from weblate.trans.tests.test_views import ViewTestCase
+from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
 from weblate.utils.files import remove_tree
 from weblate.utils.state import STATE_EMPTY, STATE_READONLY, STATE_TRANSLATED
 
@@ -490,6 +491,79 @@ class ComponentTest(RepoTestCase):
         )
         self.verify_component(component, 4, "cs", 4)
 
+    @override_settings(
+        GITHUB_CREDENTIALS={
+            "api.github.com": {
+                "username": "test",
+                "token": "token",
+            }
+        }
+    )
+    def test_vcs_validation(self) -> None:
+        component = self.create_po_push()
+
+        from weblate.vcs.models import VCS_REGISTRY
+
+        # force reload VCS list to include github
+        del VCS_REGISTRY.data
+
+        component.vcs = "github"
+
+        # check push branch cannot be empty when push URL is set
+        component.push_branch = ""
+        with (
+            patch("weblate.trans.models.Component.sync_git_repo", return_value=None),
+            self.assertRaises(ValidationError) as cm,
+        ):
+            component.clean()
+        self.assertIn(
+            "Push branch cannot be empty when using merge requests",
+            str(cm.exception),
+        )
+
+        # check push and pull branch cannot be the same when push URL is set
+        component.push_branch = "main"
+        with (
+            patch("weblate.trans.models.Component.sync_git_repo", return_value=None),
+            self.assertRaises(ValidationError) as cm,
+        ):
+            component.clean()
+        self.assertIn(
+            "Pull and push branches cannot be the same when using merge requests",
+            str(cm.exception),
+        )
+
+        # valid settings
+        component.push_branch = "branch"
+        component.clean()
+
+    def _test_maintenance(self, component: Component) -> None:
+        self.verify_component(component, 4, "cs", 4)
+        with component.repository.lock:
+            component.repository.maintenance()
+        component.create_translations_immediate(force=True)
+        self.verify_component(component, 4, "cs", 4)
+        with component.repository.lock:
+            component.repository.cleanup()
+        component.create_translations_immediate(force=True)
+        self.verify_component(component, 4, "cs", 4)
+
+    def test_maintenance_po(self):
+        component = self.create_po()
+        self._test_maintenance(component)
+
+    def test_maintenance_po_branch(self):
+        component = self.create_po_branch()
+        self._test_maintenance(component)
+
+    def test_maintenance_po_mercurial(self):
+        component = self.create_po_mercurial()
+        self._test_maintenance(component)
+
+    def test_maintenance_po_mercurial_branch(self):
+        component = self.create_po_mercurial_branch()
+        self._test_maintenance(component)
+
 
 class AutoAddonTest(RepoTestCase):
     CREATE_GLOSSARIES = True
@@ -619,69 +693,6 @@ class ComponentChangeTest(RepoTestCase):
         component = self.create_link()
         component.repo = cast("Component", component.linked_component).repo
         component.save()
-
-    def test_repo_link_generation_bitbucket(self) -> None:
-        """Test changing repo attribute to check repo generation links."""
-        component = self.create_component()
-        component.repo = "ssh://git@bitbucket.org/marcus/project-x.git"
-        result = component.get_bitbucket_git_repoweb_template()
-        self.assertEqual(
-            result,
-            "https://bitbucket.org/marcus/project-x/blob/{branch}/{filename}#{line}",
-        )
-        component.repo = "git@bitbucket.org:marcus/project-x.git"
-        result = component.get_bitbucket_git_repoweb_template()
-        self.assertEqual(
-            result,
-            "https://bitbucket.org/marcus/project-x/blob/{branch}/{filename}#{line}",
-        )
-
-    def test_repo_link_generation_github(self) -> None:
-        """Test changing repo attribute to check repo generation links."""
-        component = self.create_component()
-        component.repo = "git://github.com/marcus/project-x.git"
-        result = component.get_github_repoweb_template()
-        self.assertEqual(
-            result,
-            "https://github.com/marcus/project-x/blob/{branch}/{filename}#L{line}",
-        )
-        component.repo = "git@github.com:marcus/project-x.git"
-        result = component.get_github_repoweb_template()
-        self.assertEqual(
-            result,
-            "https://github.com/marcus/project-x/blob/{branch}/{filename}#L{line}",
-        )
-
-    def test_repo_link_generation_pagure(self) -> None:
-        """Test changing repo attribute to check repo generation links."""
-        component = self.create_component()
-        component.repo = "https://pagure.io/f/ATEST"
-        result = component.get_pagure_repoweb_template()
-        self.assertEqual(
-            result, "https://pagure.io/f/ATEST/blob/{branch}/f/{filename}/#_{line}"
-        )
-
-    def test_repo_link_generation_azure(self) -> None:
-        """Test changing repo attribute to check repo generation links."""
-        component = self.create_component()
-        component.repo = "f@vs-ssh.visualstudio.com:v3/f/c/ATEST"
-        result = component.get_azure_repoweb_template()
-        self.assertEqual(
-            result,
-            "https://dev.azure.com/f/c/_git/ATEST/blob/{branch}/{filename}#L{line}",
-        )
-        component.repo = "git@ssh.dev.azure.com:v3/f/c/ATEST"
-        result = component.get_azure_repoweb_template()
-        self.assertEqual(
-            result,
-            "https://dev.azure.com/f/c/_git/ATEST/blob/{branch}/{filename}#L{line}",
-        )
-        component.repo = "https://f.visualstudio.com/c/_git/ATEST"
-        result = component.get_azure_repoweb_template()
-        self.assertEqual(
-            result,
-            "https://dev.azure.com/f/c/_git/ATEST/blob/{branch}/{filename}#L{line}",
-        )
 
     def test_change_project(self) -> None:
         component = self.create_component()
@@ -1142,3 +1153,91 @@ class ComponentKeyFilterTest(ViewTestCase):
             "To use the key filter, the file format must be monolingual.",
         ):
             component.clean()
+
+
+class ComponentRepoWebTestCase(FixtureTestCase):
+    def get_url(self) -> str | None:
+        return self.component.get_repoweb_link("test.py", "42", user=self.user)
+
+    def test_provided(self):
+        self.component.repoweb = (
+            "https://example.com/{{branch}}/f/{{filename}}#_{{line}}"
+        )
+        self.assertEqual("https://example.com/main/f/test.py#_42", self.get_url())
+
+    def test_blank(self):
+        self.assertIsNone(self.get_url())
+
+    def test_repo_link_generation_bitbucket(self) -> None:
+        """Test changing repo attribute to check repo generation links."""
+        self.component.repo = "ssh://git@bitbucket.org/marcus/project-x.git"
+        self.assertEqual(
+            self.component.get_bitbucket_git_repoweb_template(),
+            "https://bitbucket.org/marcus/project-x/blob/{{branch}}/{{filename}}#{{line}}",
+        )
+
+        self.component.repo = "git@bitbucket.org:marcus/project-x.git"
+        self.assertEqual(
+            self.component.get_bitbucket_git_repoweb_template(),
+            "https://bitbucket.org/marcus/project-x/blob/{{branch}}/{{filename}}#{{line}}",
+        )
+
+        self.assertEqual(
+            "https://bitbucket.org/marcus/project-x/blob/main/test.py#42",
+            self.get_url(),
+        )
+
+    def test_repo_link_generation_github(self) -> None:
+        """Test changing repo attribute to check repo generation links."""
+        self.component.repo = "git://github.com/marcus/project-x.git"
+        self.assertEqual(
+            self.component.get_github_repoweb_template(),
+            "https://github.com/marcus/project-x/blob/{{branch}}/{{filename}}#L{{line}}",
+        )
+
+        self.component.repo = "git@github.com:marcus/project-x.git"
+        self.assertEqual(
+            self.component.get_github_repoweb_template(),
+            "https://github.com/marcus/project-x/blob/{{branch}}/{{filename}}#L{{line}}",
+        )
+
+        self.assertEqual(
+            "https://github.com/marcus/project-x/blob/main/test.py#L42", self.get_url()
+        )
+
+    def test_repo_link_generation_pagure(self) -> None:
+        """Test changing repo attribute to check repo generation links."""
+        self.component.repo = "https://pagure.io/f/ATEST"
+        self.assertEqual(
+            self.component.get_pagure_repoweb_template(),
+            "https://pagure.io/f/ATEST/blob/{{branch}}/f/{{filename}}/#_{{line}}",
+        )
+
+        self.assertEqual(
+            "https://pagure.io/f/ATEST/blob/main/f/test.py/#_42", self.get_url()
+        )
+
+    def test_repo_link_generation_azure(self) -> None:
+        """Test changing repo attribute to check repo generation links."""
+        self.component.repo = "f@vs-ssh.visualstudio.com:v3/f/c/ATEST"
+        self.assertEqual(
+            self.component.get_azure_repoweb_template(),
+            "https://dev.azure.com/f/c/_git/ATEST/blob/{{branch}}/{{filename}}#L{{line}}",
+        )
+
+        self.component.repo = "git@ssh.dev.azure.com:v3/f/c/ATEST"
+        self.assertEqual(
+            self.component.get_azure_repoweb_template(),
+            "https://dev.azure.com/f/c/_git/ATEST/blob/{{branch}}/{{filename}}#L{{line}}",
+        )
+
+        self.component.repo = "https://f.visualstudio.com/c/_git/ATEST"
+        self.assertEqual(
+            self.component.get_azure_repoweb_template(),
+            "https://dev.azure.com/f/c/_git/ATEST/blob/{{branch}}/{{filename}}#L{{line}}",
+        )
+
+        self.assertEqual(
+            "https://dev.azure.com/f/c/_git/ATEST/blob/main/test.py#L42",
+            self.get_url(),
+        )

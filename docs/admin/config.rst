@@ -695,6 +695,25 @@ DEFAULT_SHARED_TM
 
 Configures the default value of :ref:`project-use_shared_tm` and :ref:`project-contribute_shared_tm`.
 
+
+.. setting:: DEFAULT_TRANSLATION_REVIEW
+
+DEFAULT_TRANSLATION_REVIEW
+--------------------------
+
+.. versionadded:: 5.16
+
+Configures the default value for :ref:`project-translation_review`, turned off by default.
+
+.. setting:: DEFAULT_SOURCE_REVIEW
+
+DEFAULT_SOURCE_REVIEW
+---------------------
+
+.. versionadded:: 5.16
+
+Configures the default value for :ref:`project-source_review`, turned off by default.
+
 .. setting:: DEFAULT_AUTOCLEAN_TM
 
 DEFAULT_AUTOCLEAN_TM
@@ -1855,6 +1874,20 @@ This is usually the desired behavior, as it simplifies listing languages
 for these default combinations.
 
 Turn this off if you want to different translations for each variant.
+
+.. setting:: HIDE_SHARED_GLOSSARY_COMPONENTS
+
+HIDE_SHARED_GLOSSARY_COMPONENTS
+-------------------------------
+
+.. versionadded:: 5.16
+
+Glossary components are typically shared into other projects to make them
+available for translation work. When these are visible in the component list of
+projects that are using them, it can cause confusion or distract translators
+from the actual components that are meant to be translated.
+
+This is turned off by default, making shared glossary components visible.
 
 .. setting:: SITE_DOMAIN
 

@@ -408,7 +408,7 @@ class ProjectBackup:
 
         # Compact the repository
         with component.repository.lock:
-            component.repository.compact()
+            component.repository.maintenance()
 
         # Actually perform the backup
         self.backup_dir(

@@ -15,7 +15,7 @@ from django.db.models import Count, F, Q, QuerySet, Value
 from django.db.models.functions import Replace
 from django.urls import reverse
 from django.utils.functional import cached_property
-from django.utils.translation import gettext_lazy
+from django.utils.translation import gettext, gettext_lazy
 
 from weblate.configuration.models import Setting, SettingCategory
 from weblate.formats.models import FILE_FORMATS
@@ -248,12 +248,12 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
     # This should match definition in WorkflowSetting
     translation_review = models.BooleanField(
         verbose_name=gettext_lazy("Enable reviews"),
-        default=False,
+        default=settings.DEFAULT_TRANSLATION_REVIEW,
         help_text=gettext_lazy("Requires dedicated reviewers to approve translations."),
     )
     source_review = models.BooleanField(
         verbose_name=gettext_lazy("Enable source reviews"),
-        default=False,
+        default=settings.DEFAULT_SOURCE_REVIEW,
         help_text=gettext_lazy(
             "Requires dedicated reviewers to approve source strings."
         ),
@@ -827,3 +827,14 @@ class Project(models.Model, PathMixin, CacheKeyMixin, LockMixin):
             and not settings.LOGIN_REQUIRED_URLS
             and (settings.LICENSE_FILTER is None or settings.LICENSE_FILTER)
         )
+
+    def get_commit_policy_description(self) -> str:
+        if self.commit_policy == CommitPolicyChoices.WITHOUT_NEEDS_EDITING:
+            return gettext(
+                "Translations marked as needing editing are not written to the translation file."
+            )
+        if self.commit_policy == CommitPolicyChoices.APPROVED_ONLY:
+            return gettext(
+                "Only approved translations are written to the translation file."
+            )
+        return ""
