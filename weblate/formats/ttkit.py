@@ -260,7 +260,6 @@ class TTKitFormat(TranslationFormat):
     set_context_bilingual = True
     # Use settarget/setsource to set language as well
     use_settarget = False
-    force_encoding: str | None = None
     plural_preference: tuple[int, ...] | None = (
         Plural.SOURCE_CLDR,
         Plural.SOURCE_DEFAULT,
@@ -1513,7 +1512,7 @@ class GWTFormat(PropertiesBaseFormat):
         "utf-8": ("properties", "gwtutf8file"),
     }
     empty_file_template = "\n"
-    autoload: tuple[str, ...] = ("*.strings",)
+    autoload: tuple[str, ...] = ()
     check_flags = ("auto-java-messageformat",)
     language_format = "linux"
     supports_plural: bool = True
@@ -1776,7 +1775,6 @@ class CSVFormat(TTKitFormat):
     loader = ("csvl10n", "csvfile")
     unit_class = CSVUnit
     autoload: tuple[str, ...] = ("*.csv",)
-    force_encoding = "auto"
 
     def __init__(
         self,
@@ -1879,7 +1877,6 @@ class CSVSimpleFormat(CSVFormat):
     name = gettext_lazy("Simple CSV file")
     format_id = "csv-simple"
     autoload: tuple[str, ...] = ("*.txt",)
-    force_encoding = "auto"
 
     @staticmethod
     def extension() -> str:
@@ -2200,7 +2197,6 @@ class XWikiPagePropertiesFormat(XWikiPropertiesFormat):
     name = "XWiki Page Properties"
     format_id = "xwiki-page-properties"
     loader = ("properties", "XWikiPageProperties")
-    force_encoding = "utf-8"
 
     def save_content(self, handle) -> None:
         if self.store.root is None:

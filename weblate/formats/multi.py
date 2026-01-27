@@ -177,4 +177,3 @@ class MultiCSVFormat(MultiFormatMixin, CSVFormat):
     name = gettext_lazy("Multivalue CSV file")
     format_id = "csv-multi"
     autoload: tuple[str, ...] = ()
-    force_encoding = "utf-8"
