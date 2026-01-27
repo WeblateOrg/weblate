@@ -5,6 +5,14 @@
 document.addEventListener("DOMContentLoaded", () => {
   const buttons = document.querySelectorAll(".aa-accept-all-btn");
 
+  // Create screen reader status element ONCE for the whole page
+  const srStatus = document.createElement("div");
+  srStatus.className = "visually-hidden";
+  srStatus.setAttribute("role", "status");
+  srStatus.setAttribute("aria-live", "polite");
+  srStatus.setAttribute("aria-atomic", "true");
+  document.body.appendChild(srStatus);
+
   buttons.forEach((btn) => {
     btn.addEventListener("click", async function (e) {
       e.preventDefault();
@@ -33,13 +41,6 @@ document.addEventListener("DOMContentLoaded", () => {
         b.disabled = true;
         b.setAttribute("aria-busy", "true");
       }
-      // Create screen reader status element
-      const srStatus = document.createElement("div");
-      srStatus.className = "visually-hidden";
-      srStatus.setAttribute("role", "status");
-      srStatus.setAttribute("aria-live", "polite");
-      srStatus.setAttribute("aria-atomic", "true");
-      document.body.appendChild(srStatus);
       srStatus.textContent = interpolate(
         gettext("Processing bulk accept for %s"),
         [username],
