@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any, ClassVar, Literal, TypedDict, Unpack, cast
+from typing import TYPE_CHECKING, ClassVar, Literal, TypedDict, Unpack, cast
 
 from django import forms
 from django.utils.functional import classproperty
