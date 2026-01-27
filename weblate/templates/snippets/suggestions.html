@@ -43,7 +43,7 @@
                             class="aa-accept-all-btn btn btn-link green"
                             data-username="{{ suggestion.user.username }}"
                             data-translation-url="{% url 'bulk-accept-user-suggestions' path=suggestion.unit.translation.get_url_path %}"
-                            title="{% blocktranslate with username=suggestion.user.username %}Accept all from {{ username }}{% endblocktranslate %}">
+                            title="{% blocktranslate with username=suggestion.user.username %}Accept all suggestions from {{ username }}{% endblocktranslate %}">
                       {% icon "account-check.svg" %}
                     </button>
                   {% endifchanged %}
