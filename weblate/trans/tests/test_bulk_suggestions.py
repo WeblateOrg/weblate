@@ -246,14 +246,14 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
         """Test that some suggestions fail if user lacks per-unit permissions."""
         # Create a user WITHOUT project permissions (no add_user call)
         limited_user = User.objects.create_user(username="limited", password="test")
-        
+
         # Create a suggester user
         suggester = User.objects.create_user(username="suggester", password="test")
-        
+
         # Get multiple units from the translation
         units = list(self.translation.unit_set.all()[:3])
         self.assertGreaterEqual(len(units), 3, "Need at least 3 units for this test")
-        
+
         # Create suggestions from the same user for all units
         for i, unit in enumerate(units):
             Suggestion.objects.create(
@@ -261,14 +261,14 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
                 target=f"Suggestion for unit {i}",
                 user=suggester,
             )
-        
+
         # Verify all suggestions were created
         total_suggestions = Suggestion.objects.filter(
             unit__translation=self.translation,
             user=suggester,
         ).count()
         self.assertEqual(total_suggestions, 3)
-        
+
         # Log in as limited user (no permissions) and try to bulk accept
         self.client.login(username="limited", password="test")
         response = self.client.post(
@@ -278,13 +278,13 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
             ),
             {"username": "suggester"},
         )
-        
+
         # User without permissions should get 403
         self.assertEqual(response.status_code, 403)
         data = response.json()
         self.assertIn("error", data)
         self.assertIn("permission", data["error"].lower())
-        
+
         # Verify no suggestions were accepted
         remaining = Suggestion.objects.filter(
             unit__translation=self.translation,
