@@ -9,8 +9,19 @@
     <script defer
             data-cfasync="false"
             src="{% static 'js/screenshots/clipboard-paste.js' %}{{ cache_param }}"></script>
+    {# Bulk accept suggestions feature #}
+    <script defer
+            data-cfasync="false"
+            src="{% static 'js/bulk-accept-suggestions.js' %}{{ cache_param }}"></script>
   {% endcompress %}
 {% endblock extra_script %}
+
+{% block extra_styles %}
+  {% compress css %}
+    {# Bulk accept suggestions feature #}
+    <link rel="stylesheet" href="{% static 'styles/bulk-accept.css' %}{{ cache_param }}" />
+  {% endcompress %}
+{% endblock extra_styles %}
 
 {% block extra_meta %}<link rel="canonical" href="{{ unit.get_absolute_url }}" />{% endblock %}
 

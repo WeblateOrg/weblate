@@ -36,6 +36,18 @@
                         title="{% translate "Vote against" %}">{% icon "thumb-down.svg" %}</button>
               {% endif %}
               {% if user_can_accept_suggestion %}
+                {# Bulk accept suggestions feature #}
+                {% if suggestion.user and not suggestion.user.is_anonymous %}
+                  {% ifchanged suggestion.user.username %}
+                    <button type="button"
+                            class="aa-accept-all-btn btn btn-link green"
+                            data-username="{{ suggestion.user.username }}"
+                            data-translation-url="{% url 'bulk-accept-user-suggestions' path=suggestion.unit.translation.get_url_path %}"
+                            title="{% blocktranslate with username=suggestion.user.username %}Accept all suggestions from {{ username }}{% endblocktranslate %}">
+                      {% icon "account-check.svg" %}
+                    </button>
+                  {% endifchanged %}
+                {% endif %}
                 <button type="submit"
                         class="btn btn-link green"
                         name="accept"
@@ -56,6 +68,7 @@
               {% endif %}
               {% if user_can_delete_suggestion %}
                 {% if has_antispam and suggestion.user != user %}
+
                   <button type="submit"
                           class="btn btn-link red"
                           name="spam"

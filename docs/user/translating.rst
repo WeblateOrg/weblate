@@ -42,6 +42,8 @@ to find a specific string or term.
 
 .. image:: /screenshots/strings-to-check.webp
 
+.. _suggestions:
+
 Suggestions
 -----------
 
@@ -55,6 +57,11 @@ arises, prompting other translators to review it.
 
 All suggestions are scanned on a daily basis to remove duplicates and
 those matching current translations.
+
+If you have the :guilabel:`Accept suggestions` permission, you can bulk accept
+all suggestions from a specific user by clicking the account check icon next
+to their suggestion. This is useful for quickly processing suggestions from
+trusted contributors.
 
 .. _user-comments:
 
