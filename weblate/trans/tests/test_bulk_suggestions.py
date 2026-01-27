@@ -270,7 +270,7 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
         self.assertEqual(total_suggestions, 3)
 
         # Log in as limited user (no permissions) and try to bulk accept
-        self.client.login(username="limited", password="test")
+        self.client.login(username=limited_user.username, password="test")
         response = self.client.post(
             reverse(
                 "bulk-accept-user-suggestions",
