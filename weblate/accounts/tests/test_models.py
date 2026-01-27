@@ -47,14 +47,14 @@ class ProfileCommitNameTestCase(TestCase):
     )
     def test_get_site_commit_name(self) -> None:
         name = self.profile.get_site_commit_name()
-        self.assertEqual(name, f"WeblateTest user {self.user.id} from weblate.test")
+        self.assertEqual(name, f"WeblateTest user {self.user.pk} from weblate.test")
 
     @override_settings(
         PRIVATE_COMMIT_NAME_TEMPLATE="Anonymous {username}",
         PRIVATE_COMMIT_NAME_OPT_IN=False,
     )
     def test_get_commit_name_default_private(self) -> None:
-        self.profile.commit_name = ""
+        self.profile.commit_name = Profile.CommitNameChoices.DEFAULT
         self.assertEqual(self.profile.get_commit_name(), "Anonymous testuser")
 
     @override_settings(
@@ -62,16 +62,16 @@ class ProfileCommitNameTestCase(TestCase):
         PRIVATE_COMMIT_NAME_OPT_IN=True,
     )
     def test_get_commit_name_default_public(self) -> None:
-        self.profile.commit_name = ""
+        self.profile.commit_name = Profile.CommitNameChoices.DEFAULT
         self.assertEqual(self.profile.get_commit_name(), "Test User")
 
     def test_get_commit_name_explicit_public(self) -> None:
-        self.profile.commit_name = Profile.COMMIT_NAME_PUBLIC
+        self.profile.commit_name = Profile.CommitNameChoices.PUBLIC
         self.assertEqual(self.profile.get_commit_name(), "Test User")
 
     @override_settings(PRIVATE_COMMIT_NAME_TEMPLATE="Hidden Name")
     def test_get_commit_name_explicit_private(self) -> None:
-        self.profile.commit_name = Profile.COMMIT_NAME_PRIVATE
+        self.profile.commit_name = Profile.CommitNameChoices.PRIVATE
         self.assertEqual(self.profile.get_commit_name(), "Hidden Name")
 
     @override_settings(
@@ -81,7 +81,7 @@ class ProfileCommitNameTestCase(TestCase):
     def test_bot_naming_remains_visible(self) -> None:
         self.user.is_bot = True
         self.user.save()
-        self.profile.commit_name = ""
+        self.profile.commit_name = Profile.CommitNameChoices.DEFAULT
         self.assertEqual(self.profile.get_commit_name(), "Test User")
 
     @override_settings(
@@ -89,7 +89,7 @@ class ProfileCommitNameTestCase(TestCase):
         PRIVATE_COMMIT_NAME_OPT_IN=True,
     )
     def test_get_commit_name_explicit_private_ignores_global_public(self) -> None:
-        self.profile.commit_name = Profile.COMMIT_NAME_PRIVATE
+        self.profile.commit_name = Profile.CommitNameChoices.PRIVATE
         self.assertEqual(self.profile.get_commit_name(), "Hidden")
 
     @override_settings(
@@ -97,5 +97,5 @@ class ProfileCommitNameTestCase(TestCase):
         PRIVATE_COMMIT_NAME_OPT_IN=False,
     )
     def test_get_commit_name_empty_template_fallback(self) -> None:
-        self.profile.commit_name = Profile.COMMIT_NAME_PRIVATE
+        self.profile.commit_name = Profile.CommitNameChoices.PRIVATE
         self.assertEqual(self.profile.get_commit_name(), "Test User")

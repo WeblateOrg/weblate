@@ -174,8 +174,9 @@ DOT_ATOM_RE = re.compile(
 )
 
 
-def format_private_email(username: str, user_id: int) -> str:
-    if not settings.PRIVATE_COMMIT_EMAIL_TEMPLATE:
+def format_private_commit_data(template: str, username: str, user_id: int) -> str:
+    """Format private commit data (email or name) using a template."""
+    if not template:
         return ""
     if username:
         if username.endswith(".") or ".." in username:
@@ -188,10 +189,12 @@ def format_private_email(username: str, user_id: int) -> str:
             username = ""
     if not username:
         username = f"user-{user_id}"
-    return settings.PRIVATE_COMMIT_EMAIL_TEMPLATE.format(
+
+    return template.format(
         username=username.lower(),
         user_id=user_id,
         site_domain=settings.SITE_DOMAIN.rsplit(":", 1)[0],
+        site_title=settings.SITE_TITLE,
     )
 
 
@@ -617,9 +620,6 @@ class VerifiedEmail(models.Model):
 class Profile(models.Model):
     """User profiles storage."""
 
-    COMMIT_NAME_PUBLIC = "public"
-    COMMIT_NAME_PRIVATE = "private"
-
     user = models.OneToOneField(
         User, unique=True, editable=False, on_delete=models.deletion.CASCADE
     )
@@ -862,10 +862,16 @@ class Profile(models.Model):
         blank=True,
         max_length=EMAIL_LENGTH,
     )
-    commit_name = models.CharField(
+
+    class CommitNameChoices(models.IntegerChoices):
+        DEFAULT = 0, gettext_lazy("Use global default")
+        PUBLIC = 1, gettext_lazy("Public")
+        PRIVATE = 2, gettext_lazy("Private")
+
+    commit_name = models.IntegerField(
         verbose_name=gettext_lazy("Commit name"),
-        blank=True,
-        max_length=200,
+        default=CommitNameChoices.DEFAULT,
+        choices=CommitNameChoices.choices,
     )
 
     last_2fa = models.CharField(
@@ -1144,34 +1150,28 @@ class Profile(models.Model):
         return email
 
     def get_site_commit_email(self) -> str:
-        return format_private_email(self.user.username, self.user.pk)
+        return format_private_commit_data(
+            settings.PRIVATE_COMMIT_EMAIL_TEMPLATE, self.user.username, self.user.pk
+        )
 
     def get_commit_name(self) -> str:
         """Return the commit name to be used for version-control commits."""
-        if self.user.is_bot:
-            return self.user.get_visible_name()
-
-        if self.commit_name == self.COMMIT_NAME_PUBLIC:
-            return self.user.get_visible_name()
-
-        if self.commit_name == self.COMMIT_NAME_PRIVATE:
-            return self.get_site_commit_name() or self.user.get_visible_name()
-
-        if getattr(settings, "PRIVATE_COMMIT_NAME_OPT_IN", False):
-            return self.user.get_visible_name()
-
-        return self.get_site_commit_name() or self.user.get_visible_name()
+        visible_name = self.user.get_visible_name()
+        if (
+            self.user.is_bot
+            or self.commit_name == self.CommitNameChoices.PUBLIC
+            or (
+                self.commit_name == self.CommitNameChoices.DEFAULT
+                and settings.PRIVATE_COMMIT_NAME_OPT_IN
+            )
+        ):
+            return visible_name
+        return self.get_site_commit_name() or visible_name
 
     def get_site_commit_name(self) -> str:
         """Return the generated private commit name from the site template."""
-        if not settings.PRIVATE_COMMIT_NAME_TEMPLATE:
-            return ""
-
-        return settings.PRIVATE_COMMIT_NAME_TEMPLATE.format(
-            user_id=self.user.id,
-            username=self.user.username,
-            site_title=settings.SITE_TITLE,
-            site_domain=settings.SITE_DOMAIN.rsplit(":", 1)[0],
+        return format_private_commit_data(
+            settings.PRIVATE_COMMIT_NAME_TEMPLATE, self.user.username, self.user.pk
         )
 
     def _get_second_factors(self) -> Iterable[Device]:

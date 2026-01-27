@@ -1470,7 +1470,7 @@ PRIVATE_COMMIT_EMAIL_TEMPLATE
 
 Template to generate a private commit e-mail for a user. Defaults to ``"{username}@users.noreply.{site_domain}"``.
 
-It can contain ``{username}``, ``{site_domain}``, and ``{user_id}``.
+It can contain ``{user_id}``, ``{username}``, ``{site_title}``, and ``{site_domain}``.
 
 Set to blank string to disable.
 
@@ -1485,7 +1485,7 @@ Set to blank string to disable.
 PRIVATE_COMMIT_NAME_OPT_IN
 --------------------------
 
-.. versionadded:: 5.1x
+.. versionadded:: 5.16
 
 Configures whether the private commit name is opt-in or opt-out (by default it is opt-in).
 
@@ -1503,7 +1503,7 @@ Configures whether the private commit name is opt-in or opt-out (by default it i
 PRIVATE_COMMIT_NAME_TEMPLATE
 ----------------------------
 
-.. versionadded:: 5.1x
+.. versionadded:: 5.16
 
 Template to generate a private commit name for a user. Defaults to ``"{site_title} user {user_id}"``.
 

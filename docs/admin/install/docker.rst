@@ -1032,13 +1032,13 @@ Generic settings
 
 .. envvar:: WEBLATE_PRIVATE_COMMIT_NAME_TEMPLATE
 
-   .. versionadded:: 5.1x
+   .. versionadded:: 5.16
 
    Configures :setting:`PRIVATE_COMMIT_NAME_TEMPLATE`.
 
 .. envvar:: WEBLATE_PRIVATE_COMMIT_NAME_OPT_IN
 
-   .. versionadded:: 5.1x
+   .. versionadded:: 5.16
 
    Configures :setting:`PRIVATE_COMMIT_NAME_OPT_IN`.
 
