@@ -42,6 +42,8 @@ to find a specific string or term.
 
 .. image:: /screenshots/strings-to-check.webp
 
+.. _suggestions:
+
 Suggestions
 -----------
 
