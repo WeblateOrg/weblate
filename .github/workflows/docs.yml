@@ -22,6 +22,8 @@ permissions:
 jobs:
   update-snippets:
     runs-on: ubuntu-24.04
+    permissions:
+      contents: write
     env:
       CI_DATABASE: postgresql
       CI_REDIS_HOST: 127.0.0.1
@@ -33,9 +35,13 @@ jobs:
       DJANGO_SETTINGS_MODULE: weblate.settings_test
     steps:
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      if: github.event_name != 'pull_request'
+      if: github.event_name != 'pull_request' && github.repository_owner == 'WeblateOrg'
       with:
         token: ${{ secrets.WEBLATE_CI_TOKEN }}
+        persist-credentials: true
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      if: github.event_name != 'pull_request' && github.repository_owner != 'WeblateOrg'
+      with:
         persist-credentials: true
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       if: github.event_name == 'pull_request'
@@ -54,6 +60,7 @@ jobs:
     - name: Install Python dependencies
       run: ./ci/pip-install latest
     - run: make -C docs update-doc-snippets
+    - run: git diff
     - run: uv run --only-group pre-commit pre-commit run --all
       continue-on-error: true
 
