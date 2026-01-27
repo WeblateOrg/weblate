@@ -179,7 +179,7 @@ def get_encoding_param(file_format_params: FileFormatParams | None) -> str | Non
     for param_name, value in file_format_params.items():
         try:
             if get_param_for_name(param_name).is_encoding():
-                return cast(str, value)
+                return cast("str", value)
         except ValueError:
             continue
     return None
