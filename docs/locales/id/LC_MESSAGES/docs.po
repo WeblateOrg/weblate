@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-01-26 11:05+0100\n"
-"PO-Revision-Date: 2026-01-25 12:28+0000\n"
+"PO-Revision-Date: 2026-01-27 04:09+0000\n"
 "Last-Translator: Zahid Rizky Fakhri <zahidrizkyfakhri@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "documentation/id/>\n"
@@ -1436,8 +1436,6 @@ msgid "Post announcements"
 msgstr "Posting pengumuman"
 
 #: ../../snippets/permissions.rst:327
-#, fuzzy
-#| msgid "Delete announcement"
 msgid "Delete announcements"
 msgstr "Hapus pengumuman"
 
@@ -1533,10 +1531,8 @@ msgid ":guilabel:`Post announcements`"
 msgstr ":guilabel:`Posting pengumuman`"
 
 #: ../../snippets/roles.rst:12 ../../snippets/roles.rst:114
-#, fuzzy
-#| msgid ":guilabel:`Post announcements`"
 msgid ":guilabel:`Delete announcements`"
-msgstr ":guilabel:`Posting pengumuman`"
+msgstr ":guilabel:`Hapus pengumuman`"
 
 #: ../../snippets/roles.rst:13 ../../snippets/roles.rst:200
 msgid ":guilabel:`View billing info`"
@@ -9516,14 +9512,18 @@ msgid ""
 "of projects that are using them, it can cause confusion or distract "
 "translators from the actual components that are meant to be translated."
 msgstr ""
+"Komponen glosarium biasanya dibagikan ke proyek lain agar tersedia untuk "
+"pekerjaan terjemahan. Ketika komponen ini terlihat dalam daftar komponen "
+"proyek yang menggunakannya, itu dapat menyebabkan kebingungan atau "
+"mengalihkan perhatian penerjemah dari komponen sebenarnya yang seharusnya "
+"diterjemahkan."
 
 #: ../../admin/config.rst:1871
-#, fuzzy
-#| msgid "This is turned off by default now, used to be turned on by default."
 msgid ""
 "This is turned off by default, making shared glossary components visible."
 msgstr ""
-"Ini dinonaktifkan secara bawaan sekarang, dulu diaktifkan secara bawaan."
+"Ini dinonaktifkan secara bawaan, sehingga komponen glosarium bersama menjadi "
+"terlihat."
 
 #: ../../admin/config.rst:1878
 msgid ""
@@ -10491,15 +10491,6 @@ msgstr ""
 "lanjut ditemukan dalam bab tersebut."
 
 #: ../../admin/continuous.rst:365
-#, fuzzy
-#| msgid ""
-#| "In case you do not want direct pushes by Weblate, there is support "
-#| "for :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-"
-#| "pagure`, :ref:`vcs-azure-devops` pull requests or :ref:`vcs-gerrit` "
-#| "reviews, you can activate these by "
-#| "choosing :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit`, :guilabel:`Azure "
-#| "DevOps`, or :guilabel:`Pagure` as :ref:`component-vcs` "
-#| "in :ref:`component`."
 msgid ""
 "In case you do not want direct pushes by Weblate, there is support "
 "for :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-"
@@ -10509,12 +10500,12 @@ msgid ""
 "DevOps`, or :guilabel:`Pagure` as :ref:`component-vcs` in :ref:`component`."
 msgstr ""
 "Jika Anda tidak menginginkan dorongan langsung oleh Weblate, tersedia "
-"dukungan untuk :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-"
-"gitea`, :ref:`vcs-pagure`, :ref:`vcs-azure-devops` permintaan tarik "
-"atau :ref:`vcs-gerrit` tinjauan, Anda dapat mengaktifkannya dengan "
-"memilih :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit`, :guilabel:`Azure "
-"DevOps`, atau :guilabel:`Pagure` sebagai :ref:`component-vcs` "
-"dalam :ref:`component`."
+"dukungan untuk :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, "
+":ref:`vcs-pagure`, :ref:`vcs-azure-devops` atau :ref:`vcs-gerrit` tinjauan, "
+"Anda dapat mengaktifkannya dengan memilih :guilabel:`GitHub`, "
+":guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit`, :guilabel:`Azure "
+"DevOps`, atau :guilabel:`Pagure` sebagai :ref:`component-vcs` dalam "
+":ref:`component`."
 
 #: ../../admin/continuous.rst:371
 msgid ""
@@ -12250,12 +12241,6 @@ msgstr ""
 "atau :envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER` (lingkungan Docker)."
 
 #: ../../admin/install.rst:768
-#, fuzzy
-#| msgid ""
-#| "The header value is case-sensitive in the configuration, so "
-#| "``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,https`` and "
-#| "``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,HTTPS`` are not "
-#| "interchangeable."
 msgid ""
 "The header value is case-sensitive in the configuration, so "
 "``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_FORWARDED_PROTO,https`` and "
@@ -12263,8 +12248,8 @@ msgid ""
 "interchangeable."
 msgstr ""
 "Nilai header peka huruf besar-kecil dalam konfigurasi, jadi "
-"``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,https`` dan "
-"``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,HTTPS`` tidak dapat "
+"``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_FORWARDED_PROTO,https`` dan "
+"``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_FORWARDED_PROTO,HTTPS`` tidak dapat "
 "dipertukarkan."
 
 #: ../../admin/install.rst:775
@@ -13576,6 +13561,13 @@ msgid ""
 "privacy reasons, as the error e-mails might include sensitive data. You can "
 "read more on that in :ref:`django:logging-security-implications`."
 msgstr ""
+"Konfigurasi Weblate bawaan menginstrumentasikan Django untuk mengirim surel "
+"saat galat server melalui "
+":py:class:`django:django.utils.log.AdminEmailHandler`. Ini adalah pengaturan "
+"yang paling mudah, tetapi Anda harus mempertimbangkan opsi lain karena "
+"alasan privasi, karena surel galat mungkin berisi data sensitif. Anda dapat "
+"membaca lebih lanjut tentang hal itu di :ref:`django:logging-security-"
+"implications`."
 
 #: ../../admin/install.rst:1853
 msgid ""
@@ -13583,6 +13575,9 @@ msgid ""
 "the :setting:`django:LOGGING` in Weblate settings, or "
 "disable :envvar:`WEBLATE_ADMIN_NOTIFY_ERROR` in the Docker environment."
 msgstr ""
+"Untuk menonaktifkan perilaku ini, hapus ``mail_admins`` dari "
+":setting:`django:LOGGING` di pengaturan Weblate, atau nonaktifkan "
+":envvar:`WEBLATE_ADMIN_NOTIFY_ERROR` di lingkungan Docker."
 
 #: ../../admin/install.rst:1858
 msgid "Sentry"
@@ -14663,6 +14658,8 @@ msgid ""
 "Hides glossary components when shared to other projects, "
 "see :setting:`HIDE_SHARED_GLOSSARY_COMPONENTS`."
 msgstr ""
+"Menyembunyikan komponen glosarium saat dibagikan ke proyek lain, lihat "
+":setting:`HIDE_SHARED_GLOSSARY_COMPONENTS`."
 
 #: ../../admin/install/docker.rst:825
 msgid ""
@@ -19486,7 +19483,7 @@ msgstr "Mencantumkan parameter format berkas."
 
 #: ../../admin/management.rst:809
 msgid "Lists all possible change event types."
-msgstr ""
+msgstr "Mencantumkan semua jenis peristiwa perubahan yang terjadi."
 
 #: ../../admin/management.rst:816
 msgid ""
@@ -26551,10 +26548,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS di Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.1"
 msgid "Weblate 5.16"
-msgstr "Weblate 5.1"
+msgstr "Weblate 5.16"
 
 #: ../../changes.rst:4
 msgid "*Not yet released.*"
@@ -26571,22 +26566,25 @@ msgid "New features"
 msgstr "Fitur baru"
 
 #: ../../changes.rst:8
-#, fuzzy
-#| msgid "Skip the :ref:`check-multiple-failures` quality check."
 msgid ":ref:`check-multiple-capital` quality check."
-msgstr "Lewati pemeriksaan kualitas :ref:`check-multiple-failures`."
+msgstr ":ref:`check-multiple-capital` periksaan kualitas."
 
 #: ../../changes.rst:9
 msgid ""
 ":setting:`HIDE_SHARED_GLOSSARY_COMPONENTS` to hide glossaries shared into "
 "other projects."
 msgstr ""
+":setting:`HIDE_SHARED_GLOSSARY_COMPONENTS` untuk menyembunyikan glosarium "
+"yang dibagikan ke proyek lain."
 
 #: ../../changes.rst:10
 msgid ""
 "Added new management command :wladmin:`list_change_events`, which lists all "
 "possible change events, :ref:`addon-choice-events`."
 msgstr ""
+"Menambahkan perintah manajemen baru :wladmin:`list_change_events`, yang "
+"mencantumkan semua kemungkinan peristiwa perubahan, :ref:`addon-choice-"
+"events`."
 
 #: ../../changes.rst:13 ../../changes.rst:46 ../../changes.rst:91
 #: ../../changes.rst:132 ../../changes.rst:208 ../../changes.rst:235
@@ -26611,26 +26609,30 @@ msgid ""
 "Delete announcements permission can be assigned to teams, "
 "see :ref:`privileges`."
 msgstr ""
+"Izin hapus pengumuman dapat ditugaskan kepada tim, lihat :ref:`privileges`."
 
 #: ../../changes.rst:15
 msgid ":doc:`/user/search` better reports errors in the query strings."
 msgstr ""
+":doc:`/user/search` melaporkan galat pada string kueri dengan lebih baik."
 
 #: ../../changes.rst:16
 msgid "Regular repository maintenance is now performed in the background."
-msgstr ""
+msgstr "Pemeliharaan reguler repositori sekarang dilakukan di latar belakang."
 
 #: ../../changes.rst:17
 msgid "Repository cleanup now recovers failed merges or rebases."
 msgstr ""
+"Pembersihan repositori sekarang memulihkan penggabungan atau basis ulang "
+"yang gagal."
 
 #: ../../changes.rst:18
 msgid "Better visibility of :ref:`project-commit_policy` to translators."
-msgstr ""
+msgstr "Visibilitas :ref:`project-commit_policy` yang lebih baik ke penerjemah."
 
 #: ../../changes.rst:19
 msgid "Validation of VCS settings :ref:`push-changes` has been extended."
-msgstr ""
+msgstr "Validasi pengaturan VCS :ref:`push-changes` telah diperluas."
 
 #: ../../changes.rst:22 ../../changes.rst:53 ../../changes.rst:98
 #: ../../changes.rst:149 ../../changes.rst:188 ../../changes.rst:212
@@ -26660,10 +26662,13 @@ msgid ""
 "Adding plural strings with singular matching existing string is now "
 "prohibited for bilingual translations (see :ref:`bimono`)."
 msgstr ""
+"Menambahkan string jamak dengan string tunggal yang sesuai dengan string "
+"yang sudah ada sekarang dilarang untuk terjemahan dwibahasa (lihat "
+":ref:`bimono`)."
 
 #: ../../changes.rst:24
 msgid "Automatic :ref:`component-repoweb` URL for common code hosting sites."
-msgstr ""
+msgstr "URL :ref:`component-repoweb` otomatis untuk situs hosting kode umum."
 
 #: ../../changes.rst:27 ../../changes.rst:66 ../../changes.rst:163
 #: ../../changes.rst:306 ../../changes.rst:401 ../../changes.rst:456
@@ -26681,6 +26686,10 @@ msgid ""
 "allow generic regular-expression-based checking of strings. Use :ref:`check-"
 "placeholders` for checking regular expression matched placeholders."
 msgstr ""
+":ref:`check-regex` tidak lagi menandai porsi yang cocok sebagai tidak dapat "
+"diterjemahkan untuk memungkinkan pemeriksaan string berbasis ekspresi "
+"reguler generik. Gunakan :ref:`check-placeholders` untuk memeriksa "
+"penempatan yang cocok dengan ekspresi reguler."
 
 #: ../../changes.rst:31 ../../changes.rst:70 ../../changes.rst:106
 #: ../../changes.rst:173 ../../changes.rst:193 ../../changes.rst:216
@@ -26758,26 +26767,20 @@ msgid "Contributors"
 msgstr "Kontributor"
 
 #: ../../changes.rst:38
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "56?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/156?"
 "closed=1>`__."
 msgstr ""
 "`Semua perubahan secara rinci <https://github.com/WeblateOrg/weblate/"
-"milestone/56?closed=1>`__."
+"milestone/156?closed=1>`__."
 
 #: ../../changes.rst:41
 msgid "Weblate 5.15.2"
 msgstr "Weblate 5.15.2"
 
 #: ../../changes.rst:43
-#, fuzzy
-#| msgid "*Released on January 14th 2021.*"
 msgid "*Released on January 14th 2026.*"
-msgstr "*Dirilis pada 14 Januari 2021.*"
+msgstr "*Dirilis pada 14 Januari 2026.*"
 
 #: ../../changes.rst:47
 msgid ""
@@ -26801,16 +26804,12 @@ msgid ":ref:`check-same` check ignores AsciiDoc source code blocks."
 msgstr "Pemerikasaan :ref:`check-same` mengabaikan blok kode sumber AsciiDoc."
 
 #: ../../changes.rst:54
-#, fuzzy
-#| msgid ""
-#| "Arbitrary file read via symbolic links (:cve:`2025-68279` / :ghsa:`g925-"
-#| "f788-4jh7`)."
 msgid ""
 "Information leak via screenshots "
 "(:cve:`2026-21889` / :ghsa:`3g2f-4rjg-9385`)."
 msgstr ""
-"Berkas arbitrer dibaca melalui tautan simbolik "
-"(:cve:`2025-68279` / :ghsa:`g925-f788-4jh7`)."
+"Kebocoran informasi melalui tangkapan layar (:cve:`2026-21889` / :ghsa:`3g2f-"
+"4rjg-9385`)."
 
 #: ../../changes.rst:55
 msgid "Explanation sync in :doc:`/formats/tbx`."
@@ -26848,22 +26847,16 @@ msgid "Invitations accepting when :setting:`REQUIRE_LOGIN` is turned on."
 msgstr "Undangan diterima ketika :setting:`REQUIRE_LOGIN` dinyalakan."
 
 #: ../../changes.rst:63
-#, fuzzy
-#| msgid ":ref:`mt-cyrtranslit` automatic suggestion service."
 msgid ":ref:`mt-cyrtranslit` installation."
-msgstr ":ref:`mt-cyrtranslit` layanan saran otomatis."
+msgstr "Penginstalan :ref:`mt-cyrtranslit`."
 
 #: ../../changes.rst:67
-#, fuzzy
-#| msgid ""
-#| "Screenshot images are no longer served directly by the HTTP server, "
-#| "please adjust your HTTP server by removing serving of ``/media/``."
 msgid ""
 "Screenshot images are no longer served directly by the HTTP server, please "
 "adjust your HTTP server by removing serving of :file:`/media/`."
 msgstr ""
-"Gambar tangkapan layar tidak lagi disimpan langsung oleh server HTTP, harap "
-"sesuaikan server HTTP Anda dengan menghapus penyimpanan ``/media/``."
+"Gambar tangkapan layar tidak lagi disajikan langsung oleh server HTTP, harap "
+"sesuaikan server HTTP Anda dengan menghapus penyajian :file:`/media/`."
 
 #: ../../changes.rst:73
 msgid ""
@@ -26871,6 +26864,9 @@ msgid ""
 "media/` path should be removed from the HTTP server configuration; "
 "see :ref:`static-files`."
 msgstr ""
+"Agar perbaikan untuk :cve:`2026-21889` efektif, penyajian jalur :file:`/"
+"media/` harus dihapus dari konfigurasi server HTTP; lihat :ref:`static-"
+"files`."
 
 #: ../../changes/contributors/5.10.1.rst:2
 #: ../../changes/contributors/5.10.2.rst:2
@@ -54457,16 +54453,12 @@ msgstr ""
 "ditampilkannya apa pun saat bentuk jamak digunakan."
 
 #: ../../user/checks.rst:1482
-#, fuzzy
-#| msgid "Multiple unnamed variables"
 msgid "Multiple capitals"
-msgstr "Beberapa variabel tanpa nama"
+msgstr "Beberapa kapital"
 
 #: ../../user/checks.rst:1486
-#, fuzzy
-#| msgid "Translation contains extra zero-width space character."
 msgid "Translation contains words with multiple misplaced capital letters."
-msgstr "Terjemahan mengandung karakter spasi tanpa lebar tambahan."
+msgstr "Terjemahan berisi kata dengan banyak huruf kapital yang salah tempat."
 
 #: ../../user/checks.rst:1493
 msgid ""
@@ -54476,6 +54468,11 @@ msgid ""
 "capitalization in the source string are allowed to contain capitalization in "
 "the translation."
 msgstr ""
+"Memeriksa kesalahan penulisan huruf kapital dengan mendeteksi kata yang "
+"berisi huruf kapital berurutan dalam teks yang seharusnya huruf kecil atau "
+"huruf kapital biasa (misalnya, ``HEllo`` atau ``CAmelCase``). String yang "
+"berisi huruf kapital dalam string sumber diperbolehkan untuk berisi huruf "
+"kapital dalam terjemahan."
 
 #: ../../user/checks.rst:1501
 msgid "Non‑standard characters in Kabyle"
@@ -54627,15 +54624,12 @@ msgstr ""
 "blok:"
 
 #: ../../user/checks.rst:1643
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-same` check now honors placeholders even in the strict mode."
 msgid ""
 "Use :ref:`check-placeholders` for detecting missing placeholders in the "
 "string."
 msgstr ""
-":ref:`check-same` pemeriksaan sekarang menghormati penempatan bahkan dalam "
-"mode ketat."
+"Gunakan :ref:`check-placeholders` untuk mendeteksi penempatan yang hilang "
+"dalam string."
 
 #: ../../user/checks.rst:1647
 msgid "`regex documentation <https://github.com/mrabarnett/mrab-regex>`_"
@@ -59063,11 +59057,9 @@ msgstr ""
 "menggunakan Pip:"
 
 #: ../../wlc.rst:22
-#, fuzzy
-#| msgid "You can also designate what project :program:`wlc` should work on:"
 msgid "You can also execute it directly using :program:`uvx`:"
 msgstr ""
-"Anda juga dapat menentukan proyek mana :program:`wlc` yang harus dikerjakan:"
+"Anda juga dapat menjalankannya secara langsung menggunakan :program:`uvx`:"
 
 #: ../../wlc.rst:30
 msgid ""
