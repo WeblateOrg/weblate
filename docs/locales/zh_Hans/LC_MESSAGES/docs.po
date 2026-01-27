@@ -31,7 +31,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-01-26 11:05+0100\n"
 "PO-Revision-Date: 2026-01-27 04:08+0000\n"
-"Last-Translator: Sketch6580 <sketch6580@users.noreply.hosted.weblate.org>\n"
+"Last-Translator: 大王叫我来巡山 "
+"<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -8816,13 +8817,14 @@ msgid ""
 "of projects that are using them, it can cause confusion or distract "
 "translators from the actual components that are meant to be translated."
 msgstr ""
+"术语表部件通常被分享至其他项目让它们可用于翻译工作。当可以在正使用它们的项目"
+"的部件列表中看到它们的时会造成困惑或将译者的注意力从实际需要被翻译的部件上移"
+"开。"
 
 #: ../../admin/config.rst:1871
-#, fuzzy
-#| msgid "This is turned off by default now, used to be turned on by default."
 msgid ""
 "This is turned off by default, making shared glossary components visible."
-msgstr "默认关闭，曾经默认开启。"
+msgstr "这默认关闭，让共享的术语表可见。"
 
 #: ../../admin/config.rst:1878
 msgid ""
@@ -12480,6 +12482,11 @@ msgid ""
 "privacy reasons, as the error e-mails might include sensitive data. You can "
 "read more on that in :ref:`django:logging-security-implications`."
 msgstr ""
+"默认的 Weblate 配置指示 Django 通过 "
+":py:class:`django:django.utils.log.AdminEmailHandler` 在遇到服务器错误时发送"
+"电子邮件。这是最省事的设置，但应该出于隐私原因考虑其他选项，因为错误邮件可能"
+"包含敏感数据。关于此内容的更多信息，可阅读 :ref:`django:logging-security-"
+"implications`。"
 
 #: ../../admin/install.rst:1853
 msgid ""
@@ -12487,6 +12494,9 @@ msgid ""
 "the :setting:`django:LOGGING` in Weblate settings, or "
 "disable :envvar:`WEBLATE_ADMIN_NOTIFY_ERROR` in the Docker environment."
 msgstr ""
+"要禁用此行为，从 Weblate 设置中的 :setting:`django:LOGGING` 删除 "
+"``mail_admins``，或在 Docker 环境中禁用 "
+":envvar:`WEBLATE_ADMIN_NOTIFY_ERROR`。"
 
 #: ../../admin/install.rst:1858
 msgid "Sentry"
@@ -13476,6 +13486,8 @@ msgid ""
 "Hides glossary components when shared to other projects, "
 "see :setting:`HIDE_SHARED_GLOSSARY_COMPONENTS`."
 msgstr ""
+"分享到其他项目时禁用术语表部件，见 "
+":setting:`HIDE_SHARED_GLOSSARY_COMPONENTS`。"
 
 #: ../../admin/install/docker.rst:825
 msgid ""
@@ -24424,13 +24436,15 @@ msgstr ":ref:`check-multiple-capital` 质量检查。"
 msgid ""
 ":setting:`HIDE_SHARED_GLOSSARY_COMPONENTS` to hide glossaries shared into "
 "other projects."
-msgstr ""
+msgstr ":setting:`HIDE_SHARED_GLOSSARY_COMPONENTS` 隐藏分享到其他项目的术语表。"
 
 #: ../../changes.rst:10
 msgid ""
 "Added new management command :wladmin:`list_change_events`, which lists all "
 "possible change events, :ref:`addon-choice-events`."
 msgstr ""
+"新增管理命令 :wladmin:`list_change_events`，该命令会列出所有可能的更改事件"
+"，:ref:`addon-choice-events`。"
 
 #: ../../changes.rst:13 ../../changes.rst:46 ../../changes.rst:91
 #: ../../changes.rst:132 ../../changes.rst:208 ../../changes.rst:235
@@ -24454,27 +24468,27 @@ msgstr "改进"
 msgid ""
 "Delete announcements permission can be assigned to teams, "
 "see :ref:`privileges`."
-msgstr ""
+msgstr "可以将删除公告权限分配给团队，见 :ref:`privileges`。"
 
 #: ../../changes.rst:15
 msgid ":doc:`/user/search` better reports errors in the query strings."
-msgstr ""
+msgstr ":doc:`/user/search` 更好地报告查询字符串中的错误。"
 
 #: ../../changes.rst:16
 msgid "Regular repository maintenance is now performed in the background."
-msgstr ""
+msgstr "现在在后台执行定期仓库维护。"
 
 #: ../../changes.rst:17
 msgid "Repository cleanup now recovers failed merges or rebases."
-msgstr ""
+msgstr "仓库清理现在恢复失败的合并或变基操作。"
 
 #: ../../changes.rst:18
 msgid "Better visibility of :ref:`project-commit_policy` to translators."
-msgstr ""
+msgstr "改进对译者的 :ref:`project-commit_policy` 可见性。"
 
 #: ../../changes.rst:19
 msgid "Validation of VCS settings :ref:`push-changes` has been extended."
-msgstr ""
+msgstr "扩展了 VCS 设置 :ref:`push-changes` 的验证。"
 
 #: ../../changes.rst:22 ../../changes.rst:53 ../../changes.rst:98
 #: ../../changes.rst:149 ../../changes.rst:188 ../../changes.rst:212
@@ -24503,11 +24517,11 @@ msgstr "缺陷修复"
 msgid ""
 "Adding plural strings with singular matching existing string is now "
 "prohibited for bilingual translations (see :ref:`bimono`)."
-msgstr ""
+msgstr "双语翻译现在禁止通过匹配单数的现有字符串添加复数字符串（见 :ref:`bimono`）。"
 
 #: ../../changes.rst:24
 msgid "Automatic :ref:`component-repoweb` URL for common code hosting sites."
-msgstr ""
+msgstr "对于常见代码托管站点的自动 :ref:`component-repoweb` URL。"
 
 #: ../../changes.rst:27 ../../changes.rst:66 ../../changes.rst:163
 #: ../../changes.rst:306 ../../changes.rst:401 ../../changes.rst:456
@@ -24525,6 +24539,8 @@ msgid ""
 "allow generic regular-expression-based checking of strings. Use :ref:`check-"
 "placeholders` for checking regular expression matched placeholders."
 msgstr ""
+":ref:`check-regex` 不再将匹配的部分标记为“不可翻译”来允许通用的基于正则表达式"
+"的字符串检查。用 :ref:`check-placeholders` 检查匹配正则表达式的占位符。"
 
 #: ../../changes.rst:31 ../../changes.rst:70 ../../changes.rst:106
 #: ../../changes.rst:173 ../../changes.rst:193 ../../changes.rst:216
@@ -24690,6 +24706,8 @@ msgid ""
 "media/` path should be removed from the HTTP server configuration; "
 "see :ref:`static-files`."
 msgstr ""
+"为了使 :cve:`2026-21889` 的修复有效，不应在 HTTP 服务器配置中提供 :file:`/"
+"media/` 路径，见 :ref:`static-files`。"
 
 #: ../../changes/contributors/5.10.1.rst:2
 #: ../../changes/contributors/5.10.2.rst:2
@@ -49970,6 +49988,9 @@ msgid ""
 "capitalization in the source string are allowed to contain capitalization in "
 "the translation."
 msgstr ""
+"通过检测小写文本或正常大写文本中含连续出现的大写字母的单词来检查误放置的字母"
+"大写（如 ``HEllo`` 或 ``CAmelCase``）。源字符串中含字母大写的字符串允许在译文"
+"中包含字母大写。"
 
 #: ../../user/checks.rst:1501
 msgid "Non‑standard characters in Kabyle"
