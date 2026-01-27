@@ -172,7 +172,7 @@ def get_param_for_name(name: str) -> type[BaseFileFormatParam]:
     raise ValueError(msg)
 
 
-def get_encoding_param(file_format_params: dict[str, Any] | None) -> str | None:
+def get_encoding_param(file_format_params: FileFormatParams | None) -> str | None:
     """Get encoding parameter from file format parameters."""
     if file_format_params is None:
         file_format_params = {}
