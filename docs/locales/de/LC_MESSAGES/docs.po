@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-01-26 11:05+0100\n"
-"PO-Revision-Date: 2026-01-19 12:01+0000\n"
+"PO-Revision-Date: 2026-01-27 07:30+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -1461,10 +1461,8 @@ msgid "Post announcements"
 msgstr "Mitteilungen veröffentlichen"
 
 #: ../../snippets/permissions.rst:327
-#, fuzzy
-#| msgid "Delete announcement"
 msgid "Delete announcements"
-msgstr "Mitteilung löschen"
+msgstr "Mitteilungen löschen"
 
 #: ../../snippets/permissions.rst:331
 msgid "Site wide privileges"
@@ -1557,10 +1555,8 @@ msgid ":guilabel:`Post announcements`"
 msgstr ":guilabel:`Mitteilungen veröffentlichen`"
 
 #: ../../snippets/roles.rst:12 ../../snippets/roles.rst:114
-#, fuzzy
-#| msgid ":guilabel:`Post announcements`"
 msgid ":guilabel:`Delete announcements`"
-msgstr ":guilabel:`Mitteilungen veröffentlichen`"
+msgstr ":guilabel:`Mitteilungen löschen`"
 
 #: ../../snippets/roles.rst:13 ../../snippets/roles.rst:200
 msgid ":guilabel:`View billing info`"
@@ -10696,15 +10692,6 @@ msgstr ""
 "weitere Einzelheiten finden Sie in diesem Kapitel."
 
 #: ../../admin/continuous.rst:365
-#, fuzzy
-#| msgid ""
-#| "In case you do not want direct pushes by Weblate, there is support "
-#| "for :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-"
-#| "pagure`, :ref:`vcs-azure-devops` pull requests or :ref:`vcs-gerrit` "
-#| "reviews, you can activate these by "
-#| "choosing :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit`, :guilabel:`Azure "
-#| "DevOps`, or :guilabel:`Pagure` as :ref:`component-vcs` "
-#| "in :ref:`component`."
 msgid ""
 "In case you do not want direct pushes by Weblate, there is support "
 "for :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-"
@@ -10713,13 +10700,13 @@ msgid ""
 "choosing :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit`, :guilabel:`Azure "
 "DevOps`, or :guilabel:`Pagure` as :ref:`component-vcs` in :ref:`component`."
 msgstr ""
-"Für den Fall, dass Sie keine direkten Pushes durch Weblate wünschen, gibt es "
-"Unterstützung für Pull Requests von :ref:`vcs-github`, :ref:`vcs-"
-"gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure`, :ref:`vcs-azure-devops` "
-"oder :ref:`vcs-gerrit`-Reviews. Sie können diese aktivieren, indem "
-"Sie :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit`, :guilabel:`Azure "
-"DevOps`, oder :guilabel:`Pagure` als :ref:`component-vcs` "
-"in :ref:`component` auswählen."
+"Für den Fall, dass Sie keine direkten Pushes durch Weblate möchten, gibt es "
+"Unterstützung für :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, "
+":ref:`vcs-pagure`, :ref:`vcs-azure-devops` oder :ref:`vcs-gerrit`-Reviews. "
+"Sie können diese aktivieren, indem Sie :guilabel:`GitHub`, "
+":guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit`, :guilabel:`Azure "
+"DevOps`, oder :guilabel:`Pagure` als :ref:`component-vcs` in "
+":ref:`component` auswählen."
 
 #: ../../admin/continuous.rst:371
 msgid ""
@@ -12483,12 +12470,6 @@ msgstr ""
 "Umgebung) konfiguriert werden."
 
 #: ../../admin/install.rst:768
-#, fuzzy
-#| msgid ""
-#| "The header value is case-sensitive in the configuration, so "
-#| "``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,https`` and "
-#| "``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,HTTPS`` are not "
-#| "interchangeable."
 msgid ""
 "The header value is case-sensitive in the configuration, so "
 "``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_FORWARDED_PROTO,https`` and "
@@ -12496,8 +12477,8 @@ msgid ""
 "interchangeable."
 msgstr ""
 "In der Konfiguration wird zwischen Groß- und Kleinschreibung unterschieden, "
-"so dass ``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,https`` und "
-"``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,HTTPS`` nicht "
+"so dass ``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_FORWARDED_PROTO,https`` und "
+"``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_FORWARDED_PROTO,HTTPS`` nicht "
 "austauschbar sind."
 
 #: ../../admin/install.rst:775
@@ -55496,7 +55477,7 @@ msgstr "Maximale Länge der Übersetzung"
 
 #: ../../user/checks.rst:1205
 msgid "Translation should not exceed given length."
-msgstr "Die Übersetzung sollte die angegebene Länge nicht überschreiten."
+msgstr "Übersetzung sollte die angegebene Länge nicht überschreiten."
 
 #: ../../user/checks.rst:1213
 msgid ""
@@ -55845,16 +55826,13 @@ msgstr ""
 "Verwenden der Pluralform nichts angezeigt wird."
 
 #: ../../user/checks.rst:1482
-#, fuzzy
-#| msgid "Multiple unnamed variables"
 msgid "Multiple capitals"
-msgstr "Mehrere unbenannte Variablen"
+msgstr "Mehrere Großbuchstaben"
 
 #: ../../user/checks.rst:1486
-#, fuzzy
-#| msgid "Translation contains extra zero-width space character."
 msgid "Translation contains words with multiple misplaced capital letters."
-msgstr "Übersetzung enthält zusätzliche breitenlose Leerzeichen."
+msgstr ""
+"Übersetzung enthält Wörter mit mehreren falsch gesetzten Großbuchstaben."
 
 #: ../../user/checks.rst:1493
 msgid ""
@@ -55864,6 +55842,12 @@ msgid ""
 "capitalization in the source string are allowed to contain capitalization in "
 "the translation."
 msgstr ""
+"Prüft auf falsche Großschreibung, indem Wörter erkannt werden, die "
+"aufeinanderfolgende Großbuchstaben in einem ansonsten kleingeschriebenen "
+"oder normal großgeschriebenen Text enthalten (z. B. ``HEllo`` oder "
+"``CAmelCase``). Zeichenketten, die in der Ausgangszeichenkette "
+"Großbuchstaben enthalten, dürfen auch in der Übersetzung Großbuchstaben "
+"enthalten."
 
 #: ../../user/checks.rst:1501
 msgid "Non‑standard characters in Kabyle"
