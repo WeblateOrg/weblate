@@ -28,7 +28,6 @@ from weblate.formats.ttkit import (
     CatkeysFormat,
     CSVFormat,
     CSVSimpleFormat,
-    CSVUtf8SimpleFormat,
     DTDFormat,
     FlatXMLFormat,
     FluentFormat,
@@ -1141,11 +1140,18 @@ class CSVUtf8SimpleFormatMonolingualTest(FixtureTestCase, TempDirMixin):
         Path(translation_file).write_bytes(content)
 
         # Load the base file (template)
-        template_store = CSVUtf8SimpleFormat(TEST_CSV_SIMPLE_EN, is_template=True)
+        template_store = CSVSimpleFormat(
+            TEST_CSV_SIMPLE_EN,
+            is_template=True,
+            file_format_params={"csv_simple_encoding": "utf-8"},
+        )
 
         # Load the translation file with the template
-        store = CSVUtf8SimpleFormat(
-            translation_file, template_store=template_store, language_code="pl"
+        store = CSVSimpleFormat(
+            translation_file,
+            template_store=template_store,
+            language_code="pl",
+            file_format_params={"csv_simple_encoding": "utf-8"},
         )
 
         # Verify we have the expected units

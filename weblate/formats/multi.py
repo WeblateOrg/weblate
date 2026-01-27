@@ -14,7 +14,7 @@ from django.utils.translation import gettext_lazy
 from weblate.trans.util import get_string
 
 from .base import TranslationFormat, TranslationUnit
-from .ttkit import CSVUtf8Format
+from .ttkit import CSVFormat
 
 if TYPE_CHECKING:
     from translate.storage.base import TranslationStore
@@ -173,6 +173,7 @@ class MultiFormatMixin(TranslationFormat):
             super().add_unit(unit)
 
 
-class MultiCSVUtf8Format(MultiFormatMixin, CSVUtf8Format):
-    name = gettext_lazy("Multivalue CSV file (UTF-8)")
-    format_id = "csv-multi-utf-8"
+class MultiCSVFormat(MultiFormatMixin, CSVFormat):
+    name = gettext_lazy("Multivalue CSV file")
+    format_id = "csv-multi"
+    autoload: tuple[str, ...] = ()

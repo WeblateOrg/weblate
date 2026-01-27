@@ -85,13 +85,9 @@ class FormatsConf(AppConf):
         "weblate.formats.ttkit.RichXliff2Format",
         "weblate.formats.ttkit.PoXliffFormat",
         "weblate.formats.ttkit.StringsFormat",
-        "weblate.formats.ttkit.StringsUtf8Format",
-        "weblate.formats.ttkit.PropertiesUtf8Format",
-        "weblate.formats.ttkit.PropertiesUtf16Format",
         "weblate.formats.ttkit.PropertiesFormat",
         "weblate.formats.ttkit.JoomlaFormat",
         "weblate.formats.ttkit.GWTFormat",
-        "weblate.formats.ttkit.GWTISOFormat",
         "weblate.formats.ttkit.PhpFormat",
         "weblate.formats.ttkit.LaravelPhpFormat",
         "weblate.formats.ttkit.RESXFormat",
@@ -110,10 +106,7 @@ class FormatsConf(AppConf):
         "weblate.formats.ttkit.ARBFormat",
         "weblate.formats.ttkit.FormatJSFormat",
         "weblate.formats.ttkit.CSVFormat",
-        "weblate.formats.ttkit.CSVUtf8Format",
         "weblate.formats.ttkit.CSVSimpleFormat",
-        "weblate.formats.ttkit.CSVUtf8SimpleFormat",
-        "weblate.formats.ttkit.CSVSimpleFormatISO",
         "weblate.formats.ttkit.YAMLFormat",
         "weblate.formats.ttkit.RubyYAMLFormat",
         "weblate.formats.ttkit.SubRipFormat",
@@ -146,7 +139,7 @@ class FormatsConf(AppConf):
         "weblate.formats.ttkit.TOMLFormat",
         "weblate.formats.ttkit.RESJSONFormat",
         "weblate.formats.ttkit.NextcloudJSONFormat",
-        "weblate.formats.multi.MultiCSVUtf8Format",
+        "weblate.formats.multi.MultiCSVFormat",
     )
 
     class Meta:

@@ -43,6 +43,11 @@ class FileFormatParams(TypedDict, total=False):
     flatxml_root_name: str
     flatxml_value_name: str
     flatxml_key_name: str
+    strings_encoding: str
+    properties_encoding: str
+    csv_encoding: str
+    csv_simple_encoding: str
+    gwt_encoding: str
 
 
 class BaseFileFormatParam:
@@ -62,6 +67,11 @@ class BaseFileFormatParam:
         "flatxml_root_name",
         "flatxml_value_name",
         "flatxml_key_name",
+        "strings_encoding",
+        "properties_encoding",
+        "csv_encoding",
+        "csv_simple_encoding",
+        "gwt_encoding",
     ]
     file_formats: Sequence[str] = []
     field_class: type[forms.Field] = forms.CharField
@@ -116,6 +126,10 @@ class BaseFileFormatParam:
         except (ValueError, TypeError):
             return cls.default
 
+    @classmethod
+    def is_encoding(cls):
+        return cls.name.endswith("_encoding")
+
 
 FILE_FORMATS_PARAMS: list[type[BaseFileFormatParam]] = []
 
@@ -147,6 +161,28 @@ def strip_unused_file_format_params(
         if file_format not in param.file_formats:
             file_format_params.pop(param.name, None)
     return file_format_params
+
+
+def get_param_for_name(name: str) -> type[BaseFileFormatParam]:
+    """Get parameter class for given name."""
+    for param in FILE_FORMATS_PARAMS:
+        if param.name == name:
+            return param
+    msg = f"Unknown parameter: {name}"
+    raise ValueError(msg)
+
+
+def get_encoding_param(file_format_params: FileFormatParams | None) -> str | None:
+    """Get encoding parameter from file format parameters."""
+    if file_format_params is None:
+        file_format_params = {}
+    for param_name, value in file_format_params.items():
+        try:
+            if get_param_for_name(param_name).is_encoding():
+                return cast("str", value)
+        except ValueError:
+            continue
+    return None
 
 
 class JSONOutputCustomizationBaseParam(BaseFileFormatParam):
@@ -411,3 +447,78 @@ class FlatXMLKeyName(BaseFlatXMLFormatParam):
     field_class = forms.CharField
     default = "key"
     field_kwargs: ClassVar[FieldKwargsDict] = {"min_length": 1}
+
+
+@register_file_format_param
+class StringsEncoding(BaseFileFormatParam):
+    file_formats = ("strings",)
+    name = "strings_encoding"
+    label = gettext_lazy("File encoding")
+    field_class = forms.ChoiceField
+    choices: ClassVar[list[tuple[str | int, StrOrPromise]] | None] = [
+        ("utf-16", gettext_lazy("UTF-16")),
+        ("utf-8", gettext_lazy("UTF-8")),
+    ]
+    default = "utf-16"
+    help_text = gettext_lazy("Encoding used for iOS strings files")
+
+
+@register_file_format_param
+class PropertiesEncoding(BaseFileFormatParam):
+    file_formats = (
+        "properties",
+        "xwiki-page-properties",
+    )
+    name = "properties_encoding"
+    label = gettext_lazy("File encoding")
+    field_class = forms.ChoiceField
+    choices: ClassVar[list[tuple[str | int, StrOrPromise]] | None] = [
+        ("iso-8859-1", gettext_lazy("ISO-8859-1")),
+        ("utf-8", gettext_lazy("UTF-8")),
+        ("utf-16", gettext_lazy("UTF-16")),
+    ]
+    default = "iso-8859-1"
+    help_text = gettext_lazy("Encoding used for Java Properties files")
+
+
+@register_file_format_param
+class CSVEncoding(BaseFileFormatParam):
+    file_formats = ("csv", "csv-multi")
+    name = "csv_encoding"
+    label = gettext_lazy("File encoding")
+    field_class = forms.ChoiceField
+    choices: ClassVar[list[tuple[str | int, StrOrPromise]] | None] = [
+        ("auto", gettext_lazy("Auto-detect")),
+        ("utf-8", gettext_lazy("UTF-8")),
+    ]
+    default = "auto"
+    help_text = gettext_lazy("Encoding used for CSV files")
+
+
+@register_file_format_param
+class CSVSimpleEncoding(BaseFileFormatParam):
+    file_formats = ("csv-simple",)
+    name = "csv_simple_encoding"
+    label = gettext_lazy("File encoding")
+    field_class = forms.ChoiceField
+    choices: ClassVar[list[tuple[str | int, StrOrPromise]] | None] = [
+        ("auto", gettext_lazy("Auto-detect")),
+        ("utf-8", gettext_lazy("UTF-8")),
+        ("iso-8859-1", gettext_lazy("ISO-8859-1")),
+    ]
+    default = "auto"
+    help_text = gettext_lazy("Encoding used for simple CSV files")
+
+
+@register_file_format_param
+class GWTEncoding(BaseFileFormatParam):
+    name = "gwt_encoding"
+    file_formats = ("gwt",)
+    label = gettext_lazy("File encoding")
+    field_class = forms.ChoiceField
+    choices: ClassVar[list[tuple[str | int, StrOrPromise]] | None] = [
+        ("utf-8", gettext_lazy("UTF-8")),
+        ("iso-8859-1", gettext_lazy("ISO-8859-1")),
+    ]
+    default = "utf-8"
+    help_text = gettext_lazy("Encoding used for GWT Properties files")

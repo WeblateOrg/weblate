@@ -146,7 +146,7 @@ class PropertiesSortAddon(BaseAddon):
     verbose = gettext_lazy("Format the Java properties file")
     description = gettext_lazy("Formats and sorts the Java properties file.")
     compat: ClassVar[CompatDict] = {
-        "file_format": {"properties-utf8", "properties", "gwt"},
+        "file_format": {"properties", "gwt"},
     }
     icon = "sort-alphabetical.svg"
     settings_form = PropertiesSortAddonForm

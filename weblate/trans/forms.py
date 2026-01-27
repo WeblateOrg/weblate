@@ -2064,7 +2064,7 @@ class ComponentScratchCreateForm(ComponentProjectForm):
         label=gettext_lazy("File format"),
         initial="po-mono",
         choices=FILE_FORMATS.get_choices(
-            cond=lambda x: bool(x.new_translation)
+            cond=lambda x: bool(x.empty_file_template)
             or issubclass(x, BilingualUpdateMixin)
         ),
     )

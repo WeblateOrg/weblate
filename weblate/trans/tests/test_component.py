@@ -304,7 +304,11 @@ class ComponentTest(RepoTestCase):
         self.verify_component(component, 2, "cs", 4, "Hello, world!")
 
     def test_create_tsv_simple_iso(self) -> None:
-        component = self._create_component("csv-simple-iso", "tsv/*.txt")
+        component = self._create_component(
+            "csv-simple",
+            "tsv/*.txt",
+            file_format_params={"csv_simple_encoding": "iso-8859-1"},
+        )
         self.verify_component(component, 2, "cs", 4, "Hello, world!")
 
     def test_create_csv(self) -> None:

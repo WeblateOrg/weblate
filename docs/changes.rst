@@ -9,6 +9,7 @@ Weblate 5.16
 * :setting:`HIDE_SHARED_GLOSSARY_COMPONENTS` to hide glossaries shared into other projects.
 * Added new management command :wladmin:`list_change_events`, which lists all possible change events, :ref:`addon-choice-events`.
 * Added Anthropic machinery integration, see :ref:`mt-anthropic`.
+* Encoding for :ref:`formats` can now be configured using :ref:`file_format_params` (e.g., ``csv_encoding``, ``properties_encoding``).
 
 .. rubric:: Improvements
 
@@ -24,10 +25,12 @@ Weblate 5.16
 
 * Adding plural strings with singular matching existing string is now prohibited for bilingual translations (see :ref:`bimono`).
 * Automatic :ref:`component-repoweb` URL for common code hosting sites.
+* File formats that only differed in encoding (CSV, GWT Properties, Java Properties, iOS Strings) have been merged into single formats.
 
 .. rubric:: Compatibility
 
 * :ref:`check-regex` no longer marks matched portions as non-translatable to allow generic regular-expression-based checking of strings. Use :ref:`check-placeholders` for checking regular expression matched placeholders.
+* The default value for :setting:`WEBLATE_FORMATS` changed because of the removal of encoding-specific formats.
 
 .. rubric:: Upgrading
 

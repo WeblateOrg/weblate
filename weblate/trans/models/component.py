@@ -53,7 +53,7 @@ from weblate.trans.defines import (
 )
 from weblate.trans.exceptions import FileParseError, InvalidTemplateError
 from weblate.trans.fields import RegexField
-from weblate.trans.file_format_params import FILE_FORMATS_PARAMS
+from weblate.trans.file_format_params import FILE_FORMATS_PARAMS, get_encoding_param
 from weblate.trans.mixins import (
     CacheKeyMixin,
     ComponentCategoryMixin,
@@ -1802,12 +1802,19 @@ class Component(
                     and not issubclass(self.file_format_cls, BilingualUpdateMixin)
                 ) or (
                     self.template
-                    and self.file_format_cls.get_new_file_content() is None
+                    and self.file_format_cls.get_new_file_content(
+                        get_encoding_param(self.file_format_params)
+                    )
+                    is None
                 ):
                     raise ValidationError({"template": gettext("File does not exist.")})
                 LocalRepository.from_files(
                     self.full_path,
-                    {self.template: self.file_format_cls.get_new_file_content()}
+                    {
+                        self.template: self.file_format_cls.get_new_file_content(
+                            get_encoding_param(self.file_format_params)
+                        )
+                    }
                     if self.template
                     else {},
                 )

@@ -8,7 +8,7 @@ from __future__ import annotations
 
 from typing import ClassVar
 
-from weblate.formats.multi import MultiCSVUtf8Format
+from weblate.formats.multi import MultiCSVFormat
 from weblate.trans.tests.utils import get_test_file
 from weblate.trans.util import join_plural
 
@@ -19,8 +19,8 @@ TEST_MONO_CSV = get_test_file("fr-multi-mono.csv")
 TEST_MONO_BASE_CSV = get_test_file("en-multi.csv")
 
 
-class MultiCSVUtf8FormatTest(BaseFormatTest):
-    format_class = MultiCSVUtf8Format
+class MultiCSVFormatTest(BaseFormatTest):
+    format_class = MultiCSVFormat
     FILE = TEST_CSV
     MIME = "text/csv"
     COUNT = 2
@@ -86,7 +86,7 @@ class MultiCSVUtf8FormatTest(BaseFormatTest):
         )
 
 
-class MonoMultiCSVUtf8FormatTest(MultiCSVUtf8FormatTest):
+class MonoMultiCSVFormatTest(MultiCSVFormatTest):
     MONOLINGUAL = True
     FIND = ""
     MATCH = """\n"271681002","Stomach ache (finding)"\n"""
