@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-01-26 11:05+0100\n"
-"PO-Revision-Date: 2026-01-28 10:52+0000\n"
+"PO-Revision-Date: 2026-01-28 11:25+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -8781,8 +8781,8 @@ msgid ""
 "The personal access token needs the :guilabel:`api` scope to be able to use "
 "the API."
 msgstr ""
-"Das persönliche Zugangstoken benötigt den :guilabel:`api`-Bereich, um die "
-"API nutzen zu können."
+"Das persönliche Zugangstoken benötigt die Berechtigung :guilabel:`api`, um "
+"die API nutzen zu können."
 
 #: ../../admin/config.rst:882
 msgid ""
@@ -59799,6 +59799,8 @@ msgid ""
 "This is suitable when you're starting with Weblate or working with a single "
 "repository."
 msgstr ""
+"Dies ist geeignet, wenn Sie mit Weblate beginnen oder mit einem einzelnen "
+"Repository arbeiten."
 
 #: ../../vcs.rst:194
 msgid ""
@@ -59812,45 +59814,52 @@ msgid ""
 "dedicated user for Weblate. This avoids GitHub's limitation that each SSH "
 "key can only be used once per platform."
 msgstr ""
+"Für Setups mit mehreren Repositorys ist es empfehlenswert, einen dedizierten "
+"Benutzer für Weblate zu erstellen. Dadurch wird die Einschränkung von GitHub "
+"umgangen, dass jeder SSH-Schlüssel nur einmal pro Plattform verwendet werden "
+"kann."
 
 #: ../../vcs.rst:202
 msgid "Create a dedicated GitHub user account (e.g., ``weblate-bot``)"
-msgstr ""
+msgstr "Ein spezielles GitHub-Benutzerkonto (z. B. ``weblate-bot``) erstellen"
 
 #: ../../vcs.rst:203
 msgid "Add Weblate's public SSH key to this user (see :ref:`weblate-ssh-key`)"
 msgstr ""
+"Den öffentlichen SSH-Schlüssel von Weblate zu diesem Benutzer hinzufügen "
+"(siehe :ref:`weblate-ssh-key`)"
 
 #: ../../vcs.rst:204
 msgid "Grant this user access to all repositories you want to translate"
 msgstr ""
+"Diesem Benutzer Zugriff auf alle Repositorys, die übersetzt werden sollen, "
+"gewähren"
 
 #: ../../vcs.rst:205
 msgid "Use SSH URLs for your repositories: ``git@github.com:owner/repo.git``"
 msgstr ""
+"SSH-URLs für die Repositorys verwenden: ``git@github.com:owner/repo.git``"
 
 #: ../../vcs.rst:207
 msgid ""
 "This approach is also used for Hosted Weblate, which has a "
 "dedicated :guilabel:`weblate` user for that purpose."
 msgstr ""
+"Dieser Ansatz wird auch für Hosted Weblate verwendet, das zu diesem Zweck "
+"einen eigenen Benutzer :guilabel:`weblate` hat."
 
 #: ../../vcs.rst:212
-#, fuzzy
-#| msgid ""
-#| "In case the :ref:`component-push_branch` is not set, the project is "
-#| "forked and changes pushed through a fork. In case it is set, changes are "
-#| "pushed to the upstream repository and chosen branch."
 msgid ""
 "When using :ref:`vcs-github` for pull requests, the :ref:`component-"
 "push_branch` configuration affects the behavior: if not set, the project is "
 "forked and changes are pushed through a fork. If set, changes are pushed to "
 "the upstream repository and the chosen branch."
 msgstr ""
-"Falls der :ref:`component-push_branch` nicht gesetzt ist, wird das Projekt "
-"geforkt und die Änderungen durch einen Fork gepusht. Ist er gesetzt, werden "
-"die Änderungen an das vorgelagerte Repository und den gewählten Branch "
-"gepusht."
+"Beim Verwenden von :ref:`vcs-github` für Pull Requests wirkt sich die "
+":ref:`component-push_branch`-Konfiguration auf das Verhalten aus: Wenn sie "
+"nicht gesetzt ist, wird das Projekt geforkt und die Änderungen werden über "
+"einen Fork gepusht. Wenn sie gesetzt ist, werden die Änderungen an das "
+"Upstream-Repository und den ausgewählten Branch gepusht."
 
 #: ../../vcs.rst:226
 msgid "GitLab repositories"
@@ -59885,6 +59894,11 @@ msgid ""
 "repository. The project access token requires :guilabel:`Developer` role for "
 "pushing."
 msgstr ""
+"Das Verwenden von persönlichen oder Projekt-Zugangstoken ist ebenfalls "
+"möglich. Das Token benötigt die Berechtigung :guilabel:`write_repository`, "
+"um Änderungen an das Repository pushen zu können. Der Zugangstoken für das "
+"Projekt benötigt die Rolle :guilabel:`Developer`, um Änderungen pushen zu "
+"können."
 
 #: ../../vcs.rst:241
 msgid ""
@@ -59893,6 +59907,11 @@ msgid ""
 "example.git``) for project access tokens it can be non-blank value "
 "(``https://example:project_access_token@gitlab.com/example/example.git``)."
 msgstr ""
+"Die URL muss einen Benutzernamen enthalten, für persönliche Zugangstoken ist "
+"es der tatsächliche Benutzername ( ``https://"
+"user:personal_access_token@gitlab.com/example/example.git``), für Projekt-"
+"Zugangstoken kann es ein nicht-leerer Wert sein (``https://"
+"example:project_access_token@gitlab.com/example/example.git``)."
 
 #: ../../vcs.rst:249
 msgid ""
@@ -59901,6 +59920,11 @@ msgid ""
 "had different expectations (project name, bot user name). Check GitLab "
 "documentation matching your version if unsure."
 msgstr ""
+"Die Regeln für das Verwenden von Projekt-Zugangstoken haben sich zwischen "
+"den verschiedenen GitLab-Versionen geändert. Der nicht-leere Wert ist die "
+"aktuelle Anforderung, aber ältere Versionen hatten andere Erwartungen "
+"(Projektname, Bot-Benutzername). Prüfen Sie im Zweifelsfall die zu Ihrer "
+"Version passende GitLab-Dokumentation."
 
 #: ../../vcs.rst:263
 msgid "Weblate internal URLs"
