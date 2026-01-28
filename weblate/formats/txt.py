@@ -24,8 +24,11 @@ from weblate.formats.base import (
 from weblate.utils.errors import report_error
 
 if TYPE_CHECKING:
-    from collections.abc import Callable
+    from collections.abc import Callable, Generator
 
+    from lxml import etree
+
+    from weblate.checks.flags import Flags
     from weblate.trans.file_format_params import FileFormatParams
 
 
@@ -177,13 +180,10 @@ class TextUnit(TranslationUnit):
         """Return context of message."""
         return self.mainunit.location
 
-    @cached_property
-    def flags(self):
-        """Return flags from unit."""
-        flags = super().flags
+    def get_extra_flags(self) -> Generator[str | etree._Element | Flags]:
+        yield from super().get_extra_flags()
         if self.mainunit.flags:
-            flags.merge(self.mainunit.flags)
-        return flags
+            yield self.mainunit.flags
 
     def set_target(self, target: str | list[str]) -> None:
         """Set translation unit target."""

@@ -84,6 +84,8 @@ class ConvertPoUnit(PoUnit):
 
 
 class ConvertXliffUnit(XliffUnit):
+    remove_flags: ClassVar[list[str]] = ["xml-text"]
+
     def is_fuzzy(self, fallback=False):
         """Check whether unit needs editing."""
         return fallback
@@ -97,12 +99,6 @@ class ConvertXliffUnit(XliffUnit):
         if self.parent.is_template:
             return self.has_translation()
         return self.unit is not None
-
-    @cached_property
-    def flags(self):
-        flags = super().flags
-        flags.remove("xml-text")
-        return flags
 
 
 class ConvertFormat(TranslationFormat):
