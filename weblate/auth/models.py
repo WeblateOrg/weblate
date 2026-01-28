@@ -919,7 +919,7 @@ class User(AbstractBaseUser):
     def get_author_name(self, address: str | None = None) -> str:
         """Return formatted author name with e-mail."""
         return format_address(
-            self.get_visible_name(), address or self.profile.get_commit_email()
+            self.profile.get_commit_name(), address or self.profile.get_commit_email()
         )
 
     def add_team(

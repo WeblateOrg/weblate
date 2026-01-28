@@ -6,10 +6,11 @@
 
 from __future__ import annotations
 
+from django.conf import settings
 from django.test import SimpleTestCase, TestCase
 from django.test.utils import override_settings
 
-from weblate.accounts.models import format_private_email
+from weblate.accounts.models import format_private_commit_data
 from weblate.accounts.pipeline import slugify_username
 from weblate.accounts.tasks import cleanup_auditlog, cleanup_social_auth
 from weblate.utils.validators import EmailValidator, validate_username
@@ -36,6 +37,7 @@ class TasksTest(TestCase):
 @override_settings(
     PRIVATE_COMMIT_EMAIL_TEMPLATE="{username}@users.noreply.{site_domain}",
     SITE_DOMAIN="example.com",
+    SITE_TITLE="Weblate",
 )
 class FormatPrivateMainTestCase(SimpleTestCase):
     def validate_email(self, username: str, expected: str) -> None:
@@ -43,7 +45,10 @@ class FormatPrivateMainTestCase(SimpleTestCase):
         if username:
             validate_username(username)
         # Generate e-mail
-        email = format_private_email(username, 99)
+        email = format_private_commit_data(
+            settings.PRIVATE_COMMIT_EMAIL_TEMPLATE, username, 99
+        )
+
         # Validate e-mail
         EmailValidator()(email)
         # Make sure it is expected one
