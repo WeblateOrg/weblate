@@ -3875,7 +3875,7 @@ class Component(
 
         # Trigger autobatch translation for newly created translation files
         # (runs after lock is released to avoid deadlock with Celery task)
-        if create_translations and autobatch_lang is not None:
+        if settings.AUTO_BATCH_TRANSLATE_VIA_OPENROUTER and create_translations and autobatch_lang is not None:
             try:
                 # Autobatch translation will schedule file sync after it completes
                 # to ensure proper sequencing
