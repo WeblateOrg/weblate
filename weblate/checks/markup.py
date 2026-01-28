@@ -6,7 +6,6 @@ from __future__ import annotations
 
 import re
 import threading
-import regex
 from collections import Counter, defaultdict
 from functools import cache, lru_cache
 from itertools import chain

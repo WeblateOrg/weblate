@@ -1903,7 +1903,7 @@ XML surrounding characters
 :Trigger: This check is always enabled but can be ignored using a flag.
 :Flag to ignore: ``ignore-xml-chars-around-tags``
 
-Checks that the characters surrounding an XML tag are consistent between both 
+Checks that the characters surrounding an XML tag are consistent between both
 source and translation. Ensures letters are not replaced with non-letters, and vice versa.
 
 .. note::
