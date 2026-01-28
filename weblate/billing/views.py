@@ -51,7 +51,7 @@ def download_invoice(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
         msg = "No reference!"
         raise Http404(msg)
 
-    if not request.user.has_perm("billing.view", invoice.billing):
+    if not request.user.has_perm("meta:billing.view", invoice.billing):
         raise PermissionDenied
 
     if not invoice.filename_valid:
@@ -182,7 +182,7 @@ def overview(request: AuthenticatedHttpRequest) -> HttpResponse:
 def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
     billing = get_object_or_404(Billing, pk=pk)
 
-    if not request.user.has_perm("billing.view", billing):
+    if not request.user.has_perm("meta:billing.view", billing):
         raise PermissionDenied
 
     if request.method == "POST":
