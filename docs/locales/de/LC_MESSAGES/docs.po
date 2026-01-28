@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-01-26 11:05+0100\n"
-"PO-Revision-Date: 2026-01-27 23:26+0000\n"
+"PO-Revision-Date: 2026-01-28 08:11+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -5199,7 +5199,7 @@ msgid ""
 "party services such as GitLab, Ubuntu, Fedora, etc."
 msgstr ""
 "Dank :doc:`psa:index` unterstützt Weblate die Authentifizierung über viele "
-"Dienste von Drittanbietern wie GitLab, Ubuntu, Fedora, etc."
+"Dienste von Drittanbietern wie GitLab, Ubuntu, Fedora, usw."
 
 #: ../../admin/auth.rst:38
 msgid ""
@@ -9702,13 +9702,11 @@ msgstr ""
 "ablenken, die übersetzt werden sollen."
 
 #: ../../admin/config.rst:1871
-#, fuzzy
-#| msgid "This is turned off by default now, used to be turned on by default."
 msgid ""
 "This is turned off by default, making shared glossary components visible."
 msgstr ""
-"Diese Funktion ist jetzt standardmäßig deaktiviert, früher war sie "
-"standardmäßig aktiviert."
+"Diese Funktion ist standardmäßig deaktiviert, so dass die gemeinsamen "
+"Komponenten des Glossars sichtbar sind."
 
 #: ../../admin/config.rst:1878
 msgid ""
@@ -13813,6 +13811,12 @@ msgid ""
 "privacy reasons, as the error e-mails might include sensitive data. You can "
 "read more on that in :ref:`django:logging-security-implications`."
 msgstr ""
+"Die Standardkonfiguration von Weblate veranlasst Django, bei Serverfehlern E-"
+"Mails über :py:class:`django:django.utils.log.AdminEmailHandler` zu "
+"versenden. Dies ist die Konfiguration mit dem geringsten Aufwand, aber Sie "
+"sollten aus Gründen des Datenschutzes andere Optionen in Betracht ziehen, da "
+"die E-Mails bei Fehlern sensible Daten enthalten können. Sie können mehr "
+"darüber in :ref:`django:logging-security-implications` lesen."
 
 #: ../../admin/install.rst:1853
 msgid ""
@@ -13820,6 +13824,9 @@ msgid ""
 "the :setting:`django:LOGGING` in Weblate settings, or "
 "disable :envvar:`WEBLATE_ADMIN_NOTIFY_ERROR` in the Docker environment."
 msgstr ""
+"Um dieses Verhalten zu deaktivieren, entfernen Sie ``mail_admins`` aus "
+":setting:`django:LOGGING` in den Weblate-Einstellungen, oder deaktivieren "
+"Sie :envvar:`WEBLATE_ADMIN_NOTIFY_ERROR` in der Einsatzumgebung von Docker."
 
 #: ../../admin/install.rst:1858
 msgid "Sentry"
@@ -27175,26 +27182,31 @@ msgid ""
 "Delete announcements permission can be assigned to teams, "
 "see :ref:`privileges`."
 msgstr ""
+"Die Berechtigung zum Löschen von Mitteilungen kann Teams zugewiesen werden, "
+"siehe :ref:`privileges`."
 
 #: ../../changes.rst:15
 msgid ":doc:`/user/search` better reports errors in the query strings."
-msgstr ""
+msgstr ":doc:`/user/search` meldet Fehler in den Abfragezeichenketten besser."
 
 #: ../../changes.rst:16
 msgid "Regular repository maintenance is now performed in the background."
-msgstr ""
+msgstr "Die regelmäßige Wartung des Repositorys erfolgt nun im Hintergrund."
 
 #: ../../changes.rst:17
 msgid "Repository cleanup now recovers failed merges or rebases."
 msgstr ""
+"Der Repository-Bereinigungsvorgang stellt jetzt fehlgeschlagene "
+"Zusammenführungen oder Umbasierungen wieder her."
 
 #: ../../changes.rst:18
 msgid "Better visibility of :ref:`project-commit_policy` to translators."
-msgstr ""
+msgstr "Bessere Sichtbarkeit der :ref:`project-commit_policy` für Übersetzer."
 
 #: ../../changes.rst:19
 msgid "Validation of VCS settings :ref:`push-changes` has been extended."
 msgstr ""
+"Die Validierung der VCS-Einstellungen :ref:`push-changes` wurde erweitert."
 
 #: ../../changes.rst:22 ../../changes.rst:53 ../../changes.rst:98
 #: ../../changes.rst:149 ../../changes.rst:188 ../../changes.rst:212
@@ -27224,10 +27236,14 @@ msgid ""
 "Adding plural strings with singular matching existing string is now "
 "prohibited for bilingual translations (see :ref:`bimono`)."
 msgstr ""
+"Bei zweisprachigen Übersetzungen ist das Hinzufügen von Pluralformen zu "
+"Zeichenketten, deren Singular mit der vorhandenen Zeichenkette "
+"übereinstimmt, jetzt verboten (siehe :ref:`bimono`)."
 
 #: ../../changes.rst:24
 msgid "Automatic :ref:`component-repoweb` URL for common code hosting sites."
 msgstr ""
+"Automatische :ref:`component-repoweb`-URL für gängige Code-Hosting-Sites."
 
 #: ../../changes.rst:27 ../../changes.rst:66 ../../changes.rst:163
 #: ../../changes.rst:306 ../../changes.rst:401 ../../changes.rst:456
@@ -27245,6 +27261,10 @@ msgid ""
 "allow generic regular-expression-based checking of strings. Use :ref:`check-"
 "placeholders` for checking regular expression matched placeholders."
 msgstr ""
+":ref:`check-regex` markiert übereinstimmende Teile nicht mehr als nicht "
+"übersetzbar, um eine generische Prüfung von Zeichenketten mit regulären "
+"Ausdrücken zu ermöglichen. Verwenden Sie :ref:`check-placeholders` für die "
+"Prüfung von mit regulären Ausdrücken übereinstimmenden Platzhaltern."
 
 #: ../../changes.rst:31 ../../changes.rst:70 ../../changes.rst:106
 #: ../../changes.rst:173 ../../changes.rst:193 ../../changes.rst:216
@@ -27406,23 +27426,17 @@ msgstr ""
 "Annehmen von Einladungen, wenn :setting:`REQUIRE_LOGIN` eingeschaltet ist."
 
 #: ../../changes.rst:63
-#, fuzzy
-#| msgid ":ref:`mt-cyrtranslit` automatic suggestion service."
 msgid ":ref:`mt-cyrtranslit` installation."
-msgstr "Automatischer Vorschlagsdienst :ref:`mt-cyrtranslit`."
+msgstr ":ref:`mt-cyrtranslit`-Installation."
 
 #: ../../changes.rst:67
-#, fuzzy
-#| msgid ""
-#| "Screenshot images are no longer served directly by the HTTP server, "
-#| "please adjust your HTTP server by removing serving of ``/media/``."
 msgid ""
 "Screenshot images are no longer served directly by the HTTP server, please "
 "adjust your HTTP server by removing serving of :file:`/media/`."
 msgstr ""
 "Bildschirmfotos werden nicht mehr direkt vom HTTP-Server bereitgestellt, "
-"bitte passen Sie Ihren HTTP-Server an, indem Sie das Bereitstellen von ``/"
-"media/`` entfernen."
+"bitte passen Sie Ihren HTTP-Server an, indem Sie das Bereitstellen von "
+":file:`/media/` entfernen."
 
 #: ../../changes.rst:73
 msgid ""
@@ -27430,6 +27444,9 @@ msgid ""
 "media/` path should be removed from the HTTP server configuration; "
 "see :ref:`static-files`."
 msgstr ""
+"Um den Fix für :cve:`2026-21889` wirksam zu machen, sollte das Bereitstellen "
+"des Pfades :file:`/media/` aus der HTTP-Serverkonfiguration entfernt werden; "
+"siehe :ref:`static-files`."
 
 #: ../../changes/contributors/5.10.1.rst:2
 #: ../../changes/contributors/5.10.2.rst:2
@@ -45550,6 +45567,10 @@ msgid ""
 "migrate your translation project from platforms like Transifex, Crowdin, "
 "Lokalise, or similar services."
 msgstr ""
+"Sie nutzen eine andere Lokalisierungsplattform und überlegen, zu Weblate zu "
+"wechseln? Dieser Leitfaden hilft Ihnen Schritt für Schritt, Ihr Projekt von "
+"Plattformen wie Transifex, Crowdin, Lokalise oder ähnlichen Diensten zu "
+"migrieren."
 
 #: ../../devel/migration.rst:8
 msgid ""
@@ -45557,105 +45578,103 @@ msgid ""
 "its core, making it ideal for teams that want to keep translations close to "
 "their development workflow."
 msgstr ""
+"Weblate wurde für die kontinuierliche Lokalisierung mit Git-Integration "
+"konzipiert und eignet sich daher ideal für Teams, die ihre Übersetzungen eng "
+"an den Ablauf ihrer Entwicklung binden möchten."
 
 #: ../../devel/migration.rst:13
-#, fuzzy
-#| msgid "Choosing internationalization framework"
 msgid ":doc:`starting` for choosing the right internationalization framework"
-msgstr "Framework für Internationalisierung auswählen"
+msgstr ""
+":doc:`starting` für die Wahl des richtigen Internationalisierungs-Frameworks"
 
 #: ../../devel/migration.rst:14
-#, fuzzy
-#| msgid ":doc:`integration`, :ref:`continuous-translation`"
 msgid ":doc:`integration` for detailed integration options"
-msgstr ":doc:`integration`, :ref:`continuous-translation`"
+msgstr ":doc:`integration` für detaillierte Integrationsmöglichkeiten"
 
 #: ../../devel/migration.rst:15
 msgid ":doc:`/admin/continuous` for setting up automated workflows"
-msgstr ""
+msgstr ":doc:`/admin/continuous` für die Einrichtung automatisierter Abläufe"
 
 #: ../../devel/migration.rst:20
 msgid "Before starting your migration, ensure you have:"
 msgstr ""
+"Bevor Sie mit der Migration beginnen, sind folgende Bedingungen erforderlich:"
 
 #: ../../devel/migration.rst:22
 msgid "**On your localization platform:**"
-msgstr ""
+msgstr "**Auf Ihrer Lokalisierungsplattform:**"
 
 #: ../../devel/migration.rst:24
-#, fuzzy
-#| msgid "Create a repository with your translation files."
 msgid "Access to export your translation files"
-msgstr "Ein Repository mit Ihren Übersetzungsdateien erstellen."
+msgstr "Zugriff zum Exportieren Ihrer Übersetzungsdateien"
 
 #: ../../devel/migration.rst:25
-#, fuzzy
-#| msgid "mask of translation files in the repository"
 msgid "List of translators and their roles/permissions"
-msgstr "Maske der Übersetzungsdateien im Repository"
+msgstr "Liste der Übersetzer und ihrer Rollen/Berechtigungen"
 
 #: ../../devel/migration.rst:26
 msgid ""
 "Understanding of your current workflow (review process, automation, etc.)"
 msgstr ""
+"Verständnis Ihres aktuellen Arbeitsablaufs (Überprüfungsprozess, "
+"Automatisierung, usw.)"
 
 #: ../../devel/migration.rst:28
-#, fuzzy
-#| msgid "Support Weblate"
 msgid "**For Weblate:**"
-msgstr "Weblate unterstützen"
+msgstr "**Für Weblate:**"
 
 #: ../../devel/migration.rst:30
 msgid ""
 "A Weblate instance (either `Hosted Weblate <https://hosted.weblate.org/>`_ "
 "or :doc:`self-hosted </admin/install>`)"
 msgstr ""
+"Eine Weblate-Instanz (entweder `Hosted Weblate <https://hosted.weblate.org/>"
+"`_ oder :doc:`Self-Hosted </admin/install>`)"
 
 #: ../../devel/migration.rst:31
 msgid "Admin or project creation permissions on your Weblate instance"
 msgstr ""
+"Administrator- oder Projekterstellungsberechtigung in Ihrer Weblate-Instanz"
 
 #: ../../devel/migration.rst:34
-#, fuzzy
-#| msgid "Share your translation"
 msgid "Prepare your translation files"
-msgstr "Ihre Übersetzungen teilen"
+msgstr "Ihre Übersetzungsdateien vorbereiten"
 
 #: ../../devel/migration.rst:37
-#, fuzzy
-#| msgid "Manage translation memory (on the entire platform)"
 msgid "Export translations from your current platform"
-msgstr "Übersetzungsspeicher verwalten (auf der gesamten Plattform)"
+msgstr "Übersetzungen von Ihrer aktuellen Plattform exportieren"
 
 #: ../../devel/migration.rst:39
 msgid ""
 "Most localization platforms allow you to export all translations at once:"
 msgstr ""
+"Die meisten Lokalisierungsplattformen erlauben Ihnen, alle Übersetzungen auf "
+"einmal zu exportieren:"
 
 #: ../../devel/migration.rst:41
-#, fuzzy
-#| msgid ""
-#| "There are multiple options to download the translation memory of the "
-#| "whole instance."
 msgid ""
 "**Transifex**: Use their CLI tool or download translations from the web "
 "interface"
 msgstr ""
-"Es gibt mehrere Möglichkeiten, den Übersetzungsspeicher der gesamten Instanz "
-"herunterzuladen."
+"**Transifex**: Verwenden Sie das CLI-Tool oder laden Sie Übersetzungen über "
+"die Weboberfläche herunter"
 
 #: ../../devel/migration.rst:42
 msgid ""
 "**Crowdin**: Export all translations as a ZIP file from project settings"
 msgstr ""
+"**Crowdin**: Exportieren Sie alle Übersetzungen als ZIP-Datei aus den "
+"Projekteinstellungen"
 
 #: ../../devel/migration.rst:43
 msgid "**Lokalise**: Use the bulk export feature"
-msgstr ""
+msgstr "**Lokalise**: Verwenden Sie die Funktion für den Massenexport"
 
 #: ../../devel/migration.rst:44
 msgid "**Phrase**: Download all locales from the project dashboard"
 msgstr ""
+"**Phrase**: Laden Sie alle Gebietsschemata von der Projekübersichtsseite "
+"herunter"
 
 #: ../../devel/migration.rst:48
 msgid ""
@@ -45663,12 +45682,13 @@ msgid ""
 "internationalization framework (PO, XLIFF, JSON, etc.) rather than "
 "converting them. Weblate supports :ref:`many formats <formats>`."
 msgstr ""
+"Behalten Sie Ihre Übersetzungsdateien in dem Format, das Ihrem "
+"Internationalisierungs-Framework entspricht (PO, XLIFF, JSON usw.), anstatt "
+"sie zu konvertieren. Weblate unterstützt :ref:`viele Formate <formats>`."
 
 #: ../../devel/migration.rst:53
-#, fuzzy
-#| msgid "Commit changes to the internal repository"
 msgid "Commit translations to your Git repository"
-msgstr "Commit für Änderungen am internen Repository durchführen"
+msgstr "Übersetzungen in Ihr Git-Repository committen"
 
 #: ../../devel/migration.rst:57
 msgid ""
@@ -45717,16 +45737,12 @@ msgid ":doc:`/vcs` for supported version control systems"
 msgstr "Versionsverwaltung"
 
 #: ../../devel/migration.rst:79
-#, fuzzy
-#| msgid "Importing a localization project into Weblate"
 msgid "Import your project into Weblate"
-msgstr "Ein Lokalisierungsprojekt in Weblate importieren"
+msgstr "Ihr Projekt in Weblate importieren"
 
 #: ../../devel/migration.rst:82
-#, fuzzy
-#| msgid "Creates a new project."
 msgid "Create a new project"
-msgstr "Erstellt ein neues Projekt."
+msgstr "Ein neues Projekt erstellen"
 
 #: ../../devel/migration.rst:84
 #, fuzzy
@@ -45761,10 +45777,8 @@ msgid ":ref:`adding-projects` for detailed project creation instructions"
 msgstr ""
 
 #: ../../devel/migration.rst:99
-#, fuzzy
-#| msgid "Creates component from remote version control repository."
 msgid "Add a component from your Git repository"
-msgstr "Erzeugt eine Komponente aus einem Remote-VCS-Repository."
+msgstr "Eine Komponente aus Ihrem Git-Repository hinzufügen"
 
 #: ../../devel/migration.rst:101
 msgid ""
@@ -45846,10 +45860,8 @@ msgid ":ref:`bimono` for understanding monolingual vs. bilingual formats"
 msgstr ""
 
 #: ../../devel/migration.rst:136
-#, fuzzy
-#| msgid "Configure the password"
 msgid "Configure your workflow"
-msgstr "Passwort festlegen"
+msgstr "Ihren Arbeitsablauf konfigurieren"
 
 #: ../../devel/migration.rst:139
 #, fuzzy
@@ -46239,44 +46251,43 @@ msgid ""
 msgstr ""
 
 #: ../../devel/migration.rst:272
-#, fuzzy
-#| msgid "Additional projects"
 msgid "Additional resources"
-msgstr "Zusätzliche Projekte"
+msgstr "Zusätzliche Ressourcen"
 
 #: ../../devel/migration.rst:274
-#, fuzzy
-#| msgid "The documentation has detailed instructions"
 msgid ":doc:`integration` - Detailed integration patterns"
-msgstr "Die Dokumentation enthält detaillierte Anweisungen"
+msgstr ":doc:`integration` – Detaillierte Integrationsmuster"
 
 #: ../../devel/migration.rst:275
 msgid ":doc:`/workflows` - Different workflow configurations"
-msgstr ""
+msgstr ":doc:`/workflows` – Verschiedene Arbeitsablauf-Konfigurationen"
 
 #: ../../devel/migration.rst:276
 msgid ":doc:`/admin/continuous` - Automated continuous localization"
-msgstr ""
+msgstr ":doc:`/admin/continuous` – Automatisierte kontinuierliche Lokalisierung"
 
 #: ../../devel/migration.rst:277
 msgid ":doc:`/api` - API for automation and integrations"
-msgstr ""
+msgstr ":doc:`/api` – API für Automatisierung und Integrationen"
 
 #: ../../devel/migration.rst:278
 msgid ":doc:`/devel/reporting` - Setting up translation progress reports"
 msgstr ""
+":doc:`/devel/reporting` – Erstellen von Berichten über den "
+"Übersetzungsfortschritt"
 
 #: ../../devel/migration.rst:279
-#, fuzzy
-#| msgid "Frequently Asked Questions"
 msgid ":doc:`/faq` - Frequently asked questions"
-msgstr "Häufig gestellte Fragen"
+msgstr ":doc:`/faq` – Häufig gestellte Fragen"
 
 #: ../../devel/migration.rst:283
 msgid ""
 "Join the `Weblate community <https://weblate.org/support/>`_ if you need "
 "help during your migration. The community is active and helpful!"
 msgstr ""
+"Treten Sie der `Weblate-Community <https://weblate.org/support/>`_ bei, wenn "
+"Sie während Ihrer Migration Hilfe benötigen. Die Community ist aktiv und "
+"hilfsbereit!"
 
 #: ../../devel/mobile.rst:2
 msgid "Multi-platform localization"
@@ -49411,16 +49422,12 @@ msgstr ""
 "Maskieren."
 
 #: ../../formats/compose-multiplatform-resources.rst:16
-#, fuzzy
-#| msgid ""
-#| "`JetBrains Compose Multiplatform Resources <https://www.jetbrains.com/"
-#| "help/kotlin-multiplatform-dev/compose-multiplatform-resources.html>`_"
 msgid ""
 "`Koltin Compose Multiplatform Resources <https://kotlinlang.org/docs/"
 "multiplatform/compose-multiplatform-resources.html>`_"
 msgstr ""
-"`JetBrains-Compose-Multiplatform-Ressourcen <https://www.jetbrains.com/help/"
-"kotlin-multiplatform-dev/compose-multiplatform-resources.html>`_"
+"`Koltin-Compose-Multiplatform-Ressourcen <https://kotlinlang.org/docs/"
+"multiplatform/compose-multiplatform-resources.html>`_"
 
 #: ../../formats/compose-multiplatform-resources.rst:32
 msgid "`Compose Multiplatform Resource`"
@@ -56000,15 +56007,12 @@ msgstr ""
 "einschließlich Skripte und Blöcke:"
 
 #: ../../user/checks.rst:1643
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-same` check now honors placeholders even in the strict mode."
 msgid ""
 "Use :ref:`check-placeholders` for detecting missing placeholders in the "
 "string."
 msgstr ""
-":ref:`check-same`-Prüfung berücksichtigt nun auch im strict-Modus "
-"Platzhalter."
+"Verwenden Sie :ref:`check-placeholders`, um fehlende Platzhalter in der "
+"Zeichenkette zu erkennen."
 
 #: ../../user/checks.rst:1647
 msgid "`regex documentation <https://github.com/mrabarnett/mrab-regex>`_"
@@ -57559,11 +57563,6 @@ msgid "Translated languages"
 msgstr "Übersetzte Sprachen"
 
 #: ../../user/profile.rst:88
-#, fuzzy
-#| msgid ""
-#| "Choose which languages you prefer to translate, and they will be offered "
-#| "on the main page of watched projects, so that you have easier access to "
-#| "these all translations in each of those languages."
 msgid ""
 "Choose which languages you prefer to translate, and they will be offered on "
 "the main page of watched projects, so that you have easier access to all "
@@ -57571,7 +57570,7 @@ msgid ""
 msgstr ""
 "Wählen Sie die Sprachen, die Sie bevorzugt übersetzen möchten, und sie "
 "werden auf der Hauptseite der beobachteten Projekte angeboten, so dass Sie "
-"leichteren Zugang zu allen Übersetzungen in jeder dieser Sprachen haben."
+"leichteren Zugang zu all diesen Übersetzungen in jeder dieser Sprachen haben."
 
 #: ../../user/profile.rst:97
 msgid "Secondary languages"
@@ -60568,12 +60567,8 @@ msgstr ""
 "installieren:"
 
 #: ../../wlc.rst:22
-#, fuzzy
-#| msgid "You can also designate what project :program:`wlc` should work on:"
 msgid "You can also execute it directly using :program:`uvx`:"
-msgstr ""
-"Es ist auch möglich anzugeben, an welchem Projekt :program:`wlc` arbeiten "
-"soll:"
+msgstr "Sie können ihn auch direkt mit :program:`uvx` ausführen:"
 
 #: ../../wlc.rst:30
 msgid ""
