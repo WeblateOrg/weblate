@@ -382,9 +382,12 @@ class TargetCheckParametrized(TargetCheck):
     ) -> bool:
         """Check flag value."""
         if unit.all_flags.has_value(self.enable_string):
-            return self.check_target_params(
-                sources, targets, unit, self.get_value(unit)
-            )
+            try:
+                value = self.get_value(unit)
+            except ValueError:
+                # Value is present, but is syntactically invalid
+                return True
+            return self.check_target_params(sources, targets, unit, value)
         return False
 
     def check_target_params(
@@ -399,6 +402,15 @@ class TargetCheckParametrized(TargetCheck):
     def check_single(self, source: str, target: str, unit: Unit) -> bool:
         """We don't check single phrase here."""
         return False
+
+    def get_description(self, check_obj: Check) -> StrOrPromise:
+        try:
+            self.get_value(check_obj.unit)
+        except ValueError as error:
+            return format_html(
+                gettext("Could not parse {} flag: {}"), self.enable_string, error
+            )
+        return super().get_description(check_obj)
 
 
 class CountingCheck(TargetCheck):
