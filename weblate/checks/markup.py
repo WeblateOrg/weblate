@@ -93,6 +93,8 @@ XML_ENTITY_MATCH = re.compile(
     re.VERBOSE,
 )
 
+SINGLE_LETTER_MATCH = regex.compile(r"\p{L}")
+
 # Extracted from Sphinx sphinx/util/docutils.py
 RST_EXPLICIT_TITLE_RE = re.compile(r"^(.+?)\s*(?<!\x00)<(.*?)>$", re.DOTALL)
 
@@ -291,7 +293,7 @@ class XMLTagsCheck(BaseXMLCheck):
 class XMLCharsAroundTagsCheck(BaseXMLCheck):
     """Check that characters adjacent to target's XML tags are letters or non-letters according to the source."""
 
-    check_id = "XML-chars-around-tags"
+    check_id = "xml-chars-around-tags"
     name = gettext_lazy("Chars around XML tags")
     description = gettext_lazy(
         "Characters surrounding XML tags in translation do not align with source."
@@ -312,16 +314,18 @@ class XMLCharsAroundTagsCheck(BaseXMLCheck):
 
             # if string starts with tag, only check char following this tag
             if src_start_idx == 0 or tgt_start_idx == 0:
-                src_next_char = source[src_end_idx]
-                tgt_next_char = target[tgt_end_idx]
-                if self.char_check(src_next_char, tgt_next_char):
-                    return True
+                if src_end_idx < len(source) and tgt_end_idx < len(target):
+                    src_next_char = source[src_end_idx]
+                    tgt_next_char = target[tgt_end_idx]
+                    if self.char_check(src_next_char, tgt_next_char):
+                        return True
             # if string ends with tag, only check char preceding this tag
             elif src_end_idx == len(source) or tgt_end_idx == len(target):
-                src_prev_char = source[src_start_idx - 1]
-                tgt_prev_char = target[tgt_start_idx - 1]
-                if self.char_check(src_prev_char, tgt_prev_char):
-                    return True
+                if src_start_idx > 0 and tgt_start_idx > 0:
+                    src_prev_char = source[src_start_idx - 1]
+                    tgt_prev_char = target[tgt_start_idx - 1]
+                    if self.char_check(src_prev_char, tgt_prev_char):
+                        return True
             # if inline tag, check char preceding and following this tag
             else:
                 src_prev_char = source[src_start_idx - 1]
@@ -336,10 +340,9 @@ class XMLCharsAroundTagsCheck(BaseXMLCheck):
         return False
 
     def char_check(self, src_char: str, tgt_char: str) -> bool:
-        any_letter = regex.compile(r"\p{L}")
-        src_letter = any_letter.search(src_char)
-        tgt_letter = any_letter.search(tgt_char)
-        return (not src_letter and tgt_letter) or (src_letter and not tgt_letter)
+        src_letter = bool(SINGLE_LETTER_MATCH.search(src_char))
+        tgt_letter = bool(SINGLE_LETTER_MATCH.search(tgt_char))
+        return src_letter ^ tgt_letter
 
 
 class MarkdownBaseCheck(TargetCheck):

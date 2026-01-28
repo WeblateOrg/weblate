@@ -1890,7 +1890,29 @@ The check is automatically enabled for XML like strings. You might need to add
    This check is disabled by the ``safe-html`` flag as the HTML cleanup done by
    it can produce HTML markup which is not valid XML.
 
+.. _check-xml-chars-around-tags:
+
+XML surrounding characters
+~~~~~~~~~~
+
+
+:Summary: Characters surrounding XML tags in translation do not align with source.
+:Scope: translated strings
+:Check class: ``weblate.checks.markup.XMLCharsAroundTagsCheck``
+:Check identifier: ``xml-chars-around-tags``
+:Trigger: This check is always enabled but can be ignored using a flag.
+:Flag to ignore: ``ignore-xml-chars-around-tags``
+
+Checks that the characters surrounding an XML tag are consistent between both 
+source and translation. Ensures letters are not replaced with non-letters, and vice versa.
+
+.. note::
+
+   This check is disabled by the ``safe-html`` flag as the HTML cleanup done by
+   it can produce HTML markup which is not valid XML.
+
 .. _check-xml-invalid:
+
 
 XML syntax
 ~~~~~~~~~~
