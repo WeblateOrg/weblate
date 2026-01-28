@@ -15,6 +15,7 @@ from typing import TYPE_CHECKING, Any, BinaryIO, ClassVar
 from django.http import HttpResponse
 from django.utils.functional import cached_property
 from django.utils.translation import gettext
+from pyparsing import ParseException
 from translate.misc.multistring import multistring
 from translate.storage.base import TranslationStore as TranslateToolkitStore
 from translate.storage.base import TranslationUnit as TranslateToolkitUnit
@@ -28,9 +29,10 @@ from weblate.utils.site import get_site_url
 from weblate.utils.state import STATE_EMPTY, STATE_TRANSLATED
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Iterator, Sequence
+    from collections.abc import Callable, Generator, Iterator, Sequence
 
     from django_stubs_ext import StrOrPromise
+    from lxml import etree
 
     from weblate.trans.file_format_params import FileFormatParams
     from weblate.trans.models import Component, Translation, Unit
@@ -153,6 +155,8 @@ class TranslationUnit:
     parent: TranslationFormat
     mainunit: InnerUnit
     empty_unit_ok: ClassVar[bool] = False
+    remove_flags: ClassVar[list[str]] = []
+    add_flags: ClassVar[list[str]] = []
 
     def __init__(
         self,
@@ -199,17 +203,30 @@ class TranslationUnit:
         """Return comma separated list of locations."""
         return ""
 
-    @cached_property
-    def flags(self) -> Flags:
-        """Return flags or typecomments from units."""
-        flags = Flags()
+    def get_extra_flags(self) -> Generator[str | etree._Element | Flags]:
         # add default flags based location extensions
         for location in self.locations.split(","):
             _, extension = os.path.splitext(location.split(":")[0].strip())
             if extension == ".rst":
-                flags.merge("rst-text")
+                yield "rst-text"
             elif extension in {".md", ".markdown"}:
-                flags.merge("md-text")
+                yield "md-text"
+        yield from self.add_flags
+
+    @cached_property
+    def flags(self) -> Flags:
+        """Return flags or typecomments from units."""
+        flags = Flags()
+        for extra in self.get_extra_flags():
+            try:
+                flags.merge(extra)
+            except (ParseException, ValueError) as error:
+                msg = f"Could not parse flags: {extra}: {error}"
+                raise ValueError(msg) from error
+
+        for remove in self.remove_flags:
+            flags.remove(remove)
+
         return flags
 
     @cached_property

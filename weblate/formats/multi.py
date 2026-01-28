@@ -17,8 +17,13 @@ from .base import TranslationFormat, TranslationUnit
 from .ttkit import CSVFormat
 
 if TYPE_CHECKING:
+    from collections.abc import Generator
+
+    from lxml import etree
     from translate.storage.base import TranslationStore
     from translate.storage.base import TranslationUnit as TranslateToolkitUnit
+
+    from weblate.checks.flags import Flags
 
 
 class MultiUnit(TranslationUnit):
@@ -105,12 +110,11 @@ class MultiUnit(TranslationUnit):
         for unit in self.units:
             unit.set_state(state)
 
-    @cached_property
-    def flags(self):
-        flags = super().flags
+    def get_extra_flags(self) -> Generator[str | etree._Element | Flags]:
+        yield from super().get_extra_flags()
+
         for unit in self.units:
-            flags.merge(unit.flags)
-        return flags
+            yield unit.flags
 
     def has_unit(self) -> bool:
         return all(unit.has_unit() for unit in self.units)
