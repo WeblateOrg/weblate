@@ -25,10 +25,13 @@ can browse at ``/api/docs/``.
 Authentication and generic parameters
 +++++++++++++++++++++++++++++++++++++
 
-The public project API is available without authentication, though
-unauthenticated requests are heavily throttled (by default to 100 requests per
-day), so it is recommended to use authentication. The authentication uses a
-token, which you can get in your profile. Use it in the ``Authorization`` header:
+The read-only API is available without authentication unless
+:setting:`REQUIRE_LOGIN` is turned on. Unauthenticated requests are heavily
+throttled (by default to 100 requests per day), so it is recommended to use
+authentication.
+
+The authentication uses a token, which you can get in your profile. Use it in
+the ``Authorization`` header:
 
 .. http:any:: /
 
