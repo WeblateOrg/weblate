@@ -210,7 +210,7 @@ class CommitForm(ProfileBaseForm):
         label=gettext_lazy("Commit name"),
         choices=[],
         help_text=gettext_lazy(
-            "Used in version-control commits. The name stays in the repository forever once changes are committed by Weblate."
+            "Used in version control commits. The name stays in the repository forever, once changes are committed by Weblate."
         ),
         required=False,
         widget=forms.RadioSelect,
