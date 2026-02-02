@@ -301,6 +301,8 @@ This contextual description provides related info about the current string.
 
 String attributes
     Things like message ID, context (``msgctxt``) or location in source code.
+Explanation
+    Further clarification can be provided in Weblate via :ref:`additional-explanation`.
 Screenshots
     Screenshots can be uploaded to Weblate to better inform translators
     of where and how the string is used, see :ref:`screenshots`.

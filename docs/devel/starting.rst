@@ -84,3 +84,30 @@ The more detailed workflow for some formats is described in following chapters:
 
    * :doc:`integration`
    * :ref:`continuous-translation`
+
+Educating developers for proper internationalization
+----------------------------------------------------
+
+Software internationalization is not just about being able to translate strings
+but about making the whole software look native to a user from another country.
+This also includes things like date or number formatting, currency display, or
+inputting text in the right direction. Most software frameworks have good
+support for this, so please follow their instructions for all these areas.
+
+The string translation might not be a straightforward task as well. This is
+especially true for short strings like captions or button labels. Different
+languages have different rules, and it is not reasonable to expect that the
+same string will always be translated the same. In many situations it also
+might not be clear how to translate. In many situations it is even challenging
+to distinguish whether the word is a verb or a noun.
+
+All developers should understand this and uniquely identify strings used in
+different scopes. "None" as none user might be translated different from "None"
+as none items. Use different keys or contexts to distinguish these terms for
+the translators. You can provide additional context in Weblate such as
+:ref:`screenshots` or :ref:`additional-explanation`.
+
+.. seealso::
+
+
+   * :ref:`source-context`
