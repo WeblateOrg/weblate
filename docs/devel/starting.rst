@@ -98,14 +98,14 @@ The string translation might not be a straightforward task as well. This is
 especially true for short strings like captions or button labels. Different
 languages have different rules, and it is not reasonable to expect that the
 same string will always be translated the same. In many situations it also
-might not be clear how to translate. In many situations it is even challenging
-to distinguish whether the word is a verb or a noun.
+might not be clear how to translate, and it is even challenging to distinguish
+whether the word is a verb or a noun.
 
 All developers should understand this and uniquely identify strings used in
-different scopes. "None" as none user might be translated different from "None"
-as none items. Use different keys or contexts to distinguish these terms for
-the translators. You can provide additional context in Weblate such as
-:ref:`screenshots` or :ref:`additional-explanation`.
+different scopes. For example, ``None`` meaning "no users" might be translated
+differently from ``None`` meaning "no items". Use different keys or contexts to
+distinguish these terms for translators. You can provide additional context in
+Weblate, such as :ref:`screenshots` or :ref:`additional-explanation`.
 
 .. seealso::
 
