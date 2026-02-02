@@ -412,7 +412,7 @@ class Component(
             "Version control system to use to access your "
             "repository containing translations. You can also choose "
             "additional integration with third party providers to "
-            "submit merge requests."
+            "submit pull/merge requests."
         ),
         choices=VCS_REGISTRY.get_choices(),
         default=settings.DEFAULT_VCS,
@@ -437,7 +437,7 @@ class Component(
         verbose_name=gettext_lazy("Repository push URL"),
         max_length=REPO_LENGTH,
         help_text=gettext_lazy(
-            "URL of a push repository, pushing is turned off if empty."
+            "URL of a push repository, pushing is turned off if empty. When using pull/merge requests, keep empty to fork the repository."
         ),
         blank=True,
         validators=[validate_repo_url],
@@ -3400,12 +3400,14 @@ class Component(
         if issubclass(self.repository_class, GitMergeRequestBase) and self.push:
             if self.branch == self.push_branch:
                 msg = gettext(
-                    "Pull and push branches cannot be the same when using merge requests."
+                    "Pull and push branches cannot be the same when using pull/merge requests and not pushing to a fork."
                 )
                 raise ValidationError({"push_branch": msg})
 
             if not self.push_branch:
-                msg = gettext("Push branch cannot be empty when using merge requests.")
+                msg = gettext(
+                    "Push branch cannot be empty when using pull/merge requests and not pushing to a fork."
+                )
                 raise ValidationError({"push_branch": msg})
 
     def clean_file_format_params(self) -> None:
