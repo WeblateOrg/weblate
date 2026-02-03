@@ -7,7 +7,7 @@
 # Justin Nogossek <justmegaliga10000@gmail.com>, 2023.
 # "Joshua F." <joshua.frommholz1@gmail.com>, 2023.
 # Fill read-only add-on <noreply-addon-fill@weblate.org>, 2023, 2024, 2025.
-# nautilusx <translate@disroot.org>, 2024.
+# nautilusx <translate@disroot.org>, 2024, 2026.
 # Elisabeth Pieringer <mail@elisabethpieringer.at>, 2024.
 # Michal Čihař <michal@weblate.org>, 2025.
 # Ettore Atalan <atalanttore@googlemail.com>, 2025.
@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-01-26 11:05+0100\n"
-"PO-Revision-Date: 2026-01-28 11:25+0000\n"
-"Last-Translator: VfBFan <drop0815@posteo.de>\n"
+"PO-Revision-Date: 2026-02-03 12:02+0000\n"
+"Last-Translator: nautilusx <translate@disroot.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
 "Language: de\n"
@@ -52227,30 +52227,35 @@ msgstr ""
 
 #: ../../security/localization-threat.rst:7
 msgid "Key Assumptions"
-msgstr ""
+msgstr "Wichtige Grundannahmen"
 
 #: ../../security/localization-threat.rst:8
 msgid ""
 "Translators may be contractors, volunteers, or agencies with varying levels "
 "of vetting."
 msgstr ""
+"Übersetzer können Auftragnehmer, Freiwillige oder Agenturen mit "
+"unterschiedlichen Überprüfungsstufen sein."
 
 #: ../../security/localization-threat.rst:9
-#, fuzzy
-#| msgid "Loads translations from the files into Weblate."
 msgid "Translators require access to Weblate."
-msgstr "Lädt Übersetzungen aus den Dateien hinein in Weblate."
+msgstr "Übersetzer benötigen Zugriff auf Weblate."
 
 #: ../../security/localization-threat.rst:10
 msgid ""
 "Translation strings may contain sensitive content such as unreleased "
 "features, legal terms, or security messages."
 msgstr ""
+"Die zu übersetzenden Zeichenketten können sensible Inhalte wie "
+"unveröffentlichte Funktionen, rechtliche Bestimmungen oder "
+"Sicherheitshinweise enthalten."
 
 #: ../../security/localization-threat.rst:11
 msgid ""
 "The organization has limited control over translators' local environments."
 msgstr ""
+"Die Organisation hat nur begrenzte Kontrolle über die lokalen Umgebungen der "
+"Übersetzer."
 
 #: ../../security/localization-threat.rst:14
 msgid "Threat Categories (STRIDE)"
@@ -52263,11 +52268,15 @@ msgstr "1. Identitätsverschleierung"
 #: ../../security/localization-threat.rst:19
 msgid "**S1. Fake translator accounts impersonating legitimate contributors.**"
 msgstr ""
+"**S1. Gefälschte Übersetzerkonten, die sich als legitime Mitwirkende "
+"ausgeben.**"
 
 #: ../../security/localization-threat.rst:21
 msgid ""
 "Risk: Unauthorized access to projects or injection of malicious strings."
 msgstr ""
+"Risiko: Unbefugter Zugriff auf Projekte oder Einfügen bösartiger "
+"Zeichenketten."
 
 #: ../../security/localization-threat.rst:22
 #: ../../security/localization-threat.rst:34
@@ -52281,24 +52290,19 @@ msgid "Mitigations:"
 msgstr "Schadensbegrenzung:"
 
 #: ../../security/localization-threat.rst:24
-#, fuzzy
-#| msgid ""
-#| "This can be enforced for users at the project (see :ref:`project-"
-#| "enforced_2fa`) or team level."
 msgid "Enforce strong authentication (2FA); see :ref:`project-enforced_2fa`."
 msgstr ""
-"Dies kann für Benutzer auf Projekt- (siehe :ref:`project-enforced_2fa`) oder "
-"Team-Ebene erzwungen werden."
+"Starke Authentifizierung (2FA) einsetzen; siehe :ref:`project-enforced_2fa`."
 
 #: ../../security/localization-threat.rst:25
-#, fuzzy
-#| msgid "Provide context to the translators"
 msgid "Verify identities of contracted translators."
-msgstr "Stellen Sie den Übersetzern einen Kontext zur Verfügung"
+msgstr "Überprüfen Sie die Identität der beauftragten Übersetzer."
 
 #: ../../security/localization-threat.rst:26
 msgid "Use role-based access to limit project scope; see :ref:`acl`."
 msgstr ""
+"Verwenden Sie rollenbasierten Zugriff, um den Projektumfang zu begrenzen; "
+"siehe :ref:`acl`."
 
 #: ../../security/localization-threat.rst:29
 msgid "2. Tampering"
@@ -52306,13 +52310,15 @@ msgstr "2. Manipulation"
 
 #: ../../security/localization-threat.rst:31
 msgid "**T1. Malicious translations embedding harmful payloads.**"
-msgstr ""
+msgstr "**T1. Bösartige Übersetzungen, die schädliche Payloads enthalten.**"
 
 #: ../../security/localization-threat.rst:33
 msgid ""
 "Risk: Injection of JavaScript, HTML, or format-string attacks if "
 "translations are not properly escaped."
 msgstr ""
+"Risiko: Injektion von JavaScript, HTML oder Format-Zeichenketten-Angriffen, "
+"wenn Übersetzungen nicht ordnungsgemäß maskiert werden."
 
 #: ../../security/localization-threat.rst:36
 msgid ""
@@ -52320,12 +52326,15 @@ msgid ""
 "like :ref:`check-safe-html` might help. See :ref:`checks` "
 "and :ref:`component-enforced_checks`."
 msgstr ""
+"Verwenden Sie in Weblate eine strenge Eingabevalidierung. Die Durchsetzung "
+"von Qualitätsprüfungen wie :ref:`check-safe-html` kann dabei helfen. Siehe "
+":ref:`checks` und :ref:`component-enforced_checks`."
 
 #: ../../security/localization-threat.rst:37
-#, fuzzy
-#| msgid "Fixed handling of translation files ignored in Git."
 msgid "Use automated security scanning for translation files in your CI."
-msgstr "Die Behandlung von in Git ignorierten Übersetzungsdateien korrigiert."
+msgstr ""
+"Verwenden Sie automatisierte Sicherheitsscans für Übersetzungsdateien in "
+"Ihrer CI."
 
 #: ../../security/localization-threat.rst:38
 msgid ""
@@ -52333,6 +52342,9 @@ msgid ""
 "used localization framework, this might be implicit, opt-in, or require a "
 "third-party library."
 msgstr ""
+"Begrenzen Sie die Verwendung gefährlicher Markups aus Übersetzungsdateien. "
+"Je nach verwendetem Lokalisierungsframework kann dies implizit, optional "
+"oder mithilfe einer Drittanbieter-Bibliothek erfolgen."
 
 #: ../../security/localization-threat.rst:40
 msgid "**T2. Insertion of misleading translations.**"
@@ -52343,6 +52355,8 @@ msgid ""
 "Risk: Users misled about application behavior (e.g., consent dialogs "
 "mistranslated)."
 msgstr ""
+"Risiko: Benutzer werden über das Verhalten der Anwendung irregeführt (z. B. "
+"falsch übersetzte Einwilligungsdialoge)."
 
 #: ../../security/localization-threat.rst:45
 #: ../../security/localization-threat.rst:123
@@ -52350,10 +52364,14 @@ msgid ""
 "Perform peer review of critical strings; see :ref:`peer-review` "
 "or :ref:`reviews`."
 msgstr ""
+"Führen Sie Überprüfungen kritischer Zeichenketten durch; siehe :ref:`peer-"
+"review` oder :ref:`reviews`."
 
 #: ../../security/localization-threat.rst:46
 msgid "Maintain style guides and :ref:`glossary` to prevent manipulation."
 msgstr ""
+"Pflegen Sie Gestaltungsrichtlinien und :ref:`glossary`, um Manipulationen zu "
+"verhindern."
 
 #: ../../security/localization-threat.rst:49
 msgid "3. Repudiation"
@@ -52362,10 +52380,12 @@ msgstr "3. Verleugnung"
 #: ../../security/localization-threat.rst:51
 msgid "**R1. Disputes over malicious or poor-quality translations.**"
 msgstr ""
+"**R1. Streitigkeiten über böswillige oder qualitativ minderwertige "
+"Übersetzungen.**"
 
 #: ../../security/localization-threat.rst:53
 msgid "Risk: Translators deny responsibility for injected issues."
-msgstr ""
+msgstr "Risiko: Übersetzer lehnen die Verantwortung für eingefügte Probleme ab."
 
 #: ../../security/localization-threat.rst:56
 msgid "All changes in Weblate are logged."
@@ -52374,6 +52394,8 @@ msgstr "Alle Änderungen in Weblate werden protokolliert."
 #: ../../security/localization-threat.rst:57
 msgid "Use Weblate with version control for immutable history."
 msgstr ""
+"Verwenden Sie Weblate mit Versionsverwaltung für einen unveränderlichen "
+"Verlauf."
 
 #: ../../security/localization-threat.rst:60
 msgid "4. Information Disclosure"
@@ -52381,50 +52403,48 @@ msgstr "4. Datenpanne"
 
 #: ../../security/localization-threat.rst:62
 msgid "**I1. Leakage of unreleased product details.**"
-msgstr ""
+msgstr "**I1. Weitergabe von unveröffentlichten Produktdetails.**"
 
 #: ../../security/localization-threat.rst:64
 msgid ""
 "Risk: Translators gain early access to unreleased features or confidential "
 "terminology."
 msgstr ""
+"Risiko: Übersetzer erhalten frühzeitig Zugang zu unveröffentlichten "
+"Funktionen oder vertraulicher Terminologie."
 
 #: ../../security/localization-threat.rst:67
 msgid "Segment projects to limit access to sensitive strings."
-msgstr ""
+msgstr "Teilprojekte zur Einschränkung des Zugriffs auf sensible Zeichenketten."
 
 #: ../../security/localization-threat.rst:68
 msgid "Apply non-disclosure agreements with external agencies."
-msgstr ""
+msgstr "Vertraulichkeitsvereinbarungen mit externen Agenturen abschließen."
 
 #: ../../security/localization-threat.rst:69
 msgid "Delay translation of highly confidential strings until public release."
 msgstr ""
+"Übersetzung streng vertraulicher Zeichenketten bis zur Veröffentlichung "
+"zurückstellen."
 
 #: ../../security/localization-threat.rst:71
 msgid "**I2. Exposure of personal data within strings.**"
-msgstr ""
+msgstr "**I2. Offenlegung personenbezogener Daten in Zeichenketten.**"
 
 #: ../../security/localization-threat.rst:73
 msgid "Risk: Translators might access or misuse embedded user data."
 msgstr ""
+"Risiko: Übersetzer könnten auf eingebettete Benutzerdaten zugreifen oder "
+"diese missbrauchen."
 
 #: ../../security/localization-threat.rst:76
-#, fuzzy
-#| msgid ""
-#| "Possible discarding pending translations after editing source strings."
 msgid "Avoid exposing real user data in source strings."
 msgstr ""
-"Mögliches Verwerfen ausstehender Übersetzungen nach Bearbeitung der "
-"Ausgangszeichenketten."
+"Vermeiden Sie es, echte Benutzerdaten in Ausgangszeichenketten offenzulegen."
 
 #: ../../security/localization-threat.rst:77
-#, fuzzy
-#| msgid "The placeholders check can now be case-insensitive as well."
 msgid "Use placeholders for sensitive fields."
-msgstr ""
-"Beim Prüfen von Platzhaltern kann nun auch die Groß-/Kleinschreibung "
-"ignoriert werden."
+msgstr "Verwenden Sie Platzhalter für sensible Felder."
 
 #: ../../security/localization-threat.rst:80
 msgid "5. Denial of Service"
@@ -52432,23 +52452,28 @@ msgstr "5. Verweigerung des Dienstes"
 
 #: ../../security/localization-threat.rst:82
 msgid "**D1. Bulk submission of junk translations.**"
-msgstr ""
+msgstr "**D1. Massenübermittlung von unbrauchbaren Übersetzungen.**"
 
 #: ../../security/localization-threat.rst:84
 msgid "Risk: Review queues overwhelmed; release timelines disrupted."
 msgstr ""
+"Risiko: Überfüllte Überprüfungswarteschlangen; Störung der "
+"Veröffentlichungszeitpläne."
 
 #: ../../security/localization-threat.rst:87
 msgid ""
 "Choose an appropriate workflow to match your team capacity. :ref:`workflow-"
 "customization` can allow you to tweak this on a language basis."
 msgstr ""
+"Wählen Sie einen geeigneten Ablauf, der der Kapazität Ihres Teams "
+"entspricht. :ref:`workflow-customization` ermöglicht es Ihnen, diesen je "
+"nach Sprache anzupassen."
 
 #: ../../security/localization-threat.rst:88
-#, fuzzy
-#| msgid "Fixed automatic translation with more services."
 msgid "Configure automated translation quality checks; see :ref:`checks`."
-msgstr "Die automatische Übersetzung mit mehreren Diensten korrigiert."
+msgstr ""
+"Konfigurieren Sie automatisierte Qualitätsprüfungen für Übersetzungen; siehe "
+":ref:`checks`."
 
 #: ../../security/localization-threat.rst:91
 msgid "6. Elevation of Privilege"
@@ -52459,40 +52484,49 @@ msgid ""
 "**E1. The translator gains unauthorized project-wide or administrative "
 "rights.**"
 msgstr ""
+"**E1. Der Übersetzer erhält unbefugte projektweite oder administrative "
+"Rechte.**"
 
 #: ../../security/localization-threat.rst:95
 msgid "Risk: Escalation leading to tampering or data exposure."
 msgstr ""
+"Risiko: Eskalation, die zu Manipulationen oder Datenoffenlegung führen kann."
 
 #: ../../security/localization-threat.rst:98
 msgid "Apply the principle of least privilege."
-msgstr ""
+msgstr "Wenden Sie das Prinzip der geringsten Privilegien an."
 
 #: ../../security/localization-threat.rst:99
 msgid "Regularly review access rights and group memberships."
-msgstr ""
+msgstr "Überprüfen Sie regelmäßig Zugriffsrechte und Gruppenmitgliedschaften."
 
 #: ../../security/localization-threat.rst:102
 msgid "Asset Inventory"
-msgstr ""
+msgstr "Bestandsaufnahme"
 
 #: ../../security/localization-threat.rst:104
 msgid ""
 "**Source Strings:** May contain unreleased product features or legal text."
 msgstr ""
+"**Ausgangszeichenketten:** Können unveröffentlichte Produktfunktionen oder "
+"Rechtstexte enthalten."
 
 #: ../../security/localization-threat.rst:105
 msgid "**Translated Strings:** Output presented directly to end users."
 msgstr ""
+"**Übersetzte Zeichenketten:** Ausgabe, die direkt den Endbenutzern angezeigt "
+"wird."
 
 #: ../../security/localization-threat.rst:106
 msgid ""
 "**User Data Placeholders:** Names, emails, or IDs referenced in strings."
 msgstr ""
+"**Platzhalter für Benutzerdaten:** Namen, E-Mail-Adressen oder IDs, auf die "
+"in Zeichenketten verwiesen wird."
 
 #: ../../security/localization-threat.rst:107
 msgid "**Access Credentials:** Accounts for translators, agencies, or bots."
-msgstr ""
+msgstr "**Zugangsdaten:** Konten für Übersetzer, Agenturen oder Bots."
 
 #: ../../security/localization-threat.rst:110
 msgid "Trust Boundaries"
@@ -52503,80 +52537,86 @@ msgid ""
 "**Organization ↔ Translators:** Authentication and role-based access must be "
 "enforced."
 msgstr ""
+"**Organisation ↔ Übersetzer:** Authentifizierung und rollenbasierter Zugriff "
+"müssen umgesetzt werden."
 
 #: ../../security/localization-threat.rst:113
 msgid ""
 "**Translation Platform ↔ Source Control:** Synchronization requires secured "
 "tokens/keys."
 msgstr ""
+"**Übersetzungsplattform ↔ Quellcodeverwaltung:** Die Synchronisierung "
+"erfordert gesicherte Tokens/Schlüssel."
 
 #: ../../security/localization-threat.rst:114
 msgid ""
 "**Translators ↔ Translation Platform:** All input must be sanitized before "
 "integration into builds."
 msgstr ""
+"**Übersetzer ↔ Übersetzungsplattform:** Alle Eingaben müssen vor der "
+"Integration in Builds überprüft werden."
 
 #: ../../security/localization-threat.rst:115
 msgid ""
 "**Platform ↔ End Users:** Translations must be validated to prevent code "
 "injection."
 msgstr ""
+"**Plattform ↔ Endbenutzer:** Übersetzungen müssen validiert werden, um Code-"
+"Injektionen zu verhindern."
 
 #: ../../security/localization-threat.rst:118
-#, fuzzy
-#| msgid "Translation summary"
 msgid "Mitigation Summary"
-msgstr "Zusammenfassung der Übersetzung"
+msgstr "Zusammenfassung der Risikominderung"
 
 #: ../../security/localization-threat.rst:120
-#, fuzzy
-#| msgid ""
-#| "This can be enforced for users at the project (see :ref:`project-"
-#| "enforced_2fa`) or team level."
 msgid ""
 "Enforce 2FA and RBAC for translator accounts; see :ref:`project-"
 "enforced_2fa`."
 msgstr ""
-"Dies kann für Benutzer auf Projekt- (siehe :ref:`project-enforced_2fa`) oder "
-"Team-Ebene erzwungen werden."
+"2FA und RBAC für Übersetzerkonten verwenden; siehe :ref:`project-"
+"enforced_2fa`."
 
 #: ../../security/localization-threat.rst:121
 msgid ""
 "Require non-disclosure agreements or contracts for professional translators."
 msgstr ""
+"Verlangen Sie Vertraulichkeitsvereinbarungen oder Verträge für "
+"professionelle Übersetzer."
 
 #: ../../security/localization-threat.rst:122
 msgid ""
 "Use automated quality/security scanning for translations; see :ref:`checks`."
 msgstr ""
+"Verwenden Sie automatisierte Qualitäts-/Sicherheitsscans für Übersetzungen; "
+"siehe :ref:`checks`."
 
 #: ../../security/localization-threat.rst:124
 msgid ""
 "Limit project visibility to reduce exposure of sensitive content; "
 "see :ref:`acl`."
 msgstr ""
+"Begrenzen Sie die Sichtbarkeit des Projekts, um die Gefährdung sensibler "
+"Inhalte zu verringern; siehe :ref:`acl`."
 
 #: ../../security/localization-threat.rst:125
 msgid ""
 "Regularly patch and harden your Weblate server. You might also "
 "consider :doc:`/admin/support`."
 msgstr ""
+"Aktualisieren und sichern Sie Ihren Weblate-Server regelmäßig. Sie können "
+"auch :doc:`/admin/support` in Betracht ziehen."
 
 #: ../../security/localization-threat.rst:126
-#, fuzzy
-#| msgid ""
-#| "Automatically adds or removes project components based on file changes in "
-#| "the version control system."
 msgid ""
 "Retain immutable version history for all translation changes in the version "
 "control system."
 msgstr ""
-"Automatisches Hinzufügen oder Entfernen von Projektkomponenten basierend auf "
-"den Dateiänderungen in der Versionsverwaltung."
+"Behalten Sie einen unveränderlichen Versionsverlauf für alle "
+"Übersetzungsänderungen in der Versionsverwaltung bei."
 
 #: ../../security/localization-threat.rst:129
 msgid "Conclusion"
-msgstr ""
+msgstr "Schlussfolgerung"
 
 #: ../../security/localization-threat.rst:131
 msgid ""
@@ -52586,6 +52626,11 @@ msgid ""
 "external translation services while maintaining product integrity and "
 "compliance."
 msgstr ""
+"Externe Übersetzer bergen im Vergleich zu internen Mitarbeitern besondere "
+"Risiken. Mit geeigneten technischen, organisatorischen und vertraglichen "
+"Kontrollen können Unternehmen diese Risiken mindern und externe "
+"Übersetzungsdienste sicher integrieren, während die Produktintegrität und "
+"Compliance gewahrt bleiben."
 
 #: ../../security/passwords.rst:2
 msgid "Password security"
