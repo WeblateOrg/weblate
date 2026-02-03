@@ -1423,6 +1423,10 @@ def handle_missing_parameter(
         return auth_fail(request, " ".join(error_messages))
     if error.parameter in {"email", "user", "expires"}:
         return auth_redirect_token(request)
+    if error.parameter == "RelayState.idp":
+        return auth_fail(
+            request, gettext("Could not parse RelayState from SAML Identity Provider.")
+        )
     if error.parameter in {"state", "code", "RelayState"}:
         return auth_redirect_state(request)
     if error.parameter == "disabled":
