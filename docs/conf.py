@@ -333,7 +333,6 @@ intersphinx_mapping = {
         None,
     ),
     "amagama": ("https://docs.translatehouse.org/projects/amagama/en/latest/", None),
-    "virtaal": ("https://docs.translatehouse.org/projects/virtaal/en/latest/", None),
     "ldap": ("https://django-auth-ldap.readthedocs.io/en/latest/", None),
     "celery": ("https://docs.celeryq.dev/en/stable/", None),
     "sphinx": (sphinx_doc_url, None),
