@@ -3575,18 +3575,6 @@ wheels = [
 ]
 
 [[package]]
-name = "python-akismet"
-version = "0.4.3"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "requests" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/ba/bf/7f48b09be314a68e1ededb847fd1069821bd7230f06204ea16d844491c7f/python-akismet-0.4.3.tar.gz", hash = "sha256:83e3d73d9835b31ab4a2725860a940739e252ef55144f65c3b66982bf33e2939", size = 9843, upload-time = "2022-01-25T00:00:36.046Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/de/6b/57a7bd7c9d092699386fb2173e56fb6876f0b2cccdfeed648b483089f17a/python_akismet-0.4.3-py2.py3-none-any.whl", hash = "sha256:767572cb82d860c5c74026fafbf9992a02d2cfe140a932ef90f8274bb419befc", size = 7129, upload-time = "2022-01-25T00:00:34.106Z" },
-]
-
-[[package]]
 name = "python-crontab"
 version = "3.3.0"
 source = { registry = "https://pypi.org/simple" }
@@ -5275,13 +5263,9 @@ all = [
     { name = "mercurial" },
     { name = "openai" },
     { name = "psycopg", extra = ["binary"] },
-    { name = "python-akismet" },
 ]
 amazon = [
     { name = "boto3" },
-]
-antispam = [
-    { name = "python-akismet" },
 ]
 gelf = [
     { name = "logging-gelf" },
@@ -5514,7 +5498,6 @@ requires-dist = [
     { name = "pygobject", specifier = ">=3.54.5,<3.55.0" },
     { name = "pyicumessageformat", specifier = ">=1.0.0,<1.1" },
     { name = "pyparsing", specifier = ">=3.2.0,<3.4" },
-    { name = "python-akismet", marker = "extra == 'antispam'", specifier = ">=0.4.3,<0.5" },
     { name = "python-dateutil", specifier = ">=2.9.0.post0" },
     { name = "python3-saml", marker = "extra == 'saml'", specifier = ">=1.16.0" },
     { name = "qrcode", specifier = ">=8.2,<8.3" },
@@ -5533,14 +5516,14 @@ requires-dist = [
     { name = "unidecode", specifier = ">=1.4.0,<1.5" },
     { name = "urllib3", extras = ["brotli", "zstd"], specifier = ">=2.6.3,<3.0" },
     { name = "user-agents", specifier = ">=2.2.0,<2.3" },
-    { name = "weblate", extras = ["alibaba", "amazon", "antispam", "gerrit", "gelf", "google", "ldap", "mercurial", "openai", "postgres", "zxcvbn"], marker = "extra == 'all'" },
+    { name = "weblate", extras = ["alibaba", "amazon", "gerrit", "gelf", "google", "ldap", "mercurial", "openai", "postgres", "zxcvbn"], marker = "extra == 'all'" },
     { name = "weblate-fonts", specifier = "==2026.1" },
     { name = "weblate-language-data", specifier = ">=2026.1" },
     { name = "weblate-schemas", specifier = "==2025.6" },
     { name = "wlhosted", marker = "extra == 'wlhosted'" },
     { name = "wllegal", marker = "extra == 'wllegal'", specifier = ">=2026.1" },
 ]
-provides-extras = ["alibaba", "all", "amazon", "antispam", "gelf", "gerrit", "google", "ldap", "mercurial", "mysql", "openai", "postgres", "saml", "saml2idp", "wlhosted", "wllegal", "wsgi", "zxcvbn"]
+provides-extras = ["alibaba", "all", "amazon", "gelf", "gerrit", "google", "ldap", "mercurial", "mysql", "openai", "postgres", "saml", "saml2idp", "wlhosted", "wllegal", "wsgi", "zxcvbn"]
 
 [package.metadata.requires-dev]
 dev = [
