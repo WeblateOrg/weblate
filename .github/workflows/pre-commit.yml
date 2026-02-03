@@ -70,7 +70,7 @@ jobs:
     - name: pre-commit (uvx)
       if: steps.detect.outputs.method == 'uvx'
       run: |
-        uvx prek run --all-file --show-diff-on-failure
+        uvx prek run --all-files --show-diff-on-failure
         uvx prek cache gc
       env:
         RUFF_OUTPUT_FORMAT: github
