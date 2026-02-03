@@ -59,37 +59,21 @@ jobs:
         python-version: '3.14'
     - name: Lockfile maintenance
       if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+      working-directory: ./client
+      run: yarn upgrade
+
+    - working-directory: ./client
       run: |
-        for dir in scripts/yarn client ; do
-          if [ ! -d $dir ] ; then
-            echo "Skipping $dir"
-            continue
-          fi
-          pushd "$dir"
-          yarn upgrade
-          popd
-        done
-
-    - run: ./scripts/yarn-update
-      if: hashFiles('scripts/yarn-update') != ''
-
-    - run: |
-        if [ -d client ] ; then
-          cd client
-          yarn install --check-files
-          yarn build
-          cd ..
-        fi
+        yarn install --check-files
+        yarn build
 
     - name: Update SBOM
-      if: hashFiles('docs/specs/sbom/partial/javascript.json') != ''
       working-directory: ./client
       run: |
         npm sbom --omit dev --sbom-format cyclonedx --sbom-type application > ../docs/specs/sbom/partial/javascript.json
         ../scripts/reproducible-sbom.py ../docs/specs/sbom/partial/javascript.json
 
     - name: Merge SBOM
-      if: hashFiles('docs/specs/sbom/partial/python.json') != ''
       env:
         # renovate: datasource=github-releases depName=CycloneDX/cyclonedx-cli versioning=loose
         CYCLONEDX_CLI_VERSION: v0.29.2

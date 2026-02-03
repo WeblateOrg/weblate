@@ -56,11 +56,7 @@ jobs:
 
         version: 0.9.28
     - name: Install apt dependencies
-      run: |
-        if [ -f ./ci/apt-install ] ; then
-          sudo ./ci/apt-install
-        fi
-
+      run: sudo ./ci/apt-install
 
     - name: Lockfile maintenance
       if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
@@ -68,16 +64,13 @@ jobs:
 
     - run: uv sync --all-extras
       name: Update lock file
-      if: hashFiles('uv.lock') != ''
 
     - name: Update SBOM
-      if: hashFiles('docs/specs/sbom/partial/python.json') != ''
       run: |
         uv export --preview-features sbom-export --format cyclonedx1.5 --all-extras --no-dev > docs/specs/sbom/partial/python.json
         ./scripts/reproducible-sbom.py docs/specs/sbom/partial/python.json
 
     - name: Merge SBOM
-      if: hashFiles('docs/specs/sbom/partial/python.json') != ''
       env:
         # renovate: datasource=github-releases depName=CycloneDX/cyclonedx-cli versioning=loose
         CYCLONEDX_CLI_VERSION: v0.29.2
