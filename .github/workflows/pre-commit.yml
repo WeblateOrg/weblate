@@ -32,12 +32,14 @@ jobs:
     - uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
       id: pre-commit-cache
       with:
-        path: ~/.cache/pre-commit
-        key: ${{ runner.os }}-pre-commit-${{ steps.get-date.outputs.cache_tag }}-${{ hashFiles('.pre-commit-config.yaml') }}
+        path: |
+          ~/.cache/prek
+          ~/.cache/kingfisher
+        key: ${{ runner.os }}-prek-${{ steps.get-date.outputs.cache_tag }}-${{ hashFiles('.pre-commit-config.yaml') }}
         restore-keys: |
-          ${{ runner.os }}-pre-commit-${{ steps.get-date.outputs.cache_tag }}
-          ${{ runner.os }}-pre-commit-${{ steps.get-date.outputs.previous_cache_tag }}
-          ${{ runner.os }}-pre-commit-
+          ${{ runner.os }}-prek-${{ steps.get-date.outputs.cache_tag }}
+          ${{ runner.os }}-prek-${{ steps.get-date.outputs.previous_cache_tag }}
+          ${{ runner.os }}-prek-
     - name: Setup Python
       uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       with:
@@ -59,8 +61,8 @@ jobs:
     - name: pre-commit (PEP 735)
       if: steps.detect.outputs.method == 'pep735'
       run: |
-        uv run --only-group pre-commit pre-commit run --all-files --show-diff-on-failure
-        uv run --only-group pre-commit pre-commit gc
+        uv run --only-group pre-commit prek run --all-files --show-diff-on-failure
+        uv run --only-group pre-commit prek cache gc
       env:
         RUFF_OUTPUT_FORMAT: github
         REUSE_OUTPUT_FORMAT: github
@@ -68,8 +70,8 @@ jobs:
     - name: pre-commit (uvx)
       if: steps.detect.outputs.method == 'uvx'
       run: |
-        uvx pre-commit run --all-file --show-diff-on-failure
-        uvx pre-commit gc
+        uvx prek run --all-file --show-diff-on-failure
+        uvx prek cache gc
       env:
         RUFF_OUTPUT_FORMAT: github
         REUSE_OUTPUT_FORMAT: github
@@ -78,8 +80,8 @@ jobs:
       if: steps.detect.outputs.method == 'requirements'
       run: |
         uv pip install --system -r requirements-lint.txt
-        pre-commit run --all-files --show-diff-on-failure
-        pre-commit gc
+        prek run --all-files --show-diff-on-failure
+        prek cache gc
       env:
         RUFF_OUTPUT_FORMAT: github
         REUSE_OUTPUT_FORMAT: github
