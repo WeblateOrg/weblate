@@ -10,7 +10,6 @@ List of built-in roles
    * - `Administration`
      - * :guilabel:`Post announcements`
        * :guilabel:`Delete announcements`
-       * :guilabel:`View billing info`
        * :guilabel:`Download changes`
        * :guilabel:`Post comment`
        * :guilabel:`Delete comment`
@@ -195,9 +194,6 @@ List of built-in roles
        * :guilabel:`Reset changes in the internal repository`
        * :guilabel:`Update the internal repository`
        * :guilabel:`View upstream repository location`
-
-   * - `Billing`
-     - * :guilabel:`View billing info`
 
    * - `Add new projects`
      - * :guilabel:`Add new projects`

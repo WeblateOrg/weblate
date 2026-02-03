@@ -5,7 +5,7 @@
   {% show_message "warning" msg %}
 {% endif %}
 
-{% perm 'billing.view' object as user_can_view_billing %}
+{% perm 'meta:billing.view' object as user_can_view_billing %}
 
 {% if object.is_libre_trial %}
   {% include "snippets/project/billing-libre-trial.html" %}
