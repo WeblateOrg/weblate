@@ -61,7 +61,7 @@ jobs:
       run: ./ci/pip-install latest
     - run: make -C docs update-doc-snippets
     - run: git diff
-    - run: uv run --only-group pre-commit pre-commit run --all
+    - run: uv run --frozen --only-group pre-commit prek run --all-files
       continue-on-error: true
 
     - name: Commit or create pull request
@@ -91,7 +91,7 @@ jobs:
       uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       with:
         python-version: '3.14'
-    - run: uv run --no-project scripts/list-documentation-languages.py >>"$GITHUB_OUTPUT"
+    - run: uv run --frozen --no-project scripts/list-documentation-languages.py >>"$GITHUB_OUTPUT"
       id: list
 
   translations:

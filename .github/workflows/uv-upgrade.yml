@@ -87,7 +87,7 @@ jobs:
         /tmp/cyclonedx-linux-x64 merge --input-files docs/specs/sbom/partial/* --output-file docs/specs/sbom/sbom.json
         ./scripts/reproducible-sbom.py docs/specs/sbom/sbom.json
 
-    - run: uv run --only-group pre-commit pre-commit run --all
+    - run: uv run --frozen --only-group pre-commit prek run --all-files
       continue-on-error: true
 
     - run: git diff

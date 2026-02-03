@@ -38,7 +38,7 @@ jobs:
       run: |
         uv sync --only-group schemas --only-group pre-commit
     - run: make -C docs update-schemas
-    - run: uv run --only-group pre-commit pre-commit run --all
+    - run: uv run --frozen --only-group pre-commit prek run --all-files
       continue-on-error: true
 
     - run: git diff
