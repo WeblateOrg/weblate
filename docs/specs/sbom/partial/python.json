@@ -2,20 +2,26 @@
   "bomFormat": "CycloneDX",
   "specVersion": "1.5",
   "version": 1,
-  "serialNumber": "urn:uuid:30e1e293-4ae5-5b50-85c5-4d564c3bd1bd",
+  "serialNumber": "urn:uuid:8cc49169-9ba3-5801-85ee-2dd1b2266830",
   "metadata": {
     "tools": [
       {
         "vendor": "Astral Software Inc.",
         "name": "uv",
-        "version": "0.9.28"
+        "version": "0.9.29"
       }
     ],
     "component": {
       "type": "library",
       "bom-ref": "weblate-1@5.16",
       "name": "weblate",
-      "version": "5.16"
+      "version": "5.16",
+      "properties": [
+        {
+          "name": "uv:package:is_project_root",
+          "value": "true"
+        }
+      ]
     }
   },
   "components": [
@@ -381,10 +387,10 @@
     },
     {
       "type": "library",
-      "bom-ref": "django-50@5.2.10",
+      "bom-ref": "django-50@5.2.11",
       "name": "django",
-      "version": "5.2.10",
-      "purl": "pkg:pypi/django@5.2.10"
+      "version": "5.2.11",
+      "purl": "pkg:pypi/django@5.2.11"
     },
     {
       "type": "library",
@@ -1772,14 +1778,14 @@
     {
       "ref": "crispy-bootstrap3-37@2024.1",
       "dependsOn": [
-        "django-50@5.2.10",
+        "django-50@5.2.11",
         "django-crispy-forms-57@2.5"
       ]
     },
     {
       "ref": "crispy-bootstrap5-38@2025.6",
       "dependsOn": [
-        "django-50@5.2.10",
+        "django-50@5.2.11",
         "django-crispy-forms-57@2.5"
       ]
     },
@@ -1840,7 +1846,7 @@
       "dependsOn": []
     },
     {
-      "ref": "django-50@5.2.10",
+      "ref": "django-50@5.2.11",
       "dependsOn": [
         "argon2-cffi-10@25.1.0",
         "asgiref-13@3.11.0",
@@ -1851,13 +1857,13 @@
     {
       "ref": "django-appconf-51@1.2.0",
       "dependsOn": [
-        "django-50@5.2.10"
+        "django-50@5.2.11"
       ]
     },
     {
       "ref": "django-auth-ldap-52@5.3.0",
       "dependsOn": [
-        "django-50@5.2.10",
+        "django-50@5.2.11",
         "python-ldap-152@3.4.5"
       ]
     },
@@ -1866,7 +1872,7 @@
       "dependsOn": [
         "celery-26@5.6.2",
         "cron-descriptor-40@2.0.6",
-        "django-50@5.2.10",
+        "django-50@5.2.11",
         "django-timezone-field-62@7.2.1",
         "python-crontab-150@3.3.0",
         "tzdata-194@2025.3"
@@ -1875,7 +1881,7 @@
     {
       "ref": "django-compressor-54@4.6.0",
       "dependsOn": [
-        "django-50@5.2.10",
+        "django-50@5.2.11",
         "django-appconf-51@1.2.0",
         "rcssmin-159@1.2.2",
         "rjsmin-170@1.2.5"
@@ -1885,7 +1891,7 @@
       "ref": "django-cors-headers-55@4.9.0",
       "dependsOn": [
         "asgiref-13@3.11.0",
-        "django-50@5.2.10"
+        "django-50@5.2.11"
       ]
     },
     {
@@ -1898,25 +1904,25 @@
     {
       "ref": "django-crispy-forms-57@2.5",
       "dependsOn": [
-        "django-50@5.2.10"
+        "django-50@5.2.11"
       ]
     },
     {
       "ref": "django-filter-58@25.2",
       "dependsOn": [
-        "django-50@5.2.10"
+        "django-50@5.2.11"
       ]
     },
     {
       "ref": "django-otp-59@1.7.0",
       "dependsOn": [
-        "django-50@5.2.10"
+        "django-50@5.2.11"
       ]
     },
     {
       "ref": "django-otp-webauthn-60@0.8.0",
       "dependsOn": [
-        "django-50@5.2.10",
+        "django-50@5.2.11",
         "django-otp-59@1.7.0",
         "djangorestframework-65@3.16.1",
         "webauthn-206@2.7.0"
@@ -1925,20 +1931,20 @@
     {
       "ref": "django-redis-61@6.0.0",
       "dependsOn": [
-        "django-50@5.2.10",
+        "django-50@5.2.11",
         "redis-160@6.4.0"
       ]
     },
     {
       "ref": "django-timezone-field-62@7.2.1",
       "dependsOn": [
-        "django-50@5.2.10"
+        "django-50@5.2.11"
       ]
     },
     {
       "ref": "django-vies-63@6.2.2",
       "dependsOn": [
-        "django-50@5.2.10",
+        "django-50@5.2.11",
         "retrying-167@1.4.2",
         "zeep-216@4.3.2"
       ]
@@ -1946,14 +1952,14 @@
     {
       "ref": "django-zxcvbn-password-validator-64@1.5.3",
       "dependsOn": [
-        "django-50@5.2.10",
+        "django-50@5.2.11",
         "zxcvbn-218@4.5.0"
       ]
     },
     {
       "ref": "djangorestframework-65@3.16.1",
       "dependsOn": [
-        "django-50@5.2.10"
+        "django-50@5.2.11"
       ]
     },
     {
@@ -1966,7 +1972,7 @@
       "ref": "djangosaml2idp-67@0.7.2",
       "dependsOn": [
         "arrow-12@1.4.0",
-        "django-50@5.2.10",
+        "django-50@5.2.11",
         "pysaml2-149@7.5.0",
         "pytz-155@2025.2"
       ]
@@ -1978,7 +1984,7 @@
     {
       "ref": "drf-spectacular-69@0.29.0",
       "dependsOn": [
-        "django-50@5.2.10",
+        "django-50@5.2.11",
         "djangorestframework-65@3.16.1",
         "drf-spectacular-sidecar-70@2026.1.1",
         "inflection-102@0.5.1",
@@ -1990,13 +1996,13 @@
     {
       "ref": "drf-spectacular-sidecar-70@2026.1.1",
       "dependsOn": [
-        "django-50@5.2.10"
+        "django-50@5.2.11"
       ]
     },
     {
       "ref": "drf-standardized-errors-71@0.15.0",
       "dependsOn": [
-        "django-50@5.2.10",
+        "django-50@5.2.11",
         "djangorestframework-65@3.16.1",
         "drf-spectacular-69@0.29.0",
         "inflection-102@0.5.1"
@@ -2013,7 +2019,7 @@
     {
       "ref": "fakturace-74@0.7.2",
       "dependsOn": [
-        "django-50@5.2.10",
+        "django-50@5.2.11",
         "django-vies-63@6.2.2",
         "filelock-76@3.20.3",
         "jinja2-106@3.1.6"
@@ -2646,7 +2652,7 @@
     {
       "ref": "social-auth-app-django-182@5.7.0",
       "dependsOn": [
-        "django-50@5.2.10",
+        "django-50@5.2.11",
         "social-auth-core-183@4.8.3"
       ]
     },
@@ -2815,7 +2821,7 @@
         "dateparser-45@1.2.2",
         "diff-match-patch-47@20241021",
         "disposable-email-domains-48@0.0.157",
-        "django-50@5.2.10",
+        "django-50@5.2.11",
         "django-appconf-51@1.2.0",
         "django-auth-ldap-52@5.3.0",
         "django-celery-beat-53@2.8.1",
@@ -2906,7 +2912,7 @@
     {
       "ref": "wlhosted-211@2026.1",
       "dependsOn": [
-        "django-50@5.2.10",
+        "django-50@5.2.11",
         "django-appconf-51@1.2.0",
         "django-countries-56@8.2.0",
         "django-vies-63@6.2.2",
@@ -2920,7 +2926,7 @@
     {
       "ref": "wllegal-212@2026.1",
       "dependsOn": [
-        "django-50@5.2.10",
+        "django-50@5.2.11",
         "weblate-language-data-209@2026.1"
       ]
     },
