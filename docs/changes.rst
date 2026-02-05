@@ -11,6 +11,7 @@ Weblate 5.16
 * Added new management command :wladmin:`list_change_events`, which lists all possible change events, :ref:`addon-choice-events`.
 * Added Anthropic machinery integration, see :ref:`mt-anthropic`.
 * Encoding for :ref:`formats` can now be configured using :ref:`file_format_params` (e.g., ``csv_encoding``, ``properties_encoding``).
+* Added support for anonymous commit names via :setting:`PRIVATE_COMMIT_NAME_TEMPLATE`.
 
 .. rubric:: Improvements
 
@@ -21,6 +22,7 @@ Weblate 5.16
 * Better visibility of :ref:`project-commit_policy` to translators.
 * Validation of VCS settings :ref:`push-changes` has been extended.
 * The default values for :ref:`project-translation_review` and :ref:`project-source_review` can be configured in settings.
+* The :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE` now supports the ``{user_id}`` and ``{site_title}`` variables.
 
 .. rubric:: Bug fixes
 

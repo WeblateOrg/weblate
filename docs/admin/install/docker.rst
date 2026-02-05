@@ -1030,6 +1030,18 @@ Generic settings
 
    Configures :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`.
 
+.. envvar:: WEBLATE_PRIVATE_COMMIT_NAME_TEMPLATE
+
+   .. versionadded:: 5.16
+
+   Configures :setting:`PRIVATE_COMMIT_NAME_TEMPLATE`.
+
+.. envvar:: WEBLATE_PRIVATE_COMMIT_NAME_OPT_IN
+
+   .. versionadded:: 5.16
+
+   Configures :setting:`PRIVATE_COMMIT_NAME_OPT_IN`.
+
 .. envvar:: WEBLATE_UNUSED_ALERT_DAYS
 
    .. versionadded:: 4.17
