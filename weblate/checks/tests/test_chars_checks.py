@@ -574,3 +574,14 @@ class MultipleCapitalCheckTest(CheckTestCase):
             ),
             "cs",
         )
+
+    def test_translation(self) -> None:
+        self.do_test(
+            False,
+            (
+                "Hello world",
+                "שלום עולם (World)",
+                "",
+            ),
+            "he",
+        )
