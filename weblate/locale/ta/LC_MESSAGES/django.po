@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-01-26 10:05+0000\n"
-"PO-Revision-Date: 2026-01-15 23:05+0000\n"
+"PO-Revision-Date: 2026-02-03 12:02+0000\n"
 "Last-Translator: தமிழ்நேரம் <tamilneram247@gmail.com>\n"
 "Language-Team: Tamil <https://hosted.weblate.org/projects/weblate/"
 "application/ta/>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.15.2\n"
+"X-Generator: Weblate 5.16-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -2172,7 +2172,7 @@ msgid ""
 "respective user profile. These tokens have the `wlu_` prefix."
 msgstr ""
 "ஒவ்வொரு பயனருக்கும் தனிப்பட்ட அணுகல் கிள்ளாக்கு உள்ளது, அதை அவர்கள் அந்தந்த பயனர் "
-"சுயவிவரத்திலிருந்து பெற முடியும். இந்த டோக்கன்களில் `WLU_` முன்னொட்டு உள்ளது."
+"சுயவிவரத்திலிருந்து பெற முடியும். இந்த டோக்கன்களில் `wlu_` முன்னொட்டு உள்ளது."
 
 #: weblate/api/authentication.py:45
 msgid ""
@@ -2639,10 +2639,8 @@ msgstr "இடுகை அறிவிப்புகள்"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:119
-#, fuzzy
-#| msgid "Delete announcement"
 msgid "Delete announcements"
-msgstr "அறிவிப்பை நீக்கு"
+msgstr "அறிவிப்புகளை நீக்கு"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:127
@@ -3632,16 +3630,12 @@ msgid "Missing non breakable space before double punctuation sign."
 msgstr "இரட்டை நிறுத்தற்குறி அடையாளத்திற்கு முன் உடைக்க முடியாத இடத்தைக் காணவில்லை."
 
 #: weblate/checks/chars.py:589
-#, fuzzy
-#| msgid "Multiple unnamed variables"
 msgid "Multiple capitals"
-msgstr "பெயரிடப்படாத பல மாறிகள்"
+msgstr "பல தலைநகரங்கள்"
 
 #: weblate/checks/chars.py:591
-#, fuzzy
-#| msgid "Translation contains extra zero-width space character."
 msgid "Translation contains words with multiple misplaced capital letters."
-msgstr "மொழிபெயர்ப்பில் கூடுதல் சுழிய அகல வெளி எழுத்து உள்ளது."
+msgstr "மொழிபெயர்ப்பில் பல தவறான பெரிய எழுத்துகள் உள்ள சொற்கள் உள்ளன."
 
 #: weblate/checks/consistency.py:33
 msgid "Missing plurals"
@@ -9651,6 +9645,8 @@ msgid ""
 "This might discard edits that cannot be committed because of the configured "
 "commit policy."
 msgstr ""
+"கட்டமைக்கப்பட்ட உறுதிமொழிக் கொள்கையின் காரணமாகச் செய்ய முடியாத திருத்தங்களை இது "
+"நிராகரிக்கக்கூடும்."
 
 #: weblate/templates/js/git-status.html:219
 msgid "Use these operations with caution, they can lead to data loss."
@@ -13322,6 +13318,7 @@ msgid ""
 "You are not allowed to invite new users because new registrations are turned "
 "off."
 msgstr ""
+"புதிய பதிவுகள் முடக்கப்பட்டுள்ளதால், புதிய பயனர்களை அழைக்க உங்களுக்கு அனுமதி இல்லை."
 
 #: weblate/templates/trans/project-access.html:278
 #, python-format
@@ -16297,12 +16294,9 @@ msgstr ""
 "முடியாது."
 
 #: weblate/trans/models/component.py:3401
-#, fuzzy
-#| msgid "Pull and push branches cannot be the same when using merge requests."
 msgid "Push branch cannot be empty when using merge requests."
 msgstr ""
-"ஒன்றிணைக்கும் கோரிக்கைகளைப் பயன்படுத்தும் போது இழுத்து புச் கிளைகள் ஒரே மாதிரியாக இருக்க "
-"முடியாது."
+"ஒன்றிணைக்கும் கோரிக்கைகளைப் பயன்படுத்தும்போது தள்ளு கிளை காலியாக இருக்கக் கூடாது."
 
 #: weblate/trans/models/component.py:3410
 #, python-format
@@ -16560,18 +16554,16 @@ msgstr ""
 "en_us: en"
 
 #: weblate/trans/models/project.py:834
-#, fuzzy
-#| msgid "Forces writing all strings to the translation files."
 msgid ""
 "Translations marked as needing editing are not written to the translation "
 "file."
-msgstr "மொழிபெயர்ப்பு கோப்புகளுக்கு அனைத்து சரங்களையும் எழுதுகிறது."
+msgstr ""
+"திருத்தம் தேவையெனக் குறிக்கப்பட்ட மொழிபெயர்ப்புகள் மொழிபெயர்ப்புக் கோப்பில் எழுதப்படவில்லை."
 
 #: weblate/trans/models/project.py:838
-#, fuzzy
-#| msgid "Approved translation in %(translation)s"
 msgid "Only approved translations are written to the translation file."
-msgstr "அங்கீகரிக்கப்பட்ட மொழிபெயர்ப்பு %(translation)s"
+msgstr ""
+"ஏற்றுக் கொள்ளப்பட்ட மொழிபெயர்ப்புகள் மட்டுமே மொழிபெயர்ப்புக் கோப்பில் எழுதப்பட்டுள்ளன."
 
 #: weblate/trans/models/suggestion.py:157
 msgid "Could not accept suggestion!"
@@ -17664,28 +17656,20 @@ msgid "Unsupported state: {}"
 msgstr "ஆதரிக்கப்படாத நிலை: {}"
 
 #: weblate/utils/search.py:183
-#, fuzzy
-#| msgid "Could not parse URL: {}"
 msgid "Could not parse boolean value: {}"
-msgstr "முகவரியை அலச முடியவில்லை: {}"
+msgstr "பூலியன் மதிப்பை அலச முடியவில்லை: {}"
 
 #: weblate/utils/search.py:200
-#, fuzzy
-#| msgid "Could not parse query string: {}"
 msgid "Could not parse numeric value: {}"
-msgstr "வினவல் சரத்தை அலச முடியவில்லை: {}"
+msgstr "எண் மதிப்பை அலச முடியவில்லை: {}"
 
 #: weblate/utils/search.py:308
-#, fuzzy
-#| msgid "Could not parse URL: {}"
 msgid "Could not parse timestamp: {}"
-msgstr "முகவரியை அலச முடியவில்லை: {}"
+msgstr "நேரமுத்திரையை அலச முடியவில்லை: {}"
 
 #: weblate/utils/search.py:445
-#, fuzzy
-#| msgid "Focus on search field."
 msgid "Unknown search field: {}"
-msgstr "தேடல் புலத்தில் கவனம் செலுத்துங்கள்."
+msgstr "தெரியாத தேடல் புலம்: {}"
 
 #: weblate/utils/search.py:482
 msgid "Invalid regular expression: {}"
@@ -17694,23 +17678,19 @@ msgstr "தவறான வழக்கமான வெளிப்பாடு:
 #: weblate/utils/search.py:512 weblate/utils/search.py:519
 #, python-brace-format
 msgid "Unsupported lookup for {field}: {value}"
-msgstr ""
+msgstr "{field} க்கான ஆதரிக்கப்படாத தேடல்: {value}"
 
 #: weblate/utils/search.py:828
 msgid "Mixed operators!"
-msgstr ""
+msgstr "கலப்பு இயக்குபவர்கள்!"
 
 #: weblate/utils/search.py:868
-#, fuzzy
-#| msgid "Invalid search string!"
 msgid "Invalid character in the query string"
-msgstr "தவறான தேடல் சரம்!"
+msgstr "வினவல் சரத்தில் தவறான எழுத்து"
 
 #: weblate/utils/search.py:874
-#, fuzzy
-#| msgid "Could not parse query string: {}"
 msgid "Failed to parse the query string: {}"
-msgstr "வினவல் சரத்தை அலச முடியவில்லை: {}"
+msgstr "வினவல் சரத்தை அலசுவதில் தோல்வி: {}"
 
 #: weblate/utils/state.py:17
 msgctxt "String state"
@@ -18034,10 +18014,8 @@ msgid "Could not fetch public key for a host: %s"
 msgstr "புரவலனுக்கு பொது விசையைப் பெற முடியவில்லை: %s"
 
 #: weblate/vcs/ssh.py:247
-#, fuzzy
-#| msgid "Could not fetch public key for a host: %s"
 msgid "Could not fetch public key for a host."
-msgstr "புரவலனுக்கு பொது விசையைப் பெற முடியவில்லை: %s"
+msgstr "புரவலனுக்கு பொது விசையைப் பெற முடியவில்லை."
 
 #: weblate/vcs/ssh.py:255
 msgid "Invalid host name given!"

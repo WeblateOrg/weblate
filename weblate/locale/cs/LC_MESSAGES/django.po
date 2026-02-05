@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-01-26 10:05+0000\n"
-"PO-Revision-Date: 2026-01-14 16:31+0000\n"
-"Last-Translator: Michal Čihař <michal@weblate.org>\n"
+"PO-Revision-Date: 2026-01-27 23:26+0000\n"
+"Last-Translator: Fjuro <fjuro@alius.cz>\n"
 "Language-Team: Czech <https://hosted.weblate.org/projects/weblate/"
 "application/cs/>\n"
 "Language: cs\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=((n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2);\n"
-"X-Generator: Weblate 5.15.2\n"
+"X-Generator: Weblate 5.16-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -2634,8 +2634,6 @@ msgstr "Vydat oznámení"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:119
-#, fuzzy
-#| msgid "Delete announcement"
 msgid "Delete announcements"
 msgstr "Odstranit oznámení"
 
@@ -3630,16 +3628,12 @@ msgid "Missing non breakable space before double punctuation sign."
 msgstr "Chybějící nedělitelná mezera před dvojitou interpunkcí."
 
 #: weblate/checks/chars.py:589
-#, fuzzy
-#| msgid "Multiple unnamed variables"
 msgid "Multiple capitals"
-msgstr "Více nepojmenovaných proměnných"
+msgstr "Více velkých písmen"
 
 #: weblate/checks/chars.py:591
-#, fuzzy
-#| msgid "Translation contains extra zero-width space character."
 msgid "Translation contains words with multiple misplaced capital letters."
-msgstr "Překlad obsahuje navíc nulovou mezeru."
+msgstr "Překlad obsahuje slova s více nesprávně umístěnými velkými písmeny."
 
 #: weblate/checks/consistency.py:33
 msgid "Missing plurals"
@@ -9667,6 +9661,8 @@ msgid ""
 "This might discard edits that cannot be committed because of the configured "
 "commit policy."
 msgstr ""
+"Toto může zahodit úpravy, které nebyly odeslány z důvodu nesprávně "
+"nastavených pravidel odesílání."
 
 #: weblate/templates/js/git-status.html:219
 msgid "Use these operations with caution, they can lead to data loss."
@@ -13366,6 +13362,7 @@ msgid ""
 "You are not allowed to invite new users because new registrations are turned "
 "off."
 msgstr ""
+"Nemáte oprávnění zvát nové uživatele, protože jsou nové registrace vypnuty."
 
 #: weblate/templates/trans/project-access.html:278
 #, python-format
@@ -13708,7 +13705,7 @@ msgstr "Automaticky přeloženo"
 #: weblate/templates/translate.html:721
 #, python-format
 msgid "This string was translated automatically by %(author)s."
-msgstr "Tento řetězec byl automaticky přeložen uživatelem %(author)s."
+msgstr "Tento řetězec byl automaticky přeložen nástrojem %(author)s."
 
 #: weblate/templates/translate.html:738 weblate/trans/models/project.py:262
 msgid "Translation quality filter"
@@ -16346,10 +16343,8 @@ msgid "Pull and push branches cannot be the same when using merge requests."
 msgstr "Při použití žádostí o sloučení nemohou být větve pull a push stejné."
 
 #: weblate/trans/models/component.py:3401
-#, fuzzy
-#| msgid "Pull and push branches cannot be the same when using merge requests."
 msgid "Push branch cannot be empty when using merge requests."
-msgstr "Při použití žádostí o sloučení nemohou být větve pull a push stejné."
+msgstr "Při použití žádostí o sloučení nemůže být větev push prázdná."
 
 #: weblate/trans/models/component.py:3410
 #, python-format
@@ -16611,18 +16606,15 @@ msgstr ""
 "en_GB:en,en_US:en"
 
 #: weblate/trans/models/project.py:834
-#, fuzzy
-#| msgid "Forces writing all strings to the translation files."
 msgid ""
 "Translations marked as needing editing are not written to the translation "
 "file."
-msgstr "Vynutí zápis všech řetězců do souborů překladů."
+msgstr ""
+"Překlady označené jako potřebující úpravu nejsou zapsány do souboru překladů."
 
 #: weblate/trans/models/project.py:838
-#, fuzzy
-#| msgid "Approved translation in %(translation)s"
 msgid "Only approved translations are written to the translation file."
-msgstr "Schválený překlad v %(translation)s"
+msgstr "Do souboru překladů budou zapsány pouze schválené překlady."
 
 #: weblate/trans/models/suggestion.py:157
 msgid "Could not accept suggestion!"
@@ -17732,28 +17724,20 @@ msgid "Unsupported state: {}"
 msgstr "Nepodporovaný stav: {0}"
 
 #: weblate/utils/search.py:183
-#, fuzzy
-#| msgid "Could not parse URL: {}"
 msgid "Could not parse boolean value: {}"
-msgstr "Nepodařilo ze zpracovat adresu URL: {}"
+msgstr "Nepodařilo ze zpracovat booleovskou hodnotu: {}"
 
 #: weblate/utils/search.py:200
-#, fuzzy
-#| msgid "Could not parse query string: {}"
 msgid "Could not parse numeric value: {}"
-msgstr "Nepodařilo se zpracovat dotaz: {}"
+msgstr "Nepodařilo se zpracovat numerickou hodnotu: {}"
 
 #: weblate/utils/search.py:308
-#, fuzzy
-#| msgid "Could not parse URL: {}"
 msgid "Could not parse timestamp: {}"
-msgstr "Nepodařilo ze zpracovat adresu URL: {}"
+msgstr "Nepodařilo ze zpracovat časovou značku: {}"
 
 #: weblate/utils/search.py:445
-#, fuzzy
-#| msgid "Focus on search field."
 msgid "Unknown search field: {}"
-msgstr "Zaměřit na pole vyhledávání."
+msgstr "Neznámé pole vyhledávání: {}"
 
 #: weblate/utils/search.py:482
 msgid "Invalid regular expression: {}"
@@ -17762,23 +17746,19 @@ msgstr "Neplatný regulární výraz: {}"
 #: weblate/utils/search.py:512 weblate/utils/search.py:519
 #, python-brace-format
 msgid "Unsupported lookup for {field}: {value}"
-msgstr ""
+msgstr "Nepodporované vyhledávání pro {field}: {value}"
 
 #: weblate/utils/search.py:828
 msgid "Mixed operators!"
-msgstr ""
+msgstr "Smíchané operátory!"
 
 #: weblate/utils/search.py:868
-#, fuzzy
-#| msgid "Invalid search string!"
 msgid "Invalid character in the query string"
-msgstr "Chybný vyhledávací řetězec!"
+msgstr "Neplatný znak v řetězci vyhledávání"
 
 #: weblate/utils/search.py:874
-#, fuzzy
-#| msgid "Could not parse query string: {}"
 msgid "Failed to parse the query string: {}"
-msgstr "Nepodařilo se zpracovat dotaz: {}"
+msgstr "Nepodařilo se zpracovat řetězec dotazu: {}"
 
 #: weblate/utils/state.py:17
 msgctxt "String state"
@@ -18102,10 +18082,8 @@ msgid "Could not fetch public key for a host: %s"
 msgstr "Nepodařilo se stáhnout veřejnou část klíče: %s"
 
 #: weblate/vcs/ssh.py:247
-#, fuzzy
-#| msgid "Could not fetch public key for a host: %s"
 msgid "Could not fetch public key for a host."
-msgstr "Nepodařilo se stáhnout veřejnou část klíče: %s"
+msgstr "Nepodařilo se stáhnout veřejnou část klíče."
 
 #: weblate/vcs/ssh.py:255
 msgid "Invalid host name given!"

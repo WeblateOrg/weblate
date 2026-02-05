@@ -51,17 +51,17 @@ jobs:
       uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405   # v6.2.0
       with:
         python-version: '3.14'
-    - uses: astral-sh/setup-uv@61cb8a9741eeb8a550a1b8544337180c0fc8476b   # v7.2.0
+    - uses: astral-sh/setup-uv@803947b9bd8e9f986429fa0c5a41c367cd732b41   # v7.2.1
       with:
         enable-cache: false
-        version: 0.9.27
+        version: 0.9.30
     - name: Install apt dependencies
       run: sudo ./ci/apt-install "$CI_DATABASE"
     - name: Install Python dependencies
       run: ./ci/pip-install latest
     - run: make -C docs update-doc-snippets
     - run: git diff
-    - run: uv run --only-group pre-commit pre-commit run --all
+    - run: uv run --frozen --only-group pre-commit prek run --all-files
       continue-on-error: true
 
     - name: Commit or create pull request
@@ -83,15 +83,15 @@ jobs:
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       with:
         persist-credentials: false
-    - uses: astral-sh/setup-uv@61cb8a9741eeb8a550a1b8544337180c0fc8476b # v7.2.0
+    - uses: astral-sh/setup-uv@803947b9bd8e9f986429fa0c5a41c367cd732b41 # v7.2.1
       with:
         enable-cache: false
-        version: 0.9.27
+        version: 0.9.30
     - name: Set up Python
       uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       with:
         python-version: '3.14'
-    - run: uv run --no-project scripts/list-documentation-languages.py >>"$GITHUB_OUTPUT"
+    - run: uv run --frozen --no-project scripts/list-documentation-languages.py >>"$GITHUB_OUTPUT"
       id: list
 
   translations:
@@ -110,10 +110,10 @@ jobs:
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       with:
         persist-credentials: false
-    - uses: astral-sh/setup-uv@61cb8a9741eeb8a550a1b8544337180c0fc8476b # v7.2.0
+    - uses: astral-sh/setup-uv@803947b9bd8e9f986429fa0c5a41c367cd732b41 # v7.2.1
       with:
         enable-cache: false
-        version: 0.9.27
+        version: 0.9.30
     - name: Set up Python
       uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       with:

@@ -35,10 +35,10 @@ jobs:
       if: github.event_name == 'pull_request'
       with:
         persist-credentials: false
-    - uses: astral-sh/setup-uv@61cb8a9741eeb8a550a1b8544337180c0fc8476b # v7.2.0
+    - uses: astral-sh/setup-uv@803947b9bd8e9f986429fa0c5a41c367cd732b41 # v7.2.1
       with:
         enable-cache: false
-        version: 0.9.27
+        version: 0.9.30
     - name: Set up Python
       uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       with:
@@ -46,7 +46,7 @@ jobs:
     - name: Install Python dependencies
       run: uv sync --only-group pre-commit
     - run: ./scripts/generate-unicodechars.py > weblate/utils/unicodechars.py
-    - run: uv run --only-group pre-commit pre-commit run --all
+    - run: uv run --frozen --only-group pre-commit prek run --all-files
       continue-on-error: true
 
     - run: git diff

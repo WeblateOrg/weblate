@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-01-26 10:05+0000\n"
-"PO-Revision-Date: 2026-01-18 10:02+0000\n"
+"PO-Revision-Date: 2026-01-27 23:27+0000\n"
 "Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
 "application/ga/>\n"
@@ -19,9 +19,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :"
-"(n>6 && n<11) ? 3 : 4;\n"
-"X-Generator: Weblate 5.15.2\n"
+"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :(n>"
+"6 && n<11) ? 3 : 4;\n"
+"X-Generator: Weblate 5.16-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -2710,10 +2710,8 @@ msgstr "Fógraí poist"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:119
-#, fuzzy
-#| msgid "Delete announcement"
 msgid "Delete announcements"
-msgstr "Scrios fógra"
+msgstr "Scrios fógraí"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:127
@@ -3734,16 +3732,12 @@ msgstr ""
 "Spás neamh-inbhriste ar iarraidh roimh an gcomhartha poncaíochta dúbailte."
 
 #: weblate/checks/chars.py:589
-#, fuzzy
-#| msgid "Multiple unnamed variables"
 msgid "Multiple capitals"
-msgstr "Athróga iolracha gan ainm"
+msgstr "Il-chathracha"
 
 #: weblate/checks/chars.py:591
-#, fuzzy
-#| msgid "Translation contains extra zero-width space character."
 msgid "Translation contains words with multiple misplaced capital letters."
-msgstr "Tá carachtar spáis nial-leithead breise san aistriúchán."
+msgstr "Tá focail san aistriúchán ina bhfuil roinnt litreacha móra míchearta."
 
 #: weblate/checks/consistency.py:33
 msgid "Missing plurals"
@@ -9945,6 +9939,8 @@ msgid ""
 "This might discard edits that cannot be committed because of the configured "
 "commit policy."
 msgstr ""
+"D’fhéadfadh sé seo athruithe nach féidir a chur i gcrích mar gheall ar an "
+"mbeartas tiomantais cumraithe a chaitheamh amach."
 
 #: weblate/templates/js/git-status.html:219
 msgid "Use these operations with caution, they can lead to data loss."
@@ -13772,6 +13768,8 @@ msgid ""
 "You are not allowed to invite new users because new registrations are turned "
 "off."
 msgstr ""
+"Ní cheadaítear duit cuireadh a thabhairt d’úsáideoirí nua mar go bhfuil "
+"clárúcháin nua múchta."
 
 #: weblate/templates/trans/project-access.html:278
 #, python-format
@@ -16853,12 +16851,9 @@ msgstr ""
 "úsáidtear iarratais chumaisc."
 
 #: weblate/trans/models/component.py:3401
-#, fuzzy
-#| msgid "Pull and push branches cannot be the same when using merge requests."
 msgid "Push branch cannot be empty when using merge requests."
 msgstr ""
-"Ní féidir le brainsí tarraingthe agus brú a bheith mar an gcéanna nuair a "
-"úsáidtear iarratais chumaisc."
+"Ní féidir brainse bhrú a bheith folamh agus iarratais chumasc á n-úsáid."
 
 #: weblate/trans/models/component.py:3410
 #, python-format
@@ -17132,18 +17127,17 @@ msgstr ""
 "en_GB:ga,en_US:ga"
 
 #: weblate/trans/models/project.py:834
-#, fuzzy
-#| msgid "Forces writing all strings to the translation files."
 msgid ""
 "Translations marked as needing editing are not written to the translation "
 "file."
-msgstr "Fórsaí ag scríobh gach teaghráin chuig na comhaid aistriúcháin."
+msgstr ""
+"Ní scríobhtar aistriúcháin atá marcáilte mar aistriúcháin a bhfuil gá iad a "
+"chur in eagar chuig an gcomhad aistriúcháin."
 
 #: weblate/trans/models/project.py:838
-#, fuzzy
-#| msgid "Approved translation in %(translation)s"
 msgid "Only approved translations are written to the translation file."
-msgstr "Aistriúchán ceadaithe in %(translation)s"
+msgstr ""
+"Ní scríobhtar ach aistriúcháin cheadaithe chuig an gcomhad aistriúcháin."
 
 #: weblate/trans/models/suggestion.py:157
 msgid "Could not accept suggestion!"
@@ -18313,28 +18307,20 @@ msgid "Unsupported state: {}"
 msgstr "Staid gan tacaíocht: {}"
 
 #: weblate/utils/search.py:183
-#, fuzzy
-#| msgid "Could not parse URL: {}"
 msgid "Could not parse boolean value: {}"
-msgstr "Níorbh fhéidir an URL a pharsáil: {}"
+msgstr "Níorbh fhéidir luach booléanach a pharsáil: {}"
 
 #: weblate/utils/search.py:200
-#, fuzzy
-#| msgid "Could not parse query string: {}"
 msgid "Could not parse numeric value: {}"
-msgstr "Níorbh fhéidir teaghrán an iarratais a pharsáil: {}"
+msgstr "Níorbh fhéidir an luach uimhriúil a pharsáil: {}"
 
 #: weblate/utils/search.py:308
-#, fuzzy
-#| msgid "Could not parse URL: {}"
 msgid "Could not parse timestamp: {}"
-msgstr "Níorbh fhéidir an URL a pharsáil: {}"
+msgstr "Níorbh fhéidir an stampa ama a pharsáil: {}"
 
 #: weblate/utils/search.py:445
-#, fuzzy
-#| msgid "Focus on search field."
 msgid "Unknown search field: {}"
-msgstr "Fócas ar réimse cuardaigh."
+msgstr "Réimse cuardaigh anaithnid: {}"
 
 #: weblate/utils/search.py:482
 msgid "Invalid regular expression: {}"
@@ -18343,23 +18329,19 @@ msgstr "slonn rialta neamhbhailí: {}"
 #: weblate/utils/search.py:512 weblate/utils/search.py:519
 #, python-brace-format
 msgid "Unsupported lookup for {field}: {value}"
-msgstr ""
+msgstr "Cuardach gan tacaíocht do {field}: {value}"
 
 #: weblate/utils/search.py:828
 msgid "Mixed operators!"
-msgstr ""
+msgstr "Oibreoirí measctha!"
 
 #: weblate/utils/search.py:868
-#, fuzzy
-#| msgid "Invalid search string!"
 msgid "Invalid character in the query string"
-msgstr "Teaghrán cuardaigh neamhbhailí!"
+msgstr "Carachtar neamhbhailí sa teaghrán fiosrúcháin"
 
 #: weblate/utils/search.py:874
-#, fuzzy
-#| msgid "Could not parse query string: {}"
 msgid "Failed to parse the query string: {}"
-msgstr "Níorbh fhéidir teaghrán an iarratais a pharsáil: {}"
+msgstr "Theip ar an teaghrán fiosrúcháin a pharsáil: {}"
 
 #: weblate/utils/state.py:17
 msgctxt "String state"
@@ -18695,10 +18677,8 @@ msgid "Could not fetch public key for a host: %s"
 msgstr "Níorbh fhéidir eochair phoiblí a fháil le haghaidh óstaigh: %s"
 
 #: weblate/vcs/ssh.py:247
-#, fuzzy
-#| msgid "Could not fetch public key for a host: %s"
 msgid "Could not fetch public key for a host."
-msgstr "Níorbh fhéidir eochair phoiblí a fháil le haghaidh óstaigh: %s"
+msgstr "Níorbh fhéidir eochair phoiblí a fháil don óstach."
 
 #: weblate/vcs/ssh.py:255
 msgid "Invalid host name given!"

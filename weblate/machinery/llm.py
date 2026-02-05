@@ -43,8 +43,10 @@ You do not include transliteration.
 SEPARATOR = "\n==WEBLATE_PART==\n"
 SEPARATOR_RE = re.compile(r"\n *==WEBLATE_PART== *\n")
 SEPARATOR_PROMPT = f"""
-You receive an input as strings separated by {SEPARATOR} and
-your answer separates strings by {SEPARATOR}.
+You receive an input as strings separated by {SEPARATOR} and your answer
+separates strings by {SEPARATOR}. Anything besides {SEPARATOR} is content to be
+translated. The answer should include translations for all the strings in
+the same order as they appeared in the input.
 """
 REPHRASE_PROMPT = f"""
 You receive an input as the source and existing translation strings separated

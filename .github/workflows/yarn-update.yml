@@ -44,52 +44,36 @@ jobs:
       if: github.event_name == 'pull_request'
       with:
         persist-credentials: false
-    - uses: actions/cache@8b402f58fbc84540c8b491a91e594a4576fec3d7 # v5.0.2
+    - uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
       with:
         path: ~/.cache/pre-commit
         key: ${{ runner.os }}-pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
-    - uses: astral-sh/setup-uv@61cb8a9741eeb8a550a1b8544337180c0fc8476b # v7.2.0
+    - uses: astral-sh/setup-uv@803947b9bd8e9f986429fa0c5a41c367cd732b41 # v7.2.1
       with:
         enable-cache: false
 
-        version: 0.9.27
+        version: 0.9.30
     - name: Set up Python
       uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       with:
         python-version: '3.14'
     - name: Lockfile maintenance
       if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+      working-directory: ./client
+      run: yarn upgrade
+
+    - working-directory: ./client
       run: |
-        for dir in scripts/yarn client ; do
-          if [ ! -d $dir ] ; then
-            echo "Skipping $dir"
-            continue
-          fi
-          pushd "$dir"
-          yarn upgrade
-          popd
-        done
-
-    - run: ./scripts/yarn-update
-      if: hashFiles('scripts/yarn-update') != ''
-
-    - run: |
-        if [ -d client ] ; then
-          cd client
-          yarn install --check-files
-          yarn build
-          cd ..
-        fi
+        yarn install --check-files
+        yarn build
 
     - name: Update SBOM
-      if: hashFiles('docs/specs/sbom/partial/javascript.json') != ''
       working-directory: ./client
       run: |
         npm sbom --omit dev --sbom-format cyclonedx --sbom-type application > ../docs/specs/sbom/partial/javascript.json
         ../scripts/reproducible-sbom.py ../docs/specs/sbom/partial/javascript.json
 
     - name: Merge SBOM
-      if: hashFiles('docs/specs/sbom/partial/python.json') != ''
       env:
         # renovate: datasource=github-releases depName=CycloneDX/cyclonedx-cli versioning=loose
         CYCLONEDX_CLI_VERSION: v0.29.2
@@ -99,7 +83,7 @@ jobs:
         /tmp/cyclonedx-linux-x64 merge --input-files docs/specs/sbom/partial/* --output-file docs/specs/sbom/sbom.json
         ./scripts/reproducible-sbom.py docs/specs/sbom/sbom.json
 
-    - run: uv run --only-group pre-commit pre-commit run --all
+    - run: uv run --frozen --only-group pre-commit prek run --all-files
       continue-on-error: true
 
     - run: git diff

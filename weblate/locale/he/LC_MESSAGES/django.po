@@ -6,13 +6,14 @@
 # elid <shopisrael12@gmail.com>, 2025.
 # Avi Markovitz <avi.markovitz@gmail.com>, 2025.
 # GitHub webhook <noreply-webhook-github@weblate.org>, 2025.
+# "Omer I.S." <omeritzicschwartz@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-01-26 10:05+0000\n"
-"PO-Revision-Date: 2026-01-27 04:09+0000\n"
-"Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
+"PO-Revision-Date: 2026-02-03 12:02+0000\n"
+"Last-Translator: \"Omer I.S.\" <omeritzicschwartz@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
 "Language: he\n"
@@ -9509,7 +9510,7 @@ msgstr "להשתמש כאשר התפספסו כמה מהמחרוזות על יד
 msgid ""
 "This might discard edits that cannot be committed because of the configured "
 "commit policy."
-msgstr ""
+msgstr "עלול להשמיט עריכות שלא ניתן לקבע עקב מדיניות הקיבוע המוגדרת."
 
 #: weblate/templates/js/git-status.html:219
 msgid "Use these operations with caution, they can lead to data loss."
@@ -9716,6 +9717,8 @@ msgid ""
 "be uploaded on the individual translations. Switch to the \"Components\" tab "
 "above, open the desired component, and perform the upload there."
 msgstr ""
+"אין תמיכה כרגע בהעלאות לפי מיזם. יש להעלות קובצי תרגומים לתרגומים הנפרדים. "
+"יש לעבור ללשונית „רכיבים” לעיל, לפתוח את הרכיב הרצוי ולהעלות משם."
 
 #: weblate/templates/language.html:26 weblate/templates/manage/tools.html:10
 #: weblate/templates/translate.html:203 weblate/wladmin/views.py:100
@@ -13116,7 +13119,7 @@ msgstr "הזמנה"
 msgid ""
 "You are not allowed to invite new users because new registrations are turned "
 "off."
-msgstr ""
+msgstr "אסור לך להזמין משתמשים חדשים כיוון שהרשמות חדשות כבויות."
 
 #: weblate/templates/trans/project-access.html:278
 #, python-format
@@ -16041,10 +16044,8 @@ msgid "Pull and push branches cannot be the same when using merge requests."
 msgstr "דחיפה ומשיכה של ענפים לא יכולה להיות זהה כשמשתמשים בבקשות מיזוג."
 
 #: weblate/trans/models/component.py:3401
-#, fuzzy
-#| msgid "Pull and push branches cannot be the same when using merge requests."
 msgid "Push branch cannot be empty when using merge requests."
-msgstr "דחיפה ומשיכה של ענפים לא יכולה להיות זהה כשמשתמשים בבקשות מיזוג."
+msgstr "דחיפה של ענפים לא יכולה להיות ריקה כשמשתמשים בבקשות מיזוג."
 
 #: weblate/trans/models/component.py:3410
 #, python-format
@@ -16292,18 +16293,14 @@ msgid ""
 msgstr "רשימה מופרדת בפסיקים של מיפויי קודים של שפות, למשל: he_IL:he,en_US:en"
 
 #: weblate/trans/models/project.py:834
-#, fuzzy
-#| msgid "Forces writing all strings to the translation files."
 msgid ""
 "Translations marked as needing editing are not written to the translation "
 "file."
-msgstr "מאלץ את כתיבת כל המחרוזות לקובצי תרגום."
+msgstr "תרגומים שמסומנים כטעוני שיפור אינם נכתבים לקובץ התרגום."
 
 #: weblate/trans/models/project.py:838
-#, fuzzy
-#| msgid "Approved translation in %(translation)s"
 msgid "Only approved translations are written to the translation file."
-msgstr "אושר תרגום תחת %(translation)s"
+msgstr "רק תרגומים מאושרים נכתבים לקובץ התרגום."
 
 #: weblate/trans/models/suggestion.py:157
 msgid "Could not accept suggestion!"
@@ -16639,6 +16636,8 @@ msgid ""
 "Imported strings are added as approved translations. Do this when you "
 "already reviewed your translations before uploading them."
 msgstr ""
+"מחרוזות מיובאות מתווספות בתור מחרוזות מאושרות. יש לעשות זאת רק אם כבר סקרת "
+"את התרגומים לפני שהעלית אותם."
 
 #: weblate/trans/templatetags/upload_methods.py:31
 msgid ""
@@ -16652,12 +16651,16 @@ msgid ""
 "Imported strings are added as translations needing edit. This can be useful "
 "when you want translations to be used, but also reviewed."
 msgstr ""
+"מחרוזות מיובאות מתווספות בתור תרגומים טעוני שיפור. זה יכול להיות שימושי אם "
+"רוצים להשתמש בתרגומים אך גם לסקור אותם קודם."
 
 #: weblate/trans/templatetags/upload_methods.py:39
 msgid ""
 "Existing file is replaced with new content. This can lead to loss of "
 "existing translations, use with caution."
 msgstr ""
+"הקובץ הקיים מוחלף בתוכן החדש. זה יכול להוביל לאיבוד נתונים קיימים, יש להשתמש "
+"בזהירות."
 
 #: weblate/trans/templatetags/upload_methods.py:43
 msgid ""
@@ -17403,22 +17406,16 @@ msgid "Could not parse boolean value: {}"
 msgstr "לא ניתן לפענח כתובת:‏ %s"
 
 #: weblate/utils/search.py:200
-#, fuzzy
-#| msgid "Could not parse query string: {}"
 msgid "Could not parse numeric value: {}"
-msgstr "לא ניתן לפענח את מחרוזת השאילתה: {}"
+msgstr "לא ניתן לפענח את הערך הנומרי: {}"
 
 #: weblate/utils/search.py:308
-#, fuzzy
-#| msgid "Could not parse URL: {}"
 msgid "Could not parse timestamp: {}"
-msgstr "לא ניתן לפענח כתובת:‏ %s"
+msgstr "לא ניתן לפענח את חותמת הזמן:‏ {}"
 
 #: weblate/utils/search.py:445
-#, fuzzy
-#| msgid "Focus on search field."
 msgid "Unknown search field: {}"
-msgstr "התמקדות על שדה החיפוש."
+msgstr "שדה חיפוש לא ידוע: {}"
 
 #: weblate/utils/search.py:482
 msgid "Invalid regular expression: {}"

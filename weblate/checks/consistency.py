@@ -131,10 +131,12 @@ class ConsistencyCheck(TargetCheck, BatchCheckMixin):
         return (
             units.filter(
                 reduce(
-                    lambda x, y: x
-                    | (
-                        Q(id_hash=y["id_hash"])
-                        & Q(translation__plural_id=y["translation__plural_id"])
+                    lambda x, y: (
+                        x
+                        | (
+                            Q(id_hash=y["id_hash"])
+                            & Q(translation__plural_id=y["translation__plural_id"])
+                        )
                     ),
                     matches,
                     Q(),
@@ -223,11 +225,13 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
         result = (
             units.filter(
                 reduce(
-                    lambda x, y: x
-                    | (
-                        Q(target__lower__md5=MD5(Lower(Value(y["target"]))))
-                        & Q(target=y["target"])
-                        & Q(translation__plural_id=y["translation__plural_id"])
+                    lambda x, y: (
+                        x
+                        | (
+                            Q(target__lower__md5=MD5(Lower(Value(y["target"]))))
+                            & Q(target=y["target"])
+                            & Q(translation__plural_id=y["translation__plural_id"])
+                        )
                     ),
                     matches,
                     Q(),

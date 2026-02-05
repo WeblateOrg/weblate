@@ -22,7 +22,6 @@ from django.utils.functional import cached_property
 from django.utils.translation import gettext, gettext_lazy
 from lxml import etree
 from lxml.etree import XMLSyntaxError
-from pyparsing import ParseException
 from translate.misc import quote
 from translate.misc.multistring import multistring
 from translate.misc.xml_helpers import setXMLspace
@@ -74,7 +73,7 @@ from weblate.utils.state import (
 )
 
 if TYPE_CHECKING:
-    from collections.abc import Callable
+    from collections.abc import Callable, Generator
 
     from translate.storage.base import TranslationUnit as TranslateToolkitUnit
 
@@ -180,19 +179,17 @@ class TTKitUnit(TranslationUnit):
         if hasattr(self.unit, "markapproved"):
             self.unit.markapproved(state == STATE_APPROVED)
 
-    @cached_property
-    def flags(self):
+    def get_extra_flags(self) -> Generator[str | etree._Element | Flags]:
         """
         Return flags from unit.
 
-        We currently extract maxwidth attribute.
+        We currently extract from XML.
         """
-        flags = super().flags
+        yield from super().get_extra_flags()
         if hasattr(self.unit, "xmlelement"):
-            flags.merge(self.unit.xmlelement)
+            yield self.unit.xmlelement
         if self.template is not None and hasattr(self.template, "xmlelement"):
-            flags.merge(self.template.xmlelement)
-        return flags
+            yield self.template.xmlelement
 
     def clone_template(self) -> None:
         super().clone_template()
@@ -577,6 +574,9 @@ class PropertiesUnit(KeyValueUnit):
 class PoUnit(TTKitUnit):
     """Wrapper for gettext PO unit."""
 
+    # Fuzzy flag is not useful, it is exposed as state instead
+    remove_flags: ClassVar[list[str]] = ["fuzzy"]
+
     def set_state(self, state) -> None:
         """Set fuzzy /approved flag on translated unit."""
         super().set_state(state)
@@ -585,17 +585,14 @@ class PoUnit(TTKitUnit):
             self.unit.prev_msgid_plural = []
             self.unit.prev_msgctxt = []
 
-    @cached_property
-    def flags(self):
-        """Return flags or typecomments from units."""
-        flags = super().flags
-        try:
-            flags.merge(Flags(*self.mainunit.typecomments))
-        except ParseException as error:
-            msg = f"Could not parse flags: {self.mainunit.typecomments!r}: {error}"
-            raise ValueError(msg) from error
-        flags.remove({"fuzzy"})
-        return flags
+    def get_extra_flags(self) -> Generator[str | etree._Element | Flags]:
+        """
+        Return flags from unit.
+
+        We currently extract from typecomments.
+        """
+        yield from super().get_extra_flags()
+        yield from self.mainunit.typecomments
 
     @cached_property
     def previous_source(self):
@@ -847,6 +844,8 @@ class XliffUnit(TTKitUnit):
 class RichXliffUnit(XliffUnit):
     """Wrapper unit for XLIFF with XML elements."""
 
+    add_flags: ClassVar[list[str]] = ["xml-text"]
+
     @cached_property
     def source(self):
         """Return source string from a Translate Toolkit unit."""
@@ -870,12 +869,6 @@ class RichXliffUnit(XliffUnit):
             return ""
 
         return rich_to_xliff_string(self.unit.rich_target)
-
-    @cached_property
-    def flags(self):
-        flags = super().flags
-        flags.merge("xml-text")
-        return flags
 
     def set_target(self, target: str | list[str]) -> None:
         """Set translation unit target."""
@@ -1021,7 +1014,7 @@ class PlaceholdersJSONUnit(JSONUnit):
             # WebExtension placeholders
             placeholder_ids = [f"${key.upper()}$" for key in placeholders]
             flags.merge("case-insensitive")
-        flags.merge(f"placeholders:{Flags.format_flag(placeholder_ids)}")
+        flags.set_value("placeholders", Flags.format_flag(placeholder_ids))
         return flags
 
 
