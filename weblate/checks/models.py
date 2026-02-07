@@ -106,6 +106,7 @@ class WeblateChecksConf(AppConf):
         "weblate.checks.render.MaxSizeCheck",
         "weblate.checks.markup.XMLValidityCheck",
         "weblate.checks.markup.XMLTagsCheck",
+        "weblate.checks.markup.XMLCharsAroundTagsCheck",
         "weblate.checks.markup.MarkdownRefLinkCheck",
         "weblate.checks.markup.MarkdownLinkCheck",
         "weblate.checks.markup.MarkdownSyntaxCheck",
