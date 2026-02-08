@@ -39,7 +39,9 @@
               <button type="button"
                       class="btn btn-link green js-copy-suggestion"
                       title="{% translate "Clone to translation" %}"
-                      {% for text in suggestion.target_list %}data-text-{{ forloop.counter0 }}="{{ text|force_escape }}"{% endfor %}>{% icon "clone.svg" %}
+                      aria-label="{% translate "Clone to translation" %}"
+                      {% for text in suggestion.target_list %}data-text-{{ forloop.counter0 }}="{{ text|force_escape }}" {% endfor %}>
+                  {% icon "clone.svg" %}
               </button>
               {% if user_can_accept_suggestion %}
                 {# Bulk accept suggestions feature #}
