@@ -5,6 +5,7 @@
 """Tests for suggestion views."""
 
 from django.conf import settings
+from django.test import TestCase
 from django.urls import reverse
 
 from weblate.trans.models import Suggestion, WorkflowSetting
@@ -287,3 +288,22 @@ class SuggestionsTest(ViewTestCase):
 
         # and the suggestion gets an upvote
         self.assertEqual(suggestion.get_num_votes(), 2)
+
+
+class SuggestionModelTest(TestCase):
+    def test_target_list(self):
+        """Test that target_list property correctly splits plurals."""
+        sep = "\x1e\x1e"
+
+        suggestion = Suggestion(target="Hello world")
+        self.assertEqual(suggestion.target_list, ["Hello world"])
+
+        target_string = f"One apple{sep}Two apples{sep}Five apples"
+        suggestion_plural = Suggestion(target=target_string)
+
+        self.assertEqual(
+            suggestion_plural.target_list, ["One apple", "Two apples", "Five apples"]
+        )
+
+        suggestion_empty = Suggestion(target="")
+        self.assertEqual(suggestion_empty.target_list, [""])
