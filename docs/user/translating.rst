@@ -61,7 +61,8 @@ those matching current translations.
 If you have the :guilabel:`Accept suggestions` permission, you can bulk accept
 all suggestions from a specific user by clicking the account check icon next
 to their suggestion. This is useful for quickly processing suggestions from
-trusted contributors.
+trusted contributors. Suggestions failing quality checks are skipped and
+remain for manual review.
 
 .. _user-comments:
 
