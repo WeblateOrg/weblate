@@ -19,103 +19,91 @@
       {% for choice in field.field.choices %}
         {% with choice_str=choice.0|stringformat:"s" %}
           <div class="col-sm-3">
-            
-            <label
-  for="id_{{ field.html_name }}_{{ forloop.counter }}"
-  class="radio-option {% if inline_class %}radio-{{ inline_class }}{% endif %}"
->
 
-  <div class="radio-main">
+            <label for="id_{{ field.html_name }}_{{ forloop.counter }}"
+                   class="radio-option {% if inline_class %}radio-{{ inline_class }}{% endif %}">
 
-    <input
-      type="radio"
-      {% if choice_str == field.value|default_if_none:""|stringformat:"s" %}
-        checked="checked"
-      {% endif %}
-      name="{{ field.html_name }}"
-      id="id_{{ field.html_name }}_{{ forloop.counter }}"
-      value="{{ choice.0|unlocalize }}"
-      {{ field.field.widget.attrs|flatatt }}
-    >
+              <div class="radio-main">
 
-    {% with image_name="access/"|add:choice_str|add:".svg" %}
-      <img
-        class="access-icon"
-        src="{% static image_name %}"
-        alt=""
-      />
-    {% endwith %}
+                <input type="radio"
+                       {% if choice_str == field.value|default_if_none:""|stringformat:"s" %}checked="checked"{% endif %}
+                       name="{{ field.html_name }}"
+                       id="id_{{ field.html_name }}_{{ forloop.counter }}"
+                       value="{{ choice.0|unlocalize }}"
+                       {{ field.field.widget.attrs|flatatt }}>
 
-    <span class="radio-text">
-      {{ choice.1|unlocalize }}
-    </span>
+                {% with image_name="access/"|add:choice_str|add:".svg" %}
+                  <img class="access-icon" src="{% static image_name %}" alt="" />
+                {% endwith %}
 
-  </div>
+                <span class="radio-text">{{ choice.1|unlocalize }}</span>
+
+              </div>
 
 
-  <div class="radio-description">
+              <div class="radio-description">
 
-    {% if choice_str == "0" %}
-      <p>{% translate "Visible to everybody." %}</p>
-      <p>{% translate "Any authenticated user can contribute." %}</p>
+                {% if choice_str == "0" %}
+                  <p>{% translate "Visible to everybody." %}</p>
+                  <p>{% translate "Any authenticated user can contribute." %}</p>
 
-      {% if has_gitexport %}
-        <p>
-          {% translate "VCS repository is accessible to everybody." %}
-          {% documentation_icon 'admin/optionals' 'git-exporter' %}
-        </p>
-      {% endif %}
+                  {% if has_gitexport %}
+                    <p>
+                      {% translate "VCS repository is accessible to everybody." %}
+                      {% documentation_icon 'admin/optionals' 'git-exporter' %}
+                    </p>
+                  {% endif %}
 
-    {% elif choice_str == "1" %}
-      <p>{% translate "Visible to everybody." %}</p>
-      <p>{% translate "Only chosen users can contribute." %}</p>
+                {% elif choice_str == "1" %}
+                  <p>{% translate "Visible to everybody." %}</p>
+                  <p>{% translate "Only chosen users can contribute." %}</p>
 
-      {% if has_gitexport %}
-        <p>
-          {% translate "Only chosen users can access VCS repository." %}
-          {% documentation_icon 'admin/optionals' 'git-exporter' %}
-        </p>
-      {% endif %}
+                  {% if has_gitexport %}
+                    <p>
+                      {% translate "Only chosen users can access VCS repository." %}
+                      {% documentation_icon 'admin/optionals' 'git-exporter' %}
+                    </p>
+                  {% endif %}
 
-    {% elif choice_str == "100" %}
-      <p>{% translate "Visible only to chosen users." %}</p>
-      <p>{% translate "Only chosen users can contribute." %}</p>
+                {% elif choice_str == "100" %}
+                  <p>{% translate "Visible only to chosen users." %}</p>
+                  <p>{% translate "Only chosen users can contribute." %}</p>
 
-      {% if has_gitexport %}
-        <p>
-          {% translate "Only chosen users can access VCS repository." %}
-          {% documentation_icon 'admin/optionals' 'git-exporter' %}
-        </p>
-      {% endif %}
+                  {% if has_gitexport %}
+                    <p>
+                      {% translate "Only chosen users can access VCS repository." %}
+                      {% documentation_icon 'admin/optionals' 'git-exporter' %}
+                    </p>
+                  {% endif %}
 
-    {% elif choice_str == "200" %}
-      <p>{% translate "Permissions are not managed in Weblate." %}</p>
+                {% elif choice_str == "200" %}
+                  <p>{% translate "Permissions are not managed in Weblate." %}</p>
 
-      <p>
-        <strong>
-          {% translate "Only use this if you know what you are doing, enabling it might revoke your access to this project." %}
-        </strong>
-      </p>
-    {% endif %}
+                  <p>
+                    <strong>
+                      {% translate "Only use this if you know what you are doing, enabling it might revoke your access to this project." %}
+                    </strong>
+                  </p>
+                {% endif %}
 
-  </div>
+              </div>
 
-</label>
+            </label>
 
-        </div>
-      {% endfor %}
-    </div>
-    {% if "disabled" in flat_attrs %}
-      <div>
-        <p>
-          {% translate "You do not have permission to change project access control." %}
-          {% if has_billing %}
-            <a href="{% url 'billing' %}">{% translate "Check your billing status" %}</a>
-          {% endif %}
-        </p>
+          </div>
+        {% endfor %}
       </div>
-    {% endif %}
+      {% if "disabled" in flat_attrs %}
+        <div>
+          <p>
+            {% translate "You do not have permission to change project access control." %}
+            {% if has_billing %}
+              <a href="{% url 'billing' %}">{% translate "Check your billing status" %}</a>
+            {% endif %}
+          </p>
+        </div>
+      {% endif %}
+
+    </div>
 
   </div>
-
-</div>
