@@ -287,3 +287,55 @@ class SuggestionsTest(ViewTestCase):
 
         # and the suggestion gets an upvote
         self.assertEqual(suggestion.get_num_votes(), 2)
+
+    def test_rendering_check_isolation(self) -> None:
+        """Verify that suggestion checks do not reuse the dirty cache of the unit."""
+        # Force SameCheck to ensure the suggestion system actually runs checks.
+        self.component.checks = "weblate.checks.same.SameCheck"
+        self.component.save()
+
+        unit = self.get_unit()
+
+        # Set dirty cache in memory
+        unit.check_cache = {"render": "DIRTY_PARENT_CACHE"}
+
+        # Create suggestion
+        suggestion = Suggestion.objects.create(
+            unit=unit,
+            target=unit.source,
+            user=self.user,
+        )
+
+        # We explicitly assign the dirty unit to the suggestion.
+        suggestion.unit = unit
+
+        # Explicitly trigger check calculation
+        checks = list(suggestion.get_checks())
+        self.assertTrue(checks, "Setup Error: No checks were generated.")
+
+        # Semantic retrieval of the check object
+        check_obj = next((check for check in checks if hasattr(check, "unit")), None)
+        self.assertIsNotNone(check_obj, "No check with a 'unit' attribute found.")
+
+        fake_unit = check_obj.unit
+
+        # Verification of Isolation
+        self.assertTrue(
+            hasattr(fake_unit, "check_cache"),
+            "Test Failure: Fake unit does not expose 'check_cache' attribute.",
+        )
+
+        # We do not check for empty cache ({}) because running checks fills it.
+        # We check that the parent's dirt is gone.
+        self.assertNotEqual(
+            fake_unit.check_cache.get("render"),
+            "DIRTY_PARENT_CACHE",
+            "Isolation Failure: Fake unit inherited the dirty parent cache.",
+        )
+
+        # Ensure the process didn't accidentally wipe the parent's cache
+        self.assertEqual(
+            unit.check_cache.get("render"),
+            "DIRTY_PARENT_CACHE",
+            "Integrity Failure: Parent unit cache was wiped during check execution.",
+        )
