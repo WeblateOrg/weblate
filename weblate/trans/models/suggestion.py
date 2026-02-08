@@ -239,6 +239,15 @@ class Suggestion(models.Model, UserDisplayMixin):
                 result.append(Check(unit=fake_unit, dismissed=False, name=check))
         return result
 
+    @property
+    def target_list(self) -> list[str]:
+        """
+        Returns the target split into a list of plurals.
+
+        Used for populating the translation widgets in the frontend.
+        """
+        return split_plural(self.target)
+
 
 class Vote(models.Model):
     """Suggestion voting."""
