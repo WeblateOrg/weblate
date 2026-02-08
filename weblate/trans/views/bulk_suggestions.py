@@ -7,6 +7,7 @@ import logging
 from typing import TYPE_CHECKING
 
 from django import forms
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.http import JsonResponse
@@ -123,6 +124,17 @@ def bulk_accept_user_suggestions(
             "failed": failed_count,
             "user": target_user.username,
         }
+
+    # Django messages for UI feedback
+    if accepted_count > 0:
+        if failed_count == 0:
+            messages.success(request, message)
+        else:
+            messages.warning(request, message)
+    elif failed_count > 0:
+        messages.error(request, message)
+    else:
+        messages.info(request, gettext("No suggestions found."))
 
     return JsonResponse(
         {
