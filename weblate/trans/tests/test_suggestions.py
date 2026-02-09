@@ -334,12 +334,14 @@ class SuggestionsTest(ViewTestCase):
 
         # We do not check for empty cache ({}) because running checks fills it.
         # We check that the parent's dirt is gone.
-        self.assertIsNot(fake_unit, unit, "Fake unit should be a different instance/copy")
+        self.assertIsNot(
+            fake_unit, unit, "Fake unit should be a different instance/copy"
+        )
 
         self.assertIsNot(
-            fake_unit.check_cache, 
-            unit.check_cache, 
-            "Isolation Failure: check_cache dictionary is shared by reference."
+            fake_unit.check_cache,
+            unit.check_cache,
+            "Isolation Failure: check_cache dictionary is shared by reference.",
         )
 
         self.assertNotEqual(fake_unit.check_cache.get("render"), "DIRTY_PARENT_CACHE")
