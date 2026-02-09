@@ -148,7 +148,7 @@ class ConvertFormat(TranslationFormat):
         # Did we get file or filename?
         if not hasattr(storefile, "read"):
             with open(storefile, "rb") as handle:
-                store = self.convertfile(handle, template_store)
+                store: TranslationStore = self.convertfile(handle, template_store)
         else:
             store = self.convertfile(storefile, template_store)
         # Adjust store to have translations
@@ -304,6 +304,9 @@ class HTMLFormat(ConvertFormat):
     def save_content(self, handle) -> None:
         """Store content to file."""
         converter = po2html()
+        if self.template_store is None:
+            msg = "Template store is required."
+            raise TypeError(msg)
         templatename = self.template_store.storefile
         if hasattr(templatename, "name"):
             templatename = templatename.name
@@ -357,6 +360,9 @@ class MarkdownFormat(ConvertFormat):
         converter = MarkdownTranslator(
             inputstore=self.store, includefuzzy=True, outputthreshold=None, maxlength=80
         )
+        if self.template_store is None:
+            msg = "Template store is required."
+            raise TypeError(msg)
         templatename = self.template_store.storefile
         if hasattr(templatename, "name"):
             templatename = templatename.name
@@ -413,11 +419,15 @@ class OpenDocumentFormat(ConvertFormat):
 
     def save_content(self, handle) -> None:
         """Store content to file."""
+        if self.template_store is None:
+            msg = "Template store is required."
+            raise TypeError(msg)
         templatename = self.template_store.storefile
         if hasattr(templatename, "name"):
             templatename = templatename.name
         # This is workaround for weird fuzzy handling in translate-toolkit
         for unit in self.all_units:
+            # type: ignore[attr-defined]
             if any(state == "translated" for state in unit.get_xliff_states()):
                 unit.set_state(STATE_APPROVED)
 
@@ -471,6 +481,9 @@ class IDMLFormat(ConvertFormat):
 
     def save_content(self, handle) -> None:
         """Store content to file."""
+        if self.template_store is None:
+            msg = "Template store is required."
+            raise TypeError(msg)
         templatename = self.template_store.storefile
         if hasattr(templatename, "name"):
             templatename = templatename.name
@@ -539,12 +552,14 @@ class WindowsRCFormat(ConvertFormat):
         sublang = "SUBLANG_DEFAULT"
 
         # Keep existing language tags
-        storage = self.store.rcfile
+        storage = self.store.rcfile  # type: ignore[attr-defined]
         if storage.lang:
             lang = storage.lang
             if storage.sublang:
                 sublang = storage.sublang
-
+        if self.template_store is None:
+            msg = "Template store is required."
+            raise TypeError(msg)
         templatename = self.template_store.storefile
         if hasattr(templatename, "name"):
             templatename = templatename.name
@@ -593,6 +608,9 @@ class PlainTextFormat(ConvertFormat):
 
     def save_content(self, handle) -> None:
         """Store content to file."""
+        if self.template_store is None:
+            msg = "Template store is required."
+            raise TypeError(msg)
         templatename = self.template_store.storefile
         if hasattr(templatename, "name"):
             templatename = templatename.name

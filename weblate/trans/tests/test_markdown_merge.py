@@ -21,7 +21,7 @@ class TestMarkdownMerge(TestCase):
         f = io.BytesIO(content)
         f.name = "test.md"
         # Keep f.mode as some parsers might check for it
-        f.mode = "rb"
+        f.mode = "rb"  # type: ignore[misc]
         f.seek(0)
 
         params = {"markdown_merge_duplicates": True} if merge_duplicates else {}
