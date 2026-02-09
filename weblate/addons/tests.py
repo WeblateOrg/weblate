@@ -2072,9 +2072,7 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
 
 class SlackWebhooksAddonsTest(BaseWebhookTests, ViewTestCase):
     WEBHOOK_CLS = SlackWebhookAddon
-    WEBHOOK_URL = (
-        "https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX"
-    )
+    WEBHOOK_URL = "https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX"  # kingfisher:ignore
 
     addon_configuration: ClassVar[dict] = {
         "webhook_url": WEBHOOK_URL,
@@ -2111,7 +2109,8 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         return self.mock_class.call_count
 
     def reset_calls(self) -> None:
-        self.mock_class.call_count = 0
+        self.patcher.stop()
+        self.mock_class = self.patcher.start()
 
     def test_topic(self):
         for change in Change.objects.all():
