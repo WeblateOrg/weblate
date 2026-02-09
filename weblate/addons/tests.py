@@ -11,6 +11,7 @@ import tempfile
 from datetime import timedelta
 from io import StringIO
 from pathlib import Path
+from time import sleep
 from typing import TYPE_CHECKING, ClassVar
 from unittest.mock import patch
 
@@ -2072,9 +2073,7 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
 
 class SlackWebhooksAddonsTest(BaseWebhookTests, ViewTestCase):
     WEBHOOK_CLS = SlackWebhookAddon
-    WEBHOOK_URL = (
-        "https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX"
-    )
+    WEBHOOK_URL = "https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX"  # kingfisher:ignore
 
     addon_configuration: ClassVar[dict] = {
         "webhook_url": WEBHOOK_URL,
@@ -2111,6 +2110,9 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         return self.mock_class.call_count
 
     def reset_calls(self) -> None:
+        # Wait short time so that previous messages are delivered. Fedora Messaging
+        # uses background thread to deliver, so the delivery might happen later.
+        sleep(0.1)
         self.mock_class.call_count = 0
 
     def test_topic(self):
