@@ -128,7 +128,7 @@ class Suggestion(models.Model, UserDisplayMixin):
     userdetails = models.JSONField(default=dict)
     timestamp = models.DateTimeField(auto_now_add=True)
 
-    votes = models.ManyToManyField(
+    votes: models.ManyToManyField = models.ManyToManyField(
         settings.AUTH_USER_MODEL, through="Vote", related_name="user_votes"
     )
 
@@ -144,7 +144,7 @@ class Suggestion(models.Model, UserDisplayMixin):
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        self.fixups = []
+        self.fixups: list = []
 
     @transaction.atomic
     def accept(

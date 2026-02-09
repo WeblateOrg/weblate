@@ -186,7 +186,13 @@ class SuggestionsTest(ViewTestCase):
         suggestions = list(self.get_unit().suggestions)
         self.assertEqual(len(suggestions), 1)
 
-        self.assertEqual(suggestions[0].user.username, settings.ANONYMOUS_USER_NAME)
+        suggestion = suggestions[0]
+        if suggestion.user is None:
+            msg = "Suggestion user should not be None"
+            raise AssertionError(msg)
+
+        user = suggestion.user
+        self.assertEqual(user.username, settings.ANONYMOUS_USER_NAME)
 
         # Accept one of suggestions
         response = self.edit_unit("Hello, world!\n", "", accept=suggestions[0].pk)
@@ -291,7 +297,7 @@ class SuggestionsTest(ViewTestCase):
     def test_rendering_check_isolation(self) -> None:
         """Verify that suggestion checks do not reuse the dirty cache of the unit."""
         # Force SameCheck to ensure the suggestion system actually runs checks.
-        self.component.checks = "weblate.checks.same.SameCheck"
+        self.component.checks = "weblate.checks.same.SameCheck"  # type: ignore[attr-defined]
         self.component.save()
 
         unit = self.get_unit()
@@ -313,9 +319,10 @@ class SuggestionsTest(ViewTestCase):
         checks = list(suggestion.get_checks())
         self.assertTrue(checks, "Setup Error: No checks were generated.")
 
-        # Semantic retrieval of the check object
         check_obj = next((check for check in checks if hasattr(check, "unit")), None)
-        self.assertIsNotNone(check_obj, "No check with a 'unit' attribute found.")
+        if check_obj is None:
+            msg = "No check with a 'unit' attribute found."
+            raise AssertionError(msg)
 
         fake_unit = check_obj.unit
 
@@ -327,11 +334,15 @@ class SuggestionsTest(ViewTestCase):
 
         # We do not check for empty cache ({}) because running checks fills it.
         # We check that the parent's dirt is gone.
-        self.assertNotEqual(
-            fake_unit.check_cache.get("render"),
-            "DIRTY_PARENT_CACHE",
-            "Isolation Failure: Fake unit inherited the dirty parent cache.",
+        self.assertIsNot(fake_unit, unit, "Fake unit should be a different instance/copy")
+
+        self.assertIsNot(
+            fake_unit.check_cache, 
+            unit.check_cache, 
+            "Isolation Failure: check_cache dictionary is shared by reference."
         )
+
+        self.assertNotEqual(fake_unit.check_cache.get("render"), "DIRTY_PARENT_CACHE")
 
         # Ensure the process didn't accidentally wipe the parent's cache
         self.assertEqual(
