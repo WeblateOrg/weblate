@@ -144,7 +144,7 @@ class Suggestion(models.Model, UserDisplayMixin):
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        self.fixups: list = []
+        self.fixups: list[str] = []
 
     @transaction.atomic
     def accept(
