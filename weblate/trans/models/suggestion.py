@@ -128,9 +128,10 @@ class Suggestion(models.Model, UserDisplayMixin):
     userdetails = models.JSONField(default=dict)
     timestamp = models.DateTimeField(auto_now_add=True)
 
-    votes: models.ManyToManyField = models.ManyToManyField(
-        settings.AUTH_USER_MODEL, through="Vote", related_name="user_votes"
-    )
+    votes = models.ManyToManyField(
+    settings.AUTH_USER_MODEL, through="Vote", related_name="user_votes"
+    )  # type: ignore[var-annotated]
+
 
     objects = SuggestionManager.from_queryset(SuggestionQuerySet)()
 
