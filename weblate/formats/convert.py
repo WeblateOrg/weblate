@@ -225,7 +225,13 @@ class ConvertFormat(TranslationFormat):
         self.save()
         return []
 
-    def convert_to_po(self, parser, template_store, use_location: bool = True):
+    def convert_to_po(
+        self,
+        parser,
+        template_store,
+        use_location: bool = True,
+        duplicate_style: str = "msgctxt",
+    ):
         store = pofile()
         # Prepare index of existing translations
         unitindex: dict[str, list[Unit]] = defaultdict(list)
@@ -261,7 +267,7 @@ class ConvertFormat(TranslationFormat):
                 thepo.addnote(htmlunit.getnotes(), "developer")
 
         # Handle duplicate strings (use context to differentiate them)
-        store.removeduplicates("msgctxt")
+        store.removeduplicates(duplicate_style)
 
         # Merge existing translations
         if unitindex and not self.is_template:
@@ -331,7 +337,17 @@ class MarkdownFormat(ConvertFormat):
 
         # Fake input file with a blank filename
         mdparser = MarkdownFile(inputfile=NamedBytesIO("", storefile.read()))
-        return self.convert_to_po(mdparser, template_store, use_location=False)
+
+        duplicate_style = "msgctxt"
+        if self.file_format_params.get("markdown_merge_duplicates"):
+            duplicate_style = "merge"
+
+        return self.convert_to_po(
+            mdparser,
+            template_store,
+            use_location=False,
+            duplicate_style=duplicate_style,
+        )
 
     def save_content(self, handle) -> None:
         """Store content to file."""
