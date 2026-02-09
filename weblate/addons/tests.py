@@ -11,8 +11,10 @@ import tempfile
 from datetime import timedelta
 from io import StringIO
 from pathlib import Path
+from time import sleep
+from traceback import print_stack
 from typing import TYPE_CHECKING, ClassVar
-from unittest.mock import patch
+from unittest.mock import DEFAULT, patch
 
 import jsonschema.exceptions
 import requests
@@ -2072,9 +2074,7 @@ class WebhooksAddonTest(BaseWebhookTests, ViewTestCase):
 
 class SlackWebhooksAddonsTest(BaseWebhookTests, ViewTestCase):
     WEBHOOK_CLS = SlackWebhookAddon
-    WEBHOOK_URL = (
-        "https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX"
-    )
+    WEBHOOK_URL = "https://hooks.slack.com/services/T00000000/B00000000/XXXXXXXXXXXXXXXXXXXXXXXX"  # kingfisher:ignore
 
     addon_configuration: ClassVar[dict] = {
         "webhook_url": WEBHOOK_URL,
@@ -2096,9 +2096,16 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         "events": [str(ActionEvents.NEW)],
     }
 
+    def side_effect(self, *args, **kwargs) -> DEFAULT:
+        print_stack()
+        return DEFAULT
+
     def setUp(self) -> None:
         super().setUp()
-        self.patcher = patch("fedora_messaging.api._twisted_publish_wrapper")
+        self.patcher = patch(
+            "fedora_messaging.api._twisted_publish_wrapper",
+            side_effect=self.side_effect,
+        )
         self.mock_class = self.patcher.start()
 
     def tearDown(self) -> None:
@@ -2111,6 +2118,9 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
         return self.mock_class.call_count
 
     def reset_calls(self) -> None:
+        # Wait short time so that previous messages are delivered. Fedora Messaging
+        # uses background thread to deliver, so the delivery might happen later.
+        sleep(0.5)
         self.mock_class.call_count = 0
 
     def test_topic(self):
