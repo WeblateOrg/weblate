@@ -39,6 +39,10 @@ Per-user translation memory
 
 Stores all user translations automatically in the personal translation memory of each respective user.
 
+The default value for new users is automatically adjusted based on the :ref:`autoclean-tm`
+configuration. If automatic cleanup is enabled, this is disabled by default to
+prevent reintroducing inconsistent translations.
+
 Per-project translation memory
 ++++++++++++++++++++++++++++++
 
@@ -86,6 +90,12 @@ Autoclean translation memory
 The translation memory is automatically cleaned up by removing obsolete and outdated entries.
 
 In the Docker container this can be configured using :envvar:`WEBLATE_DEFAULT_AUTOCLEAN_TM`.
+
+.. note::
+    Enabling automatic cleanup also changes the default for new user
+    profiles to not contribute to personal translation memory. This
+    prevents reintroducing inconsistent translations that were
+    supposed to be cleaned up.
 
 .. seealso::
 

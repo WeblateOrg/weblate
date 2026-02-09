@@ -99,3 +99,19 @@ class ProfileCommitNameTestCase(TestCase):
     def test_get_commit_name_empty_template_fallback(self) -> None:
         self.profile.commit_name = Profile.CommitNameChoices.PRIVATE
         self.assertEqual(self.profile.get_commit_name(), "Test User")
+
+
+class ProfileTMTestCase(TestCase):
+    @override_settings(DEFAULT_AUTOCLEAN_TM=True)
+    def test_default_tm_with_autoclean(self) -> None:
+        """Test that TM is disabled by default when autoclean is on."""
+        user = User.objects.create_user(username="testautoclean")
+        user.refresh_from_db()
+        self.assertFalse(user.profile.contribute_personal_tm)
+
+    @override_settings(DEFAULT_AUTOCLEAN_TM=False)
+    def test_default_tm_without_autoclean(self) -> None:
+        """Test that TM is enabled by default when autoclean is off."""
+        user = User.objects.create_user(username="testnoautoclean")
+        user.refresh_from_db()
+        self.assertTrue(user.profile.contribute_personal_tm)
