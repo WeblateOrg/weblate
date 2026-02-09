@@ -431,7 +431,7 @@ class UserFilter(filters.FilterSet):
 
     class Meta:
         model = User
-        fields = ("username", "id")
+        fields = ("username", "id", "is_active")
 
 
 class ComponentSlugFilter(filters.FilterSet):
