@@ -427,6 +427,24 @@ Matching files:
    - :file:`parent/module2/src/main/resources/ApplicationResource_de.properties`
    - :file:`parent/module2/src/main/resources/ApplicationResource_ro.properties`
 
+Excluding certain matches
+#########################
+
+Negative lookahead can be used to exclude certain patterns from being processed.
+
+Regular expression:
+   ``res/values-(?P<language>[^/.]*)/strings-(?P<component>(?!(about|info)[^/]*)\.xml``
+Matching files:
+   - :file:`res/values-cs/strings-help.xml`
+   - :file:`res/values-de/strings-help.xml`
+Not matching files:
+   - :file:`res/values-cs/strings-about.xml`
+   - :file:`res/values-de/strings-about.xml`
+   - :file:`res/values-cs/strings-info-1.xml`
+   - :file:`res/values-de/strings-info-1.xml`
+   - :file:`res/values-cs/strings-info-2.xml`
+   - :file:`res/values-de/strings-info-2.xml`
+
 
 .. hint::
 
