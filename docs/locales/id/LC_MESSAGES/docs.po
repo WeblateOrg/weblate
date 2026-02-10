@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-01-26 11:05+0100\n"
-"PO-Revision-Date: 2026-02-09 14:33+0000\n"
+"PO-Revision-Date: 2026-02-10 17:10+0000\n"
 "Last-Translator: Zahid Rizky Fakhri <zahidrizkyfakhri@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "documentation/id/>\n"
@@ -41,9 +41,9 @@ msgid ""
 "one or more groups of permissions to users for everything, or individual "
 "projects, components, glossaries, and so on."
 msgstr ""
-"Weblate dilengkapi dengan sistem hak istimewa mendalam untuk menetapkan izin "
-"pengguna untuk seluruh instance dengan peran yang telah ditentukan "
-"sebelumnya, atau dengan memberikan satu atau lebih perizinan kepada pengguna "
+"Weblate dilengkapi dengan sistem hak akses mendalam untuk menugaskan izin "
+"pengguna untuk seluruh instansi dengan peran yang telah ditentukan "
+"sebelumnya, atau dengan menugaskan satu atau lebih izin kepada pengguna "
 "untuk semuanya, atau proyek individu, komponen, glosarium, dan sebagainya."
 
 #: ../../admin/access.rst:14
@@ -56,8 +56,8 @@ msgid ""
 "always :guilabel:`Public`. You can switch to the paid plan if you want to "
 "restrict access to your project."
 msgstr ""
-"Proyek yang menjalankan Libre plan gratis dalam Hosted Weblate akan "
-"selalu :guilabel:`Publik`. Anda dapat memilih plan berbayar jika Anda ingin "
+"Proyek yang menjalankan paket Bebas gratis dalam Hosted Weblate akan selalu "
+":guilabel:`Public`. Anda dapat memilih paket berbayar jika Anda ingin "
 "membatasi akses ke dalam proyek Anda."
 
 #: ../../admin/access.rst:22
@@ -71,7 +71,7 @@ msgstr ""
 
 #: ../../admin/access.rst:25 ../../admin/config.rst:540
 msgid ":guilabel:`Public`"
-msgstr ":guilabel:`Publik`"
+msgstr ":guilabel:`Public`"
 
 #: ../../admin/access.rst:26 ../../admin/access.rst:34
 msgid "Visible to everybody."
@@ -79,7 +79,7 @@ msgstr "Terlihat oleh semua orang."
 
 #: ../../admin/access.rst:28
 msgid "Any authenticated user can contribute."
-msgstr "Setiap pengguna terdaftar dapat berkontribusi."
+msgstr "Setiap pengguna yang diautentikasikan dapat berkontribusi."
 
 #: ../../admin/access.rst:30
 msgid "VCS repository might be exposed to everybody."
@@ -91,11 +91,11 @@ msgid ""
 "private or locked-down.**"
 msgstr ""
 "**Pilih ini untuk proyek sumber terbuka, atau saat instansi Weblate Anda "
-"bersifat pribadi atau terkunci.**"
+"bersifat privat atau dikunci.**"
 
 #: ../../admin/access.rst:33 ../../admin/config.rst:542
 msgid ":guilabel:`Protected`"
-msgstr ":guilabel:`Terlindungi`"
+msgstr ":guilabel:`Protected`"
 
 #: ../../admin/access.rst:36 ../../admin/access.rst:44
 #: ../../admin/access.rst:52
@@ -117,7 +117,7 @@ msgstr ""
 
 #: ../../admin/access.rst:41 ../../admin/config.rst:544
 msgid ":guilabel:`Private`"
-msgstr ":guilabel:`Pribadi`"
+msgstr ":guilabel:`Private`"
 
 #: ../../admin/access.rst:42 ../../admin/access.rst:50
 msgid "Visible only to chosen users."
@@ -130,7 +130,7 @@ msgstr "**Pilih ini untuk proyek yang tidak boleh terekspos sama sekali**"
 
 #: ../../admin/access.rst:49 ../../admin/config.rst:546
 msgid ":guilabel:`Custom`"
-msgstr ":guilabel:`Penyesuaian`"
+msgstr ":guilabel:`Custom`"
 
 #: ../../admin/access.rst:56
 msgid "Not available on Hosted Weblate."
@@ -154,8 +154,8 @@ msgid ""
 "the configuration (:guilabel:`Operations` ↓ :guilabel:`Settings`) of each "
 "respective project."
 msgstr ""
-":guilabel:`Kontrol akses` dapat diubah di tab :guilabel:`Akses` pada "
-"konfigurasi (:guilabel:`Operasi` ↓ :guilabel:`Pengaturan`) masing-masing "
+":guilabel:`Access control` dapat diubah di tab :guilabel:`Access` pada "
+"konfigurasi (:guilabel:`Operations` ↓ :guilabel:`Settings`) masing-masing "
 "proyek."
 
 #: ../../admin/access.rst:68
@@ -170,7 +170,7 @@ msgid ""
 "Even `Private` project statistics are counted into the site-wide statistics "
 "and language summary. This does not reveal project names or any other info."
 msgstr ""
-"Bahkan statistik proyek `Pribadi` pun dihitung dalam statistik di seluruh "
+"Bahkan statistik proyek `Privat` pun dihitung dalam statistik di seluruh "
 "situs dan ringkasan bahasa. Ini tidak mengungkap nama proyek atau info "
 "lainnya."
 
@@ -181,7 +181,7 @@ msgid ""
 "settings <custom-acl>`."
 msgstr ""
 "Administrator instansi dapat mengubah rangkaian izin bawaan yang tersedia "
-"bagi pengguna dalam proyek `Publik`, `Dilindungi`, dan `Pribadi` dengan "
+"bagi pengguna dalam proyek `Publik`, `Dilindungi`, dan `Privat` dengan "
 "menggunakan :ref:`custom settings <custom-acl>`."
 
 #: ../../admin/access.rst:88
@@ -198,10 +198,10 @@ msgid ""
 "allows them to assign other users in `Public`, `Protected` and `Private` "
 "(but not `Custom`) projects via adding them to teams."
 msgstr ""
-"Memberikan pengguna :guilabel:`Kelola akses proyek` "
-"(lihat :ref:`privileges`) memungkinkan mereka untuk menetapkan pengguna lain "
-"dalam proyek `Publik`, `Terlindungi` dan `Pribadi` (tetapi bukan `Kustom`) "
-"dengan menambahkan mereka ke tim."
+"Memberikan pengguna :guilabel:`Manage project access` (lihat "
+":ref:`privileges`) memungkinkan mereka untuk menetapkan pengguna lain dalam "
+"proyek `Publik`, `Dilindungi` dan `Privat` (tetapi bukan `Kustom`) dengan "
+"menambahkan mereka ke tim."
 
 #: ../../admin/access.rst:99
 msgid ""
@@ -317,8 +317,8 @@ msgid ""
 "These features are available on the :guilabel:`Access control` page in the "
 "project’s menu :guilabel:`Operations` ↓ :guilabel:`Users`."
 msgstr ""
-"Fitur-fitur ini tersedia di halaman :guilabel:`Kontrol akses` di menu "
-"proyek :guilabel:`Operasi` ↓ :guilabel:`Pengguna`."
+"Fitur ini tersedia di halaman :guilabel:`Access control` di menu proyek "
+":guilabel:`Operations` ↓ :guilabel:`Users`."
 
 #: ../../admin/access.rst:148
 msgid ""
@@ -385,7 +385,7 @@ msgid ""
 "the :guilabel:`Users` tab."
 msgstr ""
 "Undangan jenis serupa tersedia di seluruh situs dari :ref:`management "
-"interface <management-interface>` pada tab :guilabel:`Pengguna`."
+"interface <management-interface>` pada tab :guilabel:`Users`."
 
 #: ../../admin/access.rst:186
 msgid ""
@@ -420,8 +420,8 @@ msgid ""
 "You can set your projects to :guilabel:`Protected` or :guilabel:`Private` "
 "(see :ref:`acl`), and :ref:`manage users access <manage-acl>` per-project."
 msgstr ""
-"Anda dapat mengatur proyek Anda ke :guilabel:`Terlindungi` "
-"atau :guilabel:`Pribadi` (lihat :ref:`acl`), dan :ref:`manage users access "
+"Anda dapat mengatur proyek Anda ke :guilabel:`Protected` atau "
+":guilabel:`Private` (lihat :ref:`acl`), dan :ref:`manage users access "
 "<manage-acl>` per-proyek."
 
 #: ../../admin/access.rst:206
@@ -462,10 +462,10 @@ msgid ""
 "The API tokens can have expiry date set, and their permissions can be "
 "customized by team memberships same as with users."
 msgstr ""
-"Anda dapat menentukan token akses yang dicakup proyek di "
-"tab :guilabel:`Akses API`. Token API dapat memiliki tanggal kedaluwarsa yang "
-"ditetapkan, dan izinnya dapat disesuaikan berdasarkan keanggotaan tim sama "
-"seperti dengan pengguna."
+"Anda dapat menentukan token akses yang dicakup proyek di tab :guilabel:`API "
+"access`. Token API dapat memiliki tanggal kedaluwarsa yang ditetapkan, dan "
+"izinnya dapat disesuaikan berdasarkan keanggotaan tim sama seperti dengan "
+"pengguna."
 
 #: ../../admin/access.rst:236
 msgid "Site-wide access control"
@@ -496,9 +496,9 @@ msgstr ""
 "Fitur-fitur paling canggih dari sistem kontrol akses Weblate dapat "
 "dikonfigurasikan dalam :ref:`management-interface`. Anda dapat "
 "menggunakannya untuk mengelola izin proyek apa pun. Anda tidak perlu "
-"mengubahnya ke :guilabel:`Kustom` :ref:`access control <acl>` untuk "
-"memanfaatkannya. Namun, Anda harus memiliki hak istimewa pengguna super "
-"untuk menggunakannya."
+"mengubahnya ke :guilabel:`Custom` :ref:`access control <acl>` untuk "
+"memanfaatkannya. Namun, Anda harus memiliki hak istimewa superuser untuk "
+"menggunakannya."
 
 #: ../../admin/access.rst:250
 msgid ""
@@ -578,9 +578,9 @@ msgid ""
 "or :guilabel:`All public projects`)."
 msgstr ""
 "Anda juga dapat menentukan beberapa tim kustom baru. Jika Anda ingin tetap "
-"mengelola izin di seluruh situs untuk tim ini, pilih nilai yang sesuai "
-"untuk :guilabel:`Pemilihan proyek` (misalnya :guilabel:`Semua proyek` "
-"atau :guilabel:`Semua proyek publik`)."
+"mengelola izin di seluruh situs untuk tim ini, pilih nilai yang sesuai untuk "
+":guilabel:`Project selection` (mis. :guilabel:`Project selection` atau "
+":guilabel:`All public projects`)."
 
 #: ../../admin/access.rst:282
 msgid "Custom permissions for languages, components or projects"
@@ -910,14 +910,13 @@ msgid ""
 "General (browsing) access to the whole project ``foo`` including both "
 "components in it: ``foo/bar`` and ``foo/baz``."
 msgstr ""
-"Akses umum (menjelajah) ke seluruh proyek ``foo`` termasuk kedua komponen di "
+"Akses umum (menelusuri) ke seluruh proyek ``foo`` termasuk kedua komponen di "
 "dalamnya: ``foo/bar`` dan ``foo/baz``."
 
 #: ../../admin/access.rst:438
 msgid "Review strings in ``foo/bar`` Spanish translation (not elsewhere)."
 msgstr ""
-"Tinjau string dalam terjemahan bahasa Spanyol ``foo/bar`` (tidak di tempat "
-"lain)."
+"Tinjau string dalam terjemahan Spanyol ``foo/bar`` (tidak di tempat lain)."
 
 #: ../../admin/access.rst:439
 msgid ""
@@ -967,7 +966,7 @@ msgstr ""
 "Contoh lain dari opsi ini adalah memberikan beberapa hak istimewa tambahan "
 "kepada karyawan perusahaan Anda secara bawaan. Dengan asumsi semua karyawan "
 "menggunakan alamat surel perusahaan di domain Anda, hal ini dapat dilakukan "
-"dengan ekspresi seperti ``^.*@perusahaansaya.com``."
+"dengan ekspresi seperti ``^.*@mycompany.com``."
 
 #: ../../admin/access.rst:463
 msgid ""
@@ -1291,7 +1290,7 @@ msgstr "Hapus string"
 
 #: ../../snippets/permissions.rst:133
 msgid "Dismiss failing check"
-msgstr "Abaikan pemeriksaan kegagalan"
+msgstr "Hilangkan pemeriksaan kegagalan"
 
 #: ../../snippets/permissions.rst:145
 msgid "Edit strings"
@@ -2151,7 +2150,7 @@ msgstr "Konfigurasi"
 
 #: ../../admin/addons.rst:140 ../../api.rst:2143
 msgid "Automatic translation mode"
-msgstr "Mode penerjemahan otomatis"
+msgstr "Mode terjemahan otomatis"
 
 #: ../../admin/addons.rst:140 ../../admin/addons.rst:152
 #: ../../admin/addons.rst:661 ../../admin/addons.rst:1049
@@ -2187,7 +2186,7 @@ msgstr "Tambahkan sebagai terjemahan"
 
 #: ../../admin/addons.rst:148
 msgid "Add as \"Needing edit\""
-msgstr "Tambah sebagai \"Perlu disunting\""
+msgstr "Tambahkan sebagai \"Perlu disunting\""
 
 #: ../../admin/addons.rst:150 ../../admin/addons.rst:659
 msgid "Query"
@@ -2223,7 +2222,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:162 ../../admin/addons.rst:1322 ../../api.rst:2147
 msgid "Machine translation engines"
-msgstr "Mesin penerjemahan mesin"
+msgstr "Mesin terjemahan mesin"
 
 #: ../../admin/addons.rst:164 ../../api.rst:2148
 msgid "Score threshold"
@@ -2821,7 +2820,7 @@ msgstr "Kunci SSL klien"
 
 #: ../../admin/addons.rst:475
 msgid "PEM encoded client private SSL key."
-msgstr "Kunci SSL pribadi klien yang dienkode PEM."
+msgstr "Kunci SSL privat klien yang dienkode PEM."
 
 #: ../../admin/addons.rst:477
 msgid "Client SSL certificates"
@@ -2986,11 +2985,11 @@ msgstr "Sunting massal"
 
 #: ../../admin/addons.rst:661
 msgid "State to set"
-msgstr "Status untuk dipasang"
+msgstr "Status untuk diatur"
 
 #: ../../admin/addons.rst:665
 msgid "Do not change"
-msgstr "Tidak berubah"
+msgstr "Jangan ubah"
 
 #: ../../admin/addons.rst:667
 msgid "Needs editing"
@@ -3015,11 +3014,11 @@ msgstr "Disetujui"
 #: ../../admin/addons.rst:677 ../../admin/addons.rst:704
 #: ../../admin/addons.rst:713
 msgid "Translation flags to add"
-msgstr "Tanda terjemahan untuk ditambahkan"
+msgstr "Penanda terjemahan untuk ditambahkan"
 
 #: ../../admin/addons.rst:679
 msgid "Translation flags to remove"
-msgstr "Tanda penerjemahan yang akan dihapus"
+msgstr "Penanda terjemahan untuk dihapus"
 
 #: ../../admin/addons.rst:681 ../../admin/addons.rst:696
 msgid "Labels to add"
@@ -3296,8 +3295,8 @@ msgstr ""
 "Penggunaan bagian variabel memungkinkan pencarian string yang mungkin tidak "
 "sesuai dengan antarmuka pengguna setelah pelokalan - teks tersebut diperluas "
 "berdasarkan panjang string sumber. Teks variabel diulang berdasarkan panjang "
-"teks dikalikan dengan pengalinya. Misalnya, ``Halo dunia`` dengan teks "
-"variabel ``_`` dan pengali variabel 1 menjadi ``Halo dunia___________`` - "
+"teks dikalikan dengan pengalinya. Misalnya, ``Hello world`` dengan teks "
+"variabel ``_`` dan pengali variabel 1 menjadi ``Helo world___________`` - "
 "teks diulang sekali untuk setiap karakter dalam string sumber."
 
 #: ../../admin/addons.rst:909
@@ -3618,7 +3617,7 @@ msgstr "Aktifkan penyortiran tombol yang peka huruf kapital"
 
 #: ../../admin/addons.rst:1114
 msgid "Formats and sorts the Java properties file."
-msgstr "Memformat dan menyortir berkas properti Java."
+msgstr "Memformat dan menyortirkan berkas properti Java."
 
 #: ../../admin/addons.rst:1116
 msgid "Consolidates newlines to Unix ones."
@@ -3719,11 +3718,11 @@ msgstr ""
 
 #: ../../admin/addons.rst:1182
 msgid "Slack Webhooks"
-msgstr "Webhook Slack"
+msgstr "Pengait Web Slack"
 
 #: ../../admin/addons.rst:1188 ../../admin/addons.rst:1217
 msgid "Webhook URL"
-msgstr "URL Webhook"
+msgstr "URL pengait web"
 
 #: ../../admin/addons.rst:1194
 msgid "Sends notification to a Slack channel based on selected events."
@@ -3752,7 +3751,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:1207
 msgid "Webhook"
-msgstr "Webhook"
+msgstr "Pengait Web"
 
 #: ../../admin/addons.rst:1213
 msgid ""
@@ -3761,11 +3760,12 @@ msgstr "Kesesuaian panjang rahasia dengan spesifikasi kini telah divalidasi."
 
 #: ../../admin/addons.rst:1219
 msgid "Webhook secret"
-msgstr "Rahasia Webhook"
+msgstr "Rahasia pengait web"
 
 #: ../../admin/addons.rst:1219
 msgid "The Standard Webhooks secret is a base64 encoded string."
-msgstr "Rahasia webhook standar adalah string yang dienkodekan dalam base64."
+msgstr ""
+"Rahasia pengait web standar adalah string yang dienkodekan dalam base64."
 
 #: ../../admin/addons.rst:1225
 msgid ""
@@ -3773,7 +3773,7 @@ msgid ""
 "the Standard Webhooks specification."
 msgstr ""
 "Mengirimkan notifikasi ke layanan eksternal berdasarkan peristiwa yang "
-"dipilih, mengikuti spesifikasi Webhook Standar."
+"dipilih, mengikuti spesifikasi Pengait Web Standar."
 
 #: ../../admin/addons.rst:1228
 msgid ""
@@ -3889,15 +3889,15 @@ msgstr "Memori Terjemahan Weblate"
 
 #: ../../snippets/change-events.rst:5
 msgid "Resource updated"
-msgstr "Sumber diperbarui"
+msgstr "Sumber daya diperbarui"
 
 #: ../../snippets/change-events.rst:7
 msgid "Translation completed"
-msgstr "Penerjemahan selesai"
+msgstr "Terjemahan selesai"
 
 #: ../../snippets/change-events.rst:9
 msgid "Translation changed"
-msgstr "Penerjemahan telah diubah"
+msgstr "Terjemahan diubah"
 
 #: ../../snippets/change-events.rst:11
 msgid "Comment added"
@@ -3925,7 +3925,7 @@ msgstr "Terjemahan dikembalikan"
 
 #: ../../snippets/change-events.rst:23
 msgid "Translation uploaded"
-msgstr "Terjemahan telah diunggah"
+msgstr "Terjemahan diunggah"
 
 #: ../../snippets/change-events.rst:25
 msgid "Source string added"
@@ -3933,15 +3933,15 @@ msgstr "String sumber ditambahkan"
 
 #: ../../snippets/change-events.rst:27
 msgid "Component locked"
-msgstr "Komponen terkunci"
+msgstr "Komponen dikunci"
 
 #: ../../snippets/change-events.rst:29
 msgid "Component unlocked"
-msgstr "Komponen tidak dikunci"
+msgstr "Komponen dibuka"
 
 #: ../../snippets/change-events.rst:31
 msgid "Changes committed"
-msgstr "Perubahan dibuat"
+msgstr "Perubahan dikomit"
 
 #: ../../snippets/change-events.rst:33
 msgid "Changes pushed"
@@ -3949,7 +3949,7 @@ msgstr "Perubahan didorong"
 
 #: ../../snippets/change-events.rst:35
 msgid "Repository reset"
-msgstr "Atur ulang repositori"
+msgstr "Repositori diatur ulang"
 
 #: ../../snippets/change-events.rst:37
 msgid "Repository merged"
@@ -4001,7 +4001,7 @@ msgstr "String ditambahkan"
 
 #: ../../snippets/change-events.rst:61
 msgid "Bulk status changed"
-msgstr "Keadaan massal diubah"
+msgstr "Status massal diubah"
 
 #: ../../snippets/change-events.rst:63
 msgid "Visibility changed"
@@ -4021,7 +4021,7 @@ msgstr "Terjemahan disetujui"
 
 #: ../../snippets/change-events.rst:71
 msgid "Marked for edit"
-msgstr "Ditandai untuk penyuntingan"
+msgstr "Ditandai untuk disunting"
 
 #: ../../snippets/change-events.rst:73
 msgid "Component removed"
@@ -4041,7 +4041,7 @@ msgstr "Komponen diubah namanya"
 
 #: ../../snippets/change-events.rst:81
 msgid "Moved component"
-msgstr "Komponen yang dipindah"
+msgstr "Komponen yang dipindahkan"
 
 #: ../../snippets/change-events.rst:83
 msgid "Contributor joined"
@@ -4165,7 +4165,7 @@ msgstr "Terjemahan diperbarui oleh sumber unggahan"
 
 #: ../../snippets/change-events.rst:143
 msgid "Component translation completed"
-msgstr "Penerjemahan komponen telah selesai"
+msgstr "Terjemahan komponen selesai"
 
 #: ../../snippets/change-events.rst:145
 msgid "Applied enforced check"
@@ -4173,7 +4173,7 @@ msgstr "Pemeriksaan paksa diterapkan"
 
 #: ../../snippets/change-events.rst:147
 msgid "Propagated change"
-msgstr "Perubahan tersebar"
+msgstr "Perubahan dipropagasikan"
 
 #: ../../snippets/change-events.rst:149
 msgid "File uploaded"
@@ -4181,27 +4181,27 @@ msgstr "Berkas diunggah"
 
 #: ../../snippets/change-events.rst:151
 msgid "Extra flags updated"
-msgstr "Bendera tambahan diperbarui"
+msgstr "Penanda ekstra diperbarui"
 
 #: ../../snippets/change-events.rst:153
 msgid "Font uploaded"
-msgstr "Fon diunggah"
+msgstr "Huruf diunggah"
 
 #: ../../snippets/change-events.rst:155
 msgid "Font changed"
-msgstr "Fon berubah"
+msgstr "Huruf diubah"
 
 #: ../../snippets/change-events.rst:157
 msgid "Font removed"
-msgstr "Fon dihapus"
+msgstr "Huruf dihapus"
 
 #: ../../snippets/change-events.rst:159
 msgid "Forced synchronization of translations"
-msgstr "Sinkronisasi terjemahan secara paksa"
+msgstr "Sinkronkan terjemahan yang dipaksakan"
 
 #: ../../snippets/change-events.rst:161
 msgid "Forced rescan of translations"
-msgstr "Pemindaian ulang terjemahan secara paksa"
+msgstr "Pindai ulang terjemahan yang dipaksakan"
 
 #: ../../snippets/change-events.rst:163
 msgid "Screenshot removed"
@@ -6074,7 +6074,7 @@ msgid ""
 "as it’s used to access your backups."
 msgstr ""
 "Jika Anda menggunakan :ref:`cloudbackup`, harap cadangkan juga kunci SSH "
-"pribadi Anda karena akan digunakan untuk mengakses rekam cadang Anda."
+"privat Anda karena akan digunakan untuk mengakses cadangan Anda."
 
 #: ../../admin/backup.rst:84
 msgid "Customizing backup"
@@ -6610,8 +6610,8 @@ msgid ""
 "to regenerate new ones."
 msgstr ""
 "Jika Anda menggunakan kunci SSH atau GPG yang dihasilkan oleh Weblate, Anda "
-"harus mencadangkan lokasi ini. Jika tidak, Anda akan kehilangan kunci "
-"pribadi dan harus membuat ulang kunci yang baru."
+"harus mencadangkan lokasi ini. Jika tidak, Anda akan kehilangan kunci privat "
+"dan harus membuat ulang kunci yang baru."
 
 #: ../../admin/backup.rst:344
 msgid "User uploaded files"
@@ -8511,7 +8511,7 @@ msgid ""
 "private info, speeding up the user experience."
 msgstr ""
 "Avatar diambil dan disimpan di server, mengurangi risiko kebocoran informasi "
-"pribadi, dan mempercepat pengalaman pengguna."
+"privat, dan mempercepat pengalaman pengguna."
 
 #: ../../admin/config.rst:749
 msgid "Whether to turn on anonymous remote hooks."
@@ -9109,7 +9109,7 @@ msgid ""
 "Configures whether the private commit e-mail is opt-in or opt-out (by "
 "default it is opt-in)."
 msgstr ""
-"Mengonfigurasi apakah komit surel pribadi bersifat opt-in atau opt-out "
+"Mengonfigurasi apakah komit surel privat bersifat opt-in atau opt-out "
 "(secara bawaan bersifat opt-in)."
 
 #: ../../admin/config.rst:1438
@@ -9125,8 +9125,8 @@ msgid ""
 "Template to generate private commit e-mail for an user. Defaults to "
 "``\"{username}@users.noreply.{site_domain}\"``."
 msgstr ""
-"Templat untuk membuat surel komitmen pribadi bagi pengguna. Bawaannya adalah "
-"``\"{username}@users.noreply.{site_domain}\"``."
+"Templat untuk menghasilkan surel komit privat bagi pengguna. Bawaannya "
+"adalah ``\"{username}@users.noreply.{site_domain}\"``."
 
 #: ../../admin/config.rst:1454
 msgid "Set to blank string to disable."
@@ -13983,7 +13983,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:148
 msgid ":file:`ssl/privkey.pem` containing the private key"
-msgstr ":file:`ssl/privkey.pem` yang berisi kunci pribadi"
+msgstr ":file:`ssl/privkey.pem` yang berisi kunci privat"
 
 #: ../../admin/install/docker.rst:150
 msgid ""
@@ -15175,8 +15175,8 @@ msgid ""
 msgstr ""
 "Kunci SAML yang ditandatangani sendiri akan otomatis dibuat saat kontainer "
 "pertama kali dijalankan. Jika Anda ingin menggunakan kunci sendiri, "
-"tempatkan sertifikat dan kunci pribadi di :file:`/app/data/ssl/saml.crt` "
-"dan :file:`/app/data/ssl/saml.key`."
+"tempatkan sertifikat dan kunci privat di :file:`/app/data/ssl/saml.crt` dan "
+":file:`/app/data/ssl/saml.key`."
 
 #: ../../admin/install/docker.rst:1495
 msgid "SAML Identity Provider settings, see :ref:`saml-auth`."
@@ -19809,7 +19809,7 @@ msgstr ""
 
 #: ../../admin/memory.rst:82 ../../admin/projects.rst:197
 msgid "Autoclean translation memory"
-msgstr "Pembersihan otomatis memori terjemahan"
+msgstr "Bersihkan otomatis memori terjemahan"
 
 #: ../../admin/memory.rst:86
 msgid ""
@@ -20007,10 +20007,10 @@ msgid ""
 "enabled) requires an API token which can be obtained in your :ref:`user "
 "profile <user-profile>`:"
 msgstr ""
-"Akses untuk menelusuri repositori dengan akses terbatas (dengan "
-"`Pribadi` :ref:`access control <acl>` atau saat :setting:`REQUIRE_LOGIN` "
-"diaktifkan) memerlukan token API yang dapat diperoleh di :ref:`user profile "
-"<user-profile>` Anda:"
+"Akses untuk menelusuri repositori dengan akses terbatas (dengan `Privat` "
+":ref:`access control <acl>` atau saat :setting:`REQUIRE_LOGIN` diaktifkan) "
+"memerlukan token API yang dapat diperoleh di :ref:`user profile <user-"
+"profile>` Anda:"
 
 #: ../../admin/optionals.rst:61
 msgid ""
@@ -20674,7 +20674,7 @@ msgstr "Nama proyek verbose, digunakan untuk menampilkan nama proyek."
 
 #: ../../admin/projects.rst:135
 msgid "URL slug"
-msgstr "URL slug"
+msgstr "Slug URL"
 
 #: ../../admin/projects.rst:137
 msgid "Project name suitable for URLs."
@@ -20726,7 +20726,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:173
 msgid "Use shared translation memory"
-msgstr "Gunakan ingatan terjemahan bersama"
+msgstr "Gunakan memori terjemahan bersama"
 
 #: ../../admin/projects.rst:175
 msgid ""
@@ -20742,7 +20742,7 @@ msgstr "Nilai bawaan dapat diubah dengan :setting:`DEFAULT_SHARED_TM`."
 
 #: ../../admin/projects.rst:182
 msgid "Contribute to shared translation memory"
-msgstr "Berkontribusi pada memori terjemahan bersama"
+msgstr "Kontribusikan pada memori terjemahan bersama"
 
 #: ../../admin/projects.rst:184
 msgid ""
@@ -20813,7 +20813,7 @@ msgstr "Aktifkan alur kerja peninjauan untuk terjemahan, lihat :ref:`reviews`."
 
 #: ../../admin/projects.rst:245
 msgid "Enable source reviews"
-msgstr "Aktifkan ulasan sumber"
+msgstr "Aktifkan tinjauan sumber"
 
 #: ../../admin/projects.rst:247
 msgid "Enable review workflow for source strings, see :ref:`source-reviews`."
@@ -20866,7 +20866,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:277
 msgid "Enable hooks"
-msgstr "Aktifkan hook"
+msgstr "Aktifkan pengait"
 
 #: ../../admin/projects.rst:279
 msgid ""
@@ -20919,7 +20919,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:319 ../../admin/projects.rst:1052
 msgid "Secondary language"
-msgstr "Bahasa sekunder"
+msgstr "Bahasa kedua"
 
 #: ../../admin/projects.rst:323 ../../admin/projects.rst:1056
 msgid ""
@@ -20939,7 +20939,7 @@ msgstr ""
 #: ../../admin/projects.rst:335 ../../admin/projects.rst:716
 #: ../../admin/translating.rst:79 ../../formats.rst:432
 msgid "Translation flags"
-msgstr "Tanda penerjemahan"
+msgstr "Penanda terjemahan"
 
 #: ../../admin/projects.rst:339 ../../admin/projects.rst:718
 #: ../../admin/translating.rst:81
@@ -21065,7 +21065,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:426
 msgid "Repository push URL"
-msgstr "URL repositori push"
+msgstr "URL dorong repositori"
 
 #: ../../admin/projects.rst:428
 msgid ""
@@ -21097,7 +21097,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:442
 msgid "Repository browser"
-msgstr "Penjelajah repositori"
+msgstr "Peramban repositori"
 
 #: ../../admin/projects.rst:444
 msgid ""
@@ -21148,7 +21148,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:468
 msgid "Repository branch"
-msgstr "Repositori branch"
+msgstr "Cabang repositori"
 
 #: ../../admin/projects.rst:470
 msgid ""
@@ -21158,7 +21158,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:477
 msgid "Push branch"
-msgstr "Push branch"
+msgstr "Cabang dorong"
 
 #: ../../admin/projects.rst:479
 msgid "Branch for pushing changes, leave empty to use :ref:`component-branch`."
@@ -21497,7 +21497,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:665
 msgid "Allow translation propagation"
-msgstr "Membolehkan propagasi terjemahan"
+msgstr "Izinkan propagasi terjemahan"
 
 #: ../../admin/projects.rst:667
 msgid ""
@@ -21538,7 +21538,7 @@ msgstr "Apakah saran terjemahan diterima untuk komponen ini."
 #: ../../admin/projects.rst:694 ../../admin/translating.rst:7
 #: ../../workflows.rst:117 ../../workflows.rst:148 ../../workflows.rst:182
 msgid "Suggestion voting"
-msgstr "Voting saran"
+msgstr "Suara saran"
 
 #: ../../admin/projects.rst:696
 msgid "Turns on vote casting for suggestions, see :ref:`voting`."
@@ -21559,7 +21559,7 @@ msgstr "Pemeriksaan paksa"
 
 #: ../../admin/projects.rst:725
 msgid "List of checks which can not be dismissed."
-msgstr "Daftar pemeriksaan yang tidak dapat dibatalkan."
+msgstr "Daftar pemeriksaan yang tidak dapat dihilangkan."
 
 #: ../../admin/projects.rst:734
 msgid "Translation license"
@@ -21622,7 +21622,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:763
 msgid "Create new language file"
-msgstr "Membuat berkas bahasa baru"
+msgstr "Buat berkas bahasa baru"
 
 #: ../../admin/projects.rst:764
 msgid ""
@@ -21634,7 +21634,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:766
 msgid "Disable adding new translations"
-msgstr "Nonaktifkan menambah terjemahan baru"
+msgstr "Nonaktifkan penambahan terjemahan baru"
 
 #: ../../admin/projects.rst:767
 msgid "There will be no option for user to start new translation."
@@ -21727,7 +21727,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:825
 msgid "Default based on the file format"
-msgstr "Pilih standar berdasarkan format berkas"
+msgstr "Bawaan berdasarkan format berkas"
 
 #: ../../admin/projects.rst:826
 msgid "Dependent on file format, for most of them POSIX is used."
@@ -21791,8 +21791,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:842
 msgid "BCP style using hyphen as a separator, including country code"
-msgstr ""
-"Gaya BCP menggunakan tanda hubung sebagai pemisah, termasuk kode negara"
+msgstr "Gaya BCP menggunakan tanda hubung sebagai pemisah, termasuk kode negara"
 
 #: ../../admin/projects.rst:843
 msgid ""
@@ -21882,7 +21881,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:876
 msgid "Rebase"
-msgstr "Rebase"
+msgstr "Basis Ulang"
 
 #: ../../admin/projects.rst:877
 msgid ""
@@ -21912,7 +21911,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:886
 msgid "Merge"
-msgstr "Gabung"
+msgstr "Gabungkan"
 
 #: ../../admin/projects.rst:887
 msgid ""
@@ -21926,7 +21925,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:891
 msgid "Merge without fast-forward"
-msgstr "Gabungkan tanpa fast-forward"
+msgstr "Gabungkan tanpa percepatan"
 
 #: ../../admin/projects.rst:892
 msgid ""
@@ -21963,7 +21962,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:918
 msgid "Push on commit"
-msgstr "Mendorong commit"
+msgstr "Dorong dalam komit"
 
 #: ../../admin/projects.rst:920
 msgid ""
@@ -21980,7 +21979,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:929
 msgid "Age of changes to commit"
-msgstr "Usia perubahan komit"
+msgstr "Usia perubahan untuk komit"
 
 #: ../../admin/projects.rst:931
 msgid ""
@@ -22008,7 +22007,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:946
 msgid "Lock on error"
-msgstr "Kesalahan pada penguncian"
+msgstr "Galat pada penguncian"
 
 #: ../../admin/projects.rst:948
 msgid ""
@@ -22144,7 +22143,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:1034
 msgid "Variants regular expression"
-msgstr "Varian ekspresi reguler"
+msgstr "Ekspresi reguler varian"
 
 #: ../../admin/projects.rst:1036
 msgid ""
@@ -22164,7 +22163,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:1062
 msgid "This setting is inherited from the project if left empty."
-msgstr "Pengaturan ini diwarisi dari proyek jika dibiarkan kosong."
+msgstr "Pengaturan ini diwariskan dari proyek jika dibiarkan kosong."
 
 #: ../../admin/projects.rst:1072
 msgid "Priority"
@@ -22207,7 +22206,7 @@ msgstr ""
 "izin akses ke komponen tersebut, terlepas dari izin di tingkat proyek. Anda "
 "harus memberikan akses secara eksplisit. Hal ini dapat dilakukan dengan "
 "memberikan akses ke grup pengguna baru dan menambahkan pengguna ke dalamnya, "
-"atau menggunakan grup kontrol akses `custom` atau `private` bawaan."
+"atau menggunakan grup kontrol akses `kustom` atau `privat` bawaan."
 
 #: ../../admin/projects.rst:1097
 msgid ""
@@ -22363,7 +22362,7 @@ msgstr "URL terjemahan"
 
 #: ../../admin/projects.rst:1203
 msgid "Translation filename"
-msgstr "Nama berkas penerjemahan"
+msgstr "Nama berkas terjemahan"
 
 #: ../../admin/projects.rst:1205
 msgid "Translation stats, this has further attributes, examples below."
@@ -22836,7 +22835,7 @@ msgstr ""
 
 #: ../../admin/translating.rst:2
 msgid "Translation process"
-msgstr "Proses penerjemahan"
+msgstr "Proses terjemahan"
 
 #: ../../admin/translating.rst:9
 msgid ""
@@ -24251,7 +24250,7 @@ msgstr "Mengembalikan informasi tentang proyek."
 #: ../../api.rst:2110 ../../api.rst:2137 ../../api.rst:2168 ../../api.rst:2179
 #: ../../api.rst:2207 ../../api.rst:2220 ../../api.rst:2233
 msgid "Project URL slug"
-msgstr "Slug proyek URL"
+msgstr "Slug URL proyek"
 
 #: ../../api.rst:899
 msgid "project name"
@@ -25273,8 +25272,8 @@ msgid ""
 "Turn on contribution to shared translation memory for the project to get "
 "access to additional components."
 msgstr ""
-"Aktifkan kontribusi ke memori terjemahan bersama agar proyek bisa "
-"mendapatkan akses ke komponen tambahan."
+"Aktifkan kontribusi ke memori terjemahan bersama agar proyek mendapatkan "
+"akses ke komponen tambahan."
 
 #: ../../api.rst:2152
 msgid ""
@@ -26298,7 +26297,7 @@ msgstr "Mengembalikan statistik untuk kategori."
 
 #: ../../api.rst:2896
 msgid "Notification hooks"
-msgstr "Pengait pemberitahuan"
+msgstr "Pengait notifikasi"
 
 #: ../../api.rst:2898
 msgid ""
@@ -26519,23 +26518,23 @@ msgstr "Perubahan terjemahan diekspor ke umpan RSS."
 
 #: ../../api.rst:3041
 msgid "Retrieves RSS feed with recent changes for a translation."
-msgstr "Mengambil umpan RSS dengan perubahan terbaru untuk terjemahan."
+msgstr "Mengambil umpan RSS dengan perubahan terkini untuk terjemahan."
 
 #: ../../api.rst:3045
 msgid "Retrieves RSS feed with recent changes for a component."
-msgstr "Mengambil umpan RSS dengan perubahan terbaru untuk suatu komponen."
+msgstr "Mengambil umpan RSS dengan perubahan terkini untuk komponen."
 
 #: ../../api.rst:3049
 msgid "Retrieves RSS feed with recent changes for a project."
-msgstr "Mengambil umpan RSS dengan perubahan terbaru untuk sebuah proyek."
+msgstr "Mengambil umpan RSS dengan perubahan terkini untuk proyek."
 
 #: ../../api.rst:3053
 msgid "Retrieves RSS feed with recent changes for a language."
-msgstr "Mengambil umpan RSS dengan perubahan terbaru untuk suatu bahasa."
+msgstr "Mengambil umpan RSS dengan perubahan terkini untuk bahasa."
 
 #: ../../api.rst:3057
 msgid "Retrieves RSS feed with recent changes for Weblate instance."
-msgstr "Mengambil umpan RSS dengan perubahan terbaru untuk instansi Weblate."
+msgstr "Mengambil umpan RSS dengan perubahan terkini untuk instansi Weblate."
 
 #: ../../api.rst:3061
 msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
@@ -33743,8 +33742,7 @@ msgstr "Kontrol yang lebih ketat pada string fuzzy saat unggahan terjemahan."
 
 #: ../../changes/v2.rst:389
 msgid "Several URLs have changed, you might have to update your bookmarks."
-msgstr ""
-"Beberapa URL telah berubah, Anda mungkin harus memperbarui markah Anda."
+msgstr "Beberapa URL telah berubah, Anda mungkin harus memperbarui markah Anda."
 
 #: ../../changes/v2.rst:390
 msgid "Hook scripts are executed with VCS root as current directory."
@@ -35387,8 +35385,7 @@ msgstr ""
 
 #: ../../changes/v3.rst:375
 msgid "Better handle private use subtags in language code."
-msgstr ""
-"Menangani subtag penggunaan pribadi dalam kode bahasa dengan lebih baik."
+msgstr "Menangani subtag penggunaan privat dalam kode bahasa dengan lebih baik."
 
 #: ../../changes/v3.rst:376
 msgid "Improved performance of fulltext index updates."
@@ -36015,7 +36012,7 @@ msgstr "Menghapus perintah ``cleanup_celery`` yang sudah tidak berlaku lagi."
 
 #: ../../changes/v4.rst:70
 msgid "Fixed private project visibility for some teams."
-msgstr "Memperbaiki visibilitas proyek pribadi untuk beberapa tim."
+msgstr "Memperbaiki visibilitas proyek privat untuk beberapa tim."
 
 #: ../../changes/v4.rst:71
 msgid ""
@@ -40290,7 +40287,7 @@ msgstr ""
 
 #: ../../contributing/snippets/code-guide.rst:60
 msgid "Commit messages"
-msgstr "Pesan Commit"
+msgstr "Pesan komit"
 
 #: ../../contributing/snippets/code-guide.rst:62
 msgid ""
@@ -40570,7 +40567,7 @@ msgid ""
 "**Violating confidentiality**. Sharing or acting on someone's personal or "
 "private information without their permission."
 msgstr ""
-"**Melanggar kerahasiaan**. Membagikan atau memanfaatkan informasi pribadi "
+"**Melanggar kerahasiaan**. Membagikan atau memanfaatkan informasi privat "
 "atau rahasia seseorang tanpa izin."
 
 #: ../../contributing/code_of_conduct.rst:37
@@ -40665,13 +40662,13 @@ msgid ""
 msgstr ""
 "Moderator Komunitas menanggapi laporan pelanggaran dengan serius dan akan "
 "berupaya semaksimal mungkin untuk merespons tepat waktu. Mereka akan "
-"menyelidiki semua laporan pelanggaran kode etik, meninjau pesan, log, dan "
+"menyelidiki semua laporan pelanggaran kode etika, meninjau pesan, log, dan "
 "rekaman, atau mewawancarai saksi dan peserta lainnya. Moderator Komunitas "
 "akan menjaga investigasi dan tindakan penegakan hukum setransparan mungkin "
-"dengan mengutamakan keselamatan dan kerahasiaan. Untuk menghormati nilai-"
-"nilai ini, tindakan penegakan hukum dilakukan secara tertutup dengan pihak-"
-"pihak yang terlibat, tetapi komunikasi dengan seluruh komunitas dapat "
-"menjadi bagian dari resolusi yang disepakati bersama."
+"dengan mengutamakan keselamatan dan kerahasiaan. Untuk menghormati nilai "
+"ini, tindakan penegakan hukum dilakukan secara privat dengan pihak yang "
+"terlibat, tetapi komunikasi dengan seluruh komunitas dapat menjadi bagian "
+"dari resolusi yang disepakati bersama."
 
 #: ../../contributing/code_of_conduct.rst:60
 msgid "Addressing and Repairing Harm"
@@ -40703,15 +40700,15 @@ msgstr ""
 
 #: ../../contributing/code_of_conduct.rst:67
 msgid "Consequence: A private, written warning from the Community Moderators."
-msgstr "Konsekuensi: Peringatan tertulis pribadi dari Moderator Komunitas."
+msgstr "Konsekuensi: Peringatan tertulis privat dari Moderator Komunitas."
 
 #: ../../contributing/code_of_conduct.rst:68
 msgid ""
 "Repair: Examples of repair include a private written apology, "
 "acknowledgement of responsibility, and seeking clarification on expectations."
 msgstr ""
-"Perbaikan: Contoh perbaikan meliputi permintaan maaf tertulis secara "
-"pribadi, pengakuan tanggung jawab, dan mencari klarifikasi tentang harapan."
+"Perbaikan: Contoh perbaikan meliputi permintaan maaf tertulis secara privat, "
+"pengakuan tanggung jawab, dan mencari klarifikasi tentang harapan."
 
 #: ../../contributing/code_of_conduct.rst:70
 msgid "Temporarily Limited Activities"
@@ -40733,7 +40730,7 @@ msgid ""
 "may be limited to particular communication channels or interactions with "
 "particular community members."
 msgstr ""
-"Konsekuensi: Peringatan tertulis pribadi dengan masa tenang terbatas yang "
+"Konsekuensi: Peringatan tertulis privat dengan masa tenang terbatas yang "
 "dirancang untuk menekankan keseriusan situasi dan memberi waktu bagi anggota "
 "masyarakat yang terlibat untuk memproses insiden tersebut. Masa tenang ini "
 "dapat dibatasi pada saluran komunikasi atau interaksi tertentu dengan "
@@ -40769,7 +40766,7 @@ msgid ""
 "suspended time to reflect upon their behavior and possible corrective "
 "actions."
 msgstr ""
-"Konsekuensi: Peringatan tertulis pribadi dengan syarat untuk kembali dari "
+"Konsekuensi: Peringatan tertulis privat dengan syarat untuk kembali dari "
 "skorsing. Umumnya, skorsing sementara memberi waktu kepada orang yang "
 "diskors untuk merenungkan perilakunya dan kemungkinan tindakan korektif."
 
@@ -40967,7 +40964,7 @@ msgstr ""
 "Mengaktifkan mode awakutu akan menampilkan pengecualian di peramban web. Ini "
 "berguna untuk mengawakutu masalah di antarmuka web, tetapi tidak cocok untuk "
 "lingkungan produksi karena dapat memengaruhi kinerja dan berpotensi "
-"membocorkan data pribadi."
+"membocorkan data privat."
 
 #: ../../contributing/debugging.rst:15
 msgid ""
@@ -43269,7 +43266,7 @@ msgstr ""
 
 #: ../../devel/community.rst:11
 msgid "Community localization checklist"
-msgstr "Ceklis terjemahan komunitas"
+msgstr "Daftar periksa terjemahan komunitas"
 
 #: ../../devel/community.rst:13
 msgid ""
@@ -44042,7 +44039,7 @@ msgstr ""
 "Fitur ini juga menimbulkan risiko penyalahgunaan surel yang dipublikasikan "
 "dalam komit kontrol versi. Selain itu, setelah komit tersebut dipublikasikan "
 "di hosting publik (seperti GitHub), tidak ada cara untuk menyuntingnya. "
-"Weblate memungkinkan pemilihan surel komit pribadi di :ref:`profile-account` "
+"Weblate memungkinkan pemilihan surel komit privat di :ref:`profile-account` "
 "untuk menghindari hal ini."
 
 #: ../../snippets/basics.rst:48
@@ -44064,7 +44061,7 @@ msgstr ""
 msgid ""
 ":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` can make e-mails private by default."
 msgstr ""
-":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` dapat menjadikan surel pribadi secara "
+":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` dapat menjadikan surel privat secara "
 "bawaan."
 
 #: ../../devel/integration.rst:7
@@ -44708,8 +44705,7 @@ msgstr ""
 #: ../../devel/migration.rst:148
 msgid "**Private**: Only invited users can view and translate"
 msgstr ""
-"**Pribadi**: Hanya pengguna yang diundang yang dapat melihat dan "
-"menerjemahkan"
+"**Privat**: Hanya pengguna yang diundang yang dapat melihat dan menerjemahkan"
 
 #: ../../devel/migration.rst:154
 msgid ":ref:`manage-acl` for detailed access control configuration"
@@ -44901,7 +44897,7 @@ msgstr "Undang penerjemah"
 
 #: ../../devel/migration.rst:229
 msgid "For **Protected** and **Private** projects:"
-msgstr "Untuk proyek **Dilindungi** dan **Pribadi**:"
+msgstr "Untuk proyek **Dilindungi** dan **Privat**:"
 
 #: ../../devel/migration.rst:231
 msgid "Navigate to :guilabel:`Operations` → :guilabel:`Users` in your project"
@@ -47679,7 +47675,7 @@ msgstr "json_sort_keys"
 
 #: ../../snippets/file-format-parameters.rst:35
 msgid "Sort JSON keys"
-msgstr "Urutkan kunci JSON"
+msgstr "Sortir kunci JSON"
 
 #: ../../snippets/file-format-parameters.rst:46
 msgid "json_use_compact_separators"
@@ -47703,7 +47699,7 @@ msgstr "po_keep_previous"
 
 #: ../../snippets/file-format-parameters.rst:59
 msgid "Keep previous msgids of translated strings"
-msgstr "Menyimpan msgids sebelumnya dari string yang diterjemahkan"
+msgstr "Pertahankan msgids sebelumnya dari string yang diterjemahkan"
 
 #: ../../snippets/file-format-parameters.rst:61
 msgid "po_line_wrap"
@@ -47725,7 +47721,7 @@ msgstr ""
 
 #: ../../snippets/file-format-parameters.rst:66
 msgid "Wrap lines at 77 characters and at newlines (xgettext default)"
-msgstr "Pecah baris pada 77 karakter dan di baris baru (xgettext bawaan)"
+msgstr "Pecahkan baris pada 77 karakter dan di baris baru (xgettext bawaan)"
 
 #: ../../snippets/file-format-parameters.rst:69
 msgid "Only wrap lines at newlines (like ``xgettext --no-wrap``)"
@@ -47786,19 +47782,19 @@ msgstr "yaml_line_wrap"
 
 #: ../../snippets/file-format-parameters.rst:105
 msgid "Wrap lines at 80 chars"
-msgstr "Pecah baris pada 80 karakter"
+msgstr "Pecahkan baris pada 80 karakter"
 
 #: ../../snippets/file-format-parameters.rst:108
 msgid "Wrap lines at 100 chars"
-msgstr "Pecah baris pada 100 karakter"
+msgstr "Pecahkan baris pada 100 karakter"
 
 #: ../../snippets/file-format-parameters.rst:111
 msgid "Wrap lines at 120 chars"
-msgstr "Pecah baris pada 120 karakter"
+msgstr "Pecahkan baris pada 120 karakter"
 
 #: ../../snippets/file-format-parameters.rst:114
 msgid "Wrap lines at 180 chars"
-msgstr "Pecah baris pada 180 karakter"
+msgstr "Pecahkan baris pada 180 karakter"
 
 #: ../../formats/android.rst:4
 msgid "Android string resources"
@@ -50317,7 +50313,7 @@ msgstr ""
 "Proses :ref:`automated-backup` menjamin bahwa semua komponen penting (data "
 "basis, data, dan konfigurasi) dicadangkan setiap hari. Cadangan disimpan di "
 "dua lokasi geografis yang berbeda. Kebijakan penyimpanan cadangan memastikan "
-"bahwa cadangan terbaru tersedia setiap hari dan menyimpan cadangan selama "
+"bahwa cadangan terkini tersedia setiap hari dan menyimpan cadangan selama "
 "enam bulan."
 
 #: ../../security/disaster-recovery-plan.rst:36
@@ -51383,7 +51379,7 @@ msgstr "Kata sandi yang umum atau terlalu sederhana ditolak."
 
 #: ../../security/passwords.rst:25
 msgid "Any password user used recently is rejected."
-msgstr "Kata sandi apa pun yang digunakan pengguna baru ini ditolak."
+msgstr "Kata sandi apa pun yang digunakan pengguna kini ditolak."
 
 #: ../../security/passwords.rst:26
 msgid "Password strength is optionally checked using the zxcvbn algorithm."
@@ -51802,7 +51798,7 @@ msgid ""
 msgstr ""
 "**Kerahasiaan:** String terjemahan, kunci/kredensial API untuk integrasi "
 "VCS, kredensial pengguna (kata sandi, rahasia 2FA), data pribadi pengguna "
-"(surel, nama), token sesi, log audit, data proyek pribadi."
+"(surel, nama), token sesi, log audit, data proyek privat."
 
 #: ../../security/threat-model.rst:17
 msgid ""
@@ -51941,7 +51937,7 @@ msgid ""
 "(e.g., config files, private keys)."
 msgstr ""
 "**Paparan konfigurasi:** Server yang salah konfigurasi memaparkan berkas "
-"sensitif (misalnya, berkas konfigurasi, kunci pribadi)."
+"sensitif (misalnya, berkas konfigurasi, kunci privat)."
 
 #: ../../security/threat-model.rst:69
 msgid "Exposure of credentials, internal architecture."
@@ -52431,7 +52427,7 @@ msgid ""
 "such, it can be used to store ITAR or other export-controlled information, "
 "however, end users are responsible for ensuring such compliance."
 msgstr ""
-"Weblate dapat dijalankan di pusat data Anda sendiri atau di cloud pribadi "
+"Weblate dapat dijalankan di pusat data Anda sendiri atau di cloud privat "
 "virtual. Dengan demikian, Weblate dapat digunakan untuk menyimpan ITAR atau "
 "informasi lain yang dikontrol ekspor, namun, pengguna akhir bertanggung "
 "jawab untuk memastikan kepatuhan tersebut."
@@ -52852,7 +52848,7 @@ msgstr ""
 
 #: ../../user/checks.rst:144
 msgid "Consecutive duplicated words"
-msgstr "Kata yang digandakan berulang"
+msgstr "Kata ganda yang berulang"
 
 #: ../../user/checks.rst:148
 msgid "Text contains the same word twice in a row."
@@ -53708,7 +53704,7 @@ msgstr ""
 
 #: ../../user/checks.rst:792
 msgid "Percent placeholders"
-msgstr "Persentase pengganti"
+msgstr "Pengganti persen"
 
 #: ../../user/checks.rst:796
 msgid "The percent placeholders do not match source."
@@ -53944,7 +53940,7 @@ msgid ""
 "in some components."
 msgstr ""
 "String ini memiliki lebih dari satu terjemahan dalam proyek ini atau "
-"beberapa komponennya tidak diterjemahkan."
+"beberapa komponennya belum diterjemahkan."
 
 #: ../../user/checks.rst:1054
 msgid ""
@@ -54419,7 +54415,7 @@ msgstr "Jamak hilang"
 
 #: ../../user/checks.rst:1466
 msgid "Some plural forms are untranslated."
-msgstr "Beberapa bentuk jamak tidak diterjemahkan."
+msgstr "Beberapa bentuk jamak belum diterjemahkan."
 
 #: ../../user/checks.rst:1473
 msgid ""
@@ -54708,7 +54704,7 @@ msgstr ""
 
 #: ../../user/checks.rst:1747
 msgid "Trailing newline"
-msgstr "Baris baru di akhir"
+msgstr "Baris baru di belakang"
 
 #: ../../user/checks.rst:1750
 msgid "Source and translation do not both end with a newline."
@@ -55194,7 +55190,7 @@ msgstr "Galat sintaksis dalam string ICU MessageFormat."
 
 #: ../../user/checks.rst:2152
 msgid "Long untranslated"
-msgstr "Lama tidak diterjemahkan"
+msgstr "Lama belum diterjemahkan"
 
 #: ../../user/checks.rst:2156
 msgid "The string has not been translated for a long time."
@@ -56317,11 +56313,11 @@ msgid ""
 "profile on GitHub). The private e-mail can be turned on site-wide "
 "using :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 msgstr ""
-"Surel komit pribadi akan digunakan sebagai pengganti surel akun Anda dalam "
+"Surel komit privat akan digunakan sebagai pengganti surel akun Anda dalam "
 "komit kontrol versi. Gunakan ini untuk menghindari kebocoran surel asli Anda "
 "di sana. Perlu diketahui bahwa penggunaan surel yang berbeda dapat "
 "memutuskan kontribusi Anda di server lain (misalnya, kontribusi Anda tidak "
-"akan lagi tertaut ke profil Anda di GitHub). Surel pribadi dapat diaktifkan "
+"akan lagi tertaut ke profil Anda di GitHub). Surel privat dapat diaktifkan "
 "di seluruh situs menggunakan :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 
 #: ../../user/profile.rst:211
@@ -57296,7 +57292,7 @@ msgstr ":kbd:`Alt+Home`"
 
 #: ../../user/translating.rst:190
 msgid "Navigate to the first translation in the current search."
-msgstr "Navigasi ke terjemahan pertama dalam pencarian saat ini."
+msgstr "Navigasikan ke terjemahan pertama dalam pencarian saat ini."
 
 #: ../../user/translating.rst:192
 msgid ":kbd:`Alt+End`"
@@ -57304,7 +57300,7 @@ msgstr ":kbd:`Alt+End`"
 
 #: ../../user/translating.rst:192
 msgid "Navigate to the last translation in the current search."
-msgstr "Navigasi ke terjemahan terakhir dalam pencarian saat ini."
+msgstr "Navigasikan ke terjemahan terakhir dalam pencarian saat ini."
 
 #: ../../user/translating.rst:194
 msgid ":kbd:`Alt+PageUp` or"
@@ -57324,7 +57320,7 @@ msgstr ":kbd:`Cmd+↑`"
 
 #: ../../user/translating.rst:194
 msgid "Navigate to the previous translation in the current search."
-msgstr "Navigasi ke terjemahan sebelumnya dalam pencarian saat ini."
+msgstr "Navigasikan ke terjemahan sebelumnya dalam pencarian saat ini."
 
 #: ../../user/translating.rst:202
 msgid ":kbd:`Alt+PageDown` or"
@@ -57344,7 +57340,7 @@ msgstr ":kbd:`Cmd + ↓`"
 
 #: ../../user/translating.rst:202
 msgid "Navigate to the next translation in the current search."
-msgstr "Navigasi ke terjemahan berikutnya dalam pencarian saat ini."
+msgstr "Navigasikan ke terjemahan selanjutnya dalam pencarian saat ini."
 
 #: ../../user/translating.rst:210
 msgid ":kbd:`Ctrl+Enter` or"
@@ -57438,7 +57434,7 @@ msgstr ":kbd:`Cmd+1` hingga :kbd:`Cmd+9`"
 
 #: ../../user/translating.rst:234
 msgid "Copies placeable of a given number from source string."
-msgstr "Menyalin tempatan dari nomor tertentu dari string sumber."
+msgstr "Menyalin penempatan dari angka tertentu dari string sumber."
 
 #: ../../user/translating.rst:238
 msgid ":kbd:`Ctrl+M` followed by :kbd:`1` to :kbd:`9` or"
@@ -57450,7 +57446,7 @@ msgstr ":kbd:`Cmd+M` diikuti oleh :kbd:`1` hingga :kbd:`9`"
 
 #: ../../user/translating.rst:238
 msgid "Copy the machine translation of a given number to current translation."
-msgstr "Menyalin terjemahan mesin dari nomor tertentu ke terjemahan saat ini."
+msgstr "Salin terjemahan mesin dari angka tertentu ke terjemahan saat ini."
 
 #: ../../user/translating.rst:244
 msgid ":kbd:`Ctrl+I` followed by :kbd:`1` to :kbd:`9` or"
@@ -57462,7 +57458,7 @@ msgstr ":kbd:`Cmd+I` diikuti oleh :kbd:`1` hingga :kbd:`9`"
 
 #: ../../user/translating.rst:244
 msgid "Ignore one item in the list of failing checks."
-msgstr "Mengabaikan satu hal dalam daftar pemeriksaan yang gagal."
+msgstr "Mengabaikan satu item dalam daftar pemeriksaan yang gagal."
 
 #: ../../user/translating.rst:250
 msgid ":kbd:`Ctrl+J` or"
@@ -57518,7 +57514,7 @@ msgstr ":kbd:`→`"
 
 #: ../../user/translating.rst:266
 msgid "Browse the next translation string."
-msgstr "Lihat string terjemahan berikutnya."
+msgstr "Telusuri string terjemahan selanjutnya."
 
 #: ../../user/translating.rst:268
 msgid ":kbd:`←`"
@@ -57526,7 +57522,7 @@ msgstr ":kbd:`←`"
 
 #: ../../user/translating.rst:268
 msgid "Browse the previous translation string."
-msgstr "Lihat string terjemahan sebelumnya."
+msgstr "Telusuri string terjemahan sebelumnya."
 
 #: ../../user/translating.rst:274
 msgid "Visual keyboard"
@@ -57638,8 +57634,7 @@ msgstr "Riwayat"
 
 #: ../../user/translating.rst:313
 msgid "List of people whom have changed this message recently using Weblate."
-msgstr ""
-"Daftar orang yang baru-baru ini mengubah pesan ini menggunakan Weblate."
+msgstr "Daftar orang yang baru-baru ini mengubah pesan ini menggunakan Weblate."
 
 #: ../../user/translating.rst:314
 msgid "Project"
@@ -57975,7 +57970,7 @@ msgstr ""
 "Repositori VCS yang ingin Anda gunakan harus dapat diakses oleh Weblate. "
 "Dengan repositori yang tersedia untuk umum, Anda hanya perlu memasukkan URL "
 "yang benar (misalnya ``https://github.com/WeblateOrg/weblate.git``), tetapi "
-"untuk repositori pribadi atau URL dorong, pengaturannya lebih rumit dan "
+"untuk repositori privat atau URL dorong, pengaturannya lebih rumit dan "
 "memerlukan autentikasi."
 
 #: ../../vcs.rst:25
@@ -58153,12 +58148,12 @@ msgid ""
 "The corresponding private SSH key can not currently have a password, so "
 "ensure it is well protected."
 msgstr ""
-"Kunci SSH pribadi yang sesuai saat ini tidak dapat memiliki kata sandi, jadi "
-"pastikan kunci tersebut terlindungi dengan baik."
+"Kunci SSH privat yang sesuai saat ini tidak dapat memiliki kata sandi, jadi "
+"pastikan kunci tersebut dilindungi dengan baik."
 
 #: ../../vcs.rst:115
 msgid "Make a backup of the generated private Weblate SSH key."
-msgstr "Buat cadangan kunci SSH Weblate pribadi."
+msgstr "Buat cadangan kunci SSH Weblate privat."
 
 #: ../../vcs.rst:120
 msgid "Verifying SSH host keys"
@@ -58204,7 +58199,7 @@ msgid ""
 "broken, and it is possible to create chosen-prefix hash collisions for "
 "<USD$50K."
 msgstr ""
-"Rilis OpenSSH terbaru (misalnya yang digunakan dalam kontainer Docker "
+"Rilis OpenSSH terkini (misalnya yang digunakan dalam kontainer Docker "
 "Weblate) menonaktifkan tanda tangan RSA menggunakan algoritma hash SHA-1 "
 "secara bawaan. Perubahan ini dilakukan karena algoritma hash SHA-1 rusak "
 "secara kriptografis, dan tabrakan hash dengan awalan terpilih dapat terjadi "
@@ -58600,7 +58595,7 @@ msgstr ""
 
 #: ../../vcs.rst:363
 msgid "Git with force push"
-msgstr "Git dengan force push"
+msgstr "Git dengan dorong paksa"
 
 #: ../../vcs.rst:365
 msgid ""
@@ -59739,7 +59734,7 @@ msgstr "Dikonfigurasi pada tingkat proyek."
 #: ../../workflows.rst:114 ../../workflows.rst:146 ../../workflows.rst:148
 #: ../../workflows.rst:177 ../../workflows.rst:179
 msgid "on"
-msgstr "on"
+msgstr "nyala"
 
 #: ../../workflows.rst:114 ../../workflows.rst:179
 msgid "Useful for users to be able to suggest when they are not sure."
@@ -59761,7 +59756,7 @@ msgstr "Grup Peninjau"
 
 #: ../../workflows.rst:125 ../../workflows.rst:157
 msgid "N/A"
-msgstr "—"
+msgstr "Tidak Ada"
 
 #: ../../workflows.rst:125
 msgid "Not used."
