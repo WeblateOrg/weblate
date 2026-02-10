@@ -36,13 +36,15 @@
                         title="{% translate "Vote against" %}">{% icon "thumb-down.svg" %}</button>
               {% endif %}
               {# Copy suggestion feature #}
-              <button type="button"
-                      class="btn btn-link green js-copy-suggestion"
-                      title="{% translate "Clone to translation" %}"
-                      aria-label="{% translate "Clone to translation" %}"
-                      {% for text in suggestion.target_list %}data-text-{{ forloop.counter0 }}="{{ text|force_escape }}"{% endfor %}>
-                {% icon "clone.svg" %}
-              </button>
+              {% if user_can_suggest %}
+                <button type="button"
+                        class="btn btn-link green js-copy-suggestion"
+                        title="{% translate "Clone to translation" %}"
+                        aria-label="{% translate "Clone to translation" %}"
+                        {% for text in suggestion.target_list %}data-text-{{ forloop.counter0 }}="{{ text|force_escape }}"{% endfor %}>
+                  {% icon "clone.svg" %}
+                </button>
+              {% endif %}
               {% if user_can_accept_suggestion %}
                 {# Bulk accept suggestions feature #}
                 {% if suggestion.user and not suggestion.user.is_anonymous %}
