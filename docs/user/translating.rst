@@ -53,7 +53,9 @@ Suggestions
 
 Anonymous users (by default) can only forward suggestions. Doing so is still
 available to signed-in users, in cases where uncertainty about a translation
-arises, prompting other translators to review it.
+arises, prompting other translators to review it. Any user can clone an existing
+suggestion into the translation fields, including plural forms, and use it
+as the basis for a new suggestion or translation.
 
 All suggestions are scanned on a daily basis to remove duplicates and
 those matching current translations.
@@ -136,8 +138,9 @@ Various bits of extra info can be shown on this page, most of which coming from 
 Translation fields for any secondary languages translators select in the preferences will be shown
 (see :ref:`secondary-languages`) above the source string.
 
-Below the translation, translators will find suggestion made by others, to be
-accepted (✓), accepted with changes (✏️), or deleted (🗑).
+Below the translation, translators will find suggestions made by others, to be accepted (✓),
+accepted with changes (✏️), bulk accepted for a specific user (👤✓),
+cloned into the translation fields (📑) or deleted (🗑).
 
 .. _plurals:
 

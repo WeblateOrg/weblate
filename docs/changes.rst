@@ -7,6 +7,7 @@ Weblate 5.16
 
 * :ref:`check-multiple-capital` quality check.
 * Bulk accepting suggestions from a specific user in :ref:`suggestions`.
+* Cloning suggestions into translation in :ref:`suggestions`.
 * :setting:`HIDE_SHARED_GLOSSARY_COMPONENTS` to hide glossaries shared into other projects.
 * Added new management command :wladmin:`list_change_events`, which lists all possible change events, :ref:`addon-choice-events`.
 * Added Anthropic machinery integration, see :ref:`mt-anthropic`.

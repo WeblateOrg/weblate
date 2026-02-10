@@ -18,6 +18,7 @@
     this.initTabs();
     this.initChecks();
     this.initGlossary();
+    this.initSuggestions();
 
     /* Copy machinery results */
     this.$editor.on("click", ".js-copy-machinery", (e) => {
@@ -587,6 +588,31 @@
         },
       });
       return false;
+    });
+  };
+
+  FullEditor.prototype.initSuggestions = function () {
+    /* Clone suggestion to translation */
+    this.$editor.on("click", ".js-copy-suggestion", (e) => {
+      e.preventDefault();
+      const $btn = $(e.currentTarget);
+      const $areas = this.$translationArea;
+
+      // Inject data into translation fields (plural-aware)
+      $areas.each((i, el) => {
+        const text = $btn.attr("data-text-" + i);
+
+        // Prevent overwriting with empty/undefined data
+        if (text !== undefined && text !== "") {
+          $(el).replaceValue(text);
+        }
+      });
+
+      $areas.first().focus();
+
+      if (typeof autosize !== "undefined") {
+        autosize.update($areas);
+      }
     });
   };
 
