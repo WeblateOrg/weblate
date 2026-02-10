@@ -1893,7 +1893,7 @@ The check is automatically enabled for XML like strings. You might need to add
 .. _check-xml-chars-around-tags:
 
 XML surrounding characters
-~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 
 :Summary: Characters surrounding XML tags in translation do not align with source.
