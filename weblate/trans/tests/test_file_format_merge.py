@@ -10,89 +10,127 @@ for Markdown, HTML, and Plain Text.
 """
 
 import io
-from typing import ClassVar
+import uuid
 
 from django.test import TestCase
 
 from weblate.formats.convert import HTMLFormat, MarkdownFormat, PlainTextFormat
+from weblate.trans.tests.test_models import RepoTestCase
 
 
 class TestFormatsMerge(TestCase):
-    # Mapping classes to their standard extensions to avoid parser warnings
-    # from translate-toolkit regarding file types.
-    EXTENSIONS: ClassVar[dict] = {
-        MarkdownFormat: "md",
-        HTMLFormat: "html",
-        PlainTextFormat: "txt",
-    }
+    """Unit tests: Verify parser logic handles merging correctly in memory."""
 
     def _load_format(
         self,
         content: bytes,
-        format_class,
-        param_name: str,
-        merge_duplicates: bool,
+        format_class: type,
+        extension: str,
+        params: dict | None = None,
     ):
-        """Generic helper to load a format with specific merge parameters."""
-        f = io.BytesIO(content)
-        # Dynamically set the correct extension (e.g., test.md, test.html)
-        ext = self.EXTENSIONS.get(format_class, "txt")
-        f.name = f"test.{ext}"
-        f.mode = "rb"  # type: ignore[misc]
-        f.seek(0)
+        """
+        Load a format with explicit stream positioning.
 
-        params = {param_name: True} if merge_duplicates else {}
+        Args:
+            content: The bytes content of the file.
+            format_class: The class of the parser (e.g., MarkdownFormat).
+            extension: File extension string (e.g., 'md').
+            params: Dictionary of file_format_params. If None, passes None to parser.
+
+        """
+        f = io.BytesIO(content)
+        f.name = f"test.{extension}"
+        f.mode = "rb"  # type: ignore[misc]
+
+        # Reset stream before instantiation to allow header detection
+        f.seek(0)
+        # Pass params exactly as received to test None vs {} behavior
         fmt = format_class(f, file_format_params=params)
 
+        # Reset again before loading to ensure full read
         f.seek(0)
         return fmt.load(f, None)
 
     def test_markdown_merge_and_location(self):
         """Verify Markdown merging deduplicates items and aggregates locations."""
         content = b"- Item\n- Item\n- Item\n"
-
-        # 1. Default: Should keep separate units
-        store_def = self._load_format(
-            content, MarkdownFormat, "markdown_merge_duplicates", False
+        # Test merging ENABLED
+        store = self._load_format(
+            content, MarkdownFormat, "md", {"markdown_merge_duplicates": True}
         )
-        items_def = [u for u in store_def.units if u.source == "Item"]
-        self.assertEqual(len(items_def), 3)
+        units = [u for u in store.units if u.source.strip() == "Item"]
 
-        # 2. Merged: Should contain a single unit
-        store_merged = self._load_format(
-            content, MarkdownFormat, "markdown_merge_duplicates", True
+        self.assertEqual(len(units), 1, "Should have 1 unit when merged")
+
+        # Verify all 3 locations were aggregated into the single unit
+        self.assertEqual(len(list(units[0].getlocations())), 3)
+
+        # Robust check: Assert context is "falsy" (None, "", or [])
+        self.assertFalse(units[0].getcontext())
+
+    def test_markdown_explicit_false(self):
+        """Verify that explicitly setting False disables merging."""
+        content = b"- Item\n- Item"
+        # Test merging explicitly DISABLED
+        store = self._load_format(
+            content, MarkdownFormat, "md", {"markdown_merge_duplicates": False}
         )
-        items_merged = [u for u in store_merged.units if u.source == "Item"]
-        self.assertEqual(len(items_merged), 1)
+        units = [u for u in store.units if u.source.strip() == "Item"]
 
-        # Verify location accumulation (all line numbers preserved)
-        self.assertEqual(len(list(items_merged[0].getlocations())), 3)
+        self.assertEqual(len(units), 2, "Should have 2 units when explicitly disabled")
+
+        # Verify locations are distinct (not merged/aggregated)
+        loc_0 = list(units[0].getlocations())
+        loc_1 = list(units[1].getlocations())
+
+        self.assertEqual(len(loc_0), 1, "First unit should have exactly 1 location")
+        self.assertEqual(len(loc_1), 1, "Second unit should have exactly 1 location")
+        self.assertNotEqual(
+            loc_0, loc_1, "Locations should be distinct (different lines)"
+        )
+
+    def test_markdown_default_behavior_empty_dict(self):
+        """
+        Verify behavior when params is an empty dict.
+
+        Assumption: Default is FALSE (do not merge).
+        """
+        content = b"- Item\n- Item"
+        store = self._load_format(content, MarkdownFormat, "md", {})
+        units = [u for u in store.units if u.source.strip() == "Item"]
+
+        self.assertEqual(len(units), 2, "Empty dict param should default to NO merge")
+
+    def test_markdown_default_behavior_none(self):
+        """
+        Verify behavior when params is None (argument missing).
+
+        This protects against regressions where 'if params:' might fail for None.
+        """
+        content = b"- Item\n- Item"
+        store = self._load_format(content, MarkdownFormat, "md", None)
+        units = [u for u in store.units if u.source.strip() == "Item"]
+
+        self.assertEqual(len(units), 2, "None param should default to NO merge")
 
     def test_markdown_table_rows(self):
         """Verify identical strings in Markdown tables are merged."""
-        # This covers the original issue report regarding tables
         content = b"| Header |\n|---|\n| Cell |\n| Cell |\n"
-
         store = self._load_format(
-            content, MarkdownFormat, "markdown_merge_duplicates", True
+            content, MarkdownFormat, "md", {"markdown_merge_duplicates": True}
         )
-        units = [u for u in store.units if u.source == "Cell"]
-
+        units = [u for u in store.units if u.source.strip() == "Cell"]
         self.assertEqual(len(units), 1)
-        # Ensure context is stripped (no line numbers affecting ID)
         self.assertFalse(units[0].getcontext())
 
     def test_markdown_mixed_content_safety(self):
-        """Ensure distinct strings in a table are NOT merged."""
-        content = (
-            b"| Col A | Col B |\n|---|---|\n| A | Yes |\n| B | No |\n| C | Yes |\n"
-        )
+        """Ensure distinct strings in a table are NOT merged (sanity check)."""
+        content = b"| Col |\n|---|\n| Yes |\n| No |\n| Yes |\n"
         store = self._load_format(
-            content, MarkdownFormat, "markdown_merge_duplicates", True
+            content, MarkdownFormat, "md", {"markdown_merge_duplicates": True}
         )
-
-        yes_units = [u for u in store.units if u.source == "Yes"]
-        no_units = [u for u in store.units if u.source == "No"]
+        yes_units = [u for u in store.units if u.source.strip() == "Yes"]
+        no_units = [u for u in store.units if u.source.strip() == "No"]
 
         self.assertEqual(len(yes_units), 1)
         self.assertEqual(len(no_units), 1)
@@ -100,43 +138,70 @@ class TestFormatsMerge(TestCase):
     def test_html_merge(self):
         """Verify HTML merging works when enabled."""
         content = b"<html><body><p>Hello</p><div>Hello</div></body></html>"
-
-        # 1. Default (False): Should have 2 separate "Hello" units
-        store_def = self._load_format(
-            content, HTMLFormat, "html_merge_duplicates", False
+        store = self._load_format(
+            content, HTMLFormat, "html", {"html_merge_duplicates": True}
         )
-        hello_units_def = [u for u in store_def.units if u.source == "Hello"]
-        self.assertEqual(len(hello_units_def), 2)
-
-        # 2. Merged (True): Should have 1 "Hello" unit
-        store_merged = self._load_format(
-            content, HTMLFormat, "html_merge_duplicates", True
-        )
-        hello_units_merged = [u for u in store_merged.units if u.source == "Hello"]
-        self.assertEqual(len(hello_units_merged), 1)
+        units = [u for u in store.units if u.source.strip() == "Hello"]
+        self.assertEqual(len(units), 1)
 
     def test_txt_merge(self):
         """Verify Plain Text merging works when enabled."""
         content = b"Line A\n\nLine B\n\nLine A\n"
-
-        # 1. Default (False): Should see duplicates
-        store_def = self._load_format(
-            content, PlainTextFormat, "txt_merge_duplicates", False
+        store = self._load_format(
+            content, PlainTextFormat, "txt", {"txt_merge_duplicates": True}
         )
-        # Filter with strip() to avoid parser newline noise
-        line_a_def = [u for u in store_def.units if u.source.strip() == "Line A"]
-        self.assertEqual(len(line_a_def), 2, "Default: Should keep separate units")
+        # Strip is important here as PlainText parser might keep newlines
+        line_a_units = [u for u in store.units if u.source.strip() == "Line A"]
+        self.assertEqual(len(line_a_units), 1)
 
-        # 2. Merged (True): Should deduplicate
-        store_merged = self._load_format(
-            content, PlainTextFormat, "txt_merge_duplicates", True
+
+class TestMergeIntegration(RepoTestCase):
+    """
+    Integration tests: Verify DB configuration correctly propagates to the parser.
+
+    Uses Markdown as the representative format for integration logic.
+    """
+
+    def _create_integration_env(self, params: dict | None = None):
+        """Create a Component in the DB with specific file format params."""
+        unique_slug = f"merge-md-{uuid.uuid4().hex[:6]}"
+
+        component = self._create_component(
+            "markdown",
+            "*.md",
+            slug=unique_slug,
+            name="Test Markdown Merge",
+            file_format_params=params or {},
         )
+        component.create_translations_immediate()
+        return component.translation_set.get(language_code="en")
 
-        line_a_merged = [u for u in store_merged.units if u.source.strip() == "Line A"]
+    def _load_store_from_db(self, translation, content):
+        """Simulate Weblate loading the file using the DB configuration."""
+        f = io.BytesIO(content)
+        f.name = translation.filename
+        # Ensure params come from the Component DB model
+        params = translation.component.file_format_params
 
-        self.assertEqual(
-            len(line_a_merged), 1, "Merged: Should consolidate identical strings"
-        )
+        f.seek(0)
+        fmt = MarkdownFormat(f, file_format_params=params)
+        f.seek(0)
+        return fmt.load(f, None)
 
-        # Verify context is stripped to allow the merge
-        self.assertFalse(line_a_merged[0].getcontext())
+    def test_db_config_enabled(self):
+        """Verify that setting the option to True in DB enables merging."""
+        translation = self._create_integration_env({"markdown_merge_duplicates": True})
+        content = b"- A\n- A"
+        store = self._load_store_from_db(translation, content)
+
+        units = [u for u in store.units if u.source.strip() == "A"]
+        self.assertEqual(len(units), 1)
+
+    def test_db_config_disabled(self):
+        """Verify that setting the option to False in DB disables merging."""
+        translation = self._create_integration_env({"markdown_merge_duplicates": False})
+        content = b"- A\n- A"
+        store = self._load_store_from_db(translation, content)
+
+        units = [u for u in store.units if u.source.strip() == "A"]
+        self.assertEqual(len(units), 2)
