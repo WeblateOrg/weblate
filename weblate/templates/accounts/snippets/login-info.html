@@ -29,11 +29,21 @@
       <li>
         {% translate "Additionally, your name and e-mail can be used in version control system commits to author the changes you made; they can be stored there indefinitely." %}
       </li>
-      <li>{% translate "You can enable the use of a private commit e-mail in your profile." %}</li>
-    {% else %}
       <li>
-        {% translate "Additionally, your name can be used in version control system commits to author the changes you made; it can be stored there indefinitely." %}
+        {% if private_commit_name_opt_in %}
+          {% translate "You can enable the use of a private commit e-mail and name in your profile." %}
+        {% else %}
+          {% translate "You can enable the use of a private commit e-mail in your profile." %}
+        {% endif %}
       </li>
+
+    {% else %}
+      {% if private_commit_name_opt_in %}
+        <li>
+          {% translate "Additionally, your name can be used in version control system commits to author the changes you made; it can be stored there indefinitely." %}
+        </li>
+        <li>{% translate "You can enable the use of a private commit name in your profile." %}</li>
+      {% endif %}
     {% endif %}
     <li>{% translate "You provide your contribution under the license defined by each project you contributed to." %}</li>
   </ul>

@@ -27,14 +27,14 @@ jobs:
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       with:
         persist-credentials: false
-    - uses: actions/cache@8b402f58fbc84540c8b491a91e594a4576fec3d7 # v5.0.2
+    - uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
       with:
         path: /tmp/cache/tesseract
         key: tesseract-data
-    - uses: astral-sh/setup-uv@61cb8a9741eeb8a550a1b8544337180c0fc8476b # v7.2.0
+    - uses: astral-sh/setup-uv@eac588ad8def6316056a12d4907a9d4d84ff7a3b # v7.3.0
       with:
         enable-cache: false
-        version: 0.9.27
+        version: 0.10.0
     - run: ./rundev.sh build
     - run: ./rundev.sh start
     - run: ./rundev.sh wait

@@ -205,16 +205,27 @@ class CommitForm(ProfileBaseForm):
         required=False,
         widget=forms.RadioSelect,
     )
+    commit_name = forms.TypedChoiceField(
+        coerce=int,
+        label=gettext_lazy("Commit name"),
+        choices=[],
+        help_text=gettext_lazy(
+            "Used in version control commits. The name stays in the repository forever, once changes are committed by Weblate."
+        ),
+        required=False,
+        widget=forms.RadioSelect,
+    )
 
     class Meta:
         model = Profile
-        fields = ("commit_email",)
+        fields = ("commit_email", "commit_name")
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
+        instance = self.instance
 
-        commit_emails = get_all_user_mails(self.instance.user, filter_deliverable=False)
-        site_commit_email = self.instance.get_site_commit_email()
+        commit_emails = get_all_user_mails(instance.user, filter_deliverable=False)
+        site_commit_email = instance.get_site_commit_email()
         if site_commit_email:
             if not settings.PRIVATE_COMMIT_EMAIL_OPT_IN:
                 self.fields["commit_email"].choices = [("", site_commit_email)]
@@ -222,6 +233,24 @@ class CommitForm(ProfileBaseForm):
                 commit_emails.add(site_commit_email)
 
         self.fields["commit_email"].choices += [(x, x) for x in sorted(commit_emails)]
+
+        site_name = instance.get_site_commit_name()
+        visible_name = instance.user.get_visible_name()
+
+        if not settings.PRIVATE_COMMIT_NAME_OPT_IN and site_name:
+            default_label = gettext_lazy("Use anonymous account name")
+        else:
+            default_label = gettext_lazy("Use account name")
+
+        name_choices = [
+            (Profile.CommitNameChoices.DEFAULT, default_label),
+            (Profile.CommitNameChoices.PUBLIC, visible_name),
+        ]
+
+        if site_name:
+            name_choices.append((Profile.CommitNameChoices.PRIVATE, site_name))
+
+        self.fields["commit_name"].choices = name_choices
 
         self.helper = FormHelper(self)
         self.helper.disable_csrf = True

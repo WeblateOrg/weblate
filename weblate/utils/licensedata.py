@@ -3940,6 +3940,12 @@ LICENSES = (
         True,
     ),
     (
+        "Vixie-Cron",
+        "Vixie Cron License",
+        "https://spdx.org/licenses/Vixie-Cron.html",
+        False,
+    ),
+    (
         "VOSTROM",
         "VOSTROM Public License for Open Source",
         "https://spdx.org/licenses/VOSTROM.html",

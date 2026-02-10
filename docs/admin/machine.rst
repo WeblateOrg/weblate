@@ -949,33 +949,14 @@ tmserver
                 | ``url``             | API URL                   |                                                                     |
                 +---------------------+---------------------------+---------------------------------------------------------------------+
 
-You can run your own translation memory server by using the one bundled with
-Translate-toolkit and let Weblate talk to it. You can also use it with an
-amaGama server, which is an enhanced version of tmserver.
+You can run your own translation memory server by using a tmserver protocol.
 
-1. First you will want to import some data to the translation memory:
+* The original :program:`tmserver` was bundled with the translate-toolkit.
+* amaGama server is an enhanced version of tmserver.
 
-.. code-block:: sh
+.. note::
 
-    build_tmdb -d /var/lib/tm/db -s en -t cs locale/cs/LC_MESSAGES/django.po
-    build_tmdb -d /var/lib/tm/db -s en -t de locale/de/LC_MESSAGES/django.po
-    build_tmdb -d /var/lib/tm/db -s en -t fr locale/fr/LC_MESSAGES/django.po
-
-2. Start tmserver to listen to your requests:
-
-.. code-block:: sh
-
-    tmserver -d /var/lib/tm/db
-
-3. Configure Weblate to talk to it, the default URL is ``http://localhost:8888/tmserver/``.
-
-.. seealso::
-
-   * :doc:`tt:commands/tmserver`
-   * :ref:`amagama:installation`
-   * :doc:`virtaal:amagama`
-   * `Amagama Translation Memory <https://amagama.translatehouse.org/>`_
-
+   There currently does not seem to be a maintained server for this.
 
 .. _mt-weblate:
 

@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-01-26 11:05+0100\n"
-"PO-Revision-Date: 2026-01-27 23:26+0000\n"
+"PO-Revision-Date: 2026-01-30 08:02+0000\n"
 "Last-Translator: Pierfrancesco Passerini <p.passerini@gmail.com>\n"
 "Language-Team: Italian <https://hosted.weblate.org/projects/weblate/"
 "documentation/it/>\n"
@@ -1445,10 +1445,8 @@ msgid "Post announcements"
 msgstr "Pubblica annunci"
 
 #: ../../snippets/permissions.rst:327
-#, fuzzy
-#| msgid "Delete announcement"
 msgid "Delete announcements"
-msgstr "Elimina annuncio"
+msgstr "Elimina annunci"
 
 #: ../../snippets/permissions.rst:331
 msgid "Site wide privileges"
@@ -3088,10 +3086,8 @@ msgid "Example messages"
 msgstr "Esempio di file corrispondenti"
 
 #: ../../admin/addons.rst:540
-#, fuzzy
-#| msgid "Repository merged"
 msgid "Repository merge event:"
-msgstr "Evento repository unito:"
+msgstr "Evento merge nel repository:"
 
 #: ../../admin/addons.rst:552
 msgid "New source string event:"
@@ -8049,8 +8045,6 @@ msgid ""
 msgstr ""
 
 #: ../../admin/config.rst:681
-#, fuzzy
-#| msgid "Component name"
 msgid ":ref:`component-merge_style` for any new components."
 msgstr ":ref:`component-merge_style` per ogni nuovo componente."
 
@@ -8060,7 +8054,7 @@ msgstr ""
 
 #: ../../admin/config.rst:684
 msgid "`merge`"
-msgstr ""
+msgstr "`merge`"
 
 #: ../../admin/config.rst:696
 msgid ""
@@ -9306,7 +9300,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:107
 msgid "Avoiding merge conflicts"
-msgstr ""
+msgstr "Prevenzione conflitti di merge"
 
 #: ../../admin/continuous.rst:109
 msgid ""
@@ -9314,11 +9308,14 @@ msgid ""
 "Weblate and outside it. Depending on the situation, there are several "
 "approaches that might help here:"
 msgstr ""
+"I conflitti di merge sorgono quando lo stesso file è stato modificato sia in "
+"Weblate che all'esterno di esso. A seconda del caso, ci sono vari approcci "
+"utili:"
 
 #: ../../admin/continuous.rst:119
 msgid "Avoiding merge conflicts by changing translation files in Weblate only"
 msgstr ""
-"Evita conflitti di unione modificando i file di traduzione solo in Weblate"
+"Evita conflitti di merge modificando i file di traduzione solo in Weblate"
 
 #: ../../admin/continuous.rst:121
 msgid ""
@@ -9340,6 +9337,8 @@ msgid ""
 "Further process merges it into actual translations (the gettext PO files are "
 "updated using :program:`msgmerge`)."
 msgstr ""
+"Il processo successivo unisce tutto nelle traduzioni vere e proprie (i file "
+"gettext PO vengono aggiornati con :program:`msgmerge`)."
 
 #: ../../admin/continuous.rst:130
 msgid ""
@@ -9350,6 +9349,8 @@ msgstr ""
 #: ../../admin/continuous.rst:136
 msgid "Avoiding merge conflicts by locking Weblate while doing outside changes"
 msgstr ""
+"Prevenire conflitti di merge bloccando Weblate durante cambiamenti "
+"dall'esterno"
 
 #: ../../admin/continuous.rst:138
 msgid ""
@@ -9378,7 +9379,7 @@ msgstr ""
 
 #: ../../admin/continuous.rst:181
 msgid "Avoiding merge conflicts by focusing on Git operations"
-msgstr ""
+msgstr "Prevenire conflitti di merge tramite operazioni Git"
 
 #: ../../admin/continuous.rst:183
 msgid ""
@@ -9714,24 +9715,20 @@ msgid "GitLab merge request from branch"
 msgstr ""
 
 #: ../../admin/continuous.rst:432
-#, fuzzy
-#| msgid "GitLab merge request"
 msgid "Gitea merge request from fork"
-msgstr "Richiesta unione GitHub"
+msgstr "Richiesta di merge da fork in Gitea"
 
 #: ../../admin/continuous.rst:437
-#, fuzzy
-#| msgid "GitLab merge request"
 msgid "Gitea merge request from branch"
-msgstr "Richiesta unione GitHub"
+msgstr "Richiesta di merge da branch in Gitea"
 
 #: ../../admin/continuous.rst:442
 msgid "Pagure merge request from fork"
-msgstr ""
+msgstr "Richiesta di merge da fork in Pagure"
 
 #: ../../admin/continuous.rst:447
 msgid "Pagure merge request from branch"
-msgstr ""
+msgstr "Richiesta di merge da branch in Pagure"
 
 #: ../../admin/continuous.rst:452
 #, fuzzy
@@ -16020,11 +16017,10 @@ msgid "Context vector"
 msgstr "Vettore di contesto"
 
 #: ../../admin/machine.rst:593
-#, fuzzy
 msgid "Comma-separated list of memory IDs:weight. e.g: 1234:0.123,4567:0.456"
 msgstr ""
-"Elenco di ID di memoria separati da virgole:peso. Ad esempio: "
-"1234:0.123,4567:0.456"
+"Elenco, separato da virgole, di identificativi di memoria seguiti dal loro "
+"peso (ID:peso). Esempio 1234:0.123,4567:0.456"
 
 #: ../../admin/machine.rst:600
 msgid "`ModernMT API <https://www.modernmt.com/api/#translation>`_"
@@ -19127,19 +19123,14 @@ msgid ""
 msgstr ""
 
 #: ../../admin/projects.rst:896
-#, fuzzy
-#| msgid ""
-#| "The default value can be changed by :setting:`DEFAULT_ACCESS_CONTROL`."
 msgid "The default value can be changed by :setting:`DEFAULT_MERGE_STYLE`."
 msgstr ""
-"Il valore predefinito può essere modificato "
-"da :setting:`DEFAULT_ACCESS_CONTROL`."
+"Il valore predefinito può essere modificato da "
+":setting:`DEFAULT_MERGE_STYLE`."
 
 #: ../../admin/projects.rst:906
-#, fuzzy
-#| msgid "Commit message when add-on makes a change"
 msgid "Commit, add, delete, merge, add-on, and merge request messages"
-msgstr "Messaggio commit quando l'add-on ha effettuato una modifica"
+msgstr "Messaggi di commit, add, delete, merge, add-on e richieste di merge"
 
 #: ../../admin/projects.rst:908
 msgid "Message used when committing a translation, see :ref:`markup`."
@@ -24401,10 +24392,8 @@ msgid ":doc:`/security/localization-threat` documentation."
 msgstr ":doc:`/contributing/documentation`"
 
 #: ../../changes.rst:275
-#, fuzzy
-#| msgid "Component name"
 msgid ":ref:`component-hide_glossary_matches` component setting."
-msgstr ":ref:`component-merge_style` per ogni nuovo componente."
+msgstr "Impostazione componente :ref:`component-hide_glossary_matches`."
 
 #: ../../changes.rst:276
 #, fuzzy
@@ -31050,10 +31039,9 @@ msgid "Compatibility with Django 3.0."
 msgstr ""
 
 #: ../../changes/v3.rst:111
-#, fuzzy
-#| msgid "Improved translation memory updates performance."
 msgid "Improved data clean-up performance."
-msgstr "Migliori prestazioni negli aggiornamenti dei dati memorizzati."
+msgstr ""
+"Miglioramento delle prestazioni negli aggiornamenti dei dati memorizzati."
 
 #: ../../changes/v3.rst:112
 msgid "Added support for customizable security.txt."
@@ -49036,16 +49024,12 @@ msgid ""
 msgstr ""
 
 #: ../../user/checks.rst:1482
-#, fuzzy
-#| msgid "Multiple unnamed variables"
 msgid "Multiple capitals"
-msgstr "Variabili senza nome multiple"
+msgstr "La stringa contiene più lettere maiuscole"
 
 #: ../../user/checks.rst:1486
-#, fuzzy
-#| msgid "Translation contains extra zero-width space character."
 msgid "Translation contains words with multiple misplaced capital letters."
-msgstr "La traduzione contiene caratteri spazio a larghezza zero aggiuntivi."
+msgstr "La traduzione contiene parole con più lettere maiuscole fuori posto."
 
 #: ../../user/checks.rst:1493
 msgid ""

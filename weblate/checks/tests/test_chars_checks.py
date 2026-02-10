@@ -4,7 +4,7 @@
 
 """Tests for char based quality checks."""
 
-from unittest import TestCase
+from django.test import SimpleTestCase
 
 from weblate.checks.chars import (
     BeginNewlineCheck,
@@ -28,7 +28,10 @@ from weblate.checks.chars import (
     PunctuationSpacingCheck,
     ZeroWidthSpaceCheck,
 )
+from weblate.checks.models import Check
 from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
+from weblate.lang.models import Language
+from weblate.trans.models import Component, Project, Translation, Unit
 
 
 class BeginNewlineCheckTest(CheckTestCase):
@@ -316,7 +319,7 @@ class ZeroWidthSpaceCheckTest(CheckTestCase):
         self.test_failure_1 = ("string", "str\u200bing", "")
 
 
-class MaxLengthCheckTest(TestCase):
+class MaxLengthCheckTest(SimpleTestCase):
     def setUp(self) -> None:
         self.check = MaxLengthCheck()
         self.test_good_matching = ("strings", "less than 21", "max-length:12")
@@ -329,6 +332,33 @@ class MaxLengthCheckTest(TestCase):
                 [self.test_good_matching[1]],
                 MockUnit(flags=self.test_good_matching[2]),
             )
+        )
+
+    def test_check_invalid_flag(self) -> None:
+        self.assertTrue(
+            self.check.check_target(
+                [self.test_good_matching[0]],
+                [self.test_good_matching[1]],
+                MockUnit(flags="max-length:*"),
+            )
+        )
+
+    def test_description_invalid_flag(self) -> None:
+        unit = Unit(
+            source=self.test_good_matching[0],
+            target=self.test_good_matching[1],
+            extra_flags="max-length:*",
+            translation=Translation(
+                component=Component(
+                    file_format="po",
+                    source_language=Language(code="en"),
+                    project=Project(),
+                )
+            ),
+        )
+        check = Check(unit=unit)
+        self.assertIn(
+            "Could not parse max-length flag:", str(self.check.get_description(check))
         )
 
     def test_unicode_check(self) -> None:
@@ -543,4 +573,15 @@ class MultipleCapitalCheckTest(CheckTestCase):
                 "",
             ),
             "cs",
+        )
+
+    def test_translation(self) -> None:
+        self.do_test(
+            False,
+            (
+                "Hello world",
+                "שלום עולם (World)",
+                "",
+            ),
+            "he",
         )

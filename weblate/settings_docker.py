@@ -711,6 +711,12 @@ if private_commit_email_template_str is not None:
 del private_commit_email_template_str
 PRIVATE_COMMIT_EMAIL_OPT_IN = get_env_bool("WEBLATE_PRIVATE_COMMIT_EMAIL_OPT_IN", True)
 
+private_commit_name_template_str = get_env_str("WEBLATE_PRIVATE_COMMIT_NAME_TEMPLATE")
+if private_commit_name_template_str is not None:
+    PRIVATE_COMMIT_NAME_TEMPLATE = private_commit_name_template_str
+del private_commit_name_template_str
+PRIVATE_COMMIT_NAME_OPT_IN = get_env_bool("WEBLATE_PRIVATE_COMMIT_NAME_OPT_IN", True)
+
 # Shortcut for login required setting
 REQUIRE_LOGIN = get_env_bool("WEBLATE_REQUIRE_LOGIN")
 

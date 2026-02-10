@@ -243,9 +243,11 @@ def show_project_language(request: AuthenticatedHttpRequest, obj: ProjectLanguag
     if user.is_authenticated and translations.paginator.num_pages == 1:
         existing = {translation.component.id for translation in obj.translation_set}
         missing = project_object.get_child_components_filter(
-            lambda qs: qs.exclude(id__in=existing)
-            .prefetch()
-            .prefetch_related("source_language")
+            lambda qs: (
+                qs.exclude(id__in=existing)
+                .prefetch()
+                .prefetch_related("source_language")
+            )
         )
         for item in missing:
             item.project = project_object

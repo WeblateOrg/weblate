@@ -521,7 +521,7 @@ class ComponentTest(RepoTestCase):
         ):
             component.clean()
         self.assertIn(
-            "Push branch cannot be empty when using merge requests",
+            "Push branch cannot be empty when using pull/merge requests",
             str(cm.exception),
         )
 
@@ -533,7 +533,7 @@ class ComponentTest(RepoTestCase):
         ):
             component.clean()
         self.assertIn(
-            "Pull and push branches cannot be the same when using merge requests",
+            "Pull and push branches cannot be the same when using pull/merge requests",
             str(cm.exception),
         )
 

@@ -1468,14 +1468,53 @@ PRIVATE_COMMIT_EMAIL_TEMPLATE
 
 .. versionadded:: 4.15
 
-Template to generate private commit e-mail for an user. Defaults to ``"{username}@users.noreply.{site_domain}"``.
+Template to generate a private commit e-mail for a user. Defaults to ``"{username}@users.noreply.{site_domain}"``.
+
+It can contain ``{user_id}``, ``{username}``, ``{site_title}``, and ``{site_domain}``.
 
 Set to blank string to disable.
 
 .. note::
 
-   Using different commit e-mail is opt-in for users unless configured by
-   :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure commit e-mail in
+   Using a different commit e-mail is opt-in for users unless configured by
+   :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure their commit e-mail in
+   the :ref:`profile`.
+
+.. setting:: PRIVATE_COMMIT_NAME_OPT_IN
+
+PRIVATE_COMMIT_NAME_OPT_IN
+--------------------------
+
+.. versionadded:: 5.16
+
+Configures whether the private commit name is opt-in or opt-out (by default it is opt-in).
+
+.. hint::
+
+   This setting only applies to users which have not explicitly chosen a commit name.
+
+.. seealso::
+
+   * :ref:`profile`
+   * :setting:`PRIVATE_COMMIT_NAME_TEMPLATE`
+
+.. setting:: PRIVATE_COMMIT_NAME_TEMPLATE
+
+PRIVATE_COMMIT_NAME_TEMPLATE
+----------------------------
+
+.. versionadded:: 5.16
+
+Template to generate a private commit name for a user. Defaults to ``"{site_title} user {user_id}"``.
+
+It can contain ``{user_id}``, ``{username}``, ``{site_title}``, and ``{site_domain}``.
+
+Set to blank string to disable.
+
+.. note::
+
+   Using a different commit name is opt-in for users unless configured by
+   :setting:`PRIVATE_COMMIT_NAME_OPT_IN`. Users can configure their commit name in
    the :ref:`profile`.
 
 .. setting:: PROJECT_BACKUP_KEEP_COUNT

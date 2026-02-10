@@ -45,6 +45,7 @@ CONTEXT_SETTINGS = [
     "HIDE_VERSION",
     "EXTRA_HTML_HEAD",
     "PRIVATE_COMMIT_EMAIL_OPT_IN",
+    "PRIVATE_COMMIT_NAME_OPT_IN",
     # Hosted Weblate integration
     "PAYMENT_ENABLED",
     "IP_ADDRESSES",

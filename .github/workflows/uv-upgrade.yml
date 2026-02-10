@@ -40,7 +40,7 @@ jobs:
       if: github.event_name == 'pull_request'
       with:
         persist-credentials: false
-    - uses: actions/cache@8b402f58fbc84540c8b491a91e594a4576fec3d7 # v5.0.2
+    - uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
       with:
         path: ~/.cache/pre-commit
         key: ${{ runner.os }}-pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
@@ -49,18 +49,14 @@ jobs:
       uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       with:
         python-version: '3.14'
-    - uses: astral-sh/setup-uv@61cb8a9741eeb8a550a1b8544337180c0fc8476b # v7.2.0
+    - uses: astral-sh/setup-uv@eac588ad8def6316056a12d4907a9d4d84ff7a3b # v7.3.0
       with:
         save-cache: ${{ github.ref == 'refs/heads/main' }}
         cache-suffix: ${{ steps.setup_python.outputs.python-version }}
 
-        version: 0.9.27
+        version: 0.10.0
     - name: Install apt dependencies
-      run: |
-        if [ -f ./ci/apt-install ] ; then
-          sudo ./ci/apt-install
-        fi
-
+      run: sudo ./ci/apt-install
 
     - name: Lockfile maintenance
       if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
@@ -68,16 +64,13 @@ jobs:
 
     - run: uv sync --all-extras
       name: Update lock file
-      if: hashFiles('uv.lock') != ''
 
     - name: Update SBOM
-      if: hashFiles('docs/specs/sbom/partial/python.json') != ''
       run: |
         uv export --preview-features sbom-export --format cyclonedx1.5 --all-extras --no-dev > docs/specs/sbom/partial/python.json
         ./scripts/reproducible-sbom.py docs/specs/sbom/partial/python.json
 
     - name: Merge SBOM
-      if: hashFiles('docs/specs/sbom/partial/python.json') != ''
       env:
         # renovate: datasource=github-releases depName=CycloneDX/cyclonedx-cli versioning=loose
         CYCLONEDX_CLI_VERSION: v0.29.2
@@ -87,7 +80,7 @@ jobs:
         /tmp/cyclonedx-linux-x64 merge --input-files docs/specs/sbom/partial/* --output-file docs/specs/sbom/sbom.json
         ./scripts/reproducible-sbom.py docs/specs/sbom/sbom.json
 
-    - run: uv run --only-group pre-commit pre-commit run --all
+    - run: uv run --frozen --only-group pre-commit prek run --all-files
       continue-on-error: true
 
     - run: git diff

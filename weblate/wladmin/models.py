@@ -60,7 +60,7 @@ class ConfigurationErrorManager(models.Manager["ConfigurationError"]):
         if checks is None:
             checks = run_checks(include_deployment_checks=True)
         checks_dict = {check.id: check for check in checks}
-        criticals = {
+        critical_checks = {
             "weblate.E002",
             "weblate.E003",
             "weblate.E007",
@@ -89,7 +89,7 @@ class ConfigurationErrorManager(models.Manager["ConfigurationError"]):
         removals = []
         existing = {error.name: error for error in self.all()}
 
-        for check_id in criticals:
+        for check_id in critical_checks:
             if check_id in checks_dict:
                 check = checks_dict[check_id]
                 if check_id in existing:

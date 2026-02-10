@@ -2,7 +2,8 @@ Weblate threat model
 ====================
 
 **Scope:** Core Weblate web application, its interactions with user browsers, backend components (web server, WSGI, database, datastore, Celery), and integration with external VCS.
-**Assumptions:** Standard Weblate deployment with typical components (nginx/Apache, Gunicorn/uWSGI, PostgreSQL, datastore, Celery) and user roles (Unauthenticated, Translator, Project Manager, Administrator).
+
+**Assumptions:** Standard Weblate deployment with typical components (nginx/Apache, granian/Gunicorn/uWSGI, PostgreSQL, datastore, Celery) and user roles (Unauthenticated, Translator, Project Manager, Administrator).
 
 System description and scope
 ----------------------------

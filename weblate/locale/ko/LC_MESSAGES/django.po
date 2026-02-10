@@ -15,7 +15,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-01-26 10:05+0000\n"
-"PO-Revision-Date: 2026-01-21 14:01+0000\n"
+"PO-Revision-Date: 2026-02-08 05:09+0000\n"
 "Last-Translator: Hyeonjeong Lee <h9101654@gmail.com>\n"
 "Language-Team: Korean <https://hosted.weblate.org/projects/weblate/"
 "application/ko/>\n"
@@ -526,8 +526,8 @@ msgid ""
 "The system created a user to track authorship of translations uploaded by "
 "other user."
 msgstr ""
-"다른 사용자가 업로드한 번역의 저자를 추적하기 위해 시스템이 새 사용자를 생성"
-"했습니다."
+"다른 사용자가 업로드한 번역의 작성자 정보를 추적하기 위해 시스템 사용자를 "
+"생성했습니다."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:289
@@ -664,7 +664,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:637
 msgid "Secondary languages"
-msgstr "제2언어"
+msgstr "보조 언어"
 
 #: weblate/accounts/models.py:639
 msgid ""
@@ -1686,7 +1686,7 @@ msgstr "파일별로"
 
 #: weblate/addons/forms.py:139
 msgid "Per author"
-msgstr "저자마다"
+msgstr "작성자별"
 
 #: weblate/addons/forms.py:145
 msgid "Append trailers to squashed commit message"
@@ -3641,16 +3641,12 @@ msgid "Missing non breakable space before double punctuation sign."
 msgstr "이중 구두점 기호 앞에 끊기지 않는 공백이 누락되었습니다."
 
 #: weblate/checks/chars.py:589
-#, fuzzy
-#| msgid "Multiple unnamed variables"
 msgid "Multiple capitals"
-msgstr "명명되지 않은 여러 변수"
+msgstr "연속 대문자"
 
 #: weblate/checks/chars.py:591
-#, fuzzy
-#| msgid "Translation contains extra zero-width space character."
 msgid "Translation contains words with multiple misplaced capital letters."
-msgstr "번역 결과에 불필요한 투명 공백 문자가 들어 있습니다."
+msgstr "번역문에 대문자가 잘못 사용된 단어가 포함되어 있습니다."
 
 #: weblate/checks/consistency.py:33
 msgid "Missing plurals"
@@ -14772,11 +14768,11 @@ msgstr "번역되고 승인된 문자열 변경하기"
 
 #: weblate/trans/forms.py:763
 msgid "Author name"
-msgstr "저자 이름"
+msgstr "작성자 이름"
 
 #: weblate/trans/forms.py:764
 msgid "Author e-mail"
-msgstr "저자의 전자우편"
+msgstr "작성자 전자우편"
 
 #: weblate/trans/forms.py:934 weblate/trans/forms.py:938
 msgid "Could not find the merged string."
@@ -15194,13 +15190,11 @@ msgstr "확인을 위해 카테고리와 언어의 슬러그를 입력해주세�
 
 #: weblate/trans/forms.py:3099
 msgid "Author username"
-msgstr "작성자 이름"
+msgstr "작성자의 사용자 이름"
 
 #: weblate/trans/forms.py:3102
-#, fuzzy
-#| msgid "Author username"
 msgid "Exclude author (username)"
-msgstr "작성자 이름"
+msgstr "제외 작성자 (사용자 이름)"
 
 #: weblate/trans/forms.py:3105
 msgid "Date range"
@@ -16017,10 +16011,8 @@ msgstr ""
 "있습니다."
 
 #: weblate/trans/models/component.py:858 weblate/trans/models/project.py:289
-#, fuzzy
-#| msgid "Secondary languages"
 msgid "Secondary language"
-msgstr "제2언어"
+msgstr "보조 언어"
 
 #: weblate/trans/models/component.py:862 weblate/trans/models/project.py:291
 msgid ""

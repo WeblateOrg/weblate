@@ -7,7 +7,7 @@
 # Justin Nogossek <justmegaliga10000@gmail.com>, 2023.
 # "Joshua F." <joshua.frommholz1@gmail.com>, 2023.
 # Fill read-only add-on <noreply-addon-fill@weblate.org>, 2023, 2024, 2025.
-# nautilusx <translate@disroot.org>, 2024.
+# nautilusx <translate@disroot.org>, 2024, 2026.
 # Elisabeth Pieringer <mail@elisabethpieringer.at>, 2024.
 # Michal Čihař <michal@weblate.org>, 2025.
 # Ettore Atalan <atalanttore@googlemail.com>, 2025.
@@ -19,7 +19,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-01-26 11:05+0100\n"
-"PO-Revision-Date: 2026-01-27 23:26+0000\n"
+"PO-Revision-Date: 2026-02-04 13:01+0000\n"
 "Last-Translator: VfBFan <drop0815@posteo.de>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -5199,7 +5199,7 @@ msgid ""
 "party services such as GitLab, Ubuntu, Fedora, etc."
 msgstr ""
 "Dank :doc:`psa:index` unterstützt Weblate die Authentifizierung über viele "
-"Dienste von Drittanbietern wie GitLab, Ubuntu, Fedora, etc."
+"Dienste von Drittanbietern wie GitLab, Ubuntu, Fedora, usw."
 
 #: ../../admin/auth.rst:38
 msgid ""
@@ -8664,9 +8664,9 @@ msgid ""
 "Avatars are fetched and cached on the server, lowering the risk of leaking "
 "private info, speeding up the user experience."
 msgstr ""
-"Avatare werden abgerufen und auf dem Server zwischengespeichert, wodurch das "
-"Risiko des Durchsickerns privater Informationen verringert und das "
-"Benutzererlebnis beschleunigt wird."
+"Avatare werden auf dem Server abgerufen und zwischengespeichert, was das "
+"Risiko der Weitergabe privater Informationen verringert und das "
+"Nutzungserlebnis verbessert."
 
 #: ../../admin/config.rst:749
 msgid "Whether to turn on anonymous remote hooks."
@@ -8781,8 +8781,8 @@ msgid ""
 "The personal access token needs the :guilabel:`api` scope to be able to use "
 "the API."
 msgstr ""
-"Das persönliche Zugangstoken benötigt den :guilabel:`api`-Bereich, um die "
-"API nutzen zu können."
+"Das persönliche Zugangstoken benötigt die Berechtigung :guilabel:`api`, um "
+"die API nutzen zu können."
 
 #: ../../admin/config.rst:882
 msgid ""
@@ -9702,13 +9702,11 @@ msgstr ""
 "ablenken, die übersetzt werden sollen."
 
 #: ../../admin/config.rst:1871
-#, fuzzy
-#| msgid "This is turned off by default now, used to be turned on by default."
 msgid ""
 "This is turned off by default, making shared glossary components visible."
 msgstr ""
-"Diese Funktion ist jetzt standardmäßig deaktiviert, früher war sie "
-"standardmäßig aktiviert."
+"Diese Funktion ist standardmäßig deaktiviert, so dass die gemeinsamen "
+"Komponenten des Glossars sichtbar sind."
 
 #: ../../admin/config.rst:1878
 msgid ""
@@ -13813,6 +13811,12 @@ msgid ""
 "privacy reasons, as the error e-mails might include sensitive data. You can "
 "read more on that in :ref:`django:logging-security-implications`."
 msgstr ""
+"Die Standardkonfiguration von Weblate veranlasst Django, bei Serverfehlern E-"
+"Mails über :py:class:`django:django.utils.log.AdminEmailHandler` zu "
+"versenden. Dies ist die Konfiguration mit dem geringsten Aufwand, aber Sie "
+"sollten aus Gründen des Datenschutzes andere Optionen in Betracht ziehen, da "
+"die E-Mails bei Fehlern sensible Daten enthalten können. Sie können mehr "
+"darüber in :ref:`django:logging-security-implications` lesen."
 
 #: ../../admin/install.rst:1853
 msgid ""
@@ -13820,6 +13824,9 @@ msgid ""
 "the :setting:`django:LOGGING` in Weblate settings, or "
 "disable :envvar:`WEBLATE_ADMIN_NOTIFY_ERROR` in the Docker environment."
 msgstr ""
+"Um dieses Verhalten zu deaktivieren, entfernen Sie ``mail_admins`` aus "
+":setting:`django:LOGGING` in den Weblate-Einstellungen, oder deaktivieren "
+"Sie :envvar:`WEBLATE_ADMIN_NOTIFY_ERROR` in der Einsatzumgebung von Docker."
 
 #: ../../admin/install.rst:1858
 msgid "Sentry"
@@ -20988,7 +20995,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:68
 msgid "From version control"
-msgstr "Von der Versionsverwaltung"
+msgstr "Aus der Versionsverwaltung"
 
 #: ../../admin/projects.rst:69
 msgid "Creates component from remote version control repository."
@@ -27175,26 +27182,31 @@ msgid ""
 "Delete announcements permission can be assigned to teams, "
 "see :ref:`privileges`."
 msgstr ""
+"Die Berechtigung zum Löschen von Mitteilungen kann Teams zugewiesen werden, "
+"siehe :ref:`privileges`."
 
 #: ../../changes.rst:15
 msgid ":doc:`/user/search` better reports errors in the query strings."
-msgstr ""
+msgstr ":doc:`/user/search` meldet Fehler in den Abfragezeichenketten besser."
 
 #: ../../changes.rst:16
 msgid "Regular repository maintenance is now performed in the background."
-msgstr ""
+msgstr "Die regelmäßige Wartung des Repositorys erfolgt nun im Hintergrund."
 
 #: ../../changes.rst:17
 msgid "Repository cleanup now recovers failed merges or rebases."
 msgstr ""
+"Der Repository-Bereinigungsvorgang stellt jetzt fehlgeschlagene "
+"Zusammenführungen oder Umbasierungen wieder her."
 
 #: ../../changes.rst:18
 msgid "Better visibility of :ref:`project-commit_policy` to translators."
-msgstr ""
+msgstr "Bessere Sichtbarkeit der :ref:`project-commit_policy` für Übersetzer."
 
 #: ../../changes.rst:19
 msgid "Validation of VCS settings :ref:`push-changes` has been extended."
 msgstr ""
+"Die Validierung der VCS-Einstellungen :ref:`push-changes` wurde erweitert."
 
 #: ../../changes.rst:22 ../../changes.rst:53 ../../changes.rst:98
 #: ../../changes.rst:149 ../../changes.rst:188 ../../changes.rst:212
@@ -27224,10 +27236,14 @@ msgid ""
 "Adding plural strings with singular matching existing string is now "
 "prohibited for bilingual translations (see :ref:`bimono`)."
 msgstr ""
+"Bei zweisprachigen Übersetzungen ist das Hinzufügen von Pluralformen zu "
+"Zeichenketten, deren Singular mit der vorhandenen Zeichenkette "
+"übereinstimmt, jetzt verboten (siehe :ref:`bimono`)."
 
 #: ../../changes.rst:24
 msgid "Automatic :ref:`component-repoweb` URL for common code hosting sites."
 msgstr ""
+"Automatische :ref:`component-repoweb`-URL für gängige Code-Hosting-Sites."
 
 #: ../../changes.rst:27 ../../changes.rst:66 ../../changes.rst:163
 #: ../../changes.rst:306 ../../changes.rst:401 ../../changes.rst:456
@@ -27245,6 +27261,10 @@ msgid ""
 "allow generic regular-expression-based checking of strings. Use :ref:`check-"
 "placeholders` for checking regular expression matched placeholders."
 msgstr ""
+":ref:`check-regex` markiert übereinstimmende Teile nicht mehr als nicht "
+"übersetzbar, um eine generische Prüfung von Zeichenketten mit regulären "
+"Ausdrücken zu ermöglichen. Verwenden Sie :ref:`check-placeholders` für die "
+"Prüfung von mit regulären Ausdrücken übereinstimmenden Platzhaltern."
 
 #: ../../changes.rst:31 ../../changes.rst:70 ../../changes.rst:106
 #: ../../changes.rst:173 ../../changes.rst:193 ../../changes.rst:216
@@ -27406,23 +27426,17 @@ msgstr ""
 "Annehmen von Einladungen, wenn :setting:`REQUIRE_LOGIN` eingeschaltet ist."
 
 #: ../../changes.rst:63
-#, fuzzy
-#| msgid ":ref:`mt-cyrtranslit` automatic suggestion service."
 msgid ":ref:`mt-cyrtranslit` installation."
-msgstr "Automatischer Vorschlagsdienst :ref:`mt-cyrtranslit`."
+msgstr ":ref:`mt-cyrtranslit`-Installation."
 
 #: ../../changes.rst:67
-#, fuzzy
-#| msgid ""
-#| "Screenshot images are no longer served directly by the HTTP server, "
-#| "please adjust your HTTP server by removing serving of ``/media/``."
 msgid ""
 "Screenshot images are no longer served directly by the HTTP server, please "
 "adjust your HTTP server by removing serving of :file:`/media/`."
 msgstr ""
 "Bildschirmfotos werden nicht mehr direkt vom HTTP-Server bereitgestellt, "
-"bitte passen Sie Ihren HTTP-Server an, indem Sie das Bereitstellen von ``/"
-"media/`` entfernen."
+"bitte passen Sie Ihren HTTP-Server an, indem Sie das Bereitstellen von "
+":file:`/media/` entfernen."
 
 #: ../../changes.rst:73
 msgid ""
@@ -27430,6 +27444,9 @@ msgid ""
 "media/` path should be removed from the HTTP server configuration; "
 "see :ref:`static-files`."
 msgstr ""
+"Um den Fix für :cve:`2026-21889` wirksam zu machen, sollte das Bereitstellen "
+"des Pfades :file:`/media/` aus der HTTP-Serverkonfiguration entfernt werden; "
+"siehe :ref:`static-files`."
 
 #: ../../changes/contributors/5.10.1.rst:2
 #: ../../changes/contributors/5.10.2.rst:2
@@ -32836,8 +32853,7 @@ msgstr ""
 
 #: ../../changes/v1.rst:95
 msgid "Rewritten search for better performance and user experience."
-msgstr ""
-"Überarbeitete Suche für bessere Leistung und besseres Benutzererlebnis."
+msgstr "Überarbeitete Suche für bessere Leistung und besseres Nutzungserlebnis."
 
 #: ../../changes/v1.rst:96
 msgid "New interface for machine translations."
@@ -34149,7 +34165,7 @@ msgstr "Das Löschen eines Vorschlags wird im Verlauf protokolliert."
 
 #: ../../changes/v2.rst:273
 msgid "Improved UX of languages selection in profile."
-msgstr "Verbessertes Benutzererlebnis der Sprachauswahl im Profil."
+msgstr "Verbessertes Nutzungserlebnis der Sprachauswahl im Profil."
 
 #: ../../changes/v2.rst:274
 msgid "Fixed showing whiteboard messages for component."
@@ -39630,7 +39646,7 @@ msgstr "Für Dateidownloads wird eine Inhaltskomprimierung verwendet."
 
 #: ../../changes/v4.rst:892
 msgid "Improved user experience on importing from ZIP file."
-msgstr "Verbessertes Benutzererlebnis beim Importieren aus einer ZIP-Datei."
+msgstr "Verbessertes Nutzungserlebnis beim Importieren aus einer ZIP-Datei."
 
 #: ../../changes/v4.rst:893
 msgid "Improved detection of file format for uploads."
@@ -45550,6 +45566,10 @@ msgid ""
 "migrate your translation project from platforms like Transifex, Crowdin, "
 "Lokalise, or similar services."
 msgstr ""
+"Sie nutzen eine andere Lokalisierungsplattform und überlegen, zu Weblate zu "
+"wechseln? Dieser Leitfaden hilft Ihnen Schritt für Schritt, Ihr Projekt von "
+"Plattformen wie Transifex, Crowdin, Lokalise oder ähnlichen Diensten zu "
+"migrieren."
 
 #: ../../devel/migration.rst:8
 msgid ""
@@ -45557,105 +45577,102 @@ msgid ""
 "its core, making it ideal for teams that want to keep translations close to "
 "their development workflow."
 msgstr ""
+"Weblate wurde für die kontinuierliche Lokalisierung mit Git-Integration "
+"konzipiert und eignet sich daher ideal für Teams, die ihre Übersetzungen eng "
+"an den Ablauf ihrer Entwicklung binden möchten."
 
 #: ../../devel/migration.rst:13
-#, fuzzy
-#| msgid "Choosing internationalization framework"
 msgid ":doc:`starting` for choosing the right internationalization framework"
-msgstr "Framework für Internationalisierung auswählen"
+msgstr ""
+":doc:`starting` für die Wahl des richtigen Internationalisierungs-Frameworks"
 
 #: ../../devel/migration.rst:14
-#, fuzzy
-#| msgid ":doc:`integration`, :ref:`continuous-translation`"
 msgid ":doc:`integration` for detailed integration options"
-msgstr ":doc:`integration`, :ref:`continuous-translation`"
+msgstr ":doc:`integration` für detaillierte Integrationsmöglichkeiten"
 
 #: ../../devel/migration.rst:15
 msgid ":doc:`/admin/continuous` for setting up automated workflows"
-msgstr ""
+msgstr ":doc:`/admin/continuous` für die Einrichtung automatisierter Abläufe"
 
 #: ../../devel/migration.rst:20
 msgid "Before starting your migration, ensure you have:"
 msgstr ""
+"Bevor Sie mit der Migration beginnen, sind folgende Bedingungen erforderlich:"
 
 #: ../../devel/migration.rst:22
 msgid "**On your localization platform:**"
-msgstr ""
+msgstr "**Auf Ihrer Lokalisierungsplattform:**"
 
 #: ../../devel/migration.rst:24
-#, fuzzy
-#| msgid "Create a repository with your translation files."
 msgid "Access to export your translation files"
-msgstr "Ein Repository mit Ihren Übersetzungsdateien erstellen."
+msgstr "Zugriff zum Exportieren Ihrer Übersetzungsdateien"
 
 #: ../../devel/migration.rst:25
-#, fuzzy
-#| msgid "mask of translation files in the repository"
 msgid "List of translators and their roles/permissions"
-msgstr "Maske der Übersetzungsdateien im Repository"
+msgstr "Liste der Übersetzer und ihrer Rollen/Berechtigungen"
 
 #: ../../devel/migration.rst:26
 msgid ""
 "Understanding of your current workflow (review process, automation, etc.)"
 msgstr ""
+"Verständnis Ihres aktuellen Arbeitsablaufs (Überprüfungsprozess, "
+"Automatisierung, usw.)"
 
 #: ../../devel/migration.rst:28
-#, fuzzy
-#| msgid "Support Weblate"
 msgid "**For Weblate:**"
-msgstr "Weblate unterstützen"
+msgstr "**Für Weblate:**"
 
 #: ../../devel/migration.rst:30
 msgid ""
 "A Weblate instance (either `Hosted Weblate <https://hosted.weblate.org/>`_ "
 "or :doc:`self-hosted </admin/install>`)"
 msgstr ""
+"Eine Weblate-Instanz (entweder `Hosted Weblate <https://hosted.weblate.org/>"
+"`_ oder :doc:`Self-Hosted </admin/install>`)"
 
 #: ../../devel/migration.rst:31
 msgid "Admin or project creation permissions on your Weblate instance"
 msgstr ""
+"Administrator- oder Projekterstellungsberechtigung in Ihrer Weblate-Instanz"
 
 #: ../../devel/migration.rst:34
-#, fuzzy
-#| msgid "Share your translation"
 msgid "Prepare your translation files"
-msgstr "Ihre Übersetzungen teilen"
+msgstr "Ihre Übersetzungsdateien vorbereiten"
 
 #: ../../devel/migration.rst:37
-#, fuzzy
-#| msgid "Manage translation memory (on the entire platform)"
 msgid "Export translations from your current platform"
-msgstr "Übersetzungsspeicher verwalten (auf der gesamten Plattform)"
+msgstr "Übersetzungen von Ihrer aktuellen Plattform exportieren"
 
 #: ../../devel/migration.rst:39
 msgid ""
 "Most localization platforms allow you to export all translations at once:"
 msgstr ""
+"Die meisten Lokalisierungsplattformen erlauben Ihnen, alle Übersetzungen auf "
+"einmal zu exportieren:"
 
 #: ../../devel/migration.rst:41
-#, fuzzy
-#| msgid ""
-#| "There are multiple options to download the translation memory of the "
-#| "whole instance."
 msgid ""
 "**Transifex**: Use their CLI tool or download translations from the web "
 "interface"
 msgstr ""
-"Es gibt mehrere Möglichkeiten, den Übersetzungsspeicher der gesamten Instanz "
-"herunterzuladen."
+"**Transifex**: Das CLI-Tool verwenden oder die Übersetzungen über die "
+"Weboberfläche herunterladen"
 
 #: ../../devel/migration.rst:42
 msgid ""
 "**Crowdin**: Export all translations as a ZIP file from project settings"
 msgstr ""
+"**Crowdin**: Alle Übersetzungen als ZIP-Datei aus den Projekteinstellungen "
+"exportieren"
 
 #: ../../devel/migration.rst:43
 msgid "**Lokalise**: Use the bulk export feature"
-msgstr ""
+msgstr "**Lokalise**: Die Funktion für den Massenexport verwenden"
 
 #: ../../devel/migration.rst:44
 msgid "**Phrase**: Download all locales from the project dashboard"
 msgstr ""
+"**Phrase**: Alle Gebietsschemata von der Projekübersichtsseite herunterladen"
 
 #: ../../devel/migration.rst:48
 msgid ""
@@ -45663,12 +45680,13 @@ msgid ""
 "internationalization framework (PO, XLIFF, JSON, etc.) rather than "
 "converting them. Weblate supports :ref:`many formats <formats>`."
 msgstr ""
+"Behalten Sie Ihre Übersetzungsdateien in dem Format, das Ihrem "
+"Internationalisierungs-Framework entspricht (PO, XLIFF, JSON usw.), anstatt "
+"sie zu konvertieren. Weblate unterstützt :ref:`viele Formate <formats>`."
 
 #: ../../devel/migration.rst:53
-#, fuzzy
-#| msgid "Commit changes to the internal repository"
 msgid "Commit translations to your Git repository"
-msgstr "Commit für Änderungen am internen Repository durchführen"
+msgstr "Übersetzungen in Ihr Git-Repository committen"
 
 #: ../../devel/migration.rst:57
 msgid ""
@@ -45676,150 +45694,131 @@ msgid ""
 "you can skip this step and use the :guilabel:`Upload translation files` "
 "option when creating a component."
 msgstr ""
+"Wenn Sie Übersetzungen nicht in einem externen Git-Repository speichern "
+"möchten, können Sie diesen Schritt überspringen und beim Erstellen einer "
+"Komponente die Option :guilabel:`Übersetzungsdateien hochladen` verwenden."
 
 #: ../../devel/migration.rst:61
-#, fuzzy
-#| msgid "Ignore uploaded translations which are already translated."
 msgid "If your translations aren't already in Git:"
-msgstr ""
-"Hochgeladene Übersetzungen, die bereits übersetzt sind, werden ignoriert."
+msgstr "Falls Ihre Übersetzungen noch nicht in Git sind:"
 
 #: ../../devel/migration.rst:63
 msgid "Create a Git repository or use your existing project repository"
 msgstr ""
+"Ein Git-Repository erstellen oder das bestehende Projekt-Repository verwenden"
 
 #: ../../devel/migration.rst:64
 msgid "Organize translation files following your project structure"
-msgstr ""
+msgstr "Die Übersetzungsdateien entsprechend der Projektstruktur organisieren"
 
 #: ../../devel/migration.rst:65
-#, fuzzy
-#| msgid ""
-#| "Accessing repositories on code hosting sites (GitHub, GitLab, Bitbucket, "
-#| "Azure DevOps, ...)"
 msgid ""
 "Commit and push the files to your Git hosting service (GitHub, GitLab, "
 "Bitbucket, etc.)"
 msgstr ""
-"Zugriff auf Repositorys von Code-Hosting-Sites (GitHub, GitLab, Bitbucket, "
-"Azure DevOps, …)"
+"Die Dateien an den Git-Hosting-Dienst (GitHub, GitLab, Bitbucket, usw.) "
+"committen und pushen"
 
 #: ../../devel/migration.rst:75
-#, fuzzy
-#| msgid ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
 msgid ":ref:`continuous-translation` for optimal repository structure"
-msgstr ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
+msgstr ":ref:`continuous-translation` für eine optimale Repository-Struktur"
 
 #: ../../devel/migration.rst:76
-#, fuzzy
-#| msgid "version control system"
 msgid ":doc:`/vcs` for supported version control systems"
-msgstr "Versionsverwaltung"
+msgstr ":doc:`/vcs` für unterstützte Versionsverwaltungssysteme"
 
 #: ../../devel/migration.rst:79
-#, fuzzy
-#| msgid "Importing a localization project into Weblate"
 msgid "Import your project into Weblate"
-msgstr "Ein Lokalisierungsprojekt in Weblate importieren"
+msgstr "Ihr Projekt in Weblate importieren"
 
 #: ../../devel/migration.rst:82
-#, fuzzy
-#| msgid "Creates a new project."
 msgid "Create a new project"
-msgstr "Erstellt ein neues Projekt."
+msgstr "Ein neues Projekt erstellen"
 
 #: ../../devel/migration.rst:84
-#, fuzzy
-#| msgid "Your Weblate instance URL"
 msgid "Navigate to your Weblate instance."
-msgstr "Die URL Ihrer Weblate-Instanz"
+msgstr "Zur eigenen Weblate-Instanz navigieren."
 
 #: ../../devel/migration.rst:85
 msgid "Click :guilabel:`Add new translation project` in the **+** menu."
 msgstr ""
+"Im Menü **+** auf :guilabel:`Neues Übersetzungsprojekt hinzufügen` klicken."
 
 #: ../../devel/migration.rst:86
 msgid "Fill in your project details:"
-msgstr ""
+msgstr "Die Projektdetails eingeben:"
 
 #: ../../devel/migration.rst:88
 msgid "**Project name**: Your application or project name"
-msgstr ""
+msgstr "**Projektname**: Der Anwendungs- oder Projektname"
 
 #: ../../devel/migration.rst:89
 msgid "**URL slug**: Short identifier (e.g., ``myapp``)"
-msgstr ""
+msgstr "**URL-Slug**: Kurzbezeichnung (z. B. ``myapp``)"
 
 #: ../../devel/migration.rst:90
-#, fuzzy
-#| msgid "Project source language code (optional)"
 msgid "**Project website**: Your project homepage (optional)"
-msgstr "Sprachcode der Projekt-Ausgangssprache (optional)"
+msgstr "**Projektwebsite**: Die Projekt-Homepage (optional)"
 
 #: ../../devel/migration.rst:96
 msgid ":ref:`adding-projects` for detailed project creation instructions"
 msgstr ""
+":ref:`adding-projects` für detaillierte Anweisungen zur Projekterstellung"
 
 #: ../../devel/migration.rst:99
-#, fuzzy
-#| msgid "Creates component from remote version control repository."
 msgid "Add a component from your Git repository"
-msgstr "Erzeugt eine Komponente aus einem Remote-VCS-Repository."
+msgstr "Eine Komponente aus Ihrem Git-Repository hinzufügen"
 
 #: ../../devel/migration.rst:101
 msgid ""
 "After creating the project, click :guilabel:`Add new translation component`"
 msgstr ""
+"Nachdem das Projekt erstellt wurde, auf :guilabel:`Neue "
+"Übersetzungskomponente hinzufügen` klicken"
 
 #: ../../devel/migration.rst:102
-#, fuzzy
-#| msgid "From version control"
 msgid "Select :guilabel:`From version control`"
-msgstr "Von der Versionsverwaltung"
+msgstr ":guilabel:`Aus der Versionsverwaltung` auswählen"
 
 #: ../../devel/migration.rst:103
-#, fuzzy
-#| msgid "name of component"
 msgid "Configure your component:"
-msgstr "Name der Komponente"
+msgstr "Die Komponente konfigurieren:"
 
 #: ../../devel/migration.rst:105
 msgid ""
 "**Component name**: e.g., \"Application strings\", \"Website\", "
 "\"Documentation\""
 msgstr ""
+"**Komponentenname**: z. B. „Anwendungszeichenketten“, „Website“, „"
+"Dokumentation“"
 
 #: ../../devel/migration.rst:106
 msgid "**Repository URL**: Your Git repository URL (HTTPS or SSH)"
-msgstr ""
+msgstr "**Repository-URL**: Die Git-Repository-URL (HTTPS oder SSH)"
 
 #: ../../devel/migration.rst:107
 msgid ""
 "**Repository branch**: Optional: Specify repository branch (Weblate "
 "automatically detects the default branch if not specified)"
 msgstr ""
+"**Repository-Branch**: Optional: Angabe des Repository-Branches (Weblate "
+"erkennt automatisch den Standard-Branch, wenn nicht angegeben)"
 
 #: ../../devel/migration.rst:109
 msgid "Weblate will automatically detect:"
-msgstr ""
+msgstr "Weblate erkennt automatisch:"
 
 #: ../../devel/migration.rst:111
-#, fuzzy
-#| msgid "Translation file"
 msgid "Translation file format"
-msgstr "Übersetzungsdatei"
+msgstr "Übersetzungsdateiformat"
 
 #: ../../devel/migration.rst:112
-#, fuzzy
-#| msgid "All languages"
 msgid "Available languages"
-msgstr "Alle Sprachen"
+msgstr "Vorhandene Sprachen"
 
 #: ../../devel/migration.rst:115
-#, fuzzy
-#| msgid "Please review and confirm the matched components."
 msgid "Review and confirm the detected settings"
-msgstr "Bitte überprüfen und bestätigen Sie die passenden Komponenten."
+msgstr "Die erkannten Einstellungen überprüfen und bestätigen"
 
 #: ../../devel/migration.rst:121
 msgid ""
@@ -45827,6 +45826,9 @@ msgid ""
 "for backend, frontend, documentation), create a separate Weblate component "
 "for each."
 msgstr ""
+"Bei Repositorys mit mehreren Übersetzungskomponenten (z. B. getrennte "
+"Dateien für Backend, Frontend, Dokumentation) erstellen Sie für jede "
+"Komponente eine eigene Weblate-Komponente."
 
 #: ../../devel/migration.rst:125
 msgid ""
@@ -45834,449 +45836,406 @@ msgid ""
 "repositories or :ref:`addon-weblate.discovery.discovery` to automatically "
 "create them."
 msgstr ""
+"Sie können dies beschleunigen, indem Sie :guilabel:`Aus vorhandener "
+"Komponente` für gemeinsam genutzte Repositorys verwenden oder :ref:`addon-"
+"weblate.discovery.discovery`, um sie automatisch zu erstellen."
 
 #: ../../devel/migration.rst:131
-#, fuzzy
-#| msgid "Component configuration"
 msgid ":ref:`component` for all configuration options"
-msgstr "Komponentenkonfiguration"
+msgstr ":ref:`component` für alle Konfigurationsoptionen"
 
 #: ../../devel/migration.rst:132
 msgid ":ref:`bimono` for understanding monolingual vs. bilingual formats"
 msgstr ""
+":ref:`bimono` zum Verständnis von einsprachigen vs. zweisprachigen Formaten"
 
 #: ../../devel/migration.rst:136
-#, fuzzy
-#| msgid "Configure the password"
 msgid "Configure your workflow"
-msgstr "Passwort festlegen"
+msgstr "Ihren Arbeitsablauf konfigurieren"
 
 #: ../../devel/migration.rst:139
-#, fuzzy
-#| msgid "Project access control"
 msgid "Set up access control"
-msgstr "Projekt-Zugriffssteuerung"
+msgstr "Zugriffssteuerung einrichten"
 
 #: ../../devel/migration.rst:141
 msgid "Choose your project's visibility and access level:"
-msgstr ""
+msgstr "Wählen Sie die Sichtbarkeit und Zugriffsebene Ihres Projekts:"
 
 #: ../../devel/migration.rst:143
 msgid ""
 "Go to your project settings: :guilabel:`Operations` → :guilabel:`Settings` "
 "→ :guilabel:`Access` tab"
 msgstr ""
+"Zu den Projekteinstellungen gehen: :guilabel:`Operationen` → "
+":guilabel:`Einstellungen` → :guilabel:`Zugriff`"
 
 #: ../../devel/migration.rst:144
 msgid "Select the appropriate :ref:`access control <acl>`:"
-msgstr ""
+msgstr "Die entsprechende :ref:`Zugriffssteuerung <acl>` auswählen:"
 
 #: ../../devel/migration.rst:146
 msgid "**Public**: Open-source projects, anyone can contribute"
-msgstr ""
+msgstr "**Öffentlich**: Open-Source-Projekte, jeder kann dazu beitragen"
 
 #: ../../devel/migration.rst:147
 msgid "**Protected**: Visible to all, but only invited users can translate"
 msgstr ""
+"**Geschützt**: Sichtbar für alle, aber nur eingeladene Benutzer können "
+"übersetzen"
 
 #: ../../devel/migration.rst:148
 msgid "**Private**: Only invited users can view and translate"
 msgstr ""
+"**Privat**: Nur eingeladene Benutzer können Übersetzungen ansehen und "
+"übersetzen"
 
 #: ../../devel/migration.rst:154
 msgid ":ref:`manage-acl` for detailed access control configuration"
 msgstr ""
+":ref:`manage-acl` für die detaillierte Konfiguration der Zugriffssteuerung"
 
 #: ../../devel/migration.rst:157
-#, fuzzy
-#| msgid "Continuous localization"
 msgid "Set up continuous localization"
-msgstr "Kontinuierliche Lokalisierung"
+msgstr "Kontinuierliche Lokalisierung einrichten"
 
 #: ../../devel/migration.rst:159
 msgid "Enable automatic updates and commits:"
-msgstr ""
+msgstr "Automatische Updates und Commits aktivieren:"
 
 #: ../../devel/migration.rst:161
-#, fuzzy
-#| msgid "Repository integration"
 msgid "Configure repository integration:"
-msgstr "Repository-Integration"
+msgstr "Die Repository-Integration konfigurieren:"
 
 #: ../../devel/migration.rst:163
 msgid ""
 "**Pull changes**: Set up a :ref:`webhook <update-vcs>` so Weblate updates "
 "when your source code changes"
 msgstr ""
+"**Änderungen ziehen**: :ref:`Webhook <update-vcs>` so einrichten, dass "
+"Weblate aktualisiert wird, wenn sich der Quellcode ändert"
 
 #: ../../devel/migration.rst:164
 msgid ""
 "**Push changes**: Configure :ref:`push-changes` so translations are "
 "committed back to your repository"
 msgstr ""
+"**Änderungen pushen**: :ref:`push-changes` so konfigurieren, dass "
+"Übersetzungen in das Repository zurück committet werden"
 
 #: ../../devel/migration.rst:166
-#, fuzzy
-#| msgid "Unused new base in component settings"
 msgid "Enable automatic actions in component settings:"
-msgstr "Nicht verwendete neue Basis in den Komponenteneinstellungen"
+msgstr "Die automatischen Aktionen in den Komponenteneinstellungen aktivieren:"
 
 #: ../../devel/migration.rst:168
-#, fuzzy
-#| msgid ""
-#| "Use the commit script to automatically change a translation before it is "
-#| "committed to the repository."
 msgid "**Push on commit**: Automatically push translations to your repository"
 msgstr ""
-"Verwenden Sie das Commit-Skript, um eine Übersetzung automatisch zu ändern, "
-"bevor sie in das Repository committet wird."
+"**Pushen bei Commit**: Automatisches Pushen von Übersetzungen in das "
+"Repository"
 
 #: ../../devel/migration.rst:169
 msgid ""
 "**Commit interval**: Set how often pending translations are committed (e.g., "
 "every 24 hours)"
 msgstr ""
+"**Commit-Intervall**: Festlegen, wie oft ausstehende Übersetzungen committet "
+"werden (z. B. alle 24 Stunden)"
 
 #: ../../devel/migration.rst:173
-#, fuzzy
-#| msgid ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
 msgid ":ref:`continuous-translation` for complete workflow automation"
-msgstr ":ref:`continuous-translation`, :ref:`avoid-merge-conflicts`"
+msgstr ""
+":ref:`continuous-translation` für die vollständige Automatisierung von "
+"Arbeitsabläufen"
 
 #: ../../devel/migration.rst:176
-#, fuzzy
-#| msgid "Configure the password"
 msgid "Configure quality checks and workflows"
-msgstr "Passwort festlegen"
+msgstr "Qualitätsprüfungen und Abläufe konfigurieren"
 
 #: ../../devel/migration.rst:178
-#, fuzzy
-#| msgid "Translation quality filter"
 msgid "Customize translation quality controls:"
-msgstr "Filter für die Übersetzungsqualität"
+msgstr "Qualitätskontrollen der Übersetzungen anpassen:"
 
 #: ../../devel/migration.rst:180
-#, fuzzy
-#| msgid "Enable the :ref:`check-i18next-interpolation` quality check."
 msgid ""
 "**Enable checks**: Review :ref:`checks` and enable any opt-in quality checks "
 "you need."
-msgstr "Aktiviert die Qualitätsprüfung :ref:`check-i18next-interpolation`."
+msgstr ""
+"**Überprüfungen aktivieren**: :ref:`checks` überprüfen und alle benötigten "
+"Opt-In-Qualitätsprüfungen aktivieren."
 
 #: ../../devel/migration.rst:181
 msgid ""
 "**Set up review workflow**: Enable :ref:`project-translation_review` if you "
 "want an approval process."
 msgstr ""
+"**Überprüfungsablauf einrichten**: :ref:`project-translation_review` "
+"aktivieren, wenn ein Genehmigungsprozess gewünscht ist."
 
 #: ../../devel/migration.rst:182
 msgid ""
 "**Add enforced checks**: Configure which quality checks should block "
 "translations."
 msgstr ""
+"**Erzwungene Prüfungen hinzufügen**: Konfigurieren, welche "
+"Qualitätsprüfungen Übersetzungen blockieren sollen."
 
 #: ../../devel/migration.rst:185
-#, fuzzy
-#| msgid "Enable add-on:"
 msgid "Optional: Enable add-ons"
-msgstr "Erweiterung aktivieren:"
+msgstr "Optional: Erweiterungen einschalten"
 
 #: ../../devel/migration.rst:187
 msgid "Weblate offers :ref:`addons` to automate common tasks:"
-msgstr ""
+msgstr "Weblate bietet :ref:`addons`, um gängige Aufgaben zu automatisieren:"
 
 #: ../../devel/migration.rst:189
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.gettext.msgmerge` can be used to update PO files from "
-#| "the POT file, see :ref:`updating-target-files`."
 msgid ""
 ":ref:`addon-weblate.gettext.msgmerge`: Automatically update PO files from "
 "POT templates"
 msgstr ""
-":ref:`addon-weblate.gettext.msgmerge` kann verwendet werden, um PO-Dateien "
-"aus der POT-Datei zu aktualisieren, siehe :ref:`updating-target-files`."
+":ref:`addon-weblate.gettext.msgmerge`: Automatisches Aktualisieren von PO-"
+"Dateien aus POT-Vorlagen"
 
 #: ../../devel/migration.rst:190
-#, fuzzy
-#| msgid ""
-#| "Use :ref:`addon-weblate.cleanup.generic` if you only want to remove stale "
-#| "translation keys."
 msgid ":ref:`addon-weblate.cleanup.generic`: Remove unused translation strings"
 msgstr ""
-"Verwenden Sie :ref:`addon-weblate.cleanup.generic`, wenn Sie nur veraltete "
-"Übersetzungsschlüssel entfernen möchten."
+":ref:`addon-weblate.cleanup.generic`: Nicht verwendete "
+"Übersetzungszeichenketten entfernen"
 
 #: ../../devel/migration.rst:191
-#, fuzzy
-#| msgid "Fixed :ref:`addon-weblate.git.squash` on linked repositories."
 msgid ""
 ":ref:`addon-weblate.git.squash`: Squash commits before pushing to your "
 "repository"
-msgstr ":ref:`addon-weblate.git.squash` für verlinkte Repositorys korrigiert."
+msgstr ""
+":ref:`addon-weblate.git.squash`: Commits vor dem Pushen in das Repository "
+"zusammenfassen"
 
 #: ../../devel/migration.rst:192
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-weblate.discovery.discovery` now reports skipped entries."
 msgid ""
 ":ref:`addon-weblate.discovery.discovery`: Automatically discover new "
 "translation files"
 msgstr ""
-":ref:`addon-weblate.discovery.discovery` meldet nun übersprungene Einträge."
+":ref:`addon-weblate.discovery.discovery`: Automatisches Erkennen neuer "
+"Übersetzungsdateien"
 
 #: ../../devel/migration.rst:196
 msgid ":doc:`/admin/addons` for all available add-ons"
-msgstr ""
+msgstr ":doc:`/admin/addons` für alle verfügbaren Erweiterungen"
 
 #: ../../devel/migration.rst:199
-#, fuzzy
-#| msgid "Reset and reapply"
 msgid "Test and verify"
-msgstr "Zurücksetzen und erneut anwenden"
+msgstr "Testen und Überprüfen"
 
 #: ../../devel/migration.rst:201
-#, fuzzy
-#| msgid "Support for locking translation by translator."
 msgid "Before announcing the migration to your translators:"
-msgstr "Unterstützung für das Sperren der Übersetzung durch den Übersetzer."
+msgstr "Bevor Sie die Übersetzer über die Migration informieren:"
 
 #: ../../devel/migration.rst:203
 msgid "**Test the workflow**:"
-msgstr ""
+msgstr "**Den Arbeitsablauf testen**:"
 
 #: ../../devel/migration.rst:205
-#, fuzzy
-#| msgid "Target translation"
 msgid "Make a test translation"
-msgstr "Zielübersetzung"
+msgstr "Eine Testübersetzung erstellen"
 
 #: ../../devel/migration.rst:206
-#, fuzzy
-#| msgid "Reset changes in the internal repository"
 msgid "Verify it appears in your Git repository"
-msgstr "Änderungen im internen Repository zurücksetzen"
+msgstr "Überprüfen, ob es im Git-Repository erscheint"
 
 #: ../../devel/migration.rst:207
-#, fuzzy
-#| msgid "You pull changes from a remote repository to Weblate like this:"
 msgid "Test pulling changes from your repository into Weblate"
-msgstr "So ziehen Sie Änderungen aus einem Remote-Repository zu Weblate:"
+msgstr "Das Ziehen von Änderungen aus dem Repository hinein in Weblate testen"
 
 #: ../../devel/migration.rst:209
-#, fuzzy
-#| msgid "Import existing translations"
 msgid "**Import any existing translation memory** (optional):"
-msgstr "Vorhandene Übersetzungen importieren"
+msgstr "**Vorhandene Übersetzungsspeicher importieren** (optional):"
 
 #: ../../devel/migration.rst:211
-#, fuzzy
-#| msgid "Huge translation memory with machine translation."
 msgid "Use :ref:`translation-memory` to import previous translations"
-msgstr "Großer Übersetzungsspeicher mit maschineller Übersetzung."
+msgstr ""
+":ref:`translation-memory` verwenden, um frühere Übersetzungen zu importieren"
 
 #: ../../devel/migration.rst:212
 msgid "This helps with consistency and speeds up translation"
-msgstr ""
+msgstr "Das hilft bei der Konsistenz und beschleunigt die Übersetzung"
 
 #: ../../devel/migration.rst:214
-#, fuzzy
-#| msgid "Component wide notifications"
 msgid "**Configure notifications**:"
-msgstr "Komponentenübergreifende Benachrichtigungen"
+msgstr "**Benachrichtigungen konfigurieren**:"
 
 #: ../../devel/migration.rst:216
-#, fuzzy
-#| msgid "Support for e-mail notifications of translators."
 msgid "Set up :ref:`notifications` for translation events"
-msgstr "Unterstützung für E-Mail-Benachrichtigungen von Übersetzern."
+msgstr ":ref:`notifications` für Übersetzungsereignisse einrichten"
 
 #: ../../devel/migration.rst:217
-#, fuzzy
-#| msgid "Configure repository hooks for automated flow of updates to Weblate."
 msgid "Configure repository :ref:`hooks` for your Git hosting service"
-msgstr ""
-"Konfigurieren Sie Repository-Hooks für den automatisierten Ablauf von "
-"Updates für Weblate."
+msgstr "Repository-:ref:`hooks` für den Git-Hosting-Dienst konfigurieren"
 
 #: ../../devel/migration.rst:221
 msgid ":doc:`/admin/memory` for translation memory management"
-msgstr ""
+msgstr ":doc:`/admin/memory` für die Verwaltung von Übersetzungsspeichern"
 
 #: ../../devel/migration.rst:224
-#, fuzzy
-#| msgid "Invite new user"
 msgid "Invite and manage users"
-msgstr "Neuen Benutzer einladen"
+msgstr "Benutzer einladen und verwalten"
 
 #: ../../devel/migration.rst:227
-#, fuzzy
-#| msgid "list_translators"
 msgid "Invite translators"
-msgstr "list_translators"
+msgstr "Übersetzer einladen"
 
 #: ../../devel/migration.rst:229
-#, fuzzy
-#| msgid "For `Protected` and `Private` projects only:"
 msgid "For **Protected** and **Private** projects:"
-msgstr "Nur für `Geschützt`- und `Privat`-Projekte:"
+msgstr "Für **Geschützte** und **Private** Projekte:"
 
 #: ../../devel/migration.rst:231
-#, fuzzy
-#| msgid ""
-#| "Navigate to :guilabel:`Machine translation` → :guilabel:`Automatic "
-#| "suggestions`"
 msgid "Navigate to :guilabel:`Operations` → :guilabel:`Users` in your project"
-msgstr ""
-"Zu :guilabel:`Maschinelle Übersetzung` → :guilabel:`Automatische Vorschläge` "
-"navigieren"
+msgstr "Im Projekt zu :guilabel:`Operationen` → :guilabel:`Benutzer` navigieren"
 
 #: ../../devel/migration.rst:232
-#, fuzzy
-#| msgid ":guilabel:`Add language for translation`"
 msgid "Use :guilabel:`Add user` to invite translators"
-msgstr ":guilabel:`Sprache zur Übersetzung hinzufügen`"
+msgstr ":guilabel:`Benutzer hinzufügen` verwenden, um Übersetzer einzuladen"
 
 #: ../../devel/migration.rst:233
 msgid "Assign them to appropriate teams:"
-msgstr ""
+msgstr "Diese den entsprechenden Teams zuweisen:"
 
 #: ../../devel/migration.rst:235
-#, fuzzy
-#| msgid "Change translated strings"
 msgid "**Translators**: Can translate strings"
-msgstr "Übersetzte Zeichenketten ändern"
+msgstr "**Übersetzer**: Kann Zeichenketten übersetzen"
 
 #: ../../devel/migration.rst:236
-#, fuzzy
-#| msgid "Requires dedicated reviewers to approve translations."
 msgid "**Reviewers**: Can review and approve translations"
-msgstr "Benötigt dedizierte Prüfer, um Übersetzungen zu genehmigen."
+msgstr "**Prüfer**: Kann Übersetzungen überprüfen und genehmigen"
 
 #: ../../devel/migration.rst:237
 msgid "**Managers**: Can manage project settings"
-msgstr ""
+msgstr "**Manager**: Kann Projekteinstellungen verwalten"
 
 #: ../../devel/migration.rst:239
 msgid ""
 "For **Public** projects, users can start contributing immediately after "
 "signing up."
 msgstr ""
+"Bei **Öffentlichen** Projekten können Benutzer sofort nach der Anmeldung "
+"einen Beitrag leisten."
 
 #: ../../devel/migration.rst:243
 msgid "Send your translators a welcome message with:"
-msgstr ""
+msgstr "Senden Sie Ihren Übersetzern eine Willkommensnachricht mit:"
 
 #: ../../devel/migration.rst:245
-#, fuzzy
-#| msgid "Lists projects in Weblate."
 msgid "Link to your project on Weblate"
-msgstr "Listet die Projekte in Weblate auf."
+msgstr "Link zu Ihrem Projekt auf Weblate"
 
 #: ../../devel/migration.rst:246
 msgid "Overview of any project-specific terminology or style guides"
 msgstr ""
+"Überblick über die projektspezifische Terminologie oder "
+"Gestaltungsrichtlinien"
 
 #: ../../devel/migration.rst:247
-#, fuzzy
-#| msgid "Information about project"
 msgid "Information about your review process"
-msgstr "Informationen zum Projekt"
+msgstr "Informationen zu Ihrem Überprüfungsprozess"
 
 #: ../../devel/migration.rst:251
-#, fuzzy
-#| msgid "Add :ref:`addons` history tab in management."
 msgid ":ref:`manage-acl` for team management"
-msgstr "Reiter für :ref:`addons`-Verlauf unter Verwaltung hinzugefügt."
+msgstr ":ref:`manage-acl` für die Teamverwaltung"
 
 #: ../../devel/migration.rst:252
 msgid ":doc:`/admin/access` for advanced permission configuration"
 msgstr ""
+":doc:`/admin/access` für die erweiterte Konfiguration der Berechtigungen"
 
 #: ../../devel/migration.rst:256
-#, fuzzy
-#| msgid "Next section"
 msgid "Next steps"
-msgstr "Nächster Abschnitt"
+msgstr "Nächste Schritte"
 
 #: ../../devel/migration.rst:258
-#, fuzzy
-#| msgid "Promoting the translation"
 msgid "After completing the migration:"
-msgstr "Übersetzung gezielt fördern"
+msgstr "Nach Abschluss der Migration:"
 
 #: ../../devel/migration.rst:260
 msgid ""
 "**Announce to translators**: Let your translation team know about the "
 "migration with clear instructions"
 msgstr ""
+"**Mitteilung an die Übersetzer**: Informieren Sie das Übersetzungsteam mit "
+"klaren Anweisungen über die Migration"
 
 #: ../../devel/migration.rst:261
 msgid ""
 "**Monitor initial usage**: Watch for any issues during the first few days"
 msgstr ""
+"**Anfängliche Nutzung überwachen**: Beobachten Sie, ob in den ersten Tagen "
+"Probleme auftreten"
 
 #: ../../devel/migration.rst:262
 msgid ""
 "**Gather feedback**: Ask translators about their experience compared to the "
 "previous platform"
 msgstr ""
+"**Feedback einholen**: Fragen Sie Übersetzer nach ihren Erfahrungen im "
+"Vergleich zur vorherigen Plattform"
 
 #: ../../devel/migration.rst:263
 msgid "**Optimize workflow**: Adjust settings based on your team's needs"
 msgstr ""
+"**Arbeitsablauf optimieren**: Passen Sie die Einstellungen an die "
+"Bedürfnisse Ihres Teams an"
 
 #: ../../devel/migration.rst:264
 msgid ""
 "**Remove previous platform**: Once the migration is completed, remember to "
 "revoke access granted to the previous platform."
 msgstr ""
+"**Vorherige Plattform entfernen**: Sobald die Migration abgeschlossen ist, "
+"sollten Sie den Zugriff auf die vorherige Plattform aufheben."
 
 #: ../../devel/migration.rst:268
 msgid ""
 "During migration, you can run both platforms in parallel for a transition "
 "period to ensure everything works as expected before fully switching over."
 msgstr ""
+"Während der Migration können Sie beide Plattformen für eine Übergangszeit "
+"parallel betreiben, um sicherzustellen, dass alles wie erwartet "
+"funktioniert, bevor Sie vollständig umstellen."
 
 #: ../../devel/migration.rst:272
-#, fuzzy
-#| msgid "Additional projects"
 msgid "Additional resources"
-msgstr "Zusätzliche Projekte"
+msgstr "Zusätzliche Ressourcen"
 
 #: ../../devel/migration.rst:274
-#, fuzzy
-#| msgid "The documentation has detailed instructions"
 msgid ":doc:`integration` - Detailed integration patterns"
-msgstr "Die Dokumentation enthält detaillierte Anweisungen"
+msgstr ":doc:`integration` – Detaillierte Integrationsmuster"
 
 #: ../../devel/migration.rst:275
 msgid ":doc:`/workflows` - Different workflow configurations"
-msgstr ""
+msgstr ":doc:`/workflows` – Verschiedene Arbeitsablauf-Konfigurationen"
 
 #: ../../devel/migration.rst:276
 msgid ":doc:`/admin/continuous` - Automated continuous localization"
-msgstr ""
+msgstr ":doc:`/admin/continuous` – Automatisierte kontinuierliche Lokalisierung"
 
 #: ../../devel/migration.rst:277
 msgid ":doc:`/api` - API for automation and integrations"
-msgstr ""
+msgstr ":doc:`/api` – API für Automatisierung und Integrationen"
 
 #: ../../devel/migration.rst:278
 msgid ":doc:`/devel/reporting` - Setting up translation progress reports"
 msgstr ""
+":doc:`/devel/reporting` – Erstellen von Berichten über den "
+"Übersetzungsfortschritt"
 
 #: ../../devel/migration.rst:279
-#, fuzzy
-#| msgid "Frequently Asked Questions"
 msgid ":doc:`/faq` - Frequently asked questions"
-msgstr "Häufig gestellte Fragen"
+msgstr ":doc:`/faq` – Häufig gestellte Fragen"
 
 #: ../../devel/migration.rst:283
 msgid ""
 "Join the `Weblate community <https://weblate.org/support/>`_ if you need "
 "help during your migration. The community is active and helpful!"
 msgstr ""
+"Treten Sie der `Weblate-Community <https://weblate.org/support/>`_ bei, wenn "
+"Sie während Ihrer Migration Hilfe benötigen. Die Community ist aktiv und "
+"hilfsbereit!"
 
 #: ../../devel/mobile.rst:2
 msgid "Multi-platform localization"
@@ -47092,6 +47051,8 @@ msgstr ""
 msgid ""
 "`Unofficial Weblate SDK for Flutter <https://pub.dev/packages/weblate_sdk>`_"
 msgstr ""
+"`Inoffizielles Weblate-SDK für Flutter <https://pub.dev/packages/weblate_sdk>"
+"`_"
 
 #: ../../devel/third-party.rst:19
 msgid ""
@@ -47754,6 +47715,11 @@ msgid ""
 "and :setting:`DEFAULT_COMMITER_NAME`. This is a technical identifier showing "
 "that the commit was processed through Weblate."
 msgstr ""
+"Weblate verwendet ``Weblate <noreply@weblate.org>`` als Standard-"
+"**Committer** für alle Commits, das durch :setting:`DEFAULT_COMMITER_EMAIL` "
+"und :setting:`DEFAULT_COMMITER_NAME` konfiguriert wird. Dies ist eine "
+"technische Kennung, die zeigt, dass der Commit durch Weblate verarbeitet "
+"wurde."
 
 #: ../../faq.rst:271
 msgid ""
@@ -47763,6 +47729,11 @@ msgid ""
 "field. The same applies to Mercurial; only Subversion does not have this "
 "capability."
 msgstr ""
+"Der **Autor** jedes Commits wird jedoch korrekt als der einzelne Benutzer "
+"erfasst, der die Übersetzung vorgenommen hat (wenn Git verwendet wird). Das "
+"bedeutet, dass Sie sehen können, wer jede Zeichenkette tatsächlich übersetzt "
+"hat, indem Sie das Commit-Autorenfeld untersuchen. Das Gleiche gilt für "
+"Mercurial; nur Subversion verfügt nicht über diese Möglichkeit."
 
 #: ../../faq.rst:278
 msgid ""
@@ -47770,24 +47741,23 @@ msgid ""
 "object) and the author (who made the changes). Weblate acts as the committer "
 "while preserving individual translator attribution as authors."
 msgstr ""
+"In Git wird zwischen dem Committer (der das Commit-Objekt erstellt hat) und "
+"dem Autor (der die Änderungen vorgenommen hat) unterschieden. Weblate "
+"fungiert als Committer, während die Zuordnung der einzelnen Übersetzer zu "
+"den Autoren erhalten bleibt."
 
 #: ../../faq.rst:282
-#, fuzzy
-#| msgid ""
-#| "For commits where no authorship is known (for example anonymous "
-#| "suggestions or machine translation results), the authorship is credited "
-#| "to the anonymous user (see :setting:`ANONYMOUS_USER_NAME`). You can "
-#| "change the name and e-mail in the management interface."
 msgid ""
 "For commits where authorship cannot be determined (such as automated changes "
 "from anonymous suggestions or machine translation results), the author is "
 "set to the anonymous user. You can configure the anonymous user's name and e-"
 "mail in :setting:`ANONYMOUS_USER_NAME`."
 msgstr ""
-"Bei Commits, deren Urheberschaft nicht bekannt ist (z. B. anonyme Vorschläge "
-"oder maschinelle Übersetzungsergebnisse), wird die Urheberschaft dem "
-"anonymen Benutzer zugeschrieben (siehe :setting:`ANONYMOUS_USER_NAME`). Sie "
-"können den Namen und die E-Mail-Adresse in der Verwaltungsoberfläche ändern."
+"Bei Commits, bei denen die Urheberschaft nicht ermittelt werden kann (z. B. "
+"bei automatischen Änderungen aus anonymen Vorschlägen oder maschinelle "
+"Übersetzungsergebnisse), wird als Autor der anonyme Benutzer angegeben. Sie "
+"können den Namen und die E-Mail des anonymen Benutzers unter "
+":setting:`ANONYMOUS_USER_NAME` konfigurieren."
 
 #: ../../faq.rst:292
 msgid "How to move files in the repository without losing history in Weblate?"
@@ -49411,16 +49381,12 @@ msgstr ""
 "Maskieren."
 
 #: ../../formats/compose-multiplatform-resources.rst:16
-#, fuzzy
-#| msgid ""
-#| "`JetBrains Compose Multiplatform Resources <https://www.jetbrains.com/"
-#| "help/kotlin-multiplatform-dev/compose-multiplatform-resources.html>`_"
 msgid ""
 "`Koltin Compose Multiplatform Resources <https://kotlinlang.org/docs/"
 "multiplatform/compose-multiplatform-resources.html>`_"
 msgstr ""
-"`JetBrains-Compose-Multiplatform-Ressourcen <https://www.jetbrains.com/help/"
-"kotlin-multiplatform-dev/compose-multiplatform-resources.html>`_"
+"`Koltin-Compose-Multiplatform-Ressourcen <https://kotlinlang.org/docs/"
+"multiplatform/compose-multiplatform-resources.html>`_"
 
 #: ../../formats/compose-multiplatform-resources.rst:32
 msgid "`Compose Multiplatform Resource`"
@@ -52251,33 +52217,43 @@ msgid ""
 "may operate from various jurisdictions. This model identifies and classifies "
 "threats associated with external translation contributors."
 msgstr ""
+"Das Outsourcing oder Crowdsourcing von Übersetzungsaufgaben an Drittanbieter "
+"birgt zusätzliche Sicherheits- und Datenschutzrisiken. Im Gegensatz zu "
+"internen Entwicklungsteams haben Übersetzer möglicherweise nur ein "
+"begrenztes Vertrauensverhältnis zum Unternehmen und arbeiten möglicherweise "
+"von verschiedenen Gerichtsbarkeiten aus. Dieses Modell identifiziert und "
+"klassifiziert Bedrohungen, die mit externen Übersetzern in Verbindung stehen."
 
 #: ../../security/localization-threat.rst:7
 msgid "Key Assumptions"
-msgstr ""
+msgstr "Wichtige Grundannahmen"
 
 #: ../../security/localization-threat.rst:8
 msgid ""
 "Translators may be contractors, volunteers, or agencies with varying levels "
 "of vetting."
 msgstr ""
+"Übersetzer können Auftragnehmer, Freiwillige oder Agenturen mit "
+"unterschiedlichen Überprüfungsstufen sein."
 
 #: ../../security/localization-threat.rst:9
-#, fuzzy
-#| msgid "Loads translations from the files into Weblate."
 msgid "Translators require access to Weblate."
-msgstr "Lädt Übersetzungen aus den Dateien hinein in Weblate."
+msgstr "Übersetzer benötigen Zugriff auf Weblate."
 
 #: ../../security/localization-threat.rst:10
 msgid ""
 "Translation strings may contain sensitive content such as unreleased "
 "features, legal terms, or security messages."
 msgstr ""
+"Übersetzungszeichenketten können sensible Inhalte wie unveröffentlichte "
+"Funktionen, rechtliche Bestimmungen oder Sicherheitshinweise enthalten."
 
 #: ../../security/localization-threat.rst:11
 msgid ""
 "The organization has limited control over translators' local environments."
 msgstr ""
+"Die Organisation hat nur begrenzte Kontrolle über die lokalen Umgebungen der "
+"Übersetzer."
 
 #: ../../security/localization-threat.rst:14
 msgid "Threat Categories (STRIDE)"
@@ -52290,11 +52266,15 @@ msgstr "1. Identitätsverschleierung"
 #: ../../security/localization-threat.rst:19
 msgid "**S1. Fake translator accounts impersonating legitimate contributors.**"
 msgstr ""
+"**S1. Gefälschte Übersetzerkonten, die sich als legitime Mitwirkende "
+"ausgeben.**"
 
 #: ../../security/localization-threat.rst:21
 msgid ""
 "Risk: Unauthorized access to projects or injection of malicious strings."
 msgstr ""
+"Risiko: Unbefugter Zugriff auf Projekte oder Einfügen bösartiger "
+"Zeichenketten."
 
 #: ../../security/localization-threat.rst:22
 #: ../../security/localization-threat.rst:34
@@ -52305,27 +52285,22 @@ msgstr ""
 #: ../../security/localization-threat.rst:85
 #: ../../security/localization-threat.rst:96
 msgid "Mitigations:"
-msgstr "Schadensbegrenzung:"
+msgstr "Risikominderung:"
 
 #: ../../security/localization-threat.rst:24
-#, fuzzy
-#| msgid ""
-#| "This can be enforced for users at the project (see :ref:`project-"
-#| "enforced_2fa`) or team level."
 msgid "Enforce strong authentication (2FA); see :ref:`project-enforced_2fa`."
 msgstr ""
-"Dies kann für Benutzer auf Projekt- (siehe :ref:`project-enforced_2fa`) oder "
-"Team-Ebene erzwungen werden."
+"Starke Authentifizierung (2FA) einsetzen; siehe :ref:`project-enforced_2fa`."
 
 #: ../../security/localization-threat.rst:25
-#, fuzzy
-#| msgid "Provide context to the translators"
 msgid "Verify identities of contracted translators."
-msgstr "Stellen Sie den Übersetzern einen Kontext zur Verfügung"
+msgstr "Identität der beauftragten Übersetzer überprüfen."
 
 #: ../../security/localization-threat.rst:26
 msgid "Use role-based access to limit project scope; see :ref:`acl`."
 msgstr ""
+"Rollenbasierten Zugriff verwenden, um den Projektumfang zu begrenzen; siehe "
+":ref:`acl`."
 
 #: ../../security/localization-threat.rst:29
 msgid "2. Tampering"
@@ -52333,13 +52308,15 @@ msgstr "2. Manipulation"
 
 #: ../../security/localization-threat.rst:31
 msgid "**T1. Malicious translations embedding harmful payloads.**"
-msgstr ""
+msgstr "**T1. Bösartige Übersetzungen, die schädliche Nutzdaten enthalten.**"
 
 #: ../../security/localization-threat.rst:33
 msgid ""
 "Risk: Injection of JavaScript, HTML, or format-string attacks if "
 "translations are not properly escaped."
 msgstr ""
+"Risiko: Injektion von JavaScript-, HTML- oder Formatzeichenketten-Angriffen, "
+"wenn Übersetzungen nicht ordnungsgemäß maskiert werden."
 
 #: ../../security/localization-threat.rst:36
 msgid ""
@@ -52347,12 +52324,15 @@ msgid ""
 "like :ref:`check-safe-html` might help. See :ref:`checks` "
 "and :ref:`component-enforced_checks`."
 msgstr ""
+"Eine strenge Eingabevalidierung in Weblate verwenden. Die Durchsetzung von "
+"Qualitätsprüfungen wie :ref:`check-safe-html` kann dabei helfen. Siehe "
+":ref:`checks` und :ref:`component-enforced_checks`."
 
 #: ../../security/localization-threat.rst:37
-#, fuzzy
-#| msgid "Fixed handling of translation files ignored in Git."
 msgid "Use automated security scanning for translation files in your CI."
-msgstr "Die Behandlung von in Git ignorierten Übersetzungsdateien korrigiert."
+msgstr ""
+"Automatisierte Sicherheitsscans für Übersetzungsdateien in Ihrer CI "
+"verwenden."
 
 #: ../../security/localization-threat.rst:38
 msgid ""
@@ -52360,6 +52340,9 @@ msgid ""
 "used localization framework, this might be implicit, opt-in, or require a "
 "third-party library."
 msgstr ""
+"Das Verwenden gefährlicher Auszeichnungen aus Übersetzungsdateien begrenzen. "
+"Je nach verwendetem Lokalisierungsframework kann dies implizit, optional "
+"oder mithilfe einer Drittanbieter-Bibliothek erfolgen."
 
 #: ../../security/localization-threat.rst:40
 msgid "**T2. Insertion of misleading translations.**"
@@ -52370,6 +52353,8 @@ msgid ""
 "Risk: Users misled about application behavior (e.g., consent dialogs "
 "mistranslated)."
 msgstr ""
+"Risiko: Benutzer werden über das Verhalten der Anwendung getäuscht (z. B. "
+"falsch übersetzte Einwilligungsdialoge)."
 
 #: ../../security/localization-threat.rst:45
 #: ../../security/localization-threat.rst:123
@@ -52377,10 +52362,14 @@ msgid ""
 "Perform peer review of critical strings; see :ref:`peer-review` "
 "or :ref:`reviews`."
 msgstr ""
+"Eine Überprüfung kritischer Zeichenketten durchführen; siehe :ref:`peer-"
+"review` oder :ref:`reviews`."
 
 #: ../../security/localization-threat.rst:46
 msgid "Maintain style guides and :ref:`glossary` to prevent manipulation."
 msgstr ""
+"Gestaltungsrichtlinien und :ref:`glossary` pflegen, um Manipulationen zu "
+"verhindern."
 
 #: ../../security/localization-threat.rst:49
 msgid "3. Repudiation"
@@ -52389,10 +52378,12 @@ msgstr "3. Verleugnung"
 #: ../../security/localization-threat.rst:51
 msgid "**R1. Disputes over malicious or poor-quality translations.**"
 msgstr ""
+"**R1. Streitigkeiten über böswillige oder qualitativ minderwertige "
+"Übersetzungen.**"
 
 #: ../../security/localization-threat.rst:53
 msgid "Risk: Translators deny responsibility for injected issues."
-msgstr ""
+msgstr "Risiko: Übersetzer lehnen die Verantwortung für eingefügte Probleme ab."
 
 #: ../../security/localization-threat.rst:56
 msgid "All changes in Weblate are logged."
@@ -52401,6 +52392,7 @@ msgstr "Alle Änderungen in Weblate werden protokolliert."
 #: ../../security/localization-threat.rst:57
 msgid "Use Weblate with version control for immutable history."
 msgstr ""
+"Weblate mit Versionsverwaltung für einen unveränderlichen Verlauf verwenden."
 
 #: ../../security/localization-threat.rst:60
 msgid "4. Information Disclosure"
@@ -52408,50 +52400,47 @@ msgstr "4. Datenpanne"
 
 #: ../../security/localization-threat.rst:62
 msgid "**I1. Leakage of unreleased product details.**"
-msgstr ""
+msgstr "**I1. Durchsickern von unveröffentlichten Produktdetails.**"
 
 #: ../../security/localization-threat.rst:64
 msgid ""
 "Risk: Translators gain early access to unreleased features or confidential "
 "terminology."
 msgstr ""
+"Risiko: Übersetzer erhalten frühzeitig Zugang zu unveröffentlichten "
+"Funktionen oder vertraulicher Terminologie."
 
 #: ../../security/localization-threat.rst:67
 msgid "Segment projects to limit access to sensitive strings."
-msgstr ""
+msgstr "Teilprojekte zur Einschränkung des Zugriffs auf sensible Zeichenketten."
 
 #: ../../security/localization-threat.rst:68
 msgid "Apply non-disclosure agreements with external agencies."
-msgstr ""
+msgstr "Vertraulichkeitsvereinbarungen mit externen Agenturen abschließen."
 
 #: ../../security/localization-threat.rst:69
 msgid "Delay translation of highly confidential strings until public release."
 msgstr ""
+"Übersetzung streng vertraulicher Zeichenketten bis zur Veröffentlichung "
+"zurückstellen."
 
 #: ../../security/localization-threat.rst:71
 msgid "**I2. Exposure of personal data within strings.**"
-msgstr ""
+msgstr "**I2. Offenlegung personenbezogener Daten in Zeichenketten.**"
 
 #: ../../security/localization-threat.rst:73
 msgid "Risk: Translators might access or misuse embedded user data."
 msgstr ""
+"Risiko: Übersetzer könnten auf eingebettete Benutzerdaten zugreifen oder "
+"diese missbrauchen."
 
 #: ../../security/localization-threat.rst:76
-#, fuzzy
-#| msgid ""
-#| "Possible discarding pending translations after editing source strings."
 msgid "Avoid exposing real user data in source strings."
-msgstr ""
-"Mögliches Verwerfen ausstehender Übersetzungen nach Bearbeitung der "
-"Ausgangszeichenketten."
+msgstr "Offenlegung echter Benutzerdaten in Ausgangszeichenketten vermeiden."
 
 #: ../../security/localization-threat.rst:77
-#, fuzzy
-#| msgid "The placeholders check can now be case-insensitive as well."
 msgid "Use placeholders for sensitive fields."
-msgstr ""
-"Beim Prüfen von Platzhaltern kann nun auch die Groß-/Kleinschreibung "
-"ignoriert werden."
+msgstr "Platzhalter für sensible Felder verwenden."
 
 #: ../../security/localization-threat.rst:80
 msgid "5. Denial of Service"
@@ -52459,23 +52448,28 @@ msgstr "5. Verweigerung des Dienstes"
 
 #: ../../security/localization-threat.rst:82
 msgid "**D1. Bulk submission of junk translations.**"
-msgstr ""
+msgstr "**D1. Massenübermittlung von unbrauchbaren Übersetzungen.**"
 
 #: ../../security/localization-threat.rst:84
 msgid "Risk: Review queues overwhelmed; release timelines disrupted."
 msgstr ""
+"Risiko: Überfüllte Überprüfungswarteschlangen; Störung der "
+"Veröffentlichungszeitpläne."
 
 #: ../../security/localization-threat.rst:87
 msgid ""
 "Choose an appropriate workflow to match your team capacity. :ref:`workflow-"
 "customization` can allow you to tweak this on a language basis."
 msgstr ""
+"Einen geeigneten Ablauf, welcher der Kapazität Ihres Teams entspricht, "
+"auswählen. :ref:`workflow-customization` ermöglicht es, diesen je nach "
+"Sprache anzupassen."
 
 #: ../../security/localization-threat.rst:88
-#, fuzzy
-#| msgid "Fixed automatic translation with more services."
 msgid "Configure automated translation quality checks; see :ref:`checks`."
-msgstr "Die automatische Übersetzung mit mehreren Diensten korrigiert."
+msgstr ""
+"Automatisierte Qualitätsprüfungen für Übersetzungen konfigurieren; siehe "
+":ref:`checks`."
 
 #: ../../security/localization-threat.rst:91
 msgid "6. Elevation of Privilege"
@@ -52486,40 +52480,49 @@ msgid ""
 "**E1. The translator gains unauthorized project-wide or administrative "
 "rights.**"
 msgstr ""
+"**E1. Der Übersetzer erhält unbefugte projektweite oder administrative "
+"Rechte.**"
 
 #: ../../security/localization-threat.rst:95
 msgid "Risk: Escalation leading to tampering or data exposure."
 msgstr ""
+"Risiko: Eskalation, die zur Manipulation oder Datenoffenlegung führen kann."
 
 #: ../../security/localization-threat.rst:98
 msgid "Apply the principle of least privilege."
-msgstr ""
+msgstr "Das Prinzip der geringsten Berechtigungen anwenden."
 
 #: ../../security/localization-threat.rst:99
 msgid "Regularly review access rights and group memberships."
-msgstr ""
+msgstr "Regelmäßige Überprüfung der Zugriffsrechte und Gruppenmitgliedschaften."
 
 #: ../../security/localization-threat.rst:102
 msgid "Asset Inventory"
-msgstr ""
+msgstr "Bestandsaufnahme"
 
 #: ../../security/localization-threat.rst:104
 msgid ""
 "**Source Strings:** May contain unreleased product features or legal text."
 msgstr ""
+"**Ausgangszeichenketten:** Können unveröffentlichte Produktfunktionen oder "
+"Rechtstexte enthalten."
 
 #: ../../security/localization-threat.rst:105
 msgid "**Translated Strings:** Output presented directly to end users."
 msgstr ""
+"**Übersetzte Zeichenketten:** Ausgabe, die direkt den Endbenutzern angezeigt "
+"wird."
 
 #: ../../security/localization-threat.rst:106
 msgid ""
 "**User Data Placeholders:** Names, emails, or IDs referenced in strings."
 msgstr ""
+"**Platzhalter für Benutzerdaten:** Namen, E-Mail-Adressen oder IDs, auf die "
+"in Zeichenketten verwiesen wird."
 
 #: ../../security/localization-threat.rst:107
 msgid "**Access Credentials:** Accounts for translators, agencies, or bots."
-msgstr ""
+msgstr "**Zugangsdaten:** Konten für Übersetzer, Agenturen oder Bots."
 
 #: ../../security/localization-threat.rst:110
 msgid "Trust Boundaries"
@@ -52530,80 +52533,86 @@ msgid ""
 "**Organization ↔ Translators:** Authentication and role-based access must be "
 "enforced."
 msgstr ""
+"**Organisation ↔ Übersetzer:** Authentifizierung und rollenbasierter Zugriff "
+"müssen umgesetzt werden."
 
 #: ../../security/localization-threat.rst:113
 msgid ""
 "**Translation Platform ↔ Source Control:** Synchronization requires secured "
 "tokens/keys."
 msgstr ""
+"**Übersetzungsplattform ↔ Quellcodeverwaltung:** Synchronisierung erfordert "
+"gesicherte Tokens/Schlüssel."
 
 #: ../../security/localization-threat.rst:114
 msgid ""
 "**Translators ↔ Translation Platform:** All input must be sanitized before "
 "integration into builds."
 msgstr ""
+"**Übersetzer ↔ Übersetzungsplattform:** Alle Eingaben müssen vor der "
+"Integration in Builds bereinigt werden."
 
 #: ../../security/localization-threat.rst:115
 msgid ""
 "**Platform ↔ End Users:** Translations must be validated to prevent code "
 "injection."
 msgstr ""
+"**Plattform ↔ Endbenutzer:** Übersetzungen müssen validiert werden, um Code-"
+"Injektionen zu verhindern."
 
 #: ../../security/localization-threat.rst:118
-#, fuzzy
-#| msgid "Translation summary"
 msgid "Mitigation Summary"
-msgstr "Zusammenfassung der Übersetzung"
+msgstr "Zusammenfassung der Risikominderung"
 
 #: ../../security/localization-threat.rst:120
-#, fuzzy
-#| msgid ""
-#| "This can be enforced for users at the project (see :ref:`project-"
-#| "enforced_2fa`) or team level."
 msgid ""
 "Enforce 2FA and RBAC for translator accounts; see :ref:`project-"
 "enforced_2fa`."
 msgstr ""
-"Dies kann für Benutzer auf Projekt- (siehe :ref:`project-enforced_2fa`) oder "
-"Team-Ebene erzwungen werden."
+"2FA und RBAC für Übersetzerkonten verwenden; siehe :ref:`project-"
+"enforced_2fa`."
 
 #: ../../security/localization-threat.rst:121
 msgid ""
 "Require non-disclosure agreements or contracts for professional translators."
 msgstr ""
+"Vertraulichkeitsvereinbarungen oder Verträge für professionelle Übersetzer "
+"verlangen."
 
 #: ../../security/localization-threat.rst:122
 msgid ""
 "Use automated quality/security scanning for translations; see :ref:`checks`."
 msgstr ""
+"Automatisierte Qualitäts-/Sicherheitsscans für Übersetzungen verwenden; "
+"siehe :ref:`checks`."
 
 #: ../../security/localization-threat.rst:124
 msgid ""
 "Limit project visibility to reduce exposure of sensitive content; "
 "see :ref:`acl`."
 msgstr ""
+"Die Sichtbarkeit des Projekts begrenzen, um die Gefährdung sensibler Inhalte "
+"zu verringern; siehe :ref:`acl`."
 
 #: ../../security/localization-threat.rst:125
 msgid ""
 "Regularly patch and harden your Weblate server. You might also "
 "consider :doc:`/admin/support`."
 msgstr ""
+"Regelmäßiges Aktualisieren und Sichern Ihres Weblate-Servers. Sie könnten "
+"auch :doc:`/admin/support` in Betracht ziehen."
 
 #: ../../security/localization-threat.rst:126
-#, fuzzy
-#| msgid ""
-#| "Automatically adds or removes project components based on file changes in "
-#| "the version control system."
 msgid ""
 "Retain immutable version history for all translation changes in the version "
 "control system."
 msgstr ""
-"Automatisches Hinzufügen oder Entfernen von Projektkomponenten basierend auf "
-"den Dateiänderungen in der Versionsverwaltung."
+"Einen unveränderlichen Versionsverlauf für alle Übersetzungsänderungen in "
+"der Versionsverwaltung beibehalten."
 
 #: ../../security/localization-threat.rst:129
 msgid "Conclusion"
-msgstr ""
+msgstr "Schlussfolgerung"
 
 #: ../../security/localization-threat.rst:131
 msgid ""
@@ -52613,6 +52622,11 @@ msgid ""
 "external translation services while maintaining product integrity and "
 "compliance."
 msgstr ""
+"Externe Übersetzer bergen im Vergleich zu internen Mitwirkenden besondere "
+"Risiken. Mit geeigneten technischen, organisatorischen und vertraglichen "
+"Kontrollen können Unternehmen diese Risiken mindern und externe "
+"Übersetzungsdienste sicher integrieren, während die Produktintegrität und "
+"Compliance gewahrt bleiben."
 
 #: ../../security/passwords.rst:2
 msgid "Password security"
@@ -53548,7 +53562,7 @@ msgstr "Datenschutzverletzung."
 
 #: ../../security/threat-model.rst:148
 msgid "Mitigation strategies"
-msgstr "Strategien zur Schadensbegrenzung"
+msgstr "Strategien zur Risikominderung"
 
 #: ../../security/threat-model.rst:150
 msgid "**Authentication & authorization:**"
@@ -55010,6 +55024,8 @@ msgid ""
 "`Laravel translation formatting <https://laravel.com/docs/"
 "localization#replacing-parameters-in-translation-strings>`_"
 msgstr ""
+"`Laravel-Übersetzungsformatierung <https://laravel.com/docs/"
+"localization#replacing-parameters-in-translation-strings>`_"
 
 #: ../../user/checks.rst:750
 msgid "Lua format"
@@ -56000,15 +56016,12 @@ msgstr ""
 "einschließlich Skripte und Blöcke:"
 
 #: ../../user/checks.rst:1643
-#, fuzzy
-#| msgid ""
-#| ":ref:`check-same` check now honors placeholders even in the strict mode."
 msgid ""
 "Use :ref:`check-placeholders` for detecting missing placeholders in the "
 "string."
 msgstr ""
-":ref:`check-same`-Prüfung berücksichtigt nun auch im strict-Modus "
-"Platzhalter."
+"Verwenden Sie :ref:`check-placeholders`, um fehlende Platzhalter in der "
+"Zeichenkette zu erkennen."
 
 #: ../../user/checks.rst:1647
 msgid "`regex documentation <https://github.com/mrabarnett/mrab-regex>`_"
@@ -57559,11 +57572,6 @@ msgid "Translated languages"
 msgstr "Übersetzte Sprachen"
 
 #: ../../user/profile.rst:88
-#, fuzzy
-#| msgid ""
-#| "Choose which languages you prefer to translate, and they will be offered "
-#| "on the main page of watched projects, so that you have easier access to "
-#| "these all translations in each of those languages."
 msgid ""
 "Choose which languages you prefer to translate, and they will be offered on "
 "the main page of watched projects, so that you have easier access to all "
@@ -57571,7 +57579,7 @@ msgid ""
 msgstr ""
 "Wählen Sie die Sprachen, die Sie bevorzugt übersetzen möchten, und sie "
 "werden auf der Hauptseite der beobachteten Projekte angeboten, so dass Sie "
-"leichteren Zugang zu allen Übersetzungen in jeder dieser Sprachen haben."
+"leichteren Zugang zu all diesen Übersetzungen in jeder dieser Sprachen haben."
 
 #: ../../user/profile.rst:97
 msgid "Secondary languages"
@@ -59497,6 +59505,9 @@ msgid ""
 "are running your own self-hosted Weblate instance, please see :ref:`the next "
 "section <vcs-repos-code-hosting>` instead."
 msgstr ""
+"Dieser Abschnitt gilt **nur** für Hosted Weblate (hosted.weblate.org). Wenn "
+"Sie Ihre eigene, selbst gehostete Weblate-Instanz betreiben, lesen Sie bitte "
+"stattdessen :ref:`den nächsten Abschnitt <vcs-repos-code-hosting>`."
 
 #: ../../vcs.rst:33
 msgid ""
@@ -59569,16 +59580,11 @@ msgid ""
 "This section applies to **self-hosted** Weblate instances. If you are using "
 "Hosted Weblate (hosted.weblate.org), see :ref:`hosted-push` instead."
 msgstr ""
+"Dieser Abschnitt gilt für **selbst gehostete** Weblate-Instanzen. Wenn Sie "
+"Hosted Weblate (hosted.weblate.org) verwenden, lesen Sie stattdessen "
+":ref:`hosted-push`."
 
 #: ../../vcs.rst:65
-#, fuzzy
-#| msgid ""
-#| "Accessing repositories on code hosting sites is typically done by "
-#| "creating a dedicated user who is associated with a Weblate SSH key "
-#| "(see :ref:`weblate-ssh-key`). This way you associate Weblate SSH key with "
-#| "a single user (platforms frequently enforce single use of a SSH key) and "
-#| "grant this user access to the repository. You can then use SSH URL to "
-#| "access the repository (see :ref:`ssh-repos`)."
 msgid ""
 "For self-hosted Weblate, accessing repositories on code hosting sites is "
 "typically done by creating a dedicated user who is associated with a Weblate "
@@ -59587,14 +59593,14 @@ msgid ""
 "and grant this user access to the repository. You can then use SSH URL to "
 "access the repository (see :ref:`ssh-repos`)."
 msgstr ""
-"Der Zugriff auf Repositorys von Code-Hosting-Sites erfolgt in der Regel "
-"durch das Erstellen eines speziellen Benutzers, der mit einem SSH-Schlüssel "
-"von Weblate verknüpft ist (siehe :ref:`weblate-ssh-key`). Auf diese Weise "
-"verknüpfen Sie den SSH-Schlüssel von Weblate mit einem einzigen Benutzer "
-"(Plattformen erzwingen häufig die einmalige Verwendung eines SSH-Schlüssels) "
-"und gewähren diesem Benutzer Zugriff auf das Repository. Sie können dann die "
-"SSH-URL für den Zugriff auf das Repository verwenden (siehe :ref:`ssh-"
-"repos`)."
+"Bei Self-Hosted-Weblate erfolgt der Zugriff auf Repositorys auf Code-Hosting-"
+"Sites in der Regel durch das Erstellen eines speziellen Benutzers, der mit "
+"einem SSH-Schlüssel von Weblate verknüpft ist (siehe :ref:`weblate-ssh-key`)"
+". Auf diese Weise verknüpfen Sie den SSH-Schlüssel von Weblate mit einem "
+"einzigen Benutzer (Plattformen erzwingen häufig die einmalige Verwendung "
+"eines SSH-Schlüssels) und gewähren diesem Benutzer Zugriff auf das "
+"Repository. Sie können dann die SSH-URL für den Zugriff auf das Repository "
+"verwenden (siehe :ref:`ssh-repos`)."
 
 #: ../../vcs.rst:75
 msgid "SSH repositories"
@@ -59789,61 +59795,59 @@ msgstr "GitHub-Repositorys"
 msgid ""
 "There are two main approaches to accessing GitHub repositories with Weblate:"
 msgstr ""
+"Es gibt zwei Hauptansätze für den Zugriff auf GitHub-Repositorys mit Weblate:"
 
 #: ../../vcs.rst:179
 msgid ""
 "**Option 1: HTTPS with Personal Access Token (simpler for getting started)**"
 msgstr ""
+"**Option 1: HTTPS mit persönlichem Zugangstoken (einfacher für den Einstieg)"
+"**"
 
 #: ../../vcs.rst:181
-#, fuzzy
-#| msgid ""
-#| "For smaller deployments, use HTTPS authentication with a personal access "
-#| "token and your GitHub account, see `Creating an access token for command-"
-#| "line use`_."
 msgid ""
 "Use HTTPS authentication with a personal access token and your GitHub "
 "account. This works for both read-only access (cloning) and read-write "
 "access (pushing changes or creating pull requests)."
 msgstr ""
-"Für kleinere Bereitstellungen verwenden Sie die HTTPS-Authentifizierung mit "
-"einem persönlichen Token und Ihrem GitHub-Benutzerkonto, siehe `Creating an "
-"access token for command-line use`_."
+"Verwenden Sie die HTTPS-Authentifizierung mit einem persönlichen "
+"Zugangstoken und Ihrem GitHub-Konto. Dies funktioniert sowohl für den Nur-"
+"Lese-Zugriff (Klonen) als auch für den Lese-Schreib-Zugriff (Pushen von "
+"Änderungen oder Erstellen von Pull Requests)."
 
 #: ../../vcs.rst:185 ../../vcs.rst:200
 msgid "To use this approach:"
-msgstr ""
+msgstr "Um diesen Ansatz zu verwenden:"
 
 #: ../../vcs.rst:187
-#, fuzzy
-#| msgid ""
-#| "For smaller deployments, use HTTPS authentication with a personal access "
-#| "token and your GitHub account, see `Creating an access token for command-"
-#| "line use`_."
 msgid ""
 "Create a personal access token as described in `Creating an access token for "
 "command-line use`_."
 msgstr ""
-"Für kleinere Bereitstellungen verwenden Sie die HTTPS-Authentifizierung mit "
-"einem persönlichen Token und Ihrem GitHub-Benutzerkonto, siehe `Creating an "
-"access token for command-line use`_."
+"Ein persönliches Zugangstoken erstellen, wie in `Creating an access token "
+"for command-line use`_ beschrieben."
 
 #: ../../vcs.rst:188
 msgid ""
 "Include the token in your repository URL: ``https://"
 "username:token@github.com/owner/repo.git``"
 msgstr ""
+"Das Token in die Repository-URL einfügen: ``https://"
+"username:token@github.com/owner/repo.git``"
 
 #: ../../vcs.rst:190
 msgid ""
 "This is suitable when you're starting with Weblate or working with a single "
 "repository."
 msgstr ""
+"Dies ist geeignet, wenn Sie mit Weblate beginnen oder mit einem einzelnen "
+"Repository arbeiten."
 
 #: ../../vcs.rst:194
 msgid ""
 "**Option 2: SSH with Dedicated User (recommended for multiple repositories)**"
 msgstr ""
+"**Option 2: SSH mit eigenem Benutzer (empfohlen für mehrere Repositorys)**"
 
 #: ../../vcs.rst:196
 msgid ""
@@ -59851,45 +59855,52 @@ msgid ""
 "dedicated user for Weblate. This avoids GitHub's limitation that each SSH "
 "key can only be used once per platform."
 msgstr ""
+"Für Setups mit mehreren Repositorys ist es empfehlenswert, einen dedizierten "
+"Benutzer für Weblate zu erstellen. Dadurch wird die Einschränkung von GitHub "
+"umgangen, dass jeder SSH-Schlüssel nur einmal pro Plattform verwendet werden "
+"kann."
 
 #: ../../vcs.rst:202
 msgid "Create a dedicated GitHub user account (e.g., ``weblate-bot``)"
-msgstr ""
+msgstr "Ein spezielles GitHub-Benutzerkonto (z. B. ``weblate-bot``) erstellen"
 
 #: ../../vcs.rst:203
 msgid "Add Weblate's public SSH key to this user (see :ref:`weblate-ssh-key`)"
 msgstr ""
+"Den öffentlichen SSH-Schlüssel von Weblate zu diesem Benutzer hinzufügen "
+"(siehe :ref:`weblate-ssh-key`)"
 
 #: ../../vcs.rst:204
 msgid "Grant this user access to all repositories you want to translate"
 msgstr ""
+"Diesem Benutzer Zugriff auf alle Repositorys, die übersetzt werden sollen, "
+"gewähren"
 
 #: ../../vcs.rst:205
 msgid "Use SSH URLs for your repositories: ``git@github.com:owner/repo.git``"
 msgstr ""
+"SSH-URLs für die Repositorys verwenden: ``git@github.com:owner/repo.git``"
 
 #: ../../vcs.rst:207
 msgid ""
 "This approach is also used for Hosted Weblate, which has a "
 "dedicated :guilabel:`weblate` user for that purpose."
 msgstr ""
+"Dieser Ansatz wird auch für Hosted Weblate verwendet, das zu diesem Zweck "
+"einen eigenen Benutzer :guilabel:`weblate` hat."
 
 #: ../../vcs.rst:212
-#, fuzzy
-#| msgid ""
-#| "In case the :ref:`component-push_branch` is not set, the project is "
-#| "forked and changes pushed through a fork. In case it is set, changes are "
-#| "pushed to the upstream repository and chosen branch."
 msgid ""
 "When using :ref:`vcs-github` for pull requests, the :ref:`component-"
 "push_branch` configuration affects the behavior: if not set, the project is "
 "forked and changes are pushed through a fork. If set, changes are pushed to "
 "the upstream repository and the chosen branch."
 msgstr ""
-"Falls der :ref:`component-push_branch` nicht gesetzt ist, wird das Projekt "
-"geforkt und die Änderungen durch einen Fork gepusht. Ist er gesetzt, werden "
-"die Änderungen an das vorgelagerte Repository und den gewählten Branch "
-"gepusht."
+"Beim Verwenden von :ref:`vcs-github` für Pull Requests wirkt sich die "
+":ref:`component-push_branch`-Konfiguration auf das Verhalten aus: Wenn sie "
+"nicht gesetzt ist, wird das Projekt geforkt und die Änderungen werden über "
+"einen Fork gepusht. Wenn sie gesetzt ist, werden die Änderungen an das "
+"Upstream-Repository und den ausgewählten Branch gepusht."
 
 #: ../../vcs.rst:226
 msgid "GitLab repositories"
@@ -59924,6 +59935,11 @@ msgid ""
 "repository. The project access token requires :guilabel:`Developer` role for "
 "pushing."
 msgstr ""
+"Das Verwenden von persönlichen oder Projekt-Zugangstoken ist ebenfalls "
+"möglich. Das Token benötigt die Berechtigung :guilabel:`write_repository`, "
+"um Änderungen an das Repository pushen zu können. Der Zugangstoken für das "
+"Projekt benötigt die Rolle :guilabel:`Developer`, um Änderungen pushen zu "
+"können."
 
 #: ../../vcs.rst:241
 msgid ""
@@ -59932,6 +59948,11 @@ msgid ""
 "example.git``) for project access tokens it can be non-blank value "
 "(``https://example:project_access_token@gitlab.com/example/example.git``)."
 msgstr ""
+"Die URL muss einen Benutzernamen enthalten, für persönliche Zugangstoken ist "
+"es der tatsächliche Benutzername ( ``https://"
+"user:personal_access_token@gitlab.com/example/example.git``), für Projekt-"
+"Zugangstoken kann es ein nicht-leerer Wert sein (``https://"
+"example:project_access_token@gitlab.com/example/example.git``)."
 
 #: ../../vcs.rst:249
 msgid ""
@@ -59940,6 +59961,11 @@ msgid ""
 "had different expectations (project name, bot user name). Check GitLab "
 "documentation matching your version if unsure."
 msgstr ""
+"Die Regeln für das Verwenden von Projekt-Zugangstoken haben sich zwischen "
+"den verschiedenen GitLab-Versionen geändert. Der nicht-leere Wert ist die "
+"aktuelle Anforderung, aber ältere Versionen hatten andere Erwartungen "
+"(Projektname, Bot-Benutzername). Prüfen Sie im Zweifelsfall die zu Ihrer "
+"Version passende GitLab-Dokumentation."
 
 #: ../../vcs.rst:263
 msgid "Weblate internal URLs"
@@ -60568,12 +60594,8 @@ msgstr ""
 "installieren:"
 
 #: ../../wlc.rst:22
-#, fuzzy
-#| msgid "You can also designate what project :program:`wlc` should work on:"
 msgid "You can also execute it directly using :program:`uvx`:"
-msgstr ""
-"Es ist auch möglich anzugeben, an welchem Projekt :program:`wlc` arbeiten "
-"soll:"
+msgstr "Sie können ihn auch direkt mit :program:`uvx` ausführen:"
 
 #: ../../wlc.rst:30
 msgid ""

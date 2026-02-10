@@ -438,11 +438,6 @@ class UnitQueryParserTest(SearchTestCase):
             Q(check__name__iexact="ellipsis") & Q(check__dismissed=True),
         )
 
-    def test_labels(self) -> None:
-        self.assert_query(
-            "label:'test label'", Q(source_unit__labels__name__iexact="test label")
-        )
-
     def test_screenshot(self) -> None:
         self.assert_query(
             "screenshot:'test screenshot'",

@@ -83,7 +83,7 @@ jobs:
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       with:
         persist-credentials: false
-    - uses: actions/cache@8b402f58fbc84540c8b491a91e594a4576fec3d7 # v5.0.2
+    - uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
       with:
         path: data-test/cache/tesseract
         key: tesseract-data
@@ -93,11 +93,11 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
         allow-prereleases: true
-    - uses: astral-sh/setup-uv@61cb8a9741eeb8a550a1b8544337180c0fc8476b # v7.2.0
+    - uses: astral-sh/setup-uv@eac588ad8def6316056a12d4907a9d4d84ff7a3b # v7.3.0
       with:
         save-cache: ${{ github.ref == 'refs/heads/main' }}
         cache-suffix: ${{ steps.setup_python.outputs.python-version }}
-        version: 0.9.27
+        version: 0.10.0
     - name: Start services
       run: ./ci/services-up ${{ matrix.database }} ${{ matrix.datastore }}
     - name: Install apt dependencies
@@ -151,9 +151,10 @@ jobs:
         name: Tests py${{ matrix.python-version }}, ${{ matrix.database }}, ${{ matrix.requirements }} deps
     - name: Upload test results to Codecov
       if: ${{ !cancelled() }}
-      uses: codecov/test-results-action@0fa95f0e1eeaafde2c782583b36b28ad0d8c77d3 # v1.2.1
+      uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
+        report_type: test_results
     - name: Stop services
       if: always()
       run: ./ci/services-down ${{ matrix.database }} ${{ matrix.datastore }}
