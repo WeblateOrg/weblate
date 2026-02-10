@@ -6,13 +6,14 @@
 # RViktor <rviktor@ivankapal.com>, 2025.
 # GitHub webhook <noreply-webhook-github@weblate.org>, 2025.
 # therealmate <hellogaming91@gmail.com>, 2025.
+# Romhányi-Kakucska Viktor <viktor@romhanyi.dev>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-01-26 10:05+0000\n"
-"PO-Revision-Date: 2025-12-29 13:00+0000\n"
-"Last-Translator: therealmate <hellogaming91@gmail.com>\n"
+"PO-Revision-Date: 2026-02-10 17:10+0000\n"
+"Last-Translator: Romhányi-Kakucska Viktor <viktor@romhanyi.dev>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "application/hu/>\n"
 "Language: hu\n"
@@ -20,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.15.1\n"
+"X-Generator: Weblate 5.16-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -378,22 +379,24 @@ msgid "Verify the code from the app"
 msgstr "Az alkalmazásból érkező kód ellenőrzése"
 
 #: weblate/accounts/forms.py:1135
-#, fuzzy
-#| msgid "Name your authentication app"
 msgid "Discard previously configured authentication apps"
-msgstr "A hitelesítő alkalmazás elnevezése"
+msgstr "Beállított hitelesítő alkalmazás elvetése"
 
 #: weblate/accounts/forms.py:1139
 msgid ""
 "All previously configured authentication apps will be discarded upon "
 "verification of the new app."
 msgstr ""
+"Az összes beállított hitelesítő alkalmazás elvetésre kerül az új alkalmazás "
+"beállítása követően"
 
 #: weblate/accounts/forms.py:1142
 msgid ""
 "Other two-factor methods (such as WebAuthn and security keys) won't be "
 "affected."
 msgstr ""
+"Más kétfaktoros módszerek (mint például a WebAuthn és biztonsági kulcsok) "
+"nem érintettek."
 
 #: weblate/accounts/forms.py:1148
 msgid "The entered token is not valid."
@@ -563,7 +566,7 @@ msgstr "A felhasználót letiltotta egy adminisztrátor."
 
 #: weblate/accounts/models.py:296
 msgid "User was disabled because the access has expired."
-msgstr ""
+msgstr "Felhasználó letiltva mivel lejárt a hozzáférése."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:299
@@ -609,10 +612,11 @@ msgid "Two-factor authentication sign in using {device}"
 msgstr "Kétlépcsős hitelesítéses bejelentkezés a(z) {device} használatával"
 
 #: weblate/accounts/models.py:320
-#, fuzzy, python-brace-format
-#| msgid "Two-factor authentication sign in using {device}"
+#, python-brace-format
 msgid "Two-factor authentication failed using {device_type}"
-msgstr "Kétlépcsős hitelesítéses bejelentkezés a(z) {device} használatával"
+msgstr ""
+"Sikertelen kétlépcsős hitelesítéses bejelentkezés a(z) {device_type} "
+"használatával"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:328
@@ -799,10 +803,8 @@ msgid "Watched translations"
 msgstr "Megfigyelt fordítások"
 
 #: weblate/accounts/models.py:741 weblate/templates/dashboard/user.html:29
-#, fuzzy
-#| msgid "All components"
 msgid "All component lists"
-msgstr "Összes összetevő"
+msgstr "Összes összetevő listázása"
 
 #: weblate/accounts/models.py:742 weblate/templates/dashboard/user.html:100
 msgid "Component list"
@@ -956,12 +958,9 @@ msgid "Operation was performed in the repository"
 msgstr "A műveletet végre lett hajtva a tárolóban"
 
 #: weblate/accounts/notifications.py:558
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Operation was performed in the repository"
 msgctxt "Notification name"
 msgid "Operations were performed in the repository"
-msgstr "A műveletet végre lett hajtva a tárolóban"
+msgstr "A műveletek végre lettek hajtva a tárolóban"
 
 #: weblate/accounts/notifications.py:569
 msgctxt "Notification name"
@@ -969,12 +968,9 @@ msgid "Component was locked or unlocked"
 msgstr "Az összetevő zárolva lett vagy fel lett oldva"
 
 #: weblate/accounts/notifications.py:571
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Component was locked or unlocked"
 msgctxt "Notification name"
 msgid "Components were locked or unlocked"
-msgstr "Az összetevő zárolva lett vagy fel lett oldva"
+msgstr "Az összetevők zárolva lettek vagy fel lettek oldva"
 
 #: weblate/accounts/notifications.py:582
 msgctxt "Notification name"
@@ -987,12 +983,9 @@ msgid "Parse error occurred"
 msgstr "Feldolgozási hiba történt"
 
 #: weblate/accounts/notifications.py:590
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Parse error occurred"
 msgctxt "Notification name"
 msgid "Parse errors occurred"
-msgstr "Feldolgozási hiba történt"
+msgstr "Feldolgozási hibák történtek"
 
 #: weblate/accounts/notifications.py:621
 msgctxt "Notification name"
@@ -1013,12 +1006,9 @@ msgid "Contributor made their first translation"
 msgstr "A közreműködő elvégezte az első fordítását"
 
 #: weblate/accounts/notifications.py:637
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Contributor made their first translation"
 msgctxt "Notification name"
 msgid "Contributors made their first translation"
-msgstr "A közreműködő elvégezte az első fordítását"
+msgstr "A közreműködők elvégezték az első fordításáikat"
 
 #: weblate/accounts/notifications.py:646
 msgctxt "Notification name"
@@ -1026,12 +1016,9 @@ msgid "Suggestion was added"
 msgstr "Javaslat lett hozzáadva"
 
 #: weblate/accounts/notifications.py:647
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Suggestion was added"
 msgctxt "Notification name"
 msgid "Suggestions were added"
-msgstr "Javaslat lett hozzáadva"
+msgstr "Javaslatok hozzáadva"
 
 #: weblate/accounts/notifications.py:656
 msgctxt "Notification name"
@@ -1039,12 +1026,9 @@ msgid "Language was translated"
 msgstr "Nyelv lett lefordítva"
 
 #: weblate/accounts/notifications.py:657
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Language was translated"
 msgctxt "Notification name"
 msgid "Languages were translated"
-msgstr "Nyelv lett lefordítva"
+msgstr "Nyelv lefordításra került"
 
 #: weblate/accounts/notifications.py:665
 msgctxt "Notification name"
@@ -1065,12 +1049,9 @@ msgid "Comment was added"
 msgstr "Megjegyzés lett hozzáadva"
 
 #: weblate/accounts/notifications.py:675
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Comment was added"
 msgctxt "Notification name"
 msgid "Comments were added"
-msgstr "Megjegyzés lett hozzáadva"
+msgstr "Megjegyzés hozzáadásra került"
 
 #: weblate/accounts/notifications.py:703
 msgctxt "Notification name"
@@ -1091,12 +1072,9 @@ msgid "Your translation received a comment"
 msgstr "A fordítása megjegyzést kapott"
 
 #: weblate/accounts/notifications.py:742
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Your translation received a comment"
 msgctxt "Notification name"
 msgid "Your translation received comments"
-msgstr "A fordítása megjegyzést kapott"
+msgstr "A fordítása megjegyzéseket kapott"
 
 #: weblate/accounts/notifications.py:775
 msgctxt "Notification name"
@@ -1104,12 +1082,9 @@ msgid "String was edited by user"
 msgstr "A szöveget egy felhasználó szerkesztette"
 
 #: weblate/accounts/notifications.py:776
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "String was edited by user"
 msgctxt "Notification name"
 msgid "Strings were edited by user"
-msgstr "A szöveget egy felhasználó szerkesztette"
+msgstr "Felhasználók szöveget szerkesztettek"
 
 #: weblate/accounts/notifications.py:784
 msgctxt "Notification name"
@@ -1117,12 +1092,9 @@ msgid "String was approved"
 msgstr "A szöveg jóvá lett hagyva"
 
 #: weblate/accounts/notifications.py:785
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "String was approved"
 msgctxt "Notification name"
 msgid "Strings were approved"
-msgstr "A szöveg jóvá lett hagyva"
+msgstr "A szövegek jóváhagyásra kerültek"
 
 #: weblate/accounts/notifications.py:793
 msgctxt "Notification name"
@@ -1130,12 +1102,9 @@ msgid "String was changed"
 msgstr "A szöveg meg lett változtatva"
 
 #: weblate/accounts/notifications.py:794
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "String was changed"
 msgctxt "Notification name"
 msgid "Strings were changed"
-msgstr "A szöveg meg lett változtatva"
+msgstr "Szöveg megváltoztak"
 
 #: weblate/accounts/notifications.py:809
 msgctxt "Notification name"
