@@ -7,6 +7,7 @@ import logging
 from typing import TYPE_CHECKING
 
 from django import forms
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.http import JsonResponse
@@ -93,6 +94,11 @@ def bulk_accept_user_suggestions(
             failed_count += 1
             continue
 
+        # Skip suggestions failing quality checks
+        if list(suggestion.get_checks()):
+            failed_count += 1
+            continue
+
         # Accept the suggestion
         suggestion.accept(request, state=STATE_TRANSLATED)
         accepted_count += 1
@@ -109,8 +115,8 @@ def bulk_accept_user_suggestions(
         }
     else:
         message = ngettext(
-            "Accepted %(accepted)d of %(total)d suggestion from %(user)s. %(failed)d failed due to permissions.",
-            "Accepted %(accepted)d of %(total)d suggestions from %(user)s. %(failed)d failed due to permissions.",
+            "Accepted %(accepted)d of %(total)d suggestion from %(user)s. %(failed)d failed due to permissions or checks.",
+            "Accepted %(accepted)d of %(total)d suggestions from %(user)s. %(failed)d failed due to permissions or checks.",
             total,
         ) % {
             "accepted": accepted_count,
@@ -118,6 +124,17 @@ def bulk_accept_user_suggestions(
             "failed": failed_count,
             "user": target_user.username,
         }
+
+    # Django messages for UI feedback
+    if accepted_count > 0:
+        if failed_count == 0:
+            messages.success(request, message)
+        else:
+            messages.warning(request, message)
+    elif failed_count > 0:
+        messages.error(request, message)
+    else:
+        messages.info(request, gettext("No suggestions found."))
 
     return JsonResponse(
         {

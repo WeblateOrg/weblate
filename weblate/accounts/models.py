@@ -198,6 +198,11 @@ def format_private_commit_data(template: str, username: str, user_id: int) -> st
     )
 
 
+def get_default_contribute_personal_tm() -> bool:
+    """Return default value for personal TM contribution."""
+    return not settings.DEFAULT_AUTOCLEAN_TM
+
+
 class SubscriptionQuerySet(models.QuerySet["Subscription"]):
     def order(self):
         """Ordering in project scope by priority."""
@@ -730,7 +735,7 @@ class Profile(models.Model):
     )
     contribute_personal_tm = models.BooleanField(
         verbose_name=gettext_lazy("Contribute to personal translation memory"),
-        default=True,
+        default=get_default_contribute_personal_tm,
         help_text=gettext_lazy(
             "Allow your translations to be added to your personal translation memory."
         ),

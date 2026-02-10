@@ -1257,7 +1257,7 @@ $(function () {
     values: (text, callback) => {
       $.ajax({
         type: "GET",
-        url: `/api/users/?username=${text}`,
+        url: `/api/users/?username=${text}&is_active=1`,
         dataType: "json",
         success: (data) => {
           const userMentionList = data.results.map((user) => ({

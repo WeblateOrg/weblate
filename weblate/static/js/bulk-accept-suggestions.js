@@ -121,8 +121,8 @@ document.addEventListener("DOMContentLoaded", () => {
           // Announce to screen readers
           srStatus.textContent = interpolate(
             ngettext(
-              "Successfully accepted %s suggestion. Page will reload in 2 seconds.",
-              "Successfully accepted %s suggestions. Page will reload in 2 seconds.",
+              "Processed %s suggestion. Page will reload in 2 seconds.",
+              "Processed %s suggestions. Page will reload in 2 seconds.",
               data.accepted,
             ),
             [data.accepted],

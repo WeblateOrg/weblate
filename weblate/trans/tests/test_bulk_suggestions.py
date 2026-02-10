@@ -2,6 +2,9 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from unittest.mock import patch
+
+from django.contrib.messages import get_messages
 from django.urls import reverse
 
 from weblate.auth.models import User
@@ -15,6 +18,7 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
     def setUp(self):
         super().setUp()
         self.translation = self.component.translation_set.get(language_code="cs")
+        # Source unit is "Hello, world!\n"
         self.unit = self.translation.unit_set.get(
             source="Hello, world!\n",
         )
@@ -84,9 +88,10 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
 
         # Add multiple suggestions from the same user
         for i in range(3):
+            # Added !\n to match source unit formatting and pass checks
             Suggestion.objects.create(
                 unit=self.unit,
-                target=f"Test suggestion {i}",
+                target=f"Test suggestion {i}!\n",
                 user=suggestion_user,
             )
 
@@ -115,6 +120,11 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
         self.assertEqual(data["total"], 3)
         self.assertIn("suggester", data["message"])
 
+        # Check Django messages
+        messages = list(get_messages(response.wsgi_request))
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].level_tag, "success")
+
         # Verify suggestions were deleted after acceptance
         self.assertEqual(
             Suggestion.objects.filter(
@@ -124,6 +134,46 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
             0,
         )
 
+    def test_bulk_accept_skips_failing_checks(self):
+        """Test that suggestions with failing checks are skipped."""
+        suggestion_user = User.objects.create_user(
+            username="check_suggester", password="test"
+        )
+
+        # 1. Valid suggestion (matches source format !\n)
+        s1 = Suggestion.objects.create(
+            unit=self.unit, target="Valid suggestion!\n", user=suggestion_user
+        )
+
+        # 2. Invalid suggestion (missing ! and \n) -> Fails checks
+        s2 = Suggestion.objects.create(
+            unit=self.unit, target="Invalid suggestion", user=suggestion_user
+        )
+
+        response = self.client.post(
+            reverse(
+                "bulk-accept-user-suggestions",
+                kwargs={"path": self.translation.get_url_path()},
+            ),
+            {"username": "check_suggester"},
+        )
+
+        self.assertEqual(response.status_code, 200)
+        data = response.json()
+
+        self.assertEqual(data["accepted"], 1)
+        self.assertEqual(data["failed"], 1)
+
+        # Verify messages (Warning level because of partial failure)
+        messages = list(get_messages(response.wsgi_request))
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(messages[0].level_tag, "warning")
+
+        # Verify valid suggestion was accepted (deleted)
+        self.assertFalse(Suggestion.objects.filter(pk=s1.pk).exists())
+        # Verify invalid suggestion remains in DB
+        self.assertTrue(Suggestion.objects.filter(pk=s2.pk).exists())
+
     def test_bulk_accept_only_target_user(self):
         """Test that only suggestions from the specified user are accepted."""
         # Create two users with suggestions
@@ -131,10 +181,10 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
         user2 = User.objects.create_user(username="user2", password="test")
 
         Suggestion.objects.create(
-            unit=self.unit, target="Suggestion from user1", user=user1
+            unit=self.unit, target="Suggestion from user1!\n", user=user1
         )
         Suggestion.objects.create(
-            unit=self.unit, target="Suggestion from user2", user=user2
+            unit=self.unit, target="Suggestion from user2!\n", user=user2
         )
 
         # Accept only user1's suggestions
@@ -177,13 +227,11 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
         for i in range(5):
             Suggestion.objects.create(
                 unit=self.unit,
-                target=f"Spam {i}",
+                target=f"Spam {i}!\n",
                 user=user,
             )
 
         # Mock the count to simulate >1000 suggestions
-        from unittest.mock import patch
-
         with patch.object(
             type(Suggestion.objects.filter()), "count", return_value=1001
         ):
@@ -205,13 +253,15 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
         # Create suggestion in current translation
         user = User.objects.create_user(username="translator", password="test")
         Suggestion.objects.create(
-            unit=self.unit, target="Test cs suggestion", user=user
+            unit=self.unit, target="Test cs suggestion!\n", user=user
         )
 
         # Create suggestion in different translation
         de_translation = self.component.translation_set.get(language_code="de")
         de_unit = de_translation.unit_set.get(source="Hello, world!\n")
-        Suggestion.objects.create(unit=de_unit, target="Test de suggestion", user=user)
+        Suggestion.objects.create(
+            unit=de_unit, target="Test de suggestion!\n", user=user
+        )
 
         # Accept suggestions only for Czech translation
         response = self.client.post(
@@ -258,7 +308,7 @@ class BulkAcceptSuggestionsTest(ViewTestCase):
         for i, unit in enumerate(units):
             Suggestion.objects.create(
                 unit=unit,
-                target=f"Suggestion for unit {i}",
+                target=f"Suggestion for unit {i}!\n",
                 user=suggester,
             )
 
