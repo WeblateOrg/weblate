@@ -561,7 +561,7 @@ users, and set :setting:`REQUIRE_LOGIN` to ``True`` to require signing in to acc
 all the site pages. This is basically the way to lock your Weblate installation.
 
 Additionally, changing :setting:`DEFAULT_ACCESS_CONTROL` to ``100`` will make
-all newly created projects private requiring granting explicit access.
+all newly created projects private, requiring explicit access to be granted.
 
 .. hint::
 
