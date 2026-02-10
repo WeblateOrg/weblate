@@ -49,6 +49,8 @@ class FileFormatParams(TypedDict, total=False):
     csv_simple_encoding: str
     gwt_encoding: str
     markdown_merge_duplicates: bool
+    html_merge_duplicates: bool
+    txt_merge_duplicates: bool
 
 
 class BaseFileFormatParam:
@@ -74,6 +76,8 @@ class BaseFileFormatParam:
         "csv_simple_encoding",
         "gwt_encoding",
         "markdown_merge_duplicates",
+        "html_merge_duplicates",
+        "txt_merge_duplicates",
     ]
     file_formats: Sequence[str] = []
     field_class: type[forms.Field] = forms.CharField
@@ -461,6 +465,34 @@ class MarkdownMergeDuplicates(BaseFileFormatParam):
     help_text = gettext_lazy(
         "Consolidates identical source strings into a single translation unit. "
         "Prevents translation loss during file restructuring or table reordering "
+        "by removing position-dependent context."
+    )
+
+
+@register_file_format_param
+class HTMLMergeDuplicates(BaseFileFormatParam):
+    file_formats = ("html",)
+    name = "html_merge_duplicates"
+    label = gettext_lazy("Deduplicate identical strings")
+    field_class = forms.BooleanField
+    default = False
+    help_text = gettext_lazy(
+        "Consolidates identical source strings into a single translation unit. "
+        "Prevents translation loss during file restructuring "
+        "by removing position-dependent context."
+    )
+
+
+@register_file_format_param
+class TxtMergeDuplicates(BaseFileFormatParam):
+    file_formats = ("txt", "dokuwiki", "mediawiki")
+    name = "txt_merge_duplicates"
+    label = gettext_lazy("Deduplicate identical strings")
+    field_class = forms.BooleanField
+    default = False
+    help_text = gettext_lazy(
+        "Consolidates identical source strings into a single translation unit. "
+        "Prevents translation loss during file restructuring "
         "by removing position-dependent context."
     )
 

@@ -299,7 +299,13 @@ class HTMLFormat(ConvertFormat):
     def convertfile(self, storefile, template_store):
         # Fake input file with a blank filename
         htmlparser = htmlfile(inputfile=NamedBytesIO("", storefile.read()))
-        return self.convert_to_po(htmlparser, template_store)
+        duplicate_style = "msgctxt"
+        if self.file_format_params.get("html_merge_duplicates"):
+            duplicate_style = "merge"
+
+        return self.convert_to_po(
+            htmlparser, template_store, duplicate_style=duplicate_style
+        )
 
     def save_content(self, handle) -> None:
         """Store content to file."""
@@ -604,7 +610,13 @@ class PlainTextFormat(ConvertFormat):
         input_store = TxtFile(encoding="utf-8", flavour=self.flavour)
         input_store.parse(storefile.readlines())
         input_store.filename = os.path.basename(storefile.name)
-        return self.convert_to_po(input_store, template_store)
+        duplicate_style = "msgctxt"
+        if self.file_format_params.get("txt_merge_duplicates"):
+            duplicate_style = "merge"
+
+        return self.convert_to_po(
+            input_store, template_store, duplicate_style=duplicate_style
+        )
 
     def save_content(self, handle) -> None:
         """Store content to file."""
