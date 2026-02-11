@@ -105,6 +105,7 @@ Weblate 5.15.1
 * Added :doc:`/devel/migration` guide to help users migrate from other localization platforms.
 * Gracefully handle unreachable authentication providers.
 * Update language definitions to CLDR 48.
+* :ref:`check-xml-chars-around-tags` reduce translation errors for strings with XML entities.
 
 .. rubric:: Bug fixes
 
