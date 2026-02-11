@@ -25,15 +25,20 @@ the following setups:
 
 * Users suggest and vote for suggestions and a limited group controls what is
   accepted.
+
   - Turn on voting.
   - Turn off automatic acceptance.
   - Don't let users save translations.
+
 * Users suggest and vote for suggestions with automatic acceptance
   once the defined number of them agree.
+
   - Turn on voting.
   - Set the desired number of votes for automatic acceptance.
+
 * Optional voting for suggestions. (Can optionally be used by users when they are unsure about
   a translation by making multiple suggestions.)
+
   - Only turn on voting.
 
 .. _additional:
