@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-01-26 11:05+0100\n"
-"PO-Revision-Date: 2026-02-10 17:10+0000\n"
+"PO-Revision-Date: 2026-02-11 01:31+0000\n"
 "Last-Translator: Zahid Rizky Fakhri <zahidrizkyfakhri@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "documentation/id/>\n"
@@ -65,9 +65,8 @@ msgid ""
 "Limit user access to individual projects by selecting a "
 "different :ref:`project-access_control` setting. The available options are:"
 msgstr ""
-"Batasi akses pengguna ke masing-masing proyek dengan memilih "
-"pengaturan :ref:`project-access_control` yang berbeda. Pilihan yang tersedia "
-"adalah:"
+"Batasi akses pengguna ke proyek individual dengan memilih pengaturan "
+":ref:`project-access_control` yang berbeda. Pilihan yang tersedia adalah:"
 
 #: ../../admin/access.rst:25 ../../admin/config.rst:540
 msgid ":guilabel:`Public`"
@@ -112,8 +111,8 @@ msgid ""
 "**Choose this to gain visibility, but still have control over who can "
 "contribute.**"
 msgstr ""
-"**Pilih ini untuk bisa dilihat, namun tetap dapat mengatur siapa yang dapat "
-"berkontribusi.**"
+"**Pilih ini untuk mendapatkan keterlihatan, tetapi tetap memiliki kontrol "
+"siapa yang dapat berkontribusi.**"
 
 #: ../../admin/access.rst:41 ../../admin/config.rst:544
 msgid ":guilabel:`Private`"
@@ -126,7 +125,9 @@ msgstr "Terlihat hanya untuk pengguna terpilih."
 #: ../../admin/access.rst:48
 msgid ""
 "**Choose this for projects that should not be exposed publicly at all.**"
-msgstr "**Pilih ini untuk proyek yang tidak boleh terekspos sama sekali**"
+msgstr ""
+"**Pilih ini untuk proyek yang tidak boleh terekspos sama sekali secara "
+"publik.**"
 
 #: ../../admin/access.rst:49 ../../admin/config.rst:546
 msgid ":guilabel:`Custom`"
@@ -134,19 +135,20 @@ msgstr ":guilabel:`Custom`"
 
 #: ../../admin/access.rst:56
 msgid "Not available on Hosted Weblate."
-msgstr "Tidak tersedia dalam Hosted Weblate."
+msgstr "Tidak tersedia di Hosted Weblate."
 
 #: ../../admin/access.rst:58
 msgid "You will have to set up all the permissions using :ref:`custom-acl`."
-msgstr "Anda harus mengatur semua izin menggunakan :ref:`custom-acl`."
+msgstr "Anda harus menyiapkan semua izin menggunakan :ref:`custom-acl`."
 
 #: ../../admin/access.rst:60
 msgid ""
 "**Choose this on your own Weblate instance if you want to define access in a "
 "specific, finely customizable way.**"
 msgstr ""
-"**Pilih ini pada instansi Weblate Anda sendiri jika Anda ingin menentukan "
-"akses dengan cara yang spesifik dan dapat disesuaikan dengan baik.**"
+"**Pilih ini pada instansi Weblate Anda sendiri jika Anda ingin "
+"mendefinisikan akses dengan cara yang spesifik dan dapat disesuaikan dengan "
+"baik.**"
 
 #: ../../admin/access.rst:62
 msgid ""
@@ -170,8 +172,8 @@ msgid ""
 "Even `Private` project statistics are counted into the site-wide statistics "
 "and language summary. This does not reveal project names or any other info."
 msgstr ""
-"Bahkan statistik proyek `Privat` pun dihitung dalam statistik di seluruh "
-"situs dan ringkasan bahasa. Ini tidak mengungkap nama proyek atau info "
+"Bahkan statistik proyek `Private` pun dihitung dalam statistik di seluruh "
+"situs dan ringkasan bahasa. Ini tidak mengungkapkan nama proyek atau info "
 "lainnya."
 
 #: ../../admin/access.rst:78
@@ -181,16 +183,16 @@ msgid ""
 "settings <custom-acl>`."
 msgstr ""
 "Administrator instansi dapat mengubah rangkaian izin bawaan yang tersedia "
-"bagi pengguna dalam proyek `Publik`, `Dilindungi`, dan `Privat` dengan "
+"bagi pengguna dalam proyek `Public`, `Protected`, dan `Private` dengan "
 "menggunakan :ref:`custom settings <custom-acl>`."
 
 #: ../../admin/access.rst:88
 msgid "Managing per-project access control"
-msgstr "Mengelola kontrol akses tiap proyek"
+msgstr "Mengelola kontrol akses per proyek"
 
 #: ../../admin/access.rst:93
 msgid "For `Public`, `Protected` and `Private` projects:"
-msgstr "Untuk proyek `Publik`, `Dilindungi`, dan `Privat`:"
+msgstr "Untuk proyek `Public`, `Protected`, dan `Private`:"
 
 #: ../../admin/access.rst:95
 msgid ""
@@ -200,7 +202,7 @@ msgid ""
 msgstr ""
 "Memberikan pengguna :guilabel:`Manage project access` (lihat "
 ":ref:`privileges`) memungkinkan mereka untuk menetapkan pengguna lain dalam "
-"proyek `Publik`, `Dilindungi` dan `Privat` (tetapi bukan `Kustom`) dengan "
+"proyek `Public`, `Protected` dan `Private` (tetapi bukan `Custom`) dengan "
 "menambahkan mereka ke tim."
 
 #: ../../admin/access.rst:99
@@ -217,15 +219,15 @@ msgstr "`Administrasi`"
 
 #: ../../admin/access.rst:103
 msgid "All available permissions for the project."
-msgstr "Semua izin yang tersedia untuk proyek tersebut."
+msgstr "Semua izin yang tersedia untuk proyek."
 
 #: ../../admin/access.rst:105
 msgid "`Review`"
-msgstr "`Peninjauan`"
+msgstr "`Tinjauan`"
 
 #: ../../admin/access.rst:106
 msgid "Approve translations in a review."
-msgstr "Menyetujui terjemahan dalam ulasan."
+msgstr "Menyetujui terjemahan dalam tinjauan."
 
 #: ../../admin/access.rst:108
 msgid "Available only if :ref:`review workflow <reviews>` is on."
@@ -233,7 +235,7 @@ msgstr "Hanya tersedia jika :ref:`review workflow <reviews>` aktif."
 
 #: ../../admin/access.rst:110
 msgid "For `Protected` and `Private` projects only:"
-msgstr "Untuk proyek `Dilindungi` dan `Privat` saja:"
+msgstr "Hanya untuk proyek `Dilindungi` dan `Privat`:"
 
 #: ../../admin/access.rst:112 ../../snippets/roles.rst:157
 msgid "`Translate`"
@@ -277,7 +279,7 @@ msgstr "`Memori`"
 
 #: ../../admin/access.rst:126
 msgid "Manage translation memory."
-msgstr "Kelola memori penerjemahan."
+msgstr "Kelola memori terjemahan."
 
 #: ../../admin/access.rst:128
 msgid "`Screenshots`"
@@ -306,11 +308,11 @@ msgstr "Kelola VCS dan akses repositori yang diekspor."
 
 #: ../../admin/access.rst:138 ../../snippets/roles.rst:199
 msgid "`Billing`"
-msgstr "`Penagihan`"
+msgstr "`Tagihan`"
 
 #: ../../admin/access.rst:139
 msgid "Access billing info and settings (see :ref:`billing`)."
-msgstr "Akses info dan pengaturan penagihan (lihat :ref:`billing`)."
+msgstr "Akses info dan pengaturan tagihan (lihat :ref:`billing`)."
 
 #: ../../admin/access.rst:143
 msgid ""
@@ -342,7 +344,7 @@ msgstr ""
 
 #: ../../admin/access.rst:160
 msgid "This is useful in case you want to build self-governed teams."
-msgstr "Ini berguna jika Anda ingin membangun tim yang mengelola diri sendiri."
+msgstr "Ini berguna jika Anda ingin membangun tim yang mengatur diri sendiri."
 
 #: ../../admin/access.rst:165
 msgid "Inviting new users"
@@ -356,9 +358,10 @@ msgid ""
 "to get access to the project."
 msgstr ""
 "Menambahkan pengguna yang sudah ada akan mengirimkan undangan kepada mereka "
-"untuk mengonfirmasi. Dengan :setting:`REGISTRATION_OPEN` administrator juga "
-"dapat mengundang pengguna baru menggunakan surel. Pengguna yang diundang "
-"harus menyelesaikan proses pendaftaran untuk mendapatkan akses ke proyek."
+"untuk mengkonfirmasikan. Dengan :setting:`REGISTRATION_OPEN` administrator "
+"juga dapat mengundang pengguna baru menggunakan surel. Pengguna yang "
+"diundang harus menyelesaikan proses pendaftaran untuk mendapatkan akses ke "
+"proyek."
 
 #: ../../admin/access.rst:172
 msgid ""
@@ -366,8 +369,8 @@ msgid ""
 "access management permission on the project’s scope (e.g. a membership in "
 "the `Administration` team) would be sufficient."
 msgstr ""
-"Tidak diperlukan hak istimewa di seluruh situs untuk melakukan hal tersebut, "
-"izin akses pengelolaan pada cakupan proyek (misalnya keanggotaan dalam tim "
+"Tidak diperlukan hak akses di seluruh situs untuk melakukan hal tersebut, "
+"izin pengelolaan akses pada cakupan proyek (mis. keanggotaan dalam tim "
 "`Administrasi`) sudah cukup."
 
 #: ../../admin/access.rst:178
@@ -375,8 +378,8 @@ msgid ""
 "If the invited user missed the validity of the invitation, a new invitation "
 "has to be created."
 msgstr ""
-"Jika pengguna yang diundang tidak mengetahui keabsahan undangan, undangan "
-"baru harus dibuat."
+"Jika pengguna yang diundang melewatkan validitas undangan, undangan baru "
+"harus dibuat."
 
 #: ../../admin/access.rst:181
 msgid ""
@@ -384,17 +387,16 @@ msgid ""
 "the :ref:`management interface <management-interface>` on "
 "the :guilabel:`Users` tab."
 msgstr ""
-"Undangan jenis serupa tersedia di seluruh situs dari :ref:`management "
-"interface <management-interface>` pada tab :guilabel:`Users`."
+"Undangan serupa tersedia di seluruh situs dari :ref:`management interface "
+"<management-interface>` pada tab :guilabel:`Users`."
 
 #: ../../admin/access.rst:186
 msgid ""
 "Weblate now does not automatically create accounts or add users to the "
 "teams. This is only done after confirmation from the user."
 msgstr ""
-"Weblate kini tidak lagi secara otomatis membuat akun atau menambahkan "
-"pengguna ke tim. Hal ini hanya dilakukan setelah ada konfirmasi dari "
-"pengguna."
+"Weblate kini tidak lagi membuat akun atau menambahkan pengguna ke tim secara "
+"otomatis. Hal ini hanya dilakukan setelah ada konfirmasi dari pengguna."
 
 #: ../../admin/access.rst:192
 msgid "Blocking users"
@@ -413,7 +415,7 @@ msgstr ""
 
 #: ../../admin/access.rst:201
 msgid "Per-project permission management"
-msgstr "Pengelolaan izin tiap proyek"
+msgstr "Pengelolaan izin per proyek"
 
 #: ../../admin/access.rst:203
 msgid ""
@@ -422,7 +424,7 @@ msgid ""
 msgstr ""
 "Anda dapat mengatur proyek Anda ke :guilabel:`Protected` atau "
 ":guilabel:`Private` (lihat :ref:`acl`), dan :ref:`manage users access "
-"<manage-acl>` per-proyek."
+"<manage-acl>` per proyek."
 
 #: ../../admin/access.rst:206
 msgid ""
@@ -434,11 +436,11 @@ msgid ""
 "in :ref:`custom-acl` below."
 msgstr ""
 "Secara bawaan, hal ini mencegah Weblate memberikan akses yang diberikan oleh "
-"`Pengguna` dan `Pemirsa` :ref:`default teams <default-teams>` karena "
+"`Pengguna` dan `Pengamat` :ref:`default teams <default-teams>` karena "
 "konfigurasi tim tersebut. Hal ini tidak mencegah Anda memberikan izin ke "
-"proyek-proyek tersebut di seluruh situs dengan mengubah tim bawaan, membuat "
-"tim baru, atau membuat pengaturan khusus tambahan untuk masing-masing "
-"komponen seperti yang dijelaskan dalam :ref:`custom-acl` di bawah ini."
+"proyek tersebut di seluruh situs dengan mengubah tim bawaan, membuat tim "
+"baru, atau membuat pengaturan kustom tambahan untuk komponen individual "
+"seperti yang dijelaskan dalam :ref:`custom-acl` di bawah."
 
 #: ../../admin/access.rst:212
 msgid ""
@@ -449,8 +451,8 @@ msgid ""
 msgstr ""
 "Salah satu manfaat utama mengelola izin melalui antarmuka pengguna Weblate "
 "adalah Anda dapat mendelegasikannya kepada pengguna lain tanpa memberi "
-"mereka hak istimewa pengguna super. Untuk melakukannya, tambahkan mereka ke "
-"tim `Administrasi` proyek."
+"mereka hak akses pengguna super. Untuk melakukannya, tambahkan mereka ke tim "
+"`Administrasi` proyek."
 
 #: ../../admin/access.rst:220
 msgid "Per-project access tokens"
@@ -463,7 +465,7 @@ msgid ""
 "customized by team memberships same as with users."
 msgstr ""
 "Anda dapat menentukan token akses yang dicakup proyek di tab :guilabel:`API "
-"access`. Token API dapat memiliki tanggal kedaluwarsa yang ditetapkan, dan "
+"access`. Token API dapat memiliki tanggal kedaluwarsa yang diatur, dan "
 "izinnya dapat disesuaikan berdasarkan keanggotaan tim sama seperti dengan "
 "pengguna."
 
@@ -482,8 +484,8 @@ msgid ""
 "more details."
 msgstr ""
 "Sistem izin didasarkan pada peran yang mendefinisikan serangkaian izin, dan "
-"tim yang menghubungkan peran ke pengguna dan terjemahan, baca :ref:`auth-"
-"model` untuk detail lebih lanjut."
+"tim yang menautkan peran ke pengguna dan terjemahan, baca :ref:`auth-model` "
+"untuk rincian lebih lanjut."
 
 #: ../../admin/access.rst:244
 msgid ""
@@ -493,11 +495,11 @@ msgid ""
 "to :guilabel:`Custom` :ref:`access control <acl>` to utilize it. However you "
 "must have superuser privileges in order to use it."
 msgstr ""
-"Fitur-fitur paling canggih dari sistem kontrol akses Weblate dapat "
+"Fitur paling canggih dari sistem kontrol akses Weblate dapat "
 "dikonfigurasikan dalam :ref:`management-interface`. Anda dapat "
 "menggunakannya untuk mengelola izin proyek apa pun. Anda tidak perlu "
-"mengubahnya ke :guilabel:`Custom` :ref:`access control <acl>` untuk "
-"memanfaatkannya. Namun, Anda harus memiliki hak istimewa superuser untuk "
+"mengalihkannya ke :guilabel:`Custom` :ref:`access control <acl>` untuk "
+"memanfaatkannya. Namun, Anda harus memiliki hak akses pengguna super untuk "
 "menggunakannya."
 
 #: ../../admin/access.rst:250
@@ -508,23 +510,23 @@ msgid ""
 "<https://hosted.weblate.org/>`_), please refer to the :ref:`manage-acl` "
 "section."
 msgstr ""
-"Jika Anda tidak tertarik dengan detail implementasi, dan hanya ingin membuat "
-"konfigurasi yang cukup sederhana berdasarkan pada pengaturan default, atau "
-"tidak memiliki akses ke seluruh instalasi Weblate (seperti pada `Hosted "
-"Weblate <https://hosted.weblate.org/>`_), silakan lihat bagian :ref:`manage-"
-"acl`."
+"Jika Anda tidak tertarik dengan rincian implementasi, dan hanya ingin "
+"membuat konfigurasi yang cukup sederhana berdasarkan pada pengaturan bawaan, "
+"atau tidak memiliki akses ke seluruh pemasangan Weblate (seperti pada "
+"`Hosted Weblate <https://hosted.weblate.org/>`_), silakan lihat bagian "
+":ref:`manage-acl`."
 
 #: ../../admin/access.rst:256
 msgid "Site-wide permission management"
-msgstr "Pengelolaan izin keseluruhan situs"
+msgstr "Pengelolaan izin di seluruh situs"
 
 #: ../../admin/access.rst:258
 msgid ""
 "To manage permissions for a whole instance at once, add users to "
 "appropriate :ref:`default teams <default-teams>`:"
 msgstr ""
-"Untuk mengelola izin untuk seluruh instansi sekaligus, tambahkan pengguna "
-"ke :ref:`default teams <default-teams>` yang sesuai:"
+"Untuk mengelola izin untuk seluruh instansi sekaligus, tambahkan pengguna ke "
+":ref:`default teams <default-teams>` yang sesuai:"
 
 #: ../../admin/access.rst:261
 msgid ""
@@ -577,9 +579,9 @@ msgid ""
 "the :guilabel:`Project selection` (e.g. :guilabel:`All projects` "
 "or :guilabel:`All public projects`)."
 msgstr ""
-"Anda juga dapat menentukan beberapa tim kustom baru. Jika Anda ingin tetap "
-"mengelola izin di seluruh situs untuk tim ini, pilih nilai yang sesuai untuk "
-":guilabel:`Project selection` (mis. :guilabel:`Project selection` atau "
+"Anda juga dapat mendefinisikan beberapa tim kustom baru. Jika Anda ingin "
+"tetap mengelola izin di seluruh situs untuk tim ini, pilih nilai yang sesuai "
+"untuk :guilabel:`Project selection` (mis. :guilabel:`Project selection` atau "
 ":guilabel:`All public projects`)."
 
 #: ../../admin/access.rst:282
@@ -593,7 +595,7 @@ msgid ""
 "can only grant additional privileges, you can’t revoke any permission "
 "granted by site-wide or per-project teams by adding another custom team."
 msgstr ""
-"Anda dapat membuat tim kustom Anda sendiri untuk mengelola izin untuk objek "
+"Anda dapat membuat tim kustom Anda khusus untuk mengelola izin untuk objek "
 "tertentu seperti bahasa, komponen, dan proyek. Meskipun tim ini hanya dapat "
 "memberikan hak istimewa tambahan, Anda tidak dapat mencabut izin apa pun "
 "yang diberikan oleh tim di seluruh situs atau per proyek dengan menambahkan "
@@ -619,8 +621,8 @@ msgid ""
 "Restricting translation to `Czech` to a selected set of translators, (while "
 "keeping translations to other languages public):"
 msgstr ""
-"Membatasi penerjemahan ke bahasa `Ceko` hanya kepada sekelompok penerjemah "
-"tertentu saja, (sementara terjemahan ke bahasa lain tetap bersifat publik):"
+"Membatasi terjemahan ke `Ceko` untuk sejumlah penerjemah terpilih, "
+"(sementara terjemahan ke bahasa lain tetap bersifat publik):"
 
 #: ../../admin/access.rst:294
 msgid ""
@@ -629,7 +631,7 @@ msgid ""
 "<default-teams>`."
 msgstr ""
 "Hapus izin untuk menerjemahkan `Ceko` dari semua pengguna. Dalam konfigurasi "
-"default, ini dapat dilakukan dengan mengubah `Pengguna` :ref:`default team "
+"bawaan, ini dapat dilakukan dengan mengubah `Pengguna` :ref:`default team "
 "<default-teams>`."
 
 #: ../../admin/access.rst:298
@@ -668,7 +670,7 @@ msgstr "Peran"
 
 #: ../../admin/access.rst:312
 msgid "`Power users`"
-msgstr "`Pengguna berdaya`"
+msgstr "`Pengguna daya`"
 
 #: ../../admin/access.rst:313
 msgid "Project selection"
@@ -768,7 +770,7 @@ msgstr ""
 "Pengguna harus menjadi anggota tim yang terhubung dengan proyek, atau "
 "komponen apa pun di dalam proyek tersebut. Memiliki keanggotaan saja sudah "
 "cukup, tidak diperlukan izin khusus untuk menelusuri proyek (ini digunakan "
-"dalam tim `Pemirsa` default, lihat :ref:`default-teams`)."
+"dalam tim `Pengamat` bawaan, lihat :ref:`default-teams`)."
 
 #: ../../admin/access.rst:372
 msgid "Component-browsing access"
@@ -879,7 +881,7 @@ msgstr ""
 
 #: ../../admin/access.rst:423
 msgid "Group `Spanish Admin-Reviewers`"
-msgstr "Grup `Admin-Peninjau Spanyol`"
+msgstr "Grup `Admin Peninjau Spanyol`"
 
 #: ../../admin/access.rst:427
 msgid "`Review Strings`, `Manage repository`"
@@ -974,7 +976,7 @@ msgid ""
 "upgrading from one Weblate version to another. If you want to turn it off, "
 "set the regular expression to ``^$`` (which won’t match anything)."
 msgstr ""
-"Penugasan tim otomatis ke `Pengguna` dan `Pemirsa` selalu dibuat ulang saat "
+"Penugasan tim otomatis ke `Pengguna` dan `Pengamat` selalu dibuat ulang saat "
 "memperbarui dari satu versi Weblate ke versi lainnya. Jika Anda ingin "
 "menonaktifkannya, tetapkan ekspresi reguler ke ``^$`` (yang tidak akan cocok "
 "dengan apa pun)."
@@ -1846,7 +1848,7 @@ msgstr "Peran bawaan: `Tambahkan saran`, `Akses repositori`"
 
 #: ../../admin/access.rst:513
 msgid "`Viewers`"
-msgstr "`Pemirsa`"
+msgstr "`Pengamat`"
 
 #: ../../admin/access.rst:514
 msgid ""
@@ -2324,7 +2326,8 @@ msgid ""
 "localize them. See :ref:`weblate-cdn` for more details."
 msgstr ""
 "Menghasilkan URL unik untuk komponen Anda yang mana dapat Anda sertakan di "
-"halaman HTML untuk melokalkannya. Lihat :ref:`weblate-cdn` untuk detailnya."
+"halaman HTML untuk melokalkannya. Lihat :ref:`weblate-cdn` untuk rincian "
+"lebih lanjut."
 
 #: ../../admin/addons.rst:207
 msgid ""
@@ -3195,7 +3198,7 @@ msgstr "Kandungan"
 
 #: ../../admin/addons.rst:850
 msgid "Prefill translation with source"
-msgstr "Isi terjemahan dengan sumber"
+msgstr "Isi awal terjemahan dengan sumber"
 
 #: ../../admin/addons.rst:858
 msgid "Fills in translation strings with source string."
@@ -8912,7 +8915,7 @@ msgstr ""
 "hanya mengonfigurasinya untuk menggunakan proksi tepercaya dalam menentukan "
 "alamat IP. Silakan periksa <https://developer.mozilla.org/en-US/docs/Web/"
 "HTTP/Reference/Headers/X-Forwarded-For#security_and_privacy_concerns> untuk "
-"rincian selengkapnya."
+"rincian lebih lanjut."
 
 #: ../../admin/config.rst:1148
 msgid "Defaults to -1."
@@ -9052,7 +9055,7 @@ msgid ""
 msgstr ""
 "URL lengkap (termasuk garis miring di akhir) instalasi Matomo (sebelumnya "
 "Piwik) yang ingin Anda gunakan untuk melacak penggunaan Weblate. Silakan "
-"periksa <https://matomo.org/> untuk rincian selengkapnya."
+"periksa <https://matomo.org/> untuk rincian lebih lanjut."
 
 #: ../../admin/config.rst:1347
 msgid "Number of nearby strings to show in each direction in the full editor."
@@ -9869,10 +9872,9 @@ msgid ""
 "under :setting:`DATA_DIR`). If not found, a key is generated, please "
 "check :ref:`gpg-sign` for more details."
 msgstr ""
-"Pencarian kunci GPG Weblate dilakukan untuk kunci yang cocok "
-"(:file:`home/.gnupg` di bawah :setting:`DATA_DIR`). Jika tidak ditemukan, "
-"kunci akan dibuat, silakan periksa :ref:`gpg-sign` untuk rincian "
-"selengkapnya."
+"Pencarian kunci GPG Weblate dilakukan untuk kunci yang cocok (:file:`home/"
+".gnupg` di bawah :setting:`DATA_DIR`). Jika tidak ditemukan, kunci akan "
+"dibuat, silakan periksa :ref:`gpg-sign` untuk rincian lebih lanjut."
 
 #: ../../admin/config.rst:2287
 msgid ""
@@ -11116,9 +11118,9 @@ msgid ""
 "package repo <https://git.cloudron.io/cloudron/weblate-app>`_."
 msgstr ""
 "`Cloudron <https://www.cloudron.io/>`_ adalah platform untuk aplikasi web "
-"yang dihosting sendiri. Weblate yang diinstal dengan Cloudron akan "
-"diperbarui secara otomatis. Paket ini dikelola oleh tim Cloudron di `repo "
-"paket Weblate <https://git.cloudron.io/cloudron/weblate-app>`_."
+"yang dihos sendiri. Weblate yang diinstal dengan Cloudron akan diperbarui "
+"secara otomatis. Paket ini dikelola oleh tim Cloudron di `repo paket Weblate "
+"<https://git.cloudron.io/cloudron/weblate-app>`_."
 
 #: ../../admin/deployments.rst:27
 msgid "Install Weblate with Cloudron"
@@ -11136,7 +11138,7 @@ msgid ""
 "working stack with backup and restoration, but you may still have to edit "
 "your settings file for specific usages."
 msgstr ""
-"Proyek hosting mandiri ` YunoHost <https://yunohost.org/>`_ menyediakan "
+"Proyek pengehosan sendiri `YunoHost <https://yunohost.org/>`_ menyediakan "
 "paket untuk Weblate. Setelah Anda memiliki instalasi YunoHost, Anda dapat "
 "memasang Weblate seperti aplikasi lainnya. Weblate akan memberikan Anda "
 "stack yang berfungsi penuh dengan rekam cadang dan restorasi, tetapi Anda "
@@ -12100,10 +12102,12 @@ msgid ""
 "and :setting:`django:EMAIL_PORT`. Their names are quite self-explanatory, "
 "but you can find more info in the Django documentation."
 msgstr ""
-"Pengaturan server surat dikonfigurasi menggunakan pengaturan "
-"berikut: :setting:`django:EMAIL_HOST`, :setting:`django:EMAIL_HOST_PASSWORD`, :setting:`django:EMAIL_USE_TLS`, :setting:`django:EMAIL_USE_SSL`, :setting:`django:EMAIL_HOST_USER`, "
-"dan :setting:`django:EMAIL_PORT`. Nama-namanya cukup jelas, tetapi Anda "
-"dapat menemukan informasi lebih lanjut dalam dokumentasi Django."
+"Pengaturan server surat dikonfigurasikan menggunakan pengaturan berikut: "
+":setting:`django:EMAIL_HOST`, :setting:`django:EMAIL_HOST_PASSWORD`, "
+":setting:`django:EMAIL_USE_TLS`, :setting:`django:EMAIL_USE_SSL`, "
+":setting:`django:EMAIL_HOST_USER`, dan :setting:`django:EMAIL_PORT`. Namanya "
+"cukup jelas, tetapi Anda dapat menemukan informasi lebih lanjut dalam "
+"dokumentasi Django."
 
 #: ../../admin/install.rst:705
 msgid ""
@@ -12854,10 +12858,10 @@ msgid ""
 "certificates/` and running :command:`update-ca-certificates`)."
 msgstr ""
 "Pendekatan yang lebih disukai adalah melakukan ini di tingkat sistem, "
-"silakan periksa dokumentasi distro Anda untuk detail lebih lanjut (misalnya "
-"pada Debian dapat dilakukan dengan menempatkan sertifikat CA ke "
-"dalam :file:`/usr/local/share/ca-certificates/` dan "
-"menjalankan :command:`update-ca-certificates`)."
+"silakan periksa dokumentasi distro Anda untuk rincian lebih lanjut (misalnya "
+"pada Debian dapat dilakukan dengan menempatkan sertifikat CA ke dalam "
+":file:`/usr/local/share/ca-certificates/` dan menjalankan :command:`update-"
+"ca-certificates`)."
 
 #: ../../admin/install.rst:1323
 msgid ""
@@ -16162,9 +16166,9 @@ msgid ""
 "external services."
 msgstr ""
 "`LibreTranslate <https://libretranslate.com/>`_ adalah layanan terjemahan "
-"mesin bebas dan sumber terbuka yang dapat dihosting sendiri. Integrasinya "
-"dengan Weblate menyediakan kemampuan terjemahan mesin luring tanpa "
-"bergantung pada layanan eksternal."
+"mesin bebas dan sumber terbuka yang dapat dihos sendiri. Integrasinya dengan "
+"Weblate menyediakan kemampuan terjemahan mesin luring tanpa bergantung pada "
+"layanan eksternal."
 
 #: ../../admin/install/docker.rst:2320
 msgid ""
@@ -16413,7 +16417,7 @@ msgid ""
 "the setup in more details."
 msgstr ""
 "Panduan ini mencari kontributor berpengalaman dengan Kubernetes untuk "
-"membahas pengaturannya secara lebih rinci."
+"membahas penyiapannya secara lebih rinci."
 
 #: ../../admin/install/kubernetes.rst:9
 msgid ""
@@ -16723,8 +16727,8 @@ msgid ""
 "details."
 msgstr ""
 "Buka antarmuka admin (``http://localhost:8000/create/project/``) dan buat "
-"proyek yang ingin Anda terjemahkan. Lihat :ref:`project` untuk rincian "
-"selengkapnya."
+"proyek yang ingin Anda terjemahkan. Lihat :ref:`project` untuk rincian lebih "
+"lanjut."
 
 #: ../../admin/install/steps/install-after.rst:19
 msgid "All you need to specify here is the project name and its website."
@@ -16738,7 +16742,7 @@ msgid ""
 msgstr ""
 "Buat komponen yang merupakan objek sebenarnya untuk terjemahan - komponen "
 "ini menunjuk ke repositori VCS, dan memilih berkas mana yang akan "
-"diterjemahkan. Lihat :ref:`component` untuk rincian selengkapnya."
+"diterjemahkan. Lihat :ref:`component` untuk rincian lebih lanjut."
 
 #: ../../admin/install/steps/install-after.rst:25
 msgid ""
@@ -16750,9 +16754,9 @@ msgid ""
 msgstr ""
 "Kolom-kolom penting di sini adalah: :ref:`component-name`, :ref:`component-"
 "repo`, dan :ref:`component-filemask` untuk menemukan berkas yang dapat "
-"diterjemahkan. Weblate mendukung berbagai format, "
-"termasuk :ref:`gettext`, :ref:`aresource`, :ref:`apple`, :ref:`javaprop`, :ref:`stringsdict`, "
-"atau :ref:`fluent`. Lihat :ref:`formats` untuk rincian selengkapnya."
+"diterjemahkan. Weblate mendukung berbagai format, termasuk :ref:`gettext`, "
+":ref:`aresource`, :ref:`apple`, :ref:`javaprop`, :ref:`stringsdict`, atau "
+":ref:`fluent`. Lihat :ref:`formats` untuk rincian lebih lanjut."
 
 #: ../../admin/install/steps/install-after.rst:31
 msgid ""
@@ -16841,7 +16845,7 @@ msgstr ""
 #: ../../admin/install/steps/install-configure.rst:65
 msgid ""
 "Start the development server (:ref:`server` details a production setup):"
-msgstr "Mulai server pengembangan (:ref:`server` merinci pengaturan produksi):"
+msgstr "Mulai server pengembangan (:ref:`server` merinci penyiapan produksi):"
 
 #: ../../admin/install/steps/install-python.rst:2
 msgid "Python modules"
@@ -18035,8 +18039,8 @@ msgid ""
 msgstr ""
 "LibreTranslate adalah layanan bebas dan sumber terbuka untuk terjemahan "
 "mesin. Instansi publik memerlukan kunci API, tetapi LibreTranslate dapat "
-"dihosting sendiri dan terdapat beberapa mirror yang tersedia untuk "
-"menggunakan API secara bebas."
+"dihos sendiri dan terdapat beberapa mirror yang tersedia untuk menggunakan "
+"API secara bebas."
 
 #: ../../admin/machine.rst:474
 msgid "``https://libretranslate.com/`` (official public instance)"
@@ -18701,7 +18705,7 @@ msgid ""
 msgstr ""
 "Menjalankan perintah manajemen di bawah pengguna yang berbeda dari yang "
 "menjalankan server web Anda dapat mengakibatkan berkas mendapatkan izin yang "
-"salah, silakan periksa :ref:`file-permissions` untuk rincian selengkapnya."
+"salah, silakan periksa :ref:`file-permissions` untuk rincian lebih lanjut."
 
 #: ../../admin/management.rst:12
 msgid ""
@@ -21061,7 +21065,7 @@ msgid ""
 msgstr ""
 "Ini bisa berupa URL VCS asli atau ``weblate://project/component`` yang "
 "menunjukkan bahwa repositori tersebut harus dibagikan dengan komponen lain. "
-"Lihat :ref:`internal-urls` untuk rincian selengkapnya."
+"Lihat :ref:`internal-urls` untuk rincian lebih lanjut."
 
 #: ../../admin/projects.rst:426
 msgid "Repository push URL"
@@ -21492,7 +21496,7 @@ msgid ""
 "Glossary self-references are always excluded from matches even when this "
 "option is disabled."
 msgstr ""
-"Referensi mandiri glosarium selalu dikecualikan dari pencocokan meskipun "
+"Referensi sendiri glosarium selalu dikecualikan dari pencocokan meskipun "
 "opsi ini dinonaktifkan."
 
 #: ../../admin/projects.rst:665
@@ -22490,8 +22494,8 @@ msgid ""
 msgstr ""
 "Konfigurasi bawaan berguna untuk menguji dan mengawakutu Weblate, sementara "
 "untuk pengaturan produksi, Anda perlu melakukan beberapa penyesuaian. Banyak "
-"penyesuaian yang berdampak cukup besar pada kinerja. Silakan "
-"periksa :ref:`production` untuk rincian selengkapnya, terutama:"
+"penyesuaian yang berdampak cukup besar pada kinerja. Silakan periksa "
+":ref:`production` untuk rincian lebih lanjut, terutama:"
 
 #: ../../admin/projects.rst:1289
 msgid "Configure Celery for executing background tasks (see :ref:`celery`)"
@@ -22613,8 +22617,8 @@ msgid ""
 msgstr ""
 "*Weblate* adalah perangkat lunak bebas copylefted dengan dukungan komunitas. "
 "Pelanggan hosting mendapatkan dukungan prioritas tanpa biaya tambahan. Paket "
-"bantuan prabayar tersedia untuk semua orang, termasuk pengguna hosting "
-"mandiri. Temukan informasi tentang penawaran dukungan terkini di https://"
+"bantuan prabayar tersedia untuk semua orang, termasuk pengguna pengehosan "
+"sendiri. Temukan informasi tentang penawaran dukungan terkini di https://"
 "weblate.org/support."
 
 #: ../../admin/support.rst:13
@@ -27178,8 +27182,8 @@ msgid ""
 "authentication options."
 msgstr ""
 "Dokumentasi integrasi VCS yang lebih baik untuk memperjelas variabel "
-"lingkungan Docker, kepemilikan komit, pengaturan yang dihosting vs. "
-"dihosting sendiri, dan opsi autentikasi."
+"lingkungan Docker, kepemilikan komit, pengaturan yang dihos vs. dihos "
+"sendiri, dan opsi autentikasi."
 
 #: ../../changes.rst:145
 msgid "Timestamps from past are now shown with more detail."
@@ -30224,7 +30228,7 @@ msgid ""
 "Fixed project and site wide installation of :ref:`addon-weblate.git.squash` "
 "and :ref:`addon-weblate.discovery.discovery` add-ons."
 msgstr ""
-"Memperbaiki proyek dan instalasi seluruh situs dari pengaya :ref:`addon-"
+"Memperbaiki proyek dan pemasanga di seluruh situs dari pengaya :ref:`addon-"
 "weblate.git.squash` dan :ref:`addon-weblate.discovery.discovery`."
 
 #: ../../changes.rst:1448
@@ -32845,7 +32849,7 @@ msgstr "Berbagai pembersihan antarmuka pengguna."
 
 #: ../../changes/v2.rst:115
 msgid "Fixed component/project/site wide search for translations."
-msgstr "Pencarian terjemahan di seluruh komponen/proyek/situs tetap."
+msgstr "Memperbaiki pencarian terjemahan di seluruh komponen/proyek/situs."
 
 #: ../../changes/v2.rst:118
 msgid "Weblate 2.15"
@@ -33121,7 +33125,7 @@ msgstr "Menambahkan dukungan untuk API Yandex Translate."
 
 #: ../../changes/v2.rst:204
 msgid "Improved speed of site wide search."
-msgstr "Peningkatan kecepatan pencarian di seluruh situs."
+msgstr "Meningkatkan kecepatan pencarian di seluruh situs."
 
 #: ../../changes/v2.rst:205
 msgid "Added project and component wide search."
@@ -37167,8 +37171,8 @@ msgid ""
 "Fixed missing sanitizing of arguments to Git and Mercurial "
 "- :cve:`2022-23915`, see :ghsa:`3872-f48p-pxqj` for more details."
 msgstr ""
-"Memperbaiki sanitasi argumen yang hilang pada Git dan Mercurial "
-"- :cve:`2022-23915`, lihat :ghsa:`3872-f48p-pxqj` untuk rincian lebih lanjut."
+"Memperbaiki sanitasi argumen yang hilang pada Git dan Mercurial - :cve:`2022-"
+"23915`, lihat :ghsa:`3872-f48p-pxqj` untuk rincian lebih lanjut."
 
 #: ../../changes/v4.rst:453
 msgid "Fixed loading fuzzy strings from CSV files."
@@ -40205,7 +40209,7 @@ msgstr ""
 
 #: ../../contributing/snippets/code-guide.rst:11
 msgid ":doc:`/contributing/license` explains licensing in more details."
-msgstr ":doc:`/contributing/license` menjelaskan perizinan secara lebih rinci."
+msgstr ":doc:`/contributing/license` menjelaskan lisensi secara lebih rinci."
 
 #: ../../contributing/snippets/code-guide.rst:14
 msgid "Writing a good patch"
@@ -42008,7 +42012,7 @@ msgstr ""
 "Program ini didistribusikan dengan harapan bermanfaat, tetapi TANPA GARANSI "
 "APAPUN; bahkan tanpa jaminan tersirat mengenai KEMAMPUAN DIPERDAGANGKAN atau "
 "KESESUAIAN UNTUK TUJUAN TERTENTU. Lihat Lisensi Publik Umum GNU untuk "
-"rincian selengkapnya."
+"rincian lebih lanjut."
 
 #: ../../contributing/license.rst:26
 msgid ""
@@ -42801,7 +42805,7 @@ msgid ""
 "necessary to receive permission directly from Weblate (or its affiliates) to:"
 msgstr ""
 "Karena Weblate adalah penyedia perangkat lunak yang dapat digunakan dalam "
-"berbagai versi – hosting, cloud khusus, dan hosting mandiri (baik berbayar "
+"berbagai versi – dihos, cloud khusus, dan dihos sendiri (baik berbayar "
 "maupun gratis), penting untuk membedakan antara kedua versi ini. Setiap "
 "versi memiliki cara khusus dalam menggunakan merek dagang Weblate. Namun, "
 "dalam semua kasus, tidak perlu mendapatkan izin langsung dari Weblate (atau "
@@ -44158,7 +44162,7 @@ msgid ""
 msgstr ""
 "Hal ini dapat diotomatisasi dengan mengatur webhook di repositori Anda untuk "
 "memicu Weblate setiap kali ada komit baru. Lihat :ref:`update-vcs` untuk "
-"rincian selengkapnya."
+"rincian lebih lanjut."
 
 #: ../../devel/integration.rst:57
 msgid ""
@@ -44453,8 +44457,8 @@ msgid ""
 "A Weblate instance (either `Hosted Weblate <https://hosted.weblate.org/>`_ "
 "or :doc:`self-hosted </admin/install>`)"
 msgstr ""
-"Instansi Weblate (baik `Hosted Weblate <https://hosted.weblate.org/>`_ "
-"atau :doc:`self-hosted </admin/install>`)"
+"Instansi Weblate (baik `Hosted Weblate <https://hosted.weblate.org/>`_ atau "
+":doc:`self-hosted </admin/install>`)"
 
 #: ../../devel/migration.rst:31
 msgid "Admin or project creation permissions on your Weblate instance"
@@ -46973,8 +46977,8 @@ msgid ""
 msgstr ""
 "Hal ini dapat disebabkan oleh penggunaan kode bahasa yang sudah usang "
 "bersamaan dengan kode baru (``ja`` dan ``jp`` untuk bahasa Jepang) atau "
-"penggunaan kode khusus negara dan kode generik (``fr`` dan ``fr_FR``). "
-"Lihat :ref:`language-parsing-codes` untuk rincian selengkapnya."
+"penggunaan kode khusus negara dan kode generik (``fr`` dan ``fr_FR``). Lihat "
+":ref:`language-parsing-codes` untuk rincian lebih lanjut."
 
 #: ../../faq.rst:520
 msgid "Features"
@@ -49910,7 +49914,7 @@ msgid ""
 "our :doc:`admin/install`."
 msgstr ""
 "Untuk memulai proyek Anda sendiri di layanan cloud kami, Hosted Weblate, "
-"silakan lihat :doc:`admin/projects`. Untuk menghosting sendiri klon Weblate "
+"silakan lihat :doc:`admin/projects`. Untuk mengehos sendiri klon Weblate "
 "Anda, silakan baca :doc:`admin/install` kami."
 
 #: ../../index.rst:45
@@ -50119,7 +50123,7 @@ msgid ""
 "www.hetzner.com/unternehmen/nachhaltigkeit/."
 msgstr ""
 "Semua infrastruktur hosting beroperasi dengan **100% energi terbarukan**, "
-"terutama bersumber dari **tenaga air**. Anda dapat menemukan informasi lebih "
+"terutama bersumber dari **tenaga air**. Anda dapat menemukan rincian lebih "
 "lanjut di https://www.hetzner.com/unternehmen/nachhaltigkeit/."
 
 #: ../../security/data-residency.rst:28
@@ -50448,8 +50452,8 @@ msgid ""
 "It applies to self-hosted Weblate instances, whether on-premise or in cloud "
 "infrastructure."
 msgstr ""
-"Ini berlaku untuk instansi self-hosted Weblate, baik di lokasi lokal maupun "
-"dalam infrastruktur cloud."
+"Ini berlaku untuk instansi Weblate yang dihos sendiri, baik di lokasi lokal "
+"maupun dalam infrastruktur cloud."
 
 #: ../../security/incident-response-plan.rst:11
 msgid "Roles and responsibilities"
@@ -56878,7 +56882,7 @@ msgid ""
 msgstr ""
 "Ekspresi reguler dievaluasi oleh backend basis data dan mungkin menggunakan "
 "ekstensi yang berbeda, silakan lihat dokumentasi basis data di bawah untuk "
-"keterangan lebih rinci."
+"rincian lebih lanjut."
 
 #: ../../user/search.rst:228
 msgid ""
@@ -57984,8 +57988,8 @@ msgid ""
 "section <vcs-repos-code-hosting>` instead."
 msgstr ""
 "Bagian ini **hanya** berlaku untuk Hosted Weblate (hosted.weblate.org). Jika "
-"Anda menjalankan instansi Weblate yang dihosting sendiri, silakan "
-"lihat :ref:`the next section <vcs-repos-code-hosting>` sebagai gantinya."
+"Anda menjalankan instansi Weblate yang dihos sendiri, silakan lihat "
+":ref:`the next section <vcs-repos-code-hosting>` sebagai gantinya."
 
 #: ../../vcs.rst:33
 msgid ""
@@ -58057,9 +58061,9 @@ msgid ""
 "This section applies to **self-hosted** Weblate instances. If you are using "
 "Hosted Weblate (hosted.weblate.org), see :ref:`hosted-push` instead."
 msgstr ""
-"Bagian ini berlaku untuk instansi Weblate yang **dihosting sendiri**. Jika "
-"Anda menggunakan Hosted Weblate (hosted.weblate.org), lihat :ref:`hosted-"
-"push` sebagai gantinya."
+"Bagian ini berlaku untuk instansi Weblate yang **dihos sendiri**. Jika Anda "
+"menggunakan Hosted Weblate (hosted.weblate.org), lihat :ref:`hosted-push` "
+"sebagai gantinya."
 
 #: ../../vcs.rst:65
 msgid ""
@@ -58070,8 +58074,8 @@ msgid ""
 "and grant this user access to the repository. You can then use SSH URL to "
 "access the repository (see :ref:`ssh-repos`)."
 msgstr ""
-"Untuk Weblate yang dihosting sendiri, mengakses repositori di situs hosting "
-"kode biasanya dilakukan dengan membuat pengguna khusus yang dikaitkan dengan "
+"Untuk Weblate yang dihos sendiri, mengakses repositori di situs hosting kode "
+"biasanya dilakukan dengan membuat pengguna khusus yang dikaitkan dengan "
 "kunci SSH Weblate (lihat :ref:`weblate-ssh-key`). Dengan cara ini, Anda "
 "mengaitkan kunci SSH Weblate dengan satu pengguna (platform sering kali "
 "memberlakukan penggunaan tunggal kunci SSH) dan memberikan akses kepada "
