@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-01-26 11:05+0100\n"
-"PO-Revision-Date: 2026-02-11 01:31+0000\n"
+"PO-Revision-Date: 2026-02-11 04:19+0000\n"
 "Last-Translator: Zahid Rizky Fakhri <zahidrizkyfakhri@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "documentation/id/>\n"
@@ -211,7 +211,7 @@ msgid ""
 "modified by users with sufficient privileges:"
 msgstr ""
 "Berikut adalah tim bawaan yang disediakan Weblate; tim dapat ditambahkan "
-"atau dimodifikasi oleh pengguna dengan hak istimewa yang memadai:"
+"atau dimodifikasi oleh pengguna dengan hak akses yang memadai:"
 
 #: ../../admin/access.rst:102 ../../snippets/roles.rst:10
 msgid "`Administration`"
@@ -369,7 +369,7 @@ msgid ""
 "access management permission on the project’s scope (e.g. a membership in "
 "the `Administration` team) would be sufficient."
 msgstr ""
-"Tidak diperlukan hak akses di seluruh situs untuk melakukan hal tersebut, "
+"Tidak memerlukan hak akses di seluruh situs untuk melakukan hal tersebut, "
 "izin pengelolaan akses pada cakupan proyek (mis. keanggotaan dalam tim "
 "`Administrasi`) sudah cukup."
 
@@ -597,9 +597,9 @@ msgid ""
 msgstr ""
 "Anda dapat membuat tim kustom Anda khusus untuk mengelola izin untuk objek "
 "tertentu seperti bahasa, komponen, dan proyek. Meskipun tim ini hanya dapat "
-"memberikan hak istimewa tambahan, Anda tidak dapat mencabut izin apa pun "
-"yang diberikan oleh tim di seluruh situs atau per proyek dengan menambahkan "
-"tim kustom lainnya."
+"memberikan hak akses tambahan, Anda tidak dapat mencabut izin apa pun yang "
+"diberikan oleh tim di seluruh situs atau per proyek dengan menambahkan tim "
+"kustom lainnya."
 
 #: ../../admin/access.rst:289 ../../admin/access.rst:417
 #: ../../admin/config.rst:292 ../../admin/config.rst:311
@@ -686,16 +686,16 @@ msgstr "`Ceko`"
 
 #: ../../admin/access.rst:321
 msgid "Add users you wish to give the permissions to into this team."
-msgstr "Tambahkan pengguna yang ingin Anda beri izin ke tim ini."
+msgstr "Tambahkan pengguna yang ingin Anda beri izin ke dalam tim ini."
 
 #: ../../admin/access.rst:323
 msgid ""
 "Management permissions this way is powerful, but can be quite a tedious job. "
 "You can only delegate it to other users by granting them Superuser status."
 msgstr ""
-"Mengelola izin dengan cara ini memang ampuh, tetapi bisa jadi cukup "
+"Pengelolaan izin dengan cara ini sangat ampuh, tetapi bisa jadi cukup "
 "merepotkan. Anda hanya dapat mendelegasikannya kepada pengguna lain dengan "
-"memberi mereka status Pengguna super."
+"memberikan mereka status Pengguna super."
 
 #: ../../admin/access.rst:329
 msgid "Users, roles, teams, and permissions"
@@ -715,7 +715,7 @@ msgid ""
 "users, only through assignment of roles."
 msgstr ""
 "Izin individual ditentukan oleh Weblate. Izin tidak dapat diberikan kepada "
-"pengguna, hanya melalui penetapan peran."
+"pengguna, hanya melalui penugasan peran."
 
 #: ../../admin/access.rst:336
 msgid "`Role`"
@@ -753,8 +753,8 @@ msgid ""
 "A team can have no roles assigned to it, in that case access to browse the "
 "project by anyone is assumed (see below)."
 msgstr ""
-"Suatu tim tidak dapat diberi peran apa pun, dalam hal ini siapa pun "
-"diasumsikan memiliki akses untuk menelusuri proyek (lihat di bawah)."
+"Tim tidak boleh memiliki peran yang ditugaskan, dalam hal ini akses untuk "
+"menelusuri proyek oleh siapa pun dianggap (lihat di bawah)."
 
 #: ../../admin/access.rst:364
 msgid "Project-browsing access"
@@ -784,21 +784,21 @@ msgid ""
 "explicitly."
 msgstr ""
 "Memberikan akses penelusuran kepada pengguna dalam satu proyek akan "
-"memberinya akses ke komponen apa pun dengan izin penelusuran turunan. "
-"Dengan :ref:`component-restricted` aktif, akses ke komponen (atau daftar "
-"komponen) diberikan secara eksplisit."
+"memberinya akses ke komponen apa pun dengan izin penelusuran turunan. Dengan "
+":ref:`component-restricted` aktif, akses ke komponen (atau daftar komponen) "
+"diberikan secara eksplisit."
 
 #: ../../admin/access.rst:382
 msgid "Scope of teams"
-msgstr "Ruang lingkup tim"
+msgstr "Cakupan tim"
 
 #: ../../admin/access.rst:384
 msgid ""
 "The scope of the permission assigned by the roles in the teams are applied "
 "by the following rules:"
 msgstr ""
-"Ruang lingkup izin yang diberikan berdasarkan peran dalam tim diterapkan "
-"dengan aturan berikut:"
+"Cakupan izin yang ditugaskan berdasarkan peran dalam tim diterapkan dengan "
+"aturan berikut:"
 
 #: ../../admin/access.rst:387
 msgid ""
@@ -820,7 +820,7 @@ msgid ""
 "giving access via projects instead."
 msgstr ""
 "Menggunakan daftar komponen yang besar mungkin akan berdampak pada kinerja, "
-"harap pertimbangkan untuk memberikan akses melalui proyek sebagai gantinya."
+"silakan pertimbangkan untuk memberikan akses melalui proyek sebagai gantinya."
 
 #: ../../admin/access.rst:396
 msgid ""
@@ -829,10 +829,10 @@ msgid ""
 "the team, and an access with no additional permissions is granted for all "
 "the projects these components are in. :guilabel:`Projects` are ignored."
 msgstr ""
-"Jika tim menentukan :guilabel:`Komponen` apa pun, semua izin yang diberikan "
-"kepada anggota tim tersebut diberikan untuk semua komponen yang melekat pada "
-"tim, dan akses tanpa izin tambahan diberikan untuk semua proyek tempat "
-"komponen tersebut berada. :guilabel:`Proyek` diabaikan."
+"Jika tim menentukan :guilabel:`Components` apa pun, semua izin yang "
+"diberikan kepada anggota tim tersebut diberikan untuk semua komponen yang "
+"dilampirkan pada tim, dan akses tanpa izin tambahan diberikan untuk semua "
+"proyek tempat komponen tersebut berada. :guilabel:`Projects` diabaikan."
 
 #: ../../admin/access.rst:401
 msgid ""
@@ -857,19 +857,19 @@ msgid ""
 "translation process itself like reviewing, saving translations, adding "
 "suggestions, etc."
 msgstr ""
-"Pembatasan yang diberlakukan oleh :guilabel:`Bahasa` tim diterapkan secara "
-"terpisah, ketika diverifikasi apakah pengguna memiliki akses untuk melakukan "
-"tindakan tertentu. Artinya, pembatasan ini hanya diterapkan pada tindakan "
-"yang berkaitan langsung dengan proses penerjemahan itu sendiri, seperti "
-"meninjau, menyimpan terjemahan, menambahkan saran, dll."
+"Pembatasan yang diberlakukan oleh :guilabel:`Languages` tim diterapkan "
+"secara terpisah, ketika diverifikasikan apakah pengguna memiliki akses untuk "
+"melakukan tindakan tertentu. Artinya, pembatasan ini hanya diterapkan pada "
+"tindakan yang berkaitan langsung dengan proses penerjemahan itu sendiri, "
+"seperti meninjau, menyimpan terjemahan, menambahkan saran, dll."
 
 #: ../../admin/access.rst:414
 msgid ""
 "Use :guilabel:`Language selection` or :guilabel:`Project selection` to "
 "automate inclusion of all languages or projects."
 msgstr ""
-"Gunakan :guilabel:`Pemilihan bahasa` atau :guilabel:`Pemilihan proyek` untuk "
-"mengotomatiskan penyertaan semua bahasa atau proyek."
+"Gunakan :guilabel:`Language selection` atau :guilabel:`Project selection` "
+"untuk mengotomatisasikan penyertaan semua bahasa atau proyek."
 
 #: ../../admin/access.rst:419
 msgid ""
@@ -893,7 +893,7 @@ msgstr "Komponen"
 
 #: ../../admin/access.rst:429
 msgid "foo/bar"
-msgstr "foo/ bar"
+msgstr "foo/bar"
 
 #: ../../admin/access.rst:431
 msgid "`Spanish`"
@@ -926,11 +926,11 @@ msgid ""
 "made by translators for all languages."
 msgstr ""
 "Kelola VCS untuk seluruh repositori ``foo/bar`` misalnya, melakukan "
-"perubahan tertunda yang dibuat oleh penerjemah untuk semua bahasa."
+"perubahan tertunda yang dikomit oleh penerjemah untuk semua bahasa."
 
 #: ../../admin/access.rst:445
 msgid "Automatic team assignments"
-msgstr "Penetapan tim otomatis"
+msgstr "Penugasan tim otomatis"
 
 #: ../../admin/access.rst:447
 msgid ""
@@ -940,10 +940,10 @@ msgid ""
 "on their e-mail addresses. This assignment only happens upon account "
 "creation."
 msgstr ""
-"Saat menyunting :guilabel:`Tim`, Anda dapat menentukan :guilabel:`Penugasan "
-"otomatis`, yang merupakan daftar ekspresi reguler yang digunakan untuk "
-"menetapkan pengguna yang baru dibuat secara otomatis ke suatu tim "
-"berdasarkan alamat surel mereka. Penetapan ini hanya terjadi setelah "
+"Saat menyunting :guilabel:`Team`, Anda dapat menentukan :guilabel:`Automatic "
+"assignments`, yang merupakan daftar ekspresi reguler yang digunakan untuk "
+"menugaskan pengguna yang baru dibuat secara otomatis ke suatu tim "
+"berdasarkan alamat surel mereka. Penugasan ini hanya terjadi setelah "
 "pembuatan akun."
 
 #: ../../admin/access.rst:452
@@ -953,7 +953,7 @@ msgid ""
 "teams (see :ref:`default-teams`). Use regular expression ``^.*$`` to match "
 "all users."
 msgstr ""
-"Kasus penggunaan yang paling umum untuk fitur ini adalah untuk menetapkan "
+"Kasus penggunaan yang paling umum untuk fitur ini adalah untuk menugaskan "
 "semua pengguna baru ke beberapa tim bawaan. Perilaku ini digunakan untuk tim "
 "`Pengguna` dan `Tamu` bawaan (lihat :ref:`default-teams`). Gunakan ekspresi "
 "reguler ``^.*$`` untuk mencocokkan semua pengguna."
@@ -965,9 +965,9 @@ msgid ""
 "e-mail addresses on your domain, this can be accomplished with an expression "
 "like ``^.*@mycompany.com``."
 msgstr ""
-"Contoh lain dari opsi ini adalah memberikan beberapa hak istimewa tambahan "
+"Contoh lain dari opsi ini adalah memberikan beberapa hak akses tambahan "
 "kepada karyawan perusahaan Anda secara bawaan. Dengan asumsi semua karyawan "
-"menggunakan alamat surel perusahaan di domain Anda, hal ini dapat dilakukan "
+"menggunakan alamat surel perusahaan di domain Anda, ini dapat dilakukan "
 "dengan ekspresi seperti ``^.*@mycompany.com``."
 
 #: ../../admin/access.rst:463
@@ -977,7 +977,7 @@ msgid ""
 "set the regular expression to ``^$`` (which won’t match anything)."
 msgstr ""
 "Penugasan tim otomatis ke `Pengguna` dan `Pengamat` selalu dibuat ulang saat "
-"memperbarui dari satu versi Weblate ke versi lainnya. Jika Anda ingin "
+"meningkatkan dari satu versi Weblate ke versi lainnya. Jika Anda ingin "
 "menonaktifkannya, tetapkan ekspresi reguler ke ``^$`` (yang tidak akan cocok "
 "dengan apa pun)."
 
@@ -987,8 +987,8 @@ msgid ""
 "via the user interface. For that, you may resort to using the :ref:`REST API "
 "<api>`."
 msgstr ""
-"Saat ini, belum ada cara untuk menambahkan pengguna yang sudah ada secara "
-"massal ke tim tertentu melalui antarmuka pengguna. Untuk itu, Anda dapat "
+"Saat ini, belum ada cara untuk menambahkan pengguna yang sudah ada ke tim "
+"tertentu secara massal melalui antarmuka pengguna. Untuk itu, Anda dapat "
 "menggunakan :ref:`REST API <api>`."
 
 #: ../../admin/access.rst:473
@@ -1000,7 +1000,7 @@ msgid ""
 "After installation, a default set of teams is created (see :ref:`default-"
 "teams`)."
 msgstr ""
-"Setelah instalasi, serangkaian tim bawaan dibuat (lihat :ref:`default-"
+"Setelah pemasangan, serangkaian tim bawaan dibuat (lihat :ref:`default-"
 "teams`)."
 
 #: ../../admin/access.rst:477
@@ -1010,13 +1010,14 @@ msgid ""
 "actually change them, please define a new role if you want to define your "
 "own set of permissions."
 msgstr ""
-"Peran dan tim ini dibuat setelah instalasi. Peran bawaan selalu diperbarui "
-"oleh migrasi basis data saat pemutakhiran. Anda tidak dapat mengubahnya, "
-"silakan tentukan peran baru jika Anda ingin menentukan set izin Anda sendiri."
+"Peran dan tim ini dibuat setelah pemasangan. Peran bawaan selalu diperbarui "
+"oleh migrasi basis data saat peningkatan. Anda tidak dapat mengubahnya, "
+"silakan tentukan peran baru jika Anda ingin mendefinisikan serangkaian izin "
+"Anda sendiri."
 
 #: ../../snippets/permissions.rst:3
 msgid "List of privileges"
-msgstr "Daftar hak istimewa"
+msgstr "Daftar hak akses"
 
 #: ../../admin/optionals.rst:256 ../../contributing/code_of_conduct.rst:92
 #: ../../snippets/permissions.rst:9 ../../user/checks.rst:0
@@ -1065,11 +1066,11 @@ msgstr "Lihat info tagihan"
 #: ../../snippets/permissions.rst:309 ../../snippets/permissions.rst:319
 #: ../../snippets/permissions.rst:323 ../../snippets/permissions.rst:327
 msgid ":guilabel:`Administration`"
-msgstr ":guilabel:`Administrasi`"
+msgstr ":guilabel:`Administration`"
 
 #: ../../snippets/permissions.rst:13
 msgid ":guilabel:`Billing`"
-msgstr ":guilabel:`Penagihan`"
+msgstr ":guilabel:`Billing`"
 
 #: ../../api.rst:2400 ../../snippets/permissions.rst:15
 msgid "Changes"
@@ -1094,7 +1095,7 @@ msgstr "Posting komentar"
 #: ../../snippets/permissions.rst:215 ../../snippets/permissions.rst:243
 #: ../../snippets/permissions.rst:265 ../../snippets/permissions.rst:277
 msgid ":guilabel:`Edit source`"
-msgstr ":guilabel:`Sunting sumber`"
+msgstr ":guilabel:`Edit source`"
 
 #: ../../snippets/permissions.rst:21 ../../snippets/permissions.rst:47
 #: ../../snippets/permissions.rst:61 ../../snippets/permissions.rst:69
@@ -1107,7 +1108,7 @@ msgstr ":guilabel:`Sunting sumber`"
 #: ../../snippets/permissions.rst:279 ../../snippets/permissions.rst:291
 #: ../../snippets/permissions.rst:313
 msgid ":guilabel:`Power user`"
-msgstr ":guilabel:`Pengguna berdaya`"
+msgstr ":guilabel:`Power user`"
 
 #: ../../snippets/permissions.rst:23 ../../snippets/permissions.rst:33
 #: ../../snippets/permissions.rst:49 ../../snippets/permissions.rst:55
@@ -1124,7 +1125,7 @@ msgstr ":guilabel:`Pengguna berdaya`"
 #: ../../snippets/permissions.rst:293 ../../snippets/permissions.rst:315
 #: ../../snippets/permissions.rst:325 ../../snippets/permissions.rst:329
 msgid ":guilabel:`Translation coordinator`"
-msgstr ":guilabel:`Koordinator terjemahan`"
+msgstr ":guilabel:`Translation coordinator`"
 
 #: ../../snippets/permissions.rst:25 ../../snippets/permissions.rst:35
 #: ../../snippets/permissions.rst:89 ../../snippets/permissions.rst:141
@@ -1135,7 +1136,7 @@ msgstr ":guilabel:`Koordinator terjemahan`"
 #: ../../snippets/permissions.rst:283 ../../snippets/roles.rst:50
 #: ../../snippets/roles.rst:135 ../../snippets/roles.rst:153
 msgid ":guilabel:`Review strings`"
-msgstr ":guilabel:`Tinjau string`"
+msgstr ":guilabel:`Review strings`"
 
 #: ../../snippets/permissions.rst:27 ../../snippets/permissions.rst:91
 #: ../../snippets/permissions.rst:143 ../../snippets/permissions.rst:155
@@ -1143,7 +1144,7 @@ msgstr ":guilabel:`Tinjau string`"
 #: ../../snippets/permissions.rst:223 ../../snippets/permissions.rst:253
 #: ../../snippets/permissions.rst:273 ../../snippets/permissions.rst:285
 msgid ":guilabel:`Translate`"
-msgstr ":guilabel:`Terjemahkan`"
+msgstr ":guilabel:`Translate`"
 
 #: ../../snippets/permissions.rst:29
 msgid "Delete comment"
@@ -1170,7 +1171,7 @@ msgstr "Kunci komponen, mencegah terjemahan"
 #: ../../snippets/permissions.rst:307 ../../snippets/permissions.rst:317
 #: ../../snippets/permissions.rst:321
 msgid ":guilabel:`Manage repository`"
-msgstr ":guilabel:`Kelola repositori`"
+msgstr ":guilabel:`Manage repository`"
 
 #: ../../api.rst:2693 ../../snippets/permissions.rst:43
 #: ../../user/glossary.rst:4 ../../user/translating.rst:310
@@ -1185,7 +1186,7 @@ msgstr "Tambahkan entri glosarium"
 #: ../../snippets/permissions.rst:59 ../../snippets/permissions.rst:67
 #: ../../snippets/permissions.rst:75
 msgid ":guilabel:`Manage glossary`"
-msgstr ":guilabel:`Kelola glosarium`"
+msgstr ":guilabel:`Manage glossary`"
 
 #: ../../snippets/permissions.rst:51
 msgid "Add glossary terminology"
@@ -1222,11 +1223,11 @@ msgstr "Sunting memori terjemahan"
 
 #: ../../snippets/permissions.rst:95 ../../snippets/permissions.rst:99
 msgid ":guilabel:`Manage translation memory`"
-msgstr ":guilabel:`Kelola memori terjemahan`"
+msgstr ":guilabel:`Manage translation memory`"
 
 #: ../../snippets/permissions.rst:97
 msgid "Delete translation memory"
-msgstr "Hapus memori terjemahan"
+msgstr "Hapus memori penerjemahan"
 
 #: ../../api.rst:872 ../../api.rst:2814 ../../snippets/permissions.rst:101
 msgid "Projects"
@@ -1260,7 +1261,7 @@ msgstr "Tambahkan tangkapan layar"
 #: ../../snippets/permissions.rst:111 ../../snippets/permissions.rst:117
 #: ../../snippets/permissions.rst:123
 msgid ":guilabel:`Manage screenshots`"
-msgstr ":guilabel:`Kelola tangkapan layar`"
+msgstr ":guilabel:`Manage screenshots`"
 
 #: ../../snippets/permissions.rst:113
 msgid "Edit screenshot"
@@ -1308,7 +1309,7 @@ msgstr "Sunting massal string"
 
 #: ../../snippets/permissions.rst:165
 msgid ":guilabel:`Bulk editing`"
-msgstr ":guilabel:`Penyuntingan massal`"
+msgstr ":guilabel:`Bulk editing`"
 
 #: ../../snippets/permissions.rst:167
 msgid "Edit string when suggestions are enforced"
@@ -1336,7 +1337,7 @@ msgstr "Tambahkan saran"
 #: ../../snippets/roles.rst:99 ../../snippets/roles.rst:127
 #: ../../snippets/roles.rst:147 ../../snippets/roles.rst:161
 msgid ":guilabel:`Add suggestion`"
-msgstr ":guilabel:`Tambahkan saran`"
+msgstr ":guilabel:`Add suggestion`"
 
 #: ../../snippets/permissions.rst:207
 msgid "Delete suggestion"
@@ -1442,7 +1443,7 @@ msgstr "Hapus pengumuman"
 
 #: ../../snippets/permissions.rst:331
 msgid "Site wide privileges"
-msgstr "Hak istimewa di seluruh situs"
+msgstr "Hak akses di seluruh situs"
 
 #: ../../snippets/permissions.rst:331
 msgid "Use management interface"
@@ -1518,10 +1519,9 @@ msgid ""
 "and quite close to the Superuser status. Most of them affect all projects in "
 "your Weblate installation."
 msgstr ""
-"Hak istimewa di seluruh situs tidak diberikan kepada peran bawaan mana pun. "
-"Hak istimewa ini sangat kuat dan cukup mirip dengan status Pengguna super. "
-"Sebagian besar hak istimewa ini memengaruhi semua proyek di pemasangan "
-"Weblate Anda."
+"Hak akses di seluruh situs tidak diberikan kepada peran bawaan mana pun. Hak "
+"akses ini sangat kuat dan cukup mirip dengan status Pengguna super. Sebagian "
+"besar hak akses ini memengaruhi semua proyek di instalasi Weblate Anda."
 
 #: ../../snippets/roles.rst:3
 msgid "List of built-in roles"
@@ -1927,7 +1927,7 @@ msgid ""
 msgstr ""
 "Jangan pernah menghapus tim dan pengguna Weblate yang telah ditentukan "
 "sebelumnya, karena hal itu dapat menyebabkan masalah yang tidak terduga! "
-"Jika Anda tidak membutuhkannya, hapus saja semua hak istimewanya."
+"Jika Anda tidak membutuhkannya, hapus saja semua hak aksesnya."
 
 #: ../../admin/access.rst:554
 msgid "Additional access restrictions"
@@ -2406,8 +2406,8 @@ msgid ""
 "file formats, this means removing stale translation keys no longer present "
 "in the base file."
 msgstr ""
-"Perbarui semua berkas terjemahan agar sesuai dengan berkas dasar ekabahasa. "
-"Untuk sebagian besar format berkas, hal ini berarti menghapus kunci "
+"Memperbarui semua berkas terjemahan agar sesuai dengan berkas dasar "
+"monolingual. Untuk kebanyakan format berkas, hal ini berarti menghapus kunci "
 "terjemahan lawas yang tidak ada lagi di berkas basis."
 
 #: ../../admin/addons.rst:257
@@ -3645,7 +3645,7 @@ msgstr "Hapus kalimat duplikat."
 
 #: ../../admin/addons.rst:1125
 msgid "Stale comment removal"
-msgstr "Penghapusan komentar lawas"
+msgstr "Penghapusan komentar yang lawas"
 
 #: ../../admin/addons.rst:1129 ../../admin/addons.rst:1146
 msgid "Days to keep"
@@ -3671,7 +3671,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:1142
 msgid "Stale suggestion removal"
-msgstr "Penghapusan saran lawas"
+msgstr "Penghapusan saran yang lawas"
 
 #: ../../admin/addons.rst:1148
 msgid "Voting threshold"
@@ -3717,7 +3717,7 @@ msgid ""
 "translation keys."
 msgstr ""
 "Gunakan :ref:`addon-weblate.cleanup.generic` jika Anda hanya ingin menghapus "
-"kunci terjemahan lawas."
+"kunci terjemahan yang lawas."
 
 #: ../../admin/addons.rst:1182
 msgid "Slack Webhooks"
@@ -6452,9 +6452,9 @@ msgid ""
 "versions."
 msgstr ""
 "Anda dapat memulihkan cadangan ini di versi Weblate yang lebih baru. Versi "
-"ini akan menjalankan semua migrasi yang diperlukan saat dijalankan "
-"di :wladmin:`migrate`. Silakan lihat :doc:`upgrade` untuk informasi lebih "
-"lanjut tentang cara meningkatkan versi antar versi."
+"ini akan menjalankan semua migrasi yang diperlukan saat dijalankan di "
+":wladmin:`migrate`. Silakan lihat :doc:`upgrade` untuk informasi lebih "
+"lanjut tentang cara meningkatkan antar versi."
 
 #: ../../admin/backup.rst:264
 msgid "Django database backup"
@@ -6698,7 +6698,7 @@ msgid ""
 "<https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-"
 "from-python-2-to-python-3>`_"
 msgstr ""
-"`Peningkatan dari Python 2 ke Python 3 dalam dokumentasi Weblate 3.11.1 "
+"`Meningkatkan dari Python 2 ke Python 3 dalam dokumentasi Weblate 3.11.1 "
 "<https://docs.weblate.org/en/weblate-3.11.1/admin/upgrade.html#upgrading-"
 "from-python-2-to-python-3>`_"
 
@@ -8122,9 +8122,9 @@ msgid ""
 "admins are still presented with the full selection of languages defined in "
 "Weblate."
 msgstr ""
-"Ini hanya membatasi pengguna yang tidak memiliki hak istimewa untuk "
-"menambahkan bahasa yang tidak diinginkan. Admin proyek tetap diberikan "
-"pilihan bahasa lengkap yang ditentukan di Weblate."
+"Ini hanya membatasi pengguna yang tidak memiliki hak akses untuk menambahkan "
+"bahasa yang tidak diinginkan. Admin proyek tetap diberikan pilihan bahasa "
+"lengkap yang ditentukan di Weblate."
 
 #: ../../admin/config.rst:289
 msgid ""
@@ -12358,7 +12358,7 @@ msgid ""
 msgstr ""
 "Konfigurasikan cara penyimpanan sesi Anda. Jika Anda tetap menggunakan mesin "
 "backend basis data bawaan, Anda harus menjadwalkan: :command:`weblate "
-"clearsessions` untuk menghapus data sesi lawas dari basis data."
+"clearsessions` untuk menghapus data sesi yang lawas dari basis data."
 
 #: ../../admin/install.rst:885
 msgid ""
@@ -12908,7 +12908,7 @@ msgstr ""
 "konfigurasi bawaan, hal ini dilakukan secara otomatis dengan biaya overhead "
 "yang kecil. Pada instalasi besar, disarankan untuk mengaktifkan mode "
 "kompresi luring. Hal ini perlu dilakukan dalam konfigurasi dan kompresi "
-"harus dipicu pada setiap pembaruan Weblate."
+"harus dipicu pada setiap peningkatan Weblate."
 
 #: ../../admin/install.rst:1356
 msgid ""
@@ -14060,7 +14060,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:227
 msgid "Upgrading the Docker container"
-msgstr "Memutakhirkan kontainer Docker"
+msgstr "Meningkatkan kontainer Docker"
 
 #: ../../admin/install/docker.rst:229
 msgid ""
@@ -14070,7 +14070,7 @@ msgid ""
 msgstr ""
 "Biasanya merupakan ide yang baik untuk hanya memperbarui kontainer Weblate "
 "dan mempertahankan kontainer PostgreSQL pada versi yang Anda miliki, karena "
-"pemutakhiran PostgreSQL cukup menyulitkan dan dalam kebanyakan kasus tidak "
+"peningkatan PostgreSQL cukup menyulitkan dan dalam kebanyakan kasus tidak "
 "membawa banyak manfaat."
 
 #: ../../admin/install/docker.rst:235
@@ -14080,8 +14080,8 @@ msgid ""
 "See :ref:`docker-postgres-upgrade`."
 msgstr ""
 "Sejak Weblate 4.17-1, kontainer Docker menggunakan Django 4.2 yang "
-"membutuhkan PostgreSQL 12 atau yang lebih baru. Harap mutakhirkan kontainer "
-"tersebut sebelum memutakhirkan Weblate. Lihat :ref:`docker-postgres-upgrade`."
+"membutuhkan PostgreSQL 12 atau yang lebih baru. Silakan tingkatkan kontainer "
+"tersebut sebelum meningkatkan Weblate. Lihat :ref:`docker-postgres-upgrade`."
 
 #: ../../admin/install/docker.rst:239
 msgid ""
@@ -14106,11 +14106,11 @@ msgid ""
 "latest 4.0.x-y image (at time of writing this it is the ``4.0.4-5``), which "
 "will do the migration and then continue upgrading to newer versions."
 msgstr ""
-"Pemutakhiran lintas versi utama tidak didukung oleh Weblate. Misalnya, jika "
-"Anda menggunakan seri 3.x dan ingin memutakhirkan ke 4.x, pertama-tama "
-"tingkatkan ke gambar 4.0.x-y terbaru (saat artikel ini ditulis, versinya "
-"adalah ``4.0.4-5``), yang akan melakukan migrasi, lalu lanjutkan "
-"pemutakhiran ke versi yang lebih baru."
+"Peningkatan lintas versi utama tidak didukung oleh Weblate. Misalnya, jika "
+"Anda menggunakan seri 3.x dan ingin meningkatkan ke 4.x, pertama tingkatkan "
+"ke gambar 4.0.x-y terbaru (saat artikel ini ditulis, versinya adalah ``4.0.4-"
+"5``), yang akan melakukan migrasi, lalu lanjutkan peningkatan ke versi yang "
+"lebih baru."
 
 #: ../../admin/install/docker.rst:263
 msgid ""
@@ -14120,11 +14120,11 @@ msgid ""
 msgstr ""
 "Anda mungkin juga ingin memperbarui repositori ``docker-compose``, meskipun "
 "biasanya tidak diperlukan. Lihat :ref:`docker-postgres-upgrade` untuk "
-"memutakhirkan server PostgreSQL."
+"meningkatkan server PostgreSQL."
 
 #: ../../admin/install/docker.rst:269
 msgid "Upgrading PostgreSQL container"
-msgstr "Memutakhirkan kontainer PostgreSQL"
+msgstr "Meningkatkan kontainer PostgreSQL"
 
 #: ../../admin/install/docker.rst:271
 msgid ""
@@ -14132,9 +14132,9 @@ msgid ""
 "you need to perform the upgrade manually. Following steps show one of the "
 "options of upgrading."
 msgstr ""
-"Kontainer PostgreSQL tidak mendukung pemutakhiran otomatis antar versi, Anda "
-"perlu melakukan pemutakhiran secara manual. Langkah-langkah berikut "
-"menunjukkan salah satu opsi pemutakhiran."
+"Kontainer PostgreSQL tidak mendukung peningkatan otomatis antar versi, Anda "
+"perlu melakukan peningkatan secara manual. Langkah berikut menunjukkan salah "
+"satu opsi peningkatan."
 
 #: ../../admin/install/docker.rst:277
 msgid "https://github.com/docker-library/postgres/issues/37"
@@ -15157,7 +15157,7 @@ msgstr "OpenID Connect"
 
 #: ../../admin/install/docker.rst:1460
 msgid "Configures generic OpenID Connect integration."
-msgstr "Mengonfigurasi integrasi OpenID Connect generik."
+msgstr "Mengonfigurasikan integrasi OpenID Connect umum."
 
 #: ../../admin/install/docker.rst:1467
 msgid "Fedora OpenID Connect"
@@ -15695,7 +15695,7 @@ msgstr ""
 
 #: ../../admin/install/docker.rst:2048
 msgid "Generic Celery worker."
-msgstr "Pekerja Celery generik."
+msgstr "Celery worker umum."
 
 #: ../../admin/install/docker.rst:2050
 msgid "Translation memory Celery worker."
@@ -16080,7 +16080,7 @@ msgid ""
 msgstr ""
 "API internal Weblate mungkin sangat bervariasi antar rilis dan tidak "
 "dirancang untuk stabil. Harap tinjau kode kustom Anda yang berinteraksi "
-"dengan internal Weblate pada setiap pembaruan."
+"dengan internal Weblate pada setiap peningkatan."
 
 #: ../../admin/install/docker.rst:2285
 msgid ""
@@ -16292,8 +16292,8 @@ msgid ""
 "to use the GPU."
 msgstr ""
 "Untuk akselerasi GPU, gunakan varian citra CUDA dan pastikan sistem Anda "
-"mendukung NVIDIA Docker. Kontainer ini berjalan sebagai pengguna istimewa "
-"agar dapat menggunakan GPU."
+"mendukung NVIDIA Docker. Kontainer ini berjalan sebagai pengguna akses agar "
+"dapat menggunakan GPU."
 
 #: ../../admin/install/docker.rst:2396
 msgid "No external ports are exposed, making the setup secure by default."
@@ -16987,7 +16987,7 @@ msgid ""
 "definitions shipped in Weblate."
 msgstr ""
 "Definisi untuk sekitar 800 bahasa disertakan dalam Weblate, dan daftarnya "
-"terus bertambah di setiap rilis. Setiap kali Weblate diperbarui (lebih "
+"terus bertambah di setiap rilis. Setiap kali Weblate ditingkatkan (lebih "
 "spesifiknya setiap kali :wladmin:`migrate` dijalankan, lihat :ref:`generic-"
 "upgrade-instructions`), basis data bahasa diperbarui untuk mencakup semua "
 "definisi bahasa yang disertakan dalam Weblate."
@@ -19509,7 +19509,7 @@ msgstr ""
 "Anda jarang perlu menjalankan perintah ini, Weblate akan secara otomatis "
 "memuat berkas yang diubah untuk setiap pembaruan VCS. Hal ini diperlukan "
 "jika Anda mengubah repositori VCS Weblate yang mendasarinya secara manual "
-"atau dalam beberapa kasus khusus setelah pemutakhiran."
+"atau dalam beberapa kasus khusus setelah peningkatan."
 
 #: ../../admin/management.rst:841
 msgid "Prevents further translation of a component."
@@ -19623,7 +19623,7 @@ msgstr "Memperbarui semua pemeriksaan untuk semua string."
 #: ../../admin/management.rst:970
 msgid "Useful for upgrades which do major changes to checks."
 msgstr ""
-"Berguna untuk pemutakhiran yang melakukan perubahan besar pada pemeriksaan."
+"Berguna untuk peningkatan yang melakukan perubahan besar pada pemeriksaan."
 
 #: ../../admin/management.rst:977
 msgid ""
@@ -19807,9 +19807,9 @@ msgid ""
 msgstr ""
 "Entri memori terjemahan dapat memiliki dua status berbeda: **aktif** dan "
 "**tertunda**. Entri tertunda disertakan dalam saran, tetapi dengan penalti "
-"kualitas yang diterapkan. Jika :ref:`autoclean-tm` diaktifkan, entri lawas "
-"dan usang dengan status tertunda akan otomatis dihapus ketika terjemahan "
-"disetujui."
+"kualitas yang diterapkan. Jika :ref:`autoclean-tm` diaktifkan, entri yang "
+"lawas dan lawas dengan status tertunda akan otomatis dihapus ketika "
+"terjemahan disetujui."
 
 #: ../../admin/memory.rst:82 ../../admin/projects.rst:197
 msgid "Autoclean translation memory"
@@ -22866,10 +22866,10 @@ msgid ""
 "with the :guilabel:`Edit string when suggestions are "
 "enforced` :ref:`permission <privileges>`."
 msgstr ""
-"Setelah penerimaan otomatis diatur, pengguna biasa kehilangan hak istimewa "
+"Setelah penerimaan otomatis diatur, pengguna biasa kehilangan hak akses "
 "untuk langsung menyimpan terjemahan atau menerima saran. Hal ini dapat "
-"ditimpa dengan :guilabel:`Sunting string saat saran "
-"diberlakukan` :ref:`permission <privileges>`."
+"ditimpa dengan :guilabel:`Sunting string saat saran diberlakukan` "
+":ref:`permission <privileges>`."
 
 #: ../../admin/translating.rst:23
 msgid ""
@@ -23085,11 +23085,11 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:2
 msgid "Upgrading Weblate"
-msgstr "Memutakhirkan Weblate"
+msgstr "Meningkatkan Weblate"
 
 #: ../../admin/upgrade.rst:5
 msgid "Docker image upgrades"
-msgstr "Pemutakhiran gambar Docker"
+msgstr "Peningkatan gambar Docker"
 
 #: ../../admin/upgrade.rst:7
 msgid ""
@@ -23098,12 +23098,12 @@ msgid ""
 "latest (or at least newer) version."
 msgstr ""
 "Gambar Docker Weblate resmi (lihat :doc:`install/docker`) mengintegrasikan "
-"semua langkah pemutakhiran. Biasanya, tidak diperlukan interaksi manual "
+"semua langkah peningkatan. Biasanya, tidak diperlukan interaksi manual "
 "selain menarik versi terbaru (atau setidaknya yang lebih baru)."
 
 #: ../../admin/upgrade.rst:18
 msgid "Generic upgrade instructions"
-msgstr "Petunjuk pemutakhiran umum"
+msgstr "Petunjuk peningkatan umum"
 
 #: ../../admin/upgrade.rst:20
 msgid ""
@@ -23333,9 +23333,8 @@ msgid ""
 "The `pgloader`_ is a generic migration tool to migrate data to PostgreSQL. "
 "You can use it to migrate your Weblate database."
 msgstr ""
-"`pgloader`_ adalah alat migrasi generik untuk memigrasikan data ke "
-"PostgreSQL. Anda dapat menggunakannya untuk memigrasikan basis data Weblate "
-"Anda."
+"`pgloader`_ adalah alat migrasi umum untuk memigrasikan data ke PostgreSQL. "
+"Anda dapat menggunakannya untuk memigrasikan basis data Weblate Anda."
 
 #: ../../admin/upgrade.rst:172
 msgid "Adjust your :file:`settings.py` to use PostgreSQL as database."
@@ -23406,7 +23405,7 @@ msgstr ""
 
 #: ../../api.rst:26
 msgid "Authentication and generic parameters"
-msgstr "Autentikasi dan parameter generik"
+msgstr "Autentikasi dan parameter umum"
 
 #: ../../api.rst:28
 msgid ""
@@ -26372,7 +26371,7 @@ msgstr ""
 
 #: ../../api.rst:2939
 msgid "Generic information about GitHub Webhooks"
-msgstr "Informasi generik tentang Webhook GitHub"
+msgstr "Informasi umum tentang Webhook GitHub"
 
 #: ../../api.rst:2941 ../../api.rst:2955 ../../api.rst:2969 ../../api.rst:2983
 #: ../../api.rst:3002 ../../api.rst:3016 ../../api.rst:3030
@@ -26397,7 +26396,7 @@ msgstr "https://docs.gitlab.com/user/project/integrations/webhooks/"
 
 #: ../../api.rst:2953
 msgid "Generic information about GitLab Webhooks"
-msgstr "Informasi generik tentang Webhook GitLab"
+msgstr "Informasi umum tentang Webhook GitLab"
 
 #: ../../api.rst:2959
 msgid ""
@@ -26417,7 +26416,7 @@ msgstr "https://support.atlassian.com/bitbucket-cloud/docs/manage-webhooks/"
 
 #: ../../api.rst:2967
 msgid "Generic information about Bitbucket Webhooks"
-msgstr "Informasi generik tentang Webhook Bitbucket"
+msgstr "Informasi umum tentang Webhook Bitbucket"
 
 #: ../../api.rst:2973
 msgid ""
@@ -26437,7 +26436,7 @@ msgstr "https://docs.pagure.org/pagure/usage/using_webhooks.html"
 
 #: ../../api.rst:2981
 msgid "Generic information about Pagure Webhooks"
-msgstr "Informasi generik tentang Pagure Webhook"
+msgstr "Informasi umum tentang Pagure Webhook"
 
 #: ../../api.rst:2987
 msgid ""
@@ -26490,7 +26489,7 @@ msgstr "https://docs.gitea.io/en-us/webhooks/"
 
 #: ../../api.rst:3014
 msgid "Generic information about Gitea Webhooks"
-msgstr "Informasi generik tentang Webhook Gitea"
+msgstr "Informasi umum tentang Webhook Gitea"
 
 #: ../../api.rst:3020
 msgid ""
@@ -26510,7 +26509,7 @@ msgstr "https://gitee.com/help/categories/40"
 
 #: ../../api.rst:3028
 msgid "Generic information about Gitee Webhooks"
-msgstr "Informasi generik tentang Webhook Gitee"
+msgstr "Informasi umum tentang Webhook Gitee"
 
 #: ../../api.rst:3035
 msgid "RSS feeds"
@@ -26685,7 +26684,7 @@ msgid ""
 msgstr ""
 ":ref:`check-regex` tidak lagi menandai porsi yang cocok sebagai tidak dapat "
 "diterjemahkan untuk memungkinkan pemeriksaan string berbasis ekspresi "
-"reguler generik. Gunakan :ref:`check-placeholders` untuk memeriksa pengganti "
+"reguler umum. Gunakan :ref:`check-placeholders` untuk memeriksa penempatan "
 "yang cocok dengan ekspresi reguler."
 
 #: ../../changes.rst:31 ../../changes.rst:70 ../../changes.rst:106
@@ -27485,8 +27484,8 @@ msgid ""
 "overloaded use of ``translation.auto`` permission, see :ref:`privileges`."
 msgstr ""
 "Izin ``unit.bulk_edit`` baru untuk operasi penyuntingan massal, menggantikan "
-"penggunaan izin ``translation.auto`` yang berlebihan, "
-"lihat :ref:`privileges`."
+"penggunaan izin ``translation.auto`` yang berlebihan, lihat "
+":ref:`privileges`."
 
 #: ../../changes.rst:272
 msgid ":ref:`date-search`."
@@ -27790,7 +27789,7 @@ msgstr ""
 
 #: ../../changes.rst:392
 msgid "Removed stale :ref:`addon-weblate.xml.customize`."
-msgstr "Menghapus :ref:`addon-weblate.xml.customize` lawas."
+msgstr "Menghapus :ref:`addon-weblate.xml.customize` yang lawas."
 
 #: ../../changes.rst:393
 msgid ":ref:`mt-libretranslate` compatibility with LibreTranslate 1.7.0."
@@ -27925,9 +27924,9 @@ msgid ""
 "and :envvar:`WEBLATE_SOCIAL_AUTH_OIDC_IMAGE` allow configuring the "
 "appearance of the generic OIDC authentication."
 msgstr ""
-":envvar:`WEBLATE_SOCIAL_AUTH_OIDC_TITLE` "
-"dan :envvar:`WEBLATE_SOCIAL_AUTH_OIDC_IMAGE` memungkinkan konfigurasi "
-"tampilan autentikasi OIDC generik."
+":envvar:`WEBLATE_SOCIAL_AUTH_OIDC_TITLE` dan "
+":envvar:`WEBLATE_SOCIAL_AUTH_OIDC_IMAGE` memungkinkan konfigurasi tampilan "
+"autentikasi OIDC umum."
 
 #: ../../changes.rst:437
 msgid "Background commits are now identified by an internal user."
@@ -29501,7 +29500,7 @@ msgstr ":ref:`api` sekarang memiliki pratinjau spesifikasi OpenAPI."
 
 #: ../../changes.rst:1129
 msgid "Stale, empty glossaries are now automatically removed."
-msgstr "Glosarium lawas dan kosong kini dihapus secara otomatis."
+msgstr "Glosarium yang lawas dan kosong kini dihapus secara otomatis."
 
 #: ../../changes.rst:1130
 msgid ":kbd:`?` now displays available :ref:`keyboard`."
@@ -29638,7 +29637,7 @@ msgid ""
 "formats which need it to update non-translation content in the translated "
 "files."
 msgstr ""
-":ref:`addon-weblate.cleanup.generic` sekarang diinstal secara otomatis untuk "
+":ref:`addon-weblate.cleanup.generic` sekarang dipasang secara otomatis untuk "
 "format yang memerlukannya untuk memperbarui konten non-terjemahan dalam "
 "berkas yang diterjemahkan."
 
@@ -30057,7 +30056,7 @@ msgstr ""
 
 #: ../../changes.rst:1355
 msgid "Cleanup of stale repositories."
-msgstr "Pembersihan repositori lawas."
+msgstr "Pembersihan repositori yang lawas."
 
 #: ../../changes.rst:1361
 msgid ""
@@ -30760,7 +30759,7 @@ msgstr "Peningkatan kinerja :ref:`git-exporter` pada repositori besar."
 
 #: ../../changes.rst:1656
 msgid "Removing stale VCS directories."
-msgstr "Menghapus direktori VCS lawas."
+msgstr "Menghapus direktori VCS yang lawas."
 
 #: ../../changes.rst:1660
 msgid ""
@@ -31889,7 +31888,7 @@ msgstr "Pilihan yang lebih terlihat untuk berbagi."
 
 #: ../../changes/v1.rst:27
 msgid "More control over anonymous users privileges."
-msgstr "Kontrol lebih besar atas hak istimewa pengguna anonim."
+msgstr "Kontrol lebih besar atas hak akses pengguna anonim."
 
 #: ../../changes/v1.rst:28
 msgid ""
@@ -32349,7 +32348,7 @@ msgstr ""
 msgid "Added option to reset repository to origin (for privileged users)."
 msgstr ""
 "Menambahkan opsi untuk mengatur ulang repositori ke asal (untuk pengguna "
-"istimewa)."
+"berhak akses)."
 
 #: ../../changes/v1.rst:161
 msgid "Project or component can now be locked for translations."
@@ -33048,7 +33047,7 @@ msgid ""
 "Return HTTP 404 when trying to access project where user lacks privileges."
 msgstr ""
 "Mengembalikan HTTP 404 saat mencoba mengakses proyek yang penggunanya tidak "
-"memiliki hak istimewa."
+"memiliki hak akses."
 
 #: ../../changes/v2.rst:179
 msgid "Weblate 2.13"
@@ -33101,7 +33100,7 @@ msgstr "ACL per proyek sekarang diimplementasikan menggunakan ACL Grup."
 
 #: ../../changes/v2.rst:194
 msgid "Added more fine grained privileges control."
-msgstr "Menambahkan kontrol hak istimewa yang lebih rinci."
+msgstr "Menambahkan kontrol hak akses yang lebih rinci."
 
 #: ../../changes/v2.rst:195
 msgid "Various minor UI improvements."
@@ -34674,7 +34673,7 @@ msgstr "Meningkatkan dukungan untuk kode bahasa gaya Java."
 
 #: ../../changes/v3.rst:177
 msgid "Added new generic check for placeholders."
-msgstr "Menambahkan pemeriksaan generik baru untuk pengganti."
+msgstr "Menambahkan pemeriksaan umum baru untuk penempatan."
 
 #: ../../changes/v3.rst:178
 msgid "Added support for WebExtension JSON placeholders."
@@ -36522,8 +36521,8 @@ msgid ""
 "postgres` for manual setup."
 msgstr ""
 "Weblate sekarang membutuhkan ekstensi ``btree_gin`` di PostgreSQL. Proses "
-"migrasi akan menginstalnya jika memiliki hak akses yang memadai. "
-"Lihat :ref:`dbsetup-postgres` untuk pengaturan manual."
+"migrasi akan memasangnya jika memiliki hak akses yang memadai. Lihat "
+":ref:`dbsetup-postgres` untuk pengaturan manual."
 
 #: ../../changes/v4.rst:242
 msgid ""
@@ -37048,7 +37047,9 @@ msgstr "Menambahkan dukungan untuk monetisasi web."
 
 #: ../../changes/v4.rst:407
 msgid "Fixed removal of stale source strings when removing translations."
-msgstr "Memperbaiki penghapusan string sumber lawas saat menghapus terjemahan."
+msgstr ""
+"Memperbaiki penghapusan string sumber yang sudah lampau saat menghapus "
+"terjemahan."
 
 #: ../../changes/v4.rst:409
 msgid ""
@@ -37446,8 +37447,8 @@ msgid ""
 "Fixed: \"Perform automatic translation\" privilege is no longer part of the "
 "*Languages* group."
 msgstr ""
-"Telah diperbaiki: Hak istimewa \"Lakukan terjemahan otomatis\" tidak lagi "
-"menjadi bagian dari grup *Bahasa*."
+"Memperbaiki: Hak akses \"Lakukan terjemahan otomatis\" tidak lagi menjadi "
+"bagian dari grup *Bahasa*."
 
 #: ../../changes/v4.rst:529
 msgid ""
@@ -37999,7 +38000,7 @@ msgid ""
 "``MT_DEEPL_API_URL`` setting to adapt to different subscription models more "
 "flexibly. The ``MT_DEEPL_API_VERSION`` setting is no longer used."
 msgstr ""
-"Terjemahan mesin :ref:`mt-deepl` kini memiliki pengaturan generik "
+"Terjemahan mesin :ref:`mt-deepl` kini memiliki pengaturan umum "
 "``MT_DEEPL_API_URL`` agar dapat beradaptasi dengan berbagai model langganan "
 "secara lebih fleksibel. Pengaturan ``MT_DEEPL_API_VERSION`` tidak lagi "
 "digunakan."
@@ -38981,7 +38982,7 @@ msgstr "Menambahkan pemeriksaan pemformatan Vue I18n."
 
 #: ../../changes/v4.rst:998
 msgid "Generic placeholders check now supports regular expressions."
-msgstr "Pemeriksaan pengganti generik sekarang mendukung ekspresi reguler."
+msgstr "Pemeriksaan penempatan umum sekarang mendukung ekspresi reguler."
 
 #: ../../changes/v4.rst:999
 msgid "Improved look of Matrix mode."
@@ -39568,7 +39569,7 @@ msgstr ""
 
 #: ../../changes/v4.rst:1154
 msgid "Renamed shapings to more generic name variants."
-msgstr "Mengganti nama bentuk menjadi varian nama yang lebih generik."
+msgstr "Mengganti nama bentuk menjadi varian nama yang lebih umum."
 
 #: ../../changes/v4.rst:1155
 msgid ""
@@ -40455,9 +40456,9 @@ msgstr ""
 "karakteristik fisik, neurodiversitas, disabilitas, jenis kelamin atau "
 "gender, identitas atau ekspresi gender, orientasi seksual, bahasa, filsafat "
 "atau agama, asal usul kebangsaan atau sosial, status sosial ekonomi, tingkat "
-"pendidikan, atau status lainnya. Hak istimewa partisipasi yang sama "
-"diberikan kepada setiap orang yang berpartisipasi dengan itikad baik dan "
-"sesuai dengan Kovenan ini."
+"pendidikan, atau status lainnya. Hak akses partisipasi yang sama diberikan "
+"kepada setiap orang yang berpartisipasi dengan itikad baik dan sesuai dengan "
+"Kovenan ini."
 
 #: ../../contributing/code_of_conduct.rst:12
 msgid "Encouraged Behaviors"
@@ -40716,7 +40717,7 @@ msgstr ""
 
 #: ../../contributing/code_of_conduct.rst:70
 msgid "Temporarily Limited Activities"
-msgstr "Kegiatan Terbatas Sementara"
+msgstr "Aktivitas Terbatas Sementara"
 
 #: ../../contributing/code_of_conduct.rst:72
 msgid ""
@@ -44253,10 +44254,10 @@ msgstr ""
 "Untuk berkas monolingual (lihat :ref:`formats`), Weblate mungkin menambahkan "
 "string terjemahan baru yang ada di :ref:`component-template`, dan bukan di "
 "terjemahan yang sebenarnya. Namun, Weblate tidak melakukan pembersihan "
-"otomatis string lawas, karena dapat menimbulkan hasil yang tidak diharapkan. "
-"Jika Anda tetap ingin melakukannya, silakan pasang pengaya :ref:`addon-"
-"weblate.cleanup.generic`, yang akan menangani pembersihan sesuai kebutuhan "
-"Anda."
+"otomatis string yang sudah lawas, karena dapat menimbulkan hasil yang tidak "
+"diharapkan. Jika Anda tetap ingin melakukannya, silakan pasang pengaya "
+":ref:`addon-weblate.cleanup.generic`, yang akan menangani pembersihan sesuai "
+"kebutuhan Anda."
 
 #: ../../devel/integration.rst:103
 msgid ""
@@ -44347,7 +44348,7 @@ msgid ""
 msgstr ""
 "Mengotomatiskan ekstraksi string saat ini berada di luar cakupan untuk "
 "Weblate. Proses ini biasanya melibatkan eksekusi kode yang tidak tepercaya, "
-"sehingga lebih cocok untuk integrasi berkelanjutan generik daripada platform "
+"sehingga lebih cocok untuk integrasi berkelanjutan umum daripada platform "
 "khusus lokalisasi."
 
 #: ../../devel/integration.rst:151
@@ -46977,7 +46978,7 @@ msgid ""
 msgstr ""
 "Hal ini dapat disebabkan oleh penggunaan kode bahasa yang sudah usang "
 "bersamaan dengan kode baru (``ja`` dan ``jp`` untuk bahasa Jepang) atau "
-"penggunaan kode khusus negara dan kode generik (``fr`` dan ``fr_FR``). Lihat "
+"penggunaan kode khusus negara dan kode umum (``fr`` dan ``fr_FR``). Lihat "
 ":ref:`language-parsing-codes` untuk rincian lebih lanjut."
 
 #: ../../faq.rst:520
@@ -49367,7 +49368,7 @@ msgid ""
 "TOML is a generic format like :doc:`/formats/yaml` or :doc:`/formats/json` "
 "and can be used to localize applications."
 msgstr ""
-"TOML adalah format generik seperti :doc:`/formats/yaml` atau :doc:`/formats/"
+"TOML adalah format umum seperti :doc:`/formats/yaml` atau :doc:`/formats/"
 "json` dan dapat digunakan untuk melokalisasi aplikasi."
 
 #: ../../formats/toml.rst:10
@@ -51166,7 +51167,7 @@ msgstr ""
 
 #: ../../security/localization-threat.rst:91
 msgid "6. Elevation of Privilege"
-msgstr "6. Peningkatan Hak Istimewa"
+msgstr "6. Peningkatan Hak Akses"
 
 #: ../../security/localization-threat.rst:93
 msgid ""
@@ -51182,7 +51183,7 @@ msgstr "Risiko: Eskalasi yang mengarah pada manipulasi atau terungkapnya data."
 
 #: ../../security/localization-threat.rst:98
 msgid "Apply the principle of least privilege."
-msgstr "Terapkan prinsip hak istimewa paling sedikit."
+msgstr "Terapkan prinsip hak akses paling sedikit."
 
 #: ../../security/localization-threat.rst:99
 msgid "Regularly review access rights and group memberships."
@@ -51886,7 +51887,7 @@ msgid ""
 "within the web application."
 msgstr ""
 "**Pengguna yang Diautentikasi ↔ Pengguna yang Tidak Diautentikasi:** Tingkat "
-"hak istimewa yang berbeda dalam aplikasi web."
+"hak akses yang berbeda dalam aplikasi web."
 
 #: ../../security/threat-model.rst:53
 msgid "Threat identification"
@@ -52078,14 +52079,13 @@ msgstr "Weblate tidak tersedia."
 
 #: ../../security/threat-model.rst:103 ../../security/threat-model.rst:107
 msgid "**Elevation of privilege**"
-msgstr "**Peningkatan hak istimewa**"
+msgstr "**Peningkatan hak akses**"
 
 #: ../../security/threat-model.rst:104
 msgid ""
 "**Role escalation:** A regular translator gains administrative privileges."
 msgstr ""
-"**Peningkatan peran:** Penerjemah biasa memperoleh hak istimewa "
-"administratif."
+"**Peningkatan peran:** Penerjemah biasa memperoleh hak akses administratif."
 
 #: ../../security/threat-model.rst:105
 msgid "Complete system compromise."
@@ -52252,7 +52252,7 @@ msgid ""
 "translators can only edit translations, not change project configs), "
 "see :doc:`/admin/access`."
 msgstr ""
-"Kontrol akses berbasis peran (RBAC) untuk menegakkan hak istimewa paling "
+"Kontrol akses berbasis peran (RBAC) untuk menegakkan hak akses paling "
 "sedikit (misalnya, penerjemah hanya dapat menyunting terjemahan, tidak "
 "mengubah konfigurasi proyek), lihat :doc:`/admin/access`."
 
@@ -52293,8 +52293,8 @@ msgid ""
 "Principle of least privilege for VCS credentials (e.g., read-only access "
 "where possible, limited scopes for tokens)."
 msgstr ""
-"Prinsip hak istimewa paling sedikit untuk kredensial VCS (misalnya, akses "
-"hanya baca jika memungkinkan, cakupan terbatas untuk token)."
+"Prinsip hak akses paling sedikit untuk kredensial VCS (misalnya, akses hanya "
+"baca jika memungkinkan, cakupan terbatas untuk token)."
 
 #: ../../security/threat-model.rst:161
 msgid "Secure storage of VCS credentials."
@@ -52334,8 +52334,8 @@ msgstr ""
 msgid ""
 "Database hardening (the least privilege for Weblate user, strong passwords)."
 msgstr ""
-"Pengerasan basis data (hak istimewa paling sedikit bagi pengguna Weblate, "
-"kata sandi kuat)."
+"Pengerasan basis data (hak akses paling sedikit bagi pengguna Weblate, kata "
+"sandi kuat)."
 
 #: ../../security/threat-model.rst:168
 msgid "**System hardening:**"
@@ -52347,7 +52347,7 @@ msgstr "Penambalan rutin SO, Weblate, dan semua dependensi."
 
 #: ../../security/threat-model.rst:170
 msgid "Principle of least privilege for Weblate user account on the OS."
-msgstr "Prinsip hak istimewa paling sedikit untuk akun pengguna Weblate di SO."
+msgstr "Prinsip hak akses paling sedikit untuk akun pengguna Weblate di SO."
 
 #: ../../security/threat-model.rst:171
 msgid ""
@@ -53299,7 +53299,7 @@ msgid ""
 "generic :ref:`check-placeholders`."
 msgstr ""
 "Jika pemeriksaan format khusus tidak tersedia di Weblate, Anda dapat "
-"menggunakan :ref:`check-placeholders` generik."
+"menggunakan :ref:`check-placeholders` umum."
 
 #: ../../user/checks.rst:449
 msgid ""
