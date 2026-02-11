@@ -176,6 +176,8 @@ class Formatter:
                 # Rearrange space highlighting
                 move_space = False
                 start_space = -1
+                start_nl = -1
+                append_end = True
                 if offset in self.tags:
                     for pos, tag in enumerate(self.tags[offset]):
                         if tag == SPACE_MIDDLE_2:
@@ -184,6 +186,9 @@ class Formatter:
                             break
                         if tag == SPACE_START:
                             start_space = pos
+                            break
+                        if tag == SPACE_NL_START:
+                            start_nl = pos
                             break
 
                 if start_space != -1:
@@ -205,11 +210,21 @@ class Formatter:
                     if start_space != -1 and last_middle is not None:
                         self.tags[tagoffset][pos] = SPACE_MIDDLE_1
 
+                elif start_nl != -1:
+                    # The line break is always one char wide, so we do not
+                    # need the complex logic used for generic whitespace
+                    start_tag = self.tags[offset].pop(start_nl)
+                    self.tags[end].insert(0, "<ins>")
+                    self.tags[end].insert(1, start_tag)
+                    self.tags[end].append("</ins>")
+                    append_end = False
+
                 else:
                     self.tags[offset].append("<ins>")
                 if move_space:
                     self.tags[offset].append(SPACE_START)
-                self.tags[end].append("</ins>")
+                if append_end:
+                    self.tags[end].append("</ins>")
                 if start_space != -1:
                     self.tags[end].append(SPACE_START)
 
