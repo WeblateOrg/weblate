@@ -5,7 +5,7 @@
 # AdVerda <dev1.speculate199@passmail.net>, 2023.
 # Heimen Stoffels <vistausss@fastmail.com>, 2023, 2024.
 # Geert-Jan Knapen <geertjanknapen+weblate@gmail.com>, 2024.
-# Dick Groskamp <dikgro@yahoo.co.uk>, 2024, 2025.
+# Dick Groskamp <dikgro@yahoo.co.uk>, 2024, 2025, 2026.
 # test-session <u4n5yp+f2i3ra2m3khdc@sharklasers.com>, 2024.
 # Geert-Jan Knapen <geertjanknapen@gmail.com>, 2024.
 # Dick Groskamp <digro@users.noreply.hosted.weblate.org>, 2024.
@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-01-26 11:05+0100\n"
-"PO-Revision-Date: 2025-12-18 10:17+0000\n"
+"PO-Revision-Date: 2026-02-12 05:10+0000\n"
 "Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
@@ -27,7 +27,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.15.1-dev\n"
+"X-Generator: Weblate 5.16-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:215
@@ -5686,6 +5686,8 @@ msgstr "De SAML XML URL voor metadata is ``/accounts/metadata/saml/``."
 msgid ""
 "The sign-in URL is ``/accounts/complete/saml/`` (also known as ACS URL)."
 msgstr ""
+"De URL voor aanmelden is ``/accounts/complete/saml/`` (ook wel bekend als de "
+"ACS URL)."
 
 #: ../../admin/auth.rst:494
 msgid ""
@@ -9704,6 +9706,11 @@ msgid ""
 "of projects that are using them, it can cause confusion or distract "
 "translators from the actual components that are meant to be translated."
 msgstr ""
+"Onderdelen Woordenlijst worden gewoonlijk gedeeld met andere projecten om ze "
+"beschikbaar te maken voor vertaalwerk. Als deze zichtbaar zijn in de lijst "
+"met onderdelen van de projecten die ze gebruiken, kan het voor verwarring "
+"zorgen of vertalers afleiden van de feitelijke onderdelen die bedoeld zijn "
+"om te worden vertaald."
 
 #: ../../admin/config.rst:1871
 #, fuzzy
@@ -13310,6 +13317,8 @@ msgstr "Statische bestanden serveren"
 #: ../../admin/install.rst:1452
 msgid ":file:`/media/` is no longer used for serving screenshots."
 msgstr ""
+":file:`/media/` wordt niet langer gebruikt voor het serveren van "
+"schermafdrukken."
 
 #: ../../admin/install.rst:1455
 msgid ""
@@ -13819,6 +13828,13 @@ msgid ""
 "privacy reasons, as the error e-mails might include sensitive data. You can "
 "read more on that in :ref:`django:logging-security-implications`."
 msgstr ""
+"De standaard configuratie van Weblate stelt Django in staat e-mails te "
+"verzenden bij serverfouten via "
+":py:class:`django:django.utils.log.AdminEmailHandler`. Dit is een instelling "
+"met de minste inspanning, maar u zou andere opties moeten overwegen om "
+"redenen van privacy, omdat de e-mails voor de fout gevoelige gegevens zouden "
+"kunnen bevatten. U kunt er meer over lezen in :ref:`django:logging-security-"
+"implications`."
 
 #: ../../admin/install.rst:1853
 msgid ""
@@ -13826,6 +13842,9 @@ msgid ""
 "the :setting:`django:LOGGING` in Weblate settings, or "
 "disable :envvar:`WEBLATE_ADMIN_NOTIFY_ERROR` in the Docker environment."
 msgstr ""
+"Om dit gedrag uit te schakelen, verwijder ``mail_admins`` uit "
+":setting:`django:LOGGING` in de instellingen van Weblate, of schakel "
+":envvar:`WEBLATE_ADMIN_NOTIFY_ERROR` uit in de omgeving van Docker."
 
 #: ../../admin/install.rst:1858
 msgid "Sentry"
@@ -14931,6 +14950,8 @@ msgid ""
 "Hides glossary components when shared to other projects, "
 "see :setting:`HIDE_SHARED_GLOSSARY_COMPONENTS`."
 msgstr ""
+"Verbergt onderdelen Woordenlijst indien gedeeld met andere projecten, bekijk "
+":setting:`HIDE_SHARED_GLOSSARY_COMPONENTS`."
 
 #: ../../admin/install/docker.rst:825
 msgid ""
@@ -19832,7 +19853,7 @@ msgstr "Vermeld parameters voor bestandsindeling."
 
 #: ../../admin/management.rst:809
 msgid "Lists all possible change event types."
-msgstr ""
+msgstr "Vermeldt alle mogelijke typen gebeurtenissen voor wijzigingen."
 
 #: ../../admin/management.rst:816
 msgid ""
@@ -25146,6 +25167,11 @@ msgid ""
 "archive named `{project-slug}-{language-code}.zip` and organized by "
 "component paths (e.g., `component-slug/po/lang.po`)."
 msgstr ""
+"Download een ZIP-bestand van alle vertalingen voor een gespecificeerde "
+"``language_code`` uit alle onderdelen voor een bepaald ``project``, in "
+"plaats van de individuele vertaalde bestanden te downloaden en ze handmatig "
+"te zippen, met het archief genaamd `{project-slug}-{language-code}.zip` en "
+"beheerd door paden voor onderdelen (bijv. `onderdeel-slug/po/lang.po`)."
 
 #: ../../api.rst:1344
 msgid ""
@@ -25154,6 +25180,10 @@ msgid ""
 "only components whose slugs contain the substring will be included in the "
 "download."
 msgstr ""
+"Optionele hoofdlettergevoelige subtekenreeks om onderdelen op hun slug te "
+"filteren (bijv. ``?filter=core`` zal overeenkomen met onderdelen die ergens "
+"in hun slug 'core' hebben staan); alleen onderdelen, waarvan slugs de "
+"subtekenreeks bevatten, zullen worden opgenomen in de download."
 
 #: ../../api.rst:1349
 #, fuzzy
@@ -25167,6 +25197,10 @@ msgid ""
 "across all components in the project. If no components have translations for "
 "the specified language, an empty ZIP file will be returned."
 msgstr ""
+"``200 OK`` met het ZIP-bestand van vertalingen voor de gespecificeerde taal, "
+"vanuit alle onderdelen in het project. Indien onderdelen geen vertalingen "
+"hebben voor de gespecificeerde taal, zal een leeg ZIP-bestand worden "
+"teruggegeven."
 
 #: ../../api.rst:1352
 #, fuzzy
@@ -25176,7 +25210,7 @@ msgstr "U bent op dit moment niet bevoegd om projecten aan te maken."
 
 #: ../../api.rst:1353
 msgid "``404 Not Found`` if the project slug does not exist."
-msgstr ""
+msgstr "``404 Not Found`` als de slug voor het project niet bestaat."
 
 #: ../../api.rst:1360
 msgid ""
@@ -27043,12 +27077,17 @@ msgid ""
 ":setting:`HIDE_SHARED_GLOSSARY_COMPONENTS` to hide glossaries shared into "
 "other projects."
 msgstr ""
+":setting:`HIDE_SHARED_GLOSSARY_COMPONENTS` om woordenlijsten, die worden "
+"gedeeld met andere projecten, te verbergen."
 
 #: ../../changes.rst:10
 msgid ""
 "Added new management command :wladmin:`list_change_events`, which lists all "
 "possible change events, :ref:`addon-choice-events`."
 msgstr ""
+"Nieuwe beheersopdracht toegevoegd :wladmin:`list_change_events`, die alle "
+"mogelijke gebeurtenissen voor wijzigingen vermeldt, :ref:`addon-choice-"
+"events`."
 
 #: ../../changes.rst:13 ../../changes.rst:46 ../../changes.rst:91
 #: ../../changes.rst:132 ../../changes.rst:208 ../../changes.rst:235
@@ -27073,26 +27112,33 @@ msgid ""
 "Delete announcements permission can be assigned to teams, "
 "see :ref:`privileges`."
 msgstr ""
+"Het recht voor het verwijderen van aankondigingen kan worden toegewezen aan, "
+"bekijk :ref:`privileges`."
 
 #: ../../changes.rst:15
 msgid ":doc:`/user/search` better reports errors in the query strings."
 msgstr ""
+":doc:`/user/search` rapporteert fouten in de tekenreeksen voor de query "
+"beter."
 
 #: ../../changes.rst:16
 msgid "Regular repository maintenance is now performed in the background."
 msgstr ""
+"Regelmatig onderhoud aan de opslagruimte wordt nu op de achtergrond "
+"uitgevoerd."
 
 #: ../../changes.rst:17
 msgid "Repository cleanup now recovers failed merges or rebases."
 msgstr ""
+"Opschonen van de opslagruimte herstelt nu mislukt samenvoegen of rebasen."
 
 #: ../../changes.rst:18
 msgid "Better visibility of :ref:`project-commit_policy` to translators."
-msgstr ""
+msgstr "Betere zichtbaarheid van :ref:`project-commit_policy` voor vertalers."
 
 #: ../../changes.rst:19
 msgid "Validation of VCS settings :ref:`push-changes` has been extended."
-msgstr ""
+msgstr "Valideren van VCS-instellingen :ref:`push-changes` is uitgebreid."
 
 #: ../../changes.rst:22 ../../changes.rst:53 ../../changes.rst:98
 #: ../../changes.rst:149 ../../changes.rst:188 ../../changes.rst:212
@@ -27122,10 +27168,15 @@ msgid ""
 "Adding plural strings with singular matching existing string is now "
 "prohibited for bilingual translations (see :ref:`bimono`)."
 msgstr ""
+"Toevoegen van tekenreeksen voor meervouden met overeenkomsten voor "
+"tekenreeksen in enkelvoud is nu verboden voor tweetalige vertalingen (bekijk "
+":ref:`bimono`)."
 
 #: ../../changes.rst:24
 msgid "Automatic :ref:`component-repoweb` URL for common code hosting sites."
 msgstr ""
+"Automatische URL :ref:`component-repoweb` voor sites die veel voorkomende "
+"code hosten."
 
 #: ../../changes.rst:27 ../../changes.rst:66 ../../changes.rst:163
 #: ../../changes.rst:306 ../../changes.rst:401 ../../changes.rst:456
@@ -27143,6 +27194,10 @@ msgid ""
 "allow generic regular-expression-based checking of strings. Use :ref:`check-"
 "placeholders` for checking regular expression matched placeholders."
 msgstr ""
+":ref:`check-regex` markeert niet langer overeenkomend gedeelten als niet-"
+"vertalen om algemeen op reguliere expressies gebaseerd controleren van "
+"tekenreeksen mogelijk te maken. Gebruik :ref:`check-placeholders` voor het "
+"controleren van overeenkomende plaatsvervangers met reguliere expressies."
 
 #: ../../changes.rst:31 ../../changes.rst:70 ../../changes.rst:106
 #: ../../changes.rst:173 ../../changes.rst:193 ../../changes.rst:216
@@ -27256,6 +27311,8 @@ msgstr ""
 #: ../../changes.rst:48
 msgid "Screenshots updated from the repository have proper history."
 msgstr ""
+"Schermafdrukken bijgewerkt vanuit de opslagruimte hebben de juiste "
+"geschiedenis."
 
 #: ../../changes.rst:49
 #, fuzzy
@@ -27279,6 +27336,8 @@ msgid ""
 "Information leak via screenshots "
 "(:cve:`2026-21889` / :ghsa:`3g2f-4rjg-9385`)."
 msgstr ""
+"Informatielek via schermafdrukken (:cve:`2026-21889` / :ghsa:`3g2f-4rjg-"
+"9385`)."
 
 #: ../../changes.rst:55
 #, fuzzy
@@ -27294,7 +27353,7 @@ msgstr "Gebruikersinterface"
 
 #: ../../changes.rst:57
 msgid "Clarified needs editing/checking/rewriting states."
-msgstr ""
+msgstr "Verhelderde statussen Bewerken/Controleren/Opnieuw schrijven nodig."
 
 #: ../../changes.rst:58
 #, fuzzy
@@ -27304,7 +27363,7 @@ msgstr "Automatisch vertaalde tekenreeksen"
 
 #: ../../changes.rst:59
 msgid "GitHub forks no longer trigger actions."
-msgstr ""
+msgstr "GitHub forkt niet langer acties voor triggers."
 
 #: ../../changes.rst:60
 #, fuzzy
@@ -27325,7 +27384,7 @@ msgstr ""
 
 #: ../../changes.rst:62
 msgid "Invitations accepting when :setting:`REQUIRE_LOGIN` is turned on."
-msgstr ""
+msgstr "Uitnodigingen accepteren als :setting:`REQUIRE_LOGIN` is ingeschakeld."
 
 #: ../../changes.rst:63
 #, fuzzy
@@ -27338,6 +27397,8 @@ msgid ""
 "Screenshot images are no longer served directly by the HTTP server, please "
 "adjust your HTTP server by removing serving of :file:`/media/`."
 msgstr ""
+"Schermafdrukken worden niet langer direct door de HTTP-server geserveerd, "
+"pas uw HTTP-server aan door het verwijderen van :file:`/media/`."
 
 #: ../../changes.rst:73
 msgid ""
@@ -27345,6 +27406,9 @@ msgid ""
 "media/` path should be removed from the HTTP server configuration; "
 "see :ref:`static-files`."
 msgstr ""
+"Om de reparatie voor :cve:`2026-21889` effectief te maken, zou het serveren "
+"via het pad :file:`/media/` moeten worden verwijderd vanuit de configuratie "
+"voor de HTTP-server; bekijk :ref:`static-files`."
 
 #: ../../changes/contributors/5.10.1.rst:2
 #: ../../changes/contributors/5.10.2.rst:2
@@ -27470,6 +27534,9 @@ msgid ""
 "(string:language_code)/file/` to download a ZIP file of all component "
 "translations of a project for a specified language."
 msgstr ""
+"Toegevoegd :http:get:`/api/projects/(string:project)/languages/"
+"(string:language_code)/file/` om een ZIP-bestand te downloaden van alle "
+"vertalingen van componenten in een project voor een gespecificeerde taal."
 
 #: ../../changes.rst:92
 msgid "Updated list of OpenAI models."
@@ -27480,6 +27547,8 @@ msgid ""
 "Added :doc:`/devel/migration` guide to help users migrate from other "
 "localization platforms."
 msgstr ""
+"Toegevoegd een gids :doc:`/devel/migration` om gebruikers te helpen bij het "
+"migreren vanuit andere vertaalplatforms."
 
 #: ../../changes.rst:94
 msgid "Gracefully handle unreachable authentication providers."
@@ -27496,12 +27565,16 @@ msgid ""
 "Git config file overwrite remote code execution "
 "(:cve:`2025-68398` / :ghsa:`8vcg-cfxj-p5m3`)."
 msgstr ""
+"Git configuratiebestand overschrijft uitvoering van code op afstand "
+"(:cve:`2025-68398` / :ghsa:`8vcg-cfxj-p5m3`)."
 
 #: ../../changes.rst:100
 msgid ""
 "Arbitrary file read via symbolic links (:cve:`2025-68279` / :ghsa:`g925-"
 "f788-4jh7`)."
 msgstr ""
+"Willekeurig lezen van bestand via symbolische links (:cve:`2025-68279` / "
+":ghsa:`g925-f788-4jh7`)."
 
 #: ../../changes.rst:101
 msgid "Locking error that prevented updating linked components."
@@ -27678,6 +27751,8 @@ msgid ""
 "Added two new :ref:`states` to provide more detailed tracking of work-in-"
 "progress translations."
 msgstr ""
+"Twee nieuwe :ref:`states` toegevoegd om meer gedetailleerd bijhouden van nog "
+"te verrichten vertalingen te verschaffen."
 
 #: ../../changes.rst:150
 msgid ""
@@ -27751,7 +27826,7 @@ msgstr "Overeenkomsten van woordenlijst weergeven voor de brontaal."
 
 #: ../../changes.rst:160
 msgid "Pull/merge requests are now only created when necessary."
-msgstr ""
+msgstr "Pull/merge requests worden nu alleen gemaakt als ze nodig zijn."
 
 #: ../../changes.rst:164
 msgid ""
@@ -45204,6 +45279,10 @@ msgid ""
 "migrate your translation project from platforms like Transifex, Crowdin, "
 "Lokalise, or similar services."
 msgstr ""
+"Gebruikt u een ander vertaalplatform en overweegt u over te gaan naar "
+"Weblate? Deze gids verschaft een snel, stap voor stap proces om u te helpen "
+"uw vertaalproject te migreren vanaf ander platforms, zoals Transifex, "
+"Crowdin, Lokalise of soortgelijke services."
 
 #: ../../devel/migration.rst:8
 msgid ""
@@ -45211,6 +45290,9 @@ msgid ""
 "its core, making it ideal for teams that want to keep translations close to "
 "their development workflow."
 msgstr ""
+"Weblate is ontworpen rondom doorlopend vertalen met integratie van Git in "
+"zijn kern, wat het ideaal maakt voor teams die vertalingen dicht bij hun "
+"werkstroom voor ontwikkeling willen houden."
 
 #: ../../devel/migration.rst:13
 #, fuzzy
@@ -45227,14 +45309,15 @@ msgstr ":doc:`integration`, :ref:`continuous-translation`"
 #: ../../devel/migration.rst:15
 msgid ":doc:`/admin/continuous` for setting up automated workflows"
 msgstr ""
+":doc:`/admin/continuous` voor het instellen van geautomatiseerde werkstromen"
 
 #: ../../devel/migration.rst:20
 msgid "Before starting your migration, ensure you have:"
-msgstr ""
+msgstr "Voordat u met uw migratie begint, zorg ervoor dat u heeft:"
 
 #: ../../devel/migration.rst:22
 msgid "**On your localization platform:**"
-msgstr ""
+msgstr "**Op uw vertaalplatform:**"
 
 #: ../../devel/migration.rst:24
 #, fuzzy
@@ -45252,6 +45335,8 @@ msgstr "masker voor vertaalbestanden in de opslagruimte"
 msgid ""
 "Understanding of your current workflow (review process, automation, etc.)"
 msgstr ""
+"Begrip van uw huidige werkstroom (proces voor beoordelen, automatisering, "
+"etc.)"
 
 #: ../../devel/migration.rst:28
 #, fuzzy
@@ -45264,10 +45349,13 @@ msgid ""
 "A Weblate instance (either `Hosted Weblate <https://hosted.weblate.org/>`_ "
 "or :doc:`self-hosted </admin/install>`)"
 msgstr ""
+"Een instantie van Weblate (ofwel `Hosted Weblate <https://"
+"hosted.weblate.org/>`_ of :doc:`self-hosted </admin/install>`)"
 
 #: ../../devel/migration.rst:31
 msgid "Admin or project creation permissions on your Weblate instance"
 msgstr ""
+"Rechten als beheerder of het maken van projecten op uw instantie voor Weblate"
 
 #: ../../devel/migration.rst:34
 #, fuzzy
@@ -45285,6 +45373,8 @@ msgstr "Vertaalgeheugen beheren (op het hele platform)"
 msgid ""
 "Most localization platforms allow you to export all translations at once:"
 msgstr ""
+"De meeste vertaalplatforms stellen u in staat al uw vertalingen in een keer "
+"te exporteren:"
 
 #: ../../devel/migration.rst:41
 #, fuzzy
@@ -45302,14 +45392,16 @@ msgstr ""
 msgid ""
 "**Crowdin**: Export all translations as a ZIP file from project settings"
 msgstr ""
+"**Crowdin**: Exporteert alle vertalingen als een ZIP-bestand uit de "
+"projectinstellingen"
 
 #: ../../devel/migration.rst:43
 msgid "**Lokalise**: Use the bulk export feature"
-msgstr ""
+msgstr "**Lokalise**: Gebruik de mogelijkheid voor exporteren in bulk"
 
 #: ../../devel/migration.rst:44
 msgid "**Phrase**: Download all locales from the project dashboard"
-msgstr ""
+msgstr "**Phrase**: Download alle locales uit het dashboard van het project"
 
 #: ../../devel/migration.rst:48
 msgid ""
@@ -45317,6 +45409,9 @@ msgid ""
 "internationalization framework (PO, XLIFF, JSON, etc.) rather than "
 "converting them. Weblate supports :ref:`many formats <formats>`."
 msgstr ""
+"Houd uw vertaalbestanden in de eigen indeling voor uw framewerk voor "
+"internationalisatie (PO, XLIFF, JSON, etc), in plaats van ze te converteren. "
+"Weblate ondersteunt :ref:`many formats <formats>`."
 
 #: ../../devel/migration.rst:53
 #, fuzzy
@@ -45330,6 +45425,10 @@ msgid ""
 "you can skip this step and use the :guilabel:`Upload translation files` "
 "option when creating a component."
 msgstr ""
+"Als u vertalingen liever niet opslaat in een externe opslagruimte voor Git "
+"repository, kunt u deze stap overslaan en de optie "
+":guilabel:`Vertaalbestanden uploaden` gebruiken bij het maken van een "
+"onderdeel."
 
 #: ../../devel/migration.rst:61
 #, fuzzy
@@ -45340,10 +45439,12 @@ msgstr "Geüploade vertalingen negeren als zij al zijn vertaald."
 #: ../../devel/migration.rst:63
 msgid "Create a Git repository or use your existing project repository"
 msgstr ""
+"Maak een opslagruimte voor Git of gebruik uw bestaande opslagruimte voor het "
+"project"
 
 #: ../../devel/migration.rst:64
 msgid "Organize translation files following your project structure"
-msgstr ""
+msgstr "Beheer vertaalbestanden op een manier die uw projectstructuur volgt"
 
 #: ../../devel/migration.rst:65
 #, fuzzy
@@ -45389,19 +45490,19 @@ msgstr "Uw URL voor de instantie van Weblate"
 
 #: ../../devel/migration.rst:85
 msgid "Click :guilabel:`Add new translation project` in the **+** menu."
-msgstr ""
+msgstr "Klik op :guilabel:`Nieuw vertaalproject toevoegen` in het menu **+**."
 
 #: ../../devel/migration.rst:86
 msgid "Fill in your project details:"
-msgstr ""
+msgstr "Vul uw projectdetails in:"
 
 #: ../../devel/migration.rst:88
 msgid "**Project name**: Your application or project name"
-msgstr ""
+msgstr "**Projectnaam**: Uw toepassings- of projectnaam"
 
 #: ../../devel/migration.rst:89
 msgid "**URL slug**: Short identifier (e.g., ``myapp``)"
-msgstr ""
+msgstr "**URL-slug**: Korte identificatie (bijv. ``mijnapp``)"
 
 #: ../../devel/migration.rst:90
 #, fuzzy
@@ -45412,6 +45513,8 @@ msgstr "Project brontaalcode (optioneel)"
 #: ../../devel/migration.rst:96
 msgid ":ref:`adding-projects` for detailed project creation instructions"
 msgstr ""
+":ref:`adding-projects` voor gedetailleerde instructies voor het maken van "
+"projecten"
 
 #: ../../devel/migration.rst:99
 #, fuzzy
@@ -45423,6 +45526,8 @@ msgstr "Maakt onderdeel uit opslagruimte op afstand van versiebeheer."
 msgid ""
 "After creating the project, click :guilabel:`Add new translation component`"
 msgstr ""
+"Na het maken van het project, klik op :guilabel:`Nieuw vertaalonderdeel "
+"toevoegen`"
 
 #: ../../devel/migration.rst:102
 #, fuzzy
@@ -45441,20 +45546,26 @@ msgid ""
 "**Component name**: e.g., \"Application strings\", \"Website\", "
 "\"Documentation\""
 msgstr ""
+"**Naam onderdeel**: bijv. \"Tekenreeksen toepassing\", \"Website\", "
+"\"Documentatie\""
 
 #: ../../devel/migration.rst:106
 msgid "**Repository URL**: Your Git repository URL (HTTPS or SSH)"
 msgstr ""
+"**URL van opslagruimte**: De URL van uw opslagruimte voor Git (HTTPS of SSH)"
 
 #: ../../devel/migration.rst:107
 msgid ""
 "**Repository branch**: Optional: Specify repository branch (Weblate "
 "automatically detects the default branch if not specified)"
 msgstr ""
+"**Branch voor de opslagruimte**: Optioneel: Specificeer de branch voor de "
+"opslagruimte (Weblate detecteert automatisch de standaard branch, indien "
+"niets is gespecificeerd)"
 
 #: ../../devel/migration.rst:109
 msgid "Weblate will automatically detect:"
-msgstr ""
+msgstr "Weblate zal automatisch detecteren:"
 
 #: ../../devel/migration.rst:111
 #, fuzzy
@@ -45480,6 +45591,9 @@ msgid ""
 "for backend, frontend, documentation), create a separate Weblate component "
 "for each."
 msgstr ""
+"Voor opslagruimten met meerdere vertaalonderdelen (bijv. afzonderlijke "
+"bestanden voor backend, frontend, documentatie), maakt een afzonderlijk "
+"onderdeel voor elk ervan in Weblate."
 
 #: ../../devel/migration.rst:125
 msgid ""
@@ -45487,6 +45601,9 @@ msgid ""
 "repositories or :ref:`addon-weblate.discovery.discovery` to automatically "
 "create them."
 msgstr ""
+"U kunt dat versnellen door :guilabel:`Uit bestaand onderdeel` te gebruiken "
+"voor gedeelde opslagruimten of :ref:`addon-weblate.discovery.discovery` om "
+"ze automatisch te maken."
 
 #: ../../devel/migration.rst:131
 #, fuzzy
@@ -45497,6 +45614,7 @@ msgstr "Configuratie onderdeel"
 #: ../../devel/migration.rst:132
 msgid ":ref:`bimono` for understanding monolingual vs. bilingual formats"
 msgstr ""
+":ref:`bimono` voor het begrijpen van eentalige vs. tweetalige indelingen"
 
 #: ../../devel/migration.rst:136
 #, fuzzy
@@ -45512,33 +45630,38 @@ msgstr "Project toegangsbeheer"
 
 #: ../../devel/migration.rst:141
 msgid "Choose your project's visibility and access level:"
-msgstr ""
+msgstr "Kies het niveau voor zichtbaarheid en voor toegang van uw project:"
 
 #: ../../devel/migration.rst:143
 msgid ""
 "Go to your project settings: :guilabel:`Operations` → :guilabel:`Settings` "
 "→ :guilabel:`Access` tab"
 msgstr ""
+"Ga naar de instellingen van uw project: :guilabel:`Bewerkingen` → "
+":guilabel:`Instellingen` → tab :guilabel:`Toegang`"
 
 #: ../../devel/migration.rst:144
 msgid "Select the appropriate :ref:`access control <acl>`:"
-msgstr ""
+msgstr "Selecteer het toepasselijke :ref:`access control <acl>`:"
 
 #: ../../devel/migration.rst:146
 msgid "**Public**: Open-source projects, anyone can contribute"
-msgstr ""
+msgstr "**Publiek**: Open-bron projecten, iedereen mag bijdragen"
 
 #: ../../devel/migration.rst:147
 msgid "**Protected**: Visible to all, but only invited users can translate"
 msgstr ""
+"**Beveiligd**: Zichtbaar voor iedereen, maar alleen uitgenodigde gebruikers "
+"kunnen vertalen"
 
 #: ../../devel/migration.rst:148
 msgid "**Private**: Only invited users can view and translate"
 msgstr ""
+"**Privé**: Alleen uitgenodigde gebruikers kunnen het bekijken en vertalen"
 
 #: ../../devel/migration.rst:154
 msgid ":ref:`manage-acl` for detailed access control configuration"
-msgstr ""
+msgstr ":ref:`manage-acl` voor configureren van gedetailleerd toegangsbeheer"
 
 #: ../../devel/migration.rst:157
 #, fuzzy
@@ -45548,7 +45671,7 @@ msgstr "Doorlopende vertaling"
 
 #: ../../devel/migration.rst:159
 msgid "Enable automatic updates and commits:"
-msgstr ""
+msgstr "Automatisch bijwerken en indienen inschakelen:"
 
 #: ../../devel/migration.rst:161
 #, fuzzy
@@ -45561,12 +45684,16 @@ msgid ""
 "**Pull changes**: Set up a :ref:`webhook <update-vcs>` so Weblate updates "
 "when your source code changes"
 msgstr ""
+"**Pull wijzigingen**: Stel een :ref:`webhook <update-vcs>` in, zodat Weblate "
+"bijwerkt als uw broncode wijzigt"
 
 #: ../../devel/migration.rst:164
 msgid ""
 "**Push changes**: Configure :ref:`push-changes` so translations are "
 "committed back to your repository"
 msgstr ""
+"**Push wijzigingen**: Configureer :ref:`push-changes`, zodat vertalingen "
+"terug worden ingediend in uw opslagruimte"
 
 #: ../../devel/migration.rst:166
 #, fuzzy
@@ -45589,6 +45716,8 @@ msgid ""
 "**Commit interval**: Set how often pending translations are committed (e.g., "
 "every 24 hours)"
 msgstr ""
+"**Interval voor indienen**: Stel in hoe vaak openstaande vertalingen moeten "
+"worden ingediend (bijv. elke 24 uur)"
 
 #: ../../devel/migration.rst:173
 #, fuzzy
@@ -45621,12 +45750,16 @@ msgid ""
 "**Set up review workflow**: Enable :ref:`project-translation_review` if you "
 "want an approval process."
 msgstr ""
+"**Werkstroom beoordelen instellen**: Schakel :ref:`project-"
+"translation_review` in als u een proces voor goedkeuring wilt."
 
 #: ../../devel/migration.rst:182
 msgid ""
 "**Add enforced checks**: Configure which quality checks should block "
 "translations."
 msgstr ""
+"**Afgedwongen controles toevoegen**: Configureer welke kwaliteitscontroles "
+"vertalingen zouden moeten blokkeren."
 
 #: ../../devel/migration.rst:185
 #, fuzzy
@@ -45636,7 +45769,7 @@ msgstr "Uitbreiding inschakelen:"
 
 #: ../../devel/migration.rst:187
 msgid "Weblate offers :ref:`addons` to automate common tasks:"
-msgstr ""
+msgstr "Weblate beidt :ref:`addons` om veel voorkomende taken te automatiseren:"
 
 #: ../../devel/migration.rst:189
 #, fuzzy
@@ -45681,7 +45814,7 @@ msgstr ""
 
 #: ../../devel/migration.rst:196
 msgid ":doc:`/admin/addons` for all available add-ons"
-msgstr ""
+msgstr ":doc:`/admin/addons` voor alle beschikbare add-ons"
 
 #: ../../devel/migration.rst:199
 #, fuzzy
@@ -45697,7 +45830,7 @@ msgstr "Ondersteuning voor vergrendelen van vertaling door vertaler."
 
 #: ../../devel/migration.rst:203
 msgid "**Test the workflow**:"
-msgstr ""
+msgstr "**De werkstroom testen**:"
 
 #: ../../devel/migration.rst:205
 #, fuzzy
@@ -45731,7 +45864,7 @@ msgstr "Enorm vertaalgeheugen met machinevertaling."
 
 #: ../../devel/migration.rst:212
 msgid "This helps with consistency and speeds up translation"
-msgstr ""
+msgstr "Dit helpt voor consistentie en versnelt vertalen"
 
 #: ../../devel/migration.rst:214
 #, fuzzy
@@ -45755,7 +45888,7 @@ msgstr ""
 
 #: ../../devel/migration.rst:221
 msgid ":doc:`/admin/memory` for translation memory management"
-msgstr ""
+msgstr ":doc:`/admin/memory` voor beheren van vertaalgeheugen"
 
 #: ../../devel/migration.rst:224
 #, fuzzy
@@ -45793,7 +45926,7 @@ msgstr ":guilabel:`Taal toevoegen om naar te vertalen`"
 
 #: ../../devel/migration.rst:233
 msgid "Assign them to appropriate teams:"
-msgstr ""
+msgstr "Wijs ze toe aan de toepasselijke teams:"
 
 #: ../../devel/migration.rst:235
 #, fuzzy
@@ -45809,17 +45942,19 @@ msgstr "Vereist toegewijde personen die vertalingen willen goedkeuren."
 
 #: ../../devel/migration.rst:237
 msgid "**Managers**: Can manage project settings"
-msgstr ""
+msgstr "**Beheerders**: Kunnen projectinstellingen beheren"
 
 #: ../../devel/migration.rst:239
 msgid ""
 "For **Public** projects, users can start contributing immediately after "
 "signing up."
 msgstr ""
+"Voor projecten **Publiek** kunnen gebruikers, onmiddellijk na het aanmelden, "
+"beginnen met bijdragen."
 
 #: ../../devel/migration.rst:243
 msgid "Send your translators a welcome message with:"
-msgstr ""
+msgstr "Stuur uw vertalers een welkomstbericht met:"
 
 #: ../../devel/migration.rst:245
 #, fuzzy
@@ -45829,7 +45964,7 @@ msgstr "Somt projecten in Weblate op."
 
 #: ../../devel/migration.rst:246
 msgid "Overview of any project-specific terminology or style guides"
-msgstr ""
+msgstr "Overzicht van alle project-specifieke terminologie of stijlgidsen"
 
 #: ../../devel/migration.rst:247
 #, fuzzy
@@ -45845,7 +45980,7 @@ msgstr "Toevoegen tab geschiedenis voor :ref:`addons` in beheer."
 
 #: ../../devel/migration.rst:252
 msgid ":doc:`/admin/access` for advanced permission configuration"
-msgstr ""
+msgstr ":doc:`/admin/access` voor geavanceerd configureren van rechten"
 
 #: ../../devel/migration.rst:256
 #, fuzzy
@@ -45864,33 +45999,46 @@ msgid ""
 "**Announce to translators**: Let your translation team know about the "
 "migration with clear instructions"
 msgstr ""
+"**Aankondigen bij vertalers**: Laat uw vertaalteam weten over de migratie, "
+"met heldere instructies"
 
 #: ../../devel/migration.rst:261
 msgid ""
 "**Monitor initial usage**: Watch for any issues during the first few days"
 msgstr ""
+"**Monitor initieel gebruik**: Let de eerste dagen op of er problemen optreden"
 
 #: ../../devel/migration.rst:262
 msgid ""
 "**Gather feedback**: Ask translators about their experience compared to the "
 "previous platform"
 msgstr ""
+"**Verzamel terugkoppeling**: Vraag vertalers naar hun ervaringen, vergeleken "
+"met het vorige platform"
 
 #: ../../devel/migration.rst:263
 msgid "**Optimize workflow**: Adjust settings based on your team's needs"
 msgstr ""
+"**Optimaliseer de werkstroom**: Pas instellingen aan, gebaseerd op de wensen "
+"van uw team"
 
 #: ../../devel/migration.rst:264
 msgid ""
 "**Remove previous platform**: Once the migration is completed, remember to "
 "revoke access granted to the previous platform."
 msgstr ""
+"**Verwijder het vorige platform**: Als de migratie eenmaal is voltooid, "
+"vergeet dan niet om de toegangsrechten voor het vorige platform in te "
+"trekken."
 
 #: ../../devel/migration.rst:268
 msgid ""
 "During migration, you can run both platforms in parallel for a transition "
 "period to ensure everything works as expected before fully switching over."
 msgstr ""
+"Gedurende de migratie kunt u beide platforms parallel late werken voor een "
+"overgangsperiode, om ervoor te zorgen dat als werkt zoals verwacht, voordat "
+"u volledig overschakelt."
 
 #: ../../devel/migration.rst:272
 #, fuzzy
@@ -45906,19 +46054,20 @@ msgstr "De documentatie bevat uitgebreide instructies"
 
 #: ../../devel/migration.rst:275
 msgid ":doc:`/workflows` - Different workflow configurations"
-msgstr ""
+msgstr ":doc:`/workflows` - Verschillende configuraties voor werkstromen"
 
 #: ../../devel/migration.rst:276
 msgid ":doc:`/admin/continuous` - Automated continuous localization"
-msgstr ""
+msgstr ":doc:`/admin/continuous` - Geautomatiseerd doorlopend vertalen"
 
 #: ../../devel/migration.rst:277
 msgid ":doc:`/api` - API for automation and integrations"
-msgstr ""
+msgstr ":doc:`/api` - API voor automatisering en integraties"
 
 #: ../../devel/migration.rst:278
 msgid ":doc:`/devel/reporting` - Setting up translation progress reports"
 msgstr ""
+":doc:`/devel/reporting` - Instellen van voortgangsrapporten voor vertalingen"
 
 #: ../../devel/migration.rst:279
 #, fuzzy
@@ -45931,6 +46080,8 @@ msgid ""
 "Join the `Weblate community <https://weblate.org/support/>`_ if you need "
 "help during your migration. The community is active and helpful!"
 msgstr ""
+"Vraag het de `gemeenschap van Weblate <https://weblate.org/support/>`_ als u "
+"hulp nodig hebt gedurende uw migratie. De gemeenschap is actief en hulpvol!"
 
 #: ../../devel/mobile.rst:2
 msgid "Multi-platform localization"
@@ -55498,6 +55649,11 @@ msgid ""
 "capitalization in the source string are allowed to contain capitalization in "
 "the translation."
 msgstr ""
+"Controles voor misplaatste hoofdletters bij het detecteren van woorden die "
+"opeenvolgende hoofdletters bevatten in anderszins tekst met kleine letters "
+"of met gewone hoofdletters (bijvoorbeeld ``HEllo`` of ``CAmelCase``). "
+"Tekenreeksen die hoofdletters in de brontekenreeks bevatten, mogen ook "
+"hoofdletters in de vertaling hebben."
 
 #: ../../user/checks.rst:1501
 msgid "Non‑standard characters in Kabyle"
@@ -60262,6 +60418,8 @@ msgstr "Slechte configuratie"
 #: ../../wlc.rst:105
 msgid "The legacy configuration using unscoped ``key`` is no longer supported."
 msgstr ""
+"De verouderde configuratie die ``key`` zonder bereik gebruikte, wordt niet "
+"langer ondersteund."
 
 #: ../../wlc.rst:107
 #, fuzzy
@@ -60271,7 +60429,7 @@ msgstr "Voorbeeld configuratie:"
 
 #: ../../wlc.rst:115
 msgid "To a configuration with key scoped to an API URL:"
-msgstr ""
+msgstr "Naar een configuratie met sleutel die een API URL als bereik heeft:"
 
 #: ../../wlc.rst:126
 msgid "Synopsis"
@@ -60581,6 +60739,8 @@ msgid ""
 "Use the ``[keys]`` section to specify keys scoped for individual API URLs, "
 "see :ref:`wlc_legacy`."
 msgstr ""
+"Gebruik het gedeelte ``[keys]`` om sleutels te specificeren die als bereik "
+"individuele API URL's hebben, bekijk :ref:`wlc_legacy`."
 
 #: ../../wlc.rst:327
 msgid "API server URL, defaults to ``http://127.0.0.1:8000/api/``."
