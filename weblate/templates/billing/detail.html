@@ -9,6 +9,9 @@
   <li class="breadcrumb-item">
     <a href="{% url 'billing' %}">{% translate "Billing" %}</a>
   </li>
+  <li class="breadcrumb-item">
+    <a href="{{ billing.get_absolute_url }}">{{ billing }}</a>
+  </li>
 {% endblock breadcrumbs %}
 
 {% block content %}
@@ -63,6 +66,20 @@
           </div>
         {% endif %}
       </div>
+
+      {% if user_can_manage_billing %}
+        <form method="get" action="{% url "billing-merge" pk=billing.pk %}">
+          <div class="card">
+            <div class="card-header text-bg-warning">
+              <h4 class="card-title">{% translate "Manage billing" %}</h4>
+            </div>
+            <div class="card-body">{% crispy merge_form %}</div>
+            <div class="card-footer">
+              <input type="submit" class="btn btn-primary" value="{% translate "Review merge" %}">
+            </div>
+          </div>
+        </form>
+      {% endif %}
     </div>
 
     <div class="col-lg-6">

@@ -384,6 +384,49 @@ class BillingTest(BaseTestCase):
             {self.user.username, second_user.username},
         )
 
+    def test_merge(self) -> None:
+        other = Billing.objects.create(plan=self.billing.plan)
+        Invoice.objects.create(
+            billing=other,
+            start=timezone.now().date() - timedelta(days=2),
+            end=timezone.now().date() + timedelta(days=2),
+            amount=10,
+            ref="00001",
+        )
+
+        self.user.is_superuser = True
+        self.user.save()
+        self.client.login(username="bill", password="kill")
+
+        response = self.client.get(
+            reverse("billing-detail", kwargs={"pk": self.billing.pk})
+        )
+        self.assertContains(response, "Merge with billing")
+
+        response = self.client.get(
+            reverse("billing-merge", kwargs={"pk": self.billing.pk}),
+            {"other": other.pk},
+        )
+        self.assertContains(response, "Confirm merge")
+
+        response = self.client.post(
+            reverse("billing-merge", kwargs={"pk": self.billing.pk}),
+            {"other": other.pk},
+        )
+        self.assertRedirects(
+            response, reverse("billing-detail", kwargs={"pk": self.billing.pk})
+        )
+
+        response = self.client.post(
+            reverse("billing-merge", kwargs={"pk": self.billing.pk}),
+            {"other": other.pk, "confirm": 1},
+        )
+        self.assertRedirects(
+            response, reverse("billing-detail", kwargs={"pk": other.pk})
+        )
+
+        self.assertEqual(other.invoice_set.count(), 2)
+
 
 class HostingTest(RepoTestCase):
     def get_user(self):
