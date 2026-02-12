@@ -28,11 +28,13 @@ from weblate.utils.data import data_dir
 from weblate.utils.lock import WeblateLock
 from weblate.utils.requests import http_request
 from weblate.utils.search import parse_query
+from weblate.utils.validators import PIL_FORMATS
 from weblate.utils.views import PathViewMixin
 
 if TYPE_CHECKING:
     from collections.abc import Generator
 
+    import PIL.Image
     from django.http import HttpResponse
     from tesserocr import PyTessBaseAPI
 
@@ -398,24 +400,26 @@ def search_source(request: AuthenticatedHttpRequest, pk):
     )
 
 
-def ocr_get_strings(api, image: str, resolution: int = 72):
+def ocr_get_strings(
+    api, *, image: PIL.Image.Image, filename: str, resolution: int = 72
+):
     from tesserocr import RIL, iterate_level
 
     try:
-        api.SetImageFile(image)
+        api.SetImage(image)
     except RuntimeError:
         pass
     else:
         api.SetSourceResolution(resolution)
 
-        with sentry_sdk.start_span(op="ocr.recognize", name=image):
+        with sentry_sdk.start_span(op="ocr.recognize", name=filename):
             api.Recognize()
 
-        with sentry_sdk.start_span(op="ocr.iterate", name=image):
+        with sentry_sdk.start_span(op="ocr.iterate", name=filename):
             iterator = api.GetIterator()
             level = RIL.TEXTLINE
             for r in iterate_level(iterator, level):
-                with sentry_sdk.start_span(op="ocr.text", name=image):
+                with sentry_sdk.start_span(op="ocr.text", name=filename):
                     try:
                         yield r.GetUTF8Text(level)
                     except RuntimeError:
@@ -424,9 +428,18 @@ def ocr_get_strings(api, image: str, resolution: int = 72):
         api.Clear()
 
 
-def ocr_extract(api, image: str, strings, resolution: int):
+def ocr_extract(
+    api,
+    *,
+    image: PIL.Image.Image,
+    filename: str,
+    strings: tuple[str, ...],
+    resolution: int,
+):
     """Extract closes matches from an image."""
-    for ocr_result in ocr_get_strings(api, image, resolution):
+    for ocr_result in ocr_get_strings(
+        api, image=image, filename=filename, resolution=resolution
+    ):
         parts = [ocr_result, *ocr_result.split("|"), *ocr_result.split()]
         for part in parts:
             yield from difflib.get_close_matches(part, strings, cutoff=0.9)
@@ -469,11 +482,20 @@ def ocr_search(request: AuthenticatedHttpRequest, pk):
     strings = tuple(sources.keys())
 
     # Extract and match strings
-    with Image.open(obj.image.path), get_tesseract(translation.language) as api:
+    with (
+        Image.open(obj.image.path, formats=PIL_FORMATS) as image,
+        get_tesseract(translation.language) as api,
+    ):
         results = {
             sources[match]
             for resolution in (72, 300)
-            for match in ocr_extract(api, obj.image.path, strings, resolution)
+            for match in ocr_extract(
+                api,
+                image=image,
+                filename=obj.image.path,
+                strings=strings,
+                resolution=resolution,
+            )
         }
 
     return search_results(
