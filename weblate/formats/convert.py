@@ -300,7 +300,7 @@ class HTMLFormat(ConvertFormat):
         # Fake input file with a blank filename
         htmlparser = htmlfile(inputfile=NamedBytesIO("", storefile.read()))
         duplicate_style = "msgctxt"
-        if self.file_format_params.get("html_merge_duplicates"):
+        if self.file_format_params.get("merge_duplicates"):
             duplicate_style = "merge"
 
         return self.convert_to_po(
@@ -348,7 +348,7 @@ class MarkdownFormat(ConvertFormat):
         mdparser = MarkdownFile(inputfile=NamedBytesIO("", storefile.read()))
 
         duplicate_style = "msgctxt"
-        if self.file_format_params.get("markdown_merge_duplicates"):
+        if self.file_format_params.get("merge_duplicates"):
             duplicate_style = "merge"
 
         return self.convert_to_po(
@@ -433,8 +433,7 @@ class OpenDocumentFormat(ConvertFormat):
             templatename = templatename.name
         # This is workaround for weird fuzzy handling in translate-toolkit
         for unit in self.all_units:
-            # type: ignore[attr-defined]
-            if any(state == "translated" for state in unit.get_xliff_states()):
+            if any(state == "translated" for state in unit.get_xliff_states()):  # type: ignore[attr-defined]
                 unit.set_state(STATE_APPROVED)
 
         with open(templatename, "rb") as templatefile:
@@ -611,7 +610,7 @@ class PlainTextFormat(ConvertFormat):
         input_store.parse(storefile.readlines())
         input_store.filename = os.path.basename(storefile.name)
         duplicate_style = "msgctxt"
-        if self.file_format_params.get("txt_merge_duplicates"):
+        if self.file_format_params.get("merge_duplicates"):
             duplicate_style = "merge"
 
         return self.convert_to_po(

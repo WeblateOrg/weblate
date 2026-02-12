@@ -56,7 +56,7 @@ class TestFormatsMerge(TestCase):
         content = b"- Item\n- Item\n- Item\n"
         # Test merging ENABLED
         store = self._load_format(
-            content, MarkdownFormat, "md", {"markdown_merge_duplicates": True}
+            content, MarkdownFormat, "md", {"merge_duplicates": True}
         )
         units = [u for u in store.units if u.source.strip() == "Item"]
 
@@ -73,7 +73,7 @@ class TestFormatsMerge(TestCase):
         content = b"- Item\n- Item"
         # Test merging explicitly DISABLED
         store = self._load_format(
-            content, MarkdownFormat, "md", {"markdown_merge_duplicates": False}
+            content, MarkdownFormat, "md", {"merge_duplicates": False}
         )
         units = [u for u in store.units if u.source.strip() == "Item"]
 
@@ -117,7 +117,7 @@ class TestFormatsMerge(TestCase):
         """Verify identical strings in Markdown tables are merged."""
         content = b"| Header |\n|---|\n| Cell |\n| Cell |\n"
         store = self._load_format(
-            content, MarkdownFormat, "md", {"markdown_merge_duplicates": True}
+            content, MarkdownFormat, "md", {"merge_duplicates": True}
         )
         units = [u for u in store.units if u.source.strip() == "Cell"]
         self.assertEqual(len(units), 1)
@@ -127,7 +127,7 @@ class TestFormatsMerge(TestCase):
         """Ensure distinct strings in a table are NOT merged (sanity check)."""
         content = b"| Col |\n|---|\n| Yes |\n| No |\n| Yes |\n"
         store = self._load_format(
-            content, MarkdownFormat, "md", {"markdown_merge_duplicates": True}
+            content, MarkdownFormat, "md", {"merge_duplicates": True}
         )
         yes_units = [u for u in store.units if u.source.strip() == "Yes"]
         no_units = [u for u in store.units if u.source.strip() == "No"]
@@ -139,7 +139,7 @@ class TestFormatsMerge(TestCase):
         """Verify HTML merging works when enabled."""
         content = b"<html><body><p>Hello</p><div>Hello</div></body></html>"
         store = self._load_format(
-            content, HTMLFormat, "html", {"html_merge_duplicates": True}
+            content, HTMLFormat, "html", {"merge_duplicates": True}
         )
         units = [u for u in store.units if u.source.strip() == "Hello"]
         self.assertEqual(len(units), 1)
@@ -148,7 +148,7 @@ class TestFormatsMerge(TestCase):
         """Verify Plain Text merging works when enabled."""
         content = b"Line A\n\nLine B\n\nLine A\n"
         store = self._load_format(
-            content, PlainTextFormat, "txt", {"txt_merge_duplicates": True}
+            content, PlainTextFormat, "txt", {"merge_duplicates": True}
         )
         # Strip is important here as PlainText parser might keep newlines
         line_a_units = [u for u in store.units if u.source.strip() == "Line A"]
@@ -190,7 +190,7 @@ class TestMergeIntegration(RepoTestCase):
 
     def test_db_config_enabled(self):
         """Verify that setting the option to True in DB enables merging."""
-        translation = self._create_integration_env({"markdown_merge_duplicates": True})
+        translation = self._create_integration_env({"merge_duplicates": True})
         content = b"- A\n- A"
         store = self._load_store_from_db(translation, content)
 
@@ -199,7 +199,7 @@ class TestMergeIntegration(RepoTestCase):
 
     def test_db_config_disabled(self):
         """Verify that setting the option to False in DB disables merging."""
-        translation = self._create_integration_env({"markdown_merge_duplicates": False})
+        translation = self._create_integration_env({"merge_duplicates": False})
         content = b"- A\n- A"
         store = self._load_store_from_db(translation, content)
 
