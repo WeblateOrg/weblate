@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-01-26 10:05+0000\n"
-"PO-Revision-Date: 2026-02-11 04:19+0000\n"
+"PO-Revision-Date: 2026-02-12 05:10+0000\n"
 "Last-Translator: Zahid Rizky Fakhri <zahidrizkyfakhri@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "application/id/>\n"
@@ -1500,7 +1500,7 @@ msgid ""
 "Automatically translates strings using machine translation or other "
 "components."
 msgstr ""
-"Terjemahkan string secara otomatis menggunakan mesin terjemahan atau "
+"Terjemahkan string secara otomatis menggunakan mesin terjemahan maupun "
 "komponen lainnya."
 
 #: weblate/addons/base.py:165
@@ -1524,8 +1524,8 @@ msgid ""
 "Publishes translations into content delivery network for use in JavaScript "
 "or HTML localization."
 msgstr ""
-"Mempublikasikan terjemahan ke jaringan pengiriman konten untuk dipakai di "
-"lokalisasi JavaScript atau HTML."
+"Kirim terjemahan ke jaringan pengiriman konten untuk dipakai di lokalisasi "
+"JavaScript atau HTML."
 
 #: weblate/addons/cleanup.py:41
 msgid "Cleanup translation files"
@@ -1558,8 +1558,8 @@ msgid ""
 "Ensures a consistent set of languages is used for all components within a "
 "project."
 msgstr ""
-"Memastikan satu rangkaian bahasa yang konsisten digunakan untuk semua "
-"komponen dalam proyek."
+"Memastikan serangkaian bahasa yang konsisten digunakan untuk semua komponen "
+"dalam proyek."
 
 #: weblate/addons/discovery.py:27
 msgid "Component discovery"
@@ -1609,7 +1609,7 @@ msgid ""
 "needing checking in Weblate. This way you can easily filter and edit source "
 "strings written by the developers."
 msgstr ""
-"Setiap kali string sumber baru diimpor dari VCS, ia ditandai sebagai perlu "
+"Jika string sumber baru diimpor dari VCS, ia akan ditandai sebagai perlu "
 "diperiksa di Weblate. Dengan cara ini Anda dapat dengan mudah memfilter dan "
 "menyunting string sumber yang ditulis oleh pengembang."
 
@@ -1623,9 +1623,9 @@ msgid ""
 "as needing rewriting in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
-"Setiap kali string baru yang dapat diterjemahkan diimpor dari VCS, ia "
-"ditandai sebagai perlu ditulis ulang di Weblate. Dengan cara ini Anda dapat "
-"dengan mudah memfilter dan menyunting terjemahan yang dibuat oleh pengembang."
+"Jika string terjemahan baru diimpor dari VCS, ia akan ditandai sebagai perlu "
+"ditulis ulang di Weblate. Dengan cara ini Anda dapat dengan mudah memfilter "
+"dan menyunting terjemahan yang dibuat oleh pengembang."
 
 #: weblate/addons/flags.py:87
 msgid "Flag unchanged translations as \"Needs rewriting\""
@@ -1637,9 +1637,9 @@ msgid ""
 "source string, it is flagged as needing rewriting in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
-"Setiap kali string baru yang dapat diterjemahkan diimpor dari VCS dan cocok "
-"dengan string sumber, ia ditandai sebagai perlu ditulis ulang di Weblate. "
-"Ini sangat berguna untuk format berkas yang menyertakan string sumber untuk "
+"Jika string yang dapat diterjemahkan diimpor dari VCS dan cocok dengan "
+"string sumber, ia akan ditandai sebagai perlu ditulis ulang di Weblate. Hal "
+"ini sangat berguna untuk format berkas yang menyertakan string sumber untuk "
 "string yang belum diterjemahkan."
 
 #: weblate/addons/flags.py:110 weblate/templates/category-language.html:53
@@ -1669,9 +1669,9 @@ msgid ""
 "needing rewriting in Weblate. Especially useful if translation files are "
 "often updated manually or by an external service."
 msgstr ""
-"Setiap kali terjemahan string diubah dari VCS, ia ditandai sebagai perlu "
-"ditulis ulang di Weblate. Hal ini sangat berguna jika berkas terjemahan "
-"sering diperbarui secara manual atau oleh layanan eksternal."
+"Jika terjemahan string diubah dari VCS, terjemahan tersebut akan ditandai "
+"sebagai perlu ditulis ulang di Weblate. Hal ini sangat berguna jika berkas "
+"terjemahan sering diperbarui secara manual atau oleh layanan eksternal."
 
 #: weblate/addons/forms.py:62
 msgid "Path of generated MO file"
@@ -1777,7 +1777,7 @@ msgstr "Sesuaikan nama komponen"
 
 #: weblate/addons/forms.py:209
 msgid "Define the monolingual base filename"
-msgstr "Tentukan nama berkas dasar ekabahasa"
+msgstr "Definisikan nama berkas basis ekabahasa"
 
 #: weblate/addons/forms.py:212
 msgid "Leave empty for bilingual translation files."
@@ -1792,7 +1792,7 @@ msgid ""
 "Filename of file used for creating new translations. For gettext choose .pot "
 "file."
 msgstr ""
-"Nama berkas yang digunakan untuk membuat terjemahan baru. Untuk gettext "
+"Nama berkas yang digunakan untuk membuat terjemahan baru. Untuk Gettext "
 "pilih berkas .pot."
 
 #: weblate/addons/forms.py:224
@@ -1833,7 +1833,7 @@ msgstr "Hapus komponen untuk berkas yang tidak ada"
 
 #: weblate/addons/forms.py:255
 msgid "I confirm the above matches look correct"
-msgstr "Saya mengonfirmasikan bahwa kecocokan di atas terlihat benar"
+msgstr "Saya mengkonfirmasikan bahwa kecocokan di atas terlihat benar"
 
 #: weblate/addons/forms.py:312 weblate/trans/models/component.py:3353
 msgid "You can not use a monolingual translation without a base file."
@@ -1974,7 +1974,7 @@ msgstr "Hos broker AMQP"
 
 #: weblate/addons/forms.py:623
 msgid "The AMQP broker to connect to."
-msgstr "Broker AMQP yang akan disambungkan."
+msgstr "Broker AMQP yang akan dihubungkan."
 
 #: weblate/addons/forms.py:627
 msgid "Use SSL for AMQP connection"
@@ -1989,8 +1989,8 @@ msgid ""
 "Bundle of PEM encoded CA certificates used to validate the certificate "
 "presented by the server."
 msgstr ""
-"Bundel sertifikat CA yang dienkode PEM yang digunakan untuk memvalidasi "
-"sertifikat yang ditampilkan oleh server."
+"Bundel sertifikat CA yang dienkodekan PEM yang digunakan untuk "
+"memvalidasikan sertifikat yang ditampilkan oleh server."
 
 #: weblate/addons/forms.py:640
 msgid "Client SSL key"
@@ -2657,7 +2657,7 @@ msgstr "Dorong perubahan dari repositori internal"
 #. Translators: Permission name
 #: weblate/auth/data.py:111
 msgid "Reset changes in the internal repository"
-msgstr "Atur ulang perubahan di repositori internal"
+msgstr "Atur ulang perubahan dalam repositori internal"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:113
@@ -12055,7 +12055,7 @@ msgstr "Belum selesai"
 
 #: weblate/templates/snippets/list-objects.html:88
 msgid "Unfinished words"
-msgstr "Jumlah kata yang belum diselesaikan"
+msgstr "Kata yang belum selesai"
 
 #: weblate/templates/snippets/list-objects.html:97
 msgid "Unfinished characters"
@@ -13134,7 +13134,7 @@ msgstr ""
 
 #: weblate/templates/trans/component_create.html:134
 msgid "The filenames within the archive need to have locale codes in them."
-msgstr "Nama berkas dalam arsip harus memiliki kode bahasa di dalamnya."
+msgstr "Nama berkas dalam arsip harus memiliki kode lokalisasi di dalamnya."
 
 #: weblate/templates/trans/component_create.html:152
 msgid ""
@@ -15356,8 +15356,8 @@ msgid ""
 "customization here, you override these settings for this language."
 msgstr ""
 "Alur kerja terjemahan dikonfigurasikan di proyek dan komponen. Dengan "
-"mengaktifkan penyesuaian di sini, Anda menimpa pengaturan ini untuk bahasa "
-"ini."
+"mengaktifkan penyesuaian di sini, Anda menimpakan pengaturan ini untuk "
+"bahasa ini."
 
 #: weblate/trans/forms.py:3272
 msgid "Customize translation workflow for this language in this project"
@@ -15370,8 +15370,8 @@ msgid ""
 "language in this project."
 msgstr ""
 "Alur kerja terjemahan dikonfigurasikan di proyek, komponen, dan bahasa. "
-"Dengan mengaktifkan penyesuaian di sini, Anda menimpa pengaturan ini untuk "
-"bahasa ini dalam proyek ini."
+"Dengan mengaktifkan penyesuaian di sini, Anda menimpakan pengaturan ini "
+"untuk bahasa ini dalam proyek ini."
 
 #: weblate/trans/guide.py:72
 msgid "Version control integration"
