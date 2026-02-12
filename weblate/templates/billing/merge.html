@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% load crispy_forms_tags i18n icons permissions translations %}
+
+{% block breadcrumbs %}
+  <li class="breadcrumb-item">
+    <a href="{% url 'profile' %}">{% translate "Your profile" %}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{% url 'billing' %}">{% translate "Billing" %}</a>
+  </li>
+  <li class="breadcrumb-item">
+    <a href="{{ billing.get_absolute_url }}">{{ billing }}</a>
+  </li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+
+
+  <div class="row">
+
+    <div class="col-lg-6" id="billing-{{ billing.pk }}">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Merge billing {{ billing.pk }} into {{ other.pk }}</h4>
+        </div>
+        <div class="card-body">
+          <p>
+            Billing <a href="{{ billing.get_absolute_url }}">{{ billing }}</a> will be merged into <a href="{{ other.get_absolute_url }}">{{ other }}</a>.
+          </p>
+          {% crispy merge_form %}
+        </div>
+        <div class="card-footer">
+          <input type="submit" class="btn btn-primary" value="{% translate "Confirm merge" %}">
+        </div>
+      </div>
+    </div>
+
+  </div>
+{% endblock content %}
