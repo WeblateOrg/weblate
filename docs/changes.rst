@@ -6,6 +6,7 @@ Weblate 5.16
 .. rubric:: New features
 
 * :ref:`check-multiple-capital` quality check.
+* :ref:`check-xml-chars-around-tags` reduce translation errors for strings with XML entities.
 * Bulk accepting suggestions from a specific user in :ref:`suggestions`.
 * Cloning suggestions into translation in :ref:`suggestions`.
 * :setting:`HIDE_SHARED_GLOSSARY_COMPONENTS` to hide glossaries shared into other projects.
@@ -31,14 +32,17 @@ Weblate 5.16
 
 * Adding plural strings with singular matching existing string is now prohibited for bilingual translations (see :ref:`bimono`).
 * Automatic :ref:`component-repoweb` URL for common code hosting sites.
-* File formats that only differed in encoding (CSV, GWT Properties, Java Properties, iOS Strings) have been merged into single formats.
 * Improved cache isolation for suggestion checks to avoid interference with the parent unit checks.
 * Gracefully handle invalid check flags in :ref:`custom-checks`.
+* :doc:`/formats/appstore` no longer rewrites unchanged files.
 
 .. rubric:: Compatibility
 
 * :ref:`check-regex` no longer marks matched portions as non-translatable to allow generic regular-expression-based checking of strings. Use :ref:`check-placeholders` for checking regular expression matched placeholders.
 * The default value for :setting:`WEBLATE_FORMATS` changed because of the removal of encoding-specific formats.
+* File formats that only differed in encoding (CSV, GWT Properties, Java Properties, iOS Strings) have been merged into single formats.
+* Fonts used by Weblate are now shipped in a standalone package.
+* Dropped deprecated compatibility wrappers some classes with typos.
 
 .. rubric:: Upgrading
 
@@ -106,7 +110,6 @@ Weblate 5.15.1
 * Added :doc:`/devel/migration` guide to help users migrate from other localization platforms.
 * Gracefully handle unreachable authentication providers.
 * Update language definitions to CLDR 48.
-* :ref:`check-xml-chars-around-tags` reduce translation errors for strings with XML entities.
 
 .. rubric:: Bug fixes
 
