@@ -15,13 +15,14 @@
 # Roland Reck <rolandnospamreck@gmx.de>, 2025.
 # Michael Neuendorf <neuendorf@gonicus.de>, 2025.
 # GitHub webhook <noreply-webhook-github@weblate.org>, 2025, 2026.
+# VfBFan <vfbfan@users.noreply.hosted.weblate.org>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-02-13 08:24+0000\n"
 "PO-Revision-Date: 2026-02-14 19:10+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "application/de/>\n"
 "Language: de\n"
@@ -83,32 +84,24 @@ msgstr ""
 "immer im Repository, sobald die Änderungen von Weblate committet wurden."
 
 #: weblate/accounts/forms.py:210 weblate/accounts/models.py:877
-#, fuzzy
-#| msgid "Committer name"
 msgid "Commit name"
-msgstr "Name des Committers"
+msgstr "Commit-Name"
 
 #: weblate/accounts/forms.py:213
-#, fuzzy
-#| msgid ""
-#| "Used in version-control commits. The address stays in the repository "
-#| "forever once changes are committed by Weblate."
 msgid ""
 "Used in version control commits. The name stays in the repository forever, "
 "once changes are committed by Weblate."
 msgstr ""
-"Wird bei Commits der Versionsverwaltung verwendet. Die Adresse bleibt für "
-"immer im Repository, sobald die Änderungen von Weblate committet wurden."
+"Wird bei Commits der Versionsverwaltung verwendet. Der Name bleibt für immer "
+"im Repository, sobald die Änderungen von Weblate committet wurden."
 
 #: weblate/accounts/forms.py:241
 msgid "Use anonymous account name"
-msgstr ""
+msgstr "Anonymen Kontonamen verwenden"
 
 #: weblate/accounts/forms.py:243
-#, fuzzy
-#| msgid "Use account e-mail address"
 msgid "Use account name"
-msgstr "E-Mail-Adresse des Kontos verwenden"
+msgstr "Kontoname verwenden"
 
 #: weblate/accounts/forms.py:264 weblate/accounts/models.py:860
 msgid "Public e-mail"
@@ -766,7 +759,7 @@ msgstr ""
 
 #: weblate/accounts/models.py:682
 msgid "Editor link"
-msgstr "Editor-URL"
+msgstr "Editor-Link"
 
 #: weblate/accounts/models.py:684
 msgid ""
@@ -956,7 +949,7 @@ msgstr "Unternehmen"
 
 #: weblate/accounts/models.py:872
 msgid "Use global default"
-msgstr ""
+msgstr "Globalen Standard verwenden"
 
 #: weblate/accounts/models.py:873 weblate/trans/models/project.py:172
 msgid "Public"
@@ -1493,7 +1486,7 @@ msgstr "Bitte registrieren Sie sich stattdessen per E-Mail-Adresse."
 
 #: weblate/accounts/views.py:1428
 msgid "Could not parse RelayState from SAML Identity Provider."
-msgstr ""
+msgstr "RelayState vom SAML-Identitätsanbieter konnte nicht analysiert werden."
 
 #: weblate/accounts/views.py:1433
 msgid "New registrations are turned off."
@@ -3619,10 +3612,8 @@ msgstr ""
 "regulären Abonnement wechseln oder das Projekt entfernt wird."
 
 #: weblate/billing/views.py:197 weblate/billing/views.py:216
-#, fuzzy
-#| msgid "Cannot change this on a built-in team."
 msgid "Cannot merge such a billing."
-msgstr "Dies kann in einem integrierten Team nicht geändert werden."
+msgstr "Eine solche Abrechnung kann nicht zusammengefasst werden."
 
 #: weblate/checks/angularjs.py:32
 msgid "AngularJS interpolation string"
@@ -3646,10 +3637,8 @@ msgid "The following errors were found:"
 msgstr "Die folgenden Fehler wurden gefunden:"
 
 #: weblate/checks/base.py:411
-#, fuzzy
-#| msgid "Could not parse flags: %s"
 msgid "Could not parse {} flag: {}"
-msgstr "Markierungen konnten nicht analysiert werden: %s"
+msgstr "Die Markierung {} konnte nicht analysiert werden: {}"
 
 #: weblate/checks/chars.py:48
 msgid "Starting newline"
@@ -4727,14 +4716,14 @@ msgstr "XML-Tags in der Übersetzung passen nicht zur Ausgangszeichenkette."
 
 #: weblate/checks/markup.py:296
 msgid "Chars around XML tags"
-msgstr ""
+msgstr "XML-Tags umgebende Zeichen"
 
 #: weblate/checks/markup.py:298
-#, fuzzy
-#| msgid "XML tags in translation do not match source."
 msgid ""
 "Characters surrounding XML tags in translation do not align with source."
-msgstr "XML-Tags in der Übersetzung passen nicht zur Ausgangszeichenkette."
+msgstr ""
+"XML-Tags umgebende Zeichen in der Übersetzung stimmen nicht mit der "
+"Ausgangszeichenkette überein."
 
 #: weblate/checks/markup.py:357
 msgid "Markdown references"
@@ -5184,10 +5173,8 @@ msgstr "XLIFF-2.0-Übersetzungsdatei mit Platzhalterunterstützung"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1475
-#, fuzzy
-#| msgid "Java Properties (UTF-8)"
 msgid "Java Properties"
-msgstr "Java Properties (UTF-8)"
+msgstr "Java Properties"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1490
@@ -5197,7 +5184,7 @@ msgstr "Joomla-Sprachdatei"
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1500
 msgid "GWT properties"
-msgstr "GWT-Eigenschaften"
+msgstr "GWT Properties"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1516
@@ -6239,22 +6226,19 @@ msgstr "Name des im Ollama-Katalog beschriebenen Modells."
 #: weblate/machinery/forms.py:502
 msgctxt "Anthropic model selection"
 msgid "Claude Sonnet 4.5 (Recommended)"
-msgstr ""
+msgstr "Claude Sonnet 4.5 (empfohlen)"
 
 #: weblate/machinery/forms.py:507
 msgctxt "Anthropic model selection"
 msgid "Claude Haiku 4.5"
-msgstr ""
+msgstr "Claude Haiku 4.5"
 
 #: weblate/machinery/forms.py:511
 msgctxt "Anthropic model selection"
 msgid "Claude Opus 4.5"
-msgstr ""
+msgstr "Claude Opus 4.5"
 
 #: weblate/machinery/forms.py:513
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Custom model"
 msgctxt "Anthropic model selection"
 msgid "Custom model"
 msgstr "Benutzerdefiniertes Modell"
@@ -6262,21 +6246,17 @@ msgstr "Benutzerdefiniertes Modell"
 #: weblate/machinery/forms.py:518
 msgctxt "Automatic suggestion service configuration"
 msgid "Anthropic API URL"
-msgstr ""
+msgstr "Anthropic-API-URL"
 
 #: weblate/machinery/forms.py:521
-#, fuzzy
-#| msgid ""
-#| "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
 msgid "Base URL of the Anthropic API. Leave empty to use the default URL."
 msgstr ""
-"Basis-URL der OpenAI-API, falls sie sich von der OpenAI-Standard-URL "
-"unterscheidet"
+"Basis-URL der Anthropic-API. Leer lassen, um die Standard-URL zu verwenden."
 
 #: weblate/machinery/forms.py:529
 msgctxt "Automatic suggestion service configuration"
 msgid "Anthropic model"
-msgstr ""
+msgstr "Anthropic-Modell"
 
 #: weblate/machinery/forms.py:537
 msgctxt "Anthropic model selection"
@@ -6286,11 +6266,11 @@ msgstr "Benutzerdefinierter Modellname"
 #: weblate/machinery/forms.py:545
 msgctxt "Automatic suggestion service configuration"
 msgid "Max tokens"
-msgstr ""
+msgstr "Maximale Token"
 
 #: weblate/machinery/forms.py:547
 msgid "Maximum number of tokens to generate in the response."
-msgstr ""
+msgstr "Maximale Anzahl von Tokens für das Generieren der Antwort."
 
 #: weblate/machinery/types.py:20
 msgctxt "Source language selection"
@@ -7737,13 +7717,11 @@ msgstr ""
 "werden."
 
 #: weblate/templates/accounts/snippets/login-info.html:34
-#, fuzzy
-#| msgid "You can enable the use of a private commit e-mail in your profile."
 msgid ""
 "You can enable the use of a private commit e-mail and name in your profile."
 msgstr ""
-"Sie können die Verwendung einer privaten Commit-E-Mail in Ihrem Profil "
-"aktivieren."
+"Sie können die Verwendung einer privaten Commit-E-Mail und eines privaten "
+"Namens in Ihrem Profil aktivieren."
 
 #: weblate/templates/accounts/snippets/login-info.html:36
 msgid "You can enable the use of a private commit e-mail in your profile."
@@ -7761,11 +7739,9 @@ msgstr ""
 "unbestimmte Zeit gespeichert werden."
 
 #: weblate/templates/accounts/snippets/login-info.html:45
-#, fuzzy
-#| msgid "You can enable the use of a private commit e-mail in your profile."
 msgid "You can enable the use of a private commit name in your profile."
 msgstr ""
-"Sie können die Verwendung einer privaten Commit-E-Mail in Ihrem Profil "
+"Sie können die Verwendung eines privaten Commit-Namens in Ihrem Profil "
 "aktivieren."
 
 #: weblate/templates/accounts/snippets/login-info.html:48
@@ -8795,11 +8771,8 @@ msgid "Terminate billing plan"
 msgstr "Abrechnungsmodell kündigen"
 
 #: weblate/templates/billing/detail.html:78
-#, fuzzy
-#| msgctxt "Access-control team name"
-#| msgid "Reviewers"
 msgid "Review merge"
-msgstr "Prüfer"
+msgstr "Zusammenfassung überprüfen"
 
 #: weblate/templates/billing/detail.html:90
 msgid "Invoices"
@@ -8897,10 +8870,8 @@ msgid "View"
 msgstr "Anzeigen"
 
 #: weblate/templates/billing/merge.html:34
-#, fuzzy
-#| msgid "Confirm"
 msgid "Confirm merge"
-msgstr "Bestätigen"
+msgstr "Zusammenfassung bestätigen"
 
 #: weblate/templates/billing/overview.html:20
 msgid "No subscriptions or due payments."
@@ -11162,7 +11133,7 @@ msgstr "Freier Speicher"
 
 #: weblate/templates/manage/performance.html:170
 msgid "System encoding"
-msgstr "Systemkodierung"
+msgstr "Systemcodierung"
 
 #: weblate/templates/manage/performance.html:177
 msgid "Web server"
@@ -11174,16 +11145,16 @@ msgstr "Celery-Worker"
 
 #: weblate/templates/manage/performance.html:183
 msgid "Filenames encoding"
-msgstr "Kodierung der Dateinamen"
+msgstr "Dateinamen-Codierung"
 
 #: weblate/templates/manage/performance.html:189
 #: weblate/templates/manage/performance.html:200
 msgid "Unknown encoding"
-msgstr "Kodierung von Unbekannten"
+msgstr "Unbekannte Codierung"
 
 #: weblate/templates/manage/performance.html:194
 msgid "Content encoding"
-msgstr "Kodierung des Inhalts"
+msgstr "Inhaltscodierung"
 
 #: weblate/templates/manage/performance.html:212
 msgid "Connectivity"
@@ -12856,10 +12827,9 @@ msgid "Vote against"
 msgstr "Mit Nein stimmen"
 
 #: weblate/templates/snippets/suggestions.html:56
-#, fuzzy, python-format
-#| msgid "Accepted invitation from {username}."
+#, python-format
 msgid "Accept all suggestions from %(username)s"
-msgstr "Einladung von {username} angenommen."
+msgstr "Annehmen aller Vorschläge von %(username)s"
 
 #: weblate/templates/snippets/suggestions.html:65
 msgid "Accept"
@@ -15207,15 +15177,13 @@ msgstr "FlatXML-Schlüsselname"
 #: weblate/trans/file_format_params.py:488
 #: weblate/trans/file_format_params.py:502
 #: weblate/trans/file_format_params.py:517
-#, fuzzy
-#| msgid "Filenames encoding"
 msgid "File encoding"
-msgstr "Kodierung der Dateinamen"
+msgstr "Dateicodierung"
 
 #: weblate/trans/file_format_params.py:459
 #: weblate/trans/file_format_params.py:478
 msgid "UTF-16"
-msgstr ""
+msgstr "UTF-16"
 
 #: weblate/trans/file_format_params.py:460
 #: weblate/trans/file_format_params.py:477
@@ -15223,40 +15191,38 @@ msgstr ""
 #: weblate/trans/file_format_params.py:506
 #: weblate/trans/file_format_params.py:520
 msgid "UTF-8"
-msgstr ""
+msgstr "UTF-8"
 
 #: weblate/trans/file_format_params.py:463
 msgid "Encoding used for iOS strings files"
-msgstr ""
+msgstr "Für iOS-Zeichenketten-Dateien verwendete Codierung"
 
 #: weblate/trans/file_format_params.py:476
 #: weblate/trans/file_format_params.py:507
 #: weblate/trans/file_format_params.py:521
 msgid "ISO-8859-1"
-msgstr ""
+msgstr "ISO-8859-1"
 
 #: weblate/trans/file_format_params.py:481
-#, fuzzy
-#| msgid "Format the Java properties file"
 msgid "Encoding used for Java Properties files"
-msgstr "Die Java-Properties-Datei formatieren"
+msgstr "Für Java-Properties-Dateien verwendete Codierung"
 
 #: weblate/trans/file_format_params.py:491
 #: weblate/trans/file_format_params.py:505
 msgid "Auto-detect"
-msgstr ""
+msgstr "Auto-Erkennung"
 
 #: weblate/trans/file_format_params.py:495
 msgid "Encoding used for CSV files"
-msgstr ""
+msgstr "Für CSV-Dateien verwendete Codierung"
 
 #: weblate/trans/file_format_params.py:510
 msgid "Encoding used for simple CSV files"
-msgstr ""
+msgstr "Für einfache CSV-Dateien verwendete Codierung"
 
 #: weblate/trans/file_format_params.py:524
 msgid "Encoding used for GWT Properties files"
-msgstr ""
+msgstr "Für GWT-Properties-Dateien verwendete Codierung"
 
 #: weblate/trans/filter.py:23 weblate/trans/filter.py:121
 msgid "All strings"
@@ -16322,11 +16288,11 @@ msgstr "Android-Stil"
 
 #: weblate/trans/models/component.py:190
 msgid "Apple App Store metadata style"
-msgstr "Apple App Store Metadaten-Stil"
+msgstr "Apple-App-Store-Metadaten-Stil"
 
 #: weblate/trans/models/component.py:191
 msgid "Google Play metadata style"
-msgstr "Google Play Metadaten-Stil"
+msgstr "Google-Play-Metadaten-Stil"
 
 #: weblate/trans/models/component.py:192
 msgid "Linux style"
@@ -16349,11 +16315,6 @@ msgid "Merge without fast-forward"
 msgstr "Zusammenführen (Merge) ohne Fast-Forward"
 
 #: weblate/trans/models/component.py:412
-#, fuzzy
-#| msgid ""
-#| "Version control system to use to access your repository containing "
-#| "translations. You can also choose additional integration with third party "
-#| "providers to submit merge requests."
 msgid ""
 "Version control system to use to access your repository containing "
 "translations. You can also choose additional integration with third party "
@@ -16361,7 +16322,7 @@ msgid ""
 msgstr ""
 "Versionsverwaltung, mit der Sie auf Ihr Repository mit Übersetzungen "
 "zugreifen können. Sie können auch die zusätzliche Integration mit "
-"Drittanbietern wählen, um Merge Requests zu übermitteln."
+"Drittanbietern wählen, um Pull/Merge Requests zu übermitteln."
 
 #: weblate/trans/models/component.py:424
 msgid ""
@@ -16376,12 +16337,13 @@ msgid "Repository push URL"
 msgstr "Repository-Push-URL"
 
 #: weblate/trans/models/component.py:440
-#, fuzzy
-#| msgid "URL of a push repository, pushing is turned off if empty."
 msgid ""
 "URL of a push repository, pushing is turned off if empty. When using pull/"
 "merge requests, keep empty to fork the repository."
-msgstr "URL des Repositorys für Push. Falls leer, ist Push deaktiviert."
+msgstr ""
+"URL eines Repositorys zum Pushen, das Pushen wird abgeschaltet, wenn leer. "
+"Wenn Sie Pull/Merge Requests verwenden, lassen Sie sie leer, um das "
+"Repository zu forken."
 
 #: weblate/trans/models/component.py:446
 msgid "Repository browser"
@@ -16978,22 +16940,20 @@ msgid "Could not update repository: %s"
 msgstr "Das Repository konnte nicht aktualisiert werden: %s"
 
 #: weblate/trans/models/component.py:3403
-#, fuzzy
-#| msgid "Pull and push branches cannot be the same when using merge requests."
 msgid ""
 "Pull and push branches cannot be the same when using pull/merge requests and "
 "not pushing to a fork."
 msgstr ""
-"Pull- und Push-Branches können beim Verwenden von Merge Requests nicht "
-"identisch sein."
+"Pull- und Push-Branches können nicht identisch sein, wenn Pull/Merge "
+"Requests verwendet werden, und können nicht auf einen Fork gepusht werden."
 
 #: weblate/trans/models/component.py:3409
-#, fuzzy
-#| msgid "Push branch cannot be empty when using merge requests."
 msgid ""
 "Push branch cannot be empty when using pull/merge requests and not pushing "
 "to a fork."
-msgstr "Push-Branch darf beim Verwenden von Merge Requests nicht leer sein."
+msgstr ""
+"Push-Branch kann nicht leer sein, wenn Pull/Merge Requests verwendet werden, "
+"und kann nicht auf einen Fork gepusht werden."
 
 #: weblate/trans/models/component.py:3419
 #, python-format
@@ -17824,35 +17784,29 @@ msgstr ""
 "aktualisiert."
 
 #: weblate/trans/views/bulk_suggestions.py:39
-#, fuzzy
-#| msgid "Glossary was not found."
 msgid "User not found."
-msgstr "Glossar wurde nicht gefunden."
+msgstr "Benutzer nicht gefunden."
 
 #: weblate/trans/views/bulk_suggestions.py:54
-#, fuzzy
-#| msgid "You do not have privilege to accept suggestions!"
 msgid "You do not have permission to accept suggestions."
-msgstr "Sie haben nicht die Berechtigung, Vorschläge anzunehmen!"
+msgstr "Sie haben nicht die Berechtigung, Vorschläge anzunehmen."
 
 #: weblate/trans/views/bulk_suggestions.py:61
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Invalid request."
-msgstr "Merge Request ungültig!"
+msgstr "Ungültige Anfrage."
 
 #: weblate/trans/views/bulk_suggestions.py:81
 #, python-brace-format
 msgid "Too many suggestions ({count}). Please contact an administrator."
 msgstr ""
+"Zu viele Vorschläge ({count}). Bitte wenden Sie sich an einen Administrator."
 
 #: weblate/trans/views/bulk_suggestions.py:109
-#, fuzzy, python-format
-#| msgid "Accepted invitation from {username}."
+#, python-format
 msgid "Accepted %(count)d suggestion from %(user)s."
 msgid_plural "Accepted %(count)d suggestions from %(user)s."
-msgstr[0] "Einladung von {username} angenommen."
-msgstr[1] "Einladung von {username} angenommen."
+msgstr[0] "%(count)d Vorschlag von %(user)s angenommen."
+msgstr[1] "%(count)d Vorschläge von %(user)s angenommen."
 
 #: weblate/trans/views/bulk_suggestions.py:118
 #, python-format
@@ -17863,13 +17817,15 @@ msgid_plural ""
 "Accepted %(accepted)d of %(total)d suggestions from %(user)s. %(failed)d "
 "failed due to permissions or checks."
 msgstr[0] ""
+"%(accepted)d von %(total)d Vorschlag von %(user)s angenommen. %(failed)d "
+"aufgrund von Berechtigungen oder Qualitätsprüfungen fehlgeschlagen."
 msgstr[1] ""
+"%(accepted)d von %(total)d Vorschläge von %(user)s angenommen. %(failed)d "
+"aufgrund von Berechtigungen oder Qualitätsprüfungen fehlgeschlagen."
 
 #: weblate/trans/views/bulk_suggestions.py:137
-#, fuzzy
-#| msgid "No string found."
 msgid "No suggestions found."
-msgstr "Keine Zeichenkette gefunden."
+msgstr "Keine Vorschläge gefunden."
 
 #: weblate/trans/views/changes.py:63
 #, python-format
