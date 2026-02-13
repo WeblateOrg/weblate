@@ -29,6 +29,7 @@ IGNORE_AUTHORS: tuple[str, ...] = (
     "Anonymous",
     "Hosted Weblate",
     "Copilot",
+    "root",
 )
 
 # GitHub sometimes uses username instead of full name
