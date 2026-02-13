@@ -1578,7 +1578,7 @@ class Translation(
         conflicts: Literal["", "replace-approved", "replace-translated"],
         author_name: str | None = None,
         author_email: str | None = None,
-        method: Literal["fuzzy", "approve", "translate"] = "translate",
+        method: Literal["fuzzy", "approve", "translate", "suggest"] = "translate",
         fuzzy: Literal["", "process", "approve"] = "",
     ) -> UploadResult:
         """Top level handler for file uploads."""
