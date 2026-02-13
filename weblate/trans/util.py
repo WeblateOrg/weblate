@@ -152,13 +152,13 @@ def translation_percent(
         return 100.0 if zero_complete else 0.0
     if total is None:
         return 0.0
-    perc = (1000 * translated // total) / 10.0
+    promile = 1000 * translated // total
     # Avoid displaying misleading rounded 0.0% or 100.0%
-    if perc == 0.0 and translated != 0:
+    if promile == 0 and translated != 0:
         return 0.1
-    if perc == 100.0 and translated < total:
+    if promile == 1000 and translated < total:
         return 99.9
-    return perc
+    return promile / 10
 
 
 def get_clean_env(
