@@ -451,7 +451,7 @@ def validate_repo_url(url: str) -> None:
 
     # URL validation using for http (the URL validator is too strict to handle others)
     if parsed.scheme in {"http", "https"}:
-        validator = URLValidator(schemes=settings.VCS_ALLOW_SCHEMES)
+        validator = URLValidator(schemes=list(settings.VCS_ALLOW_SCHEMES))
         validator(url)
 
     # Filter hosts if configured

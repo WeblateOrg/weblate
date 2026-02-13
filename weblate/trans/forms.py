@@ -115,11 +115,12 @@ if TYPE_CHECKING:
 
     from weblate.accounts.models import Profile
     from weblate.auth.models import AuthenticatedHttpRequest
-    from weblate.trans.mixins import BaseURLMixin, URLMixin
+    from weblate.trans.mixins import URLMixin
     from weblate.trans.models import (
         Translation,
     )
     from weblate.trans.models.translation import NewUnitParams
+    from weblate.utils.stats import CategoryLanguage, ProjectLanguage
 
 BUTTON_TEMPLATE = """
 <button type="button" class="btn btn-outline-primary {0}" title="{1}" {2}>{3}</button>
@@ -352,7 +353,7 @@ class PluralTextarea(forms.Textarea):
                 lang_label,
             )
         plural = translation.plural
-        placeables_set = set()
+        placeables_set: set[str] = set()
         for text in plurals:
             placeables_set.update(hl[2] for hl in highlight_string(text, unit))
         placeables = list(placeables_set)
@@ -813,7 +814,16 @@ class SearchForm(forms.Form):
         request: AuthenticatedHttpRequest,
         language: Language | None = None,
         show_builder=True,
-        obj: type[Model | BaseURLMixin] | None = None,
+        obj: type[
+            Project
+            | Translation
+            | Component
+            | ProjectLanguage
+            | Category
+            | CategoryLanguage
+            | Language
+        ]
+        | None = None,
         **kwargs,
     ) -> None:
         """Generate choices for other components in the same project."""
@@ -1325,7 +1335,7 @@ class ContextForm(FieldDocsMixin, forms.ModelForm):
             "explanation": MarkdownTextarea,
         }
 
-    doc_links: ClassVar[dict[str, str]] = {
+    doc_links: ClassVar[dict[str, tuple[str, str]]] = {
         "explanation": ("admin/translating", "additional-explanation"),
         "labels": ("devel/translations", "labels"),
         "extra_flags": ("admin/translating", "additional-flags"),
@@ -2919,7 +2929,17 @@ class BulkEditForm(forms.Form):
     )
 
     def __init__(
-        self, user: User | None, obj: URLMixin | None, *args, **kwargs
+        self,
+        user: User | None,
+        obj: Project
+        | Translation
+        | Component
+        | ProjectLanguage
+        | Category
+        | CategoryLanguage
+        | None,
+        *args,
+        **kwargs,
     ) -> None:
         project = kwargs.pop("project", None)
         kwargs["auto_id"] = "id_bulk_%s"
