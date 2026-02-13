@@ -275,7 +275,11 @@ class UnitQuerySet(models.QuerySet["Unit"]):
                 sort_list = ["source"]
             elif isinstance(obj, (Project, Category)):
                 sort_list = [
+                    # Show locked components at the end
+                    "translation__component__locked",
+                    # Order by priority for custom ordering
                     "translation__component__priority",
+                    # Show glossaries at the end
                     "translation__component__is_glossary",
                     "translation__component__name",
                     "-priority",
