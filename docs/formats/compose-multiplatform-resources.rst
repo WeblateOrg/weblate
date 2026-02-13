@@ -13,7 +13,7 @@ A variant of :doc:`/formats/android`. It differs in escaping.
 
 .. seealso::
 
-   * `Koltin Compose Multiplatform Resources <https://kotlinlang.org/docs/multiplatform/compose-multiplatform-resources.html>`_
+   * `Kotlin Compose Multiplatform Resources <https://kotlinlang.org/docs/multiplatform/compose-multiplatform-resources.html>`_
    * :doc:`/formats/android`
    * :doc:`tt:formats/android`
 

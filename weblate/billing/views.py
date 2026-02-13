@@ -13,13 +13,16 @@ from django.core.exceptions import PermissionDenied
 from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
+from django.utils.translation import gettext
 
 from weblate.accounts.views import mail_admins_contact
-from weblate.billing.forms import HostingForm
-from weblate.billing.models import Billing, BillingEvent, Invoice, Plan
 from weblate.trans.backups import PROJECTBACKUP_PREFIX
+from weblate.utils import messages
 from weblate.utils.data import data_path
 from weblate.utils.views import show_form_errors
+
+from .forms import BillingMergeConfirmForm, BillingMergeForm, HostingForm
+from .models import Billing, BillingEvent, Invoice, Plan
 
 if TYPE_CHECKING:
     from django.http import HttpResponse
@@ -179,6 +182,56 @@ def overview(request: AuthenticatedHttpRequest) -> HttpResponse:
 
 
 @login_required
+def merge(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
+    if not request.user.has_perm("billing.manage"):
+        raise PermissionDenied
+
+    billing = get_object_or_404(Billing, pk=pk)
+
+    if request.method == "GET":
+        merge_form = BillingMergeForm(request.GET)
+        if (
+            not merge_form.is_valid()
+            or merge_form.cleaned_data["other"].pk == billing.pk
+        ):
+            messages.error(request, gettext("Cannot merge such a billing."))
+            return redirect(billing)
+
+        confirm_form = BillingMergeConfirmForm(initial=merge_form.cleaned_data)
+        return render(
+            request,
+            "billing/merge.html",
+            {
+                "billing": billing,
+                "other": merge_form.cleaned_data["other"],
+                "merge_form": confirm_form,
+            },
+        )
+
+    confirm_form = BillingMergeConfirmForm(request.POST)
+    if (
+        not confirm_form.is_valid()
+        or confirm_form.cleaned_data["other"].pk == billing.pk
+    ):
+        messages.error(request, gettext("Cannot merge such a billing."))
+        return redirect(billing)
+
+    other = confirm_form.cleaned_data["other"]
+    if "recurring" in billing.payment:
+        other.payment["recurring"] = billing.payment["recurring"]
+    if "all" in billing.payment:
+        other.payment["all"].extend(billing.payment["all"])
+    other.save()
+    other.owners.add(*billing.owners.all())
+    billing.invoice_set.update(billing=other)
+    billing.billinglog_set.update(billing=other)
+    billing.payment = {}
+    billing.save()
+
+    return redirect(confirm_form.cleaned_data["other"])
+
+
+@login_required
 def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
     billing = get_object_or_404(Billing, pk=pk)
 
@@ -192,5 +245,9 @@ def detail(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
     return render(
         request,
         "billing/detail.html",
-        {"billing": billing, "hosting_form": HostingForm()},
+        {
+            "billing": billing,
+            "hosting_form": HostingForm(),
+            "merge_form": BillingMergeForm(),
+        },
     )

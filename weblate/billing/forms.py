@@ -5,6 +5,8 @@
 from django import forms
 from django.utils.translation import gettext_lazy
 
+from .models import Billing
+
 
 class HostingForm(forms.Form):
     """Form for asking for hosting."""
@@ -19,3 +21,15 @@ class HostingForm(forms.Form):
             "preferably in English."
         ),
     )
+
+
+class BillingMergeForm(forms.Form):
+    other = forms.ModelChoiceField(
+        queryset=Billing.objects.all(),
+        label="Merge with billing",
+        widget=forms.NumberInput,
+    )
+
+
+class BillingMergeConfirmForm(BillingMergeForm):
+    confirm = forms.BooleanField(required=True, label="Confirm merge")

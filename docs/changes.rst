@@ -7,6 +7,7 @@ Weblate 5.16
 
 * :ref:`check-multiple-capital` quality check.
 * Bulk accepting suggestions from a specific user in :ref:`suggestions`.
+* Cloning suggestions into translation in :ref:`suggestions`.
 * :setting:`HIDE_SHARED_GLOSSARY_COMPONENTS` to hide glossaries shared into other projects.
 * Added new management command :wladmin:`list_change_events`, which lists all possible change events, :ref:`addon-choice-events`.
 * Added Anthropic machinery integration, see :ref:`mt-anthropic`.
@@ -24,12 +25,14 @@ Weblate 5.16
 * Validation of VCS settings :ref:`push-changes` has been extended.
 * The default values for :ref:`project-translation_review` and :ref:`project-source_review` can be configured in settings.
 * The :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE` now supports the ``{user_id}`` and ``{site_title}`` variables.
+* The default value for personal translation memory contribution is now based on the :setting:`DEFAULT_AUTOCLEAN_TM` configuration.
 
 .. rubric:: Bug fixes
 
 * Adding plural strings with singular matching existing string is now prohibited for bilingual translations (see :ref:`bimono`).
 * Automatic :ref:`component-repoweb` URL for common code hosting sites.
 * File formats that only differed in encoding (CSV, GWT Properties, Java Properties, iOS Strings) have been merged into single formats.
+* Improved cache isolation for suggestion checks to avoid interference with the parent unit checks.
 * Gracefully handle invalid check flags in :ref:`custom-checks`.
 
 .. rubric:: Compatibility
@@ -103,6 +106,7 @@ Weblate 5.15.1
 * Added :doc:`/devel/migration` guide to help users migrate from other localization platforms.
 * Gracefully handle unreachable authentication providers.
 * Update language definitions to CLDR 48.
+* :ref:`check-xml-chars-around-tags` reduce translation errors for strings with XML entities.
 
 .. rubric:: Bug fixes
 

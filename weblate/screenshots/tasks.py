@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os.path
+from typing import TYPE_CHECKING, cast
 
 from celery.schedules import crontab
 from django.core.files.storage import DefaultStorage
@@ -10,11 +11,14 @@ from django.core.files.storage import DefaultStorage
 from weblate.screenshots.models import Screenshot
 from weblate.utils.celery import app
 
+if TYPE_CHECKING:
+    from django.core.files.storage import Storage
+
 
 @app.task(trail=False)
 def cleanup_screenshot_files() -> None:
     """Remove stale screenshots."""
-    storage = DefaultStorage()
+    storage = cast("Storage", DefaultStorage())
     try:
         files = storage.listdir("screenshots")[1]
     except OSError:
