@@ -22,10 +22,19 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
-    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd   # v6.0.2
+      if: github.event_name != 'pull_request' && github.repository_owner == 'WeblateOrg'
       with:
         token: ${{ secrets.WEBLATE_CI_TOKEN }}
         persist-credentials: true
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd   # v6.0.2
+      if: github.event_name != 'pull_request' && github.repository_owner != 'WeblateOrg'
+      with:
+        persist-credentials: true
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd   # v6.0.2
+      if: github.event_name == 'pull_request'
+      with:
+        persist-credentials: false
     - uses: astral-sh/setup-uv@eac588ad8def6316056a12d4907a9d4d84ff7a3b # v7.3.0
       with:
         enable-cache: false
@@ -38,10 +47,6 @@ jobs:
       run: |
         uv sync --only-group schemas --only-group pre-commit
     - run: make -C docs update-schemas
-    - run: uv run --frozen --only-group pre-commit prek run --all-files
-      continue-on-error: true
-
-    - run: git diff
 
     - name: Commit or create pull request
       uses: ./.github/actions/auto-commit

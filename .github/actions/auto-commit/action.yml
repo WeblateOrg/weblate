@@ -24,6 +24,16 @@ inputs:
 runs:
   using: composite
   steps:
+
+  - name: pre-commit format the code
+    run: uv run --frozen --only-group pre-commit prek run --all-files
+    continue-on-error: true
+    shell: bash
+
+  - name: Display changes
+    run: git diff
+    shell: bash
+
     # PRs from forks / outside collaborators
   - name: Commit changes (external PR)
     if: github.event_name == 'pull_request' && github.actor != 'renovate[bot]'
