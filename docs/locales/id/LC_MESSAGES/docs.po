@@ -18,7 +18,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-01-26 11:05+0100\n"
-"PO-Revision-Date: 2026-02-13 03:33+0000\n"
+"PO-Revision-Date: 2026-02-13 08:23+0000\n"
 "Last-Translator: Zahid Rizky Fakhri <zahidrizkyfakhri@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "documentation/id/>\n"
@@ -8546,13 +8546,13 @@ msgid ""
 "detect the SSL status."
 msgstr ""
 "Pengalihan HTTPS mungkin bermasalah dalam beberapa kasus, dan Anda mungkin "
-"mengalami masalah dengan pengalihan tak terbatas jika Anda menggunakan "
-"proksi terbalik yang melakukan penghentian SSL yang tidak meneruskan header "
-"protokol dengan benar ke Django. Harap sesuaikan konfigurasi proksi terbalik "
-"Anda untuk menampilkan header :http:header:`X-Forwarded-Proto` "
-"atau :http:header:`Forwarded` atau "
-"konfigurasikan :setting:`django:SECURE_PROXY_SSL_HEADER` agar Django dapat "
-"mendeteksi status SSL dengan benar."
+"mengalami isu dengan pengalihan tak terbatas jika Anda menggunakan proksi "
+"terbalik yang melakukan penghentian SSL yang tidak meneruskan kepala "
+"protokol dengan benar ke Django. Silakan sesuaikan konfigurasi proksi "
+"terbalik Anda untuk menampilkan kepala :http:header:`X-Forwarded-Proto` atau "
+":http:header:`Forwarded` atau konfigurasikan "
+":setting:`django:SECURE_PROXY_SSL_HEADER` agar Django dapat mendeteksi "
+"status SSL dengan benar."
 
 #: ../../admin/config.rst:778
 msgid ""
@@ -8562,17 +8562,17 @@ msgid ""
 "work for sites without HTTPS."
 msgstr ""
 "Jika ini dinonaktifkan, Weblate akan gagal memulai dengan galat "
-"``otp_webauthn.E031``. Anda dapat menonaktifkan galat ini dengan "
-"menambahkannya ke :setting:`django:SILENCED_SYSTEM_CHECKS`, tetapi WebAuthn "
-"tetap tidak akan berfungsi untuk situs tanpa HTTPS."
+"``otp_webauthn.E031``. Anda dapat membisukan galat ini dengan menambahkannya "
+"ke :setting:`django:SILENCED_SYSTEM_CHECKS`, tetapi WebAuthn tetap tidak "
+"akan berfungsi untuk situs tanpa HTTPS."
 
 #: ../../admin/config.rst:796
 msgid ""
 "Turn on/off the :guilabel:`Community` menu so users can share translation "
 "progress on social networks."
 msgstr ""
-"Aktifkan/nonaktifkan :guilabel:`Komunitas` sehingga pengguna dapat berbagi "
-"kemajuan penerjemahan di jejaring sosial."
+"Nyalakan/matikan :guilabel:`Community` sehingga pengguna dapat berbagi "
+"progres terjemahan di jejaring sosial."
 
 #: ../../admin/config.rst:809
 msgid ""
@@ -8588,7 +8588,7 @@ msgid ""
 "HTML header."
 msgstr ""
 "Tidak ada sanitasi yang dilakukan pada string. String tersebut dimasukkan "
-"apa adanya ke dalam header HTML."
+"apa adanya ke dalam kepala HTML."
 
 #: ../../admin/config.rst:826
 msgid "URL where support for your Weblate instance can be found."
@@ -8604,7 +8604,7 @@ msgid ""
 "host. The layout is same for almost all version control integrations and is "
 "described at :ref:`settings-credentials`."
 msgstr ""
-"Kamus konfigurasi terdiri dari kredensial yang ditentukan untuk setiap host "
+"Kamus konfigurasi terdiri dari kredensial yang ditentukan untuk setiap hos "
 "API. Tata letaknya sama untuk hampir semua integrasi kontrol versi dan "
 "dijelaskan di :ref:`settings-credentials`."
 
@@ -8643,10 +8643,10 @@ msgid ""
 "organization, so it won't work if you want Weblate to fork a repository "
 "outside the organization (typically to the user namespace)."
 msgstr ""
-"Anda dapat menggunakan token akses personal berbutir halus maupun token "
-"akses personal klasik. Token berbutir halus ini terbatas pada satu "
-"organisasi, sehingga tidak akan berfungsi jika Anda ingin Weblate melakukan "
-"forking repositori di luar organisasi (biasanya ke namespace pengguna)."
+"Anda dapat menggunakan token akses personal mendalam maupun token akses "
+"personal klasik. Token mendalam ini terbatas pada satu organisasi, sehingga "
+"tidak akan berfungsi jika Anda ingin Weblate melakukan forking repositori di "
+"luar organisasi (biasanya ke namespace pengguna)."
 
 #: ../../admin/config.rst:909
 msgid ""
@@ -8654,20 +8654,20 @@ msgid ""
 "to :guilabel:`Contents` and :guilabel:`Pull requests` is required."
 msgstr ""
 "Untuk mengkloning, mendorong, dan membuat permintaan tarik, akses baca dan "
-"tulis ke :guilabel:`Konten` dan :guilabel:`Permintaan penarikan` diperlukan."
+"tulis ke :guilabel:`Contents` dan :guilabel:`Pull requests` diperlukan."
 
 #: ../../admin/config.rst:912
 msgid ""
 ":guilabel:`Administration` might also be necessary for forking a repository "
 "if you intend to use forking and the original repository is not public."
 msgstr ""
-":guilabel:`Administrasi` mungkin juga diperlukan untuk melakukan forking "
+":guilabel:`Administration` mungkin juga diperlukan untuk melakukan forking "
 "repositori jika Anda bermaksud menggunakan forking dan repositori asli tidak "
 "bersifat publik."
 
 #: ../../admin/config.rst:917
 msgid "Use ``api.github.com`` as a API host for https://github.com/."
-msgstr "Gunakan ``api.github.com`` sebagai host API untuk https://github.com/."
+msgstr "Gunakan ``api.github.com`` sebagai hos API untuk https://github.com/."
 
 #: ../../admin/config.rst:924
 msgid "`Creating a GitHub personal access token`_"
@@ -8696,14 +8696,14 @@ msgid ""
 "host. The API host might be different from what you use in the web browser, "
 "for example GitHub API is accessed as ``api.github.com``."
 msgstr ""
-"Kamus konfigurasi berisi kredensial yang ditentukan untuk setiap host API. "
-"Host API mungkin berbeda dari yang Anda gunakan di peramban web, misalnya "
-"API GitHub diakses sebagai ``api.github.com``."
+"Kamus konfigurasi berisi kredensial yang ditentukan untuk setiap hos API. "
+"Hos API mungkin berbeda dari yang Anda gunakan di peramban web, misalnya API "
+"GitHub diakses sebagai ``api.github.com``."
 
 #: ../../admin/config.rst:976 ../../admin/config.rst:1016
 #: ../../admin/config.rst:2311
 msgid "The following configuration is available for each host:"
-msgstr "Konfigurasi berikut tersedia untuk setiap host:"
+msgstr "Konfigurasi berikut tersedia untuk setiap hos:"
 
 #: ../../admin/config.rst:979
 msgid "API user."
@@ -8722,8 +8722,8 @@ msgid ""
 "Additional settings not described here can be found at :ref:`settings-"
 "credentials`."
 msgstr ""
-"Pengaturan tambahan yang tidak dijelaskan di sini dapat ditemukan "
-"di :ref:`settings-credentials`."
+"Pengaturan tambahan yang tidak dijelaskan di sini dapat ditemukan di "
+":ref:`settings-credentials`."
 
 #: ../../admin/config.rst:990
 msgid ""
@@ -8772,8 +8772,8 @@ msgid ""
 "authenticate?view=azure-devops&tabs=Windows>`_"
 msgstr ""
 "`Azure DevOps: Token akses pribadi <https://learn.microsoft.com/en-us/azure/"
-"devops/organizations/accounts/use-personal-access-tokens-to-authenticate?"
-"view=azure-devops&tabs=Windows>`_"
+"devops/organizations/accounts/use-personal-access-tokens-to-"
+"authenticate?view=azure-devops&tabs=Windows>`_"
 
 #: ../../admin/config.rst:1040
 msgid ""
@@ -8813,7 +8813,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1062
 msgid "On by default."
-msgstr "Aktif secara bawaan."
+msgstr "Nyala secara bawaan."
 
 #: ../../admin/config.rst:1071
 msgid ""
@@ -8821,9 +8821,9 @@ msgid ""
 "documentation links point to the latest version instead of the documentation "
 "matching the currently installed version."
 msgstr ""
-"Menyembunyikan informasi versi dari pengguna yang tidak terautentikasi. Ini "
-"juga membuat semua tautan dokumentasi mengarah ke versi terbaru, alih-alih "
-"dokumentasi yang sesuai dengan versi yang saat ini terinstal."
+"Menyembunyikan informasi versi dari pengguna yang tidak diautentikasikan. "
+"Ini juga membuat semua tautan dokumentasi mengarahkan ke versi terbaru, alih-"
+"alih dokumentasi yang sesuai dengan versi yang saat ini terpasang."
 
 #: ../../admin/config.rst:1075
 msgid ""
@@ -8847,7 +8847,7 @@ msgid ""
 "If set to ``True``, Weblate gets IP address from a header defined "
 "by :setting:`IP_PROXY_HEADER`."
 msgstr ""
-"Jika diatur ke ``True``, Weblate mendapatkan alamat IP dari header yang "
+"Jika diatur ke ``True``, Weblate mendapatkan alamat IP dari kepala yang "
 "didefinisikan oleh :setting:`IP_PROXY_HEADER`."
 
 #: ../../admin/config.rst:1094
@@ -8855,20 +8855,20 @@ msgid ""
 "Ensure you are actually using a reverse proxy and that it sets this header, "
 "otherwise users will be able to fake the IP address."
 msgstr ""
-"Pastikan Anda benar-benar menggunakan proksi terbalik dan menyetel header "
+"Pastikan Anda benar-benar menggunakan proksi terbalik dan mengatur kepala "
 "ini, jika tidak, pengguna akan dapat memalsukan alamat IP."
 
 #: ../../admin/config.rst:1099
 msgid "This is not on by default."
-msgstr "Ini tidak aktif secara bawaan."
+msgstr "Ini tidak menyala secara bawaan."
 
 #: ../../admin/config.rst:1113
 msgid ""
 "Indicates which header Weblate should obtain the IP address from "
 "when :setting:`IP_BEHIND_REVERSE_PROXY` is turned on."
 msgstr ""
-"Menunjukkan header Weblate mana yang harus mendapatkan alamat IP "
-"saat :setting:`IP_BEHIND_REVERSE_PROXY` diaktifkan."
+"Menunjukkan kepala Weblate mana yang harus mendapatkan alamat IP saat "
+":setting:`IP_BEHIND_REVERSE_PROXY` dinyalakan."
 
 #: ../../admin/config.rst:1116
 msgid "Defaults to ``HTTP_X_FORWARDED_FOR``."
@@ -8892,9 +8892,9 @@ msgid ""
 "(for example ``X-Forwarded-For: client-ip, proxy-a, proxy-b``) and you can "
 "configure which address from the header is used as client IP address here."
 msgstr ""
-"Bergantung pada pengaturan Anda, header ini mungkin terdiri dari beberapa "
+"Bergantung pada pengaturan Anda, kepala ini mungkin terdiri dari beberapa "
 "alamat IP, (misalnya ``X-Forwarded-For: client-ip, proxy-a, proxy-b``) dan "
-"Anda dapat mengonfigurasi alamat mana dari header yang digunakan sebagai "
+"Anda dapat mengkonfigurasikan alamat mana dari kepala yang digunakan sebagai "
 "alamat IP klien di sini."
 
 #: ../../admin/config.rst:1144
@@ -8916,7 +8916,7 @@ msgstr "Bawaannya adalah -1."
 
 #: ../../admin/config.rst:1167
 msgid "You need :ref:`legal` installed to make this work."
-msgstr "Anda perlu menginstal :ref:`legal` agar ini berfungsi."
+msgstr "Anda perlu memasang :ref:`legal` agar ini berfungsi."
 
 #: ../../admin/config.rst:1169
 msgid ""
@@ -8935,8 +8935,8 @@ msgid ""
 "Useful if you host your legal documents outside Weblate for embedding them "
 "inside Weblate. Please check :ref:`legal` for details."
 msgstr ""
-"Berguna jika Anda menyimpan dokumen hukum di luar Weblate untuk disematkan "
-"di dalam Weblate. Silakan periksa :ref:`legal` untuk rinciannya."
+"Berguna jika Anda mengehos dokumen hukum Anda di luar Weblate untuk "
+"disematkan di dalam Weblate. Silakan periksa :ref:`legal` untuk rinciannya."
 
 #: ../../admin/config.rst:1205
 msgid "Additional licenses to include in the license choices."
@@ -8948,18 +8948,17 @@ msgid ""
 "URL and a boolean, indication with it is a libre license."
 msgstr ""
 "Setiap definisi lisensi harus berupa tupel nama pendeknya, nama panjang, "
-"URL, dan boolean, yang menunjukkan bahwa lisensi tersebut bersifat libre."
+"URL, dan boolean, yang menunjukkan bahwa lisensi tersebut bersifat bebas."
 
 #: ../../admin/config.rst:1211 ../../admin/config.rst:1240
 #: ../../admin/config.rst:1331 ../../admin/projects.rst:528
 #: ../../formats/xliff.rst:77
 msgid "For example:"
-msgstr "Misalnya:"
+msgstr "Contoh:"
 
 #: ../../admin/config.rst:1231
 msgid "Setting this to blank value now disables license alert."
-msgstr ""
-"Mengatur ini ke nilai kosong sekarang menonaktifkan peringatan lisensi."
+msgstr "Mengatur ini ke nilai kosong sekarang menonaktifkan peringatan lisensi."
 
 #: ../../admin/config.rst:1233
 msgid ""
@@ -8971,7 +8970,7 @@ msgstr ""
 
 #: ../../admin/config.rst:1238
 msgid "This filter uses the short license names."
-msgstr "Filter ini menggunakan nama lisensi yang pendek."
+msgstr "Filter ini menggunakan nama lisensi pendek."
 
 #: ../../admin/config.rst:1246
 msgid "Following disables the license alert:"
@@ -8979,18 +8978,19 @@ msgstr "Berikut menonaktifkan peringatan lisensi:"
 
 #: ../../admin/config.rst:1261
 msgid "Defines whether the license attribute in :ref:`component` is required."
-msgstr "Menentukan apakah atribut lisensi dalam :ref:`component` diperlukan."
+msgstr ""
+"Mendefinisikan apakah atribut lisensi dalam :ref:`component` diperlukan."
 
 #: ../../admin/config.rst:1265
 msgid "This is off by default."
-msgstr "Ini nonaktif secara bawaan."
+msgstr "Ini dimatikan secara bawaan."
 
 #: ../../admin/config.rst:1272
 msgid ""
 "Whether the length of a given translation should be limited. The restriction "
 "is the length of the source string × 10 characters."
 msgstr ""
-"Apakah panjang terjemahan tertentu harus dibatasi? Batasannya adalah panjang "
+"Apakah panjang terjemahan tertentu harus dibatasi. Batasannya adalah panjang "
 "string sumber × 10 karakter."
 
 #: ../../admin/config.rst:1277
@@ -8998,12 +8998,12 @@ msgid ""
 "Set this to ``False`` to allow longer translations (up to 10,000 characters) "
 "irrespective of source string length."
 msgstr ""
-"Atur ini ke ``Salah`` untuk memperbolehkan penerjemahan yang lebih panjang "
+"Atur ini ke ``False`` untuk memperbolehkan terjemahan yang lebih panjang "
 "(hingga 10.000 karakter) tanpa mempedulikan panjang string sumber."
 
 #: ../../admin/config.rst:1281
 msgid "Defaults to ``True``."
-msgstr "Bawaannya adalah ``Benar``."
+msgstr "Bawaannya adalah ``True``."
 
 #: ../../admin/config.rst:1287
 msgid "LOCALIZE_CDN_URL and LOCALIZE_CDN_PATH"
@@ -9017,11 +9017,11 @@ msgid ""
 "should store generated files which will be served at "
 "the :setting:`LOCALIZE_CDN_URL`."
 msgstr ""
-"Pengaturan ini mengonfigurasi pengaya :ref:`addon-"
-"weblate.cdn.cdnjs`. :setting:`LOCALIZE_CDN_URL` mendefinisikan URL root "
-"tempat CDN pelokalan tersedia dan :setting:`LOCALIZE_CDN_PATH` "
-"mendefinisikan lokasi tempat Weblate menyimpan berkas yang dihasilkan, yang "
-"mana akan disajikan di :setting:`LOCALIZE_CDN_URL`."
+"Pengaturan ini mengkonfigurasikan pengaya :ref:`addon-weblate.cdn.cdnjs`. "
+":setting:`LOCALIZE_CDN_URL` mendefinisikan URL root tempat CDN lokalisasi "
+"tersedia dan :setting:`LOCALIZE_CDN_PATH` mendefinisikan lokasi tempat "
+"Weblate menyimpan berkas yang dihasilkan, yang mana akan disajikan di "
+":setting:`LOCALIZE_CDN_URL`."
 
 #: ../../admin/config.rst:1296
 msgid "On Hosted Weblate, this uses ``https://weblate-cdn.com/``."
@@ -9095,16 +9095,15 @@ msgid ""
 "Useful if you host your legal documents outside Weblate for embedding them "
 "inside Weblate, please check :ref:`legal` for details."
 msgstr ""
-"Berguna jika Anda menyimpan dokumen hukum Anda di luar Weblate untuk "
-"menanamkannya di dalam Weblate, silakan periksa :ref:`legal` untuk "
-"rinciannya."
+"Berguna jika Anda mengehos dokumen hukum Anda di luar Weblate untuk "
+"disematkan di dalam Weblate, silakan periksa :ref:`legal` untuk rinciannya."
 
 #: ../../admin/config.rst:1434
 msgid ""
 "Configures whether the private commit e-mail is opt-in or opt-out (by "
 "default it is opt-in)."
 msgstr ""
-"Mengonfigurasi apakah komit surel privat bersifat opt-in atau opt-out "
+"Mengkonfigurasikan apakah komit surel privat bersifat opt-in atau opt-out "
 "(secara bawaan bersifat opt-in)."
 
 #: ../../admin/config.rst:1438
@@ -9134,14 +9133,14 @@ msgid ""
 "in the :ref:`profile`."
 msgstr ""
 "Penggunaan surel komit yang berbeda merupakan opsi bagi pengguna, kecuali "
-"dikonfigurasi oleh :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Pengguna dapat "
-"mengonfigurasi surel komit di :ref:`profile`."
+"dikonfigurasikan oleh :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Pengguna dapat "
+"mengkonfigurasikan surel komit di :ref:`profile`."
 
 #: ../../admin/config.rst:1469
 msgid ""
 "Defines how many backups per project are kept on the server. Defaults to 3."
 msgstr ""
-"Menentukan jumlah cadangan per proyek yang disimpan di server. Bawaannya "
+"Mendefinisikan jumlah cadangan per proyek yang disimpan di server. Bawaannya "
 "adalah 3."
 
 #: ../../admin/config.rst:1482
@@ -9149,16 +9148,16 @@ msgid ""
 "Defines how long the project backups will be kept on the server. Defaults to "
 "30 days."
 msgstr ""
-"Menentukan berapa lama cadangan proyek akan disimpan di server. Bawaannya "
-"adalah 30 hari."
+"Mendefinisikan berapa lama cadangan proyek akan disimpan di server. "
+"Bawaannya adalah 30 hari."
 
 #: ../../admin/config.rst:1495
 msgid ""
 "Defines a regular expression to restrict project naming. Any matching names "
 "will be rejected."
 msgstr ""
-"Menentukan ekspresi reguler untuk membatasi penamaan proyek. Nama yang cocok "
-"akan ditolak."
+"Mendefinisikan ekspresi reguler untuk membatasi penamaan proyek. Nama yang "
+"cocok akan ditolak."
 
 #: ../../admin/config.rst:1508
 msgid ""
@@ -9167,7 +9166,7 @@ msgid ""
 "should contain lower case strings only, the parsed domain is lower cased "
 "before matching."
 msgstr ""
-"Tolak penggunaan host tertentu di situs web proyek. Semua subdomain akan "
+"Tolak penggunaan hos tertentu di situs web proyek. Semua subdomain akan "
 "dicocokkan, jadi jika ``example.com`` disertakan, ``test.example.com`` juga "
 "akan diblokir. Daftar ini hanya boleh berisi string huruf kecil, domain yang "
 "diurai akan diubah menjadi huruf kecil sebelum dicocokkan."
@@ -9186,7 +9185,7 @@ msgid ""
 "Defines a regular expression to limit what can be entered as :ref:`project-"
 "web`. Any matching URLs will be rejected."
 msgstr ""
-"Menentukan ekspresi reguler untuk membatasi apa yang dapat dimasukkan "
+"Mendefinisikan ekspresi reguler untuk membatasi apa yang dapat dimasukkan "
 "sebagai :ref:`project-web`. URL yang cocok akan ditolak."
 
 #: ../../admin/config.rst:1563
@@ -9202,16 +9201,15 @@ msgstr "Pengaturan bawaannya adalah:"
 msgid ""
 "Maximum number of authentication attempts before rate limiting is applied."
 msgstr ""
-"Jumlah maksimum percobaan autentikasi sebelum pembatasan kecepatan "
-"diterapkan."
+"Jumlah maksimum percobaan autentikasi sebelum pembatasan akses diterapkan."
 
 #: ../../admin/config.rst:1588
 msgid "Defaults to 5."
-msgstr "Asali ke 5."
+msgstr "Bawaannya adalah 5."
 
 #: ../../admin/config.rst:1601
 msgid "How long authentication is accepted after rate limiting applies."
-msgstr "Berapa lama autentikasi diterima setelah pembatasan tarif berlaku."
+msgstr "Berapa lama autentikasi diterima setelah pembatasan akses berlaku."
 
 #: ../../admin/config.rst:1603
 msgid "An amount of seconds, defaulting to 300 (5 minutes)."
@@ -9223,7 +9221,7 @@ msgstr "Berapa lama autentikasi dikunci setelah pembatasan akses diterapkan."
 
 #: ../../admin/config.rst:1618
 msgid "An amount of seconds defaulting to 600 (10 minutes)."
-msgstr "Jumlah detik bawaan ke 600 (10 menit)."
+msgstr "Jumlah detik bawaannya 600 (10 menit)."
 
 #: ../../admin/config.rst:1633
 msgid ""
@@ -9232,9 +9230,9 @@ msgid ""
 "all configured authentication backends."
 msgstr ""
 "Daftar backend autentikasi yang memungkinkan pendaftaran. Ini hanya "
-"membatasi pendaftaran baru; pengguna masih dapat mengautentikasi dan "
-"menambahkan autentikasi menggunakan semua backend autentikasi yang telah "
-"dikonfigurasi."
+"membatasi pendaftaran baru, pengguna masih dapat mengautentikasi dan "
+"menambahkan autentikasi menggunakan semua backend autentikasi yang "
+"dikonfigurasikan."
 
 #: ../../admin/config.rst:1637
 msgid ""
@@ -9242,15 +9240,14 @@ msgid ""
 "registration backends, otherwise users will be able to register, but Weblate "
 "will not show links to register in the user interface."
 msgstr ""
-"Disarankan untuk tetap mengaktifkan :setting:`REGISTRATION_OPEN` saat "
+"Disarankan untuk tetap menyalakan :setting:`REGISTRATION_OPEN` saat "
 "membatasi backend pendaftaran, jika tidak, pengguna akan dapat mendaftar, "
 "tetapi Weblate tidak akan menampilkan tautan untuk mendaftar di antarmuka "
 "pengguna."
 
 #: ../../admin/config.rst:1649
 msgid "The backend names match names used in the URL for authentication."
-msgstr ""
-"Nama backend cocok dengan nama yang digunakan di URL untuk autentikasi."
+msgstr "Nama backend cocok dengan nama yang digunakan di URL untuk autentikasi."
 
 #: ../../admin/config.rst:1661
 msgid ""
@@ -41557,7 +41554,7 @@ msgid ""
 "the paths."
 msgstr ""
 "Selain itu, ada :file:`scripts/optimize-svg` untuk mengurangi ukuran SVG "
-"karena sebagian besar ikon tertanam di dalam HTML untuk memungkinkan "
+"karena sebagian besar ikon tersemat di dalam HTML untuk memungkinkan "
 "penataan gaya jalur."
 
 #: ../../contributing/index.rst:4
@@ -43403,7 +43400,7 @@ msgstr ""
 "kesesuaian antara profil teks dan fungsi teks. Karena tidak dapat dihitung "
 "secara otomatis, informasi yang memadai harus dikumpulkan untuk memungkinkan "
 "evaluasi manusia yang seragam. Dua parameter utama kesesuaian dalam model "
-"yang sesuai adalah konteks makro – yaitu, keterikatan dalam konteks sosial "
+"yang sesuai adalah konteks makro – yaitu, menyematkan dalam konteks sosial "
 "dan sastra yang lebih luas – dan konteks mikro yang terdiri dari kolom, "
 "tenor, dan modus."
 
@@ -45902,12 +45899,12 @@ msgid ""
 "such a string already exist in the translation."
 msgstr ""
 "Weblate dapat menambahkan string baru ke berkas yang sudah ada untuk "
-"sebagian besar format berkas. Anda juga dapat menentukan :guilabel:`Konteks` "
+"sebagian besar format berkas. Anda juga dapat menentukan :guilabel:`Context` "
 "untuk format dwibahasa guna membedakan string yang sama yang digunakan dalam "
-"konteks yang berbeda. :guilabel:`Sesuaikan konteks otomatis ketika string "
-"yang identik sudah ada.` dapat digunakan untuk "
-"menyesuaikan :guilabel:`Konteks` secara otomatis dengan menambahkan sufiks "
-"numerik jika string tersebut sudah ada dalam terjemahan."
+"konteks yang berbeda. :guilabel:`Auto-adjust context when an identical "
+"string already exists.` dapat digunakan untuk menyesuaikan "
+":guilabel:`Context` secara otomatis dengan menambahkan sufiks numerik jika "
+"string tersebut sudah ada dalam terjemahan."
 
 #: ../../devel/translations.rst:28
 msgid "Adding new translations"
@@ -47421,7 +47418,7 @@ msgid ""
 msgstr ""
 "Banyak format berkas hanya membedakan string \"Belum Diterjemahkan\" dan "
 "\"Diterjemahkan\". Beberapa format memungkinkan penyimpanan informasi status "
-"yang lebih terperinci, seperti \"Perlu disunting\" atau \"Disetujui\"."
+"yang lebih mendalam, seperti \"Perlu disunting\" atau \"Disetujui\"."
 
 #: ../../formats.rst:398
 msgid "Source string description"
@@ -47527,8 +47524,8 @@ msgid ""
 msgstr ""
 "Konteks digunakan untuk membedakan string identik dalam format dwibahasa "
 "yang digunakan dalam cakupan berbeda (misalnya `Matahari` dapat digunakan "
-"sebagai nama singkat hari \"Minggu\" atau sebagai nama bintang terdekat "
-"kita)."
+"sebagai nama singkat hari \"Minggu\" atau sebagai nama bintang terdekat kita)"
+"."
 
 #: ../../formats.rst:463
 msgid ""
@@ -51137,7 +51134,7 @@ msgstr "**I2. Pengungkapan data pribadi dalam string.**"
 msgid "Risk: Translators might access or misuse embedded user data."
 msgstr ""
 "Risiko: Penerjemah dapat mengakses atau menyalahgunakan data pengguna yang "
-"tertanam."
+"tersemat."
 
 #: ../../security/localization-threat.rst:76
 msgid "Avoid exposing real user data in source strings."
@@ -51434,9 +51431,9 @@ msgid ""
 msgstr ""
 "Weblate memungkinkan organisasi untuk beroperasi dalam kerangka kerja "
 "privasi seperti GDPR, DPDPA, PIPL, dan lainnya dengan menawarkan minimisasi "
-"data yang ketat, kepemilikan data penuh, dan kontrol akses yang sangat "
-"teliti. Semua tanggung jawab hosting dan kepatuhan tetap sepenuhnya berada "
-"di bawah kendali organisasi yang menyebarkannya."
+"data yang ketat, kepemilikan data penuh, dan kontrol akses yang mendalam. "
+"Semua tanggung jawab pengehosan dan kepatuhan tetap sepenuhnya berada di "
+"bawah kendali organisasi yang menyebarkannya."
 
 #: ../../security/privacy-compliance.rst:13
 msgid "This document outlines how Weblate supports compliance with:"
@@ -51506,7 +51503,7 @@ msgstr "Metadata profil opsional (avatar, bio)"
 msgid ""
 "No telemetry, analytics, or third-party tracking is embedded by default."
 msgstr ""
-"Tidak ada telemetri, analitik, atau pelacakan pihak ketiga yang tertanam "
+"Tidak ada telemetri, analitik, atau pelacakan pihak ketiga yang tersemat "
 "secara bawaan."
 
 #: ../../security/privacy-compliance.rst:38
