@@ -281,6 +281,7 @@ ignore = [
   ".well-known/*",
   ".yamllint.yml",
   "ci/*",
+  "ci/migrate-scripts/*",
   "client/*",
   "client/*/*",
   "dev-docker/*",
@@ -603,6 +604,7 @@ notice-rgx = "(?i)Copyright\\s+©\\s+"
 max-complexity = 16  # TODO: should be lower
 
 [tool.ruff.lint.per-file-ignores]
+"ci/migrate-scripts/*.py" = ["INP001", "S101"]
 "docs/_ext/djangodocs.py" = ["INP001"]
 "docs/conf.py" = ["ERA001", "INP001"]
 "scripts/*" = ["T201", "T203"]
