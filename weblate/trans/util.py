@@ -11,7 +11,7 @@ import re
 import sys
 from operator import itemgetter
 from types import GeneratorType
-from typing import TYPE_CHECKING, Any, TypeVar, cast
+from typing import TYPE_CHECKING, Any, cast
 from urllib.parse import urlparse
 
 import django.shortcuts
@@ -298,10 +298,7 @@ def path_separator(path: str) -> str:
     return path
 
 
-T = TypeVar("T")
-
-
-def sort_unicode(choices: list[T], key: Callable[[T], str]) -> list[T]:
+def sort_unicode[T](choices: Iterable[T], key: Callable[[T], str]) -> list[T]:
     """Unicode aware sorting if available."""
 
     def sort_strxfrm(item: T) -> str:
