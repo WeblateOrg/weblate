@@ -112,8 +112,15 @@ def git_export(
         msg = "Not a git repository"
         raise Http404(msg)
     if obj.is_repo_link:
+        url = reverse(
+            "git-export",
+            kwargs={
+                "path": cast("Component", obj.linked_component).get_url_path(),
+                "git_request": git_request,
+            },
+        )
         return redirect(
-            f"{reverse('git-export', kwargs={'path': obj.linked_component.get_url_path(), 'git_request': git_request})}?{request.META['QUERY_STRING']}",
+            f"{url}?{request.META['QUERY_STRING']}",
             permanent=True,
         )
 

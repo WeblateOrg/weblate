@@ -138,7 +138,7 @@ def init_sentry() -> None:
 
 
 def init_rollbar() -> None:
-    rollbar.init(**settings.ROLLBAR)
+    rollbar.init(**settings.ROLLBAR)  # type: ignore[misc]
     rollbar.BASE_DATA_HOOK = celery_base_data_hook
     LOGGER.info("configured Rollbar error collection")
 

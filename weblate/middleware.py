@@ -255,7 +255,7 @@ class RedirectMiddleware:
             except UnsupportedPathObjectError:
                 return None
             except Http404:
-                project = self.fixup_project(path[0], request)
+                project = self.fixup_project(path[0], request)  # type: ignore[assignment]
                 if project is None:
                     return None
                 path[0] = project.slug

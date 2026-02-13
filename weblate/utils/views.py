@@ -35,27 +35,18 @@ from weblate.lang.models import Language
 from weblate.trans.models import Category, Component, Project, Translation, Unit
 from weblate.utils import messages
 from weblate.utils.errors import report_error
-from weblate.utils.stats import (
-    CategoryLanguage,
-    ProjectLanguage,
-    prefetch_stats,
-)
+from weblate.utils.stats import CategoryLanguage, ProjectLanguage, prefetch_stats
 from weblate.vcs.git import LocalRepository
 
 if TYPE_CHECKING:
     from collections.abc import Generator
 
     from django.db.models import Model
-    from django.http import (
-        HttpRequest,
-        HttpResponseBase,
-    )
+    from django.http import HttpRequest, HttpResponseBase
 
     from weblate.auth.models import AuthenticatedHttpRequest
     from weblate.trans.mixins import BaseURLMixin
-    from weblate.utils.stats import (
-        BaseStats,
-    )
+    from weblate.utils.stats import BaseStats
 
 
 class UnsupportedPathObjectError(Http404):
@@ -595,7 +586,7 @@ def download_translation_file(
             )
         else:
             extension = ".zip"
-            filename = translation.get_filename()
+            filename = translation.get_filename()  # type: ignore[assignment]
             if not filename:
                 msg = "No file to download"
                 raise Http404(msg)

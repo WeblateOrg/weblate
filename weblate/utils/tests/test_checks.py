@@ -74,7 +74,7 @@ class ClassLoaderCheckTestCase(SimpleTestCase):
     @override_settings(TEST_ADDONS="weblate.addons.cleanup.CleanupAddon")
     def test_invalid(self) -> None:
         old_instances = ClassLoader.instances
-        ClassLoader.instances = {}
+        ClassLoader.instances = {}  # type: ignore[assignment]
         try:
             ClassLoader("TEST_ADDONS", construct=False, base_class=BaseAddon)
             # This operates on ClassLoader.instances
@@ -86,7 +86,7 @@ class ClassLoaderCheckTestCase(SimpleTestCase):
     @override_settings(TEST_ADDONS=("weblate.addons.not_found",))
     def test_not_found(self) -> None:
         old_instances = ClassLoader.instances
-        ClassLoader.instances = {}
+        ClassLoader.instances = {}  # type: ignore[assignment]
         try:
             ClassLoader("TEST_ADDONS", construct=False, base_class=BaseAddon)
             # This operates on ClassLoader.instances

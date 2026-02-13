@@ -88,6 +88,8 @@ class PostgreSQLFallbackLookupMixin:
     It is performed by concatenating empty string which will prevent index usage.
     """
 
+    lookup_name: str
+
     def process_lhs(self, compiler, connection, lhs=None):
         if self._needs_fallback:  # type: ignore[attr-defined]
             lhs_sql, params = super().process_lhs(compiler, connection, lhs)  # type: ignore[misc]

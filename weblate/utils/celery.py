@@ -4,6 +4,8 @@
 
 """Celery integration helper tools."""
 
+# mypy: disable-error-code="attr-defined"
+
 from __future__ import annotations
 
 import os

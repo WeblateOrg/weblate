@@ -74,14 +74,13 @@ from weblate.utils.state import (
     STATE_TRANSLATED,
 )
 from weblate.utils.stats import CategoryLanguage, ProjectLanguage
-from weblate.utils.views import (
-    parse_path,
-    parse_path_units,
-    show_form_errors,
-)
+from weblate.utils.views import parse_path, parse_path_units, show_form_errors
 
 if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest
+    from weblate.trans.models import (
+        Project,
+    )
 
 SESSION_SEARCH_CACHE_TTL = 1800
 
@@ -227,7 +226,12 @@ def cleanup_session(session, delete_all: bool = False) -> None:
 
 
 def search(
-    base, project, unit_set, request, blank: bool = False, use_cache: bool = True
+    base,
+    project: Project,
+    unit_set,
+    request,
+    blank: bool = False,
+    use_cache: bool = True,
 ):
     """Perform search or returns cached search results."""
     now = int(time.time())
@@ -611,6 +615,7 @@ def translate(request: AuthenticatedHttpRequest, path):
     obj, unit_set, context = parse_path_units(
         request, path, (Translation, ProjectLanguage, CategoryLanguage)
     )
+
     project = context["project"]
     user = request.user
 
