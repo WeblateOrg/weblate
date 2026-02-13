@@ -48,6 +48,7 @@ class FileFormatParams(TypedDict, total=False):
     csv_encoding: str
     csv_simple_encoding: str
     gwt_encoding: str
+    merge_duplicates: bool
 
 
 class BaseFileFormatParam:
@@ -72,6 +73,7 @@ class BaseFileFormatParam:
         "csv_encoding",
         "csv_simple_encoding",
         "gwt_encoding",
+        "merge_duplicates",
     ]
     file_formats: Sequence[str] = []
     field_class: type[forms.Field] = forms.CharField
@@ -447,6 +449,20 @@ class FlatXMLKeyName(BaseFlatXMLFormatParam):
     field_class = forms.CharField
     default = "key"
     field_kwargs: ClassVar[FieldKwargsDict] = {"min_length": 1}
+
+
+@register_file_format_param
+class MergeDuplicates(BaseFileFormatParam):
+    file_formats = ("markdown", "html", "txt", "dokuwiki", "mediawiki")
+    name = "merge_duplicates"
+    label = gettext_lazy("Deduplicate identical strings")
+    field_class = forms.BooleanField
+    default = False
+    help_text = gettext_lazy(
+        "Consolidates identical source strings into a single translation unit. "
+        "Prevents translation loss during file restructuring or table reordering "
+        "by removing position-dependent context."
+    )
 
 
 @register_file_format_param

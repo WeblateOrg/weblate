@@ -148,7 +148,7 @@ class ConvertFormat(TranslationFormat):
         # Did we get file or filename?
         if not hasattr(storefile, "read"):
             with open(storefile, "rb") as handle:
-                store = self.convertfile(handle, template_store)
+                store: TranslationStore = self.convertfile(handle, template_store)
         else:
             store = self.convertfile(storefile, template_store)
         # Adjust store to have translations
@@ -225,7 +225,13 @@ class ConvertFormat(TranslationFormat):
         self.save()
         return []
 
-    def convert_to_po(self, parser, template_store, use_location: bool = True):
+    def convert_to_po(
+        self,
+        parser,
+        template_store,
+        use_location: bool = True,
+        duplicate_style: str = "msgctxt",
+    ):
         store = pofile()
         # Prepare index of existing translations
         unitindex: dict[str, list[Unit]] = defaultdict(list)
@@ -261,7 +267,7 @@ class ConvertFormat(TranslationFormat):
                 thepo.addnote(htmlunit.getnotes(), "developer")
 
         # Handle duplicate strings (use context to differentiate them)
-        store.removeduplicates("msgctxt")
+        store.removeduplicates(duplicate_style)
 
         # Merge existing translations
         if unitindex and not self.is_template:
@@ -293,11 +299,20 @@ class HTMLFormat(ConvertFormat):
     def convertfile(self, storefile, template_store):
         # Fake input file with a blank filename
         htmlparser = htmlfile(inputfile=NamedBytesIO("", storefile.read()))
-        return self.convert_to_po(htmlparser, template_store)
+        duplicate_style = "msgctxt"
+        if self.file_format_params.get("merge_duplicates"):
+            duplicate_style = "merge"
+
+        return self.convert_to_po(
+            htmlparser, template_store, duplicate_style=duplicate_style
+        )
 
     def save_content(self, handle) -> None:
         """Store content to file."""
         converter = po2html()
+        if self.template_store is None:
+            msg = "Template store is required."
+            raise TypeError(msg)
         templatename = self.template_store.storefile
         if hasattr(templatename, "name"):
             templatename = templatename.name
@@ -331,7 +346,17 @@ class MarkdownFormat(ConvertFormat):
 
         # Fake input file with a blank filename
         mdparser = MarkdownFile(inputfile=NamedBytesIO("", storefile.read()))
-        return self.convert_to_po(mdparser, template_store, use_location=False)
+
+        duplicate_style = "msgctxt"
+        if self.file_format_params.get("merge_duplicates"):
+            duplicate_style = "merge"
+
+        return self.convert_to_po(
+            mdparser,
+            template_store,
+            use_location=False,
+            duplicate_style=duplicate_style,
+        )
 
     def save_content(self, handle) -> None:
         """Store content to file."""
@@ -341,6 +366,9 @@ class MarkdownFormat(ConvertFormat):
         converter = MarkdownTranslator(
             inputstore=self.store, includefuzzy=True, outputthreshold=None, maxlength=80
         )
+        if self.template_store is None:
+            msg = "Template store is required."
+            raise TypeError(msg)
         templatename = self.template_store.storefile
         if hasattr(templatename, "name"):
             templatename = templatename.name
@@ -397,12 +425,15 @@ class OpenDocumentFormat(ConvertFormat):
 
     def save_content(self, handle) -> None:
         """Store content to file."""
+        if self.template_store is None:
+            msg = "Template store is required."
+            raise TypeError(msg)
         templatename = self.template_store.storefile
         if hasattr(templatename, "name"):
             templatename = templatename.name
         # This is workaround for weird fuzzy handling in translate-toolkit
         for unit in self.all_units:
-            if any(state == "translated" for state in unit.get_xliff_states()):
+            if any(state == "translated" for state in unit.get_xliff_states()):  # type: ignore[attr-defined]
                 unit.set_state(STATE_APPROVED)
 
         with open(templatename, "rb") as templatefile:
@@ -455,6 +486,9 @@ class IDMLFormat(ConvertFormat):
 
     def save_content(self, handle) -> None:
         """Store content to file."""
+        if self.template_store is None:
+            msg = "Template store is required."
+            raise TypeError(msg)
         templatename = self.template_store.storefile
         if hasattr(templatename, "name"):
             templatename = templatename.name
@@ -523,12 +557,14 @@ class WindowsRCFormat(ConvertFormat):
         sublang = "SUBLANG_DEFAULT"
 
         # Keep existing language tags
-        storage = self.store.rcfile
+        storage = self.store.rcfile  # type: ignore[attr-defined]
         if storage.lang:
             lang = storage.lang
             if storage.sublang:
                 sublang = storage.sublang
-
+        if self.template_store is None:
+            msg = "Template store is required."
+            raise TypeError(msg)
         templatename = self.template_store.storefile
         if hasattr(templatename, "name"):
             templatename = templatename.name
@@ -573,10 +609,19 @@ class PlainTextFormat(ConvertFormat):
         input_store = TxtFile(encoding="utf-8", flavour=self.flavour)
         input_store.parse(storefile.readlines())
         input_store.filename = os.path.basename(storefile.name)
-        return self.convert_to_po(input_store, template_store)
+        duplicate_style = "msgctxt"
+        if self.file_format_params.get("merge_duplicates"):
+            duplicate_style = "merge"
+
+        return self.convert_to_po(
+            input_store, template_store, duplicate_style=duplicate_style
+        )
 
     def save_content(self, handle) -> None:
         """Store content to file."""
+        if self.template_store is None:
+            msg = "Template store is required."
+            raise TypeError(msg)
         templatename = self.template_store.storefile
         if hasattr(templatename, "name"):
             templatename = templatename.name

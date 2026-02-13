@@ -13,6 +13,7 @@ Weblate 5.16
 * Added Anthropic machinery integration, see :ref:`mt-anthropic`.
 * Encoding for :ref:`formats` can now be configured using :ref:`file_format_params` (e.g., ``csv_encoding``, ``properties_encoding``).
 * Added support for anonymous commit names via :setting:`PRIVATE_COMMIT_NAME_TEMPLATE`.
+* Consolidating identical strings in :ref:`markdown`, :ref:`html`, and :ref:`txt` files using ``*merge_duplicates`` parameters in :ref:`file_format_params`.
 
 .. rubric:: Improvements
 
