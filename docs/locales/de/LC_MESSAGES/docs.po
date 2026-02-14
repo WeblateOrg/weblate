@@ -14,13 +14,14 @@
 # Roland Reck <rolandnospamreck@gmx.de>, 2025.
 # ssantos <ssantos@web.de>, 2025.
 # GitHub webhook <noreply-webhook-github@weblate.org>, 2025.
+# VfBFan <vfbfan@users.noreply.hosted.weblate.org>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-02-13 09:24+0100\n"
-"PO-Revision-Date: 2026-02-04 13:01+0000\n"
-"Last-Translator: VfBFan <drop0815@posteo.de>\n"
+"PO-Revision-Date: 2026-02-14 19:10+0000\n"
+"Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
 "Language: de\n"
@@ -1959,16 +1960,6 @@ msgid "Additional access restrictions"
 msgstr "Zusätzliche Zugriffsbeschränkungen"
 
 #: ../../admin/access.rst:556
-#, fuzzy
-#| msgid ""
-#| "If you want to use your Weblate installation in a less public manner, "
-#| "i.e. allow new users on an invitational basis only, it can be done by "
-#| "configuring Weblate in such a way that only known users have an access to "
-#| "it. In order to do so, you can set :setting:`REGISTRATION_OPEN` to "
-#| "``False`` to prevent registrations of any new users, and "
-#| "set :setting:`REQUIRE_LOGIN` to ``/.*`` to require signing in to access "
-#| "all the site pages. This is basically the way to lock your Weblate "
-#| "installation."
 msgid ""
 "If you want to use your Weblate installation in a less public manner, i.e. "
 "allow new users on an invitational basis only, it can be done by configuring "
@@ -1978,14 +1969,14 @@ msgid ""
 "to require signing in to access all the site pages. This is basically the "
 "way to lock your Weblate installation."
 msgstr ""
-"Wenn Sie Ihre Weblate-Installation weniger öffentlich nutzen wollen, d. h. "
+"Wenn Sie Ihre Weblate-Installation weniger öffentlich nutzen möchten, d. h. "
 "neue Benutzer nur per Einladung zulassen möchten, können Sie Weblate so "
 "konfigurieren, dass nur bekannte Benutzer Zugriff darauf haben. Dazu müssen "
 "Sie :setting:`REGISTRATION_OPEN` auf ``False`` setzen, um die Registrierung "
-"neuer Benutzer zu verhindern, und :setting:`REQUIRE_LOGIN` auf ``/.*`` "
+"neuer Benutzer zu verhindern, und :setting:`REQUIRE_LOGIN` auf ``True`` "
 "setzen, um eine Anmeldung für den Zugriff auf alle Seiten der Website zu "
-"verlangen. Dies ist im Grunde der Weg, um Ihre Weblate-Installation zu "
-"sperren."
+"verlangen. Auf diese Weise können Sie Ihre Weblate-Installation "
+"grundsätzlich sperren."
 
 #: ../../admin/access.rst:563
 msgid ""
@@ -1993,6 +1984,9 @@ msgid ""
 "make all newly created projects private, requiring explicit access to be "
 "granted."
 msgstr ""
+"Außerdem werden durch die Änderung von :setting:`DEFAULT_ACCESS_CONTROL` in "
+"``100`` alle neu erstellten Projekte privat, so dass explizit Zugriff "
+"gewährt werden muss."
 
 #: ../../admin/access.rst:568
 msgid "You can use built-in :ref:`invite-user` to add new users."
@@ -2818,19 +2812,19 @@ msgstr ""
 
 #: ../../admin/addons.rst:431
 msgid "Excluding certain matches"
-msgstr ""
+msgstr "Bestimmte Ergebnisse ausschließen"
 
 #: ../../admin/addons.rst:433
 msgid ""
 "Negative lookahead can be used to exclude certain patterns from being "
 "processed."
 msgstr ""
+"Negative Vorausschau kann verwendet werden, um bestimmte Muster von der "
+"Verarbeitung auszuschließen."
 
 #: ../../admin/addons.rst:440
-#, fuzzy
-#| msgid "Matching files:"
 msgid "Not matching files:"
-msgstr "Passende Dateien:"
+msgstr "Nicht passende Dateien:"
 
 #: ../../admin/addons.rst:451
 msgid ""
@@ -4414,11 +4408,11 @@ msgstr "JSON-Datei gotext"
 
 #: ../../admin/addons.rst:1422
 msgid "GWT properties (UTF-8)"
-msgstr "GWT-Properties (UTF-8)"
+msgstr "GWT Properties (UTF-8)"
 
 #: ../../admin/addons.rst:1424
 msgid "GWT properties (ISO-8859-1)"
-msgstr "GWT-Properties (ISO 8859-1)"
+msgstr "GWT Properties (ISO 8859-1)"
 
 #: ../../admin/addons.rst:1426
 msgid "HTML file"
@@ -4930,9 +4924,9 @@ msgid ""
 ":guilabel:`System encoding` should list ``UTF-8`` encoding in all processes. "
 "This needs to be configured in your system, see :ref:`production-encoding`."
 msgstr ""
-":guilabel:`Systemkodierung` sollte die ``UTF-8``-Kodierung in allen "
-"Prozessen auflisten. Dies muss in Ihrem System konfiguriert werden, "
-"siehe :ref:`production-encoding`."
+":guilabel:`Systemcodierung` sollte die ``UTF-8``-Codierung in allen "
+"Prozessen auflisten. Dies muss in Ihrem System konfiguriert werden, siehe "
+":ref:`production-encoding`."
 
 #: ../../admin/admin.rst:51
 msgid ""
@@ -5712,7 +5706,7 @@ msgstr "Beispielkonfiguration:"
 
 #: ../../admin/auth.rst:536
 msgid "You can generate a new pair of keys using:"
-msgstr ""
+msgstr "Sie können ein neues Schlüsselpaar wie folgt generieren:"
 
 #: ../../admin/auth.rst:542
 msgid ""
@@ -8685,20 +8679,20 @@ msgstr ""
 "und :ref:`project-contribute_shared_tm`."
 
 #: ../../admin/config.rst:706 ../../admin/install/docker.rst:831
-#, fuzzy
-#| msgid "Configures the default value of :ref:`project-autoclean_tm`."
 msgid ""
 "Configures the default value for :ref:`project-translation_review`, turned "
 "off by default."
-msgstr "Konfiguriert den Standardwert von :ref:`project-autoclean_tm`."
+msgstr ""
+"Konfiguriert den Standardwert von :ref:`project-translation_review`, "
+"standardmäßig ausgeschaltet."
 
 #: ../../admin/config.rst:715 ../../admin/install/docker.rst:837
-#, fuzzy
-#| msgid "Configures the default value of :ref:`project-autoclean_tm`."
 msgid ""
 "Configures the default value for :ref:`project-source_review`, turned off by "
 "default."
-msgstr "Konfiguriert den Standardwert von :ref:`project-autoclean_tm`."
+msgstr ""
+"Konfiguriert den Standardwert von :ref:`project-source_review`, "
+"standardmäßig ausgeschaltet."
 
 #: ../../admin/config.rst:724
 msgid "Configures the default value of :ref:`project-autoclean_tm`."
@@ -9350,10 +9344,6 @@ msgstr ""
 "Mail ausgewählt haben."
 
 #: ../../admin/config.rst:1471
-#, fuzzy
-#| msgid ""
-#| "Template to generate private commit e-mail for an user. Defaults to "
-#| "``\"{username}@users.noreply.{site_domain}\"``."
 msgid ""
 "Template to generate a private commit e-mail for a user. Defaults to "
 "``\"{username}@users.noreply.{site_domain}\"``."
@@ -9366,76 +9356,57 @@ msgid ""
 "It can contain ``{user_id}``, ``{username}``, ``{site_title}``, and "
 "``{site_domain}``."
 msgstr ""
+"Sie kann ``{user_id}``, ``{username}``, ``{site_title}``, und ``{site_domain}"
+"`` enthalten."
 
 #: ../../admin/config.rst:1475 ../../admin/config.rst:1512
 msgid "Set to blank string to disable."
 msgstr "Zum Deaktivieren ein leere Zeichenkette einsetzen."
 
 #: ../../admin/config.rst:1479
-#, fuzzy
-#| msgid ""
-#| "Using different commit e-mail is opt-in for users unless configured "
-#| "by :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure commit e-"
-#| "mail in the :ref:`profile`."
 msgid ""
 "Using a different commit e-mail is opt-in for users unless configured "
 "by :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure their commit "
 "e-mail in the :ref:`profile`."
 msgstr ""
-"Das Verwenden anderer Commit-E-Mails ist für Benutzer freiwillig, es sei "
-"denn, sie werden durch :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` konfiguriert. "
-"Benutzer können Commit-E-Mails im :ref:`profile` konfigurieren."
+"Das Verwenden einer anderen Commit-E-Mail ist für Benutzer freiwillig, es "
+"sei denn, sie wird durch :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` "
+"konfiguriert. Benutzer können ihre Commit-E-Mails im :ref:`profile` "
+"konfigurieren."
 
 #: ../../admin/config.rst:1490
-#, fuzzy
-#| msgid ""
-#| "Configures whether the private commit e-mail is opt-in or opt-out (by "
-#| "default it is opt-in)."
 msgid ""
 "Configures whether the private commit name is opt-in or opt-out (by default "
 "it is opt-in)."
 msgstr ""
-"Legt fest, ob es sich bei der privaten Commit-E-Mail um eine Opt-In- oder "
-"Opt-Out-E-Mail handelt (standardmäßig ist sie Opt-In)."
+"Legt fest, ob der private Commit-Name Opt-In- oder Opt-Out ist(standardmäßig "
+"ist er Opt-In)."
 
 #: ../../admin/config.rst:1494
-#, fuzzy
-#| msgid ""
-#| "This setting only applies to users which have not explicitly chosen a "
-#| "commit e-mail."
 msgid ""
 "This setting only applies to users which have not explicitly chosen a commit "
 "name."
 msgstr ""
-"Diese Einstellung gilt nur für Benutzer, die nicht explizit eine Commit-E-"
-"Mail ausgewählt haben."
+"Diese Einstellung gilt nur für Benutzer, die nicht explizit einen Commit-"
+"Namen ausgewählt haben."
 
 #: ../../admin/config.rst:1508
-#, fuzzy
-#| msgid ""
-#| "Template to generate private commit e-mail for an user. Defaults to "
-#| "``\"{username}@users.noreply.{site_domain}\"``."
 msgid ""
 "Template to generate a private commit name for a user. Defaults to "
 "``\"{site_title} user {user_id}\"``."
 msgstr ""
-"Vorlage zur Erstellung einer privaten Commit-E-Mail für einen Benutzer. Der "
-"Standardwert ist ``\"{username}@users.noreply.{site_domain}\"``."
+"Vorlage zur Erstellung eines privaten Commit-Namens für einen Benutzer. Der "
+"Standardwert ist ``\"{site_title} user {user_id}\"``."
 
 #: ../../admin/config.rst:1516
-#, fuzzy
-#| msgid ""
-#| "Using different commit e-mail is opt-in for users unless configured "
-#| "by :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure commit e-"
-#| "mail in the :ref:`profile`."
 msgid ""
 "Using a different commit name is opt-in for users unless configured "
 "by :setting:`PRIVATE_COMMIT_NAME_OPT_IN`. Users can configure their commit "
 "name in the :ref:`profile`."
 msgstr ""
-"Das Verwenden anderer Commit-E-Mails ist für Benutzer freiwillig, es sei "
-"denn, sie werden durch :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` konfiguriert. "
-"Benutzer können Commit-E-Mails im :ref:`profile` konfigurieren."
+"Das Verwenden eines anderen Commit-Namens ist für Benutzer freiwillig, es "
+"sei denn, er wird durch :setting:`PRIVATE_COMMIT_NAME_OPT_IN` konfiguriert. "
+"Benutzer können ihren Commit-Namen im :ref:`profile` konfigurieren."
 
 #: ../../admin/config.rst:1527
 msgid ""
@@ -13154,7 +13125,7 @@ msgstr ""
 
 #: ../../admin/install.rst:1280
 msgid "System locales and encoding"
-msgstr "System-Sprachumgebungen und -Kodierung"
+msgstr "System-Sprachumgebungen und -Codierung"
 
 #: ../../admin/install.rst:1282
 msgid ""
@@ -15238,16 +15209,12 @@ msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 msgstr "Konfiguriert :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 
 #: ../../admin/install/docker.rst:1037
-#, fuzzy
-#| msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
 msgid "Configures :setting:`PRIVATE_COMMIT_NAME_TEMPLATE`."
-msgstr "Konfiguriert :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
+msgstr "Konfiguriert :setting:`PRIVATE_COMMIT_NAME_TEMPLATE`."
 
 #: ../../admin/install/docker.rst:1043
-#, fuzzy
-#| msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 msgid "Configures :setting:`PRIVATE_COMMIT_NAME_OPT_IN`."
-msgstr "Konfiguriert :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
+msgstr "Konfiguriert :setting:`PRIVATE_COMMIT_NAME_OPT_IN`."
 
 #: ../../admin/install/docker.rst:1049
 msgid "Configures :setting:`UNUSED_ALERT_DAYS`."
@@ -18121,36 +18088,32 @@ msgstr ""
 
 #: ../../admin/machine.rst:164
 msgid "Anthropic"
-msgstr ""
+msgstr "Anthropic"
 
 #: ../../admin/machine.rst:182
 msgid "Anthropic API URL"
-msgstr ""
+msgstr "Anthropic-API-URL"
 
 #: ../../admin/machine.rst:182
-#, fuzzy
-#| msgid ""
-#| "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
 msgid "Base URL of the Anthropic API. Leave empty to use the default URL."
 msgstr ""
-"Basis-URL der OpenAI-API, falls sie sich von der OpenAI-Standard-URL "
-"unterscheidet"
+"Basis-URL der Anthropic-API. Leer lassen, um die Standard-URL zu verwenden."
 
 #: ../../admin/machine.rst:184
 msgid "Anthropic model"
-msgstr ""
+msgstr "Anthropic-Modell"
 
 #: ../../admin/machine.rst:186
 msgid "``claude-sonnet-4-5`` -- Claude Sonnet 4.5 (Recommended)"
-msgstr ""
+msgstr "``claude-sonnet-4-5`` -- Claude Sonnet 4.5 (empfohlen)"
 
 #: ../../admin/machine.rst:188
 msgid "``claude-haiku-4-5`` -- Claude Haiku 4.5"
-msgstr ""
+msgstr "``claude-haiku-4-5`` -- Claude Haiku 4.5"
 
 #: ../../admin/machine.rst:190
 msgid "``claude-opus-4-5`` -- Claude Opus 4.5"
-msgstr ""
+msgstr "``claude-opus-4-5`` -- Claude Opus 4.5"
 
 #: ../../admin/machine.rst:192 ../../admin/machine.rst:832
 msgid "``custom`` -- Custom model"
@@ -18168,11 +18131,11 @@ msgstr ""
 
 #: ../../admin/machine.rst:196
 msgid "Max tokens"
-msgstr ""
+msgstr "Maximale Token"
 
 #: ../../admin/machine.rst:196
 msgid "Maximum number of tokens to generate in the response."
-msgstr ""
+msgstr "Maximale Anzahl von Tokens für das Generieren der Antwort."
 
 #: ../../admin/machine.rst:198 ../../admin/machine.rst:245
 #: ../../admin/machine.rst:750 ../../admin/machine.rst:796
@@ -18180,10 +18143,6 @@ msgid "Translator persona"
 msgstr "Übersetzerrolle"
 
 #: ../../admin/machine.rst:198
-#, fuzzy
-#| msgid ""
-#| "Describe the persona of translator to improve the accuracy of the "
-#| "translation. For example: “You are a squirrel breeder.”"
 msgid ""
 "Describe the persona of translator to improve the accuracy of the "
 "translation. For example: \"You are a squirrel breeder.\""
@@ -18197,9 +18156,6 @@ msgid "Translator style"
 msgstr "Übersetzerstil"
 
 #: ../../admin/machine.rst:200
-#, fuzzy
-#| msgid ""
-#| "Describe the style of translation. For example: “Use informal language.”"
 msgid ""
 "Describe the style of translation. For example: \"Use informal language.\""
 msgstr ""
@@ -18207,10 +18163,8 @@ msgstr ""
 "verwenden.“"
 
 #: ../../admin/machine.rst:203
-#, fuzzy
-#| msgid "Performs translation using `Ollama`_ models."
 msgid "Performs translation using `Anthropic's Claude`_ models."
-msgstr "Führt die Übersetzung mit `Ollama`_-Modellen durch."
+msgstr "Führt die Übersetzung mit `Anthropics Claude`_-Modellen durch."
 
 #: ../../admin/machine.rst:205
 msgid ""
@@ -18218,39 +18172,31 @@ msgid ""
 "known for their strong reasoning and language capabilities. You need an API "
 "key from Anthropic to use this service."
 msgstr ""
+"Die Anthropic-API bietet Zugriff auf die Claude-Modell-Familie, die für ihre "
+"starken Argumentations- und Sprachfähigkeiten bekannt ist. Sie benötigen "
+"einen API-Schlüssel von Anthropic, um diesen Dienst zu nutzen."
 
 #: ../../admin/machine.rst:209
-#, fuzzy
-#| msgid ""
-#| "Use persona and style fields to further fine-tune translations. These "
-#| "will be used in a prompt for Ollama and allow you to change the style of "
-#| "the translations."
 msgid ""
 "Use persona and style fields to further fine-tune translations. These will "
 "be used in a prompt for Claude and allow you to change the style of the "
 "translations."
 msgstr ""
 "Verwenden Sie Persona- und Style-Felder, um die Übersetzungen weiter zu "
-"verfeinern. Diese werden in einer Eingabeaufforderung für Ollama verwendet "
+"verfeinern. Diese werden in einer Eingabeaufforderung für Claude verwendet "
 "und ermöglichen, den Stil der Übersetzungen zu ändern."
 
 #: ../../admin/machine.rst:217
-#, fuzzy
-#| msgid ""
-#| "`DeepL API documentation <https://developers.deepl.com/docs/getting-"
-#| "started/intro>`_"
 msgid ""
 "`Anthropic API documentation <https://docs.anthropic.com/en/api/getting-"
 "started>`_"
 msgstr ""
-"`DeepL-API-Dokumentation <https://developers.deepl.com/docs/getting-started/"
-"intro>`_"
+"`Anthropic-API-Dokumentation <https://docs.anthropic.com/en/api/getting-"
+"started>`_"
 
 #: ../../admin/machine.rst:218
-#, fuzzy
-#| msgid "`Anchore <https://anchore.com/>`_"
 msgid "`Anthropic Console <https://console.anthropic.com/>`_"
-msgstr "`Anchore <https://anchore.com/>`_"
+msgstr "`Anthropic Console <https://console.anthropic.com/>`_"
 
 #: ../../admin/machine.rst:225
 msgid "Azure OpenAI"
@@ -19160,19 +19106,22 @@ msgstr "tmserver"
 msgid ""
 "You can run your own translation memory server by using a tmserver protocol."
 msgstr ""
+"Sie können Ihren eigenen Übersetzungsspeicher mit Hilfe eines tmserver-"
+"Protokolls betreiben."
 
 #: ../../admin/machine.rst:954
 msgid ""
 "The original :program:`tmserver` was bundled with the translate-toolkit."
 msgstr ""
+"Der ursprüngliche :program:`tmserver` war im translate-toolkit enthalten."
 
 #: ../../admin/machine.rst:955
 msgid "amaGama server is an enhanced version of tmserver."
-msgstr ""
+msgstr "amaGama-Server ist eine erweiterte Version von tmserver."
 
 #: ../../admin/machine.rst:959
 msgid "There currently does not seem to be a maintained server for this."
-msgstr ""
+msgstr "Aktuell scheint es keinen gepflegten Server dafür zu geben."
 
 #: ../../admin/machine.rst:968 ../../admin/machine.rst:983
 msgid "`This service has no configuration.`"
@@ -20398,6 +20347,10 @@ msgid ""
 "the :ref:`autoclean-tm` configuration. If automatic cleanup is enabled, this "
 "is disabled by default to prevent reintroducing inconsistent translations."
 msgstr ""
+"Der Standardwert für neue Benutzer wird automatisch anhand der Konfiguration "
+"von :ref:`autoclean-tm` angepasst. Wenn der automatische Bereinigungsvorgang "
+"aktiviert ist, ist dieser standardmäßig deaktiviert, um zu verhindern, dass "
+"inkonsistente Übersetzungen wieder eingeführt werden."
 
 #: ../../admin/memory.rst:47
 msgid "Per-project translation memory"
@@ -20493,6 +20446,11 @@ msgid ""
 "not contribute to personal translation memory. This prevents reintroducing "
 "inconsistent translations that were supposed to be cleaned up."
 msgstr ""
+"Durch Aktivieren des automatischen Bereinigungsvorgangs wird auch die "
+"Voreinstellung für neue Benutzerprofile so geändert, dass sie nicht zum "
+"persönlichen Übersetzungsspeicher beitragen. Dadurch wird verhindert, dass "
+"inkonsistente Übersetzungen, die bereinigt werden sollten, wieder eingeführt "
+"werden."
 
 #: ../../admin/memory.rst:105
 msgid "Managing the Translation Memory"
@@ -22554,7 +22512,7 @@ msgstr "BCP-Schreibweise, alles in Kleinbuchstaben (zum Beispiel ``cs-cz``)."
 
 #: ../../admin/projects.rst:851
 msgid "Apple App Store metadata style"
-msgstr "Apple App Store Metadaten-Stil"
+msgstr "Apple-App-Store-Metadaten-Stil"
 
 #: ../../admin/projects.rst:852
 msgid "Style suitable for uploading metadata to Apple App Store."
@@ -22563,7 +22521,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:853
 msgid "Google Play metadata style"
-msgstr "Google Play Metadaten-Stil"
+msgstr "Google-Play-Metadaten-Stil"
 
 #: ../../admin/projects.rst:854
 msgid "Style suitable for uploading metadata to Google Play Store."
@@ -23639,74 +23597,50 @@ msgstr ""
 "der folgenden Einrichtungen kombinieren:"
 
 #: ../../admin/translating.rst:26
-#, fuzzy
-#| msgid ""
-#| "Users suggest and vote for suggestions and a limited group controls what "
-#| "is accepted. - Turn on voting. - Turn off automatic acceptance. - Don't "
-#| "let users save translations."
 msgid ""
 "Users suggest and vote for suggestions and a limited group controls what is "
 "accepted."
 msgstr ""
-"Die Benutzer machen Vorschläge und stimmen darüber ab, und eine begrenzte "
-"Gruppe kontrolliert, was angenommen wird. – Die Abstimmung einschalten. – "
-"Die automatische Zustimmung ausschalten. – Den Benutzern nicht erlauben "
-"Übersetzungen zu speichern."
+"Benutzer machen Vorschläge und stimmen darüber ab, und eine begrenzte Gruppe "
+"kontrolliert, was angenommen wird."
 
 #: ../../admin/translating.rst:29 ../../admin/translating.rst:36
-#, fuzzy
-#| msgid "Turn on suggestions"
 msgid "Turn on voting."
-msgstr "Vorschläge einschalten"
+msgstr "Abstimmung einschalten."
 
 #: ../../admin/translating.rst:30
-#, fuzzy
-#| msgid "Turn off this notification"
 msgid "Turn off automatic acceptance."
-msgstr "Deaktivieren Sie diese Benachrichtigung"
+msgstr "Automatische Zustimmung ausschalten."
 
 #: ../../admin/translating.rst:31
-#, fuzzy
-#| msgid "Deletes a translation."
 msgid "Don't let users save translations."
-msgstr "Löscht eine Übersetzung."
+msgstr "Benutzer dürfen Übersetzungen nicht speichern."
 
 #: ../../admin/translating.rst:33
-#, fuzzy
-#| msgid ""
-#| "Users suggest and vote for suggestions with automatic acceptance once the "
-#| "defined number of them agree. - Turn on voting. - Set the desired number "
-#| "of votes for automatic acceptance."
 msgid ""
 "Users suggest and vote for suggestions with automatic acceptance once the "
 "defined number of them agree."
 msgstr ""
-"Die Benutzer machen Vorschläge und stimmen darüber ab, die automatisch "
-"angenommen werden, sobald eine bestimmte Anzahl von ihnen zustimmt. – Die "
-"Abstimmung einschalten. – Die gewünschte Anzahl von Stimmen für die "
-"automatische Zustimmung festlegen."
+"Benutzer machen Vorschläge und stimmen darüber ab, die automatisch "
+"angenommen werden, sobald eine bestimmte Anzahl von ihnen zustimmt."
 
 #: ../../admin/translating.rst:37
 msgid "Set the desired number of votes for automatic acceptance."
 msgstr ""
+"Die gewünschte Anzahl von Stimmen für die automatische Zustimmung festlegen."
 
 #: ../../admin/translating.rst:39
-#, fuzzy
-#| msgid ""
-#| "Optional voting for suggestions. (Can optionally be used by users when "
-#| "they are unsure about a translation by making multiple suggestions.) - "
-#| "Only turn on voting."
 msgid ""
 "Optional voting for suggestions. (Can optionally be used by users when they "
 "are unsure about a translation by making multiple suggestions.)"
 msgstr ""
 "Optionale Abstimmung für Vorschläge. (Kann optional von Benutzern verwendet "
 "werden, wenn sie sich bei einer Übersetzung unsicher sind, indem sie mehrere "
-"Vorschläge machen). – Nur die Abstimmung einschalten."
+"Vorschläge machen.)"
 
 #: ../../admin/translating.rst:42
 msgid "Only turn on voting."
-msgstr ""
+msgstr "Nur Abstimmung einschalten."
 
 #: ../../admin/translating.rst:47
 msgid "Additional info on source strings"
@@ -24226,30 +24160,24 @@ msgid "Authentication and generic parameters"
 msgstr "Authentifizierung und allgemeine Parameter"
 
 #: ../../api.rst:28
-#, fuzzy
-#| msgid ""
-#| "The public project API is available without authentication, though "
-#| "unauthenticated requests are heavily throttled (by default to 100 "
-#| "requests per day), so it is recommended to use authentication. The "
-#| "authentication uses a token, which you can get in your profile. Use it in "
-#| "the ``Authorization`` header:"
 msgid ""
 "The read-only API is available without authentication "
 "unless :setting:`REQUIRE_LOGIN` is turned on. Unauthenticated requests are "
 "heavily throttled (by default to 100 requests per day), so it is recommended "
 "to use authentication."
 msgstr ""
-"Die öffentliche Projekt-API ist ohne Authentifizierung verfügbar, allerdings "
-"werden nicht authentifizierte Anfragen stark gedrosselt (standardmäßig auf "
-"100 Anfragen pro Tag), so dass eine Authentifizierung empfohlen wird. Für "
-"die Authentifizierung wird ein Token verwendet, das Sie in Ihrem Profil "
-"erhalten können. Verwenden Sie im Header ``Authorization``:"
+"Die schreibgeschützte API ist ohne Authentifizierung verfügbar, es sei denn, "
+":setting:`REQUIRE_LOGIN` ist aktiviert. Nicht authentifizierte Anfragen "
+"werden stark gedrosselt (standardmäßig auf 100 Anfragen pro Tag), daher wird "
+"die Authentifizierung empfohlen."
 
 #: ../../api.rst:33
 msgid ""
 "The authentication uses a token, which you can get in your profile. Use it "
 "in the ``Authorization`` header:"
 msgstr ""
+"Die Authentifizierung erfolgt über ein Token, das Sie in Ihrem Profil "
+"abrufen können. Verwenden Sie es im Header ``Authorization``:"
 
 #: ../../api.rst:38
 msgid ""
@@ -26789,15 +26717,15 @@ msgstr "Auflisten von Komponenten in einer Komponentenliste."
 
 #: ../../api.rst:0
 msgid "param slug"
-msgstr "Parameter slug"
+msgstr "param slug"
 
 #: ../../api.rst:0
 msgid "type slug"
-msgstr "Typ slug"
+msgstr "type slug"
 
 #: ../../api.rst:0
 msgid "form string component_id"
-msgstr "Formatzeichenkette-Komponenten-ID"
+msgstr "form string component_id"
 
 #: ../../api.rst:2675 ../../api.rst:2684
 msgid "Component ID"
@@ -27447,12 +27375,12 @@ msgstr "Qualitätsprüfung auf :ref:`check-multiple-capital`."
 #: ../../changes.rst:9
 msgid "Bulk accepting suggestions from a specific user in :ref:`suggestions`."
 msgstr ""
+"Massenannahme von Übersetzungsvorschlägen von einem bestimmten Benutzer in "
+":ref:`suggestions`."
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Fixed sorting of machine translation suggestions."
 msgid "Cloning suggestions into translation in :ref:`suggestions`."
-msgstr "Die Sortierung der maschinellen Übersetzungsvorschläge korrigiert."
+msgstr "Klonen von Vorschlägen in die Übersetzung in :ref:`suggestions`."
 
 #: ../../changes.rst:11
 msgid ""
@@ -27471,14 +27399,10 @@ msgstr ""
 "möglichen Ereignisse auflistet, :ref:`addon-choice-events`."
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid ""
-#| "Added new Ollama machinery tool for local Ollama AI model integration, "
-#| "see :ref:`mt-ollama`."
 msgid "Added Anthropic machinery integration, see :ref:`mt-anthropic`."
 msgstr ""
-"Neues Ollama-Maschinendienstetool für die Integration lokaler Ollama-KI-"
-"Modelle hinzugefügt, siehe :ref:`mt-ollama`."
+"Integration von Anthropic-Maschinendienste hinzugefügt, siehe :ref:`mt-"
+"anthropic`."
 
 #: ../../changes.rst:14
 msgid ""
@@ -27486,14 +27410,16 @@ msgid ""
 "using :ref:`file_format_params` (e.g., ``csv_encoding``, "
 "``properties_encoding``)."
 msgstr ""
+"Die Codierung für :ref:`formats` kann jetzt mit :ref:`file_format_params` "
+"(z. B. ``csv_encoding``, ``properties_encoding``) konfiguriert werden."
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
 msgid ""
 "Added support for anonymous commit names "
 "via :setting:`PRIVATE_COMMIT_NAME_TEMPLATE`."
-msgstr "Konfiguriert :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
+msgstr ""
+"Unterstützung für anonyme Commit-Namen über "
+":setting:`PRIVATE_COMMIT_NAME_TEMPLATE` hinzugefügt."
 
 #: ../../changes.rst:18 ../../changes.rst:58 ../../changes.rst:103
 #: ../../changes.rst:145 ../../changes.rst:221 ../../changes.rst:248
@@ -27545,28 +27471,28 @@ msgstr ""
 "Die Validierung der VCS-Einstellungen :ref:`push-changes` wurde erweitert."
 
 #: ../../changes.rst:25
-#, fuzzy
-#| msgid ""
-#| "Configures the default value of :ref:`project-use_shared_tm` "
-#| "and :ref:`project-contribute_shared_tm`."
 msgid ""
 "The default values for :ref:`project-translation_review` and :ref:`project-"
 "source_review` can be configured in settings."
 msgstr ""
-"Konfiguriert den Standardwert von :ref:`project-use_shared_tm` "
-"und :ref:`project-contribute_shared_tm`."
+"Die Standardwerte für :ref:`project-translation_review` und :ref:`project-"
+"source_review` können in den Einstellungen konfiguriert werden."
 
 #: ../../changes.rst:26
 msgid ""
 "The :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE` now supports the ``{user_id}`` "
 "and ``{site_title}`` variables."
 msgstr ""
+":setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE` unterstützt jetzt die Variablen ``"
+"{user_id}`` und ``{site_title}``."
 
 #: ../../changes.rst:27
 msgid ""
 "The default value for personal translation memory contribution is now based "
 "on the :setting:`DEFAULT_AUTOCLEAN_TM` configuration."
 msgstr ""
+"Der Standardwert für den Beitrag des persönlichen Übersetzungsspeichers "
+"basiert nun auf der Konfiguration von :setting:`DEFAULT_AUTOCLEAN_TM`."
 
 #: ../../changes.rst:30 ../../changes.rst:65 ../../changes.rst:111
 #: ../../changes.rst:162 ../../changes.rst:201 ../../changes.rst:225
@@ -27610,18 +27536,23 @@ msgid ""
 "File formats that only differed in encoding (CSV, GWT Properties, Java "
 "Properties, iOS Strings) have been merged into single formats."
 msgstr ""
+"Dateiformate, die sich nur in der Codierung unterschieden (CSV, GWT "
+"Properties, Java Properties, iOS-Zeichenketten), wurden zu einzelnen "
+"Formaten zusammengeführt."
 
 #: ../../changes.rst:34
 msgid ""
 "Improved cache isolation for suggestion checks to avoid interference with "
 "the parent unit checks."
 msgstr ""
+"Die Cache-Isolierung für Übersetzungsvorschläge verbessert, um Interferenzen "
+"mit den Prüfungen der übergeordneten Einheiten zu vermeiden."
 
 #: ../../changes.rst:35
-#, fuzzy
-#| msgid "Adjust translation flags (see :ref:`custom-checks`)"
 msgid "Gracefully handle invalid check flags in :ref:`custom-checks`."
-msgstr "Anpassen der Übersetzungsmarkierungen (siehe :ref:`custom-checks`)"
+msgstr ""
+"Ungültige Überprüfungsmarkierungen in :ref:`custom-checks` werden korrekt "
+"verarbeitet."
 
 #: ../../changes.rst:38 ../../changes.rst:78 ../../changes.rst:176
 #: ../../changes.rst:319 ../../changes.rst:414 ../../changes.rst:469
@@ -27649,6 +27580,8 @@ msgid ""
 "The default value for :setting:`WEBLATE_FORMATS` changed because of the "
 "removal of encoding-specific formats."
 msgstr ""
+"Der Standardwert für :setting:`WEBLATE_FORMATS` hat sich durch das Entfernen "
+"der codierungsspezifischen Formate geändert."
 
 #: ../../changes.rst:43 ../../changes.rst:82 ../../changes.rst:119
 #: ../../changes.rst:186 ../../changes.rst:206 ../../changes.rst:229
@@ -27976,12 +27909,12 @@ msgid "Update language definitions to CLDR 48."
 msgstr "Aktualisierung der Sprachdefinitionen auf CLDR 48."
 
 #: ../../changes.rst:108
-#, fuzzy
-#| msgid ":ref:`check-xml-tags` better handle XML entities."
 msgid ""
 ":ref:`check-xml-chars-around-tags` reduce translation errors for strings "
 "with XML entities."
-msgstr ":ref:`check-xml-tags` kann XML-Entitäten besser verarbeiten."
+msgstr ""
+":ref:`check-xml-chars-around-tags` reduziert Übersetzungsfehler bei "
+"Zeichenketten mit XML-Entitäten."
 
 #: ../../changes.rst:112
 msgid ""
@@ -35083,7 +35016,7 @@ msgstr "Die Unterstützung für Django 1.6 und South-Migrationen eingestellt."
 msgid "Support for adding new translations when using Java Property files."
 msgstr ""
 "Unterstützung für das Hinzufügen neuer Übersetzungen bei der Verwendung von "
-"Java-Property-Dateien."
+"Java-Properties-Dateien."
 
 #: ../../changes/v2.rst:420
 msgid "Allow to accept suggestion without editing."
@@ -38257,7 +38190,7 @@ msgstr ""
 
 #: ../../changes/v4.rst:357
 msgid "Added fixed encoding variants to CSV formats."
-msgstr "Feste Kodierungsvarianten für CSV-Formate hinzugefügt."
+msgstr "Feste Codierungsvarianten für CSV-Formate hinzugefügt."
 
 #: ../../changes/v4.rst:358
 msgid ""
@@ -41812,7 +41745,7 @@ msgstr ""
 
 #: ../../contributing/snippets/code-guide.rst:76
 msgid "Coding standard and linting the code"
-msgstr "Kodierungsstandard und Codeanalyse"
+msgstr "Codierungsstandard und Codeanalyse"
 
 #: ../../contributing/snippets/code-guide.rst:78
 msgid ""
@@ -41906,7 +41839,7 @@ msgid ""
 "feature test cases, and adhere to all the normal requirements we have."
 msgstr ""
 "Wir können mithilfe von KI geschriebenen Code in das Projekt aufnehmen, aber "
-"der Code muss weiterhin den Kodierungsstandards entsprechen, klar "
+"der Code muss weiterhin den Codierungsstandards entsprechen, klar "
 "geschrieben und dokumentiert sein, Testfälle enthalten und alle unsere "
 "normalen Anforderungen erfüllen."
 
@@ -47338,10 +47271,8 @@ msgstr ""
 "Kapiteln beschrieben:"
 
 #: ../../devel/starting.rst:89
-#, fuzzy
-#| msgid "Starting with internationalization"
 msgid "Educating developers for proper internationalization"
-msgstr "Mit der Internationalisierung beginnen"
+msgstr "Schulung von Entwicklern für korrekte Internationalisierung"
 
 #: ../../devel/starting.rst:91
 msgid ""
@@ -47352,6 +47283,14 @@ msgid ""
 "frameworks have good support for this, so please follow their instructions "
 "for all these areas."
 msgstr ""
+"Bei der Internationalisierung von Software geht es nicht nur um die "
+"Übersetzung von Zeichenketten, sondern auch darum, dass die gesamte Software "
+"für einen Benutzer aus einem anderen Land wie seine Muttersprache aussieht. "
+"Dazu gehören auch Dinge wie die Formatierung von Datumsangaben oder Zahlen, "
+"die Anzeige von Währungen oder die Eingabe von Text in der richtigen "
+"Schreibrichtung. Die meisten Software-Frameworks bieten hierfür eine gute "
+"Unterstützung, so dass Sie für all diese Bereiche deren Anweisungen befolgen "
+"sollten."
 
 #: ../../devel/starting.rst:97
 msgid ""
@@ -47362,6 +47301,13 @@ msgid ""
 "might not be clear how to translate, and it is even challenging to "
 "distinguish whether the word is a verb or a noun."
 msgstr ""
+"Auch die Übersetzung von Zeichenketten ist nicht immer ganz einfach. Dies "
+"gilt vor allem für kurze Zeichenketten wie Bildunterschriften oder Labels "
+"für Schaltflächen. Verschiedene Sprachen haben unterschiedliche Regeln, und "
+"man kann nicht erwarten, dass dieselbe Zeichenkette immer gleich übersetzt "
+"wird. In vielen Situationen ist auch nicht klar, wie übersetzt werden soll, "
+"und es ist sogar schwierig zu unterscheiden, ob das Wort ein Verb oder ein "
+"Substantiv ist."
 
 #: ../../devel/starting.rst:104
 msgid ""
@@ -47372,6 +47318,13 @@ msgid ""
 "additional context in Weblate, such as :ref:`screenshots` "
 "or :ref:`additional-explanation`."
 msgstr ""
+"Alle Entwickler sollten dies verstehen und Zeichenketten, die in "
+"verschiedenen Bereichen verwendet werden, eindeutig identifizieren. "
+"Beispielsweise könnte ``None`` mit „keine Benutzer“ anders übersetzt werden "
+"als ``None`` im Sinne von „keine Elemente“. Verwenden Sie unterschiedliche "
+"Schlüssel oder Kontexte, um diese Begriffe für Übersetzer unterscheidbar zu "
+"machen. Sie können in Weblate zusätzliche Kontexte angeben, wie zum Beispiel "
+":ref:`screenshots` oder :ref:`additional-explanation`."
 
 #: ../../devel/success-stories.rst:2
 msgid "Success stories"
@@ -48785,9 +48738,8 @@ msgstr ""
 "Weblate versucht, das Dateiformat während :ref:`adding-projects` zu "
 "erkennen. Die Erkennung kann für verschiedene Varianten desselben "
 "Serialisierungsformats (JSON, YAML, properties) oder derselben "
-"Dateikodierung falsch sein. Bitte überprüfen Sie daher, ob "
-"das :ref:`component-file_format` korrekt ist, bevor Sie die Komponente "
-"erstellen."
+"Dateicodierung falsch sein. Bitte überprüfen Sie daher, ob das "
+":ref:`component-file_format` korrekt ist, bevor Sie die Komponente erstellen."
 
 #: ../../formats.rst:32
 msgid "Translation types capabilities"
@@ -49288,10 +49240,8 @@ msgid "Help text"
 msgstr "Hilfetext"
 
 #: ../../snippets/file-format-parameters.rst:7
-#, fuzzy
-#| msgid "System encoding"
 msgid "csv_encoding"
-msgstr "Systemkodierung"
+msgstr "csv_encoding"
 
 #: ../../formats/apple.rst:37 ../../formats/java.rst:48
 #: ../../snippets/file-format-parameters.rst:7
@@ -49299,19 +49249,17 @@ msgstr "Systemkodierung"
 #: ../../snippets/file-format-parameters.rst:36
 #: ../../snippets/file-format-parameters.rst:109
 #: ../../snippets/file-format-parameters.rst:122
-#, fuzzy
-#| msgid "Filenames encoding"
 msgid "File encoding"
-msgstr "Kodierung der Dateinamen"
+msgstr "Dateicodierung"
 
 #: ../../snippets/file-format-parameters.rst:7
 msgid "Encoding used for CSV files"
-msgstr ""
+msgstr "Für CSV-Dateien verwendete Codierung"
 
 #: ../../snippets/file-format-parameters.rst:12
 #: ../../snippets/file-format-parameters.rst:22
 msgid "Auto-detect"
-msgstr ""
+msgstr "Auto-Erkennung"
 
 #: ../../snippets/file-format-parameters.rst:15
 #: ../../snippets/file-format-parameters.rst:25
@@ -49319,23 +49267,21 @@ msgstr ""
 #: ../../snippets/file-format-parameters.rst:117
 #: ../../snippets/file-format-parameters.rst:130
 msgid "UTF-8"
-msgstr ""
+msgstr "UTF-8"
 
 #: ../../snippets/file-format-parameters.rst:17
-#, fuzzy
-#| msgid "Filenames encoding"
 msgid "csv_simple_encoding"
-msgstr "Kodierung der Dateinamen"
+msgstr "csv_simple_encoding"
 
 #: ../../snippets/file-format-parameters.rst:17
 msgid "Encoding used for simple CSV files"
-msgstr ""
+msgstr "Für einfache CSV-Dateien verwendete Codierung"
 
 #: ../../snippets/file-format-parameters.rst:28
 #: ../../snippets/file-format-parameters.rst:44
 #: ../../snippets/file-format-parameters.rst:114
 msgid "ISO-8859-1"
-msgstr ""
+msgstr "ISO-8859-1"
 
 #: ../../snippets/file-format-parameters.rst:30
 msgid "flatxml_key_name"
@@ -49362,14 +49308,12 @@ msgid "FlatXML value name"
 msgstr "FlatXML-Wertname"
 
 #: ../../snippets/file-format-parameters.rst:36
-#, fuzzy
-#| msgid "System encoding"
 msgid "gwt_encoding"
-msgstr "Systemkodierung"
+msgstr "gwt_encoding"
 
 #: ../../snippets/file-format-parameters.rst:36
 msgid "Encoding used for GWT Properties files"
-msgstr ""
+msgstr "Für GWT-Properties-Dateien verwendete Codierung"
 
 #: ../../snippets/file-format-parameters.rst:46
 msgid "json_indent"
@@ -49468,31 +49412,25 @@ msgid "Do not include location information in the file"
 msgstr "Keine Ortsangaben in die Datei aufnehmen"
 
 #: ../../snippets/file-format-parameters.rst:109
-#, fuzzy
-#| msgid "properties"
 msgid "properties_encoding"
-msgstr "properties"
+msgstr "properties_encoding"
 
 #: ../../snippets/file-format-parameters.rst:109
-#, fuzzy
-#| msgid "Format the Java properties file"
 msgid "Encoding used for Java Properties files"
-msgstr "Die Java-Properties-Datei formatieren"
+msgstr "Für Java-Properties-Dateien verwendete Codierung"
 
 #: ../../snippets/file-format-parameters.rst:120
 #: ../../snippets/file-format-parameters.rst:127
 msgid "UTF-16"
-msgstr ""
+msgstr "UTF-16"
 
 #: ../../snippets/file-format-parameters.rst:122
-#, fuzzy
-#| msgid "Filenames encoding"
 msgid "strings_encoding"
-msgstr "Kodierung der Dateinamen"
+msgstr "strings_encoding"
 
 #: ../../snippets/file-format-parameters.rst:122
 msgid "Encoding used for iOS strings files"
-msgstr ""
+msgstr "Für iOS-Zeichenketten-Dateien verwendete Codierung"
 
 #: ../../snippets/file-format-parameters.rst:132
 msgid "xml_closing_tags"
@@ -49778,14 +49716,12 @@ msgstr ""
 "Localizable.strings``"
 
 #: ../../formats/apple.rst:35
-#, fuzzy
-#| msgid "iOS strings"
 msgid "`iOS Strings`"
-msgstr "iOS-Zeichenketten"
+msgstr "`iOS-Zeichenketten`"
 
 #: ../../formats/apple.rst:37
 msgid "`UTF-8`"
-msgstr ""
+msgstr "`UTF-8`"
 
 #: ../../formats/appstore.rst:6
 msgid ""
@@ -49970,21 +49906,15 @@ msgstr ""
 "Dateien einsprachig sind (siehe :ref:`bimono`)."
 
 #: ../../formats/csv.rst:27
-#, fuzzy
-#| msgid ""
-#| "By default, the CSV format does autodetection of file encoding. This can "
-#| "be unreliable in some corner cases and causes performance penalty. Please "
-#| "choose file format variant with encoding to avoid this (for "
-#| "example :guilabel:`CSV file (UTF-8)`)."
 msgid ""
 "By default, the CSV format does autodetection of file encoding. This can be "
 "unreliable in some corner cases and causes performance penalty. Please "
 "choose a file format encoding to avoid this (for example :guilabel:`UTF-8`)."
 msgstr ""
-"Standardmäßig erkennt das CSV-Format die Dateikodierung automatisch. Dies "
+"Standardmäßig erkennt das CSV-Format die Dateicodierung automatisch. Dies "
 "kann in einigen Ausnahmefällen unzuverlässig sein und zu Leistungseinbußen "
-"führen. Bitte wählen Sie eine Dateiformatvariante mit Kodierung, um dies zu "
-"vermeiden (zum Beispiel :guilabel:`CSV-Datei (UTF-8)`)."
+"führen. Bitte wählen Sie eine Dateicodierung, um dies zu vermeiden (zum "
+"Beispiel :guilabel:`UTF-8`)."
 
 #: ../../formats/csv.rst:33
 msgid ""
@@ -50384,7 +50314,7 @@ msgstr "`JSON-Datei gotext`"
 
 #: ../../formats/gwt.rst:4
 msgid "GWT properties"
-msgstr "GWT-Properties"
+msgstr "GWT Properties"
 
 #: ../../formats/gwt.rst:9
 msgid "Native GWT format for translations."
@@ -50393,8 +50323,7 @@ msgstr "Natives GWT-Format für Übersetzungen."
 #: ../../formats/gwt.rst:11
 msgid "GWT properties are usually used as monolingual translations."
 msgstr ""
-"GWT-Eigenschaften werden normalerweise als einsprachige Übersetzungen "
-"verwendet."
+"GWT Properties werden normalerweise als einsprachige Übersetzungen verwendet."
 
 #: ../../formats/gwt.rst:15
 msgid ""
@@ -50414,7 +50343,7 @@ msgstr ""
 
 #: ../../formats/gwt.rst:34
 msgid "`GWT Properties`"
-msgstr "`GWT-Properties`"
+msgstr "`GWT Properties`"
 
 #: ../../formats/html.rst:4
 msgid "HTML files"
@@ -50634,7 +50563,7 @@ msgid ""
 "choosing the correct encoding set to match your application needs."
 msgstr ""
 "Das Laden von Escape-Zeichenfolgen funktioniert auch im UTF-8-Modus. Achten "
-"Sie also darauf, die richtige Kodierung für Ihre Anwendung zu wählen."
+"Sie also darauf, die richtige Codierung für Ihre Anwendung zu wählen."
 
 #: ../../formats/java.rst:26
 msgid ""
@@ -50644,14 +50573,12 @@ msgstr ""
 "Properties-Datei>`_"
 
 #: ../../formats/java.rst:46
-#, fuzzy
-#| msgid "Java Properties (UTF-8)"
 msgid "`Java Properties`"
-msgstr "Java Properties (UTF-8)"
+msgstr "`Java Properties`"
 
 #: ../../formats/java.rst:48
 msgid "`ISO-8859-1`"
-msgstr ""
+msgstr "`ISO-8859-1`"
 
 #: ../../formats/joomla.rst:4
 msgid "Joomla translations"
@@ -52297,6 +52224,9 @@ msgid ""
 "**Data Protection Officer (DPO):** Evaluates if personal data (PII) was "
 "compromised and manages mandatory GDPR notifications."
 msgstr ""
+"**Datenschutzbeauftragter:** Bewertet, ob personenbezogene Daten (PII) "
+"kompromittiert wurden, und verwaltet die obligatorischen DSGVO-"
+"Benachrichtigungen."
 
 #: ../../security/incident-response-plan.rst:20
 msgid ""
@@ -52307,62 +52237,51 @@ msgstr ""
 "Interessengruppen und externe Parteien."
 
 #: ../../security/incident-response-plan.rst:23
-#, fuzzy
-#| msgid "Community localization checklist"
 msgid "Communication logistics"
-msgstr "Checkliste für die Community-Lokalisierung"
+msgstr "Kommunikationsvorgehen"
 
 #: ../../security/incident-response-plan.rst:25
-#, fuzzy
-#| msgid "**Weblate application**"
 msgid "**Internal Communication:**"
-msgstr "**Weblate-Anwendung**"
+msgstr "**Interne Kommunikation:**"
 
 #: ../../security/incident-response-plan.rst:26
 msgid "Primary channel is **Signal** for human-to-human coordination."
-msgstr ""
+msgstr "Hauptkanal ist **Signal** für die Koordinierung von Mensch zu Mensch."
 
 #: ../../security/incident-response-plan.rst:27
 msgid "Technical alerts remain outside of Signal to avoid noise."
 msgstr ""
+"Technische Warnungen bleiben außerhalb von Signal, um Rauschen zu vermeiden."
 
 #: ../../security/incident-response-plan.rst:28
-#, fuzzy
-#| msgid "**Weblate application**"
 msgid "**External Communication:**"
-msgstr "**Weblate-Anwendung**"
+msgstr "**Externe Kommunikation:**"
 
 #: ../../security/incident-response-plan.rst:29
 msgid "**E-mail** is used to reach customers."
-msgstr ""
+msgstr "**E-Mail** wird verwendet, um Kunden zu erreichen."
 
 #: ../../security/incident-response-plan.rst:30
 msgid ""
 "Customer contact lists are maintained in several locations to ensure access "
 "during service outages."
 msgstr ""
+"Kundenkontaktlisten werden an mehreren Orten geführt, um den Zugriff bei "
+"Ausfällen des Dienstes zu gewährleisten."
 
 #: ../../security/incident-response-plan.rst:31
-#, fuzzy
-#| msgid "**Information disclosure**"
 msgid "**Public Disclosure:**"
-msgstr "**Information disclosure**"
+msgstr "**Öffentliche Bekanntmachung:**"
 
 #: ../../security/incident-response-plan.rst:32
-#, fuzzy
-#| msgid ""
-#| "Dependency vulnerability scanning, see :doc:`/security/dependencies`."
 msgid ""
 "If a security vulnerability is discovered, follow :doc:`/security/issues`."
 msgstr ""
-"Nach Schwachstellen in Abhängigkeiten suchen, siehe :doc:`/security/"
-"dependencies`."
+"Wenn eine Sicherheitslücke entdeckt wird, folgen Sie :doc:`/security/issues`."
 
 #: ../../security/incident-response-plan.rst:35
-#, fuzzy
-#| msgid "Incident categories"
 msgid "Incident categories and severity"
-msgstr "Kategorien von Vorfällen"
+msgstr "Vorfallskategorien und Schweregrad"
 
 #: ../../security/incident-response-plan.rst:38
 msgid "Incident categories"
@@ -52386,45 +52305,39 @@ msgstr "Kategorie 4 – Fehlkonfiguration oder Bereitstellungsfehler"
 
 #: ../../security/incident-response-plan.rst:46
 msgid "Severity levels and SLAs"
-msgstr ""
+msgstr "Schweregrade und Service-Level-Vereinbarungen"
 
 #: ../../security/incident-response-plan.rst:49
 msgid "Severity"
 msgstr "Gewichtung"
 
 #: ../../security/incident-response-plan.rst:49
-#, fuzzy
-#| msgid "Definitions"
 msgid "Definition"
-msgstr "Definitionen"
+msgstr "Definition"
 
 #: ../../security/incident-response-plan.rst:49
-#, fuzzy
-#| msgid "Target language"
 msgid "Target Acknowledge"
-msgstr "Zielsprache"
+msgstr "Zielvorgabe für Bestätigung"
 
 #: ../../security/incident-response-plan.rst:49
-#, fuzzy
-#| msgid "Target translation"
 msgid "Target Initial Action"
-msgstr "Zielübersetzung"
+msgstr "Zielvorgabe für erste Maßnahme"
 
 #: ../../security/incident-response-plan.rst:51
 msgid "Critical"
-msgstr ""
+msgstr "Kritisch"
 
 #: ../../security/incident-response-plan.rst:51
 msgid "Total outage; Admin compromise; Active data breach."
-msgstr ""
+msgstr "Totalausfall; Kompromittierung der Administratoren; Aktive Datenpanne."
 
 #: ../../security/incident-response-plan.rst:51
 msgid "< 30 Minutes"
-msgstr ""
+msgstr "< 30 Minuten"
 
 #: ../../security/incident-response-plan.rst:51
 msgid "4 Hours"
-msgstr ""
+msgstr "4 Stunden"
 
 #: ../../security/incident-response-plan.rst:53
 msgid "High"
@@ -52433,14 +52346,16 @@ msgstr "Hoch"
 #: ../../security/incident-response-plan.rst:53
 msgid "Core feature failure; PII leak of single user."
 msgstr ""
+"Ausfall einer Kernfunktion; Offenlegung personenbezogener Daten eines "
+"einzelnen Benutzers."
 
 #: ../../security/incident-response-plan.rst:53
 msgid "< 2 Hours"
-msgstr ""
+msgstr "< 2 Stunden"
 
 #: ../../security/incident-response-plan.rst:53
 msgid "12 Hours"
-msgstr ""
+msgstr "12 Stunden"
 
 #: ../../security/incident-response-plan.rst:55
 msgid "Medium"
@@ -52448,15 +52363,15 @@ msgstr "Mittel"
 
 #: ../../security/incident-response-plan.rst:55
 msgid "Performance degradation; Minor security issue."
-msgstr ""
+msgstr "Leistungsverschlechterung; Geringfügiges Sicherheitsproblem."
 
 #: ../../security/incident-response-plan.rst:55
 msgid "1 Business Day"
-msgstr ""
+msgstr "1 Arbeitstag"
 
 #: ../../security/incident-response-plan.rst:55
 msgid "3 Business Days"
-msgstr ""
+msgstr "3 Arbeitstage"
 
 #: ../../security/incident-response-plan.rst:57
 msgid "Low"
@@ -52464,11 +52379,11 @@ msgstr "Niedrig"
 
 #: ../../security/incident-response-plan.rst:57
 msgid "UI bugs; Staging issues; Non-security errors."
-msgstr ""
+msgstr "UI-Fehler; Staging-Probleme; Nicht sicherheitsrelevante Fehler."
 
 #: ../../security/incident-response-plan.rst:57
 msgid "Best Effort"
-msgstr ""
+msgstr "Bestmögliches Ergebnis"
 
 #: ../../security/incident-response-plan.rst:61
 msgid "Incident response lifecycle"
@@ -52479,34 +52394,25 @@ msgid "Preparation"
 msgstr "Vorbereitung"
 
 #: ../../security/incident-response-plan.rst:66
-#, fuzzy
-#| msgid ""
-#| "Ensure regular daily backups of the PostgreSQL database and the data "
-#| "directory."
 msgid ""
 "Ensure regular daily backups of the PostgreSQL database and the data "
 "directory using Weblate's built-in backup with rotation, see :ref:`backup`."
 msgstr ""
 "Sorgen Sie für regelmäßige tägliche Sicherungen der PostgreSQL-Datenbank und "
-"des Datenverzeichnisses."
+"des Datenverzeichnisses mit der in Weblate integrierten Sicherung mit "
+"Rotation, siehe :ref:`backup`."
 
 #: ../../security/incident-response-plan.rst:67
-#, fuzzy
-#| msgid ""
-#| "Protect Weblate with reverse proxy (e.g., NGINX or Apache) and HTTPS (TLS "
-#| "1.2+)."
 msgid ""
 "Ensure Weblate uses a properly configured reverse proxy (e.g., NGINX) with "
 "HTTPS (TLS 1.2+)."
 msgstr ""
-"Schützen Sie Weblate mit einem Reverse-Proxy (z. B. NGINX oder Apache) und "
-"HTTPS (TLS 1.2+)."
+"Stellen Sie sicher, dass Weblate einen korrekt konfigurierten Reverse-Proxy "
+"(z. B. NGINX) mit HTTPS (TLS 1.2+) verwendet."
 
 #: ../../security/incident-response-plan.rst:68
-#, fuzzy
-#| msgid "Enable 2FA for admin-level accounts."
 msgid "Enable 2FA for all admin-level accounts."
-msgstr "Aktivieren Sie 2FA für Konten auf Administratorebene."
+msgstr "Aktivieren Sie 2FA für alle Konten auf Administratorebene."
 
 #: ../../security/incident-response-plan.rst:69
 msgid ""
@@ -52543,19 +52449,13 @@ msgstr ""
 "Pull-Fehler."
 
 #: ../../security/incident-response-plan.rst:77
-#, fuzzy
-#| msgid ""
-#| "Configure alerting (e.g., via Prometheus, Zabbix, or SIEM) for: - "
-#| "Multiple login failures - Unexpected service restarts or memory usage "
-#| "spikes - Irregular push/pull actions from version control systems"
 msgid ""
 "Configure alerting (via Prometheus, Zabbix, or SIEM) for multiple login "
 "failures, unexpected restarts, or irregular VCS actions."
 msgstr ""
-"Konfigurieren Sie Warnmeldungen (z. B. über Prometheus, Zabbix oder SIEM) "
-"für: – Mehrfache Anmeldefehler – Unerwartete Neustarts von Diensten oder "
-"Spitzen bei der Speicherauslastung – Unregelmäßige Push-/Pull-Aktionen von "
-"Versionsverwaltungen"
+"Konfigurieren Sie Warnmeldungen (über Prometheus, Zabbix oder SIEM) bei "
+"mehrfachen Anmeldefehlern, unerwarteten Neustarts oder unregelmäßigen VCS-"
+"Aktionen."
 
 #: ../../security/incident-response-plan.rst:80
 msgid "Containment"
@@ -52566,16 +52466,21 @@ msgid ""
 "**Forensic Preservation:** For Category 1 or 2 incidents, create a manual "
 "**Hetzner Cloud Snapshot** before taking disruptive action."
 msgstr ""
+"**Forensische Aufbewahrung:** Bei Vorfällen der Kategorie 1 oder 2 sollten "
+"Sie einen manuellen **Hetzner Cloud Snapshot** erstellen, bevor Sie störende "
+"Maßnahmen ergreifen."
 
 #: ../../security/incident-response-plan.rst:83
 msgid "Name format: ``IRP-[CaseID]-[YYYYMMDD]-Evidence``."
-msgstr ""
+msgstr "Namensformat: ``IRP-[CaseID]-[YYYYMMDD]-Evidence``."
 
 #: ../../security/incident-response-plan.rst:84
 msgid ""
 "These are separate from standard rotating backups and must be preserved for "
 "analysis."
 msgstr ""
+"Diese unterscheiden sich von den standardmäßigen rotierenden Sicherungen und "
+"müssen für Analysezwecke aufbewahrt werden."
 
 #: ../../security/incident-response-plan.rst:85
 msgid ""
@@ -52622,20 +52527,19 @@ msgid "Recovery"
 msgstr "Wiederherstellung"
 
 #: ../../security/incident-response-plan.rst:99
-#, fuzzy
-#| msgid ""
-#| "Restore affected services or data from the latest known-good backups."
 msgid ""
 "Restore affected services or data from the latest known-good Weblate backups."
 msgstr ""
 "Stellen Sie betroffene Dienste oder Daten aus den letzten als funktionierend "
-"bekannten Sicherungen wieder her."
+"bekannten Weblate-Sicherungen wieder her."
 
 #: ../../security/incident-response-plan.rst:100
 msgid ""
 "**PII Assessment:** DPO determines if the breach requires a 72-hour GDPR "
 "notification."
 msgstr ""
+"**PII-Bewertung:** Der Datenschutzbeauftragte entscheidet, ob die Verletzung "
+"eine Benachrichtigung innerhalb von 72 Stunden gemäß DSGVO erfordert."
 
 #: ../../security/incident-response-plan.rst:101
 msgid "Reintroduce services in a phased approach."
@@ -52658,6 +52562,8 @@ msgid ""
 "**Timeline:** Hold a review meeting within **5 business days** of incident "
 "closure."
 msgstr ""
+"**Zeitplan:** Halten Sie innerhalb von **5 Werktagen** nach Abschluss des "
+"Vorfalls eine Überprüfungssitzung ab."
 
 #: ../../security/incident-response-plan.rst:108
 msgid "Compile a full incident timeline and actions taken."
@@ -52666,20 +52572,18 @@ msgstr ""
 "ergriffenen Maßnahmen."
 
 #: ../../security/incident-response-plan.rst:109
-#, fuzzy
-#| msgid "Perform Root Cause Analysis (RCA)."
 msgid ""
 "Perform Root Cause Analysis (RCA) and document it within **10 business "
 "days**."
-msgstr "Führen Sie eine Fehler-Ursachen-Analyse durch."
+msgstr ""
+"Führen Sie eine Fehler-Ursachen-Analyse durch und dokumentieren Sie diese "
+"innerhalb von **10 Arbeitstagen**."
 
 #: ../../security/incident-response-plan.rst:110
-#, fuzzy
-#| msgid "Update security policies and IRP documentation."
 msgid "Update security policies and IRP documentation based on findings."
 msgstr ""
 "Aktualisieren Sie die Dokumentation zu den Sicherheitsrichtlinien und zum "
-"Vorfallsreaktionsplan."
+"Vorfallsreaktionsplan auf Grundlage der Ergebnisse."
 
 #: ../../security/incident-response-plan.rst:111
 msgid "Review the effectiveness of detection and containment mechanisms."
@@ -53817,14 +53721,6 @@ msgid "Weblate threat model"
 msgstr "Weblate-Bedrohungsmodell"
 
 #: ../../security/threat-model.rst:4
-#, fuzzy
-#| msgid ""
-#| "**Scope:** Core Weblate web application, its interactions with user "
-#| "browsers, backend components (web server, WSGI, database, datastore, "
-#| "Celery), and integration with external VCS. **Assumptions:** Standard "
-#| "Weblate deployment with typical components (nginx/Apache, Gunicorn/uWSGI, "
-#| "PostgreSQL, datastore, Celery) and user roles (Unauthenticated, "
-#| "Translator, Project Manager, Administrator)."
 msgid ""
 "**Scope:** Core Weblate web application, its interactions with user "
 "browsers, backend components (web server, WSGI, database, datastore, "
@@ -53832,31 +53728,18 @@ msgid ""
 msgstr ""
 "**Umfang:** Kern der Weblate-Webanwendung, ihre Interaktion mit den Browsern "
 "der Benutzer, Backend-Komponenten (Webserver, WSGI, Datenbank, "
-"Datenspeicher, Celery) und die Integration mit externem VCS. **Annahmen:** "
-"Standard-Weblate-Bereitstellung mit typischen Komponenten (nginx/Apache, "
-"Gunicorn/uWSGI, PostgreSQL, Datenspeicher, Celery) und Benutzerrollen (Nicht "
-"authentifiziert, Übersetzer, Projektmanager, Administrator)."
+"Datenspeicher, Celery) und die Integration mit externem VCS."
 
 #: ../../security/threat-model.rst:6
-#, fuzzy
-#| msgid ""
-#| "**Scope:** Core Weblate web application, its interactions with user "
-#| "browsers, backend components (web server, WSGI, database, datastore, "
-#| "Celery), and integration with external VCS. **Assumptions:** Standard "
-#| "Weblate deployment with typical components (nginx/Apache, Gunicorn/uWSGI, "
-#| "PostgreSQL, datastore, Celery) and user roles (Unauthenticated, "
-#| "Translator, Project Manager, Administrator)."
 msgid ""
 "**Assumptions:** Standard Weblate deployment with typical components (nginx/"
 "Apache, granian/Gunicorn/uWSGI, PostgreSQL, datastore, Celery) and user "
 "roles (Unauthenticated, Translator, Project Manager, Administrator)."
 msgstr ""
-"**Umfang:** Kern der Weblate-Webanwendung, ihre Interaktion mit den Browsern "
-"der Benutzer, Backend-Komponenten (Webserver, WSGI, Datenbank, "
-"Datenspeicher, Celery) und die Integration mit externem VCS. **Annahmen:** "
-"Standard-Weblate-Bereitstellung mit typischen Komponenten (nginx/Apache, "
-"Gunicorn/uWSGI, PostgreSQL, Datenspeicher, Celery) und Benutzerrollen (Nicht "
-"authentifiziert, Übersetzer, Projektmanager, Administrator)."
+"**Annahmen:** Standard-Weblate-Bereitstellung mit typischen Komponenten "
+"(nginx/Apache, granian/Gunicorn/uWSGI, PostgreSQL, Datenspeicher, Celery) "
+"und Benutzerrollen (nicht authentifiziert, Übersetzer, Projektmanager, "
+"Administrator)."
 
 #: ../../security/threat-model.rst:9
 msgid "System description and scope"
@@ -54003,7 +53886,7 @@ msgstr "**Webserver** (nginx/Apache)"
 #: ../../security/threat-model.rst:64 ../../security/threat-model.rst:100
 #: ../../security/threat-model.rst:120
 msgid "**DoS**"
-msgstr "**DoS**"
+msgstr "**DoS-Angriff**"
 
 #: ../../security/threat-model.rst:65
 msgid ""
@@ -54021,7 +53904,7 @@ msgstr "Verlust der Verfügbarkeit für Übersetzungen."
 #: ../../security/threat-model.rst:96 ../../security/threat-model.rst:116
 #: ../../security/threat-model.rst:140 ../../security/threat-model.rst:144
 msgid "**Information disclosure**"
-msgstr "**Information disclosure**"
+msgstr "**Datenpanne**"
 
 #: ../../security/threat-model.rst:69
 msgid ""
@@ -54039,7 +53922,7 @@ msgstr "Offenlegung von Zugangsdaten, interne Architektur."
 #: ../../security/threat-model.rst:84 ../../security/threat-model.rst:112
 #: ../../security/threat-model.rst:124 ../../security/threat-model.rst:136
 msgid "**Tampering**"
-msgstr "**Tampering**"
+msgstr "**Manipulation**"
 
 #: ../../security/threat-model.rst:73
 msgid ""
@@ -54063,7 +53946,7 @@ msgstr "**Weblate-Anwendung**"
 
 #: ../../security/threat-model.rst:76 ../../security/threat-model.rst:132
 msgid "**Spoofing**"
-msgstr "**Spoofing**"
+msgstr "**Identitätsverschleierung**"
 
 #: ../../security/threat-model.rst:77
 msgid ""
@@ -54113,7 +53996,7 @@ msgstr "Code-Injektion in Zielprojekte, Datenexfiltration."
 
 #: ../../security/threat-model.rst:88 ../../security/threat-model.rst:128
 msgid "**Repudiation**"
-msgstr "**Repudiation**"
+msgstr "**Verleugnung**"
 
 #: ../../security/threat-model.rst:89
 msgid ""
@@ -54169,7 +54052,7 @@ msgstr "Weblate ist nicht verfügbar."
 
 #: ../../security/threat-model.rst:104 ../../security/threat-model.rst:108
 msgid "**Elevation of privilege**"
-msgstr "**Elevation of privilege**"
+msgstr "**Rechteausweitung**"
 
 #: ../../security/threat-model.rst:105
 msgid ""
@@ -54359,7 +54242,7 @@ msgstr ""
 
 #: ../../security/threat-model.rst:157
 msgid "**Input validation and output encoding:**"
-msgstr "**Eingabevalidierung und Ausgabekodierung:**"
+msgstr "**Eingabevalidierung und Ausgabecodierung:**"
 
 #: ../../security/threat-model.rst:158
 msgid ""
@@ -54375,7 +54258,7 @@ msgid ""
 "Context-aware output encoding for all user-supplied data displayed on the "
 "web UI to prevent XSS."
 msgstr ""
-"Kontextabhängige Ausgabekodierung für alle vom Benutzer eingegebenen Daten, "
+"Kontextabhängige Ausgabecodierung für alle vom Benutzer eingegebenen Daten, "
 "die auf der Web-Bedienoberfläche angezeigt werden, um XSS zu verhindern."
 
 #: ../../security/threat-model.rst:160
@@ -56640,7 +56523,7 @@ msgid ""
 "Greek ones, which were often used before Kabyle characters were standardized "
 "in Unicode."
 msgstr ""
-"Überprüft, ob in den kabylischen Übersetzungen die korrekten kabylischen "
+"Prüft, ob in den kabylischen Übersetzungen die korrekten kabylischen "
 "Buchstaben verwendet werden und nicht ähnliche griechische Buchstaben, die "
 "oft verwendet wurden, bevor Kabyle-Zeichen in Unicode standardisiert wurden."
 
@@ -57065,17 +56948,15 @@ msgstr ""
 "kein gültiges XML sind."
 
 #: ../../user/checks.rst:1896
-#, fuzzy
-#| msgid "Number of characters"
 msgid "XML surrounding characters"
-msgstr "Anzahl der Zeichen"
+msgstr "XML umgebende Zeichen"
 
 #: ../../user/checks.rst:1899
-#, fuzzy
-#| msgid "XML tags in translation do not match source."
 msgid ""
 "Characters surrounding XML tags in translation do not align with source."
-msgstr "XML-Tags in der Übersetzung passen nicht zur Ausgangszeichenkette."
+msgstr ""
+"XML-Tags umgebende Zeichen in der Übersetzung stimmen nicht mit der "
+"Ausgangszeichenkette überein."
 
 #: ../../user/checks.rst:1906
 msgid ""
@@ -57083,6 +56964,9 @@ msgid ""
 "both source and translation. Ensures letters are not replaced with non-"
 "letters, and vice versa."
 msgstr ""
+"Prüft, ob die einen XML-Tag umgebenden Zeichen zwischen Ausgangszeichenkette "
+"und Übersetzung konsistent sind. Es wird sichergestellt, dass Buchstaben "
+"nicht durch Nichtbuchstaben ersetzt werden und umgekehrt."
 
 #: ../../user/checks.rst:1918
 msgid "XML syntax"
@@ -58422,7 +58306,7 @@ msgstr ""
 
 #: ../../user/profile.rst:135
 msgid "Editor link"
-msgstr "Editor-URL"
+msgstr "Editor-Link"
 
 #: ../../user/profile.rst:137
 msgid ""
@@ -59338,11 +59222,6 @@ msgstr ""
 "Weblate-Installation abweichen."
 
 #: ../../user/translating.rst:54
-#, fuzzy
-#| msgid ""
-#| "Anonymous users (by default) can only forward suggestions. Doing so is "
-#| "still available to signed-in users, in cases where uncertainty about a "
-#| "translation arises, prompting other translators to review it."
 msgid ""
 "Anonymous users (by default) can only forward suggestions. Doing so is still "
 "available to signed-in users, in cases where uncertainty about a translation "
@@ -59353,7 +59232,9 @@ msgstr ""
 "Anonyme Benutzer können (standardmäßig) nur Übersetzungsvorschläge "
 "übermitteln. Angemeldete Benutzer können dies dennoch tun, wenn eine "
 "Übersetzung unklar ist, und andere Übersetzer dazu auffordern, sie zu "
-"überprüfen."
+"überprüfen. Jeder Benutzer kann einen bestehenden Übersetzungsvorschlag in "
+"die Übersetzungsfelder kopieren, einschließlich der Pluralformen, und ihn "
+"als Grundlage für einen neuen Vorschlag oder eine neue Übersetzung verwenden."
 
 #: ../../user/translating.rst:60
 msgid ""
@@ -59371,6 +59252,12 @@ msgid ""
 "suggestions from trusted contributors. Suggestions failing quality checks "
 "are skipped and remain for manual review."
 msgstr ""
+"Wenn Sie über die Berechtigung :guilabel:`Vorschlag annehmen` verfügen, "
+"können Sie alle Vorschläge eines bestimmten Benutzers gleichzeitig annehmen, "
+"indem Sie auf das Konto-Symbol neben dessen Vorschlag klicken. Dies ist "
+"nützlich, um Übersetzungsvorschläge von vertrauenswürdigen Mitwirkenden "
+"schnell zu bearbeiten. Vorschläge, welche die Qualitätsprüfungen nicht "
+"bestehen, werden übersprungen und verbleiben zur manuellen Überprüfung."
 
 #: ../../user/translating.rst:74
 msgid "Three types of comments can be posted:"
@@ -59491,17 +59378,15 @@ msgstr ""
 "(siehe :ref:`secondary-languages`)."
 
 #: ../../user/translating.rst:141
-#, fuzzy
-#| msgid ""
-#| "Below the translation, translators will find suggestion made by others, "
-#| "to be accepted (✓), accepted with changes (✏️), or deleted (🗑)."
 msgid ""
 "Below the translation, translators will find suggestions made by others, to "
 "be accepted (✓), accepted with changes (✏️), bulk accepted for a specific "
 "user (👤✓), cloned into the translation fields (📑) or deleted (🗑)."
 msgstr ""
-"Unterhalb der Übersetzung finden die Übersetzer Vorschläge von anderen, die "
-"sie annehmen (✓), mit Änderungen annehmen (✏️) oder löschen (🗑) können."
+"Unterhalb der Übersetzung finden Übersetzer Vorschläge von anderen, die sie "
+"annehmen (✓), mit Änderungen annehmen (✏️), für einen bestimmten Benutzer "
+"gleichzeitig annehmen (👤✓), in die Übersetzungsfelder kopieren (📑) oder "
+"löschen (🗑) können."
 
 #: ../../user/translating.rst:148
 msgid "Plurals"
@@ -59891,6 +59776,8 @@ msgid ""
 "Further clarification can be provided in Weblate via :ref:`additional-"
 "explanation`."
 msgstr ""
+"Weitere Erläuterungen können in Weblate über :ref:`additional-explanation` "
+"bereitgestellt werden."
 
 #: ../../user/translating.rst:311
 msgid ""
