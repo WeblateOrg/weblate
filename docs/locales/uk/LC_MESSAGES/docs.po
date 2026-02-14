@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-02-13 09:24+0100\n"
-"PO-Revision-Date: 2026-01-27 04:09+0000\n"
+"PO-Revision-Date: 2026-02-14 19:12+0000\n"
 "Last-Translator: Максим Горпиніч <gorpinicmaksim0@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
@@ -33,8 +33,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : "
-"n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n%10>"
+"=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Generator: Weblate 5.16-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
@@ -1957,16 +1957,6 @@ msgid "Additional access restrictions"
 msgstr "Додаткові обмеження доступу"
 
 #: ../../admin/access.rst:556
-#, fuzzy
-#| msgid ""
-#| "If you want to use your Weblate installation in a less public manner, "
-#| "i.e. allow new users on an invitational basis only, it can be done by "
-#| "configuring Weblate in such a way that only known users have an access to "
-#| "it. In order to do so, you can set :setting:`REGISTRATION_OPEN` to "
-#| "``False`` to prevent registrations of any new users, and "
-#| "set :setting:`REQUIRE_LOGIN` to ``/.*`` to require signing in to access "
-#| "all the site pages. This is basically the way to lock your Weblate "
-#| "installation."
 msgid ""
 "If you want to use your Weblate installation in a less public manner, i.e. "
 "allow new users on an invitational basis only, it can be done by configuring "
@@ -1979,12 +1969,12 @@ msgstr ""
 "Якщо ви хочете скористатися встановленим вами Weblate у менш відкритий "
 "спосіб, тобто дозволити нових користувачів лише на основі запрошень, зробити "
 "це можна налаштовуванням Weblate так, що до нього матимуть доступ лише "
-"відомі користувачі. Для цього ви можете встановити для "
-"параметра :setting:`REGISTRATION_OPEN` значення ``False`` для запобігання "
-"реєстрації будь-яких нових користувачів і встановити "
-"для :setting:`REQUIRE_LOGIN` значення ``/.*``, щоб вимагати входу до системи "
-"для доступу до усіх сторінок сайта. Це, на базовому рівні, є способом "
-"блокування встановленого вами Weblate."
+"відомі користувачі. Для цього ви можете встановити для параметра "
+":setting:`REGISTRATION_OPEN` значення ``False`` для запобігання реєстрації "
+"будь-яких нових користувачів і встановити для :setting:`REQUIRE_LOGIN` "
+"значення ``True``, щоб вимагати входу до системи для доступу до усіх "
+"сторінок сайта. Це, на базовому рівні, є способом блокування встановленого "
+"вами Weblate."
 
 #: ../../admin/access.rst:563
 msgid ""
@@ -1992,6 +1982,8 @@ msgid ""
 "make all newly created projects private, requiring explicit access to be "
 "granted."
 msgstr ""
+"Крім того, зміна :setting:`DEFAULT_ACCESS_CONTROL` на ``100`` зробить усі "
+"новостворені проекти приватними, що вимагатиме надання явного доступу."
 
 #: ../../admin/access.rst:568
 msgid "You can use built-in :ref:`invite-user` to add new users."
@@ -2797,19 +2789,19 @@ msgstr ""
 
 #: ../../admin/addons.rst:431
 msgid "Excluding certain matches"
-msgstr ""
+msgstr "За винятком певних матчів"
 
 #: ../../admin/addons.rst:433
 msgid ""
 "Negative lookahead can be used to exclude certain patterns from being "
 "processed."
 msgstr ""
+"Негативний погляд вперед може бути використаний для виключення певних "
+"шаблонів з обробки."
 
 #: ../../admin/addons.rst:440
-#, fuzzy
-#| msgid "Matching files:"
 msgid "Not matching files:"
-msgstr "Відповідні файли:"
+msgstr "Невідповідні файли:"
 
 #: ../../admin/addons.rst:451
 msgid ""
@@ -5649,7 +5641,7 @@ msgstr "Приклад налаштувань:"
 
 #: ../../admin/auth.rst:536
 msgid "You can generate a new pair of keys using:"
-msgstr ""
+msgstr "Ви можете створити нову пару ключів за допомогою:"
 
 #: ../../admin/auth.rst:542
 msgid ""
@@ -8567,20 +8559,20 @@ msgstr ""
 "contribute_shared_tm`."
 
 #: ../../admin/config.rst:706 ../../admin/install/docker.rst:831
-#, fuzzy
-#| msgid "Configures the default value of :ref:`project-autoclean_tm`."
 msgid ""
 "Configures the default value for :ref:`project-translation_review`, turned "
 "off by default."
-msgstr "Налаштовує значення за замовчуванням :ref:`project-autoclean_tm`."
+msgstr ""
+"Налаштовує значення за замовчуванням для :ref:`project-translation_review`, "
+"яке за замовчуванням вимкнено."
 
 #: ../../admin/config.rst:715 ../../admin/install/docker.rst:837
-#, fuzzy
-#| msgid "Configures the default value of :ref:`project-autoclean_tm`."
 msgid ""
 "Configures the default value for :ref:`project-source_review`, turned off by "
 "default."
-msgstr "Налаштовує значення за замовчуванням :ref:`project-autoclean_tm`."
+msgstr ""
+"Налаштовує значення за замовчуванням для :ref:`project-source_review`, яке "
+"за замовчуванням вимкнено."
 
 #: ../../admin/config.rst:724
 msgid "Configures the default value of :ref:`project-autoclean_tm`."
@@ -9233,22 +9225,21 @@ msgstr ""
 "адресу електронної пошти для внесків."
 
 #: ../../admin/config.rst:1471
-#, fuzzy
-#| msgid ""
-#| "Template to generate private commit e-mail for an user. Defaults to "
-#| "``\"{username}@users.noreply.{site_domain}\"``."
 msgid ""
 "Template to generate a private commit e-mail for a user. Defaults to "
 "``\"{username}@users.noreply.{site_domain}\"``."
 msgstr ""
-"Шаблон для створення конфіденційної адреси електронної пошти для "
-"користувача. Типовим є ``\"{користувач}@users.noreply.{сайт_домен}\"``."
+"Шаблон для створення приватного електронного листа про коміт для "
+"користувача. За замовчуванням використовується ``\"{username}@users.noreply."
+"{site_domain}\"``."
 
 #: ../../admin/config.rst:1473 ../../admin/config.rst:1510
 msgid ""
 "It can contain ``{user_id}``, ``{username}``, ``{site_title}``, and "
 "``{site_domain}``."
 msgstr ""
+"Він може містити ``{user_id}``, ``{username}``, ``{site_title}`` та ``"
+"{site_domain}``."
 
 #: ../../admin/config.rst:1475 ../../admin/config.rst:1512
 msgid "Set to blank string to disable."
@@ -17901,13 +17892,10 @@ msgid "Anthropic API URL"
 msgstr ""
 
 #: ../../admin/machine.rst:182
-#, fuzzy
-#| msgid ""
-#| "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
 msgid "Base URL of the Anthropic API. Leave empty to use the default URL."
 msgstr ""
-"Базова адреса програмного інтерфейсу OpenAI, якщо вона відрізняється від "
-"типової адреси OpenAI"
+"Базовий URL-адресу Anthropic API. Залиште порожнім, щоб використовувати URL-"
+"адресу за замовчуванням."
 
 #: ../../admin/machine.rst:184
 msgid "Anthropic model"
@@ -17943,7 +17931,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:196
 msgid "Maximum number of tokens to generate in the response."
-msgstr ""
+msgstr "Максимальна кількість токенів, які можна згенерувати у відповіді."
 
 #: ../../admin/machine.rst:198 ../../admin/machine.rst:245
 #: ../../admin/machine.rst:750 ../../admin/machine.rst:796
@@ -48477,19 +48465,17 @@ msgstr "Кодування системи"
 #: ../../snippets/file-format-parameters.rst:36
 #: ../../snippets/file-format-parameters.rst:109
 #: ../../snippets/file-format-parameters.rst:122
-#, fuzzy
-#| msgid "Filenames encoding"
 msgid "File encoding"
-msgstr "Кодування назв файлів"
+msgstr "Кодування файлів"
 
 #: ../../snippets/file-format-parameters.rst:7
 msgid "Encoding used for CSV files"
-msgstr ""
+msgstr "Кодування, що використовується для файлів CSV"
 
 #: ../../snippets/file-format-parameters.rst:12
 #: ../../snippets/file-format-parameters.rst:22
 msgid "Auto-detect"
-msgstr ""
+msgstr "Автоматичне-виявлення"
 
 #: ../../snippets/file-format-parameters.rst:15
 #: ../../snippets/file-format-parameters.rst:25
@@ -48497,7 +48483,7 @@ msgstr ""
 #: ../../snippets/file-format-parameters.rst:117
 #: ../../snippets/file-format-parameters.rst:130
 msgid "UTF-8"
-msgstr ""
+msgstr "UTF-8"
 
 #: ../../snippets/file-format-parameters.rst:17
 #, fuzzy
@@ -48507,13 +48493,13 @@ msgstr "Кодування назв файлів"
 
 #: ../../snippets/file-format-parameters.rst:17
 msgid "Encoding used for simple CSV files"
-msgstr ""
+msgstr "Кодування, що використовується для простих CSV-файлів"
 
 #: ../../snippets/file-format-parameters.rst:28
 #: ../../snippets/file-format-parameters.rst:44
 #: ../../snippets/file-format-parameters.rst:114
 msgid "ISO-8859-1"
-msgstr ""
+msgstr "ISO-8859-1"
 
 #: ../../snippets/file-format-parameters.rst:30
 msgid "flatxml_key_name"
@@ -48547,7 +48533,7 @@ msgstr "Кодування системи"
 
 #: ../../snippets/file-format-parameters.rst:36
 msgid "Encoding used for GWT Properties files"
-msgstr ""
+msgstr "Кодування, що використовується для файлів властивостей GWT"
 
 #: ../../snippets/file-format-parameters.rst:46
 msgid "json_indent"
@@ -48653,15 +48639,13 @@ msgid "properties_encoding"
 msgstr "властивості"
 
 #: ../../snippets/file-format-parameters.rst:109
-#, fuzzy
-#| msgid "Format the Java properties file"
 msgid "Encoding used for Java Properties files"
-msgstr "Форматувати файл властивостей Java"
+msgstr "Кодування, що використовується для файлів властивостей Java"
 
 #: ../../snippets/file-format-parameters.rst:120
 #: ../../snippets/file-format-parameters.rst:127
 msgid "UTF-16"
-msgstr ""
+msgstr "UTF-16"
 
 #: ../../snippets/file-format-parameters.rst:122
 #, fuzzy
@@ -48671,7 +48655,7 @@ msgstr "Кодування назв файлів"
 
 #: ../../snippets/file-format-parameters.rst:122
 msgid "Encoding used for iOS strings files"
-msgstr ""
+msgstr "Кодування, що використовується для файлів рядків iOS"
 
 #: ../../snippets/file-format-parameters.rst:132
 msgid "xml_closing_tags"
@@ -56077,11 +56061,9 @@ msgid "XML surrounding characters"
 msgstr "Кількість знаків"
 
 #: ../../user/checks.rst:1899
-#, fuzzy
-#| msgid "XML tags in translation do not match source."
 msgid ""
 "Characters surrounding XML tags in translation do not align with source."
-msgstr "Теґи XML у перекладі не збігаються з тегами XML у джерелі."
+msgstr "Символи, що оточують теги XML у перекладі, не відповідають оригіналу."
 
 #: ../../user/checks.rst:1906
 msgid ""
