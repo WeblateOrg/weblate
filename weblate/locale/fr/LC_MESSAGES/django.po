@@ -27,7 +27,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-02-13 08:24+0000\n"
 "PO-Revision-Date: 2026-02-14 19:11+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"Last-Translator: Mickaël Binos <mickaelbinos@outlook.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
 "Language: fr\n"
@@ -96,26 +96,21 @@ msgid "Commit name"
 msgstr "Nom du contributeur"
 
 #: weblate/accounts/forms.py:213
-#, fuzzy
-#| msgid ""
-#| "Used in version-control commits. The address stays in the repository "
-#| "forever once changes are committed by Weblate."
 msgid ""
 "Used in version control commits. The name stays in the repository forever, "
 "once changes are committed by Weblate."
 msgstr ""
-"Utilisé pour les commits de contrôle de version. L’adresse reste toujours "
-"dans le dépôt une fois les modifications validées par Weblate."
+"Utilisé dans les commits de contrôle de version. Le nom reste dans le "
+"référentiel pour toujours, une fois que les modifications ont été validées "
+"par Weblate."
 
 #: weblate/accounts/forms.py:241
 msgid "Use anonymous account name"
-msgstr ""
+msgstr "Utiliser un nom de compte anonyme"
 
 #: weblate/accounts/forms.py:243
-#, fuzzy
-#| msgid "Use account e-mail address"
 msgid "Use account name"
-msgstr "Utiliser l’adresse courriel du compte"
+msgstr "Utiliser le nom du compte"
 
 #: weblate/accounts/forms.py:264 weblate/accounts/models.py:860
 msgid "Public e-mail"
@@ -969,7 +964,7 @@ msgstr "Société"
 
 #: weblate/accounts/models.py:872
 msgid "Use global default"
-msgstr ""
+msgstr "Utiliser la valeur par défaut globale"
 
 #: weblate/accounts/models.py:873 weblate/trans/models/project.py:172
 msgid "Public"
@@ -1499,6 +1494,7 @@ msgstr "Veuillez plutôt vous inscrire en utilisant une adresse courriel."
 #: weblate/accounts/views.py:1428
 msgid "Could not parse RelayState from SAML Identity Provider."
 msgstr ""
+"Impossible d'analyser RelayState à partir du fournisseur d'identité SAML."
 
 #: weblate/accounts/views.py:1433
 msgid "New registrations are turned off."
@@ -3620,10 +3616,8 @@ msgstr ""
 "ou si le projet est supprimé."
 
 #: weblate/billing/views.py:197 weblate/billing/views.py:216
-#, fuzzy
-#| msgid "Cannot change this on a built-in team."
 msgid "Cannot merge such a billing."
-msgstr "Impossible de changer ceci pour une équipe intégrée."
+msgstr "Impossible de fusionner une telle facturation."
 
 #: weblate/checks/angularjs.py:32
 msgid "AngularJS interpolation string"
@@ -3647,10 +3641,8 @@ msgid "The following errors were found:"
 msgstr "Les erreurs suivantes ont été trouvées :"
 
 #: weblate/checks/base.py:411
-#, fuzzy
-#| msgid "Could not parse flags: %s"
 msgid "Could not parse {} flag: {}"
-msgstr "Impossible d’analyser les drapeaux : %s"
+msgstr "Impossible d'analyser le drapeau {} : {}"
 
 #: weblate/checks/chars.py:48
 msgid "Starting newline"
@@ -4738,14 +4730,14 @@ msgstr "Les balises XML dans la traduction ne correspondent pas à la source."
 
 #: weblate/checks/markup.py:296
 msgid "Chars around XML tags"
-msgstr ""
+msgstr "Caractères autour des balises XML"
 
 #: weblate/checks/markup.py:298
-#, fuzzy
-#| msgid "XML tags in translation do not match source."
 msgid ""
 "Characters surrounding XML tags in translation do not align with source."
-msgstr "Les balises XML dans la traduction ne correspondent pas à la source."
+msgstr ""
+"Les caractères entourant les balises XML dans la traduction ne correspondent "
+"pas à ceux de la source."
 
 #: weblate/checks/markup.py:357
 msgid "Markdown references"
@@ -5189,10 +5181,8 @@ msgstr "Fichier de traduction XLIFF 2.0 avec prise en charge des transposables"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1475
-#, fuzzy
-#| msgid "Java Properties (UTF-8)"
 msgid "Java Properties"
-msgstr "Propriétés Java (UTF-8)"
+msgstr "Propriétés Java"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1490
@@ -6242,22 +6232,19 @@ msgstr "Nom du modèle décrit dans le catalogue Ollama."
 #: weblate/machinery/forms.py:502
 msgctxt "Anthropic model selection"
 msgid "Claude Sonnet 4.5 (Recommended)"
-msgstr ""
+msgstr "Claude Sonnet 4.5 (Recommandé)"
 
 #: weblate/machinery/forms.py:507
 msgctxt "Anthropic model selection"
 msgid "Claude Haiku 4.5"
-msgstr ""
+msgstr "Claude Haiku 4.5"
 
 #: weblate/machinery/forms.py:511
 msgctxt "Anthropic model selection"
 msgid "Claude Opus 4.5"
-msgstr ""
+msgstr "Claude Opus 4.5"
 
 #: weblate/machinery/forms.py:513
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Custom model"
 msgctxt "Anthropic model selection"
 msgid "Custom model"
 msgstr "Modèle personnalisé"
@@ -6265,16 +6252,13 @@ msgstr "Modèle personnalisé"
 #: weblate/machinery/forms.py:518
 msgctxt "Automatic suggestion service configuration"
 msgid "Anthropic API URL"
-msgstr ""
+msgstr "URL de l'API Anthropic"
 
 #: weblate/machinery/forms.py:521
-#, fuzzy
-#| msgid ""
-#| "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
 msgid "Base URL of the Anthropic API. Leave empty to use the default URL."
 msgstr ""
-"URL de base de l’API OpenAI, si elle est différente de l’URL OpenAI par "
-"défaut"
+"URL de base de l'API Anthropic. Laissez ce champ vide pour utiliser l'URL "
+"par défaut."
 
 #: weblate/machinery/forms.py:529
 msgctxt "Automatic suggestion service configuration"
