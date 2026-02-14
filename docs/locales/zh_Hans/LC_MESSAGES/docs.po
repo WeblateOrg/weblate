@@ -31,7 +31,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-02-13 09:24+0100\n"
 "PO-Revision-Date: 2026-02-14 19:11+0000\n"
-"Last-Translator: 大学没毕业 <ziweidao@foxmail.com>\n"
+"Last-Translator: 大王叫我来巡山 "
+"<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
 "projects/weblate/documentation/zh_Hans/>\n"
 "Language: zh_Hans\n"
@@ -1854,16 +1855,6 @@ msgid "Additional access restrictions"
 msgstr "额外访问限制"
 
 #: ../../admin/access.rst:556
-#, fuzzy
-#| msgid ""
-#| "If you want to use your Weblate installation in a less public manner, "
-#| "i.e. allow new users on an invitational basis only, it can be done by "
-#| "configuring Weblate in such a way that only known users have an access to "
-#| "it. In order to do so, you can set :setting:`REGISTRATION_OPEN` to "
-#| "``False`` to prevent registrations of any new users, and "
-#| "set :setting:`REQUIRE_LOGIN` to ``/.*`` to require signing in to access "
-#| "all the site pages. This is basically the way to lock your Weblate "
-#| "installation."
 msgid ""
 "If you want to use your Weblate installation in a less public manner, i.e. "
 "allow new users on an invitational basis only, it can be done by configuring "
@@ -1873,11 +1864,11 @@ msgid ""
 "to require signing in to access all the site pages. This is basically the "
 "way to lock your Weblate installation."
 msgstr ""
-"如果您想以不那么公开的方式使用您的 Weblate 安装，即只允许新用户在受邀的基础"
-"上，可以通过配置 Weblate 以这样一种方式来实现，即只有已知用户才能访问它。为"
-"此，您可以将 :setting:`REGISTRATION_OPEN` 设置为 ``False`` 以防止任何新用户注"
-"册，并将 :setting:`REQUIRE_LOGIN` 设置为 ``/.*`` 以要求登录 访问所有网站页"
-"面。这基本上是锁定您的 Weblate 安装的方法。"
+"如果您想以不那么公开的方式使用您的 Weblate 安装，即只允许新用户在受邀的基础上"
+"，可以通过配置 Weblate 以这样一种方式来实现，即只有已知用户才能访问它。为此，"
+"您可以将 :setting:`REGISTRATION_OPEN` 设置为 ``False`` 以防止任何新用户注册，"
+"并将 :setting:`REQUIRE_LOGIN` 设置为 ``True`` 以要求登录 访问所有网站页面。这"
+"基本上是锁定您的 Weblate 安装的方法。"
 
 #: ../../admin/access.rst:563
 msgid ""
@@ -1885,6 +1876,8 @@ msgid ""
 "make all newly created projects private, requiring explicit access to be "
 "granted."
 msgstr ""
+"另外，更改 :setting:`DEFAULT_ACCESS_CONTROL` 为 ``100`` 会使所有新创建的项目"
+"变成私密项目，需要授予显式权限。"
 
 #: ../../admin/access.rst:568
 msgid "You can use built-in :ref:`invite-user` to add new users."
@@ -2646,19 +2639,17 @@ msgstr ""
 
 #: ../../admin/addons.rst:431
 msgid "Excluding certain matches"
-msgstr ""
+msgstr "排除某些匹配"
 
 #: ../../admin/addons.rst:433
 msgid ""
 "Negative lookahead can be used to exclude certain patterns from being "
 "processed."
-msgstr ""
+msgstr "正则表达式中的负向先行断言可用于不处理某些文本模式。"
 
 #: ../../admin/addons.rst:440
-#, fuzzy
-#| msgid "Matching files:"
 msgid "Not matching files:"
-msgstr "匹配文件："
+msgstr "不匹配文件："
 
 #: ../../admin/addons.rst:451
 msgid ""
@@ -5313,7 +5304,7 @@ msgstr "配置的示例："
 
 #: ../../admin/auth.rst:536
 msgid "You can generate a new pair of keys using:"
-msgstr ""
+msgstr "生成新的公钥密钥对可以用："
 
 #: ../../admin/auth.rst:542
 msgid ""
@@ -7940,20 +7931,16 @@ msgstr ""
 "认值。"
 
 #: ../../admin/config.rst:706 ../../admin/install/docker.rst:831
-#, fuzzy
-#| msgid "Configures the default value of :ref:`project-autoclean_tm`."
 msgid ""
 "Configures the default value for :ref:`project-translation_review`, turned "
 "off by default."
-msgstr "配置 :ref:`project-autoclean_tm` 的默认值。"
+msgstr "配置 :ref:`project-translation_review` 的默认值，默认关闭。"
 
 #: ../../admin/config.rst:715 ../../admin/install/docker.rst:837
-#, fuzzy
-#| msgid "Configures the default value of :ref:`project-autoclean_tm`."
 msgid ""
 "Configures the default value for :ref:`project-source_review`, turned off by "
 "default."
-msgstr "配置 :ref:`project-autoclean_tm` 的默认值。"
+msgstr "配置 :ref:`project-source_review` 的默认值，默认关闭。"
 
 #: ../../admin/config.rst:724
 msgid "Configures the default value of :ref:`project-autoclean_tm`."
@@ -8533,10 +8520,6 @@ msgid ""
 msgstr "此设置仅适用于未明确选择提交邮箱的用户。"
 
 #: ../../admin/config.rst:1471
-#, fuzzy
-#| msgid ""
-#| "Template to generate private commit e-mail for an user. Defaults to "
-#| "``\"{username}@users.noreply.{site_domain}\"``."
 msgid ""
 "Template to generate a private commit e-mail for a user. Defaults to "
 "``\"{username}@users.noreply.{site_domain}\"``."
@@ -8549,17 +8532,14 @@ msgid ""
 "It can contain ``{user_id}``, ``{username}``, ``{site_title}``, and "
 "``{site_domain}``."
 msgstr ""
+"它可以包含 ``{user_id}``, ``{username}``, ``{site_title}``, 和 ``"
+"{site_domain}``."
 
 #: ../../admin/config.rst:1475 ../../admin/config.rst:1512
 msgid "Set to blank string to disable."
 msgstr "留空禁用该功能。"
 
 #: ../../admin/config.rst:1479
-#, fuzzy
-#| msgid ""
-#| "Using different commit e-mail is opt-in for users unless configured "
-#| "by :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure commit e-"
-#| "mail in the :ref:`profile`."
 msgid ""
 "Using a different commit e-mail is opt-in for users unless configured "
 "by :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure their commit "
@@ -8569,50 +8549,31 @@ msgstr ""
 "对用户而言默认处于手动启用状态。用户可以在 :ref:`profile` 中配置提交邮箱。"
 
 #: ../../admin/config.rst:1490
-#, fuzzy
-#| msgid ""
-#| "Configures whether the private commit e-mail is opt-in or opt-out (by "
-#| "default it is opt-in)."
 msgid ""
 "Configures whether the private commit name is opt-in or opt-out (by default "
 "it is opt-in)."
-msgstr "配置私密提交邮箱是手动启用还是默认启用（默认情况下为手动启用）。"
+msgstr "配置私密提交名称是手动启用还是默认启用（默认情况下为手动启用）。"
 
 #: ../../admin/config.rst:1494
-#, fuzzy
-#| msgid ""
-#| "This setting only applies to users which have not explicitly chosen a "
-#| "commit e-mail."
 msgid ""
 "This setting only applies to users which have not explicitly chosen a commit "
 "name."
-msgstr "此设置仅适用于未明确选择提交邮箱的用户。"
+msgstr "此设置仅适用于未明确选择提交名称的用户。"
 
 #: ../../admin/config.rst:1508
-#, fuzzy
-#| msgid ""
-#| "Template to generate private commit e-mail for an user. Defaults to "
-#| "``\"{username}@users.noreply.{site_domain}\"``."
 msgid ""
 "Template to generate a private commit name for a user. Defaults to "
 "``\"{site_title} user {user_id}\"``."
-msgstr ""
-"为用户生成私密提交邮箱的模板。默认为 ``\"{username}@users.noreply."
-"{site_domain}\"`` 。"
+msgstr "为用户生成私密提交名称的模板。默认为 ``\"{site_title} user {user_id}\"``."
 
 #: ../../admin/config.rst:1516
-#, fuzzy
-#| msgid ""
-#| "Using different commit e-mail is opt-in for users unless configured "
-#| "by :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure commit e-"
-#| "mail in the :ref:`profile`."
 msgid ""
 "Using a different commit name is opt-in for users unless configured "
 "by :setting:`PRIVATE_COMMIT_NAME_OPT_IN`. Users can configure their commit "
 "name in the :ref:`profile`."
 msgstr ""
-"除非通过 :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` 配置，否则使用不同的提交邮箱"
-"对用户而言默认处于手动启用状态。用户可以在 :ref:`profile` 中配置提交邮箱。"
+"除非通过 :setting:`PRIVATE_COMMIT_NAME_OPT_IN` 配置，否则使用不同的提交名称对"
+"用户处于手动启用状态。用户可以在 :ref:`profile` 中配置提交名称。"
 
 #: ../../admin/config.rst:1527
 msgid ""
@@ -13766,16 +13727,12 @@ msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 msgstr "配置 :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 
 #: ../../admin/install/docker.rst:1037
-#, fuzzy
-#| msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
 msgid "Configures :setting:`PRIVATE_COMMIT_NAME_TEMPLATE`."
-msgstr "配置 :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
+msgstr "配置 :setting:`PRIVATE_COMMIT_NAME_TEMPLATE`."
 
 #: ../../admin/install/docker.rst:1043
-#, fuzzy
-#| msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 msgid "Configures :setting:`PRIVATE_COMMIT_NAME_OPT_IN`."
-msgstr "配置 :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
+msgstr "配置 :setting:`PRIVATE_COMMIT_NAME_OPT_IN`."
 
 #: ../../admin/install/docker.rst:1049
 msgid "Configures :setting:`UNUSED_ALERT_DAYS`."
@@ -16341,34 +16298,31 @@ msgstr ""
 
 #: ../../admin/machine.rst:164
 msgid "Anthropic"
-msgstr ""
+msgstr "Anthropic"
 
 #: ../../admin/machine.rst:182
 msgid "Anthropic API URL"
-msgstr ""
+msgstr "Anthropic API URL"
 
 #: ../../admin/machine.rst:182
-#, fuzzy
-#| msgid ""
-#| "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
 msgid "Base URL of the Anthropic API. Leave empty to use the default URL."
-msgstr "OpenAI API 的基本 URL，如果它与 OpenAI 默认 URL 不同"
+msgstr "Anthropic API 的基本 URL。留空使用默认 URL。"
 
 #: ../../admin/machine.rst:184
 msgid "Anthropic model"
-msgstr ""
+msgstr "Anthropic 模型"
 
 #: ../../admin/machine.rst:186
 msgid "``claude-sonnet-4-5`` -- Claude Sonnet 4.5 (Recommended)"
-msgstr ""
+msgstr "``claude-sonnet-4-5`` -- Claude Sonnet 4.5 （推荐）"
 
 #: ../../admin/machine.rst:188
 msgid "``claude-haiku-4-5`` -- Claude Haiku 4.5"
-msgstr ""
+msgstr "``claude-haiku-4-5`` -- Claude Haiku 4.5"
 
 #: ../../admin/machine.rst:190
 msgid "``claude-opus-4-5`` -- Claude Opus 4.5"
-msgstr ""
+msgstr "``claude-opus-4-5`` -- Claude Opus 4.5"
 
 #: ../../admin/machine.rst:192 ../../admin/machine.rst:832
 msgid "``custom`` -- Custom model"
@@ -16384,11 +16338,11 @@ msgstr "仅当模型设置为“自定义模型”时才需要"
 
 #: ../../admin/machine.rst:196
 msgid "Max tokens"
-msgstr ""
+msgstr "最大令牌数"
 
 #: ../../admin/machine.rst:196
 msgid "Maximum number of tokens to generate in the response."
-msgstr ""
+msgstr "响应中生成的最大令牌数。"
 
 #: ../../admin/machine.rst:198 ../../admin/machine.rst:245
 #: ../../admin/machine.rst:750 ../../admin/machine.rst:796
@@ -16396,10 +16350,6 @@ msgid "Translator persona"
 msgstr "译者人格面貌"
 
 #: ../../admin/machine.rst:198
-#, fuzzy
-#| msgid ""
-#| "Describe the persona of translator to improve the accuracy of the "
-#| "translation. For example: “You are a squirrel breeder.”"
 msgid ""
 "Describe the persona of translator to improve the accuracy of the "
 "translation. For example: \"You are a squirrel breeder.\""
@@ -16413,18 +16363,13 @@ msgid "Translator style"
 msgstr "译者风格"
 
 #: ../../admin/machine.rst:200
-#, fuzzy
-#| msgid ""
-#| "Describe the style of translation. For example: “Use informal language.”"
 msgid ""
 "Describe the style of translation. For example: \"Use informal language.\""
-msgstr "请描述翻译的风格。例如：“使用口语化语言。”"
+msgstr "请描述翻译的风格。例如：“使用口语化语言”"
 
 #: ../../admin/machine.rst:203
-#, fuzzy
-#| msgid "Performs translation using `Ollama`_ models."
 msgid "Performs translation using `Anthropic's Claude`_ models."
-msgstr "用 `Ollama`_ 模型执行翻译。"
+msgstr "用 `Anthropic 的 Claude`_ 模型执行翻译。"
 
 #: ../../admin/machine.rst:205
 msgid ""
@@ -16432,37 +16377,27 @@ msgid ""
 "known for their strong reasoning and language capabilities. You need an API "
 "key from Anthropic to use this service."
 msgstr ""
+"Anthropic API 提供对 Claude 模型家族的访问，它们以强大的推理和语言能力闻名。"
+"需要来自 Anthropic 的 API key 来使用这个服务。"
 
 #: ../../admin/machine.rst:209
-#, fuzzy
-#| msgid ""
-#| "Use persona and style fields to further fine-tune translations. These "
-#| "will be used in a prompt for Ollama and allow you to change the style of "
-#| "the translations."
 msgid ""
 "Use persona and style fields to further fine-tune translations. These will "
 "be used in a prompt for Claude and allow you to change the style of the "
 "translations."
 msgstr ""
-"使用 persona 和 style 字段进一步微调翻译。这些将被用于 Ollama 的提示并允许你"
+"使用 persona 和 style 字段进一步微调翻译。这些将被用于 Claude 的提示并允许你"
 "更改翻译的风格。"
 
 #: ../../admin/machine.rst:217
-#, fuzzy
-#| msgid ""
-#| "`DeepL API documentation <https://developers.deepl.com/docs/getting-"
-#| "started/intro>`_"
 msgid ""
 "`Anthropic API documentation <https://docs.anthropic.com/en/api/getting-"
 "started>`_"
-msgstr ""
-"`DeepL API 文档 <https://developers.deepl.com/docs/getting-started/intro>`_"
+msgstr "`Anthropic API 文档 <https://docs.anthropic.com/en/api/getting-started>`_"
 
 #: ../../admin/machine.rst:218
-#, fuzzy
-#| msgid "`Anchore <https://anchore.com/>`_"
 msgid "`Anthropic Console <https://console.anthropic.com/>`_"
-msgstr "`Anchore <https://anchore.com/>`_"
+msgstr "`Anthropic 控制台 <https://console.anthropic.com/>`_"
 
 #: ../../admin/machine.rst:225
 msgid "Azure OpenAI"
@@ -17224,7 +17159,7 @@ msgstr "翻译域的 ID，例如 BC。如果您不指定域，该方法会搜索
 
 #: ../../admin/machine.rst:889
 msgid "Machine translation service provided by SAP."
-msgstr "SAP 提供的机器翻一下服务。"
+msgstr "SAP 提供的机器翻译服务。"
 
 #: ../../admin/machine.rst:891
 msgid ""
@@ -17285,20 +17220,20 @@ msgstr "tmserver"
 #: ../../admin/machine.rst:952
 msgid ""
 "You can run your own translation memory server by using a tmserver protocol."
-msgstr ""
+msgstr "使用 tmserver 协议你可以运行自己的翻译记忆库服务器。"
 
 #: ../../admin/machine.rst:954
 msgid ""
 "The original :program:`tmserver` was bundled with the translate-toolkit."
-msgstr ""
+msgstr "原始的 :program:`tmserver` 和 translate-toolkit 捆绑在一起。"
 
 #: ../../admin/machine.rst:955
 msgid "amaGama server is an enhanced version of tmserver."
-msgstr ""
+msgstr "amaGama 服务器是增强版 tmserver。"
 
 #: ../../admin/machine.rst:959
 msgid "There currently does not seem to be a maintained server for this."
-msgstr ""
+msgstr "目前似乎没有针对这个的受维护的服务器。"
 
 #: ../../admin/machine.rst:968 ../../admin/machine.rst:983
 msgid "`This service has no configuration.`"
@@ -18361,6 +18296,8 @@ msgid ""
 "the :ref:`autoclean-tm` configuration. If automatic cleanup is enabled, this "
 "is disabled by default to prevent reintroducing inconsistent translations."
 msgstr ""
+"基于 :ref:`autoclean-tm` 配置自动调整新用户的默认值。如果默认清理开启，则默认"
+"禁用这个放置重新引入不一致的译文。"
 
 #: ../../admin/memory.rst:47
 msgid "Per-project translation memory"
@@ -18443,6 +18380,8 @@ msgid ""
 "not contribute to personal translation memory. This prevents reintroducing "
 "inconsistent translations that were supposed to be cleaned up."
 msgstr ""
+"开启自动清理还会将新用户个人资料的默认值更改为不录入个人翻译记忆库。这防止重"
+"新引入打算要清理的不一致的译文。"
 
 #: ../../admin/memory.rst:105
 msgid "Managing the Translation Memory"
@@ -21191,69 +21130,42 @@ msgstr ""
 "您可以将这些与 :ref:`访问控制 <access-control>` 结合起来，形成下列设置之一："
 
 #: ../../admin/translating.rst:26
-#, fuzzy
-#| msgid ""
-#| "Users suggest and vote for suggestions and a limited group controls what "
-#| "is accepted. - Turn on voting. - Turn off automatic acceptance. - Don't "
-#| "let users save translations."
 msgid ""
 "Users suggest and vote for suggestions and a limited group controls what is "
 "accepted."
-msgstr ""
-"用户提出建议并对建议进行投票，由一个有限的小组控制采纳的内容。——打开投票。——"
-"关闭自动接受。——不允许用户保存翻译。"
+msgstr "用户提出建议并对建议进行投票，由一个有限的小组控制采纳的内容。"
 
 #: ../../admin/translating.rst:29 ../../admin/translating.rst:36
-#, fuzzy
-#| msgid "Turn on suggestions"
 msgid "Turn on voting."
-msgstr "开启建议"
+msgstr "开启投票。"
 
 #: ../../admin/translating.rst:30
-#, fuzzy
-#| msgid "Turn off this notification"
 msgid "Turn off automatic acceptance."
-msgstr "关闭此通知"
+msgstr "关闭自动接受。"
 
 #: ../../admin/translating.rst:31
-#, fuzzy
-#| msgid "Deletes a translation."
 msgid "Don't let users save translations."
-msgstr "删除翻译。"
+msgstr "不让用户保存译文。"
 
 #: ../../admin/translating.rst:33
-#, fuzzy
-#| msgid ""
-#| "Users suggest and vote for suggestions with automatic acceptance once the "
-#| "defined number of them agree. - Turn on voting. - Set the desired number "
-#| "of votes for automatic acceptance."
 msgid ""
 "Users suggest and vote for suggestions with automatic acceptance once the "
 "defined number of them agree."
-msgstr ""
-"用户提出建议并对建议进行投票，一旦有规定数量的用户同意，就自动接受。——打开投"
-"票。——设置自动接受所需要的投票数量。"
+msgstr "用户提出建议并对建议进行投票，一旦有规定数量的用户同意，就自动接受。"
 
 #: ../../admin/translating.rst:37
 msgid "Set the desired number of votes for automatic acceptance."
-msgstr ""
+msgstr "设置自动接受建议的期望票数。"
 
 #: ../../admin/translating.rst:39
-#, fuzzy
-#| msgid ""
-#| "Optional voting for suggestions. (Can optionally be used by users when "
-#| "they are unsure about a translation by making multiple suggestions.) - "
-#| "Only turn on voting."
 msgid ""
 "Optional voting for suggestions. (Can optionally be used by users when they "
 "are unsure about a translation by making multiple suggestions.)"
-msgstr ""
-"对建议的可选投票。（当用户对做出的多个建议不确定时，可以由用户可选地使用。）"
-"——只打开投票。"
+msgstr "对建议的可选投票。（当用户对做出的多个建议不确定时，可以由用户可选地使用。）"
 
 #: ../../admin/translating.rst:42
 msgid "Only turn on voting."
-msgstr ""
+msgstr "只打开投票。"
 
 #: ../../admin/translating.rst:47
 msgid "Additional info on source strings"
@@ -21700,28 +21612,21 @@ msgid "Authentication and generic parameters"
 msgstr "身份认证和通用参数"
 
 #: ../../api.rst:28
-#, fuzzy
-#| msgid ""
-#| "The public project API is available without authentication, though "
-#| "unauthenticated requests are heavily throttled (by default to 100 "
-#| "requests per day), so it is recommended to use authentication. The "
-#| "authentication uses a token, which you can get in your profile. Use it in "
-#| "the ``Authorization`` header:"
 msgid ""
 "The read-only API is available without authentication "
 "unless :setting:`REQUIRE_LOGIN` is turned on. Unauthenticated requests are "
 "heavily throttled (by default to 100 requests per day), so it is recommended "
 "to use authentication."
 msgstr ""
-"公共项目的 API 无需身份认证即可使用，但未经身份认证的请求会受到严格的限制（默"
-"认为每天 100 个请求），所以建议使用身份认证。身份认证使用令牌，你可以在你的个"
-"人资料中获取该令牌。在 ``Authorization`` 标头中使用它："
+"只读 API 无需身份认证即可使用，除非打开了 :setting:`REQUIRE_LOGIN` 设置。但未"
+"经身份认证的请求会受到严格的限制（默认为每天 100 个请求），所以建议使用身份认"
+"证。"
 
 #: ../../api.rst:33
 msgid ""
 "The authentication uses a token, which you can get in your profile. Use it "
 "in the ``Authorization`` header:"
-msgstr ""
+msgstr "身份认证使用令牌，你可以在个人资料中获取。在 ``Authorization`` 标头中使用它："
 
 #: ../../api.rst:38
 msgid ""
@@ -24727,13 +24632,11 @@ msgstr ":ref:`check-multiple-capital` 质量检查。"
 
 #: ../../changes.rst:9
 msgid "Bulk accepting suggestions from a specific user in :ref:`suggestions`."
-msgstr ""
+msgstr "在 :ref:`suggestions` 中批量接受来自特定用户的建议。"
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Fixed sorting of machine translation suggestions."
 msgid "Cloning suggestions into translation in :ref:`suggestions`."
-msgstr "修复了机器翻译建议的排序。"
+msgstr "将建议克隆到 :ref:`suggestions` 中的翻译。"
 
 #: ../../changes.rst:11
 msgid ""
@@ -24751,13 +24654,8 @@ msgstr ""
 "件，:ref:`addon-choice-events`。"
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid ""
-#| "Added new Ollama machinery tool for local Ollama AI model integration, "
-#| "see :ref:`mt-ollama`."
 msgid "Added Anthropic machinery integration, see :ref:`mt-anthropic`."
-msgstr ""
-"添加了新的 Ollama 机器工具用于本地 Ollama AI 模型集成，见 :ref:`mt-ollama`。"
+msgstr "新增 Anthropic 机器翻译集成，见 :ref:`mt-anthropic`。"
 
 #: ../../changes.rst:14
 msgid ""
@@ -24765,14 +24663,14 @@ msgid ""
 "using :ref:`file_format_params` (e.g., ``csv_encoding``, "
 "``properties_encoding``)."
 msgstr ""
+":ref:`formats` 的编码现在可以用 :ref:`file_format_params` (如 "
+"``csv_encoding``, ``properties_encoding``) 进行配置。"
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
 msgid ""
 "Added support for anonymous commit names "
 "via :setting:`PRIVATE_COMMIT_NAME_TEMPLATE`."
-msgstr "配置 :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
+msgstr "通过 :setting:`PRIVATE_COMMIT_NAME_TEMPLATE` 新增支持匿名提交名。"
 
 #: ../../changes.rst:18 ../../changes.rst:58 ../../changes.rst:103
 #: ../../changes.rst:145 ../../changes.rst:221 ../../changes.rst:248
@@ -24819,28 +24717,26 @@ msgid "Validation of VCS settings :ref:`push-changes` has been extended."
 msgstr "扩展了 VCS 设置 :ref:`push-changes` 的验证。"
 
 #: ../../changes.rst:25
-#, fuzzy
-#| msgid ""
-#| "Configures the default value of :ref:`project-use_shared_tm` "
-#| "and :ref:`project-contribute_shared_tm`."
 msgid ""
 "The default values for :ref:`project-translation_review` and :ref:`project-"
 "source_review` can be configured in settings."
 msgstr ""
-"配置 :ref:`project-use_shared_tm` 和 :ref:`project-contribute_shared_tm` 的默"
-"认值。"
+"可以在设置中配置 :ref:`project-translation_review` 和 :ref:`project-"
+"source_review` 的默认值。"
 
 #: ../../changes.rst:26
 msgid ""
 "The :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE` now supports the ``{user_id}`` "
 "and ``{site_title}`` variables."
 msgstr ""
+":setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE` 现在支持 ``{user_id}`` 和 ``"
+"{site_title}`` 变量。"
 
 #: ../../changes.rst:27
 msgid ""
 "The default value for personal translation memory contribution is now based "
 "on the :setting:`DEFAULT_AUTOCLEAN_TM` configuration."
-msgstr ""
+msgstr "个人翻译记忆库贡献的默认值现在基于 :setting:`DEFAULT_AUTOCLEAN_TM` 配置。"
 
 #: ../../changes.rst:30 ../../changes.rst:65 ../../changes.rst:111
 #: ../../changes.rst:162 ../../changes.rst:201 ../../changes.rst:225
@@ -24881,18 +24777,18 @@ msgid ""
 "File formats that only differed in encoding (CSV, GWT Properties, Java "
 "Properties, iOS Strings) have been merged into single formats."
 msgstr ""
+"只有编码差异的文件格式（CSV、GWT 属性、Java 属性、iOS 属性）已被合并到到单一"
+"格式群。"
 
 #: ../../changes.rst:34
 msgid ""
 "Improved cache isolation for suggestion checks to avoid interference with "
 "the parent unit checks."
-msgstr ""
+msgstr "改进了建议检查的缓存隔离避免干涉主单元检查。"
 
 #: ../../changes.rst:35
-#, fuzzy
-#| msgid "Adjust translation flags (see :ref:`custom-checks`)"
 msgid "Gracefully handle invalid check flags in :ref:`custom-checks`."
-msgstr "调整翻译标记（请参见 :ref:`custom-checks`）"
+msgstr "优雅地处理 :ref:`custom-checks` 中的无效检查标记。"
 
 #: ../../changes.rst:38 ../../changes.rst:78 ../../changes.rst:176
 #: ../../changes.rst:319 ../../changes.rst:414 ../../changes.rst:469
@@ -24917,7 +24813,7 @@ msgstr ""
 msgid ""
 "The default value for :setting:`WEBLATE_FORMATS` changed because of the "
 "removal of encoding-specific formats."
-msgstr ""
+msgstr ":setting:`WEBLATE_FORMATS` 的默认值已更改，因为删除了特定编码的格式。"
 
 #: ../../changes.rst:43 ../../changes.rst:82 ../../changes.rst:119
 #: ../../changes.rst:186 ../../changes.rst:206 ../../changes.rst:229
@@ -25227,12 +25123,10 @@ msgid "Update language definitions to CLDR 48."
 msgstr "更新语言定义到 CLDR 48。"
 
 #: ../../changes.rst:108
-#, fuzzy
-#| msgid ":ref:`check-xml-tags` better handle XML entities."
 msgid ""
 ":ref:`check-xml-chars-around-tags` reduce translation errors for strings "
 "with XML entities."
-msgstr ":ref:`check-xml-tags` 更好地处理 XML 条目。"
+msgstr ":ref:`check-xml-chars-around-tags` 减少带 XML 条目字符串的翻译错误。"
 
 #: ../../changes.rst:112
 msgid ""
@@ -42418,10 +42312,8 @@ msgid ""
 msgstr "一些格式更具体的工作流程在后面的章节中描述："
 
 #: ../../devel/starting.rst:89
-#, fuzzy
-#| msgid "Starting with internationalization"
 msgid "Educating developers for proper internationalization"
-msgstr "从国际化开始"
+msgstr "教导开发者正确理解国际化"
 
 #: ../../devel/starting.rst:91
 msgid ""
@@ -42432,6 +42324,9 @@ msgid ""
 "frameworks have good support for this, so please follow their instructions "
 "for all these areas."
 msgstr ""
+"软件国际化不只是能够翻译字符串，还有让整个软件对来自另一个地区的用户看上去像"
+"本土软件一样。这包括日期或数字格式、货币显示、或以正确方向输入文本等。多数软"
+"件框架对此支持良好，因而对于所有这些方面请按照它们的操作指南行事。"
 
 #: ../../devel/starting.rst:97
 msgid ""
@@ -42442,6 +42337,9 @@ msgid ""
 "might not be clear how to translate, and it is even challenging to "
 "distinguish whether the word is a verb or a noun."
 msgstr ""
+"字符串翻译也不是一项简单任务。对于字幕或按钮标签等短字符串尤其如此。不同语言"
+"有不同规则，预期相同字符串的翻译总是一成不变是不合理的。很多情况下如何翻译可"
+"能并不清晰，区分一个词是动词还是名词更是有挑战性。"
 
 #: ../../devel/starting.rst:104
 msgid ""
@@ -42452,6 +42350,10 @@ msgid ""
 "additional context in Weblate, such as :ref:`screenshots` "
 "or :ref:`additional-explanation`."
 msgstr ""
+"所有开发者都应理解这些并唯一地标识用于不同范围的字符串。比如，表示\"无用户“"
+"的 ``None`` 的翻译可能不同于表示\"无项目”的 ``None`` 的翻译。用不同的键或上下"
+"文来为译者区分这些术语。你可以在 Weblate 中提供额外的上下文，比如 "
+":ref:`screenshots` 或 :ref:`additional-explanation`。"
 
 #: ../../devel/success-stories.rst:2
 msgid "Success stories"
@@ -44145,10 +44047,8 @@ msgid "Help text"
 msgstr "帮助文本"
 
 #: ../../snippets/file-format-parameters.rst:7
-#, fuzzy
-#| msgid "System encoding"
 msgid "csv_encoding"
-msgstr "系统编码"
+msgstr "csv_encoding"
 
 #: ../../formats/apple.rst:37 ../../formats/java.rst:48
 #: ../../snippets/file-format-parameters.rst:7
@@ -44156,19 +44056,17 @@ msgstr "系统编码"
 #: ../../snippets/file-format-parameters.rst:36
 #: ../../snippets/file-format-parameters.rst:109
 #: ../../snippets/file-format-parameters.rst:122
-#, fuzzy
-#| msgid "Filenames encoding"
 msgid "File encoding"
-msgstr "文件名编码"
+msgstr "文件编码"
 
 #: ../../snippets/file-format-parameters.rst:7
 msgid "Encoding used for CSV files"
-msgstr ""
+msgstr "CSV 文件所用的编码"
 
 #: ../../snippets/file-format-parameters.rst:12
 #: ../../snippets/file-format-parameters.rst:22
 msgid "Auto-detect"
-msgstr ""
+msgstr "自动检测"
 
 #: ../../snippets/file-format-parameters.rst:15
 #: ../../snippets/file-format-parameters.rst:25
@@ -44176,23 +44074,21 @@ msgstr ""
 #: ../../snippets/file-format-parameters.rst:117
 #: ../../snippets/file-format-parameters.rst:130
 msgid "UTF-8"
-msgstr ""
+msgstr "UTF-8"
 
 #: ../../snippets/file-format-parameters.rst:17
-#, fuzzy
-#| msgid "Filenames encoding"
 msgid "csv_simple_encoding"
-msgstr "文件名编码"
+msgstr "csv_simple_encoding"
 
 #: ../../snippets/file-format-parameters.rst:17
 msgid "Encoding used for simple CSV files"
-msgstr ""
+msgstr "简单 CSV 文件所用的编码"
 
 #: ../../snippets/file-format-parameters.rst:28
 #: ../../snippets/file-format-parameters.rst:44
 #: ../../snippets/file-format-parameters.rst:114
 msgid "ISO-8859-1"
-msgstr ""
+msgstr "ISO-8859-1"
 
 #: ../../snippets/file-format-parameters.rst:30
 msgid "flatxml_key_name"
@@ -44219,14 +44115,12 @@ msgid "FlatXML value name"
 msgstr "FlatXML 值名称"
 
 #: ../../snippets/file-format-parameters.rst:36
-#, fuzzy
-#| msgid "System encoding"
 msgid "gwt_encoding"
-msgstr "系统编码"
+msgstr "gwt_encoding"
 
 #: ../../snippets/file-format-parameters.rst:36
 msgid "Encoding used for GWT Properties files"
-msgstr ""
+msgstr "GWT 属性文件所用的编码"
 
 #: ../../snippets/file-format-parameters.rst:46
 msgid "json_indent"
@@ -44323,31 +44217,25 @@ msgid "Do not include location information in the file"
 msgstr "不在文件中包括位置信息"
 
 #: ../../snippets/file-format-parameters.rst:109
-#, fuzzy
-#| msgid "properties"
 msgid "properties_encoding"
-msgstr "属性"
+msgstr "properties_encoding"
 
 #: ../../snippets/file-format-parameters.rst:109
-#, fuzzy
-#| msgid "Format the Java properties file"
 msgid "Encoding used for Java Properties files"
-msgstr "格式化 Java 属性文件"
+msgstr "Java 属性文件所用编码"
 
 #: ../../snippets/file-format-parameters.rst:120
 #: ../../snippets/file-format-parameters.rst:127
 msgid "UTF-16"
-msgstr ""
+msgstr "UTF-16"
 
 #: ../../snippets/file-format-parameters.rst:122
-#, fuzzy
-#| msgid "Filenames encoding"
 msgid "strings_encoding"
-msgstr "文件名编码"
+msgstr "strings_encoding"
 
 #: ../../snippets/file-format-parameters.rst:122
 msgid "Encoding used for iOS strings files"
-msgstr ""
+msgstr "iOS 字符串文件所用的编码"
 
 #: ../../snippets/file-format-parameters.rst:132
 msgid "xml_closing_tags"
@@ -44619,14 +44507,12 @@ msgstr ""
 "Localizable.strings``"
 
 #: ../../formats/apple.rst:35
-#, fuzzy
-#| msgid "iOS strings"
 msgid "`iOS Strings`"
-msgstr "iOS 字符串"
+msgstr "`iOS 字符串`"
 
 #: ../../formats/apple.rst:37
 msgid "`UTF-8`"
-msgstr ""
+msgstr "`UTF-8`"
 
 #: ../../formats/appstore.rst:6
 msgid ""
@@ -44798,20 +44684,13 @@ msgstr ""
 "见 :ref:`bimono`）。"
 
 #: ../../formats/csv.rst:27
-#, fuzzy
-#| msgid ""
-#| "By default, the CSV format does autodetection of file encoding. This can "
-#| "be unreliable in some corner cases and causes performance penalty. Please "
-#| "choose file format variant with encoding to avoid this (for "
-#| "example :guilabel:`CSV file (UTF-8)`)."
 msgid ""
 "By default, the CSV format does autodetection of file encoding. This can be "
 "unreliable in some corner cases and causes performance penalty. Please "
 "choose a file format encoding to avoid this (for example :guilabel:`UTF-8`)."
 msgstr ""
 "默认情况下，CSV 格式会自动检测文件编码。这在某些极端情况下可能不可靠，并导致"
-"性能下降。请选择带有编码的文件格式变体以避免这种情况（例如 :guilabel:`CSV 文"
-"件 (UTF-8)`）。"
+"性能下降。请选择文件格式编码以避免这种情况（例如 :guilabel:`UTF-8`）。"
 
 #: ../../formats/csv.rst:33
 msgid ""
@@ -45403,14 +45282,12 @@ msgid ""
 msgstr "`维基百科上的 Java 属性 <https://en.wikipedia.org/wiki/.properties>`_"
 
 #: ../../formats/java.rst:46
-#, fuzzy
-#| msgid "Java Properties (UTF-8)"
 msgid "`Java Properties`"
-msgstr "Java 属性 (UTF-8)"
+msgstr "`Java 属性`"
 
 #: ../../formats/java.rst:48
 msgid "`ISO-8859-1`"
-msgstr ""
+msgstr "`ISO-8859-1`"
 
 #: ../../formats/joomla.rst:4
 msgid "Joomla translations"
@@ -46890,6 +46767,8 @@ msgid ""
 "**Data Protection Officer (DPO):** Evaluates if personal data (PII) was "
 "compromised and manages mandatory GDPR notifications."
 msgstr ""
+"**数据保护官 （DPO）：** 评估个人数据 （PII）是否沦陷并管理强制性的 GDPR 通知"
+"。"
 
 #: ../../security/incident-response-plan.rst:20
 msgid ""
@@ -46898,60 +46777,47 @@ msgid ""
 msgstr "**沟通负责人：**\\ 管理对内部利益相关者和外部方（如需要）的通知。"
 
 #: ../../security/incident-response-plan.rst:23
-#, fuzzy
-#| msgid "Community localization checklist"
 msgid "Communication logistics"
-msgstr "社区本地化检查清单"
+msgstr "沟通工作"
 
 #: ../../security/incident-response-plan.rst:25
-#, fuzzy
-#| msgid "**Weblate application**"
 msgid "**Internal Communication:**"
-msgstr "**Weblate 程序**"
+msgstr "**内部沟通：**"
 
 #: ../../security/incident-response-plan.rst:26
 msgid "Primary channel is **Signal** for human-to-human coordination."
-msgstr ""
+msgstr "主要渠道是 **Signal**，用于人际协作。"
 
 #: ../../security/incident-response-plan.rst:27
 msgid "Technical alerts remain outside of Signal to avoid noise."
-msgstr ""
+msgstr "仍然不会在 Signal 中发布技术警报以避免信息噪音。"
 
 #: ../../security/incident-response-plan.rst:28
-#, fuzzy
-#| msgid "**Weblate application**"
 msgid "**External Communication:**"
-msgstr "**Weblate 程序**"
+msgstr "**外部沟通：**"
 
 #: ../../security/incident-response-plan.rst:29
 msgid "**E-mail** is used to reach customers."
-msgstr ""
+msgstr "**电子邮件** 用于联系客户。"
 
 #: ../../security/incident-response-plan.rst:30
 msgid ""
 "Customer contact lists are maintained in several locations to ensure access "
 "during service outages."
-msgstr ""
+msgstr "我们在数个地点维护客户联系列表确保在服务中断期间的访问。"
 
 #: ../../security/incident-response-plan.rst:31
-#, fuzzy
-#| msgid "**Information disclosure**"
 msgid "**Public Disclosure:**"
-msgstr "**信息披露**"
+msgstr "**公开披露：**"
 
 #: ../../security/incident-response-plan.rst:32
-#, fuzzy
-#| msgid ""
-#| "Dependency vulnerability scanning, see :doc:`/security/dependencies`."
 msgid ""
 "If a security vulnerability is discovered, follow :doc:`/security/issues`."
-msgstr "依赖项漏洞扫描，见 :doc:`/security/dependencies`。"
+msgstr "如果发现了安全漏洞，请按照 :doc:`/security/issues` 中的内容行事。"
 
 #: ../../security/incident-response-plan.rst:35
-#, fuzzy
-#| msgid "Incident categories"
 msgid "Incident categories and severity"
-msgstr "事件类别"
+msgstr "事件分类和严重程度"
 
 #: ../../security/incident-response-plan.rst:38
 msgid "Incident categories"
@@ -46975,45 +46841,39 @@ msgstr "类别 4 - 配置错误或部署错误"
 
 #: ../../security/incident-response-plan.rst:46
 msgid "Severity levels and SLAs"
-msgstr ""
+msgstr "严重程度和 SLA"
 
 #: ../../security/incident-response-plan.rst:49
 msgid "Severity"
 msgstr "严重程度"
 
 #: ../../security/incident-response-plan.rst:49
-#, fuzzy
-#| msgid "Definitions"
 msgid "Definition"
 msgstr "定义"
 
 #: ../../security/incident-response-plan.rst:49
-#, fuzzy
-#| msgid "Target language"
 msgid "Target Acknowledge"
-msgstr "目标语言"
+msgstr "目标确认"
 
 #: ../../security/incident-response-plan.rst:49
-#, fuzzy
-#| msgid "Target translation"
 msgid "Target Initial Action"
-msgstr "目标译文"
+msgstr "目标初始行动"
 
 #: ../../security/incident-response-plan.rst:51
 msgid "Critical"
-msgstr ""
+msgstr "严重"
 
 #: ../../security/incident-response-plan.rst:51
 msgid "Total outage; Admin compromise; Active data breach."
-msgstr ""
+msgstr "完全中断；管理权限沦陷；活跃的数据泄露。"
 
 #: ../../security/incident-response-plan.rst:51
 msgid "< 30 Minutes"
-msgstr ""
+msgstr "< 30 分钟"
 
 #: ../../security/incident-response-plan.rst:51
 msgid "4 Hours"
-msgstr ""
+msgstr "4 小时"
 
 #: ../../security/incident-response-plan.rst:53
 msgid "High"
@@ -47021,15 +46881,15 @@ msgstr "高"
 
 #: ../../security/incident-response-plan.rst:53
 msgid "Core feature failure; PII leak of single user."
-msgstr ""
+msgstr "核心功能不工作；单一用户的个人数据泄露。"
 
 #: ../../security/incident-response-plan.rst:53
 msgid "< 2 Hours"
-msgstr ""
+msgstr "< 2 小时"
 
 #: ../../security/incident-response-plan.rst:53
 msgid "12 Hours"
-msgstr ""
+msgstr "12 小时"
 
 #: ../../security/incident-response-plan.rst:55
 msgid "Medium"
@@ -47037,15 +46897,15 @@ msgstr "中"
 
 #: ../../security/incident-response-plan.rst:55
 msgid "Performance degradation; Minor security issue."
-msgstr ""
+msgstr "性能降级；不大的安全问题。"
 
 #: ../../security/incident-response-plan.rst:55
 msgid "1 Business Day"
-msgstr ""
+msgstr "1 个营业日"
 
 #: ../../security/incident-response-plan.rst:55
 msgid "3 Business Days"
-msgstr ""
+msgstr "3 个营业日"
 
 #: ../../security/incident-response-plan.rst:57
 msgid "Low"
@@ -47053,11 +46913,11 @@ msgstr "低"
 
 #: ../../security/incident-response-plan.rst:57
 msgid "UI bugs; Staging issues; Non-security errors."
-msgstr ""
+msgstr "用户界面 bug；Staging 问题；非安全问题。"
 
 #: ../../security/incident-response-plan.rst:57
 msgid "Best Effort"
-msgstr ""
+msgstr "最大努力"
 
 #: ../../security/incident-response-plan.rst:61
 msgid "Incident response lifecycle"
@@ -47068,30 +46928,22 @@ msgid "Preparation"
 msgstr "准备"
 
 #: ../../security/incident-response-plan.rst:66
-#, fuzzy
-#| msgid ""
-#| "Ensure regular daily backups of the PostgreSQL database and the data "
-#| "directory."
 msgid ""
 "Ensure regular daily backups of the PostgreSQL database and the data "
 "directory using Weblate's built-in backup with rotation, see :ref:`backup`."
-msgstr "确保 PostgreSQL 数据库和数据目录的每天常规备份。"
+msgstr ""
+"使用 Weblate 的内置备份轮换确保 PostgreSQL 数据库和数据目录的每天常规备份，"
+"见 :ref:`backup`。"
 
 #: ../../security/incident-response-plan.rst:67
-#, fuzzy
-#| msgid ""
-#| "Protect Weblate with reverse proxy (e.g., NGINX or Apache) and HTTPS (TLS "
-#| "1.2+)."
 msgid ""
 "Ensure Weblate uses a properly configured reverse proxy (e.g., NGINX) with "
 "HTTPS (TLS 1.2+)."
-msgstr "用反向代理（如 Nginx 或 Apache）和 HTTPS (TLS 1.2+) 保护 Weblate."
+msgstr "确保 Weblate 使用正确配置的有 HTTPS（TLS 1.2+）的反向代理。"
 
 #: ../../security/incident-response-plan.rst:68
-#, fuzzy
-#| msgid "Enable 2FA for admin-level accounts."
 msgid "Enable 2FA for all admin-level accounts."
-msgstr "对管理员级账户启用 2FA."
+msgstr "所有管理员级别账户启用 2FA。"
 
 #: ../../security/incident-response-plan.rst:69
 msgid ""
@@ -47122,17 +46974,12 @@ msgid "Analyze login events, webhook executions, and push/pull failures."
 msgstr "分析登录事件、webhook 执行、推送/拉取失败。"
 
 #: ../../security/incident-response-plan.rst:77
-#, fuzzy
-#| msgid ""
-#| "Configure alerting (e.g., via Prometheus, Zabbix, or SIEM) for: - "
-#| "Multiple login failures - Unexpected service restarts or memory usage "
-#| "spikes - Irregular push/pull actions from version control systems"
 msgid ""
 "Configure alerting (via Prometheus, Zabbix, or SIEM) for multiple login "
 "failures, unexpected restarts, or irregular VCS actions."
 msgstr ""
-"配置警报（如通过 Prometheus、Zabbix 或 SIEM）项：- 多次登陆失败 - 意料之外的"
-"服务重启或内存用量飙升 - 来自版本控制系统的反常推送/拉取操作"
+"为多次登录失败、意外重启或异常的 VCS 操作配置警报（通过 Prometheus、Zabbix "
+"或 SIEM）。"
 
 #: ../../security/incident-response-plan.rst:80
 msgid "Containment"
@@ -47143,16 +46990,18 @@ msgid ""
 "**Forensic Preservation:** For Category 1 or 2 incidents, create a manual "
 "**Hetzner Cloud Snapshot** before taking disruptive action."
 msgstr ""
+"**取证留存：** 对于 1 或 2 类事件，进行破坏性操作前手动创建 **Hetzner Cloud "
+"Snapshot**。"
 
 #: ../../security/incident-response-plan.rst:83
 msgid "Name format: ``IRP-[CaseID]-[YYYYMMDD]-Evidence``."
-msgstr ""
+msgstr "名称格式：``IRP-[CaseID]-[YYYYMMDD]-Evidence`` ."
 
 #: ../../security/incident-response-plan.rst:84
 msgid ""
 "These are separate from standard rotating backups and must be preserved for "
 "analysis."
-msgstr ""
+msgstr "这些快照和标准轮换备份隔开，必须留存用于事件分析。"
 
 #: ../../security/incident-response-plan.rst:85
 msgid ""
@@ -47163,7 +47012,7 @@ msgstr "临时限制访问（如通过防火墙规则或服务隔离）。"
 msgid ""
 "Disable external integrations (Git/webhooks) if they are part of the attack "
 "vector."
-msgstr "禁用外部继承（Git/webhooks），如果它们是攻击载体的一部分。"
+msgstr "禁用外部集成（Git/webhooks），如果它们是攻击载体的一部分。"
 
 #: ../../security/incident-response-plan.rst:87
 msgid "Suspend affected user accounts immediately."
@@ -47191,18 +47040,15 @@ msgid "Recovery"
 msgstr "恢复"
 
 #: ../../security/incident-response-plan.rst:99
-#, fuzzy
-#| msgid ""
-#| "Restore affected services or data from the latest known-good backups."
 msgid ""
 "Restore affected services or data from the latest known-good Weblate backups."
-msgstr "从最新的已知良好备份中恢复受影响服务或数据。"
+msgstr "从最新的已知良好的 Weblate 备份中恢复受影响服务或数据。"
 
 #: ../../security/incident-response-plan.rst:100
 msgid ""
 "**PII Assessment:** DPO determines if the breach requires a 72-hour GDPR "
 "notification."
-msgstr ""
+msgstr "**PII 评估：** DPO 决定数据泄露是否需要 72 小时的 GDPR 通知。"
 
 #: ../../security/incident-response-plan.rst:101
 msgid "Reintroduce services in a phased approach."
@@ -47222,25 +47068,21 @@ msgstr "事件后的调查"
 msgid ""
 "**Timeline:** Hold a review meeting within **5 business days** of incident "
 "closure."
-msgstr ""
+msgstr "**时间线：** 在事件结束的 **5 个营业日** 内举行一次回顾会议。"
 
 #: ../../security/incident-response-plan.rst:108
 msgid "Compile a full incident timeline and actions taken."
 msgstr "编译完整的事件时间线和采取的行动。"
 
 #: ../../security/incident-response-plan.rst:109
-#, fuzzy
-#| msgid "Perform Root Cause Analysis (RCA)."
 msgid ""
 "Perform Root Cause Analysis (RCA) and document it within **10 business "
 "days**."
-msgstr "执行根源分析（RCA）。"
+msgstr "执行根源分析（RCA）并在 **10 个营业日内** 进行文档记录。"
 
 #: ../../security/incident-response-plan.rst:110
-#, fuzzy
-#| msgid "Update security policies and IRP documentation."
 msgid "Update security policies and IRP documentation based on findings."
-msgstr "更新安全政策和事件响应计划文档。"
+msgstr "基于发现更新安全策略和事件响应计划（IRP)文档。"
 
 #: ../../security/incident-response-plan.rst:111
 msgid "Review the effectiveness of detection and containment mechanisms."
@@ -48217,42 +48059,23 @@ msgid "Weblate threat model"
 msgstr "Weblate 威胁模型"
 
 #: ../../security/threat-model.rst:4
-#, fuzzy
-#| msgid ""
-#| "**Scope:** Core Weblate web application, its interactions with user "
-#| "browsers, backend components (web server, WSGI, database, datastore, "
-#| "Celery), and integration with external VCS. **Assumptions:** Standard "
-#| "Weblate deployment with typical components (nginx/Apache, Gunicorn/uWSGI, "
-#| "PostgreSQL, datastore, Celery) and user roles (Unauthenticated, "
-#| "Translator, Project Manager, Administrator)."
 msgid ""
 "**Scope:** Core Weblate web application, its interactions with user "
 "browsers, backend components (web server, WSGI, database, datastore, "
 "Celery), and integration with external VCS."
 msgstr ""
 "**范围：**\\ 核心 Weblate web 程序、其与用户浏览器的交互、后端部件（web 服务"
-"器、WSGI、数据库、数据存储、Redis、Celery）及和外部 VCS 的集成。**假设：**\\ "
-"标准 Weblate 部署，有典型部件（nginx/Apache、Gunicorn/uWSGI、PostgreSQL、数据"
-"存储、Celery）和用户角色（未经身份认证、翻译者、项目经理、管理员）。"
+"器、WSGI、数据库、数据存储、Redis、Celery）及和外部 VCS 的集成。"
 
 #: ../../security/threat-model.rst:6
-#, fuzzy
-#| msgid ""
-#| "**Scope:** Core Weblate web application, its interactions with user "
-#| "browsers, backend components (web server, WSGI, database, datastore, "
-#| "Celery), and integration with external VCS. **Assumptions:** Standard "
-#| "Weblate deployment with typical components (nginx/Apache, Gunicorn/uWSGI, "
-#| "PostgreSQL, datastore, Celery) and user roles (Unauthenticated, "
-#| "Translator, Project Manager, Administrator)."
 msgid ""
 "**Assumptions:** Standard Weblate deployment with typical components (nginx/"
 "Apache, granian/Gunicorn/uWSGI, PostgreSQL, datastore, Celery) and user "
 "roles (Unauthenticated, Translator, Project Manager, Administrator)."
 msgstr ""
-"**范围：**\\ 核心 Weblate web 程序、其与用户浏览器的交互、后端部件（web 服务"
-"器、WSGI、数据库、数据存储、Redis、Celery）及和外部 VCS 的集成。**假设：**\\ "
-"标准 Weblate 部署，有典型部件（nginx/Apache、Gunicorn/uWSGI、PostgreSQL、数据"
-"存储、Celery）和用户角色（未经身份认证、翻译者、项目经理、管理员）。"
+"**假设：**\\ 标准 Weblate 部署，有典型部件（nginx/Apache、granian/Gunicorn/"
+"uWSGI、PostgreSQL、数据存储、Celery）和用户角色（未经身份认证、翻译者、项目经"
+"理、管理员）。"
 
 #: ../../security/threat-model.rst:9
 msgid "System description and scope"
@@ -51114,17 +50937,13 @@ msgstr ""
 "HTML 标记。"
 
 #: ../../user/checks.rst:1896
-#, fuzzy
-#| msgid "Number of characters"
 msgid "XML surrounding characters"
-msgstr "字符数"
+msgstr "字符周围的 XML"
 
 #: ../../user/checks.rst:1899
-#, fuzzy
-#| msgid "XML tags in translation do not match source."
 msgid ""
 "Characters surrounding XML tags in translation do not align with source."
-msgstr "译文中的 XML 标签和原文不匹配。"
+msgstr "译文中 XML 标签周围的字符和原文不一致。"
 
 #: ../../user/checks.rst:1906
 msgid ""
@@ -51132,6 +50951,8 @@ msgid ""
 "both source and translation. Ensures letters are not replaced with non-"
 "letters, and vice versa."
 msgstr ""
+"检查原文和译文中 XML 标签周围的字符串是否一致。确保字母不被非字母替换，反过来"
+"也一样。"
 
 #: ../../user/checks.rst:1918
 msgid "XML syntax"
@@ -53107,11 +52928,6 @@ msgid "Actual permissions might vary depending on your Weblate configuration."
 msgstr "实际权限可能因 Weblate 配置而异。"
 
 #: ../../user/translating.rst:54
-#, fuzzy
-#| msgid ""
-#| "Anonymous users (by default) can only forward suggestions. Doing so is "
-#| "still available to signed-in users, in cases where uncertainty about a "
-#| "translation arises, prompting other translators to review it."
 msgid ""
 "Anonymous users (by default) can only forward suggestions. Doing so is still "
 "available to signed-in users, in cases where uncertainty about a translation "
@@ -53120,7 +52936,8 @@ msgid ""
 "use it as the basis for a new suggestion or translation."
 msgstr ""
 "匿名用户（默认情况下）只能发送建议。如果翻译出现不确定性，已登录用户也可以这"
-"样做，促使其他翻译人员对不确定的字符串进行审阅。"
+"样做，促使其他翻译人员对不确定的字符串进行审阅。任何用户都可克隆现有建议到翻"
+"译框内，包括复数形式，并将克隆内容用作新建议或翻译的基础。"
 
 #: ../../user/translating.rst:60
 msgid ""
@@ -53136,6 +52953,9 @@ msgid ""
 "suggestions from trusted contributors. Suggestions failing quality checks "
 "are skipped and remain for manual review."
 msgstr ""
+"如果有 :guilabel:`Accept suggestions` 权限，你可以批量接受来自特定用户的全部"
+"建议，方法是单击用户建议旁边的账户对勾图标。这对快速处理来自受信任贡献者的建"
+"议有用。未通过质量检测的建议被跳过并被留下进行人工审校。"
 
 #: ../../user/translating.rst:74
 msgid "Three types of comments can be posted:"
@@ -53243,17 +53063,13 @@ msgstr ""
 "方（参见 :ref:`secondary-languages`）。"
 
 #: ../../user/translating.rst:141
-#, fuzzy
-#| msgid ""
-#| "Below the translation, translators will find suggestion made by others, "
-#| "to be accepted (✓), accepted with changes (✏️), or deleted (🗑)."
 msgid ""
 "Below the translation, translators will find suggestions made by others, to "
 "be accepted (✓), accepted with changes (✏️), bulk accepted for a specific "
 "user (👤✓), cloned into the translation fields (📑) or deleted (🗑)."
 msgstr ""
-"在译文下方，译者可以看到其他人提出的建议，可以接受（✓），也可以接受修改"
-"（✏️），或者删除（🗑）。"
+"在译文下方，译者会看到他人的建议，可进行的操作有接受（✓）、接受但进行修改（✏️"
+"）、批量接受特定用户的建议（👤✓）、克隆到翻译框内（📑）或删除 （🗑）。"
 
 #: ../../user/translating.rst:148
 msgid "Plurals"
@@ -53611,7 +53427,7 @@ msgstr "诸如消息 ID、上下文（``msgctxt``）或源代码中的位置之�
 msgid ""
 "Further clarification can be provided in Weblate via :ref:`additional-"
 "explanation`."
-msgstr ""
+msgstr "通过 :ref:`additional-explanation` 可提供进一步的解释性信息。"
 
 #: ../../user/translating.rst:311
 msgid ""
