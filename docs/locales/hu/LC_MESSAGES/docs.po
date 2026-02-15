@@ -11,8 +11,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-02-13 09:24+0100\n"
-"PO-Revision-Date: 2026-02-12 21:31+0000\n"
-"Last-Translator: Anonymous <noreply@weblate.org>\n"
+"PO-Revision-Date: 2026-02-15 20:11+0000\n"
+"Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hu/>\n"
 "Language: hu\n"
@@ -3913,14 +3913,12 @@ msgstr ""
 "forrásszöveg másolataként adja hozzá."
 
 #: ../../admin/addons.rst:1190
-#, fuzzy
 msgid ""
 "Use :ref:`addon-weblate.cleanup.generic` if you only want to remove stale "
 "translation keys."
 msgstr ""
-"Használja a :ref:`weblate általános tisztító kiegészítőjét <addon-"
-"weblate.cleanup.generic>`, ha csak az elavult fordítási kulcsokat szeretné "
-"eltávolítani."
+"Használja a :ref:`addon-weblate.cleanup.generic` kiegészítőt, ha csak az "
+"elavult fordítási kulcsokat szeretné eltávolítani."
 
 #: ../../admin/addons.rst:1200
 msgid "Slack Webhooks"
@@ -5087,15 +5085,14 @@ msgstr ""
 "fordítások és egyéb beállítások:"
 
 #: ../../admin/admin.rst:89
-#, fuzzy
 msgid ""
 "In the :guilabel:`Reports` section, you can check the status of your site, "
 "tweak it for :ref:`production`, or manage SSH keys used to access :ref:`vcs-"
 "repos`."
 msgstr ""
-"A :guilabel:`Jelentések` szekcióban ellenőrizhető az oldal állapota, "
-"finomhangolható az :ref:`éles üzem <production>` beállításaihoz, valamint "
-"kezelhetők az SSH-kulcsok a :ref:`vcs-repos` eléréséhez."
+"A :guilabel:`Jelentések` részben ellenőrizheti webhelyének állapotát, "
+"beállíthatja az :ref:`éles üzem <production>` számára, vagy kezelheti a "
+":ref:`VCS tárolók <vcs-repos>` eléréséhez használt SSH kulcsokat."
 
 #: ../../admin/admin.rst:92
 msgid ""
@@ -5299,10 +5296,9 @@ msgstr ""
 "kikapcsolható."
 
 #: ../../admin/auth.rst:14
-#, fuzzy
 msgid "The authentication attempts are subject to :ref:`rate-limit`."
 msgstr ""
-"A hitelesítési kísérletek a :ref:`sebességkorlát <rate-limit>` szabályozás "
+"A hitelesítési kísérletek a :ref:`sebességkorlátozás <rate-limit>` hatálya "
 "alá esnek."
 
 #: ../../admin/auth.rst:18
@@ -5398,7 +5394,6 @@ msgstr ""
 "a :envvar:`WEBLATE_ENABLE_HTTPS` változóval."
 
 #: ../../admin/auth.rst:70
-#, fuzzy
 msgid ":doc:`Python Social Auth backend <psa:backends/index>`"
 msgstr ":doc:`Python Social Auth háttérrendszer <psa:backends/index>`"
 
@@ -7737,15 +7732,14 @@ msgstr ""
 "ellenőrzéseknél is alkalmazhatja."
 
 #: ../../admin/checks.rst:352
-#, fuzzy
 msgid ""
 "These flags are understood both in :ref:`component` settings, per source "
 "string settings and in the translation file itself (for example in GNU "
 "gettext)."
 msgstr ""
-"Ezeket a jelzőket a :ref:`összetevő <component>` beállításaiban, egyes "
-"forrásszöveg-beállításokban, valamint magában a fordítási fájlban is "
-"értelmezi a rendszer (például a GNU gettext esetében)."
+"Ezeket a jelzőket az :ref:`összetevő <component>` beállításai, a "
+"forrásszövegenkénti beállítások és maga a fordítási fájl is értelmezi "
+"(például a GNU gettext esetében)."
 
 #: ../../admin/checks.rst:358
 #, fuzzy
@@ -8096,13 +8090,12 @@ msgstr ""
 "indítani a konfiguráció betöltéséhez."
 
 #: ../../admin/config.rst:18
-#, fuzzy
 msgid ""
 "Please also check :doc:`Django's documentation <django:ref/settings>` for "
 "parameters configuring Django itself."
 msgstr ""
-"Érdemes áttekinteni a :doc:`Django dokumentációját <django:ref/settings>` "
-"is, amely a Django saját beállításait ismerteti."
+"Tekintse át a :doc:`Django dokumentációját <django:ref/settings>` is a "
+"Django saját konfigurációs paramétereinek megismeréséhez."
 
 #: ../../admin/config.rst:26
 msgid ""
@@ -8766,9 +8759,8 @@ msgstr ""
 "Az új összetevők alapértelmezett :ref:`component-merge_style` beállítása."
 
 #: ../../admin/config.rst:683
-#, fuzzy
 msgid "`rebase` - default"
-msgstr "``rebase`` — alapértelmezett érték"
+msgstr "`rebase` - alapértelmezett"
 
 #: ../../admin/config.rst:684
 msgid "`merge`"
@@ -9346,11 +9338,10 @@ msgid "Following disables the license alert:"
 msgstr "A következő módon tiltható le a licencfigyelmeztetés:"
 
 #: ../../admin/config.rst:1280
-#, fuzzy
 msgid "Defines whether the license attribute in :ref:`component` is required."
 msgstr ""
-"Beállítja, hogy az :ref:`összetevőelemeknél <component>` kötelező legyen-e a "
-"licenc attribútum megadása."
+"Meghatározza, hogy az :ref:`összetevő <component>` licenc attribútuma "
+"kötelező-e."
 
 #: ../../admin/config.rst:1284
 msgid "This is off by default."
@@ -10250,7 +10241,6 @@ msgstr ""
 "Beállítja, milyen mélységű klónozást végezzen a Weblate a tárolók esetén."
 
 #: ../../admin/config.rst:2201
-#, fuzzy
 msgid ""
 "Currently this is only supported in :ref:`vcs-git`. By default Weblate does "
 "shallow clones of the repositories to make cloning faster and save disk "
@@ -10258,11 +10248,12 @@ msgid ""
 "custom :ref:`addons`), you might want to increase the depth or turn off "
 "shallow clones completely by setting this to 0."
 msgstr ""
-"Jelenleg ez csak a :ref:`vcs-git` esetén támogatott. Alapértelmezésben a "
-"Weblate sekély (shallow) klónozást végez, hogy gyorsabb legyen a másolás és "
-"kevesebb helyet foglaljon. Ha például egyéni :ref:`kiegészítőket <addons>` "
-"használ, érdemes lehet növelni a klónozás mélységét vagy teljes klónozást "
-"választani az érték 0-ra állításával."
+"Jelenleg ezt csak a :ref:`vcs-git` támogatja. Alapértelmezetten a Weblate "
+"sekély klónokat készít a tárolókról a gyorsabb klónozás és a lemezterület "
+"megtakarítása érdekében. Használatától függően (például egyéni "
+":ref:`kiegészítők <addons>` használatakor) érdemes lehet növelni a "
+"mélységet, vagy teljesen kikapcsolni a sekély klónozást az érték 0-ra "
+"állításával."
 
 #: ../../admin/config.rst:2208
 msgid ""
@@ -10496,13 +10487,12 @@ msgstr ""
 "funkciót."
 
 #: ../../admin/continuous.rst:95
-#, fuzzy
 msgid ""
 "Manually trigger update either in the repository management or "
 "using :ref:`api` or :ref:`wlc`"
 msgstr ""
-"Frissítést manuálisan is indíthat a tárolókezelő felületen,vagy a :ref:`REST "
-"API <api>` illetve a :ref:`wlc` parancssori eszköz használatával"
+"Indítson frissítést manuálisan a tároló kezelőfelületén vagy az :ref:`API "
+"<api>` vagy :ref:`wlc` használatával"
 
 #: ../../admin/continuous.rst:97
 msgid ""
@@ -17956,27 +17946,25 @@ msgstr ""
 "szabályozza, hogy mire használhatók fel."
 
 #: ../../admin/licensing.rst:7
-#, fuzzy
 msgid ""
 "You should specify :ref:`component` license info. You should avoid requiring "
 "a contributor license agreement, though it is possible."
 msgstr ""
-"A licencinformációkat a megfelelő :ref:`összetevőszinten <component>` "
-"célszerű megadni. Bár lehetséges, kerülni kell a hozzájárulói "
-"licencszerződés megkövetelését."
+"Meg kell adnia az :ref:`összetevő <component>` licencinformációit. Kerülje a "
+"közreműködői licencszerződés megkövetelését, bár ez lehetséges."
 
 #: ../../admin/licensing.rst:11
 msgid "License info"
 msgstr "Licencinformációk"
 
 #: ../../admin/licensing.rst:13
-#, fuzzy
 msgid ""
 "Upon specifying license info (license name and URL), this info is shown in "
 "the translation info section of the respective :ref:`component`."
 msgstr ""
-"A megadott licencinformáció (név és URL) megjelenik a fordítási információk "
-"között az adott :ref:`összetevő <component>` esetében."
+"A licencinformációk (licencnév és URL) megadása után ezek az információk "
+"megjelennek a megfelelő :ref:`összetevő <component>` fordítási információs "
+"részében."
 
 #: ../../admin/licensing.rst:16
 msgid ""
@@ -18358,11 +18346,10 @@ msgid "Anthropic API URL"
 msgstr ""
 
 #: ../../admin/machine.rst:182
-#, fuzzy
-#| msgid ""
-#| "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
 msgid "Base URL of the Anthropic API. Leave empty to use the default URL."
-msgstr "Az OpenAI API alap URL-je, ha eltér az OpenAI alapértelmezett címétől"
+msgstr ""
+"Az Anthropic API alap URL-je. Hagyja üresen az alapértelmezett URL "
+"használatához."
 
 #: ../../admin/machine.rst:184
 msgid "Anthropic model"
@@ -18398,7 +18385,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:196
 msgid "Maximum number of tokens to generate in the response."
-msgstr ""
+msgstr "A válaszban generálandó tokenek maximális száma."
 
 #: ../../admin/machine.rst:198 ../../admin/machine.rst:245
 #: ../../admin/machine.rst:750 ../../admin/machine.rst:796
@@ -19834,14 +19821,12 @@ msgid "Commits pending changes older than a given age."
 msgstr "A megadott korhatárnál régebbi függő módosítások véglegesítése."
 
 #: ../../admin/management.rst:249
-#, fuzzy
 msgid ""
 "Age in hours for committing. If not specified the value configured "
 "in :ref:`component` is used."
 msgstr ""
-"A véglegesítéshez megadott idő (órában). Ha nincs megadva, akkor "
-"az :ref:`összetevő <component>` beállításaiban megadott érték kerül "
-"felhasználásra."
+"A véglegesítés ideje órában. Ha nincs megadva, az :ref:`összetevőben "
+"<component>` konfigurált érték kerül felhasználásra."
 
 #: ../../admin/management.rst:254
 #, fuzzy
@@ -21059,16 +21044,14 @@ msgstr ""
 "a vevői befizetések nyilvántartására."
 
 #: ../../admin/optionals.rst:104
-#, fuzzy
 msgid ""
 "After installation you can control billing in the admin interface. Users "
 "with billing enabled will get new :guilabel:`Billing` tab in "
 "their :ref:`user-profile`."
 msgstr ""
-"A telepítés után a számlázást az admin felületen keresztül lehet kezelni. "
-"Azok a felhasználók, akiknél a számlázás engedélyezve van, "
-"új :guilabel:`Számlázás` fület kapnak a :ref:`felhasználói profiljukban "
-"<user-profile>`."
+"A telepítés után a számlázást az adminisztrátori felületen vezérelheti. Az "
+"engedélyezett számlázással rendelkező felhasználók új :guilabel:`Számlázás` "
+"lapot kapnak a :ref:`felhasználói profiljukban <user-profile>`."
 
 #: ../../admin/optionals.rst:108
 msgid ""
@@ -21409,15 +21392,14 @@ msgstr ""
 "összetevők projekten belüli kategorizálásával."
 
 #: ../../admin/projects.rst:11
-#, fuzzy
 msgid ""
 "The bottom level object is :ref:`project`, which should hold all "
 "translations belonging together (for example translation of an application "
 "in several versions and/or accompanying documentation)."
 msgstr ""
-"A legalacsonyabb szintű objektum a :ref:`projekt <project>`, amelyhez az "
-"összetartozó fordításokat kell hozzárendelni (például egy alkalmazás több "
-"verziójának és a hozzájuk tartozó dokumentációnak a fordítását)."
+"A legalsó szintű objektum a :ref:`projekt <project>`, amely az összetartozó "
+"fordításokat tartalmazza (például egy alkalmazás több verziójának és/vagy "
+"kísérő dokumentációjának fordításait)."
 
 #: ../../admin/projects.rst:15
 msgid ""
@@ -21428,15 +21410,14 @@ msgstr ""
 "kategóriák egymásba ágyazhatók az összetettebb struktúrák kialakításához."
 
 #: ../../admin/projects.rst:18
-#, fuzzy
 msgid ""
 "On the level above, :ref:`component`, which is actually the component to "
 "translate, you define the VCS repository to use, and the mask of files to "
 "translate."
 msgstr ""
-"A felette lévő szint az :ref:`összetevő <component>`, amely maga a "
-"lefordítandó összetevő. Itt adja meg a használt VCS tárolót és a fordítandó "
-"fájlok mintáját."
+"A felette lévő szinten az :ref:`összetevő <component>`, amely valójában a "
+"fordítandó összetevő, Itt határozza meg a használandó VCS tárolót és a "
+"fordítandó fájlok maszkját."
 
 #: ../../admin/projects.rst:22
 #, fuzzy
@@ -22001,9 +21982,8 @@ msgid "Component project"
 msgstr "Összetevő projektje"
 
 #: ../../admin/projects.rst:395
-#, fuzzy
 msgid ":ref:`project` where the component belongs."
-msgstr "Az a :ref:`projekt <project>`, amelyhez az összetevő tartozik."
+msgstr "A :ref:`projekt <project>`, amelyhez az összetevő tartozik."
 
 #: ../../admin/projects.rst:400
 msgid "Version control system"
@@ -27906,7 +27886,6 @@ msgstr "Frissítés"
 #: ../../changes/v4.rst:699 ../../changes/v4.rst:769 ../../changes/v4.rst:860
 #: ../../changes/v4.rst:935 ../../changes/v4.rst:1021 ../../changes/v4.rst:1096
 #: ../../changes/v4.rst:1169
-#, fuzzy
 msgid ""
 "Please follow :ref:`generic-upgrade-instructions` in order to perform update."
 msgstr ""
@@ -35917,20 +35896,17 @@ msgid "Added bulk editing of flags."
 msgstr "Jelzők tömeges szerkesztése hozzáadva."
 
 #: ../../changes/v3.rst:70
-#, fuzzy
 msgid "Added support for :ref:`labels`."
-msgstr "Támogatás hozzáadva a :ref:`címkék <labels>` használatához."
+msgstr "Támogatás hozzáadva a :ref:`címkékhez <labels>`."
 
 #: ../../changes/v3.rst:71
 msgid "Added bulk edit add-on."
 msgstr "Tömeges szerkesztési kiegészítő hozzáadva."
 
 #: ../../changes/v3.rst:72
-#, fuzzy
 msgid "Added option for :ref:`enforcing-checks`."
 msgstr ""
-"Új beállítási lehetőség az :ref:`ellenőrzések kikényszerítéséhez <enforcing-"
-"checks>`."
+"Opció hozzáadva az :ref:`ellenőrzések kikényszerítéséhez <enforcing-checks>`."
 
 #: ../../changes/v3.rst:73
 msgid "Increased default validity of confirmation links."
@@ -41863,11 +41839,10 @@ msgstr ""
 "javításokat is örömmel fogadunk."
 
 #: ../../contributing/code.rst:10
-#, fuzzy
 msgid "Check out :ref:`internals` to see how Weblate looks from inside."
 msgstr ""
-"Ismerje meg a :ref:`Weblate belső <internals>` működését, és nézze meg, "
-"hogyan fest belülről a rendszer."
+"Tekintse meg a :ref:`belső működést <internals>`, hogy lássa, hogyan néz ki "
+"a Weblate belülről."
 
 #: ../../contributing/snippets/code-guide.rst:3
 msgid "License and copyright"
@@ -43095,12 +43070,11 @@ msgstr ""
 "rendelkezésre állnak:"
 
 #: ../../contributing/frontend.rst:118
-#, fuzzy
 msgid ""
 ":doc:`Translation topic in the Django documentation <django:topics/i18n/"
 "translation>`"
 msgstr ""
-":doc:`Fordítási téma a Django dokumentációban <django:topics/i18n/"
+":doc:`Fordítási témakör a Django dokumentációban <django:topics/i18n/"
 "translation>`"
 
 #: ../../contributing/frontend.rst:121
@@ -43297,9 +43271,8 @@ msgid "The optional :ref:`billing` module."
 msgstr "Az opcionális :ref:`billing` modul."
 
 #: ../../contributing/internals.rst:54
-#, fuzzy
 msgid "Translation string :ref:`checks` module."
-msgstr "A fordítási szövegek :ref:`minőségellenőrző <checks>` modulja ."
+msgstr "Fordítási szöveg :ref:`ellenőrzések <checks>` modul."
 
 #: ../../contributing/internals.rst:58
 msgid "Font rendering checks module."
@@ -47899,13 +47872,12 @@ msgstr ""
 "változásról – lásd: :ref:`hooks`, hogyan teheti ezt meg."
 
 #: ../../faq.rst:18
-#, fuzzy
 msgid ""
 "Set a push URL at your :ref:`component` in Weblate, this allows Weblate to "
 "push changes to your repository."
 msgstr ""
-"Adjon meg egy feltöltési URL-t a Weblate-ben az adott :ref:`összetevő "
-"<component>` számára, így a Weblate képes lesz feltölteni a módosításokat a "
+"Állítson be feltöltési URL-t az :ref:`összetevőjénél <component>` a Weblate-"
+"ben, ez lehetővé teszi a Weblate számára, hogy feltöltse a módosításokat a "
 "tárolóba."
 
 #: ../../faq.rst:20
@@ -48010,7 +47982,6 @@ msgid "How do I translate several branches at once?"
 msgstr "Hogyan fordíthatok egyszerre több ágat?"
 
 #: ../../faq.rst:159
-#, fuzzy
 msgid ""
 "Weblate supports pushing translation changes within one :ref:`project`. For "
 "every :ref:`component` which has it turned on (the default behavior), the "
@@ -48019,13 +47990,12 @@ msgid ""
 "quite a lot, and it is not possible to simply merge translation changes "
 "between them."
 msgstr ""
-"A Weblate támogatja a fordítási változások feltöltését "
-"egyetlen :ref:`projekt <project>` keretében. Minden olyan :ref:`összetevő "
-"<component>` esetén, ahol ez be van kapcsolva (ez az alapértelmezett "
-"viselkedés), a végrehajtott módosítás automatikusan átvitelre kerül a többi "
-"összetevőbe is. Így a fordítások szinkronban maradnak még akkor is, ha az "
-"ágak már jelentősen eltértek, és a fordítási módosítások közvetlen "
-"összevonása nem lehetséges."
+"A Weblate támogatja a fordítási módosítások feltöltését egy :ref:`projekten "
+"<project>` belül. Minden olyan :ref:`összetevő <component>` esetében, ahol "
+"ez be van kapcsolva (alapértelmezett viselkedés), a végrehajtott módosítás "
+"automatikusan továbbítódik a többihez. Így a fordítások szinkronizálva "
+"maradnak, még akkor is, ha maguk az ágak már jelentősen szétváltak, és a "
+"fordítási módosítások egyszerű összefésülése nem lehetséges."
 
 #: ../../faq.rst:165
 msgid ""
@@ -48050,18 +48020,17 @@ msgstr ""
 "formátumát használja."
 
 #: ../../faq.rst:182
-#, fuzzy
 msgid ""
 "Once you have added all platform translation files as components in one "
 "project (see :ref:`adding-projects`), you can utilize the translation "
 "propagation feature (turned on by default, and can be turned off in "
 "the :ref:`component`) to translate strings for all platforms at once."
 msgstr ""
-"Miután az összes platform fordítási fájlját hozzáadta egy projekthez "
-"összetevőként (lásd: :ref:`adding-projects`), kihasználhatja a fordítási "
-"terjesztés funkciót (alapértelmezetten be van kapcsolva, de kikapcsolható "
-"az :ref:`összetevő <component>` beállításainál), így egyszerre fordíthat "
-"szövegeket minden platformra."
+"Miután hozzáadta az összes platform fordítási fájlját egy projekt "
+"összetevőiként (lásd: :ref:`adding-projects`), kihasználhatja a fordítási "
+"terjesztés funkcióját (alapértelmezetten be van kapcsolva, de kikapcsolható "
+"az :ref:`összetevőben <component>`) hogy egyszerre fordítsa le a szövegeket "
+"minden platformra."
 
 #: ../../faq.rst:194
 msgid "How to export the Git repository that Weblate uses?"
@@ -49356,19 +49325,17 @@ msgstr "Rendszerkódolás"
 #: ../../snippets/file-format-parameters.rst:36
 #: ../../snippets/file-format-parameters.rst:109
 #: ../../snippets/file-format-parameters.rst:122
-#, fuzzy
-#| msgid "Filenames encoding"
 msgid "File encoding"
-msgstr "Fájlnevek kódolása"
+msgstr "Fájl kódolása"
 
 #: ../../snippets/file-format-parameters.rst:7
 msgid "Encoding used for CSV files"
-msgstr ""
+msgstr "CSV-fájlokhoz használt kódolás"
 
 #: ../../snippets/file-format-parameters.rst:12
 #: ../../snippets/file-format-parameters.rst:22
 msgid "Auto-detect"
-msgstr ""
+msgstr "Automatikus felismerés"
 
 #: ../../snippets/file-format-parameters.rst:15
 #: ../../snippets/file-format-parameters.rst:25
@@ -49376,7 +49343,7 @@ msgstr ""
 #: ../../snippets/file-format-parameters.rst:117
 #: ../../snippets/file-format-parameters.rst:130
 msgid "UTF-8"
-msgstr ""
+msgstr "UTF-8"
 
 #: ../../snippets/file-format-parameters.rst:17
 #, fuzzy
@@ -49386,13 +49353,13 @@ msgstr "Fájlnevek kódolása"
 
 #: ../../snippets/file-format-parameters.rst:17
 msgid "Encoding used for simple CSV files"
-msgstr ""
+msgstr "Egyszerű CSV-fájlokhoz használt kódolás"
 
 #: ../../snippets/file-format-parameters.rst:28
 #: ../../snippets/file-format-parameters.rst:44
 #: ../../snippets/file-format-parameters.rst:114
 msgid "ISO-8859-1"
-msgstr ""
+msgstr "ISO-8859-1"
 
 #: ../../snippets/file-format-parameters.rst:30
 msgid "flatxml_key_name"
@@ -49428,7 +49395,7 @@ msgstr "Rendszerkódolás"
 
 #: ../../snippets/file-format-parameters.rst:36
 msgid "Encoding used for GWT Properties files"
-msgstr ""
+msgstr "GWT Properties fájlokhoz használt kódolás"
 
 #: ../../snippets/file-format-parameters.rst:46
 msgid "json_indent"
@@ -49547,15 +49514,13 @@ msgid "properties_encoding"
 msgstr "tulajdonságok"
 
 #: ../../snippets/file-format-parameters.rst:109
-#, fuzzy
-#| msgid "Format the Java properties file"
 msgid "Encoding used for Java Properties files"
-msgstr "Java properties fájl formázása"
+msgstr "Java Properties fájlokhoz használt kódolás"
 
 #: ../../snippets/file-format-parameters.rst:120
 #: ../../snippets/file-format-parameters.rst:127
 msgid "UTF-16"
-msgstr ""
+msgstr "UTF-16"
 
 #: ../../snippets/file-format-parameters.rst:122
 #, fuzzy
@@ -49565,7 +49530,7 @@ msgstr "Fájlnevek kódolása"
 
 #: ../../snippets/file-format-parameters.rst:122
 msgid "Encoding used for iOS strings files"
-msgstr ""
+msgstr "Az iOS szövegfájlokhoz használt kódolás"
 
 #: ../../snippets/file-format-parameters.rst:132
 msgid "xml_closing_tags"
@@ -56576,16 +56541,15 @@ msgstr ""
 "sorba kell beleférnie:"
 
 #: ../../user/checks.rst:1262
-#, fuzzy
 msgid ""
 "You might want to set ``font-*`` directives in :ref:`component` to have the "
 "same font configured for all strings within a component. You can override "
 "those values per string in case you need to customize it per string."
 msgstr ""
-"A ``font-*`` jelzőket érdemes az :ref:`összetevő <component>` beállításaiban "
-"megadni, hogy az összes szöveg azonos betűtípussal jelenjen meg az adott "
-"összetevőn belül. Ezeket az értékeket szükség esetén felül lehet bírálni "
-"egyedi szövegekre vonatkozóan is."
+"Érdemes beállítani a ``font-*`` direktívákat az :ref:`összetevőben "
+"<component>`, hogy ugyanaz a betűtípus legyen konfigurálva az összetevő "
+"összes szövegéhez. Ezeket az értékeket szövegenkénti alapon felülbírálhatja, "
+"ha szövegenként kell testreszabnia."
 
 #: ../../user/checks.rst:1280
 msgid "Mismatched \\\\n"
@@ -57285,11 +57249,11 @@ msgid "XML surrounding characters"
 msgstr "Karakterek száma"
 
 #: ../../user/checks.rst:1899
-#, fuzzy
-#| msgid "XML tags in translation do not match source."
 msgid ""
 "Characters surrounding XML tags in translation do not align with source."
-msgstr "A fordításban szereplő XML-címkék nem egyeznek meg a forrással."
+msgstr ""
+"Az XML-címkéket körülvevő karakterek a fordításban nem illeszkednek a "
+"forráshoz."
 
 #: ../../user/checks.rst:1906
 msgid ""
@@ -57375,13 +57339,12 @@ msgid "source strings"
 msgstr "forrásszövegek"
 
 #: ../../user/checks.rst:1980
-#, fuzzy
 msgid ""
 "This fails when the string uses three dots (``...``) when it should use an "
 "ellipsis character (``…``)."
 msgstr ""
-"Ez az ellenőrzés akkor jelez hibát, ha a szöveg három pontot tartalmaz ott, "
-"ahol hármaspont karaktert (``…``) kellene használni."
+"Ez akkor jelez hibát, amikor a szöveg három pontot (``...``) használ, holott "
+"hármaspontot (``…``) kellene használnia."
 
 #: ../../user/checks.rst:1982
 msgid ""
@@ -58632,13 +58595,12 @@ msgid "Editor link"
 msgstr "Szerkesztő hivatkozás"
 
 #: ../../user/profile.rst:137
-#, fuzzy
 msgid ""
 "A source code link is shown in the web-browser configured in "
 "the :ref:`component` by default."
 msgstr ""
-"A forráskódra mutató hivatkozás alapértelmezés szerint a :ref:`összetevő "
-"<component>` beállításainak megfelelően a webböngészőben jelenik meg."
+"A forráskód hivatkozás alapértelmezetten a webböngészőben jelenik meg az "
+":ref:`összetevőben <component>` konfiguráltak szerint."
 
 #: ../../user/profile.rst:142
 msgid ""
@@ -59295,7 +59257,6 @@ msgid "Exact operators"
 msgstr "Pontos egyezés"
 
 #: ../../user/search.rst:194
-#, fuzzy
 msgid ""
 "You can do an exact match query on different string fields using ``=`` "
 "operator. For example, to search for all source strings exactly matching "
@@ -59303,11 +59264,12 @@ msgid ""
 "expressions, you can skip quotes. For example, to search for all source "
 "strings matching ``hello``, you can use: ``source:=hello``."
 msgstr ""
-"Különféle szövegmezőkön pontos egyezést kereshet az ``=`` operátorral. "
-"Például ha minden olyan forrásszöveget szeretne megkeresni, amely pontosan "
-"megegyezik ezzel: ``hello world``, használja ezt: ``source:=\"hello "
-"world\"``. Egyetlen szó keresésénél idézőjelek nem szükségesek. Például: "
-"``source:=hello``."
+"Pontos egyezés keresést végezhet különböző szövegmezőkön az ``=`` operátor "
+"használatával. Például az összes olyan forrásszöveg megkereséséhez, amely "
+"pontosan megegyezik a ``hello world``-del, használja: ``source:=\"hello "
+"world\"``. Egyetlen szavas kifejezések keresésekor kihagyhatja az "
+"idézőjeleket. Például a ``hello`` szöveggel megegyező összes forrásszöveg "
+"megkereséséhez használhatja: ``source:=hello``."
 
 #: ../../user/search.rst:202
 msgid "Searching for changes"
