@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-02-13 09:24+0100\n"
-"PO-Revision-Date: 2026-01-27 23:26+0000\n"
+"PO-Revision-Date: 2026-02-15 20:11+0000\n"
 "Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
 "documentation/ga/>\n"
@@ -20,8 +20,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :"
-"(n>6 && n<11) ? 3 : 4;\n"
+"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :(n>"
+"6 && n<11) ? 3 : 4;\n"
 "X-Generator: Weblate 5.16-dev\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:215
@@ -1982,6 +1982,9 @@ msgid ""
 "make all newly created projects private, requiring explicit access to be "
 "granted."
 msgstr ""
+"Ina theannta sin, má athraítear :setting:`DEFAULT_ACCESS_CONTROL` go "
+"``100``, beidh gach tionscadal nua-chruthaithe príobháideach, agus beidh "
+"rochtain shonrach ag teastáil chun é a dheonú."
 
 #: ../../admin/access.rst:568
 msgid "You can use built-in :ref:`invite-user` to add new users."
@@ -2795,19 +2798,19 @@ msgstr ""
 
 #: ../../admin/addons.rst:431
 msgid "Excluding certain matches"
-msgstr ""
+msgstr "Gan cluichí áirithe a áireamh"
 
 #: ../../admin/addons.rst:433
 msgid ""
 "Negative lookahead can be used to exclude certain patterns from being "
 "processed."
 msgstr ""
+"Is féidir breathnú chun cinn diúltach a úsáid chun patrúin áirithe a eisiamh "
+"ó bheith á bpróiseáil."
 
 #: ../../admin/addons.rst:440
-#, fuzzy
-#| msgid "Matching files:"
 msgid "Not matching files:"
-msgstr "Comhaid a mheaitseálann:"
+msgstr "Comhaid nach bhfuil ag teacht le chéile:"
 
 #: ../../admin/addons.rst:451
 msgid ""
@@ -5678,7 +5681,7 @@ msgstr "Cumraíocht shamplach:"
 
 #: ../../admin/auth.rst:536
 msgid "You can generate a new pair of keys using:"
-msgstr ""
+msgstr "Is féidir leat péire nua eochracha a ghiniúint ag baint úsáide as:"
 
 #: ../../admin/auth.rst:542
 msgid ""
@@ -8621,20 +8624,20 @@ msgstr ""
 "agus :ref:`project-contribute_shared_tm`."
 
 #: ../../admin/config.rst:706 ../../admin/install/docker.rst:831
-#, fuzzy
-#| msgid "Configures the default value of :ref:`project-autoclean_tm`."
 msgid ""
 "Configures the default value for :ref:`project-translation_review`, turned "
 "off by default."
-msgstr "Cumraíonn sé an luach réamhshocraithe de :ref:`project-autoclean_tm`."
+msgstr ""
+"Cumraíonn sé an luach réamhshocraithe do :ref:`project-translation_review`, "
+"múchta de réir réamhshocraithe."
 
 #: ../../admin/config.rst:715 ../../admin/install/docker.rst:837
-#, fuzzy
-#| msgid "Configures the default value of :ref:`project-autoclean_tm`."
 msgid ""
 "Configures the default value for :ref:`project-source_review`, turned off by "
 "default."
-msgstr "Cumraíonn sé an luach réamhshocraithe de :ref:`project-autoclean_tm`."
+msgstr ""
+"Cumraíonn sé an luach réamhshocraithe le haghaidh :ref:`project-"
+"source_review`, múchta de réir réamhshocraithe."
 
 #: ../../admin/config.rst:724
 msgid "Configures the default value of :ref:`project-autoclean_tm`."
@@ -18002,11 +18005,8 @@ msgid "Anthropic API URL"
 msgstr ""
 
 #: ../../admin/machine.rst:182
-#, fuzzy
-#| msgid ""
-#| "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
 msgid "Base URL of the Anthropic API. Leave empty to use the default URL."
-msgstr "Bun-URL an API OpenAI, má tá sé difriúil ó URL réamhshocraithe OpenAI"
+msgstr "Bun-URL API Anthropic. Fág folamh chun an URL réamhshocraithe a úsáid."
 
 #: ../../admin/machine.rst:184
 msgid "Anthropic model"
@@ -18043,7 +18043,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:196
 msgid "Maximum number of tokens to generate in the response."
-msgstr ""
+msgstr "Uasmhéid na gcomharthaí le giniúint sa fhreagra."
 
 #: ../../admin/machine.rst:198 ../../admin/machine.rst:245
 #: ../../admin/machine.rst:750 ../../admin/machine.rst:796
@@ -48681,19 +48681,17 @@ msgstr "Ionchódú córais"
 #: ../../snippets/file-format-parameters.rst:36
 #: ../../snippets/file-format-parameters.rst:109
 #: ../../snippets/file-format-parameters.rst:122
-#, fuzzy
-#| msgid "Filenames encoding"
 msgid "File encoding"
-msgstr "Ionchódú ainmneacha comhaid"
+msgstr "Ionchódú comhaid"
 
 #: ../../snippets/file-format-parameters.rst:7
 msgid "Encoding used for CSV files"
-msgstr ""
+msgstr "Códú a úsáidtear le haghaidh comhaid CSV"
 
 #: ../../snippets/file-format-parameters.rst:12
 #: ../../snippets/file-format-parameters.rst:22
 msgid "Auto-detect"
-msgstr ""
+msgstr "Uath-bhrath"
 
 #: ../../snippets/file-format-parameters.rst:15
 #: ../../snippets/file-format-parameters.rst:25
@@ -48701,7 +48699,7 @@ msgstr ""
 #: ../../snippets/file-format-parameters.rst:117
 #: ../../snippets/file-format-parameters.rst:130
 msgid "UTF-8"
-msgstr ""
+msgstr "UTF-8"
 
 #: ../../snippets/file-format-parameters.rst:17
 #, fuzzy
@@ -48711,13 +48709,13 @@ msgstr "Ionchódú ainmneacha comhaid"
 
 #: ../../snippets/file-format-parameters.rst:17
 msgid "Encoding used for simple CSV files"
-msgstr ""
+msgstr "Códú a úsáidtear le haghaidh comhaid CSV simplí"
 
 #: ../../snippets/file-format-parameters.rst:28
 #: ../../snippets/file-format-parameters.rst:44
 #: ../../snippets/file-format-parameters.rst:114
 msgid "ISO-8859-1"
-msgstr ""
+msgstr "ISO-8859-1"
 
 #: ../../snippets/file-format-parameters.rst:30
 msgid "flatxml_key_name"
@@ -48751,7 +48749,7 @@ msgstr "Ionchódú córais"
 
 #: ../../snippets/file-format-parameters.rst:36
 msgid "Encoding used for GWT Properties files"
-msgstr ""
+msgstr "Códú a úsáidtear le haghaidh comhaid GWT Airíonna"
 
 #: ../../snippets/file-format-parameters.rst:46
 msgid "json_indent"
@@ -48857,15 +48855,13 @@ msgid "properties_encoding"
 msgstr "maoine"
 
 #: ../../snippets/file-format-parameters.rst:109
-#, fuzzy
-#| msgid "Format the Java properties file"
 msgid "Encoding used for Java Properties files"
-msgstr "Formáidigh an comhad airíonna Java"
+msgstr "Códú a úsáidtear le haghaidh comhaid Java Properties"
 
 #: ../../snippets/file-format-parameters.rst:120
 #: ../../snippets/file-format-parameters.rst:127
 msgid "UTF-16"
-msgstr ""
+msgstr "UTF-16"
 
 #: ../../snippets/file-format-parameters.rst:122
 #, fuzzy
@@ -48875,7 +48871,7 @@ msgstr "Ionchódú ainmneacha comhaid"
 
 #: ../../snippets/file-format-parameters.rst:122
 msgid "Encoding used for iOS strings files"
-msgstr ""
+msgstr "Códú a úsáidtear le haghaidh comhaid teaghrán iOS"
 
 #: ../../snippets/file-format-parameters.rst:132
 msgid "xml_closing_tags"
@@ -56381,11 +56377,11 @@ msgid "XML surrounding characters"
 msgstr "Carachtair óstáilte"
 
 #: ../../user/checks.rst:1899
-#, fuzzy
-#| msgid "XML tags in translation do not match source."
 msgid ""
 "Characters surrounding XML tags in translation do not align with source."
-msgstr "Ní hionann clibeanna XML san aistriúchán agus an fhoinse."
+msgstr ""
+"Ní bhíonn na carachtair atá timpeall ar chlibeanna XML san aistriúchán "
+"ailínithe leis an bhfoinse."
 
 #: ../../user/checks.rst:1906
 msgid ""
