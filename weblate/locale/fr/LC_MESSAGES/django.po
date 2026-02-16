@@ -27,7 +27,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-02-16 13:58+0000\n"
-"PO-Revision-Date: 2026-02-16 13:38+0000\n"
+"PO-Revision-Date: 2026-02-17 15:10+0000\n"
 "Last-Translator: Mickaël Binos <mickaelbinos@outlook.com>\n"
 "Language-Team: French <https://hosted.weblate.org/projects/weblate/"
 "application/fr/>\n"
@@ -36,7 +36,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.16-dev\n"
+"X-Generator: Weblate 5.16.1-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -3460,10 +3460,8 @@ msgstr ""
 "avec celui-ci."
 
 #: weblate/billing/forms.py:47
-#, fuzzy
-#| msgid "View billing info"
 msgid "Add billing admin"
-msgstr "Consulter la facturation"
+msgstr "Ajouter un administrateur de facturation"
 
 #: weblate/billing/models.py:165 weblate/templates/billing/detail.html:28
 msgid "Billing plan"
@@ -3611,18 +3609,17 @@ msgstr "Impossible de fusionner une telle facturation."
 #: weblate/billing/views.py:259
 #, python-format
 msgid "User %s was added as a billing admin."
-msgstr ""
+msgstr "L'utilisateur %s a été ajouté en tant qu'administrateur de facturation."
 
 #: weblate/billing/views.py:277 weblate/templates/billing/detail.html:93
-#, fuzzy
-#| msgid "You can not remove yourself!"
 msgid "You cannot remove yourself."
-msgstr "Vous ne pouvez pas vous retirer vous même !"
+msgstr "Vous ne pouvez pas vous retirer vous-même."
 
 #: weblate/billing/views.py:286
 #, python-format
 msgid "User %s was removed as a billing admin."
 msgstr ""
+"L'utilisateur %s a été supprimé en tant qu'administrateur de facturation."
 
 #: weblate/checks/angularjs.py:32
 msgid "AngularJS interpolation string"
@@ -8785,23 +8782,17 @@ msgid "Terminate billing plan"
 msgstr "Résilier l’abonnement"
 
 #: weblate/templates/billing/detail.html:72
-#, fuzzy
-#| msgid "Billing plan"
 msgid "Billing admins"
-msgstr "Mode de facturation"
+msgstr "Administrateurs de facturation"
 
 #: weblate/templates/billing/detail.html:93
 #: weblate/templates/billing/detail.html:97
-#, fuzzy
-#| msgid "Check user access"
 msgid "Revoke access"
-msgstr "Vérifier l’accès des utilisateurs"
+msgstr "Révoquer l'accès"
 
 #: weblate/templates/billing/detail.html:107
-#, fuzzy
-#| msgid "admin"
 msgid "Add admin"
-msgstr "admin"
+msgstr "Ajouter un administrateur"
 
 #: weblate/templates/billing/detail.html:120
 msgid "Review merge"
@@ -14160,10 +14151,8 @@ msgid "This string was translated automatically by %(author)s."
 msgstr "Cette chaîne a été traduite automatiquement par %(author)s."
 
 #: weblate/templates/translate.html:736
-#, fuzzy
-#| msgid "This string was translated automatically by %(author)s."
 msgid "This string was translated automatically."
-msgstr "Cette chaîne a été traduite automatiquement par %(author)s."
+msgstr "Cette chaîne a été traduite automatiquement."
 
 #: weblate/templates/translate.html:755 weblate/trans/models/project.py:262
 msgid "Translation quality filter"
@@ -15178,10 +15167,8 @@ msgid "FlatXML key name"
 msgstr "Nom de la clé FlatXML"
 
 #: weblate/trans/file_format_params.py:458
-#, fuzzy
-#| msgid "Found duplicated string"
 msgid "Deduplicate identical strings"
-msgstr "Chaîne en double détectée"
+msgstr "Dédupliquer les chaînes identiques"
 
 #: weblate/trans/file_format_params.py:462
 msgid ""
@@ -15189,6 +15176,10 @@ msgid ""
 "Prevents translation loss during file restructuring or table reordering by "
 "removing position-dependent context."
 msgstr ""
+"Regroupe les chaînes sources identiques en une seule unité de traduction. "
+"Empêche la perte de traduction lors de la restructuration de fichiers ou du "
+"réordonnancement de tables en supprimant le contexte dépendant de la "
+"position."
 
 #: weblate/trans/file_format_params.py:472
 #: weblate/trans/file_format_params.py:489
