@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-02-13 09:24+0100\n"
-"PO-Revision-Date: 2026-02-15 20:11+0000\n"
+"PO-Revision-Date: 2026-02-16 13:38+0000\n"
 "Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
 "documentation/ga/>\n"
@@ -1948,16 +1948,6 @@ msgid "Additional access restrictions"
 msgstr "Srianta rochtana breise"
 
 #: ../../admin/access.rst:556
-#, fuzzy
-#| msgid ""
-#| "If you want to use your Weblate installation in a less public manner, "
-#| "i.e. allow new users on an invitational basis only, it can be done by "
-#| "configuring Weblate in such a way that only known users have an access to "
-#| "it. In order to do so, you can set :setting:`REGISTRATION_OPEN` to "
-#| "``False`` to prevent registrations of any new users, and "
-#| "set :setting:`REQUIRE_LOGIN` to ``/.*`` to require signing in to access "
-#| "all the site pages. This is basically the way to lock your Weblate "
-#| "installation."
 msgid ""
 "If you want to use your Weblate installation in a less public manner, i.e. "
 "allow new users on an invitational basis only, it can be done by configuring "
@@ -1972,7 +1962,7 @@ msgstr ""
 "féidir é sin a dhéanamh trí Weblate a chumrú sa chaoi is nach mbeidh "
 "rochtain air ach ag úsáideoirí aitheanta. Chun seo a dhéanamh, is féidir "
 "leat :setting:`REGISTRATION_OPEN` a shocrú go ``False`` chun clárú aon "
-"úsáideoirí nua a chosc, agus :setting:`REQUIRE_LOGIN` a shocrú go ``/.*`` "
+"úsáideoirí nua a chosc, agus :setting:`REQUIRE_LOGIN` a shocrú go ``True`` "
 "chun síniú isteach a éileamh chun rochtain a fháil ar gach leathanach suímh. "
 "Is é seo an bealach chun do shuiteáil Weblate a ghlasáil go bunúsach."
 
@@ -9293,92 +9283,68 @@ msgstr ""
 "roghnaithe go sainráite acu."
 
 #: ../../admin/config.rst:1471
-#, fuzzy
-#| msgid ""
-#| "Template to generate private commit e-mail for an user. Defaults to "
-#| "``\"{username}@users.noreply.{site_domain}\"``."
 msgid ""
 "Template to generate a private commit e-mail for a user. Defaults to "
 "``\"{username}@users.noreply.{site_domain}\"``."
 msgstr ""
-"Teimpléad chun ríomhphost tiomanta príobháideach a ghiniúint don úsáideoir. "
-"Réamhshocrú le ``\"{ainm úsáideora}@users.noreply.{site_domain}\"``."
+"Teimpléad chun ríomhphost tiomantais phríobháideach a ghiniúint d'úsáideoir. "
+"Is é ``\"{username}@users.noreply.{site_domain}\"`` an rogha réamhshocraithe."
 
 #: ../../admin/config.rst:1473 ../../admin/config.rst:1510
 msgid ""
 "It can contain ``{user_id}``, ``{username}``, ``{site_title}``, and "
 "``{site_domain}``."
 msgstr ""
+"Féadfaidh sé ``{user_id}``, ``{username}``, ``{site_title}``, agus ``"
+"{site_domain}`` a bheith ann."
 
 #: ../../admin/config.rst:1475 ../../admin/config.rst:1512
 msgid "Set to blank string to disable."
 msgstr "Socraigh go teaghrán bán chun é a dhíchumasú."
 
 #: ../../admin/config.rst:1479
-#, fuzzy
-#| msgid ""
-#| "Using different commit e-mail is opt-in for users unless configured "
-#| "by :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure commit e-"
-#| "mail in the :ref:`profile`."
 msgid ""
 "Using a different commit e-mail is opt-in for users unless configured "
 "by :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure their commit "
 "e-mail in the :ref:`profile`."
 msgstr ""
-"Is rogha an diúltaithe d'úsáideoirí é ríomhphoist tiomnaithe éagsúla a úsáid "
-"mura bhfuil sé cumraithe ag :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Is "
-"féidir le húsáideoirí r-phost tiomnaithe a chumrú sa :ref:`profile`."
+"Is rogha isteach é d'úsáideoirí ríomhphost tiomantais difriúil a úsáid mura "
+"bhfuil sé cumraithe ag :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Is féidir le "
+"húsáideoirí a ríomhphost tiomantais a chumrú sa :ref:`profile`."
 
 #: ../../admin/config.rst:1490
-#, fuzzy
-#| msgid ""
-#| "Configures whether the private commit e-mail is opt-in or opt-out (by "
-#| "default it is opt-in)."
 msgid ""
 "Configures whether the private commit name is opt-in or opt-out (by default "
 "it is opt-in)."
 msgstr ""
-"Cumraíonn sé cibé an rogha an diúltaithe nó rogha an diúltaithe é an r-phost "
-"gealltanas príobháideach (de réir réamhshocraithe is rogha an diúltaithe é)."
+"Cumraíonn sé seo an bhfuil an t-ainm tiomantais phríobháidigh rogha isteach "
+"nó rogha amach (is rogha isteach é de réir réamhshocraithe)."
 
 #: ../../admin/config.rst:1494
-#, fuzzy
-#| msgid ""
-#| "This setting only applies to users which have not explicitly chosen a "
-#| "commit e-mail."
 msgid ""
 "This setting only applies to users which have not explicitly chosen a commit "
 "name."
 msgstr ""
-"Ní bhaineann an socrú seo ach le húsáideoirí nach bhfuil r-phost gealltanais "
-"roghnaithe go sainráite acu."
+"Ní bhaineann an socrú seo ach le húsáideoirí nár roghnaigh ainm tiomantais "
+"go sainráite."
 
 #: ../../admin/config.rst:1508
-#, fuzzy
-#| msgid ""
-#| "Template to generate private commit e-mail for an user. Defaults to "
-#| "``\"{username}@users.noreply.{site_domain}\"``."
 msgid ""
 "Template to generate a private commit name for a user. Defaults to "
 "``\"{site_title} user {user_id}\"``."
 msgstr ""
-"Teimpléad chun ríomhphost tiomanta príobháideach a ghiniúint don úsáideoir. "
-"Réamhshocrú le ``\"{ainm úsáideora}@users.noreply.{site_domain}\"``."
+"Teimpléad chun ainm tiomantais phríobháidigh a ghiniúint d'úsáideoir. Is é "
+"``\"{site_title} úsáideoir {user_id}\"`` an rogha réamhshocraithe."
 
 #: ../../admin/config.rst:1516
-#, fuzzy
-#| msgid ""
-#| "Using different commit e-mail is opt-in for users unless configured "
-#| "by :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure commit e-"
-#| "mail in the :ref:`profile`."
 msgid ""
 "Using a different commit name is opt-in for users unless configured "
 "by :setting:`PRIVATE_COMMIT_NAME_OPT_IN`. Users can configure their commit "
 "name in the :ref:`profile`."
 msgstr ""
-"Is rogha an diúltaithe d'úsáideoirí é ríomhphoist tiomnaithe éagsúla a úsáid "
-"mura bhfuil sé cumraithe ag :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Is "
-"féidir le húsáideoirí r-phost tiomnaithe a chumrú sa :ref:`profile`."
+"Is rogha isteach é d'úsáideoirí ainm tiomantais difriúil a úsáid mura bhfuil "
+"sé cumraithe ag :setting:`PRIVATE_COMMIT_NAME_OPT_IN`. Is féidir le "
+"húsáideoirí a n-ainm tiomantais a chumrú sa :ref:`profile`."
 
 #: ../../admin/config.rst:1527
 msgid ""
@@ -15139,16 +15105,12 @@ msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 msgstr "Cumraíonn :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 
 #: ../../admin/install/docker.rst:1037
-#, fuzzy
-#| msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
 msgid "Configures :setting:`PRIVATE_COMMIT_NAME_TEMPLATE`."
-msgstr "Cumraíonn :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
+msgstr "Cumraíonn :setting:`PRIVATE_COMMIT_NAME_TEMPLATE`."
 
 #: ../../admin/install/docker.rst:1043
-#, fuzzy
-#| msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 msgid "Configures :setting:`PRIVATE_COMMIT_NAME_OPT_IN`."
-msgstr "Cumraíonn :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
+msgstr "Cumraíonn :setting:`PRIVATE_COMMIT_NAME_OPT_IN`."
 
 #: ../../admin/install/docker.rst:1049
 msgid "Configures :setting:`UNUSED_ALERT_DAYS`."
@@ -17998,11 +17960,11 @@ msgstr ""
 
 #: ../../admin/machine.rst:164
 msgid "Anthropic"
-msgstr ""
+msgstr "Anthropic"
 
 #: ../../admin/machine.rst:182
 msgid "Anthropic API URL"
-msgstr ""
+msgstr "URL API Antrapach"
 
 #: ../../admin/machine.rst:182
 msgid "Base URL of the Anthropic API. Leave empty to use the default URL."
@@ -18010,19 +17972,19 @@ msgstr "Bun-URL API Anthropic. Fág folamh chun an URL réamhshocraithe a úsái
 
 #: ../../admin/machine.rst:184
 msgid "Anthropic model"
-msgstr ""
+msgstr "Múnla antrapach"
 
 #: ../../admin/machine.rst:186
 msgid "``claude-sonnet-4-5`` -- Claude Sonnet 4.5 (Recommended)"
-msgstr ""
+msgstr "``claude-sonnet-4-5`` -- Claude Sonnet 4.5 (Molta)"
 
 #: ../../admin/machine.rst:188
 msgid "``claude-haiku-4-5`` -- Claude Haiku 4.5"
-msgstr ""
+msgstr "``claude-haiku-4-5`` -- Claude Haiku 4.5"
 
 #: ../../admin/machine.rst:190
 msgid "``claude-opus-4-5`` -- Claude Opus 4.5"
-msgstr ""
+msgstr "``claude-opus-4-5`` -- Claude Opus 4.5"
 
 #: ../../admin/machine.rst:192 ../../admin/machine.rst:832
 msgid "``custom`` -- Custom model"
@@ -18039,7 +18001,7 @@ msgstr ""
 
 #: ../../admin/machine.rst:196
 msgid "Max tokens"
-msgstr ""
+msgstr "Uasmhéid comharthaí"
 
 #: ../../admin/machine.rst:196
 msgid "Maximum number of tokens to generate in the response."
@@ -18051,16 +18013,12 @@ msgid "Translator persona"
 msgstr "Pearsa aistritheoir"
 
 #: ../../admin/machine.rst:198
-#, fuzzy
-#| msgid ""
-#| "Describe the persona of translator to improve the accuracy of the "
-#| "translation. For example: “You are a squirrel breeder.”"
 msgid ""
 "Describe the persona of translator to improve the accuracy of the "
 "translation. For example: \"You are a squirrel breeder.\""
 msgstr ""
 "Déan cur síos ar phearsa an aistritheora chun cruinneas an aistriúcháin a "
-"fheabhsú. Mar shampla: “Is póraitheoir iora thú.”"
+"fheabhsú. Mar shampla: \"Is póraitheoir ioraí thú.\""
 
 #: ../../admin/machine.rst:200 ../../admin/machine.rst:247
 #: ../../admin/machine.rst:752 ../../admin/machine.rst:798
@@ -18068,20 +18026,16 @@ msgid "Translator style"
 msgstr "Stíl aistritheoir"
 
 #: ../../admin/machine.rst:200
-#, fuzzy
-#| msgid ""
-#| "Describe the style of translation. For example: “Use informal language.”"
 msgid ""
 "Describe the style of translation. For example: \"Use informal language.\""
 msgstr ""
-"Déan cur síos ar stíl an aistriúcháin. Mar shampla: “Bain úsáid as teanga "
-"neamhfhoirmiúil.”"
+"Déan cur síos ar stíl an aistriúcháin. Mar shampla: \"Úsáid teanga "
+"neamhfhoirmiúil.\""
 
 #: ../../admin/machine.rst:203
-#, fuzzy
-#| msgid "Performs translation using `Ollama`_ models."
 msgid "Performs translation using `Anthropic's Claude`_ models."
-msgstr "Déanann aistriúchán ag baint úsáide as samhlacha `Ollama`_."
+msgstr ""
+"Déanann sé aistriúchán ag baint úsáide as samhlacha `Anthropic's Claude`_."
 
 #: ../../admin/machine.rst:205
 msgid ""
@@ -18089,39 +18043,31 @@ msgid ""
 "known for their strong reasoning and language capabilities. You need an API "
 "key from Anthropic to use this service."
 msgstr ""
+"Cuireann API Anthropic rochtain ar fáil ar theaghlach samhlacha Claude, atá "
+"aitheanta as a gcumas láidir réasúnaíochta agus teanga. Teastaíonn eochair "
+"API ó Anthropic uait chun an tseirbhís seo a úsáid."
 
 #: ../../admin/machine.rst:209
-#, fuzzy
-#| msgid ""
-#| "Use persona and style fields to further fine-tune translations. These "
-#| "will be used in a prompt for Ollama and allow you to change the style of "
-#| "the translations."
 msgid ""
 "Use persona and style fields to further fine-tune translations. These will "
 "be used in a prompt for Claude and allow you to change the style of the "
 "translations."
 msgstr ""
-"Bain úsáid as réimsí pearsantachta agus stíle chun aistriúcháin a choigeartú "
-"tuilleadh. Úsáidfear iad seo i leid do Ollama agus ligfidh siad duit stíl na "
+"Bain úsáid as réimsí pearsantachta agus stíle chun aistriúcháin a fheabhsú "
+"tuilleadh. Úsáidfear iad seo i leid do Claude agus ligfidh siad duit stíl na "
 "n-aistriúchán a athrú."
 
 #: ../../admin/machine.rst:217
-#, fuzzy
-#| msgid ""
-#| "`DeepL API documentation <https://developers.deepl.com/docs/getting-"
-#| "started/intro>`_"
 msgid ""
 "`Anthropic API documentation <https://docs.anthropic.com/en/api/getting-"
 "started>`_"
 msgstr ""
-"`Doiciméadacht API DeepL <https://developers.deepl.com/docs/getting-started/"
-"intro>`_"
+"`Doiciméadú API Anthropic <https://docs.anthropic.com/en/api/getting-started>"
+"`_"
 
 #: ../../admin/machine.rst:218
-#, fuzzy
-#| msgid "`Anchore <https://anchore.com/>`_"
 msgid "`Anthropic Console <https://console.anthropic.com/>`_"
-msgstr "`Ancaire <https://anchore.com/>`_"
+msgstr "`Consól Antrapach <https://console.anthropic.com/>`_"
 
 #: ../../admin/machine.rst:225
 msgid "Azure OpenAI"
@@ -19020,19 +18966,22 @@ msgstr "freastalaí tm"
 msgid ""
 "You can run your own translation memory server by using a tmserver protocol."
 msgstr ""
+"Is féidir leat do fhreastalaí cuimhne aistriúcháin féin a rith trí phrótacal "
+"tmserver a úsáid."
 
 #: ../../admin/machine.rst:954
 msgid ""
 "The original :program:`tmserver` was bundled with the translate-toolkit."
-msgstr ""
+msgstr "Bhí an :program:`tmserver` bunaidh pacáilte leis an translate-toolkit."
 
 #: ../../admin/machine.rst:955
 msgid "amaGama server is an enhanced version of tmserver."
-msgstr ""
+msgstr "Is leagan feabhsaithe de tmserver é freastalaí amaGama."
 
 #: ../../admin/machine.rst:959
 msgid "There currently does not seem to be a maintained server for this."
 msgstr ""
+"Is cosúil nach bhfuil freastalaí cothabháilte ann faoi láthair chuige seo."
 
 #: ../../admin/machine.rst:968 ../../admin/machine.rst:983
 msgid "`This service has no configuration.`"
@@ -20254,6 +20203,10 @@ msgid ""
 "the :ref:`autoclean-tm` configuration. If automatic cleanup is enabled, this "
 "is disabled by default to prevent reintroducing inconsistent translations."
 msgstr ""
+"Déantar an luach réamhshocraithe d’úsáideoirí nua a choigeartú go "
+"huathoibríoch bunaithe ar an chumraíocht :ref:`autoclean-tm`. Má tá glanadh "
+"uathoibríoch cumasaithe, díchumasaítear é seo de réir réamhshocraithe chun "
+"cosc a chur ar aistriúcháin neamhréireach a thabhairt isteach arís."
 
 #: ../../admin/memory.rst:47
 msgid "Per-project translation memory"
@@ -20347,6 +20300,10 @@ msgid ""
 "not contribute to personal translation memory. This prevents reintroducing "
 "inconsistent translations that were supposed to be cleaned up."
 msgstr ""
+"Trí ghlanadh uathoibríoch a chumasú, athraítear an réamhshocrú freisin do "
+"phróifílí úsáideoirí nua gan cur le cuimhne aistriúcháin phearsanta. "
+"Cuireann sé seo cosc ar aistriúcháin neamhréireach a bhí ceaptha a ghlanadh "
+"a ath-thabhairt isteach."
 
 #: ../../admin/memory.rst:105
 msgid "Managing the Translation Memory"
@@ -23468,73 +23425,49 @@ msgstr ""
 "control>` i gceann de na socruithe seo a leanas:"
 
 #: ../../admin/translating.rst:26
-#, fuzzy
-#| msgid ""
-#| "Users suggest and vote for suggestions and a limited group controls what "
-#| "is accepted. - Turn on voting. - Turn off automatic acceptance. - Don't "
-#| "let users save translations."
 msgid ""
 "Users suggest and vote for suggestions and a limited group controls what is "
 "accepted."
 msgstr ""
-"Déanann úsáideoirí moltaí a mholadh agus vótáil ar a son agus rialaíonn "
-"grúpa teoranta a nglactar leo. - Cuir an vótáil ar siúl. - Glacadh "
-"uathoibríoch a mhúchadh. - Ná lig d'úsáideoirí aistriúcháin a shábháil."
+"Tugann úsáideoirí moltaí agus vótálann siad ar a son agus rialaíonn grúpa "
+"teoranta cad a nglactar leis."
 
 #: ../../admin/translating.rst:29 ../../admin/translating.rst:36
-#, fuzzy
-#| msgid "Turn on suggestions"
 msgid "Turn on voting."
-msgstr "Cuir moltaí ar siúl"
+msgstr "Cuir an vótáil ar siúl."
 
 #: ../../admin/translating.rst:30
-#, fuzzy
-#| msgid "Turn off this notification"
 msgid "Turn off automatic acceptance."
-msgstr "Múch an fógra seo"
+msgstr "Múch glacadh uathoibríoch."
 
 #: ../../admin/translating.rst:31
-#, fuzzy
-#| msgid "Deletes a translation."
 msgid "Don't let users save translations."
-msgstr "Scrios aistriúchán."
+msgstr "Ná lig d'úsáideoirí aistriúcháin a shábháil."
 
 #: ../../admin/translating.rst:33
-#, fuzzy
-#| msgid ""
-#| "Users suggest and vote for suggestions with automatic acceptance once the "
-#| "defined number of them agree. - Turn on voting. - Set the desired number "
-#| "of votes for automatic acceptance."
 msgid ""
 "Users suggest and vote for suggestions with automatic acceptance once the "
 "defined number of them agree."
 msgstr ""
-"Tugann úsáideoirí moltaí agus vótálann siad ar a son agus glacfar leo go "
-"huathoibríoch nuair a chomhaontóidh an líon sainithe díobh. - Cuir an vótáil "
-"ar siúl. - Socraigh an líon vótaí atá ag teastáil le haghaidh glacadh "
-"uathoibríoch."
+"Molann agus vótálann úsáideoirí ar a son agus glactar leo go huathoibríoch "
+"nuair a aontaíonn an líon sainithe díobh."
 
 #: ../../admin/translating.rst:37
 msgid "Set the desired number of votes for automatic acceptance."
-msgstr ""
+msgstr "Socraigh an líon vótaí atá uait le haghaidh glactha uathoibríoch."
 
 #: ../../admin/translating.rst:39
-#, fuzzy
-#| msgid ""
-#| "Optional voting for suggestions. (Can optionally be used by users when "
-#| "they are unsure about a translation by making multiple suggestions.) - "
-#| "Only turn on voting."
 msgid ""
 "Optional voting for suggestions. (Can optionally be used by users when they "
 "are unsure about a translation by making multiple suggestions.)"
 msgstr ""
-"Vótáil roghnach le haghaidh moltaí. (Is féidir le húsáideoirí é a úsáid go "
-"roghnach nuair nach bhfuil siad cinnte faoi aistriúchán trí roinnt moltaí a "
-"dhéanamh.) - Ná cuir an vótáil ar siúl ach amháin."
+"Vótáil roghnach ar mholtaí. (Is féidir le húsáideoirí é seo a úsáid go "
+"roghnach nuair nach bhfuil siad cinnte faoi aistriúchán trí mholtaí iolracha "
+"a dhéanamh.)"
 
 #: ../../admin/translating.rst:42
 msgid "Only turn on voting."
-msgstr ""
+msgstr "Cuir an vótáil ar siúl amháin."
 
 #: ../../admin/translating.rst:47
 msgid "Additional info on source strings"
@@ -24045,30 +23978,24 @@ msgid "Authentication and generic parameters"
 msgstr "Fíordheimhniú agus paraiméadair chineálacha"
 
 #: ../../api.rst:28
-#, fuzzy
-#| msgid ""
-#| "The public project API is available without authentication, though "
-#| "unauthenticated requests are heavily throttled (by default to 100 "
-#| "requests per day), so it is recommended to use authentication. The "
-#| "authentication uses a token, which you can get in your profile. Use it in "
-#| "the ``Authorization`` header:"
 msgid ""
 "The read-only API is available without authentication "
 "unless :setting:`REQUIRE_LOGIN` is turned on. Unauthenticated requests are "
 "heavily throttled (by default to 100 requests per day), so it is recommended "
 "to use authentication."
 msgstr ""
-"Tá API an tionscadail phoiblí ar fáil gan fíordheimhniú, cé go bhfuil "
-"iarratais neamhfhíordheimhnithe faoi lánseol (de réir réamhshocraithe go 100 "
-"iarratas in aghaidh an lae), mar sin moltar fíordheimhniú a úsáid. Úsáideann "
-"an fíordheimhniú comhartha, ar féidir leat a fháil i do phróifíl. Úsáid é sa "
-"cheanntásc ``Údarú``:"
+"Tá an API inléite amháin ar fáil gan fhíordheimhniú mura bhfuil "
+":setting:`REQUIRE_LOGIN` casta air. Tá iarratais neamhfhíordheimhnithe "
+"srianta go mór (de réir réamhshocraithe go 100 iarratas in aghaidh an lae), "
+"mar sin moltar fíordheimhniú a úsáid."
 
 #: ../../api.rst:33
 msgid ""
 "The authentication uses a token, which you can get in your profile. Use it "
 "in the ``Authorization`` header:"
 msgstr ""
+"Úsáideann an fíordheimhniú comhartha, ar féidir leat a fháil i do phróifíl. "
+"Bain úsáid as sa cheanntásc ``Authorization``:"
 
 #: ../../api.rst:38
 msgid ""
@@ -27248,13 +27175,11 @@ msgstr ":ref:`check-multiple-capital` seiceáil cáilíochta."
 
 #: ../../changes.rst:9
 msgid "Bulk accepting suggestions from a specific user in :ref:`suggestions`."
-msgstr ""
+msgstr "Glacadh le moltaí ó úsáideoir ar leith i mórchóir i :ref:`suggestions`."
 
 #: ../../changes.rst:10
-#, fuzzy
-#| msgid "Fixed sorting of machine translation suggestions."
 msgid "Cloning suggestions into translation in :ref:`suggestions`."
-msgstr "Sórtáil seasta ar mholtaí meaisínaistriúcháin."
+msgstr "Ag clónáil moltaí isteach san aistriúchán i :ref:`suggestions`."
 
 #: ../../changes.rst:11
 msgid ""
@@ -27273,14 +27198,8 @@ msgstr ""
 "liostaítear gach imeacht athraithe féideartha, :ref:`addon-choice-events`."
 
 #: ../../changes.rst:13
-#, fuzzy
-#| msgid ""
-#| "Added new Ollama machinery tool for local Ollama AI model integration, "
-#| "see :ref:`mt-ollama`."
 msgid "Added Anthropic machinery integration, see :ref:`mt-anthropic`."
-msgstr ""
-"Cuireadh uirlis innealra Ollama nua leis le haghaidh comhtháthú samhail "
-"áitiúil Ollama AI, féach :ref:`mt-ollama`."
+msgstr "Cuireadh comhtháthú innealra Anthropic leis, féach :ref:`mt-anthropic`."
 
 #: ../../changes.rst:14
 msgid ""
@@ -27288,14 +27207,17 @@ msgid ""
 "using :ref:`file_format_params` (e.g., ``csv_encoding``, "
 "``properties_encoding``)."
 msgstr ""
+"Is féidir ionchódú le haghaidh :ref:`formats` a chumrú anois ag baint úsáide "
+"as :ref:`file_format_params` (e.g., ``csv_encoding``, "
+"``properties_encoding``)."
 
 #: ../../changes.rst:15
-#, fuzzy
-#| msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
 msgid ""
 "Added support for anonymous commit names "
 "via :setting:`PRIVATE_COMMIT_NAME_TEMPLATE`."
-msgstr "Cumraíonn :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
+msgstr ""
+"Cuireadh tacaíocht le haghaidh ainmneacha tiomantais gan ainm leis trí "
+":setting:`PRIVATE_COMMIT_NAME_TEMPLATE`."
 
 #: ../../changes.rst:18 ../../changes.rst:58 ../../changes.rst:103
 #: ../../changes.rst:145 ../../changes.rst:221 ../../changes.rst:248
@@ -27347,28 +27269,28 @@ msgid "Validation of VCS settings :ref:`push-changes` has been extended."
 msgstr "Tá bailíochtú socruithe VCS :ref:`push-changes` sínte amach."
 
 #: ../../changes.rst:25
-#, fuzzy
-#| msgid ""
-#| "Configures the default value of :ref:`project-use_shared_tm` "
-#| "and :ref:`project-contribute_shared_tm`."
 msgid ""
 "The default values for :ref:`project-translation_review` and :ref:`project-"
 "source_review` can be configured in settings."
 msgstr ""
-"Cumraíonn sé an luach réamhshocraithe de :ref:`project-use_shared_tm` "
-"agus :ref:`project-contribute_shared_tm`."
+"Is féidir na luachanna réamhshocraithe le haghaidh :ref:`project-"
+"translation_review` agus :ref:`project-source_review` a chumrú sna socruithe."
 
 #: ../../changes.rst:26
 msgid ""
 "The :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE` now supports the ``{user_id}`` "
 "and ``{site_title}`` variables."
 msgstr ""
+"Tacaíonn an :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE` anois leis na hathróga "
+"``{user_id}`` agus ``{site_title}``."
 
 #: ../../changes.rst:27
 msgid ""
 "The default value for personal translation memory contribution is now based "
 "on the :setting:`DEFAULT_AUTOCLEAN_TM` configuration."
 msgstr ""
+"Tá an luach réamhshocraithe le haghaidh ranníocaíocht chuimhne aistriúcháin "
+"phearsanta bunaithe anois ar an chumraíocht :setting:`DEFAULT_AUTOCLEAN_TM`."
 
 #: ../../changes.rst:30 ../../changes.rst:65 ../../changes.rst:111
 #: ../../changes.rst:162 ../../changes.rst:201 ../../changes.rst:225
@@ -27412,18 +27334,22 @@ msgid ""
 "File formats that only differed in encoding (CSV, GWT Properties, Java "
 "Properties, iOS Strings) have been merged into single formats."
 msgstr ""
+"Tá formáidí comhaid nach raibh difríocht eatarthu ach ó thaobh ionchódaithe "
+"de (CSV, Airíonna GWT, Airíonna Java, Teaghráin iOS) curtha le chéile i "
+"bhformáidí aonair."
 
 #: ../../changes.rst:34
 msgid ""
 "Improved cache isolation for suggestion checks to avoid interference with "
 "the parent unit checks."
 msgstr ""
+"Feabhsú ar leithlisiú taisce le haghaidh seiceálacha moltaí chun cur isteach "
+"ar sheiceálacha an aonaid tuismitheora a sheachaint."
 
 #: ../../changes.rst:35
-#, fuzzy
-#| msgid "Adjust translation flags (see :ref:`custom-checks`)"
 msgid "Gracefully handle invalid check flags in :ref:`custom-checks`."
-msgstr "Coigeartaigh bratacha aistriúcháin (féach :ref:`custom-checks`)"
+msgstr ""
+"Láimhseáil go galánta bratacha seiceála neamhbhailí i :ref:`custom-checks`."
 
 #: ../../changes.rst:38 ../../changes.rst:78 ../../changes.rst:176
 #: ../../changes.rst:319 ../../changes.rst:414 ../../changes.rst:469
@@ -27451,6 +27377,8 @@ msgid ""
 "The default value for :setting:`WEBLATE_FORMATS` changed because of the "
 "removal of encoding-specific formats."
 msgstr ""
+"D'athraigh an luach réamhshocraithe le haghaidh :setting:`WEBLATE_FORMATS` "
+"mar gheall ar bhaint formáidí sainiúla ionchódaithe."
 
 #: ../../changes.rst:43 ../../changes.rst:82 ../../changes.rst:119
 #: ../../changes.rst:186 ../../changes.rst:206 ../../changes.rst:229
@@ -27778,12 +27706,12 @@ msgid "Update language definitions to CLDR 48."
 msgstr "Nuashonraigh sainmhínithe teanga go CLDR 48."
 
 #: ../../changes.rst:108
-#, fuzzy
-#| msgid ":ref:`check-xml-tags` better handle XML entities."
 msgid ""
 ":ref:`check-xml-chars-around-tags` reduce translation errors for strings "
 "with XML entities."
-msgstr "Is fearr aonáin XML a láimhseáil :ref:`check-xml-tags`."
+msgstr ""
+"Laghdaíonn :ref:`check-xml-chars-around-tags` earráidí aistriúcháin do "
+"theaghráin le heintitis XML."
 
 #: ../../changes.rst:112
 msgid ""
@@ -46726,10 +46654,10 @@ msgstr ""
 "sna caibidlí seo a leanas:"
 
 #: ../../devel/starting.rst:89
-#, fuzzy
-#| msgid "Starting with internationalization"
 msgid "Educating developers for proper internationalization"
-msgstr "Ag tosú leis an idirnáisiúnú"
+msgstr ""
+"Forbróirí a oiliúint le haghaidh idirnáisiúnaithe cuí Forbróirí a oiliúint "
+"le haghaidh idirnáisiúnaithe cuí"
 
 #: ../../devel/starting.rst:91
 msgid ""
@@ -46740,6 +46668,12 @@ msgid ""
 "frameworks have good support for this, so please follow their instructions "
 "for all these areas."
 msgstr ""
+"Ní hamháin go bhfuil idirnáisiúnú bogearraí in ann teaghráin a aistriú ach "
+"go bhfuil cuma dhúchasach ar an mbogearra ar fad d’úsáideoir ó thír eile. "
+"Áirítear leis seo rudaí cosúil le formáidiú dáta nó uimhreacha, taispeáint "
+"airgeadra, nó téacs a ionchur sa treo ceart. Tá tacaíocht mhaith ag formhór "
+"na gcreatlach bogearraí don seo, mar sin lean a dtreoracha do na réimsí seo "
+"go léir."
 
 #: ../../devel/starting.rst:97
 msgid ""
@@ -46750,6 +46684,13 @@ msgid ""
 "might not be clear how to translate, and it is even challenging to "
 "distinguish whether the word is a verb or a noun."
 msgstr ""
+"B’fhéidir nach tasc simplí é aistriúchán na dtéacs ach an oiread. Tá sé seo "
+"fíor go háirithe i gcás teaghrán gearr cosúil le fotheidil nó lipéid cnaipe. "
+"Bíonn rialacha difriúla ag teangacha éagsúla, agus níl sé réasúnta a bheith "
+"ag súil go n-aistreofar an teaghrán céanna mar an gcéanna i gcónaí. I go "
+"leor cásanna, b’fhéidir nach mbeadh sé soiléir conas aistriúchán a dhéanamh, "
+"agus is dúshlánach fiú idirdhealú a dhéanamh an briathar nó ainmfhocal atá i "
+"gceist."
 
 #: ../../devel/starting.rst:104
 msgid ""
@@ -46760,6 +46701,13 @@ msgid ""
 "additional context in Weblate, such as :ref:`screenshots` "
 "or :ref:`additional-explanation`."
 msgstr ""
+"Ba chóir do gach forbróir é seo a thuiscint agus teaghráin a úsáidtear i "
+"raonta éagsúla a aithint go huathúil. Mar shampla, d'fhéadfaí aistriúchán "
+"difriúil a dhéanamh ar ``None`` a chiallaíonn \"gan úsáideoirí\" ó ``None`` "
+"a chiallaíonn \"gan míreanna\". Bain úsáid as eochracha nó comhthéacsanna "
+"difriúla chun na téarmaí seo a idirdhealú d'aistritheoirí. Is féidir leat "
+"comhthéacs breise a sholáthar i Weblate, amhail :ref:`screenshots` nó "
+":ref:`additional-explanation`."
 
 #: ../../devel/success-stories.rst:2
 msgid "Success stories"
@@ -48670,10 +48618,8 @@ msgid "Help text"
 msgstr "Téacs cabhrach"
 
 #: ../../snippets/file-format-parameters.rst:7
-#, fuzzy
-#| msgid "System encoding"
 msgid "csv_encoding"
-msgstr "Ionchódú córais"
+msgstr "códú_csv"
 
 #: ../../formats/apple.rst:37 ../../formats/java.rst:48
 #: ../../snippets/file-format-parameters.rst:7
@@ -48702,10 +48648,8 @@ msgid "UTF-8"
 msgstr "UTF-8"
 
 #: ../../snippets/file-format-parameters.rst:17
-#, fuzzy
-#| msgid "Filenames encoding"
 msgid "csv_simple_encoding"
-msgstr "Ionchódú ainmneacha comhaid"
+msgstr "códú_simplí_csv"
 
 #: ../../snippets/file-format-parameters.rst:17
 msgid "Encoding used for simple CSV files"
@@ -48742,10 +48686,8 @@ msgid "FlatXML value name"
 msgstr "Ainm luacha FlatXML"
 
 #: ../../snippets/file-format-parameters.rst:36
-#, fuzzy
-#| msgid "System encoding"
 msgid "gwt_encoding"
-msgstr "Ionchódú córais"
+msgstr "gwt_encoding"
 
 #: ../../snippets/file-format-parameters.rst:36
 msgid "Encoding used for GWT Properties files"
@@ -48849,10 +48791,8 @@ msgid "Do not include location information in the file"
 msgstr "Ná cuir faisnéis suímh san áireamh sa chomhad"
 
 #: ../../snippets/file-format-parameters.rst:109
-#, fuzzy
-#| msgid "properties"
 msgid "properties_encoding"
-msgstr "maoine"
+msgstr "airíonna_ionchódú"
 
 #: ../../snippets/file-format-parameters.rst:109
 msgid "Encoding used for Java Properties files"
@@ -48864,10 +48804,8 @@ msgid "UTF-16"
 msgstr "UTF-16"
 
 #: ../../snippets/file-format-parameters.rst:122
-#, fuzzy
-#| msgid "Filenames encoding"
 msgid "strings_encoding"
-msgstr "Ionchódú ainmneacha comhaid"
+msgstr "códú_teaghrán"
 
 #: ../../snippets/file-format-parameters.rst:122
 msgid "Encoding used for iOS strings files"
@@ -49154,14 +49092,12 @@ msgstr ""
 "Localizable.strings``"
 
 #: ../../formats/apple.rst:35
-#, fuzzy
-#| msgid "iOS strings"
 msgid "`iOS Strings`"
-msgstr "teaghráin iOS"
+msgstr "`Teaghráin iOS`"
 
 #: ../../formats/apple.rst:37
 msgid "`UTF-8`"
-msgstr ""
+msgstr "`UTF-8`"
 
 #: ../../formats/appstore.rst:6
 msgid ""
@@ -49347,22 +49283,16 @@ msgstr ""
 "aonteangach (féach :ref:`bimono`)."
 
 #: ../../formats/csv.rst:27
-#, fuzzy
-#| msgid ""
-#| "By default, the CSV format does autodetection of file encoding. This can "
-#| "be unreliable in some corner cases and causes performance penalty. Please "
-#| "choose file format variant with encoding to avoid this (for "
-#| "example :guilabel:`CSV file (UTF-8)`)."
 msgid ""
 "By default, the CSV format does autodetection of file encoding. This can be "
 "unreliable in some corner cases and causes performance penalty. Please "
 "choose a file format encoding to avoid this (for example :guilabel:`UTF-8`)."
 msgstr ""
-"De réir réamhshocraithe, déanann an fhormáid CSV ionchódú comhaid a bhrath "
-"go huathoibríoch. Is féidir é seo a bheith neamhiontaofa i gcásanna cúinne "
-"áirithe agus is cúis le pionós feidhmíochta. Roghnaigh leagan formáid "
-"comhaid le hionchódú chun é seo a sheachaint (mar shampla :guilabel:`comhad "
-"CSV (UTF-8)`)."
+"De réir réamhshocraithe, déanann an fhormáid CSV braiteadh uathoibríoch ar "
+"ionchódú comhad. Is féidir leis seo a bheith neamhiontaofa i gcásanna "
+"áirithe agus bíonn pionós feidhmíochta mar thoradh air. Roghnaigh ionchódú "
+"formáide comhaid le do thoil chun seo a sheachaint (mar shampla "
+":guilabel:`UTF-8`)."
 
 #: ../../formats/csv.rst:33
 msgid ""
@@ -50013,14 +49943,12 @@ msgstr ""
 "`Airíonna Java ar Vicipéid <https://en.wikipedia.org/wiki/.properties>`_"
 
 #: ../../formats/java.rst:46
-#, fuzzy
-#| msgid "Java Properties (UTF-8)"
 msgid "`Java Properties`"
-msgstr "Airíonna Java (UTF-8)"
+msgstr "`Airíonna Java`"
 
 #: ../../formats/java.rst:48
 msgid "`ISO-8859-1`"
-msgstr ""
+msgstr "`ISO-8859-1`"
 
 #: ../../formats/joomla.rst:4
 msgid "Joomla translations"
@@ -51646,6 +51574,9 @@ msgid ""
 "**Data Protection Officer (DPO):** Evaluates if personal data (PII) was "
 "compromised and manages mandatory GDPR notifications."
 msgstr ""
+"**Oifigeach Cosanta Sonraí (OCS):** Déanann measúnú ar cibé an ndearnadh "
+"sonraí pearsanta (PII) a chur i mbaol agus bainistíonn sé fógraí éigeantacha "
+"GDPR."
 
 #: ../../security/incident-response-plan.rst:20
 msgid ""
@@ -51656,61 +51587,50 @@ msgstr ""
 "inmheánacha agus seachtracha más gá."
 
 #: ../../security/incident-response-plan.rst:23
-#, fuzzy
-#| msgid "Community localization checklist"
 msgid "Communication logistics"
-msgstr "Seicliosta logánaithe pobail"
+msgstr "Loighistic chumarsáide"
 
 #: ../../security/incident-response-plan.rst:25
-#, fuzzy
-#| msgid "**Weblate application**"
 msgid "**Internal Communication:**"
-msgstr "**Feidhmchlár Weblate**"
+msgstr "**Cumarsáid Inmheánach:**"
 
 #: ../../security/incident-response-plan.rst:26
 msgid "Primary channel is **Signal** for human-to-human coordination."
-msgstr ""
+msgstr "Is é **Signal** an príomhchainéal le haghaidh comhordú idir daoine."
 
 #: ../../security/incident-response-plan.rst:27
 msgid "Technical alerts remain outside of Signal to avoid noise."
 msgstr ""
+"Fanann foláirimh theicniúla lasmuigh de Signal chun torann a sheachaint."
 
 #: ../../security/incident-response-plan.rst:28
-#, fuzzy
-#| msgid "**Weblate application**"
 msgid "**External Communication:**"
-msgstr "**Feidhmchlár Weblate**"
+msgstr "**Cumarsáid Sheachtrach:**"
 
 #: ../../security/incident-response-plan.rst:29
 msgid "**E-mail** is used to reach customers."
-msgstr ""
+msgstr "Úsáidtear **ríomhphost** chun teagmháil a dhéanamh le custaiméirí."
 
 #: ../../security/incident-response-plan.rst:30
 msgid ""
 "Customer contact lists are maintained in several locations to ensure access "
 "during service outages."
 msgstr ""
+"Coinnítear liostaí teagmhála custaiméirí i roinnt áiteanna chun rochtain a "
+"chinntiú le linn briseadh seirbhíse."
 
 #: ../../security/incident-response-plan.rst:31
-#, fuzzy
-#| msgid "**Information disclosure**"
 msgid "**Public Disclosure:**"
-msgstr "**Nochtadh faisnéise**"
+msgstr "**Nochtadh Poiblí:**"
 
 #: ../../security/incident-response-plan.rst:32
-#, fuzzy
-#| msgid ""
-#| "Dependency vulnerability scanning, see :doc:`/security/dependencies`."
 msgid ""
 "If a security vulnerability is discovered, follow :doc:`/security/issues`."
-msgstr ""
-"Scanadh leochaileachta spleáchais, féach :doc:`/security/dependencies`."
+msgstr "Má aimsítear leochaileacht slándála, lean :doc:`/security/issues`."
 
 #: ../../security/incident-response-plan.rst:35
-#, fuzzy
-#| msgid "Incident categories"
 msgid "Incident categories and severity"
-msgstr "Catagóirí teagmhais"
+msgstr "Catagóirí agus déine teagmhais"
 
 #: ../../security/incident-response-plan.rst:38
 msgid "Incident categories"
@@ -51734,45 +51654,39 @@ msgstr "Catagóir 4 – Earráid Mhíchumraíochta nó Imscartha"
 
 #: ../../security/incident-response-plan.rst:46
 msgid "Severity levels and SLAs"
-msgstr ""
+msgstr "Leibhéil déine agus SLAanna"
 
 #: ../../security/incident-response-plan.rst:49
 msgid "Severity"
 msgstr "Déine"
 
 #: ../../security/incident-response-plan.rst:49
-#, fuzzy
-#| msgid "Definitions"
 msgid "Definition"
-msgstr "Sainmhínithe"
+msgstr "Sainmhíniú"
 
 #: ../../security/incident-response-plan.rst:49
-#, fuzzy
-#| msgid "Target language"
 msgid "Target Acknowledge"
-msgstr "Sprioctheanga"
+msgstr "Admháil Sprioc"
 
 #: ../../security/incident-response-plan.rst:49
-#, fuzzy
-#| msgid "Target translation"
 msgid "Target Initial Action"
-msgstr "Aistriúchán sprice"
+msgstr "Gníomh Tosaigh Spriocdhírithe"
 
 #: ../../security/incident-response-plan.rst:51
 msgid "Critical"
-msgstr ""
+msgstr "Criticiúil"
 
 #: ../../security/incident-response-plan.rst:51
 msgid "Total outage; Admin compromise; Active data breach."
-msgstr ""
+msgstr "Briseadh iomlán; Comhréiteach riarthóra; Sárú sonraí gníomhach."
 
 #: ../../security/incident-response-plan.rst:51
 msgid "< 30 Minutes"
-msgstr ""
+msgstr "< 30 Nóiméad"
 
 #: ../../security/incident-response-plan.rst:51
 msgid "4 Hours"
-msgstr ""
+msgstr "4 Uair an Chloig"
 
 #: ../../security/incident-response-plan.rst:53
 msgid "High"
@@ -51780,15 +51694,15 @@ msgstr "Ard"
 
 #: ../../security/incident-response-plan.rst:53
 msgid "Core feature failure; PII leak of single user."
-msgstr ""
+msgstr "Teip ar phríomhghné; sceitheadh PII úsáideora aonair."
 
 #: ../../security/incident-response-plan.rst:53
 msgid "< 2 Hours"
-msgstr ""
+msgstr "< 2 Uair an Chloig"
 
 #: ../../security/incident-response-plan.rst:53
 msgid "12 Hours"
-msgstr ""
+msgstr "12 Uair an Chloig"
 
 #: ../../security/incident-response-plan.rst:55
 msgid "Medium"
@@ -51796,15 +51710,15 @@ msgstr "Meán"
 
 #: ../../security/incident-response-plan.rst:55
 msgid "Performance degradation; Minor security issue."
-msgstr ""
+msgstr "Meath feidhmíochta; Fadhb bheag slándála."
 
 #: ../../security/incident-response-plan.rst:55
 msgid "1 Business Day"
-msgstr ""
+msgstr "1 Lá Gnó"
 
 #: ../../security/incident-response-plan.rst:55
 msgid "3 Business Days"
-msgstr ""
+msgstr "3 Lá Gnó"
 
 #: ../../security/incident-response-plan.rst:57
 msgid "Low"
@@ -51813,10 +51727,12 @@ msgstr "Íseal"
 #: ../../security/incident-response-plan.rst:57
 msgid "UI bugs; Staging issues; Non-security errors."
 msgstr ""
+"Fabhtanna sa chomhéadan úsáideora; Fadhbanna stáitsithe; Earráidí "
+"neamhshlándála."
 
 #: ../../security/incident-response-plan.rst:57
 msgid "Best Effort"
-msgstr ""
+msgstr "Iarracht is Fearr"
 
 #: ../../security/incident-response-plan.rst:61
 msgid "Incident response lifecycle"
@@ -51827,34 +51743,25 @@ msgid "Preparation"
 msgstr "Ullmhúchán"
 
 #: ../../security/incident-response-plan.rst:66
-#, fuzzy
-#| msgid ""
-#| "Ensure regular daily backups of the PostgreSQL database and the data "
-#| "directory."
 msgid ""
 "Ensure regular daily backups of the PostgreSQL database and the data "
 "directory using Weblate's built-in backup with rotation, see :ref:`backup`."
 msgstr ""
 "Cinntigh go ndéantar cúltacaí laethúla rialta den bhunachar sonraí "
-"PostgreSQL agus den eolaire sonraí."
+"PostgreSQL agus den eolaire sonraí ag baint úsáide as cúltaca ionsuite "
+"Weblate le rothlú, féach :ref:`backup`."
 
 #: ../../security/incident-response-plan.rst:67
-#, fuzzy
-#| msgid ""
-#| "Protect Weblate with reverse proxy (e.g., NGINX or Apache) and HTTPS (TLS "
-#| "1.2+)."
 msgid ""
 "Ensure Weblate uses a properly configured reverse proxy (e.g., NGINX) with "
 "HTTPS (TLS 1.2+)."
 msgstr ""
-"Cosain Weblate le seachfhreastalaí droim ar ais (e.g., NGINX nó Apache) agus "
-"HTTPS (TLS 1.2+)."
+"Cinntigh go n-úsáideann Weblate seachfhreastalaí droim ar ais atá cumraithe "
+"i gceart (m.sh., NGINX) le HTTPS (TLS 1.2+)."
 
 #: ../../security/incident-response-plan.rst:68
-#, fuzzy
-#| msgid "Enable 2FA for admin-level accounts."
 msgid "Enable 2FA for all admin-level accounts."
-msgstr "Cumasaigh 2FA do chuntais ar leibhéal an riarthóra."
+msgstr "Cumasaigh 2FA do gach cuntas ar leibhéal an riarthóra."
 
 #: ../../security/incident-response-plan.rst:69
 msgid ""
@@ -51892,19 +51799,13 @@ msgstr ""
 "teipeanna brú/tarraingthe."
 
 #: ../../security/incident-response-plan.rst:77
-#, fuzzy
-#| msgid ""
-#| "Configure alerting (e.g., via Prometheus, Zabbix, or SIEM) for: - "
-#| "Multiple login failures - Unexpected service restarts or memory usage "
-#| "spikes - Irregular push/pull actions from version control systems"
 msgid ""
 "Configure alerting (via Prometheus, Zabbix, or SIEM) for multiple login "
 "failures, unexpected restarts, or irregular VCS actions."
 msgstr ""
-"Cumraigh foláirimh (m.sh., trí Prometheus, Zabbix, nó SIEM) le haghaidh: - "
-"Il-theipeanna logála isteach - Atosú seirbhíse gan choinne nó borrtha úsáide "
-"cuimhne - Gníomhartha brú/tarraingthe neamhrialta ó chórais rialaithe "
-"leaganacha"
+"Cumraigh foláirimh (trí Prometheus, Zabbix, nó SIEM) le haghaidh teipeanna "
+"logála isteach iolracha, atosaithe gan choinne, nó gníomhartha VCS "
+"neamhrialta."
 
 #: ../../security/incident-response-plan.rst:80
 msgid "Containment"
@@ -51915,16 +51816,20 @@ msgid ""
 "**Forensic Preservation:** For Category 1 or 2 incidents, create a manual "
 "**Hetzner Cloud Snapshot** before taking disruptive action."
 msgstr ""
+"**Caomhnú Fóiréinseach:** I gcás teagmhais Chatagóir 1 nó 2, cruthaigh "
+"**Grianghraf Scamall Hetzner** de láimh sula ndéantar gníomh suaiteach."
 
 #: ../../security/incident-response-plan.rst:83
 msgid "Name format: ``IRP-[CaseID]-[YYYYMMDD]-Evidence``."
-msgstr ""
+msgstr "Formáid ainm: ``IRP-[CaseID]-[YYYYMMDD]-Evidence``."
 
 #: ../../security/incident-response-plan.rst:84
 msgid ""
 "These are separate from standard rotating backups and must be preserved for "
 "analysis."
 msgstr ""
+"Tá siad seo ar leithligh ó chúltacaí rothlacha caighdeánacha agus ní mór iad "
+"a chaomhnú le haghaidh anailíse."
 
 #: ../../security/incident-response-plan.rst:85
 msgid ""
@@ -51971,20 +51876,20 @@ msgid "Recovery"
 msgstr "Aisghabháil"
 
 #: ../../security/incident-response-plan.rst:99
-#, fuzzy
-#| msgid ""
-#| "Restore affected services or data from the latest known-good backups."
 msgid ""
 "Restore affected services or data from the latest known-good Weblate backups."
 msgstr ""
-"Athchóirigh seirbhísí nó sonraí lena mbaineann ó na cúltacaí is déanaí a "
-"bhfuil aithne orthu gur féidir iad a úsáid."
+"Athchóirigh seirbhísí nó sonraí lena mbaineann ó na cúltacaí Weblate is "
+"déanaí ar a bhfuil aithne orthu."
 
 #: ../../security/incident-response-plan.rst:100
 msgid ""
 "**PII Assessment:** DPO determines if the breach requires a 72-hour GDPR "
 "notification."
 msgstr ""
+"**Measúnú ar an bhfaisnéis phearsanta:** Is é an Oifigeach Cosanta Sonraí a "
+"chinneann an bhfuil fógra GDPR 72 uair an chloig ag teastáil i gcás an "
+"tsáraithe."
 
 #: ../../security/incident-response-plan.rst:101
 msgid "Reintroduce services in a phased approach."
@@ -52007,6 +51912,8 @@ msgid ""
 "**Timeline:** Hold a review meeting within **5 business days** of incident "
 "closure."
 msgstr ""
+"**Caomhnú Fóiréinseach:** I gcás teagmhais Chatagóir 1 nó 2, cruthaigh "
+"**Grianghraf Scamall Hetzner** de láimh sula ndéantar gníomh suaiteach."
 
 #: ../../security/incident-response-plan.rst:108
 msgid "Compile a full incident timeline and actions taken."
@@ -52014,18 +51921,17 @@ msgstr ""
 "Cuir amlíne iomlán na teagmhais agus na gníomhartha a glacadh le chéile."
 
 #: ../../security/incident-response-plan.rst:109
-#, fuzzy
-#| msgid "Perform Root Cause Analysis (RCA)."
 msgid ""
 "Perform Root Cause Analysis (RCA) and document it within **10 business "
 "days**."
-msgstr "Déan Anailís Fréamhchúise (RCA)."
+msgstr ""
+"Déan Anailís ar an gcúis fréimhe (RCA) agus déan í a dhoiciméadú laistigh de "
+"**10 lá gnó**."
 
 #: ../../security/incident-response-plan.rst:110
-#, fuzzy
-#| msgid "Update security policies and IRP documentation."
 msgid "Update security policies and IRP documentation based on findings."
-msgstr "Nuashonraigh beartais slándála agus doiciméadacht IRP."
+msgstr ""
+"Nuashonraigh beartais slándála agus doiciméadacht IRP bunaithe ar thorthaí."
 
 #: ../../security/incident-response-plan.rst:111
 msgid "Review the effectiveness of detection and containment mechanisms."
@@ -53160,48 +53066,26 @@ msgid "Weblate threat model"
 msgstr "Múnla bagairt Weblate"
 
 #: ../../security/threat-model.rst:4
-#, fuzzy
-#| msgid ""
-#| "**Scope:** Core Weblate web application, its interactions with user "
-#| "browsers, backend components (web server, WSGI, database, datastore, "
-#| "Celery), and integration with external VCS. **Assumptions:** Standard "
-#| "Weblate deployment with typical components (nginx/Apache, Gunicorn/uWSGI, "
-#| "PostgreSQL, datastore, Celery) and user roles (Unauthenticated, "
-#| "Translator, Project Manager, Administrator)."
 msgid ""
 "**Scope:** Core Weblate web application, its interactions with user "
 "browsers, backend components (web server, WSGI, database, datastore, "
 "Celery), and integration with external VCS."
 msgstr ""
-"**Raon Feidhmchláir Ghréasáin:** Feidhmchlár Gréasáin Lárnach Weblate, a "
+"**Raon Feidhmchláir Ghréasáin:** Príomhfheidhmchlár Gréasáin Weblate, a "
 "idirghníomhaíochtaí le brabhsálaithe úsáideoirí, comhpháirteanna cúil "
 "(freastalaí gréasáin, WSGI, bunachar sonraí, stór sonraí, Celery), agus "
-"comhtháthú le VCS seachtrach. **Toimhdí:** Imscaradh caighdeánach Weblate le "
-"comhpháirteanna tipiciúla (nginx/Apache, Gunicorn/uWSGI, PostgreSQL, stór "
-"sonraí, Celery) agus róil úsáideoirí (Gan Fhíordheimhniú, Aistritheoir, "
-"Bainisteoir Tionscadail, Riarthóir)."
+"comhtháthú le VCS seachtrach."
 
 #: ../../security/threat-model.rst:6
-#, fuzzy
-#| msgid ""
-#| "**Scope:** Core Weblate web application, its interactions with user "
-#| "browsers, backend components (web server, WSGI, database, datastore, "
-#| "Celery), and integration with external VCS. **Assumptions:** Standard "
-#| "Weblate deployment with typical components (nginx/Apache, Gunicorn/uWSGI, "
-#| "PostgreSQL, datastore, Celery) and user roles (Unauthenticated, "
-#| "Translator, Project Manager, Administrator)."
 msgid ""
 "**Assumptions:** Standard Weblate deployment with typical components (nginx/"
 "Apache, granian/Gunicorn/uWSGI, PostgreSQL, datastore, Celery) and user "
 "roles (Unauthenticated, Translator, Project Manager, Administrator)."
 msgstr ""
-"**Raon Feidhmchláir Ghréasáin:** Feidhmchlár Gréasáin Lárnach Weblate, a "
-"idirghníomhaíochtaí le brabhsálaithe úsáideoirí, comhpháirteanna cúil "
-"(freastalaí gréasáin, WSGI, bunachar sonraí, stór sonraí, Celery), agus "
-"comhtháthú le VCS seachtrach. **Toimhdí:** Imscaradh caighdeánach Weblate le "
-"comhpháirteanna tipiciúla (nginx/Apache, Gunicorn/uWSGI, PostgreSQL, stór "
-"sonraí, Celery) agus róil úsáideoirí (Gan Fhíordheimhniú, Aistritheoir, "
-"Bainisteoir Tionscadail, Riarthóir)."
+"**Toimhdí:** Imscaradh caighdeánach Weblate le comhpháirteanna tipiciúla "
+"(nginx/Apache, granian/Gunicorn/uWSGI, PostgreSQL, datastore, Celery) agus "
+"róil úsáideora (Gan Fhíordheimhniú, Aistritheoir, Bainisteoir Tionscadail, "
+"Riarthóir)."
 
 #: ../../security/threat-model.rst:9
 msgid "System description and scope"
@@ -56370,11 +56254,8 @@ msgstr ""
 "bailí é."
 
 #: ../../user/checks.rst:1896
-#, fuzzy
-#| msgctxt "Number of hosted characters"
-#| msgid "Hosted characters"
 msgid "XML surrounding characters"
-msgstr "Carachtair óstáilte"
+msgstr "Carachtair timpeall XML"
 
 #: ../../user/checks.rst:1899
 msgid ""
@@ -56389,6 +56270,10 @@ msgid ""
 "both source and translation. Ensures letters are not replaced with non-"
 "letters, and vice versa."
 msgstr ""
+"Seiceálann sé seo go bhfuil na carachtair atá timpeall ar chlib XML "
+"comhsheasmhach idir an fhoinse agus an t-aistriúchán araon. Cinntíonn sé "
+"nach gcuirtear litreacha in ionad litreacha nach litreacha iad, agus a "
+"mhalairt."
 
 #: ../../user/checks.rst:1918
 msgid "XML syntax"
@@ -58621,11 +58506,6 @@ msgstr ""
 "Seans go n-athróidh ceadanna iarbhír ag brath ar do chumraíocht Weblate."
 
 #: ../../user/translating.rst:54
-#, fuzzy
-#| msgid ""
-#| "Anonymous users (by default) can only forward suggestions. Doing so is "
-#| "still available to signed-in users, in cases where uncertainty about a "
-#| "translation arises, prompting other translators to review it."
 msgid ""
 "Anonymous users (by default) can only forward suggestions. Doing so is still "
 "available to signed-in users, in cases where uncertainty about a translation "
@@ -58634,9 +58514,12 @@ msgid ""
 "use it as the basis for a new suggestion or translation."
 msgstr ""
 "Ní féidir le húsáideoirí gan ainm (de réir réamhshocraithe) ach moltaí a "
-"chur ar aghaidh. Tá sé sin fós ar fáil d’úsáideoirí sínithe isteach, i "
-"gcásanna ina mbíonn éiginnteacht ann maidir le haistriúchán, ag spreagadh "
-"aistritheoirí eile chun athbhreithniú a dhéanamh air."
+"chur ar aghaidh. Is féidir le húsáideoirí atá sínithe isteach fós é sin a "
+"dhéanamh, i gcásanna ina mbíonn éiginnteacht ann faoi aistriúchán, rud a "
+"spreagann aistritheoirí eile chun é a athbhreithniú. Is féidir le haon "
+"úsáideoir moladh atá ann cheana a chlónáil sna réimsí aistriúcháin, lena n-"
+"áirítear foirmeacha iolra, agus é a úsáid mar bhunús do mholadh nó "
+"d’aistriúchán nua."
 
 #: ../../user/translating.rst:60
 msgid ""
@@ -58654,6 +58537,12 @@ msgid ""
 "suggestions from trusted contributors. Suggestions failing quality checks "
 "are skipped and remain for manual review."
 msgstr ""
+"Má tá an cead :guilabel:`Glac le moltaí` agat, is féidir leat glacadh le "
+"gach moladh ó úsáideoir ar leith ar an toirt trí chliceáil ar an deilbhín "
+"seiceála cuntais in aice lena moladh. Tá sé seo úsáideach chun moltaí ó "
+"rannpháirtithe iontaofa a phróiseáil go tapa. Déantar moltaí nach n-éiríonn "
+"leo i seiceálacha cáilíochta a scipeáil agus fanann siad le haghaidh "
+"athbhreithnithe láimhe."
 
 #: ../../user/translating.rst:74
 msgid "Three types of comments can be posted:"
@@ -58776,18 +58665,15 @@ msgstr ""
 "cionn na teaghrán foinse."
 
 #: ../../user/translating.rst:141
-#, fuzzy
-#| msgid ""
-#| "Below the translation, translators will find suggestion made by others, "
-#| "to be accepted (✓), accepted with changes (✏️), or deleted (🗑)."
 msgid ""
 "Below the translation, translators will find suggestions made by others, to "
 "be accepted (✓), accepted with changes (✏️), bulk accepted for a specific "
 "user (👤✓), cloned into the translation fields (📑) or deleted (🗑)."
 msgstr ""
 "Faoi bhun an aistriúcháin, gheobhaidh aistritheoirí moltaí a rinne daoine "
-"eile, a nglacfar leo (✓), a nglacfar leo le hathruithe (✏️), nó a scriosfar "
-"(🗑)."
+"eile, le glacadh leo (✓), le glacadh leo le hathruithe (✏️), le glacadh leo "
+"i mórchóir d’úsáideoir ar leith (👤✓), le clónáil isteach sna réimsí "
+"aistriúcháin (📑) nó le scriosadh (🗑)."
 
 #: ../../user/translating.rst:148
 msgid "Plurals"
@@ -59179,6 +59065,8 @@ msgid ""
 "Further clarification can be provided in Weblate via :ref:`additional-"
 "explanation`."
 msgstr ""
+"Is féidir tuilleadh soiléirithe a sholáthar i Weblate trí :ref:`additional-"
+"explanation`."
 
 #: ../../user/translating.rst:311
 msgid ""
