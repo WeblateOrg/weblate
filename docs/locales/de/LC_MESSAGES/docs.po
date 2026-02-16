@@ -20,7 +20,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-02-16 14:59+0100\n"
-"PO-Revision-Date: 2026-02-14 19:10+0000\n"
+"PO-Revision-Date: 2026-02-17 15:10+0000\n"
 "Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "documentation/de/>\n"
@@ -29,7 +29,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16-dev\n"
+"X-Generator: Weblate 5.16.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:215
@@ -27336,10 +27336,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS auf Wikipedia <https://de.wikipedia.org/wiki/RSS_(Web-Feed)>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.1.1"
 msgid "Weblate 5.16.1"
-msgstr "Weblate 5.1.1"
+msgstr "Weblate 5.16.1"
 
 #: ../../changes.rst:4
 msgid "*Not yet released.*"
@@ -27486,26 +27484,20 @@ msgid "Contributors"
 msgstr "Mitwirkende"
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "61?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/161?"
 "closed=1>`__."
 msgstr ""
 "`Alle Änderungen im Detail <https://github.com/WeblateOrg/weblate/milestone/"
-"61?closed=1>`__."
+"161?closed=1>`__."
 
 #: ../../changes.rst:25
 msgid "Weblate 5.16"
 msgstr "Weblate 5.16"
 
 #: ../../changes.rst:27
-#, fuzzy
-#| msgid "*Released on February 16th 2012.*"
 msgid "*Released on February 16th 2026.*"
-msgstr "*Veröffentlicht am 16. Februar 2012.*"
+msgstr "*Veröffentlicht am 16. Februar 2026.*"
 
 #: ../../changes.rst:31
 msgid ":ref:`check-multiple-capital` quality check."
@@ -27574,6 +27566,9 @@ msgid ""
 "and :ref:`txt` files using ``*merge_duplicates`` parameters "
 "in :ref:`file_format_params`."
 msgstr ""
+"Konsolidierung identischer Zeichenketten in :ref:`markdown`, :ref:`html` und "
+":ref:`txt` mithilfe der Parameter ``*merge_duplicates`` in "
+":ref:`file_format_params`."
 
 #: ../../changes.rst:44
 msgid ""
@@ -27659,11 +27654,8 @@ msgstr ""
 "verarbeitet."
 
 #: ../../changes.rst:60
-#, fuzzy
-#| msgid ":doc:`/formats/apple` exporter now produces UTF-8 encoded files."
 msgid ":doc:`/formats/appstore` no longer rewrites unchanged files."
-msgstr ""
-"Der :doc:`/formats/apple`-Exporter erzeugt jetzt UTF-8-kodierte Dateien."
+msgstr ":doc:`/formats/appstore` schreibt unveränderte Dateien nicht mehr neu."
 
 #: ../../changes.rst:64
 msgid ""
@@ -27696,10 +27688,14 @@ msgstr ""
 #: ../../changes.rst:67
 msgid "Fonts used by Weblate are now shipped in a standalone package."
 msgstr ""
+"Die von Weblate verwendeten Schriftarten werden nun in einem eigenständigen "
+"Paket ausgeliefert."
 
 #: ../../changes.rst:68
 msgid "Dropped deprecated compatibility wrappers some classes with typos."
 msgstr ""
+"Veraltete Kompatibilitäts-Wrapper für einige Klassen mit Tippfehlern "
+"entfernt."
 
 #: ../../changes/contributors/5.10.1.rst:2
 #: ../../changes/contributors/5.10.2.rst:2
@@ -49395,13 +49391,11 @@ msgstr "Leerzeichen nach Trennzeichen vermeiden"
 
 #: ../../snippets/file-format-parameters.rst:90
 msgid "merge_duplicates"
-msgstr ""
+msgstr "merge_duplicates"
 
 #: ../../snippets/file-format-parameters.rst:90
-#, fuzzy
-#| msgid "Found duplicated string"
 msgid "Deduplicate identical strings"
-msgstr "Doppelte Zeichenkette gefunden"
+msgstr "Identische Zeichenketten deduplizieren"
 
 #: ../../snippets/file-format-parameters.rst:90
 msgid ""
@@ -49409,6 +49403,10 @@ msgid ""
 "Prevents translation loss during file restructuring or table reordering by "
 "removing position-dependent context."
 msgstr ""
+"Konsolidiert identische Ausgangszeichenketten zu einer einzigen "
+"Übersetzungseinheit. Verhindert Übersetzungsverluste beim Umstrukturieren "
+"von Dateien oder Neuanordnen von Tabellen, indem positionsabhängiger Kontext "
+"entfernt wird."
 
 #: ../../snippets/file-format-parameters.rst:96
 msgid "po_fuzzy_matching"
@@ -50429,10 +50427,8 @@ msgstr "`HTML-Datei`"
 
 #: ../../formats/html.rst:41 ../../formats/markdown.rst:43
 #: ../../formats/txt.rst:49
-#, fuzzy
-#| msgid "Drops duplicate strings."
 msgid "Handling duplicate strings"
-msgstr "Bereinigt doppelte Zeichenketten."
+msgstr "Behandlung doppelter Zeichenketten"
 
 #: ../../formats/html.rst:43
 msgid ""
@@ -50441,6 +50437,11 @@ msgid ""
 "HTML files, where moving elements changes the context and can lead to "
 "translation loss."
 msgstr ""
+"Standardmäßig behandelt Weblate jedes Vorkommen einer Zeichenkette als "
+"separate Übersetzungseinheit, um einen zeilenbasierten Kontext "
+"bereitzustellen. Dies kann in HTML-Dateien problematisch sein, da das "
+"Verschieben von Elementen den Kontext verändert und Übersetzungsverluste "
+"entstehen können."
 
 #: ../../formats/html.rst:48 ../../formats/markdown.rst:50
 #: ../../formats/txt.rst:56
@@ -50449,6 +50450,9 @@ msgid ""
 "enable :guilabel:`Deduplicate identical strings` in the :ref:`component-"
 "file_format_params`."
 msgstr ""
+"Um identische Zeichenketten in einer einzigen Übersetzungseinheit "
+"zusammenzufassen, aktivieren Sie :guilabel:`Identische Zeichenketten "
+"deduplizieren` in :ref:`component-file_format_params`."
 
 #: ../../formats/html.rst:53
 msgid ""
@@ -50456,6 +50460,10 @@ msgid ""
 "ensuring that translations remain stable even if elements are moved within "
 "the document."
 msgstr ""
+"Durch Aktivieren dieser Option wird der zeilenbasierte Kontext für die "
+"zusammengeführten Einheiten deaktiviert, wodurch sichergestellt wird, dass "
+"die Übersetzungen konsistent bleiben, selbst wenn Elemente innerhalb des "
+"Dokuments verschoben werden."
 
 #: ../../formats/i18next.rst:6
 msgid "i18next JSON files"
@@ -50815,6 +50823,11 @@ msgid ""
 "Markdown tables, where reordering rows changes the context and can lead to "
 "translation loss."
 msgstr ""
+"Standardmäßig behandelt Weblate jedes Vorkommen einer Zeichenkette als "
+"separate Übersetzungseinheit, um einen zeilenbasierten Kontext "
+"bereitzustellen. Dies kann in Markdown-Tabellen problematisch sein, da das "
+"Neuanordnen der Zeilen den Kontext verändert und Übersetzungsverluste "
+"entstehen können."
 
 #: ../../formats/markdown.rst:55
 msgid ""
@@ -50822,6 +50835,10 @@ msgid ""
 "ensuring that translations remain stable even if rows or sections are moved "
 "within the document."
 msgstr ""
+"Durch Aktivieren dieser Option wird der zeilenbasierte Kontext für die "
+"zusammengeführten Einheiten deaktiviert, wodurch sichergestellt wird, dass "
+"die Übersetzungen konsistent bleiben, selbst wenn Zeilen oder Abschnitte "
+"innerhalb des Dokuments verschoben werden."
 
 #: ../../formats/mi18n.rst:4
 msgid "draggable/i18n lang files"
@@ -51242,12 +51259,20 @@ msgid ""
 "paragraphs are frequently reordered, as it changes the context and can lead "
 "to translation loss."
 msgstr ""
+"Standardmäßig behandelt Weblate jeden Absatz als separate "
+"Übersetzungseinheit, um einen zeilenbasierten Kontext bereitzustellen. Dies "
+"kann in Textdateien, in denen Absätze häufig neu angeordnet werden, "
+"problematisch sein, da sich dadurch der Kontext ändert und "
+"Übersetzungsverluste entstehen können."
 
 #: ../../formats/txt.rst:61
 msgid ""
 "This parameter is shared with **DokuWiki** and **MediaWiki** formats. "
 "Enabling this option disables line-based context for the merged units."
 msgstr ""
+"Dieser Parameter wird mit den Formaten **DokuWiki** und **MediaWiki** "
+"geteilt. Durch Aktivieren dieser Option wird der zeilenbasierte Kontext für "
+"die zusammengeführten Einheiten deaktiviert."
 
 #: ../../formats/webextension.rst:4
 msgid "WebExtension JSON"
@@ -54565,6 +54590,9 @@ msgid ""
 "Weblate and all it's dependencies have publicly available source code "
 "meaning it can usually be exported and reexported without restriction."
 msgstr ""
+"Weblate und alle seine Abhängigkeiten verfügen über öffentlich zugänglichen "
+"Quellcode, was bedeutet, dass er in der Regel ohne Einschränkungen "
+"exportiert und reexportiert werden kann."
 
 #: ../../security/us-compliance.rst:27
 msgid ""
@@ -54580,7 +54608,7 @@ msgstr "`Python <https://www.python.org/>`_"
 
 #: ../../security/us-compliance.rst:31
 msgid "`Cryptography <https://cryptography.io/>`_"
-msgstr ""
+msgstr "`Kryptografie <https://cryptography.io/>`_"
 
 #: ../../security/us-compliance.rst:32
 msgid "`GnuPG <https://www.gnupg.org/>`_"
