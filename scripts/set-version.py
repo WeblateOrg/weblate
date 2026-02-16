@@ -117,7 +117,7 @@ subprocess.run(
         "run",
         "--only-group",
         "pre-commit",
-        "pre-commit",
+        "prek",
         "run",
         "--files",
         *files,
