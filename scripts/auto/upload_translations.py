@@ -66,7 +66,7 @@ def extract_main_name(component_name: str) -> str:
 def load_web_config(config_path: str = "web.json") -> Dict[str, Any]:
     """Load Weblate API configuration from JSON file."""
     try:
-        with open(config_path, "r") as f:
+        with open(config_path, "r", encoding="utf-8") as f:
             return json.load(f)
     except FileNotFoundError:
         print(f"[ERROR] Config file not found: {config_path}", flush=True)
@@ -134,22 +134,21 @@ class WeblateComponentLister:
         url = urljoin(self.api_url, endpoint)
 
         try:
-            with open(po_file_path, 'rb') as f:
-                files = {'file': (os.path.basename(po_file_path), f, 'text/plain')}
+            with open(po_file_path, "rb") as f:
+                files = {"file": (os.path.basename(po_file_path), f, "text/plain")}
                 data = {
-                    'method': method,
-                    'conflicts': conflicts,
-                    'fuzzy': fuzzy,
+                    "method": method,
+                    "conflicts": conflicts,
+                    "fuzzy": fuzzy,
                 }
                 if author:
-                    data['author'] = author
+                    data["author"] = author
                 if email:
-                    data['email'] = email
+                    data["email"] = email
 
-                # Use session.post() to maintain authentication
-                # When files parameter is used, requests automatically sets Content-Type to multipart/form-data
-                # So we temporarily remove Content-Type from session headers
-                original_content_type = self.session.headers.pop('Content-Type', None)
+                # With files=, requests sets Content-Type to multipart/form-data;
+                # temporarily remove JSON Content-Type from session.
+                original_content_type = self.session.headers.pop("Content-Type", None)
 
                 try:
                     response = self.session.post(url, files=files, data=data)
@@ -175,15 +174,18 @@ class WeblateComponentLister:
                             print(f"  ⊘ All skipped ({total} units)", flush=True)
                             return True
                         else:
-                            print(f"  ✗ Failed: Accepted={accepted}, Skipped={skipped}, Not found={not_found}", flush=True)
+                            print(
+                    f"  ✗ Failed: Accepted={accepted}, Skipped={skipped}, "
+                    f"Not found={not_found}",
+                    flush=True,
+                )
                             return False
                     except (ValueError, KeyError):
                         print(f"  ✓ Uploaded (response format unknown)", flush=True)
                         return True
                 finally:
-                    # Restore Content-Type header if it was present
                     if original_content_type:
-                        self.session.headers['Content-Type'] = original_content_type
+                        self.session.headers["Content-Type"] = original_content_type
 
         except FileNotFoundError:
             print(f"  ✗ File not found: {po_file_path}", flush=True)
@@ -342,8 +344,7 @@ def main() -> int:
     )
     parser.add_argument(
         "--component",
-        help="Filter by component slug (e.g., doc-modules-root-pages-reference-concurrent-flat-set). "
-             "If specified, only this component will be uploaded.",
+        help="Filter by component slug; if set, only this component is uploaded",
     )
     parser.add_argument(
         "--format",
@@ -375,16 +376,13 @@ def main() -> int:
         "--method",
         default="translate",
         choices=["translate", "approve", "suggest", "fuzzy", "replace", "source", "add"],
-        help="Upload method: translate (add as translation), approve (add as approved), "
-             "suggest (add as suggestion), fuzzy (add as needing edit), replace (replace file), "
-             "source (update source strings), add (add new strings only). Default: translate",
+        help="Upload method (default: translate)",
     )
     parser.add_argument(
         "--conflicts",
         default="replace-translated",
         choices=["ignore", "replace-translated", "replace-approved"],
-        help="Conflict handling: ignore (only untranslated), replace-translated (replace but keep approved), "
-             "replace-approved (replace including approved, requires reviews enabled). Default: replace-translated",
+        help="Conflict handling (default: replace-translated)",
     )
     parser.add_argument(
         "--list-projects",
@@ -401,8 +399,7 @@ def main() -> int:
         "--fuzzy",
         default="approve",
         choices=["empty", "process", "approve"],
-        help="Fuzzy strings handling: empty (do not import), process (import as needing edit), "
-             "approve (import as translated, accepts all units). Default: approve",
+        help="Fuzzy strings handling (default: approve)",
     )
     parser.add_argument(
         "--verify-po",
@@ -464,7 +461,12 @@ def main() -> int:
 
             print(f"\nComponents ({len(components)}):", flush=True)
             for project_slug, project_data in sorted(projects.items()):
-                print(f"\n{project_data['name']} ({project_slug}): {len(project_data['components'])} components", flush=True)
+                proj_name = project_data["name"]
+                n_comp = len(project_data["components"])
+                print(
+                    f"\n{proj_name} ({project_slug}): {n_comp} components",
+                    flush=True,
+                )
                 for comp in sorted(project_data["components"], key=lambda x: x["slug"]):
                     print(f"  {comp['slug']:<50} -> {comp['main_name']}", flush=True)
 
@@ -477,7 +479,11 @@ def main() -> int:
             if args.component in matches:
                 matches = {args.component: matches[args.component]}
             else:
-                print(f"Component '{args.component}' not found. Available: {', '.join(sorted(matches.keys())[:5])}...", flush=True)
+                avail = ", ".join(sorted(matches.keys())[:5])
+                print(
+                    f"Component '{args.component}' not found. Available: {avail}...",
+                    flush=True,
+                )
                 matches = {}
 
         if not matches:

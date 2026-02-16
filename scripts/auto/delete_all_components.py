@@ -28,7 +28,7 @@ import requests
 def load_web_config(config_path: str = "web.json") -> Dict[str, Any]:
     """Load Weblate API configuration from JSON file."""
     try:
-        with open(config_path, "r") as f:
+        with open(config_path, "r", encoding="utf-8") as f:
             return json.load(f)
     except FileNotFoundError:
         print(f"[ERROR] Config file not found: {config_path}", flush=True)
@@ -213,7 +213,11 @@ def main() -> int:
             print(f"  - {proj['slug']}: {proj['name']} ({comp_count} components)", flush=True)
 
         if not args.yes:
-            print(f"\n[WARNING] This will delete ALL {len(projects)} projects and ALL their components!", flush=True)
+            print(
+                f"\n[WARNING] This will delete ALL {len(projects)} projects and "
+                "ALL their components!",
+                flush=True,
+            )
             confirm = input('Type "DELETE EVERYTHING" to confirm: ').strip()
             if confirm != "DELETE EVERYTHING":
                 print("[INFO] Deletion cancelled.", flush=True)
@@ -246,8 +250,16 @@ def main() -> int:
         print("\n" + "=" * 60, flush=True)
         print("Deletion Summary (Everything)", flush=True)
         print("=" * 60, flush=True)
-        print(f"Projects - Total: {len(projects)}, Deleted: {total_projects_deleted}, Failed: {total_projects_failed}", flush=True)
-        print(f"Components - Deleted: {total_components_deleted}, Failed: {total_components_failed}", flush=True)
+        print(
+            f"Projects - Total: {len(projects)}, Deleted: {total_projects_deleted}, "
+            f"Failed: {total_projects_failed}",
+            flush=True,
+        )
+        print(
+            f"Components - Deleted: {total_components_deleted}, "
+            f"Failed: {total_components_failed}",
+            flush=True,
+        )
         print("=" * 60, flush=True)
 
         return 0 if (total_projects_failed == 0 and total_components_failed == 0) else 1
@@ -267,7 +279,11 @@ def main() -> int:
             print(f"  - {proj['slug']}: {proj['name']} ({comp_count} components)", flush=True)
 
         if not args.yes:
-            print(f"\n[WARNING] This will delete ALL {len(projects)} projects (and their components)!", flush=True)
+            print(
+                f"\n[WARNING] This will delete ALL {len(projects)} projects "
+                "(and their components)!",
+                flush=True,
+            )
             confirm = input('Type "DELETE ALL PROJECTS" to confirm: ').strip()
             if confirm != "DELETE ALL PROJECTS":
                 print("[INFO] Deletion cancelled.", flush=True)
@@ -300,8 +316,16 @@ def main() -> int:
         print("\n" + "=" * 60, flush=True)
         print("Deletion Summary (All Projects)", flush=True)
         print("=" * 60, flush=True)
-        print(f"Projects - Total: {len(projects)}, Deleted: {total_projects_deleted}, Failed: {total_projects_failed}", flush=True)
-        print(f"Components - Deleted: {total_components_deleted}, Failed: {total_components_failed}", flush=True)
+        print(
+            f"Projects - Total: {len(projects)}, Deleted: {total_projects_deleted}, "
+            f"Failed: {total_projects_failed}",
+            flush=True,
+        )
+        print(
+            f"Components - Deleted: {total_components_deleted}, "
+            f"Failed: {total_components_failed}",
+            flush=True,
+        )
         print("=" * 60, flush=True)
 
         return 0 if (total_projects_failed == 0 and total_components_failed == 0) else 1

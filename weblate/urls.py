@@ -918,6 +918,8 @@ real_patterns = [
         ".well-known/change-password",
         RedirectView.as_view(pattern_name="password", permanent=True),
     ),
+    # Boost documentation translation endpoint
+    path("boost-endpoint/", include("weblate.boost_endpoint.urls")),
 ]
 
 # Billing integration

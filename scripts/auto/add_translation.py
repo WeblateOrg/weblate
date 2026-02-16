@@ -34,21 +34,21 @@ from urllib.parse import urljoin
 try:
     import requests
 except ImportError:
-    print("Error: requests library not found.")
-    print("Install it with: pip install requests")
+    print("Error: requests library not found.", flush=True)
+    print("Install it with: pip install requests", flush=True)
     sys.exit(1)
 
 
 def load_web_config(config_file: str) -> Dict[str, Any]:
     """Load web configuration from JSON file."""
     try:
-        with open(config_file, 'r') as f:
+        with open(config_file, "r", encoding="utf-8") as f:
             return json.load(f)
     except FileNotFoundError:
-        print(f"[ERROR] Config file not found: {config_file}")
+        print(f"[ERROR] Config file not found: {config_file}", flush=True)
         sys.exit(1)
     except json.JSONDecodeError as e:
-        print(f"[ERROR] Invalid JSON in config file: {e}")
+        print(f"[ERROR] Invalid JSON in config file: {e}", flush=True)
         sys.exit(1)
 
 
@@ -56,15 +56,14 @@ def find_web_config() -> Optional[str]:
     """Find web.json in script directory or common locations."""
     # Check script directory
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    web_config_path = os.path.join(script_dir, 'web.json')
-    
+    web_config_path = os.path.join(script_dir, "web.json")
+
     if os.path.exists(web_config_path):
         return web_config_path
-    
-    # Check current working directory
-    if os.path.exists('web.json'):
-        return 'web.json'
-    
+
+    if os.path.exists("web.json"):
+        return "web.json"
+
     return None
 
 
@@ -73,7 +72,7 @@ def load_web_config_auto() -> Dict[str, Any]:
     web_config_path = find_web_config()
     
     if web_config_path:
-        print(f"[INFO] Loading web config from: {web_config_path}")
+        print(f"[INFO] Loading web config from: {web_config_path}", flush=True)
         return load_web_config(web_config_path)
     
     return {}
@@ -84,12 +83,12 @@ class WeblateTranslationCreator:
 
     def __init__(self, base_url: str, api_token: str):
         """Initialize the creator with API credentials."""
-        self.base_url = base_url.rstrip('/')
-        self.api_url = urljoin(self.base_url, '/api/')
+        self.base_url = base_url.rstrip("/")
+        self.api_url = urljoin(self.base_url, "/api/")
         self.session = requests.Session()
         self.session.headers.update({
-            'Authorization': f'Token {api_token}',
-            'Content-Type': 'application/json',
+            "Authorization": f"Token {api_token}",
+            "Content-Type": "application/json",
         })
 
     def _make_request(
@@ -103,7 +102,7 @@ class WeblateTranslationCreator:
         """Make an API request with error handling."""
         url = urljoin(self.api_url, endpoint)
         print(f"[API] {method} {url}", flush=True)
-        
+
         try:
             response = self._execute_request(method, url, data, params)
             response.raise_for_status()
@@ -142,16 +141,16 @@ class WeblateTranslationCreator:
         if not (silent_on_404 and error.response.status_code == 404):
             status = error.response.status_code
             text = error.response.text
-            print(f"[ERROR] HTTP {status}: {text}")
+            print(f"[ERROR] HTTP {status}: {text}", flush=True)
 
     def check_connection(self) -> bool:
         """Verify API connection and authentication."""
         try:
             self._make_request('GET', '')
-            print("[SUCCESS] Connected to Weblate API")
+            print("[SUCCESS] Connected to Weblate API", flush=True)
             return True
         except Exception as e:
-            print(f"[ERROR] Cannot connect to Weblate API: {e}")
+            print(f"[ERROR] Cannot connect to Weblate API: {e}", flush=True)
             return False
 
     def component_exists(
@@ -271,10 +270,8 @@ class WeblateTranslationCreator:
         print(f"  File: {translation.get('filename', 'N/A')}", flush=True)
         
         # Show statistics if available
-        if 'total' in translation:
-            total = translation.get('total', 0)
-            translated = translation.get('translated', 0)
-            # print(f"  Progress: {translated}/{total} strings translated", flush=True)
+        if "total" in translation:
+            pass  # Optional: log translation.get("translated")/translation.get("total")
 
     def list_available_languages(self) -> List[Dict[str, Any]]:
         """List all available languages in Weblate."""
@@ -284,7 +281,7 @@ class WeblateTranslationCreator:
             data = response.json()
             return data.get('results', [])
         except Exception as e:
-            print(f"[ERROR] Failed to list languages: {e}")
+            print(f"[ERROR] Failed to list languages: {e}", flush=True)
             return []
 
     def list_component_translations(
@@ -298,7 +295,7 @@ class WeblateTranslationCreator:
             response = self._make_request('GET', endpoint)
             return response.json().get('results', [])
         except Exception as e:
-            print(f"[ERROR] Failed to list translations: {e}")
+            print(f"[ERROR] Failed to list translations: {e}", flush=True)
             return []
 
 
@@ -341,34 +338,31 @@ def interactive_mode(creator: WeblateTranslationCreator) -> Dict[str, Any]:
     component_slug = input("Component slug: ").strip()
     
     if not creator.component_exists(project_slug, component_slug):
-        print(f"[ERROR] Component '{project_slug}/{component_slug}' not found")
+        print(f"[ERROR] Component '{project_slug}/{component_slug}' not found", flush=True)
         sys.exit(1)
-    
-    # Show component info
+
     comp_info = creator.get_component_info(project_slug, component_slug)
-    print(f"\n[INFO] Component: {comp_info.get('name')}")
-    print(f"[INFO] File format: {comp_info.get('file_format')}")
-    
-    # Show existing translations
+    print(f"\n[INFO] Component: {comp_info.get('name')}", flush=True)
+    print(f"[INFO] File format: {comp_info.get('file_format')}", flush=True)
+
     existing = creator.list_component_translations(project_slug, component_slug)
     if existing:
-        print(f"\n[INFO] Existing translations ({len(existing)}):")
-        for trans in existing[:10]:  # Show first 10
-            lang = trans.get('language', {})
-            print(f"  - {lang.get('name')} ({lang.get('code')})")
+        print(f"\n[INFO] Existing translations ({len(existing)}):", flush=True)
+        for trans in existing[:10]:
+            lang = trans.get("language", {})
+            print(f"  - {lang.get('name')} ({lang.get('code')})", flush=True)
         if len(existing) > 10:
-            print(f"  ... and {len(existing) - 10} more")
-    
-    # Get language codes
-    print("\n[INFO] Enter language codes to add (comma-separated)")
-    print("[INFO] Example: fr, de, es")
+            print(f"  ... and {len(existing) - 10} more", flush=True)
+
+    print("\n[INFO] Enter language codes to add (comma-separated)", flush=True)
+    print("[INFO] Example: fr, de, es", flush=True)
     lang_input = input("Language codes: ").strip()
     language_codes = parse_language_codes(lang_input)
     
     return {
-        'project_slug': project_slug,
-        'component_slug': component_slug,
-        'language_codes': language_codes
+        "project_slug": project_slug,
+        "component_slug": component_slug,
+        "language_codes": language_codes,
     }
 
 
@@ -556,9 +550,9 @@ def main() -> int:
         params = interactive_mode(creator)
     elif args.project and args.component and args.language:
         params = {
-            'project_slug': args.project,
-            'component_slug': args.component,
-            'language_codes': parse_language_codes(args.language)
+            "project_slug": args.project,
+            "component_slug": args.component,
+            "language_codes": parse_language_codes(args.language),
         }
     else:
         parser.print_help()
@@ -569,9 +563,9 @@ def main() -> int:
     # Add translations using the batch function
     success_count = add_translations_batch(
         creator,
-        params['project_slug'],
-        params['component_slug'],
-        params['language_codes']
+        params["project_slug"],
+        params["component_slug"],
+        params["language_codes"],
     )
     
     return 0 if success_count > 0 else 1

@@ -27,6 +27,7 @@ import json
 import os
 import sys
 import time
+import traceback
 from typing import Any, Dict, List, Optional
 from urllib.parse import urljoin
 
@@ -49,12 +50,12 @@ class WeblateProjectCreator:
 
     def __init__(self, base_url: str, api_token: str):
         """Initialize the creator with API credentials."""
-        self.base_url = base_url.rstrip('/')
-        self.api_url = urljoin(self.base_url, '/api/')
+        self.base_url = base_url.rstrip("/")
+        self.api_url = urljoin(self.base_url, "/api/")
         self.session = requests.Session()
         self.session.headers.update({
-            'Authorization': f'Token {api_token}',
-            'Content-Type': 'application/json',
+            "Authorization": f"Token {api_token}",
+            "Content-Type": "application/json",
         })
 
     def _make_request(
@@ -68,7 +69,7 @@ class WeblateProjectCreator:
         """Make an API request with error handling."""
         url = urljoin(self.api_url, endpoint)
         print(f"[API] {method} {url}", flush=True)
-        
+
         try:
             response = self._execute_request(method, url, data, params)
             response.raise_for_status()
@@ -431,7 +432,7 @@ class WeblateProjectCreator:
 def load_config_from_file(config_file: str) -> Dict[str, Any]:
     """Load configuration from JSON file."""
     try:
-        with open(config_file, 'r') as f:
+        with open(config_file, "r", encoding="utf-8") as f:
             return json.load(f)
     except FileNotFoundError:
         print(f"[ERROR] Config file not found: {config_file}", flush=True)
@@ -445,14 +446,13 @@ def find_web_config() -> Optional[str]:
     """Find web.json in script directory or common locations."""
     # Check script directory
     script_dir = os.path.dirname(os.path.abspath(__file__))
-    web_config_path = os.path.join(script_dir, 'web.json')
-    
+    web_config_path = os.path.join(script_dir, "web.json")
+
     if os.path.exists(web_config_path):
         return web_config_path
-    
-    # Check current working directory
-    if os.path.exists('web.json'):
-        return 'web.json'
+
+    if os.path.exists("web.json"):
+        return "web.json"
     
     return None
 
@@ -484,10 +484,10 @@ def interactive_config() -> Dict[str, Any]:
     print("=== Weblate Project Creation - Interactive Mode ===\n", flush=True)
     
     config = {
-        'weblate_url': _prompt("Weblate URL", "http://localhost:8080"),
-        'api_token': _prompt("API Token (from your profile)", required=True),
-        'project': _gather_project_config(),
-        'component': _gather_component_config(),
+        "weblate_url": _prompt("Weblate URL", "http://localhost:8080"),
+        "api_token": _prompt("API Token (from your profile)", required=True),
+        "project": _gather_project_config(),
+        "component": _gather_component_config(),
     }
     
     return config
@@ -510,34 +510,33 @@ def _gather_project_config() -> Dict[str, Any]:
     """Gather project configuration interactively."""
     print("\n--- Project Configuration ---", flush=True)
     return {
-        'name': _prompt("Project name", required=True),
-        'slug': _prompt("Project slug (URL-friendly)", required=True),
-        'web': _prompt("Project website URL", required=True),
-        'instructions': _prompt("Instructions for translators (optional)"),
+        "name": _prompt("Project name", required=True),
+        "slug": _prompt("Project slug (URL-friendly)", required=True),
+        "web": _prompt("Project website URL", required=True),
+        "instructions": _prompt("Instructions for translators (optional)"),
     }
 
 
 def _gather_component_config() -> Dict[str, Any]:
     """Gather component configuration interactively."""
     print("\n--- Component Configuration ---", flush=True)
-    
+
     config = {
-        'name': _prompt("Component name", required=True),
-        'slug': _prompt("Component slug (URL-friendly)", required=True),
-        'vcs': _prompt("VCS type", default="git"),
-        'repo': _prompt("Repository URL", required=True),
-        'branch': _prompt("Branch", default="main"),
-        'filemask': _prompt("File mask", required=True),
-        'file_format': _prompt("File format", required=True),
+        "name": _prompt("Component name", required=True),
+        "slug": _prompt("Component slug (URL-friendly)", required=True),
+        "vcs": _prompt("VCS type", default="git"),
+        "repo": _prompt("Repository URL", required=True),
+        "branch": _prompt("Branch", default="main"),
+        "filemask": _prompt("File mask", required=True),
+        "file_format": _prompt("File format", required=True),
     }
-    
-    # Add template for monolingual formats
-    monolingual_formats = ['json', 'html', 'markdown', 'asciidoc']
-    if config['file_format'] in monolingual_formats:
+
+    monolingual_formats = ["json", "html", "markdown", "asciidoc"]
+    if config["file_format"] in monolingual_formats:
         template = _prompt("Template file path (for monolingual format)")
         if template:
-            config['template'] = template
-    
+            config["template"] = template
+
     return config
 
 
@@ -578,7 +577,7 @@ def create_example_config_file(
     """Create an example configuration file."""
     example_config = get_example_config()
     
-    with open(filename, 'w') as f:
+    with open(filename, "w", encoding="utf-8") as f:
         json.dump(example_config, f, indent=2)
     
     print(f"[SUCCESS] Example config created: {filename}", flush=True)
@@ -643,11 +642,7 @@ def _print_translation_info(
     else:
         print("\n[INFO] No translations discovered yet", flush=True)
     
-    stats = creator.get_statistics(project_slug, component_slug)
-    if stats:
-        total = stats.get('total', 0)
-        translated = stats.get('translated', 0)
-        # print(f"\n[INFO] Statistics: {translated}/{total} strings translated", flush=True)
+    creator.get_statistics(project_slug, component_slug)
 
 
 def print_success_summary(
@@ -797,7 +792,6 @@ def main() -> int:
     
     except Exception as e:
         print(f"\n[ERROR] Failed to create project/component: {e}", flush=True)
-        import traceback
         traceback.print_exc()
         return 1
 
