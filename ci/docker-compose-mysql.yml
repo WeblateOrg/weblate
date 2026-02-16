@@ -9,7 +9,7 @@ services:
     - 60001:6379
     restart: always
   database:
-    image: mysql:9.5.0@sha256:57c892ddeb17e6c7dddf219914db017b2cf3e2797806a75424444b83622cc8ef
+    image: mysql:9.6.0@sha256:db32c8ec843c042a728efb0ac7aa814d6f010eaac8923e20ae0a849d09c5baf8
     environment:
       MYSQL_ROOT_PASSWORD: weblate
     ports:
