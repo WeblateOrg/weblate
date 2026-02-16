@@ -53,6 +53,7 @@ Weblate 5.16
 
 .. rubric:: Bug fixes
 
+* Argument injection in the management console (:cve:`2026-24126` / :ghsa:`33fm-6gp7-4p47`).
 * Adding plural strings with singular matching existing string is now prohibited for bilingual translations (see :ref:`bimono`).
 * Automatic :ref:`component-repoweb` URL for common code hosting sites.
 * Improved cache isolation for suggestion checks to avoid interference with the parent unit checks.
