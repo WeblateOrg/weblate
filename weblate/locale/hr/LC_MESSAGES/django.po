@@ -9,8 +9,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-02-13 08:24+0000\n"
-"PO-Revision-Date: 2026-02-14 19:13+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"PO-Revision-Date: 2026-02-16 13:39+0000\n"
+"Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
 "Language: hr\n"
@@ -70,32 +70,24 @@ msgstr ""
 "repozitoriju nakon što se promjene izvrše na Weblateu."
 
 #: weblate/accounts/forms.py:210 weblate/accounts/models.py:877
-#, fuzzy
-#| msgid "Committer name"
 msgid "Commit name"
-msgstr "Ime podnositelja izmjene"
+msgstr "Ime promjene"
 
 #: weblate/accounts/forms.py:213
-#, fuzzy
-#| msgid ""
-#| "Used in version-control commits. The address stays in the repository "
-#| "forever once changes are committed by Weblate."
 msgid ""
 "Used in version control commits. The name stays in the repository forever, "
 "once changes are committed by Weblate."
 msgstr ""
-"Koristi se u promjenama u sustavu kontrole verzija. Adresa zauvijek ostaju u "
+"Koristi se u promjenama u sustavu kontrole verzija. Ime zauvijek ostaje u "
 "repozitoriju nakon što se promjene izvrše na Weblateu."
 
 #: weblate/accounts/forms.py:241
 msgid "Use anonymous account name"
-msgstr ""
+msgstr "Koristi anonimno ime računa"
 
 #: weblate/accounts/forms.py:243
-#, fuzzy
-#| msgid "Use account e-mail address"
 msgid "Use account name"
-msgstr "Koristi e-mail adresu računa"
+msgstr "Koristi ime računa"
 
 #: weblate/accounts/forms.py:264 weblate/accounts/models.py:860
 msgid "Public e-mail"
@@ -548,7 +540,7 @@ msgstr "Poziv na {site_title} od {username}."
 #: weblate/accounts/models.py:289
 #, python-brace-format
 msgid "Accepted invitation from {username}."
-msgstr "Prihvaćena pozivnica od {username}."
+msgstr "Pozivnica od {username} je prihvaćena."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:291
@@ -598,7 +590,7 @@ msgstr "Prikazan je polugodišnji pregled stanja podrške."
 #: weblate/accounts/models.py:312
 #, python-brace-format
 msgid "User was added to the {team} team by {username}."
-msgstr "{username} je dodao/la korisnika je u tim {team}."
+msgstr "{username} je dodao/la korisnika u tim {team}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:314
@@ -919,7 +911,7 @@ msgstr "Poduzeće"
 
 #: weblate/accounts/models.py:872
 msgid "Use global default"
-msgstr ""
+msgstr "Koristi globalnu standardnu postavku"
 
 #: weblate/accounts/models.py:873 weblate/trans/models/project.py:172
 msgid "Public"
@@ -1436,6 +1428,7 @@ msgstr "Registriraj se pomoću e-mail adrese."
 #: weblate/accounts/views.py:1428
 msgid "Could not parse RelayState from SAML Identity Provider."
 msgstr ""
+"Nije moguće analizirati RelayState od pružatelja usluge SAML identificacije."
 
 #: weblate/accounts/views.py:1433
 msgid "New registrations are turned off."
@@ -2689,10 +2682,8 @@ msgstr "Objavi objave"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:119
-#, fuzzy
-#| msgid "Delete announcement"
 msgid "Delete announcements"
-msgstr "Izbriši objavu"
+msgstr "Izbriši objave"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:127
@@ -3509,10 +3500,8 @@ msgstr ""
 "se projekt ukloni."
 
 #: weblate/billing/views.py:197 weblate/billing/views.py:216
-#, fuzzy
-#| msgid "Cannot change this on a built-in team."
 msgid "Cannot merge such a billing."
-msgstr "Ovo se ne može promijeniti za ugrađene timove."
+msgstr "Nije moguće sjediniti takvu naplatu."
 
 #: weblate/checks/angularjs.py:32
 msgid "AngularJS interpolation string"
@@ -3535,10 +3524,8 @@ msgid "The following errors were found:"
 msgstr "Pronađene su sljedeće greške:"
 
 #: weblate/checks/base.py:411
-#, fuzzy
-#| msgid "Could not parse flags: %s"
 msgid "Could not parse {} flag: {}"
-msgstr "Nije bilo moguće analizirati oznake: %s"
+msgstr "Nije bilo moguće analizirati oznaku {}: {}"
 
 #: weblate/checks/chars.py:48
 msgid "Starting newline"
@@ -3698,16 +3685,12 @@ msgstr ""
 "Nedostaje neprekidajući razmak ispred dvodijelnih interpunkcija (; : ? !)."
 
 #: weblate/checks/chars.py:589
-#, fuzzy
-#| msgid "Multiple unnamed variables"
 msgid "Multiple capitals"
-msgstr "Višestruke neimenovane varijable"
+msgstr "Višestruka velika slova"
 
 #: weblate/checks/chars.py:591
-#, fuzzy
-#| msgid "Translation contains extra zero-width space character."
 msgid "Translation contains words with multiple misplaced capital letters."
-msgstr "Prijevod sadrži dodatni znak razmaka bez širine."
+msgstr "Prijevod sadrži riječi s pogrešno postavljenim velikim slovima."
 
 #: weblate/checks/consistency.py:33
 msgid "Missing plurals"
@@ -4590,14 +4573,12 @@ msgstr "XML oznake u prijevodu se ne poklapaju s izvorom."
 
 #: weblate/checks/markup.py:296
 msgid "Chars around XML tags"
-msgstr ""
+msgstr "Znakovi oko XML oznaka"
 
 #: weblate/checks/markup.py:298
-#, fuzzy
-#| msgid "XML tags in translation do not match source."
 msgid ""
 "Characters surrounding XML tags in translation do not align with source."
-msgstr "XML oznake u prijevodu se ne poklapaju s izvorom."
+msgstr "Znakovi koji okružuju XML oznake u prijevodu se ne poklapaju s izvorom."
 
 #: weblate/checks/markup.py:357
 msgid "Markdown references"
@@ -4988,10 +4969,8 @@ msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
 #: weblate/formats/multi.py:181
-#, fuzzy
-#| msgid "Multivalue CSV"
 msgid "Multivalue CSV file"
-msgstr "CSV s više vrijednosti"
+msgstr "CSV datoteka s više vrijednosti"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1239
@@ -5006,7 +4985,7 @@ msgstr "gettext PO datoteka (jednojezična)"
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1334
 msgid "Qt Linguist translation file"
-msgstr "QT Lingvist prevodilačka datoteka"
+msgstr "Qt Lingvist prevodilačka datoteka"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1349
@@ -5035,10 +5014,8 @@ msgstr "XLIFF 2.0 prevodilačka datoteka s podrškom za zamjenska mjesta"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1475
-#, fuzzy
-#| msgid "Java Properties (UTF-8)"
 msgid "Java Properties"
-msgstr "Java svojstva (UTF-8)"
+msgstr "Java svojstva"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1490
@@ -6032,7 +6009,7 @@ msgstr "Nedostaje ime prilagođenog modela."
 
 #: weblate/machinery/forms.py:453 weblate/machinery/forms.py:563
 msgid "Choose custom model here to enable it."
-msgstr "Za aktiviranje modela, odaberi prilagođeni model ovdje."
+msgstr "Za aktiviranje modela odaberi prilagođeni model ovdje."
 
 #: weblate/machinery/forms.py:462
 msgctxt "Automatic suggestion service configuration"
@@ -6070,22 +6047,19 @@ msgstr "Ime modela opisan u Ollama katalogu."
 #: weblate/machinery/forms.py:502
 msgctxt "Anthropic model selection"
 msgid "Claude Sonnet 4.5 (Recommended)"
-msgstr ""
+msgstr "Claude Sonnet 4.5 (preporučeno)"
 
 #: weblate/machinery/forms.py:507
 msgctxt "Anthropic model selection"
 msgid "Claude Haiku 4.5"
-msgstr ""
+msgstr "Claude Haiku 4.5"
 
 #: weblate/machinery/forms.py:511
 msgctxt "Anthropic model selection"
 msgid "Claude Opus 4.5"
-msgstr ""
+msgstr "Claude Opus 4.5"
 
 #: weblate/machinery/forms.py:513
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Custom model"
 msgctxt "Anthropic model selection"
 msgid "Custom model"
 msgstr "Prilagođeni model"
@@ -6093,20 +6067,17 @@ msgstr "Prilagođeni model"
 #: weblate/machinery/forms.py:518
 msgctxt "Automatic suggestion service configuration"
 msgid "Anthropic API URL"
-msgstr ""
+msgstr "URL Anthropic API-a"
 
 #: weblate/machinery/forms.py:521
-#, fuzzy
-#| msgid ""
-#| "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
 msgid "Base URL of the Anthropic API. Leave empty to use the default URL."
 msgstr ""
-"Osnovni URL OpenAI API-ja, ako se razlikuje od zadane OpenAI URL adrese"
+"Osnovni URL Anthropic API-ja. Ostavi prazno za korištenje standardnog URL-a."
 
 #: weblate/machinery/forms.py:529
 msgctxt "Automatic suggestion service configuration"
 msgid "Anthropic model"
-msgstr ""
+msgstr "Anthropic model"
 
 #: weblate/machinery/forms.py:537
 msgctxt "Anthropic model selection"
@@ -6116,11 +6087,11 @@ msgstr "Ime prilagođenog modela"
 #: weblate/machinery/forms.py:545
 msgctxt "Automatic suggestion service configuration"
 msgid "Max tokens"
-msgstr ""
+msgstr "Maks. broj tokena"
 
 #: weblate/machinery/forms.py:547
 msgid "Maximum number of tokens to generate in the response."
-msgstr ""
+msgstr "Maksimalan broj tokena za generiranje u odgovoru."
 
 #: weblate/machinery/types.py:20
 msgctxt "Source language selection"
@@ -7526,17 +7497,16 @@ msgstr ""
 "mogu spremiti neograničeno dugo."
 
 #: weblate/templates/accounts/snippets/login-info.html:34
-#, fuzzy
-#| msgid "You can enable the use of a private commit e-mail in your profile."
 msgid ""
 "You can enable the use of a private commit e-mail and name in your profile."
 msgstr ""
-"U svom profilu može uključiti korištenje privatne e-mail adrese za commit."
+"U svom profilu možeš uključiti korištenje privatnog e-maila i imena za "
+"promjene."
 
 #: weblate/templates/accounts/snippets/login-info.html:36
 msgid "You can enable the use of a private commit e-mail in your profile."
 msgstr ""
-"U svom profilu može uključiti korištenje privatne e-mail adrese za commit."
+"U svom profilu možeš uključiti korištenje privatnog e-maila za promjene."
 
 #: weblate/templates/accounts/snippets/login-info.html:43
 msgid ""
@@ -7548,11 +7518,8 @@ msgstr ""
 "neograničeno dugo."
 
 #: weblate/templates/accounts/snippets/login-info.html:45
-#, fuzzy
-#| msgid "You can enable the use of a private commit e-mail in your profile."
 msgid "You can enable the use of a private commit name in your profile."
-msgstr ""
-"U svom profilu može uključiti korištenje privatne e-mail adrese za commit."
+msgstr "U svom profilu možeš uključiti korištenje privatnog imena za promjene."
 
 #: weblate/templates/accounts/snippets/login-info.html:48
 msgid ""
@@ -8571,11 +8538,8 @@ msgid "Terminate billing plan"
 msgstr "Prekini tarifu"
 
 #: weblate/templates/billing/detail.html:78
-#, fuzzy
-#| msgctxt "Access-control team name"
-#| msgid "Reviewers"
 msgid "Review merge"
-msgstr "Pregledatelji"
+msgstr "Pregledaj sjedinjavanje"
 
 #: weblate/templates/billing/detail.html:90
 msgid "Invoices"
@@ -8673,10 +8637,8 @@ msgid "View"
 msgstr "Prikaži"
 
 #: weblate/templates/billing/merge.html:34
-#, fuzzy
-#| msgid "Confirm"
 msgid "Confirm merge"
-msgstr "Potvrdi"
+msgstr "Potvrdi sjedinjavanje"
 
 #: weblate/templates/billing/overview.html:20
 msgid "No subscriptions or due payments."
@@ -9234,7 +9196,7 @@ msgid ""
 "Choose what languages you want in the preferences, to see overview of "
 "available translations for those languages in your watched projects."
 msgstr ""
-"U postavkama odaberi jezike, koje želiš prikazati u pregledu dostupnih "
+"U postavkama odaberi jezike koje želiš prikazati u pregledu dostupnih "
 "prijevoda za te jezike, u projektima koje pratiš."
 
 #: weblate/templates/dashboard/user.html:119
@@ -9800,7 +9762,7 @@ msgstr ""
 
 #: weblate/templates/js/git-status.html:209
 msgid "Rescan"
-msgstr "Pretraži ponovo"
+msgstr "Snimi ponovo"
 
 #: weblate/templates/js/git-status.html:212
 msgid "Loads translations from the files into Weblate."
@@ -9818,6 +9780,8 @@ msgid ""
 "This might discard edits that cannot be committed because of the configured "
 "commit policy."
 msgstr ""
+"Ovo bi moglo odbaciti uređivanja koja se ne mogu preuzeti zbog konfigurirane "
+"politike promjena."
 
 #: weblate/templates/js/git-status.html:219
 msgid "Use these operations with caution, they can lead to data loss."
@@ -11034,7 +10998,7 @@ msgstr "Preuzmi privatni ključ"
 #: weblate/templates/manage/snippets/backup-credentials.html:31
 msgid "The private key is needed to access the remote backup repository."
 msgstr ""
-"Privatni ključ potreban je za pristup udaljenom repozitoriju sigurnosnih "
+"Privatni ključ je potreban za pristup udaljenom repozitoriju sigurnosnih "
 "kopija."
 
 #: weblate/templates/manage/ssh.html:10
@@ -11545,7 +11509,7 @@ msgstr "riječi"
 #: weblate/templates/search.html:31
 #: weblate/templates/snippets/embed-units.html:124
 msgid "No matching strings found."
-msgstr "Nema poklapajućih izraza."
+msgstr "Nije pronađen nijedan poklapajući izraz."
 
 #: weblate/templates/snippets/about.html:4
 msgid ""
@@ -12592,10 +12556,9 @@ msgid "Vote against"
 msgstr "Glasaj protiv"
 
 #: weblate/templates/snippets/suggestions.html:56
-#, fuzzy, python-format
-#| msgid "Accepted invitation from {username}."
+#, python-format
 msgid "Accept all suggestions from %(username)s"
-msgstr "Prihvaćena pozivnica od {username}."
+msgstr "Prihvati sve prijedloge od %(username)s"
 
 #: weblate/templates/snippets/suggestions.html:65
 msgid "Accept"
@@ -13551,6 +13514,8 @@ msgid ""
 "You are not allowed to invite new users because new registrations are turned "
 "off."
 msgstr ""
+"Ne smiješ pozivati nove korisnike jer je mogućnost za nove registracije "
+"isključena."
 
 #: weblate/templates/trans/project-access.html:278
 #, python-format
@@ -14837,7 +14802,7 @@ msgstr ""
 
 #: weblate/trans/file_format_params.py:309
 msgid "Keep previous msgids of translated strings"
-msgstr "Zadrži prijašnje msgids (ID oznake) prevedenih izraza"
+msgstr "Zadrži prijašnje „msgids” (ID-ovi poruka) prevedenih izraza"
 
 #: weblate/trans/file_format_params.py:317
 msgid "Do not include location information in the file"
@@ -14904,15 +14869,13 @@ msgstr "Ime ključa u FlatXML-u"
 #: weblate/trans/file_format_params.py:488
 #: weblate/trans/file_format_params.py:502
 #: weblate/trans/file_format_params.py:517
-#, fuzzy
-#| msgid "Filenames encoding"
 msgid "File encoding"
-msgstr "Kodiranje imena datoteke"
+msgstr "Kodiranje datoteke"
 
 #: weblate/trans/file_format_params.py:459
 #: weblate/trans/file_format_params.py:478
 msgid "UTF-16"
-msgstr ""
+msgstr "UTF-16"
 
 #: weblate/trans/file_format_params.py:460
 #: weblate/trans/file_format_params.py:477
@@ -14920,40 +14883,38 @@ msgstr ""
 #: weblate/trans/file_format_params.py:506
 #: weblate/trans/file_format_params.py:520
 msgid "UTF-8"
-msgstr ""
+msgstr "UTF-8"
 
 #: weblate/trans/file_format_params.py:463
 msgid "Encoding used for iOS strings files"
-msgstr ""
+msgstr "Kodiranje za iOS datoteke izraza"
 
 #: weblate/trans/file_format_params.py:476
 #: weblate/trans/file_format_params.py:507
 #: weblate/trans/file_format_params.py:521
 msgid "ISO-8859-1"
-msgstr ""
+msgstr "ISO-8859-1"
 
 #: weblate/trans/file_format_params.py:481
-#, fuzzy
-#| msgid "Format the Java properties file"
 msgid "Encoding used for Java Properties files"
-msgstr "Formatiraj Java datoteku svojstava"
+msgstr "Kodiranje korišteno za datoteke Java svojstava"
 
 #: weblate/trans/file_format_params.py:491
 #: weblate/trans/file_format_params.py:505
 msgid "Auto-detect"
-msgstr ""
+msgstr "Automatski otrkij"
 
 #: weblate/trans/file_format_params.py:495
 msgid "Encoding used for CSV files"
-msgstr ""
+msgstr "Kodiranje za CSV datoteke"
 
 #: weblate/trans/file_format_params.py:510
 msgid "Encoding used for simple CSV files"
-msgstr ""
+msgstr "Kodiranje za jednostavne CSV datoteke"
 
 #: weblate/trans/file_format_params.py:524
 msgid "Encoding used for GWT Properties files"
-msgstr ""
+msgstr "Kodiranje za GWT datoteke svojstava"
 
 #: weblate/trans/filter.py:23 weblate/trans/filter.py:121
 msgid "All strings"
@@ -16002,11 +15963,6 @@ msgid "Merge without fast-forward"
 msgstr "Sjedini bez funkcije fast-forward"
 
 #: weblate/trans/models/component.py:412
-#, fuzzy
-#| msgid ""
-#| "Version control system to use to access your repository containing "
-#| "translations. You can also choose additional integration with third party "
-#| "providers to submit merge requests."
 msgid ""
 "Version control system to use to access your repository containing "
 "translations. You can also choose additional integration with third party "
@@ -16014,7 +15970,7 @@ msgid ""
 msgstr ""
 "Sustav kontrole verzije koji će se koristiti za pristup tvom repozitoriju "
 "koji sadrži prijevode. Možeš odabrati i dodatnu integraciju s pružateljima "
-"usluga trećih strana za slanje zahtjeva za sjedinjavanjem."
+"usluga trećih strana za slanje zahtjeva za preuzimanjem/sjedinjavanjem."
 
 #: weblate/trans/models/component.py:424
 msgid ""
@@ -16750,7 +16706,8 @@ msgstr "Regularni izraz za projekt"
 
 #: weblate/trans/models/componentlist.py:84
 msgid "Regular expression which is used to match project slug."
-msgstr "Regularni izraz koji se koristi za poklapanje s URL imenom projekta."
+msgstr ""
+"Regularni izraz koji se koristi za poklapanje URL-identifikatora projekta."
 
 #: weblate/trans/models/componentlist.py:88
 msgid "Component regular expression"
@@ -16758,7 +16715,8 @@ msgstr "Regularni izraz za komponentu"
 
 #: weblate/trans/models/componentlist.py:92
 msgid "Regular expression which is used to match component slug."
-msgstr "Regularni izraz koji se koristi za poklapanje s URL imenom komponente."
+msgstr ""
+"Regularni izraz koji se koristi za poklapanje URL-identifikatora komponente."
 
 #: weblate/trans/models/componentlist.py:97
 msgid "Component list to assign"
@@ -16889,18 +16847,16 @@ msgstr ""
 "en_GB:en,en_US:en"
 
 #: weblate/trans/models/project.py:834
-#, fuzzy
-#| msgid "Forces writing all strings to the translation files."
 msgid ""
 "Translations marked as needing editing are not written to the translation "
 "file."
-msgstr "Prisili zapisivanje svih prijevoda u prevodilačke datoteke."
+msgstr ""
+"Prijevodi koji su označeni da se trebaju urediti se ne zapisuju u "
+"prevodilačku datoteku."
 
 #: weblate/trans/models/project.py:838
-#, fuzzy
-#| msgid "Approved translation in %(translation)s"
 msgid "Only approved translations are written to the translation file."
-msgstr "Odobren prijevod za %(translation)s"
+msgstr "U prevodilačku datoteku se zapisuju samo odobreni prijevodi."
 
 #: weblate/trans/models/suggestion.py:157
 msgid "Could not accept suggestion!"
@@ -17163,7 +17119,7 @@ msgstr "Ovaj je prijevod zaključan."
 
 #: weblate/trans/templatetags/translations.py:1111
 msgid "Updating translation component…"
-msgstr "AKtualiziranje prevodilačke komponente …"
+msgstr "Aktualiziranje prevodilačke komponente …"
 
 #: weblate/trans/templatetags/translations.py:1120
 msgid "Some of the components within this project have alerts."
@@ -17440,36 +17396,29 @@ msgid "All languages have been added, updates of translations are in progress."
 msgstr "Svi su jezici dodani, aktualiziranja prijevoda su u tijeku."
 
 #: weblate/trans/views/bulk_suggestions.py:39
-#, fuzzy
-#| msgid "Glossary was not found."
 msgid "User not found."
-msgstr "Glosar nije pronađen."
+msgstr "Korisnik nije pronađen."
 
 #: weblate/trans/views/bulk_suggestions.py:54
-#, fuzzy
-#| msgid "You do not have privilege to accept suggestions!"
 msgid "You do not have permission to accept suggestions."
-msgstr "Nemaš dozvolu za prihvaćanje prijedloga!"
+msgstr "Nemaš dozvolu za prihvaćanje prijedloga."
 
 #: weblate/trans/views/bulk_suggestions.py:61
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Invalid request."
-msgstr "Neispravan zahtjev za sjedinjavanje!"
+msgstr "Neispravan zahtjev."
 
 #: weblate/trans/views/bulk_suggestions.py:81
 #, python-brace-format
 msgid "Too many suggestions ({count}). Please contact an administrator."
-msgstr ""
+msgstr "Previše prijedloga ({count}). Obrati se administratoru."
 
 #: weblate/trans/views/bulk_suggestions.py:109
-#, fuzzy, python-format
-#| msgid "Accepted invitation from {username}."
+#, python-format
 msgid "Accepted %(count)d suggestion from %(user)s."
 msgid_plural "Accepted %(count)d suggestions from %(user)s."
-msgstr[0] "Prihvaćena pozivnica od {username}."
-msgstr[1] "Prihvaćena pozivnica od {username}."
-msgstr[2] "Prihvaćena pozivnica od {username}."
+msgstr[0] "Prihvaćen je %(count)d prijedlog od %(user)s."
+msgstr[1] "Prihvaćena su %(count)d prijedloga od %(user)s."
+msgstr[2] "Prihvaćeno je %(count)d prijedloga od %(user)s."
 
 #: weblate/trans/views/bulk_suggestions.py:118
 #, python-format
@@ -17480,14 +17429,18 @@ msgid_plural ""
 "Accepted %(accepted)d of %(total)d suggestions from %(user)s. %(failed)d "
 "failed due to permissions or checks."
 msgstr[0] ""
+"Od %(user)s prihvaćen prijedlog: %(accepted)d od %(total)d. Neuspjelo zbog "
+"dozvola ili provjera: %(failed)d."
 msgstr[1] ""
+"Od %(user)s prihvaćena prijedloga: %(accepted)d od %(total)d. Neuspjelo zbog "
+"dozvola ili provjera: %(failed)d."
 msgstr[2] ""
+"Od %(user)s prihvaćeni prijedlozi: %(accepted)d od %(total)d. Neuspjelo zbog "
+"dozvola ili provjera: %(failed)d."
 
 #: weblate/trans/views/bulk_suggestions.py:137
-#, fuzzy
-#| msgid "No strings found!"
 msgid "No suggestions found."
-msgstr "Nema izraza!"
+msgstr "Nije pronađen nijedan prijedlog."
 
 #: weblate/trans/views/changes.py:63
 #, python-format
@@ -18058,28 +18011,20 @@ msgid "Unsupported state: {}"
 msgstr "Nepodržano stanje: {}"
 
 #: weblate/utils/search.py:183
-#, fuzzy
-#| msgid "Could not parse URL: {}"
 msgid "Could not parse boolean value: {}"
-msgstr "Nije bilo moguće analizirati URL: {}"
+msgstr "Nije bilo moguće analizirati Booleovu vrijednost: {}"
 
 #: weblate/utils/search.py:200
-#, fuzzy
-#| msgid "Could not parse query string: {}"
 msgid "Could not parse numeric value: {}"
-msgstr "Nije bilo moguće analizirati izraz upita: {}"
+msgstr "Nije bilo moguće analizirati numeričku vrijednost: {}"
 
 #: weblate/utils/search.py:308
-#, fuzzy
-#| msgid "Could not parse URL: {}"
 msgid "Could not parse timestamp: {}"
-msgstr "Nije bilo moguće analizirati URL: {}"
+msgstr "Nije bilo moguće analizirati vremensku oznaku: {}"
 
 #: weblate/utils/search.py:445
-#, fuzzy
-#| msgid "Focus on search field."
 msgid "Unknown search field: {}"
-msgstr "Fokusiraj polje pretrage."
+msgstr "Nepoznato polje pretrage: {}"
 
 #: weblate/utils/search.py:482
 msgid "Invalid regular expression: {}"
@@ -18088,23 +18033,19 @@ msgstr "Neispravan regularni izraz: {}"
 #: weblate/utils/search.py:512 weblate/utils/search.py:519
 #, python-brace-format
 msgid "Unsupported lookup for {field}: {value}"
-msgstr ""
+msgstr "Nepodržano pretraživanje za {field}: {value}"
 
 #: weblate/utils/search.py:844
 msgid "Mixed operators!"
-msgstr ""
+msgstr "Mješoviti operateri!"
 
 #: weblate/utils/search.py:884
-#, fuzzy
-#| msgid "Invalid search string!"
 msgid "Invalid character in the query string"
-msgstr "Neispravan izraz za pretragu!"
+msgstr "Neispravan znak u izrazu pretrage"
 
 #: weblate/utils/search.py:890
-#, fuzzy
-#| msgid "Could not parse query string: {}"
 msgid "Failed to parse the query string: {}"
-msgstr "Nije bilo moguće analizirati izraz upita: {}"
+msgstr "Greška pri analiziranju izraza upita: {}"
 
 #: weblate/utils/state.py:17
 msgctxt "String state"
@@ -18431,10 +18372,8 @@ msgid "Could not fetch public key for a host: %s"
 msgstr "Nije bilo moguće dohvatiti javni ključ za računalo: %s"
 
 #: weblate/vcs/ssh.py:247
-#, fuzzy
-#| msgid "Could not fetch public key for a host: %s"
 msgid "Could not fetch public key for a host."
-msgstr "Nije bilo moguće dohvatiti javni ključ za računalo: %s"
+msgstr "Nije bilo moguće dohvatiti javni ključ za računalo."
 
 #: weblate/vcs/ssh.py:255
 msgid "Invalid host name given!"
