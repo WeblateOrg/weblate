@@ -43,7 +43,7 @@ runs:
 
     # in-repository PRs (non-main branches)
   - name: Update current branch
-    if: github.event_name == 'push' && ( github.ref_name != 'main' || github.repository_owner != 'WeblateOrg' )
+    if: ( github.event_name == 'push' && github.ref_name != 'main' )  || github.repository_owner != 'WeblateOrg'
     uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9   # v7.1.0
     with:
       commit_message: ${{ inputs.message }}
@@ -51,7 +51,7 @@ runs:
     # for main branch or scheduled runs: create PR
   - name: Create Pull Request
     id: cpr
-    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || ( github.ref_name == 'main' && github.repository_owner == 'WeblateOrg' )
+    if: ( github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || github.ref_name == 'main')  && github.repository_owner == 'WeblateOrg'
     uses: peter-evans/create-pull-request@c0f553fe549906ede9cf27b5156039d195d2ece0 # v8.1.0
     with:
       branch: ${{ inputs.pr-branch }}
