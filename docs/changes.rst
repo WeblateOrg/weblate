@@ -5,6 +5,8 @@ Weblate 5.16.1
 
 .. rubric:: New features
 
+* :doc:`/formats/asciidoc` is now a supported file format.
+
 .. rubric:: Improvements
 
 .. rubric:: Bug fixes
