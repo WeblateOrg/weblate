@@ -564,6 +564,9 @@ class BrokenProjectURL(BaseAlert):
 
     @staticmethod
     def check_component(component: Component) -> bool | dict | None:
+        if not getattr(settings, 'WEBSITE_ALERTS_ENABLED', True):
+            return False
+
         if component.project.web:
             location_error = get_uri_error(component.project.web)
             if location_error is not None:

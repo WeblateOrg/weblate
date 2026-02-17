@@ -944,6 +944,10 @@ AUTO_UPDATE = False
 # PGP commits signing
 WEBLATE_GPG_IDENTITY = None
 
+# Website availability checks
+# Set to False to disable broken website alerts
+WEBSITE_ALERTS_ENABLED = True
+
 # Third party services integration
 MATOMO_SITE_ID = None
 MATOMO_URL = None
