@@ -16,12 +16,14 @@ from zipfile import ZipFile
 
 from django.utils.functional import cached_property
 from django.utils.translation import gettext_lazy
+from translate.convert.po2asciidoc import AsciiDocTranslator
 from translate.convert.po2html import po2html
 from translate.convert.po2idml import translate_idml, write_idml
 from translate.convert.po2rc import rerc
 from translate.convert.po2txt import po2txt
 from translate.convert.rc2po import rc2po
 from translate.convert.xliff2odf import translate_odf, write_odf
+from translate.storage.asciidoc import AsciiDocFile
 from translate.storage.html import htmlfile
 from translate.storage.idml import INLINE_ELEMENTS, NO_TRANSLATE_ELEMENTS, open_idml
 from translate.storage.odf_io import open_odf
@@ -663,3 +665,52 @@ class MediaWikiFormat(PlainTextFormat):
     format_id = "mediawiki"
     autoload = ("*.mw",)
     flavour = "mediawiki"
+
+
+class AsciiDocFormat(ConvertFormat):
+    # Translators: File format name
+    name = gettext_lazy("AsciiDoc file")
+    autoload = ("*.ad", "*.adoc", "*.asciidoc")
+    format_id = "asciidoc"
+    check_flags = ("safe-html", "strict-same")
+
+    def convertfile(
+        self, storefile: IO[bytes], template_store: TranslationFormat | None
+    ) -> TranslationStore:
+        # Fake input file with a blank filename
+        adocparser = AsciiDocFile(inputfile=NamedBytesIO("", storefile.read()))
+
+        duplicate_style = "msgctxt"
+        if self.file_format_params.get("merge_duplicates"):
+            duplicate_style = "merge"
+
+        return self.convert_to_po(
+            adocparser,
+            template_store,
+            use_location=False,
+            duplicate_style=duplicate_style,
+        )
+
+    def save_content(self, handle: IO[bytes]) -> None:
+        """Store content to file."""
+        converter = AsciiDocTranslator(
+            inputstore=self.store, includefuzzy=True, outputthreshold=None
+        )
+        if self.template_store is None:
+            msg = "Template store is required."
+            raise TypeError(msg)
+        templatename = self.template_store.storefile
+        if hasattr(templatename, "name"):
+            templatename = templatename.name
+        with open(templatename, "rb") as templatefile:
+            converter.translate(templatefile, handle)
+
+    @staticmethod
+    def mimetype() -> str:
+        """Return most common mime type for format."""
+        return "text/x-asciidoc"
+
+    @staticmethod
+    def extension() -> str:
+        """Return most common file extension for format."""
+        return "adoc"

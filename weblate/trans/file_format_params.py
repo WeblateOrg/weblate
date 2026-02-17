@@ -453,7 +453,7 @@ class FlatXMLKeyName(BaseFlatXMLFormatParam):
 
 @register_file_format_param
 class MergeDuplicates(BaseFileFormatParam):
-    file_formats = ("markdown", "html", "txt", "dokuwiki", "mediawiki")
+    file_formats = ("markdown", "html", "txt", "dokuwiki", "mediawiki", "asciidoc")
     name = "merge_duplicates"
     label = gettext_lazy("Deduplicate identical strings")
     field_class = forms.BooleanField

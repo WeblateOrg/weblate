@@ -11,6 +11,7 @@ from typing import ClassVar
 
 from weblate.checks.tests.test_checks import MockUnit
 from weblate.formats.convert import (
+    AsciiDocFormat,
     HTMLFormat,
     IDMLFormat,
     MarkdownFormat,
@@ -26,6 +27,7 @@ from weblate.utils.state import STATE_TRANSLATED
 IDML_FILE = get_test_file("en.idml")
 HTML_FILE = get_test_file("cs.html")
 MARKDOWN_FILE = get_test_file("cs.md")
+ASCIIDOC_FILE = get_test_file("cs.adoc")
 OPENDOCUMENT_FILE = get_test_file("cs.odt")
 TEST_RC = get_test_file("cs-CZ.rc")
 TEST_TXT = get_test_file("cs.txt")
@@ -302,3 +304,73 @@ class PlainTextFormatTest(ConvertFormatTest):
     CONVERT_TEMPLATE = "Hello\n\nBye"
     CONVERT_TRANSLATION = "Ahoj\n\n"
     CONVERT_EXPECTED = "Ahoj\n\nNazdar"
+
+
+class AsciiDocFormatTest(ConvertFormatTest):
+    format_class = AsciiDocFormat
+    FILE = ASCIIDOC_FILE
+    MIME = "text/x-asciidoc"
+    EXT = "adoc"
+    COUNT = 5
+    MASK = "*/translations.adoc"
+    EXPECTED_PATH = "cs_CZ/translations.adoc"
+    FIND = "Orangutan has five bananas."
+    FIND_MATCH = ""
+    MATCH = b"=="
+    NEW_UNIT_MATCH = None
+    BASE = ASCIIDOC_FILE
+    EXPECTED_FLAGS = ""
+    EDIT_OFFSET = 1
+
+    CONVERT_TEMPLATE = """== Hello
+
+Bye
+"""
+    CONVERT_TRANSLATION = """== Ahoj
+"""
+    CONVERT_EXPECTED = """== Ahoj
+
+Nazdar
+"""
+    CONVERT_EXISTING: ClassVar[list[MockUnit]] = [
+        MockUnit(source="Hello", target="Ahoj")
+    ]
+
+    def test_existing_units(self) -> None:
+        testdata = Path(self.FILE).read_bytes()
+
+        # Create test file
+        testfile = os.path.join(self.tempdir, os.path.basename(self.FILE))
+
+        # Write test data to file
+        Path(testfile).write_bytes(testdata)
+
+        # Parse test file
+        storage = self.format_class(
+            testfile,
+            template_store=self.format_class(testfile, is_template=True),
+            existing_units=[
+                MockUnit(
+                    source="Orangutan has five bananas.",
+                    target="Orangutan má pět banánů.",
+                )
+            ],
+        )
+
+        # Save test file
+        storage.save()
+
+        # Read new content
+        newdata = Path(testfile).read_text(encoding="utf-8")
+
+        self.assertEqual(
+            newdata,
+            """== Ahoj světe!
+
+Orangutan má pět banánů.
+
+Try Weblate at https://demo.weblate.org/[weblate.org]!
+
+_Thank you for using Weblate._
+""",
+        )
