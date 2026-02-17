@@ -12,7 +12,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-02-16 13:58+0000\n"
-"PO-Revision-Date: 2026-02-15 20:09+0000\n"
+"PO-Revision-Date: 2026-02-17 15:09+0000\n"
 "Last-Translator: Yaron Shahrabani <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <https://hosted.weblate.org/projects/weblate/"
 "application/he/>\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=(n == 1) ? 0 : ((n == 2) ? 1 : ((n > 10 && "
 "n % 10 == 0) ? 2 : 3));\n"
-"X-Generator: Weblate 5.16-dev\n"
+"X-Generator: Weblate 5.16.1-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -3264,10 +3264,8 @@ msgid ""
 msgstr "נא לתאר את המיזם ואת הקשר שלך אליו, עדיף באנגלית."
 
 #: weblate/billing/forms.py:47
-#, fuzzy
-#| msgid "View billing info"
 msgid "Add billing admin"
-msgstr "הצגת פרטי חיוב"
+msgstr "הוספת הנהלת חיוב"
 
 #: weblate/billing/models.py:165 weblate/templates/billing/detail.html:28
 msgid "Billing plan"
@@ -3415,18 +3413,16 @@ msgstr "לא ניתן למזג חיוב כזה."
 #: weblate/billing/views.py:259
 #, python-format
 msgid "User %s was added as a billing admin."
-msgstr ""
+msgstr "המשתמש %s נוסף להנהלת החיובים."
 
 #: weblate/billing/views.py:277 weblate/templates/billing/detail.html:93
-#, fuzzy
-#| msgid "You can not remove yourself!"
 msgid "You cannot remove yourself."
-msgstr "אין אפשרות להסיר את עצמך!"
+msgstr "אין אפשרות להסיר את עצמך."
 
 #: weblate/billing/views.py:286
 #, python-format
 msgid "User %s was removed as a billing admin."
-msgstr ""
+msgstr "המשתמש %s הוסר מהנהלת החיובים."
 
 #: weblate/checks/angularjs.py:32
 msgid "AngularJS interpolation string"
@@ -5954,11 +5950,9 @@ msgid "Anthropic API URL"
 msgstr "כתובת API של Anthropic"
 
 #: weblate/machinery/forms.py:521
-#, fuzzy
-#| msgid ""
-#| "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
 msgid "Base URL of the Anthropic API. Leave empty to use the default URL."
-msgstr "כתובת בסיס ל־API של OpenAI, אם היא שונה מכתובת ברירת המחדל של OpenAI"
+msgstr ""
+"כתובת בסיס ל־API של Anthropic. אפשר להשאיר ריק כדי להשתמש בכתובת ברירת המחדל."
 
 #: weblate/machinery/forms.py:529
 msgctxt "Automatic suggestion service configuration"
@@ -8379,23 +8373,17 @@ msgid "Terminate billing plan"
 msgstr "קטיעת תכנית חיוב"
 
 #: weblate/templates/billing/detail.html:72
-#, fuzzy
-#| msgid "Billing plan"
 msgid "Billing admins"
-msgstr "תכנית חיוב"
+msgstr "מנהלי חיובים"
 
 #: weblate/templates/billing/detail.html:93
 #: weblate/templates/billing/detail.html:97
-#, fuzzy
-#| msgid "Check user access"
 msgid "Revoke access"
-msgstr "בדיקת גישת המשתמשים"
+msgstr "שלילת גישה"
 
 #: weblate/templates/billing/detail.html:107
-#, fuzzy
-#| msgid "admin"
 msgid "Add admin"
-msgstr "ניהול"
+msgstr "הוספת מנהל/ת"
 
 #: weblate/templates/billing/detail.html:120
 msgid "Review merge"
@@ -13579,10 +13567,8 @@ msgid "This string was translated automatically by %(author)s."
 msgstr "המחרוזת הזאת תורגמה אוטומטית על ידי %(author)s."
 
 #: weblate/templates/translate.html:736
-#, fuzzy
-#| msgid "This string was translated automatically by %(author)s."
 msgid "This string was translated automatically."
-msgstr "המחרוזת הזאת תורגמה אוטומטית על ידי %(author)s."
+msgstr "המחרוזת הזאת תורגמה אוטומטית."
 
 #: weblate/templates/translate.html:755 weblate/trans/models/project.py:262
 msgid "Translation quality filter"
@@ -14580,10 +14566,8 @@ msgid "FlatXML key name"
 msgstr "שם מפתח XML שטוח"
 
 #: weblate/trans/file_format_params.py:458
-#, fuzzy
-#| msgid "Found duplicated string"
 msgid "Deduplicate identical strings"
-msgstr "נמצאה מחרוזת כפולה"
+msgstr "ביטול שכפול מחרוזות זהות"
 
 #: weblate/trans/file_format_params.py:462
 msgid ""
@@ -14591,6 +14575,8 @@ msgid ""
 "Prevents translation loss during file restructuring or table reordering by "
 "removing position-dependent context."
 msgstr ""
+"איחוד מחרוזות מקור זהות ליחידת תרגום אחת. מונע אובדן תרגומים במהלך סידור "
+"קבצים מחדש או סידור טבלאות מחדש על ידי הסרת הקשר תלוי מקום."
 
 #: weblate/trans/file_format_params.py:472
 #: weblate/trans/file_format_params.py:489
@@ -15747,6 +15733,8 @@ msgid ""
 "pushing directly to the repository. When using pull/merge requests, specify "
 "a branch name different from the repository branch."
 msgstr ""
+"ענף לדחיפת שינויים. אפשר להשאיר ריק כדי להשתמש בענף המאגר בעת דחיפה ישירות "
+"למאגר. בעת שימוש בבקשות משיכה/מיזוג, יש לציין שם ענף אם הוא שונה מענף המאגר."
 
 #: weblate/trans/models/component.py:495
 msgid ""
@@ -17069,9 +17057,17 @@ msgid_plural ""
 "Accepted %(accepted)d of %(total)d suggestions from %(user)s. %(failed)d "
 "failed due to permissions or checks."
 msgstr[0] ""
+"התקבלה הצעה %(accepted)d מתוך %(total)d מאת %(user)s. %(failed)d נכשלו עקב "
+"בעיות בהרשאות או בבדיקות."
 msgstr[1] ""
+"התקבלו שתי הצעות מתוך %(total)d מאת %(user)s. %(failed)d נכשלו עקב בעיות "
+"בהרשאות או בבדיקות."
 msgstr[2] ""
+"התקבלו %(accepted)d הצעות מתוך %(total)d מאת %(user)s. %(failed)d נכשלו עקב "
+"בעיות בהרשאות או בבדיקות."
 msgstr[3] ""
+"התקבלו %(accepted)d הצעות מתוך %(total)d מאת %(user)s. %(failed)d נכשלו עקב "
+"בעיות בהרשאות או בבדיקות."
 
 #: weblate/trans/views/bulk_suggestions.py:137
 msgid "No suggestions found."
