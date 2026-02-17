@@ -2136,7 +2136,7 @@ class XWikiPropertiesFormat(PropertiesBaseFormat):
     loader = ("properties", "xwikifile")
     language_format = "linux"
     autoload: tuple[str, ...] = ("*.properties",)
-    empty_file_template = "\n"
+    empty_file_template = None
     can_add_unit: bool = False
     can_delete_unit: bool = False
     set_context_bilingual: bool = True
@@ -2146,7 +2146,6 @@ class XWikiPropertiesFormat(PropertiesBaseFormat):
     # comments are preserved as in the original source file.
     def save_content(self, handle) -> None:
         current_units = self.all_units
-        store_units = self.store.units
 
         # We empty the store units since we want to control what we'll serialize
         self.store.units = []
@@ -2154,22 +2153,11 @@ class XWikiPropertiesFormat(PropertiesBaseFormat):
         for unit in current_units:
             # If the translation unit is missing and the current unit is not
             # only about comment.
-            if unit.unit is None and unit.has_content():
-                # We first check if the unit has not been translated as part of a
-                # new language: in that case the unit is not linked yet.
-                found_store_unit = None
-                for store_unit in store_units:
-                    if unit.context == store_unit.name:
-                        found_store_unit = store_unit
-
-                # If we found a unit for same context not linked, we just link it.
-                if found_store_unit is not None:
-                    unit.unit = found_store_unit
-                # else it's a missing unit: we need to mark it as missing.
-                else:
-                    missingunit = self.unit_class(self, unit.mainunit, unit.template)
-                    unit.unit = missingunit.unit
-                    unit.unit.missing = True
+            if unit.has_content() and unit.unit is not None and unit.unit.missing:
+                # Ensure to display in the missing comment the value coming from the source
+                unit.unit.target = unit.mainunit.source
+                # The flag has been changed after setting the target, let's switch it back to true
+                unit.unit.missing = True
             # if the unit was only a comment, we take back the original source file unit
             # to avoid any change.
             elif not unit.has_content():
@@ -2190,11 +2178,6 @@ class XWikiPagePropertiesFormat(XWikiPropertiesFormat):
     name = "XWiki Page Properties"
     format_id = "xwiki-page-properties"
     loader = ("properties", "XWikiPageProperties")
-
-    def save_content(self, handle) -> None:
-        if self.store.root is None:
-            self.store.root = self.template_store.store.root
-        super().save_content(handle)
 
 
 class XWikiFullPageFormat(XWikiPagePropertiesFormat):
