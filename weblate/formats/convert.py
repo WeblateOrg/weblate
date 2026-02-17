@@ -229,11 +229,29 @@ class ConvertFormat(TranslationFormat):
         self.save()
         return []
 
-    def convert_to_po(
+    def get_unit_index(
+        self, store: TranslationStore
+    ) -> tuple[dict[str, TranslateToolkitUnit], dict[str, TranslateToolkitUnit]]:
+        locationindex: dict[str, TranslateToolkitUnit] = {}
+        docpathindex: dict[str, TranslateToolkitUnit] = {}
+
+        # We override the previous entries with more recent ones,
+        # in most cases this should not happen and we have no way
+        # to figure out which unit is "better" while merging the
+        # translations.
+        for unit in store.units:
+            if docpath := unit.getdocpath():
+                docpathindex[docpath] = unit
+            for location in unit.getlocations():
+                locationindex[location] = unit
+
+        return locationindex, docpathindex
+
+    def convert_to_po(  # noqa: C901
         self,
         parser: TranslationStore,
         template_store: TranslationFormat | None,
-        use_location: bool = True,
+        *,
         duplicate_style: str = "msgctxt",
     ) -> pofile:
         store = pofile()
@@ -245,29 +263,34 @@ class ConvertFormat(TranslationFormat):
 
         # Convert store
         if template_store:
-            parser.makeindex()
+            locationindex, docpathindex = self.get_unit_index(parser)
             for unit in template_store.content_units:
                 thepo = store.addsourceunit(unit.source)
                 ttkit_unit = cast("TranslateToolkitUnit", unit.unit)
+                thepo.setdocpath(ttkit_unit.getdocpath())
                 locations = ttkit_unit.getlocations()
                 thepo.addlocations(locations)
                 thepo.addnote(ttkit_unit.getnotes(), "developer")
                 if self.is_template:
                     thepo.target = unit.source
-                elif use_location and not unitindex:
+                elif not unitindex:
                     # Try to import initial translation from the file
-                    for location in locations:
-                        try:
-                            translation = parser.locationindex[location]
-                            thepo.target = translation.source
-                            break
-                        except KeyError:
-                            continue
+                    if docpath := ttkit_unit.getdocpath():
+                        # Use docpath if available as it provides logical location
+                        if docpath in docpathindex:
+                            thepo.target = docpathindex[docpath].source
+                    else:
+                        # Rely on physical location as fallback
+                        for location in locations:
+                            if location in locationindex:
+                                thepo.target = locationindex[location].source
+                                break
         else:
             for htmlunit in parser.units:
                 # Source file
                 thepo = store.addsourceunit(htmlunit.source)
                 thepo.target = htmlunit.source
+                thepo.setdocpath(htmlunit.getdocpath())
                 thepo.addlocations(htmlunit.getlocations())
                 thepo.addnote(htmlunit.getnotes(), "developer")
 
@@ -366,7 +389,6 @@ class MarkdownFormat(ConvertFormat):
         return self.convert_to_po(
             mdparser,
             template_store,
-            use_location=False,
             duplicate_style=duplicate_style,
         )
 
@@ -697,7 +719,6 @@ class AsciiDocFormat(ConvertFormat):
         return self.convert_to_po(
             adocparser,
             template_store,
-            use_location=False,
             duplicate_style=duplicate_style,
         )
 

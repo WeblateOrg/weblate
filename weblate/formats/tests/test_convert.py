@@ -26,7 +26,9 @@ from weblate.utils.state import STATE_TRANSLATED
 
 IDML_FILE = get_test_file("en.idml")
 HTML_FILE = get_test_file("cs.html")
+HTML_FILE_TRANSLATED = get_test_file("cs2.html")
 MARKDOWN_FILE = get_test_file("cs.md")
+MARKDOWN_FILE_TRANSLATED = get_test_file("cs2.md")
 ASCIIDOC_FILE = get_test_file("cs.adoc")
 OPENDOCUMENT_FILE = get_test_file("cs.odt")
 TEST_RC = get_test_file("cs-CZ.rc")
@@ -114,6 +116,10 @@ class HTMLFormatTest(ConvertFormatTest):
     CONVERT_TRANSLATION = "<html><body><p>Ahoj</p><p></p></body></html>"
     CONVERT_EXPECTED = "<html><body><p>Ahoj</p><p>Nazdar</p></body></html>"
 
+    def test_import_existing(self) -> None:
+        storage = self.parse_file(HTML_FILE_TRANSLATED, HTML_FILE)
+        self.assertEqual(storage.all_units[4].target, "Díky za Weblate.")
+
 
 class MarkdownFormatTest(ConvertFormatTest):
     format_class = MarkdownFormat
@@ -124,7 +130,7 @@ class MarkdownFormatTest(ConvertFormatTest):
     MASK = "*/translations.md"
     EXPECTED_PATH = "cs_CZ/translations.md"
     FIND = "Orangutan has five bananas."
-    FIND_MATCH = ""
+    FIND_MATCH = "Orangutan has five bananas."
     MATCH = b"#"
     NEW_UNIT_MATCH = None
     BASE = MARKDOWN_FILE
@@ -183,6 +189,10 @@ Try Weblate at [weblate.org](https://demo.weblate.org/)!
 *Thank you for using Weblate.*
 """,
         )
+
+    def test_import_existing(self) -> None:
+        storage = self.parse_file(MARKDOWN_FILE_TRANSLATED, MARKDOWN_FILE)
+        self.assertEqual(storage.all_units[4].target, "*Díky za používání Weblate.*")
 
 
 class OpenDocumentFormatTest(ConvertFormatTest):
@@ -315,7 +325,7 @@ class AsciiDocFormatTest(ConvertFormatTest):
     MASK = "*/translations.adoc"
     EXPECTED_PATH = "cs_CZ/translations.adoc"
     FIND = "Orangutan has five bananas."
-    FIND_MATCH = ""
+    FIND_MATCH = "Orangutan has five bananas."
     MATCH = b"=="
     NEW_UNIT_MATCH = None
     BASE = ASCIIDOC_FILE
