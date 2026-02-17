@@ -4,13 +4,12 @@
 
 """Test for alerts."""
 
-from django.test.utils import override_settings, TestCase
+from django.test.utils import TestCase, override_settings
 from django.urls import reverse
 
 from weblate.lang.models import Language
-from weblate.trans.models import Unit, Component, Project
+from weblate.trans.models import Component, Project, Unit
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.trans.models.alert import BrokenProjectWebsiteAlert
 
 
 class WebsiteAlertSettingTest(TestCase):
@@ -19,14 +18,14 @@ class WebsiteAlertSettingTest(TestCase):
     def setUp(self):
         # Create a test project with a broken website URL
         self.project = Project.objects.create(
-            name='Test Project',
-            slug='test-project',
-            web='https://this-website-does-not-exist-404.com'
+            name="Test Project",
+            slug="test-project",
+            web="https://this-website-does-not-exist-404.com",
         )
         self.component = Component.objects.create(
             project=self.project,
-            name='Test Component',
-            slug='test-component',
+            name="Test Component",
+            slug="test-component",
             # ... other required fields ...
         )
 
@@ -37,7 +36,7 @@ class WebsiteAlertSettingTest(TestCase):
         # ... code to trigger alert check ...
 
         # Assert no broken website alert was created
-        alerts = self.component.alert_set.filter(name='BrokenProjectWebsite')
+        alerts = self.component.alert_set.filter(name="BrokenProjectWebsite")
         self.assertEqual(alerts.count(), 0)
 
     @override_settings(WEBSITE_ALERTS_ENABLED=True)
@@ -47,8 +46,9 @@ class WebsiteAlertSettingTest(TestCase):
         # ... code to trigger alert check ...
 
         # Assert broken website alert was created
-        alerts = self.component.alert_set.filter(name='BrokenProjectWebsite')
+        alerts = self.component.alert_set.filter(name="BrokenProjectWebsite")
         self.assertGreater(alerts.count(), 0)
+
 
 class AlertTest(ViewTestCase):
     def create_component(self):
