@@ -675,23 +675,30 @@ class UserQueryParserTest(SearchTestCase):
         )
 
     def test_contributes(self) -> None:
+        user = User.objects.create(is_superuser=True)
         self.assert_query(
             "contributes:test",
-            Q(change__project__slug__iexact="test"),
+            Q(change__project__slug__iexact="test")
+            & Q(change__project__in=user.allowed_projects),
+            user=user,
         )
         self.assert_query(
             "contributes:test/test",
-            Q(change__component_id__in=[]),
+            Q(change__component_id__in=[])
+            & Q(change__project__in=user.allowed_projects),
+            user=user,
         )
         self.assert_query(
             "contributes:test change_time:>'90 days ago'",
             Q(change__project__slug__iexact="test")
+            & Q(change__project__in=user.allowed_projects)
             & Q(
                 change__timestamp__gte=datetime.now(tz=UTC).replace(
                     hour=0, minute=0, second=0, microsecond=0
                 )
                 - timedelta(days=90)
             ),
+            user=user,
         )
 
 
