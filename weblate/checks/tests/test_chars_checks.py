@@ -521,6 +521,17 @@ class PunctuationSpacingCheckTest(CheckTestCase):
             "fr",
         )
 
+    def test_cdata(self) -> None:
+        self.do_test(
+            False,
+            (
+                "<![CDATA[Auto-run is <i>enabled</i>]]>",
+                "<![CDATA[Auto-run is <i>enabled</i>]]>",
+                "",
+            ),
+            "fr",
+        )
+
 
 class KabyleCharactersCheckTest(CheckTestCase):
     check = KabyleCharactersCheck()
