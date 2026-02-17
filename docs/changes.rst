@@ -9,6 +9,8 @@ Weblate 5.16.1
 
 .. rubric:: Bug fixes
 
+* :ref:`check-punctuation-spacing` better handles XML markup.
+
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading
