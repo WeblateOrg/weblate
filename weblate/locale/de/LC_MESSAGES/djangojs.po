@@ -5,13 +5,14 @@
 # VfBFan <drop0815@posteo.de>, 2023, 2025, 2026.
 # VfBFan <VfBFan@users.noreply.hosted.weblate.org>, 2023, 2024.
 # nautilusx <translate@disroot.org>, 2024.
+# VfBFan <vfbfan@users.noreply.hosted.weblate.org>, 2026.
 msgid ""
 msgstr ""
-"Project-Id-Version: Weblate 5.16\n"
+"Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2026-01-26 10:05+0000\n"
-"PO-Revision-Date: 2026-01-14 06:16+0000\n"
-"Last-Translator: VfBFan <drop0815@posteo.de>\n"
+"POT-Creation-Date: 2026-02-16 13:59+0000\n"
+"PO-Revision-Date: 2026-02-14 19:11+0000\n"
+"Last-Translator: VfBFan <vfbfan@users.noreply.hosted.weblate.org>\n"
 "Language-Team: German <https://hosted.weblate.org/projects/weblate/"
 "javascript/de/>\n"
 "Language: de\n"
@@ -19,7 +20,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.15.2-dev\n"
+"X-Generator: Weblate 5.16-dev\n"
 
 #: weblate/static/editor/base.js:54
 msgid "Unsaved changes!"
@@ -44,52 +45,52 @@ msgstr "Befehlstaste+%s"
 msgid "Ctrl+%s"
 msgstr "Strg+%s"
 
-#: weblate/static/editor/full.js:273
+#: weblate/static/editor/full.js:274
 msgid "Translation memory entry removed."
 msgstr "Übersetzungsspeichereintrag entfernt."
 
-#: weblate/static/editor/full.js:307
+#: weblate/static/editor/full.js:308
 msgid "The request for machine translation has failed:"
 msgstr "Die Anfrage nach maschineller Übersetzung ist fehlgeschlagen:"
 
-#: weblate/static/editor/full.js:317
+#: weblate/static/editor/full.js:318
 #, javascript-format
 msgid "The request for machine translation using %s has failed:"
 msgstr "Die Anfrage nach maschineller Übersetzung durch %s ist fehlgeschlagen:"
 
-#: weblate/static/editor/full.js:352
+#: weblate/static/editor/full.js:353
 #, javascript-format
 msgid "Cmd+M then %s"
 msgstr "Befehlstaste+M, dann %s"
 
-#: weblate/static/editor/full.js:354
+#: weblate/static/editor/full.js:355
 #, javascript-format
 msgid "Ctrl+M then %s"
 msgstr "Strg+M, dann %s"
 
-#: weblate/static/editor/full.js:490
+#: weblate/static/editor/full.js:491
 #, javascript-format
 msgid "Press Cmd+I then %s to dismiss this."
 msgstr "Drücken Sie Befehlstaste+I, dann %s, um dies zu verwerfen."
 
-#: weblate/static/editor/full.js:495
+#: weblate/static/editor/full.js:496
 #, javascript-format
 msgid "Press Ctrl+I then %s to dismiss this."
 msgstr "Drücken Sie Strg+I, dann %s, um dies zu verwerfen."
 
-#: weblate/static/editor/full.js:637
+#: weblate/static/editor/full.js:663
 msgid "Clone to translation"
 msgstr "In Übersetzung kopieren"
 
-#: weblate/static/editor/full.js:639
+#: weblate/static/editor/full.js:665
 msgid "Accept"
 msgstr "Annehmen"
 
-#: weblate/static/editor/full.js:648
+#: weblate/static/editor/full.js:674
 msgid "Accept and approve"
 msgstr "Annehmen und genehmigen"
 
-#: weblate/static/editor/full.js:660
+#: weblate/static/editor/full.js:686
 msgid "Delete entry"
 msgstr "Eintrag löschen"
 
@@ -107,6 +108,57 @@ msgstr[1] "%s passende Zeichenketten"
 #: weblate/static/editor/zen.js:110
 msgid "There are some unsaved changes, are you sure you want to leave?"
 msgstr "Möchten Sie die Seite trotz nicht gespeicherter Änderungen verlassen?"
+
+#: weblate/static/js/bulk-accept-suggestions.js:31
+msgid "Security token missing. Please reload the page."
+msgstr "Sicherheitstoken fehlt. Bitte laden Sie die Seite neu."
+
+#: weblate/static/js/bulk-accept-suggestions.js:45
+#, javascript-format
+msgid "Processing bulk accept for %s"
+msgstr "Verarbeitung von Massenannahme für %s"
+
+#: weblate/static/js/bulk-accept-suggestions.js:75
+#, javascript-format
+msgid "Server error (%s)"
+msgstr "Serverfehler (%s)"
+
+#: weblate/static/js/bulk-accept-suggestions.js:86
+msgid "Invalid server response"
+msgstr "Ungültige Serverantwort"
+
+#: weblate/static/js/bulk-accept-suggestions.js:99
+#, javascript-format
+msgid "%s accepted"
+msgid_plural "%s accepted"
+msgstr[0] "%s angenommen"
+msgstr[1] "%s angenommen"
+
+#: weblate/static/js/bulk-accept-suggestions.js:117
+msgid "Done"
+msgstr "Fertig"
+
+#: weblate/static/js/bulk-accept-suggestions.js:124
+#, javascript-format
+msgid "Processed %s suggestion. Page will reload in 2 seconds."
+msgid_plural "Processed %s suggestions. Page will reload in 2 seconds."
+msgstr[0] "%s Vorschlag verarbeitet. Die Seite wird in 2 Sekunden neu geladen."
+msgstr[1] ""
+"%s Vorschläge verarbeitet. Die Seite wird in 2 Sekunden neu geladen."
+
+#: weblate/static/js/bulk-accept-suggestions.js:134
+msgid "Unknown error"
+msgstr "Unbekannter Fehler"
+
+#: weblate/static/js/bulk-accept-suggestions.js:139
+msgid "Network error"
+msgstr "Netzwerkfehler"
+
+#: weblate/static/js/bulk-accept-suggestions.js:147
+#: weblate/static/js/bulk-accept-suggestions.js:153
+#, javascript-format
+msgid "Error: %s"
+msgstr "Fehler: %s"
 
 #: weblate/static/js/screenshots/clipboard-paste.js:38
 msgid "Image Pasted!"
@@ -133,186 +185,186 @@ msgstr "Keine neuen passenden Ausgangszeichenketten gefunden."
 msgid "Sort this column"
 msgstr "Diese Spalte sortieren"
 
-#: weblate/static/loader-bootstrap.js:571
+#: weblate/static/loader-bootstrap.js:580
 msgid "Error while loading page:"
 msgstr "Fehler beim Laden der Seite:"
 
-#: weblate/static/loader-bootstrap.js:864
+#: weblate/static/loader-bootstrap.js:873
 msgid "Text copied to clipboard."
 msgstr "Text in die Zwischenablage kopiert."
 
-#: weblate/static/loader-bootstrap.js:868
+#: weblate/static/loader-bootstrap.js:877
 msgid "Please press Ctrl+C to copy."
 msgstr "Bitte drücken Sie Strg+C zum Kopieren."
 
-#: weblate/static/loader-bootstrap.js:872
+#: weblate/static/loader-bootstrap.js:881
 msgid "Error copying to clipboard."
 msgstr "Fehler beim Kopieren in die Zwischenablage."
 
-#: weblate/static/loader-bootstrap.js:895
+#: weblate/static/loader-bootstrap.js:904
 msgid "Search…"
 msgstr "Suchen …"
 
-#: weblate/static/loader-bootstrap.js:896
+#: weblate/static/loader-bootstrap.js:905
 msgid "Available:"
 msgstr "Verfügbar:"
 
-#: weblate/static/loader-bootstrap.js:897
+#: weblate/static/loader-bootstrap.js:906
 msgid "Chosen:"
 msgstr "Ausgewählt:"
 
-#: weblate/static/loader-bootstrap.js:1233
+#: weblate/static/loader-bootstrap.js:1242
 msgid "Weblate is now scanning the repository, please be patient."
 msgstr "Weblate scannt jetzt das Repository, bitte haben Sie etwas Geduld."
 
-#: weblate/static/loader-bootstrap.js:1352
+#: weblate/static/loader-bootstrap.js:1361
 msgid ""
 "Notification settings removed, please do not forget to save the changes."
 msgstr ""
 "Benachrichtigungseinstellungen entfernt, bitte vergessen Sie nicht, die "
 "Änderungen zu speichern."
 
-#: weblate/static/loader-bootstrap.js:1515
+#: weblate/static/loader-bootstrap.js:1524
 msgid "Custom range"
 msgstr "Benutzerdefinierter Bereich"
 
-#: weblate/static/loader-bootstrap.js:1516
+#: weblate/static/loader-bootstrap.js:1525
 msgid "Clear"
 msgstr "Leeren"
 
-#: weblate/static/loader-bootstrap.js:1518
+#: weblate/static/loader-bootstrap.js:1527
 msgctxt "Short name of day"
 msgid "Su"
 msgstr "So"
 
-#: weblate/static/loader-bootstrap.js:1519
+#: weblate/static/loader-bootstrap.js:1528
 msgctxt "Short name of day"
 msgid "Mo"
 msgstr "Mo"
 
-#: weblate/static/loader-bootstrap.js:1520
+#: weblate/static/loader-bootstrap.js:1529
 msgctxt "Short name of day"
 msgid "Tu"
 msgstr "Di"
 
-#: weblate/static/loader-bootstrap.js:1521
+#: weblate/static/loader-bootstrap.js:1530
 msgctxt "Short name of day"
 msgid "We"
 msgstr "Mi"
 
-#: weblate/static/loader-bootstrap.js:1522
+#: weblate/static/loader-bootstrap.js:1531
 msgctxt "Short name of day"
 msgid "Th"
 msgstr "Do"
 
-#: weblate/static/loader-bootstrap.js:1523
+#: weblate/static/loader-bootstrap.js:1532
 msgctxt "Short name of day"
 msgid "Fr"
 msgstr "Fr"
 
-#: weblate/static/loader-bootstrap.js:1524
+#: weblate/static/loader-bootstrap.js:1533
 msgctxt "Short name of day"
 msgid "Sa"
 msgstr "Sa"
 
-#: weblate/static/loader-bootstrap.js:1527
+#: weblate/static/loader-bootstrap.js:1536
 msgctxt "Short name of month"
 msgid "Jan"
 msgstr "Jan"
 
-#: weblate/static/loader-bootstrap.js:1528
+#: weblate/static/loader-bootstrap.js:1537
 msgctxt "Short name of month"
 msgid "Feb"
 msgstr "Feb"
 
-#: weblate/static/loader-bootstrap.js:1529
+#: weblate/static/loader-bootstrap.js:1538
 msgctxt "Short name of month"
 msgid "Mar"
 msgstr "Mär"
 
-#: weblate/static/loader-bootstrap.js:1530
+#: weblate/static/loader-bootstrap.js:1539
 msgctxt "Short name of month"
 msgid "Apr"
 msgstr "Apr"
 
-#: weblate/static/loader-bootstrap.js:1531
+#: weblate/static/loader-bootstrap.js:1540
 msgctxt "Short name of month"
 msgid "May"
 msgstr "Mai"
 
-#: weblate/static/loader-bootstrap.js:1532
+#: weblate/static/loader-bootstrap.js:1541
 msgctxt "Short name of month"
 msgid "Jun"
 msgstr "Jun"
 
-#: weblate/static/loader-bootstrap.js:1533
+#: weblate/static/loader-bootstrap.js:1542
 msgctxt "Short name of month"
 msgid "Jul"
 msgstr "Jul"
 
-#: weblate/static/loader-bootstrap.js:1534
+#: weblate/static/loader-bootstrap.js:1543
 msgctxt "Short name of month"
 msgid "Aug"
 msgstr "Aug"
 
-#: weblate/static/loader-bootstrap.js:1535
+#: weblate/static/loader-bootstrap.js:1544
 msgctxt "Short name of month"
 msgid "Sep"
 msgstr "Sep"
 
-#: weblate/static/loader-bootstrap.js:1536
+#: weblate/static/loader-bootstrap.js:1545
 msgctxt "Short name of month"
 msgid "Oct"
 msgstr "Okt"
 
-#: weblate/static/loader-bootstrap.js:1537
+#: weblate/static/loader-bootstrap.js:1546
 msgctxt "Short name of month"
 msgid "Nov"
 msgstr "Nov"
 
-#: weblate/static/loader-bootstrap.js:1538
+#: weblate/static/loader-bootstrap.js:1547
 msgctxt "Short name of month"
 msgid "Dec"
 msgstr "Dez"
 
-#: weblate/static/loader-bootstrap.js:1542
+#: weblate/static/loader-bootstrap.js:1551
 msgid "Today"
 msgstr "Heute"
 
-#: weblate/static/loader-bootstrap.js:1543
+#: weblate/static/loader-bootstrap.js:1552
 msgid "Yesterday"
 msgstr "Gestern"
 
-#: weblate/static/loader-bootstrap.js:1547
+#: weblate/static/loader-bootstrap.js:1556
 msgid "Last 7 days"
 msgstr "Letzte 7 Tage"
 
-#: weblate/static/loader-bootstrap.js:1548
+#: weblate/static/loader-bootstrap.js:1557
 msgid "Last 30 days"
 msgstr "Letzte 30 Tage"
 
-#: weblate/static/loader-bootstrap.js:1549
+#: weblate/static/loader-bootstrap.js:1558
 msgid "This month"
 msgstr "Diesen Monat"
 
-#: weblate/static/loader-bootstrap.js:1553
+#: weblate/static/loader-bootstrap.js:1562
 msgid "Last month"
 msgstr "Letzten Monat"
 
-#: weblate/static/loader-bootstrap.js:1557
+#: weblate/static/loader-bootstrap.js:1566
 msgid "This year"
 msgstr "Dieses Jahr"
 
-#: weblate/static/loader-bootstrap.js:1561
+#: weblate/static/loader-bootstrap.js:1570
 msgid "Last year"
 msgstr "Letztes Jahr"
 
-#: weblate/static/loader-bootstrap.js:1665
+#: weblate/static/loader-bootstrap.js:1666
 msgctxt "Alert to user when opening browser developer console"
 msgid "Stop!"
 msgstr "Stopp!"
 
-#: weblate/static/loader-bootstrap.js:1671
+#: weblate/static/loader-bootstrap.js:1672
 msgid ""
 "This is a browser feature intended for developers. If someone told you to "
 "copy-paste something here, they are likely trying to compromise your Weblate "
@@ -322,38 +374,38 @@ msgstr ""
 "jemand sagt, Sie sollen hier etwas einfügen, versucht er wahrscheinlich, Ihr "
 "Weblate-Konto zu kompromittieren."
 
-#: weblate/static/loader-bootstrap.js:1677
+#: weblate/static/loader-bootstrap.js:1678
 msgid "See https://en.wikipedia.org/wiki/Self-XSS for more information."
 msgstr ""
 "Siehe https://en.wikipedia.org/wiki/Self-XSS für weitere Informationen."
 
-#: weblate/static/loader-bootstrap.js:1745
+#: weblate/static/loader-bootstrap.js:1746
 msgid "just now"
 msgstr "gerade eben"
 
-#: weblate/static/loader-bootstrap.js:1750
+#: weblate/static/loader-bootstrap.js:1751
 #, javascript-format
 msgid "%s second ago"
 msgid_plural "%s seconds ago"
 msgstr[0] "vor %s Sekunde"
 msgstr[1] "vor %s Sekunden"
 
-#: weblate/static/loader-bootstrap.js:1756
+#: weblate/static/loader-bootstrap.js:1757
 msgid "a minute ago"
 msgstr "vor einer Minute"
 
-#: weblate/static/loader-bootstrap.js:1759
+#: weblate/static/loader-bootstrap.js:1760
 #, javascript-format
 msgid "%s minute ago"
 msgid_plural "%s minutes ago"
 msgstr[0] "vor %s Minute"
 msgstr[1] "vor %s Minuten"
 
-#: weblate/static/loader-bootstrap.js:1766
+#: weblate/static/loader-bootstrap.js:1767
 msgid "a hour ago"
 msgstr "vor einer Stunde"
 
-#: weblate/static/loader-bootstrap.js:1768
+#: weblate/static/loader-bootstrap.js:1769
 #, javascript-format
 msgid "%s hour ago"
 msgid_plural "%s hours ago"
@@ -541,9 +593,6 @@ msgstr[1] "vor %s Stunden"
 
 #~ msgid "Resetting the repository will throw away all local changes!"
 #~ msgstr "Ersetzen des Repository wird alle lokalen Änderungen verwerfen!"
-
-#~ msgid "Error details:"
-#~ msgstr "Fehlerdetails:"
 
 #~ msgid "Translate using Apertium"
 #~ msgstr "Mit Apertium übersetzen"

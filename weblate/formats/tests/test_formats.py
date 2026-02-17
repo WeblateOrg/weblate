@@ -1270,7 +1270,7 @@ class InnoSetupINIFormatTest(INIFormatTest):
 class XWikiPropertiesFormatTest(PropertiesFormatTest):
     format_class = XWikiPropertiesFormat
     FILE = TEST_XWIKI_PROPERTIES
-    BASE = ""
+    BASE = FILE
     MIME = "text/plain"
     COUNT = 10
     COUNT_CONTENT = 8
@@ -1294,7 +1294,7 @@ class XWikiPropertiesFormatTest(PropertiesFormatTest):
         template_storage = self.parse_file(self.FILE)
         new_language = self.format_class(out, template_storage, language.code)
         unit, add = new_language.find_unit("job.status.success", "")
-        self.assertTrue(add)
+        self.assertFalse(add)
         unit.set_target("Fait")
         new_language.add_unit(unit)
         new_language.save()
@@ -1311,7 +1311,7 @@ class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):
     format_class = XWikiPagePropertiesFormat
     FILE = TEST_XWIKI_PAGE_PROPERTIES
     SOURCE_FILE = TEST_XWIKI_PAGE_PROPERTIES_SOURCE
-    BASE = ""
+    BASE = SOURCE_FILE
     MIME = "text/plain"
     COUNT = 6
     COUNT_CONTENT = 4
@@ -1362,7 +1362,7 @@ class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):
         unit_to_translate, create = translation_data.find_unit(
             units[index].context, units[index].source
         )
-        self.assertTrue(create)
+        self.assertFalse(create)
         translation_data.add_unit(unit_to_translate)
         translation_data.all_units[index].unit = unit_to_translate.unit
         unit_to_translate.set_target(target)
@@ -1417,7 +1417,7 @@ class XWikiFullPageFormatTest(XMLMixin, BaseFormatTest):
     format_class = XWikiFullPageFormat
     FILE = TEST_XWIKI_FULL_PAGE
     SOURCE_FILE = TEST_XWIKI_FULL_PAGE_SOURCE
-    BASE = ""
+    BASE = SOURCE_FILE
     MIME = "text/plain"
     COUNT = 2
     EXT = "xml"

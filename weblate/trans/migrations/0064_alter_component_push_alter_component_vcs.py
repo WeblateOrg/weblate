@@ -7,6 +7,7 @@
 from django.db import migrations, models
 
 import weblate.utils.validators
+from weblate.vcs.models import VCS_REGISTRY
 
 
 class Migration(migrations.Migration):
@@ -30,14 +31,7 @@ class Migration(migrations.Migration):
             model_name="component",
             name="vcs",
             field=models.CharField(
-                choices=[
-                    ("gerrit", "Gerrit"),
-                    ("git", "Git"),
-                    ("git-force-push", "Git with force push"),
-                    ("local", "No remote repository"),
-                    ("mercurial", "Mercurial"),
-                    ("subversion", "Subversion"),
-                ],
+                choices=VCS_REGISTRY.get_choices(),
                 default="git",
                 help_text="Version control system to use to access your repository containing translations. You can also choose additional integration with third party providers to submit pull/merge requests.",
                 max_length=20,

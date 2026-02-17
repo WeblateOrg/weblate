@@ -50,6 +50,7 @@ class TextItem(BaseItem):
         self.line = line
         self.text = text
         self.flags = flags
+        self.needs_save: bool = False
 
     @cached_property
     def location(self) -> str:
@@ -189,6 +190,7 @@ class TextUnit(TranslationUnit):
         """Set translation unit target."""
         self._invalidate_target()
         self.unit.text = target
+        self.unit.needs_save = True
 
     def set_state(self, state) -> None:
         """Set fuzzy /approved flag on translated unit."""
@@ -243,6 +245,8 @@ class AppStoreFormat(TranslationFormat):
     def save(self) -> None:
         """Save underlying store to disk."""
         for unit in self.store.units:
+            if not unit.needs_save:
+                continue
             filename = self.store.get_filename(unit.filename)
             if not unit.text:
                 if os.path.exists(filename):

@@ -367,7 +367,6 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
 
     def test_acl_groups(self) -> None:
         """Test handling ACL groups."""
-        billing_group = 1 if "weblate.billing" in settings.INSTALLED_APPS else 0
         self.project.defined_groups.all().delete()
         self.project.access_control = Project.ACCESS_PUBLIC
         self.project.translation_review = False
@@ -376,21 +375,21 @@ class ACLTest(FixtureTestCase, RegistrationTestMixin):
         self.project.access_control = Project.ACCESS_PROTECTED
         self.project.translation_review = True
         self.project.save()
-        self.assertEqual(11 + billing_group, self.project.defined_groups.count())
+        self.assertEqual(11, self.project.defined_groups.count())
         self.project.access_control = Project.ACCESS_PRIVATE
         self.project.translation_review = True
         self.project.save()
-        self.assertEqual(11 + billing_group, self.project.defined_groups.count())
+        self.assertEqual(11, self.project.defined_groups.count())
         self.project.access_control = Project.ACCESS_CUSTOM
         self.project.save()
-        self.assertEqual(11 + billing_group, self.project.defined_groups.count())
+        self.assertEqual(11, self.project.defined_groups.count())
         self.project.access_control = Project.ACCESS_CUSTOM
         self.project.save()
-        self.assertEqual(11 + billing_group, self.project.defined_groups.count())
+        self.assertEqual(11, self.project.defined_groups.count())
         self.project.defined_groups.all().delete()
         self.project.access_control = Project.ACCESS_PRIVATE
         self.project.save()
-        self.assertEqual(11 + billing_group, self.project.defined_groups.count())
+        self.assertEqual(11, self.project.defined_groups.count())
         self.project.delete()
 
     def test_restricted_component(self) -> None:

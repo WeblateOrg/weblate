@@ -11,7 +11,7 @@ import re
 import sys
 from operator import itemgetter
 from types import GeneratorType
-from typing import TYPE_CHECKING, Any, TypeVar, cast
+from typing import TYPE_CHECKING, Any, cast
 from urllib.parse import urlparse
 
 import django.shortcuts
@@ -152,13 +152,13 @@ def translation_percent(
         return 100.0 if zero_complete else 0.0
     if total is None:
         return 0.0
-    perc = (1000 * translated // total) / 10.0
+    promile = 1000 * translated // total
     # Avoid displaying misleading rounded 0.0% or 100.0%
-    if perc == 0.0 and translated != 0:
+    if promile == 0 and translated != 0:
         return 0.1
-    if perc == 100.0 and translated < total:
+    if promile == 1000 and translated < total:
         return 99.9
-    return perc
+    return promile / 10
 
 
 def get_clean_env(
@@ -298,10 +298,7 @@ def path_separator(path: str) -> str:
     return path
 
 
-T = TypeVar("T")
-
-
-def sort_unicode(choices: list[T], key: Callable[[T], str]) -> list[T]:
+def sort_unicode[T](choices: Iterable[T], key: Callable[[T], str]) -> list[T]:
     """Unicode aware sorting if available."""
 
     def sort_strxfrm(item: T) -> str:

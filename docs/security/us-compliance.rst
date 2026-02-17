@@ -21,24 +21,18 @@ Weblate does not contain any cryptographic code, but might be subject
 export controls as it uses third party components utilizing cryptography
 for authentication, data-integrity and -confidentiality.
 
-Most likely Weblate would be classified as ECCN 5D002 or 5D992 and, as
-publicly available libre software, it should not be subject to EAR (see
-`Encryption items NOT Subject to the EAR
-<https://www.bis.doc.gov/index.php/policy-guidance/encryption/1-encryption-items-not-subject-to-the-ear>`_).
+Weblate and all it's dependencies have publicly available source code meaning
+it can usually be exported and reexported without restriction.
 
 Software components used by Weblate (listing only components related to
 cryptographic function):
 
-`Python <https://www.python.org/>`_
-   See https://wiki.python.org/moin/PythonSoftwareFoundationLicenseFaq#Is_Python_subject_to_export_laws.3F
-`GnuPG <https://www.gnupg.org/>`_
-   Optionally used by Weblate
-`Git <https://git-scm.com/>`_
-   Optionally used by Weblate
-`curl <https://curl.se/>`_
-   Used by Git
-`OpenSSL <https://www.openssl.org/>`_
-   Used by Python and cURL
+* `Python <https://www.python.org/>`_
+* `Cryptography <https://cryptography.io/>`_
+* `GnuPG <https://www.gnupg.org/>`_
+* `Git <https://git-scm.com/>`_
+* `curl <https://curl.se/>`_
+* `OpenSSL <https://www.openssl.org/>`_
 
 The strength of encryption keys depends on the configuration of Weblate and
 the third party components it interacts with, but in any decent setup it will

@@ -46,6 +46,7 @@ CRUD_RE = re.compile(r"^[.,;:<>\"'\\]+$")
 FULL_NAME_RESTRICT = re.compile(r'[<>"]')
 
 ALLOWED_IMAGES = {"image/jpeg", "image/png", "image/apng", "image/gif", "image/webp"}
+PIL_FORMATS = ["png", "jpeg", "webp", "gif"]
 
 # File formats we do not accept on translation/glossary upload
 FORBIDDEN_EXTENSIONS = {
@@ -120,7 +121,7 @@ def validate_bitmap(value) -> None:
     try:
         # load() could spot a truncated JPEG, but it loads the entire
         # image in memory, which is a DoS vector. See #3848 and #18520.
-        image = Image.open(content)
+        image = Image.open(content, formats=PIL_FORMATS)
         # verify() must be called immediately after the constructor.
         image.verify()
 
@@ -450,7 +451,7 @@ def validate_repo_url(url: str) -> None:
 
     # URL validation using for http (the URL validator is too strict to handle others)
     if parsed.scheme in {"http", "https"}:
-        validator = URLValidator(schemes=settings.VCS_ALLOW_SCHEMES)
+        validator = URLValidator(schemes=list(settings.VCS_ALLOW_SCHEMES))
         validator(url)
 
     # Filter hosts if configured

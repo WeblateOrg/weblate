@@ -6,7 +6,6 @@ from time import sleep
 
 from django.conf import settings
 from django.contrib.messages.middleware import MessageMiddleware
-from django.contrib.messages.storage import default_storage
 from django.contrib.sessions.backends.signed_cookies import SessionStore
 from django.http.request import HttpRequest
 from django.http.response import HttpResponse
@@ -195,8 +194,11 @@ class RateLimitHttpBehaviorTest(SimpleTestCase):
         request.META["REMOTE_ADDR"] = "5.6.7.8"
         request.method = "POST"
         request.session = SessionStore()
-        # pylint: disable-next=protected-access
-        request._messages = default_storage(request)  # noqa: SLF001
+
+        # Mock messages middleware initialization
+        middleware = MessageMiddleware(lambda _request: HttpResponse())
+        middleware.process_request(request)
+
         request.user = User(username=settings.ANONYMOUS_USER_NAME)
         return request
 

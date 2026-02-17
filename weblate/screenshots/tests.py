@@ -16,6 +16,7 @@ from django.core.files import File
 from django.test.utils import override_settings
 from django.urls import reverse
 from django.utils import timezone
+from PIL import Image
 from rest_framework.test import APITestCase
 
 from weblate.auth.models import Group
@@ -224,8 +225,15 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
 
     def test_ocr_backend(self) -> None:
         # Extract strings
-        with get_tesseract(Language.objects.get(code="en")) as api:
-            result = list(ocr_get_strings(api, TEST_SCREENSHOT, 72))
+        with (
+            Image.open(TEST_SCREENSHOT) as image,
+            get_tesseract(Language.objects.get(code="en")) as api,
+        ):
+            result = list(
+                ocr_get_strings(
+                    api, image=image, filename=TEST_SCREENSHOT, resolution=72
+                )
+            )
 
         # Reverse logic would make sense here, but we want to use same order as in views.py
         matches = list(

@@ -34,3 +34,24 @@ Weblate configuration
 +--------------------------------+-------------------------------------+
 | File format                    | `Markdown file`                     |
 +--------------------------------+-------------------------------------+
+| File format parameters         | ``markdown_merge_duplicates=True``  |
++--------------------------------+-------------------------------------+
+
+.. _markdown-duplicates:
+
+Handling duplicate strings
+++++++++++++++++++++++++++
+
+By default, Weblate treats each occurrence of a string as a separate
+translation unit to provide line-based context. This can be problematic
+in Markdown tables, where reordering rows changes the context and can
+lead to translation loss.
+
+To consolidate identical strings into a single translation unit, enable
+:guilabel:`Deduplicate identical strings` in the
+:ref:`component-file_format_params`.
+
+.. note::
+   Enabling this option disables line-based context for the merged units,
+   ensuring that translations remain stable even if rows or sections
+   are moved within the document.

@@ -21,7 +21,7 @@
           </div>
         {% else %}
           {% perm 'suggestion.delete' suggestion as user_can_delete_suggestion %}
-          {% if user_can_vote_suggestion or user_can_accept_suggestion or user_can_delete_suggestion %}
+          {% if user_can_vote_suggestion or user_can_accept_suggestion or user_can_delete_suggestion or user_can_suggest %}
             <div class="btn-float">
               {% if user_can_vote_suggestion %}
                 <button type="submit"
@@ -34,6 +34,16 @@
                         name="downvote"
                         value="{{ suggestion.id }}"
                         title="{% translate "Vote against" %}">{% icon "thumb-down.svg" %}</button>
+              {% endif %}
+              {# Copy suggestion feature #}
+              {% if user_can_suggest %}
+                <button type="button"
+                        class="btn btn-link green js-copy-suggestion"
+                        title="{% translate "Clone to translation" %}"
+                        aria-label="{% translate "Clone to translation" %}"
+                        {% for text in suggestion.target_list %}data-text-{{ forloop.counter0 }}="{{ text|force_escape }}"{% endfor %}>
+                  {% icon "clone.svg" %}
+                </button>
               {% endif %}
               {% if user_can_accept_suggestion %}
                 {# Bulk accept suggestions feature #}
@@ -104,7 +114,7 @@
           {% with suggestion_checks=suggestion.get_checks %}
             {% if suggestion_checks %}
               <p class="help-block">{% translate "Failing checks:" context "String state" %}</p>
-              {% for check in suggestion.get_checks %}
+              {% for check in suggestion_checks %}
                 <span class="badge badge-danger" title="{{ check.get_description }}">{{ check.get_name }}</span>
               {% endfor %}
             {% endif %}

@@ -1,19 +1,46 @@
-Weblate 5.16
-------------
+Weblate 5.16.1
+--------------
 
 *Not yet released.*
 
 .. rubric:: New features
 
+* Added :setting:`WEBSITE_ALERTS_ENABLED` setting to allow disabling website
+  availability checks and alerts.
+
+.. rubric:: Improvements
+
+.. rubric:: Bug fixes
+
+.. rubric:: Compatibility
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.16.1.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/161?closed=1>`__.
+
+Weblate 5.16
+------------
+
+*Released on February 16th 2026.*
+
+.. rubric:: New features
+
 * :ref:`check-multiple-capital` quality check.
+* :ref:`check-xml-chars-around-tags` reduce translation errors for strings with XML entities.
 * Bulk accepting suggestions from a specific user in :ref:`suggestions`.
+* Cloning suggestions into translation in :ref:`suggestions`.
 * :setting:`HIDE_SHARED_GLOSSARY_COMPONENTS` to hide glossaries shared into other projects.
 * Added new management command :wladmin:`list_change_events`, which lists all possible change events, :ref:`addon-choice-events`.
 * Added Anthropic machinery integration, see :ref:`mt-anthropic`.
 * Encoding for :ref:`formats` can now be configured using :ref:`file_format_params` (e.g., ``csv_encoding``, ``properties_encoding``).
 * Added support for anonymous commit names via :setting:`PRIVATE_COMMIT_NAME_TEMPLATE`.
-* Added :setting:`WEBSITE_ALERTS_ENABLED` setting to allow disabling website
-  availability checks and alerts.
+* Consolidating identical strings in :ref:`markdown`, :ref:`html`, and :ref:`txt` files using ``*merge_duplicates`` parameters in :ref:`file_format_params`.
 
 .. rubric:: Improvements
 
@@ -25,18 +52,23 @@ Weblate 5.16
 * Validation of VCS settings :ref:`push-changes` has been extended.
 * The default values for :ref:`project-translation_review` and :ref:`project-source_review` can be configured in settings.
 * The :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE` now supports the ``{user_id}`` and ``{site_title}`` variables.
+* The default value for personal translation memory contribution is now based on the :setting:`DEFAULT_AUTOCLEAN_TM` configuration.
 
 .. rubric:: Bug fixes
 
 * Adding plural strings with singular matching existing string is now prohibited for bilingual translations (see :ref:`bimono`).
 * Automatic :ref:`component-repoweb` URL for common code hosting sites.
-* File formats that only differed in encoding (CSV, GWT Properties, Java Properties, iOS Strings) have been merged into single formats.
+* Improved cache isolation for suggestion checks to avoid interference with the parent unit checks.
 * Gracefully handle invalid check flags in :ref:`custom-checks`.
+* :doc:`/formats/appstore` no longer rewrites unchanged files.
 
 .. rubric:: Compatibility
 
 * :ref:`check-regex` no longer marks matched portions as non-translatable to allow generic regular-expression-based checking of strings. Use :ref:`check-placeholders` for checking regular expression matched placeholders.
 * The default value for :setting:`WEBLATE_FORMATS` changed because of the removal of encoding-specific formats.
+* File formats that only differed in encoding (CSV, GWT Properties, Java Properties, iOS Strings) have been merged into single formats.
+* Fonts used by Weblate are now shipped in a standalone package.
+* Dropped deprecated compatibility wrappers some classes with typos.
 
 .. rubric:: Upgrading
 

@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
+from typing import cast
 
 from django.conf import settings
 from django.test import TransactionTestCase
@@ -24,15 +25,16 @@ class BackupTest(TransactionTestCase):
     @tempdir_setting("DATA_DIR")
     @tempdir_setting("BACKUP_DIR")
     def test_backup(self) -> None:
-        initialize(settings.BACKUP_DIR, "key")
-        output = get_paper_key(settings.BACKUP_DIR)
+        backup_dir = cast("str", settings.BACKUP_DIR)  # type: ignore[misc]
+        initialize(backup_dir, "key")
+        output = get_paper_key(backup_dir)
         self.assertIn("BORG PAPER KEY", output)
-        output = backup(settings.BACKUP_DIR, "key")
+        output = backup(backup_dir, "key")
         self.assertIn("Creating archive", output)
-        output = prune(settings.BACKUP_DIR, "key")
+        output = prune(backup_dir, "key")
         self.assertIn("Keeping archive", output)
-        cleanup(settings.BACKUP_DIR, "key", True)
-        cleanup(settings.BACKUP_DIR, "key", False)
+        cleanup(backup_dir, "key", True)
+        cleanup(backup_dir, "key", False)
 
     @tempdir_setting("DATA_DIR")
     def test_database_backup(self) -> None:

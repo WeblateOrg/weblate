@@ -3,13 +3,14 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import io
-from typing import Any
+from typing import Any, cast
 from urllib.parse import urlparse
 
 import requests
 from django import forms
 from django.conf import settings
 from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.forms.forms import BaseForm
 from django.http.request import validate_host
 from django.template.loader import render_to_string
 from django.utils.html import format_html
@@ -22,7 +23,7 @@ from weblate.utils.requests import http_request
 from weblate.utils.validators import ALLOWED_IMAGES, WeblateURLValidator
 
 
-class ScreenshotImageValidationMixin:
+class ScreenshotImageValidationMixin(BaseForm):
     def clean_images(
         self, cleaned_data: dict[str, Any], edit: bool = False
     ) -> dict[str, Any]:
@@ -171,10 +172,11 @@ class ScreenshotForm(forms.ModelForm, ScreenshotImageValidationMixin):
             translations = translations.filter(
                 pk__in=(initial["translation"].pk, component.source_translation.pk)
             )
-        self.fields["translation"].queryset = translations
+        translation_field = cast("LanguageChoiceField", self.fields["translation"])
+        translation_field.queryset = translations
         # This is overridden from initial arg of the form
-        self.fields["translation"].initial = component.source_translation
-        self.fields["translation"].empty_label = None
+        translation_field.initial = component.source_translation
+        translation_field.empty_label = None
         self.fields["image"].required = False
 
     def clean(self):

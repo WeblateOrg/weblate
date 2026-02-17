@@ -8,7 +8,6 @@ from weblate.utils.rst import format_table
 
 GROUP_NAMES = {
     "announcement": "Announcements",
-    "billing": "Billing (see :ref:`billing`)",
     "change": "Changes",
     "comment": "Comments",
     "component": "Component",
@@ -145,9 +144,10 @@ List of built-in roles
 
 """)
 
-        self.stdout.write(".. list-table::\n\n")
+        self.stdout.write(".. list-table::\n")
 
         for name, permissions in ROLES:
+            self.stdout.write("\n")
             self.stdout.write(f"   * - `{name}`")
             self.stdout.write("     - ", ending="")
             self.stdout.write(
@@ -156,7 +156,6 @@ List of built-in roles
                     for perm in sorted(permissions)
                 )
             )
-            self.stdout.write("\n")
 
     def write_teams(self) -> None:
         """Write teams section."""

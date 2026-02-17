@@ -8,10 +8,10 @@
 # Sketch6580 <sketch6580@users.noreply.hosted.weblate.org>, 2025.
 msgid ""
 msgstr ""
-"Project-Id-Version: Weblate 5.16\n"
+"Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
-"POT-Creation-Date: 2026-01-26 10:05+0000\n"
-"PO-Revision-Date: 2026-01-14 02:36+0000\n"
+"POT-Creation-Date: 2026-02-16 13:59+0000\n"
+"PO-Revision-Date: 2026-02-14 19:10+0000\n"
 "Last-Translator: 大王叫我来巡山 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -21,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.15.2-dev\n"
+"X-Generator: Weblate 5.16-dev\n"
 
 #: weblate/static/editor/base.js:54
 msgid "Unsaved changes!"
@@ -45,52 +45,52 @@ msgstr "Cmd+%s"
 msgid "Ctrl+%s"
 msgstr "Ctrl+%s"
 
-#: weblate/static/editor/full.js:273
+#: weblate/static/editor/full.js:274
 msgid "Translation memory entry removed."
 msgstr "翻译记忆库条目已删除。"
 
-#: weblate/static/editor/full.js:307
+#: weblate/static/editor/full.js:308
 msgid "The request for machine translation has failed:"
 msgstr "请求使用机器翻译失败："
 
-#: weblate/static/editor/full.js:317
+#: weblate/static/editor/full.js:318
 #, javascript-format
 msgid "The request for machine translation using %s has failed:"
 msgstr "请求使用 %s 机器翻译引擎失败："
 
-#: weblate/static/editor/full.js:352
+#: weblate/static/editor/full.js:353
 #, javascript-format
 msgid "Cmd+M then %s"
 msgstr "Cmd+M 然后 %s"
 
-#: weblate/static/editor/full.js:354
+#: weblate/static/editor/full.js:355
 #, javascript-format
 msgid "Ctrl+M then %s"
 msgstr "Ctrl+M 然后 %s"
 
-#: weblate/static/editor/full.js:490
+#: weblate/static/editor/full.js:491
 #, javascript-format
 msgid "Press Cmd+I then %s to dismiss this."
 msgstr "若要忽略，请按 Cmd+I，再按 %s。"
 
-#: weblate/static/editor/full.js:495
+#: weblate/static/editor/full.js:496
 #, javascript-format
 msgid "Press Ctrl+I then %s to dismiss this."
 msgstr "若要忽略，请按 Ctrl+I，再按 %s。"
 
-#: weblate/static/editor/full.js:637
+#: weblate/static/editor/full.js:663
 msgid "Clone to translation"
 msgstr "克隆到翻译"
 
-#: weblate/static/editor/full.js:639
+#: weblate/static/editor/full.js:665
 msgid "Accept"
 msgstr "接受"
 
-#: weblate/static/editor/full.js:648
+#: weblate/static/editor/full.js:674
 msgid "Accept and approve"
 msgstr "接受并批准"
 
-#: weblate/static/editor/full.js:660
+#: weblate/static/editor/full.js:686
 msgid "Delete entry"
 msgstr "删除条目"
 
@@ -107,6 +107,54 @@ msgstr[0] "%s 条匹配的字符串"
 #: weblate/static/editor/zen.js:110
 msgid "There are some unsaved changes, are you sure you want to leave?"
 msgstr "某些修改尚未保存。您确定要离开吗？"
+
+#: weblate/static/js/bulk-accept-suggestions.js:31
+msgid "Security token missing. Please reload the page."
+msgstr "缺少安全令牌。请重新加载此页。"
+
+#: weblate/static/js/bulk-accept-suggestions.js:45
+#, javascript-format
+msgid "Processing bulk accept for %s"
+msgstr "正在处理 %s 的批量接受"
+
+#: weblate/static/js/bulk-accept-suggestions.js:75
+#, javascript-format
+msgid "Server error (%s)"
+msgstr "服务器错误（%s）"
+
+#: weblate/static/js/bulk-accept-suggestions.js:86
+msgid "Invalid server response"
+msgstr "无效的服务器响应"
+
+#: weblate/static/js/bulk-accept-suggestions.js:99
+#, javascript-format
+msgid "%s accepted"
+msgid_plural "%s accepted"
+msgstr[0] "已接受 %s 个"
+
+#: weblate/static/js/bulk-accept-suggestions.js:117
+msgid "Done"
+msgstr "完成"
+
+#: weblate/static/js/bulk-accept-suggestions.js:124
+#, javascript-format
+msgid "Processed %s suggestion. Page will reload in 2 seconds."
+msgid_plural "Processed %s suggestions. Page will reload in 2 seconds."
+msgstr[0] "处理了 %s 个建议。将在 2 秒内重新加载页面。"
+
+#: weblate/static/js/bulk-accept-suggestions.js:134
+msgid "Unknown error"
+msgstr "未知错误"
+
+#: weblate/static/js/bulk-accept-suggestions.js:139
+msgid "Network error"
+msgstr "网络错误"
+
+#: weblate/static/js/bulk-accept-suggestions.js:147
+#: weblate/static/js/bulk-accept-suggestions.js:153
+#, javascript-format
+msgid "Error: %s"
+msgstr "错误：%s"
 
 #: weblate/static/js/screenshots/clipboard-paste.js:38
 msgid "Image Pasted!"
@@ -133,184 +181,184 @@ msgstr "未找到新的匹配的源字符串。"
 msgid "Sort this column"
 msgstr "对此列进行排序"
 
-#: weblate/static/loader-bootstrap.js:571
+#: weblate/static/loader-bootstrap.js:580
 msgid "Error while loading page:"
 msgstr "载入页面时出错："
 
-#: weblate/static/loader-bootstrap.js:864
+#: weblate/static/loader-bootstrap.js:873
 msgid "Text copied to clipboard."
 msgstr "文本已复制到剪贴板。"
 
-#: weblate/static/loader-bootstrap.js:868
+#: weblate/static/loader-bootstrap.js:877
 msgid "Please press Ctrl+C to copy."
 msgstr "请按 Ctrl+C 来复制。"
 
-#: weblate/static/loader-bootstrap.js:872
+#: weblate/static/loader-bootstrap.js:881
 msgid "Error copying to clipboard."
 msgstr "复制到剪贴板出错。"
 
-#: weblate/static/loader-bootstrap.js:895
+#: weblate/static/loader-bootstrap.js:904
 msgid "Search…"
 msgstr "搜索…"
 
-#: weblate/static/loader-bootstrap.js:896
+#: weblate/static/loader-bootstrap.js:905
 msgid "Available:"
 msgstr "可用："
 
-#: weblate/static/loader-bootstrap.js:897
+#: weblate/static/loader-bootstrap.js:906
 msgid "Chosen:"
 msgstr "已选择："
 
-#: weblate/static/loader-bootstrap.js:1233
+#: weblate/static/loader-bootstrap.js:1242
 msgid "Weblate is now scanning the repository, please be patient."
 msgstr "Weblate 正在扫描仓库，请耐心等待。"
 
-#: weblate/static/loader-bootstrap.js:1352
+#: weblate/static/loader-bootstrap.js:1361
 msgid ""
 "Notification settings removed, please do not forget to save the changes."
 msgstr "通知设置被删除，请不要忘了保存更改。"
 
-#: weblate/static/loader-bootstrap.js:1515
+#: weblate/static/loader-bootstrap.js:1524
 msgid "Custom range"
 msgstr "自定义范围"
 
-#: weblate/static/loader-bootstrap.js:1516
+#: weblate/static/loader-bootstrap.js:1525
 msgid "Clear"
 msgstr "清除"
 
-#: weblate/static/loader-bootstrap.js:1518
+#: weblate/static/loader-bootstrap.js:1527
 msgctxt "Short name of day"
 msgid "Su"
 msgstr "日"
 
-#: weblate/static/loader-bootstrap.js:1519
+#: weblate/static/loader-bootstrap.js:1528
 msgctxt "Short name of day"
 msgid "Mo"
 msgstr "一"
 
-#: weblate/static/loader-bootstrap.js:1520
+#: weblate/static/loader-bootstrap.js:1529
 msgctxt "Short name of day"
 msgid "Tu"
 msgstr "二"
 
-#: weblate/static/loader-bootstrap.js:1521
+#: weblate/static/loader-bootstrap.js:1530
 msgctxt "Short name of day"
 msgid "We"
 msgstr "三"
 
-#: weblate/static/loader-bootstrap.js:1522
+#: weblate/static/loader-bootstrap.js:1531
 msgctxt "Short name of day"
 msgid "Th"
 msgstr "四"
 
-#: weblate/static/loader-bootstrap.js:1523
+#: weblate/static/loader-bootstrap.js:1532
 msgctxt "Short name of day"
 msgid "Fr"
 msgstr "五"
 
-#: weblate/static/loader-bootstrap.js:1524
+#: weblate/static/loader-bootstrap.js:1533
 msgctxt "Short name of day"
 msgid "Sa"
 msgstr "六"
 
-#: weblate/static/loader-bootstrap.js:1527
+#: weblate/static/loader-bootstrap.js:1536
 msgctxt "Short name of month"
 msgid "Jan"
 msgstr "1 月"
 
-#: weblate/static/loader-bootstrap.js:1528
+#: weblate/static/loader-bootstrap.js:1537
 msgctxt "Short name of month"
 msgid "Feb"
 msgstr "2 月"
 
-#: weblate/static/loader-bootstrap.js:1529
+#: weblate/static/loader-bootstrap.js:1538
 msgctxt "Short name of month"
 msgid "Mar"
 msgstr "3 月"
 
-#: weblate/static/loader-bootstrap.js:1530
+#: weblate/static/loader-bootstrap.js:1539
 msgctxt "Short name of month"
 msgid "Apr"
 msgstr "4 月"
 
-#: weblate/static/loader-bootstrap.js:1531
+#: weblate/static/loader-bootstrap.js:1540
 msgctxt "Short name of month"
 msgid "May"
 msgstr "5 月"
 
-#: weblate/static/loader-bootstrap.js:1532
+#: weblate/static/loader-bootstrap.js:1541
 msgctxt "Short name of month"
 msgid "Jun"
 msgstr "6 月"
 
-#: weblate/static/loader-bootstrap.js:1533
+#: weblate/static/loader-bootstrap.js:1542
 msgctxt "Short name of month"
 msgid "Jul"
 msgstr "7 月"
 
-#: weblate/static/loader-bootstrap.js:1534
+#: weblate/static/loader-bootstrap.js:1543
 msgctxt "Short name of month"
 msgid "Aug"
 msgstr "8 月"
 
-#: weblate/static/loader-bootstrap.js:1535
+#: weblate/static/loader-bootstrap.js:1544
 msgctxt "Short name of month"
 msgid "Sep"
 msgstr "9 月"
 
-#: weblate/static/loader-bootstrap.js:1536
+#: weblate/static/loader-bootstrap.js:1545
 msgctxt "Short name of month"
 msgid "Oct"
 msgstr "10 月"
 
-#: weblate/static/loader-bootstrap.js:1537
+#: weblate/static/loader-bootstrap.js:1546
 msgctxt "Short name of month"
 msgid "Nov"
 msgstr "11 月"
 
-#: weblate/static/loader-bootstrap.js:1538
+#: weblate/static/loader-bootstrap.js:1547
 msgctxt "Short name of month"
 msgid "Dec"
 msgstr "12 月"
 
-#: weblate/static/loader-bootstrap.js:1542
+#: weblate/static/loader-bootstrap.js:1551
 msgid "Today"
 msgstr "今天"
 
-#: weblate/static/loader-bootstrap.js:1543
+#: weblate/static/loader-bootstrap.js:1552
 msgid "Yesterday"
 msgstr "昨天"
 
-#: weblate/static/loader-bootstrap.js:1547
+#: weblate/static/loader-bootstrap.js:1556
 msgid "Last 7 days"
 msgstr "最近 7 天"
 
-#: weblate/static/loader-bootstrap.js:1548
+#: weblate/static/loader-bootstrap.js:1557
 msgid "Last 30 days"
 msgstr "最近 30 天"
 
-#: weblate/static/loader-bootstrap.js:1549
+#: weblate/static/loader-bootstrap.js:1558
 msgid "This month"
 msgstr "本月"
 
-#: weblate/static/loader-bootstrap.js:1553
+#: weblate/static/loader-bootstrap.js:1562
 msgid "Last month"
 msgstr "上月"
 
-#: weblate/static/loader-bootstrap.js:1557
+#: weblate/static/loader-bootstrap.js:1566
 msgid "This year"
 msgstr "今年"
 
-#: weblate/static/loader-bootstrap.js:1561
+#: weblate/static/loader-bootstrap.js:1570
 msgid "Last year"
 msgstr "去年"
 
-#: weblate/static/loader-bootstrap.js:1665
+#: weblate/static/loader-bootstrap.js:1666
 msgctxt "Alert to user when opening browser developer console"
 msgid "Stop!"
 msgstr "停止！"
 
-#: weblate/static/loader-bootstrap.js:1671
+#: weblate/static/loader-bootstrap.js:1672
 msgid ""
 "This is a browser feature intended for developers. If someone told you to "
 "copy-paste something here, they are likely trying to compromise your Weblate "
@@ -319,35 +367,35 @@ msgstr ""
 "这是面向开发人员的浏览器功能。如果有人告诉您在此处复制粘贴某些内容，他们很可"
 "能会试图入侵你的 Weblate 账户。"
 
-#: weblate/static/loader-bootstrap.js:1677
+#: weblate/static/loader-bootstrap.js:1678
 msgid "See https://en.wikipedia.org/wiki/Self-XSS for more information."
 msgstr "更多信息，见 https://en.wikipedia.org/wiki/Self-XSS。"
 
-#: weblate/static/loader-bootstrap.js:1745
+#: weblate/static/loader-bootstrap.js:1746
 msgid "just now"
 msgstr "刚才"
 
-#: weblate/static/loader-bootstrap.js:1750
+#: weblate/static/loader-bootstrap.js:1751
 #, javascript-format
 msgid "%s second ago"
 msgid_plural "%s seconds ago"
 msgstr[0] "%s 秒前"
 
-#: weblate/static/loader-bootstrap.js:1756
+#: weblate/static/loader-bootstrap.js:1757
 msgid "a minute ago"
 msgstr "1 分钟前"
 
-#: weblate/static/loader-bootstrap.js:1759
+#: weblate/static/loader-bootstrap.js:1760
 #, javascript-format
 msgid "%s minute ago"
 msgid_plural "%s minutes ago"
 msgstr[0] "%s 分钟前"
 
-#: weblate/static/loader-bootstrap.js:1766
+#: weblate/static/loader-bootstrap.js:1767
 msgid "a hour ago"
 msgstr "1 小时前"
 
-#: weblate/static/loader-bootstrap.js:1768
+#: weblate/static/loader-bootstrap.js:1769
 #, javascript-format
 msgid "%s hour ago"
 msgid_plural "%s hours ago"
@@ -530,9 +578,6 @@ msgstr[0] "%s 小时前"
 
 #~ msgid "Resetting the repository will throw away all local changes!"
 #~ msgstr "重设代码库将丢失所有本地修改！"
-
-#~ msgid "Error details:"
-#~ msgstr "错误详情："
 
 #~ msgid "Translate using Apertium"
 #~ msgstr "使用 Apertium 翻译"

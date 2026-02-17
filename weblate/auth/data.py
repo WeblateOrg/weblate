@@ -18,8 +18,6 @@ SELECTION_ALL_PROTECTED = 4
 
 PERMISSIONS = (
     # Translators: Permission name
-    ("billing.view", gettext_noop("View billing info")),
-    # Translators: Permission name
     ("change.download", gettext_noop("Download changes")),
     # Translators: Permission name
     ("comment.add", gettext_noop("Post comment")),
@@ -260,7 +258,6 @@ ROLES = (
         pgettext_noop("Access-control role", "Manage repository"),
         filter_perms("vcs.") | {"component.lock"},
     ),
-    (pgettext_noop("Access-control role", "Billing"), filter_perms("billing.")),
     (pgettext_noop("Access-control role", "Add new projects"), {"project.add"}),
 )
 
@@ -321,5 +318,4 @@ ACL_GROUPS = {
         "Per-project access-control team name", "Automatic translation"
     ): "Automatic translation",
     pgettext_noop("Per-project access-control team name", "VCS"): "Manage repository",
-    pgettext_noop("Per-project access-control team name", "Billing"): "Billing",
 }

@@ -12,6 +12,7 @@ from itertools import chain
 from types import SimpleNamespace
 from typing import TYPE_CHECKING, cast
 
+import regex
 from django.core.exceptions import ValidationError
 from django.core.validators import URLValidator
 from django.utils.functional import cached_property
@@ -90,6 +91,8 @@ XML_ENTITY_MATCH = re.compile(
     """,
     re.VERBOSE,
 )
+
+SINGLE_LETTER_MATCH = regex.compile(r"\p{L}")
 
 # Extracted from Sphinx sphinx/util/docutils.py
 RST_EXPLICIT_TITLE_RE = re.compile(r"^(.+?)\s*(?<!\x00)<(.*?)>$", re.DOTALL)
@@ -284,6 +287,61 @@ class XMLTagsCheck(BaseXMLCheck):
                 continue
             ret.append((start, end, match.group()))
         return ret
+
+
+class XMLCharsAroundTagsCheck(BaseXMLCheck):
+    """Check that characters adjacent to target's XML tags are letters or non-letters according to the source."""
+
+    check_id = "xml-chars-around-tags"
+    name = gettext_lazy("Chars around XML tags")
+    description = gettext_lazy(
+        "Characters surrounding XML tags in translation do not align with source."
+    )
+
+    def check_single(self, source: str, target: str, unit: Unit) -> bool:
+        src_tags = list(XML_MATCH.finditer(source))
+        tgt_tags = list(XML_MATCH.finditer(target))
+
+        if len(src_tags) != len(tgt_tags):
+            return False
+
+        for i, tag in enumerate(src_tags):
+            src_start_idx = tag.start()
+            tgt_start_idx = tgt_tags[i].start()
+            src_end_idx = tag.end()
+            tgt_end_idx = tgt_tags[i].end()
+
+            # if string starts with tag, only check char following this tag
+            if src_start_idx == 0 or tgt_start_idx == 0:
+                if src_end_idx < len(source) and tgt_end_idx < len(target):
+                    src_next_char = source[src_end_idx]
+                    tgt_next_char = target[tgt_end_idx]
+                    if self.char_check(src_next_char, tgt_next_char):
+                        return True
+            # if string ends with tag, only check char preceding this tag
+            elif src_end_idx == len(source) or tgt_end_idx == len(target):
+                if src_start_idx > 0 and tgt_start_idx > 0:
+                    src_prev_char = source[src_start_idx - 1]
+                    tgt_prev_char = target[tgt_start_idx - 1]
+                    if self.char_check(src_prev_char, tgt_prev_char):
+                        return True
+            # if inline tag, check char preceding and following this tag
+            else:
+                src_prev_char = source[src_start_idx - 1]
+                tgt_prev_char = target[tgt_start_idx - 1]
+                src_next_char = source[src_end_idx]
+                tgt_next_char = target[tgt_end_idx]
+
+                if self.char_check(src_prev_char, tgt_prev_char):
+                    return True
+                if self.char_check(src_next_char, tgt_next_char):
+                    return True
+        return False
+
+    def char_check(self, src_char: str, tgt_char: str) -> bool:
+        src_letter = bool(SINGLE_LETTER_MATCH.search(src_char))
+        tgt_letter = bool(SINGLE_LETTER_MATCH.search(tgt_char))
+        return src_letter ^ tgt_letter
 
 
 class MarkdownBaseCheck(TargetCheck):

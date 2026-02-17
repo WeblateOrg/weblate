@@ -79,12 +79,12 @@ def create_test_user() -> User:
     )
 
 
-def create_another_user() -> User:
+def create_another_user(suffix: str = "") -> User:
     return User.objects.create(
-        username="jane",
-        email="jane.doe@example.org",
+        username=f"jane{suffix}",
+        email=f"jane.doe{suffix}@example.org",
         password=TESTPASSWORD,
-        full_name="Jane Doe",
+        full_name=f"Jane Doe{suffix}",
     )
 
 

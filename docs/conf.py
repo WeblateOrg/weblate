@@ -82,7 +82,7 @@ project_copyright = "Michal Čihař"
 author = "Michal Čihař"
 
 # The full version, including alpha/beta/rc tags
-release = "5.16"
+release = "5.16.1"
 
 # -- General configuration ---------------------------------------------------
 
@@ -386,6 +386,7 @@ linkcheck_ignore = [
     "https://platform.openai.com/api-keys",
     "https://platform.openai.com/docs/models",
     "https://translate.systran.net/en/account",
+    "https://api.sap.com/api/translationhub/overview",
     # Protected by Anubis
     "https://anubis.techaro.lol/",
     # Seems unstable

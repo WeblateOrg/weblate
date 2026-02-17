@@ -5,6 +5,7 @@
 """Tests for suggestion views."""
 
 from django.conf import settings
+from django.test import TestCase
 from django.urls import reverse
 
 from weblate.trans.models import Suggestion, WorkflowSetting
@@ -186,7 +187,13 @@ class SuggestionsTest(ViewTestCase):
         suggestions = list(self.get_unit().suggestions)
         self.assertEqual(len(suggestions), 1)
 
-        self.assertEqual(suggestions[0].user.username, settings.ANONYMOUS_USER_NAME)
+        suggestion = suggestions[0]
+        if suggestion.user is None:
+            msg = "Suggestion user should not be None"
+            raise AssertionError(msg)
+
+        user = suggestion.user
+        self.assertEqual(user.username, settings.ANONYMOUS_USER_NAME)
 
         # Accept one of suggestions
         response = self.edit_unit("Hello, world!\n", "", accept=suggestions[0].pk)
@@ -287,3 +294,81 @@ class SuggestionsTest(ViewTestCase):
 
         # and the suggestion gets an upvote
         self.assertEqual(suggestion.get_num_votes(), 2)
+
+    def test_rendering_check_isolation(self) -> None:
+        """Verify that suggestion checks do not reuse the dirty cache of the unit."""
+        # Force SameCheck to ensure the suggestion system actually runs checks.
+        self.component.checks = "weblate.checks.same.SameCheck"  # type: ignore[attr-defined]
+        self.component.save()
+
+        unit = self.get_unit()
+
+        # Set dirty cache in memory
+        unit.check_cache = {"render": "DIRTY_PARENT_CACHE"}
+
+        # Create suggestion
+        suggestion = Suggestion.objects.create(
+            unit=unit,
+            target=unit.source,
+            user=self.user,
+        )
+
+        # We explicitly assign the dirty unit to the suggestion.
+        suggestion.unit = unit
+
+        # Explicitly trigger check calculation
+        checks = list(suggestion.get_checks())
+        self.assertTrue(checks, "Setup Error: No checks were generated.")
+
+        check_obj = next((check for check in checks if hasattr(check, "unit")), None)
+        if check_obj is None:
+            msg = "No check with a 'unit' attribute found."
+            raise AssertionError(msg)
+
+        fake_unit = check_obj.unit
+
+        # Verification of Isolation
+        self.assertTrue(
+            hasattr(fake_unit, "check_cache"),
+            "Test Failure: Fake unit does not expose 'check_cache' attribute.",
+        )
+
+        # We do not check for empty cache ({}) because running checks fills it.
+        # We check that the parent's dirt is gone.
+        self.assertIsNot(
+            fake_unit, unit, "Fake unit should be a different instance/copy"
+        )
+
+        self.assertIsNot(
+            fake_unit.check_cache,
+            unit.check_cache,
+            "Isolation Failure: check_cache dictionary is shared by reference.",
+        )
+
+        self.assertNotEqual(fake_unit.check_cache.get("render"), "DIRTY_PARENT_CACHE")
+
+        # Ensure the process didn't accidentally wipe the parent's cache
+        self.assertEqual(
+            unit.check_cache.get("render"),
+            "DIRTY_PARENT_CACHE",
+            "Integrity Failure: Parent unit cache was wiped during check execution.",
+        )
+
+
+class SuggestionModelTest(TestCase):
+    def test_target_list(self):
+        """Test that target_list property correctly splits plurals."""
+        sep = "\x1e\x1e"
+
+        suggestion = Suggestion(target="Hello world")
+        self.assertEqual(suggestion.target_list, ["Hello world"])
+
+        target_string = f"One apple{sep}Two apples{sep}Five apples"
+        suggestion_plural = Suggestion(target=target_string)
+
+        self.assertEqual(
+            suggestion_plural.target_list, ["One apple", "Two apples", "Five apples"]
+        )
+
+        suggestion_empty = Suggestion(target="")
+        self.assertEqual(suggestion_empty.target_list, [""])

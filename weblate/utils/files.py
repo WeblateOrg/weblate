@@ -53,7 +53,7 @@ def get_upload_message(not_found: int, skipped: int, accepted: int, total: int) 
     ).format(total, skipped, not_found, accepted)
 
 
-def remove_readonly(func: Callable, path: str, error: Exception) -> None:
+def remove_readonly(func: Callable, path: str, error: BaseException) -> None:
     """Clear the readonly bit and reattempt the removal."""
     if isinstance(error, FileNotFoundError):
         return

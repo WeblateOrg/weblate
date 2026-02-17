@@ -31,12 +31,16 @@ jobs:
       contents: write
 
     steps:
-    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-      if: github.event_name != 'pull_request'
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd   # v6.0.2
+      if: github.event_name != 'pull_request' && github.repository_owner == 'WeblateOrg'
       with:
         token: ${{ secrets.WEBLATE_CI_TOKEN }}
         persist-credentials: true
-    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd   # v6.0.2
+      if: github.event_name != 'pull_request' && github.repository_owner != 'WeblateOrg'
+      with:
+        persist-credentials: true
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd   # v6.0.2
       if: github.event_name == 'pull_request'
       with:
         persist-credentials: false
@@ -54,7 +58,7 @@ jobs:
         save-cache: ${{ github.ref == 'refs/heads/main' }}
         cache-suffix: ${{ steps.setup_python.outputs.python-version }}
 
-        version: 0.10.0
+        version: 0.10.3
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
 
@@ -73,17 +77,12 @@ jobs:
     - name: Merge SBOM
       env:
         # renovate: datasource=github-releases depName=CycloneDX/cyclonedx-cli versioning=loose
-        CYCLONEDX_CLI_VERSION: v0.29.2
+        CYCLONEDX_CLI_VERSION: v0.30.0
       run: |
         curl -L "https://github.com/CycloneDX/cyclonedx-cli/releases/download/$CYCLONEDX_CLI_VERSION/cyclonedx-linux-x64" > /tmp/cyclonedx-linux-x64
         chmod +x /tmp/cyclonedx-linux-x64
         /tmp/cyclonedx-linux-x64 merge --input-files docs/specs/sbom/partial/* --output-file docs/specs/sbom/sbom.json
         ./scripts/reproducible-sbom.py docs/specs/sbom/sbom.json
-
-    - run: uv run --frozen --only-group pre-commit prek run --all-files
-      continue-on-error: true
-
-    - run: git diff
 
     - name: Commit or create pull request
       uses: ./.github/actions/auto-commit

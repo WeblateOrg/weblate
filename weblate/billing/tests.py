@@ -24,16 +24,18 @@ from weblate.billing.tasks import (
 )
 from weblate.trans.models import Project
 from weblate.trans.tests.test_models import BaseTestCase, RepoTestCase
-from weblate.trans.tests.utils import create_test_billing
+from weblate.trans.tests.utils import (
+    create_another_user,
+    create_test_billing,
+    create_test_user,
+)
 
 TEST_DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "test-data")
 
 
 class BillingTest(BaseTestCase):
     def setUp(self) -> None:
-        self.user = User.objects.create_user(
-            username="bill", password="kill", email="noreply@example.net"
-        )
+        self.user = create_test_user()
         self.billing = create_test_billing(self.user, invoice=False)
         self.plan = self.billing.plan
         self.invoice = Invoice.objects.create(
@@ -55,7 +57,7 @@ class BillingTest(BaseTestCase):
             name=name, slug=name, access_control=Project.ACCESS_PROTECTED
         )
         self.billing.projects.add(project)
-        project.add_user(self.user, "Billing")
+        self.billing.owners.add(self.user)
         return project
 
     def test_view_billing(self) -> None:
@@ -71,7 +73,7 @@ class BillingTest(BaseTestCase):
         self.assertNotContains(response, "Current plan")
 
         # Owner
-        self.client.login(username="bill", password="kill")
+        self.client.login(username=self.user.username, password="testpassword")
         response = self.client.get(reverse("billing"), follow=True)
         self.assertRedirects(response, self.billing.get_absolute_url())
         self.assertContains(response, "Current plan")
@@ -183,7 +185,7 @@ class BillingTest(BaseTestCase):
         )
         self.assertEqual(403, response.status_code)
         # Owner
-        self.client.login(username="bill", password="kill")
+        self.client.login(username=self.user.username, password="testpassword")
         response = self.client.get(
             reverse("invoice-download", kwargs={"pk": self.invoice.pk})
         )
@@ -369,12 +371,8 @@ class BillingTest(BaseTestCase):
         self.test_trial()
 
     def test_remove_project(self) -> None:
-        second_user = User.objects.create_user(
-            username="bill2", password="kill2", email="noreply2@example.net"
-        )
-        third_user = User.objects.create_user(
-            username="bill3", password="kill3", email="noreply3@example.net"
-        )
+        second_user = create_another_user()
+        third_user = create_another_user(suffix="-3")
         project = self.add_project()
         project.add_user(second_user, "Administration")
         project.add_user(third_user, "Translate")
@@ -382,6 +380,136 @@ class BillingTest(BaseTestCase):
         self.assertEqual(
             set(self.billing.owners.values_list("username", flat=True)),
             {self.user.username, second_user.username},
+        )
+
+    def test_merge(self) -> None:
+        other = Billing.objects.create(plan=self.billing.plan)
+        Invoice.objects.create(
+            billing=other,
+            start=timezone.now().date() - timedelta(days=2),
+            end=timezone.now().date() + timedelta(days=2),
+            amount=10,
+            ref="00001",
+        )
+
+        self.user.is_superuser = True
+        self.user.save()
+        self.client.login(username=self.user.username, password="testpassword")
+
+        response = self.client.get(
+            reverse("billing-detail", kwargs={"pk": self.billing.pk})
+        )
+        self.assertContains(response, "Merge with billing")
+
+        response = self.client.get(
+            reverse("billing-merge", kwargs={"pk": self.billing.pk}),
+            {"other": other.pk},
+        )
+        self.assertContains(response, "Confirm merge")
+
+        response = self.client.post(
+            reverse("billing-merge", kwargs={"pk": self.billing.pk}),
+            {"other": other.pk},
+        )
+        self.assertRedirects(
+            response, reverse("billing-detail", kwargs={"pk": self.billing.pk})
+        )
+
+        response = self.client.post(
+            reverse("billing-merge", kwargs={"pk": self.billing.pk}),
+            {"other": other.pk, "confirm": 1},
+        )
+        self.assertRedirects(
+            response, reverse("billing-detail", kwargs={"pk": other.pk})
+        )
+
+        self.assertEqual(other.invoice_set.count(), 2)
+
+    def test_owners(self) -> None:
+        second_user = create_another_user()
+        billing_url = reverse("billing-detail", kwargs={"pk": self.billing.pk})
+
+        # No access for different user
+        self.client.login(username=second_user.username, password="testpassword")
+
+        response = self.client.get(billing_url)
+        self.assertEqual(response.status_code, 403)
+
+        response = self.client.post(
+            reverse("billing-owner-add", kwargs={"pk": self.billing.pk})
+        )
+        self.assertEqual(response.status_code, 403)
+
+        response = self.client.post(
+            reverse(
+                "billing-owner-remove",
+                kwargs={"pk": self.billing.pk, "user_id": self.user.pk},
+            )
+        )
+        self.assertEqual(response.status_code, 403)
+
+        # Access for owner
+        self.client.login(username=self.user.username, password="testpassword")
+
+        response = self.client.get(billing_url)
+        self.assertContains(response, "Billing admins")
+
+        # Add user
+        response = self.client.post(
+            reverse("billing-owner-add", kwargs={"pk": self.billing.pk}),
+            {"user": "nonexisting-user"},
+        )
+        self.assertRedirects(response, billing_url)
+        self.assertEqual(1, self.billing.owners.count())
+
+        response = self.client.post(
+            reverse("billing-owner-add", kwargs={"pk": self.billing.pk}),
+            {"user": second_user.username},
+        )
+        self.assertRedirects(response, billing_url)
+        self.assertEqual(2, self.billing.owners.count())
+        self.assertEqual(
+            {self.user.username, second_user.username},
+            set(self.billing.owners.values_list("username", flat=True)),
+        )
+        # Add user (no-op)
+        response = self.client.post(
+            reverse("billing-owner-add", kwargs={"pk": self.billing.pk}),
+            {"user": second_user.username},
+        )
+        self.assertRedirects(response, billing_url)
+        self.assertEqual(2, self.billing.owners.count())
+        self.assertEqual(
+            {self.user.username, second_user.username},
+            set(self.billing.owners.values_list("username", flat=True)),
+        )
+
+        # Delete user restricted for self
+        response = self.client.post(
+            reverse(
+                "billing-owner-remove",
+                kwargs={"pk": self.billing.pk, "user_id": self.user.pk},
+            )
+        )
+        self.assertRedirects(response, billing_url)
+        self.assertEqual(2, self.billing.owners.count())
+        self.assertEqual(
+            {self.user.username, second_user.username},
+            set(self.billing.owners.values_list("username", flat=True)),
+        )
+
+        # Delete other user works
+        response = self.client.post(
+            reverse(
+                "billing-owner-remove",
+                kwargs={"pk": self.billing.pk, "user_id": second_user.pk},
+            )
+        )
+        self.assertRedirects(response, billing_url)
+        self.assertEqual(1, self.billing.owners.count())
+        self.assertEqual(
+            {self.user.username},
+            set(self.billing.owners.values_list("username", flat=True)),
         )
 
 

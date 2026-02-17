@@ -130,7 +130,7 @@ class Suggestion(models.Model, UserDisplayMixin):
 
     votes = models.ManyToManyField(
         settings.AUTH_USER_MODEL, through="Vote", related_name="user_votes"
-    )
+    )  # type: ignore[var-annotated]
 
     objects = SuggestionManager.from_queryset(SuggestionQuerySet)()
 
@@ -144,7 +144,7 @@ class Suggestion(models.Model, UserDisplayMixin):
 
     def __init__(self, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
-        self.fixups = []
+        self.fixups: list[str] = []
 
     @transaction.atomic
     def accept(
@@ -228,6 +228,7 @@ class Suggestion(models.Model, UserDisplayMixin):
         fake_unit = copy(self.unit)
         fake_unit.target = self.target
         fake_unit.state = STATE_TRANSLATED
+        fake_unit.check_cache = {}
         source = fake_unit.get_source_plurals()
         target = fake_unit.get_target_plurals()
 
@@ -238,6 +239,15 @@ class Suggestion(models.Model, UserDisplayMixin):
             if check_obj.check_target(source, target, fake_unit):
                 result.append(Check(unit=fake_unit, dismissed=False, name=check))
         return result
+
+    @property
+    def target_list(self) -> list[str]:
+        """
+        Returns the target split into a list of plurals.
+
+        Used for populating the translation widgets in the frontend.
+        """
+        return split_plural(self.target)
 
 
 class Vote(models.Model):

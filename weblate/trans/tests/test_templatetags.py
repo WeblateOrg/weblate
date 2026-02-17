@@ -227,6 +227,29 @@ class TranslationFormatTestCase(FixtureTestCase):
             """,
         )
 
+    def test_diff_change_newlinse(self) -> None:
+        self.assertHTMLEqual(
+            """
+            $(^NameDA) is installed both for all users and for
+            <ins>the<span class="hlspace"><span class="space-space"> </span></span></ins>
+            current user.
+            <del>$\\r$\\n</del>
+            <ins>
+ <span class="hlspace">
+            <span class="space-nl">
+            </span></span><br>
+            </ins>
+            Select which installation to remove.
+            """,
+            format_translation(
+                [
+                    "$(^NameDA) is installed both for all users and for the current user.\nSelect which installation to remove."
+                ],
+                self.component.source_language,
+                diff="$(^NameDA) is installed both for all users and for current user.$\\r$\\nSelect which installation to remove.",
+            )["items"][0]["content"],
+        )
+
     def test_diff_github_9821(self) -> None:
         unit = Unit(translation=self.translation)
         unit.all_flags = Flags("python-brace-format")
@@ -316,6 +339,26 @@ class TranslationFormatTestCase(FixtureTestCase):
                 <span class="hlspace">
                     <span class="space-space"> </span>
                 </span>
+            </ins>
+            world
+            """,
+        )
+        self.assertHTMLEqual(
+            format_translation(
+                ["Hello\nworld"],
+                self.component.source_language,
+                diff="Hello world",
+            )["items"][0]["content"],
+            """Hello
+            <del>
+                <span class="hlspace">
+                    <span class="space-space"></span>
+                </span>
+            </del>
+            <ins>
+                <span class="hlspace">
+                    <span class="space-nl"></span>
+                </span><br />
             </ins>
             world
             """,

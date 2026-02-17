@@ -22,11 +22,22 @@ jobs:
     runs-on: ubuntu-24.04
 
     steps:
-    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd   # v6.0.2
+      if: github.event_name != 'pull_request' && github.repository_owner == 'WeblateOrg'
       with:
-        submodules: true
         token: ${{ secrets.WEBLATE_CI_TOKEN }}
         persist-credentials: true
+        submodules: true
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd   # v6.0.2
+      if: github.event_name != 'pull_request' && github.repository_owner != 'WeblateOrg'
+      with:
+        persist-credentials: true
+        submodules: true
+    - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd   # v6.0.2
+      if: github.event_name == 'pull_request'
+      with:
+        persist-credentials: false
+        submodules: true
     - uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
       with:
         path: ~/.cache/pre-commit
@@ -36,18 +47,12 @@ jobs:
       with:
         python-version: '3.14'
     - run: ./scripts/generate-license-data.py
-    - name: Update renovate branch
-      if: github.ref != 'refs/heads/main'
-      uses: stefanzweifel/git-auto-commit-action@04702edda442b2e678b25b537cec683a1493fcb9 # v7.1.0
+
+    - name: Commit or create pull request
+      uses: ./.github/actions/auto-commit
       with:
-        commit_message: 'utils: Update SPDX license data'
-    - name: Create Pull Request
-      if: github.ref == 'refs/heads/main'
-      uses: peter-evans/create-pull-request@c0f553fe549906ede9cf27b5156039d195d2ece0 # v8.1.0
-      with:
-        branch: create-pull-request/licenses-update
-        title: 'utils: Update SPDX license data'
-        commit-message: 'utils: Update SPDX license data'
-        token: ${{ secrets.WEBLATE_CI_TOKEN }}
-        labels: |
+        message: 'utils: Update SPDX license data'
+        pr-branch: create-pull-request/licenses-update
+        pr-labels: |
           dependencies
+        github-token: ${{ secrets.WEBLATE_CI_TOKEN }}

@@ -959,6 +959,19 @@ if "weblate.billing" in settings.INSTALLED_APPS:
             name="restore_backup",
         ),
         path("billing/<int:pk>/", weblate.billing.views.detail, name="billing-detail"),
+        path(
+            "billing/<int:pk>/merge/", weblate.billing.views.merge, name="billing-merge"
+        ),
+        path(
+            "billing/<int:pk>/owners/",
+            weblate.billing.views.owner_add,
+            name="billing-owner-add",
+        ),
+        path(
+            "billing/<int:pk>/owners/<int:user_id>/",
+            weblate.billing.views.owner_remove,
+            name="billing-owner-remove",
+        ),
         path("manage/billing/", weblate.wladmin.views.billing, name="manage-billing"),
     ]
 
