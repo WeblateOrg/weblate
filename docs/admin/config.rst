@@ -2353,7 +2353,7 @@ On by default, as that suits public server setups.
 WEBSITE_ALERTS_ENABLED
 ----------------------
 
-.. versionadded:: 5.10
+.. versionadded:: 5.16.1
 
 Default: ``True``
 
