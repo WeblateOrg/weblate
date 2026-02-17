@@ -15,7 +15,7 @@ import re
 import subprocess
 from io import StringIO
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, BinaryIO, ClassVar
+from typing import IO, TYPE_CHECKING, Any, ClassVar
 
 from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
@@ -41,7 +41,7 @@ from translate.storage.pypo import pofile, pounit
 from translate.storage.resx import RESXFile
 from translate.storage.tbx import tbxfile, tbxunit
 from translate.storage.ts2 import tsfile, tsunit
-from translate.storage.xliff import ID_SEPARATOR, xlifffile, xliffunit
+from translate.storage.xliff import ID_SEPARATOR, Xliff1File, Xliff1Unit
 from translate.storage.xliff2 import Xliff2File, Xliff2Unit
 
 import weblate.utils.version
@@ -284,7 +284,7 @@ class TTKitFormat(TranslationFormat):
 
     def load(
         self,
-        storefile: str | BinaryIO,
+        storefile: str | IO[bytes],
         template_store: TranslationFormat | None,
     ) -> TranslationStore:
         """Load file using defined loader."""
@@ -361,7 +361,7 @@ class TTKitFormat(TranslationFormat):
         else:
             self.store.addunit(unit.unit)
 
-    def save_content(self, handle: BinaryIO) -> None:
+    def save_content(self, handle: IO[bytes]) -> None:
         """Store content to file."""
         self.store.serialize(handle)
 
@@ -447,7 +447,7 @@ class TTKitFormat(TranslationFormat):
             target = source
             source = self.create_unit_key(key, source)
         # Bilingual translation
-        elif isinstance(unit, tbxunit | xliffunit | Xliff2Unit | RESJSONUnit) and key:
+        elif isinstance(unit, tbxunit | Xliff1Unit | Xliff2Unit | RESJSONUnit) and key:
             unit.setid(key)
         elif self.set_context_bilingual and key:
             unit.setcontext(key)
@@ -1348,7 +1348,7 @@ class XliffFormat(TTKitFormat):
     # Translators: File format name
     name = gettext_lazy("XLIFF 1.2 translation file")
     format_id = "plainxliff"
-    loader = xlifffile
+    loader = Xliff1File
     autoload: tuple[str, ...] = ("*.xlf", "*.xliff")
     unit_class = XliffUnit
     language_format = "bcp"
@@ -2058,7 +2058,7 @@ class INIFormat(TTKitFormat):
 
     def load(
         self,
-        storefile: str | BinaryIO,
+        storefile: str | IO[bytes],
         template_store: TranslationFormat | None,
     ) -> TranslationStore:
         store = super().load(storefile, template_store)

@@ -189,7 +189,7 @@ class AutoLoadTest(TestCase):
 class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
     FILE = TEST_PO
     BASE = TEST_POT
-    TEMPLATE = None
+    TEMPLATE: str | None = None
     MIME = "text/x-gettext-catalog"
     EXT = "po"
     COUNT = 4
