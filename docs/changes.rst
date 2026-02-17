@@ -5,8 +5,7 @@ Weblate 5.16.1
 
 .. rubric:: New features
 
-* Added :setting:`WEBSITE_ALERTS_ENABLED` setting to allow disabling website
-  availability checks and alerts.
+* Added :setting:`WEBSITE_ALERTS_ENABLED` setting to allow disabling website availability checks and alerts.
 
 .. rubric:: Improvements
 
