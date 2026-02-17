@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-02-16 14:59+0100\n"
-"PO-Revision-Date: 2026-02-14 19:11+0000\n"
+"PO-Revision-Date: 2026-02-17 15:10+0000\n"
 "Last-Translator: 大王叫我来巡山 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -40,7 +40,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.16-dev\n"
+"X-Generator: Weblate 5.16.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:215
@@ -24598,10 +24598,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`维基百科上的 RSS <https://zh.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.1.1"
 msgid "Weblate 5.16.1"
-msgstr "Weblate 5.1.1"
+msgstr "Weblate 5.16.1"
 
 #: ../../changes.rst:4
 msgid "*Not yet released.*"
@@ -24746,26 +24744,20 @@ msgid "Contributors"
 msgstr "贡献者"
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "61?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/161?"
 "closed=1>`__."
 msgstr ""
-"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/61?"
-"closed=1>`__。"
+"`所有变化详情 <https://github.com/WeblateOrg/weblate/milestone/161?closed=1>"
+"`__。"
 
 #: ../../changes.rst:25
 msgid "Weblate 5.16"
 msgstr "Weblate 5.16"
 
 #: ../../changes.rst:27
-#, fuzzy
-#| msgid "*Released on February 16th 2012.*"
 msgid "*Released on February 16th 2026.*"
-msgstr "*发布于 2012 年 2 月 16 日。*"
+msgstr "*发布于 2026 年 2 月 16 日。*"
 
 #: ../../changes.rst:31
 msgid ":ref:`check-multiple-capital` quality check."
@@ -24825,6 +24817,8 @@ msgid ""
 "and :ref:`txt` files using ``*merge_duplicates`` parameters "
 "in :ref:`file_format_params`."
 msgstr ""
+"使用 :ref:`file_format_params` 中的 ``*merge_duplicates`` 参数整合 "
+":ref:`markdown`, :ref:`html`, 和 :ref:`txt` 文件中的相同字符串。"
 
 #: ../../changes.rst:44
 msgid ""
@@ -24897,10 +24891,8 @@ msgid "Gracefully handle invalid check flags in :ref:`custom-checks`."
 msgstr "优雅地处理 :ref:`custom-checks` 中的无效检查标记。"
 
 #: ../../changes.rst:60
-#, fuzzy
-#| msgid ":doc:`/formats/apple` exporter now produces UTF-8 encoded files."
 msgid ":doc:`/formats/appstore` no longer rewrites unchanged files."
-msgstr ":doc:`/formats/apple` 导出程序现在生成 UTF-8 编码的文件。"
+msgstr ":doc:`/formats/appstore` 不再重写未更改的文件。"
 
 #: ../../changes.rst:64
 msgid ""
@@ -24927,7 +24919,7 @@ msgstr ""
 
 #: ../../changes.rst:67
 msgid "Fonts used by Weblate are now shipped in a standalone package."
-msgstr ""
+msgstr "Weblate 使用的字体现在以独立软件包的形式提供。"
 
 #: ../../changes.rst:68
 msgid "Dropped deprecated compatibility wrappers some classes with typos."
@@ -44204,16 +44196,12 @@ msgid "Avoid spaces after separators"
 msgstr "分隔符后避免空格"
 
 #: ../../snippets/file-format-parameters.rst:90
-#, fuzzy
-#| msgid "``duplicate``"
 msgid "merge_duplicates"
-msgstr "``duplicate``"
+msgstr "merge_duplicates"
 
 #: ../../snippets/file-format-parameters.rst:90
-#, fuzzy
-#| msgid "Found duplicated string"
 msgid "Deduplicate identical strings"
-msgstr "发现重复字符串"
+msgstr "去重相同字符串"
 
 #: ../../snippets/file-format-parameters.rst:90
 msgid ""
@@ -44221,6 +44209,8 @@ msgid ""
 "Prevents translation loss during file restructuring or table reordering by "
 "removing position-dependent context."
 msgstr ""
+"整合相同源字符串到单个翻译单元。通过去除依赖位置的上下文防止文件重组或表格顺"
+"序调整期间的翻译丢失。"
 
 #: ../../snippets/file-format-parameters.rst:96
 msgid "po_fuzzy_matching"
@@ -45169,10 +45159,8 @@ msgstr "`HTML 文件`"
 
 #: ../../formats/html.rst:41 ../../formats/markdown.rst:43
 #: ../../formats/txt.rst:49
-#, fuzzy
-#| msgid "Drops duplicate strings."
 msgid "Handling duplicate strings"
-msgstr "删除重复的字符串。"
+msgstr "处理重复的字符串"
 
 #: ../../formats/html.rst:43
 msgid ""
@@ -45181,6 +45169,8 @@ msgid ""
 "HTML files, where moving elements changes the context and can lead to "
 "translation loss."
 msgstr ""
+"Weblate 默认将字符串每次出现视为不同的翻译单元来提供基于行的上下文。这在 "
+"HTML 文件中可能会有问题，因为移动元素会改变上下文，导致译文丢失。"
 
 #: ../../formats/html.rst:48 ../../formats/markdown.rst:50
 #: ../../formats/txt.rst:56
@@ -45189,6 +45179,8 @@ msgid ""
 "enable :guilabel:`Deduplicate identical strings` in the :ref:`component-"
 "file_format_params`."
 msgstr ""
+"整合相同字符串到单一翻译单元，在 :ref:`component-file_format_params` 中启用 "
+":guilabel:`Deduplicate identical strings`."
 
 #: ../../formats/html.rst:53
 msgid ""
@@ -45196,6 +45188,8 @@ msgid ""
 "ensuring that translations remain stable even if elements are moved within "
 "the document."
 msgstr ""
+"启用此选项为已合并单元禁用基于行的上下文，确保即使元素在文档内移动译文也保持"
+"稳定。"
 
 #: ../../formats/i18next.rst:6
 msgid "i18next JSON files"
@@ -45506,6 +45500,8 @@ msgid ""
 "Markdown tables, where reordering rows changes the context and can lead to "
 "translation loss."
 msgstr ""
+"Weblate 默认将字符串的每次出现视为不同的翻译单元来提供基于行的上下文。在 "
+"Markdown 表格中这可能有问题，因为调整行顺序会改变上下文，导致译文丢失。"
 
 #: ../../formats/markdown.rst:55
 msgid ""
@@ -45513,6 +45509,8 @@ msgid ""
 "ensuring that translations remain stable even if rows or sections are moved "
 "within the document."
 msgstr ""
+"启用此选项为已合并单元禁用基于行的上下文，确保即使行或部分在文档内移动译文也"
+"保持稳定。"
 
 #: ../../formats/mi18n.rst:4
 msgid "draggable/i18n lang files"
@@ -45909,12 +45907,16 @@ msgid ""
 "paragraphs are frequently reordered, as it changes the context and can lead "
 "to translation loss."
 msgstr ""
+"Weblate 默认将每段视为不同的翻译单元来提供基于行的上下文。这在段落顺序经常调"
+"整的文本文件中可能有问题，因为它改变上下文，导致译文丢失。"
 
 #: ../../formats/txt.rst:61
 msgid ""
 "This parameter is shared with **DokuWiki** and **MediaWiki** formats. "
 "Enabling this option disables line-based context for the merged units."
 msgstr ""
+"此段落格式即是 **DokuWiki** 也是 **MediaWiki** 。启用此选项为已合并单元禁用基"
+"于行的上下文。"
 
 #: ../../formats/webextension.rst:4
 msgid "WebExtension JSON"
@@ -48830,6 +48832,8 @@ msgid ""
 "Weblate and all it's dependencies have publicly available source code "
 "meaning it can usually be exported and reexported without restriction."
 msgstr ""
+"Weblate 及其所有依赖项有公开可得的源代码，意味着它通常可以被无限制地导出和重"
+"新导出。"
 
 #: ../../security/us-compliance.rst:27
 msgid ""
@@ -48843,7 +48847,7 @@ msgstr "`Python <https://www.python.org/>`_"
 
 #: ../../security/us-compliance.rst:31
 msgid "`Cryptography <https://cryptography.io/>`_"
-msgstr ""
+msgstr "`密码学 <https://cryptography.io/>`_"
 
 #: ../../security/us-compliance.rst:32
 msgid "`GnuPG <https://www.gnupg.org/>`_"
