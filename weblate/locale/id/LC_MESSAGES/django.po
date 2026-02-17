@@ -16,7 +16,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-02-16 13:58+0000\n"
-"PO-Revision-Date: 2026-02-15 20:11+0000\n"
+"PO-Revision-Date: 2026-02-17 15:10+0000\n"
 "Last-Translator: Zahid Rizky Fakhri <zahidrizkyfakhri@gmail.com>\n"
 "Language-Team: Indonesian <https://hosted.weblate.org/projects/weblate/"
 "application/id/>\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.16-dev\n"
+"X-Generator: Weblate 5.16.1-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -3384,10 +3384,8 @@ msgstr ""
 "memakai Inggris."
 
 #: weblate/billing/forms.py:47
-#, fuzzy
-#| msgid "View billing info"
 msgid "Add billing admin"
-msgstr "Lihat info tagihan"
+msgstr "Tambahkan admin tagihan"
 
 #: weblate/billing/models.py:165 weblate/templates/billing/detail.html:28
 msgid "Billing plan"
@@ -3533,18 +3531,16 @@ msgstr "Tidak dapat menggabungkan tagihan tersebut."
 #: weblate/billing/views.py:259
 #, python-format
 msgid "User %s was added as a billing admin."
-msgstr ""
+msgstr "Pengguna %s telah ditambahkan sebagai admin tagihan."
 
 #: weblate/billing/views.py:277 weblate/templates/billing/detail.html:93
-#, fuzzy
-#| msgid "You can not remove yourself!"
 msgid "You cannot remove yourself."
-msgstr "Anda tidak dapat menghapus diri sendiri!"
+msgstr "Anda tidak dapat menghapus diri sendiri."
 
 #: weblate/billing/views.py:286
 #, python-format
 msgid "User %s was removed as a billing admin."
-msgstr ""
+msgstr "Pengguna %s telah dihapus sebagai admin tagihan."
 
 #: weblate/checks/angularjs.py:32
 msgid "AngularJS interpolation string"
@@ -3657,7 +3653,7 @@ msgstr "Sumber dan terjemahan tidak keduanya diakhiri dengan tanda seru."
 
 #: weblate/checks/chars.py:372
 msgid "Mismatched interrobang"
-msgstr "Tanda interobang tidak cocok"
+msgstr "Tanda interrobang tidak cocok"
 
 #: weblate/checks/chars.py:374
 msgid "Source and translation do not both end with an interrobang expression."
@@ -8576,23 +8572,17 @@ msgid "Terminate billing plan"
 msgstr "Akhiri jenis langganan"
 
 #: weblate/templates/billing/detail.html:72
-#, fuzzy
-#| msgid "Billing plan"
 msgid "Billing admins"
-msgstr "Rencana tagihan"
+msgstr "Admin tagihan"
 
 #: weblate/templates/billing/detail.html:93
 #: weblate/templates/billing/detail.html:97
-#, fuzzy
-#| msgid "Check user access"
 msgid "Revoke access"
-msgstr "Periksa akses pengguna"
+msgstr "Cabut akses"
 
 #: weblate/templates/billing/detail.html:107
-#, fuzzy
-#| msgid "Add team"
 msgid "Add admin"
-msgstr "Tambahkan tim"
+msgstr "Tambahkan admin"
 
 #: weblate/templates/billing/detail.html:120
 msgid "Review merge"
@@ -13835,10 +13825,8 @@ msgid "This string was translated automatically by %(author)s."
 msgstr "String ini diterjemahkan secara otomatis oleh %(author)s."
 
 #: weblate/templates/translate.html:736
-#, fuzzy
-#| msgid "This string was translated automatically by %(author)s."
 msgid "This string was translated automatically."
-msgstr "String ini diterjemahkan secara otomatis oleh %(author)s."
+msgstr "String ini diterjemahkan secara otomatis."
 
 #: weblate/templates/translate.html:755 weblate/trans/models/project.py:262
 msgid "Translation quality filter"
@@ -14844,10 +14832,8 @@ msgid "FlatXML key name"
 msgstr "Nama kunci FlatXML"
 
 #: weblate/trans/file_format_params.py:458
-#, fuzzy
-#| msgid "Found duplicated string"
 msgid "Deduplicate identical strings"
-msgstr "Ditemukan string duplikat"
+msgstr "Hapus ganda string yang identik"
 
 #: weblate/trans/file_format_params.py:462
 msgid ""
@@ -14855,6 +14841,9 @@ msgid ""
 "Prevents translation loss during file restructuring or table reordering by "
 "removing position-dependent context."
 msgstr ""
+"Menggabungkan string sumber yang identik ke dalam satu unit terjemahan. "
+"Mencegah hilangnya terjemahan selama struktur ulang berkas atau penataan "
+"ulang tabel dengan menghapus konteks yang bergantung pada posisi."
 
 #: weblate/trans/file_format_params.py:472
 #: weblate/trans/file_format_params.py:489
