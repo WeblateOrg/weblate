@@ -201,10 +201,11 @@ class OpenDocumentFormatTest(ConvertFormatTest):
     EXPECTED_FLAGS = ""
     EDIT_OFFSET = 1
 
-    @staticmethod
-    def extract_document(content):
+    def extract_document(self, content: bytes):
         return bytes(
-            OpenDocumentFormat.convertfile(NamedBytesIO("test.odt", content), None)
+            self.format_class(NamedBytesIO("test.odt", content)).convertfile(
+                NamedBytesIO("test.odt", content), None
+            )
         ).decode()
 
     def assert_same(self, newdata, testdata) -> None:
@@ -230,9 +231,10 @@ class IDMLFormatTest(ConvertFormatTest):
     EXPECTED_FLAGS = ""
     EDIT_OFFSET = 1
 
-    @staticmethod
-    def extract_document(content):
-        pofile = IDMLFormat.convertfile(NamedBytesIO("test.idml", content), None)
+    def extract_document(self, content: bytes):
+        pofile = self.format_class(NamedBytesIO("test.idml", content)).convertfile(
+            NamedBytesIO("test.idml", content), None
+        )
         # Avoid (changing) timestamp in the PO header
         pofile.updateheader(pot_creation_date="")
         return bytes(pofile).decode()

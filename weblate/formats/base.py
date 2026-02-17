@@ -10,7 +10,7 @@ import os
 import tempfile
 from copy import copy
 from pathlib import Path
-from typing import TYPE_CHECKING, Any, BinaryIO, ClassVar
+from typing import IO, TYPE_CHECKING, Any, ClassVar, cast, overload
 
 from django.http import HttpResponse
 from django.utils.functional import cached_property
@@ -158,12 +158,21 @@ class TranslationUnit:
     remove_flags: ClassVar[list[str]] = []
     add_flags: ClassVar[list[str]] = []
 
+    @overload
     def __init__(
         self,
         parent: TranslationFormat,
         unit: InnerUnit | None,
+        template: InnerUnit,
+    ) -> None: ...
+    @overload
+    def __init__(
+        self,
+        parent: TranslationFormat,
+        unit: InnerUnit,
         template: InnerUnit | None = None,
-    ) -> None:
+    ) -> None: ...
+    def __init__(self, parent, unit, template=None) -> None:
         """Create wrapper object."""
         self.unit = unit
         self.template = template
@@ -378,7 +387,7 @@ class TranslationFormat:
 
     def __init__(
         self,
-        storefile: Path | str | BinaryIO,
+        storefile: Path | str | IO[bytes],
         template_store: TranslationFormat | None = None,
         language_code: str | None = None,
         source_language: str | None = None,
@@ -390,7 +399,7 @@ class TranslationFormat:
         if isinstance(storefile, Path):
             storefile = str(storefile.as_posix())
         if not isinstance(storefile, str) and not hasattr(storefile, "mode"):
-            # This is BinaryIO like but without a mode
+            # This is IO like but without a mode
             storefile.mode = "r"  # type: ignore[misc]
 
         self.storefile = storefile
@@ -434,7 +443,7 @@ class TranslationFormat:
 
     def load(
         self,
-        storefile: str | BinaryIO,
+        storefile: str | IO[bytes],
         template_store: TranslationFormat | None,
     ) -> InnerStore:
         raise NotImplementedError
@@ -537,7 +546,7 @@ class TranslationFormat:
         return
 
     @staticmethod
-    def save_atomic(filename: str, callback: Callable[[BinaryIO], None]) -> None:
+    def save_atomic(filename: str, callback: Callable[[IO[bytes]], None]) -> None:
         dirname, basename = os.path.split(filename)
         if dirname and not os.path.exists(dirname):
             os.makedirs(dirname)
@@ -571,7 +580,7 @@ class TranslationFormat:
         return self.unit_class(
             self,
             self.find_unit_template(unit.context, unit.source, unit.id_hash),
-            unit.template,
+            cast("InnerUnit", unit.template),
         )
 
     def _get_all_monolingual_units(self) -> list[TranslationUnit]:
