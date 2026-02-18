@@ -6,13 +6,14 @@
 # test-session <u4n5yp+f2i3ra2m3khdc@sharklasers.com>, 2024.
 # GitHub webhook <noreply-webhook-github@weblate.org>, 2025, 2026.
 # Miniontoby <tobias.gaarenstroom@gmail.com>, 2025.
+# ojppe <ojppe@users.noreply.hosted.weblate.org>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-02-16 13:58+0000\n"
-"PO-Revision-Date: 2026-02-16 13:58+0000\n"
-"Last-Translator: Heimen Stoffels <vistausss@fastmail.com>\n"
+"PO-Revision-Date: 2026-02-18 23:10+0000\n"
+"Last-Translator: ojppe <ojppe@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "application/nl/>\n"
 "Language: nl\n"
@@ -20,7 +21,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16\n"
+"X-Generator: Weblate 5.16.1-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -37,7 +38,8 @@ msgstr "Profielfoto"
 msgid ""
 "This e-mail address is already in use. Please supply a different e-mail "
 "address."
-msgstr "Dit e-mailadres is al in gebruik - geef een ander e-mailadres op."
+msgstr ""
+"Dit e-mailadres is al in gebruik. Geef alstublieft een ander e-mailadres op."
 
 #: weblate/accounts/forms.py:122
 msgid "This username is already taken. Please pick something else."
@@ -75,26 +77,20 @@ msgid "Commit name"
 msgstr "Naam van committer"
 
 #: weblate/accounts/forms.py:213
-#, fuzzy
-#| msgid ""
-#| "Used in version-control commits. The address stays in the repository "
-#| "forever once changes are committed by Weblate."
 msgid ""
 "Used in version control commits. The name stays in the repository forever, "
 "once changes are committed by Weblate."
 msgstr ""
-"Word gebruikt in commits van versiebeheer. Het adres blijft voor altijd in "
-"de opslagplaats, zodra Weblate de wijzigingen doorvoert."
+"Word gebruikt in commits van versiebeheer. De naam blijft voor altijd in de "
+"opslagplaats, zodra Weblate de wijzigingen doorvoert."
 
 #: weblate/accounts/forms.py:241
 msgid "Use anonymous account name"
-msgstr ""
+msgstr "Anonieme acountnaam gebruiken"
 
 #: weblate/accounts/forms.py:243
-#, fuzzy
-#| msgid "Use account e-mail address"
 msgid "Use account name"
-msgstr "Gebruik e-mailadres account"
+msgstr "Gebruik accountnaam"
 
 #: weblate/accounts/forms.py:264 weblate/accounts/models.py:860
 msgid "Public e-mail"
@@ -932,7 +928,7 @@ msgstr "Bedrijf"
 
 #: weblate/accounts/models.py:872
 msgid "Use global default"
-msgstr ""
+msgstr "Globale standaard gebruiken"
 
 #: weblate/accounts/models.py:873 weblate/trans/models/project.py:172
 msgid "Public"
@@ -1446,7 +1442,7 @@ msgstr "Registreer met uw e-mailadres."
 
 #: weblate/accounts/views.py:1428
 msgid "Could not parse RelayState from SAML Identity Provider."
-msgstr ""
+msgstr "Kon RelayState vanuit de SAML-identiteitsprovider niet parseren."
 
 #: weblate/accounts/views.py:1433
 msgid "New registrations are turned off."
@@ -3402,10 +3398,8 @@ msgid ""
 msgstr "Omschrijf het project en uw relatie ermee, bij voorkeur in het Engels."
 
 #: weblate/billing/forms.py:47
-#, fuzzy
-#| msgid "View billing info"
 msgid "Add billing admin"
-msgstr "Informatie factureren tonen"
+msgstr "Facturatie-eigenaar toevoegen"
 
 #: weblate/billing/models.py:165 weblate/templates/billing/detail.html:28
 msgid "Billing plan"
@@ -3547,26 +3541,22 @@ msgstr ""
 "project verwijdert."
 
 #: weblate/billing/views.py:203 weblate/billing/views.py:222
-#, fuzzy
-#| msgid "Cannot change this on a built-in team."
 msgid "Cannot merge such a billing."
-msgstr "Het aanpassen bĳ een meegeleverd team is niet mogelĳk."
+msgstr "Een dergelijke factuur kan niet worden samengevoegd."
 
 #: weblate/billing/views.py:259
 #, python-format
 msgid "User %s was added as a billing admin."
-msgstr ""
+msgstr "Gebruiker %s was toegevoegd als facturatie-eigenaar."
 
 #: weblate/billing/views.py:277 weblate/templates/billing/detail.html:93
-#, fuzzy
-#| msgid "You can not remove yourself!"
 msgid "You cannot remove yourself."
-msgstr "U kunt uzelf niet verwijderen!"
+msgstr "U kunt uzelf niet verwijderen."
 
 #: weblate/billing/views.py:286
 #, python-format
 msgid "User %s was removed as a billing admin."
-msgstr ""
+msgstr "Gebruiker %s was verwijderd als facturatie-eigenaar."
 
 #: weblate/checks/angularjs.py:32
 msgid "AngularJS interpolation string"
@@ -3590,10 +3580,8 @@ msgid "The following errors were found:"
 msgstr "De volgende fouten zijn aangetroffen:"
 
 #: weblate/checks/base.py:411
-#, fuzzy
-#| msgid "Could not parse flags: %s"
 msgid "Could not parse {} flag: {}"
-msgstr "Het verwerken van de aanmerkingen is mislukt: %s"
+msgstr "Het verwerken van {} flag: {} is mislukt"
 
 #: weblate/checks/chars.py:48
 msgid "Starting newline"
@@ -4666,14 +4654,12 @@ msgstr "De XML-tags in de vertaling komen niet overeen met de bron."
 
 #: weblate/checks/markup.py:296
 msgid "Chars around XML tags"
-msgstr ""
+msgstr "Tekens rond XML-tags"
 
 #: weblate/checks/markup.py:298
-#, fuzzy
-#| msgid "XML tags in translation do not match source."
 msgid ""
 "Characters surrounding XML tags in translation do not align with source."
-msgstr "De XML-tags in de vertaling komen niet overeen met de bron."
+msgstr "Tekens rondom XML-tags in de vertaling komen niet overeen met de bron."
 
 #: weblate/checks/markup.py:357
 msgid "Markdown references"
@@ -4858,7 +4844,7 @@ msgstr "Deze tekenreeks is al lange tijd onvertaald."
 #: weblate/templates/language.html:30 weblate/templates/project.html:34
 #: weblate/templates/translation.html:44
 msgid "Failing checks"
-msgstr "foutmeldingen"
+msgstr "Foutmeldingen"
 
 #: weblate/checks/views.py:230
 msgid "Check"
@@ -5122,10 +5108,8 @@ msgstr "XLIFF 2.0 met ondersteuning voor tijdelijke aanduidingen"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1475
-#, fuzzy
-#| msgid "Java Properties (UTF-8)"
 msgid "Java Properties"
-msgstr "Java-eigenschappen (UTF-8)"
+msgstr "Java-eigenschappen"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1490
@@ -6160,22 +6144,19 @@ msgstr "Naam van het model dat wordt beschreven in de catalogus van Ollama."
 #: weblate/machinery/forms.py:502
 msgctxt "Anthropic model selection"
 msgid "Claude Sonnet 4.5 (Recommended)"
-msgstr ""
+msgstr "Claude Sonnet 4.5 (Aanbevolen)"
 
 #: weblate/machinery/forms.py:507
 msgctxt "Anthropic model selection"
 msgid "Claude Haiku 4.5"
-msgstr ""
+msgstr "Claude Haiku 4.5"
 
 #: weblate/machinery/forms.py:511
 msgctxt "Anthropic model selection"
 msgid "Claude Opus 4.5"
-msgstr ""
+msgstr "Claude Opus 4.5"
 
 #: weblate/machinery/forms.py:513
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Custom model"
 msgctxt "Anthropic model selection"
 msgid "Custom model"
 msgstr "Aangepast model"
@@ -6183,21 +6164,18 @@ msgstr "Aangepast model"
 #: weblate/machinery/forms.py:518
 msgctxt "Automatic suggestion service configuration"
 msgid "Anthropic API URL"
-msgstr ""
+msgstr "Anthropic API-URL"
 
 #: weblate/machinery/forms.py:521
-#, fuzzy
-#| msgid ""
-#| "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
 msgid "Base URL of the Anthropic API. Leave empty to use the default URL."
 msgstr ""
-"Basis-URL van de OpenAI-API, als die afwijkt van de standaard standaard-URL "
-"voor OpenAI"
+"Basis-URL van de Anthropic-API, Laat dit veld leeg om de standaard-URL te "
+"gebruiken."
 
 #: weblate/machinery/forms.py:529
 msgctxt "Automatic suggestion service configuration"
 msgid "Anthropic model"
-msgstr ""
+msgstr "Anthropic-model"
 
 #: weblate/machinery/forms.py:537
 msgctxt "Anthropic model selection"
@@ -6207,11 +6185,11 @@ msgstr "Aangepaste modelnaam"
 #: weblate/machinery/forms.py:545
 msgctxt "Automatic suggestion service configuration"
 msgid "Max tokens"
-msgstr ""
+msgstr "Max. aantal tokens"
 
 #: weblate/machinery/forms.py:547
 msgid "Maximum number of tokens to generate in the response."
-msgstr ""
+msgstr "Maximaal aantal tokens dat in het antwoord gegenereerd mag worden."
 
 #: weblate/machinery/types.py:20
 msgctxt "Source language selection"
@@ -7050,7 +7028,7 @@ msgstr ""
 
 #: weblate/templates/accounts/password-warning.html:13
 msgid "Configure the password"
-msgstr "Configureer het wachtwoord"
+msgstr "Wachtwoord configureren"
 
 #: weblate/templates/accounts/password.html:21
 msgid ""
@@ -7626,13 +7604,11 @@ msgstr ""
 "ze kunnen daar oneindig worden opgeslagen."
 
 #: weblate/templates/accounts/snippets/login-info.html:34
-#, fuzzy
-#| msgid "You can enable the use of a private commit e-mail in your profile."
 msgid ""
 "You can enable the use of a private commit e-mail and name in your profile."
 msgstr ""
-"U kunt het gebruiken van een privé e-mail voor indieningen in uw profiel "
-"inschakelen."
+"U kunt het gebruiken van een privé e-mail en naam voor indieningen in uw "
+"profiel inschakelen."
 
 #: weblate/templates/accounts/snippets/login-info.html:36
 msgid "You can enable the use of a private commit e-mail in your profile."
@@ -7650,11 +7626,9 @@ msgstr ""
 "die kan daar oneindig worden opgeslagen."
 
 #: weblate/templates/accounts/snippets/login-info.html:45
-#, fuzzy
-#| msgid "You can enable the use of a private commit e-mail in your profile."
 msgid "You can enable the use of a private commit name in your profile."
 msgstr ""
-"U kunt het gebruiken van een privé e-mail voor indieningen in uw profiel "
+"U kunt het gebruiken van een privénaam voor indieningen in uw profiel "
 "inschakelen."
 
 #: weblate/templates/accounts/snippets/login-info.html:48
@@ -8681,30 +8655,21 @@ msgid "Terminate billing plan"
 msgstr "Facturatiepakket stopzetten"
 
 #: weblate/templates/billing/detail.html:72
-#, fuzzy
-#| msgid "Billing plan"
 msgid "Billing admins"
-msgstr "Facturatiepakket"
+msgstr "Facturatie-eigenaren"
 
 #: weblate/templates/billing/detail.html:93
 #: weblate/templates/billing/detail.html:97
-#, fuzzy
-#| msgid "Check user access"
 msgid "Revoke access"
-msgstr "Gebruikerstoegang controleren"
+msgstr "Toegang intrekken"
 
 #: weblate/templates/billing/detail.html:107
-#, fuzzy
-#| msgid "Admin"
 msgid "Add admin"
-msgstr "Beheerder"
+msgstr "Beheerder toevoegen"
 
 #: weblate/templates/billing/detail.html:120
-#, fuzzy
-#| msgctxt "Access-control team name"
-#| msgid "Reviewers"
 msgid "Review merge"
-msgstr "Beoordelaars"
+msgstr "Samenvoegen controleren"
 
 #: weblate/templates/billing/detail.html:133
 msgid "Invoices"
@@ -8802,10 +8767,8 @@ msgid "View"
 msgstr "Tonen"
 
 #: weblate/templates/billing/merge.html:34
-#, fuzzy
-#| msgid "Confirm"
 msgid "Confirm merge"
-msgstr "Bevestigen"
+msgstr "Samenvoegen bevestigen"
 
 #: weblate/templates/billing/overview.html:20
 msgid "No subscriptions or due payments."
@@ -12712,10 +12675,9 @@ msgid "Vote against"
 msgstr "Stem tegen"
 
 #: weblate/templates/snippets/suggestions.html:56
-#, fuzzy, python-format
-#| msgid "Accepted invitation from {username}."
+#, python-format
 msgid "Accept all suggestions from %(username)s"
-msgstr "De uitnodiging van {username} is aanvaard."
+msgstr "Alle suggesties van %(username)s aanvaarden"
 
 #: weblate/templates/snippets/suggestions.html:65
 msgid "Accept"
@@ -14014,10 +13976,8 @@ msgid "This string was translated automatically by %(author)s."
 msgstr "Deze tekenreeks is automatisch vertaald door %(author)s."
 
 #: weblate/templates/translate.html:736
-#, fuzzy
-#| msgid "This string was translated automatically by %(author)s."
 msgid "This string was translated automatically."
-msgstr "Deze tekenreeks is automatisch vertaald door %(author)s."
+msgstr "Deze tekenreeks is automatisch vertaald."
 
 #: weblate/templates/translate.html:755 weblate/trans/models/project.py:262
 msgid "Translation quality filter"
@@ -15031,10 +14991,8 @@ msgid "FlatXML key name"
 msgstr "FlatXML sleutelnaam"
 
 #: weblate/trans/file_format_params.py:458
-#, fuzzy
-#| msgid "Found duplicated string"
 msgid "Deduplicate identical strings"
-msgstr "Dubbele tekenreeks gevonden"
+msgstr "Dubbele tekenreeks corrigeren"
 
 #: weblate/trans/file_format_params.py:462
 msgid ""
@@ -15042,21 +15000,22 @@ msgid ""
 "Prevents translation loss during file restructuring or table reordering by "
 "removing position-dependent context."
 msgstr ""
+"Voegt identieke brontekens samen tot één vertaaleenheid. Voorkomt verlies "
+"van vertalingen tijdens het herstructureren van bestanden of het herschikken "
+"van tabellen door positieafhankelijke context te verwijderen."
 
 #: weblate/trans/file_format_params.py:472
 #: weblate/trans/file_format_params.py:489
 #: weblate/trans/file_format_params.py:504
 #: weblate/trans/file_format_params.py:518
 #: weblate/trans/file_format_params.py:533
-#, fuzzy
-#| msgid "Filenames encoding"
 msgid "File encoding"
-msgstr "Bestandsnaamversleuteling"
+msgstr "Bestandsversleuteling"
 
 #: weblate/trans/file_format_params.py:475
 #: weblate/trans/file_format_params.py:494
 msgid "UTF-16"
-msgstr ""
+msgstr "UTF-16"
 
 #: weblate/trans/file_format_params.py:476
 #: weblate/trans/file_format_params.py:493
@@ -15064,40 +15023,38 @@ msgstr ""
 #: weblate/trans/file_format_params.py:522
 #: weblate/trans/file_format_params.py:536
 msgid "UTF-8"
-msgstr ""
+msgstr "UTF-8"
 
 #: weblate/trans/file_format_params.py:479
 msgid "Encoding used for iOS strings files"
-msgstr ""
+msgstr "Codering gebruikt voor iOS-tekenreeksbestanden"
 
 #: weblate/trans/file_format_params.py:492
 #: weblate/trans/file_format_params.py:523
 #: weblate/trans/file_format_params.py:537
 msgid "ISO-8859-1"
-msgstr ""
+msgstr "ISO-8859-1"
 
 #: weblate/trans/file_format_params.py:497
-#, fuzzy
-#| msgid "Format the Java properties file"
 msgid "Encoding used for Java Properties files"
-msgstr "Java propertiesbestand opmaken"
+msgstr "Codering gebruikt voor Java-eigenschappenbestand"
 
 #: weblate/trans/file_format_params.py:507
 #: weblate/trans/file_format_params.py:521
 msgid "Auto-detect"
-msgstr ""
+msgstr "Auto-detectie"
 
 #: weblate/trans/file_format_params.py:511
 msgid "Encoding used for CSV files"
-msgstr ""
+msgstr "Codering gebruikt voor CSV-bestanden"
 
 #: weblate/trans/file_format_params.py:526
 msgid "Encoding used for simple CSV files"
-msgstr ""
+msgstr "Codering gebruikt voor eenvoudige CSV-bestanden"
 
 #: weblate/trans/file_format_params.py:540
 msgid "Encoding used for GWT Properties files"
-msgstr ""
+msgstr "Codering gebruikt voor GWT-eigenschappenbestanden"
 
 #: weblate/trans/filter.py:23 weblate/trans/filter.py:121
 msgid "All strings"
@@ -16159,11 +16116,6 @@ msgid "Merge without fast-forward"
 msgstr "Samenvoegen zonder snel vooruitspoelen"
 
 #: weblate/trans/models/component.py:412
-#, fuzzy
-#| msgid ""
-#| "Version control system to use to access your repository containing "
-#| "translations. You can also choose additional integration with third party "
-#| "providers to submit merge requests."
 msgid ""
 "Version control system to use to access your repository containing "
 "translations. You can also choose additional integration with third party "
@@ -16171,7 +16123,7 @@ msgid ""
 msgstr ""
 "Versiebeheersysteem dat gebruikt wordt om toegang te krijgen tot de "
 "opslagruimte die vertalingen bevat. U kunt ook aanvullende integratie met "
-"providers van derden kiezen om samenvoeg-aanvragen in te dienen."
+"providers van derden kiezen om pull/samenvoeg-aanvragen in te dienen."
 
 #: weblate/trans/models/component.py:424
 msgid ""
@@ -16186,12 +16138,13 @@ msgid "Repository push URL"
 msgstr "URL voor pushen naar de opslagruimte"
 
 #: weblate/trans/models/component.py:440
-#, fuzzy
-#| msgid "URL of a push repository, pushing is turned off if empty."
 msgid ""
 "URL of a push repository, pushing is turned off if empty. When using pull/"
 "merge requests, keep empty to fork the repository."
-msgstr "De URL van een push-opslagruimte. Laat leeg om push uit te schakelen."
+msgstr ""
+"De URL van een push-opslagruimte. Laat leeg om push uit te schakelen. Bij "
+"het gebruik van pull-/samenvoegverzoeken, laat leeg om de opslagplaats te "
+"splitsen."
 
 #: weblate/trans/models/component.py:446
 msgid "Repository browser"
@@ -16778,24 +16731,20 @@ msgid "Could not update repository: %s"
 msgstr "De opslagruimte kan niet worden bijgewerkt: %s"
 
 #: weblate/trans/models/component.py:3403
-#, fuzzy
-#| msgid "Pull and push branches cannot be the same when using merge requests."
 msgid ""
 "Pull and push branches cannot be the same when using pull/merge requests and "
 "not pushing to a fork."
 msgstr ""
-"Takken voor pull en push mogen niet hetzelfde zijn bij het gebruiken van "
-"verzoeken voor samenvoegen."
+"Bij het gebruik van pull-/samenvoegverzoeken en zonder te pushen naar een "
+"splitsing kunnen de pull- en push-takken niet hetzelfde zijn."
 
 #: weblate/trans/models/component.py:3409
-#, fuzzy
-#| msgid "Push branch cannot be empty when using merge requests."
 msgid ""
 "Push branch cannot be empty when using pull/merge requests and not pushing "
 "to a fork."
 msgstr ""
-"Tak voor push mag niet leeg zijn bij het gebruiken van verzoeken voor "
-"samenvoegen."
+"Bij het pushen van een tak met pull/samenvoegverzoeken en zonder naar een "
+"splitsing te pushen, mag de tak niet leeg zijn."
 
 #: weblate/trans/models/component.py:3419
 #, python-format
@@ -17608,35 +17557,28 @@ msgstr ""
 "Alle talen zijn toegevoegd, bijwerken van vertalingen wordt uitgevoerd."
 
 #: weblate/trans/views/bulk_suggestions.py:39
-#, fuzzy
-#| msgid "Glossary was not found."
 msgid "User not found."
-msgstr "Geen begrippenlijst aangetroffen."
+msgstr "Gebruiker niet gevonden."
 
 #: weblate/trans/views/bulk_suggestions.py:54
-#, fuzzy
-#| msgid "You do not have privilege to accept suggestions!"
 msgid "You do not have permission to accept suggestions."
-msgstr "U bent niet bevoegd om suggesties te aanvaarden!"
+msgstr "U bent niet bevoegd om suggesties te aanvaarden."
 
 #: weblate/trans/views/bulk_suggestions.py:61
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Invalid request."
-msgstr "Ongeldig verzoek tot samenvoegen!"
+msgstr "Ongeldig verzoek."
 
 #: weblate/trans/views/bulk_suggestions.py:81
 #, python-brace-format
 msgid "Too many suggestions ({count}). Please contact an administrator."
-msgstr ""
+msgstr "Te veel suggesties ({count}). Neem contact op met een beheerder."
 
 #: weblate/trans/views/bulk_suggestions.py:109
-#, fuzzy, python-format
-#| msgid "Accepted invitation from {username}."
+#, python-format
 msgid "Accepted %(count)d suggestion from %(user)s."
 msgid_plural "Accepted %(count)d suggestions from %(user)s."
-msgstr[0] "De uitnodiging van {username} is aanvaard."
-msgstr[1] "De uitnodiging van {username} is aanvaard."
+msgstr[0] "Aanvaard %(count)d suggestie van %(user)s."
+msgstr[1] "Aanvaard %(count)d suggesties van %(user)s."
 
 #: weblate/trans/views/bulk_suggestions.py:118
 #, python-format
@@ -17647,13 +17589,15 @@ msgid_plural ""
 "Accepted %(accepted)d of %(total)d suggestions from %(user)s. %(failed)d "
 "failed due to permissions or checks."
 msgstr[0] ""
+"%(accepted)d aanvaard van %(total)d suggestie door %(user)s. %(failed)d "
+"mislukt vanwege machtigingen of controles."
 msgstr[1] ""
+"%(accepted)d aanvaard van %(total)d suggesties door %(user)s. %(failed)d "
+"mislukt vanwege machtigingen of controles."
 
 #: weblate/trans/views/bulk_suggestions.py:137
-#, fuzzy
-#| msgid "No string found."
 msgid "No suggestions found."
-msgstr "Er zijn geen tekenreeksen gevonden."
+msgstr "Geen suggesties gevonden."
 
 #: weblate/trans/views/changes.py:63
 #, python-format
