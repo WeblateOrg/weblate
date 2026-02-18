@@ -40,6 +40,7 @@ class QueryField(forms.CharField):
         super().__init__(**kwargs)
 
     def clean(self, value):
+        from weblate.auth.models import get_anonymous
         from weblate.utils.search import SearchQueryError, parse_query
 
         if not value:
@@ -47,7 +48,9 @@ class QueryField(forms.CharField):
                 raise ValidationError(gettext("Missing query string."))
             return ""
         try:
-            parse_query(value, parser=self.parser)
+            # Use anonumous user for parsing here, it is needed for some searches
+            # and anonymous user will serve well for the validation.
+            parse_query(value, parser=self.parser, user=get_anonymous())
         except SearchQueryError as error:
             raise ValidationError(
                 gettext("Could not parse query string: {}").format(error)
