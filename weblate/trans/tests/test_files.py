@@ -55,7 +55,9 @@ class ImportBaseTest(ViewTestCase):
         self.user.is_superuser = True
         self.user.save()
 
-    def do_import(self, test_file=None, follow=False, **kwargs):
+    def do_import(
+        self, *, test_file: str | None = None, follow: bool = False, **kwargs
+    ) -> None:
         """Perform file import."""
         if test_file is None:
             test_file = self.test_file
@@ -677,6 +679,16 @@ class ImportReplaceTest(ImportBaseTest):
         # Verify unit
         unit = self.get_unit()
         self.assertEqual(unit.target, TRANSLATION_PO)
+
+    def test_import_wrong(self) -> None:
+        """Test importing normally."""
+        response = self.do_import(method="replace", test_file=TEST_TBX, follow=True)
+        self.assertRedirects(response, self.translation_url)
+        self.assertContains(response, "Could not parse uploaded file")
+
+        # Verify stats
+        translation = self.get_translation()
+        self.assertEqual(translation.stats.translated, 0)
 
 
 class ImportSourceTest(ImportBaseTest):
