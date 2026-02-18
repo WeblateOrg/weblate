@@ -554,13 +554,13 @@ $(function () {
   $document.on("shown.bs.tab", adjustColspan);
 
   /* Color theme management */
-  const theme = document.querySelector("body").getAttribute("data-theme");
-  if (
-    (theme === "auto") &
-    (window.matchMedia("(prefers-color-scheme: dark)").matches === true)
-  ) {
-    document.documentElement.setAttribute("data-bs-theme", "dark");
+  const theme = document.documentElement.getAttribute("data-theme");
+  if (theme === 'auto') {
+    document.documentElement.setAttribute('data-bs-theme', (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'))
+  } else {
+    document.documentElement.setAttribute('data-bs-theme', theme)
   }
+  setTheme(theme);
 
   /* AJAX loading of tabs/pills */
   $document.on(
