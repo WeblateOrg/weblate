@@ -4,8 +4,10 @@
 # SPDX-License-Identifier: MIT
 #
 # Based on https://github.com/pyparsing/pyparsing/blob/master/examples/inv_regex.py
+from __future__ import annotations
 
 import string
+from typing import TYPE_CHECKING
 
 from pyparsing import (
     Combine,
@@ -27,9 +29,17 @@ from pyparsing import (
     srange,
 )
 
+if TYPE_CHECKING:
+    from collections.abc import Callable, Generator
 
-class CharacterRangeEmitter:
-    def __init__(self, chars) -> None:
+
+class Emitter:
+    def make_generator(self) -> Callable[[], Generator[str]]:
+        raise NotImplementedError
+
+
+class CharacterRangeEmitter(Emitter):
+    def __init__(self, chars: str) -> None:
         # remove duplicate chars in character range, but preserve original order,
         # this is based on dict being ordered
         self.charset = "".join(dict.fromkeys(chars).keys())
@@ -40,39 +50,40 @@ class CharacterRangeEmitter:
     def __repr__(self) -> str:
         return f"[{self.charset}]"
 
-    def make_generator(self):
-        def gen_chars():
-            yield self.charset[0]
+    def make_generator(self) -> Callable[[], Generator[str]]:
+        def gen_chars() -> Generator[str]:
+            if self.charset:
+                yield self.charset[0]
 
         return gen_chars
 
 
-class OptionalEmitter:
-    def __init__(self, expr) -> None:
+class OptionalEmitter(Emitter):
+    def __init__(self, expr: Emitter) -> None:
         self.expr = expr
 
-    def make_generator(self):
-        def optional_gen():
+    def make_generator(self) -> Callable[[], Generator[str]]:
+        def optional_gen() -> Generator[str]:
             yield ""
 
         return optional_gen
 
 
-class DotEmitter:
-    def make_generator(self):
-        def dot_gen():
+class DotEmitter(Emitter):
+    def make_generator(self) -> Callable[[], Generator[str]]:
+        def dot_gen() -> Generator[str]:
             yield "."
 
         return dot_gen
 
 
-class GroupEmitter:
-    def __init__(self, exprs) -> None:
+class GroupEmitter(Emitter):
+    def __init__(self, exprs: list[str | Emitter] | ParseResults) -> None:
         self.exprs = ParseResults(exprs)
 
-    def make_generator(self):
-        def group_gen():
-            def recurse_list(elist):
+    def make_generator(self) -> Callable[[], Generator[str]]:
+        def group_gen() -> Generator[str]:
+            def recurse_list(elist: ParseResults) -> Generator[str]:
                 if len(elist) == 1:
                     yield from elist[0].make_generator()()
                 else:
@@ -86,20 +97,20 @@ class GroupEmitter:
         return group_gen
 
 
-class AlternativeEmitter:
-    def __init__(self, exprs) -> None:
+class AlternativeEmitter(Emitter):
+    def __init__(self, exprs: list[Emitter]) -> None:
         self.exprs = exprs
 
-    def make_generator(self):
-        def alt_gen():
+    def make_generator(self) -> Callable[[], Generator[str]]:
+        def alt_gen() -> Generator[str]:
             for e in self.exprs:
                 yield from e.make_generator()()
 
         return alt_gen
 
 
-class LiteralEmitter:
-    def __init__(self, lit) -> None:
+class LiteralEmitter(Emitter):
+    def __init__(self, lit: str) -> None:
         self.lit = lit
 
     def __str__(self) -> str:
@@ -108,18 +119,18 @@ class LiteralEmitter:
     def __repr__(self) -> str:
         return f"Lit:{self.lit}"
 
-    def make_generator(self):
-        def lit_gen():
+    def make_generator(self) -> Callable[[], Generator[str]]:
+        def lit_gen() -> Generator[str]:
             yield self.lit
 
         return lit_gen
 
 
-def handle_range(toks):
+def handle_range(toks: ParseResults) -> CharacterRangeEmitter:
     return CharacterRangeEmitter(srange(toks[0]))
 
 
-def handle_repetition(toks):
+def handle_repetition(toks: ParseResults) -> GroupEmitter | OptionalEmitter | list[str]:
     toks = toks[0]
     if toks[1] == "+":
         return GroupEmitter([toks[0]])
@@ -141,7 +152,7 @@ def handle_repetition(toks):
     raise ParseFatalException(msg, 0, f"Unsupported repetition {toks!r}")
 
 
-def handle_literal(toks):
+def handle_literal(toks: ParseResults) -> LiteralEmitter:
     lit = ""
     for t in toks:
         if t[0] == "\\":
@@ -154,7 +165,7 @@ def handle_literal(toks):
     return LiteralEmitter(lit)
 
 
-def handle_macro(toks):
+def handle_macro(toks: ParseResults) -> CharacterRangeEmitter | LiteralEmitter:
     macro_char = toks[0][1]
     if macro_char == "d":
         return CharacterRangeEmitter(string.digits)
@@ -166,23 +177,23 @@ def handle_macro(toks):
     raise ParseFatalException(msg, 0, f"unsupported macro character ({macro_char})")
 
 
-def handle_boundary(toks):
+def handle_boundary(toks: ParseResults) -> LiteralEmitter:
     return LiteralEmitter("")
 
 
-def handle_sequence(toks):
+def handle_sequence(toks: ParseResults) -> GroupEmitter:
     return GroupEmitter(toks[0])
 
 
-def handle_dot():
+def handle_dot() -> CharacterRangeEmitter:
     return CharacterRangeEmitter(printables)
 
 
-def handle_alternative(toks):
+def handle_alternative(toks: ParseResults) -> AlternativeEmitter:
     return AlternativeEmitter(toks[0])
 
 
-def get_parser():
+def get_parser() -> ParserElement:
     orig_whitespace = ParserElement.DEFAULT_WHITE_CHARS
     ParserElement.set_default_whitespace_chars("")
     (
@@ -239,7 +250,7 @@ def get_parser():
 RE_PARSER = get_parser()
 
 
-def invert_re(regex):
+def invert_re(regex: str) -> Generator[str] | list[str]:
     """
     Return a list of examples of minimal strings that match the expression.
 
