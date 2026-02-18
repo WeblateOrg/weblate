@@ -271,7 +271,7 @@
       url: deleteUrl,
       headers: { "X-CSRFToken": this.csrfToken },
       success: () => {
-        addAlert(gettext("Translation memory entry removed."));
+        addAlert(gettext("Translation memory entry removed."), "success");
       },
       error: (_jqXhr, _textStatus, errorThrown) => {
         addAlert(errorThrown);

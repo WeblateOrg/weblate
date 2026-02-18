@@ -1775,7 +1775,6 @@ $(function () {
     if (value === "") {
       value = dateFormatter.format(new Date(timestamp));
     }
-    console.log(timestamp, value);
     timespan.textContent = value;
   });
 });

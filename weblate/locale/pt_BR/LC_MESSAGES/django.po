@@ -28,7 +28,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-02-16 13:58+0000\n"
-"PO-Revision-Date: 2026-02-15 20:09+0000\n"
+"PO-Revision-Date: 2026-02-17 15:10+0000\n"
 "Last-Translator: delvani <del.cidrak@gmail.com>\n"
 "Language-Team: Portuguese (Brazil) <https://hosted.weblate.org/projects/"
 "weblate/application/pt_BR/>\n"
@@ -37,7 +37,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: Weblate 5.16-dev\n"
+"X-Generator: Weblate 5.16.1-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -3402,10 +3402,8 @@ msgid ""
 msgstr "Descreva o projeto e sua relação com ele, de preferência em inglês."
 
 #: weblate/billing/forms.py:47
-#, fuzzy
-#| msgid "View billing info"
 msgid "Add billing admin"
-msgstr "Visualizar informações de cobrança"
+msgstr "Adicionar administrador de faturamento"
 
 #: weblate/billing/models.py:165 weblate/templates/billing/detail.html:28
 msgid "Billing plan"
@@ -3553,18 +3551,16 @@ msgstr "Não é possível mesclar essa cobrança."
 #: weblate/billing/views.py:259
 #, python-format
 msgid "User %s was added as a billing admin."
-msgstr ""
+msgstr "O usuário %s foi adicionado como administrador de faturamento."
 
 #: weblate/billing/views.py:277 weblate/templates/billing/detail.html:93
-#, fuzzy
-#| msgid "You can not remove yourself!"
 msgid "You cannot remove yourself."
-msgstr "Você não pode remover a si mesmo!"
+msgstr "Você não pode remover a si mesmo."
 
 #: weblate/billing/views.py:286
 #, python-format
 msgid "User %s was removed as a billing admin."
-msgstr ""
+msgstr "O usuário %s foi removido como administrador de faturamento."
 
 #: weblate/checks/angularjs.py:32
 msgid "AngularJS interpolation string"
@@ -8634,23 +8630,17 @@ msgid "Terminate billing plan"
 msgstr "Encerrar plano de cobrança"
 
 #: weblate/templates/billing/detail.html:72
-#, fuzzy
-#| msgid "Billing plan"
 msgid "Billing admins"
-msgstr "Plano de cobrança"
+msgstr "Administradores de faturamento"
 
 #: weblate/templates/billing/detail.html:93
 #: weblate/templates/billing/detail.html:97
-#, fuzzy
-#| msgid "Check user access"
 msgid "Revoke access"
-msgstr "Verificar acesso de usuário"
+msgstr "Revogar acesso"
 
 #: weblate/templates/billing/detail.html:107
-#, fuzzy
-#| msgid "admin"
 msgid "Add admin"
-msgstr "admin"
+msgstr "Adicionar administrador"
 
 #: weblate/templates/billing/detail.html:120
 msgid "Review merge"
@@ -13961,10 +13951,8 @@ msgid "This string was translated automatically by %(author)s."
 msgstr "Este texto foi traduzido automaticamente por %(author)s."
 
 #: weblate/templates/translate.html:736
-#, fuzzy
-#| msgid "This string was translated automatically by %(author)s."
 msgid "This string was translated automatically."
-msgstr "Este texto foi traduzido automaticamente por %(author)s."
+msgstr "Este texto foi traduzido automaticamente."
 
 #: weblate/templates/translate.html:755 weblate/trans/models/project.py:262
 msgid "Translation quality filter"
@@ -14971,10 +14959,8 @@ msgid "FlatXML key name"
 msgstr "Nome da chave FlatXML"
 
 #: weblate/trans/file_format_params.py:458
-#, fuzzy
-#| msgid "Found duplicated string"
 msgid "Deduplicate identical strings"
-msgstr "Texto duplicado encontrado"
+msgstr "Remover textos idênticos e duplicados"
 
 #: weblate/trans/file_format_params.py:462
 msgid ""
@@ -14982,6 +14968,9 @@ msgid ""
 "Prevents translation loss during file restructuring or table reordering by "
 "removing position-dependent context."
 msgstr ""
+"Consolido textos fontes idênticos em uma única unidade de tradução. Impede a "
+"perda de tradução durante a reestruturação de arquivos ou reordenação de "
+"tabelas, removendo o contexto dependente da posição."
 
 #: weblate/trans/file_format_params.py:472
 #: weblate/trans/file_format_params.py:489

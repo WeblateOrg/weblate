@@ -129,6 +129,7 @@ class FormatsConf(AppConf):
         "weblate.formats.convert.MarkdownFormat",
         "weblate.formats.convert.MediaWikiFormat",
         "weblate.formats.convert.WindowsRCFormat",
+        "weblate.formats.convert.AsciiDocFormat",
         "weblate.formats.ttkit.XWikiPropertiesFormat",
         "weblate.formats.ttkit.XWikiPagePropertiesFormat",
         "weblate.formats.ttkit.XWikiFullPageFormat",

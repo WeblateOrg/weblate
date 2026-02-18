@@ -1619,7 +1619,9 @@ class UserList(ListView):
         if form.is_valid():
             search = form.cleaned_data.get("q", "")
             if search:
-                users = users.search(search, parser=form.fields["q"].parser)
+                users = users.search(
+                    search, parser=form.fields["q"].parser, user=self.request.user
+                )
         else:
             users = users.order()
 

@@ -6,10 +6,13 @@ Weblate 5.16.1
 .. rubric:: New features
 
 * Added :setting:`WEBSITE_ALERTS_ENABLED` setting to allow disabling website availability checks and alerts.
+* :doc:`/formats/asciidoc` is now a supported file format.
 
 .. rubric:: Improvements
 
 .. rubric:: Bug fixes
+
+* :ref:`check-punctuation-spacing` better handles XML markup.
 
 .. rubric:: Compatibility
 

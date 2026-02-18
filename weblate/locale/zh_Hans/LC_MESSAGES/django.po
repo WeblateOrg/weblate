@@ -25,7 +25,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-02-16 13:58+0000\n"
-"PO-Revision-Date: 2026-02-14 19:13+0000\n"
+"PO-Revision-Date: 2026-02-17 15:10+0000\n"
 "Last-Translator: 大王叫我来巡山 "
 "<hamburger2048@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Simplified Han script) <https://hosted.weblate.org/"
@@ -35,7 +35,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.16-dev\n"
+"X-Generator: Weblate 5.16.1-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -3232,10 +3232,8 @@ msgid ""
 msgstr "请描述这个项目及你与它的关系，最好用英语。"
 
 #: weblate/billing/forms.py:47
-#, fuzzy
-#| msgid "View billing info"
 msgid "Add billing admin"
-msgstr "查看账单信息"
+msgstr "添加账单管理员"
 
 #: weblate/billing/models.py:165 weblate/templates/billing/detail.html:28
 msgid "Billing plan"
@@ -3377,18 +3375,16 @@ msgstr "无法合并这样的账单。"
 #: weblate/billing/views.py:259
 #, python-format
 msgid "User %s was added as a billing admin."
-msgstr ""
+msgstr "用户 %s 被添加为账单管理员。"
 
 #: weblate/billing/views.py:277 weblate/templates/billing/detail.html:93
-#, fuzzy
-#| msgid "You can not remove yourself!"
 msgid "You cannot remove yourself."
-msgstr "您不能移除你自己！"
+msgstr "你不能移除你自己。"
 
 #: weblate/billing/views.py:286
 #, python-format
 msgid "User %s was removed as a billing admin."
-msgstr ""
+msgstr "用户 %s 被撤销了账单管理员的身份。"
 
 #: weblate/checks/angularjs.py:32
 msgid "AngularJS interpolation string"
@@ -8243,23 +8239,17 @@ msgid "Terminate billing plan"
 msgstr "终止付费套餐"
 
 #: weblate/templates/billing/detail.html:72
-#, fuzzy
-#| msgid "Billing plan"
 msgid "Billing admins"
-msgstr "付费套餐"
+msgstr "账单管理员"
 
 #: weblate/templates/billing/detail.html:93
 #: weblate/templates/billing/detail.html:97
-#, fuzzy
-#| msgid "Check user access"
 msgid "Revoke access"
-msgstr "检查用户访问"
+msgstr "撤销权限"
 
 #: weblate/templates/billing/detail.html:107
-#, fuzzy
-#| msgid "Add team"
 msgid "Add admin"
-msgstr "添加团队"
+msgstr "添加管理员"
 
 #: weblate/templates/billing/detail.html:120
 msgid "Review merge"
@@ -13211,10 +13201,8 @@ msgid "This string was translated automatically by %(author)s."
 msgstr "这条字符串由 %(author)s 自动翻译。"
 
 #: weblate/templates/translate.html:736
-#, fuzzy
-#| msgid "This string was translated automatically by %(author)s."
 msgid "This string was translated automatically."
-msgstr "这条字符串由 %(author)s 自动翻译。"
+msgstr "这条字符串被自动翻译。"
 
 #: weblate/templates/translate.html:755 weblate/trans/models/project.py:262
 msgid "Translation quality filter"
@@ -14201,10 +14189,8 @@ msgid "FlatXML key name"
 msgstr "FlatXML 键名称"
 
 #: weblate/trans/file_format_params.py:458
-#, fuzzy
-#| msgid "Found duplicated string"
 msgid "Deduplicate identical strings"
-msgstr "发现重复字符串"
+msgstr "去重相同字符串"
 
 #: weblate/trans/file_format_params.py:462
 msgid ""
@@ -14212,6 +14198,8 @@ msgid ""
 "Prevents translation loss during file restructuring or table reordering by "
 "removing position-dependent context."
 msgstr ""
+"整合相同源字符串到单个翻译单元。通过去除依赖位置的上下文防止文件重组或表格顺"
+"序调整期间的翻译丢失。"
 
 #: weblate/trans/file_format_params.py:472
 #: weblate/trans/file_format_params.py:489

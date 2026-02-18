@@ -790,12 +790,14 @@ class UserTermExpr(BaseTermExpr):
 
     def contributes_field(self, text: str, context: dict) -> Q:
         if "/" not in text:
-            return Q(change__project__slug__iexact=text)
-        return Q(
-            change__component_id__in=list(
-                Component.objects.filter_by_path(text).values_list("id", flat=True)
+            slug_filter = Q(change__project__slug__iexact=text)
+        else:
+            slug_filter = Q(
+                change__component_id__in=list(
+                    Component.objects.filter_by_path(text).values_list("id", flat=True)
+                )
             )
-        )
+        return slug_filter & Q(change__project__in=context["user"].allowed_projects)
 
 
 class SuperuserUserTermExpr(UserTermExpr):

@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import re
 from itertools import chain
-from typing import TYPE_CHECKING, ClassVar
+from typing import TYPE_CHECKING, ClassVar, cast
 
 from django.utils.translation import gettext_lazy
 from lxml.etree import XMLSyntaxError
@@ -34,6 +34,7 @@ from .base import BaseExporter
 if TYPE_CHECKING:
     from translate.storage.base import TranslationStore
     from translate.storage.lisa import LISAfile
+    from translate.storage.poxliff import PoXliffUnit
 
     from weblate.trans.models import Translation
 
@@ -117,7 +118,7 @@ class PoXliffExporter(XMLExporter):
         return multistring([self.string_filter(plural) for plural in plurals])
 
     def build_unit(self, unit):
-        output = super().build_unit(unit)
+        output = cast("PoXliffUnit", super().build_unit(unit))
         try:
             converted_source = xliff_string_to_rich(unit.get_source_plurals())
             converted_target = xliff_string_to_rich(unit.get_target_plurals())

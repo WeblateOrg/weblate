@@ -91,6 +91,7 @@ XML_ENTITY_MATCH = re.compile(
     """,
     re.VERBOSE,
 )
+XML_CDATA_MATCH = re.compile(r"<!\[CDATA\[(.*?)]]>")
 
 SINGLE_LETTER_MATCH = regex.compile(r"\p{L}")
 
@@ -124,7 +125,7 @@ RST_LIST_START = ("- ", "* ", "+ ")
 
 def strip_entities(text):
     """Strip all HTML entities (we don't care about them)."""
-    return XML_ENTITY_MATCH.sub(" ", text)
+    return XML_CDATA_MATCH.sub(r"\1", XML_ENTITY_MATCH.sub(" ", text))
 
 
 class BBCodeCheck(TargetCheck):
