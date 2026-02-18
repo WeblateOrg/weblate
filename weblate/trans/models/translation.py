@@ -1436,8 +1436,18 @@ class Translation(
                     % str(error).replace(self.component.full_path, "")
                 ) from error
             # This will throw an exception in case of error
-            store2 = self.load_store(fileobj)
-            store2.check_valid()
+            try:
+                store2 = self.load_store(fileobj)
+                store2.check_valid()
+            except Exception as error:
+                raise FileParseError(
+                    gettext(
+                        "Could not parse uploaded file as {file_format}: {error}"
+                    ).format(
+                        file_format=self.component.file_format_cls.name,
+                        error=str(error).replace(self.component.full_path, ""),
+                    )
+                ) from error
 
             # Actually replace file content
             self.component.file_format_cls.save_atomic(
