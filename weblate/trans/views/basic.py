@@ -114,7 +114,12 @@ def list_projects(request: AuthenticatedHttpRequest):
         {
             "allow_index": True,
             "projects": prefetch_project_flags(
-                get_paginator(request, projects, stats=True)
+                get_paginator(
+                    request,
+                    projects,
+                    stats=True,
+                    sort_by=request.GET.get("sort_by"),
+                )
             ),
             "title": gettext("Projects"),
             "query_string": query_string,
@@ -235,7 +240,12 @@ def show_project_language(request: AuthenticatedHttpRequest, obj: ProjectLanguag
     )
 
     translations = translation_prefetch_tasks(
-        get_paginator(request, obj.translation_set, stats=True)
+        get_paginator(
+            request,
+            obj.translation_set,
+            stats=True,
+            sort_by=request.GET.get("sort_by"),
+        )
     )
     extra_translations = []
 
@@ -323,7 +333,12 @@ def show_category_language(request: AuthenticatedHttpRequest, obj):
         .recent()
     )
 
-    translations = get_paginator(request, obj.translation_set, stats=True)
+    translations = get_paginator(
+        request,
+        obj.translation_set,
+        stats=True,
+        sort_by=request.GET.get("sort_by"),
+    )
     extra_translations = []
 
     # Add ghost translations
@@ -392,7 +407,12 @@ def show_project(request: AuthenticatedHttpRequest, obj):
     last_announcements = all_changes.filter_announcements().recent()
 
     all_components = obj.get_child_components_access(user, filter_no_category)
-    all_components = get_paginator(request, all_components, stats=True)
+    all_components = get_paginator(
+        request,
+        all_components,
+        stats=True,
+        sort_by=request.GET.get("sort_by"),
+    )
     for component in all_components:
         component.is_shared = None if component.project == obj else component.project
 
@@ -474,7 +494,12 @@ def show_category(request: AuthenticatedHttpRequest, obj):
     last_announcements = all_changes.filter_announcements().recent()
 
     all_components = obj.get_child_components_access(user)
-    all_components = get_paginator(request, all_components, stats=True)
+    all_components = get_paginator(
+        request,
+        all_components,
+        stats=True,
+        sort_by=request.GET.get("sort_by"),
+    )
 
     language_stats = obj.stats.get_language_stats()
     can_add_language_components = obj.project.components_user_can_add_new_language(user)
@@ -992,6 +1017,7 @@ def show_component_list(request: AuthenticatedHttpRequest, name) -> HttpResponse
             request,
             obj.components.filter_access(request.user).order().prefetch(),
             stats=True,
+            sort_by=request.GET.get("sort_by"),
         )
     )
 

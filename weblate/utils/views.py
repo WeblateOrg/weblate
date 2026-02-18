@@ -156,10 +156,10 @@ def get_paginator(
     *,
     page_limit: int | None = None,
     stats: bool = False,
+    sort_by: str | None = None,
 ):
     """Return paginator and current page."""
     page, limit = get_page_limit(request, page_limit or settings.DEFAULT_PAGE_LIMIT)
-    sort_by = request.GET.get("sort_by")
     stats_fetched = False
     if sort_by:
         # All but ordering by name needs stats
