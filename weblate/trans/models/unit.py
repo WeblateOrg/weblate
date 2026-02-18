@@ -574,6 +574,8 @@ class Unit(models.Model, LoggerMixin):
         if update_fields and "last_updated" not in update_fields:
             update_fields.append("last_updated")
 
+        was_created = force_insert or self.pk is None
+
         # Actually save the unit
         super().save(
             force_insert=force_insert,
@@ -595,7 +597,7 @@ class Unit(models.Model, LoggerMixin):
         # Update checks if content or fuzzy flag has changed
         if run_checks:
             self.run_checks(force_propagate=force_propagate_checks)
-        if self.is_source:
+        if self.is_source and not was_created:
             self.source_unit_save()
 
         # Update manual variants
