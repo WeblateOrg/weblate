@@ -1287,13 +1287,11 @@ Sample request body with categories:
 
 Sample request headers:
 
-.. code-block:: json
+.. code-block:: properties
 
-   {
-      "webhook-id": "7f1c5477f6275a69af7b83236c20cb1a",
-      "webhook-timestamp": "1748505623.044281",
-      "webhook-signature": "v1,Ceo5qEr07ixe2NLpvHk3FH9bwy/WavXrAFQ/9tdO6mc="
-   }
+   webhook-id: 7f1c5477f6275a69af7b83236c20cb1a
+   webhook-timestamp: 1748505623.044281
+   webhook-signature: v1,Ceo5qEr07ixe2NLpvHk3FH9bwy/WavXrAFQ/9tdO6mc=
 
 The ``webhook-signature`` is a space separated list of HMAC signatures generated using the ``secret`` string,
 the request payload, the ``webhook-timestamp``, and the ``webhook-id``. This ensures the authenticity
