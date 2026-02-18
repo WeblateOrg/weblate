@@ -2364,7 +2364,7 @@ When set to ``False``, Weblate will skip website availability checks and
 will not generate alerts for unreachable websites. This is useful when:
 
 - Your websites are behind firewalls that block Weblate's requests
-- You want to avoid 403/403-type errors from bot protection
+- You want to avoid 403/503-type errors from bot protection
 - Website availability is not a concern for your installation
 
 .. seealso::
