@@ -4,7 +4,7 @@
 
 """Test for alerts."""
 
-from django.test.utils import TestCase, override_settings
+from django.test import TestCase, override_settings
 from django.urls import reverse
 
 from weblate.lang.models import Language
