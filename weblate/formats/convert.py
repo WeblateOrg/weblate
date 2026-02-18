@@ -46,6 +46,7 @@ from weblate.formats.base import (
 from weblate.formats.helpers import NamedBytesIO
 from weblate.formats.ttkit import PoUnit, XliffUnit
 from weblate.trans.util import get_string
+from weblate.utils.concurrency import MARKDOWN_LOCK
 from weblate.utils.errors import report_error
 from weblate.utils.state import STATE_APPROVED
 
@@ -352,8 +353,11 @@ class MarkdownFormat(ConvertFormat):
         # Lazy import as mistletoe is expensive
         from translate.storage.markdown import MarkdownFile
 
-        # Fake input file with a blank filename
-        mdparser = MarkdownFile(inputfile=NamedBytesIO("", storefile.read()))
+        # Hold Markdown lock because this is not thread-safe, see
+        # https://github.com/miyuchina/mistletoe/issues/210
+        with MARKDOWN_LOCK:
+            # Fake input file with a blank filename
+            mdparser = MarkdownFile(inputfile=NamedBytesIO("", storefile.read()))
 
         duplicate_style = "msgctxt"
         if self.file_format_params.get("merge_duplicates"):
@@ -371,17 +375,23 @@ class MarkdownFormat(ConvertFormat):
         # Lazy import as mistletoe is expensive
         from translate.convert.po2md import MarkdownTranslator
 
-        converter = MarkdownTranslator(
-            inputstore=self.store, includefuzzy=True, outputthreshold=None, maxlength=80
-        )
-        if self.template_store is None:
-            msg = "Template store is required."
-            raise TypeError(msg)
-        templatename = self.template_store.storefile
-        if hasattr(templatename, "name"):
-            templatename = templatename.name
-        with open(templatename, "rb") as templatefile:
-            converter.translate(templatefile, handle)
+        # Hold Markdown lock because this is not thread-safe, see
+        # https://github.com/miyuchina/mistletoe/issues/210
+        with MARKDOWN_LOCK:
+            converter = MarkdownTranslator(
+                inputstore=self.store,
+                includefuzzy=True,
+                outputthreshold=None,
+                maxlength=80,
+            )
+            if self.template_store is None:
+                msg = "Template store is required."
+                raise TypeError(msg)
+            templatename = self.template_store.storefile
+            if hasattr(templatename, "name"):
+                templatename = templatename.name
+            with open(templatename, "rb") as templatefile:
+                converter.translate(templatefile, handle)
 
     @staticmethod
     def mimetype() -> str:
