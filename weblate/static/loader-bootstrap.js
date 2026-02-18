@@ -555,10 +555,15 @@ $(function () {
 
   /* Color theme management */
   const theme = document.documentElement.getAttribute("data-theme");
-  if (theme === 'auto') {
-    document.documentElement.setAttribute('data-bs-theme', (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'))
+  if (theme === "auto") {
+    document.documentElement.setAttribute(
+      "data-bs-theme",
+      window.matchMedia("(prefers-color-scheme: dark)").matches
+        ? "dark"
+        : "light",
+    );
   } else {
-    document.documentElement.setAttribute('data-bs-theme', theme)
+    document.documentElement.setAttribute("data-bs-theme", theme);
   }
   setTheme(theme);
 
