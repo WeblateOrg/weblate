@@ -14,8 +14,8 @@ from typing import TYPE_CHECKING
 import jsonschema.exceptions
 import requests
 from django.template.loader import render_to_string
-from django.utils import timezone as dj_timezone
-from django.utils.translation import gettext_lazy
+from django.utils import timezone
+from django.utils.translation import gettext_lazy, override
 from drf_spectacular.utils import OpenApiResponse, OpenApiWebhook, extend_schema
 from weblate_schemas import load_schema, validate_schema
 
@@ -34,7 +34,7 @@ if TYPE_CHECKING:
     from weblate.addons.models import AddonActivityLog
     from weblate.trans.models import Change
 
-    PayloadType = Mapping[str, int | str | list]
+    PayloadType = Mapping[str, int | str | list["PayloadType"] | "PayloadType"]
 
 
 def standard_webhooks_sign(
@@ -88,18 +88,22 @@ class JSONWebhookBaseAddon(ChangeBaseAddon):
         self, change: Change, activity_log_id: int | None = None
     ) -> dict | None:
         """Deliver notification message."""
-        payload = self.build_webhook_payload(change)
-        headers = self.build_headers(change, payload)
-        response = self.send_message(change, headers, payload)
+        with override("en"):
+            payload = self.build_webhook_payload(change)
+            headers = self.build_headers(change, payload)
+            response = self.send_message(change, headers, payload)
 
-        return {
-            "request": {"headers": headers, "payload": payload},
-            "response": {
-                "status_code": response.status_code,
-                "content": response.text,
-                "headers": dict(response.headers),
-            },
-        }
+            return {
+                "request": {
+                    "headers": headers,
+                    "payload": payload,
+                },
+                "response": {
+                    "status_code": response.status_code,
+                    "content": response.text,
+                    "headers": dict(response.headers),
+                },
+            }
 
 
 class WebhookAddon(JSONWebhookBaseAddon):
@@ -151,7 +155,7 @@ class WebhookAddon(JSONWebhookBaseAddon):
     def build_headers(self, change: Change, payload: PayloadType) -> dict[str, str]:
         """Build headers following Standard Webhooks specifications."""
         webhook_id = change.get_uuid().hex
-        attempt_time = dj_timezone.now()
+        attempt_time = timezone.now()
         headers: dict[str, str] = {
             "webhook-timestamp": str(attempt_time.timestamp()),
             "webhook-id": webhook_id,
@@ -202,30 +206,30 @@ class SlackWebhookAddon(JSONWebhookBaseAddon):
         if change.path_object:
             message_header += f"{key_name(change.path_object)} - "
         message_header += change.get_action_display()
-        payload: dict[str, list] = {
+        return {
             "blocks": [
                 {
                     "type": "header",
-                    "text": {"type": "plain_text", "text": message_header},
+                    "text": {
+                        "type": "plain_text",
+                        "text": message_header,
+                    },
+                },
+                {
+                    "type": "section",
+                    "text": {
+                        "type": "plain_text",
+                        "text": str(change.get_details_display()) or "No details",
+                    },
+                    "accessory": {
+                        "type": "button",
+                        "text": {
+                            "type": "plain_text",
+                            "text": "View",
+                        },
+                        "value": "view-change",
+                        "url": get_site_url(change.get_absolute_url()),
+                    },
                 },
             ]
         }
-
-        change_details = change.get_details_display() or "No details"
-
-        payload["blocks"].append(
-            {
-                "type": "section",
-                "text": {"type": "plain_text", "text": change_details},
-                "accessory": {
-                    "type": "button",
-                    "text": {
-                        "type": "plain_text",
-                        "text": "View",
-                    },
-                    "value": "view-change",
-                    "url": get_site_url(change.get_absolute_url()),
-                },
-            }
-        )
-        return payload
