@@ -1,0 +1,136 @@
+header:
+  schema-version: 2.0.0
+  last-updated: '2026-02-19'
+  last-reviewed: '2026-02-19'
+  url: https://github.com/WeblateOrg/weblate
+  comment: >-
+    This file contains all possible information for both project and repository,
+    though it is not required to include all of this information every time. Nor
+    is it required to include both a project and repository section if the
+    project section is intended to be inherited by repositories via
+    header.project-si-source
+project:
+  name: Weblate
+  homepage: https://weblate.org/
+  funding: https://weblate.org/donate/
+  roadmap: https://github.com/WeblateOrg/weblate/milestones
+  steward:
+    uri: https://weblate.org/
+    comment: Weblate s.r.o. is the legal entity providing support for Weblate.
+  administrators:
+  - name: Michal Čihař
+    affiliation: Weblate s.r.o.
+    email: michal@weblate.org
+    social: https://github.com/nijel
+    primary: true
+  documentation:
+    quickstart-guide: https://docs.weblate.org/en/latest/admin/install.html
+    detailed-guide: https://docs.weblate.org/
+    code-of-conduct: https://docs.weblate.org/en/latest/contributing/code_of_conduct.html
+    release-process: https://docs.weblate.org/en/latest/contributing/release.html
+    support-policy: https://docs.weblate.org/en/latest/admin/support.html
+    signature-verification: ''
+  repositories:
+  - name: Weblate
+    url: https://github.com/WeblateOrg/weblate
+    comment: Weblate source code
+  vulnerability-reporting:
+    reports-accepted: true
+    bug-bounty-available: false
+    bug-bounty-program: ''
+    contact:
+      name: Weblate Security
+      email: security@weblate.org
+      primary: true
+    security-policy: https://docs.weblate.org/en/latest/security/issues.html
+    in-scope:
+    - ''
+    out-of-scope:
+    - ''
+    pgp-key: 8EA7 6E43 0976 3323 C2E3 D5A0 C472 9F23 8A80 EA93
+    comment: ''
+repository:
+  url: https://github.com/WeblateOrg/weblate
+  status: active
+  bug-fixes-only: false
+  accepts-change-request: true
+  accepts-automated-change-request: true
+  no-third-party-packages: false
+  core-team:
+  - name: Michal Čihař
+    affiliation: Weblate s.r.o.
+    email: michal@weblate.org
+    social: https://github.com/nijel
+    primary: true
+  - name: ' Benjamin Alan Jamie '
+    affiliation: Weblate s.r.o.
+    email: benjamin@weblate.org
+    social: https://github.com/orangesunny
+    primary: false
+  documentation:
+    contributing-guide: https://docs.weblate.org/en/latest/contributing/index.html
+    review-policy: ''
+    security-policy: https://docs.weblate.org/en/latest/security/index.html
+    governance: ''
+    dependency-management-policy: ''
+  release:
+    changelog: https://docs.weblate.org/en/latest/changes.html
+    automated-pipeline: true
+    attestations:
+    - name: ''
+      predicate-uri: ''
+      location: ''
+      comment: ''
+    distribution-points:
+    - uri: https://github.com/WeblateOrg/weblate/releases
+      comment: GitHub releases
+    - uri: https://pypi.org/project/weblate/
+      comment: Python Package Index
+    - uri: https://hub.docker.com/r/weblate/weblate/
+      comment: Docker container images
+    - uri: https://github.com/WeblateOrg/docker/pkgs/container/weblate
+      comment: Docker container images
+    license:
+      url: https://docs.weblate.org/en/latest/contributing/license.html
+      expression: GPL-3.0
+  security:
+    assessments:
+      self:
+        evidence: ''
+        date: ''
+        comment: ''
+      third-party:
+      - evidence: ''
+        date: ''
+        comment: ''
+    champions:
+    - name: Michal Čihař
+      email: michal@weblate.org
+      primary: true
+    tools:
+    - name: GitHub CodeQL
+      type: SAST
+      version: ''
+      rulesets:
+      - ''
+      results:
+        adhoc:
+          name: ''
+          predicate-uri: ''
+          location: ''
+          comment: ''
+        ci:
+          name: ''
+          predicate-uri: ''
+          location: ''
+          comment: ''
+        release:
+          name: ''
+          predicate-uri: ''
+          location: ''
+          comment: ''
+      integration:
+        adhoc: false
+        ci: true
+        release: false
+      comment: ''
