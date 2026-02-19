@@ -23,6 +23,7 @@ from weblate.accounts.notifications import (
     NotificationFrequency,
     NotificationScope,
 )
+from weblate.addons.models import Addon
 from weblate.api.serializers import CommentSerializer, RepoOperations
 from weblate.auth.models import (
     Group,
@@ -129,7 +130,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         method="get",
         request=None,
         headers=None,
-        skip=(),
+        skip: set[str] | None = None,
         # pylint: disable-next=redefined-builtin
         format: str = "multipart",  # noqa: A002
     ):
@@ -147,8 +148,9 @@ class APIBaseTest(APITestCase, RepoTestMixin):
             f"Unexpected status code {response.status_code}: {content}",
         )
         if data is not None:
-            for item in skip:
-                del response.data[item]
+            if skip:
+                for item in skip:
+                    del response.data[item]
             self.maxDiff = None
             self.assertEqual(response.data, data)
         return response
@@ -242,7 +244,7 @@ class UserAPITest(APIBaseTest):
             superuser=False,
             code=200,
             data={"full_name": "Anonymous", "username": settings.ANONYMOUS_USER_NAME},
-            skip=("id",),
+            skip={"id"},
         )
         # Admin can get full details
         self.do_request(
@@ -260,7 +262,7 @@ class UserAPITest(APIBaseTest):
                 "is_bot": False,
                 "last_login": None,
             },
-            skip=(
+            skip={
                 "id",
                 "groups",
                 "languages",
@@ -270,7 +272,7 @@ class UserAPITest(APIBaseTest):
                 "statistics_url",
                 "contributions_url",
                 "date_expires",
-            ),
+            },
         )
 
     def test_filter_superuser(self) -> None:
@@ -1510,7 +1512,7 @@ class ProjectAPITest(APIBaseTest):
                     "eligible_for_commit": 0,
                 },
             },
-            skip=("url",),
+            skip={"url"},
         )
 
     def test_components(self) -> None:
@@ -3288,7 +3290,7 @@ class ComponentAPITest(APIBaseTest):
             "api:component-statistics",
             self.component_kwargs,
             data={"count": 4},
-            skip=("results", "previous", "next"),
+            skip={"results", "previous", "next"},
         )
         response = self.do_request(
             "api:component-statistics",
@@ -4283,7 +4285,7 @@ class TranslationAPITest(APIBaseTest):
                 "readonly_words_percent": 0.0,
                 "readonly_chars_percent": 0.0,
             },
-            skip=("last_change",),
+            skip={"last_change"},
         )
 
     def test_changes(self) -> None:
@@ -6143,6 +6145,68 @@ class AddonAPITest(APIBaseTest):
             method="delete",
             superuser=True,
             code=204,
+        )
+
+    def addon_scope_test(
+        self,
+        *,
+        expect_access: bool,
+        authenticated: bool,
+        superuser: bool,
+        add_user: bool = False,
+    ) -> None:
+        project = self.component.project
+        project.access_control = Project.ACCESS_PRIVATE
+        project.save(update_fields=["access_control"])
+        if add_user:
+            project.add_user(self.user, "Translate")
+
+        addon_component = self.component.addon_set.create(
+            name="weblate.gettext.linguas"
+        )
+        addon_project = project.addon_set.create(name="weblate.gettext.linguas")
+        addon_site = Addon.objects.create(name="weblate.gettext.linguas")
+        self.do_request(
+            "api:addon-list",
+            superuser=superuser,
+            authenticated=authenticated,
+            data={"count": (3 if superuser else 2) if expect_access else 0},
+            skip={"results", "previous", "next"},
+        )
+        self.do_request(
+            "api:addon-detail",
+            kwargs={"pk": addon_component.pk},
+            superuser=superuser,
+            authenticated=authenticated,
+            code=200 if expect_access else 404,
+        )
+        self.do_request(
+            "api:addon-detail",
+            kwargs={"pk": addon_project.pk},
+            superuser=superuser,
+            authenticated=authenticated,
+            code=200 if expect_access else 404,
+        )
+        self.do_request(
+            "api:addon-detail",
+            kwargs={"pk": addon_site.pk},
+            superuser=superuser,
+            authenticated=authenticated,
+            code=200 if expect_access and superuser else 404,
+        )
+
+    def test_access_anonymous(self) -> None:
+        self.addon_scope_test(expect_access=False, authenticated=False, superuser=False)
+
+    def test_access_superuser(self) -> None:
+        self.addon_scope_test(expect_access=True, authenticated=True, superuser=True)
+
+    def test_access_user(self) -> None:
+        self.addon_scope_test(expect_access=False, authenticated=True, superuser=False)
+
+    def test_access_user_member(self) -> None:
+        self.addon_scope_test(
+            expect_access=True, authenticated=True, superuser=False, add_user=True
         )
 
     def test_configuration(self) -> None:
