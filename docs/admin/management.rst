@@ -19,7 +19,7 @@ Invoking management commands
 
 As mentioned before, invocation depends on how you installed Weblate.
 
-If using Python environment for Weblate, you can either specify the full path to
+If using a Python environment for Weblate, you can either specify the full path to
 :command:`weblate`, or activate the Python environment prior to invoking it:
 
 .. code-block:: sh
