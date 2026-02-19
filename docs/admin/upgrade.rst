@@ -66,7 +66,7 @@ releases should work, but is not as well tested as single version upgrades!
         . ~/weblate-env/bin/uv pip install -e '.[all]'
         # Install dependencies directly when not using Python environment
         uv pip install --upgrade -e .
-        # Install optional dependencies directly when not using Python environment
+        # Install optional dependencies directly when not using a Python environment
         uv pip install --upgrade -e '.[all]'
 
 #. New Weblate releases might have new :ref:`python-deps`, check if they cover
