@@ -1502,7 +1502,7 @@ class GWTFormat(PropertiesBaseFormat):
     loader: ClassVar[dict[str, tuple[str, str]]] = {
         "utf-16": ("properties", "gwtfile"),
         "iso-8859-1": ("properties", "gwtfile"),
-        "utf-8": ("properties", "gwtutf8file"),
+        "utf-8": ("properties", "gwtfile"),
     }
     empty_file_template = "\n"
     autoload: tuple[str, ...] = ()
