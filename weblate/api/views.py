@@ -2829,17 +2829,28 @@ class TasksViewSet(ViewSet):
     partial_update=extend_schema(description="Edit partial information about add-on."),
 )
 class AddonViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelMixin):
-    queryset = Addon.objects.all()
+    queryset = Addon.objects.none()
     serializer_class = AddonSerializer
 
+    def get_queryset(self):
+        if self.request.user.has_perm("management.addons"):
+            return Addon.objects.order_by("id")
+        return Addon.objects.filter(
+            Q(project__in=self.request.user.allowed_projects)
+            | Q(component__project__in=self.request.user.allowed_projects)
+        ).order_by("id")
+
     def perm_check(self, request: Request, instance: Addon) -> None:
-        if instance.component and not request.user.has_perm(
-            "component.edit", instance.component
-        ):
-            self.permission_denied(request, "Can not manage addons")
-        if instance.project and not request.user.has_perm(
-            "project.edit", instance.project
-        ):
+        if instance.component:
+            # Component-level add-ons
+            if not request.user.has_perm("component.edit", instance.component):
+                self.permission_denied(request, "Can not manage addons")
+        elif instance.project:
+            # Project-level add-ons
+            if not request.user.has_perm("project.edit", instance.project):
+                self.permission_denied(request, "Can not manage addons")
+        elif not request.user.has_perm("management.addons"):
+            # Site-wide add-ons
             self.permission_denied(request, "Can not manage addons")
 
     def update(self, request: Request, *args, **kwargs):
