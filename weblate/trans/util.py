@@ -200,7 +200,7 @@ def get_clean_env(
     for var in variables:
         if var in os.environ:
             environ[var] = os.environ[var]
-    # Extend path to include Python environment, avoid insert already existing ones to
+    # Extend path to include Python environment, avoid inserting already existing ones to
     # not break existing ordering (for example PATH injection used in tests)
     venv_path = os.path.join(sys.exec_prefix, "bin")
     if venv_path not in environ["PATH"]:
