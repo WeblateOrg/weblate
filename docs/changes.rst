@@ -11,6 +11,7 @@ Weblate 5.16.1
 
 .. rubric:: Bug fixes
 
+* :ref:`addon-weblate.webhook.slack` properly delivers all events.
 * :ref:`check-punctuation-spacing` better handles XML markup.
 * Access control for add-ons listing in API.
 
