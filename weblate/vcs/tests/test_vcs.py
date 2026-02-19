@@ -9,7 +9,9 @@ import os.path
 import re
 import shutil
 import tempfile
+from os import utime
 from pathlib import Path
+from time import time
 from typing import TYPE_CHECKING, Any, ClassVar, NoReturn
 from unittest.mock import patch
 
@@ -1945,6 +1947,36 @@ class VCSLocalTest(VCSGitTest):
 
     def test_configure_remote_no_push(self) -> NoReturn:
         self.skipTest("Not supported")
+
+    def test_should_retry_popen(self) -> None:
+        # This really belongs to the Git class, but we want to test it just once
+        tempdir = Path(tempfile.mkdtemp())
+        try:
+            gitdir = tempdir / ".git"
+            gitdir.mkdir()
+            lockfile = gitdir / "HEAD.lock"
+            lockfile.touch()
+            past_timestamp = time() - 7200
+            utime(lockfile, (past_timestamp, past_timestamp))
+            self.assertFalse(
+                self.repo.should_retry_popen(f"""
+fatal: cannot lock ref 'HEAD': Unable to create '/nonexisting/{lockfile}': File exists.
+""")
+            )
+
+            self.assertTrue(
+                self.repo.should_retry_popen(f"""
+fatal: cannot lock ref 'HEAD': Unable to create '{lockfile}': File exists.
+
+Another git process seems to be running in this repository, e.g.
+an editor opened by 'git commit'. Please make sure all processes
+are terminated then try again. If it still fails, a git process
+may have crashed in this repository earlier:
+remove the file manually to continue.
+""")
+            )
+        finally:
+            shutil.rmtree(tempdir)
 
 
 @override_settings(

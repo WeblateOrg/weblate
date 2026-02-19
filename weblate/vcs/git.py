@@ -58,7 +58,7 @@ if TYPE_CHECKING:
 
     from weblate.trans.models import Component
 
-LOCK_ERROR = re.compile(r"Unable to create '([^']*\.git/[.*]\.lock)': File exists")
+LOCK_ERROR = re.compile(r"Unable to create '([^']*\.git/[^']*\.lock)': File exists")
 # Assume lock is stale after one hour
 LOCK_STALE_SECONDS = 3600
 
@@ -128,9 +128,12 @@ class GitRepository(Repository):
         locks = LOCK_ERROR.findall(errormessage)
         if locks and len(locks) == 1:
             lock = Path(locks[0])
-            if time() - lock.stat().st_mtime > LOCK_STALE_SECONDS:
-                lock.unlink(missing_ok=True)
-                return True
+            try:
+                if time() - lock.stat().st_mtime > LOCK_STALE_SECONDS:
+                    lock.unlink(missing_ok=True)
+                    return True
+            except OSError:
+                pass
         return False
 
     @classmethod
