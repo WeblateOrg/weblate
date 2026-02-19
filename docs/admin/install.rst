@@ -1539,7 +1539,7 @@ Sample configuration for NGINX and uWSGI
 To run production webserver, use the WSGI wrapper installed with Weblate (in
 virtual env case it is installed as
 :file:`~/weblate-env/lib/python3.9/site-packages/weblate/wsgi.py`). Don't
-forget to set the Python search path to your virtualenv as well (for example
+forget to set the Python search path to your Python environment as well (for example
 using ``virtualenv = /home/user/weblate-env`` in uWSGI).
 
 The following configuration runs Weblate as uWSGI under the NGINX webserver.

@@ -32,7 +32,7 @@ fi
 check
 git checkout "$TAG"
 check
-# Use clean virtualenv for each version, this avoids problems when trying to downgrade from current versions
+# Use clean Python environment for each version, this avoids problems when trying to downgrade from current versions
 if semver_compare "$1" "<" "5.14"; then
     uv venv --python python3.11 ".venv-$TAG"
 else
