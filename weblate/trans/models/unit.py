@@ -901,6 +901,7 @@ class Unit(models.Model, LoggerMixin):
                 or location != source_unit.location
                 or not same_flags
                 or note != source_unit.note
+                or explanation != source_unit.explanation
             )
         ):
             source_unit.position = pos

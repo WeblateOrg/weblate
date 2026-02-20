@@ -1365,7 +1365,7 @@ class Component(
                 position=attributes["pos"],
                 note=attributes["note"],
                 location=attributes["location"],
-                explanation=attributes["explanation"],
+                explanation=attributes["source_explanation"],
                 flags=attributes["flags"].format(),
                 num_words=count_words(attributes["source"], self.source_language),
                 state=STATE_TRANSLATED
