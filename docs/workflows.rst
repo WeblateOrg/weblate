@@ -63,13 +63,15 @@ Each translated string can be in one of the following states:
 Untranslated
     Translation is empty, it might or not be stored in the file, depending
     on the file format.
-Needs editing / Needs rewriting / Needs checking
-    Translation needs editing, this is usually the result of a source string change, fuzzy matching or translator action.
-    The translation is stored in the file if the :ref:`project-commit_policy` allows it.
+Needs editing
+    Translation needs editing, this is usually the result of fuzzy matching or translator action.
     Depending on the file format it might be marked as needing edit (for example as it gets a ``fuzzy`` flag in the gettext file).
-Waiting for review
-    Translation is made, but not reviewed. It is stored in the file as a valid
-    translation.
+Needs rewriting
+   Translation needs to be rewritten because of a source string change.
+Needs checking
+   State of new source strings imported into the VCS.
+Translated / Waiting for review
+    Translation is made. The translated state is shown as "Waiting for review" if reviews are enabled.
 Approved
     Translation has been approved in the review. It can no longer be changed by
     translators, but only by reviewers. Translators can only add suggestions to
@@ -89,7 +91,11 @@ The states are represented in the translation files when possible.
 
    If the file format you use does not support storing states, you might want
    to use the :ref:`addon-weblate.flags.same_edit` add-on to flag unchanged strings
-   as needing editing.
+   as needing rewriting.
+
+.. note::
+
+   The :ref:`project-commit_policy` determines which translation states are stored in the file.
 
 .. seealso::
 
