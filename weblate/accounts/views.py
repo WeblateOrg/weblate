@@ -789,7 +789,11 @@ def user_contributions(request: AuthenticatedHttpRequest, user: str):
             "page_user": page_user,
             "page_profile": page_user.profile,
             "page_user_translations": translation_prefetch_tasks(
-                prefetch_stats(get_paginator(request, user_translations))
+                prefetch_stats(
+                    get_paginator(
+                        request, user_translations, sort_by=request.GET.get("sort_by")
+                    )
+                )
             ),
         },
     )
