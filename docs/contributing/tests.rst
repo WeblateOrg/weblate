@@ -118,6 +118,7 @@ You can then execute the testsuite in the repository checkout:
 
    py.test
 
+.. _test-data:
 
 Testing repository
 ------------------

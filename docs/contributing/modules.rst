@@ -9,8 +9,10 @@ For example, this covers:
 * `wlc <https://github.com/WeblateOrg/wlc/>`_, Python client library, see :ref:`wlc`
 * `translation-finder <https://github.com/WeblateOrg/translation-finder/>`_, used to discover translatable files in the repository
 * `language-data`_, language definitions for Weblate, see :ref:`languages`
+* `translate-toolkit`_, the library to manipulate the translation files, originally third-party library but now maintained by Weblate.
 
 .. _language-data: https://github.com/WeblateOrg/language-data/
+.. _translate-toolkit: https://github.com/translate/translate/
 
 .. _extending-languages:
 
