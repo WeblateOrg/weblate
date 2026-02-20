@@ -18,6 +18,7 @@ from weblate.formats.convert import (
     OpenDocumentFormat,
     PlainTextFormat,
     WindowsRCFormat,
+    WXLFormat,
 )
 from weblate.formats.helpers import NamedBytesIO
 from weblate.formats.tests.test_formats import BaseFormatTest
@@ -31,6 +32,7 @@ ASCIIDOC_FILE = get_test_file("cs.adoc")
 OPENDOCUMENT_FILE = get_test_file("cs.odt")
 TEST_RC = get_test_file("cs-CZ.rc")
 TEST_TXT = get_test_file("cs.txt")
+TEST_WXL = get_test_file("cs-cz.wxl")
 
 
 class ConvertFormatTest(BaseFormatTest):
@@ -44,6 +46,7 @@ class ConvertFormatTest(BaseFormatTest):
     CONVERT_EXISTING: ClassVar[list[MockUnit]] = []
 
     def test_convert(self) -> None:
+        self.maxDiff = None
         if not self.CONVERT_TEMPLATE:
             self.skipTest(
                 f"Test template not provided for {self.format_class.format_id}"
@@ -374,3 +377,38 @@ Try Weblate at https://demo.weblate.org/[weblate.org]!
 _Thank you for using Weblate._
 """,
         )
+
+
+class WXLFormatTest(ConvertFormatTest):
+    format_class = WXLFormat
+    FILE = TEST_WXL
+    BASE = TEST_WXL
+    MIME = "application/xml"
+    EXT = "wxl"
+    COUNT = 4
+    MASK = "wxl/*.wxl"
+    EXPECTED_PATH = "wxl/cs-cz.wxl"
+    MATCH = "<WixLocalization"
+    FIND = "Next page"
+    FIND_MATCH = "Next page"
+    EDIT_OFFSET = 1
+
+    CONVERT_TEMPLATE = """<?xml version='1.0' encoding='utf-8'?>
+<WixLocalization xmlns="http://wixtoolset.org/schemas/v4/wxl" Culture="de-de" Codepage="65001">
+  <String Id="WixUIBack" Overridable="yes" Value="Hello"/>
+  <UI Id="WixUI_Mondo"/>
+  <String Id="WixUINext" Overridable="yes" Value="Bye"/>
+</WixLocalization>
+"""
+    CONVERT_TRANSLATION = """<?xml version='1.0' encoding='utf-8'?>
+<WixLocalization xmlns="http://wixtoolset.org/schemas/v4/wxl" Culture="de-de" Codepage="65001">
+  <String Id="WixUIBack" Overridable="yes" Value="Ahoj"/>
+</WixLocalization>
+"""
+    CONVERT_EXPECTED = """<?xml version='1.0' encoding='utf-8'?>
+<WixLocalization xmlns="http://wixtoolset.org/schemas/v4/wxl" Culture="de-de" Codepage="65001">
+  <String Id="WixUIBack" Overridable="yes" Value="Ahoj"/>
+  <UI Id="WixUI_Mondo"/>
+  <String Id="WixUINext" Overridable="yes" Value="Nazdar"/>
+</WixLocalization>
+"""

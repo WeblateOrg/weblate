@@ -694,6 +694,10 @@ class TranslationFormat:
         return cls.get_language_bcp(cls.get_language_posix_long(code))
 
     @classmethod
+    def get_language_bcp_long_lower(cls, code: str) -> str:
+        return cls.get_language_bcp_long(code).lower()
+
+    @classmethod
     def get_language_android(cls, code: str) -> str:
         """Android doesn't use Hans/Hant, but rather TW/CN variants."""
         # Exceptions
