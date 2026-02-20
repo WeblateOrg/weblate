@@ -19,8 +19,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-02-16 14:59+0100\n"
-"PO-Revision-Date: 2026-02-18 23:09+0000\n"
-"Last-Translator: ojppe <ojppe@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2026-02-21 10:10+0000\n"
+"Last-Translator: Dick Groskamp <dikgro@yahoo.co.uk>\n"
 "Language-Team: Dutch <https://hosted.weblate.org/projects/weblate/"
 "documentation/nl/>\n"
 "Language: nl\n"
@@ -1926,16 +1926,6 @@ msgid "Additional access restrictions"
 msgstr "Aanvullende toegangsbeperkingen"
 
 #: ../../admin/access.rst:556
-#, fuzzy
-#| msgid ""
-#| "If you want to use your Weblate installation in a less public manner, "
-#| "i.e. allow new users on an invitational basis only, it can be done by "
-#| "configuring Weblate in such a way that only known users have an access to "
-#| "it. In order to do so, you can set :setting:`REGISTRATION_OPEN` to "
-#| "``False`` to prevent registrations of any new users, and "
-#| "set :setting:`REQUIRE_LOGIN` to ``/.*`` to require signing in to access "
-#| "all the site pages. This is basically the way to lock your Weblate "
-#| "installation."
 msgid ""
 "If you want to use your Weblate installation in a less public manner, i.e. "
 "allow new users on an invitational basis only, it can be done by configuring "
@@ -1948,11 +1938,11 @@ msgstr ""
 "Als u uw installatie van Weblate wilt gebruiken op een minder openbare "
 "manier, d.i. alleen nieuwe gebruikers toestaan op basis van een invitatie, "
 "kan dat worden gedaan door Weblate te configureren op zo een manier dat "
-"alleen bekende gebruikers er toegang toe hebben. U kunt, om dat te "
-"doen, :setting:`REGISTRATION_OPEN` instellen op ``False`` om registratie van "
+"alleen bekende gebruikers er toegang toe hebben. U kunt, om dat te doen, "
+":setting:`REGISTRATION_OPEN` instellen op ``False`` om registratie van "
 "nieuwe gebruikers te voorkomen, en :setting:`REQUIRE_LOGIN` instellen op "
-"``/.*`` om verplicht aan te melden om alle pagina's van de site te zien. Dit "
-"is in de basis de manier om uw installatie van Weblate te vergrendelen."
+"``True`` om verplicht aan te melden om alle pagina's van de site te zien. "
+"Dit is in de basis de manier om uw installatie van Weblate te vergrendelen."
 
 #: ../../admin/access.rst:563
 msgid ""
@@ -1960,6 +1950,9 @@ msgid ""
 "make all newly created projects private, requiring explicit access to be "
 "granted."
 msgstr ""
+"Door aanvullend :setting:`DEFAULT_ACCESS_CONTROL` te wijzigen naar ``100`` "
+"zal ervoor zorgen dat alle nieuw gemaakte projecten privé zijn, waarvoor "
+"expliciete toegangsrechten moeten worden verleend."
 
 #: ../../admin/access.rst:568
 msgid "You can use built-in :ref:`invite-user` to add new users."
@@ -2767,19 +2760,19 @@ msgstr ""
 
 #: ../../admin/addons.rst:431
 msgid "Excluding certain matches"
-msgstr ""
+msgstr "Bepaalde overeenkomsten uitsluiten"
 
 #: ../../admin/addons.rst:433
 msgid ""
 "Negative lookahead can be used to exclude certain patterns from being "
 "processed."
 msgstr ""
+"Negatief vooruit zoeken kan worden gebruikt om bepaalde patronen uit te "
+"sluiten van verwerken."
 
 #: ../../admin/addons.rst:440
-#, fuzzy
-#| msgid "Matching files:"
 msgid "Not matching files:"
-msgstr "Overeenkomende bestanden:"
+msgstr "Niet overeenkomende bestanden:"
 
 #: ../../admin/addons.rst:451
 msgid ""
@@ -5665,7 +5658,7 @@ msgstr "Voorbeeld configuratie:"
 
 #: ../../admin/auth.rst:536
 msgid "You can generate a new pair of keys using:"
-msgstr ""
+msgstr "U kunt een nieuw paar sleutels maken met:"
 
 #: ../../admin/auth.rst:542
 msgid ""
@@ -9283,10 +9276,6 @@ msgstr ""
 "een e-mail voor indienen hebben gekozen."
 
 #: ../../admin/config.rst:1471
-#, fuzzy
-#| msgid ""
-#| "Template to generate private commit e-mail for an user. Defaults to "
-#| "``\"{username}@users.noreply.{site_domain}\"``."
 msgid ""
 "Template to generate a private commit e-mail for a user. Defaults to "
 "``\"{username}@users.noreply.{site_domain}\"``."
@@ -9299,17 +9288,14 @@ msgid ""
 "It can contain ``{user_id}``, ``{username}``, ``{site_title}``, and "
 "``{site_domain}``."
 msgstr ""
+"Het mag ``{user_id}``, ``{username}``, ``{site_title}`` en ``{site_domain}`` "
+"bevatten."
 
 #: ../../admin/config.rst:1475 ../../admin/config.rst:1512
 msgid "Set to blank string to disable."
 msgstr "Stel in op lege tekenreeks om uit te schakelen."
 
 #: ../../admin/config.rst:1479
-#, fuzzy
-#| msgid ""
-#| "Using different commit e-mail is opt-in for users unless configured "
-#| "by :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure commit e-"
-#| "mail in the :ref:`profile`."
 msgid ""
 "Using a different commit e-mail is opt-in for users unless configured "
 "by :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure their commit "
@@ -9317,43 +9303,31 @@ msgid ""
 msgstr ""
 "Gebruiken van andere e-mail voor indienen is opt-in voor gebruikers, tenzij "
 "geconfigureerd door :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Gebruikers "
-"kunnen de e-mail voor indienen configureren in het :ref:`profile`."
+"kunnen hun e-mail voor indienen configureren in het :ref:`profile`."
 
 #: ../../admin/config.rst:1490
-#, fuzzy
-#| msgid ""
-#| "Configures whether the private commit e-mail is opt-in or opt-out (by "
-#| "default it is opt-in)."
 msgid ""
 "Configures whether the private commit name is opt-in or opt-out (by default "
 "it is opt-in)."
 msgstr ""
-"Configureert of de privé e-mail voor indienen opt-in of opt-out is "
-"(standaard is het opt-in)."
+"Configureert of de privé naam voor indienen opt-in of opt-out is (standaard "
+"is het opt-in)."
 
 #: ../../admin/config.rst:1494
-#, fuzzy
-#| msgid ""
-#| "This setting only applies to users which have not explicitly chosen a "
-#| "commit e-mail."
 msgid ""
 "This setting only applies to users which have not explicitly chosen a commit "
 "name."
 msgstr ""
 "Deze instelling is alleen van toepassing voor gebruikers die niet expliciet "
-"een e-mail voor indienen hebben gekozen."
+"een naam voor indienen hebben gekozen."
 
 #: ../../admin/config.rst:1508
-#, fuzzy
-#| msgid ""
-#| "Template to generate private commit e-mail for an user. Defaults to "
-#| "``\"{username}@users.noreply.{site_domain}\"``."
 msgid ""
 "Template to generate a private commit name for a user. Defaults to "
 "``\"{site_title} user {user_id}\"``."
 msgstr ""
-"Sjabloon voor het maken van een privé e-mail voor indienen voor een "
-"gebruiker. Standaard is ``\"{username}@users.noreply.{site_domain}\"``."
+"Sjabloon voor het maken van een privé naam voor indienen voor een gebruiker. "
+"Standaard is ``\"{site_title} user {user_id}\"``."
 
 #: ../../admin/config.rst:1516
 msgid ""
@@ -18008,11 +17982,11 @@ msgstr ""
 
 #: ../../admin/machine.rst:164
 msgid "Anthropic"
-msgstr ""
+msgstr "Antropic"
 
 #: ../../admin/machine.rst:182
 msgid "Anthropic API URL"
-msgstr ""
+msgstr "URL Anthropic API"
 
 #: ../../admin/machine.rst:182
 msgid "Base URL of the Anthropic API. Leave empty to use the default URL."
@@ -18022,19 +17996,19 @@ msgstr ""
 
 #: ../../admin/machine.rst:184
 msgid "Anthropic model"
-msgstr ""
+msgstr "Model Anthropic"
 
 #: ../../admin/machine.rst:186
 msgid "``claude-sonnet-4-5`` -- Claude Sonnet 4.5 (Recommended)"
-msgstr ""
+msgstr "``claude-sonnet-4-5`` -- Claude Sonnet 4.5 (aanbevolen)"
 
 #: ../../admin/machine.rst:188
 msgid "``claude-haiku-4-5`` -- Claude Haiku 4.5"
-msgstr ""
+msgstr "``claude-haiku-4-5`` -- Claude Haiku 4.5"
 
 #: ../../admin/machine.rst:190
 msgid "``claude-opus-4-5`` -- Claude Opus 4.5"
-msgstr ""
+msgstr "``claude-opus-4-5`` -- Claude Opus 4.5"
 
 #: ../../admin/machine.rst:192 ../../admin/machine.rst:832
 msgid "``custom`` -- Custom model"
@@ -18050,7 +18024,7 @@ msgstr "Alleen nodig als het model is ingesteld op 'Aangepast model'"
 
 #: ../../admin/machine.rst:196
 msgid "Max tokens"
-msgstr ""
+msgstr "Max. aantal tokens"
 
 #: ../../admin/machine.rst:196
 msgid "Maximum number of tokens to generate in the response."
@@ -18062,16 +18036,12 @@ msgid "Translator persona"
 msgstr "Vertalerprofiel"
 
 #: ../../admin/machine.rst:198
-#, fuzzy
-#| msgid ""
-#| "Describe the persona of translator to improve the accuracy of the "
-#| "translation. For example: “You are a squirrel breeder.”"
 msgid ""
 "Describe the persona of translator to improve the accuracy of the "
 "translation. For example: \"You are a squirrel breeder.\""
 msgstr ""
 "Beschrijf het profiel van de vertaler om de juistheid te verbeteren. "
-"Voorbeeld: “U broedt eieren.”"
+"Voorbeeld: “U bent een eekhoornfokker.”"
 
 #: ../../admin/machine.rst:200 ../../admin/machine.rst:247
 #: ../../admin/machine.rst:752 ../../admin/machine.rst:798
@@ -18079,19 +18049,14 @@ msgid "Translator style"
 msgstr "Vertaalstijl"
 
 #: ../../admin/machine.rst:200
-#, fuzzy
-#| msgid ""
-#| "Describe the style of translation. For example: “Use informal language.”"
 msgid ""
 "Describe the style of translation. For example: \"Use informal language.\""
 msgstr ""
-"Beschrijf de vertaalstijl. Voorbeeld: “Zorg voor informeel taalgebruik.”"
+"Beschrijf de vertaalstijl. Voorbeeld: “Informeel taalgebruik gebruiken.”"
 
 #: ../../admin/machine.rst:203
-#, fuzzy
-#| msgid "Performs translation using `Ollama`_ models."
 msgid "Performs translation using `Anthropic's Claude`_ models."
-msgstr "Voert vertaling uit met modellen van `Ollama`_."
+msgstr "Voert vertaling uit met modellen van `Anthropic's Claude`_."
 
 #: ../../admin/machine.rst:205
 msgid ""
@@ -18099,37 +18064,31 @@ msgid ""
 "known for their strong reasoning and language capabilities. You need an API "
 "key from Anthropic to use this service."
 msgstr ""
+"De Anthropic API verschaft toegang tot de modelfamilie van Claude, die "
+"bekend staan om hun sterke redenaties en mogelijkheden voor taal. U hebt een "
+"API-sleutel van Anthropic nodig om deze service te kunnen gebruiken."
 
 #: ../../admin/machine.rst:209
-#, fuzzy
-#| msgid ""
-#| "Use persona and style fields to further fine-tune translations. These "
-#| "will be used in a prompt for Ollama and allow you to change the style of "
-#| "the translations."
 msgid ""
 "Use persona and style fields to further fine-tune translations. These will "
 "be used in a prompt for Claude and allow you to change the style of the "
 "translations."
 msgstr ""
 "Gebruik velden voor personalia en opmaak om vertalingen verder fijn af te "
-"stemmen. Deze zullen worden gebruikt in een prompt voor Ollama en u in staat "
+"stemmen. Deze zullen worden gebruikt in een prompt voor Claude en u in staat "
 "stellen de opmaak van de vertalingen te wijzigen."
 
 #: ../../admin/machine.rst:217
-#, fuzzy
-#| msgid ""
-#| "`DeepL API documentation <https://developers.deepl.com/docs/getting-"
-#| "started/intro>`_"
 msgid ""
 "`Anthropic API documentation <https://docs.anthropic.com/en/api/getting-"
 "started>`_"
-msgstr "<https://developers.deepl.com/docs/getting-started/intro>`_"
+msgstr ""
+"`Anthropic API-documentatie <https://docs.anthropic.com/en/api/getting-"
+"started>`_"
 
 #: ../../admin/machine.rst:218
-#, fuzzy
-#| msgid "`Anchore <https://anchore.com/>`_"
 msgid "`Anthropic Console <https://console.anthropic.com/>`_"
-msgstr "`Anchore <https://anchore.com/>`_"
+msgstr "`Anthropic console <https://console.anthropic.com/>`_"
 
 #: ../../admin/machine.rst:225
 msgid "Azure OpenAI"
@@ -19021,19 +18980,22 @@ msgstr "tmserver"
 msgid ""
 "You can run your own translation memory server by using a tmserver protocol."
 msgstr ""
+"U kunt uw eigen server voor vertaalgeheugens uitvoeren met een protocol "
+"tmserver."
 
 #: ../../admin/machine.rst:954
 msgid ""
 "The original :program:`tmserver` was bundled with the translate-toolkit."
 msgstr ""
+"De originele :program:`tmserver` was gebundeld met de Translate-Toolkit."
 
 #: ../../admin/machine.rst:955
 msgid "amaGama server is an enhanced version of tmserver."
-msgstr ""
+msgstr "amaGama server is een verbeterde versie van tmserver."
 
 #: ../../admin/machine.rst:959
 msgid "There currently does not seem to be a maintained server for this."
-msgstr ""
+msgstr "Er lijkt momenteel hiervoor geen onderhouden server te zijn."
 
 #: ../../admin/machine.rst:968 ../../admin/machine.rst:983
 msgid "`This service has no configuration.`"
@@ -20251,6 +20213,10 @@ msgid ""
 "the :ref:`autoclean-tm` configuration. If automatic cleanup is enabled, this "
 "is disabled by default to prevent reintroducing inconsistent translations."
 msgstr ""
+"De standaard waarde voor nieuwe gebruikers wordt automatisch aangepast, "
+"gebaseerd op de configuratie van :ref:`autoclean-tm`. Als automatisch "
+"opschonen is ingeschakeld, is dit standaard uitgeschakeld om het opnieuw "
+"introduceren van inconsistente vertalingen te voorkomen."
 
 #: ../../admin/memory.rst:47
 msgid "Per-project translation memory"
@@ -20342,6 +20308,10 @@ msgid ""
 "not contribute to personal translation memory. This prevents reintroducing "
 "inconsistent translations that were supposed to be cleaned up."
 msgstr ""
+"Inschakelen van automatisch opschonen wijzigt ook de standaard voor nieuwe "
+"gebruikersprofielen om geen persoonlijk vertaalgeheugen bij te dragen. Dat "
+"voorkomt het opnieuw introduceren van inconsistente vertalingen, waarvan "
+"wordt gedacht dat die zijn opgeschoond."
 
 #: ../../admin/memory.rst:105
 msgid "Managing the Translation Memory"
@@ -23460,18 +23430,12 @@ msgstr ""
 "de volgende opstellingen:"
 
 #: ../../admin/translating.rst:26
-#, fuzzy
-#| msgid ""
-#| "Users suggest and vote for suggestions and a limited group controls what "
-#| "is accepted. - Turn on voting. - Turn off automatic acceptance. - Don't "
-#| "let users save translations."
 msgid ""
 "Users suggest and vote for suggestions and a limited group controls what is "
 "accepted."
 msgstr ""
-"Gebruikers stellen voor en stemmen op suggesties en een beperkte groep "
-"beheert wat wordt geaccepteerd. - Schakel het stemmen in. - Schakel "
-"automatisch accepteren uit. - Laat gebruikers geen vertalingen opslaan."
+"Gebruikers maken suggesties en stemmen op suggesties en een beperkte groep "
+"beheert wat wordt geaccepteerd."
 
 #: ../../admin/translating.rst:29 ../../admin/translating.rst:36
 msgid "Turn on voting."
@@ -23482,28 +23446,20 @@ msgid "Turn off automatic acceptance."
 msgstr "Automatisch aanvaarden uitschakelen."
 
 #: ../../admin/translating.rst:31
-#, fuzzy
-#| msgid "Deletes a translation."
 msgid "Don't let users save translations."
-msgstr "Verwijdert een vertaling."
+msgstr "Laat gebruikers geen vertalingen opslaan."
 
 #: ../../admin/translating.rst:33
-#, fuzzy
-#| msgid ""
-#| "Users suggest and vote for suggestions with automatic acceptance once the "
-#| "defined number of them agree. - Turn on voting. - Set the desired number "
-#| "of votes for automatic acceptance."
 msgid ""
 "Users suggest and vote for suggestions with automatic acceptance once the "
 "defined number of them agree."
 msgstr ""
-"Gebruikers stellen voor en stemmen op suggesties met automatisch accepteren "
-"tot het gedefinieerde aantal van hen ermee instemt. - Schakel het stemmen "
-"in. - Stel het gewenste aantal stemmen in voor automatisch accepteren."
+"Gebruikers maken suggesties en stemmen op suggesties met automatisch "
+"accepteren tot het gedefinieerde aantal van hen ermee instemt."
 
 #: ../../admin/translating.rst:37
 msgid "Set the desired number of votes for automatic acceptance."
-msgstr ""
+msgstr "Stel het gewenste aantal stemmen in voor automatisch accepteren."
 
 #: ../../admin/translating.rst:39
 msgid ""
@@ -23516,7 +23472,7 @@ msgstr ""
 
 #: ../../admin/translating.rst:42
 msgid "Only turn on voting."
-msgstr ""
+msgstr "Alleen stemmen inschakelen."
 
 #: ../../admin/translating.rst:47
 msgid "Additional info on source strings"
@@ -24038,6 +23994,8 @@ msgid ""
 "The authentication uses a token, which you can get in your profile. Use it "
 "in the ``Authorization`` header:"
 msgstr ""
+"Authenticatie gebruikt een token, dat u in uw profiel kunt ophalen. Gebruik "
+"het in de kop ``Autorisatie``:"
 
 #: ../../api.rst:38
 msgid ""
@@ -27202,10 +27160,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS op Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.1.1"
 msgid "Weblate 5.16.1"
-msgstr "Weblate 5.1.1"
+msgstr "Weblate 5.16.1"
 
 #: ../../changes.rst:4
 msgid "*Not yet released.*"
@@ -27351,26 +27307,20 @@ msgid "Contributors"
 msgstr "Medewerkers"
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "61?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/161?"
 "closed=1>`__."
 msgstr ""
 "`Alle wijzigingen in detail <https://github.com/WeblateOrg/weblate/milestone/"
-"61?closed=1>`__."
+"161?closed=1>`__."
 
 #: ../../changes.rst:25
 msgid "Weblate 5.16"
 msgstr "Weblate 5.16"
 
 #: ../../changes.rst:27
-#, fuzzy
-#| msgid "*Released on February 16th 2012.*"
 msgid "*Released on February 16th 2026.*"
-msgstr "*Uitgegeven op 16 februari 2012.*"
+msgstr "*Uitgegeven op 16 februari 2026.*"
 
 #: ../../changes.rst:31
 msgid ":ref:`check-multiple-capital` quality check."
@@ -27387,6 +27337,8 @@ msgstr ""
 #: ../../changes.rst:33
 msgid "Bulk accepting suggestions from a specific user in :ref:`suggestions`."
 msgstr ""
+"Bulk accepteren van suggesties van een specifieke gebruiker in "
+":ref:`suggestions`."
 
 #: ../../changes.rst:34
 msgid "Cloning suggestions into translation in :ref:`suggestions`."
@@ -27421,6 +27373,8 @@ msgid ""
 "using :ref:`file_format_params` (e.g., ``csv_encoding``, "
 "``properties_encoding``)."
 msgstr ""
+"Codering voor :ref:`formats` kan nu worden geconfigureerd met "
+":ref:`file_format_params` (bijv. ``csv_encoding``, ``properties_encoding``)."
 
 #: ../../changes.rst:39
 msgid ""
@@ -27436,6 +27390,9 @@ msgid ""
 "and :ref:`txt` files using ``*merge_duplicates`` parameters "
 "in :ref:`file_format_params`."
 msgstr ""
+"Consolideren van identieke tekenreeksen in bestanden :ref:`markdown`, "
+":ref:`html` en :ref:`txt` met parameters ``*merge_duplicates`` in "
+":ref:`file_format_params`."
 
 #: ../../changes.rst:44
 msgid ""
@@ -27483,12 +27440,16 @@ msgid ""
 "The :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE` now supports the ``{user_id}`` "
 "and ``{site_title}`` variables."
 msgstr ""
+"De instelling :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE` ondersteunt nu de "
+"variabelen ``{user_id}`` en ``{site_title}``."
 
 #: ../../changes.rst:52
 msgid ""
 "The default value for personal translation memory contribution is now based "
 "on the :setting:`DEFAULT_AUTOCLEAN_TM` configuration."
 msgstr ""
+"De standaard waarde voor bijdragen van een persoonlijk vertaalgeheugen is nu "
+"gebaseerd op de configuratie van :setting:`DEFAULT_AUTOCLEAN_TM`."
 
 #: ../../changes.rst:56
 msgid ""
@@ -27510,6 +27471,8 @@ msgid ""
 "Improved cache isolation for suggestion checks to avoid interference with "
 "the parent unit checks."
 msgstr ""
+"Verbeterde isolatie van cache voor controles voor suggesties om "
+"interferentie met de ouder-eenheidcontroles te voorkomen."
 
 #: ../../changes.rst:59
 msgid "Gracefully handle invalid check flags in :ref:`custom-checks`."
@@ -27538,20 +27501,28 @@ msgid ""
 "The default value for :setting:`WEBLATE_FORMATS` changed because of the "
 "removal of encoding-specific formats."
 msgstr ""
+"De standaard waarde voor :setting:`WEBLATE_FORMATS` is gewijzigd vanwege het "
+"verwijderen van codering-specifieke indelingen."
 
 #: ../../changes.rst:66
 msgid ""
 "File formats that only differed in encoding (CSV, GWT Properties, Java "
 "Properties, iOS Strings) have been merged into single formats."
 msgstr ""
+"Bestandsindeling die alleen verschillen in codering (CSV, GWT Properties, "
+"Java Properties, iOS Strings) zijn samengevoegd in enkele indelingen."
 
 #: ../../changes.rst:67
 msgid "Fonts used by Weblate are now shipped in a standalone package."
 msgstr ""
+"Door Weblate gebruikte lettertypen worden nu geleverd in een zelfstandig "
+"pakket."
 
 #: ../../changes.rst:68
 msgid "Dropped deprecated compatibility wrappers some classes with typos."
 msgstr ""
+"Verouderde wrappers voor compatibiliteit van sommige klassen met typfouten "
+"verwijderd."
 
 #: ../../changes/contributors/5.10.1.rst:2
 #: ../../changes/contributors/5.10.2.rst:2
@@ -46864,10 +46835,8 @@ msgstr ""
 "de volgende hoofdstukken:"
 
 #: ../../devel/starting.rst:89
-#, fuzzy
-#| msgid "Starting with internationalization"
 msgid "Educating developers for proper internationalization"
-msgstr "Beginnen met internationalisatie"
+msgstr "Ontwikkelaars onderwijzen in juiste internationalisatie"
 
 #: ../../devel/starting.rst:91
 msgid ""
@@ -46878,6 +46847,13 @@ msgid ""
 "frameworks have good support for this, so please follow their instructions "
 "for all these areas."
 msgstr ""
+"Internationalisatie van software is niet alleen het in staat zijn om "
+"tekenreeksen te vertalen, maar ervoor zorgen dat de gehele software er eigen "
+"uitziet voor een gebruiker uit een ander land. Dat omvat ook dingen zoals de "
+"indelingen voor datums of getallen, weergeven van valuta, of het invoegen "
+"van tekst in de juiste richting. De meeste framewerken voor software hebben "
+"daar een goede ondersteuning voor, volg dus voor deze gebieden al hun "
+"instructies op."
 
 #: ../../devel/starting.rst:97
 msgid ""
@@ -46888,6 +46864,13 @@ msgid ""
 "might not be clear how to translate, and it is even challenging to "
 "distinguish whether the word is a verb or a noun."
 msgstr ""
+"Ook het vertalen van tekenreeksen zou niet zo recht door zee kunnen zijn. "
+"Dat is speciaal waar voor korte tekenreeksen, zoals bijschriften of labels "
+"voor knoppen. Verschillende talen hebben verschillende regels, en het is "
+"niet redelijk om te verwachten dat dezelfde tekenreeks altijd hetzelfde zal "
+"worden vertaald. In veel situaties zou het ook niet duidelijk kunnen zijn "
+"hoe te vertalen, en het is zelfs soms nog uitdagender om te onderscheiden of "
+"een woord een werkwoord of een zelfstandig naamwoord is."
 
 #: ../../devel/starting.rst:104
 msgid ""
@@ -46898,6 +46881,13 @@ msgid ""
 "additional context in Weblate, such as :ref:`screenshots` "
 "or :ref:`additional-explanation`."
 msgstr ""
+"Alle ontwikkelaars zouden dit moeten begrijpen en tekenreeksen, die worden "
+"gebruikt in verschillende betekenissen, uniek moeten identificeren. "
+"Bijvoorbeeld, ``Geen``, in de betekenis van \"geen gebruikers\", zou anders "
+"vertaald kunnen worden dan ``Geen``, in de betekenis van \"geen items\". "
+"Gebruik verschillende sleutels of contexten om onderscheid voor deze termen "
+"te kunnen maken door vertalers. U kunt extra context opgeven in Weblate , "
+"zoals :ref:`screenshots` of :ref:`additional-explanation`."
 
 #: ../../devel/success-stories.rst:2
 msgid "Success stories"
@@ -48802,10 +48792,8 @@ msgid "Help text"
 msgstr "Helptekst"
 
 #: ../../snippets/file-format-parameters.rst:7
-#, fuzzy
-#| msgid "System encoding"
 msgid "csv_encoding"
-msgstr "Systeemversleuteling"
+msgstr "csv_codering"
 
 #: ../../formats/apple.rst:37 ../../formats/java.rst:48
 #: ../../snippets/file-format-parameters.rst:7
@@ -48834,10 +48822,8 @@ msgid "UTF-8"
 msgstr "UTF-8"
 
 #: ../../snippets/file-format-parameters.rst:17
-#, fuzzy
-#| msgid "Filenames encoding"
 msgid "csv_simple_encoding"
-msgstr "Bestandsnaamversleuteling"
+msgstr "csv_eenvoudige_codering"
 
 #: ../../snippets/file-format-parameters.rst:17
 msgid "Encoding used for simple CSV files"
@@ -48874,10 +48860,8 @@ msgid "FlatXML value name"
 msgstr "FlatXML waardenaam"
 
 #: ../../snippets/file-format-parameters.rst:36
-#, fuzzy
-#| msgid "System encoding"
 msgid "gwt_encoding"
-msgstr "Systeemversleuteling"
+msgstr "gwt_codering"
 
 #: ../../snippets/file-format-parameters.rst:36
 msgid "Encoding used for GWT Properties files"
@@ -48925,7 +48909,7 @@ msgstr "Vermijd spaties na scheidingstekens"
 
 #: ../../snippets/file-format-parameters.rst:90
 msgid "merge_duplicates"
-msgstr ""
+msgstr "merge_duplicates"
 
 #: ../../snippets/file-format-parameters.rst:90
 msgid "Deduplicate identical strings"
@@ -48997,10 +48981,8 @@ msgid "Do not include location information in the file"
 msgstr "Neem geen locatie-informatie in het bestand op"
 
 #: ../../snippets/file-format-parameters.rst:115
-#, fuzzy
-#| msgid "properties"
 msgid "properties_encoding"
-msgstr "eigenschappen"
+msgstr "properties_codering"
 
 #: ../../snippets/file-format-parameters.rst:115
 msgid "Encoding used for Java Properties files"
@@ -49012,10 +48994,8 @@ msgid "UTF-16"
 msgstr "UTF-16"
 
 #: ../../snippets/file-format-parameters.rst:128
-#, fuzzy
-#| msgid "Filenames encoding"
 msgid "strings_encoding"
-msgstr "Bestandsnaamversleuteling"
+msgstr "strings_codering"
 
 #: ../../snippets/file-format-parameters.rst:128
 msgid "Encoding used for iOS strings files"
@@ -49305,14 +49285,12 @@ msgstr ""
 "Localizable.strings``"
 
 #: ../../formats/apple.rst:35
-#, fuzzy
-#| msgid "iOS strings"
 msgid "`iOS Strings`"
-msgstr "iOS-tekenreeksen"
+msgstr "`iOS-tekenreeksen`"
 
 #: ../../formats/apple.rst:37
 msgid "`UTF-8`"
-msgstr ""
+msgstr "`UTF-8`"
 
 #: ../../formats/appstore.rst:6
 msgid ""
@@ -49495,12 +49473,6 @@ msgstr ""
 "eentalig zijn (bekijk :ref:`bimono`)."
 
 #: ../../formats/csv.rst:27
-#, fuzzy
-#| msgid ""
-#| "By default, the CSV format does autodetection of file encoding. This can "
-#| "be unreliable in some corner cases and causes performance penalty. Please "
-#| "choose file format variant with encoding to avoid this (for "
-#| "example :guilabel:`CSV file (UTF-8)`)."
 msgid ""
 "By default, the CSV format does autodetection of file encoding. This can be "
 "unreliable in some corner cases and causes performance penalty. Please "
@@ -49508,9 +49480,8 @@ msgid ""
 msgstr ""
 "Standaard voert de indeling CSV automatisch detecteren van de "
 "bestandscodering uit. Dit kan in sommige randgevallen onbetrouwbaar zijn en "
-"straffen voor prestaties veroorzaken. Kies de variant van de "
-"bestandsindeling met codering om dit te vermijden "
-"(bijvoorbeeld :guilabel:`CSV-bestand (UTF-8)`)."
+"straffen voor prestaties veroorzaken. Kies de bestandsindeling met codering "
+"om dit te vermijden (bijvoorbeeld :guilabel:`UTF-8`)."
 
 #: ../../formats/csv.rst:33
 msgid ""
@@ -49975,6 +49946,10 @@ msgid ""
 "HTML files, where moving elements changes the context and can lead to "
 "translation loss."
 msgstr ""
+"Standaard behandelt Weblate elk voorkomen van een tekenreeks als een "
+"zelfstandige vertaaleenheid om op regels gebaseerde context te verschaffen. "
+"Dat kan problematisch zijn in HTML-bestanden, waar zich verplaatsende "
+"elementen de context wijzigen en kunnen leiden tot verlies van vertalingen."
 
 #: ../../formats/html.rst:48 ../../formats/markdown.rst:50
 #: ../../formats/txt.rst:56
@@ -49983,6 +49958,9 @@ msgid ""
 "enable :guilabel:`Deduplicate identical strings` in the :ref:`component-"
 "file_format_params`."
 msgstr ""
+"Consolideren van identieke tekenreeksen naar een enkele vertaaleenheid, "
+"schakel :guilabel:`Identieke tekenreeksen ontvlechten` in de :ref:`component-"
+"file_format_params` in."
 
 #: ../../formats/html.rst:53
 msgid ""
@@ -49990,6 +49968,9 @@ msgid ""
 "ensuring that translations remain stable even if elements are moved within "
 "the document."
 msgstr ""
+"Inschakelen van deze optie schakelt op regels gebaseerd context voor de "
+"samengevoegde eenheden uit, wat ervoor zorgt dat vertalingen stabiel "
+"blijven, zelfs als elementen binnen het document worden verplaatst."
 
 #: ../../formats/i18next.rst:6
 msgid "i18next JSON files"
@@ -50193,7 +50174,7 @@ msgstr "`Java-eigenschappen`"
 
 #: ../../formats/java.rst:48
 msgid "`ISO-8859-1`"
-msgstr ""
+msgstr "`ISO-8859-1`"
 
 #: ../../formats/joomla.rst:4
 msgid "Joomla translations"
@@ -50341,6 +50322,11 @@ msgid ""
 "Markdown tables, where reordering rows changes the context and can lead to "
 "translation loss."
 msgstr ""
+"Standaard behandelt Weblate elk voorkomen van een tekenreeks als een "
+"zelfstandige vertaaleenheid om op regels gebaseerde context te verschaffen. "
+"Dat kan problematisch zijn in tabellen van Markdown, waar het opnieuw "
+"ordenen van rijen de context wijzigt en kan leiden tot verlies van "
+"vertalingen."
 
 #: ../../formats/markdown.rst:55
 msgid ""
@@ -50348,6 +50334,9 @@ msgid ""
 "ensuring that translations remain stable even if rows or sections are moved "
 "within the document."
 msgstr ""
+"Inschakelen van deze optie schakelt op regels gebaseerd context voor de "
+"samengevoegde eenheden uit, wat ervoor zorgt dat vertalingen stabiel "
+"blijven, zelfs als rijen of gedeelten binnen het document worden verplaatst."
 
 #: ../../formats/mi18n.rst:4
 msgid "draggable/i18n lang files"
@@ -50770,12 +50759,19 @@ msgid ""
 "paragraphs are frequently reordered, as it changes the context and can lead "
 "to translation loss."
 msgstr ""
+"Standaard behandelt Weblate elke alinea als een zelfstandige vertaaleenheid "
+"om op regels gebaseerde context te verschaffen. Dat kan problematisch zijn "
+"in tekstbestanden, waar alinea's voortdurend opnieuw worden geordend en "
+"daarbij de context wijzigt en kan leiden tot verlies van vertalingen."
 
 #: ../../formats/txt.rst:61
 msgid ""
 "This parameter is shared with **DokuWiki** and **MediaWiki** formats. "
 "Enabling this option disables line-based context for the merged units."
 msgstr ""
+"Deze parameter wordt gedeeld met de indelingen **DokuWiki** en "
+"**MediaWiki**. Inschakelen van deze optie schakelt de op regels gebaseerde "
+"context voor de samengevoegde eenheden uit."
 
 #: ../../formats/webextension.rst:4
 msgid "WebExtension JSON"
@@ -51860,6 +51856,8 @@ msgid ""
 "**Data Protection Officer (DPO):** Evaluates if personal data (PII) was "
 "compromised and manages mandatory GDPR notifications."
 msgstr ""
+"**Data Protection Officer (DPO):** Evalueert of persoonlijke gegevens (PII) "
+"werden gecompromitteerd en beheert verplichte notificaties voor de GDPR."
 
 #: ../../security/incident-response-plan.rst:20
 msgid ""
@@ -51870,46 +51868,41 @@ msgstr ""
 "en, indien nodig, externe partijen."
 
 #: ../../security/incident-response-plan.rst:23
-#, fuzzy
-#| msgid "Community localization checklist"
 msgid "Communication logistics"
-msgstr "Controlelijst omtrent gemeenschapsvertalingen"
+msgstr "Logistiek voor communicatie"
 
 #: ../../security/incident-response-plan.rst:25
-#, fuzzy
-#| msgid "**Weblate application**"
 msgid "**Internal Communication:**"
-msgstr "**Weblate toepassing**"
+msgstr "**Interne communicatie:**"
 
 #: ../../security/incident-response-plan.rst:26
 msgid "Primary channel is **Signal** for human-to-human coordination."
-msgstr ""
+msgstr "Primaire kanaal is **Signal** voor coördinatie van mens naar mens."
 
 #: ../../security/incident-response-plan.rst:27
 msgid "Technical alerts remain outside of Signal to avoid noise."
 msgstr ""
+"Technische alarmeringen blijven buiten Signal, teneinde ruis te voorkomen."
 
 #: ../../security/incident-response-plan.rst:28
-#, fuzzy
-#| msgid "**Weblate application**"
 msgid "**External Communication:**"
-msgstr "**Weblate toepassing**"
+msgstr "**Externe communicatie:**"
 
 #: ../../security/incident-response-plan.rst:29
 msgid "**E-mail** is used to reach customers."
-msgstr ""
+msgstr "**E-mail** wordt gebruikt om klanten te bereiken."
 
 #: ../../security/incident-response-plan.rst:30
 msgid ""
 "Customer contact lists are maintained in several locations to ensure access "
 "during service outages."
 msgstr ""
+"Contactlijsten voor klanten worden op verschillende locaties onderhouden om "
+"toegang te kunnen verzekeren tijdens uitval van de services."
 
 #: ../../security/incident-response-plan.rst:31
-#, fuzzy
-#| msgid "**Information disclosure**"
 msgid "**Public Disclosure:**"
-msgstr "**Onthullen van informatie**"
+msgstr "**Openbare informatie:**"
 
 #: ../../security/incident-response-plan.rst:32
 msgid ""
@@ -51919,10 +51912,8 @@ msgstr ""
 "issues`."
 
 #: ../../security/incident-response-plan.rst:35
-#, fuzzy
-#| msgid "Incident categories"
 msgid "Incident categories and severity"
-msgstr "Categorieën incidenten"
+msgstr "Categorieën incidenten en ernst daarvan"
 
 #: ../../security/incident-response-plan.rst:38
 msgid "Incident categories"
@@ -51946,45 +51937,39 @@ msgstr "Categorie 4 – Foutieve configuratie of fout bij uitrol"
 
 #: ../../security/incident-response-plan.rst:46
 msgid "Severity levels and SLAs"
-msgstr ""
+msgstr "Niveaus voor de ernst en SLA's"
 
 #: ../../security/incident-response-plan.rst:49
 msgid "Severity"
 msgstr "Ernst"
 
 #: ../../security/incident-response-plan.rst:49
-#, fuzzy
-#| msgid "Definitions"
 msgid "Definition"
-msgstr "Definities"
+msgstr "Definitie"
 
 #: ../../security/incident-response-plan.rst:49
-#, fuzzy
-#| msgid "Target language"
 msgid "Target Acknowledge"
-msgstr "Focus taal"
+msgstr "Doelkennis"
 
 #: ../../security/incident-response-plan.rst:49
-#, fuzzy
-#| msgid "Target translation"
 msgid "Target Initial Action"
-msgstr "Doelvertaling"
+msgstr "Doel initiële actie"
 
 #: ../../security/incident-response-plan.rst:51
 msgid "Critical"
-msgstr ""
+msgstr "Kritisch"
 
 #: ../../security/incident-response-plan.rst:51
 msgid "Total outage; Admin compromise; Active data breach."
-msgstr ""
+msgstr "Totale uitval; beheer gecompromitteerd; actieve inbreuk op gegevens."
 
 #: ../../security/incident-response-plan.rst:51
 msgid "< 30 Minutes"
-msgstr ""
+msgstr "< 30 minuten"
 
 #: ../../security/incident-response-plan.rst:51
 msgid "4 Hours"
-msgstr ""
+msgstr "4 uur"
 
 #: ../../security/incident-response-plan.rst:53
 msgid "High"
@@ -51993,14 +51978,15 @@ msgstr "Hoog"
 #: ../../security/incident-response-plan.rst:53
 msgid "Core feature failure; PII leak of single user."
 msgstr ""
+"Uitval bron-mogelijkheid; lek persoonlijke gegevens van een enkele gebruiker."
 
 #: ../../security/incident-response-plan.rst:53
 msgid "< 2 Hours"
-msgstr ""
+msgstr "< 2 uur"
 
 #: ../../security/incident-response-plan.rst:53
 msgid "12 Hours"
-msgstr ""
+msgstr "12 uur"
 
 #: ../../security/incident-response-plan.rst:55
 msgid "Medium"
@@ -52008,15 +51994,15 @@ msgstr "Gemiddeld"
 
 #: ../../security/incident-response-plan.rst:55
 msgid "Performance degradation; Minor security issue."
-msgstr ""
+msgstr "Vermindering van uitvoering; kleiner beveiligingsprobleem."
 
 #: ../../security/incident-response-plan.rst:55
 msgid "1 Business Day"
-msgstr ""
+msgstr "1 werkdag"
 
 #: ../../security/incident-response-plan.rst:55
 msgid "3 Business Days"
-msgstr ""
+msgstr "3 werkdagen"
 
 #: ../../security/incident-response-plan.rst:57
 msgid "Low"
@@ -52025,10 +52011,12 @@ msgstr "Laag"
 #: ../../security/incident-response-plan.rst:57
 msgid "UI bugs; Staging issues; Non-security errors."
 msgstr ""
+"Problemen in gebruikersinterface; problemen met weergeven; fouten zonder "
+"beveiligingsrisico."
 
 #: ../../security/incident-response-plan.rst:57
 msgid "Best Effort"
-msgstr ""
+msgstr "Beste inspanningen"
 
 #: ../../security/incident-response-plan.rst:61
 msgid "Incident response lifecycle"
@@ -52048,22 +52036,16 @@ msgstr ""
 "rotatie, zie :ref:`backup`."
 
 #: ../../security/incident-response-plan.rst:67
-#, fuzzy
-#| msgid ""
-#| "Protect Weblate with reverse proxy (e.g., NGINX or Apache) and HTTPS (TLS "
-#| "1.2+)."
 msgid ""
 "Ensure Weblate uses a properly configured reverse proxy (e.g., NGINX) with "
 "HTTPS (TLS 1.2+)."
 msgstr ""
-"Bescherm Weblate met omgekeerde proxy (bijv. NGINX of Apache) en HTTPS (TLS "
-"1.2+)."
+"Zorg ervoor dat Weblate een juist geconfigureerde omgekeerde proxy gebruikt "
+"(bijv. NGINX met HTTPS (TLS 1.2+)."
 
 #: ../../security/incident-response-plan.rst:68
-#, fuzzy
-#| msgid "Enable 2FA for admin-level accounts."
 msgid "Enable 2FA for all admin-level accounts."
-msgstr "Schakel 2FA in voor accounts op niveau van systeembeheerders."
+msgstr "Schakel 2FA in voor alle accounts op niveau van systeembeheerders."
 
 #: ../../security/incident-response-plan.rst:69
 msgid ""
@@ -52116,16 +52098,21 @@ msgid ""
 "**Forensic Preservation:** For Category 1 or 2 incidents, create a manual "
 "**Hetzner Cloud Snapshot** before taking disruptive action."
 msgstr ""
+"**Forensische voorbereidingen:** Voor incidenten van Categorie 1 of 2, maak "
+"een handmatige **Hetzner Cloud Snapshot** voordat een vernietigende actie "
+"wordt uitgevoerd."
 
 #: ../../security/incident-response-plan.rst:83
 msgid "Name format: ``IRP-[CaseID]-[YYYYMMDD]-Evidence``."
-msgstr ""
+msgstr "Indeling voor naam: ``IRP-[CaseID]-[JJJJMMDD]-Evidence``."
 
 #: ../../security/incident-response-plan.rst:84
 msgid ""
 "These are separate from standard rotating backups and must be preserved for "
 "analysis."
 msgstr ""
+"Deze staan los van standaard roterende back-ups en moeten worden bewaard "
+"voor analyses."
 
 #: ../../security/incident-response-plan.rst:85
 msgid ""
@@ -52171,20 +52158,19 @@ msgid "Recovery"
 msgstr "Herstel"
 
 #: ../../security/incident-response-plan.rst:99
-#, fuzzy
-#| msgid ""
-#| "Restore affected services or data from the latest known-good backups."
 msgid ""
 "Restore affected services or data from the latest known-good Weblate backups."
 msgstr ""
 "Herstel de getroffen services of gegevens vanuit de laatst bekende goede "
-"back-ups."
+"back-ups van Weblate."
 
 #: ../../security/incident-response-plan.rst:100
 msgid ""
 "**PII Assessment:** DPO determines if the breach requires a 72-hour GDPR "
 "notification."
 msgstr ""
+"**Beoordeling Inbreuk persoonlijke gegevens:** DPO bepaalt of de inbreuk een "
+"72-uurs notificatie voor de GDPR vereist."
 
 #: ../../security/incident-response-plan.rst:101
 msgid "Reintroduce services in a phased approach."
@@ -52207,6 +52193,8 @@ msgid ""
 "**Timeline:** Hold a review meeting within **5 business days** of incident "
 "closure."
 msgstr ""
+"**Tijdlijn:** Houd binnen **5 werkdagen** na het sluiten van het incident "
+"een review-vergadering."
 
 #: ../../security/incident-response-plan.rst:108
 msgid "Compile a full incident timeline and actions taken."
@@ -52222,10 +52210,10 @@ msgstr ""
 "werkdagen**."
 
 #: ../../security/incident-response-plan.rst:110
-#, fuzzy
-#| msgid "Update security policies and IRP documentation."
 msgid "Update security policies and IRP documentation based on findings."
-msgstr "Werk beveiligingsbeleid en documentatie voor IRP bij."
+msgstr ""
+"Werk beveiligingsbeleid en documentatie voor IRP bij, gebaseerd op de "
+"opgedane bevindingen."
 
 #: ../../security/incident-response-plan.rst:111
 msgid "Review the effectiveness of detection and containment mechanisms."
@@ -54086,6 +54074,9 @@ msgid ""
 "Weblate and all it's dependencies have publicly available source code "
 "meaning it can usually be exported and reexported without restriction."
 msgstr ""
+"Weblate en al zijn afhankelijkheden hebben een publiek toegankelijke "
+"broncode, wat betekent dat het normaal gesproken zonder beperking kan worden "
+"geëxporteerd en opnieuw kan worden geëxporteerd."
 
 #: ../../security/us-compliance.rst:27
 msgid ""
@@ -54101,7 +54092,7 @@ msgstr "`Python <https://www.python.org/>`_"
 
 #: ../../security/us-compliance.rst:31
 msgid "`Cryptography <https://cryptography.io/>`_"
-msgstr ""
+msgstr "`Cryptography <https://cryptography.io/>`_"
 
 #: ../../security/us-compliance.rst:32
 msgid "`GnuPG <https://www.gnupg.org/>`_"
@@ -56540,10 +56531,8 @@ msgstr ""
 "kunnen produceren die geen geldige XML is."
 
 #: ../../user/checks.rst:1896
-#, fuzzy
-#| msgid "Number of characters"
 msgid "XML surrounding characters"
-msgstr "Aantal tekens"
+msgstr "XML omsluitende tekens"
 
 #: ../../user/checks.rst:1899
 msgid ""
@@ -56556,6 +56545,9 @@ msgid ""
 "both source and translation. Ensures letters are not replaced with non-"
 "letters, and vice versa."
 msgstr ""
+"Controleert of de tekens die een tag van XML omsluiten consistent zijn "
+"tussen de bron en de vertaling. Zorgt ervoor dat letters niet worden "
+"vervangen door niet-letters, en vice versa."
 
 #: ../../user/checks.rst:1918
 msgid "XML syntax"
@@ -58776,11 +58768,6 @@ msgstr ""
 "Weblate."
 
 #: ../../user/translating.rst:54
-#, fuzzy
-#| msgid ""
-#| "Anonymous users (by default) can only forward suggestions. Doing so is "
-#| "still available to signed-in users, in cases where uncertainty about a "
-#| "translation arises, prompting other translators to review it."
 msgid ""
 "Anonymous users (by default) can only forward suggestions. Doing so is still "
 "available to signed-in users, in cases where uncertainty about a translation "
@@ -58791,7 +58778,9 @@ msgstr ""
 "Anonieme gebruikers kunnen (standaard) alleen suggesties indienen. Dat doen "
 "is ook nog steeds beschikbaar voor ingelogde gebruikers, in gevallen waar "
 "onzekerheid bestaat over een vertaling, wat andere vertalers in staat stelt "
-"het te beoordelen."
+"het te beoordelen. Elke gebruiker kan een bestaande suggestie klonen naar de "
+"vertaalvelden, inclusief meervoudsvormen, en het gebruiken als basis voor "
+"een nieuwe suggestie of vertaling."
 
 #: ../../user/translating.rst:60
 msgid ""
@@ -58809,6 +58798,12 @@ msgid ""
 "suggestions from trusted contributors. Suggestions failing quality checks "
 "are skipped and remain for manual review."
 msgstr ""
+"Wanneer u het recht :guilabel:`Suggesties accepteren` hebt, kunt u alle "
+"suggesties van een specifieke gebruiker in bulk accepteren door te klikken "
+"op het pictogram voor het account, naast hun suggestie. Dit is handig voor "
+"het verwerken van suggesties van vertrouwde deelnemers. Suggesties die niet "
+"voldoen aan kwaliteitscontroles worden overgeslagen en blijven achter om "
+"handmatig te worden beoordeeld."
 
 #: ../../user/translating.rst:74
 msgid "Three types of comments can be posted:"
@@ -58928,18 +58923,15 @@ msgstr ""
 "boven de brontekenreeks."
 
 #: ../../user/translating.rst:141
-#, fuzzy
-#| msgid ""
-#| "Below the translation, translators will find suggestion made by others, "
-#| "to be accepted (✓), accepted with changes (✏️), or deleted (🗑)."
 msgid ""
 "Below the translation, translators will find suggestions made by others, to "
 "be accepted (✓), accepted with changes (✏️), bulk accepted for a specific "
 "user (👤✓), cloned into the translation fields (📑) or deleted (🗑)."
 msgstr ""
 "Onder de vertaling zullen vertalers suggesties vinden die zijn gemaakt door "
-"anderen, om te worden geaccepteerd (✓), geaccepteerd met wijzigingen (✏️) of "
-"verwijderd (🗑)."
+"anderen, om te worden geaccepteerd (✓), geaccepteerd met wijzigingen (✏️) , "
+"in bulk geaccepteerd voor een specifieke gebruiker (👤✓), gekloond naar de "
+"vertaalvelden (📑)of verwijderd (🗑)."
 
 #: ../../user/translating.rst:148
 msgid "Plurals"
@@ -59326,6 +59318,8 @@ msgid ""
 "Further clarification can be provided in Weblate via :ref:`additional-"
 "explanation`."
 msgstr ""
+"Meer duidelijkheid kan in Weblate worden verschaft via :ref:`additional-"
+"explanation`."
 
 #: ../../user/translating.rst:311
 msgid ""
