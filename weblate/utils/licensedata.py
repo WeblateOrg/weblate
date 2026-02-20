@@ -604,6 +604,12 @@ LICENSES = (
         False,
     ),
     (
+        "BOLA-1.1",
+        "Buena Onda License Agreement v1.1",
+        "https://spdx.org/licenses/BOLA-1.1.html",
+        False,
+    ),
+    (
         "BUSL-1.1",
         "Business Source License 1.1",
         "https://spdx.org/licenses/BUSL-1.1.html",
@@ -3152,6 +3158,12 @@ LICENSES = (
         "OpenVision License",
         "https://spdx.org/licenses/OpenVision.html",
         False,
+    ),
+    (
+        "OSC-1.0",
+        "OSC License 1.0",
+        "https://spdx.org/licenses/OSC-1.0.html",
+        True,
     ),
     (
         "OSET-PL-2.1",
