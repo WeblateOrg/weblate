@@ -405,7 +405,14 @@ class ComponentTest(RepoTestCase):
 
     def test_create_tbx(self) -> None:
         component = self.create_tbx()
-        self.verify_component(component, 2, "cs", 4, unit="address bar")
+        self.verify_component(component, 2, "cs", 5, unit="address bar")
+
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="application")
+        self.assertEqual(
+            unit.source_unit.explanation,
+            "a computer program designed for a specific task or use",
+        )
 
     def test_link(self) -> None:
         component = self.create_link()
