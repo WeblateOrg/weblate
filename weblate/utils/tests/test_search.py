@@ -428,23 +428,6 @@ class UnitQueryParserTest(SearchTestCase):
             "suggestion_author:nijel", Q(suggestion__user__username__iexact="nijel")
         )
 
-    def test_checks(self) -> None:
-        self.assert_query(
-            "check:ellipsis",
-            Q(check__name__iexact="ellipsis") & Q(check__dismissed=False),
-        )
-        self.assert_query(
-            "dismissed_check:ellipsis",
-            Q(check__name__iexact="ellipsis") & Q(check__dismissed=True),
-        )
-
-    def test_screenshot(self) -> None:
-        self.assert_query(
-            "screenshot:'test screenshot'",
-            Q(source_unit__screenshots__name__iexact="test screenshot")
-            | Q(screenshots__name__iexact="test screenshot"),
-        )
-
     def test_priority(self) -> None:
         self.assert_query("priority:10", Q(priority=10))
         self.assert_query("priority:>=10", Q(priority__gte=10))

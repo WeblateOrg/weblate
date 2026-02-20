@@ -33,8 +33,10 @@ from pyparsing import (
     one_of,
 )
 
+from weblate.checks.models import Check
 from weblate.checks.parser import RawQuotedString
 from weblate.lang.models import Language
+from weblate.screenshots.models import Screenshot
 from weblate.trans.models import Category, Component, Label, Project, Translation
 from weblate.trans.util import PLURAL_SEPARATOR
 from weblate.utils.db import re_escape, using_postgresql
@@ -553,15 +555,11 @@ class UnitTermExpr(BaseTermExpr):
         "explanation": "source_unit__explanation",
     }
     EXACT_FIELD_MAP: ClassVar[dict[str, str]] = {
-        "check": "check__name",
-        "dismissed_check": "check__name",
         "language": "translation__language__code",
         "project": "translation__component__project__slug",
         "changed_by": "change__author__username",
         "suggestion_author": "suggestion__user__username",
         "comment_author": "comment__user__username",
-        "label": "source_unit__labels__name",
-        "screenshot": "source_unit__screenshots__name",
     }
 
     def is_field(self, text: str, context: dict) -> Q:
@@ -717,6 +715,52 @@ class UnitTermExpr(BaseTermExpr):
 
         return Q(Exists(label_query.filter(unit__id=OuterRef("source_unit_id"))))
 
+    def check_field(self, text: str, context: dict) -> Q:
+        """
+        Handle check filtering.
+
+        This is needed because filtering on a reverse ForeignKey relation
+        with AND using exists ensures each check condition gets its own subquery.
+        """
+        lookup = "name__iexact" if self.operator == ":=" else "name__icontains"
+        return Q(
+            Exists(
+                Check.objects.filter(
+                    **{lookup: text}, dismissed=False, unit_id=OuterRef("pk")
+                )
+            )
+        )
+
+    def dismissed_check_field(self, text: str, context: dict) -> Q:
+        """
+        Handle dismissed check filtering.
+
+        This is needed because filtering on a reverse ForeignKey relation
+        with AND using exists ensures each check condition gets its own subquery.
+        """
+        lookup = "name__iexact" if self.operator == ":=" else "name__icontains"
+        return Q(
+            Exists(
+                Check.objects.filter(
+                    **{lookup: text}, dismissed=True, unit_id=OuterRef("pk")
+                )
+            )
+        )
+
+    def screenshot_field(self, text: str, context: dict) -> Q:
+        """
+        Handle screenshot filtering.
+
+        This is needed because filtering on ManyToMany relations
+        with AND using exists ensures each screenshot condition gets its own subquery.
+        """
+        lookup = "name__iexact" if self.operator == ":=" else "name__icontains"
+        screenshot_query = Screenshot.objects.filter(**{lookup: text})
+        return Q(
+            Exists(screenshot_query.filter(units__id=OuterRef("source_unit_id")))
+            | Exists(screenshot_query.filter(units__id=OuterRef("pk")))
+        )
+
     def convert_changed(self, text: str) -> datetime | tuple[datetime, datetime]:
         return self.convert_datetime(text)
 
@@ -743,12 +787,6 @@ class UnitTermExpr(BaseTermExpr):
 
         if field in {"changed", "changed_by"}:
             return query & Q(change__action__in=Change.ACTIONS_CONTENT)
-        if field == "check":
-            return query & Q(check__dismissed=False)
-        if field == "dismissed_check":
-            return query & Q(check__dismissed=True)
-        if field == "screenshot":
-            return query | Q(screenshots__name__iexact=match)
         if field == "comment":
             return query & Q(comment__resolved=False)
         if field == "resolved_comment":
