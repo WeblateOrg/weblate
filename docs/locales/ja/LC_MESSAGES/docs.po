@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-02-16 14:59+0100\n"
-"PO-Revision-Date: 2026-01-27 04:08+0000\n"
-"Last-Translator: amano <amano@users.noreply.hosted.weblate.org>\n"
+"PO-Revision-Date: 2026-02-21 10:10+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "documentation/ja/>\n"
 "Language: ja\n"
@@ -30,7 +30,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.16-dev\n"
+"X-Generator: Weblate 5.16.1-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:215
@@ -1495,10 +1495,8 @@ msgid ":guilabel:`Post announcements`"
 msgstr ":guilabel:`告知の投稿`"
 
 #: ../../snippets/roles.rst:12 ../../snippets/roles.rst:113
-#, fuzzy
-#| msgid ":guilabel:`Post announcements`"
 msgid ":guilabel:`Delete announcements`"
-msgstr ":guilabel:`告知の投稿`"
+msgstr ":guilabel:`お知らせの削除`"
 
 #: ../../snippets/roles.rst:13
 msgid ":guilabel:`Download changes`"
@@ -1894,16 +1892,6 @@ msgid "Additional access restrictions"
 msgstr "追加のアクセス制限"
 
 #: ../../admin/access.rst:556
-#, fuzzy
-#| msgid ""
-#| "If you want to use your Weblate installation in a less public manner, "
-#| "i.e. allow new users on an invitational basis only, it can be done by "
-#| "configuring Weblate in such a way that only known users have an access to "
-#| "it. In order to do so, you can set :setting:`REGISTRATION_OPEN` to "
-#| "``False`` to prevent registrations of any new users, and "
-#| "set :setting:`REQUIRE_LOGIN` to ``/.*`` to require signing in to access "
-#| "all the site pages. This is basically the way to lock your Weblate "
-#| "installation."
 msgid ""
 "If you want to use your Weblate installation in a less public manner, i.e. "
 "allow new users on an invitational basis only, it can be done by configuring "
@@ -1913,12 +1901,10 @@ msgid ""
 "to require signing in to access all the site pages. This is basically the "
 "way to lock your Weblate installation."
 msgstr ""
-"インストールした Weblate を、非公開で使用したい場合、つまり新規ユーザーを招待"
-"制でのみ許可するには、既知のユーザーのみがアクセスできるように Weblate を設定"
-"します。方法は、:setting:`REGISTRATION_OPEN` を ``False`` に設定して新規ユー"
-"ザーの登録を禁止し、:setting:`REQUIRE_LOGIN` を ``/.*`` に設定して、すべての"
-"サイト ページにアクセスするためにサインインを要求できます。これは、インストー"
-"ルした Weblate をロックする基本的な方法です。"
+"Weblate を招待制で運用したい場合は、既存ユーザーのみがアクセスできるように設"
+"定します。新規登録を禁止するには :setting:`REGISTRATION_OPEN` を ``False`` に"
+"し、サイト全体の閲覧にログインを必須とするには :setting:`REQUIRE_LOGIN` を "
+"``True`` に設定します。これにより Weblate を実質的に非公開化できます。"
 
 #: ../../admin/access.rst:563
 msgid ""
@@ -1926,6 +1912,9 @@ msgid ""
 "make all newly created projects private, requiring explicit access to be "
 "granted."
 msgstr ""
+"さらに、:setting:`DEFAULT_ACCESS_CONTROL` を ``100`` に設定すると、新しく作成"
+"されるプロジェクトはすべて非公開になり、明示的なアクセス権の付与が必要になり"
+"ます。"
 
 #: ../../admin/access.rst:568
 msgid "You can use built-in :ref:`invite-user` to add new users."
@@ -2721,19 +2710,17 @@ msgstr ""
 
 #: ../../admin/addons.rst:431
 msgid "Excluding certain matches"
-msgstr ""
+msgstr "特定の一致を除外"
 
 #: ../../admin/addons.rst:433
 msgid ""
 "Negative lookahead can be used to exclude certain patterns from being "
 "processed."
-msgstr ""
+msgstr "ネガティブ先読みを使用すると、特定のパターンを処理対象から除外できます。"
 
 #: ../../admin/addons.rst:440
-#, fuzzy
-#| msgid "Matching files:"
 msgid "Not matching files:"
-msgstr "一致するファイル:"
+msgstr "一致しないファイル:"
 
 #: ../../admin/addons.rst:451
 msgid ""
@@ -5509,7 +5496,7 @@ msgstr "設定例:"
 
 #: ../../admin/auth.rst:536
 msgid "You can generate a new pair of keys using:"
-msgstr ""
+msgstr "新しい鍵ペアを生成するコマンド:"
 
 #: ../../admin/auth.rst:542
 msgid ""
@@ -8344,20 +8331,18 @@ msgstr ""
 "フォルト値を設定します。"
 
 #: ../../admin/config.rst:706 ../../admin/install/docker.rst:831
-#, fuzzy
-#| msgid "Configures the default value of :ref:`project-autoclean_tm`."
 msgid ""
 "Configures the default value for :ref:`project-translation_review`, turned "
 "off by default."
-msgstr ":ref:`project-autoclean_tm` のデフォルト値を設定します。"
+msgstr ""
+":ref:`project-translation_review` のデフォルト値を設定します。初期設定は無効"
+"です。"
 
 #: ../../admin/config.rst:715 ../../admin/install/docker.rst:837
-#, fuzzy
-#| msgid "Configures the default value of :ref:`project-autoclean_tm`."
 msgid ""
 "Configures the default value for :ref:`project-source_review`, turned off by "
 "default."
-msgstr ":ref:`project-autoclean_tm` のデフォルト値を設定します。"
+msgstr ":ref:`project-source_review` のデフォルト値を設定します。初期設定は無効です。"
 
 #: ../../admin/config.rst:724
 msgid "Configures the default value of :ref:`project-autoclean_tm`."
@@ -8979,93 +8964,66 @@ msgstr ""
 "この設定は、コミット用メールアドレスが未設定のユーザーにのみ適用されます。"
 
 #: ../../admin/config.rst:1471
-#, fuzzy
-#| msgid ""
-#| "Template to generate private commit e-mail for an user. Defaults to "
-#| "``\"{username}@users.noreply.{site_domain}\"``."
 msgid ""
 "Template to generate a private commit e-mail for a user. Defaults to "
 "``\"{username}@users.noreply.{site_domain}\"``."
 msgstr ""
-"ユーザーごとのコミット用の匿名メールアドレスを生成するためのテンプレート。デ"
-"フォルトは、``\"{username}@users.noreply.{site_domain}\"``。"
+"ユーザーの個人的なコミット用メールアドレスを生成するためのテンプレートです。"
+"デフォルトは ``\"{username}@users.noreply.{site_domain}\"`` です。"
 
 #: ../../admin/config.rst:1473 ../../admin/config.rst:1510
 msgid ""
 "It can contain ``{user_id}``, ``{username}``, ``{site_title}``, and "
 "``{site_domain}``."
 msgstr ""
+"``{user_id}``、``{username}``、``{site_title}``、``{site_domain}`` を使用でき"
+"ます。"
 
 #: ../../admin/config.rst:1475 ../../admin/config.rst:1512
 msgid "Set to blank string to disable."
 msgstr "無効にするには、空の文字列に設定します。"
 
 #: ../../admin/config.rst:1479
-#, fuzzy
-#| msgid ""
-#| "Using different commit e-mail is opt-in for users unless configured "
-#| "by :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure commit e-"
-#| "mail in the :ref:`profile`."
 msgid ""
 "Using a different commit e-mail is opt-in for users unless configured "
 "by :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure their commit "
 "e-mail in the :ref:`profile`."
 msgstr ""
-":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` で設定していない限り、コミット用の匿名"
-"メールアドレスは各ユーザーが選択しないと使用されません。ユーザー"
-"は :ref:`profile` 画面で、コミット用の匿名メールアドレスを使用するかどうかを"
-"設定できます。"
+":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` を `True` に設定しない限り、匿名の"
+"コミット用のメールアドレスは使用できません。匿名のコミット用メールアドレスを"
+"使用するには、:ref:`profile` に設定が必要です。"
 
 #: ../../admin/config.rst:1490
-#, fuzzy
-#| msgid ""
-#| "Configures whether the private commit e-mail is opt-in or opt-out (by "
-#| "default it is opt-in)."
 msgid ""
 "Configures whether the private commit name is opt-in or opt-out (by default "
 "it is opt-in)."
 msgstr ""
-"ユーザーごとのコミット用の匿名メールアドレスを使用するかどうかの初期値を設定"
-"します。デフォルトはオプトイン（選択したユーザーのみ使用する）です。"
+"個人的なコミット名を「使用する」、「使用しない」を設定します（デフォルトは、"
+"「使用する」です）。"
 
 #: ../../admin/config.rst:1494
-#, fuzzy
-#| msgid ""
-#| "This setting only applies to users which have not explicitly chosen a "
-#| "commit e-mail."
 msgid ""
 "This setting only applies to users which have not explicitly chosen a commit "
 "name."
-msgstr ""
-"この設定は、コミット用メールアドレスが未設定のユーザーにのみ適用されます。"
+msgstr "この設定は、匿名のコミット名を設定していないユーザーにのみ適用されます。"
 
 #: ../../admin/config.rst:1508
-#, fuzzy
-#| msgid ""
-#| "Template to generate private commit e-mail for an user. Defaults to "
-#| "``\"{username}@users.noreply.{site_domain}\"``."
 msgid ""
 "Template to generate a private commit name for a user. Defaults to "
 "``\"{site_title} user {user_id}\"``."
 msgstr ""
-"ユーザーごとのコミット用の匿名メールアドレスを生成するためのテンプレート。デ"
-"フォルトは、``\"{username}@users.noreply.{site_domain}\"``。"
+"ユーザーの個人的なコミット名を生成するためのテンプレートです。デフォルトは "
+"``\"{site_title} user {user_id}\"`` です。"
 
 #: ../../admin/config.rst:1516
-#, fuzzy
-#| msgid ""
-#| "Using different commit e-mail is opt-in for users unless configured "
-#| "by :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure commit e-"
-#| "mail in the :ref:`profile`."
 msgid ""
 "Using a different commit name is opt-in for users unless configured "
 "by :setting:`PRIVATE_COMMIT_NAME_OPT_IN`. Users can configure their commit "
 "name in the :ref:`profile`."
 msgstr ""
-":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` で設定していない限り、コミット用の匿名"
-"メールアドレスは各ユーザーが選択しないと使用されません。ユーザー"
-"は :ref:`profile` 画面で、コミット用の匿名メールアドレスを使用するかどうかを"
-"設定できます。"
+":setting:`PRIVATE_COMMIT_NAME_OPT_IN` を `True` に設定しない限り、匿名の"
+"コミット名は使用できません。匿名のコミット名を使用するには、:ref:`profile` に"
+"設定が必要です。"
 
 #: ../../admin/config.rst:1527
 msgid ""
@@ -9424,13 +9382,16 @@ msgid ""
 "of projects that are using them, it can cause confusion or distract "
 "translators from the actual components that are meant to be translated."
 msgstr ""
+"用語集コンポーネントは、一般的に翻訳作業で使えるように他のプロジェクトへ共有"
+"されます。これが利用側プロジェクトのコンポーネント一覧に表示されてしまうと、"
+"実際の翻訳対象ではないため、翻訳者が混乱したり、作業の妨げになります。"
 
 #: ../../admin/config.rst:1929
-#, fuzzy
-#| msgid "This is turned off by default now, used to be turned on by default."
 msgid ""
 "This is turned off by default, making shared glossary components visible."
-msgstr "これはデフォルトで無効になっていますが、以前はデフォルトで有効でした。"
+msgstr ""
+"この設定はデフォルトで無効になっており、共有された用語集コンポーネントが表示"
+"される状態になります。"
 
 #: ../../admin/config.rst:1936
 msgid ""
@@ -10369,15 +10330,6 @@ msgstr ""
 "は、その章を確認してください。"
 
 #: ../../admin/continuous.rst:365
-#, fuzzy
-#| msgid ""
-#| "In case you do not want direct pushes by Weblate, there is support "
-#| "for :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-"
-#| "pagure`, :ref:`vcs-azure-devops` pull requests or :ref:`vcs-gerrit` "
-#| "reviews, you can activate these by "
-#| "choosing :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit`, :guilabel:`Azure "
-#| "DevOps`, or :guilabel:`Pagure` as :ref:`component-vcs` "
-#| "in :ref:`component`."
 msgid ""
 "In case you do not want direct pushes by Weblate, there is support "
 "for :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-"
@@ -10386,12 +10338,12 @@ msgid ""
 "choosing :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit`, :guilabel:`Azure "
 "DevOps`, or :guilabel:`Pagure` as :ref:`component-vcs` in :ref:`component`."
 msgstr ""
-"Weblate による直接のプッシュが不要な場合は、:ref:`vcs-github`、:ref:`vcs-"
-"gitlab`、 :ref:`vcs-gitea`、:ref:`vcs-pagure`、:ref:`vcs-azure-devops` のプル"
-"リクエストまたは :ref:`vcs-gerrit` 査読に対応しています。これを有効にするに"
-"は、:ref:`component` で :ref:`component-vcs` とし"
-"て :guilabel:`GitHub`、:guilabel:`GitLab`、:guilabel:`Gitea`、:guilabel:`Gerrit`、:guilabel:`Azure "
-"DevOps` または :guilabel:`Pagure` を選択します。"
+"Weblate による直接のプッシュを行いたくない場合は、:ref:`vcs-"
+"github`、:ref:`vcs-gitlab`、:ref:`vcs-gitea`、:ref:`vcs-pagure`、:ref:`vcs-"
+"azure-devops`、または :ref:`vcs-gerrit` によるレビューを利用できます。これを"
+"有効にするには、:ref:`component` の :ref:`component-vcs` で "
+":guilabel:`GitHub`、:guilabel:`GitLab`、:guilabel:`Gitea`、:guilabel:`Gerrit`、:guilabel:`Azure "
+"DevOps`、または :guilabel:`Pagure` を選択してください。"
 
 #: ../../admin/continuous.rst:371
 msgid ""
@@ -12098,22 +12050,16 @@ msgstr ""
 "て設定される必要があります。"
 
 #: ../../admin/install.rst:768
-#, fuzzy
-#| msgid ""
-#| "The header value is case-sensitive in the configuration, so "
-#| "``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,https`` and "
-#| "``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,HTTPS`` are not "
-#| "interchangeable."
 msgid ""
 "The header value is case-sensitive in the configuration, so "
 "``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_FORWARDED_PROTO,https`` and "
 "``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_FORWARDED_PROTO,HTTPS`` are not "
 "interchangeable."
 msgstr ""
-"設定におけるヘッダー値は大文字/小文字を区別するため、"
-"``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,https`` と "
-"``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,HTTPS`` は置き換えられ"
-"ません。"
+"設定におけるヘッダー値は大文字/小文字を区別するため"
+"、``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_FORWARDED_PROTO,https`` と "
+"``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_FORWARDED_PROTO,HTTPS`` は置き換えら"
+"れません。"
 
 #: ../../admin/install.rst:775
 msgid ""
@@ -13374,6 +13320,12 @@ msgid ""
 "privacy reasons, as the error e-mails might include sensitive data. You can "
 "read more on that in :ref:`django:logging-security-implications`."
 msgstr ""
+"Weblate のデフォルト設定では"
+"、:py:class:`django:django.utils.log.AdminEmailHandler` を通じて、"
+"サーバーエラー発生時に Django が管理者へメールを送信するよう設定されています"
+"。これは最も手軽に導入できる方法ですが、エラー通知メールには機密情報が含まれ"
+"る可能性があるため、プライバシーの観点から他の手段の利用も検討すべきです。詳"
+"細については :ref:`django:logging-security-implications` を参照してください。"
 
 #: ../../admin/install.rst:1853
 msgid ""
@@ -13381,6 +13333,9 @@ msgid ""
 "the :setting:`django:LOGGING` in Weblate settings, or "
 "disable :envvar:`WEBLATE_ADMIN_NOTIFY_ERROR` in the Docker environment."
 msgstr ""
+"この動作を無効にするには、Weblate の設定で :setting:`django:LOGGING` から "
+"``mail_admins`` を削除するか、Docker 環境で "
+":envvar:`WEBLATE_ADMIN_NOTIFY_ERROR` を無効にしてください。"
 
 #: ../../admin/install.rst:1858
 msgid "Sentry"
@@ -14447,6 +14402,8 @@ msgid ""
 "Hides glossary components when shared to other projects, "
 "see :setting:`HIDE_SHARED_GLOSSARY_COMPONENTS`."
 msgstr ""
+"共有された用語集コンポーネントを他のプロジェクトで非表示にします。参照: "
+":setting:`HIDE_SHARED_GLOSSARY_COMPONENTS`。"
 
 #: ../../admin/install/docker.rst:825
 msgid ""
@@ -14613,16 +14570,12 @@ msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 msgstr ":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` を設定します。"
 
 #: ../../admin/install/docker.rst:1037
-#, fuzzy
-#| msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
 msgid "Configures :setting:`PRIVATE_COMMIT_NAME_TEMPLATE`."
-msgstr ":setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE` を設定します。"
+msgstr ":setting:`PRIVATE_COMMIT_NAME_TEMPLATE` を設定します。"
 
 #: ../../admin/install/docker.rst:1043
-#, fuzzy
-#| msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 msgid "Configures :setting:`PRIVATE_COMMIT_NAME_OPT_IN`."
-msgstr ":setting:`PRIVATE_COMMIT_EMAIL_OPT_IN` を設定します。"
+msgstr ":setting:`PRIVATE_COMMIT_NAME_OPT_IN` を設定します。"
 
 #: ../../admin/install/docker.rst:1049
 msgid "Configures :setting:`UNUSED_ALERT_DAYS`."
@@ -17373,34 +17326,31 @@ msgstr ""
 
 #: ../../admin/machine.rst:164
 msgid "Anthropic"
-msgstr ""
+msgstr "Anthropic"
 
 #: ../../admin/machine.rst:182
 msgid "Anthropic API URL"
-msgstr ""
+msgstr "Anthropic API URL"
 
 #: ../../admin/machine.rst:182
-#, fuzzy
-#| msgid ""
-#| "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
 msgid "Base URL of the Anthropic API. Leave empty to use the default URL."
-msgstr "OpenAI の既定の URL と異なる場合、OpenAI API のベース URL"
+msgstr "Anthropic API のベース URL。空欄の場合はデフォルトの URL が使用されます。"
 
 #: ../../admin/machine.rst:184
 msgid "Anthropic model"
-msgstr ""
+msgstr "Anthropic モデル"
 
 #: ../../admin/machine.rst:186
 msgid "``claude-sonnet-4-5`` -- Claude Sonnet 4.5 (Recommended)"
-msgstr ""
+msgstr "``claude-sonnet-4-5`` -- Claude Sonnet 4.5（推奨）"
 
 #: ../../admin/machine.rst:188
 msgid "``claude-haiku-4-5`` -- Claude Haiku 4.5"
-msgstr ""
+msgstr "``claude-haiku-4-5`` -- Claude Haiku 4.5"
 
 #: ../../admin/machine.rst:190
 msgid "``claude-opus-4-5`` -- Claude Opus 4.5"
-msgstr ""
+msgstr "``claude-opus-4-5`` -- Claude Opus 4.5"
 
 #: ../../admin/machine.rst:192 ../../admin/machine.rst:832
 msgid "``custom`` -- Custom model"
@@ -17416,11 +17366,11 @@ msgstr "モデルが「カスタムモデル」に設定されていた場合の
 
 #: ../../admin/machine.rst:196
 msgid "Max tokens"
-msgstr ""
+msgstr "最大トークン数"
 
 #: ../../admin/machine.rst:196
 msgid "Maximum number of tokens to generate in the response."
-msgstr ""
+msgstr "応答で生成するトークン数の上限です。"
 
 #: ../../admin/machine.rst:198 ../../admin/machine.rst:245
 #: ../../admin/machine.rst:750 ../../admin/machine.rst:796
@@ -17428,16 +17378,12 @@ msgid "Translator persona"
 msgstr "翻訳者の人物像"
 
 #: ../../admin/machine.rst:198
-#, fuzzy
-#| msgid ""
-#| "Describe the persona of translator to improve the accuracy of the "
-#| "translation. For example: “You are a squirrel breeder.”"
 msgid ""
 "Describe the persona of translator to improve the accuracy of the "
 "translation. For example: \"You are a squirrel breeder.\""
 msgstr ""
 "翻訳の正確性を高めるために、翻訳者の人物像を記述します。例: 「あなたはリスの"
-"繁殖業者です。」"
+"飼い主です。」"
 
 #: ../../admin/machine.rst:200 ../../admin/machine.rst:247
 #: ../../admin/machine.rst:752 ../../admin/machine.rst:798
@@ -17445,18 +17391,13 @@ msgid "Translator style"
 msgstr "翻訳ファイル"
 
 #: ../../admin/machine.rst:200
-#, fuzzy
-#| msgid ""
-#| "Describe the style of translation. For example: “Use informal language.”"
 msgid ""
 "Describe the style of translation. For example: \"Use informal language.\""
-msgstr "翻訳スタイルについて説明します。例: 「くだけた言い回しを使用する」"
+msgstr "翻訳のスタイルを説明してください。例: 「くだけた表現を使用してください。」"
 
 #: ../../admin/machine.rst:203
-#, fuzzy
-#| msgid "Performs translation using `Ollama`_ models."
 msgid "Performs translation using `Anthropic's Claude`_ models."
-msgstr "`Ollama`_ を使用して翻訳を実行します。"
+msgstr "`Anthropic's Claude`_ モデルを使用して翻訳を実行します。"
 
 #: ../../admin/machine.rst:205
 msgid ""
@@ -17464,38 +17405,30 @@ msgid ""
 "known for their strong reasoning and language capabilities. You need an API "
 "key from Anthropic to use this service."
 msgstr ""
+"Anthropic API は、優れた推論能力と言語処理能力で知られる Claude 系モデルへの"
+"接続を提供します。このサービスを利用するには、Anthropic が発行する API キーが"
+"必要です。"
 
 #: ../../admin/machine.rst:209
-#, fuzzy
-#| msgid ""
-#| "Use persona and style fields to further fine-tune translations. These "
-#| "will be used in a prompt for Ollama and allow you to change the style of "
-#| "the translations."
 msgid ""
 "Use persona and style fields to further fine-tune translations. These will "
 "be used in a prompt for Claude and allow you to change the style of the "
 "translations."
 msgstr ""
-"人物像と翻訳スタイル フィールドを使用して、翻訳をさらに詳細設定します。これ"
-"は Ollama のプロンプトで使用することにより翻訳スタイルを変更できます。"
+"人物像と翻訳スタイル フィールドを使用して、翻訳をさらに詳細設定します。これら"
+"は Claude へのプロンプトに組み込まれ、翻訳の文体を変更することができます。"
 
 #: ../../admin/machine.rst:217
-#, fuzzy
-#| msgid ""
-#| "`DeepL API documentation <https://developers.deepl.com/docs/getting-"
-#| "started/intro>`_"
 msgid ""
 "`Anthropic API documentation <https://docs.anthropic.com/en/api/getting-"
 "started>`_"
 msgstr ""
-"`DeepL API キュメント <https://developers.deepl.com/docs/getting-started/"
-"intro>`_"
+"`Anthropic API ドキュメント <https://docs.anthropic.com/en/api/getting-"
+"started>`_"
 
 #: ../../admin/machine.rst:218
-#, fuzzy
-#| msgid "`Anchore <https://anchore.com/>`_"
 msgid "`Anthropic Console <https://console.anthropic.com/>`_"
-msgstr "`Anchore <https://anchore.com/>`_"
+msgstr "`Anthropic コンソール <https://console.anthropic.com/>`_"
 
 #: ../../admin/machine.rst:225
 msgid "Azure OpenAI"
@@ -18367,20 +18300,20 @@ msgstr "tmserver"
 #: ../../admin/machine.rst:952
 msgid ""
 "You can run your own translation memory server by using a tmserver protocol."
-msgstr ""
+msgstr "tmserver プロトコルを使用すると、独自の翻訳メモリサーバーを運用できます。"
 
 #: ../../admin/machine.rst:954
 msgid ""
 "The original :program:`tmserver` was bundled with the translate-toolkit."
-msgstr ""
+msgstr "元の :program:`tmserver` は translate-toolkit に同梱されていました。"
 
 #: ../../admin/machine.rst:955
 msgid "amaGama server is an enhanced version of tmserver."
-msgstr ""
+msgstr "amaGama サーバーは、tmserver の拡張版です。"
 
 #: ../../admin/machine.rst:959
 msgid "There currently does not seem to be a maintained server for this."
-msgstr ""
+msgstr "現在、これを継続的にメンテナンスしているサーバーは存在しないようです。"
 
 #: ../../admin/machine.rst:968 ../../admin/machine.rst:983
 msgid "`This service has no configuration.`"
@@ -19280,7 +19213,7 @@ msgstr "ファイル形式のパラメータを一覧表示します。"
 
 #: ../../admin/management.rst:809
 msgid "Lists all possible change event types."
-msgstr ""
+msgstr "使用可能なすべての変更イベントタイプを一覧表示します。"
 
 #: ../../admin/management.rst:816
 msgid ""
@@ -19544,6 +19477,9 @@ msgid ""
 "the :ref:`autoclean-tm` configuration. If automatic cleanup is enabled, this "
 "is disabled by default to prevent reintroducing inconsistent translations."
 msgstr ""
+"新規ユーザーのデフォルト値は、:ref:`autoclean-tm` の設定に基づいて自動的に調"
+"整されます。自動クリーンアップが有効な場合、不整合な翻訳が再び取り込まれるの"
+"を防ぐため、これはデフォルトで無効になります。"
 
 #: ../../admin/memory.rst:47
 msgid "Per-project translation memory"
@@ -19631,6 +19567,9 @@ msgid ""
 "not contribute to personal translation memory. This prevents reintroducing "
 "inconsistent translations that were supposed to be cleaned up."
 msgstr ""
+"自動クリーンアップを有効にすると、新しいユーザー プロファイルのデフォルト設定"
+"も、個人用翻訳メモリに貢献しないように変更されます。これにより、"
+"クリーンアップ対象だった不整合な翻訳が再び取り込まれるのを防ぎます。"
 
 #: ../../admin/memory.rst:105
 msgid "Managing the Translation Memory"
@@ -22587,69 +22526,48 @@ msgstr ""
 "設定:"
 
 #: ../../admin/translating.rst:26
-#, fuzzy
-#| msgid ""
-#| "Users suggest and vote for suggestions and a limited group controls what "
-#| "is accepted. - Turn on voting. - Turn off automatic acceptance. - Don't "
-#| "let users save translations."
 msgid ""
 "Users suggest and vote for suggestions and a limited group controls what is "
 "accepted."
 msgstr ""
-"ユーザーは提案も投票もできるが、採用は特定のグループだけが管理する。— 投票の"
-"有効化。— 提案の自動採用を無効化する。— ユーザーには翻訳文を保存させない。"
+"ユーザーが提案を行い、投票を行いますが、採用の決定権があるのは限られた"
+"グループです。"
 
 #: ../../admin/translating.rst:29 ../../admin/translating.rst:36
-#, fuzzy
-#| msgid "Turn on suggestions"
 msgid "Turn on voting."
 msgstr "提案を有効にする"
 
 #: ../../admin/translating.rst:30
-#, fuzzy
-#| msgid "Turn off this notification"
 msgid "Turn off automatic acceptance."
-msgstr "通知をオフにする"
+msgstr "自動採用を無効にする。"
 
 #: ../../admin/translating.rst:31
-#, fuzzy
-#| msgid "Deletes a translation."
 msgid "Don't let users save translations."
-msgstr "翻訳を削除します。"
+msgstr "ユーザーが翻訳を保存できないようにします。"
 
 #: ../../admin/translating.rst:33
-#, fuzzy
-#| msgid ""
-#| "Users suggest and vote for suggestions with automatic acceptance once the "
-#| "defined number of them agree. - Turn on voting. - Set the desired number "
-#| "of votes for automatic acceptance."
 msgid ""
 "Users suggest and vote for suggestions with automatic acceptance once the "
 "defined number of them agree."
 msgstr ""
-"ユーザーが提案と投票をし、設定した投票数に達すると、提案が自動採用される。— "
-"投票の有効化。— 提案が自動採用されるしきい値を設定する。"
+"ユーザーが提案を行い、投票を行います。所定の人数が賛成すると、自動的に採用さ"
+"れます。"
 
 #: ../../admin/translating.rst:37
 msgid "Set the desired number of votes for automatic acceptance."
-msgstr ""
+msgstr "自動採用に必要な投票数を設定します。"
 
 #: ../../admin/translating.rst:39
-#, fuzzy
-#| msgid ""
-#| "Optional voting for suggestions. (Can optionally be used by users when "
-#| "they are unsure about a translation by making multiple suggestions.) - "
-#| "Only turn on voting."
 msgid ""
 "Optional voting for suggestions. (Can optionally be used by users when they "
 "are unsure about a translation by making multiple suggestions.)"
 msgstr ""
-"任意で投票を行える。（ユーザーが翻訳に確信が持てない場合に、複数の提案をする"
-"ことで利用します。）— 投票のみ有効化する。"
+"提案に対して任意で投票できる機能です。（翻訳に迷った際に複数の提案を出し、"
+"ユーザーが任意で投票する用途を想定しています。）"
 
 #: ../../admin/translating.rst:42
 msgid "Only turn on voting."
-msgstr ""
+msgstr "投票機能だけを有効にします。"
 
 #: ../../admin/translating.rst:47
 msgid "Additional info on source strings"
@@ -23142,29 +23060,24 @@ msgid "Authentication and generic parameters"
 msgstr "認証と一般的なパラメータ"
 
 #: ../../api.rst:28
-#, fuzzy
-#| msgid ""
-#| "The public project API is available without authentication, though "
-#| "unauthenticated requests are heavily throttled (by default to 100 "
-#| "requests per day), so it is recommended to use authentication. The "
-#| "authentication uses a token, which you can get in your profile. Use it in "
-#| "the ``Authorization`` header:"
 msgid ""
 "The read-only API is available without authentication "
 "unless :setting:`REQUIRE_LOGIN` is turned on. Unauthenticated requests are "
 "heavily throttled (by default to 100 requests per day), so it is recommended "
 "to use authentication."
 msgstr ""
-"公開プロジェクト API は認証なしで使用できますが、認証されていないリクエストは"
-"大幅に制限されます（デフォルトでは、毎日100リクエスト）。制限回避のために、認"
-"証の使用を推奨します。認証では、ユーザー情報ページから取得できるトークンを使"
-"用します。``Authorization`` ヘッダーで使用してください:"
+"読み取り専用 API は、:setting:`REQUIRE_LOGIN` が有効になっていない限り、認証"
+"なしで利用できます。認証されていないリクエストは厳しく制限されます（"
+"デフォルトでは 1 日あたり 100 リクエスト）。そのため、認証の利用を推奨します"
+"。"
 
 #: ../../api.rst:33
 msgid ""
 "The authentication uses a token, which you can get in your profile. Use it "
 "in the ``Authorization`` header:"
 msgstr ""
+"認証にはトークンを使用します。トークンはプロフィールから取得できます。取得し"
+"たトークンは ``Authorization`` ヘッダーで使用してください。"
 
 #: ../../api.rst:38
 msgid ""
@@ -26272,10 +26185,8 @@ msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgstr "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 
 #: ../../changes.rst:2
-#, fuzzy
-#| msgid "Weblate 5.1.1"
 msgid "Weblate 5.16.1"
-msgstr "Weblate 5.1.1"
+msgstr "Weblate 5.16.1"
 
 #: ../../changes.rst:4
 msgid "*Not yet released.*"
@@ -26420,58 +26331,48 @@ msgid "Contributors"
 msgstr "貢献者"
 
 #: ../../changes.rst:22
-#, fuzzy
-#| msgid ""
-#| "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/"
-#| "61?closed=1>`__."
 msgid ""
 "`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/161?"
 "closed=1>`__."
 msgstr ""
-"`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/61?"
-"closed=1>`__。"
+"`すべての変更の詳細 <https://github.com/WeblateOrg/weblate/milestone/"
+"161?closed=1>`__。"
 
 #: ../../changes.rst:25
-#, fuzzy
-#| msgid "Weblate 5.1"
 msgid "Weblate 5.16"
-msgstr "Weblate 5.1"
+msgstr "Weblate 5.16"
 
 #: ../../changes.rst:27
-#, fuzzy
-#| msgid "*Released on February 16th 2012.*"
 msgid "*Released on February 16th 2026.*"
-msgstr "*2012 年 2 月 16 日にリリース。*"
+msgstr "*2026 年 2 月 16 日にリリース。*"
 
 #: ../../changes.rst:31
-#, fuzzy
-#| msgid "Skip the :ref:`check-multiple-failures` quality check."
 msgid ":ref:`check-multiple-capital` quality check."
-msgstr ":ref:`check-multiple-failures` の品質検査を除外する。"
+msgstr ":ref:`check-multiple-capital` の品質検査。"
 
 #: ../../changes.rst:32
-#, fuzzy
-#| msgid ":ref:`check-xml-tags` better handle XML entities."
 msgid ""
 ":ref:`check-xml-chars-around-tags` reduce translation errors for strings "
 "with XML entities."
-msgstr ":ref:`check-xml-tags` は XML エンティティをより適切に処理します。"
+msgstr ""
+":ref:`check-xml-chars-around-tags` は、XML のエンティティティティで文字列の翻"
+"訳エラーを減らします."
 
 #: ../../changes.rst:33
 msgid "Bulk accepting suggestions from a specific user in :ref:`suggestions`."
-msgstr ""
+msgstr ":ref:`suggestions` で特定ユーザーの提案を一括承認します。"
 
 #: ../../changes.rst:34
-#, fuzzy
-#| msgid "Fixed sorting of machine translation suggestions."
 msgid "Cloning suggestions into translation in :ref:`suggestions`."
-msgstr "機械翻訳の提案の並べ替えを修正。"
+msgstr ":ref:`suggestions` で提案を翻訳として複製します。"
 
 #: ../../changes.rst:35
 msgid ""
 ":setting:`HIDE_SHARED_GLOSSARY_COMPONENTS` to hide glossaries shared into "
 "other projects."
 msgstr ""
+":setting:`HIDE_SHARED_GLOSSARY_COMPONENTS` を使用して、他のプロジェクトへ共有"
+"された用語集を非表示にする。"
 
 #: ../../changes.rst:36
 msgid ""
@@ -46850,19 +46751,17 @@ msgstr "システムのエンコーディング"
 #: ../../snippets/file-format-parameters.rst:36
 #: ../../snippets/file-format-parameters.rst:115
 #: ../../snippets/file-format-parameters.rst:128
-#, fuzzy
-#| msgid "Filenames encoding"
 msgid "File encoding"
-msgstr "ファイル名のエンコーディング"
+msgstr "ファイルのエンコーディング"
 
 #: ../../snippets/file-format-parameters.rst:7
 msgid "Encoding used for CSV files"
-msgstr ""
+msgstr "CSV ファイルで使用されるエンコーディング"
 
 #: ../../snippets/file-format-parameters.rst:12
 #: ../../snippets/file-format-parameters.rst:22
 msgid "Auto-detect"
-msgstr ""
+msgstr "自動検出"
 
 #: ../../snippets/file-format-parameters.rst:15
 #: ../../snippets/file-format-parameters.rst:25
@@ -46870,7 +46769,7 @@ msgstr ""
 #: ../../snippets/file-format-parameters.rst:123
 #: ../../snippets/file-format-parameters.rst:136
 msgid "UTF-8"
-msgstr ""
+msgstr "UTF-8"
 
 #: ../../snippets/file-format-parameters.rst:17
 #, fuzzy
@@ -46880,13 +46779,13 @@ msgstr "ファイル名のエンコーディング"
 
 #: ../../snippets/file-format-parameters.rst:17
 msgid "Encoding used for simple CSV files"
-msgstr ""
+msgstr "シンプルな CSV ファイルで使用されるエンコーディング"
 
 #: ../../snippets/file-format-parameters.rst:28
 #: ../../snippets/file-format-parameters.rst:44
 #: ../../snippets/file-format-parameters.rst:120
 msgid "ISO-8859-1"
-msgstr ""
+msgstr "ISO-8859-1"
 
 #: ../../snippets/file-format-parameters.rst:30
 msgid "flatxml_key_name"
@@ -46920,7 +46819,7 @@ msgstr "システムのエンコーディング"
 
 #: ../../snippets/file-format-parameters.rst:36
 msgid "Encoding used for GWT Properties files"
-msgstr ""
+msgstr "GWT プロパティで使用されるエンコーディング"
 
 #: ../../snippets/file-format-parameters.rst:46
 msgid "json_indent"
@@ -46967,10 +46866,8 @@ msgid "merge_duplicates"
 msgstr ""
 
 #: ../../snippets/file-format-parameters.rst:90
-#, fuzzy
-#| msgid "Found duplicated string"
 msgid "Deduplicate identical strings"
-msgstr "重複した文字列の検出"
+msgstr "同一文字列の重複排除"
 
 #: ../../snippets/file-format-parameters.rst:90
 msgid ""
@@ -46978,6 +46875,9 @@ msgid ""
 "Prevents translation loss during file restructuring or table reordering by "
 "removing position-dependent context."
 msgstr ""
+"同一の原文を 1 つの翻訳ユニットに統合します。位置に依存したコンテキストを削除"
+"することで、ファイル構造の変更やテーブルの並べ替え時に翻訳が失われるのを防ぎ"
+"ます。"
 
 #: ../../snippets/file-format-parameters.rst:96
 msgid "po_fuzzy_matching"
@@ -47040,15 +46940,13 @@ msgid "properties_encoding"
 msgstr "プロパティ"
 
 #: ../../snippets/file-format-parameters.rst:115
-#, fuzzy
-#| msgid "Format the Java properties file"
 msgid "Encoding used for Java Properties files"
-msgstr "Java プロパティ ファイルの整形"
+msgstr "Java プロパティで使用されるエンコーディング"
 
 #: ../../snippets/file-format-parameters.rst:126
 #: ../../snippets/file-format-parameters.rst:133
 msgid "UTF-16"
-msgstr ""
+msgstr "UTF-16"
 
 #: ../../snippets/file-format-parameters.rst:128
 #, fuzzy
@@ -47058,7 +46956,7 @@ msgstr "ファイル名のエンコーディング"
 
 #: ../../snippets/file-format-parameters.rst:128
 msgid "Encoding used for iOS strings files"
-msgstr ""
+msgstr "iOS の文字列ファイルで使用されるエンコーディング"
 
 #: ../../snippets/file-format-parameters.rst:138
 msgid "xml_closing_tags"
@@ -54353,11 +54251,9 @@ msgid "XML surrounding characters"
 msgstr "文字数"
 
 #: ../../user/checks.rst:1899
-#, fuzzy
-#| msgid "XML tags in translation do not match source."
 msgid ""
 "Characters surrounding XML tags in translation do not align with source."
-msgstr "翻訳文の XML タグが原文と不一致。"
+msgstr "翻訳内の XML タグ前後の文字が、原文と一致しません。"
 
 #: ../../user/checks.rst:1906
 msgid ""
