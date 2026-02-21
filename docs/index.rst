@@ -1,4 +1,4 @@
-Weblate Documentation
+Weblate Documentation 
 =====================
 
 .. only:: not i18n
