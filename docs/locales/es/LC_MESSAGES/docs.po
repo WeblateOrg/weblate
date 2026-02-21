@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-02-16 14:59+0100\n"
-"PO-Revision-Date: 2026-02-21 10:11+0000\n"
+"PO-Revision-Date: 2026-02-22 09:57+0000\n"
 "Last-Translator: Francisco Serrador <fserrador@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -2969,8 +2969,8 @@ msgid ""
 "Author username (this can be different from user for example when accepting "
 "suggestions)"
 msgstr ""
-"Nombre de usuario del autor (esto puede ser diferente desde usuario por "
-"ejemplo cuando acepta sugerencias)"
+"Apodo del autor (esto puede ser diferente desde usuario por ejemplo cuando "
+"acepta sugerencias)"
 
 #: ../../admin/addons.rst:535
 msgid "Acting username"
@@ -5716,7 +5716,7 @@ msgstr "Correo electrónico"
 
 #: ../../admin/auth.rst:556 ../../admin/machine.rst:681 ../../api.rst:302
 msgid "Username"
-msgstr "Nombre de usuario"
+msgstr "Apodo"
 
 #: ../../admin/auth.rst:559
 msgid ""
@@ -6071,10 +6071,9 @@ msgid ""
 "create them. Upon import it is assigned to a matching user. If there is no "
 "user with such username, it is assigned to anonymous user."
 msgstr ""
-"Los comentarios y las sugerencias se respaldan junto con el nombre de "
-"usuario de quién los creó. Al importar se le asigna al usuario "
-"correspondiente. Si no se encuentra el nombre de usuario, se le asigna a un "
-"usuario anónimo."
+"Los comentarios y las sugerencias se respaldan junto con el apodo de quién "
+"los creó. Al importar se le asigna al usuario correspondiente. Si no se "
+"encuentra el apodo, se le asigna a un usuario anónimo."
 
 #: ../../admin/backup.rst:31
 msgid ""
@@ -8037,7 +8036,7 @@ msgstr ""
 
 #: ../../admin/config.rst:110
 msgid "Username of users that are not signed in."
-msgstr "El nombre de usuario de los usuarios sin cuenta."
+msgstr "Los apodos de usuarios que no han accedido."
 
 #: ../../admin/config.rst:121
 msgid ""
@@ -9744,12 +9743,11 @@ msgstr ""
 "desean que sean traducidos."
 
 #: ../../admin/config.rst:1929
-#, fuzzy
-#| msgid "This is turned off by default now, used to be turned on by default."
 msgid ""
 "This is turned off by default, making shared glossary components visible."
 msgstr ""
-"Está desactivado por defecto ahora, utilizaba ser activado por defecto."
+"Esto está apagado por defecto, haciendo visibles los componentes del "
+"glosario compartido."
 
 #: ../../admin/config.rst:1936
 msgid ""
@@ -10725,15 +10723,6 @@ msgstr ""
 "detalles son encontrados en ese capítulo."
 
 #: ../../admin/continuous.rst:365
-#, fuzzy
-#| msgid ""
-#| "In case you do not want direct pushes by Weblate, there is support "
-#| "for :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-"
-#| "pagure`, :ref:`vcs-azure-devops` pull requests or :ref:`vcs-gerrit` "
-#| "reviews, you can activate these by "
-#| "choosing :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit`, :guilabel:`Azure "
-#| "DevOps`, or :guilabel:`Pagure` as :ref:`component-vcs` "
-#| "in :ref:`component`."
 msgid ""
 "In case you do not want direct pushes by Weblate, there is support "
 "for :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-"
@@ -10742,12 +10731,12 @@ msgid ""
 "choosing :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit`, :guilabel:`Azure "
 "DevOps`, or :guilabel:`Pagure` as :ref:`component-vcs` in :ref:`component`."
 msgstr ""
-"En caso de que no desee envíos directos por Weblate, hay mantenimiento "
-"para :ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-"
-"pagure`, :ref:`vcs-azure-devops` solicitudes de extracción o :ref:`vcs-"
-"gerrit` revisiones, puede activarlas "
-"eligiendo :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, :guilabel:`Gerrit`, :guilabel:`Azure "
-"DevOps` o :guilabel:`Pagure` como :ref:`component-vcs` en :ref:`component`."
+"En caso de que no desee envíos directos por Weblate, hay mantenimiento para "
+":ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-pagure`, "
+":ref:`vcs-azure-devops` o :ref:`vcs-gerrit` revisiones, puede activarlas "
+"eligiendo :guilabel:`GitHub`, :guilabel:`GitLab`, :guilabel:`Gitea`, "
+":guilabel:`Gerrit`, :guilabel:`Azure DevOps` o :guilabel:`Pagure` como "
+":ref:`component-vcs` en :ref:`component`."
 
 #: ../../admin/continuous.rst:371
 msgid ""
@@ -12186,8 +12175,8 @@ msgstr ""
 "La migración de la base de datos ejecuta `ALTER ROLE <https://"
 "www.postgresql.org/docs/16/sql-alterrole.html>`_ en el rol de base de datos "
 "que utiliza Weblate. En la mayoría de los casos, el nombre del rol coincide "
-"con el nombre de usuario. En configuraciones más complejas, el nombre del "
-"rol es diferente del nombre de usuario, y se obtendrá un error sobre un rol "
+"con el apodo. En configuraciones más complejas, el nombre del rol es "
+"diferente del nombre de usuario, y se obtendrá un error sobre un rol "
 "inexistente durante la migración de la base de datos "
 "(``psycopg2.errors.UndefinedObject: role \"weblate@hostname\" no existe``). "
 "Esto es común con Azure Database for PostgreSQL, pero no se limita a este "
@@ -12506,12 +12495,6 @@ msgstr ""
 "o :envvar:`WEBLATE_SECURE_PROXY_SSL_HEADER` (Entorno Docker)."
 
 #: ../../admin/install.rst:768
-#, fuzzy
-#| msgid ""
-#| "The header value is case-sensitive in the configuration, so "
-#| "``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,https`` and "
-#| "``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,HTTPS`` are not "
-#| "interchangeable."
 msgid ""
 "The header value is case-sensitive in the configuration, so "
 "``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_FORWARDED_PROTO,https`` and "
@@ -12520,8 +12503,8 @@ msgid ""
 msgstr ""
 "El valor del encabezado distingue entre mayúsculas y minúsculas en la "
 "configuración, por tanto "
-"``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,https`` y "
-"``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_CUSTOM_PROTO,HTTPS`` no son "
+"``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_FORWARDED_PROTO,https`` y "
+"``WEBLATE_SECURE_PROXY_SSL_HEADER=HTTP_X_FORWARDED_PROTO,HTTPS`` no son "
 "intercambiables."
 
 #: ../../admin/install.rst:775
@@ -15222,10 +15205,10 @@ msgstr ""
 "integración de VCS."
 
 #: ../../admin/install/docker.rst:1140
-#, fuzzy
-#| msgid "An example configuration for GitHub might look like:"
 msgid "An example configuration for GitHub pull requests might look like:"
-msgstr "Una configuración de ejemplo para GitHub podría verse así:"
+msgstr ""
+"Una configuración de ejemplo para solicitudes de incorporación a GitHub "
+"podría verse así:"
 
 #: ../../admin/install/docker.rst:1148
 msgid "Will be used as:"
@@ -15540,7 +15523,7 @@ msgstr "Contraseña de PostgreSQL."
 
 #: ../../admin/install/docker.rst:1574
 msgid "PostgreSQL username."
-msgstr "Nombre de usuario de PostgreSQL."
+msgstr "Apodo de PostgreSQL."
 
 #: ../../admin/install/docker.rst:1578
 msgid "PostgreSQL database name."
@@ -18038,10 +18021,6 @@ msgid "Translator persona"
 msgstr "Traductor"
 
 #: ../../admin/machine.rst:198
-#, fuzzy
-#| msgid ""
-#| "Describe the persona of translator to improve the accuracy of the "
-#| "translation. For example: “You are a squirrel breeder.”"
 msgid ""
 "Describe the persona of translator to improve the accuracy of the "
 "translation. For example: \"You are a squirrel breeder.\""
@@ -18055,9 +18034,6 @@ msgid "Translator style"
 msgstr "Estilo de traductor"
 
 #: ../../admin/machine.rst:200
-#, fuzzy
-#| msgid ""
-#| "Describe the style of translation. For example: “Use informal language.”"
 msgid ""
 "Describe the style of translation. For example: \"Use informal language.\""
 msgstr ""
@@ -18065,10 +18041,8 @@ msgstr ""
 "informal.\""
 
 #: ../../admin/machine.rst:203
-#, fuzzy
-#| msgid "Performs translation using `Ollama`_ models."
 msgid "Performs translation using `Anthropic's Claude`_ models."
-msgstr "Realiza la traducción usando modelos `Ollama`_."
+msgstr "Realiza la traducción usando modelos `Anthropic's Claude`_."
 
 #: ../../admin/machine.rst:205
 msgid ""
@@ -18081,27 +18055,22 @@ msgstr ""
 "Necesita una clave API de Anthropic para usar este servicio."
 
 #: ../../admin/machine.rst:209
-#, fuzzy
-#| msgid ""
-#| "Use persona and style fields to further fine-tune translations. These "
-#| "will be used in a prompt for Ollama and allow you to change the style of "
-#| "the translations."
 msgid ""
 "Use persona and style fields to further fine-tune translations. These will "
 "be used in a prompt for Claude and allow you to change the style of the "
 "translations."
 msgstr ""
 "Utilice campos de persona y estilos para más tarde ajustar traducciones. "
-"Esto será utilizado en una solicitud para Ollama y le concede cambiar el "
+"Esto será utilizado en una solicitud para Claude y le concede cambiar el "
 "estilo de las traducciones."
 
 #: ../../admin/machine.rst:217
-#, fuzzy
-#| msgid "`DeepL API documentation <https://developers.deepl.com/docs>`_"
 msgid ""
 "`Anthropic API documentation <https://docs.anthropic.com/en/api/getting-"
 "started>`_"
-msgstr "`Documentación del API DeepL <https://developers.deepl.com/docs>`_"
+msgstr ""
+"`Documentación del API Anthropic <https://docs.anthropic.com/en/api/getting-"
+"started>`_"
 
 #: ../../admin/machine.rst:218
 msgid "`Anthropic Console <https://console.anthropic.com/>`_"
@@ -18325,12 +18294,12 @@ msgid "`DeepL pricing <https://www.deepl.com/pro>`_"
 msgstr "`Coste de DeepL <https://www.deepl.com/pro>`_"
 
 #: ../../admin/machine.rst:380
-#, fuzzy
-#| msgid "`DeepL API documentation <https://developers.deepl.com/docs>`_"
 msgid ""
 "`DeepL API documentation <https://developers.deepl.com/docs/getting-started/"
 "intro>`_"
-msgstr "`Documentación del API DeepL <https://developers.deepl.com/docs>`_"
+msgstr ""
+"`Documentación del API DeepL <https://developers.deepl.com/docs/getting-"
+"started/intro>`_"
 
 #: ../../admin/machine.rst:385
 msgid "Glosbe"
@@ -18373,16 +18342,12 @@ msgstr ""
 "una clave API y activar en la factura en la consola de Google API."
 
 #: ../../admin/machine.rst:435 ../../admin/machine.rst:494
-#, fuzzy
-#| msgid ""
-#| "`Google translate documentation <https://cloud.google.com/translate/"
-#| "docs>`_"
 msgid ""
 "`Google translate documentation <https://docs.cloud.google.com/translate/"
 "docs>`_"
 msgstr ""
-"`Documentación del traductor de Google <https://cloud.google.com/translate/"
-"docs>`_"
+"`Documentación del traductor de Google <https://docs.cloud.google.com/"
+"translate/docs>`_"
 
 #: ../../admin/machine.rst:455
 msgid "Google Translate service account info"
@@ -18475,27 +18440,19 @@ msgid "`Grant 'Storage Admin' permission to the Service Account.`_"
 msgstr "`Conceda permisos 'Admin de Almacén' para la Cuenta de Servicio.`_"
 
 #: ../../admin/machine.rst:495
-#, fuzzy
-#| msgid ""
-#| "`Authenticate to Cloud services using client libraries <https://"
-#| "cloud.google.com/docs/authentication/client-libraries>`_"
 msgid ""
 "`Authenticate to Cloud services using client libraries <https://"
 "docs.cloud.google.com/docs/authentication/client-libraries>`_"
 msgstr ""
 "`Autenticarse en servicios en la nube mediante bibliotecas cliente <https://"
-"cloud.google.com/docs/authentication/client-libraries>`_"
+"docs.cloud.google.com/docs/authentication/client-libraries>`_"
 
 #: ../../admin/machine.rst:496
-#, fuzzy
-#| msgid ""
-#| "`Creating Google Translate project <https://cloud.google.com/appengine/"
-#| "docs/standard/nodejs/building-app/creating-project>`_"
 msgid ""
 "`Creating Google Translate project <https://docs.cloud.google.com/appengine/"
 "docs/standard/nodejs/building-app/creating-project>`_"
 msgstr ""
-"`Creación del proyecto Traductor de Google <https://cloud.google.com/"
+"`Creación del proyecto Traductor de Google <https://docs.cloud.google.com/"
 "appengine/docs/standard/nodejs/building-app/creating-project>`_"
 
 #: ../../admin/machine.rst:497
@@ -18921,7 +18878,7 @@ msgstr "Hub de Traducción de SAP"
 
 #: ../../admin/machine.rst:880
 msgid "SAP username"
-msgstr "Nombre de usuario de SAP"
+msgstr "Apodo de SAP"
 
 #: ../../admin/machine.rst:882
 msgid "SAP password"
@@ -19283,8 +19240,8 @@ msgid ""
 "Specify username listed as author of the translations. \"Anonymous user\" is "
 "used if not specified."
 msgstr ""
-"Especifique el nombre de usuario que aparece como autor de las traducciones. "
-"Se utiliza \"Usuario anónimo\" si no se especifica."
+"Especifique el apodo que aparece como autor de las traducciones. Se utiliza "
+"\"Usuario anónimo\" si no se especifica."
 
 #: ../../admin/management.rst:122
 msgid "Whether to overwrite existing translations."
@@ -19344,11 +19301,11 @@ msgstr ""
 "veces para agregar facturas y eventos de facturación adicionales."
 
 #: ../../admin/management.rst:197
-#, fuzzy
-#| msgid "This can be useful when developing Weblate."
 msgid ""
 "This can be useful when developing Weblate. Needs :ref:`billing` installed."
-msgstr "Puede ser de utilidad si está desarrollando Weblate."
+msgstr ""
+"Esto puede ser útil cuando desarrolle Weblate. Necesita :ref:`billing` "
+"instalado."
 
 #: ../../admin/management.rst:210
 msgid "Displays length of Celery task queues."
@@ -19915,16 +19872,12 @@ msgstr ""
 "nombres en inglés y nombres localizados."
 
 #: ../../admin/management.rst:755
-#, fuzzy
-#| msgid ""
-#| "This is used to generate <https://wiki.l10n.cz/"
-#| "Slovn%C3%ADk_s_n%C3%A1zvy_jazyk%C5%AF>."
 msgid ""
 "This is used to generate <https://www.l10n.cz/wiki/Slovn%C3%ADky/"
 "Slovn%C3%ADk_s_n%C3%A1zvy_jazyk%C5%AF/>."
 msgstr ""
-"Esto se usa para generar <https://wiki.l10n.cz/"
-"Slovn%C3%ADk_s_n%C3%A1zvy_jazyk%C5%AF>."
+"Esto se utiliza para generar <https://www.l10n.cz/wiki/Slovn%C3%ADky/"
+"Slovn%C3%ADk_s_n%C3%A1zvy_jazyk%C5%AF/>."
 
 #: ../../admin/management.rst:762
 msgid ""
@@ -20847,6 +20800,13 @@ msgid ""
 "``RATELIMIT_TRANSLATE_ATTEMPTS``. The table below is a full list of "
 "available scopes."
 msgstr ""
+"Varias operaciones en Weblate tienen un límite de frecuencia. Se permiten "
+"como máximo :setting:`RATELIMIT_ATTEMPTS` intentos en "
+":setting:`RATELIMIT_WINDOW` segundos. El usuario queda bloqueado durante "
+":setting:`RATELIMIT_LOCKOUT`. También existen ajustes específicos para "
+"ciertos ámbitos, como ``RATELIMIT_CONTACT_ATTEMPTS`` o "
+"``RATELIMIT_TRANSLATE_ATTEMPTS``. La tabla siguiente es un listado completo "
+"de ámbitos disponibles."
 
 #: ../../admin/optionals.rst:253
 msgid "The following operations are subject to rate limiting:"
@@ -21676,6 +21636,10 @@ msgid ""
 "manually merge changes. You can use :ref:`git-exporter` to automate this for "
 "Git repositories."
 msgstr ""
+"URL donde se exportan los cambios realizados por Weblate. Esto es importante "
+"cuando no se usa :ref:`continuous-translation`, o cuando es necesario "
+"fusionar los cambios manualmente. Puedes usar :ref:`git-exporter` para "
+"automatizar esto en los repositorios Git."
 
 #: ../../admin/projects.rst:470
 msgid "Repository branch"
@@ -21740,6 +21704,11 @@ msgid ""
 "processed). In case your repository contains more than one translation file "
 "(e.g. more gettext domains), you need to create a component for each of them."
 msgstr ""
+"Máscara de archivos a traducir, incluyendo la ruta. Incluiría un asterisco "
+"(*) que reemplaza el código de idioma (consulte :ref:`languages` para "
+"obtener información sobre cómo se procesa). Si su repositorio contiene más "
+"de un archivo de traducción (por ejemplo, varios dominios gettext), necesita "
+"crear un componente por cada uno de ellos."
 
 #: ../../admin/projects.rst:505
 msgid "For example ``po/*.po`` or ``locale/*/LC_MESSAGES/django.po``."
@@ -21782,6 +21751,8 @@ msgid ""
 "The file mask and screenshot file mask are not related. Configure them "
 "separately."
 msgstr ""
+"La máscara de archivo y la máscara de archivo de captura de pantalla no "
+"están relacionadas. Configúrelas por separado."
 
 #: ../../admin/projects.rst:528
 msgid ""
@@ -21796,6 +21767,7 @@ msgid "Let's assume your VCS repository has a structure like this:"
 msgstr "Asumamos que us repositorio VCS tiene una estructura como esto:"
 
 #: ../../admin/projects.rst:541
+#, fuzzy
 msgid ""
 "For component_A, you want to allow discovery and updates of PNG screenshots. "
 "You'd set the screenshot file mask for component_A as ``component_A/docs/"
@@ -21804,6 +21776,14 @@ msgid ""
 "screenshot you provide should be named ``image1.png``, matching the existing "
 "``filename``, and stored under ``component_A/docs/``."
 msgstr ""
+"Para el componente A, se desea permitir la detección y actualización de "
+"capturas de pantalla PNG. Para ello, se debe configurar la máscara de "
+"archivos de captura de pantalla del componente A como ``component_A/docs/"
+"*.png``. Esto significa que cualquier imagen PNG dentro de la carpeta `docs` "
+"del componente A podrá ser detectada y actualizada. Por lo tanto, si se "
+"desea actualizar ``image1.png``, la nueva captura de pantalla debe llamarse "
+"``image1.png``, coincidiendo con el nombre de archivo existente, y "
+"almacenarse en ``component_A/docs/``."
 
 #: ../../admin/projects.rst:550 ../../formats/android.rst:78
 #: ../../formats/apple.rst:30 ../../formats/appstore.rst:31
@@ -21863,6 +21843,10 @@ msgid ""
 "into the source language, translating to other languages is prohibited. This "
 "provides :ref:`source-quality-gateway`."
 msgstr ""
+"Al configurarse, las cadenas de origen se basan en este archivo, pero todos "
+"los demás idiomas se basan en :ref:`component-template`. Si la cadena no "
+"está traducida al idioma de origen, se prohíbe la traducción a otros "
+"idiomas. Esto proporciona :ref:`source-quality-gateway`."
 
 #: ../../admin/projects.rst:596 ../../devel/gettext.rst:235
 #: ../../formats/android.rst:80 ../../formats/apple.rst:33
@@ -21902,6 +21886,8 @@ msgid ""
 "Keep this field empty for most of the monoligual formats. Those are "
 "typically able to start from an empty file."
 msgstr ""
+"Mantenga este campo vacío para la mayoría de los formatos monolingües. "
+"Típicamente estos suelen poder comenzar desde un archivo vacío."
 
 #: ../../admin/projects.rst:601
 msgid "Choose ``.pot`` file with GNU gettext PO files."
@@ -21939,10 +21925,13 @@ msgid ""
 "this in case you want to have all strings present with empty value when "
 "creating new translation."
 msgstr ""
+"En muchos formatos monolingües, Weblate comienza con un archivo vacío de "
+"forma predeterminada. Utilice esta opción si desea que todas las cadenas "
+"estén presentes con un valor vacío al crear una nueva traducción."
 
 #: ../../admin/projects.rst:626
 msgid "Translation file format, see also :ref:`formats`."
-msgstr ""
+msgstr "Formato del archivo de traducción, consulte también :ref:`formats`."
 
 #: ../../admin/projects.rst:631 ../../formats.rst:513
 #: ../../formats/gettext.rst:166 ../../formats/html.rst:35
@@ -21956,6 +21945,8 @@ msgid ""
 "Parameters used to configure how translation files are processed, see "
 "also :ref:`file_format_params`."
 msgstr ""
+"Parámetros utilizados para configurar como se procesan los archivos de "
+"traducción, consulte también :ref:`file_format_params`."
 
 #: ../../admin/projects.rst:638
 msgid "Source string bug reporting address"
@@ -21966,12 +21957,17 @@ msgid ""
 "Email address used for reporting upstream bugs. This address will also "
 "receive notification about any source string comments made in Weblate."
 msgstr ""
+"Dirección de correo-e para informar defectos en la rama principal. Esta "
+"dirección además recibirá notificación acerca de cualquier comentario de la "
+"cadena de fuente realizada en Weblate."
 
 #: ../../admin/projects.rst:643
 msgid ""
 "With the :ref:`gettext` format, this address is also saved by Weblate in "
 "the :mailheader:`Report-Msgid-Bugs-To` header of the file."
 msgstr ""
+"Con el formato :ref:`gettext`, esta dirección además es guardada por Weblate "
+"en la cabecera :mailheader:`Report-Msgid-Bugs-To` en el fichero."
 
 #: ../../admin/projects.rst:649
 msgid "Do not show glossary matches"
@@ -22018,6 +22014,9 @@ msgid ""
 "It's usually a good idea to turn this off for monolingual translations, "
 "unless you are using the same IDs across the whole project."
 msgstr ""
+"Generalmente es una buena idea apagar esta opción para las traducciones "
+"monolingües, a menos que utilices las mismas identificaciones en todo el "
+"proyecto."
 
 #: ../../admin/projects.rst:676
 msgid ""
@@ -22053,6 +22052,7 @@ msgstr "Aceptar sugerencias automáticamente"
 #: ../../admin/projects.rst:709
 msgid "Automatically accept voted suggestions, see :ref:`voting`."
 msgstr ""
+"Aceptar automáticamente las sugerencias votadas, consulte :ref:`voting`."
 
 #: ../../admin/projects.rst:725
 msgid "Enforced checks"
@@ -22071,6 +22071,8 @@ msgid ""
 "License of the translation (does not need to be the same as the source code "
 "license)."
 msgstr ""
+"Licencia de la traducción (no tiene por qué ser la misma que la licencia del "
+"código fuente)."
 
 #: ../../admin/projects.rst:745
 msgid ""
@@ -22083,6 +22085,7 @@ msgstr ""
 #: ../../admin/projects.rst:748
 msgid "Markdown can be used for text formatting or inserting links."
 msgstr ""
+"Markdown se puede utilizar para dar formato al texto o insertar enlaces."
 
 #: ../../admin/projects.rst:753
 msgid "Adding new translation"
@@ -22119,6 +22122,10 @@ msgid ""
 "translations. Use this in case more formal process is desired (for example "
 "forming a team of people before starting actual translation)."
 msgstr ""
+"Al usuario se le presenta un enlace a una página que describe el proceso "
+"para iniciar nuevas traducciones. Utilice este enlace si desea un proceso "
+"más formal (por ejemplo, formar un equipo de personas antes de comenzar la "
+"traducción propiamente dicha)."
 
 #: ../../admin/projects.rst:765
 msgid "Create new language file"
@@ -22129,6 +22136,8 @@ msgid ""
 "User can select language and Weblate automatically creates the file for it "
 "and translation can begin."
 msgstr ""
+"El usuario puede seleccionar el idioma y Weblate crea automáticamente el "
+"archivo correspondiente para que pueda comenzar la traducción."
 
 #: ../../admin/projects.rst:768
 msgid "Disable adding new translations"
@@ -22136,7 +22145,7 @@ msgstr "Desactivar adición de traducciones nuevas"
 
 #: ../../admin/projects.rst:769
 msgid "There will be no option for user to start new translation."
-msgstr ""
+msgstr "No habrá ninguna opción para el usuario comience una traducción nueva."
 
 #: ../../admin/projects.rst:773
 msgid ""
@@ -22144,6 +22153,9 @@ msgid ""
 "it is possible (either :ref:`component-new_base` or the file format supports "
 "starting from an empty file)."
 msgstr ""
+"Los admins del proyecto pueden añadir traducciones nuevas incluso si está "
+"inhabilitada aquí cuando sea posible (o bien :ref:`component-new_base` o "
+"bien el formato del fichero admite comenzar desde un fichero vacío)."
 
 #: ../../admin/projects.rst:785
 msgid "Manage strings"
@@ -22155,6 +22167,9 @@ msgid ""
 "remove existing ones. Adjust this to match your localization workflow - how "
 "the new strings are supposed to be introduced."
 msgstr ""
+"Configura si los usuarios de Weblate podrán añadir nuevas cadenas y eliminar "
+"las existentes. Ajuste esta opción para que coincida con su flujo de trabajo "
+"de localización: cómo se deben introducir las nuevas cadenas."
 
 #: ../../admin/projects.rst:793
 msgid ""
@@ -22177,6 +22192,9 @@ msgid ""
 "are automatically added or removed in the translations. The strings appear "
 "in the translation files once they are translated."
 msgstr ""
+"En los formatos monolingües, las cadenas se gestionan únicamente en el "
+"idioma de origen y se añaden o eliminan automáticamente en las traducciones. "
+"Las cadenas aparecen en los archivos de traducción una vez traducidos."
 
 #: ../../admin/projects.rst:805
 msgid ""
@@ -22495,6 +22513,8 @@ msgid ""
 "There are other situations where pending changes might be committed, "
 "see :ref:`lazy-commit`."
 msgstr ""
+"Existen otras situaciones donde los cambios pendientes puedan ser "
+"efectuados, consulte :ref:`lazy-commit`."
 
 #: ../../admin/projects.rst:948
 msgid "Lock on error"
@@ -22507,12 +22527,18 @@ msgid ""
 "it. This avoids adding another conflicts, which would have to be resolved "
 "manually."
 msgstr ""
+"Bloquea el componente (y los componentes vinculados, consulte :ref:`internal-"
+"urls`) tras el primer envío o fusión fallida en su repositorio en "
+"desarrollo, o la incorporarlo. Esto evita la aparición de otros conflictos, "
+"que tendrían que resolverse manualmente."
 
 #: ../../admin/projects.rst:954
 msgid ""
 "The component will be automatically unlocked once there are no repository "
 "errors left."
 msgstr ""
+"El componente se desbloqueará automáticamente una vez que no queden errores "
+"en el repositorio."
 
 #: ../../admin/projects.rst:960 ../../devel/migration.rst:113
 msgid "Source language"
@@ -22523,6 +22549,8 @@ msgid ""
 "Language used for source strings. Change this if you are translating from "
 "something else than English."
 msgstr ""
+"Idioma utilizado para las cadenas de origen. Cámbielo si traduce de un "
+"idioma distinto del español."
 
 #: ../../admin/projects.rst:967
 msgid ""
@@ -22542,6 +22570,8 @@ msgid ""
 "For monolingual translations, you can use intermediate translation in this "
 "case, see :ref:`component-intermediate`."
 msgstr ""
+"Para traducciones monolingües, puedes utilizar la traducción intermedia en "
+"este caso, consulta :ref:`component-intermediate`."
 
 #: ../../admin/projects.rst:981
 msgid ""
@@ -22555,10 +22585,12 @@ msgstr ""
 #: ../../admin/projects.rst:986
 msgid "You need to list language codes as they appear in the filename."
 msgstr ""
+"Debes enumerar los códigos de idioma tal como aparecen en el nombre del "
+"archivo."
 
 #: ../../admin/projects.rst:988 ../../admin/projects.rst:1016
 msgid "Some examples of filtering:"
-msgstr ""
+msgstr "Algunos ejemplos de filtrado:"
 
 #: ../../admin/projects.rst:991 ../../admin/projects.rst:1019
 msgid "Filter description"
@@ -22579,7 +22611,7 @@ msgstr "Excluir idiomas"
 
 #: ../../admin/projects.rst:997
 msgid "Filter two letter codes only"
-msgstr ""
+msgstr "Filtrar solo códigos de dos letras"
 
 #: ../../admin/projects.rst:999
 msgid "Exclude non language files"
@@ -22599,6 +22631,9 @@ msgid ""
 "only those units whose keys match the regular expression that was set as the "
 "value of this field."
 msgstr ""
+"Una expresión regular que se utiliza para filtrar unidades por sus claves. "
+"Muestra solo las unidades cuyas claves coinciden con la expresión regular "
+"establecida como valor de este campo."
 
 #: ../../admin/projects.rst:1021
 msgid "Selected keys only"
@@ -22628,6 +22663,8 @@ msgid ""
 "Regular expression used to determine the variants of a string, "
 "see :ref:`variants`."
 msgstr ""
+"Expresión regular utilizada para determinar las variantes de una cadena, "
+"consulte :ref:`variants`."
 
 #: ../../admin/projects.rst:1043
 msgid ""
@@ -22653,6 +22690,7 @@ msgstr ""
 #: ../../admin/projects.rst:1080
 msgid "This now also affects ordering of matched glossary terms."
 msgstr ""
+"Esto ahora también afecta el orden de los términos del glosario coincidentes."
 
 #: ../../admin/projects.rst:1085
 msgid "Restricted access"
@@ -22664,6 +22702,10 @@ msgid ""
 "project, even if the person can not perform any changes in the component. "
 "This makes it easier to keep translation consistency within the project."
 msgstr ""
+"Por defecto el componente es visible para todos quienes hayan accedido al "
+"proyecto, incluso si la persona no puede realizar ningún cambio en el "
+"componente. Esto lo hace más fácil para conservar la traducción consistente "
+"con el proyecto."
 
 #: ../../admin/projects.rst:1093
 msgid ""
@@ -22673,17 +22715,27 @@ msgid ""
 "access to a new user group and putting users in it, or using the default "
 "`custom` or `private` access control groups."
 msgstr ""
+"Restringir el acceso en un componente, o nivel de listado de componente toma "
+"sobre el permiso de acceso a un componente, a pesar de todos los permisos "
+"del nivel de proyecto. Tendrá que conceder acceso a esto explícitamente. "
+"Esto puede ser hecho a través de la concesión de acceso a un grupo de "
+"usuario nuevo y poniendo a usuarios dentro de este, o utilizando los grupos "
+"de acceso predeterminado de `custom` o `private`."
 
 #: ../../admin/projects.rst:1099
 msgid ""
 "The default value can be changed in :setting:`DEFAULT_RESTRICTED_COMPONENT`."
 msgstr ""
+"El valor por defecto puede ser cambiado en "
+":setting:`DEFAULT_RESTRICTED_COMPONENT`."
 
 #: ../../admin/projects.rst:1103
 msgid ""
 "This applies to project admins as well — please ensure you will not loose "
 "access to the component after toggling the status."
 msgstr ""
+"También esto aplica a admins del proyecto — asegúre que no perderá el acceso "
+"al componente tras toquetear el estado."
 
 #: ../../admin/projects.rst:1109
 msgid "Share in projects"
@@ -22721,11 +22773,13 @@ msgstr ""
 
 #: ../../admin/projects.rst:1131
 msgid "Glossaries are best for:"
-msgstr ""
+msgstr "Los glosarios son mejor para:"
 
 #: ../../admin/projects.rst:1133
 msgid "Ensuring consistent use of terms (e.g., UI labels, product names)."
 msgstr ""
+"Asegurar consistencia de uso para términos (p.e. etiquetas de IU, nombres de "
+"producto)."
 
 #: ../../admin/projects.rst:1134
 msgid "Sharing preferred translations across multiple components or projects."
@@ -22735,12 +22789,13 @@ msgstr ""
 
 #: ../../admin/projects.rst:1135
 msgid "Supporting translators with definitions and context."
-msgstr ""
+msgstr "Mantener traductores con definiciones y contexto."
 
 #: ../../admin/projects.rst:1139
 msgid ""
 "Glossaries are not for regular translations—they are for managing terms only."
 msgstr ""
+"Glosarios no son para traducciones usuales —son solo para gestionar términos."
 
 #: ../../admin/projects.rst:1141
 msgid ""
@@ -22775,12 +22830,17 @@ msgid ""
 "Color used when displaying terms from this glossary. Useful to distinguish "
 "glossaries when using more of them."
 msgstr ""
+"Colores utilizados cuando exhiba términos desde este glosario. Útil para "
+"distinguir glosarios cuando utilice más de ellos."
 
 #: ../../admin/projects.rst:1168
 msgid ""
 "Categories are there to give structure to components within a project. You "
 "can nest them to achieve a more complex structure."
 msgstr ""
+"Las categorías están allí para proporcionar estructura para componentes "
+"pertenecientes a un proyecto. Puede anidarlos para lograr una estructura más "
+"compleja."
 
 #: ../../admin/projects.rst:1174
 msgid "Template markup"
@@ -22792,6 +22852,9 @@ msgid ""
 "is needed. It is based on :doc:`django:ref/templates/language`, so it can be "
 "quite powerful."
 msgstr ""
+"Weblate utilice lenguaje de marcador simple en varios lugares donde el "
+"analizado de texto es necesario. Está basad en :doc:`django:ref/templates/"
+"language`, por tanto puede ser bastante potente."
 
 #: ../../admin/projects.rst:1180
 msgid "Currently it is used in:"
@@ -22799,7 +22862,7 @@ msgstr "Actualmente se utiliza en:"
 
 #: ../../admin/projects.rst:1182
 msgid "Commit message formatting, see :ref:`component`"
-msgstr ""
+msgstr "Formato de mensaje consolidado, consulte :ref:`component`"
 
 #: ../../admin/projects.rst:1183
 msgid "Several add-ons"
@@ -22821,38 +22884,40 @@ msgstr "Nombre de archivo de traducción"
 #: ../../admin/projects.rst:1207
 msgid "Translation stats, this has further attributes, examples below."
 msgstr ""
+"Estados de traducción, esto tiene más atributos, ejemplos a continuación."
 
 #: ../../admin/projects.rst:1209
 msgid "Total strings count"
-msgstr ""
+msgstr "Conteo total de cadenas"
 
 #: ../../admin/projects.rst:1211
 msgid "Count of strings needing review"
-msgstr ""
+msgstr "Conteo de cadenas necesarias para revisión"
 
 #: ../../admin/projects.rst:1213
 msgid "Percent of strings needing review"
-msgstr ""
+msgstr "Porcentaje de cadenas necesarias para revisar"
 
 #: ../../admin/projects.rst:1215
 msgid "Translated strings count"
-msgstr ""
+msgstr "Conteo de cadenas traducidas"
 
 #: ../../admin/projects.rst:1217
 msgid "Translated strings percent"
-msgstr ""
+msgstr "Porcentaje de cadenas traducidas"
 
 #: ../../admin/projects.rst:1219
 msgid "Number of strings with failing checks"
-msgstr ""
+msgstr "Número de cadenas con comprobantes incorrectos"
 
 #: ../../admin/projects.rst:1221
 msgid "Percent of strings with failing checks"
-msgstr ""
+msgstr "Porcentaje de cadenas con comprobantes incorrectos"
 
 #: ../../admin/projects.rst:1223
 msgid "Author of current commit, available only in the commit scope."
 msgstr ""
+"Autor de consolidación actual, disponible solo en el ámbito de consolidación."
 
 #: ../../admin/projects.rst:1225
 msgid ""
@@ -22912,7 +22977,7 @@ msgstr "Puedes combinarlo con filtros:"
 
 #: ../../admin/projects.rst:1264
 msgid "There are also additional filter to manipulate with filenames:"
-msgstr ""
+msgstr "Además hay filtros adicionales para manipular con nombres de archivos:"
 
 #: ../../admin/projects.rst:1273
 msgid "…and other Django template features."
@@ -22942,10 +23007,16 @@ msgid ""
 "quite a big impact on performance. Please check :ref:`production` for more "
 "details, especially:"
 msgstr ""
+"La configuración por defecto es útil para probar y depurar Weblate, mientras "
+"que una configuración en producción, haría algo de ajuste. Muchos de ellos "
+"tienen poco un impacto grande en rendimiento. Compruebe :ref:`production` "
+"para más detalles, especialmente:"
 
 #: ../../admin/projects.rst:1291
 msgid "Configure Celery for executing background tasks (see :ref:`celery`)"
 msgstr ""
+"Configurar Celery para ejecutar tareas en segundo plano (consulte "
+":ref:`celery`)"
 
 #: ../../admin/projects.rst:1297
 msgid "Check resource limits"
@@ -22956,28 +23027,36 @@ msgid ""
 "If you are importing huge translations or repositories, you might be hit by "
 "resource limitations of your server."
 msgstr ""
+"Si es importante traducciones o repositorios enormes, quizá sea importante "
+"reducir limitaciones de su servidor."
 
 #: ../../admin/projects.rst:1302
 msgid ""
 "Check the amount of free memory, having translation files cached by the "
 "operating system will greatly improve performance."
 msgstr ""
+"Compruebe la cantidad de memoria libre, tener archivos de traducción "
+"cacheados por el sistema operativo mejorará enormemente el rendimiento."
 
 #: ../../admin/projects.rst:1303
 msgid ""
 "Disk operations might be bottleneck if there is a lot of strings to process—"
 "the disk is pushed by both Weblate and the database."
 msgstr ""
+"Operaciones de disco puede ser atascados si hay un montón de cadenas para "
+"procesar —el disco está ocupado por ambos Weblate y la base de datos."
 
 #: ../../admin/projects.rst:1304
 msgid ""
 "Additional CPU cores might help improve performance of background tasks "
 "(see :ref:`celery`)."
 msgstr ""
+"Núcleos de CPU adicional puede ayudar a mejorar el rendimiento de tareas en "
+"segundo plano (consulte :ref:`celery`)."
 
 #: ../../admin/projects.rst:1307
 msgid "Disable unneeded checks"
-msgstr ""
+msgstr "Inhabilitan comprobantes no necesarios"
 
 #: ../../admin/projects.rst:1309
 msgid ""
@@ -23002,6 +23081,11 @@ msgid ""
 "using :wladmin:`import_project` or :wladmin:`import_json`, or by installing "
 "the :ref:`addon-weblate.discovery.discovery` add-on."
 msgstr ""
+"En caso de su proyecto tenga docenas de archivos de traducción (p.e. para "
+"diferentes dominios de gettext, o partes de apps de Android), quizá desee "
+"importarlos automáticamente. Esto puede o bien ser logrado desde la línea de "
+"comandos utilizando :wladmin:`import_project` o :wladmin:`import_json`, o "
+"cualqueir instalación del adjunto :ref:`addon-weblate.discovery.discovery`."
 
 #: ../../admin/projects.rst:1324
 msgid ""
@@ -23009,6 +23093,9 @@ msgid ""
 "file (choose the one that is the least likely to be renamed or removed in "
 "future), and install the add-on on this component."
 msgstr ""
+"Para utilizar el complemento, primero necesita crear un componente para un "
+"archivo de traducción (elija uno que sea de al menos como ser renombrado o "
+"retirado en el futuro), e instale el complemento en este componente."
 
 #: ../../admin/projects.rst:1328
 msgid ""
@@ -23016,6 +23103,9 @@ msgid ""
 "all components and then run :wladmin:`import_project` "
 "or :wladmin:`import_json`."
 msgstr ""
+"Para la gestión de comandos, necesita crear un proyecto el cual contendrá "
+"todos los componentes y después ejecute :wladmin:`import_project` i "
+":wladmin:`import_json`."
 
 #: ../../admin/sample.rst:4
 msgid "Sample configuration"
@@ -23026,6 +23116,8 @@ msgid ""
 "The following example is shipped as :file:`weblate/settings_example.py` with "
 "Weblate:"
 msgstr ""
+"El ejemplo siguiente es llevado a cabo como :file:`weblate/"
+"settings_example.py` con Weblate:"
 
 #: ../../admin/support.rst:2
 msgid "Getting support for Weblate"
@@ -23047,7 +23139,7 @@ msgstr ""
 
 #: ../../admin/support.rst:13
 msgid "Integrating support"
-msgstr ""
+msgstr "Integración de asistencia"
 
 #: ../../admin/support.rst:15
 msgid ""
@@ -23056,6 +23148,10 @@ msgid ""
 "you will find a link to it. Basic instance details about your installation "
 "are also reported back to Weblate this way."
 msgstr ""
+"Los paquetes de asistencia comprados pueden ser integrados opcionalmente en "
+"su interfaz Weblate `subscription management <https://weblate.org/user/>`_ , "
+"desde donde encontrará un enlace para ello. La instancia básica detalla "
+"sobre su instalación además se informó para Weblate de esta manera."
 
 #: ../../admin/support.rst:24
 msgid "Info sent to the Weblate"
@@ -23076,6 +23172,7 @@ msgstr "La versión que está ejecutándose"
 #: ../../admin/support.rst:29
 msgid "Tallies of projects, components, languages, source strings, and users"
 msgstr ""
+"Recuentos de proyectos, componentes, idiomas, cadenas origen, y usuarios"
 
 #: ../../admin/support.rst:30
 msgid "The public SSH key of your instance"
@@ -23087,13 +23184,15 @@ msgstr "Además, si activa :ref:`discover-weblate`:"
 
 #: ../../admin/support.rst:34
 msgid "List of public projects (name, URL, and website)."
-msgstr ""
+msgstr "Listado de proyectos públicos (nombre, URL y sitio web)."
 
 #: ../../admin/support.rst:37
 msgid ""
 "Check what *Discover* shows publicly in the :ref:`discover-weblate` "
 "description."
 msgstr ""
+"Compruebe qué muestra *Discover* públicamente en la descripción de "
+":ref:`discover-weblate`."
 
 #: ../../admin/support.rst:39
 msgid "No other data is submitted."
@@ -23101,17 +23200,19 @@ msgstr "No se envía ningún otro dato."
 
 #: ../../admin/support.rst:42
 msgid "Integration services"
-msgstr ""
+msgstr "Servicios de integración"
 
 #: ../../admin/support.rst:44
 msgid "See if your support package is still valid"
-msgstr ""
+msgstr "Consulte si el paquete de mantenimiento aún es válido"
 
 #: ../../admin/support.rst:51
 msgid ""
 "Purchased support packages are already activated upon purchase and can be "
 "used without integrating them."
 msgstr ""
+"Los paquetes de mantenimiento comprados ya están activados hasta la compra y "
+"puede ser utilizados sin integrarlos."
 
 #: ../../admin/support.rst:56
 msgid "Contacting customer care"
@@ -23122,11 +23223,15 @@ msgid ""
 "If you do not have a support package yet, please refer to the :doc:`/"
 "contributing/issues` section for available community resources."
 msgstr ""
+"Si no tiene aún un paquete de mantenimiento, refiérase a la sección :doc:`/"
+"contributing/issues` para recursos disponibles de la comunidad."
 
 #: ../../admin/support.rst:63
 msgid ""
 "Subscribers can reach Weblate Care directly through the following channels:"
 msgstr ""
+"Las suscripciones pueden contactar directamente con Asistencia de Weblate a "
+"través de los canales siguientes:"
 
 #: ../../admin/support.rst:65
 msgid "Email support at care@weblate.org."
@@ -23149,10 +23254,12 @@ msgid ""
 "A subscription ensures timely and reliable help with setup, maintenance, and "
 "troubleshooting."
 msgstr ""
+"Una suscripción asegura ayuda temporal y mantenimiento con instalación, "
+"mantenimiento y solución de problemas."
 
 #: ../../admin/support.rst:73
 msgid "**Sending encrypted content**"
-msgstr ""
+msgstr "**Enviando contenido cifrado**"
 
 #: ../../admin/support.rst:75
 msgid ""
@@ -23160,6 +23267,9 @@ msgid ""
 "care@weblate.org with ID ``0961 62CE 141D 7FE4 B15D A9FA 73D9 298A CB26 "
 "03F0``."
 msgstr ""
+"Si desea enviar un contenido cifrado, utilice la clave pública para "
+"care@weblate.org con ID ``0961 62CE 141D 7FE4 B15D A9FA 73D9 298A CB26 "
+"03F0``."
 
 #: ../../admin/support.rst:79
 msgid ""
@@ -23167,6 +23277,10 @@ msgid ""
 "WKD or `directly from weblate.org <https://weblate.org/.well-known/"
 "openpgpkey/hu/7oq6zfqsndhzsmw94xm1e5yu8me8sjsx?l=care>`_."
 msgstr ""
+"La clave pública está disponible en los servidores de claves más comúnmente "
+"utilizados, utilizando WKD o `directamente desde weblate.org <https://"
+"weblate.org/.well-known/openpgpkey/hu/"
+"7oq6zfqsndhzsmw94xm1e5yu8me8sjsx?l=care>`_."
 
 #: ../../admin/support.rst:86
 msgid "Discover Weblate"
@@ -23178,6 +23292,10 @@ msgid ""
 "other Weblate instances and communities. Users can browse registered sites "
 "and find projects to contribute to on https://weblate.org/discover/."
 msgstr ""
+"*Discover* es un servicio embebido creándolo más fácil para traductores "
+"encontrar otras instancias de Weblate y comunidades. Los usuarios exploran "
+"sitios registrados y encuentran proyectos para contribuir en https://"
+"weblate.org/discover/."
 
 #: ../../admin/support.rst:96
 msgid "Getting listed"
@@ -23189,20 +23307,26 @@ msgid ""
 "projects, components, and users, together with names of public projects and "
 "components for use on *Discover*."
 msgstr ""
+"Asegúrese estár bien cunado publique su nombre de instancia, URL, recuento "
+"de proyectos, componentes y usuarios, junto con los nombres de proyectos y "
+"componentes públicos para usar en *Discover*."
 
 #: ../../admin/support.rst:104
 msgid ""
 "List your server directly from the management panel if you have an active "
 "support subscription (:ref:`activate-support`):"
 msgstr ""
+"Enumere su servidor directamente desde el panel de administración si tiene "
+"una suscripción de mantenimiento activa (:ref:`activate-support`):"
 
 #: ../../admin/support.rst:109
 msgid "All steps for listing a server without a support contract:"
 msgstr ""
+"Todos los pasos para enumerar un servidor sin un contrato de mantenimiento:"
 
 #: ../../admin/support.rst:111
 msgid "Register yourself at https://weblate.org/user/"
-msgstr "Regístrese en https://weblate.org/user/"
+msgstr "Regístrese usted en https://weblate.org/user/"
 
 #: ../../admin/support.rst:112
 msgid ""
@@ -23215,8 +23339,8 @@ msgid ""
 "Confirm you want your Weblate listed by clicking :guilabel:`Enable "
 "discovery` from its management page :"
 msgstr ""
-"Confirme que desea que su Weblate aparezca en la lista haciendo clic "
-"en :guilabel:`Habilitar descubrimiento` desde su página de administración:"
+"Confirme que desea que su Weblate aparezca en la lista pulsando sobre "
+":guilabel:`Habilitar descubrimiento` desde su página de gestión:"
 
 #: ../../admin/support.rst:120
 msgid "Listing customization"
@@ -23228,6 +23352,9 @@ msgid ""
 "your Weblate site at https://weblate.org/user/. This improves your "
 "instance’s visibility in the list."
 msgstr ""
+"Le recomendamos que proporcione una imagen (570 × 260 píxeles) y una "
+"descripción de su sitio Weblate en https://weblate.org/user/. Esto mejorará "
+"la visibilidad de su instancia en la lista."
 
 #: ../../admin/translating.rst:2
 msgid "Translation process"
@@ -23268,61 +23395,53 @@ msgid ""
 "You can combine these with :ref:`access control <access-control>` into one "
 "of the following setups:"
 msgstr ""
+"Puedes combinar estos con :ref:`access control <access-control>` en una de "
+"las configuraciones siguientes:"
 
 #: ../../admin/translating.rst:26
-#, fuzzy
-#| msgid ""
-#| "Users can only vote for suggestions and can’t make direct translations."
 msgid ""
 "Users suggest and vote for suggestions and a limited group controls what is "
 "accepted."
 msgstr ""
-"Los usuarios solamente pueden votar sugerencias, no hacer traducciones "
-"directamente."
+"Los usuarios aconsejan y votan para sugerencias y un grupo limitado de "
+"controles que está aceptado."
 
 #: ../../admin/translating.rst:29 ../../admin/translating.rst:36
-#, fuzzy
-#| msgid "Turn on suggestions"
 msgid "Turn on voting."
-msgstr "Activar sugerencias"
+msgstr "Encender votaciones."
 
 #: ../../admin/translating.rst:30
-#, fuzzy
-#| msgid "Turn off this notification"
 msgid "Turn off automatic acceptance."
-msgstr "Desactivar esta notificación"
+msgstr "Apagar aceptación automática."
 
 #: ../../admin/translating.rst:31
-#, fuzzy
-#| msgid "Deletes a translation."
 msgid "Don't let users save translations."
-msgstr "Elimina una traducción."
+msgstr "No permitir a usuarios guardar traducciones."
 
 #: ../../admin/translating.rst:33
-#, fuzzy
-#| msgid ""
-#| "The project accepts only suggestions, which are automatically validated "
-#| "once a defined number of votes is reached"
 msgid ""
 "Users suggest and vote for suggestions with automatic acceptance once the "
 "defined number of them agree."
 msgstr ""
-"El proyecto acepta solo sugerencias, las cuales se validan automáticamente "
-"tras recibir una cantidad de votos determinada"
+"Los usuarios sugieren y votan sugerencias con aceptación automática una vez "
+"que el número definido de ellas está de acuerdo."
 
 #: ../../admin/translating.rst:37
 msgid "Set the desired number of votes for automatic acceptance."
-msgstr ""
+msgstr "Establece el número deseado de votos para aceptar automáticamente."
 
 #: ../../admin/translating.rst:39
 msgid ""
 "Optional voting for suggestions. (Can optionally be used by users when they "
 "are unsure about a translation by making multiple suggestions.)"
 msgstr ""
+"Votación opcional para sugerencias. (Opcionalmente puede ser utilizado por "
+"usuarios cuando son inseguros sobre una traducción realizando múltiples "
+"sugerencias.)"
 
 #: ../../admin/translating.rst:42
 msgid "Only turn on voting."
-msgstr ""
+msgstr "Solo encender votaciones."
 
 #: ../../admin/translating.rst:47
 msgid "Additional info on source strings"
@@ -23335,6 +23454,11 @@ msgid ""
 "Some of that info may be extracted from the translation files and some may "
 "be added by editing the additional string info:"
 msgstr ""
+"Mejore el proceso de traducción añadiendo información adicional a las "
+"cadenas, como explicaciones, prioridades de las cadenas, indicadores de "
+"verificación y contexto visual. Parte de esta información puede extraerse de "
+"los archivos de traducción y otra puede añadirse editando la información "
+"adicional de la cadena:"
 
 #: ../../admin/translating.rst:56
 msgid ""
@@ -23354,10 +23478,13 @@ msgid ""
 "String priority can be changed to offer higher priority strings for "
 "translation earlier by using the ``priority`` flag."
 msgstr ""
+"La prioridad de la cadena se puede cambiar para ofrecer cadenas de mayor "
+"prioridad para traducir antes utilizando el indicador ``priority``."
 
 #: ../../admin/translating.rst:75
 msgid "This can be used to order the flow of translation in a logical manner."
 msgstr ""
+"Esto puede utilizarse con el fin de flujo de traducción en una manera lógica."
 
 #: ../../admin/translating.rst:89
 msgid ""
@@ -23365,6 +23492,9 @@ msgid ""
 "at :ref:`component` and flags from the translation file (see :doc:`/"
 "formats`)."
 msgstr ""
+"Los indicadores de cadena también se heredan de :ref:`component-check_flags` "
+"en :ref:`component` y los indicadores del archivo de traducción (consulte "
+":doc:`/formats`)."
 
 #: ../../admin/translating.rst:101 ../../formats.rst:411
 #: ../../user/translating.rst:308
@@ -23393,12 +23523,16 @@ msgid ""
 "Some file formats support storing explanation within the file, "
 "see :ref:`format-explanation`."
 msgstr ""
+"Algunos formatos de archivo admiten explicación de almacenamiento dentro del "
+"archivo, consulte :ref:`format-explanation`."
 
 #: ../../admin/translating.rst:118
 msgid ""
 "Weblate can also display description present in the translation file for "
 "some formats, see :ref:`format-description`."
 msgstr ""
+"Weblate también puede exhibir la descripción presente en el archivo de "
+"traducción para algunos formatos, consulte :ref:`format-description`."
 
 #: ../../admin/translating.rst:124
 msgid "Visual context for strings"
@@ -23410,6 +23544,9 @@ msgid ""
 "program. This helps translators understand where it is used, and how it "
 "should be translated."
 msgstr ""
+"Puede subir una captura mostrando una cadena origen dada en uso dentro de su "
+"programa. Esto ayuda a los traductores comprender donde es utilizado, y como "
+"sería traducido."
 
 #: ../../admin/translating.rst:130
 msgid "The uploaded screenshot is shown in the translation context sidebar:"
@@ -23435,6 +23572,8 @@ msgid ""
 "Once a screenshot is uploaded, this interface handles management and source "
 "string association:"
 msgstr ""
+"Una vez que una captura esta subida, este interfaz la asociación de "
+"manipulaciones de gestión y origen:"
 
 #: ../../admin/translating.rst:145
 msgid ""
@@ -23450,6 +23589,8 @@ msgid ""
 "You can add or update screenshots directly from your Version Control System "
 "(VCS) repository."
 msgstr ""
+"Puede añadir o actualizar capturas directamente desde su repositorio del "
+"Sistema de Control de Versión (VCS)."
 
 #: ../../admin/translating.rst:154
 msgid ""
@@ -23457,6 +23598,10 @@ msgid ""
 "creating a component, which will be monitored for updates in the repository, "
 "or you can add or update screenshots when uploading them manually."
 msgstr ""
+"Para habilitar esta característica, puede o bien establecer una máscara del "
+"archivo de captura cunado crea un componente, el cual será monitorizando "
+"para actualizaciones dentro del repositorio, o puede añadir o actualizar "
+"capturas cuando las suba manualmente."
 
 #: ../../admin/translating.rst:158
 msgid ""
@@ -23468,30 +23613,40 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:2
 msgid "Upgrading Weblate"
-msgstr "Actualizar Weblate"
+msgstr "Modernizar Weblate"
 
 #: ../../admin/upgrade.rst:5
 msgid "Docker image upgrades"
-msgstr ""
+msgstr "Mejoras de imagen Docker"
 
 #: ../../admin/upgrade.rst:7
+#, fuzzy
 msgid ""
 "The official Weblate Docker image (see :doc:`install/docker`) integrates all "
 "upgrade steps. Typically, no manual interaction is needed beyond pulling the "
 "latest (or at least newer) version."
 msgstr ""
+"La imagen oficial del Docker de Weblate (consulte :doc:`install/docker`) "
+"integra todos los pasos de modernización. Típicamente, ninguna interacción "
+"es necesaria más allá de tomar la más última (o al menos la más nueva) "
+"versión."
 
 #: ../../admin/upgrade.rst:18
 msgid "Generic upgrade instructions"
-msgstr "Instrucciones de actualización genéricas"
+msgstr "Instrucciones de mejoras genéricas"
 
 #: ../../admin/upgrade.rst:20
+#, fuzzy
 msgid ""
 "Always look for new changes to :ref:`requirements` before upgrading. Once "
 "all requirements are installed or upgraded, ensure your :file:`settings.py` "
 "matches the changes in the configuration "
 "(consult :file:`settings_example.py` for correct values)."
 msgstr ""
+"Siempre busca los cambios nuevos a :ref:`requirements` antes de mejorar. Una "
+"vez que todos los requisitos estén instalados o avanzados, asegure su "
+":file:`settings.py` coincida con los cambios en la configuración (consulte "
+":file:`settings_example.py` para corregir los valores)."
 
 #: ../../admin/upgrade.rst:25
 msgid ""
@@ -23528,33 +23683,40 @@ msgstr "Versión nueva de Weblate"
 
 #: ../../admin/upgrade.rst:41
 msgid "For pip installs it can be achieved by:"
-msgstr ""
+msgstr "Para instalaciones pip puede ser logrado por:"
 
 #: ../../admin/upgrade.rst:47
 msgid "Or, if you just want to get the latest released version:"
-msgstr ""
+msgstr "O, si tan solo quiere obtener la última versión liberada:"
 
 #: ../../admin/upgrade.rst:53
 msgid "If you don't want to install all of the optional dependencies do:"
-msgstr ""
+msgstr "Si no deseas instalar todo de las dependencias opcionales haz:"
 
 #: ../../admin/upgrade.rst:59
+#, fuzzy
 msgid ""
 "Using Git checkout, you need to fetch new source code and update your "
 "installation:"
 msgstr ""
+"Al utilizar el checkout de Git, necesita obtener código fuente nuevo y "
+"actualiza su instalación:"
 
 #: ../../admin/upgrade.rst:72
 msgid ""
 "New Weblate releases might have new :ref:`python-deps`, check if they cover "
 "the features you want."
 msgstr ""
+"Los lanzamientos nuevos de Weblate tendrían :ref:`python-deps` nuevos, "
+"compruebe si cubren las características que desea."
 
 #: ../../admin/upgrade.rst:75
 msgid ""
 "Upgrade the configuration file by following "
 "either :file:`settings_example.py`, or :ref:`version-specific-instructions`."
 msgstr ""
+"Mejora el archivo de la configuración siguiendo o bien "
+":file:`settings_example.py`, o bien :ref:`version-specific-instructions`."
 
 #: ../../admin/upgrade.rst:78
 msgid "Upgrade the database:"
@@ -23564,11 +23726,15 @@ msgstr "Modernizó la base de datos:"
 msgid ""
 "Collect updated static files (see :ref:`server` and :ref:`static-files`):"
 msgstr ""
+"Recoge estadísticas actuales de archivos (consulte :ref:`server` y "
+":ref:`static-files`):"
 
 #: ../../admin/upgrade.rst:90
 msgid ""
 "Compress JavaScript and CSS files (optional, see :ref:`production-compress`):"
 msgstr ""
+"Comprime archivos JavaScript y CSS (opcional, consulte :ref:`production-"
+"compress`):"
 
 #: ../../admin/upgrade.rst:96
 msgid ""
@@ -23582,6 +23748,8 @@ msgstr ""
 #: ../../admin/upgrade.rst:103
 msgid "Verify that your setup is sane (see also :ref:`production`):"
 msgstr ""
+"Verifica que su configuración es correcta (consulte además :ref:`production`)"
+":"
 
 #: ../../admin/upgrade.rst:109
 msgid "Restart the Celery worker (see :ref:`celery`)."
@@ -23589,13 +23757,15 @@ msgstr "Reinicie el trabajador Celery (consulte :ref:`celery`)."
 
 #: ../../admin/upgrade.rst:114
 msgid "Version-specific instructions"
-msgstr "Instrucciones específicas de versión"
+msgstr "Instrucciones de versión específica"
 
 #: ../../admin/upgrade.rst:118
 msgid ""
 "Version specific instructions are now included in the release notes, "
 "see :doc:`/changes`."
 msgstr ""
+"Las instrucciones específicas de la versión ahora son incluidas en las notas "
+"de lanzamiento, consulte :doc:`/changes`."
 
 #: ../../admin/upgrade.rst:122
 msgid "Upgrade from an older major version"
@@ -23607,21 +23777,27 @@ msgid ""
 "latest patch level for the initial major release. Upgrades skipping this "
 "step are not supported and will break."
 msgstr ""
+"Mejoras a través de versiones mayores no están mantenidas. Siembre moderniza "
+"al último nivel del parche para el lanzamiento inicial mayor. Las mejoras "
+"que omitan este paso no estarán mantenidas y se romperán."
 
 #: ../../admin/upgrade.rst:128
 msgid ""
 "If you are upgrading from the 2.x release, always first upgrade to 3.0.1."
 msgstr ""
+"Si está mejorando desde el lanzamiento 2.x siempre primero modernice a 3.0.1."
 
 #: ../../admin/upgrade.rst:129
 msgid ""
 "If you are upgrading from the 3.x release, always first upgrade to 4.0.4."
 msgstr ""
+"Si está mejorando desde el lanzamiento 3.x, siempre primero mejore a 4.0.4."
 
 #: ../../admin/upgrade.rst:130
 msgid ""
 "If you are upgrading from the 4.x release, always first upgrade to 5.0.2."
 msgstr ""
+"Si está mejorando desde el lanzamiento 4.x, siempre primero mejora a 5.0.2."
 
 #: ../../admin/upgrade.rst:134
 msgid ""
@@ -23651,7 +23827,7 @@ msgstr ""
 
 #: ../../admin/upgrade.rst:141
 msgid "Migrating from other databases to PostgreSQL"
-msgstr ""
+msgstr "Migrar desde otras bases de datos a PostgreSQL"
 
 #: ../../admin/upgrade.rst:143
 msgid ""
@@ -23682,10 +23858,11 @@ msgstr ""
 #: ../../admin/upgrade.rst:172
 msgid "Adjust your :file:`settings.py` to use PostgreSQL as database."
 msgstr ""
+"Ajusta tu :file:`settings.py` para utilizar PostgreSQL como base de datos."
 
 #: ../../admin/upgrade.rst:174
 msgid "Migrate the schema in the PostgreSQL database:"
-msgstr ""
+msgstr "Migra el esquema en la base de datos de PostgreSQL:"
 
 #: ../../admin/upgrade.rst:181
 msgid ""
@@ -23726,11 +23903,15 @@ msgid ""
 msgstr ""
 
 #: ../../api.rst:19
+#, fuzzy
 msgid ""
 "OpenAPI is available as a feature preview. The documentation is most likely "
 "incomplete at this point and subject to change. Please consult the "
 "documentation below for more detailed information on the API."
 msgstr ""
+"OpenAPI está disponible como una característica anticipada. La documentación "
+"es más probable incompleta en este punto y el asunto puede cambiar. Consulte "
+"la documentación antes para más información detallada en el API."
 
 #: ../../api.rst:26
 msgid "Authentication and generic parameters"
@@ -23743,35 +23924,50 @@ msgid ""
 "heavily throttled (by default to 100 requests per day), so it is recommended "
 "to use authentication."
 msgstr ""
+"La API de solo lectura está disponible sin autenticación a menos que se "
+"active la opción :setting:`REQUIRE_LOGIN`. Las solicitudes no autenticadas "
+"están sujetas a una limitación estricta (por defecto, 100 solicitudes al día)"
+", por lo que se recomienda usar autenticación."
 
 #: ../../api.rst:33
 msgid ""
 "The authentication uses a token, which you can get in your profile. Use it "
 "in the ``Authorization`` header:"
 msgstr ""
+"La autenticación utiliza un vale, el cual puede obtener en su perfil. "
+"Utilícelo en la cabecera ``Authorization``:"
 
 #: ../../api.rst:38
 msgid ""
 "Generic request behaviour for the API, the headers, status codes and "
 "parameters here apply to all endpoints as well."
 msgstr ""
+"Comportamiento de solicitud genérica para el API, las cabeceras, códigos de "
+"estado y parámetros aquí aplican a todos los puntos finales también."
 
 #: ../../api.rst:0
 msgid "Query Parameters"
-msgstr ""
+msgstr "Parámetros de Solicitud"
 
 #: ../../api.rst:41
+#, fuzzy
 msgid ""
 "Response format (overrides :http:header:`Accept`). Possible values depends "
 "on REST framework setup, by default ``json``, ``csv`` and ``api`` are "
 "supported. The latter provides web browser interface for API."
 msgstr ""
+"Formato de respuesta (anula :http:header:`Accept`). Los valores posibles "
+"dependen de la configuración del framework REST. Por defecto, se admiten "
+"``json``, ``csv`` y ``api``. Esta última proporciona una interfaz de "
+"navegador web para la API."
 
 #: ../../api.rst:45
 msgid ""
 "Returns given page of paginated results (use `next` and `previous` fields in "
 "response to automate the navigation)."
 msgstr ""
+"Devuelve la página dada de resultados del paginador (emplee los campos "
+"`siguiente` y `anterior` en la respuesta para automatizar la navegación)."
 
 #: ../../api.rst:46
 msgid ""
@@ -23780,160 +23976,177 @@ msgid ""
 "of 10000. The default value is also configurable using the `PAGE_SIZE` "
 "setting."
 msgstr ""
+"Devuelve el número dado de elementos por solicitud. Por defecto es 50 y el "
+"máximo es de 1.000. Para las `units` de punto final lo predeterminado es 100 "
+"con un máximo de 10.000. El valor por defecto además está configurada "
+"utilizando los ajustes de `PAGE_SIZE`."
 
 #: ../../api.rst:0
 msgid "Request Headers"
-msgstr ""
+msgstr "Cabeceras Solicitadas"
 
 #: ../../api.rst:51
 msgid "the response content type depends on :http:header:`Accept` header"
 msgstr ""
+"el tipo de contenido de la respuesta en la cabecera :http:header:`Accept`"
 
 #: ../../api.rst:53
 msgid "optional token to authenticate as ``Authorization: Token YOUR-TOKEN``"
-msgstr ""
+msgstr "vale opcional para autenticar como ``Autorización: Vale TU-VALE``"
 
 #: ../../api.rst:0
 msgid "Response Headers"
-msgstr ""
+msgstr "Cabeceras de Respuesta"
 
 #: ../../api.rst:55
 msgid "this depends on :http:header:`Accept` header of request"
-msgstr ""
+msgstr "esto depende de la cabecera :http:header:`Accept` de la solicitud"
 
 #: ../../api.rst:57
 msgid "list of allowed HTTP methods on object"
-msgstr ""
+msgstr "Listado de métodos HTTP concedidos sobre objeto"
 
 #: ../../api.rst:0
 msgid "Response JSON Object"
-msgstr ""
+msgstr "Respuesta de Objeto JSON"
 
 #: ../../api.rst:58
 msgid ""
 "verbose description of the result (for HTTP status codes other "
 "than :http:statuscode:`200`)"
 msgstr ""
+"descripción detallada del resultado (para estado de HTTP en códigos "
+"distintos que :http:statuscode:`200`)"
 
 #: ../../api.rst:59
 msgid "total item count for object lists"
-msgstr ""
+msgstr "conteo de elemento total para listados de objeto"
 
 #: ../../api.rst:60
 msgid "next page URL for object lists"
-msgstr ""
+msgstr "página siguiente de URL para listados de objeto"
 
 #: ../../api.rst:61
 msgid "previous page URL for object lists"
-msgstr ""
+msgstr "página anterior de URL para listados de objeto"
 
 #: ../../api.rst:62
 msgid "results for object lists"
-msgstr ""
+msgstr "resultados para listados de objeto"
 
 #: ../../api.rst:63
 msgid "URL to access this resource using the API"
-msgstr ""
+msgstr "la URL para acceder a este recurso utilizando el API"
 
 #: ../../api.rst:64
 msgid "URL to access this resource using web browser"
-msgstr ""
+msgstr "la URL para acceder a este recurso utilizando explorador web"
 
 #: ../../api.rst:0
 msgid "Status Codes"
-msgstr ""
+msgstr "Códigos del Status"
 
 #: ../../api.rst:65
 msgid "when request was correctly handled"
-msgstr ""
+msgstr "cuando la solicitud fue manipulada correctamente"
 
 #: ../../api.rst:66
 msgid "when a new object was created successfully"
-msgstr ""
+msgstr "cuando fue creado un objeto nuevo correctamente"
 
 #: ../../api.rst:67
 msgid "when an object was deleted successfully"
-msgstr ""
+msgstr "cuando fue borrado un objeto correctamente"
 
 #: ../../api.rst:68
 msgid "when form parameters are missing"
-msgstr ""
+msgstr "cunado forma parámetros que falten"
 
 #: ../../api.rst:69
 msgid "when access is denied"
-msgstr ""
+msgstr "cuando el acceso es denegado"
 
 #: ../../api.rst:70
 msgid "when throttling is in place"
-msgstr ""
+msgstr "cuando la limitación está en su lugar"
 
 #: ../../api.rst:75
 msgid "Authentication tokens"
-msgstr "Fichas de autentificación"
+msgstr "Vales de autenticación"
 
 #: ../../api.rst:79
 msgid "Project scoped tokens were introduced in the 4.10 release."
-msgstr ""
+msgstr "Los vales con alcance de proyecto se introdujeron en la versión 4.10."
 
 #: ../../api.rst:81
 msgid ""
 "Each user has a personal access token which can be obtained in the user "
 "profile. Newly generated user tokens have the ``wlu_`` prefix."
 msgstr ""
+"Cada usuario tiene un vale de acceso personal el cual puede ser obtenido en "
+"el perfil del usuario. Los vales del usuario generado nuevamente tiene el "
+"prefijo ``wlu_``."
 
 #: ../../api.rst:84
 msgid ""
 "It is possible to create project scoped tokens for API access to given "
 "project only. These tokens can be identified by the ``wlp_`` prefix."
 msgstr ""
+"Es posible crear vales de alcance del proyecto para acceso API para solo el "
+"proyecto dado. Estos vales pueden ser identificados por el prefijo ``wlp_``."
 
 #: ../../api.rst:94
 msgid "Authentication examples"
-msgstr ""
+msgstr "Ejemplos de autenticación"
 
 #: ../../api.rst:96 ../../api.rst:251
 msgid "**Example request:**"
-msgstr ""
+msgstr "**Solicitud de ejemplo:**"
 
 #: ../../api.rst:105 ../../api.rst:260
 msgid "**Example response:**"
-msgstr ""
+msgstr "**Respuesta de ejemplo:**"
 
 #: ../../api.rst:125 ../../api.rst:165 ../../api.rst:1009 ../../api.rst:1497
 #: ../../api.rst:1666 ../../api.rst:1733 ../../api.rst:1809 ../../api.rst:2195
 #: ../../api.rst:2478
 msgid "**CURL example:**"
-msgstr ""
+msgstr "**Ejemplo CURL:**"
 
 #: ../../api.rst:134
 msgid "Passing Parameters Examples"
-msgstr ""
+msgstr "Aprobar Ejemplos de Parámetros"
 
 #: ../../api.rst:136
+#, fuzzy
 msgid ""
 "For the :http:method:`POST` method the parameters can be specified either as "
 "form submission (:mimetype:`application/x-www-form-urlencoded`) or as JSON "
 "(:mimetype:`application/json`)."
 msgstr ""
+"Para el método :http:method:`POST`, los parámetros se pueden especificar "
+"como envío de formulario (:mimetype:`application/x-www-form-urlencoded`) o "
+"como JSON (:mimetype:`application/json`)."
 
 #: ../../api.rst:140
 msgid "**Form request example:**"
-msgstr ""
+msgstr "**Ejemplo de formulario de solicitud:**"
 
 #: ../../api.rst:152 ../../api.rst:1018 ../../api.rst:1507 ../../api.rst:1675
 #: ../../api.rst:1742 ../../api.rst:1818
 msgid "**JSON request example:**"
-msgstr ""
+msgstr "**Ejemplo de solicitud de JSON:**"
 
 #: ../../api.rst:174
 msgid "**CURL JSON example:**"
-msgstr ""
+msgstr "**Ejemplo de CURL JSON:**"
 
 #: ../../api.rst:187
 msgid "Components and categories"
 msgstr "Componentes y categorías"
 
 #: ../../api.rst:189
+#, fuzzy
 msgid ""
 "To access a component which is nested inside a :ref:`category`, you need to "
 "URL encode the category name into a component name separated with a slash. "
@@ -23941,10 +24154,16 @@ msgid ""
 "``docs%252Fusage``. Full URL in this case would be for example ``https://"
 "example.com/api/components/hello/docs%252Fusage/repository/``."
 msgstr ""
+"Para acceder a un componente anidado dentro de una :ref:`categoría`, debe "
+"codificar la URL del nombre de la categoría en un nombre de componente "
+"separado por una barra diagonal. Por ejemplo, ``usage`` ubicado en la "
+"categoría ``docs`` debe usarse como ``docs%252Fusage``. La URL completa en "
+"este caso sería, por ejemplo, ``https://example.com/api/components/hello/"
+"docs%252Fusage/repository/``."
 
 #: ../../api.rst:198
 msgid "API rate limiting"
-msgstr "Limitación de la tasa de API"
+msgstr "Limitación del tipo de API"
 
 #: ../../api.rst:200
 msgid ""
@@ -23952,6 +24171,9 @@ msgid ""
 "100 requests per day for anonymous users and 5000 requests per hour for "
 "authenticated users."
 msgstr ""
+"Las solicitudes de API tienen una tasa limitada; la configuración "
+"predeterminada los limites a 100 solicitudes por día para usuarios anónimos "
+"y 5.000 solicitudes por hora para usuarios autenticados."
 
 #: ../../api.rst:204
 msgid ""
@@ -23959,6 +24181,10 @@ msgid ""
 "Django REST framework documentation <https://www.django-rest-framework.org/"
 "api-guide/throttling/>`_ for more details how to configure it."
 msgstr ""
+"El tipo de límite puede ser ajustado en el archivo :file:`settings.py`; "
+"consulte `Throttling in Django REST framework documentation <https://"
+"www.django-rest-framework.org/api-guide/throttling/>`_ para más detalles "
+"sobre como configurarlo."
 
 #: ../../api.rst:208
 msgid ""
@@ -23972,7 +24198,7 @@ msgstr ""
 
 #: ../../api.rst:211
 msgid "The status of rate limiting is reported in following headers:"
-msgstr ""
+msgstr "El estado del tipo limitado está reportado en las siguientes cabeceras:"
 
 #: ../../api.rst:214
 msgid "Allowed number of requests to perform"
@@ -23998,20 +24224,23 @@ msgstr "Respuestas de error"
 #: ../../api.rst:239
 msgid "Error responses were endpoint specific before this release."
 msgstr ""
+"Respuestas erróneas eran punto final específico antes de este lanzamiento."
 
 #: ../../api.rst:241
 msgid ""
 "Weblate error responses are formatted based on :doc:`drf-standardized-"
 "error:error_response`."
 msgstr ""
+"Error de respuesta de Weblate son formateadas basadas en :doc:`drf-"
+"standardized-error:error_response`."
 
 #: ../../api.rst:245
 msgid "API Entry Point"
-msgstr "Punto de entrada de la API"
+msgstr "Punto de Apunte de API"
 
 #: ../../api.rst:249
 msgid "The API root entry point."
-msgstr "El punto de entrada raíz de la API."
+msgstr "El punto de apunte raíz de la API."
 
 #: ../../api.rst:282 ../../api.rst:2821
 msgid "Users"
@@ -24038,69 +24267,73 @@ msgid ""
 "Users object attributes are documented at :http:get:`/api/users/"
 "(str:username)/`."
 msgstr ""
+"Los atributos de objeto de usuarios están documentados en :http:get:`/api/"
+"users/(str:username)/`."
 
 #: ../../api.rst:300
 msgid "Creates a new user."
-msgstr ""
+msgstr "Crea un usuario nuevo."
 
 #: ../../api.rst:304
 msgid "User full name"
-msgstr ""
+msgstr "Nombre completo del usuario"
 
 #: ../../api.rst:306
 msgid "User email"
-msgstr ""
+msgstr "Correo-e del usuario"
 
 #: ../../api.rst:308
 msgid "Is user superuser? (optional)"
-msgstr ""
+msgstr "¿El usuario es superusuario? (opcional)"
 
 #: ../../api.rst:310
 msgid "Is user active? (optional)"
-msgstr ""
+msgstr "¿El usuario está activo? (opcional)"
 
 #: ../../api.rst:312
 msgid "Is user bot? (optional) (used for project scoped tokens)"
 msgstr ""
+"¿Es el usuario un bot? (opcional) (utilizado para vales de ámbito del "
+"proyecto)"
 
 #: ../../api.rst:317
 msgid "Returns information about users."
-msgstr ""
+msgstr "Devuelve información sobre usuarios."
 
 #: ../../api.rst:319 ../../api.rst:360 ../../api.rst:374 ../../api.rst:388
 #: ../../api.rst:395 ../../api.rst:405 ../../api.rst:413 ../../api.rst:425
 #: ../../api.rst:433 ../../api.rst:440 ../../api.rst:450 ../../api.rst:459
 #: ../../api.rst:471 ../../api.rst:483
 msgid "User's username"
-msgstr ""
+msgstr "Alias del Usuario"
 
 #: ../../api.rst:321 ../../api.rst:362 ../../api.rst:376
 msgid "username of a user"
-msgstr ""
+msgstr "alias de un usuario"
 
 #: ../../api.rst:322 ../../api.rst:363 ../../api.rst:377
 msgid "full name of a user"
-msgstr ""
+msgstr "nombre completo de un usuario"
 
 #: ../../api.rst:323 ../../api.rst:364 ../../api.rst:378
 msgid "email of a user"
-msgstr ""
+msgstr "correo-e de un usuario"
 
 #: ../../api.rst:324 ../../api.rst:365 ../../api.rst:379
 msgid "whether the user is a super user"
-msgstr ""
+msgstr "si el usuario es un súper usuario"
 
 #: ../../api.rst:325 ../../api.rst:366 ../../api.rst:380
 msgid "whether the user is active"
-msgstr ""
+msgstr "si el usuario está activo"
 
 #: ../../api.rst:326 ../../api.rst:367 ../../api.rst:381
 msgid "whether the user is bot (used for project scoped tokens)"
-msgstr ""
+msgstr "si el usuario es bot (utilizado para vales de ámbito de proyecto)"
 
 #: ../../api.rst:327 ../../api.rst:368 ../../api.rst:382
 msgid "date the user is created"
-msgstr ""
+msgstr "fecha que el usuario fue creado"
 
 #: ../../api.rst:328
 msgid "date the user last signed in"
@@ -24108,7 +24341,7 @@ msgstr "fecha del último acceso del usuario"
 
 #: ../../api.rst:329
 msgid "link to associated groups; see :http:get:`/api/groups/(int:id)/`"
-msgstr ""
+msgstr "enlace a grupo asociado; consulte :http:get:`/api/groups/(int:id)/`"
 
 #: ../../api.rst:330
 msgid ""
@@ -24122,11 +24355,11 @@ msgstr ""
 #: ../../api.rst:916 ../../api.rst:988 ../../api.rst:1435 ../../api.rst:1645
 #: ../../api.rst:1996
 msgid "**Example JSON data:**"
-msgstr ""
+msgstr "**Ejemplo de datos JSON:**"
 
 #: ../../api.rst:358 ../../api.rst:372
 msgid "Changes the user parameters."
-msgstr ""
+msgstr "Cambia parámetros del usuario."
 
 #: ../../api.rst:386
 msgid "Deletes all user information and marks the user inactive."
@@ -24135,15 +24368,15 @@ msgstr ""
 
 #: ../../api.rst:393
 msgid "Associate groups with a user."
-msgstr ""
+msgstr "Asocia grupos con un usuario."
 
 #: ../../api.rst:0
 msgid "Form Parameters"
-msgstr ""
+msgstr "Parámetros del Formulario"
 
 #: ../../api.rst:397 ../../api.rst:407
 msgid "The unique group ID"
-msgstr ""
+msgstr "El único ID del grupo"
 
 #: ../../api.rst:403
 msgid "Remove user from a group."
@@ -24155,23 +24388,23 @@ msgstr "Enumera estadísticas de una cuenta de usuario."
 
 #: ../../api.rst:415
 msgid "Number of translations by user"
-msgstr "Número de traducciones efectuadas"
+msgstr "Número de traducciones por usuario"
 
 #: ../../api.rst:416
 msgid "Number of suggestions by user"
-msgstr "Número de sugerencias efectuadas"
+msgstr "Número de sugerencias por usuario"
 
 #: ../../api.rst:417
 msgid "Number of uploads by user"
-msgstr "Número de cargas efectuadas"
+msgstr "Número de subidas por usuario"
 
 #: ../../api.rst:418
 msgid "Number of comments by user"
-msgstr "Número de comentarios efectuados"
+msgstr "Número de comentarios por usuario"
 
 #: ../../api.rst:419
 msgid "Number of languages user can translate"
-msgstr "Número de idiomas en que puede traducir"
+msgstr "Número de idiomas en que puede traducir el usuario"
 
 #: ../../api.rst:423
 msgid "List translations with contributions from a user."
@@ -24182,20 +24415,20 @@ msgid ""
 "link to translations; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/`"
 msgstr ""
-"enlace para traducciones; consulte :http:get:`/api/translations/"
+"enlace a traducciones; consulte :http:get:`/api/translations/"
 "(string:project)/(string:component)/(string:language)/`"
 
 #: ../../api.rst:431
 msgid "List subscriptions of a user."
-msgstr ""
+msgstr "Listado de suscripciones de un usuario."
 
 #: ../../api.rst:438
 msgid "Associate subscriptions with a user."
-msgstr ""
+msgstr "Asociar suscripciones con un usuario."
 
 #: ../../api.rst:0
 msgid "Request JSON Object"
-msgstr ""
+msgstr "Solicitud de Objeto JSON"
 
 #: ../../api.rst:442 ../../api.rst:463 ../../api.rst:475 ../../api.rst:485
 msgid "Name of notification registered"
@@ -24203,31 +24436,31 @@ msgstr "Nombre de notificación registrada"
 
 #: ../../api.rst:443 ../../api.rst:464 ../../api.rst:476
 msgid "Scope of notification from the available choices"
-msgstr ""
+msgstr "Ámbito de notificación desde las elecciones disponibles"
 
 #: ../../api.rst:444 ../../api.rst:465 ../../api.rst:477
 msgid "Frequency choices for notifications"
-msgstr "Elecciones de frecuencia de las notificaciones"
+msgstr "Elecciones de frecuencia para notificaciones"
 
 #: ../../api.rst:448
 msgid "Get a subscription associated with a user."
-msgstr ""
+msgstr "Obtiene una suscripción asociada con un usuario."
 
 #: ../../api.rst:452 ../../api.rst:461 ../../api.rst:473
 msgid "ID of notification registered"
-msgstr "Identificador de notificación registrada"
+msgstr "ID de notificación registrada"
 
 #: ../../api.rst:457 ../../api.rst:469
 msgid "Edit a subscription associated with a user."
-msgstr ""
+msgstr "Edita una suscripción asociada con un usuario."
 
 #: ../../api.rst:481
 msgid "Delete a subscription associated with a user."
-msgstr ""
+msgstr "Elimina una suscripción asociada con un usuario."
 
 #: ../../api.rst:486 ../../api.rst:2861 ../../api.rst:2871 ../../api.rst:2881
 msgid "int"
-msgstr ""
+msgstr "int"
 
 #: ../../api.rst:490
 msgid "Groups"
@@ -24245,10 +24478,12 @@ msgstr ""
 msgid ""
 "Group object attributes are documented at :http:get:`/api/groups/(int:id)/`."
 msgstr ""
+"Atributos de objeto del grupo están documentados en :http:get:`/api/groups/"
+"(int:id)/`."
 
 #: ../../api.rst:505
 msgid "Creates a new group."
-msgstr ""
+msgstr "Crea un grupo nuevo."
 
 #: ../../api.rst:507
 msgid "Group name"
@@ -24256,19 +24491,19 @@ msgstr "Nombre de grupo"
 
 #: ../../api.rst:509
 msgid "Group of project selection from given options"
-msgstr ""
+msgstr "Grupo de selección del proyecto desde opciones proporcionadas"
 
 #: ../../api.rst:511
 msgid "Group of languages selected from given options"
-msgstr ""
+msgstr "Grupo de idioma seleccionado desde opciones proporcionadas"
 
 #: ../../api.rst:513 ../../api.rst:529
 msgid ""
 "link to the defining project, used for :ref:`manage-acl`; see :http:get:`/"
 "api/projects/(string:project)/`"
 msgstr ""
-"Enlace al proyecto de la definición, utilizado para :ref:`manage-acl`; "
-"ver :http:get:`/api/projects/(string:project)/`"
+"enlace al proyecto de la definición, utilizado para :ref:`manage-acl`; "
+"consulte :http:get:`/api/projects/(string:project)/`"
 
 #: ../../api.rst:518
 msgid "Returns information about the group."
@@ -24279,7 +24514,7 @@ msgstr "Devuelve información relativa al grupo."
 #: ../../api.rst:628 ../../api.rst:636 ../../api.rst:645 ../../api.rst:653
 #: ../../api.rst:662 ../../api.rst:670 ../../api.rst:681 ../../api.rst:691
 msgid "Group's ID"
-msgstr "Identificador del grupo"
+msgstr "ID del grupo"
 
 #: ../../api.rst:522 ../../api.rst:569 ../../api.rst:579
 msgid "name of a group"
@@ -24295,18 +24530,22 @@ msgstr "entero que se corresponde a un grupo de idiomas"
 
 #: ../../api.rst:525
 msgid "link to associated roles; see :http:get:`/api/roles/(int:id)/`"
-msgstr ""
+msgstr "enlaza a roles asociados; consulte :http:get:`/api/roles/(int:id)/`"
 
 #: ../../api.rst:526
 msgid ""
 "link to associated projects; see :http:get:`/api/projects/(string:project)/`"
 msgstr ""
+"enlaza a proyectos asociados; consulte :http:get:`/api/projects/"
+"(string:project)/`"
 
 #: ../../api.rst:527 ../../api.rst:2637
 msgid ""
 "link to associated components; see :http:get:`/api/components/"
 "(string:project)/(string:component)/`"
 msgstr ""
+"enlaza a componentes asociados; consulte :http:get:`/api/components/"
+"(string:project)/(string:component)/`"
 
 #: ../../api.rst:528
 msgid ""
@@ -24333,11 +24572,11 @@ msgstr "Elimina el grupo."
 
 #: ../../api.rst:592
 msgid "Associate roles with a group."
-msgstr ""
+msgstr "Asocia roles con un grupo."
 
 #: ../../api.rst:596 ../../api.rst:604
 msgid "The unique role ID"
-msgstr ""
+msgstr "El único ID de rol"
 
 #: ../../api.rst:600
 msgid "Delete role from a group."
@@ -24345,86 +24584,91 @@ msgstr "Borrar rol desde un grupo."
 
 #: ../../api.rst:609
 msgid "Associate components with a group."
-msgstr ""
+msgstr "Asocia componentes con un grupo."
 
 #: ../../api.rst:613 ../../api.rst:621
 msgid "The unique component ID"
-msgstr ""
+msgstr "El único ID del componente"
 
 #: ../../api.rst:617
 msgid "Delete component from a group."
-msgstr ""
+msgstr "Borra componente desde un grupo."
 
 #: ../../api.rst:626
 msgid "Associate projects with a group."
-msgstr ""
+msgstr "Asocia proyectos con un grupo."
 
 #: ../../api.rst:630 ../../api.rst:638
 msgid "The unique project ID"
-msgstr ""
+msgstr "El único ID de proyecto"
 
 #: ../../api.rst:634
 msgid "Delete project from a group."
-msgstr ""
+msgstr "Borra proyecto desde un grupo."
 
 #: ../../api.rst:643
 msgid "Associate languages with a group."
-msgstr ""
+msgstr "Asocia idioma con un grupo."
 
 #: ../../api.rst:647 ../../api.rst:655
 msgid "The unique language code"
-msgstr ""
+msgstr "El único código de idioma"
 
 #: ../../api.rst:651
 msgid "Delete language from a group."
-msgstr ""
+msgstr "Borra idioma desde un grupo."
 
 #: ../../api.rst:660
 msgid "Associate componentlists with a group."
-msgstr ""
+msgstr "Asocia componentlists con un grupo."
 
 #: ../../api.rst:664 ../../api.rst:672
 msgid "The unique componentlist ID"
-msgstr ""
+msgstr "El único ID de componentlist"
 
 #: ../../api.rst:668
 msgid "Delete componentlist from a group."
-msgstr ""
+msgstr "Borra componentlist desde un grupo."
 
 #: ../../api.rst:679
 msgid "Add user to team admins."
-msgstr "Añadir usuario al equipo de admins."
+msgstr "Añade usuario al equipo admins."
 
 #: ../../api.rst:683 ../../api.rst:693
 msgid "The user's ID"
-msgstr ""
+msgstr "El ID del usuario"
 
 #: ../../api.rst:689
 msgid "Delete user from team admins."
-msgstr "Eliminar usuario de los administradores del equipo."
+msgstr "Elimina usuario de los administradores del equipo."
 
 #: ../../api.rst:703
 msgid ""
 "Returns a list of all roles associated with user. If user is superuser, then "
 "list of all existing roles is returned."
 msgstr ""
+"Devuelve un listado de todos los roles asociados con usuario. Si el usuario "
+"es súper usuario, entonces es devuelto el listado de todos los roles "
+"existentes."
 
 #: ../../api.rst:708
 msgid ""
 "Roles object attributes are documented at :http:get:`/api/roles/(int:id)/`."
 msgstr ""
+"Atributos del objeto de roles están documentados en :http:get:`/api/roles/"
+"(int:id)/`."
 
 #: ../../api.rst:712
 msgid "Creates a new role."
-msgstr ""
+msgstr "Crea un rol nuevo."
 
 #: ../../api.rst:714 ../../api.rst:725 ../../api.rst:747 ../../api.rst:756
 msgid "Role name"
-msgstr ""
+msgstr "Nombre del rol"
 
 #: ../../api.rst:716
 msgid "List of codenames of permissions"
-msgstr ""
+msgstr "Listado de codenames de permisos"
 
 #: ../../api.rst:721
 msgid "Returns information about the role."
@@ -24432,19 +24676,19 @@ msgstr "Devuelve información relativa al rol."
 
 #: ../../api.rst:723 ../../api.rst:745 ../../api.rst:754 ../../api.rst:763
 msgid "Role's ID"
-msgstr ""
+msgstr "ID del rol"
 
 #: ../../api.rst:726 ../../api.rst:748 ../../api.rst:757
 msgid "list of codenames of permissions"
-msgstr ""
+msgstr "lista de codenames de permisos"
 
 #: ../../api.rst:743 ../../api.rst:752
 msgid "Changes the role parameters."
-msgstr ""
+msgstr "Cambia los parámetros del rol."
 
 #: ../../api.rst:761
 msgid "Deletes the role."
-msgstr ""
+msgstr "Elimina el rol."
 
 #: ../../api.rst:772
 msgid "Returns a list of all languages."
@@ -24476,7 +24720,7 @@ msgstr "Objeto de información de plurales de un idioma"
 
 #: ../../api.rst:803
 msgid "Array of aliases for language"
-msgstr ""
+msgstr "Formación de alias para idioma"
 
 #: ../../api.rst:835 ../../api.rst:846
 msgid "Changes the language parameters."
@@ -24488,7 +24732,7 @@ msgstr "Código del idioma"
 
 #: ../../api.rst:842 ../../api.rst:853
 msgid "Language plural details"
-msgstr ""
+msgstr "Detalles del plural del idioma"
 
 #: ../../api.rst:857
 msgid "Deletes the language."
@@ -24501,7 +24745,7 @@ msgstr "Devuelve estadísticas sobre un idioma."
 #: ../../api.rst:871 ../../api.rst:1249 ../../api.rst:1890 ../../api.rst:2245
 #: ../../api.rst:2894
 msgid "Returned attributes are described in :ref:`api-statistics`."
-msgstr ""
+msgstr "Los atributos devueltos están descritos en :ref:`api-statistics`."
 
 #: ../../api.rst:879
 msgid "Returns a list of all projects."
@@ -24584,7 +24828,7 @@ msgstr ""
 
 #: ../../api.rst:932
 msgid "Edit a project by a :http:method:`PATCH` request."
-msgstr ""
+msgstr "Edita un proyecto por una solicitud de :http:method:`PATCH`."
 
 #: ../../api.rst:936 ../../api.rst:1379 ../../api.rst:1489 ../../api.rst:1577
 #: ../../api.rst:1596 ../../api.rst:1606 ../../api.rst:1619 ../../api.rst:1630
@@ -24595,11 +24839,11 @@ msgstr ""
 #: ../../api.rst:2115 ../../api.rst:2142 ../../api.rst:2173 ../../api.rst:2184
 #: ../../api.rst:2212 ../../api.rst:2225 ../../api.rst:2238
 msgid "Component URL slug"
-msgstr "Indicador URL del componente"
+msgstr "Indicación del componente URL"
 
 #: ../../api.rst:943
 msgid "Edit a project by a :http:method:`PUT` request."
-msgstr ""
+msgstr "Edita un proyecto por una solicitud :http:method:`PUT`."
 
 #: ../../api.rst:950
 msgid "Deletes a project."
@@ -24610,16 +24854,23 @@ msgid ""
 "Returns a list of project changes. This is essentially a project "
 "scoped :http:get:`/api/changes/` accepting same params."
 msgstr ""
+"Devuelve un listado de cambios de proyecto. Esto esencialmente es un "
+"proyecto al alcance :http:get:`/api/changes/` aceptando los mismos "
+"parámetros."
 
 #: ../../api.rst:962 ../../api.rst:1608 ../../api.rst:2092
 msgid "array of component objects; see :http:get:`/api/changes/(int:id)/`"
 msgstr ""
+"formación de objetos del componente; consulte :http:get:`/api/changes/"
+"(int:id)/`"
 
 #: ../../api.rst:968
 msgid ""
 "Downloads all available translations associated with the project as an "
 "archive file using the requested format and language."
 msgstr ""
+"Descarga todas las traducciones disponibles asociadas con el proyecto como "
+"un archivo archivador utilizando el formato e idioma solicitado."
 
 #: ../../api.rst:973 ../../api.rst:1348 ../../api.rst:1622
 msgid ""
@@ -24627,11 +24878,16 @@ msgid ""
 "formats: ``zip`` and ``zip:CONVERSION`` where ``CONVERSION`` is one of "
 "converters listed at :ref:`download`."
 msgstr ""
+"El formato de archivador para utilizar; si no está especificado, por defecto "
+"a ``zip``; Formatos admitidos: ``zip`` y ``zip:CONVERSION`` donde "
+"``CONVERSION`` es uno de listados convertidos en :ref:`download`."
 
 #: ../../api.rst:974
 msgid ""
 "The language code to download; If not specified, all languages are included."
 msgstr ""
+"El código del idioma para descargar; si no está especificado, todos los "
+"idiomas serán incluidos."
 
 #: ../../api.rst:978
 msgid ""
@@ -24643,15 +24899,15 @@ msgstr ""
 
 #: ../../api.rst:984 ../../api.rst:1713
 msgid "whether there are any pending changes to commit"
-msgstr ""
+msgstr "si hay algún cambio pendiente para consolidar"
 
 #: ../../api.rst:985 ../../api.rst:1714
 msgid "whether there are any upstream changes to merge"
-msgstr ""
+msgstr "si hay cualquier cambio de desarrollo para fusionar"
 
 #: ../../api.rst:986 ../../api.rst:1715
 msgid "whether there are any local changes to push"
-msgstr ""
+msgstr "si hay algún cambio local para subir"
 
 #: ../../api.rst:1001 ../../api.rst:2219
 msgid "Performs given operation on the VCS repository."
@@ -24664,6 +24920,8 @@ msgid ""
 "Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, "
 "``cleanup``, ``file-sync``, ``file-scan``"
 msgstr ""
+"Operación para realizar: uno de ``push``, ``pull``, ``commit``, ``reset``, "
+"``cleanup``, ``file-sync``, ``file-scan``"
 
 #: ../../api.rst:1007 ../../api.rst:1731 ../../api.rst:2230
 msgid "result of the operation"
@@ -24690,12 +24948,17 @@ msgid ""
 "The ``zipfile`` and ``docfile`` parameters are now accepted for VCS-less "
 "components, see :ref:`vcs-local`."
 msgstr ""
+"Los parámetros ``zipme`` y ``docfile`` ahora están aceptados para "
+"componentes menores de VCS, consulte :ref:`vcs-local`."
 
 #: ../../api.rst:1063
 msgid ""
 "The cloned repositories are now automatically shared within a project "
 "using :ref:`internal-urls`. Use ``disable_autoshare`` to turn off this."
 msgstr ""
+"Los repositorios clonados ahora son compartidos automáticamente internos un "
+"proyectos utilizando :ref:`internal-urls`. Emplee ``disable_autoshare`` para "
+"apagar esto."
 
 #: ../../api.rst:1065
 msgid "Creates translation components in the given project."
@@ -24706,6 +24969,8 @@ msgid ""
 "Use :ref:`internal-urls` when creating multiple components from a single VCS "
 "repository."
 msgstr ""
+"Utilice :ref:`internal-urls` cuando cree múltiples componentes desde un "
+"único repositorio VCS."
 
 #: ../../api.rst:1073
 msgid ""
@@ -24715,7 +24980,7 @@ msgstr ""
 
 #: ../../api.rst:1079
 msgid "ZIP file to upload into Weblate for translations initialization"
-msgstr ""
+msgstr "Archivo ZIP para subir en Weblate para inicialización de traducciones"
 
 #: ../../api.rst:1080
 msgid "Document to translate"
@@ -24724,13 +24989,15 @@ msgstr "Documento para traducir"
 #: ../../api.rst:1081
 msgid "Disables automatic repository sharing via :ref:`internal-urls`."
 msgstr ""
+"Inhabilita repositorios automáticos compartidos por medio de :ref:`internal-"
+"urls`."
 
 #: ../../api.rst:1082
 msgid ""
 "Component parameters, see :http:get:`/api/components/(string:project)/"
 "(string:component)/`"
 msgstr ""
-"Parámetros de componentes, consulte :http:get:`/api/components/"
+"Parámetros de componente, consulte :http:get:`/api/components/"
 "(string:project)/(string:component)/`"
 
 #: ../../api.rst:1083
@@ -24738,6 +25005,8 @@ msgid ""
 "Created component object; see :http:get:`/api/components/(string:project)/"
 "(string:component)/`"
 msgstr ""
+"Objeto de componente creado; consulte :http:get:`/api/components/"
+"(string:project)/(string:component)/`"
 
 #: ../../api.rst:1085
 msgid ""
@@ -24745,6 +25014,9 @@ msgid ""
 "``docfile`` parameters. The data has to be uploaded as :mimetype:`multipart/"
 "form-data`."
 msgstr ""
+"JSON no puede ser utilizado cuando suba los archivos utilizando los "
+"parámetros ``zipfile`` y ``docfile``. Los datos tiene que ser subidos como "
+":mimetype:`multipart/form-data`."
 
 #: ../../api.rst:1089
 msgid "**CURL form request example:**"
@@ -24756,19 +25028,20 @@ msgstr "**Ejemplo de solicitud CURL JSON:**"
 
 #: ../../api.rst:1126
 msgid "**JSON request to create a new component from Git:**"
-msgstr ""
+msgstr "**JSON solicita crear un componente nuevo desde Git:**"
 
 #: ../../api.rst:1153
 msgid "**JSON request to create a new component from another one:**"
-msgstr ""
+msgstr "**JSON solicita crear un componente nuevo desde otro:**"
 
 #: ../../api.rst:1226
 msgid "Returns paginated statistics for all languages within a project."
 msgstr ""
+"Devuelve estadísticas paginadas para todos los idiomas dentro de un proyecto."
 
 #: ../../api.rst:1230
 msgid "array of translation statistics objects"
-msgstr ""
+msgstr "formación de estadísticas de traducción de objetos"
 
 #: ../../api.rst:1231
 msgid "language name"
@@ -24811,6 +25084,8 @@ msgid ""
 "Returns categories for a project. See :http:get:`/api/categories/(int:id)/` "
 "for field definitions."
 msgstr ""
+"Devuelve categorías para un proyecto. Consulte :http:get:`/api/categories/"
+"(int:id)/` para definiciones de campo."
 
 #: ../../api.rst:0
 msgid "param project"
@@ -24839,7 +25114,7 @@ msgstr "nombre de etiqueta"
 
 #: ../../api.rst:1270 ../../api.rst:1281
 msgid "color of the label"
-msgstr ""
+msgstr "color de la etiqueta"
 
 #: ../../api.rst:1276
 msgid "Creates a label for a project."
@@ -24851,7 +25126,7 @@ msgstr "Borra una etiqueta desde un proyecto."
 
 #: ../../api.rst:0
 msgid "param label_id"
-msgstr ""
+msgstr "parámetro label_id"
 
 #: ../../api.rst:1291
 msgid "ID of the label to delete"
@@ -24863,7 +25138,7 @@ msgstr "teclee label_id"
 
 #: ../../api.rst:1292
 msgid "integer"
-msgstr ""
+msgstr "integer"
 
 #: ../../api.rst:1296 ../../api.rst:1931
 msgid "Returns contributor credits for a project."
@@ -24898,6 +25173,8 @@ msgid ""
 "Returns automatic suggestion settings for a project, consisting of the "
 "configurations defined for each translation service installed."
 msgstr ""
+"Devuelve ajustes de sugerencia automática para un proyecto, consistiendo en "
+"configuraciones definidas por cada servicio de traducción instalado."
 
 #: ../../api.rst:1321
 msgid "Configuration for all installed services."
@@ -24920,6 +25197,8 @@ msgid ""
 "Added ability to download ZIP file of all components translations in a "
 "project for 1 specific language."
 msgstr ""
+"Habilidad añadida para descargar archivo ZIP de todos los componentes de "
+"traducciones en un proyecto para 1 idioma específico."
 
 #: ../../api.rst:1341
 msgid ""
@@ -24939,10 +25218,8 @@ msgid ""
 msgstr ""
 
 #: ../../api.rst:1352
-#, fuzzy
-#| msgid "Possible choices:"
 msgid "Possible responses:"
-msgstr "Elecciones posibles:"
+msgstr "Respuestas posibles:"
 
 #: ../../api.rst:1354
 msgid ""
@@ -24952,14 +25229,12 @@ msgid ""
 msgstr ""
 
 #: ../../api.rst:1355
-#, fuzzy
-#| msgid "You currently do not have permission to create projects."
 msgid "``403 Forbidden`` if the user does not have permission to the project."
-msgstr "Actualmente no tiene permisos para crear proyectos."
+msgstr "``403 Forbidden`` si el usuario no tiene permisos para el proyecto."
 
 #: ../../api.rst:1356
 msgid "``404 Not Found`` if the project slug does not exist."
-msgstr ""
+msgstr "``404 Not Found`` si no existe el indicador del proyecto."
 
 #: ../../api.rst:1363
 msgid ""
@@ -24967,7 +25242,7 @@ msgid ""
 "components."
 msgstr ""
 "Utilice :http:post:`/api/projects/(string:project)/components/` para crear "
-"nuevos componentes."
+"componentes nuevos."
 
 #: ../../api.rst:1367
 msgid "Returns a list of translation components."
@@ -24993,6 +25268,8 @@ msgstr ""
 #: ../../api.rst:1385
 msgid "component whose repository is linked via :ref:`internal-urls`"
 msgstr ""
+"el componente cuyo repositorio está enlazado por medio de :ref:`internal-"
+"urls`"
 
 #: ../../api.rst:1386
 msgid ""
@@ -25000,24 +25277,33 @@ msgid ""
 "when :ref:`internal-urls` are used, use ``linked_component`` to detect this "
 "situation"
 msgstr ""
+":ref:`component-repo`, esto es el evento de URL del repositorio actual "
+"incluso cuando es utilizado :ref:`internal-urls`, utilice "
+"``linked_component`` para detectar esta situación"
 
 #: ../../api.rst:1388
 msgid ""
 ":ref:`component-branch`, this is the actual repository branch even "
 "when :ref:`internal-urls` are used"
 msgstr ""
+":ref:`component-branch`, esto es la rama de repositorio actual incluso "
+"cuando es utilizado :ref:`internal-urls`"
 
 #: ../../api.rst:1389
 msgid ""
 ":ref:`component-push`, this is the actual repository URL even "
 "when :ref:`internal-urls` are used"
 msgstr ""
+":ref:`component-push`, esto es la URL del repositorio actual incluso cuando "
+"es utilizado :ref:`internal-urls`"
 
 #: ../../api.rst:1390
 msgid ""
 ":ref:`component-push_branch`, this is the actual repository branch even "
 "when :ref:`internal-urls` are used"
 msgstr ""
+":ref:`component-push_branch`, esto es la rama del repositorio actual incluso "
+"cuando es utilizado :ref:`internal-urls`"
 
 #: ../../api.rst:1402 ../../api.rst:1979
 msgid ""
@@ -25055,12 +25341,16 @@ msgid ""
 "URL to lock status; see :http:get:`/api/components/(string:project)/"
 "(string:component)/lock/`"
 msgstr ""
+"URL al estado bloqueado; consulte :http:get:`/api/components/"
+"(string:project)/(string:component)/lock/`"
 
 #: ../../api.rst:1431
 msgid ""
 "URL to changes list; see :http:get:`/api/components/(string:project)/"
 "(string:component)/changes/`"
 msgstr ""
+"URL para listado de cambios; consulte :http:get:`/api/components/"
+"(string:project)/(string:component)/changes/`"
 
 #: ../../api.rst:1432
 msgid ""
@@ -25079,7 +25369,7 @@ msgstr ""
 
 #: ../../api.rst:1485
 msgid "Edit a component by a :http:method:`PATCH` request."
-msgstr ""
+msgstr "Edita un componente por una solicitud de :http:method:`PATCH`."
 
 #: ../../api.rst:1491
 msgid "Project source language code (optional)"
@@ -25123,7 +25413,7 @@ msgstr ""
 
 #: ../../api.rst:1587
 msgid "base file for adding new translations"
-msgstr ""
+msgstr "archivo base para añadir traducciones nuevas"
 
 #: ../../api.rst:1588
 msgid "version control system"
@@ -25153,6 +25443,8 @@ msgstr "Devuelve un listado de las capturas de pantalla del componente."
 msgid ""
 "array of component screenshots; see :http:get:`/api/screenshots/(int:id)/`"
 msgstr ""
+"formación de captura de componente; consulte :http:get:`/api/screenshots/"
+"(int:id)/`"
 
 #: ../../api.rst:1637
 msgid "Returns component lock status."
@@ -25167,10 +25459,13 @@ msgid "Sets component lock status."
 msgstr "Establece el estado de bloqueo del componente."
 
 #: ../../api.rst:1658
+#, fuzzy
 msgid ""
 "Response is same as :http:get:`/api/components/(string:project)/"
 "(string:component)/lock/`."
 msgstr ""
+"La respuesta es la misma que :http:get:`/api/components/(string:project)/"
+"(string:component)/lock/`."
 
 #: ../../api.rst:1664
 msgid "Boolean whether to lock or not."
@@ -25187,16 +25482,19 @@ msgid ""
 msgstr ""
 
 #: ../../api.rst:1716
+#, fuzzy
 msgid "Remote commit information"
-msgstr ""
+msgstr "Información de consolidación remota"
 
 #: ../../api.rst:1717
+#, fuzzy
 msgid "VCS repository status as reported by VCS"
-msgstr ""
+msgstr "Estado del repositorio VCS como reportado por VCS"
 
 #: ../../api.rst:1718
+#, fuzzy
 msgid "Text describing merge failure or null if there is none"
-msgstr ""
+msgstr "Texto describiendo fallo de fusión o nulo si no hay nada"
 
 #: ../../api.rst:1722
 msgid "Performs the given operation on a VCS repository."
@@ -25207,12 +25505,16 @@ msgid ""
 "See :http:post:`/api/projects/(string:project)/repository/` for "
 "documentation."
 msgstr ""
+"Consulte :http:post:`/api/projects/(string:project)/repository/` para "
+"documentación."
 
 #: ../../api.rst:1730 ../../api.rst:2229
 msgid ""
 "Operation to perform: one of ``push``, ``pull``, ``commit``, ``reset``, "
 "``cleanup``"
 msgstr ""
+"Operación para realizar: uno de ``push``, ``push``, ``commit``, ``reset``, "
+"``cleanup``"
 
 #: ../../api.rst:1772
 msgid "Downloads base file for monolingual translations."
@@ -25228,23 +25530,30 @@ msgstr ""
 "Devuelve un listado de objetos de traducción en el componente indicado."
 
 #: ../../api.rst:1796
+#, fuzzy
 msgid ""
 "array of translation objects; see :http:get:`/api/translations/"
 "(string:project)/(string:component)/(string:language)/`"
 msgstr ""
+"formación de objetos de traducción; consulte :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/`"
 
 #: ../../api.rst:1800
+#, fuzzy
 msgid "Creates new translation in the given component."
-msgstr ""
+msgstr "Crea traducción nueva en el componente dado."
 
 #: ../../api.rst:1806
+#, fuzzy
 msgid ""
 "translation language code; see :http:get:`/api/languages/(string:language)/`"
 msgstr ""
+"código del idioma de traducción; consulte :http:get:`/api/languages/"
+"(string:language)/`"
 
 #: ../../api.rst:1807
 msgid "new translation object created"
-msgstr ""
+msgstr "objeto nuevo de traducción creado"
 
 #: ../../api.rst:1881
 msgid "Returns paginated statistics for all translations within component."
@@ -25281,16 +25590,21 @@ msgid ""
 "Translation object attributes are documented at :http:get:`/api/translations/"
 "(string:project)/(string:component)/(string:language)/`."
 msgstr ""
+"Atributos del objeto de traducción están documentados en :http:get:`/api/"
+"translations/(string:project)/(string:component)/(string:language)/`."
 
 #: ../../api.rst:1960
 msgid "Returns information about the translation."
 msgstr "Devuelve información relativa a la traducción."
 
 #: ../../api.rst:1968
+#, fuzzy
 msgid ""
 "component object; see :http:get:`/api/components/(string:project)/"
 "(string:component)/`"
 msgstr ""
+"objeto componente; consulte :http:get:`/api/components/(string:project)/"
+"(string:component)/`"
 
 #: ../../api.rst:1969
 msgid "number of strings failing checks"
@@ -25349,8 +25663,9 @@ msgid "last change timestamp"
 msgstr "cronomarcador del último cambio"
 
 #: ../../api.rst:1983
+#, fuzzy
 msgid "revision hash for the file"
-msgstr ""
+msgstr "hash de revisión para el archivo"
 
 #: ../../api.rst:1984
 msgid "URL for sharing leading to engagement page"
@@ -25361,38 +25676,54 @@ msgid "URL for translating"
 msgstr "URL para traducir"
 
 #: ../../api.rst:1991
+#, fuzzy
 msgid ""
 "URL to repository status; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/repository/`"
 msgstr ""
+"URL para estado de repositorio; consulte :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/repository/`"
 
 #: ../../api.rst:1992
+#, fuzzy
 msgid ""
 "URL to file object; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/file/`"
 msgstr ""
+"URL para objeto de archivo; consulte :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/file/`"
 
 #: ../../api.rst:1993
+#, fuzzy
 msgid ""
 "URL to changes list; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/changes/`"
 msgstr ""
+"URL para cambios en el listado; consulte :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/changes/`"
 
 #: ../../api.rst:1994
+#, fuzzy
 msgid ""
 "URL to strings list; see :http:get:`/api/translations/(string:project)/"
 "(string:component)/(string:language)/units/`"
 msgstr ""
+"URL para listado de cadenas; consulte :http:get:`/api/translations/"
+"(string:project)/(string:component)/(string:language)/units/`"
 
 #: ../../api.rst:2072
 msgid "Deletes a translation."
 msgstr "Elimina una traducción."
 
 #: ../../api.rst:2083
+#, fuzzy
 msgid ""
 "Returns a list of translation changes. This is essentially a translations-"
 "scoped :http:get:`/api/changes/` accepting the same parameters."
 msgstr ""
+"Devuelve un listado de cambios de traducción. Esto es esencialmente una "
+"traducciones con alcance :http:get:`/api/changes/` aceptando los mismos "
+"parámetros."
 
 #: ../../api.rst:2097 ../../api.rst:2275
 msgid "Returns a list of translation units."
@@ -25400,11 +25731,13 @@ msgstr "Devuelve un listado de unidades de traducción."
 
 #: ../../api.rst:2105 ../../api.rst:2277
 msgid "Search query string :doc:`/user/search` (optional)"
-msgstr ""
+msgstr "Cadena de solicitud de búsqueda :doc:`/user/search` (opcional)"
 
 #: ../../api.rst:2107
+#, fuzzy
 msgid "array of component objects; see :http:get:`/api/units/(int:id)/`"
 msgstr ""
+"formación de objetos de componente; consulte :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:2111
 msgid "Add new unit."
@@ -25415,26 +25748,35 @@ msgid "*Monolingual translations:* Key of translation unit"
 msgstr "Clave *Traducciones monolingües:* de unidad de traducción"
 
 #: ../../api.rst:2120
+#, fuzzy
 msgid ""
 "*Monolingual translations:* Source strings (use single string if not "
 "creating plural)"
 msgstr ""
+"*Traducciones monolinguas:* Cadenas de origen (utiliza cadena única si no "
+"crea plural)"
 
 #: ../../api.rst:2121
+#, fuzzy
 msgid "*Bilingual translations:* Context of a translation unit"
-msgstr "*Traducciones bilinguales:* Contexto de una unidad de traducción"
+msgstr "*Traducciones bilingües:* Contexto de una unidad de traducción"
 
 #: ../../api.rst:2122
+#, fuzzy
 msgid ""
 "*Bilingual translations:* Source strings (use single string if not creating "
 "plural)"
 msgstr ""
+"*Traducciones bilingües:* Cadenas origen (utiliza cadena simple si no crea "
+"plural)"
 
 #: ../../api.rst:2123
 msgid ""
 "*Bilingual translations:* Target strings (use single string if not creating "
 "plural)"
 msgstr ""
+"*Traducciones bilingües:* Cadenas destino (utiliza cadena simple si no crea "
+"plural)"
 
 #: ../../api.rst:2124
 msgid "String state; see :http:get:`/api/units/(int:id)/`"
@@ -25445,14 +25787,17 @@ msgid "newly created unit; see :http:get:`/api/units/(int:id)/`"
 msgstr "unidad recién creada; véase :http:get:`/api/units/(int:id)/`"
 
 #: ../../api.rst:2136
+#, fuzzy
 msgid ""
 "The ``filter_type`` parameter is no longer supported and filtering is done "
 "by the ``q`` parameter."
 msgstr ""
+"El parámetro ``filter_type`` no está más mantenido y filtrado es hecho por "
+"el parámetro ``q``."
 
 #: ../../api.rst:2138
 msgid "Trigger automatic translation."
-msgstr ""
+msgstr "Disparador de traducción automática."
 
 #: ../../api.rst:2147
 msgid "Automatic translation search string, see :ref:`search-strings`."
@@ -25461,7 +25806,7 @@ msgstr ""
 
 #: ../../api.rst:2148
 msgid "Automatic translation source - ``mt`` or ``others``"
-msgstr "Fuente de traducción automática - ``mt`` o ``others``"
+msgstr "Fuente de traducción automática - ``mt`` u ``others``"
 
 #: ../../api.rst:2149
 msgid ""
@@ -25476,14 +25821,23 @@ msgid ""
 "Download current translation file as it is stored in the VCS (without the "
 "``format`` parameter) or converted to another format (see :ref:`download`)."
 msgstr ""
+"Descarga el archivo de la traducción actual como se esté almacenada en el "
+"VCS (sin el parámetro de ``format``) o convertido a otro formato (consulte "
+":ref:`download`)."
 
 #: ../../api.rst:2160
+#, fuzzy
 msgid ""
 "This API endpoint uses different logic for output than rest of API as it "
 "operates on whole file rather than on data. Set of accepted ``format`` "
 "parameter differs and without such parameter you get translation file as "
 "stored in VCS."
 msgstr ""
+"Este punto final de la API utiliza una lógica de salida diferente a la del "
+"resto del API, ya que opera con el archivo completo en lugar de con los "
+"datos. El conjunto de parámetros de formato aceptados difiere y, sin dicho "
+"parámetro, se obtiene el archivo de traducción tal como está almacenado en "
+"el VCS."
 
 #: ../../api.rst:2165
 msgid "Timestamp of last change to this file."
@@ -25507,24 +25861,30 @@ msgid ""
 "Filter downloaded strings, see :ref:`search`, only applicable when "
 "conversion is in place (``format`` is specified)."
 msgstr ""
+"Filtro descargó cadenas, consulte :ref:`search`, solo aplicable cuando la "
+"conversión está en su sitio (``format`` está especificado)."
 
 #: ../../api.rst:2180
+#, fuzzy
 msgid "Upload new file with translations."
-msgstr ""
+msgstr "Sube archivo nuevo con traducciones."
 
 #: ../../api.rst:2188
+#, fuzzy
 msgid ""
 "How to deal with conflicts (``ignore``, ``replace-translated`` or ``replace-"
 "approved``), see :ref:`upload-conflicts`"
 msgstr ""
+"Como tratar con conflictos (``ignore``, ``replace-translated`` o ``replace-"
+"approved``), consulte :ref:`upload-conflicts`"
 
 #: ../../api.rst:2189 ../../api.rst:2476 ../../api.rst:2512
 msgid "Uploaded file"
-msgstr "Archivo cargado"
+msgstr "Archivo subido"
 
 #: ../../api.rst:2190
 msgid "Author e-mail"
-msgstr "Correo electrónico del autor"
+msgstr "Correo-e del autor"
 
 #: ../../api.rst:2191
 msgid "Author name"
@@ -25535,18 +25895,26 @@ msgid ""
 "Upload method (``translate``, ``approve``, ``suggest``, ``fuzzy``, "
 "``replace``, ``source``, ``add``), see :ref:`upload-method`"
 msgstr ""
+"Método de subida (``translate``, ``approve``, ``suggest``, ``fuzzy``, "
+"``replace``, ``source``, ``add``), consulte :ref:`upload-method`"
 
 #: ../../api.rst:2193 ../../wlc.rst:277
+#, fuzzy
 msgid ""
 "Fuzzy (marked for edit) strings processing (*empty*, ``process``, "
 "``approve``)"
 msgstr ""
+"Cadenas difusas (marcadas para editar) procesando (*empty*, ``process``, "
+"``approve``)"
 
 #: ../../api.rst:2208
+#, fuzzy
 msgid ""
 "The response is same as for :http:get:`/api/components/(string:project)/"
 "(string:component)/repository/`."
 msgstr ""
+"La respuesta es la misma que para :http:get:`/api/components/"
+"(string:project)/(string:component)/repository/`."
 
 #: ../../api.rst:2234
 msgid "Returns detailed translation statistics."
@@ -25566,7 +25934,7 @@ msgstr "Elimina un objeto de la memoria"
 
 #: ../../api.rst:2261
 msgid "Memory Object ID"
-msgstr ""
+msgstr "ID de Objeto de Memoria"
 
 #: ../../api.rst:2266
 msgid "Units"
@@ -25580,17 +25948,27 @@ msgid ""
 "the :py:class:`tt:translate.storage.base.TranslationUnit` in Translate "
 "Toolkit and XLIFF."
 msgstr ""
+"Una `unidad` es una pieza única de una traducción que empareja una cadena de "
+"origen con su correspondiente cadena traducida y que también contiene "
+"metadatos relacionados. El término deriva de "
+":py:class:`tt:translate.storage.base.TranslationUnit` en Translate Toolkit y "
+"XLIFF."
 
 #: ../../api.rst:2282
 msgid ""
 "Unit object attributes are documented at :http:get:`/api/units/(int:id)/`."
 msgstr ""
+"Los atributos del objeto de unidad están documentados en :http:get:`/api/"
+"units/(int:id)/`."
 
 #: ../../api.rst:2288
+#, fuzzy
 msgid ""
 "The ``target`` and ``source`` are now arrays to properly handle plural "
 "strings."
 msgstr ""
+"El destino ``target`` y el origen ``source`` ahora son formaciones para "
+"manipular apropiadamente cadenas plural."
 
 #: ../../api.rst:2293
 msgid "The ``last_updated`` attribute is now exposed."
@@ -25603,7 +25981,7 @@ msgstr "Devuelve información relativa a la unidad de traducción."
 #: ../../api.rst:2297 ../../api.rst:2335 ../../api.rst:2349 ../../api.rst:2363
 #: ../../api.rst:2378 ../../api.rst:2395 ../../api.rst:2493
 msgid "Unit ID"
-msgstr "Identificador de unidad"
+msgstr "ID de Unidad"
 
 #: ../../api.rst:2299 ../../api.rst:2429 ../../api.rst:2495
 msgid "URL of a related translation object"
@@ -25615,7 +25993,7 @@ msgstr "cadena de origen"
 
 #: ../../api.rst:2301
 msgid "previous source string used for fuzzy matching"
-msgstr "cadena de origen anterior utilizada para la coincidencia difusa"
+msgstr "cadena de origen previa a la utilizada para la coincidencia difusa"
 
 #: ../../api.rst:2302 ../../api.rst:2338 ../../api.rst:2352
 msgid "target string"
@@ -25701,15 +26079,15 @@ msgstr "identificador de unidad"
 #: ../../api.rst:2321 ../../api.rst:2339 ../../api.rst:2353
 msgid "String explanation, available on source units, see :ref:`additional`"
 msgstr ""
-"Explicación de la cadena, disponible en las unidades fuente, "
-"ver :ref:`additional`"
+"Explicación de la cadena, disponible en las unidades fuente, consulte "
+":ref:`additional`"
 
 #: ../../api.rst:2322 ../../api.rst:2340 ../../api.rst:2354
 msgid ""
 "Additional string flags, available on source units, see :ref:`custom-checks`"
 msgstr ""
-"Adicionales de la cadena de marcas, disponible en unidades fuente, "
-"ver :ref:`custom-checks`"
+"Adicionales de la cadena de marcas, disponible en unidades fuente, consulte "
+":ref:`custom-checks`"
 
 #: ../../api.rst:2323
 msgid "URL where the unit can be edited"
@@ -25725,7 +26103,7 @@ msgstr "si la unidad está pendiente de escritura"
 
 #: ../../api.rst:2326
 msgid "string age"
-msgstr "Antigüedad de la cadena"
+msgstr "antigüedad de cadena"
 
 #: ../../api.rst:2327
 msgid "last string update"
@@ -25838,10 +26216,12 @@ msgid ""
 "Change object attributes are documented at :http:get:`/api/changes/(int:id)/"
 "`."
 msgstr ""
+"Cambia atributos de objeto estén documentados en :http:get:`/api/changes/"
+"(int:id)/`."
 
 #: ../../api.rst:2417
 msgid "Username of user to filters"
-msgstr ""
+msgstr "Apodo de usuario para filtros"
 
 #: ../../api.rst:2418
 msgid "Action to filter, can be used several times"
@@ -26305,13 +26685,15 @@ msgstr "Métrica"
 
 #: ../../api.rst:2785
 msgid "Returns server metrics."
-msgstr ""
+msgstr "Devuelve métricas de servidor."
 
 #: ../../api.rst:2789
 msgid ""
 "Metrics can now be exposed in OpenMetrics compatible format with ``?"
 "format=openmetrics``."
 msgstr ""
+"Métricas ahora pueden ser expuestas en formato compatible OpenMetrics con "
+"``?format=openmetrics``."
 
 #: ../../api.rst:2791
 msgid "Number of units"
@@ -26323,7 +26705,7 @@ msgstr "Número de unidades traducidas"
 
 #: ../../api.rst:2793
 msgid "Number of users"
-msgstr "Numero de usuarios"
+msgstr "Número de usuarios"
 
 #: ../../api.rst:2794
 msgid "Number of changes"
@@ -26331,35 +26713,35 @@ msgstr "Cantidad de cambios"
 
 #: ../../api.rst:2795
 msgid "Number of projects"
-msgstr "Número de proyectos"
+msgstr "Cantidad de proyectos"
 
 #: ../../api.rst:2796
 msgid "Number of components"
-msgstr "Número de componentes"
+msgstr "Cantidad de componentes"
 
 #: ../../api.rst:2797
 msgid "Number of translations"
-msgstr "Número de traducciones"
+msgstr "Cantidad de traducciones"
 
 #: ../../api.rst:2798
 msgid "Number of used languages"
-msgstr "Número de idiomas utilizados"
+msgstr "Cantidad de idiomas utilizados"
 
 #: ../../api.rst:2799
 msgid "Number of triggered quality checks"
-msgstr "Número de los controles de calidad activados"
+msgstr "Cantidad de los controles de calidad activados"
 
 #: ../../api.rst:2800
 msgid "Number of configuration errors"
-msgstr "Número de errores en la configuración"
+msgstr "Cantidad de errores en la configuración"
 
 #: ../../api.rst:2801
 msgid "Number of pending suggestions"
-msgstr "Número de sugerencias pendientes"
+msgstr "Cantidad de sugerencias pendientes"
 
 #: ../../api.rst:2802
 msgid "Lengths of Celery queues, see :ref:`celery`"
-msgstr "Longitudes de las colas Celery, véase :ref:`celery`"
+msgstr "Longitudes de las colas Celery, consulte :ref:`celery`"
 
 #: ../../api.rst:2803
 msgid "Configured server name"
@@ -26370,14 +26752,18 @@ msgid "Search"
 msgstr "Buscar"
 
 #: ../../api.rst:2812
+#, fuzzy
 msgid ""
 "Returns site-wide search results as a list. There is no pagination on the "
 "result set, only first few matches are returned for each category."
 msgstr ""
+"Devuelve resultado de búsqueda por todo el sitio como un listado. No hay "
+"paginación en el resultado, solo los pocos primeros coincidan son devueltos "
+"para cada categoría."
 
 #: ../../api.rst:2815
 msgid "The search looks for:"
-msgstr ""
+msgstr "La búsqueda busca:"
 
 #: ../../api.rst:2818 ../../api.rst:2829
 msgid "Categories"
@@ -26393,23 +26779,28 @@ msgstr "Nombre del ítem coincidente."
 
 #: ../../api.rst:2825
 msgid "Web URL of the matched item."
-msgstr ""
+msgstr "URL de web del elemento coincidido."
 
 #: ../../api.rst:2826
+#, fuzzy
 msgid "Category of the matched item."
-msgstr ""
+msgstr "Categoría del elemento coincidido."
 
 #: ../../api.rst:2835
 msgid ""
 "Lists available categories. See :http:get:`/api/categories/(int:id)/` for "
 "field definitions."
 msgstr ""
+"Listados de categorías disponibles. Consulte :http:get:`/api/categories/"
+"(int:id)/` para definiciones de campo."
 
 #: ../../api.rst:2841
 msgid ""
 "Creates a new category. See :http:get:`/api/categories/(int:id)/` for field "
 "definitions."
 msgstr ""
+"Crea una categoría nueva. Consulte :http:get:`/api/categories/(int:id)/` "
+"para definiciones de campo."
 
 #: ../../api.rst:2847 ../../api.rst:2860 ../../api.rst:2870 ../../api.rst:2880
 #: ../../api.rst:2889
@@ -26430,47 +26821,35 @@ msgstr "Enlace a un proyecto."
 
 #: ../../api.rst:2852
 msgid "Link to a parent category."
-msgstr ""
+msgstr "Enlaza a una categoría antecesora."
 
 #: ../../api.rst:2858
-#, fuzzy
-#| msgid "Edit partial information about add-on."
 msgid "Edit partial information about category."
-msgstr "Editar información parcial relativa a un complemento."
+msgstr "Editar información parcial sobre categoría."
 
 #: ../../api.rst:0
 msgid "param id"
-msgstr ""
+msgstr "id parámetro"
 
 #: ../../api.rst:0
-#, fuzzy
-#| msgid "Key type"
 msgid "type id"
-msgstr "Tipo de clave"
+msgstr "id de tipo"
 
 #: ../../api.rst:2862 ../../api.rst:2872
-#, fuzzy
-#| msgid "Optional add-on configuration"
 msgid "Optional category configuration"
-msgstr "Configuración opcional del complemento"
+msgstr "Configuración de categoría opcional"
 
 #: ../../api.rst:2868
-#, fuzzy
-#| msgid "Edit full information about add-on."
 msgid "Edit full information about category."
-msgstr "Editar información completa relativa a un complemento."
+msgstr "Editar información completa sobre categoría."
 
 #: ../../api.rst:2878
-#, fuzzy
-#| msgid "Deletes the group."
 msgid "Delete category."
-msgstr "Elimina el grupo."
+msgstr "Elimina categoría."
 
 #: ../../api.rst:2887
-#, fuzzy
-#| msgid "Returns statistics for a project."
 msgid "Returns statistics for a category."
-msgstr "Devuelve estadísticas sobre un proyecto."
+msgstr "Devuelve estadísticas para una categoría."
 
 #: ../../api.rst:2899
 msgid "Notification hooks"
@@ -26485,30 +26864,45 @@ msgstr ""
 "Weblate de que se ha actualizado un repositorio de control de versiones."
 
 #: ../../api.rst:2904
+#, fuzzy
 msgid ""
 "You can use repository endpoints for projects, components and translations "
 "to update individual repositories; see :http:post:`/api/projects/"
 "(string:project)/repository/` for documentation."
 msgstr ""
+"Puede utilizar puntos finales de repositorio para proyectos, componentes y "
+"traducciones para actualizar repositorios individuales; consulte "
+":http:post:`/api/projects/(string:project)/repository/` para obtener la "
+"documentación."
 
 #: ../../api.rst:2912
+#, fuzzy
 msgid ""
 "Please use :http:post:`/api/components/(string:project)/(string:component)/"
 "repository/` instead which works properly with authentication for ACL "
 "limited projects."
 msgstr ""
+"Utilice :http:post:`/api/components/(string:project)/(string:component)/"
+"repository/` en su lugar, que funciona correctamente con la autenticación "
+"para proyectos limitados por ACL."
 
 #: ../../api.rst:2921
+#, fuzzy
 msgid ""
 "Please use :http:post:`/api/projects/(string:project)/repository/` instead "
 "which works properly with authentication for ACL limited projects."
 msgstr ""
+"Utilice :http:post:`/api/projects/(string:project)/repository/` en su lugar, "
+"que funciona correctamente con la autenticación para proyectos limitados por "
+"ACL."
 
 #: ../../api.rst:2928
 msgid ""
 "Special hook for handling GitHub notifications and automatically updating "
 "matching components."
 msgstr ""
+"Gancho especial para manipular notificaciones GitHub y actualizar "
+"automáticamente componentes que coincidan."
 
 #: ../../api.rst:2933
 msgid ""
@@ -26516,16 +26910,23 @@ msgid ""
 "hook in repository settings and set the URL to the URL of your Weblate "
 "installation."
 msgstr ""
+"GitHub incluyen mantenimiento directo para notificar Weblate: habilita "
+"gancho de servicio Weblate en ajustes de repositorio y establece el URL para "
+"el URL de su instalación de Weblate."
 
 #: ../../api.rst:2940
+#, fuzzy
 msgid "For instruction on setting up GitHub integration"
-msgstr ""
+msgstr "Para instrucción en configurar integración de GitHub"
 
 #: ../../api.rst:2941
+#, fuzzy
 msgid ""
 "https://docs.github.com/en/get-started/customizing-your-github-workflow/"
 "exploring-integrations/about-webhooks"
 msgstr ""
+"https://docs.github.com/en/get-started/customizing-your-github-workflow/"
+"exploring-integrations/about-webhooks"
 
 #: ../../api.rst:2942
 msgid "Generic information about GitHub Webhooks"
@@ -26541,24 +26942,28 @@ msgid ""
 "Special hook for handling GitLab notifications and automatically updating "
 "matching components."
 msgstr ""
+"Gancho especial para manipular notificaciones de GitLab y actualizar "
+"automáticamente componentes coincidentes."
 
 #: ../../api.rst:2954
 msgid "For instruction on setting up GitLab integration"
-msgstr ""
+msgstr "Para instrucción sobre configurar integración de GitLab"
 
 #: ../../api.rst:2955
 msgid "https://docs.gitlab.com/user/project/integrations/webhooks/"
-msgstr ""
+msgstr "https://docs.gitlab.com/user/project/integrations/webhooks/"
 
 #: ../../api.rst:2956
 msgid "Generic information about GitLab Webhooks"
-msgstr "Información genérica sobre los actuadores web de GitLab"
+msgstr "Información genérica sobre GitLab Webhooks"
 
 #: ../../api.rst:2962
 msgid ""
 "Special hook for handling Bitbucket notifications and automatically updating "
 "matching components."
 msgstr ""
+"Gancho especial para manipular notificaciones Bitbucket y actualizar "
+"automáticamente componentes coincidentes."
 
 #: ../../api.rst:2968
 msgid "For instruction on setting up Bitbucket integration"
@@ -26566,13 +26971,12 @@ msgstr ""
 "Para obtener instrucciones sobre cómo configurar la integración de Bitbucket"
 
 #: ../../api.rst:2969
-#, fuzzy
 msgid "https://support.atlassian.com/bitbucket-cloud/docs/manage-webhooks/"
 msgstr "https://support.atlassian.com/bitbucket-cloud/docs/manage-webhooks/"
 
 #: ../../api.rst:2970
 msgid "Generic information about Bitbucket Webhooks"
-msgstr "Información genérica sobre los actuadores web de Bitbucket"
+msgstr "Información genérica sobre los Webhooks de Bitbucket"
 
 #: ../../api.rst:2976
 msgid ""
@@ -26584,25 +26988,23 @@ msgstr ""
 
 #: ../../api.rst:2982
 msgid "For instruction on setting up Pagure integration"
-msgstr ""
-"Para obtener instrucciones sobre cómo configurar la integración de Pagure"
+msgstr "Para instrucción sobre cómo configurar la integración de Pagure"
 
 #: ../../api.rst:2983
-#, fuzzy
 msgid "https://docs.pagure.org/pagure/usage/using_webhooks.html"
 msgstr "https://docs.pagure.org/pagure/usage/using_webhooks.html"
 
 #: ../../api.rst:2984
 msgid "Generic information about Pagure Webhooks"
-msgstr "Información genérica sobre los actuadores web de Pagure"
+msgstr "Información genérica sobre los Webhooks de Pagure"
 
 #: ../../api.rst:2990
 msgid ""
 "Special hook for handling Azure DevOps notifications and automatically "
 "updating matching components."
 msgstr ""
-"Actuador especial para trabajar con las notificaciones de Azure DevOps y "
-"actualizar automáticamente los componentes que correspondan."
+"Gancho especial para manipular notificaciones de Azure DevOps y actualizar "
+"automáticamente los componentes que correspondan."
 
 #: ../../api.rst:2995
 msgid ""
@@ -26658,6 +27060,8 @@ msgid ""
 "Special hook for handling Gitee Webhook notifications and automatically "
 "updating matching components."
 msgstr ""
+"Gancho especial para manipular notificaciones de Webhook de Gitee y "
+"actualizar automáticamente los componentes que coincidan."
 
 #: ../../api.rst:3029
 msgid "For instruction on setting up Gitee integration"
@@ -29625,7 +30029,7 @@ msgstr ""
 
 #: ../../changes.rst:1027
 msgid "Included username when generating :ref:`credits`."
-msgstr "Se incluyó el nombre de usuario cuando genera :ref:`credits`."
+msgstr "Se incluyó el apodo cuando genera :ref:`credits`."
 
 #: ../../changes.rst:1028
 msgid ":ref:`bulk-edit` shows a preview of matched strings."
@@ -32487,7 +32891,7 @@ msgstr ""
 msgid "Users can login by e-mail instead of username."
 msgstr ""
 "Los usuarios pueden acceder proporcionando su correo electrónico en lugar de "
-"su nombre de usuario."
+"su apodo."
 
 #: ../../changes/v1.rst:31
 msgid "Improved source strings review."
@@ -35924,7 +36328,7 @@ msgstr ""
 #: ../../changes/v3.rst:351
 msgid "Added support for app store metadata files."
 msgstr ""
-"Se añadió compatibilidad para archivos de metadatos de tiendas de "
+"Se añadió compatibilidad para archivos de metadatos de almacén de "
 "aplicaciones."
 
 #: ../../changes/v3.rst:352
@@ -41762,10 +42166,8 @@ msgid "Weblate Contributor Communication Guidelines"
 msgstr ""
 
 #: ../../contributing/communication.rst:5
-#, fuzzy
-#| msgid "GitHub username"
 msgid "GitHub Issues"
-msgstr "Nombre de usuario de GitHub"
+msgstr "Asuntos de GitHub"
 
 #: ../../contributing/communication.rst:6
 msgid ""
@@ -47719,19 +48121,17 @@ msgstr "Codificación de sistema"
 #: ../../snippets/file-format-parameters.rst:36
 #: ../../snippets/file-format-parameters.rst:115
 #: ../../snippets/file-format-parameters.rst:128
-#, fuzzy
-#| msgid "Filenames encoding"
 msgid "File encoding"
-msgstr "Codificación de nombres de archivo"
+msgstr "Codificación de archivo"
 
 #: ../../snippets/file-format-parameters.rst:7
 msgid "Encoding used for CSV files"
-msgstr ""
+msgstr "Codificación utilizada para archivos CSV"
 
 #: ../../snippets/file-format-parameters.rst:12
 #: ../../snippets/file-format-parameters.rst:22
 msgid "Auto-detect"
-msgstr ""
+msgstr "Auto-detectar"
 
 #: ../../snippets/file-format-parameters.rst:15
 #: ../../snippets/file-format-parameters.rst:25
@@ -47739,7 +48139,7 @@ msgstr ""
 #: ../../snippets/file-format-parameters.rst:123
 #: ../../snippets/file-format-parameters.rst:136
 msgid "UTF-8"
-msgstr ""
+msgstr "UTF-8"
 
 #: ../../snippets/file-format-parameters.rst:17
 #, fuzzy
@@ -47749,13 +48149,13 @@ msgstr "Codificación de nombres de archivo"
 
 #: ../../snippets/file-format-parameters.rst:17
 msgid "Encoding used for simple CSV files"
-msgstr ""
+msgstr "Codificación utilizada para simples archivos CSV"
 
 #: ../../snippets/file-format-parameters.rst:28
 #: ../../snippets/file-format-parameters.rst:44
 #: ../../snippets/file-format-parameters.rst:120
 msgid "ISO-8859-1"
-msgstr ""
+msgstr "ISO-8859-1"
 
 #: ../../snippets/file-format-parameters.rst:30
 msgid "flatxml_key_name"
@@ -47771,7 +48171,7 @@ msgstr ""
 
 #: ../../snippets/file-format-parameters.rst:32
 msgid "FlatXML Root name"
-msgstr "Nombre de FlatXML raíz"
+msgstr "Nombre raíz de FlatXML"
 
 #: ../../snippets/file-format-parameters.rst:34
 #, fuzzy
@@ -47791,7 +48191,7 @@ msgstr "Codificación de sistema"
 
 #: ../../snippets/file-format-parameters.rst:36
 msgid "Encoding used for GWT Properties files"
-msgstr ""
+msgstr "Codificación utilizada para archivos de Propiedades GWT"
 
 #: ../../snippets/file-format-parameters.rst:46
 msgid "json_indent"
@@ -47799,7 +48199,7 @@ msgstr ""
 
 #: ../../snippets/file-format-parameters.rst:46
 msgid "JSON indentation"
-msgstr "Sangría JSON"
+msgstr "Sangrado de JSON"
 
 #: ../../snippets/file-format-parameters.rst:57
 msgid "json_indent_style"
@@ -47807,7 +48207,7 @@ msgstr ""
 
 #: ../../snippets/file-format-parameters.rst:57
 msgid "JSON indentation style"
-msgstr "Estilo de sangría de JSON"
+msgstr "Estilo de sangrado de JSON"
 
 #: ../../snippets/file-format-parameters.rst:60
 msgid "Spaces"
@@ -47838,10 +48238,8 @@ msgid "merge_duplicates"
 msgstr ""
 
 #: ../../snippets/file-format-parameters.rst:90
-#, fuzzy
-#| msgid "Found duplicated string"
 msgid "Deduplicate identical strings"
-msgstr "Se encontró una cadena duplicada"
+msgstr "Desduplicar cadenas idénticas"
 
 #: ../../snippets/file-format-parameters.rst:90
 msgid ""
@@ -47849,6 +48247,9 @@ msgid ""
 "Prevents translation loss during file restructuring or table reordering by "
 "removing position-dependent context."
 msgstr ""
+"Consolida cadenas origen idénticas en una sola unidad de traducción. "
+"Previene pérdida de traducción durante re-estructuración de archivo o "
+"reordenado de tabla retirando contexto de posición dependiente."
 
 #: ../../snippets/file-format-parameters.rst:96
 #, fuzzy
@@ -47877,7 +48278,7 @@ msgstr "No ajustar renglones"
 #: ../../snippets/file-format-parameters.rst:100
 #: ../../snippets/file-format-parameters.rst:164
 msgid "Long lines wrapping"
-msgstr "Ajuste de renglones largos"
+msgstr "Cobertura de renglones largos"
 
 #: ../../snippets/file-format-parameters.rst:100
 #, fuzzy
@@ -47925,15 +48326,13 @@ msgid "properties_encoding"
 msgstr "Propiedades GWT"
 
 #: ../../snippets/file-format-parameters.rst:115
-#, fuzzy
-#| msgid "Format the Java properties file"
 msgid "Encoding used for Java Properties files"
-msgstr "Formatear el archivo de propiedades de Java"
+msgstr "Codificación utilizada para archivos de Propiedades de Java"
 
 #: ../../snippets/file-format-parameters.rst:126
 #: ../../snippets/file-format-parameters.rst:133
 msgid "UTF-16"
-msgstr ""
+msgstr "UTF-16"
 
 #: ../../snippets/file-format-parameters.rst:128
 #, fuzzy
@@ -47943,7 +48342,7 @@ msgstr "Codificación de nombres de archivo"
 
 #: ../../snippets/file-format-parameters.rst:128
 msgid "Encoding used for iOS strings files"
-msgstr ""
+msgstr "Codificación utilizada para archivos con cadenas iOS"
 
 #: ../../snippets/file-format-parameters.rst:138
 msgid "xml_closing_tags"
@@ -47959,7 +48358,7 @@ msgstr ""
 
 #: ../../snippets/file-format-parameters.rst:150
 msgid "YAML indentation"
-msgstr "Sangría YAML"
+msgstr "Sangrado de YAML"
 
 #: ../../snippets/file-format-parameters.rst:153
 #, fuzzy
@@ -48227,9 +48626,9 @@ msgid ""
 "Metadata used for publishing apps in various app stores can be translated. "
 "Currently the following tools are compatible:"
 msgstr ""
-"Es posible traducir los metadatos utilizados en las catalogaciones de las "
-"aplicaciones en varias tiendas. Actualmente, las herramientas siguientes son "
-"compatibles:"
+"Es posible traducir los meta-datos utilizados en las catalogaciones de las "
+"aplicaciones en varios almacenes. Actualmente, las herramientas siguientes "
+"son compatibles:"
 
 #: ../../formats/appstore.rst:9
 msgid ""
@@ -48267,7 +48666,7 @@ msgstr ""
 
 #: ../../formats/appstore.rst:35
 msgid "`App store metadata files`"
-msgstr "`Archivos de metadatos de tiendas de aplicaciones`"
+msgstr "`Archivos de meta-datos de almacenaje de aplicaciones`"
 
 #: ../../formats/arb.rst:4
 msgid "ARB File"
@@ -58148,10 +58547,9 @@ msgid ""
 "the URL. Don't worry, Weblate will strip this info when the URL is shown to "
 "users (if even allowed to see the repository URL at all)."
 msgstr ""
-"Para acceder a repositorios HTTPS protegidos, incluya el nombre de usuario y "
-"la contraseña en el URL. No se preocupe, Weblate quitará estos datos al "
-"mostrar el URL a los usuarios (incluso si se les permite ver el URL del "
-"repositorio)."
+"Para acceder a repositorios HTTPS protegidos, incluya el apodo y la "
+"contraseña en el URL. No se preocupe, Weblate quitará estos datos al mostrar "
+"el URL a los usuarios (incluso si se les permite ver el URL del repositorio)."
 
 #: ../../vcs.rst:298
 msgid ""
@@ -58177,9 +58575,9 @@ msgid ""
 "URL encoded, for example ``https://user%40example.com:"
 "%24password%23@bitbucket.org/…``."
 msgstr ""
-"Si su nombre de usuario o contraseña contiene caracteres especiales, éstos "
-"deben codificarse en URL, por ejemplo ``https://user%40example.com:"
-"%24password%23@bitbucket.org/...``."
+"Si su apodo o contraseña contiene caracteres especiales, éstos deben "
+"codificarse en URL, por ejemplo ``https://"
+"user%40example.com:%24password%23@bitbucket.org/...``."
 
 #: ../../vcs.rst:322
 msgid "Using proxy"
@@ -58338,29 +58736,38 @@ msgid ""
 msgstr ""
 
 #: ../../vcs.rst:464
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "Bitbucket Data Center pull requests"
-msgstr "Solicitud de incorporación del servidor de BitBucket"
+msgstr "Solicitudes de incorporación al Centro de Datos Bitbucket"
 
 #: ../../vcs.rst:468
+#, fuzzy
 msgid ""
 "This just adds a thin layer atop :ref:`vcs-git` using the `Bitbucket Data "
 "Center API`_ to allow pushing translation changes as pull requests instead "
 "of pushing directly to the repository."
 msgstr ""
+"Esto tan solo añade una capa fina sobre :ref:`vcs-git` utilizando el `API "
+"del Centro de Datos Bitbucket`_ para conceder impulsar los cambios de "
+"traducción como solicitudes de conceder en vez de impulsar directamente al "
+"repositorio."
 
 #: ../../vcs.rst:474
 msgid "This does not support Bitbucket Cloud API."
-msgstr ""
+msgstr "Esto no mantiene el API de Bitbucket Cloud."
 
 #: ../../vcs.rst:477
+#, fuzzy
 msgid ""
 "There is no need to use this to access Git repositories, ordinary :ref:`vcs-"
 "git` works the same, the only difference is how pushing to a repository is "
 "handled. With :ref:`vcs-git` changes are pushed directly to the repository, "
 "while :ref:`vcs-bitbucket-data-center` creates pull request."
 msgstr ""
+"No hay necesidad de esto para acceder a repositorios Git, :ref:`vcs-git` "
+"ordinario funciona de la misma manera, la diferencia solo es ahora impulsar "
+"a un repositorio esté gestionado. Con los cambios en :ref:`vcs-git` son "
+"subidos directamente al repositorio, mientras que :ref:`vcs-bitbucket-data-"
+"center` crea solicitudes de subir."
 
 #: ../../vcs.rst:482
 msgid ""
@@ -58369,12 +58776,14 @@ msgid ""
 "this work. Once configured, you will see a :guilabel:`Bitbucket Data Center` "
 "option when selecting :ref:`component-vcs`."
 msgstr ""
+"Necesita las credenciales API para configurar "
+"(:setting:`BITBUCKETSERVER_CREDENTIALS`) en los ajustes de Weblate para "
+"hacer este trabajo. Una vez que se configure, verá una opción de "
+":guilabel:`Bitbucket Data Center` cuando seleccione :ref:`component-vcs`."
 
 #: ../../vcs.rst:497
-#, fuzzy
-#| msgid "Bitbucket Server pull request"
 msgid "Bitbucket Cloud pull requests"
-msgstr "Solicitud de incorporación del servidor de BitBucket"
+msgstr "Solicitud de incorporación a BitBucket Cloud"
 
 #: ../../vcs.rst:501
 msgid ""
@@ -58540,6 +58949,9 @@ msgid ""
 "Underneath, this uses :ref:`vcs-git`. It requires Git installed and allows "
 "you to switch to using Git natively with full history of your translations."
 msgstr ""
+"Por lo tanto, esto utiliza :ref:`vcs-git`. Requiere instalado el Git y "
+"concederle cambiar a utilizar el Git nativo con histórico completo de sus "
+"traducciones."
 
 #: ../../vcs.rst:660
 msgid ""
@@ -58653,7 +59065,7 @@ msgstr ""
 
 #: ../../wlc.rst:126
 msgid "Synopsis"
-msgstr ""
+msgstr "Sinopsis"
 
 #: ../../wlc.rst:132
 msgid "Commands actually indicate which operation should be performed."
@@ -58696,14 +59108,20 @@ msgid ""
 "configuration file, see :ref:`wlc-config`. You can find your key in your "
 "profile on Weblate."
 msgstr ""
+"Especifique la clave del usuario del API a utilizar. Sustituya cualquier "
+"valor encontrado en el archivo de configuración, consulte :ref:`wlc-config`. "
+"Puede encontrar su clave en su perfil de Weblate."
 
 #: ../../wlc.rst:163
 msgid "Overrides the configuration file path, see :ref:`wlc-config`."
 msgstr ""
+"Sustituye la ruta del archivo de configuración, consulte :ref:`wlc-config`."
 
 #: ../../wlc.rst:167
 msgid "Overrides configuration file section in use, see :ref:`wlc-config`."
 msgstr ""
+"Sustituye la sección del archivo de configuración en uso, consulte :ref:`wlc-"
+"config`."
 
 #: ../../wlc.rst:170
 msgid "Commands"
@@ -58715,7 +59133,7 @@ msgstr "Las siguientes órdenes están disponibles:"
 
 #: ../../wlc.rst:176
 msgid "Prints the current version."
-msgstr "Muestra la versión actual."
+msgstr "Declara la versión actual."
 
 #: ../../wlc.rst:180
 msgid "Lists used languages in Weblate."
@@ -58844,11 +59262,11 @@ msgstr ""
 
 #: ../../wlc.rst:273
 msgid "Upload method to use, see :ref:`upload-method`."
-msgstr ""
+msgstr "Método de subida a utilizar, consulte :ref:`upload-method`."
 
 #: ../../wlc.rst:281
 msgid "Author name, to override currently authenticated user"
-msgstr ""
+msgstr "Nombre del autor, para sustituir actualmente al usuario autenticado"
 
 #: ../../wlc.rst:285
 msgid "Author e-mail, to override currently authenticated user"
@@ -58994,7 +59412,7 @@ msgstr "Enumerar todos los proyectos:"
 
 #: ../../wlc.rst:373
 msgid "Upload translation file:"
-msgstr "Cargar un archivo de traducción:"
+msgstr "Subir un archivo de traducción:"
 
 #: ../../wlc.rst:379
 msgid "You can also designate what project :program:`wlc` should work on:"
@@ -59100,6 +59518,10 @@ msgid ""
 "workflow. Please consult the respective documentation on how to manage "
 "access to translations."
 msgstr ""
+"El :ref:`access control <access-control>` no está discutido en detalle como "
+"uno completo en los flujos de trabajo, como mucho de sus opciones puede ser "
+"aplicado a cualquier flujo de trabajo. Consulte con la documentación "
+"respectiva acerca de como gestionar el acceso para las traducciones."
 
 #: ../../workflows.rst:52
 msgid ""
@@ -59107,6 +59529,10 @@ msgid ""
 "translation. It can be any authenticated user if the project is public, or a "
 "user with :guilabel:`Translate` permission to the project."
 msgstr ""
+"El los siguientes capítulos, *cualquier usuario* quiere decir que un usuario "
+"tiene acceso a la traducción. Puede ser cualquier usuario autenticado si el "
+"proyecto es público, o un usuario con permiso :guilabel:`Translate` para el "
+"proyecto."
 
 #: ../../workflows.rst:61
 #, fuzzy
@@ -59123,6 +59549,8 @@ msgid ""
 "Translation is empty, it might or not be stored in the file, depending on "
 "the file format."
 msgstr ""
+"La traducción está vacía, tal vez esté o no almacenado en el archivo, "
+"dependiendo del formato del archivo."
 
 #: ../../workflows.rst:66
 #, fuzzy
@@ -59139,6 +59567,12 @@ msgid ""
 "file format it might be marked as needing edit (for example as it gets a "
 "``fuzzy`` flag in the gettext file)."
 msgstr ""
+"La traducción necesita editarse, esto usualmente es el resultado de un "
+"cambio de cadena origen, coincidencia difusa o acción de traductor. La "
+"traducción está almacenada en el archivo si el :ref:`project-commit_policy` "
+"lo concede. Dependiendo del formato del archivo estaría marcado como edición "
+"necesaria (por ejemplo como obtener un indicador ``fuzzy`` en el archivo "
+"gettext)."
 
 #: ../../workflows.rst:70
 msgid "Waiting for review"
@@ -59158,10 +59592,13 @@ msgid ""
 "translators, but only by reviewers. Translators can only add suggestions to "
 "it."
 msgstr ""
+"La traducción ha sido aprobada en la revisión. No puede ser cambiada más por "
+"los traductores, solo por los revisores. Los traductores solo pueden añadir "
+"sugerencias para ello."
 
 #: ../../workflows.rst:78
 msgid "This state is only available when reviews are enabled."
-msgstr ""
+msgstr "Este estado solo está disponible cuando están activadas las revisiones."
 
 #: ../../workflows.rst:79
 msgid "Read-only"
@@ -59173,6 +59610,9 @@ msgid ""
 "checks>`, being a non-editable source string, or marked such in the "
 "translation file."
 msgstr ""
+"La cadena es solo-lectura como un resultado de tener ``read-only``:ref:`flag "
+"<custom-checks>`, siendo una cadena origen no editable, o marcado tal en el "
+"archivo de traducción."
 
 #: ../../workflows.rst:84
 msgid "Suggestions are stored in Weblate only and not in the translation file."
@@ -59190,6 +59630,9 @@ msgid ""
 "to use the :ref:`addon-weblate.flags.same_edit` add-on to flag unchanged "
 "strings as needing editing."
 msgstr ""
+"Si el formato del archivo que utiliza no admite estados de almacenaje, quizá "
+"desea utilizar el :ref:`addon-weblate.flags.same_edit` adjunto para "
+"indicadores no cambiados de cadenas como necesiten al editar."
 
 #: ../../workflows.rst:101
 msgid "Direct translation"
@@ -59200,6 +59643,9 @@ msgid ""
 "The most common setup for smaller teams, where anybody can translate "
 "directly. This is also the default setup in Weblate."
 msgstr ""
+"La configuración más común para equipos más pequeños, si cualquiera puede "
+"traducir directamente. Además esto es la configuración predeterminada en "
+"Weblate."
 
 #: ../../workflows.rst:105
 msgid "*Any user* can edit translations."
@@ -59210,6 +59656,8 @@ msgid ""
 "Suggestions are optional ways to suggest changes, when translators are not "
 "sure about the change."
 msgstr ""
+"Las sugerencias son opcionales para sugerir cambios, cuando los traductores "
+"no estén seguiros sobre el cambio."
 
 #: ../../workflows.rst:110 ../../workflows.rst:142 ../../workflows.rst:175
 msgid "Setting"
@@ -59226,7 +59674,7 @@ msgstr "desactivada"
 
 #: ../../workflows.rst:112 ../../workflows.rst:144 ../../workflows.rst:177
 msgid "Configured at project level."
-msgstr ""
+msgstr "Configurado en el nivel del proyecto."
 
 #: ../../workflows.rst:114 ../../workflows.rst:146 ../../workflows.rst:148
 #: ../../workflows.rst:177 ../../workflows.rst:179
@@ -59235,7 +59683,7 @@ msgstr "activada"
 
 #: ../../workflows.rst:114 ../../workflows.rst:179
 msgid "Useful for users to be able to suggest when they are not sure."
-msgstr ""
+msgstr "Útil para usuarios que sean capaces de sugerir cuando no estén seguros."
 
 #: ../../workflows.rst:121 ../../workflows.rst:153 ../../workflows.rst:186
 msgid "Translators group"
@@ -59336,7 +59784,7 @@ msgstr ""
 
 #: ../../workflows.rst:190
 msgid "Or `Review` with :ref:`per-project access control <manage-acl>`."
-msgstr ""
+msgstr "O `Revisión` con :ref:`per-project access control <manage-acl>`."
 
 #: ../../workflows.rst:196
 msgid "Turning on reviews"
