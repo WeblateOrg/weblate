@@ -37,6 +37,7 @@ if TYPE_CHECKING:
     from weblate.addons.models import Addon, AddonActivityLog
     from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.trans.models import Change, Project, Translation, Unit
+    from weblate.utils.docs import RSTVersionMetadata
 
 
 class CompatDict(TypedDict, total=False):
@@ -65,6 +66,7 @@ class BaseAddon:
     stay_on_create = False
     user_name = ""
     user_verbose = ""
+    doc_versions: tuple[RSTVersionMetadata] = ()
 
     def __init__(self, storage: Addon) -> None:
         self.instance: Addon = storage

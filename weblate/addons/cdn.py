@@ -19,6 +19,7 @@ from weblate.addons.base import BaseAddon
 from weblate.addons.events import AddonEvent
 from weblate.addons.forms import CDNJSForm
 from weblate.addons.tasks import cdn_parse_html
+from weblate.utils.docs import VersionAdded
 from weblate.utils.state import STATE_TRANSLATED
 
 if TYPE_CHECKING:
@@ -34,6 +35,7 @@ class CDNJSAddon(BaseAddon):
         AddonEvent.EVENT_POST_UPDATE,
     }
     name = "weblate.cdn.cdnjs"
+    doc_versions = (VersionAdded("4.2"),)
     verbose = gettext_lazy("JavaScript localization CDN")
     description = gettext_lazy(
         "Publishes translations into content delivery network "

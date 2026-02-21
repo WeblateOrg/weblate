@@ -16,6 +16,7 @@ from weblate.addons.forms import GenerateForm, PseudolocaleAddonForm
 from weblate.checks.flags import Flags
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Translation
+from weblate.utils.docs import VersionAdded
 from weblate.utils.errors import report_error
 from weblate.utils.render import render_template
 from weblate.utils.state import (
@@ -169,6 +170,7 @@ class PseudolocaleAddon(LocaleGenerateAddonBase):
     settings_form = PseudolocaleAddonForm
     user_name = "pseudolocale"
     user_verbose = "Pseudolocale add-on"
+    doc_versions = (VersionAdded("4.5"),)
 
     def daily(self, component: Component, activity_log_id: int | None = None) -> None:
         # Check all strings
@@ -249,6 +251,7 @@ class PrefillAddon(LocaleGenerateAddonBase):
     description = gettext_lazy("Fills in translation strings with source string.")
     user_name = "prefill"
     user_verbose = "Prefill add-on"
+    doc_versions = (VersionAdded("4.11"),)
 
     def daily(self, component: Component, activity_log_id: int | None = None) -> None:
         # Check all strings
@@ -285,6 +288,7 @@ class FillReadOnlyAddon(LocaleGenerateAddonBase):
     )
     user_name = "fill"
     user_verbose = "Fill read-only add-on"
+    doc_versions = (VersionAdded("4.18"),)
 
     def daily(self, component: Component, activity_log_id: int | None = None) -> None:
         self.do_update(component)

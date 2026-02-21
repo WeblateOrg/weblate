@@ -16,6 +16,7 @@ from weblate.addons.events import AddonEvent
 from weblate.addons.forms import GenerateMoForm
 from weblate.formats.base import UpdateError
 from weblate.formats.exporters import MoExporter
+from weblate.utils.docs import VersionChanged
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
 if TYPE_CHECKING:
@@ -261,11 +262,17 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
     name = "weblate.gettext.msgmerge"
     verbose = gettext_lazy("Update PO files to match POT (msgmerge)")
     description = gettext_lazy(
-        'Updates all PO files (as configured by "File mask") to match the '
-        'POT file (as configured by "Template for new translations") using msgmerge.'
+        "Updates all PO files (as configured by :ref:`component-filemask`) to match the"
+        "POT file (as configured by :ref:`component-new_base`) using :program:`msgmerge`."
     )
     alert = "MsgmergeAddonError"
     compat: ClassVar[CompatDict] = {"file_format": {"po"}}
+    doc_versions = (
+        VersionChanged(
+            "5.13",
+            ":guilabel:`Settings` configuration has been moved to :ref:`file_format_params`.",
+        ),
+    )
 
     @classmethod
     def can_install(
