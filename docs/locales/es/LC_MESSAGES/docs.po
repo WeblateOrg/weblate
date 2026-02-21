@@ -30,8 +30,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-02-16 14:59+0100\n"
-"PO-Revision-Date: 2026-02-20 05:11+0000\n"
-"Last-Translator: eulalio <eulalio@disroot.org>\n"
+"PO-Revision-Date: 2026-02-21 10:09+0000\n"
+"Last-Translator: Francisco Serrador <fserrador@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
 "Language: es\n"
@@ -948,8 +948,9 @@ msgid ""
 "Manage VCS for the whole ``foo/bar`` repository e.g. commit pending changes "
 "made by translators for all languages."
 msgstr ""
-"Gestionar VCS para todo el repositorio ``esto/otro``, por ejemplo, commit "
-"los cambios pendientes realizados por los traductores para todos los idiomas."
+"Gestionar VCS para todo el repositorio ``esto/otro``, por ejemplo, "
+"consolidar los cambios pendientes realizados por los traductores para todos "
+"los idiomas."
 
 #: ../../admin/access.rst:445
 msgid "Automatic team assignments"
@@ -1423,7 +1424,7 @@ msgstr "Acceder al repositorio interno"
 
 #: ../../snippets/permissions.rst:293
 msgid "Commit changes to the internal repository"
-msgstr "Consolidar cambios al repositorio interno"
+msgstr "Consigna cambios al repositorio interno"
 
 #: ../../snippets/permissions.rst:297
 msgid "Push change from the internal repository"
@@ -1544,10 +1545,8 @@ msgid ":guilabel:`Post announcements`"
 msgstr ":guilabel:`Publicar anuncios`"
 
 #: ../../snippets/roles.rst:12 ../../snippets/roles.rst:113
-#, fuzzy
-#| msgid ":guilabel:`Post announcements`"
 msgid ":guilabel:`Delete announcements`"
-msgstr ":guilabel:`Publicar anuncios`"
+msgstr ":guilabel:`Eliminar anuncios`"
 
 #: ../../snippets/roles.rst:13
 msgid ":guilabel:`Download changes`"
@@ -1745,7 +1744,7 @@ msgstr ":guilabel:`Acceder al repositorio interno`"
 
 #: ../../snippets/roles.rst:55 ../../snippets/roles.rst:192
 msgid ":guilabel:`Commit changes to the internal repository`"
-msgstr ":guilabel:`Confirmar cambios en el repositorio interno`"
+msgstr ":guilabel:`Consignar cambios en el repositorio interno`"
 
 #: ../../snippets/roles.rst:56 ../../snippets/roles.rst:193
 msgid ":guilabel:`Push change from the internal repository`"
@@ -1946,16 +1945,6 @@ msgid "Additional access restrictions"
 msgstr "Restricciones de acceso adicionales"
 
 #: ../../admin/access.rst:556
-#, fuzzy
-#| msgid ""
-#| "If you want to use your Weblate installation in a less public manner, "
-#| "i.e. allow new users on an invitational basis only, it can be done by "
-#| "configuring Weblate in such a way that only known users have an access to "
-#| "it. In order to do so, you can set :setting:`REGISTRATION_OPEN` to "
-#| "``False`` to prevent registrations of any new users, and "
-#| "set :setting:`REQUIRE_LOGIN` to ``/.*`` to require signing in to access "
-#| "all the site pages. This is basically the way to lock your Weblate "
-#| "installation."
 msgid ""
 "If you want to use your Weblate installation in a less public manner, i.e. "
 "allow new users on an invitational basis only, it can be done by configuring "
@@ -1969,9 +1958,9 @@ msgstr ""
 "decir, permitir nuevos usuarios sólo por invitación, puedes hacerlo "
 "configurando Weblate de tal manera que sólo los usuarios conocidos tengan "
 "acceso a él. Para ello, puedes fijar :setting:`REGISTRATION_OPEN` a "
-"``False`` para evitar el registro de nuevos usuarios, y "
-"fijar :setting:`REQUIRE_LOGIN` a ``/.*`` para requerir el inicio de sesión "
-"para acceder a todas las páginas del sitio. Esta es básicamente la forma de "
+"``False`` para evitar el registro de nuevos usuarios, y fijar "
+":setting:`REQUIRE_LOGIN` a ``True`` para requerir el inicio de sesión para "
+"acceder a todas las páginas del sitio. Esta es básicamente la forma de "
 "bloquear tu instalación de Weblate."
 
 #: ../../admin/access.rst:563
@@ -1980,6 +1969,9 @@ msgid ""
 "make all newly created projects private, requiring explicit access to be "
 "granted."
 msgstr ""
+"Adicionalmente, cambia :setting:`DEFAULT_ACCESS_CONTROL` a ``100`` hará que "
+"todos los proyectos privados nuevamente creados, requiriendo acceso "
+"explícito a ser concedido."
 
 #: ../../admin/access.rst:568
 msgid "You can use built-in :ref:`invite-user` to add new users."
@@ -2084,15 +2076,15 @@ msgstr "Repositorio tras añadir"
 
 #: ../../admin/addons.rst:60
 msgid "Triggered just after the new translation is added and committed."
-msgstr "Disparador justo tras la traducción nueva sea añadida y ejecutada."
+msgstr "Disparador justo tras la traducción nueva sea añadida y consignada."
 
 #: ../../admin/addons.rst:65
 msgid "Repository post-commit"
-msgstr "Repositorio post-efectuado"
+msgstr "Repositorio post-consignado"
 
 #: ../../admin/addons.rst:67
 msgid "Triggered just after the changes are committed."
-msgstr "Disparador justo tras los cambios sean ejecutados."
+msgstr "Disparador justo tras los cambios sean consignados."
 
 #: ../../admin/addons.rst:73
 msgid "Repository post-push"
@@ -2114,11 +2106,11 @@ msgstr ""
 
 #: ../../admin/addons.rst:87
 msgid "Repository pre-commit"
-msgstr "Repositorio pre-ejecutado"
+msgstr "Repositorio pre-consignado"
 
 #: ../../admin/addons.rst:89
 msgid "Triggered just before the changes are committed."
-msgstr "Disparado tan solo antes de los cambios sean ejecutados."
+msgstr "Disparado tan solo antes de los cambios sean consignados."
 
 #: ../../admin/addons.rst:94
 msgid "Repository pre-push"
@@ -2796,19 +2788,19 @@ msgstr ""
 
 #: ../../admin/addons.rst:431
 msgid "Excluding certain matches"
-msgstr ""
+msgstr "Excluir ciertas coincidencias"
 
 #: ../../admin/addons.rst:433
 msgid ""
 "Negative lookahead can be used to exclude certain patterns from being "
 "processed."
 msgstr ""
+"Previsión negativa puede ser utilizada para excluir ciertos patrones de ser "
+"procesados."
 
 #: ../../admin/addons.rst:440
-#, fuzzy
-#| msgid "Matching files:"
 msgid "Not matching files:"
-msgstr "Archivos coincidentes:"
+msgstr "No archivos coincidentes:"
 
 #: ../../admin/addons.rst:451
 msgid ""
@@ -3209,16 +3201,12 @@ msgstr "Completar las líneas de solo lectura con el origen"
 
 #: ../../admin/addons.rst:823 ../../admin/addons.rst:874
 #: ../../admin/addons.rst:907
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-event-install`, :ref:`addon-event-component-"
-#| "update`, :ref:`addon-event-daily`"
 msgid ""
 ":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-"
 "update`, :ref:`addon-event-daily`"
 msgstr ""
-":ref:`addon-event-install`, :ref:`addon-event-component-update`, :ref:`addon-"
-"event-daily`"
+":ref:`addon-event-add-on-installation`, :ref:`addon-event-component-update`, "
+":ref:`addon-event-daily`"
 
 #: ../../admin/addons.rst:825
 msgid "Fills in translation of read-only strings with source string."
@@ -3237,13 +3225,12 @@ msgid "Content of generated file"
 msgstr "Contenido del archivo generado"
 
 #: ../../admin/addons.rst:838
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-event-install`, :ref:`addon-event-repository-post-commit`"
 msgid ""
 ":ref:`addon-event-add-on-installation`, :ref:`addon-event-repository-pre-"
 "commit`"
-msgstr ":ref:`addon-event-install`, :ref:`addon-event-repository-post-commit`"
+msgstr ""
+":ref:`addon-event-add-on-installation`, :ref:`addon-event-repository-pre-"
+"commit`"
 
 #: ../../admin/addons.rst:840
 msgid "Generates a file containing detailed info about the translation status."
@@ -3572,11 +3559,11 @@ msgstr ""
 
 #: ../../admin/addons.rst:1063
 msgid "Squash Git commits"
-msgstr "Concentrar consignas de Git"
+msgstr "Concentrar consignaciones de Git"
 
 #: ../../admin/addons.rst:1067
 msgid "Commit squashing"
-msgstr "Concentración de consignas"
+msgstr "Concentrar consignación"
 
 #: ../../admin/addons.rst:1071 ../../admin/addons.rst:1095
 msgid "All commits into one"
@@ -3596,7 +3583,7 @@ msgstr "Por autor"
 
 #: ../../admin/addons.rst:1079
 msgid "Append trailers to squashed commit message"
-msgstr "Añadir renglones finales al mensaje de consigna concentrada"
+msgstr "Adjuntar renglones finales al mensaje de consigna concentrada"
 
 #: ../../admin/addons.rst:1079
 msgid ""
@@ -3606,7 +3593,7 @@ msgid ""
 msgstr ""
 "Las líneas de acompañamiento son líneas similares a las cabeceras de correo "
 "electrónico RFC 822, al final de la parte libre de un mensaje de "
-"confirmación, como \"Coautor: ...\"."
+"consignación, como \"Coautor: ...\"."
 
 #: ../../admin/addons.rst:1081
 msgid "Commit message"
@@ -3618,20 +3605,19 @@ msgid ""
 "from the squashed commits."
 msgstr ""
 "Este mensaje de consigna se utilizará en sustitución de los mensajes "
-"combinados de las consignas concentradas."
+"combinados de consigna desde las consignaciones concentradas."
 
 #: ../../admin/addons.rst:1083
-#, fuzzy
-#| msgid ""
-#| ":ref:`addon-event-install`, :ref:`addon-event-repository-post-commit`"
 msgid ""
 ":ref:`addon-event-add-on-installation`, :ref:`addon-event-repository-post-"
 "commit`"
-msgstr ":ref:`addon-event-install`, :ref:`addon-event-repository-post-commit`"
+msgstr ""
+":ref:`addon-event-add-on-installation`, :ref:`addon-event-repository-post-"
+"commit`"
 
 #: ../../admin/addons.rst:1085
 msgid "Squash Git commits prior to pushing changes."
-msgstr "Concentrar las consignas de Git antes de enviar los cambios."
+msgstr "Concentrar las consignaciones de Git antes de enviar los cambios."
 
 #: ../../admin/addons.rst:1089
 msgid ""
@@ -3665,8 +3651,8 @@ msgid ""
 "The original commit messages can optionally be overridden with a custom "
 "commit message."
 msgstr ""
-"Los mensajes de confirmación originales se pueden anular opcionalmente con "
-"un mensaje de confirmación personalizado."
+"Los mensajes de consignación originales pueden ser anulados opcionalmente "
+"con un mensaje personalizado de consignación."
 
 #: ../../admin/addons.rst:1105
 msgid ""
@@ -3675,10 +3661,10 @@ msgid ""
 "commit message. This also generates proper ``Co-authored-by:`` credit for "
 "every translator."
 msgstr ""
-"Existe la opción de quitar los renglones finales (como ``Co-authored-by: …"
-"``) de los mensajes de consigna originales y reañadirlos al mensaje de la "
-"consigna concentrada. ``Co-authored-by:`` asegurará además la debida "
-"acreditación a cada uno de los traductores."
+"Las colas (lineas consignadas como ``Co-authored-by: …``) opcionalmente "
+"pueden ser retirados desde los mensajes de consigna original y adjuntados al "
+"final del mensaje de consigna adjuntada. Además esto genera reconocimiento "
+"``Co-authored-by:`` apropiado para cada uno de los traductores."
 
 #: ../../admin/addons.rst:1113
 msgid "Customize JSON output"
@@ -3732,10 +3718,8 @@ msgid "Days to keep"
 msgstr "Días para guardar"
 
 #: ../../admin/addons.rst:1149 ../../admin/addons.rst:1168
-#, fuzzy
-#| msgid ":ref:`addon-event-install`, :ref:`addon-event-daily`"
 msgid ":ref:`addon-event-add-on-installation`, :ref:`addon-event-daily`"
-msgstr ":ref:`addon-event-install`, :ref:`addon-event-daily`"
+msgstr ":ref:`addon-event-add-on-installation`, :ref:`addon-event-daily`"
 
 #: ../../admin/addons.rst:1151
 msgid "Set a timeframe for removal of comments."
@@ -4028,7 +4012,7 @@ msgstr "Componente desbloqueado"
 
 #: ../../snippets/change-events.rst:31
 msgid "Changes committed"
-msgstr "Cambios realizados"
+msgstr "Cambios consignados"
 
 #: ../../snippets/change-events.rst:33
 msgid "Changes pushed"
@@ -4308,7 +4292,7 @@ msgstr "Purga de repositorio"
 
 #: ../../admin/addons.rst:1380 ../../formats/appstore.rst:4
 msgid "App store metadata files"
-msgstr "Archivos de metadatos de tiendas de aplicaciones"
+msgstr "Archivos de metadatos de almacén de aplicaciones"
 
 #: ../../admin/addons.rst:1382
 msgid "ARB file"
@@ -4738,8 +4722,8 @@ msgid ""
 msgstr ""
 "Se puede utilizar para actualizar los archivos de traducción cuando el "
 "código fuente del VCS cambia. Para conseguirlo, recuerda que Weblate sólo ve "
-"los archivos confirmados en el VCS, por lo que debes commit los cambios como "
-"parte del script."
+"los archivos consignados en el VCS, por lo que debes consignar los cambios "
+"como parte del script."
 
 #: ../../admin/addons.rst:1639
 msgid "For example with Gulp you can do it using following code:"
@@ -4748,15 +4732,15 @@ msgstr ""
 
 #: ../../admin/addons.rst:1649
 msgid "Pre-commit processing of translations"
-msgstr "Procesamiento de traducciones preconsigna"
+msgstr "Procesamiento de traducciones pre-consignadas"
 
 #: ../../admin/addons.rst:1651
 msgid ""
 "Use the commit script to automatically change a translation before it is "
 "committed to the repository."
 msgstr ""
-"Utilice el script commitn para cambiar automáticamente una traducción antes "
-"de confirmarla en el repositorio."
+"Utilice el script consignar para cambiar automáticamente una traducción "
+"antes de esté consignado al repositorio."
 
 #: ../../admin/addons.rst:1654
 msgid ""
@@ -5665,17 +5649,19 @@ msgstr ""
 "``SOCIAL_AUTH_SAML_ENABLED_IDPS``."
 
 #: ../../admin/auth.rst:492
-#, fuzzy
-#| msgid "The SAML XML metadata URL is ``/accounts/metadata/saml/``."
 msgid ""
 "The SAML XML metadata URL is ``/accounts/metadata/saml/``, which is also an "
 "entity ID."
-msgstr "La URL de los metadatos XML de SAML es ``/accounts/metadata/saml/``."
+msgstr ""
+"La URL de los metadatos XML de SAML es ``/accounts/metadata/saml/``, la cual "
+"además es un ID de entidad."
 
 #: ../../admin/auth.rst:493
 msgid ""
 "The sign-in URL is ``/accounts/complete/saml/`` (also known as ACS URL)."
 msgstr ""
+"EL URL de acceso es ``/accounts/complete/saml/`` (además conocido como URL "
+"ACS)."
 
 #: ../../admin/auth.rst:494
 msgid ""
@@ -5694,7 +5680,7 @@ msgstr "Ejemplo de configuración:"
 
 #: ../../admin/auth.rst:536
 msgid "You can generate a new pair of keys using:"
-msgstr ""
+msgstr "Puedes generar una pareja de claves utilizando:"
 
 #: ../../admin/auth.rst:542
 msgid ""
@@ -7670,17 +7656,17 @@ msgstr ""
 "indicadores de cadena o componente."
 
 #: ../../admin/checks.rst:381
-#, fuzzy
 msgid ""
 "This is best used with checks that can cause serious issues when used like "
 "checks for :ref:`check-formats`. Using for style checks like :ref:`check-"
 "same` is not recommended because dismissal is sometimes a reasonable "
 "approach in these."
 msgstr ""
-"Se recomienda su uso con comprobaciones que pueden causar problemas graves, "
-"como las de :ref:`check-formats`. No se recomienda su uso para "
-"comprobaciones de estilo, como :ref:`check-same`, ya que en estos casos "
-"descartar la comprobación puede ser una solución razonable."
+"Esto es mejor utilizado con comprobaciones que pueden causar problemas "
+"serios cuando se utilizaron comprobaciones para :ref:`check-formats`. No se "
+"recomienda su uso para comprobaciones de estilo como :ref:`check-same`, ya "
+"que en estos casos descartar la comprobación puede ser una solución "
+"razonable."
 
 #: ../../admin/checks.rst:385
 msgid ""
@@ -7688,7 +7674,7 @@ msgid ""
 "editing from being committed to the version control."
 msgstr ""
 "La :ref:`project-commit_policy` se puede utilizar para excluir cadenas que "
-"necesitan editando desde ser efectuado para el control de versión."
+"necesitan editando desde ser consignado para el control de versión."
 
 #: ../../admin/checks.rst:400
 msgid "Managing fonts"
@@ -8434,8 +8420,8 @@ msgid ""
 "Number of hours between committing pending changes by way of the background "
 "task."
 msgstr ""
-"Número de horas entre la confirmación de los cambios pendientes mediante la "
-"tarea en segundo plano."
+"Número de horas entre la consigna de cambios pendientes mediante la tarea en "
+"segundo plano."
 
 #: ../../admin/config.rst:452
 msgid ""
@@ -8587,7 +8573,7 @@ msgid ""
 "Default commit messages for different operations, please "
 "check :ref:`component` for details."
 msgstr ""
-"Mensajes de confirmación por defecto para diferentes operaciones, por favor "
+"Mensajes de consigna por defecto para diferentes operaciones, por favor "
 "revise :ref:`component` para más detalles."
 
 #: ../../admin/config.rst:608
@@ -8609,12 +8595,12 @@ msgstr "Ejemplo:"
 #: ../../admin/config.rst:643
 msgid "Committer e-mail address, defaulting to ``noreply@weblate.org``."
 msgstr ""
-"Dirección de correo electrónico del colaborador, el valor predeterminado es "
+"Dirección de correo electrónico de consigna el valor predeterminado es "
 "``noreply@weblate.org``."
 
 #: ../../admin/config.rst:654
 msgid "Committer name, defaulting to ``Weblate``."
-msgstr "Nombre del autor, por defecto ``Weblate``."
+msgstr "Nombre del consignador, por defecto ``Weblate``."
 
 #: ../../admin/config.rst:667
 msgid ":ref:`component-source_language` for any new components."
@@ -8649,20 +8635,20 @@ msgstr ""
 "y :ref:`project-contribute_shared_tm`."
 
 #: ../../admin/config.rst:706 ../../admin/install/docker.rst:831
-#, fuzzy
-#| msgid "Configures the default value of :ref:`project-autoclean_tm`."
 msgid ""
 "Configures the default value for :ref:`project-translation_review`, turned "
 "off by default."
-msgstr "Configura el valor por defecto de :ref:`project-autoclean_tm`."
+msgstr ""
+"Configura el valor por defecto para :ref:`project-translation_review`, "
+"apagado por defecto."
 
 #: ../../admin/config.rst:715 ../../admin/install/docker.rst:837
-#, fuzzy
-#| msgid "Configures the default value of :ref:`project-autoclean_tm`."
 msgid ""
 "Configures the default value for :ref:`project-source_review`, turned off by "
 "default."
-msgstr "Configura el valor por defecto de :ref:`project-autoclean_tm`."
+msgstr ""
+"Configura el valor por defecto para :ref:`project-source_review`, apagado "
+"por defecto."
 
 #: ../../admin/config.rst:724
 msgid "Configures the default value of :ref:`project-autoclean_tm`."
@@ -9299,7 +9285,7 @@ msgid ""
 "Configures whether the private commit e-mail is opt-in or opt-out (by "
 "default it is opt-in)."
 msgstr ""
-"Configura si el correo-e del commit privado está dentro de opt-in u opt-out "
+"Configura si el correo-e de consigna privada está dentro de opt-in u opt-out "
 "(por defecto está en opt-in)."
 
 #: ../../admin/config.rst:1457
@@ -9308,18 +9294,14 @@ msgid ""
 "e-mail."
 msgstr ""
 "Estas opciones solo se aplican a usuarios los cuales no han elegido "
-"explícitamente un commit de correo-e."
+"explícitamente una consigna de correo-e."
 
 #: ../../admin/config.rst:1471
-#, fuzzy
-#| msgid ""
-#| "Template to generate private commit e-mail for an user. Defaults to "
-#| "``\"{username}@users.noreply.{site_domain}\"``."
 msgid ""
 "Template to generate a private commit e-mail for a user. Defaults to "
 "``\"{username}@users.noreply.{site_domain}\"``."
 msgstr ""
-"Plantilla para generar commit privado por correo-e para un usuario. Por "
+"Plantilla para generar un correo-e de consigna privada para un usuario. Por "
 "defecto a ``\"{username}@users.noreply.{site_domain}\"``."
 
 #: ../../admin/config.rst:1473 ../../admin/config.rst:1510
@@ -9327,76 +9309,56 @@ msgid ""
 "It can contain ``{user_id}``, ``{username}``, ``{site_title}``, and "
 "``{site_domain}``."
 msgstr ""
+"Puede contener ``{user_id}``, ``{username}``, ``{site_title}``, y ``"
+"{site_domain}``."
 
 #: ../../admin/config.rst:1475 ../../admin/config.rst:1512
 msgid "Set to blank string to disable."
 msgstr "Establecer a cadena en blanco para desactivar."
 
 #: ../../admin/config.rst:1479
-#, fuzzy
-#| msgid ""
-#| "Using different commit e-mail is opt-in for users unless configured "
-#| "by :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure commit e-"
-#| "mail in the :ref:`profile`."
 msgid ""
 "Using a different commit e-mail is opt-in for users unless configured "
 "by :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure their commit "
 "e-mail in the :ref:`profile`."
 msgstr ""
-"Utilizando commit por correo-e diferente es opt-in para usuarios a no ser "
-"que configuaron por :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Usuarios pueden "
-"configurar efectuar por correo-e en :ref:`profile`."
+"Utilizando una consigna por correo-e diferente es opt-in para usuarios a no "
+"ser que estén configurados por :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. "
+"Usuarios pueden configurar sus correos-e de consolidación en :ref:`profile`."
 
 #: ../../admin/config.rst:1490
-#, fuzzy
-#| msgid ""
-#| "Configures whether the private commit e-mail is opt-in or opt-out (by "
-#| "default it is opt-in)."
 msgid ""
 "Configures whether the private commit name is opt-in or opt-out (by default "
 "it is opt-in)."
 msgstr ""
-"Configura si el correo-e del commit privado está dentro de opt-in u opt-out "
-"(por defecto está en opt-in)."
+"Configura si el nombre de consigna privado es opt-in u opt-out (por defecto "
+"está en opt-in)."
 
 #: ../../admin/config.rst:1494
-#, fuzzy
-#| msgid ""
-#| "This setting only applies to users which have not explicitly chosen a "
-#| "commit e-mail."
 msgid ""
 "This setting only applies to users which have not explicitly chosen a commit "
 "name."
 msgstr ""
 "Estas opciones solo se aplican a usuarios los cuales no han elegido "
-"explícitamente un commit de correo-e."
+"explícitamente un nombre de consigna"
 
 #: ../../admin/config.rst:1508
-#, fuzzy
-#| msgid ""
-#| "Template to generate private commit e-mail for an user. Defaults to "
-#| "``\"{username}@users.noreply.{site_domain}\"``."
 msgid ""
 "Template to generate a private commit name for a user. Defaults to "
 "``\"{site_title} user {user_id}\"``."
 msgstr ""
-"Plantilla para generar commit privado por correo-e para un usuario. Por "
-"defecto a ``\"{username}@users.noreply.{site_domain}\"``."
+"Plantilla para generar un nombre de consigna privada para un usuario. Por "
+"defecto a ``\"{site_title} usuario {user_id}\"``."
 
 #: ../../admin/config.rst:1516
-#, fuzzy
-#| msgid ""
-#| "Using different commit e-mail is opt-in for users unless configured "
-#| "by :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Users can configure commit e-"
-#| "mail in the :ref:`profile`."
 msgid ""
 "Using a different commit name is opt-in for users unless configured "
 "by :setting:`PRIVATE_COMMIT_NAME_OPT_IN`. Users can configure their commit "
 "name in the :ref:`profile`."
 msgstr ""
-"Utilizando commit por correo-e diferente es opt-in para usuarios a no ser "
-"que configuaron por :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`. Usuarios pueden "
-"configurar efectuar por correo-e en :ref:`profile`."
+"Utilizando un nombre de consigna diferente es opt-in para usuarios a no ser "
+"que configuraron por :setting:`PRIVATE_COMMIT_NAME_OPT_IN`. Los usuarios "
+"pueden configurar su nombre de consigna en :ref:`profile`."
 
 #: ../../admin/config.rst:1527
 msgid ""
@@ -9775,6 +9737,11 @@ msgid ""
 "of projects that are using them, it can cause confusion or distract "
 "translators from the actual components that are meant to be translated."
 msgstr ""
+"Los componentes de glosario típicamente son compartidos en otros proyectos "
+"para hacerlos disponibles para trabajo de traducción. Cuando estos están "
+"visibles en el listado de componente de proyectos que son utilizados, pueden "
+"causar confusión o distraer traductores desde los componentes actuales que "
+"desean que sean traducidos."
 
 #: ../../admin/config.rst:1929
 #, fuzzy
@@ -10122,7 +10089,7 @@ msgstr "El listado de maquinaria de servicios disponible para utilizar."
 #: ../../admin/config.rst:2326
 msgid "Identity used by Weblate to sign Git commits, for example:"
 msgstr ""
-"Identidad utilizada por Weblate para firmar commits de Git, por ejemplo:"
+"Identidad utilizada por Weblate para firmar consignas de Git, por ejemplo:"
 
 #: ../../admin/config.rst:2332
 msgid ""
@@ -10247,8 +10214,8 @@ msgid ""
 "Once the translators are finished, Weblate commits the changes to the local "
 "repository (see :ref:`lazy-commit`)."
 msgstr ""
-"Una vez que los traductores han terminado, Weblate efectúa los cambios en el "
-"repositorio local (consulte :ref:`lazy-commit`)."
+"Una vez que los traductores han terminado, Weblate consigna los cambios en "
+"el repositorio local (consulte :ref:`lazy-commit`)."
 
 #: ../../admin/continuous.rst:22
 msgid ""
@@ -10434,8 +10401,8 @@ msgid ""
 msgstr ""
 "Incluso cuando Weblate es la única fuente de los cambios en los archivos de "
 "traducción, los conflictos pueden aparecer cuando se utiliza :ref:`addon-"
-"weblate.git.squash` adjunta, :ref:`component-merge_style` está configurado "
-"a :guilabel:`Rebase`, o está aplastando confirmaciones fuera de Weblate (por "
+"weblate.git.squash` adjunta, :ref:`component-merge_style` está configurado a "
+":guilabel:`Rebase`, o está aplastando consignaciones fuera de Weblate (por "
 "ejemplo, al fusionar una solicitud de extracción)."
 
 #: ../../admin/continuous.rst:188
@@ -10447,7 +10414,7 @@ msgid ""
 "changes as matching the Weblate ones and refuses to perform a rebase."
 msgstr ""
 "La razón de los conflictos de fusión es diferente en este caso - hay cambios "
-"en Weblate que ocurrieron después de que usted fusionara los commits de "
+"en Weblate que ocurrieron después de que usted fusionara las consignas de "
 "Weblate. Esto suele ocurrir si la fusión no está automatizada y se espera "
 "durante días o semanas a que un humano los revise. Git a veces ya no es "
 "capaz de identificar los cambios aguas arriba como coincidentes con los de "
@@ -10481,7 +10448,7 @@ msgid ""
 "Let Weblate commit pending changes before merging. This will update the pull "
 "request with all its changes, and both repositories will be in sync."
 msgstr ""
-"Deje que Weblate confirme los cambios pendientes antes de fusionarlos. Esto "
+"Deje que Weblate consigne los cambios pendientes antes de fusionarlos. Esto "
 "actualizará la solicitud de extracción con todos sus cambios, y ambos "
 "repositorios estarán sincronizados."
 
@@ -10743,11 +10710,11 @@ msgstr ""
 "Cada componente de traducción puede tener una URL de envío configurada "
 "(consulte :ref:`component-push` ), y en ese caso Weblate podrá enviar "
 "cambios al repositorio remoto . Weblate también puede configurarse para "
-"enviar cambios automáticamente en cada confirmación (esto es predeterminado, "
+"enviar cambios automáticamente en cada consignación (esto es predeterminado, "
 "consulte :ref:`component-push_on_commit`). Si no desea que los cambios se "
-"envíen automáticamente, puede hacerlo manualmente "
-"en :guilabel:`Mantenimiento del repositorio` o usando la API a través "
-"de :option:`wlc push`."
+"envíen automáticamente, puede hacerlo manualmente en "
+":guilabel:`Mantenimiento del repositorio` o usando la API a través de "
+":option:`wlc push`."
 
 #: ../../admin/continuous.rst:363
 msgid ""
@@ -10906,7 +10873,7 @@ msgid ""
 "You can also enable automatic pushing of changes after Weblate commits, this "
 "can be done in :ref:`component-push_on_commit`."
 msgstr ""
-"También puedes habilitar el empuje automático de cambios tras cometer "
+"También puedes habilitar el empuje automático de cambios tras consignas de "
 "Weblate, esto puede ser hecho en :ref:`component-push_on_commit`."
 
 #: ../../admin/continuous.rst:492
@@ -10960,13 +10927,12 @@ msgid ""
 "the VCS repository in sync, e.g. for merge (this is by default allowed for "
 "the :guilabel:`Managers` group, see :ref:`privileges`)."
 msgstr ""
-"El comportamiento de Weblate es agrupar las confirmaciones del mismo autor "
-"en una sola , si es posible. Esto reduce en gran medida la cantidad de "
-"confirmaciones, sin embargo, es posible que deba indicarle explícitamente "
-"que realice las confirmaciones en caso de que desee sincronizar el "
-"repositorio VCS , por ejemplo, para la fusión (esto está permitido de manera "
-"predeterminada para el grupo :guilabel:`Administradores`, "
-"consulte :ref:`privileges`)."
+"El comportamiento de Weblate es agrupar las consignas del mismo autor en una "
+"sola consigna, si es posible. Esto reduce en gran medida la cantidad de "
+"consignas, sin embargo, es posible que deba indicarle explícitamente que "
+"realice las consignas en caso de que desee sincronizar el repositorio VCS , "
+"por ejemplo, para la fusión (esto está permitido de manera predeterminada "
+"para el grupo :guilabel:`Administradores`, consulte :ref:`privileges`)."
 
 #: ../../admin/continuous.rst:527
 msgid ""
@@ -10986,7 +10952,7 @@ msgstr "Se produce una fusión desde el origen ascendente."
 
 #: ../../admin/continuous.rst:532
 msgid "An explicit commit is requested."
-msgstr "Se solicita explícitamente una consigna."
+msgstr "Una consigna explícita es requerida."
 
 #: ../../admin/continuous.rst:533
 msgid "A file download is requested."
@@ -11006,9 +10972,9 @@ msgid ""
 "you will still see lot of commits. You might utilize :ref:`addon-"
 "weblate.git.squash` add-on in that case."
 msgstr ""
-"Efectuados son creados para cada componente. Por tanto en caso que tenfa "
-"muchos componentes aún consulte el lote de instrucciones. Quizá "
-"utilice :ref:`addon-weblate.git.squash` agregado en ese caso."
+"Las consignas son creadas para cada componente. Por tanto en caso que tenfa "
+"muchos componentes aún consulte el lote de consignas. Quizá utilice "
+":ref:`addon-weblate.git.squash` agregado en ese caso."
 
 #: ../../admin/continuous.rst:542
 msgid ""
@@ -11020,13 +10986,13 @@ msgid ""
 "as :guilabel:`Task` with ``{\"hours\": 0}`` as :guilabel:`Keyword Arguments` "
 "and desired interval."
 msgstr ""
-"Si deseas confirmar cambios con mayor frecuencia y sin verificar la "
-"antigüedad, puedes programar una tarea regular para realizar una "
-"confirmación. Esto se puede hacer usando :guilabel:`Tareas periódicas` "
-"en :ref:`admin-interface`. Primero crea el :guilabel:`Intervalo` deseado "
-"(por ejemplo, 120 segundos). Luego, agregue una nueva tarea periódica y "
-"elija ``weblate.trans.tasks.commit_pending`` como :guilabel:`Tarea` con "
-"``{\"hours\": 0}`` como :guilabel:`Argumentos de palabras clave` y el "
+"Si deseas consignar cambios con mayor frecuencia y sin verificar la "
+"antigüedad, puedes programar una tarea regular para realizar una consigna. "
+"Esto se puede hacer usando :guilabel:`Tareas periódicas` en :ref:`admin-"
+"interface`. Primero crea el :guilabel:`Intervalo` deseado (por ejemplo, 120 "
+"segundos). Luego, agregue una nueva tarea periódica y elija "
+"``weblate.trans.tasks.commit_pending`` como :guilabel:`Tarea` con ``"
+"{\"hours\": 0}`` como :guilabel:`Argumentos de palabras clave` y el "
 "intervalo deseado."
 
 #: ../../admin/continuous.rst:552
@@ -13077,7 +13043,7 @@ msgid ""
 "Committing pending changes (hourly), see :ref:`lazy-commit` "
 "and :wladmin:`commit_pending`."
 msgstr ""
-"Efectuar los cambios pendientes (horariamente), consulte :ref:`lazy-commit` "
+"Consignar los cambios pendientes (horariamente), consulte :ref:`lazy-commit` "
 "y :wladmin:`commit_pending`."
 
 #: ../../admin/install.rst:1272
@@ -13370,7 +13336,7 @@ msgstr "Sirviendo archivos estáticos"
 
 #: ../../admin/install.rst:1452
 msgid ":file:`/media/` is no longer used for serving screenshots."
-msgstr ""
+msgstr ":file:`/media/` no es utilizado más para servir capturas de pantalla."
 
 #: ../../admin/install.rst:1455
 msgid ""
@@ -13647,7 +13613,7 @@ msgstr "Descarga de costosas operaciones del proceso WSGI."
 
 #: ../../admin/install.rst:1688
 msgid "Committing pending changes (see :ref:`lazy-commit`)."
-msgstr "Confirmar los cambios pendientes (ver :ref:`lazy-commit`)."
+msgstr "Consignar los cambios pendientes (consulte :ref:`lazy-commit`)."
 
 #: ../../admin/install.rst:1690
 msgid "A typical setup using Valkey or Redis as a backend looks like this:"
@@ -13699,7 +13665,7 @@ msgid ""
 "changes, digest notifications, or backups)."
 msgstr ""
 "Esto tendrá un impacto claro en el rendimiento de la interfaz web y romperá "
-"las funciones según el desencadenante habitual(por ejemplo, confirmando "
+"las funciones según el desencadenante habitual(por ejemplo, consignando "
 "cambios pendientes, notificaciones resumidas o copias de seguridad)."
 
 #: ../../admin/install.rst:1728
@@ -13770,7 +13736,7 @@ msgid ""
 "see :ref:`lazy-commit`."
 msgstr ""
 "Puede definir tareas adicionales en :file:`settings.py`, por ejemplo "
-"ver :ref:`lazy-commit`."
+"consulte :ref:`lazy-commit`."
 
 #: ../../admin/install.rst:1775
 msgid "Monitoring Celery status"
@@ -13880,6 +13846,13 @@ msgid ""
 "privacy reasons, as the error e-mails might include sensitive data. You can "
 "read more on that in :ref:`django:logging-security-implications`."
 msgstr ""
+"La configuración predeterminada de Weblate implementa que Django envíe "
+"correos-e en caso de errores del servidor mediante "
+":py:class:`django:django.utils.log.AdminEmailHandler`. Esta es la "
+"configuración más sencilla, pero debería considerar otras opciones por "
+"motivos de privacidad, ya que los errores de correo-e podrían incluir datos "
+"confidenciales. Puede obtener más información en :ref:`django:logging-"
+"security-implications`."
 
 #: ../../admin/install.rst:1853
 msgid ""
@@ -13887,6 +13860,9 @@ msgid ""
 "the :setting:`django:LOGGING` in Weblate settings, or "
 "disable :envvar:`WEBLATE_ADMIN_NOTIFY_ERROR` in the Docker environment."
 msgstr ""
+"Para inhabilitar este comportamiento, retire ``mail_admins`` de "
+":setting:`django:LOGGING` en los ajustes de Weblate, o inhabilite "
+":envvar:`WEBLATE_ADMIN_NOTIFY_ERROR` en el entorno de Docker."
 
 #: ../../admin/install.rst:1858
 msgid "Sentry"
@@ -14987,6 +14963,8 @@ msgid ""
 "Hides glossary components when shared to other projects, "
 "see :setting:`HIDE_SHARED_GLOSSARY_COMPONENTS`."
 msgstr ""
+"Oculta componentes del glosario cuando compartieron en otros proyectos, "
+"consulte :setting:`HIDE_SHARED_GLOSSARY_COMPONENTS`."
 
 #: ../../admin/install/docker.rst:825
 msgid ""
@@ -15033,8 +15011,8 @@ msgstr "Configure :setting:`DEFAULT_AUTOCLEAN_TM`."
 #: ../../admin/install/docker.rst:865
 msgid "Configures GPG signing of commits, see :setting:`WEBLATE_GPG_IDENTITY`."
 msgstr ""
-"Configura la firma con GPG de las consignas; "
-"consulte :setting:`WEBLATE_GPG_IDENTITY`."
+"Configura la firma con GPG de consignas; consulte "
+":setting:`WEBLATE_GPG_IDENTITY`."
 
 #: ../../admin/install/docker.rst:873
 msgid ""
@@ -15156,16 +15134,12 @@ msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 msgstr "Configura :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 
 #: ../../admin/install/docker.rst:1037
-#, fuzzy
-#| msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
 msgid "Configures :setting:`PRIVATE_COMMIT_NAME_TEMPLATE`."
-msgstr "Configurar :setting:`PRIVATE_COMMIT_EMAIL_TEMPLATE`."
+msgstr "Configurar :setting:`PRIVATE_COMMIT_NAME_TEMPLATE`."
 
 #: ../../admin/install/docker.rst:1043
-#, fuzzy
-#| msgid "Configures :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
 msgid "Configures :setting:`PRIVATE_COMMIT_NAME_OPT_IN`."
-msgstr "Configura :setting:`PRIVATE_COMMIT_EMAIL_OPT_IN`."
+msgstr "Configura :setting:`PRIVATE_COMMIT_NAME_OPT_IN`."
 
 #: ../../admin/install/docker.rst:1049
 msgid "Configures :setting:`UNUSED_ALERT_DAYS`."
@@ -18008,34 +17982,33 @@ msgstr ""
 
 #: ../../admin/machine.rst:164
 msgid "Anthropic"
-msgstr ""
+msgstr "Antrópico"
 
 #: ../../admin/machine.rst:182
 msgid "Anthropic API URL"
-msgstr ""
+msgstr "URL de API Anthropic"
 
 #: ../../admin/machine.rst:182
-#, fuzzy
-#| msgid ""
-#| "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
 msgid "Base URL of the Anthropic API. Leave empty to use the default URL."
-msgstr "URL de la API de OpenAI, si difiere de la URL por defecto de OpenAI"
+msgstr ""
+"URL de base de la API de Anthropic. Déjelo vacío para utilizar la URL por "
+"defecto."
 
 #: ../../admin/machine.rst:184
 msgid "Anthropic model"
-msgstr ""
+msgstr "Modelo Anthropic"
 
 #: ../../admin/machine.rst:186
 msgid "``claude-sonnet-4-5`` -- Claude Sonnet 4.5 (Recommended)"
-msgstr ""
+msgstr "``claude-sonnet-4-5`` -- Claude Sonnet 4.5 (Recomendado)"
 
 #: ../../admin/machine.rst:188
 msgid "``claude-haiku-4-5`` -- Claude Haiku 4.5"
-msgstr ""
+msgstr "``claude-haiku-4-5`` — Claude Haiku 4.5"
 
 #: ../../admin/machine.rst:190
 msgid "``claude-opus-4-5`` -- Claude Opus 4.5"
-msgstr ""
+msgstr "``claude-opus-4-5`` — Claude Opus 4.5"
 
 #: ../../admin/machine.rst:192 ../../admin/machine.rst:832
 msgid "``custom`` -- Custom model"
@@ -18053,11 +18026,11 @@ msgstr ""
 
 #: ../../admin/machine.rst:196
 msgid "Max tokens"
-msgstr ""
+msgstr "Máx de vales"
 
 #: ../../admin/machine.rst:196
 msgid "Maximum number of tokens to generate in the response."
-msgstr ""
+msgstr "Número máximo de vales para generar en la respuesta."
 
 #: ../../admin/machine.rst:198 ../../admin/machine.rst:245
 #: ../../admin/machine.rst:750 ../../admin/machine.rst:796
@@ -18103,6 +18076,9 @@ msgid ""
 "known for their strong reasoning and language capabilities. You need an API "
 "key from Anthropic to use this service."
 msgstr ""
+"El API de Anthropic proporciona acceso a la familia de modelos Claude, los "
+"cuales se conocen para sus sólidas capacidades de razonamiento y lenguaje. "
+"Necesita una clave API de Anthropic para usar este servicio."
 
 #: ../../admin/machine.rst:209
 #, fuzzy
@@ -18129,7 +18105,7 @@ msgstr "`Documentación del API DeepL <https://developers.deepl.com/docs>`_"
 
 #: ../../admin/machine.rst:218
 msgid "`Anthropic Console <https://console.anthropic.com/>`_"
-msgstr ""
+msgstr "`Consola Anthropic <https://console.anthropic.com/>`_"
 
 #: ../../admin/machine.rst:225
 msgid "Azure OpenAI"
@@ -19038,19 +19014,23 @@ msgstr "tmserver"
 msgid ""
 "You can run your own translation memory server by using a tmserver protocol."
 msgstr ""
+"Puede ejecutar su propio servidor de memoria de traducción utilizando un "
+"protocolo tmserver."
 
 #: ../../admin/machine.rst:954
 msgid ""
 "The original :program:`tmserver` was bundled with the translate-toolkit."
 msgstr ""
+"El :program:`tmserver` original fue agrupado con el kit de herramientas de "
+"traducción."
 
 #: ../../admin/machine.rst:955
 msgid "amaGama server is an enhanced version of tmserver."
-msgstr ""
+msgstr "El servidor amaGama es una versión mejorada de tmserver."
 
 #: ../../admin/machine.rst:959
 msgid "There currently does not seem to be a maintained server for this."
-msgstr ""
+msgstr "Actualmente no parece haber un servidor mantenido para esto."
 
 #: ../../admin/machine.rst:968 ../../admin/machine.rst:983
 msgid "`This service has no configuration.`"
@@ -19393,7 +19373,7 @@ msgstr ""
 #: ../../admin/management.rst:231
 msgid "Commits any possible pending changes to the back-end Git repository."
 msgstr ""
-"Confirma cualquier posible cambio pendiente en el repositorio Git back-end."
+"Consigna cualquier posible cambio pendiente en el repositorio Git back-end."
 
 #: ../../admin/management.rst:233
 msgid ""
@@ -19408,14 +19388,14 @@ msgstr ""
 
 #: ../../admin/management.rst:242
 msgid "Commits pending changes older than a given age."
-msgstr "Confirma cambios pendientes anteriores a una edad determinada."
+msgstr "Consigna cambios pendientes anteriores a una edad determinada."
 
 #: ../../admin/management.rst:249
 msgid ""
 "Age in hours for committing. If not specified the value configured "
 "in :ref:`component` is used."
 msgstr ""
-"Edad en horas para comprometerse. Si no se especifica, se usa el valor "
+"Edad en horas para consignar. Si no se especifica, se usa el valor "
 "configurado en :ref:`component`."
 
 #: ../../admin/management.rst:254
@@ -19425,7 +19405,7 @@ msgid ""
 "specified by :ref:`component`."
 msgstr ""
 "Weblate realiza esto automáticamente en segundo plano, por lo que no hay una "
-"necesidad real de invocarlo manualmente, además de forzar una confirmación "
+"necesidad real de invocarlo manualmente, además de forzar una consignar "
 "anterior a la especificada por :ref:`component`."
 
 #: ../../admin/management.rst:268
@@ -19984,7 +19964,7 @@ msgstr "Enumera los parámetros de formato de archivo."
 
 #: ../../admin/management.rst:809
 msgid "Lists all possible change event types."
-msgstr ""
+msgstr "Enumera todos los cambios posibles de tipos de eventos."
 
 #: ../../admin/management.rst:816
 msgid ""
@@ -20072,11 +20052,11 @@ msgstr ""
 
 #: ../../admin/management.rst:898
 msgid "Pushes committed changes to the upstream VCS repository."
-msgstr "Empuja los cambios confirmados al repositorio de VCS ascendente."
+msgstr "Empuja los cambios consignados al repositorio de VCS ascendente."
 
 #: ../../admin/management.rst:902
 msgid "Force commits any pending changes, prior to pushing."
-msgstr "Force confirma cualquier cambio pendiente, antes de presionar."
+msgstr "Fuerza consignas a cualquier cambio pendiente, antes de presionar."
 
 #: ../../admin/management.rst:909
 msgid ""
@@ -20262,6 +20242,10 @@ msgid ""
 "the :ref:`autoclean-tm` configuration. If automatic cleanup is enabled, this "
 "is disabled by default to prevent reintroducing inconsistent translations."
 msgstr ""
+"El valor predeterminado para usuarios nuevos se ajusta automáticamente según "
+"la configuración de :ref:`autoclean-tm`. Si la limpieza automática está "
+"habilitada, ésta es inhabilitada por defecto para evitar reintroducir "
+"traducciones incoherentes."
 
 #: ../../admin/memory.rst:47
 msgid "Per-project translation memory"
@@ -20354,6 +20338,10 @@ msgid ""
 "not contribute to personal translation memory. This prevents reintroducing "
 "inconsistent translations that were supposed to be cleaned up."
 msgstr ""
+"Al habilitar la purga automática además modifica los cambios predeterminados "
+"para que los perfiles de usuario nuevos no contribuyan a la memoria de "
+"traducción personal. Esto evita que se reintroduzcan traducciones "
+"incoherentes que debían ser purgadas."
 
 #: ../../admin/memory.rst:105
 msgid "Managing the Translation Memory"
@@ -20781,12 +20769,12 @@ msgstr "`Libravatar <https://www.libravatar.org/>`_"
 
 #: ../../admin/optionals.rst:206
 msgid "Signing Git commits with GnuPG"
-msgstr "Firmando confirmaciones de Git con GnuPG"
+msgstr "Firmando consignaciones de Git con GnuPG"
 
 #: ../../admin/optionals.rst:208
 msgid "All commits can be signed by the GnuPG key of the Weblate instance."
 msgstr ""
-"Todas las confirmaciones pueden firmarse con la clave GnuPG de la instancia "
+"Todas las consignaciones pueden firmarse con la clave GnuPG de la instancia "
 "de Weblate."
 
 #: ../../admin/optionals.rst:210
@@ -20795,7 +20783,7 @@ msgid ""
 "when needed and will use it to sign all translation commits.)"
 msgstr ""
 "Activar :setting:`WEBLATE_GPG_IDENTITY`. (Weblate generará una clave GnuPG "
-"cuando sea necesario y la usará para firmar todas las confirmaciones de "
+"cuando sea necesario y la usará para firmar todas las consignaciones de "
 "traducción.)"
 
 #: ../../admin/optionals.rst:213
@@ -21374,8 +21362,8 @@ msgid ""
 "changes to the version control system. This setting is available at the "
 "project level and supports the following options:"
 msgstr ""
-"La política de confirmación determina qué traducciones se incluyen al "
-"confirmar cambios en el sistema de control de versiones. Esta configuración "
+"La directiva de consigna determina cuáles traducciones se incluyen al "
+"consignar cambios en el sistema de control de versiones. Esta configuración "
 "está disponible a nivel de proyecto y admite las siguientes opciones:"
 
 #: ../../admin/projects.rst:267
@@ -21383,22 +21371,19 @@ msgid ""
 "**Commit all translations regardless of quality**: All translations will be "
 "committed, including those marked as needing editing or not reviewed."
 msgstr ""
-"**Confirmar todas las traducciones independientemente de la calidad**: Se "
-"confirmarán todas las traducciones, incluidas las marcadas como que "
-"necesitan edición o no revisadas."
+"**Consignar todas las traducciones independientemente de la calidad**: Se "
+"consignan todas las traducciones, incluidas las marcadas como que necesitan "
+"edición o no revisadas."
 
 #: ../../admin/projects.rst:269
-#, fuzzy
-#| msgid ""
-#| "**Skip translations marked as needing editing**: Only translations that "
-#| "don't have the \"needs editing\" flag will be committed."
 msgid ""
 "**Skip translations marked as needing editing**: Only translations that "
 "don't have the \"needs editing\", \"needs rewriting\" or \"needs checking\" "
 "state will be committed."
 msgstr ""
 "**Omite traducciones marcadas como edición necesaria**: Solo las "
-"traducciones que no tienen el indicador “necesita edición” serán realizadas."
+"traducciones que no tienen el estado “necesita edición”, “necesita rescritura"
+"” o “necesita comprobación” serán consignadas."
 
 #: ../../admin/projects.rst:271
 msgid ""
@@ -21407,8 +21392,8 @@ msgid ""
 "translation_review` to be enabled."
 msgstr ""
 "**Solo incluir traducciones aprobadas**: solo las traducciones que han sido "
-"aprobadas por un revisor serán efectuadas. Esta opción "
-"requiere :ref:`project-translation_review` para ser habilitada."
+"aprobadas por un revisor serán consignadas. Esta opción requiere "
+":ref:`project-translation_review` para ser habilitada."
 
 #: ../../admin/projects.rst:279
 msgid "Enable hooks"
@@ -21699,7 +21684,7 @@ msgstr "Rama del repositorio"
 #: ../../admin/projects.rst:472
 msgid ""
 "Which branch to checkout from the VCS, and where to look for translations."
-msgstr ""
+msgstr "Cual rama para obtener desde el VCS, y donde buscar traducciones."
 
 #: ../../admin/projects.rst:479
 msgid "Push branch"
@@ -21708,12 +21693,16 @@ msgstr "Rama a la que enviar"
 #: ../../admin/projects.rst:481
 msgid "Branch for pushing changes, leave empty to use :ref:`component-branch`."
 msgstr ""
+"Rama para impulsar cambios, déjelo vacío para utilizar :ref:`component-"
+"branch`."
 
 #: ../../admin/projects.rst:487
 msgid ""
 "This is currently only supported for Git, GitLab and GitHub, it is ignored "
 "for other VCS integrations."
 msgstr ""
+"Actualmente esto solo es compatible con Git, GitLab y GitHub; se ignora para "
+"otras integraciones de VCS."
 
 #: ../../admin/projects.rst:497 ../../devel/gettext.rst:233
 #: ../../formats/android.rst:76 ../../formats/apple.rst:28
@@ -21782,7 +21771,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:523
 msgid "Allowed formats are WebP, JPEG, PNG, APNG and GIF."
-msgstr ""
+msgstr "Los formatos concedidos son WebP, JPEG, PNG, APNG y GIF."
 
 #: ../../admin/projects.rst:525
 msgid "Note:"
@@ -22389,8 +22378,8 @@ msgid ""
 "Rebases Weblate commits on top of upstream repository on update. This "
 "provides clean history without extra merge commits."
 msgstr ""
-"Reorganiza las confirmaciones de Weblate sobre el repositorio superior al "
-"actualizar. Esto proporciona un historial purgado sin confirmaciones de "
+"Reorganiza las consignas de Weblate sobre el repositorio superior al "
+"actualizar. Esto proporciona una purga de historial sin consignaciones de "
 "fusión adicionales."
 
 #: ../../admin/projects.rst:882
@@ -22420,6 +22409,9 @@ msgid ""
 "utilizes fast-forward when possible. This is the safest way, but might "
 "produce a lot of merge commits."
 msgstr ""
+"Los cambios del repositorio superior se fusionan en el Weblate. Este ajuste "
+"utiliza el avance rápido siempre que sea posible. Es la forma más segura, "
+"pero podría generar un montón de consignas de fusión."
 
 #: ../../admin/projects.rst:893
 msgid "Merge without fast-forward"
@@ -22432,9 +22424,9 @@ msgid ""
 "change will appear as a merge commit in Weblate repository."
 msgstr ""
 "Los cambios del repositorio ascendente se fusionan en uno de Weblate "
-"haciendo una confirmación de fusión cada vez (incluso cuando sería posible "
-"un avance rápido). Cada cambio de Weblate aparecerá como una confirmación de "
-"fusión en el repositorio de Weblate."
+"haciendo una consigna de fusión cada vez (incluso cuando sería posible un "
+"avance rápido). Cada cambio de Weblate aparecerá como una consigna de fusión "
+"en el repositorio de Weblate."
 
 #: ../../admin/projects.rst:898
 msgid "The default value can be changed by :setting:`DEFAULT_MERGE_STYLE`."
@@ -22444,12 +22436,12 @@ msgstr ""
 #: ../../admin/projects.rst:908
 msgid "Commit, add, delete, merge, add-on, and merge request messages"
 msgstr ""
-"Confirmar, agregar, eliminar, fusionar, agregar y fusionar mensajes de la "
+"Consignar, agregar, eliminar, fusionar, agregar y fusionar mensajes de la "
 "solicitud"
 
 #: ../../admin/projects.rst:910
 msgid "Message used when committing a translation, see :ref:`markup`."
-msgstr "Mensaje utilizado al confirmar una traducción, consulte :ref:`markup`."
+msgstr "Mensaje utilizado al consignar una traducción, consulte :ref:`markup`."
 
 #: ../../admin/projects.rst:912
 msgid ""
@@ -22470,7 +22462,7 @@ msgid ""
 "to its underlying repository (see :ref:`lazy-commit`). To actually enable "
 "pushing :guilabel:`Repository push URL` has to be configured as well."
 msgstr ""
-"Si los cambios confirmados deben enviarse automáticamente al repositorio "
+"Si los cambios consignados deben enviarse automáticamente al repositorio "
 "principal. Cuando se activa, el envío se inicia una vez que Weblate confirma "
 "los cambios en su repositorio subyacente (véase :ref:`lazy-commit`). Para "
 "habilitar el envío :guilabel:`URL de envío del repositorio` tiene que ser "
@@ -22614,7 +22606,7 @@ msgstr "Solo claves seleccionadas"
 
 #: ../../admin/projects.rst:1023
 msgid "Exclude app store changelogs"
-msgstr ""
+msgstr "Excluye bitácora de cambios almacenada en la aplicación"
 
 #: ../../admin/projects.rst:1025
 msgid "Filter prefixed strings"
@@ -22755,7 +22747,7 @@ msgid ""
 "You can configure how it will be listed using :ref:`component-"
 "glossary_color`."
 msgstr ""
-"Puede configurar como será listado utilizando :ref:`component-"
+"Puedes configurar como será listado utilizando :ref:`component-"
 "glossary_color`."
 
 #: ../../admin/projects.rst:1143
@@ -22867,40 +22859,48 @@ msgid ""
 "Name of currently executed add-on, available only in the add-on commit "
 "message."
 msgstr ""
+"Nombre del complemento actualmente ejecutado, disponible solo en el "
+"complemento del mensaje a consolidar."
 
 #: ../../admin/projects.rst:1227
 msgid ""
 "The following variables are available in the repository browser or editor "
 "templates:"
 msgstr ""
+"Las siguientes variables están disponibles en el explorador de repositorio o "
+"las plantillas de editor:"
 
 #: ../../admin/projects.rst:1230
 msgid "current branch"
-msgstr ""
+msgstr "rama actual"
 
 #: ../../admin/projects.rst:1232
 msgid "line in file"
-msgstr ""
+msgstr "línea en archivo"
 
 #: ../../admin/projects.rst:1234
 msgid ""
 "filename, you can also strip leading parts using the ``parentdir`` filter, "
 "for example ``{{filename|parentdir}}``"
 msgstr ""
+"nombre de archivo, además se puede recortar partes de cabecera utilizando el "
+"filtro ``partentdir``, por ejemplo ``{{filename|parentdir}}``"
 
 #: ../../admin/projects.rst:1238
 msgid ""
 "In some places additional variables can be available, see :ref:`addon-"
 "weblate.discovery.discovery`."
 msgstr ""
+"En algunos lugares las variables adicionales pueden estar disponibles, "
+"consulte :ref:`addon-weblate.discovery.discovery`."
 
 #: ../../admin/projects.rst:1240
 msgid "You can combine them with filters:"
-msgstr ""
+msgstr "Puedes combinarlos con filtros:"
 
 #: ../../admin/projects.rst:1246
 msgid "You can use conditions:"
-msgstr ""
+msgstr "Puedes utilizar condiciones:"
 
 #: ../../admin/projects.rst:1252
 msgid "There is additional tag available for replacing characters:"
@@ -22908,7 +22908,7 @@ msgstr "Hay una etiqueta adicional disponible para sustituir caracteres:"
 
 #: ../../admin/projects.rst:1258
 msgid "You can combine it with filters:"
-msgstr ""
+msgstr "Puedes combinarlo con filtros:"
 
 #: ../../admin/projects.rst:1264
 msgid "There are also additional filter to manipulate with filenames:"
@@ -22916,11 +22916,11 @@ msgstr ""
 
 #: ../../admin/projects.rst:1273
 msgid "…and other Django template features."
-msgstr ""
+msgstr "...y otras características de plantilla Django."
 
 #: ../../admin/projects.rst:1278
 msgid "Importing speed"
-msgstr ""
+msgstr "Velocidad de importación"
 
 #: ../../admin/projects.rst:1280
 msgid ""
@@ -48402,10 +48402,8 @@ msgstr ""
 "recomienda omitir las comillas."
 
 #: ../../formats/csv.rst:47
-#, fuzzy
-#| msgid "Simple CSV file"
 msgid "Multivalue CSV file"
-msgstr "Archivo CSV sencillo"
+msgstr "Multivalor de archivo CSV"
 
 #: ../../formats/csv.rst:51
 msgid ""
@@ -54763,12 +54761,10 @@ msgid "XML surrounding characters"
 msgstr "Cantidad de caracteres"
 
 #: ../../user/checks.rst:1899
-#, fuzzy
-#| msgid "XML tags in translation do not match source."
 msgid ""
 "Characters surrounding XML tags in translation do not align with source."
 msgstr ""
-"Las etiquetas XML en la traducción no coinciden con aquellas en el original."
+"Caracteres rodeando etiquetas XML en traducción no alinea con el original."
 
 #: ../../user/checks.rst:1906
 msgid ""
