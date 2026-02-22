@@ -379,6 +379,9 @@ PASSWORD_HASHERS = [
 # Allow new user registrations
 REGISTRATION_OPEN = True
 
+# Allow registration with disposable e-mail domains
+REGISTRATION_ALLOW_DISPOSABLE_EMAILS = False
+
 # Shortcut for login required setting
 REQUIRE_LOGIN = False
 

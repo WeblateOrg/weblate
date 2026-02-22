@@ -119,6 +119,11 @@ class EmailValidatorTestCase(SimpleTestCase):
         with self.assertRaises(ValidationError):
             self.assertIsNone(validator("fdfdsa@disposablemails.com"))
 
+    @override_settings(REGISTRATION_ALLOW_DISPOSABLE_EMAILS=True)
+    def test_disposable_allowed_by_setting(self) -> None:
+        validator = EmailValidator()
+        self.assertIsNone(validator("user@disposablemails.com"))
+
 
 class FilenameTest(SimpleTestCase):
     def test_parent(self) -> None:
