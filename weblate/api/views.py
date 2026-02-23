@@ -1822,7 +1822,7 @@ class MemoryViewSet(viewsets.ModelViewSet, DestroyModelMixin):
     serializer_class = MemorySerializer
 
     def get_queryset(self):
-        if not self.request.user.is_superuser:
+        if not self.request.user.has_perm("memory.manage"):
             self.permission_denied(self.request, "Access not allowed")
         # Use default database connection and not memory_db one (in case
         # a custom router is used).
