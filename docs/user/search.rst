@@ -45,7 +45,7 @@ Fields
 ``added:DATETIME``
    Timestamp for when the string was added to Weblate.
 ``state:TEXT``
-   Search for string states (``approved``, ``translated``, ``needs-editing``, ``empty``, ``read-only``).
+   Search for string states (``approved``, ``translated``, ``needs-editing``, ``needs-rewriting``, ``needs-checking``, ``empty``, ``read-only``).
 
    This field also supports :ref:`search-operators`, so searching for completed strings can be performed as ``state:>=translated``, searching for strings needing translation as ``state:<translated``.
 ``source_state:TEXT``
@@ -62,7 +62,7 @@ Fields
    ``approved``
       Approved strings, same as ``state:approved``.
    ``needs-editing`` or ``fuzzy``
-      Needing editing strings, same as ``state:needs-editing``.
+      Needing editing/checking/rewriting strings, same as ``state:needs-editing OR state:needs-rewriting OR state:needs-checking``.
    ``translated``
       Translated strings, same as ``state:>translated``.
    ``untranslated``

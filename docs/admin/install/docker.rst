@@ -681,6 +681,19 @@ Generic settings
 
    Configures :std:setting:`REGISTRATION_REBIND`.
 
+.. envvar:: WEBLATE_REGISTRATION_ALLOW_DISPOSABLE_EMAILS
+
+   .. versionadded:: 5.16.1
+
+   Configures :setting:`REGISTRATION_ALLOW_DISPOSABLE_EMAILS`.
+
+   **Example:**
+
+   .. code-block:: yaml
+
+      environment:
+        WEBLATE_REGISTRATION_ALLOW_DISPOSABLE_EMAILS: 1
+
 .. envvar:: WEBLATE_TIME_ZONE
 
     Configures the used time zone in Weblate, see :std:setting:`django:TIME_ZONE`.

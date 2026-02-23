@@ -1824,7 +1824,7 @@ class MemoryViewSet(viewsets.ModelViewSet, DestroyModelMixin):
     serializer_class = MemorySerializer
 
     def get_queryset(self):
-        if not self.request.user.is_superuser:
+        if not self.request.user.has_perm("memory.manage"):
             self.permission_denied(self.request, "Access not allowed")
         # Use default database connection and not memory_db one (in case
         # a custom router is used).
@@ -2838,8 +2838,8 @@ class AddonViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModel
         if self.request.user.has_perm("management.addons"):
             return Addon.objects.order_by("id")
         return Addon.objects.filter(
-            Q(project__in=self.request.user.allowed_projects)
-            | Q(component__project__in=self.request.user.allowed_projects)
+            Q(project__in=self.request.user.managed_projects)
+            | Q(component__project__in=self.request.user.managed_projects)
         ).order_by("id")
 
     def perm_check(self, request: Request, instance: Addon) -> None:

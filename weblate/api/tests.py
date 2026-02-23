@@ -6293,7 +6293,7 @@ class AddonAPITest(APIBaseTest):
             "api:addon-detail",
             kwargs={"pk": response.data["id"]},
             method="delete",
-            code=403,
+            code=404,
         )
         self.do_request(
             "api:addon-detail",
@@ -6309,13 +6309,13 @@ class AddonAPITest(APIBaseTest):
         expect_access: bool,
         authenticated: bool,
         superuser: bool,
-        add_user: bool = False,
+        add_user: str = "",
     ) -> None:
         project = self.component.project
         project.access_control = Project.ACCESS_PRIVATE
         project.save(update_fields=["access_control"])
         if add_user:
-            project.add_user(self.user, "Translate")
+            project.add_user(self.user, add_user)
 
         addon_component = self.component.addon_set.create(
             name="weblate.gettext.linguas"
@@ -6362,7 +6362,18 @@ class AddonAPITest(APIBaseTest):
 
     def test_access_user_member(self) -> None:
         self.addon_scope_test(
-            expect_access=True, authenticated=True, superuser=False, add_user=True
+            expect_access=False,
+            authenticated=True,
+            superuser=False,
+            add_user="Translate",
+        )
+
+    def test_access_user_admin(self) -> None:
+        self.addon_scope_test(
+            expect_access=True,
+            authenticated=True,
+            superuser=False,
+            add_user="Administration",
         )
 
     def test_configuration(self) -> None:
@@ -6392,7 +6403,7 @@ class AddonAPITest(APIBaseTest):
             "api:addon-detail",
             kwargs={"pk": response.data["id"]},
             method="patch",
-            code=403,
+            code=404,
             format="json",
             request={"configuration": expected},
         )
@@ -6443,7 +6454,7 @@ class AddonAPITest(APIBaseTest):
             "api:addon-detail",
             kwargs={"pk": response.data["id"]},
             method="delete",
-            code=403,
+            code=404,
         )
         self.do_request(
             "api:addon-detail",

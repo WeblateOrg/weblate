@@ -1745,6 +1745,21 @@ You can use it to restrict registration to a single e-mail domain:
 
     REGISTRATION_EMAIL_MATCH = r"^.*@weblate\.org$"
 
+.. setting:: REGISTRATION_ALLOW_DISPOSABLE_EMAILS
+
+REGISTRATION_ALLOW_DISPOSABLE_EMAILS
+-------------------------------------
+
+.. versionadded:: 5.16.1
+
+Allow registration with disposable e-mail domains. When enabled, the
+disposable domain blocklist is bypassed. Default is ``False``.
+
+.. seealso::
+
+   - :setting:`REGISTRATION_EMAIL_MATCH`
+   - :envvar:`WEBLATE_REGISTRATION_ALLOW_DISPOSABLE_EMAILS`
+
 .. setting:: REGISTRATION_OPEN
 
 REGISTRATION_OPEN

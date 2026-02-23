@@ -103,6 +103,7 @@ class WeblateAccountsConf(AppConf):
 
     # Registration email filter
     REGISTRATION_EMAIL_MATCH = ".*"
+    REGISTRATION_ALLOW_DISPOSABLE_EMAILS = False
 
     # Captcha for registrations
     REGISTRATION_CAPTCHA = True
