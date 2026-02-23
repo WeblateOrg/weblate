@@ -12,6 +12,7 @@ from zipfile import BadZipfile
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.db import transaction
 from django.forms import HiddenInput
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -102,6 +103,7 @@ class CreateProject(BaseCreateView):
                 billing_field.widget = HiddenInput()
         return form
 
+    @transaction.atomic
     def form_valid(self, form):
         result = super().form_valid(form)
         if self.has_billing and form.cleaned_data["billing"]:
@@ -199,6 +201,7 @@ class ImportProject(CreateProject):
             self.projectbackup = None
         return super().post(request, *args, **kwargs)
 
+    @transaction.atomic
     def form_valid(self, form):
         if isinstance(form, ProjectImportForm):
             # Save current zip to the import dir
@@ -283,6 +286,7 @@ class CreateComponent(BaseCreateView):
                 % detected_license,
             )
 
+    @transaction.atomic
     def form_valid(self, form):
         if self.stage == "create":
             form.instance.manage_units = (
@@ -425,6 +429,7 @@ class CreateFromZip(CreateComponent):
     form_class = ComponentZipCreateForm
     origin = "zip"
 
+    @transaction.atomic
     def form_valid(self, form):
         if self.stage != "init":
             return super().form_valid(form)
@@ -450,6 +455,7 @@ class CreateFromDoc(CreateComponent):
     form_class = ComponentDocCreateForm
     origin = "document"
 
+    @transaction.atomic
     def form_valid(self, form):
         if self.stage != "init":
             return super().form_valid(form)
@@ -585,6 +591,7 @@ class CreateComponentSelection(CreateComponent):
             f"{reverse('create-component-vcs')}?{urlencode({SESSION_CREATE_KEY: 1})}"
         )
 
+    @transaction.atomic
     def form_valid(self, form):
         if self.origin == "scratch":
             project = form.cleaned_data["project"]
