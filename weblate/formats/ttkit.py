@@ -1093,7 +1093,6 @@ class CSVUnit(MonolingualSimpleUnit):
             self.template is not None
             and not self.parent.is_template
             and "context" not in self.parent.store.fieldnames
-            and self.unit.context
         ):
             # Update source for monolingual fields without context field
             self.unit.source = self.unit.context
@@ -1832,6 +1831,18 @@ class CSVFormat(TTKitFormat):
         )
         # Did detection of headers work?
         if store.fieldnames != ["location", "source", "target"]:
+            # For monolingual mode where "source" column acts as the key,
+            # populate the context field so it can be used for identification
+            # and preserved correctly during set_target.
+            if (
+                (self.is_template or self.template_store is not None)
+                and "source" in store.fieldnames
+                and "context" not in store.fieldnames
+                and "id" not in store.fieldnames
+            ):
+                for unit in store.units:
+                    if unit.source and not unit.context:
+                        unit.context = unit.source
             return store
 
         fileobj = StringIO(

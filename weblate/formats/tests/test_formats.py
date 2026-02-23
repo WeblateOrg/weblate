@@ -1211,6 +1211,47 @@ class CSVThreeColumnMonolingualTest(FixtureTestCase, TempDirMixin):
         super().tearDown()
         self.remove_temp()
 
+    def test_parsed_units(self) -> None:
+        """
+        Test that units are parsed with the correct context, source and target.
+
+        When a CSV file has "source", "target", "translator_comments" columns
+        in monolingual mode (with template), the "source" column should be
+        parsed as the context/key, the template's "target" column as the source
+        text, and the translation's "target" column as the target.
+        """
+        template_store = CSVFormat(
+            TEST_CSV_3COL_EN,
+            is_template=True,
+        )
+
+        translation_file = os.path.join(self.tempdir, "zh.csv")
+        Path(translation_file).write_bytes(Path(TEST_CSV_3COL_ZH).read_bytes())
+
+        store = CSVFormat(
+            translation_file,
+            template_store=template_store,
+            language_code="zh",
+        )
+
+        units = list(store.content_units)
+        self.assertEqual(len(units), 3)
+
+        # Verify context, source and target are parsed correctly.
+        # The "source" column acts as the key/context, the template's "target"
+        # column contains the source text, and translation's "target" is blank.
+        self.assertEqual(units[0].context, "test003_1")
+        self.assertEqual(units[0].source, "q123")
+        self.assertEqual(units[0].target, "")
+
+        self.assertEqual(units[1].context, "test003_2")
+        self.assertEqual(units[1].source, "q234")
+        self.assertEqual(units[1].target, "")
+
+        self.assertEqual(units[2].context, "test003_3")
+        self.assertEqual(units[2].source, "qwe12")
+        self.assertEqual(units[2].target, "")
+
     def test_set_target_preserves_source_column(self) -> None:
         """
         Test that set_target does not clear the source column.
