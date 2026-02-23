@@ -112,11 +112,7 @@ from weblate.trans.models import (
     Unit,
 )
 from weblate.trans.models.translation import Translation, TranslationQuerySet
-from weblate.trans.tasks import (
-    category_removal,
-    component_removal,
-    project_removal,
-)
+from weblate.trans.tasks import category_removal, component_removal, project_removal
 from weblate.trans.views.files import download_multi
 from weblate.trans.views.reports import generate_credits
 from weblate.utils.celery import get_task_progress
@@ -142,9 +138,7 @@ if TYPE_CHECKING:
     from django.http import HttpResponse
     from rest_framework.request import Request
 
-    from weblate.api.serializers import (
-        NewUnitSerializer,
-    )
+    from weblate.api.serializers import NewUnitSerializer
     from weblate.auth.models import AuthenticatedHttpRequest
 
 REPO_OPERATIONS: dict[str, tuple[str, str, tuple, dict, bool]] = {
@@ -714,7 +708,15 @@ class GroupViewSet(viewsets.ModelViewSet):
         if user.has_perm("group.edit") or user.has_perm("group.view"):
             queryset = Group.objects.all()
         else:
-            queryset = Group.objects.filter(Q(user=user) | Q(admins=user)).distinct()
+            queryset = Group.objects.filter(
+                Q(user=user)
+                | Q(admins=user)
+                | Q(
+                    defining_project__in=user.projects_with_perm(
+                        "project.permissions", explicit=True
+                    )
+                )
+            ).distinct()
         return queryset.order_by("id")
 
     def perm_check(

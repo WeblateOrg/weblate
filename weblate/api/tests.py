@@ -25,12 +25,8 @@ from weblate.accounts.notifications import (
 )
 from weblate.addons.models import Addon
 from weblate.api.serializers import CommentSerializer, RepoOperations
-from weblate.auth.models import (
-    Group,
-    Permission,
-    Role,
-    User,
-)
+from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
+from weblate.auth.models import Group, Permission, Role, User
 from weblate.lang.models import Language
 from weblate.memory.models import Memory
 from weblate.screenshots.models import Screenshot
@@ -1303,23 +1299,14 @@ class GroupAPITest(APIBaseTest):
         admin = User.objects.create_user("project_admin", "admin@example.com")
         self.component.project.add_user(admin, "Administration")
 
-        # Create a project-scoped group via the API as superuser
-        response = self.do_request(
-            "api:group-list",
-            method="post",
-            superuser=True,
-            code=201,
-            format="json",
-            request={
-                "name": "Project Team",
-                "project_selection": 0,
-                "language_selection": 0,
-                "defining_project": reverse(
-                    "api:project-detail", kwargs=self.project_kwargs
-                ),
-            },
+        # Create a project-scoped group
+        group = Group.objects.create(
+            name="Project Team",
+            project_selection=SELECTION_MANUAL,
+            language_selection=SELECTION_ALL,
+            defining_project=self.component.project,
         )
-        group_id = response.data["id"]
+        group.projects.add(self.component.project)
 
         # Switch to project admin credentials
         self.client.credentials(HTTP_AUTHORIZATION=f"Token {admin.auth_token.key}")
@@ -1327,7 +1314,7 @@ class GroupAPITest(APIBaseTest):
         # Project admin can see the group (appears in queryset)
         self.do_request(
             "api:group-detail",
-            kwargs={"id": group_id},
+            kwargs={"id": group.id},
             method="get",
             authenticated=False,
             code=200,
@@ -1336,7 +1323,7 @@ class GroupAPITest(APIBaseTest):
         # Project admin cannot update group properties (only global admins can)
         self.do_request(
             "api:group-detail",
-            kwargs={"id": group_id},
+            kwargs={"id": group.id},
             method="patch",
             authenticated=False,
             code=403,
@@ -1347,7 +1334,7 @@ class GroupAPITest(APIBaseTest):
         role = Role.objects.get(name="Administration")
         self.do_request(
             "api:group-roles",
-            kwargs={"id": group_id},
+            kwargs={"id": group.id},
             method="post",
             authenticated=False,
             code=403,
