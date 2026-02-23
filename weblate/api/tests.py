@@ -430,7 +430,7 @@ class UserAPITest(APIBaseTest):
     def test_post_notifications(self) -> None:
         self.do_request(
             "api:user-notifications",
-            kwargs={"username": User.objects.filter(is_active=True)[0].username},
+            kwargs={"username": settings.ANONYMOUS_USER_NAME},
             method="post",
             code=403,
         )
