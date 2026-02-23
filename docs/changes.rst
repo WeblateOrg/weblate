@@ -6,6 +6,7 @@ Weblate 5.16.1
 .. rubric:: New features
 
 * :doc:`/formats/asciidoc` is now a supported file format.
+* Added :setting:`REGISTRATION_ALLOW_DISPOSABLE_EMAILS` to optionally allow disposable e-mail domains during registration (Docker env: :envvar:`WEBLATE_REGISTRATION_ALLOW_DISPOSABLE_EMAILS`).
 
 .. rubric:: Improvements
 
