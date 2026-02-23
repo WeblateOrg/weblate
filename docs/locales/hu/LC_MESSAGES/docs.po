@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-02-16 14:59+0100\n"
-"PO-Revision-Date: 2026-02-18 23:10+0000\n"
-"Last-Translator: RViktor <rviktor@ivankapal.com>\n"
+"PO-Revision-Date: 2026-02-23 16:10+0000\n"
+"Last-Translator: Romhányi-Kakucska Viktor <viktor@romhanyi.dev>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hu/>\n"
 "Language: hu\n"
@@ -361,7 +361,7 @@ msgstr "Csapatadminisztrátorok hozzáadva, akik kezelhetik a csapat tagjait."
 
 #: ../../admin/access.rst:160
 msgid "This is useful in case you want to build self-governed teams."
-msgstr ""
+msgstr "Ez akkor hasznos, ha önállóan működő csapatokat szeretne létrehozni."
 
 #: ../../admin/access.rst:165
 msgid "Inviting new users"
@@ -2029,6 +2029,9 @@ msgid ""
 "make all newly created projects private, requiring explicit access to be "
 "granted."
 msgstr ""
+"Ezenkívül a :setting:`DEFAULT_ACCESS_CONTROL` értékének ``100``-ra "
+"változtatása minden újonnan létrehozott projektet priváttá tesz, így azokhoz "
+"kifejezett hozzáférési engedély szükséges."
 
 #: ../../admin/access.rst:568
 #, fuzzy
@@ -2049,6 +2052,9 @@ msgid ""
 "be automatically disabled. This is used for :ref:`project-api`, but can be "
 "utilized for regular users as well."
 msgstr ""
+"Minden fiókhoz lejárati idő állítható be. A lejárat után a fiók "
+"automatikusan letiltásra kerül. Ez a :ref:`project-api` esetében használt, "
+"de a normál felhasználók számara is igénybe vehető."
 
 #: ../../admin/addons.rst:7 ../../api.rst:2554
 msgid "Add-ons"
@@ -2876,13 +2882,15 @@ msgstr ""
 
 #: ../../admin/addons.rst:431
 msgid "Excluding certain matches"
-msgstr ""
+msgstr "Bizonyos egyezések kizárása"
 
 #: ../../admin/addons.rst:433
 msgid ""
 "Negative lookahead can be used to exclude certain patterns from being "
 "processed."
 msgstr ""
+"A negatív előretekintés felhasználható bizonyos minták kizárására "
+"feldolgozásából."
 
 #: ../../admin/addons.rst:440
 #, fuzzy
@@ -2923,6 +2931,8 @@ msgid ""
 "Ensure the new component contains the full set of translatable languages "
 "with :ref:`addon-weblate.consistency.languages`."
 msgstr ""
+"Biztosítja, hogy az új komponens tartalmazza a fordítható nyelvek teljes "
+"készletét a :ref:`addon-weblate.consistency.languages` segítségével."
 
 #: ../../admin/addons.rst:465
 msgid ""
@@ -2931,6 +2941,11 @@ msgid ""
 "``match`` -- i.e., the component must contain a base language file and at "
 "least one existing translation. Otherwise, it will be ignored."
 msgstr ""
+"Felfedezhetőség biztosítása érdekében egy új komponensnek tartalmaznia kell "
+"egy fájlt, amely megfelel a ``base_file_template`` **és** legalább egy "
+"fájlt, amelynek neve megfelel a ``match``-nek, azaz a komponensnek "
+"tartalmaznia kell egy alapnyelvi fájlt és legalább egy meglévő fordítást. "
+"Ellenkező esetben figyelmen kívül lesz hagyva."
 
 #: ../../admin/addons.rst:479
 msgid "Fedora Messaging"
@@ -3009,6 +3024,10 @@ msgid ""
 "with underscores instead of space, for example ``resource_update``, all "
 "other parts are optional and represent slug of the object or a language code."
 msgstr ""
+"Minden üzenet tárgya ``weblate.<művelet>.<projekt>.<komponens>.<fordítás>``. "
+"A művelet kisbetűs szöveges ábrázolása, szóköz helyett aláhúzással, például "
+"``resource_update``, az összes többi rész opcionális és az objektum "
+"rövidítését vagy a nyelv kódját jelenti."
 
 #: ../../admin/addons.rst:514
 #, fuzzy
@@ -3021,6 +3040,8 @@ msgid ""
 "The body consists of following fields (given that they are available for the "
 "event):"
 msgstr ""
+"A test a következő mezőkből áll (feltéve, hogy azok az eseményhez "
+"rendelkezésre állnak):"
 
 #: ../../admin/addons.rst:519
 msgid "Numerical ID of change"
@@ -3099,6 +3120,7 @@ msgstr "Válaszfejlécek"
 msgid ""
 "There are additional headers which you might utilize for routing as well:"
 msgstr ""
+"Léteznek további fejlécek, amelyeket szintén felhasználhat az útválasztáshoz:"
 
 #: ../../admin/addons.rst:556
 #, fuzzy
@@ -3626,6 +3648,7 @@ msgid ""
 ":guilabel:`Settings` configuration has been moved "
 "to :ref:`file_format_params`."
 msgstr ""
+":guilabel:`Settings` konfiguráció átkerült ide :ref:`file_format_params`."
 
 #: ../../admin/addons.rst:1040
 #, fuzzy
@@ -3645,6 +3668,11 @@ msgid ""
 "When the POT file is updated in the repository, this add-on automatically "
 "merges those changes into all language PO files, ensuring that:"
 msgstr ""
+"Ez a kiegészítő elengedhetetlen a gettext PO fájlok kezeléséhez, amikor a "
+"POT (sablon) fájl új karakterláncokkal vagy a meglévő karakterláncok "
+"módosításával frissül. Amikor a POT fájl frissül a tárolóban, ez a "
+"kiegészítő automatikusan összevonja ezeket a módosításokat az összes nyelvi "
+"PO fájlba, biztosítva, hogy:"
 
 #: ../../admin/addons.rst:1048
 #, fuzzy
@@ -3661,6 +3689,8 @@ msgstr "A kötelező mezők félkövér betűkkel vannak jelölve."
 #: ../../admin/addons.rst:1050
 msgid "Modified strings are marked as needing review (fuzzy)"
 msgstr ""
+"A módosított karakterláncok felülvizsgálatra szorulóként vannak megjelölve "
+"(fuzzy)"
 
 #: ../../admin/addons.rst:1052
 #, fuzzy
@@ -3742,6 +3772,9 @@ msgid ""
 "To avoid unnecessary conflicts, it is recommended to configure automatic "
 "receiving of upstream changes by webhooks or API, see :ref:`update-vcs`."
 msgstr ""
+"A felesleges konfliktusok elkerülése érdekében ajánlott beállítani a "
+"webhookok vagy API által történő automatikus upstream változások fogadását, "
+"lásd: :ref:`update-vcs`."
 
 #: ../../admin/addons.rst:1092
 msgid ""
@@ -3943,6 +3976,8 @@ msgstr "Webhook"
 msgid ""
 "Compliance of the secret length with the specification is now validated."
 msgstr ""
+"A titok hosszúságnak a specifikációval való megfelelése most már "
+"érvényesítve van."
 
 #: ../../admin/addons.rst:1237
 msgid "Webhook secret"
@@ -3994,6 +4029,9 @@ msgid ""
 "bits) and 64 bytes (512 bits). It can be prefixed with ``whsec_`` for easy "
 "identification."
 msgstr ""
+"A megadott ``titok`` base64 kódolású karakterlánc amely 24 bájt (192 bit) és "
+"64 bájt (512 bit) közötti. Az egyszerű azonosítás érdekében ``whsec_`` "
+"előtagot lehet használni."
 
 #: ../../admin/addons.rst:1306
 msgid ""
@@ -4681,7 +4719,7 @@ msgstr "Excel Open XML"
 
 #: ../../admin/addons.rst:1514
 msgid "XWiki Full Page"
-msgstr ""
+msgstr "XWiki teljes oldal"
 
 #: ../../admin/addons.rst:1516
 #, fuzzy
@@ -42321,10 +42359,8 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/code_of_conduct.rst:64
-#, fuzzy
-#| msgid "Warns?"
 msgid "Warning"
-msgstr "Figyelmeztet?"
+msgstr "Figyelmeztet"
 
 #: ../../contributing/code_of_conduct.rst:66
 msgid "Event: A violation involving a single incident or series of incidents."
