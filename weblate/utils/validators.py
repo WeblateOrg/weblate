@@ -230,7 +230,7 @@ class EmailValidator(EmailValidatorDjango):
                 gettext("Invalid e-mail address: {}").format(error)
             ) from error
 
-        if address.domain in blocklist:
+        if address.domain.lower().strip() in blocklist:
             raise ValidationError(gettext("Disposable e-mail domains are disallowed."))
 
 
