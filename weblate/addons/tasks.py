@@ -119,40 +119,45 @@ def language_consistency(
 
     log_result: list[str] = []
 
-    for component in components.iterator():
-        # Avoid two language consistency add-ons working at same on a single component
-        with component.lock:
-            missing = languages.exclude(
-                Q(translation__component=component) | Q(component=component)
-            )
-            if not missing:
-                continue
-            component.commit_pending("language consistency", None)
-            for language in missing:
-                component.refresh_lock()
-                new_lang = component.add_new_language(
-                    language,
-                    fake_request,
-                    send_signal=False,
-                    create_translations=False,
+    try:
+        for component in components.iterator():
+            # Avoid two language consistency add-ons working at same on a single component
+            with component.lock:
+                missing = languages.exclude(
+                    Q(translation__component=component) | Q(component=component)
                 )
-                if new_lang is None:
-                    log_result.append(
-                        f"{component.full_slug}: Could not add {language} language consistency: {component.new_lang_error_message}"
+                if not missing:
+                    continue
+                component.commit_pending("language consistency", None)
+                for language in missing:
+                    component.refresh_lock()
+                    new_lang = component.add_new_language(
+                        language,
+                        fake_request,
+                        send_signal=False,
+                        create_translations=False,
                     )
-                else:
+                    if new_lang is None:
+                        log_result.append(
+                            f"{component.full_slug}: {addon.addon.verbose}: Could not add {language}: {component.new_lang_error_message}"
+                        )
+                    else:
+                        log_result.append(
+                            f"{component.full_slug}: {addon.addon.verbose}: Added {language}"
+                        )
+                try:
+                    component.create_translations_immediate()
+                except FileParseError as error:
                     log_result.append(
-                        f"{component.full_slug}: Added {language} for language consistency"
+                        f"{component.full_slug}: {addon.addon.verbose}: Could not parse translation files: {error}"
                     )
-            try:
-                component.create_translations_immediate()
-            except FileParseError as error:
-                log_result.append(
-                    f"{component.full_slug}: Could not parse translation files: {error}"
-                )
+    except Exception as error:
+        log_result.append(f"{addon.addon.verbose}: failed: {error}")
+        raise
 
-    if activity_log_id and log_result:
-        update_addon_activity_log(activity_log_id, "\n".join(log_result))
+    finally:
+        if activity_log_id and log_result:
+            update_addon_activity_log(activity_log_id, "\n".join(log_result))
 
 
 @app.task(trail=False)

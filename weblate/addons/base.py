@@ -12,6 +12,7 @@ from typing import TYPE_CHECKING, Any, ClassVar, TypedDict, cast
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
+from django.template.defaultfilters import linebreaksbr
 from django.utils.functional import cached_property
 from django.utils.translation import gettext
 
@@ -556,6 +557,8 @@ class BaseAddon:
         if result is None:
             return ""
         if isinstance(result, str):
+            if "\n" in result:
+                return linebreaksbr(result)
             return result
         if isinstance(result, dict):
             return format_json(result)
