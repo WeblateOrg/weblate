@@ -7,7 +7,7 @@
 from __future__ import annotations
 
 from io import BytesIO
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, cast
 from unittest import TestCase
 from urllib.parse import parse_qs, urlparse, urlsplit
 from zipfile import ZipFile
@@ -60,18 +60,21 @@ class RegistrationTestMixin(TestCase):
         live_url = getattr(self, "live_server_url", None)
 
         # Parse URL
+        url: str | None = None
         for line in mail.outbox[0].body.splitlines():
             if "verification_code" not in line:
                 continue
             if "(" in line or ")" in line or "<" in line or ">" in line:
                 continue
             if live_url and line.startswith(live_url):
-                return f"{line}&confirm=1"
+                url = f"{line}&confirm=1"
+                break
             if line.startswith("http://example.com/"):
-                return f"{line[18:]}&confirm=1"
+                url = f"{line[18:]}&confirm=1"
+                break
 
-        self.fail("Confirmation URL not found")
-        return ""
+        self.assertIsNotNone(url, "Confirmation URL not found")
+        return cast("str", url)
 
     def assert_notify_mailbox(self, sent_mail) -> None:
         self.assertEqual(
