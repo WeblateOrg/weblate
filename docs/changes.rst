@@ -22,6 +22,8 @@ Weblate 5.16.1
   * Project administrators can manage teams in their projects via the API, according to access control rules.
   * The add-ons listing in the API now correctly honors user permissions.
 
+* Fixed source column being cleared when translating monolingual CSV files with a source, target, and translator_comments header.
+
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading

@@ -1093,6 +1093,7 @@ class CSVUnit(MonolingualSimpleUnit):
             self.template is not None
             and not self.parent.is_template
             and "context" not in self.parent.store.fieldnames
+            and self.unit.context
         ):
             # Update source for monolingual fields without context field
             self.unit.source = self.unit.context

@@ -79,6 +79,8 @@ TEST_CSV = get_test_file("cs-mono.csv")
 TEST_CSV_NOHEAD = get_test_file("cs.csv")
 TEST_CSV_SIMPLE_EN = get_test_file("en-simple.csv")
 TEST_CSV_SIMPLE_PL = get_test_file("pl-simple.csv")
+TEST_CSV_3COL_EN = get_test_file("en-3col.csv")
+TEST_CSV_3COL_ZH = get_test_file("zh-3col.csv")
 TEST_FLATXML = get_test_file("cs-flat.xml")
 TEST_CUSTOM_FLATXML = get_test_file("cs-flat-custom.xml")
 TEST_RESOURCEDICTIONARY = get_test_file("cs.xaml")
@@ -1190,6 +1192,68 @@ class CSVUtf8SimpleFormatMonolingualTest(FixtureTestCase, TempDirMixin):
                     row[0],
                     "",
                     f"Source field is empty for target: {row[1]}",
+                )
+
+
+class CSVThreeColumnMonolingualTest(FixtureTestCase, TempDirMixin):
+    """
+    Test for CSV format with three columns (source, target, translator_comments).
+
+    Regression test for https://github.com/WeblateOrg/weblate/issues/18157
+    where the "source" column becomes empty after translating a unit.
+    """
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.create_temp()
+
+    def tearDown(self) -> None:
+        super().tearDown()
+        self.remove_temp()
+
+    def test_set_target_preserves_source_column(self) -> None:
+        """
+        Test that set_target does not clear the source column.
+
+        When a CSV file has "source", "target", "translator_comments" columns
+        and is used as a monolingual translation (with a template), setting the
+        target of a unit should not overwrite the "source" column with an empty
+        context value.
+        """
+        translation_file = os.path.join(self.tempdir, "zh.csv")
+        content = Path(TEST_CSV_3COL_ZH).read_bytes()
+        Path(translation_file).write_bytes(content)
+
+        template_store = CSVFormat(
+            TEST_CSV_3COL_EN,
+            is_template=True,
+        )
+
+        store = CSVFormat(
+            translation_file,
+            template_store=template_store,
+            language_code="zh",
+        )
+
+        units = list(store.content_units)
+        self.assertEqual(len(units), 3)
+
+        # Translate the first unit
+        units[0].set_target("中文翻译")
+
+        store.save()
+
+        # Verify the saved content: source column must not be empty
+        with open(translation_file, encoding="utf-8") as handle:
+            reader = csv.reader(handle)
+            header = next(reader)
+            self.assertEqual(header, ["source", "target", "translator_comments"])
+            for row in reader:
+                self.assertEqual(len(row), 3)
+                self.assertNotEqual(
+                    row[0],
+                    "",
+                    f"Source column is empty for target: {row[1]}",
                 )
 
 
