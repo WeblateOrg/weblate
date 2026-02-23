@@ -20,7 +20,7 @@ Weblate 5.16.1
 
   * User notification subscriptions to allow users to manage their own notifications.
   * Access control for group management to allow project admins to manage their project's teams.
-  * Add-ons listing honors project.
+  * Add-ons listing honors user permissions.
 
 .. rubric:: Compatibility
 
