@@ -3802,15 +3802,19 @@ class Component(
         return self.count_push_branch_outgoing > 0
 
     @property
-    def file_format_name(self):
+    def file_format_name(self) -> StrOrPromise:
         return self.file_format_cls.name
 
     @property
-    def file_format_create_style(self):
+    def file_format_can_edit_base(self) -> bool:
+        return self.file_format_cls.can_edit_base
+
+    @property
+    def file_format_create_style(self) -> str:
         return self.file_format_cls.create_style
 
     @cached_property
-    def file_format_flags(self):
+    def file_format_flags(self) -> Flags:
         return Flags(self.file_format_cls.check_flags)
 
     @cached_property

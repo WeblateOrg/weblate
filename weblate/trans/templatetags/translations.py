@@ -1699,3 +1699,8 @@ def get_git_export_example_url() -> str:
     )
     # Strip trailing info/refs part:
     return url[:-9]
+
+
+@register.filter(is_safe=True)
+def object_link(obj) -> str:
+    return format_html('<a href="{}">{}</a>', obj.get_absolute_url(), str(obj))

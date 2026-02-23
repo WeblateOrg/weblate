@@ -109,9 +109,7 @@ class TranslationManager(models.Manager):
             translation.language_code = code
             translation.save(update_fields=["filename", "language_code"])
         flags = ""
-        if (not component.edit_template and translation.is_template) or (
-            not component.has_template() and translation.is_source
-        ):
+        if translation.source_editing_disabled:
             flags = "read-only"
         if translation.check_flags != flags:
             force = True
@@ -272,13 +270,25 @@ class Translation(
         return self.language_id == self.component.source_language_id
 
     @cached_property
-    def all_flags(self):
+    def all_flags(self) -> Flags:
         """Return parsed list of flags."""
         return Flags(self.component.all_flags, self.check_flags)
 
     @cached_property
     def is_readonly(self):
         return "read-only" in self.all_flags
+
+    def parse_check_flags(self) -> Flags:
+        return Flags(self.check_flags)
+
+    def has_readonly_flag(self) -> bool:
+        return "read-only" in self.parse_check_flags()
+
+    def get_flags_without_readonly(self) -> Flags:
+        result = self.parse_check_flags()
+        result.remove("read-only")
+        result.merge("test-only")
+        return result
 
     def clean(self) -> None:
         """Validate that filename exists and can be opened using translate-toolkit."""
@@ -2203,6 +2213,12 @@ class Translation(
             )
             .prefetch()
             .order()
+        )
+
+    @property
+    def source_editing_disabled(self) -> bool:
+        return (not self.component.edit_template and self.is_template) or (
+            not self.component.has_template() and self.is_source
         )
 
 

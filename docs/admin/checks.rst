@@ -37,7 +37,7 @@ The flags are merged from following sources:
   * :ref:`addon-weblate.flags.bulk` add-on can apply flags automatically.
 
 * Per-string flags extracted from the file format, see :ref:`formats`.
-* Translation flags (currently only ``read-only`` flag for bilingual source string).
+* Translation flags (currently only ``read-only`` flag for bilingual source string or when monolingual template editing is turned off).
 * File-format specific flags.
 * :ref:`component` (:ref:`component-check_flags`).
 * :ref:`project` (:ref:`project-check_flags`).
