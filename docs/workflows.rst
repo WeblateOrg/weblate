@@ -69,7 +69,10 @@ Needs editing
 Needs rewriting
    Translation needs to be rewritten because of a source string change.
 Needs checking
-   State of new source strings imported into the VCS.
+   State used for source/template strings that need developer review. It is
+   typically set for new source strings imported from the VCS when the
+   Source edit addon is enabled, or when a source string is reported for
+   checking.
 Translated / Waiting for review
     Translation is made. The translated state is shown as "Waiting for review" if reviews are enabled.
 Approved
