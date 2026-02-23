@@ -17,6 +17,8 @@ from django.template.loader import render_to_string
 from django.utils.translation import gettext
 from django.views.decorators.http import require_POST
 from django.views.generic import DetailView, ListView
+from PIL import Image
+from tesserocr import OEM, PSM, RIL, PyTessBaseAPI, iterate_level
 
 from weblate.logger import LOGGER
 from weblate.screenshots.forms import ScreenshotEditForm, ScreenshotForm, SearchForm
@@ -34,9 +36,7 @@ from weblate.utils.views import PathViewMixin
 if TYPE_CHECKING:
     from collections.abc import Generator
 
-    import PIL.Image
     from django.http import HttpResponse
-    from tesserocr import PyTessBaseAPI
 
     from weblate.auth.models import AuthenticatedHttpRequest
     from weblate.lang.models import Language
@@ -400,10 +400,7 @@ def search_source(request: AuthenticatedHttpRequest, pk):
     )
 
 
-def ocr_get_strings(
-    api, *, image: PIL.Image.Image, filename: str, resolution: int = 72
-):
-    from tesserocr import RIL, iterate_level
+def ocr_get_strings(api, *, image: Image.Image, filename: str, resolution: int = 72):
 
     try:
         api.SetImage(image)
@@ -431,7 +428,7 @@ def ocr_get_strings(
 def ocr_extract(
     api,
     *,
-    image: PIL.Image.Image,
+    image: Image.Image,
     filename: str,
     strings: tuple[str, ...],
     resolution: int,
@@ -447,7 +444,6 @@ def ocr_extract(
 
 @contextmanager
 def get_tesseract(language: Language) -> Generator[PyTessBaseAPI]:
-    from tesserocr import OEM, PSM, PyTessBaseAPI
 
     # Get matching language
     try:
@@ -472,7 +468,6 @@ def get_tesseract(language: Language) -> Generator[PyTessBaseAPI]:
 @login_required
 @require_POST
 def ocr_search(request: AuthenticatedHttpRequest, pk):
-    from PIL import Image
 
     obj = get_screenshot(request, pk)
     translation = obj.translation

@@ -29,6 +29,7 @@ from django.core.validators import (
 )
 from django.utils.deconstruct import deconstructible
 from django.utils.translation import gettext, gettext_lazy
+from PIL import Image
 
 from weblate.trans.util import cleanup_path
 from weblate.utils.const import WEBHOOKS_SECRET_PREFIX
@@ -101,8 +102,6 @@ def validate_re_nonempty(value: str) -> None:
 
 def validate_bitmap(value) -> None:
     """Validate bitmap, based on django.forms.fields.ImageField."""
-    from PIL import Image
-
     if value is None:
         return
 
