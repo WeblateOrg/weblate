@@ -713,7 +713,7 @@ class GroupViewSet(viewsets.ModelViewSet):
                 | Q(admins=user)
                 | Q(
                     defining_project__in=user.projects_with_perm(
-                        "project.permissions", explicit=True
+                        "project.permissions"
                     )
                 )
             ).distinct()

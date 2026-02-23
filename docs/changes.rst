@@ -18,9 +18,9 @@ Weblate 5.16.1
 * :ref:`check-punctuation-spacing` better handles XML markup.
 * Fixed API access control.
 
-  * User notification subscriptions to allow users to manage their own notifications.
-  * Access control for group management to allow project admins to manage their project's teams.
-  * Add-ons listing honors user permissions.
+  * Users can manage their own notification subscriptions via the API.
+  * Project administrators can manage teams in their projects via the API, according to access control rules.
+  * The add-ons listing in the API now correctly honors user permissions.
 
 .. rubric:: Compatibility
 
