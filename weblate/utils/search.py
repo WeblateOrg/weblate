@@ -721,6 +721,7 @@ class UnitTermExpr(BaseTermExpr):
         with AND using exists ensures each check condition gets its own subquery.
         """
         from weblate.checks.models import Check
+
         lookup = "name__iexact" if self.operator == ":=" else "name__icontains"
         return Q(
             Exists(
@@ -756,7 +757,7 @@ class UnitTermExpr(BaseTermExpr):
         with AND using exists ensures each screenshot condition gets its own subquery.
         """
         from weblate.screenshots.models import Screenshot
-        
+
         lookup = "name__iexact" if self.operator == ":=" else "name__icontains"
         screenshot_query = Screenshot.objects.filter(**{lookup: text})
         return Q(
