@@ -585,7 +585,7 @@ class UserAPITest(APIBaseTest):
         )
 
         # User cannot manage another user's notifications (create)
-        other_user = User.objects.exclude(pk=self.user.pk).filter(is_active=True)[0]
+        other_user = User.objects.create_user("other_user", "other@example.com")
         self.do_request(
             "api:user-notifications",
             kwargs={"username": other_user.username},
