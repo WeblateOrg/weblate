@@ -714,15 +714,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         if user.has_perm("group.edit") or user.has_perm("group.view"):
             queryset = Group.objects.all()
         else:
-            queryset = Group.objects.filter(
-                Q(user=user)
-                | Q(admins=user)
-                | Q(
-                    defining_project__in=user.projects_with_perm(
-                        "project.permissions", explicit=True
-                    )
-                )
-            ).distinct()
+            queryset = Group.objects.filter(Q(user=user) | Q(admins=user)).distinct()
         return queryset.order_by("id")
 
     def perm_check(
