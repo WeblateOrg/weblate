@@ -40,7 +40,9 @@ class LanguageConsistencyAddon(BaseAddon):
             list(
                 Language.objects.filter(
                     translation__component__project=component.project
-                ).values_list("id", flat=True)
+                )
+                .values_list("id", flat=True)
+                .distinct()
             ),
             component.project_id,
             activity_log_id=activity_log_id,
