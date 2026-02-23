@@ -431,22 +431,38 @@ class RepoTestMixin:
 
     def create_html(self) -> Component:
         return self._create_component(
-            "html", "html/*.html", "html/en.html", edit_template=False
+            "html",
+            "html/*.html",
+            "html/en.html",
+            edit_template=False,
+            manage_units=False,
         )
 
     def create_idml(self) -> Component:
         return self._create_component(
-            "idml", "idml/*.idml", "idml/en.idml", edit_template=False
+            "idml",
+            "idml/*.idml",
+            "idml/en.idml",
+            edit_template=False,
+            manage_units=False,
         )
 
     def create_odt(self) -> Component:
         return self._create_component(
-            "odf", "odt/*.odt", "odt/en.odt", edit_template=False
+            "odf",
+            "odt/*.odt",
+            "odt/en.odt",
+            edit_template=False,
+            manage_units=False,
         )
 
     def create_winrc(self) -> Component:
         return self._create_component(
-            "rc", "winrc/*.rc", "winrc/en-US.rc", edit_template=False
+            "rc",
+            "winrc/*.rc",
+            "winrc/en-US.rc",
+            edit_template=False,
+            manage_units=False,
         )
 
     def create_tbx(self, **kwargs) -> Component:
