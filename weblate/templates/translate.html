@@ -997,14 +997,25 @@
                         {% blocktranslate with filename=unit.translation.filename flags=unit.flags %}<code>{{ flags }}</code> was extracted from {{ filename }}.{% endblocktranslate %}
                       </p>
                     {% endif %}
-                    {% if unit.translation.check_flags %}
+                    {% if unit.translation.get_flags_without_readonly %}
                       <p>
-                        {% blocktranslate with object=unit.translation flags=unit.translation.check_flags %}<code>{{ flags }}</code> is inherited from {{ object }}.{% endblocktranslate %}
+                        {% blocktranslate with object=unit.translation|object_link flags=unit.translation.get_flags_without_readonly.format %}<code>{{ flags }}</code> is inherited from {{ object }}.{% endblocktranslate %}
+                      </p>
+                    {% endif %}
+                    {% if unit.translation.has_readonly_flag %}
+                      <p>
+                        {% if not unit.translation.component.has_template %}
+                          {% blocktranslate with object=unit.translation|object_link flags="read-only" %}<code>{{ flags }}</code> is inherited from {{ object }} because editing source strings is not available for bilingual formats.{% endblocktranslate %}
+                        {% elif unit.translation.component.file_format_can_edit_base %}
+                          {% blocktranslate with object=unit.translation|object_link flags="read-only" format=unit.translation.component.file_format_name %}<code>{{ flags }}</code> is inherited from {{ object }} because editing source strings is not available for {{ format }}.{% endblocktranslate %}
+                        {% else %}
+                          {% blocktranslate with object=unit.translation|object_link flags="read-only" %}<code>{{ flags }}</code> is inherited from {{ object }} because editing source strings is disabled.{% endblocktranslate %}
+                        {% endif %}
                       </p>
                     {% endif %}
                     {% if unit.translation.component.check_flags %}
                       <p>
-                        {% blocktranslate with object=unit.translation.component flags=unit.translation.component.check_flags %}<code>{{ flags }}</code> is inherited from {{ object }}.{% endblocktranslate %}
+                        {% blocktranslate with object=unit.translation.component|object_link flags=unit.translation.component.check_flags %}<code>{{ flags }}</code> is inherited from {{ object }}.{% endblocktranslate %}
                       </p>
                     {% endif %}
                     {% if unit.translation.component.file_format_flags %}
@@ -1014,7 +1025,7 @@
                     {% endif %}
                     {% if unit.translation.component.project.check_flags %}
                       <p>
-                        {% blocktranslate with object=unit.translation.component.project flags=unit.translation.component.project.check_flags %}<code>{{ flags }}</code> is inherited from {{ object }}.{% endblocktranslate %}
+                        {% blocktranslate with object=unit.translation.component.project|object_link flags=unit.translation.component.project.check_flags %}<code>{{ flags }}</code> is inherited from {{ object }}.{% endblocktranslate %}
                       </p>
                     {% endif %}
                   </div>
