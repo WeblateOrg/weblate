@@ -9,6 +9,8 @@ Weblate 5.16.1
 
 .. rubric:: Improvements
 
+* Improved documentation for translation states to clarify the difference between :guilabel:`Needs editing`, :guilabel:`Needs rewriting`, and :guilabel:`Needs checking` states.
+
 .. rubric:: Bug fixes
 
 * :ref:`addon-weblate.webhook.slack` properly delivers all events.
