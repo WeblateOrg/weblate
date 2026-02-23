@@ -572,7 +572,7 @@ class UserViewSet(viewsets.ModelViewSet):
     def notifications(self, request: Request, username: str):
         obj = self.get_object()
         if request.method == "POST":
-            self.perm_check(request, obj)
+            self.perm_check(request, obj, allow_self=True)
             with transaction.atomic():
                 serializer = NotificationSerializer(
                     data=request.data, context={"request": request}
@@ -622,7 +622,7 @@ class UserViewSet(viewsets.ModelViewSet):
             raise Http404(str(error)) from error
 
         if request.method == "DELETE":
-            self.perm_check(request, obj)
+            self.perm_check(request, obj, allow_self=True)
             subscription.delete()
             return Response(status=HTTP_204_NO_CONTENT)
 
@@ -632,7 +632,7 @@ class UserViewSet(viewsets.ModelViewSet):
                 subscription, context={"request": request}
             )
         else:
-            self.perm_check(request, obj)
+            self.perm_check(request, obj, allow_self=True)
             serializer = NotificationSerializer(
                 subscription,
                 data=request.data,
@@ -714,7 +714,15 @@ class GroupViewSet(viewsets.ModelViewSet):
         if user.has_perm("group.edit") or user.has_perm("group.view"):
             queryset = Group.objects.all()
         else:
-            queryset = Group.objects.filter(Q(user=user) | Q(admins=user)).distinct()
+            queryset = Group.objects.filter(
+                Q(user=user)
+                | Q(admins=user)
+                | Q(
+                    defining_project__in=user.projects_with_perm(
+                        "project.permissions", explicit=True
+                    )
+                )
+            ).distinct()
         return queryset.order_by("id")
 
     def perm_check(
@@ -734,7 +742,8 @@ class GroupViewSet(viewsets.ModelViewSet):
 
     def update(self, request: Request, *args, **kwargs):
         """Change the group parameters."""
-        self.perm_check(request)
+        obj = self.get_object()
+        self.perm_check(request, obj)
         return super().update(request, *args, **kwargs)
 
     def perform_create(self, serializer) -> None:
@@ -745,14 +754,15 @@ class GroupViewSet(viewsets.ModelViewSet):
 
     def destroy(self, request: Request, *args, **kwargs):
         """Delete the group."""
-        self.perm_check(request)
+        obj = self.get_object()
+        self.perm_check(request, obj)
         return super().destroy(request, *args, **kwargs)
 
     @extend_schema(description="Associate roles with a group.", methods=["post"])
     @action(detail=True, methods=["post"])
     def roles(self, request: Request, **kwargs):
         obj = self.get_object()
-        self.perm_check(request)
+        self.perm_check(request, obj)
 
         if "role_id" not in request.data:
             msg = "Missing role_id parameter"
@@ -777,7 +787,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     # pylint: disable-next=redefined-builtin
     def delete_roles(self, request: Request, id, role_id):  # noqa: A002
         obj = self.get_object()
-        self.perm_check(request)
+        self.perm_check(request, obj)
 
         try:
             role = obj.roles.get(pk=role_id)
@@ -794,7 +804,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     )
     def languages(self, request: Request, **kwargs):
         obj = self.get_object()
-        self.perm_check(request)
+        self.perm_check(request, obj)
 
         if "language_code" not in request.data:
             msg = "Missing language_code parameter"
@@ -821,7 +831,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     # pylint: disable-next=redefined-builtin
     def delete_languages(self, request: Request, id, language_code):  # noqa: A002
         obj = self.get_object()
-        self.perm_check(request)
+        self.perm_check(request, obj)
 
         try:
             language = obj.languages.get(code=language_code)
@@ -837,7 +847,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     )
     def projects(self, request: Request, **kwargs):
         obj = self.get_object()
-        self.perm_check(request)
+        self.perm_check(request, obj)
 
         if "project_id" not in request.data:
             msg = "Missing project_id parameter"
@@ -859,7 +869,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     # pylint: disable-next=redefined-builtin
     def delete_projects(self, request: Request, id, project_id):  # noqa: A002
         obj = self.get_object()
-        self.perm_check(request)
+        self.perm_check(request, obj)
 
         try:
             project = obj.projects.get(pk=project_id)
@@ -874,7 +884,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=["post"])
     def componentlists(self, request: Request, **kwargs):
         obj = self.get_object()
-        self.perm_check(request)
+        self.perm_check(request, obj)
 
         if "component_list_id" not in request.data:
             msg = "Missing component_list_id parameter"
@@ -907,7 +917,7 @@ class GroupViewSet(viewsets.ModelViewSet):
         component_list_id,
     ):
         obj = self.get_object()
-        self.perm_check(request)
+        self.perm_check(request, obj)
         try:
             component_list = obj.componentlists.get(pk=component_list_id)
         except ComponentList.DoesNotExist as error:
@@ -922,7 +932,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     )
     def components(self, request: Request, **kwargs):
         obj = self.get_object()
-        self.perm_check(request)
+        self.perm_check(request, obj)
         if "component_id" not in request.data:
             msg = "Missing component_id parameter"
             raise ValidationError({"component_id": msg})
@@ -945,7 +955,7 @@ class GroupViewSet(viewsets.ModelViewSet):
     # pylint: disable-next=redefined-builtin
     def delete_components(self, request: Request, id, component_id):  # noqa: A002
         obj = self.get_object()
-        self.perm_check(request)
+        self.perm_check(request, obj)
 
         try:
             component = obj.components.get(pk=component_id)

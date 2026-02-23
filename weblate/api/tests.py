@@ -532,6 +532,84 @@ class UserAPITest(APIBaseTest):
         )
         self.assertEqual(Subscription.objects.count(), 9)
 
+    def test_self_notifications(self) -> None:
+        """Users should be able to manage their own notifications via the API."""
+        # User can list own notifications
+        response = self.do_request(
+            "api:user-notifications",
+            kwargs={"username": self.user.username},
+            method="get",
+            code=200,
+        )
+        self.assertEqual(response.data["count"], 10)
+
+        # User can create own notification
+        response = self.do_request(
+            "api:user-notifications",
+            kwargs={"username": self.user.username},
+            method="post",
+            code=201,
+            request={
+                "notification": "RepositoryNotification",
+                "scope": 10,
+                "frequency": 1,
+            },
+        )
+        self.assertEqual(response.data["notification"], "RepositoryNotification")
+        subscription_id = response.data["id"]
+
+        # User can read own notification details
+        self.do_request(
+            "api:user-notifications-details",
+            kwargs={"username": self.user.username, "subscription_id": subscription_id},
+            method="get",
+            code=200,
+        )
+
+        # User can update own notification
+        response = self.do_request(
+            "api:user-notifications-details",
+            kwargs={"username": self.user.username, "subscription_id": subscription_id},
+            method="patch",
+            code=200,
+            request={"frequency": 2},
+        )
+        self.assertEqual(response.data["frequency"], 2)
+
+        # User can delete own notification
+        self.do_request(
+            "api:user-notifications-details",
+            kwargs={"username": self.user.username, "subscription_id": subscription_id},
+            method="delete",
+            code=204,
+        )
+
+        # User cannot manage another user's notifications (create)
+        other_user = User.objects.exclude(pk=self.user.pk).filter(is_active=True)[0]
+        self.do_request(
+            "api:user-notifications",
+            kwargs={"username": other_user.username},
+            method="post",
+            code=403,
+            request={
+                "notification": "RepositoryNotification",
+                "scope": 10,
+                "frequency": 1,
+            },
+        )
+
+        # User cannot delete another user's notifications
+        other_subscription = Subscription.objects.filter(user=other_user)[0]
+        self.do_request(
+            "api:user-notifications-details",
+            kwargs={
+                "username": other_user.username,
+                "subscription_id": other_subscription.id,
+            },
+            method="delete",
+            code=403,
+        )
+
     def test_statistics(self) -> None:
         user = User.objects.filter(is_active=True)[0]
         request = self.do_request(
@@ -1218,6 +1296,131 @@ class GroupAPITest(APIBaseTest):
 
         admins_ids = [admin["id"] for admin in response.data.get("admins", [])]
         self.assertNotIn(user.id, admins_ids)
+
+    def test_project_admin_group_management(self) -> None:
+        """Project admins should be able to manage project-scoped groups via the API."""
+        # Create a non-superuser with project admin rights
+        admin = User.objects.create_user("project_admin", "admin@example.com")
+        self.component.project.add_user(admin, "Administration")
+
+        # Create a project-scoped group via the API as superuser
+        response = self.do_request(
+            "api:group-list",
+            method="post",
+            superuser=True,
+            code=201,
+            format="json",
+            request={
+                "name": "Project Team",
+                "project_selection": 0,
+                "language_selection": 0,
+                "defining_project": reverse(
+                    "api:project-detail", kwargs=self.project_kwargs
+                ),
+            },
+        )
+        group_id = response.data["id"]
+
+        # Switch to project admin credentials
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Token {admin.auth_token.key}"
+        )
+
+        # Project admin can update the group
+        self.do_request(
+            "api:group-detail",
+            kwargs={"id": group_id},
+            method="patch",
+            authenticated=False,
+            code=200,
+            request={"language_selection": 1},
+        )
+
+        # Project admin can add a language to the group
+        self.do_request(
+            "api:group-languages",
+            kwargs={"id": group_id},
+            method="post",
+            authenticated=False,
+            code=200,
+            request={"language_code": "cs"},
+        )
+
+        # Project admin can remove a language from the group
+        self.do_request(
+            "api:group-delete-languages",
+            kwargs={"id": group_id, "language_code": "cs"},
+            method="delete",
+            authenticated=False,
+            code=204,
+        )
+
+        # Project admin can add a role to the group
+        role = Role.objects.get(name="Administration")
+        self.do_request(
+            "api:group-roles",
+            kwargs={"id": group_id},
+            method="post",
+            authenticated=False,
+            code=200,
+            request={"role_id": role.id},
+        )
+
+        # Project admin can remove a role from the group
+        self.do_request(
+            "api:group-delete-roles",
+            kwargs={"id": group_id, "role_id": role.id},
+            method="delete",
+            authenticated=False,
+            code=204,
+        )
+
+        # Project admin can delete the group
+        self.do_request(
+            "api:group-detail",
+            kwargs={"id": group_id},
+            method="delete",
+            authenticated=False,
+            code=204,
+        )
+
+    def test_non_project_admin_group_management(self) -> None:
+        """Non-admin users cannot manage project-scoped groups they don't administer."""
+        # Create two non-superusers, one with project admin rights and one without
+        other_user = User.objects.create_user("other_user", "other@example.com")
+
+        # Create a project-scoped group via the API as superuser
+        response = self.do_request(
+            "api:group-list",
+            method="post",
+            superuser=True,
+            code=201,
+            format="json",
+            request={
+                "name": "Project Team",
+                "project_selection": 0,
+                "language_selection": 0,
+                "defining_project": reverse(
+                    "api:project-detail", kwargs=self.project_kwargs
+                ),
+            },
+        )
+        group_id = response.data["id"]
+
+        # Switch to a user who has no admin rights on this project
+        self.client.credentials(
+            HTTP_AUTHORIZATION=f"Token {other_user.auth_token.key}"
+        )
+
+        # Non-admin cannot update the group (gets 404 - not in queryset)
+        self.do_request(
+            "api:group-detail",
+            kwargs={"id": group_id},
+            method="patch",
+            authenticated=False,
+            code=404,
+            request={"language_selection": 1},
+        )
 
 
 class RoleAPITest(APIBaseTest):
