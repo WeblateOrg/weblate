@@ -231,7 +231,7 @@ class EmailValidator(EmailValidatorDjango):
             ) from error
 
         if (
-            address.domain in blocklist
+            address.domain.lower().strip() in blocklist
             and not settings.REGISTRATION_ALLOW_DISPOSABLE_EMAILS
         ):
             raise ValidationError(gettext("Disposable e-mail domains are disallowed."))
