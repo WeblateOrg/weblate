@@ -87,11 +87,10 @@
         {% else %}
           {% include "list-projects.html" with projects=watched_projects %}
         {% endif %}
-      {% else %}
-        <p class="help-block">
-          {% translate "Choose what languages you want in the preferences, to see overview of available translations for those languages in your watched projects." %}
-        </p>
       {% endif %}
+      <p class="help-block">
+        {% translate "Choose what languages you want in the preferences, to see overview of available translations for those languages in your watched projects." %}
+      </p>
     </div>
 
 
