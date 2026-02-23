@@ -25,12 +25,8 @@ from weblate.accounts.notifications import (
 )
 from weblate.addons.models import Addon
 from weblate.api.serializers import CommentSerializer, RepoOperations
-from weblate.auth.models import (
-    Group,
-    Permission,
-    Role,
-    User,
-)
+from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
+from weblate.auth.models import Group, Permission, Role, User
 from weblate.lang.models import Language
 from weblate.memory.models import Memory
 from weblate.screenshots.models import Screenshot
@@ -430,7 +426,7 @@ class UserAPITest(APIBaseTest):
     def test_post_notifications(self) -> None:
         self.do_request(
             "api:user-notifications",
-            kwargs={"username": User.objects.filter(is_active=True)[0].username},
+            kwargs={"username": settings.ANONYMOUS_USER_NAME},
             method="post",
             code=403,
         )
@@ -531,6 +527,84 @@ class UserAPITest(APIBaseTest):
             code=204,
         )
         self.assertEqual(Subscription.objects.count(), 9)
+
+    def test_self_notifications(self) -> None:
+        """Users should be able to manage their own notifications via the API."""
+        # User can list own notifications
+        response = self.do_request(
+            "api:user-notifications",
+            kwargs={"username": self.user.username},
+            method="get",
+            code=200,
+        )
+        self.assertEqual(response.data["count"], 10)
+
+        # User can create own notification
+        response = self.do_request(
+            "api:user-notifications",
+            kwargs={"username": self.user.username},
+            method="post",
+            code=201,
+            request={
+                "notification": "RepositoryNotification",
+                "scope": 10,
+                "frequency": 1,
+            },
+        )
+        self.assertEqual(response.data["notification"], "RepositoryNotification")
+        subscription_id = response.data["id"]
+
+        # User can read own notification details
+        self.do_request(
+            "api:user-notifications-details",
+            kwargs={"username": self.user.username, "subscription_id": subscription_id},
+            method="get",
+            code=200,
+        )
+
+        # User can update own notification
+        response = self.do_request(
+            "api:user-notifications-details",
+            kwargs={"username": self.user.username, "subscription_id": subscription_id},
+            method="patch",
+            code=200,
+            request={"frequency": 2},
+        )
+        self.assertEqual(response.data["frequency"], 2)
+
+        # User can delete own notification
+        self.do_request(
+            "api:user-notifications-details",
+            kwargs={"username": self.user.username, "subscription_id": subscription_id},
+            method="delete",
+            code=204,
+        )
+
+        # User cannot manage another user's notifications (create)
+        other_user = User.objects.create_user("other_user", "other@example.com")
+        self.do_request(
+            "api:user-notifications",
+            kwargs={"username": other_user.username},
+            method="post",
+            code=403,
+            request={
+                "notification": "RepositoryNotification",
+                "scope": 10,
+                "frequency": 1,
+            },
+        )
+
+        # User cannot delete another user's notifications
+        other_subscription = Subscription.objects.filter(user=other_user)[0]
+        self.do_request(
+            "api:user-notifications-details",
+            kwargs={
+                "username": other_user.username,
+                "subscription_id": other_subscription.id,
+            },
+            method="delete",
+            code=403,
+        )
 
     def test_statistics(self) -> None:
         user = User.objects.filter(is_active=True)[0]
@@ -1218,6 +1292,88 @@ class GroupAPITest(APIBaseTest):
 
         admins_ids = [admin["id"] for admin in response.data.get("admins", [])]
         self.assertNotIn(user.id, admins_ids)
+
+    def test_project_admin_group_visibility(self) -> None:
+        """Project admins can see project-scoped groups but cannot edit their properties."""
+        # Create a non-superuser with project admin rights
+        admin = User.objects.create_user("project_admin", "admin@example.com")
+        self.component.project.add_user(admin, "Administration")
+
+        # Create a project-scoped group
+        group = Group.objects.create(
+            name="Project Team",
+            project_selection=SELECTION_MANUAL,
+            language_selection=SELECTION_ALL,
+            defining_project=self.component.project,
+        )
+        group.projects.add(self.component.project)
+
+        # Switch to project admin credentials
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {admin.auth_token.key}")
+
+        # Project admin can see the group (appears in queryset)
+        self.do_request(
+            "api:group-detail",
+            kwargs={"id": group.id},
+            method="get",
+            authenticated=False,
+            code=200,
+        )
+
+        # Project admin cannot update group properties (only global admins can)
+        self.do_request(
+            "api:group-detail",
+            kwargs={"id": group.id},
+            method="patch",
+            authenticated=False,
+            code=403,
+            request={"language_selection": 1},
+        )
+
+        # Project admin cannot add roles to the group (only global admins can)
+        role = Role.objects.get(name="Administration")
+        self.do_request(
+            "api:group-roles",
+            kwargs={"id": group.id},
+            method="post",
+            authenticated=False,
+            code=403,
+            request={"role_id": role.id},
+        )
+
+    def test_non_project_admin_group_visibility(self) -> None:
+        """Users without project admin rights cannot see project-scoped groups."""
+        other_user = User.objects.create_user("other_user", "other@example.com")
+
+        # Create a project-scoped group via the API as superuser
+        response = self.do_request(
+            "api:group-list",
+            method="post",
+            superuser=True,
+            code=201,
+            format="json",
+            request={
+                "name": "Project Team",
+                "project_selection": 0,
+                "language_selection": 0,
+                "defining_project": reverse(
+                    "api:project-detail", kwargs=self.project_kwargs
+                ),
+            },
+        )
+        group_id = response.data["id"]
+
+        # Switch to a user who has no rights on this project
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {other_user.auth_token.key}")
+
+        # Non-admin cannot see the group (not in queryset)
+        self.do_request(
+            "api:group-detail",
+            kwargs={"id": group_id},
+            method="get",
+            authenticated=False,
+            code=404,
+        )
 
 
 class RoleAPITest(APIBaseTest):

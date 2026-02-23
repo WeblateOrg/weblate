@@ -16,7 +16,11 @@ Weblate 5.16.1
 
 * :ref:`addon-weblate.webhook.slack` properly delivers all events.
 * :ref:`check-punctuation-spacing` better handles XML markup.
-* Access control for add-ons listing in API.
+* Fixed API access control.
+
+  * Users can manage their own notification subscriptions via the API.
+  * Project administrators can manage teams in their projects via the API, according to access control rules.
+  * The add-ons listing in the API now correctly honors user permissions.
 
 .. rubric:: Compatibility
 
