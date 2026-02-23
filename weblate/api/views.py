@@ -711,11 +711,7 @@ class GroupViewSet(viewsets.ModelViewSet):
             queryset = Group.objects.filter(
                 Q(user=user)
                 | Q(admins=user)
-                | Q(
-                    defining_project__in=user.projects_with_perm(
-                        "project.permissions"
-                    )
-                )
+                | Q(defining_project__in=user.projects_with_perm("project.permissions"))
             ).distinct()
         return queryset.order_by("id")
 
