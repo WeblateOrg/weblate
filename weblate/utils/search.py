@@ -33,10 +33,8 @@ from pyparsing import (
     one_of,
 )
 
-from weblate.checks.models import Check
 from weblate.checks.parser import RawQuotedString
 from weblate.lang.models import Language
-from weblate.screenshots.models import Screenshot
 from weblate.trans.models import Category, Component, Label, Project, Translation
 from weblate.trans.util import PLURAL_SEPARATOR
 from weblate.utils.db import re_escape, using_postgresql
@@ -722,6 +720,7 @@ class UnitTermExpr(BaseTermExpr):
         This is needed because filtering on a reverse ForeignKey relation
         with AND using exists ensures each check condition gets its own subquery.
         """
+        from weblate.checks.models import Check
         lookup = "name__iexact" if self.operator == ":=" else "name__icontains"
         return Q(
             Exists(
@@ -738,6 +737,8 @@ class UnitTermExpr(BaseTermExpr):
         This is needed because filtering on a reverse ForeignKey relation
         with AND using exists ensures each check condition gets its own subquery.
         """
+        from weblate.checks.models import Check
+
         lookup = "name__iexact" if self.operator == ":=" else "name__icontains"
         return Q(
             Exists(
@@ -754,6 +755,8 @@ class UnitTermExpr(BaseTermExpr):
         This is needed because filtering on ManyToMany relations
         with AND using exists ensures each screenshot condition gets its own subquery.
         """
+        from weblate.screenshots.models import Screenshot
+        
         lookup = "name__iexact" if self.operator == ":=" else "name__icontains"
         screenshot_query = Screenshot.objects.filter(**{lookup: text})
         return Q(
