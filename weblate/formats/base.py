@@ -51,6 +51,15 @@ LEGACY_CODES = {
     "zh_Hans_SG": "zh_SG",
     "zh_Hant_HK": "zh_HK",
 }
+LINUX_CODES = {
+    "sr_Latn": "sr",
+    "sr_Cyrl": "sr@cyrillic",
+    "ar_Latn": "ar@latin",
+    "kk_Latn": "kk@latin",
+    "be_Latn": "be@latin",
+    "uz_Cyrl": "uz@cyrillic",
+    "uz_Latn": "uz@latin",
+}
 APPSTORE_CODES = {
     "ar": "ar-SA",
     "de": "de-DE",
@@ -664,9 +673,14 @@ class TranslationFormat:
         return EXPAND_LANGS.get(code, cls.get_language_posix(code)).lower()
 
     @classmethod
-    def get_language_linux(cls, code: str) -> str:
+    def get_language_legacy(cls, code: str) -> str:
         """Linux doesn't use Hans/Hant, but rather TW/CN variants."""
         return LEGACY_CODES.get(code, cls.get_language_posix(code))
+
+    @classmethod
+    def get_language_linux(cls, code: str) -> str:
+        """Linux doesn't use Hans/Hant, but rather TW/CN variants."""
+        return LINUX_CODES.get(code, cls.get_language_legacy(code))
 
     @classmethod
     def get_language_linux_lowercase(cls, code: str) -> str:
@@ -684,7 +698,7 @@ class TranslationFormat:
             return ANDROID_CODES[code]
 
         # Base on Java
-        sanitized = cls.get_language_linux(code)
+        sanitized = cls.get_language_legacy(code)
 
         # Handle variants
         if "_" in sanitized and len(sanitized.split("_")[1]) > 2:
@@ -697,7 +711,7 @@ class TranslationFormat:
     @classmethod
     def get_language_bcp_legacy(cls, code: str) -> str:
         """BCP, but doesn't use Hans/Hant, but rather TW/CN variants."""
-        return cls.get_language_bcp(cls.get_language_linux(code))
+        return cls.get_language_bcp(cls.get_language_legacy(code))
 
     @classmethod
     def get_language_appstore(cls, code: str) -> str:
