@@ -1297,8 +1297,8 @@ class GroupAPITest(APIBaseTest):
         admins_ids = [admin["id"] for admin in response.data.get("admins", [])]
         self.assertNotIn(user.id, admins_ids)
 
-    def test_project_admin_group_management(self) -> None:
-        """Project admins should be able to manage project-scoped groups via the API."""
+    def test_project_admin_group_visibility(self) -> None:
+        """Project admins can see project-scoped groups but cannot edit their properties."""
         # Create a non-superuser with project admin rights
         admin = User.objects.create_user("project_admin", "admin@example.com")
         self.component.project.add_user(admin, "Administration")
@@ -1326,67 +1326,38 @@ class GroupAPITest(APIBaseTest):
             HTTP_AUTHORIZATION=f"Token {admin.auth_token.key}"
         )
 
-        # Project admin can update the group
+        # Project admin can see the group (appears in queryset)
+        self.do_request(
+            "api:group-detail",
+            kwargs={"id": group_id},
+            method="get",
+            authenticated=False,
+            code=200,
+        )
+
+        # Project admin cannot update group properties (only global admins can)
         self.do_request(
             "api:group-detail",
             kwargs={"id": group_id},
             method="patch",
             authenticated=False,
-            code=200,
+            code=403,
             request={"language_selection": 1},
         )
 
-        # Project admin can add a language to the group
-        self.do_request(
-            "api:group-languages",
-            kwargs={"id": group_id},
-            method="post",
-            authenticated=False,
-            code=200,
-            request={"language_code": "cs"},
-        )
-
-        # Project admin can remove a language from the group
-        self.do_request(
-            "api:group-delete-languages",
-            kwargs={"id": group_id, "language_code": "cs"},
-            method="delete",
-            authenticated=False,
-            code=204,
-        )
-
-        # Project admin can add a role to the group
+        # Project admin cannot add roles to the group (only global admins can)
         role = Role.objects.get(name="Administration")
         self.do_request(
             "api:group-roles",
             kwargs={"id": group_id},
             method="post",
             authenticated=False,
-            code=200,
+            code=403,
             request={"role_id": role.id},
         )
 
-        # Project admin can remove a role from the group
-        self.do_request(
-            "api:group-delete-roles",
-            kwargs={"id": group_id, "role_id": role.id},
-            method="delete",
-            authenticated=False,
-            code=204,
-        )
-
-        # Project admin can delete the group
-        self.do_request(
-            "api:group-detail",
-            kwargs={"id": group_id},
-            method="delete",
-            authenticated=False,
-            code=204,
-        )
-
-    def test_non_project_admin_group_management(self) -> None:
-        """Non-admin users cannot manage project-scoped groups they don't administer."""
-        # Create two non-superusers, one with project admin rights and one without
+    def test_non_project_admin_group_visibility(self) -> None:
+        """Users without project admin rights cannot see project-scoped groups."""
         other_user = User.objects.create_user("other_user", "other@example.com")
 
         # Create a project-scoped group via the API as superuser
@@ -1407,19 +1378,18 @@ class GroupAPITest(APIBaseTest):
         )
         group_id = response.data["id"]
 
-        # Switch to a user who has no admin rights on this project
+        # Switch to a user who has no rights on this project
         self.client.credentials(
             HTTP_AUTHORIZATION=f"Token {other_user.auth_token.key}"
         )
 
-        # Non-admin cannot update the group (gets 404 - not in queryset)
+        # Non-admin cannot see the group (not in queryset)
         self.do_request(
             "api:group-detail",
             kwargs={"id": group_id},
-            method="patch",
+            method="get",
             authenticated=False,
             code=404,
-            request={"language_selection": 1},
         )
 
 
