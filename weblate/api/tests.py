@@ -1322,9 +1322,7 @@ class GroupAPITest(APIBaseTest):
         group_id = response.data["id"]
 
         # Switch to project admin credentials
-        self.client.credentials(
-            HTTP_AUTHORIZATION=f"Token {admin.auth_token.key}"
-        )
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {admin.auth_token.key}")
 
         # Project admin can see the group (appears in queryset)
         self.do_request(
@@ -1379,9 +1377,7 @@ class GroupAPITest(APIBaseTest):
         group_id = response.data["id"]
 
         # Switch to a user who has no rights on this project
-        self.client.credentials(
-            HTTP_AUTHORIZATION=f"Token {other_user.auth_token.key}"
-        )
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {other_user.auth_token.key}")
 
         # Non-admin cannot see the group (not in queryset)
         self.do_request(
