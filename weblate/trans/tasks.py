@@ -187,7 +187,7 @@ def commit_pending(
 
 
 @app.task(trail=False)
-def cleanup_component(pk) -> None:
+def cleanup_component(pk: int) -> None:
     """
     Perform cleanup of component models.
 
@@ -360,7 +360,7 @@ def cleanup_old_comments() -> None:
 
 
 @app.task(trail=False)
-def repository_alerts(threshold=settings.REPOSITORY_ALERT_THRESHOLD) -> None:
+def repository_alerts(threshold: int = settings.REPOSITORY_ALERT_THRESHOLD) -> None:
     non_linked = Component.objects.with_repo()
     for component in non_linked.iterator():
         try:
@@ -440,20 +440,21 @@ def component_removal(pk: int, uid: int) -> None:
         component = Component.objects.get(pk=pk)
     except Component.DoesNotExist:
         return
-    component.acting_user = user
-    component.project.change_set.create(
-        action=ActionEvents.REMOVE_COMPONENT,
-        target=component.slug,
-        user=user,
-        author=user,
-    )
-    component.delete()
-    if component.allow_translation_propagation:
-        components = component.project.component_set.filter(
-            allow_translation_propagation=True
-        ).exclude(pk=component.pk)
-        for component in components.iterator():
-            component.schedule_update_checks()
+    with component.repository.lock:
+        component.acting_user = user
+        component.project.change_set.create(
+            action=ActionEvents.REMOVE_COMPONENT,
+            target=component.slug,
+            user=user,
+            author=user,
+        )
+        component.delete()
+        if component.allow_translation_propagation:
+            components = component.project.component_set.filter(
+                allow_translation_propagation=True
+            ).exclude(pk=component.pk)
+            for component in components.iterator():
+                component.schedule_update_checks()
 
 
 @app.task(trail=False)

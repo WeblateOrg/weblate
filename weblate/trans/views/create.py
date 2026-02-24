@@ -289,28 +289,29 @@ class CreateComponent(BaseCreateView):
     @transaction.atomic
     def form_valid(self, form):
         if self.stage == "create":
-            form.instance.manage_units = (
-                bool(form.instance.template) or form.instance.file_format == "tbx"
-            )
-            if self.duplicate_existing_component and (
-                source_component := form.cleaned_data["source_component"]
-            ):
-                fields_to_duplicate = [
-                    "agreement",
-                    "merge_style",
-                    "commit_message",
-                    "add_message",
-                    "delete_message",
-                    "merge_message",
-                    "addon_message",
-                    "pull_message",
-                ]
-                for field in fields_to_duplicate:
-                    setattr(form.instance, field, getattr(source_component, field))
+            with form.instance.repository.lock:
+                form.instance.manage_units = (
+                    bool(form.instance.template) or form.instance.file_format == "tbx"
+                )
+                if self.duplicate_existing_component and (
+                    source_component := form.cleaned_data["source_component"]
+                ):
+                    fields_to_duplicate = [
+                        "agreement",
+                        "merge_style",
+                        "commit_message",
+                        "add_message",
+                        "delete_message",
+                        "merge_message",
+                        "addon_message",
+                        "pull_message",
+                    ]
+                    for field in fields_to_duplicate:
+                        setattr(form.instance, field, getattr(source_component, field))
 
-            result = super().form_valid(form)
-            self.object.post_create(self.request.user, origin=self.origin)
-            return result
+                result = super().form_valid(form)
+                self.object.post_create(self.request.user, origin=self.origin)
+                return result
         if self.stage == "discover":
             # Move to create
             self.initial = form.cleaned_data
