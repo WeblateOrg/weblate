@@ -201,6 +201,12 @@ class UnitQuerySet(models.QuerySet["Unit"]):
         return result
 
     def same_target(self, unit: Unit, target: str | None = None) -> UnitQuerySet:
+        """
+        Get units with same target but different source.
+
+        This is skipped for languages with a single plural form as that causes too
+        many false positives, see https://github.com/WeblateOrg/weblate/issues/9450
+        """
         if target is None:
             target = unit.target
         if not target or not any(split_plural(target)):
@@ -212,7 +218,6 @@ class UnitQuerySet(models.QuerySet["Unit"]):
             target__lower__md5=MD5(Lower(Value(target))),
             target=target,
             translation__component__project_id=component.project_id,
-            translation__language_id=translation.language_id,
             translation__component__source_language_id=component.source_language_id,
             translation__component__allow_translation_propagation=True,
             translation__plural_id=translation.plural_id,
