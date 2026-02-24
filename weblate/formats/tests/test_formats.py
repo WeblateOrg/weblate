@@ -1195,8 +1195,9 @@ class CSVUtf8SimpleFormatMonolingualTest(CSVFormatTest):
 
 class CSVThreeColumnMonolingualTest(CSVFormatTest):
     """
-    Test CSV format with three columns (source, target, translator_comments) in
-    monolingual mode.
+    Test CSV format with three columns in monolingual mode.
+
+    The CSV columns: source, target, translator_comments
 
     Regression test for https://github.com/WeblateOrg/weblate/issues/18157
     where the "source" column becomes empty after translating a unit.
