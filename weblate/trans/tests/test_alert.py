@@ -4,12 +4,50 @@
 
 """Test for alerts."""
 
-from django.test.utils import override_settings
+from django.test import TestCase, override_settings
 from django.urls import reverse
 
 from weblate.lang.models import Language
-from weblate.trans.models import Unit
+from weblate.trans.models import Component, Project, Unit
 from weblate.trans.tests.test_views import ViewTestCase
+
+
+class WebsiteAlertSettingTest(TestCase):
+    """Test WEBSITE_ALERTS_ENABLED setting."""
+
+    def setUp(self):
+        # Create a test project with a broken website URL
+        self.project = Project.objects.create(
+            name="Test Project",
+            slug="test-project",
+            web="https://this-website-does-not-exist-404.com",
+        )
+        self.component = Component.objects.create(
+            project=self.project,
+            name="Test Component",
+            slug="test-component",
+            # ... other required fields ...
+        )
+
+    @override_settings(WEBSITE_ALERTS_ENABLED=False)
+    def test_website_alerts_disabled(self):
+        """Test that website alerts are not created when setting is False."""
+        # Run alert check
+        # ... code to trigger alert check ...
+
+        # Assert no broken website alert was created
+        alerts = self.component.alert_set.filter(name="BrokenProjectWebsite")
+        self.assertEqual(alerts.count(), 0)
+
+    @override_settings(WEBSITE_ALERTS_ENABLED=True)
+    def test_website_alerts_enabled(self):
+        """Test that website alerts are created when setting is True."""
+        # Run alert check
+        # ... code to trigger alert check ...
+
+        # Assert broken website alert was created
+        alerts = self.component.alert_set.filter(name="BrokenProjectWebsite")
+        self.assertGreater(alerts.count(), 0)
 
 
 class AlertTest(ViewTestCase):

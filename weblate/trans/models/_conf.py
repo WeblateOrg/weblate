@@ -184,6 +184,9 @@ Current translation status:
     LICENSE_FILTER = None
     LICENSE_REQUIRED = False
     WEBSITE_REQUIRED = True
+    # Enable or disable website availability checks and alerts
+    # Set to False to disable broken website alerts
+    WEBSITE_ALERTS_ENABLED = True
     FONTS_CDN_URL = None
     PROJECT_BACKUP_KEEP_DAYS = 30
     PROJECT_BACKUP_KEEP_COUNT = 3

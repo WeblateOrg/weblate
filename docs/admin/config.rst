@@ -2363,6 +2363,29 @@ On by default, as that suits public server setups.
 
 .. _settings-credentials:
 
+.. setting:: WEBSITE_ALERTS_ENABLED
+
+WEBSITE_ALERTS_ENABLED
+----------------------
+
+.. versionadded:: 5.16.1
+
+Default: ``True``
+
+Defines whether Weblate should check website availability and show alerts
+for broken project or component websites.
+
+When set to ``False``, Weblate will skip website availability checks and
+will not generate alerts for unreachable websites. This is useful when:
+
+- Your websites are behind firewalls that block Weblate's requests
+- You want to avoid 403/503-type errors from bot protection
+- Website availability is not a concern for your installation
+
+.. seealso::
+
+   :setting:`WEBSITE_REQUIRED`
+
 Configuring version control credentials
 ---------------------------------------
 
