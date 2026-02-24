@@ -1786,14 +1786,17 @@ class Unit(models.Model, LoggerMixin):
             propagated_units = propagated_units.distinct().prefetch_all_checks()
 
             for unit in propagated_units:
-                try:
-                    unit.run_checks(force_propagate=False, skip_propagate=True)
-                except Unit.DoesNotExist:
-                    # This can happen in some corner cases like changing
-                    # source language of a project - the source language is
-                    # changed first and then components are updated. But
-                    # not all are yet updated and this spans across them.
-                    continue
+                with sentry_sdk.start_span(
+                    op="unit.propagate_check", name=f"{unit.pk}"
+                ):
+                    try:
+                        unit.run_checks(force_propagate=False, skip_propagate=True)
+                    except Unit.DoesNotExist:
+                        # This can happen in some corner cases like changing
+                        # source language of a project - the source language is
+                        # changed first and then components are updated. But
+                        # not all are yet updated and this spans across them.
+                        continue
 
         # Trigger source checks on target check update (multiple failing checks)
         if (create or old_checks) and not self.is_source:
