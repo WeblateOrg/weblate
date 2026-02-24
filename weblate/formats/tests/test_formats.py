@@ -1247,6 +1247,8 @@ class CSVThreeColumnMonolingualTest(CSVFormatTest):
             ["test003_1", "test003_2", "test003_3"],
             keys,
         )
+
+
 class FlatXMLFormatTest(BaseFormatTest):
     format_class = FlatXMLFormat
     FILE = TEST_FLATXML
