@@ -486,7 +486,7 @@ class Translation(
                 )
 
                 # Store plural
-                plural = store.get_plural(self.language, store)
+                plural = store.get_plural(self.language)
                 if plural != self.plural:
                     self.plural = plural
                     self.save(update_fields=["plural"])

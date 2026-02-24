@@ -77,6 +77,7 @@ if TYPE_CHECKING:
 
     from translate.storage.base import TranslationUnit as TranslateToolkitUnit
 
+    from weblate.lang.models import Language
     from weblate.trans.file_format_params import FileFormatParams
 
 LOCATIONS_RE = re.compile(r"^([+-]|.*, [+-]|.*:[+-])")
@@ -1174,16 +1175,15 @@ class BasePoFormat(TTKitFormat):
     supports_plural: bool = True
     store: pofile
 
-    @classmethod
-    def get_plural(cls, language, store=None):
+    def get_plural(self, language: Language) -> Plural:
         """Return matching plural object."""
         # Fallback will trigger KeyError later
-        header = store.store.parseheader() if store else {}
+        header = self.store.parseheader()
 
         try:
             number, formula = Plural.parse_plural_forms(header["Plural-Forms"])
         except (ValueError, KeyError):
-            return super().get_plural(language, store)
+            return super().get_plural(language)
 
         # Find matching one
         for plural in language.plural_set.iterator():
@@ -2377,10 +2377,9 @@ class StringsdictFormat(DictStoreFormat):
         """Return most common file extension for format."""
         return "stringsdict"
 
-    @classmethod
-    def get_plural(cls, language, store=None):
+    def get_plural(self, language: Language) -> Plural:
         """Return matching plural object."""
-        plural = super().get_plural(language, store)
+        plural = super().get_plural(language)
         if plural.type in ZERO_PLURAL_TYPES:
             return plural
 

@@ -1286,7 +1286,9 @@ class Component(
                         language=language,
                         check_flags="read-only",
                         filename=self.template,
-                        plural=self.file_format_cls.get_plural(language),
+                        plural=self.template_store.get_plural(language)
+                        if self.template_store
+                        else language.plural,
                         language_code=language.code,
                     )
             except IntegrityError:
