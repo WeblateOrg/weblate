@@ -1239,14 +1239,13 @@ class CSVThreeColumnMonolingualTest(CSVFormatTest):
         with open(testfile, encoding="utf-8") as handle:
             reader = csv.reader(handle)
             next(reader)  # skip header
-            for row in reader:
-                self.assertNotEqual(
-                    row[0],
-                    "",
-                    f"Source column is empty for target: {row[1]}",
-                )
+            keys = [row[0] for row in reader]
 
-
+        # Ensure the key/source column values are preserved exactly
+        self.assertEqual(
+            ["test003_1", "test003_2", "test003_3"],
+            keys,
+        )
 class FlatXMLFormatTest(BaseFormatTest):
     format_class = FlatXMLFormat
     FILE = TEST_FLATXML
