@@ -1094,8 +1094,11 @@ class CSVUnit(MonolingualSimpleUnit):
             and not self.parent.is_template
             and "context" not in self.parent.store.fieldnames
         ):
-            # Update source for monolingual fields without context field
-            self.unit.source = self.unit.context
+            # Update source for monolingual fields without context field,
+            # using the computed context property which correctly returns the key
+            # (e.g. via getid() on the template) rather than the raw TT context field
+            # which may be empty when "source" acts as the key column.
+            self.unit.source = self.context
 
     def is_fuzzy(self, fallback=False):
         # Report fuzzy state only if present in the fields
@@ -1831,18 +1834,6 @@ class CSVFormat(TTKitFormat):
         )
         # Did detection of headers work?
         if store.fieldnames != ["location", "source", "target"]:
-            # For monolingual mode where "source" column acts as the key,
-            # populate the context field so it can be used for identification
-            # and preserved correctly during set_target.
-            if (
-                (self.is_template or self.template_store is not None)
-                and "source" in store.fieldnames
-                and "context" not in store.fieldnames
-                and "id" not in store.fieldnames
-            ):
-                for unit in store.units:
-                    if unit.source and not unit.context:
-                        unit.context = unit.source
             return store
 
         fileobj = StringIO(

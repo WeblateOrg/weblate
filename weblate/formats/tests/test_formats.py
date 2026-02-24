@@ -1195,107 +1195,31 @@ class CSVUtf8SimpleFormatMonolingualTest(FixtureTestCase, TempDirMixin):
                 )
 
 
-class CSVThreeColumnMonolingualTest(FixtureTestCase, TempDirMixin):
+class CSVThreeColumnMonolingualTest(CSVFormatTest):
     """
-    Test for CSV format with three columns (source, target, translator_comments).
+    Test CSV format with three columns (source, target, translator_comments) in
+    monolingual mode.
 
     Regression test for https://github.com/WeblateOrg/weblate/issues/18157
     where the "source" column becomes empty after translating a unit.
+
+    The en-3col.csv template has "source" as the key column and "target" as the
+    source text.  The zh-3col.csv translation starts with empty "target" columns.
     """
 
-    def setUp(self) -> None:
-        super().setUp()
-        self.create_temp()
-
-    def tearDown(self) -> None:
-        super().tearDown()
-        self.remove_temp()
-
-    def test_parsed_units(self) -> None:
-        """
-        Test that units are parsed with the correct context, source and target.
-
-        When a CSV file has "source", "target", "translator_comments" columns
-        in monolingual mode (with template), the "source" column should be
-        parsed as the context/key, the template's "target" column as the source
-        text, and the translation's "target" column as the target.
-        """
-        template_store = CSVFormat(
-            TEST_CSV_3COL_EN,
-            is_template=True,
-        )
-
-        translation_file = os.path.join(self.tempdir, "zh.csv")
-        Path(translation_file).write_bytes(Path(TEST_CSV_3COL_ZH).read_bytes())
-
-        store = CSVFormat(
-            translation_file,
-            template_store=template_store,
-            language_code="zh",
-        )
-
-        units = list(store.content_units)
-        self.assertEqual(len(units), 3)
-
-        # Verify context, source and target are parsed correctly.
-        # The "source" column acts as the key/context, the template's "target"
-        # column contains the source text, and translation's "target" is blank.
-        self.assertEqual(units[0].context, "test003_1")
-        self.assertEqual(units[0].source, "q123")
-        self.assertEqual(units[0].target, "")
-
-        self.assertEqual(units[1].context, "test003_2")
-        self.assertEqual(units[1].source, "q234")
-        self.assertEqual(units[1].target, "")
-
-        self.assertEqual(units[2].context, "test003_3")
-        self.assertEqual(units[2].source, "qwe12")
-        self.assertEqual(units[2].target, "")
-
-    def test_set_target_preserves_source_column(self) -> None:
-        """
-        Test that set_target does not clear the source column.
-
-        When a CSV file has "source", "target", "translator_comments" columns
-        and is used as a monolingual translation (with a template), setting the
-        target of a unit should not overwrite the "source" column with an empty
-        context value.
-        """
-        translation_file = os.path.join(self.tempdir, "zh.csv")
-        content = Path(TEST_CSV_3COL_ZH).read_bytes()
-        Path(translation_file).write_bytes(content)
-
-        template_store = CSVFormat(
-            TEST_CSV_3COL_EN,
-            is_template=True,
-        )
-
-        store = CSVFormat(
-            translation_file,
-            template_store=template_store,
-            language_code="zh",
-        )
-
-        units = list(store.content_units)
-        self.assertEqual(len(units), 3)
-
-        # Translate the first unit
-        units[0].set_target("中文翻译")
-
-        store.save()
-
-        # Verify the saved content: source column must not be empty
-        with open(translation_file, encoding="utf-8") as handle:
-            reader = csv.reader(handle)
-            header = next(reader)
-            self.assertEqual(header, ["source", "target", "translator_comments"])
-            for row in reader:
-                self.assertEqual(len(row), 3)
-                self.assertNotEqual(
-                    row[0],
-                    "",
-                    f"Source column is empty for target: {row[1]}",
-                )
+    FILE = TEST_CSV_3COL_ZH
+    BASE = TEST_CSV_3COL_EN
+    TEMPLATE = TEST_CSV_3COL_EN
+    COUNT = 3
+    MONOLINGUAL = True
+    MATCH = "test003_1"
+    FIND = "q123"
+    FIND_CONTEXT = "test003_1"
+    FIND_MATCH = ""
+    NEW_UNIT_MATCH = b'"key","Source string",""\r\n'
+    EDIT_TARGET: ClassVar[str | list[str]] = "中文翻译"
+    EDIT_OFFSET = 0
+    SUPPORTS_NOTES = False
 
 
 class FlatXMLFormatTest(BaseFormatTest):
