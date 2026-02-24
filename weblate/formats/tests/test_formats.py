@@ -500,10 +500,10 @@ class PoFormatTest(BaseFormatTest):
         data = Path(out).read_text(encoding="utf-8")
         self.assertIn("Michal Čihař", data)
 
-    def load_plural(self, filename):
+    def load_plural(self, filename: str) -> Plural:
         with open(filename, "rb") as handle:
             store = self.parse_file(handle)
-            return store.get_plural(Language.objects.get(code="he"), store)
+            return store.get_plural(Language.objects.get(code="he"))
 
     def test_plurals(self) -> None:
         self.assertEqual(
@@ -1656,7 +1656,7 @@ class StringsdictFormatTest(XMLMixin, BaseFormatTest):
 
         # Try getting plural with zero for all languages
         for language in Language.objects.iterator():
-            plural = storage.get_plural(language, storage)
+            plural = storage.get_plural(language)
             self.assertIsInstance(plural, Plural)
             self.assertNotEqual(
                 plural.type,

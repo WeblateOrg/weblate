@@ -34,6 +34,7 @@ if TYPE_CHECKING:
     from django_stubs_ext import StrOrPromise
     from lxml import etree
 
+    from weblate.lang.models import Language, Plural
     from weblate.trans.file_format_params import FileFormatParams
     from weblate.trans.models import Component, Translation, Unit
 
@@ -457,15 +458,14 @@ class TranslationFormat:
     ) -> InnerStore:
         raise NotImplementedError
 
-    @classmethod
-    def get_plural(cls, language, store=None):  # noqa: ARG003
+    def get_plural(self, language: Language) -> Plural:
         """Return matching plural object."""
-        if cls.plural_preference is not None:
+        if self.plural_preference is not None:
             # Fetch all matching plurals
-            plurals = language.plural_set.filter(source__in=cls.plural_preference)
+            plurals = language.plural_set.filter(source__in=self.plural_preference)
 
             # Use first matching in the order of preference
-            for source in cls.plural_preference:
+            for source in self.plural_preference:
                 for plural in plurals:
                     if plural.source == source:
                         return plural
