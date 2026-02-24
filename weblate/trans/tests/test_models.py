@@ -13,6 +13,7 @@ from django.db import transaction
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.utils import timezone
+from django.utils.translation import activate
 
 from weblate.auth.models import Group, User
 from weblate.checks.models import Check
@@ -53,6 +54,11 @@ from weblate.utils.version import GIT_VERSION
 
 
 class BaseTestCase(TestCase):
+    def setUp(self) -> None:
+        # Ensure we're using English
+        activate("en")
+        super().setUp()
+
     @classmethod
     def setUpTestData(cls) -> None:
         fixup_languages_seq()
@@ -69,6 +75,11 @@ class BaseTestCase(TestCase):
 
 
 class BaseLiveServerTestCase(StaticLiveServerTestCase):
+    def setUp(self) -> None:
+        # Ensure we're using English
+        activate("en")
+        super().setUp()
+
     @classmethod
     def setUpTestData(cls) -> None:
         fixup_languages_seq()
@@ -89,6 +100,7 @@ class RepoTestCase(BaseTestCase, RepoTestMixin):
 
     def setUp(self) -> None:
         self.clone_test_repos()
+        super().setUp()
 
 
 class ProjectTest(RepoTestCase):

@@ -35,6 +35,7 @@ TEST_DATA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "test-data"
 
 class BillingTest(BaseTestCase):
     def setUp(self) -> None:
+        super().setUp()
         self.user = create_test_user()
         self.billing = create_test_billing(self.user, invoice=False)
         self.plan = self.billing.plan

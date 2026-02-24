@@ -14,7 +14,6 @@ from django.core.management import call_command
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.urls import reverse
-from django.utils.translation import activate
 from weblate_language_data.aliases import ALIASES
 from weblate_language_data.languages import LANGUAGES
 from weblate_language_data.plurals import CLDRPLURALS, EXTRAPLURALS, QTPLURALS
@@ -307,10 +306,6 @@ class LanguageTestSequenceMeta(type):
 
 
 class LanguagesTest(BaseTestCase, metaclass=LanguageTestSequenceMeta):
-    def setUp(self) -> None:
-        # Ensure we're using English
-        activate("en")
-
     def run_create(self, original, expected, direction, plural, name, create) -> None:
         """Test that auto create correctly handles languages."""
         # Lookup language
