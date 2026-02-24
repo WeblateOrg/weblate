@@ -1179,11 +1179,11 @@ class LanguageConsistencyTest(ViewTestCase):
             .first()
         )
         self.assertIn(
-            f"{ts_component.full_slug}: Added German for language consistency",
+            f"{ts_component.full_slug}: Add missing languages: Added German",
             activity_logs.details["result"],
         )
         self.assertIn(
-            f"{ts_component.full_slug}: Added Italian for language consistency",
+            f"{ts_component.full_slug}: Add missing languages: Added Italian",
             activity_logs.details["result"],
         )
 

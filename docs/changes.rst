@@ -16,6 +16,7 @@ Weblate 5.16.1
 
 * :ref:`addon-weblate.webhook.slack` properly delivers all events.
 * :ref:`check-punctuation-spacing` better handles XML markup.
+* :doc:`/formats/stringsdict` better handle some plurals.
 * Fixed API access control.
 
   * Users can manage their own notification subscriptions via the API.

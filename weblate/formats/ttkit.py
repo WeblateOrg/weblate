@@ -2396,13 +2396,24 @@ class StringsdictFormat(DictStoreFormat):
         if plural.type in ZERO_PLURAL_TYPES:
             return plural
 
-        return language.plural_set.get_or_create(
+        plural_formula = FORMULA_WITH_ZERO[plural.formula]
+        plural_number = plural.number + 1
+
+        plural_zero, created = language.plural_set.get_or_create(
             source=Plural.SOURCE_CLDR_ZERO,
             defaults={
-                "formula": FORMULA_WITH_ZERO[plural.formula],
-                "number": plural.number + 1,
+                "formula": plural_formula,
+                "number": plural_number,
             },
-        )[0]
+        )
+        if not created and (
+            plural_zero.formula != plural_formula or plural_zero.number != plural_number
+        ):
+            # This is needed to handle updates to zero based plurals based on CLDR updates
+            plural_zero.formula = plural_formula
+            plural_zero.number = plural_number
+            plural_zero.save()
+        return plural_zero
 
     def fixup(self, store) -> None:
         if self.language_code:

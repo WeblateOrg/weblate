@@ -3293,6 +3293,17 @@ class Component(
             msg = gettext("You can not use a base file for bilingual translation.")
             raise ValidationError({"template": msg, "file_format": msg})
 
+        # Validate manage units against file format capabilities
+        if (
+            self.manage_units
+            and not self.file_format_cls.can_add_unit
+            and not self.file_format_cls.can_delete_unit
+        ):
+            msg = gettext(
+                "Adding and removing strings is not supported with this file format."
+            )
+            raise ValidationError({"manage_units": msg})
+
         if self.edit_template and not self.file_format_cls.can_edit_base:
             msg = gettext("Editing template is not supported with this file format.")
             raise ValidationError({"edit_template": msg})
@@ -3802,15 +3813,19 @@ class Component(
         return self.count_push_branch_outgoing > 0
 
     @property
-    def file_format_name(self):
+    def file_format_name(self) -> StrOrPromise:
         return self.file_format_cls.name
 
     @property
-    def file_format_create_style(self):
+    def file_format_can_edit_base(self) -> bool:
+        return self.file_format_cls.can_edit_base
+
+    @property
+    def file_format_create_style(self) -> str:
         return self.file_format_cls.create_style
 
     @cached_property
-    def file_format_flags(self):
+    def file_format_flags(self) -> Flags:
         return Flags(self.file_format_cls.check_flags)
 
     @cached_property
