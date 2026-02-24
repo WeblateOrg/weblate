@@ -79,6 +79,8 @@ TEST_CSV = get_test_file("cs-mono.csv")
 TEST_CSV_NOHEAD = get_test_file("cs.csv")
 TEST_CSV_SIMPLE_EN = get_test_file("en-simple.csv")
 TEST_CSV_SIMPLE_PL = get_test_file("pl-simple.csv")
+TEST_CSV_3COL_EN = get_test_file("en-3col.csv")
+TEST_CSV_3COL_ZH = get_test_file("zh-3col.csv")
 TEST_FLATXML = get_test_file("cs-flat.xml")
 TEST_CUSTOM_FLATXML = get_test_file("cs-flat-custom.xml")
 TEST_RESOURCEDICTIONARY = get_test_file("cs.xaml")
@@ -1113,40 +1115,42 @@ class CSVSimpleFormatNoHeadTest(CSVFormatNoHeadTest):
     EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
 
 
-class CSVUtf8SimpleFormatMonolingualTest(FixtureTestCase, TempDirMixin):
+class CSVUtf8SimpleFormatMonolingualTest(CSVFormatTest):
     """Test for CSV Simple UTF-8 format with monolingual base file."""
 
-    def setUp(self) -> None:
-        super().setUp()
-        self.create_temp()
-
-    def tearDown(self) -> None:
-        super().tearDown()
-        self.remove_temp()
+    format_class = CSVSimpleFormat
+    FILE = TEST_CSV_SIMPLE_PL
+    BASE = TEST_CSV_SIMPLE_EN
+    TEMPLATE = TEST_CSV_SIMPLE_EN
+    MONOLINGUAL = True
+    COUNT = 5
+    MATCH = "objectAccessDenied"
+    FIND = "You do not have a permission to create a new object in '%s'"
+    FIND_CONTEXT = "createObjectInParentAccessDenied"
+    FIND_MATCH = "Nie masz uprawnien do tworzenia nowego obiektu w '%s'"
+    NEW_UNIT_MATCH = b'"key";"Source string"\r\n'
+    EDIT_TARGET: ClassVar[str | list[str]] = "Przetłumaczone"
+    # Edit unit at offset 2 (createObjectInParentAccessDenied) which is translated
+    # in pl-simple.csv and therefore has unit.unit not None
+    EDIT_OFFSET = 2
+    SUPPORTS_NOTES = False
+    FILE_FORMAT_PARAMS: ClassVar[FileFormatParams] = {"csv_simple_encoding": "utf-8"}
 
     def test_save_preserves_source_field(self) -> None:
         """
-        Test that saving a CSV Simple file preserves source fields.
+        Regression test for https://github.com/WeblateOrg/weblate/issues/16835.
 
-        This reproduces the issue where translations are saved with empty source
-        fields instead of preserving the context/key from the base file.
-
-        Relies on translate-toolkit's monolingual CSV support (PR #5830).
-        See: https://github.com/WeblateOrg/weblate/issues/16835
+        Verify that the source/key column is preserved after translating units
+        that were not yet present in the translation file.
         """
-        # Create a temporary copy of the translation file
         translation_file = os.path.join(self.tempdir, "pl.csv")
-        content = Path(TEST_CSV_SIMPLE_PL).read_bytes()
-        Path(translation_file).write_bytes(content)
+        Path(translation_file).write_bytes(Path(TEST_CSV_SIMPLE_PL).read_bytes())
 
-        # Load the base file (template)
         template_store = CSVSimpleFormat(
             TEST_CSV_SIMPLE_EN,
             is_template=True,
             file_format_params={"csv_simple_encoding": "utf-8"},
         )
-
-        # Load the translation file with the template
         store = CSVSimpleFormat(
             translation_file,
             template_store=template_store,
@@ -1154,11 +1158,9 @@ class CSVUtf8SimpleFormatMonolingualTest(FixtureTestCase, TempDirMixin):
             file_format_params={"csv_simple_encoding": "utf-8"},
         )
 
-        # Verify we have the expected units
         units = list(store.content_units)
         self.assertEqual(len(units), 5)
 
-        # Find units and add translations
         for unit in units:
             if unit.context == "objectAccessDenied":
                 pounit, add = store.find_unit(unit.context, unit.source)
@@ -1178,10 +1180,8 @@ class CSVUtf8SimpleFormatMonolingualTest(FixtureTestCase, TempDirMixin):
                 store.add_unit(pounit)
                 pounit.set_target("Nie masz uprawnien do odczytu obiektu '%s'")
 
-        # Save the file
         store.save()
 
-        # Verify the saved content
         with open(translation_file, encoding="utf-8") as handle:
             reader = csv.reader(handle, delimiter=";", quotechar='"')
             for row in reader:
@@ -1191,6 +1191,62 @@ class CSVUtf8SimpleFormatMonolingualTest(FixtureTestCase, TempDirMixin):
                     "",
                     f"Source field is empty for target: {row[1]}",
                 )
+
+
+class CSVThreeColumnMonolingualTest(CSVFormatTest):
+    """
+    Test CSV format with three columns in monolingual mode.
+
+    The CSV columns: source, target, translator_comments
+
+    Regression test for https://github.com/WeblateOrg/weblate/issues/18157
+    where the "source" column becomes empty after translating a unit.
+
+    The en-3col.csv template has "source" as the key column and "target" as the
+    source text.  The zh-3col.csv translation starts with empty "target" columns.
+    """
+
+    FILE = TEST_CSV_3COL_ZH
+    BASE = TEST_CSV_3COL_EN
+    TEMPLATE = TEST_CSV_3COL_EN
+    COUNT = 3
+    MONOLINGUAL = True
+    MATCH = "test003_1"
+    FIND = "q123"
+    FIND_CONTEXT = "test003_1"
+    FIND_MATCH = ""
+    NEW_UNIT_MATCH = b'"key","Source string",""\r\n'
+    EDIT_TARGET: ClassVar[str | list[str]] = "中文翻译"
+    EDIT_OFFSET = 0
+    SUPPORTS_NOTES = False
+
+    def test_set_target_preserves_source_column(self) -> None:
+        """
+        Regression test for https://github.com/WeblateOrg/weblate/issues/18157.
+
+        Verify that the source column is preserved after set_target.  When the
+        CSV has a "source" column (no explicit "context"/"id"), the key value
+        must not be cleared when a translation is saved.
+        """
+        testdata = Path(self.FILE).read_bytes()
+        testfile = os.path.join(self.tempdir, os.path.basename(self.FILE))
+        Path(testfile).write_bytes(testdata)
+
+        storage = self.parse_file(testfile)
+        # Edit the first unit (test003_1)
+        storage.all_units[0].set_target("中文翻译")
+        storage.save()
+
+        with open(testfile, encoding="utf-8") as handle:
+            reader = csv.reader(handle)
+            next(reader)  # skip header
+            keys = [row[0] for row in reader]
+
+        # Ensure the key/source column values are preserved exactly
+        self.assertEqual(
+            ["test003_1", "test003_2", "test003_3"],
+            keys,
+        )
 
 
 class FlatXMLFormatTest(BaseFormatTest):

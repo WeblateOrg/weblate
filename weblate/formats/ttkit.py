@@ -1094,8 +1094,11 @@ class CSVUnit(MonolingualSimpleUnit):
             and not self.parent.is_template
             and "context" not in self.parent.store.fieldnames
         ):
-            # Update source for monolingual fields without context field
-            self.unit.source = self.unit.context
+            # Update source for monolingual fields without context field,
+            # using the computed context property which correctly returns the key
+            # (e.g. via getid() on the template) rather than the raw TT context field
+            # which may be empty when "source" acts as the key column.
+            self.unit.source = self.context
 
     def is_fuzzy(self, fallback=False):
         # Report fuzzy state only if present in the fields
