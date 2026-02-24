@@ -258,10 +258,7 @@ class TTKitFormat(TranslationFormat):
     set_context_bilingual = True
     # Use settarget/setsource to set language as well
     use_settarget = False
-    plural_preference: tuple[int, ...] | None = (
-        Plural.SOURCE_CLDR,
-        Plural.SOURCE_DEFAULT,
-    )
+    plural_preference: tuple[int, ...] | None = (Plural.SOURCE_CLDR,)
     units: list[TranslateToolkitUnit]
     store: TranslationStore
 
@@ -1341,10 +1338,7 @@ class TSFormat(TTKitFormat):
     unit_class = TSUnit
     set_context_bilingual = False
     supports_plural: bool = True
-    plural_preference = (
-        Plural.SOURCE_QT,
-        Plural.SOURCE_DEFAULT,
-    )
+    plural_preference = (Plural.SOURCE_QT,)
 
 
 class XliffFormat(TTKitFormat):
@@ -1574,7 +1568,6 @@ class AndroidFormat(TTKitFormat):
     plural_preference = (
         Plural.SOURCE_ANDROID,
         Plural.SOURCE_CLDR,
-        Plural.SOURCE_DEFAULT,
     )
     strict_format_plurals: bool = True
     supports_plural: bool = True

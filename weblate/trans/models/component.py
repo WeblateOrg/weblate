@@ -143,6 +143,7 @@ if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.checks.base import BaseCheck
     from weblate.formats.base import TranslationFormat
+    from weblate.lang.models import Plural
     from weblate.trans.models import Project
     from weblate.trans.models.unit import UnitAttributesDict
     from weblate.vcs.base import Repository
@@ -1268,6 +1269,11 @@ class Component(
         self.__dict__["source_translation"] = result
         return result
 
+    def get_source_plural(self) -> Plural:
+        # This should probably use self.template_store.get_plural for monolingual
+        # translations, but the testsuite relies on the file not being present.
+        return self.file_format_cls.get_plural_by_preference(self.source_language)
+
     @cached_property
     def source_translation(self):
         # This is basically copy of get_or_create, but avoids additional
@@ -1286,9 +1292,7 @@ class Component(
                         language=language,
                         check_flags="read-only",
                         filename=self.template,
-                        plural=self.template_store.get_plural(language)
-                        if self.template_store
-                        else language.plural,
+                        plural=self.get_source_plural(),
                         language_code=language.code,
                     )
             except IntegrityError:

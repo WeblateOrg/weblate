@@ -707,6 +707,42 @@ class PluralTest(BaseTestCase):
         with self.assertRaises(ValueError):
             Plural.parse_plural_forms("nplurals=0; plural=(n == 1) ? 0 : 1;")
 
+    def test_preference_cldr_existing(self) -> None:
+        language = Language.objects.get(code="es")
+        self.assertTrue(language.plural_set.filter(source=Plural.SOURCE_CLDR))
+        plural = language.plural_set.get_by_preference(language, (Plural.SOURCE_CLDR,))
+        self.assertEqual(plural.source, Plural.SOURCE_CLDR)
+        self.assertEqual(plural.language, language)
+
+    def test_preference_cldr_base(self) -> None:
+        language = Language.objects.auto_get_or_create(code="es_ZZ")
+        self.assertFalse(language.plural_set.filter(source=Plural.SOURCE_CLDR))
+        plural = language.plural_set.get_by_preference(language, (Plural.SOURCE_CLDR,))
+        self.assertEqual(plural.source, Plural.SOURCE_CLDR)
+        self.assertEqual(plural.language, language)
+        self.assertTrue(language.plural_set.filter(source=Plural.SOURCE_CLDR))
+
+        # Modify the created plural
+        plural.formula = "0"
+        plural.save()
+
+        # Test that it will be replaced upon migration
+        logs: list[str] = []
+        Language.objects.setup(update=True, logger=logs.append)
+        self.assertEqual(
+            logs,
+            [
+                "Created plural (n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2) for language es_ZZ",
+                "Removing extra 1 plural(s) for language es_ZZ (source=4)!",
+            ],
+        )
+
+        # Verify that only correct plural is now there
+        self.assertFalse(
+            language.plural_set.filter(source=Plural.SOURCE_CLDR, formula="0")
+        )
+        self.assertTrue(language.plural_set.filter(source=Plural.SOURCE_CLDR))
+
 
 class PluralMapperTestCase(FixtureTestCase):
     def test_english_czech(self) -> None:

@@ -458,20 +458,23 @@ class TranslationFormat:
     ) -> InnerStore:
         raise NotImplementedError
 
-    def get_plural(self, language: Language) -> Plural:
-        """Return matching plural object."""
-        if self.plural_preference is not None:
-            # Fetch all matching plurals
-            plurals = language.plural_set.filter(source__in=self.plural_preference)
-
-            # Use first matching in the order of preference
-            for source in self.plural_preference:
-                for plural in plurals:
-                    if plural.source == source:
-                        return plural
+    @classmethod
+    def get_plural_by_preference(cls, language: Language) -> Plural:
+        """Return matching plural object based on preference."""
+        if cls.plural_preference is not None:
+            # Fetch matching plural
+            plural = language.plural_set.get_by_preference(
+                language, cls.plural_preference
+            )
+            if plural is not None:
+                return plural
 
         # Fall back to default one
         return language.plural
+
+    def get_plural(self, language: Language) -> Plural:
+        """Return matching plural object."""
+        return self.get_plural_by_preference(language)
 
     @cached_property
     def has_template(self):
