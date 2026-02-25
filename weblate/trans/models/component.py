@@ -2769,7 +2769,11 @@ class Component(
         Should not be called directly, except from Celery tasks.
         """
         # In case the lock cannot be acquired, an error will be raised.
-        with self.lock, self.start_sentry_span("create_translations"):  # pylint: disable=not-context-manager
+        with (
+            self.lock,
+            self.repository.lock,
+            self.start_sentry_span("create_translations"),
+        ):
             return self._create_translations(
                 force=force,
                 force_scan=force_scan,
@@ -2798,6 +2802,8 @@ class Component(
             self.linked_component.lock.reacquire()
         if self.repository.lock.is_locked:
             self.repository.lock.reacquire()
+        if self.lock.is_locked:
+            self.lock.reacquire()
 
     def _create_translations(  # noqa: C901,PLR0915
         self,
