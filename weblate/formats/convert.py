@@ -11,6 +11,7 @@ import os
 import shutil
 from collections import defaultdict
 from io import BytesIO
+from operator import attrgetter
 from typing import IO, TYPE_CHECKING, Any, ClassVar, NoReturn, cast
 from zipfile import ZipFile
 
@@ -31,6 +32,7 @@ from translate.storage.odf_shared import inline_elements, no_translate_content_e
 from translate.storage.pypo import pofile
 from translate.storage.rc import rcfile
 from translate.storage.txt import TxtFile
+from translate.storage.wxl import WxlFile
 from translate.storage.xliff import Xliff1File
 from translate.storage.xml_extract.extract import (
     IdMaker,
@@ -253,8 +255,10 @@ class ConvertFormat(TranslationFormat):
         template_store: TranslationFormat | None,
         *,
         duplicate_style: str = "msgctxt",
+        source_attribute: str = "source",
     ) -> pofile:
         store = pofile()
+        get_text = attrgetter(source_attribute)
         # Prepare index of existing translations
         unitindex: dict[str, list[Unit]] = defaultdict(list)
         for existing_unit in self.existing_units:
@@ -278,18 +282,18 @@ class ConvertFormat(TranslationFormat):
                     if docpath := ttkit_unit.getdocpath():
                         # Use docpath if available as it provides logical location
                         if docpath in docpathindex:
-                            thepo.target = docpathindex[docpath].source
+                            thepo.target = get_text(docpathindex[docpath])
                     else:
                         # Rely on physical location as fallback
                         for location in locations:
                             if location in locationindex:
-                                thepo.target = locationindex[location].source
+                                thepo.target = get_text(locationindex[location])
                                 break
         else:
             for htmlunit in parser.units:
                 # Source file
-                thepo = store.addsourceunit(htmlunit.source)
-                thepo.target = htmlunit.source
+                thepo = store.addsourceunit(get_text(htmlunit))
+                thepo.target = get_text(htmlunit)
                 thepo.setdocpath(htmlunit.getdocpath())
                 thepo.addlocations(htmlunit.getlocations())
                 thepo.addnote(htmlunit.getnotes(), "developer")
@@ -745,3 +749,57 @@ class AsciiDocFormat(ConvertFormat):
     def extension() -> str:
         """Return most common file extension for format."""
         return "adoc"
+
+
+class WXLFormat(ConvertFormat):
+    # Translators: File format name
+    name = gettext_lazy("WixLocalization file")
+    format_id = "wxl"
+    autoload: tuple[str, ...] = ("*.wxl",)
+    language_format: str = "bcp_long_lower"
+
+    def convertfile(
+        self, storefile: IO[bytes], template_store: TranslationFormat | None
+    ) -> TranslationStore:
+        # Fake input file with a blank filename
+        wxlparser = WxlFile(inputfile=NamedBytesIO("", storefile.read()))
+
+        return self.convert_to_po(
+            wxlparser,
+            template_store,
+            source_attribute="target",
+        )
+
+    def save_content(self, handle: IO[bytes]) -> None:
+        """Store content to file."""
+        if self.template_store is None:
+            msg = "Template store is required."
+            raise TypeError(msg)
+        templatename = self.template_store.storefile
+        if hasattr(templatename, "name"):
+            templatename = templatename.name
+        with open(cast("str", templatename), "rb") as templatefile:
+            wxlparser = WxlFile(inputfile=templatefile)
+
+        wxlparser.makeindex()
+
+        for unit in self.store.units:
+            if unit.isheader() or not unit.istranslated():
+                continue
+            key = unit.getlocations()[0]
+            if not key or key not in wxlparser.locationindex:
+                continue
+
+            wxlparser.locationindex[key].target = unit.target
+
+        wxlparser.serialize(handle)
+
+    @staticmethod
+    def mimetype() -> str:
+        """Return most common mime type for format."""
+        return "application/xml"
+
+    @staticmethod
+    def extension() -> str:
+        """Return most common file extension for format."""
+        return "wxl"

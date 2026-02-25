@@ -25,6 +25,7 @@ from weblate.formats.base import UpdateError
 from weblate.formats.models import FILE_FORMATS
 from weblate.formats.ttkit import (
     AndroidFormat,
+    AppleXliffFormat,
     CatkeysFormat,
     CSVFormat,
     CSVSimpleFormat,
@@ -100,6 +101,7 @@ TEST_CATKEYS = get_test_file("cs.catkeys")
 TEST_GWT = get_test_file("gwt.properties")
 TEST_ANDROID = get_test_file("strings.xml")
 TEST_XLIFF = get_test_file("cs.xliff")
+TEST_XLIFF_APPLE = get_test_file("cs-apple.xliff")
 TEST_POXLIFF = get_test_file("cs.poxliff")
 TEST_XLIFF_ID = get_test_file("ids.xliff")
 TEST_XLIFF2 = get_test_file("cs.xliff2")
@@ -880,6 +882,16 @@ class XliffFormatTest(XMLMixin, BaseFormatTest):
         )
         self.assertTrue(units[1].is_automatically_translated())
         self.assertFalse(units[2].is_automatically_translated())
+
+
+class AppleXliffFormatTest(XliffFormatTest):
+    format_class = AppleXliffFormat
+    EXT = "xliff"
+    FILE = TEST_XLIFF_APPLE
+    BASE = TEST_XLIFF_APPLE
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
+    FIND_CONTEXT = "Localizable.strings///hello"
+    MATCH = 'target-language="cs"'
 
 
 class RichXliffFormatTest(XliffFormatTest):

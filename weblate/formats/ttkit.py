@@ -25,6 +25,7 @@ from lxml.etree import XMLSyntaxError
 from translate.misc import quote
 from translate.misc.multistring import multistring
 from translate.misc.xml_helpers import setXMLspace
+from translate.storage.applestrings_xliff import AppleStringsXliffFile
 from translate.storage.base import TranslationStore
 from translate.storage.catkeys import CatkeysFile
 from translate.storage.csvl10n import csvunit
@@ -543,6 +544,36 @@ class TTKitFormat(TranslationFormat):
     def delete_unit(self, ttkit_unit) -> str | None:
         self.store.removeunit(ttkit_unit)
         return None
+
+
+class ZeroCLDRPluralMixin(TranslationFormat):
+    supports_plural: bool = True
+    plural_preference: tuple[int, ...] | None = (Plural.SOURCE_CLDR,)
+
+    def get_plural(self, language: Language) -> Plural:
+        """Return matching plural object."""
+        plural = super().get_plural(language)
+        if plural.type in ZERO_PLURAL_TYPES:
+            return plural
+
+        plural_formula = FORMULA_WITH_ZERO[plural.formula]
+        plural_number = plural.number + 1
+
+        plural_zero, created = language.plural_set.get_or_create(
+            source=Plural.SOURCE_CLDR_ZERO,
+            defaults={
+                "formula": plural_formula,
+                "number": plural_number,
+            },
+        )
+        if not created and (
+            plural_zero.formula != plural_formula or plural_zero.number != plural_number
+        ):
+            # This is needed to handle updates to zero based plurals based on CLDR updates
+            plural_zero.formula = plural_formula
+            plural_zero.number = plural_number
+            plural_zero.save()
+        return plural_zero
 
 
 class PropertiesUnit(KeyValueUnit):
@@ -1401,6 +1432,14 @@ class PoXliffFormat(XliffFormat):
     autoload: tuple[str, ...] = ("*.poxliff",)
     loader = PoXliffFile
     supports_plural: bool = True
+
+
+class AppleXliffFormat(ZeroCLDRPluralMixin, XliffFormat):
+    # Translators: File format name
+    name = gettext_lazy("XLIFF 1.2 with Apple extensions")
+    format_id = "apple-xliff"
+    autoload: tuple[str, ...] = ()
+    loader = AppleStringsXliffFile
 
 
 class Xliff2Format(XliffFormat):
@@ -2347,7 +2386,7 @@ class CatkeysFormat(TTKitFormat):
         return "catkeys"
 
 
-class StringsdictFormat(DictStoreFormat):
+class StringsdictFormat(ZeroCLDRPluralMixin, DictStoreFormat):
     # Translators: File format name
     name = gettext_lazy("Stringsdict file")
     format_id = "stringsdict"
@@ -2361,7 +2400,6 @@ class StringsdictFormat(DictStoreFormat):
     </dict>
 </plist>
 """
-    supports_plural: bool = True
 
     @staticmethod
     def mimetype() -> str:
@@ -2372,31 +2410,6 @@ class StringsdictFormat(DictStoreFormat):
     def extension() -> str:
         """Return most common file extension for format."""
         return "stringsdict"
-
-    def get_plural(self, language: Language) -> Plural:
-        """Return matching plural object."""
-        plural = super().get_plural(language)
-        if plural.type in ZERO_PLURAL_TYPES:
-            return plural
-
-        plural_formula = FORMULA_WITH_ZERO[plural.formula]
-        plural_number = plural.number + 1
-
-        plural_zero, created = language.plural_set.get_or_create(
-            source=Plural.SOURCE_CLDR_ZERO,
-            defaults={
-                "formula": plural_formula,
-                "number": plural_number,
-            },
-        )
-        if not created and (
-            plural_zero.formula != plural_formula or plural_zero.number != plural_number
-        ):
-            # This is needed to handle updates to zero based plurals based on CLDR updates
-            plural_zero.formula = plural_formula
-            plural_zero.number = plural_number
-            plural_zero.save()
-        return plural_zero
 
     def fixup(self, store) -> None:
         if self.language_code:
