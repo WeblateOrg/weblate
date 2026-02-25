@@ -3286,9 +3286,11 @@ class Component(
             raise ValidationError({"new_base": gettext("File does not exist.")})
         # File is present, but it is not valid
         if errors:
-            message = gettext(
-                "Could not parse base file for new translations: %s"
-            ) % format_html_join_comma("{}", list_to_tuples(errors))
+            message = format_html(
+                "{} {}",
+                gettext("Could not parse base file for new translations:"),
+                format_html_join_comma("{}", list_to_tuples(errors)),
+            )
             raise ValidationError({"new_base": message})
         raise ValidationError(
             {"new_base": gettext("Unrecognized base file for new translations.")}

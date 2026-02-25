@@ -2372,15 +2372,17 @@ class ProjectSettingsForm(SettingsBaseForm, ProjectDocsMixin, ProjectAntispamMix
             if unlicensed:
                 raise ValidationError(
                     {
-                        "access_control": gettext(
-                            "You must specify a license for these components "
-                            "to make them publicly accessible: %s"
-                        )
-                        % format_html_join_comma(
-                            '<a href="{}">{}</a>',
-                            (
-                                (component.get_absolute_url(), component.name)
-                                for component in unlicensed
+                        "access_control": format_html(
+                            "{} {}",
+                            gettext(
+                                "You must specify a license for these components to make them publicly accessible:"
+                            ),
+                            format_html_join_comma(
+                                '<a href="{}">{}</a>',
+                                (
+                                    (component.get_absolute_url(), component.name)
+                                    for component in unlicensed
+                                ),
                             ),
                         )
                     }

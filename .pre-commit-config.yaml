@@ -143,6 +143,17 @@ repos:
     args: [--multiline]
     entry: format_html_join\(\s*", "
     language: pygrep
+  - id: py-format-html-join-comma
+    name: Percent format with format_html_join_comma leads to double escaping
+    types: [python]
+    entry: '% format_html_join_comma'
+    language: pygrep
+  - id: py-lazy-format
+    name: Formatting a lazy translation
+    types: [python]
+    args: [--multiline]
+    entry: gettext_lazy\([^\)]*\)(\s*%|.format\()
+    language: pygrep
 - repo: https://github.com/sphinx-contrib/sphinx-lint
   rev: v1.0.2
   hooks:

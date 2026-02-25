@@ -24,7 +24,8 @@ from django.http import (
 )
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
-from django.utils.translation import gettext
+from django.utils.html import format_html
+from django.utils.translation import gettext, ngettext
 from django.views.decorators.http import require_POST
 
 from weblate.checks.models import CHECKS, get_display_checks
@@ -85,11 +86,18 @@ if TYPE_CHECKING:
 SESSION_SEARCH_CACHE_TTL = 1800
 
 
-def display_fixups(request: AuthenticatedHttpRequest, fixups) -> None:
+def display_fixups(request: AuthenticatedHttpRequest, fixups: list[str]) -> None:
     messages.info(
         request,
-        gettext("Following fixups were applied to translation: %s")
-        % format_html_join_comma("{}", list_to_tuples(fixups)),
+        format_html(
+            "{} {}",
+            ngettext(
+                "The following fix-up was applied to the translation:",
+                "The following fix-ups were applied to the translation:",
+                len(fixups),
+            ),
+            format_html_join_comma("{}", list_to_tuples(fixups)),
+        ),
     )
 
 
