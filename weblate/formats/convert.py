@@ -282,12 +282,12 @@ class ConvertFormat(TranslationFormat):
                     if docpath := ttkit_unit.getdocpath():
                         # Use docpath if available as it provides logical location
                         if docpath in docpathindex:
-                            thepo.target = docpathindex[docpath].source
+                            thepo.target = get_text(docpathindex[docpath])
                     else:
                         # Rely on physical location as fallback
                         for location in locations:
                             if location in locationindex:
-                                thepo.target = locationindex[location].source
+                                thepo.target = get_text(locationindex[location])
                                 break
         else:
             for htmlunit in parser.units:
