@@ -3545,15 +3545,19 @@ class Component(
                 gettext("To use the key filter, the file format must be monolingual.")
             )
 
-    def get_template_filename(self) -> str:
+    def get_template_filename(self) -> str | None:
         """Create absolute filename for template."""
+        if not self.template:
+            return None
         filename = os.path.join(self.full_path, self.template)
         # Throws an exception in case of error
         self.check_file_is_valid(filename)
         return filename
 
-    def get_intermediate_filename(self) -> str:
+    def get_intermediate_filename(self) -> str | None:
         """Create absolute filename for intermediate."""
+        if not self.intermediate:
+            return None
         filename = os.path.join(self.full_path, self.intermediate)
         # Throws an exception in case of error
         self.check_file_is_valid(filename)
@@ -3885,7 +3889,7 @@ class Component(
     def intermediate_store(self) -> TranslationFormat | None:
         """Get translate-toolkit store for intermediate."""
         # Do we need template?
-        if not self.has_template() or not self.intermediate:
+        if not self.has_template():
             return None
 
         try:
@@ -3955,8 +3959,8 @@ class Component(
             return False
 
         # Check if template can be parsed
-        if self.has_template():
-            if not os.path.exists(self.get_template_filename()):
+        if template_filename := self.get_template_filename():
+            if not os.path.exists(template_filename):
                 self.new_lang_error_message = gettext(
                     "The monolingual base language file is invalid."
                 )
