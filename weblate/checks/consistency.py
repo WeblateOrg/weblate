@@ -10,6 +10,7 @@ from typing import TYPE_CHECKING, ClassVar, Literal
 
 from django.db.models import Count, Prefetch, Q, Value
 from django.db.models.functions import MD5, Lower
+from django.utils.html import format_html
 from django.utils.translation import gettext, gettext_lazy, ngettext
 
 from weblate.checks.base import BatchCheckMixin, TargetCheck
@@ -188,10 +189,14 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
             .distinct()
         )
 
-        return ngettext(
-            "Other source string: %s", "Other source strings: %s", len(other_sources)
-        ) % format_html_join_comma(
-            "{}", ((gettext("“%s”") % source,) for source in other_sources)
+        return format_html(
+            "{} {}",
+            ngettext(
+                "Other source string:", "Other source strings:", len(other_sources)
+            ),
+            format_html_join_comma(
+                "{}", ((gettext("“%s”") % source,) for source in other_sources)
+            ),
         )
 
     def check_single(self, source: str, target: str, unit: Unit) -> bool:

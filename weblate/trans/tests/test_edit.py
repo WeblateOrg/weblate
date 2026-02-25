@@ -892,8 +892,7 @@ class ZenViewTest(ViewTestCase):
         )
         self.assertContains(
             response,
-            "Following fixups were applied to translation: "
-            "Trailing and leading whitespace",
+            "The following fix-up was applied to the translation: Trailing and leading whitespace",
         )
 
     def test_save_zen_lock(self) -> None:
