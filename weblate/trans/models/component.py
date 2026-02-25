@@ -2769,7 +2769,11 @@ class Component(
         Should not be called directly, except from Celery tasks.
         """
         # In case the lock cannot be acquired, an error will be raised.
-        with self.lock, self.start_sentry_span("create_translations"):  # pylint: disable=not-context-manager
+        with (
+            self.lock,
+            self.repository.lock,
+            self.start_sentry_span("create_translations"),
+        ):
             return self._create_translations(
                 force=force,
                 force_scan=force_scan,
@@ -2798,6 +2802,8 @@ class Component(
             self.linked_component.lock.reacquire()
         if self.repository.lock.is_locked:
             self.repository.lock.reacquire()
+        if self.lock.is_locked:
+            self.lock.reacquire()
 
     def _create_translations(  # noqa: C901,PLR0915
         self,
@@ -3539,15 +3545,19 @@ class Component(
                 gettext("To use the key filter, the file format must be monolingual.")
             )
 
-    def get_template_filename(self) -> str:
+    def get_template_filename(self) -> str | None:
         """Create absolute filename for template."""
+        if not self.template:
+            return None
         filename = os.path.join(self.full_path, self.template)
         # Throws an exception in case of error
         self.check_file_is_valid(filename)
         return filename
 
-    def get_intermediate_filename(self) -> str:
+    def get_intermediate_filename(self) -> str | None:
         """Create absolute filename for intermediate."""
+        if not self.intermediate:
+            return None
         filename = os.path.join(self.full_path, self.intermediate)
         # Throws an exception in case of error
         self.check_file_is_valid(filename)
@@ -3879,7 +3889,7 @@ class Component(
     def intermediate_store(self) -> TranslationFormat | None:
         """Get translate-toolkit store for intermediate."""
         # Do we need template?
-        if not self.has_template() or not self.intermediate:
+        if not self.has_template():
             return None
 
         try:
@@ -3949,8 +3959,8 @@ class Component(
             return False
 
         # Check if template can be parsed
-        if self.has_template():
-            if not os.path.exists(self.get_template_filename()):
+        if template_filename := self.get_template_filename():
+            if not os.path.exists(template_filename):
                 self.new_lang_error_message = gettext(
                     "The monolingual base language file is invalid."
                 )

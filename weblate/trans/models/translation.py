@@ -679,12 +679,11 @@ class Translation(
         component = self.component
         filenames = [self.get_filename()]
 
-        if component.has_template():
+        if filename := component.get_template_filename():
             # Include template
-            filenames.append(component.get_template_filename())
+            filenames.append(filename)
 
-            filename = component.get_intermediate_filename()
-            if component.intermediate and os.path.exists(filename):
+            if filename := component.get_intermediate_filename():
                 # Include intermediate language as it might add new strings
                 filenames.append(filename)
 

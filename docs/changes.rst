@@ -11,6 +11,7 @@ Weblate 5.16.1
 .. rubric:: Improvements
 
 * Improved documentation for translation states to clarify the difference between :guilabel:`Needs editing`, :guilabel:`Needs rewriting`, and :guilabel:`Needs checking` states.
+* Improved initial import of translations for :doc:`/formats/markdown` and :doc:`/formats/html`.
 
 .. rubric:: Bug fixes
 
