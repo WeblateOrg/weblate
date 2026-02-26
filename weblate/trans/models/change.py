@@ -59,6 +59,8 @@ PREFETCH_FIELDS = (
     "category",
     "project",
     "component__source_language",
+    "component__secondary_language",
+    "project__secondary_language",
     "unit",
     "unit__source_unit",
     "translation__language",
