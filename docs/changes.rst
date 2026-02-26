@@ -7,6 +7,8 @@ Weblate 5.17
 
 .. rubric:: Improvements
 
+* Track origin of newly added source strings.
+
 .. rubric:: Bug fixes
 
 .. rubric:: Compatibility

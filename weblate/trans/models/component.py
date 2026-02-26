@@ -1338,7 +1338,12 @@ class Component(
         self.updated_sources[source.id] = source
         return change
 
-    def bulk_create_sources(self, attributes_list: list[UnitAttributesDict]) -> None:
+    def bulk_create_sources(
+        self,
+        attributes_list: list[UnitAttributesDict],
+        *,
+        create_unit_change_action: ActionEvents = ActionEvents.NEW_UNIT_REPO,
+    ) -> None:
         """Ensure that all sources are stored in the database."""
         # Can not bulk create with getting primary key, resort to one by one creation
         if not connection.features.can_return_rows_from_bulk_insert:
@@ -1391,7 +1396,12 @@ class Component(
             self._sources[unit.id_hash] = unit
 
             # Postprocess and create change
-            changes.append(self._process_new_source(unit, save=False))
+            change = self._process_new_source(unit, save=False)
+            if create_unit_change_action == ActionEvents.NEW_UNIT_UPLOAD:
+                change.action = ActionEvents.NEW_SOURCE_UPLOAD
+            elif create_unit_change_action == ActionEvents.NEW_UNIT_REPO:
+                change.action = ActionEvents.NEW_SOURCE_REPO
+            changes.append(change)
 
         # Update source unit in the database
         Unit.objects.bulk_update(units, fields=["source_unit"])

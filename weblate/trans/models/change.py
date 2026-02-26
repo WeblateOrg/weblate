@@ -699,6 +699,8 @@ class Change(models.Model, UserDisplayMixin):
         return self.action in {
             ActionEvents.SOURCE_CHANGE,
             ActionEvents.NEW_SOURCE,
+            ActionEvents.NEW_SOURCE_UPLOAD,
+            ActionEvents.NEW_SOURCE_REPO,
         }
 
     def show_diff(self) -> bool:
