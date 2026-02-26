@@ -228,7 +228,7 @@ class MetricsWrapper:
         }
         if self.secondary:
             kwargs["secondary"] = self.secondary
-        
+
         # Use prefetched metrics if available
         if prefetched_metrics is not None:
             result = {}
@@ -247,7 +247,7 @@ class MetricsWrapper:
                     # Use zero if metric is not stored
                     result[current] = 0
             return result
-        
+
         # Fallback to individual query if no prefetched data
         result = dict(
             Metric.objects.filter(
@@ -325,21 +325,21 @@ class MetricsWrapper:
                 year -= 1
 
         cached_results: dict[str, int] = cache.get_many(prefetch)
-        
+
         # Batch fetch all metrics for all months in a single query
         # Calculate the date range covering all 24 months (12 current + 12 previous year)
         oldest_month = months[-1]  # Oldest current month
         oldest_year = oldest_month[0] - 1  # Previous year for oldest month
         oldest_date = date(oldest_year, oldest_month[1], 1)
         newest_date = last_month_date
-        
+
         kwargs = {
             "scope": self.scope,
             "relation": self.relation,
         }
         if self.secondary:
             kwargs["secondary"] = self.secondary
-        
+
         # Fetch all metrics in one query
         prefetched_metrics = dict(
             Metric.objects.filter(
@@ -347,7 +347,7 @@ class MetricsWrapper:
                 **kwargs,
             ).values_list("date", "changes")
         )
-        
+
         result: list[dict[str, int | date | str | Promise]] = [
             {
                 "month": month,
