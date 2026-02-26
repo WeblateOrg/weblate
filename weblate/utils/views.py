@@ -400,7 +400,7 @@ def parse_path_units(
         unit_set = access_units.filter(translation__language=obj).prefetch()
         context["language"] = obj
     elif obj is None:
-        unit_set = access_units
+        unit_set = access_units.prefetch()
     else:
         msg = f"Unsupported result: {obj}"
         raise TypeError(msg)
