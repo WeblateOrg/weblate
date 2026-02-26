@@ -218,7 +218,9 @@ class MetricsWrapper:
     def trend_60_users(self) -> float:
         return self.calculate_trend("users", self.past_30, self.past_60)
 
-    def get_daily_activity(self, start: date, days: int) -> dict[date, int]:
+    def get_daily_activity(
+        self, start: date, days: int, prefetched_metrics: dict[date, int] | None = None
+    ) -> dict[date, int]:
         today = timezone.now().date()
         kwargs = {
             "scope": self.scope,
@@ -226,6 +228,27 @@ class MetricsWrapper:
         }
         if self.secondary:
             kwargs["secondary"] = self.secondary
+        
+        # Use prefetched metrics if available
+        if prefetched_metrics is not None:
+            result = {}
+            for offset in range(days):
+                current = start - timedelta(days=offset)
+                if current in prefetched_metrics:
+                    result[current] = prefetched_metrics[current]
+                elif current == today:
+                    # Lazily calculate today value (if task is not running)
+                    result[current] = Metric.objects.calculate_changes(
+                        date=current,
+                        obj=self.obj,
+                        **kwargs,
+                    )
+                else:
+                    # Use zero if metric is not stored
+                    result[current] = 0
+            return result
+        
+        # Fallback to individual query if no prefetched data
         result = dict(
             Metric.objects.filter(
                 date__range=(start - timedelta(days=days), start),
@@ -263,13 +286,19 @@ class MetricsWrapper:
         return f"{self.cache_key_prefix}:month:{year}:{month}"
 
     def get_month_activity(
-        self, year: int, month: int, cached_results: dict[str, int]
+        self,
+        year: int,
+        month: int,
+        cached_results: dict[str, int],
+        prefetched_metrics: dict[date, int] | None = None,
     ) -> int:
         cache_key = self.get_month_cache_key(year, month)
         if cache_key in cached_results:
             return cached_results[cache_key]
         numdays = monthrange(year, month)[1]
-        daily = self.get_daily_activity(date(year, month, numdays), numdays - 1)
+        daily = self.get_daily_activity(
+            date(year, month, numdays), numdays - 1, prefetched_metrics
+        )
         result = sum(daily.values())
         # Cache for one year
         cache.set(cache_key, result, 365 * 24 * 3600)
@@ -296,6 +325,29 @@ class MetricsWrapper:
                 year -= 1
 
         cached_results: dict[str, int] = cache.get_many(prefetch)
+        
+        # Batch fetch all metrics for all months in a single query
+        # Calculate the date range covering all 24 months (12 current + 12 previous year)
+        oldest_month = months[-1]  # Oldest current month
+        oldest_year = oldest_month[0] - 1  # Previous year for oldest month
+        oldest_date = date(oldest_year, oldest_month[1], 1)
+        newest_date = last_month_date
+        
+        kwargs = {
+            "scope": self.scope,
+            "relation": self.relation,
+        }
+        if self.secondary:
+            kwargs["secondary"] = self.secondary
+        
+        # Fetch all metrics in one query
+        prefetched_metrics = dict(
+            Metric.objects.filter(
+                date__range=(oldest_date, newest_date),
+                **kwargs,
+            ).values_list("date", "changes")
+        )
+        
         result: list[dict[str, int | date | str | Promise]] = [
             {
                 "month": month,
@@ -308,8 +360,12 @@ class MetricsWrapper:
                 "previous_end_date": date(
                     year - 1, month, monthrange(year - 1, month)[1]
                 ),
-                "current": self.get_month_activity(year, month, cached_results),
-                "previous": self.get_month_activity(year - 1, month, cached_results),
+                "current": self.get_month_activity(
+                    year, month, cached_results, prefetched_metrics
+                ),
+                "previous": self.get_month_activity(
+                    year - 1, month, cached_results, prefetched_metrics
+                ),
             }
             for year, month in reversed(months)
         ]
