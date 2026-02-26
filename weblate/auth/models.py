@@ -829,6 +829,8 @@ class User(AbstractBaseUser):
                         clist.components.all() for clist in group.componentlists.all()
                     )
                 }
+                # Even if componentlist_values is empty, having a componentlist assignment
+                # means we need to stop processing here.
                 if group.componentlists.exists():
                     for component, project in componentlist_values:
                         components[component].append((permissions, languages))
