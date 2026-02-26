@@ -55,17 +55,6 @@ ADDONS = ClassLoader("WEBLATE_ADDONS", construct=False, base_class=BaseAddon)
 
 
 class AddonQuerySet(models.QuerySet):
-    def filter_for_execution(self, component):
-        query = (
-            Q(component=component)
-            | Q(project=component.project)
-            | (Q(component__linked_component=component) & Q(repo_scope=True))
-            | (Q(component__isnull=True) & Q(project__isnull=True))
-        )
-        if component.linked_component:
-            query |= Q(component=component.linked_component) & Q(repo_scope=True)
-        return self.filter(query).prefetch_related("event_set")
-
     def filter_component(self, component):
         return self.prefetch_related("event_set").filter(component=component)
 
@@ -79,6 +68,78 @@ class AddonQuerySet(models.QuerySet):
 
     def filter_event(self, component, event):
         return component.addons_cache[event]
+
+    def prefetch_for_components(self, components):
+        """
+        Prefetch add-ons for multiple components in a single query.
+        
+        This builds a combined query that fetches all relevant addons for all
+        components at once, avoiding N+1 queries.
+        """
+        from collections import defaultdict
+        
+        if not components:
+            return
+        
+        # Build a combined query for all components
+        combined_query = Q()
+        component_projects = {}
+        component_linked = {}
+        
+        for component in components:
+            # Store project and linked component for each component
+            component_projects[component.id] = component.project_id
+            component_linked[component.id] = component.linked_component_id
+            
+            # Build query for this component
+            query = (
+                Q(component=component)
+                | Q(project=component.project)
+                | (Q(component__linked_component=component) & Q(repo_scope=True))
+                | (Q(component__isnull=True) & Q(project__isnull=True))
+            )
+            if component.linked_component:
+                query |= Q(component=component.linked_component) & Q(repo_scope=True)
+            
+            combined_query |= query
+        
+        # Fetch all relevant addons in a single query
+        all_addons = list(self.filter(combined_query).prefetch_related("event_set").distinct())
+        
+        # Group addons by component
+        for component in components:
+            result = defaultdict(list)
+            result["__lookup__"] = {}
+            
+            # Filter addons relevant to this specific component
+            for addon in all_addons:
+                is_relevant = False
+                
+                # Check if addon matches this component
+                if addon.component_id == component.id:
+                    is_relevant = True
+                elif addon.project_id == component.project_id and not addon.component_id:
+                    is_relevant = True
+                elif addon.component_id and addon.repo_scope:
+                    # Check if this component is linked to the addon's component
+                    if component.linked_component_id == addon.component_id:
+                        is_relevant = True
+                    # Check if addon is on a component that links to this component
+                    elif component_linked.get(addon.component_id) == component.id:
+                        is_relevant = True
+                elif addon.component_id is None and addon.project_id is None:
+                    # Site-wide addon
+                    is_relevant = True
+                
+                if is_relevant:
+                    for installed in addon.event_set.all():
+                        result[installed.event].append(addon)
+                    result["__all__"].append(addon)
+                    result["__names__"].append(addon.name)
+                    result["__lookup__"][addon.name] = addon
+            
+            # Set the cache on the component
+            component.__dict__["addons_cache"] = result
 
 
 class Addon(models.Model):
