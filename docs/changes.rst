@@ -1,7 +1,7 @@
 Weblate 5.16.1
 --------------
 
-*Not yet released.*
+*Released on February 26th 2026.*
 
 .. rubric:: New features
 
@@ -26,8 +26,6 @@ Weblate 5.16.1
   * The add-ons listing in the API now correctly honors user permissions.
 
 * Fixed source column being cleared when translating monolingual :doc:`/formats/csv`.
-
-.. rubric:: Compatibility
 
 .. rubric:: Upgrading
 
