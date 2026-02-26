@@ -572,7 +572,8 @@ class Translation(
                                 newunit.unit_attributes
                                 for newunit in updated.values()
                                 if newunit.unit_attributes is not None
-                            ]
+                            ],
+                            create_unit_change_action=self.create_unit_change_action,
                         )
 
                 # Create/update translations

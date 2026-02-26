@@ -180,6 +180,10 @@ class ActionEvents(IntegerChoices):
     LABEL_REMOVE = 87, gettext_lazy("Label removed")
     # Translators: Name of event in the history
     REPO_CLEANUP = 88, gettext_lazy("Repository cleanup")
+    # Translators: Name of event in the history
+    NEW_SOURCE_UPLOAD = 89, gettext_lazy("Source string added in the upload")
+    # Translators: Name of event in the history
+    NEW_SOURCE_REPO = 90, gettext_lazy("Source string added in the repository")
 
 
 # Actions which are logged
