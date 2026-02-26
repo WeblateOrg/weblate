@@ -111,6 +111,7 @@ from weblate.trans.models import (
     Project,
     Unit,
 )
+from weblate.trans.models.project import ProjectQuerySet, prefetch_project_flags
 from weblate.trans.models.translation import Translation, TranslationQuerySet
 from weblate.trans.tasks import category_removal, component_removal, project_removal
 from weblate.trans.views.files import download_multi
@@ -1097,6 +1098,12 @@ class ProjectViewSet(
         return self.request.user.allowed_projects.prefetch_related(
             "addon_set"
         ).order_by("id")
+
+    def paginate_queryset(self, queryset):
+        page = super().paginate_queryset(queryset)
+        if not isinstance(queryset, ProjectQuerySet):
+            return page
+        return prefetch_project_flags(page)
 
     @extend_schema(
         description="Return a list of translation components in the given project.",
