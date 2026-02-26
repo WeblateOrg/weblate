@@ -168,7 +168,7 @@ def daily_addons(modulo: bool = True) -> None:
         addon.addon.daily(component, activity_log_id=activity_log_id)
 
     today = timezone.now()
-    addons = Addon.objects.filter(event__event=AddonEvent.EVENT_DAILY).select_related(
+    addons = Addon.objects.filter(event__event=AddonEvent.EVENT_DAILY).prefetch_related(
         "component", "project"
     )
     if modulo:
