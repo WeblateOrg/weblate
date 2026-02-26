@@ -1220,7 +1220,7 @@ class FullLanguageForm(forms.Form):
     lang = forms.MultipleChoiceField(
         label=gettext_lazy("Languages"), choices=[], widget=forms.SelectMultiple
     )
-    project: Project
+    obj: Category | Project
 
     def __init__(self, user: User, *args, **kwargs) -> None:
         super().__init__(*args, **kwargs)
@@ -1236,6 +1236,7 @@ class RestrictedLanguageForm(forms.Form):
     lang = forms.ChoiceField(
         label=gettext_lazy("Language"), choices=[], widget=forms.Select
     )
+    obj: Category | Project
 
     def __init__(self, user: User, *args, **kwargs) -> None:
         super().__init__(user, *args, **kwargs)
@@ -1245,7 +1246,8 @@ class RestrictedLanguageForm(forms.Form):
         ]
 
     def get_lang_objects(self) -> QuerySet[Language]:
-        return super().get_lang_objects().filter_for_add(self.project)
+        project = self.obj.project if isinstance(self.obj, Category) else self.obj
+        return super().get_lang_objects().filter_for_add(project)
 
     def clean_lang(self):
         # Compatibility with NewLanguageOwnerForm
@@ -1258,7 +1260,7 @@ class NewComponentLanguageOwnerForm(FullLanguageForm):
 
     def __init__(self, user: User, component: Component, *args, **kwargs) -> None:
         self.component = component
-        self.project = component.project
+        self.obj = component.project
         super().__init__(user, *args, **kwargs)
 
 
@@ -1266,12 +1268,12 @@ class NewComponentLanguageForm(RestrictedLanguageForm, NewComponentLanguageOwner
     """Form for requesting a new language."""
 
 
-class NewProjectLanguageOwnerForm(FullLanguageForm):
-    """Form for adding a new language to all components in a project."""
+class NewProjectOrCategoryLanguageOwnerForm(FullLanguageForm):
+    """Form for adding a new language to all components in a project or a category."""
 
     def get_lang_objects(self) -> QuerySet[Language]:
         # Get all child components
-        components = self.project.components_user_can_add_new_language(self.user)
+        components = self.obj.components_user_can_add_new_language(self.user)
         components_count = components.count()
 
         # Count source and target languages
@@ -1296,23 +1298,25 @@ class NewProjectLanguageOwnerForm(FullLanguageForm):
         # Exclude already existing languages from the list
         return Language.objects.exclude(id__in=languages_in_all_components)
 
-    def __init__(self, user: User, project: Project, *args, **kwargs) -> None:
-        self.project = project
+    def __init__(self, user: User, obj: Category | Project, *args, **kwargs) -> None:
+        self.obj = obj
         super().__init__(user, *args, **kwargs)
 
 
-class NewProjectLanguageForm(RestrictedLanguageForm, NewProjectLanguageOwnerForm):
+class NewProjectOrCategoryLanguageForm(
+    RestrictedLanguageForm, NewProjectOrCategoryLanguageOwnerForm
+):
     pass
 
 
-def get_new_project_language_form(
-    request: AuthenticatedHttpRequest, project: Project
-) -> type[NewProjectLanguageForm | NewProjectLanguageOwnerForm]:
-    if not request.user.has_perm("translation.add", project):
+def get_new_project_or_category_language_form(
+    request: AuthenticatedHttpRequest, obj: Category | Project
+) -> type[NewProjectOrCategoryLanguageForm | NewProjectOrCategoryLanguageOwnerForm]:
+    if not request.user.has_perm("translation.add", obj):
         raise PermissionDenied
-    if request.user.has_perm("translation.add_more", project):
-        return NewProjectLanguageOwnerForm
-    return NewProjectLanguageForm
+    if request.user.has_perm("translation.add_more", obj):
+        return NewProjectOrCategoryLanguageOwnerForm
+    return NewProjectOrCategoryLanguageForm
 
 
 def get_new_component_language_form(

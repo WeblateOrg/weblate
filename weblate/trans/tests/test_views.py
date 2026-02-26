@@ -413,20 +413,21 @@ class ProjectLanguageAdditionTest(ViewTestCase):
                 project=self.project,
             )
         self.url = reverse("new-language", kwargs={"path": self.project.get_url_path()})
+        self.obj = self.project
 
     def create_component(self):
         return self.create_po_new_base()
 
     def test_no_eligible_components(self) -> None:
-        self.project.component_set.update(new_lang="none")
+        self.obj.component_set.update(new_lang="none")
         response = self.client.get(self.url, follow=True)
-        self.assertRedirects(response, self.project.get_absolute_url())
+        self.assertRedirects(response, self.obj.get_absolute_url())
         self.assertContains(
             response, "Language addition is not supported by any of the components."
         )
 
         response = self.client.get(self.url, {"lang": "af"}, follow=True)
-        self.assertRedirects(response, self.project.get_absolute_url())
+        self.assertRedirects(response, self.obj.get_absolute_url())
         self.assertContains(
             response, "Language addition is not supported by any of the components."
         )
@@ -485,7 +486,7 @@ class ProjectLanguageAdditionTest(ViewTestCase):
             )
         )
         response = self.client.post(self.url, {"lang": "af"}, follow=True)
-        self.assertRedirects(response, self.project.get_absolute_url())
+        self.assertRedirects(response, self.obj.get_absolute_url())
 
         messages = [m.message for m in response.context["messages"]]
         self.assertCountEqual(
@@ -525,7 +526,7 @@ class ProjectLanguageAdditionTest(ViewTestCase):
         self.user.save()
 
         response = self.client.post(self.url, {"lang": "af"}, follow=True)
-        self.assertRedirects(response, self.project.get_absolute_url())
+        self.assertRedirects(response, self.obj.get_absolute_url())
 
         messages = [m.message for m in response.context["messages"]]
         self.assertCountEqual(
@@ -536,7 +537,7 @@ class ProjectLanguageAdditionTest(ViewTestCase):
         )
 
         response = self.client.post(self.url, {"lang": "pa"}, follow=True)
-        self.assertRedirects(response, self.project.get_absolute_url())
+        self.assertRedirects(response, self.obj.get_absolute_url())
         messages = [m.message for m in response.context["messages"]]
         self.assertCountEqual(
             messages,
@@ -557,7 +558,7 @@ class ProjectLanguageAdditionTest(ViewTestCase):
             )
         )
         response = self.client.post(self.url, {"lang": "af"}, follow=True)
-        self.assertRedirects(response, self.project.get_absolute_url())
+        self.assertRedirects(response, self.obj.get_absolute_url())
 
         messages = [m.message for m in response.context["messages"]]
         self.assertCountEqual(
@@ -571,6 +572,47 @@ class ProjectLanguageAdditionTest(ViewTestCase):
             self.assertTrue(
                 component.translation_set.filter(language_code="af").exists()
             )
+
+
+class CategoryLanguageAdditionTest(ProjectLanguageAdditionTest):
+    def setUp(self) -> None:
+        super().setUp()
+        self.category = self.create_category(self.project)
+
+        for component in self.components.values():
+            component.category = self.category
+            component.save(update_fields=["category"])
+
+        self.url = reverse(
+            "new-language", kwargs={"path": self.category.get_url_path()}
+        )
+        self.obj = self.category
+
+    def test_category_add_no_extra_components(self):
+        """Test that adding a language to a category does not add it to components not in the category."""
+        # Create a component in the same project but outside the category
+        outside_component = self.create_po_new_base(
+            new_lang="add",
+            name="test-outside",
+            project=self.project,
+        )
+        self.assertIsNone(outside_component.category)
+
+        self.user.is_superuser = True
+        self.user.save()
+
+        response = self.client.post(self.url, {"lang": "af"}, follow=True)
+        self.assertRedirects(response, self.obj.get_absolute_url())
+
+        for component in self.components.values():
+            self.assertTrue(
+                component.translation_set.filter(language_code="af").exists()
+            )
+
+        # Language should NOT have been added to the component outside the category
+        self.assertFalse(
+            outside_component.translation_set.filter(language_code="af").exists()
+        )
 
 
 class BasicViewTest(ViewTestCase):

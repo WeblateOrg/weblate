@@ -29,6 +29,7 @@ if TYPE_CHECKING:
 
     from weblate.auth.models import User
     from weblate.trans.models import Component
+    from weblate.trans.models.component import ComponentQuerySet
 
 
 class CategoryQuerySet(models.QuerySet):
@@ -195,6 +196,14 @@ class Category(
     def get_child_components_access(self, user: User):
         """List child components."""
         return self.component_set.filter_access(user).prefetch().order()
+
+    def components_user_can_add_new_language(self, user: User) -> ComponentQuerySet:
+        """Return a queryset of components within the category that the given user can add new languages to."""
+        filter_ = Q(is_glossary=True)
+        if not user.has_perm("project.edit", self.project):
+            filter_ |= Q(new_lang="none") | Q(new_lang="url")
+
+        return self.all_components.filter_access(user).exclude(filter_)
 
     @cached_property
     def languages(self):
