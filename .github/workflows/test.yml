@@ -32,8 +32,6 @@ jobs:
         - latest
         database:
         - postgresql
-        datastore:
-        - valkey
         experimental:
         - false
         include:
@@ -41,13 +39,11 @@ jobs:
         - python-version: '3.12'
           requirements: minimal
           database: postgresql
-          datastore: valkey
           experimental: false
         # Reduced testing for edge deps
         - python-version: '3.14'
           requirements: edge
           database: postgresql
-          datastore: valkey
           experimental: true
     name: py${{ matrix.python-version }}, ${{ matrix.database }}, ${{ matrix.requirements }} deps
     env:
