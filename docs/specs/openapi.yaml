@@ -3411,7 +3411,9 @@ paths:
             - 86
             - 87
             - 88
+            - 89
             - 9
+            - 90
         description: |-
           * `0` - Resource updated
           * `1` - Translation completed
@@ -3496,6 +3498,8 @@ paths:
           * `86` - Label added
           * `87` - Label removed
           * `88` - Repository cleanup
+          * `89` - Source string added in the upload
+          * `90` - Source string added in the repository
         explode: true
         style: form
       - in: query
@@ -45540,6 +45544,8 @@ components:
       - 86
       - 87
       - 88
+      - 89
+      - 90
       type: integer
       description: |-
         * `0` - Resource updated
@@ -45625,6 +45631,8 @@ components:
         * `86` - Label added
         * `87` - Label removed
         * `88` - Repository cleanup
+        * `89` - Source string added in the upload
+        * `90` - Source string added in the repository
     Addon:
       type: object
       properties:
