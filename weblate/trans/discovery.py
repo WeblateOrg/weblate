@@ -295,6 +295,8 @@ class ComponentDiscovery:
         # Can't pass objects, pass only IDs
         kwargs["project"] = kwargs["project"].pk
         kwargs["source_language"] = kwargs["source_language"].pk
+        if "secondary_language" in kwargs and kwargs["secondary_language"] is not None:
+            kwargs["secondary_language"] = kwargs["secondary_language"].pk
         if background:
             create_component.delay(**kwargs, in_task=True)
             return None
