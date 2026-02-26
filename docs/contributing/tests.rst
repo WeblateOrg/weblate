@@ -86,7 +86,6 @@ The :file:`weblate/settings_test.py` is used in CI environment as well (see
 
 .. code-block:: sh
 
-   export CI_DATABASE=postgresql
    export CI_DB_USER=weblate
    export CI_DB_PASSWORD=weblate
    export CI_DB_HOST=127.0.0.1

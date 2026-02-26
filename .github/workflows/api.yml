@@ -19,7 +19,6 @@ jobs:
     runs-on: ubuntu-24.04
     name: API Lint
     env:
-      CI_DATABASE: postgresql
       CI_REDIS_HOST: 127.0.0.1
       CI_REDIS_PORT: '6379'
       CI_DB_PASSWORD: weblate
@@ -66,7 +65,7 @@ jobs:
         cache-suffix: ${{ steps.setup_python.outputs.python-version }}
         version: 0.10.6
     - name: Install apt dependencies
-      run: sudo ./ci/apt-install "$CI_DATABASE"
+      run: sudo ./ci/apt-install
     - name: Used versions
       run: ./ci/print-versions
     - name: Install Python dependencies

@@ -30,24 +30,19 @@ jobs:
         - '3.14'
         requirements:
         - latest
-        database:
-        - postgresql
         experimental:
         - false
         include:
         # Reduced testing for minimal deps
         - python-version: '3.12'
           requirements: minimal
-          database: postgresql
           experimental: false
         # Reduced testing for edge deps
         - python-version: '3.14'
           requirements: edge
-          database: postgresql
           experimental: true
-    name: py${{ matrix.python-version }}, ${{ matrix.database }}, ${{ matrix.requirements }} deps
+    name: py${{ matrix.python-version }}, ${{ matrix.requirements }} deps
     env:
-      CI_DATABASE: ${{ matrix.database }}
       CI_REDIS_HOST: 127.0.0.1
       CI_REDIS_PORT: '6379'
       CI_DB_PASSWORD: weblate
@@ -99,7 +94,7 @@ jobs:
         cache-suffix: ${{ steps.setup_python.outputs.python-version }}
         version: 0.10.6
     - name: Install apt dependencies
-      run: sudo ./ci/apt-install "$CI_DATABASE"
+      run: sudo ./ci/apt-install
     - name: Install Python dependencies
       run: ./ci/pip-install ${{ matrix.requirements }}
     - name: Used versions
@@ -146,7 +141,7 @@ jobs:
       with:
         token: ${{secrets.CODECOV_TOKEN}}
         flags: unittests
-        name: Tests py${{ matrix.python-version }}, ${{ matrix.database }}, ${{ matrix.requirements }} deps
+        name: Tests py${{ matrix.python-version }}, ${{ matrix.requirements }} deps
     - name: Upload test results to Codecov
       if: ${{ !cancelled() }}
       uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
