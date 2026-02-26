@@ -59,14 +59,36 @@ jobs:
     env:
       CI_DATABASE: ${{ matrix.database }}
       CI_REDIS_HOST: 127.0.0.1
-      CI_REDIS_PORT: '60001'
+      CI_REDIS_PORT: '6379'
       CI_DB_PASSWORD: weblate
       CI_DB_HOST: 127.0.0.1
-      CI_DB_PORT: '60000'
+      CI_DB_PORT: '5432'
       CI_SELENIUM: '1'
       DJANGO_SETTINGS_MODULE: weblate.settings_test
       PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
       PYTHONUNBUFFERED: 1
+    services:
+      database:
+        image: postgres:18.2-alpine@sha256:035b9ab53cfa147d7202b61f5f7782b939ae815b7d6bc81c96b7b42ff1fca950
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: weblate
+        ports:
+        - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      cache:
+        image: ${{ matrix.datastore == 'redis' && 'redis:8.6.1-alpine@sha256:2afba59292f25f5d1af200496db41bea2c6c816b059f57ae74703a50a03a27d0' || 'valkey/valkey:9.0.3-alpine@sha256:ad09f25978db13ed3ed7c635a0e43118568deca056ed8f7a5020f40632e2923e' }} # zizmor: ignore[unpinned-images]
+        ports:
+        - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       with:
@@ -86,8 +108,6 @@ jobs:
         save-cache: ${{ github.ref == 'refs/heads/main' }}
         cache-suffix: ${{ steps.setup_python.outputs.python-version }}
         version: 0.10.6
-    - name: Start services
-      run: ./ci/services-up ${{ matrix.database }} ${{ matrix.datastore }}
     - name: Install apt dependencies
       run: sudo ./ci/apt-install "$CI_DATABASE"
     - name: Install Python dependencies
@@ -143,6 +163,3 @@ jobs:
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
         report_type: test_results
-    - name: Stop services
-      if: always()
-      run: ./ci/services-down ${{ matrix.database }} ${{ matrix.datastore }}
