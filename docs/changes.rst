@@ -46,7 +46,7 @@ Weblate 5.16.1
 
   * Users can manage their own notification subscriptions via the API.
   * Project administrators can manage teams in their projects via the API, according to access control rules.
-  * The add-ons listing in the API now correctly honors user permissions.
+  * The add-ons listing in the API now correctly honors user permissions (:cve:`2026-27457` / :ghsa:`wppc-7cq7-cgfv`).
 
 * Fixed source column being cleared when translating monolingual :doc:`/formats/csv`.
 
