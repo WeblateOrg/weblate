@@ -37,12 +37,6 @@ jobs:
         experimental:
         - false
         include:
-        # Reduced testing for redis
-        - python-version: '3.14'
-          requirements: latest
-          database: postgresql
-          datastore: redis
-          experimental: false
         # Reduced testing for minimal deps
         - python-version: '3.12'
           requirements: minimal
@@ -55,7 +49,7 @@ jobs:
           database: postgresql
           datastore: valkey
           experimental: true
-    name: py${{ matrix.python-version }}, ${{ matrix.database }}, ${{ matrix.datastore }}, ${{ matrix.requirements }} deps
+    name: py${{ matrix.python-version }}, ${{ matrix.database }}, ${{ matrix.requirements }} deps
     env:
       CI_DATABASE: ${{ matrix.database }}
       CI_REDIS_HOST: 127.0.0.1
@@ -81,7 +75,7 @@ jobs:
           --health-timeout 5s
           --health-retries 5
       cache:
-        image: ${{ matrix.datastore == 'redis' && 'redis:8.6.1-alpine@sha256:2afba59292f25f5d1af200496db41bea2c6c816b059f57ae74703a50a03a27d0' || 'valkey/valkey:9.0.3-alpine@sha256:ad09f25978db13ed3ed7c635a0e43118568deca056ed8f7a5020f40632e2923e' }} # zizmor: ignore[unpinned-images]
+        image: valkey/valkey:9.0.3-alpine@sha256:ad09f25978db13ed3ed7c635a0e43118568deca056ed8f7a5020f40632e2923e
         ports:
         - 6379:6379
         options: >-
