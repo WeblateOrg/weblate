@@ -11,6 +11,8 @@ Weblate 5.17
 
 .. rubric:: Compatibility
 
+* Dropped support for MySQL and MariaDB as the database engine.
+
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
