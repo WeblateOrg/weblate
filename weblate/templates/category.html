@@ -90,6 +90,11 @@
           </li>
         {% endif %}
         <li role="separator" class="divider"></li>
+        {% if user_can_add_translation %}
+          <li>
+            <a class="dropdown-item" href="{% url "new-language" path=object.get_url_path %}">{% translate "Start new translation" %}</a>
+          </li>
+        {% endif %}
         {% if user_can_edit_project %}
           {% if add_form %}
             <li>
