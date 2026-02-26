@@ -678,6 +678,8 @@ def update_checks(pk: int, update_token: str, update_state: bool = False) -> Non
         for unit in units.prefetch_all_checks():
             # Reuse object to avoid fetching from the database
             unit.source_unit.translation = component.source_translation
+            # Mark this as a batch update to avoid stats update on each unit
+            unit.is_batch_update = True
             if update_state:
                 unit.update_state()
             unit.run_checks()
