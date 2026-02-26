@@ -45,6 +45,7 @@ from weblate.trans.models import (
     Suggestion,
     Translation,
 )
+from weblate.trans.models.unit import fill_in_source_translation
 from weblate.utils.celery import app
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
@@ -670,9 +671,10 @@ def update_checks(pk: int, update_token: str, update_state: bool = False) -> Non
         component.source_translation,
     )
     for translation in translations:
-        units = translation.unit_set.prefetch()
+        units = translation.unit_set.prefetch().prefetch_source()
         if update_state:
             units = units.select_for_update()
+        fill_in_source_translation(units)
         for unit in units.prefetch_all_checks():
             # Reuse object to avoid fetching from the database
             unit.source_unit.translation = component.source_translation
