@@ -82,14 +82,8 @@ class AddonQuerySet(models.QuerySet):
 
         # Build a combined query for all components
         combined_query = Q()
-        component_projects = {}
-        component_linked = {}
 
         for component in components:
-            # Store project and linked component for each component
-            component_projects[component.id] = component.project_id
-            component_linked[component.id] = component.linked_component_id
-
             # Build query for this component
             query = (
                 Q(component=component)
@@ -114,25 +108,16 @@ class AddonQuerySet(models.QuerySet):
 
             # Filter addons relevant to this specific component
             for addon in all_addons:
-                is_relevant = False
-
-                # Check if addon matches this component
-                if addon.component_id == component.id or (
-                    addon.project_id == component.project_id and not addon.component_id
-                ):
-                    is_relevant = True
-                elif addon.component_id and addon.repo_scope:
-                    # Check if this component is linked to the addon's component
-                    if (
-                        component.linked_component_id == addon.component_id
-                        or component_linked.get(addon.component_id) == component.id
-                    ):
-                        is_relevant = True
-                elif addon.component_id is None and addon.project_id is None:
+                if (
+                    # Component-wide add-on
+                    addon.component_id == component.id
+                    # Project-wide add-on
+                    or (addon.project_id == component.project_id)
+                    # Repository-wide add-ons
+                    or (addon.component_id and addon.repo_scope and component.linked_component_id == addon.component_id)
                     # Site-wide addon
-                    is_relevant = True
-
-                if is_relevant:
+                    or (addon.component_id is None and addon.project_id is None)
+                ):
                     for installed in addon.event_set.all():
                         result[installed.event].append(addon)
                     result["__all__"].append(addon)
