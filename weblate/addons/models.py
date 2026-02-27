@@ -103,9 +103,7 @@ class AddonQuerySet(models.QuerySet):
             combined_query |= query
 
         # Fetch all relevant addons in a single query
-        all_addons = list(
-            self.filter(combined_query).prefetch_related("event_set").distinct()
-        )
+        all_addons =      self.filter(combined_query).prefetch_related("event_set").distinct()
 
         # Group addons by component
         for component in components:
