@@ -25,7 +25,6 @@ jobs:
     permissions:
       contents: write
     env:
-      CI_DATABASE: postgresql
       CI_REDIS_HOST: 127.0.0.1
       CI_REDIS_PORT: '60001'
       CI_DB_PASSWORD: weblate
@@ -56,7 +55,7 @@ jobs:
         enable-cache: false
         version: 0.10.6
     - name: Install apt dependencies
-      run: sudo ./ci/apt-install "$CI_DATABASE"
+      run: sudo ./ci/apt-install
     - name: Install Python dependencies
       run: ./ci/pip-install latest
     - run: make -C docs update-doc-snippets

@@ -54,12 +54,8 @@ jobs:
 
         version: 0.10.6
     - name: Install deps
-      env:
-        CI_DATABASE: postgresql
       run: uv sync --no-binary-package lxml --no-binary-package xmlsec --all-extras --group types
     - name: Run mypy
-      env:
-        CI_DATABASE: postgresql
       run: |
         set +e
         uv run --no-sync mypy --show-column-numbers weblate scripts/*.py ./*.py | ./scripts/filter-mypy.sh | tee mypy.log

@@ -12,20 +12,10 @@ from tempfile import TemporaryDirectory
 
 from weblate.settings_example import *  # noqa: F403
 
-CI_DATABASE = os.environ.get("CI_DATABASE", "")
-
-default_user = "weblate"
+default_user = "postgres"
 default_name = "weblate"
-if CI_DATABASE == "postgresql":
-    DATABASES["default"]["ENGINE"] = "django.db.backends.postgresql"
-    default_user = "postgres"
-else:
-    if not CI_DATABASE:
-        msg = "Missing CI_DATABASE configuration in the environment"
-        raise ValueError(msg)
-    msg = f"Not supported database: {CI_DATABASE}"
-    raise ValueError(msg)
 
+DATABASES["default"]["ENGINE"] = "django.db.backends.postgresql"
 DATABASES["default"]["HOST"] = os.environ.get("CI_DB_HOST", "")
 DATABASES["default"]["NAME"] = os.environ.get("CI_DB_NAME", default_name)
 DATABASES["default"]["USER"] = os.environ.get("CI_DB_USER", default_user)
