@@ -22,7 +22,7 @@ MIGRATE_DIR=$(mktemp -d)
 cp ci/migrate-override.txt "$MIGRATE_DIR/migrate-override.txt"
 cp -r ci/migrate-scripts "$MIGRATE_DIR/"
 
-print_step "Testing migration from $TAG on $CI_DATABASE..."
+print_step "Testing migration from $TAG..."
 cleanup_database
 check
 if ! git fetch --depth 1 origin tag "$TAG"; then

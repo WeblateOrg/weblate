@@ -35,8 +35,6 @@ jobs:
         cache-suffix: ${{ steps.setup_python.outputs.python-version }}
         version: 0.10.6
     - name: Install deps
-      env:
-        CI_DATABASE: postgresql
       run: uv sync --no-binary-package lxml --no-binary-package xmlsec --all-extras --group pylint
     - name: Run pylint
       run: uv run --no-sync pylint --output-format=github weblate/ scripts/

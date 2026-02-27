@@ -24,19 +24,17 @@ run_coverage() {
 cleanup_database() {
     rm -f weblate.db
 
-    if [ "$CI_DATABASE" = "postgresql" ]; then
-        if [ -n "$CI_DB_PASSWORD" ]; then
-            export PGPASSWORD="$CI_DB_PASSWORD"
-        fi
-        if [ -n "$CI_DB_PORT" ]; then
-            export PGPORT="$CI_DB_PORT"
-        fi
-        # shellcheck disable=SC2153
-        psql --host="$CI_DB_HOST" -c 'DROP DATABASE IF EXISTS weblate;' -U postgres
-        psql --host="$CI_DB_HOST" -c 'CREATE DATABASE weblate;' -U postgres
-        # Replaces weblate/utils/migrations/0001_alter_role.py
-        psql --host="$CI_DB_HOST" -c 'ALTER ROLE postgres SET timezone = UTC;' -U postgres
+    if [ -n "$CI_DB_PASSWORD" ]; then
+        export PGPASSWORD="$CI_DB_PASSWORD"
     fi
+    if [ -n "$CI_DB_PORT" ]; then
+        export PGPORT="$CI_DB_PORT"
+    fi
+    # shellcheck disable=SC2153
+    psql --host="$CI_DB_HOST" -c 'DROP DATABASE IF EXISTS weblate;' -U postgres
+    psql --host="$CI_DB_HOST" -c 'CREATE DATABASE weblate;' -U postgres
+    # Replaces weblate/utils/migrations/0001_alter_role.py
+    psql --host="$CI_DB_HOST" -c 'ALTER ROLE postgres SET timezone = UTC;' -U postgres
 }
 
 print_step() {
