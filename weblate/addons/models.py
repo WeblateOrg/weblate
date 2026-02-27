@@ -70,7 +70,7 @@ class AddonQuerySet(models.QuerySet):
     def filter_event(self, component, event):
         return component.addons_cache[event]
 
-    def prefetch_for_components(self, components):
+    def prefetch_for_components(self, components: Iterable[Component]) -> None:
         """
         Prefetch add-ons for multiple components in a single query.
 
