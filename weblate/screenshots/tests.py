@@ -28,12 +28,11 @@ from weblate.trans.models import Change, Project
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import create_test_user, get_test_file
-from weblate.utils.db import TransactionsTestMixin
 
 TEST_SCREENSHOT = get_test_file("screenshot.png")
 
 
-class ViewTest(TransactionsTestMixin, FixtureTestCase):
+class ViewTest(FixtureTestCase):
     def test_list_empty(self) -> None:
         response = self.client.get(reverse("screenshots", kwargs=self.kw_component))
         self.assertContains(response, "Screenshots")

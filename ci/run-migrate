@@ -22,7 +22,7 @@ MIGRATE_DIR=$(mktemp -d)
 cp ci/migrate-override.txt "$MIGRATE_DIR/migrate-override.txt"
 cp -r ci/migrate-scripts "$MIGRATE_DIR/"
 
-print_step "Testing migration from $TAG on $CI_DATABASE..."
+print_step "Testing migration from $TAG..."
 cleanup_database
 check
 if ! git fetch --depth 1 origin tag "$TAG"; then
@@ -44,7 +44,7 @@ check
 # Install matching Weblate package
 # - Need to keep "ci" as Weblate 5.8 and older have the dependency separately
 # - Force PyGobject 3.52 to be compatible with girepository-2.0
-uv pip install --override "$MIGRATE_DIR/migrate-override.txt" -e ".[all,ci,mysql]"
+uv pip install --override "$MIGRATE_DIR/migrate-override.txt" -e ".[all,ci]"
 check
 echo "DATABASES['default']['HOST'] = '$CI_DB_HOST'" >> weblate/settings_test.py
 check

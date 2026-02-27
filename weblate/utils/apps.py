@@ -23,7 +23,6 @@ from django.core.mail import get_connection
 from django.db import DatabaseError
 from django.db.models import CharField, TextField
 from django.db.models.functions import MD5, Lower
-from django.db.models.lookups import Regex
 from django.utils import timezone
 from packaging.version import Version
 
@@ -35,7 +34,6 @@ from .classloader import ClassLoader
 from .const import HEARTBEAT_FREQUENCY
 from .data import data_path
 from .db import (
-    MySQLSearchLookup,
     PostgreSQLRegexLookup,
     PostgreSQLSearchLookup,
     PostgreSQLSubstringLookup,
@@ -190,8 +188,8 @@ def check_database(
         errors.append(
             weblate_check(
                 "weblate.E006",
-                "Weblate performs best with PostgreSQL, consider migrating to it.",
-                Info,
+                "Weblate now requires PostgreSQL. Support for other databases has been removed.",
+                Error,
             )
         )
 
@@ -509,22 +507,13 @@ class UtilsConfig(AppConfig):
         super().ready()
         init_error_collection()
 
-        lookups: list[tuple[type[Lookup]] | tuple[type[Lookup], str]]
-        if using_postgresql():
-            lookups = [
-                (PostgreSQLSearchLookup,),
-                (PostgreSQLSubstringLookup,),
-                (PostgreSQLRegexLookup, "trgm_regex"),
-            ]
-        else:
-            lookups = [
-                (MySQLSearchLookup,),
-                (MySQLSearchLookup, "substring"),
-                (Regex, "trgm_regex"),
-            ]
-
-        lookups.append((cast("type[Lookup]", MD5),))
-        lookups.append((cast("type[Lookup]", Lower),))
+        lookups: list[tuple[type[Lookup]] | tuple[type[Lookup], str]] = [
+            (PostgreSQLSearchLookup,),
+            (PostgreSQLSubstringLookup,),
+            (PostgreSQLRegexLookup, "trgm_regex"),
+            (cast("type[Lookup]", MD5),),
+            (cast("type[Lookup]", Lower),),
+        ]
 
         for lookup in lookups:
             CharField.register_lookup(*lookup)

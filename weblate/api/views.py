@@ -111,6 +111,7 @@ from weblate.trans.models import (
     Project,
     Unit,
 )
+from weblate.trans.models.project import ProjectQuerySet, prefetch_project_flags
 from weblate.trans.models.translation import Translation, TranslationQuerySet
 from weblate.trans.tasks import category_removal, component_removal, project_removal
 from weblate.trans.views.files import download_multi
@@ -1098,6 +1099,12 @@ class ProjectViewSet(
             "addon_set"
         ).order_by("id")
 
+    def paginate_queryset(self, queryset):
+        page = super().paginate_queryset(queryset)
+        if not isinstance(queryset, ProjectQuerySet):
+            return page
+        return prefetch_project_flags(page)
+
     @extend_schema(
         description="Return a list of translation components in the given project.",
         methods=["get"],
@@ -2025,7 +2032,12 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
             msg = f"Could not parse query string: {error}"
             raise ValidationError({"q": msg}) from error
 
-        queryset = obj.unit_set.search(query_string).order_by("id").prefetch_full()
+        queryset = (
+            obj.unit_set.search(query_string)
+            .order_by("id")
+            .prefetch_full()
+            .prefetch_related("pending_changes")
+        )
         page = self.paginate_queryset(queryset)
 
         serializer = UnitSerializer(page, many=True, context={"request": request})
@@ -2161,6 +2173,7 @@ class UnitViewSet(viewsets.ReadOnlyModelViewSet, UpdateModelMixin, DestroyModelM
             Unit.objects.filter_access(self.request.user)
             .prefetch()
             .prefetch_full()
+            .prefetch_related("pending_changes")
             .order_by("id")
         )
 

@@ -1,5 +1,5 @@
 version = 1
-revision = 3
+revision = 2
 requires-python = ">=3.12"
 resolution-markers = [
     "python_full_version >= '3.14'",
@@ -2788,18 +2788,6 @@ wheels = [
 ]
 
 [[package]]
-name = "mysqlclient"
-version = "2.2.8"
-source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/eb/b0/9df076488cb2e536d40ce6dbd4273c1f20a386e31ffe6e7cb613902b3c2a/mysqlclient-2.2.8.tar.gz", hash = "sha256:8ed20c5615a915da451bb308c7d0306648a4fd9a2809ba95c992690006306199", size = 92287, upload-time = "2026-02-10T10:58:37.405Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/db/1f/7d6b3fbfc8a317805fdb8bbfbc23af99f2090497090e82513daf491a29ce/mysqlclient-2.2.8-cp312-cp312-win_amd64.whl", hash = "sha256:000c7ec3d11e7c411db832e4cfcd7f05db47464326381f5d5ae991b4bb572f93", size = 207171, upload-time = "2026-02-10T10:58:39.827Z" },
-    { url = "https://files.pythonhosted.org/packages/e6/d5/76e369b0fdccd2eb9ed7d890e4e3e23aa1344fea62f0180d7f1574285e54/mysqlclient-2.2.8-cp313-cp313-win_amd64.whl", hash = "sha256:a81f5e12f8d05439709cb02fba97f9f76d1a6c528164f2260d8798fec969e300", size = 207158, upload-time = "2026-02-10T10:58:38.663Z" },
-    { url = "https://files.pythonhosted.org/packages/42/44/6ae21b4e8490eb5167d04fa7452c462ffd72a502b96bf531477ef044a380/mysqlclient-2.2.8-cp314-cp314-win_amd64.whl", hash = "sha256:9bed7c8d3b629bdc09e17fb628d5b3b0a5fd1f12b09432b464b9126c727bedc0", size = 211644, upload-time = "2026-02-10T10:58:45.022Z" },
-    { url = "https://files.pythonhosted.org/packages/66/e5/037d55623be9f681236e04abe12e1290847c06bd48270c3f19ac33493cbf/mysqlclient-2.2.8-cp314-cp314t-win_amd64.whl", hash = "sha256:260cce0e81446c83bf0a389e0fae38d68547d9f8fc0833bc733014e10ce28a99", size = 213067, upload-time = "2026-02-10T10:58:43.389Z" },
-]
-
-[[package]]
 name = "nh3"
 version = "0.3.3"
 source = { registry = "https://pypi.org/simple" }
@@ -5234,9 +5222,6 @@ ldap = [
 mercurial = [
     { name = "mercurial" },
 ]
-mysql = [
-    { name = "mysqlclient" },
-]
 openai = [
     { name = "openai" },
 ]
@@ -5435,7 +5420,6 @@ requires-dist = [
     { name = "lxml", specifier = ">=5.4.0,<6.1" },
     { name = "mercurial", marker = "extra == 'mercurial'", specifier = ">=6.8.0,<7.3" },
     { name = "mistletoe", specifier = ">=1.4.0,<1.6" },
-    { name = "mysqlclient", marker = "extra == 'mysql'", specifier = ">=2.1.1,<3" },
     { name = "nh3", specifier = ">=0.2.20,<0.4" },
     { name = "openai", marker = "extra == 'openai'", specifier = ">=2.0,<3.0" },
     { name = "openpyxl", specifier = ">=3.1.5,<3.2" },
@@ -5474,7 +5458,7 @@ requires-dist = [
     { name = "wlhosted", marker = "extra == 'wlhosted'" },
     { name = "wllegal", marker = "extra == 'wllegal'", specifier = ">=2026.2" },
 ]
-provides-extras = ["alibaba", "all", "amazon", "gelf", "gerrit", "google", "ldap", "mercurial", "mysql", "openai", "postgres", "saml", "saml2idp", "wlhosted", "wllegal", "wsgi", "zxcvbn"]
+provides-extras = ["alibaba", "all", "amazon", "gelf", "gerrit", "google", "ldap", "mercurial", "openai", "postgres", "saml", "saml2idp", "wlhosted", "wllegal", "wsgi", "zxcvbn"]
 
 [package.metadata.requires-dev]
 dev = [

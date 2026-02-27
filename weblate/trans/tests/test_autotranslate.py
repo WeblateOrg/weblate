@@ -13,7 +13,6 @@ from weblate.lang.models import Language
 from weblate.trans.models import Component
 from weblate.trans.tasks import auto_translate
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.utils.db import TransactionsTestMixin
 from weblate.utils.stats import ProjectLanguage
 
 
@@ -302,7 +301,7 @@ class AutoTranslationTest(ViewTestCase):
             call_command("auto_translate", "test", "test", "xxx")
 
 
-class AutoTranslationMtTest(TransactionsTestMixin, ViewTestCase):
+class AutoTranslationMtTest(ViewTestCase):
     def setUp(self) -> None:
         super().setUp()
         # Need extra power

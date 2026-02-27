@@ -63,7 +63,6 @@ MANAGERS = ADMINS
 if get_env_bool("WEBLATE_DATABASES", True):
     DATABASES = {
         "default": {
-            # Use 'postgresql' or 'mysql'.
             "ENGINE": "django.db.backends.postgresql",
             # Database name.
             "NAME": get_env_str(

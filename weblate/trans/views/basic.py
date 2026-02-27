@@ -44,7 +44,7 @@ from weblate.trans.forms import (
     SearchForm,
     TranslationDeleteForm,
     get_new_component_language_form,
-    get_new_project_language_form,
+    get_new_project_or_category_language_form,
     get_new_unit_form,
     get_upload_form,
 )
@@ -502,7 +502,7 @@ def show_category(request: AuthenticatedHttpRequest, obj):
     )
 
     language_stats = obj.stats.get_language_stats()
-    can_add_language_components = obj.project.components_user_can_add_new_language(user)
+    can_add_language_components = obj.components_user_can_add_new_language(user)
     user_can_add_translation = can_add_language_components.exists()
     if user_can_add_translation:
         add_ghost_translations(
@@ -781,11 +781,13 @@ def data_project(request: AuthenticatedHttpRequest, project) -> HttpResponse:
 @transaction.atomic
 @session_ratelimit_post("language", logout_user=False)
 def new_language(request: AuthenticatedHttpRequest, path) -> HttpResponse:
-    obj = parse_path(request, path, (Component, Project))
+    obj = parse_path(request, path, (Component, Project, Category))
     if isinstance(obj, Component):
         return new_component_language(request, obj)
     if isinstance(obj, Project):
-        return new_project_language(request, obj)
+        return new_project_or_category_language(request, obj)
+    if isinstance(obj, Category):
+        return new_project_or_category_language(request, obj)
     msg = f"Not supported new language: {obj}"
     raise TypeError(msg)
 
@@ -827,8 +829,8 @@ def new_component_language(
     )
 
 
-def new_project_language(
-    request: AuthenticatedHttpRequest, obj: Project
+def new_project_or_category_language(
+    request: AuthenticatedHttpRequest, obj: Category | Project
 ) -> HttpResponse:
     user = request.user
     eligible_components = obj.components_user_can_add_new_language(user)
@@ -839,7 +841,7 @@ def new_project_language(
         )
         return redirect(obj)
 
-    form_class = get_new_project_language_form(request, obj)
+    form_class = get_new_project_or_category_language_form(request, obj)
 
     if request.method == "POST":
         form = form_class(user, obj, request.POST)
@@ -914,7 +916,7 @@ def new_project_language(
 
     return render(
         request,
-        "new-project-language.html",
+        "new-project-or-category-language.html",
         {
             "object": obj,
             "path_object": obj,

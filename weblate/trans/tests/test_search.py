@@ -14,7 +14,6 @@ from weblate.checks.models import Check
 from weblate.screenshots.models import Screenshot
 from weblate.trans.models import Component
 from weblate.trans.tests.test_views import ViewTestCase
-from weblate.utils.db import TransactionsTestMixin
 from weblate.utils.ratelimit import reset_rate_limit
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -25,7 +24,7 @@ from weblate.utils.state import (
 from weblate.utils.views import get_form_data
 
 
-class SearchViewTest(TransactionsTestMixin, ViewTestCase):
+class SearchViewTest(ViewTestCase):
     CREATE_GLOSSARIES = True
 
     def setUp(self) -> None:

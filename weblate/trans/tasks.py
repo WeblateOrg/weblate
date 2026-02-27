@@ -45,6 +45,7 @@ from weblate.trans.models import (
     Suggestion,
     Translation,
 )
+from weblate.trans.models.unit import fill_in_source_translation
 from weblate.utils.celery import app
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
@@ -615,6 +616,10 @@ def auto_translate_component(
 def create_component(copy_from=None, copy_addons=False, in_task=False, **kwargs):
     kwargs["project"] = Project.objects.get(pk=kwargs["project"])
     kwargs["source_language"] = Language.objects.get(pk=kwargs["source_language"])
+    if "secondary_language" in kwargs and kwargs["secondary_language"] is not None:
+        kwargs["secondary_language"] = Language.objects.get(
+            pk=kwargs["secondary_language"]
+        )
     component = Component(**kwargs)
     # Perform validation to avoid creating duplicate components via background
     # tasks in discovery
@@ -666,12 +671,15 @@ def update_checks(pk: int, update_token: str, update_state: bool = False) -> Non
         component.source_translation,
     )
     for translation in translations:
-        units = translation.unit_set.prefetch()
+        units = translation.unit_set.prefetch().prefetch_source()
         if update_state:
             units = units.select_for_update()
+        fill_in_source_translation(units)
         for unit in units.prefetch_all_checks():
             # Reuse object to avoid fetching from the database
             unit.source_unit.translation = component.source_translation
+            # Mark this as a batch update to avoid stats update on each unit
+            unit.is_batch_update = True
             if update_state:
                 unit.update_state()
             unit.run_checks()

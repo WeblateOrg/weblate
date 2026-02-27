@@ -27,7 +27,6 @@ from weblate.memory.tasks import (
 from weblate.memory.utils import CATEGORY_FILE
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import get_test_file
-from weblate.utils.db import TransactionsTestMixin
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.state import STATE_TRANSLATED
 
@@ -45,7 +44,7 @@ def add_document(source: str = "Hello", target: str = "Ahoj") -> None:
     )
 
 
-class MemoryModelTest(TransactionsTestMixin, FixtureTestCase):
+class MemoryModelTest(FixtureTestCase):
     def test_machine(self) -> None:
         add_document()
         unit = self.get_unit()

@@ -15,7 +15,6 @@ from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change, Project, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.util import PLURAL_SEPARATOR
-from weblate.utils.db import using_postgresql
 from weblate.utils.search import SearchQueryError, parse_query
 from weblate.utils.state import (
     FUZZY_STATES,
@@ -130,11 +129,10 @@ class UnitQueryParserTest(SearchTestCase):
         with self.assertRaises(SearchQueryError):
             self.assert_query('source:r"^(hello"', Q(source__trgm_regex="^(hello"))
         # Not supported regex on PostgreSQL
-        if using_postgresql():
-            with self.assertRaises(SearchQueryError):
-                self.assert_query(
-                    'source:r"^(?i)hello"', Q(source__trgm_regex="^(?i)hello")
-                )
+        with self.assertRaises(SearchQueryError):
+            self.assert_query(
+                'source:r"^(?i)hello"', Q(source__trgm_regex="^(?i)hello")
+            )
         self.assert_query('source:r"(?i)^hello"', Q(source__trgm_regex="(?i)^hello"))
 
     def test_logic(self) -> None:
@@ -722,10 +720,7 @@ class SearchTest(ViewTestCase, SearchTestCase):
         glossary = self.project.glossaries[0].translation_set.get(language_code="cs")
         glossary.add_unit(None, "", "hello", "ahoj", author=self.user)
 
-        if using_postgresql():
-            expected = "[[:<:]](hello)[[:>:]]"
-        else:
-            expected = r"(^|[ \t\n\r\f\v])(hello)($|[ \t\n\r\f\v])"
+        expected = "[[:<:]](hello)[[:>:]]"
         self.assert_query(
             "has:glossary",
             Q(source__iregex=expected),

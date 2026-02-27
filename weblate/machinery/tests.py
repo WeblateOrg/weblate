@@ -68,7 +68,6 @@ from weblate.trans.models import Project, Unit
 from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.classloader import load_class
-from weblate.utils.db import TransactionsTestMixin
 from weblate.utils.state import STATE_TRANSLATED
 
 from .types import SourceLanguageChoices
@@ -2939,7 +2938,7 @@ class AnthropicCustomModelTranslationTest(AnthropicTranslationTest):
         self.assertFalse(form.is_valid())
 
 
-class WeblateTranslationTest(TransactionsTestMixin, FixtureTestCase):
+class WeblateTranslationTest(FixtureTestCase):
     def test_empty(self) -> None:
         machine = WeblateTranslation({})
         results = machine.translate(self.get_unit(), self.user)

@@ -7,9 +7,13 @@ Weblate 5.17
 
 .. rubric:: Improvements
 
+* Track origin of newly added source strings.
+
 .. rubric:: Bug fixes
 
 .. rubric:: Compatibility
+
+* Dropped support for MySQL and MariaDB as the database engine.
 
 .. rubric:: Upgrading
 

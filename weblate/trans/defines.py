@@ -18,7 +18,6 @@ BRANCH_LENGTH = 200
 FILENAME_LENGTH = 400
 
 # User model length
-# Note: This is currently limited by 192 to allow index on MySQL
 FULLNAME_LENGTH = 150
 USERNAME_LENGTH = 150
 EMAIL_LENGTH = 190
@@ -29,7 +28,6 @@ LANGUAGE_NAME_LENGTH = 100
 
 # Variant
 VARIANT_REGEX_LENGTH = 190
-# Needed for unique index on MySQL
 VARIANT_KEY_LENGTH = 576
 
 # Maximal categories depth

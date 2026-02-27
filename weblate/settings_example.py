@@ -41,7 +41,6 @@ MANAGERS = ADMINS
 
 DATABASES = {
     "default": {
-        # Use "postgresql" or "mysql".
         "ENGINE": "django.db.backends.postgresql",
         # Database name.
         "NAME": "weblate",
@@ -57,17 +56,7 @@ DATABASES = {
         # Set to empty string for default.
         "PORT": "",
         # Customizations for databases.
-        "OPTIONS": {
-            # In case of using an older MySQL server,
-            # which has MyISAM as a default storage
-            # "init_command": "SET storage_engine=INNODB",
-            # Uncomment for MySQL older than 5.7:
-            # "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
-            # Set emoji capable charset for MySQL:
-            # "charset": "utf8mb4",
-            # Change connection timeout in case you get MySQL gone away error:
-            # "connect_timeout": 28800,
-        },
+        "OPTIONS": {},
         # Persistent connections
         "CONN_MAX_AGE": None,
         "CONN_HEALTH_CHECKS": True,

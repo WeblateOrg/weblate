@@ -168,7 +168,9 @@ def daily_addons(modulo: bool = True) -> None:
         addon.addon.daily(component, activity_log_id=activity_log_id)
 
     today = timezone.now()
-    addons = Addon.objects.filter(event__event=AddonEvent.EVENT_DAILY)
+    addons = Addon.objects.filter(event__event=AddonEvent.EVENT_DAILY).prefetch_related(
+        "component", "project"
+    )
     if modulo:
         addons = addons.annotate(hourmod=F("id") % 24).filter(hourmod=today.hour)
     handle_addon_event(
@@ -229,9 +231,9 @@ def addon_change(change_ids: list[int], **kwargs) -> None:
     This task retrieves add-ons that are subscribed to change events and
     applies the change event to each relevant add-on.
     """
-    addons = Addon.objects.filter(event__event=AddonEvent.EVENT_CHANGE).select_related(
-        "component", "project"
-    )
+    addons = Addon.objects.filter(
+        event__event=AddonEvent.EVENT_CHANGE
+    ).prefetch_related("component", "project")
 
     for change in Change.objects.filter(pk__in=change_ids).prefetch_for_render():
         change.fill_in_prefetched()
