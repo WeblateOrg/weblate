@@ -2066,9 +2066,16 @@ class Component(
             if not self.pushes_to_different_location and self.repo_needs_merge():
                 return False
 
+        # Prefetch addons for linked children to avoid N+1 queries
+        linked_children_list = list(self.linked_children)
+        if linked_children_list:
+            from weblate.addons.models import Addon
+
+            Addon.objects.prefetch_for_components(linked_children_list)
+
         # Send pre push signal
         vcs_pre_push.send(sender=self.__class__, component=self)
-        for component in self.linked_children:
+        for component in linked_children_list:
             vcs_pre_push.send(sender=component.__class__, component=component)
 
         # Do actual push
@@ -2082,7 +2089,7 @@ class Component(
         )
 
         vcs_post_push.send(sender=self.__class__, component=self)
-        for component in self.linked_children:
+        for component in linked_children_list:
             vcs_post_push.send(sender=component.__class__, component=component)
 
         return True
@@ -4184,15 +4191,10 @@ class Component(
     def addons_cache(self):
         from weblate.addons.models import Addon
 
-        result = defaultdict(list)
-        result["__lookup__"] = {}
-        for addon in Addon.objects.filter_for_execution(self):
-            for installed in addon.event_set.all():
-                result[installed.event].append(addon)
-            result["__all__"].append(addon)
-            result["__names__"].append(addon.name)
-            result["__lookup__"][addon.name] = addon
-        return result
+        # Use prefetch_for_components to populate the cache
+        Addon.objects.prefetch_for_components([self])
+        # Return the cache that was populated
+        return self.__dict__["addons_cache"]
 
     def get_addon(self, name: str) -> Addon | None:
         return self.addons_cache["__lookup__"].get(name)
