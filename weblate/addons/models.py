@@ -5,6 +5,7 @@
 from __future__ import annotations
 
 import logging
+from collections import defaultdict
 from typing import TYPE_CHECKING, Literal, Protocol, overload
 
 import sentry_sdk
@@ -76,8 +77,6 @@ class AddonQuerySet(models.QuerySet):
         This builds a combined query that fetches all relevant addons for all
         components at once, avoiding N+1 queries.
         """
-        from collections import defaultdict
-
         if not components:
             return
 
