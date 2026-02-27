@@ -34,7 +34,6 @@ from weblate.trans.signals import (
     vcs_pre_update,
 )
 from weblate.utils.classloader import ClassLoader
-from weblate.utils.db import using_postgresql
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
 
@@ -487,8 +486,8 @@ def handle_addon_event(
                         components = []
                 else:
                     components = addon.project.component_set.iterator()
-            elif addon.addon.project_scope and using_postgresql():
-                # Distinct on fields is PostgreSQL-only in Django
+            elif addon.addon.project_scope:
+                # Use one component per project-scoped add-on
                 components = Component.objects.distinct("project").iterator()
             else:
                 components = Component.objects.iterator()
