@@ -4187,7 +4187,7 @@ class Component(
         # Use prefetch_for_components to populate the cache
         Addon.objects.prefetch_for_components([self])
         # Return the cache that was populated
-        return self.__dict__.get("addons_cache", defaultdict(list))
+        return self.__dict__["addons_cache"]
 
     def get_addon(self, name: str) -> Addon | None:
         return self.addons_cache["__lookup__"].get(name)
