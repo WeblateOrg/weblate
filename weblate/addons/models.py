@@ -114,7 +114,11 @@ class AddonQuerySet(models.QuerySet):
                     # Project-wide add-on
                     or (addon.project_id == component.project_id)
                     # Repository-wide add-ons
-                    or (addon.component_id and addon.repo_scope and component.linked_component_id == addon.component_id)
+                    or (
+                        addon.component_id
+                        and addon.repo_scope
+                        and component.linked_component_id == addon.component_id
+                    )
                     # Site-wide addon
                     or (addon.component_id is None and addon.project_id is None)
                 ):
