@@ -2048,11 +2048,14 @@ class Unit(models.Model, LoggerMixin):
                 & Q(state__lt=STATE_READONLY)
                 & ~Q(target__lower__md5=MD5(Value("")))
                 & ~Q(pk=self.pk)
-            ).select_related(
+            )
+            .select_related(
                 "source_unit",
                 "translation__language",
                 "translation__plural",
-            ).order_by("target").distinct("target")
+            )
+            .order_by("target")
+            .distinct("target")
         )
         # Avoid fetching component again from the database
         for unit in result:

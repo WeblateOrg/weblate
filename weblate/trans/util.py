@@ -126,7 +126,6 @@ def is_repo_link(val: str) -> bool:
     return val.startswith("weblate://")
 
 
-
 def translation_percent(
     translated: int, total: int, zero_complete: bool = True
 ) -> float:
