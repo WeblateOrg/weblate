@@ -12,7 +12,8 @@ from django.urls import reverse
 
 from weblate.checks.models import Check
 from weblate.screenshots.models import Screenshot
-from weblate.trans.models import Component
+from weblate.trans.actions import ActionEvents
+from weblate.trans.models import Change, Component, PendingUnitChange
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.ratelimit import reset_rate_limit
 from weblate.utils.state import (
@@ -685,3 +686,23 @@ class BulkEditTest(ViewTestCase):
         unit = self.get_unit()
         self.assertEqual(unit.state, STATE_APPROVED)
         self.assertFalse(unit.automatically_translated)
+
+    def test_bulk_edit_creates_change_and_pending_unit_change(self) -> None:
+        """Bulk edit creates Change and PendingUnitChange records via bulk insert."""
+        PendingUnitChange.objects.filter(unit=self.unit).delete()
+        initial_change_count = Change.objects.filter(
+            action=ActionEvents.BULK_EDIT
+        ).count()
+
+        response = self.client.post(
+            reverse("bulk-edit", kwargs=self.kw_translation),
+            {"q": "state:needs-editing", "state": STATE_TRANSLATED},
+            follow=True,
+        )
+        self.assertContains(response, "Bulk edit completed, 1 string was updated.")
+
+        self.assertEqual(
+            Change.objects.filter(action=ActionEvents.BULK_EDIT).count(),
+            initial_change_count + 1,
+        )
+        self.assertTrue(PendingUnitChange.objects.filter(unit=self.unit).exists())

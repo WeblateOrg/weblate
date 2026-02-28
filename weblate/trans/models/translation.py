@@ -231,6 +231,7 @@ class Translation(
         self.reason = ""
         self._invalidate_scheduled = False
         self.update_changes: list[Change] = []
+        self.pending_unit_changes: list[PendingUnitChange] = []
         # Project backup integration
         self.original_id = -1
 
@@ -642,6 +643,9 @@ class Translation(
         # Save change
         Change.objects.bulk_create(self.update_changes, batch_size=500)
         self.update_changes.clear()
+        # Save pending unit changes
+        PendingUnitChange.objects.bulk_create(self.pending_unit_changes, batch_size=500)
+        self.pending_unit_changes.clear()
 
     def do_update(
         self, request: AuthenticatedHttpRequest | None = None, method: str | None = None
@@ -1265,6 +1269,8 @@ class Translation(
 
             accepted += 1
 
+            # Ensure deferred changes accumulate on this Translation instance
+            unit.translation = self
             unit.is_batch_update = True
             unit.translate(
                 request.user,
@@ -1278,6 +1284,7 @@ class Translation(
             )
 
         if accepted > 0:
+            self.store_update_changes()
             self.component.update_source_checks()
             self.component.run_batched_checks()
             self.invalidate_cache()

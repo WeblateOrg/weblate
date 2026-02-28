@@ -818,6 +818,33 @@ class UnitTest(ModelTestCase):
         unit.source = "My test source"
         self.assertEqual(unit.get_max_length(), 10000)
 
+    def test_batch_update_defers_change_and_pending_change(self) -> None:
+        """Change objects are deferred to update_changes list when is_batch_update=True."""
+        user = create_test_user()
+        unit = Unit.objects.filter(
+            translation__language_code="cs", source="Hello, world!\n"
+        )[0]
+        PendingUnitChange.objects.filter(unit=unit).delete()
+        initial_count = Change.objects.count()
+
+        unit.is_batch_update = True
+        unit.translate(user, "Nazdar svete!\n", STATE_TRANSLATED)
+
+        # Change and PendingUnitChange should NOT be in DB yet
+        self.assertEqual(Change.objects.count(), initial_count)
+        self.assertFalse(PendingUnitChange.objects.filter(unit=unit).exists())
+
+        # But should be in the deferred list on the translation
+        self.assertEqual(len(unit.translation.update_changes), 1)
+        self.assertEqual(len(unit.translation.pending_unit_changes), 1)
+
+        # After flush, it should be in DB and the list cleared
+        unit.translation.store_update_changes()
+        self.assertEqual(Change.objects.count(), initial_count + 1)
+        self.assertEqual(len(unit.translation.update_changes), 0)
+        self.assertTrue(PendingUnitChange.objects.filter(unit=unit).exists())
+        self.assertEqual(len(unit.translation.pending_unit_changes), 0)
+
 
 class AnnouncementTest(ModelTestCase):
     """Test(s) for Announcement model."""

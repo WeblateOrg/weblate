@@ -17,7 +17,7 @@ from weblate.formats.helpers import NamedBytesIO
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
 from weblate.trans.forms import SimpleUploadForm
-from weblate.trans.models import ComponentList
+from weblate.trans.models import Change, ComponentList, PendingUnitChange
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.state import STATE_READONLY
@@ -85,6 +85,15 @@ class ImportTest(ImportBaseTest):
 
     def test_import_normal(self) -> None:
         """Test importing normally."""
+        translation = self.get_translation()
+
+        initial_change_count = Change.objects.filter(
+            action=ActionEvents.UPLOAD, translation=translation
+        ).count()
+        initial_pending_count = PendingUnitChange.objects.filter(
+            unit__translation=translation
+        ).count()
+
         response = self.do_import()
         self.assertRedirects(response, self.translation_url)
 
@@ -94,9 +103,21 @@ class ImportTest(ImportBaseTest):
         self.assertEqual(translation.stats.fuzzy, 0)
         self.assertEqual(translation.stats.all, 4)
 
+        self.assertGreater(
+            Change.objects.filter(
+                action=ActionEvents.UPLOAD, translation=translation
+            ).count(),
+            initial_change_count,
+        )
+        self.assertGreater(
+            PendingUnitChange.objects.filter(unit__translation=translation).count(),
+            initial_pending_count,
+        )
+
         # Verify unit
         unit = self.get_unit()
         self.assertEqual(unit.target, TRANSLATION_PO)
+        self.assertTrue(PendingUnitChange.objects.filter(unit=unit).exists())
 
     def test_import_author(self) -> None:
         """Test importing normally."""

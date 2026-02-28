@@ -365,6 +365,7 @@ class PendingUnitChange(models.Model):
         automatically_translated: bool | None = None,
         timestamp: datetime | None = None,
         store_disk_state: bool = True,
+        save: bool = True,
     ) -> PendingUnitChange:
         """Store complete change data for a unit by a specific author."""
         # update current fields in disk_state details for comparison of
@@ -399,5 +400,6 @@ class PendingUnitChange(models.Model):
             kwargs["timestamp"] = timestamp
 
         pending_unit_change = PendingUnitChange(**kwargs)
-        pending_unit_change.save()
+        if save:
+            pending_unit_change.save()
         return pending_unit_change

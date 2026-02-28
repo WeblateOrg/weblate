@@ -10,7 +10,8 @@ from django.test.utils import override_settings
 from django.urls import reverse
 
 from weblate.lang.models import Language
-from weblate.trans.models import Component
+from weblate.trans.actions import ActionEvents
+from weblate.trans.models import Change, Component, PendingUnitChange
 from weblate.trans.tasks import auto_translate
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.stats import ProjectLanguage
@@ -255,6 +256,24 @@ class AutoTranslationTest(ViewTestCase):
         self.assertEqual(
             translation.unit_set.filter(automatically_translated=True).count(),
             0,
+        )
+
+    def test_autotranslate_creates_change_and_pending(self) -> None:
+        """Auto-translation creates Change and PendingUnitChange records in bulk."""
+        self.make_different()
+        translation = self.component2.translation_set.get(language_code="cs")
+
+        initial_change_count = Change.objects.count()
+        initial_pending_count = PendingUnitChange.objects.count()
+
+        self.perform_auto()
+
+        self.assertGreater(Change.objects.count(), initial_change_count)
+        self.assertTrue(Change.objects.filter(action=ActionEvents.AUTO).exists())
+        self.assertGreater(PendingUnitChange.objects.count(), initial_pending_count)
+        auto_translated_unit = translation.unit_set.get(automatically_translated=True)
+        self.assertTrue(
+            PendingUnitChange.objects.filter(unit=auto_translated_unit).exists()
         )
 
     def test_command(self) -> None:

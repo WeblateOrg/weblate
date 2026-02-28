@@ -9,7 +9,7 @@ from django.db import transaction
 
 from weblate.checks.flags import Flags
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Component, Unit
+from weblate.trans.models import Change, Component, Unit
 from weblate.trans.models.pending import PendingUnitChange
 from weblate.utils.state import (
     STATE_APPROVED,
@@ -82,6 +82,7 @@ def bulk_perform(  # noqa: C901
             else:
                 to_update = []
                 source_units = []
+                changes = []
                 unit_ids = list(component_units.values_list("id", flat=True))
                 # Generate changes for state change
                 for unit in (
@@ -96,8 +97,14 @@ def bulk_perform(  # noqa: C901
                         # Create change object for edit, update is done outside the loop
                         unit.state = target_state
                         unit.automatically_translated = False
-                        unit.generate_change(
-                            user, user, ActionEvents.BULK_EDIT, check_new=False
+                        changes.append(
+                            unit.generate_change(
+                                user,
+                                user,
+                                ActionEvents.BULK_EDIT,
+                                check_new=False,
+                                save=False,
+                            )
                         )
                         updated += 1
                         to_update.append(unit)
@@ -109,8 +116,16 @@ def bulk_perform(  # noqa: C901
                     state=target_state,
                     automatically_translated=False,
                 )
-                for unit in to_update:
-                    PendingUnitChange.store_unit_change(unit=unit, author=user)
+                Change.objects.bulk_create(changes, batch_size=500)
+                PendingUnitChange.objects.bulk_create(
+                    [
+                        PendingUnitChange.store_unit_change(
+                            unit=unit, author=user, save=False
+                        )
+                        for unit in to_update
+                    ],
+                    batch_size=500,
+                )
                 # Fire source_change event in bulk for source units
                 for unit in source_units:
                     # The change is already done in the database, we
