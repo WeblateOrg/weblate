@@ -18,11 +18,10 @@ from django.db.models import (
     OuterRef,
     Q,
     Subquery,
-    TextField,
     When,
 )
 from django.db.models.fields.json import KT
-from django.db.models.functions import Cast, Now
+from django.db.models.functions import Now
 from django.utils import timezone
 
 from weblate.utils.state import (
@@ -176,27 +175,22 @@ class PendingChangeQuerySet(models.QuerySet):
         one_week_ago = timezone.now() - timedelta(days=7)
 
         annotations_: dict[str, Any] = {
-            # use KT and explicitly cast key value to string to avoid
-            # django from treating string comparison values for RHS as JSON
-            # on mariadb and mysql.
-            "failed_revision": Cast(KT("metadata__failed_revision"), TextField()),
-            "weblate_version": Cast(KT("metadata__weblate_version"), TextField()),
-            "last_failed": Cast(KT("metadata__last_failed"), TextField()),
+            "failed_revision": KT("metadata__failed_revision"),
+            "weblate_version": KT("metadata__weblate_version"),
+            "last_failed": KT("metadata__last_failed"),
         }
 
         # Component-level queries require joining unit.translation for revision;
         # translation-level queries use the provided revision directly
         if revision is None:
-            annotations_["translation_revision"] = Cast(
-                "unit__translation__revision", TextField()
-            )
+            annotations_["translation_revision"] = F("unit__translation__revision")
             revision_comparison = ~Q(failed_revision=F("translation_revision"))
         else:
             revision_comparison = ~Q(failed_revision=revision)
 
         # filter changes that are new or eligible for retry
         eligible_for_attempt_filter = (
-            Q(metadata__last_failed__isnull=True)
+            Q(last_failed__isnull=True)
             | revision_comparison
             | ~Q(weblate_version=GIT_VERSION)
             | Q(last_failed__lt=one_week_ago.isoformat())
