@@ -40,7 +40,6 @@ from weblate.trans.models.variant import Variant
 from weblate.trans.signals import unit_post_sync, unit_pre_create
 from weblate.trans.util import (
     count_words,
-    get_distinct_translations,
     is_plural,
     is_unused_string,
     join_plural,
@@ -2042,18 +2041,21 @@ class Unit(models.Model, LoggerMixin):
 
         if not secondary_langs:
             return []
-        result = get_distinct_translations(
+        result = list(
             self.source_unit.unit_set.filter(
                 Q(translation__language__in=secondary_langs)
                 & Q(state__gte=STATE_TRANSLATED)
                 & Q(state__lt=STATE_READONLY)
                 & ~Q(target__lower__md5=MD5(Value("")))
                 & ~Q(pk=self.pk)
-            ).select_related(
+            )
+            .select_related(
                 "source_unit",
                 "translation__language",
                 "translation__plural",
             )
+            .order_by("target")
+            .distinct("target")
         )
         # Avoid fetching component again from the database
         for unit in result:
