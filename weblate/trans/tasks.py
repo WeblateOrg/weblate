@@ -242,16 +242,12 @@ def cleanup_suggestions() -> None:
                 continue
 
             # Remove duplicate suggestions
-            sugs = Suggestion.objects.filter(
+            if Suggestion.objects.filter(
                 unit=suggestion.unit, target=suggestion.target
-            ).exclude(id=suggestion.id)
-            # Do not rely on the SQL as MySQL compares strings case insensitive
-            for other in sugs:
-                if other.target == suggestion.target:
-                    suggestion.delete_log(
-                        anonymous_user, change=ActionEvents.SUGGESTION_CLEANUP
-                    )
-                    break
+            ).exclude(id=suggestion.id).exists():
+                suggestion.delete_log(
+                    anonymous_user, change=ActionEvents.SUGGESTION_CLEANUP
+                )
 
 
 @app.task(trail=False)

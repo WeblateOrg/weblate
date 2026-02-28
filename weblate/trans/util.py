@@ -37,7 +37,7 @@ if TYPE_CHECKING:
     from weblate.auth.models import User
     from weblate.auth.results import PermissionResult
     from weblate.lang.models import Language
-    from weblate.trans.models import Project, Translation, Unit
+    from weblate.trans.models import Project, Translation
 
 
 def detect_strxfrm() -> bool:
@@ -125,23 +125,6 @@ def is_repo_link(val: str) -> bool:
     """Check whether repository is just a link for other one."""
     return val.startswith("weblate://")
 
-
-def get_distinct_translations(units: Iterable[Unit]) -> list[Unit]:
-    """
-    Return list of distinct translations.
-
-    It should be possible to use distinct('target') since Django 1.4, but it is not
-    supported with MySQL, so let's emulate that based on presumption we won't get too
-    many results.
-    """
-    targets = {}
-    result = []
-    for unit in units:
-        if unit.target in targets:
-            continue
-        targets[unit.target] = 1
-        result.append(unit)
-    return result
 
 
 def translation_percent(
