@@ -18,7 +18,6 @@ from django.db.models import (
     OuterRef,
     Q,
     Subquery,
-    TextField,
     When,
 )
 from django.db.models.fields.json import KT
