@@ -16,7 +16,7 @@ from dateutil.parser import ParserError
 from dateutil.parser import parse as dateutil_parse
 from django.db import transaction
 from django.db.models import Count, Exists, F, OuterRef, Q, Value
-from django.db.utils import DataError, OperationalError
+from django.db.utils import DataError
 from django.http import Http404
 from django.utils import timezone
 from django.utils.translation import gettext
@@ -476,8 +476,7 @@ class BaseTermExpr:
                     Unit.objects.annotate(test=Value("")).filter(
                         test__trgm_regex=match.expr
                     ).exists()
-                except (DataError, OperationalError) as error:
-                    # PostgreSQL raises DataError, MySQL OperationalError
+                except DataError as error:
                     raise SearchQueryError(
                         gettext("Invalid regular expression: {}").format(error)
                     ) from error
