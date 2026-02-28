@@ -7,7 +7,7 @@
 # Michal Čihař <michal@weblate.org>, 2025.
 # Vũ Minh Nguyên <PiscesKaze@gmail.com>, 2025.
 # AlaxLima <thanhkhoidangngoc@gmail.com>, 2025, 2026.
-# hoanghuy309 <hoanghuy309@gmail.com>, 2025.
+# hoanghuy309 <hoanghuy309@gmail.com>, 2025, 2026.
 # Dũng Vũ <actionchikuzo@gmail.com>, 2025.
 # Minh Tâm Nguyễn <minhtam.nguyen18902@gmail.com>, 2025.
 # GitHub webhook <noreply-webhook-github@weblate.org>, 2026.
@@ -16,8 +16,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-02-16 13:58+0000\n"
-"PO-Revision-Date: 2026-02-14 19:11+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"PO-Revision-Date: 2026-02-28 10:09+0000\n"
+"Last-Translator: hoanghuy309 <hoanghuy309@gmail.com>\n"
 "Language-Team: Vietnamese <https://hosted.weblate.org/projects/weblate/"
 "application/vi/>\n"
 "Language: vi\n"
@@ -25,7 +25,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.16-dev\n"
+"X-Generator: Weblate 5.16.1-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -76,32 +76,24 @@ msgstr ""
 "repository vĩnh viễn sau khi Weblate thực hiện thay đổi."
 
 #: weblate/accounts/forms.py:210 weblate/accounts/models.py:877
-#, fuzzy
-#| msgid "Commit message"
 msgid "Commit name"
-msgstr "Lời nhắn commit"
+msgstr "Tên commit"
 
 #: weblate/accounts/forms.py:213
-#, fuzzy
-#| msgid ""
-#| "Used in version-control commits. The address stays in the repository "
-#| "forever once changes are committed by Weblate."
 msgid ""
 "Used in version control commits. The name stays in the repository forever, "
 "once changes are committed by Weblate."
 msgstr ""
-"Được sử dụng cho các commit của quản lý phiên bản. Địa chỉ sẽ tồn tại trong "
-"repository vĩnh viễn sau khi Weblate thực hiện thay đổi."
+"Được sử dụng trong các commits kiểm soát phiên bản. Tên này sẽ tồn tại mãi "
+"mãi trong kho lưu trữ, một khi các thay đổi được Weblate commit."
 
 #: weblate/accounts/forms.py:241
 msgid "Use anonymous account name"
-msgstr ""
+msgstr "Sử dụng tên tài khoản ẩn danh"
 
 #: weblate/accounts/forms.py:243
-#, fuzzy
-#| msgid "Use account e-mail address"
 msgid "Use account name"
-msgstr "Dùng địa chỉ e-mail tài khoản"
+msgstr "Sử dụng tên tài khoản"
 
 #: weblate/accounts/forms.py:264 weblate/accounts/models.py:860
 msgid "Public e-mail"
@@ -929,7 +921,7 @@ msgstr "Công ty"
 
 #: weblate/accounts/models.py:872
 msgid "Use global default"
-msgstr ""
+msgstr "Sử dụng mặc định chung"
 
 #: weblate/accounts/models.py:873 weblate/trans/models/project.py:172
 msgid "Public"
@@ -2023,11 +2015,11 @@ msgstr "Chứng chỉ SSL máy khách đã mã hóa qua PEM."
 
 #: weblate/addons/forms.py:666
 msgid "The SSL certificates have to be provided for SSL connection."
-msgstr ""
+msgstr "Cần phải cung cấp chứng chỉ SSL để thiết lập kết nối SSL."
 
 #: weblate/addons/forms.py:679
 msgid "The SSL certificates are not used without a SSL connection."
-msgstr ""
+msgstr "Chứng chỉ SSL sẽ không được sử dụng nếu không có kết nối SSL."
 
 #: weblate/addons/generate.py:39
 msgid "Statistics generator"
@@ -2674,10 +2666,8 @@ msgstr "Đăng thông báo"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:117
-#, fuzzy
-#| msgid "New announcement"
 msgid "Delete announcements"
-msgstr "Thông báo mới"
+msgstr "Xóa thông báo"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:125
@@ -3149,15 +3139,15 @@ msgid "Block expiry"
 msgstr "Chặn hết hạn"
 
 #: weblate/auth/models.py:1012 weblate/trans/forms.py:1419
-#, fuzzy
-#| msgid "Block expiry"
 msgid "Block note"
-msgstr "Chặn hết hạn"
+msgstr "Ghi chú chặn"
 
 #: weblate/auth/models.py:1015 weblate/trans/forms.py:1421
 msgid ""
 "Internal notes regarding blocking the user that are not visible to the user."
 msgstr ""
+"Các ghi chú nội bộ liên quan đến việc chặn người dùng mà người dùng không "
+"thể nhìn thấy."
 
 #: weblate/auth/models.py:1203 weblate/trans/forms.py:1382
 msgid "User to add"
@@ -3212,18 +3202,15 @@ msgid "Sign in to save translations."
 msgstr "Đăng nhập để lưu bản dịch."
 
 #: weblate/auth/permissions.py:225
-#, fuzzy
-#| msgid "Insufficient privileges for approving translations."
 msgid ""
 "Insufficient privileges for approving translations in a restricted component."
-msgstr "Không đủ quyền để phê duyệt bản dịch."
+msgstr ""
+"Không có đủ quyền để phê duyệt bản dịch trong một thành phần bị hạn chế."
 
 #: weblate/auth/permissions.py:230
-#, fuzzy
-#| msgid "Insufficient privileges for saving translations."
 msgid ""
 "Insufficient privileges for saving translations in a restricted component."
-msgstr "Không đủ quyền để lưu bản dịch."
+msgstr "Không có đủ quyền để lưu bản dịch trong một thành phần bị hạn chế."
 
 #: weblate/auth/permissions.py:235
 msgid "Insufficient privileges for approving translations."
@@ -3353,10 +3340,8 @@ msgstr ""
 "Anh."
 
 #: weblate/billing/forms.py:47
-#, fuzzy
-#| msgid "View billing info"
 msgid "Add billing admin"
-msgstr "Xem thông tin thanh toán"
+msgstr "Thêm quản trị viên thanh toán"
 
 #: weblate/billing/models.py:165 weblate/templates/billing/detail.html:28
 msgid "Billing plan"
@@ -3496,26 +3481,22 @@ msgstr ""
 "hoặc dự án bị xóa."
 
 #: weblate/billing/views.py:203 weblate/billing/views.py:222
-#, fuzzy
-#| msgid "Cannot change this on a built-in team."
 msgid "Cannot merge such a billing."
-msgstr "Không thể thay đổi điều này trong nhóm tích hợp."
+msgstr "Không thể gộp các hóa đơn như vậy."
 
 #: weblate/billing/views.py:259
 #, python-format
 msgid "User %s was added as a billing admin."
-msgstr ""
+msgstr "Người dùng %s đã được thêm vào với tư cách là quản trị viên thanh toán."
 
 #: weblate/billing/views.py:277 weblate/templates/billing/detail.html:93
-#, fuzzy
-#| msgid "Subscribed projects"
 msgid "You cannot remove yourself."
-msgstr "Chủ đề đã đăng ký theo dõi"
+msgstr "Bạn không thể tự xóa chính mình."
 
 #: weblate/billing/views.py:286
 #, python-format
 msgid "User %s was removed as a billing admin."
-msgstr ""
+msgstr "Người dùng %s đã bị xóa khỏi vị trí quản trị viên thanh toán."
 
 #: weblate/checks/angularjs.py:32
 msgid "AngularJS interpolation string"
@@ -3538,10 +3519,8 @@ msgid "The following errors were found:"
 msgstr "Đã tìm thấy các lỗi sau:"
 
 #: weblate/checks/base.py:411
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "Could not parse {} flag: {}"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "Không thể phân tích cú pháp cờ {}: {}"
 
 #: weblate/checks/chars.py:48
 msgid "Starting newline"
@@ -3700,16 +3679,12 @@ msgid "Missing non breakable space before double punctuation sign."
 msgstr "Thiếu khoảng cách không thể tách rời trước dấu chấm câu kép."
 
 #: weblate/checks/chars.py:589
-#, fuzzy
-#| msgid "Multiple unnamed variables"
 msgid "Multiple capitals"
-msgstr "Nhiều biến không tên"
+msgstr "Nhiều chữ hoa"
 
 #: weblate/checks/chars.py:591
-#, fuzzy
-#| msgid "Translation contains extra zero-width space character."
 msgid "Translation contains words with multiple misplaced capital letters."
-msgstr "Bản dịch có chứa ký tự khoảng trắng thừa."
+msgstr "Bản dịch chứa các từ có nhiều chữ cái viết hoa đặt sai vị trí."
 
 #: weblate/checks/consistency.py:33
 msgid "Missing plurals"
@@ -4372,16 +4347,12 @@ msgid "C# format string does not match source."
 msgstr "Chuỗi định dạng C# không khớp với nguồn."
 
 #: weblate/checks/format.py:734
-#, fuzzy
-#| msgid "Lua format"
 msgid "Laravel format"
-msgstr "Định dạng Lua"
+msgstr "Định dạng Laravel"
 
 #: weblate/checks/format.py:735
-#, fuzzy
-#| msgid "Lua format string does not match source."
 msgid "Laravel format string does not match source."
-msgstr "Chuỗi định dạng Lua không khớp với nguồn."
+msgstr "Chuỗi định dạng Laravel không khớp với mã nguồn."
 
 #: weblate/checks/format.py:745
 msgid "Java format"
@@ -4584,14 +4555,12 @@ msgstr "Thẻ XML trong bản dịch không khớp với nguồn."
 
 #: weblate/checks/markup.py:296
 msgid "Chars around XML tags"
-msgstr ""
+msgstr "Các ký tự xung quanh thẻ XML"
 
 #: weblate/checks/markup.py:298
-#, fuzzy
-#| msgid "XML tags in translation do not match source."
 msgid ""
 "Characters surrounding XML tags in translation do not align with source."
-msgstr "Thẻ XML trong bản dịch không khớp với nguồn."
+msgstr "Các ký tự bao quanh thẻ XML trong bản dịch không khớp với mã nguồn."
 
 #: weblate/checks/markup.py:357
 msgid "Markdown references"
@@ -4654,10 +4623,8 @@ msgid "reStructuredText syntax error in the translation."
 msgstr "Lỗi cú pháp reStructuredText trong bản dịch."
 
 #: weblate/checks/markup.py:717
-#, fuzzy
-#| msgid "Source and translation do not both start with a newline."
 msgid "The translation should not start with a list marker."
-msgstr "Nguồn và bản dịch không bắt đầu bằng ký tự xuống dòng."
+msgstr "Bản dịch không nên bắt đầu bằng dấu hiệu liệt kê."
 
 #: weblate/checks/placeholders.py:31
 msgid "Placeholders"
@@ -4955,10 +4922,8 @@ msgid "CSV"
 msgstr ""
 
 #: weblate/formats/exporters.py:259
-#, fuzzy
-#| msgid "Java Properties (UTF-8)"
 msgid "Multivalue CSV"
-msgstr "Java Properties (UTF-8)"
+msgstr "CSV đa giá trị"
 
 #: weblate/formats/exporters.py:326
 msgid "XLSX"
@@ -4971,7 +4936,7 @@ msgstr ""
 #. Translators: File format name
 #: weblate/formats/exporters.py:357 weblate/formats/ttkit.py:1630
 msgid "JSON nested structure file"
-msgstr ""
+msgstr "Tệp cấu trúc lồng nhau JSON"
 
 #. Translators: File format name
 #: weblate/formats/exporters.py:366 weblate/formats/ttkit.py:1559
@@ -4980,20 +4945,16 @@ msgstr "Android String Resource"
 
 #. Translators: File format name
 #: weblate/formats/exporters.py:387 weblate/formats/ttkit.py:1456
-#, fuzzy
-#| msgid "iOS Strings"
 msgid "iOS strings"
-msgstr "Chuỗi hệ điều hành iOS"
+msgstr "Chuỗi ký tự iOS"
 
 #: weblate/formats/external.py:29
 msgid "Excel Open XML"
 msgstr ""
 
 #: weblate/formats/multi.py:181
-#, fuzzy
-#| msgid "Java Properties (UTF-8)"
 msgid "Multivalue CSV file"
-msgstr "Java Properties (UTF-8)"
+msgstr "Tệp CSV nhiều giá trị"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1239
@@ -5011,17 +4972,13 @@ msgstr "Tập tin kiểu Gettext PO (đơn ngữ)"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1334
-#, fuzzy
-#| msgid "Qt Linguist Translation File"
 msgid "Qt Linguist translation file"
-msgstr "Tập tin dịch kiểu Qt Linguist"
+msgstr "Tệp phiên dịch Qt Linguist"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1349
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "XLIFF 1.2 translation file"
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Tệp phiên dịch XLIFF 1.2"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1394
@@ -5030,17 +4987,13 @@ msgstr ""
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1402
-#, fuzzy
-#| msgid "Notification on any translation"
 msgid "XLIFF 1.2 with gettext extensions"
-msgstr "Nhận thông báo về bất kỳ bản dịch nào"
+msgstr "XLIFF 1.2 với các tiện ích mở rộng gettext"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1411
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "XLIFF 2.0 translation file"
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Tệp phiên dịch XLIFF 2.0"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1426
@@ -5051,24 +5004,18 @@ msgstr "Tập tin dịch kiểu XLIFF"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1475
-#, fuzzy
-#| msgid "Java Properties (UTF-8)"
 msgid "Java Properties"
-msgstr "Java Properties (UTF-8)"
+msgstr "Thuộc tính Java"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1490
-#, fuzzy
-#| msgid "Languages"
 msgid "Joomla language file"
-msgstr "Ngôn ngữ"
+msgstr "Tệp ngôn ngữ Joomla"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1500
-#, fuzzy
-#| msgid "Java Properties"
 msgid "GWT properties"
-msgstr "Java Properties"
+msgstr "Thuộc tính GWT"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1516
@@ -5077,15 +5024,13 @@ msgstr "PHP strings"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1536
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Laravel PHP strings"
-msgstr "PHP strings"
+msgstr "Chuỗi ký tự PHP Laravel"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1545
 msgid ".NET resource file"
-msgstr ""
+msgstr "Tệp tài nguyên .NET"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1582
@@ -5100,34 +5045,29 @@ msgid "Compose Multiplatform Resource"
 msgstr ""
 
 #: weblate/formats/ttkit.py:1603
-#, fuzzy, python-format
-#| msgid "Failed to generate key: %s"
+#, python-format
 msgid "Could not parse the key: %s"
-msgstr "Xảy ra lỗi khi tạo khóa: %s"
+msgstr "Không thể phân tích khóa: %s"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1609
 msgid "JSON file"
-msgstr ""
+msgstr "Tệp JSON"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1638
 msgid "WebExtension JSON file"
-msgstr ""
+msgstr "Tệp JSON của WebExtension"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1649
-#, fuzzy
-#| msgid "Gettext PO file"
 msgid "i18next JSON file v3"
-msgstr "Tập tin kiểu Gettext PO"
+msgstr "Tệp JSON i18next phiên bản 3"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1660
-#, fuzzy
-#| msgid "Gettext PO file"
 msgid "i18next JSON file v4"
-msgstr "Tập tin kiểu Gettext PO"
+msgstr "Tệp JSON i18next phiên bản 4"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1667
@@ -5145,123 +5085,103 @@ msgstr "Tập tin kiểu Gettext PO"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1686
-#, fuzzy
-#| msgid "User profile"
 msgid "ARB file"
-msgstr "Hồ sơ người dùng"
+msgstr "Tệp ARB"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1696
-#, fuzzy
-#| msgid "Gettext PO file"
 msgid "gotext JSON file"
-msgstr "Tập tin kiểu Gettext PO"
+msgstr "Tệp JSON gotext"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1706
-#, fuzzy
-#| msgid "Gettext PO file"
 msgid "Format.JS JSON file"
-msgstr "Tập tin kiểu Gettext PO"
+msgstr "Tệp JSON của Format.JS"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1715
-#, fuzzy
-#| msgid "Gettext PO file"
 msgid "Nextcloud JSON file"
-msgstr "Tập tin kiểu Gettext PO"
+msgstr "Tệp JSON của Nextcloud"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1726
-#, fuzzy
-#| msgid "Gettext PO file"
 msgid "RESJSON file"
-msgstr "Tập tin kiểu Gettext PO"
+msgstr "Tệp RESJSON"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1736
-#, fuzzy
-#| msgid "HTML file"
 msgid "TOML file"
-msgstr "Người dịch: Tên định dạng tệp"
+msgstr "Tệp TOML"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1756
-#, fuzzy
-#| msgid "Gettext PO file"
 msgid "go-i18n TOML file"
-msgstr "Tập tin kiểu Gettext PO"
+msgstr "Tệp TOML go-i18n"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1766
 msgid "CSV file"
-msgstr ""
+msgstr "Tệp CSV"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1870
 msgid "Simple CSV file"
-msgstr ""
+msgstr "Tệp CSV đơn giản"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1889
 msgid "YAML file"
-msgstr ""
+msgstr "Tệp YAML"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1909
 msgid "Ruby YAML file"
-msgstr ""
+msgstr "Tệp Ruby YAML"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1918
 msgid "DTD file"
-msgstr ""
+msgstr "Tệp DTD"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1963
 msgid "SubRip subtitle file"
-msgstr ""
+msgstr "Tệp phụ đề SubRip"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1979
 msgid "MicroDVD subtitle file"
-msgstr ""
+msgstr "Tệp phụ đề MicroDVD"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1987
 msgid "Advanced SubStation Alpha subtitle file"
-msgstr ""
+msgstr "Tệp phụ đề của Advanced SubStation Alpha"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1995
 msgid "SubStation Alpha subtitle file"
-msgstr ""
+msgstr "Tệp phụ đề SubStation Alpha"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2003
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "Flat XML file"
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Tệp XML phẳng"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2026
-#, fuzzy
-#| msgid "Repository failure"
 msgid "ResourceDictionary file"
-msgstr "Lỗi kho"
+msgstr "Tệp ResourceDictionary"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2040
-#, fuzzy
-#| msgid "XLIFF Translation File"
 msgid "INI file"
-msgstr "Tập tin dịch kiểu XLIFF"
+msgstr "Tệp INI"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2084
 msgid "Inno Setup INI file"
-msgstr ""
+msgstr "Tệp INI của Inno Setup"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2291
@@ -5284,10 +5204,8 @@ msgstr ""
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2373
-#, fuzzy
-#| msgid "Strings with labels"
 msgid "Stringsdict file"
-msgstr "Xâu có nhãn"
+msgstr "Tệp Stringsdict"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:2443
@@ -5296,22 +5214,20 @@ msgstr "Tệp Fluent"
 
 #: weblate/formats/txt.py:95
 msgid "Should be a directory with metadata files!"
-msgstr ""
+msgstr "Nên là một thư mục chứa các tệp dữ liệu mô tả!"
 
 #. Translators: File format name
 #: weblate/formats/txt.py:202
 msgid "App store metadata files"
-msgstr ""
+msgstr "Tệp dữ liệu mô tả cửa hàng ứng dụng"
 
 #: weblate/glossary/apps.py:12
 msgid "Glossaries"
-msgstr ""
+msgstr "Thuật ngữ"
 
 #: weblate/glossary/forms.py:29
-#, fuzzy
-#| msgid "Invalid host name given!"
 msgid "Invalid integer list!"
-msgstr "Tên host cung cấp không hợp lệ!"
+msgstr "Danh sách số nguyên không hợp lệ!"
 
 #: weblate/glossary/forms.py:87 weblate/templates/mail/base.html:37
 #: weblate/templates/translate.html:776 weblate/trans/forms.py:1748
@@ -5320,10 +5236,8 @@ msgid "Glossary"
 msgstr "Bảng thuật ngữ"
 
 #: weblate/lang/apps.py:13
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Weblate languages"
-msgstr "PHP strings"
+msgstr "Ngôn ngữ Weblate"
 
 #: weblate/lang/data.py:307
 msgctxt "Plural form description"
@@ -5397,57 +5311,47 @@ msgstr "Ba"
 #: weblate/templates/mail/new_language.html:31
 #: weblate/templates/snippets/info.html:183
 #: weblate/templates/trans/alert/ambiguouslanguage.html:13
-#, fuzzy
-#| msgid "Language"
 msgid "Language code"
-msgstr "Ngôn ngữ"
+msgstr "Mã ngôn ngữ"
 
 #: weblate/lang/models.py:746 weblate/templates/addons/generate_help.html:16
 #: weblate/templates/mail/new_language.html:27
-#, fuzzy
-#| msgid "Language"
 msgid "Language name"
-msgstr "Ngôn ngữ"
+msgstr "Tên ngôn ngữ"
 
 #: weblate/lang/models.py:749 weblate/templates/mail/new_language.html:37
 #: weblate/templates/snippets/info.html:209
 msgid "Text direction"
-msgstr ""
+msgstr "Hướng văn bản"
 
 #: weblate/lang/models.py:753
-#, fuzzy
-#| msgid "Automatic detection"
 msgid "Automatically detect text direction"
-msgstr "Tự động nhận diện"
+msgstr "Tự động phát hiện hướng văn bản"
 
 #: weblate/lang/models.py:754
 msgid "Left to right"
-msgstr ""
+msgstr "Trái sang phải"
 
 #: weblate/lang/models.py:755
 msgid "Right to left"
-msgstr ""
+msgstr "Phải sang trái"
 
 #: weblate/lang/models.py:759 weblate/templates/mail/new_language.html:41
 #: weblate/templates/snippets/info.html:218
-#, fuzzy
-#| msgid "PHP strings"
 msgid "Number of speakers"
-msgstr "PHP strings"
+msgstr "Số lượng người nói:"
 
 #: weblate/lang/models.py:760
-#, fuzzy
-#| msgid "Secondary languages"
 msgid "Number of people speaking this language."
-msgstr "Ngôn ngữ thứ hai"
+msgstr "Số người nói ngôn ngữ này."
 
 #: weblate/lang/models.py:873
 msgid "Case-sensitive"
-msgstr ""
+msgstr "Phân biệt chữ hoa - chữ thường"
 
 #: weblate/lang/models.py:874
 msgid "Case-insensitive"
-msgstr ""
+msgstr "Không phân biệt chữ hoa - chữ thường"
 
 #: weblate/lang/models.py:910
 msgctxt "Plural type"
@@ -5455,140 +5359,132 @@ msgid "None"
 msgstr "Không"
 
 #: weblate/lang/models.py:914
-#, fuzzy
-#| msgctxt "Plural form description"
-#| msgid "Other"
 msgctxt "Plural type"
 msgid "One/other"
-msgstr "Khác"
+msgstr "Một/khác"
 
 #: weblate/lang/models.py:918
 msgctxt "Plural type"
 msgid "One/few/other"
-msgstr ""
+msgstr "Một/một vài/khác"
 
 #: weblate/lang/models.py:922
-#, fuzzy
-#| msgid "PHP strings"
 msgctxt "Plural type"
 msgid "Arabic languages"
-msgstr "PHP strings"
+msgstr "Các ngôn ngữ Ả Rập"
 
 #: weblate/lang/models.py:926
 msgctxt "Plural type"
 msgid "Zero/one/other"
-msgstr ""
+msgstr "Không/một/khác"
 
 #: weblate/lang/models.py:930
 msgctxt "Plural type"
 msgid "One/two/other"
-msgstr ""
+msgstr "Một/hai/khác"
 
 #: weblate/lang/models.py:934
 msgctxt "Plural type"
 msgid "One/other/two"
-msgstr ""
+msgstr "Một/khác/hai"
 
 #: weblate/lang/models.py:938
 msgctxt "Plural type"
 msgid "One/two/few/other"
-msgstr ""
+msgstr "Một/hai/một vài/khác"
 
 #: weblate/lang/models.py:942
 msgctxt "Plural type"
 msgid "Other/one/two/few"
-msgstr ""
+msgstr "Khác/một/hai/một vài"
 
 #: weblate/lang/models.py:946
 msgctxt "Plural type"
 msgid "One/two/three/other"
-msgstr ""
+msgstr "Một/hai/ba/khác"
 
 #: weblate/lang/models.py:950
 msgctxt "Plural type"
 msgid "One/other/zero"
-msgstr ""
+msgstr "Một/khác/không"
 
 #: weblate/lang/models.py:954
 msgctxt "Plural type"
 msgid "One/few/many/other"
-msgstr ""
+msgstr "Một/một vài/nhiều/khác"
 
 #: weblate/lang/models.py:958
 msgctxt "Plural type"
 msgid "Two/other"
-msgstr ""
+msgstr "Hai/khác"
 
 #: weblate/lang/models.py:962
 msgctxt "Plural type"
 msgid "One/two/few/many/other"
-msgstr ""
+msgstr "Một/hai/một vài/nhiều/khác"
 
 #: weblate/lang/models.py:966
 msgctxt "Plural type"
 msgid "Zero/one/two/few/many/other"
-msgstr ""
+msgstr "Không/một/hai/một vài/nhiều/khác"
 
 #: weblate/lang/models.py:970
 msgctxt "Plural type"
 msgid "Zero/other"
-msgstr ""
+msgstr "Không/khác"
 
 #: weblate/lang/models.py:974
 msgctxt "Plural type"
 msgid "Zero/one/few/other"
-msgstr ""
+msgstr "Không/một/một vài/khác"
 
 #: weblate/lang/models.py:978
 msgctxt "Plural type"
 msgid "Zero/one/two/few/other"
-msgstr ""
+msgstr "Không/một/hai/một vài/khác"
 
 #: weblate/lang/models.py:982
 msgctxt "Plural type"
 msgid "Zero/one/two/other"
-msgstr ""
+msgstr "Không/một/hai/khác"
 
 #: weblate/lang/models.py:986
 msgctxt "Plural type"
 msgid "Zero/one/few/many/other"
-msgstr ""
+msgstr "Không/một/một vài/nhiều/khác"
 
 #: weblate/lang/models.py:990
 msgctxt "Plural type"
 msgid "One/many/other"
-msgstr ""
+msgstr "Một/nhiều/khác"
 
 #: weblate/lang/models.py:994
 msgctxt "Plural type"
 msgid "Zero/one/many/other"
-msgstr ""
+msgstr "Không/một/nhiều/khác"
 
 #: weblate/lang/models.py:998
 msgctxt "Plural type"
 msgid "One/few/many"
-msgstr ""
+msgstr "Một/một vài/nhiều"
 
 #: weblate/lang/models.py:1002
-#, fuzzy
-#| msgctxt "Plural form description"
-#| msgid "Other"
 msgctxt "Plural type"
 msgid "One/zero/few/other"
-msgstr "Khác"
+msgstr "Một/không/một vài/khác"
 
 #: weblate/lang/models.py:1006
 msgctxt "Plural type"
 msgid "Unknown"
-msgstr ""
+msgstr "Không rõ"
 
 #: weblate/lang/models.py:1018
 msgid "Plural definition source"
-msgstr ""
+msgstr "Nguồn định nghĩa số nhiều"
 
 #: weblate/lang/models.py:1020
 msgid "Default plural"
-msgstr ""
+msgstr "Số nhiều mặc định"
 
 #: weblate/lang/models.py:1021
 #, fuzzy
@@ -5963,17 +5859,17 @@ msgstr ""
 #: weblate/machinery/forms.py:229
 msgctxt "Google Cloud region"
 msgid "Europe"
-msgstr ""
+msgstr "Châu Âu"
 
 #: weblate/machinery/forms.py:230
 msgctxt "Google Cloud region"
 msgid "US"
-msgstr ""
+msgstr "Mỹ"
 
 #: weblate/machinery/forms.py:236
 msgctxt "Automatic suggestion service configuration"
 msgid "Google Storage Bucket name"
-msgstr ""
+msgstr "Tên thùng lưu trữ Google"
 
 #: weblate/machinery/forms.py:240
 msgctxt "Google Cloud Translation configuration"
@@ -5981,6 +5877,8 @@ msgid ""
 "Enter the name of the Google Cloud Storage bucket that is used to store the "
 "Glossary files."
 msgstr ""
+"Nhập tên của thùng lưu trữ Google Cloud Storage được sử dụng để lưu trữ các "
+"tệp Thuật ngữ."
 
 #: weblate/machinery/forms.py:250
 #, fuzzy, python-format
@@ -5998,7 +5896,7 @@ msgstr "PHP strings"
 #: weblate/machinery/forms.py:260
 msgctxt "AWS Translate configuration"
 msgid "API secret key"
-msgstr ""
+msgstr "Khóa bí mật API"
 
 #: weblate/machinery/forms.py:263
 #, fuzzy
@@ -19762,10 +19660,8 @@ msgid "Activation completed."
 msgstr "Kích hoạt hoàn tất."
 
 #: weblate/wladmin/views.py:346
-#, fuzzy
-#| msgid "Your profile has been updated."
 msgid "Backup process triggered"
-msgstr "Hồ sơ của bạn đã được cập nhật."
+msgstr "Quá trình sao lưu đã được kích hoạt."
 
 #: weblate/wladmin/views.py:370
 msgid "Could not dismiss the configuration error!"
