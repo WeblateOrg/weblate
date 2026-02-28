@@ -32,3 +32,31 @@ def get_doc_url(page: str, anchor: str = "", user: User | None = None) -> str:
         anchor = f"#{anchor}"
     # Generate URL
     return f"https://docs.weblate.org/{code}/{doc_version}/{page}.html{anchor}"
+
+
+class RSTVersionMetadata:
+    version: str
+    label: str
+
+    def __init__(self, version: str):
+        self.version = version
+
+    def __str__(self) -> str:
+        return f".. {self.label}:: {self.version}"
+
+
+class VersionAdded(RSTVersionMetadata):
+    label: str = "versionadded"
+
+
+class VersionChanged(RSTVersionMetadata):
+    label: str = "versionchanged"
+    version: str
+    description: str
+
+    def __init__(self, version: str, description: str):
+        self.version = version
+        self.description = description
+
+    def __str__(self) -> str:
+        return f".. {self.label}:: {self.version}\n\n   {self.description}"
