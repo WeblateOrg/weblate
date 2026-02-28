@@ -123,6 +123,8 @@ class AutoTranslate(BaseAutoTranslate):
             if suggestion:
                 self.updated += 1
         else:
+            # Ensure deferred changes accumulate on the right Translation instance
+            unit.translation = self.translation
             unit.is_batch_update = True
             unit.translate(
                 user or self.user,
@@ -137,6 +139,7 @@ class AutoTranslate(BaseAutoTranslate):
     def post_process(self) -> None:
         if self.updated > 0:
             self.translation.log_info("finalizing automatic translation")
+            self.translation.store_update_changes()
             if not self.component_wide:
                 self.translation.component.update_source_checks()
                 self.translation.component.run_batched_checks()

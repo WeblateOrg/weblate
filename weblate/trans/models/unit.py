@@ -1451,7 +1451,10 @@ class Unit(models.Model, LoggerMixin):
         self.pending_unit_change = PendingUnitChange.store_unit_change(
             unit=self,
             author=author,
+            save=not self.is_batch_update,
         )
+        if self.is_batch_update:
+            self.translation.pending_unit_changes.append(self.pending_unit_change)
 
         # Update translated flag (not fuzzy and at least one translation)
         translation = any(self.get_target_plurals())
@@ -1469,7 +1472,11 @@ class Unit(models.Model, LoggerMixin):
         )
 
         # Generate change and process it
-        self.post_save(user or author, author, change_action)
+        change = self.post_save(
+            user or author, author, change_action, save=not self.is_batch_update
+        )
+        if self.is_batch_update:
+            self.translation.update_changes.append(change)
 
         # Update related source strings if working on a template
         if self.translation.is_template and self.old_unit["target"] != self.target:
@@ -1967,7 +1974,9 @@ class Unit(models.Model, LoggerMixin):
             if self.pending_unit_change is not None:
                 # Update PendingUnitChange if there is one
                 self.pending_unit_change.state = STATE_NEEDS_REWRITING
-                self.pending_unit_change.save(update_fields=["state"])
+                # if already saved update in DB else deferred via bulk create
+                if self.pending_unit_change.pk is not None:
+                    self.pending_unit_change.save(update_fields=["state"])
             elif saved:
                 # There should be a pending unit if saved
                 msg = "Updating unit, but pending unit change is not set!"
