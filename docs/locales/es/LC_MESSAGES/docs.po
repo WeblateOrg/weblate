@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-02-16 14:59+0100\n"
-"PO-Revision-Date: 2026-03-01 11:09+0000\n"
+"PO-Revision-Date: 2026-03-01 23:06+0000\n"
 "Last-Translator: eulalio <eulalio@disroot.org>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -54882,21 +54882,28 @@ msgid ""
 "are present in translation. Some programs might have problems when this "
 "character is used."
 msgstr ""
+"Como generalmente se insertan por error, esta verificación se activa una vez "
+"que están presentes en la traducción. Algunos programas pueden tener "
+"problemas cuando se usa este carácter."
 
 #: ../../user/checks.rst:1958
 msgid ""
 "`Zero width space on Wikipedia <https://en.wikipedia.org/wiki/Zero-"
 "width_space>`_"
 msgstr ""
+"`Espacio de ancho cero en Wikipedia <https://en.wikipedia.org/wiki/Zero-"
+"width_space>`_"
 
 #: ../../user/checks.rst:1963
 msgid "Source checks"
-msgstr ""
+msgstr "Comprobaciones de origen"
 
 #: ../../user/checks.rst:1965
 msgid ""
 "Source checks can help developers improve the quality of source strings."
 msgstr ""
+"Las comprobaciones de código fuente pueden ayudar a los desarrolladores a "
+"mejorar la calidad de las cadenas de código fuente."
 
 #: ../../user/checks.rst:1970
 msgid "Ellipsis"
@@ -54922,6 +54929,8 @@ msgid ""
 "This fails when the string uses three dots (``...``) when it should use an "
 "ellipsis character (``…``)."
 msgstr ""
+"Esto falla cuando la cadena usa tres puntos (``...``) cuando debería usar un "
+"carácter de puntos suspensivos (``…``)."
 
 #: ../../user/checks.rst:1982
 msgid ""
@@ -54945,6 +54954,9 @@ msgid ""
 "meant to be used directly as ``.innerHTML`` (rather than ``.textContent``) "
 "for some HTML element. For example, when using the Fluent DOM package."
 msgstr ""
+"Fluent se usa a menudo en contextos donde el valor de un Mensaje (o Término) "
+"debe usarse directamente como ``.innerHTML`` (en lugar de ``.textContent``) "
+"para algún elemento HTML. Por ejemplo, cuando se usa el paquete DOM fluido."
 
 #: ../../user/checks.rst:2009
 msgid ""
@@ -54953,6 +54965,11 @@ msgid ""
 "be some \"unintended\" loss of the string, without being too strict about "
 "technical parsing errors that do *not* lead to a loss of the string."
 msgstr ""
+"El objetivo de esta comprobación es predecir cómo se analizará el valor como "
+"HTML interno, suponiendo un analizador conforme a HTML5, para detectar casos "
+"en los que habría una pérdida \"involuntaria\" de la cadena, sin ser "
+"demasiado estrictos con los errores técnicos de análisis que *no* conducen a "
+"una pérdida de la cadena."
 
 #: ../../user/checks.rst:2014
 msgid ""
@@ -54962,6 +54979,12 @@ msgid ""
 "Attributes are often language properties that can only be referenced in the "
 "selectors of Fluent Select Expressions."
 msgstr ""
+"Esta comprobación se aplica al valor de los Mensajes o Términos Fluidos, "
+"pero no a sus Atributos. Para los Mensajes, los Atributos Fluent a menudo "
+"son solo valores de atributos HTML, por lo que pueden ser cadenas "
+"arbitrarias. Para los Términos, los Atributos de Fluidez suelen ser "
+"propiedades del lenguaje a las que solo se puede hacer referencia en los "
+"selectores de Expresiones de selección fluida."
 
 #: ../../user/checks.rst:2020
 msgid ""
@@ -54972,6 +54995,13 @@ msgid ""
 "them when they may have unintentionally opened a HTML tag or inserted a "
 "character reference."
 msgstr ""
+"Generalmente, no se espera que la mayoría de los valores fluidos contengan "
+"marcas HTML. Por lo tanto, esta verificación no espera ni quiere que los "
+"traductores y desarrolladores tengan que preocuparse estrictamente por "
+"evitar *cualquier* error técnico de análisis HTML5 (y mucho menos errores de "
+"análisis XHTML). En cambio, esta verificación solo querrá advertirles cuando "
+"hayan abierto involuntariamente una etiqueta HTML o insertado una referencia "
+"de carácter."
 
 #: ../../user/checks.rst:2026
 msgid ""
@@ -54984,16 +55014,25 @@ msgid ""
 "tags and attributes, as well as allow *some* custom element or attribute "
 "names. This is partially to ensure that the user is using HTML intentionally."
 msgstr ""
+"Además, para los valores fluidos que contienen intencionalmente etiquetas "
+"HTML o referencias de caracteres, esta verificación verificará algunas "
+"\"buenas prácticas\", como hacer coincidir las etiquetas de cierre y "
+"finalización, las referencias de caracteres válidas y los valores de "
+"atributos citados. Además, aunque la especificación HTML5 técnicamente "
+"permite nombres de etiquetas y atributos bastante arbitrarios, esta "
+"verificación los restringirá a algunos valores ASCII básicos que deberían "
+"cubrir las etiquetas y atributos de elementos HTML5 estándar, así como "
+"permitir *algunos* nombres de elementos o atributos personalizados. Esto es "
+"parcialmente para garantizar que el usuario esté usando HTML "
+"intencionalmente."
 
 #: ../../user/checks.rst:2035 ../../user/search.rst:176
 msgid "Examples:"
 msgstr "Ejemplos:"
 
 #: ../../user/checks.rst:2037
-#, fuzzy
-#| msgid "Fluent source inner HTML"
 msgid "Fluent inner HTML examples"
-msgstr "HTML interno de una fuente fluida"
+msgstr "Ejemplos de HTML interno fluido"
 
 #: ../../user/checks.rst:2041
 msgid "Warns?"
