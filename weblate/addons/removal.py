@@ -50,12 +50,14 @@ class RemoveComments(RemovalAddon):
     description = gettext_lazy("Set a timeframe for removal of comments.")
 
     def daily(self, component: Component, activity_log_id: int | None = None) -> None:
-        self.delete_older(
-            Comment.objects.filter(
+        if not self.instance.component:
+            # Operate on project level if not installed to a component
+            comments = Comment.objects.filter(
                 unit__translation__component__project=component.project
-            ),
-            component,
-        )
+            )
+        else:
+            comments = Comment.objects.filter(unit__translation__component=component)
+        self.delete_older(comments, component)
 
 
 class RemoveSuggestions(RemovalAddon):
@@ -65,12 +67,17 @@ class RemoveSuggestions(RemovalAddon):
     settings_form = RemoveSuggestionForm
 
     def daily(self, component: Component, activity_log_id: int | None = None) -> None:
-        self.delete_older(
-            Suggestion.objects.filter(
+        if not self.instance.component:
+            # Operate on project level if not installed to a component
+            suggestions = Suggestion.objects.filter(
                 unit__translation__component__project=component.project
             )
-            .annotate(Sum("vote__value"))
-            .filter(
+        else:
+            suggestions = Suggestion.objects.filter(
+                unit__translation__component=component
+            )
+        self.delete_older(
+            suggestions.annotate(Sum("vote__value")).filter(
                 Q(vote__value__sum__lte=self.instance.configuration.get("votes", 0))
                 | Q(vote__value__sum=None)
             ),
