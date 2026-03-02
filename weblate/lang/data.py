@@ -24,6 +24,7 @@ UNDERSCORE_EXCEPTIONS = {
     "zh_Hant",
     "zh_Hans",
     "be_Latn",
+    "oc_ES",
     "ro_MD",
     "pt_BR",
     "pa_PK",
