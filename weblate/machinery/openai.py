@@ -24,23 +24,35 @@ if TYPE_CHECKING:
 class BaseOpenAITranslation(BaseLLMTranslation):
     client: OpenAI
 
-    def fetch_llm_translations(self, prompt: str, content: str) -> str | None:
+    def fetch_llm_translations(
+        self, prompt: str, content: str, previous_content: str, previous_response: str
+    ) -> str | None:
         from openai import RateLimitError
         from openai.types.chat import (
+            ChatCompletionAssistantMessageParam,
             ChatCompletionSystemMessageParam,
             ChatCompletionUserMessageParam,
         )
 
         messages: Iterable[
-            ChatCompletionSystemMessageParam | ChatCompletionUserMessageParam
+            ChatCompletionSystemMessageParam
+            | ChatCompletionUserMessageParam
+            | ChatCompletionAssistantMessageParam
         ] = [
             ChatCompletionSystemMessageParam(role="system", content=prompt),
+            ChatCompletionUserMessageParam(
+                role="user",
+                content=previous_content,
+            ),
+            ChatCompletionAssistantMessageParam(
+                role="assistant",
+                content=previous_response,
+            ),
             ChatCompletionUserMessageParam(
                 role="user",
                 content=content,
             ),
         ]
-
         try:
             response = self.client.chat.completions.create(
                 model=self.get_model(),
