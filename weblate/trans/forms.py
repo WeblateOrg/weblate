@@ -934,18 +934,18 @@ class MergeForm(UnitForm):
         translation = unit.translation
         project = translation.component.project
         try:
-            self.cleaned_data["merge_unit"] = merge_unit = Unit.objects.get(
-                pk=self.cleaned_data["merge"],
-                translation__component__project=project,
-                translation__language=translation.language,
-            )
+            filter_kwargs: dict[str, Any] = {
+                "pk": self.cleaned_data["merge"],
+                "translation__component__project": project,
+                "translation__language": translation.language,
+            }
+            if not translation.is_source:
+                filter_kwargs["source"] = unit.source
+            self.cleaned_data["merge_unit"] = Unit.objects.get(**filter_kwargs)
         except Unit.DoesNotExist as error:
             raise ValidationError(
                 gettext("Could not find the merged string.")
             ) from error
-        # Compare in Python to ensure case sensitiveness on MySQL
-        if not translation.is_source and unit.source != merge_unit.source:
-            raise ValidationError(gettext("Could not find the merged string."))
         return self.cleaned_data
 
 
