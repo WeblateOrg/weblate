@@ -259,6 +259,7 @@ ACTIONS_REPOSITORY = {
     ActionEvents.FILE_UPLOAD,
     ActionEvents.FORCE_SYNC,
     ActionEvents.FORCE_SCAN,
+    ActionEvents.REPO_CLEANUP,
 }
 
 # Actions where target is rendered as translation string
