@@ -8,8 +8,6 @@ from typing import TYPE_CHECKING
 
 from django.core.cache import cache
 
-from weblate.utils.errors import add_breadcrumb
-
 from .base import (
     MachineryRateLimitError,
     MachineTranslationError,
@@ -32,9 +30,6 @@ class BaseOpenAITranslation(BaseLLMTranslation):
             ChatCompletionSystemMessageParam,
             ChatCompletionUserMessageParam,
         )
-
-        add_breadcrumb("openai", "prompt", prompt=prompt)
-        add_breadcrumb("openai", "chat", content=content)
 
         messages: Iterable[
             ChatCompletionSystemMessageParam | ChatCompletionUserMessageParam
