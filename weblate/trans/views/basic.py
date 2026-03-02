@@ -5,7 +5,7 @@ from __future__ import annotations
 
 from collections import Counter
 from contextlib import suppress
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, overload
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_not_required, login_required
@@ -82,8 +82,6 @@ from weblate.utils.views import (
 )
 
 if TYPE_CHECKING:
-    from collections.abc import Callable
-
     from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.trans.models.component import ComponentQuerySet
 
@@ -127,18 +125,47 @@ def list_projects(request: AuthenticatedHttpRequest):
     )
 
 
+@overload
 def add_ghost_translations(
-    obj: Project | Category,
+    obj: Category,
     user: User,
     translations: list,
-    generator: Callable,
+    generator: type[GhostCategoryLanguageStats],
     **kwargs,
-) -> None:
+) -> None: ...
+@overload
+def add_ghost_translations(
+    obj: Project,
+    user: User,
+    translations: list,
+    generator: type[GhostProjectLanguageStats | GhostTranslation],
+    **kwargs,
+) -> None: ...
+def add_ghost_translations(
+    obj,
+    user,
+    translations,
+    generator,
+    **kwargs,
+):
     """Add ghost translations for user languages to the list."""
+    project = obj if isinstance(obj, Project) else obj.project
     language_ids = {translation.language.id for translation in translations}
+    languages_allowed: set[int] | None = None
     for language in user.profile.all_languages:
+        # Skip languages already present
         if language.id in language_ids:
             continue
+
+        # Skip languages not allowed for adding
+        if languages_allowed is None:
+            languages_allowed = set(
+                Language.objects.filter_for_add(project).values_list("id", flat=True)
+            )
+        if language.id not in languages_allowed:
+            continue
+
+        # Generate ghost object
         translations.append(generator(obj, language, **kwargs))
 
 
@@ -222,7 +249,9 @@ def show(request: AuthenticatedHttpRequest, path):
     raise TypeError(msg)
 
 
-def show_project_language(request: AuthenticatedHttpRequest, obj: ProjectLanguage):
+def show_project_language(
+    request: AuthenticatedHttpRequest, obj: ProjectLanguage
+) -> HttpResponse:
     language_object = obj.language
     project_object = obj.project
     user = request.user
@@ -322,7 +351,9 @@ def show_project_language(request: AuthenticatedHttpRequest, obj: ProjectLanguag
     )
 
 
-def show_category_language(request: AuthenticatedHttpRequest, obj):
+def show_category_language(
+    request: AuthenticatedHttpRequest, obj: CategoryLanguage
+) -> HttpResponse:
     language_object = obj.language
     category_object = obj.category
     user = request.user
@@ -394,7 +425,7 @@ def show_category_language(request: AuthenticatedHttpRequest, obj):
     )
 
 
-def show_project(request: AuthenticatedHttpRequest, obj):
+def show_project(request: AuthenticatedHttpRequest, obj: Project) -> HttpResponse:
     def filter_no_category(qs: ComponentQuerySet) -> ComponentQuerySet:
         if settings.HIDE_SHARED_GLOSSARY_COMPONENTS:
             qs = qs.exclude(Q(is_glossary=True) & ~Q(project=obj))
@@ -483,7 +514,7 @@ def show_project(request: AuthenticatedHttpRequest, obj):
     )
 
 
-def show_category(request: AuthenticatedHttpRequest, obj):
+def show_category(request: AuthenticatedHttpRequest, obj: Category) -> HttpResponse:
     user = request.user
 
     all_changes = (
@@ -577,7 +608,7 @@ def show_category(request: AuthenticatedHttpRequest, obj):
     )
 
 
-def show_component(request: AuthenticatedHttpRequest, obj: Component):
+def show_component(request: AuthenticatedHttpRequest, obj: Component) -> HttpResponse:
     user = request.user
 
     obj.project.project_languages.preload_workflow_settings()
@@ -658,7 +689,9 @@ def show_component(request: AuthenticatedHttpRequest, obj: Component):
     )
 
 
-def show_translation(request: AuthenticatedHttpRequest, obj):
+def show_translation(
+    request: AuthenticatedHttpRequest, obj: Translation
+) -> HttpResponse:
     component = obj.component
     project = component.project
     last_changes = obj.change_set.prefetch().recent(skip_preload="translation")
@@ -763,7 +796,7 @@ def show_translation(request: AuthenticatedHttpRequest, obj):
 
 
 @never_cache
-def data_project(request: AuthenticatedHttpRequest, project) -> HttpResponse:
+def data_project(request: AuthenticatedHttpRequest, project: str) -> HttpResponse:
     obj = parse_path(request, [project], (Project,))
     return render(
         request,

@@ -814,15 +814,13 @@ class SearchForm(forms.Form):
         request: AuthenticatedHttpRequest,
         language: Language | None = None,
         show_builder=True,
-        obj: type[
-            Project
-            | Translation
-            | Component
-            | ProjectLanguage
-            | Category
-            | CategoryLanguage
-            | Language
-        ]
+        obj: Project
+        | Translation
+        | Component
+        | ProjectLanguage
+        | Category
+        | CategoryLanguage
+        | Language
         | None = None,
         **kwargs,
     ) -> None:
