@@ -65,14 +65,15 @@ class BaseAutoTranslate:
     def get_message(self) -> str:
         if self.updated == 0:
             return gettext("Automatic translation completed, no strings were updated.")
-        return (
-            ngettext(
-                "Automatic translation completed, %d string was updated.",
-                "Automatic translation completed, %d strings were updated.",
-                self.updated,
-            )
-            % self.updated
+        message = ngettext(
+            "Automatic translation completed, %d string was updated.",
+            "Automatic translation completed, %d strings were updated.",
+            self.updated,
         )
+        try:
+            return message % self.updated
+        except TypeError:
+            return message
 
     def get_task_meta(self) -> dict[str, Any]:
         """Return a metadata dictionary for Celery task progress tracking."""
