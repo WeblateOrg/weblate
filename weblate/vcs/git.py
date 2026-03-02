@@ -971,7 +971,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         if not host:
             if ":" in repo:
                 # Assume SSH URL
-                host, path = repo.split(":")
+                host, path = repo.split(":", 1)
                 host = host.split("@")[-1]
                 scheme = None
             else:
