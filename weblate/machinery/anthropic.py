@@ -44,12 +44,16 @@ class AnthropicTranslation(BaseLLMTranslation):
             raise MachineryRateLimitError(message)
         super().check_failure(response)
 
-    def fetch_llm_translations(self, prompt: str, content: str) -> str | None:
+    def fetch_llm_translations(
+        self, prompt: str, content: str, previous_content: str, previous_response: str
+    ) -> str | None:
         payload = {
             "model": self.get_model(),
             "max_tokens": self.settings.get("max_tokens", 4096),
             "system": prompt,
             "messages": [
+                {"role": "user", "content": previous_content},
+                {"role": "assistant", "content": previous_response},
                 {"role": "user", "content": content},
             ],
         }

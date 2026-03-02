@@ -2554,7 +2554,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
                             "index": 0,
                             "message": {
                                 "role": "assistant",
-                                "content": "Ahoj světe",
+                                "content": '["Ahoj světe"]',
                             },
                             "finish_reason": "stop",
                         }
@@ -2611,7 +2611,7 @@ class OpenAICustomTranslationTest(OpenAITranslationTest):
                             "index": 0,
                             "message": {
                                 "role": "assistant",
-                                "content": "Ahoj světe",
+                                "content": '["Ahoj světe"]',
                             },
                             "finish_reason": "stop",
                         }
@@ -2674,7 +2674,7 @@ class AzureOpenAITranslationTest(OpenAITranslationTest):
                             "index": 0,
                             "message": {
                                 "role": "assistant",
-                                "content": "Ahoj světe",
+                                "content": '["Ahoj světe"]',
                             },
                             "finish_reason": "stop",
                         }
@@ -2723,7 +2723,7 @@ class OllamaTranslationTest(BaseMachineTranslationTest):
                 "created_at": "2025-11-29T21:25:08.441817763Z",
                 "message": {
                     "role": "assistant",
-                    "content": "Sakatu SUTAN jarraitzeko",
+                    "content": '["Sakatu SUTAN jarraitzeko"]',
                 },
                 "done": True,
                 "done_reason": "stop",
@@ -2757,7 +2757,7 @@ class OllamaRemoteModelTranslationTest(OllamaTranslationTest):
                 "created_at": "2025-11-29T21:43:24.529609868Z",
                 "message": {
                     "role": "assistant",
-                    "content": "Sakatu FIRE tekla jarraitzeko.",
+                    "content": '["Sakatu FIRE tekla jarraitzeko."]',
                 },
                 "done": True,
                 "done_reason": "stop",
@@ -2812,6 +2812,32 @@ class AnthropicTranslationTest(BaseMachineTranslationTest):
                 "content": [
                     {
                         "type": "text",
+                        "text": '["Hallo Welt"]',
+                    }
+                ],
+                "model": "claude-sonnet-4-5",
+                "stop_reason": "end_turn",
+                "stop_sequence": None,
+                "usage": {
+                    "input_tokens": 25,
+                    "output_tokens": 5,
+                },
+            },
+        )
+
+    @responses.activate
+    def test_error_non_json(self) -> None:
+        responses.add(
+            responses.POST,
+            "https://api.anthropic.com/v1/messages",
+            status=200,
+            json={
+                "id": "msg_01XFDUDYJgAACzvnptvVoYEL",
+                "type": "message",
+                "role": "assistant",
+                "content": [
+                    {
+                        "type": "text",
                         "text": "Hallo Welt",
                     }
                 ],
@@ -2824,6 +2850,36 @@ class AnthropicTranslationTest(BaseMachineTranslationTest):
                 },
             },
         )
+        with self.assertRaises(MachineTranslationError):
+            self.assert_translate(self.SUPPORTED, self.SOURCE_BLANK, 0)
+
+    @responses.activate
+    def test_error_wrong_type(self) -> None:
+        responses.add(
+            responses.POST,
+            "https://api.anthropic.com/v1/messages",
+            status=200,
+            json={
+                "id": "msg_01XFDUDYJgAACzvnptvVoYEL",
+                "type": "message",
+                "role": "assistant",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": '{"translation": "Hallo Welt"}',
+                    }
+                ],
+                "model": "claude-sonnet-4-5",
+                "stop_reason": "end_turn",
+                "stop_sequence": None,
+                "usage": {
+                    "input_tokens": 25,
+                    "output_tokens": 5,
+                },
+            },
+        )
+        with self.assertRaises(MachineTranslationError):
+            self.assert_translate(self.SUPPORTED, self.SOURCE_BLANK, 0)
 
 
 class AnthropicCustomModelTranslationTest(AnthropicTranslationTest):

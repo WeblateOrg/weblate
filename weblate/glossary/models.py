@@ -22,6 +22,8 @@ from weblate.utils.state import STATE_TRANSLATED
 from weblate.utils.unicodechars import CONTROLCHARS
 
 if TYPE_CHECKING:
+    from collections.abc import Generator, Iterable
+
     from weblate.trans.models import Project, Translation
 
 SPLIT_RE = re.compile(r"[\s,.:!?]+")
@@ -223,9 +225,9 @@ def fetch_glossary_terms(  # noqa: C901
                 )
 
 
-def render_glossary_units_tsv(units) -> str:
+def get_glossary_tuples(units: Iterable[Unit]) -> Generator[tuple[str, str]]:
     r"""
-    Build a tab separated glossary.
+    Build a glossary content as word tuples.
 
     Based on the DeepL specification:
 
@@ -262,7 +264,6 @@ def render_glossary_units_tsv(units) -> str:
         )
 
     included = set()
-    output = []
     for unit in units:
         # Skip forbidden term
         if "forbidden" in unit.all_flags:
@@ -283,9 +284,14 @@ def render_glossary_units_tsv(units) -> str:
         included.add(source)
 
         # Render TSV
-        output.append(f"{source}\t{target}")
+        yield source, target
 
-    return "\n".join(output)
+
+def render_glossary_units_tsv(units: Iterable[Unit]) -> str:
+    """Build a tab separated glossary."""
+    return "\n".join(
+        f"{source}\t{target}" for source, target in get_glossary_tuples(units)
+    )
 
 
 def get_glossary_tsv(translation) -> str:
