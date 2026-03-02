@@ -187,6 +187,7 @@ class PayloadFormParserParser(parsers.FormParser, PayloadMixin):
 class ServiceHookView(APIView):
     authentication_classes = []  # noqa: RUF012
     permission_classes = [AllowAny]  # noqa: RUF012
+    throttle_classes = []  # noqa: RUF012
     http_method_names = ["post"]  # noqa: RUF012
     parser_classes = (
         parsers.JSONParser,
