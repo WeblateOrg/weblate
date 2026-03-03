@@ -616,6 +616,19 @@ class Unit(models.Model, LoggerMixin):
     def get_absolute_url(self) -> str:
         return f"{self.translation.get_translate_url()}?checksum={self.checksum}"
 
+    def fill_new_unit_cache(self) -> None:
+        """
+        Populate object cache for new unit.
+
+        This avoids fetching non-existing relations.
+        """
+        # Avoid fetching empty list of checks from the database
+        self.__dict__["all_checks"] = []
+        # Avoid fetching empty list of variants
+        if not hasattr(self, "_prefetched_objects_cache"):
+            self._prefetched_objects_cache = {}
+        self._prefetched_objects_cache["defined_variants"] = Variant.objects.none()
+
     def get_url_path(self):
         return (*self.translation.get_url_path(), str(self.pk))
 

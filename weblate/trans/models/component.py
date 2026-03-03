@@ -1435,6 +1435,7 @@ class Component(
                 source = Unit(
                     translation=self.source_translation, id_hash=id_hash, **create
                 )
+                source.fill_new_unit_cache()
                 source.save(force_insert=True, only_save=True)
                 self._process_new_source(source)
             else:
