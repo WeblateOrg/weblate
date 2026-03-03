@@ -9,6 +9,7 @@ Weblate 5.17
 
 * Track origin of newly added source strings.
 * Improved LLM interfaces for better reliability.
+* Improved matching in :doc:`/admin/memory`.
 
 .. rubric:: Bug fixes
 

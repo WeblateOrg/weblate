@@ -45,6 +45,8 @@ SUPPORTED_FORMATS = (
     "csv",
 )
 
+MIN_SIMILARITY_THRESHOLD = 0.3
+
 
 class MemoryImportError(Exception):
     pass
@@ -156,26 +158,36 @@ class MemoryQuerySet(models.QuerySet):
     ):
         # Adjust similarity based on string length to get more relevant matches
         # for long strings
-        adjust_similarity_threshold(self.threshold_to_similarity(text, threshold))
+        similarity_threshold = self.threshold_to_similarity(text, threshold)
 
-        # Actual database query
-        return (
-            self.prefetch_project()
-            .filter_type(
-                # Type filtering
-                user=user,
-                project=project,
-                use_shared=use_shared,
-                from_file=True,
+        results = self.none()
+
+        while len(results) == 0 and similarity_threshold > MIN_SIMILARITY_THRESHOLD:
+            # Change PostgreSQL similarity threshold configuration
+            adjust_similarity_threshold(similarity_threshold)
+
+            # Actual database query
+            results = (
+                self.prefetch_project()
+                .filter_type(
+                    # Type filtering
+                    user=user,
+                    project=project,
+                    use_shared=use_shared,
+                    from_file=True,
+                )
+                .filter(
+                    # Full-text search on source
+                    source__search=text,
+                    # Language filtering
+                    source_language=source_language,
+                    target_language=target_language,
+                )[:50]
             )
-            .filter(
-                # Full-text search on source
-                source__search=text,
-                # Language filtering
-                source_language=source_language,
-                target_language=target_language,
-            )[:50]
-        )
+            # Decrease threshold in case no matches were found
+            similarity_threshold -= 0.05
+
+        return results
 
     def prefetch_lang(self):
         return self.prefetch_related("source_language", "target_language")
