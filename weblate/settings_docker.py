@@ -3,6 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 
 import os
+from email.utils import formataddr
 from html import escape
 from logging.handlers import SysLogHandler
 from pathlib import Path
@@ -51,12 +52,9 @@ SITE_URL = f"{'https' if ENABLE_HTTPS else 'http'}://{SITE_DOMAIN}"
 
 DEBUG = get_env_bool("WEBLATE_DEBUG", False)
 
-ADMINS = (
-    (
-        get_env_str("WEBLATE_ADMIN_NAME", "Weblate Admin"),
-        get_env_str("WEBLATE_ADMIN_EMAIL", "weblate@example.com"),
-    ),
-)
+ADMIN_NAME = get_env_str("WEBLATE_ADMIN_NAME", "Weblate Admin")
+ADMIN_EMAIL = get_env_str("WEBLATE_ADMIN_EMAIL", "weblate@example.com")
+ADMINS = (formataddr((ADMIN_NAME, ADMIN_EMAIL)),)
 
 MANAGERS = ADMINS
 
@@ -422,8 +420,8 @@ if WEBLATE_SAML_IDP:
     # Identity Provider
     SOCIAL_AUTH_SAML_ENABLED_IDPS = {"weblate": WEBLATE_SAML_IDP}
     SOCIAL_AUTH_SAML_SUPPORT_CONTACT = SOCIAL_AUTH_SAML_TECHNICAL_CONTACT = {
-        "givenName": ADMINS[0][0],
-        "emailAddress": ADMINS[0][1],
+        "givenName": ADMIN_NAME,
+        "emailAddress": ADMIN_EMAIL,
     }
     SOCIAL_AUTH_SAML_ORG_INFO = {
         "en-US": {

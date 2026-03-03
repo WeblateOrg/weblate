@@ -257,7 +257,9 @@ def check_settings(
     """Check for sane settings."""
     errors: list[CheckMessage] = []
 
-    if not settings.ADMINS or any(x[1] in DEFAULT_MAILS for x in settings.ADMINS):
+    if not settings.ADMINS or any(
+        any(email in x[1] for email in DEFAULT_MAILS) for x in settings.ADMINS
+    ):
         errors.append(
             weblate_check(
                 "weblate.E011",

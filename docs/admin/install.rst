@@ -894,7 +894,7 @@ e-mails in case something goes wrong on the server, for example:
 
 .. code-block:: python
 
-    ADMINS = (("Your Name", "your_email@example.com"),)
+    ADMINS = ("Your Name <your_email@example.com>",)
 
 .. seealso::
 

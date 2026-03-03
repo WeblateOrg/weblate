@@ -200,7 +200,7 @@ class FedoraMessagingAddon(ChangeBaseAddon):
         messaging_config["client_properties"]["app"] = settings.SITE_TITLE
         messaging_config["client_properties"]["app_url"] = settings.SITE_URL
         messaging_config["client_properties"]["app_contacts_email"] = ", ".join(
-            admin[1] for admin in settings.ADMINS
+            settings.ADMINS
         )
 
         # Validate the configuration, there is currently no public API for this

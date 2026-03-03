@@ -15,10 +15,13 @@ Weblate 5.17
 .. rubric:: Compatibility
 
 * Dropped support for MySQL and MariaDB as the database engine.
+* Weblate now requires Django 6.0.
 
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* There are several changes in :file:`settings_example.py`, most notably :setting:`ADMINS` syntax has changed in Django.
 
 .. rubric:: Contributors
 
