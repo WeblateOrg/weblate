@@ -263,7 +263,7 @@ def check_settings(
         errors.append(
             weblate_check(
                 "weblate.E011",
-                "E-mail addresses for site admins is misconfigured",
+                "E-mail addresses for site admins are misconfigured",
                 Error,
             )
         )
