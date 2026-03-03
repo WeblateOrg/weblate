@@ -214,7 +214,7 @@ class GitSquashAddon(BaseAddon):
                 # Cherry pick current commit (this should work
                 # unless something is messed up)
                 repository.execute(
-                    ["cherry-pick", commit, *gpg_sign],
+                    ["cherry-pick", "--empty=drop", commit, *gpg_sign],
                     environment={"WEBLATE_MERGE_SKIP": "1"},
                 )
                 handled = []
@@ -224,7 +224,7 @@ class GitSquashAddon(BaseAddon):
                         continue
                     try:
                         repository.execute(
-                            ["cherry-pick", other[0], *gpg_sign],
+                            ["cherry-pick", "--empty=drop", other[0], *gpg_sign],
                             environment={"WEBLATE_MERGE_SKIP": "1"},
                         )
                         handled.append(i)
