@@ -378,7 +378,7 @@ def check_perms(
         for name in chain(dirnames, filenames):
             # Skip toplevel lost+found dir, that one is typically owned by root
             # on filesystem toplevel directory. Also skip settings-override.py
-            # used in the Docker container as that one is typically bind mouted
+            # used in the Docker container as that one is typically bind mounted
             # with different permissions (and Weblate is not expected to write
             # to it).
             if dirpath == settings.DATA_DIR and name in {
