@@ -8,7 +8,7 @@ import json
 import math
 import os
 import re
-from typing import TYPE_CHECKING, BinaryIO
+from typing import TYPE_CHECKING, BinaryIO, TypedDict
 
 from django.conf import settings
 from django.db import models
@@ -46,6 +46,17 @@ SUPPORTED_FORMATS = (
 )
 
 MIN_SIMILARITY_THRESHOLD = 0.3
+
+
+class MemoryDict(TypedDict):
+    source: str
+    context: str
+    target: str
+    source_language: str
+    target_language: str
+    origin: str
+    category: int
+    status: int
 
 
 class MemoryImportError(Exception):
@@ -199,19 +210,16 @@ class MemoryQuerySet(models.QuerySet):
 class MemoryManager(models.Manager):
     def import_file(
         self,
+        *,
         request: AuthenticatedHttpRequest | None,
         fileobj: BinaryIO,
         langmap: dict[str, str] | None = None,
         source_language: Language | str | None = None,
         target_language: Language | str | None = None,
-        **kwargs,
+        user: User | None = None,
+        project: Project | None = None,
+        from_file: bool = True,
     ):
-        kwargs.update(
-            {
-                "from_file": True,
-                "status": Memory.STATUS_ACTIVE,
-            }
-        )
         origin = os.path.basename(fileobj.name).lower()
         name, extension = os.path.splitext(origin)
 
@@ -224,17 +232,37 @@ class MemoryManager(models.Manager):
             origin = f"{name[:25]}...{extension}"
 
         if extension == ".tmx":
-            result = self.import_tmx(request, fileobj, origin, langmap, **kwargs)
+            result = self.import_tmx(
+                request=request,
+                fileobj=fileobj,
+                origin=origin,
+                langmap=langmap,
+                user=user,
+                project=project,
+                from_file=True,
+                status=Memory.STATUS_ACTIVE,
+            )
         elif extension == ".json":
-            result = self.import_json(request, fileobj, origin, **kwargs)
+            result = self.import_json(
+                request=request,
+                fileobj=fileobj,
+                origin=origin,
+                user=user,
+                project=project,
+                from_file=True,
+                status=Memory.STATUS_ACTIVE,
+            )
         else:
             result = self.import_other_format(
-                request,
-                fileobj,
-                origin,
-                source_language,
-                target_language,
-                **kwargs,
+                request=request,
+                fileobj=fileobj,
+                origin=origin,
+                source_language=source_language,
+                target_language=target_language,
+                user=user,
+                project=project,
+                from_file=True,
+                status=Memory.STATUS_ACTIVE,
             )
 
         if not result:
@@ -245,10 +273,14 @@ class MemoryManager(models.Manager):
 
     def import_json(
         self,
+        *,
         request: AuthenticatedHttpRequest | None,
         fileobj: BinaryIO,
-        origin: str | None = None,
-        **kwargs,
+        origin: str,
+        user: User | None = None,
+        project: Project | None = None,
+        from_file: bool = False,
+        status: int = 0,
     ) -> int:
         # Lazily import as this is expensive
         from jsonschema import validate
@@ -284,7 +316,11 @@ class MemoryManager(models.Manager):
                     target=entry["target"],
                     origin=origin,
                     context=entry.get("context", ""),
-                    **kwargs,
+                    user=user,
+                    project=project,
+                    from_file=from_file,
+                    status=status,
+                    shared=False,
                 )
                 found += 1
             except Language.DoesNotExist:
@@ -293,11 +329,15 @@ class MemoryManager(models.Manager):
 
     def import_tmx(
         self,
+        *,
         request: AuthenticatedHttpRequest | None,
         fileobj: BinaryIO,
-        origin: str | None = None,
+        origin: str,
         langmap: dict[str, str] | None = None,
-        **kwargs,
+        user: User | None = None,
+        project: Project | None = None,
+        from_file: bool = False,
+        status: int = 0,
     ) -> int:
         try:
             storage = tmxfile.parsefile(fileobj)
@@ -357,19 +397,27 @@ class MemoryManager(models.Manager):
                     target=text,
                     origin=origin,
                     context=unit.getcontext(),
-                    **kwargs,
+                    user=user,
+                    project=project,
+                    from_file=from_file,
+                    status=status,
+                    shared=False,
                 )
                 found += 1
         return found
 
     def import_other_format(
         self,
+        *,
         request: AuthenticatedHttpRequest | None,
         fileobj: BinaryIO,
         origin: str,
         source_language: Language | str | None = None,
         target_language: Language | str | None = None,
-        **kwargs,
+        user: User | None = None,
+        project: Project | None = None,
+        from_file: bool = False,
+        status: int = 0,
     ) -> int:
         """
         Import memory from other formats.
@@ -421,16 +469,70 @@ class MemoryManager(models.Manager):
                 target=unit.target,
                 origin=origin,
                 context=unit.context,
-                **kwargs,
+                user=user,
+                project=project,
+                from_file=from_file,
+                status=status,
+                shared=False,
             )
             count += 1
         return count
 
-    def update_entry(self, **kwargs) -> None:
-        if not is_valid_memory_entry(**kwargs):  # pylint: disable=missing-kwoa
+    def update_entry(
+        self,
+        *,
+        source: str,
+        target: str,
+        source_language: Language,
+        target_language: Language,
+        context: str,
+        origin: str,
+        status: int,
+        user: User | None,
+        project: Project | None,
+        from_file: bool,
+        shared: bool,
+    ) -> None:
+        if not is_valid_memory_entry(
+            source=source,
+            target=target,
+            status=status,
+            source_language=source_language,
+            target_language=target_language,
+            origin=origin,
+            context=context,
+            user=user,
+            project=project,
+            from_file=from_file,
+            shared=shared,
+        ):
             return
-        if not self.filter(**kwargs).exists():
-            self.create(**kwargs)
+        if not self.filter(
+            source=source,
+            target=target,
+            status=status,
+            source_language=source_language,
+            target_language=target_language,
+            origin=origin,
+            context=context,
+            user=user,
+            project=project,
+            from_file=from_file,
+            shared=shared,
+        ).exists():
+            self.create(
+                source=source,
+                target=target,
+                status=status,
+                source_language=source_language,
+                target_language=target_language,
+                origin=origin,
+                context=context,
+                user=user,
+                project=project,
+                from_file=from_file,
+                shared=shared,
+            )
 
 
 class Memory(models.Model):
@@ -517,7 +619,7 @@ class Memory(models.Model):
             text = "Unknown: {}"
         return text.format(self.origin)
 
-    def get_category(self):
+    def get_category(self) -> int:
         if self.from_file:
             return CATEGORY_FILE
         if self.shared:
@@ -528,7 +630,7 @@ class Memory(models.Model):
             return CATEGORY_USER_OFFSET + self.user_id
         return 0
 
-    def as_dict(self):
+    def as_dict(self) -> MemoryDict:
         """Convert to dict suitable for JSON export."""
         return {
             "source": self.source,

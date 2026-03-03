@@ -49,9 +49,9 @@ class Command(BaseCommand):
             with options["file"].open("rb") as handle:
                 try:
                     Memory.objects.import_file(
-                        None,
-                        handle,
-                        langmap,
+                        request=None,
+                        fileobj=handle,
+                        langmap=langmap,
                         source_language=options["source_language"],
                         target_language=options["target_language"],
                     )

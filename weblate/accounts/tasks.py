@@ -28,6 +28,8 @@ from weblate.utils.icons import load_icon
 if TYPE_CHECKING:
     from collections.abc import Generator
 
+    from django.core.mail.backends.base import BaseEmailBackend
+
     from weblate.accounts.notifications import Notification
 
 LOGGER = logging.getLogger("weblate.smtp")
@@ -121,7 +123,7 @@ def notify_changes(change_ids: list[int]) -> None:
 
 
 @transaction.atomic
-def notify_digest(method) -> None:
+def notify_digest(method: str) -> None:
     from weblate.accounts.notifications import NOTIFICATIONS
 
     outgoing: list[OutgoingEmail] = []
@@ -170,7 +172,7 @@ def notify_auditlog(log_id: int, email: str) -> None:
 SMTP_DATA_PATCH = "_weblate_patched_data"
 
 
-def weblate_logging_smtp_data(self, msg):
+def weblate_logging_smtp_data(self: SMTP, msg: bytes) -> tuple[int, bytes]:
     (code, msg) = getattr(self, SMTP_DATA_PATCH)(msg)
     if code == 250:
         LOGGER.debug("SMTP completed (%s): %s", code, msg.decode())
@@ -179,7 +181,7 @@ def weblate_logging_smtp_data(self, msg):
     return (code, msg)
 
 
-def monkey_patch_smtp_logging(connection):
+def monkey_patch_smtp_logging(connection: BaseEmailBackend) -> BaseEmailBackend:
     if isinstance(connection, DjangoSMTPEmailBackend):
         # Ensure the connection is open
         connection.open()
