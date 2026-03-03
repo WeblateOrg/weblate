@@ -229,7 +229,7 @@ def check_cache(
         errors.append(
             weblate_check(
                 "weblate.E007",
-                "The configured cache back-end will lead to serious "
+                "The configured cache backend will lead to serious "
                 "performance or consistency issues.",
             )
         )
