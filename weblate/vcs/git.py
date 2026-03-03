@@ -484,9 +484,8 @@ class GitRepository(Repository):
         )
         self.branch = branch
 
-    def list_branches(self, *args):
-        cmd = ["branch", "--list"]
-        cmd.extend(args)
+    def list_branches(self, *args: str) -> list[str]:
+        cmd = ["branch", "--list", *args]
         # (we get additional * there indicating current branch)
         return [
             x.lstrip("*").strip()
