@@ -30,8 +30,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-02-16 14:59+0100\n"
-"PO-Revision-Date: 2026-03-01 23:06+0000\n"
-"Last-Translator: eulalio <eulalio@disroot.org>\n"
+"PO-Revision-Date: 2026-03-03 14:11+0000\n"
+"Last-Translator: Francisco Serrador <fserrador@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
 "Language: es\n"
@@ -39,7 +39,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.16.1-dev\n"
+"X-Generator: Weblate 5.17-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:215
@@ -2047,7 +2047,7 @@ msgstr "Una cadena es agregada."
 
 #: ../../admin/addons.rst:39
 msgid "A new translation is added."
-msgstr "Una traducción nueva es agregada."
+msgstr "Se agrega una traducción nueva."
 
 #: ../../admin/addons.rst:44
 msgid "Daily"
@@ -41230,32 +41230,27 @@ msgstr "Manipulador de suceso antes de unidad nueva sea creada."
 #: weblate.addons.base.BaseAddon.user:1
 msgid "Weblate user used to track changes by this add-on."
 msgstr ""
+"Usuario Weblate utilizado para seguimiento de cambios por este complemento."
 
 #: ../../contributing/addons.rst:15
 msgid "ORM object for an add-on."
 msgstr "Objeto ORM para un complemento."
 
 #: ../../contributing/addons.rst:21
-#, fuzzy
-#| msgid "Associate project with a component."
 msgid "ORM object for a component."
-msgstr "Asociar un proyecto con un componente."
+msgstr "Objeto ORM para un componente."
 
 #: ../../contributing/addons.rst:25
-#, fuzzy
-#| msgid "Deletes a translation."
 msgid "ORM object for a translation."
-msgstr "Elimina una traducción."
+msgstr "Objeto ORM para una traducción."
 
 #: ../../contributing/addons.rst:29
-#, fuzzy
-#| msgid "Returns statistics for a project."
 msgid "ORM object for a project."
-msgstr "Devuelve estadísticas sobre un proyecto."
+msgstr "Objeto ORM para un proyecto."
 
 #: ../../contributing/addons.rst:33
 msgid "ORM object for an unit."
-msgstr ""
+msgstr "Objeto ORM para una unidad."
 
 #: ../../contributing/addons.rst:37
 msgid "ORM object for an change."
@@ -41263,21 +41258,17 @@ msgstr "Objeto ORM para un cambio."
 
 #: ../../contributing/addons.rst:41
 msgid "ORM object for an user."
-msgstr ""
+msgstr "Objeto ORM para un usuario."
 
 #: ../../contributing/addons.rst:45
 msgid "Translation file wrapper."
 msgstr "Traducción de cobertura de archivo."
 
 #: ../../contributing/addons.rst:49
-#, fuzzy
-#| msgid "Added support for grouping string shapings."
 msgid "Base form for configuring add-ons."
-msgstr "Se permite agrupar las formas de las cadenas."
+msgstr "Formulario base para configurar complementos."
 
 #: ../../contributing/addons.rst:51
-#, fuzzy
-#| msgid "Here is an example addon:"
 msgid "Here is an example add-on:"
 msgstr "He aquí un complemento de ejemplo:"
 
@@ -41298,13 +41289,11 @@ msgstr ""
 
 #: ../../contributing/code.rst:10
 msgid "Check out :ref:`internals` to see how Weblate looks from inside."
-msgstr ""
+msgstr "Verificar :ref:`internals` para ver como aparece Weblate desde dentro."
 
 #: ../../contributing/snippets/code-guide.rst:3
-#, fuzzy
-#| msgid "License changed"
 msgid "License and copyright"
-msgstr "Licencia cambiada"
+msgstr "Licencia y derecho de copia"
 
 #: ../../contributing/snippets/code-guide.rst:5
 msgid ""
@@ -41312,16 +41301,17 @@ msgid ""
 "same license as the repository is already using, unless stated and agreed "
 "otherwise."
 msgstr ""
+"Cuando contribuya código, está de acuerdo con poner sus cambios y código "
+"nuevo bajo la misma licencia que el repositorio esté ya utilizando, a no ser "
+"que comenzó y acordó otro."
 
 #: ../../contributing/snippets/code-guide.rst:11
 msgid ":doc:`/contributing/license` explains licensing in more details."
-msgstr ""
+msgstr ":doc:`/contributing/license` explica licencia con más detalles."
 
 #: ../../contributing/snippets/code-guide.rst:14
-#, fuzzy
-#| msgid "Writing own checks"
 msgid "Writing a good patch"
-msgstr "Escribir los propios controles"
+msgstr "Escritura de un buen parche"
 
 #: ../../contributing/snippets/code-guide.rst:17
 msgid "Write separate changes"
@@ -41360,6 +41350,8 @@ msgid ""
 "Furthermore, separate changes enable bisecting much better for tracking "
 "issues and regression in the future."
 msgstr ""
+"Además, los cambios separados permiten una disección mucho mejor para el "
+"seguimiento de problemas y regresiones en el futuro."
 
 #: ../../contributing/snippets/code-guide.rst:34
 msgid "Documentation"
@@ -41372,12 +41364,14 @@ msgid ""
 "together with code changes. Please remember to document methods, complex "
 "code blocks, or user-visible features."
 msgstr ""
+"Documentar puede ser una tarea tediosa; sin embargo, es necesario que "
+"alguien la complete. Es mucho más fácil enviar la documentación junto con "
+"los cambios de código. Recuerda documentar los métodos, los bloques de "
+"código complejos o las funciones visibles para el usuario."
 
 #: ../../contributing/snippets/code-guide.rst:47
-#, fuzzy
-#| msgid "Use case"
 msgid "Test cases"
-msgstr "Caso de uso"
+msgstr "Casos de prueba"
 
 #: ../../contributing/snippets/code-guide.rst:49
 msgid ""
@@ -41387,6 +41381,11 @@ msgid ""
 "feature that is added should get at least one valid test case that verifies "
 "that it works as documented."
 msgstr ""
+"Las pruebas nos permiten verificar rápidamente que las características "
+"funcionan correctamente. Para mantener y mejorar esta situación, todas las "
+"características y funciones nuevas que se añadan deben probarse en el "
+"conjunto de pruebas. Cada característica añadida debe contar con al menos un "
+"caso de prueba válido que verifique su funcionamiento según lo documentado."
 
 #: ../../contributing/snippets/code-guide.rst:60
 msgid "Commit messages"
@@ -41401,10 +41400,8 @@ msgstr ""
 "<https://www.conventionalcommits.org/>`_."
 
 #: ../../contributing/snippets/code-guide.rst:66
-#, fuzzy
-#| msgid "Permission checking"
 msgid "Type checking"
-msgstr "Comprobación de permisos"
+msgstr "Comprobación de tecleo"
 
 #: ../../contributing/snippets/code-guide.rst:68
 msgid ""
@@ -41412,16 +41409,21 @@ msgid ""
 "using :program:`mypy` to check (because it has a Django plugin that makes "
 "type checking of Django apps doable)."
 msgstr ""
+"Cualquier código nuevo utiliza tipo de consejos :pep:`484`. Estamos "
+"utilizando :program:`mypy` para comprobar (porque tiene un complemento de "
+"Django que realiza la comprobación del tipo de apps hechas en Django)."
 
 #: ../../contributing/snippets/code-guide.rst:72
 msgid ""
 "The code base is not yet completely covered by type annotations, but some "
 "modules are already enforced for type checking in the CI."
 msgstr ""
+"La base del código aún no está completamente cubierto por anunciaciones de "
+"tipo, pero algunos módulos ya son forzados para comprobación tipada en el CI."
 
 #: ../../contributing/snippets/code-guide.rst:76
 msgid "Coding standard and linting the code"
-msgstr ""
+msgstr "Codificar estándar y enlazar el código"
 
 #: ../../contributing/snippets/code-guide.rst:78
 msgid ""
@@ -41436,6 +41438,8 @@ msgid ""
 "To check the code quality, you can use :program:`ruff`, its configuration is "
 "stored in :file:`pyproject.toml`."
 msgstr ""
+"Para comprobar la calidad del código, puede utilizar :program:`ruff`, su "
+"configuración está almacenada en :file:`pyproject.toml`."
 
 #: ../../contributing/snippets/code-guide.rst:84
 msgid ""
@@ -41455,12 +41459,12 @@ msgstr ""
 #: ../../contributing/snippets/code-guide.rst:90
 msgid "You can also trigger check manually, to check all files run:"
 msgstr ""
+"También puedes activar la verificación manualmente para comprobar todos los "
+"archivos y ejecutar:"
 
 #: ../../contributing/snippets/code-guide.rst:99
-#, fuzzy
-#| msgid "Client secret"
 msgid "Coding securely"
-msgstr "Secreto del cliente"
+msgstr "Codificar con seguridad"
 
 #: ../../contributing/snippets/code-guide.rst:101
 msgid ""
@@ -41471,10 +41475,8 @@ msgstr ""
 "`principios de seguridad por naturaleza`_."
 
 #: ../../contributing/snippets/code-guide.rst:107
-#, fuzzy
-#| msgid "Generate MO files"
 msgid "AI guidelines"
-msgstr "Generar archivos MO"
+msgstr "Directrices de IA"
 
 #: ../../contributing/snippets/code-guide.rst:109
 msgid ""
@@ -41485,10 +41487,16 @@ msgid ""
 "Authors should be explicitly aware that the burden is on them to ensure no "
 "unlicensed code is submitted to the project."
 msgstr ""
+"Al contribuir con contenido al proyecto, nos autorizas a usarlo tal cual y "
+"debes asegurarte de tener permiso para distribuirlo. Al enviarnos un cambio, "
+"aceptas que el proyecto pueda y deba adoptarlo y redistribuirlo bajo la "
+"licencia del proyecto. Los autores deben ser conscientes de que tienen la "
+"responsabilidad de garantizar que no se envíe código sin licencia al "
+"proyecto."
 
 #: ../../contributing/snippets/code-guide.rst:116
 msgid "This is independent of whether AI is used or not."
-msgstr ""
+msgstr "Esto es independiente de si se utiliza IA o no."
 
 #: ../../contributing/snippets/code-guide.rst:118
 msgid ""
@@ -41497,6 +41505,10 @@ msgid ""
 "guidelines. A basic rule of thumb is that if someone can spot that the "
 "contribution was made with the help of AI, you have more work to do."
 msgstr ""
+"Al contribuir con una solicitud de incorporación de cambios, siempre debe "
+"asegurarse de que la propuesta sea de buena calidad y se esfuerce al máximo, "
+"siguiendo nuestras directrices. Como regla general, si alguien detecta que "
+"la contribución se realizó con ayuda de IA, tendrá más trabajo por delante."
 
 #: ../../contributing/snippets/code-guide.rst:123
 msgid ""
@@ -41504,18 +41516,24 @@ msgid ""
 "code must still follow coding standards, be written clearly, be documented, "
 "feature test cases, and adhere to all the normal requirements we have."
 msgstr ""
+"Podemos aceptar código escrito con la ayuda de IA en el proyecto, pero el "
+"código aún debe seguir los estándares de codificación, estar escrito con "
+"claridad, estar documentado, presentar casos de prueba y cumplir con todos "
+"los requisitos normales que tenemos."
 
 #: ../../contributing/code_of_conduct.rst:2
 msgid "Code of Conduct"
-msgstr ""
+msgstr "Código de Conducta"
 
 #: ../../contributing/code_of_conduct.rst:5
 msgid "Our Pledge"
-msgstr ""
+msgstr "Nuestro Compromiso"
 
 #: ../../contributing/code_of_conduct.rst:7
 msgid "We pledge to make our community welcoming, safe, and equitable for all."
 msgstr ""
+"Nos comprometemos a hacer que nuestra comunidad sea acogedora, segura y "
+"equitativa para todos."
 
 #: ../../contributing/code_of_conduct.rst:9
 msgid ""
@@ -41540,7 +41558,7 @@ msgstr ""
 
 #: ../../contributing/code_of_conduct.rst:12
 msgid "Encouraged Behaviors"
-msgstr ""
+msgstr "Comportamientos Fomentados"
 
 #: ../../contributing/code_of_conduct.rst:14
 msgid ""
@@ -41549,6 +41567,11 @@ msgid ""
 "words and actions may be interpreted differently than we intend based on "
 "culture, background, or native language."
 msgstr ""
+"Si bien reconocemos las diferencias en las normas sociales, todos nos "
+"esforzamos por cumplir con las expectativas de nuestra comunidad en cuanto a "
+"un comportamiento positivo. También entendemos que nuestras palabras y "
+"acciones pueden interpretarse de forma diferente a la que pretendemos, según "
+"nuestra cultura, origen o lengua materna."
 
 #: ../../contributing/code_of_conduct.rst:16
 msgid ""
@@ -41564,38 +41587,40 @@ msgid ""
 "Respecting the **purpose of our community**, our activities, and our ways of "
 "gathering."
 msgstr ""
+"Respecto al **propósito de nuestra comunidad**, nuestras actividades, y "
+"nuestras maneras de reunión."
 
 #: ../../contributing/code_of_conduct.rst:19
 msgid "Engaging **kindly and honestly** with others."
-msgstr ""
+msgstr "Interactuar **amable y honestamente** con los demás."
 
 #: ../../contributing/code_of_conduct.rst:20
 msgid "Respecting **different viewpoints** and experiences."
-msgstr ""
+msgstr "Respetar **diferentes puntos de vista** y experiencias."
 
 #: ../../contributing/code_of_conduct.rst:21
 msgid "**Taking responsibility** for our actions and contributions."
-msgstr ""
+msgstr "**Asumir la responsabilidad** de nuestras acciones y contribuciones."
 
 #: ../../contributing/code_of_conduct.rst:22
 msgid "Gracefully giving and accepting **constructive feedback**."
-msgstr ""
+msgstr "Dar y aceptar con gracia **retroalimentación constructiva**."
 
 #: ../../contributing/code_of_conduct.rst:23
 msgid "Committing to **repairing harm** when it occurs."
-msgstr "Consolidar en la **reparación perjudica a** cuando se produce."
+msgstr "Consolidar en la **reparación perjudica a** cuando ocurra."
 
 #: ../../contributing/code_of_conduct.rst:24
 msgid ""
 "Behaving in other ways that promote and sustain the **well-being of our "
 "community**."
 msgstr ""
+"Comportarse de otras maneras que promuevan y sostengan el **bienestar de "
+"nuestra comunidad**."
 
 #: ../../contributing/code_of_conduct.rst:28
-#, fuzzy
-#| msgid "Restricted access"
 msgid "Restricted Behaviors"
-msgstr "Acceso restringido"
+msgstr "Comportamientos restringidos"
 
 #: ../../contributing/code_of_conduct.rst:30
 msgid ""
@@ -41603,77 +41628,101 @@ msgid ""
 "threats, and promotion of these behaviors are violations of this Code of "
 "Conduct."
 msgstr ""
+"Nos comprometemos a restringir las siguientes conductas en nuestra "
+"comunidad. La incitación, amenaza y promoción de estas conductas constituyen "
+"violaciones de este Código de Conducta."
 
 #: ../../contributing/code_of_conduct.rst:32
 msgid ""
 "**Harassment.** Violating explicitly expressed boundaries or engaging in "
 "unnecessary personal attention after any clear request to stop."
 msgstr ""
+"**Acoso.** Violar acotaciones explícitamente expresadas o brindar atención "
+"personal innecesaria tras cualquier solicitud clara de detenerse."
 
 #: ../../contributing/code_of_conduct.rst:33
 msgid ""
 "**Character attacks.** Making insulting, demeaning, or pejorative comments "
 "directed at a community member or group of people."
 msgstr ""
+"**Ataques de carácter.** hacer comentarios insultantes, degradantes o "
+"peyorativos dirigidos a un miembro de la comunidad o a un grupo de personas."
 
 #: ../../contributing/code_of_conduct.rst:34
 msgid ""
 "**Stereotyping or discrimination.** Characterizing anyone’s personality or "
 "behavior on the basis of immutable identities or traits."
 msgstr ""
+"**Estereotipos o discriminación.** Caracterizar la personalidad o el "
+"comportamiento de alguien sobre la base de identidades o rasgos inmutables."
 
 #: ../../contributing/code_of_conduct.rst:35
 msgid ""
 "**Sexualization.** Behaving in a way that would generally be considered "
 "inappropriately intimate in the context or purpose of the community."
 msgstr ""
+"**Sexualización.** Comportarse de una manera que generalmente se "
+"consideraría inapropiadamente íntima en el contexto o propósito de la "
+"comunidad."
 
 #: ../../contributing/code_of_conduct.rst:36
 msgid ""
 "**Violating confidentiality**. Sharing or acting on someone's personal or "
 "private information without their permission."
 msgstr ""
+"**Violar la confidencialidad**. Compartir o actuar sobre la información "
+"personal o privada de alguien sin su permiso."
 
 #: ../../contributing/code_of_conduct.rst:37
 msgid ""
 "**Endangerment.** Causing, encouraging, or threatening violence or other "
 "harm toward any person or group."
 msgstr ""
+"**Ponerse en peligro.** Causar, alentar o amenazar con violencia u otro daño "
+"hacia cualquier persona o grupo."
 
 #: ../../contributing/code_of_conduct.rst:38
 msgid ""
 "Behaving in other ways that **threaten the well-being** of our community."
 msgstr ""
+"Comportarse de otras maneras que **amenacen el bienestar** de nuestra "
+"comunidad."
 
 #: ../../contributing/code_of_conduct.rst:41
-#, fuzzy
-#| msgid "Other translations"
 msgid "Other Restrictions"
-msgstr "Otras traducciones"
+msgstr "Otras Restricciones"
 
 #: ../../contributing/code_of_conduct.rst:43
 msgid ""
 "**Misleading identity.** Impersonating someone else for any reason, or "
 "pretending to be someone else to evade enforcement actions."
 msgstr ""
+"**Identidad engañosa.** Hacerse pasar por otra persona por cualquier motivo "
+"o simular ser otra persona para evadir acciones coercitivas."
 
 #: ../../contributing/code_of_conduct.rst:44
 msgid ""
 "**Failing to credit sources.** Not properly crediting the sources of content "
 "you contribute."
 msgstr ""
+"**No dar crédito a las fuentes.** No dar crédito adecuadamente a las fuentes "
+"del contenido que aportas."
 
 #: ../../contributing/code_of_conduct.rst:45
 msgid ""
 "**Promotional materials**. Sharing marketing or other commercial content in "
 "a way that is outside the norms of the community."
 msgstr ""
+"**Materiales promocionales**. Compartir contenido de mercado u otro "
+"contenido comercial de forma que se salga de las normas de la comunidad."
 
 #: ../../contributing/code_of_conduct.rst:46
 msgid ""
 "**Irresponsible communication.** Failing to responsibly present content "
 "which includes, links or describes any other restricted behaviors."
 msgstr ""
+"**Comunicación irresponsable.** No presentar de manera responsable contenido "
+"que incluya, enlace o describa cualquier otro comportamiento restringido."
 
 #: ../../contributing/code_of_conduct.rst:50
 msgid "Reporting an Issue"
@@ -41686,6 +41735,11 @@ msgid ""
 "violation, and this Code of Conduct reinforces encouraged behaviors and "
 "norms that can help avoid conflicts and minimize harm."
 msgstr ""
+"Pueden surgir tensiones entre los miembros de la comunidad incluso cuando se "
+"esfuerzan al máximo por colaborar. No todos los conflictos representan una "
+"violación del código de conducta, y este Código de Conducta refuerza los "
+"comportamientos y normas recomendados que pueden ayudar a evitar conflictos "
+"y minimizar los daños."
 
 #: ../../contributing/code_of_conduct.rst:54
 msgid ""
@@ -41693,6 +41747,9 @@ msgid ""
 "report a possible violation, please reach the Community Moderators at "
 "community@weblate.org."
 msgstr ""
+"Cuando ocurre un incidente, es importante reportarlo de inmediato. Para "
+"reportar una posible infracción, comuníquese con los moderadores de la "
+"comunidad en <community@weblate.org>."
 
 #: ../../contributing/code_of_conduct.rst:56
 msgid ""
@@ -41706,10 +41763,20 @@ msgid ""
 "involved parties, but communicating to the whole community may be part of a "
 "mutually agreed upon resolution."
 msgstr ""
+"Los Moderadores de la Comunidad se toman muy en serio las denuncias de "
+"infracciones y harán todo lo posible por responder de forma oportuna. "
+"Investigarán todas las denuncias de infracciones del código de conducta, "
+"revisando mensajes, bitácoras y grabaciones, o entrevistando a testigos y "
+"otros participantes. Los Moderadores de la Comunidad mantendrán la mayor "
+"transparencia posible en las investigaciones y acciones de cumplimiento, "
+"priorizando la seguridad y la confidencialidad. Para honrar estos valores, "
+"las acciones de cumplimiento se llevan a cabo en privado con las partes "
+"implicadas, pero la comunicación a toda la comunidad puede formar parte de "
+"una resolución mutuamente acordada."
 
 #: ../../contributing/code_of_conduct.rst:60
 msgid "Addressing and Repairing Harm"
-msgstr ""
+msgstr "Abordar y Reparar el Daño"
 
 #: ../../contributing/code_of_conduct.rst:62
 msgid ""
@@ -41719,6 +41786,12 @@ msgid ""
 "individuals involved and the community as a whole. Depending on the severity "
 "of a violation, lower rungs on the ladder may be skipped."
 msgstr ""
+"Si una investigación de los Moderadores de la Comunidad determina que se ha "
+"infringido este Código de Conducta, se podrá aplicar la siguiente escala de "
+"cumplimiento para determinar la mejor manera de reparar el daño, según el "
+"impacto del incidente en las personas involucradas y en la comunidad en su "
+"conjunto. Dependiendo de la gravedad de la infracción, se podrán omitir los "
+"niveles inferiores de la escala."
 
 #: ../../contributing/code_of_conduct.rst:64
 msgid "Warning"
@@ -41740,10 +41813,13 @@ msgid ""
 "Repair: Examples of repair include a private written apology, "
 "acknowledgement of responsibility, and seeking clarification on expectations."
 msgstr ""
+"Reparar: Ejemplos para reparar incluye una apología privada escrita, "
+"reconocimiento de responsabilidad, y buscando aclaración sobre las "
+"expectativas."
 
 #: ../../contributing/code_of_conduct.rst:70
 msgid "Temporarily Limited Activities"
-msgstr ""
+msgstr "Actividades Temporalmente Limitadas"
 
 #: ../../contributing/code_of_conduct.rst:72
 msgid ""
@@ -41761,6 +41837,11 @@ msgid ""
 "may be limited to particular communication channels or interactions with "
 "particular community members."
 msgstr ""
+"Consecuencia: Una advertencia privada por escrito con un periodo de calma "
+"limitado, diseñada para subrayar la gravedad de la situación y dar tiempo a "
+"los miembros de la comunidad involucrados para procesar el incidente. El "
+"periodo de calma puede limitarse a canales de comunicación específicos o "
+"interacciones con miembros específicos de la comunidad."
 
 #: ../../contributing/code_of_conduct.rst:74
 msgid ""
@@ -41768,10 +41849,14 @@ msgid ""
 "period to reflect on actions and impact, and being thoughtful about re-"
 "entering community spaces after the period is over."
 msgstr ""
+"Reparación: Algunos ejemplos de reparación pueden incluir pedir disculpas, "
+"utilizar el período de enfriamiento para reflexionar sobre las acciones y el "
+"impacto, y ser considerado al volver a ingresar a los espacios comunitarios "
+"una vez finalizado el período."
 
 #: ../../contributing/code_of_conduct.rst:76
 msgid "Temporary Suspension"
-msgstr ""
+msgstr "Suspension Temporal"
 
 #: ../../contributing/code_of_conduct.rst:78
 msgid ""
@@ -41788,6 +41873,10 @@ msgid ""
 "suspended time to reflect upon their behavior and possible corrective "
 "actions."
 msgstr ""
+"Consecuencia: Una amonestación escrita privada con condiciones para el "
+"regreso de la suspensión. En general, las suspensiones temporales dan a la "
+"persona suspendida tiempo para reflexionar sobre su comportamiento y las "
+"posibles medidas correctivas."
 
 #: ../../contributing/code_of_conduct.rst:80
 msgid ""
@@ -41795,10 +41884,14 @@ msgid ""
 "meeting the specified conditions for return, and being thoughtful about how "
 "to reintegrate with the community when the suspension is lifted."
 msgstr ""
+"Reparación: Algunos ejemplos de reparación incluyen respetar el espíritu de "
+"la suspensión, cumplir las condiciones especificadas para el regreso y ser "
+"considerado acerca de cómo reintegrarse a la comunidad cuando se levante la "
+"suspensión."
 
 #: ../../contributing/code_of_conduct.rst:82
 msgid "Permanent Ban"
-msgstr ""
+msgstr "Prohibición Permanente"
 
 #: ../../contributing/code_of_conduct.rst:84
 msgid ""
@@ -41819,10 +41912,15 @@ msgid ""
 "should have strong reasoning behind them, and should only be resorted to if "
 "working through other remedies has failed to change the behavior."
 msgstr ""
+"Consecuencia: Se elimina el acceso a todos los espacios, herramientas y "
+"canales de comunicación de la comunidad. En general, las prohibiciones "
+"permanentes deben utilizarse con poca frecuencia, deben estar justificadas y "
+"solo deben aplicarse si otras soluciones no han logrado cambiar el "
+"comportamiento."
 
 #: ../../contributing/code_of_conduct.rst:86
 msgid "Repair: There is no possible repair in cases of this severity."
-msgstr ""
+msgstr "Reparación: No hay reparación posible en casos de esta gravedad."
 
 #: ../../contributing/code_of_conduct.rst:88
 msgid ""
@@ -41830,6 +41928,9 @@ msgid ""
 "ability of Community Managers to use their discretion and judgment, in "
 "keeping with the best interests of our community."
 msgstr ""
+"Esta escala de cumplimiento tiene como objetivo servir de guía. No limita la "
+"capacidad de los Community Managers para ejercer su discreción y criterio, "
+"en beneficio de nuestra comunidad."
 
 #: ../../contributing/code_of_conduct.rst:94
 msgid ""
@@ -41855,6 +41956,9 @@ msgid ""
 "This Code of Conduct is adapted from the Contributor Covenant, version 3.0, "
 "permanently available at https://www.contributor-covenant.org/version/3/0/."
 msgstr ""
+"Este Código de Conducta es una adaptación del Pacto del Colaborador, versión "
+"3.0, disponible permanentemente en https://www.contributor-covenant.org/"
+"version/3/0/."
 
 #: ../../contributing/code_of_conduct.rst:102
 msgid ""
@@ -41862,6 +41966,9 @@ msgid ""
 "licensed under CC BY-SA 4.0. To view a copy of this license, visit https://"
 "creativecommons.org/licenses/by-sa/4.0/."
 msgstr ""
+"El Pacto del Colaborador está gestionado por la Organización para la Fuente "
+"Ética y tiene licencia CC BY-SA 4.0. Para ver una copia de esta licencia, "
+"visite https://creativecommons.org/licenses/by-sa/4.0/."
 
 #: ../../contributing/code_of_conduct.rst:104
 msgid ""
@@ -41872,10 +41979,18 @@ msgid ""
 "covenant.org/resources. The enforcement ladder was inspired by the work of "
 "`Mozilla’s code of conduct team <https://github.com/mozilla/inclusion>`_."
 msgstr ""
+"Para obtener respuestas a preguntas frecuentes sobre el Pacto del "
+"Colaborador, consulte las preguntas frecuentes en https://www.contributor-"
+"covenant.org/faq. Las traducciones están disponibles en https://"
+"www.contributor-covenant.org/translations. Puede encontrar recursos "
+"adicionales sobre cumplimiento y directrices de la comunidad en https://"
+"www.contributor-covenant.org/resources. La escala de cumplimiento se inspiró "
+"en el trabajo del equipo de código de conducta de Mozilla <https://"
+"github.com/mozilla/inclusion>`_."
 
 #: ../../contributing/communication.rst:2
 msgid "Weblate Contributor Communication Guidelines"
-msgstr ""
+msgstr "Pautas de Comunicación para Colaboradores de Weblate"
 
 #: ../../contributing/communication.rst:5
 msgid "GitHub Issues"
@@ -41889,6 +42004,12 @@ msgid ""
 "implementation process; it also guides to other places with information like "
 "documentation, Discussions, HackerOne program, and Weblate Care."
 msgstr ""
+"En `GitHub Issues <https://github.com/WeblateOrg/weblate/issues>`_ se pueden "
+"reportar errores y solicitar funcionalidades. El formulario de envío de "
+"problemas proporciona plantillas para cada uno de ellos, simplificando así "
+"el proceso de creación, revisión e implementación. También ofrece acceso a "
+"otros recursos con información como documentación, debates, el programa "
+"HackerOne y Weblate Care."
 
 #: ../../contributing/communication.rst:11
 msgid "Weblate GitHub Discussions"
@@ -41902,6 +42023,13 @@ msgid ""
 "defined categories. Weblate team members occasionally visit Discussions and "
 "can also be mentioned by their GitHub usernames."
 msgstr ""
+"`Discusiones GitHub <https://github.com/WeblateOrg/weblate/discussions>`_ es "
+"un lugar de una comunidad. Se pueden seleccionar las categorías de ideas, "
+"encuestas, preguntas y respuestas y mostrar y contar al publicar allí. La "
+"categoría general incluye todas las publicaciones fuera de las categorías "
+"definidas. Los miembros del equipo de Weblate visitan ocasionalmente las "
+"discusiones y también pueden ser mencionados por sus nombres de usuario de "
+"GitHub."
 
 #: ../../contributing/communication.rst:18
 msgid "Weblate on Mastodon"
@@ -41914,6 +42042,10 @@ msgid ""
 "<https://fosstodon.org/@weblate>`_ on Mastodon. The Weblate team boosts good "
 "moods and bright ideas!"
 msgstr ""
+"Si quieres atraer a una amplia comunidad de usuarios, seguidores y "
+"desarrolladores de Weblate, puedes seguir y mencionar a "
+"`@weblate@fosstodon.org <https://fosstodon.org/@weblate>`_ en Mastodon. ¡El "
+"equipo de Weblate fomenta el buen humor y las ideas brillantes!"
 
 #: ../../contributing/debugging.rst:2
 msgid "Debugging Weblate"
@@ -41925,6 +42057,10 @@ msgid ""
 "welcome to collect info on any such issue and submit it to the `issue "
 "tracker <https://github.com/WeblateOrg/weblate/issues>`_."
 msgstr ""
+"Los defectos pueden manifestarse como fallos de la aplicación o diversos "
+"comportamientos incorrectos. Le invitamos a recopilar información sobre "
+"cualquier problema de este tipo y enviarla al `seguimiento de problemas "
+"<https://github.com/WeblateOrg/weblate/issues>`_."
 
 #: ../../contributing/debugging.rst:9
 msgid "Debug mode"
@@ -41937,6 +42073,10 @@ msgid ""
 "production environment because it has performance consequences and might "
 "leak private data."
 msgstr ""
+"Al activar el modo de depuración, las excepciones se mostrarán en el "
+"navegador web. Esto es útil para depurar problemas en la interfaz web, pero "
+"no es adecuado para un entorno de producción, ya que afecta al rendimiento y "
+"podría filtrar datos privados."
 
 #: ../../contributing/debugging.rst:15
 msgid ""
@@ -41944,10 +42084,13 @@ msgid ""
 "containing error reports, or configure error collection using a third-party "
 "service."
 msgstr ""
+"En un entorno de producción, utilice :setting:`ADMINS` para recibir correos "
+"electrónicos que contengan informes de errores o configure la recopilación "
+"de errores mediante un servicio de terceros."
 
 #: ../../contributing/debugging.rst:27
 msgid "Weblate logs"
-msgstr "Registros de Weblate"
+msgstr "Bitácoras de Weblate"
 
 #: ../../contributing/debugging.rst:29
 msgid ""
@@ -41956,6 +42099,10 @@ msgid ""
 "either in :file:`/var/log/messages` or :file:`/var/log/syslog` (depending on "
 "your syslog daemon configuration)."
 msgstr ""
+"Weblate puede generar bitácoras detalladas de lo que ocurre en segundo "
+"plano. En la configuración predeterminada, utiliza syslog, lo que hace que "
+"la bitácora del sistema aparezca en :file:`/var/log/messages` o :file:`/var/"
+"log/syslog` (según la configuración del demonio de syslog)."
 
 #: ../../contributing/debugging.rst:34
 msgid ""
@@ -41963,6 +42110,9 @@ msgid ""
 "well. The example system-wide setups logs to several files under :file:`/var/"
 "log/celery/`."
 msgstr ""
+"El proceso Celery (consulte :ref:`celery`) también suele generar sus propias "
+"bitácoras. El ejemplo configura las bitácoras en varios archivos de todo el "
+"sistema en :file:`/var/log/celery/`."
 
 #: ../../contributing/debugging.rst:37
 msgid ""
@@ -41970,15 +42120,21 @@ msgid ""
 "you can look at the logs using ``docker compose logs``. You can get more "
 "detailed logs by changing :envvar:`WEBLATE_LOGLEVEL`."
 msgstr ""
+"Los contenedores Docker registran su salida (como es habitual en el mundo "
+"Docker), por lo que puedes consultar las bitácoras usando ``docker compose "
+"logs``. Puedes obtener registros más detallados modificando "
+":envvar:`WEBLATE_LOGLEVEL`."
 
 #: ../../contributing/debugging.rst:43
 msgid ""
 ":ref:`sample-configuration` contains :setting:`django:LOGGING` configuration."
 msgstr ""
+":ref:`sample-configuration` contiene :setting:`django:LOGGING` para "
+"configuración."
 
 #: ../../contributing/debugging.rst:48
 msgid "Not processing background tasks"
-msgstr ""
+msgstr "No procesar tareas en segundo plano"
 
 #: ../../contributing/debugging.rst:50
 msgid ""
@@ -41986,6 +42142,9 @@ msgid ""
 "sending out e-mails or component removal does not work, there might a "
 "related issue."
 msgstr ""
+"Los trabajadores de Celery realizan muchas tareas en segundo plano. Si "
+"tareas como el envío de correos-e o la eliminación de componentes no "
+"funcionan, podría haber un asunto relacionado."
 
 #: ../../contributing/debugging.rst:54
 msgid "Things to check in that case:"
@@ -42001,10 +42160,13 @@ msgid ""
 "Check the Celery queue status, either in :ref:`management-interface`, or "
 "using :wladmin:`celery_queues`"
 msgstr ""
+"Verifique el estado de la cola de Celery, ya sea en :ref:`management-"
+"interface` o usando :wladmin:`celery_queues`"
 
 #: ../../contributing/debugging.rst:58
 msgid "Look in the Celery logs for errors (see :ref:`weblate-logs`)"
 msgstr ""
+"Busque errores en las bitácoras de Celery (consulte :ref:`weblate-logs`)"
 
 #: ../../contributing/debugging.rst:63
 msgid "Not receiving e-mails from Weblate"
@@ -42031,10 +42193,15 @@ msgid ""
 "however sent in the background and there might be some issues with Celery "
 "involved as well, please see :ref:`debug-tasks` for debugging that."
 msgstr ""
+"Estos envían correos electrónicos directamente, lo que verifica que la "
+"configuración de SMTP sea correcta (consulte :ref:`out-mail`). Sin embargo, "
+"la mayoría de los correos electrónicos de Weblate se envían en segundo "
+"plano, por lo que también podría haber problemas con Celery. Consulte "
+":ref:`debug-tasks` para depurarlo."
 
 #: ../../contributing/debugging.rst:76
 msgid "Analyzing application crashes"
-msgstr ""
+msgstr "Analizar cuelgues de aplicación"
 
 #: ../../contributing/debugging.rst:78
 msgid ""
@@ -42043,10 +42210,14 @@ msgid ""
 "which can collect such info automatically. You can find info on how to set "
 "this up in :ref:`collecting-errors`."
 msgstr ""
+"En caso de fallo de la aplicación, es útil recopilar la mayor cantidad de "
+"información posible sobre el fallo. Esto se puede lograr mediante servicios "
+"de terceros que recopilan dicha información automáticamente. Puede encontrar "
+"información sobre cómo configurar esto en :ref:`collecting-errors`."
 
 #: ../../contributing/debugging.rst:84
 msgid "Silent failures"
-msgstr ""
+msgstr "Fallos silenciosos"
 
 #: ../../contributing/debugging.rst:86
 msgid ""
@@ -42055,6 +42226,10 @@ msgid ""
 "Configuring :ref:`collecting-errors` helps you to notice such failures "
 "easier."
 msgstr ""
+"Muchas tareas se transfieren a Celery para su procesamiento en segundo "
+"plano. Los fallos no se muestran en la interfaz de usuario, sino en las "
+"bitácoras de Celery. Configurar :ref:`collecting-errors` facilita la "
+"detección de estos fallos."
 
 #: ../../contributing/debugging.rst:91
 msgid "Performance issues"
@@ -42066,12 +42241,18 @@ msgid ""
 "logs showing the issue, and anything that might help figuring out where the "
 "code might be improved."
 msgstr ""
+"En caso que Weblate funcione mal en algún escenario, recopile las bitácoras "
+"relevantes que muestren el asunto y cualquier cosa que pueda ayudar a "
+"determinar donde se puede mejorar el código."
 
 #: ../../contributing/debugging.rst:97
 msgid ""
 "See :ref:`collecting-errors` for information on setting up Sentry which can "
 "provide useful insights on badly performing operations."
 msgstr ""
+"Consulte :ref:`collecting-errors` para obtener información sobre los ajustes "
+"de Sentry, que puede proporcionar información útil sobre operaciones con mal "
+"rendimiento."
 
 #: ../../contributing/debugging.rst:100
 msgid ""
@@ -42079,6 +42260,9 @@ msgid ""
 "logging of all database queries using following configuration after "
 "enabling :setting:`DEBUG`:"
 msgstr ""
+"En caso que el rendimiento lento esté relacionado con la base de datos, "
+"también puede habilitar el registro de todas las consultas de la base de "
+"datos utilizando la siguiente configuración tras habilitar :setting:`DEBUG`:"
 
 #: ../../contributing/documentation.rst:2
 msgid "Contribute to Weblate documentation"
@@ -42100,17 +42284,20 @@ msgstr "Pautas de documentación"
 
 #: ../../contributing/documentation.rst:10
 msgid "Please respect these guidelines while writing:"
-msgstr ""
+msgstr "Por favor, respete estas pautas al escribir:"
 
 #: ../../contributing/documentation.rst:12
 msgid "Don’t remove part of the documentation if it’s valid."
-msgstr ""
+msgstr "No elimine parte de la documentación si es válida."
 
 #: ../../contributing/documentation.rst:13
 msgid ""
 "Use clear and easily-understandable language. You are writing tech docs, not "
 "a poem. Not all docs readers are native speakers, be thoughtful."
 msgstr ""
+"Usa un lenguaje claro y fácil de entender. Estás escribiendo documentos "
+"técnicos, no un poema. No todos los lectores de documentos son hablantes "
+"nativos, así que sé reflexivo."
 
 #: ../../contributing/documentation.rst:15
 msgid ""
@@ -42127,34 +42314,40 @@ msgstr ""
 msgid ""
 "Verify your changes by performing described actions while following the docs."
 msgstr ""
+"Verifique sus cambios realizando las acciones descritas mientras sigue las "
+"documentaciones."
 
 #: ../../contributing/documentation.rst:19
 msgid ""
 "Send PR with changes in small chunks to make it easier and quicker to review "
 "and merge."
 msgstr ""
+"Envíe relaciones públicas con cambios en pequeños fragmentos para que sea "
+"más fácil y rápido revisarlos y fusionarlos."
 
 #: ../../contributing/documentation.rst:20
 msgid ""
 "If you want to rewrite and change the structure of a big article, do it in "
 "two steps:"
 msgstr ""
+"Si quieres reescribir y cambiar la estructura de un artículo grande, hazlo "
+"en dos pasos:"
 
 #: ../../contributing/documentation.rst:22
 msgid "Rewrite"
-msgstr ""
+msgstr "Reescritura"
 
 #: ../../contributing/documentation.rst:23
 msgid ""
 "Once the rewrite is reviewed, polished, and merged, change the structure of "
 "the paragraphs in another PR."
 msgstr ""
+"Una vez revisada, pulida y fusionada la reescritura, cambie la estructura de "
+"los párrafos en otro PR."
 
 #: ../../contributing/documentation.rst:26
-#, fuzzy
-#| msgid "View check documentation"
 msgid "Building the documentation locally"
-msgstr "Ver la documentación de checks"
+msgstr "Construir la documentación localmente"
 
 #: ../../contributing/documentation.rst:28
 msgid ""
@@ -42162,11 +42355,17 @@ msgid ""
 "are in the ``docs`` dependency group in :file:`pyproject.toml`. The build "
 "can be performed using :program:`ci/run-docs`."
 msgstr ""
+"La documentación además puede ser editada y creada localmente, los "
+"requerimientos de Python están en el grupo de dependencia ``docs`` en "
+":file:`pyproject.toml`. La construcción puede ser realizada utilizando "
+":program:`ci/run-docs`."
 
 #: ../../contributing/documentation.rst:34
 msgid ""
 "You will also need :program:`graphviz` installed to build the documentation."
 msgstr ""
+"Además necesitará tener instalada :program:`graphviz` para crear la "
+"documentación."
 
 #: ../../contributing/documentation.rst:37
 msgid "Translating the documentation"
@@ -42177,6 +42376,8 @@ msgid ""
 "You can `translate the docs <https://hosted.weblate.org/projects/weblate/"
 "documentation/>`_."
 msgstr ""
+"Puedes `traducir los documentos en <https://hosted.weblate.org/projects/"
+"weblate/documentation/>`_."
 
 #: ../../contributing/documentation.rst:42
 msgid "Documenting permissions, checks, add-ons and automatic suggestions"
@@ -42188,6 +42389,8 @@ msgid ""
 "Several documentation sections use templates generated from the code. The "
 "following management commands are available:"
 msgstr ""
+"Varias secciones de la documentación utiliza plantillas generadas desde el "
+"código. Las instrucciones de gestión siguientes están disponibles:"
 
 #: ../../contributing/documentation.rst:54
 msgid ""
@@ -42195,6 +42398,9 @@ msgid ""
 "the documentation. The easiest way to apply changes to the documentation is "
 "using visual diff in your editor."
 msgstr ""
+"Todos estos comandos generan reStructuredText, que se utiliza como plantilla "
+"para la documentación. La forma más sencilla de aplicar cambios a la "
+"documentación es usar la función de diferencias visuales en el editor."
 
 #: ../../contributing/frontend.rst:2
 msgid "Weblate frontend"
@@ -42250,32 +42456,38 @@ msgid ""
 "how to install and manage 3rd party libraries used by the `client side` of "
 "Weblate using `Webpack`."
 msgstr ""
+"Puede ser un poco complicado instalar y administrar bibliotecas de "
+"`terceros` en el cliente de un proyecto Django. Esta sección proporciona una "
+"guía paso a paso sobre como instalar y administrar bibliotecas de terceros "
+"utilizadas por el `lado del cliente` de Weblate mediante `Webpack`."
 
 #: ../../contributing/frontend.rst:27 ../../devel/migration.rst:18
 msgid "Prerequisites"
-msgstr ""
+msgstr "Pre‐requisitos"
 
 #: ../../contributing/frontend.rst:29
 msgid ""
 "Before proceeding with an installation, make sure you have the following "
 "prerequisites:"
 msgstr ""
+"Antes de proceder con una instalación, asegúrese que tenga los siguientes pre"
+"‐requisitos:"
 
 #: ../../contributing/frontend.rst:31
 msgid "``Nodejs`` version 14 or higher."
-msgstr ""
+msgstr "La versión 14 o superior de ``Nodejs``."
 
 #: ../../contributing/frontend.rst:32
 msgid "The ``yarn`` package manager is installed on your system."
-msgstr ""
+msgstr "El gestor del paquete ``yarn`` está instalado en su sistema."
 
 #: ../../contributing/frontend.rst:33
 msgid "Run ``cd client``."
-msgstr ""
+msgstr "Ejecute ``cd client``."
 
 #: ../../contributing/frontend.rst:34
 msgid "Run ``yarn install``."
-msgstr ""
+msgstr "Ejecute ``yarn install``."
 
 #: ../../contributing/frontend.rst:39
 msgid "To install a library, first run the following command:"
@@ -42288,40 +42500,48 @@ msgstr "Importar la Biblioteca"
 
 #: ../../contributing/frontend.rst:48
 msgid "Then, there are two ways to import the library:"
-msgstr ""
+msgstr "Después, hay dos maneras para mejorar la biblioteca:"
 
 #: ../../contributing/frontend.rst:50
 msgid "If it is a project-wide library (it is used/needed in all/most pages):"
 msgstr ""
+"Si es una biblioteca de proyecto-amplio (es utilizada/necesaria en todas/"
+"mayoría de páginas):"
 
 #: ../../contributing/frontend.rst:51
 msgid "Import the library in ``src/main.js``."
-msgstr ""
+msgstr "Importa la biblioteca en ``src/main.js``."
 
 #: ../../contributing/frontend.rst:52
 msgid "And declare it in the global scope (if needed)."
-msgstr ""
+msgstr "Y decláralo dentro del ámbito global (si es necesario)."
 
 #: ../../contributing/frontend.rst:54
 msgid ""
 "If it is page-specific library (library is used in a specific page or "
 "template):"
 msgstr ""
+"Si es la biblioteca específica de la página (se utiliza la biblioteca dentro "
+"de una página específica o plantilla):"
 
 #: ../../contributing/frontend.rst:55
 msgid "Create a new file named ``src/<lib-name>.js``."
-msgstr ""
+msgstr "Crea un archivo nuevo nombrado ``src/<lib-name>.js``."
 
 #: ../../contributing/frontend.rst:56
 msgid ""
 "Import the library in it. Then inject it into the ``window`` object to be "
 "globally accessible."
 msgstr ""
+"Importa la biblioteca dentro de ello. Después inyéctalo en el objeto "
+"``ventana`` para ser accesible globalmente."
 
 #: ../../contributing/frontend.rst:57
 msgid ""
 "Add an entry in ``webpack.config.js``: ``<lib-name>: \"src/<lib-name>.js\"``."
 msgstr ""
+"Añade un apunte en ``webpack.config.js``: ``<nombre-lib>: \"src/<nombre-lib>"
+".js\"``."
 
 #: ../../contributing/frontend.rst:59
 msgid ""
@@ -42336,17 +42556,23 @@ msgid ""
 "Add license file name in ``additionalFiles`` in ``LicensePlugin`` in "
 "``plugins`` array in ``webpack.config.js``."
 msgstr ""
+"Añade el archivo de la licencia en ``additionalFiles`` en ``LicensePlugin`` "
+"dentro del ``plugins`` de formación en ``webpack.config.js``."
 
 #: ../../contributing/frontend.rst:61
 msgid ""
 "Create a ``<lib-name>LicenseTransform`` function for the license file "
 "introduced in the previous steps and use it."
 msgstr ""
+"Crea una función ``<lib-name>LicenseTransform`` para el archivo de la "
+"licencia introducida en los pasos anteriores y utilízalo."
 
 #: ../../contributing/frontend.rst:63
 msgid ""
 "Note: Replace ``<lib-name>`` with the actual name of the 3rd party library."
 msgstr ""
+"Nota: Remplaza ``<lib-name>`` con el nombre actual de la biblioteca de "
+"terceros."
 
 #: ../../contributing/frontend.rst:66
 msgid "Building the Library"
@@ -42360,21 +42586,23 @@ msgstr ""
 "instrucción siguiente:"
 
 #: ../../contributing/frontend.rst:75
-#, fuzzy
-#| msgid "Importing backup"
 msgid "Including the Library"
-msgstr "Importando la copia de seguridad"
+msgstr "Incluyendo la Biblioteca"
 
 #: ../../contributing/frontend.rst:77
 msgid ""
 "Now the library is built and ready for use. To include it follow these steps:"
 msgstr ""
+"Ahora la biblioteca está construida y preparada para su uso. Para incluirla "
+"siga estos pasos:"
 
 #: ../../contributing/frontend.rst:79
 msgid ""
 "If the library was imported in ``src/main.js``, no further steps are "
 "required (as it is already included in ``base.html``)."
 msgstr ""
+"Si la biblioteca fue importada en ``src/main.js``, ningún paso más se "
+"requiere (como ya está incluido en ``base.html``)."
 
 #: ../../contributing/frontend.rst:81
 msgid ""
@@ -42382,16 +42610,21 @@ msgid ""
 "``weblate/templates`` use the include tags to link to the built static "
 "JavaScript file:"
 msgstr ""
+"Si la biblioteca fue importada en su archivo ``src/<lib-nombre>.js`` "
+"específico, en ``weblate/plantillas`` utilice las etiquetas incluidas para "
+"enlazar la construcción estática del archivo JavaScript:"
 
 #: ../../contributing/frontend.rst:89
 msgid "Coding style"
-msgstr ""
+msgstr "Estilo de codificación"
 
 #: ../../contributing/frontend.rst:91
 msgid ""
 "Weblate relies on `Biome`_ for formatting and linting the JavaScript and CSS "
 "code."
 msgstr ""
+"Weblate se basa en `Biome`_ para formatear y corregir el código JavaScript y "
+"CSS."
 
 #: ../../contributing/frontend.rst:97
 msgid "Localization"
@@ -42403,12 +42636,18 @@ msgid ""
 "localizable. In most cases, all you need is to wrap your text inside "
 "``gettext`` function, but there are more complex features available:"
 msgstr ""
+"Si necesitaría texto visible para el usuario en el código frontend, éste "
+"sería localizable. En la mayoría de los casos, basta con encapsular el texto "
+"dentro de la función ``gettext``, pero hay disponibles características más "
+"complejas:"
 
 #: ../../contributing/frontend.rst:118
 msgid ""
 ":doc:`Translation topic in the Django documentation <django:topics/i18n/"
 "translation>`"
 msgstr ""
+":doc:`Translation topic in the Django documentation <django:topics/i18n/"
+"translation>`"
 
 #: ../../contributing/frontend.rst:121
 msgid "Icons"
@@ -42419,6 +42658,8 @@ msgid ""
 "Weblate currently uses `Material Design Icons`_, in case you are looking for "
 "new symbol, check that."
 msgstr ""
+"Weblate actualmente utiliza `Iconos de Diseño Material`_, en caso que esté "
+"buscando símbolo nuevo, compruebe ese."
 
 #: ../../contributing/frontend.rst:126
 msgid ""
@@ -42426,6 +42667,9 @@ msgid ""
 "SVG as most of the icons are embedded inside the HTML to allow styling of "
 "the paths."
 msgstr ""
+"Adicionalmente, hay :file:`scripts/optimize-svg` para reducir el tamaño del "
+"SVG tanto de los iconos estén embebidos por dentro del HTML para conceder "
+"estilo de las rutas."
 
 #: ../../contributing/index.rst:4
 msgid "Contributing to Weblate"
@@ -42437,6 +42681,9 @@ msgid ""
 "comfortable with, be it coding, graphics design, documentation, sponsorship, "
 "or an idea:"
 msgstr ""
+"Hay docenas de maneras de mejorar Weblate. Puedes elegir la que te resulte "
+"más cómoda, ya sea programación, diseño gráfico, documentación, patrocinio o "
+"una idea:"
 
 #: ../../contributing/index.rst:23
 msgid "Translating Weblate"
@@ -42449,6 +42696,10 @@ msgid ""
 "Weblate available in as many human languages as possible. It brings Weblate "
 "closer to its users!"
 msgstr ""
+"Weblate se traduce continuamente en <https://hosted.weblate.org/>_ "
+"utilizando el propio Weblate. Siéntete libre de colaborar para que Weblate "
+"esté disponible en tantos idiomas como sea posible. ¡Esto acerca Weblate a "
+"sus usuarios!"
 
 #: ../../contributing/index.rst:29
 msgid ""
@@ -42479,7 +42730,7 @@ msgstr ""
 
 #: ../../contributing/index.rst:46
 msgid "Funding Weblate development"
-msgstr ""
+msgstr "Financiación del desarrollo de Weblate"
 
 #: ../../contributing/index.rst:48
 msgid ""
@@ -42489,6 +42740,12 @@ msgid ""
 "<https://weblate.org/donate/>`_ for options, such as funding goals and the "
 "rewards you get as a proud funder."
 msgstr ""
+"Puedes impulsar el desarrollo de Weblate con donaciones. Los fondos "
+"recaudados se utilizan para el alojamiento gratuito de proyectos de software "
+"libre y para financiar el ecosistema del que depende Weblate. Consulta la "
+"página de donaciones <https://weblate.org/donate/>`_ para ver opciones, como "
+"los objetivos de financiación y las recompensas que recibes como "
+"patrocinador."
 
 #: ../../../BACKERS.rst:2
 msgid "Supporters who have funded Weblate"
@@ -42496,13 +42753,15 @@ msgstr "Partidarios que han financiado Weblate"
 
 #: ../../../BACKERS.rst:4
 msgid "List of Weblate supporters:"
-msgstr ""
+msgstr "Lista de patrocinadores de Weblate:"
 
 #: ../../../BACKERS.rst:34
 msgid ""
 "Do you want to be in the list? Please see options on the `Donate to Weblate "
 "<https://weblate.org/donate/>`_."
 msgstr ""
+"¿Quieres estar en la lista? Consulta las opciones en `Donar a Weblate "
+"<https://weblate.org/donate/>`_."
 
 #: ../../contributing/internals.rst:4
 msgid "Weblate internals"
@@ -42518,6 +42777,8 @@ msgstr ""
 msgid ""
 "Weblate derives most of its code structure from, and is based on `Django`_."
 msgstr ""
+"Weblate deriva la mayor parte de la estructura de su código, y está basado "
+"en `Django`_."
 
 #: ../../contributing/internals.rst:13
 msgid "Directory structure"
@@ -42526,26 +42787,35 @@ msgstr "Estructura de directorios"
 #: ../../contributing/internals.rst:15
 msgid "Quick overview of directory structure of Weblate main repository:"
 msgstr ""
+"Descripción general rápida de la estructura de directorios del repositorio "
+"principal de Weblate:"
 
 #: ../../contributing/internals.rst:18
 msgid ""
 "Source code for this documentation, which can be built using `Sphinx "
 "<https://www.sphinx-doc.org/>`_."
 msgstr ""
+"Código fuente de esta documentación, que se puede crear utilizando `Sphinx "
+"<https://www.sphinx-doc.org/>`_."
 
 #: ../../contributing/internals.rst:20
 msgid "Docker code to run development server, see :ref:`dev-docker`."
 msgstr ""
+"Código de Docker para ejecutar el servidor de desarrollo, consulte :ref:`dev-"
+"docker`."
 
 #: ../../contributing/internals.rst:22
 msgid ""
 "Source code of Weblate as a `Django <https://www.djangoproject.com/>`_ "
 "application, see :ref:`internals`."
 msgstr ""
+"Código fuente de Weblate como una aplicación `Django <https://"
+"www.djangoproject.com/>`_, consulte :ref:`internals`."
 
 #: ../../contributing/internals.rst:24
 msgid "Client files (CSS, Javascript and images), see :doc:`frontend`."
 msgstr ""
+"Archivos cliente (CSS, JavaScript e imágenes), consulte :doc:`frontend`."
 
 #: ../../contributing/internals.rst:27
 msgid "Modules"
@@ -42566,22 +42836,24 @@ msgstr "Cuenta de usuario, perfiles y notificaciones."
 #: ../../contributing/internals.rst:38
 msgid "Add-ons to tweak Weblate behavior, see :ref:`addons`."
 msgstr ""
+"Complementos para ajuste del comportamiento de Weblate, consulte "
+":ref:`addons`."
 
 #: ../../contributing/internals.rst:42
 msgid "API based on `Django REST framework`_."
-msgstr ""
+msgstr "API basada en `Entorno de trabajo REST de Django`_."
 
 #: ../../contributing/internals.rst:46
 msgid "Authentication and permissions."
-msgstr ""
+msgstr "Autenticación y permisos."
 
 #: ../../contributing/internals.rst:50
 msgid "The optional :ref:`billing` module."
-msgstr ""
+msgstr "El módulo :ref:`billing` opcional."
 
 #: ../../contributing/internals.rst:54
 msgid "Translation string :ref:`checks` module."
-msgstr ""
+msgstr "Cadena de traducción :ref:`checks` del módulo."
 
 #: ../../contributing/internals.rst:58
 msgid "Font rendering checks module."
@@ -42589,7 +42861,7 @@ msgstr "Fuente representando comprobaciones de módulo."
 
 #: ../../contributing/internals.rst:62
 msgid "File format abstraction layer based on translate-toolkit."
-msgstr ""
+msgstr "Capa de abstracción del formato de archivo basada en translate-toolkit."
 
 #: ../../contributing/internals.rst:66
 msgid "The optional :ref:`git-exporter` module."
@@ -42632,16 +42904,16 @@ msgid "Django admin interface customization."
 msgstr "Personalización de la interfaz administrativa de Django."
 
 #: ../../contributing/internals.rst:111
-#, fuzzy
-#| msgid "Background tasks using Celery"
 msgid "Background tasks internals"
-msgstr "Tareas en segundo plano con Celery"
+msgstr "Tareas internas en segundo plano"
 
 #: ../../contributing/internals.rst:115
 msgid ""
 "This section describes Celery task internals. :ref:`celery` describes how to "
 "configure Celery to run the tasks."
 msgstr ""
+"La sección describe etiquetas internas de Celery. :ref:`celery` describe "
+"como configurar Celery para ejecutar las tareas."
 
 #: ../../contributing/internals.rst:117
 msgid ""
@@ -42657,6 +42929,10 @@ msgid ""
 "used to store the periodic task schedule in the database. The tasks schedule "
 "is configured in :file:`tasks.py` in each of the Django apps."
 msgstr ""
+"Celery Beat se utiliza para programar tareas, y `django-celery-beat` se "
+"utiliza para almacenar la programación periódica de tareas en la base de "
+"datos. La programación de tareas se configura en :file:`tasks.py` en cada "
+"aplicación de Django."
 
 #: ../../contributing/internals.rst:124
 msgid ""
@@ -42664,10 +42940,13 @@ msgid ""
 "in :file:`settings.py`. The queues were designed to separate different types "
 "of workload:"
 msgstr ""
+"Las tareas se consumen mediante varias colas; el enrutamiento se configura "
+"en :file:`settings.py`. Las colas se diseñaron para separar los diferentes "
+"tipos de carga de trabajo:"
 
 #: ../../contributing/internals.rst:129
 msgid "The default queue where background tasks are processed."
-msgstr ""
+msgstr "La cola predeterminada donde se procesan las tareas en segundo plano."
 
 #: ../../contributing/internals.rst:131
 msgid ""
@@ -42685,18 +42964,26 @@ msgid ""
 "importing new strings, and long processing does not matter much here, so "
 "having a separate queue avoids blocking other tasks."
 msgstr ""
+"Actualiza los apuntes de la memoria de traducción. La cola de actualización "
+"puede ser larga al importar cadenas nuevas, y el procesamiento prolongado no "
+"es tan importante en este caso, por lo que tener una cola separada evita "
+"bloquear otras tareas."
 
 #: ../../contributing/internals.rst:135
 msgid ""
 "The backup tasks cannot be executed in parallel, and a single dedicated "
 "worker makes this easier."
 msgstr ""
+"El respaldo de tareas no pueden ser ejecutadas en paralelo, y un solo "
+"trabajador dedicado hace esto más fácil."
 
 #: ../../contributing/internals.rst:137
 msgid ""
 "Automatic translation tasks are known to take long because they hit external "
 "services."
 msgstr ""
+"Se sabe que las tareas de traducción automática toman mucho tiempo porque "
+"afectan a servicios externos."
 
 #: ../../contributing/issues.rst:4
 msgid "Reporting issues in Weblate"
@@ -42716,28 +43003,37 @@ msgid ""
 "Weblate there. There are various templates prepared to comfortably guide you "
 "through the issue report."
 msgstr ""
+"No dudes en informar cualquier problema o sugerir mejoras para Weblate. "
+"Disponemos de varias plantillas para guiarle fácilmente en el proceso de "
+"informe de asuntos."
 
 #: ../../contributing/issues.rst:13
 msgid ""
 "If what you have found is a security issue in Weblate, please "
 "see :ref:`security`."
 msgstr ""
+"Si lo que ha encontrado es un asunto de seguridad en Weblate, consulte en "
+":ref:`security`."
 
 #: ../../contributing/issues.rst:15
 msgid ""
 "If you are not sure about your bug report or feature request, you can "
 "try :ref:`discussions`."
 msgstr ""
+"Si no está seguro acerca de su informe de fallo o solicitud de función, "
+"puede intentar :ref:`discussions`."
 
 #: ../../contributing/issues.rst:20
 msgid "Using AI to create issues"
-msgstr ""
+msgstr "Utilizando IA para crear asuntos"
 
 #: ../../contributing/issues.rst:22
 msgid ""
 "If you asked an AI tool to find problems in Weblate or its modules, you "
 "**must** make sure to reveal this fact in your report."
 msgstr ""
+"Si le pide a una herramienta de IA que encuentre problemas en Weblate o sus "
+"módulos, **debe** asegurarse de revelar este hecho en su informe."
 
 #: ../../contributing/issues.rst:25
 msgid ""
@@ -42746,6 +43042,10 @@ msgid ""
 "the AI says. AI-based tools frequently generate inaccurate or fabricated "
 "results."
 msgstr ""
+"También debe verificar cuidadosamente los hallazgos antes de comunicárnoslos "
+"para validar que los asuntos existan y funcionen exactamente como indica la "
+"IA. Las herramientas basadas en IA suelen generar resultados inexactos o "
+"falsos."
 
 #: ../../contributing/issues.rst:29
 msgid ""
@@ -42757,6 +43057,13 @@ msgid ""
 "makes sure the AI-generated inaccuracies and invented issues are filtered "
 "out early before they waste more people's time."
 msgstr ""
+"Es *raramente* una idea buena copiar y pegar un informe generado por IA en "
+"el proyecto. Estos informes suelen ser demasiado extensos y rara vez van al "
+"grano (además de incluir los habituales detalles inventados). Si descubre un "
+"problema con una IA y lo ha verificado usted mismo, redacte el informe y "
+"explique el problema tal como lo ha descubierto. Esto garantiza que las "
+"imprecisiones generadas por la IA y los problemas inventados se filtren "
+"rápidamente, antes de que hagan perder el tiempo a más personas."
 
 #: ../../contributing/issues.rst:37
 msgid ""
@@ -42775,6 +43082,8 @@ msgstr ""
 msgid ""
 "We ban users immediately who submit made-up fake reports to the project."
 msgstr ""
+"Baneamos inmediatamente a aquellos usuarios que envíen informes falsos e "
+"inventados al proyecto."
 
 #: ../../contributing/issues.rst:46
 msgid "Issues lifecycle"
@@ -42828,12 +43137,18 @@ msgid ""
 "FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for "
 "more details."
 msgstr ""
+"Este programa se distribuye con la esperanza de que sea útil, pero SIN "
+"GARANTÍA ALGUNA; ni siquiera la garantía implícita de COMERCIABILIDAD o "
+"IDONEIDAD PARA UN PROPÓSITO PARTICULAR. Consulte la Licencia Pública General "
+"de GNU para más detalles."
 
 #: ../../contributing/license.rst:26
 msgid ""
 "You should have received a copy of the GNU General Public License along with "
 "this program. If not, see <https://www.gnu.org/licenses/>."
 msgstr ""
+"Debería haber recibido una copia de la Licencia Pública General de GNU junto "
+"con este programa. De no ser así, consulte <https://www.gnu.org/licenses/>."
 
 #: ../../contributing/license.rst:30
 msgid "Weblate modules license"
@@ -42856,18 +43171,21 @@ msgid ""
 "Besides the main repository, Weblate consists of several Python modules. All "
 "these follow same structure and this documentation covers them all."
 msgstr ""
+"Además del repositorio principal, Weblate consta de varios módulos de "
+"Python. Todos siguen la misma estructura y esta documentación los describe a "
+"fondo."
 
 #: ../../contributing/modules.rst:7
-#, fuzzy
-#| msgid "For example:"
 msgid "For example, this covers:"
-msgstr "Por ejemplo:"
+msgstr "Por ejemplo, esto cubre:"
 
 #: ../../contributing/modules.rst:9
 msgid ""
 "`wlc <https://github.com/WeblateOrg/wlc/>`_, Python client library, "
 "see :ref:`wlc`"
 msgstr ""
+"`wlc <https://github.com/WeblateOrg/wlc/>`_, biblioteca de cliente en "
+"Python, consulte :ref:`wlc`"
 
 #: ../../contributing/modules.rst:10
 msgid ""
@@ -42899,10 +43217,13 @@ msgid ""
 "to :file:`languages.csv`, other files are generated from that file. The "
 "columns in the CSV file correspond to :ref:`language-definitions`."
 msgstr ""
+"Puede agregar las definiciones de idioma que falten al archivo "
+":file:`languages.csv`, otros archivos son generados a partir de ese archivo. "
+"Las columnas del archivo CSV corresponden a :ref:`language-definitions`."
 
 #: ../../contributing/release.rst:2
 msgid "Releasing Weblate"
-msgstr ""
+msgstr "Lanzamiento de Weblate"
 
 #: ../../contributing/release.rst:7
 msgid "Release cycle"
@@ -42914,6 +43235,10 @@ msgid ""
 "followed by a bunch of bugfix releases to fix issues which slip into them "
 "(x.y.z). This includes bug fixes and addressing security issues."
 msgstr ""
+"Weblate tiene un ciclo de lanzamiento de dos meses para las versiones (x.y). "
+"Estas son seguidas usualmente de varias versiones de corrección de errores "
+"para solucionar problemas que se cuelan en ellas (x.y.z). Esto incluye la "
+"corrección de errores y la resolución de asuntos de seguridad."
 
 #: ../../contributing/release.rst:13
 msgid ""
@@ -42921,6 +43246,9 @@ msgid ""
 "skip this version - you always have to upgrade to x.0 before upgrading to "
 "higher x.y releases."
 msgstr ""
+"El cambio en la versión principal indica que el proceso de modernización no "
+"puede omitir esta versión: siempre debe mejorar a x.0 antes de modernizar a "
+"versiones superiores de x.y."
 
 #: ../../contributing/release.rst:17
 msgid ""
@@ -42928,10 +43256,13 @@ msgid ""
 "changes in the container itself like dependencies. These updates may include "
 "security updates."
 msgstr ""
+"El contenedor Docker incluye un control de versiones adicional para "
+"seguimiento de cambios en el propio contenedor, como las dependencias. Estas "
+"actualizaciones pueden incluir actualizaciones de seguridad."
 
 #: ../../contributing/release.rst:27
 msgid "Release planning"
-msgstr ""
+msgstr "Planificación de lanzamiento"
 
 #: ../../contributing/release.rst:29
 msgid ""
@@ -42939,6 +43270,9 @@ msgid ""
 "you can see our roadmap at <https://github.com/WeblateOrg/weblate/"
 "milestones>."
 msgstr ""
+"Las características de los próximos lanzamientos se recopilan mediante los "
+"hitos de GitHub; puedes ver nuestra hoja de ruta en <https://github.com/"
+"WeblateOrg/weblate/milestones>."
 
 #: ../../contributing/release.rst:33
 msgid "Release process"
@@ -42953,26 +43287,33 @@ msgid ""
 "Check newly translated languages by :command:`./scripts/list-translated-"
 "languages.py`."
 msgstr ""
+"Compruebe los idiomas recientemente traducidos mediante :command:`./scripts/"
+"list-translated-languages.py`."
 
 #: ../../contributing/release.rst:38
 msgid "Set final version by :command:`./scripts/prepare-release`."
 msgstr ""
+"Establezca la versión final mediante :command:`./scripts/prepare-release`."
 
 #: ../../contributing/release.rst:39
 msgid ""
 "Make sure screenshots are up to date :command:`make -j 12 -C docs update-"
 "screenshots`."
 msgstr ""
+"Asegúrese de que las capturas de pantalla estén actualizadas :command:`make -"
+"j 12 -C docs update-screenshots`."
 
 #: ../../contributing/release.rst:40
 msgid ""
 "Merge any possibly pending translations :command:`wlc push; git remote "
 "update; git merge origin/weblate`"
 msgstr ""
+"Fusionar cualquier traducción posiblemente pendiente :command:`wlc push; git "
+"remote update; git merge origin/weblate`"
 
 #: ../../contributing/release.rst:42
 msgid "Perform the release:"
-msgstr ""
+msgstr "Realizar la liberación:"
 
 #: ../../contributing/release.rst:44
 msgid ""
@@ -43064,6 +43405,9 @@ msgid ""
 "labelled `good first issue <https://github.com/WeblateOrg/weblate/labels/"
 "good%20first%20issue>`_."
 msgstr ""
+"Familiarícese con el código base de Weblate, revisando los errores "
+"etiquetados como `buen primer problema <https://github.com/WeblateOrg/"
+"weblate/labels/good%20first%20issue>`_."
 
 #: ../../contributing/start.rst:13
 msgid ""
@@ -43071,6 +43415,9 @@ msgid ""
 "announce that in the issue, so that it's clear that somebody is working on "
 "that issue."
 msgstr ""
+"Puedes empezar a trabajar en estos temas sin necesidad de pedir permiso. "
+"Simplemente anúncialo en el tema, tal que quede claro que alguien está "
+"trabajando en ese asunto."
 
 #: ../../contributing/start.rst:17
 msgid "Running Weblate locally"
@@ -43082,6 +43429,9 @@ msgid ""
 "follow :doc:`../admin/install/source`. It will get you a virtualenv with "
 "editable Weblate sources."
 msgstr ""
+"La forma más cómoda de comenzar a desarrollar con Weblate es seguir :doc:`../"
+"admin/install/source`. Esto le proporcionará un entorno virtual con fuentes "
+"de Weblate editables."
 
 #: ../../contributing/start.rst:23
 msgid "Clone the Weblate source code:"
@@ -43108,6 +43458,8 @@ msgstr "Inicie un servidor de desarrollo:"
 msgid ""
 "Depending on your configuration, you might also want to start Celery workers:"
 msgstr ""
+"Dependiendo de su configuración, tal vez desea además iniciar trabajadores "
+"de Celery:"
 
 #: ../../contributing/start.rst:55
 msgid "To run a test (see :ref:`local-tests` for more details):"
@@ -43124,6 +43476,10 @@ msgid ""
 "package manager. Then, you can spin up the development environment by simply "
 "running:"
 msgstr ""
+"Si tienes instalado Docker y el complemento docker-compose, necesitas una "
+"herramienta adicional llamada ``jq``, que puedes instalar a través de tu "
+"gestor de paquetes preferido. Después, puedes configurar el entorno de "
+"desarrollo simplemente ejecutando:"
 
 #: ../../contributing/start.rst:79
 msgid ""
@@ -43132,12 +43488,19 @@ msgid ""
 "``admin`` as the password. The new installation is empty, so you might want "
 "to continue with :ref:`adding-projects`."
 msgstr ""
+"Se creará una imagen de desarrollo de Docker y se iniciará. Weblate se "
+"ejecuta en <http://127.0.0.1:8080/> y puedes iniciar sesión como el usuario "
+"``admin`` y usar ``admin`` como contraseña. La instalación nueva está vacía, "
+"así que puedes continuar con :ref:`adding-projects`."
 
 #: ../../contributing/start.rst:84
 msgid ""
 "Weblate is configured to use :program:`maildev` container as a e-mail "
 "server. The delivered e-mails can be seen at <http://127.0.0.1:1080/>."
 msgstr ""
+"Weblate está configurado para utilizar el contenedor :program:`maildev` como "
+"un servidor de correo-e. La entrega del correo-e puede ser vista en <http://"
+"127.0.0.1:1080/>."
 
 #: ../../contributing/start.rst:87
 msgid ""
@@ -43146,6 +43509,10 @@ msgid ""
 "during development, the container running PostgreSQL is exposed on port "
 "``5433``."
 msgstr ""
+"Los archivos :file:`Dockerfile` y :file:`docker-compose.yml` se encuentran "
+"en el directorio :file:`dev-docker`. Para facilitar el acceso a la base de "
+"datos durante el desarrollo, el contenedor que ejecuta PostgreSQL está "
+"expuesto en el puerto ``5433``."
 
 #: ../../contributing/start.rst:91
 msgid ""
@@ -43153,12 +43520,18 @@ msgid ""
 "``test`` parameter and then specify any :djadmin:`django:test` parameters, "
 "for example running only tests in the ``weblate.machine`` module:"
 msgstr ""
+"El script también acepta algunos parámetros, para ejecutar pruebas, "
+"ejecútelo con el parámetro ``test`` y luego especifique cualquier parámetro "
+":djadmin:`django:test`, por ejemplo, ejecutar solo pruebas en el módulo "
+"``weblate.machine``:"
 
 #: ../../contributing/start.rst:101
 msgid ""
 "Be careful that your Docker containers are up and running before running the "
 "tests. You can check that by running the ``docker ps`` command."
 msgstr ""
+"Cuídese que sus contenedores Docker estén en funcionamiento antes de "
+"ejecutar las pruebas. Puede comprobarlo ejecutando el comando ``docker ps``."
 
 #: ../../contributing/start.rst:104
 msgid "To display the logs:"
@@ -43223,12 +43596,17 @@ msgid ""
 "open it with PyCharm. Once the IDE is open, the first step is to specify the "
 "interpreter you want to use:"
 msgstr ""
+"Considerando que acaba de haber clonado el repositorio GitHub en una "
+"carpeta, simplemente ábralo con PyCharm. Una vez abierto el IED, el primer "
+"paso es especificar el intérprete que desea usar:"
 
 #: ../../contributing/start.rst:146
 msgid ""
 "You can either choose to let PyCharm create the virtualenv for you, or "
 "select an already existing one:"
 msgstr ""
+"Puede elegir para crear el virtualenv de Pycham por ti, o seleccionar uno ya "
+"existente:"
 
 #: ../../contributing/start.rst:151
 msgid ""
@@ -43237,6 +43615,10 @@ msgid ""
 "virtualenv by default), or through the interface when you get a warning "
 "about missing dependencies."
 msgstr ""
+"No olvides instalar las dependencias una vez configurado el intérprete: ya "
+"sea a través de la consola (la consola del IDE usará directamente tu "
+"virtualenv por defecto), o a través de la interfaz cuando recibas una "
+"advertencia sobre dependencias ausentes."
 
 #: ../../contributing/start.rst:156
 msgid ""
@@ -43245,6 +43627,10 @@ msgid ""
 "IDE. For that you need to specify the root path of the Django project and "
 "the path to its settings:"
 msgstr ""
+"El segundo paso es establecer la información correcta para usar Django de "
+"forma nativa en PyCharm: la idea es poder ejecutar inmediatamente las "
+"pruebas unitarias en el EDI. Para ello, es necesario especificar la ruta "
+"raíz del proyecto Django y la ruta a sus ajustes:"
 
 #: ../../contributing/start.rst:162
 msgid ""
@@ -43253,6 +43639,10 @@ msgid ""
 "the :file:`weblate/settings_test.py` from the repository, but you could "
 "create your own setting and set it there."
 msgstr ""
+"Tenga cuidado, la `raíz del proyecto Django` es la raíz del repositorio, no "
+"el subdirectorio Weblate. En cuanto a los ajustes, pudo usar el archivo "
+":file:`weblate/settings_test.py` desde el repositorio, pero pudo crear sus "
+"propios ajustes y configurarlo allí."
 
 #: ../../contributing/start.rst:166
 msgid ""
@@ -43260,6 +43650,9 @@ msgid ""
 "able to debug it. This is done by creating a new `Django Server` "
 "configuration:"
 msgstr ""
+"El último paso es ejecutar el servidor y poner puntos de parada en el código "
+"para ser capaz de depurarlo. Esto se hace creando una configuración `Django "
+"Server`:"
 
 #: ../../contributing/start.rst:175
 msgid ""
@@ -43275,13 +43668,16 @@ msgstr ""
 
 #: ../../contributing/tests.rst:2
 msgid "Weblate testsuite and continuous integration"
-msgstr ""
+msgstr "Juego de pruebas de Weblate e integración continua"
 
 #: ../../contributing/tests.rst:4
 msgid ""
 "Testsuites exist for most of the current code, increase coverage by adding "
 "testcases for any new functionality, and verify that it works."
 msgstr ""
+"Existe un conjunto de pruebas para muchos de los códigos actuales, "
+"incremente cobertura por añadir casos de pruebas para cualquier "
+"funcionalidad nueva, y verifica que esto funcione."
 
 #: ../../contributing/tests.rst:10
 msgid "Continuous integration"
@@ -43292,20 +43688,26 @@ msgid ""
 "Weblate relies on `GitHub Actions`_ to run tests, build documentation, code "
 "linting, and other tasks to ensure code quality."
 msgstr ""
+"Weblate se basa en `Acciones GitHub`_ para ejecutar pruebas, crear "
+"documentación, revisar código y realizar otras tareas para garantizar la "
+"calidad del código."
 
 #: ../../contributing/tests.rst:15
 msgid ""
 "`Codecov`_ collects the code coverage information from the tests that were "
 "run."
 msgstr ""
+"`Codecov`_ recolecta información de cobertura del código desde las pruebas "
+"que fueron ejecutadas."
 
 #: ../../contributing/tests.rst:20
 msgid "There are several jobs to verify different aspects:"
-msgstr ""
+msgstr "Hay varias tareas para verificar aspectos diferentes:"
 
 #: ../../contributing/tests.rst:22
 msgid "Unit and functional tests using `pytest <https://pytest.org/>`_."
 msgstr ""
+"Pruebas unitarias y funcionales utilizando `pytest <https://pytest.org/>`_."
 
 #: ../../contributing/tests.rst:23
 msgid ""
@@ -43320,10 +43722,13 @@ msgid ""
 "Code linting and quality assurance using `ruff <https://docs.astral.sh/ruff/"
 ">`_ and `pylint <https://www.pylint.org/>`_."
 msgstr ""
+"Control de calidad y revisión de código mediante `ruff <https://"
+"docs.astral.sh/ruff/>`_ y `pylint <https://www.pylint.org/>`_."
 
 #: ../../contributing/tests.rst:25
 msgid "Code security scanning using `CodeQL <https://codeql.github.com/>`_."
 msgstr ""
+"Escaneo de seguridad de código usando `CodeQL <https://codeql.github.com/>`_."
 
 #: ../../contributing/tests.rst:26
 msgid "Code formatting using `pre-commit <https://pre-commit.com/>`_."
@@ -43331,13 +43736,15 @@ msgstr "Formateo de código utilizando `pre-commit <https://pre-commit.com/>`_."
 
 #: ../../contributing/tests.rst:27
 msgid "Migration testing from all supported releases"
-msgstr ""
+msgstr "Pruebas de migración desde todas las versiones mantenidas"
 
 #: ../../contributing/tests.rst:28
 msgid ""
 "Setup verification (ensures that generated dist files do not miss anything "
 "and can be tested)"
 msgstr ""
+"Verificación de configuración (garantiza que los archivos dist generados no "
+"pierdan nada y se puedan probar)"
 
 #: ../../contributing/tests.rst:30
 msgid ""
@@ -43383,7 +43790,7 @@ msgstr ""
 
 #: ../../contributing/tests.rst:70
 msgid "Running an individual test file:"
-msgstr ""
+msgstr "Ejecutar un archivo de test individual:"
 
 #: ../../contributing/tests.rst:78
 msgid ""
@@ -43393,47 +43800,57 @@ msgid ""
 "use ``test_weblate`` database. See :ref:`database-setup` for setup "
 "instructions."
 msgstr ""
+"Necesitarás un servidor de base de datos (PostgreSQL) para ser utilizada "
+"para pruebas. Por defecto Django crea bases de datos separadas para ejecutar "
+"pruebas con el prefijo ``test_``, tal que en caso que su ajustes estén "
+"configurados para utilizar ``weblate``, las pruebas utilizarán la base de "
+"datos ``test_weblate``. Consulte :ref:`database-setup` para instrucciones de "
+"configuración."
 
 #: ../../contributing/tests.rst:84
 msgid ""
 "The :file:`weblate/settings_test.py` is used in CI environment as well "
 "(see :ref:`ci-tests`) and can be tuned using environment variables:"
 msgstr ""
+"El :file:`weblate/settings_test.py` es utilizado en el entorno CI también "
+"(consulte :ref:`ci-tests`) y puede ser ajustado utilizando variables del "
+"entorno:"
 
 #: ../../contributing/tests.rst:98
 msgid ""
 "The tests can also be executed inside developer docker container, "
 "see :ref:`dev-docker`."
 msgstr ""
+"Las pruebas también se pueden ejecutar dentro del contenedor Docker del "
+"desarrollador, consulte :ref:`dev-docker`."
 
 #: ../../contributing/tests.rst:102
 msgid ""
 "See :doc:`django:topics/testing/index` for more info on running and writing "
 "tests for Django."
 msgstr ""
+"Consulte :doc:`django:topics/testing/index` para obtener más información "
+"sobre como ejecutar y escribir pruebas para Django."
 
 #: ../../contributing/tests.rst:107
-#, fuzzy
-#| msgid "Contributing to Weblate"
 msgid "Local testing of Weblate modules"
-msgstr "Contribuir con Weblate"
+msgstr "Pruebas locales de módulos de Weblate"
 
 #: ../../contributing/tests.rst:109
 msgid ""
 "The tests are executed using :program:`py.test`. First you need to install "
 "test requirements:"
 msgstr ""
+"Las pruebas se ejecutan utilizando :program:`py.test`. Primero necesitas "
+"instalar los requieridos del test:"
 
 #: ../../contributing/tests.rst:115
 msgid "You can then execute the testsuite in the repository checkout:"
-msgstr ""
+msgstr "Entonces puede ejecutar la suit de test en el checkout del repositorio:"
 
 #: ../../contributing/tests.rst:123
-#, fuzzy
-#| msgctxt "Access-control role"
-#| msgid "Access repository"
 msgid "Testing repository"
-msgstr "Acceder al repositorio"
+msgstr "Probar repositorio"
 
 #: ../../contributing/tests.rst:125
 msgid ""
@@ -43446,6 +43863,14 @@ msgid ""
 "and :file:`weblate/trans/tests/data/test-base-repo.svn.tar` in the Weblate "
 "repository."
 msgstr ""
+"Muchas de las pruebas del conjunto de pruebas de Weblate utilizan el "
+"repositorio de pruebas. Este repositorio se encuentra en https://github.com/"
+"WeblateOrg/test. El script :file:`scripts/pack-test-data.sh` se utiliza para "
+"generar un archivo tar con un repositorio para cada uno de los sistemas de "
+"control de versiones compatibles. Estos se almacenan como :file:`weblate/"
+"trans/tests/data/test-base-repo.git.tar`, :file:`weblate/trans/tests/data/"
+"test-base-repo.hg.tar` y :file:`weblate/trans/tests/data/test-base-"
+"repo.svn.tar` en el repositorio de Weblate."
 
 #: ../../contributing/tests.rst:134
 msgid ""
@@ -43454,12 +43879,15 @@ msgid ""
 "used at the release time. The script tries to create reproducible tarballs "
 "as much as possible."
 msgstr ""
+"El repositorio https://github.com/WeblateOrg/test se etiqueta en el momento "
+"del lanzamiento, lo que garantiza que las etiquetas de lanzamiento se puedan "
+"usar para acceder a los datos de prueba utilizados en el momento del "
+"lanzamiento. El script intenta crear archivos tar lo más reproducibles "
+"posible."
 
 #: ../../contributing/trademark.rst:2
-#, fuzzy
-#| msgid "Weblate stable release"
 msgid "Weblate Trademark Guidelines"
-msgstr "Versión estable de Weblate"
+msgstr "Directrices Mercantiles de Weblate"
 
 #: ../../contributing/trademark.rst:4
 msgid ""
@@ -43475,17 +43903,21 @@ msgstr ""
 
 #: ../../contributing/trademark.rst:6
 msgid "Some of our trademarks include:"
-msgstr ""
+msgstr "Algunas de nuestras marcas comerciales incluyen:"
 
 #: ../../contributing/trademark.rst:10
 msgid ""
 "However, this is not a complete list of our names, logos, and brand "
 "features, all of which are subject to these guidelines."
 msgstr ""
+"Sin embargo, esto no es un listado completo de nuestros nombres, logotipos, "
+"y característica de la marca, todo lo cual son asunto para estas directrices."
 
 #: ../../contributing/trademark.rst:13
 msgid "When do I need specific permission to use a Weblate trademark?"
 msgstr ""
+"¿Cuándo necesito permiso específico para utilizar una marca comercial de "
+"Weblate?"
 
 #: ../../contributing/trademark.rst:15
 msgid ""
@@ -43501,6 +43933,8 @@ msgid ""
 "Use Weblate wordmarks and/or logos in unmodified versions of Weblate "
 "programs, products, services and technologies."
 msgstr ""
+"Utilice las marcas denominativas y/o logotipos de Weblate en versiones no "
+"modificadas de los programas, productos, servicios y tecnologías de Weblate."
 
 #: ../../contributing/trademark.rst:18
 msgid ""
@@ -43517,6 +43951,9 @@ msgid ""
 "applicable programs, products, services and technologies hosted on Weblate "
 "servers."
 msgstr ""
+"Utiliza los logotipos de Weblate en visuales para referirse sinceramente "
+"para y/o enlazar a los programas, productos, servicios y tecnologías "
+"aplicables hospedados en los servidores de Weblate."
 
 #: ../../contributing/trademark.rst:20
 msgid ""
@@ -43616,12 +44053,16 @@ msgid ""
 "Don't use Weblate trademarks on merchandise for sale (e.g., selling t-"
 "shirts, mugs, etc.)."
 msgstr ""
+"No utilice las marcas comerciales de Weblate en productos para la venta "
+"(p.ej., venta de camisetas, tazas, etc.)."
 
 #: ../../contributing/trademark.rst:43
 msgid ""
 "Don't use Weblate trademarks for any other form of commercial use (e.g. "
 "offering technical support services)."
 msgstr ""
+"No utilice las marcas comerciales de Weblate para ninguna otra forma de uso "
+"comercial (p.e., ofrecer servicios de mantenimiento técnico)."
 
 #: ../../contributing/trademark.rst:44
 msgid ""
@@ -43629,10 +44070,13 @@ msgid ""
 "other symbols, words, or images, or incorporate them into a tagline or "
 "slogan."
 msgstr ""
+"No modifique las marcas comerciales de Weblate, no las abrevie ni las "
+"combine con otros símbolos, palabras o imágenes, ni las incorpore en un "
+"eslogan o lema."
 
 #: ../../contributing/trademark.rst:47
 msgid "Social Media Guidelines"
-msgstr ""
+msgstr "Directrices del Medio Social"
 
 #: ../../contributing/trademark.rst:49
 msgid ""
@@ -43656,7 +44100,7 @@ msgstr ""
 
 #: ../../contributing/trademark.rst:54
 msgid "Open-Source Project Guidelines"
-msgstr ""
+msgstr "Directrices del Proyecto Fuente-Abierta"
 
 #: ../../contributing/trademark.rst:56
 msgid ""
@@ -43665,16 +44109,22 @@ msgid ""
 "to use Weblate's trademarks. If you choose to build on or modify Weblate's "
 "open-source code for your own project,"
 msgstr ""
+"La licencia específica de cada producto y código de software de Weblate "
+"especifica lo que se puede y no se puede hacer con el código, pero no "
+"autoriza el uso de las marcas registradas de Weblate. Si decide desarrollar "
+"o modificar el código abierto de Weblate para su propio proyecto,"
 
 #: ../../contributing/trademark.rst:58
 msgid "**You Must:**"
-msgstr ""
+msgstr "**Tú Debes:**"
 
 #: ../../contributing/trademark.rst:60
 msgid ""
 "Follow the terms of the Open-Source Licenses for Weblate software products "
 "and code (mainly GPLv3)."
 msgstr ""
+"Seguir con los términos de las Licencias de Open-Source para los productos "
+"de software de Weblate y el código (mayotmente GPLv3)."
 
 #: ../../contributing/trademark.rst:61
 msgid ""
@@ -43682,10 +44132,13 @@ msgid ""
 "to clearly signal to users that there is no affiliation with or endorsement "
 "by Weblate."
 msgstr ""
+"Elija la marca, los logotipos, y marcas comerciales que denoten su propia "
+"identidad única para señalar claramente a los usuarios que no hay afiliación "
+"o aprobación por Weblate."
 
 #: ../../contributing/trademark.rst:62
 msgid "Follow the General Guidelines, above."
-msgstr ""
+msgstr "Seguir las Directrices Generales, a continuación."
 
 #: ../../contributing/trademark.rst:64
 msgid "**You Must NOT:**"
@@ -43696,6 +44149,8 @@ msgid ""
 "Use any Weblate trademark in connection with the user-facing name or "
 "branding of your project."
 msgstr ""
+"Utilice cualquier marca comercial de Weblate en conexión con el nombre "
+"orientado del usuario o marca de su proyecto."
 
 #: ../../contributing/trademark.rst:67
 msgid ""
@@ -43703,12 +44158,15 @@ msgid ""
 "incorrectly suggest or give the impression your software is published by, "
 "affiliated with, or endorsed by Weblate."
 msgstr ""
+"Utilice cualquier marca comercial de Weblate o cualquier parte de cualquier "
+"marca comercial de Weblate para sugerir incorrectamente o dar la impresión "
+"de que su software es dirigido, afiliado o relacionado con Weblate."
 
 #: ../../contributing/trademark.rst:69
 msgid ""
 "For example, please do not name your project, [Something]-Weblate, or "
 "Weblate-[Something]"
-msgstr ""
+msgstr "Por ejemplo, no nombra su proyecto, [Algo]-Weblate, o Weblate-[algo]"
 
 #: ../../contributing/trademark.rst:71
 msgid "**You May:**"
@@ -43719,6 +44177,9 @@ msgid ""
 "State in words (not using logos or images) that your product \"works with\" "
 "or \"is compatible\" with certain Weblate products, if that is true."
 msgstr ""
+"Estado de palabras (no utilizando logotipos o imágenes) que su producto "
+"\"funciona con\" o \"es compatible\" con ciertos productos de Weblate, si "
+"eso es cierto."
 
 #: ../../contributing/trademark.rst:74
 msgid ""
@@ -43730,21 +44191,24 @@ msgstr ""
 
 #: ../../contributing/trademark.rst:76
 msgid "For instance, you may state that your project:"
-msgstr ""
+msgstr "Para instancia, puede ser que su proyecto:"
 
 #: ../../contributing/trademark.rst:78
 msgid "\"is proudly built from Weblate's open-source software\""
 msgstr ""
+"\"estar orgulloso de crear desde el software de fuente abierta de Weblate\""
 
 #: ../../contributing/trademark.rst:80
 msgid "as long as you also include the statement equally prominently:"
-msgstr ""
+msgstr "por tanto que además incluye el enunciado de equidad prominentemente:"
 
 #: ../../contributing/trademark.rst:82
 msgid ""
 "\"[Brand Name] and [Product Name] are not officially associated with Weblate "
 "or its products.\""
 msgstr ""
+"\"[Nombre de Marca] y [Nombre del Producto] no están asociados oficialmente "
+"con Weblate o sus productos.\""
 
 #: ../../contributing/trademark.rst:85
 msgid "Weblate Community Guidelines"
@@ -43759,7 +44223,7 @@ msgstr ""
 
 #: ../../devel/alerts.rst:4
 msgid "Translation component alerts"
-msgstr ""
+msgstr "Alertas de componente de traducción"
 
 #: ../../devel/alerts.rst:6
 msgid ""
@@ -43767,18 +44231,21 @@ msgid ""
 "given translation component. Guidance on how to address found issues is also "
 "offered."
 msgstr ""
+"Muestra errores en la configuración de Weblate o el proyecto de traducción "
+"para cualquier componente de traducción proporcionado. Directriz sobre como "
+"dirección encuentra asuntos también se ofrece."
 
 #: ../../devel/alerts.rst:9
 msgid "Currently the following is covered:"
-msgstr ""
+msgstr "Actualmente lo siguiente está cubierto:"
 
 #: ../../devel/alerts.rst:11
 msgid "Duplicated source strings in translation files"
-msgstr ""
+msgstr "Cadenas de fuente duplicadas en los archivos de traducción"
 
 #: ../../devel/alerts.rst:12
 msgid "Duplicated languages within translations"
-msgstr ""
+msgstr "Idiomas duplicados con las traducciones"
 
 #: ../../devel/alerts.rst:13
 msgid "Merge, update, or push failures in the repository"
@@ -43786,7 +44253,7 @@ msgstr "Fusionar, actualizar, o subir fallos en el repositorio"
 
 #: ../../devel/alerts.rst:14
 msgid "Parse errors in the translation files"
-msgstr ""
+msgstr "Errores de interpretación en los archivos de traducción"
 
 #: ../../devel/alerts.rst:15
 msgid "Billing limits (see :ref:`billing`)"
@@ -43802,7 +44269,7 @@ msgstr "Faltan licencias"
 
 #: ../../devel/alerts.rst:18
 msgid "Errors when running add-on (see :doc:`/admin/addons`)"
-msgstr ""
+msgstr "Error al ejecutar complemento (consulte :doc:`/admin/addons`)"
 
 #: ../../devel/alerts.rst:19
 msgid "Misconfigured monolingual translation."
@@ -43814,13 +44281,11 @@ msgstr ":ref:`component` roto"
 
 #: ../../devel/alerts.rst:21
 msgid "Broken URLs"
-msgstr ""
+msgstr "Varias URL incorrectas"
 
 #: ../../devel/alerts.rst:22
-#, fuzzy
-#| msgid "Unused screenshot"
 msgid "Unused screenshots"
-msgstr "Captura de pantalla no utilizada"
+msgstr "Capturas no utilizadas"
 
 #: ../../devel/alerts.rst:23
 msgid "Ambiguous language code"
@@ -43828,12 +44293,11 @@ msgstr "Código del idioma ambiguo"
 
 #: ../../devel/alerts.rst:24
 msgid "Unused new base in component settings"
-msgstr ""
+msgstr "Base nueva inutilizada dentro de los ajustes del componente"
 
 #: ../../devel/alerts.rst:25
 msgid "Duplicate file mask used for linked components"
-msgstr ""
-"Máscara del archivo duplicado utilizada para los componentes vinculados"
+msgstr "Máscara del archivo duplicado utilizada para los componentes enlazados"
 
 #: ../../devel/alerts.rst:26
 msgid "Component seems unused"
@@ -43937,10 +44401,8 @@ msgstr ""
 "funciona el backend de traducción y qué calidad debe esperar el poseditor."
 
 #: ../../devel/community.rst:31
-#, fuzzy
-#| msgid "New translation"
 msgid "Review translations"
-msgstr "Traducción nueva"
+msgstr "Revisar traducciones"
 
 #: ../../devel/community.rst:32
 msgid ""
@@ -43951,6 +44413,12 @@ msgid ""
 "best review. Screenshots, explanations also help to review the strings in "
 "context."
 msgstr ""
+"Las traducciones serían revisadas por una segunda persona tras la post-"
+"edición. Con un revisor imparcial y competente, la regla de dos personas "
+"reduce los errores y mejora la calidad y la coherencia del contenido. "
+"Proporcionar a los revisores vistas previas o traducciones alfa contribuirá "
+"a una mejor revisión. Las capturas de pantalla y las explicaciones también "
+"ayudan a revisar las cadenas en contexto."
 
 #: ../../devel/community.rst:37
 msgid "Structured feedback"
@@ -43970,10 +44438,8 @@ msgstr ""
 "funcionamiento del código."
 
 #: ../../devel/community.rst:42
-#, fuzzy
-#| msgid "Translation organization"
 msgid "Translation definition"
-msgstr "Organización de traducción"
+msgstr "Definición de traducción"
 
 #: ../../devel/community.rst:43
 msgid ""
@@ -44008,6 +44474,9 @@ msgid ""
 "Post-Editor Productivity, Figure 1: https://www.cs.jhu.edu/~phi/publications/"
 "machine-translation-quality.pdf"
 msgstr ""
+"Marina Sánchez‐Torrón y Philipp Koehn en Calidad de la traducción automática "
+"y productividad pos-editorial, Figura 1: https://www.cs.jhu.edu/~phi/"
+"publications/machine-translation-quality.pdf"
 
 #: ../../devel/community.rst:50
 msgid ""
@@ -44015,6 +44484,9 @@ msgid ""
 "Orientierungshilfe. A. Francke Verlag Tübingen und Base, 2002. Möglichkeiten "
 "der Übersetzungskritik starting on page number 101"
 msgstr ""
+"Joanna Best y Sylvia Kalina. Traducción e interpretación: una guía. A. "
+"Francke Verlag, Tubinga y Base, 2002. Posibilidades de la crítica de la "
+"traducción comenzando en la página número 101"
 
 #: ../../devel/community.rst:51
 msgid ""
@@ -44022,6 +44494,9 @@ msgid ""
 "Integrating Fuzzy Matches into Neural Machine Translation, 2019 https://"
 "aclanthology.org/P19-1175.pdf"
 msgstr ""
+"repara neural difuso, Bram Bulté y Arda Tezcan en Reparación de Neural "
+"Difuso: Integrando Coincidencias Difusas en Máquina de Traducción Neural, "
+"2019 https://aclanthology.org/P19-1175.pdf"
 
 #: ../../devel/gettext.rst:2
 msgid "Translating software using GNU gettext"
@@ -44036,12 +44511,20 @@ msgid ""
 "course it has great support in Weblate (see :ref:`gettext` file format "
 "description)."
 msgstr ""
+"`GNU gettext`_ es una de las herramientas más utilizadas para la "
+"internacionalización de software libre. Ofrece una forma sencilla y flexible "
+"de localizar software. Ofrece una excelente compatibilidad con plurales, "
+"permite añadir contexto a la cadena traducida y existen numerosas "
+"herramientas basadas en ella. Por supuesto, es muy compatible con Weblate "
+"(consulte la descripción del formato de archivo :ref:`gettext`)."
 
 #: ../../devel/gettext.rst:12
 msgid ""
 "If you are about to use it in proprietary software, please consult licensing "
 "first, it might not be suitable for you."
 msgstr ""
+"Si es sobre el usarlo en software propietario, consulte primero la licencia, "
+"tal vez no es apropiado para ti."
 
 #: ../../devel/gettext.rst:15
 msgid ""
@@ -44058,6 +44541,9 @@ msgid ""
 "translators and `ngettext()` which can handle plural types as defined for "
 "target language."
 msgstr ""
+"Además, proporciona un`pgettext()`invocado para proporcionar contexto "
+"adicional a los traductores y `ngettext()` que puede manejar tipos plurales "
+"según lo definido para el idioma de destino."
 
 #: ../../devel/gettext.rst:24
 msgid ""
@@ -44065,6 +44551,10 @@ msgid ""
 "simple, instead of manual invoking of gettext described below, you might "
 "want to try one of them, for example `intltool`_."
 msgstr ""
+"Como es una herramienta ampliamente utilizada, tiene muchos envoltorios que "
+"hacen que su uso sea realmente simple; en lugar de invocar manualmente "
+"gettext como se describe a continuación, es posible que desees probar uno de "
+"ellos, por ejemplo, `intltool`_."
 
 #: ../../devel/gettext.rst:29
 msgid "Workflow overview"
@@ -44108,25 +44598,27 @@ msgstr ""
 
 #: ../../devel/gettext.rst:37
 msgid "Overall the GNU gettext workflow looks like this:"
-msgstr ""
+msgstr "En general, el flujo de trabajo de GNU gettext se ve así:"
 
 #: ../../devel/gettext.rst:56
 msgid ""
 "`Overview of GNU gettext <https://www.gnu.org/software/gettext/manual/"
 "html_node/Overview.html>`_"
 msgstr ""
+"`Descripción general de GNU gettext <https://www.gnu.org/software/gettext/"
+"manual/html_node/Overview.html>`_"
 
 #: ../../devel/gettext.rst:59
 msgid "Sample program"
-msgstr ""
+msgstr "Muestra del programa"
 
 #: ../../devel/gettext.rst:61
 msgid "The simple program in C using gettext might look like following:"
-msgstr ""
+msgstr "El programa simple en C que usa gettext podría verse así:"
 
 #: ../../devel/gettext.rst:89
 msgid "Extracting translatable strings"
-msgstr ""
+msgstr "Extraer cadenas traducibles"
 
 #: ../../devel/gettext.rst:91
 msgid ""
@@ -44140,6 +44632,8 @@ msgid ""
 "There are alternative programs to extract strings from the code, for example "
 "`pybabel`_."
 msgstr ""
+"Existen programas alternativos para extraer cadenas del código, por ejemplo "
+"`pybabel`_."
 
 #: ../../devel/gettext.rst:104
 msgid ""
@@ -44155,10 +44649,13 @@ msgid ""
 "in the beginning is the file header containing metadata about the "
 "translation."
 msgstr ""
+"Cada línea ``msgid`` define una cadena para traducir, la cadena vacía "
+"especial al principio es el encabezado del archivo que contiene metadatos "
+"sobre la traducción."
 
 #: ../../devel/gettext.rst:146
 msgid "Starting new translation"
-msgstr ""
+msgstr "Iniciar traducción nueva"
 
 #: ../../devel/gettext.rst:148
 msgid "With the template in place, we can start our first translation:"
@@ -44191,6 +44688,8 @@ msgid ""
 "Once you add more strings or change some strings in your program, you "
 "execute again `xgettext`_ which regenerates the template file:"
 msgstr ""
+"Una vez que agregue más cadenas o cambie algunas cadenas en su programa, "
+"ejecute nuevamente `xgettext`_ el cual regenera el archivo de plantilla:"
 
 #: ../../devel/gettext.rst:207
 msgid ""
@@ -44209,7 +44708,7 @@ msgstr ""
 
 #: ../../devel/gettext.rst:222
 msgid "Importing to Weblate"
-msgstr ""
+msgstr "Importar a Weblate"
 
 #: ../../devel/gettext.rst:224
 msgid ""
@@ -44217,6 +44716,9 @@ msgid ""
 "following fields when creating component (see :ref:`component` for detailed "
 "description of the fields):"
 msgstr ""
+"Para importar dicha traducción a Weblate, todo lo que necesita definir son "
+"los siguientes campos al crear el componente (consulte :ref:`component` para "
+"obtener una descripción detallada de los campos):"
 
 #: ../../devel/gettext.rst:229
 msgid "Field"
@@ -44262,6 +44764,8 @@ msgid ""
 "Starting with Weblate 4.2 it is possible to export localization to a CDN "
 "using :ref:`addon-weblate.cdn.cdnjs` add-on."
 msgstr ""
+"A partir de Weblate 4.2 es posible exportar la localización a una CDN usando "
+"el complemento :ref:`addon-weblate.cdn.cdnjs`."
 
 #: ../../devel/html.rst:11
 msgid ""
@@ -44292,6 +44796,9 @@ msgid ""
 "First, you need to create a monolingual component which will hold your "
 "strings, see :ref:`adding-projects` for generic instructions on that."
 msgstr ""
+"Primero, debe crear un componente monolingüe que contendrá sus cadenas, "
+"consulte :ref:`adding-projects` para obtener instrucciones genéricas sobre "
+"eso."
 
 #: ../../devel/html.rst:25
 msgid ""
@@ -44302,12 +44809,20 @@ msgid ""
 "empty object. Once you have that, the repository can be imported into "
 "Weblate and you can start with an add-on configuration."
 msgstr ""
+"Si ya tiene un repositorio inicial (por ejemplo el que contiene archivos "
+"HTML), cree un archivo JSON vacío en el repositorio para el idioma de origen "
+"(consulte :ref:`component-source_language`), por ejemplo :file:`locales/"
+"en.json`. El contenido debe ser ``{}`` para indicar un objeto vacío. Una vez "
+"que lo tenga, podrá importar el repositorio a Weblate y comenzar con la "
+"configuración del complemento."
 
 #: ../../devel/html.rst:34
 msgid ""
 "In case you have existing translations, you can place them into the language "
 "JSON files and those will be used in Weblate."
 msgstr ""
+"En caso de que tenga traducciones existentes, puede colocarlas en los "
+"archivos JSON de idioma y estas se utilizarán en Weblate."
 
 #: ../../devel/html.rst:37
 msgid ""
@@ -44322,32 +44837,36 @@ msgstr ""
 "monolingüe en este punto)."
 
 #: ../../devel/html.rst:45
-#, fuzzy
-#| msgid "Configuring Weblate CDN addon"
 msgid "Configuring Weblate CDN add-on"
-msgstr "Configurar el complemento de la CDN de Weblate"
+msgstr "Configurar el complemento CDN de Weblate"
 
 #: ../../devel/html.rst:47
 msgid ""
 "The :ref:`addon-weblate.cdn.cdnjs` add-on provides few configuration options."
 msgstr ""
+"El complemento :ref:`addon-weblate.cdn.cdnjs` proporciona escasas opciones "
+"de configuración."
 
 #: ../../devel/html.rst:50
 msgid ""
 "Translations translated above this threshold will be included in the CDN."
-msgstr ""
+msgstr "Las traducciones traducidas sobre este umbral será incluida en el CDN."
 
 #: ../../devel/html.rst:52
 msgid ""
 "Configures which strings from the HTML documents are translatable, "
 "see :ref:`cdn-addon-extract` and :ref:`cdn-addon-html`."
 msgstr ""
+"Configura cuales cadenas desde los documentos HTML sean traducidas, consulte "
+":ref:`cdn-addon-extract` y :ref:`cdn-addon-html`."
 
 #: ../../devel/html.rst:55
 msgid ""
 "Name of cookie which contains user selected language. Used in the JavaScript "
 "snippet for :ref:`cdn-addon-html`."
 msgstr ""
+"Nombre de la galleta la cual contenga idioma del usuario seleccionado. "
+"Utilizado en el snippet de JavaScript para :ref:`cdn-addon-html`."
 
 #: ../../devel/html.rst:58
 msgid ""
@@ -44393,12 +44912,17 @@ msgid ""
 "In case you don't want to modify existing code, you can also use ``*`` as a "
 "selector to process all elements."
 msgstr ""
+"En caso de que no desee modificar el código existente, también puede "
+"utilizar ``*`` como selector para procesar todos los elementos."
 
 #: ../../devel/html.rst:95
 msgid ""
 "Right now, only text of the elements is extracted. This add-on doesn't "
 "support localization of element attributes or elements with children."
 msgstr ""
+"Por ahora, solo se extrae el texto de los elementos. Este complemento no "
+"admite la localización de atributos de elementos ni de elementos con "
+"elementos heredados."
 
 #: ../../devel/html.rst:101
 msgid "HTML localization using Weblate CDN"
@@ -44408,6 +44932,8 @@ msgstr "Traducción de HTML mediante la CDN de Weblate"
 msgid ""
 "To localize a HTML document, you need to load the :file:`weblate.js` script:"
 msgstr ""
+"Para localizar un documento HTML, necesita cargar el script "
+":file:`weblate.js`:"
 
 #: ../../devel/html.rst:109
 msgid ""
@@ -44424,6 +44950,8 @@ msgid ""
 "The user language is detected from the configured cookie and falls back to "
 "user preferred languages configured in the browser."
 msgstr ""
+"El idioma del usuario se detecta a partir de la cookie configurada y vuelve "
+"a los idiomas preferidos del usuario configurados en el navegador."
 
 #: ../../devel/html.rst:116
 msgid ""
@@ -44472,12 +45000,21 @@ msgid ""
 "help you organize component into logical sets (for example to group all "
 "translations used within one application)."
 msgstr ""
+"En Weblate, las traducciones se organizan en proyectos y componentes. Cada "
+"proyecto puede contener varios componentes, cada uno con traducciones a "
+"idiomas individuales. El componente corresponde a un archivo traducible (por "
+"ejemplo, :ref:`gettext` o :ref:`aresource`). Los proyectos sirven para "
+"organizar los componentes en conjuntos lógicos (por ejemplo, para agrupar "
+"todas las traducciones utilizadas en una aplicación)."
 
 #: ../../snippets/basics.rst:14
 msgid ""
 "Additionally, components within projects can be structured using categories. "
 "Components can belong to a category, and categories can be nested."
 msgstr ""
+"Adicionalmente, los componentes internos al proyecto pueden estar "
+"estructurados utilizando categorías. Los componentes pueden a continuación "
+"pertenecer a una categoría, y las categorías pueden estar anidadas."
 
 #: ../../snippets/basics.rst:17
 msgid ""
@@ -44487,12 +45024,15 @@ msgid ""
 "disabled per :ref:`component` using :ref:`component-"
 "allow_translation_propagation` in case the translations should diverge."
 msgstr ""
+"Internamente, cada proyecto tiene traducciones a cadenas comunes que se "
+"propagan entre sus componentes de forma predeterminada. Esto reduce la carga "
+"de traducción repetitiva y multiversión. La propagación de la traducción se "
+"puede desactivar por :ref:`component` mediante :ref:`component-"
+"allow_translation_propagation` en caso de que las traducciones diverjan."
 
 #: ../../snippets/basics.rst:24
-#, fuzzy
-#| msgid "Repository initialization"
 msgid "Repository integration"
-msgstr "Inicialización de repositorio"
+msgstr "Integración del repositorio"
 
 #: ../../snippets/basics.rst:26
 msgid ""
@@ -44500,10 +45040,13 @@ msgid ""
 "repository, :doc:`/admin/continuous` describes building blocks and how the "
 "changes flow between them."
 msgstr ""
+"Weblate está diseñado para integrarse con el repositorio de control de "
+"versiones ascendente, :doc:`/admin/continuous` describe los bloques de "
+"construcción y cómo fluyen los cambios entre ellos."
 
 #: ../../snippets/basics.rst:32
 msgid ":ref:`architecture` describes how Weblate works internally."
-msgstr ""
+msgstr ":ref:`architecture` describe como funciona Weblate internamente."
 
 #: ../../snippets/basics.rst:35
 msgid "User attribution"
@@ -44539,12 +45082,17 @@ msgstr ""
 #: ../../snippets/basics.rst:48
 msgid "Therefore, admins should consider this while configuring Weblate:"
 msgstr ""
+"Por lo tanto, los administradores deben tener en cuenta lo siguiente al "
+"configurar Weblate:"
 
 #: ../../snippets/basics.rst:50
 msgid ""
 "Such a usage of e-mail should be clearly described in service terms in case "
 "such document is needed. :ref:`legal` can help with that."
 msgstr ""
+"Tal uso del correo-e debe estar claramente descrito en los términos del "
+"servicio en caso de que se necesite dicho documento. :ref:`legal` puede "
+"ayudar con eso."
 
 #: ../../snippets/basics.rst:51
 msgid ""
@@ -44554,10 +45102,8 @@ msgstr ""
 "electrónicos sean privados de forma predeterminada."
 
 #: ../../devel/integration.rst:7
-#, fuzzy
-#| msgid "Starting contributing code to Weblate"
 msgid "Importing a localization project into Weblate"
-msgstr "Empezar a contribuir con código a Weblate"
+msgstr "Importar un proyecto de localización en Weblate"
 
 #: ../../devel/integration.rst:9
 msgid ""
@@ -44578,18 +45124,16 @@ msgid "Fetching updated translations from Weblate"
 msgstr "Recuperar traducciones actualizadas desde Weblate"
 
 #: ../../devel/integration.rst:25
-#, fuzzy
 msgid ""
 "Weblate stores updated strings in a database and commits them to a local "
 "version-control repository. You can add a Weblate repository (when :ref:`git-"
 "exporter` is turned on) as an additional remote repository and fetch "
 "translation updates from it."
 msgstr ""
-"Weblate almacena las cadenas actualizadas en una base de datos y las "
-"consolida en un repositorio local de control de versiones. Puede añadir un "
-"repositorio de Weblate (cuando :ref:`git-exporter` está activado) como "
-"repositorio remoto adicional y obtener de él las actualizaciones de "
-"traducción."
+"Weblate almacena las cadenas actualizadas en una base de datos y las sube a "
+"un repositorio local de control de versiones. Puede añadir un repositorio de "
+"Weblate (cuando :ref:`git-exporter` está activado) como un repositorio "
+"remoto adicional y obtener de él las actualizaciones de traducción."
 
 #: ../../devel/integration.rst:30
 msgid ""
@@ -44609,12 +45153,17 @@ msgid ""
 "repository and configure :ref:`component-push` in the :ref:`component`, "
 "see :ref:`push-changes`."
 msgstr ""
+"La inserción de cambios se puede automatizar si otorga a Weblate acceso de "
+"inserción a su repositorio y configura :ref:`component-push` en "
+":ref:`component`, consulte :ref:`push-changes`."
 
 #: ../../devel/integration.rst:37
 msgid ""
 "Alternatively, use :doc:`/api` to update translations so that they match the "
 "latest version from the upstream in your remote VCS repository."
 msgstr ""
+"Como alternativa, emplee :doc:`/api` para actualizar las traducciones de "
+"modo que coincidan con la última versión del repositorio VCS remoto."
 
 #: ../../devel/integration.rst:47
 msgid "Fetching remote changes into Weblate"
@@ -44723,10 +45272,8 @@ msgstr ""
 "manage_units`."
 
 #: ../../devel/integration.rst:94
-#, fuzzy
-#| msgid "String target language"
 msgid "Updating target-language files"
-msgstr "Idioma de destino de cadena"
+msgstr "Actualización de archivos del idioma destino"
 
 #: ../../devel/integration.rst:96
 msgid ""
@@ -44737,6 +45284,12 @@ msgid ""
 "do this, please install the :ref:`addon-weblate.cleanup.generic` add-on, "
 "which handles cleanup according to your requirements."
 msgstr ""
+"Para archivos monolingües (consulte :ref:`formats`), Weblate podría añadir "
+"nuevas cadenas de traducción presentes en la :ref:`component-template`, y no "
+"en las traducciones reales. Sin embargo, no realiza ninguna purga automática "
+"de cadenas obsoletas, ya que esto podría tener resultados inesperados. Si "
+"aún así desea hacerlo, instale el complemento :ref:`addon-"
+"weblate.cleanup.generic`, que gestiona la limpieza según sus necesidades."
 
 #: ../../devel/integration.rst:103
 msgid ""
@@ -44770,10 +45323,8 @@ msgid ""
 msgstr ""
 
 #: ../../devel/integration.rst:128
-#, fuzzy
-#| msgid "Adding new strings"
 msgid "Introducing new strings"
-msgstr "Añadir cadenas nuevas"
+msgstr "Introducir cadenas nuevas"
 
 #: ../../devel/integration.rst:130
 msgid ""
@@ -44781,6 +45332,9 @@ msgid ""
 "on, but it is usually better to introduce new strings together with the code "
 "changes that introduced them."
 msgstr ""
+"Puede cargar cadenas nuevas en Weblate con :ref:`component-manage_units` "
+"encendido, pero es mejor usualmente introducir cadenas nuevas junto con los "
+"cambios del código que los introdujo."
 
 #: ../../devel/integration.rst:134
 msgid ""
@@ -44789,6 +45343,10 @@ msgid ""
 "write the code. You might want to use a review process of those strings "
 "using :ref:`source-quality-gateway`."
 msgstr ""
+"Es necesario configurar los formatos monolingües para que se añadan nuevas "
+"cadenas a :ref:`component-template`. Esto lo suelen hacer los "
+"desarrolladores al escribir el código. Se recomienda revisar dichas cadenas "
+"con :ref:`source-quality-gateway`."
 
 #: ../../devel/integration.rst:139
 msgid ""
@@ -44798,6 +45356,12 @@ msgid ""
 "Once the strings are extracted, there might be an additional step needed to "
 "update existing translations, see :ref:`updating-target-files`."
 msgstr ""
+"Los formatos bilingües suelen extraer cadenas del código fuente mediante "
+"herramientas (como :program:`xgettext` o :program:`intltool-update`). "
+"Consulta la documentación de tu entorno de localización para obtener "
+"instrucciones sobre cómo hacerlo. Una vez extraídas las cadenas, podría ser "
+"necesario un paso adicional para actualizar las traducciones existentes; "
+"consulta :ref:`updating-target-files`."
 
 #: ../../devel/integration.rst:147
 msgid ""
@@ -44805,6 +45369,10 @@ msgid ""
 "typically involves executing untrusted code what makes it more suitable for "
 "a generic continuous integration than localization-specific platform."
 msgstr ""
+"La automatización de la extracción de cadenas está actualmente fuera del "
+"alcance de Weblate. Generalmente implica la ejecución de código no "
+"confiable, lo que la hace más adecuada para una integración continua "
+"genérica que para una plataforma específica de localización."
 
 #: ../../devel/integration.rst:151
 msgid ""
@@ -44812,12 +45380,13 @@ msgid ""
 "to make new strings automatically appear for translation. Such pipeline "
 "should also cover :ref:`avoid-merge-conflicts`."
 msgstr ""
+"Quizá quiera integrar esto a su conducto de integración continua para hacer "
+"que las cadenas nuevas aparezcan automáticamente para la traducción. Tal "
+"conducto además cubriría :ref:`avoid-merge-conflicts`."
 
 #: ../../devel/integration.rst:164
-#, fuzzy
-#| msgid "Version control repositories"
 msgid "Managing the local VCS repository"
-msgstr "Repositorios de control de versiones"
+msgstr "Gestionar el repositorios VCS local"
 
 #: ../../devel/integration.rst:166
 msgid ""
@@ -44841,10 +45410,8 @@ msgstr ""
 "manualmente."
 
 #: ../../devel/migration.rst:2
-#, fuzzy
-#| msgid "Invitation to Weblate"
 msgid "Migrating to Weblate"
-msgstr "Invitación para Weblate"
+msgstr "Migración a Weblate"
 
 #: ../../devel/migration.rst:4
 msgid ""
@@ -44853,6 +45420,10 @@ msgid ""
 "migrate your translation project from platforms like Transifex, Crowdin, "
 "Lokalise, or similar services."
 msgstr ""
+"¿Utiliza una plataforma de localización diferente y está considerando "
+"cambiar a Weblate? Esta guía le proporciona un proceso rápido y paso a paso "
+"para ayudarle a migrar su proyecto de traducción desde plataformas como "
+"Transifex, Crowdin, Lokalise o servicios similares."
 
 #: ../../devel/migration.rst:8
 msgid ""
@@ -44860,10 +45431,14 @@ msgid ""
 "its core, making it ideal for teams that want to keep translations close to "
 "their development workflow."
 msgstr ""
+"Weblate es diseñado sobre localización continua con integración de Git en el "
+"núcleo, haciéndolo ideal para equipos que deseen conservar traducciones "
+"cerca de sus flujos de desarrollo."
 
 #: ../../devel/migration.rst:13
 msgid ":doc:`starting` for choosing the right internationalization framework"
 msgstr ""
+":doc:`starting` para elegir el framework correcto de internacionalización"
 
 #: ../../devel/migration.rst:14
 msgid ":doc:`integration` for detailed integration options"
@@ -44871,15 +45446,15 @@ msgstr ":doc:`integration`, para opciones de integración detalladas"
 
 #: ../../devel/migration.rst:15
 msgid ":doc:`/admin/continuous` for setting up automated workflows"
-msgstr ""
+msgstr ":doc:`/admin/continuous` para ajustes de flujo de trabajo automatizado"
 
 #: ../../devel/migration.rst:20
 msgid "Before starting your migration, ensure you have:"
-msgstr ""
+msgstr "Antes de iniciar su migración, asegúrate que tengas:"
 
 #: ../../devel/migration.rst:22
 msgid "**On your localization platform:**"
-msgstr ""
+msgstr "**En tu plataforma de localización:**"
 
 #: ../../devel/migration.rst:24
 msgid "Access to export your translation files"
@@ -44904,27 +45479,27 @@ msgid ""
 "A Weblate instance (either `Hosted Weblate <https://hosted.weblate.org/>`_ "
 "or :doc:`self-hosted </admin/install>`)"
 msgstr ""
+"Una instancia de Weblate (o bien `Hosted Website <https://"
+"hosted.weblate.org/>`_ o :doc:`self-hosted </admin/install>`)"
 
 #: ../../devel/migration.rst:31
 msgid "Admin or project creation permissions on your Weblate instance"
-msgstr ""
+msgstr "Admin o permisos de creación del proyecto en su instancia de Weblate"
 
 #: ../../devel/migration.rst:34
-#, fuzzy
-#| msgid "Share your translation"
 msgid "Prepare your translation files"
-msgstr "Comparta su traducción"
+msgstr "Preparar sus archivos de traducción"
 
 #: ../../devel/migration.rst:37
-#, fuzzy
-#| msgid "Manage translation memory (on the entire platform)"
 msgid "Export translations from your current platform"
-msgstr "Gestionar memoria de traducción (en toda la plataforma)"
+msgstr "Exportar traducciones desde su plataforma actual"
 
 #: ../../devel/migration.rst:39
 msgid ""
 "Most localization platforms allow you to export all translations at once:"
 msgstr ""
+"Muchas plataformas de localización le conceder exportar todas las "
+"traducciones a la vez:"
 
 #: ../../devel/migration.rst:41
 msgid ""
@@ -44938,14 +45513,16 @@ msgstr ""
 msgid ""
 "**Crowdin**: Export all translations as a ZIP file from project settings"
 msgstr ""
+"**Crowdin**: exporta todas las traducciones como un archivo ZIP desde los "
+"ajustes del proyecto"
 
 #: ../../devel/migration.rst:43
 msgid "**Lokalise**: Use the bulk export feature"
-msgstr ""
+msgstr "**Lokalise**: utiliza la característica de exportación a granel"
 
 #: ../../devel/migration.rst:44
 msgid "**Phrase**: Download all locales from the project dashboard"
-msgstr ""
+msgstr "**Phrase**: descarga todos los locales desde el panel del proyecto"
 
 #: ../../devel/migration.rst:48
 msgid ""
@@ -44953,6 +45530,9 @@ msgid ""
 "internationalization framework (PO, XLIFF, JSON, etc.) rather than "
 "converting them. Weblate supports :ref:`many formats <formats>`."
 msgstr ""
+"Conserva tus archivos de traducción en el formato nativo de su framework de "
+"internacionalización (PO, XLIFF, JSON, etc.) mejor que convertirlos. Weblate "
+"admiten :ref:`many formats <formats>`."
 
 #: ../../devel/migration.rst:53
 msgid "Commit translations to your Git repository"
@@ -44964,6 +45544,9 @@ msgid ""
 "you can skip this step and use the :guilabel:`Upload translation files` "
 "option when creating a component."
 msgstr ""
+"Si prefiere no almacenar las traducciones en un repositorio Git externo, "
+"puede omitir este paso y utilizar la opción :guilabel:`Subir archivos de "
+"traducción` al crear un componente."
 
 #: ../../devel/migration.rst:61
 msgid "If your translations aren't already in Git:"
@@ -44971,18 +45554,18 @@ msgstr "Si tus traducciones no están ya en el Git:"
 
 #: ../../devel/migration.rst:63
 msgid "Create a Git repository or use your existing project repository"
-msgstr ""
+msgstr "Cree un repositorio Git o utilice su repositorio del proyecto existente"
 
 #: ../../devel/migration.rst:64
 msgid "Organize translation files following your project structure"
-msgstr ""
+msgstr "Organice archivos de traducción siguiendo su estructura del proyecto"
 
 #: ../../devel/migration.rst:65
 msgid ""
 "Commit and push the files to your Git hosting service (GitHub, GitLab, "
 "Bitbucket, etc.)"
 msgstr ""
-"Consignar y enviar los archivos a su servicio de hospedaje Git (GitHub, "
+"Consigne y envíe los archivos a su servicio de hospedaje Git (GitHub, "
 "GitLab, Bitbucket, etc.)"
 
 #: ../../devel/migration.rst:75
@@ -44994,10 +45577,8 @@ msgid ":doc:`/vcs` for supported version control systems"
 msgstr ":doc:`/vcs` para sistema de control de versiones apoyado"
 
 #: ../../devel/migration.rst:79
-#, fuzzy
-#| msgid "Starting contributing code to Weblate"
 msgid "Import your project into Weblate"
-msgstr "Empezar a contribuir con código a Weblate"
+msgstr "Importa tu proyecto a Weblate"
 
 #: ../../devel/migration.rst:82
 msgid "Create a new project"
@@ -45009,19 +45590,19 @@ msgstr "Navega a su instancia de Weblate."
 
 #: ../../devel/migration.rst:85
 msgid "Click :guilabel:`Add new translation project` in the **+** menu."
-msgstr ""
+msgstr "Pulse en :guilabel:`Add new translation project` en el menú **+**."
 
 #: ../../devel/migration.rst:86
 msgid "Fill in your project details:"
-msgstr ""
+msgstr "Completa sus detalles de la traducción:"
 
 #: ../../devel/migration.rst:88
 msgid "**Project name**: Your application or project name"
-msgstr ""
+msgstr "**Nombre de proyecto**: su aplicación o nombre del proyecto"
 
 #: ../../devel/migration.rst:89
 msgid "**URL slug**: Short identifier (e.g., ``myapp``)"
-msgstr ""
+msgstr "**URL babosa**: Identificador breve (p.e., ``miapl``)"
 
 #: ../../devel/migration.rst:90
 msgid "**Project website**: Your project homepage (optional)"
@@ -45057,20 +45638,24 @@ msgid ""
 "**Component name**: e.g., \"Application strings\", \"Website\", "
 "\"Documentation\""
 msgstr ""
+"**Nombre del componente**: p.e., \"Cadenas de aplicación\", \"Sitio web\", "
+"\"Documentación\""
 
 #: ../../devel/migration.rst:106
 msgid "**Repository URL**: Your Git repository URL (HTTPS or SSH)"
-msgstr ""
+msgstr "**URL del Repositorio**: su URL del repositorio Git (HTTPS o SSH)"
 
 #: ../../devel/migration.rst:107
 msgid ""
 "**Repository branch**: Optional: Specify repository branch (Weblate "
 "automatically detects the default branch if not specified)"
 msgstr ""
+"**Rama del repo**: opcional: especifica rama de repositorio (Weblate) auto-"
+"detecta la rama por defecto si no está especificada)"
 
 #: ../../devel/migration.rst:109
 msgid "Weblate will automatically detect:"
-msgstr ""
+msgstr "Weblate auto-detectará:"
 
 #: ../../devel/migration.rst:111
 msgid "Translation file format"
@@ -45090,6 +45675,9 @@ msgid ""
 "for backend, frontend, documentation), create a separate Weblate component "
 "for each."
 msgstr ""
+"Para repositorios con múltiples componentes de traducción (p.e., separa "
+"archivos para segundo plano, primer plano, documentación), crear un "
+"componente separado de Weblate por cada uno."
 
 #: ../../devel/migration.rst:125
 msgid ""
@@ -45097,6 +45685,9 @@ msgid ""
 "repositories or :ref:`addon-weblate.discovery.discovery` to automatically "
 "create them."
 msgstr ""
+"Puede acelerar este proceso utilizando :guilabel:`From existing component` "
+"para repositorios compartidos o :ref:`addon-weblate.discovery.discovery` "
+"para crearlos automáticamente."
 
 #: ../../devel/migration.rst:131
 msgid ":ref:`component` for all configuration options"
@@ -45104,33 +45695,31 @@ msgstr ":ref:`component` para todas las opciones de la configuración"
 
 #: ../../devel/migration.rst:132
 msgid ":ref:`bimono` for understanding monolingual vs. bilingual formats"
-msgstr ""
+msgstr ":ref:`bimono` para comprender formatos monolingüe vs. bilingüe"
 
 #: ../../devel/migration.rst:136
-#, fuzzy
-#| msgid "Configure the password"
 msgid "Configure your workflow"
-msgstr "Configurar la contraseña"
+msgstr "Configura tu flujo de trabajo"
 
 #: ../../devel/migration.rst:139
-#, fuzzy
-#| msgid "Project access control"
 msgid "Set up access control"
-msgstr "Control de acceso al proyecto"
+msgstr "Ajustar control de acceso"
 
 #: ../../devel/migration.rst:141
 msgid "Choose your project's visibility and access level:"
-msgstr ""
+msgstr "Elija su visibilidad y nivel de acceso a su proyecto:"
 
 #: ../../devel/migration.rst:143
 msgid ""
 "Go to your project settings: :guilabel:`Operations` → :guilabel:`Settings` "
 "→ :guilabel:`Access` tab"
 msgstr ""
+"Ve a sus ajustes :guilabel:`Operaciones` → :guilabel:`Ajustes` → lengüeta de "
+":guilabel:`Acceso`"
 
 #: ../../devel/migration.rst:144
 msgid "Select the appropriate :ref:`access control <acl>`:"
-msgstr ""
+msgstr "Selecciona el :ref:`access control <acl>` apropiado:"
 
 #: ../../devel/migration.rst:146
 msgid "**Public**: Open-source projects, anyone can contribute"
@@ -45139,24 +45728,24 @@ msgstr "**Público**: proyecto de código abierto, cualquiera puede contribuir"
 #: ../../devel/migration.rst:147
 msgid "**Protected**: Visible to all, but only invited users can translate"
 msgstr ""
+"**Protegido**: visible para todos, pero solo invitado para usuarios pueden "
+"traducir"
 
 #: ../../devel/migration.rst:148
 msgid "**Private**: Only invited users can view and translate"
-msgstr ""
+msgstr "**Privado**: solo los usuarios invitados pueden ver y traducir"
 
 #: ../../devel/migration.rst:154
 msgid ":ref:`manage-acl` for detailed access control configuration"
-msgstr ""
+msgstr ":ref:`manage-acl` para la configuración del control de acceso detallado"
 
 #: ../../devel/migration.rst:157
-#, fuzzy
-#| msgid "Continuous localization"
 msgid "Set up continuous localization"
-msgstr "Localización continua"
+msgstr "Configurar localización continua"
 
 #: ../../devel/migration.rst:159
 msgid "Enable automatic updates and commits:"
-msgstr "habilita actualizaciones automáticas y consignas:"
+msgstr "Habilitar actualizaciones automáticas y consignas:"
 
 #: ../../devel/migration.rst:161
 msgid "Configure repository integration:"
@@ -45224,12 +45813,16 @@ msgid ""
 "**Set up review workflow**: Enable :ref:`project-translation_review` if you "
 "want an approval process."
 msgstr ""
+"**Configurar el flujo de trabajo de revisión**: habilite :ref:`project-"
+"translation_review` si desea un proceso de aprobación."
 
 #: ../../devel/migration.rst:182
 msgid ""
 "**Add enforced checks**: Configure which quality checks should block "
 "translations."
 msgstr ""
+"**Añadir pruebas reforzadas**: Configura cual comprobante de calidad "
+"bloquearía las traducciones."
 
 #: ../../devel/migration.rst:185
 msgid "Optional: Enable add-ons"
@@ -45237,7 +45830,7 @@ msgstr "Opcional: habilita complementos"
 
 #: ../../devel/migration.rst:187
 msgid "Weblate offers :ref:`addons` to automate common tasks:"
-msgstr ""
+msgstr "Weblate ofrece :ref:`addons` para automatizaciones de tareas comunes:"
 
 #: ../../devel/migration.rst:189
 msgid ""
@@ -45271,13 +45864,11 @@ msgstr ":ref:`addon-weblate.discovery.discovery`"
 
 #: ../../devel/migration.rst:196
 msgid ":doc:`/admin/addons` for all available add-ons"
-msgstr ""
+msgstr ":doc:`/admin/addons` para todos con complementos disponibles"
 
 #: ../../devel/migration.rst:199
-#, fuzzy
-#| msgid "Reset and reapply"
 msgid "Test and verify"
-msgstr "Restablecer y re-aplicar"
+msgstr "Prueba y verificación"
 
 #: ../../devel/migration.rst:201
 msgid "Before announcing the migration to your translators:"
@@ -45285,19 +45876,15 @@ msgstr "Antes de anunciar la migración a sus traductores:"
 
 #: ../../devel/migration.rst:203
 msgid "**Test the workflow**:"
-msgstr ""
+msgstr "**Prueba del flujo de trabajo**:"
 
 #: ../../devel/migration.rst:205
-#, fuzzy
-#| msgid "Target translation"
 msgid "Make a test translation"
-msgstr "Traducción de destino"
+msgstr "Realice una prueba de traducción"
 
 #: ../../devel/migration.rst:206
-#, fuzzy
-#| msgid "Reset changes in the internal repository"
 msgid "Verify it appears in your Git repository"
-msgstr "Deshacer los cambios en el repositorio interno"
+msgstr "Verifica las apariciones en su repositorio Git"
 
 #: ../../devel/migration.rst:207
 msgid "Test pulling changes from your repository into Weblate"
@@ -45313,7 +45900,7 @@ msgstr "Utiliza :ref:`translation-memory` para importar previas traducciones"
 
 #: ../../devel/migration.rst:212
 msgid "This helps with consistency and speeds up translation"
-msgstr ""
+msgstr "Esto ayuda con consistencia y velocidad de traducción"
 
 #: ../../devel/migration.rst:214
 msgid "**Configure notifications**:"
@@ -45330,7 +45917,7 @@ msgstr ""
 
 #: ../../devel/migration.rst:221
 msgid ":doc:`/admin/memory` for translation memory management"
-msgstr ""
+msgstr ":doc:`/admin/memory` para gestión de memoria de traducción"
 
 #: ../../devel/migration.rst:224
 msgid "Invite and manage users"
@@ -45356,7 +45943,7 @@ msgstr ":guilabel:`Añadir idioma para la traducción`"
 
 #: ../../devel/migration.rst:233
 msgid "Assign them to appropriate teams:"
-msgstr ""
+msgstr "Asígnela para apropiarse de los equipos:"
 
 #: ../../devel/migration.rst:235
 msgid "**Translators**: Can translate strings"
@@ -45368,17 +45955,19 @@ msgstr "**Revisores**: pueden revisar y aprobar traducciones"
 
 #: ../../devel/migration.rst:237
 msgid "**Managers**: Can manage project settings"
-msgstr ""
+msgstr "**Gestores**: pueden gestionar los ajustes del proyecto"
 
 #: ../../devel/migration.rst:239
 msgid ""
 "For **Public** projects, users can start contributing immediately after "
 "signing up."
 msgstr ""
+"Para proyectos **Públicos**, los usuarios pueden comenzar a contribuir "
+"inmediatamente tras acceder."
 
 #: ../../devel/migration.rst:243
 msgid "Send your translators a welcome message with:"
-msgstr ""
+msgstr "Envíe sus traducciones a un mensaje bienvenido con:"
 
 #: ../../devel/migration.rst:245
 msgid "Link to your project on Weblate"
@@ -45508,12 +46097,15 @@ msgstr "Mejores prácticas:"
 #: ../../devel/mobile.rst:10
 msgid "Create one component per platform (e.g., `MyApp Android`, `MyApp iOS`)."
 msgstr ""
+"Crea un componente por plataforma (p.e., `MiApp de Android`, `MiApp iOS`)."
 
 #: ../../devel/mobile.rst:11
 msgid ""
 "Ensure identical source strings and keys are used across platforms where "
 "possible."
 msgstr ""
+"Asegura cadenas orígenes idénticas y claves son utilizadas a lo largo de las "
+"plataformas donde sea posible."
 
 #: ../../devel/mobile.rst:14
 msgid ""
@@ -45548,11 +46140,6 @@ msgid ""
 msgstr ""
 
 #: ../../devel/reporting.rst:16
-#, fuzzy
-#| msgid ""
-#| "You can choose predefined periods or enter a custom date range. In that "
-#| "case, the contributions are counted at midnight – that means that it "
-#| "includes the starting date and excludes the ending date."
 msgid ""
 "You can choose predefined periods or enter a custom date range. In that "
 "case, the contributions are counted at midnight – that means that it "
@@ -45561,9 +46148,11 @@ msgid ""
 "have translated, in either ascending or descending order."
 msgstr ""
 "Puede elegir períodos predefinidos o ingresar un rango de fechas "
-"personalizado. En ese caso, las contribuciones se contabilizan a medianoche, "
+"personalizado. En ese caso, las contribuciones se contabilizan a medianoche —"
 "lo que significa que incluye la fecha de inicio y excluye la fecha de "
-"finalización."
+"finalización. Puedes ordenar las contribuciones en la salida por su fecha de "
+"añadida o el número de cadenas que ha traducido, en cualquier orden "
+"ascendente o descendente."
 
 #: ../../devel/reporting.rst:25
 msgid "Number of words"
@@ -45597,6 +46186,9 @@ msgid ""
 "For Chinese, Japanese, or Korean languages, the number of words is the "
 "number of CJK characters plus the number of words in non-CJK characters."
 msgstr ""
+"Para los idiomas chino, coreano y japonés, el número de palabras es el "
+"número de los caracteres CJK más el número de palabras en caracteres "
+"distintos de CJK."
 
 #: ../../devel/reporting.rst:49
 msgid "Translator credits"
@@ -45681,7 +46273,7 @@ msgstr "Las siguientes métricas están disponibles para cada uno:"
 
 #: ../../devel/reporting.rst:97
 msgid "`Count`"
-msgstr "`Contar`"
+msgstr "`Conteo`"
 
 #: ../../devel/reporting.rst:98
 msgid "Amount of strings."
@@ -45741,13 +46333,15 @@ msgstr ""
 
 #: ../../devel/review.rst:9
 msgid "Activity reports"
-msgstr ""
+msgstr "Informes de actividad"
 
 #: ../../devel/review.rst:11
 msgid ""
 "Activity reports check changes of translations, for projects, components or "
 "individual users."
 msgstr ""
+"Los comprobantes de los informes de actividad cambian en las traducciones, "
+"para proyectos, componentes o usos individuales."
 
 #: ../../devel/review.rst:13
 msgid ""
@@ -45874,7 +46468,7 @@ msgstr ""
 
 #: ../../devel/sphinx.rst:2
 msgid "Translating documentation using Sphinx"
-msgstr ""
+msgstr "Traducción de documentación utilizando Sphinx"
 
 #: ../../devel/sphinx.rst:4
 msgid ""
@@ -45955,7 +46549,7 @@ msgstr ""
 
 #: ../../devel/starting.rst:4
 msgid "Starting with internationalization"
-msgstr ""
+msgstr "Iniciar con internacionalización"
 
 #: ../../devel/starting.rst:6
 msgid ""
@@ -45963,6 +46557,9 @@ msgid ""
 "will help you do so. Several typical situations are showcased, but most of "
 "the examples are generic and can be applied to other scenarios as well."
 msgstr ""
+"¿Tienes un proyecto y quieres traducirlo a varios idiomas? Esta guía te "
+"ayudará. Se muestran varias situaciones típicas, pero la mayoría de los "
+"ejemplos son genéricos y se pueden aplicar a otros escenarios."
 
 #: ../../devel/starting.rst:11
 msgid ""
@@ -45973,6 +46570,13 @@ msgid ""
 "handle plural forms because many languages have complex rules for that and "
 "the internationalization framework you end up using should support this."
 msgstr ""
+"Antes de traducir cualquier software, debe tener en cuenta que los idiomas "
+"en todo el mundo son muy diferentes y no debe hacer suposiciones basadas en "
+"su experiencia. En la mayoría de los idiomas, resultará extraño intentar "
+"concatenar una oración con segmentos traducidos. También debe gestionar "
+"correctamente las formas plurales, ya que muchos idiomas tienen reglas "
+"complejas para ello y el marco de internacionalización que utilice debe ser "
+"compatible."
 
 #: ../../devel/starting.rst:18
 msgid ""
@@ -46322,6 +46926,9 @@ msgid ""
 "If you add a language file in connected remote repository, respective "
 "translation is added to the component when Weblate updates local repository."
 msgstr ""
+"Si añade un archivo de idioma en el repositorio remoto conectado, se añade "
+"la traducción respectiva para el componente cuando actualiza Weblate en el "
+"repositorio local."
 
 #: ../../devel/translations.rst:68 ../../devel/translations.rst:98
 msgid ""
@@ -46469,7 +47076,7 @@ msgstr "Identificación en renglón"
 
 #: ../../devel/translations.rst:133
 msgid "``dial#S.key``, ``dial#M.key``, ``dial.key``"
-msgstr ""
+msgstr "``dial#S.key``, ``dial#M.key``, ``dial.key``"
 
 #: ../../devel/translations.rst:137
 msgid "Manual variants"
@@ -46577,7 +47184,7 @@ msgstr "¿Cómo se accede a repositorios a través de SSH?"
 
 #: ../../faq.rst:32
 msgid "Please see :ref:`vcs-repos` for info on setting up SSH keys."
-msgstr ""
+msgstr "Consulte :ref:`vcs-repos` para informe sobre ajustes de las llaves SSH."
 
 #: ../../faq.rst:37
 msgid "How to fix merge conflicts in translations?"
@@ -46708,6 +47315,8 @@ msgid ""
 "Alternatively, you can use :ref:`git-exporter` inside Weblate to automate "
 "this."
 msgstr ""
+"Alternativamente, puede utilizar :ref:`git-exporter` dentro del Weblate para "
+"automatizar esto."
 
 #: ../../faq.rst:206
 msgid "What are the options for pushing changes back upstream?"
@@ -46732,6 +47341,8 @@ msgid ""
 "You manually tell Weblate to push (it needs push access to the upstream "
 "repository)."
 msgstr ""
+"Manualmente dígale a Weblate que envíe (si es necesario envíe acceso al "
+"repositorio en desarrollo)."
 
 #: ../../faq.rst:213
 msgid ""
@@ -46808,6 +47419,10 @@ msgid ""
 "admin interface, just follow the :guilabel:`Performance report` link in the "
 "admin interface, or open the ``/manage/performance/`` URL directly."
 msgstr ""
+"Weblate incluye un conjunto de comprobantes de configuración los cuales "
+"pueden ver en el interfaz de admin, tan solo siga el enlace "
+":guilabel:`Informe de rendimiento` en el interfaz admin, o abra directamente "
+"el URL ``/manage/performance/``."
 
 #: ../../faq.rst:264
 #, fuzzy
@@ -46890,13 +47505,11 @@ msgstr ""
 
 #: ../../faq.rst:300
 msgid "The solution to this is to perform the operation in sync with Weblate:"
-msgstr ""
+msgstr "La solución a esto es realizar la operación en sincronía con Weblate:"
 
 #: ../../faq.rst:302
-#, fuzzy
-#| msgid "Lists components in Weblate."
 msgid "Lock the affected component in Weblate."
-msgstr "Enumera los componentes en Weblate."
+msgstr "Bloquea el componente afectado en Weblate."
 
 #: ../../faq.rst:303
 msgid "Commit any pending changes and merge them into the upstream repository."
@@ -47019,6 +47632,9 @@ msgid ""
 "instance, which will make it automatically pick up translations from other "
 "projects as well."
 msgstr ""
+"Otra opción es traducir todos los proyectos relacionados en una única "
+"instancia de Weblate, la cual lo hará automáticamente tomar las traducciones "
+"también desde otros proyectos."
 
 #: ../../faq.rst:364
 msgid "Does Weblate update translation files besides translations?"
@@ -47191,7 +47807,7 @@ msgstr ""
 
 #: ../../faq.rst:498
 msgid "What does mean \"There are more files for the single language (en)\"?"
-msgstr ""
+msgstr "¿Qué significa “Hay más cambios para el único idioma (es)”?"
 
 #: ../../faq.rst:500
 msgid ""
@@ -47199,6 +47815,10 @@ msgid ""
 "Weblate keeps track of source strings and reserves source language for this. "
 "The additional file for same language is not processed."
 msgstr ""
+"Esto típicamente sucede cuando tiene el archivo de traducción para el idioma "
+"fuente. Weblate conserva seguimiento de cadenas origen y reserva idioma "
+"origen para esto. El archivo adicional para el no es procesado el mismo "
+"idioma."
 
 #: ../../faq.rst:504
 msgid ""
@@ -47389,7 +48009,7 @@ msgstr "Formato"
 
 #: ../../formats.rst:38
 msgid "Linguality [#m]_"
-msgstr ""
+msgstr "Lingualidad [#m]_"
 
 #: ../../formats.rst:39
 msgid "Plurals [#p]_"
@@ -47587,6 +48207,8 @@ msgid ""
 "Plurals are handled in the syntax of the strings and not exposed as plurals "
 "in Weblate."
 msgstr ""
+"Los plurales son manipulados en la sintaxis de las cadenas y no son "
+"expuestos como plurales en Weblate."
 
 #: ../../formats.rst:367
 msgid "Bilingual and monolingual formats"
@@ -47770,10 +48392,8 @@ msgid ""
 msgstr ""
 
 #: ../../formats.rst:493
-#, fuzzy
-#| msgid "Supported file formats"
 msgid "Supporting other formats"
-msgstr "Formatos de archivo admitidos"
+msgstr "Se admiten otros formatos"
 
 #: ../../formats.rst:495
 msgid ""
@@ -47884,7 +48504,7 @@ msgstr "Nombre raíz de FlatXML"
 
 #: ../../snippets/file-format-parameters.rst:34
 msgid "flatxml_value_name"
-msgstr ""
+msgstr "flatxml_value_name"
 
 #: ../../snippets/file-format-parameters.rst:34
 msgid "FlatXML value name"
@@ -48022,7 +48642,7 @@ msgstr "No incluya información de lugar en el archivo"
 
 #: ../../snippets/file-format-parameters.rst:115
 msgid "properties_encoding"
-msgstr ""
+msgstr "properties_encoding"
 
 #: ../../snippets/file-format-parameters.rst:115
 msgid "Encoding used for Java Properties files"
@@ -48623,7 +49243,6 @@ msgid "`Format.JS JSON file`"
 msgstr "`Archivo Format.JS de JSON`"
 
 #: ../../formats/gettext.rst:4
-#, fuzzy
 msgid "GNU gettext PO (Portable Object)"
 msgstr "GNU gettext PO (Portable Object)"
 
@@ -57541,7 +58160,6 @@ msgstr ""
 "que el proyecto utiliza."
 
 #: ../../user/translating.rst:331
-#, fuzzy
 msgid "If you want direct links, the translation format has to support it."
 msgstr ""
 "Si desea enlaces directos, el formato de traducción tiene que soportarlo."
@@ -57551,32 +58169,27 @@ msgid "Translation history"
 msgstr "Historial de traducciones"
 
 #: ../../user/translating.rst:336
-#, fuzzy
-#| msgid ""
-#| "Every change is by default (unless turned off in component settings) "
-#| "saved in the database, and can be reverted. Optionally one can still also "
-#| "revert anything in the underlying version control system."
 msgid ""
 "Every change is by default (unless turned-off in component settings) saved "
 "in the database, and can be reverted. Optionally, translations can also be "
 "reverted in the underlying version control system."
 msgstr ""
-"Todos los cambios se guardan de manera predeterminada en la base de datos y "
-"pueden revertirse (a menos que lo haya desactivado en la configuración de "
-"cada componente). Es posible asimismo revertir todo en el sistema de control "
-"de versiones subyacente."
+"Cada cambio es guardado por defecto (a no ser que lo apague en los ajustes "
+"del componente) en la base de datos, y puede ser revertido. Opcionalmente, "
+"las traducciones pueden ser además revertidas en la versión subyacente del "
+"sistema de control de versiones."
 
 #: ../../user/translating.rst:342
 msgid "Translated string length"
-msgstr "Longitud de las cadenas traducidas"
+msgstr "Longitud de la cadena traducida"
 
 #: ../../user/translating.rst:344
 msgid ""
 "Weblate can limit the length of a translation in several ways to ensure the "
 "translated string is not too long:"
 msgstr ""
-"Weblate puede limitar la longitud de la traducción de varias formas para "
-"garantizar que la cadena traducida no sea demasiado extensa:"
+"Weblate puede limitar la longitud de la traducción de varias maneras para "
+"asegurar que la cadena traducida no sea demasiado extensa:"
 
 #: ../../user/translating.rst:347
 msgid ""
@@ -57595,16 +58208,12 @@ msgstr ""
 "traducción con la cadena fuente real. Vea :ref:`bimono` para más información."
 
 #: ../../user/translating.rst:352
-#, fuzzy
-#| msgid ""
-#| "Maximal length in characters defined by translation file or flag, "
-#| "see :ref:`check-max-length`."
 msgid ""
 "Maximum length in characters defined by the translation file or flag, as "
 "per :ref:`check-max-length`."
 msgstr ""
-"Longitud máxima en caracteres definida por el archivo de traducción o la "
-"bandera, véase :ref:`check-max-length`."
+"Longitud máxima en caracteres definida por el archivo de traducción o el "
+"indicador, p.ej. :ref:`check-max-length`."
 
 #: ../../user/translating.rst:354
 msgid ""
@@ -57642,7 +58251,6 @@ msgstr ""
 "translation-setup`."
 
 #: ../../user/translating.rst:376
-#, fuzzy
 msgid ""
 "You can use automatic translation to bootstrap translation based on external "
 "sources. This tool is called :guilabel:`Automatic translation` accessible in "
@@ -57652,7 +58260,7 @@ msgstr ""
 "Puede usar la traducción automática para iniciar la traducción basada en "
 "fuentes externas. Esta herramienta se llama :guilabel:`Traducciones "
 "automáticas` accesible desde el menú :guilabel:`Operaciones` una vez "
-"seleccionado un componente y un idioma."
+"seleccionado un componente y un idioma:"
 
 #: ../../user/translating.rst:382
 msgid ""
@@ -57693,17 +58301,16 @@ msgstr ""
 "utiliza con filtros amplios como :guilabel:`Todas las cadenas`."
 
 #: ../../user/translating.rst:398
-#, fuzzy
 msgid ""
 "Useful in several situations like consolidating translation between "
 "different components (for example the application and its website) or when "
 "bootstrapping a translation for a new component using existing translations "
 "(translation memory)."
 msgstr ""
-"Es útil en diversas situaciones, como la consolidación de traducciones entre "
-"diferentes componentes (p.ej. la aplicación y su sitio web) o al iniciar una "
-"traducción para un nuevo componente utilizando traducciones existentes "
-"(memoria de traducción)."
+"Es útil en diversas situaciones como la consolidación de traducción entre "
+"diferentes componentes (p.ej. la aplicación y su sitio web) o al preparar el "
+"arranque de una traducción para un componente nuevo utilizando traducciones "
+"existentes (memoria de traducción)."
 
 #: ../../user/translating.rst:403
 msgid ""
@@ -57749,20 +58356,15 @@ msgstr ""
 ":guilabel:`Herramientas`."
 
 #: ../../user/translating.rst:433
-#, fuzzy
-#| msgid ""
-#| "Don’t worry about messing up the strings. This is a two-step process "
-#| "showing a preview of edited strings before the actual change is confirmed."
 msgid ""
 "Don't worry about messing up the strings, as it is a two-step process. A "
 "preview of edited strings is shown before confirming the change."
 msgstr ""
-"No se preocupe de estropear las cadenas. Este proceso consta de dos etapas y "
-"obtendrá una previsualización de las cadenas modificadas antes de confirmar "
-"el cambio en sí."
+"No se preocupe sobre la estropear las cadenas, ya que es un proceso de dos "
+"pasos. Una vista previa de cadenas editadas ahora están entes de confirmar "
+"el cambio."
 
 #: ../../user/translating.rst:441
-#, fuzzy
 msgid ""
 "Bulk editing allows performing one operation for multiple strings. Define "
 "strings by searching for them and actions to perform on matching ones. "
@@ -57778,49 +58380,41 @@ msgstr ""
 "Modifica estado de cadena (p.e. para aprobar todas las cadenas no revisadas)."
 
 #: ../../user/translating.rst:446
-#, fuzzy
 msgid "Adjust translation flags (see :ref:`custom-checks`)"
-msgstr "Ajustar los indicadores de traducción (consulte :ref:`custom-checks`)"
+msgstr "Ajusta los indicadores de traducción (consulte :ref:`custom-checks`)"
 
 #: ../../user/translating.rst:447
 msgid "Adjust string labels (see :ref:`labels`)"
 msgstr "Ajusta cadenas de etiquetas (consulte :ref:`labels`)"
 
 #: ../../user/translating.rst:451
-#, fuzzy
 msgid ""
 "This tool is called :guilabel:`Bulk edit`, accessible in "
 "the :guilabel:`Tools` menu of each project, component or translation."
 msgstr ""
-"Esta herramienta se llama :guilabel:`Bulk edit` accesible en el menú "
-":guilabel:`Tools` en cada proyecto, componente o traducción."
+"Esta herramienta se llama :guilabel:`Bulk edit`, accesible en el menú "
+":guilabel:`Herramientas` en cada proyecto, componente o traducción."
 
 #: ../../user/translating.rst:458
 msgid ":ref:`Bulk edit add-on <addon-weblate.flags.bulk>`"
-msgstr ":ref:`Bulk edit add-on <addon-weblate.flags.bulk>`"
+msgstr ":ref:`Complemento de edición masiva <addon-weblate.flags.bulk>`"
 
 #: ../../user/translating.rst:461
 msgid "Matrix View"
 msgstr "Vista Matricial"
 
 #: ../../user/translating.rst:463
-#, fuzzy
-#| msgid ""
-#| "You can compare different languages efficiently using this view. It is "
-#| "available on every component page, from the :guilabel:`Tools` menu. First "
-#| "select all languages you want to compare, confirm your selection, then "
-#| "click on any translation to open and edit it."
 msgid ""
 "You can compare different languages efficiently using this view. It is "
 "available on every component page, from the :guilabel:`Tools` menu. First "
 "select all languages you want to compare, confirm your selection, then click "
 "on any translation to open and edit it."
 msgstr ""
-"Puede comparar diferentes idiomas de forma eficaz utilizando esta vista Está "
-"disponible en todas las páginas de componentes, desde el "
-"menú :guilabel:`Herramientas`. En primer lugar, seleccione todos los idiomas "
-"que desee comparar, confirme su selección y, a continuación, haga clic en "
-"cualquier traducción para abrirla y editarla."
+"Puedes comparar diferentes idiomas eficientemente utilizando esta vista Está "
+"disponible en cada página del componente, desde el menú "
+":guilabel:`Herramientas`. En primer lugar, seleccione todos los idiomas que "
+"desee comparar, confirme su selección y, a continuación, pulse en cualquier "
+"traducción para abrirla y editarla."
 
 #: ../../user/translating.rst:468
 msgid ""
@@ -57828,7 +58422,7 @@ msgid ""
 "translations in different languages, and quickly add them from one view."
 msgstr ""
 "La vista matricial también es un muy buen punto de partida para encontrar "
-"traducciones faltantes en diferentes idiomas y agregarlas rápidamente desde "
+"traducciones ausentes en diferentes idiomas y agregarlas rápidamente desde "
 "una sola vista."
 
 #: ../../user/translating.rst:474
@@ -57871,6 +58465,11 @@ msgid ""
 "data-center`, and :ref:`vcs-azure-devops`) and :ref:`vcs-mercurial` as "
 "version control back-ends."
 msgstr ""
+"Weblate admite actualmente :ref:`vcs-git` (con mantenimiento extendido para "
+":ref:`vcs-github`, :ref:`vcs-gitlab`, :ref:`vcs-gitea`, :ref:`vcs-gerrit`, "
+":ref:`vcs-git-svn`, :ref:`vcs-bitbucket-cloud`, :ref:`vcs-bitbucket-data-"
+"center`, y :ref:`vcs-azure-devops`) y :ref:`vcs-mercurial` como versión de "
+"control en segundo plano."
 
 #: ../../vcs.rst:14
 msgid "Accessing repositories"
@@ -57895,16 +58494,14 @@ msgid "Accessing repositories from Hosted Weblate"
 msgstr "Acceder repositorios desde Hosted Weblate"
 
 #: ../../vcs.rst:29
-#, fuzzy
 msgid ""
 "This section applies **only** to Hosted Weblate (hosted.weblate.org). If you "
 "are running your own self-hosted Weblate instance, please see :ref:`the next "
 "section <vcs-repos-code-hosting>` instead."
 msgstr ""
-"Es útil en diversas situaciones, como la consolidación de traducciones entre "
-"diferentes componentes (por ejemplo, la aplicación y su sitio web) o al "
-"iniciar una traducción para un nuevo componente utilizando traducciones "
-"existentes (memoria de traducción)."
+"Esta sección se aplica **solo** en Hosted Weblate (hosted.weblate.org). Si "
+"está ejecutando su propia instancia de Weblate hospedada para sí, consulte "
+":ref:`the next section <vcs-repos-code-hosting>` en su lugar."
 
 #: ../../vcs.rst:33
 msgid ""
@@ -58092,7 +58689,6 @@ msgstr ""
 "y los recuerda para uso posterior."
 
 #: ../../vcs.rst:125
-#, fuzzy
 msgid ""
 "In case you want to verify the key fingerprint before connecting to the "
 "repository, add the SSH host keys of the servers you are going to access "
@@ -58103,10 +58699,10 @@ msgid ""
 msgstr ""
 "Si desea verificar la huella digital de la clave antes de conectarse al "
 "repositorio, agregue las claves de host SSH de los servidores a los que "
-"accederá en \"Agregar clave de host\", desde la misma sección de la interfaz "
-"de administración. Ingrese el nombre del host al que accederá (p. ej., "
-"\"gitlab.com\") y presione \"Enviar\". Verifique que su huella digital "
-"coincida con el servidor que agregó."
+"accederá en :guilabel:`Agregar clave de host`, desde la misma sección de la "
+"interfaz de administración. Ingrese el nombre del host al que accederá (p. "
+"ej., ``gitlab.com``) y presione :guilabel:`Enviar`. Verifique que su huella "
+"digital coincida con el servidor que agregó."
 
 #: ../../vcs.rst:131
 msgid "The added keys with fingerprints are shown in the confirmation message:"
@@ -58155,7 +58751,6 @@ msgstr ""
 "en el protocolo SSH. La conexión de SSH para tal servidor fallará cuando:"
 
 #: ../../vcs.rst:156
-#, fuzzy
 msgid ""
 "For these cases, it may be necessary to selectively re-enable RSA/SHA1 to "
 "allow connection and/or user authentication via the HostkeyAlgorithms and "
@@ -58312,28 +58907,27 @@ msgstr ""
 "se puede usar solo una vez)."
 
 #: ../../vcs.rst:232
-#, fuzzy
 msgid ""
 "In case the :ref:`component-push_branch` is not set, the project is forked "
 "and changes pushed through a fork. In case it is set, changes are pushed to "
 "the upstream repository and chosen branch."
 msgstr ""
-"Si no se configura la rama `component-push_branch`, el proyecto se bifurca y "
-"los cambios se envían a través de una bifurcación. Si se configura, los "
-"cambios se envían al repositorio original y a la rama seleccionada."
+"Si no se configura la rama :ref:`component-push_branch`, el proyecto se "
+"bifurca y los cambios se envían a través de una bifurcación. Si se "
+"configura, los cambios se envían al repositorio original y a la rama "
+"seleccionada."
 
 #: ../../vcs.rst:236
-#, fuzzy
 msgid ""
 "Using personal or project access tokens is possible as well. The token "
 "needs :guilabel:`write_repository` scope to be able to push changes to the "
 "repository. The project access token requires :guilabel:`Developer` role for "
 "pushing."
 msgstr ""
-"También es posible usar tokens de acceso personales o de proyecto. El token "
+"También es posible usar vale de acceso personales o de proyecto. El vale "
 "requiere el ámbito :guilabel:`write_repository` para poder enviar cambios al "
 "repositorio. El token de acceso de proyecto requiere el rol "
-":guilabel:`Developer` para enviar cambios."
+":guilabel:`Desarrollador` para enviar cambios."
 
 #: ../../vcs.rst:241
 msgid ""
