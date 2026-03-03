@@ -3643,7 +3643,7 @@ class Component(
         self.translations_count = 0
         self.progress_step(0)
         # Configure git repo if there were changes
-        if changed_git:
+        if changed_git and (not create or not self.is_repo_link):
             # Bring VCS repo in sync with current model
             self.sync_git_repo(skip_push=skip_push, skip_commit=create)
 
