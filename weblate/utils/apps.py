@@ -229,7 +229,7 @@ def check_cache(
         errors.append(
             weblate_check(
                 "weblate.E007",
-                "The configured cache back-end will lead to serious "
+                "The configured cache backend will lead to serious "
                 "performance or consistency issues.",
             )
         )
@@ -263,7 +263,7 @@ def check_settings(
         errors.append(
             weblate_check(
                 "weblate.E011",
-                "E-mail addresses for site admins is misconfigured",
+                "E-mail addresses for site admins are misconfigured",
                 Error,
             )
         )
@@ -378,7 +378,7 @@ def check_perms(
         for name in chain(dirnames, filenames):
             # Skip toplevel lost+found dir, that one is typically owned by root
             # on filesystem toplevel directory. Also skip settings-override.py
-            # used in the Docker container as that one is typically bind mouted
+            # used in the Docker container as that one is typically bind mounted
             # with different permissions (and Weblate is not expected to write
             # to it).
             if dirpath == settings.DATA_DIR and name in {
