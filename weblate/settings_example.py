@@ -33,8 +33,8 @@ SITE_URL = f"{'https' if ENABLE_HTTPS else 'http'}://{SITE_DOMAIN}"
 
 DEBUG = True
 
-ADMINS: tuple[tuple[str, str], ...] = (
-    # ("Your Name", "your_email@example.com"),
+ADMINS: tuple[str, ...] = (
+    # "Your Name <your_email@example.com>",
 )
 
 MANAGERS = ADMINS

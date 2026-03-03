@@ -257,7 +257,7 @@ def mail_admins_contact(
     )
 
     if not to and settings.ADMINS:
-        to = [a[1] for a in settings.ADMINS]
+        to = list(settings.ADMINS)
     elif not settings.ADMINS:
         messages.error(request, gettext("Could not send message to administrator."))
         LOGGER.error("ADMINS not configured, cannot send message")

@@ -23,7 +23,7 @@ DATABASES["default"]["PASSWORD"] = os.environ.get("CI_DB_PASSWORD", "")
 DATABASES["default"]["PORT"] = os.environ.get("CI_DB_PORT", "")
 
 # Configure admins
-ADMINS = (("Weblate test", "noreply@weblate.org"),)
+ADMINS = ("Weblate test <noreply@weblate.org>",)
 
 # The secret key is needed for tests
 SECRET_KEY = "secret key used for tests only"  # noqa: S105

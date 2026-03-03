@@ -55,7 +55,7 @@ class ViewTest(RepoTestCase):
         return user
 
     @override_settings(
-        REGISTRATION_CAPTCHA=False, ADMINS=(("Weblate test", "noreply@weblate.org"),)
+        REGISTRATION_CAPTCHA=False, ADMINS=("Weblate test <noreply@weblate.org>",)
     )
     def test_contact(self) -> None:
         """Test for contact form."""
@@ -70,7 +70,7 @@ class ViewTest(RepoTestCase):
         # Verify message
         self.assertEqual(len(mail.outbox), 1)
         self.assertEqual(mail.outbox[0].subject, "[Weblate] Message from dark side")
-        self.assertEqual(mail.outbox[0].to, ["noreply@weblate.org"])
+        self.assertEqual(mail.outbox[0].to, list(settings.ADMINS))
 
     @override_settings(
         REGISTRATION_CAPTCHA=False, ADMINS_CONTACT=["noreply@example.com"]
