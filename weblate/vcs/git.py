@@ -580,6 +580,9 @@ class GitRepository(Repository):
 
     def remove_stale_branches(self) -> None:
         """Remove stale branches and tags from the repository."""
+        # Prune remote branches, this can fail if repository is unreachable
+        with suppress(RepositoryError):
+            self.execute([*self.get_auth_args(), "remote", "prune", "origin"])
         # Remove possible stale branches
         for branch in self.list_branches():
             if branch != self.branch:
@@ -606,10 +609,8 @@ class GitRepository(Repository):
 
     def update_remote(self) -> None:
         """Update remote repository."""
-        auth_args = self.get_auth_args()
-        self.execute([*auth_args, "remote", "prune", "origin"])
         # Update existing branch only, not changing depth
-        self.execute([*auth_args, "fetch", "origin", self.branch])
+        self.execute([*self.get_auth_args(), "fetch", "origin", self.branch])
         self.clean_revision_cache()
 
     def push(self, branch: str) -> None:
