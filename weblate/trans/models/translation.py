@@ -42,7 +42,6 @@ from weblate.trans.models.change import Change
 from weblate.trans.models.pending import PendingUnitChange
 from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.models.unit import Unit
-from weblate.trans.models.variant import Variant
 from weblate.trans.signals import component_post_update, vcs_pre_commit
 from weblate.trans.util import is_plural, join_plural, split_plural
 from weblate.trans.validators import validate_check_flags
@@ -400,12 +399,7 @@ class Translation(
             is_new = False
         except KeyError:
             newunit = Unit(translation=self, id_hash=id_hash, state=-1)
-            # Avoid fetching empty list of checks from the database
-            newunit.all_checks = []
-            # Avoid fetching empty list of variants
-            newunit._prefetched_objects_cache = {  # noqa: SLF001
-                "defined_variants": Variant.objects.none()
-            }
+            newunit.fill_new_unit_cache()
             is_new = True
 
         newunit.store_unit_attributes(
@@ -1939,6 +1933,7 @@ class Translation(
                     position=translation.stats.all + 1,
                     **kwargs,
                 )
+                unit.fill_new_unit_cache()
                 unit.is_batch_update = is_batch_update
                 unit.trigger_update_variants = False
                 try:
