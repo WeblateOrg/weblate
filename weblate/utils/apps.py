@@ -487,7 +487,7 @@ def check_version(
             return [
                 weblate_check(
                     "weblate.C031",
-                    f"You Weblate version is outdated, please upgrade to {latest.version}.",
+                    f"Your Weblate version is outdated, please upgrade to {latest.version}.",
                 )
             ]
         return [
