@@ -20,13 +20,14 @@
 # Denys Nykula <nykula@ukr.net>, 2025.
 # Serhii Horichenko <serhii@horichenko.com>, 2025.
 # GitHub webhook <noreply-webhook-github@weblate.org>, 2026.
+# Tarás Lavrentiev <fromkaniv@gmail.com>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-02-16 14:59+0100\n"
-"PO-Revision-Date: 2026-02-21 10:10+0000\n"
-"Last-Translator: Максим Горпиніч <gorpinicmaksim0@gmail.com>\n"
+"PO-Revision-Date: 2026-03-04 01:55+0000\n"
+"Last-Translator: Tarás Lavrentiev <fromkaniv@gmail.com>\n"
 "Language-Team: Ukrainian <https://hosted.weblate.org/projects/weblate/"
 "documentation/uk/>\n"
 "Language: uk\n"
@@ -35,7 +36,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n%10>"
 "=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Generator: Weblate 5.16.1-dev\n"
+"X-Generator: Weblate 5.17-dev\n"
 "Generated-By: Babel 2.8.0\n"
 
 #: ../../admin/access.rst:4 ../../admin/projects.rst:215
@@ -1282,7 +1283,7 @@ msgstr "Видалити знімок"
 
 #: ../../admin/addons.rst:891 ../../snippets/permissions.rst:121
 msgid "Source strings"
-msgstr "Джерельні рядки"
+msgstr "Початкові рядки"
 
 #: ../../snippets/permissions.rst:121
 msgid "Edit additional string info"
@@ -1326,7 +1327,7 @@ msgstr "Змінювати рядок з примусовими пропозиц
 
 #: ../../snippets/permissions.rst:169
 msgid "Edit source strings"
-msgstr "Змінити джерельні рядки"
+msgstr "Редагувати початкові рядки"
 
 #: ../../snippets/permissions.rst:177 ../../user/translating.rst:48
 #: ../../workflows.rst:83
@@ -1762,7 +1763,7 @@ msgstr ":guilabel:`View upstream repository location`"
 
 #: ../../snippets/roles.rst:61
 msgid "`Edit source`"
-msgstr "`Змінити джерельний рядок`"
+msgstr "`Змінити початковий рядок`"
 
 #: ../../snippets/roles.rst:75
 msgid "`Add suggestion`"
@@ -3136,7 +3137,7 @@ msgstr ""
 
 #: ../../admin/addons.rst:766
 msgid "Flag new source strings as \"Needs checking\""
-msgstr "Позначте нові рядки джерела як \"Потребує перевірки\""
+msgstr "Позначте нові рядки джерела як «Потребує перевірки»"
 
 #: ../../admin/addons.rst:772
 msgid ""
@@ -4030,7 +4031,7 @@ msgstr "Вилучено пропозицію під час очищення"
 
 #: ../../snippets/change-events.rst:57
 msgid "Source string changed"
-msgstr "Змінено джерельний рядок"
+msgstr "Змінено початковий рядок"
 
 #: ../../snippets/change-events.rst:59
 msgid "String added"
@@ -6809,7 +6810,7 @@ msgid ""
 msgstr ""
 "Ви можете скоригувати поведінку Weblate за допомогою прапорців. Прапорці "
 "надають візуальні настанови перекладачам і допомагають їм удосконалити "
-"переклад. Прапори об'єднані з таких джерел:"
+"переклад. Прапорці об'єднані з таких джерел:"
 
 #: ../../admin/checks.rst:33
 msgid "Source string additional flags:"
@@ -6898,9 +6899,9 @@ msgid ""
 "html``, you can add ``discard:safe-html`` to the string flags to skip it for "
 "this particular string."
 msgstr ""
-"Прапори, визначені на вищому рівні, можна відкинути за допомогою синтаксису "
+"Прапорці, визначені на вищому рівні, можна відкинути за допомогою синтаксису "
 "``discard:NAME``. Наприклад, якщо компонент налаштовано на ``safe-html``, ви "
-"можете додати ``discard:safe-html`` до прапорів рядка, щоб пропустити його "
+"можете додати ``discard:safe-html`` до прапорців рядка, щоб пропустити його "
 "для цього рядка."
 
 #: ../../admin/checks.rst:78
@@ -7528,7 +7529,7 @@ msgstr ""
 
 #: ../../admin/checks.rst:358
 msgid "Location-based flags"
-msgstr "Прапори на основі місцезнаходження"
+msgstr "Прапорці на основі розташування"
 
 #: ../../admin/checks.rst:360
 msgid ""
@@ -22387,7 +22388,7 @@ msgstr ""
 
 #: ../../admin/projects.rst:960 ../../devel/migration.rst:113
 msgid "Source language"
-msgstr "Джерельна мова"
+msgstr "Початкова мова"
 
 #: ../../admin/projects.rst:962
 msgid ""
@@ -28401,8 +28402,8 @@ msgid ""
 "Some flags are now added to a string by default, based on locations; "
 "see :ref:`location-based-flags`."
 msgstr ""
-"Деякі прапорці тепер додаються до рядка за замовчуванням, на основі "
-"місцезнаходження; див. :ref:`location-based-flags`."
+"Деякі прапорці тепер типово додаються до рядка, на основі розташування; див. "
+":ref:`location-based-flags`."
 
 #: ../../changes.rst:467
 msgid ""
@@ -46959,7 +46960,7 @@ msgid ""
 "The variant source string has to be at most 768 characters long. This is a "
 "technical limitation due to compatibility with MySQL database."
 msgstr ""
-"Варіант джерельного рядка не повинен містити більш як 768 символів. Це "
+"Варіант початкового рядка не повинен містити більш як 768 символів. Це "
 "технічне обмеження через сумісність з базою даних MySQL."
 
 #: ../../devel/translations.rst:162
@@ -48263,7 +48264,7 @@ msgstr "У поточній версії підтримку передбачен
 
 #: ../../formats.rst:421
 msgid "Source string location"
-msgstr "Позиція джерельного рядка"
+msgstr "Розташування початкового рядка"
 
 #: ../../formats.rst:423
 msgid ""
@@ -48306,7 +48307,7 @@ msgid ""
 "xliff/v1.2/os/xliff-core.html#maxwidth>`_ as defined in the XLIFF standard, "
 "see :ref:`xliff-flags`."
 msgstr ""
-"Крім того, для всіх форматів на основі XML прапори витягуються з "
+"Крім того, для всіх форматів на основі XML прапорці витягуються з "
 "нестандартного атрибута ``weblate-flags``. Крім того ``max-length:N`` "
 "підтримується через ``maxwidth`` `attribute <https://docs.oasis-open.org/"
 "xliff/v1.2/os/xliff-core.html#maxwidth>`_ як визначено в стандарті XLIFF, "
@@ -48623,7 +48624,7 @@ msgstr "po_no_location'"
 
 #: ../../snippets/file-format-parameters.rst:113
 msgid "Do not include location information in the file"
-msgstr "Не включайте інформацію про місцезнаходження у файл"
+msgstr "Не включайте інформацію про розташування у файл"
 
 #: ../../snippets/file-format-parameters.rst:115
 msgid "properties_encoding"
@@ -52790,8 +52791,7 @@ msgstr "Сам Weblate не виконує автоматичного перед
 
 #: ../../security/privacy-compliance.rst:76
 msgid "All hosting and data residency is controlled by the system operator."
-msgstr ""
-"Весь хостинг та місцезнаходження даних контролюються системним оператором."
+msgstr "Увесь хостинг та розташування даних керуються системним оператором."
 
 #: ../../security/privacy-compliance.rst:77
 msgid ""
@@ -56142,7 +56142,7 @@ msgstr ""
 #: ../../user/checks.rst:2179 ../../user/checks.rst:2196
 #: ../../user/checks.rst:2218 ../../user/checks.rst:2236
 msgid "source strings"
-msgstr "джерельні рядки"
+msgstr "початкові рядки"
 
 #: ../../user/checks.rst:1980
 msgid ""
