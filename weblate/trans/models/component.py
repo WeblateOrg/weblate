@@ -2814,7 +2814,6 @@ class Component(
 
     def refresh_lock(self) -> None:
         """Refresh the lock to avoid expiry in long operations."""
-        self.lock.reacquire()
         if self.linked_component and self.linked_component.lock.is_locked:
             self.linked_component.lock.reacquire()
         if self.repository.lock.is_locked:
