@@ -442,7 +442,12 @@ def ssh(request: AuthenticatedHttpRequest) -> HttpResponse:
     if action == "add-host":
         form = SSHAddForm(request.POST)
         if form.is_valid():
-            add_host_key(request, form.cleaned_data["host"], form.cleaned_data["port"])
+            add_host_key(
+                request,
+                form.cleaned_data["host"],
+                form.cleaned_data["port"],
+                accept_fingerprint=form.cleaned_data["fingerprint"],
+            )
 
     context = {
         "public_ssh_keys": keys,
