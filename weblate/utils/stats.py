@@ -1304,7 +1304,9 @@ class CategoryLanguage(BaseURLMixin, TranslationChecklistMixin):
     @cached_property
     def translation_set(self):
         result = self.language.translation_set.filter(
-            component__category=self.category
+            Q(component__category__category__category=self.category)
+            | Q(component__category__category=self.category)
+            | Q(component__category=self.category)
         ).prefetch()
         for item in result:
             item.is_shared = (
@@ -1348,7 +1350,9 @@ class CategoryLanguageStats(ChecklistStats):
 
     def get_child_objects(self):
         return self.language.translation_set.filter(
-            component__category=self.category
+            Q(component__category__category__category=self.category)
+            | Q(component__category__category=self.category)
+            | Q(component__category=self.category)
         ).only("id", "language")
 
 
