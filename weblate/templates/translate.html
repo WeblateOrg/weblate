@@ -731,10 +731,12 @@
                   </h5>
                   <p class="list-group-item-text check-description">
                     {% with author=unit.get_last_author %}
-                      {% if author %}
-                        {% blocktranslate %}This string was translated automatically by {{ author }}.{% endblocktranslate %}
-                      {% else %}
+                      {% if not author or author.is_anonymous %}
                         {% blocktranslate %}This string was translated automatically.{% endblocktranslate %}
+                      {% elif author.is_bot %}
+                        {% blocktranslate %}This string was translated automatically using {{ author }}.{% endblocktranslate %}
+                      {% else %}
+                        {% blocktranslate %}This string was translated automatically by {{ author }}.{% endblocktranslate %}
                       {% endif %}
                     {% endwith %}
                   </p>
