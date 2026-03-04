@@ -40751,10 +40751,6 @@ paths:
         Without a permission you get to see only your own details.
       parameters:
       - in: query
-        name: email
-        schema:
-          type: string
-      - in: query
         name: format
         schema:
           type: string
@@ -43236,10 +43232,6 @@ paths:
       description: List subscriptions of a user.
       parameters:
       - in: query
-        name: email
-        schema:
-          type: string
-      - in: query
         name: format
         schema:
           type: string
@@ -43536,10 +43528,6 @@ paths:
       operationId: api_users_notifications_create
       description: Associate subscriptions with a user.
       parameters:
-      - in: query
-        name: email
-        schema:
-          type: string
       - in: query
         name: format
         schema:
@@ -66435,36 +66423,15 @@ components:
         propertyName: type
         mapping:
           client_error: '#/components/schemas/ParseErrorResponse'
-    ApiUsersListEmailErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - email
-          type: string
-          description: '* `email` - email'
-        code:
-          enum:
-          - null_characters_not_allowed
-          type: string
-          description: '* `null_characters_not_allowed` - null_characters_not_allowed'
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
     ApiUsersListError:
       oneOf:
       - $ref: '#/components/schemas/ApiUsersListUsernameErrorComponent'
       - $ref: '#/components/schemas/ApiUsersListIdErrorComponent'
-      - $ref: '#/components/schemas/ApiUsersListEmailErrorComponent'
       discriminator:
         propertyName: attr
         mapping:
           username: '#/components/schemas/ApiUsersListUsernameErrorComponent'
           id: '#/components/schemas/ApiUsersListIdErrorComponent'
-          email: '#/components/schemas/ApiUsersListEmailErrorComponent'
     ApiUsersListErrorResponse400:
       oneOf:
       - $ref: '#/components/schemas/ApiUsersListValidationError'
@@ -66670,36 +66637,15 @@ components:
         propertyName: type
         mapping:
           client_error: '#/components/schemas/ParseErrorResponse'
-    ApiUsersNotificationsListEmailErrorComponent:
-      type: object
-      properties:
-        attr:
-          enum:
-          - email
-          type: string
-          description: '* `email` - email'
-        code:
-          enum:
-          - null_characters_not_allowed
-          type: string
-          description: '* `null_characters_not_allowed` - null_characters_not_allowed'
-        detail:
-          type: string
-      required:
-      - attr
-      - code
-      - detail
     ApiUsersNotificationsListError:
       oneOf:
       - $ref: '#/components/schemas/ApiUsersNotificationsListUsernameErrorComponent'
       - $ref: '#/components/schemas/ApiUsersNotificationsListIdErrorComponent'
-      - $ref: '#/components/schemas/ApiUsersNotificationsListEmailErrorComponent'
       discriminator:
         propertyName: attr
         mapping:
           username: '#/components/schemas/ApiUsersNotificationsListUsernameErrorComponent'
           id: '#/components/schemas/ApiUsersNotificationsListIdErrorComponent'
-          email: '#/components/schemas/ApiUsersNotificationsListEmailErrorComponent'
     ApiUsersNotificationsListErrorResponse400:
       oneOf:
       - $ref: '#/components/schemas/ApiUsersNotificationsListValidationError'

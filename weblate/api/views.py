@@ -430,6 +430,16 @@ class UserFilter(filters.FilterSet):
         fields = ("username", "id", "is_active", "email")
 
 
+class UserFilterRestricted(filters.FilterSet):
+    """FilterSet for non-admin users, without email to prevent enumeration."""
+
+    username = filters.CharFilter(field_name="username", lookup_expr="startswith")
+
+    class Meta:
+        model = User
+        fields = ("username", "id", "is_active")
+
+
 class ComponentSlugFilter(filters.FilterSet):
     filter = filters.CharFilter(field_name="slug", lookup_expr="icontains")
 
@@ -448,7 +458,14 @@ class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.none()
     lookup_field = "username"
     filter_backends = (filters.DjangoFilterBackend,)
-    filterset_class = UserFilter
+
+    def get_filterset_class(self):
+        user = self.request.user
+        if user.is_authenticated and (
+            user.has_perm("user.view") or user.has_perm("user.edit")
+        ):
+            return UserFilter
+        return UserFilterRestricted
 
     def get_serializer_class(self):
         if self.request.user.has_perm("user.view") or self.request.user.has_perm(

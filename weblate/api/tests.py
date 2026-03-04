@@ -305,21 +305,55 @@ class UserAPITest(APIBaseTest):
             reverse("api:user-list"), {"email": "nonexistent@example.org"}
         )
         self.assertEqual(response.data["count"], 0)
-
-    def test_filter_email_non_admin(self) -> None:
-        """Non-admin users cannot enumerate emails."""
-        self.authenticate(False)
-        # Without username param, non-admin is scoped to own user only
+        # Admin can look up another user's email (cross-user lookup)
         response = self.client.get(
             reverse("api:user-list"), {"email": "noreply@weblate.org"}
         )
-        # Should not find other users' emails
-        self.assertEqual(response.data["count"], 0)
-        # Can find own email
+        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(
+            response.data["results"][0]["username"], settings.ANONYMOUS_USER_NAME
+        )
+
+    def test_filter_email_non_admin(self) -> None:
+        """Non-admin users cannot use email filter (prevented by restricted filterset)."""
+        self.authenticate(False)
+        # Email filter is ignored for non-admins; without username, scoped to self
+        response = self.client.get(
+            reverse("api:user-list"), {"email": "noreply@weblate.org"}
+        )
+        # Returns own user because email param is ignored, scoped to self
+        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(response.data["results"][0]["username"], "apitest")
+        # Combining username + email should not allow email enumeration
+        response = self.client.get(
+            reverse("api:user-list"),
+            {"username": settings.ANONYMOUS_USER_NAME, "email": "noreply@weblate.org"},
+        )
+        # Email param is ignored; results are based on username filter only
+        self.assertEqual(response.data["count"], 1)
+        # Verify the result is the username-matched user, not email-filtered
+        self.assertEqual(
+            response.data["results"][0]["username"], settings.ANONYMOUS_USER_NAME
+        )
+        # Non-admin with username + non-matching email: email param ignored
+        response = self.client.get(
+            reverse("api:user-list"),
+            {"username": settings.ANONYMOUS_USER_NAME, "email": "wrong@example.org"},
+        )
+        # Still returns username match since email is ignored
+        self.assertEqual(response.data["count"], 1)
+
+    def test_filter_email_unauthenticated(self) -> None:
+        """Unauthenticated users cannot use email filter."""
+        # No authentication - email param should be ignored and no results returned
         response = self.client.get(
             reverse("api:user-list"), {"email": "apitest@example.org"}
         )
-        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(response.data["count"], 0)
+        response = self.client.get(
+            reverse("api:user-list"), {"email": "noreply@weblate.org"}
+        )
+        self.assertEqual(response.data["count"], 0)
 
     def test_filter_user(self) -> None:
         """Front-end autocompletion interface for user."""

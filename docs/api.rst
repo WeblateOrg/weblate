@@ -290,7 +290,7 @@ Users
 
     :query string username: Username to search for
     :query int id: User ID to search for
-    :query string email: Email to search for (case-insensitive, exact match)
+    :query string email: Email to search for (case-insensitive, exact match). Requires ``user.view`` or ``user.edit`` permission; the parameter is ignored for unprivileged users.
 
     .. seealso::
 
