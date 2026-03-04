@@ -427,7 +427,7 @@ class MemoryManager(models.Manager):
         `weblate.formats.auto`.
 
         """
-        from weblate.formats.auto import try_load
+        if not is_valid_memory_entry(**kwargs):  # pylint: disable=missing-kwarg
 
         lang_cache: dict[str, Language] = {}
         try:
