@@ -172,7 +172,7 @@ class TextUnit(TranslationUnit):
     @cached_property
     def target(self):
         """Return target string from a ttkit unit."""
-        if self.unit is None:
+        if not self.has_unit():
             return ""
         return self.unit.text
 
@@ -259,10 +259,6 @@ class AppStoreFormat(TranslationFormat):
 
     def get_filenames(self):
         return [self.store.get_filename(unit.filename) for unit in self.store.units]
-
-    @classmethod
-    def get_class(cls) -> None:
-        return None
 
     @classmethod
     def is_valid_base_for_new(

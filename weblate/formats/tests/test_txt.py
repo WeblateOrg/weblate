@@ -5,6 +5,7 @@
 """File format specific behavior."""
 
 import os.path
+from typing import IO
 
 from weblate.formats.tests.test_formats import BaseFormatTest
 from weblate.formats.txt import AppStoreFormat
@@ -28,7 +29,10 @@ class AppStoreFormatTest(BaseFormatTest):
     BASE = os.path.dirname(APPSTORE_FILE)
     EXPECTED_FLAGS = "max-length:80"
 
-    def parse_file(self, filename: str, template: str | None = None):
+    def parse_file(self, filename: str | IO[bytes], template: str | None = None):
+        if not isinstance(filename, str):
+            msg = "App store does not operate on files"
+            raise TypeError(msg)
         if not os.path.isdir(filename):
             filename = os.path.dirname(filename)
         return self.format_class(filename)

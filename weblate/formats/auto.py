@@ -11,10 +11,12 @@ from fnmatch import fnmatch
 from typing import TYPE_CHECKING, Any
 
 from translate.storage import factory
+from translate.storage.base import TranslationStore
+from translate.storage.base import TranslationUnit as TranslateToolkitUnit
 
 from weblate.formats.helpers import NamedBytesIO
 from weblate.formats.models import FILE_FORMATS
-from weblate.formats.ttkit import TTKitFormat
+from weblate.formats.ttkit import BaseTTKitFormat, TTKitUnit
 
 if TYPE_CHECKING:
     from collections.abc import Generator
@@ -121,22 +123,15 @@ def try_load(
     raise failure
 
 
-class AutodetectFormat(TTKitFormat):
+class AutodetectFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit](
+    BaseTTKitFormat[S, U, T]
+):
     """
     Automatic detection based on translate-toolkit logic.
 
     This is last fallback when uploaded file was not correctly parsed before.
     """
 
-    @classmethod
-    # pylint: disable-next=arguments-differ
-    def parse_store(cls, storefile):
+    def parse_store(self, storefile) -> S:
         """Directly loads using translate-toolkit."""
-        return factory.getobject(storefile)
-
-    @classmethod
-    def get_class(
-        cls,
-        encoding: str | None = None,  # noqa: ARG003
-    ) -> None:
-        return None
+        return factory.getobject(storefile)  # type: ignore[return-value]
