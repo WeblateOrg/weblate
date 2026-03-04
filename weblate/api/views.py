@@ -423,10 +423,11 @@ class MultipleFieldViewSet(WeblateViewSet):
 
 class UserFilter(filters.FilterSet):
     username = filters.CharFilter(field_name="username", lookup_expr="startswith")
+    email = filters.CharFilter(field_name="email", lookup_expr="iexact")
 
     class Meta:
         model = User
-        fields = ("username", "id", "is_active")
+        fields = ("username", "id", "is_active", "email")
 
 
 class ComponentSlugFilter(filters.FilterSet):
