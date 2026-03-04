@@ -102,7 +102,7 @@ class WeblateLock:
 
     def get_error_message(self) -> str:
         if self.origin:
-            return f"Lock on {self.origin} ({self.scope}) could not be acquired in {self._timeout}s"
+            return f"Lock on {self._name} ({self.origin} / {self.scope}) could not be acquired in {self._timeout}s"
         return f"Lock on {self._name} could not be acquired in {self._timeout}s"
 
     def reacquire(self) -> None:
@@ -124,6 +124,7 @@ class WeblateLock:
             lock_result = self._redis_lock.acquire()
 
         if not lock_result:
+            self.add_breadcrumb("timeout")
             raise WeblateLockTimeoutError(self.get_error_message(), lock=self)
 
     def _enter_file(self) -> None:
@@ -131,6 +132,7 @@ class WeblateLock:
         try:
             self._file_lock.acquire()
         except Timeout as error:
+            self.add_breadcrumb("timeout")
             raise WeblateLockTimeoutError(
                 self.get_error_message(), lock=self
             ) from error
