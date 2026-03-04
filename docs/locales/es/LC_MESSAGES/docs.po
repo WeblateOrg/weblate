@@ -30,7 +30,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-02-16 14:59+0100\n"
-"PO-Revision-Date: 2026-03-04 01:56+0000\n"
+"PO-Revision-Date: 2026-03-05 07:10+0000\n"
 "Last-Translator: Francisco Serrador <fserrador@gmail.com>\n"
 "Language-Team: Spanish <https://hosted.weblate.org/projects/weblate/"
 "documentation/es/>\n"
@@ -47183,12 +47183,6 @@ msgid "Removing existing translations"
 msgstr "Eliminar traducciones existentes"
 
 #: ../../devel/translations.rst:75
-#, fuzzy
-#| msgid ""
-#| "Languages, components, or the projects they are in, can be removed "
-#| "(deleted from Weblate and remote repository if used) from the "
-#| "menu :guilabel:`Manage` ↓ :guilabel:`Removal` of each project, component, "
-#| "or language."
 msgid ""
 "Languages, components, or the projects they are in, can be removed (deleted "
 "from Weblate and remote repository if used) from the "
@@ -47197,8 +47191,8 @@ msgid ""
 msgstr ""
 "Los idiomas, componentes, o los proyectos en los que se encuentran, pueden "
 "ser eliminados (borrados de Weblate y del repositorio remoto si se utiliza) "
-"desde el menú :guilabel:`Gestionar` ↓ :guilabel:`Eliminar` de cada proyecto, "
-"componente o idioma."
+"desde el menú :guilabel:`Operaciones` ↓ :guilabel:`Retirada` de cada "
+"proyecto, componente o idioma."
 
 #: ../../devel/translations.rst:79
 msgid ""
@@ -49113,6 +49107,8 @@ msgid ""
 "A very similar formats are :doc:`/formats/compose-multiplatform-resources` "
 "and :doc:`/formats/moko-resources`."
 msgstr ""
+"Formatos muy similares son :doc:`/formats/compose-multiplatform-resources` y "
+":doc:`/formats/moko-resources`."
 
 #: ../../formats/android.rst:17
 msgid ""
@@ -49126,35 +49122,43 @@ msgstr ""
 
 #: ../../formats/android.rst:20
 msgid "Weblate does following escaping of strings:"
-msgstr ""
+msgstr "Weblate sigue escape de cadenas:"
 
 #: ../../formats/android.rst:22
 msgid "If a strings is valid XML, it is inserted as XML to translation."
-msgstr ""
+msgstr "Si una cadena XML es válido, es insertado como XML a la traducción."
 
 #: ../../formats/android.rst:23
 msgid ""
 "``?`` and ``@`` are escaped with a ``\\\\`` at the beginning of the string "
 "to avoid interpreting them as style or resource references."
 msgstr ""
+"``?`` y ``@`` son escapados con un ``\\\\`` al comienzo de la cadena para "
+"evitar interpretarlos como referencias de estilo o recurso."
 
 #: ../../formats/android.rst:24
 msgid ""
 "In case string contains multiple spaces, it is quoted with double quotes "
 "(``\"``)."
 msgstr ""
+"En el caso de cadena contenga múltiples espacios, está entrecomillado con "
+"comillas dobles (``\"``)."
 
 #: ../../formats/android.rst:25
 msgid ""
 "Newlines are escaped as ``\\\\n``, but the actual newline is kept for "
 "readability as well."
 msgstr ""
+"Las líneas nuevas son escapadas como ``\\\\n``, pero la línea nueva actual "
+"es conservada para legibilidad también."
 
 #: ../../formats/android.rst:29
 msgid ""
 "Android `string-array` structures are not currently supported. To work "
 "around this, you can break your string arrays apart:"
 msgstr ""
+"La estructura de Android `string-array` actualmente no está admitida. Para "
+"evitar esto, puede romper sus formaciones de cadena aparte:"
 
 #: ../../formats/android.rst:39
 msgid "become:"
@@ -49165,24 +49169,33 @@ msgid ""
 "The `string-array` that points to the `string` elements should be stored in "
 "a different file, and not be made available for translation."
 msgstr ""
+"La formación `string-array` que apunte a los elementos `string` estarían "
+"almacenados en un archivo diferente, y n o es hecho disponible para "
+"traducción."
 
 #: ../../formats/android.rst:53
 msgid ""
 "This script may help pre-process your existing strings.xml files and "
 "translations: https://gist.github.com/paour/11291062"
 msgstr ""
+"Este script puede ayudar a pre-procesar tus archivos string.xml existentes y "
+"traducciones: https://gist.github.com/paour/11291062"
 
 #: ../../formats/android.rst:57
 msgid ""
 "To avoid translating some strings, these can be marked as non-translatable. "
 "This can be especially useful for string references:"
 msgstr ""
+"Para evitar traducir algunas cadenas, pueden ser marcadas como no-"
+"traducible. Esto puede ser especialmente útil para referencias de cadena:"
 
 #: ../../formats/android.rst:65
 msgid ""
 "`Android string resources documentation <https://developer.android.com/guide/"
 "topics/resources/string-resource>`_"
 msgstr ""
+"`Documentación de recursos de cadenas de Android <https://"
+"developer.android.com/guide/topics/resources/string-resource>`_"
 
 #: ../../formats/android.rst:71 ../../formats/apple.rst:23
 #: ../../formats/appstore.rst:24 ../../formats/arb.rst:27
@@ -49232,7 +49245,7 @@ msgstr "Configuración de Weblate"
 #: ../../formats/webextension.rst:29 ../../formats/winrc.rst:34
 #: ../../formats/xliff2.rst:45 ../../formats/yaml.rst:30
 msgid "Typical Weblate :ref:`component`"
-msgstr ""
+msgstr "Weblate típico :ref:`component`"
 
 #: ../../formats/android.rst:80 ../../formats/apple.rst:33
 #: ../../formats/arb.rst:36 ../../formats/catkeys.rst:32
@@ -49270,19 +49283,21 @@ msgid ""
 "translation>` applications, but also standardized by PWG 5100.13 and used on "
 "NeXTSTEP/OpenSTEP."
 msgstr ""
+"Formato de archivo utilizado típicamente para traducción de aplicaciones "
+":index:`iOS <pair: iOS; translation>` de Apple, pero además estandarizado "
+"por PWG 5100.13 y utilizado en NeXTSTEP/OpenSTEP."
 
 #: ../../formats/apple.rst:13
 msgid "Apple iOS strings are usually used as monolingual."
 msgstr "Las cadenas iOS de Apple usualmente son utilizados como monolingüe."
 
 #: ../../formats/apple.rst:18
-#, fuzzy
 msgid ""
 "`Apple \"strings files\" documentation <https://developer.apple.com/library/"
 "archive/documentation/MacOSX/Conceptual/BPInternational/"
 "MaintaingYourOwnStringsFiles/MaintaingYourOwnStringsFiles.html>`_"
 msgstr ""
-"`Documentación «archivos de cadenas» de Apple <https://developer.apple.com/"
+"`Documentación \"archivos de cadenas\" de Apple <https://developer.apple.com/"
 "library/archive/documentation/MacOSX/Conceptual/BPInternational/"
 "MaintaingYourOwnStringsFiles/MaintaingYourOwnStringsFiles.html>`_"
 
@@ -49291,6 +49306,9 @@ msgid ""
 "`Message Catalog File Format in PWG 5100.13 <https://ftp.pwg.org/pub/pwg/"
 "candidates/cs-ippjobprinterext3v10-20120727-5100.13.pdf#page=66>`_"
 msgstr ""
+"`Formato de archivo del catálogo de mensajes en PWG 5100.13 <https://"
+"ftp.pwg.org/pub/pwg/candidates/cs-ippjobprinterext3v10-20120727-"
+"5100.13.pdf#page=66>`_"
 
 #: ../../formats/apple.rst:30
 msgid ""
@@ -49356,6 +49374,10 @@ msgid ""
 "them read-only (see :ref:`custom-checks`). This can be automated by "
 "the :ref:`addon-weblate.flags.bulk`."
 msgstr ""
+"Si no desea traducir ciertas cadenas (p.ej., los registros de cambios), "
+"puede ocultarlas usando :ref:`component-key_filter` o marcarlas como de solo "
+"lectura (consulte :ref:`custom-checks`). Esto se puede automatizar con "
+":ref:`addon-weblate.flags.bulk`."
 
 #: ../../formats/appstore.rst:35
 msgid "`App store metadata files`"
@@ -49370,6 +49392,8 @@ msgid ""
 "ARB translations are monolingual, so it is recommended to specify a base "
 "file with (what is most often the) English strings."
 msgstr ""
+"Las traducciones ARB son monolingües, por lo que se recomienda especificar "
+"un archivo base con (lo que suele ser) cadenas en inglés."
 
 #: ../../formats/arb.rst:17
 msgid "`Application Resource Bundle Specification`_"
@@ -49416,13 +49440,15 @@ msgstr "Componer recursos Multiplataforma"
 
 #: ../../formats/compose-multiplatform-resources.rst:11
 msgid "A variant of :doc:`/formats/android`. It differs in escaping."
-msgstr ""
+msgstr "Una variante de :doc:`/formats/android`. Difiere en escape."
 
 #: ../../formats/compose-multiplatform-resources.rst:16
 msgid ""
 "`Kotlin Compose Multiplatform Resources <https://kotlinlang.org/docs/"
 "multiplatform/compose-multiplatform-resources.html>`_"
 msgstr ""
+"`Kotlin Compose Multiplatform Resources <https://kotlinlang.org/docs/"
+"multiplatform/compose-multiplatform-resources.html>`_"
 
 #: ../../formats/compose-multiplatform-resources.rst:32
 msgid "`Compose Multiplatform Resource`"
@@ -49458,6 +49484,8 @@ msgid ""
 "Files with two fields—source and translation (in this order). "
 "Choose :guilabel:`Simple CSV file` as a file format."
 msgstr ""
+"Archivos con dos campos —origen y traducción (en ese orden). Elija "
+":guilabel:`Simple CSV file` como un formato de archivo."
 
 #: ../../formats/csv.rst:19
 msgid ""
@@ -49485,6 +49513,10 @@ msgid ""
 "unreliable in some corner cases and causes performance penalty. Please "
 "choose a file format encoding to avoid this (for example :guilabel:`UTF-8`)."
 msgstr ""
+"De forma predeterminada, el formato CSV detecta automáticamente la "
+"codificación de los archivos. Esto puede ser poco fiable en algunos casos y "
+"reducir el rendimiento. Seleccione una codificación de formato de archivo "
+"para evitar esto (por ejemplo, :guilabel:`UTF-8`)."
 
 #: ../../formats/csv.rst:33
 msgid ""
@@ -49520,7 +49552,7 @@ msgstr "Archivos de ejemplo"
 
 #: ../../formats/csv.rst:65
 msgid "Typical Weblate :ref:`component` for bilingual CSV"
-msgstr ""
+msgstr "Componente :ref:`component` típico de Weblate para CSV bilingüe"
 
 #: ../../formats/csv.rst:73
 msgid "`CSV file`"
@@ -49528,7 +49560,7 @@ msgstr "`Archivo CSV`"
 
 #: ../../formats/csv.rst:77
 msgid "Typical Weblate :ref:`component` for monolingual CSV"
-msgstr ""
+msgstr "Weblate :ref:`component` típico para CSV monolingüe"
 
 #: ../../formats/csv.rst:85
 msgid "`Simple CSV file`"
@@ -49560,6 +49592,13 @@ msgid ""
 "string). If you use the XLSX download for exporting the translations into an "
 "Excel workbook, you already get a file with the correct file format."
 msgstr ""
+"Al cargar archivos XLSX para su traducción, tenga en cuenta que solo se "
+"considera la hoja de cálculo activa y que debe haber al menos una columna "
+"llamada ``origen`` (el cual contiene la cadena origen) y una columna llamada "
+"``destino`` (que contiene la traducción). Además, debe haber una columna "
+"llamada ``contexto`` (que contiene la ruta de contexto de la cadena de "
+"traducción). Si utiliza la descarga XLSX para exportar las traducciones a un "
+"libro de Excel, obtendrá un archivo con el formato correcto."
 
 #: ../../formats/excel.rst:28
 msgid "`Excel Open XML`"
@@ -49574,6 +49613,8 @@ msgid ""
 "The tag and attribute names can now be customized "
 "using :ref:`file_format_params`."
 msgstr ""
+"Los nombres de etiqueta y atributo ahora pueden ser adaptados utilizando "
+":ref:`file_format_params`."
 
 #: ../../formats/flatxml.rst:18
 msgid "Example of flat XML files:"
@@ -49593,6 +49634,9 @@ msgid ""
 "available and the behavior can change between releases. Feedback from "
 "testing is welcome."
 msgstr ""
+"La compatibilidad con este formato está en desarrollo. Es posible que "
+"algunas funciones aún no estén disponibles y el comportamiento puede cambiar "
+"entre versiones. Agradecemos sus comentarios sobre las pruebas."
 
 #: ../../formats/fluent.rst:10
 msgid ""
@@ -49600,6 +49644,9 @@ msgid ""
 "a simple string in one language can map to a complex multi-variant "
 "translation in another language."
 msgstr ""
+"Fluent es un formato de texto monolingüe que se centra en la localización "
+"asimétrica: una cadena simple en un idioma puede corresponder a una "
+"traducción compleja con múltiples variantes en otro idioma."
 
 #: ../../formats/fluent.rst:18
 msgid "`Project Fluent website <https://projectfluent.org/>`_"
@@ -49620,6 +49667,8 @@ msgid ""
 "`Format.JS Message Extraction <https://formatjs.github.io/docs/getting-"
 "started/message-extraction>`_"
 msgstr ""
+"`Extracción de Mensajes en Format.JS <https://formatjs.github.io/docs/"
+"getting-started/message-extraction>`_"
 
 #: ../../formats/formatjs.rst:50
 msgid "`Format.JS JSON file`"
@@ -49638,6 +49687,8 @@ msgid ""
 "Contextual info stored in the file is supported by adjusting its headers or "
 "linking to corresponding source files."
 msgstr ""
+"Informe contextual almacenado dentro del archivo está mantenido por ajuste "
+"de sus cabeceras o enlaces para archivos fuentes correspondientes."
 
 #: ../../formats/gettext.rst:19
 msgid "`Gettext on Wikipedia <https://en.wikipedia.org/wiki/Gettext>`_"
@@ -49654,6 +49705,10 @@ msgid ""
 "include these, :program:`msgmerge` has to be executed with ``--previous`` "
 "and the resulting PO file then contains lines such as:"
 msgstr ""
+"Weblate puede extraer cadenas de origen anteriores de los archivos PO, si "
+"las hay, y mostrar las diferencias en las cadenas que requieren edición. "
+"Para incluirlas, se debe ejecutar :program:`msgmerge` con ``--previous`` y "
+"el archivo PO resultante contendrá líneas como:"
 
 #: ../../formats/gettext.rst:44
 msgid "PO file header"
@@ -49665,12 +49720,17 @@ msgid ""
 "it can include :ref:`component-report_source_bugs` and :ref:`project-"
 "set_language_team`."
 msgstr ""
+"Weblate mantiene automáticamente el encabezado del archivo PO. "
+"Opcionalmente, puede incluir :ref:`component-report_source_bugs` y "
+":ref:`project-set_language_team`."
 
 #: ../../formats/gettext.rst:50
 msgid ""
 "The header comments also can be updated to contain author names "
 "using :ref:`addon-weblate.gettext.authors`."
 msgstr ""
+"Los comentarios del encabezado también se pueden actualizar para contener "
+"los nombres de los autores usando :ref:`addon-weblate.gettext.authors`."
 
 #: ../../formats/gettext.rst:53
 msgid "Line wrapping"
@@ -49682,12 +49742,18 @@ msgid ""
 "algorithm in the GNU gettext and the Unicode data the wrapping is based on "
 "evolve which might cause differences in some corner cases."
 msgstr ""
+"la terminación de la línea coincide en gran medida con el comportamiento de "
+"GNU gettext. Tanto el algoritmo de terminación de GNU gettext como los datos "
+"Unicode en los que se basa evolucionan, lo que podría causar diferencias en "
+"algunos casos."
 
 #: ../../formats/gettext.rst:59
 msgid ""
 "The wrapping width can be configured using the ``po_line_wrap`` parameter, "
 "see :ref:`file_format_params`."
 msgstr ""
+"El ancho de envoltura se puede configurar usando el parámetro "
+"``po_line_wrap``, consulte :ref:`file_format_params`."
 
 #: ../../formats/gettext.rst:62
 msgid "Generating matching MO files"
@@ -49699,6 +49765,9 @@ msgid ""
 "files, :ref:`addon-weblate.gettext.mo` can be used to keep them up-to-date "
 "with PO files."
 msgstr ""
+"En caso de que los archivos MO se mantengan en el repositorio junto con los "
+"archivos PO, se puede utilizar :ref:`addon-weblate.gettext.mo` para "
+"conservar los actualizados con los archivos PO."
 
 #: ../../formats/gettext.rst:69
 msgid "Updating PO files from the POT file"
@@ -49723,22 +49792,26 @@ msgid ""
 "all languages, including English. This is supported, though you have to "
 "choose this file format explicitly when importing components into Weblate."
 msgstr ""
+"Algunos proyectos deciden usar gettext como formato monolingüe: codifican "
+"solo los ID en su código fuente y luego la cadena debe traducirse a todos "
+"los idiomas, incluido el inglés. Esto es posible, aunque debe seleccionar "
+"este formato de archivo explícitamente al importar componentes a Weblate."
 
 #: ../../formats/gettext.rst:87
 msgid "The bilingual gettext PO file typically looks like this:"
-msgstr ""
+msgstr "El archivo PO bilingüe gettext típicamente tiene este aspecto:"
 
 #: ../../formats/gettext.rst:104
 msgid "The monolingual gettext PO file typically looks like this:"
-msgstr ""
+msgstr "El archivo PO gettext monolingüe típicamente tiene este aspecto:"
 
 #: ../../formats/gettext.rst:120
 msgid "While the base language file will be:"
-msgstr ""
+msgstr "Mientras que el archivo de idioma base será:"
 
 #: ../../formats/gettext.rst:141
 msgid "Typical Weblate :ref:`component` for bilingual gettext"
-msgstr ""
+msgstr "Weblate típico :ref:`component` para gettext bilingüe"
 
 #: ../../formats/gettext.rst:149
 msgid "`Gettext PO file`"
@@ -49781,6 +49854,8 @@ msgid ""
 "Weblate supports the go-i18n JSON v1 and v2 variants. Please choose correct "
 "file format matching your environment."
 msgstr ""
+"Weblate admite las variantes go-i18n JSON v1 y v2. Elija el formato de "
+"archivo correcto para su entorno."
 
 #: ../../formats/go-i18n.rst:35
 msgid "Example file v1:"
@@ -49792,7 +49867,7 @@ msgstr "Archivo de ejemplo v2:"
 
 #: ../../formats/go-i18n.rst:49
 msgid "Typical Weblate :ref:`component` for v1"
-msgstr ""
+msgstr "Componente típico de Weblate :ref:`component` para v1"
 
 #: ../../formats/go-i18n.rst:57
 msgid "`go-i18n v1 JSON file`"
@@ -49815,18 +49890,16 @@ msgid ""
 "gotext translations are monolingual, so it is recommended to specify a base "
 "file with (what is most often the) English strings."
 msgstr ""
+"Las traducciones de gotext son monolingües, por lo que se recomienda "
+"especificar un archivo base con (lo que suele ser) cadenas en inglés."
 
 #: ../../formats/gotext.rst:17
-#, fuzzy
-#| msgid ""
-#| "`Alibaba Translate Documentation <https://www.alibabacloud.com/help/en/"
-#| "machine-translation>`_"
 msgid ""
 "`I18n in Go: Managing Translations <https://www.alexedwards.net/blog/i18n-"
 "managing-translations>`_"
 msgstr ""
-"`Documentación de Alibaba Translate <https://www.alibabacloud.com/help/es/"
-"machine-translation>`_"
+"`I18n en Go: Gestiona Traducciones <https://www.alexedwards.net/blog/i18n-"
+"managing-translations>`_"
 
 #: ../../formats/gotext.rst:34
 msgid "`gotext JSON file`"
@@ -49838,23 +49911,28 @@ msgstr "Propiedades GWT"
 
 #: ../../formats/gwt.rst:9
 msgid "Native GWT format for translations."
-msgstr ""
+msgstr "Formato GWT nativo para traducciones."
 
 #: ../../formats/gwt.rst:11
 msgid "GWT properties are usually used as monolingual translations."
 msgstr ""
+"Las propiedades de GWT normalmente se utilizan como traducciones monolingües."
 
 #: ../../formats/gwt.rst:15
 msgid ""
 "`GWT localization guide <https://www.gwtproject.org/doc/latest/"
 "DevGuideI18n.html>`_"
 msgstr ""
+"`Guía de localización de GWT <https://www.gwtproject.org/doc/latest/"
+"DevGuideI18n.html>`_"
 
 #: ../../formats/gwt.rst:16
 msgid ""
 "`GWT Internationalization Tutorial <https://www.gwtproject.org/doc/latest/"
 "tutorial/i18n.html>`_"
 msgstr ""
+"`Tutorial de internacionalización de GWT <https://www.gwtproject.org/doc/"
+"latest/tutorial/i18n.html>`_"
 
 #: ../../formats/gwt.rst:34
 msgid "`GWT Properties`"
@@ -49869,6 +49947,8 @@ msgid ""
 "The translatable content is extracted from the HTML files and offered for "
 "the translation."
 msgstr ""
+"El contenido traducible se extrae de los archivos HTML y se ofrece para la "
+"traducción."
 
 #: ../../snippets/format-database-backed.rst:3
 msgid ""
@@ -49876,6 +49956,9 @@ msgid ""
 "imported to Weblate because it can not be done reliably. The source of truth "
 "for the translations is Weblate not the translated file."
 msgstr ""
+"A diferencia de la mayoría de los demás formatos, los cambios en los "
+"archivos de traducción no se importarán a Weblate porque no es fiable. La "
+"fuente de las traducciones es Weblate, no el archivo traducido."
 
 #: ../../formats/html.rst:33
 msgid "`HTML file`"
@@ -49887,12 +49970,17 @@ msgid "Handling duplicate strings"
 msgstr "Manipula cadenas duplicadas"
 
 #: ../../formats/html.rst:43
+#, fuzzy
 msgid ""
 "By default, Weblate treats each occurrence of a string as a separate "
 "translation unit to provide line-based context. This can be problematic in "
 "HTML files, where moving elements changes the context and can lead to "
 "translation loss."
 msgstr ""
+"De forma predeterminada, Weblate trata cada ocurrencia de una cadena como "
+"una unidad de traducción independiente para proporcionar contexto basado en "
+"líneas. Esto puede ser problemático en archivos HTML, donde mover elementos "
+"cambia el contexto y puede provocar pérdidas de traducción."
 
 #: ../../formats/html.rst:48 ../../formats/markdown.rst:50
 #: ../../formats/txt.rst:56
@@ -49901,21 +49989,29 @@ msgid ""
 "enable :guilabel:`Deduplicate identical strings` in the :ref:`component-"
 "file_format_params`."
 msgstr ""
+"Para consolidar cadenas idénticas en una sola unidad de traducción, habilite "
+":guilabel:`Desduplicar cadenas idénticas` en :ref:`component-"
+"file_format_params`."
 
 #: ../../formats/html.rst:53
+#, fuzzy
 msgid ""
 "Enabling this option disables line-based context for the merged units, "
 "ensuring that translations remain stable even if elements are moved within "
 "the document."
 msgstr ""
+"Al habilitar esta opción se deshabilita el contexto basado en líneas para "
+"las unidades fusionadas, lo que garantiza que las traducciones permanezcan "
+"estables incluso si los elementos se mueven dentro del documento."
 
 #: ../../formats/i18next.rst:6
 msgid "i18next JSON files"
 msgstr "Archivos JSON i18next"
 
 #: ../../formats/i18next.rst:13
+#, fuzzy
 msgid "Support for v4 variant of this format was added."
-msgstr ""
+msgstr "Soporte fue agregado para la variante v4 de este formato ."
 
 #: ../../formats/i18next.rst:17
 msgid ""
@@ -49923,33 +50019,46 @@ msgid ""
 "handling with CLDR. Older versions have different plural rules for some "
 "languages which are not correct."
 msgstr ""
+"Si usa plurales, se recomienda usar la versión 4, ya que esta está alineada "
+"con CLDR. Las versiones anteriores tienen reglas de plural diferentes para "
+"algunos idiomas, lo cual no es correcto."
 
 #: ../../formats/i18next.rst:21
 msgid ""
 "i18next is an internationalization framework written in and for JavaScript. "
 "Weblate supports its localization files with features such as plurals."
 msgstr ""
+"i18next es un framework de internacionalización escrito en y para "
+"JavaScript. Weblate admite sus archivos de localización con funciones como "
+"los plurales."
 
 #: ../../formats/i18next.rst:24
 msgid ""
 "i18next translations are monolingual, so it is recommended to specify a base "
 "file with (what is most often the) English strings."
 msgstr ""
+"Las traducciones de i18next son monolingües, por lo que se recomienda "
+"especificar un archivo base con (lo que suele ser) las cadenas en inglés."
 
 #: ../../formats/i18next.rst:30
 msgid ""
 "Choose this format if unsure. It stores plurals using standard CLDR suffixes."
 msgstr ""
+"Elija este formato si no está seguro. Almacena plurales usando sufijos CLDR "
+"estándar."
 
 #: ../../formats/i18next.rst:35
 msgid "Use for legacy projects which are using numeric suffixes for plurals."
 msgstr ""
+"Úselo para proyectos heredados que utilizan sufijos numéricos para plurales."
 
 #: ../../formats/i18next.rst:39
 msgid ""
 "The v2 and v1 variants are mostly compatible with v3, with exception of how "
 "plurals are handled."
 msgstr ""
+"Las variantes v2 y v1 son en su mayoría compatibles con v3, con excepción de "
+"cómo se manipulan los plurales."
 
 #: ../../formats/i18next.rst:45
 msgid "https://www.i18next.com/"
@@ -49972,6 +50081,8 @@ msgid ""
 "The translatable content is extracted from the Adobe InDesign Markup "
 "Language files and offered for the translation."
 msgstr ""
+"El contenido traducible se extrae de los archivos de Lenguaje de Marcado de "
+"Adobe InDesign y se ofrece para su traducción."
 
 #: ../../formats/idml.rst:24
 msgid "`IDML file`"
@@ -49986,6 +50097,8 @@ msgid ""
 "INI file format for translations. Weblate currently supports several "
 "variants of JSON translations:"
 msgstr ""
+"Formato de archivo INI para traducciones. Weblate admite actualmente varias "
+"variantes de traducciones JSON:"
 
 #: ../../formats/ini.rst:14
 msgid "Monolingual INI files"
@@ -50002,6 +50115,8 @@ msgid ""
 "INI file lacks sections, you might want to use :ref:`joomla` "
 "or :ref:`javaprop` instead."
 msgstr ""
+"Weblate solo extrae claves de las secciones de un archivo INI. Si su archivo "
+"INI no tiene secciones, tal vez puede usar :ref:`joomla` o :ref:`javaprop`."
 
 #: ../../formats/ini.rst:50
 msgid "`INI File`"
@@ -50091,7 +50206,7 @@ msgstr "`Propiedades de Java`"
 
 #: ../../formats/java.rst:48
 msgid "`ISO-8859-1`"
-msgstr ""
+msgstr "`ISO-8859-1`"
 
 #: ../../formats/joomla.rst:4
 msgid "Joomla translations"
@@ -50104,6 +50219,8 @@ msgstr "Formato nativo de Joomla para traducciones."
 #: ../../formats/joomla.rst:11
 msgid "Joomla translations are usually used as monolingual translations."
 msgstr ""
+"Las traducciones de Joomla usualmente se utilizan como traducciones "
+"monolingües."
 
 #: ../../formats/joomla.rst:36
 msgid "`Joomla Language File`"
@@ -50118,6 +50235,8 @@ msgid ""
 "The structure of JSON file is properly preserved even for complex situations "
 "which were broken in prior releases."
 msgstr ""
+"La estructura del archivo JSON se conserva adecuadamente incluso para "
+"situaciones complejas que no funcionaban en versiones anteriores."
 
 #: ../../formats/json.rst:14
 msgid ""
@@ -50135,6 +50254,8 @@ msgstr "Weblate actualmente admite varias variantes de traducciones de JSON:"
 msgid ""
 "Simple key / value files, used for example by `vue-i18n` or `react-intl`."
 msgstr ""
+"Archivos de clave/valor simples, utilizados por ejemplo por `vue-i18n` o "
+"`react-intl`."
 
 #: ../../formats/json.rst:20 ../../formats/yaml.rst:13
 msgid "Files with nested keys."
@@ -50154,6 +50275,9 @@ msgid ""
 "both handle same type of files. Both preserve existing JSON structure when "
 "translating."
 msgstr ""
+"Tanto el :guilabel:`archivo JSON` como el archivo de :guilabel:`estructura "
+"anidada JSON` admiten el mismo tipo de archivo. Ambos conservan la "
+"estructura JSON existente al traducir."
 
 #: ../../formats/json.rst:38
 msgid ""
@@ -50162,6 +50286,10 @@ msgid ""
 "string into the matching structure. For example ``app.name`` key is inserted "
 "as:"
 msgstr ""
+"La única diferencia entre ellos radica en la adición de nuevas cadenas "
+"mediante Weblate. El formato de estructura anidada analiza la clave recién "
+"añadida e inserta la nueva cadena en la estructura correspondiente. Por "
+"ejemplo, la clave ``app.name`` se inserta como:"
 
 #: ../../formats/json.rst:65
 msgid ""
@@ -50180,16 +50308,22 @@ msgid ""
 ":ref:`file_format_params` with the pattern `json_*` can be used to configure "
 "the behavior of the JSON format."
 msgstr ""
+":ref:`file_format_params` con el patrón `json_*` se puede utilizar para "
+"configurar el comportamiento del formato JSON."
 
 #: ../../formats/laravel.rst:8
 msgid "The Laravel PHP localization files are supported as well with plurals:"
 msgstr ""
+"Los archivos de localización PHP de Laravel también son compatibles con "
+"plurales:"
 
 #: ../../formats/laravel.rst:12
 msgid ""
 "The translation keys no longer include PHP structure and only contain the "
 "actual key."
 msgstr ""
+"Las claves de traducción ya no incluyen la estructura PHP y solo contienen "
+"la clave real."
 
 #: ../../formats/laravel.rst:20
 msgid "`Localization in Laravel`_"
@@ -50222,6 +50356,10 @@ msgid ""
 "Markdown tables, where reordering rows changes the context and can lead to "
 "translation loss."
 msgstr ""
+"De forma predeterminada, Weblate trata cada ocurrencia de una cadena como "
+"una unidad de traducción independiente para proporcionar contexto basado en "
+"líneas. Esto puede ser problemático en tablas Markdown, donde reordenar las "
+"filas cambia el contexto y puede provocar pérdidas de traducción."
 
 #: ../../formats/markdown.rst:55
 msgid ""
@@ -50229,6 +50367,9 @@ msgid ""
 "ensuring that translations remain stable even if rows or sections are moved "
 "within the document."
 msgstr ""
+"Al habilitar esta opción se inhabilita el contexto basado en líneas para las "
+"unidades fusionadas, lo que garantiza que las traducciones permanezcan "
+"estables incluso si se mueven filas o secciones dentro del documento."
 
 #: ../../formats/mi18n.rst:4
 msgid "draggable/i18n lang files"
@@ -50263,11 +50404,14 @@ msgid ""
 "A variant of :doc:`/formats/android`. It differs in plural tag (``plural`` "
 "is used instead of ``plurals``) and escaping."
 msgstr ""
+"Una variante de :doc:`/formats/android`. Se diferencia en la etiqueta de "
+"plural (se usa ``plural`` en lugar de ``plurales``) y el escape."
 
 #: ../../formats/moko-resources.rst:16
 msgid ""
 "`Mobile Kotlin resources <https://github.com/icerockdev/moko-resources>`_"
 msgstr ""
+"`Recursos móviles de Kotlin <https://github.com/icerockdev/moko-resources>`_"
 
 #: ../../formats/moko-resources.rst:32
 msgid "`Mobile Kotlin Resource`"
@@ -50308,6 +50452,8 @@ msgid ""
 "PHP translations are usually monolingual, so it is recommended to specify a "
 "base file with (what is most often the) English strings."
 msgstr ""
+"Las traducciones de PHP suelen ser monolingües, por lo que se recomienda "
+"especificar un archivo base con (lo que suele ser) cadenas en inglés."
 
 #: ../../formats/php.rst:13
 msgid "Weblate currently supports several variants of PHP translations:"
@@ -50333,14 +50479,16 @@ msgstr "Formato de traducción utilizado en aplicaciones programadas con Qt."
 msgid ""
 "Qt Linguist files are used as both bilingual and monolingual translations."
 msgstr ""
+"Los archivos Qt Linguist se utilizan como traducciones tanto bilingües como "
+"monolingües."
 
 #: ../../formats/qt.rst:16
 msgid "`Qt Linguist manual <https://doc.qt.io/qt-6/qtlinguist-index.html>`_"
-msgstr ""
+msgstr "`Manual de Qt Linguist <https://doc.qt.io/qt-6/qtlinguist-index.html>`_"
 
 #: ../../formats/qt.rst:29
 msgid "Typical Weblate :ref:`component` when using as bilingual"
-msgstr ""
+msgstr "Weblate :ref:`component` típico cunado utiliza un bilingüe"
 
 #: ../../formats/qt.rst:37 ../../formats/qt.rst:49
 msgid "`Qt Linguist Translation File`"
@@ -50352,13 +50500,15 @@ msgstr "Weblate típico :ref:`component` cuando utiliza como monolingüe"
 
 #: ../../formats/resjson.rst:2
 msgid "JavaScript Resource Files (RESJSON)"
-msgstr ""
+msgstr "Archivos de Recurso JavaScript (RESJSON)"
 
 #: ../../formats/resjson.rst:8
 msgid ""
 "JSON-based format used in Windows Store apps that use JavaScript and HTML. "
 "Sometimes it is also referred as Windows JSON."
 msgstr ""
+"Formato basado en JSON utilizado en aplicaciones de la Tienda Windows que "
+"usan JavaScript y HTML. A veces también se le conoce como Windows JSON."
 
 #: ../../formats/resjson.rst:35
 msgid "`RESJSON file`"
@@ -50374,6 +50524,9 @@ msgid ""
 "localizable string resources for Windows Presentation Foundation (WPF) "
 "applications."
 msgstr ""
+"ResourceDictionary es un formato de archivo XML monolingüe que se utiliza "
+"para empaquetar recursos de cadenas localizables para aplicaciones de "
+"Windows Presentation Foundation (WPF)."
 
 #: ../../formats/resourcedict.rst:41
 msgid "`ResourceDictionary file`"
@@ -50397,6 +50550,9 @@ msgid ""
 "extension, the ``.resw`` file format is identical to the ``.resx`` file "
 "format, except that ``.resw`` files may contain only strings and file paths."
 msgstr ""
+"Puede usar la extensión ``.resx`` o ``.resw``. A pesar de la diferencia en "
+"la extensión, el formato ``.resw`` es idéntico al ``.resx``, excepto que los "
+"archivos ``.resw`` solo pueden contener cadenas y rutas de archivo."
 
 #: ../../formats/resx.rst:41
 msgid "`.NET resource file`"
@@ -50408,11 +50564,11 @@ msgstr "Archivos YAML de Ruby"
 
 #: ../../formats/ruby.rst:9
 msgid "Ruby i18n YAML files with language as root node."
-msgstr ""
+msgstr "Archivos YAML de Ruby i18n con idioma como nodo raíz."
 
 #: ../../formats/ruby.rst:16
 msgid "Example Ruby i18n YAML file:"
-msgstr ""
+msgstr "Ejemplo de archivo YAML Ruby i18n:"
 
 #: ../../formats/ruby.rst:33
 msgid "`Ruby YAML file`"
@@ -50427,18 +50583,24 @@ msgid ""
 "XML based format used by Apple which is able to store plural forms of a "
 "string."
 msgstr ""
+"Formato basado en XML utilizado por Apple que puede almacenar formas "
+"plurales de una cadena."
 
 #: ../../formats/stringsdict.rst:14
 msgid ""
 "`Stringsdict File Format <https://developer.apple.com/documentation/xcode/"
 "localizing-strings-that-contain-plurals>`_"
 msgstr ""
+"`Formato de archivo Stringsdict <https://developer.apple.com/documentation/"
+"xcode/localizing-strings-that-contain-plurals>`_"
 
 #: ../../formats/stringsdict.rst:30
 msgid ""
 "``Resources/en.lproj/Localizable.stringsdict`` or ``Resources/Base.lproj/"
 "Localizable.stringsdict``"
 msgstr ""
+"``Resources/en.lproj/Localizable.stringsdict`` o ``Resources/Base.lproj/"
+"Localizable.stringsdict``"
 
 #: ../../formats/stringsdict.rst:35
 msgid "`Stringsdict file`"
@@ -50485,12 +50647,13 @@ msgid ""
 "Source string explanation is saved and loaded from the ``<descrip>`` tag, "
 "translation string explanation from ``<note from=\"translator\">``."
 msgstr ""
+"La explicación de la cadena de origen se guarda y se carga desde la etiqueta "
+"``<descrip>``, la explicación de la cadena de traducción desde ``<note "
+"from=\"translator\">``."
 
 #: ../../formats/tbx.rst:12
-#, fuzzy
-#| msgid "Administration"
 msgid "Administrative status"
-msgstr "Administración"
+msgstr "Estado de administración"
 
 #: ../../formats/tbx.rst:13
 msgid ""
@@ -50498,6 +50661,9 @@ msgid ""
 "``<termNote type=\"administrativeStatus\">`` are marked with the "
 "``forbidden`` flag (:ref:`glossary-forbidden`)."
 msgstr ""
+"Los términos con estado administrativo ``prohibido`` u ``obsoleto`` en "
+"``<termNote type=\"administrativeStatus\">`` están marcados con el indicador "
+"``prohibido`` (:ref:`glossary-forbidden`)."
 
 #: ../../formats/tbx.rst:15
 msgid "Translation needed"
@@ -50508,32 +50674,30 @@ msgid ""
 "Terms with ``<termNote type=\"translationNote\">`` containing ``no`` are "
 "marked as read-only (:ref:`glossary-untranslatable`)."
 msgstr ""
+"Los términos con ``<termNote type=\"translationNote\">`` que contienen "
+"``no`` están marcados como de solo lectura (:ref:`glossary-untranslatable`)."
 
 #: ../../formats/tbx.rst:17
-#, fuzzy
-#| msgid "Other notes"
 msgid "Usage notes"
-msgstr "Otras notas"
+msgstr "Notas de uso"
 
 #: ../../formats/tbx.rst:18
 msgid ""
 "Usage notes from ``<descrip type=\"Usage note\">`` tags are displayed in the "
 "glossary."
 msgstr ""
+"Notas de uso desde etiquetas ``<descrip type=\"Nota de uso\">`` son "
+"exhibidas dentro del glosario."
 
 #: ../../formats/tbx.rst:23
 msgid "TBX is an XML format for the exchange of terminology data."
-msgstr ""
+msgstr "TBX es un formato XML para el intercambio de datos terminológicos."
 
 #: ../../formats/tbx.rst:27
-#, fuzzy
-#| msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgid "`TBX on Wikipedia <https://en.wikipedia.org/wiki/TermBase_eXchange>`_"
-msgstr "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
+msgstr "`TBX on Wikipedia <https://en.wikipedia.org/wiki/TermBase_eXchange>`_"
 
 #: ../../formats/tbx.rst:32
-#, fuzzy
-#| msgid "Explanation"
 msgid "Explanations"
 msgstr "Explicación"
 
@@ -50542,16 +50706,22 @@ msgid ""
 "Weblate loads and saves explanation from TBX files to be displayed "
 "in :ref:`glossary`."
 msgstr ""
+"Weblate carga y guarda la explicación desde los archivos TBX para exhibirse "
+"en :ref:`glossary`."
 
 #: ../../formats/tbx.rst:36
 msgid ""
 "Translation explanation is stored as ``<note from=\"translator\"></note>`` "
 "tag."
 msgstr ""
+"La explicación de la traducción se almacena como etiqueta ``<note "
+"from=\"translator\"></note>``."
 
 #: ../../formats/tbx.rst:37
 msgid "Source string explanation is stored as ``<descrip></descrip>`` tag."
 msgstr ""
+"La explicación de la cadena de origen se almacena como etiqueta ``<descrip></"
+"descrip>``."
 
 #: ../../formats/tbx.rst:59
 msgid "`TermBase eXchange file`"
@@ -50566,32 +50736,28 @@ msgid ""
 "TOML is a generic format like :doc:`/formats/yaml` or :doc:`/formats/json` "
 "and can be used to localize applications."
 msgstr ""
+"TOML es un formato genérico como :doc:`/formats/yaml` o :doc:`/formats/json` "
+"y se puede utilizar para localizar aplicaciones."
 
 #: ../../formats/toml.rst:10
-#, fuzzy
-#| msgid "Weblate supports XLIFF in several variants:"
 msgid "Weblate supports TOML in several variants:"
-msgstr "Weblate es compatible con XLIFF en varias variantes:"
+msgstr "Weblate es compatible con TOML en varias variantes:"
 
 #: ../../formats/toml.rst:12 ../../formats/toml.rst:42
-#, fuzzy
-#| msgid "HTML file"
 msgid "`TOML file`"
-msgstr "Archivo HTML"
+msgstr "`Archivo TOML`"
 
 #: ../../formats/toml.rst:13
 msgid "Plain TOML file without support for plurals."
-msgstr ""
+msgstr "Archivo TOML simple sin soporte para plurales."
 
 #: ../../formats/toml.rst:14
-#, fuzzy
-#| msgid "go-i18n v1 JSON file"
 msgid "`go-i18n TOML file`"
-msgstr "Archivo JSON v1 de go-i18n"
+msgstr "`Archivo TOML de go-i18n`"
 
 #: ../../formats/toml.rst:15
 msgid "go-i18n variant with plurals support."
-msgstr ""
+msgstr "Variante go-i18n con soporte para plurales."
 
 #: ../../formats/txt.rst:4
 msgid "Text files"
@@ -50602,6 +50768,9 @@ msgid ""
 "The translatable content is extracted from the plain text files and offered "
 "for the translation. Each paragraph is translated as a separate string."
 msgstr ""
+"El contenido traducible se extrae de los archivos de texto sin formato y se "
+"ofrece para su traducción. Cada párrafo se traduce como una cadena "
+"independiente."
 
 #: ../../formats/txt.rst:11
 msgid "There are several flavors of this format:"
@@ -50618,12 +50787,20 @@ msgid ""
 "paragraphs are frequently reordered, as it changes the context and can lead "
 "to translation loss."
 msgstr ""
+"De forma predeterminada, Weblate trata cada párrafo como una unidad de "
+"traducción independiente para proporcionar un contexto basado en líneas. "
+"Esto puede ser problemático en archivos de texto donde los párrafos se "
+"reordenan con frecuencia, ya que altera el contexto y puede provocar "
+"pérdidas de traducción."
 
 #: ../../formats/txt.rst:61
 msgid ""
 "This parameter is shared with **DokuWiki** and **MediaWiki** formats. "
 "Enabling this option disables line-based context for the merged units."
 msgstr ""
+"Este parámetro se comparte con los formatos **DokuWiki** y **MediaWiki**. Al "
+"activar esta opción, se desactiva el contexto basado en líneas para las "
+"unidades fusionadas."
 
 #: ../../formats/webextension.rst:4
 msgid "WebExtension JSON"
@@ -50634,6 +50811,8 @@ msgid ""
 "File format used when translating extensions for Mozilla Firefox or Google "
 "Chromium."
 msgstr ""
+"Formato de archivo utilizado al traducir extensiones para Mozilla Firefox o "
+"Google Chromium."
 
 #: ../../formats/webextension.rst:10
 msgid ""
@@ -50641,18 +50820,25 @@ msgid ""
 "style comments. Weblate does strip these comments while parsing the files "
 "and discards them when saving."
 msgstr ""
+"Aunque este formato sea invocado JSON, su especificación permite incluir "
+"comentarios de tipo \"//\". Weblate elimina estos comentarios al analizar "
+"los archivos y los descarta al guardarlos."
 
 #: ../../formats/webextension.rst:17
 msgid ""
 "`Google chrome.i18n <https://developer.chrome.com/docs/extensions/reference/"
 "api/i18n>`_"
 msgstr ""
+"`Google chrome.i18n <https://developer.chrome.com/docs/extensions/reference/"
+"api/i18n>`_"
 
 #: ../../formats/webextension.rst:18
 msgid ""
 "`Mozilla Extensions Internationalization <https://developer.mozilla.org/en-"
 "US/docs/Mozilla/Add-ons/WebExtensions/Internationalization>`_"
 msgstr ""
+"`Mozilla Extensions Internationalization <https://developer.mozilla.org/en-"
+"US/docs/Mozilla/Add-ons/WebExtensions/Internationalization>`_"
 
 #: ../../formats/webextension.rst:37
 msgid "`WebExtension JSON file`"
@@ -50672,6 +50858,8 @@ msgid ""
 "RC files are language files used to localize translatable text, dialogs, "
 "menus, for Windows applications."
 msgstr ""
+"Los archivos RC son archivos de idioma que se utilizan para localizar texto "
+"traducible, cuadros de diálogo y menús para aplicaciones de Windows."
 
 #: ../../formats/winrc.rst:25
 msgid "Example Windows RC file:"
@@ -50682,28 +50870,33 @@ msgid "`RC file`"
 msgstr "`Archivo RC`"
 
 #: ../../formats/xliff.rst:4
-#, fuzzy
-#| msgid "XLIFF 1.1"
 msgid "XLIFF 1.1 and 1.2"
-msgstr "XLIFF 1.1"
+msgstr "XLIFF 1.1 y 1.2"
 
 #: ../../formats/xliff.rst:11
 msgid ""
 ":doc:`/formats/xliff2` is a different format and is not backwards compatible "
 "with XLIFF 1.2."
 msgstr ""
+":doc:`/formats/xliff2` es un formato diferente y no es compatible hacia "
+"atrás con XLIFF 1.2."
 
 #: ../../formats/xliff.rst:13 ../../formats/xliff2.rst:12
 msgid ""
 "XML-based format created to standardize translation files, but in the end it "
 "is one of `many standards <https://xkcd.com/927/>`_, in this area."
 msgstr ""
+"Formato basado en XML creado para estandarizar archivos de traducción, pero "
+"al final es uno de los «muchos estándares <https://xkcd.com/927/>`_, en esta "
+"área."
 
 #: ../../formats/xliff.rst:16
 msgid ""
 "`XML Localization Interchange File Format (XLIFF)` is usually used as "
 "bilingual, but Weblate supports it as monolingual as well."
 msgstr ""
+"`XML Localization Interchange File Format (XLIFF)` generalmente se utiliza "
+"como bilingüe, pero Weblate también lo admite como monolingüe."
 
 #: ../../formats/xliff.rst:18 ../../formats/xliff2.rst:18
 msgid "Weblate supports XLIFF in several variants:"
@@ -50738,6 +50931,8 @@ msgid ""
 "XLIFF enriched by `XLIFF 1.2 Representation Guide for Gettext PO`_ to "
 "support plurals."
 msgstr ""
+"XLIFF enriquecido con `XLIFF 1.2 Representation Guide for Gettext PO`_ para "
+"soportar plurales."
 
 #: ../../formats/xliff.rst:30
 msgid "`XML Localization Interchange File Format (XLIFF)`_ specification"
@@ -50747,13 +50942,11 @@ msgstr ""
 
 #: ../../formats/xliff.rst:31
 msgid "`XLIFF 1.2 Representation Guide for Gettext PO`_"
-msgstr ""
+msgstr "`Guía de Representación XLIFF 1.2 para Gettext PO`_"
 
 #: ../../formats/xliff.rst:32 ../../formats/xliff2.rst:28
-#, fuzzy
-#| msgid "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
 msgid "`XLIFF on Wikipedia <https://en.wikipedia.org/wiki/XLIFF>`_"
-msgstr "`RSS on Wikipedia <https://en.wikipedia.org/wiki/RSS>`_"
+msgstr "`XLIFF en Wikipedia <https://en.wikipedia.org/wiki/XLIFF>`_"
 
 #: ../../formats/xliff.rst:40 ../../workflows.rst:59
 msgid "Translation states"
@@ -50796,11 +50989,15 @@ msgid ""
 "The ``state`` attribute is only added in case string is marked as needing "
 "edit."
 msgstr ""
+"El atributo ``state`` solo se agrega en caso de que la cadena esté marcada "
+"como que necesita edición."
 
 #: ../../formats/xliff.rst:56
 msgid ""
 "The ``approved`` attribute is only added in case string has been reviewed."
 msgstr ""
+"El atributo ``approved`` solo se agrega en caso de que se haya revisado la "
+"cadena."
 
 #: ../../formats/xliff.rst:57
 msgid ""
@@ -50816,6 +51013,9 @@ msgid ""
 "turn on the Weblate review process, in order to see and change the approved "
 "state of strings."
 msgstr ""
+"Esto significa que al utilizar el formato XLIFF, se recomienda "
+"encarecidamente activar el proceso de revisión de Weblate para ver y cambiar "
+"el estado aprobado de las cadenas."
 
 #: ../../formats/xliff.rst:62
 msgid ""
@@ -50823,10 +51023,13 @@ msgid ""
 "choose :guilabel:`Import as translated` under :guilabel:`Processing of "
 "strings needing edit`."
 msgstr ""
+"De manera similar, al importar dichos archivos (en el formulario de carga), "
+"debe elegir :guilabel:`Importar como traducido` en :guilabel:`Procesamiento "
+"de cadenas que necesitan edición`."
 
 #: ../../formats/xliff.rst:71
 msgid "Whitespace and newlines in XLIFF"
-msgstr ""
+msgstr "Espacios en blanco y nuevas líneas en XLIFF"
 
 #: ../../formats/xliff.rst:73
 msgid ""
@@ -50834,6 +51037,9 @@ msgid ""
 "XML formats. If you want to keep it, you have to add the "
 "``xml:space=\"preserve\"`` flag to the string."
 msgstr ""
+"Generalmente, no se distingue entre tipos o cantidades de espacios en blanco "
+"en los formatos XML. Si desea conservarlos, debe agregar el indicador "
+"``xml:space=\"preserve\"`` a la cadena."
 
 #: ../../formats/xliff.rst:90
 msgid "Specifying translation flags"
@@ -50845,6 +51051,10 @@ msgid ""
 "using the ``weblate-flags`` attribute. Weblate also understands ``maxwidth`` "
 "and ``font`` attributes from the XLIFF specification:"
 msgstr ""
+"Puede especificar indicadores de traducción adicionales (consulte "
+":ref:`custom-checks`) mediante el atributo ``weblate-flags``. Weblate "
+"también comprende los atributos ``maxwidth`` y ``font`` de la especificación "
+"XLIFF:"
 
 #: ../../formats/xliff.rst:105
 msgid ""
@@ -50854,18 +51064,28 @@ msgid ""
 "Pro`` becomes ``Source_Sans_Pro``, please keep that in mind when naming the "
 "font group (see :ref:`fonts`)."
 msgstr ""
+"El atributo ``font`` se analiza para determinar la familia de fuentes, el "
+"tamaño y el grosor. El ejemplo anterior muestra todo esto, aunque solo se "
+"requiere la familia de fuentes. Cualquier espacio en blanco en la familia de "
+"fuentes se convierte en guion bajo, por lo que ``Source Sans Pro`` se "
+"convierte en ``Source_Sans_Pro``. Tenga esto en cuenta al nombrar el grupo "
+"de fuentes (consulte :ref:`fonts`)."
 
 #: ../../formats/xliff.rst:114
 msgid ""
 "`font attribute in XLIFF 1.2 <https://docs.oasis-open.org/xliff/v1.2/os/"
 "xliff-core.html#font>`_"
 msgstr ""
+"`Atributo de fuente en XLIFF 1.2 <https://docs.oasis-open.org/xliff/v1.2/os/"
+"xliff-core.html#font>`_"
 
 #: ../../formats/xliff.rst:115
 msgid ""
 "`maxwidth attribute in XLIFF 1.2 <https://docs.oasis-open.org/xliff/v1.2/os/"
 "xliff-core.html#maxwidth>`_"
 msgstr ""
+"`Atributo maxwidth en XLIFF 1.2 <https://docs.oasis-open.org/xliff/v1.2/os/"
+"xliff-core.html#maxwidth>`_"
 
 #: ../../formats/xliff.rst:118
 msgid "String keys"
@@ -50877,6 +51097,9 @@ msgid ""
 "case it is present and falls back to ``id`` (together with ``file`` tag if "
 "present)."
 msgstr ""
+"Weblate identifica las unidades en el archivo XLIFF mediante el atributo "
+"``resname`` en caso de que esté presente y recurre a ``id`` (junto con la "
+"etiqueta ``file`` si está presente)."
 
 #: ../../formats/xliff.rst:123
 msgid ""
@@ -50886,6 +51109,11 @@ msgid ""
 "Weblate and is not covered by the XLIFF standard - it does not put any "
 "uniqueness restrictions on this attribute."
 msgstr ""
+"El atributo ``resname`` se supone que es un identificador intuitivo de la "
+"unidad, lo que lo hace más adecuado para que Weblate lo muestre en lugar de "
+"``id``. El ``resname`` debe ser único en todo el archivo XLIFF. Esto es "
+"requerido por Weblate y no está contemplado en el estándar XLIFF; no impone "
+"ninguna restricción de unicidad a este atributo."
 
 #: ../../formats/xliff.rst:132 ../../formats/xliff2.rst:36
 msgid "Example XLIFF file:"
@@ -50912,6 +51140,8 @@ msgid ""
 ":doc:`/formats/xliff` is a different format and is not compatible with XLIFF "
 "2.0."
 msgstr ""
+":doc:`/formats/xliff` es un formato diferente y no es compatible con XLIFF "
+"2.0."
 
 #: ../../formats/xliff2.rst:15
 msgid ""
@@ -50922,16 +51152,12 @@ msgstr ""
 "mantenido como bilingual."
 
 #: ../../formats/xliff2.rst:20
-#, fuzzy
-#| msgid "XLIFF 1.2 translation file"
 msgid "`XLIFF 2.0 translation file`"
-msgstr "Archivo de traducción XLIFF 1.2"
+msgstr "`Archivo de traducción XLIFF 2.0`"
 
 #: ../../formats/xliff2.rst:22
-#, fuzzy
-#| msgid "XLIFF with placeables support"
 msgid "`XLIFF 2.0 with placeables support`"
-msgstr "XLIFF con soporte para colocables"
+msgstr "`XLIFF 2.0 con soporte para archivos colocables`"
 
 #: ../../formats/xliff2.rst:27
 msgid "`XML Localization Interchange File Format (XLIFF) 2.0`_ specification"
@@ -50940,10 +51166,8 @@ msgstr ""
 "(XLIFF) 2.0`_"
 
 #: ../../formats/xliff2.rst:53
-#, fuzzy
-#| msgid "XLIFF 1.2 translation file"
 msgid "`XLIFF 2.0 Translation File`"
-msgstr "Archivo de traducción XLIFF 1.2"
+msgstr "`Archivo de traducción XLIFF 2.0`"
 
 #: ../../formats/yaml.rst:4
 msgid "YAML files"
@@ -50954,6 +51178,8 @@ msgid ""
 "The plain YAML files with string keys and values. Weblate also extract "
 "strings from lists or dictionaries."
 msgstr ""
+"Archivos YAML simples con claves y valores de cadena. Weblate también extrae "
+"cadenas de listas o diccionarios."
 
 #: ../../formats/yaml.rst:11
 msgid "Weblate currently supports several variants of YAML translations:"
@@ -51035,12 +51261,18 @@ msgid ""
 "community by providing new translations or reviewing existing ones on "
 "Weblate."
 msgstr ""
+"Dependiendo del grado de avance de la traducción, es posible que encuentre "
+"párrafos o páginas enteras que aún estén en inglés. Puede ayudar a la "
+"comunidad proporcionando nuevas traducciones o revisando las existentes en "
+"Weblate."
 
 #: ../../index.rst:25
 msgid ""
 "Welcome to the official documentation of `Weblate <https://weblate.org>`_, "
 "the libre software web-based continuous localization system."
 msgstr ""
+"Bienvenido a la documentación oficial de `Weblate <https://weblate.org>`_, "
+"el sistema de localización continua basado en web de software libre."
 
 #: ../../index.rst:28
 msgid ""
@@ -51048,6 +51280,9 @@ msgid ""
 "documentation for your topic of interest. You can also use the search "
 "function in the top-left corner."
 msgstr ""
+"El índice de la barra lateral te permitirá acceder fácilmente a la "
+"documentación sobre el tema que te interesa. También puedes usar la función "
+"de búsqueda en la esquina superior izquierda."
 
 #: ../../index.rst:32
 msgid "First time here?"
@@ -51056,6 +51291,8 @@ msgstr "¿Primera vez aquí?"
 #: ../../index.rst:33
 msgid "Read the :doc:`user/basic` to get an overview of what Weblate does."
 msgstr ""
+"Lea el :doc:`user/basic` para obtener una descripción general de lo que hace "
+"Weblate."
 
 #: ../../index.rst:36
 msgid "Joining a translation project"
@@ -51108,30 +51345,33 @@ msgid ""
 "The Python API is shipped separately, you need to install the :ref:`wlc` "
 "(wlc) to have it."
 msgstr ""
+"La API de Python se envía por separado, necesita instalar :ref:`wlc` (wlc) "
+"para tenerla."
 
 #: ../../python.rst:27
 msgid ":exc:`WeblateException`"
-msgstr ""
+msgstr ":exc:`WeblateException`"
 
 #: ../../python.rst:31
 msgid "Base class for all exceptions."
-msgstr ""
+msgstr "Clase base para todas las excepciones."
 
 #: ../../python.rst:34
 msgid ":class:`Weblate`"
-msgstr ""
+msgstr ":class:`Weblate`"
 
 #: ../../python.rst:38
 msgid "User key"
-msgstr ""
+msgstr "Clave de usuario"
 
 #: ../../python.rst:40
 msgid "API server URL, if not specified default is used."
 msgstr ""
+"URL del servidor API, si no se especifica se utiliza el valor predeterminado."
 
 #: ../../python.rst:42
 msgid "Configuration object, overrides any other parameters."
-msgstr ""
+msgstr "Objeto de configuración, anula cualquier otro parámetro."
 
 #: ../../python.rst:45
 msgid "Access class to the API, define API key and optionally API URL."
@@ -51156,15 +51396,15 @@ msgstr ":class:`WeblateConfig`"
 
 #: ../../python.rst:75
 msgid "Configuration section to use"
-msgstr ""
+msgstr "Sección de configuración a utilizar"
 
 #: ../../python.rst:78
 msgid "Configuration file parser following XDG specification."
-msgstr ""
+msgstr "Intérprete de archivos de configuración según la especificación XDG."
 
 #: ../../python.rst:83
 msgid "Path from which to load configuration."
-msgstr ""
+msgstr "Ruta desde la cual cargar la configuración."
 
 #: ../../python.rst:86
 msgid ""
@@ -51172,32 +51412,41 @@ msgid ""
 "`wlc` configuration file (:file:`~/.config/wlc`) placed in your XDG "
 "configuration path (:file:`/etc/xdg/wlc`)."
 msgstr ""
+"Carga la configuración desde un archivo, si no se especifica ninguno, se "
+"carga desde el archivo de configuración `wlc` (:file:`~/.config/wlc`) "
+"ubicado en su ruta de configuración XDG (:file:`/etc/xdg/wlc`)."
 
 #: ../../python.rst:99
 msgid "Settings to override as list of tuples"
-msgstr ""
+msgstr "Ajustes para anular como lista de tuplas"
 
 #: ../../python.rst:101
 msgid "stdout file object for printing output, uses ``sys.stdout`` as default"
 msgstr ""
+"objeto de archivo stdout para salida de impresión, utiliza ``sys.stdout`` "
+"como predeterminado"
 
 #: ../../python.rst:103
 msgid "Command-line arguments to process, uses ``sys.args`` as default"
 msgstr ""
+"Argumentos de la línea de comandos para procesar, utiliza ``sys.args`` como "
+"predeterminado"
 
 #: ../../python.rst:106
 msgid "Main entry point for command-line interface."
-msgstr ""
+msgstr "Punto de entrada principal para la interfaz de línea de comandos."
 
 #: ../../python.rst:110
 msgid ""
 "Decorator to register :class:`Command` class in main parser used "
 "by :func:`main`."
 msgstr ""
+"Decorador para registrar la clase :class:`Command` en el analizador "
+"principal utilizado por :func:`main`."
 
 #: ../../python.rst:114
 msgid ":class:`Command`"
-msgstr ""
+msgstr ":class:`Command`"
 
 #: ../../python.rst:118
 msgid "Main class for invoking commands."
@@ -51213,6 +51462,10 @@ msgid ""
 "within the **European Union**. This ensures strong data protection, clear "
 "jurisdiction, and compliance with European privacy standards."
 msgstr ""
+"Todos los servicios de **Weblate Cloud** y **Weblate alojado** se alojan "
+"íntegramente en la **Unión Europea**. Esto garantiza una sólida protección "
+"de datos, una jurisdicción clara y el cumplimiento de las normas europeas de "
+"privacidad."
 
 #: ../../security/data-residency.rst:7
 msgid ""
@@ -51222,6 +51475,12 @@ msgid ""
 "(information security) and **ISO 9001** (quality management), and are "
 "pursuing **ISO 50001** (energy management) certification."
 msgstr ""
+"Nuestra infraestructura es proporcionada por **Hetzner Online GmbH**, un "
+"operador alemán de centros de datos con una larga trayectoria de fiabilidad "
+"y sostenibilidad. Las instalaciones de Hetzner cuentan con las "
+"certificaciones **ISO 27001** (seguridad de la información) e **ISO 9001** "
+"(gestión de calidad), y están en proceso de obtener la certificación **ISO "
+"50001** (gestión energética)."
 
 #: ../../security/data-residency.rst:11
 msgid "Where data lives"
@@ -51232,32 +51491,38 @@ msgid ""
 "All customer data, including translations, user information, and backups, is "
 "stored and processed within the EU."
 msgstr ""
+"Todos los datos de los clientes, incluidas las traducciones, la información "
+"del usuario y las copias de seguridad, se almacenan y procesan dentro de la "
+"UE."
 
 #: ../../security/data-residency.rst:14
 msgid "Primary data centers are located in **Germany**."
-msgstr ""
+msgstr "Los centros de datos principales están ubicados en **Alemania**."
 
 #: ../../security/data-residency.rst:15
 msgid ""
 "No operational data leaves the EU unless explicitly requested by the "
 "customer (for example, for external backups or region-specific deployments)."
 msgstr ""
+"Ningún dato operativo sale de la UE a menos que el cliente lo solicite "
+"explícitamente (por ejemplo, para respaldos externos o implementaciones "
+"específicas de la región)."
 
 #: ../../security/data-residency.rst:18
-#, fuzzy
-#| msgid "Security and privacy"
 msgid "Privacy and regulatory compliance"
-msgstr "Seguridad y privacidad"
+msgstr "Privacidad y cumplimiento normativo"
 
 #: ../../security/data-residency.rst:20
 msgid ""
 "Weblate Cloud and Hosted Weblate follow privacy-by-design principles and "
 "meet the requirements of **GDPR**."
 msgstr ""
+"Weblate Cloud y Weblate alojado siguen los principios de privacidad por "
+"diseño y cumplen con los requisitos del **GDPR**."
 
 #: ../../security/data-residency.rst:23
 msgid "Sustainability"
-msgstr ""
+msgstr "Sostenibilidad"
 
 #: ../../security/data-residency.rst:25
 msgid ""
@@ -51265,12 +51530,13 @@ msgid ""
 "sourced from **hydropower**. You can find more details at https://"
 "www.hetzner.com/unternehmen/nachhaltigkeit/."
 msgstr ""
+"Toda la infraestructura de alojamiento funciona con **energía 100% "
+"renovable**, principalmente **hidroeléctrica**. Puede encontrar más "
+"información en https://www.hetzner.com/unternehmen/nachhaltigkeit/."
 
 #: ../../security/data-residency.rst:28
-#, fuzzy
-#| msgid "Custom access control"
 msgid "Customer control"
-msgstr "Control de acceso personalizado"
+msgstr "Control del cliente"
 
 #: ../../security/data-residency.rst:30
 msgid ""
@@ -51280,6 +51546,11 @@ msgid ""
 "instances are available for organizations needing isolated or customized "
 "environments."
 msgstr ""
+"Los clientes conservan el control total sobre sus datos: - Los proyectos, "
+"las traducciones y las cuentas de usuario se pueden exportar o eliminar en "
+"cualquier momento. - Las integraciones externas son opcionales y totalmente "
+"configurables. - Hay instancias dedicadas de Weblate disponibles para "
+"organizaciones que necesitan entornos aislados o personalizados."
 
 #: ../../security/dependencies.rst:2
 msgid "Dependencies"
@@ -51295,6 +51566,10 @@ msgid ""
 "as :file:`docs/specs/sbom/sbom.json` using the CycloneDX format. This can be "
 "used to review the dependencies for security issues or license compliance."
 msgstr ""
+"Weblate incluye una Lista de Materiales de Software (SBOM) en el código "
+"fuente como :file:`docs/specs/sbom/sbom.json` en formato CycloneDX. Esta se "
+"puede usar para revisar las dependencias en busca de problemas de seguridad "
+"o cumplimiento de licencias."
 
 #: ../../security/dependencies.rst:14
 msgid "Tracking dependencies for vulnerabilities"
@@ -51312,36 +51587,28 @@ msgstr ""
 "vulnerabilidades."
 
 #: ../../security/dependencies.rst:22
-#, fuzzy
-#| msgid ""
-#| "There might be vulnerabilities in third-party libraries which do not "
-#| "affect Weblate, and we do not address these in a bugfix release."
 msgid ""
 "There might be vulnerabilities in third-party libraries which do not affect "
 "Weblate, so those are not addressed by releasing bugfix versions of Weblate."
 msgstr ""
-"Puede que haya vulnerabilidades en las bibliotecas de terceros que no tienen "
-"efecto alguno en Weblate. No creamos versiones con arreglos para esos "
-"problemas."
+"Podrían existir vulnerabilidades en bibliotecas de terceros que no afecten a "
+"Weblate, por lo que no se solucionarán lanzando versiones de corrección de "
+"defectos de Weblate."
 
 #: ../../security/dependencies.rst:26
-#, fuzzy
-#| msgid "Docker containers security"
 msgid "Docker container security"
-msgstr "Seguridad de los contenedores Docker"
+msgstr "Seguridad del contenedor Docker"
 
 #: ../../security/dependencies.rst:28
-#, fuzzy
-#| msgid ""
-#| "This allows us to detect vulnerabilities early and release an updated "
-#| "version of the container containing fixes."
 msgid ""
 "The Docker containers are scanned for security vulnerabilities in our CI. "
 "This allows us to detect vulnerabilities early and release improvements "
 "quickly."
 msgstr ""
-"Esto nos permite detectar vulnerabilidades de manera pronta y publicar una "
-"versión actualizada del contenedor que incluya arreglos."
+"Los contenedores Docker se escanean en busca de vulnerabilidades de "
+"seguridad en nuestra CI. Esto nos permite detectar vulnerabilidades de "
+"manera pronta y publicar una versión actualizada del contenedor que incluya "
+"arreglos."
 
 #: ../../security/dependencies.rst:31
 msgid ""
@@ -51356,22 +51623,20 @@ msgstr ""
 
 #: ../../security/dependencies.rst:37
 msgid "`Renovate <https://www.mend.io/renovate/>`_"
-msgstr ""
+msgstr "`Renovate <https://www.mend.io/renovate/>`_"
 
 #: ../../security/dependencies.rst:38
 msgid "`Anchore <https://anchore.com/>`_"
-msgstr ""
+msgstr "`Anchore <https://anchore.com/>`_"
 
 #: ../../security/disaster-recovery-plan.rst:2
-#, fuzzy
-#| msgid "Disable discovery"
 msgid "Disaster recovery plan"
-msgstr "Desactivar descubrimiento"
+msgstr "Plan de recuperación ante desastres"
 
 #: ../../security/disaster-recovery-plan.rst:5
 #: ../../security/incident-response-plan.rst:5
 msgid "Scope and objectives"
-msgstr ""
+msgstr "Alcance y objetivos"
 
 #: ../../security/disaster-recovery-plan.rst:7
 msgid ""
@@ -51388,6 +51653,9 @@ msgid ""
 "The plan is specifically designed for deployments of Weblate by Weblate "
 "s.r.o., but it can be applied to other deployments similarly."
 msgstr ""
+"El plan está diseñado específicamente para implementaciones de Weblate de "
+"Weblate s.r.o., pero se puede aplicar a otras implementaciones de manera "
+"similar."
 
 #: ../../security/disaster-recovery-plan.rst:14
 msgid "Definitions"
@@ -51409,36 +51677,44 @@ msgid ""
 "**Recovery Point Objective (RPO):** Maximum acceptable data loss interval: "
 "**24 hours**."
 msgstr ""
+"**Objetivo de punto de recuperación (RPO):** Intervalo máximo aceptable de "
+"pérdida de datos: **24 horas**."
 
 #: ../../security/disaster-recovery-plan.rst:18
 msgid ""
 "**Recovery Time Objective (RTO):** Maximum acceptable time to restore full "
 "service: **8 hours**."
 msgstr ""
+"**Objetivo de tiempo de recuperación (RTO):** Tiempo máximo aceptable para "
+"restaurar el servicio completo: **8 horas**."
 
 #: ../../security/disaster-recovery-plan.rst:21
-#, fuzzy
-#| msgid "Bilingual components"
 msgid "Critical components"
-msgstr "Componentes bilingües"
+msgstr "Componentes críticos"
 
 #: ../../security/disaster-recovery-plan.rst:23
 msgid ""
 "**Application Layer:** Weblate Python/Django application, background workers "
 "(Celery), and scheduled tasks."
 msgstr ""
+"**Capa de aplicación:** Aplicación Weblate Python/Django, trabajadores en "
+"segundo plano (Celery) y tareas programadas."
 
 #: ../../security/disaster-recovery-plan.rst:24
 msgid ""
 "**Data Layer:** PostgreSQL database, translation repositories (Git), and "
 "logs."
 msgstr ""
+"**Capa de datos:** Base de datos PostgreSQL, repositorios de traducción "
+"(Git) y bitácoras."
 
 #: ../../security/disaster-recovery-plan.rst:25
 msgid ""
 "**Infrastructure:** Web server (NGINX/Apache), reverse proxy, storage "
 "volumes, SSL/TLS configuration, and optional SIEM logging system."
 msgstr ""
+"**Infraestructura:** servidor web (NGINX/Apache), proxy inverso, volúmenes "
+"de almacenamiento, configuración SSL/TLS y sistema de registro SIEM opcional."
 
 #: ../../security/disaster-recovery-plan.rst:28
 msgid "Backup policy"
@@ -51511,15 +51787,19 @@ msgstr "Escenario de falla: manipulación maliciosa o ransomware"
 
 #: ../../security/disaster-recovery-plan.rst:59
 msgid "Isolate affected host from the network."
-msgstr ""
+msgstr "Aislar el host afectado desde la red."
 
 #: ../../security/disaster-recovery-plan.rst:60
 msgid "Identify last known-good backup (pre-infection)."
 msgstr ""
+"Identificar el último respaldo conocido como correcto (antes de la infección)"
+"."
 
 #: ../../security/disaster-recovery-plan.rst:61
 msgid "Follow steps from :ref:`drp-host` to deploy the system on a new host."
 msgstr ""
+"Siga los pasos de :ref:`drp-host` para implementar el sistema en un nuevo "
+"host."
 
 #: ../../security/disaster-recovery-plan.rst:64
 msgid "Validation and testing"
@@ -51528,18 +51808,24 @@ msgstr "Validación y testeo"
 #: ../../security/disaster-recovery-plan.rst:66
 msgid "**Backup Verification:** Monthly restore test of Weblate backups."
 msgstr ""
+"**Verificación de respaldo:** Prueba de restauración mensual de los "
+"respaldos de Weblate."
 
 #: ../../security/disaster-recovery-plan.rst:67
 msgid ""
 "**Disaster Recovery Drill:** Conduct at least annually, involving full "
 "restoration to a staging environment."
 msgstr ""
+"**Simulacro de recuperación ante desastres**: se realiza al menos una vez al "
+"año y consiste en la restauración completa del entorno de preparación."
 
 #: ../../security/disaster-recovery-plan.rst:68
 msgid ""
 "**Automated Integrity Checks:** BorgBackup ensures integrity of backup "
 "archives."
 msgstr ""
+"**Comprobaciones de integridad automatizadas:** BorgBackup garantiza la "
+"integridad de los archivos de respaldo."
 
 #: ../../security/disaster-recovery-plan.rst:71
 msgid "Post-recovery steps"
@@ -51552,6 +51838,8 @@ msgstr "Confirme todos los servicios sean operacionales y accesibles."
 #: ../../security/disaster-recovery-plan.rst:74
 msgid "Notify users and stakeholders of the recovery status."
 msgstr ""
+"Notificar a los usuarios y partes interesadas sobre el estado de "
+"recuperación."
 
 #: ../../security/disaster-recovery-plan.rst:75
 msgid "Document timeline, root cause, and lessons learned."
@@ -51567,6 +51855,8 @@ msgid ""
 "Follow :ref:`vulnerability-disclosure-policy` in case vulnerability was "
 "involved."
 msgstr ""
+"Siga :ref:`vulnerability-disclosure-policy` en caso de que haya alguna "
+"vulnerabilidad involucrada."
 
 #: ../../security/incident-response-plan.rst:2
 msgid "Incident response plan for Weblate"
@@ -51838,6 +52128,9 @@ msgid ""
 "Configure alerting (via Prometheus, Zabbix, or SIEM) for multiple login "
 "failures, unexpected restarts, or irregular VCS actions."
 msgstr ""
+"Configure alertas (a través de Prometheus, Zabbix o SIEM) para múltiples "
+"fallas de inicio de sesión, reinicios inesperados o acciones irregulares de "
+"VCS."
 
 #: ../../security/incident-response-plan.rst:80
 msgid "Containment"
@@ -51848,6 +52141,8 @@ msgid ""
 "**Forensic Preservation:** For Category 1 or 2 incidents, create a manual "
 "**Hetzner Cloud Snapshot** before taking disruptive action."
 msgstr ""
+"**Preservación forense:** Para incidentes de categoría 1 o 2, cree una "
+"**Instantánea de Hetzner Cloud** manual antes de tomar medidas disruptivas."
 
 #: ../../security/incident-response-plan.rst:83
 msgid "Name format: ``IRP-[CaseID]-[YYYYMMDD]-Evidence``."
@@ -51858,17 +52153,23 @@ msgid ""
 "These are separate from standard rotating backups and must be preserved for "
 "analysis."
 msgstr ""
+"Estas son independientes de los respaldos rotativos estándar y deben "
+"conservarse para su análisis."
 
 #: ../../security/incident-response-plan.rst:85
 msgid ""
 "Temporarily restrict access (e.g., via firewall rules or service isolation)."
 msgstr ""
+"Restringir temporalmente el acceso (p.e., mediante reglas de cortafuegos o "
+"aislamiento de servicio)."
 
 #: ../../security/incident-response-plan.rst:86
 msgid ""
 "Disable external integrations (Git/webhooks) if they are part of the attack "
 "vector."
 msgstr ""
+"Inhabilita las integraciones externas (Git/webhooks) si son parte del vector "
+"de ataque."
 
 #: ../../security/incident-response-plan.rst:87
 msgid "Suspend affected user accounts immediately."
@@ -51916,13 +52217,15 @@ msgstr ""
 
 #: ../../security/incident-response-plan.rst:101
 msgid "Reintroduce services in a phased approach."
-msgstr ""
+msgstr "Reintroducir los servicios mediante un enfoque gradual."
 
 #: ../../security/incident-response-plan.rst:102
 msgid ""
 "Monitor logs and system behavior continuously for at least 72 hours post-"
 "recovery."
 msgstr ""
+"Supervise las bitácoras y el comportamiento del sistema de forma continua "
+"durante al menos 72 horas tras la recuperación."
 
 #: ../../security/incident-response-plan.rst:105
 msgid "Post-incident review"
@@ -51933,30 +52236,34 @@ msgid ""
 "**Timeline:** Hold a review meeting within **5 business days** of incident "
 "closure."
 msgstr ""
+"**Cronograma:** Realizar una reunión de revisión dentro de los **5 días "
+"hábiles** posteriores al cierre del incidente."
 
 #: ../../security/incident-response-plan.rst:108
 msgid "Compile a full incident timeline and actions taken."
-msgstr ""
+msgstr "Compilar una cronología completa del incidente y las acciones tomadas."
 
 #: ../../security/incident-response-plan.rst:109
 msgid ""
 "Perform Root Cause Analysis (RCA) and document it within **10 business "
 "days**."
 msgstr ""
+"Realizar un análisis de causa raíz (RCA) y documentarlo dentro de **10 días "
+"hábiles**."
 
 #: ../../security/incident-response-plan.rst:110
 msgid "Update security policies and IRP documentation based on findings."
 msgstr ""
+"Actualizar las normativas de seguridad y la documentación del IRP según los "
+"hallazgos."
 
 #: ../../security/incident-response-plan.rst:111
 msgid "Review the effectiveness of detection and containment mechanisms."
-msgstr ""
+msgstr "Revisar la eficacia de los mecanismos de detección y contención."
 
 #: ../../security/index.rst:2
-#, fuzzy
-#| msgid "Security and privacy"
 msgid "Security, privacy and compliance"
-msgstr "Seguridad y privacidad"
+msgstr "Seguridad, privacidad y cumplimiento"
 
 #: ../../security/index.rst:6
 msgid ""
@@ -51977,6 +52284,8 @@ msgstr ""
 #: ../../security/index.rst:12
 msgid "Discovered a security issue in Weblate? Please read :ref:`security`."
 msgstr ""
+"¿Has descubierto un problema de seguridad en Weblate? Lea la sección "
+":ref:`security`"
 
 #: ../../security/index.rst:17
 msgid "Security updates"
@@ -51990,6 +52299,13 @@ msgid ""
 "benefit from the latest security improvements. Learn more "
 "about :ref:`Weblate releases and the release life cycle <release-cycle>`."
 msgstr ""
+"Weblate proporciona actualizaciones de seguridad para abordar "
+"vulnerabilidades y mejorar la seguridad de la aplicación. Solo la última "
+"versión está garantizada para recibir actualizaciones de seguridad. Se "
+"recomienda a los usuarios mantener Weblate actualizado para beneficiarse de "
+"las últimas mejoras de seguridad. Obtenga más información sobre las "
+":ref:`versiones de Weblate y el ciclo de vida de las versiones <release-"
+"cycle>`."
 
 #: ../../security/index.rst:26
 msgid "Security policies"
@@ -52007,16 +52323,22 @@ msgid ""
 "your responsibility to ensure that your use of Weblate complies with all "
 "applicable laws and regulations."
 msgstr ""
+"Aquí encontrará información legal diversa que podría necesitar para operar "
+"Weblate en ciertas jurisdicciones. Se proporciona a modo de orientación, sin "
+"garantía de exactitud ni corrección. Es su responsabilidad asegurarse de que "
+"el uso de Weblate cumpla con todas las leyes y normativas aplicables."
 
 #: ../../security/index.rst:45
 msgid "Terms of service and privacy policy"
-msgstr ""
+msgstr "Condiciones de servicio y normativa de privacidad"
 
 #: ../../security/index.rst:49
 msgid ""
 "These documents apply to Weblate deployments operated by Weblate s.r.o., "
 "such as Hosted Weblate and Weblate Cloud."
 msgstr ""
+"Estos documentos se aplican a los despliegues de Weblate operadas por "
+"Weblate s.r.o., como Hosted Weblate y Weblate Cloud."
 
 #: ../../security/index.rst:51
 msgid "`General terms and conditions`_"
@@ -52029,6 +52351,8 @@ msgstr "`Normativa de privacidad`_"
 #: ../../security/index.rst:53
 msgid "The data processing agreement can be obtained in the `Customer area`_."
 msgstr ""
+"El acuerdo de tratamiento de datos se puede obtener en el `Área de "
+"clientes`_."
 
 #: ../../security/index.rst:61
 msgid "Guidelines"
@@ -52047,6 +52371,8 @@ msgid ""
 "Please read :ref:`ai-issues` in case you have used AI to discover a security "
 "issue in Weblate."
 msgstr ""
+"Lea :ref:`ai-issues` en caso de que haya utilizado IA para descubrir un "
+"asunto de seguridad en Weblate."
 
 #: ../../security/issues.rst:13
 msgid ""
@@ -52067,6 +52393,10 @@ msgid ""
 "sensitive nature of security issues, we ask them not to be publicly reported "
 "in this fashion."
 msgstr ""
+"La mayoría de los fallos normales en Weblate se informan a nuestro "
+"`seguimiento de asuntos de GitHub público <https://github.com/WeblateOrg/"
+"weblate/issues>`_, pero debido a la naturaleza sensible de los asuntos de "
+"seguridad, solicitamos que no se informen públicamente de esta manera."
 
 #: ../../security/issues.rst:22
 msgid ""
@@ -52076,12 +52406,19 @@ msgid ""
 "security/advisories/new>`_, or using `HackerOne <https://hackerone.com/"
 "weblate>`_."
 msgstr ""
+"En cambio, si cree que ha encontrado algo en Weblate que tiene implicaciones "
+"de seguridad, envíe una descripción del asunto a <security@weblate.org>, "
+"`GitHub <https://github.com/WeblateOrg/weblate/security/advisories/new>`_, o "
+"utilice `HackerOne <https://hackerone.com/weblate>`_."
 
 #: ../../security/issues.rst:27
 msgid ""
 "A member of the security team will respond to you within 48 hours, and "
 "depending on what action is taken, you may get more follow-up emails."
 msgstr ""
+"Un miembro del equipo de seguridad le responderá dentro de las 48 horas y, "
+"según la acción que se tome, es posible que reciba más correos electrónicos "
+"de seguimiento."
 
 #: ../../security/issues.rst:32
 msgid "**Sending encrypted reports**"
@@ -52134,7 +52471,7 @@ msgstr ""
 
 #: ../../security/issues.rst:51
 msgid "`Python Social Auth <https://github.com/python-social-auth>`_"
-msgstr ""
+msgstr "`Python Social Auth <https://github.com/python-social-auth>`_"
 
 #: ../../security/issues.rst:60
 msgid "Vulnerability disclosure policy"
@@ -52177,6 +52514,7 @@ msgid "Localization Threat Model"
 msgstr "Modelo de Hilo de Regionalización"
 
 #: ../../security/localization-threat.rst:4
+#, fuzzy
 msgid ""
 "Outsourcing or crowdsourcing translation tasks to third parties introduces "
 "additional security and privacy risks. Unlike internal development teams, "
@@ -52184,6 +52522,12 @@ msgid ""
 "may operate from various jurisdictions. This model identifies and classifies "
 "threats associated with external translation contributors."
 msgstr ""
+"La externalización o la colaboración abierta de tareas de traducción a "
+"terceros conlleva riesgos adicionales de seguridad y privacidad. A "
+"diferencia de los equipos de desarrollo internos, los traductores pueden "
+"tener relaciones de confianza limitadas con la organización y operar desde "
+"diversas jurisdicciones. Este modelo identifica y clasifica las amenazas "
+"asociadas con los colaboradores externos de traducción."
 
 #: ../../security/localization-threat.rst:7
 msgid "Key Assumptions"
@@ -52926,10 +53270,8 @@ msgstr ""
 "localización de datos."
 
 #: ../../security/privacy-compliance.rst:80
-#, fuzzy
-#| msgid "Regular expression"
 msgid "Regulatory mapping"
-msgstr "Representación regulatoria"
+msgstr "Regulación regulatoria"
 
 #: ../../security/privacy-compliance.rst:83
 msgid "Framework"
@@ -52940,7 +53282,6 @@ msgid "Weblate support"
 msgstr "Asistencia de Weblate"
 
 #: ../../security/privacy-compliance.rst:85
-#, fuzzy
 msgid "GDPR (EU)"
 msgstr "GDPR (UE)"
 
@@ -53235,32 +53576,39 @@ msgid "**Information disclosure**"
 msgstr "**Divulgación de información**"
 
 #: ../../security/threat-model.rst:69
+#, fuzzy
 msgid ""
 "**Configuration exposure:** Misconfigured server exposes sensitive files "
 "(e.g., config files, private keys)."
 msgstr ""
+"**Exposición de configuración:** Un servidor mal configurado expone archivos "
+"confidenciales (por ejemplo, archivos de configuración, claves privadas)."
 
 #: ../../security/threat-model.rst:70
 msgid "Exposure of credentials, internal architecture."
-msgstr ""
+msgstr "Exposición de credenciales, arquitectura interna."
 
 #: ../../security/threat-model.rst:72 ../../security/threat-model.rst:80
 #: ../../security/threat-model.rst:84 ../../security/threat-model.rst:112
 #: ../../security/threat-model.rst:124 ../../security/threat-model.rst:136
 msgid "**Tampering**"
-msgstr ""
+msgstr "**Manipulación**"
 
 #: ../../security/threat-model.rst:73
 msgid ""
 "**Malicious request injection:** Attacker injects malicious data into HTTP "
 "headers or request bodies."
 msgstr ""
+"**Inyección de solicitud maliciosa:** el atacante inyecta datos maliciosos "
+"en los encabezados HTTP o en los cuerpos de las solicitudes."
 
 #: ../../security/threat-model.rst:74
 msgid ""
 "Potential for SQL injection, XSS, or other injections if not properly "
 "handled by the backend."
 msgstr ""
+"Posibilidad de inyección de SQL, XSS u otras inyecciones si el backend no "
+"las gestiona adecuadamente."
 
 #: ../../security/threat-model.rst:75
 msgid "**Weblate application**"
@@ -53268,13 +53616,16 @@ msgstr "**Aplicación Weblate**"
 
 #: ../../security/threat-model.rst:76 ../../security/threat-model.rst:132
 msgid "**Spoofing**"
-msgstr ""
+msgstr "**Suplantación de identidad**"
 
 #: ../../security/threat-model.rst:77
 msgid ""
 "**User impersonation:** Attacker gains access to a legitimate user's session "
 "(e.g., via session hijacking, compromised credentials)."
 msgstr ""
+"**Suplantación de usuario:** El atacante obtiene acceso a la sesión de un "
+"usuario legítimo (por ejemplo, mediante el secuestro de sesión o "
+"credenciales comprometidas)."
 
 #: ../../security/threat-model.rst:78
 msgid "Unauthorized translation, repo access."
@@ -53328,7 +53679,7 @@ msgstr ""
 
 #: ../../security/threat-model.rst:90
 msgid "Difficulty in auditing and accountability."
-msgstr ""
+msgstr "Dificultad en la auditoría y rendición de cuentas."
 
 #: ../../security/threat-model.rst:93
 msgid ""
@@ -53336,16 +53687,22 @@ msgid ""
 "disclose sensitive data (e.g., other users' translations, VCS credentials, "
 "server information)."
 msgstr ""
+"**Fuga de datos confidenciales:** La inyección de SQL, los puntos finales de "
+"API inseguros o los errores revelan datos confidenciales (por ejemplo, "
+"traducciones de otros usuarios, credenciales de VCS, información del "
+"servidor)."
 
 #: ../../security/threat-model.rst:94
 msgid "Privacy breach, intellectual property theft."
-msgstr ""
+msgstr "Violación de la privacidad, robo de propiedad intelectual."
 
 #: ../../security/threat-model.rst:97
 msgid ""
 "**VCS credentials exposure:** Weblate's stored VCS credentials (SSH keys, "
 "tokens) are accessed by an attacker."
 msgstr ""
+"**Exposición de credenciales VCS:** Un atacante accede a las credenciales "
+"VCS almacenadas de Weblate (claves SSH, tokens)."
 
 #: ../../security/threat-model.rst:98
 msgid "Direct access to integrated code repositories."
@@ -53356,6 +53713,9 @@ msgid ""
 "**Resource exhaustion:** Excessive background tasks or inefficient database "
 "queries triggered by an attacker lead to system slowdown or crash."
 msgstr ""
+"**Agotamiento de recursos:** Las tareas en segundo plano excesivas o las "
+"consultas de base de datos ineficientes activadas por un atacante provocan "
+"una ralentización o un bloqueo del sistema."
 
 #: ../../security/threat-model.rst:102 ../../security/threat-model.rst:122
 msgid "Weblate unavailability."
@@ -53369,20 +53729,24 @@ msgstr "**Elevación de privilegio**"
 msgid ""
 "**Role escalation:** A regular translator gains administrative privileges."
 msgstr ""
+"**Escalada de roles:** Un traductor regular obtiene privilegios "
+"administrativos."
 
 #: ../../security/threat-model.rst:106
 msgid "Complete system compromise."
-msgstr ""
+msgstr "Compromiso completo del sistema."
 
 #: ../../security/threat-model.rst:109
 msgid ""
 "**Command injection:** Arbitrary code execution due to improper input "
 "validation in repository URLs or add-ons."
 msgstr ""
+"**Inyección de comando:** Ejecución de código arbitrario debido a una "
+"validación de entrada incorrecta en las URL del repositorio o complementos."
 
 #: ../../security/threat-model.rst:110
 msgid "System compromise, data exfiltration."
-msgstr ""
+msgstr "Compromiso del sistema, exfiltración de datos."
 
 #: ../../security/threat-model.rst:111
 msgid "**Database/Datastore**"
@@ -53393,26 +53757,34 @@ msgid ""
 "**Data corruption:** Direct access to the database allows altering "
 "translation strings, user data, or configuration."
 msgstr ""
+"**Corrupción de datos:** El acceso directo a la base de datos permite "
+"alterar cadenas de traducción, datos del usuario o configuración."
 
 #: ../../security/threat-model.rst:114
 msgid "System malfunction, data integrity loss."
-msgstr ""
+msgstr "Mal funcionamiento del sistema, pérdida de integridad de los datos."
 
 #: ../../security/threat-model.rst:117
 msgid ""
 "**Sensitive data access:** Unauthorized access to database/datastore exposes "
 "all stored data (credentials, translation memory, user profiles)."
 msgstr ""
+"**Acceso a datos confidenciales:** El acceso no autorizado a la base de "
+"datos o al almacén de datos expone todos los datos almacenados "
+"(credenciales, memoria de traducción, perfiles de usuario)."
 
 #: ../../security/threat-model.rst:118
 msgid "Major data breach."
-msgstr ""
+msgstr "Importante violación de datos."
 
 #: ../../security/threat-model.rst:121
 msgid ""
 "**Database exhaustion:** Attacker floods the database or datastore with "
 "queries, or consumes all memory or available connections."
 msgstr ""
+"**Agotamiento de la base de datos:** El atacante inunda la base de datos o "
+"el almacén de datos con consultas, o consume toda la memoria o las "
+"conexiones disponibles."
 
 #: ../../security/threat-model.rst:123
 msgid "**VCS integration**"
@@ -53428,7 +53800,7 @@ msgstr ""
 
 #: ../../security/threat-model.rst:126
 msgid "Introduction of malware/backdoors into target projects."
-msgstr ""
+msgstr "Introducción de malware/puertas traseras en proyectos objetivo."
 
 #: ../../security/threat-model.rst:129
 msgid ""
@@ -53453,6 +53825,8 @@ msgid ""
 "**Phishing/social engineering:** Attacker tricks users into revealing "
 "credentials for Weblate or linked VCS accounts."
 msgstr ""
+"**Phishing/ingeniería social:** El atacante engaña a los usuarios para que "
+"revelen credenciales de Weblate o cuentas VCS vinculadas."
 
 #: ../../security/threat-model.rst:134
 msgid "Account compromise."
@@ -53467,26 +53841,35 @@ msgid ""
 "**Cross-Site scripting (XSS):** Malicious scripts injected into translations "
 "or user profiles execute in other users' browsers."
 msgstr ""
+"**Secuencias de comandos entre sitios (XSS):** Las secuencias de comandos "
+"maliciosas inyectadas en traducciones o perfiles de usuario se ejecutan en "
+"los navegadores de otros usuarios."
 
 #: ../../security/threat-model.rst:138
 msgid "Session hijacking, credential theft, defacement."
-msgstr ""
+msgstr "Secuestro de sesión, robo de credenciales, desfiguración."
 
 #: ../../security/threat-model.rst:141
 msgid ""
 "**Clickjacking/UI redress:** Attacker overlays malicious UI elements over "
 "Weblate, tricking users into unintended actions."
 msgstr ""
+"**Clickjacking/Reparación de UI:** El atacante superpone elementos de UI "
+"maliciosos sobre Weblate, engañando a los usuarios para que realicen "
+"acciones no deseadas."
 
 #: ../../security/threat-model.rst:142
 msgid "Unauthorized actions, data manipulation."
-msgstr ""
+msgstr "Acciones no autorizadas, manipulación de datos."
 
 #: ../../security/threat-model.rst:145
 msgid ""
 "**Sensitive data in UI:** Unintended exposure of sensitive data (e.g., "
 "another user's email) in the UI due to authorization flaws."
 msgstr ""
+"**Datos confidenciales en la interfaz de usuario:** Exposición no "
+"intencionada de datos confidenciales (por ejemplo, el correo electrónico de "
+"otro usuario) en la interfaz de usuario debido a fallas de autorización."
 
 #: ../../security/threat-model.rst:146
 msgid "Privacy breach."
@@ -53502,7 +53885,7 @@ msgstr "**Autenticación y autorización:**"
 
 #: ../../security/threat-model.rst:152
 msgid "Strong password policies, see :doc:`/security/passwords`."
-msgstr ""
+msgstr "Normativas de contraseñas seguras, consulte :doc:`/security/passwords`."
 
 #: ../../security/threat-model.rst:153
 msgid "Enforced 2FA, see :ref:`2fa`."
@@ -53518,16 +53901,21 @@ msgid ""
 "translators can only edit translations, not change project configs), "
 "see :doc:`/admin/access`."
 msgstr ""
+"Control de acceso basado en roles (RBAC) para aplicar el mínimo privilegio "
+"(por ejemplo, los traductores solo pueden editar traducciones, no cambiar "
+"las configuraciones del proyecto), consulte :doc:`/admin/access`."
 
 #: ../../security/threat-model.rst:156
 msgid ""
 "Integration with external identity providers (SAML, OAuth, LDAP), see :doc:`/"
 "admin/auth`."
 msgstr ""
+"Integración con proveedores de identidad externos (SAML, OAuth, LDAP), "
+"consulte :doc:`/admin/auth`."
 
 #: ../../security/threat-model.rst:157
 msgid "**Input validation and output encoding:**"
-msgstr ""
+msgstr "**Validación de entrada y codificación de salida:**"
 
 #: ../../security/threat-model.rst:158
 msgid ""
@@ -53548,13 +53936,15 @@ msgstr ""
 
 #: ../../security/threat-model.rst:160
 msgid "**VCS integration security:**"
-msgstr ""
+msgstr "**Seguridad de integración al VCS:**"
 
 #: ../../security/threat-model.rst:161
 msgid ""
 "Principle of least privilege for VCS credentials (e.g., read-only access "
 "where possible, limited scopes for tokens)."
 msgstr ""
+"Principio de mínimo privilegio para las credenciales de VCS (p.e., acceso de "
+"solo lectura cuando sea posible, alcances limitados para tokens)."
 
 #: ../../security/threat-model.rst:162
 msgid "Secure storage of VCS credentials."
@@ -53574,6 +53964,8 @@ msgid ""
 "Secure execution of Git/Mercurial commands (avoiding shell execution with "
 "user-controlled input)."
 msgstr ""
+"Ejecución segura de comandos Git/Mercurial (evitando la ejecución del shell "
+"con entrada controlada por el usuario)."
 
 #: ../../security/threat-model.rst:165
 msgid "**Data protection:**"
@@ -53604,20 +53996,26 @@ msgstr "**Fortalecimiento del sistema:**"
 #: ../../security/threat-model.rst:170
 msgid "Regular patching of OS, Weblate, and all dependencies."
 msgstr ""
+"Aplicación periódica de parches al sistema operativo, Weblate y todas las "
+"dependencias."
 
 #: ../../security/threat-model.rst:171
 msgid "Principle of least privilege for Weblate user account on the OS."
 msgstr ""
+"Principio de mínimo privilegio para la cuenta de usuario de Weblate en el "
+"sistema operativo."
 
 #: ../../security/threat-model.rst:172
 msgid ""
 "Network segmentation (e.g., separating database and datastore from public "
 "access)."
 msgstr ""
+"Segmentación de red (p.e., separar la base de datos y el almacén de datos "
+"desde acceso público)."
 
 #: ../../security/threat-model.rst:173
 msgid "Use of WAF (Web Application Firewall)."
-msgstr ""
+msgstr "Uso de WAF (Web Application Firewall)."
 
 #: ../../security/threat-model.rst:174
 msgid "**Logging and monitoring:**"
@@ -53637,6 +54035,8 @@ msgid ""
 "Centralized logging and alerting for security incidents, for "
 "example :ref:`graylog`."
 msgstr ""
+"Registro y alertas centralizadas para incidentes de seguridad, p.e., "
+":ref:`graylog`."
 
 #: ../../security/threat-model.rst:177
 msgid "**Secure development practices:**"
@@ -53644,17 +54044,21 @@ msgstr "**Prácticas de desarrollo seguro:**"
 
 #: ../../security/threat-model.rst:178
 msgid "Code reviews with a security focus."
-msgstr ""
+msgstr "Revisiones de código con enfoque de seguridad."
 
 #: ../../security/threat-model.rst:179
 msgid ""
 "Static Application Security Testing (SAST) and Dynamic Application Security "
 "Testing (DAST), see :doc:`/contributing/code`."
 msgstr ""
+"Pruebas de Seguridad de Aplicaciones Estáticas (SAST) y Pruebas de Seguridad "
+"de Aplicaciones Dinámicas (DAST), consulte :doc:`/contributing/code`."
 
 #: ../../security/threat-model.rst:180
 msgid "Dependency vulnerability scanning, see :doc:`/security/dependencies`."
 msgstr ""
+"Escaneo de vulnerabilidad de dependencia, consulte :doc:`/security/"
+"dependencies`."
 
 #: ../../security/threat-model.rst:181
 msgid "Regular security audits and penetration testing."
@@ -53678,7 +54082,7 @@ msgstr "Formato recomendado"
 
 #: ../../security/us-compliance.rst:7
 msgid "ITAR and other export controls"
-msgstr ""
+msgstr "ITAR y otros controles de exportación"
 
 #: ../../security/us-compliance.rst:9
 msgid ""
@@ -53686,6 +54090,10 @@ msgid ""
 "such, it can be used to store ITAR or other export-controlled information, "
 "however, end users are responsible for ensuring such compliance."
 msgstr ""
+"Weblate puede ejecutarse en su propio centro de datos o nube privada "
+"virtual. Por lo tanto, puede utilizarse para almacenar información ITAR u "
+"otra información sujeta a control de exportación; sin embargo, los usuarios "
+"finales son responsables de garantizar dicho cumplimiento."
 
 #: ../../security/us-compliance.rst:13
 msgid ""
@@ -53693,10 +54101,13 @@ msgid ""
 "other export controls, and does not currently offer the ability to restrict "
 "translations access by country."
 msgstr ""
+"El servicio Hosted Weblate no ha sido auditado para verificar su "
+"cumplimiento con ITAR u otros controles de exportación, y actualmente no "
+"ofrece la posibilidad de restringir el acceso a las traducciones por país."
 
 #: ../../security/us-compliance.rst:18
 msgid "US encryption controls"
-msgstr ""
+msgstr "Controles de cifrado de EE. UU."
 
 #: ../../security/us-compliance.rst:20
 msgid ""
@@ -53704,18 +54115,26 @@ msgid ""
 "controls as it uses third party components utilizing cryptography for "
 "authentication, data-integrity and -confidentiality."
 msgstr ""
+"Weblate no contiene ningún código criptográfico, pero podría estar sujeto a "
+"controles de exportación ya que utiliza componentes de terceros que utilizan "
+"criptografía para autenticación, integridad de datos y confidencialidad."
 
 #: ../../security/us-compliance.rst:24
 msgid ""
 "Weblate and all it's dependencies have publicly available source code "
 "meaning it can usually be exported and reexported without restriction."
 msgstr ""
+"Weblate y todas sus dependencias tienen código fuente disponible "
+"públicamente, lo que significa que generalmente se puede exportar y "
+"reexportar sin restricciones."
 
 #: ../../security/us-compliance.rst:27
 msgid ""
 "Software components used by Weblate (listing only components related to "
 "cryptographic function):"
 msgstr ""
+"Componentes de software utilizados por Weblate (solo se enumeran los "
+"componentes relacionados con la función criptográfica):"
 
 #: ../../security/us-compliance.rst:30
 msgid "`Python <https://www.python.org/>`_"
@@ -53743,27 +54162,37 @@ msgid ""
 "the third party components it interacts with, but in any decent setup it "
 "will include all export restricted cryptographic functions:"
 msgstr ""
+"La fortaleza de las claves de cifrado depende de la configuración de Weblate "
+"y de los componentes de terceros con los que interactúa, pero en cualquier "
+"configuración decente incluirá todas las funciones criptográficas con "
+"restricción de exportación:"
 
 #: ../../security/us-compliance.rst:41
 msgid "In excess of 56 bits for a symmetric algorithm"
-msgstr ""
+msgstr "Más de 56 bit para un algoritmo simétrico"
 
 #: ../../security/us-compliance.rst:42
 msgid ""
 "Factorisation of integers in excess of 512 bits for an asymmetric algorithm"
 msgstr ""
+"Factorización de números enteros superiores a 512 bit para un algoritmo "
+"asimétrico"
 
 #: ../../security/us-compliance.rst:43
 msgid ""
 "Computation of discrete logarithms in a multiplicative group of a finite "
 "field of size greater than 512 bits for an asymmetric algorithm"
 msgstr ""
+"Cálculo de logaritmos discretos en un grupo multiplicativo de un campo "
+"finito de tamaño mayor a 512 bit para un algoritmo asimétrico"
 
 #: ../../security/us-compliance.rst:44
 msgid ""
 "Discrete logarithms in a group different than above in excess of 112 bits "
 "for an asymmetric algorithm"
 msgstr ""
+"Logaritmos discretos en un grupo diferente al anterior que superen los 112 "
+"bit para un algoritmo asimétrico"
 
 #: ../../security/us-compliance.rst:46
 msgid ""
@@ -53771,10 +54200,13 @@ msgid ""
 "configured in a way where no cryptography code would be involved. The "
 "cryptographic features include:"
 msgstr ""
+"Weblate no cuenta con ninguna función de activación criptográfica, pero "
+"puede configurarse de forma que no se requiera código criptográfico. Las "
+"funciones criptográficas incluyen:"
 
 #: ../../security/us-compliance.rst:50
 msgid "Accessing remote servers using secure protocols (HTTPS)"
-msgstr ""
+msgstr "Acceso a servidores remotos mediante protocolos seguros (HTTPS)"
 
 #: ../../security/us-compliance.rst:51
 msgid "Generating signatures for code commits (PGP)"
@@ -53785,6 +54217,8 @@ msgid ""
 "`Export Controls (EAR) on Open Source Software <https://www.magicsplat.com/"
 "blog/ear/>`_"
 msgstr ""
+"`Controles de exportación (EAR) en software de código abierto <https://"
+"www.magicsplat.com/blog/ear/>`_"
 
 #: ../../user/checks.rst:4
 msgid ""
@@ -53792,23 +54226,32 @@ msgid ""
 "translation is in good shape. The checks can be ignored in case of false "
 "positives."
 msgstr ""
+"Los controles de calidad ayudan a detectar errores comunes de traducción, "
+"garantizando así la calidad de la traducción. En caso de falsos positivos, "
+"se pueden ignorar."
 
 #: ../../user/checks.rst:7
 msgid ""
 "Once submitting a translation with a failing check, this is immediately "
 "shown to the user:"
 msgstr ""
+"Una vez que se envía una traducción con una verificación fallida, esto se "
+"muestra inmediatamente al usuario:"
 
 #: ../../user/checks.rst:16
 msgid "Automatic fixups"
 msgstr "Correcciones automáticas"
 
 #: ../../user/checks.rst:18
+#, fuzzy
 msgid ""
 "In addition to :ref:`checks`, Weblate can fix some common errors in "
 "translated strings automatically. Use it with caution to not have it add "
 "errors."
 msgstr ""
+"Además de las comprobaciones :ref:`check`, Weblate puede corregir "
+"automáticamente algunos errores comunes en las cadenas traducidas. Úselo con "
+"precaución para evitar errores."
 
 #: ../../user/checks.rst:27
 #, fuzzy
@@ -53825,6 +54268,8 @@ msgid ""
 "Replace trailing dots (``...``) with an ellipsis (``…``) to make it "
 "consistent with the source string."
 msgstr ""
+"Reemplace los puntos finales (``...``) con puntos suspensivos (``…``) para "
+"que sea coherente con la cadena de origen."
 
 #: ../../user/checks.rst:35
 msgid "Zero-width space removal"
@@ -53835,6 +54280,9 @@ msgid ""
 "Zero width space is typically not desired in the translation. This fix will "
 "remove it unless it is present in the source string as well."
 msgstr ""
+"Normalmente no se desea un espacio de ancho cero en la traducción. Esta "
+"corrección lo eliminará a menos que también esté presente en la cadena de "
+"origen."
 
 #: ../../user/checks.rst:43
 msgid "Control characters removal"
@@ -53895,6 +54343,10 @@ msgid ""
 "behavior can be fine-tuned using ``ignore-begin-space`` and ``ignore-end-"
 "space`` flags to skip processing parts of the string."
 msgstr ""
+"Hace que los espacios iniciales y finales sean coherentes con la cadena de "
+"origen. Este comportamiento se puede ajustar con los indicadores ``ignore-"
+"begin-space`` e ``ignore-end-space`` para omitir el procesamiento de partes "
+"de la cadena."
 
 #: ../../user/checks.rst:95
 msgid "Quality checks"
@@ -53906,6 +54358,10 @@ msgid ""
 "section describes them all in further detail. There are also language "
 "specific checks. Please file a bug if anything is reported in error."
 msgstr ""
+"Weblate emplea una amplia gama de controles de calidad para las cadenas. La "
+"siguiente sección los describe con más detalle. También existen controles "
+"específicos para cada idioma. Por favor, informe de un error si detecta "
+"algún error."
 
 #: ../../user/checks.rst:107
 msgid "Translation checks"
@@ -53916,6 +54372,8 @@ msgid ""
 "Executed upon every translation change, helping translators maintain good "
 "quality translations."
 msgstr ""
+"Se ejecuta en cada cambio de traducción, lo que ayuda a los traductores a "
+"mantener traducciones de buena calidad."
 
 #: ../../user/checks.rst:115
 msgid "BBCode markup"
@@ -59655,15 +60113,14 @@ msgstr ""
 "incorporar, en vez de empujar directamente al repositorio."
 
 #: ../../vcs.rst:390
-#, fuzzy
 msgid ""
 ":ref:`vcs-git` pushes changes directly to a repository, while :ref:`vcs-"
 "github` creates pull requests. The latter is not needed for merely accessing "
 "Git repositories."
 msgstr ""
-":ref:`vcs-git` empuja cambios directamente a un repositorio, mientras que "
-":ref:`vcs-github` crea solicitudes tirar. Lo más último es no necesitarlo "
-"para meramente acceder a repositorios Git."
+":ref:`vcs-git` envía los cambios directamente a un repositorio, mientras que "
+":ref:`vcs-github` crea solicitudes de extracción. Esta última no es "
+"necesaria simplemente para acceder a los repositorios de Git."
 
 #: ../../vcs.rst:394
 msgid ""
