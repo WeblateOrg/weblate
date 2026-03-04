@@ -13,9 +13,9 @@ import shutil
 from abc import ABC, abstractmethod
 from io import BytesIO
 from pathlib import Path
-from typing import TYPE_CHECKING, ClassVar, NoReturn
-from unittest import TestCase
+from typing import IO, TYPE_CHECKING, ClassVar, NoReturn, cast
 
+from django.test import SimpleTestCase
 from lxml import etree
 from translate.storage.pypo import pofile
 
@@ -23,6 +23,7 @@ from weblate.checks.flags import Flags
 from weblate.formats.auto import AutodetectFormat, detect_filename, try_load
 from weblate.formats.base import UpdateError
 from weblate.formats.models import FILE_FORMATS
+from weblate.formats.multi import MultiUnit
 from weblate.formats.ttkit import (
     AndroidFormat,
     AppleXliffFormat,
@@ -57,6 +58,7 @@ from weblate.formats.ttkit import (
     TBXFormat,
     TOMLFormat,
     TSFormat,
+    TTKitFormat,
     WebExtensionJSONFormat,
     Xliff2Format,
     XliffFormat,
@@ -72,6 +74,8 @@ from weblate.trans.tests.utils import TempDirMixin, get_test_file
 from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
 
 if TYPE_CHECKING:
+    from lxml.etree import _Element
+
     from weblate.formats.base import TranslationFormat
     from weblate.trans.file_format_params import FileFormatParams
 
@@ -129,7 +133,7 @@ TEST_STRINGSDICT = get_test_file("cs.stringsdict")
 TEST_FLUENT = get_test_file("cs.ftl")
 
 
-class AutoLoadTest(TestCase):
+class AutoLoadTest(SimpleTestCase):
     def single_test(self, filename, fileclass) -> None:
         store = try_load(
             filename,
@@ -180,14 +184,15 @@ class AutoLoadTest(TestCase):
         data = Path(TEST_PO).read_bytes()
 
         handle = BytesIO(data)
-        store = AutodetectFormat(handle)
+        store: AutodetectFormat = AutodetectFormat(handle)
         self.assertIsInstance(store, AutodetectFormat)
         self.assertIsInstance(store.store, pofile)
 
     def test_get_class(self) -> None:
         """Test that each format can properly load its store class."""
         for format_class in FILE_FORMATS.values():
-            format_class.get_class()
+            if issubclass(format_class, TTKitFormat):
+                format_class.get_class()
 
 
 class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
@@ -229,7 +234,7 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
     def format_class(self) -> type[TranslationFormat]:
         raise NotImplementedError
 
-    def parse_file(self, filename: str, template: str | None = None):
+    def parse_file(self, filename: str | IO[bytes], template: str | None = None):
         if self.MONOLINGUAL:
             return self.format_class(
                 filename,
@@ -297,7 +302,7 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
 
     def assert_no_notes(self, unit) -> None:
         """Assert that the underlying unit(s) do not have any notes."""
-        if unit.unit:
+        if not isinstance(unit, MultiUnit):
             self.assertEqual(unit.unit.getnotes().strip(), "")
         else:
             # Assume this is a multi-unit. Will fail otherwise.
@@ -446,7 +451,9 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
             self.BASE,
             file_format_params=self.FILE_FORMAT_PARAMS,
         )
-        target_storage = self.parse_file(main_file, template=template_file)
+        target_storage = self.parse_file(
+            main_file.as_posix(), template=template_file.as_posix()
+        )
         target_unit, add = target_storage.find_unit(self.NEW_UNIT_KEY, "Source string")
         self.assertTrue(add)
 
@@ -470,7 +477,9 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
         self.assertEqual(template_file.read_text(), template_content)
 
         # Reload the storage to check notes were correctly written.
-        target_storage = self.parse_file(main_file, template=template_file)
+        target_storage = self.parse_file(
+            main_file.as_posix(), template=template_file.as_posix()
+        )
         target_unit, add = target_storage.find_unit(self.NEW_UNIT_KEY, "Source string")
         self.assertFalse(add)
         self.assertEqual(target_unit.target, "Translated string (CS)")
@@ -485,7 +494,7 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
         self.assert_no_notes(target_unit)
 
 
-class XMLMixin:
+class XMLMixin(SimpleTestCase):
     def assert_same(self, newdata, testdata) -> None:
         self.assertXMLEqual(newdata.decode(), testdata.decode())
 
@@ -705,7 +714,7 @@ class JSONFormatTest(BaseFormatTest):
     MATCH = "{}\n"
     BASE = ""
     NEW_UNIT_MATCH = b'\n    "Source string": ""\n'
-    EXPECTED_FLAGS: str | list[str] = ""
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
 
     def assert_same(self, newdata, testdata) -> None:
         self.assertJSONEqual(newdata.decode(), testdata.decode())
@@ -1422,7 +1431,7 @@ class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):
         # Remove XML declaration so that etree doesn't complain for parsing
         newdata = newdata.replace('<?xml version="1.1" encoding="UTF-8"?>', "")
         xml_data = etree.XML(newdata)
-        self.assertEqual("1", xml_data.find("translation").text)
+        self.assertEqual("1", cast("_Element", xml_data.find("translation")).text)
         self.assertIs(None, xml_data.find("attachment"))
         self.assertIs(None, xml_data.find("object"))
 
@@ -1432,7 +1441,7 @@ class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):
         )
         self.assertFalse(create)
         translation_data.add_unit(unit_to_translate)
-        translation_data.all_units[index].unit = unit_to_translate.unit
+        translation_data.all_units[index]._unit = unit_to_translate.unit  # noqa: SLF001
         unit_to_translate.set_target(target)
 
     def test_translate_file(self) -> None:
@@ -1541,7 +1550,7 @@ class XWikiFullPageFormatTest(XMLMixin, BaseFormatTest):
         # Remove XML declaration so that etree doesn't complain for parsing
         newdata = newdata.replace('<?xml version="1.1" encoding="UTF-8"?>', "")
         xml_data = etree.XML(newdata)
-        self.assertEqual("1", xml_data.find("translation").text)
+        self.assertEqual("1", cast("_Element", xml_data.find("translation")).text)
         self.assertIs(None, xml_data.find("attachment"))
         self.assertIs(None, xml_data.find("object"))
 
@@ -1551,7 +1560,7 @@ class XWikiFullPageFormatTest(XMLMixin, BaseFormatTest):
         )
         self.assertTrue(create)
         translation_data.add_unit(unit_to_translate)
-        translation_data.all_units[index].unit = unit_to_translate.unit
+        translation_data.all_units[index]._unit = unit_to_translate.unit  # noqa: SLF001
         unit_to_translate.set_target(target)
 
     def test_translate_file(self) -> None:

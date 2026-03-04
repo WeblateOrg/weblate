@@ -7,7 +7,7 @@
 import os
 from pathlib import Path
 from tempfile import NamedTemporaryFile
-from typing import ClassVar
+from typing import TYPE_CHECKING, ClassVar, cast
 
 from weblate.checks.tests.test_checks import MockUnit
 from weblate.formats.convert import (
@@ -24,6 +24,9 @@ from weblate.formats.helpers import NamedBytesIO
 from weblate.formats.tests.test_formats import BaseFormatTest
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.state import STATE_TRANSLATED
+
+if TYPE_CHECKING:
+    from translate.storage.pypo import pofile
 
 IDML_FILE = get_test_file("en.idml")
 HTML_FILE = get_test_file("cs.html")
@@ -69,7 +72,7 @@ class ConvertFormatTest(BaseFormatTest):
             storage = self.format_class(
                 translation.name,
                 template_store=self.format_class(template.name, is_template=True),
-                existing_units=self.CONVERT_EXISTING,
+                existing_units=self.CONVERT_EXISTING,  # type: ignore[arg-type]
             )
 
             # Ensure it is parsed correctly
@@ -246,13 +249,16 @@ class IDMLFormatTest(ConvertFormatTest):
     EXPECTED_FLAGS = ""
     EDIT_OFFSET = 1
 
-    def extract_document(self, content: bytes):
-        pofile = self.format_class(NamedBytesIO("test.idml", content)).convertfile(
-            NamedBytesIO("test.idml", content), None
+    def extract_document(self, content: bytes) -> str:
+        document: pofile = cast(
+            "pofile",
+            self.format_class(NamedBytesIO("test.idml", content)).convertfile(
+                NamedBytesIO("test.idml", content), None
+            ),
         )
         # Avoid (changing) timestamp in the PO header
-        pofile.updateheader(pot_creation_date="")
-        return bytes(pofile).decode()
+        document.updateheader(pot_creation_date="")
+        return bytes(document).decode()
 
     def assert_same(self, newdata, testdata) -> None:
         self.assertEqual(

@@ -33,6 +33,7 @@ if TYPE_CHECKING:
 
     from django.db.models import Model
     from django.shortcuts import SupportsGetAbsoluteUrl
+    from translate.storage.placeables import StringElem
 
     from weblate.auth.models import User
     from weblate.auth.results import PermissionResult
@@ -312,7 +313,7 @@ def redirect_next(
     return HttpResponseRedirect(next_url)
 
 
-def xliff_string_to_rich(string: str):
+def xliff_string_to_rich(string: str | list[str]) -> list[StringElem]:
     """
     Convert XLIFF string to StringElement.
 
@@ -324,7 +325,7 @@ def xliff_string_to_rich(string: str):
     return [parse_xliff(string)]
 
 
-def rich_to_xliff_string(string_elements):
+def rich_to_xliff_string(string_elements: list[StringElem]) -> str:
     """
     Convert StringElement to XLIFF string.
 
