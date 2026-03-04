@@ -21,7 +21,7 @@ from zipfile import ZipFile
 
 from django.conf import settings
 from django.core.files import File
-from django.db import connection, transaction
+from django.db import transaction
 from django.db.models.fields.files import FieldFile
 from django.db.models.signals import pre_save
 from django.utils import timezone
@@ -117,10 +117,6 @@ class ProjectBackup:
         """Return the full slug for a component or category without the project slug."""
         parts = obj.get_url_path()
         return "/".join(parts[1:])
-
-    @property
-    def supports_restore(self) -> bool:
-        return connection.features.can_return_rows_from_bulk_insert
 
     def validate_data(self) -> None:
         validate_schema(self.data, "weblate-backup.schema.json")
@@ -534,9 +530,6 @@ class ProjectBackup:
             )
 
     def validate(self) -> None:
-        if not self.supports_restore:
-            msg = "Restore is not supported on this database."
-            raise ValueError(msg)
         input_file = self.filename or self.fileio
         if input_file is None:
             msg = "Can not validate None file."
