@@ -1186,7 +1186,9 @@ class Unit(models.Model, LoggerMixin):
             run_checks=not same_source or not same_target or not same_state,
         )
         self.clear_disk_state()
-        PendingUnitChange.objects.filter(unit=self).delete()
+        # Remove pending changes for existing units
+        if not created:
+            PendingUnitChange.objects.filter(unit=self).delete()
 
         if pending:
             PendingUnitChange.store_unit_change(unit=self)
