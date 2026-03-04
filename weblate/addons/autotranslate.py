@@ -64,7 +64,7 @@ class AutoTranslateAddon(BaseAddon):
                 auto_source=conf["auto_source"],
                 engines=conf["engines"],
                 threshold=conf["threshold"],
-                component=conf["component"],
+                source_component_id=conf["component"],
                 user_id=user_id,
                 unit_ids=unit_ids,
                 translation_id=translation_id,
@@ -77,7 +77,7 @@ class AutoTranslateAddon(BaseAddon):
                 auto_source=conf["auto_source"],
                 engines=conf["engines"],
                 threshold=conf["threshold"],
-                component=conf["component"],
+                source_component_id=conf["component"],
             )
 
     def daily(self, component: Component, activity_log_id: int | None = None) -> None:

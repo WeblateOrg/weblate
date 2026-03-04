@@ -520,37 +520,41 @@ def project_removal(pk: int, uid: int | None) -> None:
     retry_backoff=600,
     retry_backoff_max=3600,
 )
-def auto_translate(
+def auto_translate(  # noqa: PLR0913
     *,
     user_id: int | None,
     mode: str,
     q: str,
     auto_source: Literal["mt", "others"],
-    component: int | None,
+    source_component_id: int | None,
     engines: list[str],
     threshold: int,
     component_wide: bool = False,
     unit_ids: list[int] | None = None,
-    **kwargs,
+    translation_id: int | None = None,
+    component_id: int | None = None,
+    category_id: int | None = None,
+    project_id: int | None = None,
+    language_id: int | None = None,
 ):
     result: dict[str, Any] = {}
     obj: Translation | Component | Category | ProjectLanguage
-    if "translation_id" in kwargs:
-        obj = Translation.objects.get(pk=kwargs["translation_id"])
+    if translation_id is not None:
+        obj = Translation.objects.get(pk=translation_id)
         result["translation"] = obj.id
-    elif "component_id" in kwargs:
-        obj = Component.objects.get(pk=kwargs["component_id"])
+    elif component_id is not None:
+        obj = Component.objects.get(pk=component_id)
         result["component"] = obj.id
-    elif "category_id" in kwargs:
-        obj = Category.objects.get(pk=kwargs["category_id"])
+    elif category_id is not None:
+        obj = Category.objects.get(pk=category_id)
         result["category"] = obj.id
-    elif "project_id" in kwargs:
-        if "language_id" not in kwargs:
+    elif project_id is not None:
+        if language_id is None:
             msg = "language_id must be provided when project_id is given"
             raise ValueError(msg)
         obj = ProjectLanguage(
-            project=Project.objects.get(pk=kwargs["project_id"]),
-            language=Language.objects.get(pk=kwargs["language_id"]),
+            project=Project.objects.get(pk=project_id),
+            language=Language.objects.get(pk=language_id),
         )
         result["project"] = obj.project.id
         result["language"] = obj.language.id
@@ -572,7 +576,7 @@ def auto_translate(
             auto_source=auto_source,
             engines=engines,
             threshold=threshold,
-            source=component,
+            source_component_id=source_component_id,
         )
         result.update({"message": message})
         return result
@@ -591,7 +595,7 @@ def auto_translate_component(
     auto_source: Literal["mt", "others"],
     engines: list[str],
     threshold: int,
-    component: int | None = None,
+    source_component_id: int | None = None,
 ):
     component_obj = Component.objects.get(pk=component_id)
     auto = BatchAutoTranslate(
@@ -605,7 +609,7 @@ def auto_translate_component(
         auto_source=auto_source,
         engines=engines,
         threshold=threshold,
-        source=component,
+        source_component_id=source_component_id,
     )
     component_obj.update_source_checks()
     component_obj.run_batched_checks()

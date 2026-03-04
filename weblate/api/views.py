@@ -2077,7 +2077,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
         )
         message = auto.perform(
             auto_source=autoform.cleaned_data["auto_source"],
-            source=autoform.cleaned_data["component"],
+            source_component_id=autoform.cleaned_data["component"],
             engines=autoform.cleaned_data["engines"],
             threshold=autoform.cleaned_data["threshold"],
         )
