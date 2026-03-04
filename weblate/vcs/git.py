@@ -105,7 +105,7 @@ class GitRepository(Repository):
     push_label: ClassVar[StrOrPromise] = gettext_lazy(
         "This will push changes to the upstream Git repository."
     )
-    req_version: ClassVar[str | None] = "2.28"
+    req_version: ClassVar[str | None] = "2.45"
     default_branch: ClassVar[str] = "master"
     ref_to_remote: ClassVar[str] = "..{0}"
     ref_from_remote: ClassVar[str] = "{0}.."

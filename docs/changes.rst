@@ -13,10 +13,13 @@ Weblate 5.17
 
 .. rubric:: Bug fixes
 
+* :ref:`addon-weblate.git.squash` better handle commits applied upstream.
+
 .. rubric:: Compatibility
 
 * Dropped support for MySQL and MariaDB as the database engine.
 * Weblate now requires Django 6.0.
+* Weblate now requires Git 2.45 or newer.
 
 .. rubric:: Upgrading
 

@@ -15,7 +15,7 @@ from django.conf import settings
 from django.contrib.messages import get_messages
 from django.core.cache import cache
 from django.core.exceptions import PermissionDenied
-from django.db import transaction
+from django.db import IntegrityError, transaction
 from django.db.models import Q
 from django.forms.utils import from_current_timezone
 from django.http import FileResponse, Http404
@@ -2021,7 +2021,12 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
                 )
                 serializer.is_valid(raise_exception=True)
 
-                unit = obj.add_unit(request, **serializer.as_kwargs())
+                try:
+                    unit = obj.add_unit(request, **serializer.as_kwargs())
+                except IntegrityError as error:
+                    raise ValidationError(
+                        gettext("This string seems to already exist.")
+                    ) from error
                 outserializer = UnitSerializer(unit, context={"request": request})
                 return Response(outserializer.data, status=HTTP_200_OK)
 
