@@ -207,7 +207,7 @@ def cleanup_addon_activity_log() -> None:
     retry_backoff=60,
 )
 @transaction.atomic
-def postconfigure_addon(addon_id: int, addon=None) -> None:
+def postconfigure_addon(addon_id: int, addon: Addon | None = None) -> None:
     if addon is None:
         addon = Addon.objects.get(pk=addon_id)
     addon.addon.post_configure_run()

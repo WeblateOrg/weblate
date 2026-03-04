@@ -2787,9 +2787,9 @@ class Component(
         """
         # In case the lock cannot be acquired, an error will be raised.
         with (
-            self.lock,
-            self.repository.lock,
             self.start_sentry_span("create_translations"),
+            self.repository.lock,
+            self.lock,
         ):
             return self._create_translations(
                 force=force,
