@@ -337,7 +337,7 @@ class MemoryManager(models.Manager):
         user: User | None = None,
         project: Project | None = None,
         from_file: bool = False,
-        status: int = 0,
+                        gettext("Could not find language %s!") % lang_code
     ) -> int:
         try:
             storage = tmxfile.parsefile(fileobj)
