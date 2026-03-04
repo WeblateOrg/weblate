@@ -3795,7 +3795,7 @@ class Component(
             return self.repository.count_missing()
         except RepositoryError as error:
             report_error(
-                "Could check merge needed",
+                "Could not check if merge is needed",
                 project=self.project,
                 skip_sentry=not settings.DEBUG,
             )
