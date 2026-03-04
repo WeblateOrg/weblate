@@ -287,11 +287,8 @@ class TranslatedCheck(TargetCheck, BatchCheckMixin):
         return gettext('Previous translation was "%s".') % target
 
     def should_skip_change(self, change: Change, unit: Unit):
-        # Skip automatic translation entries adding needs editing string
-        return (
-            change.action == ActionEvents.AUTO
-            and change.details.get("state", STATE_TRANSLATED) < STATE_TRANSLATED
-        )
+        # Skip translation entries adding needs editing string
+        return change.details.get("state", STATE_TRANSLATED) < STATE_TRANSLATED
 
     def should_break_changes(self, change: Change):
         # Stop changes processing on source string change or on
@@ -350,7 +347,7 @@ class TranslatedCheck(TargetCheck, BatchCheckMixin):
                 Prefetch(
                     "change_set",
                     queryset=Change.objects.filter(
-                        action__in=self.TRACK_ACTIONS,
+                        action__in=self.TRACK_ACTIONS
                     ).order(),
                     to_attr="recent_consistency_changes",
                 )
