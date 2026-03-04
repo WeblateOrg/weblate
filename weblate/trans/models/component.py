@@ -3811,7 +3811,7 @@ class Component(
                 self.add_ssh_host_key()
                 return self._get_count_repo_outgoing(retry=False)
             report_error(
-                "Could check push needed",
+                "Could not check if push is needed",
                 project=self.project,
                 skip_sentry=not settings.DEBUG,
             )
