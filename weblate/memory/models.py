@@ -377,7 +377,7 @@ class MemoryManager(models.Manager):
                     )
                 except Language.DoesNotExist as error:
                     raise MemoryImportError(
-                        gettext("Could not find language %s!") % header.get("srclang")
+                        gettext("Could not find language %s!") % lang_code
                     ) from error
                 translations[language.code] = text
 
