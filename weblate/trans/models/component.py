@@ -25,7 +25,7 @@ from django.core.exceptions import (
     ValidationError,
 )
 from django.core.validators import MaxValueValidator
-from django.db import IntegrityError, connection, models, transaction
+from django.db import IntegrityError, models, transaction
 from django.db.models import Count, F, Q
 from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
@@ -1345,10 +1345,6 @@ class Component(
         create_unit_change_action: ActionEvents = ActionEvents.NEW_UNIT_REPO,
     ) -> None:
         """Ensure that all sources are stored in the database."""
-        # Can not bulk create with getting primary key, resort to one by one creation
-        if not connection.features.can_return_rows_from_bulk_insert:
-            return
-
         # Make sure we load all the sources
         if not self._sources_prefetched:
             self.preload_sources()

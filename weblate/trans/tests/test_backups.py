@@ -12,8 +12,6 @@ from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.management import call_command
-from django.db import connection
-from django.test import skipIfDBFeature, skipUnlessDBFeature
 from django.urls import reverse
 
 from weblate.auth.data import SELECTION_MANUAL
@@ -102,11 +100,6 @@ class BackupsTest(ViewTestCase):
             self.assertIn("vcs/glossary/.git/index", files)
 
         restore = ProjectBackup(backup.filename)
-
-        if not connection.features.can_return_rows_from_bulk_insert:
-            with self.assertRaises(ValueError):
-                restore.validate()
-            return
 
         restore.validate()
 
@@ -220,9 +213,6 @@ class BackupsTest(ViewTestCase):
 
         restore = ProjectBackup(backup.filename)
 
-        if not connection.features.can_return_rows_from_bulk_insert:
-            return
-
         restore.validate()
 
         restored = restore.restore(
@@ -238,15 +228,6 @@ class BackupsTest(ViewTestCase):
             extract_names(Component.objects.filter(project=restored)),
         )
 
-    @skipUnlessDBFeature("can_return_rows_from_bulk_insert")
-    def test_restore_supported(self) -> None:
-        self.assertTrue(connection.features.can_return_rows_from_bulk_insert)
-
-    @skipIfDBFeature("can_return_rows_from_bulk_insert")
-    def test_restore_not_supported(self) -> None:
-        self.assertFalse(connection.features.can_return_rows_from_bulk_insert)
-
-    @skipUnlessDBFeature("can_return_rows_from_bulk_insert")
     def test_restore_4_14(self) -> None:
         restore = ProjectBackup(TEST_BACKUP)
         restore.validate()
@@ -255,7 +236,6 @@ class BackupsTest(ViewTestCase):
         )
         self.verify_restored()
 
-    @skipUnlessDBFeature("can_return_rows_from_bulk_insert")
     def test_restore_cli(self) -> None:
         call_command(
             "import_projectbackup", "Restored", "restored", "testuser", TEST_BACKUP
@@ -297,13 +277,11 @@ class BackupsTest(ViewTestCase):
             set(restored.label_set.values_list("name", "color")),
         )
 
-    @skipUnlessDBFeature("can_return_rows_from_bulk_insert")
     def test_restore_duplicate(self) -> None:
         restore = ProjectBackup(TEST_BACKUP_DUPLICATE)
         with self.assertRaises(ValueError):
             restore.validate()
 
-    @skipUnlessDBFeature("can_return_rows_from_bulk_insert")
     def test_restore_duplicate_files(self) -> None:
         restore = ProjectBackup(TEST_BACKUP_DUPLICATE_FILES)
         with self.assertRaises(ValueError) as ex:
@@ -357,7 +335,6 @@ class BackupsTest(ViewTestCase):
         with staticfiles_storage.open(filename, "rb") as handle:
             self.assertEqual(handle.read(2), b"PK")
 
-    @skipUnlessDBFeature("can_return_rows_from_bulk_insert")
     def test_view_restore(self) -> None:
         self.user.is_superuser = True
         self.user.save()
