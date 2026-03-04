@@ -149,7 +149,7 @@ class AutoTranslate(BaseAutoTranslate):
                 self.user.profile.increase_count("translated", self.updated)
 
     @transaction.atomic
-    def process_others(self, source: int | None) -> None:
+    def process_others(self, source_component_id: int | None) -> None:
         """Perform automatic translation based on other components."""
         kwargs = {
             "translation__plural": self.translation.plural,
@@ -157,8 +157,8 @@ class AutoTranslate(BaseAutoTranslate):
         }
         source_language = self.translation.component.source_language
         exclude = {}
-        if source:
-            component = Component.objects.get(id=source)
+        if source_component_id:
+            component = Component.objects.get(id=source_component_id)
 
             if (
                 not component.project.contribute_shared_tm
@@ -331,7 +331,7 @@ class AutoTranslate(BaseAutoTranslate):
         auto_source: Literal["mt", "others"],
         engines: list[str],
         threshold: int,
-        source: int | None,
+        source_component_id: int | None,
     ) -> str:
         translation = self.translation
         translation.log_info(
@@ -339,13 +339,13 @@ class AutoTranslate(BaseAutoTranslate):
             self.mode,
             current_task.request.id if current_task and current_task.request.id else "",
             auto_source,
-            ", ".join(engines) if engines else source,
+            ", ".join(engines) if engines else source_component_id,
         )
         try:
             if auto_source == "mt":
                 self.process_mt(engines, threshold)
             else:
-                self.process_others(source)
+                self.process_others(source_component_id)
         except (MachineTranslationError, Component.DoesNotExist) as error:
             translation.log_error("failed automatic translation: %s", error)
             return gettext("Automatic translation failed: %s") % error
@@ -409,7 +409,7 @@ class BatchAutoTranslate(BaseAutoTranslate):
         auto_source: Literal["mt", "others"],
         engines: list[str],
         threshold: int,
-        source: int | None,
+        source_component_id: int | None,
     ) -> str:
         for pos, translation in enumerate(self.translations, start=1):
             auto_translate = AutoTranslate(
@@ -425,7 +425,7 @@ class BatchAutoTranslate(BaseAutoTranslate):
                 auto_source=auto_source,
                 engines=engines,
                 threshold=threshold,
-                source=source,
+                source_component_id=source_component_id,
             )
             self.updated += auto_translate.updated
             self.set_progress(pos)

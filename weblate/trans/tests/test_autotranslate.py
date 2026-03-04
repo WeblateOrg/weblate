@@ -195,7 +195,7 @@ class AutoTranslationTest(ViewTestCase):
                 mode="suggest",
                 q="state:<translated",
                 auto_source="others",
-                component=None,
+                source_component_id=None,
                 engines=["weblate"],
                 threshold=100,
             )
@@ -206,7 +206,7 @@ class AutoTranslationTest(ViewTestCase):
                 mode="suggest",
                 q="state:<translated",
                 auto_source="others",
-                component=None,
+                source_component_id=None,
                 engines=["weblate"],
                 threshold=100,
                 project_id=1,
