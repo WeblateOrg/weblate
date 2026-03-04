@@ -1513,7 +1513,7 @@ class Component(
         try:
             return VCS_REGISTRY[self.vcs]
         except KeyError as error:
-            msg = f"Component using VCS {self.vcs}, but it not configured"
+            msg = f"Component using VCS {self.vcs}, but it is not configured"
             raise ImproperlyConfigured(msg) from error
 
     @cached_property
