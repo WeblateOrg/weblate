@@ -115,17 +115,41 @@ class AdminTest(ViewTestCase):
             )
             self.assertFalse(hostsfile.exists())
 
-            # Add the key
+            # Do not add not matching key
             response = self.client.post(
-                reverse("manage-ssh"), {"action": "add-host", "host": "github.com"}
+                reverse("manage-ssh"),
+                {
+                    "action": "add-host",
+                    "host": "example.com",
+                    "fingerprint": "p2QAMXNIC1TJYWeIOttrVc98/R1BUFWu3/LiyKgUfQM",
+                },
             )
-            self.assertContains(response, "Added host key for github.com")
+            self.assertContains(response, "Skipped host key for example.com")
+            self.assertFalse(hostsfile.exists())
+
+            # Add the matching key
+            response = self.client.post(
+                reverse("manage-ssh"),
+                {
+                    "action": "add-host",
+                    "host": "example.com",
+                    "fingerprint": "nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8",
+                },
+            )
+            self.assertContains(response, "Added host key for example.com")
+            self.assertTrue(hostsfile.exists())
+
+            # Add all the keys
+            response = self.client.post(
+                reverse("manage-ssh"), {"action": "add-host", "host": "example.com"}
+            )
+            self.assertContains(response, "Added host key for example.com")
             self.assertTrue(hostsfile.exists())
         finally:
             os.environ["PATH"] = oldpath
 
         # Check the file contains it
-        self.assertIn("github.com", hostsfile.read_text())
+        self.assertIn("example.com", hostsfile.read_text())
 
     @tempdir_setting("BACKUP_DIR")
     def test_backup(self) -> None:
