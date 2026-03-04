@@ -1513,7 +1513,7 @@ class Component(
         try:
             return VCS_REGISTRY[self.vcs]
         except KeyError as error:
-            msg = f"Component using VCS {self.vcs}, but it not configured"
+            msg = f"Component using VCS {self.vcs}, but it is not configured"
             raise ImproperlyConfigured(msg) from error
 
     @cached_property
@@ -3795,7 +3795,7 @@ class Component(
             return self.repository.count_missing()
         except RepositoryError as error:
             report_error(
-                "Could check merge needed",
+                "Could not check if merge is needed",
                 project=self.project,
                 skip_sentry=not settings.DEBUG,
             )
@@ -3811,7 +3811,7 @@ class Component(
                 self.add_ssh_host_key()
                 return self._get_count_repo_outgoing(retry=False)
             report_error(
-                "Could check push needed",
+                "Could not check if push is needed",
                 project=self.project,
                 skip_sentry=not settings.DEBUG,
             )
