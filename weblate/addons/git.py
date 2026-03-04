@@ -219,7 +219,7 @@ class GitSquashAddon(BaseAddon):
                         environment={"WEBLATE_MERGE_SKIP": "1"},
                     )
                 except RepositoryError:
-                    if repository.has_git_file("CHERRY_HEAD"):
+                    if repository.has_git_file("CHERRY_PICK_HEAD"):
                         repository.execute(["cherry-pick", "--abort"])
                     raise
                 handled = []
@@ -236,7 +236,7 @@ class GitSquashAddon(BaseAddon):
                     except RepositoryError:
                         # If fails, continue to another author, we will
                         # pick this commit later (it depends on some other)
-                        if repository.has_git_file("CHERRY_HEAD"):
+                        if repository.has_git_file("CHERRY_PICK_HEAD"):
                             repository.execute(["cherry-pick", "--abort"])
                         break
                 # Remove processed commits from list
