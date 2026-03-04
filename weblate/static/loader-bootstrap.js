@@ -1764,7 +1764,7 @@ $(function () {
       } else if (difference < 60 * 60 * 24) {
         const hours = Math.floor(difference / (60 * 60));
         if (hours === 1) {
-          value = gettext("a hour ago");
+          value = gettext("an hour ago");
         } else {
           value = interpolate(ngettext("%s hour ago", "%s hours ago", hours), [
             hours,
