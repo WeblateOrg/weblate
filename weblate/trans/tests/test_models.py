@@ -669,6 +669,17 @@ class ComponentListTest(RepoTestCase):
         translation_unit = unit.unit_set.get(translation__language__code="cs")
         self.assertEqual(translation_unit.state, STATE_READONLY)
 
+        # Set source back to translated - translation should be restored
+        unit.translate(None, "Hello, world!\n", STATE_TRANSLATED)
+        translation_unit = unit.unit_set.get(translation__language__code="cs")
+        self.assertNotEqual(translation_unit.state, STATE_READONLY)
+
+        # Verify state survives commit + file scan roundtrip
+        component.commit_pending("test", None)
+        component.do_file_scan()
+        translation_unit = unit.unit_set.get(translation__language__code="cs")
+        self.assertNotEqual(translation_unit.state, STATE_READONLY)
+
 
 class ModelTestCase(RepoTestCase):
     def setUp(self) -> None:
