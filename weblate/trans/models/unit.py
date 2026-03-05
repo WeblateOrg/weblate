@@ -833,23 +833,26 @@ class Unit(models.Model, LoggerMixin):
         flags: Flags | str | None,
         string_changed: bool = False,
         disk_unit_state: StringState | None = None,
+        include_weblate_readonly: bool = True,
     ) -> StringState:
         """Calculate translated and fuzzy status."""
-        # Read-only from the file format
+        # Read-only from the file format is always considered for the unit state
         if unit.is_readonly():
             return STATE_READONLY
 
-        # Read-only from the source
-        if (
-            not self.is_source
-            and self.source_unit.state < STATE_TRANSLATED
-            and self.translation.component.intermediate
-        ):
-            return STATE_READONLY
+        # when checking for original_state, ignore Weblate originated readonly state
+        if include_weblate_readonly:
+            # Read-only from the source
+            if (
+                not self.is_source
+                and self.source_unit.state < STATE_TRANSLATED
+                and self.translation.component.intermediate
+            ):
+                return STATE_READONLY
 
-        # Read-only from flags (flags=None indicates skipping this logic)
-        if flags is not None and "read-only" in self.get_all_flags(flags):
-            return STATE_READONLY
+            # Read-only from flags (flags=None indicates skipping this logic)
+            if flags is not None and "read-only" in self.get_all_flags(flags):
+                return STATE_READONLY
 
         # We need to keep approved/fuzzy state for formats which do not
         # support saving it
@@ -1058,7 +1061,7 @@ class Unit(models.Model, LoggerMixin):
             string_changed=string_changed,
             disk_unit_state=comparison_state["state"],
         )
-        original_state = self.get_unit_state(unit, None)
+        original_state = self.get_unit_state(unit, None, include_weblate_readonly=False)
 
         automatically_translated = self.get_unit_automatically_translated(
             unit, string_changed, comparison_state["automatically_translated"]
