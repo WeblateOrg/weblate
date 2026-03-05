@@ -9,7 +9,6 @@ Weblate 5.17
 
 * Track origin of newly added source strings.
 * Improved LLM interfaces for better reliability.
-* Improved matching in :doc:`/admin/memory`.
 * Improved logic for adding monolingual plurals in :doc:`/formats/gettext`.
 
 .. rubric:: Bug fixes
@@ -33,6 +32,38 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 .. include:: changes/contributors/5.17.rst
 
 `All changes in detail <https://github.com/WeblateOrg/weblate/milestone/158?closed=1>`__.
+
+Weblate 5.16.2
+--------------
+
+*Not yet released.*
+
+.. rubric:: New features
+
+.. rubric:: Improvements
+
+* Improved matching in :doc:`/admin/memory`.
+
+.. rubric:: Bug fixes
+
+* Avoid displaying confusing status icons for ghost languages on project or category level.
+* Fixed missing plural source strings when creating new bilingual plural units.
+* Crash on certain pages with nested categories.
+* Improved API validation when adding strings.
+* Disabled throttling for incoming webhooks.
+* Avoid displaying non-actionable ghost languages.
+
+.. rubric:: Compatibility
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.16.2.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/163?closed=1>`__.
 
 Weblate 5.16.1
 --------------

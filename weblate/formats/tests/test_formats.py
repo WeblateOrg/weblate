@@ -575,6 +575,52 @@ class PoFormatTest(BaseFormatTest):
         self.assertIn('\nmsgid "Hello, world!\\n"', content)
         self.assertNotIn('\n#~ msgid "Hello, world!\\n"', content)
 
+    def test_new_unit_plural(self) -> None:
+        # Read test content
+        testdata = Path(self.FILE).read_bytes()
+
+        # Create test file
+        testfile = os.path.join(self.tempdir, f"test.{self.EXT}")
+
+        # Write test data to file
+        Path(testfile).write_bytes(testdata)
+
+        # Parse test file
+        storage = self.parse_file(testfile)
+
+        # Add new unit
+        storage.new_unit(
+            "",
+            ["Source singular", "Source plural"],
+            ["Překlad 1", "Překlad 2", "Překlad 3"],
+        )
+        storage.new_unit("OTHER", ["Other singular", "Other plural"], ["", "", ""])
+        storage.save()
+
+        # Read new content
+        newdata = Path(testfile).read_text(encoding="utf-8")
+
+        # Check if content matches
+        self.assertIn(
+            """msgid "Source singular"
+msgid_plural "Source plural"
+msgstr[0] "Překlad 1"
+msgstr[1] "Překlad 2"
+msgstr[2] "Překlad 3"
+""",
+            newdata,
+        )
+        self.assertIn(
+            """msgctxt "OTHER"
+msgid "Other singular"
+msgid_plural "Other plural"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+""",
+            newdata,
+        )
+
 
 class PoMonoFormatTest(BaseFormatTest):
     format_class = PoMonoFormat
