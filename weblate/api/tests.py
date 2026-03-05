@@ -358,7 +358,7 @@ class UserAPITest(APIBaseTest):
     def test_filter_email_with_user_view_permission(self) -> None:
         """Non-superuser with user.view permission can use email filter."""
         # Grant user.view permission to a non-superuser
-        self.grant_perm_to_user("view_user")
+        self.grant_perm_to_user("user.view")
         self.authenticate(False)
         # User with user.view permission can filter by email
         response = self.client.get(
