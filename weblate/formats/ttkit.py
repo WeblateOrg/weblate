@@ -1388,7 +1388,9 @@ class PoMonoFormat(BasePoFormat):
         self, key: str, source: str | list[str] | multistring
     ) -> str | multistring:
         if isinstance(source, list | multistring):
-            return multistring([key, f"{key}_plural"])
+            suffix = "PLURAL" if key.isupper() else "plural"
+            base = key.removesuffix("_SINGULAR").removesuffix("_singular")
+            return multistring([key, f"{base}_{suffix}"])
         return key
 
 

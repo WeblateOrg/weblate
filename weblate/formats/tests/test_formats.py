@@ -46,6 +46,7 @@ from weblate.formats.ttkit import (
     NextcloudJSONFormat,
     PhpFormat,
     PoFormat,
+    PoMonoFormat,
     PoXliffFormat,
     PropertiesFormat,
     RESJSONFormat,
@@ -573,6 +574,56 @@ class PoFormatTest(BaseFormatTest):
         content = handle.getvalue().decode()
         self.assertIn('\nmsgid "Hello, world!\\n"', content)
         self.assertNotIn('\n#~ msgid "Hello, world!\\n"', content)
+
+
+class PoMonoFormatTest(BaseFormatTest):
+    format_class = PoMonoFormat
+    EDIT_OFFSET = 1
+    MONOLINGUAL = True
+    NEW_UNIT_MATCH: str | bytes | tuple[bytes, ...] | tuple[str, ...] | None = (
+        b'\nmsgid "key"\nmsgstr "Source string"\n'
+    )
+    FIND = "Hello, world!\n"
+    FIND_CONTEXT = "Hello, world!\n"
+
+    def test_new_unit_plural(self) -> None:
+        # Read test content
+        testdata = Path(self.FILE).read_bytes()
+
+        # Create test file
+        testfile = os.path.join(self.tempdir, f"test.{self.EXT}")
+
+        # Write test data to file
+        Path(testfile).write_bytes(testdata)
+
+        # Parse test file
+        storage = self.parse_file(testfile, template=testfile).template_store
+
+        # Add new unit
+        storage.new_unit("key", ["Source singular", "Source plural"])
+        storage.new_unit("OTHER_SINGULAR", ["Other singular", "Other plural"])
+        storage.save()
+
+        # Read new content
+        newdata = Path(testfile).read_text(encoding="utf-8")
+
+        # Check if content matches
+        self.assertIn(
+            """msgid "key"
+msgid_plural "key_plural"
+msgstr[0] "Source singular"
+msgstr[1] "Source plural"
+""",
+            newdata,
+        )
+        self.assertIn(
+            """msgid "OTHER_SINGULAR"
+msgid_plural "OTHER_PLURAL"
+msgstr[0] "Other singular"
+msgstr[1] "Other plural"
+""",
+            newdata,
+        )
 
 
 class PropertiesFormatTest(BaseFormatTest):
