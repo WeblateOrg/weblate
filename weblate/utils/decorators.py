@@ -22,9 +22,7 @@ def disable_for_loaddata(signal_handler):
 
 def engage_login_not_required(view_func):
     """Apply @login_not_required only if engage page should be public."""
-    # 1. Evaluate your complex condition
+    # Apply login_not_required when login is required but the engage page is public
     if settings.REQUIRE_LOGIN and settings.PUBLIC_ENGAGE:
         return login_not_required(view_func)
-
-    # 3. Otherwise, return the original function as-is
     return view_func
