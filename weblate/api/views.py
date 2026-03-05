@@ -242,7 +242,10 @@ class DownloadViewSet(viewsets.ReadOnlyModelViewSet):
             if fmt is None or fmt in self.raw_formats:
                 renderers = self.get_renderers()
                 return (renderers[0], renderers[0].media_type)
-            msg = "Not supported format"
+            msg = (
+                f"Format '{fmt}' is not supported. "
+                f"Supported formats are: {', '.join(self.raw_formats)}"
+            )
             raise Http404(msg)
         return super().perform_content_negotiation(request, force)
 
