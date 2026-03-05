@@ -366,9 +366,7 @@ class SourceCheck(BaseCheck):
         raise NotImplementedError
 
 
-class TargetCheckParametrized(TargetCheck):
-    """Basic class for target checks with flag value."""
-
+class ParametrizedCheck(BaseCheck):
     default_disabled = True
 
     def get_value(self, unit: Unit) -> Any:  # noqa: ANN401
@@ -376,6 +374,19 @@ class TargetCheckParametrized(TargetCheck):
 
     def has_value(self, unit: Unit) -> bool:
         return unit.all_flags.has_value(self.enable_string)
+
+    def get_description(self, check_obj: Check) -> StrOrPromise:
+        try:
+            self.get_value(check_obj.unit)
+        except ValueError as error:
+            return format_html(
+                gettext("Could not parse {} flag: {}"), self.enable_string, error
+            )
+        return super().get_description(check_obj)
+
+
+class TargetCheckParametrized(ParametrizedCheck, TargetCheck):
+    """Basic class for target checks with flag value."""
 
     def check_target_unit(
         self, sources: list[str], targets: list[str], unit: Unit
@@ -402,15 +413,6 @@ class TargetCheckParametrized(TargetCheck):
     def check_single(self, source: str, target: str, unit: Unit) -> bool:
         """We don't check single phrase here."""
         return False
-
-    def get_description(self, check_obj: Check) -> StrOrPromise:
-        try:
-            self.get_value(check_obj.unit)
-        except ValueError as error:
-            return format_html(
-                gettext("Could not parse {} flag: {}"), self.enable_string, error
-            )
-        return super().get_description(check_obj)
 
 
 class CountingCheck(TargetCheck):
