@@ -53,8 +53,6 @@ from weblate.utils.random import get_random_identifier
 from weblate.utils.stats import (
     BaseStats,
     CategoryLanguage,
-    GhostCategoryLanguageStats,
-    GhostProjectLanguageStats,
     ProjectLanguage,
 )
 from weblate.utils.templatetags.icons import icon
@@ -76,6 +74,8 @@ if TYPE_CHECKING:
         ComponentList,
     )
     from weblate.utils.stats import (
+        GhostCategoryLanguageStats,
+        GhostProjectLanguageStats,
         GhostStats,
     )
 
@@ -1217,10 +1217,9 @@ def indicate_alerts(
     elif isinstance(obj, ProjectLanguage):
         project = obj.project
         project_language = obj
-    elif isinstance(obj, GhostProjectLanguageStats):
-        project = obj.project
-    elif isinstance(obj, GhostCategoryLanguageStats):
-        project = obj.category.project
+    # There is intentionally no project-level alerts for
+    # GhostProjectLanguageStats and GhostCategoryLanguageStats as these would
+    # be confusing (showing alert or admin icon on ghost containers).
 
     icons = format_html_join(
         "\n",

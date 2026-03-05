@@ -9,6 +9,8 @@ Weblate 5.16.2
 
 .. rubric:: Bug fixes
 
+* Avoid displaying confusing status icons for ghost languages on project or category level.
+
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading
