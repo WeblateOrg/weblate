@@ -440,6 +440,19 @@ class UserFilterRestricted(filters.FilterSet):
         fields = ("username", "id", "is_active")
 
 
+class UserFilterBackend(filters.DjangoFilterBackend):
+    """Custom filter backend that selects UserFilter vs UserFilterRestricted."""
+
+    def get_filterset_class(self, view, queryset=None):
+        request = view.request
+        user = request.user
+        if user.is_authenticated and (
+            user.has_perm("user.view") or user.has_perm("user.edit")
+        ):
+            return UserFilter
+        return UserFilterRestricted
+
+
 class ComponentSlugFilter(filters.FilterSet):
     filter = filters.CharFilter(field_name="slug", lookup_expr="icontains")
 
@@ -457,15 +470,8 @@ class UserViewSet(viewsets.ModelViewSet):
 
     queryset = User.objects.none()
     lookup_field = "username"
-    filter_backends = (filters.DjangoFilterBackend,)
-
-    def get_filterset_class(self):
-        user = self.request.user
-        if user.is_authenticated and (
-            user.has_perm("user.view") or user.has_perm("user.edit")
-        ):
-            return UserFilter
-        return UserFilterRestricted
+    filterset_class = UserFilter
+    filter_backends = (UserFilterBackend,)
 
     def get_serializer_class(self):
         if self.request.user.has_perm("user.view") or self.request.user.has_perm(
