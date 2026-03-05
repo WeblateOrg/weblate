@@ -392,7 +392,7 @@ class TTKitFormat(TranslationFormat):
             return False
         return self.store is not None
 
-    def construct_unit(self, source: str):
+    def construct_unit(self, source: str | multistring):
         if self.use_settarget and self.source_language:
             # Setting source on LISAunit will make it use default language
             unit = self.store.UnitClass(None, **self.get_unit_class_kwargs())
@@ -423,42 +423,53 @@ class TTKitFormat(TranslationFormat):
         if target is None:
             target = ""
         # Process source
+        desired_source: str | multistring
         if isinstance(source, list):
-            context = source[0]
             # Single string passed plain or multistring
-            source = context if len(source) == 1 else multistring(source)
+            desired_source = source[0] if len(source) == 1 else multistring(source)
         else:
             # This is string
-            context = source
+            desired_source = source
+
+        # The initial source needs to be different for monolingual files
+        initial_source: str | multistring
+        if self.is_template or self.template_store:
+            if isinstance(desired_source, str):
+                initial_source = desired_source
+            else:
+                initial_source = desired_source.strings[0]
+        else:
+            initial_source = desired_source
 
         # Process target
         if isinstance(target, list):
             target = target[0] if len(target) == 1 else multistring(target)
 
         # Build the unit
-        unit = self.construct_unit(context)
+        unit = self.construct_unit(initial_source)
 
         # Monolingual translation
         if self.is_template or self.template_store:
             unit.setid(key)
             if isinstance(unit, csvunit):
                 unit.setcontext(key)
-            target = source
-            source = self.create_unit_key(key, source)
+            target = desired_source
+            desired_source = self.create_unit_key(key, desired_source)
         # Bilingual translation
         elif isinstance(unit, tbxunit | Xliff1Unit | Xliff2Unit | RESJSONUnit) and key:
             unit.setid(key)
         elif self.set_context_bilingual and key:
             unit.setcontext(key)
         elif isinstance(unit, BaseJsonUnit):
-            unit.setid(context)
+            # Bilingual JSON
+            unit.setid(initial_source)
 
         if self.use_settarget and self.source_language:
-            unit.setsource(source, self.source_language)
+            unit.setsource(desired_source, self.source_language)
         elif self.is_template or self.template_store or self.use_settarget:
             # Set source only if needed, it has performance hit in many formats because
             # it is wrapped/rendered here.
-            unit.source = source
+            unit.source = desired_source
 
         if self.use_settarget and self.language_code:
             unit.settarget(target, self.language_code)
