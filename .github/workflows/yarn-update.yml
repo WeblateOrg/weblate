@@ -9,6 +9,7 @@ on:
     branches:
     - renovate/**
     - main
+    - stable
     paths:
     - .github/workflows/yarn-update.yml
     - scripts/yarn-update
@@ -61,14 +62,16 @@ jobs:
       uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       with:
         python-version: '3.14'
-    - name: Lockfile maintenance
-      if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
-      working-directory: ./client
-      run: yarn upgrade
-
     - working-directory: ./client
       run: |
         yarn install --check-files
+        yarn build
+    - name: Lockfile maintenance
+      if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+      working-directory: ./client
+      run: |
+        yarn upgrade
+        yarn install
         yarn build
 
     - name: Update SBOM
