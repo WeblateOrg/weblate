@@ -231,7 +231,7 @@
                 <h4 class="card-title">{{ object.component.get_add_label }}</h4>
               </div>
               <div class="card-body">
-                {% if obj.is_source %}
+                {% if object.is_source %}
                   <p>{% translate "You can add a new translation string here, it will automatically appear in all translations." %}</p>
                 {% endif %}
                 {% csrf_token %}
@@ -265,7 +265,7 @@
                   <h4 class="card-title">{{ object.component.get_add_label }}</h4>
                 </div>
                 <div class="card-body">
-                  {% if obj.is_source %}
+                  {% if object.is_source %}
                     <p>{% translate "You can add a new translation string here, it will automatically appear in all translations." %}</p>
                   {% endif %}
                   {% csrf_token %}
