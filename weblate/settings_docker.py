@@ -723,6 +723,8 @@ PRIVATE_COMMIT_NAME_OPT_IN = get_env_bool("WEBLATE_PRIVATE_COMMIT_NAME_OPT_IN", 
 # Shortcut for login required setting
 REQUIRE_LOGIN = get_env_bool("WEBLATE_REQUIRE_LOGIN")
 
+PUBLIC_ENGAGE = get_env_bool("WEBLATE_PUBLIC_ENGAGE")
+
 # Middleware
 MIDDLEWARE = [
     "weblate.middleware.RedirectMiddleware",

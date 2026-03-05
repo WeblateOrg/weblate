@@ -5,6 +5,8 @@ Weblate 5.16.2
 
 .. rubric:: New features
 
+* New setting :setting:`PUBLIC_ENGAGE` to make the engage page public even with :setting:`REQUIRE_LOGIN`.
+
 .. rubric:: Improvements
 
 * Improved matching in :doc:`/admin/memory`.
