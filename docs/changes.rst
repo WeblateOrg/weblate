@@ -52,6 +52,7 @@ Weblate 5.16.2
 * Improved API validation when adding strings.
 * Disabled throttling for incoming webhooks.
 * Avoid displaying non-actionable ghost languages.
+* Fixed highlighting in the translation editor.
 
 .. rubric:: Compatibility
 
