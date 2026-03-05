@@ -7,14 +7,16 @@ Weblate 5.16.2
 
 .. rubric:: Improvements
 
-* Track origin of newly added source strings.
-* Improved LLM interfaces for better reliability.
 * Improved matching in :doc:`/admin/memory`.
 
 .. rubric:: Bug fixes
 
 * Avoid displaying confusing status icons for ghost languages on project or category level.
 * Fixed missing plural source strings when creating new bilingual plural units.
+* Crash on certain pages with nested categories.
+* Improved API validation when adding strings.
+* Disabled throttling for incoming webhooks.
+* Avoid displaying non-actionable ghost languages.
 
 .. rubric:: Compatibility
 
