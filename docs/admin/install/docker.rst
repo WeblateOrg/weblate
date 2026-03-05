@@ -812,6 +812,10 @@ Generic settings
         environment:
           WEBLATE_REQUIRE_LOGIN: 1
 
+.. envvar:: WEBLATE_PUBLIC_ENGAGE
+
+   Enables :setting:`PUBLIC_ENGAGE`.
+
 .. envvar:: WEBLATE_GOOGLE_ANALYTICS_ID
 
     Configures ID for Google Analytics by changing :setting:`GOOGLE_ANALYTICS_ID`.

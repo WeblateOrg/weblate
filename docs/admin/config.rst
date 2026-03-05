@@ -1611,6 +1611,19 @@ Defines a regular expression to limit what can be entered as :ref:`project-web`.
    * :setting:`PROJECT_WEB_RESTRICT_HOST`
    * :setting:`PROJECT_WEB_RESTRICT_NUMERIC`
 
+.. setting:: PUBLIC_ENGAGE
+
+PUBLIC_ENGAGE
+-------------
+
+.. versionadded:: 5.16.2
+
+Allows public engage page even with :setting:`REQUIRE_LOGIN`.
+
+.. seealso::
+
+   * :ref:`promotion`
+
 .. setting:: RATELIMIT_NOTIFICATION_LIMITS
 
 RATELIMIT_NOTIFICATION_LIMITS

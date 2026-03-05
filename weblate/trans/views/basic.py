@@ -64,6 +64,7 @@ from weblate.trans.models.project import prefetch_project_flags
 from weblate.trans.models.translation import GhostTranslation
 from weblate.trans.util import render, sort_unicode, translation_percent
 from weblate.utils import messages
+from weblate.utils.decorators import engage_login_not_required
 from weblate.utils.ratelimit import reset_rate_limit, session_ratelimit_post
 from weblate.utils.stats import (
     CategoryLanguage,
@@ -169,6 +170,7 @@ def add_ghost_translations(
         translations.append(generator(obj, language, **kwargs))
 
 
+@engage_login_not_required
 def show_engage(request: AuthenticatedHttpRequest, path):
     # Legacy URL
     if len(path) == 2:

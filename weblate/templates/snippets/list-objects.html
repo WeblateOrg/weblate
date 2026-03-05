@@ -70,6 +70,17 @@
               {% translate "Translated" %}
               {% if objects.paginator.num_pages > 1 %}</a>{% endif %}
           </th>
+          {% if project and project.enable_review %}
+            <th title="{% translate "Sort this column" %}"
+                class="number zero-width-640 sort-cell">
+              {% if objects.paginator.num_pages > 1 %}
+                <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "unreviewed" %}-{% endif %}untranslated">
+                {% endif %}
+                <span class="sort-icon {% if objects.paginator.sort_by == "unreviewed" %}sort-down{% elif objects.paginator.sort_by == "-unreviewed" %}sort-up{% endif %}"> </span>
+                {% translate "Unreviewed" %}
+                {% if objects.paginator.num_pages > 1 %}</a>{% endif %}
+            </th>
+          {% endif %}
           <th title="{% translate "Sort this column" %}"
               class="number zero-width-640 sort-cell">
             {% if objects.paginator.num_pages > 1 %}
@@ -159,7 +170,16 @@
           {% endif %}
           {% list_objects_percent percent=category.stats.translated_percent value=category.stats.translated search_url=search_url translate_url=translate_url query="q=state:>=translated" total=category.stats.all checks=category.stats.allchecks %}
           {% if not hide_details %}
-            {% list_objects_number value=category.stats.todo search_url=search_url translate_url=translate_url query="q=state:<translated " css="zero-width-640" %} {% list_objects_number value=category.stats.todo_words search_url=search_url translate_url=translate_url query="q=state:<translated" css="zero-width-720" %} {% list_objects_number value=category.stats.todo_chars search_url=search_url translate_url=translate_url query="q=state:<translated" css="zero-width-1200" %} {% list_objects_number value=category.stats.nottranslated search_url=search_url translate_url=translate_url query="q=state:empty" css="zero-width-1400" %} {% list_objects_number value=category.stats.allchecks search_url=search_url translate_url=translate_url query="q=has:check" css="zero-width-768" %} {% list_objects_number value=category.stats.suggestions search_url=search_url translate_url=translate_url query="q=has:suggestion#suggestions" css="zero-width-900" %} {% list_objects_number value=category.stats.comments search_url=search_url translate_url=translate_url query="q=has:comment#comments" css="zero-width-1000" %}
+            {% if project and project.enable_review %}
+              {% list_objects_number value=category.stats.waiting_review search_url=search_url translate_url=translate_url query="q=state:translated " css="zero-width-640" %}
+            {% endif %}
+            {% list_objects_number value=category.stats.todo search_url=search_url translate_url=translate_url query="q=state:<translated " css="zero-width-640" %}
+            {% list_objects_number value=category.stats.todo_words search_url=search_url translate_url=translate_url query="q=state:<translated" css="zero-width-720" %}
+            {% list_objects_number value=category.stats.todo_chars search_url=search_url translate_url=translate_url query="q=state:<translated" css="zero-width-1200" %}
+            {% list_objects_number value=category.stats.nottranslated search_url=search_url translate_url=translate_url query="q=state:empty" css="zero-width-1400" %}
+            {% list_objects_number value=category.stats.allchecks search_url=search_url translate_url=translate_url query="q=has:check" css="zero-width-768" %}
+            {% list_objects_number value=category.stats.suggestions search_url=search_url translate_url=translate_url query="q=has:suggestion#suggestions" css="zero-width-900" %}
+            {% list_objects_number value=category.stats.comments search_url=search_url translate_url=translate_url query="q=has:comment#comments" css="zero-width-1000" %}
           {% endif %}
         </tr>
         <tr data-parent="{{ row_id }}">
@@ -268,6 +288,9 @@
             {% list_objects_percent percent=object.stats.translated_percent value=object.stats.translated search_url=search_url translate_url=translate_url query="q=state:>=translated" total=object.stats.all checks=object.stats.allchecks %}
           {% endif %}
           {% if not hide_details %}
+            {% if project and project.enable_review %}
+              {% list_objects_number value=object.stats.waiting_review search_url=search_url translate_url=translate_url query="q=state:translated " css="zero-width-640" %}
+            {% endif %}
             {% list_objects_number value=object.stats.todo search_url=search_url translate_url=translate_url query="q=state:<translated" css="zero-width-640" %}
             {% list_objects_number value=object.stats.todo_words search_url=search_url translate_url=translate_url query="q=state:<translated" css="zero-width-720" %}
             {% list_objects_number value=object.stats.todo_chars search_url=search_url translate_url=translate_url query="q=state:<translated" css="zero-width-1200" %}

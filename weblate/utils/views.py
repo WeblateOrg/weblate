@@ -65,6 +65,10 @@ def key_translated(instance):
     return instance.stats.translated_percent
 
 
+def key_unreviewed(instance):
+    return instance.stats.waiting_review
+
+
 def key_untranslated(instance):
     return instance.stats.todo
 
@@ -96,6 +100,7 @@ def key_comments(instance):
 SORT_KEYS = {
     "name": key_name,
     "translated": key_translated,
+    "unreviewed": key_unreviewed,
     "untranslated": key_untranslated,
     "untranslated_words": key_untranslated_words,
     "untranslated_chars": key_untranslated_chars,
