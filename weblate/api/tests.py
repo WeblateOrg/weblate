@@ -383,7 +383,7 @@ class UserAPITest(APIBaseTest):
     def test_filter_email_with_user_edit_permission(self) -> None:
         """Non-superuser with user.edit permission can use email filter."""
         # Grant user.edit permission to a non-superuser
-        self.grant_perm_to_user("edit_user")
+        self.grant_perm_to_user("user.edit")
         self.authenticate(False)
         # User with user.edit permission can filter by email
         response = self.client.get(
