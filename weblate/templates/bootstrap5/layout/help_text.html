@@ -1,11 +1,16 @@
 {% load icons %}
 
+{% comment %}Based on crispy original, just adds help_as_icon logic.{% endcomment %}
+
 {% if field.help_text %}
   {% if field.field.help_as_icon %}
-    <span title="{{ field.help_text }}">{% icon "info.svg" %}</span>
+    <span id="{{ field.auto_id }}_helptext"
+          class="form-text"
+          title="{{ field.help_text|safe }}">{% icon "info.svg" %}</span>
   {% elif help_text_inline %}
-    <span id="hint_{{ field.auto_id }}" class="help-block">{{ field.help_text|safe }}</span>
+    <span id="{{ field.auto_id }}_helptext" class="form-text">{{ field.help_text|safe }}</span>
   {% else %}
-    <div id="hint_{{ field.auto_id }}" class="help-block">{{ field.help_text|safe }}</div>
+    <div {% if field.auto_id %}id="{{ field.auto_id }}_helptext"{% endif %}
+         class="form-text">{{ field.help_text|safe }}</div>
   {% endif %}
 {% endif %}
