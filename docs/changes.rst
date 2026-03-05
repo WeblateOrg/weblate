@@ -9,6 +9,8 @@ Weblate 5.16.2
 
 .. rubric:: Bug fixes
 
+* Fixed missing plural source strings when creating new bilingual plural units.
+
 .. rubric:: Compatibility
 
 .. rubric:: Upgrading
