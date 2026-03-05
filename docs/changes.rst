@@ -8,6 +8,7 @@ Weblate 5.16.2
 .. rubric:: Improvements
 
 * Improved matching in :doc:`/admin/memory`.
+* Show the number of strings waiting for review in listings.
 
 .. rubric:: Bug fixes
 
