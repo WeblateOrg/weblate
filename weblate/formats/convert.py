@@ -400,7 +400,8 @@ class MarkdownFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U,
         # https://github.com/miyuchina/mistletoe/issues/210
         with MARKDOWN_LOCK:
             converter = MarkdownTranslator(
-                inputstore=self.store,
+                # TODO: remove type override with translate-toolkit 3.19.4
+                inputstore=self.store,  # type: ignore[arg-type]
                 includefuzzy=True,
                 outputthreshold=None,
                 maxlength=80,
