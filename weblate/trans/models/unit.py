@@ -808,8 +808,9 @@ class Unit(models.Model, LoggerMixin):
 
         # Add new variant
         if new_variant:
-            variant = Variant.objects.get_or_create(
-                key=new_variant, component=component, variant_regex=""
+            variant = Variant.objects.filter(
+                key__md5=MD5(Value(new_variant))
+            ).get_or_create(key=new_variant, component=component, variant_regex=""
             )[0]
             variant.defining_units.add(self)
 
