@@ -9,8 +9,6 @@ from urllib.parse import unquote_plus
 
 from requests.exceptions import RequestException
 
-from weblate.utils.docs import VersionAdded
-
 from .base import MachineTranslation, MachineTranslationError
 from .forms import KeyMachineryForm
 
@@ -29,7 +27,7 @@ class YandexV2Translation(MachineTranslation):
     name = "Yandex v2"
     max_score = 90
     settings_form = KeyMachineryForm
-    doc_versions = (VersionAdded("5.1"),)
+    version_added = "5.1"
 
     def check_failure(self, response: Response) -> None:
         super().check_failure(response)

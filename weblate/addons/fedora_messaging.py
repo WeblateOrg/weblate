@@ -17,7 +17,6 @@ from weblate_schemas.messages import WeblateV1Message
 from weblate.addons.base import ChangeBaseAddon
 from weblate.trans.util import split_plural
 from weblate.utils.data import data_path
-from weblate.utils.docs import VersionAdded
 from weblate.utils.site import get_site_url
 
 from .forms import FedoraMessagingAddonForm
@@ -35,7 +34,7 @@ class FedoraMessagingAddon(ChangeBaseAddon):
         "Sends notifications to a Fedora Messaging compatible AMQP exchange."
     )
     multiple = False
-    doc_versions = (VersionAdded("5.15"),)
+    version_added = "5.15"
 
     @classmethod
     def can_install(

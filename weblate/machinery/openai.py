@@ -8,8 +8,6 @@ from typing import TYPE_CHECKING
 
 from django.core.cache import cache
 
-from weblate.utils.docs import VersionAdded
-
 from .base import (
     MachineryRateLimitError,
     MachineTranslationError,
@@ -73,7 +71,7 @@ class BaseOpenAITranslation(BaseLLMTranslation):
 class OpenAITranslation(BaseOpenAITranslation):
     name = "OpenAI"
 
-    doc_versions = (VersionAdded("5.3"),)
+    version_added = "5.3"
 
     settings_form = OpenAIMachineryForm
 
@@ -116,7 +114,7 @@ class OpenAITranslation(BaseOpenAITranslation):
 
 class AzureOpenAITranslation(BaseOpenAITranslation):
     name = "Azure OpenAI"
-    doc_versions = (VersionAdded("5.8"),)
+    version_added = "5.8"
     settings_form = AzureOpenAIMachineryForm
 
     def __init__(self, settings=None) -> None:

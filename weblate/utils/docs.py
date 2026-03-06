@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import textwrap
-from itertools import chain
 from typing import TYPE_CHECKING, ClassVar
 
 from django.conf import settings
@@ -37,41 +36,23 @@ def get_doc_url(page: str, anchor: str = "", user: User | None = None) -> str:
 
 
 class DocVersionsMixin:
-    doc_versions: ClassVar[tuple[RSTVersionMetadata, ...]] = ()
+    """
+    Mixin for classes that document version metadata in RST.
+
+    Set version_added and/or versions_changed on subclasses; get_versions_output()
+    renders them as .. versionadded:: and .. versionchanged:: directives.
+    """
+
+    version_added: ClassVar[str | None] = None
+    versions_changed: ClassVar[tuple[tuple[str, str], ...]] = ()
 
     @classmethod
     def get_versions_output(cls) -> list[str]:
-        return list(
-            chain(*[("\n", str(version), "\n") for version in cls.doc_versions])
-        )
-
-
-class RSTVersionMetadata:
-    version: str
-    label: str
-
-    def __init__(self, version: str):
-        self.version = version
-
-    def __str__(self) -> str:
-        return f".. {self.label}:: {self.version}"
-
-
-class VersionAdded(RSTVersionMetadata):
-    label: str = "versionadded"
-
-
-class VersionChanged(RSTVersionMetadata):
-    label: str = "versionchanged"
-    version: str
-    description: str
-
-    def __init__(self, version: str, description: str):
-        super().__init__(version)
-        self.description = description
-
-    def __str__(self) -> str:
-        # normalize indent if description is multiline
-        normalized = self.description.replace("\r\n", "\n").replace("\r", "\n")
-        body = textwrap.indent(normalized, "   ")
-        return f".. {self.label}:: {self.version}\n\n{body}"
+        parts: list[str] = []
+        if cls.version_added is not None:
+            parts.extend(("\n", f".. versionadded:: {cls.version_added}", "\n"))
+        for version, description in cls.versions_changed:
+            normalized = description.replace("\r\n", "\n").replace("\r", "\n")
+            body = textwrap.indent(normalized, "   ")
+            parts.extend(("\n", f".. versionchanged:: {version}", "\n\n", body, "\n"))
+        return parts

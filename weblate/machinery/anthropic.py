@@ -6,8 +6,6 @@ from __future__ import annotations
 
 from urllib.parse import urljoin
 
-from weblate.utils.docs import VersionAdded
-
 from .base import MachineryRateLimitError
 from .forms import AnthropicMachineryForm
 from .llm import BaseLLMTranslation
@@ -24,7 +22,7 @@ class AnthropicTranslation(BaseLLMTranslation):
     name = "Anthropic"
     end_point = "/v1/messages"
     settings_form = AnthropicMachineryForm
-    doc_versions = (VersionAdded("5.16"),)
+    version_added = "5.16"
 
     def get_model(self) -> str:
         if self.settings["model"] == "custom":

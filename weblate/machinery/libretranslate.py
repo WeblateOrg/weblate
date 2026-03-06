@@ -8,8 +8,6 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING
 
-from weblate.utils.docs import VersionAdded
-
 from .base import BatchMachineTranslation
 from .forms import LibreTranslateMachineryForm
 
@@ -24,7 +22,7 @@ class LibreTranslateTranslation(BatchMachineTranslation):
 
     name = "LibreTranslate"
     max_score = 89
-    doc_versions = (VersionAdded("4.7.1"),)
+    version_added = "4.7.1"
     settings_form = LibreTranslateMachineryForm
     request_timeout = 20
 
