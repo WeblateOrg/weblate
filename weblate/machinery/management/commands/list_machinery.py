@@ -5,11 +5,11 @@
 from __future__ import annotations
 
 from weblate.machinery.models import MACHINERY
-from weblate.utils.management.base import BaseCommand
+from weblate.utils.management.base import DocGeneratorCommand
 from weblate.utils.rst import format_table
 
 
-class Command(BaseCommand):
+class Command(DocGeneratorCommand):
     help = "List installed machineries"
 
     @staticmethod
@@ -30,17 +30,24 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options) -> None:
         """List installed add-ons."""
-        self.stdout.write("""..
-   Partly generated using ./manage.py list_machinery
-""")
         for _unused, obj in sorted(MACHINERY.items()):
-            self.stdout.write(f".. _mt-{obj.get_identifier()}:")
-            self.stdout.write("\n")
-            self.stdout.write(obj.name)
-            self.stdout.write("-" * len(obj.name))
-            self.stdout.write("\n")
-            self.stdout.write(f":Service ID: ``{obj.get_identifier()}``")
-            self.stdout.write(f":Maximal score: {obj.max_score}")
+            machinery_content = []
+            machinery_content.extend(
+                [
+                    f".. _mt-{obj.get_identifier()}:",
+                    "\n\n",
+                    obj.name,
+                    "\n",
+                    "-" * len(obj.name),
+                    "\n",
+                    *obj.get_versions_output(),
+                    "\n",
+                    f":Service ID: ``{obj.get_identifier()}``",
+                    "\n",
+                    f":Maximal score: {obj.max_score}",
+                    "\n",
+                ]
+            )
             features = []
             if obj.highlight_syntax:
                 features.append(":ref:`placeables-mt`")
@@ -49,9 +56,10 @@ class Command(BaseCommand):
             if features:
                 prefix = ":Advanced features: "
                 for feature in features:
-                    self.stdout.write(f"{prefix}* {feature}")
+                    machinery_content.append(f"{prefix}* {feature}")
                     if not prefix.isspace():
                         prefix = " " * len(prefix)
+                    machinery_content.append("\n")
 
             if obj.settings_form:
                 form = obj.settings_form(obj)
@@ -61,12 +69,12 @@ class Command(BaseCommand):
                 ]
                 prefix = ":Configuration: "
                 for table_row in format_table(table, None):
-                    self.stdout.write(f"{prefix}{table_row}")
+                    machinery_content.append(f"{prefix}{table_row}")
                     if not prefix.isspace():
                         prefix = " " * len(prefix)
             else:
-                self.stdout.write(
+                machinery_content.append(
                     ":Configuration: `This service has no configuration.`"
                 )
-            self.stdout.write("\n")
-            self.stdout.write("\n")
+            self.add_section(obj.get_identifier(), machinery_content)
+        self.write_sections(options.get("output"))

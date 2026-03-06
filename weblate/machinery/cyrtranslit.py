@@ -7,6 +7,7 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 
 from weblate.lang.models import Language
+from weblate.utils.docs import VersionAdded
 
 from .base import MachineTranslation
 from .types import TranslationResultDict
@@ -53,6 +54,7 @@ class CyrTranslitTranslation(MachineTranslation):
 
     name = "CyrTranslit"
     max_score = 100
+    doc_versions = (VersionAdded("5.7"),)
     cache_translations = False
     replacement_start = "[___"
     replacement_end = "___]"

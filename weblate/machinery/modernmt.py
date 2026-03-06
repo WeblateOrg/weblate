@@ -13,6 +13,7 @@ from dateutil.parser import isoparse
 from requests.exceptions import HTTPError
 
 import weblate.utils.version
+from weblate.utils.docs import VersionAdded
 
 from .base import (
     GlossaryDoesNotExistError,
@@ -33,6 +34,7 @@ class ModernMTTranslation(GlossaryMachineTranslationMixin):
     name = "ModernMT"
     max_score = 90
     settings_form = ModernMTMachineryForm
+    doc_versions = (VersionAdded("4.2"),)
 
     language_map: ClassVar[dict[str, str]] = {
         "fa": "pes",

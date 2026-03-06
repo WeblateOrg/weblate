@@ -9,6 +9,7 @@ from __future__ import annotations
 from urllib.parse import urljoin
 
 from weblate.machinery.llm import BaseLLMTranslation
+from weblate.utils.docs import VersionAdded
 
 from .forms import OllamaMachineryForm
 
@@ -24,6 +25,7 @@ class OllamaTranslation(BaseLLMTranslation):
     name = "Ollama"
     end_point = "/api/chat"
     settings_form = OllamaMachineryForm
+    doc_versions = (VersionAdded("5.15"),)
 
     def get_model(self) -> str:
         return self.settings["model"]

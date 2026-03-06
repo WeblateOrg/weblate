@@ -4,7 +4,8 @@
 from __future__ import annotations
 
 import textwrap
-from typing import TYPE_CHECKING
+from itertools import chain
+from typing import TYPE_CHECKING, ClassVar
 
 from django.conf import settings
 from django.utils.translation import get_language
@@ -33,6 +34,16 @@ def get_doc_url(page: str, anchor: str = "", user: User | None = None) -> str:
         anchor = f"#{anchor}"
     # Generate URL
     return f"https://docs.weblate.org/{code}/{doc_version}/{page}.html{anchor}"
+
+
+class DocVersionsMixin:
+    doc_versions: ClassVar[tuple[RSTVersionMetadata, ...]] = ()
+
+    @classmethod
+    def get_versions_output(cls) -> list[str]:
+        return list(
+            chain(*[("\n", str(version), "\n") for version in cls.doc_versions])
+        )
 
 
 class RSTVersionMetadata:

@@ -10,6 +10,8 @@ from aliyunsdkalimt.request.v20181012 import TranslateGeneralRequest
 from aliyunsdkcore.client import AcsClient
 from django.utils.functional import cached_property
 
+from weblate.utils.docs import VersionAdded
+
 from .base import MachineTranslation, MachineTranslationError
 from .forms import AlibabaMachineryForm
 
@@ -27,6 +29,8 @@ class AlibabaTranslation(MachineTranslation):
         "zh_Hans": "zh",
         "zh_Hant": "zh-tw",
     }
+
+    doc_versions = (VersionAdded("5.3"),)
 
     settings_form = AlibabaMachineryForm
 
