@@ -17,11 +17,9 @@ from celery.schedules import crontab
 from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.cache import cache
+from django.core.exceptions import PermissionDenied
 from django.db import IntegrityError, transaction
-from django.db.models import (
-    Count,
-    F,
-)
+from django.db.models import Count, F
 from django.http import Http404
 from django.utils import timezone
 from django.utils.timezone import make_aware
@@ -572,13 +570,17 @@ def auto_translate(  # noqa: PLR0913
             component_wide=component_wide,
             unit_ids=unit_ids,
         )
-        message = auto.perform(
-            auto_source=auto_source,
-            engines=engines,
-            threshold=threshold,
-            source_component_id=source_component_id,
-        )
-        result.update({"message": message})
+        try:
+            message = auto.perform(
+                auto_source=auto_source,
+                engines=engines,
+                threshold=threshold,
+                source_component_id=source_component_id,
+            )
+        except PermissionDenied as error:
+            result.update({"message": str(error)})
+        else:
+            result.update({"message": message})
         return result
 
 

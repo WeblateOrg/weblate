@@ -1113,7 +1113,7 @@ class AutoForm(forms.Form):
                 raise ValidationError(gettext("Component not found!"))
             try:
                 result = self.components.get(slug=component, project=self.project)
-            except Component.DoesNotExist as error:
+            except (Component.DoesNotExist, Component.MultipleObjectsReturned) as error:
                 raise ValidationError(gettext("Component not found!")) from error
         else:
             try:

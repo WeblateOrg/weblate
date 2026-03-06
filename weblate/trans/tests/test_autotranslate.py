@@ -11,13 +11,15 @@ from django.urls import reverse
 
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
-from weblate.trans.models import Change, Component, PendingUnitChange
+from weblate.trans.models import Change, Component, PendingUnitChange, Project
 from weblate.trans.tasks import auto_translate
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.utils.stats import ProjectLanguage
 
 
 class AutoTranslationTest(ViewTestCase):
+    use_component_id: bool = False
+
     def setUp(self) -> None:
         super().setUp()
         # Need extra power
@@ -25,11 +27,14 @@ class AutoTranslationTest(ViewTestCase):
         self.user.save()
         self.project.translation_review = True
         self.project.save()
+        self.component2 = self.create_second_component()
+
+    def create_second_component(self, project: Project | None = None) -> Component:
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
-            self.component2 = Component.objects.create(
+            return Component.objects.create(
                 name="Test 2",
                 slug="test-2",
-                project=self.project,
+                project=self.project if project is None else project,
                 repo=self.git_repo_path,
                 push=self.git_repo_path,
                 vcs="git",
@@ -63,6 +68,8 @@ class AutoTranslationTest(ViewTestCase):
             kwargs["q"] = "state:<translated"
         if "mode" not in kwargs:
             kwargs["mode"] = "translate"
+        if self.use_component_id:
+            kwargs["component"] = self.component.id
         response = self.client.post(url, kwargs, follow=True)
         if expected == 0:
             expected_string = (
@@ -128,11 +135,16 @@ class AutoTranslationTest(ViewTestCase):
         self.assertEqual(de_translation.stats.translated, initial_stats + 1)
 
     def test_autotranslate_category(self) -> None:
-        category = self.create_category(project=self.project)
-        self.component.category = self.component2.category = category
+        self.component.category = self.create_category(project=self.project)
+        category = self.component.category
+        if self.component2.project != self.project:
+            category = self.create_category(project=self.component2.project)
+        self.component2.category = category
         self.component.save()
         self.component2.save()
+
         self.make_different("de")
+
         self.perform_auto(
             path_params={"path": category.get_url_path()},
             expected=2,
@@ -141,7 +153,7 @@ class AutoTranslationTest(ViewTestCase):
 
     def test_autotranslate_project_language(self) -> None:
         project_language = ProjectLanguage(
-            self.project,
+            self.component2.project,
             language=Language.objects.get(code="cs"),
         )
         self.make_different("de")
@@ -307,7 +319,13 @@ class AutoTranslationTest(ViewTestCase):
 
     def test_command_different(self) -> None:
         self.make_different()
-        call_command("auto_translate", "test", "test-2", "cs", source="test/test")
+        call_command(
+            "auto_translate",
+            self.component2.project.slug,
+            self.component2.slug,
+            "cs",
+            source=self.component.full_slug,
+        )
 
     def test_command_errors(self) -> None:
         with self.assertRaises(CommandError):
@@ -318,6 +336,16 @@ class AutoTranslationTest(ViewTestCase):
             call_command("auto_translate", "test", "test", "cs", source="test/invalid")
         with self.assertRaises(CommandError):
             call_command("auto_translate", "test", "test", "xxx")
+
+
+class AutoTranslationCrossProjectTest(AutoTranslationTest):
+    use_component_id: bool = True
+
+    def create_second_component(self, project: Project | None = None) -> Component:
+        project = Project.objects.create(
+            name="Other", slug="other", translation_review=True
+        )
+        return super().create_second_component(project=project)
 
 
 class AutoTranslationMtTest(ViewTestCase):
