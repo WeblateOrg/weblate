@@ -27,7 +27,9 @@ from weblate.trans.autofixes import AUTOFIXES
 from weblate.trans.defines import VARIANT_KEY_LENGTH
 
 if TYPE_CHECKING:
-    from collections.abc import Generator, Iterator
+    from collections.abc import Callable, Generator, Iterator
+
+    from django_stubs_ext import StrOrPromise
 
 
 def discard_flag_validation(name: str) -> None:
@@ -41,14 +43,18 @@ def discard_flag_validation(name: str) -> None:
         raise ValueError(msg)
 
 
-PLAIN_FLAGS = {
-    v.enable_string: v.name
-    for k, v in CHECKS.items()
-    if v.default_disabled and not v.param_type
+PLAIN_FLAGS: dict[str, StrOrPromise] = {
+    check.enable_string: check.name
+    for check in CHECKS.values()
+    if check.default_disabled and not check.param_type
 }
-TYPED_FLAGS = {v.enable_string: v.name for k, v in CHECKS.items() if v.param_type}
-TYPED_FLAGS_ARGS = {
-    v.enable_string: v.param_type for k, v in CHECKS.items() if v.param_type
+TYPED_FLAGS: dict[str, StrOrPromise] = {
+    check.enable_string: check.name for check in CHECKS.values() if check.param_type
+}
+TYPED_FLAGS_ARGS: dict[str, Callable[[tuple[str, ...]], Any]] = {
+    check.enable_string: check.param_type
+    for check in CHECKS.values()
+    if check.param_type
 }
 
 PLAIN_FLAGS["rst-text"] = gettext_lazy("RST text")
