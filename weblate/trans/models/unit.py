@@ -858,6 +858,11 @@ class Unit(models.Model, LoggerMixin):
         # support saving it
         is_existing_fuzzy_state = self.fuzzy or disk_unit_state in FUZZY_STATES
         if unit.is_fuzzy(is_existing_fuzzy_state and not string_changed):
+            # Preserve specific fuzzy sub-state when possible
+            if self.state in FUZZY_STATES:
+                return self.state
+            if disk_unit_state in FUZZY_STATES:
+                return disk_unit_state
             return STATE_FUZZY
 
         if not unit.is_translated():

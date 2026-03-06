@@ -47,6 +47,7 @@ from weblate.utils.state import (
     STATE_APPROVED,
     STATE_FUZZY,
     STATE_NEEDS_CHECKING,
+    STATE_NEEDS_REWRITING,
     STATE_READONLY,
     STATE_TRANSLATED,
 )
@@ -1161,3 +1162,39 @@ class AutomaticallyTranslatedFromFileTest(RepoTestCase):
 
         car_unit = translation.unit_set.get(source="Car")
         self.assertTrue(car_unit.automatically_translated)
+
+
+class FuzzySubstatePreservationTest(RepoTestCase):
+    """Test that fuzzy sub-states are preserved across file syncs."""
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.user = create_test_user()
+
+    def _test_fuzzy_substate_preserved_after_sync(self, substate) -> None:
+        component = self.create_component()
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+
+        unit.translate(self.user, "Ahoj světe!\n", substate)
+        self.assertEqual(unit.state, substate)
+
+        translation.commit_pending("test", None)
+
+        unit.refresh_from_db()
+        self.assertEqual(unit.state, substate)
+        self.assertNotIn("disk_state", unit.details)
+
+        # Trigger check_sync to simulate repository parsing due to another change
+        translation = component.translation_set.get(language_code="cs")
+        translation.check_sync(force=True)
+
+        # The fuzzy sub-state should be preserved, not changed to STATE_FUZZY
+        unit.refresh_from_db()
+        self.assertEqual(unit.state, substate)
+
+    def test_needs_rewriting_preserved_after_sync(self) -> None:
+        self._test_fuzzy_substate_preserved_after_sync(STATE_NEEDS_REWRITING)
+
+    def test_needs_checking_preserved_after_sync(self) -> None:
+        self._test_fuzzy_substate_preserved_after_sync(STATE_NEEDS_CHECKING)
