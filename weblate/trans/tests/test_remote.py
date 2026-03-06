@@ -16,7 +16,12 @@ from weblate.trans.models import CommitPolicyChoices, Component, PendingUnitChan
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import REPOWEB_URL
 from weblate.utils.files import remove_tree
-from weblate.utils.state import STATE_APPROVED, STATE_EMPTY, STATE_TRANSLATED
+from weblate.utils.state import (
+    STATE_APPROVED,
+    STATE_EMPTY,
+    STATE_FUZZY,
+    STATE_TRANSLATED,
+)
 from weblate.vcs.models import VCS_REGISTRY
 
 EXTRA_PO = """
@@ -808,6 +813,41 @@ class FileScanTest(ViewTestCase):
         self.assertEqual(unit.explanation, disk_explanation)
 
         self.assertEqual(PendingUnitChange.objects.filter(unit=unit).count(), 0)
+
+    def _test_fuzzy_state_commit_policy(self, component) -> None:
+        self.project.commit_policy = CommitPolicyChoices.APPROVED_ONLY
+        self.project.translation_review = True
+        self.project.save()
+
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+
+        unit.translate(self.user, "Ahoj světe!\n", STATE_FUZZY)
+        self.assertEqual(unit.state, STATE_FUZZY)
+        self.assertEqual(unit.details["disk_state"]["state"], STATE_EMPTY)
+
+        count = PendingUnitChange.objects.filter(unit=unit).count()
+        self.assertEqual(count, 1)
+
+        # trigger commit and check_sync to simulate repository rescan
+        translation.commit_pending("test", None)
+        translation.check_sync(force=True)
+
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        self.assertEqual(unit.state, STATE_FUZZY)
+
+        # pending changes for unit are not discarded
+        count = PendingUnitChange.objects.filter(unit=unit).count()
+        self.assertEqual(count, 1)
+        self.assertEqual(unit.details["disk_state"]["state"], STATE_EMPTY)
+
+    def test_fuzzy_state_commit_policy_json(self) -> None:
+        component = self.create_json(name="JSON component", project=self.project)
+        self._test_fuzzy_state_commit_policy(component)
+
+    def test_fuzzy_state_commit_policy_po(self) -> None:
+        component = self.create_po(name="Po component", project=self.project)
+        self._test_fuzzy_state_commit_policy(component)
 
 
 class GitBranchMultiRepoTest(MultiRepoTest):
