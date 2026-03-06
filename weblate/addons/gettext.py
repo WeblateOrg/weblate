@@ -16,6 +16,7 @@ from weblate.addons.events import AddonEvent
 from weblate.addons.forms import GenerateMoForm
 from weblate.formats.base import UpdateError
 from weblate.formats.exporters import MoExporter
+from weblate.utils.docs import VersionChanged
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
 if TYPE_CHECKING:
@@ -266,6 +267,12 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
     )
     alert = "MsgmergeAddonError"
     compat: ClassVar[CompatDict] = {"file_format": {"po"}}
+    doc_versions = (
+        VersionChanged(
+            "5.13",
+            ":guilabel:`Settings` configuration has been moved to :ref:`file_format_params`.",
+        ),
+    )
 
     @classmethod
     def can_install(

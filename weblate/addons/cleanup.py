@@ -12,6 +12,7 @@ from weblate.addons.base import UpdateBaseAddon
 from weblate.addons.events import AddonEvent
 from weblate.formats.base import TranslationFormat
 from weblate.trans.exceptions import FileParseError
+from weblate.utils.docs import VersionAdded
 
 if TYPE_CHECKING:
     from weblate.trans.models import Component, Project
@@ -96,6 +97,7 @@ class RemoveBlankAddon(BaseCleanupAddon):
         AddonEvent.EVENT_POST_UPDATE,
     }
     icon = "eraser.svg"
+    doc_versions = (VersionAdded("4.4"),)
 
     def update_translations(self, component: Component, previous_head: str) -> None:
         for translation in self.iterate_translations(component):

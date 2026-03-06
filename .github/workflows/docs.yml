@@ -58,7 +58,7 @@ jobs:
       run: sudo ./ci/apt-install
     - name: Install Python dependencies
       run: ./ci/pip-install latest
-    - run: make -C docs update-doc-snippets
+    - run: make -C docs update-docs
 
     - name: Commit or create pull request
       uses: ./.github/actions/auto-commit

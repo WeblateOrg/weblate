@@ -23,6 +23,7 @@ from weblate.addons.base import ChangeBaseAddon
 from weblate.addons.forms import BaseWebhooksAddonForm, WebhooksAddonForm
 from weblate.trans.util import split_plural
 from weblate.utils.const import WEBHOOKS_SECRET_PREFIX
+from weblate.utils.docs import VersionAdded, VersionChanged
 from weblate.utils.requests import http_request
 from weblate.utils.site import get_site_url
 from weblate.utils.views import key_name
@@ -114,6 +115,13 @@ class WebhookAddon(JSONWebhookBaseAddon):
     description = gettext_lazy(
         "Sends notifications to external services based on selected events, following the Standard Webhooks specification."
     )
+    doc_versions = (
+        VersionAdded("5.11"),
+        VersionChanged(
+            "5.15",
+            "Compliance of the secret length with the specification is now validated.",
+        ),
+    )
 
     settings_form = WebhooksAddonForm
 
@@ -200,6 +208,7 @@ class SlackWebhookAddon(JSONWebhookBaseAddon):
     )
     icon = "slack.svg"
     settings_form = BaseWebhooksAddonForm
+    doc_versions = (VersionAdded("5.12"),)
 
     def build_webhook_payload(self, change: Change) -> PayloadType:
         message_header = ""
