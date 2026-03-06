@@ -810,8 +810,7 @@ class Unit(models.Model, LoggerMixin):
         if new_variant:
             variant = Variant.objects.filter(
                 key__md5=MD5(Value(new_variant))
-            ).get_or_create(key=new_variant, component=component, variant_regex=""
-            )[0]
+            ).get_or_create(key=new_variant, component=component, variant_regex="")[0]
             variant.defining_units.add(self)
 
         # Update variant links
