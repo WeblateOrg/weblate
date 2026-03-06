@@ -67,6 +67,7 @@ from django_otp_webauthn.views import (
     BeginCredentialAuthenticationView,
     CompleteCredentialAuthenticationView,
 )
+from requests.exceptions import HTTPError
 from rest_framework.authtoken.models import Token
 from social_core.actions import do_auth
 from social_core.backends.base import BaseAuth
@@ -1545,7 +1546,7 @@ def social_complete(request: AuthenticatedHttpRequest, backend: str):
                 "The supplied user identity is already in use for another account."
             ),
         )
-    except (AuthUnreachableProvider, AuthConnectionError):
+    except (AuthUnreachableProvider, AuthConnectionError, HTTPError):
         return registration_fail(
             request,
             gettext("The authentication provider could not be reached."),
