@@ -36,7 +36,7 @@ Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 Weblate 5.16.2
 --------------
 
-*Not yet released.*
+*Released on March 6th 2026.*
 
 .. rubric:: New features
 
@@ -56,8 +56,6 @@ Weblate 5.16.2
 * Disabled throttling for incoming webhooks.
 * Avoid displaying non-actionable ghost languages.
 * Fixed highlighting in the translation editor.
-
-.. rubric:: Compatibility
 
 .. rubric:: Upgrading
 
