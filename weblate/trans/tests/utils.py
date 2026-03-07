@@ -336,8 +336,8 @@ class RepoTestMixin:
             **kwargs,
         )
 
-    def create_json(self) -> Component:
-        return self._create_component("json", "json/*.json")
+    def create_json(self, **kwargs) -> Component:
+        return self._create_component("json", "json/*.json", **kwargs)
 
     def create_json_mono(self, suffix="mono", **kwargs) -> Component:
         return self._create_component(

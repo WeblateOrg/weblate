@@ -159,10 +159,12 @@ class TTKitUnit[U: TranslateToolkitUnit, F: "BaseTTKitFormat"](TranslationUnit[U
         """Check whether unit needs editing."""
         if not self.has_unit():
             return fallback
+        if not self.has_translation():
+            return False
         # Most of the formats do not support this, but they
         # happily return False
         if isinstance(self.unit, SUPPORTS_FUZZY):
-            return self.has_translation() and self.unit.isfuzzy()
+            return self.unit.isfuzzy()
         return fallback
 
     def has_content(self) -> bool:
