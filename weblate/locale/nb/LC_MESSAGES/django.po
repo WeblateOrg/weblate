@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-02-16 13:58+0000\n"
-"PO-Revision-Date: 2026-03-05 21:09+0000\n"
+"PO-Revision-Date: 2026-03-07 18:10+0000\n"
 "Last-Translator: ovl-1 <ovl-002@mailinator.com>\n"
 "Language-Team: Norwegian Bokmål <https://hosted.weblate.org/projects/weblate/"
 "application/nb_NO/>\n"
@@ -43,10 +43,8 @@ msgid ""
 msgstr "Denne e-postadressen er allerede i bruk. Oppgi en annen e-postadresse."
 
 #: weblate/accounts/forms.py:122
-#, fuzzy
-#| msgid "This username is already taken. Please choose another."
 msgid "This username is already taken. Please pick something else."
-msgstr "Brukernavnet er allerede tatt. Velg et annet."
+msgstr "Dette brukernavnet er allerede tatt. Velg et annet."
 
 #: weblate/accounts/forms.py:134 weblate/accounts/forms.py:1073
 #: weblate/auth/models.py:461 weblate/auth/models.py:1218
@@ -57,11 +55,11 @@ msgstr "Fullt navn"
 
 #: weblate/accounts/forms.py:136
 msgid "Name is also used in version control commits."
-msgstr "Navn brukes også i versjonskontrollhistorikk."
+msgstr "Navn brukes også i versjonskontrollinnsendelser."
 
 #: weblate/accounts/forms.py:200 weblate/accounts/models.py:866
 msgid "Commit e-mail"
-msgstr "E-postadresse i historikk"
+msgstr "E-post for innsendelse"
 
 #: weblate/accounts/forms.py:201
 msgid "Use account e-mail address"
@@ -72,46 +70,36 @@ msgid ""
 "Used in version-control commits. The address stays in the repository forever "
 "once changes are committed by Weblate."
 msgstr ""
-"Brukt i historikken. Adressen vil forbli i kodelageret for alltid når "
-"endringer bekreftes i Weblate."
+"Brukt i versjonskontrollinnsendelser. Adressen forblir i kodelageret for "
+"alltid når endringer er sendt inn av Weblate."
 
 #: weblate/accounts/forms.py:210 weblate/accounts/models.py:877
-#, fuzzy
-#| msgid "Committer name"
 msgid "Commit name"
 msgstr "Navn på innsender"
 
 #: weblate/accounts/forms.py:213
-#, fuzzy
-#| msgid ""
-#| "Used in version-control commits. The address stays in the repository "
-#| "forever once changes are committed by Weblate."
 msgid ""
 "Used in version control commits. The name stays in the repository forever, "
 "once changes are committed by Weblate."
 msgstr ""
-"Brukt i historikken. Adressen vil forbli i kodelageret for alltid når "
-"endringer bekreftes i Weblate."
+"Brukt i versjonskontrollinnsendelser. Navnet forblir i kodelageret for "
+"alltid når endringer er sendt inn av Weblate."
 
 #: weblate/accounts/forms.py:241
 msgid "Use anonymous account name"
-msgstr ""
+msgstr "Bruk anonymt kontonavn"
 
 #: weblate/accounts/forms.py:243
-#, fuzzy
-#| msgid "Use account e-mail address"
 msgid "Use account name"
-msgstr "Bruk kontoens e-postadresse"
+msgstr "Bruk kontonavn"
 
 #: weblate/accounts/forms.py:264 weblate/accounts/models.py:860
 msgid "Public e-mail"
 msgstr "Offentlig e-post"
 
 #: weblate/accounts/forms.py:265
-#, fuzzy
-#| msgid "This e-mail address is disallowed."
 msgid "Hide e-mail address from public view"
-msgstr "Denne e-postadressen tillates ikke."
+msgstr "Skjul e-postadresse for offentligheten"
 
 #: weblate/accounts/forms.py:381
 #, python-format
@@ -127,36 +115,32 @@ msgid ""
 "Used for e-mail notifications and as a commit e-mail if it is not configured "
 "below."
 msgstr ""
-"Brukes for e-postvarsler og som e-postadresse i historikk hvis ikke satt opp "
-"nedenfor."
+"Brukes for e-postvarsler og som e-postadresse for innsendelser hvis ikke "
+"satt opp nedenfor."
 
 #: weblate/accounts/forms.py:477
-#, fuzzy
-#| msgid "Please try again later."
 msgid "Verification failed. Try again later."
-msgstr "Prøv igjen senere."
+msgstr "Verifisering feilet. Prøv igjen senere."
 
 #: weblate/accounts/forms.py:478
 msgid "Verification expired. Try again."
-msgstr ""
+msgstr "Verifisering utløpt. Prøv igjen."
 
 #: weblate/accounts/forms.py:479
 msgid "I'm not a robot"
-msgstr ""
+msgstr "Jeg er ikke en robot"
 
 #: weblate/accounts/forms.py:480
-#, fuzzy
-#| msgid "Translation completed"
 msgid "Verification completed"
-msgstr "Oversettelse fullført"
+msgstr "Verifisering fullført"
 
 #: weblate/accounts/forms.py:481
 msgid "Verifying…"
-msgstr ""
+msgstr "Verifiserer…"
 
 #: weblate/accounts/forms.py:483
 msgid "Verification is still in progress, please wait."
-msgstr ""
+msgstr "Verifisering pågår fremdeles, vent."
 
 #: weblate/accounts/forms.py:493
 msgid "Human verification"
@@ -175,10 +159,8 @@ msgid "That was not correct, please try again."
 msgstr "Feil, prøv igjen senere."
 
 #: weblate/accounts/forms.py:599 weblate/accounts/forms.py:606
-#, fuzzy
-#| msgid "That was not correct, please try again."
 msgid "Validation failed, please try again."
-msgstr "Feil, prøv igjen senere."
+msgstr "Validering feilet, prøv igjen."
 
 #: weblate/accounts/forms.py:625
 msgid "Subject"
@@ -199,15 +181,11 @@ msgid "Message"
 msgstr "Melding"
 
 #: weblate/accounts/forms.py:635
-#, fuzzy
-#| msgid ""
-#| "Please contact us in English, otherwise we might be unable to process "
-#| "your request."
 msgid ""
 "Please contact us in English. Otherwise, we might not process your request."
 msgstr ""
-"Ta kontakt med oss på engelsk, ellers kan det hende vi er ute av stand "
-"behandle forespørselen."
+"Kontakt oss på engelsk. Ellers kan det hende vi ikke behandler forespørselen "
+"din."
 
 #: weblate/accounts/forms.py:659 weblate/accounts/templatetags/authnames.py:35
 #: weblate/auth/models.py:467 weblate/auth/models.py:1235
@@ -219,10 +197,8 @@ msgid "E-mail"
 msgstr "E-post"
 
 #: weblate/accounts/forms.py:660
-#, fuzzy
-#| msgid "E-mail with a confirmation link will be sent here."
 msgid "An e-mail with a confirmation link will be sent here."
-msgstr "E-post med en bekreftelseslenke blir sendt hit."
+msgstr "En e-post med en bekreftelseslenke blir sendt hit."
 
 #: weblate/accounts/forms.py:722
 msgid "New password"
@@ -241,10 +217,8 @@ msgid "Current password"
 msgstr "Gjeldende passord"
 
 #: weblate/accounts/forms.py:771
-#, fuzzy
-#| msgid "Leave empty if you have not yet set a password."
 msgid "Leave empty if you have not set a password yet."
-msgstr "La feltet stå tomt hvis du ikke har satt et passord."
+msgstr "La stå tomt hvis du ikke har satt et passord ennå."
 
 #: weblate/accounts/forms.py:785
 msgid "You have entered an invalid password."
@@ -404,10 +378,8 @@ msgid "Screenshots uploaded"
 msgstr "Skjermavbildninger lastet opp"
 
 #: weblate/accounts/forms.py:1102
-#, fuzzy
-#| msgid "Chosen sorting is not supported."
 msgid "The chosen sorting is not supported."
-msgstr "Valgt sortering støttes ikke."
+msgstr "Den valgte sorteringen støttes ikke."
 
 #: weblate/accounts/forms.py:1119
 msgid "Add user to a team"
@@ -541,10 +513,8 @@ msgstr "Konto låst på grunn av mange mislykkede innloggingsforsøk."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:279
-#, fuzzy
-#| msgid "Could not send message to administrator."
 msgid "Account locked by the site administrator."
-msgstr "Meldingen kunne ikke sendes til administrator."
+msgstr "Konto låst av nettstedsadministratoren."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:281
@@ -604,17 +574,13 @@ msgstr "Tilgang til prosjekt {project} blokkeres"
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:302
-#, fuzzy
-#| msgid "Message has been sent to administrator."
 msgid "User was enabled by administrator."
-msgstr "Meldingen er sendt til administrator."
+msgstr "Bruker ble aktivert av administrator."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:304
-#, fuzzy
-#| msgid "Message has been sent to administrator."
 msgid "User was disabled by administrator."
-msgstr "Meldingen er sendt til administrator."
+msgstr "Bruker ble deaktivert av administrator."
 
 #: weblate/accounts/models.py:307
 msgid "User was disabled because the access has expired."
@@ -697,10 +663,8 @@ msgstr "Invitert til {project} av {username}."
 
 #. Translators: Audit log entry
 #: weblate/accounts/models.py:353
-#, fuzzy
-#| msgid "Password changed."
 msgid "Password configured."
-msgstr "Passord endret."
+msgstr "Passord stilt inn."
 
 #: weblate/accounts/models.py:360
 msgid "To restore access to your account, please reset your password."
@@ -858,10 +822,8 @@ msgid "Watched translations"
 msgstr "Fulgte oversettelser"
 
 #: weblate/accounts/models.py:752 weblate/templates/dashboard/user.html:29
-#, fuzzy
-#| msgid "All components"
 msgid "All component lists"
-msgstr "Alle komponenter"
+msgstr "Alle komponentlister"
 
 #: weblate/accounts/models.py:753 weblate/templates/dashboard/user.html:100
 msgid "Component list"
@@ -894,10 +856,8 @@ msgid "Website URL"
 msgstr "Nettside-adresse"
 
 #: weblate/accounts/models.py:797
-#, fuzzy
-#| msgid "Contact"
 msgid "Contact URL"
-msgstr "Kontakt"
+msgstr "Kontakt-adresse"
 
 #: weblate/accounts/models.py:801
 msgid ""
@@ -1041,18 +1001,14 @@ msgid "Component was locked or unlocked"
 msgstr "Komponent opplåst"
 
 #: weblate/accounts/notifications.py:571
-#, fuzzy
-#| msgid "Component unlocked"
 msgctxt "Notification name"
 msgid "Components were locked or unlocked"
-msgstr "Komponent opplåst"
+msgstr "Komponenter ble låst eller låst opp"
 
 #: weblate/accounts/notifications.py:582
-#, fuzzy
-#| msgid "License changed"
 msgctxt "Notification name"
 msgid "License was changed"
-msgstr "Lisens endret"
+msgstr "Lisens ble endret"
 
 #: weblate/accounts/notifications.py:589
 #, fuzzy
@@ -1069,34 +1025,24 @@ msgid "Parse errors occurred"
 msgstr "Tolkningsfeil"
 
 #: weblate/accounts/notifications.py:621
-#, fuzzy
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
 msgctxt "Notification name"
 msgid "String is available for translation"
-msgstr "Ny streng å oversette i %(translation)s"
+msgstr "Streng er tilgjengelig for oversettelse"
 
 #: weblate/accounts/notifications.py:623
-#, fuzzy
-#| msgid "New string to translate in %(translation)s"
-#| msgid_plural "New strings to translate in %(translation)s"
 msgctxt "Notification name"
 msgid "Strings are available for translation"
-msgstr "Ny streng å oversette i %(translation)s"
+msgstr "Strenger er tilgjengelig for oversettelse"
 
 #: weblate/accounts/notifications.py:634
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgctxt "Notification name"
 msgid "Contributor made their first translation"
-msgstr "Bidra til delt oversettelsesminne"
+msgstr "Bidragsyter gjorde sin første oversettelse"
 
 #: weblate/accounts/notifications.py:637
-#, fuzzy
-#| msgid "Contribute to shared translation memory"
 msgctxt "Notification name"
 msgid "Contributors made their first translation"
-msgstr "Bidra til delt oversettelsesminne"
+msgstr "Bidragsytere gjorde sin første oversettelse"
 
 #: weblate/accounts/notifications.py:646
 msgctxt "Notification name"
@@ -1745,7 +1691,7 @@ msgstr "Dette tillegget gjør ingenting, det tjener bare som eksempel."
 
 #: weblate/addons/example_pre.py:25
 msgid "Execute script before commit"
-msgstr "Kjør skript før bekreftelse"
+msgstr "Kjør skript før innsendelse"
 
 #: weblate/addons/example_pre.py:26
 msgid "This add-on executes a script."
@@ -1760,10 +1706,8 @@ msgid "Sends notifications to a Fedora Messaging compatible AMQP exchange."
 msgstr ""
 
 #: weblate/addons/flags.py:48
-#, fuzzy
-#| msgid "Flag new source strings as \"Needs editing\""
 msgid "Flag new source strings as \"Needs checking\""
-msgstr "Merk nye kildestrenger som «Trenger handling»"
+msgstr "Merk nye kildestrenger som «Trenger å kontrolleres»"
 
 #: weblate/addons/flags.py:50
 #, fuzzy
@@ -1781,10 +1725,8 @@ msgstr ""
 "redigere kildestrenger skrevet av utviklerne."
 
 #: weblate/addons/flags.py:69
-#, fuzzy
-#| msgid "Flag new translations as \"Needs editing\""
 msgid "Flag new translations as \"Needs rewriting\""
-msgstr "Merk nye oversettelser som «Trenger handling»"
+msgstr "Merk nye oversettelser som «Trenger å skrives om»"
 
 #: weblate/addons/flags.py:71
 #, fuzzy
@@ -1802,10 +1744,8 @@ msgstr ""
 "enkelt filtrere og endre oversettelser laget av utviklerne."
 
 #: weblate/addons/flags.py:87
-#, fuzzy
-#| msgid "Flag unchanged translations as \"Needs editing\""
 msgid "Flag unchanged translations as \"Needs rewriting\""
-msgstr "Merk uendrede oversettelser som «Trenger handling»"
+msgstr "Merk uendrede oversettelser som «Trenger å skrives om»"
 
 #: weblate/addons/flags.py:89
 #, fuzzy
@@ -1840,10 +1780,8 @@ msgid "Bulk edit flags, labels, or states of strings."
 msgstr "Masseredigering av flagg, etiketter, eller tilstand for strenger."
 
 #: weblate/addons/flags.py:142
-#, fuzzy
-#| msgid "Flag unchanged translations as \"Needs editing\""
 msgid "Flag updated translations from repository as \"Needs rewriting\""
-msgstr "Merk uendrede oversettelser som «Trenger handling»"
+msgstr "Merk oppdaterte oversettelser fra kodelager som «Trenger å skrives om»"
 
 #: weblate/addons/flags.py:145
 #, fuzzy
@@ -1892,11 +1830,11 @@ msgstr "Innhold i den genererte fila"
 
 #: weblate/addons/forms.py:133
 msgid "Commit squashing"
-msgstr "Sammenslåing av historikk"
+msgstr "Sammenslåing av innsendelser"
 
 #: weblate/addons/forms.py:136
 msgid "All commits into one"
-msgstr "Alle innslag slås sammen til ett"
+msgstr "Alle innsendelser i én"
 
 #: weblate/addons/forms.py:137
 msgid "Per language"
@@ -1912,7 +1850,7 @@ msgstr "Per forfatter"
 
 #: weblate/addons/forms.py:145
 msgid "Append trailers to squashed commit message"
-msgstr "Legg til trailere til historikk"
+msgstr "Legg til trailere i sammenslått innsendelsesmelding"
 
 #: weblate/addons/forms.py:149
 msgid ""
@@ -1933,8 +1871,8 @@ msgid ""
 "This commit message will be used instead of the combined commit messages "
 "from the squashed commits."
 msgstr ""
-"Innsendelsesmeldingen vil brukes istedenfor den helhetlige "
-"innsendelsesmeldingen fra de moste innsendelsene."
+"Denne innsendelsesmeldingen vil brukes istedenfor de kombinerte "
+"innsendelsesmeldingene fra de sammenslåtte innsendelsene."
 
 #: weblate/addons/forms.py:177
 msgid "Days to keep"
@@ -2306,11 +2244,11 @@ msgstr ""
 
 #: weblate/addons/git.py:27
 msgid "Squash Git commits"
-msgstr "Slå sammen historikk"
+msgstr "Slå sammen Git-innsendelser"
 
 #: weblate/addons/git.py:28
 msgid "Squash Git commits prior to pushing changes."
-msgstr "Slå sammen historikken før endringene overføres."
+msgstr "Slå sammen Git-innsendelser før endringer overføres."
 
 #: weblate/addons/properties.py:146
 msgid "Format the Java properties file"
@@ -2474,7 +2412,7 @@ msgstr ""
 
 #: weblate/api/serializers.py:1077 weblate/templates/js/git-status.html:25
 msgid "Commit"
-msgstr "Bekreft"
+msgstr "Send inn"
 
 #: weblate/api/serializers.py:1078 weblate/templates/fonts/font_detail.html:63
 #: weblate/templates/js/git-status.html:79
@@ -2854,7 +2792,7 @@ msgstr "Gå til internt kodelager"
 #. Translators: Permission name
 #: weblate/auth/data.py:105
 msgid "Commit changes to the internal repository"
-msgstr "Bekreft endringene av det interne kodelageret"
+msgstr "Send inn endringer til det interne kodelageret"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:107
@@ -3545,10 +3483,8 @@ msgid "Reviewing is turned off."
 msgstr "Objektlisting skrudd av"
 
 #: weblate/auth/permissions.py:323 weblate/templates/translate.html:181
-#, fuzzy
-#| msgid "The source string cannot be edited."
 msgid "The source string needs review."
-msgstr "Kildestrengen kan ikke redigeres."
+msgstr "Kildestrengen trenger å gjennomgås."
 
 #: weblate/auth/permissions.py:324
 #, fuzzy
@@ -7268,7 +7204,7 @@ msgstr "Weblate-nøkler"
 
 #: weblate/templates/about/keys.html:22
 msgid "Commit signing"
-msgstr "Signering av endringer"
+msgstr "Innsendelsessignering"
 
 #: weblate/templates/about/keys.html:31
 #: weblate/templates/snippets/ssh-key.html:16
@@ -7309,12 +7245,12 @@ msgid ""
 "All commits made with Weblate are signed with the GPG key %(gpg_key_id)s, "
 "for which the corresponding public key is found below."
 msgstr ""
-"Alle endringer gjort med Weblate signeres med GPG-nøkkelen %(gpg_key_id)s. "
-"Tilknyttet offentlig nøkkel vises nedenfor."
+"Alle innsendelser gjort med Weblate signeres med GPG-nøkkelen %(gpg_key_id)"
+"s. Tilknyttet offentlig nøkkel vises nedenfor."
 
 #: weblate/templates/about/keys.html:38
 msgid "Commit signing is not configured."
-msgstr "Signering av endringer er ikke satt opp."
+msgstr "Signering av innsendelser er ikke satt opp."
 
 #: weblate/templates/about/stats.html:10
 #: weblate/templates/dashboard/user.html:68 weblate/templates/data.html:58
@@ -8005,8 +7941,8 @@ msgid ""
 "project."
 msgstr ""
 "Ved å registrere deg samtykker du til å bruke ditt navn og din e-post i "
-"historikken, og at bidragene kommer under lisensen som er bestemt for hvert "
-"oversatte prosjekt."
+"innsendelsene, og at bidragene kommer under lisensen som er bestemt for "
+"hvert oversatte prosjekt."
 
 #: weblate/templates/accounts/profile.html:633
 msgid "You have agreed to the following as a contributor:"
@@ -8921,7 +8857,8 @@ msgstr "Kildestreng"
 msgid ""
 "Weblate commits from components within this repository will be squashed."
 msgstr ""
-"Endringer i Weblate fra komponenter i dette kodelageret vil bli slått sammen."
+"Weblate-innsendelser fra komponenter i dette kodelageret vil bli slått "
+"sammen."
 
 #: weblate/templates/addons/squash_help.html:5
 msgid ""
@@ -10448,14 +10385,16 @@ msgstr[1] ""
 msgid ""
 "This will commit any pending changes present in Weblate and not in the "
 "repository."
-msgstr "Bekreft endringer i Weblate-kodelageret"
+msgstr ""
+"Dette vil sende inn alle ventende endringer som finnes i Weblate og ikke i "
+"kodelageret."
 
 #: weblate/templates/js/git-status.html:66
 #, python-format
 msgid "%(count)s outgoing commit"
 msgid_plural "%(count)s outgoing commits"
-msgstr[0] "%(count)s utgående endring"
-msgstr[1] "%(count)s utgående endringer"
+msgstr[0] "%(count)s utgående innsendelse"
+msgstr[1] "%(count)s utgående innsendelser"
 
 #: weblate/templates/js/git-status.html:68
 #, fuzzy, python-format
@@ -10470,8 +10409,8 @@ msgstr[1] "%(count)s kommentarer"
 #, python-format
 msgid "%(count)s missing commit"
 msgid_plural "%(count)s missing commits"
-msgstr[0] "%(count)s manglende endring"
-msgstr[1] "%(count)s manglende endringer"
+msgstr[0] "%(count)s manglende innsendelse"
+msgstr[1] "%(count)s manglende innsendelser"
 
 #: weblate/templates/js/git-status.html:109
 #, fuzzy
@@ -10828,29 +10767,23 @@ msgstr "Viser nærliggende strengers fane"
 
 #: weblate/templates/keyboard-shortcuts.html:171
 msgid "Focus on search field."
-msgstr ""
+msgstr "Fokuser på søkefelt."
 
 #: weblate/templates/keyboard-shortcuts.html:179
-#, fuzzy
-#| msgid "Copies source string"
 msgid "Copy the source string."
-msgstr "Kopierer kildestrengen"
+msgstr "Kopier kildestrengen."
 
 #: weblate/templates/keyboard-shortcuts.html:187
 msgid "Toggle the Needs editing checkbox."
-msgstr ""
+msgstr "Slå av/på i avkryssingsboksen \"Trenger redigering\"."
 
 #: weblate/templates/keyboard-shortcuts.html:193
-#, fuzzy
-#| msgid "Add new translation string"
 msgid "Browse the next translation string."
-msgstr "Legg til ny oversettelsesstreng"
+msgstr "Bla gjennom til den neste oversettelsesstrengen."
 
 #: weblate/templates/keyboard-shortcuts.html:199
-#, fuzzy
-#| msgid "Keep previous msgids of translated strings"
 msgid "Browse the previous translation string."
-msgstr "Behold tidligere msgid-er for oversatte strenger"
+msgstr "Bla gjennom til den forrige oversettelsesstrengen."
 
 #: weblate/templates/lang/create.html:10
 #: weblate/templates/snippets/list-objects.html:35
@@ -11534,10 +11467,8 @@ msgid "Confirm account removal"
 msgstr "Bekreft kontofjerning"
 
 #: weblate/templates/mail/shared-registration.html:21
-#, fuzzy
-#| msgid "Confirm registration"
 msgid "Confirm invitation"
-msgstr "Bekreft registrering"
+msgstr "Bekreft invitasjon"
 
 #: weblate/templates/mail/snippets/source-string.html:14
 #: weblate/templates/snippets/glossary.html:26
@@ -12291,19 +12222,15 @@ msgstr ""
 "etterhvert som de oversettes."
 
 #: weblate/templates/new-language.html:42
-#, fuzzy, python-format
-#| msgid ""
-#| "Translation file will be created as a copy of <code>%(new_base)s</code> "
-#| "with all strings marked as needing editing and strings will be replaced "
-#| "as they are translated."
+#, python-format
 msgid ""
 "A translation file will be created as a copy of <code>%(new_base)s</code> "
 "with all strings marked as \"Needs editing\" and replaced as they are "
 "translated."
 msgstr ""
-"Oversettelsesfilen vil bli opprettet som en kopi av <code>%(new_base)s</"
-"code> med alle strenger markert som «Trenger redigering» og strenger vil bli "
-"erstattet etterhvert som de oversettes."
+"En oversettelsesfil vil bli opprettet som en kopi av <code>%(new_base)s</"
+"code> med alle strenger markert som «Trenger redigering» og bli erstattet "
+"etterhvert som de oversettes."
 
 #: weblate/templates/new-language.html:49
 #, fuzzy
@@ -12784,7 +12711,7 @@ msgstr "Kodelagergren"
 
 #: weblate/templates/snippets/git-info.html:36
 msgid "Last remote commit"
-msgstr "Siste eksterne endring"
+msgstr "Siste eksterne innsendelse"
 
 #. Translators: For example: "nijel authored five days ago"
 #: weblate/templates/snippets/git-info.html:46
@@ -12795,7 +12722,7 @@ msgstr "%(author)s forfattet for %(date)s"
 
 #: weblate/templates/snippets/git-info.html:56
 msgid "Last commit in Weblate"
-msgstr "Siste endring i Weblate"
+msgstr "Siste innsendelse i Weblate"
 
 #: weblate/templates/snippets/git-info.html:76
 msgid "Weblate repository"
@@ -12811,10 +12738,8 @@ msgid "This term should not be translated."
 msgstr "Denne oppføringen skal ikke oversettes."
 
 #: weblate/templates/snippets/glossary.html:5
-#, fuzzy
-#| msgid "This translation is locked."
 msgid "This translation needs editing."
-msgstr "Oversettelsen er låst."
+msgstr "Denne oversettelsen trenger redigering."
 
 #: weblate/templates/snippets/glossary.html:5
 msgid "Copy word into translation"
@@ -13559,10 +13484,8 @@ msgid ""
 msgstr ""
 
 #: weblate/templates/snippets/share-menu.html:5
-#, fuzzy
-#| msgid "Commit"
 msgid "Community"
-msgstr "Bekreft"
+msgstr "Fellesskap"
 
 #: weblate/templates/snippets/share-menu.html:10
 #: weblate/templates/snippets/share-menu.html:16
@@ -13941,15 +13864,15 @@ msgid ""
 msgstr ""
 "Det kan hende du ønsker å velge Git med tvungen overføring som "
 "versjonskontrollsystem i komponentoppsettet for å overskrive "
-"fjernkodelageret etter rebasing av historikk i Weblate."
+"fjernkodelageret etter å ha ombasert innsendelser i Weblate."
 
 #: weblate/templates/trans/alert/common-repo.html:43
 msgid ""
 "The Weblate repository is missing some commits from upstream. Perhaps it is "
 "not receiving notifications upon updates of the remote repository."
 msgstr ""
-"Weblate-kodelageret mangler noen endringer fra oppstrøm. Kanskje det ikke "
-"mottar varsler ved oppdateringer av fjernkodelageret?"
+"Weblate-kodelageret mangler noen innsendelser fra oppstrøm. Kanskje det ikke "
+"mottar varsler ved oppdateringer av fjernkodelageret."
 
 #: weblate/templates/trans/alert/common-repo.html:48
 msgid ""
@@ -14577,7 +14500,8 @@ msgstr ""
 #: weblate/templates/trans/merge_instructions.html:10
 msgid ""
 "Commit all pending changes in Weblate and lock the translation component."
-msgstr "Bekreft alle endringer i Weblate og lås oversettelseskomponenten."
+msgstr ""
+"Send inn alle ventende endringer i Weblate og lås oversettelseskomponenten."
 
 #: weblate/templates/trans/merge_instructions.html:15
 msgid "Add Weblate exported repository as a remote."
@@ -15125,7 +15049,7 @@ msgstr "streng %(position)s"
 
 #: weblate/templates/translate.html:955
 msgid "Pending changes not yet committed to the Weblate repository"
-msgstr "Endringer som ennå ikke er bekreftet i Weblate-kodelageret"
+msgstr "Ventende endringer som ennå ikke er innsendt til Weblate-kodelageret"
 
 #: weblate/templates/translate.html:955
 #, fuzzy
@@ -15448,7 +15372,7 @@ msgstr "Komponent opplåst"
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:39
 msgid "Changes committed"
-msgstr "Endringer bekreftet"
+msgstr "Endringer innsendt"
 
 #. Translators: Name of event in the history
 #: weblate/trans/actions.py:41
@@ -15883,7 +15807,7 @@ msgstr "Kodelagerendringer"
 
 #: weblate/trans/admin.py:38
 msgid "Commit pending changes"
-msgstr "Bekreft endringer"
+msgstr "Send inn ventende endringer"
 
 #: weblate/trans/admin.py:47
 msgid "Update VCS repository"
@@ -16440,20 +16364,16 @@ msgid "File upload mode"
 msgstr "Filopplastingsmodus"
 
 #: weblate/trans/forms.py:705
-#, fuzzy
-#| msgid "Processing of strings needing edit"
 msgid "Processing of \"Needs editing\" strings"
-msgstr "Behandling av strenger som trenger redigering"
+msgstr "Behandling av \"Trenger redigering\"-strenger"
 
 #: weblate/trans/forms.py:707
 msgid "Do not import"
 msgstr "Ikke importer"
 
 #: weblate/trans/forms.py:708
-#, fuzzy
-#| msgid "Needs editing"
 msgid "Import as \"Needs editing\""
-msgstr "Trenger redigering"
+msgstr "Importer som \"Trenger redigering\""
 
 #: weblate/trans/forms.py:709
 msgid "Import as translated"
@@ -16714,7 +16634,7 @@ msgstr "Versjonskontrollsystemsinnstillinger"
 
 #: weblate/trans/forms.py:1797
 msgid "Commit messages"
-msgstr "Endringslogg"
+msgstr "Innsendelsesmeldinger"
 
 #: weblate/trans/forms.py:1813
 msgid "Translation files"
@@ -17684,15 +17604,12 @@ msgid "List of checks which can not be dismissed."
 msgstr "Liste over sjekker som ikke kan ignoreres."
 
 #: weblate/trans/models/component.py:646
-#, fuzzy
-#| msgid ""
-#| "User agreement which needs to be approved before a user can translate "
-#| "this component."
 msgid ""
 "Contributor license agreement which needs to be approved before a user can "
 "translate this component."
 msgstr ""
-"Brukeravtale som må godkjennes før brukeren kan oversette denne komponenten."
+"Lisensavtale for bidragsytere som må godkjennes før en bruker kan oversette "
+"denne komponenten."
 
 #: weblate/trans/models/component.py:653
 msgid "Adding new translation"
@@ -17742,7 +17659,7 @@ msgstr ""
 
 #: weblate/trans/models/component.py:692
 msgid "Commit message when translating"
-msgstr "Endringslogg ved oversettelse"
+msgstr "Innsendelsesmelding ved oversettelse"
 
 #: weblate/trans/models/component.py:694 weblate/trans/models/component.py:703
 #: weblate/trans/models/component.py:712 weblate/trans/models/component.py:722
@@ -17756,20 +17673,20 @@ msgstr ""
 
 #: weblate/trans/models/component.py:701
 msgid "Commit message when adding translation"
-msgstr "Melding i historikk når oversettelse legges til"
+msgstr "Innsendelsesmelding når oversettelse legges til"
 
 #: weblate/trans/models/component.py:710
 msgid "Commit message when removing translation"
-msgstr "Melding i historikk når oversettelse fjernes"
+msgstr "Innsendelsesmelding når oversettelse fjernes"
 
 #. Translators: The commit message, for when merging the translation
 #: weblate/trans/models/component.py:720
 msgid "Commit message when merging translation"
-msgstr "Melding i historikk ved fletting av oversettelse"
+msgstr "Innsendelsesmelding ved fletting av oversettelse"
 
 #: weblate/trans/models/component.py:729
 msgid "Commit message when add-on makes a change"
-msgstr "Melding i historikk når tillegg gjør en endring"
+msgstr "Innsendelsesmelding når tillegg gjør en endring"
 
 #: weblate/trans/models/component.py:738
 msgid "Merge request message"
@@ -17777,20 +17694,22 @@ msgstr "Flettingsforespørselsmelding"
 
 #: weblate/trans/models/component.py:747
 msgid "Push on commit"
-msgstr "Overfør ved bekreftelse"
+msgstr "Overfør ved innsendelse"
 
 #: weblate/trans/models/component.py:750
 msgid "Whether the repository should be pushed upstream on every commit."
-msgstr "Om kodelageret skal overføres oppstrøms hver gang endringer bekreftes."
+msgstr "Om kodelageret skal overføres oppstrøms ved hver innsendelse."
 
 #: weblate/trans/models/component.py:754
 msgid "Age of changes to commit"
-msgstr "Alder på endringer som skal bekreftes"
+msgstr "Alder på endringer som skal sendes inn"
 
 #: weblate/trans/models/component.py:758
 msgid ""
 "Time in hours after which any pending changes will be committed to the VCS."
-msgstr "Antall timer før endringer blir bekreftet i versjonskontrollen."
+msgstr ""
+"Antall timer før ventende endringer blir sendt inn til "
+"versjonskontrollsystemet."
 
 #: weblate/trans/models/component.py:763
 msgid "Lock on error"
@@ -18274,13 +18193,11 @@ msgstr "Beskrivelse"
 
 #: weblate/trans/models/project.py:53
 msgid "Commit all translations regardless of quality"
-msgstr ""
+msgstr "Send inn alle oversettelser uavhengig av kvalitet"
 
 #: weblate/trans/models/project.py:56
-#, fuzzy
-#| msgid "Strings marked as needing edit"
 msgid "Skip translations marked as needing editing"
-msgstr "Strenger merket fordi de trenger redigering"
+msgstr "Hopp over oversettelser markert som trenger redigering"
 
 #: weblate/trans/models/project.py:58
 #, fuzzy
@@ -18393,12 +18310,12 @@ msgstr ""
 "Kommainndelt liste over språkkodetildelinger, for eksempel: en_GB,en_us:en"
 
 #: weblate/trans/models/project.py:834
-#, fuzzy
-#| msgid "Force writing all translations to the Weblate repository"
 msgid ""
 "Translations marked as needing editing are not written to the translation "
 "file."
-msgstr "Bruk tvang for å skrive alle endringer til Weblate-kodelageret"
+msgstr ""
+"Oversettelser markert som trenger redigering er ikke skrevet til "
+"oversettelsesfilen."
 
 #: weblate/trans/models/project.py:838
 #, fuzzy
@@ -18448,7 +18365,7 @@ msgstr[1] "Fant ikke flettet streng."
 #: weblate/trans/models/translation.py:1531
 #, python-format
 msgid "Could not commit pending changes: %s"
-msgstr "Kunne ikke bekrefte endringene: %s"
+msgstr "Kunne ikke sende inn ventende endringer: %s"
 
 #: weblate/trans/models/translation.py:2115
 #, fuzzy
@@ -19293,7 +19210,7 @@ msgstr "Automatisk oversettelse pågår"
 
 #: weblate/trans/views/git.py:175
 msgid "All pending translations were committed."
-msgstr "Alle ventende oversettelser ble bekreftet."
+msgstr "Alle ventende oversettelser ble innsendt."
 
 #: weblate/trans/views/lock.py:34
 msgid "Component is now locked for translation updates!"
@@ -19733,18 +19650,14 @@ msgid "Needs editing"
 msgstr "Trenger redigering"
 
 #: weblate/utils/state.py:21
-#, fuzzy
-#| msgid "Needs editing"
 msgctxt "String state"
 msgid "Needs editing (Needs rewriting)"
-msgstr "Trenger redigering"
+msgstr "Trenger redigering (Trenger å skrives om)"
 
 #: weblate/utils/state.py:25
-#, fuzzy
-#| msgid "Needs editing"
 msgctxt "String state"
 msgid "Needs editing (Needs checking)"
-msgstr "Trenger redigering"
+msgstr "Trenger redigering (Trenger å kontrolleres)"
 
 #: weblate/utils/state.py:27
 msgctxt "String state"
@@ -19966,7 +19879,7 @@ msgstr "Dette vil dytte endringer til Gerrit for vurdering."
 
 #: weblate/vcs/git.py:695
 msgid "This will commit changes to the Subversion repository."
-msgstr "Dette vil bekrefte endringene i Subversion-kodelageret."
+msgstr "Dette vil sende inn endringer til Subversion-kodelageret."
 
 #: weblate/vcs/git.py:872
 msgid "Git with force push"
