@@ -35,17 +35,13 @@ class Command(DocGeneratorCommand):
             machinery_content.extend(
                 [
                     f".. _mt-{obj.get_identifier()}:",
-                    "\n\n",
+                    "",
                     obj.name,
-                    "\n",
                     "-" * len(obj.name),
-                    "\n",
                     *obj.get_versions_rst_lines(),
-                    "\n",
+                    "",
                     f":Service ID: ``{obj.get_identifier()}``",
-                    "\n",
                     f":Maximal score: {obj.max_score}",
-                    "\n",
                 ]
             )
             features = []
@@ -59,7 +55,6 @@ class Command(DocGeneratorCommand):
                     machinery_content.append(f"{prefix}* {feature}")
                     if not prefix.isspace():
                         prefix = " " * len(prefix)
-                    machinery_content.append("\n")
 
             if obj.settings_form:
                 form = obj.settings_form(obj)
@@ -69,9 +64,13 @@ class Command(DocGeneratorCommand):
                 ]
                 prefix = ":Configuration: "
                 for table_row in format_table(table, None):
+                    table_row = table_row.strip(
+                        "\n"
+                    )  # self.write_sections() inserts newlines
                     machinery_content.append(f"{prefix}{table_row}")
                     if not prefix.isspace():
                         prefix = " " * len(prefix)
+                machinery_content.append("")
             else:
                 machinery_content.append(
                     ":Configuration: `This service has no configuration.`"

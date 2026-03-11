@@ -53,37 +53,29 @@ class Command(DocGeneratorCommand):
         content = []
         content.extend(
             [
-                "\n",
                 "Events that trigger add-ons",
-                "\n",
                 "+++++++++++++++++++++++++++",
-                "\n",
             ]
         )
         event_descriptions = AddonEvent.descriptions()
         for event in sorted_events(AddonEvent):
             content.extend(
                 (
-                    f".. _{event_link(event)}:\n\n",
-                    f"{event.label}\n",
+                    f".. _{event_link(event)}:\n",
+                    f"{event.label}",
                     "-" * len(event.label) + "\n",
-                    "\n",
                 )
             )
             if description := event_descriptions.get(event):
-                content.extend((description, "\n"))
-            content.append("\n")
+                content.append(description)
+            content.append("")
+        content.append("")
         self.add_section("events", content)
 
     def generate_addons_doc(self) -> list[str]:
         self.add_section(
             "addons-header",
-            [
-                "Built-in add-ons",
-                "\n",
-                "++++++++++++++++",
-                "\n",
-            ],
+            ["Built-in add-ons", "++++++++++++++++", "\n"],
         )
 
         fake_addon = Addon(component=Component(project=Project(pk=-1), pk=-1))
@@ -91,16 +83,14 @@ class Command(DocGeneratorCommand):
             addon_lines = []
             addon_lines.extend(
                 (
-                    "\n",
                     f".. _addon-{obj.name}:",
-                    "\n\n",
-                    str(obj.verbose) + "\n",
+                    "",
+                    str(obj.verbose),
                     "-" * len(obj.verbose),
-                    "\n",
                 )
             )
-            addon_lines.extend(obj.get_versions_rst_lines())
-            addon_lines.extend(("\n", f":Add-on ID: ``{obj.name}``", "\n"))
+            addon_lines.extend([*obj.get_versions_rst_lines(), ""])
+            addon_lines.append(f":Add-on ID: ``{obj.name}``")
             prefix = ":Configuration: "
             if obj.settings_form:
                 form = obj(fake_addon).get_settings_form(None)
@@ -115,9 +105,13 @@ class Command(DocGeneratorCommand):
                 ]
 
                 for table_row in format_table(table, None):
+                    table_row = table_row.strip(
+                        "\n"
+                    )  # self.write_sections() inserts newlines
                     addon_lines.append(f"{prefix}{table_row}")
                     if not prefix.isspace():
                         prefix = " " * len(prefix)
+                addon_lines.append("")
 
                 for name in self.params & set(form.fields):
                     field = form.fields[name]
@@ -138,7 +132,7 @@ class Command(DocGeneratorCommand):
                         "-" * len(field.label),
                         "",
                         *self.get_choices_table(choices),
-                        "\n",
+                        "",
                     ]
             else:
                 addon_lines.append(f"{prefix}`This add-on has no configuration.`")
@@ -149,11 +143,10 @@ class Command(DocGeneratorCommand):
                 events = f":ref:`addon-event-add-on-installation`, {events}"
             addon_lines.extend(
                 [
-                    "\n",
                     f":Triggers: {events}",
-                    "\n\n",
+                    "",
                     "\n".join(wrap(str(obj.description), 79)),
-                    "\n",
+                    "",
                 ]
             )
             self.add_section(addon_name, addon_lines)
