@@ -99,7 +99,7 @@ class Command(DocGeneratorCommand):
                     "\n",
                 )
             )
-            addon_lines.extend(obj.get_versions_output())
+            addon_lines.extend(obj.get_versions_rst_lines())
             addon_lines.extend(("\n", f":Add-on ID: ``{obj.name}``", "\n"))
             prefix = ":Configuration: "
             if obj.settings_form:

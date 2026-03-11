@@ -950,6 +950,7 @@ class FluentSourceInnerHTMLCheck(_FluentInnerHTMLCheck, SourceCheck):
     name = gettext_lazy("Fluent source inner HTML")
     description = gettext_lazy("Fluent source should be valid inner HTML.")
     default_disabled = True
+    version_added = "5.0"
 
     def check_source_unit(self, sources: list[str], unit: TransUnitModel) -> bool:
         try:
@@ -1228,6 +1229,7 @@ class FluentTargetInnerHTMLCheck(_FluentInnerHTMLCheck, TargetCheck):
     name = gettext_lazy("Fluent translation inner HTML")
     description = gettext_lazy("Fluent target should be valid inner HTML that matches.")
     default_disabled = True
+    version_added = "5.0"
 
     @classmethod
     def _compare_inner_html(

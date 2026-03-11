@@ -16,7 +16,7 @@ from lxml import etree
 from siphashc import siphash
 
 from weblate.utils.classloader import ClassLoaderProtocol
-from weblate.utils.docs import get_doc_url
+from weblate.utils.docs import DocVersionsMixin, get_doc_url
 from weblate.utils.html import format_html_join_comma
 from weblate.utils.xml import parse_xml
 
@@ -42,7 +42,7 @@ class MissingExtraDict(TypedDict, total=False):
     errors: list[str]
 
 
-class BaseCheck(ClassLoaderProtocol):
+class BaseCheck(ClassLoaderProtocol, DocVersionsMixin):
     """Basic class for checks."""
 
     check_id = ""

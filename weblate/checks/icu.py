@@ -260,6 +260,7 @@ class ICUSourceCheck(ICUCheckMixin, SourceCheck):
     name = gettext_lazy("ICU MessageFormat syntax")
     description = gettext_lazy("Syntax errors in ICU MessageFormat strings.")
     default_disabled = True
+    version_added = "4.9"
 
     def __init__(self) -> None:
         super().__init__()
@@ -290,6 +291,7 @@ class ICUMessageFormatCheck(ICUCheckMixin, BaseFormatCheck):
     description = gettext_lazy(
         "Syntax errors and/or placeholder mismatches in ICU MessageFormat strings."
     )
+    version_added = "4.9"
 
     def check_format(self, source: str, target: str, ignore_missing, unit: Unit):
         """Checker for ICU MessageFormat strings."""

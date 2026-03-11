@@ -40,7 +40,7 @@ class Command(DocGeneratorCommand):
                     "\n",
                     "-" * len(obj.name),
                     "\n",
-                    *obj.get_versions_output(),
+                    *obj.get_versions_rst_lines(),
                     "\n",
                     f":Service ID: ``{obj.get_identifier()}``",
                     "\n",

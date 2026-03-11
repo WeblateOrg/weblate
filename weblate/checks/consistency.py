@@ -162,6 +162,7 @@ class ReusedCheck(TargetCheck, BatchCheckMixin):
     propagates = "target"
     batch_project_wide = True
     skip_suggestions = True
+    version_added = "4.18"
 
     def should_skip(self, unit: Unit):
         if unit.translation.plural.number <= 1 or not any(unit.get_target_plurals()):

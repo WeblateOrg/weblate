@@ -47,12 +47,12 @@ class DocVersionsMixin:
     versions_changed: ClassVar[tuple[tuple[str, str], ...]] = ()
 
     @classmethod
-    def get_versions_output(cls) -> list[str]:
+    def get_versions_rst_lines(cls) -> list[str]:
         parts: list[str] = []
         if cls.version_added is not None:
-            parts.extend(("\n", f".. versionadded:: {cls.version_added}", "\n"))
+            parts.extend(["", f".. versionadded:: {cls.version_added}"])
         for version, description in cls.versions_changed:
             normalized = description.replace("\r\n", "\n").replace("\r", "\n")
             body = textwrap.indent(normalized, "   ")
-            parts.extend(("\n", f".. versionchanged:: {version}", "\n\n", body, "\n"))
+            parts.extend(("", f".. versionchanged:: {version}", "", body))
         return parts
