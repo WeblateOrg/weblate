@@ -1,3 +1,4 @@
+.. _laravel:
 .. _laravel-php:
 
 Laravel PHP strings

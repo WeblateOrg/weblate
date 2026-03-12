@@ -22,6 +22,10 @@ SKIP_FIELDS: tuple[tuple[str, str]] = (
     ("weblate.flags.bulk", "path"),  # Used internally only
 )
 
+EXTRA_ANCHOR_ALIASES = {
+    "weblate.fedora_messaging.publish": "fedora-messaging",
+}
+
 
 def event_link(event: AddonEvent) -> str:
     return f"addon-event-{event.label.lower().replace(' ', '-')}"
@@ -69,18 +73,19 @@ class Command(DocGeneratorCommand):
             if description := event_descriptions.get(event):
                 content.append(description)
             content.append("")
-        content.append("")
         self.add_section("events", content)
 
     def generate_addons_doc(self) -> list[str]:
         self.add_section(
             "addons-header",
-            ["Built-in add-ons", "++++++++++++++++", "\n"],
+            ["Built-in add-ons", "++++++++++++++++"],
         )
 
         fake_addon = Addon(component=Component(project=Project(pk=-1), pk=-1))
         for addon_name, obj in sorted(ADDONS.items()):
             addon_lines = []
+            if obj.name in EXTRA_ANCHOR_ALIASES:
+                addon_lines.append(f".. _{EXTRA_ANCHOR_ALIASES[obj.name]}:")
             addon_lines.extend(
                 (
                     f".. _addon-{obj.name}:",
@@ -146,7 +151,6 @@ class Command(DocGeneratorCommand):
                     f":Triggers: {events}",
                     "",
                     "\n".join(wrap(str(obj.description), 79)),
-                    "",
                 ]
             )
             self.add_section(addon_name, addon_lines)
