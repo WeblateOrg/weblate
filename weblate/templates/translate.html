@@ -145,10 +145,12 @@
                 {% if not unit.translation.component.is_glossary or not unit.is_source %}
                   <!-- source string explanation  -->
                   <div class="form-group help-block">
-                    <label>{% translate "Explanation" %}</label>
+                    <label>{% translate "Explanation" %} {% documentation_icon 'admin/translating' 'additional-explanation' %}</label>
                     <div class="list-group">
-                      <div class="list-group-item">
-                        <div class="list-group-item-text">{{ unit.source_unit.explanation|markdown }}</div>
+                      <div class="list-group-item translate-explanation">
+                        <div class="list-group-item-text">
+                          {{ unit.source_unit.explanation|markdown }}
+                        </div>
                       </div>
                     </div>
                   </div>
