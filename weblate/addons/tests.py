@@ -2204,3 +2204,13 @@ class FedoraMessagingAddonTestCase(BaseWebhookTests, ViewTestCase):
             follow=True,
         )
         self.assertContains(response, "Installed 1 add-on")
+
+
+class TestCommand(ViewTestCase):
+    def test_list_addons(self) -> None:
+        output = StringIO()
+        call_command("list_addons", stdout=output)
+        self.assertIn(".. _addon-event-add-on-installation:", output.getvalue())
+
+        with self.assertRaises(FileNotFoundError):
+            call_command("list_addons", "-o", "missing_fileXXX.rst", stdout=StringIO())
