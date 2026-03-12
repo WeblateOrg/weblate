@@ -794,7 +794,7 @@
             </table>
             {% if user_can_add_glossary and addterm_form.fields.translation.queryset %}
               <div class="card-footer card-footer-links">
-                <a class="btn btn-link green"
+                <a class="btn btn-link"
                    href="#"
                    data-bs-toggle="modal"
                    data-bs-target="#add-glossary-form">{% icon "plus-circle.svg" %} {% translate "Add term to glossary" %}</a>
@@ -839,7 +839,7 @@
                 {% endfor %}
                 {% if user_can_add_screenshot %}
                   <br />
-                  <a class="btn btn-link green"
+                  <a class="btn btn-link"
                      href="#"
                      data-bs-toggle="modal"
                      data-bs-target="#add-screenshot-form">{% icon "plus-circle.svg" %} {% translate "Add screenshot" %}</a>
