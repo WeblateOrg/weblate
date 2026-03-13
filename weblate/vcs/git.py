@@ -2409,7 +2409,7 @@ class BitbucketCloudRepository(GitMergeRequestBase):
 
     def get_default_reviewers_uuids(self, credentials: GitCredentials) -> list[str]:
         """Get a list of uuids of default reviewers for a repository."""
-        list_reviewers_url = f"{credentials['url']}/default-reviewers"
+        list_reviewers_url = f"{credentials['url']}/effective-default-reviewers"
         try:
             reviewers = self.build_full_paginated_result(
                 credentials, list_reviewers_url, "Reviewers listing error: "
@@ -2417,7 +2417,7 @@ class BitbucketCloudRepository(GitMergeRequestBase):
         except RepositoryError:
             return []
 
-        return [reviewer["uuid"] for reviewer in reviewers]
+        return [reviewer["user"]["uuid"] for reviewer in reviewers]
 
     def build_full_paginated_result(
         self,
