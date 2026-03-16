@@ -25,4 +25,4 @@ jobs:
     - name: Enable Pull Request Automerge
       run: gh pr merge --rebase --auto "${{ github.event.pull_request.number }}"
       env:
-        GH_TOKEN: ${{ secrets.WEBLATE_CI_TOKEN }}
+        GH_TOKEN: ${{ secrets.WEBLATE_CI_TOKEN }} # zizmor: ignore[secrets-outside-env]
