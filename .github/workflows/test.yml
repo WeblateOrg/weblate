@@ -88,7 +88,7 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
         allow-prereleases: true
-    - uses: astral-sh/setup-uv@6ee6290f1cbc4156c0bdd66691b2c144ef8df19a # v7.4.0
+    - uses: astral-sh/setup-uv@e06108dd0aef18192324c70427afc47652e63a82 # v7.5.0
       with:
         save-cache: ${{ github.ref == 'refs/heads/main' }}
         cache-suffix: ${{ steps.setup_python.outputs.python-version }}
