@@ -9,7 +9,7 @@ from __future__ import annotations
 import time
 
 from django.db import ProgrammingError, connections, transaction
-from django.db.models.lookups import PatternLookup, Regex
+from django.db.models.lookups import Lookup, PatternLookup, Regex
 
 from .inv_regex import invert_re
 
@@ -59,7 +59,7 @@ def count_alnum(string):
     return sum(map(str.isalnum, string))
 
 
-class PostgreSQLFallbackLookupMixin:
+class PostgreSQLFallbackLookupMixin(Lookup):
     """
     Mixin to block PostgreSQL from using trigram index.
 
@@ -69,8 +69,6 @@ class PostgreSQLFallbackLookupMixin:
 
     It is performed by concatenating empty string which will prevent index usage.
     """
-
-    lookup_name: str
 
     def process_lhs(self, compiler, connection, lhs=None):
         if self._needs_fallback:  # type: ignore[attr-defined]
