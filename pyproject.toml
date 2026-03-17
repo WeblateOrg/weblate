@@ -495,6 +495,8 @@ filterwarnings = [
   "error",
   # Warning in the third-party module (drf_spectacular)
   "ignore:'_UnionGenericAlias':DeprecationWarning:drf_spectacular.plumbing",
+  # Occasional gobject internal warnings
+  "ignore::gi.PyGIDeprecationWarning",
   # Warning in the third-party module (python3-saml)
   "ignore:datetime.datetime.utcnow:DeprecationWarning:onelogin.saml2.utils",
   # Warning in the third-party module (openid)
