@@ -718,7 +718,10 @@ def record_project_bill(
     if isinstance(instance, Project):
         users = User.objects.having_perm("project.edit", instance)
         for billing in instance.billing_set.all():
+            existing_owners = set(billing.owners.values_list("id", flat=True))
             for user in users:
+                if user.id in existing_owners:
+                    continue
                 billing.owners.add(user)
                 billing.billinglog_set.create(
                     event=BillingEvent.ADMIN_ADDED_PROJECT, summary=user.username
