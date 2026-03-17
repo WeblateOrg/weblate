@@ -779,27 +779,31 @@
                 {% translate "Glossary" %}
               </h4>
             </div>
-            <table class="table table-sm table-simple">
-              <thead>
-                <tr>
-                  <th>{{ unit.translation.component.source_language }}</th>
-                  <th>{{ unit.translation.language }}</th>
-                  <th></th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody id="glossary-terms">
-                {% include "snippets/glossary.html" %}
-              </tbody>
-            </table>
+            <div class="list-group">
+              <div class="list-group-item">
+                <table class="table table-sm table-simple">
+                  <thead>
+                    <tr>
+                      <th>{{ unit.translation.component.source_language }}</th>
+                      <th>{{ unit.translation.language }}</th>
+                      <th></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody id="glossary-terms">
+                    {% include "snippets/glossary.html" %}
+                  </tbody>
+                </table>
+              </div>
             {% if user_can_add_glossary and addterm_form.fields.translation.queryset %}
-              <div class="card-footer card-footer-links">
+              <div class="list-group-item card-footer-links">
                 <a class="btn btn-link"
                    href="#"
                    data-bs-toggle="modal"
                    data-bs-target="#add-glossary-form">{% icon "plus-circle.svg" %} {% translate "Add term to glossary" %}</a>
               </div>
             {% endif %}
+            </div>
           </div>
         {% endif %}
 
