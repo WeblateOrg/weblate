@@ -252,7 +252,7 @@ Django REST Framework
        - :ref:`saml-auth`
 
      * - ``saml2idp``
-       - | `djangosaml2idp <https://pypi.org/project/djangosaml2idp>`_
+       - | `djangosaml2idp2 <https://pypi.org/project/djangosaml2idp2>`_
        - Integrating SAML 2 IDP into Weblate
 
      * - ``wlhosted``
