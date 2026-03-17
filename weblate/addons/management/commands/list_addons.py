@@ -53,7 +53,7 @@ class Command(DocGeneratorCommand):
 
         self.write_sections(options.get("output"))
 
-    def generate_events_doc(self) -> list[str]:
+    def generate_events_doc(self) -> None:
         content = []
         content.extend(
             [
@@ -75,7 +75,7 @@ class Command(DocGeneratorCommand):
             content.append("")
         self.add_section("events", content)
 
-    def generate_addons_doc(self) -> list[str]:
+    def generate_addons_doc(self) -> None:
         self.add_section(
             "addons-header",
             ["Built-in add-ons", "++++++++++++++++"],
@@ -120,7 +120,7 @@ class Command(DocGeneratorCommand):
 
                 for name in self.params & set(form.fields):
                     field = form.fields[name]
-                    choices = field.choices
+                    choices = list(field.choices)
                     if name == "engines":
                         choices.extend(
                             [
