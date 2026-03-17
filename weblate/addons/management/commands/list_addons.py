@@ -18,6 +18,8 @@ from weblate.utils.rst import format_rst_string, format_table
 if TYPE_CHECKING:
     from collections.abc import Iterable
 
+    from weblate.utils.rst import CellType
+
 
 SKIP_FIELDS: tuple[tuple[str, str]] = (
     ("weblate.flags.bulk", "path"),  # Used internally only
@@ -99,8 +101,8 @@ class Command(DocGeneratorCommand):
             addon_lines.append(f":Add-on ID: ``{obj.name}``")
             prefix = ":Configuration: "
             if obj.settings_form:
-                form = obj(fake_addon).get_settings_form(None)
-                table: list[list[str | list[list[str]]]] = [
+                form = obj(fake_addon).get_settings_form(None)  # type: ignore[operator]
+                table: list[list[CellType]] = [
                     [
                         f"``{name}``",
                         str(field.label),
