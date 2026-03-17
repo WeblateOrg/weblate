@@ -38,6 +38,7 @@ class DuplicateCheck(TargetCheck):
     check_id = "duplicate"
     name = gettext_lazy("Consecutive duplicated words")
     description = gettext_lazy("Text contains the same word twice in a row.")
+    version_added = "4.1"
 
     def should_skip(self, unit: Unit) -> bool:
         # Ignore the check for Toki Pona which often uses repeating words

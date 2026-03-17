@@ -30,6 +30,13 @@ class PlaceholderCheck(TargetCheckParametrized):
     default_disabled = True
     name = gettext_lazy("Placeholders")
     description = gettext_lazy("Translation is missing some placeholders.")
+    versions_changed = (
+        ("4.3", "You can use regular expression as placeholder."),
+        (
+            "4.13",
+            "With the ``case-insensitive`` flag, the placeholders are not case-sensitive.",
+        ),
+    )
 
     @property
     def param_type(self):
@@ -138,6 +145,12 @@ class RegexCheck(TargetCheckParametrized):
     default_disabled = True
     name = gettext_lazy("Regular expression")
     description = gettext_lazy("Translation does not match regular expression.")
+    versions_changed = (
+        (
+            "5.10",
+            "Extended support for advanced regular expressions including Unicode codepoint properties.",
+        ),
+    )
 
     @property
     def param_type(self):

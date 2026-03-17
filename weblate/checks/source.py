@@ -48,7 +48,7 @@ class EllipsisCheck(SourceCheck):
     check_id = "ellipsis"
     name = gettext_lazy("Ellipsis")
     description = gettext_lazy(
-        "The string uses three dots (...) instead of an ellipsis character (…)."
+        "The string uses three dots ``(...)`` instead of an ellipsis character ``(…)``."
     )
 
     def check_source_unit(self, sources: list[str], unit: Unit):
@@ -149,6 +149,7 @@ class LongUntranslatedCheck(SourceCheck, BatchCheckMixin):
     check_id = "long_untranslated"
     name = gettext_lazy("Long untranslated")
     description = gettext_lazy("The string has not been translated for a long time.")
+    version_added = "4.1"
 
     def check_source_unit(self, sources: list[str], unit: Unit) -> bool:
         component = unit.translation.component

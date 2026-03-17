@@ -34,6 +34,7 @@ class CDNJSAddon(BaseAddon):
         AddonEvent.EVENT_POST_UPDATE,
     }
     name = "weblate.cdn.cdnjs"
+    version_added = "4.2"
     verbose = gettext_lazy("JavaScript localization CDN")
     description = gettext_lazy(
         "Publishes translations into content delivery network "

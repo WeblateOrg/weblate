@@ -24,6 +24,7 @@ class OllamaTranslation(BaseLLMTranslation):
     name = "Ollama"
     end_point = "/api/chat"
     settings_form = OllamaMachineryForm
+    version_added = "5.15"
 
     def get_model(self) -> str:
         return self.settings["model"]

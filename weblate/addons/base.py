@@ -22,6 +22,7 @@ from weblate.trans.models import Component
 from weblate.trans.templatetags.translations import format_json
 from weblate.trans.util import get_clean_env
 from weblate.utils import messages
+from weblate.utils.docs import DocVersionsMixin
 from weblate.utils.errors import report_error
 from weblate.utils.files import cleanup_error_message
 from weblate.utils.html import format_html_join_comma, list_to_tuples
@@ -46,7 +47,7 @@ class CompatDict(TypedDict, total=False):
     edit_template: set[bool]
 
 
-class BaseAddon:
+class BaseAddon(DocVersionsMixin):
     """Base class for Weblate add-ons."""
 
     events: ClassVar[set[AddonEvent]] = set()

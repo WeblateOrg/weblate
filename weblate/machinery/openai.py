@@ -71,6 +71,8 @@ class BaseOpenAITranslation(BaseLLMTranslation):
 class OpenAITranslation(BaseOpenAITranslation):
     name = "OpenAI"
 
+    version_added = "5.3"
+
     settings_form = OpenAIMachineryForm
 
     def __init__(self, settings=None) -> None:
@@ -112,6 +114,7 @@ class OpenAITranslation(BaseOpenAITranslation):
 
 class AzureOpenAITranslation(BaseOpenAITranslation):
     name = "Azure OpenAI"
+    version_added = "5.8"
     settings_form = AzureOpenAIMachineryForm
 
     def __init__(self, settings=None) -> None:

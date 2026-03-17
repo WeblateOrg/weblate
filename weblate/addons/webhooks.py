@@ -114,6 +114,13 @@ class WebhookAddon(JSONWebhookBaseAddon):
     description = gettext_lazy(
         "Sends notifications to external services based on selected events, following the Standard Webhooks specification."
     )
+    version_added = "5.11"
+    versions_changed = (
+        (
+            "5.15",
+            "Compliance of the secret length with the specification is now validated.",
+        ),
+    )
 
     settings_form = WebhooksAddonForm
 
@@ -200,6 +207,7 @@ class SlackWebhookAddon(JSONWebhookBaseAddon):
     )
     icon = "slack.svg"
     settings_form = BaseWebhooksAddonForm
+    version_added = "5.12"
 
     def build_webhook_payload(self, change: Change) -> PayloadType:
         message_header = ""

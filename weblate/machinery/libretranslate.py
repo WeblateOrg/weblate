@@ -22,6 +22,7 @@ class LibreTranslateTranslation(BatchMachineTranslation):
 
     name = "LibreTranslate"
     max_score = 89
+    version_added = "4.7.1"
     settings_form = LibreTranslateMachineryForm
     request_timeout = 20
 

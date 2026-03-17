@@ -266,6 +266,12 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
     )
     alert = "MsgmergeAddonError"
     compat: ClassVar[CompatDict] = {"file_format": {"po"}}
+    versions_changed = (
+        (
+            "5.13",
+            ":guilabel:`Settings` configuration has been moved to :ref:`file_format_params`.",
+        ),
+    )
 
     @classmethod
     def can_install(

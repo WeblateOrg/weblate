@@ -96,6 +96,7 @@ class RemoveBlankAddon(BaseCleanupAddon):
         AddonEvent.EVENT_POST_UPDATE,
     }
     icon = "eraser.svg"
+    version_added = "4.4"
 
     def update_translations(self, component: Component, previous_head: str) -> None:
         for translation in self.iterate_translations(component):

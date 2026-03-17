@@ -172,6 +172,7 @@ class PseudolocaleAddon(LocaleGenerateAddonBase):
     settings_form = PseudolocaleAddonForm
     user_name = "pseudolocale"
     user_verbose = "Pseudolocale add-on"
+    version_added = "4.5"
 
     def daily(self, component: Component, activity_log_id: int | None = None) -> None:
         # Check all strings
@@ -252,6 +253,7 @@ class PrefillAddon(LocaleGenerateAddonBase):
     description = gettext_lazy("Fills in translation strings with source string.")
     user_name = "prefill"
     user_verbose = "Prefill add-on"
+    version_added = "4.11"
 
     def daily(self, component: Component, activity_log_id: int | None = None) -> None:
         # Check all strings
@@ -288,6 +290,7 @@ class FillReadOnlyAddon(LocaleGenerateAddonBase):
     )
     user_name = "fill"
     user_verbose = "Fill read-only add-on"
+    version_added = "4.18"
 
     def daily(self, component: Component, activity_log_id: int | None = None) -> None:
         self.do_update(component)

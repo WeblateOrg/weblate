@@ -109,6 +109,7 @@ class KabyleCharactersCheck(TargetCheck):
     description = gettext_lazy(
         "Use standardized Latin Kabyle characters (e.g. ɣ instead of Greek γ; ɛ instead of ε)."
     )
+    version_added = "5.12"
 
     confusable_to_standard: ClassVar[dict[str, str]] = {
         "\u03b3": "\u0263",
@@ -516,6 +517,12 @@ class PunctuationSpacingCheck(TargetCheck):
     description = gettext_lazy(
         "Missing non breakable space before double punctuation sign."
     )
+    versions_changed = (
+        (
+            "5.10",
+            "This check used to apply to Breton language as well, but it was limited to French only.",
+        ),
+    )
 
     def should_skip(self, unit: Unit) -> bool:
         if (
@@ -590,6 +597,7 @@ class MultipleCapitalCheck(TargetCheck):
     description = gettext_lazy(
         "Translation contains words with multiple misplaced capital letters."
     )
+    version_added = "5.16"
 
     # matches sequences of 2+ uppercase letters in *any language*
     UPPERCASE_SEQ = regex.compile(r"\p{Lu}{2,}")

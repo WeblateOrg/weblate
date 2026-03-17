@@ -3283,7 +3283,7 @@ class ViewsTest(FixtureTestCase):
 class CommandTest(FixtureTestCase):
     """Test for management commands."""
 
-    def test_list_addons(self) -> None:
+    def test_list_machinery(self) -> None:
         output = StringIO()
         call_command("list_machinery", stdout=output)
         self.assertIn("DeepL", output.getvalue())

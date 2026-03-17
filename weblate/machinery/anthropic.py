@@ -22,6 +22,7 @@ class AnthropicTranslation(BaseLLMTranslation):
     name = "Anthropic"
     end_point = "/v1/messages"
     settings_form = AnthropicMachineryForm
+    version_added = "5.16"
 
     def get_model(self) -> str:
         if self.settings["model"] == "custom":

@@ -34,6 +34,7 @@ class FedoraMessagingAddon(ChangeBaseAddon):
         "Sends notifications to a Fedora Messaging compatible AMQP exchange."
     )
     multiple = False
+    version_added = "5.15"
 
     @classmethod
     def can_install(
