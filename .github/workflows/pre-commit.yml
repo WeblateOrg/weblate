@@ -10,6 +10,7 @@ on:
     branches-ignore:
     - renovate/**
     - weblate
+    - dependabot/**
   pull_request:
 
 permissions:
@@ -57,7 +58,7 @@ jobs:
       env:
         RUFF_OUTPUT_FORMAT: github
         REUSE_OUTPUT_FORMAT: github
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} # zizmor: ignore[secrets-outside-env]
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: pre-commit (uvx)
       if: steps.detect.outputs.method == 'uvx'
       run: |
@@ -66,7 +67,7 @@ jobs:
       env:
         RUFF_OUTPUT_FORMAT: github
         REUSE_OUTPUT_FORMAT: github
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} # zizmor: ignore[secrets-outside-env]
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: pre-commit (requirements)
       if: steps.detect.outputs.method == 'requirements'
       run: |
@@ -76,7 +77,7 @@ jobs:
       env:
         RUFF_OUTPUT_FORMAT: github
         REUSE_OUTPUT_FORMAT: github
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} # zizmor: ignore[secrets-outside-env]
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: diff
       run: git diff
       if: always()

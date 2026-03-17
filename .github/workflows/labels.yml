@@ -24,6 +24,6 @@ jobs:
     - name: Add good first issue comment
       if: ${{ github.event.label.name == 'good first issue' }}
       env:
-        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} # zizmor: ignore[secrets-outside-env]
+        GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         ISSUE_NUMBER: ${{ github.event.issue.number }}
       run: gh issue comment "$ISSUE_NUMBER" --body-file .github/comments/issue-newbie.md
