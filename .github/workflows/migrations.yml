@@ -9,6 +9,7 @@ on:
     branches-ignore:
     - renovate/**
     - weblate
+    - dependabot/**
   pull_request:
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
@@ -50,13 +51,13 @@ jobs:
         persist-credentials: false
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
-    - uses: astral-sh/setup-uv@6ee6290f1cbc4156c0bdd66691b2c144ef8df19a # v7.4.0
+    - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7.6.0
       with:
         enable-cache: true
         # Do not share cache with tests as this uses python 3.11 for older versions
         cache-suffix: multi
         save-cache: ${{ github.ref == 'refs/heads/main' }}
-        version: 0.10.9
+        version: 0.10.11
     - name: Set up Python
       uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       with:
@@ -107,6 +108,6 @@ jobs:
         uv run coverage xml
     - uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
       with:
-        token: ${{secrets.CODECOV_TOKEN}}
+        token: ${{secrets.CODECOV_TOKEN}} # zizmor: ignore[secrets-outside-env]
         flags: migrations
         name: Migrations postgresql

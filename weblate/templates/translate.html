@@ -145,9 +145,9 @@
                 {% if not unit.translation.component.is_glossary or not unit.is_source %}
                   <!-- source string explanation  -->
                   <div class="form-group help-block">
-                    <label>{% translate "Explanation" %}</label>
+                    <label>{% translate "Explanation" %} {% documentation_icon 'admin/translating' 'additional-explanation' %}</label>
                     <div class="list-group">
-                      <div class="list-group-item">
+                      <div class="list-group-item translate-explanation">
                         <div class="list-group-item-text">{{ unit.source_unit.explanation|markdown }}</div>
                       </div>
                     </div>
@@ -794,7 +794,7 @@
             </table>
             {% if user_can_add_glossary and addterm_form.fields.translation.queryset %}
               <div class="card-footer card-footer-links">
-                <a class="btn btn-link green"
+                <a class="btn btn-link"
                    href="#"
                    data-bs-toggle="modal"
                    data-bs-target="#add-glossary-form">{% icon "plus-circle.svg" %} {% translate "Add term to glossary" %}</a>
@@ -839,7 +839,7 @@
                 {% endfor %}
                 {% if user_can_add_screenshot %}
                   <br />
-                  <a class="btn btn-link green"
+                  <a class="btn btn-link"
                      href="#"
                      data-bs-toggle="modal"
                      data-bs-target="#add-screenshot-form">{% icon "plus-circle.svg" %} {% translate "Add screenshot" %}</a>

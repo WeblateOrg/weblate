@@ -26,7 +26,8 @@ from django.core.exceptions import (
 )
 from django.core.validators import MaxValueValidator
 from django.db import IntegrityError, models, transaction
-from django.db.models import Count, F, Q
+from django.db.models import Count, F, Q, Value
+from django.db.models.functions import MD5
 from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
 from django.utils.functional import cached_property
@@ -3715,10 +3716,10 @@ class Component(
             for unit in units.iterator():
                 if variant_re.findall(unit.context):
                     key = variant_re.sub("", unit.context)
-                    if key in variant_updates:
-                        variant = variant_updates[key][0]
-                    else:
-                        variant = Variant.objects.get_or_create(
+                    if key not in variant_updates:
+                        variant = Variant.objects.filter(
+                            key__md5=MD5(Value(key))
+                        ).get_or_create(
                             key=key, component=self, variant_regex=self.variant_regex
                         )[0]
                         variant_updates[key] = (variant, [])

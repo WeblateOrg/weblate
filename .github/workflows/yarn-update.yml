@@ -39,7 +39,7 @@ jobs:
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd   # v6.0.2
       if: github.event_name != 'pull_request' && github.repository_owner == 'WeblateOrg'
       with:
-        token: ${{ secrets.WEBLATE_CI_TOKEN }}
+        token: ${{ secrets.WEBLATE_CI_TOKEN }} # zizmor: ignore[secrets-outside-env]
         persist-credentials: true
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd   # v6.0.2
       if: github.event_name != 'pull_request' && github.repository_owner != 'WeblateOrg'
@@ -53,11 +53,11 @@ jobs:
       with:
         path: ~/.cache/pre-commit
         key: ${{ runner.os }}-pre-commit-${{ hashFiles('.pre-commit-config.yaml') }}
-    - uses: astral-sh/setup-uv@6ee6290f1cbc4156c0bdd66691b2c144ef8df19a # v7.4.0
+    - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7.6.0
       with:
         enable-cache: false
 
-        version: 0.10.9
+        version: 0.10.11
     - name: Set up Python
       uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       with:
@@ -97,4 +97,4 @@ jobs:
         pr-branch: create-pull-request/yarn-update
         pr-labels: |
           dependencies
-        github-token: ${{ secrets.WEBLATE_CI_TOKEN }}
+        github-token: ${{ secrets.WEBLATE_CI_TOKEN }} # zizmor: ignore[secrets-outside-env]

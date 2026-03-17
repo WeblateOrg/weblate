@@ -10,6 +10,7 @@ on:
     branches-ignore:
     - renovate/**
     - weblate
+    - dependabot/**
   pull_request:
 
 permissions:
@@ -23,30 +24,21 @@ jobs:
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       with:
         persist-credentials: false
-    - name: Get cache tag
-      id: get-date
-      run: |
-        echo "cache_tag=$(/bin/date --utc '+%Y%m')" >> "$GITHUB_OUTPUT"
-        echo "previous_cache_tag=$(/bin/date --date='1 month ago' --utc '+%Y%m')" >> "$GITHUB_OUTPUT"
-      shell: bash
     - uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
-      id: pre-commit-cache
       with:
         path: |
           ~/.cache/prek
           ~/.cache/kingfisher
-        key: ${{ runner.os }}-prek-${{ steps.get-date.outputs.cache_tag }}-${{ hashFiles('.pre-commit-config.yaml') }}
+        key: ${{ runner.os }}-prek-${{ hashFiles('.pre-commit-config.yaml') }}
         restore-keys: |
-          ${{ runner.os }}-prek-${{ steps.get-date.outputs.cache_tag }}
-          ${{ runner.os }}-prek-${{ steps.get-date.outputs.previous_cache_tag }}
           ${{ runner.os }}-prek-
     - name: Setup Python
       uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       with:
         python-version: '3.14'
-    - uses: astral-sh/setup-uv@6ee6290f1cbc4156c0bdd66691b2c144ef8df19a # v7.4.0
+    - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7.6.0
       with:
-        version: 0.10.9
+        version: 0.10.11
         enable-cache: false
     - name: detect method
       id: detect

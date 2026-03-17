@@ -9,6 +9,7 @@ on:
     branches-ignore:
     - renovate/**
     - weblate
+    - dependabot/**
   pull_request:
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
@@ -31,10 +32,10 @@ jobs:
       with:
         path: /tmp/cache/tesseract
         key: tesseract-data
-    - uses: astral-sh/setup-uv@6ee6290f1cbc4156c0bdd66691b2c144ef8df19a # v7.4.0
+    - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7.6.0
       with:
         enable-cache: false
-        version: 0.10.9
+        version: 0.10.11
     - run: ./rundev.sh build
     - run: ./rundev.sh start
     - run: ./rundev.sh wait

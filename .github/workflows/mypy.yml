@@ -9,6 +9,7 @@ on:
     branches-ignore:
     - renovate/**
     - weblate
+    - dependabot/**
   pull_request:
 
 permissions:
@@ -47,12 +48,12 @@ jobs:
       uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       with:
         python-version: '3.14'
-    - uses: astral-sh/setup-uv@6ee6290f1cbc4156c0bdd66691b2c144ef8df19a # v7.4.0
+    - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7.6.0
       with:
         save-cache: ${{ github.ref == 'refs/heads/main' }}
         cache-suffix: ${{ steps.setup_python.outputs.python-version }}
 
-        version: 0.10.9
+        version: 0.10.11
     - name: Install deps
       run: uv sync --no-binary-package lxml --no-binary-package xmlsec --all-extras --group types
     - name: Run mypy
@@ -77,7 +78,7 @@ jobs:
     - name: Enforced mypy
       # TODO: Enforce mypy to pass on certain modules, this should eventually grow to complete codebase
       env:
-        EXCLUDED_MODULES: accounts/|addons/|api/|auth/|billing/|fonts/|checks/|lang/|machinery/|metrics/|trans/(admin|autofixes|autotranslate|context_processors|debug|feeds|forms|guide|management|mixins|models/(agreement|pending|suggestion|comment|announcement|category|unit|translation|component)|tests|views|widgets)|vcs/(gpg|base|git|tests/test_vcs)
+        EXCLUDED_MODULES: accounts/|addons/(base|models|resx|views|gettext|tests)|api/|auth/|billing/|fonts/|checks/|lang/|machinery/|metrics/|trans/(admin|autofixes|autotranslate|context_processors|debug|feeds|forms|guide|management|mixins|models/(agreement|pending|suggestion|comment|announcement|category|unit|translation|component)|tests|views|widgets)|vcs/(gpg|base|git|tests/test_vcs)
       run: |
         echo "::add-matcher::.github/matchers/mypy.json"
         if grep --silent --invert-match --extended-regexp "^weblate/($EXCLUDED_MODULES)" mypy.log ; then

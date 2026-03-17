@@ -18,6 +18,7 @@ from weblate.utils.rst import format_rst_string, format_table
 if TYPE_CHECKING:
     from collections.abc import Iterable
 
+
 SKIP_FIELDS: tuple[tuple[str, str]] = (
     ("weblate.flags.bulk", "path"),  # Used internally only
 )
