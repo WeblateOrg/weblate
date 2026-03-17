@@ -530,8 +530,8 @@ class PseudolocaleAddonForm(BaseAddonForm):
         super().__init__(*args, **kwargs)
         if self._addon.instance.component:
             queryset = self._addon.instance.component.translation_set.all()
-            self.fields["source"].queryset = queryset
-            self.fields["target"].queryset = queryset
+            self.fields["source"].queryset = queryset  # type: ignore[attr-defined]
+            self.fields["target"].queryset = queryset  # type: ignore[attr-defined]
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Field("source"),
