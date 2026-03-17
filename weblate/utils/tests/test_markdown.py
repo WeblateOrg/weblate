@@ -82,6 +82,12 @@ class MarkdownTestCase(TestCase):
             "<p>&lt;mailto:email@incomplete&gt;</p>\n",
             render_markdown("<mailto:email@incomplete>"),
         )
+        self.assertHTMLEqual(
+            '<p><a rel="ugc" target="_blank" href="https://doomwiki.org/wiki/Chex_Quest_cheat_codes#:~:text=davidbrus">https://doomwiki.org/wiki/Chex_Quest_cheat_codes#:~:text=davidbrus</a></p>',
+            render_markdown(
+                "https://doomwiki.org/wiki/Chex_Quest_cheat_codes#:~:text=davidbrus"
+            ),
+        )
 
     def test_image(self) -> None:
         self.assertEqual(
