@@ -1850,7 +1850,7 @@ class ComponentViewSet(
 @extend_schema_view(
     list=extend_schema(description="Return a list of memory results."),
 )
-class MemoryViewSet(viewsets.ModelViewSet, DestroyModelMixin):
+class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
     """Memory API."""
 
     queryset = Memory.objects.none()
