@@ -795,14 +795,14 @@
                   </tbody>
                 </table>
               </div>
-            {% if user_can_add_glossary and addterm_form.fields.translation.queryset %}
-              <div class="list-group-item card-footer-links">
-                <a class="btn btn-link"
-                   href="#"
-                   data-bs-toggle="modal"
-                   data-bs-target="#add-glossary-form">{% icon "plus-circle.svg" %} {% translate "Add term to glossary" %}</a>
-              </div>
-            {% endif %}
+              {% if user_can_add_glossary and addterm_form.fields.translation.queryset %}
+                <div class="list-group-item card-footer-links">
+                  <a class="btn btn-link"
+                     href="#"
+                     data-bs-toggle="modal"
+                     data-bs-target="#add-glossary-form">{% icon "plus-circle.svg" %} {% translate "Add term to glossary" %}</a>
+                </div>
+              {% endif %}
             </div>
           </div>
         {% endif %}
