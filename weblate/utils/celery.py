@@ -74,18 +74,6 @@ def delete_task_metadata(task_id: str | None) -> None:
 
 
 def extract_task_kwargs(body) -> dict[str, Any]:
-    """Extract keyword arguments from a Celery task message body.
-
-    The body can be either:
-
-    * a dict containing a ``"kwargs"`` key with a dict value, or
-    * a list/tuple where the second element (index 1) is a dict of kwargs.
-
-    Any other shape results in an empty dict being returned.
-
-    :param body: Celery task message body in one of the supported formats.
-    :return: Dict with extracted keyword arguments, or an empty dict if none.
-    """
     if isinstance(body, dict):
         kwargs = body.get("kwargs")
         return kwargs if isinstance(kwargs, dict) else {}
