@@ -116,7 +116,7 @@ from weblate.trans.models.translation import Translation, TranslationQuerySet
 from weblate.trans.tasks import category_removal, component_removal, project_removal
 from weblate.trans.views.files import download_multi
 from weblate.trans.views.reports import generate_credits
-from weblate.utils.celery import get_task_progress
+from weblate.utils.celery import get_task_metadata, get_task_progress
 from weblate.utils.docs import get_doc_url
 from weblate.utils.errors import report_error
 from weblate.utils.lock import WeblateLockTimeoutError
@@ -1850,7 +1850,7 @@ class ComponentViewSet(
 @extend_schema_view(
     list=extend_schema(description="Return a list of memory results."),
 )
-class MemoryViewSet(viewsets.ModelViewSet, DestroyModelMixin):
+class MemoryViewSet(viewsets.ReadOnlyModelViewSet, DestroyModelMixin):
     """Memory API."""
 
     queryset = Memory.objects.none()
@@ -2819,30 +2819,22 @@ class TasksViewSet(ViewSet):
         obj: Model
         component: Component
         task = AsyncResult(str(pk))
-        result = task.result
-        if task.state == "PENDING" or isinstance(result, Exception):
-            component = None
+        metadata = get_task_metadata(str(pk)) or {}
+        if translation_id := metadata.get("translation_id"):
+            obj = get_object_or_404(Translation, pk=translation_id)
+            component = obj.component
+        elif component_id := metadata.get("component_id"):
+            component = obj = get_object_or_404(Component, pk=component_id)
         else:
-            if result is None:
-                msg = "Task not found"
-                raise Http404(msg)
+            msg = "Invalid task"
+            raise Http404(msg)
 
-            # Extract related object for permission check
-            if "translation" in result:
-                obj = get_object_or_404(Translation, pk=result["translation"])
-                component = obj.component
-            elif "component" in result:
-                component = obj = get_object_or_404(Component, pk=result["component"])
-            else:
-                msg = "Invalid task"
-                raise Http404(msg)
-
-            # Check access or permission
-            if permission:
-                if not request.user.has_perm(permission, obj):
-                    raise PermissionDenied
-            elif not request.user.can_access_component(component):
+        # Check access or permission
+        if permission:
+            if not request.user.has_perm(permission, obj):
                 raise PermissionDenied
+        elif not request.user.can_access_component(component):
+            raise PermissionDenied
 
         return task, component
 
