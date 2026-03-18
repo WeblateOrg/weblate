@@ -10,6 +10,7 @@ Weblate 5.17
 * Track origin of newly added source strings.
 * Improved LLM interfaces for better reliability.
 * Improved logic for adding monolingual plurals in :doc:`/formats/gettext`.
+* Improved error messages in some of the :ref:`api` endpoints.
 
 .. rubric:: Bug fixes
 
