@@ -111,7 +111,7 @@ def handle_task_failure(task_id="", exception=None, **kwargs) -> None:
 
 
 @app.on_after_configure.connect
-def configure_error_handling(sender, **kargs) -> None:
+def configure_error_handling(sender, **kwargs) -> None:
     """Rollbar and Sentry integration."""
     from weblate.utils.errors import init_error_collection
 
