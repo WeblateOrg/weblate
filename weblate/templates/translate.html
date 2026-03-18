@@ -88,7 +88,7 @@
                  title="{% translate "Copy permalink" %}">{% icon "link.svg" %}</a>
               <h4 class="card-title">
                 {% if unit.translation.component.is_glossary %}
-                  {% if "forbidden" in item.all_flags %}
+                  {% if "forbidden" in unit.all_flags %}
                     {% translate "Forbidden glossary term" %}
                   {% else %}
                     {# Translators: Can be also translated as "A term from the glossary" #}
