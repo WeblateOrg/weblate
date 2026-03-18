@@ -15,7 +15,7 @@ from typing import Any
 
 from celery import Celery
 from celery.contrib.django.task import DjangoTask
-from celery.signals import after_setup_logger, task_failure
+from celery.signals import after_setup_logger, before_task_publish, task_failure
 from django.conf import settings
 from django.core.cache import cache
 from django.core.checks import run_checks
@@ -37,6 +37,65 @@ app.config_from_object("django.conf:settings", namespace="CELERY")
 
 # Load task modules from all registered Django app configs.
 app.autodiscover_tasks()
+
+TASK_METADATA_TTL = 6 * 3600
+
+
+def get_task_metadata_key(task_id: str) -> str:
+    return f"task-meta-{task_id}"
+
+
+def store_task_metadata(
+    task_id: str | None,
+    *,
+    component_id: int | None = None,
+    translation_id: int | None = None,
+) -> None:
+    if not task_id:
+        return
+    cache.set(
+        get_task_metadata_key(task_id),
+        {
+            "component_id": component_id,
+            "translation_id": translation_id,
+        },
+        TASK_METADATA_TTL,
+    )
+
+
+def get_task_metadata(task_id: str) -> dict[str, int | None] | None:
+    return cache.get(get_task_metadata_key(task_id))
+
+
+def delete_task_metadata(task_id: str | None) -> None:
+    if not task_id:
+        return
+    cache.delete(get_task_metadata_key(task_id))
+
+
+def extract_task_kwargs(body) -> dict[str, Any]:
+    if isinstance(body, dict):
+        kwargs = body.get("kwargs")
+        return kwargs if isinstance(kwargs, dict) else {}
+    if isinstance(body, (list, tuple)) and len(body) >= 2 and isinstance(body[1], dict):
+        return body[1]
+    return {}
+
+
+@before_task_publish.connect
+def store_published_task_metadata(headers=None, body=None, **kwargs) -> None:
+    if not isinstance(headers, dict):
+        return
+    task_kwargs = extract_task_kwargs(body)
+    component_id = task_kwargs.get("component_id")
+    translation_id = task_kwargs.get("translation_id")
+    if component_id is None and translation_id is None:
+        return
+    store_task_metadata(
+        headers.get("id"),
+        component_id=component_id,
+        translation_id=translation_id,
+    )
 
 
 @task_failure.connect

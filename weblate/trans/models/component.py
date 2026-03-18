@@ -92,7 +92,11 @@ from weblate.trans.validators import (
     validate_language_code,
 )
 from weblate.utils import messages
-from weblate.utils.celery import get_task_progress
+from weblate.utils.celery import (
+    delete_task_metadata,
+    get_task_progress,
+    store_task_metadata,
+)
 from weblate.utils.colors import ColorChoices
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
@@ -1039,7 +1043,8 @@ class Component(
                 create=create,
             )
         else:
-            component_after_save.delay_on_commit(
+            self.queue_background_task(
+                component_after_save,
                 self.pk,
                 changed_git=changed_git,
                 changed_setup=changed_setup,
@@ -1189,6 +1194,7 @@ class Component(
         return f"component-update-{self.pk}"
 
     def delete_background_task(self) -> None:
+        delete_task_metadata(self.background_task_id)
         cache.delete(self.update_key)
 
     def store_background_task(self, task=None) -> None:
@@ -1197,6 +1203,12 @@ class Component(
                 return
             task = current_task.request
         cache.set(self.update_key, task.id, 6 * 3600)
+        store_task_metadata(task.id, component_id=self.pk)
+
+    def queue_background_task(self, task, /, *args, **kwargs) -> None:
+        transaction.on_commit(
+            lambda: self.store_background_task(task.delay(*args, **kwargs))
+        )
 
     @cached_property
     def background_task_id(self):
@@ -1962,8 +1974,8 @@ class Component(
             from weblate.trans.tasks import perform_push
 
             self.log_info("scheduling push")
-            perform_push.delay_on_commit(
-                self.pk, None, force_commit=False, do_update=do_update
+            self.queue_background_task(
+                perform_push, self.pk, None, force_commit=False, do_update=do_update
             )
 
     @perform_on_link
@@ -2162,7 +2174,8 @@ class Component(
 
         if keep_changes:
             # Trigger commit and scan in the background
-            perform_commit.delay_on_commit(
+            self.queue_background_task(
+                perform_commit,
                 self.pk,
                 "reset-sync",
                 user_id=request.user.id if request else None,
@@ -2223,8 +2236,11 @@ class Component(
         )
 
         if do_commit:
-            perform_commit.delay_on_commit(
-                self.pk, "file-sync", user_id=request.user.id if request else None
+            self.queue_background_task(
+                perform_commit,
+                self.pk,
+                "file-sync",
+                user_id=request.user.id if request else None,
             )
 
     @perform_on_link
@@ -2754,7 +2770,8 @@ class Component(
         from weblate.trans.tasks import perform_load
 
         self.log_info("scheduling update in background")
-        perform_load.delay_on_commit(
+        self.queue_background_task(
+            perform_load,
             pk=self.pk,
             force=force,
             force_scan=force_scan,
@@ -4145,8 +4162,8 @@ class Component(
             details={"auto": auto},
         )
         if lock and not auto:
-            perform_commit.delay_on_commit(
-                self.pk, "lock", user_id=user.id if user else None
+            self.queue_background_task(
+                perform_commit, self.pk, "lock", user_id=user.id if user else None
             )
         return change
 

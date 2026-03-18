@@ -15,6 +15,7 @@ Weblate 5.17
 
 * :ref:`addon-weblate.git.squash` better handle commits applied upstream.
 * Removed unintended API endpoints for translation memory.
+* Improved API access control for pending tasks.
 
 .. rubric:: Compatibility
 
