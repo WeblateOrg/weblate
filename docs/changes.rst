@@ -14,6 +14,7 @@ Weblate 5.17
 .. rubric:: Bug fixes
 
 * :ref:`addon-weblate.git.squash` better handle commits applied upstream.
+* Improved API access control for pending tasks.
 
 .. rubric:: Compatibility
 
