@@ -145,7 +145,7 @@ def get_queue_list():
     return result
 
 
-def get_queue_stats():
+def get_queue_stats() -> dict[str, int]:
     """Calculate queue stats."""
     return {queue: get_queue_length(queue) for queue in get_queue_list()}
 
