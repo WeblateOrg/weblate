@@ -136,7 +136,7 @@ def get_queue_length(queue="celery"):
         ).message_count
 
 
-def get_queue_list():
+def get_queue_list() -> set[str]:
     """List queues in Celery."""
     result = {"celery"}
     for route in settings.CELERY_TASK_ROUTES.values():
