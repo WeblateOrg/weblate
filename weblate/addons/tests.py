@@ -1119,6 +1119,29 @@ class DiscoveryTest(ViewTestCase):
             follow=True,
         )
         self.assertContains(response, "Please review and confirm")
+        # Discovery preview error
+        with patch(
+            "weblate.trans.discovery.regex_match",
+            side_effect=TimeoutError,
+        ):
+            response = self.client.post(
+                reverse("addons", kwargs=self.kw_component),
+                {
+                    "name": "weblate.discovery.discovery",
+                    "form": "1",
+                    "file_format": "po",
+                    "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
+                    "name_template": "{{ component|title }}",
+                    "language_regex": "^(?!xx).+$",
+                    "base_file_template": "",
+                    "remove": True,
+                },
+                follow=True,
+            )
+        self.assertContains(
+            response,
+            "The regular expression used to match discovered files is too complex and took too long to evaluate.",
+        )
         # Confirmation
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             response = self.client.post(

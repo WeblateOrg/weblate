@@ -4,6 +4,7 @@
 
 import base64
 import os
+from unittest.mock import patch
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -173,6 +174,16 @@ class RegexTest(SimpleTestCase):
         with self.assertRaises(ValidationError):
             validate_re("(Min|Short)", ("component",))
         validate_re("(?P<component>Min|Short)", ("component",))
+
+    def test_timeout(self) -> None:
+        with patch("weblate.utils.validators.compile_regex") as mock_compile:
+            mock_compile.return_value.match.side_effect = TimeoutError("timed out")
+
+            with self.assertRaisesMessage(
+                ValidationError,
+                "The regular expression is too complex and took too long to evaluate.",
+            ):
+                validate_re("(Min|Short)")
 
 
 class WebhookSecretTestCase(SimpleTestCase):
