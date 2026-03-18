@@ -5,12 +5,18 @@
 """Test for categories."""
 
 import os
+from contextlib import ExitStack
+from unittest.mock import call, patch
 
 from django.urls import reverse
 
 from weblate.lang.models import get_default_lang
+from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Category, Component, Project
+from weblate.trans.removal import RemovalBatch
+from weblate.trans.tasks import category_removal
 from weblate.trans.tests.test_views import ViewTestCase
+from weblate.utils.stats import GlobalStats
 
 
 class CategoriesTest(ViewTestCase):
@@ -316,3 +322,131 @@ class CategoriesTest(ViewTestCase):
 
         component.refresh_from_db()
         self.assertEqual(component.repo, "weblate://other/test-rename/test")
+
+    def test_category_removal_batches_linked_alert_updates(self) -> None:
+        category = Category.objects.create(
+            project=self.project, name="Category test", slug="testcat"
+        )
+        first = self.create_link_existing(
+            name="Linked A", slug="linked-a", category=category
+        )
+        second = self.create_link_existing(
+            name="Linked B", slug="linked-b", category=category
+        )
+
+        with patch.object(Component, "update_alerts", autospec=True) as update_alerts:
+            category_removal(category.pk, self.user.pk)
+
+        self.assertFalse(
+            Component.objects.filter(pk__in=[first.pk, second.pk]).exists()
+        )
+        update_alerts.assert_called_once_with(self.component)
+
+    def test_category_removal_skips_propagation_for_removed_components(self) -> None:
+        category = Category.objects.create(
+            project=self.project, name="Category test", slug="testcat"
+        )
+        first = self.create_po(
+            project=self.project,
+            name="Category A",
+            slug="category-a",
+            category=category,
+        )
+        second = self.create_po(
+            project=self.project,
+            name="Category B",
+            slug="category-b",
+            category=category,
+        )
+        first.allow_translation_propagation = True
+        first.save(update_fields=["allow_translation_propagation"])
+        second.allow_translation_propagation = True
+        second.save(update_fields=["allow_translation_propagation"])
+
+        with patch.object(
+            Component, "schedule_update_checks", autospec=True
+        ) as schedule:
+            category_removal(category.pk, self.user.pk)
+
+        self.assertEqual(
+            [call(self.component), call(self.component)],
+            schedule.call_args_list,
+        )
+
+    def test_category_removal_skips_propagation_for_cascaded_linked_components(
+        self,
+    ) -> None:
+        category = Category.objects.create(
+            project=self.project, name="Category test", slug="testcat"
+        )
+        self.component.category = category
+        self.component.save()
+
+        linked = self.create_link_existing(name="Linked A", slug="linked-a")
+        linked.allow_translation_propagation = True
+        linked.save(update_fields=["allow_translation_propagation"])
+
+        other = self.create_po(
+            project=self.project,
+            name="Category A",
+            slug="category-a",
+            category=category,
+        )
+        other.allow_translation_propagation = True
+        other.save(update_fields=["allow_translation_propagation"])
+
+        with patch.object(
+            Component, "schedule_update_checks", autospec=True
+        ) as schedule:
+            category_removal(category.pk, self.user.pk)
+
+        schedule.assert_not_called()
+
+    def test_category_removal_batches_parent_stats_updates(self) -> None:
+        category = Category.objects.create(
+            project=self.project, name="Category test", slug="testcat"
+        )
+        for pos in range(2):
+            self.create_po(
+                project=self.project,
+                name=f"Category {pos}",
+                slug=f"category-{pos}",
+                category=category,
+            )
+
+        collected: list[set[str]] = []
+        executed: list[str] = []
+        original_flush = RemovalBatch.flush
+
+        def record_flush(batch_self) -> None:
+            collected.append(set(batch_self.stats_to_update))
+            with ExitStack() as stack:
+                for stats in batch_self.stats_to_update.values():
+                    stack.enter_context(
+                        patch.object(
+                            stats,
+                            "update_stats",
+                            side_effect=lambda stats=stats: executed.append(
+                                stats.cache_key
+                            ),
+                        )
+                    )
+                original_flush(batch_self)
+
+        with patch.object(
+            RemovalBatch, "flush", autospec=True, side_effect=record_flush
+        ):
+            category_removal(category.pk, self.user.pk)
+
+        self.assertEqual(1, len(collected))
+        self.assertEqual(
+            {category.stats.cache_key, GlobalStats().cache_key},
+            collected[0],
+        )
+        self.assertEqual(collected[0], set(executed))
+        self.assertEqual(
+            2,
+            self.project.change_set.filter(
+                action=ActionEvents.REMOVE_COMPONENT
+            ).count(),
+        )

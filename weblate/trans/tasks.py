@@ -44,6 +44,7 @@ from weblate.trans.models import (
     Translation,
 )
 from weblate.trans.models.unit import fill_in_source_translation
+from weblate.trans.removal import RemovalBatch, removal_batch_context
 from weblate.utils.celery import app
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
@@ -439,6 +440,15 @@ def component_removal(pk: int, uid: int) -> None:
         component = Component.objects.get(pk=pk)
     except Component.DoesNotExist:
         return
+
+    _component_removal(component, user)
+
+
+def _component_removal(
+    component: Component, user: User, batch: RemovalBatch | None = None
+) -> None:
+    if batch is not None:
+        component.removal_batch = batch
     with component.repository.lock:
         component.acting_user = user
         component.project.change_set.create(
@@ -452,8 +462,51 @@ def component_removal(pk: int, uid: int) -> None:
             components = component.project.component_set.filter(
                 allow_translation_propagation=True
             ).exclude(pk=component.pk)
-            for component in components.iterator():
-                component.schedule_update_checks()
+            if batch is not None:
+                components = components.exclude(pk__in=batch.removed_component_ids)
+            for current in components.iterator():
+                current.schedule_update_checks()
+
+
+def _collect_removal_targets(category: Category, batch: RemovalBatch) -> None:
+    linked_frontier: set[int] = set()
+    component_ids = category.component_set.values_list("id", flat=True).iterator(
+        chunk_size=1000
+    )
+    for component_id in component_ids:
+        batch.mark_component(component_id)
+        linked_frontier.add(component_id)
+
+    while linked_frontier:
+        children = Component.objects.filter(
+            linked_component_id__in=linked_frontier
+        ).values_list("id", flat=True)
+        next_frontier = set()
+        for component_id in children.iterator(chunk_size=1000):
+            if component_id in batch.removed_component_ids:
+                continue
+            batch.mark_component(component_id)
+            next_frontier.add(component_id)
+        linked_frontier = next_frontier
+
+    for child in category.category_set.all():
+        _collect_removal_targets(child, batch)
+
+
+def _category_removal(
+    category: Category, user: User, batch: RemovalBatch | None = None
+) -> None:
+    for child in category.category_set.all():
+        _category_removal(child, user, batch)
+    for component in category.component_set.iterator():
+        _component_removal(component, user, batch)
+    category.project.change_set.create(
+        action=ActionEvents.REMOVE_CATEGORY,
+        target=category.slug,
+        user=user,
+        author=user,
+    )
+    category.delete()
 
 
 @app.task(trail=False)
@@ -464,17 +517,11 @@ def category_removal(pk: int, uid: int) -> None:
         category = Category.objects.get(pk=pk)
     except Category.DoesNotExist:
         return
-    for child in category.category_set.all():
-        category_removal(child.pk, uid)
-    for component_id in category.component_set.values_list("id", flat=True):
-        component_removal(component_id, uid)
-    category.project.change_set.create(
-        action=ActionEvents.REMOVE_CATEGORY,
-        target=category.slug,
-        user=user,
-        author=user,
-    )
-    category.delete()
+    batch = RemovalBatch()
+    _collect_removal_targets(category, batch)
+    with removal_batch_context(batch):
+        _category_removal(category, user, batch)
+    transaction.on_commit(batch.flush)
 
 
 @app.task(

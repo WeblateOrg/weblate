@@ -29,6 +29,7 @@ from weblate.trans.models.translation import Translation
 from weblate.trans.models.unit import Unit
 from weblate.trans.models.variant import Variant
 from weblate.trans.models.workflow import WorkflowSetting
+from weblate.trans.removal import get_current_removal_batch
 from weblate.trans.signals import user_pre_delete
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.files import remove_tree
@@ -84,6 +85,10 @@ def project_post_delete(sender, instance: Project, **kwargs) -> None:
 
 @receiver(pre_delete, sender=Component)
 def component_pre_delete(sender, instance: Component, **kwargs) -> None:
+    batch = instance.removal_batch or get_current_removal_batch()
+    if batch is not None:
+        batch.collect_stats(instance.stats.get_update_objects())
+        return
     # Collect list of stats to update, this can't be done after removal
     instance.stats.collect_update_objects()
 
@@ -96,8 +101,9 @@ def component_post_delete(sender, instance: Component, **kwargs) -> None:
     - delete component directory
     - update stats, this is accompanied by component_pre_delete
     """
-    # Update stats
-    transaction.on_commit(instance.stats.update_parents)
+    batch = instance.removal_batch or get_current_removal_batch()
+    if batch is None:
+        transaction.on_commit(instance.stats.update_parents)
     instance.stats.delete()
 
     # Do not delete linked components
@@ -200,6 +206,10 @@ def auto_component_list(sender, instance, **kwargs) -> None:
 @receiver(post_delete, sender=Component)
 @disable_for_loaddata
 def post_delete_linked(sender, instance, **kwargs) -> None:
+    batch = instance.removal_batch or get_current_removal_batch()
+    if batch is not None:
+        batch.collect_linked_component(instance.linked_component_id)
+        return
     # When removing project, the linked component might be already deleted now
     with suppress(Component.DoesNotExist):
         if instance.linked_component:
