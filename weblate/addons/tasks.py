@@ -4,12 +4,12 @@
 
 from __future__ import annotations
 
-import os
 from datetime import timedelta
 from pathlib import Path
 
 from celery.schedules import crontab
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.db.models import Count, F, Q
 from django.http import HttpRequest
@@ -26,8 +26,15 @@ from weblate.utils.celery import app
 from weblate.utils.hash import calculate_checksum
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.requests import http_request
+from weblate.utils.validators import validate_asset_url, validate_filename
 
 IGNORED_TAGS = {"script", "style"}
+
+
+def read_component_file(component: Component, filename: str) -> str:
+    validate_filename(filename)
+    resolved = component.repository.resolve_symlinks(filename)
+    return Path(component.full_path, resolved).read_text(encoding="utf-8")
 
 
 @app.task(trail=False)
@@ -47,13 +54,12 @@ def cdn_parse_html(addon_id: int, component_id: int) -> None:
         filename = filename.strip()
         try:
             if filename.startswith(("http://", "https://")):
+                validate_asset_url(filename)
                 with http_request("get", filename) as handle:
                     content = handle.text
             else:
-                content = Path(os.path.join(component.full_path, filename)).read_text(
-                    encoding="utf-8"
-                )
-        except OSError as error:
+                content = read_component_file(component, filename)
+        except (OSError, ValidationError, ValueError) as error:
             errors.append({"filename": filename, "error": str(error)})
             continue
 

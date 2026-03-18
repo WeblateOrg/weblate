@@ -1584,6 +1584,58 @@ class CDNJSAddonTest(ViewTestCase):
         # The error should be there
         self.assertTrue(self.component.alert_set.filter(name="CDNAddonError").exists())
 
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    @override_settings(LOCALIZE_CDN_URL="http://localhost/")
+    def test_extract_refuses_outside_repository(self) -> None:
+        self.make_manager()
+        self.assertTrue(CDNJSAddon.can_install(component=self.component))
+        self.assertEqual(
+            Unit.objects.filter(translation__component=self.component).count(), 8
+        )
+
+        CDNJSAddon.create(
+            component=self.component,
+            configuration={
+                "threshold": 0,
+                "files": "../../../../../etc/hosts",
+                "cookie_name": "django_languages",
+                "css_selector": "*",
+            },
+        )
+
+        self.assertEqual(
+            Unit.objects.filter(translation__component=self.component).count(), 8
+        )
+        alert = self.component.alert_set.get(name="CDNAddonError")
+        self.assertIn("parent directory", alert.details["occurrences"][0]["error"])
+
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    @override_settings(
+        LOCALIZE_CDN_URL="http://localhost/", ALLOWED_ASSET_DOMAINS=[".allowed.com"]
+    )
+    def test_extract_refuses_disallowed_remote_domain(self) -> None:
+        self.make_manager()
+        self.assertTrue(CDNJSAddon.can_install(component=self.component))
+        self.assertEqual(
+            Unit.objects.filter(translation__component=self.component).count(), 8
+        )
+
+        CDNJSAddon.create(
+            component=self.component,
+            configuration={
+                "threshold": 0,
+                "files": "https://blocked.example.com/messages.html",
+                "cookie_name": "django_languages",
+                "css_selector": "*",
+            },
+        )
+
+        self.assertEqual(
+            Unit.objects.filter(translation__component=self.component).count(), 8
+        )
+        alert = self.component.alert_set.get(name="CDNAddonError")
+        self.assertIn("domain is not allowed", alert.details["occurrences"][0]["error"])
+
 
 class SiteWideAddonsTest(ViewTestCase):
     def create_component(self):

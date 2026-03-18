@@ -27,6 +27,7 @@ from django.core.validators import (
     validate_domain_name,
     validate_ipv46_address,
 )
+from django.http.request import validate_host
 from django.utils.deconstruct import deconstructible
 from django.utils.translation import gettext, gettext_lazy
 from PIL import Image
@@ -382,6 +383,14 @@ class WeblateURLValidator(URLValidator):
             raise ValidationError(
                 gettext("This website cannot be used. Please provide a different one.")
             )
+
+
+def validate_asset_url(value: str) -> None:
+    WeblateURLValidator()(value)
+    if not validate_host(
+        urlparse(value).hostname or "", settings.ALLOWED_ASSET_DOMAINS
+    ):
+        raise ValidationError(gettext("URL domain is not allowed."))
 
 
 class WeblateEditorURLValidator(WeblateURLValidator):

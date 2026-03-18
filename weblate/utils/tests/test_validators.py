@@ -16,6 +16,7 @@ from weblate.utils.validators import (
     WeblateServiceURLValidator,
     WeblateURLValidator,
     clean_fullname,
+    validate_asset_url,
     validate_backup_path,
     validate_filename,
     validate_fullname,
@@ -258,6 +259,12 @@ class WebsiteTest(SimpleTestCase):
         validator = WeblateServiceURLValidator()
         self.verify_validator(validator)
         validator("https://domain:5000")
+
+    @override_settings(ALLOWED_ASSET_DOMAINS=[".allowed.com"])
+    def test_asset_url_validator(self) -> None:
+        validate_asset_url("https://cdn.allowed.com/image.png")
+        with self.assertRaises(ValidationError):
+            validate_asset_url("https://blocked.example.com/image.png")
 
 
 class BackupTest(SimpleTestCase):
