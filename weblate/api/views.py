@@ -99,7 +99,11 @@ from weblate.memory.models import Memory
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
 from weblate.trans.autotranslate import AutoTranslate
-from weblate.trans.exceptions import FileParseError
+from weblate.trans.exceptions import (
+    FailedCommitError,
+    FileParseError,
+    PluralFormsMismatchError,
+)
 from weblate.trans.forms import AutoForm
 from weblate.trans.models import (
     Category,
@@ -202,6 +206,18 @@ class WeblateExceptionHandler(ExceptionHandler):
                 )
             return LockedError()
         return super().convert_known_exceptions(exc)
+
+
+def invalid_integer_error(field: str) -> ValidationError:
+    return ValidationError({field: "A valid integer is required."})
+
+
+def not_found_validation_error(field: str, object_name: str) -> ValidationError:
+    return ValidationError({field: f"{object_name} not found."})
+
+
+def not_found_http404(object_name: str) -> Http404:
+    return Http404(f"{object_name} not found.")
 
 
 def get_view_description(view, html=False):
@@ -570,10 +586,13 @@ class UserViewSet(viewsets.ModelViewSet):
             msg = "Missing group_id parameter"
             raise ValidationError({"group_id": msg})
 
+        field_name = "group_id"
         try:
-            group = Group.objects.get(pk=int(request.data["group_id"]))
-        except (Group.DoesNotExist, ValueError) as error:
-            raise ValidationError({"group_id": str(error)}) from error
+            group = Group.objects.get(pk=int(request.data[field_name]))
+        except (TypeError, ValueError) as error:
+            raise invalid_integer_error(field_name) from error
+        except Group.DoesNotExist as error:
+            raise not_found_validation_error(field_name, "Group") from error
 
         if request.method == "POST":
             obj.add_team(request, group)
@@ -644,7 +663,8 @@ class UserViewSet(viewsets.ModelViewSet):
         try:
             subscription = obj.subscription_set.get(id=subscription_id)
         except Subscription.DoesNotExist as error:
-            raise Http404(str(error)) from error
+            msg = "Subscription"
+            raise not_found_http404(msg) from error
 
         if request.method == "DELETE":
             self.perm_check(request, obj, allow_self=True)
@@ -787,10 +807,13 @@ class GroupViewSet(viewsets.ModelViewSet):
             msg = "Missing role_id parameter"
             raise ValidationError({"role_id": msg})
 
+        field_name = "role_id"
         try:
-            role = Role.objects.get(pk=int(request.data["role_id"]))
-        except (Role.DoesNotExist, ValueError) as error:
-            raise ValidationError({"role_id": str(error)}) from error
+            role = Role.objects.get(pk=int(request.data[field_name]))
+        except (TypeError, ValueError) as error:
+            raise invalid_integer_error(field_name) from error
+        except Role.DoesNotExist as error:
+            raise not_found_validation_error(field_name, "Role") from error
 
         obj.roles.add(role)
         serializer = self.serializer_class(obj, context={"request": request})
@@ -811,7 +834,8 @@ class GroupViewSet(viewsets.ModelViewSet):
         try:
             role = obj.roles.get(pk=role_id)
         except Role.DoesNotExist as error:
-            raise Http404(str(error)) from error
+            msg = "Role"
+            raise not_found_http404(msg) from error
 
         obj.roles.remove(role)
         return Response(status=HTTP_204_NO_CONTENT)
@@ -829,10 +853,15 @@ class GroupViewSet(viewsets.ModelViewSet):
             msg = "Missing language_code parameter"
             raise ValidationError({"language_code": msg})
 
+        field_name = "language_code"
+        language_code = request.data[field_name]
+        if not isinstance(language_code, str) or not language_code:
+            raise ValidationError({field_name: "Invalid language code."})
+
         try:
-            language = Language.objects.get(code=request.data["language_code"])
-        except (Language.DoesNotExist, ValueError) as error:
-            raise ValidationError({"language_code": str(error)}) from error
+            language = Language.objects.get(code=language_code)
+        except Language.DoesNotExist as error:
+            raise not_found_validation_error(field_name, "Language") from error
 
         obj.languages.add(language)
         serializer = self.serializer_class(obj, context={"request": request})
@@ -855,7 +884,8 @@ class GroupViewSet(viewsets.ModelViewSet):
         try:
             language = obj.languages.get(code=language_code)
         except Language.DoesNotExist as error:
-            raise Http404(str(error)) from error
+            msg = "Language"
+            raise not_found_http404(msg) from error
         obj.languages.remove(language)
         return Response(status=HTTP_204_NO_CONTENT)
 
@@ -872,12 +902,15 @@ class GroupViewSet(viewsets.ModelViewSet):
             msg = "Missing project_id parameter"
             raise ValidationError({"project_id": msg})
 
+        field_name = "project_id"
         try:
             project = Project.objects.get(
-                pk=int(request.data["project_id"]),
+                pk=int(request.data[field_name]),
             )
-        except (Project.DoesNotExist, ValueError) as error:
-            raise ValidationError({"project_id": str(error)}) from error
+        except (TypeError, ValueError) as error:
+            raise invalid_integer_error(field_name) from error
+        except Project.DoesNotExist as error:
+            raise not_found_validation_error(field_name, "Project") from error
         obj.projects.add(project)
         serializer = self.serializer_class(obj, context={"request": request})
 
@@ -893,7 +926,8 @@ class GroupViewSet(viewsets.ModelViewSet):
         try:
             project = obj.projects.get(pk=project_id)
         except Project.DoesNotExist as error:
-            raise Http404(str(error)) from error
+            msg = "Project"
+            raise not_found_http404(msg) from error
         obj.projects.remove(project)
         return Response(status=HTTP_204_NO_CONTENT)
 
@@ -909,12 +943,15 @@ class GroupViewSet(viewsets.ModelViewSet):
             msg = "Missing component_list_id parameter"
             raise ValidationError({"component_list_id": msg})
 
+        field_name = "component_list_id"
         try:
             component_list = ComponentList.objects.get(
-                pk=int(request.data["component_list_id"]),
+                pk=int(request.data[field_name]),
             )
-        except (ComponentList.DoesNotExist, ValueError) as error:
-            raise ValidationError({"component_list_id": str(error)}) from error
+        except (TypeError, ValueError) as error:
+            raise invalid_integer_error(field_name) from error
+        except ComponentList.DoesNotExist as error:
+            raise not_found_validation_error(field_name, "Component list") from error
         obj.componentlists.add(component_list)
         serializer = self.serializer_class(obj, context={"request": request})
 
@@ -940,7 +977,8 @@ class GroupViewSet(viewsets.ModelViewSet):
         try:
             component_list = obj.componentlists.get(pk=component_list_id)
         except ComponentList.DoesNotExist as error:
-            raise Http404(str(error)) from error
+            msg = "Component list"
+            raise not_found_http404(msg) from error
         obj.componentlists.remove(component_list)
         return Response(status=HTTP_204_NO_CONTENT)
 
@@ -956,12 +994,15 @@ class GroupViewSet(viewsets.ModelViewSet):
             msg = "Missing component_id parameter"
             raise ValidationError({"component_id": msg})
 
+        field_name = "component_id"
         try:
             component = Component.objects.filter_access(request.user).get(
-                pk=int(request.data["component_id"])
+                pk=int(request.data[field_name])
             )
-        except (Component.DoesNotExist, ValueError) as error:
-            raise ValidationError({"component_id": str(error)}) from error
+        except (TypeError, ValueError) as error:
+            raise invalid_integer_error(field_name) from error
+        except Component.DoesNotExist as error:
+            raise not_found_validation_error(field_name, "Component") from error
         obj.components.add(component)
         serializer = self.serializer_class(obj, context={"request": request})
 
@@ -979,7 +1020,8 @@ class GroupViewSet(viewsets.ModelViewSet):
         try:
             component = obj.components.get(pk=component_id)
         except Component.DoesNotExist as error:
-            raise Http404(str(error)) from error
+            msg = "Component"
+            raise not_found_http404(msg) from error
         obj.components.remove(component)
         return Response(status=HTTP_204_NO_CONTENT)
 
@@ -1910,6 +1952,32 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
                 processed.add(project.id)
         return result
 
+    def get_translation_file_response(
+        self, request: Request, obj: Translation, user: User
+    ) -> HttpResponse:
+        if obj.get_filename() is None:
+            msg = "No translation file!"
+            raise Http404(msg)
+        if not user.has_perm("translation.download", obj):
+            raise PermissionDenied
+        query_format = request.query_params.get("format")
+        fmt = self.format_kwarg or query_format
+        query_string = request.GET.get("q", "")
+        if query_string and not fmt:
+            raise ValidationError({"q": "Query string is ignored without format"})
+        try:
+            parse_query(query_string)
+        except SearchQueryError as error:
+            raise ValidationError(
+                {"q": f"Could not parse query string: {error}"}
+            ) from error
+        try:
+            return download_translation_file(request, obj, fmt, query_string)
+        except Http404 as error:
+            if query_format is not None and self.format_kwarg is None:
+                raise ValidationError({"format": str(error)}) from error
+            raise
+
     @extend_schema(description="Upload new file with translations.", methods=["post"])
     @action(
         detail=True,
@@ -1925,25 +1993,7 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
         obj = self.get_object()
         user = request.user
         if request.method == "GET":
-            if obj.get_filename() is None:
-                msg = "No translation file!"
-                raise Http404(msg)
-            if not user.has_perm("translation.download", obj):
-                raise PermissionDenied
-            fmt = self.format_kwarg or request.query_params.get("format")
-            query_string = request.GET.get("q", "")
-            if query_string and not fmt:
-                raise ValidationError({"q": "Query string is ignored without format"})
-            try:
-                parse_query(query_string)
-            except SearchQueryError as error:
-                raise ValidationError(
-                    {"q": f"Could not parse query string: {error}"}
-                ) from error
-            try:
-                return download_translation_file(request, obj, fmt, query_string)
-            except Http404 as error:
-                raise ValidationError({"format": str(error)}) from error
+            return self.get_translation_file_response(request, obj, user)
 
         if not (can_upload := user.has_perm("upload.perform", obj)):
             self.permission_denied(
@@ -1982,9 +2032,23 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
                 data["method"],
                 data["fuzzy"],
             )
+        except PluralFormsMismatchError as error:
+            raise ValidationError(
+                {"file": "Plural forms do not match the language."}
+            ) from error
+        except FileParseError as error:
+            raise ValidationError({"file": str(error)}) from error
+        except FailedCommitError as error:
+            report_error("Upload error", project=obj.component.project)
+            raise ValidationError({"file": str(error)}) from error
         except Exception as error:
             report_error("Upload error", print_tb=True, project=obj.component.project)
-            raise ValidationError({"file": str(error)}) from error
+            raise ValidationError(
+                {
+                    "file": gettext("File upload has failed: %s")
+                    % str(error).replace(obj.component.full_path, "")
+                }
+            ) from error
 
         return Response(
             data={
@@ -2444,10 +2508,13 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
         if "unit_id" not in request.data:
             raise ValidationError({"unit_id": "This field is required."})
 
+        field_name = "unit_id"
         try:
-            unit = obj.translation.unit_set.get(pk=int(request.data["unit_id"]))
-        except (Unit.DoesNotExist, ValueError) as error:
-            raise ValidationError({"unit_id": str(error)}) from error
+            unit = obj.translation.unit_set.get(pk=int(request.data[field_name]))
+        except (TypeError, ValueError) as error:
+            raise invalid_integer_error(field_name) from error
+        except Unit.DoesNotExist as error:
+            raise not_found_validation_error(field_name, "Unit") from error
 
         obj.add_unit(unit, user=request.user)
         serializer = ScreenshotSerializer(obj, context={"request": request})
@@ -2467,7 +2534,8 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
         try:
             unit = obj.translation.unit_set.get(pk=unit_id)
         except Unit.DoesNotExist as error:
-            raise Http404(str(error)) from error
+            msg = "Unit"
+            raise not_found_http404(msg) from error
         obj.remove_unit(unit, user=request.user)
         return Response(status=HTTP_204_NO_CONTENT)
 
@@ -2486,7 +2554,7 @@ class ScreenshotViewSet(DownloadViewSet, viewsets.ModelViewSet):
             )
         except Translation.DoesNotExist as error:
             raise ValidationError(
-                {key: str(error) for key in required_params}
+                dict.fromkeys(required_params, "Translation not found.")
             ) from error
 
         if not request.user.has_perm("screenshot.add", translation):
@@ -2621,12 +2689,15 @@ class ComponentListViewSet(viewsets.ModelViewSet):
             if "component_id" not in request.data:
                 raise ValidationError({"component_id": "This field is required."})
 
+            field_name = "component_id"
             try:
                 component = Component.objects.filter_access(self.request.user).get(
-                    pk=int(request.data["component_id"]),
+                    pk=int(request.data[field_name]),
                 )
-            except (Component.DoesNotExist, ValueError) as error:
-                raise ValidationError({"component_id": str(error)}) from error
+            except (TypeError, ValueError) as error:
+                raise invalid_integer_error(field_name) from error
+            except Component.DoesNotExist as error:
+                raise not_found_validation_error(field_name, "Component") from error
 
             obj.components.add(component)
             serializer = self.serializer_class(obj, context={"request": request})
@@ -2659,7 +2730,8 @@ class ComponentListViewSet(viewsets.ModelViewSet):
         try:
             component = obj.components.get(slug=component_slug)
         except Component.DoesNotExist as error:
-            raise Http404(str(error)) from error
+            msg = "Component"
+            raise not_found_http404(msg) from error
         obj.components.remove(component)
         return Response(status=HTTP_204_NO_CONTENT)
 

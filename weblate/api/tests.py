@@ -32,6 +32,7 @@ from weblate.lang.models import Language
 from weblate.memory.models import Memory
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
+from weblate.trans.exceptions import FailedCommitError, FileParseError
 from weblate.trans.models import (
     Category,
     Change,
@@ -465,13 +466,17 @@ class UserAPITest(APIBaseTest):
             code=403,
             request={"group_id": group.id},
         )
-        self.do_request(
+        response = self.do_request(
             "api:user-groups",
             kwargs={"username": User.objects.filter(is_active=True)[0].username},
             method="post",
             superuser=True,
             code=400,
             request={"group_id": -1},
+        )
+        self.assertContains(response, "Group not found.", status_code=400)
+        self.assertNotContains(
+            response, "matching query does not exist", status_code=400
         )
         self.do_request(
             "api:user-groups",
@@ -977,13 +982,17 @@ class GroupAPITest(APIBaseTest):
             code=403,
             request={"role_id": role.id},
         )
-        self.do_request(
+        response = self.do_request(
             "api:group-roles",
             kwargs={"id": Group.objects.get(name="Users").id},
             method="post",
             superuser=True,
             code=400,
             request={"role_id": -1},
+        )
+        self.assertContains(response, "Role not found.", status_code=400)
+        self.assertNotContains(
+            response, "matching query does not exist", status_code=400
         )
         self.do_request(
             "api:group-roles",
@@ -1040,13 +1049,17 @@ class GroupAPITest(APIBaseTest):
             code=403,
             request={"component_id": self.component.pk},
         )
-        self.do_request(
+        response = self.do_request(
             "api:group-components",
             kwargs={"id": Group.objects.get(name="Users").id},
             method="post",
             superuser=True,
             code=400,
             request={"component_id": -1},
+        )
+        self.assertContains(response, "Component not found.", status_code=400)
+        self.assertNotContains(
+            response, "matching query does not exist", status_code=400
         )
         self.do_request(
             "api:group-components",
@@ -1102,13 +1115,17 @@ class GroupAPITest(APIBaseTest):
             code=403,
             request={"project_id": Project.objects.get(slug="test").pk},
         )
-        self.do_request(
+        response = self.do_request(
             "api:group-projects",
             kwargs={"id": Group.objects.get(name="Users").id},
             method="post",
             superuser=True,
             code=400,
             request={"project_id": -1},
+        )
+        self.assertContains(response, "Project not found.", status_code=400)
+        self.assertNotContains(
+            response, "matching query does not exist", status_code=400
         )
         self.do_request(
             "api:group-projects",
@@ -1164,7 +1181,7 @@ class GroupAPITest(APIBaseTest):
             code=403,
             request={"language_code": "cs"},
         )
-        self.do_request(
+        response = self.do_request(
             "api:group-languages",
             kwargs={"id": Group.objects.get(name="Users").id},
             method="post",
@@ -1172,6 +1189,20 @@ class GroupAPITest(APIBaseTest):
             code=400,
             request={"language_code": "invalid"},
         )
+        self.assertContains(response, "Language not found.", status_code=400)
+        self.assertNotContains(
+            response, "matching query does not exist", status_code=400
+        )
+        response = self.do_request(
+            "api:group-languages",
+            kwargs={"id": Group.objects.get(name="Users").id},
+            method="post",
+            superuser=True,
+            code=400,
+            request={"language_code": None},
+            format="json",
+        )
+        self.assertContains(response, "Invalid language code.", status_code=400)
         self.do_request(
             "api:group-languages",
             kwargs={"id": Group.objects.get(name="Users").id},
@@ -1224,13 +1255,17 @@ class GroupAPITest(APIBaseTest):
             code=403,
             request={"component_list_id": ComponentList.objects.get().pk},
         )
-        self.do_request(
+        response = self.do_request(
             "api:group-componentlists",
             kwargs={"id": Group.objects.get(name="Users").id},
             method="post",
             superuser=True,
             code=400,
             request={"component_list_id": -1},
+        )
+        self.assertContains(response, "Component list not found.", status_code=400)
+        self.assertNotContains(
+            response, "matching query does not exist", status_code=400
         )
         self.do_request(
             "api:group-componentlists",
@@ -1348,13 +1383,17 @@ class GroupAPITest(APIBaseTest):
         self.assertIn("Administration rights granted.", response.data)
 
         # Invalid user ID
-        self.do_request(
+        response = self.do_request(
             "api:group-grant-admin",
             kwargs={"id": group.id},
             method="post",
             superuser=True,
             request={"user_id": -1},
             code=400,
+        )
+        self.assertContains(response, "User not found", status_code=400)
+        self.assertNotContains(
+            response, "matching query does not exist", status_code=400
         )
 
         # Missing user ID
@@ -4303,10 +4342,64 @@ class TranslationAPITest(APIBaseTest):
         unit = translation.unit_set.get(source="Hello, world!\n")
         self.assertEqual(unit.target, "Ahoj světe!\n")
         self.assertEqual(unit.state, STATE_TRANSLATED)
-
         self.assertEqual(self.component.project.stats.suggestions, 0)
-
         self.check_upload_changes(changes_start, 2)
+
+    def test_upload_parse_error(self) -> None:
+        self.authenticate()
+        with (
+            patch.object(
+                Translation,
+                "handle_upload",
+                side_effect=FileParseError("Broken PO header"),
+            ),
+            open(TEST_PO, "rb") as handle,
+        ):
+            response = self.client.put(
+                reverse("api:translation-file", kwargs=self.translation_kwargs),
+                {"file": handle},
+            )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertContains(response, "Broken PO header", status_code=400)
+
+    def test_upload_commit_error(self) -> None:
+        self.authenticate()
+        with (
+            patch.object(
+                Translation,
+                "handle_upload",
+                side_effect=FailedCommitError("Commit failed"),
+            ),
+            open(TEST_PO, "rb") as handle,
+        ):
+            response = self.client.put(
+                reverse("api:translation-file", kwargs=self.translation_kwargs),
+                {"file": handle},
+            )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertContains(response, "Commit failed", status_code=400)
+
+    def test_upload_internal_error_is_sanitized(self) -> None:
+        self.authenticate()
+        with (
+            patch.object(
+                Translation,
+                "handle_upload",
+                side_effect=Exception(f"Failure in {self.component.full_path}/secret"),
+            ),
+            open(TEST_PO, "rb") as handle,
+        ):
+            response = self.client.put(
+                reverse("api:translation-file", kwargs=self.translation_kwargs),
+                {"file": handle},
+            )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertContains(response, "File upload has failed:", status_code=400)
+        self.assertContains(response, "/secret", status_code=400)
+        self.assertNotContains(response, self.component.full_path, status_code=400)
 
     def test_upload_source(self) -> None:
         self.authenticate(True)
@@ -5972,17 +6065,17 @@ class ScreenshotAPITest(APIBaseTest):
                         {
                             "attr": "project_slug",
                             "code": "invalid",
-                            "detail": "Translation matching query does not exist.",
+                            "detail": "Translation not found.",
                         },
                         {
                             "attr": "component_slug",
                             "code": "invalid",
-                            "detail": "Translation matching query does not exist.",
+                            "detail": "Translation not found.",
                         },
                         {
                             "attr": "language_code",
                             "code": "invalid",
-                            "detail": "Translation matching query does not exist.",
+                            "detail": "Translation not found.",
                         },
                     ],
                     "type": "validation_error",
@@ -6116,6 +6209,10 @@ class ScreenshotAPITest(APIBaseTest):
             {"unit_id": -1},
         )
         self.assertEqual(response.status_code, 400)
+        self.assertContains(response, "Unit not found.", status_code=400)
+        self.assertNotContains(
+            response, "matching query does not exist", status_code=400
+        )
 
     def test_units(self) -> None:
         self.authenticate(True)
@@ -6352,13 +6449,17 @@ class ComponentListAPITest(APIBaseTest):
             code=403,
             request={"component_id": self.component.pk},
         )
-        self.do_request(
+        response = self.do_request(
             "api:componentlist-components",
             kwargs={"slug": ComponentList.objects.get().slug},
             method="post",
             superuser=True,
             code=400,
             request={"component_id": -1},
+        )
+        self.assertContains(response, "Component not found.", status_code=400)
+        self.assertNotContains(
+            response, "matching query does not exist", status_code=400
         )
         self.do_request(
             "api:componentlist-components",
