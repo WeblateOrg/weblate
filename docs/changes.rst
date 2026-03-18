@@ -18,6 +18,7 @@ Weblate 5.17
 * :ref:`addon-weblate.cdn.cdnjs` validates parsed locations.
 * Removed unintended API endpoints for translation memory.
 * Improved API access control for pending tasks.
+* Faster category removal.
 
 .. rubric:: Compatibility
 

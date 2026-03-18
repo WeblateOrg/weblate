@@ -150,6 +150,7 @@ if TYPE_CHECKING:
     from weblate.lang.models import Plural
     from weblate.trans.models import Project
     from weblate.trans.models.unit import UnitAttributesDict
+    from weblate.trans.removal import RemovalBatch
     from weblate.vcs.base import Repository
 
 NEW_LANG_CHOICES = (
@@ -920,6 +921,7 @@ class Component(
         self.translations_count: int | None = None
         self.translations_progress = 0
         self.acting_user: User | None = None
+        self.removal_batch: RemovalBatch | None = None
         self.batch_checks = False
         self.batched_checks: set[str] = set()
         self.needs_variants_update = False
