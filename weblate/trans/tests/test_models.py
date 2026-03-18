@@ -7,6 +7,7 @@
 import os
 from datetime import timedelta
 from pathlib import Path
+from unittest.mock import patch
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.db import transaction
@@ -642,6 +643,18 @@ class ComponentListTest(RepoTestCase):
         AutoComponentList.objects.create(
             project_match="^none$", component_match="^.*$", componentlist=clist
         )
+        self.assertEqual(clist.components.count(), 0)
+
+    def test_auto_timeout(self) -> None:
+        clist = ComponentList.objects.create(name="Name", slug="slug")
+        AutoComponentList.objects.create(
+            project_match="^.*$", component_match="^.*$", componentlist=clist
+        )
+        with patch(
+            "weblate.trans.models.componentlist.regex_match",
+            side_effect=TimeoutError,
+        ):
+            self.create_component()
         self.assertEqual(clist.components.count(), 0)
 
     def test_source_review(self) -> None:

@@ -14,6 +14,7 @@ from typing import TYPE_CHECKING, Any, TypedDict, cast
 from urllib.parse import quote as urlquote
 from urllib.parse import urlparse
 
+import regex
 import sentry_sdk
 from celery import current_task
 from celery.result import AsyncResult
@@ -110,6 +111,12 @@ from weblate.utils.licenses import (
 )
 from weblate.utils.lock import WeblateLock
 from weblate.utils.random import get_random_identifier
+from weblate.utils.regex import (
+    compile_regex,
+    regex_findall,
+    regex_match,
+    regex_sub,
+)
 from weblate.utils.render import (
     render_template,
     validate_render_addon,
@@ -1478,8 +1485,8 @@ class Component(
             else:
                 raw.append(char)
         append(None)
-        regex = "".join(result)
-        return re.compile(f"^{regex}$")
+        expression = "".join(result)
+        return re.compile(f"^{expression}$")
 
     def get_url_path(self):
         parent = self.category or self.project
@@ -2614,15 +2621,29 @@ class Component(
                 user=user,
             )
 
-    def get_mask_matches(self) -> list[str]:
+    def get_mask_matches(self, *, raise_on_timeout: bool = False) -> list[str]:
         """Return files matching current mask."""
         prefix = path_separator(os.path.join(self.full_path, ""))
         matches = set()
+        language_re = compile_regex(self.language_regex)
+        timeout_reported = False
 
         for filename in glob(os.path.join(self.full_path, self.filemask)):
             path = path_separator(filename).replace(prefix, "")
             code = self.get_lang_code(path)
-            if re.match(self.language_regex, code) and code != "source":
+            try:
+                language_match = regex_match(language_re, code)
+            except TimeoutError:
+                if raise_on_timeout:
+                    raise
+                if not timeout_reported:
+                    report_error(
+                        "Component language regex timed out", project=self.project
+                    )
+                    self.log_warning("language regex timed out for %s [%s]", code, path)
+                    timeout_reported = True
+                continue
+            if language_match and code != "source":
                 matches.add(path)
             else:
                 self.log_info("skipping language %s [%s]", code, path)
@@ -3544,13 +3565,25 @@ class Component(
 
         # Get file matches
         try:
-            matches = self.get_mask_matches()
-        except re.error as error:
+            matches = self.get_mask_matches(raise_on_timeout=True)
+        except regex.error as error:
             # This will fail the field validation, but full_clean() does call clean() even with that
             raise ValidationError(
                 gettext(
                     "Can not validate file matches due to invalid regular expression."
                 )
+            ) from error
+        except TimeoutError as error:
+            report_error(
+                "Component language regex validation timed out",
+                project=self.project,
+            )
+            raise ValidationError(
+                {
+                    "language_regex": gettext(
+                        "The regular expression is too complex and took too long to evaluate."
+                    )
+                }
             ) from error
 
         # Verify language codes
@@ -3727,20 +3760,32 @@ class Component(
 
         # Handle regex based variants
         if self.variant_regex:
-            variant_re = re.compile(self.variant_regex)
+            variant_re = compile_regex(self.variant_regex)
             units = process_units.filter(context__regex=self.variant_regex)
             variant_updates: dict[str, tuple[Variant, list[int]]] = {}
+            timeout_reported = False
             for unit in units.iterator():
-                if variant_re.findall(unit.context):
-                    key = variant_re.sub("", unit.context)
-                    if key not in variant_updates:
-                        variant = Variant.objects.filter(
-                            key__md5=MD5(Value(key))
-                        ).get_or_create(
-                            key=key, component=self, variant_regex=self.variant_regex
-                        )[0]
-                        variant_updates[key] = (variant, [])
-                    variant_updates[key][1].append(unit.pk)
+                try:
+                    if not regex_findall(variant_re, unit.context):
+                        continue
+                    key = regex_sub(variant_re, "", unit.context)
+                except TimeoutError:
+                    if not timeout_reported:
+                        report_error(
+                            "Component variant regex timed out",
+                            project=self.project,
+                        )
+                        self.log_warning("variant regex timed out for %s", unit.context)
+                        timeout_reported = True
+                    break
+                if key not in variant_updates:
+                    variant = Variant.objects.filter(
+                        key__md5=MD5(Value(key))
+                    ).get_or_create(
+                        key=key, component=self, variant_regex=self.variant_regex
+                    )[0]
+                    variant_updates[key] = (variant, [])
+                variant_updates[key][1].append(unit.pk)
 
             if variant_updates:
                 for variant, unit_ids in variant_updates.values():
@@ -4068,7 +4113,13 @@ class Component(
             return None
 
         # Check if language code is valid
-        if re.match(self.language_regex, code) is None:
+        try:
+            language_match = regex_match(self.language_regex, code)
+        except TimeoutError:
+            report_error("Component language filter timed out", project=self.project)
+            fail_message(gettext("The language filter timed out."))
+            return None
+        if language_match is None:
             fail_message(
                 gettext("The given language is filtered by the language filter.")
             )
@@ -4314,9 +4365,9 @@ class Component(
         return sentry_sdk.start_span(op=op, name=self.full_slug)
 
     @cached_property
-    def key_filter_re(self) -> re.Pattern:
+    def key_filter_re(self) -> regex.Pattern:
         """Provide the cached version of key_filter."""
-        return re.compile(self.key_filter)
+        return compile_regex(self.key_filter)
 
     def repository_status(self) -> str:
         try:
