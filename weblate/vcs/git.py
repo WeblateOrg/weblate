@@ -2417,7 +2417,12 @@ class BitbucketCloudRepository(GitMergeRequestBase):
         except RepositoryError:
             return []
 
-        return [reviewer["user"]["uuid"] for reviewer in reviewers]
+        result = []
+        for reviewer in reviewers:
+            reviewer_uuid: str | None = reviewer.get("user", {}).get("uuid")
+            if reviewer_uuid and reviewer_uuid not in result:
+                result.append(reviewer_uuid)
+        return result
 
     def build_full_paginated_result(
         self,
