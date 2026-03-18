@@ -30,6 +30,7 @@ from weblate.utils.forms import (
 from weblate.utils.render import validate_render, validate_render_translation
 from weblate.utils.validators import (
     DomainOrIPValidator,
+    validate_asset_url,
     validate_filename,
     validate_re,
     validate_re_nonempty,
@@ -472,6 +473,27 @@ class CDNJSForm(BaseAddonForm):
                 gettext("Could not parse CSS selector: %s") % error
             ) from error
         return self.cleaned_data["css_selector"]
+
+    def clean_files(self):
+        files = self.cleaned_data["files"]
+        errors: list[str] = []
+
+        for filename in files.splitlines():
+            filename = filename.strip()
+            if not filename:
+                continue
+            try:
+                if filename.startswith(("http://", "https://")):
+                    validate_asset_url(filename)
+                else:
+                    validate_filename(filename)
+            except forms.ValidationError as error:
+                errors.extend(error.messages)
+
+        if errors:
+            raise forms.ValidationError(errors)
+
+        return files
 
 
 class TranslationLanguageChoiceField(CachedModelChoiceField):

@@ -14,6 +14,7 @@ Weblate 5.17
 .. rubric:: Bug fixes
 
 * :ref:`addon-weblate.git.squash` better handle commits applied upstream.
+* :ref:`addon-weblate.cdn.cdnjs` validates parsed locations.
 
 .. rubric:: Compatibility
 

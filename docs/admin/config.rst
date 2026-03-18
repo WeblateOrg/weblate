@@ -71,6 +71,7 @@ Defaults to `[*]` which will allow all domains.
 This is currently used in the following places:
 
 * Screenshot uploads, see :ref:`screenshots`
+* Remote HTML downloads for the :ref:`addon-weblate.cdn.cdnjs` add-on
 
 .. seealso::
 
