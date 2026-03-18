@@ -621,7 +621,7 @@ class Invoice(models.Model):
             return
 
         if self.end <= self.start:
-            msg = "Start has be to before end!"
+            msg = "Start has to be before end!"
             raise ValidationError(msg)
 
         if not self.billing_id:
