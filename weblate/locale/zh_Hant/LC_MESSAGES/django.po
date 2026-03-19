@@ -15,13 +15,14 @@
 # Winston Sung <winston21.sung@gmail.com>, 2024, 2025.
 # william chen <william.fromtw@gmail.com>, 2025.
 # GitHub webhook <noreply-webhook-github@weblate.org>, 2025, 2026.
+# EESF-2 <eesf-2@users.noreply.hosted.weblate.org>, 2026.
 msgid ""
 msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-02-16 13:58+0000\n"
-"PO-Revision-Date: 2026-02-14 19:11+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"PO-Revision-Date: 2026-03-19 11:09+0000\n"
+"Last-Translator: EESF-2 <eesf-2@users.noreply.hosted.weblate.org>\n"
 "Language-Team: Chinese (Traditional Han script) <https://hosted.weblate.org/"
 "projects/weblate/application/zh_Hant/>\n"
 "Language: zh_Hant\n"
@@ -29,7 +30,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.16-dev\n"
+"X-Generator: Weblate 5.17-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -79,31 +80,22 @@ msgstr ""
 "用於版本控制的送交。一旦 Weblate 送交了變更，地址將永久保留在儲存庫中。"
 
 #: weblate/accounts/forms.py:210 weblate/accounts/models.py:877
-#, fuzzy
-#| msgid "Committer name"
 msgid "Commit name"
-msgstr "提交者名稱"
+msgstr "提交名稱"
 
 #: weblate/accounts/forms.py:213
-#, fuzzy
-#| msgid ""
-#| "Used in version-control commits. The address stays in the repository "
-#| "forever once changes are committed by Weblate."
 msgid ""
 "Used in version control commits. The name stays in the repository forever, "
 "once changes are committed by Weblate."
-msgstr ""
-"用於版本控制的送交。一旦 Weblate 送交了變更，地址將永久保留在儲存庫中。"
+msgstr "用於版本控制的提交。一旦 Weblate 提交了變更，名稱將永久保留在儲存庫中。"
 
 #: weblate/accounts/forms.py:241
 msgid "Use anonymous account name"
 msgstr ""
 
 #: weblate/accounts/forms.py:243
-#, fuzzy
-#| msgid "Use account e-mail address"
 msgid "Use account name"
-msgstr "使用帳號的郵件信箱"
+msgstr "使用帳號名稱"
 
 #: weblate/accounts/forms.py:264 weblate/accounts/models.py:860
 msgid "Public e-mail"
@@ -3236,7 +3228,7 @@ msgstr "請描述說明專案，以及您與它之間的關係，最好使用英
 #, fuzzy
 #| msgid "View billing info"
 msgid "Add billing admin"
-msgstr "檢視帳單資訊"
+msgstr "Add billing admin"
 
 #: weblate/billing/models.py:165 weblate/templates/billing/detail.html:28
 msgid "Billing plan"
@@ -3375,7 +3367,7 @@ msgstr "待您改為一般約期訂購或是移除專案以後，就會停止收
 #, fuzzy
 #| msgid "Cannot change this on a built-in team."
 msgid "Cannot merge such a billing."
-msgstr "無法更改內建團隊的這個設定。"
+msgstr "Cannot merge such a billing."
 
 #: weblate/billing/views.py:259
 #, python-format
@@ -3383,10 +3375,8 @@ msgid "User %s was added as a billing admin."
 msgstr ""
 
 #: weblate/billing/views.py:277 weblate/templates/billing/detail.html:93
-#, fuzzy
-#| msgid "You can not remove yourself!"
 msgid "You cannot remove yourself."
-msgstr "不能移除自己！"
+msgstr "您不能移除自己。"
 
 #: weblate/billing/views.py:286
 #, python-format
@@ -3414,10 +3404,8 @@ msgid "The following errors were found:"
 msgstr "找到下列錯誤："
 
 #: weblate/checks/base.py:411
-#, fuzzy
-#| msgid "Could not parse flags: %s"
 msgid "Could not parse {} flag: {}"
-msgstr "解析旗標失敗：%s"
+msgstr "無法解析 {} 旗標：{}"
 
 #: weblate/checks/chars.py:48
 msgid "Starting newline"
@@ -4431,7 +4419,8 @@ msgstr ""
 #| msgid "XML tags in translation do not match source."
 msgid ""
 "Characters surrounding XML tags in translation do not align with source."
-msgstr "翻譯中的 XML 標記與來源不符。"
+msgstr ""
+"Characters surrounding XML tags in translation do not align with source."
 
 #: weblate/checks/markup.py:357
 msgid "Markdown references"
@@ -4861,10 +4850,8 @@ msgstr "包含佔位字串支援的 XLIFF 2.0"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1475
-#, fuzzy
-#| msgid "Java Properties (UTF-8)"
 msgid "Java Properties"
-msgstr "Java 屬性（UTF-8）"
+msgstr "Java 屬性"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1490
@@ -5890,9 +5877,6 @@ msgid "Claude Opus 4.5"
 msgstr ""
 
 #: weblate/machinery/forms.py:513
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Custom model"
 msgctxt "Anthropic model selection"
 msgid "Custom model"
 msgstr "自訂模型"
@@ -5903,11 +5887,8 @@ msgid "Anthropic API URL"
 msgstr ""
 
 #: weblate/machinery/forms.py:521
-#, fuzzy
-#| msgid ""
-#| "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
 msgid "Base URL of the Anthropic API. Leave empty to use the default URL."
-msgstr "OpenAI API 的基礎 URL（如果不是使用 OpenAI 預設的 URL）"
+msgstr "Anthropic API 基本 URL。留空以使用預設 URL。"
 
 #: weblate/machinery/forms.py:529
 msgctxt "Automatic suggestion service configuration"
@@ -7263,11 +7244,9 @@ msgstr ""
 "動。這些資訊可能會被無限期地儲存在該系統中。"
 
 #: weblate/templates/accounts/snippets/login-info.html:34
-#, fuzzy
-#| msgid "You can enable the use of a private commit e-mail in your profile."
 msgid ""
 "You can enable the use of a private commit e-mail and name in your profile."
-msgstr "您可以在個人資料中啟用用於送交記錄的私密郵件信箱。"
+msgstr "您可以在個人資料中啟用用於送交記錄的私密郵件信箱和名稱。"
 
 #: weblate/templates/accounts/snippets/login-info.html:36
 msgid "You can enable the use of a private commit e-mail in your profile."
@@ -7282,10 +7261,8 @@ msgstr ""
 "訊可能會被無限期地儲存在該系統中。"
 
 #: weblate/templates/accounts/snippets/login-info.html:45
-#, fuzzy
-#| msgid "You can enable the use of a private commit e-mail in your profile."
 msgid "You can enable the use of a private commit name in your profile."
-msgstr "您可以在個人資料中啟用用於送交記錄的私密郵件信箱。"
+msgstr "您可以在個人資料中啟用用於送交記錄的私密名稱。"
 
 #: weblate/templates/accounts/snippets/login-info.html:48
 msgid ""
@@ -8277,27 +8254,20 @@ msgstr "終止付費方案"
 #, fuzzy
 #| msgid "Billing plan"
 msgid "Billing admins"
-msgstr "付費方案"
+msgstr "Billing admins"
 
 #: weblate/templates/billing/detail.html:93
 #: weblate/templates/billing/detail.html:97
-#, fuzzy
-#| msgid "Check user access"
 msgid "Revoke access"
-msgstr "檢查使用者存取"
+msgstr "撤銷存取"
 
 #: weblate/templates/billing/detail.html:107
-#, fuzzy
-#| msgid "admin"
 msgid "Add admin"
-msgstr "管理"
+msgstr "新增管理員"
 
 #: weblate/templates/billing/detail.html:120
-#, fuzzy
-#| msgctxt "Access-control team name"
-#| msgid "Reviewers"
 msgid "Review merge"
-msgstr "檢閱者"
+msgstr "檢閱合併"
 
 #: weblate/templates/billing/detail.html:133
 msgid "Invoices"
@@ -8393,10 +8363,8 @@ msgid "View"
 msgstr "檢視"
 
 #: weblate/templates/billing/merge.html:34
-#, fuzzy
-#| msgid "Confirm"
 msgid "Confirm merge"
-msgstr "確認"
+msgstr "確認合併"
 
 #: weblate/templates/billing/overview.html:20
 msgid "No subscriptions or due payments."
@@ -12081,10 +12049,9 @@ msgid "Vote against"
 msgstr "投反對"
 
 #: weblate/templates/snippets/suggestions.html:56
-#, fuzzy, python-format
-#| msgid "Accepted invitation from {username}."
+#, python-format
 msgid "Accept all suggestions from %(username)s"
-msgstr "已經接受 {username} 的邀請。"
+msgstr "接受所有 %(username)s 的建議"
 
 #: weblate/templates/snippets/suggestions.html:65
 msgid "Accept"
@@ -13259,10 +13226,8 @@ msgid "This string was translated automatically by %(author)s."
 msgstr "這個字串由 %(author)s 執行自動翻譯。"
 
 #: weblate/templates/translate.html:736
-#, fuzzy
-#| msgid "This string was translated automatically by %(author)s."
 msgid "This string was translated automatically."
-msgstr "這個字串由 %(author)s 執行自動翻譯。"
+msgstr "這個字串已被自動翻譯。"
 
 #: weblate/templates/translate.html:755 weblate/trans/models/project.py:262
 msgid "Translation quality filter"
@@ -14252,7 +14217,7 @@ msgstr "FlatXML 字串鍵名稱"
 #, fuzzy
 #| msgid "Found duplicated string"
 msgid "Deduplicate identical strings"
-msgstr "找到了重複字串"
+msgstr "Deduplicate identical strings"
 
 #: weblate/trans/file_format_params.py:462
 msgid ""
@@ -14266,10 +14231,8 @@ msgstr ""
 #: weblate/trans/file_format_params.py:504
 #: weblate/trans/file_format_params.py:518
 #: weblate/trans/file_format_params.py:533
-#, fuzzy
-#| msgid "Filenames encoding"
 msgid "File encoding"
-msgstr "檔名編碼方式"
+msgstr "檔案編碼方式"
 
 #: weblate/trans/file_format_params.py:475
 #: weblate/trans/file_format_params.py:494
@@ -14298,7 +14261,7 @@ msgstr ""
 #, fuzzy
 #| msgid "Format the Java properties file"
 msgid "Encoding used for Java Properties files"
-msgstr "格式化 Java properties 檔案"
+msgstr "Encoding used for Java Properties files"
 
 #: weblate/trans/file_format_params.py:507
 #: weblate/trans/file_format_params.py:521
@@ -16649,22 +16612,16 @@ msgid "All languages have been added, updates of translations are in progress."
 msgstr "已經加入所有語言，翻譯更新正在進行中。"
 
 #: weblate/trans/views/bulk_suggestions.py:39
-#, fuzzy
-#| msgid "Glossary was not found."
 msgid "User not found."
-msgstr "找不到詞彙表。"
+msgstr "找不到使用者。"
 
 #: weblate/trans/views/bulk_suggestions.py:54
-#, fuzzy
-#| msgid "You do not have privilege to accept suggestions!"
 msgid "You do not have permission to accept suggestions."
-msgstr "您沒有接受建議的權利！"
+msgstr "您沒有接受建議的權限！"
 
 #: weblate/trans/views/bulk_suggestions.py:61
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Invalid request."
-msgstr "無效的合併請求！"
+msgstr "無效請求。"
 
 #: weblate/trans/views/bulk_suggestions.py:81
 #, python-brace-format
@@ -16689,10 +16646,8 @@ msgid_plural ""
 msgstr[0] ""
 
 #: weblate/trans/views/bulk_suggestions.py:137
-#, fuzzy
-#| msgid "No string found."
 msgid "No suggestions found."
-msgstr "找不到字串。"
+msgstr "找不到建議。"
 
 #: weblate/trans/views/changes.py:63
 #, python-format
@@ -17070,7 +17025,7 @@ msgstr "語言數量徽章"
 
 #: weblate/trans/widgets.py:560
 msgid "Threshold"
-msgstr "門檻值"
+msgstr "閾值"
 
 #: weblate/trans/widgets.py:575 weblate/utils/views.py:628
 #, python-format
