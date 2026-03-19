@@ -30,7 +30,7 @@ from weblate.utils.render import render_template
 from weblate.utils.validators import validate_filename
 
 if TYPE_CHECKING:
-    from collections.abc import Generator
+    from collections.abc import Generator, Iterable
 
     from django.forms.boundfield import BoundField
     from django_stubs_ext import StrOrPromise
@@ -58,7 +58,6 @@ class BaseAddon(DocVersionsMixin):
     verbose: StrOrPromise = "Base add-on"
     description: StrOrPromise = "Base add-on"
     icon = "cog.svg"
-    project_scope = False
     repo_scope = False
     needs_component = False
     has_summary = False
@@ -217,13 +216,29 @@ class BaseAddon(DocVersionsMixin):
             if self.repo_scope and component.linked_component:
                 component = component.linked_component
             self.post_configure_run_component(component)
+        elif project := self.instance.project:
+            self.post_configure_run_project(project)
 
-        if project := self.instance.project:
-            for component in project.component_set.iterator():
-                if self.can_install(component=component):
-                    self.post_configure_run_component(component)
+    def post_configure_run_project(self, project: Project) -> None:
+        from weblate.addons.models import execute_addon_event
 
-    def post_configure_run_component(self, component: Component) -> None:
+        for component in project.component_set.iterator():
+            if self.can_process(component=component):
+                self.post_configure_run_component(component, skip_daily=True)
+
+        if AddonEvent.EVENT_DAILY in self.events:
+            execute_addon_event(
+                self.instance,
+                None,
+                project,
+                AddonEvent.EVENT_DAILY,
+                "daily",
+                (None, project),
+            )
+
+    def post_configure_run_component(
+        self, component: Component, skip_daily: bool = False
+    ) -> None:
         from weblate.addons.models import execute_addon_event
 
         # Trigger post configure event for a VCS component
@@ -283,7 +298,7 @@ class BaseAddon(DocVersionsMixin):
                 "post_push",
                 (component,),
             )
-        if AddonEvent.EVENT_DAILY in self.events:
+        if AddonEvent.EVENT_DAILY in self.events and not skip_daily:
             component.log_debug("running daily add-on: %s", self.name)
             execute_addon_event(
                 *(base_event_args), AddonEvent.EVENT_DAILY, "daily", (component,)
@@ -404,11 +419,41 @@ class BaseAddon(DocVersionsMixin):
         """Event handler before new unit is created."""
         # To be implemented in a subclass
 
+    def resolve_components(
+        self,
+        *,
+        component: Component | None = None,
+        project: Project | None = None,
+    ) -> Iterable[Component]:
+        """Resolve scope to components iterator."""
+        if component is not None:
+            return [component]
+        if project is not None:
+            return project.component_set.iterator()
+        return Component.objects.iterator()
+
     def daily(
-        self, component: Component, activity_log_id: int | None = None
+        self,
+        component: Component | None = None,
+        project: Project | None = None,
+        activity_log_id: int | None = None,
     ) -> dict | None:
-        """Event handler daily."""
-        # To be implemented in a subclass
+        """
+        Scope-aware daily entry point.
+
+        Override this for project-level logic, or override daily_component()
+        for per-component logic.
+        """
+        for comp in self.resolve_components(component=component, project=project):
+            if self.can_process(component=comp):
+                self.daily_component(comp, activity_log_id=activity_log_id)
+
+    def daily_component(
+        self,
+        component: Component,
+        activity_log_id: int | None = None,
+    ) -> dict | None:
+        """Per-component daily processing. Override this for component-level logic."""
 
     def component_update(
         self, component: Component, activity_log_id: int | None = None

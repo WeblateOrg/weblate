@@ -153,7 +153,11 @@ class LocaleGenerateAddonBase(BaseAddon):
             target_translation.invalidate_cache()
         return updated
 
-    def daily(self, component: Component, activity_log_id: int | None = None) -> None:
+    def daily_component(
+        self,
+        component: Component,
+        activity_log_id: int | None = None,
+    ) -> None:
         raise NotImplementedError
 
     def component_update(
@@ -174,7 +178,11 @@ class PseudolocaleAddon(LocaleGenerateAddonBase):
     user_verbose = "Pseudolocale add-on"
     version_added = "4.5"
 
-    def daily(self, component: Component, activity_log_id: int | None = None) -> None:
+    def daily_component(
+        self,
+        component: Component,
+        activity_log_id: int | None = None,
+    ) -> None:
         # Check all strings
         query = Q(state__lte=STATE_TRANSLATED)
         if self.instance.configuration.get("include_readonly", False):
@@ -255,7 +263,11 @@ class PrefillAddon(LocaleGenerateAddonBase):
     user_verbose = "Prefill add-on"
     version_added = "4.11"
 
-    def daily(self, component: Component, activity_log_id: int | None = None) -> None:
+    def daily_component(
+        self,
+        component: Component,
+        activity_log_id: int | None = None,
+    ) -> None:
         # Check all strings
         self.do_update(component)
 
@@ -292,7 +304,11 @@ class FillReadOnlyAddon(LocaleGenerateAddonBase):
     user_verbose = "Fill read-only add-on"
     version_added = "4.18"
 
-    def daily(self, component: Component, activity_log_id: int | None = None) -> None:
+    def daily_component(
+        self,
+        component: Component,
+        activity_log_id: int | None = None,
+    ) -> None:
         self.do_update(component)
 
     def component_update(
