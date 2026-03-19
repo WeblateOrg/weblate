@@ -111,7 +111,7 @@ def handle_task_failure(task_id="", exception=None, **kwargs) -> None:
 
 
 @app.on_after_configure.connect
-def configure_error_handling(sender, **kargs) -> None:
+def configure_error_handling(sender, **kwargs) -> None:
     """Rollbar and Sentry integration."""
     from weblate.utils.errors import init_error_collection
 
@@ -136,7 +136,7 @@ def get_queue_length(queue="celery"):
         ).message_count
 
 
-def get_queue_list():
+def get_queue_list() -> set[str]:
     """List queues in Celery."""
     result = {"celery"}
     for route in settings.CELERY_TASK_ROUTES.values():
@@ -145,7 +145,7 @@ def get_queue_list():
     return result
 
 
-def get_queue_stats():
+def get_queue_stats() -> dict[str, int]:
     """Calculate queue stats."""
     return {queue: get_queue_length(queue) for queue in get_queue_list()}
 
