@@ -61,6 +61,7 @@ class LanguageConsistencyAddon(BaseAddon):
             project.pk,
             activity_log_id=activity_log_id,
         )
+        return None
 
     def post_add(
         self, translation: Translation, activity_log_id: int | None = None, **kwargs
