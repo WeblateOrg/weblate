@@ -73,7 +73,7 @@ def delete_task_metadata(task_id: str | None) -> None:
     cache.delete(get_task_metadata_key(task_id))
 
 
-def extract_task_kwargs(body) -> dict[str, Any]:
+def extract_task_kwargs(body: Any) -> dict[str, Any]:
     if isinstance(body, dict):
         kwargs = body.get("kwargs")
         return kwargs if isinstance(kwargs, dict) else {}
