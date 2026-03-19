@@ -356,6 +356,7 @@ def execute_addon_event(
     event: AddonEvent,
     method: str,
     args: tuple | None = None,
+    kwargs: dict | None = None,
 ) -> None:
     from weblate.addons.tasks import update_addon_activity_log
 
@@ -386,6 +387,8 @@ def execute_addon_event(
     error_occurred = False
     if args is None:
         args = ()
+    if kwargs is None:
+        kwargs = {}
 
     activity_log = AddonActivityLog.objects.create(
         addon=addon,
@@ -415,7 +418,7 @@ def execute_addon_event(
             # Execute event in sentry span to track performance
             with sentry_sdk.start_span(op=f"addon.{event.name}", name=addon.name):
                 log_result = getattr(addon.addon, method)(
-                    *args, activity_log_id=activity_log.pk
+                    *args, **kwargs, activity_log_id=activity_log.pk
                 )
         except DjangoDatabaseError:
             raise
@@ -426,9 +429,15 @@ def execute_addon_event(
             addon_logger(
                 "error", "failed %s add-on: %s: %s", event.label, addon.name, str(error)
             )
+            if component:
+                project_for_error = component.project
+            elif isinstance(scope, Project):
+                project_for_error = scope
+            else:
+                project_for_error = addon.project
             report_error(
                 f"add-on {addon.name} failed",
-                project=component.project if component else addon.project,
+                project=project_for_error,
             )
             # Uninstall no longer compatible add-ons
             if component and not addon.addon.can_process(component=component):
@@ -452,6 +461,7 @@ def handle_addon_event(
     event: AddonEvent,
     method: str,
     args: tuple | None = None,
+    kwargs: dict | None = None,
     *,
     project: Project | None = None,
     component: Component | None = None,
@@ -481,7 +491,8 @@ def handle_addon_event(
                 addon.component,
                 event,
                 method,
-                (addon.component, None),
+                None,
+                kwargs={"component": addon.component, "project": None},
             )
         elif addon.project:
             execute_addon_event(
@@ -490,7 +501,8 @@ def handle_addon_event(
                 addon.project,
                 event,
                 method,
-                (None, addon.project),
+                None,
+                kwargs={"component": None, "project": addon.project},
             )
         else:
             for proj in Project.objects.iterator():
@@ -500,7 +512,8 @@ def handle_addon_event(
                     proj,
                     event,
                     method,
-                    (None, proj),
+                    None,
+                    kwargs={"component": None, "project": proj},
                 )
 
 
