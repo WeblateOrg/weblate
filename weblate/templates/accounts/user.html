@@ -250,7 +250,7 @@
             <tbody>
               {% for social in page_user.social_auth.all %}
                 <tr>
-                  <th>{% auth_name social.provider ' ' %}</th>
+                  <th>{% auth_name social.provider %}</th>
                   <td>{{ social.uid }}</td>
                   <td>
                     {% for verified in social.verifiedemail_set.all %}
