@@ -5,8 +5,10 @@
 """Test for translation models."""
 
 import os
+from contextlib import ExitStack
 from datetime import timedelta
 from pathlib import Path
+from unittest.mock import patch
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.db import transaction
@@ -35,6 +37,8 @@ from weblate.trans.models import (
     Vote,
 )
 from weblate.trans.models.project import CommitPolicyChoices
+from weblate.trans.removal import RemovalBatch
+from weblate.trans.tasks import actual_project_removal
 from weblate.trans.tests.utils import (
     RepoTestMixin,
     create_another_user,
@@ -51,6 +55,7 @@ from weblate.utils.state import (
     STATE_READONLY,
     STATE_TRANSLATED,
 )
+from weblate.utils.stats import GlobalStats
 from weblate.utils.version import GIT_VERSION
 
 
@@ -146,6 +151,113 @@ class ProjectTest(RepoTestCase):
         self.assertTrue(os.path.exists(project.full_path))
         project.delete()
         self.assertFalse(os.path.exists(project.full_path))
+
+    def test_actual_project_removal_batches_linked_alert_updates(self) -> None:
+        self.component = self.create_po()
+        project = self.create_project(name="Other", slug="other")
+        self.project = project
+        linked = self.create_link_existing(
+            name="Linked A",
+            slug="linked-a",
+        )
+        second = self.create_link_existing(
+            name="Linked B",
+            slug="linked-b",
+        )
+
+        with patch.object(Component, "update_alerts", autospec=True) as update_alerts:
+            actual_project_removal(project.pk, None)
+
+        self.assertFalse(
+            Component.objects.filter(pk__in=[linked.pk, second.pk]).exists()
+        )
+        update_alerts.assert_called_once_with(self.component)
+
+    def test_actual_project_removal_batches_parent_stats_updates(self) -> None:
+        project = self.create_project(name="Other", slug="other")
+        self.create_po(project=project, name="Category A", slug="category-a")
+        self.create_po(project=project, name="Category B", slug="category-b")
+
+        collected: list[set[str]] = []
+        executed: list[str] = []
+        original_flush = RemovalBatch.flush
+
+        def record_flush(batch_self: RemovalBatch) -> None:
+            collected.append(set(batch_self.stats_to_update))
+            with ExitStack() as stack:
+                for stats in batch_self.stats_to_update.values():
+                    stack.enter_context(
+                        patch.object(
+                            stats,
+                            "update_stats",
+                            side_effect=lambda stats=stats: executed.append(
+                                stats.cache_key
+                            ),
+                        )
+                    )
+                original_flush(batch_self)
+
+        with patch.object(
+            RemovalBatch, "flush", autospec=True, side_effect=record_flush
+        ):
+            actual_project_removal(project.pk, None)
+
+        self.assertEqual(1, len(collected))
+        self.assertEqual(
+            {project.stats.cache_key, GlobalStats().cache_key},
+            collected[0],
+        )
+        self.assertEqual(collected[0], set(executed))
+
+    def test_actual_project_removal_updates_surviving_project_before_global(
+        self,
+    ) -> None:
+        surviving_component = self.create_po()
+        surviving_project = surviving_component.project
+
+        project = self.create_project(name="Other", slug="other")
+        main = self.create_po(project=project, name="Main", slug="main")
+
+        self.component = main
+        self.project = surviving_project
+        linked = self.create_link_existing(
+            name="Linked A",
+            slug="linked-a",
+        )
+        second = self.create_link_existing(
+            name="Linked B",
+            slug="linked-b",
+        )
+
+        executed: list[str] = []
+        original_flush = RemovalBatch.flush
+
+        def record_flush(batch_self: RemovalBatch) -> None:
+            with ExitStack() as stack:
+                for stats in batch_self.stats_to_update.values():
+                    stack.enter_context(
+                        patch.object(
+                            stats,
+                            "update_stats",
+                            side_effect=lambda stats=stats: executed.append(
+                                stats.cache_key
+                            ),
+                        )
+                    )
+                original_flush(batch_self)
+
+        with patch.object(
+            RemovalBatch, "flush", autospec=True, side_effect=record_flush
+        ):
+            actual_project_removal(project.pk, None)
+
+        self.assertFalse(
+            Component.objects.filter(pk__in=[main.pk, linked.pk, second.pk]).exists()
+        )
+        self.assertLess(
+            executed.index(surviving_project.stats.cache_key),
+            executed.index(GlobalStats().cache_key),
+        )
 
     def test_delete_votes(self) -> None:
         with transaction.atomic():
