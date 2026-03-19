@@ -630,6 +630,18 @@ max-statements = 100
 include-package-data = true
 zip-safe = false
 
+[tool.setuptools.package-data]
+weblate = [
+  "locale/**/*.mo",
+  "locale/**/*.po",
+  "locale/**/*.pot",
+  "static/**/*",
+  "templates/**/*"
+]
+"weblate.fonts" = ["static/**/*"]
+"weblate.legal" = ["templates/**/*"]
+"weblate.wladmin" = ["templates/**/*"]
+
 [tool.setuptools.packages.find]
 include = ["weblate*"]
 namespaces = true
