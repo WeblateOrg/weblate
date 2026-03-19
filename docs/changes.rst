@@ -22,6 +22,8 @@ Weblate 5.17
 
 .. rubric:: Compatibility
 
+* The ``project_scope`` class attribute on add-ons has been removed. Third-party add-ons that used ``project_scope = True`` should override ``can_install()`` to return ``False`` when ``component`` is not ``None``.
+* The ``daily()`` method signature on add-ons has changed. Add-ons that previously overrode ``daily(component)`` to perform per-component work should now override ``daily_component(component)`` instead. The base ``daily()`` method automatically iterates components and calls ``daily_component()`` for each. Add-ons that can be optimized to operate at project scope should override ``daily(component, project)`` directly to implement project-level logic.
 * Dropped support for MySQL and MariaDB as the database engine.
 * Weblate now requires Django 6.0.
 * Weblate now requires Git 2.46 or newer.

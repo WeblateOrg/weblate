@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import logging
 from collections import defaultdict
-from typing import TYPE_CHECKING, Literal, Protocol, overload
+from typing import TYPE_CHECKING, Literal
 
 import sentry_sdk
 from appconf import AppConf
@@ -42,7 +42,7 @@ from .base import BaseAddon
 from .events import AddonEvent
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Iterable
+    from collections.abc import Iterable
 
     from django.db.models import QuerySet
     from django_stubs_ext import StrOrPromise
@@ -161,14 +161,8 @@ class Addon(models.Model):
         cls = self.addon_class
         self.repo_scope = cls.repo_scope
 
-        original_component = None
-        if cls.project_scope:
-            original_component = self.component
-            if self.component:
-                self.project = self.component.project
-            self.component = None
-
         # Reallocate to repository
+        original_component = None
         if cls.repo_scope and self.component and self.component.linked_component:
             original_component = self.component
             self.component = self.component.linked_component
@@ -355,19 +349,14 @@ REPO_EVENTS = {
 }
 
 
-class AddonCallbackMethod(Protocol):
-    def __call__(
-        self, addon: Addon, component: Component, *, activity_log_id: int
-    ) -> dict | None: ...
-
-
 def execute_addon_event(
     addon: Addon,
     component: Component | None,
     scope: Translation | Component | Project | None,
     event: AddonEvent,
-    method: str | AddonCallbackMethod,
+    method: str,
     args: tuple | None = None,
+    kwargs: dict | None = None,
 ) -> None:
     from weblate.addons.tasks import update_addon_activity_log
 
@@ -398,6 +387,8 @@ def execute_addon_event(
     error_occurred = False
     if args is None:
         args = ()
+    if kwargs is None:
+        kwargs = {}
 
     activity_log = AddonActivityLog.objects.create(
         addon=addon,
@@ -424,20 +415,11 @@ def execute_addon_event(
             return
 
         try:
-            # Execute event in senty span to track performance
+            # Execute event in sentry span to track performance
             with sentry_sdk.start_span(op=f"addon.{event.name}", name=addon.name):
-                if isinstance(method, str):
-                    log_result = getattr(addon.addon, method)(
-                        *args, activity_log_id=activity_log.pk
-                    )
-                elif component is None:
-                    log_result = "Missing component parameter!"
-                    error_occurred = True
-                else:
-                    # Callback is used in tasks
-                    log_result = method(
-                        addon, component, activity_log_id=activity_log.pk
-                    )
+                log_result = getattr(addon.addon, method)(
+                    *args, **kwargs, activity_log_id=activity_log.pk
+                )
         except DjangoDatabaseError:
             raise
         except Exception as error:
@@ -447,9 +429,15 @@ def execute_addon_event(
             addon_logger(
                 "error", "failed %s add-on: %s: %s", event.label, addon.name, str(error)
             )
+            if component:
+                project_for_error = component.project
+            elif isinstance(scope, Project):
+                project_for_error = scope
+            else:
+                project_for_error = addon.project
             report_error(
                 f"add-on {addon.name} failed",
-                project=component.project if component else None,
+                project=project_for_error,
             )
             # Uninstall no longer compatible add-ons
             if component and not addon.addon.can_process(component=component):
@@ -468,45 +456,17 @@ def execute_addon_event(
                 )
 
 
-@overload
+@transaction.atomic
 def handle_addon_event(
     event: AddonEvent,
     method: str,
-    args: tuple,
+    args: tuple | None = None,
+    kwargs: dict | None = None,
     *,
     project: Project | None = None,
     component: Component | None = None,
     translation: Translation | None = None,
     addon_queryset: AddonQuerySet | list[Addon] | None = None,
-    auto_scope: bool = False,
-) -> None: ...
-
-
-@overload
-def handle_addon_event(
-    event: AddonEvent,
-    method: Callable[[Addon, Component], None],
-    args: None = None,
-    *,
-    project: None = None,
-    component: None = None,
-    translation: None = None,
-    addon_queryset: AddonQuerySet | None,
-    auto_scope: bool,
-) -> None: ...
-
-
-@transaction.atomic
-def handle_addon_event(
-    event,
-    method,
-    args=None,
-    *,
-    project=None,
-    component=None,
-    translation=None,
-    addon_queryset=None,
-    auto_scope=False,
 ) -> None:
     # Scope is used for logging
     scope: Translation | Component | Project | None = (
@@ -517,35 +477,49 @@ def handle_addon_event(
     if component is None and translation is not None:
         component = translation.component
 
-    # EVENT_DAILY and EVENT_CHANGE use custom queryset because it is not
-    # triggered from the object scope
     if addon_queryset is None:
         addon_queryset = Addon.objects.filter_event(component, event)
 
     for addon in addon_queryset:
-        if not auto_scope:
-            execute_addon_event(addon, component, scope, event, method, args)
-        else:
-            components: Iterable[Component]
-            if addon.component:
-                components = [addon.component]
-            elif addon.project:
-                if addon.addon.project_scope:
-                    try:
-                        components = [addon.project.component_set.order_by("id")[0]]
-                    except IndexError:
-                        components = []
-                else:
-                    components = addon.project.component_set.iterator()
-            elif addon.addon.project_scope:
-                # Use one component per project-scoped add-on
-                components = Component.objects.distinct("project").iterator()
-            else:
-                components = Component.objects.iterator()
+        execute_addon_event(addon, component, scope, event, method, args)
 
-            for scope_component in components:
+
+@transaction.atomic
+def handle_daily_addon_event(addon_queryset: AddonQuerySet | list[Addon]):
+    event = AddonEvent.EVENT_DAILY
+    method = "daily"
+
+    for addon in addon_queryset:
+        if addon.component:
+            execute_addon_event(
+                addon,
+                addon.component,
+                addon.component,
+                event,
+                method,
+                None,
+                kwargs={"component": addon.component, "project": None},
+            )
+        elif addon.project:
+            execute_addon_event(
+                addon,
+                None,
+                addon.project,
+                event,
+                method,
+                None,
+                kwargs={"component": None, "project": addon.project},
+            )
+        else:
+            for proj in Project.objects.iterator():
                 execute_addon_event(
-                    addon, scope_component, scope_component, event, method, args
+                    addon,
+                    None,
+                    proj,
+                    event,
+                    method,
+                    None,
+                    kwargs={"component": None, "project": proj},
                 )
 
 

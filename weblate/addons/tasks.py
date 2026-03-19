@@ -18,7 +18,12 @@ from django.utils.timezone import now
 from lxml import html
 
 from weblate.addons.events import AddonEvent
-from weblate.addons.models import Addon, AddonActivityLog, handle_addon_event
+from weblate.addons.models import (
+    Addon,
+    AddonActivityLog,
+    handle_addon_event,
+    handle_daily_addon_event,
+)
 from weblate.lang.models import Language
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import Change, Component, Project
@@ -168,23 +173,13 @@ def language_consistency(
 
 @app.task(trail=False)
 def daily_addons(modulo: bool = True) -> None:
-    def daily_callback(
-        addon: Addon, component: Component, *, activity_log_id: int | None = None
-    ) -> None:
-        addon.addon.daily(component, activity_log_id=activity_log_id)
-
     today = timezone.now()
     addons = Addon.objects.filter(event__event=AddonEvent.EVENT_DAILY).prefetch_related(
         "component", "project"
     )
     if modulo:
         addons = addons.annotate(hourmod=F("id") % 24).filter(hourmod=today.hour)
-    handle_addon_event(
-        AddonEvent.EVENT_DAILY,
-        daily_callback,
-        addon_queryset=addons,
-        auto_scope=True,
-    )
+    handle_daily_addon_event(addons)
 
 
 def update_addon_activity_log(

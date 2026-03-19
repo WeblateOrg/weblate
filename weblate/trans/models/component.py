@@ -1111,7 +1111,7 @@ class Component(
 
     def install_autoaddon(self) -> None:
         """Installs automatically enabled addons from file format."""
-        from weblate.addons.models import ADDONS, Addon
+        from weblate.addons.models import ADDONS
 
         for name, configuration in chain(
             self.file_format_cls.autoaddon.items(), settings.DEFAULT_ADDONS.items()
@@ -1120,17 +1120,6 @@ class Component(
                 addon = ADDONS[name]
             except KeyError:
                 self.log_warning("could not enable addon %s, not found", name)
-                continue
-
-            if (
-                addon.project_scope
-                and Addon.objects.filter(
-                    component__project=self.project, name=name
-                ).exists()
-            ):
-                self.log_warning(
-                    "could not enable addon %s, already installed on project", name
-                )
                 continue
 
             component = self
