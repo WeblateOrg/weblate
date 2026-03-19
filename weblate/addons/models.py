@@ -467,10 +467,11 @@ def handle_addon_event(
     component: Component | None = None,
     translation: Translation | None = None,
     addon_queryset: AddonQuerySet | list[Addon] | None = None,
-    auto_scope: bool = False,
 ) -> None:
     # Scope is used for logging
-    scope: Translation | Component | None = translation or component
+    scope: Translation | Component | Project | None = (
+        translation or component or project
+    )
 
     # Shortcuts for frequently used variables
     if component is None and translation is not None:
@@ -480,11 +481,16 @@ def handle_addon_event(
         addon_queryset = Addon.objects.filter_event(component, event)
 
     for addon in addon_queryset:
-        if not auto_scope:
-            execute_addon_event(addon, component, scope, event, method, args)
-        # currently only triggered by EVENT_DAILY that calls daily method
-        # on addon accepting component and project as args
-        elif addon.component:
+        execute_addon_event(addon, component, scope, event, method, args)
+
+
+@transaction.atomic
+def handle_daily_addon_event(addon_queryset: AddonQuerySet | list[Addon]):
+    event = AddonEvent.EVENT_DAILY
+    method = "daily"
+
+    for addon in addon_queryset:
+        if addon.component:
             execute_addon_event(
                 addon,
                 addon.component,

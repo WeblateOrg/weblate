@@ -233,7 +233,7 @@ class BaseAddon(DocVersionsMixin):
                 project,
                 AddonEvent.EVENT_DAILY,
                 "daily",
-                (None, project),
+                kwargs={"component": None, "project": project},
             )
 
     def post_configure_run_component(
@@ -301,7 +301,10 @@ class BaseAddon(DocVersionsMixin):
         if AddonEvent.EVENT_DAILY in self.events and not skip_daily:
             component.log_debug("running daily add-on: %s", self.name)
             execute_addon_event(
-                *(base_event_args), AddonEvent.EVENT_DAILY, "daily", (component,)
+                *(base_event_args),
+                AddonEvent.EVENT_DAILY,
+                "daily",
+                kwargs={"component": component, "project": None},
             )
 
         current = component.repository.last_revision
