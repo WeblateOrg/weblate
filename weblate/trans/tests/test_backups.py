@@ -5,13 +5,15 @@
 """Tests for data exports."""
 
 import os
-from zipfile import ZipFile
+import tempfile
+from zipfile import ZIP_DEFLATED, ZIP_STORED, ZipFile
 
 from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.management import call_command
+from django.test import override_settings
 from django.urls import reverse
 
 from weblate.auth.data import SELECTION_MANUAL
@@ -243,6 +245,13 @@ class BackupsTest(ViewTestCase):
         )
         self.verify_restored()
 
+    def test_restore_requires_validation(self) -> None:
+        restore = ProjectBackup(TEST_BACKUP)
+        with self.assertRaisesRegex(ValueError, "validated before restore"):
+            restore.restore(
+                project_name="Restored", project_slug="restored", user=self.user
+            )
+
     def test_restore_cli(self) -> None:
         call_command(
             "import_projectbackup", "Restored", "restored", "testuser", TEST_BACKUP
@@ -294,6 +303,74 @@ class BackupsTest(ViewTestCase):
         with self.assertRaises(ValueError) as ex:
             restore.validate()
         self.assertIn("zip file contains duplicate files", str(ex.exception))
+
+    @override_settings(
+        PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO=5,
+        PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE=10,
+        PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE=100,
+    )
+    def test_restore_zip_bomb_compressed_large_entry(self) -> None:
+        with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
+            temp_name = temp_handle.name
+
+        try:
+            with (
+                ZipFile(TEST_BACKUP, "r") as source_zip,
+                ZipFile(temp_name, "w") as zipfile,
+            ):
+                for item in source_zip.infolist():
+                    zipfile.writestr(item, source_zip.read(item.filename))
+                zipfile.writestr("payload.bin", b"a" * 5000, compress_type=ZIP_DEFLATED)
+
+            restore = ProjectBackup(temp_name)
+            with self.assertRaisesRegex(
+                ValueError, "compressed entry that is too large"
+            ):
+                restore.validate()
+        finally:
+            os.unlink(temp_name)
+
+    @override_settings(PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE=10)
+    def test_restore_low_compression_large_entry_allowed(self) -> None:
+        with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
+            temp_name = temp_handle.name
+
+        try:
+            with (
+                ZipFile(TEST_BACKUP, "r") as source_zip,
+                ZipFile(temp_name, "w") as zipfile,
+            ):
+                for item in source_zip.infolist():
+                    zipfile.writestr(item, source_zip.read(item.filename))
+                zipfile.writestr(
+                    "payload.bin", b"12345678901", compress_type=ZIP_STORED
+                )
+
+            restore = ProjectBackup(temp_name)
+            restore.validate()
+        finally:
+            os.unlink(temp_name)
+
+    @override_settings(PROJECT_BACKUP_IMPORT_MAX_MEMBERS=5)
+    def test_restore_zip_bomb_too_many_members(self) -> None:
+        with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
+            temp_name = temp_handle.name
+
+        try:
+            with (
+                ZipFile(TEST_BACKUP, "r") as source_zip,
+                ZipFile(temp_name, "w") as zipfile,
+            ):
+                for item in source_zip.infolist():
+                    zipfile.writestr(item, source_zip.read(item.filename))
+                for idx in range(5):
+                    zipfile.writestr(f"extra-{idx}.txt", b"x", compress_type=ZIP_STORED)
+
+            restore = ProjectBackup(temp_name)
+            with self.assertRaisesRegex(ValueError, "contains too many entries"):
+                restore.validate()
+        finally:
+            os.unlink(temp_name)
 
     def test_cleanup(self) -> None:
         cleanup_project_backups()
