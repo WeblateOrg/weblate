@@ -19,6 +19,7 @@ Weblate 5.17
 * Removed unintended API endpoints for translation memory.
 * Improved API access control for pending tasks.
 * Faster category removal.
+* Project backup restore no longer trusts repository-local VCS configuration and hooks from the uploaded archive.
 
 .. rubric:: Compatibility
 

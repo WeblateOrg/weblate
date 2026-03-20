@@ -372,6 +372,51 @@ class BackupsTest(ViewTestCase):
         finally:
             os.unlink(temp_name)
 
+    def test_restore_skips_git_hooks(self) -> None:
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+
+        with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
+            temp_name = temp_handle.name
+
+        try:
+            with (
+                ZipFile(backup.filename, "r") as source_zip,
+                ZipFile(temp_name, "w") as target_zip,
+            ):
+                for item in source_zip.infolist():
+                    target_zip.writestr(item, source_zip.read(item.filename))
+                target_zip.writestr(
+                    "vcs/test/.git/hooks/post-checkout",
+                    b"#!/bin/sh\nexit 1\n",
+                )
+
+            restore = ProjectBackup(temp_name)
+            restore.validate()
+            restored = restore.restore(
+                project_name="Restored", project_slug="restored", user=self.user
+            )
+            component = restored.component_set.get(slug="test")
+            self.assertFalse(
+                os.path.exists(
+                    os.path.join(component.full_path, ".git", "hooks", "post-checkout")
+                )
+            )
+            self.assertEqual(
+                component.repository.get_config("remote.origin.url"), component.repo
+            )
+            self.assertEqual(
+                component.repository.get_config(f"branch.{component.branch}.remote"),
+                "origin",
+            )
+            self.assertEqual(
+                component.repository.get_config(f"branch.{component.branch}.merge"),
+                f"refs/heads/{component.branch}",
+            )
+            restored.do_reset()
+        finally:
+            os.unlink(temp_name)
+
     def test_cleanup(self) -> None:
         cleanup_project_backups()
         self.assertLessEqual(len(list_backups(self.project)), 3)
