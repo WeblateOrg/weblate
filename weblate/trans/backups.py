@@ -473,6 +473,26 @@ class ProjectBackup:
             if name.startswith(self.COMPONENTS_PREFIX)
         ]
 
+    @staticmethod
+    def is_unsafe_vcs_path(path: str) -> bool:
+        normalized = path.replace("\\", "/")
+        return (
+            normalized.endswith(
+                (
+                    "/.git",
+                    "/.git/config",
+                    "/.git/config.worktree",
+                    "/.git/hooks",
+                    "/.git/modules",
+                    "/.hg/hgrc",
+                )
+            )
+            # Hooks are executable content; Gerrit's commit-msg hook is recreated
+            # by git-review when needed.
+            or "/.git/hooks/" in normalized
+            or "/.git/modules/" in normalized
+        )
+
     def load_data(self, zipfile: ZipFile) -> None:
         with zipfile.open("weblate-backup.json") as handle:
             self.data = json.load(handle)
@@ -853,6 +873,9 @@ class ProjectBackup:
         # Trigger checks update, the implementation might have changed
         component.schedule_update_checks()
 
+        if not component.is_repo_link:
+            component.configure_repo(pull=False)
+
         # Update cache
         self.components_cache[self.full_slug_without_project(component)] = component
 
@@ -943,6 +966,8 @@ class ProjectBackup:
                     path = name[self.VCS_PREFIX_LEN :]
                     # Skip potentially dangerous paths
                     if path != os.path.normpath(path):
+                        continue
+                    if self.is_unsafe_vcs_path(path):
                         continue
                     targetpath = project_path / path
                     # Make sure the directory exists
