@@ -825,16 +825,17 @@ class ProjectBackup:
         # Create screenshots
         screenshots = []
         for item in data["screenshots"]:
-            handle = zipfile.open(os.path.join("screenshots", item["image"]))
             screenshot = Screenshot(
                 name=item["name"],
-                image=File(handle),
                 translation=translation_lookup[item["translation_id"]],
                 user=self.restore_user(item["user"]),
                 timestamp=item["timestamp"],
             )
+            with zipfile.open(os.path.join("screenshots", item["image"])) as handle:
+                screenshot.image.save(
+                    os.path.basename(item["image"]), File(handle), save=False
+                )
             screenshot.import_data = item
-            screenshot.import_handle = handle
             screenshots.append(screenshot)
 
         screenshots = Screenshot.objects.bulk_create(screenshots)
@@ -848,7 +849,6 @@ class ProjectBackup:
                         ]
                     )
                 )
-            screenshot.import_handle.close()  # type: ignore[union-attr]
 
         # Trigger checks update, the implementation might have changed
         component.schedule_update_checks()
