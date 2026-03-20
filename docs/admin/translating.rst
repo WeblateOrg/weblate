@@ -145,7 +145,8 @@ management and source string association:
 You can upload a screenshot from a local file or provide a URL to download an image
 from an external source. URL-based uploads may be restricted based on the
 :setting:`ALLOWED_ASSET_DOMAINS` setting, which controls which domains are trusted
-for downloading external assets, and :setting:`ALLOWED_ASSET_SIZE` which
+for downloading external assets, including any redirects followed while fetching
+the image, and :setting:`ALLOWED_ASSET_SIZE` which
 limits maximal size for the asset.
 
 You can add or update screenshots directly from your

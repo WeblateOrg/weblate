@@ -51,11 +51,15 @@ This enhances security by preventing loading assets from untrusted sources.
 Assets are downloaded once by the Weblate server and stored locally, rather than
 being served directly from external domains to users.
 
+The allowlist is applied to the initial URL and to every HTTP redirect target
+before Weblate follows it. Redirects to hosts outside of this allowlist are
+rejected.
+
 It expects a list of host/domain names. You can use fully qualified names
 (e.g ``www.example.com``) or prepend with a period as a wildcard to match
 all subdomains (e.g ``.example.com`` will match ``cdn.example.com`` or ``static.example.com``).
 
-Defaults to `[*]` which will allow all domains.
+Defaults to ``["*"]``, which allows all domains.
 
 **Example**
 

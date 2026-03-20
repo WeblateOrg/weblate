@@ -16,6 +16,7 @@ Weblate 5.17
 
 * :ref:`addon-weblate.git.squash` better handle commits applied upstream.
 * :ref:`addon-weblate.cdn.cdnjs` validates parsed locations.
+* Asset downloads now enforce :setting:`ALLOWED_ASSET_DOMAINS` across HTTP redirects for screenshot URL uploads and remote HTML fetching in :ref:`addon-weblate.cdn.cdnjs`.
 * Removed unintended API endpoints for translation memory.
 * Improved API access control for pending tasks.
 * Faster category removal.

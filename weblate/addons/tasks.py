@@ -30,8 +30,8 @@ from weblate.trans.models import Change, Component, Project
 from weblate.utils.celery import app
 from weblate.utils.hash import calculate_checksum
 from weblate.utils.lock import WeblateLockTimeoutError
-from weblate.utils.requests import http_request
-from weblate.utils.validators import validate_asset_url, validate_filename
+from weblate.utils.requests import asset_request
+from weblate.utils.validators import validate_filename
 
 IGNORED_TAGS = {"script", "style"}
 
@@ -59,8 +59,7 @@ def cdn_parse_html(addon_id: int, component_id: int) -> None:
         filename = filename.strip()
         try:
             if filename.startswith(("http://", "https://")):
-                validate_asset_url(filename)
-                with http_request("get", filename) as handle:
+                with asset_request("get", filename) as handle:
                     content = handle.text
             else:
                 content = read_component_file(component, filename)
