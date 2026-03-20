@@ -28,6 +28,7 @@ Weblate 5.17
 * Dropped support for MySQL and MariaDB as the database engine.
 * Weblate now requires Django 6.0.
 * Weblate now requires Git 2.46 or newer.
+* Uploaded project backups are now validated more strictly during import and suspicious ZIP archives can be rejected; see :ref:`projectbackup`.
 
 .. rubric:: Upgrading
 
