@@ -37,6 +37,7 @@ if TYPE_CHECKING:
     from weblate.lang.models import Language, Plural
     from weblate.trans.file_format_params import FileFormatParams
     from weblate.trans.models import Component, Translation, Unit
+    from weblate.utils.state import StringState
 
 
 EXPAND_LANGS = {code[:2]: f"{code[:2]}_{code[3:].upper()}" for code in DEFAULT_LANGS}
@@ -393,6 +394,11 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
     has_multiple_strings: bool = False
     supports_explanation: bool = False
     supports_plural: bool = False
+    supports_descriptions: bool = False
+    supports_context: bool = False
+    supports_location: bool = False
+    supports_flags: bool = False
+    additional_states: tuple[StringState, ...] = ()
     can_edit_base: bool = True
     strict_format_plurals: bool = False
     plural_preference: tuple[int, ...] | None = None
