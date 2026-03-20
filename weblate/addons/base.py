@@ -38,7 +38,7 @@ if TYPE_CHECKING:
     from weblate.addons.forms import BaseAddonForm
     from weblate.addons.models import Addon, AddonActivityLog
     from weblate.auth.models import AuthenticatedHttpRequest, User
-    from weblate.trans.models import Change, Project, Translation, Unit
+    from weblate.trans.models import Category, Change, Project, Translation, Unit
 
 
 class CompatDict(TypedDict, total=False):
@@ -96,6 +96,7 @@ class BaseAddon(DocVersionsMixin):
         cls,
         *,
         component: Component | None = None,
+        category: Category | None = None,
         project: Project | None = None,
         acting_user: User | None = None,
         **kwargs,
@@ -104,6 +105,7 @@ class BaseAddon(DocVersionsMixin):
 
         result = Addon(
             project=project,
+            category=category,
             component=component,
             name=cls.name,
             acting_user=acting_user,
@@ -118,13 +120,18 @@ class BaseAddon(DocVersionsMixin):
         cls,
         *,
         component: Component | None = None,
+        category: Category | None = None,
         project: Project | None = None,
         run: bool = True,
         acting_user: User | None = None,
         **kwargs,
     ) -> BaseAddon:
         storage = cls.create_object(
-            component=component, project=project, acting_user=acting_user, **kwargs
+            component=component,
+            category=category,
+            project=project,
+            acting_user=acting_user,
+            **kwargs,
         )
         storage.save(force_insert=True)
         result = cls(storage)
@@ -137,6 +144,7 @@ class BaseAddon(DocVersionsMixin):
         user: User | None,
         *,
         component: Component | None = None,
+        category: Category | None = None,
         project: Project | None = None,
         **kwargs,
     ) -> BaseAddonForm | None:
@@ -144,7 +152,7 @@ class BaseAddon(DocVersionsMixin):
         if cls.settings_form is None:
             return None
         storage = cls.create_object(
-            component=component, project=project, acting_user=user
+            component=component, project=project, category=category, acting_user=user
         )
         instance = cls(storage)
         return cls.settings_form(user, instance, **kwargs)
@@ -216,6 +224,8 @@ class BaseAddon(DocVersionsMixin):
             if self.repo_scope and component.linked_component:
                 component = component.linked_component
             self.post_configure_run_component(component)
+        elif category := self.instance.category:
+            self.post_configure_run_category(category)
         elif project := self.instance.project:
             self.post_configure_run_project(project)
 
@@ -233,7 +243,24 @@ class BaseAddon(DocVersionsMixin):
                 project,
                 AddonEvent.EVENT_DAILY,
                 "daily",
-                kwargs={"component": None, "project": project},
+                kwargs={"component": None, "category": None, "project": project},
+            )
+
+    def post_configure_run_category(self, category: Category) -> None:
+        from weblate.addons.models import execute_addon_event
+
+        for component in category.all_components:
+            if self.can_process(component=component):
+                self.post_configure_run_component(component, skip_daily=True)
+
+        if AddonEvent.EVENT_DAILY in self.events:
+            execute_addon_event(
+                self.instance,
+                None,
+                category,
+                AddonEvent.EVENT_DAILY,
+                "daily",
+                kwargs={"component": None, "category": category, "project": None},
             )
 
     def post_configure_run_component(
@@ -304,7 +331,7 @@ class BaseAddon(DocVersionsMixin):
                 *(base_event_args),
                 AddonEvent.EVENT_DAILY,
                 "daily",
-                kwargs={"component": component, "project": None},
+                kwargs={"component": component, "category": None, "project": None},
             )
 
         current = component.repository.last_revision
@@ -326,6 +353,7 @@ class BaseAddon(DocVersionsMixin):
         cls,
         *,
         component: Component | None = None,
+        category: Category | None = None,  # noqa: ARG003
         project: Project | None = None,  # noqa: ARG003
     ) -> bool:
         """Check whether add-on is compatible with given component."""
@@ -334,16 +362,17 @@ class BaseAddon(DocVersionsMixin):
                 getattr(component, key) in cast("set", values)
                 for key, values in cls.compat.items()
             )
-        return True
+        return not cls.needs_component
 
     @classmethod
     def can_process(
         cls,
         *,
         component: Component | None = None,
+        category: Category | None = None,
         project: Project | None = None,
     ) -> bool:
-        return cls.can_install(component=component, project=project)
+        return cls.can_install(component=component, category=category, project=project)
 
     def pre_push(
         self, component: Component, activity_log_id: int | None = None
@@ -426,11 +455,14 @@ class BaseAddon(DocVersionsMixin):
         self,
         *,
         component: Component | None = None,
+        category: Category | None = None,
         project: Project | None = None,
     ) -> Iterable[Component]:
         """Resolve scope to components iterator."""
         if component is not None:
             return [component]
+        if category is not None:
+            return category.all_components
         if project is not None:
             return project.component_set.iterator()
         return Component.objects.iterator()
@@ -438,6 +470,7 @@ class BaseAddon(DocVersionsMixin):
     def daily(
         self,
         component: Component | None = None,
+        category: Category | None = None,
         project: Project | None = None,
         activity_log_id: int | None = None,
     ) -> dict | None:
@@ -447,7 +480,9 @@ class BaseAddon(DocVersionsMixin):
         Override this for project-level logic, or override daily_component()
         for per-component logic.
         """
-        for comp in self.resolve_components(component=component, project=project):
+        for comp in self.resolve_components(
+            component=component, category=category, project=project
+        ):
             if self.can_process(component=comp):
                 self.daily_component(comp, activity_log_id=activity_log_id)
 
@@ -570,7 +605,9 @@ class BaseAddon(DocVersionsMixin):
 
     @classmethod
     def pre_install(
-        cls, obj: Component | Project | None, request: AuthenticatedHttpRequest
+        cls,
+        obj: Component | Project | Category | None,
+        request: AuthenticatedHttpRequest,
     ) -> None:
         from weblate.trans.tasks import perform_update
 

@@ -85,7 +85,12 @@ from .models import ADDONS, Addon, AddonActivityLog, handle_addon_event
 from .properties import PropertiesSortAddon
 from .removal import RemoveComments, RemoveSuggestions
 from .resx import ResxUpdateAddon
-from .tasks import addon_change, cleanup_addon_activity_log, daily_addons
+from .tasks import (
+    addon_change,
+    cleanup_addon_activity_log,
+    daily_addons,
+    language_consistency,
+)
 from .webhooks import SlackWebhookAddon, WebhookAddon
 
 if TYPE_CHECKING:
@@ -126,6 +131,7 @@ class CrashAddon(UpdateBaseAddon):
         cls,
         *,
         component: Component | None = None,  # noqa: ARG003
+        category: Category | None = None,  # noqa: ARG003
         project: Project | None = None,  # noqa: ARG003
     ) -> bool:
         return False
@@ -151,6 +157,13 @@ class AddonBaseTest(TestAddonMixin, ViewTestCase):
     def test_can_install(self) -> None:
         self.assertTrue(NoOpAddon.can_install(component=self.component))
 
+    def test_needs_component_blocks_non_component_install(self) -> None:
+        """Addons with needs_component=True cannot be installed at category/project/site level."""
+        self.assertFalse(DiscoveryAddon.can_install(project=self.project))
+        category = self.create_category(self.project)
+        self.assertFalse(DiscoveryAddon.can_install(category=category))
+        self.assertFalse(DiscoveryAddon.can_install())
+
     def test_example(self) -> None:
         self.assertTrue(ExampleAddon.can_install(component=self.component))
         addon = ExampleAddon.create(component=self.component)
@@ -160,6 +173,20 @@ class AddonBaseTest(TestAddonMixin, ViewTestCase):
         addon = NoOpAddon.create(component=self.component)
         self.assertEqual(addon.name, "weblate.base.test")
         self.assertEqual(self.component.addon_set.count(), 1)
+
+    def test_create_category_addon(self) -> None:
+        category = self.create_category(self.project)
+        self.component.category = category
+        self.component.save()
+        addon = NoOpAddon.create(category=category, acting_user=self.user)
+        self.assertEqual(addon.name, "weblate.base.test")
+        self.assertEqual(category.addon_set.count(), 1)
+        self.assertIn("Test category", str(addon.instance))
+        self.component.drop_addons_cache()
+        self.assertIn("weblate.base.test", self.component.addons_cache["__names__"])
+
+        sitewide = Addon.objects.filter_sitewide()
+        self.assertEqual(sitewide.count(), 0)
 
     def test_create_project_addon(self) -> None:
         self.component.project.acting_user = self.component.acting_user
@@ -184,6 +211,16 @@ class AddonBaseTest(TestAddonMixin, ViewTestCase):
         addon = self.component.addon_set.all()[0]
         self.assertEqual(addon.name, "weblate.base.test")
 
+    def test_add_form_category_addon(self) -> None:
+        category = self.create_category(self.project)
+        form = NoOpAddon.get_add_form(None, category=category, data={})
+        self.assertTrue(form.is_valid())
+        form.save()
+        self.assertEqual(category.addon_set.count(), 1)
+
+        addon = category.addon_set.all()[0]
+        self.assertEqual(addon.name, "weblate.base.test")
+
     def test_add_form_project_addon(self) -> None:
         form = NoOpAddon.get_add_form(None, project=self.component.project, data={})
         self.assertTrue(form.is_valid())
@@ -202,6 +239,18 @@ class AddonBaseTest(TestAddonMixin, ViewTestCase):
 
         addon = addon_object[0]
         self.assertEqual("Test add-on: site-wide", str(addon))
+
+    def test_nested_category_addon_in_component_cache(self) -> None:
+        """Addon on a parent category should appear in child component's cache."""
+        parent = self.create_category(self.project)
+        child = Category.objects.create(
+            name="Child", slug="child", project=self.project, category=parent
+        )
+        self.component.category = child
+        self.component.save()
+        NoOpAddon.create(category=parent, acting_user=self.user)
+        self.component.drop_addons_cache()
+        self.assertIn("weblate.base.test", self.component.addons_cache["__names__"])
 
 
 class IntegrationTest(TestAddonMixin, ViewTestCase):
@@ -789,6 +838,17 @@ class ViewTests(ViewTestCase):
         )
         self.assertContains(response, "Installed 1 add-on")
 
+    def test_add_simple_category_addon(self) -> None:
+        category = self.create_category(self.project)
+        self.component.category = category
+        self.component.save()
+        response = self.client.post(
+            reverse("addons", kwargs={"path": category.get_url_path()}),
+            {"name": "weblate.consistency.languages"},
+            follow=True,
+        )
+        self.assertContains(response, "Installed 1 add-on")
+
     def test_add_simple_site_wide_addon(self) -> None:
         response = self.client.post(
             reverse("manage-addons"),
@@ -1315,6 +1375,152 @@ class LanguageConsistencyTest(ViewTestCase):
         # not one per component
         self.assertEqual(after - before, 1)
 
+    def test_consistency_daily_category_level(self) -> None:
+        """Test consistency addon at category level runs once via daily_addons."""
+        category = self.create_category(self.project)
+        self.component.category = category
+        self.component.save()
+        self.create_po(new_base="po/project.pot", project=self.project, name="Second")
+        LanguageConsistencyAddon.create(category=category)
+
+        before = AddonActivityLog.objects.count()
+        daily_addons(modulo=False)
+        after = AddonActivityLog.objects.count()
+
+        self.assertEqual(after - before, 1)
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=True)
+    def test_consistency_post_configure_category(self) -> None:
+        """Test post_configure_run fires daily event for category addons."""
+        category = self.create_category(self.project)
+        self.component.category = category
+        self.component.save()
+
+        before = AddonActivityLog.objects.count()
+        LanguageConsistencyAddon.create(category=category)
+        after = AddonActivityLog.objects.count()
+
+        self.assertEqual(after - before, 1)
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=True)
+    def test_consistency_category_only_affects_category_components(self) -> None:
+        """
+        Category-level consistency addon should only affect components in that category.
+
+        Hierarchy:
+          top_category/
+            comp_top (self.component) — PO, has cs + de + it + en (source)
+            nested_category/
+              comp_nested — TS, has cs + en (source) only
+          outside_component — TS, has cs + en (source) only, no category
+        """
+        top_category = self.create_category(self.project)
+        nested_category = Category.objects.create(
+            name="Nested",
+            slug="nested",
+            project=self.project,
+            category=top_category,
+        )
+
+        # comp_top: PO component in top_category
+        self.component.new_lang = "add"
+        self.component.new_base = "po/hello.pot"
+        self.component.category = top_category
+        self.component.save()
+
+        # comp_nested: TS component in nested_category (fewer languages than comp_top)
+        comp_nested = self.create_ts(
+            name="Nested TS",
+            new_lang="add",
+            new_base="ts/cs.ts",
+            project=self.project,
+        )
+        comp_nested.category = nested_category
+        comp_nested.save()
+
+        # outside_component: TS component with no category
+        outside_component = self.create_ts(
+            name="Outside TS",
+            new_lang="add",
+            new_base="ts/cs.ts",
+            project=self.project,
+        )
+
+        # Snapshot languages before installing addon
+        nested_langs_before = set(
+            Translation.objects.filter(component=comp_nested).values_list(
+                "language__code", flat=True
+            )
+        )
+        outside_langs_before = set(
+            Translation.objects.filter(component=outside_component).values_list(
+                "language__code", flat=True
+            )
+        )
+
+        # Install consistency addon at top_category level
+        LanguageConsistencyAddon.create(category=top_category)
+
+        # comp_nested should gain languages from comp_top (they share the category tree)
+        nested_langs_after = set(
+            Translation.objects.filter(component=comp_nested).values_list(
+                "language__code", flat=True
+            )
+        )
+        top_langs = set(
+            Translation.objects.filter(component=self.component).values_list(
+                "language__code", flat=True
+            )
+        )
+        self.assertEqual(nested_langs_after, top_langs)
+        self.assertTrue(nested_langs_after - nested_langs_before)
+
+        # outside_component should be completely untouched
+        outside_langs_after = set(
+            Translation.objects.filter(component=outside_component).values_list(
+                "language__code", flat=True
+            )
+        )
+        self.assertEqual(outside_langs_after, outside_langs_before)
+
+        # Part 2: Simulate post_add by calling the task directly with a
+        # single language that is missing from comp_nested, and verify it
+        # propagates within the category but NOT to outside_component.
+        addon_instance = Addon.objects.get(name="weblate.consistency.languages")
+        new_lang = Language.objects.get(code="it")
+
+        # Remove "it" from comp_nested so we can verify it gets re-added
+        Translation.objects.filter(component=comp_nested, language=new_lang).delete()
+
+        outside_langs_before_post_add = set(
+            Translation.objects.filter(component=outside_component).values_list(
+                "language__code", flat=True
+            )
+        )
+
+        # Call the task directly (as post_add would, bypassing delay_on_commit)
+        language_consistency(
+            addon_instance.id,
+            [new_lang.id],
+            category_id=top_category.pk,
+        )
+
+        # comp_nested should have gained "it" back
+        nested_langs_after_post_add = set(
+            Translation.objects.filter(component=comp_nested).values_list(
+                "language__code", flat=True
+            )
+        )
+        self.assertIn("it", nested_langs_after_post_add)
+
+        # outside_component still untouched
+        outside_langs_final = set(
+            Translation.objects.filter(component=outside_component).values_list(
+                "language__code", flat=True
+            )
+        )
+        self.assertEqual(outside_langs_final, outside_langs_before_post_add)
+
     def test_consistency_daily_sitewide(self) -> None:
         """Test sitewide consistency addon runs once per project."""
         project_b = self.create_project(name="Project B", slug="project-b")
@@ -1340,7 +1546,8 @@ class LanguageConsistencyTest(ViewTestCase):
         self.assertEqual(Translation.objects.count(), 10)
 
         # Installation should make languages consistent
-        addon = LanguageConsistencyAddon.create(component=self.component)
+        addon = LanguageConsistencyAddon.create(project=self.project)
+        self.component.drop_addons_cache()
         self.assertEqual(Translation.objects.count(), 12)
 
         # check that activity is correctly logged
@@ -1479,13 +1686,20 @@ class GitSquashAddonTest(ViewTestCase):
 
 
 class TestRemoval(ViewTestCase):
-    def install(self, sitewide: bool = False, project: bool = False):
+    def install(
+        self,
+        sitewide: bool = False,
+        project: bool = False,
+        category: Category | None = None,
+    ):
         self.assertTrue(RemoveComments.can_install(component=self.component))
         self.assertTrue(RemoveSuggestions.can_install(component=self.component))
         if sitewide:
             kwargs = {"component": None, "project": None}
         elif project:
             kwargs = {"component": None, "project": self.project}
+        elif category is not None:
+            kwargs = {"component": None, "category": category}
         else:
             kwargs = {"component": self.component}
         return (
@@ -1564,6 +1778,29 @@ class TestRemoval(ViewTestCase):
         daily_addons()
         # Ensure the add-on is executed
         daily_addons(modulo=False)
+        self.assert_count()
+
+    def test_daily_category(self) -> None:
+        category = self.create_category(self.project)
+        self.component.category = category
+        self.component.save()
+        self.install(category=category)
+        self.add_content()
+        self.age_content()
+        daily_addons()
+        daily_addons(modulo=False)
+        self.assert_count()
+
+    def test_old_category_direct(self) -> None:
+        """Test removal addon daily method works with category kwarg."""
+        category = self.create_category(self.project)
+        self.component.category = category
+        self.component.save()
+        suggestions, comments = self.install(category=category)
+        self.add_content()
+        self.age_content()
+        suggestions.daily(category=category)
+        comments.daily(category=category)
         self.assert_count()
 
 

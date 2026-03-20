@@ -21,7 +21,7 @@ if TYPE_CHECKING:
 
     from django.db.models import QuerySet
 
-    from weblate.trans.models import Component, Project
+    from weblate.trans.models import Category, Component, Project
 
 
 class RemovalAddon(BaseAddon):
@@ -40,12 +40,16 @@ class RemovalAddon(BaseAddon):
         objects: QuerySet[Comment] | QuerySet[Suggestion],
         *,
         component: Component | None = None,
+        category: Category | None = None,
         project: Project | None = None,
     ) -> None:
         count = objects.filter(timestamp__lt=self.get_cutoff()).delete()[0]
         if count:
             if component:
                 component.invalidate_cache()
+            elif category:
+                for comp in category.all_components:
+                    comp.invalidate_cache()
             elif project:
                 for comp in project.component_set.iterator():
                     comp.invalidate_cache()
@@ -59,16 +63,23 @@ class RemoveComments(RemovalAddon):
     def daily(
         self,
         component: Component | None = None,
+        category: Category | None = None,
         project: Project | None = None,
         activity_log_id: int | None = None,
     ) -> None:
         if component is not None:
             comments = Comment.objects.filter(unit__translation__component=component)
+        elif category is not None:
+            comments = Comment.objects.filter(
+                unit__translation__component__in=category.all_components
+            )
         else:
             comments = Comment.objects.filter(
                 unit__translation__component__project=project
             )
-        self.delete_older(comments, component=component, project=project)
+        self.delete_older(
+            comments, component=component, project=project, category=category
+        )
 
 
 class RemoveSuggestions(RemovalAddon):
@@ -80,12 +91,17 @@ class RemoveSuggestions(RemovalAddon):
     def daily(
         self,
         component: Component | None = None,
+        category: Category | None = None,
         project: Project | None = None,
         activity_log_id: int | None = None,
     ) -> None:
         if component is not None:
             suggestions = Suggestion.objects.filter(
                 unit__translation__component=component
+            )
+        elif category is not None:
+            suggestions = Suggestion.objects.filter(
+                unit__translation__component__in=category.all_components
             )
         else:
             suggestions = Suggestion.objects.filter(
@@ -97,5 +113,6 @@ class RemoveSuggestions(RemovalAddon):
                 | Q(vote__value__sum=None)
             ),
             component=component,
+            category=category,
             project=project,
         )

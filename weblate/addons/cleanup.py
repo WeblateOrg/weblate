@@ -14,7 +14,7 @@ from weblate.formats.base import TranslationFormat
 from weblate.trans.exceptions import FileParseError
 
 if TYPE_CHECKING:
-    from weblate.trans.models import Component, Project
+    from weblate.trans.models import Category, Component, Project
 
 
 class BaseCleanupAddon(UpdateBaseAddon):
@@ -27,13 +27,16 @@ class BaseCleanupAddon(UpdateBaseAddon):
         cls,
         *,
         component: Component | None = None,
+        category: Category | None = None,
         project: Project | None = None,
     ) -> bool:
         if component is not None and (
             not component.has_template() or not cls.can_install_format(component)
         ):
             return False
-        return super().can_install(component=component, project=project)
+        return super().can_install(
+            component=component, category=category, project=project
+        )
 
 
 class CleanupAddon(BaseCleanupAddon):

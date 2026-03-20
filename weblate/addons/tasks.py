@@ -108,20 +108,32 @@ def cdn_parse_html(addon_id: int, component_id: int) -> None:
 def language_consistency(
     addon_id: int,
     language_ids: list[int],
-    project_id: int,
+    project_id: int | None = None,
+    category_id: int | None = None,
     activity_log_id: int | None = None,
 ) -> None:
+    from weblate.trans.models import Category
+
+    if project_id is not None and category_id is not None:
+        msg = "language_consistency cannot receive both project_id and category_id"
+        raise ValueError(msg)
+
     try:
         addon = Addon.objects.get(pk=addon_id)
     except Addon.DoesNotExist:
         return
-    project = Project.objects.get(pk=project_id)
     languages = Language.objects.filter(id__in=language_ids)
     fake_request = HttpRequest()
     fake_request.user = addon.addon.user
 
     # Filter components with missing translation
-    components = project.component_set.annotate(
+    if category_id is not None:
+        category = Category.objects.get(pk=category_id)
+        components = category.all_components
+    else:
+        project = Project.objects.get(pk=project_id)
+        components = project.component_set.all()
+    components = components.annotate(
         translation_count=Count(
             "translation", filter=Q(translation__language__in=languages)
         )
@@ -174,7 +186,7 @@ def language_consistency(
 def daily_addons(modulo: bool = True) -> None:
     today = timezone.now()
     addons = Addon.objects.filter(event__event=AddonEvent.EVENT_DAILY).prefetch_related(
-        "component", "project"
+        "component", "category", "project"
     )
     if modulo:
         addons = addons.annotate(hourmod=F("id") % 24).filter(hourmod=today.hour)
@@ -233,7 +245,7 @@ def addon_change(change_ids: list[int], **kwargs) -> None:
     """
     addons = Addon.objects.filter(
         event__event=AddonEvent.EVENT_CHANGE
-    ).prefetch_related("component", "project")
+    ).prefetch_related("component", "category", "project")
 
     for change in Change.objects.filter(pk__in=change_ids).prefetch_for_render():
         change.fill_in_prefetched()
@@ -243,6 +255,15 @@ def addon_change(change_ids: list[int], **kwargs) -> None:
             for addon in addons
             if (not addon.component or addon.component == change.component)
             and (not addon.project or addon.project == change.project)
+            and (
+                not addon.category
+                or (
+                    change.component is not None
+                    # to ensure that addons configured on ancestor categories
+                    # are also considered
+                    and change.component.pk in addon.category.all_component_ids
+                )
+            )
             and addon.addon.check_change_action(change)
         ]
         if change_addons:
