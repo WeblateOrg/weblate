@@ -65,8 +65,9 @@
               <ul class="login-links">
                 {% if can_reset %}
                   <li>
-                    <a href="{% url 'password_reset' %}">{% translate "Forgot your password?" %}</a>
-                  </li>
+                    <a href="{% if reset_url %}{{ reset_url }}{% else %}{% url 'password_reset' %}{% endif %}">
+                      {% translate "Forgot your password?" %}
+                    </a>                  </li>
                 {% endif %}
 
                 {% if registration_open %}

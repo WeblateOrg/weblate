@@ -1475,7 +1475,9 @@ GET_HELP_URL = get_env_str("WEBLATE_GET_HELP_URL")
 STATUS_URL = get_env_str("WEBLATE_STATUS_URL")
 LEGAL_URL = get_env_str("WEBLATE_LEGAL_URL")
 PRIVACY_URL = get_env_str("WEBLATE_PRIVACY_URL")
-
+PASSWORD_RESET_URL = get_env_str(
+    "WEBLATE_PASSWORD_RESET_URL", get_env_str("WEBLATE_EXTERNAL_PASSWORD_RESET_URL")
+)
 # Third party services integration
 MATOMO_SITE_ID = get_env_str("WEBLATE_MATOMO_SITE_ID")
 MATOMO_URL = get_env_str("WEBLATE_MATOMO_URL")

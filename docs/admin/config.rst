@@ -836,6 +836,18 @@ Insert additional markup into the HTML header. Can be used for verification of s
 
    No sanitization is performed on the string. It is inserted as-is into the HTML header.
 
+.. setting:: PASSWORD_RESET_URL
+
+PASSWORD_RESET_URL
+------------------
+
+   URL for password reset when authentication is handled by an external identity provider
+   such as LDAP, SAML, or OAuth.
+
+   When set, :guilabel:`Forgot your password?` on the sign-in page links to this URL
+   instead of Weblate's built-in password reset page.
+
+
 .. setting:: GET_HELP_URL
 
 GET_HELP_URL

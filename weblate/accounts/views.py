@@ -898,8 +898,12 @@ class WeblateLoginView(BaseLoginView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         auth_backends = get_auth_keys()
+        reset_url = getattr(settings, "PASSWORD_RESET_URL", None) or getattr(
+            settings, "EXTERNAL_PASSWORD_RESET_URL", None
+        )
         context["login_backends"] = [x for x in sorted(auth_backends) if x != "email"]
-        context["can_reset"] = self.has_email_auth
+        context["can_reset"] = self.has_email_auth or bool(reset_url)
+        context["reset_url"] = reset_url
         # Show login form for e-mail login or any third-party Django auth backend such as LDAP
         context["show_login_form"] = self.show_login_form
         context["title"] = gettext("Sign in")

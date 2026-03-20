@@ -288,6 +288,31 @@ class ViewTest(RepoTestCase):
         self.assertContains(
             response, "This username/password combination was not found."
         )
+        
+    @override_settings(
+        AUTHENTICATION_BACKENDS=(
+            "django.contrib.auth.backends.ModelBackend",
+            "weblate.accounts.auth.WeblateUserBackend",
+        ),
+        REGISTRATION_OPEN=False,
+        PASSWORD_RESET_URL="https://id.example.net/password-reset",
+        )
+    def test_login_password_reset_url(self) -> None:
+        response = self.client.get(reverse("login"))
+        self.assertContains(response, 'href="https://id.example.net/password-reset"')
+
+    @override_settings(
+        AUTHENTICATION_BACKENDS=(
+            "django.contrib.auth.backends.ModelBackend",
+            "weblate.accounts.auth.WeblateUserBackend",
+        ),
+        REGISTRATION_OPEN=False,
+        PASSWORD_RESET_URL=None,
+    )
+    def test_login_without_configured_password_reset_url(self) -> None:
+        response = self.client.get(reverse("login"))
+        self.assertNotContains(response, reverse("password_reset"))
+
 
     @override_settings(RATELIMIT_ATTEMPTS=20, AUTH_LOCK_ATTEMPTS=5)
     def test_login_ratelimit(self, login=False) -> None:
