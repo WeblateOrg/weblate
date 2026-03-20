@@ -500,6 +500,7 @@ class ProjectBackup:
             or "/.git/hooks/" in normalized
             or "/.git/modules/" in normalized
         )
+
     @classmethod
     def get_limit(cls, setting_name: str, default: int) -> int:
         return int(getattr(settings, setting_name, default))
@@ -1019,7 +1020,7 @@ class ProjectBackup:
                 if path != os.path.normpath(path):
                     continue
                 if self.is_unsafe_vcs_path(path):
-                    continue                    
+                    continue
                 targetpath = project_path / path
                 # Make sure the directory exists
                 targetpath.parent.mkdir(parents=True, exist_ok=True)

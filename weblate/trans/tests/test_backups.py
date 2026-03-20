@@ -6,7 +6,6 @@
 
 import os
 import tempfile
-from zipfile import ZipFile
 from zipfile import ZIP_DEFLATED, ZIP_STORED, ZipFile
 
 from django.conf import settings
