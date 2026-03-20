@@ -159,6 +159,13 @@ class BackupsTest(ViewTestCase):
             self.project.count_pending_units,
             restored.count_pending_units,
         )
+        restored_screenshot = Screenshot.objects.get(
+            translation__component__project=restored
+        )
+        self.assertTrue(
+            restored_screenshot.image.storage.exists(restored_screenshot.image.name)
+        )
+        self.assertGreater(restored_screenshot.image.size, 0)
 
         restored_team = restored.defined_groups.filter(name=team.name).first()
         self.assertIsNotNone(restored_team)
