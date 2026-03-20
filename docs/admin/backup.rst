@@ -32,6 +32,12 @@ The generated backups are kept on the server as configured by
 :setting:`PROJECT_BACKUP_KEEP_DAYS` and :setting:`PROJECT_BACKUP_KEEP_COUNT`
 (it defaults to keep at most 3 backups for 30 days).
 
+Import validation of uploaded project backups can be tuned using
+:setting:`PROJECT_BACKUP_IMPORT_MAX_MEMBERS`,
+:setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE`,
+:setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE`, and
+:setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO`.
+
 Use the generated file to import project when :ref:`adding-projects` or in :wladmin:`import_projectbackup`.
 
 .. note::
