@@ -67,7 +67,8 @@
                   <li>
                     <a href="{% if reset_url %}{{ reset_url }}{% else %}{% url 'password_reset' %}{% endif %}">
                       {% translate "Forgot your password?" %}
-                    </a>                  </li>
+                    </a>
+                  </li>
                 {% endif %}
 
                 {% if registration_open %}
