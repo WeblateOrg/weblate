@@ -30,6 +30,7 @@ class WeblateConf(AppConf):
     # List of machinery classes
     WEBLATE_MACHINERY = (
         "weblate.machinery.apertium.ApertiumAPYTranslation",
+        "weblate.machinery.argos.ArgosTranslation",
         "weblate.machinery.aws.AWSTranslation",
         "weblate.machinery.alibaba.AlibabaTranslation",
         "weblate.machinery.anthropic.AnthropicTranslation",
