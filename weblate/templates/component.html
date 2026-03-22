@@ -149,11 +149,16 @@
             <a class="dropdown-item" href="{% url 'addons' path=object.get_url_path %}">{% translate "Add-ons" %}</a>
           </li>
         {% endif %}
-        {% if delete_form or rename_form or user_can_edit_component %}
+        {% if delete_form or rename_form or user_can_edit_component or component_link_add_form %}
           <hr class="dropdown-divider">
           {% if user_can_edit_component %}
             <li>
               <a class="dropdown-item" href="{% url 'settings' path=object.get_url_path %}">{% translate "Settings" %}</a>
+            </li>
+          {% endif %}
+          {% if component_link_add_form %}
+            <li>
+              <a class="dropdown-item" data-bs-target="#sharing" data-bs-toggle="tab" href="#">{% translate "Share in projects" %}</a>
             </li>
           {% endif %}
           {% if delete_form or rename_form %}
@@ -322,6 +327,76 @@
 
     {% if autoform %}
       <div class="tab-pane" id="auto">{% include "snippets/autoform.html" with object=object autoform=autoform %}</div>
+    {% endif %}
+
+    {% if component_link_add_form %}
+      <div class="tab-pane" id="sharing">
+        <form method="post" action="{% url 'component-link-add' path=object.get_url_path %}">
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">{% translate "Share in projects" %}</h4>
+            </div>
+            <div class="card-body">
+              <p class="text-body-secondary">
+                {% translate "Share this component in other projects, optionally placing it in a category." %}
+              </p>
+              {% csrf_token %}
+              {% crispy component_link_add_form %}
+            </div>
+            <div class="card-footer">
+              <input type="submit" class="btn btn-primary" value="{% translate "Add" %}">
+            </div>
+          </div>
+        </form>
+
+        {% if component_links_formset %}
+          <div class="card">
+            <div class="card-header">
+              <h4 class="card-title">{% translate "Current links" %}</h4>
+            </div>
+            <div class="card-body">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>{% translate "Project" %}</th>
+                    <th>{% translate "Category" %}</th>
+                    <th>{% translate "Actions" %}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for link_form in component_links_formset %}
+                    <tr>
+                      <td class="align-middle">{{ link_form.project_name }}</td>
+                      <td>
+                        <form id="link-form-{{ link_form.link_id.value }}"
+                              method="post"
+                              action="{% url 'component-link-categories' path=object.get_url_path %}">
+                          {% csrf_token %}
+                          {{ link_form.link_id }}
+                          {{ link_form.category }}
+                        </form>
+                      </td>
+                      <td class="align-middle">
+                        <input type="submit"
+                               form="link-form-{{ link_form.link_id.value }}"
+                               class="btn btn-primary btn-sm"
+                               value="{% translate "Save" %}">
+                        <form class="d-inline"
+                              method="post"
+                              action="{% url 'component-link-delete' path=object.get_url_path %}">
+                          {% csrf_token %}
+                          <input type="hidden" name="link_id" value="{{ link_form.link_id.value }}">
+                          <input type="submit" class="btn btn-danger btn-sm" value="{% translate "Delete" %}">
+                        </form>
+                      </td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        {% endif %}
+      </div>
     {% endif %}
 
     {% if rename_form or delete_form %}

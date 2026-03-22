@@ -8,6 +8,7 @@ import os
 import re
 import time
 from collections import defaultdict
+from contextlib import suppress
 from glob import glob
 from itertools import chain
 from typing import TYPE_CHECKING, Any, TypedDict, cast
@@ -29,7 +30,7 @@ from django.core.validators import MaxValueValidator
 from django.db import IntegrityError, models, transaction
 from django.db.models import Count, F, Q, Value
 from django.db.models.functions import MD5
-from django.db.models.signals import m2m_changed
+from django.db.models.signals import post_delete, post_save
 from django.dispatch import receiver
 from django.utils.functional import cached_property
 from django.utils.html import format_html, format_html_join
@@ -385,6 +386,33 @@ class ComponentQuerySet(models.QuerySet):
             "category__category__category",
             "category__category__category__project",
         )
+
+
+class ComponentLink(models.Model):
+    component = models.ForeignKey(
+        "trans.Component",
+        on_delete=models.CASCADE,
+    )
+    project = models.ForeignKey(
+        "trans.Project",
+        on_delete=models.CASCADE,
+    )
+    category = models.ForeignKey(
+        "trans.Category",
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+    )
+
+    class Meta:
+        app_label = "trans"
+        db_table = "trans_component_links"
+        unique_together = (("component", "project"),)
+
+    def __str__(self) -> str:
+        if self.category:
+            return f"{self.component} -> {self.category}"
+        return f"{self.component} -> {self.project}"
 
 
 class OldComponentSettings(TypedDict):
@@ -831,6 +859,7 @@ class Component(
         verbose_name=gettext_lazy("Share in projects"),
         blank=True,
         related_name="shared_components",
+        through="ComponentLink",
         help_text=gettext_lazy(
             "Choose additional projects where this component will be listed."
         ),
@@ -3163,15 +3192,10 @@ class Component(
             self.branch = self.repository_class.get_remote_branch(self.repo)
 
     def clean_category(self) -> None:
-        if self.category:
-            if self.category.project != self.project:
-                raise ValidationError(
-                    {"category": gettext("Category does not belong to this project.")}
-                )
-            if self.pk and self.links.exists():
-                raise ValidationError(
-                    gettext("Categorized component can not be shared.")
-                )
+        if self.category and self.category.project != self.project:
+            raise ValidationError(
+                {"category": gettext("Category does not belong to this project.")}
+            )
 
     def clean_repo_link(self) -> None:
         """Validate repository link."""
@@ -4402,12 +4426,12 @@ class Component(
         return filename
 
 
-@receiver(m2m_changed, sender=Component.links.through)
+@receiver(post_save, sender=ComponentLink)
+@receiver(post_delete, sender=ComponentLink)
 @disable_for_loaddata
-def change_component_link(sender, instance, action, pk_set, **kwargs) -> None:
+def change_component_link(sender, instance, **kwargs) -> None:
     from weblate.trans.models import Project
 
-    if action not in {"post_add", "post_remove", "post_clear"}:
-        return
-    for project in Project.objects.filter(pk__in=pk_set):
+    with suppress(Project.DoesNotExist):
+        project = Project.objects.get(pk=instance.project_id)
         project.invalidate_glossary_cache()

@@ -1907,12 +1907,15 @@ Components
     Associate project with a component.
 
     .. versionadded:: 4.5
+    .. versionchanged:: 5.17
 
     :param project: Project URL slug
     :type project: string
     :param component: Component URL slug
     :type component: string
     :form string project_slug: Project slug
+    :form int category_id: Category ID in the target project (optional).
+        The category must belong to the specified project.
 
 .. http:delete:: /api/components/(string:project)/(string:component)/links/(string:project_slug)/
 

@@ -19,7 +19,7 @@ from weblate.trans.models.announcement import Announcement
 from weblate.trans.models.category import Category
 from weblate.trans.models.change import Change
 from weblate.trans.models.comment import Comment
-from weblate.trans.models.component import Component
+from weblate.trans.models.component import Component, ComponentLink
 from weblate.trans.models.componentlist import AutoComponentList, ComponentList
 from weblate.trans.models.label import Label
 from weblate.trans.models.pending import PendingUnitChange
@@ -45,6 +45,7 @@ __all__ = [
     "Comment",
     "CommitPolicyChoices",
     "Component",
+    "ComponentLink",
     "ComponentList",
     "ContributorAgreement",
     "Label",
@@ -120,14 +121,13 @@ def translation_post_delete(sender, instance: Translation, **kwargs) -> None:
     transaction.on_commit(instance.stats.delete)
 
 
-@receiver(m2m_changed, sender=Component.links.through)
+@receiver(post_save, sender=ComponentLink)
+@receiver(post_delete, sender=ComponentLink)
 @disable_for_loaddata
-def component_links_updated(sender, instance, action, pk_set, **kwargs) -> None:
+def component_links_updated(sender, instance, **kwargs) -> None:
     from weblate.utils.tasks import update_project_stats_link
 
-    if action in {"post_add", "post_remove", "post_clear"}:
-        for pk in pk_set:
-            update_project_stats_link.delay_on_commit(pk)
+    update_project_stats_link.delay_on_commit(instance.project_id)
 
 
 @receiver(m2m_changed, sender=Unit.labels.through)
