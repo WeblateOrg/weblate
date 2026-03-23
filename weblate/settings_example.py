@@ -890,6 +890,8 @@ SILENCED_SYSTEM_CHECKS = [
     "admin.E408",
     # Using custom authentication middleware with LoginRequiredMiddleware
     "auth.E013",
+    # pytest overrides string_if_invalid with a non-string value
+    "templates.E002",
     # Silence drf_spectacular until these are addressed
     "drf_spectacular.W001",
     "drf_spectacular.W002",
