@@ -208,7 +208,7 @@ class XMLCharsAroundTagsCheckTest(CheckTestCase):
             True,
             ("نص <a>كلمة</a>", "نص<a>كلمة</a>", ""),
         )
-        # Different directions but non-space non-letter should still flag
+        # Different directions but letter vs punctuation (not space) should still flag
         self.do_test(
             True,
             ("text<a>word</a>", ".<a>كلمة</a>مزيد", ""),
