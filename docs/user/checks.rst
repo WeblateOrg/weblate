@@ -111,5 +111,5 @@ Objective-C format
 
 .. check:: objc-format
 
-    Checks whether Objective-C format strings (like ``%@`` or ``%1$@``) 
-    match between source and translation.
+Checks whether Objective-C format strings (like ``%@`` or ``%1$@``)
+match between source and translation.
