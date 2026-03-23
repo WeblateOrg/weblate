@@ -398,6 +398,7 @@ class TranslationFormat[S: InnerStore, U: InnerUnit, T: TranslationUnit]:
     supports_context: bool = False
     supports_location: bool = False
     supports_flags: bool = False
+    supports_read_only: bool = False
     additional_states: tuple[StringState, ...] = ()
     can_edit_base: bool = True
     strict_format_plurals: bool = False

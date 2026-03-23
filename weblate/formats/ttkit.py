@@ -1434,11 +1434,12 @@ class XliffFormat(TTKitFormat):
     name = gettext_lazy("XLIFF 1.2 translation file")
     format_id = "plainxliff"
     loader = Xliff1File
-    supports_plural: bool = True
-    supports_descriptions: bool = True
-    supports_context: bool = True
-    supports_location: bool = True
-    supports_flags: bool = True
+    supports_plural = True
+    supports_descriptions = True
+    supports_context = True
+    supports_location = True
+    supports_flags = True
+    supports_read_only = True
     additional_states = (STATE_FUZZY, STATE_APPROVED)
     autoload: tuple[str, ...] = ("*.xlf", "*.xliff")
     unit_class = XliffUnit
@@ -1486,12 +1487,6 @@ class RichXliffFormat(XliffFormat):
     format_id = "xliff"
     autoload: tuple[str, ...] = ("*.sdlxliff", "*.mxliff")
     unit_class = RichXliffUnit
-    supports_plural: bool = True
-    supports_descriptions: bool = True
-    supports_context: bool = True
-    supports_location: bool = True
-    supports_flags: bool = True
-    additional_states = (STATE_FUZZY, STATE_APPROVED)
 
 
 class PoXliffFormat(XliffFormat):
@@ -1689,8 +1684,9 @@ class AndroidFormat(TTKitFormat):
     strict_format_plurals: bool = True
     supports_plural: bool = True
     supports_plurals = True
-    supports_descriptions: bool = True
-    supports_flags: bool = True
+    supports_descriptions = True
+    supports_flags = True
+    supports_read_only = True
 
 
 class MOKOFormat(AndroidFormat):
