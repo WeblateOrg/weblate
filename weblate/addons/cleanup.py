@@ -8,7 +8,7 @@ from typing import TYPE_CHECKING, ClassVar
 
 from django.utils.translation import gettext_lazy
 
-from weblate.addons.base import UpdateBaseAddon
+from weblate.addons.base import BaseAddon, UpdateBaseAddon
 from weblate.addons.events import AddonEvent
 from weblate.formats.base import TranslationFormat
 from weblate.trans.exceptions import FileParseError
@@ -58,7 +58,7 @@ class CleanupAddon(BaseCleanupAddon):
             != TranslationFormat.cleanup_unused
         )
 
-    def update_translations(self, component, previous_head) -> None:
+    def update_translations(self, component: Component, previous_head: str) -> None:
         for translation in self.iterate_translations(component):
             filenames = translation.store.cleanup_unused()
             if filenames is None:
@@ -116,3 +116,37 @@ class RemoveBlankAddon(BaseCleanupAddon):
             "weblate:post-commit" if store_hash else "weblate:post-commit-no-store",
             skip_push=True,
         )
+
+
+class ResetAddon(BaseAddon):
+    # Event used to trigger the script
+    events: ClassVar[set[AddonEvent]] = {AddonEvent.EVENT_DAILY}
+    # Name of the addon, has to be unique
+    name = "weblate.hosted.reset"
+    # Verbose name and long description
+    verbose = gettext_lazy("Reset repository to upstream")
+    description = gettext_lazy(
+        "Discards all changes in the Weblate repository each night."
+    )
+    repo_scope = True
+    icon = "eraser.svg"
+    version_added = "5.17"
+
+    @classmethod
+    def can_install(
+        cls,
+        *,
+        component: Component | None = None,
+        project: Project | None = None,
+    ) -> bool:
+        # Only instalable on the sandbox project
+        return (
+            component is not None
+            and component.project.slug == "sandbox"
+            and super().can_install(component=component, project=project)
+        )
+
+    def daily_component(
+        self, component: Component, activity_log_id: int | None = None
+    ) -> None:
+        component.do_reset()
