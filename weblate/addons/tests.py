@@ -1141,6 +1141,19 @@ class DiscoveryTest(ViewTestCase):
             follow=True,
         )
         self.assertContains(response, "Please review and confirm")
+        content = response.content.decode()
+        self.assertLess(
+            content.index("po-mono/cs.po"),
+            content.index("po-mono/de.po"),
+        )
+        self.assertLess(
+            content.index("po-mono/de.po"),
+            content.index("po-mono/en.po"),
+        )
+        self.assertLess(
+            content.index("po-mono/en.po"),
+            content.index("po-mono/it.po"),
+        )
         # Discovery preview error
         with patch(
             "weblate.trans.discovery.regex_match",
