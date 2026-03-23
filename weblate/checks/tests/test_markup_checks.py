@@ -191,32 +191,22 @@ class XMLCharsAroundTagsCheckTest(CheckTestCase):
         self.do_test(False, ("<a> b</a>", "<a>b</a>", "safe-html"))
         self.do_test(True, ("<a> b</a>", "<a>b</a>", "xml-text"))
 
-    def test_different_text_direction(self) -> None:
-        # Arabic target with letter adjacent to tag where English source has space
-        # should not flag (different text directions)
+    def test_arabic_waw(self) -> None:
+        # Arabic Waw "و" (and) is a conjunction that commonly attaches directly
+        # to the adjacent word without a space — should not be flagged
         self.do_test(
             False,
-            ("text <updateslink>updates</updateslink>", "نص<updateslink>التحديثات</updateslink>", ""),
+            ("and <a>updates</a>", "و<a>التحديثات</a>", ""),
         )
-        # Same direction (both LTR) should still flag space vs letter
-        self.do_test(
-            True,
-            ("text <a>word</a>", "texte<a>mot</a>", ""),
-        )
-        # Same direction (both RTL) should still flag space vs letter
-        self.do_test(
-            True,
-            ("نص <a>كلمة</a>", "نص<a>كلمة</a>", ""),
-        )
-        # Different directions but letter vs punctuation (not space) should still flag
-        self.do_test(
-            True,
-            ("text<a>word</a>", ".<a>كلمة</a>مزيد", ""),
-        )
-        # Hebrew target (also RTL) should not flag space vs letter
+        # Waw after a closing tag should also not flag
         self.do_test(
             False,
-            ("text <a>word</a>", "טקסט<a>מילה</a>", ""),
+            ("<a>updates</a> and", "<a>التحديثات</a>و", ""),
+        )
+        # Other Arabic letters adjacent to tags should still flag
+        self.do_test(
+            True,
+            ("text <a>word</a>", "نص<a>كلمة</a>", ""),
         )
 
 
