@@ -68,8 +68,9 @@ class Command(DocGeneratorCommand):
         ) -> None:
             if isinstance(value, bool):
                 value = "Yes" if value else "No"
-            value = f"`{value}`" if value else ""
-            table.append(f":{title}: {value}")
+            if not value:
+                return
+            table.append(f":{title}: `{value}`")
             if comment:
                 table.append(f"   {comment}")
 
@@ -107,7 +108,9 @@ class Command(DocGeneratorCommand):
                     raise ValueError(msg)
 
             new_field_list_item(
-                output, "Common extensions", ", ".join(get_extensions(file_format))
+                output,
+                "Common extensions",
+                ", ".join(sorted(get_extensions(file_format))),
             )
             new_field_list_item(output, "Linguality", linguality, "See :ref:`bimono`")
             new_field_list_item(
@@ -150,7 +153,9 @@ class Command(DocGeneratorCommand):
                 output,
                 "Additional states",
                 ", ".join(
-                    [str(state.label) for state in file_format.additional_states]
+                    sorted(
+                        [str(state.label) for state in file_format.additional_states]
+                    )
                 ),
                 "See :ref:`format-states`",
             )
@@ -159,7 +164,9 @@ class Command(DocGeneratorCommand):
                 FORMAT_DOC_SNIPPETS_MERGES.get(file_format.format_id, [])
             )
 
-            new_field_list_item(output, "API identifier", ", ".join(api_identifiers))
+            new_field_list_item(
+                output, "API identifier", ", ".join(sorted(api_identifiers))
+            )
 
             new_field_list_item(
                 output,
@@ -175,5 +182,12 @@ class Command(DocGeneratorCommand):
                 f"format-features {format_id}"
             )
             output = self.insert_markers(output, start_marker, end_marker)
-            output.append("")
-            file_path.write_text("\n".join(output), encoding="utf-8")
+            lines = file_path.read_text(encoding="utf-8").splitlines()
+            lines = self.insert_content_in_lines(
+                output,
+                lines,
+                start_marker,
+                end_marker,
+            )
+            lines.append("")
+            file_path.write_text("\n".join(lines), encoding="utf-8")

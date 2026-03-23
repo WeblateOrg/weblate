@@ -4,7 +4,7 @@
 Supported features
 ++++++++++++++++++
 
-:Common extensions: `xliff, xlf`
+:Common extensions: `xlf, xliff`
 :Linguality: `bilingual`
    See :ref:`bimono`
 :Supports plural: `Yes`
@@ -19,7 +19,7 @@ Supported features
    See :ref:`format-location`
 :Supports flags: `Yes`
    See :ref:`format-flags`
-:Additional states: `Needs editing, Approved`
+:Additional states: `Approved, Needs editing`
    See :ref:`format-states`
 :API identifier: `xliff2, xliff2-placeables`
 :Supports read-only strings: `Yes`

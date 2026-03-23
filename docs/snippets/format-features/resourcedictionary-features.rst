@@ -19,8 +19,6 @@ Supported features
    See :ref:`format-location`
 :Supports flags: `Yes`
    See :ref:`format-flags`
-:Additional states:
-   See :ref:`format-states`
 :API identifier: `resourcedictionary`
 :Supports read-only strings: `No`
    See :ref:`read-only-strings`

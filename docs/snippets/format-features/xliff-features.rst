@@ -4,7 +4,7 @@
 Supported features
 ++++++++++++++++++
 
-:Common extensions: `xliff, sdlxliff, xlf`
+:Common extensions: `sdlxliff, xlf, xliff`
 :Linguality: `both`
    See :ref:`bimono`
 :Supports plural: `Yes`
@@ -19,9 +19,9 @@ Supported features
    See :ref:`format-location`
 :Supports flags: `Yes`
    See :ref:`format-flags`
-:Additional states: `Needs editing, Approved`
+:Additional states: `Approved, Needs editing`
    See :ref:`format-states`
-:API identifier: `xliff, apple-xliff, plainxliff, poxliff`
+:API identifier: `apple-xliff, plainxliff, poxliff, xliff`
 :Supports read-only strings: `Yes`
    See :ref:`read-only-strings`
 

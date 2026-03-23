@@ -4,7 +4,7 @@
 Supported features
 ++++++++++++++++++
 
-:Common extensions: `ini, yml, php, toml, json, dtd, islu`
+:Common extensions: `dtd, ini, islu, json, php, toml, yml`
 :Linguality: `mono`
    See :ref:`bimono`
 :Supports plural: `Yes`
@@ -19,8 +19,6 @@ Supported features
    See :ref:`format-location`
 :Supports flags: `No`
    See :ref:`format-flags`
-:Additional states:
-   See :ref:`format-states`
 :API identifier: `go-i18n-toml`
 :Supports read-only strings: `No`
    See :ref:`read-only-strings`

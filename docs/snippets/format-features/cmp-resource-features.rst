@@ -19,8 +19,6 @@ Supported features
    See :ref:`format-location`
 :Supports flags: `Yes`
    See :ref:`format-flags`
-:Additional states:
-   See :ref:`format-states`
 :API identifier: `cmp-resource`
 :Supports read-only strings: `Yes`
    See :ref:`read-only-strings`
