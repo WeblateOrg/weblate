@@ -52,7 +52,7 @@ from weblate.utils.unittest import tempdir_setting
 from .autotranslate import AutoTranslateAddon
 from .base import BaseAddon, UpdateBaseAddon
 from .cdn import CDNJSAddon
-from .cleanup import CleanupAddon, RemoveBlankAddon
+from .cleanup import CleanupAddon, RemoveBlankAddon, ResetAddon
 from .consistency import LanguageConsistencyAddon
 from .discovery import DiscoveryAddon
 from .events import AddonEvent
@@ -891,6 +891,27 @@ class PropertiesAddonTest(ViewTestCase):
         commit = self.component.repository.show(self.component.repository.last_revision)
         self.assertIn("java/swing_messages_cs.properties", commit)
         self.assertIn("-state=Stale", commit)
+
+
+class ResetAddonTest(ViewTestCase):
+    def create_component(self):
+        project = self.create_project(name="Sandbox", slug="sandbox")
+        return self.create_po_new_base(project=project)
+
+    def test_can_install(self) -> None:
+        self.assertTrue(ResetAddon.can_install(component=self.component))
+        other = self.create_po_new_base(
+            project=self.create_project(name="Regular", slug="regular")
+        )
+        self.assertFalse(ResetAddon.can_install(component=other))
+
+    def test_daily(self) -> None:
+        ResetAddon.create(component=self.component, run=False)
+
+        with patch.object(Component, "do_reset", autospec=True) as mocked_reset:
+            daily_addons(modulo=False)
+
+        mocked_reset.assert_called_once_with(self.component)
 
 
 class CommandTest(ViewTestCase):
