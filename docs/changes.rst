@@ -6,6 +6,7 @@ Weblate 5.17
 .. rubric:: New features
 
 * Added :setting:`WEBSITE_ALERTS_ENABLED` setting to allow disabling project website availability checks and alerts.
+* Added new management command :wladmin:`list_format_features`, which generates RST documentation snippets describing the supported features for every file format.
 
 .. rubric:: Improvements
 
@@ -14,6 +15,7 @@ Weblate 5.17
 * Improved logic for adding monolingual plurals in :doc:`/formats/gettext`.
 * Improved error messages in some of the :ref:`api` endpoints.
 * :envvar:`WEBLATE_COMMIT_PENDING_HOURS` is now available in Docker container.
+* Improved documentation with auto-generated snippets for :ref:`addons`, :ref:`fmt_capabs`, :ref:`checks`, and :ref:`machine-translation` machines.
 
 .. rubric:: Bug fixes
 
