@@ -6,7 +6,6 @@ Weblate 5.17
 .. rubric:: New features
 
 * Added :setting:`WEBSITE_ALERTS_ENABLED` setting to allow disabling project website availability checks and alerts.
-* :doc:`/formats/asciidoc` is now a supported file format.
 
 .. rubric:: Improvements
 

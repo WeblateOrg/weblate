@@ -1126,6 +1126,8 @@ Generic settings
 
 .. envvar:: WEBLATE_WEBSITE_ALERTS_ENABLED
 
+   .. versionadded:: 5.17
+
    Configures :setting:`WEBSITE_ALERTS_ENABLED`.
 
 .. envvar:: CLIENT_MAX_BODY_SIZE
