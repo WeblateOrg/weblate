@@ -11,6 +11,8 @@ The translatable content is extracted from the OpenDocument files and offered fo
 
    :doc:`tt:formats/odf`
 
+.. include:: /snippets/format-features/odf-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

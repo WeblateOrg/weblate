@@ -18,6 +18,8 @@ Example file:
 .. literalinclude:: ../../weblate/trans/tests/data/cs.html
     :language: html
 
+.. include:: /snippets/format-features/html-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

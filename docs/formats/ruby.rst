@@ -18,6 +18,8 @@ Example Ruby i18n YAML file:
 .. literalinclude:: ../../weblate/trans/tests/data/cs.ryml
     :language: yaml
 
+.. include:: /snippets/format-features/ruby-yaml-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

@@ -1616,6 +1616,7 @@ class GWTFormat(PropertiesBaseFormat):
     language_format = "linux"
     supports_plural: bool = True
     supports_descriptions = True
+    monolingual = True
 
 
 class PhpFormat[S: phpfile, U: phpunit, T: PHPUnit](TTKitFormat[S, U, T]):
@@ -1627,6 +1628,7 @@ class PhpFormat[S: phpfile, U: phpunit, T: PHPUnit](TTKitFormat[S, U, T]):
     autoload: tuple[str, ...] = ("*.php",)
     unit_class = PHPUnit  # type: ignore[assignment]
     supports_descriptions: bool = True
+    monolingual = True
 
     @staticmethod
     def mimetype() -> str:
@@ -1727,6 +1729,7 @@ class JSONFormat[S: JsonFile, U: BaseJsonUnit, T: JSONUnit](DictStoreFormat[S, U
     autoload: tuple[str, ...] = ("*.json",)
     empty_file_template = "{}\n"
     set_context_bilingual = False
+    monolingual = True
 
     @staticmethod
     def mimetype() -> str:
@@ -2021,6 +2024,7 @@ class YAMLFormat(DictStoreFormat):
     unit_class = MonolingualSimpleUnit
     autoload: tuple[str, ...] = ("*.pyml",)
     empty_file_template = "{}\n"
+    monolingual = True
 
     @staticmethod
     def mimetype() -> str:
@@ -2051,6 +2055,7 @@ class DTDFormat(TTKitFormat):
     unit_class = MonolingualSimpleUnit
     empty_file_template = "\n"
     can_add_unit: bool = False
+    monolingual = True
 
     @staticmethod
     def mimetype() -> str:
@@ -2557,6 +2562,7 @@ class FluentFormat(TTKitFormat):
         "ignore-xml-invalid",
     )
     supports_descriptions = True
+    monolingual = True
 
     @staticmethod
     def mimetype() -> str:

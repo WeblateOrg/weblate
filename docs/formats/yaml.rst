@@ -23,6 +23,8 @@ Example of a YAML file:
 .. literalinclude:: ../../weblate/trans/tests/data/cs.pyml
     :language: yaml
 
+.. include:: /snippets/format-features/yaml-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

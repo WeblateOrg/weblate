@@ -19,6 +19,8 @@ Example file:
 
 .. literalinclude:: ../../weblate/trans/tests/data/cs.adoc
 
+.. include:: /snippets/format-features/asciidoc-features.rst
+
 Weblate configuration
 +++++++++++++++++++++
 

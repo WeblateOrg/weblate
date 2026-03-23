@@ -3,7 +3,6 @@
 TermBase eXchange format
 ------------------------
 
-.. include:: snippets/format-features/tbx-features.rst
 
 .. versionadded:: 4.5
 .. versionchanged:: 5.12
@@ -15,6 +14,8 @@ TBX is an XML format for the exchange of terminology data.
     * `TBX on Wikipedia <https://en.wikipedia.org/wiki/TermBase_eXchange>`_
     * :doc:`tt:formats/tbx`
     * :ref:`glossary`
+
+.. include:: snippets/format-features/tbx-features.rst
 
 Explanations
 ++++++++++++

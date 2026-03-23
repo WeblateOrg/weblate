@@ -28,6 +28,7 @@ CSV_DIALECT = "unix"
 class XlsxFormat(CSVFormat):
     name = gettext_lazy("Excel Open XML")
     format_id = "xlsx"
+    monolingual = True
     autoload = ("*.xlsx",)
 
     def get_encoding(self) -> str | None:
