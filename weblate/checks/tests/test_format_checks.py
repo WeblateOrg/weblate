@@ -39,6 +39,7 @@ from weblate.lang.models import Language
 from weblate.trans.models import Component, Project, Translation, Unit
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.util import join_plural
+from weblate.checks.tests.test_checks import BaseFormatTest
 
 if TYPE_CHECKING:
     from weblate.checks.format import (
@@ -1917,3 +1918,12 @@ class MultipleUnnamedFormatsCheckTestCase(SimpleTestCase):
                 ["Recognition {}% ({}/{})"], MockUnit(flags="python-brace-format")
             )
         )
+
+class ObjCFormatTest(BaseFormatTest):
+    CHECK = "objc_format"
+
+    def test_format(self):
+        self.check_match("Hello %@", "Hello %@")
+        self.check_match("Order %1$@ %2$d", "Order %1$@ %2$d")
+        self.check_fail("Hello %@", "Hello %s")
+        self.check_fail("Missing %@", "Missing")
