@@ -31,6 +31,7 @@ Weblate 5.17
 * Weblate now requires Django 6.0.
 * Weblate now requires Git 2.46 or newer.
 * Uploaded project backups are now validated more strictly during import and suspicious ZIP archives can be rejected; see :ref:`projectbackup`.
+* URL health checks for configured project and repository links no longer follow HTTP redirects.
 
 .. rubric:: Upgrading
 
