@@ -2452,9 +2452,6 @@ WEBSITE_REQUIRED
 Defines whether :ref:`project-web` has to be specified when creating a project.
 On by default, as that suits public server setups.
 
-
-.. _settings-credentials:
-
 .. setting:: WEBSITE_ALERTS_ENABLED
 
 WEBSITE_ALERTS_ENABLED
@@ -2477,6 +2474,8 @@ will not generate project website alerts. This is useful when:
 .. seealso::
 
    :setting:`WEBSITE_REQUIRED`
+
+.. _settings-credentials:
 
 Configuring version control credentials
 ---------------------------------------
