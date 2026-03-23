@@ -191,6 +191,34 @@ class XMLCharsAroundTagsCheckTest(CheckTestCase):
         self.do_test(False, ("<a> b</a>", "<a>b</a>", "safe-html"))
         self.do_test(True, ("<a> b</a>", "<a>b</a>", "xml-text"))
 
+    def test_different_text_direction(self) -> None:
+        # Arabic target with letter adjacent to tag where English source has space
+        # should not flag (different text directions)
+        self.do_test(
+            False,
+            ("text <updateslink>updates</updateslink>", "نص<updateslink>التحديثات</updateslink>", ""),
+        )
+        # Same direction (both LTR) should still flag space vs letter
+        self.do_test(
+            True,
+            ("text <a>word</a>", "texte<a>mot</a>", ""),
+        )
+        # Same direction (both RTL) should still flag space vs letter
+        self.do_test(
+            True,
+            ("نص <a>كلمة</a>", "نص<a>كلمة</a>", ""),
+        )
+        # Different directions but non-space non-letter should still flag
+        self.do_test(
+            True,
+            ("text<a>word</a>", ".<a>كلمة</a>مزيد", ""),
+        )
+        # Hebrew target (also RTL) should not flag space vs letter
+        self.do_test(
+            False,
+            ("text <a>word</a>", "טקסט<a>מילה</a>", ""),
+        )
+
 
 class MarkdownRefLinkCheckTest(CheckTestCase):
     check = MarkdownRefLinkCheck()

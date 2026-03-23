@@ -6,6 +6,7 @@ from __future__ import annotations
 
 import re
 import threading
+import unicodedata
 from collections import Counter, defaultdict
 from functools import cache, lru_cache
 from itertools import chain
@@ -312,6 +313,8 @@ class XMLCharsAroundTagsCheck(BaseXMLCheck):
         if len(src_tags) != len(tgt_tags):
             return False
 
+        different_direction = self._is_different_direction(source, target)
+
         for i, tag in enumerate(src_tags):
             src_start_idx = tag.start()
             tgt_start_idx = tgt_tags[i].start()
@@ -323,14 +326,18 @@ class XMLCharsAroundTagsCheck(BaseXMLCheck):
                 if src_end_idx < len(source) and tgt_end_idx < len(target):
                     src_next_char = source[src_end_idx]
                     tgt_next_char = target[tgt_end_idx]
-                    if self.char_check(src_next_char, tgt_next_char):
+                    if self.char_check(
+                        src_next_char, tgt_next_char, different_direction
+                    ):
                         return True
             # if string ends with tag, only check char preceding this tag
             elif src_end_idx == len(source) or tgt_end_idx == len(target):
                 if src_start_idx > 0 and tgt_start_idx > 0:
                     src_prev_char = source[src_start_idx - 1]
                     tgt_prev_char = target[tgt_start_idx - 1]
-                    if self.char_check(src_prev_char, tgt_prev_char):
+                    if self.char_check(
+                        src_prev_char, tgt_prev_char, different_direction
+                    ):
                         return True
             # if inline tag, check char preceding and following this tag
             else:
@@ -339,16 +346,61 @@ class XMLCharsAroundTagsCheck(BaseXMLCheck):
                 src_next_char = source[src_end_idx]
                 tgt_next_char = target[tgt_end_idx]
 
-                if self.char_check(src_prev_char, tgt_prev_char):
+                if self.char_check(
+                    src_prev_char, tgt_prev_char, different_direction
+                ):
                     return True
-                if self.char_check(src_next_char, tgt_next_char):
+                if self.char_check(
+                    src_next_char, tgt_next_char, different_direction
+                ):
                     return True
         return False
 
-    def char_check(self, src_char: str, tgt_char: str) -> bool:
+    @staticmethod
+    def _is_different_direction(source: str, target: str) -> bool:
+        """Check if source and target have different predominant text directions."""
+        # Strip XML tags to only consider actual text content
+        src_text = XML_MATCH.sub("", source)
+        tgt_text = XML_MATCH.sub("", target)
+
+        src_rtl = 0
+        src_ltr = 0
+        for c in src_text:
+            bidi = unicodedata.bidirectional(c)
+            if bidi in ("AL", "R"):
+                src_rtl += 1
+            elif bidi == "L":
+                src_ltr += 1
+
+        tgt_rtl = 0
+        tgt_ltr = 0
+        for c in tgt_text:
+            bidi = unicodedata.bidirectional(c)
+            if bidi in ("AL", "R"):
+                tgt_rtl += 1
+            elif bidi == "L":
+                tgt_ltr += 1
+
+        return (src_rtl > src_ltr) != (tgt_rtl > tgt_ltr)
+
+    def char_check(
+        self,
+        src_char: str,
+        tgt_char: str,
+        different_direction: bool = False,
+    ) -> bool:
         src_letter = bool(SINGLE_LETTER_MATCH.search(src_char))
         tgt_letter = bool(SINGLE_LETTER_MATCH.search(tgt_char))
-        return src_letter ^ tgt_letter
+        if not (src_letter ^ tgt_letter):
+            return False
+        # When source and target use different text directions (e.g., LTR vs RTL),
+        # don't flag space vs letter differences as these are expected
+        # due to different spacing conventions across writing systems
+        if different_direction:
+            non_letter = tgt_char if src_letter else src_char
+            if non_letter.isspace():
+                return False
+        return True
 
 
 class MarkdownBaseCheck(TargetCheck):
