@@ -50,7 +50,7 @@ from translate.storage.poxliff import PoXliffFile
 from translate.storage.pypo import pofile, pounit
 from translate.storage.resx import RESXFile
 from translate.storage.tbx import tbxfile, tbxunit
-from translate.storage.ts2 import tsfile, tsunit
+from translate.storage.ts2 import tsfile
 from translate.storage.xliff import ID_SEPARATOR, Xliff1File, Xliff1Unit
 from translate.storage.xliff2 import Xliff2File, Xliff2Unit
 from translate.storage.xliff_common import XliffUnit as TranslateToolkitXliffUnit
@@ -99,7 +99,6 @@ if TYPE_CHECKING:
 
 LOCATIONS_RE = re.compile(r"^([+-]|.*, [+-]|.*:[+-])")
 PO_DOCSTRING_LOCATION = re.compile(r":docstring of [a-zA-Z0-9._]+:[0-9]+")
-SUPPORTS_FUZZY = (pounit, tsunit, csvunit)
 XLIFF_FUZZY_STATES = {"new", "needs-translation", "needs-adaptation", "needs-l10n"}
 
 
@@ -164,7 +163,7 @@ class TTKitUnit[U: TranslateToolkitUnit, F: "BaseTTKitFormat"](TranslationUnit[U
             return False
         # Most of the formats do not support this, but they
         # happily return False
-        if isinstance(self.unit, SUPPORTS_FUZZY):
+        if STATE_FUZZY in self.parent.additional_states:
             return self.unit.isfuzzy()
         return fallback
 
