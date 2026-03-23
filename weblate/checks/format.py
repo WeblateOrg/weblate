@@ -92,6 +92,20 @@ C_PRINTF_MATCH = re.compile(
     re.VERBOSE,
 )
 
+OBJC_PRINTF_MATCH = re.compile(
+    r"""
+    %(                          # initial %
+          (?:(?P<ord>\d+)\$)?   # variable order, like %1$s
+    (?P<fullvar>
+        [ +#'-]*                # flags
+        (?:\d+)?                # width
+        (?:\.\d+)?              # precision
+        (hh|h|l|ll)?            # length formatting
+        (?P<type>[a-zA-Z@%])    # type (%s, %d, %@ etc.)
+        |)
+    )""",
+    re.VERBOSE,
+)
 # index, width and precision can be '*', in which case their value
 # will be read from the next element in the Args array
 PASCAL_FORMAT_MATCH = re.compile(
@@ -347,6 +361,11 @@ FLAG_RULES: dict[
     "laravel-format": (
         LARAVEL_MATCH,
         name_format_is_position_based,
+        extract_string_simple,
+    ),
+    "objc-format": (
+        OBJC_PRINTF_MATCH,
+        c_format_is_position_based,
         extract_string_simple,
     ),
 }
@@ -606,6 +625,14 @@ class CFormatCheck(BasePrintfCheck):
     check_id = "c_format"
     name = gettext_lazy("C format")
     description = gettext_lazy("C format string does not match source.")
+
+
+class ObjCFormatCheck(BasePrintfCheck):
+    """Check for Objective-C format string."""
+
+    check_id = "objc_format"
+    name = gettext_lazy("Objective-C format")
+    description = gettext_lazy("Objective-C format string does not match source.")
 
 
 class PerlBraceFormatCheck(BaseFormatCheck):
