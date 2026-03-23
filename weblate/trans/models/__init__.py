@@ -75,8 +75,11 @@ def project_post_delete(sender, instance: Project, **kwargs) -> None:
     - delete project directory
     - update stats
     """
-    # Update stats
-    transaction.on_commit(instance.stats.update_parents)
+    batch = get_current_removal_batch()
+    if batch is None:
+        transaction.on_commit(instance.stats.update_parents)
+    else:
+        batch.collect_stats(instance.stats.get_update_objects())
     instance.stats.delete()
 
     # Remove directory

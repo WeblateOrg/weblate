@@ -37,8 +37,21 @@ class RemovalBatch:
 
     def flush(self) -> None:
         from weblate.trans.models import Component
+        from weblate.utils.stats import GlobalStats, ProjectStats
+
+        regular_stats: list[BaseStats] = []
+        project_stats: list[BaseStats] = []
+        global_stats: list[BaseStats] = []
 
         for stats in self.stats_to_update.values():
+            if isinstance(stats, GlobalStats):
+                global_stats.append(stats)
+            elif isinstance(stats, ProjectStats):
+                project_stats.append(stats)
+            else:
+                regular_stats.append(stats)
+
+        for stats in (*regular_stats, *project_stats, *global_stats):
             stats.update_stats()
 
         for component in Component.objects.filter(
