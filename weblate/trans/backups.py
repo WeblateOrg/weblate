@@ -12,6 +12,7 @@ import warnings
 from collections import defaultdict
 from datetime import datetime
 from functools import partial
+from io import BytesIO
 from itertools import chain
 from operator import itemgetter
 from pathlib import Path
@@ -47,7 +48,7 @@ from weblate.trans.models import (
 )
 from weblate.utils.data import data_path
 from weblate.utils.hash import checksum_to_hash, hash_to_checksum
-from weblate.utils.validators import validate_filename
+from weblate.utils.validators import validate_bitmap, validate_filename
 from weblate.utils.version import VERSION
 from weblate.vcs.models import VCS_REGISTRY
 
@@ -900,8 +901,12 @@ class ProjectBackup:
                 timestamp=item["timestamp"],
             )
             with zipfile.open(os.path.join("screenshots", item["image"])) as handle:
+                restored_image = File(
+                    BytesIO(handle.read()), name=os.path.basename(item["image"])
+                )
+                validate_bitmap(restored_image)
                 screenshot.image.save(
-                    os.path.basename(item["image"]), File(handle), save=False
+                    os.path.basename(item["image"]), restored_image, save=False
                 )
             screenshot.import_data = item
             screenshots.append(screenshot)

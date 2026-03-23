@@ -43,6 +43,9 @@ SITE_DOMAIN = get_env_str("WEBLATE_SITE_DOMAIN", required=True)
 # Whether site uses https
 ENABLE_HTTPS = get_env_bool("WEBLATE_ENABLE_HTTPS")
 
+# Project website availability checks
+WEBSITE_ALERTS_ENABLED = get_env_bool("WEBLATE_WEBSITE_ALERTS_ENABLED", True)
+
 # Site URL
 SITE_URL = f"{'https' if ENABLE_HTTPS else 'http'}://{SITE_DOMAIN}"
 
@@ -603,13 +606,13 @@ SOCIAL_AUTH_PIPELINE = [
     "weblate.accounts.pipeline.verify_username",
     "social_core.pipeline.user.create_user",
     "social_core.pipeline.social_auth.associate_user",
+    "weblate.accounts.pipeline.handle_invite",
     "social_core.pipeline.social_auth.load_extra_data",
     "weblate.accounts.pipeline.second_factor",
     "weblate.accounts.pipeline.cleanup_next",
     "weblate.accounts.pipeline.user_full_name",
     "weblate.accounts.pipeline.store_email",
     "weblate.accounts.pipeline.notify_connect",
-    "weblate.accounts.pipeline.handle_invite",
     "weblate.accounts.pipeline.password_reset",
 ]
 SOCIAL_AUTH_DISCONNECT_PIPELINE = (
@@ -1207,6 +1210,7 @@ WEBLATE_ADDONS = [
     "weblate.addons.gettext.GettextAuthorComments",
     "weblate.addons.cleanup.CleanupAddon",
     "weblate.addons.cleanup.RemoveBlankAddon",
+    "weblate.addons.cleanup.ResetAddon",
     "weblate.addons.consistency.LanguageConsistencyAddon",
     "weblate.addons.discovery.DiscoveryAddon",
     "weblate.addons.autotranslate.AutoTranslateAddon",
@@ -1438,6 +1442,8 @@ DEFAULT_AUTO_WATCH = get_env_bool("WEBLATE_DEFAULT_AUTO_WATCH", True)
 DEFAULT_SHARED_TM = get_env_bool("WEBLATE_DEFAULT_SHARED_TM", True)
 
 DEFAULT_AUTOCLEAN_TM = get_env_bool("WEBLATE_AUTOCLEAN_TM", False)
+
+COMMIT_PENDING_HOURS = get_env_int("WEBLATE_COMMIT_PENDING_HOURS")
 
 CONTACT_FORM = get_env_str("WEBLATE_CONTACT_FORM", "reply-to", required=True)
 ADMINS_CONTACT = get_env_list("WEBLATE_ADMINS_CONTACT")

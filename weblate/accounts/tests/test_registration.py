@@ -21,7 +21,7 @@ from django.urls import reverse
 from weblate.accounts.captcha import solve_altcha
 from weblate.accounts.models import VerifiedEmail
 from weblate.accounts.tasks import cleanup_social_auth
-from weblate.auth.models import User
+from weblate.auth.models import Group, Invitation, User
 from weblate.trans.tests.test_views import RegistrationTestMixin
 from weblate.trans.tests.utils import (
     enable_login_required_settings,
@@ -924,6 +924,47 @@ class RegistrationLoginRequiredTestCase(RegistrationTest):
     pass
 
 
+LEGAL_PIPELINE = list(settings.SOCIAL_AUTH_PIPELINE)
+if "weblate.legal.pipeline.tos_confirm" in LEGAL_PIPELINE:
+    LEGAL_PIPELINE.remove("weblate.legal.pipeline.tos_confirm")
+LEGAL_PIPELINE.insert(
+    LEGAL_PIPELINE.index("weblate.accounts.pipeline.second_factor") + 1,
+    "weblate.legal.pipeline.tos_confirm",
+)
+
+
 @modify_settings(SOCIAL_AUTH_PIPELINE={"append": "weblate.legal.pipeline.tos_confirm"})
 class RegistrationLegalTestCase(RegistrationLoginRequiredTestCase):
-    pass
+    @override_settings(
+        REGISTRATION_CAPTCHA=False,
+        REGISTRATION_OPEN=False,
+        SOCIAL_AUTH_PIPELINE=tuple(LEGAL_PIPELINE),
+    )
+    def test_invitation_grants_applied_before_tos(self) -> None:
+        author = User.objects.create_user("author", "author@example.com", "x")
+        invited_group = Group.objects.create(name="Invited")
+        invitation = Invitation.objects.create(
+            author=author,
+            email=REGISTRATION_DATA["email"],
+            username=REGISTRATION_DATA["username"],
+            full_name=REGISTRATION_DATA["fullname"],
+            group=invited_group,
+            is_superuser=True,
+        )
+
+        session = self.client.session
+        session["invitation_link"] = str(invitation.pk)
+        session.save()
+
+        response = self.do_register()
+        self.assertContains(response, REGISTRATION_SUCCESS)
+
+        response = self.client.get(self.assert_registration_mailbox(), follow=True)
+        self.assertTrue(
+            response.request["PATH_INFO"].startswith(reverse("legal:confirm"))
+        )
+
+        user = User.objects.get(username=REGISTRATION_DATA["username"])
+        self.assertTrue(user.is_superuser)
+        self.assertTrue(user.groups.filter(pk=invited_group.pk).exists())
+        self.assertFalse(Invitation.objects.filter(pk=invitation.pk).exists())

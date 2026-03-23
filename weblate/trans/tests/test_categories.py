@@ -418,7 +418,7 @@ class CategoriesTest(ViewTestCase):
         executed: list[str] = []
         original_flush = RemovalBatch.flush
 
-        def record_flush(batch_self) -> None:
+        def record_flush(batch_self: RemovalBatch) -> None:
             collected.append(set(batch_self.stats_to_update))
             with ExitStack() as stack:
                 for stats in batch_self.stats_to_update.values():
@@ -449,4 +449,52 @@ class CategoriesTest(ViewTestCase):
             self.project.change_set.filter(
                 action=ActionEvents.REMOVE_COMPONENT
             ).count(),
+        )
+
+    def test_category_removal_updates_nested_categories_before_global(self) -> None:
+        category = Category.objects.create(
+            project=self.project, name="Parent category", slug="parent"
+        )
+        child = Category.objects.create(
+            project=self.project,
+            category=category,
+            name="Child category",
+            slug="child",
+        )
+        self.create_po(
+            project=self.project,
+            name="Category A",
+            slug="category-a",
+            category=child,
+        )
+
+        executed: list[str] = []
+        original_flush = RemovalBatch.flush
+
+        def record_flush(batch_self: RemovalBatch) -> None:
+            with ExitStack() as stack:
+                for stats in batch_self.stats_to_update.values():
+                    stack.enter_context(
+                        patch.object(
+                            stats,
+                            "update_stats",
+                            side_effect=lambda stats=stats: executed.append(
+                                stats.cache_key
+                            ),
+                        )
+                    )
+                original_flush(batch_self)
+
+        with patch.object(
+            RemovalBatch, "flush", autospec=True, side_effect=record_flush
+        ):
+            category_removal(category.pk, self.user.pk)
+
+        self.assertLess(
+            executed.index(child.stats.cache_key),
+            executed.index(category.stats.cache_key),
+        )
+        self.assertLess(
+            executed.index(category.stats.cache_key),
+            executed.index(GlobalStats().cache_key),
         )

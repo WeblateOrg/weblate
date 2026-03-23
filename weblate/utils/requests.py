@@ -28,11 +28,21 @@ def http_request(
     headers: dict[str, str] | None = None,
     timeout: float = 5,
     raise_for_status: bool = True,
+    allow_redirects: bool = True,
+    stream: bool = False,
     **kwargs,
 ) -> Response:
     agent = {"User-Agent": USER_AGENT}
     headers = {**headers, **agent} if headers is not None else agent
-    response = requests.request(method, url, headers=headers, timeout=timeout, **kwargs)
+    response = requests.request(
+        method,
+        url,
+        headers=headers,
+        timeout=timeout,
+        allow_redirects=allow_redirects,
+        stream=stream,
+        **kwargs,
+    )
     if raise_for_status:
         response.raise_for_status()
     return response
@@ -116,7 +126,16 @@ def get_uri_error(uri: str) -> str | None:
         LOGGER.debug("URL check for %s, cached failure", uri)
         return cached
     try:
-        with http_request("get", uri, stream=True):
+        with http_request("get", uri, stream=True, allow_redirects=False) as response:
+            if response.is_redirect:
+                location = response.headers.get("Location", "")
+                result = (
+                    f"URL redirects with HTTP {response.status_code}"
+                    f"{f' to {location}' if location else ''}."
+                )
+                cache.set(cache_key, result, 3600)
+                LOGGER.debug("URL check for %s, redirect blocked", uri)
+                return result
             cache.set(cache_key, True, 12 * 3600)
             LOGGER.debug("URL check for %s, tested success", uri)
             return None

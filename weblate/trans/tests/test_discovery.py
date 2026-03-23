@@ -65,11 +65,11 @@ class ComponentDiscoveryTest(RepoTestCase):
             {
                 "po/*.po": {
                     "files": {"po/cs.po", "po/de.po", "po/it.po"},
-                    "files_langs": {
+                    "files_langs": (
                         ("po/cs.po", "cs"),
                         ("po/de.po", "de"),
                         ("po/it.po", "it"),
-                    },
+                    ),
                     "languages": {"cs", "de", "it"},
                     "mask": "po/*.po",
                     "name": "Po",
@@ -84,11 +84,11 @@ class ComponentDiscoveryTest(RepoTestCase):
                         "po-brokenlink/de.po",
                         "po-brokenlink/it.po",
                     },
-                    "files_langs": {
+                    "files_langs": (
                         ("po-brokenlink/cs.po", "cs"),
                         ("po-brokenlink/de.po", "de"),
                         ("po-brokenlink/it.po", "it"),
-                    },
+                    ),
                     "languages": {"cs", "de", "it"},
                     "mask": "po-brokenlink/*.po",
                     "name": "Po-Brokenlink",
@@ -99,11 +99,11 @@ class ComponentDiscoveryTest(RepoTestCase):
                 },
                 "po-link/*.po": {
                     "files": {"po-link/cs.po", "po-link/de.po", "po-link/it.po"},
-                    "files_langs": {
+                    "files_langs": (
                         ("po-link/cs.po", "cs"),
                         ("po-link/de.po", "de"),
                         ("po-link/it.po", "it"),
-                    },
+                    ),
                     "languages": {"cs", "de", "it"},
                     "mask": "po-link/*.po",
                     "name": "Po-Link",
@@ -119,12 +119,12 @@ class ComponentDiscoveryTest(RepoTestCase):
                         "po-mono/it.po",
                         "po-mono/en.po",
                     },
-                    "files_langs": {
+                    "files_langs": (
                         ("po-mono/cs.po", "cs"),
                         ("po-mono/de.po", "de"),
-                        ("po-mono/it.po", "it"),
                         ("po-mono/en.po", "en"),
-                    },
+                        ("po-mono/it.po", "it"),
+                    ),
                     "languages": {"cs", "de", "it", "en"},
                     "mask": "po-mono/*.po",
                     "name": "Po-Mono",
@@ -135,10 +135,10 @@ class ComponentDiscoveryTest(RepoTestCase):
                 },
                 "second-po/*.po": {
                     "files": {"second-po/cs.po", "second-po/de.po"},
-                    "files_langs": {
+                    "files_langs": (
                         ("second-po/cs.po", "cs"),
                         ("second-po/de.po", "de"),
-                    },
+                    ),
                     "languages": {"cs", "de"},
                     "mask": "second-po/*.po",
                     "name": "Second-Po",

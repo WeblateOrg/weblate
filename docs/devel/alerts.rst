@@ -28,6 +28,10 @@ Currently the following is covered:
 The alerts are updated daily, or on related change (for example when
 :ref:`component` is changed or when repository is updated).
 
+Project website availability checks can be disabled using
+:setting:`WEBSITE_ALERTS_ENABLED`, in which case Weblate will no longer
+generate alerts for unreachable project websites.
+
 Alerts are listed on each respective component page as :guilabel:`Alerts`.
 If it is missing, the component clears all current checks. Alerts can not be ignored,
 but will disappear once the underlying problem has been fixed.

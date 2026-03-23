@@ -5,13 +5,19 @@ Weblate 5.17
 
 .. rubric:: New features
 
+* Added :setting:`WEBSITE_ALERTS_ENABLED` setting to allow disabling project website availability checks and alerts.
+
 .. rubric:: Improvements
 
 * Track origin of newly added source strings.
 * Improved LLM interfaces for better reliability.
 * Improved logic for adding monolingual plurals in :doc:`/formats/gettext`.
 * Improved error messages in some of the :ref:`api` endpoints.
+
 * Added check for Objective-C format strings.
+=======
+* :envvar:`WEBLATE_COMMIT_PENDING_HOURS` is now available in Docker container.
+
 
 .. rubric:: Bug fixes
 
@@ -20,7 +26,7 @@ Weblate 5.17
 * Asset downloads now enforce :setting:`ALLOWED_ASSET_DOMAINS` across HTTP redirects for screenshot URL uploads and remote HTML fetching in :ref:`addon-weblate.cdn.cdnjs`.
 * Removed unintended API endpoints for translation memory.
 * Improved API access control for pending tasks.
-* Faster category removal.
+* Faster category and project removals.
 * Project backup restore no longer trusts repository-local VCS configuration and hooks from the uploaded archive.
 
 .. rubric:: Compatibility
@@ -31,12 +37,13 @@ Weblate 5.17
 * Weblate now requires Django 6.0.
 * Weblate now requires Git 2.46 or newer.
 * Uploaded project backups are now validated more strictly during import and suspicious ZIP archives can be rejected; see :ref:`projectbackup`.
+* URL health checks for configured project and repository links no longer follow HTTP redirects.
 
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
-* There are several changes in :file:`settings_example.py`, most notably :setting:`ADMINS` syntax has changed in Django.
+* There are several changes in :file:`settings_example.py`, most notably :setting:`ADMINS` syntax has changed in Django and ``SOCIAL_AUTH_PIPELINE``; please adjust your settings accordingly.
 
 .. rubric:: Contributors
 

@@ -55,7 +55,7 @@ from weblate.utils.views import parse_path
 from weblate.vcs.base import RepositoryError
 
 if TYPE_CHECKING:
-    from collections.abc import Callable
+    from collections.abc import Callable, Iterable
 
 
 @app.task(
@@ -469,10 +469,19 @@ def _component_removal(
 
 
 def _collect_removal_targets(category: Category, batch: RemovalBatch) -> None:
-    linked_frontier: set[int] = set()
-    component_ids = category.component_set.values_list("id", flat=True).iterator(
-        chunk_size=1000
+    _collect_linked_removal_targets(
+        category.component_set.values_list("id", flat=True).iterator(chunk_size=1000),
+        batch,
     )
+
+    for child in category.category_set.all():
+        _collect_removal_targets(child, batch)
+
+
+def _collect_linked_removal_targets(
+    component_ids: Iterable[int], batch: RemovalBatch
+) -> None:
+    linked_frontier: set[int] = set()
     for component_id in component_ids:
         batch.mark_component(component_id)
         linked_frontier.add(component_id)
@@ -488,9 +497,6 @@ def _collect_removal_targets(category: Category, batch: RemovalBatch) -> None:
             batch.mark_component(component_id)
             next_frontier.add(component_id)
         linked_frontier = next_frontier
-
-    for child in category.category_set.all():
-        _collect_removal_targets(child, batch)
 
 
 def _category_removal(
@@ -548,8 +554,10 @@ def actual_project_removal(pk: int, uid: int | None) -> None:
             user=user,
             author=user,
         )
-        project.delete()
-        transaction.on_commit(project.stats.update_parents)
+        batch = RemovalBatch()
+        with removal_batch_context(batch):
+            project.delete()
+        transaction.on_commit(batch.flush)
 
 
 @app.task(trail=False)

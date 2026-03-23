@@ -8,6 +8,7 @@ from datetime import timedelta
 from io import StringIO
 from tempfile import TemporaryDirectory
 from unittest import TestCase
+from unittest.mock import patch
 
 import responses
 from django.conf import settings
@@ -169,6 +170,34 @@ class AdminTest(ViewTestCase):
     def test_performance(self) -> None:
         response = self.client.get(reverse("manage-performance"))
         self.assertContains(response, "weblate.E005")
+
+    def test_performance_ordering(self) -> None:
+        with (
+            patch(
+                "weblate.wladmin.views.run_checks",
+                return_value=[
+                    Critical(msg="Zulu", id="weblate.E200"),
+                    Critical(msg="Alpha", id="weblate.E100"),
+                    Critical(msg="Bravo", id="weblate.E100"),
+                ],
+            ),
+            patch(
+                "weblate.wladmin.views.get_queue_stats",
+                return_value={"zqueue": 1, "aqueue": 2},
+            ),
+        ):
+            response = self.client.get(reverse("manage-performance"))
+
+        checks = [check.id for check in response.context["checks"]]
+        self.assertEqual(checks, ["weblate.E100", "weblate.E100", "weblate.E200"])
+        self.assertEqual(
+            [check.msg for check in response.context["checks"]],
+            ["Alpha", "Bravo", "Zulu"],
+        )
+        self.assertEqual(
+            list(response.context["queues"]),
+            [("aqueue", 2), ("zqueue", 1)],
+        )
 
     def test_error(self) -> None:
         ConfigurationError.objects.create(name="Test error", message="FOOOOOOOOOOOOOO")
