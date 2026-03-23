@@ -93,7 +93,7 @@ jobs:
       with:
         save-cache: ${{ github.ref == 'refs/heads/main' }}
         cache-suffix: ${{ steps.setup_python.outputs.python-version }}
-        version: 0.10.11
+        version: 0.10.12
     - name: Install apt dependencies
       run: sudo ./ci/apt-install
     - name: Install Python dependencies
@@ -138,6 +138,12 @@ jobs:
         mv build/coverage/.coverage.* .
         uv run coverage combine
         uv run coverage xml
+    - name: Argos CI upload
+      if: matrix.python-version == '3.14' && matrix.requirements == 'latest'
+      env:
+        ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }} # zizmor: ignore[secrets-outside-env]
+      run: |
+        npx --package=@argos-ci/cli -- argos upload ./test-images/
     - uses: codecov/codecov-action@1af58845a975a7985b0beb0cbe6fbbb71a41dbad # v5.5.3
       with:
         token: ${{secrets.CODECOV_TOKEN}} # zizmor: ignore[secrets-outside-env]

@@ -4,9 +4,8 @@
 from __future__ import annotations
 
 import os
-import re
 from itertools import chain
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, TypedDict
 
 from django.core.exceptions import ValidationError
 from django.utils.functional import cached_property
@@ -19,6 +18,8 @@ from weblate.trans.defines import COMPONENT_NAME_LENGTH
 from weblate.trans.models import Component
 from weblate.trans.tasks import create_component
 from weblate.trans.util import path_separator
+from weblate.utils.errors import report_error
+from weblate.utils.regex import compile_regex, regex_match
 from weblate.utils.render import render_template
 
 if TYPE_CHECKING:
@@ -58,6 +59,14 @@ COPY_ATTRIBUTES = (
 )
 
 
+class DiscoveryErrorMatch(TypedDict):
+    name: str
+    slug: str
+    base_file: str
+    mask: str
+    files_langs: set[tuple[str, str]]
+
+
 class ComponentDiscovery:
     def __init__(
         self,
@@ -74,6 +83,8 @@ class ComponentDiscovery:
         copy_addons=True,
     ) -> None:
         self.component = component
+        self.match = match
+        self.errors: list[tuple[DiscoveryErrorMatch, str]] = []
         if path is None:
             self.path = self.component.full_path
         else:
@@ -84,9 +95,21 @@ class ComponentDiscovery:
         self.new_base_template = new_base_template
         self.intermediate_template = intermediate_template
         self.language_re = language_regex
-        self.language_match = re.compile(language_regex)
+        self.language_match = compile_regex(language_regex)
         self.file_format = file_format
         self.copy_addons = copy_addons
+
+    def add_error(self, reason: str, *, mask: str = "") -> None:
+        match: DiscoveryErrorMatch = {
+            "name": gettext("Discovery configuration"),
+            "slug": "",
+            "base_file": "",
+            "mask": mask,
+            "files_langs": set(),
+        }
+        error = (match, reason)
+        if error not in self.errors:
+            self.errors.append(error)
 
     @cached_property
     def file_format_cls(self) -> type[TranslationFormat]:
@@ -113,13 +136,14 @@ class ComponentDiscovery:
         while len(parts) > 1:
             parts[0:2] = [f"{parts[0]}(?P<_language_{offset}>(?P=language)){parts[1]}"]
             offset += 1
-        return re.compile(f"^{parts[0]}$")
+        return compile_regex(f"^{parts[0]}$")
 
     @cached_property
     def matches(self):
         """Return matched files together with match groups and mask."""
         result = []
         base = os.path.realpath(self.path)
+        timeout_detected = False
         for root, dirnames, filenames in os.walk(self.path, followlinks=True):
             for filename in chain(filenames, dirnames):
                 fullname = os.path.join(root, filename)
@@ -132,15 +156,51 @@ class ComponentDiscovery:
                 path = path_separator(os.path.relpath(fullname, self.path))
 
                 # Check match against our regexp
-                matches = self.path_match.match(path)
+                try:
+                    matches = regex_match(self.path_match, path)
+                except TimeoutError:
+                    report_error(
+                        "Component discovery path regex timed out",
+                        project=self.component.project if self.component else None,
+                    )
+                    self.add_error(
+                        gettext(
+                            "The regular expression used to match discovered files is too complex and took too long to evaluate."
+                        ),
+                        mask=self.match,
+                    )
+                    LOGGER.warning(
+                        "Regex matching timed out for discovery path: %s", path
+                    )
+                    timeout_detected = True
+                    break
                 if not matches:
                     continue
 
                 # Check language regexp
                 language_part = matches.group("language")
-                if language_part is None or not self.language_match.match(
-                    language_part
-                ):
+                try:
+                    language_matches = language_part is not None and regex_match(
+                        self.language_match, language_part
+                    )
+                except TimeoutError:
+                    report_error(
+                        "Component discovery language regex timed out",
+                        project=self.component.project if self.component else None,
+                    )
+                    self.add_error(
+                        gettext(
+                            "The language filter regular expression is too complex and took too long to evaluate."
+                        ),
+                        mask=self.language_re,
+                    )
+                    LOGGER.warning(
+                        "Regex matching timed out for discovery language: %s",
+                        language_part,
+                    )
+                    timeout_detected = True
+                    break
+                if not language_matches:
                     continue
 
                 # Calculate file mask for match
@@ -160,6 +220,8 @@ class ComponentDiscovery:
                 mask = "*".join(reversed(maskparts))
 
                 result.append((path, matches.groupdict(), mask))
+            if timeout_detected:
+                break
 
         return result
 

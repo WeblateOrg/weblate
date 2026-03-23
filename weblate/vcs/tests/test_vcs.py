@@ -2372,13 +2372,16 @@ class VCSBitbucketCloudTest(VCSGitUpstreamTest):
 
         responses.add(
             responses.GET,
-            "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/default-reviewers",
+            "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/effective-default-reviewers",
             json={
                 "values": [
                     {
                         "type": "default_reviewer",
-                        "display_name": "reviewer_1",
-                        "uuid": "reviewer-uuid",
+                        "reviewer_type": "project",
+                        "user": {
+                            "display_name": "reviewer_1",
+                            "uuid": "reviewer-uuid",
+                        },
                     }
                 ],
                 "pagelen": 10,
@@ -2447,7 +2450,7 @@ class VCSBitbucketCloudTest(VCSGitUpstreamTest):
 
         responses.replace(
             responses.GET,
-            "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/default-reviewers",
+            "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/effective-default-reviewers",
             json={
                 "type": "error",
                 "error": {
@@ -2470,31 +2473,37 @@ class VCSBitbucketCloudTest(VCSGitUpstreamTest):
 
         responses.replace(
             responses.GET,
-            "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/default-reviewers",
+            "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/effective-default-reviewers",
             json={
                 "values": [
                     {
                         "type": "default_reviewer",
-                        "display_name": "reviewer_1",
-                        "uuid": "reviewer-uuid-1",
+                        "reviewer_type": "project",
+                        "user": {
+                            "display_name": "reviewer_1",
+                            "uuid": "reviewer-uuid-1",
+                        },
                     }
                 ],
                 "pagelen": 1,
                 "page": 1,
-                "next": "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/default-reviewers?page=2",
+                "next": "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/effective-default-reviewers?page=2",
             },
             status=200,
         )
 
         responses.add(
             responses.GET,
-            "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/default-reviewers?page=2",
+            "https://api.bitbucket.org/2.0/repositories/WeblateOrg/test/effective-default-reviewers?page=2",
             json={
                 "values": [
                     {
                         "type": "default_reviewer",
-                        "display_name": "reviewer_2",
-                        "uuid": "reviewer-uuid-2",
+                        "reviewer_type": "repository",
+                        "user": {
+                            "display_name": "reviewer_2",
+                            "uuid": "reviewer-uuid-2",
+                        },
                     }
                 ],
                 "pagelen": 1,

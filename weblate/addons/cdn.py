@@ -147,7 +147,11 @@ class CDNJSAddon(BaseAddon):
                     handle,
                 )
 
-    def daily(self, component: Component, activity_log_id: int | None = None) -> None:
+    def daily_component(
+        self,
+        component: Component,
+        activity_log_id: int | None = None,
+    ) -> None:
         if not self.instance.configuration["files"].strip():
             return
         # Trigger parsing files
@@ -160,4 +164,4 @@ class CDNJSAddon(BaseAddon):
         skip_push: bool,
         activity_log_id: int | None = None,
     ) -> None:
-        self.daily(component)
+        self.daily_component(component)

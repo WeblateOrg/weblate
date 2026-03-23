@@ -50,6 +50,7 @@ from weblate.utils import messages
 from weblate.utils.db import verify_in_transaction
 from weblate.utils.errors import report_error
 from weblate.utils.hash import calculate_hash, hash_to_checksum
+from weblate.utils.regex import regex_findall
 from weblate.utils.state import (
     FUZZY_STATES,
     STATE_APPROVED,
@@ -814,14 +815,19 @@ class Unit(models.Model, LoggerMixin):
             variant.defining_units.add(self)
 
         # Update variant links
-        if (
-            remove
-            or new_variant
-            or (
-                component.variant_regex
-                and re.findall(component.variant_regex, self.context)
-            )
-        ):
+        has_variant_match = False
+        if component.variant_regex:
+            try:
+                has_variant_match = bool(
+                    regex_findall(component.variant_regex, self.context)
+                )
+            except TimeoutError:
+                report_error(
+                    "Component variant regex timed out", project=component.project
+                )
+                component.log_warning("variant regex timed out for %s", self.context)
+
+        if remove or new_variant or has_variant_match:
             if self.trigger_update_variants:
                 component.update_variants()
             else:

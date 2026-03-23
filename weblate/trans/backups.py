@@ -96,12 +96,20 @@ class ProjectBackup:
     COMPONENTS_PREFIX = "components/"
     VCS_PREFIX = "vcs/"
     VCS_PREFIX_LEN = len(VCS_PREFIX)
+    MAX_ARCHIVE_MEMBERS = 100_000
+    # Large low-compression files are intentionally allowed here and are expected
+    # to be constrained by the HTTP upload limit. This validation only rejects
+    # oversized entries when ZIP compression meaningfully amplifies them.
+    MAX_COMPRESSED_ENTRY_SIZE = 250 * 1024 * 1024
+    MIN_COMPRESSED_RATIO_SIZE = 1 * 1024 * 1024
+    MAX_COMPRESSED_ENTRY_RATIO = 250
 
     def __init__(self, filename: str = "", *, fileio: BinaryIO | None = None) -> None:
         self.data: dict[str, Any] = {}
         self.filename = filename
         self.fileio = fileio
         self.timestamp = timezone.now()
+        self.validated = False
         self.project: Project | None = None
         self.project_schema = load_schema("weblate-backup.schema.json")
         self.component_schema = load_schema("weblate-component.schema.json")
@@ -473,6 +481,69 @@ class ProjectBackup:
             if name.startswith(self.COMPONENTS_PREFIX)
         ]
 
+    @staticmethod
+    def is_unsafe_vcs_path(path: str) -> bool:
+        normalized = path.replace("\\", "/")
+        return (
+            normalized.endswith(
+                (
+                    "/.git",
+                    "/.git/config",
+                    "/.git/config.worktree",
+                    "/.git/hooks",
+                    "/.git/modules",
+                    "/.hg/hgrc",
+                )
+            )
+            # Hooks are executable content; Gerrit's commit-msg hook is recreated
+            # by git-review when needed.
+            or "/.git/hooks/" in normalized
+            or "/.git/modules/" in normalized
+        )
+
+    @classmethod
+    def get_limit(cls, setting_name: str, default: int) -> int:
+        return int(getattr(settings, setting_name, default))
+
+    def validate_zip_members(self, zipfile: ZipFile) -> None:
+        infos = zipfile.infolist()
+        max_members = self.get_limit(
+            "PROJECT_BACKUP_IMPORT_MAX_MEMBERS", self.MAX_ARCHIVE_MEMBERS
+        )
+        if len(infos) > max_members:
+            msg = "The ZIP file contains too many entries."
+            raise ValueError(msg)
+
+        max_entry_size = self.get_limit(
+            "PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE",
+            self.MAX_COMPRESSED_ENTRY_SIZE,
+        )
+        min_ratio_size = self.get_limit(
+            "PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE", self.MIN_COMPRESSED_RATIO_SIZE
+        )
+        max_compression_ratio = self.get_limit(
+            "PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO",
+            self.MAX_COMPRESSED_ENTRY_RATIO,
+        )
+
+        seen_names: set[str] = set()
+        for info in infos:
+            if info.filename in seen_names:
+                msg = "The zip file contains duplicate files. Please generate a new backup with a newer version of Weblate."
+                raise ValueError(msg)
+            seen_names.add(info.filename)
+            validate_filename(info.filename, check_prohibited=False)
+            if info.is_dir():
+                continue
+
+            if info.file_size > max_entry_size:
+                if info.file_size < min_ratio_size:
+                    continue
+                compressed_size = max(info.compress_size, 1)
+                if info.file_size / compressed_size > max_compression_ratio:
+                    msg = "The ZIP file contains a compressed entry that is too large."
+                    raise ValueError(msg)
+
     def load_data(self, zipfile: ZipFile) -> None:
         with zipfile.open("weblate-backup.json") as handle:
             self.data = json.load(handle)
@@ -534,16 +605,13 @@ class ProjectBackup:
         if input_file is None:
             msg = "Can not validate None file."
             raise TypeError(msg)
+        self.validated = False
         with ZipFile(input_file, "r") as zipfile:
-            names = zipfile.namelist()
-            if len(names) != len(set(names)):
-                msg = "The zip file contains duplicate files. Please generate a new backup with a newer version of Weblate."
-                raise ValueError(msg)
+            self.validate_zip_members(zipfile)
             self.load_data(zipfile)
             self.load_memory(zipfile)
             self.load_components(zipfile)
-            for name in zipfile.namelist():
-                validate_filename(name, check_prohibited=False)
+        self.validated = True
 
     def restore_unit(
         self,
@@ -825,16 +893,17 @@ class ProjectBackup:
         # Create screenshots
         screenshots = []
         for item in data["screenshots"]:
-            handle = zipfile.open(os.path.join("screenshots", item["image"]))
             screenshot = Screenshot(
                 name=item["name"],
-                image=File(handle),
                 translation=translation_lookup[item["translation_id"]],
                 user=self.restore_user(item["user"]),
                 timestamp=item["timestamp"],
             )
+            with zipfile.open(os.path.join("screenshots", item["image"])) as handle:
+                screenshot.image.save(
+                    os.path.basename(item["image"]), File(handle), save=False
+                )
             screenshot.import_data = item
-            screenshot.import_handle = handle
             screenshots.append(screenshot)
 
         screenshots = Screenshot.objects.bulk_create(screenshots)
@@ -848,10 +917,12 @@ class ProjectBackup:
                         ]
                     )
                 )
-            screenshot.import_handle.close()  # type: ignore[union-attr]
 
         # Trigger checks update, the implementation might have changed
         component.schedule_update_checks()
+
+        if not component.is_repo_link:
+            component.configure_repo(pull=False)
 
         # Update cache
         self.components_cache[self.full_slug_without_project(component)] = component
@@ -898,6 +969,9 @@ class ProjectBackup:
         if not self.filename:
             msg = "Need a filename string."
             raise ValueError(msg)
+        if not self.validated:
+            msg = "Project backup has to be validated before restore."
+            raise ValueError(msg)
         with ZipFile(self.filename, "r") as zipfile:
             self.load_data(zipfile)
 
@@ -938,22 +1012,25 @@ class ProjectBackup:
 
             # Extract VCS
             project_path = Path(project.full_path)
-            for name in zipfile.namelist():
-                if name.startswith(self.VCS_PREFIX):
-                    path = name[self.VCS_PREFIX_LEN :]
-                    # Skip potentially dangerous paths
-                    if path != os.path.normpath(path):
-                        continue
-                    targetpath = project_path / path
-                    # Make sure the directory exists
-                    targetpath.parent.mkdir(parents=True, exist_ok=True)
-                    with zipfile.open(name) as source, targetpath.open("wb") as target:
-                        copyfileobj(source, target)
-                    # Create possibly missing refs directory in .git, this is not restored as
-                    # all references are in packed_refs after `git gc`.
-                    if path.endswith(".git/packed-refs"):
-                        git_refs_dir = targetpath.parent / "refs"
-                        git_refs_dir.mkdir(parents=True, exist_ok=True)
+            for info in zipfile.infolist():
+                if info.is_dir() or not info.filename.startswith(self.VCS_PREFIX):
+                    continue
+                path = info.filename[self.VCS_PREFIX_LEN :]
+                # Skip potentially dangerous paths
+                if path != os.path.normpath(path):
+                    continue
+                if self.is_unsafe_vcs_path(path):
+                    continue
+                targetpath = project_path / path
+                # Make sure the directory exists
+                targetpath.parent.mkdir(parents=True, exist_ok=True)
+                with zipfile.open(info) as source, targetpath.open("wb") as target:
+                    copyfileobj(source, target)
+                # Create possibly missing refs directory in .git, this is not restored as
+                # all references are in packed_refs after `git gc`.
+                if path.endswith(".git/packed-refs"):
+                    git_refs_dir = targetpath.parent / "refs"
+                    git_refs_dir.mkdir(parents=True, exist_ok=True)
 
             # Create components
             self.load_components(zipfile, do_restore=True)

@@ -877,6 +877,19 @@ class ComponentValidationTest(RepoTestCase):
         with self.assertRaises(ValidationError):
             self.component.full_clean()
 
+    def test_validation_language_re_timeout(self) -> None:
+        with (
+            patch(
+                "weblate.trans.models.component.regex_match",
+                side_effect=TimeoutError,
+            ),
+            self.assertRaisesMessage(
+                ValidationError,
+                "The regular expression is too complex and took too long to evaluate.",
+            ),
+        ):
+            self.component.full_clean()
+
     def test_validation_newlang(self) -> None:
         self.component.new_base = "po/project.pot"
         self.component.save()

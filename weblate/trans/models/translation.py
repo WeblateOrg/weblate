@@ -48,6 +48,7 @@ from weblate.trans.validators import validate_check_flags
 from weblate.utils import messages
 from weblate.utils.errors import report_error
 from weblate.utils.html import format_html_join_comma
+from weblate.utils.regex import regex_match
 from weblate.utils.render import render_template
 from weblate.utils.site import get_site_url
 from weblate.utils.state import (
@@ -519,15 +520,30 @@ class Translation(
                     if (
                         self.component.file_format_cls.monolingual
                         and self.component.key_filter_re
-                        and self.component.key_filter_re.match(unit.context) is None
                     ):
-                        # This is where the key filtering take place
-                        self.log_info(
-                            "Doesn't match with key_filter, skipping: %s (%s)",
-                            unit.context,
-                            repr(unit.source),
-                        )
-                        continue
+                        try:
+                            key_filter_match = regex_match(
+                                self.component.key_filter_re, unit.context
+                            )
+                        except TimeoutError:
+                            report_error(
+                                "Component key filter regex timed out",
+                                project=self.component.project,
+                            )
+                            self.component.log_warning(
+                                "key filter regex timed out, skipping: %s (%s)",
+                                unit.context,
+                                repr(unit.source),
+                            )
+                            continue
+                        if key_filter_match is None:
+                            # This is where the key filtering take place
+                            self.log_info(
+                                "Doesn't match with key_filter, skipping: %s (%s)",
+                                unit.context,
+                                repr(unit.source),
+                            )
+                            continue
 
                     try:
                         id_hash = unit.id_hash

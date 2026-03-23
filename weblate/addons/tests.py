@@ -55,6 +55,7 @@ from .cdn import CDNJSAddon
 from .cleanup import CleanupAddon, RemoveBlankAddon
 from .consistency import LanguageConsistencyAddon
 from .discovery import DiscoveryAddon
+from .events import AddonEvent
 from .example import ExampleAddon
 from .example_pre import ExamplePreAddon
 from .fedora_messaging import FedoraMessagingAddon
@@ -80,7 +81,7 @@ from .gettext import (
     UpdateLinguasAddon,
 )
 from .git import GitSquashAddon
-from .models import ADDONS, Addon, AddonActivityLog
+from .models import ADDONS, Addon, AddonActivityLog, handle_addon_event
 from .properties import PropertiesSortAddon
 from .removal import RemoveComments, RemoveSuggestions
 from .resx import ResxUpdateAddon
@@ -1119,6 +1120,29 @@ class DiscoveryTest(ViewTestCase):
             follow=True,
         )
         self.assertContains(response, "Please review and confirm")
+        # Discovery preview error
+        with patch(
+            "weblate.trans.discovery.regex_match",
+            side_effect=TimeoutError,
+        ):
+            response = self.client.post(
+                reverse("addons", kwargs=self.kw_component),
+                {
+                    "name": "weblate.discovery.discovery",
+                    "form": "1",
+                    "file_format": "po",
+                    "match": r"(?P<component>[^/]*)/(?P<language>[^/]*)\.po",
+                    "name_template": "{{ component|title }}",
+                    "language_regex": "^(?!xx).+$",
+                    "base_file_template": "",
+                    "remove": True,
+                },
+                follow=True,
+            )
+        self.assertContains(
+            response,
+            "The regular expression used to match discovered files is too complex and took too long to evaluate.",
+        )
         # Confirmation
         with override_settings(CREATE_GLOSSARIES=self.CREATE_GLOSSARIES):
             response = self.client.post(
@@ -1155,6 +1179,59 @@ class ScriptsTest(TestAddonMixin, ViewTestCase):
 
 class LanguageConsistencyTest(ViewTestCase):
     CREATE_GLOSSARIES: bool = True
+
+    def test_consistency_cannot_install_on_component(self) -> None:
+        self.assertFalse(LanguageConsistencyAddon.can_install(component=self.component))
+
+    def test_consistency_can_install_on_project(self) -> None:
+        self.assertTrue(LanguageConsistencyAddon.can_install(project=self.project))
+
+    def test_consistency_can_install_sitewide(self) -> None:
+        self.assertTrue(LanguageConsistencyAddon.can_install())
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=True)
+    def test_consistency_post_add_not_skipped(self) -> None:
+        """Project-level consistency addon must not be skipped on post_add."""
+        LanguageConsistencyAddon.create(project=self.project)
+        translation = self.component.translation_set.get(language__code="cs")
+
+        self.component.drop_addons_cache()
+
+        before = AddonActivityLog.objects.count()
+        handle_addon_event(
+            AddonEvent.EVENT_POST_ADD,
+            "post_add",
+            (translation,),
+            translation=translation,
+        )
+        after = AddonActivityLog.objects.count()
+
+        self.assertEqual(after - before, 1)
+
+    def test_consistency_daily_project_level(self) -> None:
+        """Test consistency addon at project level runs once via daily_addons."""
+        self.create_po(new_base="po/project.pot", project=self.project, name="Second")
+        LanguageConsistencyAddon.create(project=self.project)
+
+        before = AddonActivityLog.objects.count()
+        daily_addons(modulo=False)
+        after = AddonActivityLog.objects.count()
+
+        # Project-scope addon should produce exactly one activity log entry,
+        # not one per component
+        self.assertEqual(after - before, 1)
+
+    def test_consistency_daily_sitewide(self) -> None:
+        """Test sitewide consistency addon runs once per project."""
+        project_b = self.create_project(name="Project B", slug="project-b")
+        self.create_po(new_base="po/project.pot", project=project_b, name="Comp B")
+        LanguageConsistencyAddon.create()
+
+        before = AddonActivityLog.objects.count()
+        daily_addons(modulo=False)
+        after = AddonActivityLog.objects.count()
+
+        self.assertEqual(after - before, 2)
 
     def test_language_consistency(self) -> None:
         self.component.new_lang = "add"
@@ -1308,18 +1385,18 @@ class GitSquashAddonTest(ViewTestCase):
 
 
 class TestRemoval(ViewTestCase):
-    def install(self, sitewide: bool = False):
+    def install(self, sitewide: bool = False, project: bool = False):
         self.assertTrue(RemoveComments.can_install(component=self.component))
         self.assertTrue(RemoveSuggestions.can_install(component=self.component))
+        if sitewide:
+            kwargs = {"component": None, "project": None}
+        elif project:
+            kwargs = {"component": None, "project": self.project}
+        else:
+            kwargs = {"component": self.component}
         return (
-            RemoveSuggestions.create(
-                component=None if sitewide else self.component,
-                configuration={"age": 7},
-            ),
-            RemoveComments.create(
-                component=None if sitewide else self.component,
-                configuration={"age": 7},
-            ),
+            RemoveSuggestions.create(configuration={"age": 7}, **kwargs),
+            RemoveComments.create(configuration={"age": 7}, **kwargs),
         )
 
     def assert_count(self, comments=0, suggestions=0) -> None:
@@ -1375,6 +1452,14 @@ class TestRemoval(ViewTestCase):
         self.age_content()
         daily_addons()
         # Ensure the add-on is executed
+        daily_addons(modulo=False)
+        self.assert_count()
+
+    def test_daily_project(self) -> None:
+        self.install(project=True)
+        self.add_content()
+        self.age_content()
+        daily_addons()
         daily_addons(modulo=False)
         self.assert_count()
 
@@ -1635,6 +1720,51 @@ class CDNJSAddonTest(ViewTestCase):
         )
         alert = self.component.alert_set.get(name="CDNAddonError")
         self.assertIn("domain is not allowed", alert.details["occurrences"][0]["error"])
+
+    @responses.activate
+    @tempdir_setting("LOCALIZE_CDN_PATH")
+    @override_settings(
+        LOCALIZE_CDN_URL="http://localhost/", ALLOWED_ASSET_DOMAINS=[".allowed.com"]
+    )
+    def test_extract_refuses_disallowed_remote_redirect_domain(self) -> None:
+        self.make_manager()
+        self.assertTrue(CDNJSAddon.can_install(component=self.component))
+        self.assertEqual(
+            Unit.objects.filter(translation__component=self.component).count(), 8
+        )
+
+        responses.add(
+            responses.GET,
+            "https://cdn.allowed.com/messages.html",
+            status=302,
+            headers={"Location": "https://blocked.example.com/messages.html"},
+        )
+        responses.add(
+            responses.GET,
+            "https://blocked.example.com/messages.html",
+            status=200,
+            body="<html><body><div class='l10n'>Blocked</div></body></html>",
+        )
+
+        CDNJSAddon.create(
+            component=self.component,
+            configuration={
+                "threshold": 0,
+                "files": "https://cdn.allowed.com/messages.html",
+                "cookie_name": "django_languages",
+                "css_selector": "*",
+            },
+        )
+
+        self.assertEqual(
+            Unit.objects.filter(translation__component=self.component).count(), 8
+        )
+        alert = self.component.alert_set.get(name="CDNAddonError")
+        self.assertIn("domain is not allowed", alert.details["occurrences"][0]["error"])
+        self.assertNotIn(
+            "https://blocked.example.com/messages.html",
+            [call.request.url for call in responses.calls],
+        )
 
 
 class SiteWideAddonsTest(ViewTestCase):

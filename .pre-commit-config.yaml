@@ -31,7 +31,7 @@ repos:
   hooks:
   - id: yamllint
 - repo: https://github.com/astral-sh/ruff-pre-commit
-  rev: v0.15.6
+  rev: v0.15.7
   hooks:
   - id: ruff-check
     args:
@@ -44,7 +44,7 @@ repos:
   - id: doccmd
     args: [--language, python, --no-pad-file, --command, ruff format]
     additional_dependencies:
-    - ruff==0.15.6
+    - ruff==0.15.7
 - repo: meta
   hooks:
   - id: check-hooks-apply
@@ -84,7 +84,7 @@ repos:
   - id: biome-check
     args: [--error-on-warnings]
     additional_dependencies:
-    - '@biomejs/biome@2.4.7'
+    - '@biomejs/biome@2.4.8'
 - repo: https://github.com/abravalheri/validate-pyproject
   rev: v0.25
   hooks:

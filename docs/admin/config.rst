@@ -51,11 +51,15 @@ This enhances security by preventing loading assets from untrusted sources.
 Assets are downloaded once by the Weblate server and stored locally, rather than
 being served directly from external domains to users.
 
+The allowlist is applied to the initial URL and to every HTTP redirect target
+before Weblate follows it. Redirects to hosts outside of this allowlist are
+rejected.
+
 It expects a list of host/domain names. You can use fully qualified names
 (e.g ``www.example.com``) or prepend with a period as a wildcard to match
 all subdomains (e.g ``.example.com`` will match ``cdn.example.com`` or ``static.example.com``).
 
-Defaults to `[*]` which will allow all domains.
+Defaults to ``["*"]``, which allows all domains.
 
 **Example**
 
@@ -1539,6 +1543,80 @@ PROJECT_BACKUP_KEEP_DAYS
 .. versionadded:: 4.14
 
 Defines how long the project backups will be kept on the server. Defaults to 30 days.
+
+.. seealso::
+
+   :ref:`projectbackup`
+
+.. setting:: PROJECT_BACKUP_IMPORT_MAX_MEMBERS
+
+PROJECT_BACKUP_IMPORT_MAX_MEMBERS
+---------------------------------
+
+.. versionadded:: 5.17
+
+Defines the maximum number of ZIP entries allowed when importing a project
+backup.
+
+This is a safeguard against malformed or intentionally fragmented archives.
+Defaults to 100000 entries.
+
+.. seealso::
+
+   :ref:`projectbackup`
+
+.. setting:: PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE
+
+PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE
+-----------------------------------------------
+
+.. versionadded:: 5.17
+
+Defines the maximum uncompressed size, in bytes, for a single highly
+compressed ZIP entry in an imported project backup.
+
+This limit is only applied to entries that are large enough and compress
+enough to look suspicious. Large low-compression files are intentionally
+allowed here and are expected to be constrained by the HTTP upload limit.
+Defaults to 262144000 bytes (250 MiB).
+
+.. seealso::
+
+   :ref:`projectbackup`
+
+.. setting:: PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE
+
+PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE
+------------------------------------
+
+.. versionadded:: 5.17
+
+Defines the minimum uncompressed size, in bytes, at which Weblate starts
+considering the ZIP compression ratio during project backup import.
+
+Smaller files are ignored for the compression-ratio-based validation to avoid
+rejecting reasonably sized files that compress well. Defaults to 1048576 bytes
+(1 MiB).
+
+.. seealso::
+
+   :ref:`projectbackup`
+
+.. setting:: PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO
+
+PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO
+------------------------------------------------
+
+.. versionadded:: 5.17
+
+Defines the maximum allowed ratio between the uncompressed and compressed size
+for a large ZIP entry during project backup import.
+
+This is used together with
+:setting:`PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE` and
+:setting:`PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE` to detect suspiciously
+compressed entries while still allowing large repository pack files and other
+low-compression content. Defaults to 250.
 
 .. seealso::
 

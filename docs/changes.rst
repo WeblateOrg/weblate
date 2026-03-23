@@ -16,21 +16,26 @@ Weblate 5.17
 
 * :ref:`addon-weblate.git.squash` better handle commits applied upstream.
 * :ref:`addon-weblate.cdn.cdnjs` validates parsed locations.
+* Asset downloads now enforce :setting:`ALLOWED_ASSET_DOMAINS` across HTTP redirects for screenshot URL uploads and remote HTML fetching in :ref:`addon-weblate.cdn.cdnjs`.
 * Removed unintended API endpoints for translation memory.
 * Improved API access control for pending tasks.
 * Faster category and project removals.
+* Project backup restore no longer trusts repository-local VCS configuration and hooks from the uploaded archive.
 
 .. rubric:: Compatibility
 
+* The ``project_scope`` class attribute on add-ons has been removed. Third-party add-ons that used ``project_scope = True`` should override ``can_install()`` to return ``False`` when ``component`` is not ``None``.
+* The ``daily()`` method signature on add-ons has changed. Add-ons that previously overrode ``daily(component)`` to perform per-component work should now override ``daily_component(component)`` instead. The base ``daily()`` method automatically iterates components and calls ``daily_component()`` for each. Add-ons that can be optimized to operate at project scope should override ``daily(component, project)`` directly to implement project-level logic.
 * Dropped support for MySQL and MariaDB as the database engine.
 * Weblate now requires Django 6.0.
 * Weblate now requires Git 2.46 or newer.
+* Uploaded project backups are now validated more strictly during import and suspicious ZIP archives can be rejected; see :ref:`projectbackup`.
 
 .. rubric:: Upgrading
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
-* There are several changes in :file:`settings_example.py`, most notably :setting:`ADMINS` syntax has changed in Django.
+* There are several changes in :file:`settings_example.py`, most notably :setting:`ADMINS` syntax has changed in Django and ``SOCIAL_AUTH_PIPELINE``; please adjust your settings accordingly.
 
 .. rubric:: Contributors
 
