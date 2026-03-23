@@ -376,7 +376,14 @@ def performance(request: AuthenticatedHttpRequest) -> HttpResponse:
     """Show performance tuning tips."""
     if request.method == "POST":
         return handle_dismiss(request)
-    checks = run_checks(include_deployment_checks=True)
+    checks = sorted(
+        (
+            check
+            for check in run_checks(include_deployment_checks=True)
+            if not check.is_silenced()
+        ),
+        key=lambda check: (check.id, check.msg),
+    )
 
     try:
         disk_usage_bytes = disk_usage(settings.DATA_DIR)
@@ -389,9 +396,9 @@ def performance(request: AuthenticatedHttpRequest) -> HttpResponse:
         disk_usage_percent = round(disk_usage_bytes.used * 100 / disk_usage_bytes.total)
 
     context = {
-        "checks": [check for check in checks if not check.is_silenced()],
+        "checks": checks,
         "errors": ConfigurationError.objects.filter(ignored=False),
-        "queues": get_queue_stats().items(),
+        "queues": sorted(get_queue_stats().items()),
         "menu_items": MENU,
         "menu_page": "performance",
         "web_encoding": get_encoding_list(),
@@ -442,7 +449,12 @@ def ssh(request: AuthenticatedHttpRequest) -> HttpResponse:
     if action == "add-host":
         form = SSHAddForm(request.POST)
         if form.is_valid():
-            add_host_key(request, form.cleaned_data["host"], form.cleaned_data["port"])
+            add_host_key(
+                request,
+                form.cleaned_data["host"],
+                form.cleaned_data["port"],
+                accept_fingerprint=form.cleaned_data["fingerprint"],
+            )
 
     context = {
         "public_ssh_keys": keys,

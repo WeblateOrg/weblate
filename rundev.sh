@@ -50,7 +50,6 @@ test)
     shift
     docker compose exec -T \
         --env CI_BASE_DIR=/tmp \
-        --env CI_DATABASE=postgresql \
         --env CI_DB_HOST=database \
         --env CI_DB_NAME=weblate \
         --env CI_DB_USER=weblate \

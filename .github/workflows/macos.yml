@@ -9,6 +9,7 @@ on:
     branches-ignore:
     - renovate/**
     - weblate
+    - dependabot/**
   pull_request:
 
 concurrency:
@@ -26,7 +27,6 @@ jobs:
     env:
       PYTHONUNBUFFERED: 1
       PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
-      CI_DATABASE: postgresql
       CI_REDIS_HOST: localhost
       CI_DB_HOST: localhost
       DJANGO_SETTINGS_MODULE: weblate.settings_test
@@ -47,7 +47,7 @@ jobs:
         brew install python pango cairo gobject-introspection glib libyaml pkgconf zstd lz4 xxhash libxmlsec1 librsvg uv
     - name: Install test dependencies
       run: |
-        brew install mysql icu4c valkey postgresql
+        brew install icu4c valkey postgresql
         brew link --force icu4c
     - name: Start services
       run: |
@@ -64,14 +64,14 @@ jobs:
         export CI_DB_USER="$(id -nu)"
         source .venv/bin/activate
         pytest --junitxml=junit.xml --cov=weblate --cov-report=xml --numprocesses=auto weblate
-    - uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
+    - uses: codecov/codecov-action@1af58845a975a7985b0beb0cbe6fbbb71a41dbad # v5.5.3
       with:
-        token: ${{secrets.CODECOV_TOKEN}}
+        token: ${{secrets.CODECOV_TOKEN}} # zizmor: ignore[secrets-outside-env]
         flags: unittests
         name: Tests macos
     - name: Upload test results to Codecov
       if: ${{ !cancelled() }}
-      uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
+      uses: codecov/codecov-action@1af58845a975a7985b0beb0cbe6fbbb71a41dbad # v5.5.3
       with:
-        token: ${{ secrets.CODECOV_TOKEN }}
+        token: ${{ secrets.CODECOV_TOKEN }} # zizmor: ignore[secrets-outside-env]
         report_type: test_results

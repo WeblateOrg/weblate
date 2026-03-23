@@ -4,7 +4,6 @@
 from __future__ import annotations
 
 import re
-import threading
 from functools import reduce
 
 import mistletoe
@@ -14,8 +13,9 @@ from mistletoe import span_token
 
 from weblate.auth.models import User
 
+from .concurrency import MARKDOWN_LOCK
+
 MENTION_RE = re.compile(r"(?<!\w)(@[\w.@+-]+)\b")
-MARKDOWN_LOCK = threading.Lock()
 
 
 def get_mention_users(text):
@@ -42,7 +42,7 @@ class SkipHtmlSpan(span_token.HtmlSpan):
 
 class PlainAutoLink(span_token.AutoLink):
     pattern = re.compile(
-        r"\b(https?://[A-Za-z0-9.!#$%&'*+/=?^_`{|})(~-]+[A-Za-z0-9})])(?=\W|$)"
+        r"\b(https?://[A-Za-z0-9.!#$%&'*+/=?^_`{|})(~:-]+[A-Za-z0-9})])(?=\W|$)"
     )
 
 

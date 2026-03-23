@@ -26,6 +26,7 @@ from requests.exceptions import HTTPError, JSONDecodeError, RequestException
 from weblate.checks.utils import highlight_string
 from weblate.lang.models import Language, PluralMapper
 from weblate.machinery.forms import BaseMachineryForm
+from weblate.utils.docs import DocVersionsMixin
 from weblate.utils.errors import report_error
 from weblate.utils.hash import calculate_dict_hash, calculate_hash, hash_to_checksum
 from weblate.utils.requests import http_request
@@ -81,7 +82,7 @@ class GlossaryDoesNotExistError(MachineTranslationError):
     """Raised when glossary deletion fails because it does not exist."""
 
 
-class BatchMachineTranslation:
+class BatchMachineTranslation(DocVersionsMixin):
     """Generic object for machine translation services."""
 
     name = "MT"

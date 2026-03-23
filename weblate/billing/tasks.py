@@ -43,7 +43,7 @@ def billing_notify() -> None:
     if limit or due or toremove or trial:
         send_notification_email(
             "en",
-            [a[1] for a in settings.ADMINS] + settings.ADMINS_BILLING,
+            [*settings.ADMINS, *settings.ADMINS_BILLING],
             "billing_check",
             context={
                 "limit": limit,

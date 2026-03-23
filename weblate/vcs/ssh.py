@@ -248,7 +248,11 @@ def add_host_key_error(
 
 
 def add_host_key(
-    request: AuthenticatedHttpRequest | None, host: str, port: int | None = None
+    request: AuthenticatedHttpRequest | None,
+    host: str,
+    port: int | None = None,
+    *,
+    accept_fingerprint: str | None = None,
 ) -> None:
     """Add host key for a host."""
     if not host:
@@ -267,21 +271,52 @@ def add_host_key(
                 capture_output=True,
             )
             keys = set()
+            was_key = False
             for key in result.stdout.splitlines():
                 key = key.strip()
                 if not is_key_line(key):
                     continue
-                keys.add(key)
+                was_key = True
                 host, keytype, fingerprint = parse_hosts_line(key)
-                messages.warning(
-                    request,
-                    gettext(
-                        "Added host key for %(host)s with fingerprint "
-                        "%(fingerprint)s (%(keytype)s), "
-                        "please verify that it is correct."
+                if accept_fingerprint:
+                    if fingerprint == accept_fingerprint:
+                        messages.success(
+                            request,
+                            gettext(
+                                "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s)."
+                            )
+                            % {
+                                "host": host,
+                                "fingerprint": fingerprint,
+                                "keytype": keytype,
+                            },
+                        )
+                        keys.add(key)
+                    else:
+                        messages.warning(
+                            request,
+                            gettext(
+                                "Skipped host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s)."
+                            )
+                            % {
+                                "host": host,
+                                "fingerprint": fingerprint,
+                                "keytype": keytype,
+                            },
+                        )
+                else:
+                    messages.warning(
+                        request,
+                        gettext(
+                            "Added host key for %(host)s with fingerprint %(fingerprint)s (%(keytype)s), please verify that it is correct."
+                        )
+                        % {
+                            "host": host,
+                            "fingerprint": fingerprint,
+                            "keytype": keytype,
+                        },
                     )
-                    % {"host": host, "fingerprint": fingerprint, "keytype": keytype},
-                )
+                    keys.add(key)
             if keys:
                 known_hosts_file = ssh_file(KNOWN_HOSTS)
                 # Remove existing key entries
@@ -294,7 +329,7 @@ def add_host_key(
                         for key in keys:
                             handle.write(key)
                             handle.write("\n")
-            else:
+            elif not was_key:
                 add_host_key_error(request, result.stderr or result.stdout)
         except subprocess.CalledProcessError as exc:
             add_host_key_error(request, exc.stderr or exc.stdout)

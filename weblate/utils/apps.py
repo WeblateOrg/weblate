@@ -23,7 +23,6 @@ from django.core.mail import get_connection
 from django.db import DatabaseError
 from django.db.models import CharField, TextField
 from django.db.models.functions import MD5, Lower
-from django.db.models.lookups import Regex
 from django.utils import timezone
 from packaging.version import Version
 
@@ -35,7 +34,6 @@ from .classloader import ClassLoader
 from .const import HEARTBEAT_FREQUENCY
 from .data import data_path
 from .db import (
-    MySQLSearchLookup,
     PostgreSQLRegexLookup,
     PostgreSQLSearchLookup,
     PostgreSQLSubstringLookup,
@@ -190,8 +188,8 @@ def check_database(
         errors.append(
             weblate_check(
                 "weblate.E006",
-                "Weblate performs best with PostgreSQL, consider migrating to it.",
-                Info,
+                "Weblate now requires PostgreSQL. Support for other databases has been removed.",
+                Error,
             )
         )
 
@@ -231,7 +229,7 @@ def check_cache(
         errors.append(
             weblate_check(
                 "weblate.E007",
-                "The configured cache back-end will lead to serious "
+                "The configured cache backend will lead to serious "
                 "performance or consistency issues.",
             )
         )
@@ -259,11 +257,13 @@ def check_settings(
     """Check for sane settings."""
     errors: list[CheckMessage] = []
 
-    if not settings.ADMINS or any(x[1] in DEFAULT_MAILS for x in settings.ADMINS):
+    if not settings.ADMINS or any(
+        any(email in x[1] for email in DEFAULT_MAILS) for x in settings.ADMINS
+    ):
         errors.append(
             weblate_check(
                 "weblate.E011",
-                "E-mail addresses for site admins is misconfigured",
+                "E-mail addresses for site admins are misconfigured",
                 Error,
             )
         )
@@ -378,7 +378,7 @@ def check_perms(
         for name in chain(dirnames, filenames):
             # Skip toplevel lost+found dir, that one is typically owned by root
             # on filesystem toplevel directory. Also skip settings-override.py
-            # used in the Docker container as that one is typically bind mouted
+            # used in the Docker container as that one is typically bind mounted
             # with different permissions (and Weblate is not expected to write
             # to it).
             if dirpath == settings.DATA_DIR and name in {
@@ -487,7 +487,7 @@ def check_version(
             return [
                 weblate_check(
                     "weblate.C031",
-                    f"You Weblate version is outdated, please upgrade to {latest.version}.",
+                    f"Your Weblate version is outdated, please upgrade to {latest.version}.",
                 )
             ]
         return [
@@ -509,22 +509,13 @@ class UtilsConfig(AppConfig):
         super().ready()
         init_error_collection()
 
-        lookups: list[tuple[type[Lookup]] | tuple[type[Lookup], str]]
-        if using_postgresql():
-            lookups = [
-                (PostgreSQLSearchLookup,),
-                (PostgreSQLSubstringLookup,),
-                (PostgreSQLRegexLookup, "trgm_regex"),
-            ]
-        else:
-            lookups = [
-                (MySQLSearchLookup,),
-                (MySQLSearchLookup, "substring"),
-                (Regex, "trgm_regex"),
-            ]
-
-        lookups.append((cast("type[Lookup]", MD5),))
-        lookups.append((cast("type[Lookup]", Lower),))
+        lookups: list[tuple[type[Lookup]] | tuple[type[Lookup], str]] = [
+            (PostgreSQLSearchLookup,),
+            (PostgreSQLSubstringLookup,),
+            (PostgreSQLRegexLookup, "trgm_regex"),
+            (cast("type[Lookup]", MD5),),
+            (cast("type[Lookup]", Lower),),
+        ]
 
         for lookup in lookups:
             CharField.register_lookup(*lookup)

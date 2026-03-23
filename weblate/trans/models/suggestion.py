@@ -56,14 +56,12 @@ class SuggestionManager(models.Manager["Suggestion"]):
                 raise SuggestionSimilarToTranslationError
             return False
 
-        same_suggestions = self.filter(target=target_merged, unit=unit)
-        # Do not rely on the SQL as MySQL compares strings case insensitive
-        for same in same_suggestions:
-            if same.target == target_merged:
-                if same.user == user or not vote:
-                    return False
-                same.add_vote(request, Vote.POSITIVE)
+        same_suggestion = self.filter(target=target_merged, unit=unit).first()
+        if same_suggestion is not None:
+            if same_suggestion.user == user or not vote:
                 return False
+            same_suggestion.add_vote(request, Vote.POSITIVE)
+            return False
 
         # Create the suggestion
         suggestion = self.create(

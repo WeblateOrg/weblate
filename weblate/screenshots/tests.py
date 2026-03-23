@@ -28,12 +28,11 @@ from weblate.trans.models import Change, Project
 from weblate.trans.tests.test_models import RepoTestCase
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.tests.utils import create_test_user, get_test_file
-from weblate.utils.db import TransactionsTestMixin
 
 TEST_SCREENSHOT = get_test_file("screenshot.png")
 
 
-class ViewTest(TransactionsTestMixin, FixtureTestCase):
+class ViewTest(FixtureTestCase):
     def test_list_empty(self) -> None:
         response = self.client.get(reverse("screenshots", kwargs=self.kw_component))
         self.assertContains(response, "Screenshots")
@@ -448,7 +447,58 @@ class ViewTest(TransactionsTestMixin, FixtureTestCase):
         response = self.do_upload(
             image="", image_url="https://example.com/not-allowed-image.png"
         )
-        self.assertContains(response, "Image URL domain is not allowed.")
+        self.assertContains(response, "URL domain is not allowed.")
+
+    @responses.activate
+    @override_settings(ALLOWED_ASSET_DOMAINS=[".allowed.com"])
+    def test_disallowed_image_url_redirect_domain(self) -> None:
+        """Reject redirects leaving the allowed asset domains."""
+        self.make_manager()
+        responses.add(
+            responses.GET,
+            "https://images.allowed.com/redirect-image.png",
+            status=302,
+            headers={"Location": "https://proof.example.com/final-image.png"},
+        )
+        responses.add(
+            responses.GET,
+            "https://proof.example.com/final-image.png",
+            content_type="image/png",
+            body=Path(TEST_SCREENSHOT).read_bytes(),
+        )
+
+        response = self.do_upload(
+            image="", image_url="https://images.allowed.com/redirect-image.png"
+        )
+
+        self.assertContains(response, "URL domain is not allowed.")
+        self.assertEqual(Screenshot.objects.count(), 0)
+
+    @responses.activate
+    @override_settings(ALLOWED_ASSET_DOMAINS=[".allowed.com"])
+    def test_allowed_image_url_redirect_domain(self) -> None:
+        """Allow redirects that stay within the allowed asset domains."""
+        self.make_manager()
+        responses.add(
+            responses.GET,
+            "https://images.allowed.com/redirect-image.png",
+            status=302,
+            headers={"Location": "https://cdn.allowed.com/final-image.png"},
+        )
+        responses.add(
+            responses.GET,
+            "https://cdn.allowed.com/final-image.png",
+            content_type="image/png",
+            body=Path(TEST_SCREENSHOT).read_bytes(),
+        )
+
+        response = self.do_upload(
+            image="", image_url="https://images.allowed.com/redirect-image.png"
+        )
+
+        screenshot = Screenshot.objects.get()
+        self.assertContains(response, screenshot.name)
+        self.assertEqual(screenshot.image.size, Path(TEST_SCREENSHOT).stat().st_size)
 
 
 class ScreenshotVCSTest(APITestCase, RepoTestCase):

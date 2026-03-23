@@ -75,14 +75,14 @@ class Command(WeblateTranslationCommand):
             msg = "User does not exist!"
             raise CommandError(msg) from error
 
-        source = None
+        source_component_id: int | None = None
         if options["source"]:
             try:
                 component = Component.objects.get_by_path(options["source"])
             except Component.DoesNotExist as error:
                 msg = "No matching source component found!"
                 raise CommandError(msg) from error
-            source = component.id
+            source_component_id = component.id
 
         if options["mt"]:
             for translator in options["mt"]:
@@ -110,7 +110,7 @@ class Command(WeblateTranslationCommand):
 
         message = auto.perform(
             auto_source="mt" if options["mt"] else "others",
-            source=source,
+            source_component_id=source_component_id,
             engines=options["mt"],
             threshold=options["threshold"],
         )

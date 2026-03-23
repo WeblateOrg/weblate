@@ -5,14 +5,17 @@
 """Test for translation models."""
 
 import os
+from contextlib import ExitStack
 from datetime import timedelta
 from pathlib import Path
+from unittest.mock import patch
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from django.db import transaction
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.utils import timezone
+from django.utils.translation import activate
 
 from weblate.auth.models import Group, User
 from weblate.checks.models import Check
@@ -34,6 +37,8 @@ from weblate.trans.models import (
     Vote,
 )
 from weblate.trans.models.project import CommitPolicyChoices
+from weblate.trans.removal import RemovalBatch
+from weblate.trans.tasks import actual_project_removal
 from weblate.trans.tests.utils import (
     RepoTestMixin,
     create_another_user,
@@ -46,13 +51,20 @@ from weblate.utils.state import (
     STATE_APPROVED,
     STATE_FUZZY,
     STATE_NEEDS_CHECKING,
+    STATE_NEEDS_REWRITING,
     STATE_READONLY,
     STATE_TRANSLATED,
 )
+from weblate.utils.stats import GlobalStats
 from weblate.utils.version import GIT_VERSION
 
 
 class BaseTestCase(TestCase):
+    def setUp(self) -> None:
+        # Ensure we're using English
+        activate("en")
+        super().setUp()
+
     @classmethod
     def setUpTestData(cls) -> None:
         fixup_languages_seq()
@@ -69,6 +81,11 @@ class BaseTestCase(TestCase):
 
 
 class BaseLiveServerTestCase(StaticLiveServerTestCase):
+    def setUp(self) -> None:
+        # Ensure we're using English
+        activate("en")
+        super().setUp()
+
     @classmethod
     def setUpTestData(cls) -> None:
         fixup_languages_seq()
@@ -89,6 +106,7 @@ class RepoTestCase(BaseTestCase, RepoTestMixin):
 
     def setUp(self) -> None:
         self.clone_test_repos()
+        super().setUp()
 
 
 class ProjectTest(RepoTestCase):
@@ -133,6 +151,113 @@ class ProjectTest(RepoTestCase):
         self.assertTrue(os.path.exists(project.full_path))
         project.delete()
         self.assertFalse(os.path.exists(project.full_path))
+
+    def test_actual_project_removal_batches_linked_alert_updates(self) -> None:
+        self.component = self.create_po()
+        project = self.create_project(name="Other", slug="other")
+        self.project = project
+        linked = self.create_link_existing(
+            name="Linked A",
+            slug="linked-a",
+        )
+        second = self.create_link_existing(
+            name="Linked B",
+            slug="linked-b",
+        )
+
+        with patch.object(Component, "update_alerts", autospec=True) as update_alerts:
+            actual_project_removal(project.pk, None)
+
+        self.assertFalse(
+            Component.objects.filter(pk__in=[linked.pk, second.pk]).exists()
+        )
+        update_alerts.assert_called_once_with(self.component)
+
+    def test_actual_project_removal_batches_parent_stats_updates(self) -> None:
+        project = self.create_project(name="Other", slug="other")
+        self.create_po(project=project, name="Category A", slug="category-a")
+        self.create_po(project=project, name="Category B", slug="category-b")
+
+        collected: list[set[str]] = []
+        executed: list[str] = []
+        original_flush = RemovalBatch.flush
+
+        def record_flush(batch_self: RemovalBatch) -> None:
+            collected.append(set(batch_self.stats_to_update))
+            with ExitStack() as stack:
+                for stats in batch_self.stats_to_update.values():
+                    stack.enter_context(
+                        patch.object(
+                            stats,
+                            "update_stats",
+                            side_effect=lambda stats=stats: executed.append(
+                                stats.cache_key
+                            ),
+                        )
+                    )
+                original_flush(batch_self)
+
+        with patch.object(
+            RemovalBatch, "flush", autospec=True, side_effect=record_flush
+        ):
+            actual_project_removal(project.pk, None)
+
+        self.assertEqual(1, len(collected))
+        self.assertEqual(
+            {project.stats.cache_key, GlobalStats().cache_key},
+            collected[0],
+        )
+        self.assertEqual(collected[0], set(executed))
+
+    def test_actual_project_removal_updates_surviving_project_before_global(
+        self,
+    ) -> None:
+        surviving_component = self.create_po()
+        surviving_project = surviving_component.project
+
+        project = self.create_project(name="Other", slug="other")
+        main = self.create_po(project=project, name="Main", slug="main")
+
+        self.component = main
+        self.project = surviving_project
+        linked = self.create_link_existing(
+            name="Linked A",
+            slug="linked-a",
+        )
+        second = self.create_link_existing(
+            name="Linked B",
+            slug="linked-b",
+        )
+
+        executed: list[str] = []
+        original_flush = RemovalBatch.flush
+
+        def record_flush(batch_self: RemovalBatch) -> None:
+            with ExitStack() as stack:
+                for stats in batch_self.stats_to_update.values():
+                    stack.enter_context(
+                        patch.object(
+                            stats,
+                            "update_stats",
+                            side_effect=lambda stats=stats: executed.append(
+                                stats.cache_key
+                            ),
+                        )
+                    )
+                original_flush(batch_self)
+
+        with patch.object(
+            RemovalBatch, "flush", autospec=True, side_effect=record_flush
+        ):
+            actual_project_removal(project.pk, None)
+
+        self.assertFalse(
+            Component.objects.filter(pk__in=[main.pk, linked.pk, second.pk]).exists()
+        )
+        self.assertLess(
+            executed.index(surviving_project.stats.cache_key),
+            executed.index(GlobalStats().cache_key),
+        )
 
     def test_delete_votes(self) -> None:
         with transaction.atomic():
@@ -631,6 +756,18 @@ class ComponentListTest(RepoTestCase):
         )
         self.assertEqual(clist.components.count(), 0)
 
+    def test_auto_timeout(self) -> None:
+        clist = ComponentList.objects.create(name="Name", slug="slug")
+        AutoComponentList.objects.create(
+            project_match="^.*$", component_match="^.*$", componentlist=clist
+        )
+        with patch(
+            "weblate.trans.models.componentlist.regex_match",
+            side_effect=TimeoutError,
+        ):
+            self.create_component()
+        self.assertEqual(clist.components.count(), 0)
+
     def test_source_review(self) -> None:
         component = self.create_json_intermediate()
 
@@ -656,6 +793,17 @@ class ComponentListTest(RepoTestCase):
         component.do_file_scan()
         translation_unit = unit.unit_set.get(translation__language__code="cs")
         self.assertEqual(translation_unit.state, STATE_READONLY)
+
+        # Set source back to translated - translation should be restored
+        unit.translate(None, "Hello, world!\n", STATE_TRANSLATED)
+        translation_unit = unit.unit_set.get(translation__language__code="cs")
+        self.assertNotEqual(translation_unit.state, STATE_READONLY)
+
+        # Verify state survives commit + file scan roundtrip
+        component.commit_pending("test", None)
+        component.do_file_scan()
+        translation_unit = unit.unit_set.get(translation__language__code="cs")
+        self.assertNotEqual(translation_unit.state, STATE_READONLY)
 
 
 class ModelTestCase(RepoTestCase):
@@ -805,6 +953,33 @@ class UnitTest(ModelTestCase):
         unit.pk = True
         unit.source = "My test source"
         self.assertEqual(unit.get_max_length(), 10000)
+
+    def test_batch_update_defers_change_and_pending_change(self) -> None:
+        """Change objects are deferred to update_changes list when is_batch_update=True."""
+        user = create_test_user()
+        unit = Unit.objects.filter(
+            translation__language_code="cs", source="Hello, world!\n"
+        )[0]
+        PendingUnitChange.objects.filter(unit=unit).delete()
+        initial_count = Change.objects.count()
+
+        unit.is_batch_update = True
+        unit.translate(user, "Nazdar svete!\n", STATE_TRANSLATED)
+
+        # Change and PendingUnitChange should NOT be in DB yet
+        self.assertEqual(Change.objects.count(), initial_count)
+        self.assertFalse(PendingUnitChange.objects.filter(unit=unit).exists())
+
+        # But should be in the deferred list on the translation
+        self.assertEqual(len(unit.translation.update_changes), 1)
+        self.assertEqual(len(unit.translation.pending_unit_changes), 1)
+
+        # After flush, it should be in DB and the list cleared
+        unit.translation.store_update_changes()
+        self.assertEqual(Change.objects.count(), initial_count + 1)
+        self.assertEqual(len(unit.translation.update_changes), 0)
+        self.assertTrue(PendingUnitChange.objects.filter(unit=unit).exists())
+        self.assertEqual(len(unit.translation.pending_unit_changes), 0)
 
 
 class AnnouncementTest(ModelTestCase):
@@ -1111,3 +1286,39 @@ class AutomaticallyTranslatedFromFileTest(RepoTestCase):
 
         car_unit = translation.unit_set.get(source="Car")
         self.assertTrue(car_unit.automatically_translated)
+
+
+class FuzzySubstatePreservationTest(RepoTestCase):
+    """Test that fuzzy sub-states are preserved across file syncs."""
+
+    def setUp(self) -> None:
+        super().setUp()
+        self.user = create_test_user()
+
+    def _test_fuzzy_substate_preserved_after_sync(self, substate) -> None:
+        component = self.create_component()
+        translation = component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+
+        unit.translate(self.user, "Ahoj světe!\n", substate)
+        self.assertEqual(unit.state, substate)
+
+        translation.commit_pending("test", None)
+
+        unit.refresh_from_db()
+        self.assertEqual(unit.state, substate)
+        self.assertNotIn("disk_state", unit.details)
+
+        # Trigger check_sync to simulate repository parsing due to another change
+        translation = component.translation_set.get(language_code="cs")
+        translation.check_sync(force=True)
+
+        # The fuzzy sub-state should be preserved, not changed to STATE_FUZZY
+        unit.refresh_from_db()
+        self.assertEqual(unit.state, substate)
+
+    def test_needs_rewriting_preserved_after_sync(self) -> None:
+        self._test_fuzzy_substate_preserved_after_sync(STATE_NEEDS_REWRITING)
+
+    def test_needs_checking_preserved_after_sync(self) -> None:
+        self._test_fuzzy_substate_preserved_after_sync(STATE_NEEDS_CHECKING)

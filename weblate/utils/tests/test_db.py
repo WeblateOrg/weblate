@@ -6,7 +6,7 @@ from unittest import TestCase
 
 from weblate.trans.models import Component, Project, Unit
 from weblate.trans.tests.test_views import FixtureTestCase
-from weblate.utils.db import re_escape, using_postgresql
+from weblate.utils.db import re_escape
 
 BASE_SQL = 'SELECT "trans_unit"."id" FROM "trans_unit" WHERE '
 
@@ -18,10 +18,6 @@ class DbTest(TestCase):
 
 
 class PostgreSQLOperatorTest(TestCase):
-    def setUp(self) -> None:
-        if not using_postgresql():
-            self.skipTest("PostgreSQL only test.")
-
     def test_search(self) -> None:
         queryset = Unit.objects.filter(source__search="test").only("id")
         self.assertEqual(

@@ -496,12 +496,14 @@ class BaseFormatCheck(TargetCheck):
             and all(self.is_position_based(flag) for flag in result["missing"])
             and set(result["missing"]) == set(result["extra"])
         ):
-            yield gettext(
-                "The following format strings are in the wrong order: %s"
-            ) % format_html_join_comma(
-                "{}",
-                list_to_tuples(
-                    self.format_string(x) for x in sorted(set(result["missing"]))
+            yield format_html(
+                "{} {}",
+                gettext("The following format strings are in the wrong order:"),
+                format_html_join_comma(
+                    "{}",
+                    list_to_tuples(
+                        self.format_string(x) for x in sorted(set(result["missing"]))
+                    ),
                 ),
             )
         else:
@@ -801,6 +803,7 @@ class I18NextInterpolationCheck(BaseFormatCheck):
     regexp = I18NEXT_MATCH
     # https://www.i18next.com/translation-function/plurals
     plural_parameter_regexp = re.compile(r"{{count}}")
+    version_added = "4.0"
 
     def cleanup_string(self, text):
         return WHITESPACE.sub("", text)
@@ -828,6 +831,7 @@ class PercentPlaceholdersCheck(BaseFormatCheck):
     description = gettext_lazy("The percent placeholders do not match source.")
     regexp = PERCENT_MATCH
     plural_parameter_regexp = re.compile(r"%(?:count|number|num|n)%")
+    version_added = "4.0"
 
 
 class VueFormattingCheck(BaseFormatCheck):
@@ -866,6 +870,7 @@ class MultipleUnnamedFormatsCheck(SourceCheck):
         "There are multiple unnamed variables in the string, "
         "making it impossible for translators to reorder them."
     )
+    version_added = "4.1"
 
     def check_source_unit(self, sources: list[str], unit: Unit) -> bool:
         """Check source string."""

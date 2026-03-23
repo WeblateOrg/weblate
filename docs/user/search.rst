@@ -45,7 +45,7 @@ Fields
 ``added:DATETIME``
    Timestamp for when the string was added to Weblate.
 ``state:TEXT``
-   Search for string states (``approved``, ``translated``, ``needs-editing``, ``empty``, ``read-only``).
+   Search for string states (``approved``, ``translated``, ``needs-editing``, ``needs-rewriting``, ``needs-checking``, ``empty``, ``read-only``).
 
    This field also supports :ref:`search-operators`, so searching for completed strings can be performed as ``state:>=translated``, searching for strings needing translation as ``state:<translated``.
 ``source_state:TEXT``
@@ -62,7 +62,7 @@ Fields
    ``approved``
       Approved strings, same as ``state:approved``.
    ``needs-editing`` or ``fuzzy``
-      Needing editing strings, same as ``state:needs-editing``.
+      Needing editing/checking/rewriting strings, same as ``state:needs-editing OR state:needs-rewriting OR state:needs-checking``.
    ``translated``
       Translated strings, same as ``state:>translated``.
    ``untranslated``
@@ -222,12 +222,10 @@ and 5, use ``source:r"[2-5]"``.
 .. hint::
 
    The regular expressions are evaluated by the database backend and might use
-   different extensions, please consult the database documentation below for
-   more details.
+   different extensions, please consult the database documentation for
+   more details:
 
-   * `PostgreSQL Regular Expressions Details <https://www.postgresql.org/docs/current/functions-matching.html#POSIX-SYNTAX-DETAILS>`_ (this is the default database engine for Weblate)
-   * `MariaDB Regular Expressions Overview <https://mariadb.com/docs/server/reference/sql-functions/string-functions/regular-expressions-functions/regular-expressions-overview>`_
-   * `MySQL Regular Expressions <https://dev.mysql.com/doc/refman/9.2/en/regexp.html>`_
+   * `PostgreSQL Regular Expressions Details <https://www.postgresql.org/docs/current/functions-matching.html#POSIX-SYNTAX-DETAILS>`_
 
 Predefined queries
 ------------------

@@ -5,15 +5,16 @@
 """Tests for data exports."""
 
 import os
-from zipfile import ZipFile
+import tempfile
+from zipfile import ZIP_DEFLATED, ZIP_STORED, ZipFile
 
 from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage
+from django.core.exceptions import ValidationError
 from django.core.files import File
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.core.management import call_command
-from django.db import connection
-from django.test import skipIfDBFeature, skipUnlessDBFeature
+from django.test import override_settings
 from django.urls import reverse
 
 from weblate.auth.data import SELECTION_MANUAL
@@ -103,11 +104,6 @@ class BackupsTest(ViewTestCase):
 
         restore = ProjectBackup(backup.filename)
 
-        if not connection.features.can_return_rows_from_bulk_insert:
-            with self.assertRaises(ValueError):
-                restore.validate()
-            return
-
         restore.validate()
 
         restored = restore.restore(
@@ -166,6 +162,13 @@ class BackupsTest(ViewTestCase):
             self.project.count_pending_units,
             restored.count_pending_units,
         )
+        restored_screenshot = Screenshot.objects.get(
+            translation__component__project=restored
+        )
+        self.assertTrue(
+            restored_screenshot.image.storage.exists(restored_screenshot.image.name)
+        )
+        self.assertGreater(restored_screenshot.image.size, 0)
 
         restored_team = restored.defined_groups.filter(name=team.name).first()
         self.assertIsNotNone(restored_team)
@@ -220,9 +223,6 @@ class BackupsTest(ViewTestCase):
 
         restore = ProjectBackup(backup.filename)
 
-        if not connection.features.can_return_rows_from_bulk_insert:
-            return
-
         restore.validate()
 
         restored = restore.restore(
@@ -238,15 +238,6 @@ class BackupsTest(ViewTestCase):
             extract_names(Component.objects.filter(project=restored)),
         )
 
-    @skipUnlessDBFeature("can_return_rows_from_bulk_insert")
-    def test_restore_supported(self) -> None:
-        self.assertTrue(connection.features.can_return_rows_from_bulk_insert)
-
-    @skipIfDBFeature("can_return_rows_from_bulk_insert")
-    def test_restore_not_supported(self) -> None:
-        self.assertFalse(connection.features.can_return_rows_from_bulk_insert)
-
-    @skipUnlessDBFeature("can_return_rows_from_bulk_insert")
     def test_restore_4_14(self) -> None:
         restore = ProjectBackup(TEST_BACKUP)
         restore.validate()
@@ -255,7 +246,13 @@ class BackupsTest(ViewTestCase):
         )
         self.verify_restored()
 
-    @skipUnlessDBFeature("can_return_rows_from_bulk_insert")
+    def test_restore_requires_validation(self) -> None:
+        restore = ProjectBackup(TEST_BACKUP)
+        with self.assertRaisesRegex(ValueError, "validated before restore"):
+            restore.restore(
+                project_name="Restored", project_slug="restored", user=self.user
+            )
+
     def test_restore_cli(self) -> None:
         call_command(
             "import_projectbackup", "Restored", "restored", "testuser", TEST_BACKUP
@@ -297,18 +294,162 @@ class BackupsTest(ViewTestCase):
             set(restored.label_set.values_list("name", "color")),
         )
 
-    @skipUnlessDBFeature("can_return_rows_from_bulk_insert")
     def test_restore_duplicate(self) -> None:
         restore = ProjectBackup(TEST_BACKUP_DUPLICATE)
         with self.assertRaises(ValueError):
             restore.validate()
 
-    @skipUnlessDBFeature("can_return_rows_from_bulk_insert")
     def test_restore_duplicate_files(self) -> None:
         restore = ProjectBackup(TEST_BACKUP_DUPLICATE_FILES)
         with self.assertRaises(ValueError) as ex:
             restore.validate()
         self.assertIn("zip file contains duplicate files", str(ex.exception))
+
+    @override_settings(
+        PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_RATIO=5,
+        PROJECT_BACKUP_IMPORT_MIN_RATIO_SIZE=10,
+        PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE=100,
+    )
+    def test_restore_zip_bomb_compressed_large_entry(self) -> None:
+        with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
+            temp_name = temp_handle.name
+
+        try:
+            with (
+                ZipFile(TEST_BACKUP, "r") as source_zip,
+                ZipFile(temp_name, "w") as zipfile,
+            ):
+                for item in source_zip.infolist():
+                    zipfile.writestr(item, source_zip.read(item.filename))
+                zipfile.writestr("payload.bin", b"a" * 5000, compress_type=ZIP_DEFLATED)
+
+            restore = ProjectBackup(temp_name)
+            with self.assertRaisesRegex(
+                ValueError, "compressed entry that is too large"
+            ):
+                restore.validate()
+        finally:
+            os.unlink(temp_name)
+
+    @override_settings(PROJECT_BACKUP_IMPORT_MAX_COMPRESSED_ENTRY_SIZE=10)
+    def test_restore_low_compression_large_entry_allowed(self) -> None:
+        with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
+            temp_name = temp_handle.name
+
+        try:
+            with (
+                ZipFile(TEST_BACKUP, "r") as source_zip,
+                ZipFile(temp_name, "w") as zipfile,
+            ):
+                for item in source_zip.infolist():
+                    zipfile.writestr(item, source_zip.read(item.filename))
+                zipfile.writestr(
+                    "payload.bin", b"12345678901", compress_type=ZIP_STORED
+                )
+
+            restore = ProjectBackup(temp_name)
+            restore.validate()
+        finally:
+            os.unlink(temp_name)
+
+    @override_settings(PROJECT_BACKUP_IMPORT_MAX_MEMBERS=5)
+    def test_restore_zip_bomb_too_many_members(self) -> None:
+        with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
+            temp_name = temp_handle.name
+
+        try:
+            with (
+                ZipFile(TEST_BACKUP, "r") as source_zip,
+                ZipFile(temp_name, "w") as zipfile,
+            ):
+                for item in source_zip.infolist():
+                    zipfile.writestr(item, source_zip.read(item.filename))
+                for idx in range(5):
+                    zipfile.writestr(f"extra-{idx}.txt", b"x", compress_type=ZIP_STORED)
+
+            restore = ProjectBackup(temp_name)
+            with self.assertRaisesRegex(ValueError, "contains too many entries"):
+                restore.validate()
+        finally:
+            os.unlink(temp_name)
+
+    def test_restore_skips_git_hooks(self) -> None:
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+
+        with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
+            temp_name = temp_handle.name
+
+        try:
+            with (
+                ZipFile(backup.filename, "r") as source_zip,
+                ZipFile(temp_name, "w") as target_zip,
+            ):
+                for item in source_zip.infolist():
+                    target_zip.writestr(item, source_zip.read(item.filename))
+                target_zip.writestr(
+                    "vcs/test/.git/hooks/post-checkout",
+                    b"#!/bin/sh\nexit 1\n",
+                )
+
+            restore = ProjectBackup(temp_name)
+            restore.validate()
+            restored = restore.restore(
+                project_name="Restored", project_slug="restored", user=self.user
+            )
+            component = restored.component_set.get(slug="test")
+            self.assertFalse(
+                os.path.exists(
+                    os.path.join(component.full_path, ".git", "hooks", "post-checkout")
+                )
+            )
+            self.assertEqual(
+                component.repository.get_config("remote.origin.url"), component.repo
+            )
+            self.assertEqual(
+                component.repository.get_config(f"branch.{component.branch}.remote"),
+                "origin",
+            )
+            self.assertEqual(
+                component.repository.get_config(f"branch.{component.branch}.merge"),
+                f"refs/heads/{component.branch}",
+            )
+            restored.do_reset()
+        finally:
+            os.unlink(temp_name)
+
+    def test_restore_rejects_invalid_screenshot(self) -> None:
+        screenshot = Screenshot.objects.create(
+            name="Tampered screenshot", translation=self.component.source_translation
+        )
+        with open(TEST_SCREENSHOT, "rb") as handle:
+            screenshot.image.save("screenshot.png", File(handle))
+
+        backup = ProjectBackup()
+        backup.backup_project(self.project)
+
+        with tempfile.NamedTemporaryFile(suffix=".zip", delete=False) as temp_handle:
+            temp_name = temp_handle.name
+
+        try:
+            with (
+                ZipFile(backup.filename, "r") as source_zip,
+                ZipFile(temp_name, "w") as target_zip,
+            ):
+                for item in source_zip.infolist():
+                    data = source_zip.read(item.filename)
+                    if item.filename.startswith("screenshots/"):
+                        data = b"not an image"
+                    target_zip.writestr(item, data)
+
+            restore = ProjectBackup(temp_name)
+            restore.validate()
+            with self.assertRaises(ValidationError):
+                restore.restore(
+                    project_name="Restored", project_slug="restored", user=self.user
+                )
+        finally:
+            os.unlink(temp_name)
 
     def test_cleanup(self) -> None:
         cleanup_project_backups()
@@ -357,7 +498,6 @@ class BackupsTest(ViewTestCase):
         with staticfiles_storage.open(filename, "rb") as handle:
             self.assertEqual(handle.read(2), b"PK")
 
-    @skipUnlessDBFeature("can_return_rows_from_bulk_insert")
     def test_view_restore(self) -> None:
         self.user.is_superuser = True
         self.user.save()

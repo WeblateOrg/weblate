@@ -213,10 +213,15 @@ class GitSquashAddon(BaseAddon):
                 base = repository.get_last_revision()
                 # Cherry pick current commit (this should work
                 # unless something is messed up)
-                repository.execute(
-                    ["cherry-pick", commit, *gpg_sign],
-                    environment={"WEBLATE_MERGE_SKIP": "1"},
-                )
+                try:
+                    repository.execute(
+                        ["cherry-pick", "--empty=drop", commit, *gpg_sign],
+                        environment={"WEBLATE_MERGE_SKIP": "1"},
+                    )
+                except RepositoryError:
+                    if repository.has_git_file("CHERRY_PICK_HEAD"):
+                        repository.execute(["cherry-pick", "--abort"])
+                    raise
                 handled = []
                 # Pick other commits by same author
                 for i, other in enumerate(commits):
@@ -224,14 +229,15 @@ class GitSquashAddon(BaseAddon):
                         continue
                     try:
                         repository.execute(
-                            ["cherry-pick", other[0], *gpg_sign],
+                            ["cherry-pick", "--empty=drop", other[0], *gpg_sign],
                             environment={"WEBLATE_MERGE_SKIP": "1"},
                         )
                         handled.append(i)
                     except RepositoryError:
                         # If fails, continue to another author, we will
                         # pick this commit later (it depends on some other)
-                        repository.execute(["cherry-pick", "--abort"])
+                        if repository.has_git_file("CHERRY_PICK_HEAD"):
+                            repository.execute(["cherry-pick", "--abort"])
                         break
                 # Remove processed commits from list
                 for i in reversed(handled):

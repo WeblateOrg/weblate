@@ -11,6 +11,7 @@ import os
 import shutil
 from collections import defaultdict
 from io import BytesIO
+from operator import attrgetter
 from typing import IO, TYPE_CHECKING, Any, ClassVar, NoReturn, cast
 from zipfile import ZipFile
 
@@ -28,10 +29,11 @@ from translate.storage.html import htmlfile
 from translate.storage.idml import INLINE_ELEMENTS, NO_TRANSLATE_ELEMENTS, open_idml
 from translate.storage.odf_io import open_odf
 from translate.storage.odf_shared import inline_elements, no_translate_content_elements
-from translate.storage.pypo import pofile
+from translate.storage.pypo import pofile, pounit
 from translate.storage.rc import rcfile
 from translate.storage.txt import TxtFile
-from translate.storage.xliff import Xliff1File
+from translate.storage.wxl import WxlFile
+from translate.storage.xliff import Xliff1File, Xliff1Unit
 from translate.storage.xml_extract.extract import (
     IdMaker,
     ParseState,
@@ -40,12 +42,11 @@ from translate.storage.xml_extract.extract import (
     make_postore_adder,
 )
 
-from weblate.formats.base import (
-    TranslationFormat,
-)
+from weblate.formats.base import TranslationFormat
 from weblate.formats.helpers import NamedBytesIO
-from weblate.formats.ttkit import PoUnit, XliffUnit
+from weblate.formats.ttkit import BasePoUnit, TTKitUnit, XliffUnit
 from weblate.trans.util import get_string
+from weblate.utils.concurrency import MARKDOWN_LOCK
 from weblate.utils.errors import report_error
 from weblate.utils.state import STATE_APPROVED
 
@@ -60,7 +61,8 @@ if TYPE_CHECKING:
     from weblate.trans.models import Unit
 
 
-class ConvertPoUnit(PoUnit):
+# TODO: the type ignore is wrong, we probably need some shared base class
+class ConvertPoUnit[U: pounit, F: "ConvertFormat"](BasePoUnit[U, F]):  # type: ignore[type-var]
     id_hash_with_source: bool = True
 
     def is_translated(self) -> bool:
@@ -100,10 +102,12 @@ class ConvertXliffUnit(XliffUnit):
         """Check whether unit is translated."""
         if self.parent.is_template:
             return self.has_translation()
-        return self.unit is not None
+        return self.has_unit()
 
 
-class ConvertFormat(TranslationFormat):
+class ConvertFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit](
+    TranslationFormat[S, U, T]
+):
     """
     Base class for convert based formats.
 
@@ -114,14 +118,12 @@ class ConvertFormat(TranslationFormat):
     can_add_unit = False
     can_delete_unit = False
     can_edit_base: bool = False
-    unit_class: type[TranslationUnit] = ConvertPoUnit
+    unit_class: type[TranslationUnit] = ConvertPoUnit  # type: ignore[assignment]
     autoaddon: ClassVar[dict[str, dict[str, Any]]] = {
         "weblate.flags.same_edit": {},
         "weblate.cleanup.generic": {},
     }
     create_style = "copy"
-    units: list[TranslateToolkitUnit]
-    store: TranslationStore
 
     def save_content(self, handle: IO[bytes]) -> None:
         """Store content to file."""
@@ -136,7 +138,7 @@ class ConvertFormat(TranslationFormat):
 
     def convertfile(
         self, storefile: IO[bytes], template_store: TranslationFormat | None
-    ) -> TranslationStore:
+    ) -> S:
         raise NotImplementedError
 
     @staticmethod
@@ -147,11 +149,11 @@ class ConvertFormat(TranslationFormat):
         self,
         storefile: str | IO[bytes],
         template_store: TranslationFormat | None,
-    ) -> TranslationStore:
+    ) -> S:
         # Did we get file or filename?
         if not hasattr(storefile, "read"):
             with open(storefile, "rb") as handle:
-                store: TranslationStore = self.convertfile(handle, template_store)
+                store = self.convertfile(handle, template_store)
         else:
             store = self.convertfile(cast("IO[bytes]", storefile), template_store)
         # Adjust store to have translations
@@ -205,10 +207,6 @@ class ConvertFormat(TranslationFormat):
     def add_unit(self, unit: TranslationUnit) -> None:
         self.store.addunit(unit.unit)
 
-    @classmethod
-    def get_class(cls) -> None:
-        return None
-
     def create_unit(
         self,
         key: str,
@@ -228,14 +226,34 @@ class ConvertFormat(TranslationFormat):
         self.save()
         return []
 
-    def convert_to_po(
+    def get_unit_index(
+        self, store: TranslationStore
+    ) -> tuple[dict[str, TranslateToolkitUnit], dict[str, TranslateToolkitUnit]]:
+        locationindex: dict[str, TranslateToolkitUnit] = {}
+        docpathindex: dict[str, TranslateToolkitUnit] = {}
+
+        # We override the previous entries with more recent ones,
+        # in most cases this should not happen and we have no way
+        # to figure out which unit is "better" while merging the
+        # translations.
+        for unit in store.units:
+            if docpath := unit.getdocpath():
+                docpathindex[docpath] = unit
+            for location in unit.getlocations():
+                locationindex[location] = unit
+
+        return locationindex, docpathindex
+
+    def convert_to_po(  # noqa: C901
         self,
         parser: TranslationStore,
         template_store: TranslationFormat | None,
-        use_location: bool = True,
+        *,
         duplicate_style: str = "msgctxt",
-    ) -> pofile:
+        source_attribute: str = "source",
+    ) -> S:
         store = pofile()
+        get_text = attrgetter(source_attribute)
         # Prepare index of existing translations
         unitindex: dict[str, list[Unit]] = defaultdict(list)
         for existing_unit in self.existing_units:
@@ -244,29 +262,34 @@ class ConvertFormat(TranslationFormat):
 
         # Convert store
         if template_store:
-            parser.makeindex()
+            locationindex, docpathindex = self.get_unit_index(parser)
             for unit in template_store.content_units:
                 thepo = store.addsourceunit(unit.source)
                 ttkit_unit = cast("TranslateToolkitUnit", unit.unit)
+                thepo.setdocpath(ttkit_unit.getdocpath())
                 locations = ttkit_unit.getlocations()
                 thepo.addlocations(locations)
                 thepo.addnote(ttkit_unit.getnotes(), "developer")
                 if self.is_template:
                     thepo.target = unit.source
-                elif use_location and not unitindex:
+                elif not unitindex:
                     # Try to import initial translation from the file
-                    for location in locations:
-                        try:
-                            translation = parser.locationindex[location]
-                            thepo.target = translation.source
-                            break
-                        except KeyError:
-                            continue
+                    if docpath := ttkit_unit.getdocpath():
+                        # Use docpath if available as it provides logical location
+                        if docpath in docpathindex:
+                            thepo.target = get_text(docpathindex[docpath])
+                    else:
+                        # Rely on physical location as fallback
+                        for location in locations:
+                            if location in locationindex:
+                                thepo.target = get_text(locationindex[location])
+                                break
         else:
             for htmlunit in parser.units:
                 # Source file
-                thepo = store.addsourceunit(htmlunit.source)
-                thepo.target = htmlunit.source
+                thepo = store.addsourceunit(get_text(htmlunit))
+                thepo.target = get_text(htmlunit)
+                thepo.setdocpath(htmlunit.getdocpath())
                 thepo.addlocations(htmlunit.getlocations())
                 thepo.addnote(htmlunit.getnotes(), "developer")
 
@@ -290,10 +313,10 @@ class ConvertFormat(TranslationFormat):
                         unit.target = translation.target
                         break
 
-        return store
+        return store  # type: ignore[return-value]
 
 
-class HTMLFormat(ConvertFormat):
+class HTMLFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U, T]):
     # Translators: File format name
     name = gettext_lazy("HTML file")
     autoload = ("*.htm", "*.html")
@@ -302,7 +325,7 @@ class HTMLFormat(ConvertFormat):
 
     def convertfile(
         self, storefile: IO[bytes], template_store: TranslationFormat | None
-    ) -> TranslationStore:
+    ) -> S:
         # Fake input file with a blank filename
         htmlparser = htmlfile(inputfile=NamedBytesIO("", storefile.read()))
         duplicate_style = "msgctxt"
@@ -339,7 +362,7 @@ class HTMLFormat(ConvertFormat):
         return "html"
 
 
-class MarkdownFormat(ConvertFormat):
+class MarkdownFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U, T]):
     # Translators: File format name
     name = gettext_lazy("Markdown file")
     autoload = ("*.md", "*.markdown")
@@ -348,12 +371,15 @@ class MarkdownFormat(ConvertFormat):
 
     def convertfile(
         self, storefile: IO[bytes], template_store: TranslationFormat | None
-    ) -> TranslationStore:
+    ) -> S:
         # Lazy import as mistletoe is expensive
         from translate.storage.markdown import MarkdownFile
 
-        # Fake input file with a blank filename
-        mdparser = MarkdownFile(inputfile=NamedBytesIO("", storefile.read()))
+        # Hold Markdown lock because this is not thread-safe, see
+        # https://github.com/miyuchina/mistletoe/issues/210
+        with MARKDOWN_LOCK:
+            # Fake input file with a blank filename
+            mdparser = MarkdownFile(inputfile=NamedBytesIO("", storefile.read()))
 
         duplicate_style = "msgctxt"
         if self.file_format_params.get("merge_duplicates"):
@@ -362,7 +388,6 @@ class MarkdownFormat(ConvertFormat):
         return self.convert_to_po(
             mdparser,
             template_store,
-            use_location=False,
             duplicate_style=duplicate_style,
         )
 
@@ -371,17 +396,24 @@ class MarkdownFormat(ConvertFormat):
         # Lazy import as mistletoe is expensive
         from translate.convert.po2md import MarkdownTranslator
 
-        converter = MarkdownTranslator(
-            inputstore=self.store, includefuzzy=True, outputthreshold=None, maxlength=80
-        )
-        if self.template_store is None:
-            msg = "Template store is required."
-            raise TypeError(msg)
-        templatename = self.template_store.storefile
-        if hasattr(templatename, "name"):
-            templatename = templatename.name
-        with open(templatename, "rb") as templatefile:
-            converter.translate(templatefile, handle)
+        # Hold Markdown lock because this is not thread-safe, see
+        # https://github.com/miyuchina/mistletoe/issues/210
+        with MARKDOWN_LOCK:
+            converter = MarkdownTranslator(
+                # TODO: remove type override with translate-toolkit 3.19.4
+                inputstore=self.store,  # type: ignore[arg-type]
+                includefuzzy=True,
+                outputthreshold=None,
+                maxlength=80,
+            )
+            if self.template_store is None:
+                msg = "Template store is required."
+                raise TypeError(msg)
+            templatename = self.template_store.storefile
+            if hasattr(templatename, "name"):
+                templatename = templatename.name
+            with open(templatename, "rb") as templatefile:
+                converter.translate(templatefile, handle)
 
     @staticmethod
     def mimetype() -> str:
@@ -394,7 +426,9 @@ class MarkdownFormat(ConvertFormat):
         return "md"
 
 
-class OpenDocumentFormat(ConvertFormat):
+class OpenDocumentFormat[S: Xliff1File, U: Xliff1Unit, T: ConvertXliffUnit](
+    ConvertFormat[S, U, T]
+):
     # Translators: File format name
     name = gettext_lazy("OpenDocument file")
     autoload = (
@@ -422,14 +456,14 @@ class OpenDocumentFormat(ConvertFormat):
 
     def convertfile(
         self, storefile: IO[bytes], template_store: TranslationFormat | None
-    ) -> TranslationStore:
+    ) -> S:
         store: Xliff1File = Xliff1File()
         store.setfilename(store.getfilenode("NoName"), "odf")
         contents = open_odf(storefile)
         for data in contents.values():
             parse_state = ParseState(no_translate_content_elements, inline_elements)
             build_store(BytesIO(data), store, parse_state)
-        return store
+        return store  # type: ignore[return-value]
 
     def save_content(self, handle: IO[bytes]) -> None:
         """Store content to file."""
@@ -463,7 +497,7 @@ class OpenDocumentFormat(ConvertFormat):
         return True
 
 
-class IDMLFormat(ConvertFormat):
+class IDMLFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U, T]):
     # Translators: File format name
     name = gettext_lazy("IDML file")
     autoload = ("*.idml", "*.idms")
@@ -472,7 +506,7 @@ class IDMLFormat(ConvertFormat):
 
     def convertfile(
         self, storefile: IO[bytes], template_store: TranslationFormat | None
-    ) -> TranslationStore:
+    ) -> S:
         store = pofile()
 
         contents = open_idml(storefile)
@@ -490,7 +524,7 @@ class IDMLFormat(ConvertFormat):
                 store_adder=po_store_adder,
             )
 
-        return store
+        return store  # type: ignore[return-value]
 
     def save_content(self, handle: IO[bytes]) -> None:
         """Store content to file."""
@@ -526,7 +560,7 @@ class IDMLFormat(ConvertFormat):
         return True
 
 
-class WindowsRCFormat(ConvertFormat):
+class WindowsRCFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U, T]):
     # Translators: File format name
     name = gettext_lazy("RC file")
     format_id = "rc"
@@ -549,7 +583,7 @@ class WindowsRCFormat(ConvertFormat):
 
     def convertfile(
         self, storefile: IO[bytes], template_store: TranslationFormat | None
-    ) -> TranslationStore:
+    ) -> S:
         input_store = rcfile()
         input_store.parse(storefile.read())
         converter = rc2po()
@@ -601,7 +635,7 @@ class WindowsRCFormat(ConvertFormat):
                 handle.write(outputrclines.encode("utf-16-le"))
 
 
-class PlainTextFormat(ConvertFormat):
+class PlainTextFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U, T]):
     # Translators: File format name
     name = gettext_lazy("Plain text file")
     format_id = "txt"
@@ -620,7 +654,7 @@ class PlainTextFormat(ConvertFormat):
 
     def convertfile(
         self, storefile: IO[bytes], template_store: TranslationFormat | None
-    ) -> TranslationStore:
+    ) -> S:
         input_store = TxtFile(encoding="utf-8", flavour=self.flavour)
         input_store.parse(storefile.readlines())
         input_store.filename = os.path.basename(storefile.name)
@@ -667,7 +701,7 @@ class MediaWikiFormat(PlainTextFormat):
     flavour = "mediawiki"
 
 
-class AsciiDocFormat(ConvertFormat):
+class AsciiDocFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U, T]):
     # Translators: File format name
     name = gettext_lazy("AsciiDoc file")
     autoload = ("*.ad", "*.adoc", "*.asciidoc")
@@ -676,7 +710,7 @@ class AsciiDocFormat(ConvertFormat):
 
     def convertfile(
         self, storefile: IO[bytes], template_store: TranslationFormat | None
-    ) -> TranslationStore:
+    ) -> S:
         # Fake input file with a blank filename
         adocparser = AsciiDocFile(inputfile=NamedBytesIO("", storefile.read()))
 
@@ -687,7 +721,6 @@ class AsciiDocFormat(ConvertFormat):
         return self.convert_to_po(
             adocparser,
             template_store,
-            use_location=False,
             duplicate_style=duplicate_style,
         )
 
@@ -714,3 +747,57 @@ class AsciiDocFormat(ConvertFormat):
     def extension() -> str:
         """Return most common file extension for format."""
         return "adoc"
+
+
+class WXLFormat[S: pofile, U: pounit, T: ConvertPoUnit](ConvertFormat[S, U, T]):
+    # Translators: File format name
+    name = gettext_lazy("WixLocalization file")
+    format_id = "wxl"
+    autoload: tuple[str, ...] = ("*.wxl",)
+    language_format: str = "bcp_long_lower"
+
+    def convertfile(
+        self, storefile: IO[bytes], template_store: TranslationFormat | None
+    ) -> S:
+        # Fake input file with a blank filename
+        wxlparser = WxlFile(inputfile=NamedBytesIO("", storefile.read()))
+
+        return self.convert_to_po(
+            wxlparser,
+            template_store,
+            source_attribute="target",
+        )
+
+    def save_content(self, handle: IO[bytes]) -> None:
+        """Store content to file."""
+        if self.template_store is None:
+            msg = "Template store is required."
+            raise TypeError(msg)
+        templatename = self.template_store.storefile
+        if hasattr(templatename, "name"):
+            templatename = templatename.name
+        with open(cast("str", templatename), "rb") as templatefile:
+            wxlparser = WxlFile(inputfile=templatefile)
+
+        wxlparser.makeindex()
+
+        for unit in self.store.units:
+            if unit.isheader() or not unit.istranslated():
+                continue
+            key = unit.getlocations()[0]
+            if not key or key not in wxlparser.locationindex:
+                continue
+
+            wxlparser.locationindex[key].target = unit.target
+
+        wxlparser.serialize(handle)
+
+    @staticmethod
+    def mimetype() -> str:
+        """Return most common mime type for format."""
+        return "application/xml"
+
+    @staticmethod
+    def extension() -> str:
+        """Return most common file extension for format."""
+        return "wxl"

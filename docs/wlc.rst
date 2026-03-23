@@ -349,6 +349,29 @@ This allows you to store keys in your personal settings, while using the
 :file:`.weblate` configuration in the VCS repository so that :program:`wlc` knows which
 server it should talk to.
 
+
+Environment variables
++++++++++++++++++++++
+
+.. versionadded:: 1.18.0
+
+The API URL and key can also be configured using environment variables. This is
+especially useful for CI workflows:
+
+.. envvar:: WLC_URL
+
+   API URL
+
+.. envvar:: WLC_KEY
+
+   API key
+
+The configuration precedence (highest to lowest) is:
+
+1. Command-line arguments (:option:`--url`, :option:`--key`).
+2. Environment variables (:envvar:`WLC_URL`, :envvar:`WLC_KEY`).
+3. Configuration file (see :ref:`wlc-config`).
+
 Examples
 ++++++++
 

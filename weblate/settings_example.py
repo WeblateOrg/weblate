@@ -33,15 +33,14 @@ SITE_URL = f"{'https' if ENABLE_HTTPS else 'http'}://{SITE_DOMAIN}"
 
 DEBUG = True
 
-ADMINS: tuple[tuple[str, str], ...] = (
-    # ("Your Name", "your_email@example.com"),
+ADMINS: tuple[str, ...] = (
+    # "Your Name <your_email@example.com>",
 )
 
 MANAGERS = ADMINS
 
 DATABASES = {
     "default": {
-        # Use "postgresql" or "mysql".
         "ENGINE": "django.db.backends.postgresql",
         # Database name.
         "NAME": "weblate",
@@ -57,17 +56,7 @@ DATABASES = {
         # Set to empty string for default.
         "PORT": "",
         # Customizations for databases.
-        "OPTIONS": {
-            # In case of using an older MySQL server,
-            # which has MyISAM as a default storage
-            # "init_command": "SET storage_engine=INNODB",
-            # Uncomment for MySQL older than 5.7:
-            # "init_command": "SET sql_mode='STRICT_TRANS_TABLES'",
-            # Set emoji capable charset for MySQL:
-            # "charset": "utf8mb4",
-            # Change connection timeout in case you get MySQL gone away error:
-            # "connect_timeout": 28800,
-        },
+        "OPTIONS": {},
         # Persistent connections
         "CONN_MAX_AGE": None,
         "CONN_HEALTH_CHECKS": True,
@@ -301,13 +290,13 @@ SOCIAL_AUTH_PIPELINE = (
     "weblate.accounts.pipeline.verify_username",
     "social_core.pipeline.user.create_user",
     "social_core.pipeline.social_auth.associate_user",
+    "weblate.accounts.pipeline.handle_invite",
     "social_core.pipeline.social_auth.load_extra_data",
     "weblate.accounts.pipeline.second_factor",
     "weblate.accounts.pipeline.cleanup_next",
     "weblate.accounts.pipeline.user_full_name",
     "weblate.accounts.pipeline.store_email",
     "weblate.accounts.pipeline.notify_connect",
-    "weblate.accounts.pipeline.handle_invite",
     "weblate.accounts.pipeline.password_reset",
 )
 SOCIAL_AUTH_DISCONNECT_PIPELINE = (
@@ -378,6 +367,9 @@ PASSWORD_HASHERS = [
 
 # Allow new user registrations
 REGISTRATION_OPEN = True
+
+# Allow registration with disposable e-mail domains
+REGISTRATION_ALLOW_DISPOSABLE_EMAILS = False
 
 # Shortcut for login required setting
 REQUIRE_LOGIN = False
@@ -676,9 +668,6 @@ LOGOUT_URL = f"{URL_PREFIX}/accounts/logout/"
 
 # Default location for login
 LOGIN_REDIRECT_URL = f"{URL_PREFIX}/"
-
-# Opt-in for Django 6.0 default
-FORMS_URLFIELD_ASSUME_HTTPS = True
 
 # Anonymous user name
 ANONYMOUS_USER_NAME = "anonymous"

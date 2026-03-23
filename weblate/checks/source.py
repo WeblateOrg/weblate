@@ -48,7 +48,7 @@ class EllipsisCheck(SourceCheck):
     check_id = "ellipsis"
     name = gettext_lazy("Ellipsis")
     description = gettext_lazy(
-        "The string uses three dots (...) instead of an ellipsis character (…)."
+        "The string uses three dots ``(...)`` instead of an ellipsis character ``(…)``."
     )
 
     def check_source_unit(self, sources: list[str], unit: Unit):
@@ -67,9 +67,11 @@ class MultipleFailingCheck(SourceCheck, BatchCheckMixin):
     def get_related_checks(self, unit_ids: Iterable[int]):
         from weblate.checks.models import Check
 
-        return Check.objects.filter(
-            Q(unit__id__in=unit_ids) | Q(unit__source_unit_id__in=unit_ids)
-        ).select_related("unit__translation")
+        return (
+            Check.objects.filter(unit__source_unit_id__in=unit_ids)
+            .exclude(unit_id__in=unit_ids)
+            .select_related("unit__translation")
+        )
 
     def check_source_unit(self, sources: list[str], unit: Unit):
         if unit.translation.component.batch_checks:
@@ -89,9 +91,7 @@ class MultipleFailingCheck(SourceCheck, BatchCheckMixin):
 
         unit_id_and_check_count = (
             self.get_related_checks(
-                Unit.objects.filter(translation__component=component).values_list(
-                    "pk", flat=True
-                )
+                component.source_translation.unit_set.values_list("pk", flat=True)
             )
             .values_list("unit__source_unit_id")
             .annotate(translation_count=Count("unit__translation_id", distinct=True))
@@ -108,10 +108,7 @@ class MultipleFailingCheck(SourceCheck, BatchCheckMixin):
         )
 
     def get_description(self, check_obj):
-        unit_ids = check_obj.unit.unit_set.exclude(pk=check_obj.unit.id).values_list(
-            "pk", flat=True
-        )
-        related = self.get_related_checks(unit_ids).select_related(
+        related = self.get_related_checks([check_obj.unit_id]).select_related(
             "unit__translation__language"
         )
         if not related:
@@ -152,6 +149,7 @@ class LongUntranslatedCheck(SourceCheck, BatchCheckMixin):
     check_id = "long_untranslated"
     name = gettext_lazy("Long untranslated")
     description = gettext_lazy("The string has not been translated for a long time.")
+    version_added = "4.1"
 
     def check_source_unit(self, sources: list[str], unit: Unit) -> bool:
         component = unit.translation.component

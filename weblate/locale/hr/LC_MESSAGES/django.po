@@ -9,7 +9,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-02-16 13:58+0000\n"
-"PO-Revision-Date: 2026-02-17 15:10+0000\n"
+"PO-Revision-Date: 2026-03-22 23:35+0000\n"
 "Last-Translator: Milo Ivir <mail@milotype.de>\n"
 "Language-Team: Croatian <https://hosted.weblate.org/projects/weblate/"
 "application/hr/>\n"
@@ -19,7 +19,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
-"X-Generator: Weblate 5.16.1-dev\n"
+"X-Generator: Weblate 5.17-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -3343,10 +3343,8 @@ msgstr ""
 "Opiši projekt i tvoju ulogu u projektu, po mogućnosti na engleskom jeziku."
 
 #: weblate/billing/forms.py:47
-#, fuzzy
-#| msgid "View billing info"
 msgid "Add billing admin"
-msgstr "Pogledaj podatke naplate"
+msgstr "Dodaj administratora za naplatu"
 
 #: weblate/billing/models.py:165 weblate/templates/billing/detail.html:28
 msgid "Billing plan"
@@ -3496,7 +3494,7 @@ msgstr "Nije moguće sjediniti takvu naplatu."
 #: weblate/billing/views.py:259
 #, python-format
 msgid "User %s was added as a billing admin."
-msgstr ""
+msgstr "%s je dodan/a kao administrator za naplatu."
 
 #: weblate/billing/views.py:277 weblate/templates/billing/detail.html:93
 msgid "You cannot remove yourself."
@@ -3505,7 +3503,7 @@ msgstr "Ne možeš sebe ukloniti."
 #: weblate/billing/views.py:286
 #, python-format
 msgid "User %s was removed as a billing admin."
-msgstr ""
+msgstr "%s je uklonjen/a kao administrator za naplatu."
 
 #: weblate/checks/angularjs.py:32
 msgid "AngularJS interpolation string"
@@ -8543,23 +8541,17 @@ msgid "Terminate billing plan"
 msgstr "Prekini tarifu"
 
 #: weblate/templates/billing/detail.html:72
-#, fuzzy
-#| msgid "Billing plan"
 msgid "Billing admins"
-msgstr "Tarifa"
+msgstr "Administratori za naplate"
 
 #: weblate/templates/billing/detail.html:93
 #: weblate/templates/billing/detail.html:97
-#, fuzzy
-#| msgid "Check user access"
 msgid "Revoke access"
-msgstr "Provjeri pristup korisnika"
+msgstr "Opozovi pristup"
 
 #: weblate/templates/billing/detail.html:107
-#, fuzzy
-#| msgid "Add team"
 msgid "Add admin"
-msgstr "Dodaj tim"
+msgstr "Dodaj administratora"
 
 #: weblate/templates/billing/detail.html:120
 msgid "Review merge"
@@ -13881,10 +13873,8 @@ msgid "This string was translated automatically by %(author)s."
 msgstr "Ovaj je izraz preveo/la %(author)s."
 
 #: weblate/templates/translate.html:736
-#, fuzzy
-#| msgid "This string was translated automatically by %(author)s."
 msgid "This string was translated automatically."
-msgstr "Ovaj je izraz preveo/la %(author)s."
+msgstr "Ovaj je izraz automatski preveden."
 
 #: weblate/templates/translate.html:755 weblate/trans/models/project.py:262
 msgid "Translation quality filter"
@@ -14894,10 +14884,8 @@ msgid "FlatXML key name"
 msgstr "Ime ključa u FlatXML-u"
 
 #: weblate/trans/file_format_params.py:458
-#, fuzzy
-#| msgid "Found duplicated string"
 msgid "Deduplicate identical strings"
-msgstr "Pronađen je dupli izraz"
+msgstr "Ukloni dupikate jednakih izraza"
 
 #: weblate/trans/file_format_params.py:462
 msgid ""
@@ -14905,6 +14893,9 @@ msgid ""
 "Prevents translation loss during file restructuring or table reordering by "
 "removing position-dependent context."
 msgstr ""
+"Konsolidira identične izvorne izraze u jednu jedinicu prijevoda. Sprečava "
+"gubitak prijevoda tijekom restrukturiranja datoteka ili promjene redoslijeda "
+"tablica uklanjanjem konteksta ovisno o položaju."
 
 #: weblate/trans/file_format_params.py:472
 #: weblate/trans/file_format_params.py:489
@@ -16169,11 +16160,11 @@ msgstr ""
 
 #: weblate/trans/models/component.py:595 weblate/trans/models/workflow.py:30
 msgid "Turn on suggestions"
-msgstr "Uključuje prijedloge"
+msgstr "Uključi prijedloge"
 
 #: weblate/trans/models/component.py:597 weblate/trans/models/workflow.py:32
 msgid "Whether to allow translation suggestions at all."
-msgstr "Hoće li uopće biti dozvoljeno predlagati prijevod."
+msgstr "Da li uopće dozvoliti predlagati prijevod."
 
 #: weblate/trans/models/component.py:601 weblate/trans/models/workflow.py:36
 msgid "Suggestion voting"

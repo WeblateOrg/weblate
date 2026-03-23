@@ -9,6 +9,7 @@ on:
     branches-ignore:
     - renovate/**
     - weblate
+    - dependabot/**
   pull_request:
 
 permissions:
@@ -19,16 +20,37 @@ jobs:
     runs-on: ubuntu-24.04
     name: API Lint
     env:
-      CI_DATABASE: postgresql
       CI_REDIS_HOST: 127.0.0.1
-      CI_REDIS_PORT: '60001'
+      CI_REDIS_PORT: '6379'
       CI_DB_PASSWORD: weblate
       CI_DB_HOST: 127.0.0.1
-      CI_DB_PORT: '60000'
+      CI_DB_PORT: '5432'
       CI_SELENIUM: '1'
       DJANGO_SETTINGS_MODULE: weblate.settings_test
       PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
       PYTHONUNBUFFERED: 1
+    services:
+      database:
+        image: postgres:18.3-alpine@sha256:4da1a4828be12604092fa55311276f08f9224a74a62dcb4708bd7439e2a03911
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: weblate
+        ports:
+        - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      cache:
+        image: valkey/valkey:9.0.3-alpine@sha256:84c96f47ebe197e635cd3ddbe3ab74e8bdf783cf3befbfb1c36387275c1cd5d5
+        ports:
+        - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       with:
@@ -38,15 +60,13 @@ jobs:
       uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       with:
         python-version: '3.14'
-    - uses: astral-sh/setup-uv@eac588ad8def6316056a12d4907a9d4d84ff7a3b # v7.3.0
+    - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7.6.0
       with:
         save-cache: ${{ github.ref == 'refs/heads/main' }}
         cache-suffix: ${{ steps.setup_python.outputs.python-version }}
-        version: 0.10.4
-    - name: Start services
-      run: ./ci/services-up "$CI_DATABASE"
+        version: 0.10.12
     - name: Install apt dependencies
-      run: sudo ./ci/apt-install "$CI_DATABASE"
+      run: sudo ./ci/apt-install
     - name: Used versions
       run: ./ci/print-versions
     - name: Install Python dependencies

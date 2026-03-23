@@ -12,6 +12,7 @@ from unittest.mock import patch
 
 import responses
 from django.conf import settings
+from django.core.cache import cache
 from django.core.files import File
 from django.test.utils import modify_settings
 from django.urls import reverse
@@ -23,17 +24,15 @@ from weblate.accounts.notifications import (
     NotificationFrequency,
     NotificationScope,
 )
+from weblate.addons.models import Addon
 from weblate.api.serializers import CommentSerializer, RepoOperations
-from weblate.auth.models import (
-    Group,
-    Permission,
-    Role,
-    User,
-)
+from weblate.auth.data import SELECTION_ALL, SELECTION_MANUAL
+from weblate.auth.models import Group, Permission, Role, User
 from weblate.lang.models import Language
 from weblate.memory.models import Memory
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
+from weblate.trans.exceptions import FailedCommitError, FileParseError
 from weblate.trans.models import (
     Category,
     Change,
@@ -50,6 +49,7 @@ from weblate.trans.tests.utils import (
     fixup_languages_seq,
     get_test_file,
 )
+from weblate.utils.celery import get_task_metadata_key
 from weblate.utils.data import data_dir
 from weblate.utils.django_hacks import immediate_on_commit, immediate_on_commit_leave
 from weblate.utils.state import (
@@ -129,7 +129,7 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         method="get",
         request=None,
         headers=None,
-        skip=(),
+        skip: set[str] | None = None,
         # pylint: disable-next=redefined-builtin
         format: str = "multipart",  # noqa: A002
     ):
@@ -147,8 +147,9 @@ class APIBaseTest(APITestCase, RepoTestMixin):
             f"Unexpected status code {response.status_code}: {content}",
         )
         if data is not None:
-            for item in skip:
-                del response.data[item]
+            if skip:
+                for item in skip:
+                    del response.data[item]
             self.maxDiff = None
             self.assertEqual(response.data, data)
         return response
@@ -242,7 +243,7 @@ class UserAPITest(APIBaseTest):
             superuser=False,
             code=200,
             data={"full_name": "Anonymous", "username": settings.ANONYMOUS_USER_NAME},
-            skip=("id",),
+            skip={"id"},
         )
         # Admin can get full details
         self.do_request(
@@ -260,7 +261,7 @@ class UserAPITest(APIBaseTest):
                 "is_bot": False,
                 "last_login": None,
             },
-            skip=(
+            skip={
                 "id",
                 "groups",
                 "languages",
@@ -270,7 +271,7 @@ class UserAPITest(APIBaseTest):
                 "statistics_url",
                 "contributions_url",
                 "date_expires",
-            ),
+            },
         )
 
     def test_filter_superuser(self) -> None:
@@ -287,6 +288,120 @@ class UserAPITest(APIBaseTest):
             reverse("api:user-list"), {"username": settings.ANONYMOUS_USER_NAME}
         )
         self.assertEqual(response.data["count"], 1)
+
+    def test_filter_email(self) -> None:
+        """Filtering by email address."""
+        self.authenticate(True)
+        # Exact match should return the user
+        response = self.client.get(
+            reverse("api:user-list"), {"email": "apitest@example.org"}
+        )
+        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(response.data["results"][0]["username"], "apitest")
+        # Case-insensitive match should work
+        response = self.client.get(
+            reverse("api:user-list"), {"email": "APItest@Example.ORG"}
+        )
+        self.assertEqual(response.data["count"], 1)
+        # Non-matching email should return no results
+        response = self.client.get(
+            reverse("api:user-list"), {"email": "nonexistent@example.org"}
+        )
+        self.assertEqual(response.data["count"], 0)
+        # Admin can look up another user's email (cross-user lookup)
+        response = self.client.get(
+            reverse("api:user-list"), {"email": "noreply@weblate.org"}
+        )
+        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(
+            response.data["results"][0]["username"], settings.ANONYMOUS_USER_NAME
+        )
+
+    def test_filter_email_non_admin(self) -> None:
+        """Non-admin users cannot use email filter (prevented by restricted filterset)."""
+        self.authenticate(False)
+        # Email filter is ignored for non-admins; without username, scoped to self
+        response = self.client.get(
+            reverse("api:user-list"), {"email": "noreply@weblate.org"}
+        )
+        # Returns own user because email param is ignored, scoped to self
+        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(response.data["results"][0]["username"], "apitest")
+        # Combining username + email should not allow email enumeration
+        response = self.client.get(
+            reverse("api:user-list"),
+            {"username": settings.ANONYMOUS_USER_NAME, "email": "noreply@weblate.org"},
+        )
+        # Email param is ignored; results are based on username filter only
+        self.assertEqual(response.data["count"], 1)
+        # Verify the result is the username-matched user, not email-filtered
+        self.assertEqual(
+            response.data["results"][0]["username"], settings.ANONYMOUS_USER_NAME
+        )
+        # Non-admin with username + non-matching email: email param ignored
+        response = self.client.get(
+            reverse("api:user-list"),
+            {"username": settings.ANONYMOUS_USER_NAME, "email": "wrong@example.org"},
+        )
+        # Still returns username match since email is ignored
+        self.assertEqual(response.data["count"], 1)
+
+    def test_filter_email_unauthenticated(self) -> None:
+        """Unauthenticated users cannot use email filter."""
+        # No authentication - email param should be ignored and no results returned
+        response = self.client.get(
+            reverse("api:user-list"), {"email": "apitest@example.org"}
+        )
+        self.assertEqual(response.data["count"], 0)
+        response = self.client.get(
+            reverse("api:user-list"), {"email": "noreply@weblate.org"}
+        )
+        self.assertEqual(response.data["count"], 0)
+
+    def test_filter_email_with_user_view_permission(self) -> None:
+        """Non-superuser with user.view permission can use email filter."""
+        # Grant user.view permission to a non-superuser
+        self.grant_perm_to_user("user.view")
+        self.authenticate(False)
+        # User with user.view permission can filter by email
+        response = self.client.get(
+            reverse("api:user-list"), {"email": "apitest@example.org"}
+        )
+        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(response.data["results"][0]["username"], "apitest")
+        # Can look up other users by email
+        response = self.client.get(
+            reverse("api:user-list"), {"email": "noreply@weblate.org"}
+        )
+        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(
+            response.data["results"][0]["username"], settings.ANONYMOUS_USER_NAME
+        )
+        # Case-insensitive search works
+        response = self.client.get(
+            reverse("api:user-list"), {"email": "APItest@Example.ORG"}
+        )
+        self.assertEqual(response.data["count"], 1)
+
+    def test_filter_email_with_user_edit_permission(self) -> None:
+        """Non-superuser with user.edit permission can use email filter."""
+        # Grant user.edit permission to a non-superuser
+        self.grant_perm_to_user("user.edit")
+        self.authenticate(False)
+        # User with user.edit permission can filter by email
+        response = self.client.get(
+            reverse("api:user-list"), {"email": "apitest@example.org"}
+        )
+        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(response.data["results"][0]["username"], "apitest")
+        # Can look up other users by email
+        response = self.client.get(
+            reverse("api:user-list"), {"email": "noreply@weblate.org"}
+        )
+        self.assertEqual(response.data["count"], 1)
+        self.assertEqual(
+            response.data["results"][0]["username"], settings.ANONYMOUS_USER_NAME
+        )
 
     def test_filter_user(self) -> None:
         """Front-end autocompletion interface for user."""
@@ -351,13 +466,17 @@ class UserAPITest(APIBaseTest):
             code=403,
             request={"group_id": group.id},
         )
-        self.do_request(
+        response = self.do_request(
             "api:user-groups",
             kwargs={"username": User.objects.filter(is_active=True)[0].username},
             method="post",
             superuser=True,
             code=400,
             request={"group_id": -1},
+        )
+        self.assertContains(response, "Group not found.", status_code=400)
+        self.assertNotContains(
+            response, "matching query does not exist", status_code=400
         )
         self.do_request(
             "api:user-groups",
@@ -428,7 +547,7 @@ class UserAPITest(APIBaseTest):
     def test_post_notifications(self) -> None:
         self.do_request(
             "api:user-notifications",
-            kwargs={"username": User.objects.filter(is_active=True)[0].username},
+            kwargs={"username": settings.ANONYMOUS_USER_NAME},
             method="post",
             code=403,
         )
@@ -529,6 +648,84 @@ class UserAPITest(APIBaseTest):
             code=204,
         )
         self.assertEqual(Subscription.objects.count(), 9)
+
+    def test_self_notifications(self) -> None:
+        """Users should be able to manage their own notifications via the API."""
+        # User can list own notifications
+        response = self.do_request(
+            "api:user-notifications",
+            kwargs={"username": self.user.username},
+            method="get",
+            code=200,
+        )
+        self.assertEqual(response.data["count"], 10)
+
+        # User can create own notification
+        response = self.do_request(
+            "api:user-notifications",
+            kwargs={"username": self.user.username},
+            method="post",
+            code=201,
+            request={
+                "notification": "RepositoryNotification",
+                "scope": 10,
+                "frequency": 1,
+            },
+        )
+        self.assertEqual(response.data["notification"], "RepositoryNotification")
+        subscription_id = response.data["id"]
+
+        # User can read own notification details
+        self.do_request(
+            "api:user-notifications-details",
+            kwargs={"username": self.user.username, "subscription_id": subscription_id},
+            method="get",
+            code=200,
+        )
+
+        # User can update own notification
+        response = self.do_request(
+            "api:user-notifications-details",
+            kwargs={"username": self.user.username, "subscription_id": subscription_id},
+            method="patch",
+            code=200,
+            request={"frequency": 2},
+        )
+        self.assertEqual(response.data["frequency"], 2)
+
+        # User can delete own notification
+        self.do_request(
+            "api:user-notifications-details",
+            kwargs={"username": self.user.username, "subscription_id": subscription_id},
+            method="delete",
+            code=204,
+        )
+
+        # User cannot manage another user's notifications (create)
+        other_user = User.objects.create_user("other_user", "other@example.com")
+        self.do_request(
+            "api:user-notifications",
+            kwargs={"username": other_user.username},
+            method="post",
+            code=403,
+            request={
+                "notification": "RepositoryNotification",
+                "scope": 10,
+                "frequency": 1,
+            },
+        )
+
+        # User cannot delete another user's notifications
+        other_subscription = Subscription.objects.filter(user=other_user)[0]
+        self.do_request(
+            "api:user-notifications-details",
+            kwargs={
+                "username": other_user.username,
+                "subscription_id": other_subscription.id,
+            },
+            method="delete",
+            code=403,
+        )
 
     def test_statistics(self) -> None:
         user = User.objects.filter(is_active=True)[0]
@@ -785,13 +982,17 @@ class GroupAPITest(APIBaseTest):
             code=403,
             request={"role_id": role.id},
         )
-        self.do_request(
+        response = self.do_request(
             "api:group-roles",
             kwargs={"id": Group.objects.get(name="Users").id},
             method="post",
             superuser=True,
             code=400,
             request={"role_id": -1},
+        )
+        self.assertContains(response, "Role not found.", status_code=400)
+        self.assertNotContains(
+            response, "matching query does not exist", status_code=400
         )
         self.do_request(
             "api:group-roles",
@@ -848,13 +1049,17 @@ class GroupAPITest(APIBaseTest):
             code=403,
             request={"component_id": self.component.pk},
         )
-        self.do_request(
+        response = self.do_request(
             "api:group-components",
             kwargs={"id": Group.objects.get(name="Users").id},
             method="post",
             superuser=True,
             code=400,
             request={"component_id": -1},
+        )
+        self.assertContains(response, "Component not found.", status_code=400)
+        self.assertNotContains(
+            response, "matching query does not exist", status_code=400
         )
         self.do_request(
             "api:group-components",
@@ -910,13 +1115,17 @@ class GroupAPITest(APIBaseTest):
             code=403,
             request={"project_id": Project.objects.get(slug="test").pk},
         )
-        self.do_request(
+        response = self.do_request(
             "api:group-projects",
             kwargs={"id": Group.objects.get(name="Users").id},
             method="post",
             superuser=True,
             code=400,
             request={"project_id": -1},
+        )
+        self.assertContains(response, "Project not found.", status_code=400)
+        self.assertNotContains(
+            response, "matching query does not exist", status_code=400
         )
         self.do_request(
             "api:group-projects",
@@ -972,7 +1181,7 @@ class GroupAPITest(APIBaseTest):
             code=403,
             request={"language_code": "cs"},
         )
-        self.do_request(
+        response = self.do_request(
             "api:group-languages",
             kwargs={"id": Group.objects.get(name="Users").id},
             method="post",
@@ -980,6 +1189,20 @@ class GroupAPITest(APIBaseTest):
             code=400,
             request={"language_code": "invalid"},
         )
+        self.assertContains(response, "Language not found.", status_code=400)
+        self.assertNotContains(
+            response, "matching query does not exist", status_code=400
+        )
+        response = self.do_request(
+            "api:group-languages",
+            kwargs={"id": Group.objects.get(name="Users").id},
+            method="post",
+            superuser=True,
+            code=400,
+            request={"language_code": None},
+            format="json",
+        )
+        self.assertContains(response, "Invalid language code.", status_code=400)
         self.do_request(
             "api:group-languages",
             kwargs={"id": Group.objects.get(name="Users").id},
@@ -1032,13 +1255,17 @@ class GroupAPITest(APIBaseTest):
             code=403,
             request={"component_list_id": ComponentList.objects.get().pk},
         )
-        self.do_request(
+        response = self.do_request(
             "api:group-componentlists",
             kwargs={"id": Group.objects.get(name="Users").id},
             method="post",
             superuser=True,
             code=400,
             request={"component_list_id": -1},
+        )
+        self.assertContains(response, "Component list not found.", status_code=400)
+        self.assertNotContains(
+            response, "matching query does not exist", status_code=400
         )
         self.do_request(
             "api:group-componentlists",
@@ -1156,13 +1383,17 @@ class GroupAPITest(APIBaseTest):
         self.assertIn("Administration rights granted.", response.data)
 
         # Invalid user ID
-        self.do_request(
+        response = self.do_request(
             "api:group-grant-admin",
             kwargs={"id": group.id},
             method="post",
             superuser=True,
             request={"user_id": -1},
             code=400,
+        )
+        self.assertContains(response, "User not found", status_code=400)
+        self.assertNotContains(
+            response, "matching query does not exist", status_code=400
         )
 
         # Missing user ID
@@ -1216,6 +1447,88 @@ class GroupAPITest(APIBaseTest):
 
         admins_ids = [admin["id"] for admin in response.data.get("admins", [])]
         self.assertNotIn(user.id, admins_ids)
+
+    def test_project_admin_group_visibility(self) -> None:
+        """Project admins can see project-scoped groups but cannot edit their properties."""
+        # Create a non-superuser with project admin rights
+        admin = User.objects.create_user("project_admin", "admin@example.com")
+        self.component.project.add_user(admin, "Administration")
+
+        # Create a project-scoped group
+        group = Group.objects.create(
+            name="Project Team",
+            project_selection=SELECTION_MANUAL,
+            language_selection=SELECTION_ALL,
+            defining_project=self.component.project,
+        )
+        group.projects.add(self.component.project)
+
+        # Switch to project admin credentials
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {admin.auth_token.key}")
+
+        # Project admin can see the group (appears in queryset)
+        self.do_request(
+            "api:group-detail",
+            kwargs={"id": group.id},
+            method="get",
+            authenticated=False,
+            code=200,
+        )
+
+        # Project admin cannot update group properties (only global admins can)
+        self.do_request(
+            "api:group-detail",
+            kwargs={"id": group.id},
+            method="patch",
+            authenticated=False,
+            code=403,
+            request={"language_selection": 1},
+        )
+
+        # Project admin cannot add roles to the group (only global admins can)
+        role = Role.objects.get(name="Administration")
+        self.do_request(
+            "api:group-roles",
+            kwargs={"id": group.id},
+            method="post",
+            authenticated=False,
+            code=403,
+            request={"role_id": role.id},
+        )
+
+    def test_non_project_admin_group_visibility(self) -> None:
+        """Users without project admin rights cannot see project-scoped groups."""
+        other_user = User.objects.create_user("other_user", "other@example.com")
+
+        # Create a project-scoped group via the API as superuser
+        response = self.do_request(
+            "api:group-list",
+            method="post",
+            superuser=True,
+            code=201,
+            format="json",
+            request={
+                "name": "Project Team",
+                "project_selection": 0,
+                "language_selection": 0,
+                "defining_project": reverse(
+                    "api:project-detail", kwargs=self.project_kwargs
+                ),
+            },
+        )
+        group_id = response.data["id"]
+
+        # Switch to a user who has no rights on this project
+        self.client.credentials(HTTP_AUTHORIZATION=f"Token {other_user.auth_token.key}")
+
+        # Non-admin cannot see the group (not in queryset)
+        self.do_request(
+            "api:group-detail",
+            kwargs={"id": group_id},
+            method="get",
+            authenticated=False,
+            code=404,
+        )
 
 
 class RoleAPITest(APIBaseTest):
@@ -1510,7 +1823,7 @@ class ProjectAPITest(APIBaseTest):
                     "eligible_for_commit": 0,
                 },
             },
-            skip=("url",),
+            skip={"url"},
         )
 
     def test_components(self) -> None:
@@ -3288,7 +3601,7 @@ class ComponentAPITest(APIBaseTest):
             "api:component-statistics",
             self.component_kwargs,
             data={"count": 4},
-            skip=("results", "previous", "next"),
+            skip={"results", "previous", "next"},
         )
         response = self.do_request(
             "api:component-statistics",
@@ -3731,6 +4044,83 @@ class LanguageAPITest(APIBaseTest):
         self.assertEqual(Language.objects.get(code="cs").name, "New Language")
 
 
+class TasksAPITest(APIBaseTest):
+    task_id = "01234567-89ab-cdef-0123-456789abcdef"
+
+    def tearDown(self) -> None:
+        cache.delete(get_task_metadata_key(self.task_id))
+        super().tearDown()
+
+    def test_retrieve_uses_cached_component_metadata(self) -> None:
+        cache.set(
+            get_task_metadata_key(self.task_id),
+            {"component_id": self.component.id, "translation_id": None},
+            3600,
+        )
+
+        class DummyAsyncResult:
+            def __init__(self, task_id):
+                self.id = task_id
+                self.result = None
+                self.state = "PENDING"
+
+            def ready(self):
+                return False
+
+        with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
+            response = self.do_request(
+                "api:task-detail",
+                kwargs={"pk": self.task_id},
+                method="get",
+                code=200,
+            )
+
+        self.assertFalse(response.data["completed"])
+
+    def test_retrieve_denies_inaccessible_cached_component(self) -> None:
+        other_component = self.create_acl()
+        cache.set(
+            get_task_metadata_key(self.task_id),
+            {"component_id": other_component.id, "translation_id": None},
+            3600,
+        )
+
+        class DummyAsyncResult:
+            def __init__(self, task_id):
+                self.id = task_id
+                self.result = None
+                self.state = "PENDING"
+
+            def ready(self):
+                return False
+
+        with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
+            self.do_request(
+                "api:task-detail",
+                kwargs={"pk": self.task_id},
+                method="get",
+                code=403,
+            )
+
+    def test_retrieve_requires_cached_metadata(self) -> None:
+        class DummyAsyncResult:
+            def __init__(self, task_id):
+                self.id = task_id
+                self.result = None
+                self.state = "PENDING"
+
+            def ready(self):
+                return False
+
+        with patch("weblate.api.views.AsyncResult", DummyAsyncResult):
+            self.do_request(
+                "api:task-detail",
+                kwargs={"pk": self.task_id},
+                method="get",
+                code=404,
+            )
+
+
 class MemoryAPITest(APIBaseTest):
     def test_get(self) -> None:
         self.do_request(
@@ -3952,10 +4342,64 @@ class TranslationAPITest(APIBaseTest):
         unit = translation.unit_set.get(source="Hello, world!\n")
         self.assertEqual(unit.target, "Ahoj světe!\n")
         self.assertEqual(unit.state, STATE_TRANSLATED)
-
         self.assertEqual(self.component.project.stats.suggestions, 0)
-
         self.check_upload_changes(changes_start, 2)
+
+    def test_upload_parse_error(self) -> None:
+        self.authenticate()
+        with (
+            patch.object(
+                Translation,
+                "handle_upload",
+                side_effect=FileParseError("Broken PO header"),
+            ),
+            open(TEST_PO, "rb") as handle,
+        ):
+            response = self.client.put(
+                reverse("api:translation-file", kwargs=self.translation_kwargs),
+                {"file": handle},
+            )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertContains(response, "Broken PO header", status_code=400)
+
+    def test_upload_commit_error(self) -> None:
+        self.authenticate()
+        with (
+            patch.object(
+                Translation,
+                "handle_upload",
+                side_effect=FailedCommitError("Commit failed"),
+            ),
+            open(TEST_PO, "rb") as handle,
+        ):
+            response = self.client.put(
+                reverse("api:translation-file", kwargs=self.translation_kwargs),
+                {"file": handle},
+            )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertContains(response, "Commit failed", status_code=400)
+
+    def test_upload_internal_error_is_sanitized(self) -> None:
+        self.authenticate()
+        with (
+            patch.object(
+                Translation,
+                "handle_upload",
+                side_effect=Exception(f"Failure in {self.component.full_path}/secret"),
+            ),
+            open(TEST_PO, "rb") as handle,
+        ):
+            response = self.client.put(
+                reverse("api:translation-file", kwargs=self.translation_kwargs),
+                {"file": handle},
+            )
+
+        self.assertEqual(response.status_code, 400)
+        self.assertContains(response, "File upload has failed:", status_code=400)
+        self.assertContains(response, "/secret", status_code=400)
+        self.assertNotContains(response, self.component.full_path, status_code=400)
 
     def test_upload_source(self) -> None:
         self.authenticate(True)
@@ -4283,7 +4727,7 @@ class TranslationAPITest(APIBaseTest):
                 "readonly_words_percent": 0.0,
                 "readonly_chars_percent": 0.0,
             },
-            skip=("last_change",),
+            skip={"last_change"},
         )
 
     def test_changes(self) -> None:
@@ -5621,17 +6065,17 @@ class ScreenshotAPITest(APIBaseTest):
                         {
                             "attr": "project_slug",
                             "code": "invalid",
-                            "detail": "Translation matching query does not exist.",
+                            "detail": "Translation not found.",
                         },
                         {
                             "attr": "component_slug",
                             "code": "invalid",
-                            "detail": "Translation matching query does not exist.",
+                            "detail": "Translation not found.",
                         },
                         {
                             "attr": "language_code",
                             "code": "invalid",
-                            "detail": "Translation matching query does not exist.",
+                            "detail": "Translation not found.",
                         },
                     ],
                     "type": "validation_error",
@@ -5765,6 +6209,10 @@ class ScreenshotAPITest(APIBaseTest):
             {"unit_id": -1},
         )
         self.assertEqual(response.status_code, 400)
+        self.assertContains(response, "Unit not found.", status_code=400)
+        self.assertNotContains(
+            response, "matching query does not exist", status_code=400
+        )
 
     def test_units(self) -> None:
         self.authenticate(True)
@@ -6001,13 +6449,17 @@ class ComponentListAPITest(APIBaseTest):
             code=403,
             request={"component_id": self.component.pk},
         )
-        self.do_request(
+        response = self.do_request(
             "api:componentlist-components",
             kwargs={"slug": ComponentList.objects.get().slug},
             method="post",
             superuser=True,
             code=400,
             request={"component_id": -1},
+        )
+        self.assertContains(response, "Component not found.", status_code=400)
+        self.assertNotContains(
+            response, "matching query does not exist", status_code=400
         )
         self.do_request(
             "api:componentlist-components",
@@ -6135,7 +6587,7 @@ class AddonAPITest(APIBaseTest):
             "api:addon-detail",
             kwargs={"pk": response.data["id"]},
             method="delete",
-            code=403,
+            code=404,
         )
         self.do_request(
             "api:addon-detail",
@@ -6143,6 +6595,79 @@ class AddonAPITest(APIBaseTest):
             method="delete",
             superuser=True,
             code=204,
+        )
+
+    def addon_scope_test(
+        self,
+        *,
+        expect_access: bool,
+        authenticated: bool,
+        superuser: bool,
+        add_user: str = "",
+    ) -> None:
+        project = self.component.project
+        project.access_control = Project.ACCESS_PRIVATE
+        project.save(update_fields=["access_control"])
+        if add_user:
+            project.add_user(self.user, add_user)
+
+        addon_component = self.component.addon_set.create(
+            name="weblate.gettext.linguas"
+        )
+        addon_project = project.addon_set.create(name="weblate.gettext.linguas")
+        addon_site = Addon.objects.create(name="weblate.gettext.linguas")
+        self.do_request(
+            "api:addon-list",
+            superuser=superuser,
+            authenticated=authenticated,
+            data={"count": (3 if superuser else 2) if expect_access else 0},
+            skip={"results", "previous", "next"},
+        )
+        self.do_request(
+            "api:addon-detail",
+            kwargs={"pk": addon_component.pk},
+            superuser=superuser,
+            authenticated=authenticated,
+            code=200 if expect_access else 404,
+        )
+        self.do_request(
+            "api:addon-detail",
+            kwargs={"pk": addon_project.pk},
+            superuser=superuser,
+            authenticated=authenticated,
+            code=200 if expect_access else 404,
+        )
+        self.do_request(
+            "api:addon-detail",
+            kwargs={"pk": addon_site.pk},
+            superuser=superuser,
+            authenticated=authenticated,
+            code=200 if expect_access and superuser else 404,
+        )
+
+    def test_access_anonymous(self) -> None:
+        self.addon_scope_test(expect_access=False, authenticated=False, superuser=False)
+
+    def test_access_superuser(self) -> None:
+        self.addon_scope_test(expect_access=True, authenticated=True, superuser=True)
+
+    def test_access_user(self) -> None:
+        self.addon_scope_test(expect_access=False, authenticated=True, superuser=False)
+
+    def test_access_user_member(self) -> None:
+        self.addon_scope_test(
+            expect_access=False,
+            authenticated=True,
+            superuser=False,
+            add_user="Translate",
+        )
+
+    def test_access_user_admin(self) -> None:
+        self.addon_scope_test(
+            expect_access=True,
+            authenticated=True,
+            superuser=False,
+            add_user="Administration",
         )
 
     def test_configuration(self) -> None:
@@ -6172,7 +6697,7 @@ class AddonAPITest(APIBaseTest):
             "api:addon-detail",
             kwargs={"pk": response.data["id"]},
             method="patch",
-            code=403,
+            code=404,
             format="json",
             request={"configuration": expected},
         )
@@ -6223,7 +6748,7 @@ class AddonAPITest(APIBaseTest):
             "api:addon-detail",
             kwargs={"pk": response.data["id"]},
             method="delete",
-            code=403,
+            code=404,
         )
         self.do_request(
             "api:addon-detail",

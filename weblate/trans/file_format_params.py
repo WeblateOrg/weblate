@@ -404,12 +404,14 @@ class XMLClosingTags(BaseFileFormatParam):
     @classproperty
     def file_formats(self) -> Sequence[str]:
         from weblate.formats.models import FILE_FORMATS
+        from weblate.formats.ttkit import TTKitFormat
 
         result = []
         for file_format, format_class in FILE_FORMATS.items():
-            store_class = format_class.get_class()
-            if store_class and issubclass(store_class, LISAfile):
-                result.append(file_format)
+            if issubclass(format_class, TTKitFormat):
+                store_class = format_class.get_class()
+                if store_class and issubclass(store_class, LISAfile):
+                    result.append(file_format)
         return result
 
     def setup_store(

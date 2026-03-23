@@ -3,17 +3,16 @@ Python modules
 
 .. hint::
 
-   We're using virtualenv to install Weblate in a separate environment from your
-   system. If you are not familiar with it, check virtualenv :doc:`venv:user_guide`.
+   We're installing Weblate in a separate Python environment.
 
 
-#. Create the virtualenv for Weblate:
+#. Create the Python environment for Weblate:
 
    .. code-block:: sh
 
         uv venv ~/weblate-env
 
-#. Activate the virtualenv for Weblate:
+#. Activate the Python environment for Weblate:
 
    .. code-block:: sh
 
@@ -28,7 +27,9 @@ Python modules
 
    Please check :ref:`python-deps` for fine-tuning of optional dependencies.
 
-   .. seealso::
+.. seealso::
 
-      :ref:`troubleshoot-pip-install` describes frequent issues while installing Python
-      dependencies.
+   * `Using Python environments`_
+   * :ref:`troubleshoot-pip-install`
+
+.. _Using Python environments: https://docs.astral.sh/uv/pip/environments/

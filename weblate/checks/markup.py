@@ -135,6 +135,12 @@ class BBCodeCheck(TargetCheck):
     name = gettext_lazy("BBCode markup")
     description = gettext_lazy("BBCode in translation does not match source.")
     default_disabled = True
+    versions_changed = (
+        (
+            "5.10",
+            "This checks no longer relies on unreliable automatic detection, it now needs to be turned on using the ``bbcode-text`` flag.",
+        ),
+    )
 
     def __init__(self) -> None:
         super().__init__()
@@ -545,6 +551,7 @@ class RSTReferencesCheck(RSTBaseCheck):
     description = gettext_lazy(
         "Inconsistent reStructuredText markup in the translated message."
     )
+    version_added = "5.10"
 
     def get_missing_text(self, values: Iterable[str]) -> StrOrPromise:
         return self.get_values_text(
@@ -704,6 +711,7 @@ class RSTSyntaxCheck(RSTBaseCheck):
     check_id = "rst-syntax"
     name = gettext_lazy("reStructuredText syntax error")
     description = gettext_lazy("reStructuredText syntax error in the translation.")
+    version_added = "5.10"
 
     def check_single(
         self, source: str, target: str, unit: Unit

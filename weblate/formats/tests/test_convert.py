@@ -7,7 +7,7 @@
 import os
 from pathlib import Path
 from tempfile import NamedTemporaryFile
-from typing import ClassVar
+from typing import TYPE_CHECKING, ClassVar, cast
 
 from weblate.checks.tests.test_checks import MockUnit
 from weblate.formats.convert import (
@@ -18,19 +18,26 @@ from weblate.formats.convert import (
     OpenDocumentFormat,
     PlainTextFormat,
     WindowsRCFormat,
+    WXLFormat,
 )
 from weblate.formats.helpers import NamedBytesIO
 from weblate.formats.tests.test_formats import BaseFormatTest
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.state import STATE_TRANSLATED
 
+if TYPE_CHECKING:
+    from translate.storage.pypo import pofile
+
 IDML_FILE = get_test_file("en.idml")
 HTML_FILE = get_test_file("cs.html")
+HTML_FILE_TRANSLATED = get_test_file("cs2.html")
 MARKDOWN_FILE = get_test_file("cs.md")
+MARKDOWN_FILE_TRANSLATED = get_test_file("cs2.md")
 ASCIIDOC_FILE = get_test_file("cs.adoc")
 OPENDOCUMENT_FILE = get_test_file("cs.odt")
 TEST_RC = get_test_file("cs-CZ.rc")
 TEST_TXT = get_test_file("cs.txt")
+TEST_WXL = get_test_file("cs-cz.wxl")
 
 
 class ConvertFormatTest(BaseFormatTest):
@@ -44,6 +51,7 @@ class ConvertFormatTest(BaseFormatTest):
     CONVERT_EXISTING: ClassVar[list[MockUnit]] = []
 
     def test_convert(self) -> None:
+        self.maxDiff = None
         if not self.CONVERT_TEMPLATE:
             self.skipTest(
                 f"Test template not provided for {self.format_class.format_id}"
@@ -64,7 +72,7 @@ class ConvertFormatTest(BaseFormatTest):
             storage = self.format_class(
                 translation.name,
                 template_store=self.format_class(template.name, is_template=True),
-                existing_units=self.CONVERT_EXISTING,
+                existing_units=self.CONVERT_EXISTING,  # type: ignore[arg-type]
             )
 
             # Ensure it is parsed correctly
@@ -114,6 +122,10 @@ class HTMLFormatTest(ConvertFormatTest):
     CONVERT_TRANSLATION = "<html><body><p>Ahoj</p><p></p></body></html>"
     CONVERT_EXPECTED = "<html><body><p>Ahoj</p><p>Nazdar</p></body></html>"
 
+    def test_import_existing(self) -> None:
+        storage = self.parse_file(HTML_FILE_TRANSLATED, HTML_FILE)
+        self.assertEqual(storage.all_units[4].target, "Díky za Weblate.")
+
 
 class MarkdownFormatTest(ConvertFormatTest):
     format_class = MarkdownFormat
@@ -124,7 +136,7 @@ class MarkdownFormatTest(ConvertFormatTest):
     MASK = "*/translations.md"
     EXPECTED_PATH = "cs_CZ/translations.md"
     FIND = "Orangutan has five bananas."
-    FIND_MATCH = ""
+    FIND_MATCH = "Orangutan has five bananas."
     MATCH = b"#"
     NEW_UNIT_MATCH = None
     BASE = MARKDOWN_FILE
@@ -184,6 +196,10 @@ Try Weblate at [weblate.org](https://demo.weblate.org/)!
 """,
         )
 
+    def test_import_existing(self) -> None:
+        storage = self.parse_file(MARKDOWN_FILE_TRANSLATED, MARKDOWN_FILE)
+        self.assertEqual(storage.all_units[4].target, "*Díky za používání Weblate.*")
+
 
 class OpenDocumentFormatTest(ConvertFormatTest):
     format_class = OpenDocumentFormat
@@ -233,13 +249,16 @@ class IDMLFormatTest(ConvertFormatTest):
     EXPECTED_FLAGS = ""
     EDIT_OFFSET = 1
 
-    def extract_document(self, content: bytes):
-        pofile = self.format_class(NamedBytesIO("test.idml", content)).convertfile(
-            NamedBytesIO("test.idml", content), None
+    def extract_document(self, content: bytes) -> str:
+        document: pofile = cast(
+            "pofile",
+            self.format_class(NamedBytesIO("test.idml", content)).convertfile(
+                NamedBytesIO("test.idml", content), None
+            ),
         )
         # Avoid (changing) timestamp in the PO header
-        pofile.updateheader(pot_creation_date="")
-        return bytes(pofile).decode()
+        document.updateheader(pot_creation_date="")
+        return bytes(document).decode()
 
     def assert_same(self, newdata, testdata) -> None:
         self.assertEqual(
@@ -315,7 +334,7 @@ class AsciiDocFormatTest(ConvertFormatTest):
     MASK = "*/translations.adoc"
     EXPECTED_PATH = "cs_CZ/translations.adoc"
     FIND = "Orangutan has five bananas."
-    FIND_MATCH = ""
+    FIND_MATCH = "Orangutan has five bananas."
     MATCH = b"=="
     NEW_UNIT_MATCH = None
     BASE = ASCIIDOC_FILE
@@ -374,3 +393,38 @@ Try Weblate at https://demo.weblate.org/[weblate.org]!
 _Thank you for using Weblate._
 """,
         )
+
+
+class WXLFormatTest(ConvertFormatTest):
+    format_class = WXLFormat
+    FILE = TEST_WXL
+    BASE = TEST_WXL
+    MIME = "application/xml"
+    EXT = "wxl"
+    COUNT = 4
+    MASK = "wxl/*.wxl"
+    EXPECTED_PATH = "wxl/cs-cz.wxl"
+    MATCH = "<WixLocalization"
+    FIND = "Next page"
+    FIND_MATCH = "Next page"
+    EDIT_OFFSET = 1
+
+    CONVERT_TEMPLATE = """<?xml version='1.0' encoding='utf-8'?>
+<WixLocalization xmlns="http://wixtoolset.org/schemas/v4/wxl" Culture="de-de" Codepage="65001">
+  <String Id="WixUIBack" Overridable="yes" Value="Hello"/>
+  <UI Id="WixUI_Mondo"/>
+  <String Id="WixUINext" Overridable="yes" Value="Bye"/>
+</WixLocalization>
+"""
+    CONVERT_TRANSLATION = """<?xml version='1.0' encoding='utf-8'?>
+<WixLocalization xmlns="http://wixtoolset.org/schemas/v4/wxl" Culture="de-de" Codepage="65001">
+  <String Id="WixUIBack" Overridable="yes" Value="Ahoj"/>
+</WixLocalization>
+"""
+    CONVERT_EXPECTED = """<?xml version='1.0' encoding='utf-8'?>
+<WixLocalization xmlns="http://wixtoolset.org/schemas/v4/wxl" Culture="de-de" Codepage="65001">
+  <String Id="WixUIBack" Overridable="yes" Value="Ahoj"/>
+  <UI Id="WixUI_Mondo"/>
+  <String Id="WixUINext" Overridable="yes" Value="Nazdar"/>
+</WixLocalization>
+"""

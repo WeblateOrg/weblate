@@ -58,7 +58,7 @@ if TYPE_CHECKING:
 
     from weblate.trans.models import Component
 
-LOCK_ERROR = re.compile(r"Unable to create '([^']*\.git/[.*]\.lock)': File exists")
+LOCK_ERROR = re.compile(r"Unable to create '([^']*\.git/[^']*\.lock)': File exists")
 # Assume lock is stale after one hour
 LOCK_STALE_SECONDS = 3600
 
@@ -105,7 +105,7 @@ class GitRepository(Repository):
     push_label: ClassVar[StrOrPromise] = gettext_lazy(
         "This will push changes to the upstream Git repository."
     )
-    req_version: ClassVar[str | None] = "2.28"
+    req_version: ClassVar[str | None] = "2.46"
     default_branch: ClassVar[str] = "master"
     ref_to_remote: ClassVar[str] = "..{0}"
     ref_from_remote: ClassVar[str] = "{0}.."
@@ -128,9 +128,12 @@ class GitRepository(Repository):
         locks = LOCK_ERROR.findall(errormessage)
         if locks and len(locks) == 1:
             lock = Path(locks[0])
-            if time() - lock.stat().st_mtime > LOCK_STALE_SECONDS:
-                lock.unlink(missing_ok=True)
-                return True
+            try:
+                if time() - lock.stat().st_mtime > LOCK_STALE_SECONDS:
+                    lock.unlink(missing_ok=True)
+                    return True
+            except OSError:
+                pass
         return False
 
     @classmethod
@@ -209,7 +212,7 @@ class GitRepository(Repository):
         if repo.startswith("https://"):
             parsed = urlparse(repo)
             if parsed.password:
-                # proactive HTTP authentication, needs Git 2.46
+                # proactive HTTP authentication
                 yield "-c"
                 yield "http.proactiveAuth=auto"
 
@@ -481,9 +484,8 @@ class GitRepository(Repository):
         )
         self.branch = branch
 
-    def list_branches(self, *args):
-        cmd = ["branch", "--list"]
-        cmd.extend(args)
+    def list_branches(self, *args: str) -> list[str]:
+        cmd = ["branch", "--list", *args]
         # (we get additional * there indicating current branch)
         return [
             x.lstrip("*").strip()
@@ -577,6 +579,9 @@ class GitRepository(Repository):
 
     def remove_stale_branches(self) -> None:
         """Remove stale branches and tags from the repository."""
+        # Prune remote branches, this can fail if repository is unreachable
+        with suppress(RepositoryError):
+            self.execute([*self.get_auth_args(), "remote", "prune", "origin"])
         # Remove possible stale branches
         for branch in self.list_branches():
             if branch != self.branch:
@@ -603,10 +608,8 @@ class GitRepository(Repository):
 
     def update_remote(self) -> None:
         """Update remote repository."""
-        auth_args = self.get_auth_args()
-        self.execute([*auth_args, "remote", "prune", "origin"])
         # Update existing branch only, not changing depth
-        self.execute([*auth_args, "fetch", "origin", self.branch])
+        self.execute([*self.get_auth_args(), "fetch", "origin", self.branch])
         self.clean_revision_cache()
 
     def push(self, branch: str) -> None:
@@ -968,7 +971,7 @@ class GitMergeRequestBase(GitForcePushRepository):
         if not host:
             if ":" in repo:
                 # Assume SSH URL
-                host, path = repo.split(":")
+                host, path = repo.split(":", 1)
                 host = host.split("@")[-1]
                 scheme = None
             else:
@@ -2406,7 +2409,7 @@ class BitbucketCloudRepository(GitMergeRequestBase):
 
     def get_default_reviewers_uuids(self, credentials: GitCredentials) -> list[str]:
         """Get a list of uuids of default reviewers for a repository."""
-        list_reviewers_url = f"{credentials['url']}/default-reviewers"
+        list_reviewers_url = f"{credentials['url']}/effective-default-reviewers"
         try:
             reviewers = self.build_full_paginated_result(
                 credentials, list_reviewers_url, "Reviewers listing error: "
@@ -2414,7 +2417,12 @@ class BitbucketCloudRepository(GitMergeRequestBase):
         except RepositoryError:
             return []
 
-        return [reviewer["uuid"] for reviewer in reviewers]
+        result = []
+        for reviewer in reviewers:
+            reviewer_uuid: str | None = reviewer.get("user", {}).get("uuid")
+            if reviewer_uuid and reviewer_uuid not in result:
+                result.append(reviewer_uuid)
+        return result
 
     def build_full_paginated_result(
         self,

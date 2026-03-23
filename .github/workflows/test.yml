@@ -9,6 +9,7 @@ on:
     branches-ignore:
     - renovate/**
     - weblate
+    - dependabot/**
   pull_request:
 
 concurrency:
@@ -30,60 +31,55 @@ jobs:
         - '3.14'
         requirements:
         - latest
-        database:
-        - postgresql
-        datastore:
-        - valkey
         experimental:
         - false
         include:
-        # Reduced testing for mysql
-        - python-version: '3.14'
-          requirements: latest
-          database: mysql
-          datastore: valkey
-          experimental: false
-        # Reduced testing for mariadb
-        - python-version: '3.14'
-          requirements: latest
-          database: mariadb
-          datastore: valkey
-          experimental: false
-        # Reduced testing for redis
-        - python-version: '3.14'
-          requirements: latest
-          database: postgresql
-          datastore: redis
-          experimental: false
         # Reduced testing for minimal deps
         - python-version: '3.12'
           requirements: minimal
-          database: postgresql
-          datastore: valkey
           experimental: false
         # Reduced testing for edge deps
         - python-version: '3.14'
           requirements: edge
-          database: postgresql
-          datastore: valkey
           experimental: true
-    name: py${{ matrix.python-version }}, ${{ matrix.database }}, ${{ matrix.datastore }}, ${{ matrix.requirements }} deps
+    name: py${{ matrix.python-version }}, ${{ matrix.requirements }} deps
     env:
-      CI_DATABASE: ${{ matrix.database }}
       CI_REDIS_HOST: 127.0.0.1
-      CI_REDIS_PORT: '60001'
+      CI_REDIS_PORT: '6379'
       CI_DB_PASSWORD: weblate
       CI_DB_HOST: 127.0.0.1
-      CI_DB_PORT: '60000'
+      CI_DB_PORT: '5432'
       CI_SELENIUM: '1'
       DJANGO_SETTINGS_MODULE: weblate.settings_test
       PYTHONWARNINGS: default,ignore:unclosed:ResourceWarning
       PYTHONUNBUFFERED: 1
+    services:
+      database:
+        image: postgres:18.3-alpine@sha256:4da1a4828be12604092fa55311276f08f9224a74a62dcb4708bd7439e2a03911
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: weblate
+        ports:
+        - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+      cache:
+        image: valkey/valkey:9.0.3-alpine@sha256:84c96f47ebe197e635cd3ddbe3ab74e8bdf783cf3befbfb1c36387275c1cd5d5
+        ports:
+        - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       with:
         persist-credentials: false
-    - uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
+    - uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
       with:
         path: data-test/cache/tesseract
         key: tesseract-data
@@ -93,15 +89,13 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
         allow-prereleases: true
-    - uses: astral-sh/setup-uv@eac588ad8def6316056a12d4907a9d4d84ff7a3b # v7.3.0
+    - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7.6.0
       with:
         save-cache: ${{ github.ref == 'refs/heads/main' }}
         cache-suffix: ${{ steps.setup_python.outputs.python-version }}
-        version: 0.10.4
-    - name: Start services
-      run: ./ci/services-up ${{ matrix.database }} ${{ matrix.datastore }}
+        version: 0.10.12
     - name: Install apt dependencies
-      run: sudo ./ci/apt-install "$CI_DATABASE"
+      run: sudo ./ci/apt-install
     - name: Install Python dependencies
       run: ./ci/pip-install ${{ matrix.requirements }}
     - name: Used versions
@@ -144,17 +138,20 @@ jobs:
         mv build/coverage/.coverage.* .
         uv run coverage combine
         uv run coverage xml
-    - uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
+    - name: Argos CI upload
+      if: matrix.python-version == '3.14' && matrix.requirements == 'latest'
+      env:
+        ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }} # zizmor: ignore[secrets-outside-env]
+      run: |
+        npx --package=@argos-ci/cli -- argos upload ./test-images/
+    - uses: codecov/codecov-action@1af58845a975a7985b0beb0cbe6fbbb71a41dbad # v5.5.3
       with:
-        token: ${{secrets.CODECOV_TOKEN}}
+        token: ${{secrets.CODECOV_TOKEN}} # zizmor: ignore[secrets-outside-env]
         flags: unittests
-        name: Tests py${{ matrix.python-version }}, ${{ matrix.database }}, ${{ matrix.requirements }} deps
+        name: Tests py${{ matrix.python-version }}, ${{ matrix.requirements }} deps
     - name: Upload test results to Codecov
       if: ${{ !cancelled() }}
-      uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
+      uses: codecov/codecov-action@1af58845a975a7985b0beb0cbe6fbbb71a41dbad # v5.5.3
       with:
-        token: ${{ secrets.CODECOV_TOKEN }}
+        token: ${{ secrets.CODECOV_TOKEN }} # zizmor: ignore[secrets-outside-env]
         report_type: test_results
-    - name: Stop services
-      if: always()
-      run: ./ci/services-down ${{ matrix.database }} ${{ matrix.datastore }}

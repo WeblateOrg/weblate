@@ -9,6 +9,7 @@ on:
     branches-ignore:
     - renovate/**
     - weblate
+    - dependabot/**
   pull_request:
 
 permissions:
@@ -26,7 +27,7 @@ jobs:
     - name: Get changed files
       if: github.event_name == 'pull_request'
       id: changed-files
-      uses: tj-actions/changed-files@7dee1b0c1557f278e5c7dc244927139d78c0e22a # v47.0.4
+      uses: tj-actions/changed-files@22103cc46bda19c2b464ffe86db46df6922fd323 # v47.0.5
       with:
         files: '**.py'
     - name: List all changed files
@@ -47,19 +48,15 @@ jobs:
       uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       with:
         python-version: '3.14'
-    - uses: astral-sh/setup-uv@eac588ad8def6316056a12d4907a9d4d84ff7a3b # v7.3.0
+    - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7.6.0
       with:
         save-cache: ${{ github.ref == 'refs/heads/main' }}
         cache-suffix: ${{ steps.setup_python.outputs.python-version }}
 
-        version: 0.10.4
+        version: 0.10.12
     - name: Install deps
-      env:
-        CI_DATABASE: postgresql
       run: uv sync --no-binary-package lxml --no-binary-package xmlsec --all-extras --group types
     - name: Run mypy
-      env:
-        CI_DATABASE: postgresql
       run: |
         set +e
         uv run --no-sync mypy --show-column-numbers weblate scripts/*.py ./*.py | ./scripts/filter-mypy.sh | tee mypy.log
@@ -81,7 +78,7 @@ jobs:
     - name: Enforced mypy
       # TODO: Enforce mypy to pass on certain modules, this should eventually grow to complete codebase
       env:
-        EXCLUDED_MODULES: accounts/|addons/|api/|auth/|billing/|fonts/|formats/(ttkit|auto|multi|external|tests)|checks/|lang/|machinery/|metrics/|trans/(admin|autofixes|autotranslate|context_processors|debug|feeds|forms|guide|management|mixins|models/(agreement|pending|suggestion|comment|announcement|category|unit|translation|component)|tests|views|widgets)|vcs/(gpg|base|git|tests/test_vcs)
+        EXCLUDED_MODULES: accounts/|addons/(base|models|resx|views|gettext|tests)|api/|auth/|billing/|fonts/|checks/|lang/|machinery/|metrics/|trans/(admin|autofixes|autotranslate|context_processors|debug|feeds|forms|guide|management|mixins|models/(agreement|pending|suggestion|comment|announcement|category|unit|translation|component)|tests|views|widgets)|vcs/(gpg|base|git|tests/test_vcs)
       run: |
         echo "::add-matcher::.github/matchers/mypy.json"
         if grep --silent --invert-match --extended-regexp "^weblate/($EXCLUDED_MODULES)" mypy.log ; then

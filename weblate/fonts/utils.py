@@ -15,6 +15,7 @@ import cairo
 import gi
 from django.core.cache import cache as django_cache
 from django.db.models.fields.files import FieldFile
+from PIL import ImageFont
 
 from weblate.utils.data import data_path
 from weblate.utils.hash import calculate_hash
@@ -306,8 +307,6 @@ def check_render_size(
 
 def get_font_name(filelike):
     """Return tuple of font family and style, for example ('Ubuntu', 'Regular')."""
-    from PIL import ImageFont
-
     # Form uploaded file
     if isinstance(filelike, FieldFile):
         filelike = filelike.file

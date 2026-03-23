@@ -139,6 +139,7 @@ Learn more about :ref:`contributing`.
     contributing/schemas
     contributing/release
     contributing/modules
+    contributing/submodules
     contributing/about
     contributing/code_of_conduct
     contributing/license

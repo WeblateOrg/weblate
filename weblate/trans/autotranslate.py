@@ -14,9 +14,7 @@ from django.db.models import Value
 from django.db.models.functions import MD5, Lower
 from django.utils.translation import gettext, ngettext
 
-from weblate.machinery.base import (
-    MachineTranslationError,
-)
+from weblate.machinery.base import MachineTranslationError
 from weblate.machinery.models import MACHINERY
 from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Category, Component, Suggestion, Translation, Unit
@@ -30,16 +28,11 @@ from weblate.utils.state import (
 from weblate.utils.stats import ProjectLanguage
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
+    from collections.abc import Sequence
 
     from weblate.auth.models import User
-    from weblate.machinery.base import (
-        BatchMachineTranslation,
-        UnitMemoryResultDict,
-    )
-    from weblate.utils.state import (
-        StringState,
-    )
+    from weblate.machinery.base import BatchMachineTranslation, UnitMemoryResultDict
+    from weblate.utils.state import StringState
 
 
 class BaseAutoTranslate:
@@ -54,7 +47,6 @@ class BaseAutoTranslate:
         mode: str,
         component_wide: bool = False,
         unit_ids: list[int] | None = None,
-        **kwargs,
     ) -> None:
         self.user: User | None = user
         self.q: str = q
@@ -65,14 +57,15 @@ class BaseAutoTranslate:
     def get_message(self) -> str:
         if self.updated == 0:
             return gettext("Automatic translation completed, no strings were updated.")
-        return (
-            ngettext(
-                "Automatic translation completed, %d string was updated.",
-                "Automatic translation completed, %d strings were updated.",
-                self.updated,
-            )
-            % self.updated
+        message = ngettext(
+            "Automatic translation completed, %d string was updated.",
+            "Automatic translation completed, %d strings were updated.",
+            self.updated,
         )
+        try:
+            return message % self.updated
+        except TypeError:
+            return message
 
     def get_task_meta(self) -> dict[str, Any]:
         """Return a metadata dictionary for Celery task progress tracking."""
@@ -88,8 +81,19 @@ class BaseAutoTranslate:
 
 
 class AutoTranslate(BaseAutoTranslate):
-    def __init__(self, *, translation: Translation, **kwargs) -> None:
-        super().__init__(**kwargs)
+    def __init__(
+        self,
+        *,
+        translation: Translation,
+        user: User | None,
+        q: str,
+        mode: str,
+        component_wide: bool = False,
+        unit_ids: list[int] | None = None,
+    ) -> None:
+        super().__init__(
+            user=user, q=q, mode=mode, component_wide=component_wide, unit_ids=unit_ids
+        )
         self.translation: Translation = translation
         translation.component.start_batched_checks()
         self.progress_base = 0
@@ -123,6 +127,8 @@ class AutoTranslate(BaseAutoTranslate):
             if suggestion:
                 self.updated += 1
         else:
+            # Ensure deferred changes accumulate on the right Translation instance
+            unit.translation = self.translation
             unit.is_batch_update = True
             unit.translate(
                 user or self.user,
@@ -137,6 +143,7 @@ class AutoTranslate(BaseAutoTranslate):
     def post_process(self) -> None:
         if self.updated > 0:
             self.translation.log_info("finalizing automatic translation")
+            self.translation.store_update_changes()
             if not self.component_wide:
                 self.translation.component.update_source_checks()
                 self.translation.component.run_batched_checks()
@@ -145,16 +152,15 @@ class AutoTranslate(BaseAutoTranslate):
                 self.user.profile.increase_count("translated", self.updated)
 
     @transaction.atomic
-    def process_others(self, source: int | None) -> None:
+    def process_others(self, source_component_id: int | None) -> None:
         """Perform automatic translation based on other components."""
-        kwargs = {
-            "translation__plural": self.translation.plural,
-            "state__gte": STATE_TRANSLATED,
-        }
+        sources = Unit.objects.filter(
+            translation__plural=self.translation.plural,
+            state__gte=STATE_TRANSLATED,
+        )
         source_language = self.translation.component.source_language
-        exclude = {}
-        if source:
-            component = Component.objects.get(id=source)
+        if source_component_id:
+            component = Component.objects.get(id=source_component_id)
 
             if (
                 not component.project.contribute_shared_tm
@@ -165,22 +171,19 @@ class AutoTranslate(BaseAutoTranslate):
             if component.source_language != source_language:
                 msg = "Component have different source languages."
                 raise PermissionDenied(msg)
-            kwargs["translation__component"] = component
+            sources = sources.filter(translation__component=component)
         else:
             project = self.translation.component.project
-            kwargs["translation__component__project"] = project
-            kwargs["translation__component__source_language"] = source_language
-            exclude["translation"] = self.translation
-        sources = Unit.objects.filter(**kwargs)
+            sources = sources.filter(
+                translation__component__project=project,
+                translation__component__source_language=source_language,
+            ).exclude(translation=self.translation)
 
         # Use memory_db for the query in case it exists. This is supposed
         # to be a read-only replica for offloading expensive translation
         # queries.
         if "memory_db" in settings.DATABASES:
             sources = sources.using("memory_db")
-
-        if exclude:
-            sources = sources.exclude(**exclude)
 
         # Get source MD5s
         source_md5s = list(
@@ -327,7 +330,7 @@ class AutoTranslate(BaseAutoTranslate):
         auto_source: Literal["mt", "others"],
         engines: list[str],
         threshold: int,
-        source: int | None,
+        source_component_id: int | None,
     ) -> str:
         translation = self.translation
         translation.log_info(
@@ -335,13 +338,13 @@ class AutoTranslate(BaseAutoTranslate):
             self.mode,
             current_task.request.id if current_task and current_task.request.id else "",
             auto_source,
-            ", ".join(engines) if engines else source,
+            ", ".join(engines) if engines else source_component_id,
         )
         try:
             if auto_source == "mt":
                 self.process_mt(engines, threshold)
             else:
-                self.process_others(source)
+                self.process_others(source_component_id)
         except (MachineTranslationError, Component.DoesNotExist) as error:
             translation.log_error("failed automatic translation: %s", error)
             return gettext("Automatic translation failed: %s") % error
@@ -352,7 +355,7 @@ class AutoTranslate(BaseAutoTranslate):
 
 
 class BatchAutoTranslate(BaseAutoTranslate):
-    translations: Iterable[Translation]
+    translations: Sequence[Translation]
 
     def __init__(
         self,
@@ -405,7 +408,7 @@ class BatchAutoTranslate(BaseAutoTranslate):
         auto_source: Literal["mt", "others"],
         engines: list[str],
         threshold: int,
-        source: int | None,
+        source_component_id: int | None,
     ) -> str:
         for pos, translation in enumerate(self.translations, start=1):
             auto_translate = AutoTranslate(
@@ -421,7 +424,7 @@ class BatchAutoTranslate(BaseAutoTranslate):
                 auto_source=auto_source,
                 engines=engines,
                 threshold=threshold,
-                source=source,
+                source_component_id=source_component_id,
             )
             self.updated += auto_translate.updated
             self.set_progress(pos)

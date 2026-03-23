@@ -39,6 +39,9 @@ class XlsxFormatTest(BaseFormatTest):
         self.assertEqual(len(newworkbook.worksheets), len(testworkbook.worksheets))
         self.assertIsNotNone(newworkbook.active)
         self.assertIsNotNone(testworkbook.active)
+        # To make type checker happy
+        if newworkbook.active is None or testworkbook.active is None:
+            raise TypeError
         self.assertEqual(
             list(newworkbook.active.values),
             list(testworkbook.active.values),

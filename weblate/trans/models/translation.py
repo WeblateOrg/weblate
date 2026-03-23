@@ -42,14 +42,13 @@ from weblate.trans.models.change import Change
 from weblate.trans.models.pending import PendingUnitChange
 from weblate.trans.models.suggestion import Suggestion
 from weblate.trans.models.unit import Unit
-from weblate.trans.models.variant import Variant
 from weblate.trans.signals import component_post_update, vcs_pre_commit
 from weblate.trans.util import is_plural, join_plural, split_plural
 from weblate.trans.validators import validate_check_flags
 from weblate.utils import messages
-from weblate.utils.db import using_postgresql
 from weblate.utils.errors import report_error
 from weblate.utils.html import format_html_join_comma
+from weblate.utils.regex import regex_match
 from weblate.utils.render import render_template
 from weblate.utils.site import get_site_url
 from weblate.utils.state import (
@@ -109,9 +108,7 @@ class TranslationManager(models.Manager):
             translation.language_code = code
             translation.save(update_fields=["filename", "language_code"])
         flags = ""
-        if (not component.edit_template and translation.is_template) or (
-            not component.has_template() and translation.is_source
-        ):
+        if translation.source_editing_disabled:
             flags = "read-only"
         if translation.check_flags != flags:
             force = True
@@ -234,6 +231,7 @@ class Translation(
         self.reason = ""
         self._invalidate_scheduled = False
         self.update_changes: list[Change] = []
+        self.pending_unit_changes: list[PendingUnitChange] = []
         # Project backup integration
         self.original_id = -1
 
@@ -272,13 +270,25 @@ class Translation(
         return self.language_id == self.component.source_language_id
 
     @cached_property
-    def all_flags(self):
+    def all_flags(self) -> Flags:
         """Return parsed list of flags."""
         return Flags(self.component.all_flags, self.check_flags)
 
     @cached_property
     def is_readonly(self):
         return "read-only" in self.all_flags
+
+    def parse_check_flags(self) -> Flags:
+        return Flags(self.check_flags)
+
+    def has_readonly_flag(self) -> bool:
+        return "read-only" in self.parse_check_flags()
+
+    def get_flags_without_readonly(self) -> Flags:
+        result = self.parse_check_flags()
+        result.remove("read-only")
+        result.merge("test-only")
+        return result
 
     def clean(self) -> None:
         """Validate that filename exists and can be opened using translate-toolkit."""
@@ -390,12 +400,7 @@ class Translation(
             is_new = False
         except KeyError:
             newunit = Unit(translation=self, id_hash=id_hash, state=-1)
-            # Avoid fetching empty list of checks from the database
-            newunit.all_checks = []
-            # Avoid fetching empty list of variants
-            newunit._prefetched_objects_cache = {  # noqa: SLF001
-                "defined_variants": Variant.objects.none()
-            }
+            newunit.fill_new_unit_cache()
             is_new = True
 
         newunit.store_unit_attributes(
@@ -476,7 +481,7 @@ class Translation(
                 )
 
                 # Store plural
-                plural = store.get_plural(self.language, store)
+                plural = store.get_plural(self.language)
                 if plural != self.plural:
                     self.plural = plural
                     self.save(update_fields=["plural"])
@@ -515,15 +520,30 @@ class Translation(
                     if (
                         self.component.file_format_cls.monolingual
                         and self.component.key_filter_re
-                        and self.component.key_filter_re.match(unit.context) is None
                     ):
-                        # This is where the key filtering take place
-                        self.log_info(
-                            "Doesn't match with key_filter, skipping: %s (%s)",
-                            unit.context,
-                            repr(unit.source),
-                        )
-                        continue
+                        try:
+                            key_filter_match = regex_match(
+                                self.component.key_filter_re, unit.context
+                            )
+                        except TimeoutError:
+                            report_error(
+                                "Component key filter regex timed out",
+                                project=self.component.project,
+                            )
+                            self.component.log_warning(
+                                "key filter regex timed out, skipping: %s (%s)",
+                                unit.context,
+                                repr(unit.source),
+                            )
+                            continue
+                        if key_filter_match is None:
+                            # This is where the key filtering take place
+                            self.log_info(
+                                "Doesn't match with key_filter, skipping: %s (%s)",
+                                unit.context,
+                                repr(unit.source),
+                            )
+                            continue
 
                     try:
                         id_hash = unit.id_hash
@@ -562,7 +582,8 @@ class Translation(
                                 newunit.unit_attributes
                                 for newunit in updated.values()
                                 if newunit.unit_attributes is not None
-                            ]
+                            ],
+                            create_unit_change_action=self.create_unit_change_action,
                         )
 
                 # Create/update translations
@@ -632,6 +653,9 @@ class Translation(
         # Save change
         Change.objects.bulk_create(self.update_changes, batch_size=500)
         self.update_changes.clear()
+        # Save pending unit changes
+        PendingUnitChange.objects.bulk_create(self.pending_unit_changes, batch_size=500)
+        self.pending_unit_changes.clear()
 
     def do_update(
         self, request: AuthenticatedHttpRequest | None = None, method: str | None = None
@@ -669,12 +693,11 @@ class Translation(
         component = self.component
         filenames = [self.get_filename()]
 
-        if component.has_template():
+        if filename := component.get_template_filename():
             # Include template
-            filenames.append(component.get_template_filename())
+            filenames.append(filename)
 
-            filename = component.get_intermediate_filename()
-            if component.intermediate and os.path.exists(filename):
+            if filename := component.get_intermediate_filename():
                 # Include intermediate language as it might add new strings
                 filenames.append(filename)
 
@@ -898,9 +921,7 @@ class Translation(
     def count_pending_units(self):
         """Return count of units with pending changes."""
         qs = PendingUnitChange.objects.for_translation(self, apply_filters=True)
-        if using_postgresql():
-            return qs.distinct("unit_id").count()
-        return qs.values("unit_id").distinct().count()
+        return qs.distinct("unit_id").count()
 
     def needs_commit(self):
         """Check whether there are some not committed changes."""
@@ -1258,6 +1279,8 @@ class Translation(
 
             accepted += 1
 
+            # Ensure deferred changes accumulate on this Translation instance
+            unit.translation = self
             unit.is_batch_update = True
             unit.translate(
                 request.user,
@@ -1271,6 +1294,7 @@ class Translation(
             )
 
         if accepted > 0:
+            self.store_update_changes()
             self.component.update_source_checks()
             self.component.run_batched_checks()
             self.invalidate_cache()
@@ -1436,8 +1460,18 @@ class Translation(
                     % str(error).replace(self.component.full_path, "")
                 ) from error
             # This will throw an exception in case of error
-            store2 = self.load_store(fileobj)
-            store2.check_valid()
+            try:
+                store2 = self.load_store(fileobj)
+                store2.check_valid()
+            except Exception as error:
+                raise FileParseError(
+                    gettext(
+                        "Could not parse uploaded file as {file_format}: {error}"
+                    ).format(
+                        file_format=self.component.file_format_cls.name,
+                        error=str(error).replace(self.component.full_path, ""),
+                    )
+                ) from error
 
             # Actually replace file content
             self.component.file_format_cls.save_atomic(
@@ -1915,6 +1949,7 @@ class Translation(
                     position=translation.stats.all + 1,
                     **kwargs,
                 )
+                unit.fill_new_unit_cache()
                 unit.is_batch_update = is_batch_update
                 unit.trigger_update_variants = False
                 try:
@@ -2193,6 +2228,12 @@ class Translation(
             )
             .prefetch()
             .order()
+        )
+
+    @property
+    def source_editing_disabled(self) -> bool:
+        return (not self.component.edit_template and self.is_template) or (
+            not self.component.has_template() and self.is_source
         )
 
 

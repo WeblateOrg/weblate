@@ -31,7 +31,18 @@ class SSHAddForm(forms.Form):
         validators=[DomainOrIPValidator()],
     )
     port = forms.IntegerField(
-        label=gettext_lazy("Port"), required=False, min_value=1, max_value=65535
+        label=gettext_lazy("Port"),
+        required=False,
+        min_value=1,
+        max_value=65535,
+        help_text=gettext_lazy("Keep blank for using the default SSH port."),
+    )
+    fingerprint = forms.CharField(
+        label=gettext_lazy("Fingerprint"),
+        required=False,
+        help_text=gettext_lazy(
+            "Fingerprint of key to add. Keep blank to add all keys offered by the host."
+        ),
     )
 
     def __init__(self, *args, **kwargs) -> None:

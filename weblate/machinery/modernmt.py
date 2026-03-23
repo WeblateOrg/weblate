@@ -33,6 +33,7 @@ class ModernMTTranslation(GlossaryMachineTranslationMixin):
     name = "ModernMT"
     max_score = 90
     settings_form = ModernMTMachineryForm
+    version_added = "4.2"
 
     language_map: ClassVar[dict[str, str]] = {
         "fa": "pes",

@@ -9,6 +9,7 @@ on:
     branches-ignore:
     - renovate/**
     - weblate
+    - dependabot/**
   pull_request:
 concurrency:
   group: ${{ github.workflow }}-${{ github.head_ref || github.run_id }}
@@ -20,35 +21,43 @@ permissions:
 jobs:
   migrations:
     runs-on: ubuntu-24.04
-    strategy:
-      matrix:
-        database: [postgresql, mysql]
-      fail-fast: false
-    name: ${{ matrix.database }}
+    name: postgresql
     env:
-      CI_DATABASE: ${{ matrix.database }}
+      # This is needed for older versions to migrate, can be removed once migration from 5.17+ only is supported
+      CI_DATABASE: postgresql
       CI_DB_PASSWORD: weblate
       CI_DB_HOST: 127.0.0.1
-      CI_DB_PORT: '60000'
+      CI_DB_PORT: '5432'
       CI_SELENIUM: '1'
       DJANGO_SETTINGS_MODULE: weblate.settings_test
       UV_FROZEN: '1'
+    services:
+      database:
+        image: postgres:18.3-alpine@sha256:4da1a4828be12604092fa55311276f08f9224a74a62dcb4708bd7439e2a03911
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: weblate
+        ports:
+        - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
 
     steps:
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       with:
         persist-credentials: false
-    - name: Start services
-      run: ./ci/services-up ${{ matrix.database }}
     - name: Install apt dependencies
-      run: sudo ./ci/apt-install "$CI_DATABASE"
-    - uses: astral-sh/setup-uv@eac588ad8def6316056a12d4907a9d4d84ff7a3b # v7.3.0
+      run: sudo ./ci/apt-install
+    - uses: astral-sh/setup-uv@37802adc94f370d6bfd71619e3f0bf239e1f3b78 # v7.6.0
       with:
         enable-cache: true
         # Do not share cache with tests as this uses python 3.11 for older versions
         cache-suffix: multi
         save-cache: ${{ github.ref == 'refs/heads/main' }}
-        version: 0.10.4
+        version: 0.10.12
     - name: Set up Python
       uses: actions/setup-python@a309ff8b426b58ec0e2a45f0f869d46889d02405 # v6.2.0
       with:
@@ -97,11 +106,8 @@ jobs:
       run: |
         uv run coverage combine
         uv run coverage xml
-    - uses: codecov/codecov-action@671740ac38dd9b0130fbe1cec585b89eea48d3de # v5.5.2
+    - uses: codecov/codecov-action@1af58845a975a7985b0beb0cbe6fbbb71a41dbad # v5.5.3
       with:
-        token: ${{secrets.CODECOV_TOKEN}}
+        token: ${{secrets.CODECOV_TOKEN}} # zizmor: ignore[secrets-outside-env]
         flags: migrations
-        name: Migrations ${{ matrix.database }}
-    - name: Stop services
-      if: always()
-      run: ./ci/services-down ${{ matrix.database }}
+        name: Migrations postgresql

@@ -13,7 +13,7 @@ from weblate.addons.tasks import language_consistency
 from weblate.lang.models import Language
 
 if TYPE_CHECKING:
-    from weblate.trans.models import Component, Translation
+    from weblate.trans.models import Component, Project, Translation
 
 
 class LanguageConsistencyAddon(BaseAddon):
@@ -28,23 +28,40 @@ class LanguageConsistencyAddon(BaseAddon):
         "within a project."
     )
     icon = "language.svg"
-    project_scope = True
     user_name = "languages"
     user_verbose = "Languages add-on"
 
-    def daily(self, component: Component, activity_log_id: int | None = None) -> None:
+    @classmethod
+    def can_install(cls, *, component=None, project=None) -> bool:  # noqa: ARG003
+        return component is None
+
+    @classmethod
+    def can_process(cls, *, component=None, project=None) -> bool:  # noqa: ARG003
+        return True
+
+    def daily(
+        self,
+        component: Component | None = None,
+        project: Project | None = None,
+        activity_log_id: int | None = None,
+    ) -> dict | None:
+        if project is None and component is not None:
+            project = component.project
+        if project is None:
+            return None
         # The languages list is built here because we want to exclude shared
         # component's languages that are included in Project.languages
         language_consistency.delay_on_commit(
             self.instance.id,
             list(
-                Language.objects.filter(
-                    translation__component__project=component.project
-                ).values_list("id", flat=True)
+                Language.objects.filter(translation__component__project=project)
+                .values_list("id", flat=True)
+                .distinct()
             ),
-            component.project_id,
+            project.pk,
             activity_log_id=activity_log_id,
         )
+        return None
 
     def post_add(
         self, translation: Translation, activity_log_id: int | None = None, **kwargs

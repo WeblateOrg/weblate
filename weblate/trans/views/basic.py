@@ -5,7 +5,7 @@ from __future__ import annotations
 
 from collections import Counter
 from contextlib import suppress
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING, Any, overload
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_not_required, login_required
@@ -44,7 +44,7 @@ from weblate.trans.forms import (
     SearchForm,
     TranslationDeleteForm,
     get_new_component_language_form,
-    get_new_project_language_form,
+    get_new_project_or_category_language_form,
     get_new_unit_form,
     get_upload_form,
 )
@@ -64,6 +64,7 @@ from weblate.trans.models.project import prefetch_project_flags
 from weblate.trans.models.translation import GhostTranslation
 from weblate.trans.util import render, sort_unicode, translation_percent
 from weblate.utils import messages
+from weblate.utils.decorators import engage_login_not_required
 from weblate.utils.ratelimit import reset_rate_limit, session_ratelimit_post
 from weblate.utils.stats import (
     CategoryLanguage,
@@ -82,8 +83,6 @@ from weblate.utils.views import (
 )
 
 if TYPE_CHECKING:
-    from collections.abc import Callable
-
     from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.trans.models.component import ComponentQuerySet
 
@@ -114,7 +113,12 @@ def list_projects(request: AuthenticatedHttpRequest):
         {
             "allow_index": True,
             "projects": prefetch_project_flags(
-                get_paginator(request, projects, stats=True)
+                get_paginator(
+                    request,
+                    projects,
+                    stats=True,
+                    sort_by=request.GET.get("sort_by"),
+                )
             ),
             "title": gettext("Projects"),
             "query_string": query_string,
@@ -122,21 +126,51 @@ def list_projects(request: AuthenticatedHttpRequest):
     )
 
 
+@overload
 def add_ghost_translations(
-    obj: Project | Category,
+    obj: Category,
     user: User,
     translations: list,
-    generator: Callable,
+    generator: type[GhostCategoryLanguageStats],
     **kwargs,
-) -> None:
+) -> None: ...
+@overload
+def add_ghost_translations(
+    obj: Project,
+    user: User,
+    translations: list,
+    generator: type[GhostProjectLanguageStats | GhostTranslation],
+    **kwargs,
+) -> None: ...
+def add_ghost_translations(
+    obj,
+    user,
+    translations,
+    generator,
+    **kwargs,
+):
     """Add ghost translations for user languages to the list."""
+    project = obj if isinstance(obj, Project) else obj.project
     language_ids = {translation.language.id for translation in translations}
+    languages_allowed: set[int] | None = None
     for language in user.profile.all_languages:
+        # Skip languages already present
         if language.id in language_ids:
             continue
+
+        # Skip languages not allowed for adding
+        if languages_allowed is None:
+            languages_allowed = set(
+                Language.objects.filter_for_add(project).values_list("id", flat=True)
+            )
+        if language.id not in languages_allowed:
+            continue
+
+        # Generate ghost object
         translations.append(generator(obj, language, **kwargs))
 
 
+@engage_login_not_required
 def show_engage(request: AuthenticatedHttpRequest, path):
     # Legacy URL
     if len(path) == 2:
@@ -217,7 +251,9 @@ def show(request: AuthenticatedHttpRequest, path):
     raise TypeError(msg)
 
 
-def show_project_language(request: AuthenticatedHttpRequest, obj: ProjectLanguage):
+def show_project_language(
+    request: AuthenticatedHttpRequest, obj: ProjectLanguage
+) -> HttpResponse:
     language_object = obj.language
     project_object = obj.project
     user = request.user
@@ -235,7 +271,12 @@ def show_project_language(request: AuthenticatedHttpRequest, obj: ProjectLanguag
     )
 
     translations = translation_prefetch_tasks(
-        get_paginator(request, obj.translation_set, stats=True)
+        get_paginator(
+            request,
+            obj.translation_set,
+            stats=True,
+            sort_by=request.GET.get("sort_by"),
+        )
     )
     extra_translations = []
 
@@ -312,7 +353,9 @@ def show_project_language(request: AuthenticatedHttpRequest, obj: ProjectLanguag
     )
 
 
-def show_category_language(request: AuthenticatedHttpRequest, obj):
+def show_category_language(
+    request: AuthenticatedHttpRequest, obj: CategoryLanguage
+) -> HttpResponse:
     language_object = obj.language
     category_object = obj.category
     user = request.user
@@ -323,7 +366,12 @@ def show_category_language(request: AuthenticatedHttpRequest, obj):
         .recent()
     )
 
-    translations = get_paginator(request, obj.translation_set, stats=True)
+    translations = get_paginator(
+        request,
+        obj.translation_set,
+        stats=True,
+        sort_by=request.GET.get("sort_by"),
+    )
     extra_translations = []
 
     # Add ghost translations
@@ -379,7 +427,7 @@ def show_category_language(request: AuthenticatedHttpRequest, obj):
     )
 
 
-def show_project(request: AuthenticatedHttpRequest, obj):
+def show_project(request: AuthenticatedHttpRequest, obj: Project) -> HttpResponse:
     def filter_no_category(qs: ComponentQuerySet) -> ComponentQuerySet:
         if settings.HIDE_SHARED_GLOSSARY_COMPONENTS:
             qs = qs.exclude(Q(is_glossary=True) & ~Q(project=obj))
@@ -392,7 +440,12 @@ def show_project(request: AuthenticatedHttpRequest, obj):
     last_announcements = all_changes.filter_announcements().recent()
 
     all_components = obj.get_child_components_access(user, filter_no_category)
-    all_components = get_paginator(request, all_components, stats=True)
+    all_components = get_paginator(
+        request,
+        all_components,
+        stats=True,
+        sort_by=request.GET.get("sort_by"),
+    )
     for component in all_components:
         component.is_shared = None if component.project == obj else component.project
 
@@ -463,7 +516,7 @@ def show_project(request: AuthenticatedHttpRequest, obj):
     )
 
 
-def show_category(request: AuthenticatedHttpRequest, obj):
+def show_category(request: AuthenticatedHttpRequest, obj: Category) -> HttpResponse:
     user = request.user
 
     all_changes = (
@@ -474,10 +527,15 @@ def show_category(request: AuthenticatedHttpRequest, obj):
     last_announcements = all_changes.filter_announcements().recent()
 
     all_components = obj.get_child_components_access(user)
-    all_components = get_paginator(request, all_components, stats=True)
+    all_components = get_paginator(
+        request,
+        all_components,
+        stats=True,
+        sort_by=request.GET.get("sort_by"),
+    )
 
     language_stats = obj.stats.get_language_stats()
-    can_add_language_components = obj.project.components_user_can_add_new_language(user)
+    can_add_language_components = obj.components_user_can_add_new_language(user)
     user_can_add_translation = can_add_language_components.exists()
     if user_can_add_translation:
         add_ghost_translations(
@@ -552,7 +610,7 @@ def show_category(request: AuthenticatedHttpRequest, obj):
     )
 
 
-def show_component(request: AuthenticatedHttpRequest, obj: Component):
+def show_component(request: AuthenticatedHttpRequest, obj: Component) -> HttpResponse:
     user = request.user
 
     obj.project.project_languages.preload_workflow_settings()
@@ -633,7 +691,9 @@ def show_component(request: AuthenticatedHttpRequest, obj: Component):
     )
 
 
-def show_translation(request: AuthenticatedHttpRequest, obj):
+def show_translation(
+    request: AuthenticatedHttpRequest, obj: Translation
+) -> HttpResponse:
     component = obj.component
     project = component.project
     last_changes = obj.change_set.prefetch().recent(skip_preload="translation")
@@ -738,7 +798,7 @@ def show_translation(request: AuthenticatedHttpRequest, obj):
 
 
 @never_cache
-def data_project(request: AuthenticatedHttpRequest, project) -> HttpResponse:
+def data_project(request: AuthenticatedHttpRequest, project: str) -> HttpResponse:
     obj = parse_path(request, [project], (Project,))
     return render(
         request,
@@ -756,11 +816,13 @@ def data_project(request: AuthenticatedHttpRequest, project) -> HttpResponse:
 @transaction.atomic
 @session_ratelimit_post("language", logout_user=False)
 def new_language(request: AuthenticatedHttpRequest, path) -> HttpResponse:
-    obj = parse_path(request, path, (Component, Project))
+    obj = parse_path(request, path, (Component, Project, Category))
     if isinstance(obj, Component):
         return new_component_language(request, obj)
     if isinstance(obj, Project):
-        return new_project_language(request, obj)
+        return new_project_or_category_language(request, obj)
+    if isinstance(obj, Category):
+        return new_project_or_category_language(request, obj)
     msg = f"Not supported new language: {obj}"
     raise TypeError(msg)
 
@@ -802,8 +864,8 @@ def new_component_language(
     )
 
 
-def new_project_language(
-    request: AuthenticatedHttpRequest, obj: Project
+def new_project_or_category_language(
+    request: AuthenticatedHttpRequest, obj: Category | Project
 ) -> HttpResponse:
     user = request.user
     eligible_components = obj.components_user_can_add_new_language(user)
@@ -814,7 +876,7 @@ def new_project_language(
         )
         return redirect(obj)
 
-    form_class = get_new_project_language_form(request, obj)
+    form_class = get_new_project_or_category_language_form(request, obj)
 
     if request.method == "POST":
         form = form_class(user, obj, request.POST)
@@ -889,7 +951,7 @@ def new_project_language(
 
     return render(
         request,
-        "new-project-language.html",
+        "new-project-or-category-language.html",
         {
             "object": obj,
             "path_object": obj,
@@ -992,6 +1054,7 @@ def show_component_list(request: AuthenticatedHttpRequest, name) -> HttpResponse
             request,
             obj.components.filter_access(request.user).order().prefetch(),
             stats=True,
+            sort_by=request.GET.get("sort_by"),
         )
     )
 

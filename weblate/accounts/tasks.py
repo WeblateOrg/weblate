@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import logging
 from datetime import timedelta
-from email.mime.image import MIMEImage
+from email.message import MIMEPart
 from smtplib import SMTP, SMTPConnectError
 from types import MethodType
 from typing import TYPE_CHECKING, TypedDict
@@ -27,6 +27,8 @@ from weblate.utils.icons import load_icon
 
 if TYPE_CHECKING:
     from collections.abc import Generator
+
+    from django.core.mail.backends.base import BaseEmailBackend
 
     from weblate.accounts.notifications import Notification
 
@@ -121,7 +123,7 @@ def notify_changes(change_ids: list[int]) -> None:
 
 
 @transaction.atomic
-def notify_digest(method) -> None:
+def notify_digest(method: str) -> None:
     from weblate.accounts.notifications import NOTIFICATIONS
 
     outgoing: list[OutgoingEmail] = []
@@ -170,7 +172,7 @@ def notify_auditlog(log_id: int, email: str) -> None:
 SMTP_DATA_PATCH = "_weblate_patched_data"
 
 
-def weblate_logging_smtp_data(self, msg):
+def weblate_logging_smtp_data(self: SMTP, msg: bytes) -> tuple[int, bytes]:
     (code, msg) = getattr(self, SMTP_DATA_PATCH)(msg)
     if code == 250:
         LOGGER.debug("SMTP completed (%s): %s", code, msg.decode())
@@ -179,7 +181,7 @@ def weblate_logging_smtp_data(self, msg):
     return (code, msg)
 
 
-def monkey_patch_smtp_logging(connection):
+def monkey_patch_smtp_logging(connection: BaseEmailBackend) -> BaseEmailBackend:
     if isinstance(connection, DjangoSMTPEmailBackend):
         # Ensure the connection is open
         connection.open()
@@ -210,9 +212,15 @@ def send_mails(mails: list[OutgoingEmail]) -> None:
     images = []
     with sentry_sdk.start_span(op="email.images"):
         for name in ("email-logo.png", "email-logo-footer.png"):
-            image = MIMEImage(load_icon(name, auto_prefix=False))
-            image.add_header("Content-ID", f"<{name}@cid.weblate.org>")
-            image.add_header("Content-Disposition", "inline", filename=name)
+            image = MIMEPart()
+            image.set_content(
+                load_icon(name, auto_prefix=False),
+                maintype="image",
+                subtype="png",
+                disposition="inline",
+                filename=name,
+                cid=f"<{name}@cid.weblate.org>",
+            )
             images.append(image)
 
     with sentry_sdk.start_span(op="email.connect"):
@@ -239,7 +247,6 @@ def send_mails(mails: list[OutgoingEmail]) -> None:
                 headers=mail["headers"],
                 connection=connection,
             )
-            email.mixed_subtype = "related"
             for image in images:
                 email.attach(image)
             email.attach_alternative(mail["body"], "text/html")

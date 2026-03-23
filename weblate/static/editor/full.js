@@ -64,7 +64,7 @@
 
       /* Delete Url dialog */
       let $deleteEntriesDialog = null;
-      this.$editor.on("show.bs.modal", "#delete-url-modal", (e) => {
+      this.$editor.on("shown.bs.modal", "#delete-url-modal", (e) => {
         $deleteEntriesDialog = $(e.currentTarget);
         $deleteEntriesDialog.find(".modal-body").html("");
         const text = $el.parent().parent().data("raw").text;
@@ -72,7 +72,7 @@
         $deleteEntriesDialog.find(".modal-body").append(modalBody);
       });
 
-      this.$editor.on("hide.bs.modal", "#delete-url-modal", (_e) => {
+      this.$editor.on("hidden.bs.modal", "#delete-url-modal", (_e) => {
         $deleteEntriesDialog = null;
       });
 

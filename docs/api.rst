@@ -290,6 +290,7 @@ Users
 
     :query string username: Username to search for
     :query int id: User ID to search for
+    :query string email: Email to search for (case-insensitive, exact match). Requires ``user.view`` or ``user.edit`` permission; the parameter is ignored for unprivileged users.
 
     .. seealso::
 
@@ -2187,8 +2188,8 @@ Translations
     :type language: string
     :form string conflicts: How to deal with conflicts (``ignore``, ``replace-translated`` or ``replace-approved``), see :ref:`upload-conflicts`
     :form file file: Uploaded file
-    :form string email: Author e-mail
-    :form string author: Author name
+    :form string author_email: Author e-mail
+    :form string author_name: Author name
     :form string method: Upload method (``translate``, ``approve``, ``suggest``, ``fuzzy``, ``replace``, ``source``, ``add``), see :ref:`upload-method`
     :form string fuzzy: Fuzzy (marked for edit) strings processing (*empty*, ``process``, ``approve``)
 

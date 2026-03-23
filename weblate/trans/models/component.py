@@ -14,6 +14,7 @@ from typing import TYPE_CHECKING, Any, TypedDict, cast
 from urllib.parse import quote as urlquote
 from urllib.parse import urlparse
 
+import regex
 import sentry_sdk
 from celery import current_task
 from celery.result import AsyncResult
@@ -25,8 +26,9 @@ from django.core.exceptions import (
     ValidationError,
 )
 from django.core.validators import MaxValueValidator
-from django.db import IntegrityError, connection, models, transaction
-from django.db.models import Count, F, Q
+from django.db import IntegrityError, models, transaction
+from django.db.models import Count, F, Q, Value
+from django.db.models.functions import MD5
 from django.db.models.signals import m2m_changed
 from django.dispatch import receiver
 from django.utils.functional import cached_property
@@ -91,9 +93,12 @@ from weblate.trans.validators import (
     validate_language_code,
 )
 from weblate.utils import messages
-from weblate.utils.celery import get_task_progress
+from weblate.utils.celery import (
+    delete_task_metadata,
+    get_task_progress,
+    store_task_metadata,
+)
 from weblate.utils.colors import ColorChoices
-from weblate.utils.db import using_postgresql
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.errors import report_error
 from weblate.utils.fields import EmailField
@@ -106,6 +111,12 @@ from weblate.utils.licenses import (
 )
 from weblate.utils.lock import WeblateLock
 from weblate.utils.random import get_random_identifier
+from weblate.utils.regex import (
+    compile_regex,
+    regex_findall,
+    regex_match,
+    regex_sub,
+)
 from weblate.utils.render import (
     render_template,
     validate_render_addon,
@@ -143,8 +154,10 @@ if TYPE_CHECKING:
     from weblate.auth.models import AuthenticatedHttpRequest, User
     from weblate.checks.base import BaseCheck
     from weblate.formats.base import TranslationFormat
+    from weblate.lang.models import Plural
     from weblate.trans.models import Project
     from weblate.trans.models.unit import UnitAttributesDict
+    from weblate.trans.removal import RemovalBatch
     from weblate.vcs.base import Repository
 
 NEW_LANG_CHOICES = (
@@ -915,6 +928,7 @@ class Component(
         self.translations_count: int | None = None
         self.translations_progress = 0
         self.acting_user: User | None = None
+        self.removal_batch: RemovalBatch | None = None
         self.batch_checks = False
         self.batched_checks: set[str] = set()
         self.needs_variants_update = False
@@ -1038,7 +1052,8 @@ class Component(
                 create=create,
             )
         else:
-            component_after_save.delay_on_commit(
+            self.queue_background_task(
+                component_after_save,
                 self.pk,
                 changed_git=changed_git,
                 changed_setup=changed_setup,
@@ -1096,7 +1111,7 @@ class Component(
 
     def install_autoaddon(self) -> None:
         """Installs automatically enabled addons from file format."""
-        from weblate.addons.models import ADDONS, Addon
+        from weblate.addons.models import ADDONS
 
         for name, configuration in chain(
             self.file_format_cls.autoaddon.items(), settings.DEFAULT_ADDONS.items()
@@ -1105,17 +1120,6 @@ class Component(
                 addon = ADDONS[name]
             except KeyError:
                 self.log_warning("could not enable addon %s, not found", name)
-                continue
-
-            if (
-                addon.project_scope
-                and Addon.objects.filter(
-                    component__project=self.project, name=name
-                ).exists()
-            ):
-                self.log_warning(
-                    "could not enable addon %s, already installed on project", name
-                )
                 continue
 
             component = self
@@ -1188,6 +1192,7 @@ class Component(
         return f"component-update-{self.pk}"
 
     def delete_background_task(self) -> None:
+        delete_task_metadata(self.background_task_id)
         cache.delete(self.update_key)
 
     def store_background_task(self, task=None) -> None:
@@ -1196,6 +1201,12 @@ class Component(
                 return
             task = current_task.request
         cache.set(self.update_key, task.id, 6 * 3600)
+        store_task_metadata(task.id, component_id=self.pk)
+
+    def queue_background_task(self, task, /, *args, **kwargs) -> None:
+        transaction.on_commit(
+            lambda: self.store_background_task(task.delay(*args, **kwargs))
+        )
 
     @cached_property
     def background_task_id(self):
@@ -1268,6 +1279,11 @@ class Component(
         self.__dict__["source_translation"] = result
         return result
 
+    def get_source_plural(self) -> Plural:
+        # This should probably use self.template_store.get_plural for monolingual
+        # translations, but the testsuite relies on the file not being present.
+        return self.file_format_cls.get_plural_by_preference(self.source_language)
+
     @cached_property
     def source_translation(self):
         # This is basically copy of get_or_create, but avoids additional
@@ -1286,7 +1302,7 @@ class Component(
                         language=language,
                         check_flags="read-only",
                         filename=self.template,
-                        plural=self.file_format_cls.get_plural(language),
+                        plural=self.get_source_plural(),
                         language_code=language.code,
                     )
             except IntegrityError:
@@ -1333,12 +1349,13 @@ class Component(
         self.updated_sources[source.id] = source
         return change
 
-    def bulk_create_sources(self, attributes_list: list[UnitAttributesDict]) -> None:
+    def bulk_create_sources(
+        self,
+        attributes_list: list[UnitAttributesDict],
+        *,
+        create_unit_change_action: ActionEvents = ActionEvents.NEW_UNIT_REPO,
+    ) -> None:
         """Ensure that all sources are stored in the database."""
-        # Can not bulk create with getting primary key, resort to one by one creation
-        if not connection.features.can_return_rows_from_bulk_insert:
-            return
-
         # Make sure we load all the sources
         if not self._sources_prefetched:
             self.preload_sources()
@@ -1365,7 +1382,7 @@ class Component(
                 position=attributes["pos"],
                 note=attributes["note"],
                 location=attributes["location"],
-                explanation=attributes["explanation"],
+                explanation=attributes["source_explanation"],
                 flags=attributes["flags"].format(),
                 num_words=count_words(attributes["source"], self.source_language),
                 state=STATE_TRANSLATED
@@ -1386,7 +1403,12 @@ class Component(
             self._sources[unit.id_hash] = unit
 
             # Postprocess and create change
-            changes.append(self._process_new_source(unit, save=False))
+            change = self._process_new_source(unit, save=False)
+            if create_unit_change_action == ActionEvents.NEW_UNIT_UPLOAD:
+                change.action = ActionEvents.NEW_SOURCE_UPLOAD
+            elif create_unit_change_action == ActionEvents.NEW_UNIT_REPO:
+                change.action = ActionEvents.NEW_SOURCE_REPO
+            changes.append(change)
 
         # Update source unit in the database
         Unit.objects.bulk_update(units, fields=["source_unit"])
@@ -1420,6 +1442,7 @@ class Component(
                 source = Unit(
                     translation=self.source_translation, id_hash=id_hash, **create
                 )
+                source.fill_new_unit_cache()
                 source.save(force_insert=True, only_save=True)
                 self._process_new_source(source)
             else:
@@ -1453,8 +1476,8 @@ class Component(
             else:
                 raw.append(char)
         append(None)
-        regex = "".join(result)
-        return re.compile(f"^{regex}$")
+        expression = "".join(result)
+        return re.compile(f"^{expression}$")
 
     def get_url_path(self):
         parent = self.category or self.project
@@ -1497,7 +1520,7 @@ class Component(
         try:
             return VCS_REGISTRY[self.vcs]
         except KeyError as error:
-            msg = f"Component using VCS {self.vcs}, but it not configured"
+            msg = f"Component using VCS {self.vcs}, but it is not configured"
             raise ImproperlyConfigured(msg) from error
 
     @cached_property
@@ -1949,8 +1972,8 @@ class Component(
             from weblate.trans.tasks import perform_push
 
             self.log_info("scheduling push")
-            perform_push.delay_on_commit(
-                self.pk, None, force_commit=False, do_update=do_update
+            self.queue_background_task(
+                perform_push, self.pk, None, force_commit=False, do_update=do_update
             )
 
     @perform_on_link
@@ -2051,9 +2074,16 @@ class Component(
             if not self.pushes_to_different_location and self.repo_needs_merge():
                 return False
 
+        # Prefetch addons for linked children to avoid N+1 queries
+        linked_children_list = list(self.linked_children)
+        if linked_children_list:
+            from weblate.addons.models import Addon
+
+            Addon.objects.prefetch_for_components(linked_children_list)
+
         # Send pre push signal
         vcs_pre_push.send(sender=self.__class__, component=self)
-        for component in self.linked_children:
+        for component in linked_children_list:
             vcs_pre_push.send(sender=component.__class__, component=component)
 
         # Do actual push
@@ -2067,7 +2097,7 @@ class Component(
         )
 
         vcs_post_push.send(sender=self.__class__, component=self)
-        for component in self.linked_children:
+        for component in linked_children_list:
             vcs_post_push.send(sender=component.__class__, component=component)
 
         return True
@@ -2142,7 +2172,8 @@ class Component(
 
         if keep_changes:
             # Trigger commit and scan in the background
-            perform_commit.delay_on_commit(
+            self.queue_background_task(
+                perform_commit,
                 self.pk,
                 "reset-sync",
                 user_id=request.user.id if request else None,
@@ -2203,8 +2234,11 @@ class Component(
         )
 
         if do_commit:
-            perform_commit.delay_on_commit(
-                self.pk, "file-sync", user_id=request.user.id if request else None
+            self.queue_background_task(
+                perform_commit,
+                self.pk,
+                "file-sync",
+                user_id=request.user.id if request else None,
             )
 
     @perform_on_link
@@ -2578,15 +2612,29 @@ class Component(
                 user=user,
             )
 
-    def get_mask_matches(self) -> list[str]:
+    def get_mask_matches(self, *, raise_on_timeout: bool = False) -> list[str]:
         """Return files matching current mask."""
         prefix = path_separator(os.path.join(self.full_path, ""))
         matches = set()
+        language_re = compile_regex(self.language_regex)
+        timeout_reported = False
 
         for filename in glob(os.path.join(self.full_path, self.filemask)):
             path = path_separator(filename).replace(prefix, "")
             code = self.get_lang_code(path)
-            if re.match(self.language_regex, code) and code != "source":
+            try:
+                language_match = regex_match(language_re, code)
+            except TimeoutError:
+                if raise_on_timeout:
+                    raise
+                if not timeout_reported:
+                    report_error(
+                        "Component language regex timed out", project=self.project
+                    )
+                    self.log_warning("language regex timed out for %s [%s]", code, path)
+                    timeout_reported = True
+                continue
+            if language_match and code != "source":
                 matches.add(path)
             else:
                 self.log_info("skipping language %s [%s]", code, path)
@@ -2734,7 +2782,8 @@ class Component(
         from weblate.trans.tasks import perform_load
 
         self.log_info("scheduling update in background")
-        perform_load.delay_on_commit(
+        self.queue_background_task(
+            perform_load,
             pk=self.pk,
             force=force,
             force_scan=force_scan,
@@ -2763,7 +2812,11 @@ class Component(
         Should not be called directly, except from Celery tasks.
         """
         # In case the lock cannot be acquired, an error will be raised.
-        with self.lock, self.start_sentry_span("create_translations"):  # pylint: disable=not-context-manager
+        with (
+            self.start_sentry_span("create_translations"),
+            self.repository.lock,
+            self.lock,
+        ):
             return self._create_translations(
                 force=force,
                 force_scan=force_scan,
@@ -2787,11 +2840,12 @@ class Component(
 
     def refresh_lock(self) -> None:
         """Refresh the lock to avoid expiry in long operations."""
-        self.lock.reacquire()
         if self.linked_component and self.linked_component.lock.is_locked:
             self.linked_component.lock.reacquire()
         if self.repository.lock.is_locked:
             self.repository.lock.reacquire()
+        if self.lock.is_locked:
+            self.lock.reacquire()
 
     def _create_translations(  # noqa: C901,PLR0915
         self,
@@ -3274,9 +3328,11 @@ class Component(
             raise ValidationError({"new_base": gettext("File does not exist.")})
         # File is present, but it is not valid
         if errors:
-            message = gettext(
-                "Could not parse base file for new translations: %s"
-            ) % format_html_join_comma("{}", list_to_tuples(errors))
+            message = format_html(
+                "{} {}",
+                gettext("Could not parse base file for new translations:"),
+                format_html_join_comma("{}", list_to_tuples(errors)),
+            )
             raise ValidationError({"new_base": message})
         raise ValidationError(
             {"new_base": gettext("Unrecognized base file for new translations.")}
@@ -3292,6 +3348,17 @@ class Component(
         ):
             msg = gettext("You can not use a base file for bilingual translation.")
             raise ValidationError({"template": msg, "file_format": msg})
+
+        # Validate manage units against file format capabilities
+        if (
+            self.manage_units
+            and not self.file_format_cls.can_add_unit
+            and not self.file_format_cls.can_delete_unit
+        ):
+            msg = gettext(
+                "Adding and removing strings is not supported with this file format."
+            )
+            raise ValidationError({"manage_units": msg})
 
         if self.edit_template and not self.file_format_cls.can_edit_base:
             msg = gettext("Editing template is not supported with this file format.")
@@ -3489,13 +3556,25 @@ class Component(
 
         # Get file matches
         try:
-            matches = self.get_mask_matches()
-        except re.error as error:
+            matches = self.get_mask_matches(raise_on_timeout=True)
+        except regex.error as error:
             # This will fail the field validation, but full_clean() does call clean() even with that
             raise ValidationError(
                 gettext(
                     "Can not validate file matches due to invalid regular expression."
                 )
+            ) from error
+        except TimeoutError as error:
+            report_error(
+                "Component language regex validation timed out",
+                project=self.project,
+            )
+            raise ValidationError(
+                {
+                    "language_regex": gettext(
+                        "The regular expression is too complex and took too long to evaluate."
+                    )
+                }
             ) from error
 
         # Verify language codes
@@ -3522,15 +3601,19 @@ class Component(
                 gettext("To use the key filter, the file format must be monolingual.")
             )
 
-    def get_template_filename(self) -> str:
+    def get_template_filename(self) -> str | None:
         """Create absolute filename for template."""
+        if not self.template:
+            return None
         filename = os.path.join(self.full_path, self.template)
         # Throws an exception in case of error
         self.check_file_is_valid(filename)
         return filename
 
-    def get_intermediate_filename(self) -> str:
+    def get_intermediate_filename(self) -> str | None:
         """Create absolute filename for intermediate."""
+        if not self.intermediate:
+            return None
         filename = os.path.join(self.full_path, self.intermediate)
         # Throws an exception in case of error
         self.check_file_is_valid(filename)
@@ -3598,7 +3681,7 @@ class Component(
         self.translations_count = 0
         self.progress_step(0)
         # Configure git repo if there were changes
-        if changed_git:
+        if changed_git and (not create or not self.is_repo_link):
             # Bring VCS repo in sync with current model
             self.sync_git_repo(skip_push=skip_push, skip_commit=create)
 
@@ -3668,20 +3751,32 @@ class Component(
 
         # Handle regex based variants
         if self.variant_regex:
-            variant_re = re.compile(self.variant_regex)
+            variant_re = compile_regex(self.variant_regex)
             units = process_units.filter(context__regex=self.variant_regex)
             variant_updates: dict[str, tuple[Variant, list[int]]] = {}
+            timeout_reported = False
             for unit in units.iterator():
-                if variant_re.findall(unit.context):
-                    key = variant_re.sub("", unit.context)
-                    if key in variant_updates:
-                        variant = variant_updates[key][0]
-                    else:
-                        variant = Variant.objects.get_or_create(
-                            key=key, component=self, variant_regex=self.variant_regex
-                        )[0]
-                        variant_updates[key] = (variant, [])
-                    variant_updates[key][1].append(unit.pk)
+                try:
+                    if not regex_findall(variant_re, unit.context):
+                        continue
+                    key = regex_sub(variant_re, "", unit.context)
+                except TimeoutError:
+                    if not timeout_reported:
+                        report_error(
+                            "Component variant regex timed out",
+                            project=self.project,
+                        )
+                        self.log_warning("variant regex timed out for %s", unit.context)
+                        timeout_reported = True
+                    break
+                if key not in variant_updates:
+                    variant = Variant.objects.filter(
+                        key__md5=MD5(Value(key))
+                    ).get_or_create(
+                        key=key, component=self, variant_regex=self.variant_regex
+                    )[0]
+                    variant_updates[key] = (variant, [])
+                variant_updates[key][1].append(unit.pk)
 
             if variant_updates:
                 for variant, unit_ids in variant_updates.values():
@@ -3742,9 +3837,7 @@ class Component(
         queryset = PendingUnitChange.objects.for_component(
             self, apply_filters=apply_filters
         )
-        if using_postgresql():
-            return queryset.distinct("unit_id").count()
-        return queryset.values("unit_id").distinct().count()
+        return queryset.distinct("unit_id").count()
 
     @property
     def count_repo_missing(self):
@@ -3752,7 +3845,7 @@ class Component(
             return self.repository.count_missing()
         except RepositoryError as error:
             report_error(
-                "Could check merge needed",
+                "Could not check if merge is needed",
                 project=self.project,
                 skip_sentry=not settings.DEBUG,
             )
@@ -3768,7 +3861,7 @@ class Component(
                 self.add_ssh_host_key()
                 return self._get_count_repo_outgoing(retry=False)
             report_error(
-                "Could check push needed",
+                "Could not check if push is needed",
                 project=self.project,
                 skip_sentry=not settings.DEBUG,
             )
@@ -3802,15 +3895,19 @@ class Component(
         return self.count_push_branch_outgoing > 0
 
     @property
-    def file_format_name(self):
+    def file_format_name(self) -> StrOrPromise:
         return self.file_format_cls.name
 
     @property
-    def file_format_create_style(self):
+    def file_format_can_edit_base(self) -> bool:
+        return self.file_format_cls.can_edit_base
+
+    @property
+    def file_format_create_style(self) -> str:
         return self.file_format_cls.create_style
 
     @cached_property
-    def file_format_flags(self):
+    def file_format_flags(self) -> Flags:
         return Flags(self.file_format_cls.check_flags)
 
     @cached_property
@@ -3858,7 +3955,7 @@ class Component(
     def intermediate_store(self) -> TranslationFormat | None:
         """Get translate-toolkit store for intermediate."""
         # Do we need template?
-        if not self.has_template() or not self.intermediate:
+        if not self.has_template():
             return None
 
         try:
@@ -3928,8 +4025,8 @@ class Component(
             return False
 
         # Check if template can be parsed
-        if self.has_template():
-            if not os.path.exists(self.get_template_filename()):
+        if template_filename := self.get_template_filename():
+            if not os.path.exists(template_filename):
                 self.new_lang_error_message = gettext(
                     "The monolingual base language file is invalid."
                 )
@@ -4007,7 +4104,13 @@ class Component(
             return None
 
         # Check if language code is valid
-        if re.match(self.language_regex, code) is None:
+        try:
+            language_match = regex_match(self.language_regex, code)
+        except TimeoutError:
+            report_error("Component language filter timed out", project=self.project)
+            fail_message(gettext("The language filter timed out."))
+            return None
+        if language_match is None:
             fail_message(
                 gettext("The given language is filtered by the language filter.")
             )
@@ -4101,8 +4204,8 @@ class Component(
             details={"auto": auto},
         )
         if lock and not auto:
-            perform_commit.delay_on_commit(
-                self.pk, "lock", user_id=user.id if user else None
+            self.queue_background_task(
+                perform_commit, self.pk, "lock", user_id=user.id if user else None
             )
         return change
 
@@ -4144,15 +4247,10 @@ class Component(
     def addons_cache(self):
         from weblate.addons.models import Addon
 
-        result = defaultdict(list)
-        result["__lookup__"] = {}
-        for addon in Addon.objects.filter_for_execution(self):
-            for installed in addon.event_set.all():
-                result[installed.event].append(addon)
-            result["__all__"].append(addon)
-            result["__names__"].append(addon.name)
-            result["__lookup__"][addon.name] = addon
-        return result
+        # Use prefetch_for_components to populate the cache
+        Addon.objects.prefetch_for_components([self])
+        # Return the cache that was populated
+        return self.__dict__["addons_cache"]
 
     def get_addon(self, name: str) -> Addon | None:
         return self.addons_cache["__lookup__"].get(name)
@@ -4258,9 +4356,9 @@ class Component(
         return sentry_sdk.start_span(op=op, name=self.full_slug)
 
     @cached_property
-    def key_filter_re(self) -> re.Pattern:
+    def key_filter_re(self) -> regex.Pattern:
         """Provide the cached version of key_filter."""
-        return re.compile(self.key_filter)
+        return compile_regex(self.key_filter)
 
     def repository_status(self) -> str:
         try:

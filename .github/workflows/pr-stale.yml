@@ -32,7 +32,7 @@ jobs:
         days-before-issue-close: -1
         exempt-pr-labels: backlog
         stale-pr-label: wontfix
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
+        repo-token: ${{ secrets.GITHUB_TOKEN }} # zizmor: ignore[secrets-outside-env]
         stale-pr-message: |
           This pull request has been automatically marked as stale because there wasn’t any recent activity.
 

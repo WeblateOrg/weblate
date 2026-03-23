@@ -13,9 +13,9 @@ import shutil
 from abc import ABC, abstractmethod
 from io import BytesIO
 from pathlib import Path
-from typing import TYPE_CHECKING, ClassVar, NoReturn
-from unittest import TestCase
+from typing import IO, TYPE_CHECKING, ClassVar, NoReturn, cast
 
+from django.test import SimpleTestCase
 from lxml import etree
 from translate.storage.pypo import pofile
 
@@ -23,8 +23,10 @@ from weblate.checks.flags import Flags
 from weblate.formats.auto import AutodetectFormat, detect_filename, try_load
 from weblate.formats.base import UpdateError
 from weblate.formats.models import FILE_FORMATS
+from weblate.formats.multi import MultiUnit
 from weblate.formats.ttkit import (
     AndroidFormat,
+    AppleXliffFormat,
     CatkeysFormat,
     CSVFormat,
     CSVSimpleFormat,
@@ -44,6 +46,7 @@ from weblate.formats.ttkit import (
     NextcloudJSONFormat,
     PhpFormat,
     PoFormat,
+    PoMonoFormat,
     PoXliffFormat,
     PropertiesFormat,
     RESJSONFormat,
@@ -56,6 +59,7 @@ from weblate.formats.ttkit import (
     TBXFormat,
     TOMLFormat,
     TSFormat,
+    TTKitFormat,
     WebExtensionJSONFormat,
     Xliff2Format,
     XliffFormat,
@@ -71,6 +75,8 @@ from weblate.trans.tests.utils import TempDirMixin, get_test_file
 from weblate.utils.state import STATE_APPROVED, STATE_FUZZY, STATE_TRANSLATED
 
 if TYPE_CHECKING:
+    from lxml.etree import _Element
+
     from weblate.formats.base import TranslationFormat
     from weblate.trans.file_format_params import FileFormatParams
 
@@ -79,6 +85,8 @@ TEST_CSV = get_test_file("cs-mono.csv")
 TEST_CSV_NOHEAD = get_test_file("cs.csv")
 TEST_CSV_SIMPLE_EN = get_test_file("en-simple.csv")
 TEST_CSV_SIMPLE_PL = get_test_file("pl-simple.csv")
+TEST_CSV_3COL_EN = get_test_file("en-3col.csv")
+TEST_CSV_3COL_ZH = get_test_file("zh-3col.csv")
 TEST_FLATXML = get_test_file("cs-flat.xml")
 TEST_CUSTOM_FLATXML = get_test_file("cs-flat-custom.xml")
 TEST_RESOURCEDICTIONARY = get_test_file("cs.xaml")
@@ -98,6 +106,7 @@ TEST_CATKEYS = get_test_file("cs.catkeys")
 TEST_GWT = get_test_file("gwt.properties")
 TEST_ANDROID = get_test_file("strings.xml")
 TEST_XLIFF = get_test_file("cs.xliff")
+TEST_XLIFF_APPLE = get_test_file("cs-apple.xliff")
 TEST_POXLIFF = get_test_file("cs.poxliff")
 TEST_XLIFF_ID = get_test_file("ids.xliff")
 TEST_XLIFF2 = get_test_file("cs.xliff2")
@@ -125,7 +134,7 @@ TEST_STRINGSDICT = get_test_file("cs.stringsdict")
 TEST_FLUENT = get_test_file("cs.ftl")
 
 
-class AutoLoadTest(TestCase):
+class AutoLoadTest(SimpleTestCase):
     def single_test(self, filename, fileclass) -> None:
         store = try_load(
             filename,
@@ -176,14 +185,15 @@ class AutoLoadTest(TestCase):
         data = Path(TEST_PO).read_bytes()
 
         handle = BytesIO(data)
-        store = AutodetectFormat(handle)
+        store: AutodetectFormat = AutodetectFormat(handle)
         self.assertIsInstance(store, AutodetectFormat)
         self.assertIsInstance(store.store, pofile)
 
     def test_get_class(self) -> None:
         """Test that each format can properly load its store class."""
         for format_class in FILE_FORMATS.values():
-            format_class.get_class()
+            if issubclass(format_class, TTKitFormat):
+                format_class.get_class()
 
 
 class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
@@ -225,7 +235,7 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
     def format_class(self) -> type[TranslationFormat]:
         raise NotImplementedError
 
-    def parse_file(self, filename: str, template: str | None = None):
+    def parse_file(self, filename: str | IO[bytes], template: str | None = None):
         if self.MONOLINGUAL:
             return self.format_class(
                 filename,
@@ -293,7 +303,7 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
 
     def assert_no_notes(self, unit) -> None:
         """Assert that the underlying unit(s) do not have any notes."""
-        if unit.unit:
+        if not isinstance(unit, MultiUnit):
             self.assertEqual(unit.unit.getnotes().strip(), "")
         else:
             # Assume this is a multi-unit. Will fail otherwise.
@@ -442,7 +452,9 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
             self.BASE,
             file_format_params=self.FILE_FORMAT_PARAMS,
         )
-        target_storage = self.parse_file(main_file, template=template_file)
+        target_storage = self.parse_file(
+            main_file.as_posix(), template=template_file.as_posix()
+        )
         target_unit, add = target_storage.find_unit(self.NEW_UNIT_KEY, "Source string")
         self.assertTrue(add)
 
@@ -466,7 +478,9 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
         self.assertEqual(template_file.read_text(), template_content)
 
         # Reload the storage to check notes were correctly written.
-        target_storage = self.parse_file(main_file, template=template_file)
+        target_storage = self.parse_file(
+            main_file.as_posix(), template=template_file.as_posix()
+        )
         target_unit, add = target_storage.find_unit(self.NEW_UNIT_KEY, "Source string")
         self.assertFalse(add)
         self.assertEqual(target_unit.target, "Translated string (CS)")
@@ -481,7 +495,7 @@ class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
         self.assert_no_notes(target_unit)
 
 
-class XMLMixin:
+class XMLMixin(SimpleTestCase):
     def assert_same(self, newdata, testdata) -> None:
         self.assertXMLEqual(newdata.decode(), testdata.decode())
 
@@ -498,10 +512,10 @@ class PoFormatTest(BaseFormatTest):
         data = Path(out).read_text(encoding="utf-8")
         self.assertIn("Michal Čihař", data)
 
-    def load_plural(self, filename):
+    def load_plural(self, filename: str) -> Plural:
         with open(filename, "rb") as handle:
             store = self.parse_file(handle)
-            return store.get_plural(Language.objects.get(code="he"), store)
+            return store.get_plural(Language.objects.get(code="he"))
 
     def test_plurals(self) -> None:
         self.assertEqual(
@@ -560,6 +574,102 @@ class PoFormatTest(BaseFormatTest):
         content = handle.getvalue().decode()
         self.assertIn('\nmsgid "Hello, world!\\n"', content)
         self.assertNotIn('\n#~ msgid "Hello, world!\\n"', content)
+
+    def test_new_unit_plural(self) -> None:
+        # Read test content
+        testdata = Path(self.FILE).read_bytes()
+
+        # Create test file
+        testfile = os.path.join(self.tempdir, f"test.{self.EXT}")
+
+        # Write test data to file
+        Path(testfile).write_bytes(testdata)
+
+        # Parse test file
+        storage = self.parse_file(testfile)
+
+        # Add new unit
+        storage.new_unit(
+            "",
+            ["Source singular", "Source plural"],
+            ["Překlad 1", "Překlad 2", "Překlad 3"],
+        )
+        storage.new_unit("OTHER", ["Other singular", "Other plural"], ["", "", ""])
+        storage.save()
+
+        # Read new content
+        newdata = Path(testfile).read_text(encoding="utf-8")
+
+        # Check if content matches
+        self.assertIn(
+            """msgid "Source singular"
+msgid_plural "Source plural"
+msgstr[0] "Překlad 1"
+msgstr[1] "Překlad 2"
+msgstr[2] "Překlad 3"
+""",
+            newdata,
+        )
+        self.assertIn(
+            """msgctxt "OTHER"
+msgid "Other singular"
+msgid_plural "Other plural"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+""",
+            newdata,
+        )
+
+
+class PoMonoFormatTest(BaseFormatTest):
+    format_class = PoMonoFormat
+    EDIT_OFFSET = 1
+    MONOLINGUAL = True
+    NEW_UNIT_MATCH: str | bytes | tuple[bytes, ...] | tuple[str, ...] | None = (
+        b'\nmsgid "key"\nmsgstr "Source string"\n'
+    )
+    FIND = "Hello, world!\n"
+    FIND_CONTEXT = "Hello, world!\n"
+
+    def test_new_unit_plural(self) -> None:
+        # Read test content
+        testdata = Path(self.FILE).read_bytes()
+
+        # Create test file
+        testfile = os.path.join(self.tempdir, f"test.{self.EXT}")
+
+        # Write test data to file
+        Path(testfile).write_bytes(testdata)
+
+        # Parse test file
+        storage = self.parse_file(testfile, template=testfile).template_store
+
+        # Add new unit
+        storage.new_unit("key", ["Source singular", "Source plural"])
+        storage.new_unit("OTHER_SINGULAR", ["Other singular", "Other plural"])
+        storage.save()
+
+        # Read new content
+        newdata = Path(testfile).read_text(encoding="utf-8")
+
+        # Check if content matches
+        self.assertIn(
+            """msgid "key"
+msgid_plural "key_plural"
+msgstr[0] "Source singular"
+msgstr[1] "Source plural"
+""",
+            newdata,
+        )
+        self.assertIn(
+            """msgid "OTHER_SINGULAR"
+msgid_plural "OTHER_PLURAL"
+msgstr[0] "Other singular"
+msgstr[1] "Other plural"
+""",
+            newdata,
+        )
 
 
 class PropertiesFormatTest(BaseFormatTest):
@@ -701,7 +811,7 @@ class JSONFormatTest(BaseFormatTest):
     MATCH = "{}\n"
     BASE = ""
     NEW_UNIT_MATCH = b'\n    "Source string": ""\n'
-    EXPECTED_FLAGS: str | list[str] = ""
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
 
     def assert_same(self, newdata, testdata) -> None:
         self.assertJSONEqual(newdata.decode(), testdata.decode())
@@ -878,6 +988,16 @@ class XliffFormatTest(XMLMixin, BaseFormatTest):
         )
         self.assertTrue(units[1].is_automatically_translated())
         self.assertFalse(units[2].is_automatically_translated())
+
+
+class AppleXliffFormatTest(XliffFormatTest):
+    format_class = AppleXliffFormat
+    EXT = "xliff"
+    FILE = TEST_XLIFF_APPLE
+    BASE = TEST_XLIFF_APPLE
+    EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
+    FIND_CONTEXT = "Localizable.strings///hello"
+    MATCH = 'target-language="cs"'
 
 
 class RichXliffFormatTest(XliffFormatTest):
@@ -1113,40 +1233,42 @@ class CSVSimpleFormatNoHeadTest(CSVFormatNoHeadTest):
     EXPECTED_FLAGS: ClassVar[str | list[str]] = ""
 
 
-class CSVUtf8SimpleFormatMonolingualTest(FixtureTestCase, TempDirMixin):
+class CSVUtf8SimpleFormatMonolingualTest(CSVFormatTest):
     """Test for CSV Simple UTF-8 format with monolingual base file."""
 
-    def setUp(self) -> None:
-        super().setUp()
-        self.create_temp()
-
-    def tearDown(self) -> None:
-        super().tearDown()
-        self.remove_temp()
+    format_class = CSVSimpleFormat
+    FILE = TEST_CSV_SIMPLE_PL
+    BASE = TEST_CSV_SIMPLE_EN
+    TEMPLATE = TEST_CSV_SIMPLE_EN
+    MONOLINGUAL = True
+    COUNT = 5
+    MATCH = "objectAccessDenied"
+    FIND = "You do not have a permission to create a new object in '%s'"
+    FIND_CONTEXT = "createObjectInParentAccessDenied"
+    FIND_MATCH = "Nie masz uprawnien do tworzenia nowego obiektu w '%s'"
+    NEW_UNIT_MATCH = b'"key";"Source string"\r\n'
+    EDIT_TARGET: ClassVar[str | list[str]] = "Przetłumaczone"
+    # Edit unit at offset 2 (createObjectInParentAccessDenied) which is translated
+    # in pl-simple.csv and therefore has unit.unit not None
+    EDIT_OFFSET = 2
+    SUPPORTS_NOTES = False
+    FILE_FORMAT_PARAMS: ClassVar[FileFormatParams] = {"csv_simple_encoding": "utf-8"}
 
     def test_save_preserves_source_field(self) -> None:
         """
-        Test that saving a CSV Simple file preserves source fields.
+        Regression test for https://github.com/WeblateOrg/weblate/issues/16835.
 
-        This reproduces the issue where translations are saved with empty source
-        fields instead of preserving the context/key from the base file.
-
-        Relies on translate-toolkit's monolingual CSV support (PR #5830).
-        See: https://github.com/WeblateOrg/weblate/issues/16835
+        Verify that the source/key column is preserved after translating units
+        that were not yet present in the translation file.
         """
-        # Create a temporary copy of the translation file
         translation_file = os.path.join(self.tempdir, "pl.csv")
-        content = Path(TEST_CSV_SIMPLE_PL).read_bytes()
-        Path(translation_file).write_bytes(content)
+        Path(translation_file).write_bytes(Path(TEST_CSV_SIMPLE_PL).read_bytes())
 
-        # Load the base file (template)
         template_store = CSVSimpleFormat(
             TEST_CSV_SIMPLE_EN,
             is_template=True,
             file_format_params={"csv_simple_encoding": "utf-8"},
         )
-
-        # Load the translation file with the template
         store = CSVSimpleFormat(
             translation_file,
             template_store=template_store,
@@ -1154,11 +1276,9 @@ class CSVUtf8SimpleFormatMonolingualTest(FixtureTestCase, TempDirMixin):
             file_format_params={"csv_simple_encoding": "utf-8"},
         )
 
-        # Verify we have the expected units
         units = list(store.content_units)
         self.assertEqual(len(units), 5)
 
-        # Find units and add translations
         for unit in units:
             if unit.context == "objectAccessDenied":
                 pounit, add = store.find_unit(unit.context, unit.source)
@@ -1178,10 +1298,8 @@ class CSVUtf8SimpleFormatMonolingualTest(FixtureTestCase, TempDirMixin):
                 store.add_unit(pounit)
                 pounit.set_target("Nie masz uprawnien do odczytu obiektu '%s'")
 
-        # Save the file
         store.save()
 
-        # Verify the saved content
         with open(translation_file, encoding="utf-8") as handle:
             reader = csv.reader(handle, delimiter=";", quotechar='"')
             for row in reader:
@@ -1191,6 +1309,62 @@ class CSVUtf8SimpleFormatMonolingualTest(FixtureTestCase, TempDirMixin):
                     "",
                     f"Source field is empty for target: {row[1]}",
                 )
+
+
+class CSVThreeColumnMonolingualTest(CSVFormatTest):
+    """
+    Test CSV format with three columns in monolingual mode.
+
+    The CSV columns: source, target, translator_comments
+
+    Regression test for https://github.com/WeblateOrg/weblate/issues/18157
+    where the "source" column becomes empty after translating a unit.
+
+    The en-3col.csv template has "source" as the key column and "target" as the
+    source text.  The zh-3col.csv translation starts with empty "target" columns.
+    """
+
+    FILE = TEST_CSV_3COL_ZH
+    BASE = TEST_CSV_3COL_EN
+    TEMPLATE = TEST_CSV_3COL_EN
+    COUNT = 3
+    MONOLINGUAL = True
+    MATCH = "test003_1"
+    FIND = "q123"
+    FIND_CONTEXT = "test003_1"
+    FIND_MATCH = ""
+    NEW_UNIT_MATCH = b'"key","Source string",""\r\n'
+    EDIT_TARGET: ClassVar[str | list[str]] = "中文翻译"
+    EDIT_OFFSET = 0
+    SUPPORTS_NOTES = False
+
+    def test_set_target_preserves_source_column(self) -> None:
+        """
+        Regression test for https://github.com/WeblateOrg/weblate/issues/18157.
+
+        Verify that the source column is preserved after set_target.  When the
+        CSV has a "source" column (no explicit "context"/"id"), the key value
+        must not be cleared when a translation is saved.
+        """
+        testdata = Path(self.FILE).read_bytes()
+        testfile = os.path.join(self.tempdir, os.path.basename(self.FILE))
+        Path(testfile).write_bytes(testdata)
+
+        storage = self.parse_file(testfile)
+        # Edit the first unit (test003_1)
+        storage.all_units[0].set_target("中文翻译")
+        storage.save()
+
+        with open(testfile, encoding="utf-8") as handle:
+            reader = csv.reader(handle)
+            next(reader)  # skip header
+            keys = [row[0] for row in reader]
+
+        # Ensure the key/source column values are preserved exactly
+        self.assertEqual(
+            ["test003_1", "test003_2", "test003_3"],
+            keys,
+        )
 
 
 class FlatXMLFormatTest(BaseFormatTest):
@@ -1354,7 +1528,7 @@ class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):
         # Remove XML declaration so that etree doesn't complain for parsing
         newdata = newdata.replace('<?xml version="1.1" encoding="UTF-8"?>', "")
         xml_data = etree.XML(newdata)
-        self.assertEqual("1", xml_data.find("translation").text)
+        self.assertEqual("1", cast("_Element", xml_data.find("translation")).text)
         self.assertIs(None, xml_data.find("attachment"))
         self.assertIs(None, xml_data.find("object"))
 
@@ -1364,7 +1538,7 @@ class XWikiPagePropertiesFormatTest(XMLMixin, PropertiesFormatTest):
         )
         self.assertFalse(create)
         translation_data.add_unit(unit_to_translate)
-        translation_data.all_units[index].unit = unit_to_translate.unit
+        translation_data.all_units[index]._unit = unit_to_translate.unit  # noqa: SLF001
         unit_to_translate.set_target(target)
 
     def test_translate_file(self) -> None:
@@ -1473,7 +1647,7 @@ class XWikiFullPageFormatTest(XMLMixin, BaseFormatTest):
         # Remove XML declaration so that etree doesn't complain for parsing
         newdata = newdata.replace('<?xml version="1.1" encoding="UTF-8"?>', "")
         xml_data = etree.XML(newdata)
-        self.assertEqual("1", xml_data.find("translation").text)
+        self.assertEqual("1", cast("_Element", xml_data.find("translation")).text)
         self.assertIs(None, xml_data.find("attachment"))
         self.assertIs(None, xml_data.find("object"))
 
@@ -1483,7 +1657,7 @@ class XWikiFullPageFormatTest(XMLMixin, BaseFormatTest):
         )
         self.assertTrue(create)
         translation_data.add_unit(unit_to_translate)
-        translation_data.all_units[index].unit = unit_to_translate.unit
+        translation_data.all_units[index]._unit = unit_to_translate.unit  # noqa: SLF001
         unit_to_translate.set_target(target)
 
     def test_translate_file(self) -> None:
@@ -1600,7 +1774,7 @@ class StringsdictFormatTest(XMLMixin, BaseFormatTest):
 
         # Try getting plural with zero for all languages
         for language in Language.objects.iterator():
-            plural = storage.get_plural(language, storage)
+            plural = storage.get_plural(language)
             self.assertIsInstance(plural, Plural)
             self.assertNotEqual(
                 plural.type,

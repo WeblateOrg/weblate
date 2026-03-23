@@ -65,6 +65,10 @@ def key_translated(instance):
     return instance.stats.translated_percent
 
 
+def key_unreviewed(instance):
+    return instance.stats.waiting_review
+
+
 def key_untranslated(instance):
     return instance.stats.todo
 
@@ -96,6 +100,7 @@ def key_comments(instance):
 SORT_KEYS = {
     "name": key_name,
     "translated": key_translated,
+    "unreviewed": key_unreviewed,
     "untranslated": key_untranslated,
     "untranslated_words": key_untranslated_words,
     "untranslated_chars": key_untranslated_chars,
@@ -156,10 +161,10 @@ def get_paginator(
     *,
     page_limit: int | None = None,
     stats: bool = False,
+    sort_by: str | None = None,
 ):
     """Return paginator and current page."""
     page, limit = get_page_limit(request, page_limit or settings.DEFAULT_PAGE_LIMIT)
-    sort_by = request.GET.get("sort_by")
     stats_fetched = False
     if sort_by:
         # All but ordering by name needs stats
@@ -400,7 +405,7 @@ def parse_path_units(
         unit_set = access_units.filter(translation__language=obj).prefetch()
         context["language"] = obj
     elif obj is None:
-        unit_set = access_units
+        unit_set = access_units.prefetch()
     else:
         msg = f"Unsupported result: {obj}"
         raise TypeError(msg)

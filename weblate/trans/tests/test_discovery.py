@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 
+from unittest.mock import patch
+
 from django.test.utils import override_settings
 
 from weblate.trans.discovery import ComponentDiscovery
@@ -42,6 +44,18 @@ class ComponentDiscoveryTest(RepoTestCase):
                     "second-po/de.po",
                 ]
             ),
+        )
+
+    def test_match_timeout(self) -> None:
+        with patch(
+            "weblate.trans.discovery.regex_match",
+            side_effect=TimeoutError,
+        ):
+            self.assertEqual(self.discovery.matches, [])
+        self.assertEqual(len(self.discovery.errors), 1)
+        self.assertEqual(
+            self.discovery.errors[0][1],
+            "The regular expression used to match discovered files is too complex and took too long to evaluate.",
         )
 
     def test_matched_components(self) -> None:

@@ -68,7 +68,6 @@ from weblate.trans.models import Project, Unit
 from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
 from weblate.trans.tests.utils import get_test_file
 from weblate.utils.classloader import load_class
-from weblate.utils.db import TransactionsTestMixin
 from weblate.utils.state import STATE_TRANSLATED
 
 from .types import SourceLanguageChoices
@@ -2555,7 +2554,7 @@ class OpenAITranslationTest(BaseMachineTranslationTest):
                             "index": 0,
                             "message": {
                                 "role": "assistant",
-                                "content": "Ahoj světe",
+                                "content": '["Ahoj světe"]',
                             },
                             "finish_reason": "stop",
                         }
@@ -2612,7 +2611,7 @@ class OpenAICustomTranslationTest(OpenAITranslationTest):
                             "index": 0,
                             "message": {
                                 "role": "assistant",
-                                "content": "Ahoj světe",
+                                "content": '["Ahoj světe"]',
                             },
                             "finish_reason": "stop",
                         }
@@ -2675,7 +2674,7 @@ class AzureOpenAITranslationTest(OpenAITranslationTest):
                             "index": 0,
                             "message": {
                                 "role": "assistant",
-                                "content": "Ahoj světe",
+                                "content": '["Ahoj světe"]',
                             },
                             "finish_reason": "stop",
                         }
@@ -2709,7 +2708,7 @@ class OllamaTranslationTest(BaseMachineTranslationTest):
     def mock_error(self) -> None:
         responses.add(
             responses.POST,
-            "http://localhost:11434/api/generate",
+            "http://localhost:11434/api/chat",
             status=404,
             json={"error": "the model failed to generate a response"},
         )
@@ -2717,98 +2716,17 @@ class OllamaTranslationTest(BaseMachineTranslationTest):
     def mock_response(self) -> None:
         responses.add(
             responses.POST,
-            "http://localhost:11434/api/generate",
+            "http://localhost:11434/api/chat",
             status=200,
             json={
                 "model": "itzune/latxa:8b",
                 "created_at": "2025-11-29T21:25:08.441817763Z",
-                "response": "Sakatu SUTAN jarraitzeko",
+                "message": {
+                    "role": "assistant",
+                    "content": '["Sakatu SUTAN jarraitzeko"]',
+                },
                 "done": True,
                 "done_reason": "stop",
-                "context": [
-                    128006,
-                    9125,
-                    128007,
-                    1432,
-                    2675,
-                    527,
-                    264,
-                    7701,
-                    26611,
-                    14807,
-                    18328,
-                    11,
-                    76588,
-                    520,
-                    67371,
-                    1495,
-                    198,
-                    1527,
-                    4221,
-                    364,
-                    268,
-                    1270,
-                    998,
-                    4221,
-                    364,
-                    20732,
-                    1270,
-                    4291,
-                    16437,
-                    323,
-                    11148,
-                    685,
-                    382,
-                    1079,
-                    1002,
-                    2592,
-                    1495,
-                    596,
-                    1162,
-                    304,
-                    1855,
-                    3492,
-                    627,
-                    2675,
-                    2744,
-                    10052,
-                    449,
-                    25548,
-                    925,
-                    1193,
-                    627,
-                    2675,
-                    656,
-                    539,
-                    2997,
-                    12215,
-                    37822,
-                    2055,
-                    128009,
-                    128006,
-                    882,
-                    128007,
-                    271,
-                    1911,
-                    61563,
-                    311,
-                    3136,
-                    128009,
-                    128006,
-                    78191,
-                    128007,
-                    1432,
-                    50,
-                    587,
-                    36409,
-                    328,
-                    1406,
-                    1111,
-                    30695,
-                    969,
-                    11289,
-                    98764,
-                ],
                 "total_duration": 3946971317,
                 "load_duration": 3325185239,
                 "prompt_eval_count": 73,
@@ -2830,15 +2748,17 @@ class OllamaRemoteModelTranslationTest(OllamaTranslationTest):
     def mock_response(self) -> None:
         responses.add(
             responses.POST,
-            "http://localhost:11434/api/generate",
+            "http://localhost:11434/api/chat",
             status=200,
             json={
                 "model": "minimax-m2:cloud",
                 "remote_model": "minimax-m2",
                 "remote_host": "https://ollama.com:443",
                 "created_at": "2025-11-29T21:43:24.529609868Z",
-                "response": "Sakatu FIRE tekla jarraitzeko.",
-                "thinking": 'The user wants a translation from English to Basque (eu). The phrase: "press FIRE to continue". In Basque, presumably "sakatu FIRE jarraitzeko". However, we have to consider whether "FIRE" might refer to a game button. In many contexts in Basque, when you see a prompt like "press FIRE to continue", you\'d translate as "sakatu FIRE tekla jarraitzeko" or just "sakatu FIRE". But we need to give a translation that includes "press FIRE to continue". \n\nBut also we have to consider the language: "press FIRE to continue" - typical in video games. Basque translation would be something like "FIRE sakatu jarraitzeko" or "Jarraitzeko, FIRE sakatu". However, in Basque, the phrase "sakatu FIRE tekla" would be used: "Sakatu FIRE tekla jarraitzeko". But maybe "FIRE" remains uppercase as a command or a button label. The instruction says "You always reply with translated string only." So we should output only the Basque translation. Should we keep "FIRE"? Usually if a button labeled "FIRE", maybe you keep it unchanged. Possibly also include "sakatu". So "Sakatu FIRE jarraitzeko". Or "FIRE sakatu jarraitzeko". However typical order would be "Jarraitzeko, FIRE sakatu" or "FIRE sakatu jarraitzeko". The phrase in Basque could be "JARRAITU, FIRE sakatu". But better to follow typical translation conventions: "Sakatu FIRE tekla jarraitzeko." This is straightforward.\n\nWe must not include any other text. So just the translation string.\n\nWe need to ensure that we respond with the translation only, not explanation. Also we have to ensure that we include correct punctuation.\n\nThus final answer: "Sakatu FIRE tekla jarraitzeko."\n\nWe need to be mindful of Basque case and punctuation. "Sakatu FIRE tekla jarraitzeko." Good.\n\nOne nuance: the "to continue" part is "jarraitzeko" as an infinitive of "jarraitu". That works.\n\nThus answer: "Sakatu FIRE tekla jarraitzeko."',
+                "message": {
+                    "role": "assistant",
+                    "content": '["Sakatu FIRE tekla jarraitzeko."]',
+                },
                 "done": True,
                 "done_reason": "stop",
                 "total_duration": 5740856828,
@@ -2892,6 +2812,32 @@ class AnthropicTranslationTest(BaseMachineTranslationTest):
                 "content": [
                     {
                         "type": "text",
+                        "text": '["Hallo Welt"]',
+                    }
+                ],
+                "model": "claude-sonnet-4-5",
+                "stop_reason": "end_turn",
+                "stop_sequence": None,
+                "usage": {
+                    "input_tokens": 25,
+                    "output_tokens": 5,
+                },
+            },
+        )
+
+    @responses.activate
+    def test_error_non_json(self) -> None:
+        responses.add(
+            responses.POST,
+            "https://api.anthropic.com/v1/messages",
+            status=200,
+            json={
+                "id": "msg_01XFDUDYJgAACzvnptvVoYEL",
+                "type": "message",
+                "role": "assistant",
+                "content": [
+                    {
+                        "type": "text",
                         "text": "Hallo Welt",
                     }
                 ],
@@ -2904,6 +2850,36 @@ class AnthropicTranslationTest(BaseMachineTranslationTest):
                 },
             },
         )
+        with self.assertRaises(MachineTranslationError):
+            self.assert_translate(self.SUPPORTED, self.SOURCE_BLANK, 0)
+
+    @responses.activate
+    def test_error_wrong_type(self) -> None:
+        responses.add(
+            responses.POST,
+            "https://api.anthropic.com/v1/messages",
+            status=200,
+            json={
+                "id": "msg_01XFDUDYJgAACzvnptvVoYEL",
+                "type": "message",
+                "role": "assistant",
+                "content": [
+                    {
+                        "type": "text",
+                        "text": '{"translation": "Hallo Welt"}',
+                    }
+                ],
+                "model": "claude-sonnet-4-5",
+                "stop_reason": "end_turn",
+                "stop_sequence": None,
+                "usage": {
+                    "input_tokens": 25,
+                    "output_tokens": 5,
+                },
+            },
+        )
+        with self.assertRaises(MachineTranslationError):
+            self.assert_translate(self.SUPPORTED, self.SOURCE_BLANK, 0)
 
 
 class AnthropicCustomModelTranslationTest(AnthropicTranslationTest):
@@ -2939,7 +2915,7 @@ class AnthropicCustomModelTranslationTest(AnthropicTranslationTest):
         self.assertFalse(form.is_valid())
 
 
-class WeblateTranslationTest(TransactionsTestMixin, FixtureTestCase):
+class WeblateTranslationTest(FixtureTestCase):
     def test_empty(self) -> None:
         machine = WeblateTranslation({})
         results = machine.translate(self.get_unit(), self.user)
@@ -3307,7 +3283,7 @@ class ViewsTest(FixtureTestCase):
 class CommandTest(FixtureTestCase):
     """Test for management commands."""
 
-    def test_list_addons(self) -> None:
+    def test_list_machinery(self) -> None:
         output = StringIO()
         call_command("list_machinery", stdout=output)
         self.assertIn("DeepL", output.getvalue())

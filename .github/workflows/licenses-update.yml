@@ -25,7 +25,7 @@ jobs:
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd   # v6.0.2
       if: github.event_name != 'pull_request' && github.repository_owner == 'WeblateOrg'
       with:
-        token: ${{ secrets.WEBLATE_CI_TOKEN }}
+        token: ${{ secrets.WEBLATE_CI_TOKEN }} # zizmor: ignore[secrets-outside-env]
         persist-credentials: true
         submodules: true
     - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd   # v6.0.2
@@ -38,7 +38,7 @@ jobs:
       with:
         persist-credentials: false
         submodules: true
-    - uses: actions/cache@cdf6c1fa76f9f475f3d7449005a359c84ca0f306 # v5.0.3
+    - uses: actions/cache@668228422ae6a00e4ad889ee87cd7109ec5666a7 # v5.0.4
       with:
         path: ~/.cache/pre-commit
         key: ${{ runner.os }}-pre-commit-${{ hashFiles('pyproject.toml') }}-${{ hashFiles('.pre-commit-config.yaml') }}
@@ -55,4 +55,4 @@ jobs:
         pr-branch: create-pull-request/licenses-update
         pr-labels: |
           dependencies
-        github-token: ${{ secrets.WEBLATE_CI_TOKEN }}
+        github-token: ${{ secrets.WEBLATE_CI_TOKEN }} # zizmor: ignore[secrets-outside-env]

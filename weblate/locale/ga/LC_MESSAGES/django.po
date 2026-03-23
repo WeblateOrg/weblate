@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-02-16 13:58+0000\n"
-"PO-Revision-Date: 2026-02-16 13:38+0000\n"
+"PO-Revision-Date: 2026-02-20 05:11+0000\n"
 "Last-Translator: Aindriú Mac Giolla Eoin <aindriu80@gmail.com>\n"
 "Language-Team: Irish <https://hosted.weblate.org/projects/weblate/"
 "application/ga/>\n"
@@ -19,9 +19,9 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :"
-"(n>6 && n<11) ? 3 : 4;\n"
-"X-Generator: Weblate 5.16-dev\n"
+"Plural-Forms: nplurals=5; plural=n==1 ? 0 : n==2 ? 1 : (n>2 && n<7) ? 2 :(n>"
+"6 && n<11) ? 3 : 4;\n"
+"X-Generator: Weblate 5.16.1-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -3424,10 +3424,8 @@ msgstr ""
 "mBéarla más féidir."
 
 #: weblate/billing/forms.py:47
-#, fuzzy
-#| msgid "View billing info"
 msgid "Add billing admin"
-msgstr "Féach ar fhaisnéis bhilleála"
+msgstr "Cuir riarthóir billeála leis"
 
 #: weblate/billing/models.py:165 weblate/templates/billing/detail.html:28
 msgid "Billing plan"
@@ -3581,18 +3579,16 @@ msgstr "Ní féidir billeáil den sórt sin a chumasc."
 #: weblate/billing/views.py:259
 #, python-format
 msgid "User %s was added as a billing admin."
-msgstr ""
+msgstr "Cuireadh an t-úsáideoir %s leis mar riarthóir billeála."
 
 #: weblate/billing/views.py:277 weblate/templates/billing/detail.html:93
-#, fuzzy
-#| msgid "You can not remove yourself!"
 msgid "You cannot remove yourself."
-msgstr "Ní féidir leat tú féin a bhaint!"
+msgstr "Ní féidir leat tú féin a bhaint."
 
 #: weblate/billing/views.py:286
 #, python-format
 msgid "User %s was removed as a billing admin."
-msgstr ""
+msgstr "Baineadh an t-úsáideoir %s mar riarthóir billeála."
 
 #: weblate/checks/angularjs.py:32
 msgid "AngularJS interpolation string"
@@ -8736,23 +8732,17 @@ msgid "Terminate billing plan"
 msgstr "Deireadh a chur leis an bplean billeála"
 
 #: weblate/templates/billing/detail.html:72
-#, fuzzy
-#| msgid "Billing plan"
 msgid "Billing admins"
-msgstr "Plean billeála"
+msgstr "Riarthóirí billeála"
 
 #: weblate/templates/billing/detail.html:93
 #: weblate/templates/billing/detail.html:97
-#, fuzzy
-#| msgid "Check user access"
 msgid "Revoke access"
-msgstr "Seiceáil rochtain úsáideora"
+msgstr "Cealaigh rochtain"
 
 #: weblate/templates/billing/detail.html:107
-#, fuzzy
-#| msgid "Add team"
 msgid "Add admin"
-msgstr "Cuir foireann leis"
+msgstr "Cuir riarthóir leis"
 
 #: weblate/templates/billing/detail.html:120
 msgid "Review merge"
@@ -14257,10 +14247,8 @@ msgid "This string was translated automatically by %(author)s."
 msgstr "Aistríodh an teaghrán seo go huathoibríoch ag %(author)s."
 
 #: weblate/templates/translate.html:736
-#, fuzzy
-#| msgid "This string was translated automatically by %(author)s."
 msgid "This string was translated automatically."
-msgstr "Aistríodh an teaghrán seo go huathoibríoch ag %(author)s."
+msgstr "Aistríodh an teaghrán seo go huathoibríoch."
 
 #: weblate/templates/translate.html:755 weblate/trans/models/project.py:262
 msgid "Translation quality filter"
@@ -15278,10 +15266,8 @@ msgid "FlatXML key name"
 msgstr "Ainm eochair FlatXML"
 
 #: weblate/trans/file_format_params.py:458
-#, fuzzy
-#| msgid "Replacement string"
 msgid "Deduplicate identical strings"
-msgstr "Teaghrán athsholáthair"
+msgstr "Dídhúblaigh teaghráin chomhionanna"
 
 #: weblate/trans/file_format_params.py:462
 msgid ""
@@ -15289,6 +15275,9 @@ msgid ""
 "Prevents translation loss during file restructuring or table reordering by "
 "removing position-dependent context."
 msgstr ""
+"Comhdhlúthaíonn sé teaghráin foinseacha comhionanna in aonad aistriúcháin "
+"amháin. Coscann sé cailliúint aistriúcháin le linn athstruchtúrú comhad nó "
+"athordú táblaí trí chomhthéacs atá ag brath ar shuíomh a bhaint."
 
 #: weblate/trans/file_format_params.py:472
 #: weblate/trans/file_format_params.py:489

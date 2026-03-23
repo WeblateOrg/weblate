@@ -3,7 +3,7 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # AegisTTN <gamemastermine042004@gmail.com>, 2024.
 # ssantos <ssantos@web.de>, 2024, 2025.
-# Manuela Silva <mmsrs@sky.com>, 2024, 2025.
+# Manuela Silva <mmsrs@sky.com>, 2024, 2025, 2026.
 # Francielle Souza <fransoonerorlater@gmail.com>, 2024.
 # Gedyane Ribeiro dos Santos <geddyzion@outlook.com>, 2024.
 # Horus68 <horus68@users.noreply.hosted.weblate.org>, 2024, 2025.
@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-02-16 13:58+0000\n"
-"PO-Revision-Date: 2025-12-18 19:10+0000\n"
+"PO-Revision-Date: 2026-03-20 21:10+0000\n"
 "Last-Translator: Manuela Silva <mmsrs@sky.com>\n"
 "Language-Team: Portuguese <https://hosted.weblate.org/projects/weblate/"
 "application/pt/>\n"
@@ -23,7 +23,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Weblate 5.15.1-dev\n"
+"X-Generator: Weblate 5.17-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -79,33 +79,24 @@ msgstr ""
 "Weblate."
 
 #: weblate/accounts/forms.py:210 weblate/accounts/models.py:877
-#, fuzzy
-#| msgid "Committer name"
 msgid "Commit name"
 msgstr "Nome do publicador"
 
 #: weblate/accounts/forms.py:213
-#, fuzzy
-#| msgid ""
-#| "Used in version-control commits. The address stays in the repository "
-#| "forever once changes are committed by Weblate."
 msgid ""
 "Used in version control commits. The name stays in the repository forever, "
 "once changes are committed by Weblate."
 msgstr ""
-"Utilizado nas submissões de controlo de versões. O endereço permanecerá no "
-"repositório para sempre, assim que as alterações sejam submetidas pelo "
-"Weblate."
+"Utilizado nas submissões de controlo de versões. Assim que as alterações "
+"sejam submetidas pelo Weblate, o nome permanecerá no repositório para sempre."
 
 #: weblate/accounts/forms.py:241
 msgid "Use anonymous account name"
-msgstr ""
+msgstr "Utilize o nome de conta anónimo"
 
 #: weblate/accounts/forms.py:243
-#, fuzzy
-#| msgid "Use account e-mail address"
 msgid "Use account name"
-msgstr "Utilizar um endereço de correio eletrónico da conta"
+msgstr "Utilize o nome da conta"
 
 #: weblate/accounts/forms.py:264 weblate/accounts/models.py:860
 msgid "Public e-mail"
@@ -122,7 +113,7 @@ msgstr "Lista de componentes: %s"
 
 #: weblate/accounts/forms.py:408
 msgid "Account e-mail"
-msgstr "E-mail da Conta"
+msgstr "Endereço de correio eletrónico da conta"
 
 #: weblate/accounts/forms.py:410
 msgid ""
@@ -165,7 +156,7 @@ msgstr "Verificação por Humano"
 msgctxt ""
 "Question for a mathematics-based CAPTCHA, the %s is an arithmetic problem"
 msgid "What is %s?"
-msgstr "O que é %s?"
+msgstr "O que é %s:"
 
 #. Translators: Shown on wrong answer to the mathematics-based CAPTCHA
 #: weblate/accounts/forms.py:586
@@ -241,7 +232,7 @@ msgstr "Inseriu uma palavra-passe inválida."
 
 #: weblate/accounts/forms.py:798
 msgid "Username or e-mail"
-msgstr "Nome de utilizador ou e-mail"
+msgstr "Nome de utilizador ou endereço de correio eletrónico"
 
 #: weblate/accounts/forms.py:799 weblate/accounts/templatetags/authnames.py:34
 msgid "Password"
@@ -941,7 +932,7 @@ msgstr "Empresa"
 
 #: weblate/accounts/models.py:872
 msgid "Use global default"
-msgstr ""
+msgstr "Utilize a predefinição global"
 
 #: weblate/accounts/models.py:873 weblate/trans/models/project.py:172
 msgid "Public"
@@ -1269,7 +1260,8 @@ msgid ""
 "Your e-mail no longer belongs to verified account, it has been changed to "
 "{0}."
 msgstr ""
-"O seu e-mail já não pertence à conta verificada, este foi alterado para {0}."
+"O seu endereço de correio eletrónico já não pertence à conta verificada, "
+"este foi alterado para {0}."
 
 #: weblate/accounts/templatetags/authnames.py:57
 msgid "Use security key (WebAuthn)"
@@ -1473,6 +1465,8 @@ msgstr "Em vez disso, por favor, registe-se utilizando um e-mail."
 #: weblate/accounts/views.py:1428
 msgid "Could not parse RelayState from SAML Identity Provider."
 msgstr ""
+"Não foi possível analisar o \"Esatdo de Retransmissão\" a partir do "
+"\"Fornecedor de Identidade SAML\"."
 
 #: weblate/accounts/views.py:1433
 msgid "New registrations are turned off."
@@ -1661,18 +1655,11 @@ msgstr ""
 "Envia notificações para uma troca AMQP compatível com Fedora Messaging."
 
 #: weblate/addons/flags.py:48
-#, fuzzy
-#| msgid "Flag new source strings as \"Needs editing\""
 msgid "Flag new source strings as \"Needs checking\""
 msgstr ""
 "Sinalizar as novas cadeias de carateres fonte como \"Precisa de edição\""
 
 #: weblate/addons/flags.py:50
-#, fuzzy
-#| msgid ""
-#| "Whenever a new source string is imported from the VCS, it is flagged as "
-#| "needing editing in Weblate. This way you can easily filter and edit "
-#| "source strings written by the developers."
 msgid ""
 "Whenever a new source string is imported from the VCS, it is flagged as "
 "needing checking in Weblate. This way you can easily filter and edit source "
@@ -1683,48 +1670,33 @@ msgstr ""
 "facilmente as cadeias de carateres fonte escritas pelos programadores."
 
 #: weblate/addons/flags.py:69
-#, fuzzy
-#| msgid "Flag new translations as \"Needs editing\""
 msgid "Flag new translations as \"Needs rewriting\""
-msgstr "Sinalizar as novas traduções como \"Precisa de edição\""
+msgstr "Sinalizar as novas traduções como \"Precisa de reescrita\""
 
 #: weblate/addons/flags.py:71
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS, it is "
-#| "flagged as needing editing in Weblate. This way you can easily filter and "
-#| "edit translations created by the developers."
 msgid ""
 "Whenever a new translatable string is imported from the VCS, it is flagged "
 "as needing rewriting in Weblate. This way you can easily filter and edit "
 "translations created by the developers."
 msgstr ""
-"Sempre que uma nova cadeia de tradução é importada de VCS, esta é sinalizada "
-"como precisa de edição no Weblate. Deste modo pode filtrar e editar "
-"facilmente as traduções criadas pelos programadores."
+"Sempre que uma nova cadeia de carateres traduzível é importada de VCS, esta "
+"é sinalizada como \"Precisa de reescrita\" no Weblate. Deste modo pode "
+"filtrar e editar facilmente as traduções criadas pelos programadores."
 
 #: weblate/addons/flags.py:87
-#, fuzzy
-#| msgid "Flag unchanged translations as \"Needs editing\""
 msgid "Flag unchanged translations as \"Needs rewriting\""
-msgstr "Sinalizar as traduções inalteradas como \"Precisa de edição\""
+msgstr "Sinalizar as traduções inalteradas como \"Precisa de reescrita\""
 
 #: weblate/addons/flags.py:89
-#, fuzzy
-#| msgid ""
-#| "Whenever a new translatable string is imported from the VCS and it "
-#| "matches a source string, it is flagged as needing editing in Weblate. "
-#| "Especially useful for file formats that include source strings for "
-#| "untranslated strings."
 msgid ""
 "Whenever a new translatable string is imported from the VCS and it matches a "
 "source string, it is flagged as needing rewriting in Weblate. Especially "
 "useful for file formats that include source strings for untranslated strings."
 msgstr ""
 "Sempre que uma nova cadeia de carateres traduzível é importada de VCS e "
-"corresponde a uma cadeia de carateres fonte, esta é sinalizada como precisa "
-"de edição no Weblate. Isto é especialmente útil para os formatos de ficheiro "
-"que incluem cadeias de carateres não traduzidas."
+"corresponde a uma cadeia de carateres fonte, esta é sinalizada como "
+"\"Precisa de reescrita\" no Weblate. Isto é especialmente útil para os "
+"formatos de ficheiro que incluem cadeias de carateres não traduzidas."
 
 #: weblate/addons/flags.py:110 weblate/templates/category-language.html:53
 #: weblate/templates/category-language.html:136
@@ -1744,27 +1716,21 @@ msgstr ""
 "carateres."
 
 #: weblate/addons/flags.py:142
-#, fuzzy
-#| msgid "Flag updated translations from repository as \"Needs editing\""
 msgid "Flag updated translations from repository as \"Needs rewriting\""
 msgstr ""
-"Sinalizar as traduções atualizadas do repositório como \"Precisa de edição\""
+"Sinalizar as traduções atualizadas do repositório como \"Precisa de "
+"reescrita\""
 
 #: weblate/addons/flags.py:145
-#, fuzzy
-#| msgid ""
-#| "Whenever a string translation is changed from the VCS, it is flagged as "
-#| "needing editing in Weblate. Especially useful if translation files are "
-#| "often updated manually or by an external service."
 msgid ""
 "Whenever a string translation is changed from the VCS, it is flagged as "
 "needing rewriting in Weblate. Especially useful if translation files are "
 "often updated manually or by an external service."
 msgstr ""
 "Sempre que uma tradução da cadeia de carateres é alterada a partir de VCS, "
-"esta é sinalizada como precisa de edição no Weblate. Especialmente útil se "
-"os ficheiros de tradução são atualizados com frequência ou por um serviço "
-"externo."
+"esta é sinalizada como \"Precisa de reescrita\" no Weblate. Especialmente "
+"útil se os ficheiros de tradução são atualizados com frequência ou por um "
+"serviço externo."
 
 #: weblate/addons/forms.py:62
 msgid "Path of generated MO file"
@@ -2774,10 +2740,8 @@ msgstr "Publicar anúncios"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:117
-#, fuzzy
-#| msgid "Delete announcement"
 msgid "Delete announcements"
-msgstr "Eliminar anúncio"
+msgstr "Eliminar anúncios"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:125
@@ -3459,10 +3423,8 @@ msgstr ""
 "inglês."
 
 #: weblate/billing/forms.py:47
-#, fuzzy
-#| msgid "View billing info"
 msgid "Add billing admin"
-msgstr "Ver informação de faturação"
+msgstr "Adicionar administrador de faturação"
 
 #: weblate/billing/models.py:165 weblate/templates/billing/detail.html:28
 msgid "Billing plan"
@@ -3604,26 +3566,22 @@ msgstr ""
 "regular ou o projeto for removido."
 
 #: weblate/billing/views.py:203 weblate/billing/views.py:222
-#, fuzzy
-#| msgid "Cannot change this on a built-in team."
 msgid "Cannot merge such a billing."
-msgstr "Não é possível alterar isto numa equipa integrada."
+msgstr "Não é possível unir tal faturação."
 
 #: weblate/billing/views.py:259
 #, python-format
 msgid "User %s was added as a billing admin."
-msgstr ""
+msgstr "O utilizador %s foi adicionado como um administrador de faturação."
 
 #: weblate/billing/views.py:277 weblate/templates/billing/detail.html:93
-#, fuzzy
-#| msgid "You can not remove yourself!"
 msgid "You cannot remove yourself."
-msgstr "Não pode remover a si mesmo!"
+msgstr "Não pode remover a si mesmo."
 
 #: weblate/billing/views.py:286
 #, python-format
 msgid "User %s was removed as a billing admin."
-msgstr ""
+msgstr "O utilizador %s foi removido como um administrador de faturação."
 
 #: weblate/checks/angularjs.py:32
 msgid "AngularJS interpolation string"
@@ -3648,10 +3606,8 @@ msgid "The following errors were found:"
 msgstr "Foram encontrados os seguintes erros:"
 
 #: weblate/checks/base.py:411
-#, fuzzy
-#| msgid "Could not parse flags: %s"
 msgid "Could not parse {} flag: {}"
-msgstr "Não foi possível analisar os sinalizadores: %s"
+msgstr "Não foi possível analisar o sinalizador {}: {}"
 
 #: weblate/checks/chars.py:48
 msgid "Starting newline"
@@ -3811,16 +3767,13 @@ msgid "Missing non breakable space before double punctuation sign."
 msgstr "Falta de espaço não quebrável antes do sinal de pontuação duplo."
 
 #: weblate/checks/chars.py:589
-#, fuzzy
-#| msgid "Multiple unnamed variables"
 msgid "Multiple capitals"
-msgstr "Várias variáveis sem nome"
+msgstr "Múltiplas maiúsculas"
 
 #: weblate/checks/chars.py:591
-#, fuzzy
-#| msgid "Translation contains extra zero-width space character."
 msgid "Translation contains words with multiple misplaced capital letters."
-msgstr "A tradução contém um caráter de espaço de largura zero extra."
+msgstr ""
+"A tradução contém palavras com múltiplas letras maiúsculas mal colocadas."
 
 #: weblate/checks/consistency.py:33
 msgid "Missing plurals"
@@ -4707,14 +4660,14 @@ msgstr "As etiquetas XML na tradução não coincidem com a fonte."
 
 #: weblate/checks/markup.py:296
 msgid "Chars around XML tags"
-msgstr ""
+msgstr "Carateres em torno das etiquetas XML"
 
 #: weblate/checks/markup.py:298
-#, fuzzy
-#| msgid "XML tags in translation do not match source."
 msgid ""
 "Characters surrounding XML tags in translation do not align with source."
-msgstr "As etiquetas XML na tradução não coincidem com a fonte."
+msgstr ""
+"Os carateres que rodeiam as etiquetas XML na tradução não se alinham com a "
+"fonte."
 
 #: weblate/checks/markup.py:357
 msgid "Markdown references"
@@ -4778,10 +4731,8 @@ msgid "reStructuredText syntax error in the translation."
 msgstr "Erro de sintaxe reStructuredText na tradução."
 
 #: weblate/checks/markup.py:717
-#, fuzzy
-#| msgid "Source and translation do not both start with a newline."
 msgid "The translation should not start with a list marker."
-msgstr "A fonte e a tradução não começam ambas com uma nova linha."
+msgstr "A tradução não deveria começar com uma marcador de lista."
 
 #: weblate/checks/placeholders.py:31
 msgid "Placeholders"
@@ -5115,10 +5066,8 @@ msgid "Excel Open XML"
 msgstr "Excel Open XML"
 
 #: weblate/formats/multi.py:181
-#, fuzzy
-#| msgid "Multivalue CSV"
 msgid "Multivalue CSV file"
-msgstr "CSV Multivalores"
+msgstr "Ficheiro CSV multivalor"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1239
@@ -5162,10 +5111,8 @@ msgstr "Ficheiro de tradução XLIFF 2.0 com suporte de colocáveis"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1475
-#, fuzzy
-#| msgid "Java Properties (UTF-8)"
 msgid "Java Properties"
-msgstr "Propriedades de Java (UTF-8)"
+msgstr "Propriedades de Java"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1490
@@ -6206,22 +6153,19 @@ msgstr "Nome do modelo descrito no catálogo Ollama."
 #: weblate/machinery/forms.py:502
 msgctxt "Anthropic model selection"
 msgid "Claude Sonnet 4.5 (Recommended)"
-msgstr ""
+msgstr "Claude Sonnet 4.5 (Recomendado)"
 
 #: weblate/machinery/forms.py:507
 msgctxt "Anthropic model selection"
 msgid "Claude Haiku 4.5"
-msgstr ""
+msgstr "Claude Haiku 4.5"
 
 #: weblate/machinery/forms.py:511
 msgctxt "Anthropic model selection"
 msgid "Claude Opus 4.5"
-msgstr ""
+msgstr "Claude Opus 4.5"
 
 #: weblate/machinery/forms.py:513
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Custom model"
 msgctxt "Anthropic model selection"
 msgid "Custom model"
 msgstr "Modelo personalizado"
@@ -6229,24 +6173,19 @@ msgstr "Modelo personalizado"
 #: weblate/machinery/forms.py:518
 msgctxt "Automatic suggestion service configuration"
 msgid "Anthropic API URL"
-msgstr ""
+msgstr "URL da API Anthropic"
 
 #: weblate/machinery/forms.py:521
-#, fuzzy
-#| msgid ""
-#| "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
 msgid "Base URL of the Anthropic API. Leave empty to use the default URL."
-msgstr "URL base da API do OpenAI, se for diferente do URL padrão do OpenAI"
+msgstr ""
+"URL base da API Anthropic. Deixe em branco para utilizar o URL predefinido."
 
 #: weblate/machinery/forms.py:529
 msgctxt "Automatic suggestion service configuration"
 msgid "Anthropic model"
-msgstr ""
+msgstr "Modelo Anthropic"
 
 #: weblate/machinery/forms.py:537
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Custom model name"
 msgctxt "Anthropic model selection"
 msgid "Custom model name"
 msgstr "Nome do modelo personalizado"
@@ -6254,11 +6193,11 @@ msgstr "Nome do modelo personalizado"
 #: weblate/machinery/forms.py:545
 msgctxt "Automatic suggestion service configuration"
 msgid "Max tokens"
-msgstr ""
+msgstr "Máx. de códigos"
 
 #: weblate/machinery/forms.py:547
 msgid "Maximum number of tokens to generate in the response."
-msgstr ""
+msgstr "O número máximo de códigos para gerar na resposta."
 
 #: weblate/machinery/types.py:20
 msgctxt "Source language selection"
@@ -6954,23 +6893,23 @@ msgstr "Registo quase completo"
 msgid "Follow the password recovery instructions sent to your e-mail inbox."
 msgstr ""
 "Siga as instruções de recuperação de palavra-passe enviadas para a caixa de "
-"entrada do seu e-mail."
+"entrada das suas mensagens."
 
 #: weblate/templates/accounts/email-sent.html:32
 msgid ""
 "Remove your account by clicking the confirmation link sent to your e-mail "
 "inbox."
 msgstr ""
-"Remova a sua conta ao clicar no link de confirmação enviado para o seu e-"
-"mail."
+"Remova a sua conta, clicando na hiperligação de confirmação enviada para a "
+"sua caixa de entrada das mensagens."
 
 #: weblate/templates/accounts/email-sent.html:34
 msgid ""
 "Click the confirmation link sent to your e-mail inbox and start using your "
 "account."
 msgstr ""
-"Clique no link de confirmação enviada para o seu e-mail e comece a usar a "
-"sua conta."
+"Clique na hiperligação de confirmação enviada para a sua caixa de entrada "
+"das mensagens e comece a utilizar a sua conta."
 
 #: weblate/templates/accounts/email-sent.html:39
 msgid "Please look into your spam folder if you cannot see it in your inbox."
@@ -6983,8 +6922,8 @@ msgstr ""
 #, python-format
 msgid "The confirmation link will expire after %(count)s hour."
 msgid_plural "The confirmation link will expire after %(count)s hours."
-msgstr[0] "O URL de confirmação irá expirar dentro de %(count)s hora."
-msgstr[1] "O URL de confirmação irá expirar dentro de %(count)s horas."
+msgstr[0] "A hiperligaçãode de confirmação irá expirar dentro de %(count)s hora."
+msgstr[1] "A hiperligaçãode de confirmação irá expirar dentro de %(count)s horas."
 
 #: weblate/templates/accounts/email-sent.html:45
 msgid "Request a new confirmation link if it expires."
@@ -6999,8 +6938,9 @@ msgid ""
 "E-mail is not an instant technology. Please wait for the confirmation e-mail "
 "at least 30 minutes before you write to us about issues."
 msgstr ""
-"O e-mail nem sempre é uma tecnologia instantânea. Aguarde pelo menos 30 "
-"minutos pelo e-mail de confirmação antes de nos contactar sobre problemas."
+"O ''e-mail'' nem sempre é uma tecnologia instantânea. Por favor, aguarde "
+"pelo menos 30 minutos pela mensagem de confirmação antes de nos contactar "
+"sobre os problemas."
 
 #: weblate/templates/accounts/email-sent.html:57
 #: weblate/templates/mail/shared-registration.html:29
@@ -7485,9 +7425,9 @@ msgid ""
 "provide your contribution under the license defined by each localization "
 "project."
 msgstr ""
-"Ao registar-se, está a concordar com a utilização do seu nome e endereço do "
+"Ao registar-se, você concorda com a utilização do seu nome e endereço de "
 "correio eletrónico nas submissões, e em disponibilizar a sua contribuição "
-"sob a licença definida em cada projeto traduzido."
+"sob a licença definida por cada projeto de tradução."
 
 #: weblate/templates/accounts/profile.html:633
 msgid "You have agreed to the following as a contributor:"
@@ -7618,7 +7558,7 @@ msgid ""
 "You will have to confirm the account removal by clicking the link in the e-"
 "mail you will receive."
 msgstr ""
-"Terá de confirmar a remoção da conta clicando na hiperligação da mensagem "
+"Terá de confirmar a remoção da conta, clicando na hiperligação da mensagem "
 "que irá receber."
 
 #: weblate/templates/accounts/removal.html:50
@@ -7653,24 +7593,23 @@ msgstr "Tradução <strong>contínua</strong> baseada na Web"
 #. Translators: This is followed by list of legal documents such as Privacy Policy or General Terms and Conditions
 #: weblate/templates/accounts/snippets/login-info.html:7
 msgid "By registering and signing in to this service you accept our:"
-msgstr ""
-"Ao registar-se e ao iniciar a sessão neste serviço, está a aceitar a nossa:"
+msgstr "Ao registar-se, e ao iniciar a sessão neste serviço, aceita o seguinte:"
 
 #: weblate/templates/accounts/snippets/login-info.html:18
 msgid ""
 "Quick overview of the General Terms and Conditions and the Privacy Policy, "
 "but you should still read the original documents to fully understand them:"
 msgstr ""
-"Sinopse rápida dos Termos Gerais e Condições e da Política de Privacidade. "
-"Mas deveria ler os documentos originais para uma melhor compreensão:"
+"Sinopse rápida dos «Termos Gerais e Condições», e da «Política de Privacidade"
+"», mas deveria ler os documentos originais para uma melhor compreensão:"
 
 #: weblate/templates/accounts/snippets/login-info.html:26
 msgid ""
 "By registering, you agree that your name and username will be visible "
 "publicly as long as your account exists."
 msgstr ""
-"Ao registar-se, concorda que o seu nome e nome de utilizador irão estar "
-"visíveis enquanto a sua conta existir."
+"Ao registar-se, você concorda que o seu nome e o nome de utilizador irão "
+"estar visíveis enquanto a sua conta existir."
 
 #: weblate/templates/accounts/snippets/login-info.html:30
 msgid ""
@@ -7678,20 +7617,22 @@ msgid ""
 "commits to author the changes you made; they can be stored there "
 "indefinitely."
 msgstr ""
-"Adicionalmente, o seu nome e ''e-mail'' podem ser utilizados pelas "
-"submissões do sistema de controlo de versão para criar as alterações "
-"efetuadas por si; eles podem ser guardados lá indefinidamente."
+"Adicionalmente, o seu nome e o endereço de correio eletrónico podem ser "
+"utilizados pelas submissões do sistema de controlo de versão para criar as "
+"alterações efetuadas por si; eles podem ser guardados lá indefinidamente."
 
 #: weblate/templates/accounts/snippets/login-info.html:34
-#, fuzzy
-#| msgid "You can enable the use of a private commit e-mail in your profile."
 msgid ""
 "You can enable the use of a private commit e-mail and name in your profile."
-msgstr "Pode ativar a utilização de um ''e-mail'' de privado no seu perfil."
+msgstr ""
+"Pode ativar a utilização de um endereço de correio eletrónico de submissão "
+"privado e o nome no seu perfil."
 
 #: weblate/templates/accounts/snippets/login-info.html:36
 msgid "You can enable the use of a private commit e-mail in your profile."
-msgstr "Pode ativar a utilização de um ''e-mail'' de privado no seu perfil."
+msgstr ""
+"Pode ativar a utilização de um endereço de correio eletrónico de submissão "
+"privado no seu perfil."
 
 #: weblate/templates/accounts/snippets/login-info.html:43
 msgid ""
@@ -7703,10 +7644,8 @@ msgstr ""
 "guardado lá indefinidamente."
 
 #: weblate/templates/accounts/snippets/login-info.html:45
-#, fuzzy
-#| msgid "You can enable the use of a private commit e-mail in your profile."
 msgid "You can enable the use of a private commit name in your profile."
-msgstr "Pode ativar a utilização de um ''e-mail'' de privado no seu perfil."
+msgstr "Pode ativar a utilização de um nome de submissão privado no seu perfil."
 
 #: weblate/templates/accounts/snippets/login-info.html:48
 msgid ""
@@ -8726,30 +8665,21 @@ msgid "Terminate billing plan"
 msgstr "Terminar plano de faturação"
 
 #: weblate/templates/billing/detail.html:72
-#, fuzzy
-#| msgid "Billing plan"
 msgid "Billing admins"
-msgstr "Plano de faturação"
+msgstr "Administradores de faturação"
 
 #: weblate/templates/billing/detail.html:93
 #: weblate/templates/billing/detail.html:97
-#, fuzzy
-#| msgid "Check user access"
 msgid "Revoke access"
-msgstr "Verificar acesso do utilizador"
+msgstr "Revogar acesso"
 
 #: weblate/templates/billing/detail.html:107
-#, fuzzy
-#| msgid "admin"
 msgid "Add admin"
-msgstr "administrador"
+msgstr "Adicionar administrador"
 
 #: weblate/templates/billing/detail.html:120
-#, fuzzy
-#| msgctxt "Access-control team name"
-#| msgid "Reviewers"
 msgid "Review merge"
-msgstr "Revisores"
+msgstr "União de revisões"
 
 #: weblate/templates/billing/detail.html:133
 msgid "Invoices"
@@ -8847,10 +8777,8 @@ msgid "View"
 msgstr "Ver"
 
 #: weblate/templates/billing/merge.html:34
-#, fuzzy
-#| msgid "Confirm"
 msgid "Confirm merge"
-msgstr "Confirmar"
+msgstr "Confirmar união"
 
 #: weblate/templates/billing/overview.html:20
 msgid "No subscriptions or due payments."
@@ -9980,6 +9908,8 @@ msgid ""
 "This might discard edits that cannot be committed because of the configured "
 "commit policy."
 msgstr ""
+"Isto pode descartar as edições que não podem ser submetidas devido à "
+"política de submissão configurada."
 
 #: weblate/templates/js/git-status.html:219
 msgid "Use these operations with caution, they can lead to data loss."
@@ -10194,6 +10124,10 @@ msgid ""
 "be uploaded on the individual translations. Switch to the \"Components\" tab "
 "above, open the desired component, and perform the upload there."
 msgstr ""
+"Atualmente, não são suportados envios a nível de projeto. Os ficheiros de "
+"tradução precisam de ser enviados nas traduções individuais. Mude para o "
+"separador em cima \"Componentes\", abra o componente desejado e efetue lá o "
+"envio."
 
 #: weblate/templates/language.html:26 weblate/templates/manage/tools.html:10
 #: weblate/templates/translate.html:214 weblate/wladmin/views.py:100
@@ -10303,8 +10237,8 @@ msgid ""
 "This is an automatic e-mail to help you complete your registration with "
 "%(site_title)s."
 msgstr ""
-"Este é um e-mail automático para o ajudar a completar o registo no "
-"%(site_title)s."
+"Esta é uma mensagem automática para o ajudar a concluir o seu registo no %"
+"(site_title)s."
 
 #. Translators: e-mail subject
 #: weblate/templates/mail/activation_subject.txt:5
@@ -10720,15 +10654,15 @@ msgid ""
 "this e-mail at %(site_title)s."
 msgstr ""
 "A palavra-passe não pode ser redefinida porque não existe uma conta "
-"registada com este e-mail em %(site_title)s."
+"registada para este endereço de correio eletrónico em %(site_title)s."
 
 #: weblate/templates/mail/reset-nonexisting.html:8
 msgid ""
 "Please check whether this Weblate instance is the one you have used and what "
 "e-mail address you did use when registering."
 msgstr ""
-"Verifique se esta instância do Weblate é a que utilizou e qual o endereço de "
-"correio eletrónico que utilizou quando se registou."
+"Por favor, verifique se esta instância do Weblate é a que utilizou e qual o "
+"endereço de correio eletrónico que utilizou quando se registou."
 
 #: weblate/templates/mail/reset-nonexisting.html:13
 #, python-format
@@ -11167,8 +11101,8 @@ msgid ""
 "The support packages include priority e-mail support, or cloud backups of "
 "your Weblate installation."
 msgstr ""
-"Os pacotes de apoio incluem apoio prioritário por ''e-mail'' ou cópias de "
-"segurança na nuvem da sua instalação Weblate."
+"Os pacotes de apoio incluem o apoio prioritário por correio eletrónico, ou "
+"cópias de segurança na nuvem da sua instalação do Weblate."
 
 #: weblate/templates/manage/snippets/activation-form.html:19
 msgid "Activate"
@@ -12763,10 +12697,9 @@ msgid "Vote against"
 msgstr "Votar contra"
 
 #: weblate/templates/snippets/suggestions.html:56
-#, fuzzy, python-format
-#| msgid "Accepted invitation from {username}."
+#, python-format
 msgid "Accept all suggestions from %(username)s"
-msgstr "O convite de {username} foi aceite."
+msgstr "Aceitou todas as sugestões do %(username)s"
 
 #: weblate/templates/snippets/suggestions.html:65
 msgid "Accept"
@@ -13736,6 +13669,8 @@ msgid ""
 "You are not allowed to invite new users because new registrations are turned "
 "off."
 msgstr ""
+"Não tem permissão para convidar novos utilizadores porque os novos registos "
+"estão desativados."
 
 #: weblate/templates/trans/project-access.html:278
 #, python-format
@@ -14079,11 +14014,8 @@ msgstr ""
 "Esta cadeia de carateres foi traduzida automaticamente pelo %(author)s."
 
 #: weblate/templates/translate.html:736
-#, fuzzy
-#| msgid "This string was translated automatically by %(author)s."
 msgid "This string was translated automatically."
-msgstr ""
-"Esta cadeia de carateres foi traduzida automaticamente pelo %(author)s."
+msgstr "Esta cadeia de carateres foi traduzida automaticamente."
 
 #: weblate/templates/translate.html:755 weblate/trans/models/project.py:262
 msgid "Translation quality filter"
@@ -15093,10 +15025,8 @@ msgid "FlatXML key name"
 msgstr "Nome chave de FlatXML"
 
 #: weblate/trans/file_format_params.py:458
-#, fuzzy
-#| msgid "Found duplicated string"
 msgid "Deduplicate identical strings"
-msgstr "Cadeia duplicada encontrada"
+msgstr "De duplicar cadeias de carateres idênticas"
 
 #: weblate/trans/file_format_params.py:462
 msgid ""
@@ -15104,21 +15034,22 @@ msgid ""
 "Prevents translation loss during file restructuring or table reordering by "
 "removing position-dependent context."
 msgstr ""
+"Consolida as cadeias de carateres fonte idênticas numa única unidade de "
+"tradução. Previne a perda de tradução durante a reestruturação de ficheiro "
+"ou a reordenação de tabela, removendo o contexto dependente da posição."
 
 #: weblate/trans/file_format_params.py:472
 #: weblate/trans/file_format_params.py:489
 #: weblate/trans/file_format_params.py:504
 #: weblate/trans/file_format_params.py:518
 #: weblate/trans/file_format_params.py:533
-#, fuzzy
-#| msgid "Filenames encoding"
 msgid "File encoding"
-msgstr "Codificação dos nomes dos ficheiros"
+msgstr "Codificação de ficheiro"
 
 #: weblate/trans/file_format_params.py:475
 #: weblate/trans/file_format_params.py:494
 msgid "UTF-16"
-msgstr ""
+msgstr "UTF-16"
 
 #: weblate/trans/file_format_params.py:476
 #: weblate/trans/file_format_params.py:493
@@ -15126,40 +15057,38 @@ msgstr ""
 #: weblate/trans/file_format_params.py:522
 #: weblate/trans/file_format_params.py:536
 msgid "UTF-8"
-msgstr ""
+msgstr "UTF-8"
 
 #: weblate/trans/file_format_params.py:479
 msgid "Encoding used for iOS strings files"
-msgstr ""
+msgstr "Codificação utilizada para os ficheiros das cadeias de carateres iOS"
 
 #: weblate/trans/file_format_params.py:492
 #: weblate/trans/file_format_params.py:523
 #: weblate/trans/file_format_params.py:537
 msgid "ISO-8859-1"
-msgstr ""
+msgstr "ISO-8859-1"
 
 #: weblate/trans/file_format_params.py:497
-#, fuzzy
-#| msgid "Format the Java properties file"
 msgid "Encoding used for Java Properties files"
-msgstr "Formatar as propriedades do ficheiro Java"
+msgstr "Codificação utilizada nos ficheiros Java Properties"
 
 #: weblate/trans/file_format_params.py:507
 #: weblate/trans/file_format_params.py:521
 msgid "Auto-detect"
-msgstr ""
+msgstr "Auto Detetar"
 
 #: weblate/trans/file_format_params.py:511
 msgid "Encoding used for CSV files"
-msgstr ""
+msgstr "Codificação utilizada para os ficheiros CSV"
 
 #: weblate/trans/file_format_params.py:526
 msgid "Encoding used for simple CSV files"
-msgstr ""
+msgstr "Codificação utilizada para os ficheiros CSV simples"
 
 #: weblate/trans/file_format_params.py:540
 msgid "Encoding used for GWT Properties files"
-msgstr ""
+msgstr "Codificação utilizada pelos ficheiros GWT Properties"
 
 #: weblate/trans/filter.py:23 weblate/trans/filter.py:121
 msgid "All strings"
@@ -16233,11 +16162,6 @@ msgid "Merge without fast-forward"
 msgstr "Mesclar sem avanço rápido"
 
 #: weblate/trans/models/component.py:412
-#, fuzzy
-#| msgid ""
-#| "Version control system to use to access your repository containing "
-#| "translations. You can also choose additional integration with third party "
-#| "providers to submit merge requests."
 msgid ""
 "Version control system to use to access your repository containing "
 "translations. You can also choose additional integration with third party "
@@ -16245,7 +16169,7 @@ msgid ""
 msgstr ""
 "Sistema de controlo de versões utilizado para aceder ao seu repositório com "
 "as traduções. Também pode escolher a integração adicional com outros "
-"fornecedores terceiros para submeter os pedidos de unir."
+"fornecedores terceiros para submeter os pedidos de submeter/unir."
 
 #: weblate/trans/models/component.py:424
 msgid ""
@@ -16260,12 +16184,13 @@ msgid "Repository push URL"
 msgstr "URL de submissão do repositório"
 
 #: weblate/trans/models/component.py:440
-#, fuzzy
-#| msgid "URL of a push repository, pushing is turned off if empty."
 msgid ""
 "URL of a push repository, pushing is turned off if empty. When using pull/"
 "merge requests, keep empty to fork the repository."
-msgstr "URL de submissão a um repositório, a submissão é desativada se vazio."
+msgstr ""
+"URL de um repositório de submissão, a submissão é desativada se vazia. "
+"Quando utilizar pedidos de submeter/unir, mantenha vazio para ''fork'' o "
+"repositório."
 
 #: weblate/trans/models/component.py:446
 msgid "Repository browser"
@@ -16299,8 +16224,8 @@ msgid ""
 "E-mail address for reports on errors in source strings. Leave empty for no e-"
 "mails."
 msgstr ""
-"E-mail onde os erros na cadeia fonte serão reportados, deixar vazio para não "
-"gerar e-mails."
+"Endereço de correio eletrónico para os relatórios de erros nas cadeias de "
+"carateres fonte. Deixe em branco para não gerar mensagens."
 
 #: weblate/trans/models/component.py:475
 msgid "Repository branch to translate"
@@ -16851,24 +16776,20 @@ msgid "Could not update repository: %s"
 msgstr "Não foi possível atualizar o repositório: %s"
 
 #: weblate/trans/models/component.py:3403
-#, fuzzy
-#| msgid "Pull and push branches cannot be the same when using merge requests."
 msgid ""
 "Pull and push branches cannot be the same when using pull/merge requests and "
 "not pushing to a fork."
 msgstr ""
-"Os ramos de Puxar e de Empurrar não podem ser os mesmos ao usar pedidos de "
-"mesclagem."
+"Os ramos de submeter e de unir não podem ser os mesmos quando utilizar "
+"pedidos de submeter/unir para um ''fork''."
 
 #: weblate/trans/models/component.py:3409
-#, fuzzy
-#| msgid "Pull and push branches cannot be the same when using merge requests."
 msgid ""
 "Push branch cannot be empty when using pull/merge requests and not pushing "
 "to a fork."
 msgstr ""
-"Os ramos de Puxar e de Empurrar não podem ser os mesmos ao usar pedidos de "
-"mesclagem."
+"Os ramos de submeter não podem estar vazios quando utilizar pedidos de "
+"submeter/unir e não submeter para um ''fork''."
 
 #: weblate/trans/models/component.py:3419
 #, python-format
@@ -17129,19 +17050,16 @@ msgstr ""
 "exemplo: en_GB:en,en_US:en"
 
 #: weblate/trans/models/project.py:834
-#, fuzzy
-#| msgid "Forces writing all strings to the translation files."
 msgid ""
 "Translations marked as needing editing are not written to the translation "
 "file."
 msgstr ""
-"Força a escrita de todos as cadeias de carateres nos ficheiros de tradução."
+"As traduções marcadas como \"Precisa de edição\" não são gravadas no "
+"ficheiro de tradução."
 
 #: weblate/trans/models/project.py:838
-#, fuzzy
-#| msgid "Approved translation in %(translation)s"
 msgid "Only approved translations are written to the translation file."
-msgstr "Tradução aprovada em %(translation)s"
+msgstr "Apenas as traduções aprovadas são gravadas no ficheiro de tradução."
 
 #: weblate/trans/models/suggestion.py:157
 msgid "Could not accept suggestion!"
@@ -17689,35 +17607,28 @@ msgstr ""
 "progresso."
 
 #: weblate/trans/views/bulk_suggestions.py:39
-#, fuzzy
-#| msgid "Glossary was not found."
 msgid "User not found."
-msgstr "Glossário não foi encontrado."
+msgstr "Utilizador não encontrado."
 
 #: weblate/trans/views/bulk_suggestions.py:54
-#, fuzzy
-#| msgid "You do not have privilege to accept suggestions!"
 msgid "You do not have permission to accept suggestions."
-msgstr "Não tem privilégios para aceitar sugestões!"
+msgstr "Não tem permissões para aceitar sugestões."
 
 #: weblate/trans/views/bulk_suggestions.py:61
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Invalid request."
-msgstr "Pedido de união inválido!"
+msgstr "Pedido inválido."
 
 #: weblate/trans/views/bulk_suggestions.py:81
 #, python-brace-format
 msgid "Too many suggestions ({count}). Please contact an administrator."
-msgstr ""
+msgstr "Demasiadas sugestões ({count}). Por favor, contacte um administrador."
 
 #: weblate/trans/views/bulk_suggestions.py:109
-#, fuzzy, python-format
-#| msgid "Accepted invitation from {username}."
+#, python-format
 msgid "Accepted %(count)d suggestion from %(user)s."
 msgid_plural "Accepted %(count)d suggestions from %(user)s."
-msgstr[0] "O convite de {username} foi aceite."
-msgstr[1] "O convite de {username} foi aceite."
+msgstr[0] "Aceitou %(count)d sugestão do %(user)s."
+msgstr[1] "Aceitou %(count)d sugestões do %(user)s."
 
 #: weblate/trans/views/bulk_suggestions.py:118
 #, python-format
@@ -17728,13 +17639,15 @@ msgid_plural ""
 "Accepted %(accepted)d of %(total)d suggestions from %(user)s. %(failed)d "
 "failed due to permissions or checks."
 msgstr[0] ""
+"Aceitou %(accepted)d de %(total)d sugestões de %(user)s. %(failed)d falhou "
+"devido a permissões ou verificações."
 msgstr[1] ""
+"Aceitou %(accepted)d de %(total)d sugestões de %(user)s. %(failed)d falhou "
+"devido a permissões ou verificações."
 
 #: weblate/trans/views/bulk_suggestions.py:137
-#, fuzzy
-#| msgid "No string found."
 msgid "No suggestions found."
-msgstr "Nenhuma cadeia encontrada."
+msgstr "Não foram encontradas sugestões."
 
 #: weblate/trans/views/changes.py:63
 #, python-format
@@ -17799,7 +17712,9 @@ msgstr ""
 
 #: weblate/trans/views/dashboard.py:193
 msgid "Please set your full name and e-mail in your profile."
-msgstr "Por favor, defina o seu nome completo e o e-mail no seu perfil."
+msgstr ""
+"Por favor, defina o seu nome completo e o endereço de correio eletrónico no "
+"seu perfil."
 
 #: weblate/trans/views/edit.py:91
 #, python-format
@@ -18278,7 +18193,7 @@ msgstr "Não foi possível analisar a cadeia de consulta: {}"
 
 #: weblate/utils/forms.py:121
 msgid "Missing username or e-mail."
-msgstr "Nome de utilizador ou e-mail ausente."
+msgstr "Nome de utilizador ou endereço de correio eletrónico ausente."
 
 #: weblate/utils/forms.py:132
 msgid "More possible users were found."
@@ -18306,28 +18221,20 @@ msgid "Unsupported state: {}"
 msgstr "Estado não suportado: {}"
 
 #: weblate/utils/search.py:183
-#, fuzzy
-#| msgid "Could not parse JSON: %s"
 msgid "Could not parse boolean value: {}"
-msgstr "Não foi possível analisar JSON: %s"
+msgstr "Não foi possível analisar o valor booliano: {}"
 
 #: weblate/utils/search.py:200
-#, fuzzy
-#| msgid "Could not parse query string: {}"
 msgid "Could not parse numeric value: {}"
-msgstr "Não foi possível analisar a cadeia de consulta: {}"
+msgstr "Não foi possível analisar o valor numérico: {}"
 
 #: weblate/utils/search.py:308
-#, fuzzy
-#| msgid "Could not parse JSON: %s"
 msgid "Could not parse timestamp: {}"
-msgstr "Não foi possível analisar JSON: %s"
+msgstr "Não foi possível analisar a data/hora: {}"
 
 #: weblate/utils/search.py:445
-#, fuzzy
-#| msgid "Focus on search field."
 msgid "Unknown search field: {}"
-msgstr "Focar no campo de pesquisa."
+msgstr "Campo de pesquisa desconhecido: {}"
 
 #: weblate/utils/search.py:482
 msgid "Invalid regular expression: {}"
@@ -18336,23 +18243,19 @@ msgstr "Expressão regular inválida: {}"
 #: weblate/utils/search.py:512 weblate/utils/search.py:519
 #, python-brace-format
 msgid "Unsupported lookup for {field}: {value}"
-msgstr ""
+msgstr "Pesquisa não suportada para {field}: {value}"
 
 #: weblate/utils/search.py:844
 msgid "Mixed operators!"
-msgstr ""
+msgstr "Operadores mistos!"
 
 #: weblate/utils/search.py:884
-#, fuzzy
-#| msgid "Invalid search string!"
 msgid "Invalid character in the query string"
-msgstr "Cadeia de carateres de pesquisa inválida!"
+msgstr "Caráter inválido na cadeia de carateres de consulta"
 
 #: weblate/utils/search.py:890
-#, fuzzy
-#| msgid "Could not parse query string: {}"
 msgid "Failed to parse the query string: {}"
-msgstr "Não foi possível analisar a cadeia de consulta: {}"
+msgstr "Não foi possível analisar a cadeia de carateres de consulta: {}"
 
 #: weblate/utils/state.py:17
 msgctxt "String state"
@@ -18365,20 +18268,14 @@ msgid "Needs editing"
 msgstr "Precisa de edição"
 
 #: weblate/utils/state.py:21
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Needs rewriting"
 msgctxt "String state"
 msgid "Needs editing (Needs rewriting)"
-msgstr "Precisa de ser reescrito"
+msgstr "Precisa de edição (Precisa de reescrita)"
 
 #: weblate/utils/state.py:25
-#, fuzzy
-#| msgctxt "String state"
-#| msgid "Needs checking"
 msgctxt "String state"
 msgid "Needs editing (Needs checking)"
-msgstr "Precisa de ser verificado"
+msgstr "Precisa de edição (Precisa de verificação)"
 
 #: weblate/utils/state.py:27
 msgctxt "String state"
@@ -18518,16 +18415,13 @@ msgid "The provided secret is too long."
 msgstr "O segredo fornecido é muito longo."
 
 #: weblate/utils/validators.py:381
-#, fuzzy
-#| msgid "This name cannot be registered. Please choose a different one."
 msgid "This website cannot be used. Please provide a different one."
-msgstr "Este nome não pode ser registado. Por favor, escolha um diferente."
+msgstr ""
+"Este ''site'' da Web não pode ser utilizado. Por favor, forneça um diferente."
 
 #: weblate/utils/validators.py:439
-#, fuzzy
-#| msgid "Could not parse JSON: %s"
 msgid "Could not parse URL: {}"
-msgstr "Não foi possível analisar JSON: %s"
+msgstr "Não foi possível analisar o URL: %s"
 
 #: weblate/utils/validators.py:449
 #, python-format
@@ -18695,10 +18589,8 @@ msgid "Could not fetch public key for a host: %s"
 msgstr "Não foi possível obter a chave pública para um hospedeiro: %s"
 
 #: weblate/vcs/ssh.py:247
-#, fuzzy
-#| msgid "Could not fetch public key for a host: %s"
 msgid "Could not fetch public key for a host."
-msgstr "Não foi possível obter a chave pública para um hospedeiro: %s"
+msgstr "Não foi possível obter a chave pública para um hospedeiro."
 
 #: weblate/vcs/ssh.py:255
 msgid "Invalid host name given!"
@@ -18893,7 +18785,7 @@ msgstr "Mensagem de teste enviada."
 #: weblate/wladmin/views.py:198
 #, python-format
 msgid "Could not send test e-mail: %s"
-msgstr "Não foi possível enviar a mensagem: %s"
+msgstr "Não foi possível enviar a mensagem de teste: %s"
 
 #: weblate/wladmin/views.py:235
 msgid ""

@@ -4,6 +4,8 @@
 
 from __future__ import annotations
 
+from django.db import transaction
+
 from weblate.checks.base import BatchCheckMixin
 from weblate.checks.models import CHECKS
 from weblate.trans.models import Component
@@ -16,8 +18,9 @@ from weblate.utils.lock import WeblateLockTimeoutError
     autoretry_for=(WeblateLockTimeoutError,),
     retry_backoff=60,
 )
+@transaction.atomic
 def batch_update_checks(
-    component_id, checks, component: Component | None = None
+    component_id: int, checks: list[str], component: Component | None = None
 ) -> None:
     if component is None:
         component = Component.objects.get(pk=component_id)

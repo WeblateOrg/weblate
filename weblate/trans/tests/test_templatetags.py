@@ -18,6 +18,7 @@ from weblate.trans.templatetags.translations import (
     format_translation,
     get_location_links,
     naturaltime,
+    translation_progress_render,
 )
 from weblate.trans.templatetags.upload_methods import get_upload_method_help
 from weblate.trans.tests.test_views import FixtureTestCase
@@ -825,3 +826,36 @@ class UploadMethodsHelpTestCase(SimpleTestCase):
     def test_invalid(self) -> None:
         with self.assertRaises(ValueError):
             get_upload_method_help("")
+
+
+class ProgressTestCase(SimpleTestCase):
+    def test_review(self):
+        self.assertHTMLEqual(
+            """
+<div class="progress-stacked" title="Needs attention">
+    <div aria-valuemax="100" aria-valuemin="0" aria-valuenow="100.0" class="progress" role="progressbar" style="width: 100.0%" title="Translated without any problems">
+        <div class="progress-bar progress-bar-success">
+        </div>
+    </div>
+</div>
+            """,
+            translation_progress_render(60, 0, 0, 60, True),
+        )
+
+    def test_review_checks(self):
+        self.assertHTMLEqual(
+            """
+<div class="progress-stacked" title="Needs attention">
+</div>
+            """,
+            translation_progress_render(60, 0, 0, 0, True),
+        )
+
+    def test_empty(self):
+        self.assertHTMLEqual(
+            """
+<div class="progress-stacked" title="Needs attention">
+</div>
+            """,
+            translation_progress_render(60, 0, 0, 0, False),
+        )

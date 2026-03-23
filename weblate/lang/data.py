@@ -24,6 +24,7 @@ UNDERSCORE_EXCEPTIONS = {
     "zh_Hant",
     "zh_Hans",
     "be_Latn",
+    "oc_ES",
     "ro_MD",
     "pt_BR",
     "pa_PK",
@@ -32,14 +33,14 @@ UNDERSCORE_EXCEPTIONS = {
 AT_EXCEPTIONS = {"ca@valencia"}
 
 
-def is_default_variant(code):
+def is_default_variant(code: str) -> bool:
     language = code.partition("_")[0]
     if language not in NO_CODE_LANGUAGES and language in ALIASES:
         return code == ALIASES[language]
     return False
 
 
-def is_basic(code):
+def is_basic(code: str) -> bool:
     if code in AMBIGUOUS:
         return False
     if "_" in code:
@@ -47,7 +48,7 @@ def is_basic(code):
     return "@" not in code or code in AT_EXCEPTIONS
 
 
-BASIC_LANGUAGES = {lang for lang in NO_CODE_LANGUAGES if is_basic(lang)}
+BASIC_LANGUAGES: set[str] = {lang for lang in NO_CODE_LANGUAGES if is_basic(lang)}
 
 # Following variables are used to map Gettext plural formulas
 # to one/few/may/other like rules

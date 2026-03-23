@@ -23,7 +23,6 @@ from weblate.lang.models import Language
 from weblate.trans.models import Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.tests.utils import get_test_file
-from weblate.utils.db import TransactionsTestMixin
 from weblate.utils.hash import calculate_hash
 from weblate.utils.state import STATE_READONLY, STATE_TRANSLATED
 
@@ -92,7 +91,7 @@ def unit_sources_and_positions(units):
     return {(unit.source, unit.glossary_positions) for unit in units}
 
 
-class GlossaryTest(TransactionsTestMixin, ViewTestCase):
+class GlossaryTest(ViewTestCase):
     """Testing of glossary manipulations."""
 
     CREATE_GLOSSARIES: bool = True

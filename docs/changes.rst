@@ -1,5 +1,5 @@
-Weblate 5.16.1
---------------
+Weblate 5.17
+------------
 
 *Not yet released.*
 
@@ -10,11 +10,105 @@ Weblate 5.16.1
 
 .. rubric:: Improvements
 
+* Track origin of newly added source strings.
+* Improved LLM interfaces for better reliability.
+* Improved logic for adding monolingual plurals in :doc:`/formats/gettext`.
+* Improved error messages in some of the :ref:`api` endpoints.
+* :envvar:`WEBLATE_COMMIT_PENDING_HOURS` is now available in Docker container.
+
 .. rubric:: Bug fixes
 
-* :ref:`check-punctuation-spacing` better handles XML markup.
+* :ref:`addon-weblate.git.squash` better handle commits applied upstream.
+* :ref:`addon-weblate.cdn.cdnjs` validates parsed locations.
+* Asset downloads now enforce :setting:`ALLOWED_ASSET_DOMAINS` across HTTP redirects for screenshot URL uploads and remote HTML fetching in :ref:`addon-weblate.cdn.cdnjs`.
+* Removed unintended API endpoints for translation memory.
+* Improved API access control for pending tasks.
+* Faster category and project removals.
+* Project backup restore no longer trusts repository-local VCS configuration and hooks from the uploaded archive.
 
 .. rubric:: Compatibility
+
+* The ``project_scope`` class attribute on add-ons has been removed. Third-party add-ons that used ``project_scope = True`` should override ``can_install()`` to return ``False`` when ``component`` is not ``None``.
+* The ``daily()`` method signature on add-ons has changed. Add-ons that previously overrode ``daily(component)`` to perform per-component work should now override ``daily_component(component)`` instead. The base ``daily()`` method automatically iterates components and calls ``daily_component()`` for each. Add-ons that can be optimized to operate at project scope should override ``daily(component, project)`` directly to implement project-level logic.
+* Dropped support for MySQL and MariaDB as the database engine.
+* Weblate now requires Django 6.0.
+* Weblate now requires Git 2.46 or newer.
+* Uploaded project backups are now validated more strictly during import and suspicious ZIP archives can be rejected; see :ref:`projectbackup`.
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+* There are several changes in :file:`settings_example.py`, most notably :setting:`ADMINS` syntax has changed in Django and ``SOCIAL_AUTH_PIPELINE``; please adjust your settings accordingly.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.17.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/158?closed=1>`__.
+
+Weblate 5.16.2
+--------------
+
+*Released on March 6th 2026.*
+
+.. rubric:: New features
+
+* New setting :setting:`PUBLIC_ENGAGE` to make the engage page public even with :setting:`REQUIRE_LOGIN`.
+
+.. rubric:: Improvements
+
+* Improved matching in :doc:`/admin/memory`.
+* Show the number of strings waiting for review in listings.
+
+.. rubric:: Bug fixes
+
+* Avoid displaying confusing status icons for ghost languages on project or category level.
+* Fixed missing plural source strings when creating new bilingual plural units.
+* Crash on certain pages with nested categories.
+* Improved API validation when adding strings.
+* Disabled throttling for incoming webhooks.
+* Avoid displaying non-actionable ghost languages.
+* Fixed highlighting in the translation editor.
+
+.. rubric:: Upgrading
+
+Please follow :ref:`generic-upgrade-instructions` in order to perform update.
+
+.. rubric:: Contributors
+
+.. include:: changes/contributors/5.16.2.rst
+
+`All changes in detail <https://github.com/WeblateOrg/weblate/milestone/163?closed=1>`__.
+
+Weblate 5.16.1
+--------------
+
+*Released on February 26th 2026.*
+
+.. rubric:: New features
+
+* :doc:`/formats/asciidoc`, :doc:`/formats/xliff` with Apple extensions, and :doc:`/formats/wxl` are now supported file formats.
+* Added :setting:`REGISTRATION_ALLOW_DISPOSABLE_EMAILS` to optionally allow disposable e-mail domains during registration (Docker env: :envvar:`WEBLATE_REGISTRATION_ALLOW_DISPOSABLE_EMAILS`).
+
+.. rubric:: Improvements
+
+* Improved documentation for translation states to clarify the difference between :guilabel:`Needs editing`, :guilabel:`Needs rewriting`, and :guilabel:`Needs checking` states.
+* Improved initial import of translations for :doc:`/formats/markdown` and :doc:`/formats/html`.
+
+.. rubric:: Bug fixes
+
+* :ref:`addon-weblate.webhook.slack` properly delivers all events.
+* :ref:`check-punctuation-spacing` better handles XML markup.
+* :doc:`/formats/stringsdict` better handle some plurals.
+* Improved plurals handling for language variants.
+* Fixed API access control.
+
+  * Users can manage their own notification subscriptions via the API.
+  * Project administrators can manage teams in their projects via the API, according to access control rules.
+  * The add-ons listing in the API now correctly honors user permissions (:cve:`2026-27457` / :ghsa:`wppc-7cq7-cgfv`).
+
+* Fixed source column being cleared when translating monolingual :doc:`/formats/csv`.
 
 .. rubric:: Upgrading
 

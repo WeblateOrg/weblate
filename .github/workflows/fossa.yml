@@ -25,10 +25,10 @@ jobs:
     - name: Run FOSSA Scan
       uses: fossas/fossa-action@c414b9ad82eaad041e47a7cf62a4f02411f427a0 # v1.8.0
       with:
-        api-key: ${{secrets.fossaApiKey}}
+        api-key: ${{secrets.fossaApiKey}} # zizmor: ignore[secrets-outside-env]
 
     - name: Run FOSSA Test
       uses: fossas/fossa-action@c414b9ad82eaad041e47a7cf62a4f02411f427a0 # v1.8.0
       with:
-        api-key: ${{secrets.fossaApiKey}}
+        api-key: ${{secrets.fossaApiKey}} # zizmor: ignore[secrets-outside-env]
         run-tests: true

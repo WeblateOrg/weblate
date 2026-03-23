@@ -82,7 +82,7 @@ project_copyright = "Michal Čihař"
 author = "Michal Čihař"
 
 # The full version, including alpha/beta/rc tags
-release = "5.16.1"
+release = "5.17"
 
 # -- General configuration ---------------------------------------------------
 
@@ -337,7 +337,6 @@ intersphinx_mapping = {
     "celery": ("https://docs.celeryq.dev/en/stable/", None),
     "sphinx": (sphinx_doc_url, None),
     "rtd": ("https://docs.readthedocs.io/en/latest/", None),
-    "venv": ("https://virtualenv.pypa.io/en/stable/", None),
     "borg": ("https://borgbackup.readthedocs.io/en/stable/", None),
     "compressor": ("https://django-compressor.readthedocs.io/en/stable/", None),
     "drf-standardized-error": (
@@ -400,7 +399,6 @@ linkcheck_ignore = [
     "https://docs.github.com/",
     "https://translate.yandex.com/",
     "https://www.gnu.org/",
-    "https://dev.mysql.com/",
     # Responds with HTTP 418 I'm a teapot
     "https://www.freedesktop.org/",
 ]

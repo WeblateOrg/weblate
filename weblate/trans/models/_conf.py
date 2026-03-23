@@ -58,6 +58,10 @@ class WeblateConf(AppConf):
         "weblate.trans.autofixes.html.BleachHTML",
     )
 
+    # This is supposed to be set in the settings
+    REQUIRE_LOGIN = True
+    PUBLIC_ENGAGE = False
+
     # Matomo, formerly known as Piwik
     MATOMO_SITE_ID = None
     MATOMO_URL = None

@@ -21,8 +21,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-02-16 13:58+0000\n"
-"PO-Revision-Date: 2026-02-14 19:11+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"PO-Revision-Date: 2026-02-21 10:10+0000\n"
+"Last-Translator: Kyotaro Iijima <kyotaro.eyes@gmail.com>\n"
 "Language-Team: Japanese <https://hosted.weblate.org/projects/weblate/"
 "application/ja/>\n"
 "Language: ja\n"
@@ -30,7 +30,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Weblate 5.16-dev\n"
+"X-Generator: Weblate 5.16.1-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -82,32 +82,24 @@ msgstr ""
 "ドレスはリポジトリに永久に残ります。"
 
 #: weblate/accounts/forms.py:210 weblate/accounts/models.py:877
-#, fuzzy
-#| msgid "Committer name"
 msgid "Commit name"
-msgstr "コミッタの名前"
+msgstr "コミット名"
 
 #: weblate/accounts/forms.py:213
-#, fuzzy
-#| msgid ""
-#| "Used in version-control commits. The address stays in the repository "
-#| "forever once changes are committed by Weblate."
 msgid ""
 "Used in version control commits. The name stays in the repository forever, "
 "once changes are committed by Weblate."
 msgstr ""
-"バージョン管理のコミットに使用します。Weblate から変更がコミットされると、ア"
-"ドレスはリポジトリに永久に残ります。"
+"バージョン管理のコミットに使用します。Weblate から変更がコミットされると、こ"
+"の名前はリポジトリに永久に残ります。"
 
 #: weblate/accounts/forms.py:241
 msgid "Use anonymous account name"
-msgstr ""
+msgstr "匿名アカウント名を使用する"
 
 #: weblate/accounts/forms.py:243
-#, fuzzy
-#| msgid "Use account e-mail address"
 msgid "Use account name"
-msgstr "アカウントのメールアドレスを使用する"
+msgstr "アカウント名を使用する"
 
 #: weblate/accounts/forms.py:264 weblate/accounts/models.py:860
 msgid "Public e-mail"
@@ -924,7 +916,7 @@ msgstr "会社"
 
 #: weblate/accounts/models.py:872
 msgid "Use global default"
-msgstr ""
+msgstr "全体設定のデフォルト値を使用する"
 
 #: weblate/accounts/models.py:873 weblate/trans/models/project.py:172
 msgid "Public"
@@ -1431,7 +1423,7 @@ msgstr "かわりにメールアドレスを使用して登録してください
 
 #: weblate/accounts/views.py:1428
 msgid "Could not parse RelayState from SAML Identity Provider."
-msgstr ""
+msgstr "SAML 認証サーバーから戻りページを取得できませんでした。"
 
 #: weblate/accounts/views.py:1433
 msgid "New registrations are turned off."
@@ -3327,10 +3319,8 @@ msgstr ""
 "述してください。できれば英語で説明してください。"
 
 #: weblate/billing/forms.py:47
-#, fuzzy
-#| msgid "View billing info"
 msgid "Add billing admin"
-msgstr "課金情報の表示"
+msgstr "請求管理者の追加"
 
 #: weblate/billing/models.py:165 weblate/templates/billing/detail.html:28
 msgid "Billing plan"
@@ -3469,26 +3459,22 @@ msgstr ""
 "クトを削除します。"
 
 #: weblate/billing/views.py:203 weblate/billing/views.py:222
-#, fuzzy
-#| msgid "Cannot change this on a built-in team."
 msgid "Cannot merge such a billing."
-msgstr "既定のチームでは、これは変更できません。"
+msgstr "この請求情報は統合できません。"
 
 #: weblate/billing/views.py:259
 #, python-format
 msgid "User %s was added as a billing admin."
-msgstr ""
+msgstr "ユーザー %s を請求管理者として追加しました。"
 
 #: weblate/billing/views.py:277 weblate/templates/billing/detail.html:93
-#, fuzzy
-#| msgid "You can not remove yourself!"
 msgid "You cannot remove yourself."
-msgstr "自分自身の削除はできません！"
+msgstr "自分自身の削除はできません。"
 
 #: weblate/billing/views.py:286
 #, python-format
 msgid "User %s was removed as a billing admin."
-msgstr ""
+msgstr "ユーザー %s を請求管理者から削除しました。"
 
 #: weblate/checks/angularjs.py:32
 msgid "AngularJS interpolation string"
@@ -3511,10 +3497,8 @@ msgid "The following errors were found:"
 msgstr "検出されたエラー:"
 
 #: weblate/checks/base.py:411
-#, fuzzy
-#| msgid "Could not parse flags: %s"
 msgid "Could not parse {} flag: {}"
-msgstr "フラグの解析に失敗しました: %s"
+msgstr "{} フラグを解析できませんでした: {}"
 
 #: weblate/checks/chars.py:48
 msgid "Starting newline"
@@ -4544,14 +4528,12 @@ msgstr "翻訳文の XML タグが原文と不一致。"
 
 #: weblate/checks/markup.py:296
 msgid "Chars around XML tags"
-msgstr ""
+msgstr "XML タグの前後の文字"
 
 #: weblate/checks/markup.py:298
-#, fuzzy
-#| msgid "XML tags in translation do not match source."
 msgid ""
 "Characters surrounding XML tags in translation do not align with source."
-msgstr "翻訳文の XML タグが原文と不一致。"
+msgstr "翻訳内の XML タグ前後の文字が、原文と一致しません。"
 
 #: weblate/checks/markup.py:357
 msgid "Markdown references"
@@ -4987,10 +4969,8 @@ msgstr "XLIFF 2.0 翻訳ファイル（プレースホルダー対応）"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1475
-#, fuzzy
-#| msgid "Java Properties (UTF-8)"
 msgid "Java Properties"
-msgstr "Java プロパティファイル (UTF-8)"
+msgstr "Java プロパティ"
 
 #. Translators: File format name
 #: weblate/formats/ttkit.py:1490
@@ -6014,22 +5994,19 @@ msgstr "Ollama カタログに掲載されているモデルの名前。"
 #: weblate/machinery/forms.py:502
 msgctxt "Anthropic model selection"
 msgid "Claude Sonnet 4.5 (Recommended)"
-msgstr ""
+msgstr "Claude Sonnet 4.5（推奨）"
 
 #: weblate/machinery/forms.py:507
 msgctxt "Anthropic model selection"
 msgid "Claude Haiku 4.5"
-msgstr ""
+msgstr "Claude Haiku 4.5"
 
 #: weblate/machinery/forms.py:511
 msgctxt "Anthropic model selection"
 msgid "Claude Opus 4.5"
-msgstr ""
+msgstr "Claude Opus 4.5"
 
 #: weblate/machinery/forms.py:513
-#, fuzzy
-#| msgctxt "OpenAI model selection"
-#| msgid "Custom model"
 msgctxt "Anthropic model selection"
 msgid "Custom model"
 msgstr "カスタムモデル"
@@ -6037,19 +6014,16 @@ msgstr "カスタムモデル"
 #: weblate/machinery/forms.py:518
 msgctxt "Automatic suggestion service configuration"
 msgid "Anthropic API URL"
-msgstr ""
+msgstr "Anthropic API URL"
 
 #: weblate/machinery/forms.py:521
-#, fuzzy
-#| msgid ""
-#| "Base URL of the OpenAI API, if it differs from the OpenAI default URL"
 msgid "Base URL of the Anthropic API. Leave empty to use the default URL."
-msgstr "OpenAI の既定の URL と異なる場合、OpenAI API のベース URL"
+msgstr "Anthropic API のベース URL。空欄の場合はデフォルトの URL が使用されます。"
 
 #: weblate/machinery/forms.py:529
 msgctxt "Automatic suggestion service configuration"
 msgid "Anthropic model"
-msgstr ""
+msgstr "Anthropic モデル"
 
 #: weblate/machinery/forms.py:537
 msgctxt "Anthropic model selection"
@@ -6059,11 +6033,11 @@ msgstr "カスタム モデル名"
 #: weblate/machinery/forms.py:545
 msgctxt "Automatic suggestion service configuration"
 msgid "Max tokens"
-msgstr ""
+msgstr "最大トークン数"
 
 #: weblate/machinery/forms.py:547
 msgid "Maximum number of tokens to generate in the response."
-msgstr ""
+msgstr "応答で生成するトークン数の上限です。"
 
 #: weblate/machinery/types.py:20
 msgctxt "Source language selection"
@@ -7457,13 +7431,11 @@ msgstr ""
 "理システムのコミットに使用され、そこに無期限に保存されます。"
 
 #: weblate/templates/accounts/snippets/login-info.html:34
-#, fuzzy
-#| msgid "You can enable the use of a private commit e-mail in your profile."
 msgid ""
 "You can enable the use of a private commit e-mail and name in your profile."
 msgstr ""
-"ユーザー情報で、プライベートなコミット用メールアドレスの使用を有効にできま"
-"す。"
+"ユーザー情報で、プライベートなコミット用メールアドレスと名前の使用を有効にで"
+"きます。"
 
 #: weblate/templates/accounts/snippets/login-info.html:36
 msgid "You can enable the use of a private commit e-mail in your profile."
@@ -7480,12 +7452,8 @@ msgstr ""
 "トに使用され、そこに無期限に保存されます。"
 
 #: weblate/templates/accounts/snippets/login-info.html:45
-#, fuzzy
-#| msgid "You can enable the use of a private commit e-mail in your profile."
 msgid "You can enable the use of a private commit name in your profile."
-msgstr ""
-"ユーザー情報で、プライベートなコミット用メールアドレスの使用を有効にできま"
-"す。"
+msgstr "ユーザー情報で、プライベートなコミット名の使用を有効にできます。"
 
 #: weblate/templates/accounts/snippets/login-info.html:48
 msgid ""
@@ -8493,30 +8461,21 @@ msgid "Terminate billing plan"
 msgstr "料金プランの終了"
 
 #: weblate/templates/billing/detail.html:72
-#, fuzzy
-#| msgid "Billing plan"
 msgid "Billing admins"
-msgstr "料金プラン"
+msgstr "請求管理者"
 
 #: weblate/templates/billing/detail.html:93
 #: weblate/templates/billing/detail.html:97
-#, fuzzy
-#| msgid "Check user access"
 msgid "Revoke access"
-msgstr "ユーザー アクセスの確認"
+msgstr "アクセス権の取消"
 
 #: weblate/templates/billing/detail.html:107
-#, fuzzy
-#| msgid "admin"
 msgid "Add admin"
-msgstr "管理者"
+msgstr "管理者の追加"
 
 #: weblate/templates/billing/detail.html:120
-#, fuzzy
-#| msgctxt "Access-control team name"
-#| msgid "Reviewers"
 msgid "Review merge"
-msgstr "査読者"
+msgstr "マージを確認する"
 
 #: weblate/templates/billing/detail.html:133
 msgid "Invoices"
@@ -8614,10 +8573,8 @@ msgid "View"
 msgstr "表示"
 
 #: weblate/templates/billing/merge.html:34
-#, fuzzy
-#| msgid "Confirm"
 msgid "Confirm merge"
-msgstr "承認"
+msgstr "マージを確定する"
 
 #: weblate/templates/billing/overview.html:20
 msgid "No subscriptions or due payments."
@@ -9703,6 +9660,8 @@ msgid ""
 "This might discard edits that cannot be committed because of the configured "
 "commit policy."
 msgstr ""
+"設定されたコミットポリシーにより、現在コミットできない編集が、破棄される可能"
+"性があります。"
 
 #: weblate/templates/js/git-status.html:219
 msgid "Use these operations with caution, they can lead to data loss."
@@ -12442,10 +12401,9 @@ msgid "Vote against"
 msgstr "反対票を投じる"
 
 #: weblate/templates/snippets/suggestions.html:56
-#, fuzzy, python-format
-#| msgid "Accepted invitation from {username}."
+#, python-format
 msgid "Accept all suggestions from %(username)s"
-msgstr "{username} からの招待を承諾しました。"
+msgstr "%(username)s の提案をすべて承認する"
 
 #: weblate/templates/snippets/suggestions.html:65
 msgid "Accept"
@@ -13710,10 +13668,8 @@ msgid "This string was translated automatically by %(author)s."
 msgstr "この文字列は %(author)s により自動翻訳されました。"
 
 #: weblate/templates/translate.html:736
-#, fuzzy
-#| msgid "This string was translated automatically by %(author)s."
 msgid "This string was translated automatically."
-msgstr "この文字列は %(author)s により自動翻訳されました。"
+msgstr "この文字列は自動翻訳されました。"
 
 #: weblate/templates/translate.html:755 weblate/trans/models/project.py:262
 msgid "Translation quality filter"
@@ -14711,10 +14667,8 @@ msgid "FlatXML key name"
 msgstr "FlatXML キー名"
 
 #: weblate/trans/file_format_params.py:458
-#, fuzzy
-#| msgid "Found duplicated string"
 msgid "Deduplicate identical strings"
-msgstr "重複した文字列の検出"
+msgstr "同一文字列の重複排除"
 
 #: weblate/trans/file_format_params.py:462
 msgid ""
@@ -14722,21 +14676,22 @@ msgid ""
 "Prevents translation loss during file restructuring or table reordering by "
 "removing position-dependent context."
 msgstr ""
+"同一の原文を 1 つの翻訳ユニットに統合します。位置に依存したコンテキストを削除"
+"することで、ファイル構造の変更やテーブルの並べ替え時に翻訳が失われるのを防ぎ"
+"ます。"
 
 #: weblate/trans/file_format_params.py:472
 #: weblate/trans/file_format_params.py:489
 #: weblate/trans/file_format_params.py:504
 #: weblate/trans/file_format_params.py:518
 #: weblate/trans/file_format_params.py:533
-#, fuzzy
-#| msgid "Filenames encoding"
 msgid "File encoding"
-msgstr "ファイル名のエンコーディング"
+msgstr "ファイルのエンコーディング"
 
 #: weblate/trans/file_format_params.py:475
 #: weblate/trans/file_format_params.py:494
 msgid "UTF-16"
-msgstr ""
+msgstr "UTF-16"
 
 #: weblate/trans/file_format_params.py:476
 #: weblate/trans/file_format_params.py:493
@@ -14744,40 +14699,38 @@ msgstr ""
 #: weblate/trans/file_format_params.py:522
 #: weblate/trans/file_format_params.py:536
 msgid "UTF-8"
-msgstr ""
+msgstr "UTF-8"
 
 #: weblate/trans/file_format_params.py:479
 msgid "Encoding used for iOS strings files"
-msgstr ""
+msgstr "iOS の文字列ファイルで使用されるエンコーディング"
 
 #: weblate/trans/file_format_params.py:492
 #: weblate/trans/file_format_params.py:523
 #: weblate/trans/file_format_params.py:537
 msgid "ISO-8859-1"
-msgstr ""
+msgstr "ISO-8859-1"
 
 #: weblate/trans/file_format_params.py:497
-#, fuzzy
-#| msgid "Format the Java properties file"
 msgid "Encoding used for Java Properties files"
-msgstr "Java プロパティ ファイルの整形"
+msgstr "Java プロパティで使用されるエンコーディング"
 
 #: weblate/trans/file_format_params.py:507
 #: weblate/trans/file_format_params.py:521
 msgid "Auto-detect"
-msgstr ""
+msgstr "自動検出"
 
 #: weblate/trans/file_format_params.py:511
 msgid "Encoding used for CSV files"
-msgstr ""
+msgstr "CSV ファイルで使用されるエンコーディング"
 
 #: weblate/trans/file_format_params.py:526
 msgid "Encoding used for simple CSV files"
-msgstr ""
+msgstr "シンプルな CSV ファイルで使用されるエンコーディング"
 
 #: weblate/trans/file_format_params.py:540
 msgid "Encoding used for GWT Properties files"
-msgstr ""
+msgstr "GWT プロパティで使用されるエンコーディング"
 
 #: weblate/trans/filter.py:23 weblate/trans/filter.py:121
 msgid "All strings"
@@ -15818,19 +15771,14 @@ msgid "Merge without fast-forward"
 msgstr "fast-forward なしでマージする"
 
 #: weblate/trans/models/component.py:412
-#, fuzzy
-#| msgid ""
-#| "Version control system to use to access your repository containing "
-#| "translations. You can also choose additional integration with third party "
-#| "providers to submit merge requests."
 msgid ""
 "Version control system to use to access your repository containing "
 "translations. You can also choose additional integration with third party "
 "providers to submit pull/merge requests."
 msgstr ""
-"翻訳時に使用するリポジトリに、アクセスするためのバージョン管理システム。マー"
-"ジリクエストの送信のために、サードパーティ プロバイダとの連携の追加も選択でき"
-"ます。"
+"翻訳を含むリポジトリへアクセスするために使用するバージョン管理システムです。"
+"サードパーティのプロバイダーと連携して、プルリクエスト / マージリクエストを送"
+"信できます。"
 
 #: weblate/trans/models/component.py:424
 msgid ""
@@ -15845,12 +15793,13 @@ msgid "Repository push URL"
 msgstr "リポジトリの送信先 URL"
 
 #: weblate/trans/models/component.py:440
-#, fuzzy
-#| msgid "URL of a push repository, pushing is turned off if empty."
 msgid ""
 "URL of a push repository, pushing is turned off if empty. When using pull/"
 "merge requests, keep empty to fork the repository."
-msgstr "リポジトリのプッシュURL。指定しない場合はプッシュが無効になります。"
+msgstr ""
+"プッシュ先リポジトリの URL です。指定しない場合、プッシュは無効になります。"
+"プルリクエスト / マージリクエストを使用する場合は、リポジトリをフォークするた"
+"めに空のままにしておいてください。"
 
 #: weblate/trans/models/component.py:446
 msgid "Repository browser"
@@ -16416,24 +16365,20 @@ msgid "Could not update repository: %s"
 msgstr "リポジトリを更新できません: %s"
 
 #: weblate/trans/models/component.py:3403
-#, fuzzy
-#| msgid "Pull and push branches cannot be the same when using merge requests."
 msgid ""
 "Pull and push branches cannot be the same when using pull/merge requests and "
 "not pushing to a fork."
 msgstr ""
-"マージ リクエストを使用する場合、プル ブランチとプッシュ ブランチを同じにする"
-"ことはできません。"
+"プル / プッシュ先のブランチは、プルリクエスト / マージリクエストを使用し、"
+"フォークへプッシュしない場合は同じにできません。"
 
 #: weblate/trans/models/component.py:3409
-#, fuzzy
-#| msgid "Push branch cannot be empty when using merge requests."
 msgid ""
 "Push branch cannot be empty when using pull/merge requests and not pushing "
 "to a fork."
 msgstr ""
-"マージ リクエストを使用する場合、プッシュ ブランチを空にすることはできませ"
-"ん。"
+"プッシュ先のブランチは、プルリクエスト / マージリクエストを使用し、フォークへ"
+"プッシュしない場合は空にできません。"
 
 #: weblate/trans/models/component.py:3419
 #, python-format
@@ -17213,34 +17158,27 @@ msgid "All languages have been added, updates of translations are in progress."
 msgstr "すべての言語を追加しました。翻訳の更新の作業中です。"
 
 #: weblate/trans/views/bulk_suggestions.py:39
-#, fuzzy
-#| msgid "Glossary was not found."
 msgid "User not found."
-msgstr "用語集が見つかりません。"
+msgstr "存在しないユーザーです。"
 
 #: weblate/trans/views/bulk_suggestions.py:54
-#, fuzzy
-#| msgid "You do not have privilege to accept suggestions!"
 msgid "You do not have permission to accept suggestions."
-msgstr "提案を採用する権限がありません！"
+msgstr "提案を採用する権限がありません。"
 
 #: weblate/trans/views/bulk_suggestions.py:61
-#, fuzzy
-#| msgid "Invalid merge request!"
 msgid "Invalid request."
-msgstr "マージリクエストが正しくありません！"
+msgstr "無効なリクエストです。"
 
 #: weblate/trans/views/bulk_suggestions.py:81
 #, python-brace-format
 msgid "Too many suggestions ({count}). Please contact an administrator."
-msgstr ""
+msgstr "提案が多すぎます（{count}）。管理者に連絡してください。"
 
 #: weblate/trans/views/bulk_suggestions.py:109
-#, fuzzy, python-format
-#| msgid "Accepted invitation from {username}."
+#, python-format
 msgid "Accepted %(count)d suggestion from %(user)s."
 msgid_plural "Accepted %(count)d suggestions from %(user)s."
-msgstr[0] "{username} からの招待を承諾しました。"
+msgstr[0] "%(user)s さんの提案は、%(count)d 件採用されました。"
 
 #: weblate/trans/views/bulk_suggestions.py:118
 #, python-format
@@ -17251,12 +17189,12 @@ msgid_plural ""
 "Accepted %(accepted)d of %(total)d suggestions from %(user)s. %(failed)d "
 "failed due to permissions or checks."
 msgstr[0] ""
+"%(user)s さんの提案は、%(total)d 件中 %(accepted)d 件採用されました。%"
+"(failed)d 件はアクセス権または検査により採用されませんでした。"
 
 #: weblate/trans/views/bulk_suggestions.py:137
-#, fuzzy
-#| msgid "No string found."
 msgid "No suggestions found."
-msgstr "文字列が見つかりません。"
+msgstr "提案がありません。"
 
 #: weblate/trans/views/changes.py:63
 #, python-format
@@ -17829,23 +17767,19 @@ msgstr "正規表現が正しくありません: {}"
 #: weblate/utils/search.py:512 weblate/utils/search.py:519
 #, python-brace-format
 msgid "Unsupported lookup for {field}: {value}"
-msgstr ""
+msgstr "{field} に対する検索条件には対応していません: {value}"
 
 #: weblate/utils/search.py:844
 msgid "Mixed operators!"
-msgstr ""
+msgstr "演算子が混在しています！"
 
 #: weblate/utils/search.py:884
-#, fuzzy
-#| msgid "Invalid search string!"
 msgid "Invalid character in the query string"
-msgstr "無効な検索文字列です！"
+msgstr "クエリ文字列に無効な文字があります"
 
 #: weblate/utils/search.py:890
-#, fuzzy
-#| msgid "Could not parse query string: {}"
 msgid "Failed to parse the query string: {}"
-msgstr "検索式の文字列を解析できませんでした: {}"
+msgstr "クエリ文字列を解析できませんでした: {}"
 
 #: weblate/utils/state.py:17
 msgctxt "String state"

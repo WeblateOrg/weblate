@@ -4,12 +4,12 @@
 
 from __future__ import annotations
 
-import os
 from datetime import timedelta
 from pathlib import Path
 
 from celery.schedules import crontab
 from django.conf import settings
+from django.core.exceptions import ValidationError
 from django.db import transaction
 from django.db.models import Count, F, Q
 from django.http import HttpRequest
@@ -18,16 +18,28 @@ from django.utils.timezone import now
 from lxml import html
 
 from weblate.addons.events import AddonEvent
-from weblate.addons.models import Addon, AddonActivityLog, handle_addon_event
+from weblate.addons.models import (
+    Addon,
+    AddonActivityLog,
+    handle_addon_event,
+    handle_daily_addon_event,
+)
 from weblate.lang.models import Language
 from weblate.trans.exceptions import FileParseError
 from weblate.trans.models import Change, Component, Project
 from weblate.utils.celery import app
 from weblate.utils.hash import calculate_checksum
 from weblate.utils.lock import WeblateLockTimeoutError
-from weblate.utils.requests import http_request
+from weblate.utils.requests import asset_request
+from weblate.utils.validators import validate_filename
 
 IGNORED_TAGS = {"script", "style"}
+
+
+def read_component_file(component: Component, filename: str) -> str:
+    validate_filename(filename)
+    resolved = component.repository.resolve_symlinks(filename)
+    return Path(component.full_path, resolved).read_text(encoding="utf-8")
 
 
 @app.task(trail=False)
@@ -47,13 +59,11 @@ def cdn_parse_html(addon_id: int, component_id: int) -> None:
         filename = filename.strip()
         try:
             if filename.startswith(("http://", "https://")):
-                with http_request("get", filename) as handle:
+                with asset_request("get", filename) as handle:
                     content = handle.text
             else:
-                content = Path(os.path.join(component.full_path, filename)).read_text(
-                    encoding="utf-8"
-                )
-        except OSError as error:
+                content = read_component_file(component, filename)
+        except (OSError, ValidationError, ValueError) as error:
             errors.append({"filename": filename, "error": str(error)})
             continue
 
@@ -119,59 +129,56 @@ def language_consistency(
 
     log_result: list[str] = []
 
-    for component in components.iterator():
-        # Avoid two language consistency add-ons working at same on a single component
-        with component.lock:
-            missing = languages.exclude(
-                Q(translation__component=component) | Q(component=component)
-            )
-            if not missing:
-                continue
-            component.commit_pending("language consistency", None)
-            for language in missing:
-                component.refresh_lock()
-                new_lang = component.add_new_language(
-                    language,
-                    fake_request,
-                    send_signal=False,
-                    create_translations=False,
+    try:
+        for component in components.iterator():
+            # Avoid two language consistency add-ons working at same on a single component
+            with component.lock:
+                missing = languages.exclude(
+                    Q(translation__component=component) | Q(component=component)
                 )
-                if new_lang is None:
-                    log_result.append(
-                        f"{component.full_slug}: Could not add {language} language consistency: {component.new_lang_error_message}"
+                if not missing:
+                    continue
+                component.commit_pending("language consistency", None)
+                for language in missing:
+                    component.refresh_lock()
+                    new_lang = component.add_new_language(
+                        language,
+                        fake_request,
+                        send_signal=False,
+                        create_translations=False,
                     )
-                else:
+                    if new_lang is None:
+                        log_result.append(
+                            f"{component.full_slug}: {addon.addon.verbose}: Could not add {language}: {component.new_lang_error_message}"
+                        )
+                    else:
+                        log_result.append(
+                            f"{component.full_slug}: {addon.addon.verbose}: Added {language}"
+                        )
+                try:
+                    component.create_translations_immediate()
+                except FileParseError as error:
                     log_result.append(
-                        f"{component.full_slug}: Added {language} for language consistency"
+                        f"{component.full_slug}: {addon.addon.verbose}: Could not parse translation files: {error}"
                     )
-            try:
-                component.create_translations_immediate()
-            except FileParseError as error:
-                log_result.append(
-                    f"{component.full_slug}: Could not parse translation files: {error}"
-                )
+    except Exception as error:
+        log_result.append(f"{addon.addon.verbose}: failed: {error}")
+        raise
 
-    if activity_log_id and log_result:
-        update_addon_activity_log(activity_log_id, "\n".join(log_result))
+    finally:
+        if activity_log_id and log_result:
+            update_addon_activity_log(activity_log_id, "\n".join(log_result))
 
 
 @app.task(trail=False)
 def daily_addons(modulo: bool = True) -> None:
-    def daily_callback(
-        addon: Addon, component: Component, *, activity_log_id: int | None = None
-    ) -> None:
-        addon.addon.daily(component, activity_log_id=activity_log_id)
-
     today = timezone.now()
-    addons = Addon.objects.filter(event__event=AddonEvent.EVENT_DAILY)
+    addons = Addon.objects.filter(event__event=AddonEvent.EVENT_DAILY).prefetch_related(
+        "component", "project"
+    )
     if modulo:
         addons = addons.annotate(hourmod=F("id") % 24).filter(hourmod=today.hour)
-    handle_addon_event(
-        AddonEvent.EVENT_DAILY,
-        daily_callback,
-        addon_queryset=addons,
-        auto_scope=True,
-    )
+    handle_daily_addon_event(addons)
 
 
 def update_addon_activity_log(
@@ -200,7 +207,7 @@ def cleanup_addon_activity_log() -> None:
     retry_backoff=60,
 )
 @transaction.atomic
-def postconfigure_addon(addon_id: int, addon=None) -> None:
+def postconfigure_addon(addon_id: int, addon: Addon | None = None) -> None:
     if addon is None:
         addon = Addon.objects.get(pk=addon_id)
     addon.addon.post_configure_run()
@@ -224,9 +231,9 @@ def addon_change(change_ids: list[int], **kwargs) -> None:
     This task retrieves add-ons that are subscribed to change events and
     applies the change event to each relevant add-on.
     """
-    addons = Addon.objects.filter(event__event=AddonEvent.EVENT_CHANGE).select_related(
-        "component", "project"
-    )
+    addons = Addon.objects.filter(
+        event__event=AddonEvent.EVENT_CHANGE
+    ).prefetch_related("component", "project")
 
     for change in Change.objects.filter(pk__in=change_ids).prefetch_for_render():
         change.fill_in_prefetched()

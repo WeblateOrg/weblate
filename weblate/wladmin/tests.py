@@ -8,6 +8,7 @@ from datetime import timedelta
 from io import StringIO
 from tempfile import TemporaryDirectory
 from unittest import TestCase
+from unittest.mock import patch
 
 import responses
 from django.conf import settings
@@ -115,17 +116,41 @@ class AdminTest(ViewTestCase):
             )
             self.assertFalse(hostsfile.exists())
 
-            # Add the key
+            # Do not add not matching key
             response = self.client.post(
-                reverse("manage-ssh"), {"action": "add-host", "host": "github.com"}
+                reverse("manage-ssh"),
+                {
+                    "action": "add-host",
+                    "host": "example.com",
+                    "fingerprint": "p2QAMXNIC1TJYWeIOttrVc98/R1BUFWu3/LiyKgUfQM",
+                },
             )
-            self.assertContains(response, "Added host key for github.com")
+            self.assertContains(response, "Skipped host key for example.com")
+            self.assertFalse(hostsfile.exists())
+
+            # Add the matching key
+            response = self.client.post(
+                reverse("manage-ssh"),
+                {
+                    "action": "add-host",
+                    "host": "example.com",
+                    "fingerprint": "nThbg6kXUpJWGl7E1IGOCspRomTxdCARLviKw6E5SY8",
+                },
+            )
+            self.assertContains(response, "Added host key for example.com")
+            self.assertTrue(hostsfile.exists())
+
+            # Add all the keys
+            response = self.client.post(
+                reverse("manage-ssh"), {"action": "add-host", "host": "example.com"}
+            )
+            self.assertContains(response, "Added host key for example.com")
             self.assertTrue(hostsfile.exists())
         finally:
             os.environ["PATH"] = oldpath
 
         # Check the file contains it
-        self.assertIn("github.com", hostsfile.read_text())
+        self.assertIn("example.com", hostsfile.read_text())
 
     @tempdir_setting("BACKUP_DIR")
     def test_backup(self) -> None:
@@ -145,6 +170,34 @@ class AdminTest(ViewTestCase):
     def test_performance(self) -> None:
         response = self.client.get(reverse("manage-performance"))
         self.assertContains(response, "weblate.E005")
+
+    def test_performance_ordering(self) -> None:
+        with (
+            patch(
+                "weblate.wladmin.views.run_checks",
+                return_value=[
+                    Critical(msg="Zulu", id="weblate.E200"),
+                    Critical(msg="Alpha", id="weblate.E100"),
+                    Critical(msg="Bravo", id="weblate.E100"),
+                ],
+            ),
+            patch(
+                "weblate.wladmin.views.get_queue_stats",
+                return_value={"zqueue": 1, "aqueue": 2},
+            ),
+        ):
+            response = self.client.get(reverse("manage-performance"))
+
+        checks = [check.id for check in response.context["checks"]]
+        self.assertEqual(checks, ["weblate.E100", "weblate.E100", "weblate.E200"])
+        self.assertEqual(
+            [check.msg for check in response.context["checks"]],
+            ["Alpha", "Bravo", "Zulu"],
+        )
+        self.assertEqual(
+            list(response.context["queues"]),
+            [("aqueue", 2), ("zqueue", 1)],
+        )
 
     def test_error(self) -> None:
         ConfigurationError.objects.create(name="Test error", message="FOOOOOOOOOOOOOO")

@@ -19,7 +19,7 @@ import weblate.utils.fields
 import weblate.utils.render
 import weblate.utils.validators
 from weblate.formats.models import FILE_FORMATS
-from weblate.utils.db import MY_DROP, MY_FTX, PG_DROP, PG_TRGM
+from weblate.utils.db import PG_DROP, PG_TRGM
 from weblate.utils.licenses import get_license_choices
 from weblate.vcs.models import VCS_REGISTRY
 
@@ -53,15 +53,6 @@ def create_index(apps, schema_editor) -> None:
         # Create GIN trigram index on searched fields
         for table, field, extra in FIELDS:
             schema_editor.execute(PG_TRGM.format(table, field, extra))
-    elif vendor == "mysql":
-        for table, field, _extra in FIELDS:
-            schema_editor.execute(MY_FTX.format(table, field))
-        schema_editor.execute(
-            "CREATE INDEX unit_source_index ON trans_unit(source(255))"
-        )
-        schema_editor.execute(
-            "CREATE INDEX unit_context_index ON trans_unit(context(255))"
-        )
     else:
         msg = f"Unsupported database: {vendor}"
         raise ImproperlyConfigured(msg)
@@ -72,11 +63,6 @@ def drop_index(apps, schema_editor) -> None:
     if vendor == "postgresql":
         for table, field, _extra in FIELDS:
             schema_editor.execute(PG_DROP.format(table, field))
-    elif vendor == "mysql":
-        for table, field, _extra in FIELDS:
-            schema_editor.execute(MY_DROP.format(table, field))
-        schema_editor.execute("ALTER TABLE trans_unit DROP INDEX unit_source_index")
-        schema_editor.execute("ALTER TABLE trans_unit DROP INDEX unit_context_index")
     else:
         msg = f"Unsupported database: {vendor}"
         raise ImproperlyConfigured(msg)

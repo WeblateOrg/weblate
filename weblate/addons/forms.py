@@ -4,9 +4,9 @@
 
 from __future__ import annotations
 
-import re
 from typing import TYPE_CHECKING
 
+import regex
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Field, Layout
 from django import forms
@@ -27,9 +27,11 @@ from weblate.utils.forms import (
     SortedSelectMultiple,
     WeblateServiceURLField,
 )
+from weblate.utils.regex import compile_regex
 from weblate.utils.render import validate_render, validate_render_translation
 from weblate.utils.validators import (
     DomainOrIPValidator,
+    validate_asset_url,
     validate_filename,
     validate_re,
     validate_re_nonempty,
@@ -289,6 +291,7 @@ class DiscoveryForm(BaseAddonForm):
                             "matches_created": created,
                             "matches_matched": matched,
                             "matches_deleted": deleted,
+                            "matches_errors": self.discovery.errors,
                             "matches_skipped": skipped,
                             "user": self.user,
                         },
@@ -344,8 +347,8 @@ class DiscoveryForm(BaseAddonForm):
         if "match" not in self.cleaned_data:
             return None
         try:
-            return re.compile(self.cleaned_data["match"])
-        except re.error:
+            return compile_regex(self.cleaned_data["match"])
+        except regex.error:
             return None
 
     def test_render(self, value):
@@ -473,6 +476,27 @@ class CDNJSForm(BaseAddonForm):
             ) from error
         return self.cleaned_data["css_selector"]
 
+    def clean_files(self):
+        files = self.cleaned_data["files"]
+        errors: list[str] = []
+
+        for filename in files.splitlines():
+            filename = filename.strip()
+            if not filename:
+                continue
+            try:
+                if filename.startswith(("http://", "https://")):
+                    validate_asset_url(filename)
+                else:
+                    validate_filename(filename)
+            except forms.ValidationError as error:
+                errors.extend(error.messages)
+
+        if errors:
+            raise forms.ValidationError(errors)
+
+        return files
+
 
 class TranslationLanguageChoiceField(CachedModelChoiceField):
     def label_from_instance(self, obj):
@@ -530,8 +554,8 @@ class PseudolocaleAddonForm(BaseAddonForm):
         super().__init__(*args, **kwargs)
         if self._addon.instance.component:
             queryset = self._addon.instance.component.translation_set.all()
-            self.fields["source"].queryset = queryset
-            self.fields["target"].queryset = queryset
+            self.fields["source"].queryset = queryset  # type: ignore[attr-defined]
+            self.fields["target"].queryset = queryset  # type: ignore[attr-defined]
         self.helper = FormHelper(self)
         self.helper.layout = Layout(
             Field("source"),

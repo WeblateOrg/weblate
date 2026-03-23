@@ -2,7 +2,7 @@
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
 # Štefan Baebler <stefan.baebler@gmail.com>, 2023.
-# Martin Srebotnjak <miles@filmsi.net>, 2024, 2025.
+# Martin Srebotnjak <miles@filmsi.net>, 2024, 2025, 2026.
 # Vinko Kastelic <vinko.kastelic@gmail.com>, 2025.
 # Žiga Deisinger <ziga@deisinger.si>, 2025.
 # Turkish Language Team 🇹🇷 <turkishmark@yandex.com>, 2025.
@@ -14,8 +14,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-02-16 13:58+0000\n"
-"PO-Revision-Date: 2026-02-14 19:10+0000\n"
-"Last-Translator: GitHub webhook <noreply-webhook-github@weblate.org>\n"
+"PO-Revision-Date: 2026-03-02 10:10+0000\n"
+"Last-Translator: Anonymous <noreply@weblate.org>\n"
 "Language-Team: Slovenian <https://hosted.weblate.org/projects/weblate/"
 "application/sl/>\n"
 "Language: sl\n"
@@ -24,7 +24,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=4; plural=n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || "
 "n%100==4 ? 2 : 3;\n"
-"X-Generator: Weblate 5.16-dev\n"
+"X-Generator: Weblate 5.16.1-dev\n"
 
 #: weblate/accounts/avatar.py:89
 msgctxt "No known user"
@@ -35,7 +35,7 @@ msgstr "Nihče"
 #: weblate/templates/accounts/user.html:22 weblate/templates/base.html:353
 #: weblate/templates/snippets/user-list.html:15
 msgid "User avatar"
-msgstr "Podoba uporabnika"
+msgstr "Uporabi podobo"
 
 #: weblate/accounts/forms.py:90
 msgid ""
@@ -75,32 +75,24 @@ msgstr ""
 "za vedno, ko Weblate potrdi spremembe."
 
 #: weblate/accounts/forms.py:210 weblate/accounts/models.py:877
-#, fuzzy
-#| msgid "Committer name"
 msgid "Commit name"
-msgstr "Ime avtorja objave"
+msgstr "Ime objave"
 
 #: weblate/accounts/forms.py:213
-#, fuzzy
-#| msgid ""
-#| "Used in version-control commits. The address stays in the repository "
-#| "forever once changes are committed by Weblate."
 msgid ""
 "Used in version control commits. The name stays in the repository forever, "
 "once changes are committed by Weblate."
 msgstr ""
-"Uporablja se pri potrditvah za nadzor različic. Naslov ostane v repozitoriju "
-"za vedno, ko Weblate potrdi spremembe."
+"Uporablja se pri potrditvah za nadzor različic. Ime ostane v skladišču za "
+"vedno, ko Weblate potrdi spremembe."
 
 #: weblate/accounts/forms.py:241
 msgid "Use anonymous account name"
-msgstr ""
+msgstr "Uporabi anonimno ime računa"
 
 #: weblate/accounts/forms.py:243
-#, fuzzy
-#| msgid "Use account e-mail address"
 msgid "Use account name"
-msgstr "Uporabite e-poštni naslov računa"
+msgstr "Uporabi ime računa"
 
 #: weblate/accounts/forms.py:264 weblate/accounts/models.py:860
 msgid "Public e-mail"
@@ -939,7 +931,7 @@ msgstr "Javno"
 
 #: weblate/accounts/models.py:874 weblate/trans/models/project.py:174
 msgid "Private"
-msgstr ""
+msgstr "Zasebno"
 
 #: weblate/accounts/models.py:946
 msgid ""
@@ -991,12 +983,9 @@ msgid "Operation was performed in the repository"
 msgstr "Operacija je bila izvedena v repozitoriju"
 
 #: weblate/accounts/notifications.py:558
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Operation was performed in the repository"
 msgctxt "Notification name"
 msgid "Operations were performed in the repository"
-msgstr "Operacija je bila izvedena v repozitoriju"
+msgstr "Operacije so bile izvedene v skladišču"
 
 #: weblate/accounts/notifications.py:569
 msgctxt "Notification name"
@@ -1004,12 +993,9 @@ msgid "Component was locked or unlocked"
 msgstr "Komponenta je bila zaklenjena ali odklenjena"
 
 #: weblate/accounts/notifications.py:571
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Component was locked or unlocked"
 msgctxt "Notification name"
 msgid "Components were locked or unlocked"
-msgstr "Komponenta je bila zaklenjena ali odklenjena"
+msgstr "Komponente so bile zaklenjene ali odklenjene"
 
 #: weblate/accounts/notifications.py:582
 msgctxt "Notification name"
@@ -1022,12 +1008,9 @@ msgid "Parse error occurred"
 msgstr "Prišlo je do napake pri razčlenjevanju"
 
 #: weblate/accounts/notifications.py:590
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Parse error occurred"
 msgctxt "Notification name"
 msgid "Parse errors occurred"
-msgstr "Prišlo je do napake pri razčlenjevanju"
+msgstr "Prišlo je do napak pri razčlenjevanju"
 
 #: weblate/accounts/notifications.py:621
 msgctxt "Notification name"
@@ -1035,12 +1018,9 @@ msgid "String is available for translation"
 msgstr "Niz je na voljo za prevod"
 
 #: weblate/accounts/notifications.py:623
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "String is available for translation"
 msgctxt "Notification name"
 msgid "Strings are available for translation"
-msgstr "Niz je na voljo za prevod"
+msgstr "Nizi so na voljo za prevajanje"
 
 #: weblate/accounts/notifications.py:634
 msgctxt "Notification name"
@@ -1048,12 +1028,9 @@ msgid "Contributor made their first translation"
 msgstr "Sodelujoči je opravil svoj prvi prevod."
 
 #: weblate/accounts/notifications.py:637
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Contributor made their first translation"
 msgctxt "Notification name"
 msgid "Contributors made their first translation"
-msgstr "Sodelujoči je opravil svoj prvi prevod."
+msgstr "Sodelujoči so opravili svoje prve prevode"
 
 #: weblate/accounts/notifications.py:646
 msgctxt "Notification name"
@@ -1061,12 +1038,9 @@ msgid "Suggestion was added"
 msgstr "Predlog je bil dodan"
 
 #: weblate/accounts/notifications.py:647
-#, fuzzy
-#| msgctxt "Notification name"
-#| msgid "Suggestion was added"
 msgctxt "Notification name"
 msgid "Suggestions were added"
-msgstr "Predlog je bil dodan"
+msgstr "Dodani so predlogi"
 
 #: weblate/accounts/notifications.py:656
 msgctxt "Notification name"
@@ -2615,17 +2589,13 @@ msgstr "Upravljani projekti"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:53
-#, fuzzy
-#| msgid "Download"
 msgid "Download reports"
-msgstr "Prenos"
+msgstr "Prenos poročil"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:55 weblate/templates/translate.html:842
-#, fuzzy
-#| msgid "Add new screenshot"
 msgid "Add screenshot"
-msgstr "Dodaj nov zaslonski posnetek"
+msgstr "Dodaj zaslonski posnetek"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:57 weblate/templates/base.html:529
@@ -2903,10 +2873,8 @@ msgstr "Nova pripomba"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:147
-#, fuzzy
-#| msgid "Save translation history"
 msgid "Manage translation memory"
-msgstr "Shrani zgodovino prevodov"
+msgstr "Upravljaj pomnilnik prevodov"
 
 #. Translators: Permission name
 #: weblate/auth/data.py:149
@@ -3002,8 +2970,6 @@ msgid "Manage languages"
 msgstr "Upravljajte svoje jezike"
 
 #: weblate/auth/data.py:242
-#, fuzzy
-#| msgid "Bulk edit"
 msgctxt "Access-control role"
 msgid "Bulk editing"
 msgstr "Množično urejanje"
@@ -3014,11 +2980,9 @@ msgid "Automatic translation"
 msgstr "Samodejni prevod"
 
 #: weblate/auth/data.py:250
-#, fuzzy
-#| msgid "Save translation history"
 msgctxt "Access-control role"
 msgid "Manage translation memory"
-msgstr "Shrani zgodovino prevodov"
+msgstr "Upravljaj pomnilnik prevodov"
 
 #: weblate/auth/data.py:254
 msgctxt "Access-control role"
@@ -3026,11 +2990,9 @@ msgid "Manage screenshots"
 msgstr "Upravljaj zaslonske posnetke"
 
 #: weblate/auth/data.py:258
-#, fuzzy
-#| msgid "Merged repository"
 msgctxt "Access-control role"
 msgid "Manage repository"
-msgstr "Združena shramba"
+msgstr "Upravljaj skladišče"
 
 #: weblate/auth/data.py:261
 msgctxt "Access-control role"
@@ -3040,7 +3002,7 @@ msgstr "Dodaj nove projekte"
 #: weblate/auth/data.py:267
 msgctxt "Access-control team name"
 msgid "Guests"
-msgstr ""
+msgstr "Gosti"
 
 #: weblate/auth/data.py:271
 #, fuzzy
@@ -3055,25 +3017,19 @@ msgid "Users"
 msgstr "Uporabniki"
 
 #: weblate/auth/data.py:278
-#, fuzzy
-#| msgid "Review"
 msgctxt "Access-control team name"
 msgid "Reviewers"
-msgstr "Pregled"
+msgstr "Pregledovalci"
 
 #: weblate/auth/data.py:283
-#, fuzzy
-#| msgid "Manage"
 msgctxt "Access-control team name"
 msgid "Managers"
-msgstr "Upravljaj"
+msgstr "Upravljalci"
 
 #: weblate/auth/data.py:288
-#, fuzzy
-#| msgid "Project Information"
 msgctxt "Access-control team name"
 msgid "Project creators"
-msgstr "Informacije o projektu"
+msgstr "Ustvarjalci projekta"
 
 #: weblate/auth/data.py:297
 msgctxt "Per-project access-control team name"
@@ -3091,11 +3047,9 @@ msgid "Translate"
 msgstr "Prevedite"
 
 #: weblate/auth/data.py:301
-#, fuzzy
-#| msgid "Source"
 msgctxt "Per-project access-control team name"
 msgid "Sources"
-msgstr "Vir"
+msgstr "Viri"
 
 #: weblate/auth/data.py:303
 msgctxt "Per-project access-control team name"
@@ -3110,7 +3064,7 @@ msgstr "Slovar"
 #: weblate/auth/data.py:309
 msgctxt "Per-project access-control team name"
 msgid "Memory"
-msgstr ""
+msgstr "Pomnilnik"
 
 #: weblate/auth/data.py:312
 msgctxt "Per-project access-control team name"
@@ -3118,8 +3072,6 @@ msgid "Screenshots"
 msgstr "Zaslonski posnetki"
 
 #: weblate/auth/data.py:315
-#, fuzzy
-#| msgid "Bulk edit"
 msgctxt "Per-project access-control team name"
 msgid "Bulk editing"
 msgstr "Množično urejanje"
@@ -3170,19 +3122,15 @@ msgstr ""
 #: weblate/templates/auth/team.html:72 weblate/templates/manage/teams.html:24
 #: weblate/templates/trans/project-access.html:235
 msgid "Roles"
-msgstr ""
+msgstr "Vloge"
 
 #: weblate/auth/models.py:131
-#, fuzzy
-#| msgid "Choose roles granted to this group."
 msgid "Choose roles granted to this team."
 msgstr "Izberite vloge, dodeljene tej skupini."
 
 #: weblate/auth/models.py:143
-#, fuzzy
-#| msgid "Project Information"
 msgid "Project selection"
-msgstr "Informacije o projektu"
+msgstr "Izbor projekta"
 
 #: weblate/auth/models.py:145 weblate/auth/models.py:173
 msgid "As defined"
@@ -3193,22 +3141,16 @@ msgid "All projects"
 msgstr "Vsi projekti"
 
 #: weblate/auth/models.py:147 weblate/templates/auth/teams-projects.html:6
-#, fuzzy
-#| msgid "All projects"
 msgid "All public projects"
-msgstr "Vsi projekti"
+msgstr "Vsi javni projekti"
 
 #: weblate/auth/models.py:148 weblate/templates/auth/teams-projects.html:8
-#, fuzzy
-#| msgid "All projects"
 msgid "All protected projects"
-msgstr "Vsi projekti"
+msgstr "Vsi zaščiteni projekti"
 
 #: weblate/auth/models.py:149
-#, fuzzy
-#| msgid "Component list"
 msgid "From component list"
-msgstr "Seznam komponent"
+msgstr "Iz seznama komponent"
 
 #: weblate/auth/models.py:154 weblate/billing/admin.py:76
 #: weblate/billing/models.py:295 weblate/templates/accounts/profile.html:440

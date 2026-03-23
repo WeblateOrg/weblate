@@ -621,7 +621,7 @@ class Invoice(models.Model):
             return
 
         if self.end <= self.start:
-            msg = "Start has be to before end!"
+            msg = "Start has to be before end!"
             raise ValidationError(msg)
 
         if not self.billing_id:
@@ -718,7 +718,10 @@ def record_project_bill(
     if isinstance(instance, Project):
         users = User.objects.having_perm("project.edit", instance)
         for billing in instance.billing_set.all():
+            existing_owners = set(billing.owners.values_list("id", flat=True))
             for user in users:
+                if user.id in existing_owners:
+                    continue
                 billing.owners.add(user)
                 billing.billinglog_set.create(
                     event=BillingEvent.ADMIN_ADDED_PROJECT, summary=user.username

@@ -33,11 +33,12 @@ if TYPE_CHECKING:
 
     from django.db.models import Model
     from django.shortcuts import SupportsGetAbsoluteUrl
+    from translate.storage.placeables import StringElem
 
     from weblate.auth.models import User
     from weblate.auth.results import PermissionResult
     from weblate.lang.models import Language
-    from weblate.trans.models import Project, Translation, Unit
+    from weblate.trans.models import Project, Translation
 
 
 def detect_strxfrm() -> bool:
@@ -126,24 +127,6 @@ def is_repo_link(val: str) -> bool:
     return val.startswith("weblate://")
 
 
-def get_distinct_translations(units: Iterable[Unit]) -> list[Unit]:
-    """
-    Return list of distinct translations.
-
-    It should be possible to use distinct('target') since Django 1.4, but it is not
-    supported with MySQL, so let's emulate that based on presumption we won't get too
-    many results.
-    """
-    targets = {}
-    result = []
-    for unit in units:
-        if unit.target in targets:
-            continue
-        targets[unit.target] = 1
-        result.append(unit)
-    return result
-
-
 def translation_percent(
     translated: int, total: int, zero_complete: bool = True
 ) -> float:
@@ -200,7 +183,7 @@ def get_clean_env(
     for var in variables:
         if var in os.environ:
             environ[var] = os.environ[var]
-    # Extend path to include virtualenv, avoid insert already existing ones to
+    # Extend path to include Python environment, avoid inserting already existing ones to
     # not break existing ordering (for example PATH injection used in tests)
     venv_path = os.path.join(sys.exec_prefix, "bin")
     if venv_path not in environ["PATH"]:
@@ -330,7 +313,7 @@ def redirect_next(
     return HttpResponseRedirect(next_url)
 
 
-def xliff_string_to_rich(string: str):
+def xliff_string_to_rich(string: str | list[str]) -> list[StringElem]:
     """
     Convert XLIFF string to StringElement.
 
@@ -342,7 +325,7 @@ def xliff_string_to_rich(string: str):
     return [parse_xliff(string)]
 
 
-def rich_to_xliff_string(string_elements):
+def rich_to_xliff_string(string_elements: list[StringElem]) -> str:
     """
     Convert StringElement to XLIFF string.
 

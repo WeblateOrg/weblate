@@ -4,6 +4,7 @@
 
 import base64
 import os
+from unittest.mock import patch
 
 from django.conf import settings
 from django.core.exceptions import ValidationError
@@ -16,6 +17,7 @@ from weblate.utils.validators import (
     WeblateServiceURLValidator,
     WeblateURLValidator,
     clean_fullname,
+    validate_asset_url,
     validate_backup_path,
     validate_filename,
     validate_fullname,
@@ -118,6 +120,13 @@ class EmailValidatorTestCase(SimpleTestCase):
             self.assertIsNone(validator(".@example.com"))
         with self.assertRaises(ValidationError):
             self.assertIsNone(validator("fdfdsa@disposablemails.com"))
+        with self.assertRaises(ValidationError):
+            self.assertIsNone(validator("fdfdsa@disposablEMAILS.com"))
+
+    @override_settings(REGISTRATION_ALLOW_DISPOSABLE_EMAILS=True)
+    def test_disposable_allowed_by_setting(self) -> None:
+        validator = EmailValidator()
+        self.assertIsNone(validator("user@disposablemails.com"))
 
 
 class FilenameTest(SimpleTestCase):
@@ -165,6 +174,16 @@ class RegexTest(SimpleTestCase):
         with self.assertRaises(ValidationError):
             validate_re("(Min|Short)", ("component",))
         validate_re("(?P<component>Min|Short)", ("component",))
+
+    def test_timeout(self) -> None:
+        with patch("weblate.utils.validators.compile_regex") as mock_compile:
+            mock_compile.return_value.match.side_effect = TimeoutError("timed out")
+
+            with self.assertRaisesMessage(
+                ValidationError,
+                "The regular expression is too complex and took too long to evaluate.",
+            ):
+                validate_re("(Min|Short)")
 
 
 class WebhookSecretTestCase(SimpleTestCase):
@@ -251,6 +270,12 @@ class WebsiteTest(SimpleTestCase):
         validator = WeblateServiceURLValidator()
         self.verify_validator(validator)
         validator("https://domain:5000")
+
+    @override_settings(ALLOWED_ASSET_DOMAINS=[".allowed.com"])
+    def test_asset_url_validator(self) -> None:
+        validate_asset_url("https://cdn.allowed.com/image.png")
+        with self.assertRaises(ValidationError):
+            validate_asset_url("https://blocked.example.com/image.png")
 
 
 class BackupTest(SimpleTestCase):

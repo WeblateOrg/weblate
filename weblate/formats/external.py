@@ -59,6 +59,9 @@ class XlsxFormat(CSVFormat):
 
         workbook = Workbook()
         worksheet = workbook.active
+        if worksheet is None:
+            msg = "Workbook without an active sheet!"
+            raise TypeError(msg)
         worksheet.title = self.get_title()
         fieldnames = self.store.fieldnames
 
@@ -99,6 +102,10 @@ class XlsxFormat(CSVFormat):
         except BadZipFile:
             return None, None
 
+        if worksheet is None:
+            msg = "Workbook without an active sheet!"
+            raise TypeError(msg)
+
         output = StringIO()
 
         writer = csv.writer(output, dialect=CSV_DIALECT)
@@ -124,7 +131,7 @@ class XlsxFormat(CSVFormat):
         content = output.getvalue().encode("utf-8")
 
         # Load the file as CSV
-        return super().parse_store(NamedBytesIO(name, content), dialect=CSV_DIALECT)
+        return self.parse_csv(NamedBytesIO(name, content), dialect=CSV_DIALECT)
 
     @staticmethod
     def mimetype() -> str:

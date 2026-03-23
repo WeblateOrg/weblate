@@ -21,11 +21,10 @@ if TYPE_CHECKING:
 
     from django.db.models import QuerySet
 
-    from weblate.trans.models import Component
+    from weblate.trans.models import Component, Project
 
 
 class RemovalAddon(BaseAddon):
-    project_scope = True
     events: ClassVar[set[AddonEvent]] = {
         AddonEvent.EVENT_DAILY,
     }
@@ -37,11 +36,19 @@ class RemovalAddon(BaseAddon):
         return timezone.now() - timedelta(days=age)
 
     def delete_older(
-        self, objects: QuerySet[Comment] | QuerySet[Suggestion], component: Component
+        self,
+        objects: QuerySet[Comment] | QuerySet[Suggestion],
+        *,
+        component: Component | None = None,
+        project: Project | None = None,
     ) -> None:
         count = objects.filter(timestamp__lt=self.get_cutoff()).delete()[0]
         if count:
-            component.invalidate_cache()
+            if component:
+                component.invalidate_cache()
+            elif project:
+                for comp in project.component_set.iterator():
+                    comp.invalidate_cache()
 
 
 class RemoveComments(RemovalAddon):
@@ -49,13 +56,19 @@ class RemoveComments(RemovalAddon):
     verbose = gettext_lazy("Stale comment removal")
     description = gettext_lazy("Set a timeframe for removal of comments.")
 
-    def daily(self, component: Component, activity_log_id: int | None = None) -> None:
-        self.delete_older(
-            Comment.objects.filter(
-                unit__translation__component__project=component.project
-            ),
-            component,
-        )
+    def daily(
+        self,
+        component: Component | None = None,
+        project: Project | None = None,
+        activity_log_id: int | None = None,
+    ) -> None:
+        if component is not None:
+            comments = Comment.objects.filter(unit__translation__component=component)
+        else:
+            comments = Comment.objects.filter(
+                unit__translation__component__project=project
+            )
+        self.delete_older(comments, component=component, project=project)
 
 
 class RemoveSuggestions(RemovalAddon):
@@ -64,15 +77,25 @@ class RemoveSuggestions(RemovalAddon):
     description = gettext_lazy("Set a timeframe for removal of suggestions.")
     settings_form = RemoveSuggestionForm
 
-    def daily(self, component: Component, activity_log_id: int | None = None) -> None:
-        self.delete_older(
-            Suggestion.objects.filter(
-                unit__translation__component__project=component.project
+    def daily(
+        self,
+        component: Component | None = None,
+        project: Project | None = None,
+        activity_log_id: int | None = None,
+    ) -> None:
+        if component is not None:
+            suggestions = Suggestion.objects.filter(
+                unit__translation__component=component
             )
-            .annotate(Sum("vote__value"))
-            .filter(
+        else:
+            suggestions = Suggestion.objects.filter(
+                unit__translation__component__project=project
+            )
+        self.delete_older(
+            suggestions.annotate(Sum("vote__value")).filter(
                 Q(vote__value__sum__lte=self.instance.configuration.get("votes", 0))
                 | Q(vote__value__sum=None)
             ),
-            component,
+            component=component,
+            project=project,
         )

@@ -22,20 +22,30 @@ class OllamaTranslation(BaseLLMTranslation):
     """
 
     name = "Ollama"
-    end_point = "/api/generate"
+    end_point = "/api/chat"
     settings_form = OllamaMachineryForm
+    version_added = "5.15"
 
     def get_model(self) -> str:
         return self.settings["model"]
 
-    def fetch_llm_translations(self, prompt: str, content: str) -> str | None:
+    def fetch_llm_translations(
+        self, prompt: str, content: str, previous_content: str, previous_response: str
+    ) -> str | None:
         payload = {
             "model": self.get_model(),
-            "system": prompt,
-            "prompt": content,
+            "messages": [
+                {"role": "system", "content": prompt},
+                {"role": "user", "content": previous_content},
+                {"role": "assistant", "content": previous_response},
+                {"role": "user", "content": content},
+            ],
             "stream": False,
         }
         api_url = urljoin(self.settings["base_url"], self.end_point)
         response = self.request("post", api_url, json=payload)
 
-        return response.json().get("response") or None
+        if message := response.json().get("message"):
+            return message["content"]
+
+        return None

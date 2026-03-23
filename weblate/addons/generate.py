@@ -5,7 +5,7 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import TYPE_CHECKING, ClassVar
+from typing import TYPE_CHECKING, ClassVar, cast
 
 from django.db.models import F, Q
 from django.utils.translation import gettext_lazy
@@ -76,6 +76,7 @@ class GenerateFileAddon(BaseAddon):
         # For post_install hook
         self.extra_files.append(filename)
 
+    # pylint: disable-next=useless-return
     def post_install(
         self,
         component: Component,
@@ -83,10 +84,11 @@ class GenerateFileAddon(BaseAddon):
         activity_log_id: int | None = None,
     ) -> dict | None:
         for translation in component.translation_set.exclude(
-            language_id=component.source_language_id
+            language_id=cast("int", component.source_language_id)
         ).iterator():
             self.pre_commit(translation, "", store_hash, activity_log_id)
         self.commit_and_push(component)
+        return None
 
 
 class LocaleGenerateAddonBase(BaseAddon):
@@ -99,7 +101,8 @@ class LocaleGenerateAddonBase(BaseAddon):
 
     def fetch_strings(self, translation: Translation, query: Q) -> dict[int, Unit]:
         return {
-            unit.source_unit_id: unit for unit in translation.unit_set.filter(query)
+            cast("int", unit.source_unit_id): unit
+            for unit in translation.unit_set.filter(query)
         }
 
     def generate_translation(
@@ -150,7 +153,11 @@ class LocaleGenerateAddonBase(BaseAddon):
             target_translation.invalidate_cache()
         return updated
 
-    def daily(self, component: Component, activity_log_id: int | None = None) -> None:
+    def daily_component(
+        self,
+        component: Component,
+        activity_log_id: int | None = None,
+    ) -> None:
         raise NotImplementedError
 
     def component_update(
@@ -169,8 +176,13 @@ class PseudolocaleAddon(LocaleGenerateAddonBase):
     settings_form = PseudolocaleAddonForm
     user_name = "pseudolocale"
     user_verbose = "Pseudolocale add-on"
+    version_added = "4.5"
 
-    def daily(self, component: Component, activity_log_id: int | None = None) -> None:
+    def daily_component(
+        self,
+        component: Component,
+        activity_log_id: int | None = None,
+    ) -> None:
         # Check all strings
         query = Q(state__lte=STATE_TRANSLATED)
         if self.instance.configuration.get("include_readonly", False):
@@ -249,8 +261,13 @@ class PrefillAddon(LocaleGenerateAddonBase):
     description = gettext_lazy("Fills in translation strings with source string.")
     user_name = "prefill"
     user_verbose = "Prefill add-on"
+    version_added = "4.11"
 
-    def daily(self, component: Component, activity_log_id: int | None = None) -> None:
+    def daily_component(
+        self,
+        component: Component,
+        activity_log_id: int | None = None,
+    ) -> None:
         # Check all strings
         self.do_update(component)
 
@@ -285,8 +302,13 @@ class FillReadOnlyAddon(LocaleGenerateAddonBase):
     )
     user_name = "fill"
     user_verbose = "Fill read-only add-on"
+    version_added = "4.18"
 
-    def daily(self, component: Component, activity_log_id: int | None = None) -> None:
+    def daily_component(
+        self,
+        component: Component,
+        activity_log_id: int | None = None,
+    ) -> None:
         self.do_update(component)
 
     def component_update(

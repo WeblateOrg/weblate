@@ -17,11 +17,9 @@ from celery.schedules import crontab
 from django.conf import settings
 from django.contrib.staticfiles.storage import staticfiles_storage
 from django.core.cache import cache
+from django.core.exceptions import PermissionDenied
 from django.db import IntegrityError, transaction
-from django.db.models import (
-    Count,
-    F,
-)
+from django.db.models import Count, F
 from django.http import Http404
 from django.utils import timezone
 from django.utils.timezone import make_aware
@@ -45,6 +43,8 @@ from weblate.trans.models import (
     Suggestion,
     Translation,
 )
+from weblate.trans.models.unit import fill_in_source_translation
+from weblate.trans.removal import RemovalBatch, removal_batch_context
 from weblate.utils.celery import app
 from weblate.utils.data import data_dir
 from weblate.utils.errors import report_error
@@ -55,7 +55,7 @@ from weblate.utils.views import parse_path
 from weblate.vcs.base import RepositoryError
 
 if TYPE_CHECKING:
-    from collections.abc import Callable
+    from collections.abc import Callable, Iterable
 
 
 @app.task(
@@ -187,7 +187,7 @@ def commit_pending(
 
 
 @app.task(trail=False)
-def cleanup_component(pk) -> None:
+def cleanup_component(pk: int) -> None:
     """
     Perform cleanup of component models.
 
@@ -241,16 +241,16 @@ def cleanup_suggestions() -> None:
                 continue
 
             # Remove duplicate suggestions
-            sugs = Suggestion.objects.filter(
-                unit=suggestion.unit, target=suggestion.target
-            ).exclude(id=suggestion.id)
-            # Do not rely on the SQL as MySQL compares strings case insensitive
-            for other in sugs:
-                if other.target == suggestion.target:
-                    suggestion.delete_log(
-                        anonymous_user, change=ActionEvents.SUGGESTION_CLEANUP
-                    )
-                    break
+            if (
+                Suggestion.objects.filter(
+                    unit=suggestion.unit, target=suggestion.target
+                )
+                .exclude(id=suggestion.id)
+                .exists()
+            ):
+                suggestion.delete_log(
+                    anonymous_user, change=ActionEvents.SUGGESTION_CLEANUP
+                )
 
 
 @app.task(trail=False)
@@ -360,7 +360,7 @@ def cleanup_old_comments() -> None:
 
 
 @app.task(trail=False)
-def repository_alerts(threshold=settings.REPOSITORY_ALERT_THRESHOLD) -> None:
+def repository_alerts(threshold: int = settings.REPOSITORY_ALERT_THRESHOLD) -> None:
     non_linked = Component.objects.with_repo()
     for component in non_linked.iterator():
         try:
@@ -440,20 +440,79 @@ def component_removal(pk: int, uid: int) -> None:
         component = Component.objects.get(pk=pk)
     except Component.DoesNotExist:
         return
-    component.acting_user = user
-    component.project.change_set.create(
-        action=ActionEvents.REMOVE_COMPONENT,
-        target=component.slug,
+
+    _component_removal(component, user)
+
+
+def _component_removal(
+    component: Component, user: User, batch: RemovalBatch | None = None
+) -> None:
+    if batch is not None:
+        component.removal_batch = batch
+    with component.repository.lock:
+        component.acting_user = user
+        component.project.change_set.create(
+            action=ActionEvents.REMOVE_COMPONENT,
+            target=component.slug,
+            user=user,
+            author=user,
+        )
+        component.delete()
+        if component.allow_translation_propagation:
+            components = component.project.component_set.filter(
+                allow_translation_propagation=True
+            ).exclude(pk=component.pk)
+            if batch is not None:
+                components = components.exclude(pk__in=batch.removed_component_ids)
+            for current in components.iterator():
+                current.schedule_update_checks()
+
+
+def _collect_removal_targets(category: Category, batch: RemovalBatch) -> None:
+    _collect_linked_removal_targets(
+        category.component_set.values_list("id", flat=True).iterator(chunk_size=1000),
+        batch,
+    )
+
+    for child in category.category_set.all():
+        _collect_removal_targets(child, batch)
+
+
+def _collect_linked_removal_targets(
+    component_ids: Iterable[int], batch: RemovalBatch
+) -> None:
+    linked_frontier: set[int] = set()
+    for component_id in component_ids:
+        batch.mark_component(component_id)
+        linked_frontier.add(component_id)
+
+    while linked_frontier:
+        children = Component.objects.filter(
+            linked_component_id__in=linked_frontier
+        ).values_list("id", flat=True)
+        next_frontier = set()
+        for component_id in children.iterator(chunk_size=1000):
+            if component_id in batch.removed_component_ids:
+                continue
+            batch.mark_component(component_id)
+            next_frontier.add(component_id)
+        linked_frontier = next_frontier
+
+
+def _category_removal(
+    category: Category, user: User, batch: RemovalBatch | None = None
+) -> None:
+    for child in category.category_set.all():
+        _category_removal(child, user, batch)
+    for component in category.component_set.iterator():
+        _component_removal(component, user, batch)
+    category.project.change_set.create(
+        action=ActionEvents.REMOVE_CATEGORY,
+        target=category.slug,
         user=user,
         author=user,
     )
-    component.delete()
-    if component.allow_translation_propagation:
-        components = component.project.component_set.filter(
-            allow_translation_propagation=True
-        ).exclude(pk=component.pk)
-        for component in components.iterator():
-            component.schedule_update_checks()
+    category.delete()
 
 
 @app.task(trail=False)
@@ -464,17 +523,11 @@ def category_removal(pk: int, uid: int) -> None:
         category = Category.objects.get(pk=pk)
     except Category.DoesNotExist:
         return
-    for child in category.category_set.all():
-        category_removal(child.pk, uid)
-    for component_id in category.component_set.values_list("id", flat=True):
-        component_removal(component_id, uid)
-    category.project.change_set.create(
-        action=ActionEvents.REMOVE_CATEGORY,
-        target=category.slug,
-        user=user,
-        author=user,
-    )
-    category.delete()
+    batch = RemovalBatch()
+    _collect_removal_targets(category, batch)
+    with removal_batch_context(batch):
+        _category_removal(category, user, batch)
+    transaction.on_commit(batch.flush)
 
 
 @app.task(
@@ -501,8 +554,10 @@ def actual_project_removal(pk: int, uid: int | None) -> None:
             user=user,
             author=user,
         )
-        project.delete()
-        transaction.on_commit(project.stats.update_parents)
+        batch = RemovalBatch()
+        with removal_batch_context(batch):
+            project.delete()
+        transaction.on_commit(batch.flush)
 
 
 @app.task(trail=False)
@@ -518,37 +573,41 @@ def project_removal(pk: int, uid: int | None) -> None:
     retry_backoff=600,
     retry_backoff_max=3600,
 )
-def auto_translate(
+def auto_translate(  # noqa: PLR0913
     *,
     user_id: int | None,
     mode: str,
     q: str,
     auto_source: Literal["mt", "others"],
-    component: int | None,
+    source_component_id: int | None,
     engines: list[str],
     threshold: int,
     component_wide: bool = False,
     unit_ids: list[int] | None = None,
-    **kwargs,
+    translation_id: int | None = None,
+    component_id: int | None = None,
+    category_id: int | None = None,
+    project_id: int | None = None,
+    language_id: int | None = None,
 ):
     result: dict[str, Any] = {}
     obj: Translation | Component | Category | ProjectLanguage
-    if "translation_id" in kwargs:
-        obj = Translation.objects.get(pk=kwargs["translation_id"])
+    if translation_id is not None:
+        obj = Translation.objects.get(pk=translation_id)
         result["translation"] = obj.id
-    elif "component_id" in kwargs:
-        obj = Component.objects.get(pk=kwargs["component_id"])
+    elif component_id is not None:
+        obj = Component.objects.get(pk=component_id)
         result["component"] = obj.id
-    elif "category_id" in kwargs:
-        obj = Category.objects.get(pk=kwargs["category_id"])
+    elif category_id is not None:
+        obj = Category.objects.get(pk=category_id)
         result["category"] = obj.id
-    elif "project_id" in kwargs:
-        if "language_id" not in kwargs:
+    elif project_id is not None:
+        if language_id is None:
             msg = "language_id must be provided when project_id is given"
             raise ValueError(msg)
         obj = ProjectLanguage(
-            project=Project.objects.get(pk=kwargs["project_id"]),
-            language=Language.objects.get(pk=kwargs["language_id"]),
+            project=Project.objects.get(pk=project_id),
+            language=Language.objects.get(pk=language_id),
         )
         result["project"] = obj.project.id
         result["language"] = obj.language.id
@@ -566,13 +625,17 @@ def auto_translate(
             component_wide=component_wide,
             unit_ids=unit_ids,
         )
-        message = auto.perform(
-            auto_source=auto_source,
-            engines=engines,
-            threshold=threshold,
-            source=component,
-        )
-        result.update({"message": message})
+        try:
+            message = auto.perform(
+                auto_source=auto_source,
+                engines=engines,
+                threshold=threshold,
+                source_component_id=source_component_id,
+            )
+        except PermissionDenied as error:
+            result.update({"message": str(error)})
+        else:
+            result.update({"message": message})
         return result
 
 
@@ -589,7 +652,7 @@ def auto_translate_component(
     auto_source: Literal["mt", "others"],
     engines: list[str],
     threshold: int,
-    component: int | None = None,
+    source_component_id: int | None = None,
 ):
     component_obj = Component.objects.get(pk=component_id)
     auto = BatchAutoTranslate(
@@ -603,7 +666,7 @@ def auto_translate_component(
         auto_source=auto_source,
         engines=engines,
         threshold=threshold,
-        source=component,
+        source_component_id=source_component_id,
     )
     component_obj.update_source_checks()
     component_obj.run_batched_checks()
@@ -614,6 +677,10 @@ def auto_translate_component(
 def create_component(copy_from=None, copy_addons=False, in_task=False, **kwargs):
     kwargs["project"] = Project.objects.get(pk=kwargs["project"])
     kwargs["source_language"] = Language.objects.get(pk=kwargs["source_language"])
+    if "secondary_language" in kwargs and kwargs["secondary_language"] is not None:
+        kwargs["secondary_language"] = Language.objects.get(
+            pk=kwargs["secondary_language"]
+        )
     component = Component(**kwargs)
     # Perform validation to avoid creating duplicate components via background
     # tasks in discovery
@@ -665,12 +732,15 @@ def update_checks(pk: int, update_token: str, update_state: bool = False) -> Non
         component.source_translation,
     )
     for translation in translations:
-        units = translation.unit_set.prefetch()
+        units = translation.unit_set.prefetch().prefetch_source()
         if update_state:
             units = units.select_for_update()
+        fill_in_source_translation(units)
         for unit in units.prefetch_all_checks():
             # Reuse object to avoid fetching from the database
             unit.source_unit.translation = component.source_translation
+            # Mark this as a batch update to avoid stats update on each unit
+            unit.is_batch_update = True
             if update_state:
                 unit.update_state()
             unit.run_checks()

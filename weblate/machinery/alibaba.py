@@ -28,6 +28,8 @@ class AlibabaTranslation(MachineTranslation):
         "zh_Hant": "zh-tw",
     }
 
+    version_added = "5.3"
+
     settings_form = AlibabaMachineryForm
 
     @cached_property

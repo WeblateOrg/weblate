@@ -50,7 +50,6 @@ from weblate.trans.tests.utils import (
     get_test_file,
     social_core_override_settings,
 )
-from weblate.utils.db import TransactionsTestMixin
 from weblate.vcs.ssh import get_key_data
 from weblate.wladmin.models import ConfigurationError, SupportStatus
 
@@ -75,9 +74,7 @@ TEST_BACKENDS = (
 )
 
 
-class SeleniumTests(
-    TransactionsTestMixin, BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin
-):
+class SeleniumTests(BaseLiveServerTestCase, RegistrationTestMixin, TempDirMixin):
     _driver: WebDriver | None = None
     _driver_error: str = ""
     image_path = os.path.join(settings.BASE_DIR, "test-images")

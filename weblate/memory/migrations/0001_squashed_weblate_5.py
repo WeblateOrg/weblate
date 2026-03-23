@@ -18,17 +18,6 @@ def create_index(apps, schema_editor) -> None:
             "CREATE INDEX memory_source_trgm ON memory_memory USING GIN "
             "(source gin_trgm_ops, target_language_id, source_language_id)"
         )
-    elif vendor == "mysql":
-        # Fulltext for translation memory search
-        schema_editor.execute(
-            "CREATE FULLTEXT INDEX memory_source_fulltext ON memory_memory(source)"
-        )
-        # Substring index to faster lookup existing entries instead of MD5 index which is
-        # not supported on MariaDB
-        schema_editor.execute(
-            "CREATE INDEX memory_lookup_index ON "
-            "memory_memory(source(255), target(255), origin(255))"
-        )
     else:
         msg = f"Unsupported database: {vendor}"
         raise ImproperlyConfigured(msg)
@@ -41,13 +30,6 @@ def drop_index(apps, schema_editor) -> None:
         schema_editor.execute("DROP INDEX memory_source_index")
         schema_editor.execute("DROP INDEX memory_target_index")
         schema_editor.execute("DROP INDEX memory_origin_index")
-    elif vendor == "mysql":
-        schema_editor.execute(
-            "ALTER TABLE memory_memory DROP INDEX memory_source_fulltext"
-        )
-        schema_editor.execute(
-            "ALTER TABLE memory_memory DROP INDEX memory_lookup_index"
-        )
     else:
         msg = f"Unsupported database: {vendor}"
         raise ImproperlyConfigured(msg)

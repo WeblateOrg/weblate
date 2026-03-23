@@ -305,7 +305,9 @@ def dashboard_user(request: AuthenticatedHttpRequest) -> HttpResponse:
                     prefetch_stats(componentlist.translations)
                 )
 
-        usersubscriptions = get_paginator(request, usersubscriptions, stats=True)
+        usersubscriptions = get_paginator(
+            request, usersubscriptions, stats=True, sort_by=request.GET.get("sort_by")
+        )
         usersubscriptions = translation_prefetch_tasks(usersubscriptions)
         owned = user.owned_projects.order()
     else:

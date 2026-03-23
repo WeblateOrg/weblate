@@ -24,7 +24,8 @@ from django.http import (
 )
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse
-from django.utils.translation import gettext
+from django.utils.html import format_html
+from django.utils.translation import gettext, ngettext
 from django.views.decorators.http import require_POST
 
 from weblate.checks.models import CHECKS, get_display_checks
@@ -85,11 +86,18 @@ if TYPE_CHECKING:
 SESSION_SEARCH_CACHE_TTL = 1800
 
 
-def display_fixups(request: AuthenticatedHttpRequest, fixups) -> None:
+def display_fixups(request: AuthenticatedHttpRequest, fixups: list[str]) -> None:
     messages.info(
         request,
-        gettext("Following fixups were applied to translation: %s")
-        % format_html_join_comma("{}", list_to_tuples(fixups)),
+        format_html(
+            "{} {}",
+            ngettext(
+                "The following fix-up was applied to the translation:",
+                "The following fix-ups were applied to the translation:",
+                len(fixups),
+            ),
+            format_html_join_comma("{}", list_to_tuples(fixups)),
+        ),
     )
 
 
@@ -795,7 +803,11 @@ def translate(request: AuthenticatedHttpRequest, path):
 def auto_translation(request: AuthenticatedHttpRequest, path):
     obj = parse_path(request, path, (Translation, Component, Category, ProjectLanguage))
     update_locked = False
-    task_kwargs = {}
+    translation_id: int | None = None
+    component_id: int | None = None
+    category_id: int | None = None
+    project_id: int | None = None
+    language_id: int | None = None
 
     match obj:
         case Translation():
@@ -803,29 +815,25 @@ def auto_translation(request: AuthenticatedHttpRequest, path):
             project = translation.component.project
             autoform = AutoForm(translation.component, request.user, request.POST)
             update_locked = translation.component.locked
-            task_kwargs["translation_id"] = translation.id
+            translation_id = translation.id
         case Component():
             component = obj
             project = component.project
             autoform = AutoForm(component, request.user, request.POST)
             update_locked = component.locked
-            task_kwargs["component_id"] = component.id
+            component_id = component.id
         case Category():
             category = obj
             project = category.project
             autoform = AutoForm(category.project, request.user, request.POST)
             update_locked = category.component_set.filter(locked=True).exists()
-            task_kwargs["category_id"] = category.id
+            category_id = category.id
         case ProjectLanguage():
             project = obj.project
             autoform = AutoForm(project, request.user, request.POST)
             update_locked = project.locked
-            task_kwargs.update(
-                {
-                    "project_id": project.id,
-                    "language_id": obj.language.id,
-                }
-            )
+            project_id = project.id
+            language_id = obj.language.id
         case _:  # pragma: no cover
             msg = "Unsupported object for auto translation"
             raise PermissionDenied(msg)
@@ -840,24 +848,32 @@ def auto_translation(request: AuthenticatedHttpRequest, path):
 
     if settings.CELERY_TASK_ALWAYS_EAGER:
         result = auto_translate(
-            **task_kwargs,
+            translation_id=translation_id,
+            component_id=component_id,
+            category_id=category_id,
+            project_id=project_id,
+            language_id=language_id,
             user_id=request.user.id,
             mode=autoform.cleaned_data["mode"],
-            q=autoform.cleaned_data.get("q"),
+            q=autoform.cleaned_data["q"],
             auto_source=autoform.cleaned_data["auto_source"],
-            component=autoform.cleaned_data["component"],
+            source_component_id=autoform.cleaned_data["component"],
             engines=autoform.cleaned_data["engines"],
             threshold=autoform.cleaned_data["threshold"],
         )
         messages.success(request, result["message"])
     else:
         task = auto_translate.delay(
-            **task_kwargs,
+            translation_id=translation_id,
+            component_id=component_id,
+            category_id=category_id,
+            project_id=project_id,
+            language_id=language_id,
             user_id=request.user.id,
             mode=autoform.cleaned_data["mode"],
-            q=autoform.cleaned_data.get("q"),
+            q=autoform.cleaned_data["q"],
             auto_source=autoform.cleaned_data["auto_source"],
-            component=autoform.cleaned_data["component"],
+            source_component_id=autoform.cleaned_data["component"],
             engines=autoform.cleaned_data["engines"],
             threshold=autoform.cleaned_data["threshold"],
         )

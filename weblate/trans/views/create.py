@@ -12,6 +12,7 @@ from zipfile import BadZipfile
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.db import transaction
 from django.forms import HiddenInput
 from django.shortcuts import redirect
 from django.urls import reverse
@@ -102,6 +103,7 @@ class CreateProject(BaseCreateView):
                 billing_field.widget = HiddenInput()
         return form
 
+    @transaction.atomic
     def form_valid(self, form):
         result = super().form_valid(form)
         if self.has_billing and form.cleaned_data["billing"]:
@@ -199,6 +201,7 @@ class ImportProject(CreateProject):
             self.projectbackup = None
         return super().post(request, *args, **kwargs)
 
+    @transaction.atomic
     def form_valid(self, form):
         if isinstance(form, ProjectImportForm):
             # Save current zip to the import dir
@@ -283,30 +286,32 @@ class CreateComponent(BaseCreateView):
                 % detected_license,
             )
 
+    @transaction.atomic
     def form_valid(self, form):
         if self.stage == "create":
-            form.instance.manage_units = (
-                bool(form.instance.template) or form.instance.file_format == "tbx"
-            )
-            if self.duplicate_existing_component and (
-                source_component := form.cleaned_data["source_component"]
-            ):
-                fields_to_duplicate = [
-                    "agreement",
-                    "merge_style",
-                    "commit_message",
-                    "add_message",
-                    "delete_message",
-                    "merge_message",
-                    "addon_message",
-                    "pull_message",
-                ]
-                for field in fields_to_duplicate:
-                    setattr(form.instance, field, getattr(source_component, field))
+            with form.instance.repository.lock:
+                form.instance.manage_units = (
+                    bool(form.instance.template) or form.instance.file_format == "tbx"
+                )
+                if self.duplicate_existing_component and (
+                    source_component := form.cleaned_data["source_component"]
+                ):
+                    fields_to_duplicate = [
+                        "agreement",
+                        "merge_style",
+                        "commit_message",
+                        "add_message",
+                        "delete_message",
+                        "merge_message",
+                        "addon_message",
+                        "pull_message",
+                    ]
+                    for field in fields_to_duplicate:
+                        setattr(form.instance, field, getattr(source_component, field))
 
-            result = super().form_valid(form)
-            self.object.post_create(self.request.user, origin=self.origin)
-            return result
+                result = super().form_valid(form)
+                self.object.post_create(self.request.user, origin=self.origin)
+                return result
         if self.stage == "discover":
             # Move to create
             self.initial = form.cleaned_data
@@ -425,6 +430,7 @@ class CreateFromZip(CreateComponent):
     form_class = ComponentZipCreateForm
     origin = "zip"
 
+    @transaction.atomic
     def form_valid(self, form):
         if self.stage != "init":
             return super().form_valid(form)
@@ -450,6 +456,7 @@ class CreateFromDoc(CreateComponent):
     form_class = ComponentDocCreateForm
     origin = "document"
 
+    @transaction.atomic
     def form_valid(self, form):
         if self.stage != "init":
             return super().form_valid(form)
@@ -585,6 +592,7 @@ class CreateComponentSelection(CreateComponent):
             f"{reverse('create-component-vcs')}?{urlencode({SESSION_CREATE_KEY: 1})}"
         )
 
+    @transaction.atomic
     def form_valid(self, form):
         if self.origin == "scratch":
             project = form.cleaned_data["project"]

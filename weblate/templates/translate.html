@@ -88,7 +88,7 @@
                  title="{% translate "Copy permalink" %}">{% icon "link.svg" %}</a>
               <h4 class="card-title">
                 {% if unit.translation.component.is_glossary %}
-                  {% if "forbidden" in item.all_flags %}
+                  {% if "forbidden" in unit.all_flags %}
                     {% translate "Forbidden glossary term" %}
                   {% else %}
                     {# Translators: Can be also translated as "A term from the glossary" #}
@@ -145,9 +145,9 @@
                 {% if not unit.translation.component.is_glossary or not unit.is_source %}
                   <!-- source string explanation  -->
                   <div class="form-group help-block">
-                    <label>{% translate "Explanation" %}</label>
+                    <label>{% translate "Explanation" %} {% documentation_icon 'admin/translating' 'additional-explanation' %}</label>
                     <div class="list-group">
-                      <div class="list-group-item">
+                      <div class="list-group-item translate-explanation">
                         <div class="list-group-item-text">{{ unit.source_unit.explanation|markdown }}</div>
                       </div>
                     </div>
@@ -731,10 +731,12 @@
                   </h5>
                   <p class="list-group-item-text check-description">
                     {% with author=unit.get_last_author %}
-                      {% if author %}
-                        {% blocktranslate %}This string was translated automatically by {{ author }}.{% endblocktranslate %}
-                      {% else %}
+                      {% if not author or author.is_anonymous %}
                         {% blocktranslate %}This string was translated automatically.{% endblocktranslate %}
+                      {% elif author.is_bot %}
+                        {% blocktranslate %}This string was translated automatically using {{ author }}.{% endblocktranslate %}
+                      {% else %}
+                        {% blocktranslate %}This string was translated automatically by {{ author }}.{% endblocktranslate %}
                       {% endif %}
                     {% endwith %}
                   </p>
@@ -777,27 +779,31 @@
                 {% translate "Glossary" %}
               </h4>
             </div>
-            <table class="table table-sm table-simple">
-              <thead>
-                <tr>
-                  <th>{{ unit.translation.component.source_language }}</th>
-                  <th>{{ unit.translation.language }}</th>
-                  <th></th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody id="glossary-terms">
-                {% include "snippets/glossary.html" %}
-              </tbody>
-            </table>
-            {% if user_can_add_glossary and addterm_form.fields.translation.queryset %}
-              <div class="card-footer card-footer-links">
-                <a class="btn btn-link green"
-                   href="#"
-                   data-bs-toggle="modal"
-                   data-bs-target="#add-glossary-form">{% icon "plus-circle.svg" %} {% translate "Add term to glossary" %}</a>
+            <div class="list-group">
+              <div class="list-group-item">
+                <table class="table table-sm table-simple">
+                  <thead>
+                    <tr>
+                      <th>{{ unit.translation.component.source_language }}</th>
+                      <th>{{ unit.translation.language }}</th>
+                      <th></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody id="glossary-terms">
+                    {% include "snippets/glossary.html" %}
+                  </tbody>
+                </table>
               </div>
-            {% endif %}
+              {% if user_can_add_glossary and addterm_form.fields.translation.queryset %}
+                <div class="list-group-item card-footer-links">
+                  <a class="btn btn-link"
+                     href="#"
+                     data-bs-toggle="modal"
+                     data-bs-target="#add-glossary-form">{% icon "plus-circle.svg" %} {% translate "Add term to glossary" %}</a>
+                </div>
+              {% endif %}
+            </div>
           </div>
         {% endif %}
 
@@ -817,8 +823,8 @@
               <div class="list-group-item">
                 <h5>{% translate "Component" %}</h5>
                 <a href="{{ unit.translation.component.get_absolute_url }}">{{ unit.translation.component }}</a>
-              {% endif %}
-            </div>
+              </div>
+            {% endif %}
 
             {% if screenshots or user_can_add_screenshot %}
               <div class="list-group-item">
@@ -837,7 +843,7 @@
                 {% endfor %}
                 {% if user_can_add_screenshot %}
                   <br />
-                  <a class="btn btn-link green"
+                  <a class="btn btn-link"
                      href="#"
                      data-bs-toggle="modal"
                      data-bs-target="#add-screenshot-form">{% icon "plus-circle.svg" %} {% translate "Add screenshot" %}</a>
@@ -997,14 +1003,25 @@
                         {% blocktranslate with filename=unit.translation.filename flags=unit.flags %}<code>{{ flags }}</code> was extracted from {{ filename }}.{% endblocktranslate %}
                       </p>
                     {% endif %}
-                    {% if unit.translation.check_flags %}
+                    {% if unit.translation.get_flags_without_readonly %}
                       <p>
-                        {% blocktranslate with object=unit.translation flags=unit.translation.check_flags %}<code>{{ flags }}</code> is inherited from {{ object }}.{% endblocktranslate %}
+                        {% blocktranslate with object=unit.translation|object_link flags=unit.translation.get_flags_without_readonly.format %}<code>{{ flags }}</code> is inherited from {{ object }}.{% endblocktranslate %}
+                      </p>
+                    {% endif %}
+                    {% if unit.translation.has_readonly_flag %}
+                      <p>
+                        {% if not unit.translation.component.has_template %}
+                          {% blocktranslate with object=unit.translation|object_link flags="read-only" %}<code>{{ flags }}</code> is inherited from {{ object }} because editing source strings is not available for bilingual formats.{% endblocktranslate %}
+                        {% elif unit.translation.component.file_format_can_edit_base %}
+                          {% blocktranslate with object=unit.translation|object_link flags="read-only" format=unit.translation.component.file_format_name %}<code>{{ flags }}</code> is inherited from {{ object }} because editing source strings is not available for {{ format }}.{% endblocktranslate %}
+                        {% else %}
+                          {% blocktranslate with object=unit.translation|object_link flags="read-only" %}<code>{{ flags }}</code> is inherited from {{ object }} because editing source strings is disabled.{% endblocktranslate %}
+                        {% endif %}
                       </p>
                     {% endif %}
                     {% if unit.translation.component.check_flags %}
                       <p>
-                        {% blocktranslate with object=unit.translation.component flags=unit.translation.component.check_flags %}<code>{{ flags }}</code> is inherited from {{ object }}.{% endblocktranslate %}
+                        {% blocktranslate with object=unit.translation.component|object_link flags=unit.translation.component.check_flags %}<code>{{ flags }}</code> is inherited from {{ object }}.{% endblocktranslate %}
                       </p>
                     {% endif %}
                     {% if unit.translation.component.file_format_flags %}
@@ -1014,7 +1031,7 @@
                     {% endif %}
                     {% if unit.translation.component.project.check_flags %}
                       <p>
-                        {% blocktranslate with object=unit.translation.component.project flags=unit.translation.component.project.check_flags %}<code>{{ flags }}</code> is inherited from {{ object }}.{% endblocktranslate %}
+                        {% blocktranslate with object=unit.translation.component.project|object_link flags=unit.translation.component.project.check_flags %}<code>{{ flags }}</code> is inherited from {{ object }}.{% endblocktranslate %}
                       </p>
                     {% endif %}
                   </div>

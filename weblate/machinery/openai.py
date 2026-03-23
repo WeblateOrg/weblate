@@ -8,8 +8,6 @@ from typing import TYPE_CHECKING
 
 from django.core.cache import cache
 
-from weblate.utils.errors import add_breadcrumb
-
 from .base import (
     MachineryRateLimitError,
     MachineTranslationError,
@@ -26,26 +24,35 @@ if TYPE_CHECKING:
 class BaseOpenAITranslation(BaseLLMTranslation):
     client: OpenAI
 
-    def fetch_llm_translations(self, prompt: str, content: str) -> str | None:
+    def fetch_llm_translations(
+        self, prompt: str, content: str, previous_content: str, previous_response: str
+    ) -> str | None:
         from openai import RateLimitError
         from openai.types.chat import (
+            ChatCompletionAssistantMessageParam,
             ChatCompletionSystemMessageParam,
             ChatCompletionUserMessageParam,
         )
 
-        add_breadcrumb("openai", "prompt", prompt=prompt)
-        add_breadcrumb("openai", "chat", content=content)
-
         messages: Iterable[
-            ChatCompletionSystemMessageParam | ChatCompletionUserMessageParam
+            ChatCompletionSystemMessageParam
+            | ChatCompletionUserMessageParam
+            | ChatCompletionAssistantMessageParam
         ] = [
             ChatCompletionSystemMessageParam(role="system", content=prompt),
+            ChatCompletionUserMessageParam(
+                role="user",
+                content=previous_content,
+            ),
+            ChatCompletionAssistantMessageParam(
+                role="assistant",
+                content=previous_response,
+            ),
             ChatCompletionUserMessageParam(
                 role="user",
                 content=content,
             ),
         ]
-
         try:
             response = self.client.chat.completions.create(
                 model=self.get_model(),
@@ -63,6 +70,8 @@ class BaseOpenAITranslation(BaseLLMTranslation):
 
 class OpenAITranslation(BaseOpenAITranslation):
     name = "OpenAI"
+
+    version_added = "5.3"
 
     settings_form = OpenAIMachineryForm
 
@@ -105,6 +114,7 @@ class OpenAITranslation(BaseOpenAITranslation):
 
 class AzureOpenAITranslation(BaseOpenAITranslation):
     name = "Azure OpenAI"
+    version_added = "5.8"
     settings_form = AzureOpenAIMachineryForm
 
     def __init__(self, settings=None) -> None:

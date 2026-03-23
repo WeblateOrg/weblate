@@ -17,6 +17,7 @@ from pathlib import Path
 from typing import cast
 from urllib.parse import urlparse
 
+import regex
 from confusable_homoglyphs import confusables
 from disposable_email_domains import blocklist
 from django.conf import settings
@@ -27,13 +28,17 @@ from django.core.validators import (
     validate_domain_name,
     validate_ipv46_address,
 )
+from django.http.request import validate_host
 from django.utils.deconstruct import deconstructible
 from django.utils.translation import gettext, gettext_lazy
+from PIL import Image
 
 from weblate.trans.util import cleanup_path
 from weblate.utils.const import WEBHOOKS_SECRET_PREFIX
 from weblate.utils.data import data_dir
+from weblate.utils.errors import report_error
 from weblate.utils.files import is_excluded
+from weblate.utils.regex import REGEX_TIMEOUT, compile_regex
 
 USERNAME_MATCHER = re.compile(r"^[\w@+-][\w.@+-]*$")
 
@@ -73,13 +78,21 @@ def validate_re(
     allow_empty: bool = True,
 ) -> None:
     try:
-        compiled = re.compile(value)
-    except re.error as error:
-        # TODO: change re.error to re.PatternError for Python >= 3.13
+        compiled = compile_regex(value)
+    except regex.error as error:
         raise ValidationError(
             gettext("Compilation failed: {0}").format(error)
         ) from error
-    if not allow_empty and compiled.match(""):
+    try:
+        matches_empty = compiled.match("", timeout=REGEX_TIMEOUT)
+    except TimeoutError as error:
+        report_error("Regular expression validation timed out")
+        raise ValidationError(
+            gettext(
+                "The regular expression is too complex and took too long to evaluate."
+            )
+        ) from error
+    if not allow_empty and matches_empty:
         raise ValidationError(
             gettext("The regular expression can not match an empty string.")
         )
@@ -101,8 +114,6 @@ def validate_re_nonempty(value: str) -> None:
 
 def validate_bitmap(value) -> None:
     """Validate bitmap, based on django.forms.fields.ImageField."""
-    from PIL import Image
-
     if value is None:
         return
 
@@ -230,7 +241,10 @@ class EmailValidator(EmailValidatorDjango):
                 gettext("Invalid e-mail address: {}").format(error)
             ) from error
 
-        if address.domain in blocklist:
+        if (
+            address.domain.lower().strip() in blocklist
+            and not settings.REGISTRATION_ALLOW_DISPOSABLE_EMAILS
+        ):
             raise ValidationError(gettext("Disposable e-mail domains are disallowed."))
 
 
@@ -380,6 +394,14 @@ class WeblateURLValidator(URLValidator):
             raise ValidationError(
                 gettext("This website cannot be used. Please provide a different one.")
             )
+
+
+def validate_asset_url(value: str) -> None:
+    WeblateURLValidator()(value)
+    if not validate_host(
+        urlparse(value).hostname or "", settings.ALLOWED_ASSET_DOMAINS
+    ):
+        raise ValidationError(gettext("URL domain is not allowed."))
 
 
 class WeblateEditorURLValidator(WeblateURLValidator):

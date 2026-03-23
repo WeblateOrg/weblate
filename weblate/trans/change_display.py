@@ -467,13 +467,13 @@ class ShowChangeContent(BaseChangeHistoryContext):
         unit = change.unit
 
         # rejection reason field
-        if "rejection_reason" in change.details:
+        if rejection_reason := change.details.get("rejection_reason"):
             self.fields.append(
                 self.make_field(
                     gettext("Rejection reason"),
                     format_html(
                         self.LIST_GROUP_ITEM_TEMPLATE,
-                        change.details["rejection_reason"],
+                        rejection_reason,
                     ),
                 )
             )

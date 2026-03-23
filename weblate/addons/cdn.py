@@ -34,6 +34,7 @@ class CDNJSAddon(BaseAddon):
         AddonEvent.EVENT_POST_UPDATE,
     }
     name = "weblate.cdn.cdnjs"
+    version_added = "4.2"
     verbose = gettext_lazy("JavaScript localization CDN")
     description = gettext_lazy(
         "Publishes translations into content delivery network "
@@ -146,7 +147,11 @@ class CDNJSAddon(BaseAddon):
                     handle,
                 )
 
-    def daily(self, component: Component, activity_log_id: int | None = None) -> None:
+    def daily_component(
+        self,
+        component: Component,
+        activity_log_id: int | None = None,
+    ) -> None:
         if not self.instance.configuration["files"].strip():
             return
         # Trigger parsing files
@@ -159,4 +164,4 @@ class CDNJSAddon(BaseAddon):
         skip_push: bool,
         activity_log_id: int | None = None,
     ) -> None:
-        self.daily(component)
+        self.daily_component(component)

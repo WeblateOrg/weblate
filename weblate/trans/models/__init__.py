@@ -1,10 +1,12 @@
 # Copyright © Michal Čihař <michal@weblate.org>
 #
 # SPDX-License-Identifier: GPL-3.0-or-later
+from __future__ import annotations
 
 import os
 from contextlib import suppress
 from functools import partial
+from typing import TYPE_CHECKING
 
 from django.db import transaction
 from django.db.models.signals import m2m_changed, post_delete, post_save, pre_delete
@@ -27,9 +29,13 @@ from weblate.trans.models.translation import Translation
 from weblate.trans.models.unit import Unit
 from weblate.trans.models.variant import Variant
 from weblate.trans.models.workflow import WorkflowSetting
+from weblate.trans.removal import get_current_removal_batch
 from weblate.trans.signals import user_pre_delete
 from weblate.utils.decorators import disable_for_loaddata
 from weblate.utils.files import remove_tree
+
+if TYPE_CHECKING:
+    from weblate.auth.models import User
 
 __all__ = [
     "Alert",
@@ -54,7 +60,7 @@ __all__ = [
 ]
 
 
-def delete_object_dir(instance) -> None:
+def delete_object_dir(instance: Project | Component) -> None:
     """Remove path if it exists."""
     project_path = instance.full_path
     if os.path.exists(project_path):
@@ -62,15 +68,18 @@ def delete_object_dir(instance) -> None:
 
 
 @receiver(post_delete, sender=Project)
-def project_post_delete(sender, instance, **kwargs) -> None:
+def project_post_delete(sender, instance: Project, **kwargs) -> None:
     """
     Project deletion hook.
 
     - delete project directory
     - update stats
     """
-    # Update stats
-    transaction.on_commit(instance.stats.update_parents)
+    batch = get_current_removal_batch()
+    if batch is None:
+        transaction.on_commit(instance.stats.update_parents)
+    else:
+        batch.collect_stats(instance.stats.get_update_objects())
     instance.stats.delete()
 
     # Remove directory
@@ -78,21 +87,26 @@ def project_post_delete(sender, instance, **kwargs) -> None:
 
 
 @receiver(pre_delete, sender=Component)
-def component_pre_delete(sender, instance, **kwargs) -> None:
+def component_pre_delete(sender, instance: Component, **kwargs) -> None:
+    batch = instance.removal_batch or get_current_removal_batch()
+    if batch is not None:
+        batch.collect_stats(instance.stats.get_update_objects())
+        return
     # Collect list of stats to update, this can't be done after removal
     instance.stats.collect_update_objects()
 
 
 @receiver(post_delete, sender=Component)
-def component_post_delete(sender, instance, **kwargs) -> None:
+def component_post_delete(sender, instance: Component, **kwargs) -> None:
     """
     Component deletion hook.
 
     - delete component directory
     - update stats, this is accompanied by component_pre_delete
     """
-    # Update stats
-    transaction.on_commit(instance.stats.update_parents)
+    batch = instance.removal_batch or get_current_removal_batch()
+    if batch is None:
+        transaction.on_commit(instance.stats.update_parents)
     instance.stats.delete()
 
     # Do not delete linked components
@@ -101,7 +115,7 @@ def component_post_delete(sender, instance, **kwargs) -> None:
 
 
 @receiver(post_delete, sender=Translation)
-def translation_post_delete(sender, instance, **kwargs) -> None:
+def translation_post_delete(sender, instance: Translation, **kwargs) -> None:
     """Delete translation stats on translation deletion."""
     transaction.on_commit(instance.stats.delete)
 
@@ -131,7 +145,7 @@ def change_labels(sender, instance, action, pk_set, **kwargs) -> None:
 
 
 @receiver(pre_delete, sender=Label)
-def label_pre_delete(sender, instance, **kwargs) -> None:
+def label_pre_delete(sender, instance: Label, **kwargs) -> None:
     instance.project.collect_label_cleanup(instance)
 
 
@@ -144,7 +158,7 @@ def label_post_delete(sender, instance, **kwargs) -> None:
 
 
 @receiver(user_pre_delete)
-def user_commit_pending(sender, instance, **kwargs) -> None:
+def user_commit_pending(sender, instance: User, **kwargs) -> None:
     """Commit pending changes for user on account removal."""
     # All user changes
     all_changes = Change.objects.last_changes(instance).filter(user=instance)
@@ -195,6 +209,10 @@ def auto_component_list(sender, instance, **kwargs) -> None:
 @receiver(post_delete, sender=Component)
 @disable_for_loaddata
 def post_delete_linked(sender, instance, **kwargs) -> None:
+    batch = instance.removal_batch or get_current_removal_batch()
+    if batch is not None:
+        batch.collect_linked_component(instance.linked_component_id)
+        return
     # When removing project, the linked component might be already deleted now
     with suppress(Component.DoesNotExist):
         if instance.linked_component:

@@ -1060,6 +1060,10 @@ legend {
   padding: 0;
 }
 
+.source-info .list-group-item.card-footer-links {
+  padding: 0px 9px;
+}
+
 .card-footer-links .btn-link {
   padding: 12px;
 }
@@ -1355,6 +1359,25 @@ thead th {
 
 .btn-link {
   padding: 6px;
+  text-decoration: none;
+}
+
+.btn-link:hover {
+  text-decoration: none;
+}
+
+a.btn-link {
+  color: var(--bs-link-color);
+  path {
+    fill: var(--bs-link-color);
+  }
+}
+
+a.btn-link:hover {
+  color: var(--bs-btn-hover-color);
+  path {
+    fill: var(--bs-btn-hover-color);
+  }
 }
 
 .btn-link.btn-xs {
@@ -1962,6 +1985,10 @@ a.language:hover {
   background-color: transparent;
 }
 
+.form-control:focus {
+  background-color: inherit;
+}
+
 .editor-wrap .highlighted-output {
   z-index: 0;
   overflow: hidden;
@@ -2506,11 +2533,15 @@ tbody.warning {
 table.table-simple tbody#glossary-terms {
   table-layout: fixed;
   width: 100%;
+  vertical-align: middle;
 }
 
 table.table-simple tbody#glossary-terms td {
   word-break: break-word;
   white-space: normal;
+}
+table.table-simple tbody#glossary-terms .alert-info {
+  margin-bottom: 0px;
 }
 
 /* Editor styles when it has changes */
@@ -2576,6 +2607,7 @@ table.table-simple tbody#glossary-terms td {
 .text-warning {
   font-size: 14px;
   margin: 5px 5px 0px;
+  color: #8a6d3b !important;
 }
 
 .card label {
@@ -2632,4 +2664,8 @@ table.table-simple tbody#glossary-terms td {
 
 .input-group-text {
   border-radius: 4px;
+}
+
+.translate-explanation {
+  background-color: var(--bs-secondary-bg) !important;
 }

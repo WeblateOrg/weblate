@@ -61,6 +61,7 @@ class Command(BaseCommand):
                 ),
                 filemask="weblate/langdata/locale/*/LC_MESSAGES/django.po",
                 new_base="weblate/langdata/locale/django.pot",
+                branch="main",
                 file_format="po",
                 license="GPL-3.0-or-later",
             )

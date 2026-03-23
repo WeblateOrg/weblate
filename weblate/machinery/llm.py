@@ -6,15 +6,15 @@
 
 from __future__ import annotations
 
-import re
+import json
 from collections import defaultdict
 from itertools import chain
-from typing import TYPE_CHECKING, Literal, overload
+from typing import TYPE_CHECKING, Literal
 
 from weblate.glossary.models import (
     fetch_glossary_terms,
     get_glossary_terms,
-    render_glossary_units_tsv,
+    get_glossary_tuples,
 )
 from weblate.machinery.base import (
     BatchMachineTranslation,
@@ -28,37 +28,53 @@ if TYPE_CHECKING:
     from .base import DownloadMultipleTranslations
 
 PROMPT = """
-You are a highly skilled translation assistant, adept at translating text
-from language '{source_language}'
-to language '{target_language}'
-with precision and nuance.
+You are a professional translation engine specialized in structured localization tasks.
+
 {persona}
+
 {style}
-You always reply with translated string only.
-You do not include transliteration.
-{separator}
-{placeables}
-{glossary}
-"""
-SEPARATOR = "\n==WEBLATE_PART==\n"
-SEPARATOR_RE = re.compile(r"\n *==WEBLATE_PART== *\n")
-SEPARATOR_PROMPT = f"""
-You receive an input as strings separated by {SEPARATOR} and your answer
-separates strings by {SEPARATOR}. Anything besides {SEPARATOR} is content to be
-translated. The answer should include translations for all the strings in
-the same order as they appeared in the input.
-"""
-REPHRASE_PROMPT = f"""
-You receive an input as the source and existing translation strings separated
-by {SEPARATOR} and you answer three rephrased translation strings separated by
-{SEPARATOR}.
-"""
-GLOSSARY_PROMPT = """
-Use the following glossary during the translation:
-{}
-"""
-PLACEABLES_PROMPT = """
-You treat strings like {placeable_1} or {placeable_2} as placeables for user input and keep them intact.
+
+Input is provided as JSON with the following schema:
+
+{{
+    "source_language": "xx",                    // source language code (ISO, gettext or BCP)
+    "target_language": "xx",                    // target language code (ISO, gettext or BCP)
+    "glossary": {{                              // glossary of specific terms to use while translating
+        "source term": "target term",
+    }},
+    "strings": [                                // strings to translate
+        {{
+            "source": "source [X1X]string"      // text to translate with a non-translatable placeable
+        }},
+        {{
+            "source": "another string"          // text to translate without placeables
+        }},
+        {{
+            "source": "rephrased string",       // text to rephrase based on existing translation
+            "translation": "existing translation"
+        }}
+    ]
+}}
+
+Rules:
+1. Translate each string in "strings" in order, producing one output per input string.
+2. Placeholders matching the regular expression \\[X\\d+X\\] must be preserved exactly (byte-identical). They may be reordered if required by target language grammar, but must not be modified, duplicated, or removed.
+3. If a string has a "translation" field, use it as the base. Correct errors and improve fluency/style, but stay close to its meaning. Do not re-translate from source unless the existing translation is fundamentally wrong.
+4. Apply glossary terms as written; inflect only when target language grammar requires it. Preserve original capitalization pattern unless the glossary specifies exact casing. Do not partially apply glossary entries.
+5. Preserve tone, register, formatting, whitespace, and line breaks.
+6. Do not add, omit, reinterpret, summarize, or expand content.
+7. Do not transliterate or explain translations.
+8.  Output must be entirely in the target_language except preserved placeholders.
+9. Output must be valid JSON.
+10. Output must be a single JSON array of strings.
+11. Do not include markdown code fences or any additional text.
+12. The number of output elements must exactly match the number of input strings.
+13. Ensure all output strings are properly JSON-escaped.
+14. Internally verify placeholder integrity and JSON validity before responding.
+
+Respond ONLY with a valid JSON array of strings, one per input string, in the same order:
+
+["translation 1", "translation 2", ...]
 """
 
 
@@ -70,65 +86,75 @@ class BaseLLMTranslation(BatchMachineTranslation):
     def is_supported(self, source_language, target_language) -> bool:
         return True
 
-    def format_prompt_part(self, name: Literal["style", "persona"]):
+    def format_prompt_part(self, name: Literal["style", "persona"]) -> str:
         text = self.settings[name]
         text = text.strip()
         if text and not text.endswith("."):
             text = f"{text}."
         return text
 
-    def translation_split(self, text: str) -> list[str]:
-        # Ignore extra whitespace in response as OpenAI can be creative in that
-        # (see https://github.com/WeblateOrg/weblate/issues/12456)
-        return SEPARATOR_RE.split(text)
-
-    def fetch_llm_translations(self, prompt: str, content: str) -> str | None:
+    def fetch_llm_translations(
+        self, prompt: str, content: str, previous_content: str, previous_response: str
+    ) -> str | None:
         raise NotImplementedError
 
-    def _get_prompt(
+    def _build_message(
         self,
         source_language: str,
         target_language: str,
-        texts: list[str],
-        units: list[Unit | None],
-        *,
-        rephrase: bool = False,
+        texts: list[dict[str, str]],
+        glossary: dict[str, str],
     ) -> str:
-        glossary = ""
+        result = {
+            "source_language": source_language,
+            "target_language": target_language,
+            "glossary": glossary,
+            "strings": texts,
+        }
+        return json.dumps(result)
 
-        if any(units):
-            fetch_glossary_terms([unit for unit in units if unit is not None])
-            glossary = render_glossary_units_tsv(
-                chain.from_iterable(
-                    get_glossary_terms(unit, include_variants=False)
-                    for unit in units
-                    if unit is not None
+    def _get_message(
+        self,
+        source_language: str,
+        target_language: str,
+        sources: list[tuple[str, Unit | None]],
+    ) -> str:
+        glossary: dict[str, str] = {}
+
+        units = [unit for _text, unit in sources if unit is not None]
+        if units:
+            fetch_glossary_terms(units)
+            glossary = dict(
+                get_glossary_tuples(
+                    chain.from_iterable(
+                        get_glossary_terms(unit, include_variants=False)
+                        for unit in units
+                    )
                 )
             )
-            if glossary:
-                glossary = GLOSSARY_PROMPT.format(glossary)
 
-        separator = ""
-        if rephrase:
-            separator = REPHRASE_PROMPT
-        elif len(units) > 1:
-            separator = SEPARATOR_PROMPT
+        inputs = []
 
-        placeables = ""
-        if any(self.replacement_start in text for text in texts):
-            placeables = PLACEABLES_PROMPT.format(
-                placeable_1=self.format_replacement(0, -1, "", None),
-                placeable_2=self.format_replacement(123, -1, "", None),
-            )
+        for text, unit in sources:
+            if (
+                unit is not None
+                and unit.translated
+                and not unit.readonly
+                and all(unit.get_target_plurals())
+            ):
+                # TODO: probably should use plural mapper here
+                inputs.append(
+                    {"source": text, "translation": unit.get_target_plurals()[0]}
+                )
+            else:
+                inputs.append({"source": text})
 
+        return self._build_message(source_language, target_language, inputs, glossary)
+
+    def _get_prompt(self) -> str:
         return PROMPT.format(
-            source_language=source_language,
-            target_language=target_language,
             persona=self.format_prompt_part("persona"),
             style=self.format_prompt_part("style"),
-            glossary=glossary,
-            separator=separator,
-            placeables=placeables,
         )
 
     def download_multiple_translations(
@@ -139,107 +165,61 @@ class BaseLLMTranslation(BatchMachineTranslation):
         user=None,
         threshold: int = 75,
     ) -> DownloadMultipleTranslations:
-        rephrase: list[tuple[str, Unit]] = []
-        texts: list[str] = []
-        units: list[Unit | None] = []
-
-        # Separate rephrasing and new translations
-        for text, unit in sources:
-            if (
-                unit is not None
-                and unit.translated
-                and not unit.readonly
-                and all(unit.get_target_plurals())
-            ):
-                rephrase.append((text, unit))
-            else:
-                texts.append(text)
-                units.append(unit)
-
-        # Collect results
         result: DownloadMultipleTranslations = defaultdict(list)
 
-        # Fetch rephrasing each string separately
-        if rephrase:
-            for text, unit in rephrase:
-                self._download(
-                    result,
-                    source_language,
-                    target_language,
-                    [text],
-                    [unit],
-                    rephrase=True,
-                )
+        prompt = self._get_prompt()
+        content = self._get_message(source_language, target_language, sources)
 
-        # Fetch translations in batch
-        if texts:
-            self._download(result, source_language, target_language, texts, units)
-
-        return result
-
-    @overload
-    def _download(
-        self,
-        result: DownloadMultipleTranslations,
-        source_language,
-        target_language,
-        texts: list[str],
-        units: list[Unit],
-        *,
-        rephrase: Literal[True],
-    ): ...
-
-    @overload
-    def _download(
-        self,
-        result: DownloadMultipleTranslations,
-        source_language,
-        target_language,
-        texts: list[str],
-        units: list[Unit | None],
-    ): ...
-
-    def _download(
-        self,
-        result: DownloadMultipleTranslations,
-        source_language,
-        target_language,
-        texts,
-        units,
-        *,
-        rephrase=False,
-    ):
-        prompt = self._get_prompt(
-            source_language, target_language, texts, units, rephrase=rephrase
+        # Build previous messages for better anchoring assistant responses
+        # TODO: This might use existing translations instead of hard-coded example
+        previous_content = self._build_message(
+            "en",
+            "cs",
+            [
+                {
+                    "source": f"Hello, {self.format_replacement(2, 2, '', None)}, how are you?"
+                },
+                {
+                    "source": f"{self.format_replacement(1, 12, '', None)} failing checks"
+                },
+                {"source": "Good morning"},
+            ],
+            {"Hello": "Nazdar"},
         )
-        content = SEPARATOR.join(texts if not rephrase else [*texts, units[0].target])
+        previous_response = json.dumps(
+            ["Nazdar [X2X], jak se máš?", "[X1X] selhavších kontrol", "Dobré ráno"],
+        )
         add_breadcrumb(self.name, "prompt", prompt=prompt)
         add_breadcrumb(self.name, "chat", content=content)
 
-        translations_string = self.fetch_llm_translations(prompt, content)
+        translations_string = self.fetch_llm_translations(
+            prompt, content, previous_content, previous_response
+        )
 
         add_breadcrumb(self.name, "response", translations_string=translations_string)
-        if translations_string is None:
-            self.report_error(
-                "Blank assistant reply",
-                extra_log=translations_string,
-                message=True,
-            )
+        if translations_string is None or not translations_string:
             msg = "Blank assistant reply"
+            self.report_error(msg, extra_log=translations_string, message=True)
             raise MachineTranslationError(msg)
 
-        translations = self.translation_split(translations_string)
-        if not rephrase and len(translations) != len(texts):
-            self.report_error(
-                "Failed to parse assistant reply",
-                extra_log=translations_string,
-                message=True,
-            )
-            msg = f"Could not parse assistant reply, expected={len(texts)}, received={len(translations)}"
+        try:
+            translations = json.loads(translations_string)
+        except json.JSONDecodeError as error:
+            msg = "Could not parse assistant reply as JSON."
+            self.report_error(msg, extra_log=translations_string)
+            raise MachineTranslationError(msg) from error
+
+        if (
+            not isinstance(translations, list)
+            or not all(isinstance(item, str) for item in translations)
+            or len(translations) != len(sources)
+        ):
+            msg = "Mismatching assistant reply."
+            self.report_error(msg, extra_log=translations_string, message=True)
             raise MachineTranslationError(msg)
 
         for index, translation in enumerate(translations):
-            text = texts[index if not rephrase else 0]
+            text = sources[index][0]
             result[text].append(
                 {
                     "text": translation,
@@ -248,3 +228,4 @@ class BaseLLMTranslation(BatchMachineTranslation):
                     "source": text,
                 }
             )
+        return result

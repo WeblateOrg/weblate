@@ -12,8 +12,8 @@ msgstr ""
 "Project-Id-Version: Weblate 5.16.1\n"
 "Report-Msgid-Bugs-To: https://github.com/WeblateOrg/weblate/issues\n"
 "POT-Creation-Date: 2026-02-16 14:59+0100\n"
-"PO-Revision-Date: 2026-02-17 15:10+0000\n"
-"Last-Translator: Romhányi-Kakucska Viktor <viktor@romhanyi.dev>\n"
+"PO-Revision-Date: 2026-02-25 21:10+0000\n"
+"Last-Translator: RViktor <rviktor@ivankapal.com>\n"
 "Language-Team: Hungarian <https://hosted.weblate.org/projects/weblate/"
 "documentation/hu/>\n"
 "Language: hu\n"
@@ -361,7 +361,7 @@ msgstr "Csapatadminisztrátorok hozzáadva, akik kezelhetik a csapat tagjait."
 
 #: ../../admin/access.rst:160
 msgid "This is useful in case you want to build self-governed teams."
-msgstr ""
+msgstr "Ez akkor hasznos, ha önállóan működő csapatokat szeretne létrehozni."
 
 #: ../../admin/access.rst:165
 msgid "Inviting new users"
@@ -398,7 +398,6 @@ msgstr ""
 "Ha a meghívott felhasználó meghívója lejárt, új meghívót kell létrehozni."
 
 #: ../../admin/access.rst:181
-#, fuzzy
 msgid ""
 "The same kind of invitations are available site-wide from "
 "the :ref:`management interface <management-interface>` on "
@@ -445,7 +444,6 @@ msgstr ""
 "hozzáféréseket <manage-acl>`."
 
 #: ../../admin/access.rst:206
-#, fuzzy
 msgid ""
 "By default this prevents Weblate from granting access provided by `Users` "
 "and `Viewers` :ref:`default teams <default-teams>` due to these teams’ own "
@@ -456,12 +454,11 @@ msgid ""
 msgstr ""
 "Alapértelmezés szerint ez megakadályozza, hogy a Weblate hozzáférést adjon a "
 "`Felhasználók` és `Megtekintők` :ref:`alapértelmezett csapatokon <default-"
-"teams>` keresztül, mivel ezek a csapatok saját beállításokkal rendelkeznek. "
-"Ez azonban nem akadályozza meg abban, hogy webhelyszinten adjon "
-"jogosultságot ezekhez a projektekhez az alapértelmezett csapatok "
-"módosításával, új csapat létrehozásával vagy egyedi beállítások "
-"alkalmazásával az egyes összetevőknél, ahogy azt az :ref:`custom-acl` rész "
-"ismerteti."
+"teams>` keresztül, ezeknek a csapatoknak a saját konfigurációja miatt. Ez "
+"azonban nem akadályozza meg abban, hogy webhelyszinten adjon jogosultságokat "
+"ezekhez a projektekhez az alapértelmezett csapatok módosításával, új csapat "
+"létrehozásával vagy egyedi beállítások alkalmazásával az egyes "
+"összetevőknél, ahogy az alábbiakban leírt :ref:`custom-acl` részben szerepel."
 
 #: ../../admin/access.rst:212
 msgid ""
@@ -545,26 +542,23 @@ msgid "Site-wide permission management"
 msgstr "Webhelyszintű jogosultságkezelés"
 
 #: ../../admin/access.rst:258
-#, fuzzy
 msgid ""
 "To manage permissions for a whole instance at once, add users to "
 "appropriate :ref:`default teams <default-teams>`:"
 msgstr ""
-"Ha egy teljes példány jogosultságait kívánja egyszerre kezelni, adjon "
-"felhasználókat a megfelelő :ref:`alapértelmezett csapatokhoz <default-"
-"teams>`:"
+"Egy teljes példány jogosultságainak egyszerre történő kezeléséhez adjon "
+"felhasználókat a megfelelő :ref:`alapértelmezett csapatokhoz <default-teams>"
+"`:"
 
 #: ../../admin/access.rst:261
-#, fuzzy
 msgid ""
 "`Users` (this is done by default by the :ref:`automatic team assignment "
 "<autoteam>`)."
 msgstr ""
-"`Felhasználók` (ez alapértelmezés szerint történik a :ref:`automatikus "
-"csapathozzárendelés <autoteam>` révén)."
+"`Felhasználók` (ez alapértelmezés szerint az :ref:`automatikus csapat-"
+"hozzárendelés <autoteam>` által történik)."
 
 #: ../../admin/access.rst:263
-#, fuzzy
 msgid ""
 "`Reviewers` (if you are using :ref:`review workflow <reviews>` with "
 "dedicated reviewers)."
@@ -872,7 +866,6 @@ msgstr ""
 "A :guilabel:`Projektek` mező ilyenkor figyelmen kívül marad."
 
 #: ../../admin/access.rst:401
-#, fuzzy
 msgid ""
 "Otherwise, if the team specifies any :guilabel:`Projects`, either by "
 "directly listing them or by having :guilabel:`Projects selection` set to a "
@@ -880,12 +873,12 @@ msgid ""
 "applied to all the projects, which effectively grants the same permissions "
 "to access all projects :ref:`unrestricted components <component-restricted>`."
 msgstr ""
-"Egyébként, ha a csapat megad bármilyen :guilabel:`Projektet`, akár közvetlen "
-"felsorolással, akár úgy, hogy a :guilabel:`Projekt kiválasztás` mező egy "
-"értékre van állítva, például: :guilabel:`Minden nyilvános projekt`, akkor "
-"minden megadott jogosultság alkalmazásra kerül az összes ilyen projektre, "
-"ami ténylegesen ugyanazt a jogosultságot adja minden :ref:`korlátozás "
-"nélküli összetevőhöz <component-restricted>`."
+"Egyébként, ha a csapat bármilyen :guilabel:`Projektet` meghatároz, akár "
+"közvetlen felsorolással, akár úgy, hogy a :guilabel:`Projektválasztás` olyan "
+"értékre van állítva, mint a :guilabel:`Minden nyilvános projekt`, akkor "
+"minden ilyen jogosultság az összes projektre érvényesül, ami gyakorlatilag "
+"ugyanazokat a jogosultságokat adja az összes projekt :ref:`korlátozás "
+"nélküli összetevőihez <component-restricted>`."
 
 #: ../../admin/access.rst:407
 msgid ""
@@ -1012,16 +1005,15 @@ msgstr ""
 "lehet valósítani egy olyan kifejezéssel, mint például ``^.*@mycompany.com``."
 
 #: ../../admin/access.rst:463
-#, fuzzy
 msgid ""
 "Automatic team assignment to `Users` and `Viewers` is always recreated when "
 "upgrading from one Weblate version to another. If you want to turn it off, "
 "set the regular expression to ``^$`` (which won’t match anything)."
 msgstr ""
 "A `Felhasználók` és `Megtekintők` automatikus csapat-hozzárendelése minden "
-"Weblate-frissítéskor automatikusan újra létrejön. Ha ezt szeretné letiltani, "
-"állítsa a reguláris kifejezést `^$` értékre (így nem fog egyezni egyetlen "
-"felhasználóval sem)."
+"Weblate-verzióról másikra történő frissítéskor mindig újra létrejön. Ha "
+"szeretné kikapcsolni, állítsa a reguláris kifejezést ``^$`` értékre (ami "
+"semmivel sem fog egyezni)."
 
 #: ../../admin/access.rst:469
 msgid ""
@@ -1919,13 +1911,12 @@ msgstr ""
 "a csapatnak."
 
 #: ../../admin/access.rst:517 ../../admin/access.rst:525
-#, fuzzy
 msgid ""
 "By default, :ref:`automatic team assignment <autoteam>` makes all new "
 "accounts members of this team when they join."
 msgstr ""
-"Alapértelmezés szerint a :ref:`automatikus csapat-hozzárendelés <autoteam>` "
-"révén minden újonnan létrehozott fiók tagja lesz ennek a csapatnak."
+"Alapértelmezés szerint az :ref:`automatikus csapat-hozzárendelés <autoteam>` "
+"minden új fiókot ennek a csapatnak a tagjává tesz, amikor csatlakoznak."
 
 #: ../../admin/access.rst:520
 msgid "Default roles: none"
@@ -2029,13 +2020,15 @@ msgid ""
 "make all newly created projects private, requiring explicit access to be "
 "granted."
 msgstr ""
+"Ezenkívül a :setting:`DEFAULT_ACCESS_CONTROL` értékének ``100``-ra "
+"változtatása minden újonnan létrehozott projektet személyessé tesz, így "
+"azokhoz kifejezett hozzáférési engedély szükséges."
 
 #: ../../admin/access.rst:568
-#, fuzzy
 msgid "You can use built-in :ref:`invite-user` to add new users."
 msgstr ""
-"Beépített :ref:`felhasználó meghívása <invite-user>` funkcióval adhat hozzá "
-"új felhasználókat."
+"Használhatja a beépített :ref:`invite-user` funkciót új felhasználók "
+"hozzáadásához."
 
 #: ../../admin/access.rst:573
 #, fuzzy
@@ -2049,6 +2042,9 @@ msgid ""
 "be automatically disabled. This is used for :ref:`project-api`, but can be "
 "utilized for regular users as well."
 msgstr ""
+"Minden fiókhoz lejárati idő állítható be. A lejárat után a fiók "
+"automatikusan letiltásra kerül. Ez a :ref:`project-api` esetében "
+"használatos, de a normál felhasználók számára is igénybe vehető."
 
 #: ../../admin/addons.rst:7 ../../api.rst:2554
 msgid "Add-ons"
@@ -2876,13 +2872,15 @@ msgstr ""
 
 #: ../../admin/addons.rst:431
 msgid "Excluding certain matches"
-msgstr ""
+msgstr "Bizonyos egyezések kizárása"
 
 #: ../../admin/addons.rst:433
 msgid ""
 "Negative lookahead can be used to exclude certain patterns from being "
 "processed."
 msgstr ""
+"A negatív előretekintés használható bizonyos minták feldolgozásból való "
+"kizárására."
 
 #: ../../admin/addons.rst:440
 #, fuzzy
@@ -2923,6 +2921,8 @@ msgid ""
 "Ensure the new component contains the full set of translatable languages "
 "with :ref:`addon-weblate.consistency.languages`."
 msgstr ""
+"Biztosítsa, hogy az új összetevő tartalmazza a fordítható nyelvek teljes "
+"készletét a :ref:`addon-weblate.consistency.languages` segítségével."
 
 #: ../../admin/addons.rst:465
 msgid ""
@@ -2931,6 +2931,11 @@ msgid ""
 "``match`` -- i.e., the component must contain a base language file and at "
 "least one existing translation. Otherwise, it will be ignored."
 msgstr ""
+"A felfedezhetőség érdekében egy új összetevőnek tartalmaznia kell egy fájlt, "
+"amely megfelel a ``base_file_template`` **és** legalább egy fájlt, amelynek "
+"neve megfelel a ``match``-nek – azaz az összetevőnek tartalmaznia kell egy "
+"alapnyelvi fájlt és legalább egy meglévő fordítást. Ellenkező esetben "
+"figyelmen kívül lesz hagyva."
 
 #: ../../admin/addons.rst:479
 msgid "Fedora Messaging"
@@ -3009,6 +3014,10 @@ msgid ""
 "with underscores instead of space, for example ``resource_update``, all "
 "other parts are optional and represent slug of the object or a language code."
 msgstr ""
+"Minden üzenet tárgya ``weblate.<action>.<project>.<component>.<translation>"
+"``. A művelet kisbetűs szöveges ábrázolása, szóköz helyett aláhúzással, "
+"például ``resource_update``, az összes többi rész opcionális, és az objektum "
+"URL-azonosítóját (slug) vagy a nyelvi kódot jelenti."
 
 #: ../../admin/addons.rst:514
 #, fuzzy
@@ -3021,6 +3030,8 @@ msgid ""
 "The body consists of following fields (given that they are available for the "
 "event):"
 msgstr ""
+"A törzs a következő mezőkből áll (feltéve, hogy azok az eseményhez "
+"rendelkezésre állnak):"
 
 #: ../../admin/addons.rst:519
 msgid "Numerical ID of change"
@@ -3099,6 +3110,7 @@ msgstr "Válaszfejlécek"
 msgid ""
 "There are additional headers which you might utilize for routing as well:"
 msgstr ""
+"Léteznek további fejlécek, amelyeket szintén felhasználhat az útválasztáshoz:"
 
 #: ../../admin/addons.rst:556
 #, fuzzy
@@ -3253,14 +3265,13 @@ msgstr ""
 "forrásszövegeket is tartalmazzák a lefordítatlan szövegek esetében."
 
 #: ../../admin/addons.rst:756
-#, fuzzy
 msgid ""
 "You might also want to tighthen the :ref:`check-same` check by adding "
 "``strict-same`` flag to :ref:`component-check_flags`."
 msgstr ""
-"Érdemes lehet szigorítani a :ref:`check-same` beállítását azzal, hogy "
-"hozzáadja a ``strict-same`` jelzőt az :ref:`összetevő-ellenőrzési jelzőkhöz "
-"<component-check_flags>`."
+"Érdemes lehet szigorítani a :ref:`check-same` ellenőrzést azzal, hogy "
+"hozzáadja a ``strict-same`` jelzőt az :ref:`component-check_flags` "
+"beállításhoz."
 
 #: ../../admin/addons.rst:766
 msgid "Flag new source strings as \"Needs checking\""
@@ -3356,13 +3367,12 @@ msgstr ""
 "állapotáról."
 
 #: ../../admin/addons.rst:842
-#, fuzzy
 msgid ""
 "You can use a Django template in both filename and content, "
 "see :ref:`markup` for a detailed markup description."
 msgstr ""
 "A fájlnévben és a tartalomban is használhat Django-sablont, a részletes "
-"sablonjelölések leírását lásd: :ref:`jelölőnyelv <markup>`."
+"jelölőnyelvi leírást lásd: :ref:`jelölőnyelv <markup>`."
 
 #: ../../admin/addons.rst:845
 msgid "For example generating a summary file for each translation:"
@@ -3626,6 +3636,8 @@ msgid ""
 ":guilabel:`Settings` configuration has been moved "
 "to :ref:`file_format_params`."
 msgstr ""
+"A :guilabel:`Beállítások` konfiguráció átkerült ide: "
+":ref:`file_format_params`."
 
 #: ../../admin/addons.rst:1040
 #, fuzzy
@@ -3645,6 +3657,11 @@ msgid ""
 "When the POT file is updated in the repository, this add-on automatically "
 "merges those changes into all language PO files, ensuring that:"
 msgstr ""
+"Ez a kiegészítő elengedhetetlen a gettext PO-fájlok kezelésekor, amikor a "
+"POT (sablon) fájl új szövegekkel vagy a meglévő szövegek módosításával "
+"frissül. Amikor a POT fájl frissül a tárolóban, ez a kiegészítő "
+"automatikusan összevonja ezeket a módosításokat az összes nyelvi PO fájlba, "
+"biztosítva, hogy:"
 
 #: ../../admin/addons.rst:1048
 #, fuzzy
@@ -3661,6 +3678,8 @@ msgstr "A kötelező mezők félkövér betűkkel vannak jelölve."
 #: ../../admin/addons.rst:1050
 msgid "Modified strings are marked as needing review (fuzzy)"
 msgstr ""
+"A módosított szövegek felülvizsgálatra szorulóként vannak megjelölve "
+"(ellenőrizendő)"
 
 #: ../../admin/addons.rst:1052
 #, fuzzy
@@ -3742,6 +3761,9 @@ msgid ""
 "To avoid unnecessary conflicts, it is recommended to configure automatic "
 "receiving of upstream changes by webhooks or API, see :ref:`update-vcs`."
 msgstr ""
+"A felesleges konfliktusok elkerülése érdekében ajánlott beállítani a felsőbb "
+"rétegű változások automatikus fogadását webhookok vagy API segítségével, "
+"lásd: :ref:`update-vcs`."
 
 #: ../../admin/addons.rst:1092
 msgid ""
@@ -3943,6 +3965,8 @@ msgstr "Webhook"
 msgid ""
 "Compliance of the secret length with the specification is now validated."
 msgstr ""
+"A titok hosszúságának a specifikációval való megfelelése most már "
+"ellenőrizve van."
 
 #: ../../admin/addons.rst:1237
 msgid "Webhook secret"
@@ -3994,6 +4018,9 @@ msgid ""
 "bits) and 64 bytes (512 bits). It can be prefixed with ``whsec_`` for easy "
 "identification."
 msgstr ""
+"A megadott ``secret`` egy base64 kódolású karakterlánc, amely 24 bájt (192 "
+"bit) és 64 bájt (512 bit) közötti. Az egyszerű azonosítás érdekében "
+"``whsec_`` előtaggal látható el."
 
 #: ../../admin/addons.rst:1306
 msgid ""
@@ -4681,7 +4708,7 @@ msgstr "Excel Open XML"
 
 #: ../../admin/addons.rst:1514
 msgid "XWiki Full Page"
-msgstr ""
+msgstr "XWiki teljes oldal"
 
 #: ../../admin/addons.rst:1516
 #, fuzzy
@@ -5088,7 +5115,6 @@ msgstr ""
 "projekteket lehet kezelni, lásd: :ref:`project` és :ref:`component`."
 
 #: ../../admin/admin.rst:96
-#, fuzzy
 msgid ""
 ":guilabel:`Weblate languages` holds language definitions, explained further "
 "in :ref:`languages`."
@@ -11201,12 +11227,11 @@ msgid "A file download is requested."
 msgstr "Fájlletöltés történik."
 
 #: ../../admin/continuous.rst:534
-#, fuzzy
 msgid ""
 "Change is older than period defined as :ref:`component-commit_pending_age` "
 "on :ref:`component`."
 msgstr ""
-"A változás régebbi, mint az :ref:`összetevő <component>` beállításnál "
+"A változás régebbi, mint az :ref:`összetevő <component>` beállításánál "
 "megadott :ref:`component-commit_pending_age` időszak."
 
 #: ../../admin/continuous.rst:538
@@ -11421,17 +11446,16 @@ msgstr ""
 "könyvtárában, amely szintén hozzá van adva az értelmező keresési útvonalához."
 
 #: ../../admin/customize.rst:40
-#, fuzzy
 msgid ""
 "When :ref:`using Docker <docker-deploy>`, you can place Python modules "
 "in :file:`/app/data/python/` (see :ref:`docker-volume`), so they can be "
 "loaded by Weblate, for example from a :ref:`settings override file <docker-"
 "settings-override>`."
 msgstr ""
-":ref:`Docker használata <docker-deploy>` esetén Python modulokat a :file:`/"
-"app/data/python/` könyvtárba is helyezhet (lásd: :ref:`docker-volume`), így "
-"ezek betölthetők a Weblate által, például egy :ref:`beállítás felülírási "
-"fájl <docker-settings-override>` segítségével."
+":ref:`Docker használata <docker-deploy>` esetén Python modulokat helyezhet "
+"el a :file:`/app/data/python/` könyvtárban (lásd: :ref:`docker-volume`), így "
+"azok betölthetők a Weblate által, például egy :ref:`beállítás-felülírási "
+"fájlból <docker-settings-override>`."
 
 #: ../../admin/customize.rst:45
 msgid "Better yet, turn your customization into a proper Python package:"
@@ -12101,8 +12125,8 @@ msgstr ""
 "Bizonyos :ref:`python-deps` összetevők fordításához szükség lehet azok "
 "függőségeinek telepítésére. Ez attól függ, hogyan történik a telepítés, "
 "ezért olvassa el az egyes csomagok dokumentációját. Ha előre elkészített "
-"`Wheels` fájlokat használ pip telepítéskor vagy ha disztribúciós csomagokat "
-"alkalmaz, akkor ezekre nem lesz szükség."
+"``Wheels`` fájlokat használ pip telepítéskor vagy ha disztribúciós "
+"csomagokat alkalmaz, akkor ezekre nem lesz szükség."
 
 #: ../../admin/install.rst:353
 msgid "Pango and Cairo"
@@ -13934,7 +13958,6 @@ msgstr ""
 "Egy tipikus beállítás, amely Redis háttérrendszert használ, így néz ki:"
 
 #: ../../admin/install.rst:1700
-#, fuzzy
 msgid ""
 ":ref:`Redis broker configuration in Celery <celery:broker-redis-"
 "configuration>`"
@@ -14902,13 +14925,12 @@ msgid "Docker environment variables"
 msgstr "Docker környezeti változók"
 
 #: ../../admin/install/docker.rst:431
-#, fuzzy
 msgid ""
 "Many of Weblate's :ref:`config` can be set in the Docker container using the "
 "environment variables described below."
 msgstr ""
-"A Weblate számos :ref:`beállítása <config>` megadható Docker-konténeren "
-"belül, az alábbiakban ismertetett környezeti változók segítségével."
+"A Weblate számos :ref:`konfigurációs beállítása <config>` megadható a Docker-"
+"konténerben az alább ismertetett környezeti változók használatával."
 
 #: ../../admin/install/docker.rst:434
 msgid ""
@@ -16281,15 +16303,14 @@ msgstr ""
 "és :envvar:`WEB_WORKERS`. Ezekkel a beállításokkal testreszabás végezhető."
 
 #: ../../admin/install/docker.rst:2009
-#, fuzzy
 msgid ""
 "These variables allow you to adjust Celery worker options. It can be useful "
 "to adjust concurrency (``--concurrency 16``) or use different pool "
 "implementation (``--pool=gevent``)."
 msgstr ""
 "E változók segítségével a Celery munkafolyamatok beállításai módosíthatók. "
-"Például a párhuzamosság (`--concurrency 16`) vagy a feldolgozó háttér (pl. "
-"`--pool=gevent`)."
+"Hasznos lehet a párhuzamosság beállítása (``--concurrency 16``) vagy eltérő "
+"feldolgozó háttér alkalmazása (``--pool=gevent``)."
 
 #: ../../admin/install/docker.rst:2013
 msgid ""
@@ -16523,54 +16544,50 @@ msgid "Configuration beyond environment variables"
 msgstr "Konfiguráció a környezeti változókon túl"
 
 #: ../../admin/install/docker.rst:2169
-#, fuzzy
 msgid ""
 ":ref:`Docker environment variables <docker-environment>` are intended to "
 "expose most :ref:`configuration settings <config>` of relevance for Weblate "
 "installations."
 msgstr ""
 "A :ref:`Docker környezeti változók <docker-environment>` célja, hogy "
-"elérhetővé tegyék a Weblate telepítéséhez szükséges "
-"legfontosabb :ref:`konfigurációs beállításokat <config>`."
+"elérhetővé tegyék a Weblate telepítések szempontjából releváns "
+":ref:`konfigurációs beállítások <config>` többségét."
 
 #: ../../admin/install/docker.rst:2173
-#, fuzzy
 msgid ""
 "If you find a setting that is not exposed as an environment variable, and "
 "you believe that it should be, feel free to :ref:`ask for it to be exposed "
 "in a future version of Weblate <report-issue>`."
 msgstr ""
-"Ha olyan beállítást talál, amely nem érhető el környezeti változóként, de "
-"indokoltnak látja annak kiterjesztését, :ref:`jelezheti a fejlesztők felé "
-"<report-issue>`."
+"Ha olyan beállítást talál, amely nincs kitéve környezeti változóként, és úgy "
+"gondolja, hogy annak kellene lennie, nyugodtan :ref:`kérje annak kitételét a "
+"Weblate egy jövőbeli verziójában <report-issue>`."
 
 #: ../../admin/install/docker.rst:2177
-#, fuzzy
 msgid ""
 "If you need to modify a setting that is not exposed as a Docker environment "
 "variable, you can still do so, either :ref:`from the data volume <docker-"
 "settings-override>` or :ref:`extending the Docker image <docker-custom-"
 "settings>`."
 msgstr ""
-"Az ilyen beállítások ettől függetlenül módosíthatók, akár a :ref:`adat "
-"kötetből <docker-settings-override>`, akár :ref:`Docker image "
-"kiterjesztésével <docker-custom-settings>`."
+"Ha olyan beállítást kell módosítania, amely nincs kitéve Docker környezeti "
+"változóként, azt még mindig megteheti, akár :ref:`az adatkötetből <docker-"
+"settings-override>`, akár :ref:`a Docker image kiterjesztésével <docker-"
+"custom-settings>`."
 
 #: ../../admin/install/docker.rst:2189
 msgid "Overriding settings from the data volume"
 msgstr "Beállítások felülírása a adat kötetből"
 
 #: ../../admin/install/docker.rst:2191
-#, fuzzy
 msgid ""
 "You can create a file at :file:`/app/data/settings-override.py`, i.e. at the "
 "root of the :ref:`data volume <docker-volume>`, to extend or override "
 "settings defined through environment variables."
 msgstr ""
-"Hozzon létre egy fájlt a következő helyen: :file:`/app/data/settings-"
-"override.py` (az :ref:`adat kötet <docker-volume>` gyökerében), ha a "
-"környezeti változókon keresztül definiált beállításokat szeretné "
-"kiegészíteni vagy felülírni."
+"Létrehozhat egy fájlt a :file:`/app/data/settings-override.py` helyen, azaz "
+"az :ref:`adatkötet <docker-volume>` gyökerében, hogy kiterjessze vagy "
+"felülírja a környezeti változókon keresztül definiált beállításokat."
 
 #: ../../admin/install/docker.rst:2199
 msgid "Overriding settings by extending the Docker image"
@@ -16585,9 +16602,8 @@ msgstr ""
 "testreszabhatjuk:"
 
 #: ../../admin/install/docker.rst:2203
-#, fuzzy
 msgid ":ref:`Create a custom Python package <custom-module>`."
-msgstr ":ref:`Saját Python-csomag létrehozása <custom-module>`."
+msgstr ":ref:`Egyéni Python-csomag létrehozása <custom-module>`."
 
 #: ../../admin/install/docker.rst:2205
 msgid ""
@@ -16598,15 +16614,14 @@ msgstr ""
 "a ``weblate.settings_docker`` modulból."
 
 #: ../../admin/install/docker.rst:2208
-#, fuzzy
 msgid ""
 "For example, within the example package structure defined at :ref:`custom-"
 "module`, you could create a file at ``weblate_customization/"
 "weblate_customization/settings.py`` with the following initial code:"
 msgstr ""
-"Például az :ref:`egyéni modul <custom-module>` részben bemutatott "
-"példastruktúrán belül létrehozhat egy fájlt a ``weblate_customization/"
-"weblate_customization/settings.py`` útvonalon a következő kezdőkóddal:"
+"Például a :ref:`custom-module` részben meghatározott példa csomagstruktúrán "
+"belül létrehozhat egy fájlt a ``weblate_customization/weblate_customization/"
+"settings.py`` helyen a következő kezdeti kóddal:"
 
 #: ../../admin/install/docker.rst:2217
 msgid ""
@@ -18015,13 +18030,12 @@ msgstr ""
 "mindig ellenőrizze, hogy jogosult-e az adott módon történő használatra."
 
 #: ../../admin/machine.rst:22
-#, fuzzy
 msgid ""
 "The services translate from the source language as configured "
 "at :ref:`component`, see :ref:`component-source_language`."
 msgstr ""
-"A fordítások mindig az adott :ref:`összetevő <component>` forrásnyelvéről "
-"történnek, lásd: :ref:`component-source_language`."
+"A szolgáltatások az :ref:`összetevő <component>` szintjén beállított "
+"forrásnyelvről fordítanak, lásd: :ref:`component-source_language`."
 
 #: ../../admin/machine.rst:25
 #, fuzzy
@@ -19812,7 +19826,6 @@ msgstr ""
 "<component>` konfigurált érték kerül felhasználásra."
 
 #: ../../admin/management.rst:254
-#, fuzzy
 msgid ""
 "This is automatically performed in the background by Weblate, so there no "
 "real need to invoke this manually, besides forcing an earlier commit than "
@@ -20473,7 +20486,6 @@ msgid "Force commits any pending changes, prior to pushing."
 msgstr "Bármely függőben lévő módosítás véglegesítése a feltöltés előtt."
 
 #: ../../admin/management.rst:909
-#, fuzzy
 msgid ""
 "Weblate pushes changes automatically if :ref:`component-push_on_commit` "
 "in :ref:`component` is turned on, which is the default."
@@ -20916,7 +20928,6 @@ msgid "Usage"
 msgstr "Használat"
 
 #: ../../admin/optionals.rst:39
-#, fuzzy
 msgid ""
 "The module automatically hooks into Weblate and sets the exported repository "
 "URL in the :ref:`component`. The repositories are accessible under the ``/"
@@ -20924,9 +20935,9 @@ msgid ""
 "weblate/main/``."
 msgstr ""
 "A modul automatikusan bekapcsolódik a Weblate működésébe, és beállítja az "
-"exportált tároló URL-jét az adott :ref:`összetevő <component>` alatt. A "
-"tárolók a Weblate URL-jének ``/git/`` útvonalán keresztül érhetők el, "
-"például: ``https://example.org/git/weblate/main/``."
+"exportált tároló URL-jét az adott :ref:`összetevő <component>` "
+"beállításainál. A tárolók a Weblate URL-jének ``/git/`` útvonalán keresztül "
+"érhetők el, például: ``https://example.org/git/weblate/main/``."
 
 #: ../../admin/optionals.rst:44
 msgid ""
@@ -21403,7 +21414,6 @@ msgstr ""
 "fordítandó fájlok maszkját."
 
 #: ../../admin/projects.rst:22
-#, fuzzy
 msgid ""
 "Above :ref:`component` there are individual translations, handled "
 "automatically by Weblate as translation files (which match :ref:`component-"
@@ -21412,7 +21422,7 @@ msgstr ""
 "Az :ref:`összetevő <component>` fölött egyedi fordítások találhatók, "
 "amelyeket a Weblate automatikusan kezel fordítási fájlként, amint azok "
 "megjelennek a VCS-tárolóban, és megfelelnek az :ref:`összetevő <component>` "
-"alatt megadott :ref:`component-filemask` beállításnak."
+"beállításánál megadott :ref:`component-filemask` szabálynak."
 
 #: ../../admin/projects.rst:25
 msgid ""
@@ -21524,14 +21534,13 @@ msgid "Upload translations files"
 msgstr "Fordítási fájlok feltöltése"
 
 #: ../../admin/projects.rst:75
-#, fuzzy
 msgid ""
 "Upload translation files to Weblate in case you do not have version control "
 "or do not want to integrate it with Weblate. You can later update the "
 "content using the web interface or :ref:`api`."
 msgstr ""
 "Ha nincs verziókezelő rendszere vagy nem kívánja azt a Weblate-hez "
-"integrálni, feltöltheti a fordítási fájlokat közvetlenül Weblate-be. A "
+"integrálni, töltse fel a fordítási fájlokat közvetlenül a Weblate-be. A "
 "tartalmat később a webes felületen vagy a :ref:`REST API <api>` segítségével "
 "frissítheti."
 
@@ -23809,7 +23818,6 @@ msgstr ""
 "küszöbértéket (a javaslattevő szavazata is beleszámít, ha leadja)."
 
 #: ../../admin/translating.rst:18
-#, fuzzy
 msgid ""
 "Once automatic acceptance is set up, normal users lose the privilege to "
 "directly save translations or accept suggestions. This can be overridden "
@@ -23822,13 +23830,12 @@ msgstr ""
 "javaslatkezelés esetén` :ref:`jogosultsággal <privileges>`."
 
 #: ../../admin/translating.rst:23
-#, fuzzy
 msgid ""
 "You can combine these with :ref:`access control <access-control>` into one "
 "of the following setups:"
 msgstr ""
-"Ez kombinálható a :ref:`hozzáférés-vezérléssel <access-control>` az alábbi "
-"beállítások egyikeként:"
+"Ezeket kombinálhatja a :ref:`hozzáférés-vezérléssel <access-control>` az "
+"alábbi beállítások egyikeként:"
 
 #: ../../admin/translating.rst:26
 #, fuzzy
@@ -23939,15 +23946,14 @@ msgid "This can be used to order the flow of translation in a logical manner."
 msgstr "Ez logikusabb fordítási sorrendet tesz lehetővé."
 
 #: ../../admin/translating.rst:89
-#, fuzzy
 msgid ""
 "The string flags are also inherited from the :ref:`component-check_flags` "
 "at :ref:`component` and flags from the translation file (see :doc:`/"
 "formats`)."
 msgstr ""
-"A szövegjelzők öröklődnek a :ref:`component-check_flags` beállításból "
-"az :ref:`összetevőszinten <component>`, valamint a fordítási fájlban "
-"megadott jelzőkből is (lásd: :doc:`/formats`)."
+"A szövegjelzők öröklődnek az :ref:`összetevő <component>` szintjén található "
+":ref:`component-check_flags` beállításból, valamint a fordítási fájl "
+"jelzőiből is (lásd: :doc:`/formats`)."
 
 #: ../../admin/translating.rst:101 ../../formats.rst:411
 #: ../../user/translating.rst:308
@@ -24992,14 +24998,12 @@ msgid "Group of languages selected from given options"
 msgstr "Nyelvválasztási lehetőségek a csoport számára"
 
 #: ../../api.rst:513 ../../api.rst:529
-#, fuzzy
 msgid ""
 "link to the defining project, used for :ref:`manage-acl`; see :http:get:`/"
 "api/projects/(string:project)/`"
 msgstr ""
-"A meghatározó projektre mutató hivatkozás, amely a :ref:`hozzáférés-vezérlés "
-"kezelésére <manage-acl>` szolgál; lásd: :http:get:`/api/projects/"
-"(string:project)/`"
+"hivatkozás a meghatározó projektre, amely a :ref:`manage-acl` esetében "
+"használatos; lásd: :http:get:`/api/projects/(string:project)/`"
 
 #: ../../api.rst:518
 msgid "Returns information about the group."
@@ -39860,11 +39864,10 @@ msgid "Added language-wide search."
 msgstr "Teljes nyelvre kiterjedő keresés hozzáadva."
 
 #: ../../changes/v4.rst:763
-#, fuzzy
 msgid "Initial support for :ref:`docker-scaling` the Docker deployment."
 msgstr ""
-"Elsődleges támogatás a Docker-telepítés :ref:`Vízszintes skálázásához "
-"<docker-scaling>`."
+"Kezdeti támogatás a Docker-telepítés :ref:`vízszintes skálázásához <docker-"
+"scaling>`."
 
 #: ../../changes/v4.rst:765
 msgid ""
@@ -41319,7 +41322,6 @@ msgstr ""
 "teszi a korlátozás állapotának jelentését az API-n keresztül."
 
 #: ../../changes/v4.rst:1179
-#, fuzzy
 msgid ""
 "The ``MT_DEEPL_API_VERSION`` setting has been removed in Version 4.7. "
 "The :ref:`mt-deepl` machine translation now uses the new "
@@ -41328,8 +41330,8 @@ msgid ""
 msgstr ""
 "A ``MT_DEEPL_API_VERSION`` beállítás a 4.7-es verzióban eltávolításra "
 "került. A :ref:`mt-deepl` gépi fordítás mostantól az új ``MT_DEEPL_API_URL`` "
-"beállítást használja. Előfordulhat, hogy ehhez igazítani kell a beállítást "
-"az előfizetésnek megfelelően."
+"beállítást használja helyette. Előfordulhat, hogy a ``MT_DEEPL_API_URL`` "
+"beállítást igazítania kell az előfizetésének megfelelően."
 
 #: ../../changes/v4.rst:1182
 msgid "Weblate 4.0.4"
@@ -41623,15 +41625,14 @@ msgid "Project goals"
 msgstr "A projekt céljai"
 
 #: ../../contributing/about.rst:7
-#, fuzzy
 msgid ""
 "Web-based continuous localization tool with tight :ref:`vcs` supporting a "
 "wide range of :ref:`file formats <formats>`, making it easy for translators "
 "to contribute."
 msgstr ""
-"Webalapú, folyamatos lokalizációs eszköz, amely szorosan integrálódik "
-"a :ref:`vcs` rendszerrel, és számos :ref:`fájlformátumot <formats>` támogat, "
-"megkönnyítve ezzel a fordítók számára a közreműködést."
+"Webalapú folyamatos lokalizációs eszköz szoros :ref:`vcs` integrációval, "
+"amely széles körű :ref:`fájlformátum-támogatást <formats>` nyújt, "
+"megkönnyítve ezzel a fordítók közreműködését."
 
 #: ../../contributing/about.rst:13
 msgid "\"Weblate\" is a portmanteau of the words \"web\" and \"translate\"."
@@ -41688,7 +41689,6 @@ msgid "Developing add-ons"
 msgstr "Kiegészítők fejlesztése"
 
 #: ../../contributing/addons.rst:4
-#, fuzzy
 msgid ":ref:`addons` are way to customize localization workflow in Weblate."
 msgstr ""
 "A :ref:`kiegészítők <addons>` lehetőséget biztosítanak a lokalizációs "
@@ -42321,10 +42321,8 @@ msgid ""
 msgstr ""
 
 #: ../../contributing/code_of_conduct.rst:64
-#, fuzzy
-#| msgid "Warns?"
 msgid "Warning"
-msgstr "Figyelmeztet?"
+msgstr "Figyelmeztetés"
 
 #: ../../contributing/code_of_conduct.rst:66
 msgid "Event: A violation involving a single incident or series of incidents."
@@ -44748,7 +44746,6 @@ msgid "Misconfigured monolingual translation."
 msgstr "Hibásan beállított egynyelvű fordítás."
 
 #: ../../devel/alerts.rst:20
-#, fuzzy
 msgid "Broken :ref:`component`"
 msgstr "Sérült :ref:`összetevő <component>`"
 
@@ -44777,7 +44774,6 @@ msgid "Component seems unused"
 msgstr "Az összetevő úgy tűnik, hogy nincs használatban"
 
 #: ../../devel/alerts.rst:28
-#, fuzzy
 msgid ""
 "The alerts are updated daily, or on related change (for example "
 "when :ref:`component` is changed or when repository is updated)."
@@ -44978,16 +44974,14 @@ msgid "Sources"
 msgstr "Források"
 
 #: ../../devel/community.rst:49
-#, fuzzy
 msgid ""
 "Marina Sanchez-Torron and Philipp Koehn in Machine Translation Quality and "
 "Post-Editor Productivity, Figure 1: https://www.cs.jhu.edu/~phi/publications/"
 "machine-translation-quality.pdf"
 msgstr ""
-"Marina Sanchez-Torron és Philipp Koehn: *Machine Translation Quality and "
-"Post-Editor Productivity* (A gépi fordítás minősége és az utószerkesztő "
-"hatékonysága), 1. ábra: https://www.cs.jhu.edu/~phi/publications/machine-"
-"translation-quality.pdf"
+"Marina Sanchez-Torron és Philipp Koehn: Machine Translation Quality and Post-"
+"Editor Productivity, 1. ábra: https://www.cs.jhu.edu/~phi/publications/"
+"machine-translation-quality.pdf"
 
 #: ../../devel/community.rst:50
 msgid ""
@@ -45556,7 +45550,6 @@ msgstr ""
 "ágyazhatók."
 
 #: ../../snippets/basics.rst:17
-#, fuzzy
 msgid ""
 "Internally, each project has translations to common strings propagated "
 "across other components within it by default. This lightens the burden of "
@@ -45564,12 +45557,13 @@ msgid ""
 "disabled per :ref:`component` using :ref:`component-"
 "allow_translation_propagation` in case the translations should diverge."
 msgstr ""
-"A rendszerben minden projekt automatikusan megosztja a gyakori szövegek "
-"fordításait a projekt többi összetevője között. Ez csökkenti az ismétlődő és "
-"több verzióban előforduló szövegek fordításának terhét. A fordítások "
-"automatikus terjesztése összetevőnként letiltható az :ref:`összetevő "
-"<component>` esetében a :ref:`component-allow_translation_propagation` "
-"beállítással, ha a fordítások eltérhetnek egymástól."
+"A rendszerben minden projekt alapértelmezetten automatikusan megosztja a "
+"gyakori szövegek fordításait a projekt többi összetevője között. Ez "
+"csökkenti az ismétlődő és több verzióban előforduló szövegek fordításának "
+"terhét. A fordítások automatikus terjesztése összetevőnként letiltható az "
+":ref:`összetevő <component>` esetében a :ref:`component-"
+"allow_translation_propagation` beállítással, ha a fordítások eltérhetnek "
+"egymástól."
 
 #: ../../snippets/basics.rst:24
 msgid "Repository integration"
@@ -47467,14 +47461,13 @@ msgid "Localization libraries and packages"
 msgstr "Lokalizációs könyvtárak és csomagok"
 
 #: ../../devel/third-party.rst:4
-#, fuzzy
 msgid ""
 "Weblate can be integrated into your framework using :doc:`/api`. This page "
 "lists third-party libraries which integrate Weblate."
 msgstr ""
-"A Weblate integrálható a használt keretrendszerébe a :doc:`REST API </api>` "
-"használatával. Ez az oldal azokat a külső könyvtárakat sorolja fel, amelyek "
-"Weblate integrációt kínálnak."
+"A Weblate integrálható az Ön keretrendszerébe a :doc:`REST API </api>` "
+"használatával. Ez az oldal a Weblate-et integráló külső könyvtárakat sorolja "
+"fel."
 
 #: ../../devel/third-party.rst:7
 msgid ""
@@ -47592,17 +47585,16 @@ msgid "Adding new translations"
 msgstr "Új fordítások hozzáadása"
 
 #: ../../devel/translations.rst:30
-#, fuzzy
 msgid ""
 "New languages can be added right away when requested by a user in Weblate, "
 "or a notification will be sent to project admins for approval and manual "
 "addition. This can be done using :ref:`component-new_lang` "
 "in :ref:`component`."
 msgstr ""
-"Új nyelvek azonnal hozzáadhatók, ha egy felhasználó ezt kéri a Weblate-ben "
+"Új nyelvek azonnal hozzáadhatók, ha egy felhasználó ezt kéri a Weblate-ben, "
 "vagy értesítés megy a projekt adminisztrátorainak jóváhagyásra és kézi "
-"hozzáadásra. Ez a :ref:`component-new_lang` mezővel végezhető "
-"a :ref:`összetevő <component>` beállításainál."
+"hozzáadásra. Ez a :ref:`component-new_lang` beállítással végezhető az "
+":ref:`összetevő <component>` esetében."
 
 #: ../../devel/translations.rst:34
 msgid ""
@@ -47765,7 +47757,6 @@ msgid "Automated key based variants"
 msgstr "Automatikus, kulcs alapú változatok"
 
 #: ../../devel/translations.rst:116
-#, fuzzy
 msgid ""
 "You can define regular expression to group the strings based on the key of "
 "monolingual translations in the :ref:`component`:"
@@ -47918,15 +47909,14 @@ msgstr ""
 "tárolóba."
 
 #: ../../faq.rst:20
-#, fuzzy
 msgid ""
 "Turn on :ref:`component-push_on_commit` on your :ref:`component` in Weblate, "
 "this will make Weblate push changes to your repository whenever they happen "
 "at Weblate."
 msgstr ""
-"Kapcsolja be a :ref:`component-push_on_commit` lehetőséget az "
-"adott :ref:`összetevő <component>` beállításainál a Weblate-ben – így a "
-"Weblate automatikusan feltölti a módosításokat, amikor azok megtörténnek."
+"Kapcsolja be a :ref:`component-push_on_commit` lehetőséget az adott "
+":ref:`összetevő <component>` beállításainál a Weblate-ben – így a Weblate "
+"automatikusan feltölti a módosításokat a tárolóba, amikor azok megtörténnek."
 
 #: ../../faq.rst:30
 msgid "How to access repositories over SSH?"
@@ -48293,13 +48283,12 @@ msgstr ""
 "forrás tárolóval."
 
 #: ../../faq.rst:304
-#, fuzzy
 msgid ""
 "Disable receiving webhooks the :ref:`project`; this prevents Weblate from "
 "immediately seeing changes in the repository."
 msgstr ""
-"Tiltsa le a webhookokat a :ref:`projekt <project>` beállításainál – ez "
-"megakadályozza, hogy a Weblate azonnal érzékelje a változásokat."
+"Tiltsa le a webhookok fogadását a :ref:`projekt <project>` esetében; ez "
+"megakadályozza, hogy a Weblate azonnal észlelje a tároló változásait."
 
 #: ../../faq.rst:305
 msgid ""
@@ -48310,16 +48299,15 @@ msgstr ""
 "használatával), majd töltse fel őket a forrás tárolóba."
 
 #: ../../faq.rst:306
-#, fuzzy
 msgid ""
 "Change the :ref:`component` to match the new setup; upon changing "
 "configuration, Weblate will fetch the updated repository and notice the "
 "changed locations while keeping existing strings."
 msgstr ""
-"Módosítsa az adott :ref:`összetevő <component>` beállításait, hogy azok "
-"megfeleljenek az új struktúrának – ekkor a Weblate letölti a frissített "
-"tárolót, és felismeri a fájlok új helyét, miközben megtartja a meglévő "
-"szövegeket."
+"Változtassa meg az :ref:`összetevő <component>` beállításait az új "
+"felépítésnek megfelelően; a konfiguráció módosításakor a Weblate letölti a "
+"frissített tárolót és felismeri a megváltozott helyeket, miközben megtartja "
+"a meglévő szövegeket."
 
 #: ../../faq.rst:307
 msgid "Unlock the component and re-enable hooks in the project configuration."
@@ -49479,10 +49467,8 @@ msgid "merge_duplicates"
 msgstr ""
 
 #: ../../snippets/file-format-parameters.rst:90
-#, fuzzy
-#| msgid "Found duplicated string"
 msgid "Deduplicate identical strings"
-msgstr "Kettőzött szöveg található"
+msgstr "Azonos szövegek duplikálásának megszüntetése"
 
 #: ../../snippets/file-format-parameters.rst:90
 msgid ""
@@ -49490,9 +49476,9 @@ msgid ""
 "Prevents translation loss during file restructuring or table reordering by "
 "removing position-dependent context."
 msgstr ""
-"Az azonos forráskarakterláncokat egyetlen fordítási egységbe egyesíti. A "
+"Az azonos forrásszövegeket egyetlen fordítási egységbe vonja össze. A "
 "pozíciófüggő kontextus eltávolításával megakadályozza a fordítás elvesztését "
-"a fájlok átalakítása vagy a táblák átrendezése során."
+"fájlok átstrukturálása vagy táblák átrendezése során."
 
 #: ../../snippets/file-format-parameters.rst:96
 #, fuzzy
@@ -54894,15 +54880,14 @@ msgid "Automatic fixups"
 msgstr "Automatikus javítások"
 
 #: ../../user/checks.rst:18
-#, fuzzy
 msgid ""
 "In addition to :ref:`checks`, Weblate can fix some common errors in "
 "translated strings automatically. Use it with caution to not have it add "
 "errors."
 msgstr ""
 "Az :ref:`ellenőrzések <checks>` mellett a Weblate automatikusan képes "
-"kijavítani néhány gyakori hibát a lefordított szövegekben. A funkció "
-"használatakor legyen óvatos, nehogy új hibák kerüljenek be."
+"kijavítani néhány gyakori hibát a lefordított szövegekben. Használja "
+"óvatosan, nehogy új hibák keletkezzenek."
 
 #: ../../user/checks.rst:27
 msgid "Trailing ellipsis replacer"
@@ -55850,8 +55835,8 @@ msgstr "Letiltja a helyettesítők kiemelését a szerkesztőben."
 #, fuzzy
 msgid "Disable requiring sub-messages to have an ``other`` selector."
 msgstr ""
-"Letiltja annak megkövetelését, hogy az üzenetváltozatok tartalmazzanak "
-"„other” szelektort."
+"Letiltja annak megkövetelését, hogy az al-üzenetek tartalmaznak „other” "
+"szelektort."
 
 #: ../../user/checks.rst:621
 msgid "Skip checking that sub-message selectors match the source."
@@ -56393,14 +56378,12 @@ msgstr ""
 "előfordulások` fülön tekintheti meg."
 
 #: ../../user/checks.rst:1061
-#, fuzzy
 msgid ""
 "This check applies to all components in a project that have :ref:`component-"
 "allow_translation_propagation` turned on."
 msgstr ""
-"Ez az ellenőrzés minden olyan összetevőre vonatkozik a projektben, ahol "
-"engedélyezve van a :ref:`fordítás terjesztése <component-"
-"allow_translation_propagation>`."
+"Ez az ellenőrzés a projekt minden olyan összetevőjére vonatkozik, amelynél "
+"engedélyezve van a :ref:`component-allow_translation_propagation`."
 
 #: ../../user/checks.rst:1066
 msgid ""
@@ -57782,7 +57765,6 @@ msgstr ""
 "fordításba. Ez akkor is működik, ha időközben változott a fordítás."
 
 #: ../../user/files.rst:10
-#, fuzzy
 msgid ""
 "Available options might be limited by :ref:`access control <access-control>` "
 "settings."
@@ -58725,11 +58707,10 @@ msgid "Special characters"
 msgstr "Különleges karakterek"
 
 #: ../../user/profile.rst:157
-#, fuzzy
 msgid "Additional special characters to include in the :ref:`visual-keyboard`."
 msgstr ""
-"Opcionálisan megadható különleges karakterek, amelyek megjelennek "
-"a :ref:`vizuális billentyűzeten <visual-keyboard>`."
+"További különleges karakterek, amelyeket be kell vonni a :ref:`visual-"
+"keyboard` billentyűzetbe."
 
 #: ../../user/profile.rst:162
 msgid "Notifications"
@@ -60456,7 +60437,6 @@ msgstr ""
 "összetevő vagy fordítás :guilabel:`Eszközök` menüjében elérhető."
 
 #: ../../user/translating.rst:458
-#, fuzzy
 msgid ":ref:`Bulk edit add-on <addon-weblate.flags.bulk>`"
 msgstr ":ref:`Tömeges szerkesztés kiegészítő <addon-weblate.flags.bulk>`"
 
@@ -61718,7 +61698,6 @@ msgid "Commands actually indicate which operation should be performed."
 msgstr "A parancsok azt jelölik, milyen műveletet kíván végrehajtani."
 
 #: ../../wlc.rst:137
-#, fuzzy
 msgid ""
 "Weblate Client is a Python library and command-line utility to manage "
 "Weblate remotely using :ref:`api`. The command-line utility can be invoked "
@@ -62162,7 +62141,6 @@ msgid "Translation access"
 msgstr "Fordítási hozzáférés"
 
 #: ../../workflows.rst:47
-#, fuzzy
 msgid ""
 "The :ref:`access control <access-control>` is not discussed in detail as a "
 "whole in the workflows, as most of its options can be applied to any "
@@ -62171,8 +62149,8 @@ msgid ""
 msgstr ""
 "A :ref:`hozzáférés-vezérlés <access-control>` nem kerül részletes "
 "bemutatásra a munkafolyamatokban, mivel beállításai bármely munkafolyamathoz "
-"alkalmazhatók. A fordítási hozzáférés kezeléséhez kérjük, tekintse meg a "
-"vonatkozó dokumentációt."
+"alkalmazhatók. A fordítási hozzáférés kezeléséhez tekintse meg a vonatkozó "
+"dokumentációt."
 
 #: ../../workflows.rst:52
 msgid ""
@@ -62346,10 +62324,9 @@ msgid "Translators group"
 msgstr "Fordítók csoportja"
 
 #: ../../workflows.rst:121 ../../workflows.rst:153 ../../workflows.rst:186
-#, fuzzy
 msgid "Or `Translate` with :ref:`per-project access control <manage-acl>`."
 msgstr ""
-"vagy `Fordítás` jogosultság a :ref:`projektszintű hozzáférés-vezérlés "
+"cagy `Fordítás` jogosultság a :ref:`projektszintű hozzáférés-vezérlés "
 "<manage-acl>` segítségével."
 
 #: ../../workflows.rst:125 ../../workflows.rst:157 ../../workflows.rst:190
@@ -62432,10 +62409,9 @@ msgid "Suggestions can also be used to suggest changes for approved strings."
 msgstr "Javaslatokat jóváhagyott fordítások módosítására is be lehet küldeni."
 
 #: ../../workflows.rst:190
-#, fuzzy
 msgid "Or `Review` with :ref:`per-project access control <manage-acl>`."
 msgstr ""
-"vagy `Felülvizsgáló` jogosultság a :ref:`projektszintű hozzáférés-vezérlés "
+"Vagy `Felülvizsgáló` jogosultság a :ref:`projektszintű hozzáférés-vezérlés "
 "<manage-acl>` segítségével."
 
 #: ../../workflows.rst:196

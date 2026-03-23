@@ -91,7 +91,7 @@ class BatchUpdateTest(ViewTestCase):
             mode="translate",
             q="state:<translated",
             auto_source="others",
-            component=self.component.pk,
+            source_component_id=self.component.pk,
             engines=[],
             threshold=99,
             translation_id=translation.pk,

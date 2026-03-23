@@ -14,7 +14,6 @@ from django.core.management import call_command
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.urls import reverse
-from django.utils.translation import activate
 from weblate_language_data.aliases import ALIASES
 from weblate_language_data.languages import LANGUAGES
 from weblate_language_data.plurals import CLDRPLURALS, EXTRAPLURALS, QTPLURALS
@@ -26,7 +25,6 @@ from weblate.trans.models import Unit
 from weblate.trans.tests.test_models import BaseTestCase
 from weblate.trans.tests.test_views import FixtureTestCase, ViewTestCase
 from weblate.trans.util import join_plural
-from weblate.utils.db import using_postgresql
 from weblate.utils.state import STATE_TRANSLATED
 
 TEST_LANGUAGES = (
@@ -307,10 +305,6 @@ class LanguageTestSequenceMeta(type):
 
 
 class LanguagesTest(BaseTestCase, metaclass=LanguageTestSequenceMeta):
-    def setUp(self) -> None:
-        # Ensure we're using English
-        activate("en")
-
     def run_create(self, original, expected, direction, plural, name, create) -> None:
         """Test that auto create correctly handles languages."""
         # Lookup language
@@ -375,9 +369,6 @@ class LanguagesTest(BaseTestCase, metaclass=LanguageTestSequenceMeta):
 
     def test_case_sensitive_fuzzy_get(self) -> None:
         """Test handling of manually created zh-TW, zh-TW and zh_TW languages."""
-        if not using_postgresql():
-            self.skipTest("Not supported on MySQL")
-
         language = Language.objects.create(code="zh_TW", name="Chinese (Taiwan)")
         language.plural_set.create(
             number=0,
@@ -711,6 +702,42 @@ class PluralTest(BaseTestCase):
     def test_parse_invalid(self) -> None:
         with self.assertRaises(ValueError):
             Plural.parse_plural_forms("nplurals=0; plural=(n == 1) ? 0 : 1;")
+
+    def test_preference_cldr_existing(self) -> None:
+        language = Language.objects.get(code="es")
+        self.assertTrue(language.plural_set.filter(source=Plural.SOURCE_CLDR))
+        plural = language.plural_set.get_by_preference(language, (Plural.SOURCE_CLDR,))
+        self.assertEqual(plural.source, Plural.SOURCE_CLDR)
+        self.assertEqual(plural.language, language)
+
+    def test_preference_cldr_base(self) -> None:
+        language = Language.objects.auto_get_or_create(code="es_ZZ")
+        self.assertFalse(language.plural_set.filter(source=Plural.SOURCE_CLDR))
+        plural = language.plural_set.get_by_preference(language, (Plural.SOURCE_CLDR,))
+        self.assertEqual(plural.source, Plural.SOURCE_CLDR)
+        self.assertEqual(plural.language, language)
+        self.assertTrue(language.plural_set.filter(source=Plural.SOURCE_CLDR))
+
+        # Modify the created plural
+        plural.formula = "0"
+        plural.save()
+
+        # Test that it will be replaced upon migration
+        logs: list[str] = []
+        Language.objects.setup(update=True, logger=logs.append)
+        self.assertEqual(
+            logs,
+            [
+                "Created plural (n == 1) ? 0 : ((n != 0 && n % 1000000 == 0) ? 1 : 2) for language es_ZZ",
+                "Removing extra 1 plural(s) for language es_ZZ (source=4)!",
+            ],
+        )
+
+        # Verify that only correct plural is now there
+        self.assertFalse(
+            language.plural_set.filter(source=Plural.SOURCE_CLDR, formula="0")
+        )
+        self.assertTrue(language.plural_set.filter(source=Plural.SOURCE_CLDR))
 
 
 class PluralMapperTestCase(FixtureTestCase):
