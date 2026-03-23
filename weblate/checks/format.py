@@ -95,7 +95,7 @@ C_PRINTF_MATCH = re.compile(
 OBJC_PRINTF_MATCH = re.compile(
     r"""
     %(                          # initial %
-          (?:(?P<ord>\d+)\$)?   # variable order, like %1$s
+          (?:(?P<ord>\d+)\$)?   # variable order, like %1$@
     (?P<fullvar>
         [ +#'-]*                # flags
         (?:\d+)?                # width
