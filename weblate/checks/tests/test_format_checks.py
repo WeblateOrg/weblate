@@ -1923,15 +1923,14 @@ class ObjCFormatTest(BaseFormatTest):
     CHECK = "objc_format"
 
     def test_format(self):
-     
+
         self.check_match("Hello %@", "Hello %@")
         self.check_match("Order %1$@ %2$d", "Order %1$@ %2$d")
         self.check_match("Value is %1$.2f", "Value is %1$.2f")
-        
-        
-        self.check_match("%1$@ %2$@", "%2$@ %1$@") 
 
-        self.check_fail("Hello %@", "Hello %s")       
-        self.check_fail("Total: %d", "Total: %@")     
-        self.check_fail("Missing %@", "Missing")   
-        self.check_fail("Hello", "Hello %@")         
+        self.check_match("%1$@ %2$@", "%2$@ %1$@")
+
+        self.check_fail("Hello %@", "Hello %s")
+        self.check_fail("Total: %d", "Total: %@")
+        self.check_fail("Missing %@", "Missing")
+        self.check_fail("Hello", "Hello %@")
