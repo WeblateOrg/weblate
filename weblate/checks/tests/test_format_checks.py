@@ -34,12 +34,11 @@ from weblate.checks.format import (
 from weblate.checks.models import Check
 from weblate.checks.qt import QtFormatCheck, QtPluralCheck
 from weblate.checks.ruby import RubyFormatCheck
-from weblate.checks.tests.test_checks import CheckTestCase, MockUnit
+from weblate.checks.tests.test_checks import BaseFormatTest, CheckTestCase, MockUnit
 from weblate.lang.models import Language
 from weblate.trans.models import Component, Project, Translation, Unit
 from weblate.trans.tests.test_views import FixtureTestCase
 from weblate.trans.util import join_plural
-from weblate.checks.tests.test_checks import BaseFormatTest
 
 if TYPE_CHECKING:
     from weblate.checks.format import (
@@ -1918,6 +1917,7 @@ class MultipleUnnamedFormatsCheckTestCase(SimpleTestCase):
                 ["Recognition {}% ({}/{})"], MockUnit(flags="python-brace-format")
             )
         )
+
 
 class ObjCFormatTest(BaseFormatTest):
     CHECK = "objc_format"
