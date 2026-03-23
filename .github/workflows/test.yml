@@ -139,7 +139,7 @@ jobs:
         uv run coverage combine
         uv run coverage xml
     - name: Argos CI upload
-      if: matrix.python-version == '3.14' && matrix.requirements == 'latest'
+      if: matrix.python-version == '3.14' && matrix.requirements == 'latest' && github.repository_owner == 'WeblateOrg'
       env:
         ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }} # zizmor: ignore[secrets-outside-env]
       run: |
