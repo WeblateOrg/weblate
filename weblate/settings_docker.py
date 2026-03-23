@@ -43,7 +43,7 @@ SITE_DOMAIN = get_env_str("WEBLATE_SITE_DOMAIN", required=True)
 # Whether site uses https
 ENABLE_HTTPS = get_env_bool("WEBLATE_ENABLE_HTTPS")
 
-# Support for env variable
+# Project website availability checks
 WEBSITE_ALERTS_ENABLED = get_env_bool("WEBLATE_WEBSITE_ALERTS_ENABLED", True)
 
 # Site URL

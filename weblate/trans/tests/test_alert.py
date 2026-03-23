@@ -4,50 +4,44 @@
 
 """Test for alerts."""
 
-from django.test import TestCase, override_settings
+from unittest.mock import patch
+
+from django.test import override_settings
 from django.urls import reverse
 
 from weblate.lang.models import Language
-from weblate.trans.models import Component, Project, Unit
+from weblate.trans.models import Unit
+from weblate.trans.models.alert import update_alerts
 from weblate.trans.tests.test_views import ViewTestCase
 
 
-class WebsiteAlertSettingTest(TestCase):
+class WebsiteAlertSettingTest(ViewTestCase):
     """Test WEBSITE_ALERTS_ENABLED setting."""
 
-    def setUp(self):
-        # Create a test project with a broken website URL
-        self.project = Project.objects.create(
-            name="Test Project",
-            slug="test-project",
-            web="https://this-website-does-not-exist-404.com",
-        )
-        self.component = Component.objects.create(
-            project=self.project,
-            name="Test Component",
-            slug="test-component",
-            # ... other required fields ...
-        )
+    def create_component(self):
+        return self._create_component("po", "po/*.po")
 
     @override_settings(WEBSITE_ALERTS_ENABLED=False)
-    def test_website_alerts_disabled(self):
+    @patch("weblate.trans.models.alert.get_uri_error", return_value="unreachable")
+    def test_website_alerts_disabled(self, mocked_get_uri_error) -> None:
         """Test that website alerts are not created when setting is False."""
-        # Run alert check
-        # ... code to trigger alert check ...
-
-        # Assert no broken website alert was created
-        alerts = self.component.alert_set.filter(name="BrokenProjectWebsite")
-        self.assertEqual(alerts.count(), 0)
+        self.project.web = "https://example.com/project"
+        update_alerts(self.component, {"BrokenProjectURL"})
+        self.assertFalse(
+            self.component.alert_set.filter(name="BrokenProjectURL").exists()
+        )
+        mocked_get_uri_error.assert_not_called()
 
     @override_settings(WEBSITE_ALERTS_ENABLED=True)
-    def test_website_alerts_enabled(self):
+    @patch("weblate.trans.models.alert.get_uri_error", return_value="unreachable")
+    def test_website_alerts_enabled(self, mocked_get_uri_error) -> None:
         """Test that website alerts are created when setting is True."""
-        # Run alert check
-        # ... code to trigger alert check ...
-
-        # Assert broken website alert was created
-        alerts = self.component.alert_set.filter(name="BrokenProjectWebsite")
-        self.assertGreater(alerts.count(), 0)
+        self.project.web = "https://example.com/project"
+        update_alerts(self.component, {"BrokenProjectURL"})
+        self.assertTrue(
+            self.component.alert_set.filter(name="BrokenProjectURL").exists()
+        )
+        mocked_get_uri_error.assert_called_once_with("https://example.com/project")
 
 
 class AlertTest(ViewTestCase):
