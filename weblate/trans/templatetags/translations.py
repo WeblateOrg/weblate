@@ -143,12 +143,12 @@ class Formatter:
         self.whitespace = whitespace
 
     def parse(self) -> None:
+        if self.search_match:
+            self.parse_search()
         if self.unit:
             self.parse_highlight()
         if self.glossary:
             self.parse_glossary()
-        if self.search_match:
-            self.parse_search()
         if self.whitespace:
             self.parse_whitespace()
         if self.diff:

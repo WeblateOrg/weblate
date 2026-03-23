@@ -687,6 +687,24 @@ glosář [glossary]">glossary</span>
             """,
         )
 
+    def test_glossary_search_nesting(self) -> None:
+        """Test for correct nesting of glossary terms within search matches (#14129)."""
+        glossary_unit = self.build_glossary("Translation", "Tradução", [(0, 11)])
+        content = format_translation(
+            ["Translation comment"],
+            self.component.source_language,
+            glossary=[glossary_unit],
+            search_match="Translation comment",
+        )["items"][0]["content"]
+
+        self.assertHTMLEqual(
+            content,
+            """
+            <span class="hlmatch">
+                <span class="glossary-term" title="Glossary term:
+Tradução [Translation]">Translation</span> comment</span>
+            """,
+        )
 
 class DiffTestCase(SimpleTestCase):
     """Testing of HTML diff function."""
