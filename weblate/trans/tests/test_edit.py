@@ -527,6 +527,90 @@ class EditResourceSourceTest(ViewTestCase):
         self.assertEqual(unit.state, STATE_TRANSLATED)
         self.assert_backend(4, "en")
 
+    def test_edit_does_not_rebuild_component_language_stats(self) -> None:
+        self.assertGreater(self.get_translation().stats.all, 0)
+        with patch(
+            "weblate.trans.models.component.Component.invalidate_cache",
+            autospec=True,
+        ) as invalidate_cache:
+            self.edit_unit("Hello, world!\n", "Nazdar svete!\n", "en")
+        invalidate_cache.assert_not_called()
+
+    def test_suppress_cache_invalidation_is_reentrant(self) -> None:
+        translation = self.get_translation()
+        with patch(
+            "weblate.trans.models.translation.transaction.on_commit"
+        ) as on_commit:
+            with translation.suppress_cache_invalidation():
+                translation.invalidate_cache()
+                with translation.suppress_cache_invalidation():
+                    translation.invalidate_cache()
+                translation.invalidate_cache()
+                on_commit.assert_not_called()
+
+            translation.invalidate_cache()
+            translation.invalidate_cache()
+
+        on_commit.assert_called_once()
+
+    def test_source_edit_updates_translation_and_component_stats(self) -> None:
+        translation = self.get_translation()
+        self.edit_unit("Hello, world!\n", "Nazdar svete!\n", "cs")
+        translation = Translation.objects.get(pk=translation.pk)
+        component = Component.objects.get(pk=self.component.pk)
+        unit_before = translation.unit_set.get(context="hello")
+        all_chars_before = translation.stats.all_chars
+        all_words_before = translation.stats.all_words
+        translated_before = translation.stats.translated
+        component_all_chars_before = component.stats.all_chars
+
+        self.edit_unit("Hello, world!\n", "Hello, universe!\n", "en")
+
+        translation = Translation.objects.get(pk=translation.pk)
+        component = Component.objects.get(pk=self.component.pk)
+        unit_after = translation.unit_set.get(context="hello")
+        all_chars_delta = len(unit_after.source) - len(unit_before.source)
+        all_words_delta = unit_after.num_words - unit_before.num_words
+
+        self.assertEqual(
+            translation.stats.all_chars,
+            all_chars_before + all_chars_delta,
+        )
+        self.assertEqual(
+            translation.stats.all_words,
+            all_words_before + all_words_delta,
+        )
+        self.assertEqual(translation.stats.translated, translated_before - 1)
+        self.assertNotEqual(component.stats.all_chars, component_all_chars_before)
+        self.assertEqual(
+            component.stats.all_chars,
+            sum(
+                child.stats.all_chars
+                for child in Component.objects.get(
+                    pk=self.component.pk
+                ).translation_set.all()
+            ),
+        )
+
+    def test_source_edit_falls_back_to_full_recompute_on_nonlocal_checks(self) -> None:
+        def fake_run_checks(unit, *args, **kwargs) -> None:
+            unit.translation.require_full_stats_rebuild()
+
+        with (
+            patch(
+                "weblate.trans.models.unit.Unit.run_checks",
+                autospec=True,
+                side_effect=fake_run_checks,
+            ),
+            patch(
+                "weblate.trans.models.component.Component.invalidate_cache",
+                autospec=True,
+            ) as invalidate_cache,
+        ):
+            self.edit_unit("Hello, world!\n", "Nazdar svete!\n", "en")
+
+        invalidate_cache.assert_called()
+
     def test_edit_revert(self) -> None:
         translation = self.get_translation()
         # Edit translation
