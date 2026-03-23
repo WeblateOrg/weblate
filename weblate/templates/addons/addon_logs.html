@@ -15,9 +15,19 @@
   {% endif %}
   <li class="breadcrumb-item">
     {% if instance %}
-      <a href="{% url 'addon-detail' pk=instance.pk %}">{{ addon.verbose }}</a>
+      <a href="{% url 'addon-detail' pk=instance.pk %}">
+        {% if addon %}
+          {{ addon.verbose }}
+        {% else %}
+          {{ addon_name }}
+        {% endif %}
+      </a>
     {% else %}
-      {{ addon.verbose }}
+      {% if addon %}
+        {{ addon.verbose }}
+      {% else %}
+        {{ addon_name }}
+      {% endif %}
     {% endif %}
   </li>
 {% endblock breadcrumbs %}

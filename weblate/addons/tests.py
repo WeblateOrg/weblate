@@ -699,6 +699,46 @@ class ViewTests(ViewTestCase):
         self.assertTemplateUsed(response, "addons/addon_logs.html")
         self.assertEqual(response.context["instance"], addon)
 
+    def test_nonexisting_detail(self) -> None:
+        identifier = "weblate.addon.nonexisting"
+        Addon.objects.bulk_create([Addon(component=self.component, name=identifier)])
+
+        addon = Addon.objects.get(name=identifier)
+        response = self.client.get(reverse("addon-detail", kwargs={"pk": addon.pk}))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "addons/addon_detail.html")
+        self.assertContains(response, identifier)
+        self.assertNotContains(response, 'name="form"')
+
+    def test_nonexisting_logs(self) -> None:
+        identifier = "weblate.addon.nonexisting"
+        Addon.objects.bulk_create([Addon(component=self.component, name=identifier)])
+
+        addon = Addon.objects.get(name=identifier)
+        response = self.client.get(reverse("addon-logs", kwargs={"pk": addon.pk}))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, "addons/addon_logs.html")
+        self.assertContains(response, identifier)
+        self.assertContains(response, "No add-on activity logs available.")
+
+    def test_nonexisting_detail_post(self) -> None:
+        identifier = "weblate.addon.nonexisting"
+        Addon.objects.bulk_create([Addon(component=self.component, name=identifier)])
+
+        addon = Addon.objects.get(name=identifier)
+        response = self.client.post(
+            reverse("addon-detail", kwargs={"pk": addon.pk}),
+            {"form": "1"},
+            follow=True,
+        )
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "Invalid add-on name:")
+        self.assertContains(response, identifier)
+        self.assertTrue(Addon.objects.filter(pk=addon.pk).exists())
+
     def test_addon_logs_without_authentication(self) -> None:
         response = self.client.post(
             reverse("addons", kwargs=self.kw_component),
@@ -720,6 +760,26 @@ class ViewTests(ViewTestCase):
         self.assertContains(response, "Installed 1 add-on")
         change = self.component.change_set.get(action=ActionEvents.ADDON_CREATE)
         self.assertEqual(change.user, self.user)
+
+    def test_add_simple_with_nonexisting_installed(self) -> None:
+        Addon.objects.bulk_create(
+            [Addon(component=self.component, name="weblate.addon.nonexisting")]
+        )
+
+        response = self.client.post(
+            reverse("addons", kwargs=self.kw_component),
+            {"name": "weblate.gettext.authors"},
+            follow=True,
+        )
+
+        self.assertContains(response, "Installed 2 add-ons")
+        self.assertContains(response, "weblate.addon.nonexisting")
+        self.assertContains(response, "Contributors in comment")
+        self.assertTrue(
+            Addon.objects.filter(
+                component=self.component, name="weblate.gettext.authors"
+            ).exists()
+        )
 
     def test_add_simple_project_addon(self) -> None:
         response = self.client.post(

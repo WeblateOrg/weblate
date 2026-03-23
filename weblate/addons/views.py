@@ -123,7 +123,7 @@ class AddonList(PathViewMixin, ListView):
         addon = ADDONS.get(name)
         if addon is None:
             return self.redirect_list(gettext("Invalid add-on name: ”%s”") % name)
-        installed = {x.addon.name for x in self.get_queryset()}
+        installed = {x.addon_name for x in self.get_queryset()}
         if not addon.can_install(component=obj_component, project=obj_project) or (
             name in installed and not addon.multiple
         ):
@@ -203,6 +203,8 @@ class AddonDetail(BaseAddonView, UpdateView):
     object: Addon
 
     def get_form(self, form_class=None):
+        if not self.object.is_valid:
+            return None
         return self.object.addon.get_settings_form(
             self.request.user, **self.get_form_kwargs()
         )
@@ -214,7 +216,8 @@ class AddonDetail(BaseAddonView, UpdateView):
         else:
             result["object"] = self.object.component
         result["instance"] = self.object
-        result["addon"] = self.object.addon
+        result["addon"] = self.object.addon if self.object.is_valid else None
+        result["addon_name"] = self.object.addon_name
         return result
 
     def get_success_url(self):
@@ -225,6 +228,7 @@ class AddonDetail(BaseAddonView, UpdateView):
 
     def post(self, request: AuthenticatedHttpRequest, *args, **kwargs):  # type: ignore[override]
         obj = self.get_object()
+        self.object = obj
         obj.acting_user = request.user
         if "delete" in request.POST:
             target = obj.component or obj.project
@@ -232,6 +236,11 @@ class AddonDetail(BaseAddonView, UpdateView):
             if target is None:
                 return redirect(reverse("manage-addons"))
             return redirect(reverse("addons", kwargs={"path": target.get_url_path()}))
+        if not obj.is_valid:
+            messages.error(
+                request, gettext("Invalid add-on name: ”%s”") % obj.addon_name
+            )
+            return redirect(self.get_success_url())
         return super().post(request, *args, **kwargs)
 
 
@@ -245,7 +254,8 @@ class AddonLogs(BaseAddonView):
         else:
             result["object"] = self.object.component
         result["instance"] = self.object
-        result["addon"] = self.object.addon
+        result["addon"] = self.object.addon if self.object.is_valid else None
+        result["addon_name"] = self.object.addon_name
         result["addon_activity_log"] = get_paginator(
             self.request,
             self.object.get_addon_activity_logs(),
