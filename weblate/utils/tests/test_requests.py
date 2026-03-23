@@ -7,7 +7,7 @@ from django.core.exceptions import ValidationError
 from django.test import SimpleTestCase
 from django.test.utils import override_settings
 
-from weblate.utils.requests import asset_request
+from weblate.utils.requests import asset_request, get_uri_error
 
 
 class AssetRequestTest(SimpleTestCase):
@@ -93,4 +93,31 @@ class AssetRequestTest(SimpleTestCase):
         self.assertEqual(
             responses.calls[1].request.headers["Cookie"],
             "asset-token=allowed",
+        )
+
+
+class GetUriErrorTest(SimpleTestCase):
+    @responses.activate
+    def test_get_uri_error_does_not_follow_redirects(self) -> None:
+        responses.add(
+            responses.GET,
+            "https://example.com/source",
+            status=302,
+            headers={"Location": "https://internal.example.test/final"},
+        )
+        responses.add(
+            responses.GET,
+            "https://internal.example.test/final",
+            status=200,
+            body=b"should-not-be-fetched",
+        )
+
+        self.assertEqual(
+            get_uri_error("https://example.com/source"),
+            "URL redirects with HTTP 302 to https://internal.example.test/final.",
+        )
+        self.assertEqual(len(responses.calls), 1)
+        self.assertEqual(
+            responses.calls[0].request.url,
+            "https://example.com/source",
         )
