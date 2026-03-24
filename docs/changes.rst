@@ -24,7 +24,6 @@ Weblate 5.17
 * Improved API access control for pending tasks.
 * Faster category and project removals.
 * Project backup restore no longer trusts repository-local VCS configuration and hooks from the uploaded archive.
-* Docker deployments now preserve the default :setting:`COMMIT_PENDING_HOURS` value of 24 hours when :envvar:`WEBLATE_COMMIT_PENDING_HOURS` is unset.
 
 .. rubric:: Compatibility
 
