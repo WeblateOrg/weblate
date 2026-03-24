@@ -140,13 +140,16 @@ class ResetAddon(BaseAddon):
         cls,
         *,
         component: Component | None = None,
+        category: Category | None = None,
         project: Project | None = None,
     ) -> bool:
         # Only instalable on the sandbox project
         return (
             component is not None
             and component.project.slug == "sandbox"
-            and super().can_install(component=component, project=project)
+            and super().can_install(
+                component=component, category=category, project=project
+            )
         )
 
     def daily_component(
