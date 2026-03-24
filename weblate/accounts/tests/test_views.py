@@ -525,12 +525,14 @@ class ProfileTest(FixtureTestCase):
             },
         )
         self.assertContains(response, "Select a valid choice.")
-        self.assertContains(
-            response,
-            f'name="notifications__3-scope" value="{NotificationScope.SCOPE_WATCHED}"',
-            html=True,
+        form = next(
+            form
+            for form in response.context["all_forms"]
+            if form.prefix == "notifications__3"
         )
-        self.assertContains(response, "Watched projects")
+        self.assertEqual(
+            form["scope"].value(), str(NotificationScope.SCOPE_WATCHED)
+        )
 
     def test_watch(self) -> None:
         self.assertEqual(self.user.profile.watched.count(), 0)
