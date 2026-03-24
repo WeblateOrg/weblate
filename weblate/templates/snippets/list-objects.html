@@ -74,7 +74,7 @@
             <th title="{% translate "Sort this column" %}"
                 class="number zero-width-640 sort-cell">
               {% if objects.paginator.num_pages > 1 %}
-                <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "unreviewed" %}-{% endif %}untranslated">
+                <a href="?page={{ objects.number }}&amp;sort_by={% if objects.paginator.sort_by == "unreviewed" %}-{% endif %}unreviewed">
                 {% endif %}
                 <span class="sort-icon {% if objects.paginator.sort_by == "unreviewed" %}sort-down{% elif objects.paginator.sort_by == "-unreviewed" %}sort-up{% endif %}"> </span>
                 {% translate "Unreviewed" %}

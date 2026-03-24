@@ -17,6 +17,7 @@ Weblate 5.17
 
 .. rubric:: Bug fixes
 
+* Fixed sorting by the **Unreviewed** column in listings.
 * Fixed false positive in :ref:`check-xml-chars-around-tags` for Arabic letter Waw ("و") adjacent to XML tags.
 * :ref:`addon-weblate.git.squash` better handle commits applied upstream.
 * :ref:`addon-weblate.cdn.cdnjs` validates parsed locations.
