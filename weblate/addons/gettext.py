@@ -4,20 +4,40 @@
 
 from __future__ import annotations
 
+import fnmatch
 import os
+import re
+import shutil
+import subprocess
+import sys
+import tempfile
+from datetime import date, timedelta
 from pathlib import Path
 from typing import TYPE_CHECKING, ClassVar
 
 from django.core.management.utils import find_command
+from django.utils import timezone
 from django.utils.translation import gettext_lazy
 
 from weblate.addons.base import BaseAddon, UpdateBaseAddon
 from weblate.addons.events import AddonEvent
-from weblate.addons.forms import GenerateMoForm
+from weblate.addons.forms import (
+    DjangoExtractPotForm,
+    GenerateMoForm,
+    SphinxExtractPotForm,
+    XgettextExtractPotForm,
+)
 from weblate.formats.base import UpdateError
 from weblate.formats.exporters import MoExporter
+from weblate.trans.util import get_clean_env
+from weblate.utils.errors import report_error
+from weblate.utils.files import cleanup_error_message
 from weblate.utils.state import STATE_FUZZY, STATE_TRANSLATED
 
+SPHINX_CONFIG_DIR = Path(__file__).resolve().parent / "extractors" / "sphinx"
+DJANGO_EXTRACT_RUNNER = (
+    Path(__file__).resolve().parent / "extractors" / "django" / "run.py"
+)
 if TYPE_CHECKING:
     from collections.abc import Generator
 
@@ -365,6 +385,606 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
             component.create_translations()
             return True
         return False
+
+
+class ExtractPotBaseAddon(GettextBaseAddon, UpdateBaseAddon):
+    settings_form = None
+    alert = "ExtractPotAddonError"
+    compat: ClassVar[CompatDict] = {"file_format": {"po"}}
+    INTERVALS: ClassVar[dict[str, int]] = {"daily": 1, "weekly": 7}
+    PROCESS_TIMEOUT: ClassVar[int] = 300
+
+    @classmethod
+    def can_install(
+        cls,
+        *,
+        component: Component | None = None,
+        category: Category | None = None,
+        project: Project | None = None,
+    ) -> bool:
+        if not super().can_install(
+            component=component, category=category, project=project
+        ):
+            return False
+        if component is None:
+            return True
+        return bool(component.new_base)
+
+    def __init__(self, storage) -> None:
+        super().__init__(storage)
+        self.warnings: list[dict[str, str]] = []
+
+    def get_interval(self) -> int:
+        return self.INTERVALS.get(
+            self.instance.configuration.get("interval", "weekly"), 7
+        )
+
+    def get_domain(self, component: Component) -> str:
+        return Path(component.new_base).stem
+
+    def get_component_full_name(self, component: Component) -> str:
+        return f"{component.project.name} / {component.name}"
+
+    def should_normalize_header(self) -> bool:
+        return bool(self.instance.configuration.get("normalize_header"))
+
+    def get_template_filename(self, component: Component) -> str | None:
+        return component.get_new_base_filename()
+
+    def get_gettext_format_args(self, component: Component) -> list[str]:
+        """Return gettext CLI flags implied by component file-format settings."""
+        return [
+            arg
+            for arg in component.file_format_cls.get_msgmerge_args(component)
+            if arg in {"--no-location", "--no-wrap"}
+        ]
+
+    def ensure_msgmerge_addon(self, component: Component) -> None:
+        install_msgmerge = self.instance.configuration.pop("_install_msgmerge", False)
+        if install_msgmerge:
+            self.instance.save(update_fields=["configuration"])
+        if not install_msgmerge:
+            return
+        if component.get_addon(MsgmergeAddon.name) is not None:
+            return
+        if not MsgmergeAddon.can_install(component=component):
+            self.warnings.append(
+                {
+                    "addon": self.name,
+                    "command": "msgmerge",
+                    "output": component.new_base,
+                    "error": "Could not install the msgmerge add-on for PO updates",
+                }
+            )
+            return
+        MsgmergeAddon.create(component=component, run=False)
+
+    def post_configure_run_component(
+        self, component: Component, skip_daily: bool = False
+    ) -> None:
+        self.ensure_msgmerge_addon(component)
+        super().post_configure_run_component(component, skip_daily=skip_daily)
+
+    def is_schedule_due(self) -> bool:
+        if (
+            self.instance.component
+            and self.instance.component.alert_set.filter(name=self.alert).exists()
+        ):
+            return True
+        last_run = self.instance.state.get("last_run")
+        if not last_run:
+            return True
+        try:
+            last_run_date = date.fromisoformat(last_run)
+        except ValueError:
+            return True
+        return timezone.now().date() - last_run_date >= timedelta(
+            days=self.get_interval()
+        )
+
+    def get_last_successful_revision(self) -> str | None:
+        revision = self.instance.state.get("last_revision")
+        return revision if isinstance(revision, str) and revision else None
+
+    def mark_successful_run(self, revision: str) -> None:
+        self.instance.state["last_run"] = timezone.now().date().isoformat()
+        self.instance.state["last_revision"] = revision
+        self.save_state()
+
+    def trigger_alerts(self, component: Component) -> None:
+        occurrences = [*self.alerts, *self.warnings]
+        if occurrences:
+            component.add_alert(self.alert, occurrences=occurrences)
+            self.alerts = []
+            self.warnings = []
+        else:
+            component.delete_alert(self.alert)
+
+    def get_msgmerge_addon(self, component: Component):
+        addon = component.get_addon(MsgmergeAddon.name)
+        return None if addon is None else addon.addon
+
+    def run_process(
+        self,
+        component: Component,
+        cmd: list[str],
+        env: dict[str, str] | None = None,
+        *,
+        cwd: str | None = None,
+        extra_path: str | None = None,
+    ) -> str | None:
+        component.log_debug("%s add-on exec: %s", self.name, " ".join(cmd))
+        try:
+            output = subprocess.check_output(
+                cmd,
+                env=get_clean_env(env, extra_path),
+                cwd=component.full_path if cwd is None else cwd,
+                stderr=subprocess.STDOUT,
+                text=True,
+                timeout=self.PROCESS_TIMEOUT,
+            )
+        except subprocess.TimeoutExpired as err:
+            output = getattr(err, "output", "") or ""
+            component.log_error(
+                "timed out exec %s after %s seconds", repr(cmd), self.PROCESS_TIMEOUT
+            )
+            for line in output.splitlines():
+                component.log_error("program output: %s", line)
+            self.alerts.append(
+                {
+                    "addon": self.name,
+                    "command": " ".join(cmd),
+                    "output": cleanup_error_message(output),
+                    "error": f"Command timed out after {self.PROCESS_TIMEOUT} seconds",
+                }
+            )
+            report_error("Add-on script timeout", project=component.project)
+            return None
+        except (OSError, subprocess.CalledProcessError) as err:
+            output = getattr(err, "output", "")
+            component.log_error("failed to exec %s: %s", repr(cmd), err)
+            for line in output.splitlines():
+                component.log_error("program output: %s", line)
+            self.alerts.append(
+                {
+                    "addon": self.name,
+                    "command": " ".join(cmd),
+                    "output": cleanup_error_message(output),
+                    "error": str(err),
+                }
+            )
+            report_error("Add-on script error", project=component.project)
+            return None
+        component.log_debug("exec result: %s", output)
+        return output
+
+    def normalize_header(self, component: Component, filename: str) -> None:
+        content = Path(filename).read_text(encoding="utf-8")
+        component_name = self.get_component_full_name(component)
+        lines = []
+        for line in content.splitlines(keepends=True):
+            if line.startswith("# FIRST AUTHOR"):
+                continue
+            if line.startswith("# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER"):
+                continue
+            if line.startswith(
+                "# This file is distributed under the same license as the"
+            ):
+                continue
+            if re.match(r"^# Copyright \(C\) [0-9– -]* Michal Čihař", line):
+                continue
+            if line.startswith('"Project-Id-Version:'):
+                lines.append(f'"Project-Id-Version: {component_name}\\n"\n')
+                continue
+            if component.report_source_bugs and line.startswith(
+                '"Report-Msgid-Bugs-To:'
+            ):
+                lines.append(
+                    f'"Report-Msgid-Bugs-To: {component.report_source_bugs}\\n"\n'
+                )
+                continue
+            if "SOME DESCRIPTIVE TITLE." in line:
+                lines.append(
+                    line.replace(
+                        "SOME DESCRIPTIVE TITLE.",
+                        f"Translations for {component_name}.",
+                    )
+                )
+                continue
+            lines.append(line)
+        updated = "".join(lines)
+        if updated != content:
+            Path(filename).write_text(updated, encoding="utf-8")
+
+    def finalize_template(self, component: Component) -> bool:
+        template = self.get_template_filename(component)
+        if template is None:
+            self.alerts.append(
+                {
+                    "addon": self.name,
+                    "command": self.name,
+                    "output": component.new_base,
+                    "error": "Template for new translations not found",
+                }
+            )
+            return False
+        if self.should_normalize_header():
+            self.normalize_header(component, template)
+        self.extra_files.append(template)
+        return True
+
+    def validate_repository_tree(self, component: Component) -> bool:
+        pending = [Path(component.full_path)]
+        seen: set[str] = set()
+
+        while pending:
+            current = pending.pop()
+            try:
+                resolved_current = component.repository.resolve_symlinks(
+                    os.fspath(current)
+                )
+            except ValueError:
+                component.log_error("refused to read out of repository: %s", current)
+                return False
+
+            if resolved_current in seen:
+                continue
+            seen.add(resolved_current)
+
+            if not current.is_dir():
+                continue
+
+            for entry in current.iterdir():
+                try:
+                    component.repository.resolve_symlinks(os.fspath(entry))
+                except ValueError:
+                    component.log_error("refused to read out of repository: %s", entry)
+                    return False
+                if entry.is_dir():
+                    pending.append(entry)
+        return True
+
+    def should_run_update(self, component: Component, previous_head: str) -> bool:
+        return self.is_schedule_due()
+
+    def execute_update(self, component: Component, previous_head: str) -> bool:
+        raise NotImplementedError
+
+    def update_translations(self, component: Component, previous_head: str) -> None:
+        self.extra_files = []
+        current_revision = component.repository.last_revision
+        if not self.should_run_update(component, previous_head):
+            return
+        if self.execute_update(component, previous_head) and not self.alerts:
+            if msgmerge_addon := self.get_msgmerge_addon(component):
+                msgmerge_addon.update_translations(component, previous_head)
+            self.mark_successful_run(current_revision)
+        self.trigger_alerts(component)
+
+
+class XgettextAddon(ExtractPotBaseAddon):
+    name = "weblate.gettext.xgettext"
+    version_added = "5.17"
+    verbose = gettext_lazy("Update POT file (xgettext)")
+    description = gettext_lazy(
+        "Updates the gettext template using xgettext on selected source files."
+    )
+    settings_form = XgettextExtractPotForm
+
+    @classmethod
+    def can_install(
+        cls,
+        *,
+        component: Component | None = None,
+        category: Category | None = None,
+        project: Project | None = None,
+    ) -> bool:
+        return find_command("xgettext") is not None and super().can_install(
+            component=component, category=category, project=project
+        )
+
+    def get_source_patterns(self) -> list[str]:
+        return self.instance.configuration.get("files", [])
+
+    def has_relevant_changes(self, component: Component, previous_head: str) -> bool:
+        if component.alert_set.filter(name=self.alert).exists():
+            return True
+        compare_revision = self.get_last_successful_revision() or previous_head
+        if not compare_revision:
+            return True
+        changed = component.repository.list_changed_files(
+            component.repository.ref_to_remote.format(compare_revision)
+        )
+        return any(
+            fnmatch.fnmatch(path, pattern)
+            for pattern in self.get_source_patterns()
+            for path in changed
+        )
+
+    def resolve_input_files(self, component: Component) -> list[str]:
+        result: set[str] = set()
+        root = Path(component.full_path)
+        for pattern in self.get_source_patterns():
+            for match in root.glob(pattern):
+                if not match.is_file():
+                    continue
+                try:
+                    component.repository.resolve_symlinks(os.fspath(match))
+                except ValueError:
+                    component.log_error("refused to read out of repository: %s", match)
+                    continue
+                result.add(os.path.relpath(match, component.full_path))
+        return sorted(result)
+
+    def should_run_update(self, component: Component, previous_head: str) -> bool:
+        return super().should_run_update(
+            component, previous_head
+        ) and self.has_relevant_changes(component, previous_head)
+
+    def execute_update(self, component: Component, previous_head: str) -> bool:
+        if not self.has_relevant_changes(component, previous_head):
+            return False
+        if not self.validate_repository_tree(component):
+            self.alerts.append(
+                {
+                    "addon": self.name,
+                    "command": "xgettext",
+                    "output": component.new_base,
+                    "error": "Repository contains symlink outside repository",
+                }
+            )
+            return False
+
+        template = self.get_template_filename(component)
+        if template is None:
+            self.alerts.append(
+                {
+                    "addon": self.name,
+                    "command": "xgettext",
+                    "output": component.new_base,
+                    "error": "Template for new translations not found",
+                }
+            )
+            return False
+
+        files = self.resolve_input_files(component)
+        if not files:
+            self.alerts.append(
+                {
+                    "addon": self.name,
+                    "command": "xgettext",
+                    "output": "",
+                    "error": "No source files matched configured patterns",
+                }
+            )
+            return False
+
+        Path(template).parent.mkdir(parents=True, exist_ok=True)
+        language = self.instance.configuration["language"]
+        if (
+            self.run_process(
+                component,
+                [
+                    "xgettext",
+                    "--output",
+                    component.new_base,
+                    "--language",
+                    language,
+                    *files,
+                ],
+            )
+            is None
+        ):
+            return False
+        return self.finalize_template(component)
+
+
+class DjangoAddon(ExtractPotBaseAddon):
+    name = "weblate.gettext.django"
+    version_added = "5.17"
+    verbose = gettext_lazy("Update POT file (Django)")
+    description = gettext_lazy(
+        "Updates the gettext template using Django's built-in makemessages command."
+    )
+    settings_form = DjangoExtractPotForm
+
+    @classmethod
+    def can_install(
+        cls,
+        *,
+        component: Component | None = None,
+        category: Category | None = None,
+        project: Project | None = None,
+    ) -> bool:
+        return find_command("xgettext") is not None and super().can_install(
+            component=component, category=category, project=project
+        )
+
+    def execute_update(self, component: Component, previous_head: str) -> bool:
+        if not self.validate_repository_tree(component):
+            self.alerts.append(
+                {
+                    "addon": self.name,
+                    "command": "django makemessages",
+                    "output": component.new_base,
+                    "error": "Repository contains symlink outside repository",
+                }
+            )
+            return False
+        source_dir = self.get_source_dir(component)
+        if source_dir is None:
+            self.alerts.append(
+                {
+                    "addon": self.name,
+                    "command": "django makemessages",
+                    "output": component.new_base,
+                    "error": "Could not determine Django source directory",
+                }
+            )
+            return False
+        template = self.get_template_filename(component)
+        if template is None:
+            self.alerts.append(
+                {
+                    "addon": self.name,
+                    "command": "django makemessages",
+                    "output": component.new_base,
+                    "error": "Template for new translations not found",
+                }
+            )
+            return False
+        domain = self.get_domain(component)
+        if domain not in {"django", "djangojs"}:
+            self.alerts.append(
+                {
+                    "addon": self.name,
+                    "command": "django makemessages",
+                    "output": component.new_base,
+                    "error": "The Django extractor only supports django.pot and djangojs.pot templates",
+                }
+            )
+            return False
+        command = [
+            sys.executable,
+            os.fspath(DJANGO_EXTRACT_RUNNER),
+            "-d",
+            domain,
+            *self.get_gettext_format_args(component),
+        ]
+        with tempfile.TemporaryDirectory(prefix="weblate-django-") as tempdir:
+            locale_dir = Path(tempdir) / "locale"
+            env = {"WEBLATE_EXTRACT_LOCALE_PATH": os.fspath(locale_dir)}
+            if (
+                self.run_process(component, command, env=env, cwd=os.fspath(source_dir))
+                is None
+            ):
+                return False
+            generated = locale_dir / f"{domain}.pot"
+            if not generated.exists():
+                self.alerts.append(
+                    {
+                        "addon": self.name,
+                        "command": "django makemessages",
+                        "output": component.new_base,
+                        "error": "Generated POT file was not found",
+                    }
+                )
+                return False
+            Path(template).parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(generated, template)
+        return self.finalize_template(component)
+
+    def get_source_dir(self, component: Component) -> Path | None:
+        template = Path(component.new_base)
+        parts = template.parts
+        if "locale" not in parts:
+            return Path(component.full_path)
+        locale_index = parts.index("locale")
+        if locale_index == 0:
+            return Path(component.full_path)
+        source_dir = Path(component.full_path).joinpath(*parts[:locale_index])
+        if not source_dir.is_dir():
+            return None
+        return source_dir
+
+
+class SphinxAddon(ExtractPotBaseAddon):
+    name = "weblate.gettext.sphinx"
+    version_added = "5.17"
+    verbose = gettext_lazy("Update POT file (Sphinx)")
+    description = gettext_lazy(
+        "Updates the gettext template using Sphinx's gettext builder without loading project configuration."
+    )
+    settings_form = SphinxExtractPotForm
+
+    @classmethod
+    def can_install(
+        cls,
+        *,
+        component: Component | None = None,
+        category: Category | None = None,
+        project: Project | None = None,
+    ) -> bool:
+        return find_command("sphinx-build") is not None and super().can_install(
+            component=component, category=category, project=project
+        )
+
+    def get_sphinx_source_dir(self, component: Component) -> Path | None:
+        template = Path(component.new_base)
+        parts = template.parts
+        if "locales" not in parts:
+            return None
+        locales_index = parts.index("locales")
+        if locales_index == 0:
+            return Path(component.full_path)
+        source_dir = Path(component.full_path).joinpath(*parts[:locales_index])
+        if not source_dir.is_dir():
+            return None
+        return source_dir
+
+    def execute_update(self, component: Component, previous_head: str) -> bool:
+        if not self.validate_repository_tree(component):
+            self.alerts.append(
+                {
+                    "addon": self.name,
+                    "command": "sphinx-build",
+                    "output": component.new_base,
+                    "error": "Repository contains symlink outside repository",
+                }
+            )
+            return False
+        source_dir = self.get_sphinx_source_dir(component)
+        if source_dir is None:
+            self.alerts.append(
+                {
+                    "addon": self.name,
+                    "command": "sphinx-build",
+                    "output": component.new_base,
+                    "error": "Could not determine Sphinx source directory",
+                }
+            )
+            return False
+        domain = self.get_domain(component)
+        with tempfile.TemporaryDirectory(prefix="weblate-sphinx-") as tempdir:
+            doctree_dir = Path(tempdir) / "doctrees"
+            build_dir = Path(tempdir) / "build"
+            command = [
+                "sphinx-build",
+                "-b",
+                "gettext",
+                "-E",
+                "-d",
+                os.fspath(doctree_dir),
+                "-c",
+                os.fspath(SPHINX_CONFIG_DIR),
+                "-D",
+                "project=Documentation",
+                "-D",
+                f"gettext_compact={domain}",
+                os.fspath(source_dir),
+                os.fspath(build_dir),
+            ]
+            if self.run_process(component, command) is None:
+                return False
+            generated = build_dir / domain / f"{domain}.pot"
+            if not generated.exists():
+                generated = build_dir / f"{domain}.pot"
+            if not generated.exists():
+                self.alerts.append(
+                    {
+                        "addon": self.name,
+                        "command": "sphinx-build",
+                        "output": component.new_base,
+                        "error": "Generated POT file was not found",
+                    }
+                )
+                return False
+            template = self.get_template_filename(component)
+            if template is None:
+                return False
+            Path(template).parent.mkdir(parents=True, exist_ok=True)
+            shutil.copyfile(generated, template)
+        return self.finalize_template(component)
 
 
 class GettextAuthorComments(GettextBaseAddon):

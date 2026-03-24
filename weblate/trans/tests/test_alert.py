@@ -4,11 +4,13 @@
 
 """Test for alerts."""
 
+from pathlib import Path
 from unittest.mock import patch
 
 from django.test import override_settings
 from django.urls import reverse
 
+from weblate.addons.gettext import MsgmergeAddon, XgettextAddon
 from weblate.lang.models import Language
 from weblate.trans.models import Unit
 from weblate.trans.models.alert import update_alerts
@@ -190,6 +192,55 @@ class LanguageAlertTest(ViewTestCase):
         component.add_new_language(Language.objects.get(code="ku"), self.get_request())
         component.update_alerts()
         self.assertTrue(component.alert_set.filter(name="AmbiguousLanguage").exists())
+
+
+class ExtractPotAlertTest(ViewTestCase):
+    def create_component(self):
+        return self.create_po_new_base(new_lang="add")
+
+    def test_missing_msgmerge_alert(self) -> None:
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text(
+            'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+        )
+        XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "files": ["src/*.py"],
+            },
+        )
+
+        self.assertTrue(
+            self.component.alert_set.filter(name="ExtractPotMissingMsgmerge").exists()
+        )
+
+    def test_missing_msgmerge_alert_cleared_by_project_msgmerge(self) -> None:
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text(
+            'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+        )
+        XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "files": ["src/*.py"],
+            },
+        )
+        MsgmergeAddon.create(project=self.component.project, run=False)
+        self.component.refresh_from_db()
+
+        self.assertFalse(
+            self.component.alert_set.filter(name="ExtractPotMissingMsgmerge").exists()
+        )
 
 
 class MonolingualAlertTest(ViewTestCase):

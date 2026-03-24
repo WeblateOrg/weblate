@@ -4,6 +4,7 @@
 
 from __future__ import annotations
 
+from pathlib import Path
 from typing import TYPE_CHECKING
 
 import regex
@@ -94,6 +95,158 @@ class GenerateMoForm(BaseAddonForm):
         self.test_render(self.cleaned_data["path"])
         validate_filename(self.cleaned_data["path"])
         return self.cleaned_data["path"]
+
+
+class BaseExtractPotForm(BaseAddonForm):
+    interval = forms.ChoiceField(
+        label=gettext_lazy("Update frequency"),
+        choices=(
+            ("daily", gettext_lazy("Daily")),
+            ("weekly", gettext_lazy("Weekly")),
+        ),
+        initial="weekly",
+        required=True,
+        help_text=gettext_lazy(
+            "How often the add-on should update the POT file when the component is refreshed."
+        ),
+    )
+    normalize_header = forms.BooleanField(
+        label=gettext_lazy("Normalize POT header"),
+        required=False,
+        initial=False,
+        help_text=gettext_lazy(
+            "Updates selected gettext header fields using component configuration."
+        ),
+    )
+    update_po_files = forms.BooleanField(
+        label=gettext_lazy("Update PO files using msgmerge"),
+        required=False,
+        initial=True,
+        widget=forms.HiddenInput(),
+        help_text=gettext_lazy(
+            "Ensures the msgmerge add-on is installed and triggers it after the POT file is updated."
+        ),
+    )
+
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        if self._addon.instance.pk is None:
+            self.fields["update_po_files"].widget = forms.CheckboxInput()
+        self.helper.layout = Layout(
+            Field("interval"),
+            Field("normalize_header"),
+            Field("update_po_files"),
+        )
+
+    def serialize_form(self):
+        data = super().serialize_form()
+        if data.pop("update_po_files", False):
+            data["_install_msgmerge"] = True
+        return data
+
+
+class XgettextExtractPotForm(BaseExtractPotForm):
+    language = forms.CharField(
+        label=gettext_lazy("xgettext language"),
+        required=True,
+        initial="Python",
+        help_text=gettext_lazy(
+            "Programming language passed to xgettext, for example Python or C."
+        ),
+    )
+    files = forms.CharField(
+        label=gettext_lazy("Source file patterns"),
+        required=False,
+        widget=forms.Textarea(),
+        help_text=gettext_lazy(
+            "Newline-separated repository-relative glob patterns for files to "
+            "extract with xgettext."
+        ),
+    )
+
+    def __init__(self, *args, **kwargs) -> None:
+        super().__init__(*args, **kwargs)
+        self.helper.layout = Layout(
+            Field("interval"),
+            Field("normalize_header"),
+            Field("update_po_files"),
+            Field("language"),
+            Field("files"),
+        )
+
+    @staticmethod
+    def parse_patterns(value: str) -> list[str]:
+        return [line.strip() for line in value.splitlines() if line.strip()]
+
+    def clean(self):
+        cleaned_data = super().clean()
+        patterns = self.parse_patterns(cleaned_data.get("files", ""))
+        if not patterns:
+            self.add_error("files", gettext("This field is required."))
+
+        for pattern in patterns:
+            validate_filename(pattern)
+
+        cleaned_data["files"] = patterns
+        return cleaned_data
+
+
+class DjangoExtractPotForm(BaseExtractPotForm):
+    def clean(self):
+        cleaned_data = super().clean()
+        component = self._addon.instance.component
+        if component is None or not component.new_base.endswith(".pot"):
+            self.add_error(
+                None,
+                gettext("The component has to define a POT file for new translations."),
+            )
+            return cleaned_data
+        if Path(component.new_base).stem not in {"django", "djangojs"}:
+            self.add_error(
+                None,
+                gettext(
+                    "The Django add-on expects the template for new translations to "
+                    'be named "django.pot" or "djangojs.pot".'
+                ),
+            )
+        return cleaned_data
+
+
+class SphinxExtractPotForm(BaseExtractPotForm):
+    def clean(self):
+        cleaned_data = super().clean()
+        component = self._addon.instance.component
+        if component is None or not component.new_base.endswith(".pot"):
+            self.add_error(
+                None,
+                gettext(
+                    "The Sphinx add-on expects the template for new translations "
+                    'to live in a "locales" directory.'
+                ),
+            )
+            return cleaned_data
+        template = Path(component.new_base)
+        parts = template.parts
+        if "locales" not in parts:
+            self.add_error(
+                None,
+                gettext(
+                    "The Sphinx add-on expects the template for new translations "
+                    'to live in a "locales" directory.'
+                ),
+            )
+            return cleaned_data
+        locales_index = parts.index("locales")
+        source_parts = parts[:locales_index]
+        if source_parts:
+            component_root = Path(component.full_path)
+            if not component_root.joinpath(*source_parts).is_dir():
+                self.add_error(
+                    None,
+                    gettext("Could not determine Sphinx source directory."),
+                )
+        return cleaned_data
 
 
 class GenerateForm(BaseAddonForm):

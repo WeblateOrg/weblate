@@ -5,8 +5,11 @@
 from __future__ import annotations
 
 import base64
+import contextlib
 import json
 import os
+import subprocess
+import sys
 import tempfile
 from datetime import timedelta
 from io import StringIO
@@ -19,6 +22,10 @@ import requests
 import responses
 from django.core.management import call_command
 from django.core.management.base import CommandError
+from django.core.management.commands.makemessages import (
+    Command as DjangoMakemessagesCommand,
+)
+from django.core.management.utils import find_command
 from django.test import TestCase
 from django.test.utils import override_settings
 from django.urls import reverse
@@ -27,6 +34,7 @@ from standardwebhooks.webhooks import Webhook, WebhookVerificationError
 
 from weblate.lang.models import Language
 from weblate.trans.actions import ActionEvents
+from weblate.trans.file_format_params import get_default_params_for_file_format
 from weblate.trans.models import (
     Announcement,
     Category,
@@ -74,11 +82,15 @@ from .generate import (
     PseudolocaleAddon,
 )
 from .gettext import (
+    DJANGO_EXTRACT_RUNNER,
+    DjangoAddon,
     GenerateMoAddon,
     GettextAuthorComments,
     MsgmergeAddon,
+    SphinxAddon,
     UpdateConfigureAddon,
     UpdateLinguasAddon,
+    XgettextAddon,
 )
 from .git import GitSquashAddon
 from .models import ADDONS, Addon, AddonActivityLog, handle_addon_event
@@ -400,6 +412,833 @@ class GettextAddonTest(ViewTestCase):
         addon = UpdateConfigureAddon.create(component=translation.component)
         addon.post_add(translation)
         self.assertEqual(translation.addon_commit_files, [])
+
+    def test_xgettext_form(self) -> None:
+        form = XgettextAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "normalize_header": True,
+                "update_po_files": True,
+                "language": "Python",
+                "files": "src/*.py\ntemplates/*.html\n",
+            },
+        )
+        self.assertTrue(form.is_valid())
+        self.assertEqual(
+            form.cleaned_data["files"],
+            ["src/*.py", "templates/*.html"],
+        )
+
+    def test_xgettext_form_missing_files(self) -> None:
+        form = XgettextAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "update_po_files": True,
+                "language": "Python",
+                "files": "",
+            },
+        )
+        self.assertFalse(form.is_valid())
+
+    def test_extract_pot_settings_form_hides_install_msgmerge(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "normalize_header": False,
+                "language": "Python",
+                "files": ["src/*.py"],
+            },
+        )
+
+        form = addon.get_settings_form(None)
+
+        self.assertIsNotNone(form)
+        self.assertIn("update_po_files", form.fields)
+        self.assertTrue(form.fields["update_po_files"].widget.is_hidden)
+
+    def test_django_form(self) -> None:
+        self.component.new_base = "locale/django.pot"
+        form = DjangoAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "normalize_header": True,
+                "update_po_files": True,
+            },
+        )
+        self.assertTrue(form.is_valid())
+
+    def test_django_form_invalid_domain(self) -> None:
+        self.component.new_base = "locale/website.pot"
+        form = DjangoAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "normalize_header": True,
+                "update_po_files": True,
+            },
+        )
+        self.assertFalse(form.is_valid())
+
+    def test_sphinx_form_invalid_component(self) -> None:
+        form = SphinxAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "normalize_header": False,
+                "update_po_files": True,
+            },
+        )
+        self.assertFalse(form.is_valid())
+
+    def test_sphinx_form_valid_component(self) -> None:
+        self.component.new_base = "docs/locales/docs.pot"
+        (Path(self.component.full_path) / "docs").mkdir(parents=True, exist_ok=True)
+        form = SphinxAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "normalize_header": False,
+                "update_po_files": True,
+            },
+        )
+        self.assertTrue(form.is_valid())
+
+    def test_sphinx_form_valid_root_component(self) -> None:
+        self.component.new_base = "locales/docs.pot"
+        form = SphinxAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "normalize_header": False,
+                "update_po_files": True,
+            },
+        )
+        self.assertTrue(form.is_valid())
+
+    def test_sphinx_form_missing_source_dir(self) -> None:
+        self.component.new_base = "docs/locales/docs.pot"
+        form = SphinxAddon.get_add_form(
+            None,
+            component=self.component,
+            data={
+                "interval": "weekly",
+                "normalize_header": False,
+                "update_po_files": True,
+            },
+        )
+        self.assertFalse(form.is_valid())
+
+    def test_extract_pot_requires_component_new_base(self) -> None:
+        self.component.new_base = ""
+        self.component.save(update_fields=["new_base"])
+
+        self.assertFalse(XgettextAddon.can_install(component=self.component))
+        self.assertFalse(DjangoAddon.can_install(component=self.component))
+        self.assertFalse(SphinxAddon.can_install(component=self.component))
+
+    def test_xgettext(self) -> None:
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text(
+            'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+        )
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "files": ["src/*.py"],
+            },
+        )
+
+        with patch.object(XgettextAddon, "run_process", return_value="") as mocked:
+            addon.update_translations(self.component, "")
+
+        mocked.assert_called_once()
+        command = mocked.call_args.args[1]
+        self.assertEqual(
+            command[:4], ["xgettext", "--output", "po/hello.pot", "--language"]
+        )
+        self.assertIn("Python", command)
+        self.assertIn("src/messages.py", command)
+        self.assertIn(
+            os.path.join(self.component.full_path, "po/hello.pot"),
+            addon.extra_files,
+        )
+
+    def test_xgettext_skip_without_relevant_change(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "files": ["src/*.py"],
+            },
+        )
+
+        with (
+            patch.object(
+                self.component.repository,
+                "list_changed_files",
+                return_value=["README.md"],
+            ),
+            patch.object(XgettextAddon, "run_process", return_value="") as mocked,
+        ):
+            addon.update_translations(self.component, "old-revision")
+
+        mocked.assert_not_called()
+
+    def test_extract_pot_weekly_schedule(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "files": ["src/*.py"],
+            },
+        )
+        addon.instance.state["last_run"] = timezone.now().date().isoformat()
+
+        self.assertFalse(addon.is_schedule_due())
+
+    def test_xgettext_uses_last_successful_revision_for_change_detection(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "files": ["src/*.py"],
+            },
+        )
+        addon.instance.state["last_revision"] = "stored-revision"
+
+        with patch.object(
+            self.component.repository,
+            "list_changed_files",
+            return_value=["src/messages.py"],
+        ) as mocked:
+            self.assertTrue(addon.has_relevant_changes(self.component, "previous-head"))
+
+        mocked.assert_called_once_with(
+            self.component.repository.ref_to_remote.format("stored-revision")
+        )
+
+    def test_extract_pot_commit_not_blocked_by_alerts(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "files": ["src/*.py"],
+            },
+        )
+        addon.alerts.append(
+            {
+                "addon": addon.name,
+                "command": "xgettext",
+                "output": "po/hello.pot",
+                "error": "partial failure",
+            }
+        )
+
+        with (
+            patch.object(self.component.repository, "needs_commit", return_value=True),
+            patch.object(self.component, "commit_files") as mocked_commit,
+        ):
+            committed = addon.commit_and_push(
+                self.component, files=["po/hello.pot"], skip_push=True
+            )
+
+        self.assertTrue(committed)
+        mocked_commit.assert_called_once()
+
+    def test_extract_pot_normalize_header(self) -> None:
+        addon = DjangoAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"interval": "weekly", "normalize_header": True},
+        )
+        self.component.report_source_bugs = "bugs@example.com"
+        template = Path(self.component.full_path) / "po" / "hello.pot"
+        template.write_text(
+            """# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.\n# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER\n# This file is distributed under the same license as the PACKAGE package.\nmsgid ""\nmsgstr ""\n"Project-Id-Version: PACKAGE VERSION\\n"\n"Report-Msgid-Bugs-To: EMAIL@ADDRESS\\n"\n"SOME DESCRIPTIVE TITLE.\\n"\n""",
+            encoding="utf-8",
+        )
+
+        addon.normalize_header(self.component, os.fspath(template))
+        content = template.read_text(encoding="utf-8")
+        self.assertIn('"Project-Id-Version: Test / Test\\n"', content)
+        self.assertIn('"Report-Msgid-Bugs-To: bugs@example.com\\n"', content)
+        self.assertIn("Translations for Test / Test.", content)
+        self.assertNotIn("FIRST AUTHOR", content)
+
+    def test_django_command(self) -> None:
+        self.component.new_base = "locale/django.pot"
+        addon = DjangoAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"interval": "weekly", "normalize_header": False},
+        )
+
+        def run_process(component, command, env=None, cwd=None):
+            locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
+            locale_dir.mkdir(parents=True, exist_ok=True)
+            (locale_dir / "django.pot").write_text(
+                'msgid ""\nmsgstr ""\n', encoding="utf-8"
+            )
+            return ""
+
+        with (
+            patch.object(DjangoAddon, "validate_repository_tree", return_value=True),
+            patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
+        ):
+            addon.execute_update(self.component, "")
+
+        command = mocked.call_args.args[1]
+        self.assertEqual(
+            command[:2], [sys.executable, os.fspath(DJANGO_EXTRACT_RUNNER)]
+        )
+        self.assertIn("django", command)
+        self.assertNotIn("--keep-pot", command)
+        self.assertNotIn("-a", command)
+        self.assertIn("WEBLATE_EXTRACT_LOCALE_PATH", mocked.call_args.kwargs["env"])
+        self.assertEqual(mocked.call_args.kwargs["cwd"], self.component.full_path)
+
+    def test_django_scopes_to_pot_parent_tree(self) -> None:
+        self.component.new_base = "weblate/locale/django.pot"
+        source_dir = Path(self.component.full_path) / "weblate"
+        source_dir.mkdir(parents=True, exist_ok=True)
+        addon = DjangoAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"interval": "weekly", "normalize_header": False},
+        )
+
+        def run_process(component, command, env=None, cwd=None):
+            locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
+            locale_dir.mkdir(parents=True, exist_ok=True)
+            (locale_dir / "django.pot").write_text(
+                'msgid ""\nmsgstr ""\n', encoding="utf-8"
+            )
+            return ""
+
+        with (
+            patch.object(DjangoAddon, "validate_repository_tree", return_value=True),
+            patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
+        ):
+            addon.execute_update(self.component, "")
+
+        self.assertEqual(mocked.call_args.kwargs["cwd"], os.fspath(source_dir))
+
+    def test_django_uses_file_format_gettext_flags(self) -> None:
+        self.component.new_base = "locale/django.pot"
+        params = get_default_params_for_file_format(self.component.file_format)
+        params.update({"po_no_location": True, "po_line_wrap": -1})
+        self.component.file_format_params = params
+        self.component.save(update_fields=["file_format_params"])
+        addon = DjangoAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"interval": "weekly", "normalize_header": False},
+        )
+
+        def run_process(component, command, env=None, cwd=None):
+            locale_dir = Path(env["WEBLATE_EXTRACT_LOCALE_PATH"])
+            locale_dir.mkdir(parents=True, exist_ok=True)
+            (locale_dir / "django.pot").write_text(
+                'msgid ""\nmsgstr ""\n', encoding="utf-8"
+            )
+            return ""
+
+        with (
+            patch.object(DjangoAddon, "validate_repository_tree", return_value=True),
+            patch.object(DjangoAddon, "run_process", side_effect=run_process) as mocked,
+        ):
+            addon.execute_update(self.component, "")
+
+        command = mocked.call_args.args[1]
+        self.assertIn("--no-location", command)
+        self.assertIn("--no-wrap", command)
+
+    def test_sphinx_scopes_to_repo_root_locales(self) -> None:
+        self.component.new_base = "locales/docs.pot"
+        addon = SphinxAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"interval": "weekly", "normalize_header": False},
+        )
+
+        with (
+            patch.object(SphinxAddon, "run_process", return_value="") as mocked,
+            tempfile.TemporaryDirectory(prefix="weblate-sphinx-test-") as tempdir,
+            patch("weblate.addons.gettext.tempfile.TemporaryDirectory") as mocked_tmp,
+            patch.object(SphinxAddon, "validate_repository_tree", return_value=True),
+        ):
+            build_dir = Path(tempdir) / "build"
+            (build_dir / "docs").mkdir(parents=True, exist_ok=True)
+            (build_dir / "docs" / "docs.pot").write_text(
+                'msgid ""\nmsgstr ""\n', encoding="utf-8"
+            )
+            mocked_tmp.return_value.__enter__.return_value = tempdir
+            mocked_tmp.return_value.__exit__.return_value = False
+            addon.execute_update(self.component, "")
+
+        self.assertEqual(mocked.call_args.args[1][-2], self.component.full_path)
+
+    def prepare_django_extraction_fixture(self) -> tuple[Path, Path, Path, Path, Path]:
+        self.component.new_base = "extract-app/locale/django.pot"
+        source_dir = Path(self.component.full_path) / "extract-app"
+        module_one = source_dir / "module_one"
+        module_two = source_dir / "module_two"
+        top_level_locale = source_dir / "locale"
+        module_one.mkdir(parents=True, exist_ok=True)
+        (module_two / "templates" / "module_two").mkdir(parents=True, exist_ok=True)
+        top_level_locale.mkdir(parents=True, exist_ok=True)
+
+        (module_one / "views.py").write_text(
+            "from django.utils.translation import gettext as _\n"
+            '_("Module one string")\n',
+            encoding="utf-8",
+        )
+        (module_two / "templates" / "module_two" / "page.html").write_text(
+            '{% load i18n %}{% translate "Module two template" %}\n',
+            encoding="utf-8",
+        )
+
+        module_one_po = module_one / "locale" / "cs" / "LC_MESSAGES" / "django.po"
+        module_one_po.parent.mkdir(parents=True, exist_ok=True)
+        module_one_po.write_text("module one sentinel\n", encoding="utf-8")
+
+        module_two_po = module_two / "locale" / "de" / "LC_MESSAGES" / "django.po"
+        module_two_po.parent.mkdir(parents=True, exist_ok=True)
+        module_two_po.write_text("module two sentinel\n", encoding="utf-8")
+
+        top_level_po = top_level_locale / "fr" / "LC_MESSAGES" / "django.po"
+        top_level_po.parent.mkdir(parents=True, exist_ok=True)
+        top_level_po.write_text("top level sentinel\n", encoding="utf-8")
+        top_level_en_po = top_level_locale / "en" / "LC_MESSAGES" / "django.po"
+        top_level_en_po.parent.mkdir(parents=True, exist_ok=True)
+        top_level_en_po.write_text(
+            'msgid ""\nmsgstr ""\n"Language: en\\n"\n\nmsgid "Old string"\nmsgstr ""\n',
+            encoding="utf-8",
+        )
+        preexisting_top_level_pot = top_level_locale / "django.pot"
+        preexisting_top_level_pot.write_text("stale pot\n", encoding="utf-8")
+        return (
+            source_dir,
+            module_one_po,
+            module_two_po,
+            top_level_po,
+            top_level_en_po,
+        )
+
+    def test_stock_django_uses_repository_locale_dir(self) -> None:
+        source_dir, module_one_po, module_two_po, _top_level_po, top_level_en_po = (
+            self.prepare_django_extraction_fixture()
+        )
+
+        with tempfile.TemporaryDirectory(prefix="weblate-django-stock-") as tempdir:
+            original_cwd = os.getcwd()
+            with (
+                override_settings(
+                    LOCALE_PATHS=[os.path.join(tempdir, "locale")],
+                    LOCALE_FILTER_FILES=False,
+                ),
+                contextlib.ExitStack() as stack,
+            ):
+                stack.callback(os.chdir, original_cwd)
+                os.chdir(source_dir)
+                DjangoMakemessagesCommand().handle(
+                    locale=["en"],
+                    exclude=[],
+                    domain="django",
+                    verbosity=0,
+                    all=False,
+                    extensions=None,
+                    symlinks=False,
+                    ignore_patterns=[],
+                    use_default_ignore_patterns=True,
+                    no_wrap=False,
+                    no_location=False,
+                    add_location=None,
+                    no_obsolete=False,
+                    keep_pot=True,
+                )
+
+        module_one_en_po = module_one_po.parents[2] / "en" / "LC_MESSAGES" / "django.po"
+        module_two_en_po = module_two_po.parents[2] / "en" / "LC_MESSAGES" / "django.po"
+        self.assertEqual(
+            top_level_en_po.read_text(encoding="utf-8"),
+            'msgid ""\nmsgstr ""\n"Language: en\\n"\n\nmsgid "Old string"\nmsgstr ""\n',
+        )
+        self.assertTrue(module_one_en_po.exists())
+        self.assertTrue(module_two_en_po.exists())
+        self.assertIn(
+            'msgid "Module one string"', module_one_en_po.read_text(encoding="utf-8")
+        )
+        self.assertIn(
+            'msgid "Module two template"',
+            module_two_en_po.read_text(encoding="utf-8"),
+        )
+
+    def test_django_ignores_repository_locale_dirs_during_extraction(self) -> None:
+        (
+            _source_dir,
+            module_one_po,
+            module_two_po,
+            top_level_po,
+            top_level_en_po,
+        ) = self.prepare_django_extraction_fixture()
+
+        addon = DjangoAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"interval": "weekly", "normalize_header": False},
+        )
+
+        with patch.object(DjangoAddon, "validate_repository_tree", return_value=True):
+            result = addon.execute_update(self.component, "")
+
+        self.assertTrue(result)
+        generated = (
+            Path(self.component.full_path) / "extract-app" / "locale" / "django.pot"
+        )
+        content = generated.read_text(encoding="utf-8")
+        self.assertIn('msgid "Module one string"', content)
+        self.assertIn('msgid "Module two template"', content)
+        self.assertNotEqual(content, "stale pot\n")
+        self.assertEqual(
+            top_level_po.read_text(encoding="utf-8"), "top level sentinel\n"
+        )
+        self.assertEqual(
+            top_level_en_po.read_text(encoding="utf-8"),
+            'msgid ""\nmsgstr ""\n"Language: en\\n"\n\nmsgid "Old string"\nmsgstr ""\n',
+        )
+        self.assertEqual(
+            module_one_po.read_text(encoding="utf-8"), "module one sentinel\n"
+        )
+        self.assertEqual(
+            module_two_po.read_text(encoding="utf-8"), "module two sentinel\n"
+        )
+        self.assertFalse((module_one_po.parent / "django.pot").exists())
+        self.assertFalse((module_two_po.parent / "django.pot").exists())
+
+    def test_sphinx_command(self) -> None:
+        self.component.new_base = "docs/locales/docs.pot"
+        source_dir = Path(self.component.full_path) / "docs"
+        source_dir.mkdir(parents=True, exist_ok=True)
+        (source_dir / "index.rst").write_text("Heading\n=======\n", encoding="utf-8")
+        addon = SphinxAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"interval": "weekly", "normalize_header": False},
+        )
+
+        def run_process(component, command, env=None):
+            build_dir = Path(command[-1])
+            build_dir.mkdir(parents=True, exist_ok=True)
+            (build_dir / "docs.pot").write_text(
+                'msgid ""\nmsgstr ""\n', encoding="utf-8"
+            )
+            return ""
+
+        with (
+            patch.object(SphinxAddon, "validate_repository_tree", return_value=True),
+            patch.object(SphinxAddon, "run_process", side_effect=run_process) as mocked,
+        ):
+            result = addon.execute_update(self.component, "")
+
+        self.assertTrue(result)
+        command = mocked.call_args.args[1]
+        self.assertEqual(command[0], "sphinx-build")
+        self.assertIn("-E", command)
+        self.assertIn("-d", command)
+        self.assertIn("-c", command)
+        self.assertIn(os.fspath(Path(self.component.full_path) / "docs"), command)
+        self.assertEqual(
+            command[command.index("-c") + 1],
+            os.fspath(
+                Path(__file__).resolve().parent.parent
+                / "addons"
+                / "extractors"
+                / "sphinx"
+            ),
+        )
+        doctree_dir = Path(command[command.index("-d") + 1])
+        self.assertEqual(doctree_dir.name, "doctrees")
+        self.assertNotIn("env", mocked.call_args.kwargs)
+        self.assertIn(
+            os.path.join(self.component.full_path, "docs/locales/docs.pot"),
+            addon.extra_files,
+        )
+
+    def test_sphinx_refuses_out_of_tree_symlink(self) -> None:
+        if not hasattr(os, "symlink"):
+            self.skipTest("symlinks are not supported")
+
+        self.component.new_base = "docs/locales/docs.pot"
+        source_dir = Path(self.component.full_path) / "docs"
+        source_dir.parent.mkdir(parents=True, exist_ok=True)
+        addon = SphinxAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"interval": "weekly", "normalize_header": False},
+        )
+
+        with tempfile.TemporaryDirectory(prefix="weblate-sphinx-outside-") as tempdir:
+            outside_dir = Path(tempdir)
+            (outside_dir / "index.rst").write_text(
+                "Heading\n=======\n", encoding="utf-8"
+            )
+            source_dir.symlink_to(outside_dir, target_is_directory=True)
+
+            with patch.object(SphinxAddon, "run_process", return_value="") as mocked:
+                result = addon.execute_update(self.component, "")
+
+        self.assertFalse(result)
+        mocked.assert_not_called()
+        self.assertEqual(
+            addon.alerts[-1]["error"],
+            "Repository contains symlink outside repository",
+        )
+
+    def test_sphinx_disables_docutils_file_insertion(self) -> None:
+        if find_command("sphinx-build") is None:
+            self.skipTest("sphinx-build is not installed")
+
+        self.component.new_base = "docs/locales/docs.pot"
+        source_dir = Path(self.component.full_path) / "docs"
+        source_dir.mkdir(parents=True, exist_ok=True)
+
+        with tempfile.NamedTemporaryFile(
+            prefix="weblate-sphinx-include-",
+            suffix=".txt",
+            mode="w",
+            encoding="utf-8",
+            delete=False,
+        ) as included:
+            included.write("TOP SECRET INCLUDED CONTENT\n")
+            include_path = included.name
+
+        self.addCleanup(
+            lambda: os.path.exists(include_path) and os.unlink(include_path)
+        )
+
+        (source_dir / "index.rst").write_text(
+            f"Heading\n=======\n\n.. include:: {include_path}\n",
+            encoding="utf-8",
+        )
+
+        addon = SphinxAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"interval": "weekly", "normalize_header": False},
+        )
+
+        with patch.object(SphinxAddon, "validate_repository_tree", return_value=True):
+            result = addon.execute_update(self.component, "")
+
+        generated = Path(self.component.full_path) / "docs" / "locales" / "docs.pot"
+        if result:
+            self.assertTrue(generated.exists())
+            self.assertNotIn(
+                "TOP SECRET INCLUDED CONTENT",
+                generated.read_text(encoding="utf-8"),
+            )
+        else:
+            self.assertTrue(addon.alerts)
+            self.assertNotIn(
+                "TOP SECRET INCLUDED CONTENT",
+                addon.alerts[-1].get("output", ""),
+            )
+
+    def test_django_refuses_out_of_tree_symlink(self) -> None:
+        if not hasattr(os, "symlink"):
+            self.skipTest("symlinks are not supported")
+
+        self.component.new_base = "locale/website.pot"
+        addon = DjangoAddon.create(
+            component=self.component,
+            run=False,
+            configuration={"interval": "weekly", "normalize_header": False},
+        )
+
+        with tempfile.TemporaryDirectory(prefix="weblate-django-outside-") as tempdir:
+            outside_dir = Path(tempdir)
+            (outside_dir / "messages.py").write_text(
+                'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+            )
+            (Path(self.component.full_path) / "src").symlink_to(
+                outside_dir, target_is_directory=True
+            )
+
+            with patch.object(DjangoAddon, "run_process", return_value="") as mocked:
+                result = addon.execute_update(self.component, "")
+
+        self.assertFalse(result)
+        mocked.assert_not_called()
+        self.assertEqual(
+            addon.alerts[-1]["error"],
+            "Repository contains symlink outside repository",
+        )
+
+    def test_extract_pot_installs_msgmerge(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "_install_msgmerge": True,
+                "interval": "weekly",
+                "language": "Python",
+                "files": ["src/*.py"],
+            },
+        )
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text(
+            'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+        )
+
+        with (
+            patch.object(MsgmergeAddon, "can_install", return_value=True),
+            patch.object(MsgmergeAddon, "create", autospec=True) as mocked_create,
+            patch.object(XgettextAddon, "run_process", return_value=""),
+        ):
+            addon.post_configure_run_component(self.component)
+
+        mocked_create.assert_called_once()
+
+    def test_extract_pot_warns_without_msgmerge(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "_install_msgmerge": True,
+                "interval": "weekly",
+                "language": "Python",
+                "files": ["src/*.py"],
+            },
+        )
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text(
+            'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+        )
+
+        with (
+            patch.object(MsgmergeAddon, "can_install", return_value=False),
+        ):
+            addon.post_configure_run_component(self.component)
+
+        self.assertEqual(len(addon.warnings), 1)
+        self.assertTrue(self.component.alert_set.filter(name=addon.alert).exists())
+
+    def test_extract_pot_runtime_uses_existing_msgmerge_even_if_disabled(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "files": ["src/*.py"],
+            },
+        )
+        msgmerge = MsgmergeAddon.create(component=self.component, run=False)
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text(
+            'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+        )
+
+        with (
+            patch.object(XgettextAddon, "run_process", return_value=""),
+            patch.object(MsgmergeAddon, "update_translations", autospec=True) as mocked,
+            patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
+        ):
+            addon.update_translations(self.component, "")
+
+        mocked.assert_called_once()
+        self.assertEqual(mocked.call_args.args[0].instance.pk, msgmerge.instance.pk)
+        self.assertIs(mocked.call_args.args[1], self.component)
+        self.assertEqual(mocked.call_args.args[2], "")
+
+    def test_extract_pot_uses_project_level_msgmerge(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "files": ["src/*.py"],
+            },
+        )
+        msgmerge = MsgmergeAddon.create(project=self.component.project, run=False)
+        self.component.drop_addons_cache()
+        source = Path(self.component.full_path) / "src" / "messages.py"
+        source.parent.mkdir(parents=True, exist_ok=True)
+        source.write_text(
+            'from gettext import gettext as _\n_("Hello")\n', encoding="utf-8"
+        )
+
+        with (
+            patch.object(XgettextAddon, "run_process", return_value=""),
+            patch.object(MsgmergeAddon, "update_translations", autospec=True) as mocked,
+            patch.object(XgettextAddon, "validate_repository_tree", return_value=True),
+        ):
+            addon.update_translations(self.component, "")
+
+        mocked.assert_called_once()
+        self.assertEqual(mocked.call_args.args[0].instance.pk, msgmerge.instance.pk)
+        self.assertIs(mocked.call_args.args[1], self.component)
+        self.assertEqual(mocked.call_args.args[2], "")
+
+    def test_extract_pot_timeout(self) -> None:
+        addon = XgettextAddon.create(
+            component=self.component,
+            run=False,
+            configuration={
+                "interval": "weekly",
+                "update_po_files": False,
+                "language": "Python",
+                "files": ["src/*.py"],
+            },
+        )
+
+        with patch(
+            "weblate.addons.gettext.subprocess.check_output",
+            side_effect=subprocess.TimeoutExpired(
+                ["xgettext"], timeout=addon.PROCESS_TIMEOUT
+            ),
+        ):
+            output = addon.run_process(self.component, ["xgettext"])
+
+        self.assertIsNone(output)
+        self.assertEqual(len(addon.alerts), 1)
+        self.assertIn("timed out", addon.alerts[0]["error"].lower())
 
     def test_generate(self) -> None:
         self.assertTrue(GenerateFileAddon.can_install(component=self.component))

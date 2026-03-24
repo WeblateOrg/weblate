@@ -8,6 +8,7 @@ Weblate 5.17
 * Added :setting:`WEBSITE_ALERTS_ENABLED` setting to allow disabling project website availability checks and alerts.
 * Shared components can now be categorized within the target project.
 * :ref:`api` supports specifying a category when sharing a component via ``category_id`` parameter.
+* Added gettext add-ons to update POT files using :program:`xgettext`, Django extraction, or Sphinx extraction with configurable update cadence.
 
 .. rubric:: Improvements
 

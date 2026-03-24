@@ -50,6 +50,12 @@ if TYPE_CHECKING:
 
 # Initialize addons registry
 ADDONS = ClassLoader("WEBLATE_ADDONS", construct=False, base_class=BaseAddon)
+POT_GUIDANCE_ADDONS = {
+    "weblate.gettext.xgettext",
+    "weblate.gettext.django",
+    "weblate.gettext.sphinx",
+    "weblate.gettext.msgmerge",
+}
 
 
 @dataclass
@@ -239,6 +245,7 @@ class Addon(models.Model):
             if original_component:
                 original_component.drop_addons_cache()
             self._drop_addons_cache()
+            self._update_pot_guidance_alert()
 
     def get_absolute_url(self) -> str:
         return reverse("addon-detail", kwargs={"pk": self.pk})
@@ -281,6 +288,28 @@ class Addon(models.Model):
         if self.component:
             self.component.drop_addons_cache()
 
+    def _affected_components(self):
+        if self.component:
+            if self.repo_scope:
+                return Component.objects.filter(
+                    Q(pk=self.component_id) | Q(linked_component=self.component_id)
+                )
+            return Component.objects.filter(pk=self.component_id)
+        if self.category:
+            return self.category.all_components.all()
+        if self.project:
+            return self.project.component_set.all()
+        return Component.objects.all()
+
+    def _update_pot_guidance_alert(self) -> None:
+        if self.name not in POT_GUIDANCE_ADDONS:
+            return
+        from weblate.trans.models.alert import update_alerts
+
+        for component in self._affected_components().iterator():
+            component.drop_addons_cache()
+            update_alerts(component, {"ExtractPotMissingMsgmerge"})
+
     def delete(self, using=None, keep_parents=False):
         # Store history
         self.store_change(ActionEvents.ADDON_REMOVE)
@@ -304,6 +333,7 @@ class Addon(models.Model):
         result = super().delete(using=using, keep_parents=keep_parents)
 
         self._drop_addons_cache()
+        self._update_pot_guidance_alert()
 
         # Trigger post uninstall action
         if self.is_valid:
@@ -364,6 +394,9 @@ class AddonsConf(AppConf):
         "weblate.addons.gettext.UpdateLinguasAddon",
         "weblate.addons.gettext.UpdateConfigureAddon",
         "weblate.addons.gettext.MsgmergeAddon",
+        "weblate.addons.gettext.XgettextAddon",
+        "weblate.addons.gettext.DjangoAddon",
+        "weblate.addons.gettext.SphinxAddon",
         "weblate.addons.gettext.GettextAuthorComments",
         "weblate.addons.cleanup.CleanupAddon",
         "weblate.addons.cleanup.RemoveBlankAddon",
