@@ -291,7 +291,6 @@ class Translation(
     def get_flags_without_readonly(self) -> Flags:
         result = self.parse_check_flags()
         result.remove("read-only")
-        result.merge("test-only")
         return result
 
     def clean(self) -> None:
