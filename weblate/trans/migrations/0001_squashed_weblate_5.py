@@ -8,6 +8,7 @@ import django.core.validators
 import django.db.models.deletion
 import django.db.models.functions.text
 from django.conf import settings
+from django.contrib.postgres.operations import BtreeGinExtension, TrigramExtension
 from django.core.exceptions import ImproperlyConfigured
 from django.db import migrations, models
 
@@ -38,18 +39,6 @@ FIELDS = (
 def create_index(apps, schema_editor) -> None:
     vendor = schema_editor.connection.vendor
     if vendor == "postgresql":
-        cur = schema_editor.connection.cursor()
-
-        # Install pg_trgm for trigram search and index
-        cur.execute("SELECT * FROM pg_extension WHERE extname = 'pg_trgm'")
-        if not cur.fetchone():
-            schema_editor.execute("CREATE EXTENSION IF NOT EXISTS pg_trgm")
-
-        # Install btree_gin for gin btree search and index
-        cur.execute("SELECT * FROM pg_extension WHERE extname = 'btree_gin'")
-        if not cur.fetchone():
-            schema_editor.execute("CREATE EXTENSION IF NOT EXISTS btree_gin")
-
         # Create GIN trigram index on searched fields
         for table, field, extra in FIELDS:
             schema_editor.execute(PG_TRGM.format(table, field, extra))
@@ -198,6 +187,8 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        BtreeGinExtension(),
+        TrigramExtension(),
         migrations.CreateModel(
             name="Project",
             fields=[
