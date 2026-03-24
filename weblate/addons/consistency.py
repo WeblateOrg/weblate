@@ -73,8 +73,9 @@ class LanguageConsistencyAddon(BaseAddon):
     def post_add(
         self, translation: Translation, activity_log_id: int | None = None, **kwargs
     ) -> None:
-        if self.instance.category_id:
-            if translation.component_id in self.instance.category.all_component_ids:
+        category = self.instance.category
+        if category is not None:
+            if translation.component_id in category.all_component_ids:
                 language_consistency.delay_on_commit(
                     self.instance.id,
                     [translation.language_id],

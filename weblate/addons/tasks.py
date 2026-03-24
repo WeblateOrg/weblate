@@ -6,7 +6,6 @@ from __future__ import annotations
 
 from datetime import timedelta
 from pathlib import Path
-from typing import TYPE_CHECKING
 
 from celery.schedules import crontab
 from django.conf import settings
@@ -33,9 +32,6 @@ from weblate.utils.hash import calculate_checksum
 from weblate.utils.lock import WeblateLockTimeoutError
 from weblate.utils.requests import asset_request
 from weblate.utils.validators import validate_filename
-
-if TYPE_CHECKING:
-    from django.db.models import QuerySet
 
 IGNORED_TAGS = {"script", "style"}
 
@@ -133,10 +129,13 @@ def language_consistency(
     # Filter components with missing translation
     if category_id is not None:
         category = Category.objects.get(pk=category_id)
-        base_components: QuerySet[Component] = category.all_components
-    else:
+        base_components = category.all_components
+    elif project_id is not None:
         project = Project.objects.get(pk=project_id)
         base_components = project.component_set.all()
+    else:
+        msg = "language_consistency requires either project_id or category_id"
+        raise ValueError(msg)
     components = base_components.annotate(
         translation_count=Count(
             "translation", filter=Q(translation__language__in=languages)
