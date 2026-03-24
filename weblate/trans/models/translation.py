@@ -173,7 +173,11 @@ class TranslationQuerySet(models.QuerySet):
 
     def order(self):
         return self.order_by(
-            "component__priority", "component__project__name", "component__name"
+            "component__priority",
+            "component__project__name",
+            "component__name",
+            "language__name",
+            "language__code",
         )
 
     def exclude_source(self):
