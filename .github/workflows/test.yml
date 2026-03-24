@@ -140,12 +140,16 @@ jobs:
         mv build/coverage/.coverage.* .
         uv run coverage combine
         uv run coverage xml
+    - name: Install client dependencies for Argos CI
+      if: matrix.python-version == '3.14' && matrix.requirements == 'latest' && github.repository_owner == 'WeblateOrg'
+      working-directory: ./client
+      run: yarn install --immutable
     - name: Argos CI upload
       if: matrix.python-version == '3.14' && matrix.requirements == 'latest' && github.repository_owner == 'WeblateOrg'
+      working-directory: ./client
       env:
         ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }} # zizmor: ignore[secrets-outside-env]
-      run: |
-        npx --package=@argos-ci/cli -- argos upload ./test-images/
+      run: yarn argos upload ../test-images/
     - uses: codecov/codecov-action@1af58845a975a7985b0beb0cbe6fbbb71a41dbad # v5.5.3
       with:
         token: ${{secrets.CODECOV_TOKEN}} # zizmor: ignore[secrets-outside-env]
