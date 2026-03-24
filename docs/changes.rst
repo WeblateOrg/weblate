@@ -13,11 +13,8 @@ Weblate 5.17
 * Improved LLM interfaces for better reliability.
 * Improved logic for adding monolingual plurals in :doc:`/formats/gettext`.
 * Improved error messages in some of the :ref:`api` endpoints.
-
 * Added check for Objective-C format strings.
-=======
 * :envvar:`WEBLATE_COMMIT_PENDING_HOURS` is now available in Docker container.
-
 
 .. rubric:: Bug fixes
 
