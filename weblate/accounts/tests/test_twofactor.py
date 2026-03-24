@@ -244,9 +244,9 @@ class TwoFactorTestCase(FixtureTestCase):
             mocked_time.return_value = 2_000_000_000
 
             session = self.client.session
-            session[SESSION_SECOND_FACTOR_TIMESTAMP] = int(
-                mocked_time.return_value
-            ) - SECOND_FACTOR_VERIFY_SECONDS
+            session[SESSION_SECOND_FACTOR_TIMESTAMP] = (
+                int(mocked_time.return_value) - SECOND_FACTOR_VERIFY_SECONDS
+            )
             session.save()
 
             response = self.client.get(reverse("password"))
