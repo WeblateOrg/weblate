@@ -25,6 +25,7 @@ Weblate 5.17
 * Improved API access control for pending tasks.
 * Faster category and project removals.
 * Project backup restore no longer trusts repository-local VCS configuration and hooks from the uploaded archive.
+* Billing merges no longer fail when combining payment records where only the source billing has full payment history.
 
 .. rubric:: Compatibility
 
