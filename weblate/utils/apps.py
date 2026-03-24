@@ -8,6 +8,7 @@ import errno
 import os
 import time
 from datetime import timedelta
+from email.utils import parseaddr
 from itertools import chain
 from pathlib import Path
 from shutil import disk_usage
@@ -256,8 +257,16 @@ def check_settings(
     """Check for sane settings."""
     errors: list[CheckMessage] = []
 
+    def is_default_admin_email(admin: str | tuple[str, str]) -> bool:
+        if isinstance(admin, tuple):
+            admin_mail = admin[1]
+        else:
+            admin_mail = parseaddr(admin)[1] or admin
+
+        return any(email in admin_mail for email in DEFAULT_MAILS)
+
     if not settings.ADMINS or any(
-        any(email in x[1] for email in DEFAULT_MAILS) for x in settings.ADMINS
+        is_default_admin_email(admin) for admin in settings.ADMINS
     ):
         errors.append(
             weblate_check(
