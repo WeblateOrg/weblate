@@ -23,6 +23,7 @@ There are several jobs to verify different aspects:
 * Documentation build and external links using `Sphinx <https://www.sphinx-doc.org/>`_.
 * Code linting and quality assurance using `ruff <https://docs.astral.sh/ruff/>`_ and `pylint <https://www.pylint.org/>`_.
 * Code security scanning using `CodeQL <https://codeql.github.com/>`_.
+* Visual changes testing is utilizing `Argos CI <https://argos-ci.com>`_.
 * Code formatting using `prek <https://pypi.org/project/prek/>`_, a faster
   third-party reimplementation of the `pre-commit <https://pre-commit.com/>`_
   framework.
