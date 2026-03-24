@@ -17,6 +17,7 @@ Weblate 5.17
 
 .. rubric:: Bug fixes
 
+* Batch automatic translation now uses project-level machinery configuration instead of only site-wide settings.
 * Fixed false positive in :ref:`check-xml-chars-around-tags` for Arabic letter Waw ("و") adjacent to XML tags.
 * :ref:`addon-weblate.git.squash` better handle commits applied upstream.
 * :ref:`addon-weblate.cdn.cdnjs` validates parsed locations.
