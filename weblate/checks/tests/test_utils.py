@@ -5,7 +5,7 @@
 from django.test import SimpleTestCase
 
 from weblate.checks.tests.test_checks import MockUnit
-from weblate.checks.utils import highlight_string
+from weblate.checks.utils import highlight_string, replace_highlighted
 
 
 class HighlightTestCase(SimpleTestCase):
@@ -74,4 +74,22 @@ class HighlightTestCase(SimpleTestCase):
                 (0, 14, "&lt;strong&gt;"),
                 (44, 59, "&lt;/strong&gt;"),
             ],
+        )
+
+    def test_replace_highlighted(self) -> None:
+        unit = MockUnit(
+            source="simple {format} %d string",
+            flags="python-brace-format, python-format",
+        )
+        self.assertEqual(
+            replace_highlighted(unit.source, unit),
+            "simple   string",
+        )
+        self.assertEqual(
+            replace_highlighted(
+                unit.source,
+                unit,
+                lambda start: f"x-weblate-{start}",
+            ),
+            "simple x-weblate-7 x-weblate-16 string",
         )

@@ -11,7 +11,7 @@ from django.utils.html import format_html
 from django.utils.translation import gettext_lazy, ngettext
 
 from weblate.checks.base import TargetCheck
-from weblate.checks.same import replace_format_placeholder, strip_format
+from weblate.checks.utils import placeholder_replacement, replace_highlighted
 from weblate.utils.html import format_html_join_comma
 from weblate.utils.unicodechars import NON_WORD_CHARS
 
@@ -74,15 +74,11 @@ class DuplicateCheck(TargetCheck):
         lang_code = unit.translation.language.base_code
 
         source_groups, source_words = self.extract_groups(
-            strip_format(
-                source, unit.all_flags, replacement=replace_format_placeholder
-            ),
+            replace_highlighted(source, unit, placeholder_replacement),
             source_code,
         )
         target_groups, target_words = self.extract_groups(
-            strip_format(
-                target, unit.all_flags, replacement=replace_format_placeholder
-            ),
+            replace_highlighted(target, unit, placeholder_replacement),
             lang_code,
         )
 
