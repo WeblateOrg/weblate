@@ -211,7 +211,7 @@ class Addon(models.Model):
                 else ActionEvents.ADDON_CHANGE
             )
 
-        result = super().save(
+        super().save(
             force_insert=force_insert,
             force_update=force_update,
             using=using,
@@ -223,8 +223,6 @@ class Addon(models.Model):
             if original_component:
                 original_component.drop_addons_cache()
             self._drop_addons_cache()
-
-        return result
 
     def get_absolute_url(self) -> str:
         return reverse("addon-detail", kwargs={"pk": self.pk})

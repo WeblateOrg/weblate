@@ -48,7 +48,7 @@ class RemovalAddon(BaseAddon):
             if component:
                 component.invalidate_cache()
             elif category:
-                for comp in category.all_components:
+                for comp in category.all_components.iterator():
                     comp.invalidate_cache()
             elif project:
                 for comp in project.component_set.iterator():

@@ -249,7 +249,7 @@ class BaseAddon(DocVersionsMixin):
     def post_configure_run_category(self, category: Category) -> None:
         from weblate.addons.models import execute_addon_event
 
-        for component in category.all_components:
+        for component in category.all_components.iterator():
             if self.can_process(component=component):
                 self.post_configure_run_component(component, skip_daily=True)
 
@@ -462,7 +462,7 @@ class BaseAddon(DocVersionsMixin):
         if component is not None:
             return [component]
         if category is not None:
-            return category.all_components
+            return category.all_components.iterator()
         if project is not None:
             return project.component_set.iterator()
         return Component.objects.iterator()
