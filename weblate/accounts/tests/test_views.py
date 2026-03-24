@@ -12,6 +12,7 @@ from unittest import mock
 from django.conf import settings
 from django.core import mail
 from django.core.signing import TimestampSigner
+from django.test import RequestFactory
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from jsonschema import validate
@@ -19,6 +20,7 @@ from weblate_schemas import load_schema
 
 from weblate.accounts.models import Profile, Subscription
 from weblate.accounts.notifications import NotificationFrequency, NotificationScope
+from weblate.accounts.views import get_notification_forms
 from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.trans.tests.test_models import RepoTestCase
@@ -507,6 +509,21 @@ class ProfileTest(FixtureTestCase):
         response = self.client.get(reverse("profile"), {"notify_project": "a"})
         self.assertNotContains(response, "Project: Test")
         self.assertNotContains(response, "Component: Test/Test")
+
+    def test_subscription_additional_form_defaults_to_active_scope(self) -> None:
+        request = RequestFactory().post(
+            f"{reverse('profile')}?notify_project={self.project.pk}",
+            {"notifications__3-component": self.component.pk},
+        )
+        request.user = self.user
+
+        form = next(
+            item
+            for item in get_notification_forms(request)
+            if item.prefix == "notifications__3"
+        )
+        self.assertEqual(form.initial["scope"], NotificationScope.SCOPE_PROJECT)
+        self.assertEqual(form.initial["project"], self.project)
 
     def test_watch(self) -> None:
         self.assertEqual(self.user.profile.watched.count(), 0)
