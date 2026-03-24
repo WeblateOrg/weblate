@@ -373,7 +373,7 @@ class UnitQueryParserTest(SearchTestCase):
         )
 
     def test_has(self) -> None:
-        self.assert_query("has:plural", Q(source__search=PLURAL_SEPARATOR))
+        self.assert_query("has:plural", Q(source__trgm_search=PLURAL_SEPARATOR))
         self.assert_query("has:suggestion", Q(suggestion__isnull=False))
         self.assert_query("has:check", Q(check__dismissed=False))
         self.assert_query("has:comment", Q(comment__resolved=False))
