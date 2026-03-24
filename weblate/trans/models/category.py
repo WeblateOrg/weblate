@@ -213,10 +213,18 @@ class Category(
 
     @cached_property
     def languages(self):
-        """Return list of all languages used in project."""
+        """Return list of all languages used in category, including shared components."""
+        from weblate.trans.models.component import ComponentLink
+
+        shared_ids = ComponentLink.objects.filter(
+            Q(category=self)
+            | Q(category__category=self)
+            | Q(category__category__category=self)
+        ).values_list("component_id", flat=True)
         return (
             Language.objects.filter(
-                translation__component_id__in=self.all_component_ids
+                Q(translation__component_id__in=self.all_component_ids)
+                | Q(translation__component_id__in=shared_ids)
             )
             .distinct()
             .order()

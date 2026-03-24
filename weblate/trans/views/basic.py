@@ -434,11 +434,19 @@ def show_project(request: AuthenticatedHttpRequest, obj: Project) -> HttpRespons
     def filter_no_category(qs: ComponentQuerySet) -> ComponentQuerySet:
         if settings.HIDE_SHARED_GLOSSARY_COMPONENTS:
             qs = qs.exclude(Q(is_glossary=True) & ~Q(project=obj))
-        # Exclude shared components that have a category assigned in this project
-        categorized_shared_ids = ComponentLink.objects.filter(
-            project=obj, category__isnull=False
-        ).values_list("component_id", flat=True)
-        return qs.filter(category=None).exclude(pk__in=categorized_shared_ids)
+        # Show at project root:
+        # - Owned components without a category (project=obj ensures we
+        #   don't match shared components whose source category is None)
+        # - Shared components whose link to this project has no category
+        #   (scoped to this project to avoid matching links to other projects
+        #   if a component is shared to multiple projects)
+        return qs.filter(
+            Q(project=obj, category=None)
+            | Q(
+                componentlink__project=obj,
+                componentlink__category__isnull=True,
+            )
+        )
 
     user = request.user
 

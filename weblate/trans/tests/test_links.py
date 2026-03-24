@@ -27,6 +27,61 @@ class ComponentLinkTestCase(ViewTestCase):
         response = self.client.get(self.other.get_absolute_url())
         self.assertContains(response, self.component.get_absolute_url())
 
+    def test_shared_with_source_category_visible_at_root(self) -> None:
+        """Shared component with a category in its source project should still appear at root of target project when the link has no category."""
+        source_cat = Category.objects.create(
+            name="Source Cat", slug="source-cat", project=self.project
+        )
+        self.component.category = source_cat
+        self.component.save(update_fields=["category"])
+
+        # self.link has no category - component should appear at other's root
+        response = self.client.get(self.other.get_absolute_url())
+        self.assertContains(response, self.component.get_absolute_url())
+
+        # Categorize the link - component should move from root to category
+        self.make_manager()
+        target_cat = Category.objects.create(
+            name="Target Cat", slug="target-cat", project=self.other
+        )
+        self.link.category = target_cat
+        self.link.save(update_fields=["category"])
+
+        # Not at root
+        response = self.client.get(self.other.get_absolute_url())
+        self.assertNotContains(response, self.component.get_absolute_url())
+
+        # Visible under the target category
+        response = self.client.get(target_cat.get_absolute_url())
+        self.assertContains(response, self.component.get_absolute_url())
+
+    def test_categorized_shared_not_at_root(self) -> None:
+        """Shared component categorized in one project must not appear at that project's root, even when shared uncategorized in another."""
+        self.make_manager()
+        self.assertIsNone(self.component.category)
+
+        # Share into a third project with no category
+        third = Project.objects.create(name="Third", slug="third")
+        ComponentLink.objects.create(component=self.component, project=third)
+
+        cat = Category.objects.create(
+            name="Target Cat", slug="target-cat", project=self.other
+        )
+        self.link.category = cat
+        self.link.save(update_fields=["category"])
+
+        # 'other' root should NOT show it (categorized there)
+        response = self.client.get(self.other.get_absolute_url())
+        self.assertNotContains(response, self.component.get_absolute_url())
+
+        # 'other' category SHOULD show it
+        response = self.client.get(cat.get_absolute_url())
+        self.assertContains(response, self.component.get_absolute_url())
+
+        # 'third' root SHOULD show it (uncategorized link)
+        response = self.client.get(third.get_absolute_url())
+        self.assertContains(response, self.component.get_absolute_url())
+
     def test_stats(self) -> None:
         project = Project.objects.get(pk=self.project.pk)
         other = Project.objects.get(pk=self.other.pk)
@@ -245,7 +300,7 @@ class ComponentLinkTestCase(ViewTestCase):
         self.assertIsNone(self.link.category)
 
     def test_category_stats(self) -> None:
-        """Category stats should include shared components assigned to it."""
+        """Category stats and languages should include shared components."""
         cat = Category.objects.create(
             name="Test Category", slug="test-cat", project=self.other
         )
@@ -259,6 +314,31 @@ class ComponentLinkTestCase(ViewTestCase):
         cat = Category.objects.get(pk=cat.pk)
         child_ids = set(cat.stats.get_child_objects().values_list("pk", flat=True))
         self.assertIn(self.component.pk, child_ids)
+
+    def test_category_languages_include_shared(self) -> None:
+        """An empty category with only a shared component should show that component's languages and translations in the language tab."""
+        cat = Category.objects.create(
+            name="Empty Cat", slug="empty-cat", project=self.other
+        )
+        self.assertEqual(cat.component_set.count(), 0)
+        self.assertEqual(len(cat.languages), 0)
+
+        self.link.category = cat
+        self.link.save()
+
+        cat = Category.objects.get(pk=cat.pk)
+        self.assertNotEqual(len(cat.languages), 0)
+
+        comp_languages = set(
+            self.component.translation_set.values_list("language_id", flat=True)
+        )
+        cat_language_ids = {lang.pk for lang in cat.languages}
+        self.assertTrue(comp_languages.issubset(cat_language_ids))
+
+        language_stats = cat.stats.get_language_stats()
+        self.assertGreater(len(language_stats), 0)
+        for stat in language_stats:
+            self.assertGreater(stat.all, 0)
 
     def test_add_link_requires_managed_project(self) -> None:
         """Cannot add a link to a project the user does not manage."""
