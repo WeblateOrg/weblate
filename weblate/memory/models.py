@@ -11,6 +11,7 @@ import re
 from typing import TYPE_CHECKING, BinaryIO, TypedDict
 
 from django.conf import settings
+from django.contrib.postgres import indexes as postgres_indexes
 from django.db import models
 from django.db.models import Q, Value
 from django.db.models.functions import MD5
@@ -585,7 +586,6 @@ class Memory(models.Model):
         verbose_name = "Translation memory entry"
         verbose_name_plural = "Translation memory entries"
         indexes = [  # noqa: RUF012
-            # Additional indexes are created manually in the migration for full text search
             # Use MD5 to index text fields, applied in MemoryQuerySet.filter
             models.Index(
                 MD5("origin"),
@@ -600,6 +600,12 @@ class Memory(models.Model):
                 "from_file",
                 condition=Q(from_file=True),
                 name="memory_from_file",
+            ),
+            postgres_indexes.GinIndex(
+                postgres_indexes.OpClass(models.F("source"), name="gin_trgm_ops"),
+                models.F("target_language"),
+                models.F("source_language"),
+                name="memory_source_trgm",
             ),
         ]
 

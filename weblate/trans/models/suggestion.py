@@ -8,6 +8,7 @@ from copy import copy
 from typing import TYPE_CHECKING
 
 from django.conf import settings
+from django.contrib.postgres import indexes as postgres_indexes
 from django.db import models, transaction
 from django.db.models import Q, Sum
 from django.utils.translation import gettext
@@ -136,6 +137,13 @@ class Suggestion(models.Model, UserDisplayMixin):
         app_label = "trans"
         verbose_name = "string suggestion"
         verbose_name_plural = "string suggestions"
+        indexes = [  # noqa: RUF012
+            postgres_indexes.GinIndex(
+                postgres_indexes.OpClass(models.F("target"), name="gin_trgm_ops"),
+                models.F("unit"),
+                name="suggestion_target_fulltext",
+            ),
+        ]
 
     def __str__(self) -> str:
         return f"suggestion for {self.unit} by {self.user.username if self.user else 'unknown'}"
