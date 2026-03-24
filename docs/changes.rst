@@ -22,6 +22,7 @@ Weblate 5.17
 * Asset downloads now enforce :setting:`ALLOWED_ASSET_DOMAINS` across HTTP redirects for screenshot URL uploads and remote HTML fetching in :ref:`addon-weblate.cdn.cdnjs`.
 * Removed unintended API endpoints for translation memory.
 * Improved API access control for pending tasks.
+* Deployment checks again detect default admin e-mail addresses when :setting:`ADMINS` uses Django 6.0 string entries.
 * Faster category and project removals.
 * Project backup restore no longer trusts repository-local VCS configuration and hooks from the uploaded archive.
 
