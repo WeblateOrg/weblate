@@ -11,6 +11,7 @@ from typing import TYPE_CHECKING, Any, Literal, TypedDict
 
 import sentry_sdk
 from django.conf import settings
+from django.contrib.postgres import indexes as postgres_indexes
 from django.core.cache import cache
 from django.db import Error as DjangoDatabaseError
 from django.db import models, transaction
@@ -498,6 +499,36 @@ class Unit(models.Model, LoggerMixin):
             ),
             models.Index(
                 MD5(Lower("context")), "translation", name="trans_unit_context_md5"
+            ),
+            postgres_indexes.GinIndex(
+                postgres_indexes.OpClass(models.F("source"), name="gin_trgm_ops"),
+                models.F("translation"),
+                name="unit_source_fulltext",
+            ),
+            postgres_indexes.GinIndex(
+                postgres_indexes.OpClass(models.F("target"), name="gin_trgm_ops"),
+                models.F("translation"),
+                name="unit_target_fulltext",
+            ),
+            postgres_indexes.GinIndex(
+                postgres_indexes.OpClass(models.F("context"), name="gin_trgm_ops"),
+                models.F("translation"),
+                name="unit_context_fulltext",
+            ),
+            postgres_indexes.GinIndex(
+                postgres_indexes.OpClass(models.F("note"), name="gin_trgm_ops"),
+                models.F("translation"),
+                name="unit_note_fulltext",
+            ),
+            postgres_indexes.GinIndex(
+                postgres_indexes.OpClass(models.F("location"), name="gin_trgm_ops"),
+                models.F("translation"),
+                name="unit_location_fulltext",
+            ),
+            postgres_indexes.GinIndex(
+                postgres_indexes.OpClass(models.F("explanation"), name="gin_trgm_ops"),
+                models.F("translation"),
+                name="unit_explanation_fulltext",
             ),
         ]
 
