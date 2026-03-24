@@ -508,6 +508,32 @@ class ProfileTest(FixtureTestCase):
         self.assertNotContains(response, "Project: Test")
         self.assertNotContains(response, "Component: Test/Test")
 
+    def test_subscription_additional_form_defaults_to_active_scope(self) -> None:
+        response = self.client.post(
+            f"{reverse('profile')}?notify_project={self.project.pk}",
+            {
+                "username": "",
+                "notifications__0-scope": NotificationScope.SCOPE_WATCHED,
+                "notifications__0-project": "",
+                "notifications__0-component": "",
+                "notifications__1-scope": NotificationScope.SCOPE_ADMIN,
+                "notifications__1-project": "",
+                "notifications__1-component": "",
+                "notifications__2-scope": NotificationScope.SCOPE_ALL,
+                "notifications__2-project": "",
+                "notifications__2-component": "",
+                "notifications__3-component": self.component.pk,
+            },
+        )
+        self.assertEqual(response.status_code, 200)
+        form = next(
+            form
+            for form in response.context["all_forms"]
+            if form.prefix == "notifications__3"
+        )
+        self.assertEqual(form["scope"].value(), str(NotificationScope.SCOPE_PROJECT))
+        self.assertEqual(form["project"].value(), str(self.project.pk))
+
     def test_watch(self) -> None:
         self.assertEqual(self.user.profile.watched.count(), 0)
         self.assertEqual(self.user.subscription_set.count(), 10)
