@@ -352,7 +352,7 @@ class XMLCharsAroundTagsCheck(BaseXMLCheck):
     def char_check(self, src_char: str, tgt_char: str) -> bool:
         src_letter = bool(SINGLE_LETTER_MATCH.search(src_char))
         tgt_letter = bool(SINGLE_LETTER_MATCH.search(tgt_char))
-        if not (src_letter ^ tgt_letter):
+        if not src_letter ^ tgt_letter:
             return False
         # Arabic letter Waw ("و") is a conjunction that commonly attaches directly
         # to the adjacent word without a space, so don't flag *whitespace* vs Waw.
