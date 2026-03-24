@@ -6,11 +6,11 @@ from __future__ import annotations
 
 import os
 import re
+import time
 from base64 import b32encode
 from binascii import unhexlify
 from collections import defaultdict
 from datetime import timedelta
-from time import monotonic
 from typing import TYPE_CHECKING, Any, ClassVar
 from urllib.parse import quote
 
@@ -1060,7 +1060,7 @@ def password(request: AuthenticatedHttpRequest):
         SESSION_SECOND_FACTOR_TIMESTAMP not in request.session
         or request.session[SESSION_SECOND_FACTOR_TIMESTAMP]
         + SECOND_FACTOR_VERIFY_SECONDS
-        < monotonic()
+        < int(time.time())
     ):
         messages.info(
             request,
@@ -1860,7 +1860,7 @@ class SecondFactorMixin(View):
         user = self.get_user()
         user.profile.log_2fa(self.request, device)
         del self.request.session[SESSION_SECOND_FACTOR_USER]
-        self.request.session[SESSION_SECOND_FACTOR_TIMESTAMP] = int(monotonic())
+        self.request.session[SESSION_SECOND_FACTOR_TIMESTAMP] = int(time.time())
 
         if not self.request.session.get(SESSION_SECOND_FACTOR_SOCIAL):
             # Keep login on social pipeline if we got here from it
