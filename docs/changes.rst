@@ -24,6 +24,7 @@ Weblate 5.17
 * Improved API access control for pending tasks.
 * Faster category and project removals.
 * Project backup restore no longer trusts repository-local VCS configuration and hooks from the uploaded archive.
+* :ref:`check-punctuation-spacing` check no longer triggers false positives for placeholders.
 
 .. rubric:: Compatibility
 
