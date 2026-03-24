@@ -15,7 +15,7 @@ TBX is an XML format for the exchange of terminology data.
     * :doc:`tt:formats/tbx`
     * :ref:`glossary`
 
-.. include:: snippets/format-features/tbx-features.rst
+.. include:: /snippets/format-features/tbx-features.rst
 
 Explanations
 ++++++++++++
