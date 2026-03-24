@@ -259,3 +259,27 @@ class ComponentLinkTestCase(ViewTestCase):
         cat = Category.objects.get(pk=cat.pk)
         child_ids = set(cat.stats.get_child_objects().values_list("pk", flat=True))
         self.assertIn(self.component.pk, child_ids)
+
+    def test_add_link_requires_managed_project(self) -> None:
+        """Cannot add a link to a project the user does not manage."""
+        self.project.add_user(self.user, "Administration")
+        third = Project.objects.create(name="Third", slug="third")
+        add_url = reverse(
+            "component-link-add",
+            kwargs={"path": self.component.get_url_path()},
+        )
+
+        # Cannot link to non-managed project
+        self.client.post(
+            add_url, {"link_add-project": third.pk, "link_add-category": ""}
+        )
+        response = self.client.get(third.get_absolute_url())
+        self.assertNotContains(response, self.component.get_absolute_url())
+
+        # Can link after gaining management
+        third.add_user(self.user, "Administration")
+        self.client.post(
+            add_url, {"link_add-project": third.pk, "link_add-category": ""}
+        )
+        response = self.client.get(third.get_absolute_url())
+        self.assertContains(response, self.component.get_absolute_url())

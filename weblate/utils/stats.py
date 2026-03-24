@@ -1303,10 +1303,16 @@ class CategoryLanguage(BaseURLMixin, TranslationChecklistMixin):
 
     @cached_property
     def translation_set(self):
+        from weblate.trans.models.component import ComponentLink
+
+        shared_component_ids = ComponentLink.objects.filter(
+            category=self.category
+        ).values_list("component_id", flat=True)
         result = self.language.translation_set.filter(
             Q(component__category__category__category=self.category)
             | Q(component__category__category=self.category)
             | Q(component__category=self.category)
+            | Q(component__pk__in=shared_component_ids)
         ).prefetch()
         for item in result:
             item.is_shared = (
