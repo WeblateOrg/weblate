@@ -197,7 +197,7 @@ alibaba = [
   "aliyun-python-sdk-core>=2.16.0,<3.0.0"
 ]
 all = [
-  "weblate[alibaba,amazon,gerrit,gelf,google,ldap,mercurial,openai,postgres,zxcvbn]"
+  "weblate[alibaba,amazon,gerrit,gelf,google,ldap,mercurial,openai,postgres,sphinx,zxcvbn]"
 ]
 amazon = [
   "boto3>=1.38.0,<2.0"
@@ -229,6 +229,9 @@ saml = [
 ]
 saml2idp = [
   "djangosaml2idp2==0.9.1"
+]
+sphinx = [
+  "Sphinx"
 ]
 wlhosted = [
   "wlhosted"
@@ -633,6 +636,7 @@ zip-safe = false
 
 [tool.setuptools.package-data]
 weblate = [
+  "addons/extractors/sphinx/docutils.conf",
   "locale/**/*.mo",
   "locale/**/*.po",
   "locale/**/*.pot",
