@@ -190,7 +190,7 @@ class MemoryQuerySet(models.QuerySet):
                 )
                 .filter(
                     # Full-text search on source
-                    source__search=text,
+                    source__trgm_search=text,
                     # Language filtering
                     source_language=source_language,
                     target_language=target_language,
