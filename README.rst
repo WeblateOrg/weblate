@@ -34,6 +34,10 @@ Install it, or use the Hosted Weblate service at `weblate.org`_.
     :alt: License
     :target: https://github.com/WeblateOrg/weblate/blob/main/COPYING
 
+.. image:: https://argos-ci.com/badge.svg
+    :alt: Covered by Argos Visual Testing
+    :target: https://app.argos-ci.com/weblate/weblate/reference?utm_source=weblate&utm_campaign=oss
+
 Support
 -------
 
