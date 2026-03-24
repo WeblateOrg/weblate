@@ -20,7 +20,7 @@ from django.core.cache import cache
 from django.core.checks import Error, Info, register
 from django.core.exceptions import ImproperlyConfigured
 from django.core.mail import get_connection
-from django.db import DatabaseError
+from django.db import DatabaseError, connections
 from django.db.models import CharField, TextField
 from django.db.models.functions import MD5, Lower
 from django.utils import timezone
@@ -38,7 +38,6 @@ from .db import (
     PostgreSQLSearchLookup,
     PostgreSQLSubstringLookup,
     measure_database_latency,
-    using_postgresql,
 )
 from .encoding import get_filesystem_encoding, get_locale_encoding, get_python_encoding
 from .errors import init_error_collection
@@ -184,7 +183,7 @@ def check_database(
     **kwargs,
 ) -> Iterable[CheckMessage]:
     errors: list[CheckMessage] = []
-    if not using_postgresql():
+    if connections["default"].vendor != "postgresql":
         errors.append(
             weblate_check(
                 "weblate.E006",

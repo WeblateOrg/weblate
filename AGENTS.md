@@ -23,6 +23,10 @@ For application-developer workflows and broader product integration guidance, us
   text.
 - Preserve accessibility and the existing Bootstrap/jQuery-based frontend
   patterns.
+- Write commit messages using the Conventional Commits format
+  `<type>(<optional scope>): <description>`. Common types include `feat`,
+  `fix`, `docs`, `refactor`, `test`, `ci`, and `chore`. Example:
+  `fix(translations): handle empty component slug`.
 - Include the GPL-3.0-or-later license header in new Python files.
 
 ## Weblate-specific guardrails
