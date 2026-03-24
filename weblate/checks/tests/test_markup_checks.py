@@ -208,6 +208,11 @@ class XMLCharsAroundTagsCheckTest(CheckTestCase):
             True,
             ("text <a>word</a>", "نص<a>كلمة</a>", ""),
         )
+        # Punctuation vs Waw should still flag
+        self.do_test(
+            True,
+            (".<a>word</a>", "و<a>كلمة</a>", ""),
+        )
 
 
 class MarkdownRefLinkCheckTest(CheckTestCase):

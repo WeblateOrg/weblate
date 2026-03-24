@@ -355,8 +355,12 @@ class XMLCharsAroundTagsCheck(BaseXMLCheck):
         if not (src_letter ^ tgt_letter):
             return False
         # Arabic letter Waw ("و") is a conjunction that commonly attaches directly
-        # to the adjacent word without a space, so don't flag space vs Waw
-        return ARABIC_WAW not in {src_char, tgt_char}
+        # to the adjacent word without a space, so don't flag *whitespace* vs Waw.
+        if ARABIC_WAW in {src_char, tgt_char}:
+            other_char = tgt_char if src_char == ARABIC_WAW else src_char
+            if other_char.isspace():
+                return False
+        return True
 
 
 class MarkdownBaseCheck(TargetCheck):
