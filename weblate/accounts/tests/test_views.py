@@ -12,7 +12,6 @@ from unittest import mock
 from django.conf import settings
 from django.core import mail
 from django.core.signing import TimestampSigner
-from django.test import RequestFactory
 from django.test.utils import modify_settings, override_settings
 from django.urls import reverse
 from jsonschema import validate
@@ -20,7 +19,6 @@ from weblate_schemas import load_schema
 
 from weblate.accounts.models import Profile, Subscription
 from weblate.accounts.notifications import NotificationFrequency, NotificationScope
-from weblate.accounts.views import get_notification_forms
 from weblate.auth.models import User
 from weblate.lang.models import Language
 from weblate.trans.tests.test_models import RepoTestCase
@@ -511,15 +509,18 @@ class ProfileTest(FixtureTestCase):
         self.assertNotContains(response, "Component: Test/Test")
 
     def test_subscription_additional_form_defaults_to_active_scope(self) -> None:
-        request = RequestFactory().post(
+        response = self.client.post(
             f"{reverse('profile')}?notify_project={self.project.pk}",
-            {"notifications__3-component": self.component.pk},
+            {
+                "username": "",
+                "notifications__3-component": self.component.pk,
+            },
         )
-        request.user = self.user
+        self.assertEqual(response.status_code, 200)
 
         form = next(
             item
-            for item in get_notification_forms(request)
+            for item in response.context["all_forms"]
             if item.prefix == "notifications__3"
         )
         self.assertEqual(form.initial["scope"], NotificationScope.SCOPE_PROJECT)
