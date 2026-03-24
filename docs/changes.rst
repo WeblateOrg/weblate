@@ -15,6 +15,7 @@ Weblate 5.17
 * Improved error messages in some of the :ref:`api` endpoints.
 * Improved performance of project and category search result pages with very large match sets.
 * :envvar:`WEBLATE_COMMIT_PENDING_HOURS` is now available in Docker container.
+* Improved performance of Weblate translation memory and built-in machinery lookups.
 
 .. rubric:: Bug fixes
 

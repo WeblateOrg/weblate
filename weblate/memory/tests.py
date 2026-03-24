@@ -8,7 +8,9 @@ import json
 import tempfile
 from io import StringIO
 from typing import Any
+from unittest.mock import MagicMock, patch
 
+from django.conf import settings
 from django.core.management import call_command
 from django.core.management.base import CommandError
 from django.test import SimpleTestCase
@@ -19,7 +21,7 @@ from weblate_schemas import load_schema
 from weblate.lang.data import FORMULA_WITH_ZERO
 from weblate.lang.models import Language, Plural
 from weblate.memory.machine import WeblateMemory
-from weblate.memory.models import Memory
+from weblate.memory.models import Memory, MemoryQuerySet
 from weblate.memory.tasks import (
     handle_unit_translation_change,
     import_memory,
@@ -92,6 +94,109 @@ class MemoryModelTest(FixtureTestCase):
         machinery = unit.machinery
         del machinery["origin"]
         self.assertEqual(machinery, {"quality": [100], "translation": ["Ahoj"]})
+
+    @patch("weblate.memory.models.adjust_similarity_threshold")
+    def test_exact_matches_still_probe_fuzzy_lookup(self, adjust_threshold) -> None:
+        add_document()
+        unit = self.get_unit()
+
+        machine_translation = WeblateMemory({})
+        machine_translation.search(unit, "Hello", None)
+
+        self.assertGreater(adjust_threshold.call_count, 0)
+
+    @patch("weblate.memory.models.adjust_similarity_threshold")
+    def test_exact_matches_are_merged_with_fuzzy_results(
+        self, adjust_threshold
+    ) -> None:
+        exact = MagicMock(pk=1)
+        fuzzy = MagicMock(pk=2)
+
+        with (
+            patch.object(
+                MemoryQuerySet,
+                "lookup_scopes",
+                side_effect=([exact], [fuzzy]),
+            ),
+            patch.object(
+                MemoryQuerySet,
+                "threshold_to_similarity",
+                return_value=0.95,
+            ),
+        ):
+            results = Memory.objects.lookup(
+                Language.objects.get(code="en"),
+                Language.objects.get(code="cs"),
+                "Hello",
+                None,
+                None,
+                False,
+            )
+
+        self.assertEqual(results, [exact, fuzzy])
+        adjust_threshold.assert_called_once_with(0.95)
+
+    def test_lookup_scopes_uses_memory_db_when_configured(self) -> None:
+        with (
+            patch.dict(
+                settings.DATABASES,
+                {"memory_db": settings.DATABASES["default"]},
+                clear=False,
+            ),
+            patch.object(
+                MemoryQuerySet,
+                "using",
+                autospec=True,
+                side_effect=lambda queryset, _alias: queryset,
+            ) as using,
+            patch.object(
+                MemoryQuerySet,
+                "filter",
+                autospec=True,
+                return_value=Memory.objects.none(),
+            ),
+        ):
+            Memory.objects.lookup_scopes(
+                source_language=Language.objects.get(code="en"),
+                target_language=Language.objects.get(code="cs"),
+                text="Hello",
+                user=None,
+                project=None,
+                use_shared=False,
+            )
+
+        self.assertEqual(using.call_args.args[1], "memory_db")
+
+    @patch("weblate.memory.models.adjust_similarity_threshold")
+    def test_lookup_keeps_global_result_limit(self, adjust_threshold) -> None:
+        exact = [MagicMock(pk=index) for index in range(25)]
+        fuzzy = [MagicMock(pk=index) for index in range(25, 75)]
+
+        with (
+            patch.object(
+                MemoryQuerySet,
+                "lookup_scopes",
+                side_effect=(exact, fuzzy),
+            ),
+            patch.object(
+                MemoryQuerySet,
+                "threshold_to_similarity",
+                return_value=0.95,
+            ),
+        ):
+            results = Memory.objects.lookup(
+                Language.objects.get(code="en"),
+                Language.objects.get(code="cs"),
+                "Hello",
+                None,
+                None,
+                False,
+            )
+
+        self.assertEqual(len(results), MemoryQuerySet.lookup_limit)
+        self.assertEqual(results[:25], exact)
+        self.assertEqual(results[25:], fuzzy[:25])
+        adjust_threshold.assert_called_once_with(0.95)
 
     def test_machine_plurals(self) -> None:
         unit = self.get_unit("Orangutan has %d banana.\n")

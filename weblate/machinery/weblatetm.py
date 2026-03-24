@@ -4,7 +4,7 @@
 
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, Any
+from typing import TYPE_CHECKING
 
 from django.conf import settings
 from django.db.models import Value
@@ -28,6 +28,7 @@ class WeblateTranslation(InternalMachineTranslation):
     cache_translations = True
     # Cache results for 1 hour to avoid frequent database hits
     cache_expiry = 3600
+    candidate_limit = 100
 
     def download_translations(
         self,
@@ -48,32 +49,15 @@ class WeblateTranslation(InternalMachineTranslation):
         if "memory_db" in settings.DATABASES:
             base = base.using("memory_db")
 
-        # Build search query
-        lookup: dict[str, Any] = {}
-        if threshold < 100:
-            # Full text search
-            lookup["source__trgm_search"] = text
-        else:
-            # Utilize PostgreSQL index
-            lookup["source__lower__md5"] = MD5(Lower(Value(text)))
-            lookup["source"] = text
-
-        matching_units = (
+        matching_units = self.get_matching_units(
             base.filter(
                 translation__component__source_language=source_language,
                 translation__language=target_language,
                 state__gte=STATE_TRANSLATED,
-                **lookup,
-            )
-            .exclude(
-                # The read-only strings can be possibly blank
-                target__lower__md5=MD5(Lower(Value("")))
-            )
-            .prefetch()
+            ),
+            text,
+            threshold,
         )
-
-        # We want only close matches here
-        adjust_similarity_threshold(0.98)
 
         for munit in matching_units:
             source = munit.source_string
@@ -91,3 +75,39 @@ class WeblateTranslation(InternalMachineTranslation):
                 "origin_url": munit.get_absolute_url(),
                 "source": source,
             }
+
+    def get_matching_units(self, base, text: str, threshold: int):
+        # Exact matches are common and are much cheaper than trigram search.
+        matching_units = list(
+            self.prepare_queryset(
+                base.filter(
+                    source__lower__md5=MD5(Lower(Value(text))),
+                    source=text,
+                )
+            )[: self.candidate_limit]
+        )
+        if threshold >= 100:
+            return matching_units.copy()
+
+        # We want only close matches here.
+        adjust_similarity_threshold(0.98)
+        exact_ids = {unit.pk for unit in matching_units}
+
+        fuzzy_queryset = base.filter(source__trgm_search=text)
+        if exact_ids:
+            fuzzy_queryset = fuzzy_queryset.exclude(pk__in=exact_ids)
+
+        matching_units.extend(
+            self.prepare_queryset(fuzzy_queryset)[: self.candidate_limit]
+        )
+
+        return matching_units
+
+    def prepare_queryset(self, queryset):
+        return queryset.exclude(target="").select_related(
+            "source_unit",
+            "translation__language",
+            "translation__plural",
+            "translation__component",
+            "translation__component__project",
+        )

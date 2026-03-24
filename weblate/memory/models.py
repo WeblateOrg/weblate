@@ -79,6 +79,8 @@ def get_node_data(unit, node):
 
 
 class MemoryQuerySet(models.QuerySet):
+    lookup_limit = 50
+
     def filter_type(
         self,
         *,
@@ -168,38 +170,124 @@ class MemoryQuerySet(models.QuerySet):
         use_shared,
         threshold: int = 75,
     ):
+        results = self.lookup_scopes(
+            source_language=source_language,
+            target_language=target_language,
+            text=text,
+            user=user,
+            project=project,
+            use_shared=use_shared,
+            exact=True,
+            limit=self.lookup_limit,
+        )
+        exact_count = len(results)
+        remaining = self.lookup_limit - exact_count
+
         # Adjust similarity based on string length to get more relevant matches
         # for long strings
         similarity_threshold = self.threshold_to_similarity(text, threshold)
 
-        results = self.none()
-
-        while len(results) == 0 and similarity_threshold > MIN_SIMILARITY_THRESHOLD:
+        while (
+            remaining > 0
+            and len(results) == exact_count
+            and len(results) < self.lookup_limit
+            and similarity_threshold > MIN_SIMILARITY_THRESHOLD
+        ):
             # Change PostgreSQL similarity threshold configuration
             adjust_similarity_threshold(similarity_threshold)
 
             # Actual database query
-            results = (
-                self.prefetch_project()
-                .filter_type(
-                    # Type filtering
+            results = self.merge_lookup_results(
+                results,
+                self.lookup_scopes(
+                    source_language=source_language,
+                    target_language=target_language,
+                    text=text,
                     user=user,
                     project=project,
                     use_shared=use_shared,
-                    from_file=True,
-                )
-                .filter(
-                    # Full-text search on source
-                    source__trgm_search=text,
-                    # Language filtering
-                    source_language=source_language,
-                    target_language=target_language,
-                )[:50]
+                    limit=remaining,
+                ),
+                limit=self.lookup_limit,
             )
+            remaining = self.lookup_limit - len(results)
             # Decrease threshold in case no matches were found
             similarity_threshold -= 0.05
 
         return results
+
+    def lookup_scopes(
+        self,
+        *,
+        source_language,
+        target_language,
+        text: str,
+        user,
+        project,
+        use_shared: bool,
+        exact: bool = False,
+        limit: int = 50,
+    ) -> list[Memory]:
+        base = self
+        if "memory_db" in settings.DATABASES:
+            base = base.using("memory_db")
+        base = base.prefetch_project()
+        common_filters = {
+            "source_language": source_language,
+            "target_language": target_language,
+        }
+        if exact:
+            common_filters["source"] = text
+        else:
+            common_filters["source__trgm_search"] = text
+
+        results: list[Memory] = []
+        seen: set[int] = set()
+
+        for query in self.iter_lookup_scope_queries(
+            user=user,
+            project=project,
+            use_shared=use_shared,
+        ):
+            for memory in base.filter(query, **common_filters)[:limit]:
+                if memory.pk in seen:
+                    continue
+                seen.add(memory.pk)
+                results.append(memory)
+                if len(results) >= limit:
+                    return results
+
+        return results
+
+    def merge_lookup_results(
+        self,
+        existing: list[Memory],
+        additional: list[Memory],
+        *,
+        limit: int | None = None,
+    ) -> list[Memory]:
+        seen = {memory.pk for memory in existing}
+        results = [*existing]
+        for memory in additional:
+            if memory.pk in seen:
+                continue
+            seen.add(memory.pk)
+            results.append(memory)
+            if limit is not None and len(results) >= limit:
+                return results
+        return results
+
+    def iter_lookup_scope_queries(
+        self, *, user, project, use_shared: bool
+    ) -> tuple[Q, ...]:
+        queries: list[Q] = [Q(from_file=True)]
+        if project is not None:
+            queries.append(Q(project=project, shared=False))
+        if use_shared:
+            queries.append(Q(shared=True))
+        if user is not None:
+            queries.append(Q(user=user, shared=False))
+        return tuple(queries)
 
     def prefetch_lang(self):
         return self.prefetch_related("source_language", "target_language")
@@ -606,6 +694,32 @@ class Memory(models.Model):
                 models.F("target_language"),
                 models.F("source_language"),
                 name="memory_source_trgm",
+            ),
+            models.Index(
+                "source_language",
+                "target_language",
+                condition=Q(from_file=True),
+                name="memory_file_lang_idx",
+            ),
+            models.Index(
+                "project",
+                "source_language",
+                "target_language",
+                condition=Q(project__isnull=False, shared=False),
+                name="memory_project_lang_idx",
+            ),
+            models.Index(
+                "user",
+                "source_language",
+                "target_language",
+                condition=Q(user__isnull=False, shared=False),
+                name="memory_user_lang_idx",
+            ),
+            models.Index(
+                "source_language",
+                "target_language",
+                condition=Q(shared=True),
+                name="memory_shared_lang_idx",
             ),
         ]
 

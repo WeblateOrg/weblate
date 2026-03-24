@@ -2934,6 +2934,71 @@ class WeblateTranslationTest(FixtureTestCase):
         results = machine.translate(unit, self.user)
         self.assertNotEqual(results, [])
 
+    @patch("weblate.machinery.weblatetm.adjust_similarity_threshold")
+    def test_exact_matches_still_probe_fuzzy_fallback(self, adjust_threshold) -> None:
+        unit = Unit.objects.filter(translation__language_code="cs")[0]
+        other = unit.translation.unit_set.exclude(pk=unit.pk)[0]
+        other.source = unit.source
+        other.target = "Preklad"
+        other.state = STATE_TRANSLATED
+        other.save()
+
+        machine = WeblateTranslation({})
+        machine.translate(unit, self.user)
+
+        adjust_threshold.assert_called_once_with(0.98)
+
+    @patch("weblate.machinery.weblatetm.adjust_similarity_threshold")
+    def test_exact_matches_do_not_block_fuzzy_fallback(self, adjust_threshold) -> None:
+        machine = WeblateTranslation({})
+        exact_unit = MagicMock(pk=1)
+        fuzzy_unit = MagicMock(pk=2)
+        base = MagicMock()
+        exact_queryset = MagicMock(name="exact_queryset")
+        fuzzy_queryset = MagicMock(name="fuzzy_queryset")
+        deduped_queryset = MagicMock(name="deduped_queryset")
+        base.filter.side_effect = [exact_queryset, fuzzy_queryset]
+        fuzzy_queryset.exclude.return_value = deduped_queryset
+
+        with patch.object(
+            machine,
+            "prepare_queryset",
+            side_effect=([exact_unit], [fuzzy_unit]),
+        ):
+            results = machine.get_matching_units(base, "Hello", 75)
+
+        self.assertEqual(results, [exact_unit, fuzzy_unit])
+        fuzzy_queryset.exclude.assert_called_once_with(pk__in={1})
+        adjust_threshold.assert_called_once_with(0.98)
+
+    @patch("weblate.machinery.weblatetm.adjust_similarity_threshold")
+    def test_fuzzy_limit_applies_after_excluding_exact_ids(
+        self, adjust_threshold
+    ) -> None:
+        machine = WeblateTranslation({})
+        machine.candidate_limit = 2
+        exact_1 = MagicMock(pk=1)
+        exact_2 = MagicMock(pk=2)
+        fuzzy_3 = MagicMock(pk=3)
+        fuzzy_4 = MagicMock(pk=4)
+        base = MagicMock()
+        exact_queryset = MagicMock(name="exact_queryset")
+        fuzzy_queryset = MagicMock(name="fuzzy_queryset")
+        deduped_queryset = MagicMock(name="deduped_queryset")
+        base.filter.side_effect = [exact_queryset, fuzzy_queryset]
+        fuzzy_queryset.exclude.return_value = deduped_queryset
+
+        with patch.object(
+            machine,
+            "prepare_queryset",
+            side_effect=([exact_1, exact_2], [fuzzy_3, fuzzy_4]),
+        ):
+            results = machine.get_matching_units(base, "Hello", 75)
+
+        self.assertEqual(results, [exact_1, exact_2, fuzzy_3, fuzzy_4])
+        fuzzy_queryset.exclude.assert_called_once_with(pk__in={1, 2})
+        adjust_threshold.assert_called_once_with(0.98)
+
 
 class CyrTranslitTranslationTest(ViewTestCase, BaseMachineTranslationTest):
     ENGLISH = "sr@latin"
