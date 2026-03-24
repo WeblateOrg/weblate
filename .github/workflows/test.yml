@@ -143,7 +143,7 @@ jobs:
       env:
         ARGOS_TOKEN: ${{ secrets.ARGOS_TOKEN }} # zizmor: ignore[secrets-outside-env]
       run: |
-        npx --package=@argos-ci/cli -- argos upload ./test-images/
+        npx --package=@argos-ci/cli@3.0.6 -- argos upload ./test-images/
     - uses: codecov/codecov-action@1af58845a975a7985b0beb0cbe6fbbb71a41dbad # v5.5.3
       with:
         token: ${{secrets.CODECOV_TOKEN}} # zizmor: ignore[secrets-outside-env]
