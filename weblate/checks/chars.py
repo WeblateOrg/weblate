@@ -14,7 +14,7 @@ from django.utils.translation import gettext_lazy
 from weblate.checks.base import CountingCheck, TargetCheck, TargetCheckParametrized
 from weblate.checks.markup import strip_entities
 from weblate.checks.parser import single_value_flag
-from weblate.checks.same import strip_format
+from weblate.checks.utils import highlight_string
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
@@ -533,15 +533,21 @@ class PunctuationSpacingCheck(TargetCheck):
         return super().should_skip(unit)
 
     def check_single(self, source: str, target: str, unit: Unit) -> bool:
-        # Remove possible markup
-        target = strip_format(target, unit.all_flags)
-        # Remove XML/HTML entities to simplify parsing
+        # Remove XML/HTML entities first (indices must match the string we iterate over)
         target = strip_entities(target)
+        # skip punctuation inside placeables (e.g XLIFF equiv-text, RST)
+        highlighted_indices = frozenset(
+            i
+            for start, end, _ in highlight_string(target, unit)
+            for i in range(start, end)
+        )
 
         whitespace = {" ", "\u00a0", "\u202f", "\u2009"}
 
         total = len(target)
         for i, char in enumerate(target):
+            if i in highlighted_indices:
+                continue
             if char in FRENCH_PUNCTUATION:
                 if i == 0:
                     # Trigger if punctionation at beginning of the string
@@ -559,6 +565,10 @@ class PunctuationSpacingCheck(TargetCheck):
         return False
 
     def get_fixup(self, unit: Unit) -> Iterable[FixupType] | None:
+        # If there are placeables in target, skip Fix button and rely on save-time
+        # autofix which has position-aware checks.
+        if highlight_string(unit.target, unit):
+            return None
         return [
             # First fix possibly wrong whitespace
             (
