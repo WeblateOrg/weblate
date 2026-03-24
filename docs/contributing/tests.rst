@@ -23,7 +23,9 @@ There are several jobs to verify different aspects:
 * Documentation build and external links using `Sphinx <https://www.sphinx-doc.org/>`_.
 * Code linting and quality assurance using `ruff <https://docs.astral.sh/ruff/>`_ and `pylint <https://www.pylint.org/>`_.
 * Code security scanning using `CodeQL <https://codeql.github.com/>`_.
-* Code formatting using `pre-commit <https://pre-commit.com/>`_.
+* Code formatting using `prek <https://pypi.org/project/prek/>`_, a faster
+  third-party reimplementation of the `pre-commit <https://pre-commit.com/>`_
+  framework.
 * Migration testing from all supported releases
 * Setup verification (ensures that generated dist files do not miss anything and can be tested)
 
