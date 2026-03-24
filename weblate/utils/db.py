@@ -23,10 +23,6 @@ class MissingTransactionError(ProgrammingError):
     pass
 
 
-def using_postgresql():
-    return connections["default"].vendor == "postgresql"
-
-
 def adjust_similarity_threshold(value: float) -> None:
     """
     Adjust pg_trgm.similarity_threshold for the % operator.
