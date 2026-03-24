@@ -531,8 +531,8 @@ class ProfileTest(FixtureTestCase):
             for form in response.context["all_forms"]
             if form.prefix == "notifications__3"
         )
-        self.assertEqual(form["scope"].value(), str(NotificationScope.SCOPE_PROJECT))
-        self.assertEqual(form["project"].value(), str(self.project.pk))
+        self.assertEqual(form.initial["scope"], NotificationScope.SCOPE_PROJECT)
+        self.assertEqual(form.initial["project"], self.project)
 
     def test_watch(self) -> None:
         self.assertEqual(self.user.profile.watched.count(), 0)
