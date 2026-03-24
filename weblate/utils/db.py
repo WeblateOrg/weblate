@@ -55,6 +55,10 @@ def count_alnum(string):
     return sum(map(str.isalnum, string))
 
 
+def use_trgm_fallback(string: str) -> bool:
+    return count_alnum(string) <= 3
+
+
 class PostgreSQLFallbackLookupMixin(Lookup):
     """
     Mixin to block PostgreSQL from using trigram index.
@@ -79,7 +83,7 @@ class PostgreSQLFallbackLookupMixin(Lookup):
 
 class PostgreSQLFallbackLookup(PostgreSQLFallbackLookupMixin, PatternLookup):
     def __init__(self, lhs, rhs) -> None:
-        self._needs_fallback = isinstance(rhs, str) and count_alnum(rhs) <= 3
+        self._needs_fallback = isinstance(rhs, str) and use_trgm_fallback(rhs)
         super().__init__(lhs, rhs)
 
 
