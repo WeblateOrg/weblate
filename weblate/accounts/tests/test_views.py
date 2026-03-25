@@ -509,7 +509,16 @@ class ProfileTest(FixtureTestCase):
         self.assertNotContains(response, "Component: Test/Test")
 
     def test_subscription_additional_form_defaults_to_active_scope(self) -> None:
-        extra_index = 50
+        initial_response = self.client.get(
+            f"{reverse('profile')}?notify_project={self.project.pk}"
+        )
+        existing_indexes = [
+            int(form.prefix.split("__", 1)[1])
+            for form in initial_response.context["all_forms"]
+            if form.prefix.startswith("notifications__")
+        ]
+        extra_index = max(existing_indexes) + 5
+
         response = self.client.post(
             f"{reverse('profile')}?notify_project={self.project.pk}",
             {
@@ -520,10 +529,15 @@ class ProfileTest(FixtureTestCase):
         self.assertEqual(response.status_code, 200)
 
         form = next(
-            item
-            for item in response.context["all_forms"]
-            if item.prefix == f"notifications__{extra_index}"
+            (
+                item
+                for item in response.context["all_forms"]
+                if item.prefix == f"notifications__{extra_index}"
+            ),
+            None,
         )
+        if form is None:
+            self.fail(f"Expected extra notification form notifications__{extra_index}")
         self.assertEqual(form.initial["scope"], NotificationScope.SCOPE_PROJECT)
         self.assertEqual(form.initial["project"], self.project)
 
