@@ -515,7 +515,7 @@ class ProfileTest(FixtureTestCase):
         existing_indexes = [
             int(form.prefix.split("__", 1)[1])
             for form in initial_response.context["all_forms"]
-            if form.prefix.startswith("notifications__")
+            if form.prefix and form.prefix.startswith("notifications__")
         ]
         extra_index = max(existing_indexes) + 5
 
