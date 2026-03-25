@@ -65,6 +65,15 @@ class FlagTest(SimpleTestCase):
         flags = Flags("placeholders:bar:baz")
         self.assertEqual(flags.get_value("placeholders"), ["bar", "baz"])
 
+    def test_get_value_raw(self) -> None:
+        flags = Flags("placeholders:bar:baz")
+        self.assertEqual(flags.get_value_raw("placeholders"), ("bar", "baz"))
+
+    def test_get_value_raw_without_value(self) -> None:
+        flags = Flags("foo")
+        with self.assertRaises(KeyError):
+            flags.get_value_raw("foo")
+
     def test_quoted_values(self) -> None:
         flags = Flags(r"""placeholders:"bar: \"value\"":'baz \'value\''""")
         self.assertEqual(

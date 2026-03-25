@@ -22,7 +22,7 @@ from weblate.utils.site import get_site_url
 from .forms import FedoraMessagingAddonForm
 
 if TYPE_CHECKING:
-    from weblate.trans.models import Change, Component, Project
+    from weblate.trans.models import Category, Change, Component, Project
 
 
 class FedoraMessagingAddon(ChangeBaseAddon):
@@ -41,16 +41,18 @@ class FedoraMessagingAddon(ChangeBaseAddon):
         cls,
         *,
         component: Component | None = None,
+        category: Category | None = None,
         project: Project | None = None,
     ) -> bool:
         # Can be installed only once site-wide
-        return project is None and component is None
+        return project is None and component is None and category is None
 
     @classmethod
     def can_process(
         cls,
         *,
         component: Component | None = None,  # noqa: ARG003
+        category: Category | None = None,  # noqa: ARG003
         project: Project | None = None,  # noqa: ARG003
     ) -> bool:
         return True

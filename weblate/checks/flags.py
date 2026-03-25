@@ -6,8 +6,9 @@
 from __future__ import annotations
 
 import re
+from collections.abc import Callable, Iterable
 from functools import lru_cache
-from typing import TYPE_CHECKING, Any, ClassVar, cast
+from typing import TYPE_CHECKING, Any, ClassVar
 
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext, gettext_lazy
@@ -27,9 +28,17 @@ from weblate.trans.autofixes import AUTOFIXES
 from weblate.trans.defines import VARIANT_KEY_LENGTH
 
 if TYPE_CHECKING:
-    from collections.abc import Callable, Generator, Iterator
+    from collections.abc import Iterator, Sequence
 
     from django_stubs_ext import StrOrPromise
+
+
+FlagValue = str | re.Pattern[str]
+RawFlagValues = tuple[FlagValue, ...]
+FlagTuple = tuple[str, *tuple[FlagValue, ...]]
+FlagItem = str | FlagTuple
+FlagItems = Iterable[FlagItem]
+FlagValueParser = Callable[[tuple[Any, ...]], Any]
 
 
 def discard_flag_validation(name: str) -> None:
@@ -51,7 +60,7 @@ PLAIN_FLAGS: dict[str, StrOrPromise] = {
 TYPED_FLAGS: dict[str, StrOrPromise] = {
     check.enable_string: check.name for check in CHECKS.values() if check.param_type
 }
-TYPED_FLAGS_ARGS: dict[str, Callable[[tuple[str, ...]], Any]] = {
+TYPED_FLAGS_ARGS: dict[str, FlagValueParser] = {
     check.enable_string: check.param_type
     for check in CHECKS.values()
     if check.param_type
@@ -110,11 +119,11 @@ IGNORE_CHECK_FLAGS = {check.ignore_string for check in CHECKS.values()} | set(
 FLAG_ALIASES = {"markdown-text": "md-text"}
 
 
-def _parse_flags_text(flags: str) -> Iterator[str | tuple[Any, ...]]:
+def _parse_flags_text(flags: str) -> Iterator[FlagItem]:
     """Parse comma separated list of flags."""
     state = 0
     name: str
-    value: list[Any] = []
+    values: list[FlagValue] = []
 
     with FLAGS_PARSER_LOCK:
         tokens = list(FLAGS_PARSER.parse_string(flags, parse_all=True))
@@ -125,7 +134,7 @@ def _parse_flags_text(flags: str) -> Iterator[str | tuple[Any, ...]]:
         elif state == 0:
             # Handle aliases
             name = FLAG_ALIASES.get(token, token)
-            value = [name]
+            values = []
             state = 1
         elif state == 1 and token == ",":
             # End of flag
@@ -137,11 +146,12 @@ def _parse_flags_text(flags: str) -> Iterator[str | tuple[Any, ...]]:
         elif state == 2 and token == ",":
             # Flag with empty parameter
             state = 0
-            value.append("")
-            yield tuple(value)
+            values.append("")
+            raw_values: RawFlagValues = tuple(values)
+            yield (name, *raw_values)
         elif state == 2 and token == ":":
             # Empty param
-            value.append("")
+            values.append("")
         elif state == 2:
             if (
                 token == "r"
@@ -152,15 +162,16 @@ def _parse_flags_text(flags: str) -> Iterator[str | tuple[Any, ...]]:
                 state = 4
             else:
                 # Value
-                value.append(token)
+                values.append(token)
                 state = 3
         elif state == 4:
             # Regex value
-            value.append(re.compile(token))
+            values.append(re.compile(token))
             state = 3
         elif state == 3 and token == ",":
             # Last value
-            yield tuple(value)
+            raw_values = tuple(values)
+            yield (name, *raw_values)
             state = 0
         else:
             msg = f"Unexpected token: {token}, state={state}"
@@ -170,21 +181,22 @@ def _parse_flags_text(flags: str) -> Iterator[str | tuple[Any, ...]]:
     if state > 0:
         if state == 2:
             # There was empty value
-            value.append("")
+            values.append("")
         # Is this flag or flag with value
-        if len(value) > 1:
-            yield tuple(value)
+        if values:
+            raw_values = tuple(values)
+            yield (name, *raw_values)
         else:
             yield name
 
 
 @lru_cache(maxsize=512)
-def parse_flags_text(flags: str) -> tuple[str | tuple[Any, ...], ...]:
+def parse_flags_text(flags: str) -> tuple[FlagItem, ...]:
     """Parse comma separated list of flags."""
     return tuple(_parse_flags_text(flags))
 
 
-def parse_flags_xml(flags: etree._Element) -> Iterator[str | tuple[Any, ...]]:
+def parse_flags_xml(flags: etree._Element) -> Iterator[FlagItem]:
     """Parse comma separated list of flags."""
     maxwidth = flags.get("maxwidth")
     sizeunit = flags.get("size-unit")
@@ -209,19 +221,15 @@ def parse_flags_xml(flags: etree._Element) -> Iterator[str | tuple[Any, ...]]:
 class Flags:
     _apply_discard: ClassVar[bool] = True
 
-    def __init__(
-        self, *args: str | etree._Element | Flags | tuple[str | tuple[Any, ...]] | None
-    ) -> None:
-        self._items: dict[str, str | tuple[Any, ...]] = {}
+    def __init__(self, *args: FlagInput) -> None:
+        self._items: dict[str, FlagItem] = {}
         for flags in args:
             self.merge(flags)
 
     def __repr__(self) -> str:
         return f"<Flags {self.format()}>"
 
-    def get_items(
-        self, flags: str | etree._Element | Flags | tuple[str | tuple[Any, ...]] | None
-    ) -> tuple[str | tuple[Any, ...], ...]:
+    def get_items(self, flags: FlagInput) -> FlagItems:
         if flags is None:
             return ()
         if isinstance(flags, str):
@@ -232,9 +240,7 @@ class Flags:
             return tuple(flags.items())
         return flags
 
-    def merge(
-        self, flags: str | etree._Element | Flags | tuple[str | tuple[Any, ...]] | None
-    ) -> None:
+    def merge(self, flags: FlagInput) -> None:
         for flag in self.get_items(flags):
             if (
                 self._apply_discard
@@ -243,16 +249,16 @@ class Flags:
                 and flag[0] == DISCARD_FLAG
             ):
                 # Discard the current value if present
-                self._items.pop(flag[1], None)
+                discarded_flag = flag[1]
+                if isinstance(discarded_flag, str):
+                    self._items.pop(discarded_flag, None)
             elif isinstance(flag, tuple):
                 self._items[flag[0]] = flag
             elif flag and flag not in {"fuzzy", "#"}:
                 # Ignore some flags
                 self._items[flag] = flag
 
-    def remove(
-        self, flags: str | etree._Element | Flags | tuple[str | tuple[Any, ...]] | None
-    ) -> None:
+    def remove(self, flags: FlagInput) -> None:
         for flag in self.get_items(flags):
             if isinstance(flag, tuple):
                 key = flag[0]
@@ -269,8 +275,12 @@ class Flags:
     def has_value(self, key: str) -> bool:
         return isinstance(self._items.get(key), tuple)
 
-    def get_value_raw(self, key: str) -> tuple[Any, ...]:
-        return cast("tuple", self._items[key])[1:]
+    def get_value_raw(self, key: str) -> RawFlagValues:
+        item = self._items[key]
+        if isinstance(item, str):
+            msg = f"Flag does not have a value: {key}"
+            raise KeyError(msg)
+        return item[1:]
 
     def get_value(self, key: str) -> Any:  # noqa: ANN401
         return TYPED_FLAGS_ARGS[key](self.get_value_raw(key))
@@ -285,10 +295,10 @@ class Flags:
         except KeyError:
             return fallback
 
-    def items(self) -> set[str | tuple[Any, ...]]:
+    def items(self) -> set[FlagItem]:
         return set(self._items.values())
 
-    def __iter__(self) -> Iterator[str | tuple[Any, ...]]:
+    def __iter__(self) -> Iterator[str]:
         return self._items.__iter__()
 
     def __contains__(self, key: str) -> bool:
@@ -321,12 +331,12 @@ class Flags:
         return value
 
     @classmethod
-    def format_flag(cls, flag: tuple[str, ...] | list[str] | str) -> str:
-        if isinstance(flag, (tuple, list)):
-            return ":".join(cls.format_value(val) for val in flag)
-        return cls.format_value(flag)
+    def format_flag(cls, flag: Sequence[FlagValue] | str) -> str:
+        if isinstance(flag, str):
+            return cls.format_value(flag)
+        return ":".join(cls.format_value(val) for val in flag)
 
-    def _format_values(self) -> Generator[str]:
+    def _format_values(self) -> Iterator[str]:
         return (self.format_flag(item) for item in self._items.values())
 
     def format(self) -> str:
@@ -372,3 +382,6 @@ class Flags:
 
 class FlagsValidator(Flags):
     _apply_discard: ClassVar[bool] = False
+
+
+FlagInput = str | etree._Element | Flags | FlagItems | None  # noqa: SLF001

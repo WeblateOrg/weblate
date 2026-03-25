@@ -26,7 +26,7 @@ from weblate.utils.state import (
 )
 
 if TYPE_CHECKING:
-    from weblate.trans.models import Component, Project, Unit
+    from weblate.trans.models import Category, Component, Project, Unit
     from weblate.utils.state import StringState
 
 
@@ -49,11 +49,14 @@ class GenerateFileAddon(BaseAddon):
         cls,
         *,
         component: Component | None = None,
+        category: Category | None = None,
         project: Project | None = None,
     ) -> bool:
         if component is not None and not component.translation_set.exists():
             return False
-        return super().can_install(component=component, project=project)
+        return super().can_install(
+            component=component, category=category, project=project
+        )
 
     def pre_commit(
         self,
