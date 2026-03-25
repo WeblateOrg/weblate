@@ -15,6 +15,7 @@ Weblate 5.17
 * Added :ref:`bulk user invitations <invite-user>`.
 * Added Forgejo notification webhook, see :ref:`forgejo-setup`.
 * Added translation memory API filtering, scoped access, and bulk lookup support.
+* Added ``from_component`` support to the REST API for creating components from existing component content and for creating translations seeded by automatic translation from existing components.
 
 .. rubric:: Improvements
 

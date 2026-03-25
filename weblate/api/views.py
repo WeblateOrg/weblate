@@ -6,6 +6,7 @@
 from __future__ import annotations
 
 import os.path
+from contextlib import suppress
 from datetime import datetime
 from typing import TYPE_CHECKING, TypedDict, cast
 from urllib.parse import unquote
@@ -87,6 +88,7 @@ from weblate.api.serializers import (
     SelfUserSerializer,
     SingleServiceConfigSerializer,
     StatisticsSerializer,
+    TranslationCreateSerializer,
     TranslationSerializer,
     UnitSerializer,
     UnitWriteSerializer,
@@ -1727,7 +1729,9 @@ class ComponentViewSet(
         methods=["get"],
     )
     @extend_schema(
-        description="Create a new translation in the given component.", methods=["post"]
+        description="Create a new translation in the given component.",
+        methods=["post"],
+        request=TranslationCreateSerializer,
     )
     @action(detail=True, methods=["get", "post"])
     def translations(self, request: Request, **kwargs):
@@ -1736,15 +1740,19 @@ class ComponentViewSet(
         if request.method == "POST":
             if not request.user.has_perm("translation.add", obj):
                 self.permission_denied(request, "Can not create translation")
+            serializer = TranslationCreateSerializer(
+                data=request.data,
+                context={"request": request, "component": obj},
+            )
+            serializer.is_valid(raise_exception=True)
 
-            if "language_code" not in request.data:
-                msg = "Missing 'language_code' parameter"
-                raise ValidationError({"language_code": msg})
-
-            language_code = request.data["language_code"]
+            language_code = serializer.validated_data["language_code"]
+            source_components = serializer.validated_data["from_component"]
 
             if not obj.can_add_new_language(request.user):
                 self.permission_denied(request, message=obj.new_lang_error_message)
+            if source_components and not request.user.has_perm("translation.auto", obj):
+                self.permission_denied(request, "Can not auto translate")
 
             base_languages = obj.get_all_available_languages()
             if not request.user.has_perm("translation.add_more", obj):
@@ -1764,6 +1772,26 @@ class ComponentViewSet(
                 else:
                     message = f"Could not add {language_code!r}!"
                 raise ValidationError({"language_code": message})
+
+            if source_components:
+                auto = AutoTranslate(
+                    user=request.user,
+                    translation=translation,
+                    q="state:<translated",
+                    mode="translate",
+                )
+                message = auto.perform(
+                    auto_source="others",
+                    source_component_ids=[
+                        component.pk for component in source_components
+                    ],
+                    engines=[],
+                    threshold=0,
+                )
+                if auto.failure_message is not None:
+                    with suppress(Exception):
+                        translation.remove(request.user)
+                    raise ValidationError({"from_component": message})
 
             serializer = TranslationSerializer(
                 translation, context={"request": request}, remove_fields=("component",)
@@ -2421,9 +2449,14 @@ class TranslationViewSet(MultipleFieldViewSet, DestroyModelMixin):
             q=autoform.cleaned_data["q"],
             mode=autoform.cleaned_data["mode"],
         )
+        component = autoform.cleaned_data["component"]
         message = auto.perform(
             auto_source=autoform.cleaned_data["auto_source"],
-            source_component_id=autoform.cleaned_data["component"],
+            source_component_ids=(
+                [component.pk] if hasattr(component, "pk") else [component]
+            )
+            if component
+            else None,
             engines=autoform.cleaned_data["engines"],
             threshold=autoform.cleaned_data["threshold"],
         )
