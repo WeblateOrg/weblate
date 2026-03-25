@@ -913,6 +913,7 @@ Projects
     :>json boolean enable_hooks: :ref:`project-enable_hooks`
     :>json string instructions: :ref:`project-instructions`
     :>json string language_aliases: :ref:`project-language_aliases`
+    :>json string announcements_url: URL to announcements; see :http:get:`/api/projects/(string:project)/announcements/`
 
     **Example JSON data:**
 
@@ -1352,6 +1353,44 @@ Projects
         - ``403 Forbidden`` if the user does not have permission to the project.
         - ``404 Not Found`` if the project slug does not exist.
 
+.. http:get:: /api/projects/(string:project)/announcements/
+
+   .. versionadded:: 5.17
+
+    Returns announcements for a project.
+
+    :param project: Project URL slug
+    :type project: string
+    :>json int id: ID of the announcement
+    :>json string message: announcement text
+    :>json string severity: color of the message, one of ``info`` (light blue), ``warning`` (yellow), ``danger`` (red), ``success`` (green)
+    :>json date expiry: hide after this date, ISO 8601 extended format date (optional)
+    :>json bool notify: send notification to subscribed users? (optional)
+
+.. http:post:: /api/projects/(string:project)/announcements/
+
+   .. versionadded:: 5.17
+
+    Creates an announcement for a project.
+
+    :param project: Project URL slug
+    :type project: string
+    :<json string message: announcement text
+    :<json string severity: color of the message, one of ``info`` (light blue), ``warning`` (yellow), ``danger`` (red), ``success`` (green)
+    :<json date expiry: hide after this date, ISO 8601 extended format date (optional)
+    :<json bool notify: send notification to subscribed users? (optional)
+
+.. http:delete:: /api/projects/(string:project)/announcements/(int:announcement_id)/
+
+   .. versionadded:: 5.17
+
+    Deletes an announcement from a project.
+
+    :param project: Project URL slug
+    :type project: string
+    :param announcement_id: ID of the announcement to delete
+    :type announcement_id: integer
+
 Components
 ++++++++++
 
@@ -1428,6 +1467,7 @@ Components
     :>json string changes_list_url: URL to changes list; see :http:get:`/api/components/(string:project)/(string:component)/changes/`
     :>json string task_url: URL to a background task (if any); see :http:get:`/api/tasks/(str:uuid)/`
     :>json string credits_url: URL to list contributor credits; see :http:get:`/api/components/(string:project)/(string:component)/credits/`
+    :>json string announcements_url: URL to announcements; see :http:get:`/api/components/(string:project)/(string:component)/announcements/`
 
     **Example JSON data:**
 
@@ -1948,6 +1988,51 @@ Components
     :>json string full_name: Full name of the contributor
     :>json string change_count: Number of changes done in the time range
 
+.. http:get:: /api/components/(string:project)/(string:component)/announcements/
+
+   .. versionadded:: 5.17
+
+    Returns announcements for a component.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :>json int id: ID of the announcement
+    :>json string message: announcement text
+    :>json string severity: color of the message, one of ``info`` (light blue), ``warning`` (yellow), ``danger`` (red), ``success`` (green)
+    :>json date expiry: hide after this date, ISO 8601 extended format date (optional)
+    :>json bool notify: send notification to subscribed users? (optional)
+
+.. http:post:: /api/components/(string:project)/(string:component)/announcements/
+
+   .. versionadded:: 5.17
+
+    Creates an announcement for a component.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :<json string message: announcement text
+    :<json string severity: color of the message, one of ``info`` (light blue), ``warning`` (yellow), ``danger`` (red), ``success`` (green)
+    :<json date expiry: hide after this date, ISO 8601 extended format date (optional)
+    :<json bool notify: send notification to subscribed users? (optional)
+
+.. http:delete:: /api/components/(string:project)/(string:component)/announcements/(int:announcement_id)/
+
+   .. versionadded:: 5.17
+
+    Deletes an announcement from a component.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :param announcement_id: ID of the announcement to delete
+    :type announcement_id: integer
+
+
 Translations
 ++++++++++++
 
@@ -1996,6 +2081,7 @@ Translations
     :>json string file_url: URL to file object; see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/file/`
     :>json string changes_list_url: URL to changes list; see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/changes/`
     :>json string units_list_url: URL to strings list; see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/units/`
+    :>json string announcements_url: URL to announcements; see :http:get:`/api/translations/(string:project)/(string:component)/(string:language)/announcements/`
 
     **Example JSON data:**
 
@@ -2247,6 +2333,56 @@ Translations
     .. seealso::
 
        Returned attributes are described in :ref:`api-statistics`.
+
+.. http:get:: /api/translations/(string:project)/(string:component)/(string:language)/announcements/
+
+   .. versionadded:: 5.17
+
+    Returns announcements for a translation.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :param language: Translation language code
+    :type language: string
+    :>json int id: ID of the announcement
+    :>json string message: announcement text
+    :>json string severity: color of the message, one of ``info`` (light blue), ``warning`` (yellow), ``danger`` (red), ``success`` (green)
+    :>json date expiry: hide after this date, ISO 8601 extended format date (optional)
+    :>json bool notify: send notification to subscribed users? (optional)
+
+.. http:post:: /api/translations/(string:project)/(string:component)/(string:language)/announcements/
+
+   .. versionadded:: 5.17
+
+    Creates an announcement for a translation.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :param language: Translation language code
+    :type language: string
+    :<json string message: announcement text
+    :<json string severity: color of the message, one of ``info`` (light blue), ``warning`` (yellow), ``danger`` (red), ``success`` (green)
+    :<json date expiry: hide after this date, ISO 8601 extended format date (optional)
+    :<json bool notify: send notification to subscribed users? (optional)
+
+.. http:delete:: /api/translations/(string:project)/(string:component)/(string:language)/announcements/(int:announcement_id)/
+
+   .. versionadded:: 5.17
+
+    Deletes an announcement from a translation.
+
+    :param project: Project URL slug
+    :type project: string
+    :param component: Component URL slug
+    :type component: string
+    :param language: Translation language code
+    :type language: string
+    :param announcement_id: ID of the announcement to delete
+    :type announcement_id: integer
 
 
 Memory

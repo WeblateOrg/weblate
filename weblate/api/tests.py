@@ -7,7 +7,7 @@ import tempfile
 import zipfile
 from contextlib import nullcontext
 from copy import copy
-from datetime import UTC, datetime, timedelta
+from datetime import UTC, date, datetime, timedelta
 from io import BytesIO
 from pathlib import Path
 from types import SimpleNamespace
@@ -47,6 +47,7 @@ from weblate.trans.component_copy import (
 )
 from weblate.trans.exceptions import FailedCommitError, FileParseError
 from weblate.trans.models import (
+    Announcement,
     Category,
     Change,
     Component,
@@ -171,10 +172,17 @@ class APIBaseTest(APITestCase, RepoTestMixin):
         return response
 
     def grant_perm_to_user(
-        self, perm: str, group_name: str = "Permission group"
+        self,
+        perm: str,
+        group_name: str = "Permission group",
+        project: Project | None = None,
     ) -> None:
         permission = Permission.objects.get(codename=perm)
-        group = Group.objects.get_or_create(name=group_name)[0]
+        group = Group.objects.get_or_create(
+            name=group_name, language_selection=SELECTION_ALL
+        )[0]
+        if project:
+            group.projects.add(project)
         role = Role.objects.create(name="Permission role")
         role.permissions.add(permission)
         group.roles.add(role)
@@ -9341,6 +9349,126 @@ class LabelAPITest(APIBaseTest):
 
         # Verify label still exists in original project
         self.assertTrue(self.component.project.label_set.filter(id=label.id).exists())
+
+
+class AnnouncementAPITest(APIBaseTest):
+    def test_create_project_announcement(self) -> None:
+        project = self.component.project
+        self.authenticate(False)
+
+        self.do_request(
+            "api:project-announcements",
+            kwargs=self.project_kwargs,
+            method="post",
+            request={
+                "message": "Test message",
+                "severity": "info",
+                "expiry": date(2026, 1, 1),
+                "notify": False,
+            },
+            code=403,
+        )
+
+        self.grant_perm_to_user("announcement.add", "test", project)
+        response = self.do_request(
+            "api:project-announcements",
+            kwargs=self.project_kwargs,
+            method="post",
+            request={
+                "message": "Test message",
+                "severity": "info",
+                "expiry": date(2026, 1, 1),
+                "notify": False,
+            },
+            code=201,
+        )
+        announcement = Announcement.objects.filter(project=project).get(
+            id=response.data["id"]
+        )
+        self.assertIsNotNone(announcement)
+        self.assertEqual(announcement.project, project)
+        self.assertIsNone(announcement.component)
+        self.assertIsNone(announcement.language)
+
+    def test_create_component_announcement(self) -> None:
+        component = self.component
+        self.authenticate(False)
+
+        self.do_request(
+            "api:component-announcements",
+            kwargs=self.component_kwargs,
+            method="post",
+            request={
+                "message": "Test message",
+                "severity": "info",
+                "expiry": date(2026, 1, 1),
+                "notify": False,
+            },
+            code=403,
+        )
+
+        self.grant_perm_to_user("announcement.add", "test", component.project)
+        response = self.do_request(
+            "api:component-announcements",
+            kwargs=self.component_kwargs,
+            method="post",
+            request={
+                "message": "Test message",
+                "severity": "info",
+                "expiry": date(2026, 1, 1),
+                "notify": False,
+            },
+            code=201,
+        )
+        announcement = Announcement.objects.filter(component=component).get(
+            id=response.data["id"]
+        )
+        self.assertIsNotNone(announcement)
+        self.assertEqual(announcement.project, component.project)
+        self.assertEqual(announcement.component, component)
+        self.assertIsNone(announcement.language)
+
+    def test_create_translation_announcement(self) -> None:
+        component = self.component
+        self.authenticate(False)
+
+        self.do_request(
+            "api:translation-announcements",
+            kwargs=self.translation_kwargs,
+            method="post",
+            request={
+                "message": "Test message",
+                "severity": "info",
+                "expiry": date(2026, 1, 1),
+                "notify": False,
+            },
+            code=403,
+        )
+
+        self.grant_perm_to_user("announcement.add", "test", component.project)
+        response = self.do_request(
+            "api:translation-announcements",
+            kwargs=self.translation_kwargs,
+            method="post",
+            request={
+                "message": "Test message",
+                "severity": "info",
+                "expiry": date(2026, 1, 1),
+                "notify": False,
+            },
+            code=201,
+        )
+        announcement = (
+            Announcement.objects.filter(component=component)
+            .filter(language__code="cs")
+            .get(id=response.data["id"])
+        )
+        self.assertIsNotNone(announcement)
+        self.assertEqual(announcement.project, component.project)
+        self.assertEqual(announcement.component, component)
+        self.assertEqual(
+            announcement.language.code, self.translation_kwargs["language__code"]
+        )
 
 
 class OpenAPITest(APIBaseTest):
