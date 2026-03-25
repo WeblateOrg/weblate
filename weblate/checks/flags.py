@@ -363,6 +363,9 @@ class Flags:
     def set_value(self, name: str, value: str) -> None:
         self._items[name] = (name, value)
 
+    def set_values(self, name: str, *values: str | re.Pattern[str]) -> None:
+        self._items[name] = (name, *values)
+
     def has_any(self, flags: set[str]) -> bool:
         return bool(flags & set(self._items.keys()))
 
