@@ -64,7 +64,7 @@
           {% endif %}
           <h6 class="mb-1 fw-bold">
             {% blocktranslate count units=outgoing_commits with count=outgoing_commits|intcomma %}{{ count }} outgoing commit{% plural %}{{ count }} outgoing commits{% endblocktranslate %}
-            {% if has_push_branch %}
+            {% if has_push_branch and push_branch_outgoing_commits %}
               {% blocktranslate count units=push_branch_outgoing_commits with count=push_branch_outgoing_commits|intcomma %}({{ count }} missing in the push branch){% plural %}({{ count }} missing in the push branch){% endblocktranslate %}
             {% endif %}
           </h6>

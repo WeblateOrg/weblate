@@ -30,6 +30,7 @@ Weblate 5.17
 * Faster category and project removals.
 * Project backup restore no longer trusts repository-local VCS configuration and hooks from the uploaded archive.
 * :ref:`mt-deepl` maps plain Portuguese to European Portuguese.
+* Push branches are no longer updated with upstream-only commits in multi-branch workflows.
 
 .. rubric:: Compatibility
 

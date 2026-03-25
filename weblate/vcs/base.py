@@ -418,13 +418,41 @@ class Repository:
             self.log_revisions(self.ref_to_remote.format(self.get_remote_branch_name()))
         )
 
+    def get_outgoing_revisions(self, branch: str | None = None) -> list[str]:
+        """List outgoing revisions."""
+        return self.log_revisions(
+            self.ref_from_remote.format(self.get_remote_branch_name(branch))
+        )
+
+    def get_tracked_outgoing_revisions(self) -> list[str]:
+        """List revisions missing from the tracked upstream branch."""
+        return self.get_outgoing_revisions()
+
+    def get_push_revisions(self, branch: str | None = None) -> list[str]:
+        """
+        List revisions that still need to be pushed.
+
+        When a separate push branch is configured, only revisions missing from
+        both the tracked upstream branch and the push branch need to be pushed.
+        """
+        outgoing = (
+            self.get_tracked_outgoing_revisions()
+            if branch
+            else self.get_outgoing_revisions()
+        )
+        if not outgoing:
+            return []
+        if not branch:
+            return outgoing
+        try:
+            branch_outgoing = set(self.get_outgoing_revisions(branch))
+        except RepositoryError:
+            return outgoing
+        return [revision for revision in outgoing if revision in branch_outgoing]
+
     def count_outgoing(self, branch: str | None = None):
         """Count outgoing commits."""
-        return len(
-            self.log_revisions(
-                self.ref_from_remote.format(self.get_remote_branch_name(branch))
-            )
-        )
+        return len(self.get_outgoing_revisions(branch))
 
     def needs_merge(self):
         """
@@ -434,13 +462,9 @@ class Repository:
         """
         return self.count_missing() > 0
 
-    def needs_push(self):
-        """
-        Check whether repository needs push to upstream.
-
-        It has additional revisions.
-        """
-        return self.count_outgoing() > 0
+    def needs_push(self, branch: str | None = None):
+        """Check whether repository needs push."""
+        return bool(self.get_push_revisions(branch))
 
     def _get_revision_info(self, revision: str) -> dict[str, str]:
         """Return dictionary with detailed revision information."""
