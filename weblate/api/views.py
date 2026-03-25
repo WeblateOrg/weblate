@@ -597,6 +597,10 @@ class UserViewSet(viewsets.ModelViewSet):
         if request.method == "POST":
             obj.add_team(request, group)
         if request.method == "DELETE":
+            if obj.is_bot and not obj.groups.exclude(pk=group.pk).exists():
+                raise ValidationError(
+                    gettext_lazy("At least one team is required for a project token.")
+                )
             obj.remove_team(request, group)
         serializer = self.get_serializer_class()(obj, context={"request": request})
 

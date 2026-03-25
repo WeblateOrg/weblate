@@ -528,6 +528,27 @@ class UserAPITest(APIBaseTest):
             "http://example.com/api/groups/{group.id}/", response.data["groups"]
         )
 
+    def test_remove_last_group_bot(self) -> None:
+        bot = User.objects.create(
+            username="bot-test",
+            full_name="Test Bot",
+            is_bot=True,
+            is_active=True,
+        )
+        group = Group.objects.get(name="Viewers")
+        # Clear auto-assigned groups and keep only one
+        bot.groups.set([group])
+        self.do_request(
+            "api:user-groups",
+            kwargs={"username": bot.username},
+            method="delete",
+            superuser=True,
+            code=400,
+            request={"group_id": group.id},
+        )
+        # Bot should still have the group
+        self.assertTrue(bot.groups.filter(pk=group.pk).exists())
+
     def test_list_notifications(self) -> None:
         self.do_request(
             "api:user-notifications",
