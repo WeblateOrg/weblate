@@ -165,7 +165,7 @@ class AutoFixTest(TestCase):
         self.assertEqual(fix.fix_target(["'r''' {0}"], unit), (["''r'' {0}"], True))
         unit.source = "foo"
         unit.sources = [unit.source]
-        unit.flags = "java-format"
+        unit.flags = Flags("java-format")
         self.assertEqual(fix.fix_target(["bar'"], unit), (["bar''"], True))
 
     def test_devanagaridanda(self) -> None:
