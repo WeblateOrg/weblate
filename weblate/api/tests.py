@@ -5,6 +5,7 @@
 import os
 import tempfile
 import zipfile
+from contextlib import nullcontext
 from copy import copy
 from datetime import UTC, datetime, timedelta
 from io import BytesIO
@@ -39,6 +40,11 @@ from weblate.lang.models import Language
 from weblate.memory.models import Memory
 from weblate.screenshots.models import Screenshot
 from weblate.trans.actions import ActionEvents
+from weblate.trans.autotranslate import AutoTranslate
+from weblate.trans.component_copy import (
+    normalize_local_copy_branch,
+    replace_component_checkout,
+)
 from weblate.trans.exceptions import FailedCommitError, FileParseError
 from weblate.trans.models import (
     Category,
@@ -966,7 +972,7 @@ class GroupAPITest(APIBaseTest):
         group = Group.objects.create(name="Test Group")
 
         # No access to the group
-        response = self.do_request(
+        self.do_request(
             "api:group-detail",
             kwargs={"id": group.id},
             method="get",
@@ -1833,6 +1839,107 @@ class GroupAPITest(APIBaseTest):
             authenticated=False,
             code=404,
         )
+
+
+class ComponentCopyTest(APITestCase):
+    def test_replace_component_checkout_preserves_local_git_for_non_git_source(
+        self,
+    ) -> None:
+        with (
+            tempfile.TemporaryDirectory() as source_dir,
+            tempfile.TemporaryDirectory() as target_dir,
+        ):
+            os.makedirs(os.path.join(source_dir, ".hg"))
+            os.makedirs(os.path.join(target_dir, ".git"))
+            Path(source_dir, "messages.po").write_text("copied", encoding="utf-8")
+            Path(target_dir, "stale.po").write_text("stale", encoding="utf-8")
+
+            source_component = SimpleNamespace(
+                full_path=source_dir,
+                repository=SimpleNamespace(lock=nullcontext()),
+            )
+            target_component = SimpleNamespace(
+                full_path=target_dir,
+                is_repo_local=True,
+                repository=SimpleNamespace(lock=nullcontext()),
+            )
+
+            self.assertTrue(
+                replace_component_checkout(target_component, source_component)
+            )
+            self.assertTrue(Path(target_dir, ".git").is_dir())
+            self.assertFalse(Path(target_dir, ".hg").exists())
+            self.assertTrue(Path(target_dir, "messages.po").is_file())
+            self.assertFalse(Path(target_dir, "stale.po").exists())
+
+    def test_normalize_local_copy_branch_resets_to_component_branch(self) -> None:
+        calls: list[list[str]] = []
+
+        class DummyRepository:
+            def __init__(self) -> None:
+                self.lock = nullcontext()
+                self.branch = "release"
+
+            def has_branch(self, _branch: str) -> bool:
+                return False
+
+            def execute(self, args: list[str]) -> None:
+                calls.append(args)
+
+            def clean_revision_cache(self) -> None:
+                calls.append(["clean_revision_cache"])
+
+        repository = DummyRepository()
+        component = SimpleNamespace(
+            is_repo_local=True,
+            branch="main",
+            repository=repository,
+        )
+
+        normalize_local_copy_branch(component)
+
+        self.assertEqual(calls, [["checkout", "-B", "main"], ["clean_revision_cache"]])
+        self.assertEqual(repository.branch, "main")
+
+    def test_collect_other_translations_is_stable_for_selected_components(self) -> None:
+        auto = AutoTranslate.__new__(AutoTranslate)
+        auto.translation = SimpleNamespace(plural_id=1)
+        auto.warnings = []
+
+        class FilteredSources:
+            def annotate(self, **_kwargs):
+                return self
+
+            def order_by(self, *_args):
+                return self
+
+            def values_list(self, *_args):
+                return [
+                    (1, "Hello", "first", 10, 1),
+                    (2, "Hello", "second", 20, 1),
+                    (1, "Hello", "later", 30, 1),
+                ]
+
+        class EmptyComponents:
+            def defer_huge(self):
+                return self
+
+            def prefetch(self):
+                return self
+
+            def distinct(self):
+                return self
+
+            def order_project(self):
+                return []
+
+        with patch(
+            "weblate.trans.autotranslate.Component.objects.filter",
+            return_value=EmptyComponents(),
+        ):
+            translations = auto.collect_other_translations(FilteredSources(), [1, 2])
+
+        self.assertEqual(translations, {"Hello": ["first"]})
 
 
 class RoleAPITest(APIBaseTest):
@@ -4096,6 +4203,622 @@ class ComponentAPITest(APIBaseTest):
         )
         self.assertEqual(Component.objects.count(), 1)
 
+    def test_create_component_from_component_id(self) -> None:
+        translation = self.component.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        unit.translate(self.user, "Duplicated from source!\n", STATE_TRANSLATED)
+        self.component.commit_message = "Commit from source"
+        self.component.priority = 175
+        self.component.save()
+        self.component.addon_set.create(name="weblate.gettext.linguas")
+
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=201,
+            superuser=True,
+            format="json",
+            request={
+                "name": "API copy",
+                "slug": "api-copy",
+                "priority": 120,
+                "from_component": self.component.pk,
+            },
+        )
+
+        duplicate = Component.objects.get(slug="api-copy", project__slug="test")
+        self.assertEqual(duplicate.repo, "local:")
+        self.assertEqual(duplicate.vcs, "local")
+        self.assertEqual(duplicate.filemask, self.component.filemask)
+        self.assertEqual(duplicate.file_format, self.component.file_format)
+        self.assertEqual(duplicate.new_lang, self.component.new_lang)
+        self.assertEqual(duplicate.commit_message, "Commit from source")
+        self.assertEqual(duplicate.priority, 120)
+        self.assertTrue(
+            duplicate.addon_set.filter(name="weblate.gettext.linguas").exists()
+        )
+        duplicated_translation = duplicate.translation_set.get(language_code="cs")
+        duplicated_unit = duplicated_translation.unit_set.get(source="Hello, world!\n")
+        self.assertEqual(duplicated_unit.target, "Duplicated from source!\n")
+
+    def test_create_component_from_component_path(self) -> None:
+        category = self.component.project.category_set.create(
+            name="Category", slug="category"
+        )
+        source = self.create_po(
+            name="source-category", project=self.component.project, category=category
+        )
+        source.commit_message = "Path copy commit"
+        source.save()
+
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=201,
+            superuser=True,
+            format="json",
+            request={
+                "name": "API copy path",
+                "slug": "api-copy-path",
+                "from_component": source.full_slug,
+            },
+        )
+
+        duplicate = Component.objects.get(slug="api-copy-path", project__slug="test")
+        self.assertEqual(duplicate.category, category)
+        self.assertEqual(duplicate.repo, "local:")
+        self.assertEqual(duplicate.vcs, "local")
+        self.assertEqual(duplicate.filemask, source.filemask)
+        self.assertEqual(duplicate.file_format, source.file_format)
+        self.assertEqual(duplicate.commit_message, "Path copy commit")
+
+    def test_create_component_from_component_cross_project_keeps_current_translations(
+        self,
+    ) -> None:
+        source_project = self.create_project(
+            name="Source project",
+            slug="source-project",
+            contribute_shared_tm=False,
+        )
+        source = self.create_po(name="source-cross-project", project=source_project)
+        translation = source.translation_set.get(language_code="cs")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        unit.translate(
+            self.user, "Cross-project current translation!\n", STATE_TRANSLATED
+        )
+
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=201,
+            superuser=True,
+            format="json",
+            request={
+                "name": "API copy cross project",
+                "slug": "api-copy-cross-project",
+                "from_component": source.pk,
+            },
+        )
+
+        duplicate = Component.objects.get(
+            slug="api-copy-cross-project", project__slug=self.component.project.slug
+        )
+        duplicated_translation = duplicate.translation_set.get(language_code="cs")
+        duplicated_unit = duplicated_translation.unit_set.get(source="Hello, world!\n")
+        self.assertEqual(duplicated_unit.target, "Cross-project current translation!\n")
+
+    def test_create_component_from_component_rejects_repo_overrides(self) -> None:
+        response = self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            format="json",
+            request={
+                "name": "API copy explicit repo",
+                "slug": "api-copy-explicit-repo",
+                "from_component": self.component.pk,
+                "repo": self.component.repo,
+                "branch": "release",
+            },
+        )
+
+        self.assertEqual(
+            response.data,
+            {
+                "type": "validation_error",
+                "errors": [
+                    {
+                        "code": "invalid",
+                        "detail": "This field can not be used when using from_component.",
+                        "attr": "branch",
+                    },
+                    {
+                        "code": "invalid",
+                        "detail": "This field can not be used when using from_component.",
+                        "attr": "repo",
+                    },
+                ],
+            },
+        )
+
+    def test_create_component_from_component_rejects_layout_override(self) -> None:
+        response = self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            format="json",
+            request={
+                "name": "API copy invalid override",
+                "slug": "api-copy-invalid-override",
+                "from_component": self.component.pk,
+                "filemask": "translations/*.po",
+            },
+        )
+
+        self.assertEqual(
+            response.data,
+            {
+                "type": "validation_error",
+                "errors": [
+                    {
+                        "code": "invalid",
+                        "detail": (
+                            "This field can not be overridden when using "
+                            "from_component."
+                        ),
+                        "attr": "filemask",
+                    }
+                ],
+            },
+        )
+
+    def test_create_component_from_component_rejects_branch_override(self) -> None:
+        response = self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            format="json",
+            request={
+                "name": "API copy invalid branch",
+                "slug": "api-copy-invalid-branch",
+                "from_component": self.component.pk,
+                "branch": "release",
+            },
+        )
+
+        self.assertEqual(
+            response.data,
+            {
+                "type": "validation_error",
+                "errors": [
+                    {
+                        "code": "invalid",
+                        "detail": "This field can not be used when using from_component.",
+                        "attr": "branch",
+                    }
+                ],
+            },
+        )
+
+    def test_create_component_from_component_without_repo_skips_source_repo_validation(
+        self,
+    ) -> None:
+        Component.objects.filter(pk=self.component.pk).update(
+            repo="https://example.invalid/missing.git"
+        )
+        self.component.refresh_from_db()
+
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=201,
+            superuser=True,
+            format="json",
+            request={
+                "name": "API copy local snapshot",
+                "slug": "api-copy-local-snapshot",
+                "from_component": self.component.pk,
+            },
+        )
+
+        duplicate = Component.objects.get(
+            slug="api-copy-local-snapshot", project__slug=self.component.project.slug
+        )
+        self.assertEqual(duplicate.repo, "local:")
+        self.assertTrue(duplicate.translation_set.filter(language_code="cs").exists())
+
+    def test_create_component_from_component_requires_available_source_checkout(
+        self,
+    ) -> None:
+        with patch("weblate.api.serializers.os.path.isdir") as isdir:
+            isdir.side_effect = lambda path: path != self.component.full_path
+            self.do_request(
+                "api:project-components",
+                self.project_kwargs,
+                method="post",
+                code=400,
+                superuser=True,
+                format="json",
+                request={
+                    "name": "API copy missing checkout",
+                    "slug": "api-copy-missing-checkout",
+                    "from_component": self.component.pk,
+                },
+            )
+
+    def test_create_component_from_component_validates_suggestion_settings(
+        self,
+    ) -> None:
+        response = self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            format="json",
+            request={
+                "name": "API copy invalid suggestions",
+                "slug": "api-copy-invalid-suggestions",
+                "from_component": self.component.pk,
+                "suggestion_voting": False,
+                "suggestion_autoaccept": 2,
+            },
+        )
+
+        self.assertEqual(
+            response.data["errors"],
+            [
+                {
+                    "attr": "suggestion_autoaccept",
+                    "code": "invalid",
+                    "detail": "Accepting suggestions automatically only works with voting turned on.",
+                },
+                {
+                    "attr": "suggestion_voting",
+                    "code": "invalid",
+                    "detail": "Accepting suggestions automatically only works with voting turned on.",
+                },
+            ],
+        )
+
+    def test_create_component_from_component_validates_new_lang_against_source(
+        self,
+    ) -> None:
+        source = self.create_po(
+            name="source-no-new-base", project=self.component.project
+        )
+
+        response = self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=400,
+            superuser=True,
+            format="json",
+            request={
+                "name": "API copy invalid new lang",
+                "slug": "api-copy-invalid-new-lang",
+                "from_component": source.pk,
+                "new_lang": "add",
+            },
+        )
+
+        self.assertEqual(
+            response.data["errors"],
+            [
+                {
+                    "attr": "new_base",
+                    "code": "invalid",
+                    "detail": (
+                        "You have set up Weblate to add new translation files, "
+                        "but did not provide a base file to do that."
+                    ),
+                },
+                {
+                    "attr": "new_lang",
+                    "code": "invalid",
+                    "detail": (
+                        "You have set up Weblate to add new translation files, "
+                        "but did not provide a base file to do that."
+                    ),
+                },
+            ],
+        )
+
+    def test_create_component_from_component_appstore(self) -> None:
+        source = self.create_appstore(
+            name="source-appstore", project=self.component.project
+        )
+        source_translation = source.translation_set.get(language_code="cs")
+        source_unit = source_translation.unit_set.get(
+            source="Weblate - continuous localization"
+        )
+        source_unit.translate(
+            self.user, "Weblate - metadata duplicate", STATE_TRANSLATED
+        )
+
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=201,
+            superuser=True,
+            format="json",
+            request={
+                "name": "API copy appstore",
+                "slug": "api-copy-appstore",
+                "from_component": source.pk,
+            },
+        )
+
+        duplicate = Component.objects.get(
+            slug="api-copy-appstore", project__slug=self.component.project.slug
+        )
+        duplicated_translation = duplicate.translation_set.get(language_code="cs")
+        duplicated_unit = duplicated_translation.unit_set.get(
+            source="Weblate - continuous localization"
+        )
+        self.assertEqual(duplicated_unit.target, "Weblate - metadata duplicate")
+        self.assertGreater(len(source_translation.filenames), 1)
+        duplicate_files = {
+            os.path.relpath(filename, duplicate.full_path)
+            for filename in duplicated_translation.filenames
+        }
+        self.assertTrue(
+            {
+                os.path.relpath(filename, source.full_path)
+                for filename in source_translation.filenames
+            }.issubset(duplicate_files)
+        )
+
+    def test_create_component_from_component_does_not_clone_addons_cross_project(
+        self,
+    ) -> None:
+        source_project = self.create_project(name="Source", slug="source")
+        source = self.create_po(name="source-copy", project=source_project)
+        source.addon_set.create(
+            name="weblate.gettext.linguas",
+            configuration={"secret": "cross-project"},
+        )
+
+        self.do_request(
+            "api:project-components",
+            self.project_kwargs,
+            method="post",
+            code=201,
+            superuser=True,
+            format="json",
+            request={
+                "name": "API copy no addons",
+                "slug": "api-copy-no-addons",
+                "from_component": source.pk,
+            },
+        )
+
+        duplicate = Component.objects.get(
+            slug="api-copy-no-addons", project__slug=self.component.project.slug
+        )
+        self.assertFalse(
+            duplicate.addon_set.filter(name="weblate.gettext.linguas").exists()
+        )
+
+    @override_settings(CELERY_TASK_ALWAYS_EAGER=False)
+    def test_create_component_from_component_queues_seed(self) -> None:
+        with (
+            patch(
+                "weblate.trans.tasks.component_after_save.delay",
+                return_value=SimpleNamespace(id="component-task"),
+            ) as delay,
+            patch(
+                "weblate.trans.models.component.AsyncResult",
+                return_value=SimpleNamespace(id="component-task", ready=lambda: False),
+            ),
+        ):
+            self.do_request(
+                "api:project-components",
+                self.project_kwargs,
+                method="post",
+                code=201,
+                superuser=True,
+                format="json",
+                request={
+                    "name": "API copy async",
+                    "slug": "api-copy-async",
+                    "from_component": self.component.pk,
+                },
+            )
+
+        self.assertEqual(delay.call_count, 1)
+        self.assertEqual(
+            delay.call_args.args[0],
+            Component.objects.get(slug="api-copy-async").pk,
+        )
+        self.assertEqual(
+            delay.call_args.kwargs["seed_source_component_id"], self.component.pk
+        )
+        self.assertTrue(delay.call_args.kwargs["copy_seed_addons"])
+        self.assertEqual(
+            delay.call_args.kwargs["seed_author"], self.user.get_author_name()
+        )
+        self.assertTrue(delay.call_args.kwargs["skip_push"])
+
+    def test_create_component_from_component_seed_uses_skip_push(self) -> None:
+        duplicate = Component.objects.create(
+            project=self.component.project,
+            name="API copy seeded",
+            slug="api-copy-seeded",
+            vcs="local",
+            repo="local:",
+            filemask=self.component.filemask,
+            file_format=self.component.file_format,
+        )
+
+        with patch(
+            "weblate.trans.component_copy.seed_component_from_source"
+        ) as seed_component_from_source:
+            duplicate.after_save(
+                changed_git=False,
+                changed_setup=False,
+                changed_template=False,
+                changed_variant=False,
+                changed_enforced_checks=False,
+                skip_push=True,
+                create=True,
+                seed_source_component_id=self.component.pk,
+                copy_seed_addons=False,
+                seed_author=self.user.get_author_name(),
+            )
+
+        seed_component_from_source.assert_called_once_with(
+            duplicate,
+            self.component,
+            author_name=self.user.get_author_name(),
+            skip_push=True,
+        )
+
+    def test_create_component_from_component_falls_back_to_scan_when_seed_empty(
+        self,
+    ) -> None:
+        duplicate = Component.objects.create(
+            project=self.component.project,
+            name="API copy empty seed",
+            slug="api-copy-empty-seed",
+            vcs="local",
+            repo="local:",
+            filemask=self.component.filemask,
+            file_format=self.component.file_format,
+        )
+
+        with (
+            patch.object(duplicate, "create_translations") as create_translations,
+            patch(
+                "weblate.trans.component_copy.seed_component_from_source",
+                return_value=False,
+            ) as seed_component_from_source,
+        ):
+            duplicate.after_save(
+                changed_git=False,
+                changed_setup=True,
+                changed_template=False,
+                changed_variant=False,
+                changed_enforced_checks=False,
+                skip_push=True,
+                create=True,
+                seed_source_component_id=self.component.pk,
+                copy_seed_addons=False,
+                seed_author=self.user.get_author_name(),
+            )
+
+        create_translations.assert_called_once_with(force=True, changed_template=False)
+        seed_component_from_source.assert_called_once_with(
+            duplicate,
+            self.component,
+            author_name=self.user.get_author_name(),
+            skip_push=True,
+        )
+
+    def test_create_component_from_component_skips_initial_translation_scan(
+        self,
+    ) -> None:
+        duplicate = Component.objects.create(
+            project=self.component.project,
+            name="API copy one scan",
+            slug="api-copy-one-scan",
+            vcs="local",
+            repo="local:",
+            filemask=self.component.filemask,
+            file_format=self.component.file_format,
+        )
+
+        with (
+            patch.object(duplicate, "create_translations") as create_translations,
+            patch(
+                "weblate.trans.component_copy.seed_component_from_source"
+            ) as seed_component_from_source,
+        ):
+            duplicate.after_save(
+                changed_git=False,
+                changed_setup=True,
+                changed_template=False,
+                changed_variant=False,
+                changed_enforced_checks=False,
+                skip_push=True,
+                create=True,
+                seed_source_component_id=self.component.pk,
+                copy_seed_addons=False,
+                seed_author=self.user.get_author_name(),
+            )
+
+        create_translations.assert_not_called()
+        seed_component_from_source.assert_called_once_with(
+            duplicate,
+            self.component,
+            author_name=self.user.get_author_name(),
+            skip_push=True,
+        )
+
+    def test_create_component_from_component_missing_source_falls_back_to_scan(
+        self,
+    ) -> None:
+        duplicate = Component.objects.create(
+            project=self.component.project,
+            name="API copy missing source",
+            slug="api-copy-missing-source",
+            vcs="local",
+            repo="local:",
+            filemask=self.component.filemask,
+            file_format=self.component.file_format,
+        )
+
+        with (
+            patch.object(
+                duplicate,
+                "create_seed_fallback_translations",
+                return_value=True,
+            ) as create_seed_fallback_translations,
+            patch(
+                "weblate.trans.component_copy.seed_component_from_source"
+            ) as seed_component_from_source,
+            patch(
+                "weblate.trans.component_copy.clone_component_addons"
+            ) as clone_component_addons,
+            patch.object(duplicate, "log_warning") as log_warning,
+        ):
+            duplicate.after_save(
+                changed_git=False,
+                changed_setup=True,
+                changed_template=False,
+                changed_variant=False,
+                changed_enforced_checks=False,
+                skip_push=True,
+                create=True,
+                seed_source_component_id=999999,
+                copy_seed_addons=True,
+                seed_author=self.user.get_author_name(),
+            )
+
+        seed_component_from_source.assert_not_called()
+        clone_component_addons.assert_not_called()
+        create_seed_fallback_translations.assert_called_once_with(
+            changed_setup=True,
+            changed_git=False,
+            changed_template=False,
+        )
+        log_warning.assert_called_once_with(
+            "source component %s is no longer available, falling back to discovery",
+            999999,
+        )
+
     def test_create_translation(self) -> None:
         self.component.new_lang = "add"
         self.component.new_base = "po/hello.pot"
@@ -4119,6 +4842,270 @@ class ComponentAPITest(APIBaseTest):
             code=400,
             request={"language_code": "cs"},
         )
+
+    def test_create_translation_from_component(self) -> None:
+        target = self.create_po_new_base(name="target", project=self.component.project)
+        source_project_one = self.create_project(
+            name="Source one", slug="source-one", contribute_shared_tm=True
+        )
+        source_project_two = self.create_project(
+            name="Source two", slug="source-two", contribute_shared_tm=True
+        )
+        source_one = self.create_po_new_base(
+            name="source-one", project=source_project_one
+        )
+        source_two = self.create_po_new_base(
+            name="source-two", project=source_project_two
+        )
+        language = Language.objects.get(code="fa")
+        fallback_source: str | None = None
+
+        for component, text in (
+            (source_one, "First source translation!\n"),
+            (source_two, "Second source translation!\n"),
+        ):
+            translation = component.add_new_language(language, None)
+            self.assertIsNotNone(translation)
+            if component == source_one:
+                unit = translation.unit_set.get(source="Hello, world!\n")
+            else:
+                unit = next(
+                    candidate
+                    for candidate in translation.unit_set.exclude(
+                        source="Hello, world!\n"
+                    )
+                    if not candidate.is_plural
+                )
+            unit.translate(self.user, text, STATE_TRANSLATED)
+            if component == source_two:
+                fallback_source = unit.source
+
+        self.do_request(
+            "api:component-translations",
+            {"project__slug": target.project.slug, "slug": target.slug},
+            method="post",
+            code=201,
+            superuser=True,
+            format="json",
+            request={
+                "language_code": "fa",
+                "from_component": [source_one.full_slug, str(source_two.pk)],
+            },
+        )
+
+        self.assertIsNotNone(fallback_source)
+        created = target.translation_set.get(language_code="fa")
+        first_unit = created.unit_set.get(source="Hello, world!\n")
+        second_unit = created.unit_set.get(source=fallback_source)
+        self.assertEqual(first_unit.target, "First source translation!\n")
+        self.assertEqual(second_unit.target.rstrip("\n"), "Second source translation!")
+
+    def test_create_translation_from_component_duplicates(self) -> None:
+        target = self.create_po_new_base(name="target", project=self.component.project)
+        source = self.create_po_new_base(name="source", project=self.component.project)
+        language = Language.objects.get(code="fa")
+
+        translation = source.add_new_language(language, None)
+        self.assertIsNotNone(translation)
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        unit.translate(self.user, "Duplicated source translation!\n", STATE_TRANSLATED)
+
+        self.do_request(
+            "api:component-translations",
+            {"project__slug": target.project.slug, "slug": target.slug},
+            method="post",
+            code=201,
+            superuser=True,
+            format="json",
+            request={
+                "language_code": "fa",
+                "from_component": [source.full_slug, source.full_slug],
+            },
+        )
+
+        created = target.translation_set.get(language_code="fa")
+        created_unit = created.unit_set.get(source="Hello, world!\n")
+        self.assertEqual(created_unit.target, "Duplicated source translation!\n")
+
+    def test_create_translation_from_component_language_code_style(self) -> None:
+        target = self.create_po_new_base(name="target", project=self.component.project)
+        source = self.create_po_new_base(
+            name="source-style",
+            project=self.component.project,
+            language_code_style="bcp",
+        )
+        language = Language.objects.get(code="pt_BR")
+
+        translation = source.add_new_language(language, None)
+        self.assertIsNotNone(translation)
+        self.assertEqual(translation.language.code, "pt_BR")
+        self.assertEqual(translation.language_code, "pt-BR")
+        unit = translation.unit_set.get(source="Hello, world!\n")
+        unit.translate(self.user, "Styled source translation!\n", STATE_TRANSLATED)
+
+        self.do_request(
+            "api:component-translations",
+            {"project__slug": target.project.slug, "slug": target.slug},
+            method="post",
+            code=201,
+            superuser=True,
+            format="json",
+            request={
+                "language_code": "pt_BR",
+                "from_component": [source.full_slug],
+            },
+        )
+
+        created = target.translation_set.get(language__code="pt_BR")
+        created_unit = created.unit_set.get(source="Hello, world!\n")
+        self.assertEqual(created_unit.target, "Styled source translation!\n")
+
+    def test_create_translation_from_component_requires_edit_permission(self) -> None:
+        target = self.create_po_new_base(name="target", project=self.component.project)
+        source = self.create_po_new_base(name="source", project=self.component.project)
+        language = Language.objects.get(code="fa")
+        source_translation = source.add_new_language(language, None)
+        self.assertIsNotNone(source_translation)
+
+        self.do_request(
+            "api:component-translations",
+            {"project__slug": target.project.slug, "slug": target.slug},
+            method="post",
+            code=400,
+            format="json",
+            request={
+                "language_code": "fa",
+                "from_component": [source.full_slug],
+            },
+        )
+
+    def test_create_translation_from_component_allows_shared_tm_source_without_edit(
+        self,
+    ) -> None:
+        target = self.create_po_new_base(name="target", project=self.component.project)
+        target.project.add_user(self.user, "Administration")
+        source_project = self.create_project(
+            name="Shared source", slug="shared-source", contribute_shared_tm=True
+        )
+        source = self.create_po_new_base(name="source", project=source_project)
+        language = Language.objects.get(code="fa")
+        source_translation = source.add_new_language(language, None)
+        self.assertIsNotNone(source_translation)
+        unit = source_translation.unit_set.get(source="Hello, world!\n")
+        unit.translate(self.user, "Shared TM source translation!\n", STATE_TRANSLATED)
+
+        self.do_request(
+            "api:component-translations",
+            {"project__slug": target.project.slug, "slug": target.slug},
+            method="post",
+            code=201,
+            format="json",
+            request={
+                "language_code": "fa",
+                "from_component": [source.full_slug],
+            },
+        )
+
+        created = target.translation_set.get(language_code="fa")
+        created_unit = created.unit_set.get(source="Hello, world!\n")
+        self.assertEqual(created_unit.target, "Shared TM source translation!\n")
+
+    def test_create_translation_from_component_hides_private_cross_project_source(
+        self,
+    ) -> None:
+        target = self.create_po_new_base(name="target", project=self.component.project)
+        target.project.add_user(self.user, "Administration")
+        source_project = self.create_project(
+            name="Private source", slug="private-source", contribute_shared_tm=False
+        )
+        source = self.create_po_new_base(name="source", project=source_project)
+
+        response = self.do_request(
+            "api:component-translations",
+            {"project__slug": target.project.slug, "slug": target.slug},
+            method="post",
+            code=400,
+            format="json",
+            request={
+                "language_code": "fa",
+                "from_component": [source.full_slug],
+            },
+        )
+
+        self.assertEqual(
+            response.data["errors"],
+            [
+                {
+                    "attr": "from_component",
+                    "code": "invalid",
+                    "detail": "Component not found.",
+                }
+            ],
+        )
+
+    def test_create_translation_from_component_validation_has_no_side_effects(
+        self,
+    ) -> None:
+        target = self.create_po_new_base(name="target", project=self.component.project)
+        source_project = self.create_project(
+            name="Source", slug="source", contribute_shared_tm=False
+        )
+        source = self.create_po_new_base(name="source", project=source_project)
+        language = Language.objects.get(code="fa")
+        source_translation = source.add_new_language(language, None)
+        self.assertIsNotNone(source_translation)
+
+        self.do_request(
+            "api:component-translations",
+            {"project__slug": target.project.slug, "slug": target.slug},
+            method="post",
+            code=400,
+            superuser=True,
+            format="json",
+            request={
+                "language_code": "fa",
+                "from_component": [source.full_slug],
+            },
+        )
+        self.assertFalse(target.translation_set.filter(language_code="fa").exists())
+
+    def test_create_translation_from_component_auto_failure_has_no_side_effects(
+        self,
+    ) -> None:
+        target = self.create_po_new_base(name="target", project=self.component.project)
+        source = self.create_po_new_base(name="source", project=self.component.project)
+        language = Language.objects.get(code="fa")
+        source_translation = source.add_new_language(language, None)
+        self.assertIsNotNone(source_translation)
+
+        with patch(
+            "weblate.trans.autotranslate.AutoTranslate.process_others",
+            side_effect=Component.DoesNotExist("Component not found."),
+        ):
+            response = self.do_request(
+                "api:component-translations",
+                {"project__slug": target.project.slug, "slug": target.slug},
+                method="post",
+                code=400,
+                superuser=True,
+                format="json",
+                request={
+                    "language_code": "fa",
+                    "from_component": [source.full_slug],
+                },
+            )
+
+        self.assertEqual(
+            response.data["errors"],
+            [
+                {
+                    "attr": "from_component",
+                    "code": "invalid",
+                    "detail": "Automatic translation failed: Component not found.",
+                }
+            ],
+        )
+        self.assertFalse(target.translation_set.filter(language_code="fa").exists())
 
     def test_create_translation_invalid_language_code(self) -> None:
         self.component.new_lang = "add"
@@ -5805,6 +6792,22 @@ class TranslationAPITest(APIBaseTest):
                 "mode": "suggest",
                 "q": "state:<translated",
                 "auto_source": "others",
+                "threshold": "100",
+            },
+            format=format,
+            code=200,
+        )
+        self.assertContains(response, "Automatic translation completed")
+        response = self.do_request(
+            "api:translation-autotranslate",
+            self.translation_kwargs,
+            superuser=True,
+            method="post",
+            request={
+                "mode": "suggest",
+                "q": "state:<translated",
+                "auto_source": "others",
+                "component": self.component.pk,
                 "threshold": "100",
             },
             format=format,
