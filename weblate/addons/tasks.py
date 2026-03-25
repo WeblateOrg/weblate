@@ -158,7 +158,7 @@ def language_consistency(
                     component.refresh_lock()
                     new_lang = component.add_new_language(
                         language,
-                        fake_request,
+                        fake_request,  # type: ignore[arg-type]
                         send_signal=False,
                         create_translations=False,
                     )
