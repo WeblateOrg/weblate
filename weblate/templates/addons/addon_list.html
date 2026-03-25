@@ -81,7 +81,10 @@
               {% blocktranslate count count=project_addons %}Manage project-wide add-ons ({{ count }} installed){% plural %}Manage project-wide add-ons ({{ count }} installed){% endblocktranslate %}
             </a>
           {% endif %}
-          {% if scope == "project" or scope == "component" %}
+          {% if scope == "category" %}
+            <p>{% translate "Add-ons installed here apply to all components within this category." %}</p>
+          {% endif %}
+          {% if scope == "project" or scope == "component" or scope == "category" %}
             {% perm "management.addons" as user_can_manage_addons %}
             <a href="{% url 'manage-addons' %}"
                class="btn btn-primary"

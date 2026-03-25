@@ -13,7 +13,7 @@ from django.utils.translation import gettext
 from django.views.generic import DetailView, ListView, UpdateView
 
 from weblate.addons.models import ADDONS, Addon
-from weblate.trans.models import Change, Component, Project
+from weblate.trans.models import Category, Change, Component, Project
 from weblate.utils import messages
 from weblate.utils.views import PathViewMixin, get_paginator
 
@@ -24,8 +24,8 @@ if TYPE_CHECKING:
 class AddonList(PathViewMixin, ListView):
     paginate_by = None
     model = Addon
-    supported_path_types = (None, Component, Project)
-    path_object: Component | Project | None
+    supported_path_types = (None, Component, Project, Category)
+    path_object: Component | Project | Category | None
     request: AuthenticatedHttpRequest
 
     def get_queryset(self):
@@ -35,6 +35,12 @@ class AddonList(PathViewMixin, ListView):
                 raise PermissionDenied(msg)
             self.kwargs["component_obj"] = self.path_object
             return Addon.objects.filter_component(self.path_object)
+        if isinstance(self.path_object, Category):
+            if not self.request.user.has_perm("project.edit", self.path_object.project):
+                msg = "Can not edit project"
+                raise PermissionDenied(msg)
+            self.kwargs["category_obj"] = self.path_object
+            return Addon.objects.filter_category(self.path_object)
         if isinstance(self.path_object, Project):
             if not self.request.user.has_perm("project.edit", self.path_object):
                 msg = "Can not edit project"
@@ -70,6 +76,11 @@ class AddonList(PathViewMixin, ListView):
             result["last_changes"] = target.change_set.filter(
                 action__in=Change.ACTIONS_ADDON
             ).order()[:10]
+        elif isinstance(target, Category):
+            result["last_changes"] = Change.objects.filter(
+                action__in=Change.ACTIONS_ADDON,
+                category=target,
+            ).order()[:10]
         else:
             result["last_changes"] = target.change_set.filter(
                 action__in=Change.ACTIONS_ADDON, component=None
@@ -77,9 +88,12 @@ class AddonList(PathViewMixin, ListView):
         installed = {x.addon_name for x in result["object_list"]}
 
         component: Component | None = None
+        category: Category | None = None
         project: Project | None = None
         if isinstance(target, Component):
             component = target
+        elif isinstance(target, Category):
+            category = target
         elif isinstance(target, Project):
             project = target
 
@@ -87,7 +101,9 @@ class AddonList(PathViewMixin, ListView):
             (
                 x(Addon())
                 for x in ADDONS.values()
-                if x.can_install(component=component, project=project)
+                if x.can_install(
+                    component=component, category=category, project=project
+                )
                 and (x.multiple or x.name not in installed)
             ),
             key=lambda x: x.name,
@@ -97,6 +113,8 @@ class AddonList(PathViewMixin, ListView):
             result["project_addons"] = Addon.objects.filter_project(
                 target.project
             ).count()
+        elif category:
+            result["scope"] = "category"
         elif project:
             result["scope"] = "project"
         else:
@@ -110,10 +128,13 @@ class AddonList(PathViewMixin, ListView):
     def post(self, request: AuthenticatedHttpRequest, **kwargs):
         obj = self.path_object
         obj_component: Component | None = None
+        obj_category: Category | None = None
         obj_project: Project | None = None
 
         if isinstance(obj, Component):
             obj_component = obj
+        elif isinstance(obj, Category):
+            obj_category = obj
         elif isinstance(obj, Project):
             obj_project = obj
 
@@ -124,9 +145,9 @@ class AddonList(PathViewMixin, ListView):
         if addon is None:
             return self.redirect_list(gettext("Invalid add-on name: ”%s”") % name)
         installed = {x.addon_name for x in self.get_queryset()}
-        if not addon.can_install(component=obj_component, project=obj_project) or (
-            name in installed and not addon.multiple
-        ):
+        if not addon.can_install(
+            component=obj_component, category=obj_category, project=obj_project
+        ) or (name in installed and not addon.multiple):
             return self.redirect_list(
                 gettext("Add-on cannot be installed: ”%s”") % name
             )
@@ -134,7 +155,10 @@ class AddonList(PathViewMixin, ListView):
         form = None
         if addon.settings_form is None:
             addon.create(
-                component=obj_component, project=obj_project, acting_user=request.user
+                component=obj_component,
+                category=obj_category,
+                project=obj_project,
+                acting_user=request.user,
             )
             return self.redirect_list()
 
@@ -142,6 +166,7 @@ class AddonList(PathViewMixin, ListView):
             form = addon.get_add_form(
                 request.user,
                 component=obj_component,
+                category=obj_category,
                 project=obj_project,
                 data=request.POST,
             )
@@ -158,7 +183,10 @@ class AddonList(PathViewMixin, ListView):
                 return self.redirect_list()
         else:
             form = addon.get_add_form(
-                request.user, component=obj_component, project=obj_project
+                request.user,
+                component=obj_component,
+                category=obj_category,
+                project=obj_project,
             )
 
         addon.pre_install(obj, request)
@@ -185,11 +213,17 @@ class BaseAddonView(DetailView):
         ):
             msg = "Can not edit component"
             raise PermissionDenied(msg)
+        if obj.category and not self.request.user.has_perm(
+            "project.edit", obj.category.project
+        ):
+            msg = "Can not edit project"
+            raise PermissionDenied(msg)
         if obj.project and not self.request.user.has_perm("project.edit", obj.project):
             msg = "Can not edit project"
             raise PermissionDenied(msg)
         if (
             obj.project is None
+            and obj.category is None
             and obj.component is None
             and not self.request.user.has_perm("management.addons")
         ):
@@ -209,19 +243,19 @@ class AddonDetail(BaseAddonView, UpdateView):
             self.request.user, **self.get_form_kwargs()
         )
 
+    def _get_target(self):
+        return self.object.component or self.object.category or self.object.project
+
     def get_context_data(self, **kwargs):
         result = super().get_context_data(**kwargs)
-        if self.object.project:
-            result["object"] = self.object.project
-        else:
-            result["object"] = self.object.component
+        result["object"] = self._get_target()
         result["instance"] = self.object
         result["addon"] = self.object.addon if self.object.is_valid else None
         result["addon_name"] = self.object.addon_name
         return result
 
     def get_success_url(self):
-        target = self.object.component or self.object.project
+        target = self._get_target()
         if target is None:
             return reverse("manage-addons")
         return reverse("addons", kwargs={"path": target.get_url_path()})
@@ -231,7 +265,7 @@ class AddonDetail(BaseAddonView, UpdateView):
         self.object = obj
         obj.acting_user = request.user
         if "delete" in request.POST:
-            target = obj.component or obj.project
+            target = obj.component or obj.category or obj.project
             obj.delete()
             if target is None:
                 return redirect(reverse("manage-addons"))
@@ -249,10 +283,9 @@ class AddonLogs(BaseAddonView):
 
     def get_context_data(self, **kwargs):
         result = super().get_context_data(**kwargs)
-        if self.object.project:
-            result["object"] = self.object.project
-        else:
-            result["object"] = self.object.component
+        result["object"] = (
+            self.object.component or self.object.category or self.object.project
+        )
         result["instance"] = self.object
         result["addon"] = self.object.addon if self.object.is_valid else None
         result["addon_name"] = self.object.addon_name
