@@ -42,8 +42,6 @@ from .base import BaseAddon
 from .events import AddonEvent
 
 if TYPE_CHECKING:
-    from collections.abc import Iterable
-
     from django.db.models import QuerySet
     from django_stubs_ext import StrOrPromise
 
@@ -89,16 +87,15 @@ class AddonQuerySet(models.QuerySet):
     def filter_event(self, component, event):
         return component.addons_cache.get_event(event)
 
-    def prefetch_for_components(self, components: Iterable[Component]) -> None:
+    def prefetch_for_components(
+        self, components: list[Component] | QuerySet[Component]
+    ) -> None:
         """
         Prefetch add-ons for multiple components in a single query.
 
         This builds a combined query that fetches all relevant addons for all
         components at once, avoiding N+1 queries.
         """
-        # Materialize to allow multiple iterations (generators would be
-        # consumed by the first loop).
-        components = list(components)
         if not components:
             return
 
