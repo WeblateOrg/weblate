@@ -114,6 +114,20 @@ class DashboardTest(ViewTestCase):
         response = self.client.get(reverse("home"))
         self.assertEqual(len(response.context["usersubscriptions"]), 1)
 
+    def test_watched_translations_are_sorted_by_language(self) -> None:
+        self.user.profile.languages.add(Language.objects.get(code="de"))
+        self.user.profile.watched.add(self.project)
+
+        response = self.client.get(reverse("home"))
+
+        self.assertEqual(
+            [
+                translation.language.code
+                for translation in response.context["usersubscriptions"]
+            ],
+            ["cs", "de"],
+        )
+
     def test_user_nolang(self) -> None:
         self.user.profile.languages.clear()
         # This picks up random language

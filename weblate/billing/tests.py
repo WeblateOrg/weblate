@@ -385,6 +385,8 @@ class BillingTest(BaseTestCase):
 
     def test_merge(self) -> None:
         other = Billing.objects.create(plan=self.billing.plan)
+        self.billing.payment = {"all": [{"charge": "source-payment"}]}
+        self.billing.save()
         Invoice.objects.create(
             billing=other,
             start=timezone.now().date() - timedelta(days=2),
@@ -425,6 +427,8 @@ class BillingTest(BaseTestCase):
         )
 
         self.assertEqual(other.invoice_set.count(), 2)
+        other.refresh_from_db()
+        self.assertEqual(other.payment["all"], [{"charge": "source-payment"}])
 
     def test_owners(self) -> None:
         second_user = create_another_user()

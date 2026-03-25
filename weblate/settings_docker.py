@@ -802,6 +802,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.admin",
+    "django.contrib.postgres",
     "django.contrib.sitemaps",
     "django.contrib.humanize",
     # Third party Django modules
@@ -970,7 +971,7 @@ if HAVE_SYSLOG:
         "facility": SysLogHandler.LOG_LOCAL2,
     }
 
-# Configure GELF integration if presetn
+# Configure GELF integration if present
 if WEBLATE_LOG_GELF_HOST:
     LOGGING["formatters"]["gelf"] = {
         "()": "logging_gelf.formatters.GELFFormatter",
@@ -1018,7 +1019,7 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 50000000
 # Allow more fields for case with a lot of subscriptions in profile
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 2000
 
-# Apply session coookie settings to language cookie as well with exception
+# Apply session cookie settings to language cookie as well with exception
 # of SameSite as we want language to be honored in CSRF error messages.
 LANGUAGE_COOKIE_SECURE = SESSION_COOKIE_SECURE
 LANGUAGE_COOKIE_HTTPONLY = SESSION_COOKIE_HTTPONLY
@@ -1443,7 +1444,7 @@ DEFAULT_SHARED_TM = get_env_bool("WEBLATE_DEFAULT_SHARED_TM", True)
 
 DEFAULT_AUTOCLEAN_TM = get_env_bool("WEBLATE_AUTOCLEAN_TM", False)
 
-COMMIT_PENDING_HOURS = get_env_int("WEBLATE_COMMIT_PENDING_HOURS")
+COMMIT_PENDING_HOURS = get_env_int("WEBLATE_COMMIT_PENDING_HOURS", 24)
 
 CONTACT_FORM = get_env_str("WEBLATE_CONTACT_FORM", "reply-to", required=True)
 ADMINS_CONTACT = get_env_list("WEBLATE_ADMINS_CONTACT")

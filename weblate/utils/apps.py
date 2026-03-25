@@ -8,6 +8,7 @@ import errno
 import os
 import time
 from datetime import timedelta
+from email.utils import parseaddr
 from itertools import chain
 from pathlib import Path
 from shutil import disk_usage
@@ -20,7 +21,7 @@ from django.core.cache import cache
 from django.core.checks import Error, Info, register
 from django.core.exceptions import ImproperlyConfigured
 from django.core.mail import get_connection
-from django.db import DatabaseError
+from django.db import DatabaseError, connections
 from django.db.models import CharField, TextField
 from django.db.models.functions import MD5, Lower
 from django.utils import timezone
@@ -38,7 +39,6 @@ from .db import (
     PostgreSQLSearchLookup,
     PostgreSQLSubstringLookup,
     measure_database_latency,
-    using_postgresql,
 )
 from .encoding import get_filesystem_encoding, get_locale_encoding, get_python_encoding
 from .errors import init_error_collection
@@ -184,7 +184,7 @@ def check_database(
     **kwargs,
 ) -> Iterable[CheckMessage]:
     errors: list[CheckMessage] = []
-    if not using_postgresql():
+    if connections["default"].vendor != "postgresql":
         errors.append(
             weblate_check(
                 "weblate.E006",
@@ -257,8 +257,16 @@ def check_settings(
     """Check for sane settings."""
     errors: list[CheckMessage] = []
 
+    def is_default_admin_email(admin: str | tuple[str, str]) -> bool:
+        if isinstance(admin, tuple):
+            admin_mail = admin[1]
+        else:
+            admin_mail = parseaddr(admin)[1] or admin
+
+        return any(email in admin_mail for email in DEFAULT_MAILS)
+
     if not settings.ADMINS or any(
-        any(email in x[1] for email in DEFAULT_MAILS) for x in settings.ADMINS
+        is_default_admin_email(admin) for admin in settings.ADMINS
     ):
         errors.append(
             weblate_check(

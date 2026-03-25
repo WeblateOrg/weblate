@@ -52,7 +52,7 @@ class WeblateTranslation(InternalMachineTranslation):
         lookup: dict[str, Any] = {}
         if threshold < 100:
             # Full text search
-            lookup["source__search"] = text
+            lookup["source__trgm_search"] = text
         else:
             # Utilize PostgreSQL index
             lookup["source__lower__md5"] = MD5(Lower(Value(text)))
