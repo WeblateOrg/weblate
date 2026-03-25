@@ -533,6 +533,8 @@ class TTKitFormat[S: TranslationStore, U: TranslateToolkitUnit, T: TTKitUnit](
             if encoding in cls.loader:
                 module_name, class_name = cls.loader[encoding]
             else:
+                # The first loader variant is the implicit default used when no
+                # explicit encoding is configured for the component.
                 module_name, class_name = next(iter(cls.loader.values()))
         elif isinstance(cls.loader, tuple):
             # Tuple style loader, import from translate toolkit
