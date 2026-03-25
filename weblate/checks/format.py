@@ -633,6 +633,7 @@ class ObjCFormatCheck(BasePrintfCheck):
     check_id = "objc_format"
     name = gettext_lazy("Objective-C format")
     description = gettext_lazy("Objective-C format string does not match source.")
+    version_added = "5.17"
 
 
 class PerlBraceFormatCheck(BaseFormatCheck):
