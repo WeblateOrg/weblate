@@ -122,8 +122,13 @@ class Command(DocGeneratorCommand):
 
             new_list_table_row(
                 output,
-                "Common extensions",
-                ", ".join(sorted(get_extensions(file_format))),
+                "File extensions",
+                ", ".join(
+                    [
+                        f".{extension}"
+                        for extension in sorted(get_extensions(file_format))
+                    ]
+                ),
             )
             new_list_table_row(output, "Linguality", linguality, "bimono")
             new_list_table_row(
