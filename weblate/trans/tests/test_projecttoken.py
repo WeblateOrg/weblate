@@ -74,6 +74,30 @@ class ProjectTokenTest(ViewTestCase):
 
         self.assertEqual(response.status_code, 401)
 
+    def test_remove_all_groups_token(self) -> None:
+        """Removing all teams from a token should not be allowed."""
+        self.create_token()
+        token_user = (
+            User.objects.filter(is_bot=True).exclude(username__contains=":").get()
+        )
+        # Verify the token is currently visible on the access page
+        response = self.client.get(reverse("manage-access", kwargs=self.kw_project))
+        self.assertContains(response, token_user.username)
+
+        # Try to remove all groups from the token
+        response = self.client.post(
+            reverse("set-groups", kwargs=self.kw_project),
+            {"user": token_user.username},
+            follow=True,
+        )
+        # The token should still have groups
+        self.assertTrue(
+            token_user.groups.filter(defining_project=self.project).exists()
+        )
+        # The token should still be visible on the access page
+        response = self.client.get(reverse("manage-access", kwargs=self.kw_project))
+        self.assertContains(response, token_user.username)
+
     def test_use_token_write(self) -> None:
         """Use the token for API write."""
         token = self.create_token()
