@@ -743,7 +743,7 @@ def bulk_change_create_handler(sender, instances: list[Change], **kwargs) -> Non
         change.pk
         for change in instances
         if change.component is None
-        or AddonEvent.EVENT_CHANGE in change.component.addons_cache
+        or AddonEvent.EVENT_CHANGE in change.component.addons_cache.events
     ]
 
     if filtered:
