@@ -1544,8 +1544,8 @@ class StringsFormat(PropertiesBaseFormat):
     autoload: tuple[str, ...] = ("*.strings",)
     language_format = "bcp"
     loader: ClassVar[dict[str, tuple[str, str]]] = {
-        "utf-8": ("properties", "stringsutf8file"),
         "utf-16": ("properties", "stringsfile"),
+        "utf-8": ("properties", "stringsutf8file"),
     }
 
     @classmethod
@@ -1560,8 +1560,8 @@ class PropertiesFormat(PropertiesBaseFormat):
     name = gettext_lazy("Java Properties")
     format_id = "properties"
     loader: ClassVar[dict[str, tuple[str, str]]] = {
-        "utf-16": ("properties", "javafile"),
         "iso-8859-1": ("properties", "javafile"),
+        "utf-16": ("properties", "javafile"),
         "utf-8": ("properties", "javautf8file"),
     }
     language_format = "linux"
@@ -1585,9 +1585,9 @@ class GWTFormat(PropertiesBaseFormat):
     name = gettext_lazy("GWT properties")
     format_id = "gwt"
     loader: ClassVar[dict[str, tuple[str, str]]] = {
-        "utf-16": ("properties", "gwtfile"),
-        "iso-8859-1": ("properties", "gwtfile"),
         "utf-8": ("properties", "gwtfile"),
+        "iso-8859-1": ("properties", "gwtfile"),
+        "utf-16": ("properties", "gwtfile"),
     }
     empty_file_template = "\n"
     autoload: tuple[str, ...] = ()

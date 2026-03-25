@@ -56,6 +56,7 @@ from weblate.formats.ttkit import (
     RichXliffFormat,
     RubyYAMLFormat,
     StringsdictFormat,
+    StringsFormat,
     TBXFormat,
     TOMLFormat,
     TSFormat,
@@ -194,6 +195,12 @@ class AutoLoadTest(SimpleTestCase):
         for format_class in FILE_FORMATS.values():
             if issubclass(format_class, TTKitFormat):
                 format_class.get_class()
+
+    def test_encoding_loader_defaults(self) -> None:
+        """Encoding-aware formats should default to documented encodings."""
+        self.assertEqual(next(iter(StringsFormat.loader)), "utf-16")
+        self.assertEqual(next(iter(PropertiesFormat.loader)), "iso-8859-1")
+        self.assertEqual(next(iter(GWTFormat.loader)), "utf-8")
 
 
 class BaseFormatTest(FixtureTestCase, TempDirMixin, ABC):
