@@ -89,6 +89,17 @@ class FlagTest(SimpleTestCase):
         flags = Flags(r"""placeholders:"\n" """)
         self.assertEqual(flags.get_value("placeholders"), ["\n"])
 
+    def test_set_values(self) -> None:
+        flags = Flags()
+        flags.set_values("placeholders", "$URL$", "$COUNT$")
+        self.assertEqual(flags.get_value("placeholders"), ["$URL$", "$COUNT$"])
+        self.assertEqual(flags.format(), "placeholders:$URL$:$COUNT$")
+
+    def test_set_values_empty(self) -> None:
+        flags = Flags()
+        with self.assertRaises(ValueError):
+            flags.set_values("placeholders")
+
     def test_validate_value(self) -> None:
         with self.assertRaises(ValidationError):
             Flags("max-length:x").validate()

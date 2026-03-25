@@ -373,6 +373,12 @@ class Flags:
     def set_value(self, name: str, value: str) -> None:
         self._items[name] = (name, value)
 
+    def set_values(self, name: str, *values: FlagValue) -> None:
+        if not values:
+            msg = f"Flag requires at least one value: {name}"
+            raise ValueError(msg)
+        self._items[name] = (name, *values)
+
     def has_any(self, flags: set[str]) -> bool:
         return bool(flags & set(self._items.keys()))
 
