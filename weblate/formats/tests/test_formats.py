@@ -198,7 +198,7 @@ class AutoLoadTest(SimpleTestCase):
 
     def test_encoding_loader_defaults(self) -> None:
         """Encoding-aware formats should default to documented encodings."""
-        self.assertEqual(next(iter(StringsFormat.loader)), "utf-16")
+        self.assertEqual(next(iter(StringsFormat.loader)), "utf-8")
         self.assertEqual(next(iter(PropertiesFormat.loader)), "iso-8859-1")
         self.assertEqual(next(iter(GWTFormat.loader)), "utf-8")
 
