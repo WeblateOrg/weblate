@@ -35,6 +35,7 @@ Weblate 5.17
 * :doc:`/admin/machine` now falls back to the default API URL when base URL is empty.
 * :ref:`mt-deepl` maps plain Portuguese to European Portuguese.
 * Push branches are no longer updated with upstream-only commits in multi-branch workflows.
+* Improved :ref:`backup` status reporting while keeping maintenance after failed backup attempts.
 
 .. rubric:: Compatibility
 
