@@ -17,6 +17,7 @@ from weblate.trans.actions import ActionEvents
 from weblate.trans.models import Change, Component, Translation, Unit
 from weblate.trans.tests.test_views import ViewTestCase
 from weblate.trans.util import join_plural
+from weblate.trans.views.edit import format_newly_failing_checks_message
 from weblate.utils.hash import hash_to_checksum
 from weblate.utils.state import (
     STATE_FUZZY,
@@ -1160,6 +1161,18 @@ class EditComplexTest(ViewTestCase):
         self.assertEqual(len(unit.all_checks), 0)
         self.assertEqual(unit.translation.stats.allchecks, 0)
         self.assert_backend(1)
+
+    def test_newly_failing_checks_message_pluralization_and_order(self) -> None:
+        self.assertEqual(
+            format_newly_failing_checks_message({"end_newline"}),
+            "The translation has been saved, however there is a newly failing "
+            "check: Trailing newline",
+        )
+        self.assertEqual(
+            format_newly_failing_checks_message({"end_newline", "same"}),
+            "The translation has been saved, however there are some newly "
+            "failing checks: Trailing newline, Unchanged translation",
+        )
 
     def test_enforced_check(self) -> None:
         # Enforce same check

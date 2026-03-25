@@ -579,7 +579,7 @@ class UnitTermExpr(BaseTermExpr):
 
     def has_field(self, text: str, context: dict) -> Q:  # noqa: C901
         if text == "plural":
-            return Q(source__search=PLURAL_SEPARATOR)
+            return Q(source__trgm_search=PLURAL_SEPARATOR)
         if text == "suggestion":
             return Q(suggestion__isnull=False)
         if text == "explanation":

@@ -13,15 +13,18 @@ Weblate 5.17
 * Improved LLM interfaces for better reliability.
 * Improved logic for adding monolingual plurals in :doc:`/formats/gettext`.
 * Improved error messages in some of the :ref:`api` endpoints.
+* Improved performance of project and category search result pages with very large match sets.
 * :envvar:`WEBLATE_COMMIT_PENDING_HOURS` is now available in Docker container.
 
 .. rubric:: Bug fixes
 
 * Batch automatic translation now uses project-level machinery configuration instead of only site-wide settings.
+* Fixed sorting by the **Unreviewed** column in listings.
 * Fixed false positive in :ref:`check-xml-chars-around-tags` for Arabic letter Waw ("و") adjacent to XML tags.
 * :ref:`addon-weblate.git.squash` better handle commits applied upstream.
 * :ref:`addon-weblate.cdn.cdnjs` validates parsed locations.
 * Asset downloads now enforce :setting:`ALLOWED_ASSET_DOMAINS` across HTTP redirects for screenshot URL uploads and remote HTML fetching in :ref:`addon-weblate.cdn.cdnjs`.
+* Watched translations on the dashboard now use a stable language-aware ordering.
 * Removed unintended API endpoints for translation memory.
 * Improved API access control for pending tasks.
 * Faster category and project removals.
@@ -41,7 +44,7 @@ Weblate 5.17
 
 Please follow :ref:`generic-upgrade-instructions` in order to perform update.
 
-* There are several changes in :file:`settings_example.py`, most notably :setting:`ADMINS` syntax has changed in Django and ``SOCIAL_AUTH_PIPELINE``; please adjust your settings accordingly.
+* There are several changes in :file:`settings_example.py`, most notably :setting:`ADMINS` syntax has changed in Django and ``SOCIAL_AUTH_PIPELINE`` and ``INSTALLED_APPS`` need adjustments; please adjust your settings accordingly.
 
 .. rubric:: Contributors
 

@@ -27,6 +27,8 @@ from weblate.utils.validators import validate_slug
 if TYPE_CHECKING:
     from collections.abc import Iterable
 
+    from django.db.models import QuerySet
+
     from weblate.auth.models import User
     from weblate.trans.models import Component
     from weblate.trans.models.component import ComponentQuerySet
@@ -217,7 +219,7 @@ class Category(
         )
 
     @cached_property
-    def all_components(self) -> Iterable[Component]:
+    def all_components(self) -> QuerySet[Component]:
         from weblate.trans.models import Component
 
         return Component.objects.filter(

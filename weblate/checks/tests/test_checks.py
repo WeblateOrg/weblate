@@ -98,7 +98,7 @@ class MockUnit:
     def __init__(
         self,
         id_hash: str | None = None,
-        flags: str | Flags = "",
+        flags: str | Flags | list[str] = "",
         code: str = "cs",
         source: str | list[str] = "",
         note: str = "",
@@ -109,7 +109,7 @@ class MockUnit:
         if id_hash is None:
             id_hash = random.randint(0, 65536)  # noqa: S311
         self.id_hash = id_hash
-        self.flags = Flags(flags)
+        self.flags: Flags = Flags(flags)
         self.translation = MockTranslation(code)
         if isinstance(source, str) or source is None:
             self.source = source

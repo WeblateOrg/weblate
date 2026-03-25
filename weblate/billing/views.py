@@ -226,7 +226,7 @@ def merge(request: AuthenticatedHttpRequest, pk) -> HttpResponse:
     if "recurring" in billing.payment:
         other.payment["recurring"] = billing.payment["recurring"]
     if "all" in billing.payment:
-        other.payment["all"].extend(billing.payment["all"])
+        other.payment.setdefault("all", []).extend(billing.payment["all"])
     other.save()
     other.owners.add(*billing.owners.all())
     billing.invoice_set.update(billing=other)

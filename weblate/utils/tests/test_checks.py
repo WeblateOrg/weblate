@@ -12,7 +12,7 @@ from django.test import SimpleTestCase
 from django.test.utils import override_settings
 
 from weblate.addons.base import BaseAddon
-from weblate.utils.apps import check_class_loader
+from weblate.utils.apps import check_class_loader, check_settings
 from weblate.utils.celery import is_celery_queue_long
 from weblate.utils.classloader import ClassLoader
 
@@ -95,3 +95,15 @@ class ClassLoaderCheckTestCase(SimpleTestCase):
             self.assertIn("does not define a 'not_found' class", errors[0].msg)
         finally:
             ClassLoader.instances = old_instances
+
+
+class SettingsCheckTestCase(SimpleTestCase):
+    @override_settings(ADMINS=["Weblate Admin <weblate@example.com>"])
+    def test_default_admin_string_email(self) -> None:
+        errors = list(check_settings(app_configs=None, databases=None))
+        self.assertTrue(any(error.id == "weblate.E011" for error in errors))
+
+    @override_settings(ADMINS=[("Weblate Admin", "weblate@example.com")])
+    def test_default_admin_tuple_email(self) -> None:
+        errors = list(check_settings(app_configs=None, databases=None))
+        self.assertTrue(any(error.id == "weblate.E011" for error in errors))

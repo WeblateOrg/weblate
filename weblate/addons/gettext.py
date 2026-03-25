@@ -22,7 +22,7 @@ if TYPE_CHECKING:
     from collections.abc import Generator
 
     from weblate.addons.base import CompatDict
-    from weblate.trans.models import Component, Project, Translation
+    from weblate.trans.models import Category, Component, Project, Translation
 
 
 class GettextBaseAddon(BaseAddon):
@@ -94,9 +94,12 @@ class UpdateLinguasAddon(GettextBaseAddon):
         cls,
         *,
         component: Component | None = None,
+        category: Category | None = None,
         project: Project | None = None,
     ) -> bool:
-        if not super().can_install(component=component, project=project):
+        if not super().can_install(
+            component=component, category=category, project=project
+        ):
             return False
         if component is None:
             return True
@@ -203,9 +206,12 @@ class UpdateConfigureAddon(GettextBaseAddon):
         cls,
         *,
         component: Component | None = None,
+        category: Category | None = None,
         project: Project | None = None,
     ) -> bool:
-        if not super().can_install(component=component, project=project):
+        if not super().can_install(
+            component=component, category=category, project=project
+        ):
             return False
         if component is None:
             return True
@@ -286,11 +292,14 @@ class MsgmergeAddon(GettextBaseAddon, UpdateBaseAddon):
         cls,
         *,
         component: Component | None = None,
+        category: Category | None = None,
         project: Project | None = None,
     ) -> bool:
         if find_command("msgmerge") is None:
             return False
-        return super().can_install(component=component, project=project)
+        return super().can_install(
+            component=component, category=category, project=project
+        )
 
     def update_translations(self, component: Component, previous_head: str) -> None:
         # Run always when there is an alerts, there is a chance that

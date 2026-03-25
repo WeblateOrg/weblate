@@ -105,11 +105,11 @@ jobs:
     - name: pydistcheck
       run: uvx pydistcheck --inspect dist/*
     - name: pyroma
-      run: uvx pyroma dist/*.tar.gz
+      run: uvx --with pip pyroma dist/*.tar.gz
     - name: check-wheel-contents
       run: uvx check-wheel-contents dist/*.whl
     - name: check-manifest
-      run: uvx check-manifest -v
+      run: uvx --with pip check-manifest -v
     - name: install
       run: |
         uv venv .venv-install
