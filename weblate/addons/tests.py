@@ -302,9 +302,7 @@ class IntegrationTest(TestAddonMixin, ViewTestCase):
         self.assertEqual([], self.component.addons_cache.names)
 
         addon = CrashAddon.create(component=self.component)
-        self.assertEqual(
-            ["weblate.base.crash"], self.component.addons_cache.names
-        )
+        self.assertEqual(["weblate.base.crash"], self.component.addons_cache.names)
         self.assertTrue(Addon.objects.filter(name=CrashAddon.name).exists())
 
         with self.assertRaises(CrashAddonError):
