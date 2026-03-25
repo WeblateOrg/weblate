@@ -1179,7 +1179,9 @@ class ProjectViewSet(
         page = super().paginate_queryset(queryset)
         if not isinstance(queryset, ProjectQuerySet):
             return page
-        return prefetch_project_flags(page)
+        if page is None:
+            return None
+        return prefetch_project_flags(cast("list[Project]", page))
 
     @extend_schema(
         description="Return a list of translation components in the given project.",

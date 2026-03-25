@@ -337,7 +337,7 @@ def show_project_language(
                 user,
                 "translation.auto",
                 obj,
-                obj=obj,
+                obj=obj.project,
                 user=user,
             ),
             "bulk_state_form": optional_form(
@@ -591,7 +591,7 @@ def show_category(request: AuthenticatedHttpRequest, obj: Category) -> HttpRespo
                 user,
                 "translation.auto",
                 obj,
-                obj=obj,
+                obj=obj.project,
                 user=user,
             ),
             "bulk_state_form": optional_form(

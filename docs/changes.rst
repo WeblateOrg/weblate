@@ -19,6 +19,7 @@ Weblate 5.17
 .. rubric:: Bug fixes
 
 * Prevented removing the last team from a project token.
+* Batch automatic translation now uses project-level machinery configuration instead of only site-wide settings.
 * Fixed sorting by the **Unreviewed** column in listings.
 * Fixed false positive in :ref:`check-xml-chars-around-tags` for Arabic letter Waw ("و") adjacent to XML tags.
 * :ref:`addon-weblate.git.squash` better handle commits applied upstream.
@@ -29,6 +30,7 @@ Weblate 5.17
 * Improved API access control for pending tasks.
 * Faster category and project removals.
 * Project backup restore no longer trusts repository-local VCS configuration and hooks from the uploaded archive.
+* :ref:`mt-deepl` maps plain Portuguese to European Portuguese.
 
 .. rubric:: Compatibility
 
